@@ -1,0 +1,80 @@
+editme = Editier mich!
+
+em_overview = Übersicht
+em_generate = Tabellen generieren
+em_back_to_overview = Zurück zur Übersicht
+navigation_editme = Tabellenverwaltung
+
+em_submit = abschicken
+
+# tables.inc.php
+em_importcsv = CSV Importieren
+em_tbl_active = aktiv
+em_tbl_inactive = inaktiv
+
+
+# edit.inc.php
+em_thankyouforupdate = Vielen Dank für die Aktualisierung.
+em_thankyouforentry = Vielen Dank für den Eintrag.
+em_editdata = Daten editieren 
+em_adddata = Datensatz anlegen
+em_searchtext = Suchbegriff
+em_searchfields = Tabellenfelder über die gesucht wird
+em_add = hinzufügen
+em_edit = editieren
+em_delete = löschen
+em_search = suchen
+em_export = export
+em_datadeleted = Datensatz wurde gelöscht
+em_openerinfo = Opener-Info
+
+# field.inc.php
+em_tablenotexists = Diese Tabelle existiert nicht!
+em_tablefield = Tabellenfeld
+em_values = Werte
+em_validates = Validierung/Überprüfung
+em_actios = Aktionen
+em_validatenamenotempty = Bitte tragen Sie den Namen ein
+em_validatenamepregmatch = Bitte tragen Sie beim Namen nur Kleinbuchstaben und "_" ein
+em_validatenamecheck = Dieser Name ist bereits vorhanden
+em_donotsaveindb = Nicht in Datenbank speichern
+em_hideinlist = In Liste verstecken
+em_useatsearchfieldalidatenamenotempty = Als Suchfeld aufnehmen
+em_tablefielddeleted = Tabellenfeld wurde gelöscht
+em_tablefieldnotfound = Tabllenfeld wurde nicht gefunden
+em_addtablefield = Tabellenfeld anlegen
+em_table = Tabelle
+em_editfield = Feld editieren
+em_choosenadd = Felder auswählen
+em_choosenadd_description = Bitte wählen Sie Feld aus, welches Sie bei Ihrer Verwaltung verwenden wollen. Dabei gibt es Value-Felder, mit denen normalerweise Eingaben getätigt werden, wie auch Validate-Felder, mit denen die Value-Felder nach diversen Kriterien überprüft werden können.
+em_addfield = Feld hinzufügen
+em_editfield = Feld bearbeiten
+
+
+# import.inc.php
+em_notableselected = Es wurde keine Tabelle angegeben.
+em_spezfieldnotfound = {0} wurde nicht gefunden.
+em_csvfileimported = CSV Datei wurde importiert.
+em_useoneofthefollowing = Bitte eines der folgenden restlichen Felder verwenden
+em_nofileuploaded = Es wurde keine Datei hochgeladen.
+em_choosecsvfile = CSV Datei auswaehlen
+em_file = Datei
+em_add = Hinzufügen
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,449 @@
+lang = Serbisch
+htmllang = sr
+htmlcharset = utf-8
+yes = da
+no = ne
+month = Mesec
+year = godina
+general = Generalno
+dateformat = %B %d. %Y
+setlocale = sr_SR
+adateformat = %d. %b. %Y
+datetimeformat = %d. %b. %Y - %H:%M
+ctrl = Pritisnite taster CTRL kada menjate ovo
+
+# redaxo/index.php
+start_article_not_selected = Nije izabrana stranica koja &#263;e se prva u&#269;itati
+
+# redaxo/redaxo/index.php
+specials = Specijalno
+module = Moduli
+template = Šabloni
+user = Korisnici
+community = Zajednica
+import = Uvoz, Izvoy
+content = Izmeni stranicu
+structure = Struktura
+statistics = Statitistika
+logout = Odjavi se
+
+# redaxo/include/classes/class.login.inc.php
+login_name  =  Korisni&#269;ko ime
+password  =  Lozinka
+
+# redaxo/include/layout_redaxo/top.php
+logged_out  =  Niste prijavljeni!
+
+# redaxo/include/classes/class.article.inc.php
+add_block  =  Dodaj blok
+edit  =  Izmeni
+delete  =  Izbriši
+no_editing_rights = Nemate ovlaš&#263;enja za brisanje
+no_article_available  =  Stranica nije dostupna
+module_doesnt_exist =  Modul ne postoji
+dont_delete_block  =  Nemojte brisati ovaj blok
+delete_block  =  Izbriši blok
+submit  =  Pošalji
+update_block = Osveži blok
+save_block = Sa&#269;uvaj blok
+
+# redaxo/include/classes/class.form.inc.php
+submit_data  =  Pošalji podatke
+file_doesnt_exist  =  Fajl ne postoji
+choose_another_one  =  Izaberite drugi fajl
+
+# redaxo/include/classes/class.mail_decode.inc.php
+download  =  Preuzimanje
+clipboard  =  Klipbord
+
+# redaxo/include/functions/function_rex_generate.inc.php
+article_moved = Stranica pomerena!
+article_deleted = Stranica izbrisana!
+could_not_move_article = Stranica se ne može pomeriti !
+article_could_not_be_generated  =  Stranica se ne može generisati.
+check_rights_in_directory  =  Proverite dozvole za pisanje u datom folderu.
+category_deleted  =  Kategorija je izbrisana !
+category_doesnt_exist  =  Ne postoji kategroija!
+cant_delete_startarticle = Ne možete izbrisati po&#269;etnu stranicu.
+
+# redaxo\include\pages\dashboard
+dashboard = Dashboard
+
+# redaxo\include\pages\content.inc.php
+block_updated = Blok je izmenjen!
+block_added = Block je dodat
+no_rights_to_this_function = Nemate ovlaš&#263;enja za ovu funkciju.
+module_not_found = Modul nije prona&#273;en.
+block_deleted = Blok izbrisan!
+block_not_deleted = Blok nije izbrisan!
+no_rights_to_this_module = Nemate ovlaš&#263;enja za koriš&#263;enje ovog modula.
+error = Greška!
+preview = Pregled
+edit_mode = Izmena
+metadata = Metapodaci
+article_cannot_be_moved = Ova stranice na može biti premeštena
+start_article_has_to_stay_in_category = Start article have to stay in their respective category.
+article_copied = Stranica kopirana.
+file = Datoteka nije prona&#273;en {0}.
+moving_file_error = Datoteka '{0}' ne može biti premeštena
+metadata_updated = Metapodaci osveženi
+online_from = Aktivna od
+online_to = Aktivna do
+name_description = Ime/Opis
+description = Opis
+keywords = Klju&#269;ne re&#269;i
+metadata_image = Metadatoteka/-Slika
+delete_file = Izbriši datotkeu
+teaser = Vesti
+update_metadata = Osveži meta podatke
+other_functions = Ostale funkcije
+category = Kategorija
+move_article = Premesti stranicu
+copy_article = Kopiraj stranicu
+no_rights_to_edit = Nemate dozovlu da izmenite stranicu!
+show = Prikaži
+cache_remove = O&#269;isti keš
+slice_moved = deo stranice je pomeren
+slice_moved_error = deo stranice ne može biti pomeren
+content_contentcopy = Sadžaj stranice prekopiran.
+content_errorcopy = Ne možete kopirati sadžaj u isti jezik.
+content_copy = 
+content_contentoflang = Kopiraj sadržaj jezika
+content_to = do
+content_submitcopycontent = Kopiraj
+content_movearticle = Premesti stranicu
+content_submitmovearticle = Premesti stranicu
+content_errormovearticle = Stranica ne može biti premeštena.
+content_articlemoved = Stranica je premežtena
+content_choose_new_category = Izaberi kategoriju
+content_movearticle_no_startpage = Po&#269;etna strnica ne može biti premeštena
+content_copyarticle = Kopiraj stranicu
+content_submitcopyarticle = Kopiraj stranicu
+content_articlecopied = Stranica je kopirana
+content_errorcopyarticle = Stranica ne može biti kopirana
+content_error_movecategory = Ne možete premestiti kategoriju
+content_submitmovecategory = Premesti kategoriju
+move_category = Premesti kategoriju
+category_moved = Kategorija premeštena
+
+# redaxo\include\pages\module.inc.php
+module_cannot_be_deleted = Modul '{0}' ne može biti izbrisan zato sto je nalazi na nekoj od stranica:
+module_deleted = Modul izbrisan!
+module_added = Modul dodat
+module_updated = Module osvežen
+articel_updated = Stranice osvežene
+create_module = Napravi novi modul
+input = Ulaz
+output = Izlaz
+module_name = Ime
+accessible = Pristupa&#269;nost
+allowed_for_php = Dozvoljeno za PHP programere | Ovlaš&#263;enje: modul[php]
+allowed_for_html = Dozvoljeno za HTML programere | Ovlaš&#263;enje: modul[html]
+save_module_and_quit = Sa&#269;uvajte modul i iza&#273;ite
+save_module_and_continue = Sa&#269;uvaj modul
+module_description = Opis modula
+module_functions = Funkcije
+delete_module = Izbriši modul
+module_edit = Osveži modul
+action_taken = Akcija uzeta
+action_deleted_from_modul = Akcija je izbrisana
+actions = Akcije
+action_cannot_be_deleted = Akcija '{0}' ne može biti izbrisana zato što se i dalje koristi u nekom od modula:
+action_deleted = Akcije izbrisane
+action_added = Akcija dodata
+action_updated = Akcija osvežena
+action_edit = Izmeni akciju
+action_create = Kreiraj akciju
+action_name = Ime akcija
+save_action_and_quit = Sa&#269;uvaj akciju i iza&#273;i
+save_action_and_continue = Sa&#269;uvaj akciju
+action_functions = Funkcija
+action_delete = Izbriši akciju
+action_add = Dodaj akciju
+
+# redaxo\include\pages\profile.inc.php
+user_data_updated = Korisni&#269;ki podaci osveženi!
+user_deleted = Korisnik izbrisan!
+user_added = Korisnik dodat!
+user_login_exists = Korisni&#269;ko ime ve&#263; neko korisiti!
+login = Prijavi se
+name = Ime
+permissions = Dozvole
+add = Dodaj
+update = Osveži
+
+# redaxo\include\pages\structure.inc.php
+title_structure = Upravljanje sajtom
+no_such_category = Nema kategorije!
+category_updated = Kategorija osvežena.
+category_could_not_be_deleted = Kategorija ne može biti izbrisana!
+category_still_contains_articles = Ova kategorija sadrži stranica..
+category_still_contains_subcategories = Ova kategorija sadrži sub-kategorije.
+category_status_updated = Status osvežen!
+category_added_and_startarticle_created = Kategorija dodata i po&#269;etna stanica kreirana!
+category_edit_delete = izmeni/izbriši kategoriju
+article_status_updated = Status osvežen.
+article_updated = Stranica osvežena.
+article_added = Stranica dodata.
+header_category = Kategorija
+header_edit_category = Izmena kategorije
+header_priority = Prioritet
+header_status = Status/Funkcija
+add_category = Dodaj kategoriju
+edit_category = Izmeni kategoriju
+delete_category = Izbriši kategoriju
+save_category = Sa&#269;uvaj kategoriju
+status_online = aktivna
+status_offline = neaktivna
+no_permission_to_edit = Nemate dozvole za izmenu
+option_no_template = nema šablona
+template_default_name = NEMA ŠABLONA
+header_article_name = Ime stranice
+header_template = Šablon
+header_date = Kreirana
+change = Promeni
+article_add = Dodaj stranicu!
+article = Stranica
+
+# redaxo\include\pages\template.inc.php
+title_templates = Šabloni
+cant_delete_default_template = Podrazumevani šablon ne može biti izbrisan!
+cant_delete_template_because_its_in_use = Šablon '{0}' ne može biti izbrisan jer je u upotrebi na nekoj od stranica.
+template_deleted = Šablon izbrisan.
+template_added = Šablon dodat.
+template_updated = Šablon osvežen.
+edit_template = Izmeni šablon
+create_template = Napravi šablon
+template_name = Ime
+checkbox_template_active = Aktivan [Može biti izabran na stranici]
+save_template_and_quit = Sa&#269;uvaj šablon i iza&#273;i
+save_template_and_continue = Ša&#269;uvaj šablon
+header_template = Šablon
+header_template_id = Id
+header_template_description = Opis
+header_template_active = Aktivan
+header_template_functions = Funkcije
+delete_template = Izbriši šablon
+
+# redaxo\include\functions\function_rex_category.inc.php
+article = Stranica
+start_article = Po&#269;etna stranica
+path = Putanja
+
+# redaxo\include\pages\user.inc.php
+title_user = Korisnici
+user_data_updated = Podaci o korisniku osveženi.
+user_deleted = Korisnik izbrisan!
+user_added = Korisnik dodat.
+create_user = Napravi novog korisnika
+add_user = Dodaj korisnika
+edit_user = Izmeni podatke o korisniku
+user_reset_tries = Korisni&#269;ko ime je neaktivno zbog velikog broja neuspešnih prijava na sistem (more than {0}). Ako želiš da reaktiviras korisni&#269;ko ime klikni na checkbox.
+user_admin = Administrator (sve dozvole)
+user_developer = Programer (svi šabloni/ moduli/ dodaci)
+user_notdeleteself = ***** ne možete izbrisati svoje korisni&#269;ko ime
+user_lang_xs = jezik xs
+user_all = -
+user_options = opcije
+all_categories = sve kategorije
+all_mediafolder = svi medija folderi
+categories = kategorije
+mediafolder = mediafolder
+modules = Moduli
+extras = Dodaci
+last_login = Poslednji put ulogovan
+psw_encrypted = Lozinka je kriptovana - ukoliko želite da postavite novu samo je unesite
+
+# redaxo\include\pages\special.inc.php
+articles_generated = Stranice i šabloni su regenerisani, keš izbrisan!
+old_articles_deleted = [stare stranice i šabloni &#263;e biti izbrisani]
+links_ok = Svi linkovi su ok.
+links_not_ok = Prate&#263;i linkovi nisu u redu:
+info_updated = Podaci osveženi!
+specials_title = Specijalne karakteristike
+special_features = Karakteristike
+regenerate_article = Regeneriši stranice i keš
+regeneration_message = Klikni ovde da regenereišeš sve kategorije, stranice i šablone. Keš &#263;e biti izbrisan. Ovaj proces može da potraje, nemojte ga prekidati!
+check_links_text = Klikni ovde da proveriš da li svi [REX_LINK] pokazuju na pravu lokaciju.
+link_checker = Proveri linkove
+general_info_header = Opšte informacije:
+db1_can_only_be_changed_by_setup = Baza podataka[1] može biti izmenjena samo od stane aplikacije.
+db2_text = Database[2] - Only needed for scripts that access a second database.
+specials_others = Razno
+specials_update = Osveži
+article_type_updated = Tip stranice osvežen.
+article_type_deleted = Tip stranice izbrisan!
+article_type_could_not_be_deleted = Tip stranice sa ID=1 ne može biti izbrisan.
+article_type_still_used = Tip stranice ne može biti izbrisan, on se i dalje koristi na stranici:
+article_type_added = Tip stranice dodat!
+article_type_list_id = ID
+article_type_list_name = Tip stranice
+article_type_list_description = Opis
+update_button = Osveži
+delete_button = Izbriši
+main_preferences = Glavna podešavanja
+languages = Jezici
+types = Tipovi
+clang_created = Jezik je dodat.
+id_exists = ID ve&#263; postoji
+enter_name = Unesite ime.
+clang_edited = Jezik izmenjen
+clang_deleted = Jezik izbrisan
+clang_desc = Opis/ime
+
+# redaxo\include\pages\medienpool.inc.php
+pool_name = Galerija
+pool_kats = Kategorije
+pool_kats_no = Nema kategorija
+pool_search = Pretraga
+pool_media = Galerija
+pool_file_list = Media
+pool_file_insert = Dodaj sliku
+pool_cat_list = Izmeni kategoriju
+pool_file_not_found = Fajl nije prona&#273;en
+pool_file_upload_error = Greška u toku upload-a
+pool_file_upload_errortype = This file cannot be user because it has a different type
+pool_file_title = Naslov
+pool_category = Kategorija
+pool_description = Opis
+pool_copyright = Autorska prava
+pool_file_upload = Kreiraj
+pool_file_upload_get = Kreiraj i ubaci
+pool_upload_get = Sa&#269;uvaj i uzmi
+pool_kat_saved = Kategorija "{0}" je kreirana
+pool_kat_updated = Kategorija "{0}" je osvežena
+pool_kat_deleted = Kategorija je izbrisana
+pool_kat_not_deleted = Kategorija ne može biti izbisana. U njoj se nalaze datoteke.
+pool_kat_name = Ime
+pool_kat_function = Funkcija
+pool_kat_add = Kreirana
+pool_kat_update = Osvežena
+pool_kat_edit = Izmeni
+pool_kat_delete = Izbrisi
+pool_kat_hide= Mala slika
+pool_file_detail = Media: Detalji
+pool_file_is_resized = Promenjena je veli&#269;ina slike
+pool_filename = Ime datoteke
+pool_file_exchange = Datotaka <br>exchange
+pool_file_update = Osveži
+pool_file_delete = Izbriši
+pool_file_thumbnail = Mala slika
+pool_file_info = Info
+pool_file_description = Opis
+pool_file_functions = Funkcije
+pool_file_noshow = Male slike nisu dostupne
+pool_file_notitle = Nije unet naslov slike
+pool_file_nodescription = Nije unet opis
+pool_img_width = Širina
+pool_img_height = Dužina
+pool_file_ins = Ubaci
+pool_file_deleted = Datoteka je izbrisana
+pool_file_delete_error_1 = Datotoke "{0}" ne može biti izbrisana
+pool_file_delete_error_2 = To se koristin na slede&#263;im stranicama
+pool_file_changed = Datotoke je osvežena
+pool_import_list = Media-Uvoz
+pool_import_help = Source folder for Media-Import (folder in directory files)
+pool_import_target_info = Select Category for File-Import
+pool_selectedmedia=Selected Media:
+pool_delete_selectedmedia= izbriši
+pool_changecat_selectedmedia= promeni folder
+pool_selectedmedia_error= slika nije izabrana
+pool_selectedmedia_moved = selected media have been moved
+pool_select_all = Sve
+pool_nomediafound = nema slika u ovoj kategoriji
+pool_image_get = ubaci sliku
+pool_link_get = Ubaci link
+pool_file_get = Uzmi sliku
+pool_last_update = Osveženo
+pool_created = Erstellt am
+
+# redaxo/include/pages
+setup = Podešavanje
+setup_text = Ovde možes da restartuješ podešavanja. 
+setup_error1 = Podešavanja aktivirana. Klikni ovde &gt;<a href=index.php>here</a>&lt; da bi pokrenuo ponovnu instalaciju.
+setup_error2 = No permission to 'master.inc.php'. Please edit the file manually and fill in this \"\$REX[SETUP] = true;\"
+setup_005 = <b>Welcome to the SETUP for REDAXO.</b><br><br>What the setup is doing:<br><br>- Checking the file permissions<br>- Checking Databaselogin and write the login in die master.inc.php<br>- Install Tables.<br>- Create adminaccount
+setup_006 = Start setup and accept License
+setup_step1 = SETUP: STEP 1 of 5
+setup_010 = Sorry but your version of PHP is too old (less than 4.1.0), please update to a newer version
+setup_012 = <font class=error>Error</font> | The directory <b>{0}</b> is not writeable or executable!
+setup_014 = <font class=error>Error</font> | The file <b>{0}</b> is not writeble!
+setup_015 = <font class=error>Error</font> | The file or directory <b>{0}</b> does not exist, please create it. 
+setup_016 = <b>Checking PHP Version and filesystem permissions</b><br><br><font class=ok>ok</font> | PHP Version<br><font class=ok>ok</font> | File Permissions
+setup_017 = Go on to step 2
+setup_018 = Please correct these problems and repeat the setup.
+setup_019 = Repeat step 1
+setup_headline1 = Checking PHP Version and filesystem permissions
+setup_step2 = SETUP: STEP 2 of 5
+setup_020 = <b>include/master.inc.php</b> could not be written. could not be written. Don't know what went wrong!
+setup_021 = Connection to database failed!
+setup_022 = The database could not be opened!
+setup_023 = Creating 'include/master.inc.php'
+setup_024 = Server Domain [optional]
+setup_025 = Server Description [optional]
+setup_026 = Admin E-Mail [optional]
+setup_027 = Database Name
+setup_028 = Password
+setup_029 = Go on to step 3
+setup_0201 = Preferences
+setup_0202 = Databaseaccount
+setup_step3 = SETUP: STEP 3 of 5
+setup_030 = Following errors occured
+setup_031 = Table {0} not found !
+setup_032 = Could not create these tables.
+setup_033 = Please setup the database again
+setup_034 = Create database
+setup_035 = Create database and drop old tables [<b>Warning</b> - Old Site will be deleted]
+setup_036 = Database already exists [Go on with step4 and do nothing]
+setup_037 = Install from existing export [install demo]:
+setup_03701 = Please choose an export file!
+setup_03702 = Export file not found!
+setup_03703 = Import/Export Addon not found!
+setup_038 = Go on to step 4
+setup_step4 = SETUP: STEP 4 of 5
+setup_040 = Please enter the Administrator Login!
+setup_041 = Please enter the Administrator Password!
+setup_042 = This login already exists!
+setup_043 = Could not create the admin account.
+setup_044 = There is still no user in the database. Please create one.
+setup_045 = Create admin
+setup_046 = Login
+setup_047 = Password
+setup_048 = Dont create a user
+setup_049 = Go on to step 5
+setup_step5 = SETUP: STEP 5 of 5
+setup_050 = 'master.inc.php' could not be overwritten. Please edit the file manually via FTP.
+setup_051 = Congratulations, you have successfully installed REDAXO! <br><br>Please read this:<br><br><b>1. Login with your account <a href=index.php>login</a><br>2. Import a demo: Go to 'Import/Export' and choose a database to import AND a filepakage to import.</b><br><br><br>Enjoy REDAXO and have fun<br><br>Your REDAXO Team <br><br>
+database_imported = database imported. 
+entry_count = {0} eintries
+
+# redaxo\include\pages\addon.inc.php
+addon = Dodaci
+addon_help = Pomo&#263; za
+addon_no_help_file = Fajl za pomo&#269; nije prona&#273;en
+addon_back = Nazan
+addon_install_not_found = Installationfile not found (install.inc.php)!
+addon_uninstall_not_found = Uninstallationfile not found (uninstall.inc.php)!
+addon_config_not_found = Configurationfile not found (config.inc.php)!
+addon_no_install = AddOn "{0}" could <b>not</b> be installed because:
+addon_no_uninstall = AddOn "{0}" could <b>not</b> be uninstalled because:
+addon_no_reason = No reason given
+addon_no_activation = AddOn could <b>not</b> be activated. Please install it first.
+addon_installed = AddOn "{0}" has been installed
+addon_activated = AddOn "{0}" has been activated
+addon_deactivated = AddOn "{0}" has been deactivated
+addon_uninstalled = AddOn "{0}" has been uninstalled
+addon_deleted = AddOn "{0}" has been deleted
+addon_hname = name
+addon_hinstall = installed
+addon_hactive = activated
+addon_hdelete = delete
+addon_reinstall = re-install
+addon_install = install
+addon_notinstalled = not installed
+addon_uninstall = un-install
+addon_delete = delete
+addon_deactivate = deactivate
+addon_activate = activate
+addon_yes = yes
+addon_no = no

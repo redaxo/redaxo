@@ -1,0 +1,164 @@
+.xform {
+	clear: both;
+	float: left;
+	width: 100%;
+}
+ul.xform {
+	float: none;
+	width: auto;
+}
+.xform fieldset {
+	clear: both;
+	padding: .5em;
+	margin-bottom: 1em;
+}
+.xform legend {
+	padding: .5em;
+	font-weight: bold;
+}
+
+/*	--------------------------------------- Container Formelement */
+.xform p, 
+.xform .xform-element {
+	float: left;
+	width: 100%;
+	margin-bottom: .5em;
+}
+.xform div.formradio p.radio, 
+.xform div.form_google_geocode p.form_google_geocode {
+	width: auto;
+}
+.xform div.rex-widget p {
+	margin-bottom: 0;
+}
+
+/*	--------------------------------------- Allgemeines */
+.xform div.form_google_geocode .form_google_geocode_map {
+	clear: both;
+	margin-left: 145px;
+}
+
+/*	--------------------------------------- Labels */
+.xform label, 
+.xform span.as-label {
+	float: left;
+	width: 145px;
+}
+.xform label.captcha {
+	display: block;
+	float: none;
+	width: 100%;
+}
+.xform span.formradio label.radio {
+	float: none;
+	width: auto;
+	padding: 0 1em 0 5px;
+}
+
+/*	--------------------------------------- Felder : Allgemein */
+.xform input.captcha, 
+.xform input.inp_disabled,
+.xform input.password, 
+.xform .formtext input.text, 
+.xform textarea.textarea {
+	padding: 2px;
+	width: 300px;
+}
+.xform input.captcha {
+	width: 80px;
+}
+/*	Breite = width + padding + border von text */
+.xform select.select, 
+.xform select.multipleselect {
+	width: 306px;
+}
+.xform fieldset, 
+.xform input.captcha, 
+.xform input.inp_disabled,
+.xform input.password, 
+.xform .formtext input.text,  
+.xform textarea.textarea, 
+.xform select.multipleselect, 
+.xform .formtable table td input {
+	border: 1px solid #999;
+}
+
+.xform .formtable table {
+	clear: both;
+	margin-left: 145px;
+}
+.xform .formtable table td {
+	padding: 0 5px 5px 0;
+}
+
+/*	--------------------------------------- Submit */
+.xform input.submit {
+	margin-left: 145px;
+}
+
+/*  --------------------------------------- Checkbox */
+.xform p.formcheckbox input {
+  float:left;
+  margin-left: 125px;
+}
+
+.xform p.formcheckbox label {
+  float:left;
+  margin-left: 10px;
+  width:300px;
+}
+
+
+/*  --------------------------------------- Fieldset / Legend */
+
+.xform fieldset legend{
+  padding:0px 10px;
+  border:1px solid #333;
+  background-color:#fff;
+}
+
+.xform fieldset {
+  padding-top:15px;
+}
+
+
+/*  --------------------------------------- Form Lang-textarea */
+
+.xform div.formlangtextarea p {
+	float: none;
+	width: auto;
+	margin: 0;
+}
+.xform div.formlangtextarea .tabs {
+	float: left;
+	width: 406px;
+}
+.xform div.formlangtextarea .tabs ul {
+	margin: 0px;
+}
+.xform div.formlangtextarea .tabs li {
+	display: inline;
+	margin-right: 5px;
+	padding: 0px 10px 0 0;
+}
+.xform div.formlangtextarea .tabs li a {
+	color: #2C8EC0;
+}
+.xform div.formlangtextarea .tabs li a:hover, 
+.xform div.formlangtextarea .tabs li a.active {
+	color: #14568A;
+	text-decoration: underline;
+}
+
+/*  --------------------------------------- REX-Widgets */
+
+.xform div.rex-widget-media input{
+  background-color:#f90;
+  width:200px;
+}
+
+.xform div.rex-widget-medialist select{
+  background-color:#f90;
+  width:244px;
+}
+

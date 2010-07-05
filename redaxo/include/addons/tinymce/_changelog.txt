@@ -1,0 +1,40 @@
+<h3>Changelog:</h3>
+
+<strong>Version 1.6 (2010-03-29)</strong>
+  - Update TinyMCE auf Version 3.3.2
+  - Bugfix: Init-Script wird jetzt über die index.php ausgeliefert, tiny_mce_init.php entfällt da oft
+    Rechteprobleme auftraten
+  - Medienpool-Popup überarbeitet, Datei übernehmen funktioniert jetzt auch nach Uploads	
+  - Medienpool übernimmt jetzt auch den Medien-Titel in das Tiny-Popup
+  - Bugfix: korrekter Pfad für content.css, Anzeige Dateiname bei CSS-Editor
+  - Addon-Konfiguration angepasst, neuer Parameter für individuelle Tiny Konfiguration
+    Optionen für Smileys, Media und Syntaxhighlighter entfernt
+  - Smileys und Media in Standardbuttons aufgenommen
+  - Anpassung redaxo-Plugin für Tiny  
+  - Syntaxhighlighter entfernt  
+  - JavaScript-Sourcen entfernt
+  - abschliessende ?> entfernt  
+  - Anpassung für REDAXO 4.1.x, 4.0.x, 3.2.3
+  
+  TODO:
+  * Security-Patch, siehe http://blog.webvariants.de/security-fix-fuer-redaxos-tinymce-addon  
+  * evtl. um Syntaxhighlighter erweitern
+  
+<strong>Version 1.5 (2009-03-25)</strong>
+  - Addon komplett ueberarbeitet
+  - Update TinyMCE auf Version 3.2.2.1
+  - Anpassung an neues Backend-Style
+  - Klasse pclzip entfernt, TinyMCE Source wird jetzt in das files-Verzeichnis kopoert, kein entpacken mehr notwendig
+  - .htaccess im Verzeichnis addons/tinymce/files/ hebt den Verzeichnisschutz auf für REDAXO < 4.2
+  - Konfiguration des Addons, Aktivierung, Standardsprache, Theme + Skin usw.
+  - Editiermoeglichkeit des Stylesheets fuer den WYSIWYG-Editor/Vorschau
+  
+<strong>Version 1.0.1 (R4.0.1 Compatible) (2008-02-xx)</strong>
+  - TinyMCE Update auf 2.1.3
+  
+  * Bugfixes:
+  - Installation gibt jetzt korrekte Fehlermeldungen zurueck
+
+<strong>Version 1.0 (R4 Compatible) (2007-10-14)</strong>
+  - initial release
+

@@ -1,0 +1,46 @@
+textile_example_for = Pøíklad na
+
+textile_code_for_module_input = Kód pro vstup modulu
+textile_code_for_module_output = Kód pro výstup modulu
+textile_module_intro_moduleoutput = jednodu¹e propojit s následujícím kódem <b>ve výstupu modulu</b>.
+textile_module_intro_help = Pro napojení tabulky s návodem a pokyny k modulu jednodu¹e vlo¾te následující funkci do <b>vstupu</b> modulu:<br />
+textile_module_rights = <b>Pozor:</b><br />Návod bude zobrazen pouze v pøípadì kdy¾ bude u¾ivateli povolena volitená funkce <strong>textile[help]</strong> .Také administrátoøi musí tuto funkci povolit!
+
+textile_instructions = Návod/Pokyny
+
+textile_input = Vstup
+textile_preview = Ukázka
+
+textile_headlines = Nadpisy
+textile_headline = Nadpis
+
+textile_text_formatting = Formátování textu
+textile_text_italic = Kurzíva
+textile_text_bold = Tuèný
+textile_text_cite = Citát
+textile_text_source_author = Zdroj/autor
+textile_text_strike = Pøe¹krtnutý
+textile_text_insert = Vlo¾ený
+textile_text_sup = Horní index
+textile_text_sub = Dolní index
+
+textile_links = Links
+textile_link_internal = Link (intern): na "Impresum"
+textile_link_internal_anchor = Link (interní) s kotvou: "na na¹e obchodní podmínky"
+textile_link_external = Link (extern): "na dokumentaci Redaxa"
+textile_link_external_anchor = Link (extern) mit Anker: "k na¹emu partnerovi"
+textile_link_attr_title = Link mit title-Attribut: "Bild(Klick für Zoom)"
+textile_link_attr_rel = Link mit rel-Attribut: "Bild{shadowbox}"
+textile_link_attr_title_rel = Link mit title und rel-Attribut: "Bild(Klick für Shadowbox){shadowbox}"
+textile_link_anchor = Definovat kotvu
+textile_link_anchor_text = Zde se nachází impresum
+
+textile_footnotes = Anotace
+textile_footnote_text = AJAX
+textile_footnote_note = Asynchronous JavaScript and XML
+
+textile_lists = Seznamy
+textile_numeric_list = Èíselný seznam
+textile_enum_list = Seznam
+
+textile_tables = tabulky

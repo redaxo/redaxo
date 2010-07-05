@@ -1,0 +1,85 @@
+# addon:image_manager en_gb
+
+imanager_subpage_desc = Description
+imanager_subpage_config = Configuration
+imanager_subpage_types = Edit imagetypes
+imanager_subpage_clear_cache = Delete cache
+
+imanager_cache_files_removed = {0} cachefiles deleted
+
+imanager_config_saved = configuration updated!
+imanager_config_not_saved = configuration could not be saved!
+imanager_config_not_writable = configurationfile "{0}" can not be written!
+
+imanager_max_resizekb = Maximum size of a image in kilobyte, which can be used of image-manager
+imanager_max_resizepx = Maximum size of a image in pixel, which can be used of image-manager
+imanager_jpg_quality = JPG/JPEG output-quality
+
+imanager_id = id
+imanager_name = name
+imanager_edittype = edit imagetypes
+imanager_settings = settings
+
+imanager_yes = yes
+imanager_no = no
+
+imanager_error_name = please enter a namen.
+imanager_error_settings = please check the settings.
+
+imanager_type_caption = list of imagetypes
+imanager_type_summary = list of imagetypes
+imanager_type_no_types = no imagetypes found
+imanager_type_create = create imagetype
+imanager_type_edit = edit imagetype
+imanager_type_effekts_edit = edit effect
+imanager_type_delete = delete imagetype
+imanager_type_name = name
+imanager_type_prior = prio
+imanager_type_description = description
+imanager_type_functions = function
+imanager_type_cache_delete = delete cache
+imanager_type_system = system imagetype
+
+imanager_effect_list_header = effect of imagetype "{0}"
+imanager_effect_edit_header = imagetype "{0}": edit effect 
+imanager_effect_create_header = imagetype "{0}": create effect
+imanager_effect_caption = list of effects of imagetype "{0}"
+imanager_effect_summary = list of effects of imagetype "{0}"
+imanager_effect_no_effects = no effect found
+imanager_effect_create = create effect
+imanager_effect_edit = edit effect 
+imanager_effect_delete = delete effect 
+imanager_effect_name = effect
+imanager_effect_prior = order
+imanager_effect_parameters = parameter
+imanager_effect_functions = functions
+imanager_effect_deleted = delete effect
+
+imanager_effect_brand_image = image
+imanager_effect_brand_hpos = horizontal position
+imanager_effect_brand_vpos = vertical position
+imanager_effect_brand_padding_x = padding x
+imanager_effect_brand_padding_y = padding y 
+
+imanager_effect_blur_amount = amount
+imanager_effect_blur_radius = radius
+imanager_effect_blur_threshold = threshold
+
+imanager_effect_sharpen_amount = amount
+imanager_effect_sharpen_radius = radius
+imanager_effect_sharpen_threshold = threshold
+
+imanager_effect_resize_width = width
+imanager_effect_resize_height = height
+imanager_effect_resize_style = mode
+imanager_effect_resize_imgtosmall = if image is to small
+
+imanager_effect_crop_width = width
+imanager_effect_crop_height = height
+imanager_effect_crop_offset_width = offset width 
+imanager_effect_crop_offset_height = offset height
+imanager_effect_crop_position = position
+
+imanager_effect_flip = direction
+
+imanager_error_type_name_not_unique = an imagetype with this name already exists!

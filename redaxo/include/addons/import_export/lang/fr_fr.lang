@@ -1,0 +1,50 @@
+# addon:import/export fr_fr
+im_export_importexport = Im-/Export
+im_export_file_deleted = Fichier effacé
+im_export_no_import_file_chosen_or_wrong_version = Aucun fichier Import sélectionné ou mauvaise version
+im_export_no_valid_import_file = Ceci ne pas un fichier Import valide
+im_export_no_valid_charset = Charset non valide
+im_export_database_imported = Base de données importée avec succès
+im_export_entry_count = ({0} entrées)
+im_export_file_could_not_be_uploaded = Le fichier n'a pu être téléchargé
+im_export_you_have_no_write_permission_in = Vous n'avez pas de droits d'écriture {0}.
+im_export_no_import_file_chosen = Aucun fichier Import sélectionné.
+im_export_problem_when_extracting = Problème lors de l'extraction du fichier.
+im_export_create_dirs_manually = Veuillez créer le répertoire suivant manuellement et appliquez ensuite les permissions (par ftp).
+im_export_file_imported = Le fichier a été importé avec succès.
+im_export_import = Import
+im_export_export = Export
+im_export_db_import = Import
+im_export_db_export = Export
+im_export_filename_updated = Le nom du fichier a été modifié. Merci de cliquer sur Export à nouveau.
+im_export_please_choose_folder = Merci de sélectionner les dossiers qui doivent être exportés!
+im_export_intro_import = Attention : <b>L'ancienne base de données sera effcée</b> lors de l'import. Merci de la sauvegarder/exporter le cas échéant.
+im_export_database = Import de la base de données
+im_export_filename = Nom du fichier
+im_export_filesize = Taille du fichier
+im_export_delete = Effacer
+im_export_files = Import des fichiers
+im_export_intro_export = Ici vous pouvez sauvegarder vos fichiers et données actuelles. Afin d'obtenir une sauvegarde complète vous devez exporter la base de données ainsi que les fichiers. Si vous souhaitez reutiliser la sauvegarde ultérieurement, il est recommandé d'enregistrer celle-ci directement sur le serveur. Vous pourrez alors l'importer au besoin.
+im_export_database_export = Export de la base de données
+im_export_file_export = Export des fichiers
+im_export_save_on_server = Enregistrer sur le serveur
+im_export_download_as_file = Télécharger en tant que fichier
+im_export_createdate = Crée le
+
+im_export_import_file = Importer fichier
+im_export_delete_file = Effacer fichier
+im_export_download_file = Télécharger fichier
+
+im_export_file_could_not_be_generated  = Le fichier n'a pu être crée.
+im_export_file_generated_in  = Les fichiers sont enregistrés dans
+
+im_export_proceed_db_import = Les données existants (Articles, Templates, Modules,...) seront perdus. Continuer ?
+im_export_proceed_file_import = Les fichiers existants seront effacés. Continuer ?
+
+im_export_export_db_caption = Exports de base de données
+im_export_export_file_caption = Exports de fichiers
+
+im_export_export_db_summary = Liste des Exports de base de données disponibles
+im_export_export_file_summary = Liste des Exports de fichiers disponibles
+
+im_export_function = Fonction

@@ -1,0 +1,934 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version svn:$Id$
+ */
+
+
+div.rex-widget img {
+	vertical-align: top;
+}
+
+/*	Textfarben *****************************************************************
+*******************************************************************************/
+/*	Weiss */
+div#rex-navi-logout, 
+div#rex-navi-main ul li a.rex-active {
+	color: #FFF;
+}
+
+a.rex-button {
+  color: #000;
+}
+
+/*	Cyan */
+a, 
+div#rex-navi-logout a, 
+div#rex-navi-footer, 
+div#rex-navi-footer ul li, 
+div#rex-navi-footer ul li a, 
+div.rex-content-header ul li a {
+	color: #2C8EC0;
+}
+
+/*	Blau - Dunkel */
+div#rex-title h1, 
+div#rex-navi-page ul li a.rex-active, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a.rex-active, 
+div#rex-clang ul li a.rex-active, 
+div.rex-content-header ul li a.rex-active {
+	color: #14568A;
+}
+
+
+/*	Gruen */
+.rex-tx3 {
+	color: #188D12;
+}
+
+
+/*	Rot */
+.rex-tx2 {
+	color: #AF112F;
+}
+
+
+/*	Schriftarten ***************************************************************
+*******************************************************************************/
+body, 
+input, 
+textarea, 
+select, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	font-family: Arial, Verdana, sans-serif;
+}
+
+
+/*	Schriftgroessen ************************************************************
+*******************************************************************************/
+div#rex-website {
+	font-size: .75em;
+}
+div#rex-title h1 {
+	font-size: 2em;
+}
+
+.rex-hl2, 
+div#rex-navi-main dt {
+	font-size: 1.333em;
+}
+
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	font-size: 1em;
+}
+
+/*	Zeilenhoehen ***************************************************************
+*******************************************************************************/
+div#rex-title h1 {
+	line-height: 1.1;
+}
+
+
+/*	Background Color ***********************************************************
+*******************************************************************************/
+
+div#rex-navi-path {
+	background-color: transparent;
+}
+
+body {
+	background-color: #404040;
+}
+
+/*	Blau - Hell */
+div#rex-navi-main dd {
+	background-color: #3C9ED0;
+}
+div.rex-content-editmode div.rex-form-content-editmode-edit-slice {
+	background-color: #EDEDED;
+}
+
+/*	Blau - Dunkel */
+div#rex-navi-main ul li a:hover, 
+div#rex-navi-main ul li a.rex-active {
+	background-color: #14568A;
+}
+
+/*	Blau - Dunkel */
+div#rex-navi-main ul li ul li a {
+	background-color: #5AB8EF;
+}
+
+div.rex-toolbar, 
+div.rex-content-block, 
+div.rex-content-header, 
+.rex-hl2, 
+div.rex-form, 
+div.rex-area-footer, 
+div.rex-addon-footer, 
+table.rex-table th, 
+table.rex-table tr td.rex-colored, 
+table.rex-table tr.rex-table-row-activ td {
+	background-color: #DFE9E9;
+}
+
+div#rex-footer,
+div#rex-header p.rex-header-top,
+div#rex-title,
+div#rex-linkmap, 
+div#rex-form-system-setup,
+div#rex-mediapool-detail-wrapper, 
+div.rex-area, 
+div.rex-addon-output, 
+div.rex-content-cols, 
+div.rex-form div.rex-form-wrapper,
+div.rex-widget p.rex-widget-field input,
+div.rex-widget p.rex-widget-field select, 
+table.rex-table {
+	background-color: #EFF9F9;
+}
+
+
+/*  Gruen - Add-, EditSlice *********/
+/*  Slice Inhalt */
+div.rex-content-editmode div.rex-form.rex-form-content-editmode-add-slice, 
+div.rex-content-editmode div.rex-form.rex-form-content-editmode-edit-slice, 
+table.rex-table tr.rex-metainfo-cat td {
+  background-color: #F9FDE9;
+}
+
+/*  Modulname, SliceNavi */
+div.rex-content-editmode div.rex-form.rex-form-content-editmode-add-slice div.rex-content-editmode-module-name, 
+div.rex-content-editmode div.rex-content-editmode-module-name.rex-form-content-editmode-edit-slice, 
+div.rex-content-editmode div.rex-form-content-editmode-edit-slice div.rex-navi-slice, 
+table.rex-table tr.rex-metainfo-cat-b td {
+  background-color: #F4FECF;
+}
+
+
+
+
+/*	Background Image ***********************************************************
+*******************************************************************************/
+div.rex-content-header, 
+div.rex-navi-paginate ul li.rex-navi-paginate-prev, 
+div.rex-navi-paginate ul li.rex-navi-paginate-message, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	background-image: none;
+}
+body {
+	background-image: url(body.gif);
+	background-repeat: repeat-x;
+}
+div#rex-website {
+	background-image: url(website.gif);
+	background-repeat: repeat-x;
+}
+div#rex-footer {
+	background-image: url(footer.gif);
+	background-repeat: repeat-x;
+}
+div#rex-navi-logout {
+	background-image: url(logo.gif);
+    background-position: 8px 0px;
+}
+p.rex-button a, 
+input.submit,
+div.rex-form input.rex-form-submit {
+	background-image: url(button.gif);
+	background-repeat: repeat-x;
+}
+
+
+div#rex-navi-main ul li ul li a {
+	background-image: url(navi_sub.gif);
+	background-position: 13px 8px;
+}
+
+/*	Button - Pfeil oben */
+div.rex-navi-slice ul li a.rex-slice-move-up {
+	background-image: url(up.gif);
+}
+
+/*	Button - Pfeil unten */ 
+div.rex-navi-slice ul li a.rex-slice-move-down {
+	background-image: url(down.gif);
+}
+
+/*	Button - Pfeil links */ 
+div.rex-navi-paginate ul li.rex-navi-paginate-prev a {
+	background-image: url(left.gif);
+}
+
+/*	Button - Pfeil rechts */ 
+div.rex-navi-paginate ul li.rex-navi-paginate-next a {
+	background-image: url(right.gif);
+}
+
+div.rex-widget p.rex-widget-icons a.rex-icon-file-add {
+	background-image: url(file_add.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-add-inactive {
+	background-image: url(file_add_inactive.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-bottom {
+	background-image: url(file_bottom.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-delete {
+	background-image: url(file_del.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-delete-inactive {
+	background-image: url(file_del_inactive.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-down {
+	background-image: url(file_down.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-open {
+	background-image: url(file_open.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-open-inactive {
+	background-image: url(file_open_inactive.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-top {
+	background-image: url(file_top.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-up {
+	background-image: url(file_up.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-view {
+	background-image: url(file_view.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-view-inactive {
+	background-image: url(file_view_inactive.gif);
+}
+
+
+/*	Trenner - Grau */ 
+div.rex-navi-paginate ul li, 
+div.rex-navi-slice ul li a.rex-tx3 {
+	background-image: url(pipe_grey.gif);
+	background-position: 0px 2px;
+}
+div.rex-navi-slice ul li a.rex-tx3 {
+	background-position: 100% 2px;
+}
+
+/*	Popup */ 
+div#rex-navi-main ul li a.rex-popup {
+	background-image: url(popup.gif);
+	background-position: 154px 6px;
+}
+
+/*	Back */ 
+a.rex-back {
+  padding-left: 8px;
+	background-image: url(back.gif);
+	background-position: 0 4px;
+}
+
+
+
+
+
+/*  Kategorietabelle Metainfo Button */
+div#rex-form-structure-category p.rex-button-add {
+  margin-top: 2px;
+}
+div#rex-form-structure-category p.rex-button-add a {
+  width: 18px;
+  height: 18px;
+}
+
+
+.rex-i-action {
+	background-image: url(action.gif);
+}
+.rex-i-action-add {
+	background-image: url(action_plus.gif);
+}
+.rex-i-addon {
+	background-image: url(addon.gif);
+}
+.rex-i-article {
+	background-image: url(document.gif);
+}
+.rex-i-article-add {
+	background-image: url(document_plus.gif);
+}
+.rex-i-article-startpage {
+	background-image: url(startpage.gif);
+}
+.rex-i-clang {
+	background-image: url(clang.gif);
+}
+.rex-i-clang-add {
+	background-image: url(clang_plus.gif);
+}
+.rex-i-cronjob {
+	background-image: url(cronjob.gif);
+}
+.rex-i-cronjob-add {
+	background-image: url(cronjob_add.gif);
+}
+.rex-i-generic {
+	background-image: url(generic.gif);
+}
+.rex-i-generic-add {
+	background-image: url(generic_add.gif);
+}
+.rex-i-generic-delete {
+	background-image: url(generic_del.gif);
+}
+.rex-i-generic-close {
+	background-image: url(generic_close.gif);
+}
+.rex-i-generic-open {
+	background-image: url(generic_open.gif);
+}
+.rex-i-list {
+	background-image: url(list.gif);
+}
+.rex-i-media-add {
+	background-image: url(media_add.gif);
+}
+.rex-i-media {
+	background-image: url(media.gif);
+}
+.rex-i-metainfo {
+	background-image: url(metainfo.gif);
+}
+.rex-i-metainfo-add {
+	background-image: url(metainfo_plus.gif);
+}
+.rex-i-module {
+	background-image: url(module.gif);
+}
+.rex-i-module-add {
+	background-image: url(module_plus.gif);
+}
+.rex-i-refresh {
+	background-image: url(refresh.gif);
+}
+.rex-i-refresh-ani {
+	background-image: url(refresh_ani.gif);
+}
+.rex-i-refresh-err {
+  background-image: url(refresh_err.gif);
+}
+.rex-i-slice {
+	background-image: url(slice.gif);
+}
+.rex-i-template {
+	background-image: url(template.gif);
+}
+.rex-i-template-add {
+	background-image: url(template_plus.gif);
+}
+.rex-i-togglesettings {
+ 	background-image: url(togglesettings.gif);
+}
+.rex-i-togglesettings-off {
+ 	background-image: url(togglesettings_off.gif);
+}
+.rex-i-toggleview {
+ 	background-image: url(toggleview.gif);
+}
+.rex-i-toggleview-off {
+ 	background-image: url(toggleview_off.gif);
+}
+.rex-i-user {
+	background-image: url(user.gif);
+}
+.rex-i-user-add {
+	background-image: url(user_plus.gif);
+}
+
+.rex-i-category, 
+.rex-i-mediapool-category {
+	background-image: url(folder.gif);
+}
+.rex-i-category-add, 
+.rex-i-mediapool-category-add {
+	background-image: url(folder_plus.gif);
+}
+
+/*	Border *********************************************************************
+*******************************************************************************/
+table.rex-table tr.rex-metainfo-cat td {
+  border-color: #DFE9E9;
+}
+div.rex-content-editmode div.rex-form.rex-form-content-editmode-add-slice div.rex-content-editmode-module-name, 
+div.rex-content-editmode div.rex-content-editmode-module-name.rex-form-content-editmode-edit-slice, 
+table.rex-table tr.rex-metainfo-cat-b td {
+  border-bottom: 1px solid #CBCBCB;
+}
+
+
+/*	Allgemeines ****************************************************************
+*******************************************************************************/
+.rex-hl2 {
+	border-bottom: 1px solid #CBCBCB;
+}
+
+/*	Seitenstruktur *************************************************************
+*******************************************************************************/
+body {
+	margin-top: 0;
+}
+div#rex-website {
+	float: left;
+	width: 964px;
+	background-color: #FFF;
+}
+
+div#rex-navi-logout {
+	position: static;
+	float: left;
+	width: 100%;
+	height: 75px;
+	margin-bottom: 36px;
+}
+div#rex-navi-logout p, 
+div#rex-navi-logout ul {
+	padding: 34px 10px 0 0;
+	text-align: right;
+}
+
+div#rex-navi-main {
+	float: left;
+	width: 171px;
+	margin-left: 16px;
+	padding: 0;
+	background: none;
+}
+
+div#rex-wrapper {
+	clear: none;
+	float: right;
+	width: 745px;
+	margin-right: 16px;
+	padding-bottom: 36px;
+}
+#rex-page-login div#rex-wrapper {
+	padding-bottom: 72px;
+}
+body#rex-page-login div#rex-wrapper, 
+body#rex-page-linkmap div#rex-wrapper, 
+body#rex-page-mediapool div#rex-wrapper, 
+body#rex-page-setup div#rex-wrapper {
+	width: 100%;
+	margin-right: 0px;
+}
+body#rex-page-login div#rex-wrapper2, 
+body#rex-page-linkmap div#rex-wrapper2, 
+body#rex-page-mediapool div#rex-wrapper2, 
+body#rex-page-setup div#rex-wrapper2 {
+	padding: 0 16px;
+}
+
+div#rex-footer {
+  clear: both;
+	border-top-color: #404040;
+	border-top-width: 8px;
+	margin: 0;
+	padding: 9px 0;
+}
+div#rex-navi-footer ul {
+    margin-left: 15px;
+}
+div#rex-navi-footer p#rex-scripttime {
+    margin-right: 15px;
+}
+
+
+div#rex-title {
+	margin-top: 0px;
+	background: none;
+}
+html>body div#rex-title {
+	min-height: 0;
+}
+div#rex-title h1 {
+	padding-top: 5px;
+	padding-bottom: 18px;
+	padding-left: 0px;
+}
+div#rex-output {
+	margin-top: 22px;
+}
+#rex-page-login div#rex-title, 
+#rex-page-setup div#rex-title, 
+#rex-page-login div#rex-output, 
+#rex-page-setup div#rex-output {
+	float: none;
+	width: 650px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+
+/*	Navigationen ***************************************************************
+*******************************************************************************/
+div#rex-navi-main dl {
+	width: 100%;
+}
+div#rex-navi-main dt {
+	clear: both;
+	display: block;
+	background-image: url(navi_main_dt.gif);
+	background-repeat: no-repeat;
+	border-bottom: 1px solid #FFF;
+	padding: 12px 10px 6px 10px !important;
+	font-weight: bold;
+}
+div#rex-navi-main dd {
+	margin: 0 0 16px 0;
+	padding: 0;
+}
+div#rex-navi-main ul li  {
+	display: block;
+	float: none;
+	padding: 0;
+	background: none;
+	border-bottom: 1px solid #FFF;
+}
+div#rex-navi-main ul li a {
+	display: block;
+	padding: 5px 10px;
+	white-space: normal;
+}
+div#rex-navi-main ul li a:hover {
+	text-decoration: none;
+}
+div#rex-navi-main ul li.rex-active ul {
+  display: block;
+}
+div#rex-navi-main ul li ul li {
+	border-top: 1px solid #FFF;
+	border-bottom: 0;
+}
+div#rex-navi-main ul li ul li a {
+	padding-left: 25px;
+	font-weight: normal;
+}
+
+
+div#rex-title div.rex-title-row {
+	width: 100%;
+}
+div#rex-title div.rex-title-row-sub {
+	border-top: 1px solid #CBCBCB;
+	border-bottom: 1px solid #CBCBCB;
+}
+div#rex-title div.rex-title-row-empty {
+	border-bottom: 0;
+}
+div#rex-title div.rex-title-row-empty p {
+	display: none;
+}
+div#rex-title ul#rex-navi-path {
+	border: 0;
+}
+
+
+/*	Toolbar ********************************************************************
+*******************************************************************************/
+div.rex-toolbar-content {
+	border: 0;
+	margin-left: 0;
+}
+
+
+/*	Sprachen, Content (Editiermodus, Metadaten, Anzeigen) **********************
+*******************************************************************************/
+div.rex-content-header-2 {
+}
+div.rex-content-header-2 {
+	margin-left: 0;
+	border-left: 0;
+}
+div.rex-content-header ul {
+	margin-right: 0;
+}
+div.rex-content-header ul.rex-navi-content {
+	margin-right: 0;
+	border: 0;
+}
+
+/*	Paginate *******************************************************************
+*******************************************************************************/
+
+div.rex-navi-paginate ul li {
+	margin-right: 10px;
+}
+div.rex-navi-paginate ul li.rex-navi-paginate-page {
+	margin-right: 0;
+}
+div.rex-navi-paginate ul li.rex-navi-paginate-next {
+	padding-left: 10px;
+}
+div.rex-navi-paginate ul li.rex-navi-paginate-message {
+	padding-top: 3px;
+}
+div.rex-navi-paginate ul li.rex-navi-paginate-prev a, 
+div.rex-navi-paginate ul li.rex-navi-paginate-next a {
+	width: 18px;
+	height: 18px;
+}
+div.rex-navi-paginate ul li.rex-navi-paginate-prev a span, 
+div.rex-navi-paginate ul li.rex-navi-paginate-next a span {
+	display: none;
+}
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	padding: 3px 10px 2px 10px;
+	font-weight: bold;
+}
+
+
+/*	Slice **********************************************************************
+*******************************************************************************/
+div.rex-navi-slice ul li a {
+	display: block;
+	margin-right: 0px;
+	padding-top: 2px;
+	padding-right: 5px;
+}
+div.rex-content-editmode-module-name h3.rex-hl4 {
+	padding-top: 10px;
+}
+
+div.rex-navi-slice ul li a.rex-slice-move-up, 
+div.rex-navi-slice ul li a.rex-slice-move-down {
+	padding-top: 0px;
+	width: 18px;
+	height: 18px;
+}
+div.rex-navi-slice ul li a.rex-slice-move-up {
+	padding-right: 0px;
+}
+
+/*	Content ********************************************************************
+*******************************************************************************/
+div.rex-content-body-2 {
+	padding: 0;
+}
+
+
+body#rex-page-import-export div.rex-area-col-a, 
+body#rex-page-import-export div.rex-area-col-b, 
+div.rex-addon-col-a, 
+div.rex-addon-col-b {
+	float: none;
+	width: 100%;
+}
+
+
+/*	Icons **********************************************************************
+*******************************************************************************/
+.rex-i-element-text {
+	display: inline !important;
+	position: absolute !important;
+	left: -1000px !important;
+	top: -1000px !important;
+	width: 0px !important;
+	height: 0px !important;
+	overflow: hidden !important;
+	background-color: #FFF !important;
+}
+.rex-i-clang, 
+.rex-i-clang-add {
+	width: 21px;
+}
+
+
+/*	Table **********************************************************************
+*******************************************************************************/
+
+
+/*	Formulare ******************************************************************
+*******************************************************************************/
+/*	Struktur : Metainfo 
+*******************************************************************************/
+div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-checkboxes-wrapper p.rex-form-label-right label, 
+div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-radios-wrapper p.rex-form-label-right label {
+	width: 282px;
+}
+div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-checkboxes-wrapper, 
+div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-radios-wrapper, 
+div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-label-right label, 
+div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-read span,
+div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-text input,
+div#rex-form-structure-category tr.rex-metainfo-cat p textarea {
+	width: 312px;
+}
+div#rex-form-structure-category tr.rex-metainfo-cat p.rex-form-select select {
+	width: 318px;
+}
+
+div.rex-form-setup-step-database div.rex-form-row p.rex-form-label-right label {
+	width: 590px;
+}
+
+div#rex-form-mediapool-detail div.rex-form-row p select.rex-form-select-date {
+	width: 45px;
+}
+div#rex-form-mediapool-detail div.rex-form-row p select.rex-form-select-year {
+	width: 65px;
+}
+
+
+div#rex-form-system-setup div.rex-widget input {
+	width: 90px;
+}
+
+
+
+/*	Widget *********************************************************************
+*******************************************************************************/
+div.rex-widget p.rex-widget-icons {
+	padding-top: 0;
+}
+div.rex-widget p.rex-widget-icons a {
+	width: 18px;
+	height: 18px;
+}
+
+
+/*	Extras *********************************************************************
+*******************************************************************************/
+div#rex-redaxo-link {
+	position: absolute;
+	left: 0;
+	top: 0px;
+	width: 200px;
+}
+div#rex-redaxo-link a {
+	display: block;
+	width: 200px;
+	height: 75px;
+	text-indent: -1000em;
+}
+
+
+/*	Rundungen ******************************************************************
+*******************************************************************************/
+input.rex-form-text {
+	padding: 2px;
+	border: 1px solid #999;
+}
+
+body div.rex-form, 
+body table.rex-table, 
+body#rex-page-linkmap div#rex-linkmap, 
+body#rex-page-import-export div.rex-area-col-a, 
+body#rex-page-import-export div.rex-area-col-b, 
+#rex-mediapool-detail-wrapper, 
+div.rex-area, 
+div.rex-addon-output, 
+div.rex-content-header, 
+div.rex-content-body,
+div.rex-info-block, 
+div.rex-message, 
+div.rex-message-block, 
+div.rex-toolbar, 
+div.rex-content-block, 
+div.rex-form input.rex-form-submit, 
+input.submit,
+p.rex-button a {
+	border: 0;
+	-moz-outline-radius-bottomleft: 4px;
+	-moz-outline-radius-bottomright: 4px;
+	-moz-outline-radius-topleft: 4px;
+	-moz-outline-radius-topright: 4px;
+	outline: 1px solid #CBCBCB;
+}
+
+body div.rex-form table.rex-table, 
+body div.rex-table div.rex-form,
+body div.rex-area div.rex-form, 
+body div.rex-area table.rex-table, 
+body div.rex-content-header div.rex-form,
+body div.rex-content-header table.rex-table, 
+body div.rex-content-body div.rex-form,
+body div.rex-content-body table.rex-table, 
+body div.rex-toolbar div.rex-form, 
+body div.rex-toolbar table.rex-table,  
+body div.rex-content-block div.rex-form, 
+body div.rex-content-block table.rex-table,  
+body div.rex-addon-output div.rex-form,  
+body div.rex-addon-output table.rex-table, 
+body #rex-mediapool-detail-wrapper div.rex-form  {
+	border: 0;
+	-moz-outline-radius-bottomleft: 0;
+	-moz-outline-radius-bottomright: 0;
+	-moz-outline-radius-topleft: 0;
+	-moz-outline-radius-topright: 0;
+	outline: 0;
+}
+div.rex-content-body {
+	-moz-outline-radius-topleft: 0;
+	-moz-outline-radius-topright: 0;
+}
+div.rex-content-header, 
+div.rex-content-body {
+	-moz-outline-radius-bottomleft: 0;
+	-moz-outline-radius-bottomright: 0;
+}
+
+body div#rex-form-content-metamode, 
+body div.rex-form-content-editmode-add-slice, 
+body div.rex-form-content-editmode-edit-slice {
+	outline: 0;
+}
+
+p.rex-button a, 
+input.submit,
+div.rex-form input.rex-form-submit {
+	padding: 2px 6px;
+}
+
+div.rex-area-col-2, 
+div.rex-addon-col-2 {
+	position: static;
+}
+body#rex-page-import-export div.rex-area-col-a, 
+div.rex-addon-output, 
+div#rex-form-mediapool-selectcategory {
+	margin-bottom: 10px;
+}
+
+/*	Popup Spezial **************************************************************
+*******************************************************************************/
+body.rex-popup div#rex-navi-logout {
+	margin-bottom: 2px;
+}
+body.rex-popup div#rex-title h1 {
+	padding-bottom: 5px;
+	text-align: right;
+}
+body.rex-popup div#rex-output {
+	margin-top: 12px;
+}
+
+/*	Elemente wieder anzeigen ***************************************************
+*******************************************************************************/
+div#rex-navi-main dl dt {
+	display: block !important;
+	position: static !important;
+	width: auto !important;
+	height: auto !important;
+	background-color: transparent !important;
+}
+
+/*	Elemente verstecken ********************************************************
+		Hinweis: 
+			den Elementen nicht die Klasse "rex-hidden" einzeln zuweisen, 
+			da diese von anderen Layouts eventuell dargestellt werden sollen
+*******************************************************************************/
+div#rex-header {
+	display: inline !important;
+	position: absolute !important;
+	left: -1000px !important;
+	top: -1000px !important;
+	width: 0px !important;
+	height: 0px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	background-color: #FFF !important;
+	overflow: hidden !important;
+}
+
+
+
+
+body.rex-layout-liquid div#rex-website {	
+	width: 100%;
+}
+body.rex-layout-liquid div#rex-navi-main {
+	width: 15%;
+	margin-left: 2%;
+}
+body.rex-layout-liquid div#rex-wrapper {
+	width: 78%;
+	margin-right: 2%;
+}
+
+
+
+tr.rex-metainfo-cat {
+	display: none;
+}
+
+
+
+/*
+body div#rex-footer,
+body div#rex-website,
+html body#rex-page-structure,
+html body#rex-page-content{ background:url(none) #f3f3f3; }
+body div#rex-navi-main{ float:right }
+body div#rex-navi-logout ul.rex-logout li{ background:#333; padding:10px; }
+body div#rex-website div#rex-footer,
+body div#rex-website div#rex-navi-footer ul{ background:#333; padding:0px; margin:0px; }
+*/

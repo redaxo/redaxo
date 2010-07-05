@@ -1,0 +1,46 @@
+# addon:metaform fr_fr
+
+media = Médias
+categories = Catégories
+articles = Articles
+
+minfo_metainfos_not_found = Aucune metainfo trouvée
+
+minfo_field_list_caption = Liste des meta-champs
+
+minfo_field_fieldset = Editer/créer un champ meta
+minfo_field_label_prefix = Préfixe
+minfo_field_label_title = Nom du champ
+minfo_field_label_name = Nom de la colonne
+minfo_field_label_id = ID
+minfo_field_label_type = Type du champ
+minfo_field_label_attributes = Attributs du champ
+minfo_field_label_default = Valeur standard
+minfo_field_label_nullable = Champ obligatoire
+minfo_field_label_params = Paramètre
+minfo_field_label_prior = Position du champ
+
+minfo_field_notice_title = Prefix "translate:" traduit la valeur par I18N
+
+minfo_field_first_prior = Au début
+minfo_field_after_prior = après le champ"{0}"
+
+minfo_field_params_notice_3 = Exemples:<br />a) tous|utilisateur|admin<br />b) 1:tous|2:utilisateur|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_4 = Exemples:<br />a) tous|utilisateur|admin<br />b) 1:tous|2:utilisateur|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_5 = Exemples:<br />a) tous|utilisateur|admin<br />b) 1:tous|2:utilisateur|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+
+minfo_field_attributes_notice = Exemple:<br /> style=color:red multiple=multiple class=my_css_class perm=admin[]
+
+minfo_field_error_name = Merci d'indiquer un nom de colonne!
+minfo_field_error_unique_name = Ce nom de colonne existe dejà!
+minfo_field_error_unique_type = Ce nom de type existe dejà!
+minfo_field_error_chars_name = Ce nom de colonne contient des signes non autorisés (Autorisés: A-Z, 0-9 et _)!
+minfo_field_error_invalid_prefix = Ce préfixe est invalide! 
+minfo_field_error_invalid_type = Ce type est invalide!
+minfo_field_error_invalid_length = Cette longueur de champ est invalide! 
+minfo_field_error_invalid_name = Ce nom de colonne est invalide!
+minfo_field_error_invalid_fieldid = Cette id de champ est invalide!
+minfo_field_error_invalid_typeid = Cette id de type est invalide!
+minfo_field_successfull_saved = Les données ont été enregistrées avec succès!
+
+minfo_edit_metadata = Editer les metainfos

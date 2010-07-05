@@ -1,0 +1,11 @@
+version = Version
+
+version_liveversion = Live version
+version_workingversion = Working version
+version_working_to_live = Make to live version
+version_preview = Preview
+version_copy_live_to_workingversion = Copy to working version
+version_copy_from_liveversion = get live version
+version_info_working_version_to_live = Working version is now live
+version_info_live_version_to_working = Live version has been copied to working version
+version_warning_working_version_to_live = Working Version can not be copied, because it is empty

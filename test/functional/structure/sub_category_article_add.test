@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>sub_category_article_add</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">sub_category_article_add</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/redaxo_trunk/redaxo/index.php</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=[translate:structure]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[contains(text(),'myNewCategoryName')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[contains(text(),'myNewSubCategoryName')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=[translate:article_add]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>rex-form-field-name</td>
+	<td>myNewSubCategoryArticleName</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>rex-form-template</td>
+	<td>label=myNewTemplate</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>artadd_function</td>
+	<td></td>
+</tr>
+<tr>
+    <td>verifyTextPresent</td>
+    <td>[translate:article_added]</td>
+    <td></td>
+</tr>
+<tr>
+    <td>verifyTextPresent</td>
+    <td>myNewSubCategoryArticleName</td>
+    <td></td>
+</tr>
+<tr>
+    <td>verifyTextPresent</td>
+    <td>myNewTemplate</td>
+    <td></td>
+</tr>
+<tr>
+    <td>verifyTextPresent</td>
+    <td>[translate:status_offline]</td>
+    <td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

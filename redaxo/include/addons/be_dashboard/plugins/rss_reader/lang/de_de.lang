@@ -1,0 +1,4 @@
+# addon: rss_reader de_de
+rss_reader_component_title = RSS Feedreader
+rss_reader_component_noconfig = Es wurden noch keine RSS Feeds konfiguriert.
+rss_reader_component_opensettings = Einstellungen bearbeiten. 

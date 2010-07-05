@@ -1,0 +1,50 @@
+# addon:import/export en_gb
+im_export_importexport = Import/Export
+im_export_file_deleted = File has been deleted
+im_export_no_import_file_chosen_or_wrong_version = No omportfile chosen or version is wrong
+im_export_no_valid_import_file = Not valid import file
+im_export_no_valid_charset = Not a valid charset found
+im_export_database_imported = Database imported
+im_export_entry_count = ({0} entries)
+im_export_file_could_not_be_uploaded = File could not be uploaded.
+im_export_you_have_no_write_permission_in = No permissions to this folder {0}.
+im_export_no_import_file_chosen = Please choose an import file.
+im_export_problem_when_extracting = Problems occured during extracting.
+im_export_create_dirs_manually = Please create the following folders manually(via ftp).
+im_export_file_imported = File has been imported.
+im_export_import = Import
+im_export_export = Export
+im_export_db_import = Import
+im_export_db_export = Export
+im_export_filename_updated = Filname updated because of unallowed characters. Please click again on export
+im_export_please_choose_folder = Please choose the folders to be exported
+im_export_intro_import = Please take care when you import a database. <b>The current database will be deleted</b>.
+im_export_database = Databaseimport
+im_export_filename = Filename
+im_export_filesize = Filesizee
+im_export_delete = Delete
+im_export_files = Fileimport
+im_export_intro_export = To backup the whole website please backup database AND files.
+im_export_database_export = Databaseexport
+im_export_file_export = Fileexport
+im_export_save_on_server = Save on server
+im_export_download_as_file = Download as file
+im_export_createdate = Create date
+
+im_export_import_file = Import file
+im_export_delete_file = Delete file
+im_export_download_file = Download file
+
+im_export_file_could_not_be_generated  = File could not be generated.
+im_export_file_generated_in  = File has been generated in
+
+im_export_proceed_db_import = Current data (articles, templates, modules,...) will be deleted. Are you sure ?
+im_export_proceed_file_import = Current files will be deleted. Are you sure ?
+
+im_export_export_db_caption = Databaseexports
+im_export_export_file_caption = Fileexports
+
+im_export_export_db_summary = Table of all database exports
+im_export_export_file_summary = Table of all file exports
+
+im_export_function = Function

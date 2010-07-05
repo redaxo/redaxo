@@ -1,0 +1,69 @@
+# addon:metaform de_de
+
+media = Medien
+categories = Kategorien
+articles = Artikel
+
+minfo_metainfos_not_found = Es wurden keine Metainformationen gefunden
+
+minfo_field_list_caption = Liste der Metafelder
+
+minfo_field_fieldset = Feld bearbeiten/erstellen
+minfo_field_label_prefix = Prefix
+minfo_field_label_title = Feldbezeichnung
+minfo_field_label_name = Spaltenname
+minfo_field_label_function = Funktion
+minfo_field_label_id = ID
+minfo_field_label_type = Feldtyp
+minfo_field_label_attributes = Feldattribute
+minfo_field_label_default = Standardwert
+minfo_field_label_nullable = Pflichtfeld
+minfo_field_label_params = Parameter
+minfo_field_label_prior = Feldposition
+minfo_field_label_restrictions = Nur in folgenden Kategorien verfügbar
+minfo_field_label_no_restrictions = In allen Kategorien verfügbar
+
+minfo_field_notice_title = Prefix "translate:" übersetzt den Wert via I18N
+
+minfo_field_first_prior = Am Anfang
+minfo_field_after_prior = Nach dem Feld "{0}"
+
+minfo_field_params_notice_3 = Beispiele:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_4 = Beispiele:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_5 = Beispiele:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_6 = Beispiel:<br /> category=1 types="gif,jpg" preview=1
+minfo_field_params_notice_7 = Beispiel:<br /> category=1 types="gif,jpg" preview=1
+minfo_field_params_notice_8 = Beispiel:<br /> category=1
+minfo_field_params_notice_9 = Beispiel:<br /> category=1
+
+minfo_field_attributes_notice = Beispiel:<br /> style=color:red multiple=multiple class=my_css_class perm=admin[]
+
+minfo_field_error_name = Bitte Spaltennamen eingeben!
+minfo_field_error_unique_name = Der angegebene Spaltenname existiert schon!
+minfo_field_error_unique_type = Der angegebene Typename existiert schon!
+minfo_field_error_chars_name = Der Spaltennamen enthält ungültige Zeichen (Erlaubt sind A-Z, 0-9 und _)!
+minfo_field_error_invalid_prefix = Der angegebene Prefix ist ungültig! 
+minfo_field_error_invalid_type = Der angegebene Type ist ungültig! 
+minfo_field_error_invalid_length = Die angegebene Feldlänge ist ungültig! 
+minfo_field_error_invalid_name = Der angegebene Spaltenname ist ungültig!
+minfo_field_error_invalid_fieldid = Die angegebene Feld-Id ist ungültig!
+minfo_field_error_invalid_typeid = Die angegebene Type-Id ist ungültig!
+minfo_field_error_deleted = Feld wurde nicht gelöscht!
+minfo_field_successfull_deleted = Feld erfolgreich gelöscht!
+minfo_field_successfull_saved = Daten erfolgreich gespeichert!
+
+minfo_edit_metadata = Metadaten bearbeiten
+
+minfo_media_in_use_art = Artikel (Metadaten)
+minfo_media_in_use_cat = Kategorien (Metadaten)
+minfo_media_in_use_med = Medien (Metadaten)
+
+# bc: labels aus dem core
+online_from = Online vom
+online_to = bis zum
+description = Beschreibung
+keywords = Suchbegriffe
+header_article_type = Artikeltyp
+metadata_image = Metafile/Bild
+teaser = Teaser
+pool_file_copyright = Copyright

@@ -1,0 +1,17 @@
+# addon:image_resize en_gb
+
+iresize_subpage_desc = Description
+iresize_subpage_config = Config
+iresize_subpage_clear_cache = Delete resize-cache
+
+iresize_cache_files_removed = {0} cache files deleted
+
+iresize_config_saved = Configuration saved
+iresize_config_not_saved = Configuration could not be saved
+iresize_config_not_writable = Configuration file "{0}" ist not writeable
+
+iresize_max_cache_files = Maximum allowed cache files / image
+iresize_max_filters = Maximum allowed filters per file
+iresize_max_resizekb = Maximum size of file to be resized
+iresize_max_resizepx = Maximum width in pixel
+iresize_jpg_quality = JPG/JPEG quality

@@ -1,0 +1,58 @@
+<h2>Changelog:</h2>
+
+
+<strong>1.1.4 - 11.04.2009</strong>
+
+Bugfixes (jan)
+ 
+
+<strong>1.1.3 - 18.02.2009</strong>
+
+WICHTIG: Nur mit REDAXO 4.2 kompatibel!
+
+- Pathlist generation optimiert (nur noch differenziell wenn möglich)
+- Anderes Url-Format (GN2)
+- Bugfixes
+
+<strong>1.1.2 - 02.11.2007</strong>
+
+- params rewrite jetzt konfigurierbar
+- Bugfix: wenn article_id oder clang als get/post parameter gesetzt sind, diese verwenden
+
+<strong>1.1.1 - 02.11.2007</strong>
+
+- Bugfix: $REX['CUR_CLANG'] wurde nicht gesetzt
+
+<strong>1.1 - 21.10.2007</strong>
+
+- Anpassungen für REDAXO4.0
+
+<strong>1.0 - 18.09.2007</strong>
+- rewriteFullnames: (vscope)
+ + Parameter werden SuMa freundlich angehängt
+
+<strong>RC4 - 16.05.2006</strong>
+
+- rewriteFullnames:
+ + Beim EP ALL_GENERATED wird jetzt auch die pathlist neu generiert
+
+<strong>RC3 - 06.04.2006</strong>
+
+- rewriteFullnames:
+ + bugfixes
+ + auf EP-Handling umstegestellt
+- .htaccess Beispieldaten in den Rewritern ergänzt
+- fileheader
+- Readme handling umgestellt
+
+<strong>RC2 - 12.12.2005</strong>
+
+- Rewriter hinzugefügt: class.rewrite_fullnames.inc.php (vscope)
+- Auf rexExtension umgestellt
+- Rewriter hinzugefügt: class.rewrite_mod_rewrite.inc.php
+- Dateiendung von rex.html auf redaxo.htm geändert
+- Rewriter hinzugefügt: class.rewrite_simple.inc.php
+  
+<strong>RC1 - 15.10.2005</strong>
+
+- Dateiendung von .redaxo auf rex.html geändert (Suchmaschinenindizierung)

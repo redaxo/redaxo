@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>module_create</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">module_create</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/redaxo_trunk/redaxo/index.php</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=[translate:modules]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=[translate:create_module]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>mname</td>
+	<td>myFirstModule</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>eingabe</td>
+	<td>&lt;label&gt;Überschrift&lt;/label&gt;<br />&lt;input type=&quot;text&quot; name=&quot;VALUE[1]&quot; value=&quot;REX_VALUE[1]&quot; /&gt;</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>ausgabe</td>
+	<td>&lt;h1&gt;REX_VALUE[1]&lt;/h1&gt;</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='[translate:save_module_and_quit]']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>[translate:module_added]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>myFirstModule</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

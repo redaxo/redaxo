@@ -1,0 +1,26 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version svn:$Id$
+ */
+
+div.rex-toolbar-content {
+  zoom: 1;
+}
+
+input.rex-form-text {
+  height: 14px;
+}
+/*
+input.rex-form-text, 
+input.rex-form-select, 
+input.rex-form-submit {
+  vertical-align: middle;
+}
+*/
+
+#rex-page-structure div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-row label, 
+#rex-page-structure div#rex-form-structure-category tr.rex-metainfo-cat div.rex-form-row p.rex-form-label {
+	float: none;
+	width: auto;
+}

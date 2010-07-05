@@ -1,0 +1,44 @@
+div.frontedit_header {
+    display:block;
+    padding:5px;
+    background-color:#000;
+    margin-bottom:10px;
+    border:1px solid #aaa;
+    color:#fff !important;
+}
+
+div.frontedit_slice{
+    position:relative;
+    border:1px solid #aaa;
+    margin-bottom:5px;
+}
+
+
+div.frontedit_slice_header {
+    position:relative;
+    float:right;
+    display:block;
+    background-color:#000;
+    color:#999 !important;
+    padding:5px;
+    z-Index:5;
+}
+
+body.mainPage div.frontedit_slice div.frontedit_slice_header a{
+    color:#fff !important;
+}
+
+div.frontedit_slice_body {
+    z-Index:5;
+    padding:0px 5px 5px 5px;
+}
+
+div.frontedit_slice:hover .frontedit_slice_body
+{
+    background-color:#000;
+    opacity: 0.4;
+    filter: Alpha(opacity=40);
+}
+
+
+

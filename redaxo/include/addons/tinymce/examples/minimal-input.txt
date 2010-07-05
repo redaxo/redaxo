@@ -1,0 +1,26 @@
+<strong>Fliesstext:</strong><br />
+
+<?php
+if (class_exists('rexTinyMCEEditor'))
+{
+$wysiwigvalue =<<<EOD
+REX_VALUE[1]
+EOD;
+
+  // Neue Instanz der Klasse
+  $tiny = new rexTinyMCEEditor();
+
+  // WYSIWYG-Content zuordnen
+  $tiny->content = $wysiwigvalue;
+
+  // Id des REX_VALUES zuordnen
+  $tiny->id = 1;
+
+  // WYSIWYG-Editor anzeigen
+  $tiny->show();
+}
+else
+{
+  echo rex_warning('Dieses Modul ben&ouml;tigt das "TinyMCE"-Addon!');
+}
+?>

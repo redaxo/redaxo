@@ -1,0 +1,12 @@
+<h3>Changelog:</h3>
+
+<strong>Version 1.0.2 (2008-12-23)</strong>
+Update PHPMailer auf 2.0.3
+  
+<strong>Version 1.0.1 (2007-11-22)</strong>
+Bugfixes: 
+- Installationsfehler beseitigt [kills]
+  http://forum.redaxo.de/ftopic7440.html
+    
+<strong>Version 1.0 (R4 Compatible) (2007-10-14)</strong>
+  - initial release

@@ -1,0 +1,95 @@
+
+###################################################### Allgemeines
+
+b_add = hinzufügen
+b_edit = editieren
+
+b_add_entry = {0} hinzufügen
+b_edit_entry = {0} editieren
+
+b_delete = Löschen
+b_really_delete = "{0}" wirklich löschen?
+b_delete_success = "{0}" wurde erfolgreich gelöscht!
+b_delete_error = "{0}" konnte nicht gelöscht werden!
+
+b_function = Funktion
+b_status = Status
+b_status_function = Status/Funktion
+b_status_invalid = fehlerhaft
+
+b_status_online = online
+b_status_offline = offline
+
+b_online_from = online von
+b_online_to = online bis
+
+b_prior = Prior
+
+b_status_activated = aktiviert
+b_status_activate_success = "{0}" wurde aktiviert!
+b_status_activate_error = "{0}" konnte nicht aktiviert werden!
+
+b_status_deactivated = deaktiviert
+b_status_deactivate_success = "{0}" wurde deaktiviert!
+b_status_deactivate_error = "{0}" konnte nicht deaktiviert werden!
+
+b_summary = Auflistung aller angelegten {0}
+b_caption = Liste der angelegten {0}
+b_no_results = Keine {0} vorhanden
+
+b_no = nein
+b_yes = ja
+
+
+b_comma_separated = Komma getrennt
+b_textile_allowed = Textile erlaubt
+b_images_placeholder = Platzhalter ###imgZAHL###
+
+
+
+###################################################### Addonspezifisches
+
+
+
+a724_addon_name = Frau Schultze
+a724_addon_title = Frau Schultze
+a724_article = Artikel
+a724_article_url = Artikel Url
+
+a724_enter_url = aufgerufene Url
+a724_enter_url_notice = alles nach dem "/"<br /><br /><b>Bspl.:</b><br />Url: http://redaxo.de/alte/url<br />Eingabe: alte/url
+
+a724_http_type = Http Typ
+a724_http_type_301 = 301 - Moved Permanently -  alte Url existiert nicht mehr
+a724_http_type_303 = 303 - See Other - normale Umleitung
+
+a724_id = Id
+
+a724_language = Sprache
+
+a724_manual_url = manuelle Url
+a724_manual_url_notice = Weiterleitung automatisch aktiv
+
+a724_no_table_selected = Keine Tabelle ausgewählt
+
+a724_subpage_description = Beschreibung
+a724_subpage_marketing = Marketing Urls
+a724_subpage_marketing_legend_status = Status bei Weiterleitung
+a724_subpage_marketing_legend_v1 = Variante 1 - Redaxo Artikel
+a724_subpage_marketing_legend_v2 = Variante 2 - direkte Url
+a724_subpage_url_table = Tabellen Urls
+
+a724_table = Tabelle
+a724_type = Typ
+
+a724_url = Url
+
+a724_what_should_happen = Was soll passieren?
+a724_what_should_happen_0 = Artikel unter o.g. Url anzeigen
+a724_what_should_happen_1 = weiterleiten
+
+
+a724_table_url_notice_name = Spalte aus der die Url erzeugt wird
+a724_table_url_notice_id = Spalte der dazugehörigen eindeutigen Id
+
+

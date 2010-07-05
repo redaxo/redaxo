@@ -1,0 +1,46 @@
+textile_example_for = Exemple pour
+
+textile_code_for_module_input = Code pour l'entrée (Input) du module
+textile_code_for_module_output = Code pour la sortie (Output) du module
+textile_module_intro_moduleoutput = Intégrer simplement avec le code suivant dans <b>la sortie de n'importe quel module</b>
+textile_module_intro_help = Afin d'intégrer une table avec des instructions et remarques dans un module, ajouter la fonction suivante dans <b>l'entrée du module</b>:<br />
+textile_module_rights = <b>Info:</b><br />Les instructions seront affichés seulement si l'option facultative <strong>textile[help]</strong> a été attribué à l'utilisateur. Les utilisateurs Admin doivent également activer cette option!
+
+textile_instructions = Instructions/Remarques
+
+textile_input = Input (entrée)
+textile_preview = Prévisualisation
+
+textile_headlines = Titres
+textile_headline = Titre
+
+textile_text_formatting = Formatage des textes
+textile_text_italic = italic
+textile_text_bold = gras
+textile_text_cite = Citations
+textile_text_source_author = Source/Auteur
+textile_text_strike = rayé
+textile_text_insert = inséré
+textile_text_sup = plus haut
+textile_text_sub = plus bas
+
+textile_links = Liens/Ancres
+textile_link_internal = Lien (interne): vers "Mentions légales"
+textile_link_internal_anchor = Lien (interne) avec ancre: "vers nos conditions générales"
+textile_link_external = Lien (externe): "vers la documentation REDAXO"
+textile_link_external_anchor = Lien (externe) avec ancre: "vers nos partenaires"
+textile_link_attr_title = Link mit title-Attribut: "Bild(Klick für Zoom)"
+textile_link_attr_rel = Link mit rel-Attribut: "Bild{shadowbox}"
+textile_link_attr_title_rel = Link mit title und rel-Attribut: "Bild(Klick für Shadowbox){shadowbox}"
+textile_link_anchor = définir ancre
+textile_link_anchor_text = Ici les mentions légales
+
+textile_footnotes = Notes de pied de page
+textile_footnote_text = AJAX
+textile_footnote_note = Asynchronous JavaScript et XML
+
+textile_lists = Listes
+textile_numeric_list = Liste numerique
+textile_enum_list = Liste bulles
+
+textile_tables = Tables

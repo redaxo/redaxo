@@ -1,0 +1,1909 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ddl version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://myobjects.cvs.sourceforge.net/viewvc/*checkout*/myobjects/myobjects/compiler/ddl.xsd?revision=HEAD">
+  <database name="redaxo4_0">
+    <table name="rex_62_params" className="Rex_62_params">
+      <field name="field_id" primaryKey="true"
+        autoIncrement="true" required="true">
+        <data>
+          <numeric unsigned="true" mysqltype="int"
+            size="10">
+            <maximumValue>4294967295</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[field_id]]></description>
+      </field>
+      <field name="title">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[title]]></description>
+      </field>
+      <field name="name" unique="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[name]]></description>
+      </field>
+      <field name="prior" required="true">
+        <data>
+          <numeric unsigned="true" mysqltype="int"
+            size="10">
+            <maximumValue>4294967295</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[prior]]></description>
+      </field>
+      <field name="attributes" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[attributes]]></description>
+      </field>
+      <field name="type" foreignKeyOf="rex_62_type:id">
+        <data>
+          <numeric unsigned="true" mysqltype="int"
+            size="10">
+            <maximumValue>4294967295</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[type]]></description>
+      </field>
+      <field name="default" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[default]]></description>
+      </field>
+      <field name="params">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[params]]></description>
+      </field>
+      <field name="validate">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[validate]]></description>
+      </field>
+      <field name="createuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[createuser]]></description>
+      </field>
+      <field name="createdate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[createdate]]></description>
+      </field>
+      <field name="updateuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[updateuser]]></description>
+      </field>
+      <field name="updatedate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[updatedate]]></description>
+      </field>
+    </table>
+    <table name="rex_62_type" className="Rex_62_type">
+      <field name="id" primaryKey="true" autoIncrement="true"
+        required="true">
+        <data>
+          <numeric unsigned="true" mysqltype="int"
+            size="10">
+            <maximumValue>4294967295</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[id]]></description>
+      </field>
+      <field name="label">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[label]]></description>
+      </field>
+      <field name="dbtype" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[dbtype]]></description>
+      </field>
+      <field name="dblength" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[dblength]]></description>
+      </field>
+    </table>
+    <table name="rex_action" className="Rex_action">
+      <field name="id" primaryKey="true" autoIncrement="true"
+        required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[id]]></description>
+      </field>
+      <field name="name" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[name]]></description>
+      </field>
+      <field name="preview" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[preview]]></description>
+      </field>
+      <field name="presave" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[presave]]></description>
+      </field>
+      <field name="postsave" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[postsave]]></description>
+      </field>
+      <field name="previewmode" required="true">
+        <data>
+          <numeric mysqltype="tinyint" size="4">
+            <minimumValue>-128</minimumValue>
+            <maximumValue>127</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[previewmode]]></description>
+      </field>
+      <field name="presavemode" required="true">
+        <data>
+          <numeric mysqltype="tinyint" size="4">
+            <minimumValue>-128</minimumValue>
+            <maximumValue>127</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[presavemode]]></description>
+      </field>
+      <field name="postsavemode" required="true">
+        <data>
+          <numeric mysqltype="tinyint" size="4">
+            <minimumValue>-128</minimumValue>
+            <maximumValue>127</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[postsavemode]]></description>
+      </field>
+      <field name="createuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[createuser]]></description>
+      </field>
+      <field name="createdate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[createdate]]></description>
+      </field>
+      <field name="updateuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[updateuser]]></description>
+      </field>
+      <field name="updatedate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[updatedate]]></description>
+      </field>
+      <field name="revision">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[revision]]></description>
+      </field>
+    </table>
+    <table name="rex_article" className="Rex_article">
+      <field name="pid" primaryKey="true" autoIncrement="true"
+        required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[pid]]></description>
+      </field>
+      <field name="id" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[id]]></description>
+      </field>
+      <field name="re_id" foreignKeyOf="rex_article:id" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[re_id]]></description>
+      </field>
+      <field name="name" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[name]]></description>
+      </field>
+      <field name="catname" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[catname]]></description>
+      </field>
+      <field name="catprior" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[catprior]]></description>
+      </field>
+      <field name="attributes" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[attributes]]></description>
+      </field>
+      <field name="startpage" required="true">
+        <data>
+          <numeric mysqltype="tinyint" size="1">
+            <minimumValue>-128</minimumValue>
+            <maximumValue>127</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[startpage]]></description>
+      </field>
+      <field name="prior" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[prior]]></description>
+      </field>
+      <field name="path" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[path]]></description>
+      </field>
+      <field name="status" required="true">
+        <data>
+          <numeric mysqltype="tinyint" size="1">
+            <minimumValue>-128</minimumValue>
+            <maximumValue>127</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[status]]></description>
+      </field>
+      <field name="createdate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[createdate]]></description>
+      </field>
+      <field name="updatedate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[updatedate]]></description>
+      </field>
+      <field name="template_id" foreignKeyOf="rex_template:id" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[template_id]]></description>
+      </field>
+      <field name="clang" foreignKeyOf="rex_clang:id" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[clang]]></description>
+      </field>
+      <field name="createuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[createuser]]></description>
+      </field>
+      <field name="updateuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[updateuser]]></description>
+      </field>
+      <field name="label" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[label]]></description>
+      </field>
+      <field name="url" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[url]]></description>
+      </field>
+      <field name="revision">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[revision]]></description>
+      </field>
+      <field name="art_online_from">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[art_online_from]]></description>
+      </field>
+      <field name="art_online_to">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[art_online_to]]></description>
+      </field>
+      <field name="art_description">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[art_description]]></description>
+      </field>
+      <field name="art_keywords">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[art_keywords]]></description>
+      </field>
+      <field name="art_file">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[art_file]]></description>
+      </field>
+      <field name="art_teaser">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[art_teaser]]></description>
+      </field>
+    </table>
+    <table name="rex_article_slice" className="Rex_article_slice">
+      <field name="id" primaryKey="true" autoIncrement="true"
+        required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[id]]></description>
+      </field>
+      <field name="clang" foreignKeyOf="rex_clang:id" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[clang]]></description>
+      </field>
+      <field name="ctype" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[ctype]]></description>
+      </field>
+      <field name="re_article_slice_id" primaryKey="true"
+        foreignKeyOf="re_article_slice_id:id" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[re_article_slice_id]]></description>
+      </field>
+      <field name="value1" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value1]]></description>
+      </field>
+      <field name="value2" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value2]]></description>
+      </field>
+      <field name="value3" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value3]]></description>
+      </field>
+      <field name="value4" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value4]]></description>
+      </field>
+      <field name="value5" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value5]]></description>
+      </field>
+      <field name="value6" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value6]]></description>
+      </field>
+      <field name="value7" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value7]]></description>
+      </field>
+      <field name="value8" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value8]]></description>
+      </field>
+      <field name="value9" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value9]]></description>
+      </field>
+      <field name="value10" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value10]]></description>
+      </field>
+      <field name="value11" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value11]]></description>
+      </field>
+      <field name="value12" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value12]]></description>
+      </field>
+      <field name="value13" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value13]]></description>
+      </field>
+      <field name="value14" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value14]]></description>
+      </field>
+      <field name="value15" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value15]]></description>
+      </field>
+      <field name="value16" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value16]]></description>
+      </field>
+      <field name="value17" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value17]]></description>
+      </field>
+      <field name="value18" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value18]]></description>
+      </field>
+      <field name="value19" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value19]]></description>
+      </field>
+      <field name="value20" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[value20]]></description>
+      </field>
+      <field name="file1" foreignKeyOf="re_file:filename" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[file1]]></description>
+      </field>
+      <field name="file2" foreignKeyOf="re_file:filename" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[file2]]></description>
+      </field>
+      <field name="file3" foreignKeyOf="re_file:filename" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[file3]]></description>
+      </field>
+      <field name="file4" foreignKeyOf="re_file:filename" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[file4]]></description>
+      </field>
+      <field name="file5" foreignKeyOf="re_file:filename" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[file5]]></description>
+      </field>
+      <field name="file6" foreignKeyOf="re_file:filename" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[file6]]></description>
+      </field>
+      <field name="file7" foreignKeyOf="re_file:filename" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[file7]]></description>
+      </field>
+      <field name="file8" foreignKeyOf="re_file:filename" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[file8]]></description>
+      </field>
+      <field name="file9" foreignKeyOf="re_file:filename" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[file9]]></description>
+      </field>
+      <field name="file10" foreignKeyOf="re_file:filename" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[file10]]></description>
+      </field>
+      <field name="filelist1" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[filelist1]]></description>
+      </field>
+      <field name="filelist2" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[filelist2]]></description>
+      </field>
+      <field name="filelist3" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[filelist3]]></description>
+      </field>
+      <field name="filelist4" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[filelist4]]></description>
+      </field>
+      <field name="filelist5" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[filelist5]]></description>
+      </field>
+      <field name="filelist6" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[filelist6]]></description>
+      </field>
+      <field name="filelist7" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[filelist7]]></description>
+      </field>
+      <field name="filelist8" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[filelist8]]></description>
+      </field>
+      <field name="filelist9" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[filelist9]]></description>
+      </field>
+      <field name="filelist10" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[filelist10]]></description>
+      </field>
+      <field name="link1" foreignKeyOf="rex_article:id" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="10">
+            <minimumLength>1</minimumLength>
+            <maximumLength>10</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[link1]]></description>
+      </field>
+      <field name="link2" foreignKeyOf="rex_article:id" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="10">
+            <minimumLength>1</minimumLength>
+            <maximumLength>10</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[link2]]></description>
+      </field>
+      <field name="link3" foreignKeyOf="rex_article:id" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="10">
+            <minimumLength>1</minimumLength>
+            <maximumLength>10</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[link3]]></description>
+      </field>
+      <field name="link4" foreignKeyOf="rex_article:id" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="10">
+            <minimumLength>1</minimumLength>
+            <maximumLength>10</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[link4]]></description>
+      </field>
+      <field name="link5" foreignKeyOf="rex_article:id" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="10">
+            <minimumLength>1</minimumLength>
+            <maximumLength>10</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[link5]]></description>
+      </field>
+      <field name="link6" foreignKeyOf="rex_article:id" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="10">
+            <minimumLength>1</minimumLength>
+            <maximumLength>10</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[link6]]></description>
+      </field>
+      <field name="link7" foreignKeyOf="rex_article:id" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="10">
+            <minimumLength>1</minimumLength>
+            <maximumLength>10</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[link7]]></description>
+      </field>
+      <field name="link8" foreignKeyOf="rex_article:id" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="10">
+            <minimumLength>1</minimumLength>
+            <maximumLength>10</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[link8]]></description>
+      </field>
+      <field name="link9" foreignKeyOf="rex_article:id" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="10">
+            <minimumLength>1</minimumLength>
+            <maximumLength>10</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[link9]]></description>
+      </field>
+      <field name="link10" foreignKeyOf="rex_article:id" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="10">
+            <minimumLength>1</minimumLength>
+            <maximumLength>10</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[link10]]></description>
+      </field>
+      <field name="linklist1" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[linklist1]]></description>
+      </field>
+      <field name="linklist2" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[linklist2]]></description>
+      </field>
+      <field name="linklist3" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[linklist3]]></description>
+      </field>
+      <field name="linklist4" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[linklist4]]></description>
+      </field>
+      <field name="linklist5" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[linklist5]]></description>
+      </field>
+      <field name="linklist6" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[linklist6]]></description>
+      </field>
+      <field name="linklist7" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[linklist7]]></description>
+      </field>
+      <field name="linklist8" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[linklist8]]></description>
+      </field>
+      <field name="linklist9" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[linklist9]]></description>
+      </field>
+      <field name="linklist10" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[linklist10]]></description>
+      </field>
+      <field name="php" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[php]]></description>
+      </field>
+      <field name="html" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[html]]></description>
+      </field>
+      <field name="article_id" foreignKeyOf="rex_article:id" primaryKey="true"
+        required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[article_id]]></description>
+      </field>
+      <field name="modultyp_id" foreignKeyOf="rex_module:id" primaryKey="true"
+        required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[modultyp_id]]></description>
+      </field>
+      <field name="createdate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[createdate]]></description>
+      </field>
+      <field name="updatedate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[updatedate]]></description>
+      </field>
+      <field name="createuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[createuser]]></description>
+      </field>
+      <field name="updateuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[updateuser]]></description>
+      </field>
+      <field name="revision">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[revision]]></description>
+      </field>
+    </table>
+    <table name="rex_clang" className="Rex_clang">
+      <field name="id" primaryKey="true" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[id]]></description>
+      </field>
+      <field name="name" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[name]]></description>
+      </field>
+      <field name="revision">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[revision]]></description>
+      </field>
+    </table>
+    <table name="rex_file" className="Rex_file">
+      <field name="file_id" primaryKey="true" autoIncrement="true"
+        required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[file_id]]></description>
+      </field>
+      <field name="re_file_id" foreignKeyOf="rex_file:id" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[re_file_id]]></description>
+      </field>
+      <field name="category_id" foreignKeyOf="rex_file_category:id" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[category_id]]></description>
+      </field>
+      <field name="attributes" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[attributes]]></description>
+      </field>
+      <field name="filetype" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[filetype]]></description>
+      </field>
+      <field name="filename" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[filename]]></description>
+      </field>
+      <field name="originalname" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[originalname]]></description>
+      </field>
+      <field name="filesize" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[filesize]]></description>
+      </field>
+      <field name="width" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[width]]></description>
+      </field>
+      <field name="height" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[height]]></description>
+      </field>
+      <field name="title" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[title]]></description>
+      </field>
+      <field name="createdate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[createdate]]></description>
+      </field>
+      <field name="updatedate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[updatedate]]></description>
+      </field>
+      <field name="createuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[createuser]]></description>
+      </field>
+      <field name="updateuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[updateuser]]></description>
+      </field>
+      <field name="revision">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[revision]]></description>
+      </field>
+      <field name="med_description">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[med_description]]></description>
+      </field>
+      <field name="med_keywords">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[med_keywords]]></description>
+      </field>
+      <field name="med_copyright">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[med_copyright]]></description>
+      </field>
+    </table>
+    <table name="rex_file_category" className="Rex_file_category">
+      <field name="id" primaryKey="true" autoIncrement="true"
+        required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[id]]></description>
+      </field>
+      <field name="name" primaryKey="true" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[name]]></description>
+      </field>
+      <field name="re_id" foreignKeyOf="rex_file_category:id" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[re_id]]></description>
+      </field>
+      <field name="path" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[path]]></description>
+      </field>
+      <field name="createdate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[createdate]]></description>
+      </field>
+      <field name="updatedate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[updatedate]]></description>
+      </field>
+      <field name="createuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[createuser]]></description>
+      </field>
+      <field name="updateuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[updateuser]]></description>
+      </field>
+      <field name="attributes" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[attributes]]></description>
+      </field>
+      <field name="revision">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[revision]]></description>
+      </field>
+    </table>
+    <table name="rex_module" className="Rex_module">
+      <field name="id" primaryKey="true" autoIncrement="true"
+        required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[id]]></description>
+      </field>
+      <field name="name" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[name]]></description>
+      </field>
+      <field name="category_id" primaryKey="true"
+        required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[category_id]]></description>
+      </field>
+      <field name="ausgabe" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[ausgabe]]></description>
+      </field>
+      <field name="eingabe" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[eingabe]]></description>
+      </field>
+      <field name="createuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[createuser]]></description>
+      </field>
+      <field name="updateuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[updateuser]]></description>
+      </field>
+      <field name="createdate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[createdate]]></description>
+      </field>
+      <field name="updatedate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[updatedate]]></description>
+      </field>
+      <field name="attributes" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[attributes]]></description>
+      </field>
+      <field name="revision">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[revision]]></description>
+      </field>
+    </table>
+    <table name="rex_module_action" className="Rex_module_action">
+      <field name="id" primaryKey="true" autoIncrement="true"
+        required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[id]]></description>
+      </field>
+      <field name="module_id" foreignKeyOf="rex_module:id" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[module_id]]></description>
+      </field>
+      <field name="action_id" foreignKeyOf="rex_action:id" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[action_id]]></description>
+      </field>
+      <field name="revision">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[revision]]></description>
+      </field>
+    </table>
+    <table name="rex_template" className="Rex_template">
+      <field name="id" primaryKey="true" autoIncrement="true"
+        required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[id]]></description>
+      </field>
+      <field name="label" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[label]]></description>
+      </field>
+      <field name="name" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[name]]></description>
+      </field>
+      <field name="content" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[content]]></description>
+      </field>
+      <field name="active" required="true">
+        <data>
+          <numeric mysqltype="tinyint" size="1">
+            <minimumValue>-128</minimumValue>
+            <maximumValue>127</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[active]]></description>
+      </field>
+      <field name="createuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[createuser]]></description>
+      </field>
+      <field name="updateuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[updateuser]]></description>
+      </field>
+      <field name="createdate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[createdate]]></description>
+      </field>
+      <field name="updatedate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[updatedate]]></description>
+      </field>
+      <field name="attributes" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[attributes]]></description>
+      </field>
+    </table>
+    <table name="rex_user" className="Rex_user">
+      <field name="user_id" primaryKey="true" autoIncrement="true"
+        required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+        </data>
+        <description><![CDATA[user_id]]></description>
+      </field>
+      <field name="name" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[name]]></description>
+      </field>
+      <field name="description" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[description]]></description>
+      </field>
+      <field name="login" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="50">
+            <minimumLength>1</minimumLength>
+            <maximumLength>50</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[login]]></description>
+      </field>
+      <field name="psw" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="50">
+            <minimumLength>1</minimumLength>
+            <maximumLength>50</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[psw]]></description>
+      </field>
+      <field name="status" required="true">
+        <data>
+          <text type="default" mysqltype="varchar" size="5">
+            <minimumLength>1</minimumLength>
+            <maximumLength>5</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[status]]></description>
+      </field>
+      <field name="rights" required="true">
+        <data>
+          <text type="default" mysqltype="text">
+            <minimumLength>1</minimumLength>
+          </text>
+        </data>
+        <description><![CDATA[rights]]></description>
+      </field>
+      <field name="login_tries" required="true">
+        <data>
+          <numeric mysqltype="tinyint" size="4">
+            <minimumValue>-128</minimumValue>
+            <maximumValue>127</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[login_tries]]></description>
+      </field>
+      <field name="createuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[createuser]]></description>
+      </field>
+      <field name="updateuser" foreignKeyOf="rex_user:login"
+        required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[updateuser]]></description>
+      </field>
+      <field name="createdate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[createdate]]></description>
+      </field>
+      <field name="updatedate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[updatedate]]></description>
+      </field>
+      <field name="lasttrydate" required="true">
+        <data>
+          <numeric mysqltype="int" size="11">
+            <minimumValue>-2147483648</minimumValue>
+            <maximumValue>2147483647</maximumValue>
+          </numeric>
+          <defaultValue><![CDATA[0]]></defaultValue>
+        </data>
+        <description><![CDATA[lasttrydate]]></description>
+      </field>
+      <field name="session_id" required="true">
+        <data>
+          <text type="default" mysqltype="varchar"
+            size="255">
+            <minimumLength>1</minimumLength>
+            <maximumLength>255</maximumLength>
+          </text>
+        </data>
+        <description><![CDATA[session_id]]></description>
+      </field>
+    </table>
+  </database>
+</ddl>

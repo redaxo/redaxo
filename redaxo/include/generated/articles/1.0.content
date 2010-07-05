@@ -1,0 +1,25 @@
+?><?php if ($this->ctype == '1' || ($this->ctype == '-1')) { ?><?php
+
+if(OOAddon::isAvailable('textile'))
+{
+  // Fliesstext 
+  $textile = '';
+  if(true)
+  {
+    $textile = htmlspecialchars_decode("h1. Internet Professionell lobt REDAXO<br />
+<br />
+&quot;Mit kaum einer anderen Redaktionssoftware ist es so mühelos möglich, wirklich valide und barrierefreie Websites zu erstellen. Gerade die extreme Anpassungsfähigkeit an die verschiedenen Bedürfnisse ist eine der großen Stärken dieses Redaktionssystems.&quot;<br />
+<br />
+&quot;Dank des Cachings und des insgesamt sehr schlanken Cores (1,5 MB) sind REDAXO-Websites normalerweise sehr schnell. Im Vergleich zu anderen Content-Management-Systemen beeindruckt bei REDAXO vor allem die Flexibilität und Anpassungsfähigkeit.&quot;");
+    $textile = str_replace("<br />","",$textile);
+    $textile = rex_a79_textile($textile);
+    $textile = str_replace("###","&#x20;",$textile);
+    print '<div class="txt-img">'. $textile . '</div>';
+  } 
+}
+else
+{
+  echo rex_warning('Dieses Modul benötigt das "textile" Addon!');
+}
+
+?><?php } ?>

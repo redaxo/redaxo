@@ -1,0 +1,11 @@
+# addon:be_search en_gb
+
+be_search_article_name = Articlename
+be_search_article_id = Article Id
+be_search_start = search
+be_search_jump_to_category = Switch to category
+be_search_quick_navi = Quick Navigation
+be_search_no_results = No article matches your search
+
+be_search_mpool_media = Medianame
+be_search_mpool_start = search

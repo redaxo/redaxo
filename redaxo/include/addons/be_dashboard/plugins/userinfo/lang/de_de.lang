@@ -1,0 +1,23 @@
+# addon: userinfo de_de
+userinfo_component_userinfo = {0}, am {1} 
+userinfo_component_stats_title = Seitenstatistik
+
+userinfo_component_stats_actions = Aktionen
+userinfo_component_stats_categories = Kategorien
+userinfo_component_stats_articles = Artikel
+userinfo_component_stats_clangs = Sprachen
+userinfo_component_stats_date = Datum
+userinfo_component_stats_modules = Module
+userinfo_component_stats_slices = Blöcke
+userinfo_component_stats_templates = Templates
+userinfo_component_stats_user = Benutzer
+userinfo_component_stats_users = Benutzer
+
+userinfo_component_articles_title = Zuletzt bearbeitete Artikel
+userinfo_component_articles_caption = Liste der zuletzt bearbeiteten Artikel
+userinfo_component_articles_summary = Auflistung der zuletzt bearbeiteten Artikel
+
+userinfo_component_media_title = Zuletzt bearbeitete Medien
+
+userinfo_block_stats = Statistiken
+userinfo_block_latest_infos = Zuletzt bearbeitet

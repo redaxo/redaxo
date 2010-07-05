@@ -1,0 +1,17 @@
+# addon:image_resize de_de
+
+iresize_subpage_desc = Popis
+iresize_subpage_config = Konfigurace
+iresize_subpage_clear_cache = smazat Resize-Cache
+
+iresize_cache_files_removed = {0} Cache data smazána
+
+iresize_config_saved = Konfigurace byla aktualizována!
+iresize_config_not_saved = Konfigurace nemohla být ulo¾ena
+iresize_config_not_writable = Konfiguraèní soubor "{0}" není pøepisovatelný!
+
+iresize_max_cache_files = Maximální poèet Cache dat na 1 soubor
+iresize_max_filters = Maximální poèet filtru, které mohou být souèasne pou¾ity na jeden soubor
+iresize_max_resizekb = Maximální velikost 1 souboru v Kilobytech, který smí být zpracován pomocí Image-ResizeMaximale 
+iresize_max_resizepx = Maximální velikost 1 souboru v Pixelech, který smí být zpracován pomocí Image-ResizeMaximale
+iresize_jpg_quality = JPG/JPEG Výstupní kvalita

@@ -1,0 +1,24 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+### In case ModRewrite doesnt work - remove following comment and try again
+# RewriteBase /
+
+### If file exists, use it.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+
+### Standard Rewrite - without AddOn, Add Comments when you use an Rewrite AddOn
+RewriteRule ^([0-9]*)-([0-9]*)- index.php?article_id=$1&clang=$2&%{QUERY_STRING}
+RewriteRule ^([0-9]*)- index.php?article_id=$1&%{QUERY_STRING}
+
+### Remove Comments when you user Fullname "url_rewrite" AddOn 
+#RewriteCond %{REQUEST_URI} !^redaxo/.*
+#RewriteCond %{REQUEST_URI} !^files/.*
+#RewriteRule ^(.*)$ index.php?%{QUERY_STRING} [L]
+
+### In case you want to secure all files via your own addon remove comment
+# RewriteRule ^files/(.*) /index.php?rex_media=$1&%{QUERY_STRING} [NC]
+
+</IfModule>

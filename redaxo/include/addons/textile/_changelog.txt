@@ -1,0 +1,4 @@
+<h3>Changelog:</h3>
+
+<strong>Version 1.0 (R4 Compatible) (2007-10-14)</strong>
+  - initial release

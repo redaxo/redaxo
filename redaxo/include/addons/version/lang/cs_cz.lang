@@ -1,0 +1,10 @@
+version = Verze
+
+version_liveversion = ®ivá verze
+version_workingversion = Pracovní verze
+version_working_to_live = Povolit jako ¾ivou verzi
+version_preview = Náhled
+version_copy_live_to_workingversion = Kopírovat do pracovní verze
+version_info_working_version_to_live = Pracovní verze pøepnuta na ¾ivou
+version_info_live_version_to_working = ®ivá verze byla zkopírována do pracovní verze
+version_warning_working_version_to_live = Pracovní verze nemù¾e být pøepnuta na ¾ivou, proto¾e je prázdná.

@@ -1,0 +1,25 @@
+/*
+Select Fix for IE6 and IE5.x
+Version 0.3
+
+CSS instructions from http://www.hedgerwow.com/360/bugs/css-select-free.html
+But keep in mind that these classes are a bit modified.
+*/
+
+.select-free {
+	overflow:hidden;/*must have*/
+}
+.select-free .innerFixer {
+	position:absolute;/*must have*/
+	top:0;/*must have*/
+	left:0;/*must have*/
+	display:none;/*sorry for IE5*/
+	display/**/:block;/*sorry for IE5*/
+	width:100%;/* (old value 3000px) must have for any big value*/
+	height:100%;/* (old value 3000px) must have for any big value*/
+}
+.select-free iframe.innerFixer {
+	border: 0;
+	filter:mask();/*must have*/
+	z-index:-1;/*must have*/
+}

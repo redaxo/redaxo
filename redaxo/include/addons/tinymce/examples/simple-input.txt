@@ -1,0 +1,5 @@
+<strong>Fliesstext:</strong><br />
+
+<textarea name="VALUE[1]" class="tinyMCEEditor" style="width:555px; height:250px;">
+REX_VALUE[1]
+</textarea>

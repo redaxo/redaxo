@@ -1,0 +1,11 @@
+# addon:be_search fr_fr
+
+be_search_article_name = Nom de l'article
+be_search_article_id = ID de l'article
+be_search_start = chercher
+be_search_jump_to_category = Aller vers catégorie
+be_search_quick_navi = Navigation rapide
+be_search_no_results = Aucun article trouvé
+
+be_search_mpool_media = Nom du fichier
+be_search_mpool_start = chercher

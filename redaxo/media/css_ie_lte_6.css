@@ -1,0 +1,10 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version svn:$Id$
+ */
+
+div.rex-content-header ul, 
+div#rex-form-content-metamode fieldset.rex-form-col-1 div.rex-form-row p.rex-form-read span {
+	display: inline;
+}

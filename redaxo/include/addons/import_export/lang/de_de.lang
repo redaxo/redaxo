@@ -1,0 +1,50 @@
+# addon:import/export de_de
+im_export_importexport = Im-/Export
+im_export_file_deleted = Datei wurde gelöscht
+im_export_no_import_file_chosen_or_wrong_version = Keine Importdatei ausgewählt oder Version falsch
+im_export_no_valid_import_file = Das ist keine korrekte Importdatei
+im_export_no_valid_charset = Kein passender Zeichensatz.
+im_export_database_imported = Datenbankimport erfolgreich importiert
+im_export_entry_count = ({0} Eintraege)
+im_export_file_could_not_be_uploaded = Datei konnte nicht hochgeladen werden.
+im_export_you_have_no_write_permission_in = Sie haben keine Schreibrechte auf diesen Ordner {0}.
+im_export_no_import_file_chosen = Keine Importdatei ausgewählt.
+im_export_problem_when_extracting = Es gab Probleme beim Extrahieren der Datei.
+im_export_create_dirs_manually = Erstellen Sie bitte folgende Ordner manuell und setzen Sie die Schreibrechte auf diese Ordner(&uuml;ber ftp).
+im_export_file_imported = Die Datei wurde erfolgreich importiert.
+im_export_import = Import
+im_export_export = Export
+im_export_db_import = Import
+im_export_db_export = Export
+im_export_filename_updated = Ihr Dateiname wurde angepasst, da er unkorrekte Zeichen enthielt. Sofern dieser stimmig ist bitte nochmal auf Export klicken
+im_export_please_choose_folder = Bitte wählen Sie die Verzeichnisse aus die exportiert werden sollen!
+im_export_intro_import = Bitte bedenken Sie das beim Importieren einer Datenbank <b>die alte Datenbank gelöscht</b> wird. Bitte speichern/exportieren Sie diese vorher wenn Sie sich unsicher sind.
+im_export_database = Datenbankimport
+im_export_filename = Dateiname
+im_export_filesize = Dateigröße
+im_export_delete = Löschen
+im_export_files = Dateienimport
+im_export_intro_export = Hier können Sie Ihre jetzigen Eingaben und Dateien von REDAXO sichern. Um eine vollständige Sicherung zu erhalten müssen Sie <b>die Datenbank UND die Dateien exportieren</b>. Wenn Sie die Sicherung wiederverwenden wollen, dann kann es Sinn machen diese direkt auf dem Server abzulegen und bei Bedarf direkt wieder zu importieren.
+im_export_database_export = Datenbankexport
+im_export_file_export = Dateiexport
+im_export_save_on_server = Auf dem Server speichern
+im_export_download_as_file = Als Datei herunterladen
+im_export_createdate = Erstellt am
+
+im_export_import_file = Datei importieren
+im_export_delete_file = Datei l&ouml;schen
+im_export_download_file = Datei herunterladen
+
+im_export_file_could_not_be_generated  = Datei konnte nicht erstellt werden.
+im_export_file_generated_in  = Daten wurden gesichert in
+
+im_export_proceed_db_import = Bestehende Daten (Artikel, Templates, Module,...) gehen verloren. Fortfahren ?
+im_export_proceed_file_import = Bestehende Dateien werden gelöscht. Fortfahren ?
+
+im_export_export_db_caption = Datenbankexporte
+im_export_export_file_caption = Dateiexporte
+
+im_export_export_db_summary = Tabelle der verfügbaren Datenbankexporte
+im_export_export_file_summary = Tabelle der verfügbaren Dateiexporte
+
+im_export_function = Funktion

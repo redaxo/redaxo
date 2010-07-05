@@ -1,0 +1,699 @@
+Diese Datei ist nur für den REDAXO Kern gedacht inkl. aller System-Addons:
+
+Alle weiteren AddOns mit geplanten Änderungen etc. werden hier nicht
+angehandelt.
+
+---------------------------------------------------------------------------------
+Änderungen im Detail:
+---------------------------------------------------------------------------------
+
+Version 4.3.1 (2010-06-16)
+  Anpassungen
+  * Zeitzone wird per default in der master.inc auf Berlin/Europe gesetzt. Dort auch änderbar
+  * Medienpool: Datei übernehmen war hin und wieder verschwunden
+  * tinymce: scrollbar eingebaut, split -> explode
+  * fixed: Fehlermeldung bei bestimmten Cronjobtypen.
+  * fixed: OOMediaCategory::getCategoryByName() funktionierte nicht mehr
+  * chmod im addon image_manager bei cachespeicherung gesetzt
+  * im setup beim update von 4.2 auf 4.3 und utf8 debugmeldung entfernt
+  * image_manager - effekte-generierungsbug behoben, sortierungsbug behoben
+  
+Version 4.3 (2010-05-26)
+
+  Neu:
+  * Neues Systemaddon "image_manager". Ersetzt in Zukunft das "image_resize"-AddOn und erlaubt flexiblere Arbeiten mit Bildern [Markus.Staab,Gregor.Harlan,Jan.Kristinus]
+  * jQuery update auf 1.4.2 [Markus.Staab]
+  * Templates können auf Kategorien eingeschraenkt werden [Jan.Kristinus]
+  * Rootkategorien koennen pro Benutzer definiert werden (Mountpoints) [Jan.Kristinus]
+  * Artikel können in Kategorien umgewandelt werden, leere Kategorien in Artikel [Gregor.Harlan]
+  * Actions: PreView koennen auch bei ADD verwendet werden (z.b. default Werte Eingabefelder) [Markus.Staab]
+  * Metainfo: 
+    - Metafelder koennen kategorieabhängig definiert werden [Markus.Staab]
+    - Medien können nun auch mit anderen Medien/listen verknüpft werden [Andreas.Eberhard]
+    - Bei REX_MEDIA_BUTTON und REX_MEDIALIST_BUTTON kann man Parameter category, types und preview angeben,
+      bei REX_LINK_BUTTON und REX_LINKLIST_BUTTON Parameter category [Gregor.Harlan]
+  * OOMedia und OOMediaCategory werden gecached [Gregor.Harlan]
+    - neue Funktion OOMediaCategory::getChildrenById($category_id)
+  * Import/Export optimiert [Markus.Staab]
+    - Basierend auf einem Patch von webvariants.de
+    - importe/exporte koennen jetzt optional zusätzlich eine php Datei enthalten, die vorm/nach dem export ausgeführt um ggf. anpassungen vorzunehmen
+  * Update von 3.x auf 4.2 ermöglicht [Markus.Staab, Thomas.Blum]
+  * Image-Resize: 
+    - Neuer Grayscale Filter [Andreas.Eberhard]
+    - Neuer Modus Fit, um Bilder in eine Rechteckfläche einzupassen [jeandeluxe, Jan.Kristinus]
+  * System Page: 
+    - Artikel verknuepfungen ueber REX_LINK_BUTTON waehlbar [Markus.Staab]
+    - Default Template ueber Selectbox waehlbar [Gregor.Harlan]
+  * rex_navigation: Mit setLinkClasses erweitert [Jan.Kristinus]
+  * rex_article umgebaut und vereinfacht [Markus.Staab]
+  * rex_form: 
+    - Linklist integriert [Gregor.Harlan]
+    - Bei MediaFields und LinkmapFields kann man eine Kategorie festlegen, 
+      MediaFields können auf Typen eingeschränkt werden [Gregor.Harlan]
+  * neue rexVars:
+    - REX_CONFIG[field=...] für $REX['SERVER'] etc. [Gregor.Harlan]
+  * neue Klassen:
+    - rex_mediacategory_select [Markus.Staab]
+  * neue Extension Points:
+    - ART_CONTENT_UPDATED [Jan.Kristinus]
+    - ART_TO_STARTPAGE [Dave.Holloway]
+    - ART_TO_CAT [Gregor.Harlan]
+    - CAT_TO_ART [Gregor.Harlan]
+    - REX_FORM_SAVED [Gregor.Harlan]
+    - ART_PRE_DELETED [Jan.Kristinus]
+  * neue Extension Point Parameter:
+    - CAT_FORM_BUTTONS (id,clang) [Markus.Staab]
+  * neue Addons:
+    - Dashboard [Markus.Staab, Jan.Kristinus]
+    - Cronjob [Gregor.Harlan]
+  
+  Bugfixes:
+  * Probleme mit Image-Resize auf manchen Servern behoben
+    - http://forum.redaxo.de/ftopic11483.html [pingback, Markus.Staab]
+  * Category->getPath fehlte.. eingebaut
+  * rex_parse_article_name() angepasst. '-' statt '+' als Trennzeichen. [Dave.Holloway]
+  * Wenn gzip Auslieferung, dann gab es eine Notice wenn Browser das nicht unterstützt hatte [Andreas.Eberhard]
+  * rex_article2startpage: Nicht alle relevanten Cache-Dateien wurden gelöscht [Gregor.Harlan]
+  
+  Deprecated:
+  * rex_mediapool_addMediacatOptions()
+  * rex_mediapool_addMediacatOptionsWPerm()
+  * OOMedia::getMediaById()
+  * OOMediaCategory::getCategoryByName()
+    
+Version 4.2.1 (2009-05-07)
+
+  Wichtig:    
+  * Sicherheitslücke geschlossen [Jan.Kristinus]
+  
+  Bugfixes:
+  * OOArticleSlice: Revision
+    - http://forum.redaxo.de/ftopic11805.html
+  * Addon
+    * Import/Export - Importieren von tars geht nun wieder. 
+    * Register Globals komplett rausgenommen
+    * Kann in manchen Fällen nicht mehr abwärtskompatibel sein. Anpassungen an AddOn/Modulen eventuell nötig. 
+    * Image resize: EP mit Imagefile angepasst [Gregor.Harlan]    
+
+Version 4.2.0 (2009-04-22)
+
+  Wichtig:
+  * alle Bezeichnungen mit medien wurden in media geändert, d.h. alle Funktionen, Extension-Points 
+    und Variablen die entsprechend hießen sind verändert. [Jan.Kristinus]
+  * in der index REX_ARTICLE -> REX["ARTICLE"], damit ist das Objekt überall verfügbar 
+    eventuelle Verwendung in AddOns muss überprüft werden [Jan.Kristinus]
+  * $REX['GG'] DEPRECATED! 
+  * $REX_USER -> $REX['USER']
+  * $REX_LOGIN -> $REX['LOGIN']
+    
+  Neu:
+  * Page kann überschrieben werden und Navigation im Backend kann komplett beeinfluss werden [Jan.Kristinus]
+    $REX['PAGES']['structure'] = array(
+      'Name in der Navigation',
+      0, // 1 = addon/ 0 = core page
+      1, // 0 = no navi / 1 = navi
+      'SUBPAGES' => $REX['ADDON'][$mypage]['SUBPAGES'],
+      'PATH' => $REX['INCLUDE_PATH'].'/addons/import_export/pages/index.inc.php',
+      'NAVI' => array('class'=>' rex-popup', 'onclick' => 'alert(1);') 
+    );
+  * Import/Export, Zeichensatz wird an den Datenbank export gehaengt. Imports gehen nur noch mit dem passenden Zeichensatz [Jan.Kristinus]
+  * Module sind Ctypes und Templates zuweisbar. Bei Artikeln ohne Templates sind alle Module verfügbar. [Jan.Kristinus]
+  * Vorgenerierungsmechanismus optimiert (jetzt selektiv) [Markus.Staab]
+  * Anpassungen um revision verwenden zu können. Im Moment für slices revision angepasst. [Jan.Kristinus] 
+  * Startpage ist nun festlegbar [Jan.Kristinus]
+  * Frontend-Frontcontroller umbenennbar "index.php" [Jan.Kristinus]
+  * OOFramework:
+    - neue Methode:
+      + OOCategory->inParentTree() [Markus.Staab]
+  * Setup: [Markus.Staab]
+    - Datenbank kann ggf. via Setup angelegt werden
+  * Struktur:
+    - Default Template festlegbar [Markus.Staab]
+      + http://forum.redaxo.de/ftopic6934.html
+    - Logik in API ausgelagert [Markus.Staab]
+      + rex_article2startpage()
+      + rex_copyMeta()
+      + rex_copyContent()
+      + rex_copyArticle()
+      + rex_moveArticle()
+      + rex_moveCategory()
+      + rex_newCatPrio()
+      + rex_newArtPrio()
+      + rex_addCategory()
+      + rex_editCategory()
+      + rex_deleteCategoryReorganized()
+      + rex_categoryStatus()
+      + rex_addArticle()
+      + rex_editArticle()
+      + rex_deleteArticleReorganized()
+      + rex_articleStatus()  
+  * Inhaltsverwaltung:
+    - Logik in API ausgelagert [Markus.Staab]
+      + rex_deleteSlice()
+      + rex_moveSlice(), rex_moveSliceUp(), rex_moveSliceDown()
+  * ReloginDelay wird heruntergezaehlt [Markus.Staab]
+  * Neue Backendpage: Userprofil [Markus.Staab]
+  * BackendSearch:
+    - Suchmodus einstellbar global/local [Markus.Staab]
+    - Suchqueries via EP modifizierbar [Markus.Staab]
+  * MetaInfo: [Markus.Staab]
+    - MetaInfo API zum einfacheren hinzufügen/löschen von MetaInfo Feldern durch Addons
+    - Metafelder mit berechtigungen verknüpfbar
+  * rexVars:
+    - REX_LINKLIST_BUTTON[] implementiert [BerserkerXP, Markus.Staab]
+    - REX_CATEGORY[] implementiert [Markus.Staab]
+    - REX_ARTICLE_VARS[] entfernt, jetzt ueber REX_ARTICLE[field=xyz] moeglich [Markus.Staab]
+    - prefix, suffix, instead, ifempty, callback als globale rexVar Argumente [Markus.Staab]
+    - preview, types Argumente bei REX_MEDIA/LIST_BUTTON
+  * Neue Methoden: 
+    - OOArticleSlice::getFirstSliceForCtype() [Markus.Staab]
+    - rex_sql::hasNext() [Markus.Staab]
+  * Neue Klassen:
+    - rex_navigation, um im Frontend Navigationen leichter erstellen zu können [Jan.kristinus]
+  * rex-globals:
+    - neue vartypes:
+      + rex-article-id
+      + rex-category-id
+      + rex-clang-id
+      + rex-template-id
+      + rex-ctype-id
+  * rexExtensionPoint erstellt:
+    - OOMEDIA_IS_IN_USE_QUERY [Markus.Staab]
+    - PAGE_CHECKED [Markus.Staab]
+    - ART_INIT wird im Kontruktor von rex_article verwendet [Jan.kristinus]
+
+  Änderungen:
+  * Unnoetige Rechte entfernt. Laeuft nun alles unter Admin (template[]/module[]/user[]/addon[]) [Jan.Kristinus]
+  * Aufbau pages umgebaut, vorbereitet für Subnavigationen und neue EPs. [Jan.Kristinus]
+  * register_globals Angleichung ausgeschaltet. [Jan.Kristinus]
+  * allgemeine HTML und CSS Anpassungen [Thomas.Blum]
+  * rex_medienpool_updateMedia() eingebaut, metainfo deswegen abgeaendert [Jan.Kristinus]
+  * Template/Module/Benutzerverwaltung hat nun immer eine ID in der Liste [Jan.Kristinus]
+  * OOFramework:
+    - OOArticleSlice->getValue() verhaelt sich jetzt wie rex_article->getValue(),.. [Markus.Staab]
+      + siehe http://forum.redaxo.de/ftopic9816.html
+      + OOArticleSlice replaceLink Fehler korrigiert [Jan.Kristinus]
+  * JQuery update auf 1.3.2 [Markus.Staab]
+  * Struktur:
+    - Kategorietabelle angepasst [Thomas.Blum]
+  * Module:
+    - Bei Ausgabe der Actions wird nun advancedMode[] berücksichtigt [Thomas.Blum]
+  * System -> Sprachen:
+    - Tabelle vereinheitlicht [Thomas.Blum]
+  * Benutzerverwaltung:
+    - Backendsprache pro User, sofern es der gleiche Zeichensatz ist [Jan.Kristinus]
+  * ImageResize:
+    - Sprachfile eingefügt [Markus.Staab]
+    - EP eingebaut
+      - IMAGE_RESIZE_SEND, params: img, file, lastModified
+      - IMAGE_RESIZE_SENDERROR, params: img, file
+  * MetaInfo: [Markus.Staab]
+    - Date/Datetime felder jetzt deaktivierbar
+      + http://forum.redaxo.de/ftopic9032.html
+    - isInUse Check beim löschen von Medien auch für MetaInfo Felder
+      + http://forum.redaxo.de/ftopic8835.html
+  * Beim Austausch von REDAXO Standard-Pages wurde der Titel falsch angezeigt [Markus.Staab, gr-ha] 
+  * EPs angepasst
+    - PAGE_CONTENT_HEADER hat nun auch: page, ctype, category_id als Parameter [Jan.kristinus]
+    - PAGE_MEDIENPOOL_HEADER umbenannt in PAGE_MEDIAPOOL_HEADER [Markus.Staab]
+    - PAGE_MEDIENPOOL_MENU umbenannt in PAGE_MEDIAPOOL_MENU [Markus.Staab]
+    - ADD/UPDATE ARTICLE/CATEGORY haben nun auch data, UPDATE_CATEGORY prior->catprior [Jan.kristinus]
+  
+  Bugfixes:
+  * Image-Resize: Bessere erkennung wenn __ im Dateinamen [Markus.Staab]
+    - http://forum.redaxo.de/ftopic10593.html
+  * OOMediaCategory::delete() verwendete alte methoden [Markus.Staab]
+    - http://forum.redaxo.de/ftopic11138.html
+  * OOMedia::delete(): pfadangaben beim löschen von Dateien korrigiert [Markus.Staab]
+    - http://forum.redaxo.de/ftopic11132.html
+  * Templates die mit REX_TEMPLATE[] eingebunden wurden, wurden nicht gecached [Markus.Staab]
+  * Fehlerhafte Addoninstallation im Setup [Markus.Staab]
+  * Problem beim speichern von Slices im IE bei gedrueckter ENTER Taste [Markus.Staab]
+    - http://forum.redaxo.de/sutra56086.html#56086
+  * Medienpool: Warnungen behoben [Markus.Staab]
+    - http://forum.redaxo.de/sutra52479.html#52479
+  * BackendSearch: Nach editieren wurde in den Root gesprungen [Markus.Staab]
+    - http://forum.redaxo.de/ftopic8679.html 
+  * Import/Export: Dateinamenvaliderung beim import von Dateien [Markus.Staab]
+  * MetaInfo: Cleanup funktionierte nicht richtig [Markus.Staab]
+    - http://forum.redaxo.de/ftopic8758.html
+  * Beim Benuter anlegen wurden die Rechte falsch gespeichert [Markus.Staab]
+    - http://forum.redaxo.de/ftopic8672.html
+  * TinyMCE: Buttons Link und Bild einfügen funktioniert nicht [tgoellner, Markus.Staab]
+    - http://forum.redaxo.de/ftopic8599.html
+  * Medienpool: sync subindex bugfix [Markus.Staab]
+    - http://forum.redaxo.de/ftopic8635.html
+  * Inhaltsverwaltung: Probleme beim Artikel kopieren mit " oder ' in MetaFeldern [Markus.Staab, Jan.Kristinus]
+    - http://forum.redaxo.de/ftopic10713.html
+
+Version 4.1.0 (2008-03-24)
+
+  * Neues Core Addon:
+    - be_search [Markus.Staab]
+    - image_resize und textile sind nun system addons [Jan.Kristinus]
+  * ImageResize: 
+    - Neue Konfigurationsmöglichkeiten zur Sicherheit [Jan.Kristinus]
+    - Maximale Anzahl von Cachedateien einschränkbar [Jan.Kristinus]
+    - Maximale Größe und Maximale Pixelanzahl einschränkbar [Jan.Kristinus]
+    - Konfiguration im AddOn möglich [Jan.Kristinus]
+    - Neuer Branding Filter [Markus.Staab]
+  * Neue Variablen in den Actions/Aktionen : [Markus.Staab]
+    - $REX_ACTION['EVENT']
+    - $REX_ACTION['ARTICLE_ID']
+    - $REX_ACTION['CLANG_ID']
+    - $REX_ACTION['CTYPE_ID']
+    - $REX_ACTION['MODULE_ID']
+    - $REX_ACTION['SLICE_ID']
+  * Medienpool: MetaInfo Felder sind jetzt auch beim Einfüge-Formular eingebaut [Markus.Staab]
+  * PHPMailer: Update auf PHPMailer 2.0.3 [Markus.Staab]
+  * MetaInfo: Trennzeichen bei Mehrwertigen Feldern von |+| auf | geändert
+  * Name von Addons wird jetzt im Pagetitel angezeigt [Rnitram, Markus.Staab]  
+  * Linkmap: Artikel ohne Template sind auswählbar, aber werden gekennzeichnet [Jan.Kristinus]
+  * Neue Variablen in der master.inc
+    - $REX['START_CLANG_ID'] [Markus.Staab]
+    - $REX['USE_MD5'] [Markus.Staab]
+  * MD5 Checksummenübermittlung gemaeß HTTP1.1 (Content-MD5 Header) [Markus.Staab]
+  * Eigene Parameter in rex_get_subtitle anhängbar #132 [Markus.Staab]
+  * Mehrere Standard Pages via Addon ersetzbar #138 [Markus.Staab]
+  * rex_list Navigation überarbeitet [Markus.Staab]
+  * rexExtensionPoint erstellt:
+    - GENERATE_FILTER [Markus.Staab]
+    - PAGE_CONTENT_MENU [Markus.Staab]
+    - PAGE_CONTENT_CTYPE_MENU [Markus.Staab]
+    - PAGE_CONTENT_HEADER [Markus.Staab]
+    - PAGE_STRUCTURE_HEADER [Markus.Staab]
+    - SLICE_SHOW [arnold,Jan.Kristinus]
+    - PAGE_MEDIENPOOL_HEADER [Markus.Staab]
+    - PAGE_MEDIENPOOL_MENU [Markus.Staab]
+    - MEDIA_LIST_TOOLBAR [Markus.Staab]
+    - MEDIA_LIST_QUERY [Markus.Staab]
+  * OOArticleSlice komplett überarbeitet [Markus.Staab]
+    - alle DB Felder nun ansprechbar
+    - keine Rückwärtskompatibilität!
+  * JQuery 1.2.3 nun im Paket [Markus.Staab]
+  
+  Bugfixes:
+  * htmlspecialcharsprobleme in modules, templates, blockauflistung.. [Jan.Kristinus]
+  * Import/Export: Mögliche Lücke geschlossen [Markus.Staab] 
+  * Import/Export: Fehler wenn Schlüsselworte in Spaltennamen vorkommen (SELECT,SHOW,..) [Markus.Staab] 
+  * Doppelt ersetzen der REX-Vars bei der anzeige behoben [Markus.Staab]
+  * Blätter Navi falsch nicht übersetzt #150 [Markus.Staab]
+  * OORedaxo->isNotFoundArticle ergänzt #133 [Markus.Staab]
+  * MetaInfo: maxlength in Textfeldern ergänzt [Markus.Staab]
+  * _rex_deleteArticle: Notice gefixed [koala, Markus.Staab]
+  * TinyMCE: Scrollbars im "Link einfügen" Dialog haben gefehlt [Konrad, Markus.Staab]
+    - http://forum.redaxo.de/ftopic8421.html 
+  * TinyMCE: insertEmail korrigiert [darwin, Markus.Staab]
+    - http://forum.redaxo.de/ftopic6933.html
+  * Medienpool synchronisation mit Sonderzeichen und Grossbuchstaben [Markus.Staab]
+    - http://forum.redaxo.de/ftopic8328.html
+  * Etag Feature gefixed [zehbaeh, Markus.Staab]
+    - http://forum.redaxo.de/ftopic8426.html
+  * ImageResize: Bilder mit Sonderzeichen im Dateinamen wurden falsch behandelt [Markus.Staab]
+    - http://forum.redaxo.de/ftopic8239.html
+  * REX-Vars: Variablen die nicht im Formular vorhanden waren, sind mit "" besetzt worden [Markus.Staab]
+    - http://forum.redaxo.de/ftopic8174.html
+  * Wenn Templates "on demand" generiert wurden ist ein Fehler aufgetreten [Markus.Staab]
+    - http://forum.redaxo.de/ftopic8196.html 
+  * Credits: Inaktive Addons wurden falsch erkannt [Markus.Staab]
+    - http://forum.redaxo.de/ftopic8187.html
+  * rex_sql: Logikfehler gefixed [Markus.Staab]
+    - http://forum.redaxo.de/ftopic8148.html 
+  * MetaInfo: DefaultWerte aus der DB wurden nicht berücksichtigt [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7852.html
+  * REX_ARTICLE[], REX_TEMPLATE[] wurden beim speichern nicht aktualsiert [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7784.html
+  * TinyMCE: sDocumentBase wurde falsch ermittelt bei installationen im Root [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7758.html
+  * Artikel die Startartikel waren, ist nicht löschbar #110 [Markus.Staab]
+    - http://forum.redaxo.de/sutra42830.html#42830
+  * Logikfehler in Fehlermeldung des Setups [mikenolte, Markus.Staab]
+    - http://forum.redaxo.de/ftopic7643.html 
+  * rex_getUrl() fehler im Regulären Ausdruck [n.ruediger, Markus.Staab]
+    - http://forum.redaxo.de/ftopic7563.html
+  * Textile: Fehler bei der Darstellung von Listen [Stefan Brinkers]
+    - http://forum.redaxo.de/ftopic6994.html
+  * DB-UpdateSkript: Fehlendes DROP Table ergänzt [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7599.html
+  * Struktur, Medienpool, Templates, Module, User, System: ", ', <, > wurden nicht korrekt behandelt [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7590.html
+  * rexLogin->sessionFixation [Markus.Staab]
+    - http://forum.redaxo.de/sutra43202.html#43202
+  * MetaInfo: ", ', <, > wurden nicht korrekt behandelt [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7567.html
+    - http://forum.redaxo.de/sutra46018.html#46018
+  * rex_deleteDir: Löschvorgang wird nicht abgebrochen, wenn das löschen einer Datei/eines Ordners nicht erfolgreich war [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7468.html                   
+  * MetaInfo: online_von/bis daterange vergrößert (+10 Jahre) [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7394.html
+    
+    
+Version 4.0.1 (2007-11-07)
+
+  * DB Update:
+  ALTER TABLE `%TABLE_PREFIX%62_params` CHANGE `params` `params` TEXT;
+  ALTER TABLE `%TABLE_PREFIX%62_params` CHANGE `attributes` `attributes` TEXT;
+
+  * Notices enfernt [Markus.Staab, Jan.Kristinus]
+  * $REX['SESSION_DURATION'] zum Konfigurieren der Session-Dauer im Backend ausgelagert (master.inc.php) [Markus.Staab]
+  
+  Bugfixes:
+  * getParentTree() bei normalen Artikeln angepasst #136 [Markus.Staab, Jan.Kristinus]
+  * getPriority() in OOCategory angepasst #134 [Markus.Staab, Jan.Kristinus]
+  * Tabindizes im Setup ergänzt [Markus.Staab]
+  * $REX['FOLLOW_REDIRECTS'] entfernt [Markus.Staab]
+  * OOMedia->getDescription(), OOMedia->getCopyright() als compat funktionen wieder rein [Markus.Staab]
+  * Aktionen gehen nun. $REX_ACTION['SAVE'] korrigiert [kill, Jan.Kristinus]
+    - http://forum.redaxo.de/ftopic6883.html
+  * REX_LINK_BUTTON[]: wenn leer dann auch keine URL [Markus.Staab, Jan.Kristinus]
+    - http://forum.redaxo.de/ftopic7328.html
+  * MetaInfo: einhängen von User EPs wieder ermöglicht [igeorgs, Markus.Staab]
+    - http://forum.redaxo.de/ftopic7336.html
+  * TinyMCE: Fehlende Scrollbars im Medienpool [woolf, Markus.Staab]
+    - http://forum.redaxo.de/ftopic7321.html
+  * ImageResize: Cache Dateien werden mit $REX['FILEPERM'] gespeichert [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7279.html
+  * ImageResize: Gif Transparenz wird erhalten [aeberhard]
+    - http://forum.redaxo.de/ftopic7191.html
+  * ArticleSlices können jetzt mehrfach verschoben werden [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7206.html
+  * MetaInfo: laenge von attributes, params von 255 auf 2048 angehoben [johannest, Markus.Staab]
+    - http://forum.redaxo.de/ftopic7136.html
+  * OOMedia->id wurden nicht richtig gefüllt [ludz, Markus.Staab]
+    - http://forum.redaxo.de/ftopic7201.html
+  * Medienpoolsync Dateinamen subindizes werden nicht mehr geprüft [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7139.html
+  * OOMedia->getIcon() Pfad gefixed [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7134.html
+  * PHP Extensions werden im Setup geprüft [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7107.html
+  * ImageResize: Sepia Filter funktionierte bei manchen Providern nicht [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7029.html
+  * Fehler bei der Übergabe von Sprachen [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7064.html
+  * UrlRewrite divider wurde nicht übergeben [Markus.Staab]
+    - http://forum.redaxo.de/sutra43187.html
+  * ResizeCache wurde nicht geleert [Markus.Staab]
+    - http://forum.redaxo.de/ftopic7016.html
+  * START_ARTICLE_ID wird jetzt richtig verwendet [Markus.Staab]
+    - http://forum.redaxo.de/ftopic6885.html
+  * MetaInfo: HTML Attribute wurden bei Select Feldern verstümmelt [Markus.Staab]
+    - http://forum.redaxo.de/sutra42980.html
+  * Kategorie anlegen mit mehr als 2 Sprachen war nicht möglich [Markus.Staab]
+    - http://forum.redaxo.de/ftopic6966.html
+  * Bessere Fehlermeldung beim löschen des START_ARTICLE_ID [Markus.Staab]
+    - http://forum.redaxo.de/ftopic6948.html
+  * Übernehmen der Sprachwahl erst im 3. Step des Setups (Schreibrechte auf master.inc.php fehlten)[Markus.Staab]
+    - http://forum.redaxo.de/ftopic6889.html
+  * absolute Pfadanzeige im Setup bei Schreibrechteprüfung [Jan.Kristinus]
+    - http://forum.redaxo.de/ftopic6890.html
+  * urlrewrite von htm => html [Jan.Kristinus]
+    - http://forum.redaxo.de/ftopic6923.html
+
+
+Version 4.0 (2007-10-14)
+
+  * CLANG/CTYPE/MetaInfo wird via I18N->msg aufgerufen, wenn "translate:" als prefix gesetzt ist (rex_translate) [Markus.Staab]
+  * Templates/Artikel on the fly. Werden beim Aufruf generiert [Jan.Kristinus]
+  * Neue Ordnerstruktur, Dateien entsprechend angepasst [tab]
+  * Accesskeys via Rechte aktivierbar [Markus.Staab]
+  * Accesskey eingeführt [tab]
+    - $REX['ACKEY']['SAVE'] = 's';
+    - $REX['ACKEY']['APPLY'] = 'x';
+    - $REX['ACKEY']['DELETE'] = 'd';
+    - $REX['ACKEY']['ADD'] = 'a';
+    - $REX['ACKEY']['ADD_2'] = 'y';
+    - $REX['ACKEY']['LOGOUT'] = 'l';
+    - sowie die Zahlen 1-7 für die Standardseiten
+  * Creditseite eingeführt [Jan.Kristinus]
+  * MINI API
+    - rex_medienpool_saveMedia($_FILES['file'], $cat_id, array("title"="Bild"), "system") in function_rex_generate aufgenommen [Jan.Kristinus]
+  * Artikel muss nun ein Template haben um ausgegeben zu werden. [Jan.Kristinus]
+  * CTypes aufbereitet [Markus.Staab,Jan.Kristinus]
+    - Ctypes in Templates verwaltbar. ctypes.inc.php entfernt.
+    - Sind nun abhängig von einzelnen Templates
+  * Metadaten
+    - Teaser und Type (sowie Verwaltung) entfernt. Wird in der neuen Version als AddON abgedeckt
+      OOArticle.searchArticlesByType entfernt [Markus.Staab,Jan.Kristinus]
+    - Article sind nun zum Startarticle machbar
+  * Umbenennungen
+    - Alte Klassenbezeichnung ab nun NICHT mehr verwenden ! [Markus.Staab,Jan.Kristinus]
+    - Umbenennung - function_rex_modrewrite.inc.php -> function_rex_url.inc.php [Markus.Staab,Jan.Kristinus]
+   * neue Compatibilitäts Bibliothek [Markus.Staab,Jan.Kristinus]
+    - Alte Klassenbezeichnung ab nun NICHT mehr verwenden !
+        Klassen:
+        + login -> rex_login
+        + sql -> rex_sql
+        + article -> rex_article
+        Methoden:
+        + sql::query() -> sql::setQuery()
+        + sql::get_array() -> sql::getArray()
+        + sql::resetCounter() -> sql::reset()
+        + sql::nextValue() -> sql::next()
+        + sql::where() -> sql::setWhere()
+        + OOMedia::getDescription() -> OOMedia::getValue('med_description')
+        + OOMedia::getCopyright() -> OOMedia::getValue('med_copyright')
+        + OOArticle::getKeywords() -> OOArticle::getValue('art_keywords')
+        + OOArticle::getDescription() -> OOArticle::getValue('art_description');
+        + OOArticle::getFile() -> OOArticle::getValue('art_file');
+        + OOCategory::getKeywords() -> OOCategory::getValue('art_keywords')
+        + OOCategory::getDescription() -> OOCategory::getValue('art_description');
+        + OOCategory::getFile() -> OOCategory::getValue('art_file');
+        Attribute:
+        + sql->select -> sql->query
+        Funktionen:
+        + title() -> rex_title()
+        + getUrlById() -> rex_getUrl()
+        + rex_parseArticleName() -> rex_parse_article_name()
+  * Rückwärtskompatibilität eingeschränkt durch:
+    - Bugfix: OOCategory::getArticles() 1. Parameter $ignore_offlines default-Wert von True auf False geändert [Markus.Staab]
+    - Bugfix: OOMediaCategory::getRootCategories() 1. Parameter $ignore_offlines entfernt, da es kein status bei Medienkategorien gibt [Markus.Staab]
+  * UrlRewrite:
+    - Backendlink bei rex_getUrl() eingebaut. Wird dann auf EditView verlinkt [Markus.Staab,Jan.Kristinus]
+  * phpmailer, smtp, textile klassen rausgenommen - werden als addon gebaut [Jan.Kristinus]
+  * REX_ACTIONS wieder umgebaut [Markus.Staab,Jan.Kristinus]
+  * Backend XHTML [tbaddade, Markus.Staab]
+  * class.rex_login.inc.php
+    - Texte ins Sprachfile verschoben [Markus.Staab]
+  * class.ooarticle.inc.php
+    - clang abfrage korrigiert. "No Name" Fehler korrigiert. [Jan.Kristinus]
+    - zusätzlich zu redaxo://<article-id> ist jetzt auch redaxo://<article-id>-<clang-id> möglich [Markus.Staab]
+    - setCtype() entfernt -> ctypes werden bei getArticle() als Parameter übergeben
+  * class.ooredaxo.inc.php
+    - getParentTree - "normale" Artikel fehlten im zurück gelieferten Array
+  * Struktur:
+    - Beim angelegen haben Artikel das gleiche Template wie die Kategorie in der sie sich befinden [Markus.Staab]
+  * Metadaten:
+    - Online von/Online bis entfernt, gibts für r33 als Addon [Markus.Staab]
+  * rexExtensionPoint API:
+    - rex_call_func mit allgemeineren Fehlermeldungen [Markus.Staab]
+    - in rex_register_extension können jetzt auch optional Parameter übergeben werden [Markus.Staab]
+  * rexExtensionPoint erstellt:
+    - ART_STATUS_TYPES [Markus.Staab,Jan.Kristinus]
+    - CAT_STATUS_TYPES [Markus.Staab,Jan.Kristinus]
+    - PAGE_TITLE_SHOWN [Jan.Kristinus]
+    - ARTICLE_GENERATED, CLANG_ARTICLE_GENERATED [Jan.Kristinus]
+    - ART_META_UPDATED,ART_META_FORM [Markus.Staab]
+    - ART_META_FORM_SECTION [Markus.Staab]
+    - ART_META_PARAMS [Markus.Staab]
+    - PAGE_HEADER [Markus.Staab]
+    - CAT_FORM_ADD, CAT_FORM_EDIT [Jan.Kristinus,Markus.Staab]
+    - CAT_FORM_BUTTONS [Markus.Staab]
+    - ART_SLICE_MENU [Markus.Staab]
+  * rexVars API implementiert (Modularisiert) [Jan.Kristinus,Markus.Staab]
+    - neue rexVars:
+       + REX_MODULE_ID [Jan.Kristinus,Markus.Staab]
+       + REX_SLICE_ID [Jan.Kristinus,Markus.Staab]
+       + REX_CTYPE_ID [Jan.Kristinus,Markus.Staab]
+       + REX_TEMPLATE_ID [Jan.Kristinus,Markus.Staab]
+       + REX_USER_ID, REX_USER_LOGIN [Jan.Kristinus,Markus.Staab]
+       + REX_TEMPLATE[x] [Markus.Staab]
+       + REX_ARTICLE[x] [Markus.Staab]
+       + REX_ARTICLE_VAR[x] [Markus.Staab]
+    - REX_PHP jetzt mit Syntax-Highlighting im Backend mit PHP >= 4.2.0 [Markus.Staab]
+    - Neue Variablen Syntax jetzt möglich (alte funktioniert weiter), z.b: [Markus.Staab]
+      + REX_VALUE[id=3]
+       + REX_MEDIA_BUTTON[id=4 category=3]
+  * Sql-Klasse:
+  - fallback auf mysql_connect, falls mysql_pconnect nicht verüfgbar ist [Markus.Staab]
+    - add_sql_options implementiert [Markus.Staab]
+    - link identifier eingebaut um auch mehrere DB-Verbindungen handeln zu können [Markus.Staab]
+    - sql::replace() implementiert für REPLACE INTO SQLs [Markus.Staab]
+    - Wenn $sql->debugsql = 2 steht, wird nur dann eine Debugmeldung ausgeben, wenn ein Fehler aufgetreten ist [Markus.Staab]
+    - Alle Funktionen verwenden jetzt intern die setQuery() funktion [Markus.Staab]
+    - getRows() liefert jetzt auch bei INSERTs/UPDATEs die betroffenen Zeilenzahl [Markus.Staab]
+    - getServerVersion() implementiert [Markus.Staab]
+    - insert(),update() => Spaltennamen werden nun von ` Umschlossen, damit dort auch Sonderzeichen vorkommen dürfen [Markus.Staab]
+  * Medienpool:
+    - Synchronisation zwischen DB und /files implementiert [Markus.Staab]
+    - Synchronisation jetzt auch auf Selection möglich [Markus.Staab]
+  * Sprachen:
+    - Übersetzungen aktualisiert [jurand,Jan.Kristinus]
+  * $REX['TEMP_PREFIX'] implementiert (Für Dateien und Tabellen) [Markus.Staab]
+    - Dateien mit diesem Prefix werden ...
+      + .. NICHT vom Import/Export-Addon exportiert
+      + .. NICHT vom Medienpool Sync Tool als neue registriert
+    - Tabellen mit diesem Prefix werden ... (-> TABLE_PREFIX + TEMP_PREFIX!)
+      + .. NICHT vom Import/Export-Addon exportiert
+  * rexGlobales API implementiert [Markus.Staab]
+    - Ab sofort nur noch mit rex_get(), rex_post(), .. arbeiten!
+  * OOF:
+    - OOMedia::toImage -> title Attribut bekommt nun den MediaTitle zugewiesen und nicht mehr die Description [tab]
+  * Internes Handling:
+    - Default Systemvariablen werden alle in der master.inc.php gesetzt [Markus.Staab]
+    - Addon werden erst nach setzen aller Default-Werte eingebunden [Markus.Staab]
+    - generateTemplate() implementiert [Markus.Staab]
+    - Die Startpage ist jetzt via $REX['START_PAGE'] einstellbar [Markus.Staab]
+  * Neue Klassen:
+    - rex_template [Markus.Staab]
+
+  * BUGFIXES:
+    - ' Zeichen jetzt in Artikel/Kategorienamen möglich [Markus.Staab]
+    - Artikel anlegen: Kategoriename wird jetzt richtig upgedated [Markus.Staab]
+    - Kategorie bearbeiten: Kategoriename bei Artikeln wird jetzt richtig upgedated [Markus.Staab]
+    - Startartikel wurden immer online angezeigt [Markus.Staab]
+    - Slices verschieben - http://forum.redaxo.de/ftopic4560.html [Jan.Kristinus]
+
+  * Addons: [Markus.Staab]
+    - Installation: wenn eine install.sql im Addon verzeichnis liegt, wird diese beim Addon installieren importiert
+    - De-Installation: wenn eine uninstall.sql im Addon verzeichnis liegt, wird diese beim Addon de-installieren importiert
+    - Creditinformationen: $REX['ADDON']['supportpage'][$mypage], $REX['ADDON']['author'][$mypage], $REX['ADDON']['version'][$mypage]
+    
+  * REDAXO Standard-Pages können auf folgende Arten durch ein Addon ersetzt werden [Markus.Staab]
+    - Addon trägt den Namen der Page + install/aktiviert
+      + Beispiel: include/addons/content/*
+        => Aufruf: include/addons/content/pages/index.inc.php
+    - Addon trägt beliebigen Namen und definiert $REX['ADDON']['page'][$mypage] = '<zuErsetzendePage>'; der Page + install/aktiviert
+      + Beispiel: $REX['ADDON']['page'][$mypage] = 'content';
+        => Aufruf: include/addons/$mypage/pages/content.inc.php
+
+  * Image-Resize-Addon:
+    - Resize Script jetzt auch über die Backend index.php aufrufbar [Markus.Staab]
+  * Import-Export-Addon:
+    - rexExtensionPoint erstellt: [Markus.Staab]
+        A1_BEFORE_DB_IMPORT, A1_AFTER_DB_IMPORT
+        A1_BEFORE_DB_EXPORT, A1_AFTER_DB_EXPORT
+        A1_BEFORE_FILE_IMPORT, A1_AFTER_FILE_IMPORT
+        A1_BEFORE_FILE_EXPORT, A1_AFTER_FILE_EXPORT
+
+
+Version 3.2 (2006-04-06)
+
+  * Angleichungen (keine Rückwärtskompatibilität!):
+    - $REX['version'] -> $REX['VERSION'] [Markus.Staab]
+    - $REX['subversion'] -> $REX['SUBVERSION'] [Markus.Staab]
+    - $REX['error_emailaddress'] -> $REX['ERROR_EMAIL'] [Jan.Kristinus]
+    - $REX[STARTARTIKEL_ID] -> $REX['START_ARTICLE_ID'] [Jan.Kristinus]
+    - title() in rex_title() umbenannt [Markus.Staab]
+    - login in rex_login geaendert [Jan.Kristinus]
+    - select Klasse: Methode resetSelected() gefixed und umbenannt -> reset_selected() [Markus.Staab]
+  * Rechte/User:
+    - "contentEditorOnly[]" -> "editContentOnly[]" [tab]
+    - wenn maximale Fehlloginanzahl erreicht gibt es die Möglichkeit den Account wieder zu aktivieren [Jan.Kristinus]
+    - userverwaltung angepasst mit trennzeichen "#" eingebaut.. [Jan.Kristinus]
+    - "publishArticle", "publishCategory" eingebaut, damit man das online/offline stellen verhindern kann [Markus.Staab]
+    - "contentEditorOnly[]" eingebaut - User mit diesem Recht, dürfen keine Änderungen an der Struktur selbst machen(nur Inhalte) [Jan.Kristinus,Markus.Staab]
+    - "moveCategory[]" eingebaut
+    - "moveslice[]" umbenannt: -> "moveSlice[]" [Markus.Staab]
+    - "accesskeys[]" eingebaut, damit kann man die Accesskeys aktivieren/deaktivieren
+    - copy/move func. jeweils nur moeglich wenn "schreibrechte" auf den zielordner (admin/alle_kats/spezielle kat.) [Jan.Kristinus]
+  * Mehrsprachigkeit:
+    - Sprachdateien überarbeitet [Markus.Staab]
+    - Sprachfiles in UTF-8 konvertiert [Markus.Staab]
+    - 15 Clangs jetzt möglich [Markus.Staab]
+    - i18n angepasst.. kein abbruch mehr bei fehler.. ausgabe des keys wenn msg nicht vorhanden. [Jan.Kristinus]
+    - Bereits verwendete Clangs werden nicht mehr im Add-Formular angezeigt [Markus.Staab]
+  * Object Oriented Framework:
+    - OOArticle>isTeaser() eingebaut [Jan.Kristinus]
+    - OOArticle->getCategory eingebaut [Jan.Kristinus]
+    - Entfernt: OOMedia::searchMediaByFileName(), OOMedia::searchMediaByExtension()
+  * Meta Funktionen:
+    - moveCategory implementiert [Jan.Kristinus]
+    - moveArticle/copyArticle implementiert [Markus.Staab]
+    - move und copy article im content/meta eingebaut [tab,Jan.Kristinus]
+  * Addon Interface:
+    - Addon de-installation u. löschen eingebaut [Markus.Staab]
+    - standard redaxo pages(struktur,user,templates,..) können jetzt via Addon ersetzt werden [Jan.Kristinus]
+  * Import Export:
+    - Handling in Funktionen ausgelagert (neue API) [Markus.Staab]
+    - "Datei-Leichen" werden vor jedem import entfernt [Markus.Staab]
+    - Bei der auswahl eines Exportordners, wird autom. die Option "Dateiexport" aktiviert [Markus.Staab]
+    - Prefix wird mit in die Export files geschrieben, damit dies beim import später validiert werden kann [Markus.Staab]
+  * Medienpool:
+    - Error bei filedetail wenn in keiner categorie beseitigt [Jan.Kristinus]
+    - OOMedia::compareImageTypes($ffiletype,$filetype) eingeführt -> jpg, jpeg [Jan.Kristinus]
+  * Setup:
+    - bei Auswahl eines vorhandenen Exports wird automatisch die entsprechende Option gewählt (JS) [Markus.Staab]
+    - vorhandene Exports können direkt importiert werden [Markus.Staab]
+    - phpversionscheck version angepasst. auf mindestens 4.2.0. gilt fuer alle 3.x versionen [Jan.Kristinus]
+    - Lizenzdatei aus SETUP ausgelagert [Markus.Staab]
+  * rexExtensionPoint erstellt: [Jan.Kristinus]
+    - ADDONS_INCLUDED
+    - CLANG_ADDED, CLANG_UPDATED, CLANG_DELETED [Markus.Staab]
+    - vereinheitlicht: ART_ADDED + ART_UPDATED & CAT_ADDED, CAT_UPDATE haben jetzt die gleichen Params [Markus.Staab]
+  * Javascript:
+    - neue Funktionen: uncheckInput(), checkInput() um Radio/Checkboxen zu aktivieren/deaktivieren [Markus.Staab]
+  * Security:
+    - login delay eingeführt - mehrmaliges einloggen nur mit x sekunden verzoegung moeglich [Jan.Kristinus]
+    - login versuche eingeschraenkt.. somit ist kein dudenhack mehr moeglich .. [Jan.Kristinus]
+    - passwort verschluesselung eingebaut. über die master.inc.php kann nun die verschluesselung aktiviert werden. $REX['PSWFUNC']="md5" z.b. [Jan.Kristinus]
+  * Import/Export Addon:
+    - Auf $REX['TABLE_PREFIX'] angepasst [Markus.Staab]
+
+  * Login angepasst.. Jetzt wird nach einem gelungenen Login eine Headerweiterleitung durchgeführt. [Jan.Kristinus]
+  * rex_help tabellen aus setup und install sqls entfernt weil nie benutzt [Jan.Kristinus]
+  * $REX['NOTFOUND_ARTICLE_ID'] => auf diesen Artikel wird weitergeleitet, wenn eine ungültige article_id übergeben wurde [Jan.Kristinus]
+  * Mod_Rewrite berücksichtigt jetzt auch die Clang beim erstellen der Links
+  * REX_CUR_CLANG -> REX_CLANG_ID .. war vorher nicht dokumentiert. benennung angepasst. [Jan.Kristinus]
+  * $REX['WWW_PATH'] = ""; und $REX['DOC_ROOT'] = ""; entfernt - wegen sinnlosigkeit ;) [Jan.Kristinus]
+  * fast überall PREFIX eingesetzt .. $REX['TABLE_PREFIX'] ..  [tab]
+  * session_start() aus der index.php rausgenommen. was hat die da gemacht ? [Jan.Kristinus]
+  * redaxo/index.php angepasst/aufgeräumt [Jan.Kristinus]
+  * Vereinheitlicht - login.php verschoben in pages und den rest dazu angepasst - setup functions in setup page übernommen [Jan.Kristinus]
+  * function_rex_image - createImage entfernt. Gehört nicht in den REDAXO Kern [Jan.Kristinus]
+  * rex_title() kann jetzt auch optional Berechtiungen des Users prüfen [Markus.Staab]
+  * Textile Klasse upgedated [Jan.Kristinus]
+  * Struktur->Metadaten Artikeltypen-Auswahl wird nur angezeigt, wenn mehr als einer vorhanden ist [Markus.Staab]
+
+
+Version 3.1 (2005-11-30)
+
+  * Import/Export:
+    - Beim Import JS Warnhinweis. "Alte Webseite geht verloren" [Markus.Staab]
+  * rexExtensionPoints erstellt
+    - MEDIA_ADDED, MEDIA_UPDATED [Jan.Kristinus]
+    - ALL_GENERATED, URL_REWRITE [Markus.Staab]
+    - CAT_ADDED, CAT_UPDATED, CAT_DELETED, CAT_STATUS [Jan.Kristinus]
+    - ART_ADDED, ART_UPDATED, ART_DELETED, ART_STATUS [Jan.Kristinus]
+    - OUTPUT_FILTER, OUTPUT_FILTER_CACHE [Jan.Kristinus]
+  * ImageResize Addon:
+    - wysiwyg resizer als ouput filter [vscope]
+    - Prüfung ob die gd-lib verfügbar ist, bei der installation [Markus.Staab]
+  * rexExtensions/rexExtensionPoint API implementiert [Markus.Staab]
+  * Permissions: Developer raus [Jan.Kristinus]
+  * copyContent erscheint nur, wenn mehr als eine Sprache angelegt ist [Markus.Staab]
+  * sql::escape() entfernt (unnötig) [Markus.Staab]
+  * OOArticle::toLink(),OOCategory::toLink() neuer 1. Parameter (NICHT Rückwärtskompatibel!) [Markus.Staab]
+  * Bestätigungsabfrage beim löschen und importieren eingebaut [import_export] [Markus.Staab]
+  * rex_copyContent( eingebaut.. Inhalte sind nun von einer Sprache in eine andere kopierbar.. [Jan.Kristinus]
+  * class article: setTemplateId und getTemplateId eingebaut.. [Jan.Kristinus]
+  * OOF erweitert: neue OOAddon Klasse [Markus.Staab]
+  * REX_CUR_CLANG, REX_CATEGORY_ID jetzt auch in Templates möglich [Markus.Staab]
+  * ctypes eingebaut :) .. über ctypes.inc.php einstellbar und über getArticle($ctypeid); aufrufbar [Jan.Kristinus]
+  * userverwaltung. developer rausgenommen. [Jan.Kristinus]
+  * ob caching der artikel und templates.. ausgabe nun nur über echo moeglich. speichern in variablen moeglich [Jan.Kristinus]
+  * Fallback auf Default-Sprache, wenn keine Lang-Keys der aktuellen Sprache vorhanden sind [Markus.Staab]
+  * Slices/Blöcke verschieben [Jan.Kristinus]
+
+
+Version 3.0 (2005-08-07)
+
+---------------------------------------------------------------------------------
+hinweise: bei anpassungen beachten !
+---------------------------------------------------------------------------------
+
+  * anstatt htmlentities -> htmlspecialchars verwenden
+  * <? -> <?php
+  * $REX[VAR] -> $REX['VAR'] (Bei allen Arrays)
+  * Einheitliche Dateiheader verwenden
+  * keine tabular - ein tab = 2 leerzeichen

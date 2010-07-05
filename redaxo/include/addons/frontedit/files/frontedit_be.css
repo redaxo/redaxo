@@ -1,0 +1,29 @@
+xxbody#rex-page-content div.rex-content-editmode .rex-content-editmode-slice-output,
+body#rex-page-content div.rex-content-editmode .rex-content-editmode-module-name,
+body#rex-page-content div.rex-content-header,
+body#rex-page-content div.rex-content-editmode div.rex-form-content-editmode ,
+body#rex-page-content div#rex-redaxo-link,
+body#rex-page-content div.rex-toolbar,
+body#rex-page-content div#rex-title,
+body#rex-page-content div#rex-navi-logout,
+body#rex-page-content div#rex-footer,
+body#rex-page-content div#rex-navi-main {
+display:none;
+}
+
+body#rex-page-content {
+padding:0px;
+background:#fff;
+}
+
+body#rex-page-content div#rex-website {
+width:auto;
+background:#fff;
+padding:0px;
+margin:0px;
+}
+
+body#rex-page-content div#rex-website div#rex-wrapper {
+margin:0px;
+padding:0px;
+}

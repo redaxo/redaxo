@@ -1,0 +1,46 @@
+textile_example_for = Example
+
+textile_code_for_module_input = Sourcecode for module input
+textile_code_for_module_output = Sourcecode for module output
+textile_module_intro_moduleoutput = Please use the following sourcecode for a module output
+textile_module_intro_help = Please use the following function call to see all informations/instructions in the <b>input module</b><br />
+textile_module_rights = <b>Please note:</b><br />The instruction will only be shown when the option <strong>textile[help]</strong> is selected in the userprofile.
+
+textile_instructions = Instructions 
+
+textile_input = Input
+textile_preview = Preview
+
+textile_headlines = Headlines
+textile_headline = Headline
+
+textile_text_formatting = Textformatting
+textile_text_italic = italic
+textile_text_bold = bold
+textile_text_cite = cite
+textile_text_source_author = Source/Author
+textile_text_strike = strike
+textile_text_insert = insert
+textile_text_sup = sup
+textile_text_sub = sub
+
+textile_links = Links/anchor
+textile_link_internal = Link (intern): to "contact"
+textile_link_internal_anchor = Link (intern) with anchor: "to contact"
+textile_link_external = Link (extern): "to REDAXO documentation"
+textile_link_external_anchor = Link (extern) with anchor: "to partners"
+textile_link_attr_title = Link with title-Attribute: "Image(click for zoom)"
+textile_link_attr_rel = Link with rel-Attribute: "Image{shadowbox}"
+textile_link_attr_title_rel = Link with title and rel-Attribute: "Image(click for shadowbox){shadowbox}"
+textile_link_anchor = Define anchor
+textile_link_anchor_text = To contact 
+
+textile_footnotes = Footnotes
+textile_footnote_text = AJAX
+textile_footnote_note = Asynchronous JavaScript and XML
+
+textile_lists = Lists
+textile_numeric_list = Numeric list
+textile_enum_list = Numbered liste
+
+textile_tables = Tables

@@ -1,0 +1,191 @@
+.rex-dashboard-component-config {
+  display: none;
+}
+
+
+
+.rex-dashboard-section {
+	clear: both;
+	float: left;
+	width: 100%;
+}
+
+.rex-dashboard-column {
+}
+
+.rex-dashboard-1col {
+}
+
+.rex-dashboard-2col .rex-dashboard-column {
+	float: right;
+	width: 380px;
+}
+.rex-dashboard-2col .rex-dashboard-column-first {
+	float: left;
+}
+
+.rex-dashboard-hl1 {
+	margin-bottom: 1em;
+	padding-top: 1em;
+	color: #32353A;
+	font-size: 1.6em;	
+	font-weight: normal;
+}
+
+.rex-dashboard-component {
+	position: relative;
+	margin-bottom: 10px;
+	background-color: #F0EFEB;
+}
+.rex-dashboard-component h3.rex-hl2 {
+	padding: 9px 5px;
+	background-color: #D7D6D3;
+}
+.rex-dashboard-action-bar {
+	position: absolute;
+	top: 8px;
+	right: 5px;
+}
+
+.rex-dashboard-component-navi {
+	margin: 0 0 0 0;
+}
+.rex-dashboard-component-navi li {
+	display: block;
+	float: left;
+	margin-left: 5px;
+}
+.rex-dashboard-component-navi li a {
+	display: block;
+	width: 18px;
+	height: 18px;
+}
+.rex-dashboard-component-navi li a span {
+	display: none;
+}
+.rex-dashboard-component-content {
+}
+.rex-dashboard-component-content ul {
+	margin-left: 22px;
+}
+.rex-dashboard-components .rex-dashboard-component-content {
+	padding-top: 10px;
+	padding-left: 5px;
+	padding-bottom: 10px;
+}
+.rex-dashboard-component-footer {
+	padding: 5px 10px 5px 0;
+	background-color: #D7D6D3;
+	border-top: 1px solid #cbcbcb;
+	font-size: .9em;
+	font-style: italic;
+	text-align: right;
+}
+#rex-component-notifications .rex-dashboard-component-footer {
+	border-top: 0;
+}
+
+
+
+.rex-dashboard-component .rex-message, 
+.rex-dashboard-component .rex-message-block {
+	margin-bottom: 0;
+	border-bottom: 1px solid #CBCBCB;
+}
+
+
+.rex-dashboard-component-content table.rex-table {
+	margin: -10px -10px -10px -5px;
+}
+.rex-dashboard-1col .rex-dashboard-component-content table.rex-table {
+	width: 770px;
+}
+.rex-dashboard-2col .rex-dashboard-component-content table.rex-table {
+	width: 380px;
+}
+
+
+.rex-dashboard-component-content .rex-toolbar {
+	margin: -10px 0 11px -5px;
+}
+.rex-dashboard-component-content .rex-toolbar-content {
+	margin-left: 0px;
+	border-left: 0;
+}
+
+
+
+
+
+
+.be-style-agb-skin .rex-dashboard-2col .rex-dashboard-column {
+	width: 367px;
+}
+
+
+.be-style-agb-skin .rex-dashboard-hl1 {
+	color: #14568A;
+}
+.be-style-agb-skin .rex-dashboard-component {
+	background-color: #EFF9F9;
+}
+.be-style-agb-skin .rex-dashboard-component h3.rex-hl2 {
+	background-color: #DFE9E9;
+}
+.be-style-agb-skin .rex-dashboard-component-footer {
+	background-color: #DFE9E9;
+}
+.be-style-agb-skin .rex-dashboard-1col .rex-dashboard-component-content table.rex-table {
+	width: 744px;
+}
+.be-style-agb-skin .rex-dashboard-2col .rex-dashboard-component-content table.rex-table {
+	width: 366px;
+}
+
+
+.be-style-agb-skin div.rex-dashboard-component {
+	border: 0;
+	-moz-outline-radius-bottomleft: 4px;
+	-moz-outline-radius-bottomright: 4px;
+	-moz-outline-radius-topleft: 4px;
+	-moz-outline-radius-topright: 4px;
+	outline: 1px solid #CBCBCB;
+}
+
+
+.be-style-agb-skin .rex-dashboard-component .rex-rss-feed li {
+	padding-bottom: 10px;
+	line-height: 1.2;
+}
+
+.be-style-agb-skin .rex-dashboard-component .rex-form, 
+.be-style-agb-skin .rex-dashboard-component .rex-form textarea {
+	margin-bottom: 10px;
+}
+.be-style-agb-skin .rex-dashboard-component .rex-form form {
+	padding: 10px 10px 10px 5px;
+}
+.be-style-agb-skin .rex-dashboard-component .rex-message, 
+.be-style-agb-skin .rex-dashboard-component .rex-message-block, 
+.be-style-agb-skin .rex-dashboard-component .rex-form, 
+.be-style-agb-skin .rex-dashboard-component .rex-table, 
+.be-style-agb-skin .rex-dashboard-component .rex-toolbar, 
+.be-style-agb-skin .rex-dashboard-component-content .rex-message, 
+.be-style-agb-skin .rex-dashboard-component-content .rex-message-block, 
+.be-style-agb-skin .rex-dashboard-component-content .rex-form, 
+.be-style-agb-skin .rex-dashboard-component-content .rex-table, 
+.be-style-agb-skin .rex-dashboard-component-content .rex-toolbar {
+	-moz-outline-radius-bottomleft: 0;
+	-moz-outline-radius-bottomright: 0;
+	-moz-outline-radius-topleft: 0;
+	-moz-outline-radius-topright: 0;
+	outline: 0;
+}
+.be-style-agb-skin .rex-dashboard-component .rex-form, 
+.be-style-agb-skin .rex-dashboard-component .rex-table, 
+.be-style-agb-skin .rex-dashboard-component .rex-toolbar, 
+.be-style-agb-skin .rex-dashboard-component-content .rex-form, 
+.be-style-agb-skin .rex-dashboard-component-content .rex-table, 
+.be-style-agb-skin .rex-dashboard-component-content .rex-toolbar {
+	border: 0;
+}

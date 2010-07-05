@@ -1,0 +1,36 @@
+/* ---------------------- */
+/* TinyMCE specific rules */
+/* ---------------------- */
+body.mceContentBody {
+	background: #fff;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.mceContentBody a {
+   color: #009 !important; /* FF requires a important here */
+}
+
+
+/* -------------------------- */
+/* Ab hier die eigenen Styles */
+/* -------------------------- */
+p {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+.Beispiel1 {
+	font-weight: bold;
+	color: #c00;
+	font-size: 14px;
+}
+
+.Beispiel2 {
+	font-weight: bold;
+	color: #090;
+}
+
+.Beispiel3 {
+	font-weight: bold;
+	color: #009;
+}

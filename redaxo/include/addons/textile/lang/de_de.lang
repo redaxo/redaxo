@@ -1,0 +1,46 @@
+textile_example_for = Beispiel für
+
+textile_code_for_module_input = Code für Moduleingabe
+textile_code_for_module_output = Code für Modulausgabe
+textile_module_intro_moduleoutput = Einfach mit folgendem Code in die <b>Ausgabe eines beliebigen Moduls</b> einbinden
+textile_module_intro_help = Um eine Tabelle mit einer Anleitung und Hinweisen in ein Modul einzubinden, einfach folgenden Funktionsaufruf in die <b>Eingabe des Moduls</b> einfügen:<br />
+textile_module_rights = <b>Hinweis:</b><br />Die Anleitung wird nur angezeigt, wenn das Optionalrecht <strong>textile[help]</strong> dem Benutzer zugewiesen wurde. Auch Admin-User müssen diese Option aktivieren!
+
+textile_instructions = Anleitung/Hinweise
+
+textile_input = Eingabe
+textile_preview = Vorschau
+
+textile_headlines = Überschriften
+textile_headline = Überschrift
+
+textile_text_formatting = Textformatierungen
+textile_text_italic = kursiv
+textile_text_bold = fett
+textile_text_cite = Zitat
+textile_text_source_author = Quelle/Autor
+textile_text_strike = durchgestrichen
+textile_text_insert = eingefügt
+textile_text_sup = hochgestellt
+textile_text_sub = tiefgestellt
+
+textile_links = Links/Anker
+textile_link_internal = Link (intern): zum "Impressum"
+textile_link_internal_anchor = Link (intern) mit Anker: "zu unseren AGBs"
+textile_link_external = Link (extern): "zur REDAXO Dokumentation"
+textile_link_external_anchor = Link (extern) mit Anker: "zu unserem Parnter"
+textile_link_attr_title = Link mit title-Attribut: "Bild(Klick für Zoom)"
+textile_link_attr_rel = Link mit rel-Attribut: "Bild{shadowbox}"
+textile_link_attr_title_rel = Link mit title und rel-Attribut: "Bild(Klick für Shadowbox){shadowbox}"
+textile_link_anchor = Anker definieren
+textile_link_anchor_text = Hier steht das Impressum 
+
+textile_footnotes = Fußnoten
+textile_footnote_text = AJAX
+textile_footnote_note = Asynchronous JavaScript and XML
+
+textile_lists = Listen
+textile_numeric_list = Nummerierte-Liste
+textile_enum_list = Aufzählungs-Liste
+
+textile_tables = Tabellen

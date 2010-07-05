@@ -1,0 +1,97 @@
+article|2
+
+
+fieldset|Funktioniert nur im Backend|class_be
+be_medialist|label|Bezeichnung|no_db
+be_mediapool|label|Bezeichnung|defaultwert|no_db
+be_table|label|Beschreibung *|3|Menge,Preis,Einkaufspreis
+
+
+fieldset|Normale Felder|class_be
+birthday|birthday|Text *|[format: Y-m-d]
+captcha|Bitte das Captcha eingeben|Das Captcha ist leider falsch
+checkbox|check_design|Selectierte Checkbox|Wert|1
+date|datum|Datum|2005|2015|Y-m-d
+datetime|datumzeit|DatumZeit|2006|2015|Y-m-d h:i
+password|psw|Passwort|default_psw|[no_db]
+radio|gender|Geschlecht mit Radiobox|Frau=w;Herr=m|[no_db]|defaultwert
+text|text|Textfeld|defaultwert|[no_db]
+textarea|textarea|Textareafeld|default|[no_db]
+select|gender|Geschlecht mit Select*|Frau=w;Herr=m|[no_db]|defaultwert|multiple=1
+select_single_sql|user_id|Single SQL mit Select:|1|select id,login from rex_user order by login|id|login|default|[no_db]
+mediafile|label|Bezeichnung|groesseinkb|endungenmitpunktmitkommasepariert|pflicht=1|Fehlermeldung|[no_db]|mediacatid
+mediapool|label|Bezeichnung|kategorieid|100|jpg,gif,png
+
+select_multiple_sql|rex_rel_user_city|user_id|city_id| Redaxo User *:|select * from rex_user order by name|user_id|name
+
+
+
+fieldset|Versteckte Felder und Daten|class_hidden
+generate_key|activation_key|[no_db]
+generate_password|password|[no_db]
+hidden|job_id|default_value|REQUEST|[no_db]
+ip|ip|[no_db]
+datestamp|datumstempel|Y-m-d|[no_db]
+mysql_datetime|status|[no_db]
+timestamp|status|[no_db]
+
+
+
+fieldset|Besondere Felder|class_speziel
+google_geocode|gcode|pos_lng,pos_lat|ABQIAAAA9X7aYuoSxHOtyCq4UchU-RQyipGq1b1Vxx1ZHLOcBEyNcCPR-RQvmOEddgXQfl-Xds-NLuqPv8OH1Q|strasse,plz,ort|Google Map
+text|pos_lng|PosLng
+text|pos_lat|PosLat
+html|<p>Mein HTMl CODE</p>
+php|<p>PHP:<?php echo date("mdY"); ?></p>
+showvalue|showvaluevalue|Showvalue, falls vorhanden|defaultwert
+
+fieldset|Formwerte setzen|class_form
+mailto|email@domain.de
+objparams|key|newvalue
+html|<p>Welche Objektparams gibt es.. Auflisten</p>
+
+submit|label|value|[no_db]|cssclassname
+submitimage|label|value|/redaxo/media/email.gif/|[no_db]
+submit|label|value||cssclassname
+
+
+fieldset|Validierungen|class_valid
+text|valid1|Valid1 Text Email
+validate|email|valid1|Valid1 ist keine E-Mail
+
+text|valid2|Valid2 Text
+validate|empty|valid2|Bitte Valid2 Text eingeben
+
+
+text|valid3|Valid3 Text
+validate|intfromto|valid3|6000|10000|Bitte geben Sie bei Valid3 eine Zahl zwischen 6000 und 10000 ein.
+
+validate|atleastone|valid1,valid2,valid3|2|3|Bitte f&#159;llen Sie mindesten 2 der oberen Valid1-3 Textfelder aus
+
+
+text|valid4|Valid4 Text
+validate|size|valid5|6|Bitte geben Sie einen Valid4 Text mit exakt 6 Zeichen ein.
+
+text|valid5|Valid5 Text
+validate|size_range|valid5|6|30|Bitte geben Sie einen Valid5 Text mit mindestens 6 und maximal 30 Zeichen ein.
+
+text|valid6|Valid6 Text
+validate|type|valid6|url|Bitte geben eine URL in den Valid6 Text ein.
+
+
+text|valid7|Valid7 Text
+text|valid8|Valid8 Text
+validate|compare|valid7|valid8|Valid7 und Valid8 m&#159;ssen gleich sein.
+
+
+
+validate|compare_value|label|value|warning_message
+validate|existintable|label|tablename|feldname|warning_message
+validate|unique|label|Dieser Name existiert schon|[table]
+
+
+fieldset|Sonstiges|class_extra
+readtable|tablename|feldname|label
+uniqueform|label|table|Fehlermeldung
+
+

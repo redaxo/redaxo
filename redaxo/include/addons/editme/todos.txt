@@ -1,0 +1,25 @@
+
+
+- subtitle navi einbauen
+-- tables
+-- einzelne tabellen, bei klick zum felder editieren
+
+- die moeglichkeit schaffen, artverwandte "values" zu wechseln.. z.b. von Text -> Textarea
+- text/textarea mit size und height etc
+
+- objekte zum auslesen schaffen
+LISTEN/FILTER/CACHING, DETAILINFOS
+
+- suche in edit.inc. einbauen - system überlegen wie man das in der verwaltung definieren könnte
+
+- relation erweitern.. jede relation automatisch in verknpüfungstabellen speichern
+-- popup aufrufen und nur in datensaetzen arbeiten die zu einem anderen gehoeren.. 
+-- !!! z.B. durch filter und festlegung von datensatz
+
+- aufteilung value/validate/action verbessern. ansicht der felder verbessern .. 
+
+rex_em_opemener_info einbauen
+
+rex_em_filter
+
+rex_em_set

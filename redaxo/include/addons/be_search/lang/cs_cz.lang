@@ -1,0 +1,12 @@
+# addon:be_search cs_cz
+
+be_search_article_name = Jméno polo¾ky
+be_search_article_id = ID polo¾ky
+be_search_start = hledat
+search_jump_to_category = Skoèit na kategorii
+search_quick_navi = Rychlá navigace
+search_no_results = ®ádná polo¾ka neodpovídá kritériím
+
+search_mpool_media = Jméno média
+be_search_mpool_start = hledat
+

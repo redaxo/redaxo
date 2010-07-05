@@ -1,0 +1,10 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version svn:$Id$
+ */
+
+body#rex-page-linkmap div.rex-area-col-b, 
+body#rex-page-linkmap div.rex-addon-col-b {
+	width: 49.9%;
+}

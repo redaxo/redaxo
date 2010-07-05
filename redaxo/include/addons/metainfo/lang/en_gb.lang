@@ -1,0 +1,46 @@
+# addon:metaform de_de
+
+media = Media
+categories = Categories
+articles = Articles
+
+minfo_metainfos_not_found = No metainfo found
+
+minfo_field_list_caption = field list
+
+minfo_field_fieldset = edit/create field
+minfo_field_label_prefix = prefix
+minfo_field_label_title = field title
+minfo_field_label_name = label name
+minfo_field_label_id = ID
+minfo_field_label_type = fieldtype
+minfo_field_label_attributes = fieldattribute
+minfo_field_label_default = default value
+minfo_field_label_nullable = mandatory field
+minfo_field_label_params = parameter
+minfo_field_label_prior = field position
+
+minfo_field_notice_title = prefix "translate:" translates the value via I18N
+
+minfo_field_first_prior = at the beginning
+minfo_field_after_prior = after the field "{0}"
+
+minfo_field_params_notice_3 = examples:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_4 = examples:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_5 = examples:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+
+minfo_field_attributes_notice = example:<br /> style=color:red multiple=multiple class=my_css_class perm=admin[]
+
+minfo_field_error_name = Please enter the columns name!
+minfo_field_error_unique_name = This column name already exists!
+minfo_field_error_unique_type = this type name already exists!
+minfo_field_error_chars_name = this columnname hat unallowed characters (Allowed chars are A-Z, 0-9 and _)!
+minfo_field_error_invalid_prefix = This prefix is not valid! 
+minfo_field_error_invalid_type = This type is not valid! 
+minfo_field_error_invalid_length = This field length is not valid! 
+minfo_field_error_invalid_name = This column name is not valid!
+minfo_field_error_invalid_fieldid = This field-id is not valid!
+minfo_field_error_invalid_typeid = This type-id is not valid!
+minfo_field_successfull_saved = Field has been successfully saved!
+
+minfo_edit_metadata = edit metainfo
