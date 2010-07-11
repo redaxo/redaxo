@@ -4,8 +4,9 @@
  * Branded ein Bild mit einem Wasserzeichen
  */
 
-class rex_effect_insert_image extends rex_effect_abstract
-{
+class rex_effect_insert_image extends rex_effect_abstract{
+
+	
 	function execute()
 	{
 		global $REX;
@@ -35,23 +36,7 @@ class rex_effect_insert_image extends rex_effect_abstract
       $vpos = (string) $this->params['vpos'];
     
     // -------------------------------------- /CONFIG
-  
     $brand = new rex_image($brandimage);
-    
-    if($this->params['imagetype'] > 0)
-    {
-      $cachepath = $REX['INCLUDE_PATH'].'/generated/files/';
-      
-      $image_cacher  = new rex_image_cacher($cachepath);
-      $image_manager = new rex_image_manager($image_cacher);
-      
-      $qry = 'SELECT name FROM '. $REX['TABLE_PREFIX'].'679_types WHERE id='. $this->params['imagetype'];
-      $sql = rex_sql::factory();
-      $sql->setQuery($qry);
-    
-      $brand = $image_manager->applyEffects($brand, $sql->getValue('name'));
-    }
-  
     $brand->prepare();
     $gdbrand =& $brand->getImage();
     $gdimage =& $this->image->getImage();
@@ -79,7 +64,7 @@ class rex_effect_insert_image extends rex_effect_abstract
       case 'top':
         $dstY = 0;
         break;
-      case 'center':
+      case 'middle':
         $dstY = (int)(($image_height - $brand_height) / 2);
         break;
       case 'bottom':
@@ -97,19 +82,6 @@ class rex_effect_insert_image extends rex_effect_abstract
 	{
 		global $REX,$I18N;
 
-    $imagetypes = array();
-    
-    $qry = 'SELECT id,name FROM '. $REX['TABLE_PREFIX'].'679_types ORDER BY status';
-    $sql = rex_sql::factory();
-    $sql->setQuery($qry);
-    
-    $imagetypes[] = array($I18N->msg('imanager_effect_brand_noimagetype'), 0);
-    while($sql->hasNext())
-    {
-      $imagetypes[] = array($sql->getValue('name'), $sql->getValue('id'));
-      $sql->next();
-    }
-    
 		return array(
 			array(
 				'label' => $I18N->msg('imanager_effect_brand_image'),
@@ -121,17 +93,15 @@ class rex_effect_insert_image extends rex_effect_abstract
 				'label' => $I18N->msg('imanager_effect_brand_hpos'),
 				'name' => 'hpos',
 				'type'	=> 'select',
-				'options'	=> array('right','center','left'),
-			  'useOptionValues' => true,
-				'default' => 'right'
+				'options'	=> array('left','center','right'),
+				'default' => 'left'
 			),
 			array(
 				'label' => $I18N->msg('imanager_effect_brand_vpos'),
 				'name' => 'vpos',
 				'type'	=> 'select',
-				'options'	=> array('top','center','bottom'),
-        'useOptionValues' => true,
-			  'default' => 'bottom'
+				'options'	=> array('top','middle','bottom'),
+				'default' => 'top'
 			),
 			array(
 				'label' => $I18N->msg('imanager_effect_brand_padding_x'),
@@ -145,12 +115,7 @@ class rex_effect_insert_image extends rex_effect_abstract
 				'type'	=> 'int',
 				'default' => '-10'
 			),
-      array(
-        'label' => $I18N->msg('imanager_effect_brand_imagetype'),
-        'name' => 'imagetype',
-        'type'  => 'select',
-        'options' => $imagetypes,
-      ),
+			/*TODO: Optionaler Bildtyp für das ausgewählte Bild*/
 		);
 	}
 

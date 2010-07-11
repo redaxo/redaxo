@@ -74,38 +74,35 @@ class rex_image_cacher
     }
     return $this->cache_path .'image_manager__'. $cacheParams .'_'. $filename;
   }
-  
-  /*public*/ function cacheImage(/*rex_image*/ $image, $cacheParams)
-  {
-    
-    // save image to file
-    if(!$this->isCached($image, $cacheParams))
-    {
-      $cacheFile = $this->getCacheFile($image, $cacheParams);
-      
-      $image->prepare();
-      $image->save($cacheFile);
-      
-      // return image pointing to the cache
-      return new rex_image($cacheFile);
-    }
-    // cache was already up-to-date
-    return $image;
-  }
 	
-  /*public*/ function sendImage(/*rex_image*/ $image, $cacheParams)
+  /*public*/ function sendImage(/*rex_image*/ $image, $cacheParams, $lastModified = null)
 	{
     if(!rex_image::isValid($image))
     {
       trigger_error('Given image is not a valid rex_image', E_USER_ERROR);
     }
     
-    $this->cacheImage($image, $cacheParams);
-    $cacheFile = $this->getCacheFile($image, $cacheParams);
-	  
-	  // send file
-    $image->sendHeader();
-    readfile($cacheFile);
+	  // caching gifs doesn't work
+//	  if($image->getFormat() == 'GIF' && !$image->hasGifSupport())
+//	  {
+//	    $image->prepare();
+//	    $image->send($lastModified);
+//	  }
+//	  else
+//	  {
+	    $cacheFile = $this->getCacheFile($image, $cacheParams);
+	    
+  	  // save image to file
+  	  if(!$this->isCached($image, $cacheParams))
+  	  {
+  	    $image->prepare();
+  	    $image->save($cacheFile);
+  	  }
+  	  
+  	  // send file
+      $image->sendHeader();
+      readfile($cacheFile);
+//	  }
 	}
 	
   /*

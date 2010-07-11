@@ -69,14 +69,13 @@ class rex_effect_flip extends rex_effect_abstract
 		global $REX,$I18N;
 
 		return array(
-		  array(
+		array(
         'label' => $I18N->msg('imanager_effect_flip'),
         'name' => 'flip',
         'type'  => 'select',
         'options' => $this->options,
-        'useOptionValues' => true,
-		    'default' => 'X'
-      ),
-    );
+        'default' => 'X'
+        ),
+        );
 	}
 }

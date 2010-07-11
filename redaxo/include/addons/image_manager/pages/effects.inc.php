@@ -10,7 +10,7 @@ $sql = rex_sql::factory();
 $sql->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'].'679_types WHERE id='. $type_id);
 if($sql->getRows() != 1)
 {
-  $type_id = 0;
+  unset($type_id);
 }
 $typeName = $sql->getValue('name');
 
@@ -175,6 +175,7 @@ elseif ($func == 'add' && $type_id > 0 ||
             $type = 'text';
             $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
+            $field->setAttribute('id',"image_manager $name $type");
             if(!empty($param['notice'])) $field->setNotice($param['notice']);
             if(!empty($param['prefix'])) $field->setPrefix($param['prefix']);
             if(!empty($param['suffix'])) $field->setSuffix($param['suffix']);
@@ -185,6 +186,7 @@ elseif ($func == 'add' && $type_id > 0 ||
             $type = $param['type'];
             $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
+            $field->setAttribute('id',"image_manager $name $type");
             if(!empty($param['notice'])) $field->setNotice($param['notice']);
             if(!empty($param['prefix'])) $field->setPrefix($param['prefix']);
             if(!empty($param['suffix'])) $field->setSuffix($param['suffix']);
@@ -192,11 +194,7 @@ elseif ($func == 'add' && $type_id > 0 ||
             $select =& $field->getSelect();
             if (!isset($attributes['multiple']))
               $select->setSize(1);
-              
-            if(!isset($param['useOptionValues']))
-              $param['useOptionValues'] = true;
-              
-            $select->addOptions($param['options'], $param['useOptionValues']);
+            $select->addOptions($param['options'], true);
             break;
           }
         case 'media' :
@@ -204,6 +202,7 @@ elseif ($func == 'add' && $type_id > 0 ||
             $type = $param['type'];
             $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
+            $field->setAttribute('id',"image_manager $name $type");
             if(!empty($param['notice'])) $field->setNotice($param['notice']);
             if(!empty($param['prefix'])) $field->setPrefix($param['prefix']);
             if(!empty($param['suffix'])) $field->setSuffix($param['suffix']);

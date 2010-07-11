@@ -2,169 +2,173 @@
 
 class rex_effect_mirror extends rex_effect_abstract
 {
-  var $options;
+	var $options;
 
-  function rex_effect_mirror()
-  {
+	function rex_effect_mirror()
+	{
+		$this->script = '
+<script type="text/javascript">
+<!--
 
+(function($) {
+	$(function() {
+		var $fx_mirror_select_trans = $("#image_manager_rex_effect_mirror_set_transparent_select");
+		var $fx_mirror_bg_r = $("#image_manager_rex_effect_mirror_bg_r_text").parent().parent();
+		var $fx_mirror_bg_g = $("#image_manager_rex_effect_mirror_bg_g_text").parent().parent();
+		var $fx_mirror_bg_b = $("#image_manager_rex_effect_mirror_bg_b_text").parent().parent();
 
-  }
+		$fx_mirror_select_trans.change(function(){
+			if(jQuery(this).val() != "colored")
+			{
+				$fx_mirror_bg_r.hide();
+				$fx_mirror_bg_g.hide();
+				$fx_mirror_bg_b.hide();
+			}else
+			{
+				$fx_mirror_bg_r.show();
+				$fx_mirror_bg_g.show();
+				$fx_mirror_bg_b.show();
+			}
+		}).change();
+	});
+})(jQuery);
 
-  function execute()
-  {
-    $gdimage =& $this->image->getImage();
-    $w = $this->image->getWidth();
-    $h = $this->image->getHeight();
+//--></script>';
 
-    $this->params["gradient"] = (int) $this->params["gradient"];
+	}
 
-    if($this->params["gradient"]>99 || $this->params["gradient"] <1 )
-    {
-      $this->params["gradient"] = 55;
-    }
-    $this->params["gradient"] = $this->params["gradient"]/100;
+	function execute()
+	{
 
-    $this->params["shadow"] = (int) $this->params["shadow"];
-    if($this->params["shadow"]>99 || $this->params["shadow"] <1 )
-    {
-      $this->params["shadow"] = 10;
-    }
-    $this->params["shadow"] = $this->params["shadow"]/100;
+		$gdimage =& $this->image->getImage();
+		
+		$w = $this->image->getWidth();
+		$h = $this->image->getHeight();
 
-    if(!isset($this->params["bg_r"]) || $this->params["bg_r"]>255 || $this->params["bg_r"] <0 )
-    {
-      $this->params["bg_r"] = 255;
-    }
+		if(substr(trim($this->params['height']), -1) === '%')
+		{
+			$this->params['height'] = round($h * (rtrim($this->params['height'], '%') / 100));
+		}else
+		{
+			$this->params['height'] = (int) $this->params['height'];
+		}
+		if($this->params['height']<1)
+		{
+			$this->params['height'] = round($h/2);
+		}
 
-    if(!isset($this->params["bg_g"]) || $this->params["bg_g"]>255 || $this->params["bg_g"] <0 )
-    {
-      $this->params["bg_g"] = 255;
-    }
+		$this->params["bg_r"] = (int) $this->params["bg_r"];
+		if(!isset($this->params["bg_r"]) || $this->params["bg_r"]>255 || $this->params["bg_r"] <0 )
+		{
+			$this->params["bg_r"] = 255;
+		}
 
-    if(!isset($this->params["bg_b"]) || $this->params["bg_b"]>255 || $this->params["bg_b"] <0 )
-    {
-      $this->params["bg_b"] = 255;
-    }
+		$this->params["bg_g"] = (int) $this->params["bg_g"];
+		if(!isset($this->params["bg_g"]) || $this->params["bg_g"]>255 || $this->params["bg_g"] <0 )
+		{
+			$this->params["bg_g"] = 255;
+		}
 
-    $gdimage = $this->imagereflection ( $gdimage, array ($this->params["bg_r"], $this->params["bg_g"], $this->params["bg_b"]), $this->params["gradient"], $this->params["shadow"] );
+		$this->params["bg_b"] = (int) $this->params["bg_b"];
+		if(!isset($this->params["bg_b"]) || $this->params["bg_b"]>255 || $this->params["bg_b"] <0 )
+		{
+			$this->params["bg_b"] = 255;
+		}
 
-    return;
+		if($this->params["set_transparent"] != "colored")
+		{
+			$this->image->img["format"] = "PNG";
+		}
 
-  }
+		$trans = false;
+		if($this->image->img["format"] == "PNG")
+		{
+				$trans = true;
+		}
+		
+		$gdimage = $this->imagereflection ( $gdimage, $this->params["height"], $trans, array ($this->params["bg_r"], $this->params["bg_g"], $this->params["bg_b"]) );
+		$this->image->refreshDimensions();
+		return;
 
-  function getParams()
-  {
-    global $REX,$I18N;
+	}
 
-    return array(
-    array(
-		        'label'=>$I18N->msg('imanager_effect_mirror_gradient'),
-		        'name' => 'gradient',
-		        'type' => 'int',
-            'default' => 55,
-    ),
-    array(
-		        'label'=>$I18N->msg('imanager_effect_mirror_shadow'),
-		        'name' => 'shadow',
-		        'type' => 'int',
-            'default' => 10,
-    ),
-    array(
-		        'label'=>$I18N->msg('imanager_effect_mirror_background_r'),
-		        'name' => 'bg_r',
-		        'type' => 'int',
-            'default' => 255,
-    ),
-    array(
-		        'label'=>$I18N->msg('imanager_effect_mirror_background_g'),
-		        'name' => 'bg_g',
-		        'type' => 'int',
-            'default' => 255,
-    ),
-    array(
-		        'label'=>$I18N->msg('imanager_effect_mirror_background_b'),
-		        'name' => 'bg_b',
-		        'type' => 'int',
-            'default' => 255,
-    ),
-    );
-  }
+	function getParams()
+	{
+		global $REX,$I18N;
 
+		return array(
+			array(
+				'label'=>$I18N->msg('im_fx_mirror_height'),		// Length in Pixel or Prozent
+				'name' => 'height',
+				'type' => 'int',
+			),
+			array(
+				'label'=>$I18N->msg('im_fx_mirror_background_color'),
+				'name' => 'set_transparent',
+				'type' => 'select',
+				'options' => array('colored', 'transparent / png24'),
+				'default' => 'colored',
+				'suffix' => $this->script
+			),
+			
+			array(
+				'label'=>$I18N->msg('im_fx_mirror_background_r'),
+				'name' => 'bg_r',
+				'type' => 'int',
+			),
+			array(
+				'label'=>$I18N->msg('im_fx_mirror_background_g'),
+				'name' => 'bg_g',
+				'type' => 'int',
+			),
+			array(
+				'label'=>$I18N->msg('im_fx_mirror_background_b'),
+				'name' => 'bg_b',
+				'type' => 'int',
+			),
+		 );
+	}
+	
+	function imagereflection(&$src_img, $reflection_height = 50, $trans = FALSE, $bgcolor) {
+	
+	  $src_height = imagesy($src_img);
+	  $src_width = imagesx($src_img);
+	  $dest_height = $src_height + $reflection_height;
+	  $dest_width = $src_width;
+	 
+	  $reflected = imagecreatetruecolor($dest_width, $dest_height);
+	  if($trans)
+	  {
+	  	imagealphablending($reflected, false);
+	  	imagesavealpha($reflected, true);
+	  }else
+	  {
+		  // und mit Hintergrundfarbe füllen
+		  imagefill($reflected, 0, 0, imagecolorallocate($reflected, $bgcolor[0], $bgcolor[1], $bgcolor[2]));
+	  }
+	  	 
+	  imagecopy($reflected, $src_img, 0, 0, 0, 0, $src_width, $src_height);
+	  $alpha_step = 80 / $reflection_height;
+	  for ($y = 1; $y <= $reflection_height; $y++) {
+	  
+	    for ($x = 0; $x < $dest_width; $x++) {
+	      $rgba = imagecolorat($src_img, $x, $src_height - $y);
+	      $alpha = ($rgba & 0x7F000000) >> 24;
+	      $alpha =  max($alpha, 47 + ($y * $alpha_step));
+	      $rgba = imagecolorsforindex($src_img, $rgba);
+	      $rgba = imagecolorallocatealpha($reflected, $rgba['red'], $rgba['green'], $rgba['blue'], $alpha);
+	      imagesetpixel($reflected, $x, $src_height + $y - 1, $rgba);
+	    }
+	  }
 
-  function imagereflection ( &$simg, $background = array (255, 255, 255), $gradient = 0.55, $shadow = 0.1 ) {
-    $simgx = imagesx($simg);
-    $simgy = imagesy($simg);
-    // Hoehen von Verlauf und Schatten in px bestimmen
-    $gradientH = round($simgy * $gradient);
-    $shadowH   = round($simgy * $shadow);
-    // Zielbild erzeugen
-    $dimg = imagecreatetruecolor($simgx, $simgy + $gradientH );
-    imagealphablending($dimg, false);
-    imagesavealpha($dimg, true);
-    // und mit Hintergrundfarbe fuellen
-    $bgcolor = imagecolorallocate($dimg, $background[0], $background[1], $background[2]);
-    imagefill($dimg, 0, 0, $bgcolor);
-    // Quellbild kopieren
-    imagecopy($dimg, $simg, 0, 0, 0, 0, $simgx, $simgy);
-    // und das gespiegelte Bild einfuegen
-//    $simg = $this->imageflip($simg, 1);
-//    imagecopy($dimg, $simg, 0, $simgy, 0, 0, $simgx, $simgy);
-
-    // Verlauf erzeugen
-    $alphaF = 60 / ($gradientH - 1);
-    for ($i = 0; $i < $gradientH; $i++) {
-      $col = imagecolorallocatealpha($dimg, $background[0], $background[1], $background[2], 60 - $i * $alphaF);
-      imageline($dimg, 0, $simgy + $i, $simgx, $simgy + $i, $col);
-    }
-
-    // Schatten erzeugen
-    $alphaF = 60 / ($shadowH - 1);
-    for ($i = 0; $i < $shadowH; $i++) {
-      $col = imagecolorallocatealpha($dimg, 160, 160, 160, $i*$alphaF + 67);
-      imageline($dimg, 0, $simgy + $i, $simgx, $simgy + $i, $col);
-    }
-    
-    imagealphablending($dimg, false);
-    imagesavealpha($dimg, true);
-
-    // Bild zurueckgeben
-    return $dimg;
-  }
-
-  function imageflip ( $imgsrc, $mode = 3 )
-  {
-    $width                        =    imagesx ( $imgsrc );
-    $height                       =    imagesy ( $imgsrc );
-    $src_x                        =    0;
-    $src_y                        =    0;
-    $src_width                    =    $width;
-    $src_height                   =    $height;
-    switch ( $mode )
-    {
-      case '1': //vertical
-        $src_y                =    $height -1;
-        $src_height           =    -$height;
-        break;
-      case '2': //horizontal
-        $src_x                =    $width -1;
-        $src_width            =    -$width;
-        break;
-      case '3': //both
-        $src_x                =    $width -1;
-        $src_y                =    $height -1;
-        $src_width            =    -$width;
-        $src_height           =    -$height;
-        break;
-      default:
-        return $imgsrc;
-    }
-    $imgdest = imagecreatetruecolor ( $width, $height );
-
-    if ( imagecopyresampled ( $imgdest, $imgsrc, 0, 0, $src_x, $src_y , $width, $height, $src_width, $src_height ) )
-    {
-      return $imgdest;
-    }
-    return $imgsrc;
-  }
+	  return $reflected;
+	}
+		
+	
+	
+	
+	
+	
+	
 
 }
