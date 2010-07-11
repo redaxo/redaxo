@@ -67,6 +67,8 @@ edit_block = edit slice
 submit_data  =  submit data
 file_doesnt_exist  =  file doesn't exist.
 choose_another_one  =  please choose another.
+form_field_first_prior = first position
+form_field_after_prior = after "{0}"
 
 # redaxo/include/classes/class.mail_decode.inc.php
 download  =  download
