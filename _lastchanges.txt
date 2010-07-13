@@ -7,6 +7,11 @@ angehandelt.
 Änderungen im Detail:
 ---------------------------------------------------------------------------------
 
+Version 5.0 ()
+
+  * Folder /files/addons ... auf /redaxo_media/ geŠndert
+
+
 Version 4.3.1 (2010-06-16)
   Anpassungen
   * Zeitzone wird per default in der master.inc auf Berlin/Europe gesetzt. Dort auch änderbar
