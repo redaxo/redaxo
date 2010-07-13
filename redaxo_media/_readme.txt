@@ -1,0 +1,1 @@
+_redaxo_media folder
