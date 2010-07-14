@@ -232,6 +232,7 @@ class rex_cronjob_manager_sql
     {
       $success = false;
       $this->manager->setMessage('Cronjob not found in database');
+      $this->manager->saveNextTime($this->getMinNextTime());
     }
     else
     {
@@ -241,13 +242,14 @@ class rex_cronjob_manager_sql
       $params   = unserialize($this->sql->getValue('parameters'));
       $interval = $this->sql->getValue('interval');
 
-      $cronjob = rex_cronjob::factory($type);
-      $success = $this->manager->tryExecute($cronjob, $name, $params, $log, $id);
-
       $nexttime = $this->_calculateNextTime($interval);
       $this->setNextTime($id, $nexttime);
+
+      $this->manager->saveNextTime($this->getMinNextTime());
+
+      $cronjob = rex_cronjob::factory($type);
+      $success = $this->manager->tryExecute($cronjob, $name, $params, $log, $id);
     }
-    $this->manager->saveNextTime($this->getMinNextTime());
     return $success;
   }
   
