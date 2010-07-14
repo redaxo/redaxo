@@ -43,7 +43,7 @@ $rex_img_type = rex_get('rex_img_type', 'string');
 if($rex_img_file != '' && $rex_img_type != '')
 {
   $imagepath = $REX['HTDOCS_PATH'].'files/'.$rex_img_file;
-  $cachepath = $REX['INCLUDE_PATH'].'/generated/files/';
+  $cachepath = $REX['SRC_PATH'].'/generated/files/';
   
   $image         = new rex_image($imagepath);
   $image_cacher  = new rex_image_cacher($cachepath);
@@ -67,7 +67,7 @@ if($REX['REDAXO'])
   }
   
   // handle backend pages
-  $I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
+  $I18N->appendFile($REX['SRC_PATH'].'/addons/'.$mypage.'/lang/');
   
   $descPage = new rex_be_page($I18N->msg('imanager_subpage_desc'), array(
       'page'=>'image_manager',

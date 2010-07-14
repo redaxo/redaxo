@@ -18,7 +18,7 @@ $max_resizepixel = rex_request('max_resizepixel', 'int');
 $jpg_quality = rex_request('jpg_quality', 'int');
 $old_syntax = rex_request('old_syntax', 'int');
 
-$config_file = $REX['INCLUDE_PATH'].'/addons/image_manager/config.inc.php';
+$config_file = $REX['SRC_PATH'].'/addons/image_manager/config.inc.php';
 
 if ($func == 'update')
 {

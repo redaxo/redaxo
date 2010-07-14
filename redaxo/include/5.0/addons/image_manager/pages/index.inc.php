@@ -15,7 +15,7 @@
 require_once (dirname(__FILE__). '/../functions/function_rex_effects.inc.php');
 require_once (dirname(__FILE__). '/../functions/function_rex_extensions.inc.php');
 
-require $REX['INCLUDE_PATH'] . '/layout/top.php';
+require $REX['SRC_PATH'] . '/core/layout/top.php';
 
 $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
@@ -48,4 +48,4 @@ switch($subpage)
 }
 
 require dirname(__FILE__) .'/'.$subpage.'.inc.php';
-require $REX['INCLUDE_PATH'] . '/layout/bottom.php';
+require $REX['SRC_PATH'] . '/core/layout/bottom.php';
