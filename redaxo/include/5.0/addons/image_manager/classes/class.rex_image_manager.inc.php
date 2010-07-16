@@ -95,7 +95,7 @@ class rex_image_manager
     global $REX;
     
     $imagepath = $REX['HTDOCS_PATH'].'files/'.$rex_img_file;
-    $cachepath = $REX['INCLUDE_PATH'].'/generated/files/';
+    $cachepath = $REX['SRC_PATH'].'/generated/files/';
     
     $image         = new rex_image($imagepath);
     $image_cacher  = new rex_image_cacher($cachepath);
