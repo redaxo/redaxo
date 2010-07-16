@@ -1,6 +1,6 @@
 <?php
 
-unset($REX);
+$REX = array();
 $REX['REDAXO'] = false;
 $REX['HTDOCS_PATH'] = '.';
 // $REX['GG'] = true;
