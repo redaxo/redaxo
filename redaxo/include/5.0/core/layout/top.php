@@ -34,32 +34,7 @@ $body_attr["onunload"] = array('closeAll();');
   <title><?php echo htmlspecialchars($page_title) ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg('htmlcharset'); ?>" />
   <meta http-equiv="Content-Language" content="<?php echo $I18N->msg('htmllang'); ?>" />
-  <link rel="stylesheet" type="text/css" href="media/css_import.css" media="screen, projection, print" />
-  <!--[if lte IE 7]>
-		<link rel="stylesheet" href="media/css_ie_lte_7.css" type="text/css" media="screen, projection, print" />
-	<![endif]-->
-			
-	<!--[if IE 7]>
-		<link rel="stylesheet" href="media/css_ie_7.css" type="text/css" media="screen, projection, print" />
-	<![endif]-->
-	
-	<!--[if lte IE 6]>
-		<link rel="stylesheet" href="media/css_ie_lte_6.css" type="text/css" media="screen, projection, print" />
-	<![endif]-->
-
-  <!-- jQuery immer nach den Stylesheets! -->
-  <script src="media/jquery.min.js" type="text/javascript"></script>
-  <script src="media/standard.js" type="text/javascript"></script>
-  <script type="text/javascript">
-  <!--
-  var redaxo = true;
-
-  // jQuery is now removed from the $ namespace
-  // to use the $ shorthand, use (function($){ ... })(jQuery);
-  // and for the onload handler: jQuery(function($){ ... });
-  jQuery.noConflict();
-  //-->
-  </script>
+  
 <?php
 
 // ----- EXTENSION POINT
