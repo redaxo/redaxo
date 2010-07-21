@@ -6,7 +6,7 @@
  * @version svn:$Id$
  */
 
-/*abstract*/ class OORedaxo
+abstract class OORedaxo
 {
   /*
    * these vars get read out

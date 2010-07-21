@@ -11,10 +11,10 @@ ob_start();
 ob_implicit_flush(0);
 
 // ----------------- MAGIC QUOTES CHECK
-require $REX["SRC_PATH"].'/core/functions/function_rex_mquotes.inc.php';
+require_once $REX["SRC_PATH"].'/core/functions/function_rex_mquotes.inc.php';
 
 
-include $REX["SRC_PATH"].'/config/master.inc.php';
+require_once $REX["SRC_PATH"].'/config/master.inc.php';
 
 // ----- addon/normal page path
 $REX['PAGEPATH'] = '';

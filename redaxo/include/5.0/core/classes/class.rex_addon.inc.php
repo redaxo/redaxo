@@ -7,7 +7,7 @@
  * @version svn:$Id$
  */
 
-/*private abstract*/ class rex_addon
+class rex_addon
 {
   /*static array*/ var $data;
   /*private mixed*/ var $name;

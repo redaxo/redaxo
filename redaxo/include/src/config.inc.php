@@ -7,5 +7,3 @@ if($REX["REDAXO"])
 	include($REX["SRC_PATH"].'/core/index_be.inc.php');
 else
 	include($REX["SRC_PATH"].'/core/index_fe.inc.php');
-
-?>

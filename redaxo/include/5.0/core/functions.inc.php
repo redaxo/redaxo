@@ -20,25 +20,33 @@ include_once $REX['SRC_PATH'].'/core/functions/function_rex_plugins.inc.php';
 include_once $REX['SRC_PATH'].'/core/functions/function_rex_other.inc.php';
 
 // ----- CLASSES
-include_once $REX['SRC_PATH'].'/core/classes/class.i18n.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.rex_sql.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.rex_select.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.rex_article_base.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.rex_article.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.rex_article_editor.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.rex_template.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.rex_login.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.rex_addon.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.rex_navigation.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.rex_manager.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.ooredaxo.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.oocategory.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.ooarticle.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.ooarticleslice.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.oomediacategory.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.oomedia.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.ooaddon.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.ooplugin.inc.php';
+require_once $REX["SRC_PATH"].'/core/classes/class.rex_autoload.inc.php';
+
+$loader = rex_autoload::getInstance($REX['SRC_PATH'].'/generated/files/autoload.cache');
+$loader->addDirectory($REX['SRC_PATH'].'/core/classes/');
+$loader->addDirectory($REX['SRC_PATH'].'/core/classes/variables/');
+
+rex_autoload::register();
+
+//include_once $REX['SRC_PATH'].'/core/classes/class.i18n.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.rex_sql.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.rex_select.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.rex_article_base.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.rex_article.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.rex_article_editor.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.rex_template.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.rex_login.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.rex_addon.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.rex_navigation.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.rex_manager.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.ooredaxo.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.oocategory.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.ooarticle.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.ooarticleslice.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.oomediacategory.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.oomedia.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.ooaddon.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.ooplugin.inc.php';
 
 if ($REX['REDAXO'])
 {
@@ -46,17 +54,17 @@ if ($REX['REDAXO'])
   include_once $REX['SRC_PATH'].'/core/functions/function_rex_generate.inc.php';
   include_once $REX['SRC_PATH'].'/core/functions/function_rex_mediapool.inc.php';
   include_once $REX['SRC_PATH'].'/core/functions/function_rex_structure.inc.php';
-  include_once $REX['SRC_PATH'].'/core/classes/class.rex_formatter.inc.php';
+//  include_once $REX['SRC_PATH'].'/core/classes/class.rex_formatter.inc.php';
 }
 
-include_once $REX['SRC_PATH'].'/core/classes/class.rex_form.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.rex_list.inc.php';
-include_once $REX['SRC_PATH'].'/core/classes/class.rex_select.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.rex_form.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.rex_list.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.rex_select.inc.php';
 
-include_once $REX['SRC_PATH'].'/core/classes/class.rex_var.inc.php';
+//include_once $REX['SRC_PATH'].'/core/classes/class.rex_var.inc.php';
 foreach($REX['VARIABLES'] as $key => $value)
 {
-  require_once ($REX['SRC_PATH'].'/core/classes/variables/class.'.$value.'.inc.php');
+//  require_once ($REX['SRC_PATH'].'/core/classes/variables/class.'.$value.'.inc.php');
   $REX['VARIABLES'][$key] = new $value;
 }
 
