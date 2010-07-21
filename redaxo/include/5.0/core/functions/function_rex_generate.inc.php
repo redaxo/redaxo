@@ -180,7 +180,7 @@ function rex_generateArticleMeta($article_id, $clang = null)
     $article_file = $REX['SRC_PATH']."/generated/articles/$article_id.$_clang.article";
     if (rex_put_file_contents($article_file, $content) === FALSE)
     {
-      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
+      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH']."/generated/articles/";
     }
     
     // damit die aktuellen änderungen sofort wirksam werden, einbinden!
@@ -227,7 +227,7 @@ function rex_generateArticleContent($article_id, $clang = null)
   
     if (rex_put_file_contents($article_content_file, $article_content) === FALSE)
     {
-      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
+      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH']."/generated/articles/";
     }
   }
   
@@ -459,7 +459,7 @@ function rex_generateLists($re_id, $clang = null)
     $article_list_file = $REX['SRC_PATH']."/generated/articles/$re_id.$_clang.alist";
     if (rex_put_file_contents($article_list_file, $content) === FALSE)
     {
-      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
+      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH']."/generated/articles/";
     }
 
     // --------------------------------------- CAT LIST
@@ -478,7 +478,7 @@ function rex_generateLists($re_id, $clang = null)
     $article_categories_file = $REX['SRC_PATH']."/generated/articles/$re_id.$_clang.clist";
     if (rex_put_file_contents($article_categories_file, $content) === FALSE)
     {
-      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['INCLUDE_PATH']."/generated/articles/";
+      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH']."/generated/articles/";
     }
   }
   

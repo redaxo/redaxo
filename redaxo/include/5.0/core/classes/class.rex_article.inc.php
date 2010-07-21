@@ -116,10 +116,10 @@ class rex_article extends rex_article_base
       ob_start();
       ob_implicit_flush(0);
 
-      $article_content_file = $REX['INCLUDE_PATH'].'/generated/articles/'.$this->article_id.'.'.$this->clang.'.content';
+      $article_content_file = $REX['SRC_PATH'].'/generated/articles/'.$this->article_id.'.'.$this->clang.'.content';
       if(!file_exists($article_content_file))
       {
-        include_once ($REX["INCLUDE_PATH"]."/functions/function_rex_generate.inc.php");
+        include_once ($REX["SRC_PATH"]."/core/functions/function_rex_generate.inc.php");
         $generated = rex_generateArticleContent($this->article_id, $this->clang);
         if($generated !== true)
         {
