@@ -238,12 +238,6 @@ class sfSimpleAutoload
     }
   }
   
-  protected function readFiles($dir, $ext)
-  {
-    
-    
-  }
-  
   /**
    * Adds files to the autoloading system.
    *
