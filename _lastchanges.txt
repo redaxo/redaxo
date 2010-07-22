@@ -10,6 +10,9 @@ angehandelt.
 Version 5.0 ()
 
   * Folder /files/addons ... auf /redaxo_media/ geändert
+  
+  Bugfixes
+  * Cronjob-Plugin "Artikel-Status" funktionierte nicht im Frontend
 
 
 Version 4.3.1 (2010-06-16)
