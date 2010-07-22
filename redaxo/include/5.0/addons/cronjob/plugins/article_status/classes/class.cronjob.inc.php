@@ -14,6 +14,7 @@ class rex_cronjob_article_status extends rex_cronjob
   /*public*/ function execute()
   {
     global $REX;
+
     $config = OOPlugin::getProperty('cronjob', 'article_status', 'config');
     $from = $config['from'];
     $to   = $config['to'];
@@ -60,6 +61,9 @@ class rex_cronjob_article_status extends rex_cronjob
         )
     ');
     $rows = $sql->getRows();
+
+    include_once $REX['INCLUDE_PATH'].'/functions/function_rex_structure.inc.php';
+
     for($i = 0; $i < $rows; $i++)
     {
       if (in_array($sql->getValue('status'), $from['before']))

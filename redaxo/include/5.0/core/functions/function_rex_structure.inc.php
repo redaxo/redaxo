@@ -644,6 +644,9 @@ function rex_articleStatus($article_id, $clang, $status = null)
 {
   global $REX, $I18N;
 
+  if(!is_object($I18N))
+    $I18N = rex_create_lang($REX['LANG']);
+
   $success = false;
   $message = '';
   $artStatusTypes = rex_articleStatusTypes();
@@ -663,7 +666,12 @@ function rex_articleStatus($article_id, $clang, $status = null)
     $EA->setTable($REX['TABLE_PREFIX']."article");
     $EA->setWhere("id='$article_id' and clang=$clang");
     $EA->setValue('status', $newstatus);
-    $EA->addGlobalUpdateFields();
+    $EA->addGlobalUpdateFields($REX['REDAXO'] ? null : 'frontend');
+
+    if (!$REX['REDAXO'])
+    {
+      include_once $REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php';
+    }
 
     if($EA->update())
     {
