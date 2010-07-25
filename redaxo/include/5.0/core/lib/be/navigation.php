@@ -280,11 +280,17 @@ class rex_be_navigation
     $languages->setRequiredPermissions('isAdmin');
     $languages->setHref('index.php?page=specials&subpage=lang');
     
+    $syslog = new rex_be_page($I18N->msg('languages'), array('page'=>'specials', 'subpage' => 'log'));
+    $syslog->setIsCorePage(true);
+    $syslog->setRequiredPermissions('isAdmin');
+    $syslog->setHref('index.php?page=specials&subpage=log');
+    
     $mainSpecials = new rex_be_page($I18N->msg('specials'), array('page'=>'specials'));
     $mainSpecials->setIsCorePage(true);
     $mainSpecials->setRequiredPermissions('isAdmin');
     $mainSpecials->addSubPage($settings);
     $mainSpecials->addSubPage($languages);
+    $mainSpecials->addSubPage($syslog);
     $pages['specials'] = new rex_be_page_main('system', $mainSpecials);
     
     return $pages;    
