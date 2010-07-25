@@ -15,6 +15,7 @@ $func = rex_request('func', 'string');
 $subline = array(
   array( '', $I18N->msg('main_preferences')),
   array( 'lang', $I18N->msg('languages')),
+  array( 'log', $I18N->msg('syslog')),
 );
 
 rex_title($I18N->msg('specials'),$subline);
@@ -22,6 +23,7 @@ rex_title($I18N->msg('specials'),$subline);
 switch($subpage)
 {
   case 'lang': $file = 'specials.clangs.inc.php'; break;
+  case 'log': $file = 'specials.log.inc.php'; break;
   default : $file = 'specials.settings.inc.php'; break;
 }
 
