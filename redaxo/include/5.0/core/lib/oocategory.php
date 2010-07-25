@@ -8,7 +8,7 @@
 
 class OOCategory extends OORedaxo
 {
-  /*protected*/ function OOCategory($params = false, $clang = false)
+  public function OOCategory($params = false, $clang = false)
   {
     parent :: OORedaxo($params, $clang);
   }
@@ -17,7 +17,7 @@ class OOCategory extends OORedaxo
    * CLASS Function:
    * Return an OORedaxo object based on an id
    */
-  /*public static*/ function getCategoryById($category_id, $clang = false)
+  static public function getCategoryById($category_id, $clang = false)
   {
     return OOArticle :: getArticleById($category_id, $clang, true);
   }
@@ -26,7 +26,7 @@ class OOCategory extends OORedaxo
    * CLASS Function:
    * Return all Children by id
    */
-  /*public static*/ function getChildrenById($cat_parent_id, $ignore_offlines = false, $clang = false)
+  static public function getChildrenById($cat_parent_id, $ignore_offlines = false, $clang = false)
   {
     global $REX;
     
@@ -78,7 +78,7 @@ class OOCategory extends OORedaxo
    * Accessor Method:
    * returns the article priority
    */
-  /*public*/ function getPriority()
+  public function getPriority()
   {
     return $this->_catprior;
   }
@@ -93,7 +93,7 @@ class OOCategory extends OORedaxo
    * all categories with status 0 will be
    * excempt from this list!
    */
-  /*public static*/ function getRootCategories($ignore_offlines = false, $clang = false)
+  static public function getRootCategories($ignore_offlines = false, $clang = false)
   {
     global $REX;
 
@@ -112,7 +112,7 @@ class OOCategory extends OORedaxo
    * all categories with status 0 will be
    * excempt from this list!
    */
-  /*public*/ function getChildren($ignore_offlines = false, $clang = false)
+  public function getChildren($ignore_offlines = false, $clang = false)
   {
     if ($clang === false)
       $clang = $this->_clang;
@@ -124,7 +124,7 @@ class OOCategory extends OORedaxo
    * Object Function:
    * Returns the parent category
    */
-  /*public*/ function getParent($clang = false)
+  public function getParent($clang = false)
   {
     if ($clang === false)
       $clang = $this->_clang;
@@ -137,7 +137,7 @@ class OOCategory extends OORedaxo
    * Returns TRUE if this category is the direct
    * parent of the other category.
    */
-  /*public*/ function isParent($other_cat)
+  public function isParent($other_cat)
   {
      return $this->getId() == $other_cat->getParentId() &&
             $this->getClang() == $other_cat->getClang();
@@ -149,7 +149,7 @@ class OOCategory extends OORedaxo
    * (parent, grandparent, greatgrandparent, etc)
    * of the other category.
    */
-  /*public*/ function isAncestor($other_cat)
+  public function isAncestor($other_cat)
   {
     $category = OOCategory :: _getCategoryObject($other_cat);
     return in_array($this->_id, explode('|', $category->getPath()));
@@ -164,7 +164,7 @@ class OOCategory extends OORedaxo
    * all articles with status 0 will be
    * excempt from this list!
    */
-  /*public*/ function getArticles($ignore_offlines = false)
+  public function getArticles($ignore_offlines = false)
   {
     return OOArticle :: getArticlesOfCategory($this->_id, $ignore_offlines, $this->_clang);
   }
@@ -173,7 +173,7 @@ class OOCategory extends OORedaxo
    * Object Function:
    * Return the start article for this category
    */
-  /*public*/ function getStartArticle()
+  public function getStartArticle()
   {
     return OOArticle :: getCategoryStartArticle($this->_id, $this->_clang);
   }
@@ -182,7 +182,7 @@ class OOCategory extends OORedaxo
    * Accessor Method:
    * returns the name of the article
    */
-  /*public*/ function getName()
+  public function getName()
   {
     return $this->_catname;
   }
@@ -191,7 +191,7 @@ class OOCategory extends OORedaxo
    * Accessor Method:
    * returns the path of the category
    */
-  /*public*/ function getPath()
+  public function getPath()
   {
     return $this->_path;
   }
@@ -200,7 +200,7 @@ class OOCategory extends OORedaxo
    * Accessor Method:
    * returns the path ids of the category as an array
    */
-  /*public*/ function getPathAsArray()
+  public function getPathAsArray()
   {
   	$p = explode('|',$this->_path);
   	foreach($p as $k => $v)
@@ -214,7 +214,7 @@ class OOCategory extends OORedaxo
     return array_values($p);
   }
   
-  /*public static*/ function & _getCategoryObject($category, $clang = false)
+  static public function & _getCategoryObject($category, $clang = false)
   {
     if (is_object($category))
     {
@@ -244,7 +244,7 @@ class OOCategory extends OORedaxo
     return null;
   }
 
-  /*public*/ function hasValue($value)
+  public function hasValue($value)
   {
     return parent::hasValue($value, array('cat_'));
   }
@@ -253,7 +253,7 @@ class OOCategory extends OORedaxo
    * Static Method:
    * Returns True if the given category is a valid OOCategory
    */
-  /*public*/ function isValid($category)
+  static public function isValid($category)
   {
     return is_object($category) && is_a($category, 'oocategory');
   }
@@ -265,7 +265,7 @@ class OOCategory extends OORedaxo
    * if the category_id is invalid an empty array is returned.
    * 
    */
-  /*public static*/ function getTemplates($category_id, $ignore_inactive = true)
+  static public function getTemplates($category_id, $ignore_inactive = true)
   {
     global $REX;
 

@@ -166,7 +166,7 @@ class OOMediaCategory
    * Accessor Method:
    * returns the path ids of the category as an array
    */
-  /*public*/ function getPathAsArray()
+  public function getPathAsArray()
   {
     $p = explode('|',$this->_path);
     foreach($p as $k => $v)

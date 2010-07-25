@@ -2,23 +2,24 @@
 
 class rex_be_navigation
 {
-  var $headlines = array();
-  var $pages;
+  private static
+    $class;
+  private
+    $headlines = array(),
+    $pages;
   
-  /*public*/ function factory()
+  static public function factory()
   {
-    static $class = null;
-
-    if(!$class)
+    if(!self::$class)
     {
       // ----- EXTENSION POINT
-      $class = rex_register_extension_point('REX_BE_NAVI_CLASSNAME', 'rex_be_navigation');
+      self::$class = rex_register_extension_point('REX_BE_NAVI_CLASSNAME', 'rex_be_navigation');
     }
 
-    return new $class();
+    return new self::$class();
   }
   
-  /*public*/ function addPage(/*rex_be_page_container*/ &$mainPage)
+  public function addPage(/*rex_be_page_container*/ &$mainPage)
   {
     $blockName = 'default';
     if(rex_be_page_main::isValid($mainPage))
@@ -34,7 +35,7 @@ class rex_be_navigation
     $this->pages[$blockName][] = $mainPage;
   }
   
-  /*public*/ function getNavigation()
+  public function getNavigation()
   {
     global $REX,$I18N;
     $s = '<dl class="rex-navi">';
@@ -58,7 +59,7 @@ class rex_be_navigation
     
   }
   
-  /*private*/ function _getNavigation(&$blockPages, $level = 0, $block = '')
+  private function _getNavigation(&$blockPages, $level = 0, $block = '')
   {
       global $REX;
     
@@ -117,7 +118,7 @@ class rex_be_navigation
       return $echo;
   }
   
-  /*public*/ function setActiveElements()
+  public function setActiveElements()
   {
     if(is_array($this->pages))
     {
@@ -151,7 +152,7 @@ class rex_be_navigation
     }
   }
   
-  /*private*/ function checkActivateCondition($a)
+  private function checkActivateCondition($a)
   {
     if(empty($a))
     {
@@ -168,12 +169,12 @@ class rex_be_navigation
     return TRUE;
   }
   
-  /*public*/ function setHeadline($block, $headline)
+  public function setHeadline($block, $headline)
   {
     $this->headlines[$block] = $headline;
   }
   
-  /*public*/ function getHeadline($block)
+  public function getHeadline($block)
   {
     global $I18N;
 
@@ -186,7 +187,7 @@ class rex_be_navigation
     return '';
   }
   
-  /*public static*/ function getSetupPage()
+  static public function getSetupPage()
   {
     global $I18N;
       
@@ -195,7 +196,7 @@ class rex_be_navigation
     return $page;
   }
   
-  /*public static*/ function getLoginPage()
+  static public function getLoginPage()
   {
     $page = new rex_be_page('login', 'system');
     $page->setIsCorePage(true);
@@ -203,7 +204,7 @@ class rex_be_navigation
     return $page;
   }
   
-  /*public static*/ function getLoggedInPages(/*rex_login_sql*/ $rexUser)
+  static public function getLoggedInPages(/*rex_login_sql*/ $rexUser)
   {
     global $I18N;
     

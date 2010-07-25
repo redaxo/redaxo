@@ -20,7 +20,7 @@ class rex_input_time extends rex_input
     $this->minuteSelect->setAttribute('class', 'rex-form-select-date');
   }
   
-  /*public*/ function setValue($value)
+  public function setValue($value)
   {
     if(!is_array($value))
     {
@@ -41,7 +41,7 @@ class rex_input_time extends rex_input
     parent::setValue($value);
   }
   
-  /*public*/ function setAttribute($name, $value)
+  public function setAttribute($name, $value)
   {
     if($name == 'name')
     {
@@ -61,12 +61,12 @@ class rex_input_time extends rex_input
     parent::setAttribute($name, $value);
   }
   
-  /*public*/ function &getHourSelect()
+  public function &getHourSelect()
   {
     return $this->hourSelect;
   }
   
-  /*public*/ function &getMinuteSelect()
+  public function &getMinuteSelect()
   {
     return $this->minuteSelect;
   }

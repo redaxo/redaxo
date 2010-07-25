@@ -21,7 +21,7 @@ abstract class rex_notification_component extends rex_dashboard_component
     $this->setFormat('full');
   }
   
-  /*protected*/ function prepare()
+  protected function prepare()
   {
     // ----- EXTENSION POINT
     $dashboard_notifications = array();

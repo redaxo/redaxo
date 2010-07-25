@@ -23,7 +23,7 @@ class rex_editme_component extends rex_dashboard_component
     $this->setBlock($I18N->msg('editme'));
   }
   
-  /*protected*/ function prepare()
+  protected function prepare()
   {
     global $I18N;
     

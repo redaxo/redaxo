@@ -10,7 +10,7 @@
 class rex_addon
 {
   /*static array*/ var $data;
-  /*private mixed*/ var $name;
+  private $name;
   
   /**
    * Privater rex_addon Konstruktor.
@@ -18,7 +18,7 @@ class rex_addon
    * 
    * @param string|array $namespace Namensraum des rex-Addons 
    */
-  /*private*/ function rex_addon($namespace)
+  private function rex_addon($namespace)
   {
     global $REX;
     
@@ -51,7 +51,7 @@ class rex_addon
    *  
    * @return rex_addon Zum namespace erstellte rex-Addon instanz
    */
-  /*protected static*/ function create($namespace)
+  static protected function create($namespace)
   {
     static $addons = array();
     
@@ -76,7 +76,7 @@ class rex_addon
    * 
    * @return boolean TRUE, wenn das rex-Addon verfügbar ist, sonst FALSE
    */
-  /*public static*/ function isAvailable($addon)
+  static public function isAvailable($addon)
   {
     return rex_addon::isInstalled($addon) && rex_addon::isActivated($addon);
   }
@@ -88,7 +88,7 @@ class rex_addon
    * 
    * @return boolean TRUE, wenn das rex-Addon aktiviert ist, sonst FALSE
    */
-  /*public static*/ function isActivated($addon)
+  static public function isActivated($addon)
   {
     return rex_addon::getProperty($addon, 'status', false) == true;
   }
@@ -100,7 +100,7 @@ class rex_addon
    * 
    * @return boolean TRUE, wenn das rex-Addon installiert ist, sonst FALSE
    */
-  /*public static*/ function isInstalled($addon)
+  static public function isInstalled($addon)
   {
     return rex_addon::getProperty($addon, 'install', false) == true;
   }
@@ -113,7 +113,7 @@ class rex_addon
    * 
    * @return string Versionsnummer des Addons
    */
-  /*public static*/ function getVersion($addon, $default = null)
+  static public function getVersion($addon, $default = null)
   {
     return rex_addon::getProperty($addon, 'version', $default);
   }
@@ -126,7 +126,7 @@ class rex_addon
    * 
    * @return string Autor des Addons
    */
-  /*public static*/ function getAuthor($addon, $default = null)
+  static public function getAuthor($addon, $default = null)
   {
     return rex_addon::getProperty($addon, 'author', $default);
   }
@@ -139,7 +139,7 @@ class rex_addon
    * 
    * @return string Versionsnummer des Addons
    */
-  /*public static*/ function getSupportPage($addon, $default = null)
+  static public function getSupportPage($addon, $default = null)
   {
     return rex_addon::getProperty($addon, 'supportpage', $default);
   }
@@ -153,7 +153,7 @@ class rex_addon
    * 
    * @return string Versionsnummer des Addons
    */
-  /*public static*/ function setProperty($addon, $property, $value)
+  static public function setProperty($addon, $property, $value)
   {
     $rexAddon = rex_addon::create($addon);
     
@@ -172,7 +172,7 @@ class rex_addon
    * 
    * @return string Wert der Eigenschaft des Addons
    */
-  /*public static*/ function getProperty($addon, $property, $default = null)
+  static public function getProperty($addon, $property, $default = null)
   {
     $rexAddon = rex_addon::create($addon);
     return isset($rexAddon->data[$property][$rexAddon->name]) ? $rexAddon->data[$property][$rexAddon->name] : $default;

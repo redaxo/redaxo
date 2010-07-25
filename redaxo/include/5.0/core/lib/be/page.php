@@ -182,7 +182,7 @@ class rex_be_page extends rex_be_page_container
   /*
    * Static Method: Returns True when the given be_page is valid
    */
-  /*public static*/ function isValid($be_page)
+  static public function isValid($be_page)
   {
     return is_object($be_page) && is_a($be_page, 'rex_be_page');
   }

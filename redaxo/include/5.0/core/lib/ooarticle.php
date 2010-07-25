@@ -8,7 +8,7 @@
 
 class OOArticle extends OORedaxo
 {
-  /*protected*/ function OOArticle($params = FALSE, $clang = FALSE)
+  public function OOArticle($params = FALSE, $clang = FALSE)
   {
     parent :: OORedaxo($params, $clang);
   }
@@ -17,7 +17,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return an OORedaxo object based on an id
    */
-  /*public static*/ function getArticleById($article_id, $clang = FALSE, $OOCategory = FALSE)
+  static public function getArticleById($article_id, $clang = FALSE, $OOCategory = FALSE)
   {
     global $REX;
     
@@ -53,7 +53,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return the site wide start article
    */
-  /*public static*/ function getSiteStartArticle($clang = FALSE)
+  static public function getSiteStartArticle($clang = FALSE)
   {
     global $REX;
     
@@ -67,7 +67,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return start article for a certain category
    */
-  /*public static*/ function getCategoryStartArticle($a_category_id, $clang = FALSE)
+  static public function getCategoryStartArticle($a_category_id, $clang = FALSE)
   {
     global $REX;
     
@@ -81,7 +81,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return a list of articles for a certain category
    */
-  /*public static*/ function getArticlesOfCategory($a_category_id, $ignore_offlines = FALSE, $clang = FALSE)
+  static public function getArticlesOfCategory($a_category_id, $ignore_offlines = FALSE, $clang = FALSE)
   {
     global $REX;
 
@@ -127,7 +127,7 @@ class OOArticle extends OORedaxo
    * CLASS Function:
    * Return a list of top-level articles
    */
-  /*public static*/ function getRootArticles($ignore_offlines = FALSE, $clang = FALSE)
+  static public function getRootArticles($ignore_offlines = FALSE, $clang = FALSE)
   {
     return OOArticle :: getArticlesOfCategory(0, $ignore_offlines, $clang);
   }
@@ -136,7 +136,7 @@ class OOArticle extends OORedaxo
    * Accessor Method:
    * returns the category id
    */
-  /*public*/ function getCategoryId()
+  public function getCategoryId()
   {
     return $this->isStartPage() ? $this->getId() : $this->getParentId();
   }
@@ -145,7 +145,7 @@ class OOArticle extends OORedaxo
    * Object Function:
    * Returns the parent category
    */
-  /*public*/ function getCategory()
+  public function getCategory()
   {
     return OOCategory :: getCategoryById($this->getCategoryId(), $this->getClang());
   }
@@ -154,7 +154,7 @@ class OOArticle extends OORedaxo
    * Accessor Method:
    * returns the path of the category/article
    */
-  /*public*/ function getPath()
+  public function getPath()
   {
       if($this->isStartArticle())
         return $this->_path.$this->_id .'|';
@@ -166,7 +166,7 @@ class OOArticle extends OORedaxo
    * Accessor Method:
    * returns the path ids of the category/article as an array
    */
-  /*public*/ function getPathAsArray()
+  public function getPathAsArray()
   {
     $p = $this->_path;
     if($this->isStartArticle())
@@ -186,12 +186,12 @@ class OOArticle extends OORedaxo
   /*
    * Static Method: Returns True when the given article is a valid OOArticle
    */
-  /*public static*/ function isValid($article)
+  static public function isValid($article)
   {
     return is_object($article) && is_a($article, 'ooarticle');
   }
 
-  /*public*/ function getValue($value)
+  public function getValue($value)
   {
     // alias für re_id -> category_id
     if(in_array($value, array('re_id', '_re_id', 'category_id', '_category_id')))
@@ -203,7 +203,7 @@ class OOArticle extends OORedaxo
     return parent::getValue($value);
   }
   
-  /*public*/ function hasValue($value)
+  public function hasValue($value)
   {
   	return parent::hasValue($value, array('art_'));
   }

@@ -15,7 +15,7 @@ class OOAddon extends rex_addon
    * 
    * @return boolean TRUE, wenn es sich um ein System-Addon handelt, sonst FALSE
    */
-  /*public static*/ function isSystemAddon($addon)
+  static public function isSystemAddon($addon)
   {
     global $REX;
     return in_array($addon, $REX['SYSTEM_ADDONS']);
@@ -26,7 +26,7 @@ class OOAddon extends rex_addon
    * 
    * @return array Array der verfügbaren Addons
    */
-  /*public static*/ function getAvailableAddons()
+  static public function getAvailableAddons()
   {
     $avail = array();
     foreach(OOAddon::getRegisteredAddons() as $addonName)
@@ -44,7 +44,7 @@ class OOAddon extends rex_addon
    * 
    * @return array Array aller registrierten Addons
    */
-  /*public static*/ function getRegisteredAddons()
+  static public function getRegisteredAddons()
   {
     global $REX;
     

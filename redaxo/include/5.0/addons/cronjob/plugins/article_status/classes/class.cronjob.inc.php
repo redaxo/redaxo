@@ -11,7 +11,7 @@
  
 class rex_cronjob_article_status extends rex_cronjob
 {
-  /*public*/ function execute()
+  public function execute()
   {
     global $REX;
 
@@ -78,7 +78,7 @@ class rex_cronjob_article_status extends rex_cronjob
     return true;
   }
   
-  /*public*/ function getTypeName()
+  public function getTypeName()
   {
     global $I18N;
     return $I18N->msg('cronjob_article_status');

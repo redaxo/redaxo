@@ -7,13 +7,13 @@ class rex_select
   var $option_selected;
   
   ################ Konstruktor
-  /*public*/ function rex_select()
+  public function rex_select()
   {
     $this->init();
   }
 
   ################ init
-  /*public*/ function init()
+  public function init()
   {
     $this->attributes = array();
     $this->resetSelected();
@@ -23,12 +23,12 @@ class rex_select
     $this->setDisabled(false);
   }
 
-  /*public*/ function setAttribute($name, $value)
+  public function setAttribute($name, $value)
   {
   	$this->attributes[$name] = $value;
   }
 
-  /*public*/ function delAttribute($name)
+  public function delAttribute($name)
   {
   	if($this->hasAttribute($name))
   	{
@@ -38,12 +38,12 @@ class rex_select
   	return false;
   }
 
-  /*public*/ function hasAttribute($name)
+  public function hasAttribute($name)
   {
   	return isset($this->attributes[$name]);
   }
 
-  /*public*/ function getAttribute($name, $default = '')
+  public function getAttribute($name, $default = '')
   {
   	if($this->hasAttribute($name))
   	{
@@ -53,7 +53,7 @@ class rex_select
   }
 
   ############### multiple felder ?
-  /*public*/ function setMultiple($multiple = true)
+  public function setMultiple($multiple = true)
   {
     if($multiple)
       $this->setAttribute('multiple', 'multiple');
@@ -62,7 +62,7 @@ class rex_select
   }
   
   ############### disabled ?
-  /*public*/ function setDisabled($disabled = true)
+  public function setDisabled($disabled = true)
   {
     if($disabled)
       $this->setAttribute('disabled', 'disabled');
@@ -71,13 +71,13 @@ class rex_select
   }
   
   ################ select name
-  /*public*/ function setName($name)
+  public function setName($name)
   {
   	$this->setAttribute('name', $name);
   }
 
   ################ select id
-  /*public*/ function setId($id)
+  public function setId($id)
   {
   	$this->setAttribute('id', $id);
   }
@@ -91,7 +91,7 @@ class rex_select
   * und/oder
   * $sel_media->setStyle("width:150px;");
   */
-  /*public*/ function setStyle($style)
+  public function setStyle($style)
   {
     if (strpos($style, 'class=') !== false)
     {
@@ -107,13 +107,13 @@ class rex_select
   }
 
   ################ select size
-  /*public*/ function setSize($size)
+  public function setSize($size)
   {
   	$this->setAttribute('size', $size);
   }
 
   ################ selected feld - option value uebergeben
-  /*public*/ function setSelected($selected)
+  public function setSelected($selected)
   {
   	if(is_array($selected))
   	{
@@ -128,7 +128,7 @@ class rex_select
   	}
   }
 
-  /*public*/ function resetSelected()
+  public function resetSelected()
   {
     $this->option_selected = array ();
   }
@@ -137,7 +137,7 @@ class rex_select
   /**
    * Fügt eine Option hinzu
    */
-  /*public*/ function addOption($name, $value, $id = 0, $re_id = 0, $attributes = array())
+  public function addOption($name, $value, $id = 0, $re_id = 0, $attributes = array())
   {
     $this->options[$re_id][] = array ($name, $value, $id, $attributes);
   }
@@ -153,7 +153,7 @@ class rex_select
    * 4.    Selected
    * 5.    Attributes
    */
-  /*public*/ function addOptions($options, $useOnlyValues = false)
+  public function addOptions($options, $useOnlyValues = false)
   {
     if(is_array($options) && count($options)>0)
     {
@@ -196,7 +196,7 @@ class rex_select
    * Fügt ein Array von Optionen hinzu, dass eine Key/Value Struktur hat.
    * Wenn $use_keys mit false, werden die Array-Keys mit den Array-Values überschrieben
    */
-  /*public*/ function addArrayOptions($options, $use_keys = true)
+  public function addArrayOptions($options, $use_keys = true)
   {
   	foreach($options as $key => $value)
   	{
@@ -210,7 +210,7 @@ class rex_select
   /**
    * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
    */
-  /*public*/ function addSqlOptions($qry)
+  public function addSqlOptions($qry)
   {
     $sql = rex_sql::factory();
     $this->addOptions($sql->getArray($qry, MYSQL_NUM));
@@ -219,14 +219,14 @@ class rex_select
   /**
    * Fügt Optionen anhand der Übergeben DBSQL-Select-Abfrage hinzu.
    */
-  /*public*/ function addDBSqlOptions($qry)
+  public function addDBSqlOptions($qry)
   {
     $sql = rex_sql::factory();
     $this->addOptions($sql->getDBArray($qry, MYSQL_NUM));
   }
 
   ############### show select
-  /*public*/ function get()
+  public function get()
   {
   	$attr = '';
   	foreach($this->attributes as $name => $value)
@@ -245,12 +245,12 @@ class rex_select
   }
 
   ############### show select
-  /*public*/ function show()
+  public function show()
   {
   	echo $this->get();
   }
 
-  /*private*/ function _outGroup($re_id, $level = 0)
+  private function _outGroup($re_id, $level = 0)
   {
 
     if ($level > 100)
@@ -281,7 +281,7 @@ class rex_select
     return $ausgabe;
   }
 
-  /*private*/ function _outOption($name, $value, $level = 0, $attributes = array())
+  private function _outOption($name, $value, $level = 0, $attributes = array())
   {
     $name = htmlspecialchars($name);
     $value = htmlspecialchars($value);
@@ -302,7 +302,7 @@ class rex_select
     return '    <option value="'.$value.'"'.$attr.'>'.$bsps.$name.'</option>'."\n";
   }
 
-  /*private*/ function _getGroup($re_id, $ignore_main_group = false)
+  private function _getGroup($re_id, $ignore_main_group = false)
   {
 
     if ($ignore_main_group && $re_id == 0)

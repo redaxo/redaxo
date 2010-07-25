@@ -17,17 +17,17 @@ class rex_template
     $this->setId($template_id);
   }
 
-  /*public*/ function getId()
+  public function getId()
   {
     return $this->id;
   }
 
-  /*public*/ function setId($id)
+  public function setId($id)
   {
     $this->id = (int) $id;
   }
 
-  /*public*/ function getFile()
+  public function getFile()
   {
     if($this->getId()<1) return FALSE;
     
@@ -48,21 +48,21 @@ class rex_template
     return $file;
   }
 
-  /*public*/ function getFilePath($template_id)
+  public function getFilePath($template_id)
   {
     if($template_id<1) return FALSE;
 
     return rex_template::getTemplatesDir() .'/' . $template_id . '.template';
   }
 
-  /*public*/ function getTemplatesDir()
+  public function getTemplatesDir()
   {
     global $REX;
 
     return $REX['SRC_PATH'].'/generated/templates';
   }
 
-  /*public*/ function getTemplate()
+  public function getTemplate()
   {
   	$file = $this->getFile();
   	if(!$file) return FALSE;
@@ -70,7 +70,7 @@ class rex_template
   	return rex_get_file_contents($file);
   }
 
-  /*public*/ function generate()
+  public function generate()
   {
     global $REX;
 
@@ -80,7 +80,7 @@ class rex_template
     return rex_generateTemplate($this->getId());
   }
 
-  /*public*/ function deleteCache()
+  public function deleteCache()
   {
   	global $REX;
 
@@ -90,7 +90,7 @@ class rex_template
     return @unlink($file);
   }
   
-  /*public static*/ function hasModule($template_attributes,$ctype,$module_id)
+  public function hasModule($template_attributes,$ctype,$module_id)
 	{
 		$template_modules = rex_getAttributes('modules', $template_attributes, array ());
 		if(!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1)

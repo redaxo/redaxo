@@ -150,7 +150,7 @@ class rex_list
     $this->init();
   }
 
-  function factory($query, $rowsPerPage = 30, $listName = null, $debug = false, $class = null)
+  static function factory($query, $rowsPerPage = 30, $listName = null, $debug = false, $class = null)
   {
     // keine spezielle klasse angegeben -> default klasse verwenden?
     if(!$class)

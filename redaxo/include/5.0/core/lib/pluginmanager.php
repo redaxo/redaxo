@@ -19,7 +19,7 @@ class rex_pluginManager extends rex_baseManager
    * @param $pluginName Name des Plugins
    * @param $includeFile Datei die eingebunden und umgewandelt werden soll
    */
-  /*public static*/ function addon2plugin($addonName, $pluginName, $includeFile)
+  static public function addon2plugin($addonName, $pluginName, $includeFile)
   {
     global $REX, $I18N; // Nötig damit im Addon verfügbar
         
@@ -60,27 +60,27 @@ class rex_pluginManager extends rex_baseManager
     $REX['ADDON'] = array_merge_recursive($ADDONSsic, $REX['ADDON']);
   }
   
-  /*protected*/ function includeConfig($addonName, $configFile)
+  protected function includeConfig($addonName, $configFile)
   {
     rex_pluginManager::addon2plugin($this->addonName, $addonName, $configFile);
   }
   
-  /*protected*/ function includeInstaller($addonName, $installFile)
+  protected function includeInstaller($addonName, $installFile)
   {
     rex_pluginManager::addon2plugin($this->addonName, $addonName, $installFile);
   }
   
-  /*protected*/ function includeUninstaller($addonName, $uninstallFile)
+  protected function includeUninstaller($addonName, $uninstallFile)
   {
     rex_pluginManager::addon2plugin($this->addonName, $addonName, $uninstallFile);
   }
   
-  /*protected*/ function generateConfig()
+  protected function generateConfig()
   {
     return rex_generatePlugins($this->configArray);
   }
   
-  /*protected*/ function apiCall($method, $arguments)
+  protected function apiCall($method, $arguments)
   {
     if(!is_array($arguments))
       trigger_error('Expecting $arguments to be an array!', E_USER_ERROR);
@@ -91,12 +91,12 @@ class rex_pluginManager extends rex_baseManager
     return rex_call_func(array('OOPlugin', $method), $arguments, false);
   }
   
-  /*protected*/ function baseFolder($pluginName)
+  protected function baseFolder($pluginName)
   {
     return rex_plugins_folder($this->addonName, $pluginName);
   }
   
-  /*protected*/ function mediaFolder($pluginName)
+  protected function mediaFolder($pluginName)
   {
     global $REX;
     return $REX['OPENMEDIAFOLDER'] .DIRECTORY_SEPARATOR .'addons'. DIRECTORY_SEPARATOR. $this->addonName .DIRECTORY_SEPARATOR .'plugins'. DIRECTORY_SEPARATOR. $pluginName;

@@ -40,12 +40,12 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
   /**
    * Setzt den Titel der Komponente
    */
-  /*public*/ function setTitle($title)
+  public function setTitle($title)
   {
     $this->title = $title;
   }
   
-  /*public*/ function getTitle()
+  public function getTitle()
   {
     return $this->title;
   }
@@ -53,12 +53,12 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
   /**
    * Setzt die Url auf die der Titel der Komponente zeigen soll
    */
-  /*public*/ function setTitleUrl($titleUrl)
+  public function setTitleUrl($titleUrl)
   {
     $this->titleUrl = $titleUrl;
   }
   
-  /*public*/ function getTitleUrl()
+  public function getTitleUrl()
   {
     return $this->titleUrl;
   }
@@ -66,12 +66,12 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
   /**
    * Setzt den Inhalt der Komponente
    */
-  /*public*/ function setContent($content)
+  public function setContent($content)
   {
     $this->content = $content;
   }
   
-  /*public*/ function getContent()
+  public function getContent()
   {
     return $this->content;
   }
@@ -79,7 +79,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
   /**
    * Setzt das Format der Komponente. Gueltige Formate sind "full" und "half"
    */
-  /*public*/ function setFormat($format)
+  public function setFormat($format)
   {
     $formats = array('full', 'half');
     if(!in_array($format, $formats))
@@ -89,7 +89,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
     $this->format = $format;
   }
   
-  /*public*/ function getFormat()
+  public function getFormat()
   {
     return $this->format;
   }
@@ -97,17 +97,17 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
   /**
    * Setzt den Titel des Blockes in dem die Komponente angezeigt werden soll
    */
-  /*public*/ function setBlock($block)
+  public function setBlock($block)
   {
     $this->block = $block;
   }
   
-  /*public*/ function getBlock()
+  public function getBlock()
   {
     return $this->block;
   }
   
-  /*public*/ function _get()
+  public function _get()
   {
     global $I18N;
     
@@ -146,7 +146,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
   /*
    * Static Method: Returns boolean if is notification
    */
-  /*public static*/ function isValid($component)
+  public function isValid($component)
   {
     return is_object($component) && is_a($component, 'rex_dashboard_component');
   }

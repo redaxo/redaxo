@@ -192,7 +192,7 @@ class myUrlRewriter extends rexUrlRewriter
   }
   
   
-  /*private*/ function setArticleId($art_id, $clang_id = -1)
+  private function setArticleId($art_id, $clang_id = -1)
   {
     global $REX;
     $REX['ARTICLE_ID'] = $art_id;

@@ -30,7 +30,7 @@ abstract class OORedaxo
   /*
    * Constructor
    */
-  /*protected*/ function OORedaxo($params = false, $clang = false)
+  protected function OORedaxo($params = false, $clang = false)
   {
     if ($params !== false)
     {
@@ -51,7 +51,7 @@ abstract class OORedaxo
     }
   }
 
-  /*public*/ function setClang($clang)
+  public function setClang($clang)
   {
     $this->_clang = $clang;
   }
@@ -60,7 +60,7 @@ abstract class OORedaxo
    * Class Function:
    * Returns Object Value
    */
-  /*public*/ function getValue($value)
+  public function getValue($value)
   {
     // damit alte rex_article felder wie teaser, online_from etc
     // noch funktionieren
@@ -76,7 +76,7 @@ abstract class OORedaxo
     return null;
   }
 
-  /*public*/ function hasValue($value, $prefixes = array())
+  public function hasValue($value, $prefixes = array())
   {
     static $values = null;
         
@@ -98,7 +98,7 @@ abstract class OORedaxo
    * CLASS Function:
    * Returns an Array containing article field names
    */
-  /*public static*/ function getClassVars()
+  static public function getClassVars()
   {
     static $vars = array ();
 
@@ -142,7 +142,7 @@ abstract class OORedaxo
   * CLASS Function:
   * Converts Genernated Array to OOBase Format Array
   */
-  /*public static*/ function convertGeneratedArray($generatedArray, $clang)
+  static public function convertGeneratedArray($generatedArray, $clang)
   {
     $OORedaxoArray['id'] = $generatedArray['article_id'][$clang];
     $OORedaxoArray['clang'] = $clang;
@@ -158,7 +158,7 @@ abstract class OORedaxo
    * Accessor Method:
    * returns the clang of the category
    */
-  /*public*/ function getClang()
+  public function getClang()
   {
     return $this->_clang;
   }
@@ -167,7 +167,7 @@ abstract class OORedaxo
    * Object Helper Function:
    * Returns a url for linking to this article
    */
-  /*public*/ function getUrl($params = '', $divider = '&amp;')
+  public function getUrl($params = '', $divider = '&amp;')
   {
     return rex_getUrl($this->getId(), $this->getClang(), $params, $divider);
   }
@@ -176,7 +176,7 @@ abstract class OORedaxo
    * Accessor Method:
    * returns the id of the article
    */
-  /*public*/ function getId()
+  public function getId()
   {
     return $this->_id;
   }
@@ -185,7 +185,7 @@ abstract class OORedaxo
    * Accessor Method:
    * returns the parent_id of the article
    */
-  /*public*/ function getParentId()
+  public function getParentId()
   {
     return $this->_re_id;
   }
@@ -194,7 +194,7 @@ abstract class OORedaxo
    * Accessor Method:
    * returns the parent object of the article
    */
-  /*public*/ function getParent()
+  public function getParent()
   {
     return OOArticle::getArticleById($this->_re_id);
   }
@@ -203,7 +203,7 @@ abstract class OORedaxo
    * Accessor Method:
    * returns the name of the article
    */
-  /*public*/ function getName()
+  public function getName()
   {
     return $this->_name;
   }
@@ -213,7 +213,7 @@ abstract class OORedaxo
    * returns the name of the article
    * @deprecated 4.0 17.09.2007
    */
-  /*public*/ function getFile()
+  public function getFile()
   {
     return $this->getValue('art_file');
   }
@@ -223,7 +223,7 @@ abstract class OORedaxo
    * returns the name of the article
    * @deprecated 4.0 17.09.2007
    */
-  /*public*/ function getFileMedia()
+  public function getFileMedia()
   {
     return OOMedia :: getMediaByFileName($this->getValue('art_file'));
   }
@@ -233,7 +233,7 @@ abstract class OORedaxo
    * returns the article description.
    * @deprecated 4.0 17.09.2007
    */
-  /*public*/ function getDescription()
+  public function getDescription()
   {
     return $this->getValue('art_description');
   }
@@ -243,7 +243,7 @@ abstract class OORedaxo
    * returns the Type ID of the article.
    * @deprecated 4.0 17.09.2007
    */
-  /*public*/ function getTypeId()
+  public function getTypeId()
   {
     return $this->getValue('art_type_id');
   }
@@ -252,7 +252,7 @@ abstract class OORedaxo
    * Accessor Method:
    * returns the article priority
    */
-  /*public*/ function getPriority()
+  public function getPriority()
   {
     return $this->_prior;
   }
@@ -261,7 +261,7 @@ abstract class OORedaxo
    * Accessor Method:
    * returns the last update user
    */
-  /*public*/ function getUpdateUser()
+  public function getUpdateUser()
   {
     return $this->_updateuser;
   }
@@ -270,7 +270,7 @@ abstract class OORedaxo
    * Accessor Method:
    * returns the last update date
    */
-  /*public*/ function getUpdateDate($format = null)
+  public function getUpdateDate($format = null)
   {
     return OOMedia :: _getDate($this->_updatedate, $format);
   }
@@ -279,7 +279,7 @@ abstract class OORedaxo
    * Accessor Method:
    * returns the creator
    */
-  /*public*/ function getCreateUser()
+  public function getCreateUser()
   {
     return $this->_createuser;
   }
@@ -288,7 +288,7 @@ abstract class OORedaxo
    * Accessor Method:
    * returns the creation date
    */
-  /*public*/ function getCreateDate($format = null)
+  public function getCreateDate($format = null)
   {
     return OOMedia :: _getDate($this->_createdate, $format);
   }
@@ -297,7 +297,7 @@ abstract class OORedaxo
    * Accessor Method:
    * returns true if article is online.
    */
-  /*public*/ function isOnline()
+  public function isOnline()
   {
     return $this->_status == 1;
   }
@@ -306,7 +306,7 @@ abstract class OORedaxo
    * Accessor Method:
    * returns true if article is offline.
    */
-  /*public*/ function isOffline()
+  public function isOffline()
   {
     return $this->_status == 0;
   }
@@ -315,7 +315,7 @@ abstract class OORedaxo
    * Accessor Method:
    * returns the template id
    */
-  /*public*/ function getTemplateId()
+  public function getTemplateId()
   {
     return $this->_template_id;
   }
@@ -324,7 +324,7 @@ abstract class OORedaxo
    * Accessor Method:
    * returns true if article has a template.
    */
-  /*public*/ function hasTemplate()
+  public function hasTemplate()
   {
 	return $this->_template_id > 0;
   }
@@ -338,7 +338,7 @@ abstract class OORedaxo
    * @param [$sorround_tag] string HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
    * @param [sorround_attributes] array Attribute die Umgebenden-Element hinzugefügt werden sollen. Default: null
    */
-  /*public*/ function toLink($params = '', $attributes = null, $sorround_tag = null, $sorround_attributes = null)
+  public function toLink($params = '', $attributes = null, $sorround_tag = null, $sorround_attributes = null)
   {
     $name = htmlspecialchars($this->getName());
     $link = '<a href="'.$this->getUrl($params).'"'.$this->_toAttributeString($attributes).' title="'.$name.'">'.$name.'</a>';
@@ -351,7 +351,7 @@ abstract class OORedaxo
     return $link;
   }
 
-  /*protected*/ function _toAttributeString($attributes)
+  protected function _toAttributeString($attributes)
   {
     $attr = '';
 
@@ -371,7 +371,7 @@ abstract class OORedaxo
    * Get an array of all parentCategories.
    * Returns an array of OORedaxo objects sorted by $prior.
    */
-  /*public*/ function getParentTree()
+  public function getParentTree()
   {
     $return = array ();
 
@@ -401,7 +401,7 @@ abstract class OORedaxo
    * Object Function:
    * Checks if $anObj is in the parent tree of the object
    */
-  /*public*/ function inParentTree($anObj)
+  public function inParentTree($anObj)
   {
   	$tree = $this->getParentTree();
   	foreach($tree as $treeObj)
@@ -419,7 +419,7 @@ abstract class OORedaxo
    * returns true if this Article is the Startpage for the category.
    * @deprecated
    */
-  /*public*/ function isStartPage()
+  public function isStartPage()
   {
     return $this->isStartArticle();
   }
@@ -428,7 +428,7 @@ abstract class OORedaxo
    *  Accessor Method:
    * returns true if this Article is the Startpage for the category.
    */
-  /*public*/ function isStartArticle()
+  public function isStartArticle()
   {
     return $this->_startpage;
   }
@@ -437,7 +437,7 @@ abstract class OORedaxo
    *  Accessor Method:
    * returns true if this Article is the Startpage for the entire site.
    */
-  /*public*/ function isSiteStartArticle()
+  public function isSiteStartArticle()
   {
     global $REX;
     return $this->_id == $REX['START_ARTICLE_ID'];
@@ -447,7 +447,7 @@ abstract class OORedaxo
    *  Accessor Method:
    *  returns  true if this Article is the not found article
    */
-  /*public*/ function isNotFoundArticle()
+  public function isNotFoundArticle()
   {
     global $REX;
     return $this->_id == $REX['NOTFOUND_ARTICLE_ID'];
@@ -458,7 +458,7 @@ abstract class OORedaxo
    * Returns a String representation of this object
    * for debugging purposes.
    */
-  /*public*/ function toString()
+  public function toString()
   {
     return $this->_id.', '.$this->_name.', '. ($this->isOnline() ? 'online' : 'offline');
   }

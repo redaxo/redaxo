@@ -15,12 +15,12 @@ class rex_var_config extends rex_var
 {
   // --------------------------------- Output
 
-  /*public*/ function getTemplate($content)
+  public function getTemplate($content)
   {
     return $this->matchConfig($content);
   }
 
-  /*public*/ function getBEOutput(& $sql, $content)
+  public function getBEOutput(& $sql, $content)
   {
     return $this->matchConfig($content);
   }
@@ -28,7 +28,7 @@ class rex_var_config extends rex_var
   /**
    * Werte für die Ausgabe
    */
-  /*private*/ function matchConfig($content)
+  private function matchConfig($content)
   {
   	global $REX;
 

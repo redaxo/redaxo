@@ -71,7 +71,7 @@ class captcha_x {
         $this->INI = parse_ini_file ( dirname ( __FILE__) . '/captcha_x.ini', true);
     }
     
-/* ========== PUBLIC METHODS ========== */    
+public    
     
     /**
      * Generates the image and puts md5 hash into the session
@@ -117,7 +117,7 @@ class captcha_x {
         }
     }
     
-/* ========== PRIVATE METHODS =========== */
+private
     
     /**
      * Generate some noise

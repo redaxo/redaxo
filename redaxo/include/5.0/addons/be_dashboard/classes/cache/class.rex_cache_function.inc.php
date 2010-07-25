@@ -22,7 +22,7 @@ class rex_function_cache
    *
    * @param sfCache $cache An sfCache object instance
    */
-  /*public*/ function rex_function_cache(/*rex_cache_*/ $cache)
+  public $cache)
   {
     $this->cache = $cache;
   }
@@ -42,7 +42,7 @@ class rex_function_cache
    *
    * @return mixed The result of the function/method
    */
-  /*public*/ function call($callable, $arguments = array())
+  public function call($callable, $arguments = array())
   {
     // Generate a cache id
     $key = $this->computeCacheKey($callable, $arguments);
@@ -80,7 +80,7 @@ class rex_function_cache
    *
    * @return sfCache The sfCache instance
    */
-  /*public*/ function getCache()
+  public function getCache()
   {
     return $this->cache;
   }
@@ -93,7 +93,7 @@ class rex_function_cache
    *
    * @return string The associated cache key
    */
-  /*public*/ function computeCacheKey($callable, $arguments = array())
+  public function computeCacheKey($callable, $arguments = array())
   {
     return md5(serialize($callable).serialize($arguments));
   }

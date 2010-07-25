@@ -13,20 +13,20 @@ class rex_article extends rex_article_base
   // bc schalter
   var $viasql;
 
-  /*public*/ function rex_article($article_id = null, $clang = null)
+  public function rex_article($article_id = null, $clang = null)
   {
     $this->viasql = FALSE;
     parent::rex_article_base($article_id, $clang);
   }
 
   // bc
-  /*public*/ function getContentAsQuery($viasql = TRUE)
+  public function getContentAsQuery($viasql = TRUE)
   {
     if ($viasql !== TRUE) $viasql = FALSE;
     $this->viasql = $viasql;
   }
 
-  /*public*/ function setArticleId($article_id)
+  public function setArticleId($article_id)
   {
     // bc
     if($this->viasql)
@@ -53,7 +53,7 @@ class rex_article extends rex_article_base
     return FALSE;
   }
 
-  /*protected*/ function correctValue($value)
+  protected function correctValue($value)
   {
     // bc
     if($this->viasql)
@@ -70,7 +70,7 @@ class rex_article extends rex_article_base
     return $value;
   }
 
-  /*protected*/ function _getValue($value)
+  protected function _getValue($value)
   {
     // bc
     if($this->viasql)
@@ -84,7 +84,7 @@ class rex_article extends rex_article_base
     return $REX['ART'][$this->article_id][$value][$this->clang];
   }
 
-  /*public*/ function hasValue($value)
+  public function hasValue($value)
   {
     // bc
     if($this->viasql)
@@ -98,7 +98,7 @@ class rex_article extends rex_article_base
     return isset($REX['ART'][$this->article_id][$value][$this->clang]);
   }
 
-  /*public*/ function getArticle($curctype = -1)
+  public function getArticle($curctype = -1)
   {
     // bc
     if($this->viasql)

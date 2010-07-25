@@ -11,7 +11,7 @@
 
 class rex_cronjob_phpcallback extends rex_cronjob
 { 
-  /*public*/ function execute()
+  public function execute()
   {
     if (preg_match('/^\s*(?:(\w*?)\:\:)?(\w*?)(?:\((.*?)\))?\;?\s*$/', $this->getParam('callback'), $matches))
     {
@@ -51,13 +51,13 @@ class rex_cronjob_phpcallback extends rex_cronjob
     return false;
   }
   
-  /*public*/ function getTypeName()
+  public function getTypeName()
   {
     global $I18N;
     return $I18N->msg('cronjob_type_phpcallback');
   }
   
-  /*public*/ function getParamFields()
+  public function getParamFields()
 	{
 		global $I18N;
 

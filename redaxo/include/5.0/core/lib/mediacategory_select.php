@@ -6,7 +6,7 @@ class rex_mediacategory_select extends rex_select
   var $check_perms;
   var $rootId;
   
-  /*public*/ function rex_mediacategory_select($check_perms = true)
+  public function rex_mediacategory_select($check_perms = true)
   {
     $this->check_perms = $check_perms;
     $this->rootId = null;
@@ -19,12 +19,12 @@ class rex_mediacategory_select extends rex_select
    * 
    * @param $rootId mixed Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente. 
    */
-  /*public*/ function setRootId($rootId)
+  public function setRootId($rootId)
   {
     $this->rootId = $rootId;
   }
   
-  /*protected*/ function addCatOptions()
+  protected function addCatOptions()
   {
     if($this->rootId !== null)
     {
@@ -58,7 +58,7 @@ class rex_mediacategory_select extends rex_select
     }
   }
   
-  /*protected*/ function addCatOption(/*OOMediaCategory*/ $mediacat)
+  protected function addCatOption(/*OOMediaCategory*/ $mediacat)
   {
     global $REX;
     
@@ -83,7 +83,7 @@ class rex_mediacategory_select extends rex_select
     }
   }
   
-  /*public*/ function get()
+  public function get()
   {
     static $loaded = false;
     

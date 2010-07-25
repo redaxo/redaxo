@@ -11,7 +11,7 @@
 
 class rex_cronjob_log
 {
-  /*public static*/ function getYears()
+  public function getYears()
   {
     $folder = REX_CRONJOB_LOG_FOLDER;
     $years = array ();
@@ -35,7 +35,7 @@ class rex_cronjob_log
     return $years;  
   }
   
-  /*public static*/ function getMonths($year)
+  public function getMonths($year)
   {
     $folder = REX_CRONJOB_LOG_FOLDER;
     $months = array();
@@ -47,7 +47,7 @@ class rex_cronjob_log
     return $months;
   }
   
-  /*public static*/ function getYearMonthArray()
+  public function getYearMonthArray()
   {
     $array = array();
     foreach(rex_cronjob_log::getYears() as $year)
@@ -59,13 +59,13 @@ class rex_cronjob_log
     return $array;
   }
   
-  /*public static*/ function getLogOfMonth($month, $year)
+  public function getLogOfMonth($month, $year)
   {
     $file = REX_CRONJOB_LOG_FOLDER . $year .'/'. $year .'-'. $month .'.log';
     return rex_get_file_contents($file);
   }
   
-  /*public static*/ function getListOfMonth($month, $year)
+  public function getListOfMonth($month, $year)
   {
     global $I18N;
     $lines = explode("\n", trim(rex_cronjob_log::getLogOfMonth($month, $year)));
@@ -75,7 +75,7 @@ class rex_cronjob_log
     return rex_cronjob_log::_getList($lines, $caption, $summary);
   }
   
-  /*public static*/ function getListOfNewestMessages($limit = 10)
+  public function getListOfNewestMessages($limit = 10)
   {
     global $I18N;
     $array = array_reverse(rex_cronjob_log::getYearMonthArray(),true);
@@ -100,7 +100,7 @@ class rex_cronjob_log
     return rex_cronjob_log::_getList($messages, $caption, $summary);
   }
   
-  /*public static*/ function save($name, $success, $message = '', $id = null)
+  public function save($name, $success, $message = '', $id = null)
   {
     global $REX;
     
@@ -144,7 +144,7 @@ class rex_cronjob_log
     return rex_put_file_contents($file, $content);
   }
   
-  /*private static*/ function _getList($lines, $caption = '', $summary = '')
+  private function _getList($lines, $caption = '', $summary = '')
   {
     global $REX, $I18N;
     $table_attr = '';

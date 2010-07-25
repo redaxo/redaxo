@@ -10,7 +10,7 @@ class rex_addonManager extends rex_baseManager
     parent::rex_baseManager('addon_');
   }
   
-  /*public*/ function delete($addonName)
+  public function delete($addonName)
   {
     global $REX, $I18N;
     
@@ -21,31 +21,31 @@ class rex_addonManager extends rex_baseManager
     return parent::delete($addonName);
   }
   
-  /*protected*/ function includeConfig($addonName, $configFile)
+  protected function includeConfig($addonName, $configFile)
   {
     global $REX, $I18N; // Nötig damit im Addon verfügbar
     require $configFile;
   }
   
   
-  /*protected*/ function includeInstaller($addonName, $installFile)
+  protected function includeInstaller($addonName, $installFile)
   {
     global $REX, $I18N; // Nötig damit im Addon verfügbar
     require $installFile;
   }
   
-  /*protected*/ function includeUninstaller($addonName, $uninstallFile)
+  protected function includeUninstaller($addonName, $uninstallFile)
   {
     global $REX, $I18N; // Nötig damit im Addon verfügbar
     require $uninstallFile;
   }
   
-  /*protected*/ function generateConfig()
+  protected function generateConfig()
   {
     return rex_generateAddons($this->configArray);
   }
   
-  /*protected*/ function apiCall($method, $arguments)
+  protected function apiCall($method, $arguments)
   {
     if(!is_array($arguments))
       trigger_error('Expecting $arguments to be an array!', E_USER_ERROR);
@@ -53,12 +53,12 @@ class rex_addonManager extends rex_baseManager
     return rex_call_func(array('OOAddon', $method), $arguments, false);
   }
   
-  /*protected*/ function baseFolder($addonName)
+  protected function baseFolder($addonName)
   {
     return rex_addons_folder($addonName);
   }
   
-  /*protected*/ function mediaFolder($addonName)
+  protected function mediaFolder($addonName)
   {
     global $REX;
     return $REX['OPENMEDIAFOLDER'] .DIRECTORY_SEPARATOR .'addons'. DIRECTORY_SEPARATOR .$addonName;

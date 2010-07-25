@@ -2,12 +2,12 @@
 
 class rex_category_select extends rex_select
 {
-  /*private*/ var $ignore_offlines;
-  /*private*/ var $clang;
-  /*private*/ var $check_perms;
-  /*private*/ var $rootId;
+  private $ignore_offlines;
+  private $clang;
+  private $check_perms;
+  private $rootId;
 
-  /*public*/ function rex_category_select($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
+  public function rex_category_select($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
   {
     $this->ignore_offlines = $ignore_offlines;
     $this->clang = $clang;
@@ -23,12 +23,12 @@ class rex_category_select extends rex_select
    * 
    * @param $rootId mixed Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente. 
    */
-  /*public*/ function setRootId($rootId)
+  public function setRootId($rootId)
   {
     $this->rootId = $rootId;
   }
   
-  /*protected*/ function addCatOptions()
+  protected function addCatOptions()
   {
     global $REX;
 
@@ -80,7 +80,7 @@ class rex_category_select extends rex_select
     }
   }
   
-  /*protected*/ function addCatOption(/*OOCategory*/ $cat, $group = null)
+  protected function addCatOption(/*OOCategory*/ $cat, $group = null)
   {
     global $REX;
 
@@ -108,7 +108,7 @@ class rex_category_select extends rex_select
     }
   }
 
-  /*public*/ function get()
+  public function get()
   {
     static $loaded = false;
     
@@ -120,7 +120,7 @@ class rex_category_select extends rex_select
     return parent::get();
   }
   
-  /*private*/ function _outGroup($re_id, $level = 0)
+  private function _outGroup($re_id, $level = 0)
   {
 		global $REX;
   	if ($level > 100)

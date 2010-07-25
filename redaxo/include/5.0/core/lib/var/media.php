@@ -25,7 +25,7 @@ class rex_var_media extends rex_var
 {
   // --------------------------------- Actions
 
-  /*public*/ function getACRequestValues($REX_ACTION)
+  public function getACRequestValues($REX_ACTION)
   {
     $values     = rex_request('MEDIA', 'array');
     $listvalues = rex_request('MEDIALIST', 'array');
@@ -42,7 +42,7 @@ class rex_var_media extends rex_var
     return $REX_ACTION;
   }
 
-  /*public*/ function getACDatabaseValues($REX_ACTION, & $sql)
+  public function getACDatabaseValues($REX_ACTION, & $sql)
   {
     for ($i = 1; $i < 11; $i++)
     {
@@ -53,7 +53,7 @@ class rex_var_media extends rex_var
     return $REX_ACTION;
   }
 
-  /*public*/ function setACValues(& $sql, $REX_ACTION, $escape = false)
+  public function setACValues(& $sql, $REX_ACTION, $escape = false)
   {
     global $REX;
 
@@ -66,7 +66,7 @@ class rex_var_media extends rex_var
 
   // --------------------------------- Output
 
-  /*public*/ function getBEInput(& $sql, $content)
+  public function getBEInput(& $sql, $content)
   {
     $content = $this->matchMediaButton($sql, $content);
     $content = $this->matchMediaListButton($sql, $content);
@@ -74,7 +74,7 @@ class rex_var_media extends rex_var
     return $content;
   }
 
-  /*public*/ function getBEOutput(& $sql, $content)
+  public function getBEOutput(& $sql, $content)
   {
     $content = $this->getOutput($sql, $content);
     return $content;
@@ -83,14 +83,14 @@ class rex_var_media extends rex_var
   /**
    * Ersetzt die Value Platzhalter
    */
-  /*private*/ function getOutput(& $sql, $content)
+  private function getOutput(& $sql, $content)
   {
     $content = $this->matchMedia($sql, $content);
     $content = $this->matchMediaList($sql, $content);
     return $content;
   }
 
-  /*private*/ function handleDefaultParam($varname, $args, $name, $value)
+  protected function handleDefaultParam($varname, $args, $name, $value)
   {
     switch($name)
     {
@@ -117,7 +117,7 @@ class rex_var_media extends rex_var
   /**
    * MediaButton für die Eingabe
    */
-  /*private*/ function matchMediaButton(& $sql, $content)
+  private function matchMediaButton(& $sql, $content)
   {
     $vars = array (
       'REX_FILE_BUTTON',
@@ -148,7 +148,7 @@ class rex_var_media extends rex_var
   /**
    * MediaListButton für die Eingabe
    */
-  /*private*/ function matchMediaListButton(& $sql, $content)
+  private function matchMediaListButton(& $sql, $content)
   {
     $vars = array (
       'REX_FILELIST_BUTTON',
@@ -184,7 +184,7 @@ class rex_var_media extends rex_var
   /**
    * Wert für die Ausgabe
    */
-  /*private*/ function matchMedia(& $sql, $content)
+  private function matchMedia(& $sql, $content)
   {
     $vars = array (
       'REX_FILE',
@@ -226,7 +226,7 @@ class rex_var_media extends rex_var
   /**
    * Wert für die Ausgabe
    */
-  /*private*/ function matchMediaList(& $sql, $content)
+  private function matchMediaList(& $sql, $content)
   {
     $vars = array (
       'REX_FILELIST',
@@ -254,7 +254,7 @@ class rex_var_media extends rex_var
   /**
    * Gibt das Button Template zurück
    */
-  /*public static*/ function getMediaButton($id, $category = '', $args = array())
+  static public function getMediaButton($id, $category = '', $args = array())
   {
     global $REX, $I18N;
 
@@ -325,7 +325,7 @@ class rex_var_media extends rex_var
   /**
    * Gibt das ListButton Template zurück
    */
-  /*public static*/ function getMedialistButton($id, $value, $category = '', $args = array())
+  static public function getMedialistButton($id, $value, $category = '', $args = array())
   {
     global $REX, $I18N;
 

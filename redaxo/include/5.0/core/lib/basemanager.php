@@ -23,7 +23,7 @@ abstract class rex_baseManager
    * @param $addonName Name des Addons
    * @param $installDump Flag, ob die Datei install.sql importiert werden soll
    */
-  /*public*/ function install($addonName, $installDump = TRUE)
+  public function install($addonName, $installDump = TRUE)
   {
   	global $REX;
   	
@@ -118,7 +118,7 @@ abstract class rex_baseManager
    * 
    * @param $addonName Name des Addons
    */
-  /*public*/ function uninstall($addonName)
+  public function uninstall($addonName)
   {
     $state = TRUE;
     
@@ -191,7 +191,7 @@ abstract class rex_baseManager
    * 
    * @param $addonName Name des Addons
    */
-  /*public*/ function activate($addonName)
+  public function activate($addonName)
   {
     if ($this->apiCall('isInstalled', array($addonName)))
     {
@@ -214,7 +214,7 @@ abstract class rex_baseManager
    * 
    * @param $addonName Name des Addons
    */
-  /*public*/ function deactivate($addonName)
+  public function deactivate($addonName)
   {
     $this->apiCall('setProperty', array($addonName, 'status', 0));
     $state = $this->generateConfig();
@@ -230,7 +230,7 @@ abstract class rex_baseManager
    * 
    * @param $addonName Name des Addons
    */
-  /*public*/ function delete($addonName)
+  public function delete($addonName)
   {
     // zuerst deinstallieren
     // bei erfolg, komplett löschen
@@ -245,7 +245,7 @@ abstract class rex_baseManager
   /**
    * Übersetzen eines Sprachschlüssels unter Verwendung des Prefixes 
    */
-  /*protected*/ function I18N()
+  protected function I18N()
   {
     global $I18N;
     
@@ -258,7 +258,7 @@ abstract class rex_baseManager
   /**
    * Bindet die config-Datei eines Addons ein
    */
-  /*protected*/ function includeConfig($addonName, $configFile)
+  protected function includeConfig($addonName, $configFile)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
@@ -266,7 +266,7 @@ abstract class rex_baseManager
   /**
    * Bindet die installations-Datei eines Addons ein
    */
-  /*protected*/ function includeInstaller($addonName, $installFile)
+  protected function includeInstaller($addonName, $installFile)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
@@ -274,7 +274,7 @@ abstract class rex_baseManager
   /**
    * Bindet die deinstallations-Datei eines Addons ein
    */
-  /*protected*/ function includeUninstaller($addonName, $uninstallFile)
+  protected function includeUninstaller($addonName, $uninstallFile)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
@@ -282,7 +282,7 @@ abstract class rex_baseManager
   /**
    * Speichert den aktuellen Zustand
    */
-  /*protected*/ function generateConfig()
+  protected function generateConfig()
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
@@ -293,7 +293,7 @@ abstract class rex_baseManager
    * @param $method Name der Funktion
    * @param $arguments Array von Parametern/Argumenten
    */
-  /*protected*/ function apiCall($method, $arguments)
+  protected function apiCall($method, $arguments)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
@@ -301,7 +301,7 @@ abstract class rex_baseManager
   /**
    * Findet den Basispfad eines Addons
    */
-  /*protected*/ function baseFolder($addonName)
+  protected function baseFolder($addonName)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }
@@ -309,7 +309,7 @@ abstract class rex_baseManager
   /**
    * Findet den Basispfad für Media-Dateien
    */
-  /*protected*/ function mediaFolder($addonName)
+  protected function mediaFolder($addonName)
   {
     trigger_error('Method has to be overridden by subclass!', E_USER_ERROR);
   }

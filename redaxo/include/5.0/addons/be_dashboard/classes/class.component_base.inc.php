@@ -22,24 +22,24 @@ abstract class rex_dashboard_component_base
     $this->funcCache = new rex_function_cache(new rex_file_cache($cache_options));
   }
   
-  /*protected*/ function prepare()
+  protected function prepare()
   {
     // override in subclasses to prepare component
   }
   
   
-  /*public*/ function checkPermission()
+  public function checkPermission()
   {
     // no permission required by default
     return true;
   }
 
-  /*public*/ function setConfig(/*rex_dashboard_component_config*/ $config)
+  public $config)
   {
     $this->config = $config;
   }
   
-  /*public*/ function get()
+  public function get()
   {
     global $REX;
     
@@ -101,12 +101,12 @@ abstract class rex_dashboard_component_base
     return '';
   }
   
-  /*protected*/ function getId()
+  protected function getId()
   {
     return 'rex-component-'. $this->id;
   }
   
-  /*protected*/ function getActions()
+  protected function getActions()
   {
     $actions = array();
     $actions[] = array('name' => 'refresh', 'class' => 'rex-i-refresh');
@@ -122,7 +122,7 @@ abstract class rex_dashboard_component_base
     return $actions;
   }
   
-  /*public*/ function getActionBar()
+  public function getActionBar()
   {
     global $I18N;
     
@@ -152,12 +152,12 @@ abstract class rex_dashboard_component_base
     return $content;
   }
   
-  /*public abstract*/ function _get()
+  public function _get()
   {
     trigger_error('The _get method has to be overridden by a subclass!', E_USER_ERROR);
   }
   
-  /*public*/ function registerAsExtension($params)
+  public function registerAsExtension($params)
   {
     $params['subject'][] = $this;
     return $params['subject'];

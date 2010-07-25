@@ -51,7 +51,7 @@ class rex_be_page_main extends rex_be_page_container
   /*
    * Static Method: Returns True when the given be_main_page is valid
    */
-  /*public static*/ function isValid($be_main_page)
+  static public function isValid($be_main_page)
   {
     return is_object($be_main_page) && is_a($be_main_page, 'rex_be_page_main');
   }

@@ -12,7 +12,7 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#isAvailable($addon)
    */
-  /*public static*/ function isAvailable($addon, $plugin)
+  static public function isAvailable($addon, $plugin)
   {
     return parent::isAvailable(array($addon, $plugin));
   }
@@ -21,7 +21,7 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#isActivated($addon)
    */
-  /*public static*/ function isActivated($addon, $plugin)
+  static public function isActivated($addon, $plugin)
   {
     return parent::isActivated(array($addon, $plugin));
   }
@@ -30,7 +30,7 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#isInstalled($addon)
    */
-  /*public static*/ function isInstalled($addon, $plugin)
+  static public function isInstalled($addon, $plugin)
   {
     return parent::isInstalled(array($addon, $plugin));
   }
@@ -39,7 +39,7 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#getSupportPage($addon, $default)
    */
-  /*public static*/ function getSupportPage($addon, $plugin, $default = null)
+  static public function getSupportPage($addon, $plugin, $default = null)
   {
     return parent::getSupportPage(array($addon, $plugin), $default);
   }
@@ -48,7 +48,7 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#getVersion($addon, $default)
    */
-  /*public static*/ function getVersion($addon, $plugin, $default = null)
+  static public function getVersion($addon, $plugin, $default = null)
   {
     return parent::getVersion(array($addon, $plugin), $default);
   }
@@ -57,7 +57,7 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#getAuthor($addon, $default)
    */
-  /*public static*/ function getAuthor($addon, $plugin, $default = null)
+  static public function getAuthor($addon, $plugin, $default = null)
   {
     return parent::getAuthor(array($addon, $plugin), $default);
   }
@@ -66,7 +66,7 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#getProperty($addon, $property, $default)
    */
-  /*public static*/ function getProperty($addon, $plugin, $property, $default = null)
+  static public function getProperty($addon, $plugin, $property, $default = null)
   {
     return parent::getProperty(array($addon, $plugin), $property, $default);
   }
@@ -75,7 +75,7 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#setProperty($addon, $property, $value)
    */
-  /*public static*/ function setProperty($addon, $plugin, $property, $value)
+  static public function setProperty($addon, $plugin, $property, $value)
   {
     return parent::setProperty(array($addon, $plugin), $property, $value);
   }
@@ -87,7 +87,7 @@ class OOPlugin extends rex_addon
    * 
    * @return array Array aller verfügbaren Plugins
    */
-  /*public static*/ function getAvailablePlugins($addon)
+  static public function getAvailablePlugins($addon)
   {
     $avail = array();
     foreach(OOPlugin::getRegisteredPlugins($addon) as $plugin)
@@ -109,7 +109,7 @@ class OOPlugin extends rex_addon
    * 
    * @return array Array aller registrierten Plugins
    */
-  /*public static*/ function getInstalledPlugins($addon)
+  static public function getInstalledPlugins($addon)
   {
     $avail = array();
     foreach(OOPlugin::getRegisteredPlugins($addon) as $plugin)
@@ -131,7 +131,7 @@ class OOPlugin extends rex_addon
    * 
    * @return array Array aller registrierten Plugins
    */
-  /*public static*/ function getRegisteredPlugins($addon)
+  static public function getRegisteredPlugins($addon)
   {
     global $REX;
 

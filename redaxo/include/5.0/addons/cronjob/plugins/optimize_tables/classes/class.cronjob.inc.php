@@ -11,7 +11,7 @@
  
 class rex_cronjob_optimize_tables extends rex_cronjob
 {
-  /*public*/ function execute()
+  public function execute()
   {
     global $REX;
     $tables = rex_sql::showTables(1, $REX['TABLE_PREFIX']);
@@ -24,7 +24,7 @@ class rex_cronjob_optimize_tables extends rex_cronjob
     return false;
   }
   
-  /*public*/ function getTypeName()
+  public function getTypeName()
   {
     global $I18N;
     return $I18N->msg('cronjob_optimize_tables');

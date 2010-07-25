@@ -11,7 +11,7 @@
 
 class rex_cronjob_urlrequest extends rex_cronjob
 { 
-  /*public*/ function execute()
+  public function execute()
   {
     $parts = parse_url($this->getParam('url'));
     if (!is_array($parts) || !isset($parts['host']))
@@ -110,13 +110,13 @@ class rex_cronjob_urlrequest extends rex_cronjob
     return false;
   }
   
-  /*public*/ function getTypeName()
+  public function getTypeName()
   {
     global $I18N;
     return $I18N->msg('cronjob_type_urlrequest');
   }
   
-  /*public*/ function getParamFields()
+  public function getParamFields()
 	{
 		global $I18N;
 

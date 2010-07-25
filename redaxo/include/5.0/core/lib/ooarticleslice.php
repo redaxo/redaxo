@@ -40,7 +40,7 @@ class OOArticleSlice
   /*
    * Constructor
    */
-  /*public*/ function OOArticleSlice(
+  public function OOArticleSlice(
   	$id, $article_id, $clang, $ctype, $modultyp_id,
     $re_article_slice_id, $next_article_slice_id,
     $createdate,$updatedate,$createuser,$updateuser,$revision,
@@ -75,7 +75,7 @@ class OOArticleSlice
    * Return an ArticleSlice by its id
    * Returns an OOArticleSlice object
    */
-  /*public static*/ function getArticleSliceById($an_id, $clang = false, $revision = 0)
+  public function getArticleSliceById($an_id, $clang = false, $revision = 0)
   {
     global $REX;
 
@@ -93,7 +93,7 @@ class OOArticleSlice
    * getNextSlice() function.
    * Returns an OOArticleSlice object
    */
-  /*public static*/ function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
+  public function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
   {
     global $REX;
 
@@ -118,7 +118,7 @@ class OOArticleSlice
    * CLASS Function:
    * Returns the first slice of the given ctype of an article
    */
-  /*public static*/ function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0)
+  public function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0)
   {
     global $REX;
 
@@ -146,7 +146,7 @@ class OOArticleSlice
    * clang or revision.
    * Returns an array of OOArticleSlice objects
    */
-  /*public static*/ function getSlicesForArticle($an_article_id, $clang = false, $revision = 0)
+  public function getSlicesForArticle($an_article_id, $clang = false, $revision = 0)
   {
     global $REX;
 
@@ -162,7 +162,7 @@ class OOArticleSlice
    * module type.
    * Returns an array of OOArticleSlice objects
    */
-  /*public static*/ function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0)
+  public function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0)
   {
     global $REX;
 
@@ -177,7 +177,7 @@ class OOArticleSlice
    * Return the next slice for this article
    * Returns an OOArticleSlice object.
    */
-  /*public*/ function getNextSlice()
+  public function getNextSlice()
   {
     return OOArticleSlice::_getSliceWhere('re_article_slice_id = '. $this->_id .' AND clang = '. $this->_clang.' AND ctype = '. $this->_ctype.' AND revision='.$this->_revision);
   }
@@ -185,7 +185,7 @@ class OOArticleSlice
   /*
    * Object Function:
    */
-  /*public*/ function getPreviousSlice()
+  public function getPreviousSlice()
   {
     return OOArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang.' AND ctype = '. $this->_ctype.' AND revision='.$this->_revision);
   }
@@ -194,7 +194,7 @@ class OOArticleSlice
    * Gibt den Slice formatiert zurück
    * @since 4.1 - 29.05.2008
    */
-  /*public*/ function getSlice()
+  public function getSlice()
   {
   	// TODO:: ------------------- .' AND revision='.$this->revision
     $art = new rex_article();
@@ -205,7 +205,7 @@ class OOArticleSlice
     return @$art->replaceLinks( $art->getArticle() );
   }
 
-  /*protected static*/ function _getSliceWhere($where, $table = null, $fields = null, $default = null)
+  protected function _getSliceWhere($where, $table = null, $fields = null, $default = null)
   {
     global $REX;
 
@@ -260,42 +260,42 @@ class OOArticleSlice
     return $default;
   }
 
-  /*public*/ function getArticle()
+  public function getArticle()
   {
     return OOArticle :: getArticleById($this->getArticleId());
   }
 
-  /*public*/ function getArticleId()
+  public function getArticleId()
   {
     return $this->_article_id;
   }
 
-  /*public*/ function getClang()
+  public function getClang()
   {
     return $this->_clang;
   }
 
-  /*public*/ function getCtype()
+  public function getCtype()
   {
     return $this->_ctype;
   }
   
-  /*public*/ function getRevision()
+  public function getRevision()
   {
     return $this->_revision;
   }
 
-  /*public*/ function getModuleId()
+  public function getModuleId()
   {
     return $this->_modultyp_id;
   }
 
-  /*public*/ function getId()
+  public function getId()
   {
     return $this->_id;
   }
 
-  /*public*/ function getValue($index)
+  public function getValue($index)
   {
     if(is_int($index))
       return $this->_values[$index-1];
@@ -307,43 +307,43 @@ class OOArticleSlice
     return null;
   }
 
-  /*public*/ function getLink($index)
+  public function getLink($index)
   {
     return $this->_links[$index-1];
   }
 
-  /*public*/ function getLinkUrl($index)
+  public function getLinkUrl($index)
   {
     return rex_getUrl($this->getLink($index));
   }
 
-  /*public*/ function getLinkList($index)
+  public function getLinkList($index)
   {
     return $this->_linklists[$index-1];
   }
 
-  /*public*/ function getMedia($index)
+  public function getMedia($index)
   {
     return $this->_files[$index-1];
   }
 
-  /*public*/ function getMediaUrl($index)
+  public function getMediaUrl($index)
   {
     global $REX;
     return $REX['MEDIAFOLDER'].'/'.$this->getMedia($index);
   }
 
-  /*public*/ function getMediaList($index)
+  public function getMediaList($index)
   {
     return $this->_filelists[$index-1];
   }
 
-  /*public*/ function getHtml()
+  public function getHtml()
   {
     return $this->_html;
   }
 
-  /*public*/ function getPhp()
+  public function getPhp()
   {
     return $this->_php;
   }
@@ -352,7 +352,7 @@ class OOArticleSlice
    * Alter Alias aus BC Gruenden
    * @deprecated 4.1 - 05.03.2008
    */
-  /*public*/ function getFile($index)
+  public function getFile($index)
   {
     return $this->_files[$index-1];
   }
@@ -361,7 +361,7 @@ class OOArticleSlice
    * Alter Alias aus BC Gruenden
    * @deprecated 4.1 - 05.03.2008
    */
-  /*public*/ function getFileUrl($index)
+  public function getFileUrl($index)
   {
     global $REX;
     return $REX['MEDIAFOLDER'].'/'.$this->getFile($index);
@@ -371,7 +371,7 @@ class OOArticleSlice
    * Alter Alias aus BC Gruenden
    * @deprecated 4.1 - 05.03.2008
    */
-  /*public*/ function getFileList($index)
+  public function getFileList($index)
   {
     return $this->_filelists[$index-1];
   }
@@ -380,7 +380,7 @@ class OOArticleSlice
    * Alter Alias aus BC Gruenden
    * @deprecated 4.1 - 05.03.2008
    */
-  /*public*/ function getModulId()
+  public function getModulId()
   {
     return $this->_modultyp_id;
   }
@@ -389,7 +389,7 @@ class OOArticleSlice
    * Alter Alias aus BC Gruenden
    * @deprecated 4.1 - 05.03.2008
    */
-  /*public*/ function getModulTyp()
+  public function getModulTyp()
   {
     return $this->getModulId();
   }
@@ -398,7 +398,7 @@ class OOArticleSlice
    * Alter Alias aus BC Gruenden
    * @deprecated 4.1 - 07.03.2008
    */
-  /*public*/ function getPrevSlice()
+  public function getPrevSlice()
   {
     return OOArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang .' AND revision = '.$this->_revision);
   }

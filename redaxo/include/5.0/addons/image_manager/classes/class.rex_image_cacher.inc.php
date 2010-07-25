@@ -11,7 +11,7 @@ class rex_image_cacher
 		$this->cache_path = $cache_path;
 	}
 	
-	/*public*/ function isCached(/*rex_image*/ $image, $cacheParams)
+	public $image, $cacheParams)
   {
     if(!rex_image::isValid($image))
     {
@@ -53,7 +53,7 @@ class rex_image_cacher
    * 
    * Use rex_image_manager::getImageCache() if the cache should be created if needed.
    */
-  /*public*/ function getCachedImage($filename, $cacheParams)
+  public function getCachedImage($filename, $cacheParams)
   {
     $cacheFile = $this->_getCacheFile($filename, $cacheParams);
     $rex_image = new rex_image($cacheFile);
@@ -61,12 +61,12 @@ class rex_image_cacher
     return $rex_image;
   }
   
-  /*public*/ function getCacheFile(/*rex_image*/ $image, $cacheParams)
+  public $image, $cacheParams)
   {
     return $this->_getCacheFile($image->getFileName(), $cacheParams);
   }
   
-  /*protected*/ function _getCacheFile($filename, $cacheParams)
+  protected function _getCacheFile($filename, $cacheParams)
   {
     if(!is_string($cacheParams))
     {
@@ -75,7 +75,7 @@ class rex_image_cacher
     return $this->cache_path .'image_manager__'. $cacheParams .'_'. $filename;
   }
 	
-  /*public*/ function sendImage(/*rex_image*/ $image, $cacheParams, $lastModified = null)
+  public $image, $cacheParams, $lastModified = null)
 	{
     if(!rex_image::isValid($image))
     {
@@ -108,7 +108,7 @@ class rex_image_cacher
   /*
    * Static Method: Returns True, if the given cacher is a valid rex_image_cacher
    */
-  /*public static*/ function isValid($cacher)
+  public function isValid($cacher)
   {
     return is_object($cacher) && is_a($cacher, 'rex_image_cacher');
   }
