@@ -30,6 +30,7 @@ $loader->addDirectory($REX['SRC_PATH'] .'/core/lib/*/*/');
 $loader->addDirectory($REX['SRC_PATH'] .'/core/lib/*/*/*/');
 
 rex_autoload::register();
+rex_logger::register();
 
 //include_once $REX['SRC_PATH'].'/core/classes/class.i18n.inc.php';
 //include_once $REX['SRC_PATH'].'/core/classes/class.rex_sql.inc.php';

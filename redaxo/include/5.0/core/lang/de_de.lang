@@ -311,6 +311,7 @@ clang_no_left = Die maximale Anzahl an Sprachen ist erreicht!
 version = Version
 host = Host
 database = Datenbank
+syslog = Systemlog
 
 # redaxo\include\pages\medienpool.inc.php
 pool_name = Medienpool
