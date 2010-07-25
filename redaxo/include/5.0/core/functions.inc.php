@@ -20,7 +20,7 @@ include_once $REX['SRC_PATH'].'/core/functions/function_rex_plugins.inc.php';
 include_once $REX['SRC_PATH'].'/core/functions/function_rex_other.inc.php';
 
 // ----- CLASSES
-require_once $REX["SRC_PATH"].'/core/lib/class.rex_autoload.inc.php';
+require_once $REX["SRC_PATH"].'/core/lib/autoload.php';
 
 $loader = rex_autoload::getInstance($REX['SRC_PATH'] .'/generated/files/autoload.cache');
 // TODO
