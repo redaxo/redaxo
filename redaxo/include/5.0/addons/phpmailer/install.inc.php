@@ -12,7 +12,7 @@
 
 $error = '';
 
-$settings_file = $REX['SRC_PATH'] .'/core/addons/phpmailer/classes/class.rex_mailer.inc.php';
+$settings_file = $REX['SRC_PATH'] .'/addons/phpmailer/classes/class.rex_mailer.inc.php';
 
 if(($state = rex_is_writable($settings_file)) !== true)
   $error = $state;

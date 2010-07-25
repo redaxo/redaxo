@@ -302,7 +302,7 @@ class rex_thumbnail
     global $REX;
 
     if(!$file)
-      $file = $REX['SRC_PATH'] .'/core/addons/image_resize/media/warning.jpg';
+      $file = $REX['SRC_PATH'] .'/addons/image_resize/media/warning.jpg';
 
 		// ----- EXTENSION POINT
 		$sendfile = TRUE;
@@ -339,7 +339,7 @@ class rex_thumbnail
   	foreach($this->filters as $filter)
   	{
   	  $filter = preg_replace('[^a-zA-Z0-9\_]', '', $filter);
-  		$file = $REX['SRC_PATH'] .'/core/addons/image_resize/filters/filter.'.$filter.'.inc.php';
+  		$file = $REX['SRC_PATH'] .'/addons/image_resize/filters/filter.'.$filter.'.inc.php';
   		if (file_exists($file)) require_once($file);
   		$fname = 'image_resize_'.$filter;
   		if (function_exists($fname))

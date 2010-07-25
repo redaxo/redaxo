@@ -3,7 +3,7 @@
 function getImportDir() {
     global $REX;
     
-    return $REX['SRC_PATH'] .'/core/addons/import_export/backup';
+    return $REX['SRC_PATH'] .'/addons/import_export/backup';
 }
 
 function readImportFolder($fileprefix)

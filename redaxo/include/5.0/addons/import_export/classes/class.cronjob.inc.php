@@ -6,8 +6,8 @@ class rex_cronjob_export extends rex_cronjob
   {
     global $REX;
     
-    include_once $REX['SRC_PATH'] .'/core/addons/import_export/functions/function_import_export.inc.php';
-    include_once $REX['SRC_PATH'] .'/core/addons/import_export/functions/function_import_folder.inc.php';
+    include_once $REX['SRC_PATH'] .'/addons/import_export/functions/function_import_export.inc.php';
+    include_once $REX['SRC_PATH'] .'/addons/import_export/functions/function_import_folder.inc.php';
     
     $file = 'rex_'. $REX['VERSION'] .'_'. date("Ymd");
     $dir = getImportDir() .'/';

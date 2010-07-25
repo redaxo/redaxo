@@ -15,7 +15,7 @@ $REX['ADDON']['supportpage'][$mypage] = 'redaxo.yakamara.de';
 $REX['PERM'][] = "community[]";
 
 if (isset($I18N) && is_object($I18N))
-  $I18N->appendFile($REX['SRC_PATH'] . '/core/addons/' . $mypage . '/lang');
+  $I18N->appendFile($REX['SRC_PATH'] . '/addons/' . $mypage . '/lang');
 
 // ********** Community User Funktionen
 require $REX['SRC_PATH'] ."/addons/community/classes/class.rex_com.inc.php";
@@ -89,13 +89,13 @@ $ff[] = "birthday";
 
 
 // ********** XForm values/action/validations einbinden
-// $REX['SRC_PATH'] .'/core/addons/community/xform/classes/value/'
+// $REX['SRC_PATH'] .'/addons/community/xform/classes/value/'
 
 $REX['ADDON']['community']['xform_path']['value'] = array();
 $REX['ADDON']['community']['xform_path']['validate'] = array();
 $REX['ADDON']['community']['xform_path']['action'] = array();
 
-$REX['ADDON']['community']['xform_path']['value'][] = $REX['SRC_PATH'] ."/core/addons/community/xform/value/";
+$REX['ADDON']['community']['xform_path']['value'][] = $REX['SRC_PATH'] ."/addons/community/xform/value/";
 
 rex_register_extension('ADDONS_INCLUDED', 'rex_com_xform_add');
 function rex_com_xform_add($params){

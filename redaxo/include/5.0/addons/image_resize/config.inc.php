@@ -38,9 +38,9 @@ $REX['ADDON']['image_resize']['max_resizepixel'] = 500;
 $REX['ADDON']['image_resize']['jpg_quality'] = 75;
 // --- /DYN
 
-include_once ($REX['SRC_PATH'] .'/core/addons/image_resize/classes/class.thumbnail.inc.php');
+include_once ($REX['SRC_PATH'] .'/addons/image_resize/classes/class.thumbnail.inc.php');
 
-require_once $REX['SRC_PATH'] .'/core/addons/image_resize/extensions/extension_wysiwyg.inc.php';
+require_once $REX['SRC_PATH'] .'/addons/image_resize/extensions/extension_wysiwyg.inc.php';
 rex_register_extension('OUTPUT_FILTER', 'rex_resize_wysiwyg_output');
 
 if ($REX['REDAXO'])
@@ -64,7 +64,7 @@ if ($rex_resize != '')
 
 if($REX['REDAXO'])
 {
-	$I18N->appendFile($REX['SRC_PATH'] .'/core/addons/'.$mypage.'/lang/');
+	$I18N->appendFile($REX['SRC_PATH'] .'/addons/'.$mypage.'/lang/');
 	$REX['ADDON'][$mypage]['SUBPAGES'] = array (
   	array ('', $I18N->msg('iresize_subpage_desc')),
   	array ('settings', $I18N->msg('iresize_subpage_config')),

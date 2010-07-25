@@ -10,12 +10,12 @@
 @ini_set('memory_limit', '64M');
 
 // ------- Addon Includes
-include_once $REX['SRC_PATH'] .'/core/addons/import_export/classes/class.tar.inc.php';
-include_once $REX['SRC_PATH'] .'/core/addons/import_export/classes/class.rex_tar.inc.php';
-include_once $REX['SRC_PATH'] .'/core/addons/import_export/functions/function_import_export.inc.php';
-include_once $REX['SRC_PATH'] .'/core/addons/import_export/functions/function_folder.inc.php';
-include_once $REX['SRC_PATH'] .'/core/addons/import_export/functions/function_import_folder.inc.php';
-include_once $REX['SRC_PATH'] .'/core/addons/import_export/functions/function_string.inc.php';
+include_once $REX['SRC_PATH'] .'/addons/import_export/classes/class.tar.inc.php';
+include_once $REX['SRC_PATH'] .'/addons/import_export/classes/class.rex_tar.inc.php';
+include_once $REX['SRC_PATH'] .'/addons/import_export/functions/function_import_export.inc.php';
+include_once $REX['SRC_PATH'] .'/addons/import_export/functions/function_folder.inc.php';
+include_once $REX['SRC_PATH'] .'/addons/import_export/functions/function_import_folder.inc.php';
+include_once $REX['SRC_PATH'] .'/addons/import_export/functions/function_string.inc.php';
 
 $info = '';
 $warning = '';

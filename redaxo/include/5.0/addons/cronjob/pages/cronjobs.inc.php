@@ -140,7 +140,7 @@ if ($func == '')
   
 } elseif ($func == 'edit' || $func == 'add') 
 {
-  require_once $REX['SRC_PATH'] .'/core/addons/cronjob/classes/class.form.inc.php';
+  require_once $REX['SRC_PATH'] .'/addons/cronjob/classes/class.form.inc.php';
   
   $fieldset = $func == 'edit' ? $I18N->msg('cronjob_edit') : $I18N->msg('cronjob_add');
   

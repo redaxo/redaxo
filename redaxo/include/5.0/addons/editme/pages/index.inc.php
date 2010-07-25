@@ -21,11 +21,11 @@ $tables = rex_em_getTables();
 switch($subpage)
 {
   case 'field':
-  	require $REX['SRC_PATH'] . '/core/addons/'.$page.'/pages/'.$subpage.'.inc.php';
+  	require $REX['SRC_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
     break;
 
   case 'import':
-  	require $REX['SRC_PATH'] . '/core/addons/'.$page.'/pages/'.$subpage.'.inc.php';
+  	require $REX['SRC_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
     break;
 
   default:
@@ -42,13 +42,13 @@ switch($subpage)
   	if($table == "" && $REX['USER'] && $REX['USER']->isAdmin())
   	{
   		$subpage = "tables";
-  		require $REX['SRC_PATH'] . '/core/addons/'.$page.'/pages/'.$subpage.'.inc.php';
+  		require $REX['SRC_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
   	}elseif($table == "")
   	{
   		echo "-";
   	}else
   	{
-  		require $REX['SRC_PATH'] . '/core/addons/'.$page.'/pages/edit.inc.php'; 			
+  		require $REX['SRC_PATH'] . '/addons/'.$page.'/pages/edit.inc.php'; 			
   	}
   }
 }

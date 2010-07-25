@@ -13,7 +13,7 @@ if ($func == 'setup')
 {
   // REACTIVATE SETUP
 
-  $master_file = $REX['SRC_PATH'].'/core/master.inc.php';
+  $master_file = $REX['SRC_PATH'].'/config/master.inc.php';
   $cont = rex_get_file_contents($master_file);
   $cont = preg_replace("@(REX\['SETUP'\].?\=.?)[^;]*@", '$1true', $cont);
   // echo nl2br(htmlspecialchars($cont));
@@ -46,7 +46,7 @@ elseif ($func == 'updateinfos')
   $notFoundArt = OOArticle::getArticleById($neu_notfoundartikel);
 
   $REX['LANG'] = $neu_lang;
-  $master_file = $REX['SRC_PATH'] .'/core/master.inc.php';
+  $master_file = $REX['SRC_PATH'] .'/config/master.inc.php';
   $cont = rex_get_file_contents($master_file);
 
   if(!OOArticle::isValid($startArt))

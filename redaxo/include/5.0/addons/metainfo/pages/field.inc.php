@@ -69,7 +69,7 @@ if ($func == '')
 //------------------------------> Formular
 elseif ($func == 'edit' || $func == 'add')
 {
-  require_once $REX['SRC_PATH'] .'/core/addons/metainfo/classes/class.rex_table_expander.inc.php';
+  require_once $REX['SRC_PATH'] .'/addons/metainfo/classes/class.rex_table_expander.inc.php';
 
   $form = new rex_a62_tableExpander($prefix, $metaTable, $REX['TABLE_PREFIX'] .'62_params', $I18N->msg('minfo_field_fieldset'),'field_id='. $field_id);
 

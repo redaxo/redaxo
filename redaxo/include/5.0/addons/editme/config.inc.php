@@ -32,7 +32,7 @@ $mypage = 'editme';
 if($REX["REDAXO"] && !$REX['SETUP'])
 {
 	// Sprachdateien anhaengen
-	$I18N->appendFile($REX['SRC_PATH'] .'/core/addons/editme/lang/');
+	$I18N->appendFile($REX['SRC_PATH'] .'/addons/editme/lang/');
 
 	$REX['ADDON']['name'][$mypage] = $I18N->msg("editme");
 
@@ -52,7 +52,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
       $REX['ADDON']['navigation'][$mypage]['hidden'] = TRUE;
     }
 	
-	include $REX['SRC_PATH'] .'/core/addons/editme/functions/functions.inc.php';
+	include $REX['SRC_PATH'] .'/addons/editme/functions/functions.inc.php';
 
 	$REX['ADDON']['tables'][$mypage] = rex_em_getTables();
 
@@ -92,7 +92,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
 rex_register_extension('ADDONS_INCLUDED', 'rex_em_xform_add');
 function rex_em_xform_add($params){
 	global $REX;
-	$REX['ADDON']['xform']['classpaths']['action'][] = $REX['SRC_PATH'] ."/core/addons/editme/xform/action/";
-	$REX['ADDON']['xform']['classpaths']['value'][] = $REX['SRC_PATH'] ."/core/addons/editme/xform/value/";
+	$REX['ADDON']['xform']['classpaths']['action'][] = $REX['SRC_PATH'] ."/addons/editme/xform/action/";
+	$REX['ADDON']['xform']['classpaths']['value'][] = $REX['SRC_PATH'] ."/addons/editme/xform/value/";
 
 }

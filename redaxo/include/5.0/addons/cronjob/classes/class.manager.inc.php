@@ -111,7 +111,7 @@ class rex_cronjob_manager
     if ($nexttime != $REX['ADDON']['nexttime']['cronjob']) 
     {
       $content = '$REX[\'ADDON\'][\'nexttime\'][\'cronjob\'] = "'. addslashes($nexttime) .'";';
-      $file = $REX['SRC_PATH'] .'/core/addons/cronjob/config.inc.php';
+      $file = $REX['SRC_PATH'] .'/addons/cronjob/config.inc.php';
       if (rex_replace_dynamic_contents($file, $content))
       {
         $REX['ADDON']['nexttime']['cronjob'] = $nexttime;

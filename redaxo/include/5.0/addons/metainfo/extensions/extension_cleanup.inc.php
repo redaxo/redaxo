@@ -27,7 +27,7 @@ function rex_a62_metainfo_cleanup($params)
     return;
   }
 
-  require_once $REX['SRC_PATH'] .'/core/addons/metainfo/classes/class.rex_table_manager.inc.php';
+  require_once $REX['SRC_PATH'] .'/addons/metainfo/classes/class.rex_table_manager.inc.php';
 
   $sql = rex_sql::factory();
   $sql->setQuery('SELECT name FROM ' . $REX['TABLE_PREFIX'] . '62_params');

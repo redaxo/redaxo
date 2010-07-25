@@ -61,7 +61,7 @@ function rex_setup_import($import_sql, $import_archiv = null)
 			// wird und auch in der danach includeten function verfügbar ist
 			global $I18N_IM_EXPORT;
 
-			$I18N->appendFile($REX['SRC_PATH'] .'/core/addons/import_export/lang/');
+			$I18N->appendFile($REX['SRC_PATH'] .'/addons/import_export/lang/');
 			require_once $export_addon_dir.'/classes/class.tar.inc.php';
 			require_once $export_addon_dir.'/classes/class.rex_tar.inc.php';
 
@@ -204,7 +204,7 @@ function rex_setup_setUtf8()
 	$noadmin    = rex_request('noadmin', 'string');
 	$lang       = rex_request('lang', 'string');
 
-	$export_addon_dir = $REX['SRC_PATH'] .'/core/addons/import_export';
+	$export_addon_dir = $REX['SRC_PATH'] .'/addons/import_export';
 	require_once $export_addon_dir.'/functions/function_folder.inc.php';
 	require_once $export_addon_dir.'/functions/function_import_folder.inc.php';
 	require_once $export_addon_dir.'/functions/function_import_export.inc.php';
@@ -291,10 +291,10 @@ function rex_setup_setUtf8()
 
 		// -------------------------- SCHREIBRECHTE
 		$WRITEABLES = array (
-		$REX['SRC_PATH'] .'/core/master.inc.php',
-		$REX['SRC_PATH'] .'/core/addons.inc.php',
-		$REX['SRC_PATH'] .'/core/plugins.inc.php',
-		$REX['SRC_PATH'] .'/core/clang.inc.php',
+		$REX['SRC_PATH'] .'/config/master.inc.php',
+		$REX['SRC_PATH'] .'/config/addons.inc.php',
+		$REX['SRC_PATH'] .'/config/plugins.inc.php',
+		$REX['SRC_PATH'] .'/config/clang.inc.php',
 		$REX['SRC_PATH'] .'/core/generated',
 		$REX['SRC_PATH'] .'/core/generated/articles',
 		$REX['SRC_PATH'] .'/core/generated/templates',
@@ -305,7 +305,7 @@ function rex_setup_setUtf8()
 		);
 
 		foreach($REX['SYSTEM_ADDONS'] as $system_addon)
-		$WRITEABLES[] = $REX['SRC_PATH'] .'/core/addons'.DIRECTORY_SEPARATOR. $system_addon;
+		$WRITEABLES[] = $REX['SRC_PATH'] .'/addons'.DIRECTORY_SEPARATOR. $system_addon;
 
 		$res = rex_setup_is_writable($WRITEABLES);
 		if(count($res) > 0)
@@ -368,7 +368,7 @@ function rex_setup_setUtf8()
 
 	if ($checkmodus == 2 && $send == 1)
 	{
-		$master_file = $REX['SRC_PATH'].'/core/master.inc.php';
+		$master_file = $REX['SRC_PATH'].'/config/master.inc.php';
 		$cont = rex_get_file_contents($master_file);
 
 		// Einfache quotes nicht escapen, da der String zwischen doppelten quotes stehen wird
@@ -963,7 +963,7 @@ function rex_setup_setUtf8()
 
 	if ($checkmodus == 5)
 	{
-		$master_file = $REX['SRC_PATH'].'/core/master.inc.php';
+		$master_file = $REX['SRC_PATH'].'/config/master.inc.php';
 		$cont = rex_get_file_contents($master_file);
 		$cont = preg_replace("@(REX\['SETUP'\].?\=.?)[^;]*@", '$1false', $cont);
 

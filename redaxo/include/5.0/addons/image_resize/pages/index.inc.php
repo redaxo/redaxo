@@ -43,5 +43,5 @@ switch($subpage)
   }
 }
 
-require $REX['SRC_PATH'] . '/core/addons/image_resize/pages/'.$subpage.'.inc.php';
+require $REX['SRC_PATH'] . '/addons/image_resize/pages/'.$subpage.'.inc.php';
 require $REX['SRC_PATH'] . '/core/layout/bottom.php';

@@ -22,8 +22,8 @@ $REX['PERM'][] = 'phpmailer[]';
 
 if ($REX['REDAXO'])
 {
-  $I18N->appendFile($REX['SRC_PATH'] .'/core/addons/'.$mypage.'/lang/');
+  $I18N->appendFile($REX['SRC_PATH'] .'/addons/'.$mypage.'/lang/');
 }
 
-require_once($REX['SRC_PATH']. '/core/addons/phpmailer/classes/class.phpmailer.php');
-require_once($REX['SRC_PATH']. '/core/addons/phpmailer/classes/class.rex_mailer.inc.php');
+require_once($REX['SRC_PATH']. '/addons/phpmailer/classes/class.phpmailer.php');
+require_once($REX['SRC_PATH']. '/addons/phpmailer/classes/class.rex_mailer.inc.php');
