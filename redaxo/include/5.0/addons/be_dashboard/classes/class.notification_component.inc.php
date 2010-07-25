@@ -10,7 +10,7 @@
  * @version svn:$Id$
  */
 
-/*abstract*/ class rex_notification_component extends rex_dashboard_component
+abstract class rex_notification_component extends rex_dashboard_component
 {
   function rex_notification_component()
   {

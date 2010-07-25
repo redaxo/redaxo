@@ -9,7 +9,7 @@
  * @version svn:$Id$
  */
 
-/*abstract*/ class rex_cronjob
+abstract class rex_cronjob
 {
   /*private*/ var $params = array();
   /*private*/ var $message = '';

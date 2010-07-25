@@ -10,7 +10,7 @@
  * @version svn:$Id$
  */
 
-/*abstract*/ class rex_dashboard_component_config
+abstract class rex_dashboard_component_config
 {
   var $id;
   var $settings;

@@ -1,6 +1,6 @@
 <?php 
 
-/*abstract*/ class rex_input
+abstract class rex_input
 {
   var $value;
   var $attributes;

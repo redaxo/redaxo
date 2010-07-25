@@ -10,7 +10,7 @@
  * @version svn:$Id$
  */
 
-/*abstract*/ class rex_dashboard_notification extends rex_dashboard_component_base
+abstract class rex_dashboard_notification extends rex_dashboard_component_base
 {
   var $message;
   

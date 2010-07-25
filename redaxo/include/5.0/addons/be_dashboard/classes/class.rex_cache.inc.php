@@ -18,7 +18,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
  * @version svn:$Id$
  */
 
-/*abstract*/ class rex_cache
+abstract class rex_cache
 {
   var $options;
 
