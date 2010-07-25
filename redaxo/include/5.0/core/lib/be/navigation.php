@@ -21,7 +21,7 @@ class rex_be_navigation
   /*public*/ function addPage(/*rex_be_page_container*/ &$mainPage)
   {
     $blockName = 'default';
-    if(rex_be_main_page::isValid($mainPage))
+    if(rex_be_page_main::isValid($mainPage))
     {
       $blockName = $mainPage->getBlock();
     }
@@ -220,14 +220,14 @@ class rex_be_navigation
     $structure = new rex_be_page($I18N->msg('structure'), array('page' => 'structure'));
     $structure->setIsCorePage(true);
     $structure->setRequiredPermissions('hasStructurePerm');
-    $pages['structure'] = new rex_be_main_page('system', $structure); 
+    $pages['structure'] = new rex_be_page_main('system', $structure); 
     
-    $mpool = new rex_be_popup_page($I18N->msg('mediapool'), 'openMediaPool(); return false;');
+    $mpool = new rex_be_page_popup($I18N->msg('mediapool'), 'openMediaPool(); return false;');
     $mpool->setIsCorePage(true);
     $mpool->setRequiredPermissions('hasMediaPerm');
-    $pages['mediapool'] = new rex_be_main_page('system', $mpool); 
+    $pages['mediapool'] = new rex_be_page_main('system', $mpool); 
     
-    $linkmap = new rex_be_popup_page($I18N->msg('linkmap'));
+    $linkmap = new rex_be_page_popup($I18N->msg('linkmap'));
     $linkmap->setIsCorePage(true);
     $linkmap->setRequiredPermissions('hasStructurePerm');
     $pages['linkmap'] = $linkmap;
@@ -240,7 +240,7 @@ class rex_be_navigation
     $template = new rex_be_page($I18N->msg('template'), array('page'=>'template'));
     $template->setIsCorePage(true);
     $template->setRequiredPermissions('isAdmin');
-    $pages['template'] = new rex_be_main_page('system', $template);
+    $pages['template'] = new rex_be_page_main('system', $template);
     
     $modules = new rex_be_page($I18N->msg('modules'), array('page'=>'module', 'subpage' => ''));
     $modules->setIsCorePage(true);
@@ -257,17 +257,17 @@ class rex_be_navigation
     $mainModules->setRequiredPermissions('isAdmin');
     $mainModules->addSubPage($modules);
     $mainModules->addSubPage($actions);
-    $pages['module'] = new rex_be_main_page('system', $mainModules);
+    $pages['module'] = new rex_be_page_main('system', $mainModules);
     
     $user = new rex_be_page($I18N->msg('user'), array('page'=>'user'));
     $user->setIsCorePage(true);
     $user->setRequiredPermissions('isAdmin');
-    $pages['user'] = new rex_be_main_page('system', $user);
+    $pages['user'] = new rex_be_page_main('system', $user);
       
     $addon = new rex_be_page($I18N->msg('addon'), array('page'=>'addon'));
     $addon->setIsCorePage(true);
     $addon->setRequiredPermissions('isAdmin');
-    $pages['addon'] = new rex_be_main_page('system', $addon);
+    $pages['addon'] = new rex_be_page_main('system', $addon);
 
     $settings = new rex_be_page($I18N->msg('main_preferences'), array('page'=>'specials', 'subpage' => ''));
     $settings->setIsCorePage(true);
@@ -284,7 +284,7 @@ class rex_be_navigation
     $mainSpecials->setRequiredPermissions('isAdmin');
     $mainSpecials->addSubPage($settings);
     $mainSpecials->addSubPage($languages);
-    $pages['specials'] = new rex_be_main_page('system', $mainSpecials);
+    $pages['specials'] = new rex_be_page_main('system', $mainSpecials);
     
     return $pages;    
   }

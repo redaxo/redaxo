@@ -107,11 +107,10 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 {
 	$n = rex_be_navigation::factory();
-	
 	foreach($REX['USER']->pages as $p => $pageContainer)
   {
 		$p = strtolower($p);
-    if(rex_be_main_page::isValid($pageContainer))
+    if(rex_be_page_main::isValid($pageContainer))
     {
       $pageObj =& $pageContainer->getPage();
       $pageObj->setItemAttr('id', 'rex-navi-page-'.strtolower(preg_replace('/[^a-zA-Z0-9\-_]*/', '', $p)));
