@@ -20,11 +20,14 @@ include_once $REX['SRC_PATH'].'/core/functions/function_rex_plugins.inc.php';
 include_once $REX['SRC_PATH'].'/core/functions/function_rex_other.inc.php';
 
 // ----- CLASSES
-require_once $REX["SRC_PATH"].'/core/classes/class.rex_autoload.inc.php';
+require_once $REX["SRC_PATH"].'/core/lib/class.rex_autoload.inc.php';
 
 $loader = rex_autoload::getInstance($REX['SRC_PATH'] .'/generated/files/autoload.cache');
-$loader->addDirectory($REX['SRC_PATH'] .'/core/classes/');
-$loader->addDirectory($REX['SRC_PATH'] .'/core/classes/variables/');
+// TODO
+$loader->addDirectory($REX['SRC_PATH'] .'/core/lib/');
+$loader->addDirectory($REX['SRC_PATH'] .'/core/lib/*/');
+$loader->addDirectory($REX['SRC_PATH'] .'/core/lib/*/*/');
+$loader->addDirectory($REX['SRC_PATH'] .'/core/lib/*/*/*/');
 
 rex_autoload::register();
 
