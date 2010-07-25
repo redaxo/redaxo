@@ -74,10 +74,10 @@ class OOMedia
   {
     global $REX;
     
-    $extlist_path = $REX['INCLUDE_PATH'].'/generated/files/'.$extension.'.mextlist';
+    $extlist_path = $REX['SRC_PATH'].'/generated/files/'.$extension.'.mextlist';
     if (!file_exists($extlist_path))
 		{
-			require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
+			require_once ($REX['SRC_PATH'].'/core/functions/function_rex_generate.inc.php');
     	rex_generateMediaExtensionList($extension);
 		}
     
@@ -107,10 +107,10 @@ class OOMedia
     if ($name == '')
       return null;
     
-    $media_path = $REX['INCLUDE_PATH'].'/generated/files/'.$name.'.media';
+    $media_path = $REX['SRC_PATH'].'/generated/files/'.$name.'.media';
     if (!file_exists($media_path))
 		{
-			require_once ($REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php');
+			require_once ($REX['SRC_PATH'] .'/core/functions/function_rex_generate.inc.php');
     	rex_generateMedia($name);
 		}
 

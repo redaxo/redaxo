@@ -670,7 +670,7 @@ function rex_articleStatus($article_id, $clang, $status = null)
 
     if (!$REX['REDAXO'])
     {
-      include_once $REX['INCLUDE_PATH'].'/functions/function_rex_generate.inc.php';
+      include_once $REX['SRC_PATH'].'/core/functions/function_rex_generate.inc.php';
     }
 
     if($EA->update())

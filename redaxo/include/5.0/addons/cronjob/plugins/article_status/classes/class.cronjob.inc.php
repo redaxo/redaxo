@@ -62,7 +62,7 @@ class rex_cronjob_article_status extends rex_cronjob
     ');
     $rows = $sql->getRows();
 
-    include_once $REX['INCLUDE_PATH'].'/functions/function_rex_structure.inc.php';
+    include_once $REX['SRC_PATH'].'/core/functions/function_rex_structure.inc.php';
 
     for($i = 0; $i < $rows; $i++)
     {
