@@ -9,7 +9,7 @@
  * @version svn:$Id$
  */
 
-require $REX['INCLUDE_PATH'].'/layout/top.php';
+require $REX['SRC_PATH'] .'/core/layout/top.php';
 
 rex_title('Version AddOn');
 
@@ -25,4 +25,4 @@ rex_title('Version AddOn');
 </div>
 
 <?php
-require $REX['INCLUDE_PATH'].'/layout/bottom.php';
+require $REX['SRC_PATH'] .'/core/layout/bottom.php';

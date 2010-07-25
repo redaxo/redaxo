@@ -13,7 +13,7 @@ $request_update = rex_request("update","int","");
 if ($func == "ids")
 {
 	$content = "";
-	$file = $REX['INCLUDE_PATH']."/addons/community/plugins/setup/config.inc.php";
+	$file = $REX['SRC_PATH'] ."/core/addons/community/plugins/setup/config.inc.php";
 	$i=0;
 	foreach($REX["ADDON"]["community"]["plugins"]["setup"]["ids"] as $k)
 	{
@@ -43,8 +43,8 @@ if ($func == "module" && $request_module != "")
 		if ($request_module == $module[0].".".$module[1])
 		{
 		
-			$in = rex_get_file_contents($REX["INCLUDE_PATH"]."/addons/community/plugins/".$module[0]."/modules/".$module[1]."_in.module");
-			$out = rex_get_file_contents($REX["INCLUDE_PATH"]."/addons/community/plugins/".$module[0]."/modules/".$module[1]."_out.module");
+			$in = rex_get_file_contents($REX['SRC_PATH'] ."/core/addons/community/plugins/".$module[0]."/modules/".$module[1]."_in.module");
+			$out = rex_get_file_contents($REX['SRC_PATH'] ."/core/addons/community/plugins/".$module[0]."/modules/".$module[1]."_out.module");
 			
 			$in = str_replace("\r","\n",$in); $in = str_replace("\n\n","\n",$in);
 			$out = str_replace("\r","\n",$out); $out = str_replace("\n\n","\n",$out);
@@ -94,7 +94,7 @@ if ($func == "template" && $request_template != "")
 		if ($request_template == $template[0].".".$template[1])
 		{
 		
-			$content = rex_get_file_contents($REX["INCLUDE_PATH"]."/addons/community/plugins/".$template[0]."/templates/".$template[1].".template");
+			$content = rex_get_file_contents($REX['SRC_PATH'] ."/core/addons/community/plugins/".$template[0]."/templates/".$template[1].".template");
 			$active = (int) $template[3];
 			
 			$content = str_replace("\r","\n",$content); $content = str_replace("\n\n","\n",$content);
@@ -130,7 +130,7 @@ if ($func == "template" && $request_template != "")
 				echo rex_info('Template "'.htmlspecialchars($template[2]).'" wurde angelegt.');
 			}
 		
-			rex_deleteDir($REX['INCLUDE_PATH']."/generated/templates", 0);
+			rex_deleteDir($REX['SRC_PATH'].'/generated/templates', 0);
 		
 		}
 	}
@@ -149,7 +149,7 @@ if ($func == "email" && $request_email != "")
 		if ($request_email == $email[0].".".$email[1])
 		{
 		
-			$body = rex_get_file_contents($REX["INCLUDE_PATH"]."/addons/community/plugins/".$email[0]."/emails/".$email[1].".email");
+			$body = rex_get_file_contents($REX['SRC_PATH'] ."/core/addons/community/plugins/".$email[0]."/emails/".$email[1].".email");
 			
 			$body = str_replace("\r","\n",$body); 
 			$body = str_replace("\n\n","\n",$body);

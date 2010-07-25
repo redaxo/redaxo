@@ -25,4 +25,4 @@ switch($subpage)
   default : $file = 'specials.settings.inc.php'; break;
 }
 
-require $REX['INCLUDE_PATH'].'/pages/'.$file;
+require $REX['SRC_PATH'] .'/core/pages/'.$file;

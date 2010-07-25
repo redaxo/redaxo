@@ -13,7 +13,7 @@ if ($func == 'setup')
 {
   // REACTIVATE SETUP
 
-  $master_file = $REX['INCLUDE_PATH'].'/master.inc.php';
+  $master_file = $REX['SRC_PATH'].'/core/master.inc.php';
   $cont = rex_get_file_contents($master_file);
   $cont = preg_replace("@(REX\['SETUP'\].?\=.?)[^;]*@", '$1true', $cont);
   // echo nl2br(htmlspecialchars($cont));
@@ -46,7 +46,7 @@ elseif ($func == 'updateinfos')
   $notFoundArt = OOArticle::getArticleById($neu_notfoundartikel);
 
   $REX['LANG'] = $neu_lang;
-  $master_file = $REX['INCLUDE_PATH'] .'/master.inc.php';
+  $master_file = $REX['SRC_PATH'] .'/core/master.inc.php';
   $cont = rex_get_file_contents($master_file);
 
   if(!OOArticle::isValid($startArt))
@@ -256,11 +256,11 @@ echo '
 							
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
-										<label for="rex_include_path">$REX[\'INCLUDE_PATH\']</label>
-										<span class="rex-form-read" id="rex_include_path" title="'. $REX['INCLUDE_PATH'] .'">&quot;';
+										<label for="rex_include_path">$REX[\'SRC_PATH\']</label>
+										<span class="rex-form-read" id="rex_include_path" title="'. $REX['SRC_PATH'] .'/core">&quot;';
 										
-										$tmp = $REX['INCLUDE_PATH'];
-										if (strlen($REX['INCLUDE_PATH'])>21)
+										$tmp = $REX['SRC_PATH'];
+										if (strlen($REX['SRC_PATH'])>21)
 											$tmp = substr($tmp,0,8)."..".substr($tmp,strlen($tmp)-13);
 										
 										echo $tmp;

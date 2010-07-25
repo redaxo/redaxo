@@ -21,7 +21,7 @@ $REX['EXTRAPERM'][] = 'version[only_working_version]';
 // $REX['EXTPERM'][] = 'version[admin]';
 
 if($REX['REDAXO'])
-	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/version/lang/');
+	$I18N->appendFile($REX['SRC_PATH'] .'/core/addons/version/lang/');
 
 // ***** an EPs andocken
 rex_register_extension('ART_INIT', 'rex_version_initArticle');
@@ -97,14 +97,14 @@ function rex_version_header($params)
 		  	$return .= rex_warning($I18N->msg("version_warning_working_version_to_live"));
 		  }else if(!$REX['USER']->hasPerm('version[only_working_version]'))
 		  {
-				require $REX['INCLUDE_PATH'].'/addons/version/functions/function_rex_copyrevisioncontent.inc.php';
+				require $REX['SRC_PATH'] .'/core/addons/version/functions/function_rex_copyrevisioncontent.inc.php';
 				// rex_copyRevisionContent($article_id,$clang,$from_revision_id, $to_revision_id, $gc->getValue("id"),$delete_to_revision);
 				rex_copyRevisionContent($params['article_id'],$params['clang'],1, 0, 0, TRUE);
 		  	$return .= rex_info($I18N->msg("version_info_working_version_to_live"));
 		  }
 		break;
 		case("copy_live_to_work"):
-			require $REX['INCLUDE_PATH'].'/addons/version/functions/function_rex_copyrevisioncontent.inc.php';
+			require $REX['SRC_PATH'] .'/core/addons/version/functions/function_rex_copyrevisioncontent.inc.php';
 			// rex_copyRevisionContent($article_id,$clang,$from_revision_id, $to_revision_id, $gc->getValue("id"),$delete_to_revision);
 			rex_copyRevisionContent($params['article_id'],$params['clang'],0, 1, 0, TRUE);
 		  $return .= rex_info($I18N->msg("version_info_live_version_to_working"));

@@ -12,7 +12,7 @@
 $Basedir = dirname(__FILE__);
 
 // Include Header and Navigation
-require $REX['INCLUDE_PATH'].'/layout/top.php';
+require $REX['SRC_PATH'] .'/core/layout/top.php';
 
 $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
@@ -48,4 +48,4 @@ require $Basedir .'/field.inc.php';
 echo '</div>';
 
 // Include Footer
-require $REX['INCLUDE_PATH'].'/layout/bottom.php';
+require $REX['SRC_PATH'] .'/core/layout/bottom.php';

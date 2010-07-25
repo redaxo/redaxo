@@ -61,7 +61,7 @@ function rex_setup_import($import_sql, $import_archiv = null)
 			// wird und auch in der danach includeten function verfügbar ist
 			global $I18N_IM_EXPORT;
 
-			$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/import_export/lang/');
+			$I18N->appendFile($REX['SRC_PATH'] .'/core/addons/import_export/lang/');
 			require_once $export_addon_dir.'/classes/class.tar.inc.php';
 			require_once $export_addon_dir.'/classes/class.rex_tar.inc.php';
 
@@ -115,7 +115,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 {
 	global $REX, $I18N;
 
-	require_once $REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php';
+	require_once $REX['SRC_PATH'].'/core/functions/function_rex_addons.inc.php';
 
 	$addonErr = '';
 	$ADDONS = rex_read_addons_folder();
@@ -204,7 +204,7 @@ function rex_setup_setUtf8()
 	$noadmin    = rex_request('noadmin', 'string');
 	$lang       = rex_request('lang', 'string');
 
-	$export_addon_dir = $REX['INCLUDE_PATH'].'/addons/import_export';
+	$export_addon_dir = $REX['SRC_PATH'] .'/core/addons/import_export';
 	require_once $export_addon_dir.'/functions/function_folder.inc.php';
 	require_once $export_addon_dir.'/functions/function_import_folder.inc.php';
 	require_once $export_addon_dir.'/functions/function_import_export.inc.php';
@@ -213,7 +213,7 @@ function rex_setup_setUtf8()
 	// ---------------------------------- MODUS 0 | Start
 	if (!($checkmodus > 0 && $checkmodus < 10))
 	{
-		$langpath = $REX['INCLUDE_PATH'].'/lang';
+		$langpath = $REX['SRC_PATH'].'/core/lang';
 		foreach($REX['LANGUAGES'] as $l)
 		{
 			$isUtf8 = substr($l, -4) == 'utf8';
@@ -291,21 +291,21 @@ function rex_setup_setUtf8()
 
 		// -------------------------- SCHREIBRECHTE
 		$WRITEABLES = array (
-		$REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'master.inc.php',
-		$REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'addons.inc.php',
-		$REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'plugins.inc.php',
-		$REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'clang.inc.php',
-		$REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated',
-		$REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated'.DIRECTORY_SEPARATOR.'articles',
-		$REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated'.DIRECTORY_SEPARATOR.'templates',
-		$REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'generated'.DIRECTORY_SEPARATOR.'files',
+		$REX['SRC_PATH'] .'/core/master.inc.php',
+		$REX['SRC_PATH'] .'/core/addons.inc.php',
+		$REX['SRC_PATH'] .'/core/plugins.inc.php',
+		$REX['SRC_PATH'] .'/core/clang.inc.php',
+		$REX['SRC_PATH'] .'/core/generated',
+		$REX['SRC_PATH'] .'/core/generated/articles',
+		$REX['SRC_PATH'] .'/core/generated/templates',
+		$REX['SRC_PATH'] .'/core/generated/files',
 		$REX['MEDIAFOLDER'],
 		$REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR.'_readme.txt',
 		getImportDir()
 		);
 
 		foreach($REX['SYSTEM_ADDONS'] as $system_addon)
-		$WRITEABLES[] = $REX['INCLUDE_PATH'].DIRECTORY_SEPARATOR.'addons'.DIRECTORY_SEPARATOR. $system_addon;
+		$WRITEABLES[] = $REX['SRC_PATH'] .'/core/addons'.DIRECTORY_SEPARATOR. $system_addon;
 
 		$res = rex_setup_is_writable($WRITEABLES);
 		if(count($res) > 0)
@@ -368,7 +368,7 @@ function rex_setup_setUtf8()
 
 	if ($checkmodus == 2 && $send == 1)
 	{
-		$master_file = $REX['INCLUDE_PATH'].'/master.inc.php';
+		$master_file = $REX['SRC_PATH'].'/core/master.inc.php';
 		$cont = rex_get_file_contents($master_file);
 
 		// Einfache quotes nicht escapen, da der String zwischen doppelten quotes stehen wird
@@ -580,7 +580,7 @@ function rex_setup_setUtf8()
 		if ($dbanlegen == 4)
 		{
 			// ----- vorhandenen seite updaten
-			$import_sql = $REX['INCLUDE_PATH'].'/install/update4_x_to_4_3.sql';
+			$import_sql = $REX['SRC_PATH'].'/core/install/update4_x_to_4_3.sql';
 			if($err_msg == '')
 			$err_msg .= rex_setup_import($import_sql);
 
@@ -624,7 +624,7 @@ function rex_setup_setUtf8()
 		elseif ($dbanlegen == 1)
 		{
 			// ----- volle Datenbank, alte DB löschen / drop
-			$import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_3.sql';
+			$import_sql = $REX['SRC_PATH'].'/core/install/redaxo4_3.sql';
 
 			$db = rex_sql::factory();
 			foreach($requiredTables as $table)
@@ -639,7 +639,7 @@ function rex_setup_setUtf8()
 		elseif ($dbanlegen == 0)
 		{
 			// ----- leere Datenbank neu einrichten
-			$import_sql = $REX['INCLUDE_PATH'].'/install/redaxo4_3.sql';
+			$import_sql = $REX['SRC_PATH'].'/core/install/redaxo4_3.sql';
 
 			if($err_msg == '')
 			$err_msg .= rex_setup_import($import_sql);
@@ -963,7 +963,7 @@ function rex_setup_setUtf8()
 
 	if ($checkmodus == 5)
 	{
-		$master_file = $REX['INCLUDE_PATH'].'/master.inc.php';
+		$master_file = $REX['SRC_PATH'].'/core/master.inc.php';
 		$cont = rex_get_file_contents($master_file);
 		$cont = preg_replace("@(REX\['SETUP'\].?\=.?)[^;]*@", '$1false', $cont);
 

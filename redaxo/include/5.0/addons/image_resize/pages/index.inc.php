@@ -16,7 +16,7 @@ $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 $msg = '';
 
-require $REX['INCLUDE_PATH'] . '/layout/top.php';
+require $REX['SRC_PATH'] . '/core/layout/top.php';
 
 if ($subpage == 'clear_cache')
 {
@@ -43,5 +43,5 @@ switch($subpage)
   }
 }
 
-require $REX['INCLUDE_PATH'] . '/addons/image_resize/pages/'.$subpage.'.inc.php';
-require $REX['INCLUDE_PATH'] . '/layout/bottom.php';
+require $REX['SRC_PATH'] . '/core/addons/image_resize/pages/'.$subpage.'.inc.php';
+require $REX['SRC_PATH'] . '/core/layout/bottom.php';

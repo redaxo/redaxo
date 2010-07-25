@@ -9,7 +9,7 @@ function image_resize_brand(& $src_im)
 {
   global $REX;
 
-  $files = glob($REX['INCLUDE_PATH'] . '/addons/image_resize/media/brand.*');
+  $files = glob($REX['SRC_PATH'] . '/core/addons/image_resize/media/brand.*');
   $brandImage = $files[0];
   $brand = new rex_thumbnail($brandImage);
 

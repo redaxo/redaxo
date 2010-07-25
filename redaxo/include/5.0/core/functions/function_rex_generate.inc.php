@@ -74,7 +74,7 @@ function rex_deleteCacheArticleMeta($id, $clang = null)
 {
   global $REX;
   
-  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'articles'. DIRECTORY_SEPARATOR;
+  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated/articles'. DIRECTORY_SEPARATOR;
 
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
@@ -98,7 +98,7 @@ function rex_deleteCacheArticleContent($id, $clang = null)
 {
   global $REX;
   
-  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'articles'. DIRECTORY_SEPARATOR;
+  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated/articles'. DIRECTORY_SEPARATOR;
 
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
@@ -122,7 +122,7 @@ function rex_deleteCacheArticleLists($id, $clang = null)
 {
   global $REX;
   
-  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'articles'. DIRECTORY_SEPARATOR;
+  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated/articles'. DIRECTORY_SEPARATOR;
 
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
@@ -180,7 +180,7 @@ function rex_generateArticleMeta($article_id, $clang = null)
     $article_file = $REX['SRC_PATH']."/generated/articles/$article_id.$_clang.article";
     if (rex_put_file_contents($article_file, $content) === FALSE)
     {
-      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH']."/generated/articles/";
+      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
     }
     
     // damit die aktuellen änderungen sofort wirksam werden, einbinden!
@@ -227,7 +227,7 @@ function rex_generateArticleContent($article_id, $clang = null)
   
     if (rex_put_file_contents($article_content_file, $article_content) === FALSE)
     {
-      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH']."/generated/articles/";
+      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
     }
   }
   
@@ -459,7 +459,7 @@ function rex_generateLists($re_id, $clang = null)
     $article_list_file = $REX['SRC_PATH']."/generated/articles/$re_id.$_clang.alist";
     if (rex_put_file_contents($article_list_file, $content) === FALSE)
     {
-      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH']."/generated/articles/";
+      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
     }
 
     // --------------------------------------- CAT LIST
@@ -478,7 +478,7 @@ function rex_generateLists($re_id, $clang = null)
     $article_categories_file = $REX['SRC_PATH']."/generated/articles/$re_id.$_clang.clist";
     if (rex_put_file_contents($article_categories_file, $content) === FALSE)
     {
-      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH']."/generated/articles/";
+      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
     }
   }
   
@@ -496,7 +496,7 @@ function rex_deleteCacheMedia($filename)
 {
   global $REX;
   
-  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
+  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated/files'. DIRECTORY_SEPARATOR;
   @unlink($cachePath . $filename . '.media');
   rex_deleteCacheMediaLists();
 }
@@ -512,7 +512,7 @@ function rex_deleteCacheMediaCategory($category_id)
 {
   global $REX;
   
-  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
+  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated/files'. DIRECTORY_SEPARATOR;
   @unlink($cachePath . $category_id . '.mcat');
   rex_deleteCacheMediaCategoryLists();
 }
@@ -526,7 +526,7 @@ function rex_deleteCacheMediaLists()
 {
   global $REX;
   
-  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
+  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated/files'. DIRECTORY_SEPARATOR;
   
   $glob = glob($cachePath . '*.mlist');
   if(is_array($glob))
@@ -550,7 +550,7 @@ function rex_deleteCacheMediaList($category_id)
 {
   global $REX;
   
-  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
+  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated/files'. DIRECTORY_SEPARATOR;
   @unlink($cachePath . $category_id . '.mlist');
 }
 
@@ -563,7 +563,7 @@ function rex_deleteCacheMediaCategoryLists()
 {
   global $REX;
   
-  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
+  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated/files'. DIRECTORY_SEPARATOR;
   $glob = glob($cachePath . '*.mclist');
   if (is_array($glob))
     foreach ($glob as $file)
@@ -581,7 +581,7 @@ function rex_deleteCacheMediaCategoryList($category_id)
 {
   global $REX;
   
-  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated'. DIRECTORY_SEPARATOR .'files'. DIRECTORY_SEPARATOR;
+  $cachePath = $REX['SRC_PATH']. DIRECTORY_SEPARATOR .'generated/files'. DIRECTORY_SEPARATOR;
   @unlink($cachePath . $category_id . '.mclist');
 }
 

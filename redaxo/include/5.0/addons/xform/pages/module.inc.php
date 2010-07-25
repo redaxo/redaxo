@@ -21,8 +21,8 @@
 		$xform_module_name = "rex - X-Form";
 	
 		// Daten einlesen
-		$in = rex_get_file_contents($REX["INCLUDE_PATH"]."/addons/xform/module/module_in.inc");
-		$out = rex_get_file_contents($REX["INCLUDE_PATH"]."/addons/xform/module/module_out.inc");
+		$in = rex_get_file_contents($REX['SRC_PATH'] ."/core/addons/xform/module/module_in.inc");
+		$out = rex_get_file_contents($REX['SRC_PATH'] ."/core/addons/xform/module/module_out.inc");
 	
 		$mi = rex_sql::factory();
 		// $mi->debugsql = 1;

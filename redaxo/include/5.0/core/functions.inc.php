@@ -22,9 +22,9 @@ include_once $REX['SRC_PATH'].'/core/functions/function_rex_other.inc.php';
 // ----- CLASSES
 require_once $REX["SRC_PATH"].'/core/classes/class.rex_autoload.inc.php';
 
-$loader = rex_autoload::getInstance($REX['SRC_PATH'].'/generated/files/autoload.cache');
-$loader->addDirectory($REX['SRC_PATH'].'/core/classes/');
-$loader->addDirectory($REX['SRC_PATH'].'/core/classes/variables/');
+$loader = rex_autoload::getInstance($REX['SRC_PATH'] .'/generated/files/autoload.cache');
+$loader->addDirectory($REX['SRC_PATH'] .'/core/classes/');
+$loader->addDirectory($REX['SRC_PATH'] .'/core/classes/variables/');
 
 rex_autoload::register();
 

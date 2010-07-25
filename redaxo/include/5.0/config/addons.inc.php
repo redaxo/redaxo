@@ -30,12 +30,6 @@ $REX['ADDON']['status']['cronjob'] = '0';
 $REX['ADDON']['install']['editme'] = '0';
 $REX['ADDON']['status']['editme'] = '0';
 
-$REX['ADDON']['install']['frau_schultze'] = '0';
-$REX['ADDON']['status']['frau_schultze'] = '0';
-
-$REX['ADDON']['install']['frontedit'] = '0';
-$REX['ADDON']['status']['frontedit'] = '0';
-
 $REX['ADDON']['install']['image_manager'] = '0';
 $REX['ADDON']['status']['image_manager'] = '0';
 
@@ -54,9 +48,6 @@ $REX['ADDON']['status']['phpmailer'] = '0';
 $REX['ADDON']['install']['textile'] = '0';
 $REX['ADDON']['status']['textile'] = '0';
 
-$REX['ADDON']['install']['tinymce'] = '0';
-$REX['ADDON']['status']['tinymce'] = '0';
-
 $REX['ADDON']['install']['url_rewrite'] = '0';
 $REX['ADDON']['status']['url_rewrite'] = '0';
 
@@ -68,7 +59,7 @@ $REX['ADDON']['status']['xform'] = '0';
 // --- /DYN
 // ----------------- /DONT EDIT BELOW THIS
 
-require $REX['INCLUDE_PATH']. '/plugins.inc.php';
+require $REX['SRC_PATH']. '/config/plugins.inc.php';
 
 foreach(OOAddon::getAvailableAddons() as $addonName)
 {

@@ -1,6 +1,6 @@
 <?php
 
-require $REX['INCLUDE_PATH'].'/functions/function_rex_linkmap.inc.php';
+require $REX['SRC_PATH'].'/core/functions/function_rex_linkmap.inc.php';
 
 
 // ------- Default Values

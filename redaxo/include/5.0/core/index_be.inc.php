@@ -33,7 +33,7 @@ if ($REX['SETUP'])
   // ----------------- SET SETUP LANG
   $REX['LANG'] = '';
   $requestLang = rex_request('lang', 'string');
-  $langpath = $REX['INCLUDE_PATH'].'/lang';
+  $langpath = $REX['SRC_PATH'].'/core/lang';
   $REX['LANGUAGES'] = array();
   if ($handle = opendir($langpath))
   {
@@ -111,7 +111,7 @@ if($REX['USER'])
 }
 
 // ----- INCLUDE ADDONS
-include_once $REX['INCLUDE_PATH'].'/addons.inc.php';
+include_once $REX['SRC_PATH'] .'/config/addons.inc.php';
 
 // ----- Prepare AddOn Pages
 if($REX['USER'])

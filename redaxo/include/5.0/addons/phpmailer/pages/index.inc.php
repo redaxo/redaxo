@@ -17,7 +17,7 @@ $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
-require $REX['INCLUDE_PATH'].'/layout/top.php';
+require $REX['SRC_PATH'] .'/core/layout/top.php';
 
 $subpages = array(
   array('',$I18N->msg('phpmailer_configuration')),
@@ -35,6 +35,6 @@ switch($subpage)
         require $Basedir .'/settings.inc.php';
 }
 
-require $REX['INCLUDE_PATH'].'/layout/bottom.php';
+require $REX['SRC_PATH'] .'/core/layout/bottom.php';
 
 ?>

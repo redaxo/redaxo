@@ -1,6 +1,6 @@
 <?php
 
-define('FULLNAMES_PATHLIST', $REX['INCLUDE_PATH'].'/generated/files/pathlist.php');
+define('FULLNAMES_PATHLIST', $REX['SRC_PATH'] .'/generated/files/pathlist.php');
 
 /**
  * URL-Rewrite Addon

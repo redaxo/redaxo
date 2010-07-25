@@ -31,7 +31,7 @@ class rex_mailer extends PHPMailer
       $this->Password         = '';
       // --- /DYN
 
-    $this->PluginDir = $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/';
+    $this->PluginDir = $REX['SRC_PATH'] . '/core/addons/phpmailer/classes/';
   }
 
   function SetLanguage($lang_type, $lang_path = null)
@@ -39,7 +39,7 @@ class rex_mailer extends PHPMailer
     global $REX;
 
     if ($lang_path == null)
-      $lang_path = $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/language/';
+      $lang_path = $REX['SRC_PATH'] . '/core/addons/phpmailer/classes/language/';
 
     parent :: SetLanguage($lang_type, $lang_path);
   }

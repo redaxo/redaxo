@@ -40,7 +40,7 @@ class rex_file_cache extends rex_cache
 
     if (!$this->getOption('cache_dir'))
     {
-      $this->setOption('cache_dir', $REX['INCLUDE_PATH'] .'/generated/cache');
+      $this->setOption('cache_dir', $REX['SRC_PATH'] .'/generated/cache');
     }
 
     $this->setcache_dir($this->getOption('cache_dir'));

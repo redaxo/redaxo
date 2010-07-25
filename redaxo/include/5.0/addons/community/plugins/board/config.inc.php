@@ -1,7 +1,7 @@
 <?php
 
 
-include $REX["INCLUDE_PATH"]."/addons/community/plugins/board/classes/class.rex_com_board.inc.php";
+require $REX['SRC_PATH'] ."/addons/community/plugins/board/classes/class.rex_com_board.inc.php";
 
 
 if ($REX["REDAXO"])

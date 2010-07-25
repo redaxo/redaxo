@@ -365,27 +365,38 @@ class rex_formatter
 
     return '<a href="'.rex_getUrl($value, $format['clang'], $format['params'], $format['divider']).'"'.$format['attr'].'>'.$value.'</a>';
   }
-}
+  
+  
+  /**
+	 * Returns the truncated $string
+	 *
+	 * @param $string String Searchstring
+	 * @param $start String Suffix to search for
+	 */
+	function truncate($string, $length = 80, $etc = '...', $break_words = false)
+	{
+	  if ($length == 0)
+	    return '';
+	
+	  if (strlen($string) > $length)
+	  {
+	    $length -= strlen($etc);
+	    if (!$break_words)
+	      $string = preg_replace('/\s+?(\S+)?$/', '', substr($string, 0, $length +1));
+	
+	    return substr($string, 0, $length).$etc;
+	  }
+	  else
+	    return $string;
+	}
 
-/**
- * Returns the truncated $string
- *
- * @param $string String Searchstring
- * @param $start String Suffix to search for
- */
-function truncate($string, $length = 80, $etc = '...', $break_words = false)
-{
-  if ($length == 0)
-    return '';
-
-  if (strlen($string) > $length)
-  {
-    $length -= strlen($etc);
-    if (!$break_words)
-      $string = preg_replace('/\s+?(\S+)?$/', '', substr($string, 0, $length +1));
-
-    return substr($string, 0, $length).$etc;
-  }
-  else
-    return $string;
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }
