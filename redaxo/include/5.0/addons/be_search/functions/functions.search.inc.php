@@ -30,17 +30,17 @@ function rex_a256_extensions_handler($params)
   // Include Extensions
   if($page == 'structure')
   {
-    require_once $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_search_structure.inc.php';
+    require_once $REX['SRC_PATH'] .'/addons/be_search/extensions/extension_search_structure.inc.php';
     rex_register_extension('PAGE_STRUCTURE_HEADER', 'rex_a256_search_structure');
   }
   elseif($page == 'content')
   {
-    require_once $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_search_structure.inc.php';
+    require_once $REX['SRC_PATH'] .'/addons/be_search/extensions/extension_search_structure.inc.php';
     rex_register_extension('PAGE_CONTENT_HEADER', 'rex_a256_search_structure');
   }
   elseif ($page == 'mediapool')
   {
-    require_once $REX['INCLUDE_PATH'].'/addons/be_search/extensions/extension_search_mpool.inc.php';
+    require_once $REX['SRC_PATH'] .'/addons/be_search/extensions/extension_search_mpool.inc.php';
     rex_register_extension('MEDIA_LIST_TOOLBAR', 'rex_a256_search_mpool');
     rex_register_extension('MEDIA_LIST_QUERY', 'rex_a256_search_mpool_query');
   }

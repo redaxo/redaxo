@@ -20,7 +20,7 @@ $max_resizekb = rex_request('max_resizekb', 'int');
 $max_resizepixel = rex_request('max_resizepixel', 'int');
 $jpg_quality = rex_request('jpg_quality', 'int');
 
-$config_file = $REX['INCLUDE_PATH'].'/addons/image_resize/config.inc.php';
+$config_file = $REX['SRC_PATH'] .'/addons/image_resize/config.inc.php';
 
 if ($func == 'update')
 {

@@ -36,7 +36,7 @@ class rex_image {
     $this->img['format'] = strtoupper(OOMedia::_getExtension($this->img['filepath']));
 	}
 	
-	/*public*/ function prepare()
+	public function prepare()
 	{
 	  if(!isset($this->img['src']))
 	  {
@@ -77,58 +77,58 @@ class rex_image {
 	  }
 	}
 	
-	/*public*/ function refreshDimensions()
+	public function refreshDimensions()
 	{
     $this->img['width'] = imagesx($this->img['src']);
     $this->img['height'] = imagesy($this->img['src']);
 	}
 
-	/*public*/ function hasGifSupport()
+	public function hasGifSupport()
 	{
 	  return $this->gifsupport;
 	}
 
-	/*public*/ function &getImage()
+	public function &getImage()
 	{
 		return $this->img['src'];
 	}
 	
-	/*public*/ function getFormat()
+	public function getFormat()
 	{
 	  return $this->img['format'];
 	}
 	
-  /*public*/ function getFileName()
+  public function getFileName()
   {
 	  return $this->img['file'];
   }
   
-  /*public*/ function getFilePath()
+  public function getFilePath()
   {
 	  return $this->img['filepath'];
   }
   
-  /*public*/ function getWidth()
+  public function getWidth()
   {
 	  return $this->img['width'];
   }
   
-  /*public*/ function getHeight()
+  public function getHeight()
   {
 	  return $this->img['height'];
   }
   
-  /*public*/ function destroy()
+  public function destroy()
   {
     imagedestroy($this->img['src']);
   }
 
-  /*public*/ function save($filename)
+  public function save($filename)
 	{
 	  $this->_sendImage($filename);
 	}
 	
-  /*public*/ function send($lastModified = null)
+  public function send($lastModified = null)
 	{
 	  ob_start();
     $res = $this->_sendImage(null, $lastModified);
@@ -141,13 +141,13 @@ class rex_image {
     rex_send_resource($content, false, $lastModified);
 	}
 	
-	/*public*/ function sendHeader()
+	public function sendHeader()
 	{
     header('Content-Disposition: inline; filename="'. $this->img['file'] .'"');
     header('Content-Type: image/' . $this->img['format']);
 	}
 	
-	/*protected*/ function _sendImage($saveToFileName = null, $lastModified = null)
+	protected function _sendImage($saveToFileName = null, $lastModified = null)
 	{
 		global $REX;
 		
@@ -200,7 +200,7 @@ class rex_image {
     return TRUE;
 	}
 
-	/*protected*/ function sendError($message, $file = null)
+	protected function sendError($message, $file = null)
 	{
 	  // User die auch im Backend eingeloggt sind, bekommen eine Fehlermeldung
 	  // alle anderen ein ErrorImage
@@ -215,7 +215,7 @@ class rex_image {
 	  }
 	}
 	
-	/*protected*/ function sendErrorImage($file = null)
+	protected function sendErrorImage($file = null)
 	{
 		if(!$file)
   		$file = dirname(__FILE__).'/../media/warning.jpg';
@@ -244,7 +244,7 @@ class rex_image {
   /*
    * Static Method: Returns True, if the given image is a valid rex_image
    */
-  /*public static*/ function isValid($image)
+  public function isValid($image)
   {
     return is_object($image) && is_a($image, 'rex_image');
   }

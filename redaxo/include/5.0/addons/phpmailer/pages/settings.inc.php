@@ -32,7 +32,7 @@ $message = '';
 
 if (rex_post('btn_save', 'string') != '')
 {
-  $file = $REX['INCLUDE_PATH'] .'/addons/phpmailer/classes/class.rex_mailer.inc.php';
+  $file = $REX['SRC_PATH'] .'/addons/phpmailer/classes/class.rex_mailer.inc.php';
   $message = rex_is_writable($file);
 
   if($message === true)

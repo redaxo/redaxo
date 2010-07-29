@@ -11,7 +11,7 @@
 
 class rex_cronjob_phpcode extends rex_cronjob
 { 
-  /*public*/ function execute()
+  public function execute()
   {
     $code = preg_replace('/^\<\?(?:php)?/', '', $this->getParam('code'));
     $is = ini_set('display_errors', true);
@@ -31,13 +31,13 @@ class rex_cronjob_phpcode extends rex_cronjob
     return false;
   }
   
-  /*public*/ function getTypeName()
+  public function getTypeName()
   {
     global $I18N;
     return $I18N->msg('cronjob_type_phpcode');
   }
   
-  /*public*/ function getParamFields()
+  public function getParamFields()
 	{
 		global $I18N;
 

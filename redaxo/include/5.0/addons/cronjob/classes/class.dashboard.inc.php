@@ -25,14 +25,14 @@ class rex_cronjob_component extends rex_dashboard_component
     $this->setBlock($I18N->msg('cronjob_dashboard_block'));
   }
   
-  /*public*/ function checkPermission()
+  public function checkPermission()
   {
     global $REX;
     
     return $REX['USER']->isAdmin();
   }
   
-  /*protected*/ function prepare()
+  protected function prepare()
   {
     $this->setContent(rex_cronjob_log :: getListOfNewestMessages(10));
   }

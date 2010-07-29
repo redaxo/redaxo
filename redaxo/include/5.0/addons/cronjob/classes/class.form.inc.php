@@ -11,15 +11,15 @@
 
 class rex_cronjob_form extends rex_form
 {
-  /*private*/ var $mainFieldset;
+  private var $mainFieldset;
   
-  /*protected*/ function rex_cronjob_form($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+  protected function rex_cronjob_form($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     parent::rex_form($tableName, $fieldset, $whereCondition, $method, $debug);
     $this->mainFieldset = $fieldset;
   }
   
-  /*public*/ function &addIntervalField($name, $value = null, $attributes = array())
+  public function &addIntervalField($name, $value = null, $attributes = array())
   {
     $attributes['internal::fieldClass'] = 'rex_cronjob_form_interval_element';
     $attributes['class'] = 'rex-form-text rex-form-select';
@@ -27,7 +27,7 @@ class rex_cronjob_form extends rex_form
     return $field;
   }
   
-  /*protected*/ function validate()
+  protected function validate()
   {
     global $I18N;
     $el =& $this->getElement($this->mainFieldset,'name');
@@ -37,7 +37,7 @@ class rex_cronjob_form extends rex_form
     return true;
   }
   
-  /*protected*/ function save() 
+  protected function save() 
   {
     $return = parent::save();
     $manager = rex_cronjob_manager::factory();
@@ -49,7 +49,7 @@ class rex_cronjob_form extends rex_form
 class rex_cronjob_form_interval_element extends rex_form_element
 {
   
-  /*public*/ function formatElement()
+  public function formatElement()
   {
     global $I18N;
     $name = $this->getAttribute('name').'[]';

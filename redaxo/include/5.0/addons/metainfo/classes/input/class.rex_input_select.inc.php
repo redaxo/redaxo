@@ -12,13 +12,13 @@ class rex_input_select extends rex_input
     $this->setAttribute('class', 'rex-form-select');
   }
   
-  /*public*/ function setValue($value)
+  public function setValue($value)
   {
     $this->select->setSelected($value);
     parent::setValue($value);
   }
   
-  /*public*/ function setAttribute($name, $value)
+  public function setAttribute($name, $value)
   {
     if($name == 'name')
     {
@@ -36,7 +36,7 @@ class rex_input_select extends rex_input
     parent::setAttribute($name, $value);
   }
   
-  /*public*/ function &getSelect()
+  public function &getSelect()
   {
     return $this->select;
   }

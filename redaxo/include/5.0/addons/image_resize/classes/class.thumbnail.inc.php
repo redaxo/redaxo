@@ -302,7 +302,7 @@ class rex_thumbnail
     global $REX;
 
     if(!$file)
-      $file = $REX['INCLUDE_PATH'].'/addons/image_resize/media/warning.jpg';
+      $file = $REX['SRC_PATH'] .'/addons/image_resize/media/warning.jpg';
 
 		// ----- EXTENSION POINT
 		$sendfile = TRUE;
@@ -339,7 +339,7 @@ class rex_thumbnail
   	foreach($this->filters as $filter)
   	{
   	  $filter = preg_replace('[^a-zA-Z0-9\_]', '', $filter);
-  		$file = $REX['INCLUDE_PATH'].'/addons/image_resize/filters/filter.'.$filter.'.inc.php';
+  		$file = $REX['SRC_PATH'] .'/addons/image_resize/filters/filter.'.$filter.'.inc.php';
   		if (file_exists($file)) require_once($file);
   		$fname = 'image_resize_'.$filter;
   		if (function_exists($fname))
@@ -355,7 +355,7 @@ class rex_thumbnail
   	global $REX;
 
 	  $folders = array();
-    $folders[] = $REX['INCLUDE_PATH'] . '/generated/files/';
+    $folders[] = $REX['SRC_PATH'] .'/generated/files/';
     $folders[] = $REX['HTDOCS_PATH'] . 'files/';
 
   	$c = 0;
@@ -428,7 +428,7 @@ class rex_thumbnail
 	  if($filters != '')
 		  $filters = md5($filters);
 
-	  $cachepath = $REX['INCLUDE_PATH'].'/generated/files/image_resize__'.$filters.$rex_resize;
+	  $cachepath = $REX['SRC_PATH'] .'/generated/files/image_resize__'.$filters.$rex_resize;
 	  $imagepath = $REX['HTDOCS_PATH'].'files/'.$imagefile;
 
 	  // ----- check for cache file
@@ -497,7 +497,7 @@ class rex_thumbnail
 	  $thumb = new rex_thumbnail($imagepath);
 
 	  $thumb->img_filename = $imagefile;
-  	$thumb->img_cachepath = $REX['INCLUDE_PATH'].'/generated/files/';
+  	$thumb->img_cachepath = $REX['SRC_PATH'] .'/generated/files/';
 
 	  // check method
 	  if ($mode == 'w')

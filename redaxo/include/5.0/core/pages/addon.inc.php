@@ -186,7 +186,7 @@ if ($addonname != '')
 // ----------------- OUT
 if ($subpage == '')
 {
-  // Vergleiche Addons aus dem Verzeichnis addons/ mit den Eintraegen in include/addons.inc.php
+  // Vergleiche Addons aus dem Verzeichnis addons/ mit den Eintraegen in config/addons.inc.php
   // Wenn ein Addon in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
   if (count(array_diff($ADDONS, OOAddon::getRegisteredAddons())) > 0 ||
       count(array_diff(OOAddon::getRegisteredAddons(), $ADDONS)) > 0)

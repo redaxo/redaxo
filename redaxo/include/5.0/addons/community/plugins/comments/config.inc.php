@@ -11,7 +11,7 @@
 // TODO: Erklaerung der function rex_com_comment
 // TODO: iframe it Kommentare und Bewertungsfunktion
 
-include $REX['INCLUDE_PATH'].'/addons/community/plugins/comments/functions/function.rex_com_comment.inc.php';
+include $REX['SRC_PATH'] .'/addons/community/plugins/comments/functions/function.rex_com_comment.inc.php';
 
 if ($REX["REDAXO"])
 {
@@ -24,6 +24,6 @@ if ($REX["REDAXO"])
 	// EMails
 	// $REX["ADDON"]["community"]["plugins"]["setup"]["emails"][] = array("guestbook","sendemail_guestbook","sendemail_guestbook","Community: Neuer Eintrag in Ihr Gästebuch", $REX['ERROR_EMAIL'], $REX['ERROR_EMAIL']);
 
-	// $REX['ADDON']['community']['xform_path']['validate'] = array($REX['INCLUDE_PATH'].'/addons/community/plugins/comments/xform/classes/validate/');
+	// $REX['ADDON']['community']['xform_path']['validate'] = array($REX['SRC_PATH'] .'/addons/community/plugins/comments/xform/classes/validate/');
 	
 }

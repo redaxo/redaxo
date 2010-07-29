@@ -26,7 +26,7 @@ class rex_input_date extends rex_input
     $this->daySelect->setSize(1);
   }
   
-  /*public*/ function setValue($value)
+  public function setValue($value)
   {
     if(!is_array($value))
     {
@@ -48,7 +48,7 @@ class rex_input_date extends rex_input
     parent::setValue($value);
   }
   
-  /*public*/ function setAttribute($name, $value)
+  public function setAttribute($name, $value)
   {
     if($name == 'name')
     {
@@ -72,17 +72,17 @@ class rex_input_date extends rex_input
     parent::setAttribute($name, $value);
   }
   
-  /*public*/ function &getDaySelect()
+  public function &getDaySelect()
   {
     return $this->daySelect;
   }
   
-  /*public*/ function &getMonthSelect()
+  public function &getMonthSelect()
   {
     return $this->monthSelect;
   }
   
-  /*public*/ function &getYearSelect()
+  public function &getYearSelect()
   {
     return $this->yearSelect;
   }

@@ -11,29 +11,29 @@
 
 class rex_cronjob_manager
 {
-  /*private*/ var $message = '';
+  private var $message = '';
   
-  /*public*/ function factory()
+  public function factory()
   {
     return new rex_cronjob_manager;
   }
   
-  /*public*/ function setMessage($message)
+  public function setMessage($message)
   {
     $this->message = $message;
   }
   
-  /*public*/ function getMessage()
+  public function getMessage()
   {
     return $this->message;
   }
   
-  /*public*/ function hasMessage()
+  public function hasMessage()
   {
     return !empty($this->message);
   }
   
-  /*public*/ function check()
+  public function check()
   {
     global $REX;
     $environment = (int)$REX['REDAXO'];
@@ -48,7 +48,7 @@ class rex_cronjob_manager
     $sql_manager->tryExecute($query);
   }
   
-  /*public*/ function tryExecute(&$cronjob, $name = '', $params = array(), $log = true, $id = null)
+  public function tryExecute(&$cronjob, $name = '', $params = array(), $log = true, $id = null)
   {
     global $REX;
     
@@ -96,7 +96,7 @@ class rex_cronjob_manager
     return $success;
   }
   
-  /*public*/ function saveNextTime($nexttime = null)
+  public function saveNextTime($nexttime = null)
   {
     global $REX;
     if ($nexttime === null)
@@ -111,7 +111,7 @@ class rex_cronjob_manager
     if ($nexttime != $REX['ADDON']['nexttime']['cronjob']) 
     {
       $content = '$REX[\'ADDON\'][\'nexttime\'][\'cronjob\'] = "'. addslashes($nexttime) .'";';
-      $file = $REX['INCLUDE_PATH'] .'/addons/cronjob/config.inc.php';
+      $file = $REX['SRC_PATH'] .'/addons/cronjob/config.inc.php';
       if (rex_replace_dynamic_contents($file, $content))
       {
         $REX['ADDON']['nexttime']['cronjob'] = $nexttime;
@@ -121,7 +121,7 @@ class rex_cronjob_manager
     return false;
   }
   
-  /*public static*/ function getTypes()
+  public function getTypes()
   {
     $types = array();
     $types[] = 'rex_cronjob_phpcode';
@@ -134,7 +134,7 @@ class rex_cronjob_manager
     return $types;
   }
   
-  /*public static*/ function registerExtension($params)
+  public function registerExtension($params)
   {
     $params['subject'][] = $params['class'];
     return $params['subject'];
@@ -144,10 +144,10 @@ class rex_cronjob_manager
 
 class rex_cronjob_manager_sql
 {
-  /*private*/ var $sql;
-  /*private*/ var $manager;
+  private var $sql;
+  private var $manager;
   
-  /*private*/ function rex_cronjob_manager_sql(/*rex_cronjob_manager*/ $manager = null)
+  private $manager = null)
   {
     $this->sql = rex_sql::factory();
     // $this->sql->debugsql = true;
@@ -157,27 +157,27 @@ class rex_cronjob_manager_sql
       $this->manager = rex_cronjob_manager::factory();
   }
 
-  /*public*/ function factory(/*rex_cronjob_manager*/ $manager = null)
+  public $manager = null)
   {
     return new rex_cronjob_manager_sql($manager);
   }
   
-  /*public*/ function setMessage($message)
+  public function setMessage($message)
   {
     $this->manager->setMessage($message);
   }
   
-  /*public*/ function getMessage()
+  public function getMessage()
   {
     return $this->manager->getMessage();
   }
   
-  /*public*/ function hasMessage()
+  public function hasMessage()
   {
     return $this->manager->hasMessage();
   }
 
-  /*public*/ function getName($id)
+  public function getName($id)
   {
     $this->sql->setQuery('
       SELECT  name 
@@ -190,7 +190,7 @@ class rex_cronjob_manager_sql
     return null;
   }
 
-  /*public*/ function setStatus($id, $status)
+  public function setStatus($id, $status)
   {
     global $REX;
     $this->sql->setTable(REX_CRONJOB_TABLE);
@@ -202,7 +202,7 @@ class rex_cronjob_manager_sql
     return $success;
   }
   
-  /*public*/ function delete($id)
+  public function delete($id)
   {
     $this->sql->setTable(REX_CRONJOB_TABLE);
     $this->sql->setWhere('id = '. $id);
@@ -211,7 +211,7 @@ class rex_cronjob_manager_sql
     return $success;
   }
   
-  /*public*/ function tryExecute($query_or_id, $log = true)
+  public function tryExecute($query_or_id, $log = true)
   {
     global $REX;
     if (is_int($query_or_id))
@@ -253,7 +253,7 @@ class rex_cronjob_manager_sql
     return $success;
   }
   
-  /*public*/ function setNextTime($id, $nexttime)
+  public function setNextTime($id, $nexttime)
   {
     return $this->sql->setQuery('
       UPDATE  '. REX_CRONJOB_TABLE .' 
@@ -262,7 +262,7 @@ class rex_cronjob_manager_sql
     );
   }
   
-  /*public*/ function getMinNextTime()
+  public function getMinNextTime()
   {
     $this->sql->setQuery('
       SELECT  MIN(nexttime) AS nexttime
@@ -274,7 +274,7 @@ class rex_cronjob_manager_sql
     return null;
   }
   
-  /*private*/ function _calculateNextTime($interval)
+  private function _calculateNextTime($interval)
   {
     $interval = explode('|', trim($interval, '|'));
     if (is_array($interval) && isset($interval[0]) && isset($interval[1]))

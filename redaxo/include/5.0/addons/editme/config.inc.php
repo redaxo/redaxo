@@ -32,7 +32,7 @@ $mypage = 'editme';
 if($REX["REDAXO"] && !$REX['SETUP'])
 {
 	// Sprachdateien anhaengen
-	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/editme/lang/');
+	$I18N->appendFile($REX['SRC_PATH'] .'/addons/editme/lang/');
 
 	$REX['ADDON']['name'][$mypage] = $I18N->msg("editme");
 
@@ -52,7 +52,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
       $REX['ADDON']['navigation'][$mypage]['hidden'] = TRUE;
     }
 	
-	include $REX['INCLUDE_PATH'].'/addons/editme/functions/functions.inc.php';
+	include $REX['SRC_PATH'] .'/addons/editme/functions/functions.inc.php';
 
 	$REX['ADDON']['tables'][$mypage] = rex_em_getTables();
 
@@ -73,7 +73,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
 				// include page
 				$be_page = new rex_be_page($table['label'], array('page'=>$mypage, 'subpage' => $table['name']));
 				$be_page->setHref('index.php?page=editme&subpage='.$table['name']);
-				$subpages[] = new rex_be_main_page($mypage, $be_page);
+				$subpages[] = new rex_be_page_main($mypage, $be_page);
 				// $subpages[] = array($table['name'],$table['label']); // für rex 4.2.1
 			}
 		}
@@ -92,7 +92,7 @@ if($REX["REDAXO"] && !$REX['SETUP'])
 rex_register_extension('ADDONS_INCLUDED', 'rex_em_xform_add');
 function rex_em_xform_add($params){
 	global $REX;
-	$REX['ADDON']['xform']['classpaths']['action'][] = $REX["INCLUDE_PATH"]."/addons/editme/xform/action/";
-	$REX['ADDON']['xform']['classpaths']['value'][] = $REX["INCLUDE_PATH"]."/addons/editme/xform/value/";
+	$REX['ADDON']['xform']['classpaths']['action'][] = $REX['SRC_PATH'] ."/addons/editme/xform/action/";
+	$REX['ADDON']['xform']['classpaths']['value'][] = $REX['SRC_PATH'] ."/addons/editme/xform/value/";
 
 }

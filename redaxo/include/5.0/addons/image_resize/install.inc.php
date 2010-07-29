@@ -21,7 +21,7 @@ if (!extension_loaded('gd'))
 
 if($error == '')
 {
-  $file = $REX['INCLUDE_PATH'] .'/addons/image_resize/config.inc.php';
+  $file = $REX['SRC_PATH'] .'/addons/image_resize/config.inc.php';
 
   if(($state = rex_is_writable($file)) !== true)
     $error = $state;
@@ -29,7 +29,7 @@ if($error == '')
 
 if($error == '')
 {
-  $file = $REX['INCLUDE_PATH'] .'/generated/files';
+  $file = $REX['SRC_PATH'] .'/generated/files';
 
   if(($state = rex_is_writable($file)) !== true)
     $error = $state;

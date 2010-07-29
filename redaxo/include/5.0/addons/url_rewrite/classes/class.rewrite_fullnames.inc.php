@@ -1,6 +1,6 @@
 <?php
 
-define('FULLNAMES_PATHLIST', $REX['INCLUDE_PATH'].'/generated/files/pathlist.php');
+define('FULLNAMES_PATHLIST', $REX['SRC_PATH'] .'/generated/files/pathlist.php');
 
 /**
  * URL-Rewrite Addon
@@ -192,7 +192,7 @@ class myUrlRewriter extends rexUrlRewriter
   }
   
   
-  /*private*/ function setArticleId($art_id, $clang_id = -1)
+  private function setArticleId($art_id, $clang_id = -1)
   {
     global $REX;
     $REX['ARTICLE_ID'] = $art_id;

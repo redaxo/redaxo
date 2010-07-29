@@ -11,6 +11,7 @@
  */
 function rex_absPath($rel_path, $rel_to_current = false)
 {
+  
   $stack = array();
   // Pfad relativ zum aktuellen Verzeichnis?
   // z.b. ../../files
@@ -20,6 +21,8 @@ function rex_absPath($rel_path, $rel_to_current = false)
     $stack = explode(DIRECTORY_SEPARATOR, $path);
   }
 
+  // pfadtrenner vereinheitlichen
+  $rel_path = str_replace('\\', '/', $rel_path);
   foreach (explode('/', $rel_path) as $dir)
   {
     // Aktuelles Verzeichnis, oder Ordner ohne Namen
@@ -34,7 +37,7 @@ function rex_absPath($rel_path, $rel_to_current = false)
       array_push($stack, $dir);
   }
 
-  return implode('/', $stack);
+  return implode(DIRECTORY_SEPARATOR, $stack);
 }
 
 /**

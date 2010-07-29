@@ -111,7 +111,7 @@ function rex_a1_import_db($filename)
 
   if (!function_exists('PMA_splitSqlFile'))
   {
-    include_once ($REX['INCLUDE_PATH'].'/functions/function_rex_addons.inc.php');
+    include_once ($REX['SRC_PATH'].'/core/functions/function_rex_addons.inc.php');
   }
   
   // Datei aufteilen
@@ -220,7 +220,7 @@ function rex_a1_import_files($filename)
   }
 
   // Ordner /files komplett leeren
-  rex_deleteFiles($REX['INCLUDE_PATH']."/../../files");
+  rex_deleteFiles($REX['SRC_PATH'] ."/core/../../files");
 
   $tar = new rex_tar;
 

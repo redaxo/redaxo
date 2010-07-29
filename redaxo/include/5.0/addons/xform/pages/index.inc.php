@@ -2,7 +2,7 @@
 
 $page = 'xform';
 
-include $REX["INCLUDE_PATH"]."/layout/top.php";
+require $REX['SRC_PATH'] .'/core/layout/top.php';
 echo '<div id="rex-addon-output">';
 
 $subpage = rex_request("subpage","string");
@@ -20,7 +20,7 @@ if (!deep_in_array($subpage,$REX['ADDON'][$page]['SUBPAGES']))
 
 if ($subpage != "")
 {
-	include $REX["INCLUDE_PATH"]."/addons/$page/pages/$subpage.inc.php";
+	require $REX['SRC_PATH'] ."/addons/$page/pages/$subpage.inc.php";
 }else
 {
 	echo '<div class="rex-addon-output">';
@@ -37,6 +37,6 @@ if ($subpage != "")
 
 echo '</div>';
 
-include $REX["INCLUDE_PATH"]."/layout/bottom.php";
+require $REX['SRC_PATH'] .'/core/layout/bottom.php';
 
 ?>

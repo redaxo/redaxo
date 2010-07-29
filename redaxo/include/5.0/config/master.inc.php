@@ -166,7 +166,7 @@ if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 if(!$REX['NOFUNCTIONS']) include_once ($REX["SRC_PATH"].'/core/functions.inc.php');
 
 // ----- SET CLANG
-include_once $REX['INCLUDE_PATH'].'/clang.inc.php';
+include_once $REX['SRC_PATH'].'/config/clang.inc.php';
 
 $REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', $REX['START_CLANG_ID']);
 

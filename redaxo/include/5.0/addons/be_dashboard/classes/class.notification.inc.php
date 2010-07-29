@@ -10,7 +10,7 @@
  * @version svn:$Id$
  */
 
-/*abstract*/ class rex_dashboard_notification extends rex_dashboard_component_base
+abstract class rex_dashboard_notification extends rex_dashboard_component_base
 {
   var $message;
   
@@ -26,17 +26,17 @@
     parent::rex_dashboard_component_base($id, $cache_options);
   }
   
-  /*public*/ function setMessage($message)
+  public function setMessage($message)
   {
     $this->message = $message;
   }
   
-  /*public*/ function getMessage()
+  public function getMessage()
   {
     return $this->message;
   } 
   
-  /*public*/ function _get()
+  public function _get()
   {
     $this->prepare();
     
@@ -52,7 +52,7 @@
   /*
    * Static Method: Returns boolean if is notification
    */
-  /*public static*/ function isValid($notification)
+  public function isValid($notification)
   {
     return is_object($notification) && is_a($notification, 'rex_dashboard_notification');
   }

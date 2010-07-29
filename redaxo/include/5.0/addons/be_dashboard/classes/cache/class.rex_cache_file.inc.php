@@ -32,7 +32,7 @@ class rex_file_cache extends rex_cache
    *
    * @see rex_cache
    */
-  /*public*/ function rex_file_cache($options = array())
+  public function rex_file_cache($options = array())
   {
     global $REX;
 
@@ -40,7 +40,7 @@ class rex_file_cache extends rex_cache
 
     if (!$this->getOption('cache_dir'))
     {
-      $this->setOption('cache_dir', $REX['INCLUDE_PATH'] .'/generated/cache');
+      $this->setOption('cache_dir', $REX['SRC_PATH'] .'/generated/cache');
     }
 
     $this->setcache_dir($this->getOption('cache_dir'));
@@ -49,7 +49,7 @@ class rex_file_cache extends rex_cache
   /**
    * @see rex_cache
    */
-  /*public*/ function get($key, $default = null)
+  public function get($key, $default = null)
   {
     $file_path = $this->getFilePath($key);
     if (!file_exists($file_path))
@@ -70,7 +70,7 @@ class rex_file_cache extends rex_cache
   /**
    * @see rex_cache
    */
-  /*public*/ function has($key)
+  public function has($key)
   {
     $path = $this->getFilePath($key);
     return file_exists($path) && $this->isValid($path);
@@ -79,7 +79,7 @@ class rex_file_cache extends rex_cache
   /**
    * @see rex_cache
    */
-  /*public*/ function set($key, $data, $lifetime = null)
+  public function set($key, $data, $lifetime = null)
   {
     if ($this->getOption('automatic_cleaning_factor') > 0 && rand(1, $this->getOption('automatic_cleaning_factor')) == 1)
     {
@@ -92,7 +92,7 @@ class rex_file_cache extends rex_cache
   /**
    * @see rex_cache
    */
-  /*public*/ function remove($key)
+  public function remove($key)
   {
     return @unlink($this->getFilePath($key));
   }
@@ -100,7 +100,7 @@ class rex_file_cache extends rex_cache
   /**
    * @see rex_cache
    */
-  /*public*/ function removePattern($pattern)
+  public function removePattern($pattern)
   {
     if (false !== strpos($pattern, '**'))
     {
@@ -137,7 +137,7 @@ class rex_file_cache extends rex_cache
   /**
    * @see rex_cache
    */
-  /*public*/ function clean($mode = REX_CACHE_CLEAN_ALL)
+  public function clean($mode = REX_CACHE_CLEAN_ALL)
   {
     if (!is_dir($this->getOption('cache_dir')))
     {
@@ -160,7 +160,7 @@ class rex_file_cache extends rex_cache
   /**
    * @see rex_cache
    */
-  /*public*/ function getTimeout($key)
+  public function getTimeout($key)
   {
     $path = $this->getFilePath($key);
 
@@ -177,7 +177,7 @@ class rex_file_cache extends rex_cache
   /**
    * @see rex_cache
    */
-  /*public*/ function getLastModified($key)
+  public function getLastModified($key)
   {
     $path = $this->getFilePath($key);
 
@@ -195,7 +195,7 @@ class rex_file_cache extends rex_cache
     return $data[REX_CACHE_FILE_READ_LAST_MODIFIED];
   }
 
-  /*protected*/ function isValid($path)
+  protected function isValid($path)
   {
     $data = $this->read($path, REX_CACHE_FILE_READ_TIMEOUT);
     return time() < $data[REX_CACHE_FILE_READ_TIMEOUT];
@@ -208,7 +208,7 @@ class rex_file_cache extends rex_cache
    *
    * @return string The full path to the cache file
    */
-  /*protected*/ function getFilePath($key)
+  protected function getFilePath($key)
   {
     return $this->getOption('cache_dir').DIRECTORY_SEPARATOR.str_replace(REX_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $key).REX_CACHE_FILE_EXTENSION;
   }
@@ -224,7 +224,7 @@ class rex_file_cache extends rex_cache
    *
    * @return array the (meta)data of the cache file. E.g. $data[sfFileCache::READ_DATA]
    */
-  /*protected*/ function read($path, $type = REX_CACHE_FILE_READ_DATA)
+  protected function read($path, $type = REX_CACHE_FILE_READ_DATA)
   {
     if (!$fp = @fopen($path, 'rb'))
     {
@@ -269,7 +269,7 @@ class rex_file_cache extends rex_cache
    *
    * @return boolean true if ok, otherwise false
    */
-  /*protected*/ function write($path, $data, $timeout)
+  protected function write($path, $data, $timeout)
   {
     $current_umask = umask();
     umask(0000);
@@ -316,7 +316,7 @@ class rex_file_cache extends rex_cache
    *
    * @param string $cache_dir The directory where to put the cache files
    */
-  /*protected*/ function setcache_dir($cache_dir)
+  protected function setcache_dir($cache_dir)
   {
     // remove last DIRECTORY_SEPARATOR
     if (DIRECTORY_SEPARATOR == substr($cache_dir, -1))

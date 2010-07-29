@@ -18,7 +18,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
  * @version svn:$Id$
  */
 
-/*abstract*/ class rex_cache
+abstract class rex_cache
 {
   var $options;
 
@@ -33,7 +33,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
    *
    * * lifetime (optional): The default life time (default value: 86400)
    */
-  /*public*/function rex_cache($options = array())
+  publicfunction rex_cache($options = array())
   {
     $this->options = array_merge(array(
       'automatic_cleaning_factor' => 1000,
@@ -52,7 +52,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
    *
    * @return mixed The data of the cache
    */
-  /*abstract public*/ function get($key, $default = null){}
+  public function get($key, $default = null){}
 
   /**
    * Returns true if there is a cache for the given key.
@@ -61,7 +61,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
    *
    * @return Boolean true if the cache exists, false otherwise
    */
-  /*abstract public*/ function has($key){}
+  public function has($key){}
 
   /**
    * Saves some data in the cache.
@@ -72,7 +72,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
    *
    * @return Boolean true if no problem
    */
-  /*abstract public*/ function set($key, $data, $lifetime = null){}
+  public function set($key, $data, $lifetime = null){}
 
   /**
    * Removes a content from the cache.
@@ -81,7 +81,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
    *
    * @return Boolean true if no problem
    */
-  /*abstract public*/ function remove($key){}
+  public function remove($key){}
 
   /**
    * Removes content from the cache that matches the given pattern.
@@ -92,7 +92,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
    *
    * @see patternToRegexp
    */
-  /*abstract public*/ function removePattern($pattern){}
+  public function removePattern($pattern){}
 
   /**
    * Cleans the cache.
@@ -103,7 +103,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
    *
    * @return Boolean true if no problem
    */
-  /*abstract public*/ function clean($mode = REX_CACHE_SEPARATOR_ALL){}
+  public function clean($mode = REX_CACHE_SEPARATOR_ALL){}
 
   /**
    * Returns the timeout for the given key.
@@ -112,7 +112,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
    *
    * @return int The timeout time
    */
-  /*abstract public*/ function getTimeout($key){}
+  public function getTimeout($key){}
 
   /**
    * Returns the last modification date of the given key.
@@ -121,7 +121,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
    *
    * @return int The last modified time
    */
-  /*abstract public*/ function getLastModified($key){}
+  public function getLastModified($key){}
 
   /**
    * Computes lifetime.
@@ -130,7 +130,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
    *
    * @return integer Lifetime in seconds
    */
-  /*public*/ function getLifetime($lifetime)
+  public function getLifetime($lifetime)
   {
     return null === $lifetime ? $this->getOption('lifetime') : $lifetime;
   }
@@ -142,7 +142,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
    *
    * @return array An associative array of data from cache
    */
-  /*public*/ function getMany($keys)
+  public function getMany($keys)
   {
     $data = array();
     foreach ($keys as $key)
@@ -165,7 +165,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
    *
    * @return string A regular expression
    */
-  /*protected*/ function patternToRegexp($pattern)
+  protected function patternToRegexp($pattern)
   {
     $regexp = str_replace(
       array('\\*\\*', '\\*'),
@@ -184,7 +184,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
    *
    * @return mixed The option value
    */
-  /*public*/ function getOption($name, $default = null)
+  public function getOption($name, $default = null)
   {
     return isset($this->options[$name]) ? $this->options[$name] : $default;
   }
@@ -195,7 +195,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
    * @param string $name  The option name
    * @param mixed  $value The option value
    */
-  /*public*/ function setOption($name, $value)
+  public function setOption($name, $value)
   {
     return $this->options[$name] = $value;
   }

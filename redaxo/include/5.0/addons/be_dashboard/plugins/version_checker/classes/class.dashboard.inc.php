@@ -20,14 +20,14 @@ class rex_version_checker_notification extends rex_dashboard_notification
     parent::rex_dashboard_notification('version-checker', $cache_options);
   }
   
-  /*public*/ function checkPermission()
+  public function checkPermission()
   {
     global $REX;
     
     return $REX['USER']->isAdmin();
   }
   
-  /*protected*/ function prepare()
+  protected function prepare()
   {
     global $I18N;
     

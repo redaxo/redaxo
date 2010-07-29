@@ -29,7 +29,7 @@ class rex_stats_component extends rex_dashboard_component
     $this->setBlock($I18N->msg('userinfo_block_stats'));
   }
   
-  /*protected*/ function prepare()
+  protected function prepare()
   {
     global $I18N;
     
@@ -129,13 +129,13 @@ class rex_articles_component extends rex_dashboard_component
     $this->setBlock($I18N->msg('userinfo_block_latest_infos'));
   }
   
-  /*public*/ function checkPermission()
+  public function checkPermission()
   {
     global $REX;
     return $REX['USER']->isAdmin() || $REX['USER']->hasStructurePerm();
   }
   
-  /*protected*/ function prepare()
+  protected function prepare()
   {
     global $REX, $I18N;
     
@@ -186,14 +186,14 @@ class rex_media_component extends rex_dashboard_component
     $this->setBlock($I18N->msg('userinfo_block_latest_infos'));
   }
   
-  /*public*/ function checkPermission()
+  public function checkPermission()
   {
     global $REX;
     
     return $REX['USER']->hasMediaPerm();
   }
 
-  /*protected*/ function prepare()
+  protected function prepare()
   {
     global $REX, $I18N;
     

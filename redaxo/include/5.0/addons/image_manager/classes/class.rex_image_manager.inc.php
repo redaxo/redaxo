@@ -44,7 +44,7 @@ class rex_image_manager
     return $image;
 	}
 	
-  /*public*/ function effectsFromType($type)
+  public function effectsFromType($type)
   {
     global $REX;
     
@@ -90,7 +90,7 @@ class rex_image_manager
    * in respect to $rex_img_type.
    * If the result is not cached, the cache will be created.
    */
-  /*public static*/ function getImageCache($rex_img_file, $rex_img_type)
+  public function getImageCache($rex_img_file, $rex_img_type)
   {
     global $REX;
     
@@ -111,7 +111,7 @@ class rex_image_manager
     return $image_cacher->getCachedImage($rex_img_file, $rex_img_type);
   }
   
-  /*public*/ function sendImage(/*rex_image*/ $image, $type)
+  public $image, $type)
   {
     $this->image_cacher->sendImage($image, $type);
   }

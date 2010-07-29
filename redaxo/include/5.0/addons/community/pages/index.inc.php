@@ -1,6 +1,6 @@
 <?php
 
-include $REX["INCLUDE_PATH"]."/layout/top.php";
+require $REX['SRC_PATH'] .'/core/layout/top.php';
 
 $page = 'community';
 
@@ -24,9 +24,9 @@ if (!deep_in_array($subpage,$REX['ADDON'][$page]['SUBPAGES']))
 if ($subpage != "")
 {
 	if (substr($subpage,0,7)=="plugin.")
-		include $REX["INCLUDE_PATH"].'/addons/'.$page.'/plugins/'.substr($subpage,7,strlen($subpage)-7).'/pages/index.inc.php';
+		require $REX['SRC_PATH'] .'/addons/'.$page.'/plugins/'.substr($subpage,7,strlen($subpage)-7).'/pages/index.inc.php';
 	else
-		include $REX["INCLUDE_PATH"].'/addons/'.$page.'/pages/'.$subpage.'.inc.php';
+		require $REX['SRC_PATH'] .'/addons/'.$page.'/pages/'.$subpage.'.inc.php';
 }else
 {
 	echo '<table class="rex-table">';
@@ -36,4 +36,4 @@ if ($subpage != "")
 	echo '</table>';
 }
 
-include $REX["INCLUDE_PATH"]."/layout/bottom.php";
+require $REX['SRC_PATH'] .'/core/layout/bottom.php';

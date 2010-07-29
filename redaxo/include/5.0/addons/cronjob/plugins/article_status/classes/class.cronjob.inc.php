@@ -11,7 +11,7 @@
  
 class rex_cronjob_article_status extends rex_cronjob
 {
-  /*public*/ function execute()
+  public function execute()
   {
     global $REX;
 
@@ -62,7 +62,7 @@ class rex_cronjob_article_status extends rex_cronjob
     ');
     $rows = $sql->getRows();
 
-    include_once $REX['INCLUDE_PATH'].'/functions/function_rex_structure.inc.php';
+    include_once $REX['SRC_PATH'].'/core/functions/function_rex_structure.inc.php';
 
     for($i = 0; $i < $rows; $i++)
     {
@@ -78,7 +78,7 @@ class rex_cronjob_article_status extends rex_cronjob
     return true;
   }
   
-  /*public*/ function getTypeName()
+  public function getTypeName()
   {
     global $I18N;
     return $I18N->msg('cronjob_article_status');

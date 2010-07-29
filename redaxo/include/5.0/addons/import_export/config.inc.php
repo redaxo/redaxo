@@ -4,7 +4,7 @@ $mypage = 'import_export';
 
 if($REX['REDAXO'] && is_object($REX["USER"]))
 {
-	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
+	$I18N->appendFile($REX['SRC_PATH'] .'/addons/'.$mypage.'/lang/');
 
 	$REX['ADDON']['rxid'][$mypage] = '1';
 	$REX['ADDON']['name'][$mypage] = $I18N->msg("im_export_importexport");

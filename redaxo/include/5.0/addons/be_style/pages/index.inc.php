@@ -1,6 +1,6 @@
 <?php
 
-include $REX["INCLUDE_PATH"]."/layout/top.php";
+require $REX['SRC_PATH'] .'/core/layout/top.php';
 
 $subpages = array();
 rex_title("be_style", $subpages);
@@ -16,4 +16,4 @@ echo '
   </div>
 </div>';
 
-include $REX["INCLUDE_PATH"]."/layout/bottom.php";
+require $REX['SRC_PATH'] .'/core/layout/bottom.php';

@@ -218,4 +218,4 @@ switch($subpage)
   default          : $file = 'mediapool.media.inc.php'; break;
 }
 
-require $REX['INCLUDE_PATH'].'/pages/'.$file;
+require dirname(__FILE__).'/'.$file;

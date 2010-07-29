@@ -38,7 +38,7 @@ class rex_xform_mediafile extends rex_xform_abstract
 
 				$extensions_array = explode(",",$this->elements[4]);
 				
-				$NEWFILE = $this->saveMedia($FILE,$REX["INCLUDE_PATH"]."/../../files/",$extensions_array,$mediacatid);
+				$NEWFILE = $this->saveMedia($FILE,$REX['SRC_PATH'] ."/core/../../files/",$extensions_array,$mediacatid);
 				
 				if ($NEWFILE["ok"])
 				{

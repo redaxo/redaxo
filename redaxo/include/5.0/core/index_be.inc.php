@@ -33,7 +33,7 @@ if ($REX['SETUP'])
   // ----------------- SET SETUP LANG
   $REX['LANG'] = '';
   $requestLang = rex_request('lang', 'string');
-  $langpath = $REX['INCLUDE_PATH'].'/lang';
+  $langpath = $REX['SRC_PATH'].'/core/lang';
   $REX['LANGUAGES'] = array();
   if ($handle = opendir($langpath))
   {
@@ -111,7 +111,7 @@ if($REX['USER'])
 }
 
 // ----- INCLUDE ADDONS
-include_once $REX['INCLUDE_PATH'].'/addons.inc.php';
+include_once $REX['SRC_PATH'] .'/config/addons.inc.php';
 
 // ----- Prepare AddOn Pages
 if($REX['USER'])
@@ -148,7 +148,7 @@ if($REX['USER'])
          $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
           $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
           $addonPage->addSubPage($subPage);
-        }else if(rex_be_main_page::isValid($s))
+        }else if(rex_be_page_main::isValid($s))
         {
           $p = $s->getPage();
           $REX['PAGES'][$addonName.'_'.$p->getTitle()] = $s;
@@ -184,7 +184,7 @@ if($REX['USER'])
             $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
             $addonPage->addSubPage($subPage);
           }
-          else if(rex_be_main_page::isValid($s))
+          else if(rex_be_page_main::isValid($s))
           {
             $p = $s->getPage();
             $REX['PAGES'][$addonName.'_'.$pluginName.'_'.$p->getTitle()] = $s;
@@ -202,7 +202,7 @@ if($REX['USER'])
           // if there are some navigation attributes set, create a main page and apply attributes to it
           if(count($navProperties) > 0)
           {
-            $mainPluginPage = new rex_be_main_page($addonName, $pluginPage);
+            $mainPluginPage = new rex_be_page_main($addonName, $pluginPage);
             foreach($navProperties as $key => $value)
             {
               $mainPluginPage->_set($key, $value);
@@ -220,7 +220,7 @@ if($REX['USER'])
 
     if ($addonPage) 
     {
-      $mainAddonPage = new rex_be_main_page('addons', $addonPage);
+      $mainAddonPage = new rex_be_page_main('addons', $addonPage);
       
       // "navigation" adds attributes to the addon-root page
       foreach(OOAddon::getProperty($addonName, 'navigation', array()) as $key => $value)

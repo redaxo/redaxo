@@ -132,7 +132,7 @@ $sel_be_sprache->setName("userperm_be_sprache");
 $sel_be_sprache->setId("userperm-mylang");
 $sel_be_sprache->addOption("default","");
 $cur_htmlcharset = $I18N->msg('htmlcharset');
-$langpath = $REX['INCLUDE_PATH'].'/lang';
+$langpath = $REX['SRC_PATH'].'/core/lang';
 $langs = array();
 if ($handle = opendir($langpath))
 {

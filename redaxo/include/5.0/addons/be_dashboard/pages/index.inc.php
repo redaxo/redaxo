@@ -10,7 +10,7 @@
  * @version svn:$Id$
  */
 
-include $REX["INCLUDE_PATH"]."/layout/top.php";
+require $REX['SRC_PATH'] .'/core/layout/top.php';
 
 rex_title($I18N->msg('dashboard'), '');
 
@@ -146,4 +146,4 @@ if(!$contentFound)
   echo rex_warning($I18N->msg('dashboard_no_content'));
 }
 
-include $REX["INCLUDE_PATH"]."/layout/bottom.php";
+require $REX['SRC_PATH'] .'/core/layout/bottom.php';

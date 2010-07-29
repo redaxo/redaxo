@@ -22,7 +22,7 @@ class rex_rss_reader_component extends rex_dashboard_component
     $this->setFormat('full');
   }
   
-  /*protected*/ function prepare()
+  protected function prepare()
   {
     global $I18N;
     
@@ -64,7 +64,7 @@ class rex_rss_reader_component_config extends rex_dashboard_component_config
     return $this->settings['urls'];
   }
   
-  /*protected*/ function getFormValues()
+  protected function getFormValues()
   {
     $settings = array(
       'urls' => explode("\n", rex_post($this->getInputName('feedUrls'), 'string')),
@@ -73,7 +73,7 @@ class rex_rss_reader_component_config extends rex_dashboard_component_config
     return $settings;
   }
   
-  /*protected*/ function getForm()
+  protected function getForm()
   {
     $name = $this->getInputName('feedUrls');
     return '<textarea cols="80" rows="4" name="'. $name .'">'. implode("\n", $this->getFeedUrls()) .'</textarea>';

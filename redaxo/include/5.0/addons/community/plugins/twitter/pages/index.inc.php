@@ -54,6 +54,6 @@ if($func == "get_tweets")
 
 
 
-include $REX["INCLUDE_PATH"].'/addons/community/plugins/twitter/helper/xformhelper.inc.php';
+require $REX['SRC_PATH'] .'/addons/community/plugins/twitter/helper/xformhelper.inc.php';
 
 ?>

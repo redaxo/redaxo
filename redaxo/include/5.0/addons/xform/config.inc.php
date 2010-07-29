@@ -17,16 +17,16 @@ $REX['ADDON']['supportpage'][$mypage] = 'redaxo.yakamara.de';
 $REX['PERM'][] = 'xform[]';
 
 // standard ordner fuer klassen
-$REX['ADDON']['xform']['classpaths']['value'] = array($REX['INCLUDE_PATH'].'/addons/xform/classes/value/');
-$REX['ADDON']['xform']['classpaths']['validate'] = array($REX['INCLUDE_PATH'].'/addons/xform/classes/validate/');
-$REX['ADDON']['xform']['classpaths']['action'] = array($REX['INCLUDE_PATH'].'/addons/xform/classes/action/');
+$REX['ADDON']['xform']['classpaths']['value'] = array($REX['SRC_PATH'] .'/addons/xform/classes/value/');
+$REX['ADDON']['xform']['classpaths']['validate'] = array($REX['SRC_PATH'] .'/addons/xform/classes/validate/');
+$REX['ADDON']['xform']['classpaths']['action'] = array($REX['SRC_PATH'] .'/addons/xform/classes/action/');
 
 // Basis Klasse rex_xform
-include ($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/classes/basic/class.rex_xform.inc.php');
+include ($REX['SRC_PATH'] .'/addons/'.$mypage.'/classes/basic/class.rex_xform.inc.php');
 
 if($REX['REDAXO'] && $REX['USER'])
 {
-	$I18N->appendFile($REX['INCLUDE_PATH'].'/addons/'.$mypage.'/lang/');
+	$I18N->appendFile($REX['SRC_PATH'] .'/addons/'.$mypage.'/lang/');
 	
 	$REX['ADDON'][$mypage]['SUBPAGES'] = array();
 	$REX['ADDON'][$mypage]['SUBPAGES'][] = array( '' , $I18N->msg("xform_overview"));
