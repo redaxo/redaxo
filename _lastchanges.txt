@@ -13,6 +13,7 @@ Version 5.0 ()
   
   Bugfixes
   * Cronjob-Plugin "Artikel-Status" funktionierte nicht im Frontend
+  * Cronjob-Addon: Schreibrechte werden beim Installieren überprüft
 
 
 Version 4.3.1 (2010-06-16)
