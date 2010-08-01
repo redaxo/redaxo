@@ -238,11 +238,6 @@ class rex_be_navigation
     $content->setRequiredPermissions('hasStructurePerm');
     $pages['content'] = $content;
       
-    $template = new rex_be_page($I18N->msg('template'), array('page'=>'template'));
-    $template->setIsCorePage(true);
-    $template->setRequiredPermissions('isAdmin');
-    $pages['template'] = new rex_be_page_main('system', $template);
-    
     $modules = new rex_be_page($I18N->msg('modules'), array('page'=>'module', 'subpage' => ''));
     $modules->setIsCorePage(true);
     $modules->setRequiredPermissions('isAdmin');
