@@ -261,8 +261,9 @@ if($REX['USER'])
   }
 }
 
-$page = $REX['PAGES'][$REX['PAGE']]->getPage();
-$REX['PAGE_NO_NAVI'] = !$page->hasNavigation();
+$page = $REX['PAGE'];
+$pageObj = $REX['PAGES'][$REX['PAGE']]->getPage();
+$REX['PAGE_NO_NAVI'] = !$pageObj->hasNavigation();
 
 
 // ----- EXTENSION POINT
@@ -270,12 +271,12 @@ $REX['PAGE_NO_NAVI'] = !$page->hasNavigation();
 rex_register_extension_point( 'PAGE_CHECKED', $REX['PAGE'], array('pages' => $REX['PAGES']));
 
 
-if($page->hasPath())
+if($pageObj->hasPath())
 {
   // If page has a new/overwritten path
-  require $page->getPath();
+  require $pageObj->getPath();
 
-}else if($page->isCorePage())
+}else if($pageObj->isCorePage())
 {
   // Core Page
   require $REX["SRC_PATH"].'/core/layout/top.php';
