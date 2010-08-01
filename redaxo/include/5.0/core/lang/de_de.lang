@@ -312,6 +312,9 @@ version = Version
 host = Host
 database = Datenbank
 syslog = Systemlog
+syslog_delete = Systemlog löschen
+syslog_deleted = Systemlog gelöscht
+syslog_delete_error = Fehler beim löschen des Systemlogs!
 
 # redaxo\include\pages\medienpool.inc.php
 pool_name = Medienpool

@@ -11,7 +11,6 @@ $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
 // -------------- Header
-
 $subline = array(
   array( '', $I18N->msg('main_preferences')),
   array( 'lang', $I18N->msg('languages')),
