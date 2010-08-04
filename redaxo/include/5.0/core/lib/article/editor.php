@@ -43,7 +43,7 @@ class rex_article_editor extends rex_article
                 <fieldset class="rex-form-col-1">
                   <legend><span>'. $I18N->msg("add_block") .'</span></legend>
                   <input type="hidden" name="article_id" value="'. $this->article_id .'" />
-                  <input type="hidden" name="page" value="content" />
+                  <input type="hidden" name="page" value="page_content" />
                   <input type="hidden" name="mode" value="'. $this->mode .'" />
                   <input type="hidden" name="slice_id" value="'. $I_ID .'" />
                   <input type="hidden" name="function" value="add" />
@@ -67,7 +67,7 @@ class rex_article_editor extends rex_article
       
       // ----- Slicemenue
       
-      $sliceUrl = 'index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $RE_CONTS[$I_ID];
+      $sliceUrl = 'index.php?page=page_content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $RE_CONTS[$I_ID];
       $listElements = array();
       
       if($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$RE_MODUL_ID[$I_ID]."]"))
@@ -316,7 +316,7 @@ class rex_article_editor extends rex_article
               <fieldset class="rex-form-col-1">
                 <legend><span>'. $I18N->msg("add_block") .'</span></legend>
                 <input type="hidden" name="article_id" value="'. $this->article_id .'" />
-                <input type="hidden" name="page" value="content" />
+                <input type="hidden" name="page" value="page_content" />
                 <input type="hidden" name="mode" value="'. $this->mode .'" />
                 <input type="hidden" name="slice_id" value="'. $LCTSL_ID .'" />
                 <input type="hidden" name="function" value="add" />
@@ -393,7 +393,7 @@ class rex_article_editor extends rex_article
           <fieldset class="rex-form-col-1">
             <legend><span>'. $I18N->msg('add_block').'</span></legend>
             <input type="hidden" name="article_id" value="'. $this->article_id .'" />
-            <input type="hidden" name="page" value="content" />
+            <input type="hidden" name="page" value="page_content" />
             <input type="hidden" name="mode" value="'. $this->mode .'" />
             <input type="hidden" name="slice_id" value="'. $I_ID .'" />
             <input type="hidden" name="function" value="add" />
@@ -457,7 +457,7 @@ class rex_article_editor extends rex_article
         <fieldset class="rex-form-col-1">
           <legend><span>'. $I18N->msg('edit_block') .'</span></legend>
           <input type="hidden" name="article_id" value="'.$this->article_id.'" />
-          <input type="hidden" name="page" value="content" />
+          <input type="hidden" name="page" value="page_content" />
           <input type="hidden" name="mode" value="'.$this->mode.'" />
           <input type="hidden" name="slice_id" value="'.$RE_CONTS.'" />
           <input type="hidden" name="ctype" value="'.$RE_CTYPE.'" />

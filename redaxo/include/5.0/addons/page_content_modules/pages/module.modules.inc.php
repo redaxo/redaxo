@@ -83,7 +83,7 @@ if ($function == 'delete')
       if(count($REX['CLANG']) > 1)
         $label = '('. rex_translate($REX['CLANG'][$clang_id]) .') '. $label;
 
-      $module_in_use_message .= '<li><a href="index.php?page=content&amp;article_id='. $aid .'&clang='. $clang_id .'&ctype='. $ctype .'">'. htmlspecialchars($label) .'</a></li>';
+      $module_in_use_message .= '<li><a href="index.php?page=page_content_modules&amp;article_id='. $aid .'&clang='. $clang_id .'&ctype='. $ctype .'">'. htmlspecialchars($label) .'</a></li>';
       $del->next();
     }
 
@@ -210,7 +210,7 @@ if ($function == 'add' or $function == 'edit')
         <fieldset class="rex-form-col-1">
           <legend>'. $legend .'</legend>
       	  <div class="rex-form-wrapper">
-						<input type="hidden" name="page" value="module" />
+						<input type="hidden" name="page" value="page_content_modules" />
 						<input type="hidden" name="function" value="'.$function.'" />
 						<input type="hidden" name="save" value="1" />
 						<input type="hidden" name="category_id" value="0" />
@@ -276,7 +276,7 @@ if ($function == 'add' or $function == 'edit')
         {
           $iaction_id = $gma->getValue($REX['TABLE_PREFIX'].'module_action.id');
           $action_id = $gma->getValue($REX['TABLE_PREFIX'].'module_action.action_id');
-          $action_edit_url = 'index.php?page=module&amp;subpage=actions&amp;action_id='.$action_id.'&amp;function=edit';
+          $action_edit_url = 'index.php?page=page_content_modules&amp;subpage=actions&amp;action_id='.$action_id.'&amp;function=edit';
           $action_name = rex_translate($gma->getValue('name'));
 
           $actions .= '<tr>
@@ -288,7 +288,7 @@ if ($function == 'add' or $function == 'edit')
           }
           	
           $actions .= '<td><a href="'. $action_edit_url .'">'. $action_name .'</a></td>
-          	<td><a href="index.php?page=module&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('action_delete').'</a></td>
+          	<td><a href="index.php?page=page_content_modules&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('action_delete').'</a></td>
           </tr>';
 
           $gma->next();

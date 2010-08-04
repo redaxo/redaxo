@@ -63,7 +63,7 @@ if ($function == 'delete')
     $action_name = htmlspecialchars($del->getValue('a.name'));
     for ($i = 0; $i < $del->getRows(); $i++)
     {
-      $action_in_use_msg .= '<li><a href="index.php?page=module&amp;function=edit&amp;modul_id=' . $del->getValue('ma.module_id') . '">'. htmlspecialchars($del->getValue('m.name')) . ' ['. $del->getValue('ma.module_id') . ']</a></li>';
+      $action_in_use_msg .= '<li><a href="index.php?page=page_content_modules&amp;function=edit&amp;modul_id=' . $del->getValue('ma.module_id') . '">'. htmlspecialchars($del->getValue('m.name')) . ' ['. $del->getValue('ma.module_id') . ']</a></li>';
       $del->next();
     }
 
@@ -239,7 +239,7 @@ if ($function == "add" || $function == "edit")
             <legend>' . $legend . ' </legend>
 
            	<div class="rex-form-wrapper">
-	          	<input type="hidden" name="page" value="module" />
+	          	<input type="hidden" name="page" value="page_content_modules" />
   	        	<input type="hidden" name="subpage" value="actions" />
           		<input type="hidden" name="function" value="' . $function . '" />
 		          <input type="hidden" name="save" value="1" />
@@ -409,7 +409,7 @@ if ($OUT)
       </colgroup>
       <thead>
         <tr>
-          <th class="rex-icon"><a class="rex-i-element rex-i-action-add" href="index.php?page=module&amp;subpage=actions&amp;function=add"'. rex_accesskey($I18N->msg('action_create'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">' . $I18N->msg('action_create') . '</span></a></th>
+          <th class="rex-icon"><a class="rex-i-element rex-i-action-add" href="index.php?page=page_content_modules&amp;subpage=actions&amp;function=add"'. rex_accesskey($I18N->msg('action_create'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">' . $I18N->msg('action_create') . '</span></a></th>
           <th class="rex-small">ID</th>
           <th>' . $I18N->msg('action_name') . '</th>
           <th>Preview-Event(s)</th>
@@ -448,13 +448,13 @@ if ($OUT)
 
       echo '
             <tr>
-              <td class="rex-icon"><a class="rex-i-element rex-i-action" href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit" title="' . htmlspecialchars($sql->getValue("name")) . '"><span class="rex-i-element-text">' . htmlspecialchars($sql->getValue("name")) . '</span></a></td>
+              <td class="rex-icon"><a class="rex-i-element rex-i-action" href="index.php?page=page_content_modules&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit" title="' . htmlspecialchars($sql->getValue("name")) . '"><span class="rex-i-element-text">' . htmlspecialchars($sql->getValue("name")) . '</span></a></td>
               <td class="rex-small">' . $sql->getValue("id") . '</td>
-              <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit">' . htmlspecialchars($sql->getValue("name")) . '</a></td>
+              <td><a href="index.php?page=page_content_modules&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=edit">' . htmlspecialchars($sql->getValue("name")) . '</a></td>
               <td>' . implode('/', $previewmode) . '</td>
               <td>' . implode('/', $presavemode) . '</td>
               <td>' . implode('/', $postsavemode) . '</td>
-              <td><a href="index.php?page=module&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=delete" onclick="return confirm(\'' . $I18N->msg('action_delete') . ' ?\')">' . $I18N->msg("action_delete") . '</a></td>
+              <td><a href="index.php?page=page_content_modules&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=delete" onclick="return confirm(\'' . $I18N->msg('action_delete') . ' ?\')">' . $I18N->msg("action_delete") . '</a></td>
             </tr>
           ';
 
