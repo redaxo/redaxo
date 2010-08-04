@@ -11,7 +11,7 @@
 
 class rex_cronjob_manager
 {
-  private var $message = '';
+  private $message = '';
   
   public function factory()
   {
@@ -121,7 +121,7 @@ class rex_cronjob_manager
     return false;
   }
   
-  public function getTypes()
+  static public function getTypes()
   {
     $types = array();
     $types[] = 'rex_cronjob_phpcode';
@@ -134,7 +134,7 @@ class rex_cronjob_manager
     return $types;
   }
   
-  public function registerExtension($params)
+  static public function registerExtension($params)
   {
     $params['subject'][] = $params['class'];
     return $params['subject'];
@@ -144,10 +144,10 @@ class rex_cronjob_manager
 
 class rex_cronjob_manager_sql
 {
-  private var $sql;
-  private var $manager;
+  private $sql;
+  private $manager;
   
-  private $manager = null)
+  private function rex_cronjob_manager_sql(rex_cronjob_manager $manager = null)
   {
     $this->sql = rex_sql::factory();
     // $this->sql->debugsql = true;
@@ -157,7 +157,7 @@ class rex_cronjob_manager_sql
       $this->manager = rex_cronjob_manager::factory();
   }
 
-  public $manager = null)
+  public function factory(rex_cronjob_manager $manager = null)
   {
     return new rex_cronjob_manager_sql($manager);
   }

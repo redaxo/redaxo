@@ -22,7 +22,7 @@ class rex_function_cache
    *
    * @param sfCache $cache An sfCache object instance
    */
-  public $cache)
+  public function rex_function_cache(rex_cache $cache)
   {
     $this->cache = $cache;
   }

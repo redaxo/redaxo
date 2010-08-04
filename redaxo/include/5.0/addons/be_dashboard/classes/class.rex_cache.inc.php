@@ -33,7 +33,7 @@ abstract class rex_cache
    *
    * * lifetime (optional): The default life time (default value: 86400)
    */
-  publicfunction rex_cache($options = array())
+  public function rex_cache($options = array())
   {
     $this->options = array_merge(array(
       'automatic_cleaning_factor' => 1000,
@@ -52,7 +52,7 @@ abstract class rex_cache
    *
    * @return mixed The data of the cache
    */
-  public function get($key, $default = null){}
+  abstract function get($key, $default = null);
 
   /**
    * Returns true if there is a cache for the given key.
@@ -61,7 +61,7 @@ abstract class rex_cache
    *
    * @return Boolean true if the cache exists, false otherwise
    */
-  public function has($key){}
+  abstract public function has($key);
 
   /**
    * Saves some data in the cache.
@@ -72,7 +72,7 @@ abstract class rex_cache
    *
    * @return Boolean true if no problem
    */
-  public function set($key, $data, $lifetime = null){}
+  abstract public function set($key, $data, $lifetime = null);
 
   /**
    * Removes a content from the cache.
@@ -81,7 +81,7 @@ abstract class rex_cache
    *
    * @return Boolean true if no problem
    */
-  public function remove($key){}
+  abstract public function remove($key);
 
   /**
    * Removes content from the cache that matches the given pattern.
@@ -92,7 +92,7 @@ abstract class rex_cache
    *
    * @see patternToRegexp
    */
-  public function removePattern($pattern){}
+  abstract public function removePattern($pattern);
 
   /**
    * Cleans the cache.
@@ -103,7 +103,7 @@ abstract class rex_cache
    *
    * @return Boolean true if no problem
    */
-  public function clean($mode = REX_CACHE_SEPARATOR_ALL){}
+  abstract public function clean($mode = REX_CACHE_SEPARATOR_ALL);
 
   /**
    * Returns the timeout for the given key.
@@ -112,7 +112,7 @@ abstract class rex_cache
    *
    * @return int The timeout time
    */
-  public function getTimeout($key){}
+  abstract public function getTimeout($key);
 
   /**
    * Returns the last modification date of the given key.
@@ -121,7 +121,7 @@ abstract class rex_cache
    *
    * @return int The last modified time
    */
-  public function getLastModified($key){}
+  abstract public function getLastModified($key);
 
   /**
    * Computes lifetime.

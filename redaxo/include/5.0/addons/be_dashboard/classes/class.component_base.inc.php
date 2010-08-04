@@ -34,7 +34,7 @@ abstract class rex_dashboard_component_base
     return true;
   }
 
-  public $config)
+  public function setConfig(rex_dashboard_component_config $config)
   {
     $this->config = $config;
   }

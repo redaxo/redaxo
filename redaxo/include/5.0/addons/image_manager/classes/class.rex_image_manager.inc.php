@@ -85,12 +85,17 @@ class rex_image_manager
     return $effects;
   }
   
+  public function sendImage(rex_image $image, $type)
+  {
+    $this->image_cacher->sendImage($image, $type);
+  }
+
   /**
    * Returns a rex_image instance representing the image $rex_img_file 
    * in respect to $rex_img_type.
    * If the result is not cached, the cache will be created.
    */
-  public function getImageCache($rex_img_file, $rex_img_type)
+  static public function getImageCache($rex_img_file, $rex_img_type)
   {
     global $REX;
     
@@ -109,10 +114,5 @@ class rex_image_manager
     }
     
     return $image_cacher->getCachedImage($rex_img_file, $rex_img_type);
-  }
-  
-  public $image, $type)
-  {
-    $this->image_cacher->sendImage($image, $type);
   }
 }

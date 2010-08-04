@@ -11,8 +11,8 @@
 
 abstract class rex_cronjob
 {
-  private var $params = array();
-  private var $message = '';
+  private $params = array();
+  private $message = '';
   
   public function factory($class) 
   {
@@ -27,7 +27,7 @@ abstract class rex_cronjob
 		$this->params[$key] = $value;
 	}
   
-  public $params)
+  public function setParams(array $params)
 	{
 	  if (!is_array($params))
       trigger_error('$params must be an array!', E_USER_ERROR);

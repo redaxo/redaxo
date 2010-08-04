@@ -11,7 +11,7 @@
 
 class rex_cronjob_form extends rex_form
 {
-  private var $mainFieldset;
+  private $mainFieldset;
   
   protected function rex_cronjob_form($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {

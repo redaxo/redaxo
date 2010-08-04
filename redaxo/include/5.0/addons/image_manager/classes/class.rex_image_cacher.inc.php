@@ -11,7 +11,7 @@ class rex_image_cacher
 		$this->cache_path = $cache_path;
 	}
 	
-	public $image, $cacheParams)
+	public function isCached(rex_image $image, $cacheParams)
   {
     if(!rex_image::isValid($image))
     {
@@ -61,7 +61,7 @@ class rex_image_cacher
     return $rex_image;
   }
   
-  public $image, $cacheParams)
+  public function getCacheFile(rex_image $image, $cacheParams)
   {
     return $this->_getCacheFile($image->getFileName(), $cacheParams);
   }
@@ -75,7 +75,7 @@ class rex_image_cacher
     return $this->cache_path .'image_manager__'. $cacheParams .'_'. $filename;
   }
 	
-  public $image, $cacheParams, $lastModified = null)
+  public function sendImage(rex_image $image, $cacheParams, $lastModified = null)
 	{
     if(!rex_image::isValid($image))
     {
@@ -108,7 +108,7 @@ class rex_image_cacher
   /*
    * Static Method: Returns True, if the given cacher is a valid rex_image_cacher
    */
-  public function isValid($cacher)
+  static public function isValid($cacher)
   {
     return is_object($cacher) && is_a($cacher, 'rex_image_cacher');
   }
