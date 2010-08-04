@@ -1,0 +1,85 @@
+title = TinyMCE - JavaScript WYSIWYG Editor
+
+menu_module = Beispiel-Module
+menu_settings = Konfiguration
+menu_css = CSS Editieren
+menu_tipps = Tipps und Tricks
+menu_information = Links/Changelog
+
+title_simple_sample = Einfaches Input und Output Modul
+txt_simple_sample = Eine Textarea kann einfach durch die Vergabe des Attibutes <strong>class="tinyMCEEditor"</strong> in einen WYSIWYG-Editor umgewandelt werden.<br />Es sind auch mehrere Textareas pro Eingabemodul m&ouml;glich. Die Gr&ouml;&szlig;e des WYSIWYG-Editors wird durch die Gr&ouml;&szlig;e der Textarea bestimmt. Die Darstellung der Buttons wird automatisch aus der <a href="index.php?page=tinymce&amp;subpage=settings">Addon-Konfiguration</a> &uuml;bernommen.
+title_extended_sample = Erweitertes Input Modul
+txt_extended_sample = Es gibt auch die M&ouml;glichkeit per PHP-Klasse <strong>rexTinyMCEEditor</strong> einen WYSIWYG-Editor zu erstellen.<br />Dadurch ist es m&ouml;glich eigene Konfigurationen f&uuml;r den TinyMCE zu &uuml;bernehmen. Die Klasse erstellt ein Init-Javascript mit Standardwerten das durch eigene Parameter erweitert oder ge&auml;ndert werden kann.<br /><br /><a href="index.php?tinymceinit=true" onclick="window.open(this.href); return false;">Standardkonfiguration anzeigen</a><br /><br /><a href="http://wiki.moxiecode.com/index.php/TinyMCE:Configuration" onclick="window.open(this.href); return false;">Dokumentation TinyMCE-Konfiguration</a><br /><br />Hier sind als Beispiel <strong>alle</strong> m&ouml;glichen Parameter f&uuml;r ein Eingabemodul dargestellt.<br />Der Variablen <strong>content</strong> muss der Inhalt der REDAXO-Variablen zugewiesen werden (<strong>$tiny->content = $wysiwigvalue;</strong>)<br />Der Variablen <strong>id</strong> muss die Nummer der REDAXO-Variablen zugewiesen werden (z.B. bei REX_VALUE[2]: <strong>$tiny->id = 2;</strong>)<br /><br />Weitere Informationen unter <a href="index.php?page=tinymce&amp;subpage=tipps">Tipps und Tricks &raquo;</a>
+title_input = <strong>Modul INPUT</strong><br />
+title_output = <strong>Modul OUTPUT (f&uuml;r alle)</strong><br />
+
+title_config = TinyMCE Konfiguration
+
+title_active = TinyMCE aktivieren/deaktivieren
+tinymce_active = TinyMCE aktiviert
+
+title_language = Standard-Sprache ausw&auml;hlen
+tinymce_langs = Verf&uuml;gbare Sprachen: {0}
+
+title_pages = Seiten ausw&auml;hlen bei denen der TinyMCE-Editor integriert werden soll
+tinymce_pages = Liste durch Kommas getrennt<br />Beispiel: <em>tinymce</em> angeben wenn die Backend-URL z.B. index.php?page=<em>tinymce</em> lautet
+title_foreground = Textfarben ausw&auml;hlen
+tinymce_foreground = Liste durch Kommas getrennt<br />hier die Hex-Werte f&uuml;r Farben ohne # angeben: z.B.: CC0000,009900,000099<br />Die erste Farbe wird als Standard gesetzt
+
+title_background = Hintergrundfarben ausw&auml;hlen
+tinymce_background = Liste durch Kommas getrennt<br />hier die Hex-Werte f&uuml;r Farben ohne # angeben: z.B.: CC0000,009900,000099<br />Die erste Farbe wird als Standard gesetzt
+
+title_validxhtml = Validen XHTML-Code ausgeben
+tinymce_validxhtml = (evtl. Probleme mit der Performance)
+
+title_inlinepopups = Inline-Popups statt normaler Popups verwenden
+tinymce_inlinepopups = (im Lightbox-Stil mit Abdunkelung der Seite)
+
+title_theme = Theme ausw&auml;hlen
+theme_simple = Einfach
+theme_default = Standard
+theme_advanced = Erweitert
+
+title_skin = Skin ausw&auml;hlen
+skin_standard = Standard
+skin_o2k7 = o2k7
+skin_o2k7_silver = o2k7 Silber
+skin_o2k7_black = o2k7 Schwarz
+
+title_ext_config = Zus&auml;tzliche TinyMCE Konfiguration
+ext_config = Konfiguration (JavaScript)
+
+button_save_settings = Konfiguration speichern
+msg_settings_saved = Konfiguration gespeichert
+msg_settings_error = Fehler beim speichern der Konfiguration!
+
+title_css_wysiwyg = CSS f&uuml;r WYSIWYG-Editor und Vorschau
+tynymce_css_wysiwyg = ...
+button_save_css = CSS speichern
+msg_css_saved = CSS-Datei gespeichert, evtl. muss der Browser-Cache gel&ouml;scht werden.
+msg_css_error = Fehler beim speichern der CSS-Datei!
+
+title_tipps_class = Verwendung der Klasse rexTinyMCEEditor
+tipps_class_01 = Mit der PHP-Klasse rexTinyMCEEditor kann der TinyMCE nach den eigenen Vorstellungen konfiguriert werden.<br />Hierzu am besten die <a href="index.php?page=tinymce&amp;subpage=settings">Addon-Konfiguration</a> speichern und als Grundlage das <strong>Erweiterte Input-Modul</strong> von den <a href="index.php?page=tinymce">Beispiel-Modulen</a> verwenden.<br /><br />
+tipps_class_02 = Die Klasse generiert immer eine Standardkonfiguration mit den Einstellungen aus der Addon-Konfiguration und kann durch setzen der Eigenschaft <strong>configuration</strong> entweder erweitert oder ver&auml;ndert werden. Immer darauf achten dass einige Einstellungen aus der Standardkonfiguration &uuml;bernommen und um die gew&uuml;nschten Einstellungen <em>erweitert</em> werden m&uuml;ssen (z.B. plugins).
+tipps_class_03 = <br /><br /><strong>Beispiel:</strong>
+tipps_class_04 = <br /><strong><a href="index.php?tinymceinit=true" onclick="window.open(this.href); return false;">Standardkonfiguration anzeigen</a></strong><br />
+tipps_class_05 = <br /><strong><a href="./include/addons/tinymce/examples/minimal-input.txt" onclick="window.open(this.href); return false;">Input Modul</a></strong> (minimale Konfiguration, entspricht der Standard-Einstellung)<br />
+tipps_class_06 = <br /><strong><a href="./include/addons/tinymce/examples/extended-input.txt" onclick="window.open(this.href); return false;">Erweitertes Input Modul</a></strong> (dokumentiertes Input Modul als Grundlage für eigene Konfigurationen)<br />
+tipps_class_07 = <br />Weitere Informationen auf der <a href="http://tinymce.moxiecode.com/" onclick="window.open(this.href); return false;">TinyMCE Webseite</a> oder in der <a href="http://wiki.moxiecode.com/index.php/TinyMCE:Index" onclick="window.open(this.href); return false;">TinyMCE Documentation</a>.
+
+title_tipps_media = Verwendung des Plugins media
+tipps_media_01 = <br />Durch das Plugin <strong>media</strong> k&ouml;nnen Media-Dateien wie z.B. Flash-Animationen im WYSIWYG-Editor integriert werden.
+tipps_media_02 = <br />Das Backend wird automatisch f&uuml;r die Verwendung von Media-Dateien konfiguriert.
+tipps_media_03 = <br /><br />F&uuml;r das Frontend muss im Template zus&auml;tzlich folgender Code im Head-Bereich aufgenommen werden:
+tipps_media_04 = F&uuml;r REDAXO Version <4.2
+
+title_tipps_syntax = Verwendung des Plugins syntaxhighlighter
+tipps_syntax_01 = kommt noch ...
+tipps_syntax_02 =
+tipps_syntax_03 =
+
+title_tinymcelinks = TinyMCE Links
+title_changelog = Changelog
+
+info_htaccess = Achtung! Kein Zugriff auf ben&ouml;tigte Unterverzeichnisse des Addons m&ouml;glich!<br /><br />Bitte &uuml;berpr&uuml;fen Sie folgende Verzeichnisse:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{0}<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{1}<br /><br />Diese beiden Verzeichnisse ben&ouml;tigen eine .htaccess-Datei. Entweder ist die Datei nicht vorhanden, Dateien f&uuml;r Verzeichnisschutz heissen auf Ihrem Server nicht .htacces oder die Verzeichnisrechte sind nicht korrekt gesetzt.<br /><br />Bei REDAXO Version 3.2.x bitte in der Datei redaxo/include/.htaccess folgendes anpassen: AuthName "Zugriff auf IncludeDateien" (die Hochkommas!)

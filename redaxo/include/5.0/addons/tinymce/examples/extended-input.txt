@@ -1,0 +1,56 @@
+<strong>Fliesstext:</strong><br />
+
+<?php
+if (class_exists('rexTinyMCEEditor'))
+{
+$wysiwigvalue =<<<EOD
+REX_VALUE[1]
+EOD;
+
+  // Neue Instanz der Klasse
+  $tiny = new rexTinyMCEEditor();
+
+  // Buttons setzen (hier alle Buttons der Standardkonfiguration)
+  $tiny->buttons1 = 'bold,italic,underline,strikethrough,sub,sup,|,forecolor,backcolor,styleselect,formatselect,|,charmap,cleanup,removeformat,|,preview,code,fullscreen';
+  $tiny->buttons2 = 'cut,copy,paste,pastetext,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,link,unlink,redaxoMedia,redaxoEmail,anchor,|,advhr,image,emotions,media,syntaxhighlighter';
+
+  // zusaetzliche Buttons fuer Undo/Redo, Tabellen und Template
+  $tiny->buttons3 = 'undo,redo,|,tablecontrols,visualaid,|,template,help';
+  $tiny->buttons4 = '';
+
+  // Breite und Hoehe des Editors
+  $tiny->width = 555;
+  $tiny->height = 350;
+
+  // Valides XHTML generieren true/false
+  $tiny->validxhtml = false;
+
+  // Hier koennen eigene Werte ueber die Standardwerte ueberlagert werden
+  //
+  // Achtung:
+  // bei einigen Parametern (z.B. Plugins) muss der Wert aus der
+  // Standardkonfiguration  e r w e i t e r t  werden
+  // Hier als Beispiel erweitert um die Plugins syntaxhighlighter, table, template
+$mytinyconfig =<<<EOD
+	plugins : 'advhr,advimage,advlink,contextmenu,emotions,fullscreen,inlinepopups,media,paste,preview,redaxo,safari,visualchars,table,template',
+	skin : 'o2k7',
+	skin_variant : 'silver'
+EOD;
+
+  // eigene Konfiguration uebernehmen
+  $tiny->configuration = $mytinyconfig;
+
+  // WYSIWYG-Content zuordnen
+  $tiny->content = $wysiwigvalue;
+
+  // Id des REX_VALUES zuordnen
+  $tiny->id = 1;
+
+  // WYSIWYG-Editor anzeigen
+  $tiny->show();
+}
+else
+{
+  echo rex_warning('Dieses Modul ben&ouml;tigt das "TinyMCE"-Addon!');
+}
+?>

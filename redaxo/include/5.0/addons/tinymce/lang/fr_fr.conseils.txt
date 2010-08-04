@@ -1,0 +1,35 @@
+<h3>Utilisation de la classe rexTinyMCEEditor</h3>
+Avec la classe PHP rexTinyMCEEditor le TinyMCE peut être personnalisé.
+Pour cela merci d'enregistrer la <a href="index.php?page=tinymce&amp;subpage=settings">Addon-Configuration</a> et d'utiliser comme base de travail <strong>Extension Input-Module</strong> des <a href="index.php?page=tinymce">Exemples Modules</a>.
+
+La classe génére toujours une configuration standard avec les réglages de la configuration des Addons et peut être modifié ou étendu par l'utilisation de l'attribut <strong>configuration</strong>. Merci de veiller à ce que certains réglages seront repris de la configuration standard et qu'ils doivent être étendus par les attributs supplémentaires souhaités (par ex. plugins).
+
+<strong>Exemple:</strong>
+<p class="rex-code"><code>$mytinyconfig =&lt;&lt;&lt;EOD
+&nbsp;&nbsp;&nbsp;plugins : 'advhr,advimage,advlink,contextmenu, ... ,syntaxhl,table,template',
+&nbsp;&nbsp;&nbsp;skin : 'o2k7',
+&nbsp;&nbsp;&nbsp;skin_variant : 'silver'
+EOD;
+<strong>$tiny->configuration = $mytinyconfig;</strong>
+</code></p>
+
+<strong><a href="./include/addons/tinymce/img/standardconfig.php" onclick="window.open(this.href); return false;">Afficher la configuration standard</a></strong><br />
+<strong><a href="./include/addons/tinymce/examples/minimal-input.txt" onclick="window.open(this.href); return false;">Module entrée</a></strong> (Configuration minimale, correspond aux réglages standard)<br />
+<strong><a href="./include/addons/tinymce/examples/extended-input.txt" onclick="window.open(this.href); return false;">Module entrée étendu</a></strong> (Modul entrée documenté, à utiliser comme base de travail pour les configurations personnalisé)<br />
+
+Pour plus d'informations: <a href="http://tinymce.moxiecode.com/" onclick="window.open(this.href); return false;">TinyMCE Site web</a> ou <a href="http://wiki.moxiecode.com/index.php/TinyMCE:Index" onclick="window.open(this.href); return false;">TinyMCE Documentation</a>.
+
+
+<hr />
+
+<h3>Utilisation du Plugin média</h3>
+Avec le plugin <strong>média</strong> vous pouvez intégrer des fichier média (comme par ex. des animations Flash) dans l'editeur WYSIWYG.
+Le backend sera configuré automatiquement afin de permettre l'intégration des fichiers média.
+
+Le code suivant doît être ajouté dans la partie HEAD du Template (pour le Frontend):
+
+<p class="rex-code"><code>&lt;script type="text/javascript"
+  src="redaxo/include/addons/tinymce/tinymce/jscripts/tiny_mce/plugins/media/js/embed.js"&gt;&lt;/script&gt;
+</code></p>
+
+

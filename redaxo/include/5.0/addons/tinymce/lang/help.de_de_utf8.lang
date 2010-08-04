@@ -1,0 +1,7 @@
+Erweitert REDAXO um den JavaScript WYSIWYG-Editor TinyMCE 3.3.2
+
+
+<a href="http://tinymce.moxiecode.com/" onclick="window.open(this.href); return false;">TinyMCE Webseite</a>
+
+<a href="http://wiki.moxiecode.com/index.php/TinyMCE:Index" onclick="window.open(this.href); return false;">TinyMCE Documentation</a>
+

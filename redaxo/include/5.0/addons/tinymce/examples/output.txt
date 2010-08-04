@@ -1,0 +1,15 @@
+<?php
+if (REX_IS_VALUE[1])
+{
+$wysiwigvalue =<<<EOD
+REX_HTML_VALUE[1]
+EOD;
+
+  if (trim($wysiwigvalue) <> '')
+  {
+    echo '<div class="tinymcewysiwyg">';
+    echo $wysiwigvalue;
+    echo '</div>';
+  }
+}
+?>
