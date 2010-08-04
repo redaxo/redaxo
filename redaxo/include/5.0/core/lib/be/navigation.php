@@ -218,11 +218,6 @@ class rex_be_navigation
     $credits->setIsCorePage(true);
     $pages['credits'] = $credits;
     
-    $structure = new rex_be_page($I18N->msg('structure'), array('page' => 'structure'));
-    $structure->setIsCorePage(true);
-    $structure->setRequiredPermissions('hasStructurePerm');
-    $pages['structure'] = new rex_be_page_main('system', $structure); 
-    
     $mpool = new rex_be_page_popup($I18N->msg('mediapool'), 'openMediaPool(); return false;');
     $mpool->setIsCorePage(true);
     $mpool->setRequiredPermissions('hasMediaPerm');
@@ -232,28 +227,6 @@ class rex_be_navigation
     $linkmap->setIsCorePage(true);
     $linkmap->setRequiredPermissions('hasStructurePerm');
     $pages['linkmap'] = $linkmap;
-    
-    $content = new rex_be_page($I18N->msg('content'));
-    $content->setIsCorePage(true);
-    $content->setRequiredPermissions('hasStructurePerm');
-    $pages['content'] = $content;
-      
-    $modules = new rex_be_page($I18N->msg('modules'), array('page'=>'module', 'subpage' => ''));
-    $modules->setIsCorePage(true);
-    $modules->setRequiredPermissions('isAdmin');
-    $modules->setHref('index.php?page=module&subpage=');
-    
-    $actions = new rex_be_page($I18N->msg('actions'), array('page'=>'module', 'subpage' => 'actions'));
-    $actions->setIsCorePage(true);
-    $actions->setRequiredPermissions('isAdmin');
-    $actions->setHref('index.php?page=module&subpage=actions');
-    
-    $mainModules = new rex_be_page($I18N->msg('modules'), array('page'=>'module'));
-    $mainModules->setIsCorePage(true);
-    $mainModules->setRequiredPermissions('isAdmin');
-    $mainModules->addSubPage($modules);
-    $mainModules->addSubPage($actions);
-    $pages['module'] = new rex_be_page_main('system', $mainModules);
     
     $user = new rex_be_page($I18N->msg('user'), array('page'=>'user'));
     $user->setIsCorePage(true);
