@@ -1,0 +1,1719 @@
+/**
+ *
+ * @package redaxo4
+ * @version svn:$Id$
+ */
+*,
+.rex-nospace {
+	margin:0;
+	padding:0;
+}
+
+fieldset, img {
+	border:0;
+}
+
+img {
+	vertical-align:bottom;
+}
+
+a {
+	color:#f2353a;
+	text-decoration:none;
+}
+
+a:hover {
+	text-decoration:underline;
+}
+body div#rex-output a.rex-active,
+body a.rex-subpage-active {
+	color:#000;
+}
+.rex-lgnd a {
+	color:#32353a;
+}
+.rex-lgnd a:hover {
+	text-decoration:none;
+}
+
+li {
+	list-style-type:none;
+}
+
+div, p {
+	background-repeat:no-repeat;
+}
+
+
+.rex-clearer {
+	display: block;
+	clear: both;
+	line-height: 0em;
+	height: 1px;
+	font-size: 0;
+	visibility: hidden;
+}
+
+.rex-clear {
+	clear: both;
+}
+
+.rex-hide {
+	position: absolute !important;
+	left: -1000px !important;
+	top: -1000px !important;
+	overflow: hidden !important;
+	width: 1px !important;
+	height: 1px !important;
+}
+caption.rex-hide {
+	display: none;
+}
+legend.rex-hidden {
+	display: none;
+}
+.rex-flLeft {
+	float:left;
+	margin-right:10px;
+}
+.rex-flRight {
+	float:right;
+	margin-left:10px;
+}
+
+.rex-strike {
+	text-decoration:line-through;
+}
+
+.rex-txt-algn-cntr {
+	text-align:center;
+}
+.rex-strng {
+	font-weight:bold;
+}
+
+/*	rex-warning */
+div#rex-output .rex-message {
+	clear: both;
+	width:100%;
+	margin:0 0 10px 0;
+	padding:8px 0px;
+	font-weight:bold;
+}
+div#rex-output .rex-warning {
+	background:#FAE9E5 url(../media/warning.gif) 0% 50% no-repeat;
+	color:#EA1144;
+}
+div#rex-output .rex-info {
+	background:#D2EFD9 url(../media/excla_mark_green.gif) 0% 50% no-repeat;
+	color:#107C2C;
+}
+body#rex-page-mediapool div#rex-output .rex-message {
+	margin-bottom:2px;
+}
+body#rex-page-content div#rex-output .rex-message,
+div#rex-output div.rex-cnt-editmode div.rex-cnt-editmode-slc .rex-message {
+	margin-bottom:0px;
+}
+div#rex-output div.rex-cnt-editmode div.rex-cnt-editmode-slc .rex-message {
+	padding:0;
+}
+div#rex-output .rex-message span {
+	display:block;
+	padding:0 45px;
+}
+
+table .rex-message {
+	margin:0;
+}
+
+
+
+div#rex-output div.rex-message-blck {
+	clear:both;
+	margin:0 0 10px 0;
+	padding:8px 45px;
+	line-height:1.6;
+}
+div#rex-output div.rex-warning-blck {
+	background-color:#FAE9E5;
+	color:#EA1144;
+}
+div#rex-output div.rex-info-blck {
+	background-color:#D2EFD9;
+}
+div#rex-output div.rex-info-blck, 
+div#rex-output div.rex-info-blck a {
+	color:#107C2C;
+}
+div#rex-output div.rex-message-blck ol {
+	margin-left: 20px;
+}
+div#rex-output div.rex-message-blck ul {
+	margin-left: 15px;
+}
+div#rex-output div.rex-message-blck ol li {
+	list-style-type: decimal;
+}
+div#rex-output div.rex-message-blck ul li {
+	list-style-type: square;
+}
+
+
+h2 {
+	margin-bottom:1.2em;
+}
+h3, h4, h5, h6 {
+	font-size: 1em;
+}
+
+.rex-cnt-slc-otp h1 {
+	font-size:2em;
+}
+.rex-cnt-slc-otp h2 {
+	margin-bottom:0;
+	font-size:1.6em;
+}
+.rex-cnt-slc-otp h3 {
+	font-size:1.4em;
+}
+.rex-cnt-slc-otp h4 {
+	font-size:1.2em;
+}
+.rex-cnt-slc-otp h5 {
+	font-size:1.1em;
+}
+.rex-cnt-slc-otp h6 {
+	font-size:1em;
+}
+
+
+/*	Font Metrics
+*******************************************************************************/
+
+input,
+select,
+textarea {
+	padding:1px;
+	font-family:verdana, arial, helvetica, sans-serif;
+}
+
+h2,
+input,
+select,
+textarea
+/*,
+div.rex-cnt-cols input,
+div.rex-cnt-cols select */ {
+	font-size:1em;
+}
+
+div#rex-title h1 {
+	font-size:1.3em;
+}
+/*
+textarea {
+	font-size:1.5em;
+}
+*/
+div#rex-title ul,
+div#rex-title p,
+div#rex-clang ul,
+div.rex-cnt-hdr ul {
+	line-height:3em;
+}
+
+div#rex-title h1 {
+	line-height:2.3em;
+}
+
+
+
+/*	Color Properties
+*******************************************************************************/
+.rex-ok,
+.rex-online,
+div#rex-lmp ul li a.rex-online {
+	color:#3ec94a;
+}
+.rex-offline,
+div#rex-lmp ul li a.rex-offline {
+	color:#aa0000;
+}
+
+.rex-nice {
+	color:#3a3;
+}
+
+.rex-error {
+	color:#c33;
+}
+
+.rex-clr-grn {
+	color:#478c44;
+}
+.rex-clr-red {
+	color:#ea1144;
+}
+
+div#rex-clang,
+div.rex-cnt-hdr,
+div.rex-cnt-cols {
+	background-color:#f0efeb;
+}
+div.rex-cnt-bdy {
+	background-color:#faf9f5;
+}
+
+
+
+/*	Images
+*******************************************************************************/
+
+
+
+/*	General
+*******************************************************************************/
+
+body {
+	margin:8px;
+	color:#32353a;
+	font-family:verdana, arial, sans-serif;
+	font-size:62.5%;
+}
+
+
+/*	Header / Footer
+*******************************************************************************/
+div#rex-hdr,
+div#rex-ftr {
+	float:left;
+	width:770px;
+}
+
+body#rex-page-mediapool div#rex-hdr,
+body#rex-page-mediapool div#rex-ftr,
+body#rex-page-linkmap div#rex-hdr,
+body#rex-page-linkmap div#rex-ftr {
+	width:100%;
+}
+/* normalerweise vom body-Tag*/
+body#rex-page-mediapool div#rex-ftr,
+body#rex-page-linkmap div#rex-ftr {
+	margin-bottom:8px;
+}
+
+div#rex-ftr {
+	clear:both;
+	margin-top:10px;
+	padding:5px 0;
+	background:#f0efeb;
+	border-top:20px solid #aab9a8;
+	margin-bottom:10px;
+}
+
+div#rex-hdr p.rex-hdr-top {
+	padding:5px;
+	background:#f0efeb;
+	text-align:right;
+}
+
+div#rex-hdr div {
+	float:left;
+	width:100%;
+	padding:5px 0;
+	background:#aab9a8;
+}
+
+div#rex-hdr div ul,
+div#rex-ftr ul {
+	float:left;
+	display:inline;
+	width:70%;
+	margin:0 5px;
+}
+
+body#rex-page-mediapool div#rex-hdr div ul,
+body#rex-page-linkmap div#rex-hdr div ul {
+	width:100%;
+}
+
+div#rex-hdr div li,
+div#rex-ftr li {
+	display:inline;
+	color:#fff;
+}
+div#rex-ftr li {
+	color:#000;
+}
+
+div#rex-hdr div li a {
+	color:#fff;
+	font-weight:bold;
+}
+
+div#rex-ftr li a {
+	color:#000;
+}
+
+div#rex-hdr div p,
+div#rex-ftr p {
+	float:right;
+	display:inline;
+	margin:0 5px;
+}
+
+div#rex-hdr div p a {
+	color:#fff;
+	font-weight:bold;
+}
+
+
+
+
+/*	Content
+*******************************************************************************/
+div#rex-wrapper {
+	position:relative;
+	float:left;
+	clear:both;
+	width:770px;
+	margin-bottom:0px;						/* jan - von 10 auf 0*/
+}
+body#rex-page-mediapool div#rex-wrapper,
+body#rex-page-linkmap div#rex-wrapper {
+	width:100%;
+}
+
+div#rex-output {
+	float:left;
+	width:100%;
+	margin-top:10px;
+}
+div#rex-output p.rex-hdl {
+	clear:both;
+	background:#d7d6d3;
+	font-weight:bold;
+}
+
+div.rex-mdl-inp {
+	clear:both;
+	padding:10px;
+}
+
+div.rex-cnt-cols {
+	float:left;
+	width:100%;
+}
+
+div.rex-cnt-col2,
+p.rex-cnt-col2 {
+	float:left;
+	width:49.9%;
+	width:50%;
+}
+
+
+
+/*	Title
+*******************************************************************************/
+div#rex-title {
+	margin-top:10px;
+	height:61px;
+	background:#f0efeb url(../media/logo.jpg) 100% 50% no-repeat;
+}
+
+html>body div#rex-title {
+	height:auto;
+	min-height:61px;
+}
+body#rex-page-mediapool div#rex-title,
+body#rex-page-linkmap div#rex-title {
+	background:none;
+	background-color:#f0efeb;
+}
+/* start single-row */
+body#rex-page-linkmap div#rex-title {
+	height:31px;
+}
+html>body#rex-page-linkmap div#rex-title {
+	height:auto;
+	min-height:31px;
+}
+body#rex-page-linkmap div#rex-title p {
+	display:none;
+}
+/*	end single-row */
+
+div.rex-title-row {
+	width:617px;
+}
+body#rex-page-mediapool div.rex-title-row,
+body#rex-page-linkmap div.rex-title-row {
+	width:100%;
+}
+
+div#rex-title h1,
+div#rex-title ul,
+div#rex-title p {
+	padding-left:7px;
+	border-bottom:1px solid #fff;
+	color:#32353a;
+}
+
+div.rex-cnt-bdy {
+	clear:both;
+	padding:1px 153px 0 39px;
+}
+
+
+/*	Listen
+*******************************************************************************/
+/*
+	div#rex-title ul weiter oben noch def.
+*/
+div#rex-clang,
+div.rex-cnt-hdr {
+	padding-left:39px;
+	margin-bottom:10px;
+}
+div.rex-cnt-hdr {
+	float:left;
+	margin:0;
+	background-image:url(../media/document.gif);
+	background-position:7px 50%;
+	width:731px;
+}
+
+div#rex-clang ul {
+	padding-left:5px;
+	border-left:1px solid #fff;
+}
+div.rex-cnt-hdr ul {
+	float:left;
+	margin-right:50px;
+	padding-left:10px;
+	border-left:1px solid #fff;
+}
+div#rex-title ul li,
+div#rex-clang ul li,
+div.rex-cnt-hdr ul li {
+	display:inline;
+	font-weight:bold;
+}
+
+div#rex-title ul li,
+div#rex-clang ul li,
+div.rex-cnt-hdr ul li,
+div#rex-title p {
+	font-weight:bold;
+}
+div.rex-cnt-hdr ul li span {
+	color:#000;
+	font-weight:normal;
+}
+div.rex-cnt-hdr ul li a {
+	color:#669;
+	font-weight:normal;
+}
+
+/*	Cnt Navi - Editmode / Meta / Show */
+div.rex-cnt-hdr ul.rex-cnt-nav {
+	display:inline;
+	float:right;
+	margin-right:153px;
+	padding-right:10px;
+	border-right:1px solid #fff;
+}
+
+
+/*	Form
+*******************************************************************************/
+
+
+body div#rex-output legend.rex-lgnd {
+	padding:5px;
+	font-weight:bold;
+}
+body div#rex-output p.rex-hdl,
+body div#rex-output div.rex-spc-stn-cnt,
+body div#rex-output div.rex-lgn-frm p,
+body div#rex-output div.rex-tmp-editmode p,
+body div#rex-output div.rex-mdl-editmode p,
+body div#rex-output div.rex-spc-stn-cnt p,
+body div#rex-output div.rex-mpl-catslct-frm p,
+body div#rex-output div.rex-mpl-dtl-wrp p,
+body div#rex-output div.rex-mpl-oth p,
+body div#rex-output div.rex-mpl-oth li,
+body div#rex-output p.rex-cnt-mdl-name,
+body div#rex-output p.rex-sbmt,
+body div#rex-output p.rex-slct {
+	padding:5px;
+}
+body div#rex-output div.rex-fldst-wrppr {
+	border-top:1px solid #fff;
+}
+
+div.rex-ptag {
+	overflow: hidden;
+	width: 568px;
+}
+
+body div#rex-output p label,
+body div#rex-output div.rex-ptag label {
+	clear:left;
+	display:block;
+	float:left;
+	width:150px;
+	padding-top:2px;
+}
+body div#rex-output p label.rex-lbl-rght {
+	clear:none;
+	display:inline;
+	float:left;
+	width:200px;
+	padding-top:0;
+}
+body div#rex-output div.rex-chckbxs p label span,
+body div#rex-output div.rex-chckbxs div.rex-ptag label span {
+	padding-left:20px;
+}
+
+/*
+	p.rex-chckbx - just in content.inc.php
+	p.rex-sbmt	 - just in content.inc.php
+*/
+body div#rex-output p.rex-chckbx input,
+body div#rex-output p.rex-rdo input,
+body div#rex-output p.rex-sbmt input,
+body div#rex-output p input.rex-chckbx,
+body div#rex-output p input.rex-sbmt,
+body#rex-page-mediapool div#rex-output td input.rex-sbmt {
+	width:auto;
+}
+
+body div#rex-output p select.rex-fdatey {
+	width:70px;
+}
+body div#rex-output p select.rex-fdate {
+	width:50px;
+}
+
+/*	Table
+*******************************************************************************/
+table.rex-table {
+	clear:both;
+	width:100%;
+	background:#f0efeb;
+	border-collapse:collapse;
+	border-spacing:1px;
+}
+table.rex-table-mrgn {
+	margin-bottom:10px;
+}
+table.rex-table caption,
+table.rex-table th,
+table.rex-table td {
+	padding:5px;
+	border:1px solid #fff;
+	border-right:0;
+}
+
+table.rex-table caption {
+	background-color:#c7c6c2;
+	background-color:#cac8c4;
+	background-color:#d6e1e4;
+	/* border-left:0; */
+	border-bottom:0;
+	font-weight:bold;
+	text-align:left;
+}
+body#rex-page-module table.rex-table caption {
+	border:0;
+}
+
+table.rex-table tr.rex-trow-actv td {
+	background:#e7e6e3;
+}
+
+table.rex-table th {
+	background:#d7d6d3;
+	border-bottom:0;
+	text-align:left;
+}
+
+/*	real width = border + padding + width */
+table.rex-table th.rex-icon,
+table.rex-table td.rex-icon {
+	width:29px;
+	text-align:center;
+}
+table.rex-table th.rex-icon,
+table.rex-table td.rex-icon,
+table.rex-table th.rex-prio,
+table.rex-table td.rex-prio {
+}
+
+table.rex-table th.rex-colz,
+table.rex-table td.rex-colz {
+	width:153px;
+}
+
+
+
+
+
+/*	Setup
+*******************************************************************************/
+div#rex-stp {
+	padding:20px 5px;
+	background-color:#faf9f5;
+}
+/*
+div#rex-stp p {
+	float:left;
+	width:100%;
+}
+*/
+div#rex-stp p,
+div#rex-stp ul {
+	margin-bottom:1em;
+}
+div#rex-stp ul {
+	margin-left:20px;
+}
+div#rex-stp ul li {
+	list-style-type:square;
+}
+/* Language */
+div#rex-stp ul.rex-stp-language {
+	margin-left:0;
+	font-weight:bold;
+	text-align:center;
+}
+div#rex-stp ul.rex-stp-language li {
+	display:block;
+	padding:5px 0;
+	list-style-type:none;
+}
+div#rex-stp ul.rex-stp-language li a {
+	color:#000;
+}
+
+
+/* License */
+div#rex-stp-lcns {
+	margin:30px 0;
+	padding:5px 0 5px 5px;
+	width:500px;
+	height:200px;
+	overflow:auto;
+	background-color:#fff;
+	border:1px solid #f0efeb;
+}
+
+
+
+div#rex-stp fieldset {
+	margin-bottom:20px;
+}
+div#rex-stp fieldset legend {
+	margin-bottom:10px;
+	font-weight:bold;
+}
+
+body div#rex-stp p {
+	clear:both;
+}
+
+body div#rex-stp p label {
+	width:200px;
+}
+
+div#rex-stp form#rex-stp-database label {
+	margin-bottom:1em;
+	width:450px;
+}
+div#rex-stp label.rex-lbl-right {
+	clear:none;
+	display:inline;
+	width:200px;
+}
+
+div#rex-stp input,
+div#rex-stp textarea {
+	width:300px;
+}
+div#rex-stp select {
+	width:306px;
+}
+
+div#rex-stp select.rex-slct {
+	clear:both;
+	float:none;
+	margin-left:50px;
+}
+
+div#rex-stp input.rex-chckbx {
+	clear:both;
+	float:left;
+	margin:0 5px 0 30px;
+	width:auto;
+}
+
+div#rex-stp form#rex-stp-admin input.rex-chckbx {
+	margin-bottom:10px;
+	margin-left:200px;
+}
+div#rex-stp input.rex-sbmt {
+	margin-left:200px;
+}
+div#rex-stp form#rex-stp-database input.rex-sbmt {
+	margin-left:50px;
+}
+
+
+
+
+
+/*	Login - Form
+*******************************************************************************/
+div.rex-lgn-frm {
+	clear:both;
+	background-color: #f0efeb;
+	border: 1px solid #eae9e5;
+}
+body div#rex-output div.rex-lgn-frm p label {
+	width:100px;
+	padding-top:4px;						/* jan - von 0 auf 4 */
+}
+div.rex-lgn-frm p input {
+	width:100px;
+}
+div.rex-lgn-frm p input.rex-sbmt {
+	margin-left:20px;
+}
+
+/* jan - anpassung */
+div.rex-lgn-frm legend.rex-lgnd {
+	display:none;
+}
+/* jan - ende */
+
+
+/*	Inputs in Table
+	- add, edit Category (Structure, Medienpool)
+	- add, edit Article (Structure)
+*******************************************************************************/
+/* - Cat/Art Edit Form */
+input#category_name,
+input#Position_New_Category,
+input#Position_Category,
+input#kat_name,
+input#article_name,
+input#Position_New_Article,
+input#Position_Article,
+input#template_id,
+input#catname   {
+	width:97%;
+}
+input#Position_New_Category,
+input#Position_Category,
+input#Position_New_Article,
+input#Position_Article {
+	width:87%;
+}
+
+
+
+
+
+
+/*	Structure
+*******************************************************************************/
+
+
+/*	Metainfo */
+tr.rex-trow-actv td {
+
+}
+
+
+body#rex-page-structure tr.rex-metainfo-cat-hdr td {
+	background-color:#d6e1e4;
+}
+body#rex-page-structure tr.rex-metainfo-cat-hdr td label {
+	font-weight:bold;
+}
+tr.rex-trow-actv td.rex-mt-lbl {
+	vertical-align:top;
+}
+
+tr.rex-trow-actv td.rex_mt-fld {
+}
+
+
+tr.rex-trow-actv td.rex-mt-fld textarea,
+tr.rex-trow-actv td.rex-mt-fld input,
+tr.rex-trow-actv td.rex-mt-fld select {
+	width:97%;
+}
+
+tr.rex-trow-actv td.rex-mt-fld select.rex-fdate,
+tr.rex-trow-actv td.rex-mt-fld select.rex-fdatey {
+	margin:2px 0;
+}
+tr.rex-trow-actv td.rex-mt-fld select.rex-fdate {
+	width:50px;
+}
+tr.rex-trow-actv td.rex-mt-fld select.rex-fdatey {
+	width:84px;
+}
+
+tr.rex-trow-actv td.rex-mt-fld textarea {
+	height:90px;
+}
+
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx,
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-rdo {
+	clear:both;
+}
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx label,
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-rdo label {
+	float:right;
+	width:700px;
+}
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-chckbx input,
+body#rex-page-structure tr.rex-trow-actv td.rex-mt-fld p.rex-rdo input {
+	margin:3px 0;
+}
+
+
+
+div.rex-meta-button {
+	float:right;
+	line-height:18px;
+}
+
+
+
+
+/*	Content - Editmode
+*******************************************************************************/
+
+/* rex-cnt-editmode-slc = Modulename - List Edit / Delete / Up / Down */
+div.rex-cnt-editmode div.rex-cnt-editmode-slc {
+	float:left;
+	width:100%;
+	background:#ccd7dd;
+	font-size:1.2em;
+	font-weight:bold;
+}
+div.rex-cnt-editmode div.rex-cnt-editmode-slc p {
+	padding:0 7px;
+	line-height:2.2em;
+}
+div.rex-cnt-editmode div.rex-cnt-editmode-slc ul {
+	padding:0 10px;
+	background:#e4eff2;
+}
+div.rex-cnt-editmode div.rex-cnt-editmode-slc ul li {
+	display:block;
+	float:left;
+	padding:0px 5px;
+	line-height:2.2em;
+}
+div.rex-cnt-editmode div.rex-cnt-editmode-slc ul li a img {
+	vertical-align:middle;
+}
+
+
+
+div.rex-cnt-editmode,
+div.rex-cnt-editmode form div.rex-cnt-slc-ipt,
+div.rex-cnt-editmode form p.rex-sbmt {
+	background-color:#d6e1e4;
+}
+
+div.rex-cnt-editmode form {
+	width:100%;
+	clear:both;
+	background-color:#b0bdc3;
+}
+div.rex-cnt-editmode form p.rex-cnt-mdl-name {
+	background:#ccd7dd;
+	font-size:1.2em;
+}
+div.rex-cnt-editmode form p.rex-cnt-mdl-name span {
+	font-weight:bold;
+}
+div.rex-cnt-editmode form p.rex-slct select {
+	width:100%;
+}
+div.rex-cnt-editmode form legend.rex-lgnd {
+	display:none;
+}
+
+/* Input Area */
+div.rex-cnt-editmode form div.rex-cnt-slc-ipt {
+	padding:10px 7px;
+}
+
+/* Output Area - width for IE-Bug */
+div.rex-cnt-editmode div.rex-cnt-slc-otp {
+	clear:both;
+	width:100%;
+}
+div.rex-cnt-editmode div.rex-cnt-slc-otp2 {
+	padding:10px 7px;
+}
+
+
+/*	Widgets - MEDIA_BUTTON, MEDIALIST_BUTTON, LINK_BUTTON *********************/
+div.rex-wdgt {
+	width: 300px;
+	margin-bottom:10px;
+	padding:5px;
+	background-color:#fff;
+	border:1px solid #999;
+}
+div.rex-wdgt p.rex-wdgt-fld {
+	float: left;
+	padding: 0;
+	width: 230px;
+}
+div.rex-wdgt div.rex-wdgt-lnk p.rex-wdgt-fld {
+	width: 250px;
+}
+div.rex-wdgt div.rex-wdgt-mdlst p.rex-wdgt-fld {
+	width: 256px;
+}
+div.rex-wdgt p.rex-wdgt-icons {
+	float: right;
+}
+div.rex-wdgt p.rex-wdgt-fld input, 
+div.rex-wdgt p.rex-wdgt-fld select {
+	width: 100%;
+	background-color:#f0efeb;
+}
+div.rex-wdgt div.rex-wdgt-mda p.rex-wdgt-icons, 
+div.rex-wdgt div.rex-wdgt-lnk p.rex-wdgt-icons {
+	padding-top: 2px;
+}
+div.rex-wdgt div.rex-wdgt-mdlst p.rex-wdgt-icons {
+	padding-top: 12px;
+}
+div.rex-wdgt div.rex-wdgt-mdlst p.rex-wdgt-icons a img {
+	margin-bottom:3px;
+}
+
+div.rex-ptag div.rex-wdgt{
+	margin-bottom:0px;
+}
+
+div.rex-ptag div.rex-wdgt p.rex-wdgt-icons {
+	background-color:#fff;
+}
+
+
+/*	Content - Metamode
+*******************************************************************************/
+/* width for IE-Bug */
+div.rex-cnt-metamode {
+	background-color:#d6e1e4;
+	width:100%;
+}
+div.rex-cnt-metamode p,
+div.rex-cnt-metamode div.rex-ptag {
+	clear: both;
+	padding:5px;
+	border-bottom:1px solid #d6e1e4;
+	background:#f0efeb;
+}
+div.rex-cnt-metamode div.rex-ptag p {
+	padding-left:0;
+	border:0;
+}
+
+div.rex-cnt-metamode div.rex-ptag div.rex-wdgt {
+	float:left;
+}
+div.rex-cnt-metamode div.rex-ptag div.rex-wdgt p {
+	padding:0;
+}
+div.rex-cnt-metamode div.rex-ptag div.rex-wdgt p.rex-wdgt-icons {
+	clear: none;
+}
+/* general define */
+div.rex-cnt-metamode p label {
+}
+div.rex-cnt-metamode p input,
+div.rex-cnt-metamode p select,
+div.rex-cnt-metamode p textarea {
+	width:350px;
+}
+div.rex-cnt-metamode p textarea {
+	height:90px;
+}
+div.rex-cnt-metamode p input.rex-sbmt {
+	margin-left:150px;
+}
+
+
+/*	Template - Edit-/Addmode
+*******************************************************************************/
+div.rex-tmp-editmode {
+	background-color:#d6e1e4;
+	background-color:#d7d6d3;
+}
+
+div.rex-tmp-editmode p {
+	background-color:#f0efeb;
+	border-bottom:1px solid #fff;
+}
+/* general define */
+div.rex-tmp-editmode p label {
+}
+div.rex-tmp-editmode p input,
+div.rex-tmp-editmode p textarea {
+	width:500px;
+}
+div.rex-tmp-editmode p textarea {
+	height:400px;
+}
+div.rex-tmp-editmode p input.rex-sbmt {
+	margin-left:150px;
+}
+div.rex-tmp-editmode img#rex-tmp-ctypes-icon {
+	vertical-align:middle;
+}
+
+
+
+
+/*	Module/Action - Edit-/Addmode
+*******************************************************************************/
+div.rex-mdl-editmode {
+	clear:both;
+	background-color:#d6e1e4;
+	background-color:#d7d6d3;
+}
+div.rex-mdl-editmode p {
+	background:#f0efeb;
+	border-bottom:1px solid #fff;
+}
+/* general define */
+div.rex-mdl-editmode p label {
+}
+div.rex-mdl-editmode p input,
+div.rex-mdl-editmode p select,
+div.rex-mdl-editmode p textarea {
+	width:500px;
+}
+div.rex-mdl-editmode p textarea {
+	height:150px;
+}
+div.rex-mdl-editmode p input.rex-sbmt {
+	margin-left:150px;
+}
+div.rex-mdl-editmode p span {
+	display:block;
+	margin:5px 0 10px 150px;
+}
+
+
+/*	Addon - Help
+*******************************************************************************/
+/* Container for User Helpfile */
+div.rex-adn-hlp {
+	padding:5px;
+	background-color:#f0efeb;
+}
+
+
+
+/*	User - Edit-/Addmode
+*******************************************************************************/
+div.rex-usr-editmode {
+	float:left;
+	width:100%;
+	background-color:#d6e1e4;
+	background-color:#d7d6d3;
+}
+div.rex-usr-editmode div {
+	clear:both;
+	float:left;
+	width:100%;
+	padding:5px 0;
+	background:#f0efeb;
+	border-bottom:1px solid #fff;
+}
+div.rex-usr-editmode p {
+	margin:0;
+	padding:0;
+}
+div.rex-usr-editmode p span {
+	display:block;
+	margin-left:155px;
+	padding-top:2px;
+}
+div.rex-usr-editmode p label {
+	padding-left:5px;
+	font-weight:bold;
+}
+body div#rex-output div.rex-usr-editmode p label.rex-lbl-rght {
+	width:200px;
+}
+div.rex-usr-editmode p input,
+div.rex-usr-editmode p select,
+div.rex-usr-editmode p textarea {
+	width:200px;
+}
+div.rex-usr-editmode p input.rex-chckbx {
+	clear:both;
+	float:left;
+	margin:0 5px 0 135px;
+}
+div.rex-usr-editmode p input.rex-sbmt {
+	float:left;
+	margin-left:155px;
+}
+
+body div#rex-output div.rex-usr-editmode p.rex-warning label {
+	clear:none;
+	width:80%;
+	margin:0;
+	padding-top:0;
+	padding-bottom:0;
+}
+body div#rex-output div.rex-usr-editmode p.rex-warning input.rex-chckbx {
+	margin:0 0 0 45px;
+}
+
+
+
+
+/*	Special
+*******************************************************************************/
+
+div.rex-spc-stn div.rex-spc-stn-cnt {
+}
+body div#rex-output div.rex-spc-stn legend.rex-lgnd {
+	padding-left:0;
+}
+body div#rex-output div.rex-spc-stn-cnt p {
+	padding-left:0;
+}
+body div#rex-output div.rex-spc-stn-cnt p label {
+	padding-left:0;
+	width:190px;
+}
+div.rex-spc-stn-cnt p input,
+div.rex-spc-stn-cnt p select  {
+	width:40%;
+}
+div.rex-spc-stn-cnt p input.rex-sbmt {
+	margin-left:190px;
+}
+
+/* - Clang Edit Form */
+body#rex-page-specials input#clang_name {
+	width: 97%;
+}
+
+
+
+/*	Medienpool
+*******************************************************************************/
+/*	Select Categories */
+div.rex-mpl-catslct-frm {
+	margin-bottom:2px;
+	background-color:#f0efeb;
+}
+body div#rex-output div.rex-mpl-catslct-frm p {
+	margin-left:39px;
+	border-left:1px solid #fff;
+}
+body div#rex-output div.rex-mpl-catslct-frm p label {
+	clear: none;
+	float: left;
+	width:104px;
+	margin-top:2px;
+	font-weight:bold;
+}
+body div#rex-output div.rex-mpl-catslct-frm p select {
+	float: left;
+	width:180px;
+	margin-left:0px;
+	margin-right: 20px;
+	vertical-align: middle;
+}
+body div#rex-output div.rex-mpl-catslct-frm p input {
+	width:140px;
+}
+body div#rex-output div.rex-mpl-catslct-frm p input.rex-sbmt {
+	width: auto;
+	line-height: 1em;
+}
+
+
+/*	Medienlist */
+div.rex-mpl-mdn {
+	clear:both;
+	background-color:#d6e1e4;
+}
+div.rex-mpl-mdn table.rex-table td.rex-thumbnail {
+	text-align:center;
+}
+div.rex-mpl-mdn table.rex-table td span {
+	display:block;
+	margin-bottom:1em;
+}
+div.rex-mpl-mdn table.rex-table td span a {
+	font-weight:bold;
+}
+
+body div#rex-output div.rex-mpl-mdn table.rex-table tfoot td select {
+	margin-left:104px;
+	width:250px;
+}
+
+
+/*	Mediendetail */
+div.rex-mpl-dtl {
+	background-color:#d6e1e4;
+}
+div.rex-mpl-dtl div.rex-mpl-dtl-wrp {
+	float:left;
+	width:100%;
+	background-color:#f0efeb;
+}
+div.rex-mpl-dtl div.rex-mpl-dtl-edt {
+	float:left;
+	width:100%;
+}
+div.rex-mpl-dtl div.rex-mpl-dtl-edt p {
+	border-bottom:1px solid #fff;
+}
+body div#rex-output div.rex-mpl-dtl div.rex-mpl-dtl-edt p label {
+	width:144px;
+}
+div.rex-mpl-dtl div.rex-mpl-dtl-edt p input,
+div.rex-mpl-dtl div.rex-mpl-dtl-edt p textarea {
+	width:244px;
+}
+div.rex-mpl-dtl div.rex-mpl-dtl-edt p input#file_new {
+	width:250px;
+}
+div.rex-mpl-dtl div.rex-mpl-dtl-edt p select {
+	width:250px;
+}
+body div#rex-output div.rex-mpl-dtl div.rex-mpl-dtl-edt p textarea {
+	height:45px;
+}
+body div#rex-output div.rex-mpl-dtl div.rex-mpl-dtl-edt p.rex-sbmt {
+	padding-left:149px;
+}
+div.rex-mpl-dtl div.rex-mpl-dtl-edt p input.rex-sbmt {
+	margin-right:5px;
+}
+div.rex-mpl-dtl div.rex-mpl-dtl-img {
+	float:right;
+	width:34%;
+	text-align:center;
+}
+
+/*	manage Medienpool Categories */
+div.rex-mpl-cat-pth {
+	background-color:#f0efeb;
+	margin-bottom:10px;
+}
+div.rex-mpl-cat-pth ul {
+	padding:5px;
+}
+div.rex-mpl-cat-pth ul li {
+	display:inline;
+	font-weight:bold;
+}
+div.rex-mpl-cat {
+	background-color:#d6e1e4;
+}
+div.rex-mpl-cat input {
+	width:90%;
+}
+
+
+
+
+/*	Other - Add File, Sync */
+div.rex-mpl-oth {
+	background-color:#d6e1e4;
+	background-color:#d7d6d3;
+}
+div.rex-mpl-oth p,
+div.rex-mpl-oth li {
+	background-color:#f0efeb;
+	border-bottom:1px solid #fff;
+}
+body div#rex-output div.rex-mpl-oth li {
+	padding-left:149px;
+}
+body div#rex-output div.rex-mpl-oth li input.rex-chckbx {
+	margin-right:10px;
+}
+body div#rex-output div.rex-mpl-oth p label {
+	width:144px;
+}
+div.rex-mpl-oth p input,
+div.rex-mpl-oth p select,
+div.rex-mpl-oth p textarea {
+	width:70%;
+}
+div.rex-mpl-oth p textarea {
+	height:65px;
+}
+body div#rex-output div.rex-mpl-oth p.rex-sbmt {
+	padding-left:149px;
+}
+
+
+
+/*	Linkmap
+*******************************************************************************/
+div.rex-lmp-pth {
+	background-color:#f0efeb;
+	margin-bottom:10px;
+}
+div.rex-lmp-pth ul {
+	padding:5px;
+}
+div.rex-lmp-pth ul li {
+	display:inline;
+	font-weight:bold;
+}
+/*
+div.rex-linkmap-searchbar {
+	display:none;
+}
+*/
+div#rex-lmp {
+	clear:both;
+	width:100%;
+	background-color:#f0efeb;
+	background-image:url(../media/file_vert.gif);
+	background-position:48% 0px;
+	background-repeat:repeat-y;
+}
+div#rex-lmp h1 {
+	padding:5px;
+	background-color:#d7d6d3;
+	font-size:1em;
+}
+div.rex-lmp-cats,
+div.rex-lmp-arts {
+	float:left;
+	width:50%;
+}
+
+div#rex-lmp ul {
+	margin:10px 5px 10px 5px;
+}
+div#rex-lmp ul li ul {
+	margin:0 0 0 0px;
+	background-image:url(../media/file_vert.gif);
+	background-position:2px 0px;
+	background-repeat: repeat-y;
+}
+div#rex-lmp ul li ul.rex-children-one {
+	background:none;
+}
+div#rex-lmp ul li {
+}
+div#rex-lmp ul li a {
+	display:block;
+	margin-bottom:4px;
+	padding:2px 0px 2px 35px;
+	background-image:url(../media/folder_off_empty.gif);
+	background-position:0px 0px;
+	background-repeat: no-repeat;
+}
+div#rex-lmp ul li a.rex-lmp-is-not-empty {
+	background-image:url(../media/folder_off.gif);
+}
+div#rex-lmp ul li.rex-active a.rex-active {
+	background-image:url(../media/folder_on_empty.gif);
+}
+div#rex-lmp ul li.rex-active a.rex-lmp-is-not-empty.rex-active {
+	background-image:url(../media/folder_on.gif);
+}
+div#rex-lmp ul li.rex-children ul li,
+div#rex-lmp ul li ul li.rex-children-last {
+	margin-left:23px;
+	padding-left:10px;
+	background-image:url(../media/file.gif);
+	background-position:-21px 0px;
+	background-repeat: no-repeat;
+}
+div#rex-lmp ul li ul li.rex-children-last {
+	background-image:url(../media/file_last_2.gif);
+}
+
+div#rex-lmp div.rex-lmp-arts ul li a {
+	padding-left:20px;
+	background-image:url(../media/document.gif);
+}
+div#rex-lmp div.rex-lmp-arts ul li.rex-lmp-startpage a {
+	background-image:url(../media/liste.gif);
+}
+
+
+
+
+
+
+/*	Addons - General
+*******************************************************************************/
+div.rex-addon-output {
+	clear:both;
+	background-color:#f0efeb;
+}
+div.rex-addon-output h2 {
+	padding:5px;
+	background-color:#d7d6d3;
+	border-bottom:1px solid #fff;
+}
+div.rex-addon-output div.rex-addon-content {
+	padding:5px;
+}
+div.rex-addon-output h3,
+div.rex-addon-output p,
+div.rex-addon-output code {
+	margin-bottom:1em;
+}
+div.rex-addon-output h3 {
+	font-size:1em;
+	font-weight:bold;
+}
+div.rex-addon-output code {
+	display:block;
+	padding:20px 10px;
+	border:1px solid #f2353a;
+	background-color:#faf9f5;
+	font-size:1.6em;
+}
+
+/*	Forms */
+div.rex-addon-editmode {
+	clear:both;
+	background-color:#d6e1e4;
+	background-color:#d7d6d3;
+}
+div.rex-addon-editmode form {
+	clear:both;
+}
+div.rex-addon-editmode p {
+	padding:5px;
+	background:#f0efeb;
+	border-bottom:1px solid #fff;
+}
+/* general define */
+div.rex-addon-editmode p label {
+}
+div.rex-addon-editmode p input,
+div.rex-addon-editmode p textarea {
+	width:500px;
+}
+div.rex-addon-editmode p select {
+	width:506px;
+}
+div.rex-addon-editmode p.rex-rdo input,
+div.rex-addon-editmode p.rex-chckbx input,
+div.rex-addon-editmode p input.rex-ffile {
+	width:auto;
+}
+div.rex-addon-editmode p textarea {
+	height:150px;
+}
+div.rex-addon-editmode p input.rex-sbmt {
+	margin-left:150px;
+	width:auto;
+}
+
+
+
+/*	Addon - Metainfo
+*******************************************************************************/
+body#rex-page-mediapool fieldset p span.rex-notice,
+body#rex-page-metainfo fieldset p span.rex-notice {
+	display:block;
+	clear:both;
+	margin:1em 5px 1em 150px;
+}
+
+
+/*	Addon - Import / Export
+*******************************************************************************/
+body#rex-page-import-export div.rex-cnt p {
+	clear:both;
+	margin:1em 5px;
+}
+body#rex-page-import-export div.rex-cnt fieldset p {
+	float:left;
+	width:100%;
+	margin:0;
+	padding-left:0;
+	padding-right:0;
+	background-color:#FAF9F5;
+}
+body#rex-page-import-export div.rex-cnt fieldset div.rex-export-list {
+	border-left:30px solid #f0efeb;
+}
+
+body#rex-page-import-export div.rex-addon-editmode p.rex-ftxt label {
+	margin:0 0 0 5px;
+	width:145px;
+}
+body#rex-page-import-export div.rex-addon-editmode p.rex-ftxt input {
+	width:200px;
+	margin:0 10px 0 5px;
+}
+body#rex-page-import-export div.rex-addon-editmode p.rex-chckbx input,
+body#rex-page-import-export div.rex-addon-editmode p.rex-rdo input {
+	float:left;
+	margin:0 10px 0 5px;
+}
+body#rex-page-import-export div.rex-cnt table th {
+	white-space:nowrap;
+}
+body#rex-page-import-export div.rex-cnt table td {
+	background-color:#FAF9F5;
+}
+
+/* noch in CC setzen */
+* html div.rex-cnt-editmode div.rex-cnt-editmode-slc ul li a img {
+	padding-top:5px;;
+}
+* html div#rex-output div.rex-wdgt div.rex-wdgt-mda, 
+* html div#rex-output div.rex-wdgt div.rex-wdgt-lnk {
+	float: left;
+	width: 100%;
+}
+
+div.rex-cnt-editmode div.rex-cnt-slc-otp h1,
+div.rex-cnt-editmode div.rex-cnt-slc-otp h2,
+div.rex-cnt-editmode div.rex-cnt-slc-otp h3,
+div.rex-cnt-editmode div.rex-cnt-slc-otp h4,
+div.rex-cnt-editmode div.rex-cnt-slc-otp h5,
+div.rex-cnt-editmode div.rex-cnt-slc-otp h6,
+div.rex-cnt-editmode div.rex-cnt-slc-otp p,
+div.rex-cnt-editmode div.rex-cnt-slc-otp ol,
+div.rex-cnt-editmode div.rex-cnt-slc-otp ul {
+	margin-bottom:10px;
+}
+
+div.rex-cnt-editmode div.rex-cnt-slc-ipt ol, 
+div.rex-cnt-editmode div.rex-cnt-slc-otp ol {
+	margin-left: 20px;
+}
+div.rex-cnt-editmode div.rex-cnt-slc-ipt ul, 
+div.rex-cnt-editmode div.rex-cnt-slc-otp ul {
+	margin-left: 15px;
+}
+div.rex-cnt-editmode div.rex-cnt-slc-ipt ol li, 
+div.rex-cnt-editmode div.rex-cnt-slc-otp ol li {
+	list-style-type: decimal;
+}
+div.rex-cnt-editmode div.rex-cnt-slc-ipt ul li, 
+div.rex-cnt-editmode div.rex-cnt-slc-otp ul li {
+	list-style-type: disc;
+}
+
+
+div.rex-cnt-editmode div.rex-cnt-slc-otp code {
+	font-size:1.4em;
+}
+
+
+div.rex-list-navi {
+	float: left;
+	width: 100%;
+	margin-bottom: 10px;
+	background-color: #f0efeb;
+	line-height: 3em;
+}
+/*
+div.rex-list-navi p.rex-list-mnu {
+	display: inline;
+	padding-left: 5px;
+}
+div.rex-list-navi p.rex-list-mnu a img {
+	vertical-align: middle;
+}
+div.rex-list-navi ul.rex-list-pgnt {
+	display: inline;
+	padding-right: 5px;
+}
+*/
+div.rex-list-navi ul.rex-list-pgnt {
+	margin-left: 5px;
+}
+div.rex-list-navi ul.rex-list-pgnt li {
+	display: block;
+	float: left;
+	padding-right: 5px;
+}
+
+
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-img img {
+	vertical-align: middle;
+}
+
+
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page a, 
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page a span, 
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page span {
+	display: block;
+	background-image: url(../media/list_pages.gif);
+	background-position: 0px 10px;
+}
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page a, 
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page span {
+	padding-left: 1px;
+}
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page a span, 
+div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page span span {
+	background-position: 100% -40px;
+	padding:1px 4px 0 2px;
+}
+
+
+
+/*	Pages - General
+*******************************************************************************/
+.rex-mrgn {
+	margin-bottom: 10px;
+}
+div.rex-page-output {
+	clear:both;
+	background-color:#f0efeb;
+}
+div.rex-page-output h2 {
+	padding:5px;
+	background-color:#d7d6d3;
+	border-bottom:1px solid #fff;
+}
+div.rex-page-output p {
+	margin-bottom: 10px;
+}
+div.rex-page-output div.rex-page-content {
+	padding:5px;
+}
+
+
+div.rex-f-lft {
+	float: left;
+}
+div.rex-f-rght {
+	float: right;
+}
+
