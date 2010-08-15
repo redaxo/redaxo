@@ -28,42 +28,7 @@ if (in_array($body_id, $popups_arr))
 $body_attr["id"] = array('rex-page-'.$body_id);
 $body_attr["onunload"] = array('closeAll();');
 
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $I18N->msg('htmllang'); ?>" lang="<?php echo $I18N->msg('htmllang'); ?>">
-<head>
-  <title><?php echo htmlspecialchars($page_title) ?></title>
-  <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $I18N->msg('htmlcharset'); ?>" />
-  <meta http-equiv="Content-Language" content="<?php echo $I18N->msg('htmllang'); ?>" />
-  <link rel="stylesheet" type="text/css" href="../redaxo_media/css_import.css" media="screen, projection, print" />
-  <!--[if lte IE 7]>
-		<link rel="stylesheet" href="../redaxo_media/css_ie_lte_7.css" type="text/css" media="screen, projection, print" />
-	<![endif]-->
-			
-	<!--[if IE 7]>
-		<link rel="stylesheet" href="../redaxo_media/css_ie_7.css" type="text/css" media="screen, projection, print" />
-	<![endif]-->
-	
-	<!--[if lte IE 6]>
-		<link rel="stylesheet" href="../redaxo_media/css_ie_lte_6.css" type="text/css" media="screen, projection, print" />
-	<![endif]-->
-
-  <!-- jQuery immer nach den Stylesheets! -->
-  <script src="../redaxo_media/jquery.min.js" type="text/javascript"></script>
-  <script src="../redaxo_media/standard.js" type="text/javascript"></script>
-  <script type="text/javascript">
-  <!--
-  var redaxo = true;
-
-  // jQuery is now removed from the $ namespace
-  // to use the $ shorthand, use (function($){ ... })(jQuery);
-  // and for the onload handler: jQuery(function($){ ... });
-  jQuery.noConflict();
-  //-->
-  </script>
-<?php
-
 // ----- EXTENSION POINT
-echo rex_register_extension_point('PAGE_HEADER', '' );
 $body_attr = rex_register_extension_point('PAGE_BODY_ATTR', $body_attr );
 
 $body = "";
@@ -74,36 +39,22 @@ foreach($body_attr as $k => $v){
 	$body .= '" ';
 }  
 
-?>
-</head>
-<body <?php echo $body; ?>>
-<div id="rex-website">
-<div id="rex-header">
-
-  <p class="rex-header-top"><a href="../index.php" onclick="window.open(this.href);"><?php echo htmlspecialchars($REX['SERVERNAME']); ?></a></p>
-
-</div>
-
-<div id="rex-navi-logout"><?php
-  
+$logout = '';
 if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 {
   $accesskey = 1;
   $user_name = $REX['USER']->getValue('name') != '' ? $REX['USER']->getValue('name') : $REX['USER']->getValue('login');
-  echo '<ul class="rex-logout"><li class="rex-navi-first"><span>' . $I18N->msg('logged_in_as') . ' '. htmlspecialchars($user_name) .'</span></li><li><a href="index.php?page=profile">' . $I18N->msg('profile_title') . '</a></li><li><a href="index.php?rex_logout=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a></li></ul>' . "\n";
+  $logout = '<ul class="rex-logout"><li class="rex-navi-first"><span>' . $I18N->msg('logged_in_as') . ' '. htmlspecialchars($user_name) .'</span></li><li><a href="index.php?page=profile">' . $I18N->msg('profile_title') . '</a></li><li><a href="index.php?rex_logout=1"'. rex_accesskey($I18N->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $I18N->msg('logout') . '</a></li></ul>' . "\n";
 }else if(!$REX["PAGE_NO_NAVI"])
 {
-  echo '<p class="rex-logout">' . $I18N->msg('logged_out') . '</p>';
+  $logout = '<p class="rex-logout">' . $I18N->msg('logged_out') . '</p>';
 }else
 {
-  echo '<p class="rex-logout">&nbsp;</p>';
+  $logout = '<p class="rex-logout">&nbsp;</p>';
 }
   
-?></div>
 
-  <div id="rex-navi-main">
-<?php
-
+$navigation = '';
 if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 {
 	$n = rex_be_navigation::factory();
@@ -133,12 +84,14 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
   }
 	
   $n->setActiveElements();
-  echo $n->getNavigation();
+  $navigation = $n->getNavigation();
 }
 
-?>
-</div>
-
-
-<div id="rex-wrapper">
-<div id="rex-wrapper2">
+$topfragment = new rex_fragment();
+$topfragment->set('pageTitle', $page_title);
+$topfragment->set('pageHeader', rex_register_extension_point('PAGE_HEADER', '' ), false);
+$topfragment->set('bodyAttr', $body);
+$topfragment->set('logout', $logout, false);
+$topfragment->set('navigation', $navigation, false);
+echo $topfragment->parse('layout/top');
+unset($topfragment);
