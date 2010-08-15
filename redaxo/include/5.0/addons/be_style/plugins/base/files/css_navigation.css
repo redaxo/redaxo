@@ -4,47 +4,10 @@
  * @version svn:$Id$
  */
 
-div#rex-navi-logout ul, 
-div#rex-navi-main ul, 
-div#rex-navi-page ul, 
-div#rex-navi-path ul, 
-ul#rex-navi-path, 
-div#rex-clang ul,
-div.rex-content-header ul, 
-div#rex-linkmap ul, 
-div.rex-navi-slice ul, 
-div.rex-toolbar ul {
-	margin: 0;
-	list-style: none;
-}
 
-/*	Header / Footer ************************************************************
-*******************************************************************************/
-div#rex-navi-main {
-	float: left;
-	width: 100%;
-	height: 24px;
-	padding: 5px 0;
-}
-html>body div#rex-navi-main {
-	height: auto;
-	min-height: 24px;
-}
-div#rex-navi-footer p {
-	float: right;
-	margin: 0 5px;
-}
 
-div#rex-navi-main dl {
-	width: 70%;
-}
-div#rex-navi-main dd {
-	clear: both;
-	padding: 0 5px;
-}
-
-div#rex-navi-main ul li,
-div#rex-navi-main ul li a {
+#rex-navi-main ul li,
+#rex-navi-main ul li a {
 	font-weight: bold;
 }
 div#rex-navi-main ul li {

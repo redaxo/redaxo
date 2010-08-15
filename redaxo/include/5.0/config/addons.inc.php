@@ -39,11 +39,23 @@ $REX['ADDON']['status']['image_resize'] = '0';
 $REX['ADDON']['install']['import_export'] = '0';
 $REX['ADDON']['status']['import_export'] = '0';
 
+$REX['ADDON']['install']['layouting'] = '0';
+$REX['ADDON']['status']['layouting'] = '0';
+
 $REX['ADDON']['install']['metainfo'] = '0';
 $REX['ADDON']['status']['metainfo'] = '0';
 
+$REX['ADDON']['install']['page_content'] = '1';
+$REX['ADDON']['status']['page_content'] = '1';
+
+$REX['ADDON']['install']['page_content_modules'] = '1';
+$REX['ADDON']['status']['page_content_modules'] = '1';
+
 $REX['ADDON']['install']['phpmailer'] = '0';
 $REX['ADDON']['status']['phpmailer'] = '0';
+
+$REX['ADDON']['install']['site_structure'] = '1';
+$REX['ADDON']['status']['site_structure'] = '1';
 
 $REX['ADDON']['install']['textile'] = '0';
 $REX['ADDON']['status']['textile'] = '0';
@@ -61,6 +73,9 @@ $REX['ADDON']['status']['xform'] = '0';
 
 require $REX['SRC_PATH']. '/config/plugins.inc.php';
 
+/**
+ * @var $addonName rex_sql
+ */
 foreach(OOAddon::getAvailableAddons() as $addonName)
 {
   $addonConfig = rex_addons_folder($addonName). 'config.inc.php';

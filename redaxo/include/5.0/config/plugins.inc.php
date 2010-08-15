@@ -21,8 +21,8 @@ $REX['ADDON']['plugins']['be_dashboard']['status']['version_checker'] = '0';
 $REX['ADDON']['plugins']['be_style']['install']['agk_skin'] = '1';
 $REX['ADDON']['plugins']['be_style']['status']['agk_skin'] = '1';
 
-$REX['ADDON']['plugins']['be_style']['install']['base'] = '0';
-$REX['ADDON']['plugins']['be_style']['status']['base'] = '0';
+$REX['ADDON']['plugins']['be_style']['install']['base'] = '1';
+$REX['ADDON']['plugins']['be_style']['status']['base'] = '1';
 
 $REX['ADDON']['plugins']['community']['install']['articlecomment'] = '0';
 $REX['ADDON']['plugins']['community']['status']['articlecomment'] = '0';

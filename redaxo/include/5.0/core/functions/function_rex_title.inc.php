@@ -207,7 +207,7 @@ function rex_get_subtitle($subline)
       }
       $subtitle_str = '
       <div id="rex-navi-page">
-      <ul>
+      <ul class="rex-navi">
         '. $items .'
       </ul>
       </div>
