@@ -218,11 +218,6 @@ class rex_be_navigation
     $credits->setIsCorePage(true);
     $pages['credits'] = $credits;
     
-    $mpool = new rex_be_page_popup($I18N->msg('mediapool'), 'openMediaPool(); return false;');
-    $mpool->setIsCorePage(true);
-    $mpool->setRequiredPermissions('hasMediaPerm');
-    $pages['mediapool'] = new rex_be_page_main('system', $mpool); 
-    
     $linkmap = new rex_be_page_popup($I18N->msg('linkmap'));
     $linkmap->setIsCorePage(true);
     $linkmap->setRequiredPermissions('hasStructurePerm');
