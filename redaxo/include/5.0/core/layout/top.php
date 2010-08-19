@@ -88,10 +88,10 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 }
 
 $topfragment = new rex_fragment();
-$topfragment->set('pageTitle', $page_title);
-$topfragment->set('pageHeader', rex_register_extension_point('PAGE_HEADER', '' ), false);
-$topfragment->set('bodyAttr', $body);
-$topfragment->set('logout', $logout, false);
-$topfragment->set('navigation', $navigation, false);
+$topfragment->setVar('pageTitle', $page_title);
+$topfragment->setVar('pageHeader', rex_register_extension_point('PAGE_HEADER', '' ), false);
+$topfragment->setVar('bodyAttr', $body);
+$topfragment->setVar('logout', $logout, false);
+$topfragment->setVar('navigation', $navigation, false);
 echo $topfragment->parse('layout/top');
 unset($topfragment);
