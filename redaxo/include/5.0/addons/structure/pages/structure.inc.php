@@ -179,7 +179,7 @@ if($category)
 $add_category = '';
 if ($KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
 {
-  $add_category = '<a class="rex-i-element rex-i-category-add" href="index.php?page=site_structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'"'. rex_accesskey($I18N->msg('add_category'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.$I18N->msg("add_category").'</span></a>';
+  $add_category = '<a class="rex-i-element rex-i-category-add" href="index.php?page=structure&amp;category_id='.$category_id.'&amp;function=add_cat&amp;clang='.$clang.'"'. rex_accesskey($I18N->msg('add_category'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.$I18N->msg("add_category").'</span></a>';
 }
 
 $add_header = '';
@@ -214,7 +214,7 @@ if($function == 'add_cat' || $function == 'edit_cat')
   <form action="index.php" method="post">
     <fieldset>
       <legend><span>'.$legend .'</span></legend>
-      <input type="hidden" name="page" value="site_structure" />';
+      <input type="hidden" name="page" value="structure" />';
 
   if ($function == 'edit_cat')
     echo '<input type="hidden" name="edit_id" value="'. $edit_id .'" />';
@@ -255,7 +255,7 @@ if ($category_id != 0 && ($category = OOCategory::getCategoryById($category_id))
     echo '<td class="rex-small">-</td>';
   }
 
-  echo '<td><a href="index.php?page=site_structure&amp;category_id='. $category->getParentId() .'&amp;clang='. $clang .'">..</a></td>';
+  echo '<td><a href="index.php?page=structure&amp;category_id='. $category->getParentId() .'&amp;clang='. $clang .'">..</a></td>';
   echo '<td>&nbsp;</td>';
   echo '<td colspan="3">&nbsp;</td>';
   echo '</tr>';
@@ -318,7 +318,7 @@ if(count($mountpoints)>0 && $category_id == 0)
 for ($i = 0; $i < $KAT->getRows(); $i++)
 {
   $i_category_id = $KAT->getValue('id');
-  $kat_link = 'index.php?page=site_structure&amp;category_id='. $i_category_id .'&amp;clang='. $clang;
+  $kat_link = 'index.php?page=structure&amp;category_id='. $i_category_id .'&amp;clang='. $clang;
   $kat_icon_td = '<td class="rex-icon"><a class="rex-i-element rex-i-category" href="'. $kat_link .'"><span class="rex-i-element-text">'. htmlspecialchars($KAT->getValue("catname")). '</span></a></td>';
 
   $kat_status = $catStatusTypes[$KAT->getValue('status')][0];
@@ -328,7 +328,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
   {
     if ($REX['USER']->isAdmin() || $KATPERM && $REX['USER']->hasPerm('publishCategory[]'))
     {
-      $kat_status = '<a href="index.php?page=site_structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=status&amp;clang='. $clang .'" class="'. $status_class .'">'. $kat_status .'</a>';
+      $kat_status = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=status&amp;clang='. $clang .'" class="'. $status_class .'">'. $kat_status .'</a>';
     }
     else
     {
@@ -387,7 +387,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
     
       if (!$REX['USER']->hasPerm('editContentOnly[]'))
       {
-        $category_delete = '<a href="index.php?page=site_structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=catdelete_function&amp;clang='. $clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
+        $category_delete = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=catdelete_function&amp;clang='. $clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
       }
       else
       {
@@ -400,7 +400,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
           '. $add_td .'
           <td><a href="'. $kat_link .'">'. htmlspecialchars($KAT->getValue("catname")) .'</a></td>
           <td>'. htmlspecialchars($KAT->getValue("catprior")) .'</td>
-          <td><a href="index.php?page=site_structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=edit_cat&amp;clang='. $clang .'">'. $I18N->msg('change') .'</a></td>
+          <td><a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;edit_id='. $i_category_id .'&amp;function=edit_cat&amp;clang='. $clang .'">'. $I18N->msg('change') .'</a></td>
           <td>'. $category_delete .'</td>
           <td>'. $kat_status .'</td>
         </tr>';
@@ -486,7 +486,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
   // --------------------- ARTIKEL LIST
   $art_add_link = '';
   if ($KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
-    $art_add_link = '<a class="rex-i-element rex-i-article-add" href="index.php?page=site_structure&amp;category_id='. $category_id .'&amp;function=add_art&amp;clang='. $clang .'"'. rex_accesskey($I18N->msg('article_add'), $REX['ACKEY']['ADD_2']) .'><span class="rex-i-element-text">'. $I18N->msg('article_add') .'</span></a>';
+    $art_add_link = '<a class="rex-i-element rex-i-article-add" href="index.php?page=structure&amp;category_id='. $category_id .'&amp;function=add_art&amp;clang='. $clang .'"'. rex_accesskey($I18N->msg('article_add'), $REX['ACKEY']['ADD_2']) .'><span class="rex-i-element-text">'. $I18N->msg('article_add') .'</span></a>';
 
   $add_head = '';
   $add_col  = '';
@@ -508,7 +508,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
     <form action="index.php" method="post">
       <fieldset>
         <legend><span>'.$legend .'</span></legend>
-        <input type="hidden" name="page" value="site_structure" />
+        <input type="hidden" name="page" value="structure" />
         <input type="hidden" name="category_id" value="'. $category_id .'" />';
     if ($article_id != "") echo '<input type="hidden" name="article_id" value="'. $article_id .'" />';
     echo '
@@ -643,12 +643,12 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
       }else
       {
         if ($REX['USER']->isAdmin() || $KATPERM && $REX['USER']->hasPerm('publishArticle[]'))
-          $article_status = '<a href="index.php?page=site_structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="rex-status-link '. $article_class .'">'. $article_status .'</a>';
+          $article_status = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=status_article&amp;category_id='. $category_id .'&amp;clang='. $clang .'" class="rex-status-link '. $article_class .'">'. $article_status .'</a>';
         else            
           $article_status = '<span class="rex-strike '. $article_class .'">'. $article_status .'</span>';
 
         if (!$REX['USER']->hasPerm('editContentOnly[]'))
-          $article_delete = '<a href="index.php?page=site_structure&amp;article_id='. $sql->getValue('id') .'&amp;function=artdelete_function&amp;category_id='. $category_id .'&amp;clang='.$clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
+          $article_delete = '<a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=artdelete_function&amp;category_id='. $category_id .'&amp;clang='.$clang .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
         else
           $article_delete = '<span class="rex-strike">'. $I18N->msg('delete') .'</span>';
 
@@ -665,7 +665,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
               <td>'. htmlspecialchars($sql->getValue('prior')) .'</td>
               <td>'. $tmpl .'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
-              <td><a href="index.php?page=site_structure&amp;article_id='. $sql->getValue('id') .'&amp;function=edit_art&amp;category_id='. $category_id.'&amp;clang='. $clang .'">'. $I18N->msg('change') .'</a></td>
+              <td><a href="index.php?page=structure&amp;article_id='. $sql->getValue('id') .'&amp;function=edit_art&amp;category_id='. $category_id.'&amp;clang='. $clang .'">'. $I18N->msg('change') .'</a></td>
               '. $add_extra .'
             </tr>
             ';

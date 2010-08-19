@@ -9,7 +9,7 @@
  * @version svn:$Id$
  */
 
-$mypage = 'site_structure';
+$mypage = 'structure';
 
 // $REX['ADDON']['rxid'][$mypage] = '62';
 $REX['ADDON']['name'][$mypage] = $I18N->msg('structure');
