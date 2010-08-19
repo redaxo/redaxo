@@ -14,7 +14,7 @@ $func = rex_request('func', 'string');
 
 switch($subpage)
 {
-  default : $file = 'layouting.inc.php'; break;
+  default : $file = 'templates.inc.php'; break;
 }
 
 require $REX['SRC_PATH'] . '/core/layout/top.php';

@@ -12,6 +12,6 @@
 $error = '';
 
 if ($error != '')
-  $REX['ADDON']['installmsg']['layouting'] = $error;
+  $REX['ADDON']['installmsg']['templates'] = $error;
 else
-  $REX['ADDON']['install']['layouting'] = true;
+  $REX['ADDON']['install']['templates'] = true;

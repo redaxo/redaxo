@@ -9,7 +9,7 @@
  * @version svn:$Id$
  */
 
-$mypage = 'layouting';
+$mypage = 'templates';
 
 // $REX['ADDON']['rxid'][$mypage] = '62';
 $REX['ADDON']['name'][$mypage] = 'Templates';
