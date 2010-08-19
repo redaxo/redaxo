@@ -9,7 +9,7 @@
  * @version svn:$Id$
  */
 
-$mypage = 'page_content_modules';
+$mypage = 'modules';
 
 // $REX['ADDON']['rxid'][$mypage] = '62';
 $REX['ADDON']['name'][$mypage] = $I18N->msg('modules');
