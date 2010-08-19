@@ -118,6 +118,7 @@ if($REX['USER'])
 {
   foreach(OOAddon::getAvailableAddons() as $addonName)
   {
+    $page  = OOAddon::getProperty($addonName, 'page', null);
     $title = OOAddon::getProperty($addonName, 'name', '');
     $href  = OOAddon::getProperty($addonName, 'link',  'index.php?page='. $addonName);
     $perm  = OOAddon::getProperty($addonName, 'perm', '');
@@ -125,7 +126,11 @@ if($REX['USER'])
     $addonPage = null;
     $mainAddonPage = null;
 
-    if($perm == '' || $REX['USER']->hasPerm($perm) || $REX['USER']->isAdmin())
+    if ($page != null && rex_be_page::isValid($page) && $page->checkPermission($REX['USER']))
+    {
+        $addonPage = $page;
+    }
+    else if($perm == '' || $REX['USER']->hasPerm($perm) || $REX['USER']->isAdmin())
     {
       if ($title != '')
       {
@@ -139,20 +144,23 @@ if($REX['USER'])
         }
         // *** ENDE wegen <=4.2
       }
-      
+    }
+    
+    if($addonPage)
+    {
       // adds be_page's
       foreach(OOAddon::getProperty($addonName, 'pages', array()) as $s)
       {
-        if(is_array($s) && $addonPage)
+        if (is_array($s) && $addonPage)
         {
-         $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
+          $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
           $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
           $addonPage->addSubPage($subPage);
-        }else if(rex_be_page_main::isValid($s))
+        } else if (rex_be_page_main::isValid($s))
         {
           $p = $s->getPage();
           $REX['PAGES'][$addonName.'_'.$p->getTitle()] = $s;
-        }else if(rex_be_page::isValid($s) && $addonPage)
+        } else if (rex_be_page::isValid($s) && $addonPage)
         {
           $addonPage->addSubPage($s);
         }
