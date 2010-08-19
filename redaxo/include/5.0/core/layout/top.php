@@ -37,7 +37,7 @@ foreach($body_attr as $k => $v){
 	if(is_array($v))
 		$body .= implode(" ",$v);
 	$body .= '" ';
-}  
+}
 
 $logout = '';
 if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
@@ -90,7 +90,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 $topfragment = new rex_fragment();
 $topfragment->setVar('pageTitle', $page_title);
 $topfragment->setVar('pageHeader', rex_register_extension_point('PAGE_HEADER', '' ), false);
-$topfragment->setVar('bodyAttr', $body);
+$topfragment->setVar('bodyAttr', $body, false);
 $topfragment->setVar('logout', $logout, false);
 $topfragment->setVar('navigation', $navigation, false);
 echo $topfragment->parse('layout/top');
