@@ -614,7 +614,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
       $template_select->setSelected($sql->getValue('template_id'));
 
       echo '<tr class="rex-table-row-activ">
-              <td class="rex-icon"><a class="rex-i-element '.$class.'" href="index.php?page=page_content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;clang='. $clang .'"><span class="rex-i-element-text">' .htmlspecialchars($sql->getValue("name")).'</span></a></td>
+              <td class="rex-icon"><a class="rex-i-element '.$class.'" href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;clang='. $clang .'"><span class="rex-i-element-text">' .htmlspecialchars($sql->getValue("name")).'</span></a></td>
               '. $add_td .'
               <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="article_name" value="' .htmlspecialchars($sql->getValue('name')).'" /></td>
               <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="Position_Article" value="'. htmlspecialchars($sql->getValue('prior')).'" /></td>
@@ -659,9 +659,9 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
       $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
 
       echo '<tr>
-              <td class="rex-icon"><a class="rex-i-element '.$class.'" href="index.php?page=page_content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'"><span class="rex-i-element-text">' .htmlspecialchars($sql->getValue('name')).'</span></a></td>
+              <td class="rex-icon"><a class="rex-i-element '.$class.'" href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'"><span class="rex-i-element-text">' .htmlspecialchars($sql->getValue('name')).'</span></a></td>
               '. $add_td .'
-              <td><a href="index.php?page=page_content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'">'. htmlspecialchars($sql->getValue('name')) . '</a></td>
+              <td><a href="index.php?page=content&amp;article_id='. $sql->getValue('id') .'&amp;category_id='. $category_id .'&amp;mode=edit&amp;clang='. $clang .'">'. htmlspecialchars($sql->getValue('name')) . '</a></td>
               <td>'. htmlspecialchars($sql->getValue('prior')) .'</td>
               <td>'. $tmpl .'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>

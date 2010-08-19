@@ -87,7 +87,7 @@ if ($article->getRows() == 1)
 
     $catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
 
-    $KATout .= '<a href="index.php?page=page_content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '"'. rex_tabindex() .'>' . $catname . '</a>';
+    $KATout .= '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '"'. rex_tabindex() .'>' . $catname . '</a>';
     // $KATout .= " [$article_id]";
     $KATout .= '</p>';
   }
@@ -373,7 +373,7 @@ if ($article->getRows() == 1)
         {
           // ----- EXTENSION POINT
           $info = $I18N->msg('content_tostartarticle_ok');
-          header("Location:index.php?page=page_content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
+          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
           exit;
         }
         else
@@ -398,7 +398,7 @@ if ($article->getRows() == 1)
         {
           // ----- EXTENSION POINT
           $info = $I18N->msg('content_tocategory_ok');
-          header("Location:index.php?page=page_content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
+          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
           exit;
         }
         else
@@ -423,7 +423,7 @@ if ($article->getRows() == 1)
         {
           // ----- EXTENSION POINT
           $info = $I18N->msg('content_toarticle_ok');
-          header("Location:index.php?page=page_content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
+          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
           exit;
         }
         else
@@ -468,7 +468,7 @@ if ($article->getRows() == 1)
         {
           $info = $I18N->msg('content_articlemoved');
           ob_end_clean();
-          header('Location: index.php?page=page_content&article_id=' . $article_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
+          header('Location: index.php?page=content&article_id=' . $article_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
           exit;
         }
         else
@@ -493,7 +493,7 @@ if ($article->getRows() == 1)
         {
           $info = $I18N->msg('content_articlecopied');
           ob_end_clean();
-          header('Location: index.php?page=page_content&article_id=' . $new_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
+          header('Location: index.php?page=content&article_id=' . $new_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
           exit;
         }
         else
@@ -518,7 +518,7 @@ if ($article->getRows() == 1)
         {
           $info = $I18N->msg('category_moved');
           ob_end_clean();
-          header('Location: index.php?page=page_content&article_id=' . $category_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
+          header('Location: index.php?page=content&article_id=' . $category_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
           exit;
         }
         else
@@ -591,7 +591,7 @@ if ($article->getRows() == 1)
         }
 
         $val = rex_translate($val);
-        $s .= '<a href="index.php?page=page_content&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id . '"'. $class .''. rex_tabindex() .'>' . $val . '</a>';
+        $s .= '<a href="index.php?page=content&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id . '"'. $class .''. rex_tabindex() .'>' . $val . '</a>';
 
         $listElements[] = $s;
         $i++;
@@ -629,13 +629,13 @@ if ($article->getRows() == 1)
 
     if ($mode == 'edit')
     {
-      $listElements[] = '<a href="index.php?page=page_content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
-      $listElements[] = '<a href="index.php?page=page_content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
     }
     else
     {
-      $listElements[] = '<a href="index.php?page=page_content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
-      $listElements[] = '<a href="index.php?page=page_content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $I18N->msg('edit_mode') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $I18N->msg('metadata') . '</a>';
     }
 
     $listElements[] = '<a href="../' . rex_getUrl($article_id,$clang) . '" onclick="window.open(this.href); return false;" '. rex_tabindex() .'>' . $I18N->msg('show') . '</a>';
@@ -745,7 +745,7 @@ if ($article->getRows() == 1)
             <fieldset class="rex-form-col-1">
               <legend><span>' . $I18N->msg('general') . '</span></legend>
 
-                <input type="hidden" name="page" value="page_content" />
+                <input type="hidden" name="page" value="content" />
                 <input type="hidden" name="article_id" value="' . $article_id . '" />
                 <input type="hidden" name="mode" value="meta" />
                 <input type="hidden" name="save" value="1" />
