@@ -10,32 +10,71 @@ class rex_fragment
    * 
    * @param array $params A array of key-value pairs to pass as local parameters
    */
-  public function rex_fragment(array $vars = array())
+  // TODO: basePath im Konstruktur übergbeen ist käse, aber funktioniert vorerst
+  // evtl. ähnliches konstrukt bauen wie bei classloader, sodass ein Addon einen Pfad hinzufügen kann...
+  public function rex_fragment(array $vars = array(), $basePath = null)
   {
+    global $REX;
+    
+    if(!$basePath)
+    {
+      $basePath = $REX['SRC_PATH'].'/core/fragments/';
+    }
+    
     $this->vars = $vars;
+    $this->basePath = $basePath;
   }
   
   /**
    * Set the variable $name to the given value.
    * 
    * @param $name string The name of the variable.
-   * @param $value string The value for the variable
+   * @param $value mixed The value for the variable
    * @param $escape Flag which indicates if the value should be escaped or not.
    */
   public function setVar($name, $value, $escape = true)
   {
-    if(!is_string($name))
+    if(is_null($name))
     {
-      throw new Exception(sprintf('Expecting $name to be a string, %s given!', gettype($name)));
+      throw new Exception(sprintf('Expecting $name to be not null!'));
     }
     
     if($escape)
     {
-      $this->vars[$name] = htmlspecialchars($value);
+      $this->vars[$name] = $this->escape($value);
     }
     else
     {
       $this->vars[$name] = $value;
+    }
+  }
+
+  /**
+   * Escapes the value $val
+   * 
+   * @param mixed $val the value to escape
+   */
+  private function escape($val)
+  {
+    if(is_array($val))
+    {
+      foreach($val as $k => $v)
+      {
+        $val[$k] = $this->escape($v);
+      }
+      return $val;
+    }
+    else if(is_string($val))
+    {
+      return htmlspecialchars($val);
+    }
+    else if(is_scalar($val))
+    {
+      return $val;
+    }
+    else
+    {
+      throw new Exception(sprintf('Unexpected type for $val, "%s" given', gettype($val)));
     }
   }
   
@@ -55,8 +94,7 @@ class rex_fragment
     
     $this->filename = $filename;
     // TODO: allow override of template files
-    $fragment = $REX["SRC_PATH"].'/core/fragments/'. $filename . '.tpl';
-    
+    $fragment = $this->basePath . $filename . '.tpl';
     if(file_exists($fragment))
     {
       ob_start();
@@ -81,7 +119,7 @@ class rex_fragment
    */
   protected function subfragment($filename, array $params = array())
   {
-    $fragment = new rex_fragment(array_merge($this->vars, $params));
+    $fragment = new rex_fragment(array_merge($this->vars, $params), $this->basePath);
     echo $fragment->parse($filename);
   }
   
