@@ -12,12 +12,7 @@
 // - <? ?> $ Problematik bei REX_ACTION
 */
 
-
-
-
-
-
-
+require dirname(__FILE__) .'/../functions/function_rex_content.inc.php';
 
 
 unset ($REX_ACTION);
@@ -36,8 +31,6 @@ $warning = '';
 $global_warning = '';
 $info = '';
 $global_info = '';
-
-require $REX['SRC_PATH'].'/core/functions/function_rex_content.inc.php';
 
 $article = rex_sql::factory();
 $article->setQuery("
@@ -72,7 +65,7 @@ if ($article->getRows() == 1)
   $category_id = $OOArt->getCategoryId();
 
   // ----- category pfad und rechte
-  require $REX['SRC_PATH'] . '/core/functions/function_rex_category.inc.php';
+  require $REX['SRC_PATH'] . '/addons/structure/functions/function_rex_category.inc.php';
   // $KATout kommt aus dem include
   // $KATPERM
 
@@ -107,7 +100,7 @@ if ($article->getRows() == 1)
 
   // ----- Sprachenblock
   $sprachen_add = '&amp;mode='. $mode .'&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
-  require $REX['SRC_PATH'] . '/core/functions/function_rex_languages.inc.php';
+  require $REX['SRC_PATH'] . '/addons/structure/functions/function_rex_languages.inc.php';
 
   // ----- EXTENSION POINT
   echo rex_register_extension_point('PAGE_CONTENT_HEADER', '',
