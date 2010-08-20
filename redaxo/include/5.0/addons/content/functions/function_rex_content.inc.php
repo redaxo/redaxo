@@ -1,6 +1,6 @@
 <?php
 
-require $REX['SRC_PATH'] . '/addons/structure/functions/function_rex_structure.inc.php';
+require_once $REX['SRC_PATH'] . '/addons/structure/functions/function_rex_structure.inc.php';
 
 
 /**
