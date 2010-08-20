@@ -14,62 +14,62 @@
 reset($REX['CLANG']);
 $num_clang = count($REX['CLANG']);
 
+$stop = false;
+$languages = array();
 if ($num_clang>1)
 {
-   echo '
-<!-- *** OUTPUT OF CLANG-TOOLBAR - START *** -->
-   <div id="rex-clang" class="rex-toolbar">
-   <div class="rex-toolbar-content">
-     <ul>
-       <li>'.$I18N->msg("languages").' : </li>';
+  $i = 1;
+  foreach($REX['CLANG'] as $key => $val)
+  {
+     $lang = array();
+     $lang['id'] = $key;
+     $lang['name'] = rex_translate($val);
+     
+     $lang['class'] = '';
+     if($i == 1)
+       $lang['class'] = 'rex-navi-first';
+        
+     $lang['url'] = '';
+     if (!$REX['USER']->isAdmin() && !$REX['USER']->hasPerm('clang[all]') && !$REX['USER']->hasPerm('clang['. $key .']'))
+     {
+       if ($clang == $key)
+       {
+         $stop = true;
+         break;
+      }
+     }
+     else
+     {
+       $class = '';
+       if ($key==$clang) $class = 'rex-active';
+      
+       $lang['link_class'] = $class;
+       $lang['url'] = 'index.php?page='. $REX["PAGE"] .'&amp;clang='. $key . $sprachen_add .'&amp;ctype='. $ctype;
+//      echo '<a'.$class.' href=""'. rex_tabindex() .'>'. $val .'</a>';
+     }
+     $i++;
+     $languages[] = $lang;
+  }
+}
+else
+{
+  $clang = 0;
+}
 
-	 $stop = false;
-   $i = 1;
-   foreach($REX['CLANG'] as $key => $val)
-   {
-   	if($i == 1)
-   		echo '<li class="rex-navi-first rex-navi-clang-'.$key.'">';
-		else
-			echo '<li class="rex-navi-clang-'.$key.'">';
-		    
-    $val = rex_translate($val);
-
-		if (!$REX['USER']->isAdmin() && !$REX['USER']->hasPerm('clang[all]') && !$REX['USER']->hasPerm('clang['. $key .']'))
-		{
-			echo '<span class="rex-strike">'. $val .'</span>';
-
-			if ($clang == $key) $stop = true;
-		}
-		else
-    {
-    	$class = '';
-    	if ($key==$clang) $class = ' class="rex-active"';
-      echo '<a'.$class.' href="index.php?page='. $REX["PAGE"] .'&amp;clang='. $key . $sprachen_add .'&amp;ctype='. $ctype .'"'. rex_tabindex() .'>'. $val .'</a>';
-    }
-
-    echo '</li>';
-    $i++;
-	}
-
-	echo '
-     </ul>
-   </div>
-   </div>
-<!-- *** OUTPUT OF CLANG-TOOLBAR - END *** -->
-';
-
-	if ($stop)
-	{
-		echo '
+if ($stop)
+{
+  echo '
 <!-- *** OUTPUT OF CLANG-VALIDATE - START *** -->
       '. rex_warning('You have no permission to this area') .'
 <!-- *** OUTPUT OF CLANG-VALIDATE - END *** -->
 ';
-		require $REX['SRC_PATH'] ."/core/layout/bottom.php";
-		exit;
-	}
+  require $REX['SRC_PATH'] ."/core/layout/bottom.php";
+  exit;
 }
-else
+else if ($num_clang>1)
 {
-	$clang = 0;
+  $langfragment = new rex_fragment(array(), dirname(__FILE__) . '/../fragments/');
+  $langfragment->setVar('languages', $languages, false);
+  echo $langfragment->parse('languages');
+  unset($langfragment);
 }
