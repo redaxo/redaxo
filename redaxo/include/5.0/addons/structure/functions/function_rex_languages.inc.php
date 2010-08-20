@@ -68,7 +68,7 @@ if ($stop)
 }
 else if ($num_clang>1)
 {
-  $langfragment = new rex_fragment(array(), dirname(__FILE__) . '/../fragments/');
+  $langfragment = new rex_fragment();
   $langfragment->setVar('languages', $languages, false);
   echo $langfragment->parse('languages');
   unset($langfragment);
