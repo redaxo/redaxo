@@ -56,7 +56,7 @@ if ($REX['REDAXO'])
 {
   include_once $REX['SRC_PATH'].'/core/functions/function_rex_title.inc.php';
   include_once $REX['SRC_PATH'].'/core/functions/function_rex_generate.inc.php';
-  include_once $REX['SRC_PATH'].'/core/functions/function_rex_mediapool.inc.php';
+//  include_once $REX['SRC_PATH'].'/core/functions/function_rex_mediapool.inc.php';
   include_once $REX['SRC_PATH'].'/core/functions/function_rex_structure.inc.php';
 //  include_once $REX['SRC_PATH'].'/core/classes/class.rex_formatter.inc.php';
 }
