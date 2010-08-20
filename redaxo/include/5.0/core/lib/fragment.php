@@ -2,6 +2,8 @@
 
 class rex_fragment
 {
+  private static $fragmentDirs = array();
+  
   private $filename;
   private $vars;
   
@@ -10,19 +12,21 @@ class rex_fragment
    * 
    * @param array $params A array of key-value pairs to pass as local parameters
    */
-  // TODO: basePath im Konstruktur übergbeen ist käse, aber funktioniert vorerst
-  // evtl. ähnliches konstrukt bauen wie bei classloader, sodass ein Addon einen Pfad hinzufügen kann...
-  public function rex_fragment(array $vars = array(), $basePath = null)
+  public function rex_fragment(array $vars = array())
   {
-    global $REX;
-    
-    if(!$basePath)
-    {
-      $basePath = $REX['SRC_PATH'].'/core/fragments/';
-    }
-    
     $this->vars = $vars;
-    $this->basePath = $basePath;
+  }
+  
+  /**
+   * Add a path to the fragment search path
+   * 
+   * @param string $path A path to a directory where fragments can be found
+   */
+  public static function addDirectory($path)
+  {
+    // add the new directory in front of the already know dirs,
+    // so a later caller can override core settings/fragments
+    array_unshift(self::$fragmentDirs[], $path);
   }
   
   /**
@@ -93,18 +97,19 @@ class rex_fragment
     }
     
     $this->filename = $filename;
-    // TODO: allow override of template files
-    $fragment = $this->basePath . $filename . '.tpl';
-    if(file_exists($fragment))
+    
+    foreach(self::$fragmentDirs as $fragDir)
     {
-      ob_start();
-      require $fragment;
-      return ob_get_clean();
+      $fragment = $fragDir . $filename . '.tpl';
+      if(is_readable($fragment))
+      {
+        ob_start();
+        require $fragment;
+        return ob_get_clean();
+      }
     }
-    else 
-    {
-      throw new Exception(sprintf('Fragmentfile "%s" not found!', $template));
-    }
+    
+    throw new Exception(sprintf('Fragmentfile "%s" not found!', $template));
   }
   
   // -------------------------- in fragment helpers
