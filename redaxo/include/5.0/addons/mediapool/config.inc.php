@@ -26,5 +26,5 @@ if ($REX['REDAXO'])
 {
   $I18N->appendFile($REX['SRC_PATH'] . '/addons/' . $mypage . '/lang');
   include_once $REX['SRC_PATH'] . '/addons/' . $mypage . '/functions/function_rex_mediapool.inc.php';
-  rex_autoload::getInstance()->addDirectory($REX['SRC_PATH'] . '/addons/' . $mypage . '/classes/');
+  rex_autoload::getInstance()->addDirectory(dirname(__FILE__) .'/lib/');
 }
