@@ -32,6 +32,8 @@ $loader->addDirectory($REX['SRC_PATH'] .'/core/lib/*/*/*/');
 rex_autoload::register();
 rex_logger::register();
 
+rex_fragment::addDirectory($REX['SRC_PATH'].'/core/fragments/');
+
 //require_once $REX['SRC_PATH'].'/core/classes/class.i18n.inc.php';
 //require_once $REX['SRC_PATH'].'/core/classes/class.rex_sql.inc.php';
 //require_once $REX['SRC_PATH'].'/core/classes/class.rex_select.inc.php';
