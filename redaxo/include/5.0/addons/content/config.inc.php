@@ -22,5 +22,4 @@ $REX['ADDON']['navigation'][$mypage] = array('block'=>'system');
 if ($REX['REDAXO'])
 {
   $I18N->appendFile($REX['SRC_PATH'] . '/addons/' . $mypage . '/lang');
-  rex_autoload::getInstance()->addDirectory(dirname(__FILE__) .'/lib/');
 }
