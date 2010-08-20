@@ -26,7 +26,7 @@ class rex_fragment
   {
     // add the new directory in front of the already know dirs,
     // so a later caller can override core settings/fragments
-    array_unshift(self::$fragmentDirs[], $path);
+    array_unshift(self::$fragmentDirs, $path);
   }
   
   /**
