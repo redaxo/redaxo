@@ -1,5 +1,8 @@
 <?php
 
+require_once $REX['SRC_PATH'] . '/addons/structure/functions/function_rex_structure.inc.php';
+
+
 /**
  * Verschiebt einen Slice nach oben
  * 
@@ -932,74 +935,4 @@ function rex_moveCategory($from_cat, $to_cat)
   }
   
   return true;
-}
-
-/**
- * Berechnet die Prios der Kategorien in einer Kategorie neu
- *
- * @param $re_id    KategorieId der Kategorie, die erneuert werden soll
- * @param $clang    ClangId der Kategorie, die erneuert werden soll
- * @param $new_prio Neue PrioNr der Kategorie
- * @param $old_prio Alte PrioNr der Kategorie
- *
- * @deprecated 4.1 - 26.03.2008
- * Besser die rex_organize_priorities() Funktion verwenden!
- * 
- * @return void
- */
-function rex_newCatPrio($re_id, $clang, $new_prio, $old_prio)
-{
-  global $REX;
-  if ($new_prio != $old_prio)
-  {
-    if ($new_prio < $old_prio)
-      $addsql = "desc";
-    else
-      $addsql = "asc";
-
-    rex_organize_priorities(
-      $REX['TABLE_PREFIX'].'article',
-      'catprior',
-      'clang='. $clang .' AND re_id='. $re_id .' AND startpage=1',
-      'catprior,updatedate '. $addsql,
-      'pid'
-    );
-
-    rex_deleteCacheArticleLists($re_id, $clang);
-  }
-}
-
-/**
- * Berechnet die Prios der Artikel in einer Kategorie neu
- *
- * @param $re_id    KategorieId der Kategorie, die erneuert werden soll
- * @param $clang    ClangId der Kategorie, die erneuert werden soll
- * @param $new_prio Neue PrioNr der Kategorie
- * @param $old_prio Alte PrioNr der Kategorie
- *
- * @deprecated 4.1 - 26.03.2008
- * Besser die rex_organize_priorities() Funktion verwenden!
- * 
- * @return void
- */
-function rex_newArtPrio($re_id, $clang, $new_prio, $old_prio)
-{
-  global $REX;
-  if ($new_prio != $old_prio)
-  {
-    if ($new_prio < $old_prio)
-      $addsql = "desc";
-    else
-      $addsql = "asc";
-
-    rex_organize_priorities(
-      $REX['TABLE_PREFIX'].'article',
-      'prior',
-      'clang='. $clang .' AND ((startpage<>1 AND re_id='. $re_id .') OR (startpage=1 AND id='. $re_id .'))',
-      'prior,updatedate '. $addsql,
-      'pid'
-    );
-
-    rex_deleteCacheArticleLists($re_id, $clang);
-  }
 }

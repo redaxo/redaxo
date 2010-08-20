@@ -31,9 +31,8 @@ if(count($mountpoints)==1 && $category_id == 0)
 }
   
 // --------------------------------------------- Rechte prŸfen
-require $REX['SRC_PATH'].'/core/functions/function_rex_category.inc.php';
-require $REX['SRC_PATH'].'/core/functions/function_rex_content.inc.php';
-
+require dirname(__FILE__) .'/../functions/function_rex_structure.inc.php';
+require dirname(__FILE__) .'/../functions/function_rex_category.inc.php';
 
 
 
@@ -42,7 +41,7 @@ require $REX['SRC_PATH'].'/core/functions/function_rex_content.inc.php';
 rex_title($I18N->msg('title_structure'), $KATout);
 
 $sprachen_add = '&amp;category_id='. $category_id;
-require $REX['SRC_PATH'].'/core/functions/function_rex_languages.inc.php';
+require dirname(__FILE__) .'/../functions/function_rex_languages.inc.php';
 
 // -------------- STATUS_TYPE Map
 $catStatusTypes = rex_categoryStatusTypes();
