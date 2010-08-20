@@ -70,6 +70,6 @@ else if ($num_clang>1)
 {
   $langfragment = new rex_fragment();
   $langfragment->setVar('languages', $languages, false);
-  echo $langfragment->parse('languages');
+  echo $langfragment->parse('structure/languages');
   unset($langfragment);
 }
