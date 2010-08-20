@@ -10,4 +10,4 @@
  */
 
 $REX['ADDON']['install']['mediapool'] = 0;
-// ERRMSG IN CASE: $REX['ADDON']['installmsg']['page_content'] = "Deinstallation fehlgeschlagen weil...";
+// ERRMSG IN CASE: $REX['ADDON']['installmsg']['mediapool'] = "Deinstallation fehlgeschlagen weil...";
