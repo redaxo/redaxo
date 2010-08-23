@@ -17,7 +17,7 @@ $error = '';
 
 // "agk_skin" Plugin mitinstallieren
 $addonname = 'be_style';
-$plugins = array('agk_skin');
+$plugins = array('nsg_skin');
 
 $ADDONS    = rex_read_addons_folder();
 $PLUGINS   = array();
