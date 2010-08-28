@@ -214,8 +214,11 @@ if($REX['USER'])
       {
         if(rex_be_page_main::isValid($pluginPage))
         {
-          $pagePath = $REX['SRC_PATH'].'/addons/'. $addonName .'/plugins/'. $pluginName .'/pages/index.inc.php';
-          $pluginPage->getPage()->setPath($pagePath);
+          if(!$pluginPage->getPage()->hasPath())
+          {
+            $pagePath = $REX['SRC_PATH'].'/addons/'. $addonName .'/plugins/'. $pluginName .'/pages/index.inc.php';
+            $pluginPage->getPage()->setPath($pagePath);
+          }
           $REX['PAGES'][$pluginName] = $pluginPage;
         }
         else
