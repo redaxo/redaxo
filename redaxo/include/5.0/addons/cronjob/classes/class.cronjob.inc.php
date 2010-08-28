@@ -29,10 +29,7 @@ abstract class rex_cronjob
   
   public function setParams(array $params)
 	{
-	  if (!is_array($params))
-      trigger_error('$params must be an array!', E_USER_ERROR);
-    else
-  		$this->params = $params;
+	  $this->params = $params;
 	}
 	
 	public function getParam($key, $default = null)
@@ -63,10 +60,7 @@ abstract class rex_cronjob
     return !empty($this->message);
   }
   
-  public function execute() 
-  {
-    trigger_error('The execute method has to be overridden by a subclass!', E_USER_ERROR);
-  }
+  public abstract function execute();
   
   public function getTypeName() 
   {

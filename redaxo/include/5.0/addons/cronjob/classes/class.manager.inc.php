@@ -48,7 +48,7 @@ class rex_cronjob_manager
     $sql_manager->tryExecute($query);
   }
   
-  public function tryExecute(&$cronjob, $name = '', $params = array(), $log = true, $id = null)
+  public function tryExecute($cronjob, $name = '', $params = array(), $log = true, $id = null)
   {
     global $REX;
     
