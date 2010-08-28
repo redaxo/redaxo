@@ -58,3 +58,11 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
 
 // ----- all addons configs included
 rex_register_extension_point('ADDONS_INCLUDED');
+
+// ----- Init REX-Vars 
+//require_once $REX['SRC_PATH'].'/core/classes/class.rex_var.inc.php';
+foreach($REX['VARIABLES'] as $key => $value)
+{
+//  require_once ($REX['SRC_PATH'].'/core/classes/variables/class.'.$value.'.inc.php');
+  $REX['VARIABLES'][$key] = new $value;
+}
