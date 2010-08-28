@@ -150,14 +150,7 @@ $REX['EXTRAPERM'][] = 'editContentOnly[]';
 
 // ----- standard variables
 $REX['VARIABLES'] = array();
-$REX['VARIABLES'][] = 'rex_var_globals';
 $REX['VARIABLES'][] = 'rex_var_config';
-$REX['VARIABLES'][] = 'rex_var_article';
-$REX['VARIABLES'][] = 'rex_var_category';
-$REX['VARIABLES'][] = 'rex_var_template';
-$REX['VARIABLES'][] = 'rex_var_value';
-$REX['VARIABLES'][] = 'rex_var_link';
-$REX['VARIABLES'][] = 'rex_var_media';
 
 // ----------------- default values
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
