@@ -21,7 +21,7 @@ $REX['ADDON']['navigation'][$mypage] = array('block'=>'system');
 
 if ($REX['REDAXO'])
 {
-  $I18N->appendFile($REX['SRC_PATH'] . '/addons/' . $mypage . '/lang');
+  $I18N->appendFile(dirname(__FILE__) .'/lang');
 }
 
 //    $modules = new rex_be_page($I18N->msg('modules'), array('page'=>'module', 'subpage' => ''));

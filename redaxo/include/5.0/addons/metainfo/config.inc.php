@@ -46,7 +46,7 @@ $REX['ADDON']['metaTables'][$mypage] = array(
 
 if ($REX['REDAXO'])
 {
-  $I18N->appendFile($REX['SRC_PATH'] . '/addons/' . $mypage . '/lang');
+  $I18N->appendFile(dirname(__FILE__) .'/lang');
   
   require_once $REX['SRC_PATH'] . '/addons/' . $mypage .'/classes/class.rex_input.inc.php';
   require_once $REX['SRC_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_text.inc.php';

@@ -39,13 +39,30 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
   
   foreach(OOPlugin::getAvailablePlugins($addonName) as $pluginName)
   {
-    $pluginConfig = rex_plugins_folder($addonName, $pluginName). 'config.inc.php';
+    $pluginsFolder = rex_plugins_folder($addonName, $pluginName);
+    $pluginConfig = $pluginsFolder. 'config.inc.php';
     if(file_exists($pluginConfig))
     {
       rex_pluginManager::addon2plugin($addonName, $pluginName, $pluginConfig);
+    }
+    if(is_readable($pluginsFolder .'fragments'))
+    {
+      rex_fragment::addDirectory($pluginsFolder .'fragments/');
+    }
+    if(is_readable($pluginsFolder .'lib'))
+    {
+      rex_autoload::getInstance()->addDirectory($pluginsFolder .'lib/');
     }
   }
 }
 
 // ----- all addons configs included
 rex_register_extension_point('ADDONS_INCLUDED');
+
+// ----- Init REX-Vars 
+//require_once $REX['SRC_PATH'].'/core/classes/class.rex_var.inc.php';
+foreach($REX['VARIABLES'] as $key => $value)
+{
+//  require_once ($REX['SRC_PATH'].'/core/classes/variables/class.'.$value.'.inc.php');
+  $REX['VARIABLES'][$key] = new $value;
+}

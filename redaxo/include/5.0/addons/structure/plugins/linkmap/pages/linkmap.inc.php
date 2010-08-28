@@ -1,6 +1,6 @@
 <?php
 
-require $REX['SRC_PATH'].'/core/functions/function_rex_linkmap.inc.php';
+require dirname(__FILE__). '/../functions/function_rex_linkmap.inc.php';
 
 
 // ------- Default Values

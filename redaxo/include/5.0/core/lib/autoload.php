@@ -1,25 +1,15 @@
 <?php
 
-/*
- * This file is part of the symfony package.
- * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 /**
- * sfSimpleAutoload class.
+ * REDAXO Autoloader.
+ * 
+ * This class was mainly copied from the Symfony Framework:
+ * Fabien Potencier <fabien.potencier@symfony-project.com>
  *
- * This class is a singleton as PHP seems to be unable to register 2 autoloaders that are instances
- * of the same class (why?).
- *
- * @package    symfony
- * @subpackage autoload
- * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id$
+ * @package redaxo4
+ * @version svn:$Id$
  */
-class sfSimpleAutoload
+class rex_autoload
 {
   static protected
     $registered = false,
@@ -55,7 +45,7 @@ class sfSimpleAutoload
   {
     if (!isset(self::$instance))
     {
-      self::$instance = new sfSimpleAutoload($cacheFile);
+      self::$instance = new rex_autoload($cacheFile);
     }
 
     return self::$instance;
@@ -118,19 +108,7 @@ class sfSimpleAutoload
     // we have a class path, let's include it
     if (isset($this->classes[$class]))
     {
-      try
-      {
-        require $this->classes[$class];
-      }
-      catch (sfException $e)
-      {
-        $e->printStackTrace();
-      }
-      catch (Exception $e)
-      {
-        // TODO
-        sfException::createFromException($e)->printStackTrace();
-      }
+      require $this->classes[$class];
 
       return true;
     }
@@ -319,40 +297,5 @@ class sfSimpleAutoload
     $class = strtolower($class);
 
     return isset($this->classes[$class]) ? $this->classes[$class] : null;
-  }
-
-//  /**
-//   * Loads configuration from the supplied files.
-//   *
-//   * @param array $files An array of autoload.yml files
-//   * 
-//   * @see sfAutoloadConfigHandler
-//   */
-//  public function loadConfiguration(array $files)
-//  {
-//    $config = new sfAutoloadConfigHandler();
-//    foreach ($config->evaluate($files) as $class => $file)
-//    {
-//      $this->setClassPath($class, $file);
-//    }
-//  }
-}
-
-class rex_autoload extends sfSimpleAutoload {
-  /**
-   * Retrieves the singleton instance of this class.
-   *
-   * @param  string $cacheFile  The file path to save the cache
-   *
-   * @return sfSimpleAutoload   A sfSimpleAutoload implementation instance.
-   */
-  static public function getInstance($cacheFile = null)
-  {
-    if (!isset(self::$instance))
-    {
-      self::$instance = new rex_autoload($cacheFile);
-    }
-
-    return self::$instance;
   }
 }

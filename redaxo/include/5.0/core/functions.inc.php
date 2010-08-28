@@ -67,12 +67,5 @@ if ($REX['REDAXO'])
 //require_once $REX['SRC_PATH'].'/core/classes/class.rex_list.inc.php';
 //require_once $REX['SRC_PATH'].'/core/classes/class.rex_select.inc.php';
 
-//require_once $REX['SRC_PATH'].'/core/classes/class.rex_var.inc.php';
-foreach($REX['VARIABLES'] as $key => $value)
-{
-//  require_once ($REX['SRC_PATH'].'/core/classes/variables/class.'.$value.'.inc.php');
-  $REX['VARIABLES'][$key] = new $value;
-}
-
 // ----- EXTRA CLASSES
 // require_once $REX['SRC_PATH'].'/config/classes/class.compat.inc.php';
