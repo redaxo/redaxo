@@ -189,9 +189,9 @@ class rex_autoload
    * @param string $dir The directory to look for classes
    * @param string $ext The extension to look for
    */
-  public function addDirectory($dir, $ext = '.php')
+  public function addDirectory($classdir, $ext = '.php')
   {
-    if ($dirs = glob($dir .'*'. $ext))
+    if ($dirs = glob($classdir .'*'. $ext))
     {
       foreach ($dirs as $dir)
       {
@@ -213,6 +213,12 @@ class rex_autoload
         $this->cacheChanged = true;
         $this->addFile($dir, false);
       }
+    }
+    
+    if($subdirs = glob($classdir .'*', GLOB_ONLYDIR))
+    {
+      // recursive over subdirectories
+      $this->addDirectory($subdirs);
     }
   }
   

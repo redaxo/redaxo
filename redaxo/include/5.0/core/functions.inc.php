@@ -22,16 +22,13 @@ require_once $REX['SRC_PATH'].'/core/functions/function_rex_other.inc.php';
 // ----- CLASSES
 require_once $REX["SRC_PATH"].'/core/lib/autoload.php';
 
+// add core base-classpath to autoloader
 $loader = rex_autoload::getInstance($REX['SRC_PATH'] .'/generated/files/autoload.cache');
-// TODO
 $loader->addDirectory($REX['SRC_PATH'] .'/core/lib/');
-$loader->addDirectory($REX['SRC_PATH'] .'/core/lib/*/');
-$loader->addDirectory($REX['SRC_PATH'] .'/core/lib/*/*/');
-$loader->addDirectory($REX['SRC_PATH'] .'/core/lib/*/*/*/');
-
+// register core-classes  as php-handlers
 rex_autoload::register();
 rex_logger::register();
-
+// add core base-fragmentpath to fragmentloader
 rex_fragment::addDirectory($REX['SRC_PATH'].'/core/fragments/');
 
 //require_once $REX['SRC_PATH'].'/core/classes/class.i18n.inc.php';
