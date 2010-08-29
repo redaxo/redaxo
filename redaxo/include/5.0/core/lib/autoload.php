@@ -218,7 +218,9 @@ class rex_autoload
     if($subdirs = glob($classdir .'*', GLOB_ONLYDIR))
     {
       // recursive over subdirectories
-      $this->addDirectory($subdirs);
+      foreach($subdirs as $subdir) {
+        $this->addDirectory($subdir .'/');
+      }
     }
   }
   
