@@ -16,7 +16,7 @@ abstract class rex_cronjob
   
   public function factory($class) 
   {
-    if (!class_exists($class))
+    if (!rex_autoload::getInstance()->autoload($class))
       return $class;
     
     return new $class();

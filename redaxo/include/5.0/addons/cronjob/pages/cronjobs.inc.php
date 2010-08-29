@@ -138,9 +138,7 @@ if ($func == '')
   
   $list->show();
   
-} elseif ($func == 'edit' || $func == 'add') 
-{
-  require_once $REX['SRC_PATH'] .'/addons/cronjob/classes/class.form.inc.php';
+} elseif ($func == 'edit' || $func == 'add') {
   
   $fieldset = $func == 'edit' ? $I18N->msg('cronjob_edit') : $I18N->msg('cronjob_add');
   
@@ -232,7 +230,7 @@ if ($func == '')
     $params = $cronjob->getParamFields();
     
     if (!is_array($params) || empty($params)) {
-      $field =& $fieldContainer->addGroupedField($group, 'readonly', 'noparams', $I18N->msg('cronjob_type_no_parameters'));
+      $field = $fieldContainer->addGroupedField($group, 'readonly', 'noparams', $I18N->msg('cronjob_type_no_parameters'));
       $field->setLabel('&nbsp;');
     } else {
       foreach($params as $param)

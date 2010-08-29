@@ -41,5 +41,3 @@ rex_register_extension(
   array('rex_cronjob_manager', 'registerExtension'),
   array('class' => 'rex_cronjob_article_status')
 );
-
-require_once dirname(__FILE__).'/classes/class.cronjob.inc.php';

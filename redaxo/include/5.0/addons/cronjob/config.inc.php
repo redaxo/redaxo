@@ -50,8 +50,6 @@ if($REX['REDAXO'])
   
   if($REX['USER'] && rex_request('page', 'string') == 'be_dashboard')
   {
-    require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
-    
     rex_register_extension (
       'DASHBOARD_COMPONENT',
       array(new rex_cronjob_component(), 'registerAsExtension')
@@ -64,13 +62,6 @@ if($REX['REDAXO'])
 
 define('REX_CRONJOB_LOG_FOLDER', $REX['SRC_PATH'] .'/addons/cronjob/logs/');
 define('REX_CRONJOB_TABLE'     , $REX['TABLE_PREFIX'] .'630_cronjobs');
-
-require_once dirname(__FILE__) .'/classes/class.manager.inc.php';
-require_once dirname(__FILE__) .'/classes/class.log.inc.php';
-require_once dirname(__FILE__) .'/classes/class.cronjob.inc.php';
-require_once dirname(__FILE__) .'/classes/types/class.phpcode.inc.php';
-require_once dirname(__FILE__) .'/classes/types/class.phpcallback.inc.php';
-require_once dirname(__FILE__) .'/classes/types/class.urlrequest.inc.php';
 
 // --- DYN
 $REX['ADDON']['nexttime']['cronjob'] = "0";
