@@ -2,3 +2,4 @@
 /.buildpath
 /.project
 /redaxo/include/5.0/generated
+/redaxo/include/5.0/addons/cronjob/logs
