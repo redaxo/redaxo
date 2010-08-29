@@ -36,8 +36,4 @@ $REX['ADDON']['config']['article_status']['to'] = array(
   'after' => 0
 );
 
-rex_register_extension(
-  'CRONJOB_TYPES',
-  array('rex_cronjob_manager', 'registerExtension'),
-  array('class' => 'rex_cronjob_article_status')
-);
+rex_cronjob_manager::registerType('rex_cronjob_article_status');

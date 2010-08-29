@@ -29,9 +29,5 @@ if(OOAddon::isAvailable('cronjob'))
 {
   require_once dirname(__FILE__) .'/classes/class.cronjob.inc.php';
   
-	rex_register_extension(
-	  'CRONJOB_TYPES',
-	  array('rex_cronjob_manager', 'registerExtension'),
-	  array('class' => 'rex_cronjob_export')
-  );
+	rex_cronjob_manager::registerType('rex_cronjob_export');
 }

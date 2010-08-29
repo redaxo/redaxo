@@ -11,7 +11,7 @@
 
 class rex_cronjob_log
 {
-  public function getYears()
+  static public function getYears()
   {
     $folder = REX_CRONJOB_LOG_FOLDER;
     $years = array ();
@@ -35,7 +35,7 @@ class rex_cronjob_log
     return $years;  
   }
   
-  public function getMonths($year)
+  static public function getMonths($year)
   {
     $folder = REX_CRONJOB_LOG_FOLDER;
     $months = array();
@@ -47,45 +47,45 @@ class rex_cronjob_log
     return $months;
   }
   
-  public function getYearMonthArray()
+  static public function getYearMonthArray()
   {
     $array = array();
-    foreach(rex_cronjob_log::getYears() as $year)
+    foreach(self::getYears() as $year)
     {
-      $months = rex_cronjob_log::getMonths($year);
+      $months = self::getMonths($year);
       if (!empty($months))
         $array[$year] = $months;
     }
     return $array;
   }
   
-  public function getLogOfMonth($month, $year)
+  static public function getLogOfMonth($month, $year)
   {
     $file = REX_CRONJOB_LOG_FOLDER . $year .'/'. $year .'-'. $month .'.log';
     return rex_get_file_contents($file);
   }
   
-  public function getListOfMonth($month, $year)
+  static public function getListOfMonth($month, $year)
   {
     global $I18N;
-    $lines = explode("\n", trim(rex_cronjob_log::getLogOfMonth($month, $year)));
+    $lines = explode("\n", trim(self::getLogOfMonth($month, $year)));
     $monthName = rex_formatter::format(mktime(0,0,0,$month,1,1), 'strftime', '%B');
     $caption = $I18N->msg('cronjob_log_caption_1', $monthName, $year);
     $summary = $I18N->msg('cronjob_log_summary_1', $monthName, $year);
-    return rex_cronjob_log::_getList($lines, $caption, $summary);
+    return self::_getList($lines, $caption, $summary);
   }
   
-  public function getListOfNewestMessages($limit = 10)
+  static public function getListOfNewestMessages($limit = 10)
   {
     global $I18N;
-    $array = array_reverse(rex_cronjob_log::getYearMonthArray(),true);
+    $array = array_reverse(self::getYearMonthArray(),true);
     $messages = array();
     foreach($array as $year => $months)
     {
       $months = array_reverse($months,true);
       foreach($months as $month)
       {
-        $lines = explode("\n", trim(rex_cronjob_log::getLogOfMonth($month, $year)));
+        $lines = explode("\n", trim(self::getLogOfMonth($month, $year)));
         
         $end = min($limit - count($messages), count($lines));
         for($i = 0; $i < $end; $i++)
@@ -97,10 +97,10 @@ class rex_cronjob_log
     }
     $caption = $I18N->msg('cronjob_log_caption_2');
     $summary = $I18N->msg('cronjob_log_summary_2');
-    return rex_cronjob_log::_getList($messages, $caption, $summary);
+    return self::_getList($messages, $caption, $summary);
   }
   
-  public function save($name, $success, $message = '', $id = null)
+  static public function save($name, $success, $message = '', $id = null)
   {
     global $REX;
     
@@ -144,7 +144,7 @@ class rex_cronjob_log
     return rex_put_file_contents($file, $content);
   }
   
-  private function _getList($lines, $caption = '', $summary = '')
+  static private function _getList($lines, $caption = '', $summary = '')
   {
     global $REX, $I18N;
     $table_attr = '';

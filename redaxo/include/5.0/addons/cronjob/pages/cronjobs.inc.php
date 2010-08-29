@@ -147,9 +147,9 @@ if ($func == '')
   $form->setApplyUrl('index.php?page=cronjob');
   $form->setEditMode($func == 'edit');
   
-  $field =& $form->addSelectField('type');
+  $field = $form->addSelectField('type');
   $field->setLabel($I18N->msg('cronjob_type'));
-  $select =& $field->getSelect();
+  $select = $field->getSelect();
   $select->setSize(1);
   $typeFieldId = $field->getAttribute('id');
   $types = rex_cronjob_manager::getTypes();
@@ -167,7 +167,7 @@ if ($func == '')
     $select->setSelected('rex_cronjob_phpcode');
   $activeType = $field->getValue();
   
-  $field =& $form->addTextField('name');
+  $field = $form->addTextField('name');
   $field->setLabel($I18N->msg('cronjob_name'));
   $nameFieldId = $field->getAttribute('id');
   
@@ -181,23 +181,23 @@ if ($func == '')
     exit;
   }
   
-  $field =& $form->addIntervalField('interval');
+  $field = $form->addIntervalField('interval');
   $field->setLabel($I18N->msg('cronjob_interval'));
   
-  $field =& $form->addSelectField('environment');
+  $field = $form->addSelectField('environment');
   $field->setLabel($I18N->msg('cronjob_environment'));
   $field->setAttribute('multiple', 'multiple');
   $envFieldId = $field->getAttribute('id');
-  $select =& $field->getSelect();
+  $select = $field->getSelect();
   $select->setSize(2);
   $select->addOption($I18N->msg('cronjob_environment_frontend'),0);
   $select->addOption($I18N->msg('cronjob_environment_backend'),1);
   if ($func == 'add')
     $select->setSelected(array(0,1));
-   
-  $field =& $form->addSelectField('status');
+
+  $field = $form->addSelectField('status');
   $field->setLabel($I18N->msg('cronjob_status'));
-  $select =& $field->getSelect();
+  $select = $field->getSelect();
   $select->setSize(1);
   $select->addOption($I18N->msg('cronjob_status_activated'),1);
   $select->addOption($I18N->msg('cronjob_status_deactivated'),0);
@@ -206,7 +206,7 @@ if ($func == '')
   
   $form->addFieldset($I18N->msg('cronjob_type_parameters')); 
   
-  $fieldContainer =& $form->addContainerField('parameters');
+  $fieldContainer = $form->addContainerField('parameters');
   $fieldContainer->setAttribute('style', 'display: none');
   $fieldContainer->setMultiple(false);
   $fieldContainer->setActive($activeType);
@@ -248,7 +248,7 @@ if ($func == '')
           case 'link' :
           case 'linklist' :
             {
-              $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
+              $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
               $field->setLabel($param['label']);
               if (isset($param['notice']))
                 $field->setNotice($param['notice']);
@@ -256,9 +256,9 @@ if ($func == '')
             }
           case 'select' :
             {
-              $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
+              $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
               $field->setLabel($param['label']);
-              $select =& $field->getSelect();
+              $select = $field->getSelect();
               $select->addArrayOptions($param['options']);
               if (isset($param['notice']))
                 $field->setNotice($param['notice']);
@@ -267,7 +267,7 @@ if ($func == '')
           case 'checkbox' :
           case 'radio' :
             {
-              $field =& $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
+              $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
               $field->addArrayOptions($param['options']);
               if (isset($param['notice']))
                 $field->setNotice($param['notice']);

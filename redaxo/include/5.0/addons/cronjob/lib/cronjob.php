@@ -11,10 +11,11 @@
 
 abstract class rex_cronjob
 {
-  private $params = array();
-  private $message = '';
+  private 
+    $params = array(),
+    $message = '';
   
-  public function factory($class) 
+  final public function factory($class) 
   {
     if (!rex_autoload::getInstance()->autoload($class))
       return $class;
@@ -60,7 +61,7 @@ abstract class rex_cronjob
     return !empty($this->message);
   }
   
-  public abstract function execute();
+  abstract public function execute();
   
   public function getTypeName() 
   {
@@ -68,7 +69,7 @@ abstract class rex_cronjob
     return $this->getType();
   }
   
-  public function getType()
+  final public function getType()
   {
     return get_class($this);
   }
@@ -85,7 +86,7 @@ abstract class rex_cronjob
     return array();
   }
   
-  public function isValid($cronjob)
+  final public function isValid($cronjob)
   {
     return is_object($cronjob) && is_subclass_of($cronjob, 'rex_cronjob');
   }
