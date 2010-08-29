@@ -232,7 +232,7 @@ class rex_form
   {
     if(!isset($attributes['class']))
       $attributes['class'] = 'rex-form-element-container';
-    $attributes['internal::fieldClass'] = 'rex_form_element_container';
+    $attributes['internal::fieldClass'] = 'rex_form_container_element';
     
     $field =& $this->addField('', $name, $value, $attributes, true);
     return $field;
