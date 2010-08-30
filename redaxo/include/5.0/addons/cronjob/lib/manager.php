@@ -41,13 +41,6 @@ class rex_cronjob_manager
     return !empty($this->message);
   }
   
-  // DEPRECATED
-  public function check()
-  {
-    $sql_manager = rex_cronjob_manager_sql::factory($this);
-    $sql_manager->check();
-  }
-  
   public function tryExecute($cronjob, $name = '', $params = array(), $log = true, $id = null)
   {
     global $REX;
@@ -96,31 +89,6 @@ class rex_cronjob_manager
     return $success;
   }
   
-  public function saveNextTime($nexttime = null)
-  {
-    global $REX;
-    if ($nexttime === null)
-    {
-      $sql_manager = rex_cronjob_manager_sql::factory($this);
-      $nexttime = $sql_manager->getMinNextTime();
-    }
-    if ($nexttime === null)
-      $nexttime = 0;
-    else
-      $nexttime = max(1, $nexttime);
-    if ($nexttime != $REX['ADDON']['nexttime']['cronjob']) 
-    {
-      $content = '$REX[\'ADDON\'][\'nexttime\'][\'cronjob\'] = "'. addslashes($nexttime) .'";';
-      $file = $REX['SRC_PATH'] .'/addons/cronjob/config.inc.php';
-      if (rex_replace_dynamic_contents($file, $content))
-      {
-        $REX['ADDON']['nexttime']['cronjob'] = $nexttime;
-        return true;
-      }
-    }
-    return false;
-  }
-  
   static public function getTypes()
   {
     $types = self::$types;
@@ -141,5 +109,19 @@ class rex_cronjob_manager
   {
     $params['subject'][] = $params['class'];
     return $params['subject'];
+  }
+
+  // DEPRECATED
+  public function check()
+  {
+    $sql_manager = rex_cronjob_manager_sql::factory($this);
+    $sql_manager->check();
+  }
+
+  // DEPRECATED
+  public function saveNextTime($nexttime = null)
+  {
+    $sql_manager = rex_cronjob_manager_sql::factory($this);
+    return $sql_manager->saveNextTime($nexttime);
   }
 }

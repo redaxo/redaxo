@@ -40,8 +40,7 @@ class rex_cronjob_form extends rex_form
   protected function save() 
   {
     $return = parent::save();
-    $manager = rex_cronjob_manager::factory();
-    $manager->saveNextTime();
+    rex_cronjob_manager_sql::factory()->saveNextTime();
     return $return;
   }
 }

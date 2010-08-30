@@ -71,15 +71,14 @@ if (isset($REX['ADDON']['nexttime'][$mypage])
   && $REX['ADDON']['nexttime'][$mypage] != 0 
   && time() >= $REX['ADDON']['nexttime'][$mypage])
 {
-  rex_register_extension($EP, 'rex_a630_extension');
-}
-
-function rex_a630_extension($params) 
-{
-  global $REX;
-  if (!$REX['REDAXO'] || !in_array($REX['PAGE'], array('setup', 'login', 'cronjob')))
-  {
-    $manager = rex_cronjob_manager_sql::factory();
-    $manager->check();
-  }
+  rex_register_extension($EP, 
+    function ($params) 
+    {
+      global $REX;
+      if (!$REX['REDAXO'] || !in_array($REX['PAGE'], array('setup', 'login', 'cronjob')))
+      {
+        rex_cronjob_manager_sql::factory()->check();
+      }
+    }
+  );
 }

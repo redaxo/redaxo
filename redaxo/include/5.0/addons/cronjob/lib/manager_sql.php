@@ -19,30 +19,36 @@ class rex_cronjob_manager_sql
   {
     $this->sql = rex_sql::factory();
     // $this->sql->debugsql = true;
-    if (is_a($manager, 'rex_cronjob_manager'))
-      $this->manager = $manager;
-    else
-      $this->manager = rex_cronjob_manager::factory();
+    $this->manager = $manager;
   }
 
   public function factory(rex_cronjob_manager $manager = null)
   {
     return new rex_cronjob_manager_sql($manager);
   }
+
+  public function getManager()
+  {
+    if (!is_object($this->manager))
+    {
+      $this->manager = rex_cronjob_manager::factory();
+    }
+    return $this->manager;
+  }
   
   public function setMessage($message)
   {
-    $this->manager->setMessage($message);
+    $this->getManager()->setMessage($message);
   }
   
   public function getMessage()
   {
-    return $this->manager->getMessage();
+    return $this->getManager()->getMessage();
   }
   
   public function hasMessage()
   {
-    return $this->manager->hasMessage();
+    return $this->getManager()->hasMessage();
   }
   
   public function check()
@@ -80,7 +86,7 @@ class rex_cronjob_manager_sql
     $this->sql->setValue('status', $status);
     $this->sql->addGlobalUpdateFields();
     $success = $this->sql->update();
-    $this->manager->saveNextTime($this->getMinNextTime());
+    $this->saveNextTime();
     return $success;
   }
   
@@ -89,7 +95,7 @@ class rex_cronjob_manager_sql
     $this->sql->setTable(REX_CRONJOB_TABLE);
     $this->sql->setWhere('id = '. $id);
     $success = $this->sql->delete();
-    $this->manager->saveNextTime($this->getMinNextTime());
+    $this->saveNextTime();
     return $success;
   }
   
@@ -113,8 +119,8 @@ class rex_cronjob_manager_sql
     if ($this->sql->getRows() != 1)
     {
       $success = false;
-      $this->manager->setMessage('Cronjob not found in database');
-      $this->manager->saveNextTime($this->getMinNextTime());
+      $this->getManager()->setMessage('Cronjob not found in database');
+      $this->saveNextTime();
     }
     else
     {
@@ -127,10 +133,10 @@ class rex_cronjob_manager_sql
       $nexttime = $this->_calculateNextTime($interval);
       $this->setNextTime($id, $nexttime);
 
-      $this->manager->saveNextTime($this->getMinNextTime());
+      $this->saveNextTime();
 
       $cronjob = rex_cronjob::factory($type);
-      $success = $this->manager->tryExecute($cronjob, $name, $params, $log, $id);
+      $success = $this->getManager()->tryExecute($cronjob, $name, $params, $log, $id);
     }
     return $success;
   }
@@ -154,6 +160,30 @@ class rex_cronjob_manager_sql
     if($this->sql->getRows() == 1)
       return $this->sql->getValue('nexttime');
     return null;
+  }
+  
+  public function saveNextTime($nexttime = null)
+  {
+    global $REX;
+    if ($nexttime === null)
+    {
+      $nexttime = $this->getMinNextTime();
+    }
+    if ($nexttime === null)
+      $nexttime = 0;
+    else
+      $nexttime = max(1, $nexttime);
+    if ($nexttime != $REX['ADDON']['nexttime']['cronjob']) 
+    {
+      $content = '$REX[\'ADDON\'][\'nexttime\'][\'cronjob\'] = "'. addslashes($nexttime) .'";';
+      $file = $REX['SRC_PATH'] .'/addons/cronjob/config.inc.php';
+      if (rex_replace_dynamic_contents($file, $content))
+      {
+        $REX['ADDON']['nexttime']['cronjob'] = $nexttime;
+        return true;
+      }
+    }
+    return false;
   }
   
   private function _calculateNextTime($interval)
