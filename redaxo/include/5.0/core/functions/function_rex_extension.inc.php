@@ -121,7 +121,11 @@ function rex_call_func($function, $params, $parseParamsAsArray = true)
 {
   $func = '';
 
-  if (is_string($function) && strlen($function) > 0)
+  if (is_callable($function))
+  {
+    $func = $function;
+  }
+  elseif (is_string($function) && strlen($function) > 0)
   {
     // static class method
     if (strpos($function, '::') !== false)
