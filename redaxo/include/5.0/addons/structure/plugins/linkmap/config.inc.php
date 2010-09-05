@@ -26,6 +26,6 @@ if ($REX['REDAXO'])
   //$REX['ADDON']['navigation'][$mypage] = array('block'=>'system');
 
   $I18N->appendFile(dirname(__FILE__) .'/lang');
-  
-  $REX['VARIABLES'][] = 'rex_var_link';
 }
+
+$REX['VARIABLES'][] = 'rex_var_link';

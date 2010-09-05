@@ -29,6 +29,6 @@ if($REX["REDAXO"])
     $I18N->appendFile(dirname(__FILE__) .'/lang');
     include_once $REX['SRC_PATH'] . '/addons/' . $mypage . '/functions/function_rex_mediapool.inc.php';
   }
-  
-  $REX['VARIABLES'][] = 'rex_var_media';
 }
+
+$REX['VARIABLES'][] = 'rex_var_media';

@@ -24,5 +24,6 @@ if ($REX['REDAXO'])
 
   $I18N->appendFile(dirname(__FILE__) .'/lang');
 
-  $REX['VARIABLES'][] = 'rex_var_value';
 }
+
+$REX['VARIABLES'][] = 'rex_var_value';

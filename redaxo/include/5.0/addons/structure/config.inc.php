@@ -23,7 +23,8 @@ if ($REX['REDAXO'])
 
   $I18N->appendFile(dirname(__FILE__) .'/lang');
   
-  $REX['VARIABLES'][] = 'rex_var_globals';
-  $REX['VARIABLES'][] = 'rex_var_article';
-  $REX['VARIABLES'][] = 'rex_var_category';
 }
+
+$REX['VARIABLES'][] = 'rex_var_globals';
+$REX['VARIABLES'][] = 'rex_var_article';
+$REX['VARIABLES'][] = 'rex_var_category';
