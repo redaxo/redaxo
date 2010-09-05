@@ -141,7 +141,7 @@ abstract class rex_var
   /**
    * Callback um nicht explizit gehandelte OutputParameter zu behandeln
    */
-  protected function handleDefaultParam($varname, $args, $name, $value)
+  static public function handleDefaultParam($varname, array $args, $name, $value)
   {
     switch($name)
     {
@@ -162,7 +162,7 @@ abstract class rex_var
   /**
    * Parameter aus args auf die Ausgabe eines Widgets anwenden
    */
-  protected function handleGlobalWidgetParams($varname, $args, $value)
+  static public function handleGlobalWidgetParams($varname, array $args, $value)
   {
     return $value;
   }
@@ -170,7 +170,7 @@ abstract class rex_var
   /**
    * Parameter aus args auf den Wert einer Variablen anwenden
    */
-  protected function handleGlobalVarParams($varname, $args, $value)
+  static public function handleGlobalVarParams($varname, array $args, $value)
   {
     if(isset($args['callback']))
     {
@@ -200,7 +200,7 @@ abstract class rex_var
    * Parameter aus args zur Laufzeit auf den Wert einer Variablen anwenden.
    * Wichtig für Variablen, die Variable ausgaben haben.
    */
-  protected function handleGlobalVarParamsSerialized($varname, $args, $value)
+  static public function handleGlobalVarParamsSerialized($varname, array $args, $value)
   {
     $varname = str_replace('"', '\"', $varname);
     $args = str_replace('"', '\"', serialize($args));

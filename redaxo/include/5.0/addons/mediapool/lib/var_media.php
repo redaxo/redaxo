@@ -90,7 +90,7 @@ class rex_var_media extends rex_var
     return $content;
   }
 
-  protected function handleDefaultParam($varname, $args, $name, $value)
+  static public function handleDefaultParam($varname, array $args, $name, $value)
   {
     switch($name)
     {

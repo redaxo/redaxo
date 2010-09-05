@@ -80,7 +80,7 @@ class rex_var_link extends rex_var
     return $content;
   }
 
-  protected function handleDefaultParam($varname, $args, $name, $value)
+  static public function handleDefaultParam($varname, $args, $name, $value)
   {
     switch($name)
     {

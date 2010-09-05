@@ -29,7 +29,7 @@ class rex_var_category extends rex_var
     return $this->matchCategory($content);
   }
 
-  protected function handleDefaultParam($varname, $args, $name, $value)
+  static public function handleDefaultParam($varname, array $args, $name, $value)
   {
     switch($name)
     {
