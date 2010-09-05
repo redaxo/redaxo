@@ -11,21 +11,24 @@
 
 $mypage = 'mediapool';
 
-//$REX['ADDON']['name'][$mypage] = $I18N->msg('mediapool');
-//$REX['ADDON']['perm'][$mypage] = ''; // hasStructurePerm
-$REX['ADDON']['version'][$mypage] = "0.1";
-$REX['ADDON']['author'][$mypage] = "Jan Kristinus";
-$REX['ADDON']['supportpage'][$mypage] = '';
-$REX['ADDON']['navigation'][$mypage] = array('block'=>'system');
-
-$mpool = new rex_be_page_popup($I18N->msg('mediapool'), 'openMediaPool(); return false;');
-$mpool->setRequiredPermissions('hasMediaPerm');
-$REX['ADDON']['page'][$mypage] = $mpool; 
-
-if ($REX['REDAXO'])
+if($REX["REDAXO"])
 {
-  $I18N->appendFile(dirname(__FILE__) .'/lang');
-  include_once $REX['SRC_PATH'] . '/addons/' . $mypage . '/functions/function_rex_mediapool.inc.php';
+  //$REX['ADDON']['name'][$mypage] = $I18N->msg('mediapool');
+  //$REX['ADDON']['perm'][$mypage] = ''; // hasStructurePerm
+  $REX['ADDON']['version'][$mypage] = "0.1";
+  $REX['ADDON']['author'][$mypage] = "Jan Kristinus";
+  $REX['ADDON']['supportpage'][$mypage] = '';
+  $REX['ADDON']['navigation'][$mypage] = array('block'=>'system');
+  
+  $mpool = new rex_be_page_popup($I18N->msg('mediapool'), 'openMediaPool(); return false;');
+  $mpool->setRequiredPermissions('hasMediaPerm');
+  $REX['ADDON']['page'][$mypage] = $mpool; 
+  
+  if ($REX['REDAXO'])
+  {
+    $I18N->appendFile(dirname(__FILE__) .'/lang');
+    include_once $REX['SRC_PATH'] . '/addons/' . $mypage . '/functions/function_rex_mediapool.inc.php';
+  }
+  
+  $REX['VARIABLES'][] = 'rex_var_media';
 }
-
-$REX['VARIABLES'][] = 'rex_var_media';
