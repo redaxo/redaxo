@@ -24,19 +24,26 @@ if ($REX['REDAXO'])
   $I18N->appendFile(dirname(__FILE__) .'/lang');
 }
 
-//    $modules = new rex_be_page($I18N->msg('modules'), array('page'=>'module', 'subpage' => ''));
-//    $modules->setIsCorePage(true);
-//    $modules->setRequiredPermissions('isAdmin');
-//    $modules->setHref('index.php?page=module&subpage=');
-//    
-//    $actions = new rex_be_page($I18N->msg('actions'), array('page'=>'module', 'subpage' => 'actions'));
-//    $actions->setIsCorePage(true);
-//    $actions->setRequiredPermissions('isAdmin');
-//    $actions->setHref('index.php?page=module&subpage=actions');
-//    
-//    $mainModules = new rex_be_page($I18N->msg('modules'), array('page'=>'module'));
-//    $mainModules->setIsCorePage(true);
-//    $mainModules->setRequiredPermissions('isAdmin');
-//    $mainModules->addSubPage($modules);
-//    $mainModules->addSubPage($actions);
-//    $pages['module'] = new rex_be_page_main('system', $mainModules);
+
+if($REX['REDAXO'])
+{
+	rex_register_extension('PAGE_CHECKED', 'rex_subpage_modules');
+	
+	function rex_subpage_modules($params)
+	{
+		global $REX,$I18N;
+	
+	    $modules = new rex_be_page($I18N->msg('modules'), array('page'=>'modules', 'subpage' => ''));
+	    $modules->setRequiredPermissions('isAdmin');
+	    $modules->setHref('index.php?page=modules&subpage=');
+	
+	    $actions = new rex_be_page($I18N->msg('actions'), array('page'=>'modules', 'subpage' => 'actions'));
+	    $actions->setRequiredPermissions('isAdmin');
+	    $actions->setHref('index.php?page=modules&subpage=actions');
+	
+		$REX['PAGES']['modules']->page->addSubPage($modules);
+		$REX['PAGES']['modules']->page->addSubPage($actions);
+	
+	}
+
+}
