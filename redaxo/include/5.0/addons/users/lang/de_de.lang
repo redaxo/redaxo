@@ -1,0 +1,6 @@
+# redaxo\include\pages\user.inc.php
+
+roles = Rollen
+user_management = Benutzerverwaltung
+user = Benutzer
+users = Benutzer
