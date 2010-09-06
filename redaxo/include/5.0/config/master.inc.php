@@ -96,7 +96,7 @@ if(function_exists("date_default_timezone_set"))
 }
 
 // ----------------- OTHER STUFF
-$REX['SYSTEM_ADDONS'] = array('structure', 'templates', 'modules', 'import_export', 'metainfo', 'be_search', 'image_manager');
+$REX['SYSTEM_ADDONS'] = array('structure', 'templates', 'modules', 'import_export', 'metainfo', 'be_search', 'image_manager', 'user');
 $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
 
 // ----------------- DB1
