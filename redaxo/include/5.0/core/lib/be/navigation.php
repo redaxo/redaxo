@@ -223,11 +223,11 @@ class rex_be_navigation
 //    $linkmap->setRequiredPermissions('hasStructurePerm');
 //    $pages['linkmap'] = $linkmap;
     
-    $user = new rex_be_page($I18N->msg('user'), array('page'=>'user'));
-    $user->setIsCorePage(true);
-    $user->setRequiredPermissions('isAdmin');
-    $pages['user'] = new rex_be_page_main('system', $user);
-      
+//    $user = new rex_be_page($I18N->msg('user'), array('page'=>'user'));
+//    $user->setIsCorePage(true);
+//    $user->setRequiredPermissions('isAdmin');
+//    $pages['user'] = new rex_be_page_main('system', $user);
+
     $addon = new rex_be_page($I18N->msg('addon'), array('page'=>'addon'));
     $addon->setIsCorePage(true);
     $addon->setRequiredPermissions('isAdmin');
@@ -243,7 +243,7 @@ class rex_be_navigation
     $languages->setRequiredPermissions('isAdmin');
     $languages->setHref('index.php?page=specials&subpage=lang');
     
-    $syslog = new rex_be_page($I18N->msg('languages'), array('page'=>'specials', 'subpage' => 'log'));
+    $syslog = new rex_be_page($I18N->msg('syslog'), array('page'=>'specials', 'subpage' => 'log'));
     $syslog->setIsCorePage(true);
     $syslog->setRequiredPermissions('isAdmin');
     $syslog->setHref('index.php?page=specials&subpage=log');
