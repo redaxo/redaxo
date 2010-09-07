@@ -213,7 +213,7 @@ if ($subpage == '')
   }
   
   if ($info != '')
-    echo rex_info($info);
+    echo rex_info(htmlspecialchars($info));
 
   if ($warning != '' && $warning !== true)
     echo rex_warning($warning);
