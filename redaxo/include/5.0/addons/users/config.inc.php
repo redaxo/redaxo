@@ -29,16 +29,19 @@ if($REX['REDAXO'])
 	{
 		global $REX,$I18N;
 	
-	    $roles = new rex_be_page($I18N->msg('roles'), array('page'=>'users', 'subpage' => ''));
-	    $roles->setRequiredPermissions('isAdmin');
-	    $roles->setHref('index.php?page=users&subpage=');
-	
-	    $users = new rex_be_page($I18N->msg('users'), array('page'=>'users', 'subpage' => 'users'));
-	    $users->setRequiredPermissions('isAdmin');
-	    $users->setHref('index.php?page=users&subpage=users');
-	
-		$REX['PAGES']['users']->page->addSubPage($roles);
-		$REX['PAGES']['users']->page->addSubPage($users);
+		if($REX['PAGES']['users'])
+		{
+		    $roles = new rex_be_page($I18N->msg('roles'), array('page'=>'users', 'subpage' => ''));
+		    $roles->setRequiredPermissions('isAdmin');
+		    $roles->setHref('index.php?page=users&subpage=');
+		
+		    $users = new rex_be_page($I18N->msg('users'), array('page'=>'users', 'subpage' => 'users'));
+		    $users->setRequiredPermissions('isAdmin');
+		    $users->setHref('index.php?page=users&subpage=users');
+		
+			$REX['PAGES']['users']->page->addSubPage($roles);
+			$REX['PAGES']['users']->page->addSubPage($users);
+		}
 	
 	}
 

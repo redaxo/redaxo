@@ -33,16 +33,20 @@ if($REX['REDAXO'])
 	{
 		global $REX,$I18N;
 	
-	    $modules = new rex_be_page($I18N->msg('modules'), array('page'=>'modules', 'subpage' => ''));
-	    $modules->setRequiredPermissions('isAdmin');
-	    $modules->setHref('index.php?page=modules&subpage=');
+		if(($REX['PAGES']['modules']))
+		{
 	
-	    $actions = new rex_be_page($I18N->msg('actions'), array('page'=>'modules', 'subpage' => 'actions'));
-	    $actions->setRequiredPermissions('isAdmin');
-	    $actions->setHref('index.php?page=modules&subpage=actions');
-	
-		$REX['PAGES']['modules']->page->addSubPage($modules);
-		$REX['PAGES']['modules']->page->addSubPage($actions);
+		    $modules = new rex_be_page($I18N->msg('modules'), array('page'=>'modules', 'subpage' => ''));
+		    $modules->setRequiredPermissions('isAdmin');
+		    $modules->setHref('index.php?page=modules&subpage=');
+		
+		    $actions = new rex_be_page($I18N->msg('actions'), array('page'=>'modules', 'subpage' => 'actions'));
+		    $actions->setRequiredPermissions('isAdmin');
+		    $actions->setHref('index.php?page=modules&subpage=actions');
+		
+			$REX['PAGES']['modules']->page->addSubPage($modules);
+			$REX['PAGES']['modules']->page->addSubPage($actions);
+		}
 	
 	}
 
