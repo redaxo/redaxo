@@ -20,9 +20,6 @@ if ($REX['REDAXO'])
   $REX['ADDON']['author'][$mypage] = "Markus Staab";
   $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
   $REX['ADDON']['navigation'][$mypage] = array('block'=>'system');
-
-  $I18N->appendFile(dirname(__FILE__) .'/lang');
-  
 }
 
 $REX['VARIABLES'][] = 'rex_var_globals';

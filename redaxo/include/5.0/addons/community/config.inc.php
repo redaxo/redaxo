@@ -14,9 +14,6 @@ $REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
 $REX['ADDON']['supportpage'][$mypage] = 'redaxo.yakamara.de';
 $REX['PERM'][] = "community[]";
 
-if (isset($I18N) && is_object($I18N))
-  $I18N->appendFile(dirname(__FILE__) .'/lang');
-
 // ********** Community User Funktionen
 require $REX['SRC_PATH'] ."/addons/community/classes/class.rex_com.inc.php";
 

@@ -66,9 +66,6 @@ if($REX['REDAXO'])
     }
   }
   
-  // handle backend pages
-  $I18N->appendFile($REX['SRC_PATH'].'/addons/'.$mypage.'/lang/');
-  
   $descPage = new rex_be_page($I18N->msg('imanager_subpage_desc'), array(
       'page'=>'image_manager',
       'subpage'=>''

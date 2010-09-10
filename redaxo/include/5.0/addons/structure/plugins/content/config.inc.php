@@ -21,9 +21,6 @@ if ($REX['REDAXO'])
   $REX['ADDON']['version'][$mypage] = "1.3";
   $REX['ADDON']['author'][$mypage] = "Markus Staab";
   $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
-
-  $I18N->appendFile(dirname(__FILE__) .'/lang');
-
 }
 
 $REX['VARIABLES'][] = 'rex_var_value';

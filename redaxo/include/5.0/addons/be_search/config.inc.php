@@ -30,8 +30,6 @@ $REX['EXTPERM'][] = 'be_search[structure]';
 
 if ($REX['REDAXO'])
 {
-  $I18N->appendFile($REX['SRC_PATH'] .'/addons/'.$mypage.'/lang/');
-
   // Include Functions
   require_once $REX['SRC_PATH'] .'/addons/be_search/functions/functions.search.inc.php';
   

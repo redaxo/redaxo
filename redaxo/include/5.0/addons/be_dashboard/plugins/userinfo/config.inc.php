@@ -24,8 +24,6 @@ if($REX["REDAXO"] && $REX["USER"])
 {
   if(rex_request('page', 'string') == 'be_dashboard')
   {
-    $I18N->appendFile(dirname(__FILE__). '/lang/');
-    
     if(!defined('A659_DEFAULT_LIMIT'))
     {
       define('A659_DEFAULT_LIMIT', 7);

@@ -23,8 +23,6 @@ if($REX["REDAXO"] && $REX["USER"])
 {
   if(rex_request('page', 'string') == 'be_dashboard')
   {
-    $I18N->appendFile(dirname(__FILE__). '/lang/');
-    
     require_once dirname(__FILE__) .'/functions/function_version_check.inc.php';
     require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
     

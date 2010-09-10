@@ -11,8 +11,6 @@
 
 $mypage = 'users';
 
-if ($REX['REDAXO']){ $I18N->appendFile(dirname(__FILE__) .'/lang'); }
-
 $REX['ADDON']['name'][$mypage] = $I18N->msg('user_management');
 $REX['ADDON']['perm'][$mypage] = 'admin[]';
 $REX['ADDON']['version'][$mypage] = "1.0";

@@ -26,8 +26,6 @@ include ($REX['SRC_PATH'] .'/addons/'.$mypage.'/classes/basic/class.rex_xform.in
 
 if($REX['REDAXO'] && $REX['USER'])
 {
-	$I18N->appendFile($REX['SRC_PATH'] .'/addons/'.$mypage.'/lang/');
-	
 	$REX['ADDON'][$mypage]['SUBPAGES'] = array();
 	$REX['ADDON'][$mypage]['SUBPAGES'][] = array( '' , $I18N->msg("xform_overview"));
 	if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm("xform[]")) 

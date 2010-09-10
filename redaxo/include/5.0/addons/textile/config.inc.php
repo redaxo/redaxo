@@ -29,7 +29,5 @@ if ($REX['REDAXO'])
   require_once $REX['SRC_PATH'] .'/addons/textile/extensions/function_extensions.inc.php';
   require_once $REX['SRC_PATH'] .'/addons/textile/functions/function_help.inc.php';
 
-  $I18N->appendFile($REX['SRC_PATH'] .'/addons/'.$mypage.'/lang/');
-  
   rex_register_extension('PAGE_HEADER', 'rex_a79_css_add');
 }

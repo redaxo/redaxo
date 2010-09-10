@@ -11,10 +11,6 @@
 
 if($REX['REDAXO'])
 {
-
-  // Sprachdateien anhaengen
-  $I18N->appendFile(dirname(__FILE__) .'/lang/');
-  
   $REX['ADDON']['rxid']['optimize_tables'] = '630';
   
   // Credits

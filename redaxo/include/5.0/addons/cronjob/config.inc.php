@@ -13,10 +13,6 @@ $mypage = 'cronjob';
 
 if($REX['REDAXO'])
 {
-
-  // Sprachdateien anhaengen
-  $I18N->appendFile(dirname(__FILE__) .'/lang/');
-  
   $REX['ADDON']['rxid'][$mypage] = '630';
   $REX['ADDON']['name'][$mypage] = $I18N->msg('cronjob_title');
   $REX['ADDON']['perm'][$mypage] = 'admin[]';

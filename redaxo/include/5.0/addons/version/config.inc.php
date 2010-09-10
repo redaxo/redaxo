@@ -20,9 +20,6 @@ $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 $REX['EXTRAPERM'][] = 'version[only_working_version]';
 // $REX['EXTPERM'][] = 'version[admin]';
 
-if($REX['REDAXO'])
-	$I18N->appendFile($REX['SRC_PATH'] .'/addons/version/lang/');
-
 // ***** an EPs andocken
 rex_register_extension('ART_INIT', 'rex_version_initArticle');
 function rex_version_initArticle($params)
