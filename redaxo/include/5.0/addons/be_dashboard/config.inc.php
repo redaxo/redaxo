@@ -28,15 +28,6 @@ if($REX["REDAXO"] && $REX["USER"])
 {
   if(rex_request('page', 'string') == 'be_dashboard')
   {
-    require_once dirname(__FILE__) .'/classes/class.rex_cache.inc.php';
-    require_once dirname(__FILE__) .'/classes/cache/class.rex_cache_file.inc.php';
-    require_once dirname(__FILE__) .'/classes/cache/class.rex_cache_function.inc.php';
-    require_once dirname(__FILE__) .'/classes/class.component_base.inc.php';
-    require_once dirname(__FILE__) .'/classes/class.component_config.inc.php';
-    require_once dirname(__FILE__) .'/classes/class.component.inc.php';
-    require_once dirname(__FILE__) .'/classes/class.notification.inc.php';
-    require_once dirname(__FILE__) .'/classes/class.notification_component.inc.php';
-    
     require_once dirname(__FILE__) .'/functions/function_dashboard.inc.php';
     rex_register_extension('PAGE_HEADER', 'rex_a655_add_assets');
   }
