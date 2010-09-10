@@ -17,41 +17,54 @@ $REX['ADDON'] = array();
 
 require $REX['SRC_PATH']. '/config/plugins.inc.php';
 
-/**
- * @var $addonName rex_sql
- */
 foreach(OOAddon::getAvailableAddons() as $addonName)
 {
   $addonsFolder = rex_addons_folder($addonName);
-  $addonConfig = $addonsFolder. 'config.inc.php';
-  if(file_exists($addonConfig))
-  {
-    require $addonConfig;
-  }
+  
+  // add addon path for fragment loading
   if(is_readable($addonsFolder .'fragments'))
   {
     rex_fragment::addDirectory($addonsFolder .'fragments/');
   }
+  // add addon path for class-loading
   if(is_readable($addonsFolder .'lib'))
   {
     rex_autoload::getInstance()->addDirectory($addonsFolder .'lib/');
+  }
+  // add addon path for i18n
+  if(is_readable($addonsFolder .'lang'))
+  {
+    $I18N->appendFile($addonsFolder .'lang');
+  }
+  // include the addon itself
+  if(file_exists($addonsFolder. 'config.inc.php'))
+  {
+    require $addonsFolder. 'config.inc.php';
   }
   
   foreach(OOPlugin::getAvailablePlugins($addonName) as $pluginName)
   {
     $pluginsFolder = rex_plugins_folder($addonName, $pluginName);
-    $pluginConfig = $pluginsFolder. 'config.inc.php';
-    if(file_exists($pluginConfig))
-    {
-      rex_pluginManager::addon2plugin($addonName, $pluginName, $pluginConfig);
-    }
+    
+    // add plugin path for fragment loading
     if(is_readable($pluginsFolder .'fragments'))
     {
       rex_fragment::addDirectory($pluginsFolder .'fragments/');
     }
+    // add plugin path for class-loading
     if(is_readable($pluginsFolder .'lib'))
     {
       rex_autoload::getInstance()->addDirectory($pluginsFolder .'lib/');
+    }
+    // add plugin path for i18n
+    if(is_readable($pluginsFolder .'lang'))
+    {
+      $I18N->appendFile($pluginsFolder .'lang');
+    }
+    // transform the plugin into a regular addon and include it itself afterwards 
+    if(file_exists($pluginsFolder. 'config.inc.php'))
+    {
+      rex_pluginManager::addon2plugin($addonName, $pluginName, $pluginsFolder. 'config.inc.php');
     }
   }
 }
