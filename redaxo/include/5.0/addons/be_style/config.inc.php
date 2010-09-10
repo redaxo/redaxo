@@ -29,6 +29,3 @@ if($REX["REDAXO"])
   rex_register_extension('PAGE_HEADER', 'rex_be_style_css_add');
   rex_register_extension('ADDONS_INCLUDED', 'rex_be_add_page');
 }
-
-
-/* Test */
