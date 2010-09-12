@@ -16,7 +16,7 @@ class rex_be_page extends rex_be_page_container
   var $requiredPermissions;
   var $path;
   
-  function rex_be_page($title, $activateCondition = array(), $hidden = FALSE)
+  function rex_be_page($title, array $activateCondition = array(), $hidden = FALSE)
   {
     $this->title = $title;
     $this->subPages = array();
@@ -107,7 +107,7 @@ class rex_be_page extends rex_be_page_container
     $this->hasNavigation = $hasNavigation;
   }
   
-  function addSubPage(/*rex_be_page*/ $subpage)
+  function addSubPage(rex_be_page $subpage)
   {
     $this->subPages[] = $subpage;
   }
@@ -152,7 +152,7 @@ class rex_be_page extends rex_be_page_container
     return $this->requiredPermissions;
   }
   
-  function checkPermission(/*rex_login_sql*/ $rexUser)
+  function checkPermission(rex_login_sql $rexUser)
   {
     foreach($this->requiredPermissions as $perm)
     {
