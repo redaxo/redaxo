@@ -11,16 +11,15 @@
 
 $mypage = 'users';
 
-$REX['ADDON']['name'][$mypage] = $I18N->msg('user_management');
-$REX['ADDON']['perm'][$mypage] = 'admin[]';
-$REX['ADDON']['version'][$mypage] = "1.0";
-$REX['ADDON']['author'][$mypage] = "Jan Kristinus";
-$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
-$REX['ADDON']['navigation'][$mypage] = array('block'=>'system');
-
-
 if($REX['REDAXO'])
 {
+  $REX['ADDON']['name'][$mypage] = $I18N->msg('user_management');
+  $REX['ADDON']['perm'][$mypage] = 'admin[]';
+  $REX['ADDON']['version'][$mypage] = "1.0";
+  $REX['ADDON']['author'][$mypage] = "Jan Kristinus";
+  $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
+  $REX['ADDON']['navigation'][$mypage] = array('block'=>'system');
+  
 	rex_register_extension('PAGE_CHECKED', 'rex_subpage_users');
 	
 	function rex_subpage_users($params)
@@ -40,7 +39,5 @@ if($REX['REDAXO'])
 			$REX['PAGES']['users']->page->addSubPage($roles);
 			$REX['PAGES']['users']->page->addSubPage($users);
 		}
-	
 	}
-
 }
