@@ -243,18 +243,27 @@ if($REX['USER'])
         }
       }
     }
-
-    $mainAddonPage = null;
-    if ($addonPage) 
+    
+    if(rex_be_page_main::isValid($addonPage))
     {
-      $mainAddonPage = new rex_be_page_main('addons', $addonPage);
-      
-      // "navigation" adds attributes to the addon-root page
-      foreach(OOAddon::getProperty($addonName, 'navigation', array()) as $key => $value)
+      // addonPage was defined as a main-page itself, so we only need to add it to REX
+      $REX['PAGES'][$addonName] = $addonPage;
+    }
+    else
+    {
+      // wrap the be_page into a main_page
+      $mainAddonPage = null;
+      if ($addonPage) 
       {
-        $mainAddonPage->_set($key, $value);
+        $mainAddonPage = new rex_be_page_main('addons', $addonPage);
+        
+        // "navigation" adds attributes to the addon-root page
+        foreach(OOAddon::getProperty($addonName, 'navigation', array()) as $key => $value)
+        {
+          $mainAddonPage->_set($key, $value);
+        }
+        $REX['PAGES'][$addonName] = $mainAddonPage;
       }
-      $REX['PAGES'][$addonName] = $mainAddonPage;
     }
   }
 }
