@@ -32,7 +32,7 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
     rex_autoload::getInstance()->addDirectory($addonsFolder .'lib/');
   }
   // add addon path for i18n
-  if(is_readable($addonsFolder .'lang'))
+  if(isset($I18N) && is_readable($addonsFolder .'lang'))
   {
     $I18N->appendFile($addonsFolder .'lang');
   }
@@ -57,7 +57,7 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
       rex_autoload::getInstance()->addDirectory($pluginsFolder .'lib/');
     }
     // add plugin path for i18n
-    if(is_readable($pluginsFolder .'lang'))
+    if(isset($I18N) && is_readable($pluginsFolder .'lang'))
     {
       $I18N->appendFile($pluginsFolder .'lang');
     }
