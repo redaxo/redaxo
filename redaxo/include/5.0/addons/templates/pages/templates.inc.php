@@ -305,7 +305,7 @@ if ($function == "add" or $function == "edit")
             <legend>' . $legend . '</legend>
 
             <div class="rex-form-wrapper">
-              <input type="hidden" name="page" value="template" />
+              <input type="hidden" name="page" value="'. $page .'" />
               <input type="hidden" name="function" value="' . $function . '" />
               <input type="hidden" name="save" value="ja" />
               <input type="hidden" name="template_id" value="' . $template_id . '" />
