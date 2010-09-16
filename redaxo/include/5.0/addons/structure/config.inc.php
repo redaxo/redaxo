@@ -25,3 +25,5 @@ if ($REX['REDAXO'])
 $REX['VARIABLES'][] = 'rex_var_globals';
 $REX['VARIABLES'][] = 'rex_var_article';
 $REX['VARIABLES'][] = 'rex_var_category';
+
+require_once dirname(__FILE__). '/functions/function_rex_generate.inc.php';
