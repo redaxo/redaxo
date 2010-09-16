@@ -26,17 +26,6 @@ if($REX["REDAXO"])
 	
 	function rex_be_style_base_old_css_add($params)
   {
-    global $REX;
-    
-    $additionalJs = '';
-    if($REX['USER']->isAdmin())
-    {
-      $additionalJs = 'jQuery(function($){
-        $("#rex-navi-system").sortable();
-        $("#rex-navi-system").disableSelection();
-      });';
-    }
-  	
   	$params["subject"] = '
   <link rel="stylesheet" type="text/css" href="../redaxo_media/addons/be_style/plugins/base_old/css_import.css" media="screen, projection, print" />
   <!--[if lte IE 7]>
@@ -51,11 +40,8 @@ if($REX["REDAXO"])
     <link rel="stylesheet" href="../redaxo_media/addons/be_style/plugins/base_old/css_ie_lte_6.css" type="text/css" media="screen, projection, print" />
   <![endif]-->
   
-  <link type="text/css" href="../redaxo_media/addons/be_style/plugins/base_old/jquery-ui-1.8.4.custom.css" rel="stylesheet" /> 
-
   <!-- jQuery immer nach den Stylesheets! -->
   <script src="../redaxo_media/addons/be_style/plugins/base_old/jquery.min.js" type="text/javascript"></script>
-  <script src="../redaxo_media/addons/be_style/plugins/base_old/jquery-ui-1.8.4.custom.min.js" type="text/javascript"></script>
   <script src="../redaxo_media/addons/be_style/plugins/base_old/standard.js" type="text/javascript"></script>
   <script type="text/javascript">
   <!--
@@ -66,7 +52,6 @@ if($REX["REDAXO"])
   // and for the onload handler: jQuery(function($){ ... });
   jQuery.noConflict();
   
-  '. $additionalJs .'
   //-->
   </script>
   '.$params["subject"];	
