@@ -24,7 +24,9 @@ if($REX["REDAXO"])
   $mpool->setRequiredPermissions('hasMediaPerm');
   $REX['ADDON']['page'][$mypage] = $mpool; 
   
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage . '/functions/function_rex_mediapool.inc.php';
+  require_once dirname(__FILE__). '/functions/function_rex_mediapool.inc.php';
 }
+
+require_once dirname(__FILE__). '/functions/function_rex_generate.inc.php';
 
 $REX['VARIABLES'][] = 'rex_var_media';
