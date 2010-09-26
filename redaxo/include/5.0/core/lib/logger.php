@@ -34,13 +34,13 @@ class rex_logger {
     $logger = self::getInstance();
 
     if($logger->registered) return;
-    $logger->registered = true;
+      $logger->registered = true;
 
     set_error_handler(array($logger, 'logError'));
     set_exception_handler(array($logger, 'logException'));
     register_shutdown_function(array($logger, 'close'));
   }
-  
+
   static public function unregister()
   {
     $logger = self::getInstance();
@@ -50,7 +50,7 @@ class rex_logger {
 
     restore_error_handler();
     restore_exception_handler();
-    // unregister of shutdown function is not possible 
+    // unregister of shutdown function is not possible
   }
 
 
@@ -61,9 +61,18 @@ class rex_logger {
 
   public function logError($errno, $errstr, $errfile, $errline)
   {
-    $msg = " [$errno] $errstr on line <span>$errline</span> in file <span>$errfile</span><br />\n";
+    $msg = "$errstr on line <span>$errline</span> in file <span>$errfile</span><br />\n";
+    
+    // errors which should be reported regarding error_reporting() will be echo'ed to the end-user
+    if (error_reporting() & $errno) {
+      echo $msg;
+    }
+    
+    $msg = '[$errno] '. $msg;
+    
     switch ($errno) {
       case E_USER_ERROR:
+      case E_ERROR :
         $this->log("<b>ERROR</b>". $msg);
         exit(1);
         break;
@@ -77,7 +86,7 @@ class rex_logger {
       case E_NOTICE:
         $this->log("<b>NOTICE</b>". $msg);
         break;
-        
+
       case E_STRICT:
         $this->log("<b>STRICT</b>". $msg);
         break;
@@ -92,14 +101,14 @@ class rex_logger {
   {
     fwrite($this->handle, date('r') .'<br />'. $message);
   }
-  
+
   public function open()
   {
     $this->handle = fopen($this->file, 'ab');
-    
+
     // TODO handle error while filecreation
   }
-  
+
   public function close()
   {
     if($this->handle)
