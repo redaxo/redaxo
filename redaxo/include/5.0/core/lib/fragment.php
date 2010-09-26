@@ -40,7 +40,7 @@ class rex_fragment
   {
     if(is_null($name))
     {
-      throw new Exception(sprintf('Expecting $name to be not null!'));
+      throw new rexException(sprintf('Expecting $name to be not null!'));
     }
     
     if($escape)
@@ -78,7 +78,7 @@ class rex_fragment
     }
     else
     {
-      throw new Exception(sprintf('Unexpected type for $val, "%s" given', gettype($val)));
+      throw new rexException(sprintf('Unexpected type for $val, "%s" given', gettype($val)));
     }
   }
   
@@ -93,7 +93,7 @@ class rex_fragment
     
     if(!is_string($filename))
     {
-      throw new Exception(sprintf('Expecting $filename to be a string, %s given!', gettype($filename)));
+      throw new rexException(sprintf('Expecting $filename to be a string, %s given!', gettype($filename)));
     }
     
     $this->filename = $filename;
@@ -109,7 +109,7 @@ class rex_fragment
       }
     }
     
-    throw new Exception(sprintf('Fragmentfile "%s" not found!', $template));
+    throw new rexException(sprintf('Fragmentfile "%s.tpl" not found!', $filename));
   }
   
   // -------------------------- in fragment helpers
@@ -139,7 +139,7 @@ class rex_fragment
     
     if(!is_string($key))
     {
-      throw new Exception(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
+      throw new rexException(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
     }
     
     return $I18N->msg($key);
@@ -156,7 +156,7 @@ class rex_fragment
     
     if(!is_string($key))
     {
-      throw new Exception(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
+      throw new rexException(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
     }
     
     if(isset($REX[$key]))
@@ -174,7 +174,7 @@ class rex_fragment
   {
     if(!is_array($params))
     {
-      throw new Exception(sprintf('Expecting $params to be a array, %s given!', gettype($filename)));
+      throw new rexException(sprintf('Expecting $params to be a array, %s given!', gettype($filename)));
     }
     
     if(!isset($params['page']))
