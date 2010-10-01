@@ -68,7 +68,7 @@ class rex_logger {
       echo $msg;
     }
     
-    $msg = '[$errno] '. $msg;
+    $msg = '['. $errno .'] '. $msg;
     
     switch ($errno) {
       case E_USER_ERROR:
