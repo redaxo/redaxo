@@ -8,14 +8,24 @@
 
 class OOAddon extends rex_addon
 {
-  /*
+  /**
+   * Erstellt eine OOAddon instanz
+   * 
+   * @param string $addon Name des Addons
+   */
+  public function __construct($addon)
+  {
+    parent::__construct($addon);
+  }
+  
+  /**
    * Prüft, ob ein System-Addon vorliegt
    * 
    * @param string $addon Name des Addons
    * 
    * @return boolean TRUE, wenn es sich um ein System-Addon handelt, sonst FALSE
    */
-  static public function isSystemAddon($addon)
+  public function isSystemAddon($addon)
   {
     global $REX;
     return in_array($addon, $REX['SYSTEM_ADDONS']);
