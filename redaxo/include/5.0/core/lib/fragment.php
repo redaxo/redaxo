@@ -52,35 +52,6 @@ class rex_fragment
       $this->vars[$name] = $value;
     }
   }
-
-  /**
-   * Escapes the value $val
-   * 
-   * @param mixed $val the value to escape
-   */
-  private function escape($val)
-  {
-    if(is_array($val))
-    {
-      foreach($val as $k => $v)
-      {
-        $val[$k] = $this->escape($v);
-      }
-      return $val;
-    }
-    else if(is_string($val))
-    {
-      return htmlspecialchars($val);
-    }
-    else if(is_scalar($val))
-    {
-      return $val;
-    }
-    else
-    {
-      throw new rexException(sprintf('Unexpected type for $val, "%s" given', gettype($val)));
-    }
-  }
   
   /**
    * Parses the variables of the fragment into the file $filename
@@ -114,6 +85,49 @@ class rex_fragment
   
   // -------------------------- in fragment helpers
 
+  /**
+   * Escapes the value $val
+   * 
+   * @param mixed $val the value to escape
+   */
+  protected function escape($val)
+  {
+    if (is_array($val))
+    {
+      // iterate over the whole array
+      foreach($val as $k => $v)
+      {
+        $val[$k] = $this->escape($v);
+      }
+      return $val;
+    }
+    else if (is_object($val))
+    {
+      // iterate over all public properties
+      foreach(get_object_vars($val) as $k => $v)
+      {
+        $val->$k = $this->escape($v);
+      }
+      return $val;
+    }
+    else if (is_string($val))
+    {
+      return htmlspecialchars($val);
+    }
+    else if (is_scalar($val))
+    {
+      return $val;
+    }
+    else if (is_null($val))
+    {
+      return $val;
+    }
+    else
+    {
+      throw new rexException(sprintf('Unexpected type for $val, "%s" given', gettype($val)));
+    }
+  }
+  
   /**
    * Include a Subfragment from within a fragment.
    * 
