@@ -61,7 +61,7 @@ class rex_logger {
 
   public function logError($errno, $errstr, $errfile, $errline)
   {
-    $msg = "$errstr on line <span>$errline</span> in file <span>$errfile</span><br />\n";
+    $msg = "$errstr in file <span class='rex-err-file'>$errfile</span> on line <span class='rex-err-line'>$errline</span><br />\n";
     
     // errors which should be reported regarding error_reporting() will be echo'ed to the end-user
     if (error_reporting() & $errno) {
