@@ -5,7 +5,7 @@ class rex_be_page_main implements rex_be_page_container
   var $block;
   var $page;
   
-  function rex_be_page_main($block, rex_be_page $page)
+  function __construct($block, rex_be_page $page)
   {
     if(!is_string($block))
     {

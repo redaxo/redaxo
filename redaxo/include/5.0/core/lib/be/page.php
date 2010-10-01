@@ -16,23 +16,17 @@ class rex_be_page implements rex_be_page_container
   var $requiredPermissions;
   var $path;
   
-  function rex_be_page($title, array $activateCondition = array(), $hidden = false)
+  function __construct($title, array $activateCondition = array(), $hidden = false)
   {
     if(!is_string($title))
     {
-      throw new rexException('Expecting $title to be a string, '. gettype($title) .'given!');
-    }
-    
-    if(!is_array($activateCondition))
-    {
-      throw new rexException('Expecting $activateCondition to be a array, '. gettype($activateCondition) .'given!');
+      throw new rexException('Expecting $title to be a string, '. gettype($title) .' given!');
     }
     
     if(!is_bool($hidden))
     {
       throw new rexException('Expecting $hidden to be a boolean, '. gettype($hidden) .'given!');
     }
-    
     
     $this->title = $title;
     $this->subPages = array();
