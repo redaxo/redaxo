@@ -44,7 +44,9 @@ class OOCategory extends OORedaxo
 
     if (!file_exists($categorylist))
     {
-    	include_once ($REX["SRC_PATH"]."/core/functions/function_rex_generate.inc.php");
+      // FIXME: find better path detection
+      require_once dirname(__FILE__). '/../functions/function_rex_generate.inc.php';
+//      require_once ($REX['SRC_PATH'].'/core/functions/function_rex_generate.inc.php');
     	rex_generateLists($cat_parent_id);
     }
 

@@ -32,7 +32,9 @@ class OOArticle extends OORedaxo
     $article_path = $REX['SRC_PATH'].'/generated/articles/'.$article_id.'.'.$clang.'.article';
     if (!file_exists($article_path))
 		{
-			require_once ($REX['SRC_PATH'].'/core/functions/function_rex_generate.inc.php');
+		  // FIXME: find better path detection
+		  require_once dirname(__FILE__). '/../functions/function_rex_generate.inc.php';
+//			require_once ($REX['SRC_PATH'].'/core/functions/function_rex_generate.inc.php');
     	rex_generateArticleMeta($article_id, $clang);
 		}
 
@@ -91,7 +93,9 @@ class OOArticle extends OORedaxo
     $articlelist = $REX['SRC_PATH']."/generated/articles/".$a_category_id.".".$clang.".alist";
     if(!file_exists($articlelist))
     {
-			include_once ($REX['SRC_PATH'].'/core/functions/function_rex_generate.inc.php');
+      // FIXME: find better path detection
+      require_once dirname(__FILE__). '/../functions/function_rex_generate.inc.php';
+//      require_once ($REX['SRC_PATH'].'/core/functions/function_rex_generate.inc.php');
       rex_generateLists($a_category_id, $clang);
     }
 
