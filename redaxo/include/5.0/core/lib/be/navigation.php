@@ -43,8 +43,7 @@ class rex_be_navigation
     {
 	    foreach($this->pages as $block => $blockPages)
 	    {
-        // PHP4 compat notation
-	      $n = $this->_getNavigation($this->pages[$block], 0, $block);
+	      $n = $this->_getNavigation($blockPages, 0, $block);
      	  if($n != "")
         {
 	        $headline = $this->getHeadline($block);
@@ -59,7 +58,7 @@ class rex_be_navigation
     
   }
   
-  private function _getNavigation(&$blockPages, $level = 0, $block = '')
+  private function _getNavigation($blockPages, $level = 0, $block = '')
   {
       global $REX;
     
@@ -73,8 +72,7 @@ class rex_be_navigation
       $first = TRUE;
       foreach($blockPages as $key => $pageContainer)
       {
-        // PHP4 compat notation
-        $page =& $blockPages[$key]->getPage();
+        $page = $pageContainer->getPage();
         
         if(!$page->getHidden() && $page->checkPermission($REX['USER']))
         {
@@ -126,8 +124,7 @@ class rex_be_navigation
 	    {
 	      foreach($blockPages as $mn => $pageContainer)
 	      {
-          // PHP4 compat notation
-	        $page =& $this->pages[$block][$mn]->getPage();
+	        $page = $pageContainer->getPage();
 	        
 	        // check main pages
 	        $condition = $page->getActivateCondition();
@@ -139,8 +136,7 @@ class rex_be_navigation
   	        $subpages =& $page->getSubPages();
   	        foreach($subpages as $sn => $subpage)
   	        {
-              // PHP4 compat notation
-  	          $condition = $subpages[$sn]->getActivateCondition();
+  	          $condition = $subpage->getActivateCondition();
   	          if($this->checkActivateCondition($condition))
   	          {
   	            $subpages[$sn]->addItemClass('rex-active');

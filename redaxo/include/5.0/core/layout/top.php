@@ -63,7 +63,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 		$p = strtolower($p);
     if(rex_be_page_main::isValid($pageContainer))
     {
-      $pageObj =& $pageContainer->getPage();
+      $pageObj = $pageContainer->getPage();
       $pageObj->setItemAttr('id', 'rex-navi-page-'.strtolower(preg_replace('/[^a-zA-Z0-9\-_]*/', '', $p)));
       
       if(!$pageContainer->getBlock())
