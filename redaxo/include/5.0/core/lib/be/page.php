@@ -1,6 +1,6 @@
 <?php
 
-class rex_be_page extends rex_be_page_container
+class rex_be_page implements rex_be_page_container
 {
   var $title;
   
@@ -16,8 +16,24 @@ class rex_be_page extends rex_be_page_container
   var $requiredPermissions;
   var $path;
   
-  function rex_be_page($title, array $activateCondition = array(), $hidden = FALSE)
+  function rex_be_page($title, array $activateCondition = array(), $hidden = false)
   {
+    if(!is_string($title))
+    {
+      throw new rexException('Expecting $title to be a string, '. gettype($title) .'given!');
+    }
+    
+    if(!is_array($activateCondition))
+    {
+      throw new rexException('Expecting $activateCondition to be a array, '. gettype($activateCondition) .'given!');
+    }
+    
+    if(!is_bool($hidden))
+    {
+      throw new rexException('Expecting $hidden to be a boolean, '. gettype($hidden) .'given!');
+    }
+    
+    
     $this->title = $title;
     $this->subPages = array();
     $this->itemAttr = array();
@@ -30,7 +46,7 @@ class rex_be_page extends rex_be_page_container
     $this->hidden = $hidden;
   }
   
-  function &getPage()
+  function getPage()
   {
     return $this;
   }
@@ -69,6 +85,14 @@ class rex_be_page extends rex_be_page_container
   
   function setLinkAttr($name, $value)
   {
+    if(!is_string($name))
+    {
+      throw new rexException('Expecting $name to be a string, '. gettype($name) .'given!');
+    }
+    if(!is_scalar($value))
+    {
+      throw new rexException('Expecting $value to be a scalar, '. gettype($value) .'given!');
+    }
     $this->linkAttr[$name] = $value;
   }
   
@@ -87,7 +111,7 @@ class rex_be_page extends rex_be_page_container
     return $this->href;
   }
 
-  function setHidden($hidden = TRUE)
+  function setHidden($hidden = true)
   {
     $this->hidden = $hidden;
   }

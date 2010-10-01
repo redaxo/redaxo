@@ -55,7 +55,7 @@ function rex_title($head, $subtitle = '')
   {
     $subtitle = '<div class="rex-title-row rex-title-row-sub rex-title-row-empty"><p>&nbsp;</p></div>';
   }
-  else if(is_array($subtitle) && rex_be_page_container::isValid($subtitle[0]))
+  else if(is_array($subtitle) && $subtitle[0] instanceof rex_be_page_container)
   {
     $nav = rex_be_navigation::factory();
     $nav->setHeadline('default', $I18N->msg('subnavigation', $head));

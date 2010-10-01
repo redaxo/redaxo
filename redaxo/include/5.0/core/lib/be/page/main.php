@@ -1,12 +1,17 @@
 <?php
 
-class rex_be_page_main extends rex_be_page_container
+class rex_be_page_main implements rex_be_page_container
 {
   var $block;
   var $page;
   
   function rex_be_page_main($block, rex_be_page $page)
   {
+    if(!is_string($block))
+    {
+      throw new rexException('Expecting $block to be a string, '. gettype($block) .'given!');
+    }
+    
     $this->block = $block;
     $this->page = $page;
   }
@@ -21,7 +26,7 @@ class rex_be_page_main extends rex_be_page_container
     return $this->block;
   }
   
-  function &getPage()
+  function getPage()
   {
     return $this->page;
   }

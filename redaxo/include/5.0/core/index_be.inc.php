@@ -125,7 +125,7 @@ if($REX['USER'])
     
     // prepare addons root-page
     $addonPage = null;
-    if ($page != null && rex_be_page_container::isValid($page) && $page->getPage()->checkPermission($REX['USER']))
+    if ($page != null && $page instanceof rex_be_page_container && $page->getPage()->checkPermission($REX['USER']))
     {
         $addonPage = $page;
     }
@@ -177,7 +177,7 @@ if($REX['USER'])
       
       // prepare plugins root-page
       $pluginPage = null;
-      if ($page != null && rex_be_page_container::isValid($page) && $page->getPage()->checkPermission($REX['USER']))
+      if ($page != null && $page instanceof rex_be_page_container && $page->getPage()->checkPermission($REX['USER']))
       {
           $pluginPage = $page;
       }
