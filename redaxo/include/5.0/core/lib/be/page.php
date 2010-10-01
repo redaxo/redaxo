@@ -64,11 +64,23 @@ class rex_be_page implements rex_be_page_container
   
   function setItemAttr($name, $value)
   {
+    if(!is_string($name))
+    {
+      throw new rexException('Expecting $name to be a string, '. gettype($name) .'given!');
+    }
+    if(!is_scalar($value))
+    {
+      throw new rexException('Expecting $value to be a scalar, '. gettype($value) .'given!');
+    }
     $this->itemAttr[$name] = $value;
   }
   
   function addItemClass($class)
   {
+    if(!is_string($class))
+    {
+      throw new rexException('Expecting $class to be a string, '. gettype($class) .'given!');
+    }
     $this->setItemAttr('class', ltrim($this->getItemAttr('class').' '. $class));
   }
   
