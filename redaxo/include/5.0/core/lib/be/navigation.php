@@ -214,11 +214,6 @@ class rex_be_navigation
     $credits->setIsCorePage(true);
     $pages['credits'] = $credits;
     
-//    $linkmap = new rex_be_page_popup($I18N->msg('linkmap'));
-//    $linkmap->setIsCorePage(true);
-//    $linkmap->setRequiredPermissions('hasStructurePerm');
-//    $pages['linkmap'] = $linkmap;
-    
 //    $user = new rex_be_page($I18N->msg('user'), array('page'=>'user'));
 //    $user->setIsCorePage(true);
 //    $user->setRequiredPermissions('isAdmin');
