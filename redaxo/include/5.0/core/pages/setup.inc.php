@@ -255,7 +255,7 @@ function rex_setup_setUtf8()
 		echo '<div class="rex-area-scroll">';
 
 		$Basedir = dirname(__FILE__);
-		$license_file = $Basedir.'/../../../_lizenz.txt';
+		$license_file = $Basedir.'/../../../../../_lizenz.txt';
 		$license = '<p class="rex-tx1">'.nl2br(rex_get_file_contents($license_file)).'</p>';
 
 		if(strpos($REX['LANG'], 'utf') !== false)
