@@ -392,7 +392,7 @@ function rex_editCLang($id, $name)
  * 
  * @return TRUE bei Erfolg, sonst FALSE
  */
-function rex_generateAddons($ADDONS)
+function rex_generateAddons(array $ADDONS)
 {
   global $REX;
 
@@ -436,7 +436,7 @@ function rex_generateAddons($ADDONS)
  * 
  * @return TRUE bei Erfolg, sonst eine Fehlermeldung
  */
-function rex_generatePlugins($PLUGINS)
+function rex_generatePlugins(array $PLUGINS)
 {
   global $REX;
   
