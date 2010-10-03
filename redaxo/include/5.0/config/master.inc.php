@@ -18,7 +18,7 @@ $REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(664); // oktaler wert
 $REX['DIRPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20100101100101";
+$REX['INSTNAME'] = "rex20101003163929";
 $REX['SESSION_DURATION'] = 3000;
 
 // Is set first time SQL Object ist initialised
@@ -96,7 +96,7 @@ if(function_exists("date_default_timezone_set"))
 }
 
 // ----------------- OTHER STUFF
-$REX['SYSTEM_ADDONS'] = array('structure', 'templates', 'modules', 'import_export', 'metainfo', 'be_search', 'image_manager', 'users');
+$REX['SYSTEM_ADDONS'] = array('structure', 'templates', 'modules', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'image_manager', 'users');
 $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
 
 // ----------------- DB1
