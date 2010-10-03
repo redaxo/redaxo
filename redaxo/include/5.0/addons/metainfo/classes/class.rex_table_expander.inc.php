@@ -63,7 +63,7 @@ class rex_a62_tableExpander extends rex_form
     $field->setLabel($I18N->msg('minfo_field_label_title'));
     $field->setNotice($I18N->msg('minfo_field_notice_title'));
 
-	  $gq = new rex_sql;
+	  $gq = rex_sql::factory();
 		$gq->setQuery('SELECT dbtype,id FROM '. $REX['TABLE_PREFIX'] .'62_type');
 		$textFields = array();
 		foreach($gq->getArray() as $f) 
