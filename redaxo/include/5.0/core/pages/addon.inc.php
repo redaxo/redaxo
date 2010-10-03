@@ -14,10 +14,10 @@ $subpage    = rex_request('subpage', 'string');
 $info       = stripslashes(rex_request('info', 'string'));
 
 // -------------- READ CONFIG
-$ADDONS    = rex_read_addons_folder();
+$ADDONS    = OOAddon::getRegisteredAddons();
 $PLUGINS   = array();
 foreach($ADDONS as $_addon)
-  $PLUGINS[$_addon] = rex_read_plugins_folder($_addon);
+  $PLUGINS[$_addon] = OOPlugin::getRegisteredPlugins($_addon);
   
 $addonname  = array_search($addonname, $ADDONS) !== false ? $addonname : '';
 if($addonname != '')
@@ -89,6 +89,7 @@ if ($addonname != '')
   $activate   = rex_get('activate', 'int', -1);
   $uninstall  = rex_get('uninstall', 'int', -1);
   $delete     = rex_get('delete', 'int', -1);
+  $move       = rex_get('move', 'string', '');
   
   $redirect = false;
   
@@ -175,6 +176,42 @@ if ($addonname != '')
       $redirect = true;
     }
   }
+  // ----------------- ADDON MOVE
+  elseif ($move)
+  {
+    if($move == 'up')
+    {
+      if($pluginname != '')
+      {
+        if (($warning = $addonManager->moveUp($pluginname)) === true)
+        {
+          $info = $I18N->msg("plugin_moved_up", $pluginname);
+          $redirect = true;
+        }
+      }
+      else if (($warning = $addonManager->moveUp($addonname)) === true)
+      {
+        $info = $I18N->msg("addon_moved_up", $addonname);
+        $redirect = true;
+      }
+    }
+    else if($move == 'down')
+    {
+      if($pluginname != '')
+      {
+        if (($warning = $addonManager->moveDown($pluginname)) === true)
+        {
+          $info = $I18N->msg("plugin_moved_down", $pluginname);
+          $redirect = true;
+        }
+      }
+      else if (($warning = $addonManager->moveDown($addonname)) === true)
+      {
+        $info = $I18N->msg("addon_moved_down", $addonname);
+        $redirect = true;
+      }
+    }
+  }
   
   if ($redirect)
   {
@@ -188,10 +225,11 @@ if ($subpage == '')
 {
   // Vergleiche Addons aus dem Verzeichnis addons/ mit den Eintraegen in config/addons.inc.php
   // Wenn ein Addon in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
-  if (count(array_diff($ADDONS, OOAddon::getRegisteredAddons())) > 0 ||
-      count(array_diff(OOAddon::getRegisteredAddons(), $ADDONS)) > 0)
+  $addonsFolder = rex_read_addons_folder();
+  if (count(array_diff($ADDONS, $addonsFolder)) > 0 ||
+      count(array_diff($addonsFolder, $ADDONS)) > 0)
   {
-    if (($state = rex_generateAddons($ADDONS)) !== true)
+    if (($state = rex_generateAddons($addonsFolder)) !== true)
     {
       $warning .= $state;
     }
@@ -201,10 +239,11 @@ if ($subpage == '')
   // Wenn ein plugin in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
   foreach($ADDONS as $addon)
   {
-    if (count(array_diff($PLUGINS[$addon], OOPlugin::getRegisteredPlugins($addon))) > 0 ||
-        count(array_diff(OOPlugin::getRegisteredPlugins($addon), $PLUGINS[$addon])) > 0)
+    $pluginsFolder = rex_read_plugins_folder($addon);
+    if (count(array_diff($PLUGINS[$addon], $pluginsFolder)) > 0 ||
+        count(array_diff($pluginsFolder, $PLUGINS[$addon])) > 0)
     {
-      if (($state = rex_generateplugins($PLUGINS)) !== true)
+      if (($state = rex_generatePlugins($pluginsFolder)) !== true)
       {
         $warning .= $state;
         break;

@@ -4,10 +4,10 @@ class rex_addonManager extends rex_baseManager
 {
   var $configArray;
   
-  function rex_addonManager($configArray)
+  function __construct($configArray)
   {
     $this->configArray = $configArray;
-    parent::rex_baseManager('addon_');
+    parent::__construct('addon_');
   }
   
   public function delete($addonName)
@@ -19,6 +19,56 @@ class rex_addonManager extends rex_baseManager
       return $I18N->msg('addon_systemaddon_delete_not_allowed');
       
     return parent::delete($addonName);
+  }
+  
+  public function moveUp($addonName)
+  {
+    global $I18N;
+    
+    $key = array_search($addonName, $this->configArray);
+    if($key === false)
+    {
+      throw new rexException('Addon with name "'. $addonName .'" not found!');
+    }
+    
+    // it's not allowed to move the first addon up
+    if($key === 0)
+    {
+      return $I18N->msg('addon_move_first_up_not_allowed');
+    }
+    
+    // swap addon with it's predecessor
+    $prev = $this->configArray[$key - 1];
+    $this->configArray[$key - 1] = $this->configArray[$key];
+    $this->configArray[$key] = $prev;
+    
+    // save the changes
+    return $this->generateConfig();
+  }
+  
+  public function moveDown($addonName)
+  {
+    global $I18N;
+    
+    $key = array_search($addonName, $this->configArray);
+    if($key === false)
+    {
+      throw new rexException('Addon with name "'. $addonName .'" not found!');
+    }
+
+    // it's not allowed to move the last addon down
+    if($key === (count($this->configArray) - 1) )
+    {
+      return $I18N->msg('addon_move_last_down_not_allowed');
+    }
+    
+    // swap addon with it's successor
+    $next = $this->configArray[$key + 1];
+    $this->configArray[$key + 1] = $this->configArray[$key];
+    $this->configArray[$key] = $next;
+    
+    // save the changes
+    return $this->generateConfig();
   }
   
   protected function includeConfig($addonName, $configFile)
