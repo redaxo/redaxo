@@ -12,21 +12,70 @@ $addonname  = rex_request('addonname', 'string');
 $pluginname = rex_request('pluginname', 'string');
 $subpage    = rex_request('subpage', 'string');
 $info       = stripslashes(rex_request('info', 'string'));
+$warning = '';
+
 
 // -------------- READ CONFIG
 $ADDONS    = OOAddon::getRegisteredAddons();
 $PLUGINS   = array();
 foreach($ADDONS as $_addon)
+{
   $PLUGINS[$_addon] = OOPlugin::getRegisteredPlugins($_addon);
+}
   
+// -------------- CHECK IF CONFIG FILES ARE UP2DATE
+if ($subpage == '')
+{
+  // Vergleiche Addons aus dem Verzeichnis addons/ mit den Eintraegen in config/addons.inc.php
+  // Wenn ein Addon in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
+  $addonsFilesys = rex_read_addons_folder();
+  if (count(array_diff($ADDONS, $addonsFilesys)) > 0 ||
+      count(array_diff($addonsFilesys, $ADDONS)) > 0)
+  {
+    if (($state = rex_generateAddons($addonsFilesys)) !== true)
+    {
+      $warning .= $state;
+    }
+  }
+
+  // read all plugins which are present in the folders
+  $pluginsFilesys = array();
+  foreach($addonsFilesys as $addon)
+  {
+    $pluginsFilesys[$addon] = rex_read_plugins_folder($addon);
+  }
+  
+  // Vergleiche plugins aus dem Verzeichnis plugins/ mit den Eintraegen in include/plugins.inc.php
+  // Wenn ein plugin in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
+  foreach($addonsFilesys as $addon)
+  {
+    if (count(array_diff($PLUGINS[$addon], $pluginsFilesys[$addon])) > 0 ||
+        count(array_diff($pluginsFilesys[$addon], $PLUGINS[$addon])) > 0)
+    {
+      if (($state = rex_generatePlugins($pluginsFilesys)) !== true)
+      {
+        $warning .= $state;
+      }
+      break;
+    }
+  }
+  
+  // -------------- RE-READ CONFIG
+  $ADDONS    = OOAddon::getRegisteredAddons();
+  $PLUGINS   = array();
+  foreach($ADDONS as $_addon)
+  {
+    $PLUGINS[$_addon] = OOPlugin::getRegisteredPlugins($_addon);
+  }
+}
+
+// -------------- Sanity checks
 $addonname  = array_search($addonname, $ADDONS) !== false ? $addonname : '';
 if($addonname != '')
   $pluginname = array_search($pluginname, $PLUGINS[$addonname]) !== false ? $pluginname : '';
 else
   $pluginname = '';
   
-$warning = '';
-
 if($pluginname != '')
 {
   $addonManager = new rex_pluginManager($PLUGINS, $addonname);
@@ -223,34 +272,6 @@ if ($addonname != '')
 // ----------------- OUT
 if ($subpage == '')
 {
-  // Vergleiche Addons aus dem Verzeichnis addons/ mit den Eintraegen in config/addons.inc.php
-  // Wenn ein Addon in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
-  $addonsFolder = rex_read_addons_folder();
-  if (count(array_diff($ADDONS, $addonsFolder)) > 0 ||
-      count(array_diff($addonsFolder, $ADDONS)) > 0)
-  {
-    if (($state = rex_generateAddons($addonsFolder)) !== true)
-    {
-      $warning .= $state;
-    }
-  }
-
-  // Vergleiche plugins aus dem Verzeichnis plugins/ mit den Eintraegen in include/plugins.inc.php
-  // Wenn ein plugin in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
-  foreach($ADDONS as $addon)
-  {
-    $pluginsFolder = rex_read_plugins_folder($addon);
-    if (count(array_diff($PLUGINS[$addon], $pluginsFolder)) > 0 ||
-        count(array_diff($pluginsFolder, $PLUGINS[$addon])) > 0)
-    {
-      if (($state = rex_generatePlugins($pluginsFolder)) !== true)
-      {
-        $warning .= $state;
-        break;
-      }
-    }
-  }
-  
   if ($info != '')
     echo rex_info(htmlspecialchars($info));
 
