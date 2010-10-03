@@ -395,7 +395,6 @@ function rex_editCLang($id, $name)
 function rex_generateAddons($ADDONS)
 {
   global $REX;
-  natsort($ADDONS);
 
   $content = "";
   foreach ($ADDONS as $addon)
@@ -418,8 +417,8 @@ function rex_generateAddons($ADDONS)
     $content .= "\n";      
   }
 
-  // Da dieser Funktion öfter pro request aufgerufen werden kann,
-  // hier die caches löschen
+  // Da dieser Funktion oefter pro request aufgerufen werden kann,
+  // hier die caches loeschen
   clearstatcache();
 
   $file = $REX['SRC_PATH']."/config/addons.inc.php";
