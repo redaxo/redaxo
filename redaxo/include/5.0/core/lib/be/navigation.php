@@ -187,7 +187,7 @@ class rex_be_navigation
   {
     global $I18N;
       
-    $page = new rex_be_page($I18N->msg('setup'), 'system');
+    $page = new rex_be_page($I18N->msg('setup'));
     $page->setIsCorePage(true);
     return $page;
   }
