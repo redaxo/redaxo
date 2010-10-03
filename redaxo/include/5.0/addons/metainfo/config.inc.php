@@ -46,20 +46,6 @@ $REX['ADDON']['metaTables'][$mypage] = array(
 
 if ($REX['REDAXO'])
 {
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage .'/classes/class.rex_input.inc.php';
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_text.inc.php';
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_textarea.inc.php';
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_mediabutton.inc.php';
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_medialistbutton.inc.php';
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_linkbutton.inc.php';
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_linklistbutton.inc.php';
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_date.inc.php';
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_time.inc.php';
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_datetime.inc.php';
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage .'/classes/input/class.rex_input_select.inc.php';
-  
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage . '/classes/class.rex_restrictions_element.php';
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage . '/classes/class.rex_table_manager.inc.php';
   require_once $REX['SRC_PATH'] . '/addons/' . $mypage . '/functions/function_metainfo.inc.php';
   require_once $REX['SRC_PATH'] . '/addons/' . $mypage . '/extensions/extension_common.inc.php';
 
