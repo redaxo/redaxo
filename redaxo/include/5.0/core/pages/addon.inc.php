@@ -240,11 +240,12 @@ if ($subpage == '')
           <th class="rex-col-c">'.$I18N->msg("addon_hinstall").'</th>
           <th class="rex-col-d">'.$I18N->msg("addon_hactive").'</th>
           <th class="rex-col-e" colspan="2">'.$I18N->msg("addon_hdelete").'</th>
+          <th class="rex-col-g">'.$I18N->msg("addon_hprior").'</th>
         </tr>
   	  </thead>
   	  <tbody>';
 
-  foreach ($ADDONS as $addon)
+  foreach (OOAddon::getRegisteredAddons() as $addon)
   {
     $addonurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;';
     
@@ -297,11 +298,15 @@ if ($subpage == '')
           <td class="rex-col-d">'.$status.'</td>
           <td class="rex-col-e">'.$uninstall.'</td>
           <td class="rex-col-f">'.$delete.'</td>
+          <td class="rex-col-g">
+            <a href="" class="rex-move-up"><span>move up</span>
+            <a href="" class="rex-move-down"><span>move down</span>
+          </td>
         </tr>'."\n   ";
 
     if(OOAddon::isAvailable($addon))
     {
-      foreach($PLUGINS[$addon] as $plugin)
+      foreach(OOPlugin::getRegisteredPlugins($addon) as $plugin)
       {
         $pluginurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;pluginname='. $plugin .'&amp;';
         
@@ -339,6 +344,10 @@ if ($subpage == '')
               <td class="rex-col-d">'.$status.'</td>
               <td class="rex-col-e">'.$uninstall.'</td>
               <td class="rex-col-f">'.$delete.'</td>
+              <td class="rex-col-g">
+                <a href="" class="rex-move-up"><span>move up</span>
+                <a href="" class="rex-move-down"><span>move down</span>
+              </td>
             </tr>'."\n   ";
       }
     }
