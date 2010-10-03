@@ -219,20 +219,21 @@ function a62_extensions_handler($params)
   }
   
   // include extensions
+  $curDir = dirname(__FILE__) .'/..';
   if ($page == 'content' && $mode == 'meta')
   {
-    require_once ($REX['SRC_PATH'] . '/addons/' . $mypage . '/extensions/extension_art_metainfo.inc.php');
+    require_once ($curDir. '/extensions/extension_art_metainfo.inc.php');
   }
   elseif ($page == 'structure')
   {
-    require_once ($REX['SRC_PATH'] . '/addons/' . $mypage . '/extensions/extension_cat_metainfo.inc.php');
+    require_once ($curDir. '/extensions/extension_cat_metainfo.inc.php');
   }
   elseif ($page == 'mediapool')
   {
-    require_once ($REX['SRC_PATH'] . '/addons/' . $mypage . '/extensions/extension_med_metainfo.inc.php');
+    require_once ($curDir. '/extensions/extension_med_metainfo.inc.php');
   }
   elseif ($page == 'import_export')
   {
-    require_once ($REX['SRC_PATH'] . '/addons/' . $mypage . '/extensions/extension_cleanup.inc.php');
+    require_once ($curDir. '/extensions/extension_cleanup.inc.php');
   }
 }

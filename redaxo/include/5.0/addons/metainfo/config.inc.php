@@ -46,8 +46,9 @@ $REX['ADDON']['metaTables'][$mypage] = array(
 
 if ($REX['REDAXO'])
 {
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage . '/functions/function_metainfo.inc.php';
-  require_once $REX['SRC_PATH'] . '/addons/' . $mypage . '/extensions/extension_common.inc.php';
+  $curDir = dirname(__FILE__);
+  require_once $curDir .'/functions/function_metainfo.inc.php';
+  require_once $curDir .'/extensions/extension_common.inc.php';
 
   rex_register_extension('PAGE_CHECKED', 'a62_extensions_handler');
 

@@ -12,6 +12,7 @@
 $REX['ADDON']['install']['metainfo'] = 0;
 // ERRMSG IN CASE: $REX['ADDON']['installmsg']['metainfo'] = "Deinstallation fehlgeschlagen weil...";
 
-require_once ($REX['SRC_PATH'] . '/addons/metainfo/extensions/extension_cleanup.inc.php');
+$curDir = dirname(__FILE__);
+require_once ($curDir .'/extensions/extension_cleanup.inc.php');
 
 rex_a62_metainfo_cleanup(array('force' => true));

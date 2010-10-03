@@ -11,11 +11,12 @@
 
 $error = '';
 
-require_once ($REX['SRC_PATH'] . '/addons/metainfo/extensions/extension_cleanup.inc.php');
+$curDir = dirname(__FILE__);
+require_once ($curDir .'/extensions/extension_cleanup.inc.php');
 rex_a62_metainfo_cleanup(array('force' => true));
 
 // uninstall ausführen, damit die db clean ist vorm neuen install
-$uninstall = $REX['SRC_PATH'] . '/addons/metainfo/uninstall.sql';
+$uninstall = $curDir.'/uninstall.sql';
 rex_install_dump($uninstall);
 
 // TODO:
