@@ -289,6 +289,9 @@ if ($subpage == '')
     {
       $status = $I18N->msg("addon_notinstalled");
     }
+    
+    $moveUp   = '<a href="'. $addonurl .'move=up" class="rex-move-up"><span>'.$I18N->msg("addon_move_up").'</span></a>';
+    $moveDown = '<a href="'. $addonurl .'move=down" class="rex-move-down"><span>'.$I18N->msg("addon_move_down").'</span></a>';
 
     echo '
         <tr class="rex-addon">
@@ -299,8 +302,8 @@ if ($subpage == '')
           <td class="rex-col-e">'.$uninstall.'</td>
           <td class="rex-col-f">'.$delete.'</td>
           <td class="rex-col-g">
-            <a href="" class="rex-move-up"><span>move up</span>
-            <a href="" class="rex-move-down"><span>move down</span>
+            '. $moveUp .'
+            '. $moveDown .'
           </td>
         </tr>'."\n   ";
 
@@ -336,6 +339,9 @@ if ($subpage == '')
           $status = $I18N->msg("addon_notinstalled");
         }
         
+        $moveUp   = '<a href="'. $pluginurl .'move=up" class="rex-move-up"><span>'.$I18N->msg("addon_move_up").'</span></a>';
+        $moveDown = '<a href="'. $pluginurl .'move=down" class="rex-move-down"><span>'.$I18N->msg("addon_move_down").'</span></a>';
+        
         echo '
             <tr class="rex-plugin">
               <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-plugin"><span class="rex-i-element-text">'. htmlspecialchars($plugin) .'</span></span></td>
@@ -345,8 +351,8 @@ if ($subpage == '')
               <td class="rex-col-e">'.$uninstall.'</td>
               <td class="rex-col-f">'.$delete.'</td>
               <td class="rex-col-g">
-                <a href="" class="rex-move-up"><span>move up</span>
-                <a href="" class="rex-move-down"><span>move down</span>
+                '. $moveUp .'
+                '. $moveDown .'
               </td>
             </tr>'."\n   ";
       }
