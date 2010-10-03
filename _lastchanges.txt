@@ -9,6 +9,12 @@ angehandelt.
 
 Version 5.0 ()
 
+  * Core Funktionalit‰t in Addon ausgelagert:
+    - Struktur
+    - Templates
+    - Module
+    - Linkmap
+    - Medienpool
   * Folder /files/addons ... auf /redaxo_media/ geändert
   
   Bugfixes
