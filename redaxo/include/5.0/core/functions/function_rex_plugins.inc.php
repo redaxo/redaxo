@@ -13,18 +13,6 @@ function rex_plugins_folder($addon, $plugin = null)
   if($plugin)
   {
     $pluginDir = $addonFolder. 'plugins' .DIRECTORY_SEPARATOR. $plugin .DIRECTORY_SEPARATOR;
-
-    if($plugin != '*')
-    {
-      if(!is_dir($pluginDir))
-      {
-        throw new rexException('Expecting "'. $pluginDir .'" to be a directory!');
-      }
-      if(!is_writable($pluginDir))
-      {
-        throw new rexException('Expecting "'. $pluginDir .'" to be a directory with write permissions!');
-      }
-    }
     
     return $pluginDir;
   }
