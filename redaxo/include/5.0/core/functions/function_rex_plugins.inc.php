@@ -11,7 +11,23 @@ function rex_plugins_folder($addon, $plugin = null)
   $addonFolder = rex_addons_folder($addon);
   
   if($plugin)
-    return $addonFolder. 'plugins' .DIRECTORY_SEPARATOR. $plugin .DIRECTORY_SEPARATOR;
+  {
+    $pluginDir = $addonFolder. 'plugins' .DIRECTORY_SEPARATOR. $plugin .DIRECTORY_SEPARATOR;
+
+    if($plugin != '*')
+    {
+      if(!is_dir($pluginDir))
+      {
+        throw new rexException('Expecting "'. $pluginDir .'" to be a directory!');
+      }
+      if(!is_writable($pluginDir))
+      {
+        throw new rexException('Expecting "'. $pluginDir .'" to be a directory with write permissions!');
+      }
+    }
+    
+    return $pluginDir;
+  }
 
   return $addonFolder. 'plugins' .DIRECTORY_SEPARATOR;
 }
@@ -39,9 +55,6 @@ function rex_read_plugins_folder($addon, $folder = '')
       $plugins[] = basename($file);
     }
   }
-  
-  // Sortiere Array
-  natsort($plugins);
   
   return $plugins;
 }

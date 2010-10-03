@@ -12,7 +12,19 @@ function rex_addons_folder($addon = null)
   global $REX;
   
   if(!is_null($addon))
+  {
+    $addonDir = $REX['SRC_PATH'] .DIRECTORY_SEPARATOR. 'addons' .DIRECTORY_SEPARATOR. $addon .DIRECTORY_SEPARATOR;
+    if(!is_dir($addonDir))
+    {
+      throw new rexException('Expecting "'. $addonDir .'" to be a directory!');
+    }
+    if(!is_writable($addonDir))
+    {
+      throw new rexException('Expecting "'. $addonDir .'" to be a directory with write permissions!');
+    }
+    
     return $REX['SRC_PATH'] .DIRECTORY_SEPARATOR. 'addons' .DIRECTORY_SEPARATOR. $addon .DIRECTORY_SEPARATOR;
+  }
   
   return $REX['SRC_PATH']. DIRECTORY_SEPARATOR. 'addons' .DIRECTORY_SEPARATOR;
 }
@@ -34,9 +46,6 @@ function rex_read_addons_folder($folder = '')
     }
   }
   closedir($hdl);
-
-  // Sortiere Array
-  natsort($addons);
 
   return $addons;
 }
