@@ -141,7 +141,7 @@ class OOPlugin extends rex_addon
    * 
    * @return array Array aller registrierten Plugins
    */
-  public function getRegisteredPlugins($addon)
+  static public function getRegisteredPlugins($addon)
   {
     global $REX;
 
