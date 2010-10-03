@@ -49,7 +49,8 @@ if ($subpage == '')
   // Wenn ein plugin in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
   foreach($addonsFilesys as $addon)
   {
-    if (count(array_diff($PLUGINS[$addon], $pluginsFilesys[$addon])) > 0 ||
+    if (!isset($PLUGINS[$addon]) ||
+        count(array_diff($PLUGINS[$addon], $pluginsFilesys[$addon])) > 0 ||
         count(array_diff($pluginsFilesys[$addon], $PLUGINS[$addon])) > 0)
     {
       if (($state = rex_generatePlugins($pluginsFilesys)) !== true)
