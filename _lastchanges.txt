@@ -19,6 +19,7 @@ Version 5.0 ()
   * Folder /files/addons ... auf /redaxo_media/ geaeändert
   
   Bugfixes
+  * Metadaten Strings / Textfelder - Bug bei Sonderzeichen "|"
   * rex_title(): fehlerhafte Verarbeitung von $subpages Attributen
   * Umleitungsfehler bei Backend-Benutzer ohne Rechten
   * OOArticle::getPathAsArray() funktionierte nicht
