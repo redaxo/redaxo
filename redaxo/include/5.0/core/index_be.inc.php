@@ -275,23 +275,25 @@ if($REX['USER'])
 
   // --- page herausfinden
   $REX['PAGE'] = trim(rex_request('page', 'string'));
-    
+
   // --- page pruefen und benoetigte rechte checken
   if(!isset($REX['PAGES'][$REX['PAGE']]) ||
     (($p=$REX['PAGES'][$REX['PAGE']]->getPage()) && !$p->checkPermission($REX['USER'])))
   {
     // --- neue page bestimmen und diese in neuem request dann verarbeiten
     $REX['PAGE'] = $REX['LOGIN']->getStartpage();
-    if(!isset($REX['PAGES'][$REX['PAGE']]))
+    if(!isset($REX['PAGES'][$REX['PAGE']]) ||
+      (($p=$REX['PAGES'][$REX['PAGE']]->getPage()) && !$p->checkPermission($REX['USER'])))
     {
       $REX['PAGE'] = $REX['START_PAGE'];
-      if(!isset($REX['PAGES'][$REX['PAGE']]))
+      if(!isset($REX['PAGES'][$REX['PAGE']]) ||
+        (($p=$REX['PAGES'][$REX['PAGE']]->getPage()) && !$p->checkPermission($REX['USER'])))
       {
         // --- fallback auf "profile"; diese page hat jeder user
         $REX['PAGE'] = 'profile';
       }
     }
-    
+
     header('Location: index.php?page='. $REX['PAGE']);
     exit();
   }
