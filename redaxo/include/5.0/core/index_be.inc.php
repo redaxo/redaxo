@@ -152,9 +152,12 @@ if($REX['USER'])
       {
         if (is_array($s))
         {
-          $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
-          $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
-          $addonPage->addSubPage($subPage);
+          if (!isset($s[2]) || $REX['USER']->hasPerm($s[2]) || $REX['USER']->isAdmin())
+          {
+            $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
+            $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
+            $addonPage->addSubPage($subPage);
+          }
         } else if (rex_be_page_main::isValid($s))
         {
           $p = $s->getPage();
@@ -195,9 +198,12 @@ if($REX['USER'])
       {
         if(is_array($s) && $addonPage)
         {
-          $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
-          $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
-          $addonPage->addSubPage($subPage);
+          if (!isset($s[2]) || $REX['USER']->hasPerm($s[2]) || $REX['USER']->isAdmin())
+          {
+            $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
+            $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
+            $addonPage->addSubPage($subPage);
+          }
         }
         else if(rex_be_page_main::isValid($s))
         {
