@@ -172,19 +172,8 @@ class OOArticle extends OORedaxo
    */
   public function getPathAsArray()
   {
-    $p = $this->_path;
-    if($this->isStartArticle())
-      $p = $this->_path.$this->_id .'|';
-      
-  	foreach($p as $k => $v)
-  	{
-  		if($v == "")
-  			unset($p[$k]);
-  		else
-  		  $p[$k] = (int) $v;
-  	}
-  	
-    return array_values($p);
+    $path = explode('|', $this->getPath());
+  	return array_values(array_map('intval', array_filter($path)));
   }
   
   /*

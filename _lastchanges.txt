@@ -19,6 +19,7 @@ Version 5.0 ()
   * Folder /files/addons ... auf /redaxo_media/ geaeŠndert
   
   Bugfixes
+  * OOArticle::getPathAsArray() funktionierte nicht
   * Typeinschränkung bei REX_MEDIA_BUTTONs funktionierte nicht
   * Cronjob-Plugin "Artikel-Status" funktionierte nicht im Frontend
   * Cronjob-Addon: Schreibrechte werden beim Installieren überprüft
