@@ -163,17 +163,17 @@ class rex_formatter
     }
 
     // Kommastellen
-    if (empty ($format[0]))
+    if (!isset($format[0]))
     {
       $format[0] = 2;
     }
     // Dezimal Trennzeichen
-    if (empty ($format[1]))
+    if (!isset($format[1]))
     {
       $format[1] = ',';
     }
     // Tausender Trennzeichen
-    if (empty ($format[2]))
+    if (!isset($format[2]))
     {
       $format[2] = ' ';
     }
