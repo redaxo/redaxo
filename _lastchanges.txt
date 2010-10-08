@@ -16,7 +16,8 @@ Version 5.0 ()
     - Linkmap
     - Medienpool
   * Addons koennen in der Verwaltung sortiert werden, um die Ladereihenfolge zu beeinflussen
-  * Folder /files/addons ... auf /redaxo_media/ geaeändert
+  * Folder /files/addons ... auf /redaxo_media/ geaendert
+  * PHPMailer: Update auf Versin 5.1
   
   Bugfixes
   * Metadaten Strings / Textfelder - Bug bei Sonderzeichen "|"
