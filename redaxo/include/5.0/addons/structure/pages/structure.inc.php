@@ -11,10 +11,10 @@ $category_id = rex_request('category_id', 'rex-category-id');
 $article_id  = rex_request('article_id',  'rex-article-id');
 $clang       = rex_request('clang',       'rex-clang-id', $REX['START_CLANG_ID']);
 $ctype       = rex_request('ctype',       'rex-ctype-id');
-$artstart    = rex_request('artstart',    'int');
-$catstart    = rex_request('catstart',    'int');
 
 // additional request vars
+$artstart    = rex_request('artstart',    'int');
+$catstart    = rex_request('catstart',    'int');
 $edit_id     = rex_request('edit_id',     'rex-category-id');
 $function    = rex_request('function',    'string');
 
