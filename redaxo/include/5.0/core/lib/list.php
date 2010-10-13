@@ -79,7 +79,7 @@ class rex_list
   var $linkAttributes;
 
   // --------- Pagination Attributes
-  var $rowsPerPage;
+  var $pager;
 
   /**
    * Erstellt ein rex_list Objekt
@@ -130,7 +130,7 @@ class rex_list
     $this->linkAttributes = array();
 
     // --------- Pagination Attributes
-    $this->rowsPerPage = $rowsPerPage;
+    $this->pager = new rex_pager($this->getRows(), $rowsPerPage);
 
     // --------- Load Data
     $this->sql->setQuery($this->prepareQuery($query));
@@ -625,7 +625,7 @@ class rex_list
    *
    * @return string
    */
-  function getUrl($params = array())
+  function getUrl(array $params = array())
   {
     $params = array_merge($this->getParams(), $params);
 
@@ -686,8 +686,8 @@ class rex_list
    */
   function prepareQuery($query)
   {
-    $rowsPerPage = $this->getRowsPerPage();
-    $startRow = $this->getStartRow();
+    $rowsPerPage = $this->pager->getRowsPerPage();
+    $startRow = $this->pager->getCursor();
 
     $sortColumn = $this->getSortColumn();
     if($sortColumn != '')
@@ -725,49 +725,13 @@ class rex_list
   }
 
   /**
-   * Gibt die Anzahl der Zeilen pro Seite zurück
-   *
-   * @return int
+   * Returns the pager for this list
+   * 
+   * @return rex_pager
    */
-  function getRowsPerPage()
+  public function getPager()
   {
-    if(rex_request('list', 'string') == $this->getName())
-    {
-      $rowsPerPage = rex_request('items', 'int');
-
-      // Fallback auf Default-Wert
-      if($rowsPerPage <= 0)
-        $rowsPerPage = $this->rowsPerPage;
-      else
-        $this->rowsPerPage = $rowsPerPage;
-    }
-
-    return $this->rowsPerPage;
-  }
-
-  /**
-   * Gibt die Nummer der Zeile zurück, von der die Liste beginnen soll
-   *
-   * @return int
-   */
-  function getStartRow()
-  {
-    $start = 0;
-
-    if(rex_request('list', 'string') == $this->getName())
-    {
-      $start = rex_request('start', 'int', 0);
-      $rows = $this->getRows();
-
-      // $start innerhalb des zulässigen Zahlenbereichs?
-      if($start < 0)
-        $start = 0;
-
-      if($start > $rows)
-        $start = (int) ($rows / $this->getRowsPerPage()) * $this->getRowsPerPage();
-    }
-
-    return $start;
+    return $this->pager;
   }
 
   /**
@@ -810,34 +774,26 @@ class rex_list
   {
     global $I18N;
 
-    $start = $this->getStartRow();
-    $rows = $this->getRows();
-    $rowsPerPage = $this->getRowsPerPage();
-    $pages = ceil($rows / $rowsPerPage);
-
     $s = '<ul class="rex-navi-paginate">'. "\n";
-    $s .= '<li class="rex-navi-paginate-prev"><a href="'. $this->getUrl(array('start' => $start - $rowsPerPage)) .'" title="'. $I18N->msg('list_previous') .'"><span>'. $I18N->msg('list_previous') .'</span></a></li>';
-
+    $s .= '<li class="rex-navi-paginate-prev"><a href="'. $this->getUrl(array('start' => $this->pager->getCursor($this->pager->getPrevPage()))) .'" title="'. $I18N->msg('list_previous') .'"><span>'. $I18N->msg('list_previous') .'</span></a></li>';
+    
+    $pages = $this->pager->getPageCount();
     if($pages > 1)
     {
-      for($i = 1; $i <= $pages; $i++)
+      for($i = $this->pager->getFirstPage(); $i < $this->pager->getLastPage(); $i++)
       {
-        $first = ($i - 1) * $rowsPerPage;
-        $last = $i * $rowsPerPage;
-
-        if($last > $rows)
-          $last = $rows;
-
-        $pageLink = $i;
-        if($start != $first)
-          $pageLink = '<a href="'. $this->getUrl(array('start' => $first)) .'"><span>'. $pageLink .'</span></a>';
+        $pageLink = $i+1;  
+        if($this->pager->isActivePage($i))
+          $pageLink = '<a class="rex-active" href="'. $this->getUrl(array('start' => $this->pager->getCursor($i))) .'"><span>'. $pageLink .'</span></a>';
         else
-          $pageLink = '<a class="rex-active" href="'. $this->getUrl(array('start' => $first)) .'"><span>'. $pageLink .'</span></a>';
+          $pageLink = '<a href="'. $this->getUrl(array('start' => $this->pager->getCursor($i))) .'"><span>'. $pageLink .'</span></a>';
 
         $s .= '<li class="rex-navi-paginate-page">'. $pageLink .'</li>';
       }
     }
-    $s .= '<li class="rex-navi-paginate-next"><a href="'. $this->getUrl(array('start' => $start + $rowsPerPage)) .'" title="'. $I18N->msg('list_next') .'"><span>'. $I18N->msg('list_next') .'</span></a></li>';
+    
+    
+    $s .= '<li class="rex-navi-paginate-next"><a href="'. $this->getUrl(array('start' => $this->pager->getCursor($this->pager->getNextPage()))) .'" title="'. $I18N->msg('list_next') .'"><span>'. $I18N->msg('list_next') .'</span></a></li>';
     $s .= '<li class="rex-navi-paginate-message"><span>'. $I18N->msg('list_rows_found', $this->getRows()) .'</span></li>';
     $s .= '</ul>'. "\n";
 
