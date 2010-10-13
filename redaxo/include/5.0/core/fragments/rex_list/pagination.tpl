@@ -8,7 +8,7 @@
             <li class="rex-navi-paginate-page"><a href="<?php echo $this->list->getUrl(array('start' => $this->pager->getCursor($page))) ?>"<?php echo $class ?>><span><?php echo ($page+1) ?></span></a></li>
           <?php endfor; ?>
           <li class="rex-navi-paginate-next"><a href="<?php echo $this->list->getUrl(array('start' => $this->pager->getCursor($this->pager->getNextPage()))) ?>" title="<?php echo $this->i18n('list_next') ?>"><span><?php echo $this->i18n('list_next') ?></span></a></li>
-          <li class="rex-navi-paginate-message"><span><?php echo $this->i18n('list_rows_found', $this->list->getRows()) ?></span></li>
+          <li class="rex-navi-paginate-message"><span><?php echo $this->i18n('list_rows_found', $this->pager->getRowCount()) ?></span></li>
         </ul>
         <div class="rex-clearer"></div>
       </div>
