@@ -44,42 +44,42 @@ $list->setColumnFormat('id', 'custom',
 
 class rex_list
 {
-  var $query;
-  var $sql;
-  var $debug;
-  var $noRowsMessage;
+  private $query;
+  private $sql;
+  private $debug;
+  private $noRowsMessage;
 
   // --------- List Attributes
-  var $name;
-  var $params;
-  var $rows;
+  private $name;
+  private $params;
+  private $rows;
 
   // --------- Form Attributes
-  var $formAttributes;
+  private $formAttributes;
 
   // --------- Column Attributes
-  var $columnNames;
-  var $columnLabels;
-  var $columnFormates;
-  var $columnOptions;
-  var $columnAttributes;
-  var $columnLayouts;
-  var $columnParams;
-  var $columnDisabled;
+  private $columnNames;
+  private $columnLabels;
+  private $columnFormates;
+  private $columnOptions;
+  private $columnAttributes;
+  private $columnLayouts;
+  private $columnParams;
+  private $columnDisabled;
 
   // --------- Layout, Default
-  var $defaultColumnLayout;
+  private $defaultColumnLayout;
 
   // --------- Table Attributes
-  var $caption;
-  var $tableAttributes;
-  var $tableColumnGroups;
+  private $caption;
+  private $tableAttributes;
+  private $tableColumnGroups;
 
   // --------- Link Attributes
-  var $linkAttributes;
+  private $linkAttributes;
 
   // --------- Pagination Attributes
-  var $pager;
+  private $pager;
 
   /**
    * Erstellt ein rex_list Objekt
@@ -322,7 +322,7 @@ class rex_list
    */
   function setColumnLayout($columnHead, $columnLayout)
   {
-    $this->columnLayout[$columnHead] = $columnLayout;
+    $this->columnLayouts[$columnHead] = $columnLayout;
   }
   
   /**
@@ -332,8 +332,8 @@ class rex_list
    */
   function getColumnLayout($columnName)
   {
-    if (isset($this->columnLayout[$columnName]) && is_array($this->columnLayout[$columnName]))
-      return $this->columnLayout[$columnName];
+    if (isset($this->columnLayouts[$columnName]) && is_array($this->columnLayouts[$columnName]))
+      return $this->columnLayouts[$columnName];
 
     return $this->defaultColumnLayout;
   }
@@ -770,34 +770,39 @@ class rex_list
    *
    * @return string
    */
-  function getPagination()
+  protected function getPagination()
   {
-    global $I18N;
-
-    $s = '<ul class="rex-navi-paginate">'. "\n";
-    $s .= '<li class="rex-navi-paginate-prev"><a href="'. $this->getUrl(array('start' => $this->pager->getCursor($this->pager->getPrevPage()))) .'" title="'. $I18N->msg('list_previous') .'"><span>'. $I18N->msg('list_previous') .'</span></a></li>';
+    $fragment = new rex_fragment();
+    $fragment->setVar('list', $this);
+    $fragment->setVar('pager', $this->pager);
+    return $fragment->parse('rex_list/pagination');
     
-    $pages = $this->pager->getPageCount();
-    if($pages > 1)
-    {
-      for($i = $this->pager->getFirstPage(); $i < $this->pager->getLastPage(); $i++)
-      {
-        $pageLink = $i+1;  
-        if($this->pager->isActivePage($i))
-          $pageLink = '<a class="rex-active" href="'. $this->getUrl(array('start' => $this->pager->getCursor($i))) .'"><span>'. $pageLink .'</span></a>';
-        else
-          $pageLink = '<a href="'. $this->getUrl(array('start' => $this->pager->getCursor($i))) .'"><span>'. $pageLink .'</span></a>';
-
-        $s .= '<li class="rex-navi-paginate-page">'. $pageLink .'</li>';
-      }
-    }
-    
-    
-    $s .= '<li class="rex-navi-paginate-next"><a href="'. $this->getUrl(array('start' => $this->pager->getCursor($this->pager->getNextPage()))) .'" title="'. $I18N->msg('list_next') .'"><span>'. $I18N->msg('list_next') .'</span></a></li>';
-    $s .= '<li class="rex-navi-paginate-message"><span>'. $I18N->msg('list_rows_found', $this->getRows()) .'</span></li>';
-    $s .= '</ul>'. "\n";
-
-    return '<div class="rex-navi-paginate rex-toolbar"><div class="rex-toolbar-content">'.$s.'<div class="rex-clearer"></div></div></div>';
+//    global $I18N;
+//
+//    $s = '<ul class="rex-navi-paginate">'. "\n";
+//    $s .= '<li class="rex-navi-paginate-prev"><a href="'. $this->getUrl(array('start' => $this->pager->getCursor($this->pager->getPrevPage()))) .'" title="'. $I18N->msg('list_previous') .'"><span>'. $I18N->msg('list_previous') .'</span></a></li>';
+//    
+//    $pages = $this->pager->getPageCount();
+//    if($pages > 1)
+//    {
+//      for($i = $this->pager->getFirstPage(); $i < $this->pager->getLastPage(); $i++)
+//      {
+//        $pageLink = $i+1;  
+//        if($this->pager->isActivePage($i))
+//          $pageLink = '<a class="rex-active" href="'. $this->getUrl(array('start' => $this->pager->getCursor($i))) .'"><span>'. $pageLink .'</span></a>';
+//        else
+//          $pageLink = '<a href="'. $this->getUrl(array('start' => $this->pager->getCursor($i))) .'"><span>'. $pageLink .'</span></a>';
+//
+//        $s .= '<li class="rex-navi-paginate-page">'. $pageLink .'</li>';
+//      }
+//    }
+//    
+//    
+//    $s .= '<li class="rex-navi-paginate-next"><a href="'. $this->getUrl(array('start' => $this->pager->getCursor($this->pager->getNextPage()))) .'" title="'. $I18N->msg('list_next') .'"><span>'. $I18N->msg('list_next') .'</span></a></li>';
+//    $s .= '<li class="rex-navi-paginate-message"><span>'. $I18N->msg('list_rows_found', $this->getRows()) .'</span></li>';
+//    $s .= '</ul>'. "\n";
+//
+//    return '<div class="rex-navi-paginate rex-toolbar"><div class="rex-toolbar-content">'.$s.'<div class="rex-clearer"></div></div></div>';
   }
 
   /**
@@ -824,9 +829,7 @@ class rex_list
   function getHeader()
   {
     $s = '';
-
-    if($this->getRows() > $this->getRowsPerPage())
-      $s = $this->getPagination();
+    $s .= $this->getPagination();
 
     return $s;
   }
@@ -1028,10 +1031,10 @@ class rex_list
 
     if($nbRows > 0)
     {
-      $maxRows = $nbRows - $this->getStartRow();
+      $maxRows = $nbRows - $this->pager->getCursor();
 
       $s .= '    <tbody>'. "\n";
-      for($i = 0; $i < $this->getRowsPerPage() && $i < $maxRows; $i++)
+      for($i = 0; $i < $this->pager->getRowsPerPage() && $i < $maxRows; $i++)
       {
         $s .= '      <tr>'. "\n";
         foreach($columnNames as $columnName)
