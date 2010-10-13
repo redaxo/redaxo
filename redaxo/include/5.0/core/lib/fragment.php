@@ -156,6 +156,16 @@ class rex_fragment
       throw new rexException(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
     }
     
+    // use the magic call only when more than one parameter is passed along,
+    // to get best performance
+    $argNum = func_num_args();
+    if($argNum > 1)
+    {
+      // pass along all given parameters
+      $args = func_get_args();
+      return call_user_func_array(array($I18N, 'msg'), $args);
+    }
+
     return $I18N->msg($key);
   }
   

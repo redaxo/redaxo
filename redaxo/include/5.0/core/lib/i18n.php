@@ -9,7 +9,7 @@
 
 class i18n
 {
-  private $locales;
+  private static $locales = array();
   private $searchpath;
   private $locale;
   private $text;
@@ -25,14 +25,13 @@ class i18n
     $this->searchpath = $searchpath;
     $this->text = array ();
     $this->locale = $locale;
-    $this->locales = array ();
     $this->text_loaded = FALSE;
   }
 
   /*
    * Lädt alle Übersetzungen der aktuellen Sprache aus dem Sprachpfad und fügt diese dem Katalog hinzu.
    */
-  function loadTexts()
+  public function loadTexts()
   {
     if($this->appendFile($this->searchpath))
     {
@@ -45,7 +44,7 @@ class i18n
    *  
    * @param string $searchPath Pfad in dem die Sprachdatei gesucht werden soll
    */
-  function appendFile($searchPath)
+  public function appendFile($searchPath)
   {
     $filename = $searchPath . DIRECTORY_SEPARATOR . $this->locale . ".lang";
     return $this->appendFileName($filename);
@@ -56,7 +55,7 @@ class i18n
    *  
    * @param string $filename Datei die hinzugefügt werden soll
    */
-  function appendFileName($filename)
+  public function appendFileName($filename)
   {
     if (is_readable($filename))
     {
@@ -84,7 +83,7 @@ class i18n
    * 
    * @param string $key Zu suchender Schlüssel
    */
-  function msg($key)
+  public function msg($key)
   {
   	global $REX;
   	
@@ -115,12 +114,16 @@ class i18n
     $patterns = array ();
     $replacements = array ();
 
-    $args = func_get_args();
-    for($i = 1; $i < func_num_args(); $i++)
+    $argNum = func_num_args();
+    if($argNum > 1)
     {
-      // zero indexed
-      $patterns[] = '/\{'. ($i-1) .'\}/';
-      $replacements[] = $args[$i];
+      $args = func_get_args();
+      for($i = 1; $i < $argNum; $i++)
+      {
+        // zero indexed
+        $patterns[] = '/\{'. ($i-1) .'\}/';
+        $replacements[] = $args[$i];
+      }
     }
 
     return preg_replace($patterns, $replacements, $msg);
@@ -132,7 +135,7 @@ class i18n
    * @param string $key Schlüssel unter dem die Übersetzung abgelegt wird
    * @param string $msg Übersetzter Text
    */
-  function addMsg($key, $msg)
+  public function addMsg($key, $msg)
   {
     $this->text[$key] = $msg;
   }
@@ -143,7 +146,7 @@ class i18n
    * @param string $key Zu suchender Schlüssel
    * @return boolean TRUE Wenn der Schlüssel gefunden wurde, sonst FALSE
    */
-  function hasMsg($key)
+  public function hasMsg($key)
   {
   	return isset ($this->text[$key]);
   }
@@ -154,11 +157,11 @@ class i18n
    * @param string $searchpath Zu duruchsuchender Ordner
    * @return array Array von gefundenen Sprachen (locales)
    */
-  function getLocales($searchpath)
+  static public function getLocales($searchpath)
   {
-    if (empty ($this->locales) && is_readable($searchpath))
+    if (empty (self::$locales) && is_readable($searchpath))
     {
-      $this->locales = array ();
+      self::$locales = array ();
 
       $handle = opendir($searchpath);
       while ($file = readdir($handle))
@@ -167,15 +170,14 @@ class i18n
         {
           if (preg_match("/^(\w+)\.lang$/", $file, $matches))
           {
-            $this->locales[] = $matches[1];
+            self::$locales[] = $matches[1];
           }
         }
       }
       closedir($handle);
-
     }
 
-    return $this->locales;
+    return self::$locales;
   }
 
 }
