@@ -47,6 +47,16 @@ require dirname(__FILE__) .'/../functions/function_rex_languages.inc.php';
 $catStatusTypes = rex_categoryStatusTypes();
 $artStatusTypes = rex_articleStatusTypes();
 
+$urlprovider = new rex_url_provider_impl(array(
+  'page' => 'structure',
+  'category_id' => $category_id,
+  'article_id' => $article_id,
+  'clang' => $clang,
+  'ctype' => $ctype,
+  'edit_id' => $edit_id,
+  'function' => $function,
+));
+
 // --------------------------------------------- KATEGORIE FUNKTIONEN
 if (rex_post('catedit_function', 'boolean') && $edit_id != '' && $KATPERM)
 {
@@ -191,6 +201,38 @@ if ($REX['USER']->hasPerm('advancedMode[]'))
   $data_colspan = 5;
 }
 
+// --------------------- COUNT CATEGORY ROWS
+
+$KAT = rex_sql::factory();
+// $KAT->debugsql = true;
+if(count($mountpoints)>0 && $category_id == 0)
+{
+  $re_id = implode(',', $mountpoints);
+  $KAT->setQuery('SELECT COUNT(*) as rowCount FROM '.$REX['TABLE_PREFIX'].'article WHERE id IN ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catname');
+}else
+{
+  $KAT->setQuery('SELECT COUNT(*) as rowCount FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
+}
+
+// --------------------- ADD PAGINATION
+
+$catPager = new rex_pager($KAT->getValue('rowCount'), 3, 'catstart');
+$catFragment = new rex_fragment();
+$catFragment->setVar('urlprovider', $urlprovider);
+$catFragment->setVar('pager', $catPager);
+echo $catFragment->parse('rex_list/pagination');
+
+// --------------------- GET THE DATA
+
+if(count($mountpoints)>0 && $category_id == 0)
+{
+  $re_id = implode(',', $mountpoints);
+  $KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id IN ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catname LIMIT '. $catPager->getCursor(). ','. $catPager->getRowsPerPage());
+}else
+{
+  $KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior LIMIT '. $catPager->getCursor(). ','. $catPager->getRowsPerPage());
+}
+
 echo rex_register_extension_point('PAGE_STRUCTURE_HEADER', '',
   array(
     'category_id' => $category_id,
@@ -201,6 +243,7 @@ echo rex_register_extension_point('PAGE_STRUCTURE_HEADER', '',
 echo '
 <!-- *** OUTPUT CATEGORIES - START *** -->';
 
+// ---------- INLINE THE EDIT/ADD FORM
 if($function == 'add_cat' || $function == 'edit_cat')
 {
 
@@ -222,6 +265,9 @@ if($function == 'add_cat' || $function == 'edit_cat')
       <input type="hidden" name="category_id" value="'. $category_id .'" />
       <input type="hidden" name="clang" value="'. $clang .'" />';
 }
+
+
+// --------------------- PRINT CATS/SUBCATS
 
 echo '
       <table class="rex-table rex-table-mrgn" summary="'. htmlspecialchars($I18N->msg('structure_categories_summary', $cat_name)) .'">
@@ -300,20 +346,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnl
 
 
 // --------------------- KATEGORIE LIST
-$KAT = rex_sql::factory();
-// $KAT->debugsql = true;
-if(count($mountpoints)>0 && $category_id == 0)
-{
-  $re_id = 'id='. implode(' OR id=', $mountpoints);
-  $KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catname');
-}else
-{
-  $KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
-}
-
-
-
-
+    
 for ($i = 0; $i < $KAT->getRows(); $i++)
 {
   $i_category_id = $KAT->getValue('id');
@@ -494,7 +527,40 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
     $add_head = '<th class="rex-small">'. $I18N->msg('header_id') .'</th>';
     $add_col  = '<col width="40" />';
   }
+  
+  // ---------- COUNT DATA
+  $sql = rex_sql::factory();
+  // $sql->debugsql = true;
+  $sql->setQuery('SELECT COUNT(*) as artCount
+        FROM
+          '.$REX['TABLE_PREFIX'].'article
+        WHERE
+          ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1))
+          AND clang='. $clang .'
+        ORDER BY
+          prior, name');
+  
+  // --------------------- ADD PAGINATION
+  
+  $artPager = new rex_pager($sql->getValue('artCount'), 3, 'artstart');
+  $artFragment = new rex_fragment();
+  $artFragment->setVar('urlprovider', $urlprovider);
+  $artFragment->setVar('pager', $artPager);
+  echo $artFragment->parse('rex_list/pagination');  
 
+  // ---------- READ DATA
+  $sql->setQuery('SELECT *
+        FROM
+          '.$REX['TABLE_PREFIX'].'article
+        WHERE
+          ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1))
+          AND clang='. $clang .'
+        ORDER BY
+          prior, name
+        LIMIT '. $artPager->getCursor() .','. $artPager->getRowsPerPage());
+  
+
+  // ---------- INLINE THE EDIT/ADD FORM
   if($function == 'add_art' || $function == 'edit_art')
   {
 
@@ -514,18 +580,8 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
         <input type="hidden" name="clang" value="'. $clang .'" />';
   }
 
-  // READ DATA
-  $sql = rex_sql::factory();
-  // $sql->debugsql = true;
-  $sql->setQuery('SELECT *
-        FROM
-          '.$REX['TABLE_PREFIX'].'article
-        WHERE
-          ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1))
-          AND clang='. $clang .'
-        ORDER BY
-          prior, name');
-
+  // ----------- PRINT OUT THE ARTICLES
+  
   echo '
       <table class="rex-table" summary="'. htmlspecialchars($I18N->msg('structure_articles_summary', $cat_name)) .'">
         <caption>'. htmlspecialchars($I18N->msg('structure_articles_caption', $cat_name)).'</caption>
