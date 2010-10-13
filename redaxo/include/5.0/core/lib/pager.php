@@ -10,17 +10,20 @@ class rex_pager
 {
   private $rowCount;
   private $rowsPerPage;
+  private $cursorName;
   
   /**
    * Constructs a rex_pager
    *  
    * @param int $rowCount The number of all rows to paginate
    * @param int $rowsPerPage The number of rows which should be displayed on one page
+   * @param string $cursorName The name of the parameter used for pagination
    */
-  public function __construct($rowCount, $rowsPerPage = 30)
+  public function __construct($rowCount, $rowsPerPage = 30, $cursorName = 'start')
   {
     $this->rowCount = $rowCount;
     $this->rowsPerPage = $rowsPerPage;
+    $this->cursorName = $cursorName;
   }
   
   /**
@@ -63,7 +66,7 @@ class rex_pager
   {
     if(is_null($pageNo))
     {
-      $cursor = rex_request('start', 'int', 0);
+      $cursor = rex_request($this->cursorName, 'int', 0);
     }
     else
     {
@@ -77,6 +80,15 @@ class rex_pager
       $cursor = (int) ($this->rowCount / $this->rowsPerPage) * $this->rowsPerPage;
     
     return $cursor;
+  }
+  
+  /**
+   * Returns the name of the parameter which is used for pagination
+   * @return string The name of the cursor
+   */
+  public function getCursorName()
+  {
+    return $this->cursorName;
   }
   
   /**
@@ -108,7 +120,7 @@ class rex_pager
    */
   public function getCurrentPage()
   {
-    $cursor = rex_request('start', 'int', null);
+    $cursor = rex_request($this->cursorName, 'int', null);
     
     if(is_null($cursor))
     {
