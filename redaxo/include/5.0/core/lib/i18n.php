@@ -9,11 +9,11 @@
 
 class i18n
 {
-  var $locales;
-  var $searchpath;
-  var $locale;
-  var $text;
-	var $text_loaded;
+  private $locales;
+  private $searchpath;
+  private $locale;
+  private $text;
+	private $text_loaded;
 
   /*
    * Constructor
@@ -43,7 +43,7 @@ class i18n
   /**
    * Sucht im angegebenden Ordner nach eine Sprachdatei der aktuellen Sprache und fügt diese dem Sprachkatalog an
    *  
-   * @param $searchPath Pfad in dem die Sprachdatei gesucht werden soll
+   * @param string $searchPath Pfad in dem die Sprachdatei gesucht werden soll
    */
   function appendFile($searchPath)
   {
@@ -54,7 +54,7 @@ class i18n
   /**
    * Fuegt die angegebene Datei $filename diese dem Sprachkatalog an
    *  
-   * @param $filename Datei die hinzugefügt werden soll
+   * @param string $filename Datei die hinzugefügt werden soll
    */
   function appendFileName($filename)
   {
@@ -82,7 +82,7 @@ class i18n
   /**
    * Durchsucht den Sprachkatalog nach einem Schlüssel und gibt die dazugehörige Übersetzung zurück
    * 
-   * @param $key Zu suchender Schlüssel
+   * @param string $key Zu suchender Schlüssel
    */
   function msg($key)
   {
@@ -129,8 +129,8 @@ class i18n
   /**
    * Fügt dem Sprachkatalog unter dem gegebenen Schlüssel eine neue Übersetzung hinzu 
    *  
-   * @param $key Schlüssel unter dem die Übersetzung abgelegt wird
-   * @param $msg Übersetzter Text
+   * @param string $key Schlüssel unter dem die Übersetzung abgelegt wird
+   * @param string $msg Übersetzter Text
    */
   function addMsg($key, $msg)
   {
@@ -140,7 +140,7 @@ class i18n
   /**
    * Prüft ob der Sprachkatalog zu dem gegebenen Schlüssel eine Übersetzung beinhaltet
    * 
-   * @param $key Zu suchender Schlüssel
+   * @param string $key Zu suchender Schlüssel
    * @return boolean TRUE Wenn der Schlüssel gefunden wurde, sonst FALSE
    */
   function hasMsg($key)
@@ -151,7 +151,7 @@ class i18n
   /**
    * Durchsucht den Searchpath nach allen verfügbaren Sprachdateien und gibt diese zurück
    * 
-   * @param $searchpath Zu duruchsuchender Ordner
+   * @param string $searchpath Zu duruchsuchender Ordner
    * @return array Array von gefundenen Sprachen (locales)
    */
   function getLocales($searchpath)
