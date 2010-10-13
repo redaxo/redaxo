@@ -776,33 +776,6 @@ class rex_list
     $fragment->setVar('list', $this);
     $fragment->setVar('pager', $this->pager);
     return $fragment->parse('rex_list/pagination');
-    
-//    global $I18N;
-//
-//    $s = '<ul class="rex-navi-paginate">'. "\n";
-//    $s .= '<li class="rex-navi-paginate-prev"><a href="'. $this->getUrl(array('start' => $this->pager->getCursor($this->pager->getPrevPage()))) .'" title="'. $I18N->msg('list_previous') .'"><span>'. $I18N->msg('list_previous') .'</span></a></li>';
-//    
-//    $pages = $this->pager->getPageCount();
-//    if($pages > 1)
-//    {
-//      for($i = $this->pager->getFirstPage(); $i < $this->pager->getLastPage(); $i++)
-//      {
-//        $pageLink = $i+1;  
-//        if($this->pager->isActivePage($i))
-//          $pageLink = '<a class="rex-active" href="'. $this->getUrl(array('start' => $this->pager->getCursor($i))) .'"><span>'. $pageLink .'</span></a>';
-//        else
-//          $pageLink = '<a href="'. $this->getUrl(array('start' => $this->pager->getCursor($i))) .'"><span>'. $pageLink .'</span></a>';
-//
-//        $s .= '<li class="rex-navi-paginate-page">'. $pageLink .'</li>';
-//      }
-//    }
-//    
-//    
-//    $s .= '<li class="rex-navi-paginate-next"><a href="'. $this->getUrl(array('start' => $this->pager->getCursor($this->pager->getNextPage()))) .'" title="'. $I18N->msg('list_next') .'"><span>'. $I18N->msg('list_next') .'</span></a></li>';
-//    $s .= '<li class="rex-navi-paginate-message"><span>'. $I18N->msg('list_rows_found', $this->getRows()) .'</span></li>';
-//    $s .= '</ul>'. "\n";
-//
-//    return '<div class="rex-navi-paginate rex-toolbar"><div class="rex-toolbar-content">'.$s.'<div class="rex-clearer"></div></div></div>';
   }
 
   /**
