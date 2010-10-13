@@ -216,6 +216,7 @@ if(count($mountpoints)>0 && $category_id == 0)
 
 // --------------------- ADD PAGINATION
 
+// FIXME add a realsitic rowsPerPage value
 $catPager = new rex_pager($KAT->getValue('rowCount'), 3, 'catstart');
 $catFragment = new rex_fragment();
 $catFragment->setVar('urlprovider', $urlprovider);
@@ -542,6 +543,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
   
   // --------------------- ADD PAGINATION
   
+  // FIXME add a realsitic rowsPerPage value
   $artPager = new rex_pager($sql->getValue('artCount'), 3, 'artstart');
   $artFragment = new rex_fragment();
   $artFragment->setVar('urlprovider', $urlprovider);
