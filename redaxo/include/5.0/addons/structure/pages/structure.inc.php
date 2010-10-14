@@ -258,7 +258,7 @@ if($function == 'add_cat' || $function == 'edit_cat')
   <div class="rex-form" id="rex-form-structure-category">
   <form action="index.php" method="post">
     <fieldset>
-      <legend><span>'.$legend .'</span></legend>';
+      <legend><span>'.htmlspecialchars($legend) .'</span></legend>';
 
   $params = array();
   $params['catstart'] = $catstart;
@@ -579,7 +579,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
     <div class="rex-form" id="rex-form-structure-article">
     <form action="index.php" method="post">
       <fieldset>
-        <legend><span>'.$legend .'</span></legend>';
+        <legend><span>'.htmlspecialchars($legend) .'</span></legend>';
     
     $params = array();
     $params['artstart'] = $artstart;
