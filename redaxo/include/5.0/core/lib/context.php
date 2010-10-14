@@ -49,17 +49,18 @@ class rex_context implements rex_context_provider
   
   public function getUrl(array $params = array())
   {
-    global $REX;
-    
     // combine global params with local
     $_params = array_merge($this->globalParams, $params);
     
-    return str_replace('&', '&amp;', 'index.php?' .ltrim($this->array2paramStr($_params), '&'));
+    return str_replace('&', '&amp;', 'index.php?' .ltrim(self::array2paramStr($_params), '&'));
   }
   
   public function getHiddenInputFields(array $params = array())
   {
+    // combine global params with local
+    $_params = array_merge($this->globalParams, $params);
     
+    return self::array2inputStr($_params);
   }
   
   private function array2paramStr(array $array)
@@ -69,7 +70,7 @@ class rex_context implements rex_context_provider
     {
       if(is_array($value))
       {
-        $paramString .= $this->array2paramStr($value);
+        $paramString .= self::array2paramStr($value);
       }
       else
       {
@@ -80,14 +81,14 @@ class rex_context implements rex_context_provider
     return $paramString;
   }
   
-  private function array2inputStr(array $array)
+  private static function array2inputStr(array $array)
   {
     $inputString = '';
     foreach($array as $name => $value)
     {
       if(is_array($value))
       {
-        $inputString .= $this->array2paramStr($value);
+        $inputString .= self::array2paramStr($value);
       }
       else
       {
