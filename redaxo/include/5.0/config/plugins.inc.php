@@ -18,11 +18,14 @@ $REX['ADDON']['plugins']['be_dashboard']['status']['userinfo'] = '0';
 $REX['ADDON']['plugins']['be_dashboard']['install']['version_checker'] = '0';
 $REX['ADDON']['plugins']['be_dashboard']['status']['version_checker'] = '0';
 
-$REX['ADDON']['plugins']['be_style']['install']['agk_skin'] = '1';
-$REX['ADDON']['plugins']['be_style']['status']['agk_skin'] = '1';
-
 $REX['ADDON']['plugins']['be_style']['install']['base'] = '1';
 $REX['ADDON']['plugins']['be_style']['status']['base'] = '1';
+
+$REX['ADDON']['plugins']['be_style']['install']['base_old'] = '1';
+$REX['ADDON']['plugins']['be_style']['status']['base_old'] = '1';
+
+$REX['ADDON']['plugins']['be_style']['install']['nsg_skin'] = '1';
+$REX['ADDON']['plugins']['be_style']['status']['nsg_skin'] = '1';
 
 $REX['ADDON']['plugins']['community']['install']['articlecomment'] = '0';
 $REX['ADDON']['plugins']['community']['status']['articlecomment'] = '0';
@@ -54,10 +57,16 @@ $REX['ADDON']['plugins']['community']['status']['setup'] = '0';
 $REX['ADDON']['plugins']['community']['install']['twitter'] = '0';
 $REX['ADDON']['plugins']['community']['status']['twitter'] = '0';
 
-$REX['ADDON']['plugins']['cronjob']['install']['article_status'] = '0';
-$REX['ADDON']['plugins']['cronjob']['status']['article_status'] = '0';
+$REX['ADDON']['plugins']['cronjob']['install']['article_status'] = '1';
+$REX['ADDON']['plugins']['cronjob']['status']['article_status'] = '1';
 
-$REX['ADDON']['plugins']['cronjob']['install']['optimize_tables'] = '0';
-$REX['ADDON']['plugins']['cronjob']['status']['optimize_tables'] = '0';
+$REX['ADDON']['plugins']['cronjob']['install']['optimize_tables'] = '1';
+$REX['ADDON']['plugins']['cronjob']['status']['optimize_tables'] = '1';
+
+$REX['ADDON']['plugins']['structure']['install']['content'] = '1';
+$REX['ADDON']['plugins']['structure']['status']['content'] = '1';
+
+$REX['ADDON']['plugins']['structure']['install']['linkmap'] = '1';
+$REX['ADDON']['plugins']['structure']['status']['linkmap'] = '1';
 // --- /DYN
 // ----------------- /DONT EDIT BELOW THIS 

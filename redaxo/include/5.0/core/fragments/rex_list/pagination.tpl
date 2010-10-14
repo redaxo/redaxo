@@ -1,5 +1,5 @@
     <?php if($this->pager->getRowCount() > $this->pager->getRowsPerPage()): ?>
-    <div class="rex-navi-paginate rex-toolbar">
+    <div class="rex-navi-paginate">
       <div class="rex-toolbar-content">
         <ul class="rex-navi-paginate">
         	<li class="rex-navi-paginate-prev"><a href="<?php echo $this->urlprovider->getUrl(array($this->pager->getCursorName() => $this->pager->getCursor($this->pager->getPrevPage()))) ?>" title="<?php echo $this->i18n('list_previous') ?>"><span><?php echo $this->i18n('list_previous') ?></span></a></li>

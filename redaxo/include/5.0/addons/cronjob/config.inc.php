@@ -60,7 +60,7 @@ define('REX_CRONJOB_LOG_FOLDER', $REX['SRC_PATH'] .'/addons/cronjob/logs/');
 define('REX_CRONJOB_TABLE'     , $REX['TABLE_PREFIX'] .'630_cronjobs');
 
 // --- DYN
-$REX['ADDON']['nexttime']['cronjob'] = "0";
+$REX['ADDON']['nexttime']['cronjob'] = "1287079200";
 // --- /DYN
 
 if (isset($REX['ADDON']['nexttime'][$mypage]) 
