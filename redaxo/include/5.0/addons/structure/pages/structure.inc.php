@@ -203,6 +203,15 @@ if ($REX['USER']->hasPerm('advancedMode[]'))
   $data_colspan = 5;
 }
 
+// --------------------- Extension Point
+echo rex_register_extension_point('PAGE_STRUCTURE_HEADER', '',
+  array(
+    'category_id' => $category_id,
+    'clang' => $clang
+  )
+);
+
+
 // --------------------- COUNT CATEGORY ROWS
 
 $KAT = rex_sql::factory();
@@ -236,12 +245,6 @@ if(count($mountpoints)>0 && $category_id == 0)
   $KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior LIMIT '. $catPager->getCursor(). ','. $catPager->getRowsPerPage());
 }
 
-echo rex_register_extension_point('PAGE_STRUCTURE_HEADER', '',
-  array(
-    'category_id' => $category_id,
-    'clang' => $clang
-  )
-);
 
 echo '
 <!-- *** OUTPUT CATEGORIES - START *** -->';
