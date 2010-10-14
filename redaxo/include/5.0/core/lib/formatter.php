@@ -8,7 +8,7 @@
 /**
  * Klasse zur Formatierung von Strings
  */
-class rex_formatter
+abstract class rex_formatter
 {
   private function __construct()
   {
@@ -394,14 +394,4 @@ class rex_formatter
 	  else
 	    return $string;
 	}
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
