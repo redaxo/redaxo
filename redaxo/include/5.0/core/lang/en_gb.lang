@@ -1,6 +1,6 @@
 lang = English
 htmllang = en
-htmlcharset = iso-8859-1
+htmlcharset = utf-8
 yes = yes
 no = no
 month = month
@@ -13,7 +13,7 @@ phpini_settings = PHP.ini Einstellungen
 datetimeformat = %Y-%b-%d %H:%M
 ctrl = multiselect using CTRL
 
-# Sprachspezifische Sonderzeichen für Url-Umschreibung
+# Sprachspezifische Sonderzeichen fÃ¼r Url-Umschreibung
 special_chars = &
 special_chars_rewrite = and
 
