@@ -618,7 +618,7 @@ class rex_form
   static public function getInputClassName($inputType)
   {
     // ----- EXTENSION POINT
-    $className = rex_register_extension_point('REX_FORM_INPUT_CLASS', '', array('form' => $this, 'inputType' => $inputType));
+    $className = rex_register_extension_point('REX_FORM_INPUT_CLASS', '', array('inputType' => $inputType));
     
     if($className)
     {
@@ -648,7 +648,7 @@ class rex_form
   static public function getInputTagName($inputType)
   {
     // ----- EXTENSION POINT
-    $inputTag = rex_register_extension_point('REX_FORM_INPUT_TAG', '', array('form' => $this, 'inputType' => $inputType));
+    $inputTag = rex_register_extension_point('REX_FORM_INPUT_TAG', '', array('inputType' => $inputType));
     
     if($inputTag)
     {
@@ -672,7 +672,7 @@ class rex_form
   static public function getInputAttributes($inputType)
   {
     // ----- EXTENSION POINT
-    $inputAttr = rex_register_extension_point('REX_FORM_INPUT_ATTRIBUTES', array(), array('form' => $this, 'inputType' => $inputType));
+    $inputAttr = rex_register_extension_point('REX_FORM_INPUT_ATTRIBUTES', array(), array('inputType' => $inputType));
     
     if($inputAttr)
     {
