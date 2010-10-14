@@ -19,21 +19,22 @@ define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
  */
 class rex_form
 {
-  var $name;
-  var $tableName;
-  var $method;
-  var $fieldset;
-  var $whereCondition;
-  var $elements;
-  var $params;
-  var $mode;
-  var $sql;
-  var $debug;
-  var $applyUrl;
-  var $message;
-  var $errorMessages;
-  var $warning;
-  var $divId;
+  private
+    $name,
+    $tableName,
+    $method,
+    $fieldset,
+    $whereCondition,
+    $elements,
+    $params,
+    $mode,
+    $sql,
+    $debug,
+    $applyUrl,
+    $message,
+    $errorMessages,
+    $warning,
+    $divId;
   
   /**
    * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!
@@ -638,8 +639,8 @@ class rex_form
       case 'readonly'  : 
       case 'readonlytext' : 
       case 'text'      : 
-      case 'textarea'  :
-      default          : $className = 'rex_form_element'; break;
+      case 'textarea'  : $className = 'rex_form_element'; break;
+      default          : throw new rexException("Unexpected inputType '". $inputType ."'!");
     }
     return $className;
   }

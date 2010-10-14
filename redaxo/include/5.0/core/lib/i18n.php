@@ -9,11 +9,13 @@
 
 class i18n
 {
-  private static $locales = array();
-  private $searchpath;
-  private $locale;
-  private $text;
-	private $text_loaded;
+  private static
+    $locales = array();
+  private 
+    $searchpath,
+    $locale,
+    $text,
+  	$text_loaded;
 
   /*
    * Constructor

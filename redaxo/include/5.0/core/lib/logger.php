@@ -2,12 +2,12 @@
 
 class rex_logger {
   private static
-  $instance;
+    $instance;
 
   private
-  $file,
-  $handle,
-  $registered;
+    $file,
+    $handle,
+    $registered;
 
 
   protected function __construct($file)
