@@ -258,15 +258,16 @@ if($function == 'add_cat' || $function == 'edit_cat')
   <div class="rex-form" id="rex-form-structure-category">
   <form action="index.php" method="post">
     <fieldset>
-      <legend><span>'.$legend .'</span></legend>
-      <input type="hidden" name="page" value="structure" />';
+      <legend><span>'.$legend .'</span></legend>';
 
+  $params = array();
+  $params['catstart'] = $catstart;
   if ($function == 'edit_cat')
-    echo '<input type="hidden" name="edit_id" value="'. $edit_id .'" />';
-
-  echo '
-      <input type="hidden" name="category_id" value="'. $category_id .'" />
-      <input type="hidden" name="clang" value="'. $clang .'" />';
+  {
+    $params['edit_id'] = $edit_id;
+  }
+    
+	echo $context->getHiddenInputFields($params);
 }
 
 
@@ -578,12 +579,11 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
     <div class="rex-form" id="rex-form-structure-article">
     <form action="index.php" method="post">
       <fieldset>
-        <legend><span>'.$legend .'</span></legend>
-        <input type="hidden" name="page" value="structure" />
-        <input type="hidden" name="category_id" value="'. $category_id .'" />';
-    if ($article_id != "") echo '<input type="hidden" name="article_id" value="'. $article_id .'" />';
-    echo '
-        <input type="hidden" name="clang" value="'. $clang .'" />';
+        <legend><span>'.$legend .'</span></legend>';
+    
+    $params = array();
+    $params['artstart'] = $artstart;
+    echo $context->getHiddenInputFields($params);
   }
 
   // ----------- PRINT OUT THE ARTICLES
