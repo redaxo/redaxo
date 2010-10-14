@@ -39,7 +39,7 @@ class rex_autoload
    *
    * @param  string $cacheFile  The file path to save the cache
    *
-   * @return sfSimpleAutoload   A sfSimpleAutoload implementation instance.
+   * @return rex_autoload   A rex_autoload implementation instance.
    */
   static public function getInstance($cacheFile = null)
   {
@@ -52,7 +52,7 @@ class rex_autoload
   }
 
   /**
-   * Register sfSimpleAutoload in spl autoloader.
+   * Register rex_autoload in spl autoloader.
    *
    * @return void
    */
@@ -78,7 +78,7 @@ class rex_autoload
   }
 
   /**
-   * Unregister sfSimpleAutoload from spl autoloader.
+   * Unregister rex_autoload from spl autoloader.
    *
    * @return void
    */
@@ -105,7 +105,7 @@ class rex_autoload
       return true;
     }
 
-    // we have a class path, let's include it
+    // we have a class path for the class, let's include it
     if (isset($this->classes[$class]))
     {
       require $this->classes[$class];
@@ -142,9 +142,12 @@ class rex_autoload
       if (is_writable(dirname($this->cacheFile)))
       {
         file_put_contents($this->cacheFile, serialize(array($this->classes, $this->dirs, $this->files)));
+        $this->cacheChanged = false;
       }
-
-      $this->cacheChanged = false;
+      else
+      {
+        throw new rexException("Unable to write autoload cachefile '"+ $this->cacheFile +"'!");
+      }
     }
   }
 
