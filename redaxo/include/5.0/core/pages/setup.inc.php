@@ -280,7 +280,7 @@ function rex_setup_setUtf8()
 	if ($checkmodus == 1)
 	{
 		// -------------------------- VERSIONSCHECK
-		if (version_compare(phpversion(), '4.3.2', '<') == 1)
+		if (version_compare(phpversion(), '5.2.4', '<') == 1)
 		{
 			$MSG['err'] .= '<li>'. $I18N->msg('setup_010', phpversion()).'</li>';
 		}
@@ -294,17 +294,17 @@ function rex_setup_setUtf8()
 
 		// -------------------------- SCHREIBRECHTE
 		$WRITEABLES = array (
-		$REX['SRC_PATH'] .'/config/master.inc.php',
-		$REX['SRC_PATH'] .'/config/addons.inc.php',
-		$REX['SRC_PATH'] .'/config/plugins.inc.php',
-		$REX['SRC_PATH'] .'/config/clang.inc.php',
-		$REX['SRC_PATH'] .'/generated',
-		$REX['SRC_PATH'] .'/generated/articles',
-		$REX['SRC_PATH'] .'/generated/templates',
-		$REX['SRC_PATH'] .'/generated/files',
-		$REX['MEDIAFOLDER'],
-		$REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR.'_readme.txt',
-		getImportDir()
+  		$REX['SRC_PATH'] .'/config/master.inc.php',
+  		$REX['SRC_PATH'] .'/config/addons.inc.php',
+  		$REX['SRC_PATH'] .'/config/plugins.inc.php',
+  		$REX['SRC_PATH'] .'/config/clang.inc.php',
+  		$REX['SRC_PATH'] .'/generated',
+  		$REX['SRC_PATH'] .'/generated/articles',
+  		$REX['SRC_PATH'] .'/generated/templates',
+  		$REX['SRC_PATH'] .'/generated/files',
+  		$REX['MEDIAFOLDER'],
+  		$REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR.'_readme.txt',
+  		getImportDir()
 		);
 
 		foreach($REX['SYSTEM_ADDONS'] as $system_addon)
