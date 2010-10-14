@@ -203,9 +203,10 @@ abstract class rex_baseManager
       $state = $this->I18N('no_activation', $addonName);
     }
   
+    // error while config generation, rollback addon status
     if($state !== TRUE)
       $this->apiCall('setProperty', array($addonName, 'status', 0));
-  
+
     return $state;
   }
   
@@ -218,9 +219,15 @@ abstract class rex_baseManager
   {
     $this->apiCall('setProperty', array($addonName, 'status', 0));
     $state = $this->generateConfig();
-  
+
+    // error while config generation, rollback addon status
     if($state !== TRUE)
       $this->apiCall('setProperty', array($addonName, 'status', 1));
+      
+    // reload autoload cache when addon is deactivated,
+    // so the index doesn't contain outdated class definitions
+    if($state === TRUE) 
+      rex_autoload::getInstance()->removeCache();
       
     return $state;
   }
