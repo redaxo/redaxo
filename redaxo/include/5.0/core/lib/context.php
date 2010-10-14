@@ -47,6 +47,9 @@ class rex_context implements rex_context_provider
     $this->globalParams = $globalParams;
   }
   
+  /**
+   * @see rex_url_provider::getUrl()
+   */
   public function getUrl(array $params = array())
   {
     // combine global params with local
@@ -54,7 +57,10 @@ class rex_context implements rex_context_provider
     
     return str_replace('&', '&amp;', 'index.php?' .ltrim(self::array2paramStr($_params), '&'));
   }
-  
+
+  /**
+   * @see rex_context_provider::getHiddenInputFields()
+   */
   public function getHiddenInputFields(array $params = array())
   {
     // combine global params with local
@@ -62,7 +68,11 @@ class rex_context implements rex_context_provider
     
     return self::array2inputStr($_params);
   }
-  
+
+  /**
+   * Helper method to generate a url string from an array key-value pairs
+   * @param array $array The array which contains the key-value pairs for convertion
+   */
   private function array2paramStr(array $array)
   {
     $paramString = '';
@@ -81,6 +91,10 @@ class rex_context implements rex_context_provider
     return $paramString;
   }
   
+  /**
+   * Helper method to generate a html string with hidden input fields from an array key-value pairs
+   * @param array $array The array which contains the key-value pairs for convertion
+   */
   private static function array2inputStr(array $array)
   {
     $inputString = '';
