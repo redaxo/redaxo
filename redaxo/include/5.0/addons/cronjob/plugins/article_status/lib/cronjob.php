@@ -20,7 +20,7 @@ class rex_cronjob_article_status extends rex_cronjob
     $to   = $config['to'];
     $from['before'] = (array) $from['before'];
     $to['before']   = (array) $to['before'];
-    
+
     $sql = rex_sql::factory();
     // $sql->debugsql = true;
     $sql->setQuery('
@@ -62,7 +62,7 @@ class rex_cronjob_article_status extends rex_cronjob
     ');
     $rows = $sql->getRows();
 
-    include_once $REX['SRC_PATH'].'/core/functions/function_rex_structure.inc.php';
+    include_once $REX['SRC_PATH'].'/addons/structure/functions/function_rex_structure.inc.php';
 
     for($i = 0; $i < $rows; $i++)
     {
