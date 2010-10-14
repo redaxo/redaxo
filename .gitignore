@@ -1,5 +1,10 @@
 /.settings
 /.buildpath
 /.project
+/redaxo_media/addons
 /redaxo/include/5.0/generated
+/redaxo/include/5.0/generated/articles
+/redaxo/include/5.0/generated/templates
+/redaxo/include/5.0/generated/files
+/redaxo/include/5.0/generated/cache
 /redaxo/include/5.0/addons/cronjob/logs
