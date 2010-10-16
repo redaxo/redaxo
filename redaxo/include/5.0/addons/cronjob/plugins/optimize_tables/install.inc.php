@@ -18,6 +18,7 @@ if ($sql->getRows() == 0)
   $sql->setValue('type', 'rex_cronjob_optimize_tables');
   $sql->setValue('interval', '|1|d|');
   $sql->setValue('environment', '|0|1|');
+  $sql->setValue('execution_moment', 0);
   $sql->setValue('status', 0);
   $sql->addGlobalCreateFields();
   $sql->addGlobalUpdateFields();

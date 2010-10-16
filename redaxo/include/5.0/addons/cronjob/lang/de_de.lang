@@ -45,6 +45,10 @@ cronjob_environment = Umgebung
 cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
 
+cronjob_execution = Ausführung
+cronjob_execution_beginning = Skriptanfang
+cronjob_execution_ending = Skriptende
+
 cronjob_status_function = Status/Funktion
 cronjob_status = Status
 cronjob_status_activated = aktiviert
