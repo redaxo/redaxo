@@ -35,6 +35,7 @@ cronjob_type_parameters = Typspezifische Parameter
 cronjob_type_no_parameters = Für diesen Typ sind keine weiteren Parameter notwendig!
 
 cronjob_interval = Intervall
+cronjob_interval_minutes = Minute(n)
 cronjob_interval_hour = Stunde(n)
 cronjob_interval_day = Tag(e)
 cronjob_interval_week = Woche(n)

@@ -78,7 +78,7 @@ if ($func == '')
       global $I18N;
       $value = explode('|', $params['list']->getValue('interval'));
       $str = $value[1] .' ';
-      $array = array('h'=>'hour', 'd'=>'day', 'w'=>'week', 'm'=>'month', 'y'=>'year');
+      $array = array('i'=>'minutes', 'h'=>'hour', 'd'=>'day', 'w'=>'week', 'm'=>'month', 'y'=>'year');
       $str .= $I18N->msg('cronjob_interval_'. $array[$value[2]]);
       return $str;
     }

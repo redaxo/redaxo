@@ -52,20 +52,21 @@ class rex_cronjob_form_interval_element extends rex_form_element
   {
     global $I18N;
     $name = $this->getAttribute('name').'[]';
-    $value = explode('|',htmlspecialchars($this->getValue()));
+    $value = explode('|', htmlspecialchars($this->getValue()));
     if (count($value) != 4)
-      $value = array(null,1,'d');
+      $value = array(null, 1, 'd');
     
     $select = new rex_select();
-    $select->setAttribute('class','rex-form-select rex-a630-interval');
+    $select->setAttribute('class', 'rex-form-select rex-a630-interval');
     $select->setStyle('width:120px');
     $select->setName($name);
     $select->setSize(1);
-    $select->addOption($I18N->msg('cronjob_interval_hour'),  'h');
-    $select->addOption($I18N->msg('cronjob_interval_day'),   'd');
-    $select->addOption($I18N->msg('cronjob_interval_week'),  'w');
-    $select->addOption($I18N->msg('cronjob_interval_month'), 'm');
-    $select->addOption($I18N->msg('cronjob_interval_year'),  'y');
+    $select->addOption($I18N->msg('cronjob_interval_minutes'), 'i');
+    $select->addOption($I18N->msg('cronjob_interval_hour'),    'h');
+    $select->addOption($I18N->msg('cronjob_interval_day'),     'd');
+    $select->addOption($I18N->msg('cronjob_interval_week'),    'w');
+    $select->addOption($I18N->msg('cronjob_interval_month'),   'm');
+    $select->addOption($I18N->msg('cronjob_interval_year'),    'y');
     $select->setSelected($value[2]);
 
     return '

@@ -250,6 +250,7 @@ class rex_cronjob_manager_sql
       $date = getdate();
       switch($interval[1])
       {
+        case 'i': return mktime($date['hours'], $date['minutes'] + $interval[0], 0);
         case 'h': return mktime($date['hours'] + $interval[0], 0, 0);
         case 'd': return mktime(0, 0, 0, $date['mon'], $date['mday'] + $interval[0]);
         case 'w': return mktime(0, 0, 0, $date['mon'], $date['mday'] + $interval[0] * 7 - $date['wday']);
