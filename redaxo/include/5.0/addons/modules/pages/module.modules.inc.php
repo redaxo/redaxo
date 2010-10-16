@@ -374,7 +374,7 @@ if ($OUT)
   if ($warning_block != '')
     echo rex_warning_block($warning_block);
 
-  $list = rex_list::factory('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name', 5);
+  $list = rex_list::factory('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
   $list->setCaption($I18N->msg('module_caption'));
   $list->addTableAttribute('summary', $I18N->msg('module_summary'));
   $list->addTableColumnGroup(array(40, 40, '*', 153));
