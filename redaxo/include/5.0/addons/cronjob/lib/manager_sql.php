@@ -61,7 +61,7 @@ class rex_cronjob_manager_sql
     $this->sql->setQuery('
       SELECT  name 
       FROM    '. REX_CRONJOB_TABLE .' 
-      WHERE   id='. $id .' 
+      WHERE   id = '. $id .' 
       LIMIT   1
     ');
     if($this->sql->getRows() == 1)
@@ -81,12 +81,13 @@ class rex_cronjob_manager_sql
     return $success;
   }
 
-  public function setExecutionStatus($id, $status)
+  public function setExecutionStart($id, $time = null)
   {
     global $REX;
+    $time = $time === null ? time() : $time;
     $this->sql->setTable(REX_CRONJOB_TABLE);
     $this->sql->setWhere('id = '. $id);
-    $this->sql->setValue('execution_status', $status);
+    $this->sql->setValue('execution_start', $time);
     $success = $this->sql->update();
     return $success;
   }
@@ -104,10 +105,14 @@ class rex_cronjob_manager_sql
   {
     global $REX;
     $sql = rex_sql::factory();
+    // $sql->setDebug();
     $sql->setQuery('
       SELECT    id, name, type, parameters, `interval`, execution_moment
       FROM      '. REX_CRONJOB_TABLE .' 
-      WHERE     status=1 AND execution_status=0 AND environment LIKE "%|'. (int)$REX['REDAXO'] .'|%" AND nexttime <= '. time() .' 
+      WHERE     status = 1 
+        AND     execution_start < '. (time() - 2 * ini_get('max_execution_time')) .' 
+        AND     environment LIKE "%|'. (int)$REX['REDAXO'] .'|%" 
+        AND     nexttime <= '. time() .' 
       ORDER BY  nexttime ASC, execution_moment DESC, name ASC
       LIMIT     1
     ');
@@ -115,7 +120,7 @@ class rex_cronjob_manager_sql
     {
       ignore_user_abort(true);
       register_shutdown_function(array($this, 'timeout'), $sql);
-      $this->setExecutionStatus($sql->getValue('id'), 1);
+      $this->setExecutionStart($sql->getValue('id'));
       if ($sql->getValue('execution_moment') == 1)
       {
         $this->tryExecuteSql($sql, true, true);
@@ -147,7 +152,7 @@ class rex_cronjob_manager_sql
       }
       else
       {
-        $this->setExecutionStatus($sql->getValue('id'), 0);
+        $this->setExecutionStart($sql->getValue('id'), 0);
         $this->saveNextTime();
       }
     }
@@ -160,7 +165,7 @@ class rex_cronjob_manager_sql
     $sql->setQuery('
       SELECT    id, name, type, parameters, `interval` 
       FROM      '. REX_CRONJOB_TABLE .' 
-      WHERE     id='. $id .' AND environment LIKE "%|'. (int)$REX['REDAXO'] .'|%" 
+      WHERE     id = '. $id .' AND environment LIKE "%|'. (int)$REX['REDAXO'] .'|%" 
       LIMIT     1
     ');
     if ($sql->getRows() != 1)
@@ -172,7 +177,7 @@ class rex_cronjob_manager_sql
     return $this->tryExecuteSql($sql, $log);
   }
 
-  public function tryExecuteSql(rex_sql $sql, $log = true, $setExecutionStatus = false)
+  public function tryExecuteSql(rex_sql $sql, $log = true, $resetExecutionStart = false)
   {
     global $REX;
     if ($sql->getRows() > 0)
@@ -186,21 +191,21 @@ class rex_cronjob_manager_sql
       $cronjob = rex_cronjob::factory($type);
       $success = $this->getManager()->tryExecute($cronjob, $name, $params, $log, $id);
 
-      $this->setNextTime($id, $interval, $setExecutionStatus);
+      $this->setNextTime($id, $interval, $resetExecutionStart);
       
       return $success;
     }
     return false;
   }
 
-  public function setNextTime($id, $interval, $setExecutionStatus = false)
+  public function setNextTime($id, $interval, $resetExecutionStart = false)
   {
     $nexttime = $this->_calculateNextTime($interval);
-    $add = $setExecutionStatus ? ', execution_status=0' : '';
+    $add = $resetExecutionStart ? ', execution_start = 0' : '';
     $success = $this->sql->setQuery('
       UPDATE  '. REX_CRONJOB_TABLE .' 
-      SET     nexttime='. $nexttime . $add .'
-      WHERE   id='. $id
+      SET     nexttime = '. $nexttime . $add .'
+      WHERE   id = '. $id
     );
     $this->saveNextTime();
     return $success;
@@ -211,7 +216,7 @@ class rex_cronjob_manager_sql
     $this->sql->setQuery('
       SELECT  MIN(nexttime) AS nexttime
       FROM    '. REX_CRONJOB_TABLE .' 
-      WHERE   status=1 AND execution_status=0
+      WHERE   status = 1
     ');
     if($this->sql->getRows() == 1)
       return $this->sql->getValue('nexttime');

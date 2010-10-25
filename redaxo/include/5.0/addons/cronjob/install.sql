@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%630_cronjobs` (
   `nexttime` int(11) default 0,
   `environment` varchar(255) NOT NULL,
   `execution_moment` tinyint(1) NOT NULL,
-  `execution_status` tinyint(1) NOT NULL,
+  `execution_start` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `createdate` int(11) NOT NULL,
   `createuser` varchar(255) NOT NULL,
