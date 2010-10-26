@@ -25,6 +25,14 @@ if($REX["REDAXO"])
   $REX['ADDON']['page'][$mypage] = $mpool; 
   
   require_once dirname(__FILE__). '/functions/function_rex_mediapool.inc.php';
+  // im backend und eingeloggt?
+  if($REX["USER"])
+  {
+    if(rex_request('page', 'string') == 'mediapool')
+    {
+      rex_register_extension('PAGE_HEADER', 'rex_mediapool_add_assets');
+    }
+  }
 }
 
 require_once dirname(__FILE__). '/functions/function_rex_generate.inc.php';
