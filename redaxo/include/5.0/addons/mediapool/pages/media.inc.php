@@ -6,6 +6,8 @@
  * @version svn:$Id$
  */
 
+$media_method = rex_request('media_method', 'string');
+
 // *************************************** CONFIG
 
 $thumbs = true;
