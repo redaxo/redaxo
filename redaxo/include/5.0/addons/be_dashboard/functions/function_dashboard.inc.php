@@ -14,9 +14,9 @@ function rex_a655_add_assets($params)
   if($REX['PAGE'] != $addon) return '';
   
   $params['subject'] .= "\n  ".
-    '<link rel="stylesheet" type="text/css" href="../files/addons/'.$addon.'/be_dashboard.css" />';
+    '<link rel="stylesheet" type="text/css" href="../redaxo_media/addons/'.$addon.'/be_dashboard.css" />';
   $params['subject'] .= "\n  ".
-    '<script type="text/javascript" src="../files/addons/'.$addon.'/be_dashboard.js"></script>';
+    '<script type="text/javascript" src="../redaxo_media/addons/'.$addon.'/be_dashboard.js"></script>';
   
   return $params['subject'];
 }
