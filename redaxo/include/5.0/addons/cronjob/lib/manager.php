@@ -19,7 +19,10 @@ class rex_cronjob_manager
     );
 
   private 
-    $message = '';
+    $message = '',
+    $cronjob,
+    $name,
+    $id;
   
   public function factory()
   {
@@ -56,6 +59,9 @@ class rex_cronjob_manager
     }
     else
     {
+      $this->name = $name;
+      $this->id = $id;
+      $this->cronjob = $cronjob;
       $type = $cronjob->getType();
       if (is_array($params))
       {
@@ -68,25 +74,42 @@ class rex_cronjob_manager
       {
         $message = 'Unknown error';
       }
-      if($log && !$name)
-      {
-        if($REX['REDAXO'])
-          $name = $cronjob->getTypeName();
-        else
-          $name = $type;
-      }
     }
     
     if ($log) 
     {
-      if (!$name)
-        $name = '[no name]';
-      rex_cronjob_log::save($name, $success, $message, $id);
+      $this->log($success, $message);
     }
     
     $this->setMessage(htmlspecialchars($message));
+    $this->cronjob = null;
+    $this->id = null;
     
     return $success;
+  }
+
+  private function log($success, $message)
+  {
+    global $REX;
+    $name = $this->name;
+    if (!$name)
+    {
+      if (rex_cronjob::isValid($this->cronjob))
+        $name = $REX['REDAXO'] ? $cronjob->getTypeName() : $cronjob->getType();
+      else
+        $name = '[no name]';
+    }
+    rex_cronjob_log::save($name, $success, $message, $this->id);
+  }
+
+  public function timeout()
+  {
+    if (rex_cronjob::isValid($this->cronjob))
+    {
+      $this->log(false, 'timeout');
+      return true;
+    }
+    return false;
   }
   
   static public function getTypes()

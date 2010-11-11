@@ -60,4 +60,4 @@ $REX['ADDON']['plugins']['cronjob']['status']['article_status'] = '0';
 $REX['ADDON']['plugins']['cronjob']['install']['optimize_tables'] = '0';
 $REX['ADDON']['plugins']['cronjob']['status']['optimize_tables'] = '0';
 // --- /DYN
-// ----------------- /DONT EDIT BELOW THIS 
+// ----------------- /DONT EDIT BELOW THIS

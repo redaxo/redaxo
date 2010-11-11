@@ -35,6 +35,7 @@ cronjob_type_parameters = Typspezifische Parameter
 cronjob_type_no_parameters = Für diesen Typ sind keine weiteren Parameter notwendig!
 
 cronjob_interval = Intervall
+cronjob_interval_minutes = Minute(n)
 cronjob_interval_hour = Stunde(n)
 cronjob_interval_day = Tag(e)
 cronjob_interval_week = Woche(n)
@@ -44,6 +45,10 @@ cronjob_interval_year = Jahr(e)
 cronjob_environment = Umgebung
 cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
+
+cronjob_execution = Ausführung
+cronjob_execution_beginning = Skriptanfang
+cronjob_execution_ending = Skriptende
 
 cronjob_status_function = Status/Funktion
 cronjob_status = Status

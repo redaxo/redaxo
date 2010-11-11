@@ -466,3 +466,16 @@ function rex_mediapool_Syncform($rex_file_category)
 
   return rex_mediapool_Mediaform($I18N->msg('pool_sync_title'), $I18N->msg('pool_sync_button'), $rex_file_category, false, false);
 }
+
+/**
+ * Fügt die benötigen Assets ein
+ * 
+ * @param $params Extension-Point Parameter
+ */
+function rex_mediapool_add_assets($params)
+{
+  $params['subject'] .= "\n  ".
+    '<script type="text/javascript" src="../redaxo_media/addons/mediapool/mediapool.js"></script>';
+  
+  return $params['subject'];
+}

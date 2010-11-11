@@ -51,7 +51,7 @@ if ($func == 'execute')
 if ($func == '') 
 {
 
-  $query = 'SELECT id, name, type, `interval`, environment, status FROM '. REX_CRONJOB_TABLE .' ORDER BY name';
+  $query = 'SELECT id, name, type, `interval`, environment, execution_moment, status FROM '. REX_CRONJOB_TABLE .' ORDER BY name';
   
   $list = rex_list::factory($query, 30, 'cronjobs');
   
@@ -59,7 +59,7 @@ if ($func == '')
   $list->setCaption($I18N->msg('cronjob_caption'));
   $list->addTableAttribute('summary', $I18N->msg('cronjob_summary'));
   
-  $list->addTableColumnGroup(array(40,'*',90,130,60,60,60));
+  $list->addTableColumnGroup(array(40, '*', 80, 120, 80, 60, 60, 60));
   
   $imgHeader = '<a class="rex-i-element rex-i-cronjob-add" href="'. $list->getUrl(array('func' => 'add')) .'"><span class="rex-i-element-text">'. $I18N->msg('cronjob_add') .'</span></a>';
   $list->addColumn($imgHeader, '<span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $I18N->msg('cronjob_edit') .'</span></span>', 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
@@ -73,67 +73,76 @@ if ($func == '')
   
   $list->setColumnLabel('interval', $I18N->msg('cronjob_interval'));
   $list->setColumnFormat('interval', 'custom', 
-    create_function( 
-      '$params', 
-      'global $I18N;
-       $list = $params["list"]; 
-       $value = explode("|",$list->getValue("interval"));
-       $str = $value[1]." ";
-       $array = array("h"=>"hour", "d"=>"day", "w"=>"week", "m"=>"month", "y"=>"year");
-       $str .= $I18N->msg("cronjob_interval_".$array[$value[2]]);
-       return $str;' 
-    ) 
+    function ($params)
+    {  
+      global $I18N;
+      $value = explode('|', $params['list']->getValue('interval'));
+      $str = $value[1] .' ';
+      $array = array('i'=>'minutes', 'h'=>'hour', 'd'=>'day', 'w'=>'week', 'm'=>'month', 'y'=>'year');
+      $str .= $I18N->msg('cronjob_interval_'. $array[$value[2]]);
+      return $str;
+    }
   );
   
   $list->setColumnLabel('environment', $I18N->msg('cronjob_environment'));
   $list->setColumnFormat('environment', 'custom', 
-    create_function( 
-      '$params', 
-      'global $I18N;
-       $list = $params["list"];
-       $value = $list->getValue("environment");
-       $env = array();
-       if (strpos($value, "|0|") !== false) 
-         $env[] = $I18N->msg("cronjob_environment_frontend");
-       if (strpos($value, "|1|") !== false) 
-         $env[] = $I18N->msg("cronjob_environment_backend");
-       return implode(", ", $env);' 
-    ) 
+    function ($params)
+    {
+      global $I18N;
+      $value = $params['list']->getValue('environment');
+      $env = array();
+      if (strpos($value, '|0|') !== false) 
+        $env[] = $I18N->msg('cronjob_environment_frontend');
+      if (strpos($value, '|1|') !== false) 
+        $env[] = $I18N->msg('cronjob_environment_backend');
+      return implode(', ', $env);
+    }
+  );
+  
+  $list->setColumnLabel('execution_moment', $I18N->msg('cronjob_execution'));
+  $list->setColumnFormat('execution_moment', 'custom', 
+    function ($params)
+    {
+      global $I18N;
+      if ($params['list']->getValue('execution_moment'))
+        return $I18N->msg('cronjob_execution_beginning');
+      return $I18N->msg('cronjob_execution_ending');
+    }
   );
   
   $list->setColumnLabel('status', $I18N->msg('cronjob_status_function'));
   $list->setColumnParams('status', array('func'=>'setstatus', 'oldstatus'=>'###status###', 'oid'=>'###id###'));
   $list->setColumnLayout('status', array('<th colspan="3">###VALUE###</th>','<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnFormat('status', 'custom', 
-    create_function( 
-      '$params', 
-      'global $I18N;
-       $list = $params["list"]; 
-       if (!class_exists($list->getValue("type")))
-         $str = $I18N->msg("cronjob_status_invalid");
-       elseif ($list->getValue("status") == 1) 
-         $str = $list->getColumnLink("status","<span class=\"rex-online\">".$I18N->msg("cronjob_status_activated")."</span>"); 
-       else 
-         $str = $list->getColumnLink("status","<span class=\"rex-offline\">".$I18N->msg("cronjob_status_deactivated")."</span>"); 
-       return $str;' 
-    ) 
+    function ($params)
+    {
+      global $I18N;
+      $list = $params['list']; 
+      if (!class_exists($list->getValue('type')))
+        $str = $I18N->msg('cronjob_status_invalid');
+      elseif ($list->getValue('status') == 1) 
+        $str = $list->getColumnLink('status', '<span class="rex-online">'. $I18N->msg('cronjob_status_activated') .'</span>'); 
+      else 
+        $str = $list->getColumnLink('status', '<span class="rex-offline">'. $I18N->msg('cronjob_status_deactivated') .'</span>'); 
+      return $str;
+    }
   );
   
-  $list->addColumn('delete', $I18N->msg('cronjob_delete'), -1, array("",'<td style="text-align:center;">###VALUE###</td>'));
+  $list->addColumn('delete', $I18N->msg('cronjob_delete'), -1, array('', '<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnParams('delete', array('func' => 'delete', 'oid' => '###id###'));
   $list->addLinkAttribute('delete', 'onclick', "return confirm('". $I18N->msg('cronjob_really_delete') ."');");
   
-  $list->addColumn('execute', $I18N->msg('cronjob_execute'), -1, array("",'<td style="text-align:center;">###VALUE###</td>'));
+  $list->addColumn('execute', $I18N->msg('cronjob_execute'), -1, array('', '<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnParams('execute', array('func' => 'execute', 'oid' => '###id###'));
   $list->setColumnFormat('execute', 'custom', 
-    create_function( 
-      '$params', 
-      'global $I18N;
-       $list = $params["list"]; 
-       if (strpos($list->getValue("environment"),"|1|") !== false && class_exists($list->getValue("type")))
-         return $list->getColumnLink("execute",$I18N->msg("cronjob_execute"));
-       return "<span class=\"rex-strike\">".$I18N->msg("cronjob_execute")."</span>";' 
-    ) 
+    function ($params)
+    {
+      global $I18N;
+      $list = $params['list']; 
+      if (strpos($list->getValue('environment'), '|1|') !== false && class_exists($list->getValue('type')))
+        return $list->getColumnLink('execute', $I18N->msg('cronjob_execute'));
+      return '<span class="rex-strike">'. $I18N->msg('cronjob_execute') .'</span>';
+    }
   );
   
   $list->show();
@@ -195,6 +204,15 @@ if ($func == '')
   if ($func == 'add')
     $select->setSelected(array(0,1));
 
+  $field = $form->addSelectField('execution_moment');
+  $field->setLabel($I18N->msg('cronjob_execution'));
+  $select = $field->getSelect();
+  $select->setSize(1);
+  $select->addOption($I18N->msg('cronjob_execution_beginning'),1);
+  $select->addOption($I18N->msg('cronjob_execution_ending'),0);
+  if ($func == 'add')
+    $select->setSelected(0);
+
   $field = $form->addSelectField('status');
   $field->setLabel($I18N->msg('cronjob_status'));
   $select = $field->getSelect();
@@ -237,7 +255,9 @@ if ($func == '')
       {
         $type = $param['type'];
         $name = $group .'_'. $param['name'];
+        $label = !empty($param['label']) ? $param['label'] : '&nbsp;';
         $value = isset($param['default']) ? $param['default'] : null;
+        $value = isset($param['value']) ? $param['value'] : $value;
         $attributes = isset($param['attributes']) ? $param['attributes'] : array();
         switch($param['type'])
         {
@@ -247,9 +267,11 @@ if ($func == '')
           case 'medialist' :
           case 'link' :
           case 'linklist' :
+          case 'readonly' :
+          case 'readonlytext' :
             {
               $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
-              $field->setLabel($param['label']);
+              $field->setLabel($label);
               if (isset($param['notice']))
                 $field->setNotice($param['notice']);
               break;
@@ -257,7 +279,7 @@ if ($func == '')
           case 'select' :
             {
               $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
-              $field->setLabel($param['label']);
+              $field->setLabel($label);
               $select = $field->getSelect();
               $select->addArrayOptions($param['options']);
               if (isset($param['notice']))

@@ -6,6 +6,8 @@
  * @version svn:$Id$
  */
 
+$media_method = rex_request('media_method', 'string');
+
 // *************************************** CONFIG
 
 $thumbs = true;
@@ -752,6 +754,9 @@ if ($subpage == '')
 
     $add_td = '<td></td>';
     if ($PERMALL) $add_td = '<td class="rex-icon"><input class="rex-form-checkbox" type="checkbox" name="selectedmedia[]" value="'.$file_name.'" /></td>';
+    
+    $thumbnail = str_replace('src="', 'longdesc="', $thumbnail);
+    $thumbnail = str_replace('<img', '<img class="img-ondemand" src="data:image/gif;base64,R0lGODlhAQABAIAAAPj8/wAAACwAAAAAAQABAAACAkQBADs"', $thumbnail);
 
     echo '<tr>
             '. $add_td .'

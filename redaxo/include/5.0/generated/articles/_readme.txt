@@ -1,1 +1,1 @@
-_generated articles folder
+-_generated articles folder
