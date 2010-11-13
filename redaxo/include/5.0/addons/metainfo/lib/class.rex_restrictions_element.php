@@ -19,7 +19,7 @@ class rex_form_restrictons_element extends rex_form_select_element
     
     if($table->getPrefix() == 'art_' || $table->getPrefix() == 'cat_')
     {
-      $restrictionsSelect = new rex_category_select();
+      $restrictionsSelect = new rex_category_select(false, false, true, false);
     }
     else if($table->getPrefix() == 'med_') 
     {
