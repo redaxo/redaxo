@@ -112,16 +112,18 @@ function rex_generateArticleMeta($article_id, $clang = null)
 {
   global $REX, $I18N;
   
-  foreach($REX['CLANG'] as $_clang => $clang_name)
+  $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX'] .'article WHERE article_id='. (int) $article_id;
+  if($clang !== NULL)
   {
-    if($clang !== null && $clang != $_clang)
-      continue;
+    $qry .= ' AND '. (int) $clang;
+  }
+  
+  $sql = rex_sql::factory();
+  $sql->setQuery($qry);
+  while($sql->hasNext())
+  {
+    $_clang = $sql->getValue('clang');
     
-    $CONT = new rex_article_base();
-    $CONT->setCLang($_clang);
-    $CONT->setEval(FALSE); // Content nicht ausfŸhren, damit in Cachedatei gespeichert werden kann
-    if (!$CONT->setArticleId($article_id)) return FALSE;
-
     // --------------------------------------------------- Artikelparameter speichern
     $params = array(
       'article_id' => $article_id,
@@ -133,7 +135,7 @@ function rex_generateArticleMeta($article_id, $clang = null)
     $db_fields = $class_vars;
 
     foreach($db_fields as $field)
-      $params[$field] = $CONT->getValue($field);
+      $params[$field] = $sql->getValue($field);
 
     $content = '<?php'."\n";
     foreach($params as $name => $value)
@@ -150,6 +152,8 @@ function rex_generateArticleMeta($article_id, $clang = null)
     
     // damit die aktuellen änderungen sofort wirksam werden, einbinden!
     require ($article_file);
+    
+    $sql->next();
   }
   
   return TRUE;
