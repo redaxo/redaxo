@@ -94,7 +94,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $rexInput->setAttribute('name', $name);
         if($dblength > 0)
           $rexInput->setAttribute('maxlength', $dblength);
-        $rexInput->setValue($activeItem->getValue($name));
+        if($activeItem)
+          $rexInput->setValue($activeItem->getValue($name));
         $field = $rexInput->getHtml();
         break;
       }
