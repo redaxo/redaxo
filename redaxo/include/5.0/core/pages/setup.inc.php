@@ -583,7 +583,7 @@ function rex_setup_setUtf8()
 		if ($dbanlegen == 4)
 		{
 			// ----- vorhandenen seite updaten
-			$import_sql = $REX['SRC_PATH'].'/core/install/update4_x_to_4_3.sql';
+			$import_sql = $REX['SRC_PATH'].'/core/install/update4_x_to_5_0.sql';
 			if($err_msg == '')
 			$err_msg .= rex_setup_import($import_sql);
 
@@ -627,7 +627,7 @@ function rex_setup_setUtf8()
 		elseif ($dbanlegen == 1)
 		{
 			// ----- volle Datenbank, alte DB löschen / drop
-			$import_sql = $REX['SRC_PATH'].'/core/install/redaxo4_3.sql';
+			$import_sql = $REX['SRC_PATH'].'/core/install/redaxo5_0.sql';
 
 			$db = rex_sql::factory();
 			foreach($requiredTables as $table)
@@ -642,7 +642,7 @@ function rex_setup_setUtf8()
 		elseif ($dbanlegen == 0)
 		{
 			// ----- leere Datenbank neu einrichten
-			$import_sql = $REX['SRC_PATH'].'/core/install/redaxo4_3.sql';
+			$import_sql = $REX['SRC_PATH'].'/core/install/redaxo5_0.sql';
 
 			if($err_msg == '')
 			$err_msg .= rex_setup_import($import_sql);
