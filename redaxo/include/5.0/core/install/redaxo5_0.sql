@@ -1,4 +1,4 @@
-## Redaxo Database Dump Version 4
+## Redaxo Database Dump Version 5
 ## Prefix rex_
 
 CREATE TABLE `rex_action` ( `id` int(11) NOT NULL  auto_increment, `name` varchar(255) NOT NULL  , `preview` text NULL  , `presave` text NULL  , `postsave` text NULL  , `previewmode` tinyint(4) NULL  , `presavemode` tinyint(4) NULL  , `postsavemode` tinyint(4) NULL  , `createuser` varchar(255) NOT NULL  , `createdate` int(11) NOT NULL  , `updateuser` varchar(255) NOT NULL  , `updatedate` int(11) NOT NULL  , `revision` int(11) NOT NULL  , PRIMARY KEY (`id`)) TYPE=MyISAM;
