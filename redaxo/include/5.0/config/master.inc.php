@@ -9,11 +9,11 @@
 // ----------------- SERVER VARS
 
 // Setupservicestatus - if everything ok -> false; if problem set to true;
-$REX['SETUP'] = false;
+$REX['SETUP'] = true;
 $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
-$REX['VERSION'] = "4";
-$REX['SUBVERSION'] = "3";
+$REX['VERSION'] = "5";
+$REX['SUBVERSION'] = "0";
 $REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(664); // oktaler wert

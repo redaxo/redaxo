@@ -214,7 +214,7 @@ function rex_setup_setUtf8()
 	if (!($checkmodus > 0 && $checkmodus < 10))
 	{
 	  // initial purge all generated files
-	  rex_generateAll();
+	  rex_deleteDir($REX['SRC_PATH'].'/generated', FALSE);
 	   
 		$langpath = $REX['SRC_PATH'].'/core/lang';
 		foreach($REX['LANGUAGES'] as $l)
