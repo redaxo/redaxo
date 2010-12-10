@@ -23,7 +23,7 @@ class OOArticle extends OORedaxo
     
     $article_id = (int) $article_id;
     
-    if(!is_int($article_id))
+    if($article_id <= 0)
       return NULL;
       
     if ($clang === FALSE)
@@ -34,7 +34,6 @@ class OOArticle extends OORedaxo
 		{
 		  // FIXME: find better path detection
 		  require_once dirname(__FILE__). '/../functions/function_rex_generate.inc.php';
-//			require_once ($REX['SRC_PATH'].'/core/functions/function_rex_generate.inc.php');
     	rex_generateArticleMeta($article_id, $clang);
 		}
 

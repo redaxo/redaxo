@@ -112,10 +112,10 @@ function rex_generateArticleMeta($article_id, $clang = null)
 {
   global $REX, $I18N;
   
-  $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX'] .'article WHERE article_id='. (int) $article_id;
+  $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX'] .'article WHERE id='. (int) $article_id;
   if($clang !== NULL)
   {
-    $qry .= ' AND '. (int) $clang;
+    $qry .= ' AND clang='. (int) $clang;
   }
   
   $sql = rex_sql::factory();
