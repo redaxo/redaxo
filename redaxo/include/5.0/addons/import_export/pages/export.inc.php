@@ -39,7 +39,7 @@ if ($impname != '')
 }
 
 if ($exportfilename == '')
-  $exportfilename = 'rex_'.$REX['VERSION'].'_'.date("Ymd");
+  $exportfilename = strtolower($_SERVER['HTTP_HOST']).'_rex'.$REX['VERSION'].$REX['SUBVERSION'].$REX['MINORVERSION'].'_'.date("Ymd");
 
 if ($function == 'export')
 {
