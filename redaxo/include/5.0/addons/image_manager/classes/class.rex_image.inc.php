@@ -16,18 +16,6 @@ class rex_image {
       exit();
     }
     
-    // ----- check filesize
-    $max_file_size = $REX['ADDON']['image_manager']['max_resizekb'] * 1024;
-    $filesize = filesize($filepath);
-    if ($filesize>$max_file_size)
-    {
-      $error  = 'Imagefile is to big.';
-      $error .= ' Only files < '.$REX['ADDON']['image_manager']['max_resizekb'].'kb are allowed';
-      $error .= '- '. $filepath . ', '. OOMedia::_getFormattedSize($filesize);
-      $this->sendError($error);
-      exit();
-    }
-    
     // ----- imagepfad speichern
     $this->img = array();
     $this->img['file'] = basename($filepath);

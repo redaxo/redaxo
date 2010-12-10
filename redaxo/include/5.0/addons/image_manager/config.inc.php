@@ -23,8 +23,6 @@ $REX['PERM'][] = 'image_manager[]';
 
 
 // --- DYN
-$REX['ADDON']['image_manager']['max_resizekb'] = 1000;
-$REX['ADDON']['image_manager']['max_resizepixel'] = 1500;
 $REX['ADDON']['image_manager']['jpg_quality'] = 85;
 // --- /DYN
 
