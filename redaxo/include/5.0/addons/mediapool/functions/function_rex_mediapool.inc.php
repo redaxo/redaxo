@@ -391,7 +391,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
   }
   
   $add_submit = '';
-  if($close_form)
+  if($close_form && $opener_input_field != '')
   {
     $add_submit = '<input type="submit" class="rex-form-submit" name="saveandexit" value="'.$I18N->msg('pool_file_upload_get').'"'. rex_accesskey($I18N->msg('pool_file_upload_get'), $REX['ACKEY']['SAVE']) .' />';
   }
