@@ -278,7 +278,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         $rexInput->addAttributes($attrArray);
         $rexInput->setAttribute('id', $id);
         $rexInput->setAttribute('name', $name);
-        $rexInput->setValue($activeItem->getValue($name));
+        if($activeItem)
+          $rexInput->setValue($activeItem->getValue($name));
         $field = $rexInput->getHtml();
         
         break;
