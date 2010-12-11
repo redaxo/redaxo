@@ -62,26 +62,20 @@ abstract class rex_baseManager
           // no install file -> no error
           $this->apiCall('setProperty', array($addonName, 'install', 1));
         }
-          
-        if($state === TRUE)
+  
+        if($state === TRUE && $installDump === TRUE && is_readable($install_sql))
         {
-          // TODO: Warum laden wir die config bei der Installation?!
-          $state = $this->loadConfig($addonName, $config_file);
-  
-          if($installDump === TRUE && $state === TRUE && is_readable($install_sql))
-          {
-            $state = rex_install_dump($install_sql);
-  
-            if($state !== TRUE)
-              $state = 'Error found in install.sql:<br />'. $state;
-          }
-  
-          // Installation ok
-          if ($state === TRUE)
-          {
-            // regenerate Addons file
-            $state = $this->generateConfig();
-          }
+          $state = rex_install_dump($install_sql);
+
+          if($state !== TRUE)
+            $state = 'Error found in install.sql:<br />'. $state;
+        }
+
+        // Installation ok
+        if ($state === TRUE)
+        {
+          // regenerate Addons file
+          $state = $this->generateConfig();
         }
       }
     }
@@ -98,32 +92,6 @@ abstract class rex_baseManager
     if($state !== TRUE)
       $this->apiCall('setProperty', array($addonName, 'install', 0));
   
-    return $state;
-  }
-  
-  /**
-   * Loads the configuration of the Addon $addonName into $REX
-   * 
-   * @param string $addonName The name of the addon
-   * @param string $config_file The path to the config file
-   */
-  private function loadConfig($addonName, $config_file)
-  {
-    $state = TRUE;
-    
-    // check if config file exists
-    if (is_readable($config_file))
-    {
-      if (!$this->apiCall('isActivated', array($addonName)))
-      {
-        $this->includeConfig($addonName, $config_file);
-      }
-    }
-    else
-    {
-      $state = $this->I18N('config_not_found');
-    }
-
     return $state;
   }
   
