@@ -379,7 +379,6 @@ function rex_setup_setUtf8()
 		$serveraddress             = str_replace("\'", "'", rex_post('serveraddress', 'string'));
 		$serverbezeichnung         = str_replace("\'", "'", rex_post('serverbezeichnung', 'string'));
 		$error_email               = str_replace("\'", "'", rex_post('error_email', 'string'));
-		$psw_func                  = str_replace("\'", "'", rex_post('psw_func', 'string'));
 		$mysql_host                = str_replace("\'", "'", rex_post('mysql_host', 'string'));
 		$redaxo_db_user_login      = str_replace("\'", "'", rex_post('redaxo_db_user_login', 'string'));
 		$redaxo_db_user_pass       = str_replace("\'", "'", rex_post('redaxo_db_user_pass', 'string'));
@@ -391,7 +390,6 @@ function rex_setup_setUtf8()
 		$cont = preg_replace("@(REX\['LANG'\].?\=.?\")[^\"]*@", '${1}'.$lang, $cont);
 		$cont = preg_replace("@(REX\['INSTNAME'\].?\=.?\")[^\"]*@", '${1}'."rex".date("YmdHis"), $cont);
 		$cont = preg_replace("@(REX\['ERROR_EMAIL'\].?\=.?\")[^\"]*@", '${1}'.$error_email, $cont);
-		$cont = preg_replace("@(REX\['PSWFUNC'\].?\=.?\")[^\"]*@", '${1}'.$psw_func, $cont);
 		$cont = preg_replace("@(REX\['DB'\]\['1'\]\['HOST'\].?\=.?\")[^\"]*@", '${1}'.$mysql_host, $cont);
 		$cont = preg_replace("@(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_login, $cont);
 		$cont = preg_replace("@(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_pass, $cont);
@@ -426,7 +424,6 @@ function rex_setup_setUtf8()
 		$serveraddress         = $REX['SERVER'];
 		$serverbezeichnung     = $REX['SERVERNAME'];
 		$error_email           = $REX['ERROR_EMAIL'];
-		$psw_func              = $REX['PSWFUNC'];
 
 		// DB Infos
 		$dbname                = $REX['DB']['1']['NAME'];
@@ -452,17 +449,6 @@ function rex_setup_setUtf8()
 			echo rex_warning($err_msg);
 		}
 
-		$psw_functions = '';
-		foreach(array('', 'sha1') as $key => $algo)
-		{
-			$key = $algo;
-			if($algo == '') $algo = $I18N->msg('setup_no_encryption');
-			if($algo == 'sha1') $algo = $I18N->msg('setup_psw_encryption');  // ' ('. $I18N->msg('recommended') .')'
-			$selected = $key == $psw_func ? ' selected="selected"' : '';
-
-			$psw_functions .= '<option value="'. $key .'"'. $selected .'>'. $algo .'</option>';
-		}
-
 		echo '
             <legend>'.$I18N->msg("setup_0201").'</legend>
             
@@ -485,15 +471,6 @@ function rex_setup_setUtf8()
                 <p class="rex-form-col-a rex-form-text">
                   <label for="error_email">'.$I18N->msg("setup_026").'</label>
                   <input class="rex-form-text" type="text" id="error_email" name="error_email" value="'.$error_email.'"'. rex_tabindex() .' />
-                </p>
-              </div>
-  
-              <div class="rex-form-row">
-                <p class="rex-form-col-a rex-form-select">
-                  <label for="psw_func">'.$I18N->msg("setup_encryption").'</label>
-                  <select class="rex-form-select" id="psw_func" name="psw_func"'. rex_tabindex() .'>
-                    '. $psw_functions .'
-                  </select>
                 </p>
               </div>
           </div>
