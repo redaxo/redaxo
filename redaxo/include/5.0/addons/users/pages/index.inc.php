@@ -11,17 +11,17 @@ $func = rex_request('func', 'string');
 
 // -------------- Header
 $subline = array(
-  array( '', $I18N->msg('roles')),
-  array( 'users', $I18N->msg('users')),
+  array( '', $I18N->msg('users')),
+  array( 'roles', $I18N->msg('roles')),
 );
 
 switch($subpage)
 {
-  case('users'):
-  	$file = 'users.inc.php';
+  case('roles'):
+  	$file = 'roles.inc.php';
   	break;
   default:
-  	$file = 'roles.inc.php';
+  	$file = 'users.inc.php';
   	break;
 }
 
