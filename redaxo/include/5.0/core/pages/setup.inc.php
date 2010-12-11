@@ -569,16 +569,17 @@ function rex_setup_setUtf8()
 
 		// -------------------------- Benötigte Tabellen prüfen
 		$requiredTables = array (
-		$REX['TABLE_PREFIX'] .'action',
-		$REX['TABLE_PREFIX'] .'article',
-		$REX['TABLE_PREFIX'] .'article_slice',
-		$REX['TABLE_PREFIX'] .'clang',
-		$REX['TABLE_PREFIX'] .'file',
-		$REX['TABLE_PREFIX'] .'file_category',
-		$REX['TABLE_PREFIX'] .'module_action',
-		$REX['TABLE_PREFIX'] .'module',
-		$REX['TABLE_PREFIX'] .'template',
-		$REX['TABLE_PREFIX'] .'user',
+  		$REX['TABLE_PREFIX'] .'action',
+  		$REX['TABLE_PREFIX'] .'article',
+  		$REX['TABLE_PREFIX'] .'article_slice',
+  		$REX['TABLE_PREFIX'] .'clang',
+  		$REX['TABLE_PREFIX'] .'file',
+  		$REX['TABLE_PREFIX'] .'file_category',
+  		$REX['TABLE_PREFIX'] .'module_action',
+  		$REX['TABLE_PREFIX'] .'module',
+  		$REX['TABLE_PREFIX'] .'template',
+  		$REX['TABLE_PREFIX'] .'user',
+  		$REX['TABLE_PREFIX'] .'user_role',
 		);
 
 		if ($dbanlegen == 4)
