@@ -491,18 +491,20 @@ class rex_backend_login extends rex_login
 {
   var $tableName;
 
-  public function rex_backend_login($tableName)
+  public function rex_backend_login()
   {
     global $REX;
 
     parent::rex_login();
 
+    $tableName = $REX['TABLE_PREFIX'].'user';
     $this->setSqlDb(1);
     $this->setSysID($REX['INSTNAME']);
     $this->setSessiontime($REX['SESSION_DURATION']);
     $this->setUserID($tableName .'.user_id');
-    $this->setUserquery('SELECT * FROM '. $tableName .' WHERE status=1 AND user_id = "USR_UID"');
-    $this->setLoginquery('SELECT * FROM '.$tableName .' WHERE status=1 AND login = "USR_LOGIN" AND psw = "USR_PSW" AND lasttrydate <'. (time()-$REX['RELOGINDELAY']).' AND login_tries<'.$REX['MAXLOGINS']);
+    $qry = 'SELECT CONCAT('.$tableName.'.rights, IFNULL(roles.rights,"")) AS rights, '.$tableName.'.* FROM '. $tableName .' LEFT JOIN '.$REX['TABLE_PREFIX'].'user_role roles ON roles.id = role WHERE status=1';
+    $this->setUserquery($qry .' AND user_id = "USR_UID"');
+    $this->setLoginquery($qry .' AND login = "USR_LOGIN" AND psw = "USR_PSW" AND lasttrydate <'. (time()-$REX['RELOGINDELAY']).' AND login_tries<'.$REX['MAXLOGINS']);
     $this->tableName = $tableName;
   }
 
