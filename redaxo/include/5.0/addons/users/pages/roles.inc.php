@@ -534,7 +534,7 @@ if (isset($SHOW) && $SHOW)
   $list = rex_list::factory('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'user_role');
   $list->setCaption($I18N->msg('user_role_caption'));
   $list->addTableAttribute('summary', $I18N->msg('user_role_summary'));
-  $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 153));
+  $list->addTableColumnGroup(array(40, '5%', '*', 153));
 
   $tdIcon = '<span class="rex-i-element rex-i-user"><span class="rex-i-element-text">###name###</span></span>';
   $thIcon = '<a class="rex-i-element rex-i-user-add" href="'. $list->getUrl(array('FUNC_ADD' => '1')) .'"'. rex_accesskey($I18N->msg('create_user_role'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'. $I18N->msg('create_user_role') .'</span></a>';
