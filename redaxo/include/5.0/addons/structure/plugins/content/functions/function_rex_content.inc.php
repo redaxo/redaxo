@@ -936,3 +936,47 @@ function rex_moveCategory($from_cat, $to_cat)
   
   return true;
 }
+
+/**
+ * Generiert den Artikel-Cache des Artikelinhalts.
+ * 
+ * @param $article_id Id des zu generierenden Artikels
+ * @param [$clang ClangId des Artikels]
+ * 
+ * @return TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
+ */
+function rex_generateArticleContent($article_id, $clang = null)
+{
+  global $REX, $I18N;
+  
+  foreach($REX['CLANG'] as $_clang => $clang_name)
+  {
+    if($clang !== null && $clang != $_clang)
+      continue;
+      
+    $CONT = new rex_article_base();
+    $CONT->setCLang($_clang);
+    $CONT->setEval(FALSE); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
+    if (!$CONT->setArticleId($article_id)) return FALSE;
+  
+    // --------------------------------------------------- Artikelcontent speichern
+    $article_content_file = $REX['SRC_PATH']."/generated/articles/$article_id.$_clang.content";
+    $article_content = "?>".$CONT->getArticle();
+  
+    // ----- EXTENSION POINT
+    $article_content = rex_register_extension_point('GENERATE_FILTER', $article_content,
+      array (
+        'id' => $article_id,
+        'clang' => $_clang,
+        'article' => $CONT
+      )
+    );
+  
+    if (rex_put_file_contents($article_content_file, $article_content) === FALSE)
+    {
+      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
+    }
+  }
+  
+  return TRUE;
+}
