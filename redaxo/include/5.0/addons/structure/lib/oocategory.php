@@ -248,7 +248,7 @@ class OOCategory extends OORedaxo
 
   public function hasValue($value)
   {
-    return parent::hasValue($value, array('cat_'));
+    return parent::_hasValue($value, array('cat_'));
   }
   
   /*

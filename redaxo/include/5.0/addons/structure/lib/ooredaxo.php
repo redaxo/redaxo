@@ -60,7 +60,7 @@ abstract class OORedaxo
    * Class Function:
    * Returns Object Value
    */
-  public function getValue($value)
+  protected function getValue($value)
   {
     // damit alte rex_article felder wie teaser, online_from etc
     // noch funktionieren
@@ -76,7 +76,7 @@ abstract class OORedaxo
     return null;
   }
 
-  public function hasValue($value, $prefixes = array())
+  protected function _hasValue($value, $prefixes = array())
   {
     static $values = null;
         
@@ -84,13 +84,20 @@ abstract class OORedaxo
     {
       $values = OORedaxo :: getClassVars();
     }
-    foreach(array_merge(array(''), $prefixes) as $prefix)
+    
+    if (in_array($value, $values))
+    {
+    	return true;
+    }
+    
+    foreach($prefixes as $prefix)
     {
       if (in_array($prefix . $value, $values))
       {
       	return true;
       }
     }
+    
     return false;
   }
 

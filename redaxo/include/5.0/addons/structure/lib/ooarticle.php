@@ -197,7 +197,7 @@ class OOArticle extends OORedaxo
   
   public function hasValue($value)
   {
-  	return parent::hasValue($value, array('art_'));
+  	return parent::_hasValue($value, array('art_'));
   }
   
 }
