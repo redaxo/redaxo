@@ -49,15 +49,15 @@ $REX['USE_GZIP'] = "false"; // String: "true"/"false"/"fronted"/"backend"
 
 // activate e-tag support
 // tag content with a cache key to improve usage of client cache
-$REX['USE_ETAG'] = "false"; // String: "true"/"false"/"fronted"/"backend"
+$REX['USE_ETAG'] = "true"; // String: "true"/"false"/"fronted"/"backend"
 
 // activate last-modified support
 // tag content with a last-modified timestamp to improve usage of client cache
-$REX['USE_LAST_MODIFIED'] = "false"; // String: "true"/"false"/"fronted"/"backend"
+$REX['USE_LAST_MODIFIED'] = "true"; // String: "true"/"false"/"fronted"/"backend"
 
 // activate md5 checksum support
 // allow client to validate content integrity
-$REX['USE_MD5'] = "false"; // String: "true"/"false"/"fronted"/"backend"
+$REX['USE_MD5'] = "true"; // String: "true"/"false"/"fronted"/"backend"
 
 // versch. Pfade
 $REX['INCLUDE_PATH']  = realpath($REX["SRC_PATH"].'/config');
@@ -72,8 +72,8 @@ $REX['TEMP_PREFIX']   = 'tmp_';
 // Frontenddatei
 $REX['FRONTEND_FILE'] = 'index.php';
 
-// Passwortverschlüsselung, z.B: md5 / mcrypt ...
-$REX['PSWFUNC'] = "";
+// Passwortverschluesselung
+$REX['PSWFUNC'] = "sha1";
 
 // bei fehllogin 5 sekunden kein relogin moeglich
 $REX['RELOGINDELAY'] = 5;
