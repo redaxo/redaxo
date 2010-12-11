@@ -315,6 +315,10 @@ function rex_translate_array($array, $I18N_Catalogue = null, $use_htmlspecialcha
   {
     return rex_translate($array, $I18N_Catalogue, $use_htmlspecialchars);
   }
+  else if (is_scalar($array))
+  {
+    return $array;
+  }
   else
   {
     throw new InvalidArgumentException('Expecting $text to be a String or Array of Strings, "'. gettype($array) .'" given!');
