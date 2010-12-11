@@ -49,35 +49,27 @@ class rex_addon
    *  
    * @return rex_addon Zum namespace erstellte rex-Addon instanz
    */
-  protected function create($namespace)
+  static protected function create($namespace)
   {
-    // called from a static context? (rex <= 4.3.x)
-    if($namespace != null)
+    if($namespace == null)
     {
-      $addons = array();
-      
-      $nsString = $namespace;
-      if(is_array($namespace))
-      {
-        $nsString = implode('/', $namespace);
-      }
-      
-      if(!isset($addons[$nsString]))
-      {
-        $addons[$nsString] = new rex_addon($namespace); 
-      }
-      
-      return $addons[$nsString];
+      throw new InvalidArgumentException('Namespace must not be null!');
     }
-    // called from usual context? (rex >= 5.x)
-    else if (isset($this))
+      
+    static $addons = array();
+    
+    $nsString = $namespace;
+    if(is_array($namespace))
     {
-      return $this;
+      $nsString = implode('/', $namespace);
     }
-    else
+    
+    if(!isset($addons[$nsString]))
     {
-      throw new rexException('Unexpected state!');
+      $addons[$nsString] = new rex_addon($namespace); 
     }
+    
+    return $addons[$nsString];
   }
   
   /**
