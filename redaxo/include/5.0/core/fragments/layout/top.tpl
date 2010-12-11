@@ -4,19 +4,6 @@
   <title><?php echo $this->pageTitle ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $this->i18n('htmlcharset'); ?>" />
   <meta http-equiv="Content-Language" content="<?php echo $this->i18n('htmllang'); ?>" />
-  <link rel="stylesheet" type="text/css" href="../redaxo_media/css_import.css" media="screen, projection, print" />
-  <!--[if lte IE 7]>
-    <link rel="stylesheet" href="../redaxo_media/css_ie_lte_7.css" type="text/css" media="screen, projection, print" />
-  <![endif]-->
-      
-  <!--[if IE 7]>
-    <link rel="stylesheet" href="../redaxo_media/css_ie_7.css" type="text/css" media="screen, projection, print" />
-  <![endif]-->
-  
-  <!--[if lte IE 6]>
-    <link rel="stylesheet" href="../redaxo_media/css_ie_lte_6.css" type="text/css" media="screen, projection, print" />
-  <![endif]-->
-
   <!-- jQuery immer nach den Stylesheets! -->
   <script src="../redaxo_media/jquery.min.js" type="text/javascript"></script>
   <script src="../redaxo_media/standard.js" type="text/javascript"></script>
