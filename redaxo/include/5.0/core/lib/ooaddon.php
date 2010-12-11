@@ -13,7 +13,7 @@ class OOAddon extends rex_addon
    * 
    * @param string $addon Name des Addons
    */
-  public function __construct($addon)
+  protected function __construct($addon)
   {
     parent::__construct($addon);
   }
@@ -25,7 +25,7 @@ class OOAddon extends rex_addon
    * 
    * @return boolean TRUE, wenn es sich um ein System-Addon handelt, sonst FALSE
    */
-  public function isSystemAddon($addon)
+  static public function isSystemAddon($addon)
   {
     global $REX;
     return in_array($addon, $REX['SYSTEM_ADDONS']);
