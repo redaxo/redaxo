@@ -70,7 +70,7 @@ if(!function_exists("rex_copyRevisionContent"))
 	    rex_copyRevisionContent($article_id,$clang,$from_revision_id, $to_revision_id, $gc->getValue("id"));
 	    return true;
 	  }
-	  rex_deleteArticle($article_id);
+	  rex_deleteCacheArticle($article_id);
 	  return true;
 	}
 }

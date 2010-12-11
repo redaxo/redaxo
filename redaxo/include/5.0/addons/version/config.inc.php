@@ -27,21 +27,18 @@ function rex_version_initArticle($params)
 	global $REX;
 
 	$version = rex_request("rex_version","int");
-	if($version == "")
+	if($version != 1)
 		return;
 		
 	if(!isset($_SESSION))
 		session_start();
-
-	$REX['LOGIN'] = new rex_backend_login($REX['TABLE_PREFIX'] .'user');
-	if ($REX['PSWFUNC'] != '')
-	  $REX['LOGIN']->setPasswordFunction($REX['PSWFUNC']);
-
-	if ($REX['LOGIN']->checkLogin() !== true)
-		return;
+		
+	if (!rex_hasBackendSession())
+	{
+    echo 'no permission for the working version';	  
+		exit();
+	}
 	
-	$REX['USER'] = &$REX['LOGIN']->USER;
-
   $params['article']->setSliceRevision($version);
 	if(is_a($params['article'], 'rex_article'))
 	{

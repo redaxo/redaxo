@@ -587,3 +587,27 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
 
   return $lang_object;
 }
+
+/**
+ * Prüft, ob der aktuelle Benutzer im Backend eingeloggt ist.
+ * 
+ * Diese Funktion kann auch aus dem Frontend heraus verwendet werden.
+ */
+function rex_hasBackendSession()
+{
+  global $REX;
+  
+  if(!isset($_SESSION))
+    return false;
+    
+  if(!isset($REX))
+    return false;
+    
+  if(!isset($REX['INSTNAME']))
+    return false;
+    
+  if(!isset($_SESSION[$REX['INSTNAME']]))
+    return false;
+    
+  return $_SESSION[$REX['INSTNAME']]['UID'] > 0;
+}

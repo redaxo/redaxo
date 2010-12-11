@@ -580,27 +580,3 @@ class rex_backend_login extends rex_login
   	return $REX['START_PAGE'];
 	}
 }
-
-/**
- * Prüft, ob der aktuelle Benutzer im Backend eingeloggt ist.
- * 
- * Diese Funktion kann auch aus dem Frontend heraus verwendet werden.
- */
-function rex_hasBackendSession()
-{
-  global $REX;
-  
-  if(!isset($_SESSION))
-    return false;
-    
-  if(!isset($REX))
-    return false;
-    
-  if(!isset($REX['INSTNAME']))
-    return false;
-    
-  if(!isset($_SESSION[$REX['INSTNAME']]))
-    return false;
-    
-  return $_SESSION[$REX['INSTNAME']]['UID'] > 0;
-}
