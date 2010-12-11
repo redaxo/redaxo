@@ -42,6 +42,9 @@ abstract class rex_baseManager
     
     if ($state === TRUE)
     {
+      // load package infos
+      static::loadPackageInfos($addonName);
+  
       // check if dependencies are satisfied
       $dependencies = $this->apiCall('getProperty', array($addonName, 'dependencies', array()));
       $state = self::checkDependencies($dependencies);
@@ -55,6 +58,7 @@ abstract class rex_baseManager
           $state = $this->verifyInstallation($addonName);
           if($state === TRUE)
           {
+            // TODO: Warum laden wir die config bei der Installation?!
             $state = $this->loadConfig($addonName, $config_file);
     
             if($installDump === TRUE && $state === TRUE && is_readable($install_sql))
@@ -435,6 +439,11 @@ abstract class rex_baseManager
    */
   protected abstract function apiCall($method, $arguments);
       
+  /**
+   * Laedt die package.yml in $REX
+   */
+  protected abstract function loadPackageInfos($addonName);
+  
   /**
    * Findet den Basispfad eines Addons
    */

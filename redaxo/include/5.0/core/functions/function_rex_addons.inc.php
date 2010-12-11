@@ -290,28 +290,3 @@ function rex_search_addon_page($needle, $haystack = null)
 
   return false;
 }
-
-function rex_load_addon($addonsFolder)
-{
-  // include the addon's package.yml
-  if(file_exists($addonsFolder. 'package.yml'))
-  {
-    global $REX;
-    
-    // TODO Translation in yml-files, e.g. name: < ?php echo $I18N->msg('asdf'). "\n" ? >
-    $ymlConfig = sfYaml::load($addonsFolder. 'package.yml');
-    foreach($ymlConfig as $addonName => $addonConfig)
-    {
-      foreach($addonConfig as $confName => $confValue)
-      {
-        // e.g $REX['ADDON']['version'][$mypage] = "1.3";
-        $REX['ADDON'][$confName][$addonName] = $confValue;
-      }
-    }
-  }
-  // include the addon's config.inc
-  if(file_exists($addonsFolder. 'config.inc'))
-  {
-    require $addonsFolder. 'config.inc';
-  }
-}

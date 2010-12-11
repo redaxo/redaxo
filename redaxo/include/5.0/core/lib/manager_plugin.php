@@ -141,6 +141,11 @@ class rex_pluginManager extends rex_baseManager
     return rex_call_func(array('OOPlugin', $method), $arguments, false);
   }
   
+  protected function loadPackageInfos($pluginName)
+  {
+    return self::loadPackage($this->addonName, $pluginName);
+  }
+  
   protected function baseFolder($pluginName)
   {
     return rex_plugins_folder($this->addonName, $pluginName);
@@ -170,7 +175,7 @@ class rex_pluginManager extends rex_baseManager
         {
           foreach($addonConfig as $confName => $confValue)
           {
-            OOPlugin::setProperty($addonName, $pluginName, $confName, $confValue);
+            OOPlugin::setProperty($addonName, $pluginName, $confName, rex_translate_array($confValue));
           }
         }
       }
