@@ -32,7 +32,7 @@ class OOCategory extends OORedaxo
     
     $cat_parent_id = (int) $cat_parent_id;
 
-    if($cat_parent_id <= 0)
+    if($cat_parent_id < 0)
       return array();
     
     if ($clang === false)

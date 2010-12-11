@@ -152,6 +152,7 @@ function rex_a1_import_db($filename)
        login varchar(50) NOT NULL,
        psw varchar(50) NOT NULL,
        status varchar(5) NOT NULL,
+       role int(11) NOT NULL,
        rights text NOT NULL,
        login_tries tinyint(4) NOT NULL DEFAULT 0,
        createuser varchar(255) NOT NULL,
@@ -164,6 +165,33 @@ function rex_a1_import_db($filename)
      ) TYPE=MyISAM;';
     $db = rex_sql::factory();
     $db->setQuery($create_user_table);
+    $error = $db->getError();
+    if($error != '')
+    {
+      // evtl vorhergehende meldungen löschen, damit nur der fehler angezeigt wird
+      $msg = '';
+      $msg .= $error;
+    }
+  }
+  
+  $user_role_table_found = in_array($REX['TABLE_PREFIX'].'user_role', $tables);
+  if (!$user_role_table_found)
+  {
+    $create_user_role_table = '
+    CREATE TABLE '. $REX['TABLE_PREFIX'] .'user_role
+     (
+       id int(11) NOT NULL auto_increment,
+       name varchar(255) NOT NULL,
+       description text NOT NULL,
+       rights text NOT NULL,
+       createuser varchar(255) NOT NULL,
+       updateuser varchar(255) NOT NULL,
+       createdate int(11) NOT NULL DEFAULT 0,
+       updatedate int(11) NOT NULL DEFAULT 0
+       PRIMARY KEY(id)
+     ) TYPE=MyISAM;';
+    $db = rex_sql::factory();
+    $db->setQuery($create_user_role_table);
     $error = $db->getError();
     if($error != '')
     {
@@ -297,7 +325,7 @@ function rex_a1_export_db($filename)
 
   foreach ($tables as $table)
   {
-    if ($table != $REX['TABLE_PREFIX'].'user' // User Tabelle nicht exportieren
+    if (!in_array($table, array($REX['TABLE_PREFIX'].'user', $REX['TABLE_PREFIX'].'user_role')) // User Tabellen nicht exportieren
         && substr($table, 0 , strlen($REX['TABLE_PREFIX'].$REX['TEMP_PREFIX'])) != $REX['TABLE_PREFIX'].$REX['TEMP_PREFIX']) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
     {
       //---- export metadata

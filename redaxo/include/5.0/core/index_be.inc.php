@@ -63,7 +63,7 @@ if ($REX['SETUP'])
   $I18N = rex_create_lang($REX['LANG']);
 
   // ---- prepare login
-  $REX['LOGIN'] = new rex_backend_login($REX['TABLE_PREFIX'] .'user');
+  $REX['LOGIN'] = new rex_backend_login();
   $rex_user_login = rex_post('rex_user_login', 'string');
   $rex_user_psw = rex_post('rex_user_psw', 'string');
 
