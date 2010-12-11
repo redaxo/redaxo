@@ -34,8 +34,6 @@ function rex_version_initArticle($params)
 		session_start();
 
 	$REX['LOGIN'] = new rex_backend_login($REX['TABLE_PREFIX'] .'user');
-	if ($REX['PSWFUNC'] != '')
-	  $REX['LOGIN']->setPasswordFunction($REX['PSWFUNC']);
 
 	if ($REX['LOGIN']->checkLogin() !== true)
 		return;
