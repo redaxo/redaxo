@@ -64,7 +64,7 @@ class rex_logger {
     $msg = "$errstr in file <span class='rex-err-file'>$errfile</span> on line <span class='rex-err-line'>$errline</span><br />\n";
     
     // errors which should be reported regarding error_reporting() will be echo'ed to the end-user
-    if (error_reporting() & $errno) {
+    if (error_reporting() & $errno == $errno) {
       echo $msg;
     }
     
@@ -88,7 +88,7 @@ class rex_logger {
         break;
 
       case E_STRICT:
-        $this->log("<b>STRICT</b>". $msg);
+        // $this->log("<b>STRICT</b>". $msg);
         break;
 
       default:
@@ -106,7 +106,11 @@ class rex_logger {
   {
     $this->handle = fopen($this->file, 'ab');
 
-    // TODO handle error while filecreation
+    if(!$this->handle)
+    {
+      echo 'Error while creating logfile '. $this->file;
+      exit();
+    }
   }
 
   public function close()
