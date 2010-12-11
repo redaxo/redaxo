@@ -405,7 +405,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
 
       <div class="rex-form-wrapper">
         <input type="hidden" name="page" value="users" />
-        <input type="hidden" name="subpage" value="users" />
+        <input type="hidden" name="subpage" value="" />
       	<input type="hidden" name="save" value="1" />
       	'. $add_hidden .'
 
