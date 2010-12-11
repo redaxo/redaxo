@@ -89,16 +89,6 @@ class i18n
   {
   	global $REX;
   	
-  	/*
-  	// Warum hier umschalten der Sprache!?
-  	if(isset($REX['LOGIN']) && is_object($REX['LOGIN']) && 
-  	   $REX['LOGIN']->getLanguage() != $this->locale)
-  	{
-  		$this->locale = $REX['LOGIN']->getLanguage();
-  		$this->text_loaded = FALSE;
-  	}
-  	*/
-  	
   	if(!$this->text_loaded)
   	{
   	  $this->loadTexts();
