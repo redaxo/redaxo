@@ -127,7 +127,7 @@ if ($subpage == 'help' && $addonname != '')
         <p id="rex-addon-credits">'. $credits .'</p>
         </div>
   			<div class="rex-area-footer">
-  				<p><a href="JavaScript:history.back();">'.$I18N->msg("addon_back").'</a></p>
+  				<p><a href="javascript:history.back();">'.$I18N->msg("addon_back").'</a></p>
   			</div>
   		</div>';
 }
@@ -292,7 +292,8 @@ if ($subpage == '')
         <col width="130" />
         <col width="130" />
         <col width="130" />
-        <col width="153" />
+        <col width="130" />
+        <col width="80" />
       </colgroup>
   	  <thead>
         <tr>
@@ -308,6 +309,7 @@ if ($subpage == '')
 
   foreach (OOAddon::getRegisteredAddons() as $addon)
   {
+    $addonVers = OOAddon::getVersion($addon, '');
     $addonurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;';
     
   	if (OOAddon::isSystemAddon($addon))
@@ -357,7 +359,7 @@ if ($subpage == '')
     echo '
         <tr class="rex-addon">
           <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text">'. htmlspecialchars($addon) .'</span></span></td>
-          <td class="rex-col-b">'.htmlspecialchars($addon).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>
+          <td class="rex-col-b">'.htmlspecialchars($addon).' '. $addonVers .'[<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>
           <td class="rex-col-c">'.$install.'</td>
           <td class="rex-col-d">'.$status.'</td>
           <td class="rex-col-e">'.$uninstall.'</td>
@@ -372,6 +374,7 @@ if ($subpage == '')
     {
       foreach(OOPlugin::getRegisteredPlugins($addon) as $plugin)
       {
+        $pluginVers = OOPlugin::getVersion($addon, $plugin, '');
         $pluginurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;pluginname='. $plugin .'&amp;';
         
         $delete = '<a href="'. $pluginurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg('plugin_delete_question', $plugin)).'\');">'.$I18N->msg("addon_delete").'</a>';
@@ -406,7 +409,7 @@ if ($subpage == '')
         echo '
             <tr class="rex-plugin">
               <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-plugin"><span class="rex-i-element-text">'. htmlspecialchars($plugin) .'</span></span></td>
-              <td class="rex-col-b">'.htmlspecialchars($plugin).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'&amp;pluginname='.$plugin.'">?</a>]</td>
+              <td class="rex-col-b">'.htmlspecialchars($plugin).' '. $pluginVers .' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'&amp;pluginname='.$plugin.'">?</a>]</td>
               <td class="rex-col-c">'.$install.'</td>
               <td class="rex-col-d">'.$status.'</td>
               <td class="rex-col-e">'.$uninstall.'</td>
