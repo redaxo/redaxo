@@ -279,10 +279,11 @@ function rex_setup_setUtf8()
 
 	if ($checkmodus == 1)
 	{
+		$min_version = '5.3.0';
 		// -------------------------- VERSIONSCHECK
-		if (version_compare(phpversion(), '5.3.0', '<') == 1)
+		if (version_compare(phpversion(), $min_version, '<') == 1)
 		{
-			$MSG['err'] .= '<li>'. $I18N->msg('setup_010', phpversion()).'</li>';
+			$MSG['err'] .= '<li>'. $I18N->msg('setup_010', phpversion(), $min_version).'</li>';
 		}
 
 		// -------------------------- EXTENSION CHECK
