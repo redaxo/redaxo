@@ -41,7 +41,7 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
   rex_addonManager::loadPackage($addonName);
   
   // include the addon itself
-  if(file_exists($addonsFolder. 'config.inc.php'))
+  if(is_readable($addonsFolder. 'config.inc.php'))
   {
     require $addonsFolder. 'config.inc.php';
   }
@@ -70,7 +70,7 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
     rex_pluginManager::loadPackage($addonName, $pluginName);
     
     // transform the plugin into a regular addon and include it itself afterwards 
-    if(file_exists($pluginsFolder. 'config.inc.php'))
+    if(is_readable($pluginsFolder. 'config.inc.php'))
     {
       rex_pluginManager::addon2plugin($addonName, $pluginName, $pluginsFolder. 'config.inc.php');
     }
