@@ -13,7 +13,7 @@ class rex_var_globals extends rex_var
 {
   // --------------------------------- Actions
 
-  public function getACRequestValues($REX_ACTION)
+  public function getACRequestValues(array $REX_ACTION)
   {
     // determine event-type...
     $REX_ACTION = $this->getEventData($REX_ACTION);
@@ -28,7 +28,7 @@ class rex_var_globals extends rex_var
     return $REX_ACTION;
   }
 
-  public function getACDatabaseValues($REX_ACTION, & $sql)
+  public function getACDatabaseValues(array $REX_ACTION, & $sql)
   {
     // determine event-type...
     $REX_ACTION = $this->getEventData($REX_ACTION);
@@ -44,7 +44,7 @@ class rex_var_globals extends rex_var
     return $REX_ACTION;
   }
 
-  public function setACValues(& $sql, $REX_ACTION, $escape = false)
+  public function setACValues(& $sql, array $REX_ACTION, $escape = false)
   {
     $this->setValue($sql, 'id', $REX_ACTION['SLICE_ID'], $escape);
     $this->setValue($sql, 'ctype', $REX_ACTION['CTYPE_ID'], $escape);
