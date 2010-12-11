@@ -74,6 +74,12 @@ class myUrlRewriter extends rexUrlRewriter
     
     if(!$REX['REDAXO'])
     {
+      if(rex_request('article_id', 'int', 0) > 0)
+  		{
+          	$this->setArticleId(rex_request('article_id', 'int', $REX['START_ARTICLE_ID']));
+          	return true;			
+  		}
+  		
       $script_path = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
 
       // ANDERE DIR_SEP ALS "/" ERSETZEN (WIN BACKSLASHES)
