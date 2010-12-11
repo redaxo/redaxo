@@ -36,12 +36,16 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
   {
     $I18N->appendFile($addonsFolder .'lang');
   }
+  
+  // load package infos
+  rex_addonManager::loadPackage($addonName);
+  
   // include the addon itself
   if(file_exists($addonsFolder. 'config.inc.php'))
   {
     require $addonsFolder. 'config.inc.php';
   }
-  
+    
   foreach(OOPlugin::getAvailablePlugins($addonName) as $pluginName)
   {
     $pluginsFolder = rex_plugins_folder($addonName, $pluginName);
@@ -61,6 +65,10 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
     {
       $I18N->appendFile($pluginsFolder .'lang');
     }
+    
+    // load package infos
+    rex_pluginManager::loadPackage($addonName, $pluginName);
+    
     // transform the plugin into a regular addon and include it itself afterwards 
     if(file_exists($pluginsFolder. 'config.inc.php'))
     {
