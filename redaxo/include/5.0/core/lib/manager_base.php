@@ -45,9 +45,16 @@ abstract class rex_baseManager
       // load package infos
       static::loadPackageInfos($addonName);
   
-      // check if dependencies are satisfied
-      $dependencies = $this->apiCall('getProperty', array($addonName, 'dependencies', array()));
-      $state = self::checkDependencies($dependencies);
+      // check if requirements are met
+      $requirements = $this->apiCall('getProperty', array($addonName, 'requires', array()));
+      $state = self::checkRequirements($requirements);
+      
+      if ($state === TRUE)
+      {
+        // check if dependencies are satisfied
+        $dependencies = $this->apiCall('getProperty', array($addonName, 'dependencies', array()));
+        $state = self::checkDependencies($dependencies);
+      }
 
       if($state === TRUE)
       {
@@ -154,10 +161,52 @@ abstract class rex_baseManager
   }
 
   /**
+   * Checks whether the given requirements are met.
+   * 
+   * @param array $requirements
+   */
+  static private function checkRequirements(array $requirements)
+  {
+    global $REX;
+    
+    $state = TRUE;
+    $rexVers = $REX['VERSION'] .'.'. $REX['SUBVERSION'] .'.'. $REX['MINORVERSION'];
+    
+    foreach($requirements as $reqName => $reqAttr)
+    {
+      switch($reqName)
+      {
+        case 'redaxo':
+        {
+          // check dependency exact-version
+          if(isset($reqAttr['version']) && version_compare($rexVers, $reqAttr['version']) == 0)
+          {
+            $state = 'Addon requires REDAXO "'. $reqAttr['version'] . '", but "'. $rexVers .'" is installed!';
+          }
+          else
+          {
+            // check dependency min-version
+            if(isset($reqAttr['min-version']) && version_compare($rexVers, $reqAttr['min-version']) == -1)
+            {
+              $state = 'Addon requires at least REDAXO "'. $reqAttr['min-version'] . '", but "'. $rexVers .'" is installed!';
+            }
+            // check dependency min-version
+            else if(isset($reqAttr['max-version']) && version_compare($rexVers, $reqAttr['max-version']) == 1)
+            {
+              $state = 'Addon requires at most REDAXO "'. $reqAttr['max-version'] . '", but "'. $rexVers .'" is installed!';
+            }
+          }
+          break;
+        }
+      }
+    }
+    
+    return $state;    
+  }
+  /**
    * Checks whether the given dependencies are satisfied.
    * 
    * @param array $dependencies
-   * @throws InvalidArgumentException
    */
   static private function checkDependencies(array $dependencies)
   {
@@ -173,7 +222,7 @@ abstract class rex_baseManager
       }
       
       // check dependency exact-version
-      if(isset($depAttr['version']) && OOAddon::getProperty($depName, 'version') != $depAttr['version'])
+      if(isset($depAttr['version']) && version_compare(OOAddon::getProperty($depName, 'version'), $depAttr['version']) == 0)
       {
         $state = 'Required Addon "'. $depName . '" not in required version '. $depAttr['version'] . ' (found: '. OOAddon::getProperty($depName, 'version') .')';
         break;
@@ -181,13 +230,13 @@ abstract class rex_baseManager
       else
       {
         // check dependency min-version
-        if(isset($depAttr['min-version']) && OOAddon::getProperty($depName, 'version') < $depAttr['min-version'])
+        if(isset($depAttr['min-version']) && version_compare(OOAddon::getProperty($depName, 'version'), $depAttr['min-version']) == -1)
         {
           $state = 'Required Addon "'. $depName . '" not in required version! Requires at least  '. $depAttr['min-version'] . ', but found: '. OOAddon::getProperty($depName, 'version') .'!';
           break;
         }
         // check dependency min-version
-        if(isset($depAttr['max-version']) && OOAddon::getProperty($depName, 'version') > $depAttr['max-version'])
+        else if(isset($depAttr['max-version']) && version_compare(OOAddon::getProperty($depName, 'version'), $depAttr['max-version']) == 1)
         {
           $state = 'Required Addon "'. $depName . '" not in required version! Requires at most  '. $depAttr['max-version'] . ', but found: '. OOAddon::getProperty($depName, 'version') .'!';
           break;
