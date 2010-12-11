@@ -10,17 +10,6 @@
  * @version svn:$Id$
  */
 
-$mypage = 'be_dashboard';
-
-/* Addon Parameter */
-$REX['ADDON']['rxid'][$mypage] = '655';
-$REX['ADDON']['name'][$mypage] = 'Dashboard';
-$REX['ADDON']['perm'][$mypage] = 'be_dashboard[]';
-$REX['ADDON']['version'][$mypage] = '1.3';
-$REX['ADDON']['navigation'][$mypage] = array('block'=>'system');
-$REX['ADDON']['author'][$mypage] = 'Markus Staab';
-$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
-
 $REX['PERM'][] = 'be_dashboard[]';
 
 // im backend und eingeloggt?
