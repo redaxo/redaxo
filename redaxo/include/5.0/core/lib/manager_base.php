@@ -34,67 +34,49 @@ abstract class rex_baseManager
     $install_sql  = $install_dir.'install.sql';
     $config_file  = $install_dir.'config.inc.php';
     $files_dir    = $install_dir.'files';
+    $package_file = $install_dir.'package.yml';
     
-    // Prüfen des Addon Ornders auf Schreibrechte,
-    // damit das Addon später wieder gelöscht werden kann
+    // Pruefen des Addon Ornders auf Schreibrechte,
+    // damit das Addon spaeter wieder geloescht werden kann
     $state = rex_is_writable($install_dir);
     
     if ($state === TRUE)
     {
-      if (is_readable($install_file))
+      // check if dependencies are satisfied
+      $dependencies = $this->apiCall('getProperty', array($addonName, 'dependencies', array()));
+      $state = self::checkDependencies($dependencies);
+
+      if($state === TRUE)
       {
-        $this->includeInstaller($addonName, $install_file);
-  
-        // Wurde das "install" Flag gesetzt?
-        // Fehlermeldung ausgegeben? Wenn ja, Abbruch
-        $instmsg = $this->apiCall('getProperty', array($addonName, 'installmsg', ''));
-        
-        if (!$this->apiCall('isInstalled', array($addonName)) || $instmsg)
+        if (is_readable($install_file))
         {
-          $state = $this->I18N('no_install', $addonName).'<br />';
-          if ($instmsg == '')
+          $this->includeInstaller($addonName, $install_file);
+          
+          $state = $this->verifyInstallation($addonName);
+          if($state === TRUE)
           {
-            $state .= $this->I18N('no_reason');
-          }
-          else
-          {
-            $state .= $instmsg;
+            $state = $this->loadConfig($addonName, $config_file);
+    
+            if($installDump === TRUE && $state === TRUE && is_readable($install_sql))
+            {
+              $state = rex_install_dump($install_sql);
+    
+              if($state !== TRUE)
+                $state = 'Error found in install.sql:<br />'. $state;
+            }
+    
+            // Installation ok
+            if ($state === TRUE)
+            {
+              // regenerate Addons file
+              $state = $this->generateConfig();
+            }
           }
         }
         else
         {
-          // check if config file exists
-          if (is_readable($config_file))
-          {
-            if (!$this->apiCall('isActivated', array($addonName)))
-            {
-              $this->includeConfig($addonName, $config_file);
-            }
-          }
-          else
-          {
-            $state = $this->I18N('config_not_found');
-          }
-  
-          if($installDump === TRUE && $state === TRUE && is_readable($install_sql))
-          {
-            $state = rex_install_dump($install_sql);
-  
-            if($state !== TRUE)
-              $state = 'Error found in install.sql:<br />'. $state;
-          }
-  
-          // Installation ok
-          if ($state === TRUE)
-          {
-            // regenerate Addons file
-            $state = $this->generateConfig();
-          }
+          $state = $this->I18N('install_not_found');
         }
-      }
-      else
-      {
-        $state = $this->I18N('install_not_found');
       }
     }
   
@@ -114,6 +96,135 @@ abstract class rex_baseManager
   }
   
   /**
+   * Loads the configuration of the Addon $addonName into $REX
+   * 
+   * @param string $addonName The name of the addon
+   * @param string $config_file The path to the config file
+   */
+  private function loadConfig($addonName, $config_file)
+  {
+    $state = TRUE;
+    
+    // check if config file exists
+    if (is_readable($config_file))
+    {
+      if (!$this->apiCall('isActivated', array($addonName)))
+      {
+        $this->includeConfig($addonName, $config_file);
+      }
+    }
+    else
+    {
+      $state = $this->I18N('config_not_found');
+    }
+
+    return $state;
+  }
+  
+  /**
+   * Verifies if the installation of the given Addon was successfull.
+   * 
+   * @param string $addonName The name of the addon
+   */
+  private function verifyInstallation($addonName)
+  {
+    $state = TRUE;
+  
+    // Wurde das "install" Flag gesetzt?
+    // Fehlermeldung ausgegeben? Wenn ja, Abbruch
+    $instmsg = $this->apiCall('getProperty', array($addonName, 'installmsg', ''));
+    
+    if (!$this->apiCall('isInstalled', array($addonName)) || $instmsg)
+    {
+      $state = $this->I18N('no_install', $addonName).'<br />';
+      if ($instmsg == '')
+      {
+        $state .= $this->I18N('no_reason');
+      }
+      else
+      {
+        $state .= $instmsg;
+      }
+    }
+    
+    return $state;    
+  }
+  
+  /**
+   * Verifies if the un-installation of the given Addon was successfull.
+   * 
+   * @param string $addonName The name of the addon
+   */
+  private function verifyUninstallation($addonName)
+  {
+    $state = TRUE;
+    
+    // Wurde das "install" Flag gesetzt?
+    // Fehlermeldung ausgegeben? Wenn ja, Abbruch
+    $instmsg = $this->apiCall('getProperty', array($addonName, 'installmsg', ''));
+    
+    if ($this->apiCall('isInstalled', array($addonName)) || $instmsg)
+    {
+      $state = $this->I18N('no_uninstall', $addonName).'<br />';
+      if ($instmsg == '')
+      {
+        $state .= $this->I18N('no_reason');
+      }
+      else
+      {
+        $state .= $instmsg;
+      }
+    }
+    
+    return $state;
+  }
+
+  /**
+   * Checks whether the given dependencies are satisfied.
+   * 
+   * @param array $dependencies
+   * @throws InvalidArgumentException
+   */
+  static private function checkDependencies(array $dependencies)
+  {
+    $state = TRUE;
+    
+    foreach($dependencies as $depName => $depAttr)
+    {
+      // check if dependency exists
+      if(!OOAddon::isAvailable($depName))
+      {
+        $state = 'Missing required Addon "'. $depName .'"!';
+        break;
+      }
+      
+      // check dependency exact-version
+      if(isset($depAttr['version']) && OOAddon::getProperty($depName, 'version') != $depAttr['version'])
+      {
+        $state = 'Required Addon "'. $depName . '" not in required version '. $depAttr['version'] . ' (found: '. OOAddon::getProperty($depName, 'version') .')';
+        break;
+      }
+      else
+      {
+        // check dependency min-version
+        if(isset($depAttr['min-version']) && OOAddon::getProperty($depName, 'version') < $depAttr['min-version'])
+        {
+          $state = 'Required Addon "'. $depName . '" not in required version! Requires at least  '. $depAttr['min-version'] . ', but found: '. OOAddon::getProperty($depName, 'version') .'!';
+          break;
+        }
+        // check dependency min-version
+        if(isset($depAttr['max-version']) && OOAddon::getProperty($depName, 'version') > $depAttr['max-version'])
+        {
+          $state = 'Required Addon "'. $depName . '" not in required version! Requires at most  '. $depAttr['max-version'] . ', but found: '. OOAddon::getProperty($depName, 'version') .'!';
+          break;
+        }
+      }
+    }
+    
+    return $state;
+  }
+  
+  /**
    * De-installiert ein Addon
    * 
    * @param $addonName Name des Addons
@@ -125,28 +236,46 @@ abstract class rex_baseManager
     $install_dir    = $this->baseFolder($addonName);
     $uninstall_file = $install_dir.'uninstall.inc.php';
     $uninstall_sql  = $install_dir.'uninstall.sql';
+    $package_file   = $install_dir.'package.yml';
   
     if (is_readable($uninstall_file))
     {
-      $this->includeUninstaller($addonName, $uninstall_file);
-  
-      // Wurde das "install" Flag gesetzt?
-      // Fehlermeldung ausgegeben? Wenn ja, Abbruch
-      $instmsg = $this->apiCall('getProperty', array($addonName, 'installmsg', ''));
-      
-      if ($this->apiCall('isInstalled', array($addonName)) || $instmsg)
+      // check if another Addon which is installed, depends on the addon being un-installed
+      foreach(OOAddon::getAvailableAddons() as $availAddonName)
       {
-        $state = $this->I18N('no_uninstall', $addonName).'<br />';
-        if ($instmsg == '')
+        $dependencies = OOAddon::getProperty($availAddonName, 'dependencies', array());
+        foreach($dependencies as $depName => $depAttr)
         {
-          $state .= $this->I18N('no_reason');
+          if($depName == $addonName)
+          {
+            $state = 'Addon "'. $addonName .'" is required by installed Addon "'. $availAddonName .'"!';
+            break 2;
+          }
         }
-        else
+        
+        // check if another Plugin which is installed, depends on the addon being un-installed
+        foreach(OOPlugin::getAvailablePlugins($availAddonName) as $availPluginName)
         {
-          $state .= $instmsg;
+          $dependencies = OOPlugin::getProperty($availAddonName, $availPluginName, 'dependencies', array());
+          foreach($dependencies as $depName => $depAttr)
+          {
+            if($depName == $addonName)
+            {
+              $state = 'Addon "'. $addonName .'" is required by installed Plugin "'. $availPluginName .'" of Addon "'. $availAddonName .'"!';
+              break 3;
+            }
+          }
         }
       }
-      else
+      
+      // start un-installation
+      if($state === TRUE)
+      {
+        $this->includeUninstaller($addonName, $uninstall_file);
+        $state = $this->verifyUninstallation($addonName);
+      }
+
+      if($state === TRUE)
       {
         $state = $this->deactivate($addonName);
   
