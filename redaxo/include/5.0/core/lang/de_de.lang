@@ -284,7 +284,6 @@ pool_upload_disabled = Deaktiviert!
 pool_upload = Dateiupload
 
 # redaxo\include\pages\medienpool.inc.php\setup.inc.php
-recommended = empfohlen
 setup = Setup
 setup_text = Hier können Sie das Setup erneut starten. Dies sollten Sie nur im Notfall machen. Unter normalen Umständen ist es nicht nötig.
 setup_error1 = Setup aktiviert. Bitte klicken Sie auf auf {0}weiter{1} und führen das Setup aus.
@@ -349,9 +348,6 @@ setup_050 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte änd
 setup_051 = {0}Herzlichen Glückwunsch zu Ihrem REDAXO!{1}
 setup_052 = {0}Bitte noch dieses beachten:{1}<ul{2}><li>1. Mit dem {3}eingerichtetem Zugang einloggen{4}</li><li>2. Importieren einer Demo über [wenn eingeloggt]: Import/Export und dort jeweils die Datenbank und Files installieren.</li></ul>
 setup_053 = Viel Spass und Erfolg<br />Das REDAXO Team
-setup_encryption = Passwortverschlüsselung
-setup_no_encryption = keine Verschlüsselung
-setup_psw_encryption = mit Verschlüsselung (sha1)
 setup_security_msg = Der Ordner redaxo/include ist unsicher. Bitte schützen Sie diesen Ordner und starten das Setup erneut!
 setup_no_js_security_msg = Prüfen Sie, ob Dateien aus dem Ordner redaxo/include direkt aufrufbar sind! Dies darf aus Sicherheitsgründen nicht möglich sein!
 setup_create_db = Datenbank anlegen?
