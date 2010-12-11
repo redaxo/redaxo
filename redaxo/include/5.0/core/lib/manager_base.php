@@ -47,13 +47,13 @@ abstract class rex_baseManager
   
       // check if requirements are met
       $requirements = $this->apiCall('getProperty', array($addonName, 'requires', array()));
-      $state = self::checkRequirements($requirements);
+      $state = self::checkRequirements($addonName, $requirements);
       
       if ($state === TRUE)
       {
         // check if dependencies are satisfied
         $dependencies = $this->apiCall('getProperty', array($addonName, 'dependencies', array()));
-        $state = self::checkDependencies($dependencies);
+        $state = self::checkDependencies($addonName, $dependencies);
       }
 
       if($state === TRUE)
@@ -165,7 +165,7 @@ abstract class rex_baseManager
    * 
    * @param array $requirements
    */
-  static private function checkRequirements(array $requirements)
+  static private function checkRequirements($addonName, array $requirements)
   {
     global $REX;
     
@@ -198,6 +198,24 @@ abstract class rex_baseManager
           }
           break;
         }
+        case 'php-extension':
+        {
+          if(!is_array($reqAttr))
+          {
+            throw new InvalidArgumentException('Expecting php-extension to be a array, "'. gettype($reqAttr) .'" given!');
+          }
+          foreach($reqAttr as $reqExt)
+          {
+            if(is_string($reqExt))
+            {
+              if(!extension_loaded($reqExt))
+              {
+                $state = 'Missing required php-extension "'. $reqExt .'"!';
+                break;
+              }
+            }
+          }
+        }
       }
     }
     
@@ -208,7 +226,7 @@ abstract class rex_baseManager
    * 
    * @param array $dependencies
    */
-  static private function checkDependencies(array $dependencies)
+  static private function checkDependencies($addonName, array $dependencies)
   {
     $state = TRUE;
     
@@ -224,7 +242,7 @@ abstract class rex_baseManager
       // check dependency exact-version
       if(isset($depAttr['version']) && version_compare(OOAddon::getProperty($depName, 'version'), $depAttr['version']) == 0)
       {
-        $state = 'Required Addon "'. $depName . '" not in required version '. $depAttr['version'] . ' (found: '. OOAddon::getProperty($depName, 'version') .')';
+        $state = 'Required Addon "'. $depName . '" not in required version "'. $depAttr['version'] . '" (found: "'. OOAddon::getProperty($depName, 'version') .'")';
         break;
       }
       else
@@ -232,13 +250,13 @@ abstract class rex_baseManager
         // check dependency min-version
         if(isset($depAttr['min-version']) && version_compare(OOAddon::getProperty($depName, 'version'), $depAttr['min-version']) == -1)
         {
-          $state = 'Required Addon "'. $depName . '" not in required version! Requires at least  '. $depAttr['min-version'] . ', but found: '. OOAddon::getProperty($depName, 'version') .'!';
+          $state = 'Required Addon "'. $depName . '" not in required version! Requires at least "'. $depAttr['min-version'] . '", but found: "'. OOAddon::getProperty($depName, 'version') .'"!';
           break;
         }
         // check dependency min-version
         else if(isset($depAttr['max-version']) && version_compare(OOAddon::getProperty($depName, 'version'), $depAttr['max-version']) == 1)
         {
-          $state = 'Required Addon "'. $depName . '" not in required version! Requires at most  '. $depAttr['max-version'] . ', but found: '. OOAddon::getProperty($depName, 'version') .'!';
+          $state = 'Required Addon "'. $depName . '" not in required version! Requires at most "'. $depAttr['max-version'] . '", but found: "'. OOAddon::getProperty($depName, 'version') .'"!';
           break;
         }
       }
