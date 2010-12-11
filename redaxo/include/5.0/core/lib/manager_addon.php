@@ -103,6 +103,11 @@ class rex_addonManager extends rex_baseManager
     return rex_call_func(array('OOAddon', $method), $arguments, false);
   }
   
+  protected function loadPackageInfos($addonName)
+  {
+    return self::loadPackage($addonName);
+  }
+  
   protected function baseFolder($addonName)
   {
     return rex_addons_folder($addonName);
