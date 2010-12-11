@@ -170,7 +170,7 @@ class rex_pluginManager extends rex_baseManager
         {
           foreach($addonConfig as $confName => $confValue)
           {
-            OOPlugin::setProperty($addonName, $pluginName, $confName, $confValue);
+            OOPlugin::setProperty($addonName, $pluginName, $confName, rex_translate_array($confValue));
           }
         }
       }

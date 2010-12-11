@@ -254,10 +254,20 @@ function rex_ini_get($val)
 }
 
 /**
- * Übersetzt den text $text, falls dieser mit dem prefix "translate:" beginnt.
+ * Uebersetzt den text $text, falls dieser mit dem prefix "translate:" beginnt.
+ * Ansonsten wird $text zurueckgegeben.
+ * 
+ * @param string $text The text for translation.
+ * @param i18n $I18N_Catalogue The catalogue for translation. If null use the system-catalogue by default
+ * @param boolean $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
  */
 function rex_translate($text, $I18N_Catalogue = null, $use_htmlspecialchars = true)
 {
+  if(!is_string($text))
+  {
+    throw new InvalidArgumentException('Expecting $text to be a String, "'. gettype($text) .'" given!');
+  }
+  
   if(!$I18N_Catalogue)
   {
     global $REX, $I18N;
@@ -282,6 +292,33 @@ function rex_translate($text, $I18N_Catalogue = null, $use_htmlspecialchars = tr
     return htmlspecialchars($text);
 
   return $text;
+}
+
+/**
+ * Uebersetzt alle texte in $array die mit "translate:" beginnen.
+ *
+ * @param array $text The Array of Strings for translation.
+ * @param i18n $I18N_Catalogue The catalogue for translation. If null use the system-catalogue by default
+ * @param boolean $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
+ */
+function rex_translate_array($array, $I18N_Catalogue = null, $use_htmlspecialchars = true)
+{
+  if(is_array($array))
+  {
+    foreach($array as $key => $value)
+    {
+      $array[$key] = rex_translate_array($value, $I18N_Catalogue, $use_htmlspecialchars);
+    }
+    return $array;
+  }
+  else if (is_string($array))
+  {
+    return rex_translate($array, $I18N_Catalogue, $use_htmlspecialchars);
+  }
+  else
+  {
+    throw new InvalidArgumentException('Expecting $text to be a String or Array of Strings, "'. gettype($array) .'" given!');
+  }
 }
 
 /**
