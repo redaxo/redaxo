@@ -67,7 +67,7 @@ class i18n
         while (!feof($handle))
         {
           $buffer = fgets($handle, 4096);
-          if (preg_match("/^(\w*)\s*=\s*(.*)$/", $buffer, $matches))
+          if (preg_match("/^([^\s]*)\s*=\s*(.*)$/", $buffer, $matches))
           {
             $this->addMsg($matches[1], trim($matches[2]));
           }

@@ -29,7 +29,12 @@ $sel_all->setSize(10);
 $sel_all->setName('userperm_all[]');
 $sel_all->setId('userperm-all');
 sort($REX['PERM']);
-$sel_all->addArrayOptions($REX['PERM'],false);
+foreach($REX['PERM'] as $perm)
+{
+  $key = 'perm_general_'. $perm;
+  $name = $I18N->hasMsg($key) ? $I18N->msg($key) : $perm;
+  $sel_all->addOption($name, $perm);
+}
 $userperm_all = rex_request('userperm_all', 'array');
 
 
@@ -41,7 +46,12 @@ $sel_ext->setSize(10);
 $sel_ext->setName('userperm_ext[]');
 $sel_ext->setId('userperm-ext');
 sort($REX['EXTPERM']);
-$sel_ext->addArrayOptions($REX['EXTPERM'],false);
+foreach($REX['EXTPERM'] as $perm)
+{
+  $key = 'perm_options_'. $perm;
+  $name = $I18N->hasMsg($key) ? $I18N->msg($key) : $perm;
+  $sel_ext->addOption($name, $perm);
+}
 $userperm_ext = rex_request('userperm_ext', 'array');
 $allcats = rex_request('allcats', 'int');
 
@@ -114,7 +124,12 @@ $sel_extra->setId('userperm-extra');
 if (isset($REX['EXTRAPERM']))
 {
   sort($REX['EXTRAPERM']);
-  $sel_extra->addArrayOptions($REX['EXTRAPERM'], false);
+  foreach($REX['EXTRAPERM'] as $perm)
+  {
+    $key = 'perm_extras_'. $perm;
+    $name = $I18N->hasMsg($key) ? $I18N->msg($key) : $perm;
+    $sel_extra->addOption($name, $perm);
+  }
 }
 $userperm_extra = rex_request('userperm_extra', 'array');
 
