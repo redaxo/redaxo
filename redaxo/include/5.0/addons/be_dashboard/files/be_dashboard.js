@@ -93,34 +93,6 @@ function refreshComponentToggleItem(componentId) {
 	link.rexToggleClass("rex-i-toggleview", "rex-i-toggleview-off");
 }
 
-function setCookie(name, value, expires, path, domain, secure) {
-	if (typeof expires != undefined && expires == "never") {
-		// never expire means expires in 3000 days
-		expires = new Date();
-		expires.setTime(expires.getTime() + (1000 * 60 * 60 * 24 * 3000));
-		expires = expires.toGMTString();
-	}
-
-	document.cookie = name + "=" + escape(value)
-			+ ((expires) ? "; expires=" + expires : "")
-			+ ((path) ? "; path=" + path : "")
-			+ ((domain) ? "; domain=" + domain : "")
-			+ ((secure) ? "; secure" : "");
-}
-
-function getCookie(cookieName) {
-	var theCookie = "" + document.cookie;
-	var ind = theCookie.indexOf(cookieName);
-	if (ind == -1 || cookieName == "")
-		return "";
-
-	var ind1 = theCookie.indexOf(';', ind);
-	if (ind1 == -1)
-		ind1 = theCookie.length;
-
-	return unescape(theCookie.substring(ind + cookieName.length + 1, ind1));
-}
-
 jQuery.fn.rexToggleClass = function(class1, class2)
 {
 	if(this.hasClass(class1))
