@@ -67,7 +67,9 @@ if ($REX['SETUP'])
   $rex_user_login = rex_post('rex_user_login', 'string');
   $rex_user_psw = rex_post('rex_user_psw', 'string');
 
-  if ($REX['PSWFUNC'] != '')
+  // the service side encryption of pw is only required
+  // when not already encrypted by client using javascript
+  if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0')
     $REX['LOGIN']->setPasswordFunction($REX['PSWFUNC']);
 
   if (rex_get('rex_logout', 'boolean'))
