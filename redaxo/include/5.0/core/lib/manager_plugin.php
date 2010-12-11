@@ -151,4 +151,29 @@ class rex_pluginManager extends rex_baseManager
     global $REX;
     return $REX['OPENMEDIAFOLDER'] .DIRECTORY_SEPARATOR .'addons'. DIRECTORY_SEPARATOR. $this->addonName .DIRECTORY_SEPARATOR .'plugins'. DIRECTORY_SEPARATOR. $pluginName;
   }
+  
+  /**
+   * Loads the package.yml into $REX
+   * 
+   * @param string $addonName The name of the addon
+   */
+  static public function loadPackage($addonName, $pluginName)
+  {
+    $package_file = rex_plugins_folder($addonName, $pluginName). 'package.yml';
+    
+    if(is_readable($package_file))
+    {
+      $ymlConfig = sfYaml::load($package_file);
+      if($ymlConfig)
+      {
+        foreach($ymlConfig as $addonConfig)
+        {
+          foreach($addonConfig as $confName => $confValue)
+          {
+            OOPlugin::setProperty($addonName, $pluginName, $confName, $confValue);
+          }
+        }
+      }
+    }
+  }    
 }
