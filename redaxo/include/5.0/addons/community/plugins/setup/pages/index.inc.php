@@ -53,8 +53,8 @@ if ($func == "module" && $request_module != "")
 			// $mi->debugsql = 1;
 			$mi->setTable("rex_module");
 			$mi->setValue("name",$module[2]);
-			$mi->setValue("eingabe",addslashes($in));
-			$mi->setValue("ausgabe",addslashes($out));
+			$mi->setValue("input",addslashes($in));
+			$mi->setValue("output",addslashes($out));
 			
 			if ($request_update == 1)
 			{
