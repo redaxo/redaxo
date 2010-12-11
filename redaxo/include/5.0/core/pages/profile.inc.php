@@ -10,9 +10,9 @@ $warning = '';
 $user_id = $REX['USER']->getValue('user_id');
 
 // Allgemeine Infos
-$userpsw = trim(rex_request('userpsw', 'string'));
-$userpsw_new_1 = trim(rex_request('userpsw_new_1', 'string'));
-$userpsw_new_2 = trim(rex_request('userpsw_new_2', 'string'));
+$userpsw       = rex_request('userpsw', 'string');
+$userpsw_new_1 = rex_request('userpsw_new_1', 'string');
+$userpsw_new_2 = rex_request('userpsw_new_2', 'string');
 
 $username = rex_request('username', 'string');
 $userdesc = rex_request('userdesc', 'string');
@@ -99,12 +99,16 @@ if (rex_post('upd_psw_button', 'string'))
   $updateuser->setTable($REX['TABLE_PREFIX'].'user');
   $updateuser->setWhere('user_id='. $user_id);
 
-  if ($REX['PSWFUNC'] != '') 
+  // the service side encryption of pw is only required
+  // when not already encrypted by client using javascript
+  if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0')
     $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
     
   if($userpsw != '' && $REX['USER']->getValue('psw') == $userpsw && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2)
   {
-    if ($REX['PSWFUNC'] != '') 
+    // the service side encryption of pw is only required
+    // when not already encrypted by client using javascript
+    if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0')
       $userpsw_new_1 = call_user_func($REX['PSWFUNC'],$userpsw_new_1);
   
     $updateuser->setValue('psw',$userpsw_new_1);
@@ -199,7 +203,8 @@ else
 
   echo '<p>&nbsp;</p>
     <div class="rex-form" id="rex-form-profile-psw">
-    <form action="index.php" method="post">
+    <form action="index.php" method="post" id="pwformular">
+      <input type="hidden" name="javascript" value="0" id="javascript" />
       <fieldset class="rex-form-col-2">
         <legend>'.$I18N->msg('profile_changepsw').'</legend>
 
@@ -239,5 +244,35 @@ else
       </fieldset>
     </form>
     </div>
-  ';
+    
+    <script type="text/javascript">
+       <!--
+      jQuery(function($) {
+        $("#username").focus();
+        
+        $("#pwformular")
+          .submit(function(){
+          	var pwInp0 = $("#userpsw");
+          	if(pwInp0.val() != "")
+          	{
+            	pwInp0.val(Sha1.hash(pwInp0.val()));
+          	}
+          	
+          	var pwInp1 = $("#userpsw_new_1");
+          	if(pwInp1.val() != "")
+          	{
+            	pwInp1.val(Sha1.hash(pwInp1.val()));
+          	}
+          	
+          	var pwInp2 = $("#userpsw_new_2");
+          	if(pwInp2.val() != "")
+          	{
+          		pwInp2.val(Sha1.hash(pwInp2.val()));
+          	}
+        });
+        
+        $("#javascript").val("1");
+      });
+       //-->
+    </script>';
 }

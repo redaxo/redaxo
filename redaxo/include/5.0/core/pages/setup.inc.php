@@ -833,8 +833,10 @@ function rex_setup_setUtf8()
 				}
 				else
 				{
-					if ($REX['PSWFUNC'] != '')
-					$redaxo_user_pass = call_user_func($REX['PSWFUNC'], $redaxo_user_pass);
+          // the service side encryption of pw is only required
+          // when not already encrypted by client using javascript
+          if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0')
+  					$redaxo_user_pass = call_user_func($REX['PSWFUNC'], $redaxo_user_pass);
 
 					$user = rex_sql::factory();
 					// $user->debugsql = true;
@@ -876,7 +878,8 @@ function rex_setup_setUtf8()
 
 		echo '
 		<div class="rex-form rex-form-setup-admin">
-    <form action="index.php" method="post" autocomplete="off">
+    <form action="index.php" method="post" autocomplete="off" id="createadminform">
+    	<input type="hidden" name="javascript" value="0" id="javascript" />
       <fieldset class="rex-form-col-1">
         <input type="hidden" name="page" value="setup" />
         <input type="hidden" name="checkmodus" value="4" />
@@ -935,10 +938,19 @@ function rex_setup_setUtf8()
        <!--
       jQuery(function($) {
         $("#redaxo_user_login").focus();
+        $("#createadminform")
+          .submit(function(){
+          	var pwInp = $("#redaxo_user_pass");
+          	if(pwInp.val() != "")
+          	{
+            	pwInp.val(Sha1.hash(pwInp.val()));
+          	}
+        });
+        
+        $("#javascript").val("1");
       });
-       //-->
+     //-->
     </script>';
-
 	}
 
 	// ---------------------------------- MODUS 5 | Setup verschieben ...

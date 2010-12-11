@@ -66,7 +66,9 @@ echo '
     $("#loginformular")
       .submit(function(){
       	var pwInp = $("#REX_UPSW");
-      	pwInp.val(Sha1.hash(pwInp.val()));
+      	if(pwInp.val() != "") {
+      		pwInp.val(Sha1.hash(pwInp.val()));
+      	}
     });
     
     $("#javascript").val("1");

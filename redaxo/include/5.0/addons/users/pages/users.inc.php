@@ -155,13 +155,17 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   $loginReset = rex_request('logintriesreset', 'int');
   $userstatus = rex_request('userstatus', 'int');
 
+  // the service side encryption of pw is only required
+  // when not already encrypted by client using javascript
+  if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0' && $userpsw != $sql->getValue($REX['TABLE_PREFIX'].'user.psw'))
+    $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
+    
   $updateuser = rex_sql::factory();
   $updateuser->setTable($REX['TABLE_PREFIX'].'user');
   $updateuser->setWhere('user_id='. $user_id);
   $updateuser->setValue('name',$username);
   $updateuser->setValue('role', $userrole);
   $updateuser->addGlobalUpdateFields();
-  if ($REX['PSWFUNC']!='' && $userpsw != $sql->getValue($REX['TABLE_PREFIX'].'user.psw')) $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
   $updateuser->setValue('psw',$userpsw);
   $updateuser->setValue('description',$userdesc);
   if ($loginReset == 1) $updateuser->setValue('login_tries','0');
@@ -227,7 +231,10 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     $adduser = rex_sql::factory();
     $adduser->setTable($REX['TABLE_PREFIX'].'user');
     $adduser->setValue('name',$username);
-    if ($REX['PSWFUNC']!='') $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
+    // the service side encryption of pw is only required
+    // when not already encrypted by client using javascript
+    if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0')
+      $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
     $adduser->setValue('psw',$userpsw);
     $adduser->setValue('login',$userlogin);
     $adduser->setValue('description',$userdesc);
@@ -399,7 +406,8 @@ if ($FUNC_ADD != "" || $user_id > 0)
 
   echo '
   <div class="rex-form" id="rex-form-user-editmode">
-  <form action="index.php" method="post">
+  <form action="index.php" method="post" id="userform">
+  	<input type="hidden" name="javascript" value="0" id="javascript" />
     <fieldset class="rex-form-col-2">
       <legend>'.$form_label.'</legend>
 
@@ -471,6 +479,25 @@ if ($FUNC_ADD != "" || $user_id > 0)
     </fieldset>
   </form>
   </div>
+  
+  <script type="text/javascript">
+   <!--
+  jQuery(function($) {
+    $("#username").focus();
+    
+    $("#userform")
+      .submit(function(){
+      	var pwInp = $("#userpsw");
+      	if(pwInp.val() != "")
+      	{
+        	pwInp.val(Sha1.hash(pwInp.val()));
+      	}
+    });
+    
+    $("#javascript").val("1");
+  });
+   //-->
+</script>
 ';
 
 }
