@@ -7,6 +7,7 @@
   <!-- jQuery immer nach den Stylesheets! -->
   <script src="../redaxo_media/jquery.min.js" type="text/javascript"></script>
   <script src="../redaxo_media/standard.js" type="text/javascript"></script>
+  <script src="../redaxo_media/sha1.js" type="text/javascript"></script>
   <script type="text/javascript">
   <!--
   var redaxo = true;
