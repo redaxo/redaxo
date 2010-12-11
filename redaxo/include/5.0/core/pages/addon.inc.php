@@ -309,6 +309,9 @@ if ($subpage == '')
 
   foreach (OOAddon::getRegisteredAddons() as $addon)
   {
+    // load package infos, especially for un-available addons
+    rex_addonManager::loadPackage($addon);
+    
     $addonVers = OOAddon::getVersion($addon, '');
     $addonurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;';
     
@@ -374,6 +377,9 @@ if ($subpage == '')
     {
       foreach(OOPlugin::getRegisteredPlugins($addon) as $plugin)
       {
+        // load package infos, especially for un-available plugin
+        rex_pluginManager::loadPackage($addon, $plugin);
+    
         $pluginVers = OOPlugin::getVersion($addon, $plugin, '');
         $pluginurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;pluginname='. $plugin .'&amp;';
         
