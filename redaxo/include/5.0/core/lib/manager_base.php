@@ -51,35 +51,37 @@ abstract class rex_baseManager
 
       if($state === TRUE)
       {
+        // check if install.inc.php exists
         if (is_readable($install_file))
         {
           $this->includeInstaller($addonName, $install_file);
-          
           $state = $this->verifyInstallation($addonName);
-          if($state === TRUE)
-          {
-            // TODO: Warum laden wir die config bei der Installation?!
-            $state = $this->loadConfig($addonName, $config_file);
-    
-            if($installDump === TRUE && $state === TRUE && is_readable($install_sql))
-            {
-              $state = rex_install_dump($install_sql);
-    
-              if($state !== TRUE)
-                $state = 'Error found in install.sql:<br />'. $state;
-            }
-    
-            // Installation ok
-            if ($state === TRUE)
-            {
-              // regenerate Addons file
-              $state = $this->generateConfig();
-            }
-          }
         }
         else
         {
-          $state = $this->I18N('install_not_found');
+          // no install file -> no error
+          $this->apiCall('setProperty', array($addonName, 'install', 1));
+        }
+          
+        if($state === TRUE)
+        {
+          // TODO: Warum laden wir die config bei der Installation?!
+          $state = $this->loadConfig($addonName, $config_file);
+  
+          if($installDump === TRUE && $state === TRUE && is_readable($install_sql))
+          {
+            $state = rex_install_dump($install_sql);
+  
+            if($state !== TRUE)
+              $state = 'Error found in install.sql:<br />'. $state;
+          }
+  
+          // Installation ok
+          if ($state === TRUE)
+          {
+            // regenerate Addons file
+            $state = $this->generateConfig();
+          }
         }
       }
     }
@@ -242,65 +244,67 @@ abstract class rex_baseManager
     $uninstall_sql  = $install_dir.'uninstall.sql';
     $package_file   = $install_dir.'package.yml';
   
-    if (is_readable($uninstall_file))
+    // check if another Addon which is installed, depends on the addon being un-installed
+    foreach(OOAddon::getAvailableAddons() as $availAddonName)
     {
-      // check if another Addon which is installed, depends on the addon being un-installed
-      foreach(OOAddon::getAvailableAddons() as $availAddonName)
+      $dependencies = OOAddon::getProperty($availAddonName, 'dependencies', array());
+      foreach($dependencies as $depName => $depAttr)
       {
-        $dependencies = OOAddon::getProperty($availAddonName, 'dependencies', array());
+        if($depName == $addonName)
+        {
+          $state = 'Addon "'. $addonName .'" is required by installed Addon "'. $availAddonName .'"!';
+          break 2;
+        }
+      }
+      
+      // check if another Plugin which is installed, depends on the addon being un-installed
+      foreach(OOPlugin::getAvailablePlugins($availAddonName) as $availPluginName)
+      {
+        $dependencies = OOPlugin::getProperty($availAddonName, $availPluginName, 'dependencies', array());
         foreach($dependencies as $depName => $depAttr)
         {
           if($depName == $addonName)
           {
-            $state = 'Addon "'. $addonName .'" is required by installed Addon "'. $availAddonName .'"!';
-            break 2;
-          }
-        }
-        
-        // check if another Plugin which is installed, depends on the addon being un-installed
-        foreach(OOPlugin::getAvailablePlugins($availAddonName) as $availPluginName)
-        {
-          $dependencies = OOPlugin::getProperty($availAddonName, $availPluginName, 'dependencies', array());
-          foreach($dependencies as $depName => $depAttr)
-          {
-            if($depName == $addonName)
-            {
-              $state = 'Addon "'. $addonName .'" is required by installed Plugin "'. $availPluginName .'" of Addon "'. $availAddonName .'"!';
-              break 3;
-            }
+            $state = 'Addon "'. $addonName .'" is required by installed Plugin "'. $availPluginName .'" of Addon "'. $availAddonName .'"!';
+            break 3;
           }
         }
       }
-      
-      // start un-installation
-      if($state === TRUE)
+    }
+    
+    // start un-installation
+    if($state === TRUE)
+    {
+      // check if uninstall.inc.php exists
+      if (is_readable($uninstall_file))
       {
         $this->includeUninstaller($addonName, $uninstall_file);
         $state = $this->verifyUninstallation($addonName);
       }
-
-      if($state === TRUE)
+      else
       {
-        $state = $this->deactivate($addonName);
-  
-        if($state === TRUE && is_readable($uninstall_sql))
-        {
-          $state = rex_install_dump($uninstall_sql);
-  
-          if($state !== TRUE)
-            $state = 'Error found in uninstall.sql:<br />'. $state;
-        }
-  
-        if ($state === TRUE)
-        {
-          // regenerate Addons file
-          $state = $this->generateConfig();
-        }
+        // no uninstall file -> no error
+        $this->apiCall('setProperty', array($addonName, 'install', 0));
       }
     }
-    else
+
+    if($state === TRUE)
     {
-      $state = $this->I18N('uninstall_not_found');
+      $state = $this->deactivate($addonName);
+
+      if($state === TRUE && is_readable($uninstall_sql))
+      {
+        $state = rex_install_dump($uninstall_sql);
+
+        if($state !== TRUE)
+          $state = 'Error found in uninstall.sql:<br />'. $state;
+      }
+
+      if ($state === TRUE)
+      {
+        // regenerate Addons file
+        $state = $this->generateConfig();
+      }
     }
     
     $mediaFolder = $this->mediaFolder($addonName);
