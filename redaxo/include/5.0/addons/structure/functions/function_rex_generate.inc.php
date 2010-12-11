@@ -168,21 +168,6 @@ function rex_generateArticleMeta($article_id, $clang = null)
  */
 function rex_deleteArticle($id)
 {
-  global $I18N;
-
-  $return = _rex_deleteArticle($id);
-  return $return;
-}
-
-/**
- * Löscht einen Artikel
- * 
- * @param $id ArtikelId des Artikels, der gelöscht werden soll
- * 
- * @return TRUE wenn der Artikel gelöscht wurde, sonst eine Fehlermeldung
- */
-function _rex_deleteArticle($id)
-{
   global $REX, $I18N;
 
   // artikel loeschen
