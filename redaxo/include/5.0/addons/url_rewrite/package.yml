@@ -2,3 +2,7 @@ url_rewrite:
   version: '1.1.4'
   author: Markus Staab, Wolfgang Huttegger, Ruediger Nitzsche, Jan Kristinus
   supportpage: forum.redaxo.de
+  
+  dependencies:
+    structure:
+      min-version: '1.3'

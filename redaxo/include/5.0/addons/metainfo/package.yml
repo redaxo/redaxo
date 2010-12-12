@@ -4,3 +4,9 @@ metainfo:
   perm: admin[]
   author: 'Markus Staab, Jan Kristinus'
   supportpage: forum.redaxo.de
+  
+  dependencies:
+    structure:
+      min-version: '1.3'
+    mediapool:
+      min-version: '1.3'

@@ -7,3 +7,7 @@ templates:
   navigation:
     block: system
     prio: 30
+    
+  dependencies:
+    modules:
+      min-version: '1.3'

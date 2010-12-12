@@ -2,3 +2,7 @@ version:
   version: '0.2'
   author: Jan Kristinus
   supportpage: forum.redaxo.de
+  
+  dependencies:
+    structure:
+      min-version: '1.3'
