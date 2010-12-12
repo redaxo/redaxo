@@ -43,6 +43,23 @@ class rex_be_navigation
     {
 	    foreach($this->pages as $block => $blockPages)
 	    {
+        uasort($blockPages, 
+          function($a, $b){
+            $a_prio = (int) $a->getPrio();
+            $b_prio = (int) $b->getPrio();
+            if($a_prio == $b_prio || ($a_prio <= 0 && $b_prio <= 0))
+              return strcmp($a->getPage()->getTitle(), $b->getPage()->getTitle());
+            
+            if($a_prio <= 0)
+              return 1;
+            
+            if($b_prio <= 0)
+              return -1;
+            
+            return $a_prio > $b_prio ? 1 : -1;
+          }
+        );
+
 	      $n = $this->_getNavigation($blockPages, 0, $block);
      	  if($n != "")
         {
@@ -223,6 +240,7 @@ class rex_be_navigation
     $addon->setIsCorePage(true);
     $addon->setRequiredPermissions('isAdmin');
     $pages['addon'] = new rex_be_page_main('system', $addon);
+    $pages['addon']->setPrio(60);
 
     $settings = new rex_be_page($I18N->msg('main_preferences'), array('page'=>'specials', 'subpage' => ''));
     $settings->setIsCorePage(true);
@@ -246,6 +264,7 @@ class rex_be_navigation
     $mainSpecials->addSubPage($languages);
     $mainSpecials->addSubPage($syslog);
     $pages['specials'] = new rex_be_page_main('system', $mainSpecials);
+    $pages['specials']->setPrio(70);
     
     return $pages;    
   }

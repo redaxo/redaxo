@@ -4,3 +4,4 @@ mediapool:
   supportpage: forum.redaxo.de
   navigation:
     block: system
+    prio: 20

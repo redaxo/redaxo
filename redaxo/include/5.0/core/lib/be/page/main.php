@@ -4,7 +4,8 @@ class rex_be_page_main implements rex_be_page_container
 {
   private
     $block,
-    $page;
+    $page,
+    $prio = 0;
   
   public function __construct($block, rex_be_page $page)
   {
@@ -30,6 +31,16 @@ class rex_be_page_main implements rex_be_page_container
   public function getPage()
   {
     return $this->page;
+  }
+  
+  public function setPrio($prio)
+  {
+    $this->prio = $prio;
+  }
+  
+  public function getPrio()
+  {
+    return $this->prio;
   }
   
   public function _set($key, $value)

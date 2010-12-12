@@ -28,6 +28,8 @@ if ($REX['REDAXO'])
 
   $page->addSubPage($modules);
   $page->addSubPage($actions);
-    
-  $REX['ADDON']['page'][$mypage] = new rex_be_page_main('system', $page);
+  
+  $main_page =  new rex_be_page_main('system', $page);
+  $main_page->setPrio(40);
+  $REX['ADDON']['page'][$mypage] = $main_page;
 }

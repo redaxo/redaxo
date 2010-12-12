@@ -6,3 +6,4 @@ templates:
   perm: admin[]
   navigation:
     block: system
+    prio: 30

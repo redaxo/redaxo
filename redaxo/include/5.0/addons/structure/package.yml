@@ -6,3 +6,4 @@ structure:
   perm: hasStructurePerm
   navigation:
     block: system
+    prio: 10
