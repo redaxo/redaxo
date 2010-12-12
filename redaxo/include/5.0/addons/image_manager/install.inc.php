@@ -14,11 +14,6 @@
 
 $error = '';
 
-if (!extension_loaded('gd'))
-{
-  $error = 'GD-LIB-extension not available! See <a href="http://www.php.net/gd">http://www.php.net/gd</a>';
-}
-
 if($error == '')
 {
   $file = $REX['SRC_PATH'] .'/addons/image_manager/config.inc.php';

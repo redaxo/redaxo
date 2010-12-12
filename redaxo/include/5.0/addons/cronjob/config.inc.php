@@ -13,15 +13,6 @@ $mypage = 'cronjob';
 
 if($REX['REDAXO'])
 {
-  $REX['ADDON']['rxid'][$mypage] = '630';
-  $REX['ADDON']['name'][$mypage] = $I18N->msg('cronjob_title');
-  $REX['ADDON']['perm'][$mypage] = 'admin[]';
-  
-  // Credits
-  $REX['ADDON']['version'][$mypage] = '1.0';
-  $REX['ADDON']['author'][$mypage] = 'Gregor Harlan';
-  $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
-  
   $rootPage = new rex_be_page($I18N->msg('cronjob_title'), array(
       'page'=>$mypage,
       'subpage'=> ''

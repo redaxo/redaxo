@@ -30,7 +30,4 @@ if($REX['REDAXO'])
   $page->addSubPage($roles);
   
   $REX['ADDON']['page'][$mypage] = new rex_be_page_main('system', $page);
-  $REX['ADDON']['version'][$mypage] = "1.0";
-  $REX['ADDON']['author'][$mypage] = "Jan Kristinus";
-  $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 }
