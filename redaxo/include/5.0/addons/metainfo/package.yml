@@ -5,6 +5,11 @@ metainfo:
   author: 'Markus Staab, Jan Kristinus'
   supportpage: forum.redaxo.de
   
+  pages:
+    - ['', 'translate:article']
+    - ['categories', 'translate:categories']
+    - ['media', 'translate:media']
+  
   dependencies:
     structure:
       min-version: '1.3'

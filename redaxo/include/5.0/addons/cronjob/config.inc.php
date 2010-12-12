@@ -13,26 +13,6 @@ $mypage = 'cronjob';
 
 if($REX['REDAXO'])
 {
-  $rootPage = new rex_be_page($I18N->msg('cronjob_title'), array(
-      'page'=>$mypage,
-      'subpage'=> ''
-    )
-  );
-  $rootPage->setHref('index.php?page=cronjob');
-  
-  $logPage = new rex_be_page($I18N->msg('cronjob_log'), array(
-      'page'=>$mypage,
-      'subpage'=>'log'
-    )
-  );
-  $logPage->setHref('index.php?page=cronjob&subpage=log');
-  
-  
-  // Subpages
-  $REX['ADDON']['pages'][$mypage] = array(
-    $rootPage, $logPage
-  );
-  
   $EP = 'PAGE_CHECKED';
   
   if($REX['USER'] && rex_request('page', 'string') == 'be_dashboard')

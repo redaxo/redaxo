@@ -1,7 +1,16 @@
 users:
   version: '1.0'
-  author: Jan Kristinus
+  author: Jan Kristinus, Gregor Harlan
   supportpage: forum.redaxo.de
+  
+  name: 'translate:user_management'
+  perm: isAdmin
+  navigation:
+    block: system
+    prio: 50
+  pages:
+    - ['', 'translate:users']
+    - ['roles', 'translate:roles']
   
   dependencies:
     structure:
