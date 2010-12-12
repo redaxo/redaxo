@@ -2,10 +2,11 @@
 
 class rex_be_page_main implements rex_be_page_container
 {
-  var $block;
-  var $page;
+  private
+    $block,
+    $page;
   
-  function __construct($block, rex_be_page $page)
+  public function __construct($block, rex_be_page $page)
   {
     if(!is_string($block))
     {
@@ -16,28 +17,28 @@ class rex_be_page_main implements rex_be_page_container
     $this->page = $page;
   }
   
-  function setBlock($block)
+  public function setBlock($block)
   {
     $this->block = $block;
   }
   
-  function getBlock()
+  public function getBlock()
   {
     return $this->block;
   }
   
-  function getPage()
+  public function getPage()
   {
     return $this->page;
   }
   
-  function _set($key, $value)
+  public function _set($key, $value)
   {
     if(!is_string($key))
       return;
       
     // check current object for a possible setter
-    $setter = array(&$this, 'set'. ucfirst($key));
+    $setter = array($this, 'set'. ucfirst($key));
     if(is_callable($setter))
     {
       call_user_func($setter, $value);
@@ -45,7 +46,7 @@ class rex_be_page_main implements rex_be_page_container
     else
     {
       // no setter found, delegate to page object
-      $setter = array(&$this->page, 'set'. ucfirst($key));
+      $setter = array($this->page, 'set'. ucfirst($key));
       if(is_callable($setter))
       {
         call_user_func($setter, $value);

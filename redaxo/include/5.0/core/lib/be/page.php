@@ -2,21 +2,22 @@
 
 class rex_be_page implements rex_be_page_container
 {
-  var $title;
+  private
+    $title,
   
-  var $href;
-  var $linkAttr;
-  var $itemAttr;
+    $href,
+    $linkAttr,
+    $itemAttr,
   
-  var $subPages;
+    $subPages,
   
-  var $isCorePage;
-  var $hasNavigation;
-  var $activateCondition;
-  var $requiredPermissions;
-  var $path;
+    $isCorePage,
+    $hasNavigation,
+    $activateCondition,
+    $requiredPermissions,
+    $path;
   
-  function __construct($title, array $activateCondition = array(), $hidden = false)
+  public function __construct($title, array $activateCondition = array(), $hidden = false)
   {
     if(!is_string($title))
     {
@@ -40,12 +41,12 @@ class rex_be_page implements rex_be_page_container
     $this->hidden = $hidden;
   }
   
-  function getPage()
+  public function getPage()
   {
     return $this;
   }
   
-  function getItemAttr($name, $default = '')
+  public function getItemAttr($name, $default = '')
   {
     // return all attributes if null is passed as name
     if($name === null)
@@ -56,7 +57,7 @@ class rex_be_page implements rex_be_page_container
     return isset($this->itemAttr[$name]) ? $this->itemAttr[$name] : $default;
   }
   
-  function setItemAttr($name, $value)
+  public function setItemAttr($name, $value)
   {
     if(!is_string($name))
     {
@@ -69,7 +70,7 @@ class rex_be_page implements rex_be_page_container
     $this->itemAttr[$name] = $value;
   }
   
-  function addItemClass($class)
+  public function addItemClass($class)
   {
     if(!is_string($class))
     {
@@ -78,7 +79,7 @@ class rex_be_page implements rex_be_page_container
     $this->setItemAttr('class', ltrim($this->getItemAttr('class').' '. $class));
   }
   
-  function getLinkAttr($name, $default = '')
+  public function getLinkAttr($name, $default = '')
   {
     // return all attributes if null is passed as name
     if($name === null)
@@ -89,7 +90,7 @@ class rex_be_page implements rex_be_page_container
     return isset($this->linkAttr[$name]) ? $this->linkAttr[$name] : $default;
   }
   
-  function setLinkAttr($name, $value)
+  public function setLinkAttr($name, $value)
   {
     if(!is_string($name))
     {
@@ -102,87 +103,87 @@ class rex_be_page implements rex_be_page_container
     $this->linkAttr[$name] = $value;
   }
   
-  function addLinkClass($class)
+  public function addLinkClass($class)
   {
     $this->setLinkAttr('class', ltrim($this->getLinkAttr('class').' '. $class));
   }
   
-  function setHref($href)
+  public function setHref($href)
   {
     $this->href = $href;
   }
   
-  function getHref()
+  public function getHref()
   {
     return $this->href;
   }
 
-  function setHidden($hidden = true)
+  public function setHidden($hidden = true)
   {
     $this->hidden = $hidden;
   }
   
-  function getHidden()
+  public function getHidden()
   {
     return $this->hidden;
   }
   
-  function setIsCorePage($isCorePage)
+  public function setIsCorePage($isCorePage)
   {
     $this->isCorePage = $isCorePage;
   }
   
-  function setHasNavigation($hasNavigation)
+  public function setHasNavigation($hasNavigation)
   {
     $this->hasNavigation = $hasNavigation;
   }
   
-  function addSubPage(rex_be_page $subpage)
+  public function addSubPage(rex_be_page $subpage)
   {
     $this->subPages[] = $subpage;
   }
   
-  function &getSubPages()
+  public function getSubPages()
   {
     return $this->subPages;
   }
   
-  function getTitle()
+  public function getTitle()
   {
     return $this->title;
   }
   
-  function setActivateCondition($activateCondition)
+  public function setActivateCondition($activateCondition)
   {
     $this->activateCondition = $activateCondition;
   }
   
-  function getActivateCondition()
+  public function getActivateCondition()
   {
     return $this->activateCondition;
   }
   
-  function isCorePage()
+  public function isCorePage()
   {
     return $this->isCorePage;  
   }
   
-  function hasNavigation()
+  public function hasNavigation()
   {
     return $this->hasNavigation;
   }
   
-  function setRequiredPermissions($perm)
+  public function setRequiredPermissions($perm)
   {
     $this->requiredPermissions = (array) $perm;
   }
   
-  function getRequiredPermissions()
+  public function getRequiredPermissions()
   {
     return $this->requiredPermissions;
   }
   
-  function checkPermission(rex_login_sql $rexUser)
+  public function checkPermission(rex_login_sql $rexUser)
   {
     foreach($this->requiredPermissions as $perm)
     {
@@ -194,17 +195,17 @@ class rex_be_page implements rex_be_page_container
     return true;
   }
   
-  function setPath($path)
+  public function setPath($path)
   {
     $this->path = $path;
   }
   
-  function hasPath()
+  public function hasPath()
   {
     return !empty($this->path);
   }
   
-  function getPath()
+  public function getPath()
   {
     return $this->path;
   }

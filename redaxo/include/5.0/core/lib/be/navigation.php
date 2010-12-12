@@ -19,7 +19,7 @@ class rex_be_navigation
     return new self::$class();
   }
   
-  public function addPage(/*rex_be_page_container*/ &$mainPage)
+  public function addPage(rex_be_page_container $mainPage)
   {
     $blockName = 'default';
     if(rex_be_page_main::isValid($mainPage))
@@ -99,7 +99,7 @@ class rex_be_navigation
 	        
 	        $echo .= '<li '. $itemAttr .'><a '. $linkAttr . ' href="'. $href .'">'. $page->getTitle() .'</a>';
 	        
-	        $subpages =& $page->getSubPages();
+	        $subpages = $page->getSubPages();
 	        if(is_array($subpages) && count($subpages) > 0)
 	        {
 	          $echo .= $this->_getNavigation($subpages, $level);
@@ -133,7 +133,7 @@ class rex_be_navigation
 	          $page->addItemClass('rex-active');
 	          
 	          // check for subpages
-  	        $subpages =& $page->getSubPages();
+  	        $subpages = $page->getSubPages();
   	        foreach($subpages as $sn => $subpage)
   	        {
   	          $condition = $subpage->getActivateCondition();
