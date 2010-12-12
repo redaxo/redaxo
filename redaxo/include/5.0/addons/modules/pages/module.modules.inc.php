@@ -115,8 +115,8 @@ if ($function == 'add' or $function == 'edit')
       $IMOD = rex_sql::factory();
       $IMOD->setTable($REX['TABLE_PREFIX'].'module');
       $IMOD->setValue('name',$mname);
-      $IMOD->setValue('eingabe',$eingabe);
-      $IMOD->setValue('ausgabe',$ausgabe);
+      $IMOD->setValue('input',$eingabe);
+      $IMOD->setValue('output',$ausgabe);
       $IMOD->addGlobalCreateFields();
 
       if($IMOD->insert())
@@ -128,7 +128,7 @@ if ($function == 'add' or $function == 'edit')
       $modultyp->setQuery('select * from '.$REX['TABLE_PREFIX'].'module where id='.$modul_id);
       if ($modultyp->getRows()==1)
       {
-        $old_ausgabe = $modultyp->getValue('ausgabe');
+        $old_ausgabe = $modultyp->getValue('output');
 
         // $modultyp->setQuery("UPDATE ".$REX['TABLE_PREFIX']."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
 
@@ -136,8 +136,8 @@ if ($function == 'add' or $function == 'edit')
         $UMOD->setTable($REX['TABLE_PREFIX'].'module');
         $UMOD->setWhere('id='. $modul_id);
         $UMOD->setValue('name',$mname);
-        $UMOD->setValue('eingabe',$eingabe);
-        $UMOD->setValue('ausgabe',$ausgabe);
+        $UMOD->setValue('input',$eingabe);
+        $UMOD->setValue('output',$ausgabe);
         $UMOD->addGlobalUpdateFields();
 
         if($UMOD->update())
@@ -184,8 +184,8 @@ if ($function == 'add' or $function == 'edit')
       $hole->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'module WHERE id='.$modul_id);
       $category_id  = $hole->getValue('category_id');
       $mname    = $hole->getValue('name');
-      $ausgabe  = $hole->getValue('ausgabe');
-      $eingabe  = $hole->getValue('eingabe');
+      $ausgabe  = $hole->getValue('output');
+      $eingabe  = $hole->getValue('input');
     }
     else
     {

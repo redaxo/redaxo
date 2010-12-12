@@ -374,7 +374,7 @@ class rex_article_editor extends rex_article
         $obj->setACValues($initDataSql, $REX_ACTION);
       }
       
-      $moduleInput = $this->replaceVars($initDataSql, $MOD->getValue("eingabe"));
+      $moduleInput = $this->replaceVars($initDataSql, $MOD->getValue("input"));
       
       $msg = '';
       if($this->warning != '')
