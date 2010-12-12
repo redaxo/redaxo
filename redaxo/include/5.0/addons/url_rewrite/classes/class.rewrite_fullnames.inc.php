@@ -76,8 +76,8 @@ class myUrlRewriter extends rexUrlRewriter
     {
       if(rex_request('article_id', 'int', 0) > 0)
   		{
-          	$this->setArticleId(rex_request('article_id', 'int', $REX['START_ARTICLE_ID']));
-          	return true;			
+        $this->setArticleId(rex_request('article_id', 'int', $REX['START_ARTICLE_ID']));
+        return true;			
   		}
   		
       $script_path = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
