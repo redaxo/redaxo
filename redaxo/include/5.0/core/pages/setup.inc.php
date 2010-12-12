@@ -125,16 +125,16 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 		$state = true;
 
 		if($state === true && $uninstallBefore)
-		$state = $addonManager->uninstall($systemAddon);
+		  $state = $addonManager->uninstall($systemAddon);
 
 		if($state === true && !OOAddon::isInstalled($systemAddon))
-		$state = $addonManager->install($systemAddon, $installDump);
+		  $state = $addonManager->install($systemAddon, $installDump);
 
 		if($state === true && !OOAddon::isActivated($systemAddon))
-		$state = $addonManager->activate($systemAddon);
+		  $state = $addonManager->activate($systemAddon);
 
 		if($state !== true)
-		$addonErr .= '<li>'. $systemAddon .'<ul><li>'. $state .'</li></ul></li>';
+		  $addonErr .= '<li>'. $systemAddon .'<ul><li>'. $state .'</li></ul></li>';
 	}
 
 	if($addonErr != '')
@@ -573,7 +573,7 @@ function rex_setup_setUtf8()
       }
 			
 			if($err_msg == '')
-			$err_msg .= rex_setup_addons();
+			  $err_msg .= rex_setup_addons();
 		}
 		elseif ($dbanlegen == 3)
 		{
@@ -593,9 +593,9 @@ function rex_setup_setUtf8()
 				// Da sonst Daten aus dem eingespielten Export
 				// Überschrieben würden
 				if($err_msg == '')
-				$err_msg .= rex_setup_addons(true, false);
+				  $err_msg .= rex_setup_addons(true, false);
 				if($err_msg == '')
-				$err_msg .= rex_setup_import($import_sql, $import_archiv);
+				  $err_msg .= rex_setup_import($import_sql, $import_archiv);
 			}
 		}
 		elseif ($dbanlegen == 2)
@@ -613,10 +613,10 @@ function rex_setup_setUtf8()
 			$db->setQuery('DROP TABLE IF EXISTS `'. $table .'`');
 
 			if($err_msg == '')
-			$err_msg .= rex_setup_import($import_sql);
+			  $err_msg .= rex_setup_import($import_sql);
 
 			if($err_msg == '')
-			$err_msg .= rex_setup_addons(true);
+			  $err_msg .= rex_setup_addons(true);
 		}
 		elseif ($dbanlegen == 0)
 		{
@@ -624,7 +624,7 @@ function rex_setup_setUtf8()
 			$import_sql = $REX['SRC_PATH'].'/core/install/redaxo5_0.sql';
 
 			if($err_msg == '')
-			$err_msg .= rex_setup_import($import_sql);
+			  $err_msg .= rex_setup_import($import_sql);
 
 			$err_msg .= rex_setup_addons();
 		}
