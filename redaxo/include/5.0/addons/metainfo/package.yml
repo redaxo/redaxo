@@ -1,0 +1,6 @@
+metainfo:
+  version: '1.3'
+  name: Meta Infos
+  perm: admin[]
+  author: 'Markus Staab, Jan Kristinus'
+  supportpage: forum.redaxo.de

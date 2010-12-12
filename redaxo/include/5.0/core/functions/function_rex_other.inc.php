@@ -589,7 +589,7 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
 }
 
 /**
- * Prüft, ob der aktuelle Benutzer im Backend eingeloggt ist.
+ * Prueft, ob der aktuelle Benutzer im Backend eingeloggt ist.
  * 
  * Diese Funktion kann auch aus dem Frontend heraus verwendet werden.
  */

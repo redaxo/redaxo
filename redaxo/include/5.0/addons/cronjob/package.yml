@@ -1,0 +1,6 @@
+cronjob:
+  version: '1.0'
+  author: 'Gregor Harlan'
+  name: 'translate:cronjob_title'
+  perm: admin[]
+  supportpage: forum.redaxo.de

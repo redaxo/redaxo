@@ -1,0 +1,6 @@
+tinymce:
+  name: 'TinyMCE'
+  version: '1.6'
+  author: Andreas Eberhard, Markus Staab, Dave Holloway
+  perm: tiny_mce[]
+  supportpage: forum.redaxo.de

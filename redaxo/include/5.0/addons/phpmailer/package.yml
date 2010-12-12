@@ -1,0 +1,6 @@
+phpmailer:
+  version: '1.3'
+  author: 'Markus Staab, Brent R. Matzelle'
+  name: PHPMailer
+  perm: phpmailer[]
+  supportpage: forum.redaxo.de
