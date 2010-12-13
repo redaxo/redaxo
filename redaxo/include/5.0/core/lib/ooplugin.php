@@ -22,8 +22,12 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#isAvailable($addon)
    */
-  static public function isAvailable($addon, $plugin)
+  static public function isAvailable($addon, $plugin = null)
   {
+    if ($plugin === null)
+    {
+      throw new InvalidArgumentException('Missing Argument 2 for OOPlugin::isAvailable()');
+    }
     return parent::isAvailable(array($addon, $plugin));
   }
 
@@ -31,8 +35,12 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#isActivated($addon)
    */
-  static public function isActivated($addon, $plugin)
+  static public function isActivated($addon, $plugin = null)
   {
+    if ($plugin === null)
+    {
+      throw new InvalidArgumentException('Missing Argument 2 for OOPlugin::isActivated()');
+    }
     return parent::isActivated(array($addon, $plugin));
   }
 
@@ -40,8 +48,12 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#isInstalled($addon)
    */
-  static public function isInstalled($addon, $plugin)
+  static public function isInstalled($addon, $plugin = null)
   {
+    if ($plugin === null)
+    {
+      throw new InvalidArgumentException('Missing Argument 2 for OOPlugin::isInstalled()');
+    }
     return parent::isInstalled(array($addon, $plugin));
   }
 
@@ -49,8 +61,12 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#getSupportPage($addon, $default)
    */
-  static public function getSupportPage($addon, $plugin, $default = null)
+  static public function getSupportPage($addon, $plugin = null, $default = null)
   {
+    if ($plugin === null)
+    {
+      throw new InvalidArgumentException('Missing Argument 2 for OOPlugin::getSupportPage()');
+    }
     return parent::getSupportPage(array($addon, $plugin), $default);
   }
   
@@ -58,8 +74,12 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#getVersion($addon, $default)
    */
-  static public function getVersion($addon, $plugin, $default = null)
+  static public function getVersion($addon, $plugin = null, $default = null)
   {
+    if ($plugin === null)
+    {
+      throw new InvalidArgumentException('Missing Argument 2 for OOPlugin::getVersion()');
+    }
     return parent::getVersion(array($addon, $plugin), $default);
   }
   
@@ -67,8 +87,12 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#getAuthor($addon, $default)
    */
-  static public function getAuthor($addon, $plugin, $default = null)
+  static public function getAuthor($addon, $plugin = null, $default = null)
   {
+    if ($plugin === null)
+    {
+      throw new InvalidArgumentException('Missing Argument 2 for OOPlugin::getAuthor()');
+    }
     return parent::getAuthor(array($addon, $plugin), $default);
   }
   
@@ -76,8 +100,12 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#getProperty($addon, $property, $default)
    */
-  static public function getProperty($addon, $plugin, $property, $default = null)
+  static public function getProperty($addon, $plugin, $property = null, $default = null)
   {
+    if ($property === null)
+    {
+      throw new InvalidArgumentException('Missing Argument 3 for OOPlugin::getProperty()');
+    }
     return parent::getProperty(array($addon, $plugin), $property, $default);
   }
   
@@ -85,8 +113,12 @@ class OOPlugin extends rex_addon
    * @override
    * @see redaxo/include/classes/rex_addon#setProperty($addon, $property, $value)
    */
-  static public function setProperty($addon, $plugin, $property, $value)
+  static public function setProperty($addon, $plugin, $property, $value = null)
   {
+    if ($value === null)
+    {
+      throw new InvalidArgumentException('Missing Argument 4 for OOPlugin::setProperty()');
+    }
     return parent::setProperty(array($addon, $plugin), $property, $value);
   }
   

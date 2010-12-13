@@ -129,7 +129,7 @@ class rex_addon
    * 
    * @return string Autor des Addons
    */
-  static public function getAuthor($addon=null, $default = null)
+  static public function getAuthor($addon, $default = null)
   {
     return rex_addon::getProperty($addon, 'author', $default);
   }
@@ -142,7 +142,7 @@ class rex_addon
    * 
    * @return string Versionsnummer des Addons
    */
-  static public function getSupportPage($addon=null, $default = null)
+  static public function getSupportPage($addon, $default = null)
   {
     return rex_addon::getProperty($addon, 'supportpage', $default);
   }
