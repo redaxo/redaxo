@@ -681,7 +681,7 @@ jQuery(function($){
     time = new Date();
     time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
     setCookie('htaccess_check', '1', time.toGMTString());
-    $.get('include/5.0/core/pages/setup.inc.php', 
+    $.get('include/src/config.inc.php', 
       function(data) {
         $('#rex-wrapper2').prepend('<div class="rex-message"><p class="rex-warning"><span>The folder redaxo/include is insecure. Please protect this folder.</span></p></div>');
         setCookie('htaccess_check', '');
