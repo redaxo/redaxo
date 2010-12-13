@@ -120,22 +120,29 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 	$addonErr = '';
 	$ADDONS = rex_read_addons_folder();
 	$addonManager = new rex_addonManager($ADDONS);
-	foreach($REX['SYSTEM_ADDONS'] as $systemAddon)
-	{
-		$state = true;
+  if($uninstallBefore)
+  {
+    foreach(array_reverse($REX['SYSTEM_ADDONS']) as $systemAddon)
+    {
+    	$state = $addonManager->uninstall($systemAddon);
 
-		if($state === true && $uninstallBefore)
-		  $state = $addonManager->uninstall($systemAddon);
+    	if($state !== true)
+    	  $addonErr .= '<li>'. $systemAddon .'<ul><li>'. $state .'</li></ul></li>';
+    }
+  }
+  foreach($REX['SYSTEM_ADDONS'] as $systemAddon)
+  {
+  	$state = true;
 
-		if($state === true && !OOAddon::isInstalled($systemAddon))
-		  $state = $addonManager->install($systemAddon, $installDump);
+  	if($state === true && !OOAddon::isInstalled($systemAddon))
+  	  $state = $addonManager->install($systemAddon, $installDump);
 
-		if($state === true && !OOAddon::isActivated($systemAddon))
-		  $state = $addonManager->activate($systemAddon);
+  	if($state === true && !OOAddon::isActivated($systemAddon))
+  	  $state = $addonManager->activate($systemAddon);
 
-		if($state !== true)
-		  $addonErr .= '<li>'. $systemAddon .'<ul><li>'. $state .'</li></ul></li>';
-	}
+  	if($state !== true)
+  	  $addonErr .= '<li>'. $systemAddon .'<ul><li>'. $state .'</li></ul></li>';
+  }
 
 	if($addonErr != '')
 	{
