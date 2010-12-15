@@ -46,6 +46,16 @@ abstract class rex_cronjob
 	  return $this->params;
 	}
 
+  public function __set($key, $value)
+  {
+    return $this->setParam($key, $value);
+  }
+
+  public function __get($key)
+  {
+    return $this->getParam($key);
+  }
+
 	public function setMessage($message)
   {
     $this->message = $message;
