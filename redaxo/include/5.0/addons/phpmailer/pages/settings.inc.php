@@ -20,12 +20,12 @@ $encoding = rex_post('encoding', 'string', $testMailer->Encoding);
 $Password = rex_post('Password', 'string', $testMailer->Password);
 $Username = rex_post('Username', 'string', $testMailer->Username);
 $smtpauth_default = "false";
-if($testMailer->SMTPAuth) 
+if($testMailer->SMTPAuth)
   $smtpauth_default = "true";
 $smtpauth = rex_post('smtpauth', 'string', $smtpauth_default);
 $priority = rex_post('priority', 'int', $testMailer->Priority);
 
-if($smtpauth != "true") 
+if($smtpauth != "true")
   $smtpauth = "false";
 
 $message = '';
@@ -39,30 +39,23 @@ if (rex_post('btn_save', 'string') != '')
   {
     $message  = $I18N->msg('phpmailer_config_saved_error');
 
-    if($file_content = rex_get_file_contents($file))
+    $template = "
+    \$this->From             = '". $from ."';
+    \$this->FromName         = '". $fromname ."';
+    \$this->ConfirmReadingTo = '". $confirmto ."';
+    \$this->Mailer           = '". $mailer ."';
+    \$this->Host             = '". $host ."';
+    \$this->CharSet          = '". $charset ."';
+    \$this->WordWrap         = ". $wordwrap .";
+    \$this->Encoding         = '". $encoding ."';
+    \$this->Priority         = ". $priority .";
+    \$this->SMTPAuth         = ". $smtpauth .";
+    \$this->Username         = '". $Username ."';
+    \$this->Password         = '". $Password."';";
+
+    if(rex_replace_dynamic_contents($file, $template) !== false)
     {
-      $template =
-      "// --- DYN
-      \$this->From             = '". $from ."';
-      \$this->FromName         = '". $fromname ."';
-      \$this->ConfirmReadingTo = '". $confirmto ."';
-      \$this->Mailer           = '". $mailer ."';
-      \$this->Host             = '". $host ."';
-      \$this->CharSet          = '". $charset ."';
-      \$this->WordWrap         = ". $wordwrap .";
-      \$this->Encoding         = '". $encoding ."';
-      \$this->Priority         = ". $priority .";
-      \$this->SMTPAuth         = ". $smtpauth .";
-      \$this->Username         = '". $Username ."';
-      \$this->Password         = '". $Password."';
-      // --- /DYN";
-
-      $file_content = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $template, $file_content);
-
-      if(rex_put_file_contents($file, $file_content) !== false)
-      {
-        $message = $I18N->msg('phpmailer_config_saved_successful');
-      }
+      $message = $I18N->msg('phpmailer_config_saved_successful');
     }
   }
 }
@@ -81,7 +74,7 @@ $sel_smtpauth->setName('smtpauth');
 $sel_smtpauth->setSize(1);
 $sel_smtpauth->setSelected($smtpauth);
 foreach(array('false', 'true') as $type)
-$sel_smtpauth->addOption($type,$type); 
+$sel_smtpauth->addOption($type,$type);
 
 $sel_encoding = new rex_select();
 $sel_encoding->setId('encoding');
@@ -114,7 +107,7 @@ if($message != '')
      <fieldset class="rex-form-col-1">
 
     <div class="rex-form-wrapper">
-    
+
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-text">
       <label for="fromname"><?php echo $I18N->msg('phpmailer_sender_name'); ?></label>
@@ -187,14 +180,14 @@ if($message != '')
       <input type="text" name="Password" id="Password" value="<?php echo $Password ?>" />
     </p>
     </div>
-    
+
     <div class="rex-form-row">
       <p class="rex-form-col-a rex-form-submit">
          <input class="rex-form-submit" type="submit" name="btn_save" value="<?php echo $I18N->msg('phpmailer_save'); ?>" />
          <input class="rex-form-submit rex-form-submit-2" type="reset" name="btn_reset" value="<?php echo $I18N->msg('phpmailer_reset'); ?>" onclick="return confirm('<?php echo $I18N->msg('phpmailer_reset_info'); ?>');"/>
       </p>
     </div>
-  
+
     </div>
 
      </fieldset>
