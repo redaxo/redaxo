@@ -10,8 +10,9 @@ metainfo:
     - ['categories', 'translate:categories']
     - ['media', 'translate:media']
   
-  dependencies:
-    structure:
-      min-version: '1.3'
-    mediapool:
-      min-version: '1.3'
+  requires:
+    addons:
+      structure:
+        min-version: '1.3'
+      mediapool:
+        min-version: '1.3'
