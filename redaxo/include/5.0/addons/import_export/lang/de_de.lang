@@ -21,6 +21,7 @@ im_export_please_choose_folder = Bitte wählen Sie die Verzeichnisse aus die expo
 im_export_intro_import = Bitte bedenken Sie das beim Importieren einer Datenbank <b>die alte Datenbank gelöscht</b> wird. Bitte speichern/exportieren Sie diese vorher wenn Sie sich unsicher sind.
 im_export_database = Datenbankimport
 im_export_filename = Dateiname
+im_export_filename_notice = Variablen: %HTTP_HOST, %REX_VERSION und Datumsvariablen wie bei strftime()
 im_export_filesize = Dateigröße
 im_export_delete = Löschen
 im_export_files = Dateienimport
@@ -48,3 +49,9 @@ im_export_export_db_summary = Tabelle der verfügbaren Datenbankexporte
 im_export_export_file_summary = Tabelle der verfügbaren Dateiexporte
 
 im_export_function = Funktion
+
+im_export_send_mail = Per Mail versenden
+im_export_send_mail_notice = Für diese Option wird das Addon "phpmailer" benötigt.
+im_export_mailaddress = Mailadresse
+im_export_mail_subject = Neue Datenbanksicherung
+im_export_mail_body = Im Anhang befindet sich eine neue Datenbanksicherung der Website "{0}".
