@@ -101,7 +101,7 @@ class rex_form
   /**
    * Methode zum erstellen von rex_form Instanzen
    */
-  public function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $class = null)
+  public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $class = null)
   {
     // keine spezielle klasse angegeben -> default klasse verwenden?
     if(!$class)

@@ -11,15 +11,15 @@
 
 abstract class rex_cronjob
 {
-  private 
+  private
     $params = array(),
     $message = '';
 
-  final public function factory($class) 
+  final public static function factory($class)
   {
     if (!rex_autoload::getInstance()->autoload($class))
       return $class;
-    
+
     return new $class();
   }
 
@@ -37,7 +37,7 @@ abstract class rex_cronjob
 	{
 	  if(isset($this->params[$key]))
 	    return $this->params[$key];
-	    
+
 	  return $default;
 	}
 
@@ -73,7 +73,7 @@ abstract class rex_cronjob
 
   abstract public function execute();
 
-  public function getTypeName() 
+  public function getTypeName()
   {
     // returns the name of the cronjob type
     return $this->getType();
@@ -84,7 +84,7 @@ abstract class rex_cronjob
     return get_class($this);
   }
 
-  public function getEnvironments() 
+  public function getEnvironments()
   {
     // returns an array of environments in which the cronjob is available
     return array('frontend', 'backend');
@@ -96,7 +96,7 @@ abstract class rex_cronjob
     return array();
   }
 
-  final public function isValid($cronjob)
+  final public static function isValid($cronjob)
   {
     return is_object($cronjob) && is_subclass_of($cronjob, 'rex_cronjob');
   }
