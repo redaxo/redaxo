@@ -41,6 +41,7 @@ class rex_cronjob_export extends rex_cronjob
         $mail->AddAddress($this->mailaddress);
         $mail->Subject = $I18N->msg('im_export_mail_subject');
         $mail->Body = $I18N->msg('im_export_mail_body', $REX['SERVERNAME']);
+        $mail->AddAttachment($dir . $file . $ext, $filename . $ext);
         if ($mail->Send())
         {
           $this->setMessage($message .', mail sent');
