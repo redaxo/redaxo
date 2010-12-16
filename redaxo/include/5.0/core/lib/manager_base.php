@@ -108,38 +108,10 @@ abstract class rex_baseManager
     $uninstall_sql  = $install_dir.'uninstall.sql';
     $package_file   = $install_dir.'package.yml';
 
-    // check if another Addon which is installed, depends on the addon being un-installed
-    foreach(OOAddon::getAvailableAddons() as $availAddonName)
+    $isActivated = $this->apiCall('isActivated', array($addonName));
+    if ($isActivated)
     {
-      $requirements = OOAddon::getProperty($availAddonName, 'requires', array());
-      if(isset($requirements['addons']))
-      {
-        foreach($requirements['addons'] as $depName => $depAttr)
-        {
-          if($depName == $addonName)
-          {
-            $state = 'Addon "'. $addonName .'" is required by installed Addon "'. $availAddonName .'"!';
-            break 2;
-          }
-        }
-      }
-
-      // check if another Plugin which is installed, depends on the addon being un-installed
-      foreach(OOPlugin::getAvailablePlugins($availAddonName) as $availPluginName)
-      {
-        $requirements = OOPlugin::getProperty($availAddonName, $availPluginName, 'requires', array());
-        if(isset($requirements['addons']))
-        {
-          foreach($requirements['addons'] as $depName => $depAttr)
-          {
-            if($depName == $addonName)
-            {
-              $state = 'Addon "'. $addonName .'" is required by installed Plugin "'. $availPluginName .'" of Addon "'. $availAddonName .'"!';
-              break 3;
-            }
-          }
-        }
-      }
+      $state = $this->deactivate($addonName);
     }
 
     // start un-installation
@@ -158,23 +130,12 @@ abstract class rex_baseManager
       }
     }
 
-    if($state === TRUE)
+    if($state === TRUE && is_readable($uninstall_sql))
     {
-      $state = $this->deactivate($addonName);
+      $state = rex_install_dump($uninstall_sql);
 
-      if($state === TRUE && is_readable($uninstall_sql))
-      {
-        $state = rex_install_dump($uninstall_sql);
-
-        if($state !== TRUE)
-          $state = 'Error found in uninstall.sql:<br />'. $state;
-      }
-
-      if ($state === TRUE)
-      {
-        // regenerate Addons file
-        $state = $this->generateConfig();
-      }
+      if($state !== TRUE)
+        $state = 'Error found in uninstall.sql:<br />'. $state;
     }
 
     $mediaFolder = $this->mediaFolder($addonName);
@@ -188,7 +149,18 @@ abstract class rex_baseManager
 
     // Fehler beim uninstall -> Addon bleibt installiert
     if($state !== TRUE)
+    {
       $this->apiCall('setProperty', array($addonName, 'install', 1));
+      if($isActivated)
+      {
+        $this->apiCall('setProperty', array($addonName, 'status', 1));
+      }
+      $this->generateConfig();
+    }
+    else
+    {
+      $state = $this->generateConfig();
+    }
 
     return $state;
   }
@@ -202,8 +174,16 @@ abstract class rex_baseManager
   {
     if ($this->apiCall('isInstalled', array($addonName)))
     {
-      $this->apiCall('setProperty', array($addonName, 'status', 1));
-      $state = $this->generateConfig();
+      // load package infos
+      $this->loadPackageInfos($addonName);
+
+      $state = $this->checkRequirements($addonName);
+
+      if ($state === true)
+      {
+        $this->apiCall('setProperty', array($addonName, 'status', 1));
+        $state = $this->generateConfig();
+      }
     }
     else
     {
@@ -224,12 +204,17 @@ abstract class rex_baseManager
    */
   public function deactivate($addonName)
   {
-    $this->apiCall('setProperty', array($addonName, 'status', 0));
-    $state = $this->generateConfig();
+    $state = $this->checkDependencies($addonName);
 
-    // error while config generation, rollback addon status
-    if($state !== TRUE)
-      $this->apiCall('setProperty', array($addonName, 'status', 1));
+    if ($state === true)
+    {
+      $this->apiCall('setProperty', array($addonName, 'status', 0));
+      $state = $this->generateConfig();
+
+      // error while config generation, rollback addon status
+      if($state !== TRUE)
+        $this->apiCall('setProperty', array($addonName, 'status', 1));
+    }
 
     // reload autoload cache when addon is deactivated,
     // so the index doesn't contain outdated class definitions
@@ -331,9 +316,9 @@ abstract class rex_baseManager
   }
 
   /**
-   * Checks whether the given requirements are met.
+   * Checks whether the requirements are met.
    *
-   * @param array $requirements
+   * @param string $addonName The name of the addon
    */
   private function checkRequirements($addonName)
   {
@@ -386,6 +371,7 @@ abstract class rex_baseManager
               }
             }
           }
+          break;
         }
         case 'addons':
         {
@@ -422,6 +408,54 @@ abstract class rex_baseManager
                 $state = 'Required Addon "'. $depName . '" not in required version! Requires at most "'. $depAttr['max-version'] . '", but found: "'. OOAddon::getProperty($depName, 'version') .'"!';
                 break;
               }
+            }
+          }
+          break;
+        }
+      }
+    }
+
+    return $state;
+  }
+
+  /**
+   * Checks if another Addon which is activated, depends on the given addon
+   *
+   * @param string $addonName The name of the addon
+   */
+  private function checkDependencies($addonName)
+  {
+    global $REX;
+
+    $state = true;
+
+    foreach(OOAddon::getAvailableAddons() as $availAddonName)
+    {
+      $requirements = OOAddon::getProperty($availAddonName, 'requires', array());
+      if(isset($requirements['addons']))
+      {
+        foreach($requirements['addons'] as $depName => $depAttr)
+        {
+          if($depName == $addonName)
+          {
+            $state = 'Addon "'. $addonName .'" is required by activated Addon "'. $availAddonName .'"!';
+            break 2;
+          }
+        }
+      }
+
+      // check if another Plugin which is installed, depends on the addon being un-installed
+      foreach(OOPlugin::getAvailablePlugins($availAddonName) as $availPluginName)
+      {
+        $requirements = OOPlugin::getProperty($availAddonName, $availPluginName, 'requires', array());
+        if(isset($requirements['addons']))
+        {
+          foreach($requirements['addons'] as $depName => $depAttr)
+          {
+            if($depName == $addonName)
+            {
+              $state = 'Addon "'. $addonName .'" is required by activated Plugin "'. $availPluginName .'" of Addon "'. $availAddonName .'"!';
+              break 3;
             }
           }
         }
