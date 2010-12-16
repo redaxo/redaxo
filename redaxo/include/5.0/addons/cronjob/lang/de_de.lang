@@ -19,6 +19,7 @@ cronjob_execute_success = Cronjob "{0}" wurde erfolgreich ausgeführt!
 cronjob_execute_error = Cronjob "{0}" wurde nicht erfolgreich ausgeführt!
 
 cronjob_name = Name
+cronjob_description = Beschreibung
 cronjob_examples = Beispiele
 
 cronjob_type = Typ
