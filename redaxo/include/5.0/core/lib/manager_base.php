@@ -409,6 +409,42 @@ abstract class rex_baseManager
                 break;
               }
             }
+
+            // check plugin requirements
+            if(isset($depAttr['plugins']) && is_array($depAttr['plugins']))
+            {
+              foreach($depAttr['plugins'] as $pluginName => $pluginAttr)
+              {
+                // check if dependency exists
+                if(!OOPlugin::isAvailable($depName, $pluginName))
+                {
+                  $state = 'Missing required Plugin "'. $pluginName .'" of Addon "'. $depName .'"!';
+                  break;
+                }
+
+                // check dependency exact-version
+                if(isset($pluginAttr['version']) && version_compare(OOPlugin::getProperty($depName, $pluginName, 'version'), $pluginAttr['version']) == 0)
+                {
+                  $state = 'Required Plugin "'. $pluginName .'" of Addon "'. $depName . '" not in required version "'. $pluginAttr['version'] . '" (found: "'. OOPlugin::getProperty($depName, $pluginName, 'version') .'")';
+                  break;
+                }
+                else
+                {
+                  // check dependency min-version
+                  if(isset($pluginAttr['min-version']) && version_compare(OOPlugin::getProperty($depName, $pluginName, 'version'), $pluginAttr['min-version']) == -1)
+                  {
+                    $state = 'Required Plugin "'. $pluginName .'" of Addon "'. $depName . '" not in required version! Requires at least "'. $pluginAttr['min-version'] . '", but found: "'. OOPlugin::getProperty($depName, $pluginName, 'version') .'"!';
+                    break;
+                  }
+                  // check dependency min-version
+                  else if(isset($pluginAttr['max-version']) && version_compare(OOPlugin::getProperty($depName, $pluginName, 'version'), $pluginAttr['max-version']) == 1)
+                  {
+                    $state = 'Required Plugin "'. $pluginName .'" of Addon "'. $depName . '" not in required version! Requires at most "'. $pluginAttr['max-version'] . '", but found: "'. OOPlugin::getProperty($depName, $pluginName, 'version') .'"!';
+                    break;
+                  }
+                }
+              }
+            }
           }
           break;
         }
@@ -423,47 +459,7 @@ abstract class rex_baseManager
    *
    * @param string $addonName The name of the addon
    */
-  private function checkDependencies($addonName)
-  {
-    global $REX;
-
-    $state = true;
-
-    foreach(OOAddon::getAvailableAddons() as $availAddonName)
-    {
-      $requirements = OOAddon::getProperty($availAddonName, 'requires', array());
-      if(isset($requirements['addons']))
-      {
-        foreach($requirements['addons'] as $depName => $depAttr)
-        {
-          if($depName == $addonName)
-          {
-            $state = 'Addon "'. $addonName .'" is required by activated Addon "'. $availAddonName .'"!';
-            break 2;
-          }
-        }
-      }
-
-      // check if another Plugin which is installed, depends on the addon being un-installed
-      foreach(OOPlugin::getAvailablePlugins($availAddonName) as $availPluginName)
-      {
-        $requirements = OOPlugin::getProperty($availAddonName, $availPluginName, 'requires', array());
-        if(isset($requirements['addons']))
-        {
-          foreach($requirements['addons'] as $depName => $depAttr)
-          {
-            if($depName == $addonName)
-            {
-              $state = 'Addon "'. $addonName .'" is required by activated Plugin "'. $availPluginName .'" of Addon "'. $availAddonName .'"!';
-              break 3;
-            }
-          }
-        }
-      }
-    }
-
-    return $state;
-  }
+  protected abstract function checkDependencies($addonName);
 
   /**
    * Übersetzen eines Sprachschlüssels unter Verwendung des Prefixes

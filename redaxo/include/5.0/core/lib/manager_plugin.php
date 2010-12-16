@@ -181,4 +181,63 @@ class rex_pluginManager extends rex_baseManager
       }
     }
   }
+
+  /**
+   * Checks if another Addon/Plugin which is activated, depends on the given plugin
+   *
+   * @param string $pluginName The name of the plugin
+   */
+  protected function checkDependencies($pluginName)
+  {
+    global $REX;
+
+    $state = true;
+
+    foreach(OOAddon::getAvailableAddons() as $availAddonName)
+    {
+      $requirements = OOAddon::getProperty($availAddonName, 'requires', array());
+      if(isset($requirements['addons']) && is_array($requirements['addons']))
+      {
+        foreach($requirements['addons'] as $addonName => $addonAttr)
+        {
+          if($addonName == $this->addonName && isset($addonAttr['plugins']) && is_array($addonAttr['plugins']))
+          {
+            foreach($addonAttr['plugins'] as $depName => $depAttr)
+            {
+              if($depName == $pluginName)
+              {
+                $state = 'Plugin "'. $pluginName .'" is required by activated Addon "'. $availAddonName .'"!';
+                break 3;
+              }
+            }
+          }
+        }
+      }
+
+      // check if another Plugin which is installed, depends on the addon being un-installed
+      foreach(OOPlugin::getAvailablePlugins($availAddonName) as $availPluginName)
+      {
+        $requirements = OOPlugin::getProperty($availAddonName, $availPluginName, 'requires', array());
+        if(isset($requirements['addons']) && is_array($requirements['addons']))
+        {
+          foreach($requirements['addons'] as $addonName => $addonAttr)
+          {
+            if($addonName == $this->addonName && isset($addonAttr['plugins']) && is_array($addonAttr['plugins']))
+            {
+              foreach($addonAttr['plugins'] as $depName => $depAttr)
+              {
+                if($depName == $pluginName)
+                {
+                  $state = 'Plugin "'. $pluginName .'" is required by activated Plugin "'. $availPluginName .'" of Addon "'. $availAddonName .'"!';
+                  break 4;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return $state;
+  }
 }

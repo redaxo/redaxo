@@ -143,4 +143,51 @@ class rex_addonManager extends rex_baseManager
       }
     }
   }
+
+  /**
+   * Checks if another Addon/Plugin which is activated, depends on the given addon
+   *
+   * @param string $addonName The name of the addon
+   */
+  protected function checkDependencies($addonName)
+  {
+    global $REX;
+
+    $state = true;
+
+    foreach(OOAddon::getAvailableAddons() as $availAddonName)
+    {
+      $requirements = OOAddon::getProperty($availAddonName, 'requires', array());
+      if(isset($requirements['addons']) && is_array($requirements['addons']))
+      {
+        foreach($requirements['addons'] as $depName => $depAttr)
+        {
+          if($depName == $addonName)
+          {
+            $state = 'Addon "'. $addonName .'" is required by activated Addon "'. $availAddonName .'"!';
+            break 2;
+          }
+        }
+      }
+
+      // check if another Plugin which is installed, depends on the addon being un-installed
+      foreach(OOPlugin::getAvailablePlugins($availAddonName) as $availPluginName)
+      {
+        $requirements = OOPlugin::getProperty($availAddonName, $availPluginName, 'requires', array());
+        if(isset($requirements['addons']) && is_array($requirements['addons']))
+        {
+          foreach($requirements['addons'] as $depName => $depAttr)
+          {
+            if($depName == $addonName)
+            {
+              $state = 'Addon "'. $addonName .'" is required by activated Plugin "'. $availPluginName .'" of Addon "'. $availAddonName .'"!';
+              break 3;
+            }
+          }
+        }
+      }
+    }
+
+    return $state;
+  }
 }
