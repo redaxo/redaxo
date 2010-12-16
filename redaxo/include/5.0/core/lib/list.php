@@ -1,6 +1,6 @@
 <?php
 
-// Nötige Konstanten
+// NÃ¶tige Konstanten
 define('REX_LIST_OPT_SORT', 0);
 
 /**
@@ -23,14 +23,14 @@ $list->setCaption('thomas macht das css');
 $list->show();
 
 
-Beispiel für Custom Callbacks mit Parametern:
+Beispiel fÃ¼r Custom Callbacks mit Parametern:
 
 function abc($params)
 {
   // $params['subject']  ist das SQL Objekt der aktuellen Zeile
   // $params['params']   sind die Parameter die du selbst angibst
 
-  return $xyz; // Rückgabewert = Wert der in der liste erscheint - kein htmlspechialchars!
+  return $xyz; // RÃ¼ckgabewert = Wert der in der liste erscheint - kein htmlspechialchars!
 }
 
 $list->setColumnFormat('id', 'custom',
@@ -177,7 +177,7 @@ class rex_list implements rex_url_provider
   // ---------------------- setters/getters
 
   /**
-   * Gibt den Namen es Formulars zurück
+   * Gibt den Namen es Formulars zurÃ¼ck
    *
    * @return string
    */
@@ -187,7 +187,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt eine Status Nachricht zurück
+   * Gibt eine Status Nachricht zurÃ¼ck
    *
    * @return string
    */
@@ -197,7 +197,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt eine Warnung zurück
+   * Gibt eine Warnung zurÃ¼ck
    *
    * @return string
    */
@@ -208,7 +208,7 @@ class rex_list implements rex_url_provider
 
   /**
    * Setzt die Caption/den Titel der Tabelle
-   * Gibt den Namen es Formulars zurück
+   * Gibt den Namen es Formulars zurÃ¼ck
    *
    * @param $caption Caption/Titel der Tabelle
    */
@@ -218,7 +218,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt die Caption/den Titel der Tabelle zurück
+   * Gibt die Caption/den Titel der Tabelle zurÃ¼ck
    *
    * @return string
    */
@@ -286,7 +286,7 @@ class rex_list implements rex_url_provider
   // ---------------------- Column setters/getters/etc
 
   /**
-   * Methode, um eine Spalte einzufügen
+   * Methode, um eine Spalte einzufÃ¼gen
    *
    * @param $columnHead string Titel der Spalte
    * @param $columnBody string Text/Format der Spalte
@@ -295,7 +295,7 @@ class rex_list implements rex_url_provider
    */
   function addColumn($columnHead, $columnBody, $columnIndex = -1, $columnLayout = null)
   {
-    // Bei negativem columnIndex, das Element am Ende anfügen
+    // Bei negativem columnIndex, das Element am Ende anfÃ¼gen
     if($columnIndex < 0)
       $columnIndex = count($this->columnNames);
 
@@ -326,7 +326,7 @@ class rex_list implements rex_url_provider
   }
   
   /**
-   * Gibt das Layout einer Spalte zurück
+   * Gibt das Layout einer Spalte zurÃ¼ck
    *
    * @param $columnName Name der Spalte
    */
@@ -339,7 +339,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt die Layouts aller Spalten zurück
+   * Gibt die Layouts aller Spalten zurÃ¼ck
    */
   function getColumnLayouts()
   {
@@ -347,10 +347,10 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt den Namen einer Spalte zurück
+   * Gibt den Namen einer Spalte zurÃ¼ck
    *
    * @param $columnIndex Nummer der Spalte
-   * @param $default Defaultrückgabewert, falls keine Spalte mit der angegebenen Nummer vorhanden ist
+   * @param $default DefaultrÃ¼ckgabewert, falls keine Spalte mit der angegebenen Nummer vorhanden ist
    *
    * @return string|null
    */
@@ -363,7 +363,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt alle Namen der Spalten als Array zurück
+   * Gibt alle Namen der Spalten als Array zurÃ¼ck
    *
    * @return array
    */
@@ -373,10 +373,10 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Setzt ein Label für eine Spalte
+   * Setzt ein Label fÃ¼r eine Spalte
    *
    * @param $columnName Name der Spalte
-   * @param $label Label für die Spalte
+   * @param $label Label fÃ¼r die Spalte
    */
   function setColumnLabel($columnName, $label)
   {
@@ -384,13 +384,13 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt das Label der Spalte zurück, falls gesetzt.
+   * Gibt das Label der Spalte zurÃ¼ck, falls gesetzt.
    *
    * Falls nicht vorhanden und der Parameter $default auf null steht,
-   * wird der Spaltenname zurückgegeben
+   * wird der Spaltenname zurÃ¼ckgegeben
    *
    * @param $columnName Name der Spalte
-   * @param $default Defaultrückgabewert, falls kein Label gesetzt ist
+   * @param $default DefaultrÃ¼ckgabewert, falls kein Label gesetzt ist
    *
    * @return string|null
    */
@@ -403,7 +403,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Setzt ein Format für die Spalte
+   * Setzt ein Format fÃ¼r die Spalte
    *
    * @param $columnName Name der Spalte
    * @param $format_type Formatierungstyp
@@ -415,10 +415,10 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt das Format für eine Spalte zurück
+   * Gibt das Format fÃ¼r eine Spalte zurÃ¼ck
    *
    * @param $columnName Name der Spalte
-   * @param $default Defaultrückgabewert, falls keine Formatierung gesetzt ist
+   * @param $default DefaultrÃ¼ckgabewert, falls keine Formatierung gesetzt ist
    *
    * @return string|null
    */
@@ -441,7 +441,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Setzt eine Option für eine Spalte
+   * Setzt eine Option fÃ¼r eine Spalte
    * (z.b. Sortable,..)
    *
    * @param $columnName Name der Spalte
@@ -454,11 +454,11 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt den Wert einer Option für eine Spalte zurück
+   * Gibt den Wert einer Option fÃ¼r eine Spalte zurÃ¼ck
    *
    * @param $columnName Name der Spalte
    * @param $option Name/Id der Option
-   * @param $default Defaultrückgabewert, falls die Option nicht gesetzt ist
+   * @param $default DefaultrÃ¼ckgabewert, falls die Option nicht gesetzt ist
    *
    * @return mixed|null
    */
@@ -472,11 +472,11 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt zurück, ob für eine Spalte eine Option gesetzt wurde
+   * Gibt zurÃ¼ck, ob fÃ¼r eine Spalte eine Option gesetzt wurde
    *
    * @param $columnName Name der Spalte
    * @param $option Name/Id der Option
-   * @param $default Defaultrückgabewert, falls die Option nicht gesetzt ist
+   * @param $default DefaultrÃ¼ckgabewert, falls die Option nicht gesetzt ist
    *
    * @return boolean
    */
@@ -486,7 +486,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Verlinkt eine Spalte mit den übergebenen Parametern
+   * Verlinkt eine Spalte mit den Ã¼bergebenen Parametern
    *
    * @param $columnName Name der Spalte
    * @param $params Array von Parametern
@@ -500,7 +500,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt die Parameter für eine Spalte zurück
+   * Gibt die Parameter fÃ¼r eine Spalte zurÃ¼ck
    *
    * @param $columnName Name der Spalte
    *
@@ -512,7 +512,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt zurück, ob Parameter für eine Spalte existieren
+   * Gibt zurÃ¼ck, ob Parameter fÃ¼r eine Spalte existieren
    *
    * @param $columnName Name der Spalte
    *
@@ -526,7 +526,7 @@ class rex_list implements rex_url_provider
   // ---------------------- TableColumnGroup setters/getters/etc
 
   /**
-   * Methode um eine Colgroup einzufügen
+   * Methode um eine Colgroup einzufÃ¼gen
    *
    * Beispiel 1:
    *
@@ -582,7 +582,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Fügt der zuletzte eingefügten TableColumnGroup eine weitere Spalte hinzu
+   * FÃ¼gt der zuletzte eingefÃ¼gten TableColumnGroup eine weitere Spalte hinzu
    *
    * @param $width int Breite der Spalte
    * @param $span int Span der Spalte
@@ -620,8 +620,8 @@ class rex_list implements rex_url_provider
   // ---------------------- Url generation
 
   /**
-   * Gibt eine Url zurück, die die Parameter $params enthält
-   * Dieser Url werden die Standard rexList Variablen zugefügt
+   * Gibt eine Url zurÃ¼ck, die die Parameter $params enthÃ¤lt
+   * Dieser Url werden die Standard rexList Variablen zugefÃ¼gt
    *
    * @return string
    */
@@ -662,8 +662,8 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt eine Url zurück, die die Parameter $params enthält
-   * Dieser Url werden die Standard rexList Variablen zugefügt
+   * Gibt eine Url zurÃ¼ck, die die Parameter $params enthÃ¤lt
+   * Dieser Url werden die Standard rexList Variablen zugefÃ¼gt
    *
    * Innerhalb dieser Url werden variablen ersetzt
    *
@@ -707,7 +707,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt die Anzahl der Zeilen zurück, welche vom ursprüngliche SQL Statement betroffen werden
+   * Gibt die Anzahl der Zeilen zurÃ¼ck, welche vom ursprÃ¼ngliche SQL Statement betroffen werden
    *
    * @return int
    */
@@ -735,7 +735,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt zurück, nach welcher Spalte sortiert werden soll
+   * Gibt zurÃ¼ck, nach welcher Spalte sortiert werden soll
    *
    * @return string
    */
@@ -749,7 +749,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt zurück, in welcher Art und Weise sortiert werden soll (ASC/DESC)
+   * Gibt zurÃ¼ck, in welcher Art und Weise sortiert werden soll (ASC/DESC)
    *
    * @return string
    */
@@ -766,7 +766,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt die Navigation der Liste zurück
+   * Gibt die Navigation der Liste zurÃ¼ck
    *
    * @return string
    */
@@ -779,7 +779,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt den Footer der Liste zurück
+   * Gibt den Footer der Liste zurÃ¼ck
    *
    * @return string
    */
@@ -795,7 +795,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Gibt den Header der Liste zurück
+   * Gibt den Header der Liste zurÃ¼ck
    *
    * @return string
    */
@@ -833,7 +833,7 @@ class rex_list implements rex_url_provider
     {
       foreach($columnNames as $columnName)
       {
-        // Spalten, die mit addColumn eingefügt wurden
+        // Spalten, die mit addColumn eingefÃ¼gt wurden
         if(is_array($columnName))
           continue;
 
@@ -849,7 +849,7 @@ class rex_list implements rex_url_provider
   }
 
   /**
-   * Formatiert einen übergebenen String anhand der rexFormatter Klasse
+   * Formatiert einen Ã¼bergebenen String anhand der rexFormatter Klasse
    *
    * @param $value Zu formatierender String
    * @param $format Array mit den Formatierungsinformationen
@@ -870,7 +870,7 @@ class rex_list implements rex_url_provider
       $value = rex_formatter::format($value, $format[0], $format[1]);
     }
 
-    // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
+    // Nur escapen, wenn formatter aufgerufen wird, der kein html zurÃ¼ckgeben kÃ¶nnen soll
     if($escape && !$this->isCustomFormat($format) && $format[0] != 'rexmedia' && $format[0] != 'rexurl')
       $value = htmlspecialchars($value);
 
@@ -975,7 +975,7 @@ class rex_list implements rex_url_provider
     $s .= '      <tr>'. "\n";
     foreach($columnNames as $columnName)
     {
-      // Spalten, die mit addColumn eingefügt wurden
+      // Spalten, die mit addColumn eingefÃ¼gt wurden
       if(is_array($columnName))
         $columnName = $columnName[0];
 
@@ -989,7 +989,7 @@ class rex_list implements rex_url_provider
       $layout = $this->getColumnLayout($columnName);
       $s .= '        '. str_replace('###VALUE###', $columnHead, $layout[0])."\n";
 
-      // Formatierungen hier holen, da diese Schleife jede Spalte nur einmal durchläuft
+      // Formatierungen hier holen, da diese Schleife jede Spalte nur einmal durchlÃ¤uft
       $columnFormates[$columnName] = $this->getColumnFormat($columnName);
     }
     $s .= '      </tr>'. "\n";
@@ -1012,7 +1012,7 @@ class rex_list implements rex_url_provider
         $s .= '      <tr>'. "\n";
         foreach($columnNames as $columnName)
         {
-          // Spalten, die mit addColumn eingefügt wurden
+          // Spalten, die mit addColumn eingefÃ¼gt wurden
           if(is_array($columnName))
           {
             // Nur hier sind Variablen erlaubt

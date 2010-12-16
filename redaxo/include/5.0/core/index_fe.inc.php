@@ -6,7 +6,7 @@
  * @version svn:$Id$
  */
 
-// ----- ob caching start für output filter
+// ----- ob caching start fÃ¼r output filter
 ob_start();
 ob_implicit_flush(0);
 
@@ -49,7 +49,7 @@ if($REX['SETUP'])
 	$REX['STATS'] = 0;
 }
 
-// ----- caching end für output filter
+// ----- caching end fÃ¼r output filter
 $CONTENT = ob_get_contents();
 ob_end_clean();
 

@@ -6,7 +6,7 @@
  * @version svn:$Id$
  */
 
-// ----- caching start für output filter
+// ----- caching start fÃ¼r output filter
 ob_start();
 ob_implicit_flush(0);
 
@@ -332,7 +332,7 @@ if($pageObj->hasPath())
   // Addon Page
   require $REX['SRC_PATH'].'/addons/'. $REX['PAGE'] .'/pages/index.inc.php';
 }
-// ----- caching end für output filter
+// ----- caching end fÃ¼r output filter
 $CONTENT = ob_get_contents();
 ob_end_clean();
 

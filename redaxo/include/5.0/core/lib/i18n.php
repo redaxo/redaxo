@@ -31,7 +31,7 @@ class i18n
   }
 
   /*
-   * Lädt alle Übersetzungen der aktuellen Sprache aus dem Sprachpfad und fügt diese dem Katalog hinzu.
+   * LÃ¤dt alle Ãœbersetzungen der aktuellen Sprache aus dem Sprachpfad und fÃ¼gt diese dem Katalog hinzu.
    */
   public function loadTexts()
   {
@@ -42,7 +42,7 @@ class i18n
   }
   
   /**
-   * Sucht im angegebenden Ordner nach eine Sprachdatei der aktuellen Sprache und fügt diese dem Sprachkatalog an
+   * Sucht im angegebenden Ordner nach eine Sprachdatei der aktuellen Sprache und fÃ¼gt diese dem Sprachkatalog an
    *  
    * @param string $searchPath Pfad in dem die Sprachdatei gesucht werden soll
    */
@@ -55,7 +55,7 @@ class i18n
   /**
    * Fuegt die angegebene Datei $filename diese dem Sprachkatalog an
    *  
-   * @param string $filename Datei die hinzugefügt werden soll
+   * @param string $filename Datei die hinzugefÃ¼gt werden soll
    */
   public function appendFileName($filename)
   {
@@ -81,9 +81,9 @@ class i18n
   }
 
   /**
-   * Durchsucht den Sprachkatalog nach einem Schlüssel und gibt die dazugehörige Übersetzung zurück
+   * Durchsucht den Sprachkatalog nach einem SchlÃ¼ssel und gibt die dazugehÃ¶rige Ãœbersetzung zurÃ¼ck
    * 
-   * @param string $key Zu suchender Schlüssel
+   * @param string $key Zu suchender SchlÃ¼ssel
    */
   public function msg($key)
   {
@@ -122,10 +122,10 @@ class i18n
   }
 
   /**
-   * Fügt dem Sprachkatalog unter dem gegebenen Schlüssel eine neue Übersetzung hinzu 
+   * FÃ¼gt dem Sprachkatalog unter dem gegebenen SchlÃ¼ssel eine neue Ãœbersetzung hinzu 
    *  
-   * @param string $key Schlüssel unter dem die Übersetzung abgelegt wird
-   * @param string $msg Übersetzter Text
+   * @param string $key SchlÃ¼ssel unter dem die Ãœbersetzung abgelegt wird
+   * @param string $msg Ãœbersetzter Text
    */
   public function addMsg($key, $msg)
   {
@@ -133,10 +133,10 @@ class i18n
   }
 
   /**
-   * Prüft ob der Sprachkatalog zu dem gegebenen Schlüssel eine Übersetzung beinhaltet
+   * PrÃ¼ft ob der Sprachkatalog zu dem gegebenen SchlÃ¼ssel eine Ãœbersetzung beinhaltet
    * 
-   * @param string $key Zu suchender Schlüssel
-   * @return boolean TRUE Wenn der Schlüssel gefunden wurde, sonst FALSE
+   * @param string $key Zu suchender SchlÃ¼ssel
+   * @return boolean TRUE Wenn der SchlÃ¼ssel gefunden wurde, sonst FALSE
    */
   public function hasMsg($key)
   {
@@ -144,7 +144,7 @@ class i18n
   }
 
   /**
-   * Durchsucht den Searchpath nach allen verfügbaren Sprachdateien und gibt diese zurück
+   * Durchsucht den Searchpath nach allen verfÃ¼gbaren Sprachdateien und gibt diese zurÃ¼ck
    * 
    * @param string $searchpath Zu duruchsuchender Ordner
    * @return array Array von gefundenen Sprachen (locales)

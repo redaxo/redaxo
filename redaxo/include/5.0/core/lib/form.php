@@ -82,7 +82,7 @@ class rex_form
     }
     else
     {
-      trigger_error('rex_form: Die gegebene Where-Bedingung führt nicht zu einem eindeutigen Datensatz!', E_USER_ERROR);
+      trigger_error('rex_form: Die gegebene Where-Bedingung fÃ¼hrt nicht zu einem eindeutigen Datensatz!', E_USER_ERROR);
     }
     
     // --------- Load Env
@@ -173,7 +173,7 @@ class rex_form
   }
 
   /**
-   * Gibt eine Formular-Url zurück
+   * Gibt eine Formular-Url zurÃ¼ck
    */
   public function getUrl($params = array(), $escape = true)
   {
@@ -517,7 +517,7 @@ class rex_form
   {
     $id = $this->tableName.'_'.$this->fieldset.'_'.$name;
 
-    // Evtl postwerte wieder übernehmen (auch externe Werte überschreiben)
+    // Evtl postwerte wieder Ã¼bernehmen (auch externe Werte Ã¼berschreiben)
     $postValue = $this->elementPostValue($this->getFieldsetName(), $name);
     if($postValue !== null)
     {
@@ -573,9 +573,9 @@ class rex_form
       unset($attributes['internal::noNameAttribute']);
     }
     
-    // 1. Array: Eigenschaften, die via Parameter Überschrieben werden können/dürfen
+    // 1. Array: Eigenschaften, die via Parameter Ãœberschrieben werden kÃ¶nnen/dÃ¼rfen
     // 2. Array: Eigenschaften, via Parameter
-    // 3. Array: Eigenschaften, die hier fest definiert sind / nicht veränderbar via Parameter
+    // 3. Array: Eigenschaften, die hier fest definiert sind / nicht verÃ¤nderbar via Parameter
     $attributes = array_merge(array('id' => $id), $attributes, $internal_attr);
     $element = new $class($tag, $this, $attributes, $separateEnding);
     $element->setFieldName($fieldName);
@@ -960,7 +960,7 @@ class rex_form
 
   /**
    * Validiert die Eingaben.
-   * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler oder
+   * Gibt true zurÃ¼ck wenn alles ok war, false bei einem allgemeinen Fehler oder
    * einen String mit einer Fehlermeldung.
    *
    * Eingaben sind via
@@ -974,7 +974,7 @@ class rex_form
   }
 
   /**
-   * Übernimmt die POST-Werte in die FormElemente.  
+   * Ãœbernimmt die POST-Werte in die FormElemente.  
    */
   protected function processPostValues()
   {
@@ -1023,9 +1023,9 @@ class rex_form
   /**
    * Speichert das Formular.
    * 
-   * Übernimmt die Werte aus den FormElementen in die Datenbank.
+   * Ãœbernimmt die Werte aus den FormElementen in die Datenbank.
    *
-   * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler,
+   * Gibt true zurÃ¼ck wenn alles ok war, false bei einem allgemeinen Fehler,
    * einen String mit einer Fehlermeldung oder den von der Datenbank gelieferten ErrorCode.
    */
   protected function save()
@@ -1047,7 +1047,7 @@ class rex_form
         $fieldName = $element->getFieldName();
         $fieldValue = $element->getSaveValue();
         
-        // Callback, um die Values vor dem Speichern noch beeinflussen zu können
+        // Callback, um die Values vor dem Speichern noch beeinflussen zu kÃ¶nnen
         $fieldValue = $this->preSave($fieldsetName, $fieldName, $fieldValue, $sql);
         
         // Den POST-Wert in die DB speichern (inkl. slashes)
@@ -1163,7 +1163,7 @@ class rex_form
           // Fehler aufgetreten fuer den eine errorMessage hinterlegt wurde (error codes) 
           $this->setWarning($this->errorMessages[$result]);
         elseif(is_string($result) && $result != '')
-          // Fehlermeldung wurde direkt zurückgegeben -> anzeigen
+          // Fehlermeldung wurde direkt zurÃ¼ckgegeben -> anzeigen
           $this->setWarning($result);
         else
            // Allgemeine Fehlermeldung
@@ -1194,7 +1194,7 @@ class rex_form
       }
     }
 
-    // Parameter dem Formular hinzufügen
+    // Parameter dem Formular hinzufÃ¼gen
     foreach($this->getParams() as $name => $value)
     {
       $this->addHiddenField($name, $value, array('internal::useArraySyntax' => 'none'));
@@ -1227,7 +1227,7 @@ class rex_form
       $s .= '      <legend>'. htmlspecialchars($fieldsetName) .'</legend>'. "\n";
       $s .= '      <div class="rex-form-wrapper">'. "\n";
 
-      // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfügen
+      // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfÃ¼gen
       if($i == 0 && $addHeaders)
       {
         foreach($this->getHeaderElements() as $element)

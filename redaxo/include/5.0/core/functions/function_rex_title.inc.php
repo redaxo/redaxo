@@ -9,7 +9,7 @@
  * Ausgabe des Seitentitels
  *
  *
- * Beispiel für einen Seitentitel
+ * Beispiel fÃ¼r einen Seitentitel
  *
  * <code>
  * $subpages = array(
@@ -22,7 +22,7 @@
  * </code>
  *
  *
- * Beispiel für einen Seitentitel mit Rechteprüfung
+ * Beispiel fÃ¼r einen Seitentitel mit RechteprÃ¼fung
  *
  * <code>
  * $subpages = array(
@@ -35,7 +35,7 @@
  * </code>
  *
  *
- * Beispiel für einen Seitentitel eigenen Parametern
+ * Beispiel fÃ¼r einen Seitentitel eigenen Parametern
  *
  * <code>
  * $subpages = array(
@@ -136,13 +136,13 @@ function rex_get_subtitle($subline)
       
       $perm = !empty($subpage[2]) ? $subpage[2] : '';
       $params = !empty($subpage[3]) ? rex_param_string($subpage[3]) : '';
-      // Berechtigung prüfen
+      // Berechtigung prÃ¼fen
       if ($perm != '')
       {
-        // Hat der User das Recht für die aktuelle Subpage?
+        // Hat der User das Recht fÃ¼r die aktuelle Subpage?
         if (!$REX['USER']->isAdmin() && !$REX['USER']->hasPerm($perm))
         {
-          // Wenn der User kein Recht hat, und diese Seite öffnen will -> Fehler
+          // Wenn der User kein Recht hat, und diese Seite Ã¶ffnen will -> Fehler
           if ($cur_subpage == $link)
           {
             exit ('You have no permission to this area!');
@@ -221,6 +221,6 @@ function rex_get_subtitle($subline)
       ';
     }
   }
-  // \n aus Quellcode formatierungsgründen
+  // \n aus Quellcode formatierungsgrÃ¼nden
   return $subtitle_str;
 }

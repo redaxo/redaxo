@@ -41,7 +41,7 @@ function rex_absPath($rel_path, $rel_to_current = false)
 }
 
 /**
- * Prüfen ob ein/e Datei/Ordner beschreibbar ist
+ * PrÃ¼fen ob ein/e Datei/Ordner beschreibbar ist
  *
  * @access public
  * @param string $item Datei oder Verzeichnis
@@ -91,7 +91,7 @@ function _rex_is_writable_info($is_writable, $item = '')
 
 function _rex_is_writable($item)
 {
-  // Fehler unterdrücken, falls keine Berechtigung
+  // Fehler unterdrÃ¼cken, falls keine Berechtigung
   if (@ is_dir($item))
   {
     if (!@ is_writable($item . '/.'))
@@ -99,7 +99,7 @@ function _rex_is_writable($item)
       return 1;
     }
   }
-  // Fehler unterdrücken, falls keine Berechtigung
+  // Fehler unterdrÃ¼cken, falls keine Berechtigung
   elseif (@ is_file($item))
   {
     if (!@ is_writable($item))
@@ -130,11 +130,11 @@ function rex_setAttributes($name,$value,$content)
 }
 
 /**
- * Gibt den nächsten freien Tabindex zurück.
+ * Gibt den nÃ¤chsten freien Tabindex zurÃ¼ck.
  * Der Tabindex ist eine stetig fortlaufende Zahl,
- * welche die Priorität der Tabulatorsprünge des Browsers regelt.
+ * welche die PrioritÃ¤t der TabulatorsprÃ¼nge des Browsers regelt.
  *
- * @return integer nächster freier Tabindex
+ * @return integer nÃ¤chster freier Tabindex
  */
 function rex_tabindex($html = true)
 {
@@ -332,7 +332,7 @@ function rex_redirect($article_id, $clang = '', $params = array())
 {
   global $REX;
 
-  // Alle OBs schließen
+  // Alle OBs schlieÃŸen
   while(@ob_end_clean());
 
   $divider = '&';
@@ -343,7 +343,7 @@ function rex_redirect($article_id, $clang = '', $params = array())
 
 /**
  * Trennt einen String an Leerzeichen auf.
- * Dabei wird beachtet, dass Strings in " zusammengehören
+ * Dabei wird beachtet, dass Strings in " zusammengehÃ¶ren
  */
 function rex_split_string($string)
 {
@@ -436,11 +436,11 @@ function rex_replace_dynamic_contents($path, $content)
 
 /**
  * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
- * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte
+ * Dies ist z.B. nÃ¼tzlich beim Umgang mit einer PrioritÃ¤ts-Spalte
  * 
  * @param $tableName String Name der Datenbanktabelle
- * @param $priorColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
- * @param $whereCondition Where-Bedingung zur Einschränkung des ResultSets 
+ * @param $priorColumnName Name der Spalte in der Tabelle, in der die PrioritÃ¤t (Integer) gespeichert wird
+ * @param $whereCondition Where-Bedingung zur EinschrÃ¤nkung des ResultSets 
  * @param $orderBy Sortierung des ResultSets 
  * @param $id_field Name des Primaerschluessels der Tabelle
  */
@@ -548,7 +548,7 @@ if (version_compare(phpversion(), '5.0') < 0 && !function_exists('clone')) {
  * 
  * @param $locale Locale der Sprache
  * @param $searchpath Pfad zum Ordner indem die Sprachdatei gesucht werden soll
- * @param $setlocale TRUE, wenn die locale für die Umgebung gesetzt werden soll, sonst FALSE
+ * @param $setlocale TRUE, wenn die locale fÃ¼r die Umgebung gesetzt werden soll, sonst FALSE
  * @return unknown_type
  */
 function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)

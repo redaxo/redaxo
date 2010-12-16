@@ -19,7 +19,7 @@ function rex_send_file($file, $contentType, $environment = 'backend')
 {
   global $REX;
 
-  // Cachen für Dateien aktivieren
+  // Cachen fÃ¼r Dateien aktivieren
   $temp = $REX['USE_LAST_MODIFIED'];
   $REX['USE_LAST_MODIFIED'] = true;
 
@@ -35,13 +35,13 @@ function rex_send_file($file, $contentType, $environment = 'backend')
     $cacheKey,
     $environment);
 
-  // Setting zurücksetzen
+  // Setting zurÃ¼cksetzen
   $REX['USE_LAST_MODIFIED'] = $temp;
 }
 
 /**
  * Sendet eine ressource zum Client,
- * fügt ggf. HTTP1.1 cache headers hinzu
+ * fÃ¼gt ggf. HTTP1.1 cache headers hinzu
  * 
  * @param $content string Inhalt der Ressource
  * @param $sendcharset boolean TRUE, wenn der Charset mitgeschickt werden soll, sonst FALSE
@@ -67,7 +67,7 @@ function rex_send_resource($content, $sendcharset = TRUE, $lastModified = null, 
 
 /**
  * Sendet einen rex_article zum Client,
- * fügt ggf. HTTP1.1 cache headers hinzu
+ * fÃ¼gt ggf. HTTP1.1 cache headers hinzu
  *
  * @param $REX_ARTICLE rex_article Den zu sendenen Artikel
  * @param $content string Inhalt des Artikels
@@ -115,7 +115,7 @@ function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = F
 
 /**
  * Sendet den Content zum Client,
- * fügt ggf. HTTP1.1 cache headers hinzu
+ * fÃ¼gt ggf. HTTP1.1 cache headers hinzu
  *
  * @param $content string Inhalt des Artikels
  * @param $lastModified integer Last-Modified Timestamp
@@ -161,7 +161,7 @@ function rex_send_content($content, $lastModified, $etag, $environment, $sendcha
   if($REX['USE_MD5'] === 'true' || $REX['USE_MD5'] == $environment)
     rex_send_checksum(md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content)));
 
-  // Evtl offene Db Verbindungen schließen
+  // Evtl offene Db Verbindungen schlieÃŸen
   rex_sql::disconnect(null);
 
   // content length schicken, damit der browser einen ladebalken anzeigen kann
@@ -171,7 +171,7 @@ function rex_send_content($content, $lastModified, $etag, $environment, $sendcha
 }
 
 /**
- * Prüft, ob sich dateien geändert haben
+ * PrÃ¼ft, ob sich dateien geÃ¤ndert haben
  *
  * XHTML 1.1: HTTP_IF_MODIFIED_SINCE feature
  *
@@ -199,7 +199,7 @@ function rex_send_last_modified($lastModified = null)
 }
 
 /**
- * Prüft ob sich der Inhalt einer Seite im Cache des Browsers befindet und
+ * PrÃ¼ft ob sich der Inhalt einer Seite im Cache des Browsers befindet und
  * verweisst ggf. auf den Cache
  *
  * XHTML 1.1: HTTP_IF_NONE_MATCH feature
@@ -227,7 +227,7 @@ function rex_send_etag($cacheKey)
 
 /**
  * Kodiert den Inhalt des Artikels in GZIP/X-GZIP, wenn der Browser eines der
- * Formate unterstützt
+ * Formate unterstÃ¼tzt
  *
  * XHTML 1.1: HTTP_ACCEPT_ENCODING feature
  *
@@ -265,7 +265,7 @@ function rex_send_gzip($content)
 
 /**
  * Sendet eine MD5 Checksumme als HTTP Header, damit der Browser validieren
- * kann, ob Übertragungsfehler aufgetreten sind
+ * kann, ob Ãœbertragungsfehler aufgetreten sind
  *
  * XHTML 1.1: HTTP_CONTENT_MD5 feature
  *

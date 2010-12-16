@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Klassen zum erhalten der Rückwärtskompatibilität zu älteren REDAXO Versionen,
- * NICHT für ältere PHP Versionen!
+ * Klassen zum erhalten der RÃ¼ckwÃ¤rtskompatibilitÃ¤t zu Ã¤lteren REDAXO Versionen,
+ * NICHT fÃ¼r Ã¤ltere PHP Versionen!
  *
- * Dieser werden beim nächsten Versionssprung entfallen
+ * Dieser werden beim nÃ¤chsten Versionssprung entfallen
  * @version svn:$Id$
  */
 
 // rex_sql -> sql alias
-// Für < R3.3
+// FÃ¼r < R3.3
 class sql extends rex_sql
 {
 	var $select;
@@ -32,7 +32,7 @@ class sql extends rex_sql
   }
 
   /**
-   * Setzt den Cursor des Resultsets auf die nächst höhere Stelle
+   * Setzt den Cursor des Resultsets auf die nÃ¤chst hÃ¶here Stelle
    * @see #next();
    */
   function nextValue()
@@ -41,7 +41,7 @@ class sql extends rex_sql
   }
 
   /**
-   * Setzt den Cursor des Resultsets zurück zum Anfang
+   * Setzt den Cursor des Resultsets zurÃ¼ck zum Anfang
    */
   function resetCounter()
   {
@@ -66,7 +66,7 @@ class sql extends rex_sql
 }
 
 // rex_select -> select alias
-// Für < R3.3
+// FÃ¼r < R3.3
 class select extends rex_select
 {
 
@@ -132,7 +132,7 @@ class select extends rex_select
 }
 
 // rex_article -> article alias
-// Für < R3.3
+// FÃ¼r < R3.3
 class article extends rex_article{
 
   function article($article_id = null, $clang = null)
@@ -147,7 +147,7 @@ class article extends rex_article{
 // rex_showScripttime  -> showScripttime alias
 // rex_getCurrentTime  -> getCurrentTime alias
 // rex_startScripttime -> startScripttime alias
-// Für < R4.2
+// FÃ¼r < R4.2
 function showScripttime()
 {
   rex_showScriptTime();
@@ -164,28 +164,28 @@ function startScripttime()
 }
 
 // rex_getUrl -> getUrlById alias
-// Für < R3.1
+// FÃ¼r < R3.1
 function getUrlByid($id, $clang = "", $params = "")
 {
   return rex_getUrl($id, $clang, $params);
 }
 
 // rex_title -> title alias
-// Für < R3.2
+// FÃ¼r < R3.2
 function title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
 {
   return rex_title($head, $subtitle, $styleclass, $width);
 }
 
 // rex_parseArticleName -> rex_parse_article_name
-// Für < R3.2
+// FÃ¼r < R3.2
 function rex_parseArticleName($name)
 {
   return rex_parse_article_name($name);
 }
 
 // rex_medien* -> rex_media*
-// Für < R4.2
+// FÃ¼r < R4.2
 function rex_medienpool_filename($FILENAME, $doSubindexing = true)
 {
   return rex_mediapool_filename($FILENAME, $doSubindexing);  
@@ -232,7 +232,7 @@ function rex_medienpool_Syncform($rex_file_category)
 }
 
 /**
- * Fügt einen rex_select Objekt die hierarchische Medienkategorien struktur
+ * FÃ¼gt einen rex_select Objekt die hierarchische Medienkategorien struktur
  * hinzu
  *
  * @param $select
@@ -265,8 +265,8 @@ function rex_mediapool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids,
 }
 
 /**
- * Fügt einen rex_select Objekt die hierarchische Medienkategorien struktur
- * hinzu unter berücksichtigung der Medienkategorierechte
+ * FÃ¼gt einen rex_select Objekt die hierarchische Medienkategorien struktur
+ * hinzu unter berÃ¼cksichtigung der Medienkategorierechte
  *
  * @param $select
  * @param $mediacat
