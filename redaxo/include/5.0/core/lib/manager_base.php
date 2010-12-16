@@ -43,18 +43,11 @@ abstract class rex_baseManager
     if ($state === TRUE)
     {
       // load package infos
-      static::loadPackageInfos($addonName);
+      $this->loadPackageInfos($addonName);
 
       // check if requirements are met
       $requirements = $this->apiCall('getProperty', array($addonName, 'requires', array()));
       $state = self::checkRequirements($addonName, $requirements);
-
-      /*if ($state === TRUE)
-      {
-        // check if dependencies are satisfied
-        $dependencies = $this->apiCall('getProperty', array($addonName, 'dependencies', array()));
-        $state = self::checkDependencies($addonName, $dependencies);
-      }*/
 
       if($state === TRUE)
       {
