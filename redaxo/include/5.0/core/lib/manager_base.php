@@ -46,8 +46,7 @@ abstract class rex_baseManager
       $this->loadPackageInfos($addonName);
 
       // check if requirements are met
-      $requirements = $this->apiCall('getProperty', array($addonName, 'requires', array()));
-      $state = self::checkRequirements($addonName, $requirements);
+      $state = $this->checkRequirements($addonName);
 
       if($state === TRUE)
       {
@@ -91,164 +90,6 @@ abstract class rex_baseManager
 
     if($state !== TRUE)
       $this->apiCall('setProperty', array($addonName, 'install', 0));
-
-    return $state;
-  }
-
-  /**
-   * Verifies if the installation of the given Addon was successfull.
-   *
-   * @param string $addonName The name of the addon
-   */
-  private function verifyInstallation($addonName)
-  {
-    $state = TRUE;
-
-    // Wurde das "install" Flag gesetzt?
-    // Fehlermeldung ausgegeben? Wenn ja, Abbruch
-    $instmsg = $this->apiCall('getProperty', array($addonName, 'installmsg', ''));
-
-    if (!$this->apiCall('isInstalled', array($addonName)) || $instmsg)
-    {
-      $state = $this->I18N('no_install', $addonName).'<br />';
-      if ($instmsg == '')
-      {
-        $state .= $this->I18N('no_reason');
-      }
-      else
-      {
-        $state .= $instmsg;
-      }
-    }
-
-    return $state;
-  }
-
-  /**
-   * Verifies if the un-installation of the given Addon was successfull.
-   *
-   * @param string $addonName The name of the addon
-   */
-  private function verifyUninstallation($addonName)
-  {
-    $state = TRUE;
-
-    // Wurde das "install" Flag gesetzt?
-    // Fehlermeldung ausgegeben? Wenn ja, Abbruch
-    $instmsg = $this->apiCall('getProperty', array($addonName, 'installmsg', ''));
-
-    if ($this->apiCall('isInstalled', array($addonName)) || $instmsg)
-    {
-      $state = $this->I18N('no_uninstall', $addonName).'<br />';
-      if ($instmsg == '')
-      {
-        $state .= $this->I18N('no_reason');
-      }
-      else
-      {
-        $state .= $instmsg;
-      }
-    }
-
-    return $state;
-  }
-
-  /**
-   * Checks whether the given requirements are met.
-   *
-   * @param array $requirements
-   */
-  static private function checkRequirements($addonName, array $requirements)
-  {
-    global $REX;
-
-    $state = TRUE;
-    $rexVers = $REX['VERSION'] .'.'. $REX['SUBVERSION'] .'.'. $REX['MINORVERSION'];
-
-    foreach($requirements as $reqName => $reqAttr)
-    {
-      switch($reqName)
-      {
-        case 'redaxo':
-        {
-          // check dependency exact-version
-          if(isset($reqAttr['version']) && version_compare($rexVers, $reqAttr['version']) == 0)
-          {
-            $state = 'Addon requires REDAXO "'. $reqAttr['version'] . '", but "'. $rexVers .'" is installed!';
-          }
-          else
-          {
-            // check dependency min-version
-            if(isset($reqAttr['min-version']) && version_compare($rexVers, $reqAttr['min-version']) == -1)
-            {
-              $state = 'Addon requires at least REDAXO "'. $reqAttr['min-version'] . '", but "'. $rexVers .'" is installed!';
-            }
-            // check dependency min-version
-            else if(isset($reqAttr['max-version']) && version_compare($rexVers, $reqAttr['max-version']) == 1)
-            {
-              $state = 'Addon requires at most REDAXO "'. $reqAttr['max-version'] . '", but "'. $rexVers .'" is installed!';
-            }
-          }
-          break;
-        }
-        case 'php-extension':
-        {
-          if(!is_array($reqAttr))
-          {
-            throw new InvalidArgumentException('Expecting php-extension to be a array, "'. gettype($reqAttr) .'" given!');
-          }
-          foreach($reqAttr as $reqExt)
-          {
-            if(is_string($reqExt))
-            {
-              if(!extension_loaded($reqExt))
-              {
-                $state = 'Missing required php-extension "'. $reqExt .'"!';
-                break;
-              }
-            }
-          }
-        }
-        case 'addons':
-        {
-          if(!is_array($reqAttr))
-          {
-            throw new InvalidArgumentException('Expecting addons to be a array, "'. gettype($reqAttr) .'" given!');
-          }
-          foreach($reqAttr as $depName => $depAttr)
-          {
-            // check if dependency exists
-            if(!OOAddon::isAvailable($depName))
-            {
-              $state = 'Missing required Addon "'. $depName .'"!';
-              break;
-            }
-
-            // check dependency exact-version
-            if(isset($depAttr['version']) && version_compare(OOAddon::getProperty($depName, 'version'), $depAttr['version']) == 0)
-            {
-              $state = 'Required Addon "'. $depName . '" not in required version "'. $depAttr['version'] . '" (found: "'. OOAddon::getProperty($depName, 'version') .'")';
-              break;
-            }
-            else
-            {
-              // check dependency min-version
-              if(isset($depAttr['min-version']) && version_compare(OOAddon::getProperty($depName, 'version'), $depAttr['min-version']) == -1)
-              {
-                $state = 'Required Addon "'. $depName . '" not in required version! Requires at least "'. $depAttr['min-version'] . '", but found: "'. OOAddon::getProperty($depName, 'version') .'"!';
-                break;
-              }
-              // check dependency min-version
-              else if(isset($depAttr['max-version']) && version_compare(OOAddon::getProperty($depName, 'version'), $depAttr['max-version']) == 1)
-              {
-                $state = 'Required Addon "'. $depName . '" not in required version! Requires at most "'. $depAttr['max-version'] . '", but found: "'. OOAddon::getProperty($depName, 'version') .'"!';
-                break;
-              }
-            }
-          }
-        }
-      }
-    }
 
     return $state;
   }
@@ -430,6 +271,165 @@ abstract class rex_baseManager
    * @param $addonName Name of the addon
    */
   public abstract function moveDown($addonName);
+
+  /**
+   * Verifies if the installation of the given Addon was successfull.
+   *
+   * @param string $addonName The name of the addon
+   */
+  private function verifyInstallation($addonName)
+  {
+    $state = TRUE;
+
+    // Wurde das "install" Flag gesetzt?
+    // Fehlermeldung ausgegeben? Wenn ja, Abbruch
+    $instmsg = $this->apiCall('getProperty', array($addonName, 'installmsg', ''));
+
+    if (!$this->apiCall('isInstalled', array($addonName)) || $instmsg)
+    {
+      $state = $this->I18N('no_install', $addonName).'<br />';
+      if ($instmsg == '')
+      {
+        $state .= $this->I18N('no_reason');
+      }
+      else
+      {
+        $state .= $instmsg;
+      }
+    }
+
+    return $state;
+  }
+
+  /**
+   * Verifies if the un-installation of the given Addon was successfull.
+   *
+   * @param string $addonName The name of the addon
+   */
+  private function verifyUninstallation($addonName)
+  {
+    $state = TRUE;
+
+    // Wurde das "install" Flag gesetzt?
+    // Fehlermeldung ausgegeben? Wenn ja, Abbruch
+    $instmsg = $this->apiCall('getProperty', array($addonName, 'installmsg', ''));
+
+    if ($this->apiCall('isInstalled', array($addonName)) || $instmsg)
+    {
+      $state = $this->I18N('no_uninstall', $addonName).'<br />';
+      if ($instmsg == '')
+      {
+        $state .= $this->I18N('no_reason');
+      }
+      else
+      {
+        $state .= $instmsg;
+      }
+    }
+
+    return $state;
+  }
+
+  /**
+   * Checks whether the given requirements are met.
+   *
+   * @param array $requirements
+   */
+  private function checkRequirements($addonName)
+  {
+    global $REX;
+
+    $state = TRUE;
+    $rexVers = $REX['VERSION'] .'.'. $REX['SUBVERSION'] .'.'. $REX['MINORVERSION'];
+    $requirements = $this->apiCall('getProperty', array($addonName, 'requires', array()));
+
+    foreach($requirements as $reqName => $reqAttr)
+    {
+      switch($reqName)
+      {
+        case 'redaxo':
+        {
+          // check dependency exact-version
+          if(isset($reqAttr['version']) && version_compare($rexVers, $reqAttr['version']) == 0)
+          {
+            $state = 'Addon requires REDAXO "'. $reqAttr['version'] . '", but "'. $rexVers .'" is installed!';
+          }
+          else
+          {
+            // check dependency min-version
+            if(isset($reqAttr['min-version']) && version_compare($rexVers, $reqAttr['min-version']) == -1)
+            {
+              $state = 'Addon requires at least REDAXO "'. $reqAttr['min-version'] . '", but "'. $rexVers .'" is installed!';
+            }
+            // check dependency min-version
+            else if(isset($reqAttr['max-version']) && version_compare($rexVers, $reqAttr['max-version']) == 1)
+            {
+              $state = 'Addon requires at most REDAXO "'. $reqAttr['max-version'] . '", but "'. $rexVers .'" is installed!';
+            }
+          }
+          break;
+        }
+        case 'php-extension':
+        {
+          if(!is_array($reqAttr))
+          {
+            throw new InvalidArgumentException('Expecting php-extension to be a array, "'. gettype($reqAttr) .'" given!');
+          }
+          foreach($reqAttr as $reqExt)
+          {
+            if(is_string($reqExt))
+            {
+              if(!extension_loaded($reqExt))
+              {
+                $state = 'Missing required php-extension "'. $reqExt .'"!';
+                break;
+              }
+            }
+          }
+        }
+        case 'addons':
+        {
+          if(!is_array($reqAttr))
+          {
+            throw new InvalidArgumentException('Expecting addons to be a array, "'. gettype($reqAttr) .'" given!');
+          }
+          foreach($reqAttr as $depName => $depAttr)
+          {
+            // check if dependency exists
+            if(!OOAddon::isAvailable($depName))
+            {
+              $state = 'Missing required Addon "'. $depName .'"!';
+              break;
+            }
+
+            // check dependency exact-version
+            if(isset($depAttr['version']) && version_compare(OOAddon::getProperty($depName, 'version'), $depAttr['version']) == 0)
+            {
+              $state = 'Required Addon "'. $depName . '" not in required version "'. $depAttr['version'] . '" (found: "'. OOAddon::getProperty($depName, 'version') .'")';
+              break;
+            }
+            else
+            {
+              // check dependency min-version
+              if(isset($depAttr['min-version']) && version_compare(OOAddon::getProperty($depName, 'version'), $depAttr['min-version']) == -1)
+              {
+                $state = 'Required Addon "'. $depName . '" not in required version! Requires at least "'. $depAttr['min-version'] . '", but found: "'. OOAddon::getProperty($depName, 'version') .'"!';
+                break;
+              }
+              // check dependency min-version
+              else if(isset($depAttr['max-version']) && version_compare(OOAddon::getProperty($depName, 'version'), $depAttr['max-version']) == 1)
+              {
+                $state = 'Required Addon "'. $depName . '" not in required version! Requires at most "'. $depAttr['max-version'] . '", but found: "'. OOAddon::getProperty($depName, 'version') .'"!';
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return $state;
+  }
 
   /**
    * Übersetzen eines Sprachschlüssels unter Verwendung des Prefixes
