@@ -191,7 +191,8 @@ class rex_pluginManager extends rex_baseManager
   {
     global $REX;
 
-    $state = true;
+    $i18nPrefix = 'addon_dependencies_error_';
+    $state = array();
 
     foreach(OOAddon::getAvailableAddons() as $availAddonName)
     {
@@ -206,8 +207,7 @@ class rex_pluginManager extends rex_baseManager
             {
               if($depName == $pluginName)
               {
-                $state = 'Plugin "'. $pluginName .'" is required by activated Addon "'. $availAddonName .'"!';
-                break 3;
+                $state[] = $I18N->msg($i18nPrefix .'addon', $availAddonName);
               }
             }
           }
@@ -228,8 +228,7 @@ class rex_pluginManager extends rex_baseManager
               {
                 if($depName == $pluginName)
                 {
-                  $state = 'Plugin "'. $pluginName .'" is required by activated Plugin "'. $availPluginName .'" of Addon "'. $availAddonName .'"!';
-                  break 4;
+                  $state[] = $I18N->msg($i18nPrefix .'plugin', $availAddonName, $availPluginName);
                 }
               }
             }
@@ -238,6 +237,6 @@ class rex_pluginManager extends rex_baseManager
       }
     }
 
-    return $state;
+    return empty($state) ? true : implode('<br />', $state);
   }
 }
