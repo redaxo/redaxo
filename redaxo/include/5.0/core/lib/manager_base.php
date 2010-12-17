@@ -411,19 +411,19 @@ abstract class rex_baseManager
     $state = true;
 
     // check dependency exact-version
-    if(isset($attributes['version']) && version_compare($version, $attributes['version'], '!='))
+    if(isset($attributes['version']) && rex_version_compare($version, $attributes['version'], '!='))
     {
       $state = $I18N->msg($i18nPrefix . 'exact_version', $attributes['version'], $version, $addonName, $pluginName);
     }
     else
     {
       // check dependency min-version
-      if(isset($attributes['min-version']) && version_compare($version, $attributes['min-version'], '<'))
+      if(isset($attributes['min-version']) && rex_version_compare($version, $attributes['min-version'], '<'))
       {
         $state = $I18N->msg($i18nPrefix . 'min_version', $attributes['min-version'], $version, $addonName, $pluginName);
       }
       // check dependency max-version
-      else if(isset($attributes['max-version']) && version_compare($version, $attributes['max-version'], '>'))
+      else if(isset($attributes['max-version']) && rex_version_compare($version, $attributes['max-version'], '>'))
       {
         $state = $I18N->msg($i18nPrefix . 'max_version', $attributes['max-version'], $version, $addonName, $pluginName);
       }
