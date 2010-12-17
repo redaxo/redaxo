@@ -1,0 +1,6 @@
+optimize_tables:
+  version: '1.0'
+  author: Gregor Harlan
+  supportpage: forum.redaxo.de
+  
+  cronjob_type: rex_cronjob_optimize_tables
