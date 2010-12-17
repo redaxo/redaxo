@@ -7,7 +7,7 @@ class rex_be_navigation
   private
     $headlines = array(),
     $pages;
-  
+
   static public function factory()
   {
     if(!self::$class)
@@ -18,7 +18,7 @@ class rex_be_navigation
 
     return new self::$class();
   }
-  
+
   public function addPage(rex_be_page_container $mainPage)
   {
     $blockName = 'default';
@@ -26,15 +26,15 @@ class rex_be_navigation
     {
       $blockName = $mainPage->getBlock();
     }
-    
+
     if(!isset($this->pages[$blockName]))
     {
       $this->pages[$blockName] = array();
     }
-      
+
     $this->pages[$blockName][] = $mainPage;
   }
-  
+
   public function getNavigation()
   {
     global $REX,$I18N;
@@ -43,22 +43,26 @@ class rex_be_navigation
     {
 	    foreach($this->pages as $block => $blockPages)
 	    {
-        uasort($blockPages, 
-          function($a, $b){
-            $a_prio = (int) $a->getPrio();
-            $b_prio = (int) $b->getPrio();
-            if($a_prio == $b_prio || ($a_prio <= 0 && $b_prio <= 0))
-              return strcmp($a->getPage()->getTitle(), $b->getPage()->getTitle());
-            
-            if($a_prio <= 0)
-              return 1;
-            
-            if($b_prio <= 0)
-              return -1;
-            
-            return $a_prio > $b_prio ? 1 : -1;
-          }
-        );
+	      if(is_array($blockPages) && count($blockPages) > 0 && rex_be_page_main::isValid($blockPages[0]))
+	      {
+	        uasort($blockPages,
+  	        function($a, $b)
+  	        {
+  	          $a_prio = (int) $a->getPrio();
+  	          $b_prio = (int) $b->getPrio();
+  	          if($a_prio == $b_prio || ($a_prio <= 0 && $b_prio <= 0))
+  	            return strcmp($a->getPage()->getTitle(), $b->getPage()->getTitle());
+
+  	          if($a_prio <= 0)
+  	            return 1;
+
+  	          if($b_prio <= 0)
+  	            return -1;
+
+  	          return $a_prio > $b_prio ? 1 : -1;
+  	        }
+	        );
+        }
 
 	      $n = $this->_getNavigation($blockPages, 0, $block);
      	  if($n != "")
@@ -72,25 +76,25 @@ class rex_be_navigation
     }
     $s .= '</dl>';
     return $s;
-    
+
   }
-  
+
   private function _getNavigation($blockPages, $level = 0, $block = '')
   {
       global $REX;
-    
+
       $level++;
       $id = '';
       if($block != '')
         $id = ' id="rex-navi-'. $block .'"';
       $class = ' class="rex-navi-level-'. $level .'"';
-      
+
       $echo = '';
       $first = TRUE;
       foreach($blockPages as $key => $pageContainer)
       {
         $page = $pageContainer->getPage();
-        
+
         if(!$page->getHidden() && $page->checkPermission($REX['USER']))
         {
 	        if($first)
@@ -99,23 +103,23 @@ class rex_be_navigation
 	          $page->addItemClass('rex-navi-first');
 	        }
 	        $page->addLinkClass($page->getItemAttr('class'));
-	          
+
 	        $itemAttr = '';
 	        foreach($page->getItemAttr(null) as $name => $value)
 	        {
 	          $itemAttr .= $name .'="'. trim($value) .'" ';
 	        }
-	        
+
 	        $linkAttr = '';
 	        foreach($page->getLinkAttr(null) as $name => $value)
 	        {
 	          $linkAttr .= $name .'="'. trim($value) .'" ';
 	        }
-	        
+
 	        $href = str_replace('&', '&amp;', $page->getHref());
-	        
+
 	        $echo .= '<li '. $itemAttr .'><a '. $linkAttr . ' href="'. $href .'">'. $page->getTitle() .'</a>';
-	        
+
 	        $subpages = $page->getSubPages();
 	        if(is_array($subpages) && count($subpages) > 0)
 	        {
@@ -129,10 +133,10 @@ class rex_be_navigation
       {
         $echo = '<ul'. $id . $class .'>'.$echo.'</ul>';
       }
-          
+
       return $echo;
   }
-  
+
   public function setActiveElements()
   {
     if(is_array($this->pages))
@@ -142,13 +146,13 @@ class rex_be_navigation
 	      foreach($blockPages as $mn => $pageContainer)
 	      {
 	        $page = $pageContainer->getPage();
-	        
+
 	        // check main pages
 	        $condition = $page->getActivateCondition();
 	        if($this->checkActivateCondition($condition))
 	        {
 	          $page->addItemClass('rex-active');
-	          
+
 	          // check for subpages
   	        $subpages = $page->getSubPages();
   	        foreach($subpages as $sn => $subpage)
@@ -164,7 +168,7 @@ class rex_be_navigation
 	    }
     }
   }
-  
+
   private function checkActivateCondition($a)
   {
     if(empty($a))
@@ -181,12 +185,12 @@ class rex_be_navigation
     }
     return TRUE;
   }
-  
+
   public function setHeadline($block, $headline)
   {
     $this->headlines[$block] = $headline;
   }
-  
+
   public function getHeadline($block)
   {
     global $I18N;
@@ -196,19 +200,19 @@ class rex_be_navigation
 
     if ($block != 'default')
       return $I18N->msg('navigation_'.$block);
-    
+
     return '';
   }
-  
+
   static public function getSetupPage()
   {
     global $I18N;
-      
+
     $page = new rex_be_page($I18N->msg('setup'));
     $page->setIsCorePage(true);
     return $page;
   }
-  
+
   static public function getLoginPage()
   {
     $page = new rex_be_page('login');
@@ -216,21 +220,21 @@ class rex_be_navigation
     $page->setHasNavigation(false);
     return $page;
   }
-  
+
   static public function getLoggedInPages(/*rex_login_sql*/ $rexUser)
   {
     global $I18N;
-    
+
     $pages = array();
-    
+
     $profile = new rex_be_page($I18N->msg('profile'));
     $profile->setIsCorePage(true);
     $pages['profile'] = $profile;
-    
+
     $credits = new rex_be_page($I18N->msg('credits'));
     $credits->setIsCorePage(true);
     $pages['credits'] = $credits;
-    
+
 //    $user = new rex_be_page($I18N->msg('user'), array('page'=>'user'));
 //    $user->setIsCorePage(true);
 //    $user->setRequiredPermissions('isAdmin');
@@ -246,17 +250,17 @@ class rex_be_navigation
     $settings->setIsCorePage(true);
     $settings->setRequiredPermissions('isAdmin');
     $settings->setHref('index.php?page=specials&subpage=');
-    
+
     $languages = new rex_be_page($I18N->msg('languages'), array('page'=>'specials', 'subpage' => 'lang'));
     $languages->setIsCorePage(true);
     $languages->setRequiredPermissions('isAdmin');
     $languages->setHref('index.php?page=specials&subpage=lang');
-    
+
     $syslog = new rex_be_page($I18N->msg('syslog'), array('page'=>'specials', 'subpage' => 'log'));
     $syslog->setIsCorePage(true);
     $syslog->setRequiredPermissions('isAdmin');
     $syslog->setHref('index.php?page=specials&subpage=log');
-    
+
     $mainSpecials = new rex_be_page($I18N->msg('specials'), array('page'=>'specials'));
     $mainSpecials->setIsCorePage(true);
     $mainSpecials->setRequiredPermissions('isAdmin');
@@ -265,7 +269,7 @@ class rex_be_navigation
     $mainSpecials->addSubPage($syslog);
     $pages['specials'] = new rex_be_page_main('system', $mainSpecials);
     $pages['specials']->setPrio(70);
-    
-    return $pages;    
+
+    return $pages;
   }
 }
