@@ -1007,7 +1007,7 @@ class rex_form
    * Static Method:
    * Returns True if the given form is a valid rex_form
    */
-  public function isValid($form)
+  static public function isValid($form)
   {
     return is_object($form) && is_a($form, 'rex_form');
   }

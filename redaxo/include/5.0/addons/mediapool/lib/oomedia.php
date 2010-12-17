@@ -589,7 +589,7 @@ class OOMedia
    * @access public
    * @static
    */
-  function _isImage($filename)
+  static function _isImage($filename)
   {
     static $imageExtensions;
 
@@ -736,7 +736,7 @@ class OOMedia
    * @access public
    * @static
    */
-  function _getExtension($filename)
+  static function _getExtension($filename)
   {
     return substr(strrchr($filename, "."), 1);
   }
@@ -842,7 +842,7 @@ class OOMedia
     return false;
   }
 
-  function fileExists($filename = null)
+  static function fileExists($filename = null)
   {
     global $REX;
 

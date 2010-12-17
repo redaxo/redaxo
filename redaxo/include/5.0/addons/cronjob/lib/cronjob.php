@@ -96,7 +96,7 @@ abstract class rex_cronjob
     return array();
   }
 
-  final public static function isValid($cronjob)
+  final static public function isValid($cronjob)
   {
     return is_object($cronjob) && is_subclass_of($cronjob, 'rex_cronjob');
   }

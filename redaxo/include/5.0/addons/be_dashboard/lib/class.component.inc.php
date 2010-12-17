@@ -2,10 +2,10 @@
 
 /**
  * Backenddashboard Addon
- * 
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
- * 
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -15,10 +15,10 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
   var $title;
   var $titleUrl;
   var $content;
-  
+
   var $format;
   var $block;
-  
+
   function rex_dashboard_component($id, $cache_options = array())
   {
     if(!isset($cache_options['lifetime']))
@@ -26,17 +26,17 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
       // default cache lifetime in seconds
       $cache_options['lifetime'] = 60;
     }
-    
+
     $this->title = '';
     $this->titleUrl = '';
     $this->content = '';
-    
+
     $this->format = 'half';
     $this->block = '';
-    
+
     parent::rex_dashboard_component_base($id, $cache_options);
   }
-  
+
   /**
    * Setzt den Titel der Komponente
    */
@@ -44,12 +44,12 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
   {
     $this->title = $title;
   }
-  
+
   public function getTitle()
   {
     return $this->title;
   }
-  
+
   /**
    * Setzt die Url auf die der Titel der Komponente zeigen soll
    */
@@ -57,12 +57,12 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
   {
     $this->titleUrl = $titleUrl;
   }
-  
+
   public function getTitleUrl()
   {
     return $this->titleUrl;
   }
-  
+
   /**
    * Setzt den Inhalt der Komponente
    */
@@ -70,7 +70,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
   {
     $this->content = $content;
   }
-  
+
   public function getContent()
   {
     return $this->content;
@@ -88,12 +88,12 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
     }
     $this->format = $format;
   }
-  
+
   public function getFormat()
   {
     return $this->format;
   }
-  
+
   /**
    * Setzt den Titel des Blockes in dem die Komponente angezeigt werden soll
    */
@@ -101,28 +101,28 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
   {
     $this->block = $block;
   }
-  
+
   public function getBlock()
   {
     return $this->block;
   }
-  
+
   public function _get()
   {
     global $I18N;
-    
+
     $this->prepare();
     $content = $this->content;
-    
+
     if($content)
     {
       $title = htmlspecialchars($this->title);
-      
+
       if($this->titleUrl != '')
       {
         $title = '<a href="'. $this->titleUrl .'">'. $title .'</a>';
       }
-      
+
     	return '<div class="rex-dashboard-component" id="'. $this->getId() .'">
                 <h3 class="rex-hl2">'. $title .'</h3>
                 %%actionbar%%
@@ -139,14 +139,14 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
               </div>
               <script type="text/javascript">componentInit("'. $this->getId() .'")</script>';
     }
-    
+
     return '';
   }
-  
-  /*
+
+  /**
    * Static Method: Returns boolean if is notification
    */
-  public function isValid($component)
+  static public function isValid($component)
   {
     return is_object($component) && is_a($component, 'rex_dashboard_component');
   }
