@@ -48,13 +48,10 @@ class rex_sql
       }
 
       // connection auf UTF8 trimmen
-      if (rex_lang_is_utf8())
-      {
-        if(function_exists('mysql_set_charset') AND version_compare($REX['MYSQL_VERSION'], '5.0.7', '>='))
-          mysql_set_charset('utf8', $this->identifier);
-        else
-          $this->setQuery('SET NAMES utf8');
-      }
+      if(version_compare($REX['MYSQL_VERSION'], '5.0.7', '>='))
+        mysql_set_charset('utf8', $this->identifier);
+      else
+        $this->setQuery('SET NAMES utf8');
     }
 
     $this->flush();

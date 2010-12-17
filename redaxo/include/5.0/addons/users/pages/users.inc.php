@@ -85,7 +85,6 @@ $sel_be_sprache->setSize(1);
 $sel_be_sprache->setName("userperm_be_sprache");
 $sel_be_sprache->setId("userperm-mylang");
 $sel_be_sprache->addOption("default","");
-$cur_htmlcharset = $I18N->msg('htmlcharset');
 $langpath = $REX['SRC_PATH'].'/core/lang';
 $langs = array();
 if ($handle = opendir($langpath))
@@ -96,12 +95,8 @@ if ($handle = opendir($langpath))
     {
 			$locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
 			$I18N_T = rex_create_lang($locale,$langpath,FALSE); // Locale nicht neu setzen
-      $i_htmlcharset = $I18N_T->msg('htmlcharset');
-      if ($cur_htmlcharset == $i_htmlcharset)
-      {
-      	$sel_be_sprache->addOption($I18N_T->msg('lang'),$locale);
-      	$langs[$locale] = $I18N_T->msg('lang');
-      }
+      $sel_be_sprache->addOption($I18N_T->msg('lang'),$locale);
+      $langs[$locale] = $I18N_T->msg('lang');
 		}
 	}
 	closedir($handle);
@@ -123,7 +118,7 @@ $startpages['structure'] = array($I18N->msg('structure'),'');
 $startpages['profile'] = array($I18N->msg('profile'),'');
 foreach($REX['ADDON']['status'] as $k => $v)
 {
-	if (isset($REX['ADDON']['perm'][$k]) && isset($REX['ADDON']['name'][$k])) 
+	if (isset($REX['ADDON']['perm'][$k]) && isset($REX['ADDON']['name'][$k]))
 	{
 		$startpages[$k] = array($REX['ADDON']['name'][$k],$REX['ADDON']['perm'][$k]);
 	}
@@ -159,7 +154,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   // when not already encrypted by client using javascript
   if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0' && $userpsw != $sql->getValue($REX['TABLE_PREFIX'].'user.psw'))
     $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
-    
+
   $updateuser = rex_sql::factory();
   $updateuser->setTable($REX['TABLE_PREFIX'].'user');
   $updateuser->setWhere('user_id='. $user_id);
@@ -175,7 +170,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   $perm = '';
   if ($useradmin == 1)
     $perm .= '#admin[]';
-  
+
   // userperm_be_sprache
 	foreach($langs as $k => $v)
 	{
@@ -209,7 +204,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 
 } elseif ($FUNC_DELETE != '')
 {
-  // man kann sich selbst nicht löschen..
+  // man kann sich selbst nicht lï¿½schen..
   if ($REX['USER']->getValue("user_id") != $user_id)
   {
     $deleteuser = rex_sql::factory();
@@ -245,7 +240,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 
     $perm = '';
     if ($useradmin == 1) $perm .= '#'.'admin[]';
-	  
+
     // userperm be sprache
 	  foreach($langs as $k => $v)
 	  {
@@ -271,7 +266,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 
     // userrole
     $sel_role->setSelected($userrole);
-    
+
 		// userperm_be_sprache
     if ($userperm_be_sprache == '') $userperm_be_sprache = 'default';
     $sel_be_sprache->setSelected($userperm_be_sprache);
@@ -329,10 +324,10 @@ if ($FUNC_ADD != "" || $user_id > 0)
 
       if ($sql->getValue($REX['TABLE_PREFIX'].'user.status') == 1) $statuschecked = 'checked="checked"';
       else $statuschecked = '';
-      
+
       $userrole = $sql->getValue($REX['TABLE_PREFIX'].'user.role');
       $sel_role->setSelected($userrole);
-        
+
 			foreach($langs as $k => $v)
 			{
 				if ($sql->hasPerm('be_lang['.$k.']')) $userperm_be_sprache = $k;
@@ -452,14 +447,14 @@ if ($FUNC_ADD != "" || $user_id > 0)
             <label for="userstatus">'.$I18N->msg('user_status').'</label>
           </p>
     		</div>
-    		
+
     		<div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
             <label for="userrole">'.$I18N->msg('user_role').'</label>
             '. $sel_role->get() .'
           </p>
 		    </div>
-		    
+
 		    <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
             <label for="userperm-startpage">'.$I18N->msg('startpage').'</label>
@@ -470,21 +465,21 @@ if ($FUNC_ADD != "" || $user_id > 0)
             '.$sel_be_sprache->get().'
           </p>
 		    </div>
-		    
-		    
+
+
       '. $add_submit .'
-			        
+
       	<div class="rex-clearer"></div>
       </div>
     </fieldset>
   </form>
   </div>
-  
+
   <script type="text/javascript">
    <!--
   jQuery(function($) {
     $("#username").focus();
-    
+
     $("#userform")
       .submit(function(){
       	var pwInp = $("#userpsw");
@@ -493,7 +488,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
         	pwInp.val(Sha1.hash(pwInp.val()));
       	}
     });
-    
+
     $("#javascript").val("1");
   });
    //-->

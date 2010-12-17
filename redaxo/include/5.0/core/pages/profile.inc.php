@@ -30,7 +30,6 @@ $sel_be_sprache->setSize(1);
 $sel_be_sprache->setName("userperm_be_sprache");
 $sel_be_sprache->setId("userperm-mylang");
 $sel_be_sprache->addOption("default","");
-$cur_htmlcharset = $I18N->msg('htmlcharset');
 
 $langpath = $REX['SRC_PATH'] .'/core/lang';
 $langs = array();
@@ -42,12 +41,8 @@ if ($handle = opendir($langpath))
     {
 			$locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
 			$I18N_T = rex_create_lang($locale,$langpath,FALSE); // Locale nicht neu setzen
-      $i_htmlcharset = $I18N_T->msg('htmlcharset');
-      if ($cur_htmlcharset == $i_htmlcharset)
-      {
-      	$sel_be_sprache->addOption($I18N_T->msg('lang'),$locale);
-      	$langs[$locale] = $I18N_T->msg('lang');
-      }
+      $sel_be_sprache->addOption($I18N_T->msg('lang'),$locale);
+      $langs[$locale] = $I18N_T->msg('lang');
 		}
 	}
 	closedir($handle);
@@ -76,14 +71,14 @@ if (rex_post('upd_profile_button', 'string'))
 
   // set be langauage
   $userperm_be_sprache = rex_request("userperm_be_sprache","string");
-  if(!isset($langs[$userperm_be_sprache])) 
+  if(!isset($langs[$userperm_be_sprache]))
     $userperm_be_sprache = "default";
   $userperm_be_sprache_selected = $userperm_be_sprache;
-  
+
   $rights = $REX['USER']->removePerm('be_lang');
   $rights .= 'be_lang['.$userperm_be_sprache.']#';
   $updateuser->setValue('rights',$rights);
-	
+
   $updateuser->addGlobalUpdateFields();
 
   if($updateuser->update())
@@ -103,14 +98,14 @@ if (rex_post('upd_psw_button', 'string'))
   // when not already encrypted by client using javascript
   if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0')
     $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
-    
+
   if($userpsw != '' && $REX['USER']->getValue('psw') == $userpsw && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2)
   {
     // the service side encryption of pw is only required
     // when not already encrypted by client using javascript
     if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0')
       $userpsw_new_1 = call_user_func($REX['PSWFUNC'],$userpsw_new_1);
-  
+
     $updateuser->setValue('psw',$userpsw_new_1);
     $updateuser->addGlobalUpdateFields();
 
@@ -118,7 +113,7 @@ if (rex_post('upd_psw_button', 'string'))
       $info = $I18N->msg('user_psw_updated');
     else
       $warning = $updateuser->getError();
-    
+
   }else
   {
   	$warning = $I18N->msg('user_psw_error');
@@ -217,8 +212,8 @@ else
 						<input class="rex-form-text" type="password" id="userpsw" name="userpsw" />
 						</p>
 					</div>
-					
-					
+
+
 					<div class="rex-form-row">
 			    	<p class="rex-form-col-a rex-form-text">
              				 <label for="userpsw">'.$I18N->msg('new_password').'</label>
@@ -244,12 +239,12 @@ else
       </fieldset>
     </form>
     </div>
-    
+
     <script type="text/javascript">
        <!--
       jQuery(function($) {
         $("#username").focus();
-        
+
         $("#pwformular")
           .submit(function(){
           	var pwInp0 = $("#userpsw");
@@ -257,20 +252,20 @@ else
           	{
             	pwInp0.val(Sha1.hash(pwInp0.val()));
           	}
-          	
+
           	var pwInp1 = $("#userpsw_new_1");
           	if(pwInp1.val() != "")
           	{
             	pwInp1.val(Sha1.hash(pwInp1.val()));
           	}
-          	
+
           	var pwInp2 = $("#userpsw_new_2");
           	if(pwInp2.val() != "")
           	{
           		pwInp2.val(Sha1.hash(pwInp2.val()));
           	}
         });
-        
+
         $("#javascript").val("1");
       });
        //-->

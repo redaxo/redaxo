@@ -222,14 +222,12 @@ function rex_setup_setUtf8()
 	{
 	  // initial purge all generated files
 	  rex_deleteDir($REX['SRC_PATH'].'/generated', FALSE);
-	   
+
 		$langpath = $REX['SRC_PATH'].'/core/lang';
 		foreach($REX['LANGUAGES'] as $l)
 		{
-			$isUtf8 = substr($l, -4) == 'utf8';
 			$I18N_T = rex_create_lang($l,$langpath,FALSE);
 			$label = $I18N_T->msg('lang');
-			if($isUtf8) $label .= ' (utf-8)';
 			$langs[$l] = '<li><a href="index.php?checkmodus=0.5&amp;lang='.$l.'"'. rex_tabindex() .'>'.$label.'</a></li>';
 
 		}
@@ -269,7 +267,7 @@ function rex_setup_setUtf8()
 		$license = '<p class="rex-tx1">'.nl2br(rex_get_file_contents($license_file)).'</p>';
 
 		if(strpos($REX['LANG'], 'utf') !== false)
-		echo utf8_encode($license);
+		echo $license;
 		else
 		echo $license;
 
@@ -458,7 +456,7 @@ function rex_setup_setUtf8()
 
 		echo '
             <legend>'.$I18N->msg("setup_0201").'</legend>
-            
+
             <div class="rex-form-wrapper">
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
@@ -466,14 +464,14 @@ function rex_setup_setUtf8()
                   <input class="rex-form-text" type="text" id="serveraddress" name="serveraddress" value="'.$serveraddress.'"'. rex_tabindex() .' />
                 </p>
               </div>
-  
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="serverbezeichnung">'.$I18N->msg("setup_025").'</label>
                   <input class="rex-form-text" type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.$serverbezeichnung.'"'. rex_tabindex() .' />
                 </p>
               </div>
-  
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="error_email">'.$I18N->msg("setup_026").'</label>
@@ -492,28 +490,28 @@ function rex_setup_setUtf8()
                   <input class="rex-form-text" type="text" value="'.$dbname.'" id="dbname" name="dbname"'. rex_tabindex() .' />
                 </p>
               </div>
-              
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="mysql_host">MySQL Host</label>
                   <input class="rex-form-text" type="text" id="mysql_host" name="mysql_host" value="'.$mysql_host.'"'. rex_tabindex() .' />
                 </p>
               </div>
-              
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="redaxo_db_user_login">Login</label>
                   <input class="rex-form-text" type="text" id="redaxo_db_user_login" name="redaxo_db_user_login" value="'.$redaxo_db_user_login.'"'. rex_tabindex() .' />
                 </p>
               </div>
-              
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="redaxo_db_user_pass">'.$I18N->msg("setup_028").'</label>
                   <input class="rex-form-text" type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="'.$redaxo_db_user_pass.'"'. rex_tabindex() .' />
                 </p>
               </div>
-              
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-checkbox">
                   <label for="redaxo_db_create">'.$I18N->msg("setup_create_db").'</label>
@@ -530,7 +528,7 @@ function rex_setup_setUtf8()
                   <input class="rex-form-submit" type="submit" value="'.$I18N->msg("setup_029").'"'. rex_tabindex() .' />
                 </p>
               </div>
-              
+
             </div>
           </fieldset>
         </form>
@@ -574,11 +572,11 @@ function rex_setup_setUtf8()
 			$err_msg .= rex_setup_import($import_sql);
 
 			// Aktuelle Daten updaten wenn utf8, da falsch in v4.2.1 abgelegt wurde.
-			if (rex_lang_is_utf8())
+			/*if (rex_lang_is_utf8())
       {
   			rex_setup_setUtf8();
-      }
-			
+      }*/
+
 			if($err_msg == '')
 			  $err_msg .= rex_setup_addons();
 		}
@@ -747,7 +745,7 @@ function rex_setup_setUtf8()
 		}
 
 		echo '
-              
+
 		<div class="rex-form-row">
 			<p class="rex-form-col-a rex-form-radio rex-form-label-right">
         <input class="rex-form-radio" type="radio" id="dbanlegen_0" name="dbanlegen" value="0"'.$dbchecked[0]. rex_tabindex() .' />
@@ -953,7 +951,7 @@ function rex_setup_setUtf8()
             	pwInp.val(Sha1.hash(pwInp.val()));
           	}
         });
-        
+
         $("#javascript").val("1");
       });
      //-->

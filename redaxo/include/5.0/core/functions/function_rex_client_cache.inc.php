@@ -141,7 +141,7 @@ function rex_send_content($content, $lastModified, $etag, $environment, $sendcha
     if(!is_object($I18N))
       $I18N = rex_create_lang($REX['LANG']);
 
-    header('Content-Type: text/html; charset='.$I18N->msg('htmlcharset'));
+    header('Content-Type: text/html; charset=utf-8');
   }
 
   // ----- Last-Modified

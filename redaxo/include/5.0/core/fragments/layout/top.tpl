@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->i18n('htmllang'); ?>" lang="<?php echo $this->i18n('htmllang'); ?>">
 <head>
   <title><?php echo $this->pageTitle ?></title>
-  <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $this->i18n('htmlcharset'); ?>" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Language" content="<?php echo $this->i18n('htmllang'); ?>" />
   <!-- jQuery immer nach den Stylesheets! -->
   <script src="../redaxo_media/jquery.min.js" type="text/javascript"></script>
@@ -18,7 +18,7 @@
   jQuery.noConflict();
   //-->
   </script>
-  
+
   <?php echo $this->pageHeader ?>
 </head>
 <body <?php echo $this->bodyAttr; ?>>

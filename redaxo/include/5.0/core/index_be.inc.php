@@ -53,7 +53,7 @@ if ($REX['SETUP'])
     $REX['LANG'] = 'de_de';
 
   $I18N = rex_create_lang($REX['LANG']);
-  
+
   $REX['PAGES']['setup'] = rex_be_navigation::getSetupPage();
   $REX['PAGE'] = "setup";
 
@@ -90,17 +90,15 @@ if ($REX['SETUP'])
 
     $REX['PAGES']['login'] = rex_be_navigation::getLoginPage();
     $REX['PAGE'] = 'login';
-    
+
     $REX['USER'] = null;
     $REX['LOGIN'] = null;
   }
   else
-  {    
-    // Userspezifische Sprache einstellen, falls gleicher Zeichensatz
+  {
+    // Userspezifische Sprache einstellen
     $lang = $REX['LOGIN']->getLanguage();
-    $I18N_T = rex_create_lang($lang,'',FALSE);
-    if ($I18N->msg('htmlcharset') == $I18N_T->msg('htmlcharset')) 
-      $I18N = rex_create_lang($lang);
+    $I18N = rex_create_lang($lang);
 
     $REX['USER'] = $REX['LOGIN']->USER;
   }
@@ -124,7 +122,7 @@ if($REX['USER'])
     $title = OOAddon::getProperty($addonName, 'name', '');
     $href  = OOAddon::getProperty($addonName, 'link',  'index.php?page='. $addonName);
     $perm  = OOAddon::getProperty($addonName, 'perm', '');
-    
+
     // prepare addons root-page
     $addonPage = null;
     if ($page != null && $page instanceof rex_be_page_container && $page->getPage()->checkPermission($REX['USER']))
@@ -137,7 +135,7 @@ if($REX['USER'])
       {
         $addonPage = new rex_be_page($title, array('page' => $addonName));
         $addonPage->setHref($href);
-      
+
         // wegen REX Version = 4.2 - alter Stil "SUBPAGES"
         if(isset($REX['ADDON'][$addonName]['SUBPAGES']))
         {
@@ -146,7 +144,7 @@ if($REX['USER'])
         // *** ENDE wegen <=4.2
       }
     }
-    
+
     if($addonPage)
     {
       // adds be_page's
@@ -170,16 +168,16 @@ if($REX['USER'])
         }
       }
     }
-    
+
     // handle plugins
     foreach(OOPlugin::getAvailablePlugins($addonName) as $pluginName)
     {
       $page  = OOPlugin::getProperty($addonName, $pluginName, 'page', null);
-      
+
       $title = OOPlugin::getProperty($addonName, $pluginName, 'name', '');
       $href  = OOPlugin::getProperty($addonName, $pluginName, 'link',  'index.php?page='. $addonName . '&subpage='. $pluginName);
       $perm  = OOPlugin::getProperty($addonName, $pluginName, 'perm', '');
-      
+
       // prepare plugins root-page
       $pluginPage = null;
       if ($page != null && $page instanceof rex_be_page_container && $page->getPage()->checkPermission($REX['USER']))
@@ -194,7 +192,7 @@ if($REX['USER'])
           $pluginPage->setHref($href);
         }
       }
-        
+
       // add plugin-be_page's to addon
       foreach(OOPlugin::getProperty($addonName, $pluginName, 'pages', array()) as $s)
       {
@@ -217,7 +215,7 @@ if($REX['USER'])
           $addonPage->addSubPage($s);
         }
       }
-        
+
       if($pluginPage)
       {
         if(rex_be_page_main::isValid($pluginPage))
@@ -251,7 +249,7 @@ if($REX['USER'])
         }
       }
     }
-    
+
     if(rex_be_page_main::isValid($addonPage))
     {
       // addonPage was defined as a main-page itself, so we only need to add it to REX
@@ -261,10 +259,10 @@ if($REX['USER'])
     {
       // wrap the be_page into a main_page
       $mainAddonPage = null;
-      if ($addonPage) 
+      if ($addonPage)
       {
         $mainAddonPage = new rex_be_page_main('addons', $addonPage);
-        
+
         // "navigation" adds attributes to the addon-root page
         foreach(OOAddon::getProperty($addonName, 'navigation', array()) as $key => $value)
         {

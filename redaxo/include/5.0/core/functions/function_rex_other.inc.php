@@ -479,12 +479,6 @@ function rex_organize_priorities($tableName, $priorColumnName, $whereCondition =
   }
 }
 
-function rex_lang_is_utf8()
-{
-  global $REX;
-  return strpos($REX['LANG'], 'utf8') !== false;
-}
-
 function rex_version_compare($version1, $version2, $comparator = null)
 {
   $version1 = preg_replace('/(\.0)*$/', '', $version1);
@@ -580,10 +574,10 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
     $locales = array();
     foreach(explode(',', trim($lang_object->msg('setlocale'))) as $locale)
     {
-      $locales[]= $locale .'.'. strtoupper(str_replace('iso-', 'iso', $lang_object->msg('htmlcharset')));
-      $locales[]= $locale .'.'. strtoupper(str_replace('iso-', 'iso', str_replace("-","",$lang_object->msg('htmlcharset'))));
-      $locales[]= $locale .'.'. strtolower(str_replace('iso-', 'iso', $lang_object->msg('htmlcharset')));
-      $locales[]= $locale .'.'. strtolower(str_replace('iso-', 'iso', str_replace("-","",$lang_object->msg('htmlcharset'))));
+      $locales[]= $locale .'.UTF-8';
+      $locales[]= $locale .'.UTF8';
+      $locales[]= $locale .'.utf-8';
+      $locales[]= $locale .'.utf8';
     }
 
     foreach(explode(',', trim($lang_object->msg('setlocale'))) as $locale)
