@@ -90,7 +90,7 @@ class OOMedia
       if (isset($REX['MEDIA']['EXTENSION'][$extension]) && is_array($REX['MEDIA']['EXTENSION'][$extension]))
       {
         foreach($REX['MEDIA']['EXTENSION'][$extension] as $filename)
-          $media[] = & OOMedia :: getMediaByFileName($filename);
+          $media[] = OOMedia :: getMediaByFileName($filename);
       }
     }
 
@@ -161,7 +161,7 @@ class OOMedia
   {
     if ($this->_cat === null)
     {
-      $this->_cat = & OOMediaCategory :: getCategoryById($this->getCategoryId());
+      $this->_cat = OOMediaCategory :: getCategoryById($this->getCategoryId());
     }
     return $this->_cat;
   }

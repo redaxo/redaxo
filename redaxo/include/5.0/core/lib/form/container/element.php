@@ -5,7 +5,7 @@ class rex_form_container_element extends rex_form_element
   var $fields;
   var $multiple;
   var $active;
-  
+
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
   function rex_form_container_element($tag = '', &$table, $attributes = array())
@@ -14,40 +14,40 @@ class rex_form_container_element extends rex_form_element
     $this->fields = array();
     $this->multiple = true;
   }
-  
+
   function setMultiple($multiple = true)
   {
     $this->multiple = $multiple;
   }
-  
+
   function setActive($group)
   {
     $this->active = $group;
   }
-  
-  function &addField($type, $name, $value = null, $attributes = array())
+
+  function addField($type, $name, $value = null, $attributes = array())
   {
     return $this->addGroupedField('elementContainer', $type, $name, $value, $attributes);
   }
-  
-  function &addGroupedField($group, $type, $name, $value = null, $attributes = array())
+
+  function addGroupedField($group, $type, $name, $value = null, $attributes = array())
   {
-    $field =& $this->table->createInput($type, $name, $value, $attributes);
-    
+    $field = $this->table->createInput($type, $name, $value, $attributes);
+
     if(!isset($this->fields[$group]))
     {
       $this->fields[$group] = array();
     }
-    
-    $this->fields[$group][] =& $field;
+
+    $this->fields[$group][] = $field;
     return $field;
   }
-  
+
   function getFields()
   {
     return $this->fields;
   }
-  
+
   function prepareInnerFields()
   {
     $values = unserialize($this->getValue());
@@ -60,8 +60,8 @@ class rex_form_container_element extends rex_form_element
           if(isset($values[$group][$field->getFieldName()]))
           {
             // PHP4 compat notation
-            $this->fields[$group][$key]->setValue($values[$group][$field->getFieldName()]);   
-          } 
+            $this->fields[$group][$key]->setValue($values[$group][$field->getFieldName()]);
+          }
         }
       }
     }
@@ -72,16 +72,16 @@ class rex_form_container_element extends rex_form_element
         if(isset($values[$field->getFieldName()]))
         {
           // PHP4 compat notation
-          $this->fields[$this->active][$key]->setValue($values[$field->getFieldName()]);  
+          $this->fields[$this->active][$key]->setValue($values[$field->getFieldName()]);
         }
       }
     }
   }
-  
+
   function formatElement()
   {
     $this->prepareInnerFields();
-    
+
     $attr = '';
     // Folgende attribute filtern:
     // - name: der container selbst ist kein feld, daher hat er keinen namen
@@ -90,10 +90,10 @@ class rex_form_container_element extends rex_form_element
     foreach($this->getAttributes() as $attributeName => $attributeValue)
     {
       if(in_array($attributeName, $attributeFilter)) continue;
-      
+
       $attr .= ' '. $attributeName .'="'. $attributeValue .'"';
     }
-    
+
     $format = '';
     foreach($this->fields as $group => $groupFields)
     {
@@ -106,14 +106,14 @@ class rex_form_container_element extends rex_form_element
     }
     return $format;
   }
-    
+
   function get()
   {
     $s = '';
     $s .= $this->getHeader();
     $s .= $this->_get();
     $s .= $this->getFooter();
-    
+
     return $s;
   }
 

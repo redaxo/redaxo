@@ -6,46 +6,46 @@
 
 class rex_effect_insert_image extends rex_effect_abstract{
 
-	
+
 	function execute()
 	{
 		global $REX;
-		
+
     // -------------------------------------- CONFIG
     $brandimage = $REX['MEDIAFOLDER'] .'/'. $this->params['brandimage'];
     if(!file_exists($brandimage) || !is_file($brandimage))
       $brandimage = dirname(__FILE__). '/../../media/brand.gif';
-      
+
     // Abstand vom Rand
     $padding_x = -10;
     if(isset($this->params['padding_x']))
       $padding_x = (int) $this->params['padding_x'];
-    
+
     $padding_y = -10;
     if(isset($this->params['padding_y']))
       $padding_y = (int) $this->params['padding_y'];
-    
+
     // horizontale ausrichtung: left/center/right
     $hpos = 'right';
     if(isset($this->params['hpos']))
       $hpos = (string) $this->params['hpos'];
-      
+
     // vertikale ausrichtung:   top/center/bottom
     $vpos = 'bottom';
     if(isset($this->params['vpos']))
       $vpos = (string) $this->params['vpos'];
-    
+
     // -------------------------------------- /CONFIG
     $brand = new rex_image($brandimage);
     $brand->prepare();
-    $gdbrand =& $brand->getImage();
-    $gdimage =& $this->image->getImage();
-    
+    $gdbrand = $brand->getImage();
+    $gdimage = $this->image->getImage();
+
     $image_width  = $this->image->getWidth();
     $image_height = $this->image->getHeight();
     $brand_width  = $brand->getWidth();
     $brand_height = $brand->getHeight();
-    
+
     switch($hpos)
     {
       case 'left':
@@ -58,7 +58,7 @@ class rex_effect_insert_image extends rex_effect_abstract{
       default:
         $dstX = $image_width - $brand_width;
     }
-  
+
     switch($vpos)
     {
       case 'top':
@@ -71,13 +71,13 @@ class rex_effect_insert_image extends rex_effect_abstract{
       default:
         $dstY = $image_height - $brand_height;
     }
-    
+
     imagealphablending($gdimage, true);
     imagecopy($gdimage, $gdbrand, $dstX + $padding_x, $dstY + $padding_y, 0, 0, $brand_width, $brand_height);
 
     $brand->destroy();
 	}
-	
+
 	function getParams()
 	{
 		global $REX,$I18N;
@@ -115,7 +115,7 @@ class rex_effect_insert_image extends rex_effect_abstract{
 				'type'	=> 'int',
 				'default' => '-10'
 			),
-			/*TODO: Optionaler Bildtyp für das ausgewählte Bild*/
+			/*TODO: Optionaler Bildtyp fï¿½r das ausgewï¿½hlte Bild*/
 		);
 	}
 

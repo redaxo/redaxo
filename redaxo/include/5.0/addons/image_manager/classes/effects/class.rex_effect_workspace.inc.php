@@ -4,7 +4,7 @@
 
 
 // resize_workspace
-// - position top,topleft,left,bottomleft,bottom,bottomright,right,topright 
+// - position top,topleft,left,bottomleft,bottom,bottomright,right,topright
 
 
 
@@ -59,11 +59,11 @@ class rex_effect_workspace extends rex_effect_abstract
 
 	function execute()
 	{
-	
-		$gdimage =& $this->image->getImage();
+
+		$gdimage = $this->image->getImage();
 		$w = $this->image->getWidth();
 		$h = $this->image->getHeight();
-	
+
 		$this->params["width"] = (int) $this->params["width"];
 		if($this->params["width"] < 0)
 		{
@@ -75,7 +75,7 @@ class rex_effect_workspace extends rex_effect_abstract
 		{
 			$this->params["height"] = $h;
 		}
-	
+
 		$this->params["bg_r"] = (int) $this->params["bg_r"];
 		if(!isset($this->params["bg_r"]) || $this->params["bg_r"]>255 || $this->params["bg_r"] <0 )
 		{
@@ -93,7 +93,7 @@ class rex_effect_workspace extends rex_effect_abstract
 		{
 			$this->params["bg_b"] = 255;
 		}
-	
+
 		$trans = false;
 		if($this->params["set_transparent"] != "colored")
 		{
@@ -103,7 +103,7 @@ class rex_effect_workspace extends rex_effect_abstract
 			}
 			$trans = true;
 		}
-	
+
 		$workspace = imagecreatetruecolor($this->params["width"], $this->params["height"]);
 		if($trans)
 		{
@@ -114,17 +114,17 @@ class rex_effect_workspace extends rex_effect_abstract
 			imagealphablending($workspace, true);
 		}else
 		{
-			// und mit Hintergrundfarbe füllen
+			// und mit Hintergrundfarbe fï¿½llen
 			imagefill($workspace, 0, 0, imagecolorallocate($workspace, $this->params["bg_r"], $this->params["bg_g"], $this->params["bg_b"]));
 		}
-	
+
 		$src_w = $w;
 		$src_h = $h;
 		$dst_x = 0;
 		$dst_y = 0;
 		$src_x = 0;
 		$src_y = 0;
-		
+
 		switch($this->params["vpos"])
 		{
 			case("top"):
@@ -150,7 +150,7 @@ class rex_effect_workspace extends rex_effect_abstract
 				$dst_x = (int) ($this->params["width"]/2) - ($w/2);
 				break;
 		}
-		
+
 		ImageCopy ($workspace, $gdimage, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h);
 		$gdimage = $workspace;
 		$this->image->refreshDimensions();
@@ -166,7 +166,7 @@ class rex_effect_workspace extends rex_effect_abstract
 		$this->image->refreshDimensions();
 		*/
 	}
-	
+
 	function keepTransparent($des)
 	{
 		$image = $this->image;
@@ -176,7 +176,7 @@ class rex_effect_workspace extends rex_effect_abstract
 			imagesavealpha($des, true);
 		}else if ($image->getFormat() == 'GIF')
 		{
-			$gdimage =& $image->getImage();
+			$gdimage = $image->getImage();
 			$colorTransparent = imagecolortransparent($gdimage);
 			imagepalettecopy($gdimage, $des);
 			if($colorTransparent>0)
@@ -191,7 +191,7 @@ class rex_effect_workspace extends rex_effect_abstract
 	function getParams()
 	{
 		global $REX,$I18N;
-		
+
 		return array(
 			array(
 				'label'=>$I18N->msg('imanager_effect_resize_width'),
