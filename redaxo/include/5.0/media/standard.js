@@ -1,7 +1,5 @@
 /* 
  REDAXO JavaScript library
- @package redaxo4 
- @version svn:$Id$
  */ 
 
 // -------------------------------------------------------------------------------------------------------------------
@@ -142,63 +140,6 @@ function newPoolWindow(link)
 function newLinkMapWindow(link) 
 {
     newWindow( 'linkmappopup', link, 800,600,',status=yes,resizable=yes');
-}
-
-function openMediaDetails(id, file_id, file_category_id)
-{
-  if (typeof(id) == 'undefined')
-  {
-    id = '';  
-  }
-  newPoolWindow('index.php?page=mediapool&subpage=detail&opener_input_field='+ id + '&file_id=' + file_id + '&file_category_id=' + file_category_id);
-}
-
-function openMediaPool(id)
-{
-  if (typeof(id) == 'undefined')
-  {
-    id = '';  
-  }
-  newPoolWindow('index.php?page=mediapool&opener_input_field='+ id);
-}
-
-function openREXMedia(id,param)
-{
-  var mediaid = 'REX_MEDIA_'+id;
-  if (typeof(param) == 'undefined')
-  {
-    param = '';  
-  }
-  newPoolWindow('index.php?page=mediapool' + param + '&opener_input_field=' + mediaid);
-}
-
-function viewREXMedia(id,param)
-{
-  var mediaid = 'REX_MEDIA_'+id;
-  var value = document.getElementById(mediaid).value;
-  if ( typeof(param) == 'undefined')
-  {
-    param = '';  
-  }
-  if (value != '') {
-    param = param + '&subpage=detail&file_name='+ value;
-    newPoolWindow('index.php?page=mediapool' + param + '&opener_input_field=' + mediaid);
-  }
-}
-
-function deleteREXMedia(id)
-{
-    var a = new getObj("REX_MEDIA_"+id);
-    a.obj.value = "";
-}
-
-function addREXMedia(id,params)
-{
-  if (typeof(params) == 'undefined')
-  {
-    params = '';  
-  }
-  newPoolWindow('index.php?page=mediapool&action=media_upload&subpage=add_file&opener_input_field=REX_MEDIA_'+id+params);
 }
 
 function openLinkMap(id, param)

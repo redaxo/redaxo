@@ -317,7 +317,7 @@ function rex_setup_setUtf8()
 		);
 
 		foreach($REX['SYSTEM_ADDONS'] as $system_addon)
-		$WRITEABLES[] = $REX['SRC_PATH'] .'/addons'.DIRECTORY_SEPARATOR. $system_addon;
+		  $WRITEABLES[] = $REX['SRC_PATH'] .'/addons'.DIRECTORY_SEPARATOR. $system_addon;
 
 		$res = rex_setup_is_writable($WRITEABLES);
 		if(count($res) > 0)
