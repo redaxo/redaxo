@@ -222,6 +222,9 @@ function rex_setup_setUtf8()
 	{
 	  // initial purge all generated files
 	  rex_deleteDir($REX['SRC_PATH'].'/generated', FALSE);
+	  
+	  // copy alle media files of the current rex-version into redaxo_media
+	  rex_copyDir($REX['SRC_PATH'] .'/media', $REX['OPENMEDIAFOLDER']);
 
 		$langpath = $REX['SRC_PATH'].'/core/lang';
 		foreach($REX['LANGUAGES'] as $l)
