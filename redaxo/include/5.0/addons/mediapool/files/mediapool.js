@@ -2,6 +2,11 @@
  REDAXO Mediapool JavaScript library
  */
 
+function newPoolWindow(link) 
+{
+    newWindow( 'rexmediapopup'+(winObjCounter+1), link, 800,600,',status=yes,resizable=yes');
+}
+
 function openMediaDetails(id, file_id, file_category_id)
 {
   if (typeof(id) == 'undefined')

@@ -132,11 +132,6 @@ if (opener != null)
 
 // -------------------------------------------------------------------------------------------------------------------
 
-function newPoolWindow(link) 
-{
-    newWindow( 'rexmediapopup'+(winObjCounter+1), link, 800,600,',status=yes,resizable=yes');
-}
-
 function newLinkMapWindow(link) 
 {
     newWindow( 'linkmappopup', link, 800,600,',status=yes,resizable=yes');
