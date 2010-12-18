@@ -1,1 +1,1 @@
--_generated files folder
+generated folder

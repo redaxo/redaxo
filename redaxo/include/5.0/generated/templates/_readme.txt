@@ -1,1 +1,1 @@
--_generated templates folder
+generated folder
