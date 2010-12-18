@@ -96,7 +96,7 @@ class rex_var_link extends rex_var
   }
 
   /**
-   * Button für die Eingabe
+   * Button fÃ¼r die Eingabe
    */
   private function matchLinkButton(& $sql, $content)
   {
@@ -120,7 +120,7 @@ class rex_var_link extends rex_var
       if ($id < 11 && $id > 0)
       {
         // Wenn vom Programmierer keine Kategorie vorgegeben wurde,
-        // die Linkmap mit der aktuellen Kategorie öffnen
+        // die Linkmap mit der aktuellen Kategorie Ã¶ffnen
       	list ($category, $args) = $this->extractArg('category', $args, $def_category);
 
         $replace = $this->getLinkButton($id, $this->getValue($sql, 'link' . $id), $category, $args);
@@ -133,7 +133,7 @@ class rex_var_link extends rex_var
   }
 
   /**
-   * Button für die Eingabe
+   * Button fÃ¼r die Eingabe
    */
   private function matchLinkListButton(& $sql, $content)
   {
@@ -158,7 +158,7 @@ class rex_var_link extends rex_var
   }
 
   /**
-   * Wert für die Ausgabe
+   * Wert fÃ¼r die Ausgabe
    */
   private function matchLink(& $sql, $content)
   {
@@ -184,7 +184,7 @@ class rex_var_link extends rex_var
   }
 
   /**
-   * Wert für die Ausgabe
+   * Wert fÃ¼r die Ausgabe
    */
   private function matchLinkId(& $sql, $content)
   {
@@ -207,7 +207,7 @@ class rex_var_link extends rex_var
   }
 
   /**
-   * Wert für die Ausgabe
+   * Wert fÃ¼r die Ausgabe
    */
   private function matchLinkList(& $sql, $content)
   {
@@ -237,17 +237,17 @@ class rex_var_link extends rex_var
   }
 
   /**
-   * Gibt das Button Template zurück
+   * Gibt das Button Template zurÃ¼ck
    */
   static public function getLinkButton($id, $article_id, $category = '')
   {
-    global $REX, $I18N;
+    global $REX;
 
     $art_name = '';
     $clang = '';
     $art = OOArticle :: getArticleById($article_id);
 
-    // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim öffnen der Linkmap dessen Kategorie anzeigen
+    // Falls ein Artikel vorausgewÃ¤hlt ist, dessen Namen anzeigen und beim Ã¶ffnen der Linkmap dessen Kategorie anzeigen
     if (OOArticle :: isValid($art))
     {
       $art_name = $art->getName();
@@ -279,8 +279,8 @@ class rex_var_link extends rex_var
 		  </p>
        <p class="rex-widget-icons rex-widget-1col">
        	<span class="rex-widget-column rex-widget-column-first">
-  	     	<a href="#" class="'. $open_class .'" onclick="'. $open_func .'return false;" title="'. $I18N->msg('var_link_open') .'"'. rex_tabindex() .'></a>
- 	  			<a href="#" class="'. $delete_class .'" onclick="'. $delete_func .'return false;" title="'. $I18N->msg('var_link_delete') .'"'. rex_tabindex() .'></a>
+  	     	<a href="#" class="'. $open_class .'" onclick="'. $open_func .'return false;" title="'. $REX['I18N']->msg('var_link_open') .'"'. rex_tabindex() .'></a>
+ 	  			<a href="#" class="'. $delete_class .'" onclick="'. $delete_func .'return false;" title="'. $REX['I18N']->msg('var_link_delete') .'"'. rex_tabindex() .'></a>
 	 	  	</span>
  		  </p>
  		</div>
@@ -291,11 +291,11 @@ class rex_var_link extends rex_var
   }
 
   /**
-   * Gibt das ListButton Template zurück
+   * Gibt das ListButton Template zurÃ¼ck
    */
   static public function getLinklistButton($id, $value, $category = '')
   {
-    global $REX, $I18N;
+    global $REX;
 
     $open_params = '&clang=' . $REX['CUR_CLANG'];
     if ($category != '')
@@ -338,14 +338,14 @@ class rex_var_link extends rex_var
       </p>
        <p class="rex-widget-icons rex-widget-2col">
        	<span class="rex-widget-column rex-widget-column-first">
-					<a href="#" class="rex-icon-file-top" onclick="moveREXLinklist(' . $id . ',\'top\');return false;" title="'. $I18N->msg('var_linklist_move_top') .'"'. rex_tabindex() .'></a>
-					<a href="#" class="rex-icon-file-up" onclick="moveREXLinklist(' . $id . ',\'up\');return false;" title="'. $I18N->msg('var_linklist_move_up') .'"'. rex_tabindex() .'></a>
-					<a href="#" class="rex-icon-file-down" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="'. $I18N->msg('var_linklist_move_down') .'"'. rex_tabindex() .'></a>
-	        <a href="#" class="rex-icon-file-bottom" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="'. $I18N->msg('var_linklist_move_bottom') .'"'. rex_tabindex() .'></a>
+					<a href="#" class="rex-icon-file-top" onclick="moveREXLinklist(' . $id . ',\'top\');return false;" title="'. $REX['I18N']->msg('var_linklist_move_top') .'"'. rex_tabindex() .'></a>
+					<a href="#" class="rex-icon-file-up" onclick="moveREXLinklist(' . $id . ',\'up\');return false;" title="'. $REX['I18N']->msg('var_linklist_move_up') .'"'. rex_tabindex() .'></a>
+					<a href="#" class="rex-icon-file-down" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="'. $REX['I18N']->msg('var_linklist_move_down') .'"'. rex_tabindex() .'></a>
+	        <a href="#" class="rex-icon-file-bottom" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="'. $REX['I18N']->msg('var_linklist_move_bottom') .'"'. rex_tabindex() .'></a>
        	</span>
        	<span class="rex-widget-column">
-					<a href="#" class="'. $open_class .'" onclick="'. $open_func .'return false;" title="'. $I18N->msg('var_link_open') .'"'. rex_tabindex() .'></a>
-					<a href="#" class="'. $delete_class .'" onclick="'. $delete_func .'return false;" title="'. $I18N->msg('var_link_delete') .'"'. rex_tabindex() .'></a>
+					<a href="#" class="'. $open_class .'" onclick="'. $open_func .'return false;" title="'. $REX['I18N']->msg('var_link_open') .'"'. rex_tabindex() .'></a>
+					<a href="#" class="'. $delete_class .'" onclick="'. $delete_func .'return false;" title="'. $REX['I18N']->msg('var_link_delete') .'"'. rex_tabindex() .'></a>
         </span>
  	    </p>
     </div>

@@ -109,7 +109,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
 
   public function _get()
   {
-    global $I18N;
+    global $REX;
 
     $this->prepare();
     $content = $this->content;
@@ -132,7 +132,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
                 </div>
                 <div class="rex-dashboard-component-footer">
                   <p>
-                    '. $I18N->msg('dashboard_component_lastupdate') .'
+                    '. $REX['I18N']->msg('dashboard_component_lastupdate') .'
                     %%cachetime%%
                   </p>
                 </div>

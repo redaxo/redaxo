@@ -47,7 +47,7 @@ class rex_effect_filter_greyscale extends rex_effect_abstract
 
 	function getParams()
 	{
-		global $REX,$I18N;
+		global $REX;
 
 		return array(
 		);

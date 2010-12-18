@@ -191,7 +191,7 @@ class OOArticleSlice
   }
 
   /**
-   * Gibt den Slice formatiert zurück
+   * Gibt den Slice formatiert zurÃ¼ck
    * @since 4.1 - 29.05.2008
    */
   public function getSlice()

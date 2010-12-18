@@ -7,7 +7,7 @@ class rex_cronjob_export extends rex_cronjob
 
   public function execute()
   {
-    global $REX, $I18N;
+    global $REX;
 
     include_once $REX['SRC_PATH'] .'/addons/import_export/functions/function_import_export.inc.php';
     include_once $REX['SRC_PATH'] .'/addons/import_export/functions/function_import_folder.inc.php';
@@ -39,8 +39,8 @@ class rex_cronjob_export extends rex_cronjob
         }
         $mail = new rex_mailer;
         $mail->AddAddress($this->mailaddress);
-        $mail->Subject = $I18N->msg('im_export_mail_subject');
-        $mail->Body = $I18N->msg('im_export_mail_body', $REX['SERVERNAME']);
+        $mail->Subject = $REX['I18N']->msg('im_export_mail_subject');
+        $mail->Body = $REX['I18N']->msg('im_export_mail_body', $REX['SERVERNAME']);
         $mail->AddAttachment($dir . $file . $ext, $filename . $ext);
         if ($mail->Send())
         {
@@ -60,32 +60,32 @@ class rex_cronjob_export extends rex_cronjob
 
   public function getTypeName()
   {
-    global $I18N;
-    return $I18N->msg('im_export_database_export');
+    global $REX;
+    return $REX['I18N']->msg('im_export_database_export');
   }
 
   public function getParamFields()
   {
-		global $I18N;
+		global $REX;
 
     $fields = array(
       array(
-        'label' => $I18N->msg('im_export_filename'),
+        'label' => $REX['I18N']->msg('im_export_filename'),
         'name'  => 'filename',
         'type'  => 'text',
         'default' => self::DEFAULT_FILENAME,
-        'notice'  => $I18N->msg('im_export_filename_notice')
+        'notice'  => $REX['I18N']->msg('im_export_filename_notice')
       ),
   		array(
         'name'  => 'sendmail',
         'type'  => 'checkbox',
-        'options' => array(1 => $I18N->msg('im_export_send_mail'))
+        'options' => array(1 => $REX['I18N']->msg('im_export_send_mail'))
       )
     );
     if (OOAddon::isActivated('phpmailer'))
     {
       $fields[] = array(
-        'label' => $I18N->msg('im_export_mailaddress'),
+        'label' => $REX['I18N']->msg('im_export_mailaddress'),
         'name'  => 'mailaddress',
         'type'  => 'text',
         'visible_if' => array('sendmail' => 1)
@@ -93,7 +93,7 @@ class rex_cronjob_export extends rex_cronjob
     }
     else
     {
-  		$fields[1]['notice'] = $I18N->msg('im_export_send_mail_notice');
+  		$fields[1]['notice'] = $REX['I18N']->msg('im_export_send_mail_notice');
   		$fields[1]['attributes'] = array('disabled' => 'disabled');
     }
     return $fields;

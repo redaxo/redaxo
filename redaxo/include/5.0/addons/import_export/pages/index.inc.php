@@ -7,7 +7,7 @@
  * @version svn:$Id$
  */
 
-// Für größere Exports den Speicher für PHP erhöhen.
+// FÃ¼r grÃ¶ÃŸere Exports den Speicher fÃ¼r PHP erhÃ¶hen.
 @ini_set('memory_limit', '64M');
 
 // ------- Addon Includes
@@ -24,7 +24,7 @@ $subpage = rex_request('subpage', 'string');
 
 require $REX['SRC_PATH'] ."/core/layout/top.php";
 
-rex_title($I18N->msg("im_export_importexport"), $REX['ADDON']['pages']['import_export']);
+rex_title($REX['I18N']->msg("im_export_importexport"), $REX['ADDON']['pages']['import_export']);
 
 if($subpage == "import" && ($REX["USER"]->hasPerm('import_export[import]') || $REX["USER"]->isAdmin()))
   require $REX['SRC_PATH'] . '/addons/import_export/pages/import.inc.php';

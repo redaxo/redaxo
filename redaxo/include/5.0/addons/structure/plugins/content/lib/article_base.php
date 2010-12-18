@@ -2,7 +2,7 @@
 
 /**
  * Klasse regelt den Zugriff auf Artikelinhalte.
- * Alle benötigten Daten werden von der DB bezogen.
+ * Alle benÃ¶tigten Daten werden von der DB bezogen.
  *
  * @package redaxo4
  * @version svn:$Id$
@@ -76,7 +76,7 @@ class rex_article_base
     $this->slice_revision = (int) $sr;
   }
 
-  // ----- Slice Id setzen für Editiermodus
+  // ----- Slice Id setzen fÃ¼r Editiermodus
   public function setSliceId($value)
   {
     $this->slice_id = $value;
@@ -156,7 +156,7 @@ class rex_article_base
       if ($this->getValue('startpage')!=1) $value = 're_id';
       else $value = 'id';
     }
-    // über SQL muss article_id -> id heissen
+    // Ã¼ber SQL muss article_id -> id heissen
     else if ($value == 'article_id')
     {
       $value = 'id';
@@ -210,13 +210,13 @@ class rex_article_base
 
   public function getArticle($curctype = -1)
   {
-    global $REX,$I18N;
+    global $REX;
 
     $this->ctype = $curctype;
 
     if ($this->article_id == 0)
     {
-      return $I18N->msg('no_article_available');
+      return $REX['I18N']->msg('no_article_available');
     }
     
     $sliceLimit = '';
@@ -371,7 +371,7 @@ class rex_article_base
     return $articleContent;
   }
 
-  // ----- Template inklusive Artikel zurückgeben
+  // ----- Template inklusive Artikel zurÃ¼ckgeben
   public function getArticleTemplate()
   {
     // global $REX hier wichtig, damit in den Artikeln die Variable vorhanden ist!
@@ -426,9 +426,9 @@ class rex_article_base
           {
             // Wenn der aktuelle Slice nicht gespeichert werden soll
             // (via Action wurde das Nicht-Speichern-Flag gesetzt)
-            // Dann die Werte manuell aus dem Post übernehmen
-            // und anschließend die Werte wieder zurücksetzen,
-            // damit die nächsten Slices wieder die Werte aus der DB verwenden
+            // Dann die Werte manuell aus dem Post Ã¼bernehmen
+            // und anschlieÃŸend die Werte wieder zurÃ¼cksetzen,
+            // damit die nÃ¤chsten Slices wieder die Werte aus der DB verwenden
             $var->setACValues($sql,$REX['ACTION']);
             $tmp = $var->getBEInput($sql,$content);
             $flushValues = true;
@@ -450,9 +450,9 @@ class rex_article_base
         $tmp = $var->getFEOutput($sql,$content);
       }
 
-      // Rückgabewert nur auswerten wenn auch einer vorhanden ist
-      // damit $content nicht verfälscht wird
-      // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
+      // RÃ¼ckgabewert nur auswerten wenn auch einer vorhanden ist
+      // damit $content nicht verfÃ¤lscht wird
+      // null ist default RÃ¼ckgabewert, falls kein RETURN in einer Funktion ist
       if($tmp !== null)
       {
         $content = $tmp;

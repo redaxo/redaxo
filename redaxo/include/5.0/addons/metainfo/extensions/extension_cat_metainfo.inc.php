@@ -18,7 +18,7 @@ rex_register_extension('CAT_FORM_BUTTONS', 'rex_a62_metainfo_button');
 
 function rex_a62_metainfo_button($params)
 {
-	global $REX, $I18N;
+	global $REX;
 	
   $s = '';
 	$restrictionsCondition = '';
@@ -62,7 +62,7 @@ function rex_a62_metainfo_button($params)
 		}
   }
 
-  //--></script><a id="rex-i-meta-category" class="rex-i-generic-open" href="javascript:rex_metainfo_toggle();">'. $I18N->msg('minfo_edit_metadata') .'</a></p>';
+  //--></script><a id="rex-i-meta-category" class="rex-i-generic-open" href="javascript:rex_metainfo_toggle();">'. $REX['I18N']->msg('minfo_edit_metadata') .'</a></p>';
 
 	   return $params['subject'] . $return;
   }
@@ -129,7 +129,7 @@ function rex_a62_metainfo_form($params)
 
   $result = _rex_a62_metainfo_form('cat_', $params, '_rex_a62_metainfo_cat_handleSave');
 
-  // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zurückgeben
+  // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zurï¿½ckgeben
   if($params['extension_point'] == 'CAT_UPDATED' || $params['extension_point'] == 'CAT_ADDED')
     return $params['subject'];
   else

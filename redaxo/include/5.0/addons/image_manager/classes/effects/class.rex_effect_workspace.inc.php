@@ -190,35 +190,35 @@ class rex_effect_workspace extends rex_effect_abstract
 
 	function getParams()
 	{
-		global $REX,$I18N;
+		global $REX;
 
 		return array(
 			array(
-				'label'=>$I18N->msg('imanager_effect_resize_width'),
+				'label'=>$REX['I18N']->msg('imanager_effect_resize_width'),
 				'name' => 'width',
 				'type' => 'int',
 			),
 			array(
-				'label'=>$I18N->msg('imanager_effect_resize_height'),
+				'label'=>$REX['I18N']->msg('imanager_effect_resize_height'),
 				'name' => 'height',
 				'type' => 'int'
 			),
 			array(
-				'label' => $I18N->msg('imanager_effect_brand_hpos'),
+				'label' => $REX['I18N']->msg('imanager_effect_brand_hpos'),
 				'name' => 'hpos',
 				'type'	=> 'select',
 				'options'	=> array('left','center','right'),
 				'default' => 'left'
 			),
 			array(
-				'label' => $I18N->msg('imanager_effect_brand_vpos'),
+				'label' => $REX['I18N']->msg('imanager_effect_brand_vpos'),
 				'name' => 'vpos',
 				'type'	=> 'select',
 				'options'	=> array('top','middle','bottom'),
 				'default' => 'top'
 			),
 			array(
-				'label'=>$I18N->msg('im_fx_mirror_background_color'),
+				'label'=>$REX['I18N']->msg('im_fx_mirror_background_color'),
 				'name' => 'set_transparent',
 				'type' => 'select',
 				'options' => array('colored', 'transparent'),
@@ -226,17 +226,17 @@ class rex_effect_workspace extends rex_effect_abstract
 				'suffix' => $this->script
 			),
 			array(
-				'label'=>$I18N->msg('im_fx_mirror_background_r'),
+				'label'=>$REX['I18N']->msg('im_fx_mirror_background_r'),
 				'name' => 'bg_r',
 				'type' => 'int',
 			),
 			array(
-				'label'=>$I18N->msg('im_fx_mirror_background_g'),
+				'label'=>$REX['I18N']->msg('im_fx_mirror_background_g'),
 				'name' => 'bg_g',
 				'type' => 'int',
 			),
 			array(
-				'label'=>$I18N->msg('im_fx_mirror_background_b'),
+				'label'=>$REX['I18N']->msg('im_fx_mirror_background_b'),
 				'name' => 'bg_b',
 				'type' => 'int',
 			),

@@ -12,7 +12,7 @@
 
 require $REX['SRC_PATH'] .'/core/layout/top.php';
 
-rex_title($I18N->msg('dashboard'), '');
+rex_title($REX['I18N']->msg('dashboard'), '');
 
 $contentFound = false;
 
@@ -44,7 +44,7 @@ foreach($dashboard_components as $index => $component)
 
     if($block == '' && $format == 'half')
     {
-      $block = $I18N->msg('dashboard_component_block_misc');
+      $block = $REX['I18N']->msg('dashboard_component_block_misc');
     }
 
     if(!isset($components[$format]))
@@ -143,7 +143,7 @@ foreach($components as $format => $componentBlocks)
 
 if(!$contentFound)
 {
-  echo rex_warning($I18N->msg('dashboard_no_content'));
+  echo rex_warning($REX['I18N']->msg('dashboard_no_content'));
 }
 
 require $REX['SRC_PATH'] .'/core/layout/bottom.php';

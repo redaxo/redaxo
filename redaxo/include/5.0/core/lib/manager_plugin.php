@@ -21,7 +21,7 @@ class rex_pluginManager extends rex_baseManager
    */
   static public function addon2plugin($addonName, $pluginName, $includeFile)
   {
-    global $REX, $I18N; // Nötig damit im Addon verfügbar
+    global $REX; // Nötig damit im Addon verfügbar
 
     $ADDONSsic = $REX['ADDON'];
     $REX['ADDON'] = array();
@@ -62,7 +62,7 @@ class rex_pluginManager extends rex_baseManager
 
   public function moveUp($pluginName)
   {
-    global $I18N;
+    global $REX;
 
     $key = array_search($pluginName, $this->configArray[$this->addonName]);
     if($key === false)
@@ -73,7 +73,7 @@ class rex_pluginManager extends rex_baseManager
     // it's not allowed to move the first addon up
     if($key === 0)
     {
-      return $I18N->msg('addon_move_first_up_not_allowed');
+      return $REX['I18N']->msg('addon_move_first_up_not_allowed');
     }
 
     // swap addon with it's predecessor
@@ -87,7 +87,7 @@ class rex_pluginManager extends rex_baseManager
 
   public function moveDown($pluginName)
   {
-    global $I18N;
+    global $REX;
 
     $key = array_search($pluginName, $this->configArray[$this->addonName]);
     if($key === false)
@@ -98,7 +98,7 @@ class rex_pluginManager extends rex_baseManager
     // it's not allowed to move the last addon down
     if($key === (count($this->configArray[$this->addonName]) - 1) )
     {
-      return $I18N->msg('addon_move_last_down_not_allowed');
+      return $REX['I18N']->msg('addon_move_last_down_not_allowed');
     }
 
     // swap addon with it's successor
@@ -207,7 +207,7 @@ class rex_pluginManager extends rex_baseManager
             {
               if($depName == $pluginName)
               {
-                $state[] = $I18N->msg($i18nPrefix .'addon', $availAddonName);
+                $state[] = $REX['I18N']->msg($i18nPrefix .'addon', $availAddonName);
               }
             }
           }
@@ -228,7 +228,7 @@ class rex_pluginManager extends rex_baseManager
               {
                 if($depName == $pluginName)
                 {
-                  $state[] = $I18N->msg($i18nPrefix .'plugin', $availAddonName, $availPluginName);
+                  $state[] = $REX['I18N']->msg($i18nPrefix .'plugin', $availAddonName, $availPluginName);
                 }
               }
             }

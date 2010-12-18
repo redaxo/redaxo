@@ -25,7 +25,7 @@ function rex_linkmap_backlink($id, $name)
 
 function rex_linkmap_format_label($OOobject)
 {
-  global $REX, $I18N;
+  global $REX;
 
   $label = $OOobject->getName();
 
@@ -36,7 +36,7 @@ function rex_linkmap_format_label($OOobject)
     $label .= ' ['. $OOobject->getId() .']';
 
   if(OOArticle::isValid($OOobject) && !$OOobject->hasTemplate())
-    $label .= ' ['.$I18N->msg('lmap_has_no_template').']';
+    $label .= ' ['.$REX['I18N']->msg('lmap_has_no_template').']';
 
   return $label;
 }

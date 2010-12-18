@@ -188,21 +188,21 @@ class rex_effect_resize extends rex_effect_abstract
 
 	function getParams()
 	{
-		global $REX,$I18N;
+		global $REX;
 
 		return array(
 			array(
-				'label'=>$I18N->msg('imanager_effect_resize_width'),
+				'label'=>$REX['I18N']->msg('imanager_effect_resize_width'),
 				'name' => 'width',
 				'type' => 'int',
 			),
 			array(
-				'label'=>$I18N->msg('imanager_effect_resize_height'),
+				'label'=>$REX['I18N']->msg('imanager_effect_resize_height'),
 				'name' => 'height',
 				'type' => 'int'
 			),
 			array(
-				'label' => $I18N->msg('imanager_effect_resize_style'),
+				'label' => $REX['I18N']->msg('imanager_effect_resize_style'),
 				'name' => 'style',
 				'type'  => 'select',
 				'options' => $this->options,
@@ -210,7 +210,7 @@ class rex_effect_resize extends rex_effect_abstract
 				'suffix' => $this->script
 			),
 			array(
-				'label'=>$I18N->msg('imanager_effect_resize_imgtosmall'),
+				'label'=>$REX['I18N']->msg('imanager_effect_resize_imgtosmall'),
 				'name' => 'allow_enlarge',
 				'type' => 'select',
 				'options' => array('enlarge', 'not_enlarge'),

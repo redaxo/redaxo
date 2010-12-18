@@ -14,7 +14,7 @@ class rex_editme_component extends rex_dashboard_component
 {
   function rex_editme_component($tableName)
   {
-    global $I18N;
+    global $REX;
     
     parent::rex_dashboard_component('editme-'. $tableName);
     
@@ -25,7 +25,7 @@ class rex_editme_component extends rex_dashboard_component
   
   protected function prepare()
   {
-    global $I18N;
+    global $REX;
     
     $this->setContent('uio');
   }

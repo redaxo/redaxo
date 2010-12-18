@@ -96,23 +96,23 @@ class rex_effect_filter_blur extends rex_effect_abstract{
 
 	function getParams()
 	{
-		global $REX,$I18N;
+		global $REX;
 
 		return array(
 			array(
-				'label' => $I18N->msg('imanager_effect_blur_amount'),
+				'label' => $REX['I18N']->msg('imanager_effect_blur_amount'),
 				'name' => 'amount',
 				'type'	=> 'int',
 				'default' => '80'
 			),
 			array(
-				'label' => $I18N->msg('imanager_effect_blur_radius'),
+				'label' => $REX['I18N']->msg('imanager_effect_blur_radius'),
 				'name' => 'radius',
 				'type'	=> 'int',
 				'default' => '8'
 			),
 			array(
-				'label' => $I18N->msg('imanager_effect_blur_threshold'),
+				'label' => $REX['I18N']->msg('imanager_effect_blur_threshold'),
 				'name' => 'threshold',
 				'type'	=> 'int',
 				'default' => '3'

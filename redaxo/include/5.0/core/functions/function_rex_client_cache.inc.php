@@ -135,11 +135,11 @@ function rex_send_content($content, $lastModified, $etag, $environment, $sendcha
 
   if($sendcharset)
   {
-    global $I18N;
+    global $REX;
 
     // Im Frontend gibts kein I18N
-    if(!is_object($I18N))
-      $I18N = rex_create_lang($REX['LANG']);
+    if(!is_object($REX['I18N']))
+      $REX['I18N'] = rex_create_lang($REX['LANG']);
 
     header('Content-Type: text/html; charset=utf-8');
   }

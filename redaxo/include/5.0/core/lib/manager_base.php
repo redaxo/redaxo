@@ -327,7 +327,7 @@ abstract class rex_baseManager
    */
   protected function checkRequirements($addonName)
   {
-    global $REX, $I18N;
+    global $REX;
 
     $state = array();
     $requirements = $this->apiCall('getProperty', array($addonName, 'requires', array()));
@@ -349,7 +349,7 @@ abstract class rex_baseManager
         {
           if(!extension_loaded($reqExt))
           {
-            $state[] = $I18N->msg('addon_requirement_error_php_extension', $reqExt);;
+            $state[] = $REX['I18N']->msg('addon_requirement_error_php_extension', $reqExt);;
           }
         }
       }
@@ -362,7 +362,7 @@ abstract class rex_baseManager
         // check if dependency exists
         if(!OOAddon::isAvailable($depName))
         {
-          $state[] = $I18N->msg('addon_requirement_error_addon', $depName);
+          $state[] = $REX['I18N']->msg('addon_requirement_error_addon', $depName);
         }
         else
         {
@@ -379,7 +379,7 @@ abstract class rex_baseManager
               // check if dependency exists
               if(!OOPlugin::isAvailable($depName, $pluginName))
               {
-                $state[] = $I18N->msg('addon_requirement_error_plugin', $depName, $pluginName);
+                $state[] = $REX['I18N']->msg('addon_requirement_error_plugin', $depName, $pluginName);
               }
               elseif(($msg = $this->checkRequirementVersion('plugin_', $pluginAttr, OOPlugin::getVersion($depName, $pluginName), $depName, $pluginName)) !== true)
               {
@@ -405,7 +405,7 @@ abstract class rex_baseManager
    */
   private function checkRequirementVersion($i18nPrefix, array $attributes, $version, $addonName = null, $pluginName = null)
   {
-    global $I18N;
+    global $REX;
 
     $i18nPrefix = 'addon_requirement_error_'. $i18nPrefix;
     $state = true;
@@ -413,19 +413,19 @@ abstract class rex_baseManager
     // check dependency exact-version
     if(isset($attributes['version']) && rex_version_compare($version, $attributes['version'], '!='))
     {
-      $state = $I18N->msg($i18nPrefix . 'exact_version', $attributes['version'], $version, $addonName, $pluginName);
+      $state = $REX['I18N']->msg($i18nPrefix . 'exact_version', $attributes['version'], $version, $addonName, $pluginName);
     }
     else
     {
       // check dependency min-version
       if(isset($attributes['min-version']) && rex_version_compare($version, $attributes['min-version'], '<'))
       {
-        $state = $I18N->msg($i18nPrefix . 'min_version', $attributes['min-version'], $version, $addonName, $pluginName);
+        $state = $REX['I18N']->msg($i18nPrefix . 'min_version', $attributes['min-version'], $version, $addonName, $pluginName);
       }
       // check dependency max-version
       else if(isset($attributes['max-version']) && rex_version_compare($version, $attributes['max-version'], '>'))
       {
-        $state = $I18N->msg($i18nPrefix . 'max_version', $attributes['max-version'], $version, $addonName, $pluginName);
+        $state = $REX['I18N']->msg($i18nPrefix . 'max_version', $attributes['max-version'], $version, $addonName, $pluginName);
       }
     }
     return $state;
@@ -443,12 +443,12 @@ abstract class rex_baseManager
    */
   protected function I18N()
   {
-    global $I18N;
+    global $REX;
 
     $args = func_get_args();
     $args[0] = $this->i18nPrefix. $args[0];
 
-    return rex_call_func(array($I18N, 'msg'), $args, false);
+    return rex_call_func(array($REX['I18N'], 'msg'), $args, false);
   }
 
   /**

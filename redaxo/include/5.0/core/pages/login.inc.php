@@ -20,7 +20,7 @@ if ($rex_user_loginmessage != '')
         if(parseInt(time_el.html(), 10) > 0) {
           setTimeout(disableLogin, 1000);
         } else {
-          $("div.rex-message p span").html("'. htmlspecialchars($I18N->msg('login_welcome')) .'");
+          $("div.rex-message p span").html("'. htmlspecialchars($REX['I18N']->msg('login_welcome')) .'");
           $("#loginformular input:not(:hidden)").attr("disabled", "");
           $("#rex-form-login").focus();
         }
@@ -43,15 +43,15 @@ echo '
     
     	<div class="rex-form-row">
 		    <p class="rex-form-col-a rex-form-text">
-    			<label for="rex-form-login">'.$I18N->msg('login_name').':</label>
+    			<label for="rex-form-login">'.$REX['I18N']->msg('login_name').':</label>
       		<input type="text" value="'.stripslashes(htmlspecialchars($rex_user_login)).'" id="rex-form-login" name="rex_user_login"'. rex_tabindex() .' />
     		</p>
     	</div>
     	<div class="rex-form-row">
 		    <p class="rex-form-col-a rex-form-password">
-      		<label for="REX_UPSW">'.$I18N->msg('password').':</label>
+      		<label for="REX_UPSW">'.$REX['I18N']->msg('password').':</label>
       		<input class="rex-form-password" type="password" name="rex_user_psw" id="REX_UPSW"'. rex_tabindex() .' />
-	    		<input class="rex-form-submit" type="submit" value="'.$I18N->msg('login').'"'. rex_tabindex() .' />
+	    		<input class="rex-form-submit" type="submit" value="'.$REX['I18N']->msg('login').'"'. rex_tabindex() .' />
 	    	</p>
 	    </div>
 	  </div>

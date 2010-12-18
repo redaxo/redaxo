@@ -14,7 +14,7 @@
  */
 function rex_generateAll()
 {
-  global $REX, $I18N;
+  global $REX;
 
   // ----------------------------------------------------------- generated löschen
   rex_deleteDir($REX['SRC_PATH'].'/generated', FALSE);
@@ -26,7 +26,7 @@ function rex_generateAll()
   }
   
   // ----------------------------------------------------------- message
-  $MSG = $I18N->msg('delete_cache_message');
+  $MSG = $REX['I18N']->msg('delete_cache_message');
 
   // ----- EXTENSION POINT
   $MSG = rex_register_extension_point('ALL_GENERATED', $MSG);

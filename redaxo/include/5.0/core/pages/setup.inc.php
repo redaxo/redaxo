@@ -45,13 +45,13 @@ function rex_setup_title($title)
 
 function rex_setup_import($import_sql, $import_archiv = null)
 {
-	global $REX, $I18N, $export_addon_dir;
+	global $REX, $export_addon_dir;
 
 	$err_msg = '';
 
 	if (!is_dir($export_addon_dir))
 	{
-		$err_msg .= $I18N->msg('setup_03703').'<br />';
+		$err_msg .= $REX['I18N']->msg('setup_03703').'<br />';
 	}
 	else
 	{
@@ -84,7 +84,7 @@ function rex_setup_import($import_sql, $import_archiv = null)
 		}
 		else
 		{
-			$err_msg .= $I18N->msg('setup_03702').'<br />';
+			$err_msg .= $REX['I18N']->msg('setup_03702').'<br />';
 		}
 	}
 
@@ -113,7 +113,7 @@ function rex_setup_is_writable($items)
 // -------------------------- System AddOns prüfen
 function rex_setup_addons($uninstallBefore = false, $installDump = true)
 {
-	global $REX, $I18N;
+	global $REX;
 
 	require_once $REX['SRC_PATH'].'/core/functions/function_rex_addons.inc.php';
 
@@ -148,7 +148,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 	{
 		$addonErr = '<ul class="rex-ul1">
                    <li>
-                     <h3 class="rex-hl3">'. $I18N->msg('setup_011', '<span class="rex-error">', '</span>') .'</h3>
+                     <h3 class="rex-hl3">'. $REX['I18N']->msg('setup_011', '<span class="rex-error">', '</span>') .'</h3>
                      <ul>'. $addonErr .'</ul>
                    </li>
                  </ul>';
@@ -256,10 +256,10 @@ function rex_setup_setUtf8()
 
 		$REX['LANG'] = $lang;
 
-		echo $I18N->msg('setup_005', '<h2 class="rex-hl2">', '</h2>');
+		echo $REX['I18N']->msg('setup_005', '<h2 class="rex-hl2">', '</h2>');
 		echo '<div class="rex-area-content">';
 
-		echo $I18N->msg('setup_005_1', '<h3 class="rex-hl3">', '</h3>', ' class="rex-ul1"');
+		echo $REX['I18N']->msg('setup_005_1', '<h3 class="rex-hl3">', '</h3>', ' class="rex-ul1"');
 		echo '<div class="rex-area-scroll">';
 
 		$Basedir = dirname(__FILE__);
@@ -274,7 +274,7 @@ function rex_setup_setUtf8()
 		echo '</div>
         </div>
         <div class="rex-area-footer">
-          <p class="rex-algn-rght"><a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$I18N->msg("setup_006").'</a></p>
+          <p class="rex-algn-rght"><a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$REX['I18N']->msg("setup_006").'</a></p>
         </div>';
 
 		$checkmodus = 0;
@@ -288,14 +288,14 @@ function rex_setup_setUtf8()
 		// -------------------------- VERSIONSCHECK
 		if (version_compare(phpversion(), $min_version, '<') == 1)
 		{
-			$MSG['err'] .= '<li>'. $I18N->msg('setup_010', phpversion(), $min_version).'</li>';
+			$MSG['err'] .= '<li>'. $REX['I18N']->msg('setup_010', phpversion(), $min_version).'</li>';
 		}
 
 		// -------------------------- EXTENSION CHECK
 		foreach(array('session', 'mysql', 'pcre') as $extension)
 		{
 			if(!extension_loaded($extension))
-			$MSG['err'] .= '<li>'. $I18N->msg('setup_010_1', $extension).'</li>';
+			$MSG['err'] .= '<li>'. $REX['I18N']->msg('setup_010_1', $extension).'</li>';
 		}
 
 		// -------------------------- SCHREIBRECHTE
@@ -339,19 +339,19 @@ function rex_setup_setUtf8()
 
 	if ($MSG['err'] == '' && $checkmodus == 1)
 	{
-		rex_setup_title($I18N->msg('setup_step1'));
+		rex_setup_title($REX['I18N']->msg('setup_step1'));
 
-		echo $I18N->msg('setup_016', '<h2 class="rex-hl2">', '</h2>');
+		echo $REX['I18N']->msg('setup_016', '<h2 class="rex-hl2">', '</h2>');
 		echo '<div class="rex-area-content">';
 
-		echo $I18N->msg('setup_016_1', ' class="rex-ul1"', '<span class="rex-ok">', '</span>');
-		echo '<div class="rex-message"><p class="rex-warning" id="security_warning" style="display: none;"><span>'. $I18N->msg('setup_security_msg') .'</span></p></div>
-          <noscript><div class="rex-message"><p class="rex-warning"><span>'. $I18N->msg('setup_no_js_security_msg') .'</span></p></div></noscript>
-          <iframe src="include/'.$REX['VF'].'/core/pages/setup.inc.php?page=setup&amp;checkmodus=1.5&amp;lang='.$lang.'" style="display: none;"></iframe>
+		echo $REX['I18N']->msg('setup_016_1', ' class="rex-ul1"', '<span class="rex-ok">', '</span>');
+		echo '<div class="rex-message"><p class="rex-warning" id="security_warning" style="display: none;"><span>'. $REX['I18N']->msg('setup_security_msg') .'</span></p></div>
+          <noscript><div class="rex-message"><p class="rex-warning"><span>'. $REX['I18N']->msg('setup_no_js_security_msg') .'</span></p></div></noscript>
+          <iframe src="include/'.$REX['VERSION_FOLDER'].'/core/pages/setup.inc.php?page=setup&amp;checkmodus=1.5&amp;lang='.$lang.'" style="display: none;"></iframe>
        </div>
        <div class="rex-area-footer">
          <p id="nextstep" class="rex-algn-rght">
-           <a href="index.php?page=setup&amp;checkmodus=2&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$I18N->msg('setup_017').'</a>
+           <a href="index.php?page=setup&amp;checkmodus=2&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$REX['I18N']->msg('setup_017').'</a>
          </p>
        </div>';
 
@@ -359,16 +359,16 @@ function rex_setup_setUtf8()
 	elseif ($MSG['err'] != "")
 	{
 
-		rex_setup_title($I18N->msg('setup_step1'));
+		rex_setup_title($REX['I18N']->msg('setup_step1'));
 
-		echo '<h2 class="rex-hl2">'.$I18N->msg('setup_headline1').'</h2>
+		echo '<h2 class="rex-hl2">'.$REX['I18N']->msg('setup_headline1').'</h2>
         <div class="rex-area-content">
           <ul class="rex-ul1">'.$MSG['err'].'</ul>
-          <p class="rex-tx1">'.$I18N->msg('setup_018').'</p>
+          <p class="rex-tx1">'.$REX['I18N']->msg('setup_018').'</p>
         </div>
         <div class="rex-area-footer">
           <p class="rex-algn-rght">
-            <a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$I18N->msg('setup_017').'</a>
+            <a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.$REX['I18N']->msg('setup_017').'</a>
           </p>
         </div>';
 	}
@@ -402,7 +402,7 @@ function rex_setup_setUtf8()
 
 		if(rex_put_file_contents($master_file, $cont) === false)
 		{
-			$err_msg = $I18N->msg('setup_020', '<b>', '</b>');
+			$err_msg = $REX['I18N']->msg('setup_020', '<b>', '</b>');
 		}
 
 		// -------------------------- DATENBANKZUGRIFF
@@ -439,9 +439,9 @@ function rex_setup_setUtf8()
 
 	if ($checkmodus == 2)
 	{
-		rex_setup_title($I18N->msg('setup_step2'));
+		rex_setup_title($REX['I18N']->msg('setup_step2'));
 
-		echo '<h2 class="rex-hl2">'.$I18N->msg('setup_023').'</h2>
+		echo '<h2 class="rex-hl2">'.$REX['I18N']->msg('setup_023').'</h2>
         <div class="rex-form" id="rex-form-setup-step-2">
         <form action="index.php" method="post">
         <fieldset class="rex-form-col-1">
@@ -455,26 +455,26 @@ function rex_setup_setUtf8()
 		}
 
 		echo '
-            <legend>'.$I18N->msg("setup_0201").'</legend>
+            <legend>'.$REX['I18N']->msg("setup_0201").'</legend>
 
             <div class="rex-form-wrapper">
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
-                  <label for="serveraddress">'.$I18N->msg("setup_024").'</label>
+                  <label for="serveraddress">'.$REX['I18N']->msg("setup_024").'</label>
                   <input class="rex-form-text" type="text" id="serveraddress" name="serveraddress" value="'.$serveraddress.'"'. rex_tabindex() .' />
                 </p>
               </div>
 
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
-                  <label for="serverbezeichnung">'.$I18N->msg("setup_025").'</label>
+                  <label for="serverbezeichnung">'.$REX['I18N']->msg("setup_025").'</label>
                   <input class="rex-form-text" type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.$serverbezeichnung.'"'. rex_tabindex() .' />
                 </p>
               </div>
 
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
-                  <label for="error_email">'.$I18N->msg("setup_026").'</label>
+                  <label for="error_email">'.$REX['I18N']->msg("setup_026").'</label>
                   <input class="rex-form-text" type="text" id="error_email" name="error_email" value="'.$error_email.'"'. rex_tabindex() .' />
                 </p>
               </div>
@@ -482,11 +482,11 @@ function rex_setup_setUtf8()
           </fieldset>
 
           <fieldset class="rex-form-col-1">
-            <legend>'.$I18N->msg("setup_0202").'</legend>
+            <legend>'.$REX['I18N']->msg("setup_0202").'</legend>
             <div class="rex-form-wrapper">
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
-                  <label for="dbname">'.$I18N->msg("setup_027").'</label>
+                  <label for="dbname">'.$REX['I18N']->msg("setup_027").'</label>
                   <input class="rex-form-text" type="text" value="'.$dbname.'" id="dbname" name="dbname"'. rex_tabindex() .' />
                 </p>
               </div>
@@ -507,14 +507,14 @@ function rex_setup_setUtf8()
 
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
-                  <label for="redaxo_db_user_pass">'.$I18N->msg("setup_028").'</label>
+                  <label for="redaxo_db_user_pass">'.$REX['I18N']->msg("setup_028").'</label>
                   <input class="rex-form-text" type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="'.$redaxo_db_user_pass.'"'. rex_tabindex() .' />
                 </p>
               </div>
 
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-checkbox">
-                  <label for="redaxo_db_create">'.$I18N->msg("setup_create_db").'</label>
+                  <label for="redaxo_db_create">'.$REX['I18N']->msg("setup_create_db").'</label>
                   <input class="rex-form-checkbox" type="checkbox" id="redaxo_db_create" name="redaxo_db_create" value="1"'. rex_tabindex() .' />
                 </p>
               </div>
@@ -525,7 +525,7 @@ function rex_setup_setUtf8()
             <div class="rex-form-wrapper">
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-submit">
-                  <input class="rex-form-submit" type="submit" value="'.$I18N->msg("setup_029").'"'. rex_tabindex() .' />
+                  <input class="rex-form-submit" type="submit" value="'.$REX['I18N']->msg("setup_029").'"'. rex_tabindex() .' />
                 </p>
               </div>
 
@@ -587,7 +587,7 @@ function rex_setup_setUtf8()
 
 			if($import_name == '')
 			{
-				$err_msg .= '<p>'.$I18N->msg('setup_03701').'</p>';
+				$err_msg .= '<p>'.$REX['I18N']->msg('setup_03701').'</p>';
 			}
 			else
 			{
@@ -648,7 +648,7 @@ function rex_setup_setUtf8()
 
 			foreach(array_diff($requiredTables, $existingTables) as $missingTable)
 			{
-				$err_msg .= $I18N->msg('setup_031', $missingTable)."<br />";
+				$err_msg .= $REX['I18N']->msg('setup_031', $missingTable)."<br />";
 			}
 		}
 
@@ -662,7 +662,7 @@ function rex_setup_setUtf8()
 	if ($checkmodus == 3)
 	{
 		$dbanlegen = rex_post('dbanlegen', 'int', '');
-		rex_setup_title($I18N->msg('setup_step3'));
+		rex_setup_title($REX['I18N']->msg('setup_step3'));
 
 		echo '<div class="rex-form rex-form-setup-step-database">
         <form action="index.php" method="post">
@@ -672,12 +672,12 @@ function rex_setup_setUtf8()
           <input type="hidden" name="send" value="1" />
           <input type="hidden" name="lang" value="'.$lang.'" />
 
-          <legend>'.$I18N->msg('setup_030_headline').'</legend>
+          <legend>'.$REX['I18N']->msg('setup_030_headline').'</legend>
             <div class="rex-form-wrapper">
         ';
 
 		if (isset ($err_msg) and $err_msg != '')
-		echo rex_warning($err_msg.'<br />'.$I18N->msg('setup_033'));
+		echo rex_warning($err_msg.'<br />'.$REX['I18N']->msg('setup_033'));
 
 		$dbchecked = array_fill(0, 6, '');
 		switch ($dbanlegen)
@@ -749,28 +749,28 @@ function rex_setup_setUtf8()
 		<div class="rex-form-row">
 			<p class="rex-form-col-a rex-form-radio rex-form-label-right">
         <input class="rex-form-radio" type="radio" id="dbanlegen_0" name="dbanlegen" value="0"'.$dbchecked[0]. rex_tabindex() .' />
-        <label for="dbanlegen_0">'.$I18N->msg('setup_034').'</label>
+        <label for="dbanlegen_0">'.$REX['I18N']->msg('setup_034').'</label>
       </p>
     </div>
 
 		<div class="rex-form-row">
 			<p class="rex-form-col-a rex-form-radio rex-form-label-right">
         <input class="rex-form-radio" type="radio" id="dbanlegen_1" name="dbanlegen" value="1"'.$dbchecked[1] .' />
-        <label for="dbanlegen_1">'.$I18N->msg('setup_035', '<b>', '</b>').'</label>
+        <label for="dbanlegen_1">'.$REX['I18N']->msg('setup_035', '<b>', '</b>').'</label>
       </p>
     </div>
 
 		<div class="rex-form-row">
 			<p class="rex-form-col-a rex-form-radio rex-form-label-right">
         <input class="rex-form-radio" type="radio" id="dbanlegen_2" name="dbanlegen" value="2"'.$dbchecked[2] .' />
-        <label for="dbanlegen_2">'.$I18N->msg('setup_036').'</label>
+        <label for="dbanlegen_2">'.$REX['I18N']->msg('setup_036').'</label>
       </p>
     </div>
 
 		<div class="rex-form-row">
 			<p class="rex-form-col-a rex-form-radio rex-form-label-right">
         <input class="rex-form-radio" type="radio" id="dbanlegen_4" name="dbanlegen" value="4"'.$dbchecked[4] .' />
-        <label for="dbanlegen_4">'.$I18N->msg('setup_038').'</label>
+        <label for="dbanlegen_4">'.$REX['I18N']->msg('setup_038').'</label>
       </p>
     </div>';
 
@@ -780,7 +780,7 @@ function rex_setup_setUtf8()
 		<div class="rex-form-row">
 			<p class="rex-form-col-a rex-form-radio rex-form-label-right">
         <input class="rex-form-radio" type="radio" id="dbanlegen_3" name="dbanlegen" value="3"'.$dbchecked[3] .' />
-        <label for="dbanlegen_3">'.$I18N->msg('setup_037').'</label>
+        <label for="dbanlegen_3">'.$REX['I18N']->msg('setup_037').'</label>
       </p>
       <p class="rex-form-col-a rex-form-select rex-form-radio-select">'. $sel_export->get() .'</p>
     </div>';
@@ -793,7 +793,7 @@ function rex_setup_setUtf8()
 				<div class="rex-form-wrapper">
 					<div class="rex-form-row">
 						<p class="rex-form-col-a rex-form-submit">
-							<input class="rex-form-submit" type="submit" value="'.$I18N->msg('setup_039').'"'. rex_tabindex() .' />
+							<input class="rex-form-submit" type="submit" value="'.$REX['I18N']->msg('setup_039').'"'. rex_tabindex() .' />
 						</p>
 					</div>
 				</div>
@@ -816,7 +816,7 @@ function rex_setup_setUtf8()
 		{
 			if ($redaxo_user_login == '')
 			{
-				$err_msg .= $I18N->msg('setup_040');
+				$err_msg .= $REX['I18N']->msg('setup_040');
 			}
 
 			if ($redaxo_user_pass == '')
@@ -824,7 +824,7 @@ function rex_setup_setUtf8()
 				// Falls auch kein Login eingegeben wurde, die Fehlermeldungen mit " " trennen
 				if($err_msg != '') $err_msg .= ' ';
 
-				$err_msg .= $I18N->msg('setup_041');
+				$err_msg .= $REX['I18N']->msg('setup_041');
 			}
 
 			if ($err_msg == "")
@@ -834,7 +834,7 @@ function rex_setup_setUtf8()
 
 				if ($ga->getRows() > 0)
 				{
-					$err_msg .= $I18N->msg('setup_042');
+					$err_msg .= $REX['I18N']->msg('setup_042');
 				}
 				else
 				{
@@ -854,7 +854,7 @@ function rex_setup_setUtf8()
 					$user->setValue('status', '1');
 					if (!$user->insert())
 					{
-						$err_msg .= $I18N->msg("setup_043");
+						$err_msg .= $REX['I18N']->msg("setup_043");
 					}
 				}
 			}
@@ -864,7 +864,7 @@ function rex_setup_setUtf8()
 			$gu = rex_sql::factory();
 			$gu->setQuery("select * from ".$REX['TABLE_PREFIX']."user LIMIT 1");
 			if ($gu->getRows() == 0)
-			$err_msg .= $I18N->msg('setup_044');
+			$err_msg .= $REX['I18N']->msg('setup_044');
 		}
 
 		if ($err_msg == '')
@@ -879,7 +879,7 @@ function rex_setup_setUtf8()
 		$user_sql = rex_sql::factory();
 		$user_sql->setQuery("select * from ".$REX['TABLE_PREFIX']."user LIMIT 1");
 
-		rex_setup_title($I18N->msg("setup_step4"));
+		rex_setup_title($REX['I18N']->msg("setup_step4"));
 
 		echo '
 		<div class="rex-form rex-form-setup-admin">
@@ -890,7 +890,7 @@ function rex_setup_setUtf8()
         <input type="hidden" name="checkmodus" value="4" />
         <input type="hidden" name="send" value="1" />
         <input type="hidden" name="lang" value="'.$lang.'" />
-        <legend>'.$I18N->msg("setup_045").'</legend>
+        <legend>'.$REX['I18N']->msg("setup_045").'</legend>
         <div class="rex-form-wrapper">
         ';
 
@@ -903,13 +903,13 @@ function rex_setup_setUtf8()
 		echo '
     	<div class="rex-form-row">
 		    <p class="rex-form-col-a rex-form-text">
-          <label for="redaxo_user_login">'.$I18N->msg("setup_046").':</label>
+          <label for="redaxo_user_login">'.$REX['I18N']->msg("setup_046").':</label>
           <input class="rex-form-text" type="text" value="'.$redaxo_user_login.'" id="redaxo_user_login" name="redaxo_user_login"'. rex_tabindex() .'/>
         </p>
       </div>
     	<div class="rex-form-row">
 		    <p class="rex-form-col-a rex-form-text">
-          <label for="redaxo_user_pass">'.$I18N->msg("setup_047").':</label>
+          <label for="redaxo_user_pass">'.$REX['I18N']->msg("setup_047").':</label>
           <input class="rex-form-text" type="password" value="'.$redaxo_user_pass.'" id="redaxo_user_pass" name="redaxo_user_pass"'. rex_tabindex() .'/>
         </p>
       </div>';
@@ -920,7 +920,7 @@ function rex_setup_setUtf8()
     	<div class="rex-form-row">
 		    <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
           <input class="rex-form-checkbox" type="checkbox" id="noadmin" name="noadmin" value="1"'. rex_tabindex() .'/>
-          <label for="noadmin">'.$I18N->msg("setup_048").'</label>
+          <label for="noadmin">'.$REX['I18N']->msg("setup_048").'</label>
         </p>
       </div>';
 		}
@@ -932,7 +932,7 @@ function rex_setup_setUtf8()
         <div class="rex-form-wrapper">
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-submit">
-              <input class="rex-form-submit" type="submit" value="'.$I18N->msg("setup_049").'"'. rex_tabindex() .' />
+              <input class="rex-form-submit" type="submit" value="'.$REX['I18N']->msg("setup_049").'"'. rex_tabindex() .' />
             </p>
           </div>
         </div>
@@ -972,14 +972,14 @@ function rex_setup_setUtf8()
 		}
 		else
 		{
-			$errmsg = $I18N->msg('setup_050');
+			$errmsg = $REX['I18N']->msg('setup_050');
 		}
 
-		rex_setup_title($I18N->msg('setup_step5'));
-		echo $I18N->msg('setup_051', '<h2 class="rex-hl2">', '</h2>');
+		rex_setup_title($REX['I18N']->msg('setup_step5'));
+		echo $REX['I18N']->msg('setup_051', '<h2 class="rex-hl2">', '</h2>');
 		echo '<div class="rex-area-content">';
-		echo $I18N->msg('setup_052', '<h3 class="rex-hl3">', '</h3>', ' class="rex-ul1"', '<a href="index.php">', '</a>');
-		echo '<p class="rex-tx1">'.$I18N->msg('setup_053').'</p>';
+		echo $REX['I18N']->msg('setup_052', '<h3 class="rex-hl3">', '</h3>', ' class="rex-ul1"', '<a href="index.php">', '</a>');
+		echo '<p class="rex-tx1">'.$REX['I18N']->msg('setup_053').'</p>';
 		echo '</div>';
 
 	}

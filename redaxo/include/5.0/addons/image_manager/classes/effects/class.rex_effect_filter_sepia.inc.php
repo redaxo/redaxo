@@ -27,7 +27,7 @@ class rex_effect_filter_sepia extends rex_effect_abstract{
 
 	function getParams()
 	{
-		global $REX,$I18N;
+		global $REX;
 
 		return array(
 

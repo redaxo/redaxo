@@ -2,16 +2,16 @@
 
 /**
  * Sprachobjekt zur Internationalisierung (I18N)
- * 
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
 
-class i18n
+class rex_i18n
 {
   private static
     $locales = array();
-  private 
+  private
     $searchpath,
     $locale,
     $text,
@@ -22,7 +22,7 @@ class i18n
    * the locale must of the common form, eg. de_de, en_us or just plain en, de.
    * the searchpath is where the language files are located
    */
-  function i18n($locale = "de_de", $searchpath)
+  public function __construct($locale = "de_de", $searchpath)
   {
     $this->searchpath = $searchpath;
     $this->text = array ();
@@ -40,10 +40,10 @@ class i18n
   		$this->text_loaded = TRUE;
     }
   }
-  
+
   /**
    * Sucht im angegebenden Ordner nach eine Sprachdatei der aktuellen Sprache und fügt diese dem Sprachkatalog an
-   *  
+   *
    * @param string $searchPath Pfad in dem die Sprachdatei gesucht werden soll
    */
   public function appendFile($searchPath)
@@ -51,10 +51,10 @@ class i18n
     $filename = $searchPath . DIRECTORY_SEPARATOR . $this->locale . ".lang";
     return $this->appendFileName($filename);
   }
-  
+
   /**
    * Fuegt die angegebene Datei $filename diese dem Sprachkatalog an
-   *  
+   *
    * @param string $filename Datei die hinzugefügt werden soll
    */
   public function appendFileName($filename)
@@ -76,24 +76,24 @@ class i18n
         return TRUE;
       }
     }
-    
+
     return FALSE;
   }
 
   /**
    * Durchsucht den Sprachkatalog nach einem Schlüssel und gibt die dazugehörige Übersetzung zurück
-   * 
+   *
    * @param string $key Zu suchender Schlüssel
    */
   public function msg($key)
   {
   	global $REX;
-  	
+
   	if(!$this->text_loaded)
   	{
   	  $this->loadTexts();
   	}
-  	
+
     if ($this->hasMsg($key))
     {
       $msg = $this->text[$key];
@@ -122,8 +122,8 @@ class i18n
   }
 
   /**
-   * Fügt dem Sprachkatalog unter dem gegebenen Schlüssel eine neue Übersetzung hinzu 
-   *  
+   * Fügt dem Sprachkatalog unter dem gegebenen Schlüssel eine neue Übersetzung hinzu
+   *
    * @param string $key Schlüssel unter dem die Übersetzung abgelegt wird
    * @param string $msg Übersetzter Text
    */
@@ -134,7 +134,7 @@ class i18n
 
   /**
    * Prüft ob der Sprachkatalog zu dem gegebenen Schlüssel eine Übersetzung beinhaltet
-   * 
+   *
    * @param string $key Zu suchender Schlüssel
    * @return boolean TRUE Wenn der Schlüssel gefunden wurde, sonst FALSE
    */
@@ -145,7 +145,7 @@ class i18n
 
   /**
    * Durchsucht den Searchpath nach allen verfügbaren Sprachdateien und gibt diese zurück
-   * 
+   *
    * @param string $searchpath Zu duruchsuchender Ordner
    * @return array Array von gefundenen Sprachen (locales)
    */

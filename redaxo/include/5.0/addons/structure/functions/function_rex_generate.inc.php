@@ -3,8 +3,8 @@
 // ----------------------------------------- ARTICLE
 
 /**
- * Löscht die gecachten Dateien eines Artikels. Wenn keine clang angegeben, wird
- * der Artikel in allen Sprachen gelöscht.
+ * LÃ¶scht die gecachten Dateien eines Artikels. Wenn keine clang angegeben, wird
+ * der Artikel in allen Sprachen gelÃ¶scht.
  *
  * @param $id ArtikelId des Artikels
  * @param [$clang ClangId des Artikels]
@@ -27,8 +27,8 @@ function rex_deleteCacheArticle($id, $clang = null)
 }
 
 /**
- * Löscht die gecachten Meta-Dateien eines Artikels. Wenn keine clang angegeben, wird
- * der Artikel in allen Sprachen gelöscht.
+ * LÃ¶scht die gecachten Meta-Dateien eines Artikels. Wenn keine clang angegeben, wird
+ * der Artikel in allen Sprachen gelÃ¶scht.
  *
  * @param $id ArtikelId des Artikels
  * @param [$clang ClangId des Artikels]
@@ -51,8 +51,8 @@ function rex_deleteCacheArticleMeta($id, $clang = null)
 }
 
 /**
- * Löscht die gecachten Content-Dateien eines Artikels. Wenn keine clang angegeben, wird
- * der Artikel in allen Sprachen gelöscht.
+ * LÃ¶scht die gecachten Content-Dateien eines Artikels. Wenn keine clang angegeben, wird
+ * der Artikel in allen Sprachen gelÃ¶scht.
  *
  * @param $id ArtikelId des Artikels
  * @param [$clang ClangId des Artikels]
@@ -75,8 +75,8 @@ function rex_deleteCacheArticleContent($id, $clang = null)
 }
 
 /**
- * Löscht die gecachten List-Dateien eines Artikels. Wenn keine clang angegeben, wird
- * der Artikel in allen Sprachen gelöscht.
+ * LÃ¶scht die gecachten List-Dateien eines Artikels. Wenn keine clang angegeben, wird
+ * der Artikel in allen Sprachen gelÃ¶scht.
  *
  * @param $id ArtikelId des Artikels
  * @param [$clang ClangId des Artikels]
@@ -106,11 +106,11 @@ function rex_deleteCacheArticleLists($id, $clang = null)
  * @param $article_id Id des zu generierenden Artikels
  * @param [$clang ClangId des Artikels]
  * 
- * @return TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
+ * @return TRUE bei Erfolg, FALSE wenn eine ungÃ¼tlige article_id Ã¼bergeben wird, sonst eine Fehlermeldung
  */
 function rex_generateArticleMeta($article_id, $clang = null)
 {
-  global $REX, $I18N;
+  global $REX;
   
   $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX'] .'article WHERE id='. (int) $article_id;
   if($clang !== NULL)
@@ -147,10 +147,10 @@ function rex_generateArticleMeta($article_id, $clang = null)
     $article_file = $REX['SRC_PATH']."/generated/articles/$article_id.$_clang.article";
     if (rex_put_file_contents($article_file, $content) === FALSE)
     {
-      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
+      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
     }
     
-    // damit die aktuellen änderungen sofort wirksam werden, einbinden!
+    // damit die aktuellen Ã¤nderungen sofort wirksam werden, einbinden!
     require ($article_file);
     
     $sql->next();
@@ -160,22 +160,22 @@ function rex_generateArticleMeta($article_id, $clang = null)
 }
 
 /**
- * Löscht einen Artikel
+ * LÃ¶scht einen Artikel
  *
- * @param $id ArtikelId des Artikels, der gelöscht werden soll
+ * @param $id ArtikelId des Artikels, der gelÃ¶scht werden soll
  * 
  * @return Erfolgsmeldung bzw. Fehlermeldung bei Fehlern.
  */
 function rex_deleteArticle($id)
 {
-  global $REX, $I18N;
+  global $REX;
 
   // artikel loeschen
   //
   // kontrolle ob erlaubnis nicht hier.. muss vorher geschehen
   //
   // -> startpage = 0
-  // --> artikelfiles löschen
+  // --> artikelfiles lÃ¶schen
   // ---> article
   // ---> content
   // ---> clist
@@ -188,12 +188,12 @@ function rex_deleteArticle($id)
 
   if ($id == $REX['START_ARTICLE_ID'])
   {
-    $return['message'] = $I18N->msg('cant_delete_sitestartarticle');
+    $return['message'] = $REX['I18N']->msg('cant_delete_sitestartarticle');
     return $return;
   }
   if ($id == $REX['NOTFOUND_ARTICLE_ID'])
   {
-    $return['message'] = $I18N->msg('cant_delete_notfoundarticle');
+    $return['message'] = $REX['I18N']->msg('cant_delete_notfoundarticle');
     return $return;
   }
 
@@ -223,7 +223,7 @@ function rex_deleteArticle($id)
     
     if ($ART->getValue('startpage') == 1)
     {
-      $return['message'] = $I18N->msg('category_deleted');
+      $return['message'] = $REX['I18N']->msg('category_deleted');
       $SART = rex_sql::factory();
       $SART->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where re_id='.$id.' and clang=0');
       for ($i = 0; $i < $SART->getRows(); $i ++)
@@ -233,11 +233,11 @@ function rex_deleteArticle($id)
       }
     }else
     {
-      $return['message'] = $I18N->msg('article_deleted');
+      $return['message'] = $REX['I18N']->msg('article_deleted');
     }
 
-    // Rekursion über alle Kindkategorien ergab keine Fehler
-    // => löschen erlaubt
+    // Rekursion Ã¼ber alle Kindkategorien ergab keine Fehler
+    // => lÃ¶schen erlaubt
     if($return['state'] === true)
     {
       rex_deleteCacheArticle($id);
@@ -252,7 +252,7 @@ function rex_deleteArticle($id)
   }
   else
   {
-    $return['message'] = $I18N->msg('category_doesnt_exist');
+    $return['message'] = $REX['I18N']->msg('category_doesnt_exist');
     return $return;
   }
 }
@@ -262,11 +262,11 @@ function rex_deleteArticle($id)
  *
  * @param $re_id   KategorieId oder ArtikelId, die erneuert werden soll
  * 
- * @return TRUE wenn der Artikel gelöscht wurde, sonst eine Fehlermeldung
+ * @return TRUE wenn der Artikel gelÃ¶scht wurde, sonst eine Fehlermeldung
  */
 function rex_generateLists($re_id, $clang = null)
 {
-  global $REX, $I18N;
+  global $REX;
 
   // generiere listen
   //
@@ -298,7 +298,7 @@ function rex_generateLists($re_id, $clang = null)
     $article_list_file = $REX['SRC_PATH']."/generated/articles/$re_id.$_clang.alist";
     if (rex_put_file_contents($article_list_file, $content) === FALSE)
     {
-      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
+      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
     }
 
     // --------------------------------------- CAT LIST
@@ -317,7 +317,7 @@ function rex_generateLists($re_id, $clang = null)
     $article_categories_file = $REX['SRC_PATH']."/generated/articles/$re_id.$_clang.clist";
     if (rex_put_file_contents($article_categories_file, $content) === FALSE)
     {
-      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
+      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
     }
   }
   

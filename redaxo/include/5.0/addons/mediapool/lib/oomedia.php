@@ -359,8 +359,8 @@ class OOMedia
       if ($format == '')
       {
         // TODO Im Frontend gibts kein I18N
-        // global $I18N;
-        //$format = $I18N->msg('dateformat');
+        // global $REX;
+        //$format = $REX['I18N']->msg('dateformat');
         $format = '%a %d. %B %Y';
       }
       return strftime($format, $date);
@@ -612,11 +612,11 @@ class OOMedia
    */
   function isInUse()
   {
-    global $REX, $I18N;
+    global $REX;
 
     // Im Frontend gibts kein I18N
-    if(!is_object($I18N))
-      $I18N = rex_create_lang($REX['LANG']);
+    if(!is_object($REX['I18N']))
+      $REX['I18N'] = rex_create_lang($REX['LANG']);
 
     $sql = rex_sql::factory();
     $filename = addslashes($this->getFileName());
@@ -654,7 +654,7 @@ class OOMedia
     $res = $sql->getArray($query);
     if($sql->getRows() > 0)
     {
-      $warning[0] = $I18N->msg('pool_file_in_use_articles').'<br /><ul>';
+      $warning[0] = $REX['I18N']->msg('pool_file_in_use_articles').'<br /><ul>';
       foreach($res as $art_arr)
       {
         $aid = $art_arr['article_id'];
