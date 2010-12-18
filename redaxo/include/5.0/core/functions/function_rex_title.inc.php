@@ -83,7 +83,7 @@ function rex_title($head, $subtitle = '')
 
   print '
 	<div id="rex-title">
-  		<div class="rex-title-row"><h1>'.$head.'</h1></div>
+  		<div class="rex-title-row"><h1 class="rex-title">'.$head.'</h1></div>
   		'.$subtitle.'
 	</div>';
 
