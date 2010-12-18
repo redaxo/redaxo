@@ -2,7 +2,7 @@
 
 /**
  * Klasse regelt den Zugriff auf Artikelinhalte.
- * DB Anfragen werden vermieden, caching läuft über generated Dateien.
+ * DB Anfragen werden vermieden, caching lÃ¤uft Ã¼ber generated Dateien.
  *
  * @package redaxo4
  * @version svn:$Id$

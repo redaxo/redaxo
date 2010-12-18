@@ -1,13 +1,19 @@
-/**
- * CSS Datei des Backends
- * @package redaxo4
- * @version svn:$Id$
- */
 
 
-div.rex-widget img {
-	vertical-align: top;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*	Textfarben *****************************************************************
 *******************************************************************************/
@@ -53,21 +59,13 @@ div.rex-content-header ul li a.rex-active {
 }
 
 
-/*	Schriftarten ***************************************************************
-*******************************************************************************/
-body, 
-input, 
-textarea, 
-select, 
-div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
-	font-family: Arial, Verdana, sans-serif;
-}
+
 
 
 /*	Schriftgroessen ************************************************************
 *******************************************************************************/
 div#rex-website {
-	font-size: .75em;
+	font-size: 12px;
 }
 div#rex-title h1 {
 	font-size: 2em;

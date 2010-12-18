@@ -68,7 +68,7 @@ $gc->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category WHERE id='. $
 if ($gc->getRows() != 1)
 {
   $rex_file_category = 0;
-  $rex_file_category_name = $I18N->msg('pool_kats_no');
+  $rex_file_category_name = $REX['I18N']->msg('pool_kats_no');
 }else
 {
   $rex_file_category_name = $gc->getValue('name');
@@ -82,14 +82,14 @@ if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('media[0]')) $PERMALL = tru
 
 // -------------- Header
 $subline = array(
-  array('', $I18N->msg('pool_file_list')),
-  array('upload', $I18N->msg('pool_file_insert')),
+  array('', $REX['I18N']->msg('pool_file_list')),
+  array('upload', $REX['I18N']->msg('pool_file_insert')),
 );
 
 if($PERMALL)
 {
-  $subline[] = array('structure', $I18N->msg('pool_cat_list'));
-  $subline[] = array('sync', $I18N->msg('pool_sync_files'));
+  $subline[] = array('structure', $REX['I18N']->msg('pool_cat_list'));
+  $subline[] = array('sync', $REX['I18N']->msg('pool_sync_files'));
 }
 
 // Arg Url an Menulinks anhaengen
@@ -106,7 +106,7 @@ $subline = rex_register_extension_point('PAGE_MEDIAPOOL_MENU', $subline,
   )
 );
 
-$title = $I18N->msg('pool_media');
+$title = $REX['I18N']->msg('pool_media');
 rex_title($title, $subline);
 
 // -------------- Messages

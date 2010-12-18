@@ -122,12 +122,12 @@ class rex_form_element
     return $this->footer;
   }
 
-  function _normalizeId($id)
+  static function _normalizeId($id)
   {
     return preg_replace('/[^a-zA-Z\-0-9_]/i','_', $id);
   }
 
-  function _normalizeName($name)
+  static function _normalizeName($name)
   {
     return preg_replace('/[^\[\]a-zA-Z\-0-9_]/i','_', $name);
   }

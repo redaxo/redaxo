@@ -11,7 +11,7 @@
  */
 function rex_absPath($rel_path, $rel_to_current = false)
 {
-  
+
   $stack = array();
   // Pfad relativ zum aktuellen Verzeichnis?
   // z.b. ../../files
@@ -41,7 +41,7 @@ function rex_absPath($rel_path, $rel_to_current = false)
 }
 
 /**
- * Prüfen ob ein/e Datei/Ordner beschreibbar ist
+ * PrÃ¼fen ob ein/e Datei/Ordner beschreibbar ist
  *
  * @access public
  * @param string $item Datei oder Verzeichnis
@@ -54,7 +54,7 @@ function rex_is_writable($item)
 
 function _rex_is_writable_info($is_writable, $item = '')
 {
-  global $I18N;
+  global $REX;
 
   $state = true;
   $key = '';
@@ -83,7 +83,7 @@ function _rex_is_writable_info($is_writable, $item = '')
     if($item != '')
       $file = '<b>'. $item .'</b>';
 
-    $state = $I18N->msg($key, '<span class="rex-error">', '</span>', rex_absPath($file));
+    $state = $REX['I18N']->msg($key, '<span class="rex-error">', '</span>', rex_absPath($file));
   }
 
   return $state;
@@ -91,7 +91,7 @@ function _rex_is_writable_info($is_writable, $item = '')
 
 function _rex_is_writable($item)
 {
-  // Fehler unterdrücken, falls keine Berechtigung
+  // Fehler unterdrÃ¼cken, falls keine Berechtigung
   if (@ is_dir($item))
   {
     if (!@ is_writable($item . '/.'))
@@ -99,7 +99,7 @@ function _rex_is_writable($item)
       return 1;
     }
   }
-  // Fehler unterdrücken, falls keine Berechtigung
+  // Fehler unterdrÃ¼cken, falls keine Berechtigung
   elseif (@ is_file($item))
   {
     if (!@ is_writable($item))
@@ -130,11 +130,11 @@ function rex_setAttributes($name,$value,$content)
 }
 
 /**
- * Gibt den nächsten freien Tabindex zurück.
+ * Gibt den nÃ¤chsten freien Tabindex zurÃ¼ck.
  * Der Tabindex ist eine stetig fortlaufende Zahl,
- * welche die Priorität der Tabulatorsprünge des Browsers regelt.
+ * welche die PrioritÃ¤t der TabulatorsprÃ¼nge des Browsers regelt.
  *
- * @return integer nächster freier Tabindex
+ * @return integer nÃ¤chster freier Tabindex
  */
 function rex_tabindex($html = true)
 {
@@ -162,19 +162,19 @@ function array_insert($array, $index, $value)
 function rex_message($message, $cssClass, $sorround_tag)
 {
   $return = '';
-  
+
   $return = '<div class="rex-message"><'. $sorround_tag .' class="'. $cssClass .'">';
-  
+
   if ($sorround_tag != 'p')
     $return .= '<p>';
-    
+
   $return .= '<span>'. $message .'</span>';
-  
+
   if ($sorround_tag != 'p')
     $return .= '</p>';
-    
+
   $return .= '</'. $sorround_tag .'></div>';
-  
+
   return $return;
 }
 
@@ -256,7 +256,7 @@ function rex_ini_get($val)
 /**
  * Uebersetzt den text $text, falls dieser mit dem prefix "translate:" beginnt.
  * Ansonsten wird $text zurueckgegeben.
- * 
+ *
  * @param string $text The text for translation.
  * @param i18n $I18N_Catalogue The catalogue for translation. If null use the system-catalogue by default
  * @param boolean $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
@@ -267,18 +267,18 @@ function rex_translate($text, $I18N_Catalogue = null, $use_htmlspecialchars = tr
   {
     throw new InvalidArgumentException('Expecting $text to be a String, "'. gettype($text) .'" given!');
   }
-  
+
   if(!$I18N_Catalogue)
   {
-    global $REX, $I18N;
+    global $REX;
 
-    if(!$I18N)
-      $I18N = rex_create_lang($REX['LANG']);
-      
-    if(!$I18N)
+    if(!$REX['I18N'])
+      $REX['I18N'] = rex_create_lang($REX['LANG']);
+
+    if(!$REX['I18N'])
       trigger_error('Unable to create language "'. $REX['LANG'] .'"', E_USER_ERROR);
 
-    return rex_translate($text, $I18N, $use_htmlspecialchars);
+    return rex_translate($text, $REX['I18N'], $use_htmlspecialchars);
   }
 
   $tranKey = 'translate:';
@@ -332,7 +332,7 @@ function rex_redirect($article_id, $clang = '', $params = array())
 {
   global $REX;
 
-  // Alle OBs schließen
+  // Alle OBs schlieÃŸen
   while(@ob_end_clean());
 
   $divider = '&';
@@ -343,7 +343,7 @@ function rex_redirect($article_id, $clang = '', $params = array())
 
 /**
  * Trennt einen String an Leerzeichen auf.
- * Dabei wird beachtet, dass Strings in " zusammengehören
+ * Dabei wird beachtet, dass Strings in " zusammengehÃ¶ren
  */
 function rex_split_string($string)
 {
@@ -396,7 +396,7 @@ function rex_split_string($string)
 
       $var_name = $variable[0];
       $var_value = $variable[1];
-      
+
       if ($var_value == $spacer)
       {
         $var_value = array_shift($quoted);
@@ -436,12 +436,12 @@ function rex_replace_dynamic_contents($path, $content)
 
 /**
  * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
- * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte
- * 
+ * Dies ist z.B. nÃ¼tzlich beim Umgang mit einer PrioritÃ¤ts-Spalte
+ *
  * @param $tableName String Name der Datenbanktabelle
- * @param $priorColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
- * @param $whereCondition Where-Bedingung zur Einschränkung des ResultSets 
- * @param $orderBy Sortierung des ResultSets 
+ * @param $priorColumnName Name der Spalte in der Tabelle, in der die PrioritÃ¤t (Integer) gespeichert wird
+ * @param $whereCondition Where-Bedingung zur EinschrÃ¤nkung des ResultSets
+ * @param $orderBy Sortierung des ResultSets
  * @param $id_field Name des Primaerschluessels der Tabelle
  */
 function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id')
@@ -462,13 +462,13 @@ function rex_organize_priorities($tableName, $priorColumnName, $whereCondition =
 //
 //  $sql = rex_sql::getInstance();
 //  $sql->setQuery($qry);
-  
+
   $qry = 'select * from '.$tableName;
   if($whereCondition != '')
     $qry .= ' WHERE '. $whereCondition;
   if($orderBy != '')
     $qry .= ' ORDER BY '. $orderBy;
-    
+
   $gu = rex_sql::factory();
   $gr = rex_sql::factory();
   $gr->setQuery($qry);
@@ -479,10 +479,11 @@ function rex_organize_priorities($tableName, $priorColumnName, $whereCondition =
   }
 }
 
-function rex_lang_is_utf8()
+function rex_version_compare($version1, $version2, $comparator = null)
 {
-  global $REX;
-  return strpos($REX['LANG'], 'utf8') !== false;
+  $version1 = preg_replace('/(\.0)*$/', '', $version1);
+  $version2 = preg_replace('/(\.0)*$/', '', $version2);
+  return version_compare($version1, $version2, $comparator);
 }
 
 // ------------------------------------- Allgemeine PHP Functions
@@ -519,7 +520,7 @@ function rex_highlight_string($string, $return = false)
   {
     return $s;
   }
-  echo $s;  
+  echo $s;
 }
 
 function rex_highlight_file($filename, $return = false)
@@ -529,7 +530,7 @@ function rex_highlight_file($filename, $return = false)
   {
     return $s;
   }
-  echo $s;  
+  echo $s;
 }
 
 // make objectcloning work for php4
@@ -545,10 +546,10 @@ if (version_compare(phpversion(), '5.0') < 0 && !function_exists('clone')) {
 
 /**
  * Funktion zum Anlegen eines Sprache-Objekts
- * 
+ *
  * @param $locale Locale der Sprache
  * @param $searchpath Pfad zum Ordner indem die Sprachdatei gesucht werden soll
- * @param $setlocale TRUE, wenn die locale für die Umgebung gesetzt werden soll, sonst FALSE
+ * @param $setlocale TRUE, wenn die locale fÃ¼r die Umgebung gesetzt werden soll, sonst FALSE
  * @return unknown_type
  */
 function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
@@ -561,7 +562,7 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
   {
     $searchpath = $REX['SRC_PATH'] .DIRECTORY_SEPARATOR. "/core/lang";
   }
-  $lang_object = new i18n($locale, $searchpath);
+  $lang_object = new rex_i18n($locale, $searchpath);
 
   if ($_searchpath == '')
   {
@@ -573,15 +574,15 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
     $locales = array();
     foreach(explode(',', trim($lang_object->msg('setlocale'))) as $locale)
     {
-      $locales[]= $locale .'.'. strtoupper(str_replace('iso-', 'iso', $lang_object->msg('htmlcharset')));
-      $locales[]= $locale .'.'. strtoupper(str_replace('iso-', 'iso', str_replace("-","",$lang_object->msg('htmlcharset'))));
-      $locales[]= $locale .'.'. strtolower(str_replace('iso-', 'iso', $lang_object->msg('htmlcharset')));
-      $locales[]= $locale .'.'. strtolower(str_replace('iso-', 'iso', str_replace("-","",$lang_object->msg('htmlcharset'))));
+      $locales[]= $locale .'.UTF-8';
+      $locales[]= $locale .'.UTF8';
+      $locales[]= $locale .'.utf-8';
+      $locales[]= $locale .'.utf8';
     }
-    
+
     foreach(explode(',', trim($lang_object->msg('setlocale'))) as $locale)
       $locales[]= $locale;
-    
+
     setlocale(LC_ALL, $locales);
   }
 
@@ -590,24 +591,24 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
 
 /**
  * Prueft, ob der aktuelle Benutzer im Backend eingeloggt ist.
- * 
+ *
  * Diese Funktion kann auch aus dem Frontend heraus verwendet werden.
  */
 function rex_hasBackendSession()
 {
   global $REX;
-  
+
   if(!isset($_SESSION))
     return false;
-    
+
   if(!isset($REX))
     return false;
-    
+
   if(!isset($REX['INSTNAME']))
     return false;
-    
+
   if(!isset($_SESSION[$REX['INSTNAME']]))
     return false;
-    
+
   return $_SESSION[$REX['INSTNAME']]['UID'] > 0;
 }

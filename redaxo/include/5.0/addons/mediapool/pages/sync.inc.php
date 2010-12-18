@@ -47,13 +47,13 @@ if($PERMALL)
     {
       foreach($sync_files as $file)
       {
-        // hier mit is_int, wg kompatibilität zu PHP < 4.2.0
+        // hier mit is_int, wg kompatibilitÃ¤t zu PHP < 4.2.0
         if(!is_int($key = array_search($file, $diff_files))) continue;
 
         if(rex_mediapool_syncFile($file,$rex_file_category,$ftitle,'',''))
         {
           unset($diff_files[$key]);
-          $info = $I18N->msg('pool_sync_files_synced');
+          $info = $REX['I18N']->msg('pool_sync_files_synced');
         }else
         {
 
@@ -67,12 +67,12 @@ if($PERMALL)
     }
   }elseif(rex_post('save', 'boolean'))
   {
-  	$warning = $I18N->msg('pool_file_not_found');
+  	$warning = $REX['I18N']->msg('pool_file_not_found');
   }
 
   echo rex_mediapool_Syncform($rex_file_category);
 
-  $title = $I18N->msg('pool_sync_affected_files');
+  $title = $REX['I18N']->msg('pool_sync_affected_files');
   if(!empty($diff_count))
   {
     $title .= ' ('. $diff_count .')';
@@ -94,7 +94,7 @@ if($PERMALL)
       }
       else
       {
-        echo $file .' - '.  $I18N->msg('pool_file_not_writable') . "\n";
+        echo $file .' - '.  $REX['I18N']->msg('pool_file_not_writable') . "\n";
       }
       echo '  </p>
             </div>';
@@ -103,7 +103,7 @@ if($PERMALL)
     echo '<div class="rex-form-row">
             <p class="rex-form-checkbox rex-form-label-right">
               <input class="rex-form-checkbox" type="checkbox" name="checkie" id="checkie" value="0" onchange="setAllCheckBoxes(\'sync_files[]\',this)" />
-              <label for="checkie">'. $I18N->msg('pool_select_all') .'</label>
+              <label for="checkie">'. $REX['I18N']->msg('pool_select_all') .'</label>
             </p>
           </div>';
 
@@ -112,7 +112,7 @@ if($PERMALL)
   {
     echo '<div class="rex-form-row">
             <p class="rex-form-notice">
-              <span class="rex-form-notice"><strong>'. $I18N->msg('pool_sync_no_diffs') .'</strong></span>
+              <span class="rex-form-notice"><strong>'. $REX['I18N']->msg('pool_sync_no_diffs') .'</strong></span>
             </p>
           </div>';
   }

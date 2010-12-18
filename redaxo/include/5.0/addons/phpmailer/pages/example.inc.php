@@ -16,7 +16,7 @@ $mdl_ex =<<<EOD
 \$mail = new rex_mailer();
 \$sql = rex_sql::factory();
 
-\$query  = "SELECT full_name, email, photo FROM employee WHERE id=\$id";
+\$queryâ€  =â€ "SELECT full_name, email,â€ photoâ€ FROM employeeâ€ WHEREâ€ id=\$id";
 \$sql->setQuery(\$query);
 
 for(\$i = 0; \$i < \$sql->getRows(); \$i++)
@@ -54,7 +54,7 @@ EOD;
 
 ?>
 <div class="rex-addon-output">
-	<h2 class="rex-hl2"><?php echo $I18N->msg('phpmailer_example_headline'); ?></h2>
+	<h2 class="rex-hl2"><?php echo $REX['I18N']->msg('phpmailer_example_headline'); ?></h2>
 	<div class="rex-addon-content">
 	  <?php rex_highlight_string($mdl_ex); ?>
 	</div>

@@ -18,7 +18,7 @@ class rex_effect_flip extends rex_effect_abstract
 	function execute()
 	{
 
-		$gdimage =& $this->image->getImage();
+		$gdimage = $this->image->getImage();
 		$w = $this->image->getWidth();
 		$h = $this->image->getHeight();
 
@@ -44,7 +44,7 @@ class rex_effect_flip extends rex_effect_abstract
 			}
       $gdimage = $output_image_resource;
 		}
-		
+
 		// --------------- Flip Y
 		if($this->params['flip'] == "Y")
 		{
@@ -66,11 +66,11 @@ class rex_effect_flip extends rex_effect_abstract
 
 	function getParams()
 	{
-		global $REX,$I18N;
+		global $REX;
 
 		return array(
 		array(
-        'label' => $I18N->msg('imanager_effect_flip'),
+        'label' => $REX['I18N']->msg('imanager_effect_flip'),
         'name' => 'flip',
         'type'  => 'select',
         'options' => $this->options,

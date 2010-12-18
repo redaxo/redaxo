@@ -185,11 +185,11 @@ class OOArticle extends OORedaxo
 
   public function getValue($value)
   {
-    // alias für re_id -> category_id
+    // alias fÃ¼r re_id -> category_id
     if(in_array($value, array('re_id', '_re_id', 'category_id', '_category_id')))
     {
-      // für die CatId hier den Getter verwenden,
-      // da dort je nach ArtikelTyp unterscheidungen getroffen werden müssen
+      // fÃ¼r die CatId hier den Getter verwenden,
+      // da dort je nach ArtikelTyp unterscheidungen getroffen werden mÃ¼ssen
       return $this->getCategoryId();
     }
     return parent::getValue($value);

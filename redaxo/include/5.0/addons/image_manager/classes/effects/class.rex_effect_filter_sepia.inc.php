@@ -4,7 +4,7 @@ class rex_effect_filter_sepia extends rex_effect_abstract{
 
 	function execute()
 	{
-		$img =& $this->image->getImage();
+		$img = $this->image->getImage();
 
 		if (!($t = imagecolorstotal($img)))
 		{
@@ -27,7 +27,7 @@ class rex_effect_filter_sepia extends rex_effect_abstract{
 
 	function getParams()
 	{
-		global $REX,$I18N;
+		global $REX;
 
 		return array(
 

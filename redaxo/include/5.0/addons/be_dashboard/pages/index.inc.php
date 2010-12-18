@@ -2,26 +2,26 @@
 
 /**
  * Backenddashboard Addon
- * 
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
- * 
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
 
 require $REX['SRC_PATH'] .'/core/layout/top.php';
 
-rex_title($I18N->msg('dashboard'), '');
+rex_title($REX['I18N']->msg('dashboard'), '');
 
 $contentFound = false;
 
 $component = new rex_notification_component();
-$content   =& $component->get();
+$content   = $component->get();
 if($content != '')
 {
   $contentFound = true;
-  
+
 	echo '<div class="rex-dashboard-section rex-dashboard-1col rex-dashboard-notifications">
 	        <div class="rex-dashboard-column rex-dashboard-column-first">
             '.$content.'
@@ -41,10 +41,10 @@ foreach($dashboard_components as $index => $component)
   {
     $block  = $component->getBlock();
     $format = $component->getFormat();
-    
+
     if($block == '' && $format == 'half')
     {
-      $block = $I18N->msg('dashboard_component_block_misc');
+      $block = $REX['I18N']->msg('dashboard_component_block_misc');
     }
 
     if(!isset($components[$format]))
@@ -55,7 +55,7 @@ foreach($dashboard_components as $index => $component)
     {
       $components[$format][$block] = array();
     }
-    
+
     $components[$format][$block][] = $component;
   }
   unset($dashboard_components[$index]);
@@ -70,22 +70,22 @@ foreach($components as $format => $componentBlocks)
     {
       echo '<div class="rex-dashboard-section rex-dashboard-1col rex-dashboard-components">
               <div class="rex-dashboard-column rex-dashboard-column-first">';
-      
+
       if($block != '')
       {
           echo '<h2 class="rex-dashboard-hl1">'. $block .'</h2>';
       }
-      
+
       foreach($componentBlock as $component)
       {
-        $cnt =& $component->get();
+        $cnt = $component->get();
         if($cnt != '')
         {
           echo $cnt;
           $contentFound = true;
         }
       }
-      
+
       echo '  </div>
             </div>';
     }
@@ -93,38 +93,38 @@ foreach($components as $format => $componentBlocks)
     {
       $numComponents = count($componentBlock);
       $componentsPerCol = ceil($numComponents / 2);
-      
+
       echo '<div class="rex-dashboard-section rex-dashboard-2col rex-dashboard-components">';
-      
+
       if($block != '')
       {
           echo '<h2 class="rex-dashboard-hl1">'. $block .'</h2>';
       }
-      
+
       // show first column
       $i = 0;
       echo '  <div class="rex-dashboard-column rex-dashboard-column-first">';
       foreach($componentBlock as $index => $component)
       {
-        $cnt =& $component->get();
+        $cnt = $component->get();
         if($cnt != '')
         {
           echo $cnt;
           $contentFound = true;
         }
         unset($componentBlock[$index]);
-        
+
         $i++;
         if($i == $componentsPerCol) break;
       }
       echo '</div>';
       // /show first column
-      
+
       // show second column
       echo '<div class="rex-dashboard-column">';
       foreach($componentBlock as $index => $component)
       {
-        $cnt =& $component->get();
+        $cnt = $component->get();
         if($cnt != '')
         {
           echo $cnt;
@@ -134,7 +134,7 @@ foreach($components as $format => $componentBlocks)
       }
       echo '</div>';
       // /show second column
-      
+
       echo '</div>';
     }
   }
@@ -143,7 +143,7 @@ foreach($components as $format => $componentBlocks)
 
 if(!$contentFound)
 {
-  echo rex_warning($I18N->msg('dashboard_no_content'));
+  echo rex_warning($REX['I18N']->msg('dashboard_no_content'));
 }
 
 require $REX['SRC_PATH'] .'/core/layout/bottom.php';

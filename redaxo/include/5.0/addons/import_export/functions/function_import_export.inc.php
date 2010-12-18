@@ -7,9 +7,9 @@ define('REX_A1_IMPORT_EVENT_POST', 4);
 
 // Da diese Funktion im Setup direkt eingebunden wird
 // hier das I18N Objekt ggf. erstellen
-if ($REX['REDAXO'] && !isset($I18N))
+if ($REX['REDAXO'] && !isset($REX['I18N']))
 {
-  global $I18N;
+  global $REX;
   require_once(dirname(dirname(__FILE__)).'/config.inc.php');
 }
 
@@ -19,13 +19,13 @@ if ($REX['REDAXO'] && !isset($I18N))
  *
  * @param string Pfad + Dateinamen zur SQL-Datei
  *
- * @return array Gibt ein Assoc. Array zurück.
+ * @return array Gibt ein Assoc. Array zurÃ¼ck.
  *               'state' => boolean (Status ob fehler aufgetreten sind)
  *               'message' => Evtl. Status/Fehlermeldung
  */
 function rex_a1_import_db($filename)
 {
-  global $REX, $I18N;
+  global $REX;
 
   $return = array ();
   $return['state'] = false;
@@ -36,24 +36,24 @@ function rex_a1_import_db($filename)
 
   if ($filename == '' || substr($filename, -4, 4) != ".sql")
   {
-    $return['message'] = $I18N->msg('im_export_no_import_file_chosen_or_wrong_version').'<br>';
+    $return['message'] = $REX['I18N']->msg('im_export_no_import_file_chosen_or_wrong_version').'<br>';
     return $return;
   }
 
   $conts = rex_get_file_contents($filename);
 
-  // Versionsstempel prüfen
+  // Versionsstempel prÃ¼fen
   // ## Redaxo Database Dump Version x.x
   $version = strpos($conts, '## Redaxo Database Dump Version '.$REX['VERSION']);
   if($version === false)
   {
-    $return['message'] = $I18N->msg('im_export_no_valid_import_file').'. [## Redaxo Database Dump Version '.$REX['VERSION'].'] is missing';
+    $return['message'] = $REX['I18N']->msg('im_export_no_valid_import_file').'. [## Redaxo Database Dump Version '.$REX['VERSION'].'] is missing';
     return $return;
   }
   // Versionsstempel entfernen
   $conts = trim(str_replace('## Redaxo Database Dump Version '.$REX['VERSION'], '', $conts));
 
-  // Prefix prüfen
+  // Prefix prÃ¼fen
   // ## Prefix xxx_
   if(preg_match('/^## Prefix ([a-zA-Z0-9\_]*)/', $conts, $matches) && isset($matches[1]))
   {
@@ -64,32 +64,34 @@ function rex_a1_import_db($filename)
   else
   {
     // Prefix wurde nicht gefunden
-    $return['message'] = $I18N->msg('im_export_no_valid_import_file').'. [## Prefix '. $REX['TABLE_PREFIX'] .'] is missing';
+    $return['message'] = $REX['I18N']->msg('im_export_no_valid_import_file').'. [## Prefix '. $REX['TABLE_PREFIX'] .'] is missing';
     return $return;
   }
 
 
-  // Charset prüfen
+  // Charset prÃ¼fen
   // ## charset xxx_
   if(preg_match('/^## charset ([a-zA-Z0-9\_\-]*)/', $conts, $matches) && isset($matches[1]))
   {
     // charset entfernen
     $charset = $matches[1];
     $conts = trim(str_replace('## charset '. $charset, '', $conts));
-    
-    if($I18N->msg('htmlcharset') != $charset)
+
+    // $rexCharset = $REX['I18N']->msg('htmlcharset');
+    $rexCharset = 'utf-8';
+    if($rexCharset != $charset)
     {
-      $return['message'] = $I18N->msg('im_export_no_valid_charset').'. '.$I18N->msg('htmlcharset').' != '.$charset;
+      $return['message'] = $REX['I18N']->msg('im_export_no_valid_charset').'. '.$rexCharset.' != '.$charset;
       return $return;
     }
-    
+
   }
 
-  
+
   // Prefix im export mit dem der installation angleichen
   if($REX['TABLE_PREFIX'] != $prefix)
   {
-    // Hier case-insensitiv ersetzen, damit alle möglich Schreibweisen (TABLE TablE, tAblE,..) ersetzt werden
+    // Hier case-insensitiv ersetzen, damit alle mÃ¶glich Schreibweisen (TABLE TablE, tAblE,..) ersetzt werden
     // Dies ist wichtig, da auch SQLs innerhalb von Ein/Ausgabe der Module vom rex-admin verwendet werden
     $conts = preg_replace('/(TABLE `?)' . preg_quote($prefix, '/') .'/i', '$1'. $REX['TABLE_PREFIX'], $conts);
     $conts = preg_replace('/(INTO `?)'  . preg_quote($prefix, '/') .'/i', '$1'. $REX['TABLE_PREFIX'], $conts);
@@ -113,7 +115,7 @@ function rex_a1_import_db($filename)
   {
     include_once ($REX['SRC_PATH'].'/core/functions/function_rex_addons.inc.php');
   }
-  
+
   // Datei aufteilen
   $lines = array();
   PMA_splitSqlFile($lines, $conts, 0);
@@ -134,10 +136,10 @@ function rex_a1_import_db($filename)
     return $return;
   }
 
-  $msg .= $I18N->msg('im_export_database_imported').'. '.$I18N->msg('im_export_entry_count', count($lines)).'<br />';
+  $msg .= $REX['I18N']->msg('im_export_database_imported').'. '.$REX['I18N']->msg('im_export_entry_count', count($lines)).'<br />';
   unset($lines);
 
-  // prüfen, ob eine user tabelle angelegt wurde
+  // prÃ¼fen, ob eine user tabelle angelegt wurde
   $tables = rex_sql::showTables();
   $user_table_found = in_array($REX['TABLE_PREFIX'].'user', $tables);
 
@@ -168,12 +170,12 @@ function rex_a1_import_db($filename)
     $error = $db->getError();
     if($error != '')
     {
-      // evtl vorhergehende meldungen löschen, damit nur der fehler angezeigt wird
+      // evtl vorhergehende meldungen lÃ¶schen, damit nur der fehler angezeigt wird
       $msg = '';
       $msg .= $error;
     }
   }
-  
+
   $user_role_table_found = in_array($REX['TABLE_PREFIX'].'user_role', $tables);
   if (!$user_role_table_found)
   {
@@ -195,7 +197,7 @@ function rex_a1_import_db($filename)
     $error = $db->getError();
     if($error != '')
     {
-      // evtl vorhergehende meldungen löschen, damit nur der fehler angezeigt wird
+      // evtl vorhergehende meldungen lÃ¶schen, damit nur der fehler angezeigt wird
       $msg = '';
       $msg .= $error;
     }
@@ -215,7 +217,7 @@ function rex_a1_import_db($filename)
 
     // require import skript to do some userside-magic
   rex_a1_import_skript(str_replace('.sql', '.php', $filename), REX_A1_IMPORT_DB, REX_A1_IMPORT_EVENT_POST);
-    
+
     $msg .= rex_generateAll();
     $return['state'] = true;
   }
@@ -230,20 +232,20 @@ function rex_a1_import_db($filename)
  *
  * @param string Pfad + Dateinamen zum Tar-Archiv
  *
- * @return array Gibt ein Assoc. Array zurück.
+ * @return array Gibt ein Assoc. Array zurÃ¼ck.
  *               'state' => boolean (Status ob fehler aufgetreten sind)
  *               'message' => Evtl. Status/Fehlermeldung
  */
 function rex_a1_import_files($filename)
 {
-  global $REX, $I18N;
+  global $REX;
 
   $return = array ();
   $return['state'] = false;
 
   if ($filename == '' || substr($filename, -7, 7) != ".tar.gz")
   {
-    $return['message'] = $I18N->msg("im_export_no_import_file_chosen")."<br />";
+    $return['message'] = $REX['I18N']->msg("im_export_no_import_file_chosen")."<br />";
     return $return;
   }
 
@@ -254,17 +256,17 @@ function rex_a1_import_files($filename)
 
   // ----- EXTENSION POINT
   $tar = rex_register_extension_point('A1_BEFORE_FILE_IMPORT', $tar);
-  
+
   // require import skript to do some userside-magic
   rex_a1_import_skript(str_replace('.tar.gz', '.php', $filename), REX_A1_IMPORT_ARCHIVE, REX_A1_IMPORT_EVENT_PRE);
 
   $tar->openTAR($filename);
   if (!$tar->extractTar())
   {
-    $msg = $I18N->msg('im_export_problem_when_extracting').'<br />';
+    $msg = $REX['I18N']->msg('im_export_problem_when_extracting').'<br />';
     if (count($tar->message) > 0)
     {
-      $msg .= $I18N->msg('im_export_create_dirs_manually').'<br />';
+      $msg .= $REX['I18N']->msg('im_export_create_dirs_manually').'<br />';
       foreach($tar->message as $_message)
       {
         $msg .= rex_absPath($_message).'<br />';
@@ -273,7 +275,7 @@ function rex_a1_import_files($filename)
   }
   else
   {
-    $msg = $I18N->msg('im_export_file_imported').'<br />';
+    $msg = $REX['I18N']->msg('im_export_file_imported').'<br />';
   }
 
   // ----- EXTENSION POINT
@@ -290,37 +292,38 @@ function rex_a1_import_files($filename)
 /**
  * Erstellt einen SQL Dump, der die aktuellen Datebankstruktur darstellt.
  * Dieser wird in der Datei $filename gespeichert.
- * 
+ *
  * @return boolean TRUE wenn ein Dump erstellt wurde, sonst FALSE
  */
 function rex_a1_export_db($filename)
 {
-  global $REX,$I18N;
-  
+  global $REX;
+
   $fp = @fopen($filename, "w");
-  
+
   if (!$fp)
   {
     return false;
   }
-  
+
   // Im Frontend gibts kein I18N
-  if(!is_object($I18N))
-    $I18N = rex_create_lang($REX['LANG']);
-  
+  if(!is_object($REX['I18N']))
+    $REX['I18N'] = rex_create_lang($REX['LANG']);
+
   $sql        = rex_sql::factory();
   $tables     = rex_sql::showTables(1, $REX['TABLE_PREFIX']);
-  
+
   $nl         = "\n";
   $insertSize = 5000;
 
   // ----- EXTENSION POINT
   rex_register_extension_point('A1_BEFORE_DB_EXPORT');
-  
-  // Versionsstempel hinzufügen
+
+  // Versionsstempel hinzufÃ¼gen
   fwrite($fp, '## Redaxo Database Dump Version '.$REX['VERSION'].$nl);
   fwrite($fp, '## Prefix '.$REX['TABLE_PREFIX'].$nl);
-  fwrite($fp, '## charset '.$I18N->msg('htmlcharset').$nl.$nl);
+  //fwrite($fp, '## charset '.$REX['I18N']->msg('htmlcharset').$nl.$nl);
+  fwrite($fp, '## charset utf-8'.$nl.$nl);
 //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
   foreach ($tables as $table)
@@ -330,12 +333,12 @@ function rex_a1_export_db($filename)
     {
       //---- export metadata
       $create = rex_sql::showCreateTable($table);
-    
+
       fwrite($fp, "DROP TABLE IF EXISTS `$table`;\n");
       fwrite($fp, "$create;\n");
-    
+
       $fields = $sql->getArray("SHOW FIELDS FROM `$table`");
-    
+
       foreach ($fields as $field)
       {
         if (preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $field['Type']))
@@ -352,16 +355,16 @@ function rex_a1_export_db($filename)
         }
         // else ?
       }
-      
+
       //---- export tabledata
       $start = 0;
       $max   = $insertSize;
-      
+
       do
       {
         $sql->freeResult();
         $sql->setQuery("SELECT * FROM `$table` LIMIT $start,$max");
-      
+
         if ($sql->getRows() > 0 && $start == 0)
         {
           fwrite($fp, "\nLOCK TABLES `$table` WRITE;");
@@ -371,18 +374,18 @@ function rex_a1_export_db($filename)
         {
           break;
         }
-        
+
         $start += $max;
         $values = array();
-      
+
         while($sql->hasNext())
         {
           $record = array();
-          
+
           foreach ($fields as $idx => $type)
           {
             $column = $sql->getValue($idx);
-            
+
             switch ($type)
             {
               case 'int':
@@ -397,11 +400,11 @@ function rex_a1_export_db($filename)
                 break;
             }
           }
-        
+
           $values[] = $nl .'  ('.implode(',', $record).')';
           $sql->next();
         }
-      
+
         if (!empty($values))
         {
           $values = implode(',', $values);
@@ -410,7 +413,7 @@ function rex_a1_export_db($filename)
         }
       }
       while ($sql->getRows() >= $max);
-      
+
       if ($start > 0)
       {
         fwrite($fp, "\n/*!40000 ALTER TABLE `$table` ENABLE KEYS */;");
@@ -420,10 +423,10 @@ function rex_a1_export_db($filename)
   }
 
   fclose($fp);
-  
-  
+
+
   $hasContent = true;
-  
+
   // Den Dateiinhalt geben wir nur dann weiter, wenn es unbedingt notwendig ist.
   if (rex_extension_is_registered('A1_AFTER_DB_EXPORT'))
   {
@@ -432,7 +435,7 @@ function rex_a1_export_db($filename)
     // ----- EXTENSION POINT
     $content    = rex_register_extension_point('A1_AFTER_DB_EXPORT', $content);
     $hashAfter  = md5($content);
-    
+
     if ($hashAfter != $hashBefore)
     {
       rex_put_file_contents($filename, $content);
@@ -475,7 +478,7 @@ function rex_a1_export_files($folders)
 }
 
 /**
- * Fügt einem Tar-Archiv ein Ordner von Dateien hinzu
+ * FÃ¼gt einem Tar-Archiv ein Ordner von Dateien hinzu
  * @access protected
  */
 function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
@@ -486,20 +489,20 @@ function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
   $isMediafolder = realpath($path.$dir) == $REX['MEDIAFOLDER'];
   while (false !== ($file = readdir($handle)))
   {
-    // Alles exportieren, außer ... 
+    // Alles exportieren, auÃŸer ...
     // - addons verzeichnis im mediafolder (wird bei addoninstallation wiedererstellt)
     // - svn infos
     // - tmp prefix Dateien
-    
+
     if($file == '.' || $file == '..' || $file == '.svn')
       continue;
-    
+
     if(substr($file, 0, strlen($REX['TEMP_PREFIX'])) == $REX['TEMP_PREFIX'])
       continue;
-      
+
     if($isMediafolder && $file == 'addons')
       continue;
-      
+
     if (is_dir($path.$dir."/".$file))
     {
       _rex_a1_add_folder_to_tar($tar, $path.$dir."/", $file);

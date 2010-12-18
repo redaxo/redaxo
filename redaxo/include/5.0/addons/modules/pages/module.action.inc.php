@@ -16,7 +16,7 @@ class rex_event_select extends rex_select
 {
   function rex_event_select($options)
   {
-    global $I18N;
+    global $REX;
 
     parent::rex_select();
 
@@ -72,12 +72,12 @@ if ($function == 'delete')
       $warning_blck = '<ul>' . $action_in_use_msg . '</ul>';
     }
 
-    $warning = $I18N->msg("action_cannot_be_deleted", $action_name);
+    $warning = $REX['I18N']->msg("action_cannot_be_deleted", $action_name);
   }
   else
   {
     $del->setQuery("DELETE FROM " . $REX['TABLE_PREFIX'] . "action WHERE id='$action_id' LIMIT 1");
-    $info = $I18N->msg("action_deleted");
+    $info = $REX['I18N']->msg("action_deleted");
   }
 }
 
@@ -126,7 +126,7 @@ if ($function == "add" || $function == "edit")
       $faction->addGlobalCreateFields();
 
       if($faction->insert())
-        $info = $I18N->msg('action_added');
+        $info = $REX['I18N']->msg('action_added');
       else
         $warning = $faction->getError();
     }
@@ -136,7 +136,7 @@ if ($function == "add" || $function == "edit")
       $faction->setWhere('id=' . $action_id);
 
       if($faction->update())
-        $info = $I18N->msg('action_updated');
+        $info = $REX['I18N']->msg('action_updated');
       else
         $warning = $faction->getError();
     }
@@ -155,7 +155,7 @@ if ($function == "add" || $function == "edit")
   {
     if ($function == 'edit')
     {
-      $legend = $I18N->msg('action_edit') . ' [ID=' . $action_id . ']';
+      $legend = $REX['I18N']->msg('action_edit') . ' [ID=' . $action_id . ']';
 
       $action = rex_sql::factory();
       $action->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'action WHERE id='.$action_id);
@@ -170,14 +170,14 @@ if ($function == "add" || $function == "edit")
     }
     else
     {
-      $legend = $I18N->msg('action_create');
+      $legend = $REX['I18N']->msg('action_create');
     }
 
     // PreView action macht nur bei add und edit Sinn da,
     // - beim Delete kommt keine View
     $options = array(
-      1 => $ASTATUS[0] .' - '.$I18N->msg('action_event_add'),
-      2 => $ASTATUS[1] .' - '.$I18N->msg('action_event_edit')
+      1 => $ASTATUS[0] .' - '.$REX['I18N']->msg('action_event_add'),
+      2 => $ASTATUS[1] .' - '.$REX['I18N']->msg('action_event_edit')
     );
 
     $sel_preview_status = new rex_event_select($options, false);
@@ -186,9 +186,9 @@ if ($function == "add" || $function == "edit")
 		$sel_preview_status->setStyle('class="rex-form-select"');
 
     $options = array(
-      1 => $ASTATUS[0] .' - '.$I18N->msg('action_event_add'),
-      2 => $ASTATUS[1] .' - '.$I18N->msg('action_event_edit'),
-      4 => $ASTATUS[2] .' - '.$I18N->msg('action_event_delete')
+      1 => $ASTATUS[0] .' - '.$REX['I18N']->msg('action_event_add'),
+      2 => $ASTATUS[1] .' - '.$REX['I18N']->msg('action_event_edit'),
+      4 => $ASTATUS[2] .' - '.$REX['I18N']->msg('action_event_delete')
     );
 
     $sel_presave_status = new rex_event_select($options);
@@ -224,7 +224,7 @@ if ($function == "add" || $function == "edit")
 
     $btn_update = '';
     if ($function != 'add')
-      $btn_update = '<input type="submit" class="rex-form-submit rex-form-submit-2" name="goon" value="' . $I18N->msg('save_action_and_continue') . '"'. rex_accesskey($I18N->msg('save_action_and_continue'), $REX['ACKEY']['APPLY']) .' />';
+      $btn_update = '<input type="submit" class="rex-form-submit rex-form-submit-2" name="goon" value="' . $REX['I18N']->msg('save_action_and_continue') . '"'. rex_accesskey($REX['I18N']->msg('save_action_and_continue'), $REX['ACKEY']['APPLY']) .' />';
 
     if ($info != '')
       echo rex_info($info);
@@ -247,7 +247,7 @@ if ($function == "add" || $function == "edit")
     		      
     		      <div class="rex-form-row">
 			          <p class="rex-form-col-a rex-form-text">
-      			    	<label for="name">' . $I18N->msg('action_name') . '</label>
+      			    	<label for="name">' . $REX['I18N']->msg('action_name') . '</label>
 			            <input class="rex-form-text" type="text" size="10" id="name" name="name" value="' . htmlspecialchars($name) . '" />
       			    </p>
       			  </div>
@@ -257,26 +257,26 @@ if ($function == "add" || $function == "edit")
           </fieldset>
 
           <fieldset class="rex-form-col-1">
-            <legend>Preview-Action ['. $I18N->msg('action_mode_preview') .']</legend>
+            <legend>Preview-Action ['. $REX['I18N']->msg('action_mode_preview') .']</legend>
            	<div class="rex-form-wrapper">
     		      <div class="rex-form-row">
 			          <p class="rex-form-col-a rex-form-textarea">
-			          	<label for="previewaction">' . $I18N->msg('input') . '</label>
+			          	<label for="previewaction">' . $REX['I18N']->msg('input') . '</label>
 			          	<textarea class="rex-txtr-cd" cols="50" rows="6" name="previewaction" id="previewaction">' . htmlspecialchars($previewaction) . '</textarea>
-			          	<span class="rex-form-notice">' . $I18N->msg('action_hint') . '</span>
+			          	<span class="rex-form-notice">' . $REX['I18N']->msg('action_hint') . '</span>
 			          </p>
 			        </div>
 			         
 			        <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
                   <input class="rex-form-checkbox" id="preview_allevents" type="checkbox" name="preview_allevents" '. $allPreviewChecked .' />
-                  <label for="preview_allevents">'.$I18N->msg("action_event_all").'</label> 
+                  <label for="preview_allevents">'.$REX['I18N']->msg("action_event_all").'</label> 
                 </p>
                 <div id="preview_events">
                   <p class="rex-form-col-a rex-form-select">
-  			         		<label for="previestatus">' . $I18N->msg('action_event') . '</label>
+  			         		<label for="previestatus">' . $REX['I18N']->msg('action_event') . '</label>
   			         		' . $sel_preview_status->get() . '
-  			         		<span class="rex-form-notice">' . $I18N->msg('ctrl') . '</span>
+  			         		<span class="rex-form-notice">' . $REX['I18N']->msg('ctrl') . '</span>
   			         	</p>
 			         	</div>
 			        </div>
@@ -286,26 +286,26 @@ if ($function == "add" || $function == "edit")
 	        </fieldset>
 	        
           <fieldset class="rex-form-col-1">
-            <legend>Presave-Action ['. $I18N->msg('action_mode_presave') .']</legend>
+            <legend>Presave-Action ['. $REX['I18N']->msg('action_mode_presave') .']</legend>
            	<div class="rex-form-wrapper">
     		      <div class="rex-form-row">
 			          <p class="rex-form-col-a rex-form-textarea">
-			          	<label for="presaveaction">' . $I18N->msg('input') . '</label>
+			          	<label for="presaveaction">' . $REX['I18N']->msg('input') . '</label>
 			          	<textarea class="rex-form-textarea" cols="50" rows="6" name="presaveaction" id="presaveaction">' . htmlspecialchars($presaveaction) . '</textarea>
-			          	<span class="rex-form-notice">' . $I18N->msg('action_hint') . '</span>
+			          	<span class="rex-form-notice">' . $REX['I18N']->msg('action_hint') . '</span>
 			          </p>
 			        </div>
 			         
 			        <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
                   <input class="rex-form-checkbox" id="presave_allevents" type="checkbox" name="presave_allevents" '. $allPresaveChecked .' />
-                  <label for="presave_allevents">'.$I18N->msg("action_event_all").'</label> 
+                  <label for="presave_allevents">'.$REX['I18N']->msg("action_event_all").'</label> 
                 </p>
                 <div id="presave_events">
 			            <p class="rex-form-col-a rex-form-select">
-  			            <label for="presavestatus">' . $I18N->msg('action_event') . '</label>
+  			            <label for="presavestatus">' . $REX['I18N']->msg('action_event') . '</label>
         			      ' . $sel_presave_status->get() . '
-        			      <span class="rex-form-notice">' . $I18N->msg('ctrl') . '</span>
+        			      <span class="rex-form-notice">' . $REX['I18N']->msg('ctrl') . '</span>
       			      </p>
       			    </div>
       			  </div>
@@ -316,26 +316,26 @@ if ($function == "add" || $function == "edit")
           
 	        
           <fieldset class="rex-form-col-1">
-            <legend class="rex-lgnd">Postsave-Action ['. $I18N->msg('action_mode_postsave') .']</legend>
+            <legend class="rex-lgnd">Postsave-Action ['. $REX['I18N']->msg('action_mode_postsave') .']</legend>
            	<div class="rex-form-wrapper">
     		      <div class="rex-form-row">
 			          <p class="rex-form-col-a rex-form-textarea">
-			          	<label for="postsaveaction">' . $I18N->msg('input') . '</label>
+			          	<label for="postsaveaction">' . $REX['I18N']->msg('input') . '</label>
 			          	<textarea class="rex-form-textarea" cols="50" rows="6" name="postsaveaction" id="postsaveaction">' . htmlspecialchars($postsaveaction) . '</textarea>
-			          	<span class="rex-form-notice">' . $I18N->msg('action_hint') . '</span>
+			          	<span class="rex-form-notice">' . $REX['I18N']->msg('action_hint') . '</span>
 			          </p>
 			        </div>
 			         
 			        <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
                   <input class="rex-form-checkbox" id="postsave_allevents" type="checkbox" name="postsave_allevents" '. $allPostsaveChecked .' />
-                  <label for="postsave_allevents">'.$I18N->msg("action_event_all").'</label> 
+                  <label for="postsave_allevents">'.$REX['I18N']->msg("action_event_all").'</label> 
                 </p>
                 <div id="postsave_events">
 			            <p class="rex-form-col-a rex-form-select">
-			         		  <label for="postsavestatus">' . $I18N->msg('action_event') . '</label>
+			         		  <label for="postsavestatus">' . $REX['I18N']->msg('action_event') . '</label>
   			         		' . $sel_postsave_status->get() . '
-	  		         		<span class="rex-form-notice">' . $I18N->msg('ctrl') . '</span>
+	  		         		<span class="rex-form-notice">' . $REX['I18N']->msg('ctrl') . '</span>
 		  	         	</p>
 		  	        </div>
 			        </div>
@@ -348,7 +348,7 @@ if ($function == "add" || $function == "edit")
            	<div class="rex-form-wrapper">
     		      <div class="rex-form-row">
 			    			<p class="rex-form-col-a rex-form-submit">
-			    				<input class="rex-form-submit" type="submit" value="' . $I18N->msg('save_action_and_quit') . '"'. rex_accesskey($I18N->msg('save_action_and_quit'), $REX['ACKEY']['SAVE']) .' />
+			    				<input class="rex-form-submit" type="submit" value="' . $REX['I18N']->msg('save_action_and_quit') . '"'. rex_accesskey($REX['I18N']->msg('save_action_and_quit'), $REX['ACKEY']['SAVE']) .' />
 		    				' . $btn_update . '
 			    			</p>
 			    		</div>
@@ -396,8 +396,8 @@ if ($OUT)
 
   // ausgabe actionsliste !
   echo '
-    <table class="rex-table" summary="' . $I18N->msg('action_summary') . '">
-      <caption>' . $I18N->msg('action_caption') . '</caption>
+    <table class="rex-table" summary="' . $REX['I18N']->msg('action_summary') . '">
+      <caption>' . $REX['I18N']->msg('action_caption') . '</caption>
       <colgroup>
         <col width="40" />
         <col width="40" />
@@ -409,13 +409,13 @@ if ($OUT)
       </colgroup>
       <thead>
         <tr>
-          <th class="rex-icon"><a class="rex-i-element rex-i-action-add" href="index.php?page=modules&amp;subpage=actions&amp;function=add"'. rex_accesskey($I18N->msg('action_create'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">' . $I18N->msg('action_create') . '</span></a></th>
+          <th class="rex-icon"><a class="rex-i-element rex-i-action-add" href="index.php?page=modules&amp;subpage=actions&amp;function=add"'. rex_accesskey($REX['I18N']->msg('action_create'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">' . $REX['I18N']->msg('action_create') . '</span></a></th>
           <th class="rex-small">ID</th>
-          <th>' . $I18N->msg('action_name') . '</th>
+          <th>' . $REX['I18N']->msg('action_name') . '</th>
           <th>Preview-Event(s)</th>
           <th>Presave-Event(s)</th>
           <th>Postsave-Event(s)</th>
-          <th>' . $I18N->msg('action_functions') . '</th>
+          <th>' . $REX['I18N']->msg('action_functions') . '</th>
         </tr>
       </thead>
     ';
@@ -454,7 +454,7 @@ if ($OUT)
               <td>' . implode('/', $previewmode) . '</td>
               <td>' . implode('/', $presavemode) . '</td>
               <td>' . implode('/', $postsavemode) . '</td>
-              <td><a href="index.php?page=modules&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=delete" onclick="return confirm(\'' . $I18N->msg('action_delete') . ' ?\')">' . $I18N->msg("action_delete") . '</a></td>
+              <td><a href="index.php?page=modules&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=delete" onclick="return confirm(\'' . $REX['I18N']->msg('action_delete') . ' ?\')">' . $REX['I18N']->msg("action_delete") . '</a></td>
             </tr>
           ';
 

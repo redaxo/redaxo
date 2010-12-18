@@ -13,7 +13,7 @@ $mypage = 'mediapool';
 
 if($REX["REDAXO"])
 {
-  $mpool = new rex_be_page_popup($I18N->msg('mediapool'), 'openMediaPool(); return false;');
+  $mpool = new rex_be_page_popup($REX['I18N']->msg('mediapool'), 'openMediaPool(); return false;');
   $mpool->setRequiredPermissions('hasMediaPerm');
   $REX['ADDON']['page'][$mypage] = $mpool; 
   

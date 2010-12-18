@@ -33,17 +33,17 @@ class rex_cronjob_phpcode extends rex_cronjob
   
   public function getTypeName()
   {
-    global $I18N;
-    return $I18N->msg('cronjob_type_phpcode');
+    global $REX;
+    return $REX['I18N']->msg('cronjob_type_phpcode');
   }
   
   public function getParamFields()
 	{
-		global $I18N;
+		global $REX;
 
 		return array(
   		array(
-        'label' => $I18N->msg('cronjob_type_phpcode'),
+        'label' => $REX['I18N']->msg('cronjob_type_phpcode'),
         'name'  => 'code',
         'type'  => 'textarea',
         'attributes' => array('rows' => 20)

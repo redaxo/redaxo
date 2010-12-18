@@ -14,7 +14,7 @@ $mypage = 'linkmap';
 if ($REX['REDAXO'])
 {
   // $REX['ADDON']['rxid'][$mypage] = '62';
-  $page = new rex_be_page_popup($I18N->msg('linkmap'), '', array('page' => 'linkmap'));
+  $page = new rex_be_page_popup($REX['I18N']->msg('linkmap'), '', array('page' => 'linkmap'));
   $page->setHidden(true);
   $page->setRequiredPermissions('hasStructurePerm');
 

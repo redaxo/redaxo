@@ -40,14 +40,14 @@ function rex_moveSliceDown($slice_id, $clang)
  */
 function rex_moveSlice($slice_id, $clang, $direction)
 {
-  global $REX, $I18N;
+  global $REX;
 
   // ctype beachten
   // verschieben / vertauschen
   // article regenerieren.
 
   $success = false;
-  $message = $I18N->msg('slice_moved_error');
+  $message = $REX['I18N']->msg('slice_moved_error');
 
   $CM = rex_sql::factory();
   $CM->setQuery("select * from " . $REX['TABLE_PREFIX'] . "article_slice left join " . $REX['TABLE_PREFIX'] . "module on " . $REX['TABLE_PREFIX'] . "article_slice.modultyp_id=" . $REX['TABLE_PREFIX'] . "module.id where " . $REX['TABLE_PREFIX'] . "article_slice.id='$slice_id' and clang=$clang");
@@ -84,7 +84,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
           if (isset($SID[$slice_id]) && $SID[$slice_id] > 0)
             $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$slice_id] . "' where id='" . $SID[$slice_id] . "'");
           rex_deleteCacheArticleContent($slice_article_id, $clang);
-          $message = $I18N->msg('slice_moved');
+          $message = $REX['I18N']->msg('slice_moved');
           $success = true;
         }
       }
@@ -102,7 +102,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
           if (isset($SID[$SID[$slice_id]]) && $SID[$SID[$slice_id]] > 0)
             $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $slice_id . "' where id='" . $SID[$SID[$slice_id]] . "'");
           rex_deleteCacheArticleContent($slice_article_id, $clang);
-          $message = $I18N->msg('slice_moved');
+          $message = $REX['I18N']->msg('slice_moved');
           $success = true;
         }
       }
@@ -117,7 +117,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
 }
 
 /**
- * Löscht einen Slice
+ * LÃ¶scht einen Slice
  * 
  * @param int    $slice_id  Id des Slices
  * 
@@ -149,13 +149,13 @@ function rex_deleteSlice($slice_id)
 }
 
 /**
- * Führt alle pre-view Aktionen eines Moduls aus
+ * FÃ¼hrt alle pre-view Aktionen eines Moduls aus
  * 
  * @param int    $module_id  Id des Moduls
  * @param string $function   Funktion/Modus der Aktion
  * @param array  $REX_ACTION Array zum modifizieren der initialwerte
  * 
- * @return array Das gefüllte REX_ACTION-Array
+ * @return array Das gefÃ¼llte REX_ACTION-Array
  */
 function rex_execPreViewAction($module_id, $function, $REX_ACTION)
 {
@@ -184,13 +184,13 @@ function rex_execPreViewAction($module_id, $function, $REX_ACTION)
 }
 
 /**
- * Führt alle pre-save Aktionen eines Moduls aus
+ * FÃ¼hrt alle pre-save Aktionen eines Moduls aus
  * 
  * @param int    $module_id  Id des Moduls
  * @param string $function   Funktion/Modus der Aktion
  * @param array  $REX_ACTION Array zum speichern des Status
  * 
- * @return array Ein Array welches eine Meldung sowie das gefüllte REX_ACTION-Array beinhaltet
+ * @return array Ein Array welches eine Meldung sowie das gefÃ¼llte REX_ACTION-Array beinhaltet
  */
 function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
 {
@@ -223,7 +223,7 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
 }
 
 /**
- * Führt alle post-save Aktionen eines Moduls aus
+ * FÃ¼hrt alle post-save Aktionen eines Moduls aus
  * 
  * @param int    $module_id  Id des Moduls
  * @param string $function   Funktion/Modus der Aktion
@@ -245,7 +245,7 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
     $REX_ACTION['MSG'] = '';
     $iaction = $ga->getValue('postsave');
 
-    // ***************** WERTE ERSETZEN UND POSTACTION AUSFÜHREN
+    // ***************** WERTE ERSETZEN UND POSTACTION AUSFÃœHREN
     foreach ($REX['VARIABLES'] as $obj)
     {
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
@@ -262,7 +262,7 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
 }
 
 /**
- * Übersetzt den Modus in das dazugehörige Bitwort
+ * Ãœbersetzt den Modus in das dazugehÃ¶rige Bitwort
  * 
  * @param string $function   Funktion/Modus der Aktion
  * 
@@ -677,12 +677,12 @@ function rex_copyArticle($id, $to_cat_id)
         $art_sql->setValue('path', $path);
         $art_sql->setValue('catname', $art_sql->escape($catname));
         $art_sql->setValue('catprior', 0);
-        $art_sql->setValue('prior', 99999); // Artikel als letzten Artikel in die neue Kat einfügen
+        $art_sql->setValue('prior', 99999); // Artikel als letzten Artikel in die neue Kat einfÃ¼gen
         $art_sql->setValue('status', 0); // Kopierter Artikel offline setzen
         $art_sql->setValue('startpage', 0);
         $art_sql->addGlobalCreateFields();
 
-        // schon gesetzte Felder nicht wieder überschreiben
+        // schon gesetzte Felder nicht wieder Ã¼berschreiben
         $dont_copy = array ('id', 'pid', 're_id', 'catname', 'catprior', 'path', 'prior', 'status', 'createdate', 'createuser', 'startpage');
 
         foreach (array_diff($from_sql->getFieldnames(), $dont_copy) as $fld_name)
@@ -716,10 +716,10 @@ function rex_copyArticle($id, $to_cat_id)
     }
   }
 
-  // Caches des Artikels löschen, in allen Sprachen
+  // Caches des Artikels lÃ¶schen, in allen Sprachen
   rex_deleteCacheArticle($id);
 
-  // Caches der Kategorien löschen, da sich derin befindliche Artikel geändert haben
+  // Caches der Kategorien lÃ¶schen, da sich derin befindliche Artikel geÃ¤ndert haben
   rex_deleteCacheArticle($to_cat_id);
 
   return $new_id;
@@ -780,7 +780,7 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
         $art_sql->setValue('re_id', $re_id);
         $art_sql->setValue('path', $path);
         $art_sql->setValue('catname', $art_sql->escape($catname));
-        // Artikel als letzten Artikel in die neue Kat einfügen
+        // Artikel als letzten Artikel in die neue Kat einfÃ¼gen
         $art_sql->setValue('prior', '99999');
         // Kopierter Artikel offline setzen
         $art_sql->setValue('status', '0');
@@ -804,10 +804,10 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
     }
   }
 
-  // Caches des Artikels löschen, in allen Sprachen
+  // Caches des Artikels lÃ¶schen, in allen Sprachen
   rex_deleteCacheArticle($id);
 
-  // Caches der Kategorien löschen, da sich derin befindliche Artikel geändert haben
+  // Caches der Kategorien lÃ¶schen, da sich derin befindliche Artikel geÃ¤ndert haben
   rex_deleteCacheArticle($from_cat_id);
   rex_deleteCacheArticle($to_cat_id);
 
@@ -943,11 +943,11 @@ function rex_moveCategory($from_cat, $to_cat)
  * @param $article_id Id des zu generierenden Artikels
  * @param [$clang ClangId des Artikels]
  * 
- * @return TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
+ * @return TRUE bei Erfolg, FALSE wenn eine ungÃ¼tlige article_id Ã¼bergeben wird, sonst eine Fehlermeldung
  */
 function rex_generateArticleContent($article_id, $clang = null)
 {
-  global $REX, $I18N;
+  global $REX;
   
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
@@ -956,7 +956,7 @@ function rex_generateArticleContent($article_id, $clang = null)
       
     $CONT = new rex_article_base();
     $CONT->setCLang($_clang);
-    $CONT->setEval(FALSE); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
+    $CONT->setEval(FALSE); // Content nicht ausfÃ¼hren, damit in Cachedatei gespeichert werden kann
     if (!$CONT->setArticleId($article_id)) return FALSE;
   
     // --------------------------------------------------- Artikelcontent speichern
@@ -974,7 +974,7 @@ function rex_generateArticleContent($article_id, $clang = null)
   
     if (rex_put_file_contents($article_content_file, $article_content) === FALSE)
     {
-      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
+      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
     }
   }
   

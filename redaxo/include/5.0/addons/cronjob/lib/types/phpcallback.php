@@ -53,20 +53,20 @@ class rex_cronjob_phpcallback extends rex_cronjob
   
   public function getTypeName()
   {
-    global $I18N;
-    return $I18N->msg('cronjob_type_phpcallback');
+    global $REX;
+    return $REX['I18N']->msg('cronjob_type_phpcallback');
   }
   
   public function getParamFields()
 	{
-		global $I18N;
+		global $REX;
 
 		return array(
   		array(
-        'label' => $I18N->msg('cronjob_type_phpcallback'),
+        'label' => $REX['I18N']->msg('cronjob_type_phpcallback'),
         'name'  => 'callback',
         'type'  => 'text',
-        'notice' => $I18N->msg('cronjob_examples') .': foo(), foo(1, \'string\'), foo::bar()'
+        'notice' => $REX['I18N']->msg('cronjob_examples') .': foo(), foo(1, \'string\'), foo::bar()'
       )
     );
 	}

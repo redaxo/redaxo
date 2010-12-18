@@ -37,7 +37,7 @@ if (empty($array))
   echo '
     <div class="rex-toolbar">
       <div class="rex-toolbar-content">
-        <strong>'. $I18N->msg('cronjob_no_log_files') .'</strong>
+        <strong>'. $REX['I18N']->msg('cronjob_no_log_files') .'</strong>
         <div class="rex-clearer"></div>
       </div>
     </div>';
@@ -80,13 +80,13 @@ else
             <fieldset>
               <input type="hidden" name="page" value="cronjob" />
               <input type="hidden" name="subpage" value="log" />
-              <label for="log_year" style="font-weight: bold">'. $I18N->msg('cronjob_log_year') .':</label>
+              <label for="log_year" style="font-weight: bold">'. $REX['I18N']->msg('cronjob_log_year') .':</label>
               '. $year_sel->get() .' - 
-              <label for="log_month" style="font-weight: bold">'. $I18N->msg('cronjob_log_month') .':</label>
+              <label for="log_month" style="font-weight: bold">'. $REX['I18N']->msg('cronjob_log_month') .':</label>
               '. $month_sel->get() .'
               <noscript>
                 <p style="display:inline;margin-left:5px">
-                  <input type="submit" class="rex-form-submit" value="'. $I18N->msg('cronjob_log_ok') .'" />
+                  <input type="submit" class="rex-form-submit" value="'. $REX['I18N']->msg('cronjob_log_ok') .'" />
                 <p>
               </noscript>
             </fieldset>

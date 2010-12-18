@@ -15,7 +15,7 @@
  * @version svn:$Id$
  */
 
-$mypage = 'nsg_skin';
+$mypage = 'agk_skin';
 
 $REX['ADDON']['version'][$mypage] = '1.3';
 $REX['ADDON']['author'][$mypage] = 'Design: Ralph Zumkeller; Umsetzung: Thomas Blum';
@@ -24,26 +24,26 @@ $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 if($REX["REDAXO"])
 {
 	
-	function rex_be_style_nsg_skin_css_add($params)
+	function rex_be_style_agk_skin_css_add($params)
 	{
 	  $params["subject"] .= '      
 	    <!--[if lte IE 7]>
-	      <link rel="stylesheet" href="../redaxo_media/addons/be_style/plugins/nsg_skin/css_ie_lte_7.css" type="text/css" media="screen, projection, print" />
+	      <link rel="stylesheet" href="../redaxo_media/addons/be_style/plugins/agk_skin/css_ie_lte_7.css" type="text/css" media="screen, projection, print" />
 	    <![endif]-->
 	    <!--[if lte IE 6]>
-	      <link rel="stylesheet" href="../redaxo_media/addons/be_style/plugins/nsg_skin/css_ie_lte_6.css" type="text/css" media="screen, projection, print" />
+	      <link rel="stylesheet" href="../redaxo_media/addons/be_style/plugins/agk_skin/css_ie_lte_6.css" type="text/css" media="screen, projection, print" />
 	    <![endif]-->';
 	  return $params["subject"];
 	}
 
-	rex_register_extension('PAGE_HEADER', 'rex_be_style_nsg_skin_css_add');
+	rex_register_extension('PAGE_HEADER', 'rex_be_style_agk_skin_css_add');
   
-	function rex_be_style_nsg_skin_css_body($params)
+	function rex_be_style_agk_skin_css_body($params)
 	{
-	  $params["subject"]["class"][] = "be-style-nsg-skin";
+	  $params["subject"]["class"][] = "be-style-agk-skin";
 	  return $params["subject"];
 	}
   
-	rex_register_extension('PAGE_BODY_ATTR', 'rex_be_style_nsg_skin_css_body');
+	rex_register_extension('PAGE_BODY_ATTR', 'rex_be_style_agk_skin_css_body');
 
 }

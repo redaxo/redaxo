@@ -19,7 +19,7 @@ $userdesc = rex_request('userdesc', 'string');
 
 // --------------------------------- Title
 
-rex_title($I18N->msg('profile_title'),'');
+rex_title($REX['I18N']->msg('profile_title'),'');
 
 // --------------------------------- BE LANG
 
@@ -30,7 +30,6 @@ $sel_be_sprache->setSize(1);
 $sel_be_sprache->setName("userperm_be_sprache");
 $sel_be_sprache->setId("userperm-mylang");
 $sel_be_sprache->addOption("default","");
-$cur_htmlcharset = $I18N->msg('htmlcharset');
 
 $langpath = $REX['SRC_PATH'] .'/core/lang';
 $langs = array();
@@ -42,12 +41,8 @@ if ($handle = opendir($langpath))
     {
 			$locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
 			$I18N_T = rex_create_lang($locale,$langpath,FALSE); // Locale nicht neu setzen
-      $i_htmlcharset = $I18N_T->msg('htmlcharset');
-      if ($cur_htmlcharset == $i_htmlcharset)
-      {
-      	$sel_be_sprache->addOption($I18N_T->msg('lang'),$locale);
-      	$langs[$locale] = $I18N_T->msg('lang');
-      }
+      $sel_be_sprache->addOption($I18N_T->msg('lang'),$locale);
+      $langs[$locale] = $I18N_T->msg('lang');
 		}
 	}
 	closedir($handle);
@@ -76,18 +71,18 @@ if (rex_post('upd_profile_button', 'string'))
 
   // set be langauage
   $userperm_be_sprache = rex_request("userperm_be_sprache","string");
-  if(!isset($langs[$userperm_be_sprache])) 
+  if(!isset($langs[$userperm_be_sprache]))
     $userperm_be_sprache = "default";
   $userperm_be_sprache_selected = $userperm_be_sprache;
-  
+
   $rights = $REX['USER']->removePerm('be_lang');
   $rights .= 'be_lang['.$userperm_be_sprache.']#';
   $updateuser->setValue('rights',$rights);
-	
+
   $updateuser->addGlobalUpdateFields();
 
   if($updateuser->update())
-    $info = $I18N->msg('user_data_updated');
+    $info = $REX['I18N']->msg('user_data_updated');
   else
     $warning = $updateuser->getError();
 }
@@ -103,25 +98,25 @@ if (rex_post('upd_psw_button', 'string'))
   // when not already encrypted by client using javascript
   if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0')
     $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
-    
+
   if($userpsw != '' && $REX['USER']->getValue('psw') == $userpsw && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2)
   {
     // the service side encryption of pw is only required
     // when not already encrypted by client using javascript
     if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0')
       $userpsw_new_1 = call_user_func($REX['PSWFUNC'],$userpsw_new_1);
-  
+
     $updateuser->setValue('psw',$userpsw_new_1);
     $updateuser->addGlobalUpdateFields();
 
     if($updateuser->update())
-      $info = $I18N->msg('user_psw_updated');
+      $info = $REX['I18N']->msg('user_psw_updated');
     else
       $warning = $updateuser->getError();
-    
+
   }else
   {
-  	$warning = $I18N->msg('user_psw_error');
+  	$warning = $REX['I18N']->msg('user_psw_error');
   }
 
 }
@@ -157,30 +152,30 @@ else
     <div class="rex-form" id="rex-form-profile">
     <form action="index.php" method="post">
       <fieldset class="rex-form-col-2">
-        <legend>'.$I18N->msg('profile_myprofile').'</legend>
+        <legend>'.$REX['I18N']->msg('profile_myprofile').'</legend>
 
         <div class="rex-form-wrapper">
           <input type="hidden" name="page" value="profile" />
 
 					<div class="rex-form-row">
 						<p class="rex-form-col-a rex-form-read">
-              <label for="userlogin">'. htmlspecialchars($I18N->msg('login_name')).'</label>
+              <label for="userlogin">'. htmlspecialchars($REX['I18N']->msg('login_name')).'</label>
               <span class="rex-form-read" id="userlogin">'. htmlspecialchars($sql->getValue($REX['TABLE_PREFIX'].'user.login')) .'</span>
 						</p>
 
 	          <p class="rex-form-col-b rex-form-select">
-	            <label for="userperm-mylang">'.$I18N->msg('backend_language').'</label>
+	            <label for="userperm-mylang">'.$REX['I18N']->msg('backend_language').'</label>
 	            '.$sel_be_sprache->get().'
 	          </p>
 					</div>
 
 					<div class="rex-form-row">
 						<p class="rex-form-col-a rex-form-text">
-              <label for="username">'.$I18N->msg('name').'</label>
+              <label for="username">'.$REX['I18N']->msg('name').'</label>
               <input class="rex-form-text" type="text" id="username" name="username" value="'.htmlspecialchars($username).'" />
             </p>
 						<p class="rex-form-col-b rex-form-text">
-              <label for="userdesc">'.$I18N->msg('description').'</label>
+              <label for="userdesc">'.$REX['I18N']->msg('description').'</label>
               <input class="rex-form-text" type="text" id="userdesc" name="userdesc" value="'.htmlspecialchars($userdesc).'" />
             </p>
       		</div>
@@ -192,7 +187,7 @@ else
         <div class="rex-form-wrapper">
           <div class="rex-form-row">
 						<p class="rex-form-col-a rex-form-submit">
-            	<input class="rex-form-submit" type="submit" name="upd_profile_button" value="'.$I18N->msg('profile_save').'" '. rex_accesskey($I18N->msg('profile_save'), $REX['ACKEY']['SAVE']) .' />
+            	<input class="rex-form-submit" type="submit" name="upd_profile_button" value="'.$REX['I18N']->msg('profile_save').'" '. rex_accesskey($REX['I18N']->msg('profile_save'), $REX['ACKEY']['SAVE']) .' />
             </p>
           </div>
         </div>
@@ -206,26 +201,26 @@ else
     <form action="index.php" method="post" id="pwformular">
       <input type="hidden" name="javascript" value="0" id="javascript" />
       <fieldset class="rex-form-col-2">
-        <legend>'.$I18N->msg('profile_changepsw').'</legend>
+        <legend>'.$REX['I18N']->msg('profile_changepsw').'</legend>
 
         <div class="rex-form-wrapper">
           <input type="hidden" name="page" value="profile" />
 
 					<div class="rex-form-row">
 			    	<p class="rex-form-col-a rex-form-text">
-              			<label for="userpsw">'.$I18N->msg('old_password').'</label>
+              			<label for="userpsw">'.$REX['I18N']->msg('old_password').'</label>
 						<input class="rex-form-text" type="password" id="userpsw" name="userpsw" />
 						</p>
 					</div>
-					
-					
+
+
 					<div class="rex-form-row">
 			    	<p class="rex-form-col-a rex-form-text">
-             				 <label for="userpsw">'.$I18N->msg('new_password').'</label>
+             				 <label for="userpsw">'.$REX['I18N']->msg('new_password').'</label>
 							<input class="rex-form-text" type="password" id="userpsw_new_1" name="userpsw_new_1" />
 						</p>
 			    	<p class="rex-form-col-b rex-form-text">
-              				<label for="userpsw">'.$I18N->msg('new_password_repeat').'</label>
+              				<label for="userpsw">'.$REX['I18N']->msg('new_password_repeat').'</label>
 							<input class="rex-form-text" type="password" id="userpsw_new_2" name="userpsw_new_2" />
 						</p>
 					</div>
@@ -237,19 +232,19 @@ else
         <div class="rex-form-wrapper">
           <div class="rex-form-row">
 						<p class="rex-form-col-a rex-form-submit">
-            	<input class="rex-form-submit" type="submit" name="upd_psw_button" value="'.$I18N->msg('profile_save_psw').'" '. rex_accesskey($I18N->msg('profile_save_psw'), $REX['ACKEY']['SAVE']) .' />
+            	<input class="rex-form-submit" type="submit" name="upd_psw_button" value="'.$REX['I18N']->msg('profile_save_psw').'" '. rex_accesskey($REX['I18N']->msg('profile_save_psw'), $REX['ACKEY']['SAVE']) .' />
             </p>
           </div>
         </div>
       </fieldset>
     </form>
     </div>
-    
+
     <script type="text/javascript">
        <!--
       jQuery(function($) {
         $("#username").focus();
-        
+
         $("#pwformular")
           .submit(function(){
           	var pwInp0 = $("#userpsw");
@@ -257,20 +252,20 @@ else
           	{
             	pwInp0.val(Sha1.hash(pwInp0.val()));
           	}
-          	
+
           	var pwInp1 = $("#userpsw_new_1");
           	if(pwInp1.val() != "")
           	{
             	pwInp1.val(Sha1.hash(pwInp1.val()));
           	}
-          	
+
           	var pwInp2 = $("#userpsw_new_2");
           	if(pwInp2.val() != "")
           	{
           		pwInp2.val(Sha1.hash(pwInp2.val()));
           	}
         });
-        
+
         $("#javascript").val("1");
       });
        //-->

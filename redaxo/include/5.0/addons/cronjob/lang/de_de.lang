@@ -2,27 +2,28 @@
 
 cronjob_title = Cronjobs
 
-cronjob_add = Cronjob hinzufügen
+cronjob_add = Cronjob hinzufÃ¼gen
 cronjob_edit = Cronjob editieren
 
 cronjob_summary = Auflistung aller angelegten Cronjobs
 cronjob_caption = Liste der angelegten Cronjobs
 cronjob_no_cronjobs = Keine Cronjobs vorhanden
 
-cronjob_delete = Löschen
-cronjob_really_delete = Cronjob wirklich löschen?
-cronjob_delete_success = Cronjob "{0}" wurde erfolgreich gelöscht!
-cronjob_delete_error = Cronjob "{0}" konnte nicht gelöscht werden!
+cronjob_delete = LÃ¶schen
+cronjob_really_delete = Cronjob wirklich lÃ¶schen?
+cronjob_delete_success = Cronjob "{0}" wurde erfolgreich gelÃ¶scht!
+cronjob_delete_error = Cronjob "{0}" konnte nicht gelÃ¶scht werden!
 
-cronjob_execute = Ausführen
-cronjob_execute_success = Cronjob "{0}" wurde erfolgreich ausgeführt!
-cronjob_execute_error = Cronjob "{0}" wurde nicht erfolgreich ausgeführt!
+cronjob_execute = AusfÃ¼hren
+cronjob_execute_success = Cronjob "{0}" wurde erfolgreich ausgefÃ¼hrt!
+cronjob_execute_error = Cronjob "{0}" wurde nicht erfolgreich ausgefÃ¼hrt!
 
 cronjob_name = Name
+cronjob_description = Beschreibung
 cronjob_examples = Beispiele
 
 cronjob_type = Typ
-cronjob_type_not_found = Cronjob "{0}" kann nicht bearbeitet werden, da die Klasse "{1}" nicht gefunden wurde. Prüfen Sie, ob das zugehörige AddOn/PlugIn aktiviert ist!
+cronjob_type_not_found = Cronjob "{0}" kann nicht bearbeitet werden, da die Klasse "{1}" nicht gefunden wurde. PrÃ¼fen Sie, ob das zugehÃ¶rige AddOn/PlugIn aktiviert ist!
 cronjob_type_phpcode = PHP-Code
 cronjob_type_phpcallback = PHP-Callback
 cronjob_type_urlrequest = URL-Aufruf
@@ -32,7 +33,7 @@ cronjob_type_urlrequest_httpauth = HTTP-Authentifizierung
 cronjob_type_urlrequest_user = Benutzer
 cronjob_type_urlrequest_password = Passwort
 cronjob_type_parameters = Typspezifische Parameter
-cronjob_type_no_parameters = Für diesen Typ sind keine weiteren Parameter notwendig!
+cronjob_type_no_parameters = FÃ¼r diesen Typ sind keine weiteren Parameter notwendig!
 
 cronjob_interval = Intervall
 cronjob_interval_minutes = Minute(n)
@@ -46,7 +47,7 @@ cronjob_environment = Umgebung
 cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
 
-cronjob_execution = Ausführung
+cronjob_execution = AusfÃ¼hrung
 cronjob_execution_beginning = Skriptanfang
 cronjob_execution_ending = Skriptende
 
@@ -72,11 +73,11 @@ cronjob_log_month = Monat
 cronjob_log_ok = OK
 cronjob_no_log_files = Keine Log-Dateien vorhanden.
 cronjob_log_no_data = Keine Daten vorhanden.
-cronjob_log_summary_1 = Auflistung der ausgeführten Cronjobs im {0} {1}
-cronjob_log_summary_2 = Auflistung der zuletzt ausgeführten Cronjobs
-cronjob_log_caption_1 = Liste der ausgeführten Cronjobs im {0} {1}
-cronjob_log_caption_2 = Liste der zuletzt ausgeführten Cronjobs
+cronjob_log_summary_1 = Auflistung der ausgefÃ¼hrten Cronjobs im {0} {1}
+cronjob_log_summary_2 = Auflistung der zuletzt ausgefÃ¼hrten Cronjobs
+cronjob_log_caption_1 = Liste der ausgefÃ¼hrten Cronjobs im {0} {1}
+cronjob_log_caption_2 = Liste der zuletzt ausgefÃ¼hrten Cronjobs
 cronjob_log_message = Meldung
 
 cronjob_dashboard_block = Protokoll
-cronjob_dashboard_component_title = Zuletzt ausgeführte Cronjobs
+cronjob_dashboard_component_title = Zuletzt ausgefÃ¼hrte Cronjobs

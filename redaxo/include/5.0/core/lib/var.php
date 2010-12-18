@@ -305,7 +305,7 @@ abstract class rex_var
 
   /**
    * Durchsucht den String $content nach Variablen mit dem Namen $varname.
-   * Gibt die Parameter der Treffer (Text der Variable zwischen den []) als Array zurück.
+   * Gibt die Parameter der Treffer (Text der Variable zwischen den []) als Array zurÃ¼ck.
    */
   
   /**

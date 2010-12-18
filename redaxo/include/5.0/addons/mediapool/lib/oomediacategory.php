@@ -48,7 +48,7 @@ class OOMediaCategory
   static function getCategoryById($id)
   {
     global $REX;
-    
+
     $id = (int) $id;
     if (!is_numeric($id))
       return null;
@@ -65,25 +65,25 @@ class OOMediaCategory
       require_once ($cat_path);
 
       $cat = new OOMediaCategory();
-  
+
       $cat->_id = $REX['MEDIA']['CAT_ID'][$id]['id'];
       $cat->_parent_id = $REX['MEDIA']['CAT_ID'][$id]['re_id'];
-  
+
       $cat->_name = $REX['MEDIA']['CAT_ID'][$id]['name'];
       $cat->_path = $REX['MEDIA']['CAT_ID'][$id]['path'];
-  
+
       $cat->_createdate = $REX['MEDIA']['CAT_ID'][$id]['createdate'];
       $cat->_updatedate = $REX['MEDIA']['CAT_ID'][$id]['updatedate'];
-  
+
       $cat->_createuser = $REX['MEDIA']['CAT_ID'][$id]['createuser'];
       $cat->_updateuser = $REX['MEDIA']['CAT_ID'][$id]['updateuser'];
-  
+
       $cat->_children = null;
       $cat->_files = null;
-  
+
       return $cat;
     }
-    
+
     return null;
   }
 
@@ -94,21 +94,21 @@ class OOMediaCategory
   {
     return OOMediaCategory :: getChildrenById(0);
   }
-  
+
   /**
    * @access public
    */
   static function getChildrenById($id)
   {
     global $REX;
-    
+
     $id = (int) $id;
 
     if(!is_int($id))
       return array();
-      
+
     $catlist = array();
-  
+
     $catlist_path = $REX['SRC_PATH'] .'/generated/files/'.$id.'.mclist';
     if (!file_exists($catlist_path))
 		{
@@ -119,14 +119,14 @@ class OOMediaCategory
     if (file_exists($catlist_path))
     {
       require_once ($catlist_path);
-      
-      if (isset($REX['MEDIA']['RE_CAT_ID'][$id]) && is_array($REX['MEDIA']['RE_CAT_ID'][$id])) 
+
+      if (isset($REX['MEDIA']['RE_CAT_ID'][$id]) && is_array($REX['MEDIA']['RE_CAT_ID'][$id]))
       {
         foreach($REX['MEDIA']['RE_CAT_ID'][$id] as $cat_id)
           $catlist[] = OOMediaCategory :: getCategoryById($cat_id);
       }
     }
-    
+
     return $catlist;
   }
 
@@ -176,10 +176,10 @@ class OOMediaCategory
       else
         $p[$k] = (int) $v;
     }
-    
+
     return array_values($p);
   }
-  
+
   /**
    * @access public
    */
@@ -227,12 +227,12 @@ class OOMediaCategory
   {
     return OOMediaCategory :: getCategoryById($this->getParentId());
   }
-  
+
   /**
    * @access public
    * Get an array of all parentCategories.
    * Returns an array of OORedaxo objects sorted by $prior.
-   * 
+   *
    */
   function getParentTree()
   {
@@ -253,7 +253,7 @@ class OOMediaCategory
     }
     return $tree;
   }
-  
+
   /*
    * Object Function:
    * Checks if $anObj is in the parent tree of the object
@@ -277,7 +277,7 @@ class OOMediaCategory
   function getChildren()
   {
     global $REX;
-    
+
     if ($this->_children === null)
     {
       $this->_children = OOMediaCategory :: getChildrenById($this->getId());
@@ -300,27 +300,27 @@ class OOMediaCategory
   function getMedia()
   {
     global $REX;
-    
+
     if ($this->_files === null)
     {
       $this->_files = array();
       $id = $this->getId();
-    
+
       $list_path = $REX['SRC_PATH'] .'/generated/files/'.$id.'.mlist';
       if (!file_exists($list_path))
   		{
   			require_once ($REX['SRC_PATH'] .'/core/functions/function_rex_generate.inc.php');
       	rex_generateMediaList($id);
   		}
-  
+
       if (file_exists($list_path))
       {
         require_once ($list_path);
-        
-        if (isset($REX['MEDIA']['MEDIA_CAT_ID'][$id]) && is_array($REX['MEDIA']['MEDIA_CAT_ID'][$id])) 
+
+        if (isset($REX['MEDIA']['MEDIA_CAT_ID'][$id]) && is_array($REX['MEDIA']['MEDIA_CAT_ID'][$id]))
         {
           foreach($REX['MEDIA']['MEDIA_CAT_ID'][$id] as $filename)
-            $this->_files[] = & OOMedia :: getMediaByFileName($filename);
+            $this->_files[] = OOMedia :: getMediaByFileName($filename);
         }
       }
     }
@@ -399,11 +399,11 @@ class OOMediaCategory
   {
     return count($this->getMedia()) > 0;
   }
-  
+
   /**
    * @access protected
    */
-  function _getTableName()
+  static function _getTableName()
   {
     global $REX;
     return $REX['TABLE_PREFIX'] . 'file_category';
@@ -447,12 +447,12 @@ class OOMediaCategory
    */
   function delete($recurse = false)
   {
-    // Rekursiv löschen?
+    // Rekursiv lï¿½schen?
     if(!$recurse && $this->hasChildren())
     {
       return false;
     }
-    
+
     if ($recurse)
     {
       $childs = $this->getChildren();
@@ -461,8 +461,8 @@ class OOMediaCategory
         if(!$child->delete($recurse)) return false;
       }
     }
-    
-    // Alle Dateien löschen
+
+    // Alle Dateien lï¿½schen
     if ($this->hasMedia())
     {
       $files = $this->getMedia();
@@ -473,16 +473,16 @@ class OOMediaCategory
     }
 
     $qry = 'DELETE FROM ' . $this->_getTableName() . ' WHERE id = ' . $this->getId() . ' LIMIT 1';
-    $sql = rex_sql::factory(); 
+    $sql = rex_sql::factory();
     // $sql->debugsql = true;
     $sql->setQuery($qry);
-    
+
     rex_deleteCacheMediaCategory($this->getId());
     rex_deleteCacheMediaList($this->getId());
-    
+
     return !$sql->hasError() || $sql->getRows() != 1;
   }
-  
+
   /**
    * @access public
    * @deprecated 4.2 - 17.05.2008

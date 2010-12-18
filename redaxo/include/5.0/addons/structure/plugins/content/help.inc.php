@@ -14,5 +14,5 @@
 <b>Page Content Addon</b>
 
 <br /><br />
-Addon um Layouts für Artikel zu erstellen.
+Addon um Layouts fÃ¼r Artikel zu erstellen.
 Diese Layouts dekorieren Inhalte von Frontend-Seiten.

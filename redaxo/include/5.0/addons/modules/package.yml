@@ -2,3 +2,12 @@ modules:
   version: '1.3'
   author: 'Markus Staab'
   supportpage: forum.redaxo.de
+  
+  name: 'translate:modules'
+  perm: isAdmin
+  navigation:
+    block: system
+    prio: 40
+  pages:
+    - ['', 'translate:modules']
+    - ['actions', 'translate:actions']

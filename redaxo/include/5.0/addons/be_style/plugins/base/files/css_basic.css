@@ -6,67 +6,17 @@
 
 /************************************* Reset allgemein - NICHTS VERAENDERN *****
 *******************************************************************************/
-.be-style-base, 
-.be-style-base div, 
-.be-style-base span, 
-.be-style-base applet, 
-.be-style-base object, 
-.be-style-base iframe,
-.be-style-base h1, 
-.be-style-base h2, 
-.be-style-base h3, 
-.be-style-base h4, 
-.be-style-base h5, 
-.be-style-base h6, 
-.be-style-base p, 
-.be-style-base blockquote, 
-.be-style-base pre, 
-.be-style-base a, 
-.be-style-base abbr, 
-.be-style-base acronym, 
-.be-style-base address, 
-.be-style-base big, 
-.be-style-base cite, 
-.be-style-base code,
-.be-style-base del, 
-.be-style-base dfn, 
-.be-style-base em, 
-.be-style-base font, 
-.be-style-base img, 
-.be-style-base ins, 
-.be-style-base kbd, 
-.be-style-base q, 
-.be-style-base s, 
-.be-style-base samp, 
-.be-style-base small, 
-.be-style-base strike, 
-.be-style-base strong, 
-.be-style-base sub, 
-.be-style-base sup, 
-.be-style-base tt, 
-.be-style-base var, 
-.be-style-base b, 
-.be-style-base u, 
-.be-style-base i, 
-.be-style-base center, 
-.be-style-base dl, 
-.be-style-base dt, 
-.be-style-base dd, 
-.be-style-base ol, 
-.be-style-base ul, 
-.be-style-base li, 
-.be-style-base fieldset, 
-.be-style-base form, 
-.be-style-base label, 
-.be-style-base legend, 
-.be-style-base table, 
-.be-style-base caption, 
-.be-style-base tbody, 
-.be-style-base tfoot, 
-.be-style-base thead, 
-.be-style-base tr, 
-.be-style-base th, 
-.be-style-base td {
+body, 
+div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, 
+p, blockquote, pre, 
+a, abbr, acronym, address, 
+big, cite, code, del, dfn, em, font, img, ins, kbd, q, 
+s, samp, small, strike, strong, sub, sup, 
+tt, var, b, u, i, center, 
+dl, dt, dd, ol, ul, li, 
+fieldset, form, label, legend, 
+table, caption, tbody, tfoot, thead, tr, th, td {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -76,74 +26,64 @@
 	background: transparent;
 }
 
-.be-style-base, 
-.be-style-base div,
-.be-style-base h1, 
-.be-style-base h2, 
-.be-style-base h3, 
-.be-style-base h4, 
-.be-style-base h5, 
-.be-style-base h6, 
-.be-style-base p,
-.be-style-base a, 
-.be-style-base span,
-.be-style-base li {
+body, div,
+h1, h2, h3, h4, h5, h6, p,
+a, span, li, 
+th, td {
 	background-repeat: no-repeat;
 }
 
-.be-style-base ol, 
-.be-style-base ul {
+ol, ul {
 	list-style-position: outside;
 }
-.be-style-base li {
+li {
 	list-style-type: none;
 }
-.be-style-base blockquote, 
-.be-style-base q {
+blockquote, q {
 	quotes: none;
 }
-.be-style-base blockquote:before, 
-.be-style-base blockquote:after,
-.be-style-base q:before, 
-.be-style-base q:after {
+blockquote:before, 
+blockquote:after,
+q:before, 
+q:after {
 	content: '';
 	content: none;
 }
 
-.be-style-base :focus {
+:focus {
 	outline: 0;
 }
-.be-style-base a {
+a {
 	text-decoration:none;
 }
-.be-style-base a:hover {
-	text-decoration:underline;
-}
-.be-style-base ins {
+a:hover {
 	text-decoration: underline;
 }
-.be-style-base del {
+ins {
+	text-decoration: underline;
+}
+del {
 	text-decoration: line-through;
 }
-.be-style-base table {
+table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
 
-.be-style-base img, 
-.be-style-base iframe {
+img, 
+iframe {
 	vertical-align: bottom;
 }
-.be-style-base strong {
+strong {
 	font-weight: bold;
 }
-.be-style-base input, 
-.be-style-base textarea, 
-.be-style-base select {
+input, 
+textarea, 
+select {
 	font-size: 1em;
 }
 /* body */
-.be-style-base {
+body {
 	position: relative;
 	background-color: #FFF;
 	color: #000;
@@ -156,7 +96,7 @@
 
 /******************************************** Standard *************************
 *******************************************************************************/
-.be-style-base .rex-clearer {
+.rex-clearer {
 	display: block;
 	clear: both;
 	line-height: 0em;
@@ -165,11 +105,11 @@
 	visibility: hidden;
 }
 
-.be-style-base .rex-clear {
+.rex-clear {
 	clear: both;
 }
 
-.be-style-base .rex-hidden {
+.rex-hidden {
 	display: inline !important;
 	position: absolute !important;
 	left: -1000px !important;
@@ -180,7 +120,7 @@
 	background-color: #FFF !important;
 }
 
-.be-style-base .rex-rvrs {
+.be-style-base .rex-reverse {
 	unicode-bidi: bidi-override;
 	direction: rtl;
 }
@@ -199,13 +139,14 @@
 
 /*	Schriftgroessen ************************************************************
 *******************************************************************************/
+/*
 .be-style-base {
 	font-size: 75%;
 }
 .be-style-base .rex-code {
 	font-size: 120%;
 }
-
+*/
 
 /*	Schriftgroessen fuer Ausgabe der Module / Slices */
 .be-style-base .rex-content-editmode-slice-output h1 {
@@ -225,58 +166,4 @@
 }
 .be-style-base .rex-content-editmode-slice-output h6 {
 	font-size: 100%;
-}
-
-
-
-/*	Textfarben *****************************************************************
-*******************************************************************************/
-/*	Grau */
-.be-style-base {
-	color: #000;
-}
-
-/*	Rot */
-.be-style-base a, 
-.be-style-base .rex-warning,
-.be-style-base .rex-warning-block {
-	color: #F2353A;
-}
-
-/*	Gruen */
-.be-style-base .rex-online,
-.be-style-base .rex-info,
-.be-style-base .rex-info-block,
-.be-style-base .rex-info-block a {
-	color: #107C2C;
-}
-
-
-
-/*	Seitenstruktur *************************************************************
-*******************************************************************************/
-
-.be-style-base #rex-website {
-	position: relative;
-	width: 100%;
-}
-
-.be-style-base #rex-header,
-.be-style-base #rex-footer,
-.be-style-base #rex-navi-main, 
-.be-style-base #rex-wrapper, 
-.be-style-base #rex-output, 
-.be-style-base .rex-content-body {
-	position: relative;
-	clear: both;
-	float: left;
-	width: 100%;
-}
-
-
-.be-style-base .rex-navi dt, 
-.be-style-base .rex-navi dd, 
-.be-style-base .rex-navi ul, 
-.be-style-base .rex-navi li {
-	display: inline;
 }

@@ -5,10 +5,10 @@ class rex_effect_filter_greyscale extends rex_effect_abstract
 {
 	function execute()
 	{
-     $gdimage =& $this->image->getImage();
+     $gdimage = $this->image->getImage();
      $w = $this->image->getWidth();
      $h = $this->image->getHeight();
-     
+
      $src_x = ceil($w);
      $src_y = ceil($h);
      $dst_x = $src_x;
@@ -44,14 +44,14 @@ class rex_effect_filter_greyscale extends rex_effect_abstract
 
      $gdimage = $dst_im;
 	}
-	
+
 	function getParams()
 	{
-		global $REX,$I18N;
+		global $REX;
 
 		return array(
 		);
-		
+
 	}
 
 }

@@ -24,7 +24,7 @@ class rex_rss_reader_component extends rex_dashboard_component
   
   protected function prepare()
   {
-    global $I18N;
+    global $REX;
     
     $content = '';
     foreach($this->config->getFeedUrls() as $feedUrl)
@@ -37,14 +37,14 @@ class rex_rss_reader_component extends rex_dashboard_component
     
     if($content == '')
     {
-      $content .= $I18N->msg('rss_reader_component_noconfig');
+      $content .= $REX['I18N']->msg('rss_reader_component_noconfig');
       $content .= ' ';
       $content .= '<a href="#" onclick="componentToggleSettings(\''. $this->getId() .'\'); return false;">';
-      $content .= $I18N->msg('rss_reader_component_opensettings');
+      $content .= $REX['I18N']->msg('rss_reader_component_opensettings');
       $content .= '</a>';
     }
     
-    $this->setTitle($I18N->msg('rss_reader_component_title'));
+    $this->setTitle($REX['I18N']->msg('rss_reader_component_title'));
     $this->setContent($content);
   }
 }

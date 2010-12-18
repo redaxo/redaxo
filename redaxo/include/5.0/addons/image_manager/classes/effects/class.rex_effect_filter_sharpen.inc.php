@@ -4,7 +4,7 @@
 ////
 ////                  Unsharp Mask for PHP - version 2.1.1
 ////
-////    Unsharp mask algorithm by Torstein Hønsi 2003-07.
+////    Unsharp mask algorithm by Torstein Hï¿½nsi 2003-07.
 ////             thoensi_at_netcom_dot_no.
 ////               Please leave this notice.
 ////
@@ -22,23 +22,23 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 		if ($this->params['amount'] > 500)
 		  $this->params['amount'] = 500;
 		$this->params['amount'] = $this->params['amount'] * 0.016;
-		
+
 		if ($this->params['radius'] > 50)
 		  $this->params['radius'] = 50;
 	  $this->params['radius'] = $this->params['radius'] * 2;
-	  
+
 		if ($this->params['threshold'] > 255)
 		  $this->params['threshold'] = 255;
-			
+
 		$this->params['radius'] = abs(round($this->params['radius']));     // Only integers make sense.
-		
+
 		if ($this->params['radius'] == 0) {
-			return; 
+			return;
 	  }
-      $gdimage =& $this->image->getImage();
+      $gdimage = $this->image->getImage();
       $w = $this->image->getWidth();
       $h = $this->image->getHeight();
-      
+
 			$imgCanvas = imagecreatetruecolor($w, $h);
 			$imgBlur = imagecreatetruecolor($w, $h);
 
@@ -80,18 +80,18 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 				// and set the pixels
 				for ($x = 0; $x < $w-1; $x++)    { // each row
 					for ($y = 0; $y < $h; $y++)    { // each pixel
-							
+
 						$rgbOrig = ImageColorAt($gdimage, $x, $y);
 						$rOrig = (($rgbOrig >> 16) & 0xFF);
 						$gOrig = (($rgbOrig >> 8) & 0xFF);
 						$bOrig = ($rgbOrig & 0xFF);
-							
+
 						$rgbBlur = ImageColorAt($imgBlur, $x, $y);
-							
+
 						$rBlur = (($rgbBlur >> 16) & 0xFF);
 						$gBlur = (($rgbBlur >> 8) & 0xFF);
 						$bBlur = ($rgbBlur & 0xFF);
-							
+
 						// When the masked pixels differ less from the original
 						// than the threshold specifies, they are set to their original value.
 						$rNew = (abs($rOrig - $rBlur) >= $this->params['threshold'])
@@ -103,9 +103,9 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 						$bNew = (abs($bOrig - $bBlur) >= $this->params['threshold'])
 						? max(0, min(255, ($this->params['amount'] * ($bOrig - $bBlur)) + $bOrig))
 						: $bOrig;
-							
-							
-							
+
+
+
 						if (($rOrig != $rNew) || ($gOrig != $gNew) || ($bOrig != $bNew)) {
 							$pixCol = ImageColorAllocate($gdimage, $rNew, $gNew, $bNew);
 							ImageSetPixel($gdimage, $x, $y, $pixCol);
@@ -120,13 +120,13 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 						$rOrig = (($rgbOrig >> 16) & 0xFF);
 						$gOrig = (($rgbOrig >> 8) & 0xFF);
 						$bOrig = ($rgbOrig & 0xFF);
-							
+
 						$rgbBlur = ImageColorAt($imgBlur, $x, $y);
-							
+
 						$rBlur = (($rgbBlur >> 16) & 0xFF);
 						$gBlur = (($rgbBlur >> 8) & 0xFF);
 						$bBlur = ($rgbBlur & 0xFF);
-							
+
 						$rNew = ($this->params['amount'] * ($rOrig - $rBlur)) + $rOrig;
 						if($rNew>255){$rNew=255;}
 						elseif($rNew<0){$rNew=0;}
@@ -147,23 +147,23 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 
 	function getParams()
 	{
-		global $REX,$I18N;
+		global $REX;
 
 		return array(
 		array(
-        'label' => $I18N->msg('imanager_effect_sharpen_amount'),
+        'label' => $REX['I18N']->msg('imanager_effect_sharpen_amount'),
         'name' => 'amount',
         'type'  => 'int',
         'default' => '80'
         ),
         array(
-        'label' => $I18N->msg('imanager_effect_sharpen_radius'),
+        'label' => $REX['I18N']->msg('imanager_effect_sharpen_radius'),
         'name' => 'radius',
         'type'  => 'int',
         'default' => '0.5'
         ),
         array(
-        'label' => $I18N->msg('imanager_effect_sharpen_threshold'),
+        'label' => $REX['I18N']->msg('imanager_effect_sharpen_threshold'),
         'name' => 'threshold',
         'type'  => 'int',
         'default' => '3'

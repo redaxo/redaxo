@@ -112,39 +112,39 @@ class rex_cronjob_urlrequest extends rex_cronjob
   
   public function getTypeName()
   {
-    global $I18N;
-    return $I18N->msg('cronjob_type_urlrequest');
+    global $REX;
+    return $REX['I18N']->msg('cronjob_type_urlrequest');
   }
   
   public function getParamFields()
 	{
-		global $I18N;
+		global $REX;
 
 		return array(
   		array(
-        'label' => $I18N->msg('cronjob_type_urlrequest_url'),
+        'label' => $REX['I18N']->msg('cronjob_type_urlrequest_url'),
         'name'  => 'url',
         'type'  => 'text',
         'default' => 'http://'
       ),
       array(
-        'label' => $I18N->msg('cronjob_type_urlrequest_post'),
+        'label' => $REX['I18N']->msg('cronjob_type_urlrequest_post'),
         'name'  => 'post',
         'type'  => 'text'
       ),
       array(
         'name'  => 'http-auth',
         'type'  => 'checkbox',
-        'options' => array(1 => $I18N->msg('cronjob_type_urlrequest_httpauth'))
+        'options' => array(1 => $REX['I18N']->msg('cronjob_type_urlrequest_httpauth'))
       ),
       array(
-        'label' => $I18N->msg('cronjob_type_urlrequest_user'),
+        'label' => $REX['I18N']->msg('cronjob_type_urlrequest_user'),
         'name'  => 'user',
         'type'  => 'text',
         'visible_if' => array('http-auth' => 1)
       ),
       array(
-        'label' => $I18N->msg('cronjob_type_urlrequest_password'),
+        'label' => $REX['I18N']->msg('cronjob_type_urlrequest_password'),
         'name'  => 'password',
         'type'  => 'text',
         'visible_if' => array('http-auth' => 1)

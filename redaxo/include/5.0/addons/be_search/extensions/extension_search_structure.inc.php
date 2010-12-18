@@ -11,7 +11,7 @@
 
 function rex_a256_search_structure($params)
 {
-  global $REX, $I18N;
+  global $REX;
 
   if(!$REX['USER']->hasPerm('be_search[structure]'))
   {
@@ -157,7 +157,7 @@ function rex_a256_search_structure($params)
     }
     else
     {
-      $message = rex_warning($I18N->msg('be_search_no_results'));
+      $message = rex_warning($REX['I18N']->msg('be_search_no_results'));
     }
   }
 
@@ -189,22 +189,22 @@ function rex_a256_search_structure($params)
         <input type="hidden" name="a256_clang" value="'. $clang .'" />
 
 		    <div class="rex-fl-lft">
-	        <label for="rex-a256-article-name">'. $I18N->msg('be_search_article_name') .'</label>
+	        <label for="rex-a256-article-name">'. $REX['I18N']->msg('be_search_article_name') .'</label>
     	    <input class="rex-form-text" type="text" name="a256_article_name" id="rex-a256-article-name" value="'. htmlspecialchars(stripslashes($a256_article_name)) .'"'. rex_tabindex() .' />
 
-        	<label for="rex-a256-article-id">'. $I18N->msg('be_search_article_id') .'</label>
+        	<label for="rex-a256-article-id">'. $REX['I18N']->msg('be_search_article_id') .'</label>
 	        <input class="rex-form-text" type="text" name="a256_article_id" id="rex-a256-article-id"'. rex_tabindex() .' />
-    	    <input class="rex-form-submit" type="submit" name="a256_start_search" value="'. $I18N->msg('be_search_start') .'"'. rex_tabindex() .' />
+    	    <input class="rex-form-submit" type="submit" name="a256_start_search" value="'. $REX['I18N']->msg('be_search_start') .'"'. rex_tabindex() .' />
 		    </div>
 
     		<div class="rex-fl-rght">
-    			<label for="rex-a256-category-id">'. $I18N->msg('be_search_quick_navi') .'</label>';
+    			<label for="rex-a256-category-id">'. $REX['I18N']->msg('be_search_quick_navi') .'</label>';
 
     			$category_select->setAttribute('tabindex', rex_tabindex(false));
 
   $form .= $category_select->get() .'
     			<noscript>
-    			  <input type="submit" name="a256_start_jump" value="'. $I18N->msg('be_search_jump_to_category') .'" />
+    			  <input type="submit" name="a256_start_jump" value="'. $REX['I18N']->msg('be_search_jump_to_category') .'" />
     			</noscript>
         </div>
         </fieldset>

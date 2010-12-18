@@ -12,12 +12,12 @@ $func = rex_request('func', 'string');
 
 // -------------- Header
 $subline = array(
-  array( '', $I18N->msg('main_preferences')),
-  array( 'lang', $I18N->msg('languages')),
-  array( 'log', $I18N->msg('syslog')),
+  array( '', $REX['I18N']->msg('main_preferences')),
+  array( 'lang', $REX['I18N']->msg('languages')),
+  array( 'log', $REX['I18N']->msg('syslog')),
 );
 
-rex_title($I18N->msg('specials'),$subline);
+rex_title($REX['I18N']->msg('specials'),$subline);
 
 switch($subpage)
 {

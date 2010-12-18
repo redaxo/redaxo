@@ -1,7 +1,7 @@
 <?php
 
 // Todo:
-// - Vergrš§ern erlauben oder nicht. aber eher als Modul einsetzen, also
+// - Vergrï¿½ï¿½ern erlauben oder nicht. aber eher als Modul einsetzen, also
 // fit
 
 class rex_effect_resize extends rex_effect_abstract
@@ -41,7 +41,7 @@ class rex_effect_resize extends rex_effect_abstract
 
 	function execute()
 	{
-		$gdimage =& $this->image->getImage();
+		$gdimage = $this->image->getImage();
 		$w = $this->image->getWidth();
 		$h = $this->image->getHeight();
 
@@ -53,7 +53,7 @@ class rex_effect_resize extends rex_effect_abstract
 		// relatives resizen
 		if(substr(trim($this->params['width']), -1) === '%')
 		{
-			$this->params['width'] = round($w * (rtrim($this->params['width'], '%') / 100));     
+			$this->params['width'] = round($w * (rtrim($this->params['width'], '%') / 100));
 		}
 		if(substr(trim($this->params['height']), -1) === '%')
 		{
@@ -63,7 +63,7 @@ class rex_effect_resize extends rex_effect_abstract
 		if($this->params['style'] == 'maximum')
 		{
 			$this->resizeMax($w, $h);
-		}else if($this->params['style'] == 'minimum') 
+		}else if($this->params['style'] == 'minimum')
 		{
 			$this->resizeMin($w, $h);
 		}else
@@ -78,7 +78,7 @@ class rex_effect_resize extends rex_effect_abstract
 			$this->params['height'] = $h;
 			return;
 		}
-    
+
 		if(!isset($this->params["width"]))
 		{
 			$this->params["width"] = $w;
@@ -109,14 +109,14 @@ class rex_effect_resize extends rex_effect_abstract
 		$gdimage = $des;
 		$this->image->refreshDimensions();
 	}
-	
+
 	function resizeMax($w, $h)
 	{
 		if (!empty($this->params['height']) && !empty($this->params['width']))
 		{
 			$img_ratio  = $w / $h;
 			$resize_ratio = $this->params['width'] / $this->params['height'];
-		
+
 			if ($img_ratio >= $resize_ratio)
 			{
 				// --- width
@@ -136,14 +136,14 @@ class rex_effect_resize extends rex_effect_abstract
 			$this->params['height'] = ceil ($h / $img_factor);
 		}
 	}
-	
+
 	function resizeMin($w, $h)
 	{
 		if (!empty($this->params['height']) && !empty($this->params['width']))
 		{
 			$img_ratio  = $w / $h;
 			$resize_ratio = $this->params['width'] / $this->params['height'];
-		
+
 			if ($img_ratio < $resize_ratio)
 			{
 				// --- width
@@ -174,7 +174,7 @@ class rex_effect_resize extends rex_effect_abstract
 			imagesavealpha($des, true);
 		}else if ($image->getFormat() == 'GIF')
 		{
-			$gdimage =& $image->getImage();
+			$gdimage = $image->getImage();
 			$colorTransparent = imagecolortransparent($gdimage);
 			imagepalettecopy($gdimage, $des);
 			if($colorTransparent>0)
@@ -188,21 +188,21 @@ class rex_effect_resize extends rex_effect_abstract
 
 	function getParams()
 	{
-		global $REX,$I18N;
-		
+		global $REX;
+
 		return array(
 			array(
-				'label'=>$I18N->msg('imanager_effect_resize_width'),
+				'label'=>$REX['I18N']->msg('imanager_effect_resize_width'),
 				'name' => 'width',
 				'type' => 'int',
 			),
 			array(
-				'label'=>$I18N->msg('imanager_effect_resize_height'),
+				'label'=>$REX['I18N']->msg('imanager_effect_resize_height'),
 				'name' => 'height',
 				'type' => 'int'
 			),
 			array(
-				'label' => $I18N->msg('imanager_effect_resize_style'),
+				'label' => $REX['I18N']->msg('imanager_effect_resize_style'),
 				'name' => 'style',
 				'type'  => 'select',
 				'options' => $this->options,
@@ -210,7 +210,7 @@ class rex_effect_resize extends rex_effect_abstract
 				'suffix' => $this->script
 			),
 			array(
-				'label'=>$I18N->msg('imanager_effect_resize_imgtosmall'),
+				'label'=>$REX['I18N']->msg('imanager_effect_resize_imgtosmall'),
 				'name' => 'allow_enlarge',
 				'type' => 'select',
 				'options' => array('enlarge', 'not_enlarge'),

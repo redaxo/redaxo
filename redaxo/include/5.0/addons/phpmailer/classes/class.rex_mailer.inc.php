@@ -34,7 +34,7 @@ class rex_mailer extends PHPMailer
     $this->PluginDir = $REX['SRC_PATH'] . '/addons/phpmailer/classes/';
   }
 
-  function SetLanguage($lang_type, $lang_path = null)
+  function SetLanguage($lang_type = 'de', $lang_path = null)
   {
     global $REX;
 

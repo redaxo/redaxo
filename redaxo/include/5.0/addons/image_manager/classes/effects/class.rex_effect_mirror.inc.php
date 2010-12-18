@@ -40,8 +40,8 @@ class rex_effect_mirror extends rex_effect_abstract
 	function execute()
 	{
 
-		$gdimage =& $this->image->getImage();
-		
+		$gdimage = $this->image->getImage();
+
 		$w = $this->image->getWidth();
 		$h = $this->image->getHeight();
 
@@ -85,7 +85,7 @@ class rex_effect_mirror extends rex_effect_abstract
 		{
 				$trans = true;
 		}
-		
+
 		$gdimage = $this->imagereflection ( $gdimage, $this->params["height"], $trans, array ($this->params["bg_r"], $this->params["bg_g"], $this->params["bg_b"]) );
 		$this->image->refreshDimensions();
 		return;
@@ -94,48 +94,48 @@ class rex_effect_mirror extends rex_effect_abstract
 
 	function getParams()
 	{
-		global $REX,$I18N;
+		global $REX;
 
 		return array(
 			array(
-				'label'=>$I18N->msg('im_fx_mirror_height'),		// Length in Pixel or Prozent
+				'label'=>$REX['I18N']->msg('im_fx_mirror_height'),		// Length in Pixel or Prozent
 				'name' => 'height',
 				'type' => 'int',
 			),
 			array(
-				'label'=>$I18N->msg('im_fx_mirror_background_color'),
+				'label'=>$REX['I18N']->msg('im_fx_mirror_background_color'),
 				'name' => 'set_transparent',
 				'type' => 'select',
 				'options' => array('colored', 'transparent / png24'),
 				'default' => 'colored',
 				'suffix' => $this->script
 			),
-			
+
 			array(
-				'label'=>$I18N->msg('im_fx_mirror_background_r'),
+				'label'=>$REX['I18N']->msg('im_fx_mirror_background_r'),
 				'name' => 'bg_r',
 				'type' => 'int',
 			),
 			array(
-				'label'=>$I18N->msg('im_fx_mirror_background_g'),
+				'label'=>$REX['I18N']->msg('im_fx_mirror_background_g'),
 				'name' => 'bg_g',
 				'type' => 'int',
 			),
 			array(
-				'label'=>$I18N->msg('im_fx_mirror_background_b'),
+				'label'=>$REX['I18N']->msg('im_fx_mirror_background_b'),
 				'name' => 'bg_b',
 				'type' => 'int',
 			),
 		 );
 	}
-	
+
 	function imagereflection(&$src_img, $reflection_height = 50, $trans = FALSE, $bgcolor) {
-	
+
 	  $src_height = imagesy($src_img);
 	  $src_width = imagesx($src_img);
 	  $dest_height = $src_height + $reflection_height;
 	  $dest_width = $src_width;
-	 
+
 	  $reflected = imagecreatetruecolor($dest_width, $dest_height);
 	  if($trans)
 	  {
@@ -146,11 +146,11 @@ class rex_effect_mirror extends rex_effect_abstract
 		  // und mit Hintergrundfarbe füllen
 		  imagefill($reflected, 0, 0, imagecolorallocate($reflected, $bgcolor[0], $bgcolor[1], $bgcolor[2]));
 	  }
-	  	 
+
 	  imagecopy($reflected, $src_img, 0, 0, 0, 0, $src_width, $src_height);
 	  $alpha_step = 80 / $reflection_height;
 	  for ($y = 1; $y <= $reflection_height; $y++) {
-	  
+
 	    for ($x = 0; $x < $dest_width; $x++) {
 	      $rgba = imagecolorat($src_img, $x, $src_height - $y);
 	      $alpha = ($rgba & 0x7F000000) >> 24;
@@ -163,12 +163,12 @@ class rex_effect_mirror extends rex_effect_abstract
 
 	  return $reflected;
 	}
-		
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 
 }

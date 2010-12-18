@@ -1,6 +1,6 @@
 # addon: be_dashboard de_de
 dashboard = Dashboard
-dashboard_no_content = Aktuell sind keine Addons oder Plugins installiert, die Inhalte für das Dashboard bereitstellen.
+dashboard_no_content = Aktuell sind keine Addons oder Plugins installiert, die Inhalte fÃ¼r das Dashboard bereitstellen.
 dashboard_notifications = Wichtige Meldungen
 dashboard_component_lastupdate = zuletzt aktualisiert am
 dashboard_component_save_config = Einstellungen speichern

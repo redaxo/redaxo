@@ -54,7 +54,7 @@ Version History:
           installed before running GZIP
           compression on TAR
   2.2 05/07/2002  - Added automatic detection of Gzipped
-          tar files (Thanks go to Jürgen Falch
+          tar files (Thanks go to JÃ¼rgen Falch
           for the idea)
         - Changed "private" functions to have
           special function names beginning with

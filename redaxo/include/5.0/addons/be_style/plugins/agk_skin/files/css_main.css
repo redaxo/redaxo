@@ -1,0 +1,295 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version svn:$Id$
+ */
+
+
+@import url(css_old.css);
+
+
+
+/*	Schriftarten ***************************************************************
+*******************************************************************************/
+.be-style-agk-skin, 
+.be-style-agk-skin input, 
+.be-style-agk-skin textarea, 
+.be-style-agk-skin select {
+	font-family: Arial, Verdana, sans-serif;
+}
+
+
+
+
+/*	Schriftgroessen ************************************************************
+*******************************************************************************/
+.be-style-agk-skin {
+	font-size: 75%;
+}
+
+#rex-navi-main .rex-navi dt {
+	font-size: 133%;
+}
+
+.rex-hl1 {
+	font-size: 200%;
+}
+
+
+
+/*	Zeilenhoehe ****************************************************************
+*******************************************************************************/
+.be-style-agk-skin {
+	line-height: 1;
+}
+
+#rex-navi-main .rex-navi ul {
+	line-height: 1.2;
+}
+
+
+/*	Textfarben *****************************************************************
+*******************************************************************************/
+
+/*	Weiss */
+.rex-logout, 
+#rex-navi-main .rex-navi a {
+	color: #fff;
+}
+
+
+/*	Cyan */
+.rex-logout a {
+	color: #2C8EC0;
+}
+
+
+/*	Blau */
+.rex-hl1 {
+	color: #14568A;
+}
+
+
+/*	Hintergrund ****************************************************************
+*******************************************************************************/
+.rex-table {
+	background-color: #eff9f9;
+}
+
+.rex-table th, 
+.rex-table tr.rex-table-row-active, 
+.rex-table td.rex-colored {
+	background-color: #dfe9e9;
+}
+
+.rex-table tr.rex-plugin td {
+	background-color: #f7ffff;
+}
+
+
+/*	Seitenstruktur *************************************************************
+*******************************************************************************/
+.be-style-agk-skin {
+	margin: 0 8px 8px 8px;
+	background-color: #404040;
+	background-image: url(body.gif);
+	background-repeat: repeat-x;
+}
+
+#rex-website {
+	position: relative;
+	float: left;
+	width: 964px;
+	background-color: #fff;
+	background-image: url(website.gif);
+	background-repeat: repeat-x;
+}
+
+#rex-header {
+	display: none;
+}
+
+#rex-footer, 
+#rex-output {
+	position: relative;
+	clear: both;
+	float: left;
+	width: 100%;
+}
+
+#rex-navi-main {
+	float: left;
+	margin-left: 16px;
+	width: 171px;
+}
+
+#rex-wrapper {
+	float: right;
+	width: 745px;
+	margin-right: 16px;
+	padding-bottom: 36px;
+}
+#rex-output {
+	margin-top: 22px;
+}
+
+
+div.rex-widget img {
+	vertical-align: top;
+}
+
+
+
+
+
+/*	Abstaende ******************************************************************
+*******************************************************************************/
+#rex-navi-logout {
+	margin-bottom: 36px;
+}
+#rex-navi-main .rex-navi dd {
+	margin-bottom: 16px;
+}
+
+
+
+/*	Allgemeines ****************************************************************
+*******************************************************************************/
+
+/***************************************************** Seitentitel */
+.rex-hl1 {
+	padding: 5px 0 18px 0;
+}
+
+
+
+/*	Navigationen ***************************************************************
+*******************************************************************************/
+
+/***************************************************** Logout */
+#rex-navi-logout {
+	height: 75px;
+	background-image: url(logo.gif);
+	background-position: 8px 0px;
+}
+.rex-logout {
+	padding: 34px 10px 0 0;
+	text-align: right;
+}
+.rex-logout li {
+	display: inline;
+	padding: 0 5px 0 6px;
+	background-image: url(pipe_c1.gif);
+	font-weight: bold;
+}
+.rex-logout li {
+	display: inline;
+	padding: 0 5px 0 6px;
+	background-image: url(pipe_c1.gif);
+	background-position: 0px 2px;
+	font-weight: bold;
+}
+.rex-logout li.rex-navi-first {
+	background-image: none;
+}
+
+
+/***************************************************** Hauptnavi */
+#rex-navi-main .rex-navi dt {
+	clear: both;
+	padding: 12px 10px 6px 10px;
+	background-image: url(navi_main_dt.gif);
+	border-bottom: 1px solid #fff;
+	font-weight: bold;
+}
+#rex-navi-main .rex-navi dd {
+	background-color: #3C9ED0;
+}
+#rex-navi-main .rex-navi a {
+	display: block;
+	padding: 5px 10px;
+	border-bottom: 1px solid #fff;
+	font-weight: bold;
+}
+#rex-navi-main .rex-navi a:hover,
+#rex-navi-main .rex-navi a.rex-active {
+	background-color: #14568A;
+}
+
+
+#rex-navi-main .rex-navi ul ul {
+	display: none;
+}
+#rex-navi-main .rex-navi ul li.rex-active ul {
+	display: block;
+}
+#rex-navi-main .rex-navi ul ul a {
+	padding-left: 25px;
+	background-image: url(navi_sub.gif);
+	background-position: 13px 8px;
+}
+
+
+
+/*	Tabellen *******************************************************************
+*******************************************************************************/
+.rex-table {
+	clear: both;
+	width: 100%;
+}
+
+.rex-table th, 
+.rex-table td {
+	padding: 9px 5px;
+	border: 1px solid #fff;
+	border-bottom: 0;
+	vertical-align: top;
+} 
+.rex-table th.rex-icon {
+	padding-top: 6px;
+	padding-bottom: 0px;
+} 
+.rex-table .rex-icon, 
+.rex-table .rex-small {
+	width: 29px;
+	text-align: center;
+} 
+
+
+#rex-page-addon .rex-table tr.rex-plugin td.rex-col-b {
+	padding-left: 15px;
+	background-image: url(corner.gif);
+	background-position: 7px 12px;
+}
+
+
+
+/*	Icons **********************************************************************
+*******************************************************************************/
+.rex-i-element {
+	display: block;
+	height: 18px;
+	width: 18px;
+	margin: 0 auto;
+	text-indent: -1000em;
+}
+
+.rex-i-addon {
+	background-image: url(addon.gif);
+}
+.rex-i-move-down {
+	background-image: url(file_down.gif);
+}
+.rex-i-move-up {
+	background-image: url(file_up.gif);
+}
+.rex-i-move-down, 
+.rex-i-move-up {
+	float: left;
+	margin: 0 5px 0 0;
+}
+
+
+.rex {
+	color: #000;
+}

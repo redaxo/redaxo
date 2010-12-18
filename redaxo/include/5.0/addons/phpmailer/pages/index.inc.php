@@ -20,11 +20,11 @@ $func = rex_request('func', 'string');
 require $REX['SRC_PATH'] .'/core/layout/top.php';
 
 $subpages = array(
-  array('',$I18N->msg('phpmailer_configuration')),
-  array('example',$I18N->msg('phpmailer_example')),
+  array('',$REX['I18N']->msg('phpmailer_configuration')),
+  array('example',$REX['I18N']->msg('phpmailer_example')),
 );
 
-rex_title($I18N->msg('phpmailer_title'), $subpages);
+rex_title($REX['I18N']->msg('phpmailer_title'), $subpages);
 
 switch($subpage)
 {

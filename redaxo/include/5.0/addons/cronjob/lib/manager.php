@@ -13,41 +13,41 @@ class rex_cronjob_manager
 {
   static private
     $types = array(
-      'rex_cronjob_phpcode', 
-      'rex_cronjob_phpcallback', 
+      'rex_cronjob_phpcode',
+      'rex_cronjob_phpcallback',
       'rex_cronjob_urlrequest'
     );
 
-  private 
+  private
     $message = '',
     $cronjob,
     $name,
     $id;
-  
-  public function factory()
+
+  static public function factory()
   {
     return new rex_cronjob_manager;
   }
-  
+
   public function setMessage($message)
   {
     $this->message = $message;
   }
-  
+
   public function getMessage()
   {
     return $this->message;
   }
-  
+
   public function hasMessage()
   {
     return !empty($this->message);
   }
-  
+
   public function tryExecute($cronjob, $name = '', $params = array(), $log = true, $id = null)
   {
     global $REX;
-    
+
     $message = '';
     $success = rex_cronjob::isValid($cronjob);
     if(!$success)
@@ -75,16 +75,16 @@ class rex_cronjob_manager
         $message = 'Unknown error';
       }
     }
-    
-    if ($log) 
+
+    if ($log)
     {
       $this->log($success, $message);
     }
-    
+
     $this->setMessage(htmlspecialchars($message));
     $this->cronjob = null;
     $this->id = null;
-    
+
     return $success;
   }
 
@@ -111,7 +111,7 @@ class rex_cronjob_manager
     }
     return false;
   }
-  
+
   static public function getTypes()
   {
     $types = self::$types;
@@ -121,12 +121,12 @@ class rex_cronjob_manager
 
     return $types;
   }
-  
+
   static public function registerType($class)
   {
     self::$types[] = $class;
   }
-  
+
   // DEPRECATED
   static public function registerExtension($params)
   {

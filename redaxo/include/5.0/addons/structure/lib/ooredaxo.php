@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Object Oriented Framework: Basisklasse für die Strukturkomponenten
+ * Object Oriented Framework: Basisklasse fÃ¼r die Strukturkomponenten
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -121,7 +121,7 @@ abstract class OORedaxo
         // Im GetGenerated Modus, die Spaltennamen aus den generated Dateien holen
         include_once($file);
 
-        // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
+        // da getClassVars() eine statische Methode ist, kÃ¶nnen wir hier nicht mit $this->getId() arbeiten!
         $genVars = OORedaxo::convertGeneratedArray($REX['ART'][$REX['START_ARTICLE_ID']],0);
         unset($genVars['article_id']);
         unset($genVars['last_update_stamp']);
@@ -340,10 +340,10 @@ abstract class OORedaxo
    * Accessor Method:
    * Returns a link to this article
    *
-   * @param [$params] Parameter für den Link
-   * @param [$attributes] array Attribute die dem Link hinzugefügt werden sollen. Default: null
+   * @param [$params] Parameter fÃ¼r den Link
+   * @param [$attributes] array Attribute die dem Link hinzugefÃ¼gt werden sollen. Default: null
    * @param [$sorround_tag] string HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
-   * @param [sorround_attributes] array Attribute die Umgebenden-Element hinzugefügt werden sollen. Default: null
+   * @param [sorround_attributes] array Attribute die Umgebenden-Element hinzugefÃ¼gt werden sollen. Default: null
    */
   public function toLink($params = '', $attributes = null, $sorround_tag = null, $sorround_attributes = null)
   {

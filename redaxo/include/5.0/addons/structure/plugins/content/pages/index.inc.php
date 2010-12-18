@@ -17,6 +17,6 @@ switch($subpage)
 }
 
 require $REX['SRC_PATH'] . '/core/layout/top.php';
-//rex_title($I18N->msg('specials'),$subline);
+//rex_title($REX['I18N']->msg('specials'),$subline);
 require dirname(__FILE__).'/'. $file;
 require $REX['SRC_PATH'] . '/core/layout/bottom.php';

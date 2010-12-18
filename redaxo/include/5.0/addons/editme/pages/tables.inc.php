@@ -31,7 +31,7 @@ if($func == "add" || $func == "edit")
 	$xform->setHiddenField("subpage",$subpage);
 	$xform->setHiddenField("func",$func);
 	$xform->setActionField("showtext",array("","Vielen Dank fuer die Eintragung"));
-	$xform->setObjectparams("main_table",$table); // für db speicherungen und unique abfragen
+	$xform->setObjectparams("main_table",$table); // fï¿½r db speicherungen und unique abfragen
 
   $xform->setValueField("text",array("prio","Priorit&auml;t"));
 	
@@ -71,7 +71,7 @@ if($func == "add" || $func == "edit")
   	if($func == "edit")
 	    echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle editieren</h3><div class="rex-area-content">';
 	  else
-	    echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle hinzufügen</h3><div class="rex-area-content">';
+	    echo '<div class="rex-area"><h3 class="rex-hl2">Tabelle hinzufï¿½gen</h3><div class="rex-area-content">';
     echo $form;
     echo '</div></div>';
     echo '<br />&nbsp;<br /><table cellpadding="5" class="rex-table"><tr><td><a href="index.php?page='.$page.'&amp;subpage='.$subpage.'"><b>&laquo; '.$I18N->msg('em_back_to_overview').'</b></a></td></tr></table>';
@@ -117,7 +117,7 @@ if($show_list){
   // formatting func fuer status col
 	function rex_em_status_col($params)
 	{
-    global $I18N;
+    global $REX;
     $list = $params["list"];
     
     return $list->getValue("status") == 1 ?

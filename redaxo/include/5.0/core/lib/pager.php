@@ -73,7 +73,7 @@ class rex_pager
       $cursor = $pageNo * $this->rowsPerPage;
     }
 
-    // $cursor innerhalb des zul‰ssigen Zahlenbereichs?
+    // $cursor innerhalb des zul√§ssigen Zahlenbereichs?
     if($cursor < 0)
       $cursor = 0;
     else if($cursor > $this->rowCount)

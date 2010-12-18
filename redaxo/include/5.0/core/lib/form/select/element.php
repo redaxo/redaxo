@@ -24,10 +24,10 @@ class rex_form_select_element extends rex_form_element
     {
       $this->select->setAttribute($attributeName, $attributeValue);
     }
-    
+
     if ($this->select->hasAttribute('multiple'))
       $multipleSelect = true;
-    
+
     if ($multipleSelect)
     {
         $this->setAttribute('name', $this->getAttribute('name').'[]');
@@ -53,11 +53,11 @@ class rex_form_select_element extends rex_form_element
     $this->separator = $separator;
   }
 
-  function &getSelect()
+  function getSelect()
   {
     return $this->select;
   }
-  
+
   function setSelect($selectObj)
   {
     $this->select = $selectObj;

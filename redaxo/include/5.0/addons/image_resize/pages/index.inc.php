@@ -21,7 +21,7 @@ require $REX['SRC_PATH'] . '/core/layout/top.php';
 if ($subpage == 'clear_cache')
 {
   $c = rex_thumbnail::deleteCache();
-  $msg = $I18N->msg('iresize_cache_files_removed', $c);
+  $msg = $REX['I18N']->msg('iresize_cache_files_removed', $c);
 }
 
 rex_title('Image Resize', $REX['ADDON'][$page]['SUBPAGES']);

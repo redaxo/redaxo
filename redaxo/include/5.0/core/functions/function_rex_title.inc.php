@@ -9,7 +9,7 @@
  * Ausgabe des Seitentitels
  *
  *
- * Beispiel für einen Seitentitel
+ * Beispiel fÃ¼r einen Seitentitel
  *
  * <code>
  * $subpages = array(
@@ -22,7 +22,7 @@
  * </code>
  *
  *
- * Beispiel für einen Seitentitel mit Rechteprüfung
+ * Beispiel fÃ¼r einen Seitentitel mit RechteprÃ¼fung
  *
  * <code>
  * $subpages = array(
@@ -35,7 +35,7 @@
  * </code>
  *
  *
- * Beispiel für einen Seitentitel eigenen Parametern
+ * Beispiel fÃ¼r einen Seitentitel eigenen Parametern
  *
  * <code>
  * $subpages = array(
@@ -49,7 +49,7 @@
  */
 function rex_title($head, $subtitle = '')
 {
-	global $article_id, $category_id, $page, $I18N;
+	global $article_id, $category_id, $page, $REX;
 
   if(empty($subtitle))
   {
@@ -58,7 +58,7 @@ function rex_title($head, $subtitle = '')
   else if(is_array($subtitle) && $subtitle[0] instanceof rex_be_page_container)
   {
     $nav = rex_be_navigation::factory();
-    $nav->setHeadline('default', $I18N->msg('subnavigation', $head));
+    $nav->setHeadline('default', $REX['I18N']->msg('subnavigation', $head));
     foreach($subtitle as $pageObj)
     {
       $nav->addPage($pageObj);
@@ -69,7 +69,7 @@ function rex_title($head, $subtitle = '')
   else
   {
     // REDAXO <= 4.2 compat
-	  $subtitle = '<div class="rex-title-row rex-title-row-sub">'.rex_get_subtitle($subtitle).'</div>';    
+	  $subtitle = '<div class="rex-title-row rex-title-row-sub">'.rex_get_subtitle($subtitle).'</div>';
   }
 
   // ----- EXTENSION POINT
@@ -83,7 +83,7 @@ function rex_title($head, $subtitle = '')
 
   print '
 	<div id="rex-title">
-  		<div class="rex-title-row"><h1>'.$head.'</h1></div>
+  		<div class="rex-title-row"><h1 class="rex-hl1">'.$head.'</h1></div>
   		'.$subtitle.'
 	</div>';
 
@@ -133,16 +133,16 @@ function rex_get_subtitle($subline)
 
       $link = $subpage[0];
       $label = $subpage[1];
-      
+
       $perm = !empty($subpage[2]) ? $subpage[2] : '';
       $params = !empty($subpage[3]) ? rex_param_string($subpage[3]) : '';
-      // Berechtigung prüfen
+      // Berechtigung prÃ¼fen
       if ($perm != '')
       {
-        // Hat der User das Recht für die aktuelle Subpage?
+        // Hat der User das Recht fÃ¼r die aktuelle Subpage?
         if (!$REX['USER']->isAdmin() && !$REX['USER']->hasPerm($perm))
         {
-          // Wenn der User kein Recht hat, und diese Seite öffnen will -> Fehler
+          // Wenn der User kein Recht hat, und diese Seite Ã¶ffnen will -> Fehler
           if ($cur_subpage == $link)
           {
             exit ('You have no permission to this area!');
@@ -176,8 +176,8 @@ function rex_get_subtitle($subline)
           }
           $attr .= ' '.$attr_name .'="'. $attr_value .'"';
         }
-      } 
-      
+      }
+
       // Auf der aktiven Seite den Link nicht anzeigen
       if ($active)
       {
@@ -205,11 +205,11 @@ function rex_get_subtitle($subline)
       $i = 1;
       foreach($subtitle as $part)
       {
-	      if($i == 1) 
+	      if($i == 1)
 					$items .= '<li class="rex-navi-first">'. $part .'</li>';
-				else 
+				else
 	        $items .= '<li>'. $part .'</li>';
-					
+
         $i++;
       }
       $subtitle_str = '
@@ -221,6 +221,6 @@ function rex_get_subtitle($subline)
       ';
     }
   }
-  // \n aus Quellcode formatierungsgründen
+  // \n aus Quellcode formatierungsgrÃ¼nden
   return $subtitle_str;
 }

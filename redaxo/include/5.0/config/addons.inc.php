@@ -33,13 +33,13 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
   {
     rex_autoload::getInstance()->addDirectory($addonsFolder .'lib/');
   }
-  // load package infos
-  rex_addonManager::loadPackage($addonName);
   // add addon path for i18n
   if(isset($I18N) && is_readable($addonsFolder .'lang'))
   {
     $I18N->appendFile($addonsFolder .'lang');
   }
+  // load package infos
+  rex_addonManager::loadPackage($addonName);
   
   foreach(OOPlugin::getAvailablePlugins($addonName) as $pluginName)
   {
@@ -55,13 +55,13 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
     {
       rex_autoload::getInstance()->addDirectory($pluginsFolder .'lib/');
     }
-    // load package infos
-    rex_pluginManager::loadPackage($addonName, $pluginName);
     // add plugin path for i18n
     if(isset($I18N) && is_readable($pluginsFolder .'lang'))
     {
       $I18N->appendFile($pluginsFolder .'lang');
     }
+    // load package infos
+    rex_pluginManager::loadPackage($addonName, $pluginName);
   }
 }
 

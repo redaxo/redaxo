@@ -24,7 +24,7 @@ if ($func == 'deleteclang' && $clang_id != "")
   if (array_key_exists($clang_id, $REX['CLANG']))
   {
     rex_deleteCLang($clang_id);
-    $info = $I18N->msg('clang_deleted');
+    $info = $REX['I18N']->msg('clang_deleted');
     $func = '';
     unset ($clang_id);
   }
@@ -37,20 +37,20 @@ if ($add_clang_save)
   {
     if (!array_key_exists($clang_id, $REX['CLANG']))
     {
-      $info = $I18N->msg('clang_created');
+      $info = $REX['I18N']->msg('clang_created');
       rex_addCLang($clang_id, stripslashes($clang_name));
       unset ($clang_id);
    	  $func = '';
     }
     else
     {
-      $warning = $I18N->msg('id_exists');
+      $warning = $REX['I18N']->msg('id_exists');
       $func = 'addclang';
     }
   }
   else
   {
-    $warning = $I18N->msg('enter_name');
+    $warning = $REX['I18N']->msg('enter_name');
     $func = 'addclang';
   }
 
@@ -60,7 +60,7 @@ elseif ($edit_clang_save)
   if (array_key_exists($clang_id, $REX['CLANG']))
   {
     rex_editCLang($clang_id, stripslashes($clang_name));
-    $info = $I18N->msg('clang_edited');
+    $info = $REX['I18N']->msg('clang_edited');
     $func = '';
     unset ($clang_id);
   }
@@ -81,7 +81,7 @@ foreach ($remaingClangs as $clang)
 // no remaing clang-ids
 if(empty($remaingClangs))
 {
-  $warning = $I18N->msg('clang_no_left');
+  $warning = $REX['I18N']->msg('clang_no_left');
 }
 
 if ($info != '')
@@ -98,7 +98,7 @@ echo '
 
 if ($func == 'addclang' || $func == 'editclang')
 {
-  $legend = $func == 'addclang' ? $I18N->msg('clang_add') : $I18N->msg('clang_edit');
+  $legend = $func == 'addclang' ? $REX['I18N']->msg('clang_add') : $REX['I18N']->msg('clang_edit');
   echo '
         <fieldset>
           <legend>'.$legend.'</legend>
@@ -110,8 +110,8 @@ if ($func == 'addclang' || $func == 'editclang')
 
 
 echo '
-    <table class="rex-table" summary="'.$I18N->msg('clang_summary').'">
-      <caption>'.$I18N->msg('clang_caption').'</caption>
+    <table class="rex-table" summary="'.$REX['I18N']->msg('clang_summary').'">
+      <caption>'.$REX['I18N']->msg('clang_caption').'</caption>
       <colgroup>
         <col width="40" />
         <col width="40" />
@@ -120,10 +120,10 @@ echo '
       </colgroup>
       <thead>
         <tr>
-          <th class="rex-small"><a class="rex-i-element rex-i-clang-add" href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang"'. rex_accesskey($I18N->msg('clang_add'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.$I18N->msg('clang_add').'</span></a></th>
+          <th class="rex-small"><a class="rex-i-element rex-i-clang-add" href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang"'. rex_accesskey($REX['I18N']->msg('clang_add'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.$REX['I18N']->msg('clang_add').'</span></a></th>
           <th class="rex-small">ID</th>
-          <th>'.$I18N->msg('clang_name').'</th>
-          <th>'.$I18N->msg('clang_function').'</th>
+          <th>'.$REX['I18N']->msg('clang_name').'</th>
+          <th>'.$REX['I18N']->msg('clang_function').'</th>
         </tr>
       </thead>
       <tbody>
@@ -138,7 +138,7 @@ if ($func == 'addclang')
           <td class="rex-small"><span class="rex-i-element rex-i-clang"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></span></td>
           <td class="rex-small">'.$sel->get().'</td>
           <td><input class="rex-form-text" type="text" id="rex-form-clang-name" name="clang_name" value="'.htmlspecialchars($clang_name).'" /></td>
-          <td><input class="rex-form-submit" type="submit" name="add_clang_save" value="'.$I18N->msg('clang_add').'"'. rex_accesskey($I18N->msg('clang_add'), $REX['ACKEY']['SAVE']) .' /></td>
+          <td><input class="rex-form-submit" type="submit" name="add_clang_save" value="'.$REX['I18N']->msg('clang_add').'"'. rex_accesskey($REX['I18N']->msg('clang_add'), $REX['ACKEY']['SAVE']) .' /></td>
         </tr>
       ';
 }
@@ -148,11 +148,11 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
   $add_td = '';      
   $add_td = '<td class="rex-small">'.$lang_id.'</td>';
   
-  $delLink = $I18N->msg('clang_delete');
+  $delLink = $REX['I18N']->msg('clang_delete');
   if($lang_id == 0)
    $delLink = '<span class="rex-strike">'. $delLink .'</span>';
   else
-    $delLink = '<a href="index.php?page=specials&amp;subpage=lang&amp;func=deleteclang&amp;clang_id='.$lang_id.'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'. $delLink .'</a>';
+    $delLink = '<a href="index.php?page=specials&amp;subpage=lang&amp;func=deleteclang&amp;clang_id='.$lang_id.'" onclick="return confirm(\''.$REX['I18N']->msg('delete').' ?\')">'. $delLink .'</a>';
     
   // Edit form
   if ($func == "editclang" && $clang_id == $lang_id)
@@ -162,7 +162,7 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
             <td class="rex-small"><span class="rex-i-element rex-i-clang"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></span></td>
             '.$add_td.'
             <td><input class="rex-form-text" type="text" id="rex-form-clang-name" name="clang_name" value="'.htmlspecialchars($lang).'" /></td>
-            <td><input class="rex-form-submit" type="submit" name="edit_clang_save" value="'.$I18N->msg('clang_update').'"'. rex_accesskey($I18N->msg('clang_update'), $REX['ACKEY']['SAVE']) .' /></td>
+            <td><input class="rex-form-submit" type="submit" name="edit_clang_save" value="'.$REX['I18N']->msg('clang_update').'"'. rex_accesskey($REX['I18N']->msg('clang_update'), $REX['ACKEY']['SAVE']) .' /></td>
           </tr>';
 
   }
