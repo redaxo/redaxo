@@ -1,6 +1,25 @@
 /* 
  REDAXO Mediapool JavaScript library
  */
+
+function setAllCheckBoxes(FieldName, mthis)
+{
+  var CheckValue;
+
+  if (mthis.checked) CheckValue=true;
+  else CheckValue=false;
+
+  var objCheckBoxes = new getObjArray(FieldName);
+  if(!objCheckBoxes) return;
+
+  var countCheckBoxes = objCheckBoxes.length;
+  if(!countCheckBoxes) objCheckBoxes.checked = CheckValue;
+  else
+    // set the check value for all check boxes
+    for(var i = 0; i < countCheckBoxes; i++)
+      objCheckBoxes[i].checked = CheckValue;
+}
+
 function newPoolWindow(link) 
 {
     newWindow( 'rexmediapopup'+(winObjCounter+1), link, 800,600,',status=yes,resizable=yes');

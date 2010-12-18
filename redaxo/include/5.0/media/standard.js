@@ -136,25 +136,6 @@ function setValue(id,value)
   field.obj.value = value;
 }
 
-function setAllCheckBoxes(FieldName, mthis)
-{
-  var CheckValue;
-
-  if (mthis.checked) CheckValue=true;
-  else CheckValue=false;
-
-  var objCheckBoxes = new getObjArray(FieldName);
-  if(!objCheckBoxes) return;
-
-  var countCheckBoxes = objCheckBoxes.length;
-  if(!countCheckBoxes) objCheckBoxes.checked = CheckValue;
-  else
-    // set the check value for all check boxes
-    for(var i = 0; i < countCheckBoxes; i++)
-      objCheckBoxes[i].checked = CheckValue;
-}
-
-
 function deleteREX(id, i_list, i_select)
 {
   var medialist = i_select+id;
