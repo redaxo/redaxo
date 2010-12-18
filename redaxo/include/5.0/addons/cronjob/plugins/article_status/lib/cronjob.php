@@ -15,7 +15,7 @@ class rex_cronjob_article_status extends rex_cronjob
   {
     global $REX;
 
-    $config = OOPlugin::getProperty('cronjob', 'article_status', 'config');
+    $config = rex_ooplugin::getProperty('cronjob', 'article_status', 'config');
     $from = $config['from'];
     $to   = $config['to'];
     $from['before'] = (array) $from['before'];

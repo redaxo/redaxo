@@ -39,11 +39,11 @@ class rex_article extends rex_article_base
     $article_id = (int) $article_id;
     $this->article_id = $article_id;
 
-    $OOArticle = OOArticle::getArticleById($article_id, $this->clang);
-    if(OOArticle::isValid($OOArticle))
+    $rex_ooarticle = rex_ooarticle::getArticleById($article_id, $this->clang);
+    if(rex_ooarticle::isValid($rex_ooarticle))
     {
-      $this->category_id = $OOArticle->getCategoryId();
-      $this->template_id = $OOArticle->getTemplateId();
+      $this->category_id = $rex_ooarticle->getCategoryId();
+      $this->template_id = $rex_ooarticle->getTemplateId();
       return TRUE;
     }
 

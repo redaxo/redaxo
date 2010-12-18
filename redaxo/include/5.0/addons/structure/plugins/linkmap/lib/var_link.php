@@ -106,7 +106,7 @@ class rex_var_link extends rex_var
   	$article_id = rex_request('article_id', 'int');
   	if($article_id != 0)
   	{
-  		$art = OOArticle::getArticleById($article_id);
+  		$art = rex_ooarticle::getArticleById($article_id);
   		$def_category = $art->getCategoryId();
   	}
 
@@ -245,10 +245,10 @@ class rex_var_link extends rex_var
 
     $art_name = '';
     $clang = '';
-    $art = OOArticle :: getArticleById($article_id);
+    $art = rex_ooarticle :: getArticleById($article_id);
 
     // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim öffnen der Linkmap dessen Kategorie anzeigen
-    if (OOArticle :: isValid($art))
+    if (rex_ooarticle :: isValid($art))
     {
       $art_name = $art->getName();
 			$category = $art->getCategoryId();
@@ -309,7 +309,7 @@ class rex_var_link extends rex_var
       {
         if ($link != '')
         {
-		  		if($article = OOArticle::getArticleById($link))
+		  		if($article = rex_ooarticle::getArticleById($link))
           	$options .= '<option value="' . $link . '">' . htmlspecialchars($article->getName()) . '</option>';
         }
       }

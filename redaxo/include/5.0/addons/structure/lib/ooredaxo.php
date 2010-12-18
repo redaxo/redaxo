@@ -6,7 +6,7 @@
  * @version svn:$Id$
  */
 
-abstract class OORedaxo
+abstract class rex_ooredaxo
 {
   /*
    * these vars get read out
@@ -30,11 +30,11 @@ abstract class OORedaxo
   /*
    * Constructor
    */
-  protected function OORedaxo($params = false, $clang = false)
+  protected function __construct($params = false, $clang = false)
   {
     if ($params !== false)
     {
-      foreach (OORedaxo :: getClassVars() as $var)
+      foreach (rex_ooredaxo :: getClassVars() as $var)
       {
         if(isset($params[$var]))
         {
@@ -79,17 +79,17 @@ abstract class OORedaxo
   protected function _hasValue($value, $prefixes = array())
   {
     static $values = null;
-        
+
     if(!$values)
     {
-      $values = OORedaxo :: getClassVars();
+      $values = rex_ooredaxo :: getClassVars();
     }
-    
+
     if (in_array($value, $values))
     {
     	return true;
     }
-    
+
     foreach($prefixes as $prefix)
     {
       if (in_array($prefix . $value, $values))
@@ -97,7 +97,7 @@ abstract class OORedaxo
       	return true;
       }
     }
-    
+
     return false;
   }
 
@@ -122,7 +122,7 @@ abstract class OORedaxo
         include_once($file);
 
         // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
-        $genVars = OORedaxo::convertGeneratedArray($REX['ART'][$REX['START_ARTICLE_ID']],0);
+        $genVars = rex_ooredaxo::convertGeneratedArray($REX['ART'][$REX['START_ARTICLE_ID']],0);
         unset($genVars['article_id']);
         unset($genVars['last_update_stamp']);
         foreach($genVars as $name => $value)
@@ -151,14 +151,14 @@ abstract class OORedaxo
   */
   static public function convertGeneratedArray($generatedArray, $clang)
   {
-    $OORedaxoArray['id'] = $generatedArray['article_id'][$clang];
-    $OORedaxoArray['clang'] = $clang;
+    $rex_ooredaxoArray['id'] = $generatedArray['article_id'][$clang];
+    $rex_ooredaxoArray['clang'] = $clang;
     foreach ($generatedArray as $key => $var)
     {
-      $OORedaxoArray[$key] = $var[$clang];
+      $rex_ooredaxoArray[$key] = $var[$clang];
     }
-    unset ($OORedaxoArray['_article_id']);
-    return $OORedaxoArray;
+    unset ($rex_ooredaxoArray['_article_id']);
+    return $rex_ooredaxoArray;
   }
 
   /*
@@ -203,7 +203,7 @@ abstract class OORedaxo
    */
   public function getParent()
   {
-    return OOArticle::getArticleById($this->_re_id);
+    return rex_ooarticle::getArticleById($this->_re_id);
   }
 
   /*
@@ -232,7 +232,7 @@ abstract class OORedaxo
    */
   public function getFileMedia()
   {
-    return OOMedia :: getMediaByFileName($this->getValue('art_file'));
+    return rex_oomedia :: getMediaByFileName($this->getValue('art_file'));
   }
 
   /**
@@ -279,7 +279,7 @@ abstract class OORedaxo
    */
   public function getUpdateDate($format = null)
   {
-    return OOMedia :: _getDate($this->_updatedate, $format);
+    return rex_oomedia :: _getDate($this->_updatedate, $format);
   }
 
   /*
@@ -297,7 +297,7 @@ abstract class OORedaxo
    */
   public function getCreateDate($format = null)
   {
-    return OOMedia :: _getDate($this->_createdate, $format);
+    return rex_oomedia :: _getDate($this->_createdate, $format);
   }
 
   /*
@@ -376,7 +376,7 @@ abstract class OORedaxo
   /*
    * Object Function:
    * Get an array of all parentCategories.
-   * Returns an array of OORedaxo objects sorted by $prior.
+   * Returns an array of rex_ooredaxo objects sorted by $prior.
    */
   public function getParentTree()
   {
@@ -395,7 +395,7 @@ abstract class OORedaxo
         {
           if ($var != '')
           {
-            $return[] = OOCategory :: getCategoryById($var, $this->_clang);
+            $return[] = rex_oocategory :: getCategoryById($var, $this->_clang);
           }
         }
       }
@@ -403,7 +403,7 @@ abstract class OORedaxo
 
     return $return;
   }
-  
+
   /*
    * Object Function:
    * Checks if $anObj is in the parent tree of the object

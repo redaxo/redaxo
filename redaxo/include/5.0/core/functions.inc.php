@@ -42,14 +42,14 @@ rex_fragment::addDirectory($REX['SRC_PATH'].'/core/fragments/');
 //require_once $REX['SRC_PATH'].'/core/classes/class.rex_addon.inc.php';
 //require_once $REX['SRC_PATH'].'/core/classes/class.rex_navigation.inc.php';
 //require_once $REX['SRC_PATH'].'/core/classes/class.rex_manager.inc.php';
-//require_once $REX['SRC_PATH'].'/core/classes/class.ooredaxo.inc.php';
-//require_once $REX['SRC_PATH'].'/core/classes/class.oocategory.inc.php';
-//require_once $REX['SRC_PATH'].'/core/classes/class.ooarticle.inc.php';
-//require_once $REX['SRC_PATH'].'/core/classes/class.ooarticleslice.inc.php';
-//require_once $REX['SRC_PATH'].'/core/classes/class.oomediacategory.inc.php';
-//require_once $REX['SRC_PATH'].'/core/classes/class.oomedia.inc.php';
-//require_once $REX['SRC_PATH'].'/core/classes/class.ooaddon.inc.php';
-//require_once $REX['SRC_PATH'].'/core/classes/class.ooplugin.inc.php';
+//require_once $REX['SRC_PATH'].'/core/classes/class.rex_ooredaxo.inc.php';
+//require_once $REX['SRC_PATH'].'/core/classes/class.rex_oocategory.inc.php';
+//require_once $REX['SRC_PATH'].'/core/classes/class.rex_ooarticle.inc.php';
+//require_once $REX['SRC_PATH'].'/core/classes/class.rex_ooarticleslice.inc.php';
+//require_once $REX['SRC_PATH'].'/core/classes/class.rex_oomediacategory.inc.php';
+//require_once $REX['SRC_PATH'].'/core/classes/class.rex_oomedia.inc.php';
+//require_once $REX['SRC_PATH'].'/core/classes/class.rex_ooaddon.inc.php';
+//require_once $REX['SRC_PATH'].'/core/classes/class.rex_ooplugin.inc.php';
 
 if ($REX['REDAXO'])
 {

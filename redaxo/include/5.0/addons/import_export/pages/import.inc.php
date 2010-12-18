@@ -189,7 +189,7 @@ if ($warning != '')
   {
     $filepath = $dir.'/'.$file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
-    $filesize = OOMedia::_getFormattedSize(filesize($filepath));
+    $filesize = rex_oomedia::_getFormattedSize(filesize($filepath));
 
     echo '<tr>
             <td>'. $file .'</td>
@@ -254,7 +254,7 @@ if ($warning != '')
   {
     $filepath = $dir.'/'.$file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
-    $filesize = OOMedia::_getFormattedSize(filesize($filepath));
+    $filesize = rex_oomedia::_getFormattedSize(filesize($filepath));
 
     echo '<tr>
             <td>'. $file .'</td>

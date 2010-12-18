@@ -399,11 +399,11 @@ function rex_generateAddons(array $ADDONS)
   $content = "";
   foreach ($ADDONS as $addon)
   {
-    if (!OOAddon :: isInstalled($addon))
-      OOAddon::setProperty($addon, 'install', 0);
+    if (!rex_ooaddon :: isInstalled($addon))
+      rex_ooaddon::setProperty($addon, 'install', 0);
 
-    if (!OOAddon :: isActivated($addon))
-      OOAddon::setProperty($addon, 'status', 0);
+    if (!rex_ooaddon :: isActivated($addon))
+      rex_ooaddon::setProperty($addon, 'status', 0);
 
     foreach(array('install', 'status') as $prop)
     {
@@ -411,7 +411,7 @@ function rex_generateAddons(array $ADDONS)
         "\$REX['ADDON']['%s']['%s'] = '%d';\n",
         $prop,
         $addon,
-        OOAddon::getProperty($addon, $prop)
+        rex_ooaddon::getProperty($addon, $prop)
       );
     }
     $content .= "\n";      
@@ -445,11 +445,11 @@ function rex_generatePlugins(array $PLUGINS)
   {
     foreach($_plugins as $plugin)
     {
-      if (!OOPlugin :: isInstalled($addon, $plugin))
-        OOPlugin::setProperty($addon, $plugin, 'install', 0);
+      if (!rex_ooplugin :: isInstalled($addon, $plugin))
+        rex_ooplugin::setProperty($addon, $plugin, 'install', 0);
   
-      if (!OOPlugin :: isActivated($addon, $plugin))
-        OOPlugin::setProperty($addon, $plugin, 'status', 0);
+      if (!rex_ooplugin :: isActivated($addon, $plugin))
+        rex_ooplugin::setProperty($addon, $plugin, 'status', 0);
   
       foreach(array('install', 'status') as $prop)
       {
@@ -458,7 +458,7 @@ function rex_generatePlugins(array $PLUGINS)
           $addon,
           $prop,
           $plugin,
-          OOPlugin::getProperty($addon, $plugin, $prop)
+          rex_ooplugin::getProperty($addon, $plugin, $prop)
         );
       }
       $content .= "\n";

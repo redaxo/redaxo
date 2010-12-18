@@ -54,7 +54,7 @@ function rex_a256_search_mpool_query($params)
   $category_id = $params['category_id'];
 
   $where = " f.category_id = c.id AND (f.filename LIKE '%". $media_name ."%' OR f.title LIKE '%". $media_name ."%')";
-  switch(OOAddon::getProperty('be_search', 'searchmode', 'local'))
+  switch(rex_ooaddon::getProperty('be_search', 'searchmode', 'local'))
   {
     case 'local':
     {

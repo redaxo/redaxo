@@ -19,7 +19,7 @@ require $REX['SRC_PATH']. '/config/plugins.inc.php';
 
 // in the first run, we register all folders for class- and fragment-loading,
 // so it is transparent in which order the addons are included afterwards.
-foreach(OOAddon::getAvailableAddons() as $addonName)
+foreach(rex_ooaddon::getAvailableAddons() as $addonName)
 {
   $addonsFolder = rex_addons_folder($addonName);
 
@@ -41,7 +41,7 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
   // load package infos
   rex_addonManager::loadPackage($addonName);
 
-  foreach(OOPlugin::getAvailablePlugins($addonName) as $pluginName)
+  foreach(rex_ooplugin::getAvailablePlugins($addonName) as $pluginName)
   {
     $pluginsFolder = rex_plugins_folder($addonName, $pluginName);
 
@@ -66,7 +66,7 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
 }
 
 // now we actually include the addons logic
-foreach(OOAddon::getAvailableAddons() as $addonName)
+foreach(rex_ooaddon::getAvailableAddons() as $addonName)
 {
   $addonsFolder = rex_addons_folder($addonName);
 
@@ -76,7 +76,7 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
     require $addonsFolder. 'config.inc.php';
   }
 
-  foreach(OOPlugin::getAvailablePlugins($addonName) as $pluginName)
+  foreach(rex_ooplugin::getAvailablePlugins($addonName) as $pluginName)
   {
     $pluginsFolder = rex_plugins_folder($addonName, $pluginName);
 

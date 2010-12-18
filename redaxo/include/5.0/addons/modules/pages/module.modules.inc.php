@@ -77,7 +77,7 @@ if ($function == 'delete')
       $aid = $del->getValue($REX['TABLE_PREFIX']."article_slice.article_id");
       $clang_id = $del->getValue($REX['TABLE_PREFIX']."article_slice.clang");
       $ctype = $del->getValue($REX['TABLE_PREFIX']."article_slice.ctype");
-      $OOArt = OOArticle::getArticleById($aid, $clang_id);
+      $OOArt = rex_ooarticle::getArticleById($aid, $clang_id);
 
       $label = $OOArt->getName() .' ['. $aid .']';
       if(count($REX['CLANG']) > 1)

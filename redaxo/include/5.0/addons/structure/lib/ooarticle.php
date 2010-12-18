@@ -6,29 +6,29 @@
  * @version svn:$Id$
  */
 
-class OOArticle extends OORedaxo
+class rex_ooarticle extends rex_ooredaxo
 {
-  public function OOArticle($params = FALSE, $clang = FALSE)
+  public function __construct($params = FALSE, $clang = FALSE)
   {
-    parent :: OORedaxo($params, $clang);
+    parent :: __construct($params, $clang);
   }
 
   /**
    * CLASS Function:
-   * Return an OORedaxo object based on an id
+   * Return an rex_ooredaxo object based on an id
    */
-  static public function getArticleById($article_id, $clang = FALSE, $OOCategory = FALSE)
+  static public function getArticleById($article_id, $clang = FALSE, $rex_oocategory = FALSE)
   {
     global $REX;
-    
+
     $article_id = (int) $article_id;
-    
+
     if($article_id <= 0)
       return NULL;
-      
+
     if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
-    
+
     $article_path = $REX['SRC_PATH'].'/generated/articles/'.$article_id.'.'.$clang.'.article';
     if (!file_exists($article_path))
 		{
@@ -40,13 +40,13 @@ class OOArticle extends OORedaxo
     if (file_exists($article_path))
     {
       require_once ($article_path);
-      
-      if ($OOCategory)
-        return new OOCategory(OORedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
+
+      if ($rex_oocategory)
+        return new rex_oocategory(rex_ooredaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
       else
-        return new OOArticle(OORedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
+        return new rex_ooarticle(rex_ooredaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
     }
-    
+
     return NULL;
   }
 
@@ -57,11 +57,11 @@ class OOArticle extends OORedaxo
   static public function getSiteStartArticle($clang = FALSE)
   {
     global $REX;
-    
+
     if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
-      
-    return OOArticle :: getArticleById($REX['START_ARTICLE_ID'], $clang);
+
+    return rex_ooarticle :: getArticleById($REX['START_ARTICLE_ID'], $clang);
   }
 
   /**
@@ -71,11 +71,11 @@ class OOArticle extends OORedaxo
   static public function getCategoryStartArticle($a_category_id, $clang = FALSE)
   {
     global $REX;
-    
+
     if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
-      
-    return OOArticle :: getArticleById($a_category_id, $clang);
+
+    return rex_ooarticle :: getArticleById($a_category_id, $clang);
   }
 
   /**
@@ -102,12 +102,12 @@ class OOArticle extends OORedaxo
     if(file_exists($articlelist))
     {
       include_once($articlelist);
-      
+
       if(isset($REX['RE_ID'][$a_category_id]))
       {
   	    foreach ($REX['RE_ID'][$a_category_id] as $var)
   	    {
-  	      $article = OOArticle :: getArticleById($var, $clang);
+  	      $article = rex_ooarticle :: getArticleById($var, $clang);
   	      if ($ignore_offlines)
   	      {
   	        if ($article->isOnline())
@@ -132,7 +132,7 @@ class OOArticle extends OORedaxo
    */
   static public function getRootArticles($ignore_offlines = FALSE, $clang = FALSE)
   {
-    return OOArticle :: getArticlesOfCategory(0, $ignore_offlines, $clang);
+    return rex_ooarticle :: getArticlesOfCategory(0, $ignore_offlines, $clang);
   }
 
   /**
@@ -150,7 +150,7 @@ class OOArticle extends OORedaxo
    */
   public function getCategory()
   {
-    return OOCategory :: getCategoryById($this->getCategoryId(), $this->getClang());
+    return rex_oocategory :: getCategoryById($this->getCategoryId(), $this->getClang());
   }
 
   /**
@@ -161,10 +161,10 @@ class OOArticle extends OORedaxo
   {
       if($this->isStartArticle())
         return $this->_path.$this->_id .'|';
-        
+
       return $this->_path;
   }
-  
+
   /**
    * Accessor Method:
    * returns the path ids of the category/article as an array
@@ -174,13 +174,13 @@ class OOArticle extends OORedaxo
     $path = explode('|', $this->getPath());
   	return array_values(array_map('intval', array_filter($path)));
   }
-  
+
   /*
-   * Static Method: Returns True when the given article is a valid OOArticle
+   * Static Method: Returns True when the given article is a valid rex_ooarticle
    */
   static public function isValid($article)
   {
-    return is_object($article) && is_a($article, 'ooarticle');
+    return is_object($article) && is_a($article, 'rex_ooarticle');
   }
 
   public function getValue($value)
@@ -194,10 +194,10 @@ class OOArticle extends OORedaxo
     }
     return parent::getValue($value);
   }
-  
+
   public function hasValue($value)
   {
   	return parent::_hasValue($value, array('art_'));
   }
-  
+
 }

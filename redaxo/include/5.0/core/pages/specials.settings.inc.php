@@ -42,14 +42,14 @@ elseif ($func == 'updateinfos')
   $neu_SERVERNAME         = str_replace("\'", "'", rex_post('neu_SERVERNAME', 'string'));
   $neu_modrewrite         = rex_post('neu_modrewrite', 'string');
 
-  $startArt = OOArticle::getArticleById($neu_startartikel);
-  $notFoundArt = OOArticle::getArticleById($neu_notfoundartikel);
+  $startArt = rex_ooarticle::getArticleById($neu_startartikel);
+  $notFoundArt = rex_ooarticle::getArticleById($neu_notfoundartikel);
 
   $REX['LANG'] = $neu_lang;
   $master_file = $REX['SRC_PATH'] .'/config/master.inc.php';
   $cont = rex_get_file_contents($master_file);
 
-  if(!OOArticle::isValid($startArt))
+  if(!rex_ooarticle::isValid($startArt))
   {
     $warning .= $REX['I18N']->msg('settings_invalid_sitestart_article')."<br />";
   }else
@@ -58,7 +58,7 @@ elseif ($func == 'updateinfos')
     $REX['START_ARTICLE_ID'] = $neu_startartikel;
   }
   
-  if(!OOArticle::isValid($notFoundArt))
+  if(!rex_ooarticle::isValid($notFoundArt))
   {
     $warning .= $REX['I18N']->msg('settings_invalid_notfound_article')."<br />";
   }else
@@ -107,7 +107,7 @@ $sel_template->setId('rex-form-default-template-id');
 $sel_template->setSize(1);
 $sel_template->setSelected($REX['DEFAULT_TEMPLATE_ID']);
 
-$templates = OOCategory::getTemplates(0);
+$templates = rex_oocategory::getTemplates(0);
 if (empty($templates))
   $sel_template->addOption($REX['I18N']->msg('option_no_template'), 0);
 else

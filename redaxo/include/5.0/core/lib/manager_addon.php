@@ -100,7 +100,7 @@ class rex_addonManager extends rex_baseManager
     if(!is_array($arguments))
       trigger_error('Expecting $arguments to be an array!', E_USER_ERROR);
 
-    return rex_call_func(array('OOAddon', $method), $arguments, false);
+    return rex_call_func(array('rex_ooaddon', $method), $arguments, false);
   }
 
   protected function loadPackageInfos($addonName)
@@ -137,7 +137,7 @@ class rex_addonManager extends rex_baseManager
         {
           foreach($addonConfig as $confName => $confValue)
           {
-            OOAddon::setProperty($addonName, $confName, rex_translate_array($confValue));
+            rex_ooaddon::setProperty($addonName, $confName, rex_translate_array($confValue));
           }
         }
       }
@@ -156,9 +156,9 @@ class rex_addonManager extends rex_baseManager
     $i18nPrefix = 'addon_dependencies_error_';
     $state = array();
 
-    foreach(OOAddon::getAvailableAddons() as $availAddonName)
+    foreach(rex_ooaddon::getAvailableAddons() as $availAddonName)
     {
-      $requirements = OOAddon::getProperty($availAddonName, 'requires', array());
+      $requirements = rex_ooaddon::getProperty($availAddonName, 'requires', array());
       if(isset($requirements['addons']) && is_array($requirements['addons']))
       {
         foreach($requirements['addons'] as $depName => $depAttr)
@@ -171,9 +171,9 @@ class rex_addonManager extends rex_baseManager
       }
 
       // check if another Plugin which is installed, depends on the addon being un-installed
-      foreach(OOPlugin::getAvailablePlugins($availAddonName) as $availPluginName)
+      foreach(rex_ooplugin::getAvailablePlugins($availAddonName) as $availPluginName)
       {
-        $requirements = OOPlugin::getProperty($availAddonName, $availPluginName, 'requires', array());
+        $requirements = rex_ooplugin::getProperty($availAddonName, $availPluginName, 'requires', array());
         if(isset($requirements['addons']) && is_array($requirements['addons']))
         {
           foreach($requirements['addons'] as $depName => $depAttr)

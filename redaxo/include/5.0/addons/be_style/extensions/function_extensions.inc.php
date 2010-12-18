@@ -18,14 +18,14 @@ function rex_be_add_page($params)
 }
 
 /**
- * Fügt die benötigen Stylesheets ein
+ * Fï¿½gt die benï¿½tigen Stylesheets ein
  * 
  * @param $params Extension-Point Parameter
  */
 function rex_be_style_css_add($params)
 {
   $addon = "be_style";
-  foreach(OOPlugin::getAvailablePlugins($addon) as $plugin)
+  foreach(rex_ooplugin::getAvailablePlugins($addon) as $plugin)
   {
   	$params["subject"] .= "\n".'  <link rel="stylesheet" type="text/css" href="../redaxo_media/addons/'.$addon.'/plugins/'.$plugin.'/css_main.css" media="screen, projection, print" />';
   }

@@ -116,12 +116,12 @@ include_once $REX['SRC_PATH'] .'/config/addons.inc.php';
 // ----- Prepare AddOn Pages
 if($REX['USER'])
 {
-  foreach(OOAddon::getAvailableAddons() as $addonName)
+  foreach(rex_ooaddon::getAvailableAddons() as $addonName)
   {
-    $page  = OOAddon::getProperty($addonName, 'page', null);
-    $title = OOAddon::getProperty($addonName, 'name', '');
-    $href  = OOAddon::getProperty($addonName, 'link',  'index.php?page='. $addonName);
-    $perm  = OOAddon::getProperty($addonName, 'perm', '');
+    $page  = rex_ooaddon::getProperty($addonName, 'page', null);
+    $title = rex_ooaddon::getProperty($addonName, 'name', '');
+    $href  = rex_ooaddon::getProperty($addonName, 'link',  'index.php?page='. $addonName);
+    $perm  = rex_ooaddon::getProperty($addonName, 'perm', '');
 
     // prepare addons root-page
     $addonPage = null;
@@ -148,7 +148,7 @@ if($REX['USER'])
     if($addonPage)
     {
       // adds be_page's
-      foreach(OOAddon::getProperty($addonName, 'pages', array()) as $s)
+      foreach(rex_ooaddon::getProperty($addonName, 'pages', array()) as $s)
       {
         if (is_array($s))
         {
@@ -170,13 +170,13 @@ if($REX['USER'])
     }
 
     // handle plugins
-    foreach(OOPlugin::getAvailablePlugins($addonName) as $pluginName)
+    foreach(rex_ooplugin::getAvailablePlugins($addonName) as $pluginName)
     {
-      $page  = OOPlugin::getProperty($addonName, $pluginName, 'page', null);
+      $page  = rex_ooplugin::getProperty($addonName, $pluginName, 'page', null);
 
-      $title = OOPlugin::getProperty($addonName, $pluginName, 'name', '');
-      $href  = OOPlugin::getProperty($addonName, $pluginName, 'link',  'index.php?page='. $addonName . '&subpage='. $pluginName);
-      $perm  = OOPlugin::getProperty($addonName, $pluginName, 'perm', '');
+      $title = rex_ooplugin::getProperty($addonName, $pluginName, 'name', '');
+      $href  = rex_ooplugin::getProperty($addonName, $pluginName, 'link',  'index.php?page='. $addonName . '&subpage='. $pluginName);
+      $perm  = rex_ooplugin::getProperty($addonName, $pluginName, 'perm', '');
 
       // prepare plugins root-page
       $pluginPage = null;
@@ -194,7 +194,7 @@ if($REX['USER'])
       }
 
       // add plugin-be_page's to addon
-      foreach(OOPlugin::getProperty($addonName, $pluginName, 'pages', array()) as $s)
+      foreach(rex_ooplugin::getProperty($addonName, $pluginName, 'pages', array()) as $s)
       {
         if(is_array($s) && $addonPage)
         {
@@ -230,7 +230,7 @@ if($REX['USER'])
         else
         {
           // "navigation" adds attributes to the plugin-root page
-          $navProperties = OOPlugin::getProperty($addonName, $pluginName, 'navigation', array());
+          $navProperties = rex_ooplugin::getProperty($addonName, $pluginName, 'navigation', array());
           // if there are some navigation attributes set, create a main page and apply attributes to it
           if(count($navProperties) > 0)
           {
@@ -264,7 +264,7 @@ if($REX['USER'])
         $mainAddonPage = new rex_be_page_main('addons', $addonPage);
 
         // "navigation" adds attributes to the addon-root page
-        foreach(OOAddon::getProperty($addonName, 'navigation', array()) as $key => $value)
+        foreach(rex_ooaddon::getProperty($addonName, 'navigation', array()) as $key => $value)
         {
           $mainAddonPage->_set($key, $value);
         }

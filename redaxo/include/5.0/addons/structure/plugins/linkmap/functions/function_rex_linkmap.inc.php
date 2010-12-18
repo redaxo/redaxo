@@ -35,7 +35,7 @@ function rex_linkmap_format_label($OOobject)
   if ($REX['USER']->hasPerm('advancedMode[]'))
     $label .= ' ['. $OOobject->getId() .']';
 
-  if(OOArticle::isValid($OOobject) && !$OOobject->hasTemplate())
+  if(rex_ooarticle::isValid($OOobject) && !$OOobject->hasTemplate())
     $label .= ' ['.$REX['I18N']->msg('lmap_has_no_template').']';
 
   return $label;

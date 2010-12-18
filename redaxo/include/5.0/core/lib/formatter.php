@@ -47,7 +47,7 @@ abstract class rex_formatter
    * - nl2br
    *    + siehe www.php.net/nl2br
    * - rexmedia
-   *    + formatiert ein Medium via OOMedia
+   *    + formatiert ein Medium via rex_oomedia
    * - custom
    *    + formatiert den Wert anhand einer Benutzer definierten Callback Funktion
    */
@@ -309,7 +309,7 @@ abstract class rex_formatter
       $params['resize'] = true;
     }
 
-    $media = OOMedia :: getMediaByName($value);
+    $media = rex_oomedia :: getMediaByName($value);
     // Bilder als Thumbnail
     if ($media->isImage())
     {

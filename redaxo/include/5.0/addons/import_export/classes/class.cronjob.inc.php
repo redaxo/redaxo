@@ -32,7 +32,7 @@ class rex_cronjob_export extends rex_cronjob
 
       if ($this->sendmail)
       {
-        if (!OOAddon::isActivated('phpmailer'))
+        if (!rex_ooaddon::isActivated('phpmailer'))
         {
           $this->setMessage($message .', mail not sent (addon "phpmailer" isn\'t activated)');
           return false;
@@ -82,7 +82,7 @@ class rex_cronjob_export extends rex_cronjob
         'options' => array(1 => $REX['I18N']->msg('im_export_send_mail'))
       )
     );
-    if (OOAddon::isActivated('phpmailer'))
+    if (rex_ooaddon::isActivated('phpmailer'))
     {
       $fields[] = array(
         'label' => $REX['I18N']->msg('im_export_mailaddress'),

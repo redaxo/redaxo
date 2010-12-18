@@ -67,7 +67,7 @@ class rex_login_sql extends rex_sql
   		)
   		return TRUE;
 
-    if($c = OOCategory::getCategoryById($category_id))
+    if($c = rex_oocategory::getCategoryById($category_id))
     {
       foreach($c->getPathAsArray() as $k)
       {

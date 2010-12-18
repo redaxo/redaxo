@@ -35,7 +35,7 @@ class rex_thumbnail
     $this->gifsupport = function_exists('imageGIF');
 
     // ----- detect image format
-    $this->img['format'] = strtoupper(OOMedia::_getExtension($imgfile));
+    $this->img['format'] = strtoupper(rex_oomedia::_getExtension($imgfile));
     $this->img['src'] = false;
     
     if (strpos($imgfile, 'cache/') === false)
@@ -110,7 +110,7 @@ class rex_thumbnail
   }
 
   /**
-   * Ausschnitt aus dem Bild auf bestimmte größe zuschneiden
+   * Ausschnitt aus dem Bild auf bestimmte grï¿½ï¿½e zuschneiden
    *
    * @param $width int Breite des Ausschnitts
    * @param $height int Hoehe des Ausschnitts
@@ -130,7 +130,7 @@ class rex_thumbnail
       $this->img['width_offset_thumb'] = (int) (round(($this->img['width'] - $this->img['width_thumb'] * $height_ratio) / 2) + $offset);
       $this->img['width']              = (int) round($this->img['width_thumb'] * $height_ratio);
     }
-    // es muss an der Höhe beschnitten werden
+    // es muss an der Hï¿½he beschnitten werden
     elseif ($width_ratio < $height_ratio)
     {
       $this->img['height_offset_thumb'] = (int) (round(($this->img['height'] - $this->img['height_thumb'] * $width_ratio) / 2) + $offset);
@@ -244,7 +244,7 @@ class rex_thumbnail
 			$cachefile = '';
 			$cachetime = -1;
 
-			// nur das Šlteste Cachefile lšschen
+			// nur das ï¿½lteste Cachefile lï¿½schen
 			foreach($glo as $gl)
 			{
 				if ($cachetime == -1 || filectime($gl) < $cachetime)

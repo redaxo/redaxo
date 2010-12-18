@@ -177,7 +177,7 @@ class rex_article_base
   {
     // damit alte rex_article felder wie teaser, online_from etc
     // noch funktionieren
-    // gleicher BC code nochmals in OOREDAXO::getValue
+    // gleicher BC code nochmals in rex_ooredaxo::getValue
     foreach(array('', 'art_', 'cat_') as $prefix)
     {
       $val = $prefix . $value;
