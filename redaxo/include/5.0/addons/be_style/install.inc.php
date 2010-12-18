@@ -2,10 +2,10 @@
 
 /**
  * Backendstyle Addon
- * 
+ *
  * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
- * 
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
  *
@@ -17,7 +17,7 @@ $error = '';
 
 // Plugins mitinstallieren
 $addonname = 'be_style';
-$plugins = array('base_old', 'nsg_skin');
+$plugins = array('base_old', 'agk_skin');
 
 $ADDONS    = rex_read_addons_folder();
 $PLUGINS   = array();
@@ -33,13 +33,13 @@ foreach($plugins as $pluginname)
   {
     $error = $instErr;
   }
-  
+
   // plugin aktivieren
   if ($error == '' && ($actErr = $pluginManager->activate($pluginname)) !== true)
   {
     $error = $actErr;
   }
-  
+
   if($error != '')
   {
     break;
