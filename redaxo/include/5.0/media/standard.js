@@ -93,7 +93,7 @@ function newWindow(name,link,width,height,type)
                 extra = 'empty';
         }else
         {
-                extra = type
+                extra = type;
         }
 
         if (type=="nav")
