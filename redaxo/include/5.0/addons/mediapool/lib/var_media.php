@@ -25,7 +25,7 @@ class rex_var_media extends rex_var
 {
   // --------------------------------- Actions
 
-  public function getACRequestValues($REX_ACTION)
+  public function getACRequestValues(array $REX_ACTION)
   {
     $values     = rex_request('MEDIA', 'array');
     $listvalues = rex_request('MEDIALIST', 'array');
@@ -42,7 +42,7 @@ class rex_var_media extends rex_var
     return $REX_ACTION;
   }
 
-  public function getACDatabaseValues($REX_ACTION, & $sql)
+  public function getACDatabaseValues(array $REX_ACTION, & $sql)
   {
     for ($i = 1; $i < 11; $i++)
     {
@@ -53,7 +53,7 @@ class rex_var_media extends rex_var
     return $REX_ACTION;
   }
 
-  public function setACValues(& $sql, $REX_ACTION, $escape = false)
+  public function setACValues(& $sql, array $REX_ACTION, $escape = false)
   {
     global $REX;
 

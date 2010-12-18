@@ -127,7 +127,7 @@ if ($subpage == 'help' && $addonname != '')
         <p id="rex-addon-credits">'. $credits .'</p>
         </div>
   			<div class="rex-area-footer">
-  				<p><a href="JavaScript:history.back();">'.$I18N->msg("addon_back").'</a></p>
+  				<p><a href="javascript:history.back();">'.$I18N->msg("addon_back").'</a></p>
   			</div>
   		</div>';
 }
@@ -286,14 +286,7 @@ if ($subpage == '')
   echo '
       <table class="rex-table" summary="'.$I18N->msg("addon_summary").'">
       <caption>'.$I18N->msg("addon_caption").'</caption>
-      <colgroup>
-      	<col width="40" />
-        <col width="*"/>
-        <col width="130" />
-        <col width="130" />
-        <col width="130" />
-        <col width="153" />
-      </colgroup>
+
   	  <thead>
         <tr>
           <th class="rex-icon rex-col-a">&nbsp;</th>
@@ -301,13 +294,17 @@ if ($subpage == '')
           <th class="rex-col-c">'.$I18N->msg("addon_hinstall").'</th>
           <th class="rex-col-d">'.$I18N->msg("addon_hactive").'</th>
           <th class="rex-col-e" colspan="2">'.$I18N->msg("addon_hdelete").'</th>
-          <th class="rex-col-g">'.$I18N->msg("addon_hprior").'</th>
+          <th class="rex-col-g rex-col-last">'.$I18N->msg("addon_hprior").'</th>
         </tr>
   	  </thead>
   	  <tbody>';
 
   foreach (OOAddon::getRegisteredAddons() as $addon)
   {
+    // load package infos, especially for un-available addons
+    rex_addonManager::loadPackage($addon);
+    
+    $addonVers = OOAddon::getVersion($addon, '');
     $addonurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;';
     
   	if (OOAddon::isSystemAddon($addon))
@@ -351,20 +348,19 @@ if ($subpage == '')
       $status = $I18N->msg("addon_notinstalled");
     }
     
-    $moveUp   = '<a href="'. $addonurl .'move=up" class="rex-move-up"><span>'.$I18N->msg("addon_move_up").'</span></a>';
-    $moveDown = '<a href="'. $addonurl .'move=down" class="rex-move-down"><span>'.$I18N->msg("addon_move_down").'</span></a>';
+    $moveUp   = '<a href="'. $addonurl .'move=up" class="rex-i-element rex-i-move-up"><span class="rex-i-element-in">'.$I18N->msg("addon_move_up").'</span></a>';
+    $moveDown = '<a href="'. $addonurl .'move=down" class="rex-i-element rex-i-move-down"><span class="rex-i-element-in">'.$I18N->msg("addon_move_down").'</span></a>';
 
     echo '
         <tr class="rex-addon">
-          <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text">'. htmlspecialchars($addon) .'</span></span></td>
-          <td class="rex-col-b">'.htmlspecialchars($addon).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>
+          <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-in">'. htmlspecialchars($addon) .'</span></span></td>
+          <td class="rex-col-b">'.htmlspecialchars($addon).' '. $addonVers .' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>
           <td class="rex-col-c">'.$install.'</td>
           <td class="rex-col-d">'.$status.'</td>
           <td class="rex-col-e">'.$uninstall.'</td>
           <td class="rex-col-f">'.$delete.'</td>
-          <td class="rex-col-g">
-            '. $moveUp .'
-            '. $moveDown .'
+          <td class="rex-col-g rex-col-last">
+            '. $moveUp . $moveDown .'
           </td>
         </tr>'."\n   ";
 
@@ -372,6 +368,10 @@ if ($subpage == '')
     {
       foreach(OOPlugin::getRegisteredPlugins($addon) as $plugin)
       {
+        // load package infos, especially for un-available plugin
+        rex_pluginManager::loadPackage($addon, $plugin);
+    
+        $pluginVers = OOPlugin::getVersion($addon, $plugin, '');
         $pluginurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;pluginname='. $plugin .'&amp;';
         
         $delete = '<a href="'. $pluginurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($I18N->msg('plugin_delete_question', $plugin)).'\');">'.$I18N->msg("addon_delete").'</a>';
@@ -400,20 +400,19 @@ if ($subpage == '')
           $status = $I18N->msg("addon_notinstalled");
         }
         
-        $moveUp   = '<a href="'. $pluginurl .'move=up" class="rex-move-up"><span>'.$I18N->msg("addon_move_up").'</span></a>';
-        $moveDown = '<a href="'. $pluginurl .'move=down" class="rex-move-down"><span>'.$I18N->msg("addon_move_down").'</span></a>';
+        $moveUp   = '<a href="'. $pluginurl .'move=up" class="rex-i-element rex-i-move-up"><span class="rex-i-element-in">'.$I18N->msg("addon_move_up").'</span></a>';
+        $moveDown = '<a href="'. $pluginurl .'move=down" class="rex-i-element rex-i-move-down"><span class="rex-i-element-in">'.$I18N->msg("addon_move_down").'</span></a>';
         
         echo '
             <tr class="rex-plugin">
-              <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-plugin"><span class="rex-i-element-text">'. htmlspecialchars($plugin) .'</span></span></td>
-              <td class="rex-col-b">'.htmlspecialchars($plugin).' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'&amp;pluginname='.$plugin.'">?</a>]</td>
+              <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-plugin"><span class="rex-i-element-in">'. htmlspecialchars($plugin) .'</span></span></td>
+              <td class="rex-col-b">'.htmlspecialchars($plugin).' '. $pluginVers .' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'&amp;pluginname='.$plugin.'">?</a>]</td>
               <td class="rex-col-c">'.$install.'</td>
               <td class="rex-col-d">'.$status.'</td>
               <td class="rex-col-e">'.$uninstall.'</td>
               <td class="rex-col-f">'.$delete.'</td>
-              <td class="rex-col-g">
-                '. $moveUp .'
-                '. $moveDown .'
+              <td class="rex-col-g rex-col-last">
+                '. $moveUp . $moveDown .'
               </td>
             </tr>'."\n   ";
       }

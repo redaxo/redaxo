@@ -11,23 +11,23 @@ $func = rex_request('func', 'string');
 
 // -------------- Header
 $subline = array(
-  array( '', $I18N->msg('roles')),
-  array( 'users', $I18N->msg('users')),
+  array( '', $I18N->msg('users')),
+  array( 'roles', $I18N->msg('roles')),
 );
 
 switch($subpage)
 {
-  case('users'):
-  	$file = 'users.inc.php';
+  case('roles'):
+  	$file = 'roles.inc.php';
   	break;
   default:
-  	$file = 'roles.inc.php';
+  	$file = 'users.inc.php';
   	break;
 }
 
 require $REX['SRC_PATH'] . '/core/layout/top.php';
 
-rex_title($I18N->msg('title_user'),$subline);
+rex_title($I18N->msg('user_management'),$subline);
 
 require dirname(__FILE__).'/'. $file;
 require $REX['SRC_PATH'] . '/core/layout/bottom.php';

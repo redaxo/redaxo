@@ -13,8 +13,6 @@
 // rex_request();
 
 $func = rex_request('func', 'string');
-$max_resizekb = rex_request('max_resizekb', 'int');
-$max_resizepixel = rex_request('max_resizepixel', 'int');
 $jpg_quality = rex_request('jpg_quality', 'int');
 $old_syntax = rex_request('old_syntax', 'int');
 
@@ -25,13 +23,9 @@ if ($func == 'update')
   if($jpg_quality > 100) $jpg_quality = 100;
   else if ($jpg_quality < 0) $jpg_quality = 0;
 
-	$REX['ADDON']['image_manager']['max_resizekb'] = $max_resizekb;
-	$REX['ADDON']['image_manager']['max_resizepixel'] = $max_resizepixel;
 	$REX['ADDON']['image_manager']['jpg_quality'] = $jpg_quality;
 
 	$content = '
-$REX[\'ADDON\'][\'image_manager\'][\'max_resizekb\'] = '.$max_resizekb.';
-$REX[\'ADDON\'][\'image_manager\'][\'max_resizepixel\'] = '.$max_resizepixel.';
 $REX[\'ADDON\'][\'image_manager\'][\'jpg_quality\'] = '.$jpg_quality.';
 ';
 
@@ -61,20 +55,6 @@ echo '
 			<input type="hidden" name="page" value="image_manager" />
 			<input type="hidden" name="subpage" value="settings" />
 			<input type="hidden" name="func" value="update" />
-			
-			<div class="rex-form-row rex-form-element-v2">
-				<p class="rex-form-text">
-					<label for="max_resizekb">'. $I18N->msg('imanager_max_resizekb') .'</label>
-					<input class="rex-form-text" type="text" id="max_resizekb" name="max_resizekb" value="'. htmlspecialchars($REX['ADDON']['image_manager']['max_resizekb']).'" />
-				</p>
-			</div>
-			
-			<div class="rex-form-row rex-form-element-v2">
-				<p class="rex-form-text">
-					<label for="max_resizepixel">'. $I18N->msg('imanager_max_resizepx') .'</label>
-					<input class="rex-form-text" type="text" id="max_resizepixel" name="max_resizepixel" value="'. htmlspecialchars($REX['ADDON']['image_manager']['max_resizepixel']).'" />
-				</p>
-			</div>
 			
 			<div class="rex-form-row rex-form-element-v2">
 				<p class="rex-form-text">

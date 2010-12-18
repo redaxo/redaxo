@@ -22,7 +22,7 @@ abstract class rex_formatter
    * @param $format_type Formatierungstype
    * @param $format Format
    *
-   * Unterstützte Formatierugen:
+   * UnterstÃ¼tzte Formatierugen:
    *
    * - <Formatierungstype>
    *    + <Format>
@@ -83,7 +83,7 @@ abstract class rex_formatter
     {
       $value = rex_formatter::_formatUrl($value, $format);
     }
-    // String auf eine eine Länge abschneiden
+    // String auf eine eine LÃ¤nge abschneiden
     elseif ($format_type == 'truncate')
     {
       $value = rex_formatter::_formatTruncate($value, $format);
@@ -303,7 +303,7 @@ abstract class rex_formatter
 
     $params = $format['params'];
 
-    // Resize aktivieren, falls nicht anders übergeben
+    // Resize aktivieren, falls nicht anders Ã¼bergeben
     if (empty ($params['resize']))
     {
       $params['resize'] = true;

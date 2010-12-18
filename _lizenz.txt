@@ -1,9 +1,9 @@
-Bevor Sie REDAXO für Ihre eigenen Zwecke nutzen möchten, berücksichtigen Sie bitte 
+Bevor Sie REDAXO fÃ¼r Ihre eigenen Zwecke nutzen mÃ¶chten, berÃ¼cksichtigen Sie bitte 
 die folgenden lizenzrechtlichen Bestimmungen. Es handelt sich hierbei um eine 
 Open Source Lizenzvereinbarung, die als General Public License (GPL) in 
 englischer Sprache vorliegt.
 
-Folgenden Informationen dürfen beim Einsatz von REDAXO im Impressum oder auf 
+Folgenden Informationen dÃ¼rfen beim Einsatz von REDAXO im Impressum oder auf 
 der Kontaktseite aufgenommen werden.
 
 If you use REDAXO you may add these informations in your imprint or contact page
@@ -38,7 +38,7 @@ mehr zu dieser Lizenz in class.smtp.inc.php
 // ----- addons/tinymce/js/ Ordner
 
 Moxiecode
-copyright Copyright © 2004, Moxiecode Systems AB, All rights reserved.
+copyright Copyright Â© 2004, Moxiecode Systems AB, All rights reserved.
 License: LGPL, see LICENSE
 mehr zu dieser Lizenz unter http://tinymce.moxiecode.com/
 

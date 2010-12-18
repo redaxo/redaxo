@@ -2,7 +2,7 @@
 
 class rex_be_page_popup extends rex_be_page
 {
-  function __construct($title, $onclick = '', $activateCondition = array())
+  public function __construct($title, $onclick = '', $activateCondition = array())
   {
     parent::__construct($title, $activateCondition);
     

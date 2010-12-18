@@ -11,14 +11,6 @@
 
 $mypage = 'be_search';
 
-/* Addon Parameter */
-$REX['ADDON']['rxid'][$mypage] = '256';
-//$REX['ADDON']['name'][$mypage] = 'Backend Search';
-//$REX['ADDON']['perm'][$mypage] = 'be_search[]';
-$REX['ADDON']['version'][$mypage] = '1.3';
-$REX['ADDON']['author'][$mypage] = 'Markus Staab';
-$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
-
 // Suchmodus
 // global => Es werden immer alle Kategorien durchsucht
 // local => Es werden immer die aktuelle+Unterkategorien durchsucht

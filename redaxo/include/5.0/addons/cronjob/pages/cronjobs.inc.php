@@ -48,33 +48,33 @@ if ($func == 'execute')
   $func = '';
 }
 
-if ($func == '') 
+if ($func == '')
 {
 
   $query = 'SELECT id, name, type, `interval`, environment, execution_moment, status FROM '. REX_CRONJOB_TABLE .' ORDER BY name';
-  
+
   $list = rex_list::factory($query, 30, 'cronjobs');
-  
+
   $list->setNoRowsMessage($I18N->msg('cronjob_no_cronjobs'));
   $list->setCaption($I18N->msg('cronjob_caption'));
   $list->addTableAttribute('summary', $I18N->msg('cronjob_summary'));
-  
+
   $list->addTableColumnGroup(array(40, '*', 80, 120, 80, 60, 60, 60));
-  
+
   $imgHeader = '<a class="rex-i-element rex-i-cronjob-add" href="'. $list->getUrl(array('func' => 'add')) .'"><span class="rex-i-element-text">'. $I18N->msg('cronjob_add') .'</span></a>';
   $list->addColumn($imgHeader, '<span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $I18N->msg('cronjob_edit') .'</span></span>', 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($imgHeader, array('func' => 'edit', 'oid' => '###id###'));
-  
+
   $list->removeColumn('id');
   $list->removeColumn('type');
-  
+
   $list->setColumnLabel('name', $I18N->msg('cronjob_name'));
   $list->setColumnParams('name', array('func'=>'edit', 'oid'=>'###id###'));
-  
+
   $list->setColumnLabel('interval', $I18N->msg('cronjob_interval'));
-  $list->setColumnFormat('interval', 'custom', 
+  $list->setColumnFormat('interval', 'custom',
     function ($params)
-    {  
+    {
       global $I18N;
       $value = explode('|', $params['list']->getValue('interval'));
       $str = $value[1] .' ';
@@ -83,24 +83,24 @@ if ($func == '')
       return $str;
     }
   );
-  
+
   $list->setColumnLabel('environment', $I18N->msg('cronjob_environment'));
-  $list->setColumnFormat('environment', 'custom', 
+  $list->setColumnFormat('environment', 'custom',
     function ($params)
     {
       global $I18N;
       $value = $params['list']->getValue('environment');
       $env = array();
-      if (strpos($value, '|0|') !== false) 
+      if (strpos($value, '|0|') !== false)
         $env[] = $I18N->msg('cronjob_environment_frontend');
-      if (strpos($value, '|1|') !== false) 
+      if (strpos($value, '|1|') !== false)
         $env[] = $I18N->msg('cronjob_environment_backend');
       return implode(', ', $env);
     }
   );
-  
+
   $list->setColumnLabel('execution_moment', $I18N->msg('cronjob_execution'));
-  $list->setColumnFormat('execution_moment', 'custom', 
+  $list->setColumnFormat('execution_moment', 'custom',
     function ($params)
     {
       global $I18N;
@@ -109,53 +109,60 @@ if ($func == '')
       return $I18N->msg('cronjob_execution_ending');
     }
   );
-  
+
   $list->setColumnLabel('status', $I18N->msg('cronjob_status_function'));
   $list->setColumnParams('status', array('func'=>'setstatus', 'oldstatus'=>'###status###', 'oid'=>'###id###'));
   $list->setColumnLayout('status', array('<th colspan="3">###VALUE###</th>','<td style="text-align:center;">###VALUE###</td>'));
-  $list->setColumnFormat('status', 'custom', 
+  $list->setColumnFormat('status', 'custom',
     function ($params)
     {
       global $I18N;
-      $list = $params['list']; 
+      $list = $params['list'];
       if (!class_exists($list->getValue('type')))
         $str = $I18N->msg('cronjob_status_invalid');
-      elseif ($list->getValue('status') == 1) 
-        $str = $list->getColumnLink('status', '<span class="rex-online">'. $I18N->msg('cronjob_status_activated') .'</span>'); 
-      else 
-        $str = $list->getColumnLink('status', '<span class="rex-offline">'. $I18N->msg('cronjob_status_deactivated') .'</span>'); 
+      elseif ($list->getValue('status') == 1)
+        $str = $list->getColumnLink('status', '<span class="rex-online">'. $I18N->msg('cronjob_status_activated') .'</span>');
+      else
+        $str = $list->getColumnLink('status', '<span class="rex-offline">'. $I18N->msg('cronjob_status_deactivated') .'</span>');
       return $str;
     }
   );
-  
+
   $list->addColumn('delete', $I18N->msg('cronjob_delete'), -1, array('', '<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnParams('delete', array('func' => 'delete', 'oid' => '###id###'));
   $list->addLinkAttribute('delete', 'onclick', "return confirm('". $I18N->msg('cronjob_really_delete') ."');");
-  
+
   $list->addColumn('execute', $I18N->msg('cronjob_execute'), -1, array('', '<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnParams('execute', array('func' => 'execute', 'oid' => '###id###'));
-  $list->setColumnFormat('execute', 'custom', 
+  $list->setColumnFormat('execute', 'custom',
     function ($params)
     {
       global $I18N;
-      $list = $params['list']; 
+      $list = $params['list'];
       if (strpos($list->getValue('environment'), '|1|') !== false && class_exists($list->getValue('type')))
         return $list->getColumnLink('execute', $I18N->msg('cronjob_execute'));
       return '<span class="rex-strike">'. $I18N->msg('cronjob_execute') .'</span>';
     }
   );
-  
+
   $list->show();
-  
+
 } elseif ($func == 'edit' || $func == 'add') {
-  
+
   $fieldset = $func == 'edit' ? $I18N->msg('cronjob_edit') : $I18N->msg('cronjob_add');
-  
+
   $form = rex_form::factory(REX_CRONJOB_TABLE, $fieldset, 'id = '. $oid, 'post', false, 'rex_cronjob_form');
   $form->addParam('oid', $oid);
   $form->setApplyUrl('index.php?page=cronjob');
   $form->setEditMode($func == 'edit');
-  
+
+  $field = $form->addTextField('name');
+  $field->setLabel($I18N->msg('cronjob_name'));
+  $nameFieldId = $field->getAttribute('id');
+
+  $field = $form->addTextAreaField('description');
+  $field->setLabel($I18N->msg('cronjob_description'));
+
   $field = $form->addSelectField('type');
   $field->setLabel($I18N->msg('cronjob_type'));
   $select = $field->getSelect();
@@ -175,12 +182,8 @@ if ($func == '')
   if ($func == 'add')
     $select->setSelected('rex_cronjob_phpcode');
   $activeType = $field->getValue();
-  
-  $field = $form->addTextField('name');
-  $field->setLabel($I18N->msg('cronjob_name'));
-  $nameFieldId = $field->getAttribute('id');
-  
-  if ($func != 'add' && !in_array($activeType, $types)) 
+
+  if ($func != 'add' && !in_array($activeType, $types))
   {
     if (!$activeType && !$field->getValue())
       $warning = $I18N->msg('cronjob_not_found');
@@ -189,10 +192,10 @@ if ($func == '')
     header('Location: index.php?page=cronjob&'. rex_request('list', 'string') .'_warning='. $warning);
     exit;
   }
-  
+
   $field = $form->addIntervalField('interval');
   $field->setLabel($I18N->msg('cronjob_interval'));
-  
+
   $field = $form->addSelectField('environment');
   $field->setLabel($I18N->msg('cronjob_environment'));
   $field->setAttribute('multiple', 'multiple');
@@ -221,14 +224,14 @@ if ($func == '')
   $select->addOption($I18N->msg('cronjob_status_deactivated'),0);
   if ($func == 'add')
     $select->setSelected(1);
-  
-  $form->addFieldset($I18N->msg('cronjob_type_parameters')); 
-  
+
+  $form->addFieldset($I18N->msg('cronjob_type_parameters'));
+
   $fieldContainer = $form->addContainerField('parameters');
   $fieldContainer->setAttribute('style', 'display: none');
   $fieldContainer->setMultiple(false);
   $fieldContainer->setActive($activeType);
-  
+
   $env_js = '';
   $visible = array();
   foreach ($cronjobs as $group => $cronjob)
@@ -244,9 +247,9 @@ if ($func == '')
         if ($("#'. $typeFieldId .' option:selected").val() == "'. $group .'")
           $("#'. $envFieldId .' option[value=\''. implode('\'], #'. $envFieldId .' option[value=\'', $disabled) .'\']").attr("disabled","disabled").attr("selected","");
 ';
-  
+
     $params = $cronjob->getParamFields();
-    
+
     if (!is_array($params) || empty($params)) {
       $field = $fieldContainer->addGroupedField($group, 'readonly', 'noparams', $I18N->msg('cronjob_type_no_parameters'));
       $field->setLabel('&nbsp;');
@@ -343,13 +346,13 @@ if ($func == '')
       }
     }
   }
-  
+
   $form->addHiddenField('nexttime', 0);
-  
+
   $form->show();
 
 ?>
-  
+
   <script type="text/javascript">
   // <![CDATA[
     jQuery(function($){
@@ -366,7 +369,7 @@ if ($func == '')
     });
   // ]]>
   </script>
-  
-<?php 
+
+<?php
 
 }

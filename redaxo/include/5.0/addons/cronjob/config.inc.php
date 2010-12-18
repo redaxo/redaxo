@@ -13,37 +13,8 @@ $mypage = 'cronjob';
 
 if($REX['REDAXO'])
 {
-  $REX['ADDON']['rxid'][$mypage] = '630';
-  $REX['ADDON']['name'][$mypage] = $I18N->msg('cronjob_title');
-  $REX['ADDON']['perm'][$mypage] = 'admin[]';
-  
-  // Credits
-  $REX['ADDON']['version'][$mypage] = '1.0';
-  $REX['ADDON']['author'][$mypage] = 'Gregor Harlan';
-  $REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
-  
-  $rootPage = new rex_be_page($I18N->msg('cronjob_title'), array(
-      'page'=>$mypage,
-      'subpage'=> ''
-    )
-  );
-  $rootPage->setHref('index.php?page=cronjob');
-  
-  $logPage = new rex_be_page($I18N->msg('cronjob_log'), array(
-      'page'=>$mypage,
-      'subpage'=>'log'
-    )
-  );
-  $logPage->setHref('index.php?page=cronjob&subpage=log');
-  
-  
-  // Subpages
-  $REX['ADDON']['pages'][$mypage] = array(
-    $rootPage, $logPage
-  );
-  
   $EP = 'PAGE_CHECKED';
-  
+
   if($REX['USER'] && rex_request('page', 'string') == 'be_dashboard')
   {
     rex_register_extension (
@@ -63,12 +34,25 @@ define('REX_CRONJOB_TABLE'     , $REX['TABLE_PREFIX'] .'630_cronjobs');
 $REX['ADDON']['nexttime']['cronjob'] = "0";
 // --- /DYN
 
-if (isset($REX['ADDON']['nexttime'][$mypage]) 
-  && $REX['ADDON']['nexttime'][$mypage] != 0 
+rex_register_extension('ADDONS_INCLUDED',
+  function($params)
+  {
+    foreach(OOPlugin::getAvailablePlugins('cronjob') as $plugin)
+    {
+      if(($type = OOPlugin::getProperty('cronjob', $plugin, 'cronjob_type')) != '')
+      {
+        rex_cronjob_manager::registerType($type);
+      }
+    }
+  }
+);
+
+if (isset($REX['ADDON']['nexttime'][$mypage])
+  && $REX['ADDON']['nexttime'][$mypage] != 0
   && time() >= $REX['ADDON']['nexttime'][$mypage])
 {
-  rex_register_extension($EP, 
-    function ($params) 
+  rex_register_extension($EP,
+    function ($params)
     {
       global $REX;
       if (!$REX['REDAXO'] || !in_array($REX['PAGE'], array('setup', 'login', 'cronjob')))

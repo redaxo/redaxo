@@ -1,0 +1,18 @@
+metainfo:
+  version: '1.3'
+  name: Meta Infos
+  perm: admin[]
+  author: 'Markus Staab, Jan Kristinus'
+  supportpage: forum.redaxo.de
+  
+  pages:
+    - ['', 'translate:article']
+    - ['categories', 'translate:categories']
+    - ['media', 'translate:media']
+  
+  requires:
+    addons:
+      structure:
+        min-version: '1.3'
+      mediapool:
+        min-version: '1.3'

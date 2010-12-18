@@ -26,7 +26,7 @@ class rex_var_config extends rex_var
   }
   
   /**
-   * Werte für die Ausgabe
+   * Werte fÃ¼r die Ausgabe
    */
   private function matchConfig($content)
   {

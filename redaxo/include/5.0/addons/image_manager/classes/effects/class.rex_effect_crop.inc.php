@@ -1,41 +1,41 @@
 <?php
 
 /**
- * Schneidet einen Ausschnitt aus einem Bild heraus. Es wird dabei nicht skaliert. 
- * 
+ * Schneidet einen Ausschnitt aus einem Bild heraus. Es wird dabei nicht skaliert.
+ *
  * @author staabm
  */
 
 class rex_effect_crop extends rex_effect_abstract
 {
-	
+
 	function rex_effect_crop()
 	{
 
 	}
-  
+
 	function execute()
 	{
-		$gdimage =& $this->image->getImage();
+		$gdimage = $this->image->getImage();
 		$w = $this->image->getWidth();
 		$h = $this->image->getHeight();
-		
-		if(empty($this->params['width']) || $this->params['width'] < 0 || 
+
+		if(empty($this->params['width']) || $this->params['width'] < 0 ||
 			empty($this->params['height']) || $this->params['height'] < 0)
 		{
 			return;
 		}
-		
-		// das original-bild ist kleiner als das zu croppende format 
+
+		// das original-bild ist kleiner als das zu croppende format
 		if($this->params['width'] > $w || $this->params['height'] > $h) {
 			return;
 		}
-		
+
 		$offset_width = 0;
 		$offset_height = 0;
 		if(empty($this->params['offset_width'])) $this->params['offset_width'] = 0;
 		if(empty($this->params['offset_height'])) $this->params['offset_height'] = 0;
-    
+
 		switch($this->params["vpos"])
 		{
 			case("top"):
@@ -77,14 +77,14 @@ class rex_effect_crop extends rex_effect_abstract
 		{
 			return;
 		}
-		
+
 		// Transparenz erhalten
 		$this->keepTransparent($des);
 		imagecopyresampled($des, $gdimage, 0, 0, $offset_width, $offset_height, $this->params['width'], $this->params['height'], $this->params['width'], $this->params['height']);
-		
+
 		$gdimage = $des;
 		$this->image->refreshDimensions();
-		
+
 	}
 
 
@@ -98,7 +98,7 @@ class rex_effect_crop extends rex_effect_abstract
 		}
 		else if ($image->getFormat() == 'GIF')
 		{
-		  $gdimage =& $image->getImage();
+		  $gdimage = $image->getImage();
 			$colorTransparent = imagecolortransparent($gdimage);
 			imagepalettecopy($gdimage, $des);
 			if($colorTransparent>0)

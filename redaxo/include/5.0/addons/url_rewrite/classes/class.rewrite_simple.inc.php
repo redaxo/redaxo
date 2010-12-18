@@ -22,7 +22,7 @@ class myUrlRewriter extends rexUrlRewriter
     $this->rexUrlRewriter();
   }
 
-  // Parameter aus der URL für das Script verarbeiten
+  // Parameter aus der URL fÃ¼r das Script verarbeiten
   function prepare()
   {
     global $article_id, $clang, $REX;

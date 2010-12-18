@@ -36,7 +36,7 @@ elseif ($func == 'updateinfos')
   $neu_notfoundartikel    = rex_post('neu_notfoundartikel', 'int');
   $neu_defaulttemplateid  = rex_post('neu_defaulttemplateid', 'int');
   $neu_lang               = rex_post('neu_lang', 'string');
-  // ' darf nichtg escaped werden, da in der Datei der Schlüssel nur zwischen " steht
+  // ' darf nichtg escaped werden, da in der Datei der SchlÃ¼ssel nur zwischen " steht
   $neu_error_emailaddress = str_replace("\'", "'", rex_post('neu_error_emailaddress', 'string'));
   $neu_SERVER             = str_replace("\'", "'", rex_post('neu_SERVER', 'string'));
   $neu_SERVERNAME         = str_replace("\'", "'", rex_post('neu_SERVERNAME', 'string'));
@@ -90,9 +90,9 @@ elseif ($func == 'updateinfos')
     {
       $info = $I18N->msg('info_updated');
     
-      // Zuweisungen für Wiederanzeige
+      // Zuweisungen fÃ¼r Wiederanzeige
       $REX['MOD_REWRITE'] = $neu_modrewrite === 'TRUE';
-      // FŸr die Wiederanzeige Slashes strippen
+      // FÅ¸r die Wiederanzeige Slashes strippen
       $REX['ERROR_EMAIL'] = stripslashes($neu_error_emailaddress);
       $REX['SERVER'] = stripslashes($neu_SERVER);
       $REX['SERVERNAME'] = stripslashes($neu_SERVERNAME);

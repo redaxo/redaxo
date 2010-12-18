@@ -31,12 +31,6 @@ if(!defined('REX_A62_FIELD_TEXT'))
   define('REX_A62_FIELD_COUNT',                13);
 }
 
-$REX['ADDON']['rxid'][$mypage] = '62';
-$REX['ADDON']['name'][$mypage] = 'Meta Infos';
-$REX['ADDON']['perm'][$mypage] = 'admin[]';
-$REX['ADDON']['version'][$mypage] = "1.3";
-$REX['ADDON']['author'][$mypage] = "Markus Staab, Jan Kristinus";
-$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 $REX['ADDON']['prefixes'][$mypage] = array('art_', 'cat_', 'med_');
 $REX['ADDON']['metaTables'][$mypage] = array(
   'art_' => $REX['TABLE_PREFIX'] .'article',
@@ -51,11 +45,4 @@ if ($REX['REDAXO'])
   require_once $curDir .'/extensions/extension_common.inc.php';
 
   rex_register_extension('PAGE_CHECKED', 'a62_extensions_handler');
-
-	$REX['ADDON']['pages'][$mypage] = array(
-	  array('', $I18N->msg('article')),
-	  array('categories', $I18N->msg('categories')),
-	  array('media', $I18N->msg('media')),
-	);
-
 }

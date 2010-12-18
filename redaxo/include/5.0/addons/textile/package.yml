@@ -1,0 +1,6 @@
+textile:
+  name: 'Textile'
+  version: '1.3'
+  author: Markus Staab, Dean Allen
+  perm: textile[]
+  supportpage: forum.redaxo.de

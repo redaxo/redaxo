@@ -11,7 +11,7 @@
 
 class rex_cronjob_manager_sql
 {
-  private 
+  private
     $sql,
     $manager;
 
@@ -22,7 +22,7 @@ class rex_cronjob_manager_sql
     $this->manager = $manager;
   }
 
-  public function factory(rex_cronjob_manager $manager = null)
+  static public function factory(rex_cronjob_manager $manager = null)
   {
     return new rex_cronjob_manager_sql($manager);
   }
@@ -59,9 +59,9 @@ class rex_cronjob_manager_sql
   public function getName($id)
   {
     $this->sql->setQuery('
-      SELECT  name 
-      FROM    '. REX_CRONJOB_TABLE .' 
-      WHERE   id = '. $id .' 
+      SELECT  name
+      FROM    '. REX_CRONJOB_TABLE .'
+      WHERE   id = '. $id .'
       LIMIT   1
     ');
     if($this->sql->getRows() == 1)
@@ -108,11 +108,11 @@ class rex_cronjob_manager_sql
     // $sql->setDebug();
     $sql->setQuery('
       SELECT    id, name, type, parameters, `interval`, execution_moment
-      FROM      '. REX_CRONJOB_TABLE .' 
-      WHERE     status = 1 
-        AND     execution_start < '. (time() - 2 * ini_get('max_execution_time')) .' 
-        AND     environment LIKE "%|'. (int)$REX['REDAXO'] .'|%" 
-        AND     nexttime <= '. time() .' 
+      FROM      '. REX_CRONJOB_TABLE .'
+      WHERE     status = 1
+        AND     execution_start < '. (time() - 2 * ini_get('max_execution_time')) .'
+        AND     environment LIKE "%|'. (int)$REX['REDAXO'] .'|%"
+        AND     nexttime <= '. time() .'
       ORDER BY  nexttime ASC, execution_moment DESC, name ASC
       LIMIT     1
     ');
@@ -127,16 +127,16 @@ class rex_cronjob_manager_sql
       }
       else
       {
-        rex_register_extension('OUTPUT_FILTER_CACHE', 
+        rex_register_extension('OUTPUT_FILTER_CACHE',
           function($params)
           {
             $params['manager']->tryExecuteSql($params['sql'], true, true);
-          }, 
+          },
           array('manager' => $this, 'sql' => $sql)
         );
       }
-    } 
-    else 
+    }
+    else
     {
       $this->saveNextTime();
     }
@@ -163,9 +163,9 @@ class rex_cronjob_manager_sql
     global $REX;
     $sql = rex_sql::factory();
     $sql->setQuery('
-      SELECT    id, name, type, parameters, `interval` 
-      FROM      '. REX_CRONJOB_TABLE .' 
-      WHERE     id = '. $id .' AND environment LIKE "%|'. (int)$REX['REDAXO'] .'|%" 
+      SELECT    id, name, type, parameters, `interval`
+      FROM      '. REX_CRONJOB_TABLE .'
+      WHERE     id = '. $id .' AND environment LIKE "%|'. (int)$REX['REDAXO'] .'|%"
       LIMIT     1
     ');
     if ($sql->getRows() != 1)
@@ -192,7 +192,7 @@ class rex_cronjob_manager_sql
       $success = $this->getManager()->tryExecute($cronjob, $name, $params, $log, $id);
 
       $this->setNextTime($id, $interval, $resetExecutionStart);
-      
+
       return $success;
     }
     return false;
@@ -203,7 +203,7 @@ class rex_cronjob_manager_sql
     $nexttime = $this->_calculateNextTime($interval);
     $add = $resetExecutionStart ? ', execution_start = 0' : '';
     $success = $this->sql->setQuery('
-      UPDATE  '. REX_CRONJOB_TABLE .' 
+      UPDATE  '. REX_CRONJOB_TABLE .'
       SET     nexttime = '. $nexttime . $add .'
       WHERE   id = '. $id
     );
@@ -215,7 +215,7 @@ class rex_cronjob_manager_sql
   {
     $this->sql->setQuery('
       SELECT  MIN(nexttime) AS nexttime
-      FROM    '. REX_CRONJOB_TABLE .' 
+      FROM    '. REX_CRONJOB_TABLE .'
       WHERE   status = 1
     ');
     if($this->sql->getRows() == 1)
@@ -234,7 +234,7 @@ class rex_cronjob_manager_sql
       $nexttime = 0;
     else
       $nexttime = max(1, $nexttime);
-    if ($nexttime != $REX['ADDON']['nexttime']['cronjob']) 
+    if ($nexttime != $REX['ADDON']['nexttime']['cronjob'])
     {
       $content = '$REX[\'ADDON\'][\'nexttime\'][\'cronjob\'] = "'. addslashes($nexttime) .'";';
       $file = $REX['SRC_PATH'] .'/addons/cronjob/config.inc.php';
@@ -261,7 +261,7 @@ class rex_cronjob_manager_sql
         case 'w': return mktime(0, 0, 0, $date['mon'], $date['mday'] + $interval[0] * 7 - $date['wday']);
         case 'm': return mktime(0, 0, 0, $date['mon'] + $interval[0], 1);
         case 'y': return mktime(0, 0, 0, 1, 1, $date['year'] + $interval[0]);
-      } 
+      }
     }
     return null;
   }

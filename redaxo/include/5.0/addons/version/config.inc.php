@@ -10,12 +10,6 @@
  */
 
 $mypage = "version";
-$REX['ADDON']['rxid'][$mypage] = '461';
-// $REX['ADDON']['name'][$mypage] = 'Version';
-// $REX['ADDON']['perm'][$mypage] = 'version[]';
-$REX['ADDON']['version'][$mypage] = '0.2';
-$REX['ADDON']['author'][$mypage] = 'Jan Kristinus';
-$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
 
 $REX['EXTRAPERM'][] = 'version[only_working_version]';
 // $REX['EXTPERM'][] = 'version[admin]';
@@ -27,21 +21,18 @@ function rex_version_initArticle($params)
 	global $REX;
 
 	$version = rex_request("rex_version","int");
-	if($version == "")
+	if($version != 1)
 		return;
 		
 	if(!isset($_SESSION))
 		session_start();
-
-	$REX['LOGIN'] = new rex_backend_login($REX['TABLE_PREFIX'] .'user');
-	if ($REX['PSWFUNC'] != '')
-	  $REX['LOGIN']->setPasswordFunction($REX['PSWFUNC']);
-
-	if ($REX['LOGIN']->checkLogin() !== true)
-		return;
+		
+	if (!rex_hasBackendSession())
+	{
+    echo 'no permission for the working version';	  
+		exit();
+	}
 	
-	$REX['USER'] = &$REX['LOGIN']->USER;
-
   $params['article']->setSliceRevision($version);
 	if(is_a($params['article'], 'rex_article'))
 	{

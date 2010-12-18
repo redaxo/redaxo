@@ -337,7 +337,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnl
           <td class="rex-icon"><span class="rex-i-element rex-i-category"><span class="rex-i-element-text">'. $I18N->msg('add_category') .'</span></span></td>
           '. $add_td .'
           <td><input class="rex-form-text" type="text" id="rex-form-field-name" name="category_name" />'. $meta_buttons .'</td>
-          <td><input class="rex-form-text" type="text" id="rex-form-field-prior" name="Position_New_Category" value="100" /></td>
+          <td><input class="rex-form-text" type="text" id="rex-form-field-prior" name="Position_New_Category" value="'.($KAT->getRows()+1).'" /></td>
           <td colspan="3">'. $add_buttons .'</td>
         </tr>';
 
@@ -649,7 +649,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
             <td class="rex-icon"><span class="rex-i-element rex-i-article"><span class="rex-i-element-text">'.$I18N->msg('article_add') .'</span></span></td>
             '. $add_td .'
             <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="article_name" /></td>
-            <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="Position_New_Article" value="100" /></td>
+            <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="Position_New_Article" value="'.($sql->getRows()+1).'" /></td>
             <td>'. $template_select->get() .'</td>
             <td>'. rex_formatter :: format(time(), 'strftime', 'date') .'</td>
             <td colspan="3"><input type="submit" class="rex-form-submit" name="artadd_function" value="'.$I18N->msg('article_add') .'"'. rex_accesskey($I18N->msg('article_add'), $REX['ACKEY']['SAVE']) .' /></td>

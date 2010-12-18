@@ -7,13 +7,6 @@
  * @version svn:$Id$
  */
 
-$mypage = "url_rewrite";
- 
-// $REX['ADDON']['name'][$mypage] = 'URL Rewrite';
-$REX['ADDON']['version'][$mypage] = "1.1.4";
-$REX['ADDON']['author'][$mypage] = "Markus Staab, Wolfgang Huttegger, Ruediger Nitzsche, Jan Kristinus";
-$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
- 
 if ($REX['MOD_REWRITE'] !== false)
 {
   $UrlRewriteBasedir = dirname(__FILE__);

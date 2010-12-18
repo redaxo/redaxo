@@ -62,6 +62,15 @@ echo '
    <!--
   jQuery(function($) {
     $("#rex-form-login").focus();
+    
+    $("#loginformular")
+      .submit(function(){
+      	var pwInp = $("#REX_UPSW");
+      	if(pwInp.val() != "") {
+      		pwInp.val(Sha1.hash(pwInp.val()));
+      	}
+    });
+    
     $("#javascript").val("1");
     '. $js .'
   });

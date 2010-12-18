@@ -22,6 +22,7 @@ if($PERMALL)
     }
     closedir($handle);
   }
+  sort($folder_files);
 
   // ---- Dateien aus der DB lesen
   $db = rex_sql::factory();

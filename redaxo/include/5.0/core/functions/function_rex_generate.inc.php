@@ -2,7 +2,7 @@
 
 
 /**
- * Funktionensammlung für die generierung der Artikel/Templates/Kategorien/Metainfos.. etc.
+ * Funktionensammlung fÃ¼r die generierung der Artikel/Templates/Kategorien/Metainfos.. etc.
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -10,13 +10,13 @@
 // ----------------------------------------- Alles generieren
 
 /**
- * Löscht den vollständigen Artikel-Cache.
+ * LÃ¶scht den vollstÃ¤ndigen Artikel-Cache.
  */
 function rex_generateAll()
 {
   global $REX, $I18N;
 
-  // ----------------------------------------------------------- generated löschen
+  // ----------------------------------------------------------- generated lÃ¶schen
   rex_deleteDir($REX['SRC_PATH'].'/generated', FALSE);
   
   // ----------------------------------------------------------- generiere clang
@@ -39,10 +39,10 @@ function rex_generateAll()
 
 
 /**
- * Löscht einen Ordner/Datei mit Unterordnern
+ * LÃ¶scht einen Ordner/Datei mit Unterordnern
  *
- * @param $file Zu löschender Ordner/Datei
- * @param $delete_folders Ordner auch löschen? false => nein, true => ja
+ * @param $file Zu lÃ¶schender Ordner/Datei
+ * @param $delete_folders Ordner auch lÃ¶schen? false => nein, true => ja
  * 
  * @return TRUE bei Erfolg, sonst FALSE
  */
@@ -55,7 +55,7 @@ function rex_deleteDir($file, $delete_folders = FALSE)
 
   if (file_exists($file))
   {
-    // Fehler unterdrücken, falls keine Berechtigung
+    // Fehler unterdrÃ¼cken, falls keine Berechtigung
     if (@ is_dir($file))
     {
       $handle = opendir($file);
@@ -87,10 +87,10 @@ function rex_deleteDir($file, $delete_folders = FALSE)
       }
       
 
-      // Ordner auch löschen?
+      // Ordner auch lÃ¶schen?
       if ($delete_folders)
       {
-        // Fehler unterdrücken, falls keine Berechtigung
+        // Fehler unterdrÃ¼cken, falls keine Berechtigung
         if (!@ rmdir($file))
         {
           if($debug)
@@ -102,8 +102,8 @@ function rex_deleteDir($file, $delete_folders = FALSE)
     }
     else
     {
-      // Datei löschen
-      // Fehler unterdrücken, falls keine Berechtigung
+      // Datei lÃ¶schen
+      // Fehler unterdrÃ¼cken, falls keine Berechtigung
       if (!@ unlink($file))
       {
         if($debug)
@@ -125,7 +125,7 @@ function rex_deleteDir($file, $delete_folders = FALSE)
 }
 
 /**
- * Lösch allen Datei in einem Ordner
+ * LÃ¶sch allen Datei in einem Ordner
  *
  * @param $file Pfad zum Ordner
  * 
@@ -139,7 +139,7 @@ function rex_deleteFiles($file)
 
   if (file_exists($file))
   {
-    // Fehler unterdrücken, falls keine Berechtigung
+    // Fehler unterdrÃ¼cken, falls keine Berechtigung
     if (@ is_dir($file))
     {
       $handle = opendir($file);
@@ -171,8 +171,8 @@ function rex_deleteFiles($file)
     }
     else
     {
-      // Datei löschen
-      // Fehler unterdrücken, falls keine Berechtigung
+      // Datei lÃ¶schen
+      // Fehler unterdrÃ¼cken, falls keine Berechtigung
     }
   }
   else
@@ -268,9 +268,9 @@ function rex_copyDir($srcdir, $dstdir, $startdir = "")
 // ----------------------------------------- CLANG
 
 /**
- * Löscht eine Clang
+ * LÃ¶scht eine Clang
  *
- * @param $id Zu löschende ClangId
+ * @param $id Zu lÃ¶schende ClangId
  * 
  * @return TRUE bei Erfolg, sonst FALSE
  */
@@ -359,7 +359,7 @@ function rex_addCLang($id, $name)
 }
 
 /**
- * Ändert eine Clang
+ * Ã„ndert eine Clang
  *
  * @param $id   Id der Clang
  * @param $name Name der Clang
@@ -465,8 +465,8 @@ function rex_generatePlugins(array $PLUGINS)
     }
   }
 
-  // Da dieser Funktion öfter pro request aufgerufen werden kann,
-  // hier die caches löschen
+  // Da dieser Funktion Ã¶fter pro request aufgerufen werden kann,
+  // hier die caches lÃ¶schen
   clearstatcache();
 
   $file = $REX['SRC_PATH']."/config/plugins.inc.php";

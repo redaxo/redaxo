@@ -1,0 +1,10 @@
+cronjob:
+  version: '1.1'
+  author: 'Gregor Harlan'
+  supportpage: forum.redaxo.de
+  
+  name: 'translate:cronjob_title'
+  perm: admin[]
+  pages:
+    - ['', 'translate:cronjob_title']
+    - ['log', 'translate:cronjob_log']

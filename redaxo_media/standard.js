@@ -676,4 +676,50 @@ jQuery(function($){
       });    
   });
 
+  if ($('#rex-page-login').length == 0 && getCookie('htaccess_check') == '')
+  {
+    time = new Date();
+    time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
+    setCookie('htaccess_check', '1', time.toGMTString());
+    $.get('include/src/config.inc.php', 
+      function(data) {
+        $('#rex-wrapper2').prepend('<div class="rex-message"><p class="rex-warning"><span>The folder redaxo/include is insecure. Please protect this folder.</span></p></div>');
+        setCookie('htaccess_check', '');
+      }
+    );
+  }
+  
+
 });
+
+
+// cookie functions
+// necessary for be_dashboard
+
+function setCookie(name, value, expires, path, domain, secure) {
+	if (typeof expires != undefined && expires == "never") {
+		// never expire means expires in 3000 days
+		expires = new Date();
+		expires.setTime(expires.getTime() + (1000 * 60 * 60 * 24 * 3000));
+		expires = expires.toGMTString();
+	}
+
+	document.cookie = name + "=" + escape(value)
+			+ ((expires) ? "; expires=" + expires : "")
+			+ ((path) ? "; path=" + path : "")
+			+ ((domain) ? "; domain=" + domain : "")
+			+ ((secure) ? "; secure" : "");
+}
+
+function getCookie(cookieName) {
+	var theCookie = "" + document.cookie;
+	var ind = theCookie.indexOf(cookieName);
+	if (ind == -1 || cookieName == "")
+		return "";
+
+	var ind1 = theCookie.indexOf(';', ind);
+	if (ind1 == -1)
+		ind1 = theCookie.length;
+
+	return unescape(theCookie.substring(ind + cookieName.length + 1, ind1));
+}

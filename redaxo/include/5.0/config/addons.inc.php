@@ -17,6 +17,8 @@ $REX['ADDON'] = array();
 
 require $REX['SRC_PATH']. '/config/plugins.inc.php';
 
+// in the first run, we register all folders for class- and fragment-loading,
+// so it is transparent in which order the addons are included afterwards.
 foreach(OOAddon::getAvailableAddons() as $addonName)
 {
   $addonsFolder = rex_addons_folder($addonName);
@@ -36,11 +38,8 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
   {
     $I18N->appendFile($addonsFolder .'lang');
   }
-  // include the addon itself
-  if(file_exists($addonsFolder. 'config.inc.php'))
-  {
-    require $addonsFolder. 'config.inc.php';
-  }
+  // load package infos
+  rex_addonManager::loadPackage($addonName);
   
   foreach(OOPlugin::getAvailablePlugins($addonName) as $pluginName)
   {
@@ -61,8 +60,28 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
     {
       $I18N->appendFile($pluginsFolder .'lang');
     }
+    // load package infos
+    rex_pluginManager::loadPackage($addonName, $pluginName);
+  }
+}
+
+// now we actually include the addons logic
+foreach(OOAddon::getAvailableAddons() as $addonName)
+{
+  $addonsFolder = rex_addons_folder($addonName);
+  
+  // include the addon itself
+  if(is_readable($addonsFolder. 'config.inc.php'))
+  {
+    require $addonsFolder. 'config.inc.php';
+  }
+    
+  foreach(OOPlugin::getAvailablePlugins($addonName) as $pluginName)
+  {
+    $pluginsFolder = rex_plugins_folder($addonName, $pluginName);
+    
     // transform the plugin into a regular addon and include it itself afterwards 
-    if(file_exists($pluginsFolder. 'config.inc.php'))
+    if(is_readable($pluginsFolder. 'config.inc.php'))
     {
       rex_pluginManager::addon2plugin($addonName, $pluginName, $pluginsFolder. 'config.inc.php');
     }

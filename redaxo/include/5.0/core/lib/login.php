@@ -145,8 +145,8 @@ class rex_login_sql extends rex_sql
   }
   
   /**
-   * Gibt eine SQL Where Bedingung zurück, die eine Abfrage auf die rex_article Tabelle so
-   * begrenzt, sodas nur Datensätze zurückgegeben werden auf die der User rechte hat.
+   * Gibt eine SQL Where Bedingung zurÃ¼ck, die eine Abfrage auf die rex_article Tabelle so
+   * begrenzt, sodas nur DatensÃ¤tze zurÃ¼ckgegeben werden auf die der User rechte hat.
    */
   public function getCategoryPermAsSql()
   {
@@ -228,7 +228,7 @@ class rex_login
 
   /**
    * Setzt eine eindeutige System Id, damit mehrere
-   * Sessions auf der gleichen Domain unterschieden werden können
+   * Sessions auf der gleichen Domain unterschieden werden kÃ¶nnen
    */
   public function setSysID($system_id)
   {
@@ -261,7 +261,7 @@ class rex_login
   }
 
   /**
-   * Prüft, ob die aktuelle Session ausgeloggt ist
+   * PrÃ¼ft, ob die aktuelle Session ausgeloggt ist
    */
   public function isLoggedOut()
   {
@@ -282,7 +282,7 @@ class rex_login
   /**
    * Setzt den LoginQuery
    *
-   * Dieser wird benutzt, um den eigentlichne Loginvorgang durchzuführen.
+   * Dieser wird benutzt, um den eigentlichne Loginvorgang durchzufÃ¼hren.
    * Hier wird das eingegebene Password und der Login eingesetzt.
    */
   public function setLoginquery($login_query)
@@ -291,7 +291,7 @@ class rex_login
   }
 
   /**
-   * Setzt den Namen der Spalte, der die User-Id enthält
+   * Setzt den Namen der Spalte, der die User-Id enthÃ¤lt
    */
   public function setUserID($uid)
   {
@@ -307,10 +307,10 @@ class rex_login
   }
 
   /**
-   * Prüft die mit setLogin() und setPassword() gesetzten Werte
-   * anhand des LoginQueries/UserQueries und gibt den Status zurück
+   * PrÃ¼ft die mit setLogin() und setPassword() gesetzten Werte
+   * anhand des LoginQueries/UserQueries und gibt den Status zurÃ¼ck
    *
-   * Gibt true zurück bei erfolg, sonst false
+   * Gibt true zurÃ¼ck bei erfolg, sonst false
    */
   public function checkLogin()
   {
@@ -327,7 +327,7 @@ class rex_login
     {
       // LoginStatus: 0 = noch checken, 1 = ok, -1 = not ok
 
-      // checkLogin schonmal ausgeführt ? gecachte ausgabe erlaubt ?
+      // checkLogin schonmal ausgefÃ¼hrt ? gecachte ausgabe erlaubt ?
       if ($this->cache)
       {
         if($this->login_status > 0)
@@ -422,7 +422,7 @@ class rex_login
   }
 
   /**
-   * Gibt einen Benutzer-Spezifischen Wert zurück
+   * Gibt einen Benutzer-Spezifischen Wert zurÃ¼ck
    */
   public function getValue($value, $default = NULL)
   {
@@ -441,7 +441,7 @@ class rex_login
   }
 
   /**
-   * Verschlüsselt den übergebnen String, falls eine Password-Funktion gesetzt ist.
+   * VerschlÃ¼sselt den Ã¼bergebnen String, falls eine Password-Funktion gesetzt ist.
    */
   protected function encryptPassword($psw)
   {
@@ -460,7 +460,7 @@ class rex_login
   }
 
   /**
-   * Gibt den Wert einer Session-Variable zurück
+   * Gibt den Wert einer Session-Variable zurÃ¼ck
    */
   public function getSessionVar($varname, $default = '')
   {
@@ -475,7 +475,7 @@ class rex_login
    */
   public function sessionFixation()
   {
-    // 1. parameter ist erst seit php5.1 verfügbar
+    // 1. parameter ist erst seit php5.1 verfÃ¼gbar
     if (version_compare(phpversion(), '5.1.0', '>=') == 1)
     {
       session_regenerate_id(true);
@@ -491,18 +491,20 @@ class rex_backend_login extends rex_login
 {
   var $tableName;
 
-  public function rex_backend_login($tableName)
+  public function rex_backend_login()
   {
     global $REX;
 
     parent::rex_login();
 
+    $tableName = $REX['TABLE_PREFIX'].'user';
     $this->setSqlDb(1);
     $this->setSysID($REX['INSTNAME']);
     $this->setSessiontime($REX['SESSION_DURATION']);
     $this->setUserID($tableName .'.user_id');
-    $this->setUserquery('SELECT * FROM '. $tableName .' WHERE status=1 AND user_id = "USR_UID"');
-    $this->setLoginquery('SELECT * FROM '.$tableName .' WHERE status=1 AND login = "USR_LOGIN" AND psw = "USR_PSW" AND lasttrydate <'. (time()-$REX['RELOGINDELAY']).' AND login_tries<'.$REX['MAXLOGINS']);
+    $qry = 'SELECT CONCAT('.$tableName.'.rights, IFNULL(roles.rights,"")) AS rights, '.$tableName.'.* FROM '. $tableName .' LEFT JOIN '.$REX['TABLE_PREFIX'].'user_role roles ON roles.id = role WHERE status=1';
+    $this->setUserquery($qry .' AND user_id = "USR_UID"');
+    $this->setLoginquery($qry .' AND login = "USR_LOGIN" AND psw = "USR_PSW" AND lasttrydate <'. (time()-$REX['RELOGINDELAY']).' AND login_tries<'.$REX['MAXLOGINS']);
     $this->tableName = $tableName;
   }
 
@@ -577,28 +579,4 @@ class rex_backend_login extends rex_login
   	}
   	return $REX['START_PAGE'];
 	}
-}
-
-/**
- * Prüft, ob der aktuelle Benutzer im Backend eingeloggt ist.
- * 
- * Diese Funktion kann auch aus dem Frontend heraus verwendet werden.
- */
-function rex_hasBackendSession()
-{
-  global $REX;
-  
-  if(!isset($_SESSION))
-    return false;
-    
-  if(!isset($REX))
-    return false;
-    
-  if(!isset($REX['INSTNAME']))
-    return false;
-    
-  if(!isset($_SESSION[$REX['INSTNAME']]))
-    return false;
-    
-  return $_SESSION[$REX['INSTNAME']]['UID'] > 0;
 }

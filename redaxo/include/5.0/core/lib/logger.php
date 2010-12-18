@@ -61,39 +61,20 @@ class rex_logger {
 
   public function logError($errno, $errstr, $errfile, $errline)
   {
+    $errorType = '<b>'. $this->getErrorType($errno) .'</b>';
+
     $msg = "$errstr in file <span class='rex-err-file'>$errfile</span> on line <span class='rex-err-line'>$errline</span><br />\n";
-    
+
     // errors which should be reported regarding error_reporting() will be echo'ed to the end-user
-    if (error_reporting() & $errno) {
-      echo $msg;
+    if (ini_get('display_errors') && (error_reporting() & $errno) == $errno) {
+      echo $errorType .': '. $msg;
     }
-    
-    $msg = '['. $errno .'] '. $msg;
-    
-    switch ($errno) {
-      case E_USER_ERROR:
-      case E_ERROR :
-        $this->log("<b>ERROR</b>". $msg);
-        exit(1);
-        break;
 
-      case E_USER_WARNING:
-      case E_WARNING:
-        $this->log("<b>WARNING</b>". $msg);
-        break;
+    $this->log($errorType .'['. $errno .']: '. $msg);
 
-      case E_USER_NOTICE:
-      case E_NOTICE:
-        $this->log("<b>NOTICE</b>". $msg);
-        break;
-
-      case E_STRICT:
-        $this->log("<b>STRICT</b>". $msg);
-        break;
-
-      default:
-        $this->log("<b>UNKOWN:</b>". $msg);
-        break;
+    if(in_array($errno, array(E_USER_ERROR, E_ERROR)))
+    {
+      exit(1);
     }
   }
 
@@ -106,7 +87,11 @@ class rex_logger {
   {
     $this->handle = fopen($this->file, 'ab');
 
-    // TODO handle error while filecreation
+    if(!$this->handle)
+    {
+      echo 'Error while creating logfile '. $this->file;
+      exit();
+    }
   }
 
   public function close()
@@ -114,6 +99,33 @@ class rex_logger {
     if($this->handle)
     {
       fclose($this->handle);
+    }
+  }
+  
+  private function getErrorType($errno)
+  {
+    switch ($errno) {
+      case E_USER_ERROR:
+      case E_ERROR:
+        return 'Error';
+
+      case E_USER_WARNING:
+      case E_WARNING:
+        return 'Warning';
+
+      case E_USER_NOTICE:
+      case E_NOTICE:
+        return 'Notice';
+
+      case E_USER_DEPRECATED:
+      case E_DEPRECATED:
+        return 'Deprecated';
+
+      case E_STRICT:
+        return 'Strict';
+
+      default:
+        return 'Unknown';
     }
   }
 }

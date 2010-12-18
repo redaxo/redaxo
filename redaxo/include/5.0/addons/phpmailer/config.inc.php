@@ -9,15 +9,6 @@
  * @version svn:$Id$
  */
 
-$mypage = 'phpmailer';
-
-$REX['ADDON']['rxid'][$mypage] = '93';
-$REX['ADDON']['name'][$mypage] = 'PHPMailer';
-$REX['ADDON']['perm'][$mypage] = 'phpmailer[]';
-$REX['ADDON']['version'][$mypage] = "1.3";
-$REX['ADDON']['author'][$mypage] = "Markus Staab, Brent R. Matzelle";
-$REX['ADDON']['supportpage'][$mypage] = "forum.redaxo.de";
-
 $REX['PERM'][] = 'phpmailer[]';
 
 require_once($REX['SRC_PATH']. '/addons/phpmailer/classes/class.phpmailer.php');

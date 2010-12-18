@@ -4,3 +4,17 @@ roles = Rollen
 user_management = Benutzerverwaltung
 user = Benutzer
 users = Benutzer
+
+user_role = Rolle
+user_role_data_updated = Rolle wurde aktualisiert!
+user_role_deleted = Rolle wurde gelöscht!
+user_role_added = Rolle wurde hinzugefügt!
+edit_user_role = Rolle bearbeiten
+create_user_role = Neue Rolle anlegen
+add_user_role = Rolle hinzufügen
+user_role_save = Rolle speichern
+user_role_apply = Rolle übernehmen
+user_role_delete = Rolle löschen
+user_role_caption = Liste der angelegten Rollen
+user_role_summary = Auflistung aller angelegten Rollen
+user_no_role = keine Rolle

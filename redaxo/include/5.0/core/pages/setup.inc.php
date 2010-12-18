@@ -2,14 +2,14 @@
 
 /**
  * Direkter Aufruf, um zu testen, ob der Ordner redaxo/include
- * erreichbar ist. Dies darf aus Sicherheitsgründen nicht möglich sein!
+ * erreichbar ist. Dies darf aus SicherheitsgrÃ¼nden nicht mÃ¶glich sein!
  */
 if (!isset($REX))
 {
 	echo '<html>
           <title></title>
           <head>
-            <script src="../../js/standard.js" type="text/javascript"></script>
+            <script src="../../../../../redaxo_media/standard.js" type="text/javascript"></script>
             <script type="text/javascript">
               var needle = new parent.getObj("security_warning");
               var span = needle.obj;
@@ -57,8 +57,8 @@ function rex_setup_import($import_sql, $import_archiv = null)
 	{
 		if (file_exists($import_sql) && ($import_archiv === null || $import_archiv !== null && file_exists($import_archiv)))
 		{
-			// Hier I18N_IM_EXPORT global definieren, damit es aus der config.inc.php übernommen
-			// wird und auch in der danach includeten function verfügbar ist
+			// Hier I18N_IM_EXPORT global definieren, damit es aus der config.inc.php Ã¼bernommen
+			// wird und auch in der danach includeten function verfÃ¼gbar ist
 			global $I18N_IM_EXPORT;
 
 			$I18N->appendFile($REX['SRC_PATH'] .'/addons/import_export/lang/');
@@ -110,7 +110,7 @@ function rex_setup_is_writable($items)
 	return $res;
 }
 
-// -------------------------- System AddOns prüfen
+// -------------------------- System AddOns prÃ¼fen
 function rex_setup_addons($uninstallBefore = false, $installDump = true)
 {
 	global $REX, $I18N;
@@ -120,22 +120,29 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 	$addonErr = '';
 	$ADDONS = rex_read_addons_folder();
 	$addonManager = new rex_addonManager($ADDONS);
-	foreach($REX['SYSTEM_ADDONS'] as $systemAddon)
-	{
-		$state = true;
+  if($uninstallBefore)
+  {
+    foreach(array_reverse($REX['SYSTEM_ADDONS']) as $systemAddon)
+    {
+    	$state = $addonManager->uninstall($systemAddon);
 
-		if($state === true && $uninstallBefore)
-		$state = $addonManager->uninstall($systemAddon);
+    	if($state !== true)
+    	  $addonErr .= '<li>'. $systemAddon .'<ul><li>'. $state .'</li></ul></li>';
+    }
+  }
+  foreach($REX['SYSTEM_ADDONS'] as $systemAddon)
+  {
+  	$state = true;
 
-		if($state === true && !OOAddon::isInstalled($systemAddon))
-		$state = $addonManager->install($systemAddon, $installDump);
+  	if($state === true && !OOAddon::isInstalled($systemAddon))
+  	  $state = $addonManager->install($systemAddon, $installDump);
 
-		if($state === true && !OOAddon::isActivated($systemAddon))
-		$state = $addonManager->activate($systemAddon);
+  	if($state === true && !OOAddon::isActivated($systemAddon))
+  	  $state = $addonManager->activate($systemAddon);
 
-		if($state !== true)
-		$addonErr .= '<li>'. $systemAddon .'<ul><li>'. $state .'</li></ul></li>';
-	}
+  	if($state !== true)
+  	  $addonErr .= '<li>'. $systemAddon .'<ul><li>'. $state .'</li></ul></li>';
+  }
 
 	if($addonErr != '')
 	{
@@ -214,15 +221,13 @@ function rex_setup_setUtf8()
 	if (!($checkmodus > 0 && $checkmodus < 10))
 	{
 	  // initial purge all generated files
-	  rex_generateAll();
-	   
+	  rex_deleteDir($REX['SRC_PATH'].'/generated', FALSE);
+
 		$langpath = $REX['SRC_PATH'].'/core/lang';
 		foreach($REX['LANGUAGES'] as $l)
 		{
-			$isUtf8 = substr($l, -4) == 'utf8';
 			$I18N_T = rex_create_lang($l,$langpath,FALSE);
 			$label = $I18N_T->msg('lang');
-			if($isUtf8) $label .= ' (utf-8)';
 			$langs[$l] = '<li><a href="index.php?checkmodus=0.5&amp;lang='.$l.'"'. rex_tabindex() .'>'.$label.'</a></li>';
 
 		}
@@ -262,7 +267,7 @@ function rex_setup_setUtf8()
 		$license = '<p class="rex-tx1">'.nl2br(rex_get_file_contents($license_file)).'</p>';
 
 		if(strpos($REX['LANG'], 'utf') !== false)
-		echo utf8_encode($license);
+		echo $license;
 		else
 		echo $license;
 
@@ -279,10 +284,11 @@ function rex_setup_setUtf8()
 
 	if ($checkmodus == 1)
 	{
+		$min_version = '5.3.0';
 		// -------------------------- VERSIONSCHECK
-		if (version_compare(phpversion(), '5.3.0', '<') == 1)
+		if (version_compare(phpversion(), $min_version, '<') == 1)
 		{
-			$MSG['err'] .= '<li>'. $I18N->msg('setup_010', phpversion()).'</li>';
+			$MSG['err'] .= '<li>'. $I18N->msg('setup_010', phpversion(), $min_version).'</li>';
 		}
 
 		// -------------------------- EXTENSION CHECK
@@ -341,7 +347,7 @@ function rex_setup_setUtf8()
 		echo $I18N->msg('setup_016_1', ' class="rex-ul1"', '<span class="rex-ok">', '</span>');
 		echo '<div class="rex-message"><p class="rex-warning" id="security_warning" style="display: none;"><span>'. $I18N->msg('setup_security_msg') .'</span></p></div>
           <noscript><div class="rex-message"><p class="rex-warning"><span>'. $I18N->msg('setup_no_js_security_msg') .'</span></p></div></noscript>
-          <iframe src="include/pages/setup.inc.php?page=setup&amp;checkmodus=1.5&amp;lang='.$lang.'" style="display: none;"></iframe>
+          <iframe src="include/'.$REX['VF'].'/core/pages/setup.inc.php?page=setup&amp;checkmodus=1.5&amp;lang='.$lang.'" style="display: none;"></iframe>
        </div>
        <div class="rex-area-footer">
          <p id="nextstep" class="rex-algn-rght">
@@ -378,7 +384,6 @@ function rex_setup_setUtf8()
 		$serveraddress             = str_replace("\'", "'", rex_post('serveraddress', 'string'));
 		$serverbezeichnung         = str_replace("\'", "'", rex_post('serverbezeichnung', 'string'));
 		$error_email               = str_replace("\'", "'", rex_post('error_email', 'string'));
-		$psw_func                  = str_replace("\'", "'", rex_post('psw_func', 'string'));
 		$mysql_host                = str_replace("\'", "'", rex_post('mysql_host', 'string'));
 		$redaxo_db_user_login      = str_replace("\'", "'", rex_post('redaxo_db_user_login', 'string'));
 		$redaxo_db_user_pass       = str_replace("\'", "'", rex_post('redaxo_db_user_pass', 'string'));
@@ -390,7 +395,6 @@ function rex_setup_setUtf8()
 		$cont = preg_replace("@(REX\['LANG'\].?\=.?\")[^\"]*@", '${1}'.$lang, $cont);
 		$cont = preg_replace("@(REX\['INSTNAME'\].?\=.?\")[^\"]*@", '${1}'."rex".date("YmdHis"), $cont);
 		$cont = preg_replace("@(REX\['ERROR_EMAIL'\].?\=.?\")[^\"]*@", '${1}'.$error_email, $cont);
-		$cont = preg_replace("@(REX\['PSWFUNC'\].?\=.?\")[^\"]*@", '${1}'.$psw_func, $cont);
 		$cont = preg_replace("@(REX\['DB'\]\['1'\]\['HOST'\].?\=.?\")[^\"]*@", '${1}'.$mysql_host, $cont);
 		$cont = preg_replace("@(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_login, $cont);
 		$cont = preg_replace("@(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_pass, $cont);
@@ -425,7 +429,6 @@ function rex_setup_setUtf8()
 		$serveraddress         = $REX['SERVER'];
 		$serverbezeichnung     = $REX['SERVERNAME'];
 		$error_email           = $REX['ERROR_EMAIL'];
-		$psw_func              = $REX['PSWFUNC'];
 
 		// DB Infos
 		$dbname                = $REX['DB']['1']['NAME'];
@@ -451,20 +454,9 @@ function rex_setup_setUtf8()
 			echo rex_warning($err_msg);
 		}
 
-		$psw_functions = '';
-		foreach(array('', 'sha1') as $key => $algo)
-		{
-			$key = $algo;
-			if($algo == '') $algo = $I18N->msg('setup_no_encryption');
-			if($algo == 'sha1') $algo = $I18N->msg('setup_psw_encryption');  // ' ('. $I18N->msg('recommended') .')'
-			$selected = $key == $psw_func ? ' selected="selected"' : '';
-
-			$psw_functions .= '<option value="'. $key .'"'. $selected .'>'. $algo .'</option>';
-		}
-
 		echo '
             <legend>'.$I18N->msg("setup_0201").'</legend>
-            
+
             <div class="rex-form-wrapper">
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
@@ -472,27 +464,18 @@ function rex_setup_setUtf8()
                   <input class="rex-form-text" type="text" id="serveraddress" name="serveraddress" value="'.$serveraddress.'"'. rex_tabindex() .' />
                 </p>
               </div>
-  
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="serverbezeichnung">'.$I18N->msg("setup_025").'</label>
                   <input class="rex-form-text" type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.$serverbezeichnung.'"'. rex_tabindex() .' />
                 </p>
               </div>
-  
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="error_email">'.$I18N->msg("setup_026").'</label>
                   <input class="rex-form-text" type="text" id="error_email" name="error_email" value="'.$error_email.'"'. rex_tabindex() .' />
-                </p>
-              </div>
-  
-              <div class="rex-form-row">
-                <p class="rex-form-col-a rex-form-select">
-                  <label for="psw_func">'.$I18N->msg("setup_encryption").'</label>
-                  <select class="rex-form-select" id="psw_func" name="psw_func"'. rex_tabindex() .'>
-                    '. $psw_functions .'
-                  </select>
                 </p>
               </div>
           </div>
@@ -507,28 +490,28 @@ function rex_setup_setUtf8()
                   <input class="rex-form-text" type="text" value="'.$dbname.'" id="dbname" name="dbname"'. rex_tabindex() .' />
                 </p>
               </div>
-              
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="mysql_host">MySQL Host</label>
                   <input class="rex-form-text" type="text" id="mysql_host" name="mysql_host" value="'.$mysql_host.'"'. rex_tabindex() .' />
                 </p>
               </div>
-              
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="redaxo_db_user_login">Login</label>
                   <input class="rex-form-text" type="text" id="redaxo_db_user_login" name="redaxo_db_user_login" value="'.$redaxo_db_user_login.'"'. rex_tabindex() .' />
                 </p>
               </div>
-              
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
                   <label for="redaxo_db_user_pass">'.$I18N->msg("setup_028").'</label>
                   <input class="rex-form-text" type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="'.$redaxo_db_user_pass.'"'. rex_tabindex() .' />
                 </p>
               </div>
-              
+
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-checkbox">
                   <label for="redaxo_db_create">'.$I18N->msg("setup_create_db").'</label>
@@ -545,7 +528,7 @@ function rex_setup_setUtf8()
                   <input class="rex-form-submit" type="submit" value="'.$I18N->msg("setup_029").'"'. rex_tabindex() .' />
                 </p>
               </div>
-              
+
             </div>
           </fieldset>
         </form>
@@ -566,35 +549,36 @@ function rex_setup_setUtf8()
 		$err_msg = '';
 		$dbanlegen = rex_post('dbanlegen', 'int', '');
 
-		// -------------------------- Benötigte Tabellen prüfen
+		// -------------------------- BenÃ¶tigte Tabellen prÃ¼fen
 		$requiredTables = array (
-		$REX['TABLE_PREFIX'] .'action',
-		$REX['TABLE_PREFIX'] .'article',
-		$REX['TABLE_PREFIX'] .'article_slice',
-		$REX['TABLE_PREFIX'] .'clang',
-		$REX['TABLE_PREFIX'] .'file',
-		$REX['TABLE_PREFIX'] .'file_category',
-		$REX['TABLE_PREFIX'] .'module_action',
-		$REX['TABLE_PREFIX'] .'module',
-		$REX['TABLE_PREFIX'] .'template',
-		$REX['TABLE_PREFIX'] .'user',
+  		$REX['TABLE_PREFIX'] .'action',
+  		$REX['TABLE_PREFIX'] .'article',
+  		$REX['TABLE_PREFIX'] .'article_slice',
+  		$REX['TABLE_PREFIX'] .'clang',
+  		$REX['TABLE_PREFIX'] .'file',
+  		$REX['TABLE_PREFIX'] .'file_category',
+  		$REX['TABLE_PREFIX'] .'module_action',
+  		$REX['TABLE_PREFIX'] .'module',
+  		$REX['TABLE_PREFIX'] .'template',
+  		$REX['TABLE_PREFIX'] .'user',
+  		$REX['TABLE_PREFIX'] .'user_role',
 		);
 
 		if ($dbanlegen == 4)
 		{
 			// ----- vorhandenen seite updaten
-			$import_sql = $REX['SRC_PATH'].'/core/install/update4_x_to_4_3.sql';
+			$import_sql = $REX['SRC_PATH'].'/core/install/update4_x_to_5_0.sql';
 			if($err_msg == '')
 			$err_msg .= rex_setup_import($import_sql);
 
 			// Aktuelle Daten updaten wenn utf8, da falsch in v4.2.1 abgelegt wurde.
-			if (rex_lang_is_utf8())
+			/*if (rex_lang_is_utf8())
       {
   			rex_setup_setUtf8();
-      }
-			
+      }*/
+
 			if($err_msg == '')
-			$err_msg .= rex_setup_addons();
+			  $err_msg .= rex_setup_addons();
 		}
 		elseif ($dbanlegen == 3)
 		{
@@ -612,11 +596,11 @@ function rex_setup_setUtf8()
 
 				// Nur hier zuerst die Addons installieren
 				// Da sonst Daten aus dem eingespielten Export
-				// Überschrieben würden
+				// Ãœberschrieben wÃ¼rden
 				if($err_msg == '')
-				$err_msg .= rex_setup_addons(true, false);
+				  $err_msg .= rex_setup_addons(true, false);
 				if($err_msg == '')
-				$err_msg .= rex_setup_import($import_sql, $import_archiv);
+				  $err_msg .= rex_setup_import($import_sql, $import_archiv);
 			}
 		}
 		elseif ($dbanlegen == 2)
@@ -626,33 +610,33 @@ function rex_setup_setUtf8()
 		}
 		elseif ($dbanlegen == 1)
 		{
-			// ----- volle Datenbank, alte DB löschen / drop
-			$import_sql = $REX['SRC_PATH'].'/core/install/redaxo4_3.sql';
+			// ----- volle Datenbank, alte DB lÃ¶schen / drop
+			$import_sql = $REX['SRC_PATH'].'/core/install/redaxo5_0.sql';
 
 			$db = rex_sql::factory();
 			foreach($requiredTables as $table)
 			$db->setQuery('DROP TABLE IF EXISTS `'. $table .'`');
 
 			if($err_msg == '')
-			$err_msg .= rex_setup_import($import_sql);
+			  $err_msg .= rex_setup_import($import_sql);
 
 			if($err_msg == '')
-			$err_msg .= rex_setup_addons(true);
+			  $err_msg .= rex_setup_addons(true);
 		}
 		elseif ($dbanlegen == 0)
 		{
 			// ----- leere Datenbank neu einrichten
-			$import_sql = $REX['SRC_PATH'].'/core/install/redaxo4_3.sql';
+			$import_sql = $REX['SRC_PATH'].'/core/install/redaxo5_0.sql';
 
 			if($err_msg == '')
-			$err_msg .= rex_setup_import($import_sql);
+			  $err_msg .= rex_setup_import($import_sql);
 
 			$err_msg .= rex_setup_addons();
 		}
 
 		if($err_msg == "" && $dbanlegen !== '')
 		{
-			// Prüfen, welche Tabellen bereits vorhanden sind
+			// PrÃ¼fen, welche Tabellen bereits vorhanden sind
 			$existingTables = array();
 			foreach(rex_sql::showTables() as $tblname)
 			{
@@ -761,7 +745,7 @@ function rex_setup_setUtf8()
 		}
 
 		echo '
-              
+
 		<div class="rex-form-row">
 			<p class="rex-form-col-a rex-form-radio rex-form-label-right">
         <input class="rex-form-radio" type="radio" id="dbanlegen_0" name="dbanlegen" value="0"'.$dbchecked[0]. rex_tabindex() .' />
@@ -854,8 +838,10 @@ function rex_setup_setUtf8()
 				}
 				else
 				{
-					if ($REX['PSWFUNC'] != '')
-					$redaxo_user_pass = call_user_func($REX['PSWFUNC'], $redaxo_user_pass);
+          // the service side encryption of pw is only required
+          // when not already encrypted by client using javascript
+          if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0')
+  					$redaxo_user_pass = call_user_func($REX['PSWFUNC'], $redaxo_user_pass);
 
 					$user = rex_sql::factory();
 					// $user->debugsql = true;
@@ -897,7 +883,8 @@ function rex_setup_setUtf8()
 
 		echo '
 		<div class="rex-form rex-form-setup-admin">
-    <form action="index.php" method="post" autocomplete="off">
+    <form action="index.php" method="post" autocomplete="off" id="createadminform">
+    	<input type="hidden" name="javascript" value="0" id="javascript" />
       <fieldset class="rex-form-col-1">
         <input type="hidden" name="page" value="setup" />
         <input type="hidden" name="checkmodus" value="4" />
@@ -956,10 +943,19 @@ function rex_setup_setUtf8()
        <!--
       jQuery(function($) {
         $("#redaxo_user_login").focus();
-      });
-       //-->
-    </script>';
+        $("#createadminform")
+          .submit(function(){
+          	var pwInp = $("#redaxo_user_pass");
+          	if(pwInp.val() != "")
+          	{
+            	pwInp.val(Sha1.hash(pwInp.val()));
+          	}
+        });
 
+        $("#javascript").val("1");
+      });
+     //-->
+    </script>';
 	}
 
 	// ---------------------------------- MODUS 5 | Setup verschieben ...

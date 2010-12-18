@@ -24,8 +24,8 @@ if(!function_exists("rex_copyRevisionContent"))
 	
 	  if ($from_revision_id == $to_revision_id)
 	    return false;
+	    
 	  $gc = rex_sql::factory();
-	  // $gc->debugsql = 1;
 	  $gc->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice where re_article_slice_id='$from_re_sliceid' and article_id='$article_id' and clang='$clang' and revision='$from_revision_id'");
 	  if ($gc->getRows() == 1)
 	  {
@@ -70,7 +70,7 @@ if(!function_exists("rex_copyRevisionContent"))
 	    rex_copyRevisionContent($article_id,$clang,$from_revision_id, $to_revision_id, $gc->getValue("id"));
 	    return true;
 	  }
-	  rex_generateArticle($article_id);
+	  rex_deleteCacheArticle($article_id);
 	  return true;
 	}
 }

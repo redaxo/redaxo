@@ -1,0 +1,20 @@
+users:
+  version: '1.0'
+  author: Jan Kristinus, Gregor Harlan
+  supportpage: forum.redaxo.de
+  
+  name: 'translate:user_management'
+  perm: isAdmin
+  navigation:
+    block: system
+    prio: 50
+  pages:
+    - ['', 'translate:users']
+    - ['roles', 'translate:roles']
+  
+  requires:
+    addons:
+      structure:
+        min-version: '1.3'
+      mediapool:
+        min-version: '1.3'  

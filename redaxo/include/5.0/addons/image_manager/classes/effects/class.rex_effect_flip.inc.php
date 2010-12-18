@@ -18,7 +18,7 @@ class rex_effect_flip extends rex_effect_abstract
 	function execute()
 	{
 
-		$gdimage =& $this->image->getImage();
+		$gdimage = $this->image->getImage();
 		$w = $this->image->getWidth();
 		$h = $this->image->getHeight();
 
@@ -44,7 +44,7 @@ class rex_effect_flip extends rex_effect_abstract
 			}
       $gdimage = $output_image_resource;
 		}
-		
+
 		// --------------- Flip Y
 		if($this->params['flip'] == "Y")
 		{

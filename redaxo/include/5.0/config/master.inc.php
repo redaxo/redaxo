@@ -9,11 +9,11 @@
 // ----------------- SERVER VARS
 
 // Setupservicestatus - if everything ok -> false; if problem set to true;
-$REX['SETUP'] = false;
+$REX['SETUP'] = true;
 $REX['SERVER'] = "redaxo.de";
 $REX['SERVERNAME'] = "REDAXO";
-$REX['VERSION'] = "4";
-$REX['SUBVERSION'] = "3";
+$REX['VERSION'] = "5";
+$REX['SUBVERSION'] = "0";
 $REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(664); // oktaler wert
@@ -49,15 +49,15 @@ $REX['USE_GZIP'] = "false"; // String: "true"/"false"/"fronted"/"backend"
 
 // activate e-tag support
 // tag content with a cache key to improve usage of client cache
-$REX['USE_ETAG'] = "false"; // String: "true"/"false"/"fronted"/"backend"
+$REX['USE_ETAG'] = "true"; // String: "true"/"false"/"fronted"/"backend"
 
 // activate last-modified support
 // tag content with a last-modified timestamp to improve usage of client cache
-$REX['USE_LAST_MODIFIED'] = "false"; // String: "true"/"false"/"fronted"/"backend"
+$REX['USE_LAST_MODIFIED'] = "true"; // String: "true"/"false"/"fronted"/"backend"
 
 // activate md5 checksum support
 // allow client to validate content integrity
-$REX['USE_MD5'] = "false"; // String: "true"/"false"/"fronted"/"backend"
+$REX['USE_MD5'] = "true"; // String: "true"/"false"/"fronted"/"backend"
 
 // versch. Pfade
 $REX['INCLUDE_PATH']  = realpath($REX["SRC_PATH"].'/config');
@@ -72,8 +72,8 @@ $REX['TEMP_PREFIX']   = 'tmp_';
 // Frontenddatei
 $REX['FRONTEND_FILE'] = 'index.php';
 
-// Passwortverschlüsselung, z.B: md5 / mcrypt ...
-$REX['PSWFUNC'] = "";
+// Passwortverschluesselung
+$REX['PSWFUNC'] = "sha1";
 
 // bei fehllogin 5 sekunden kein relogin moeglich
 $REX['RELOGINDELAY'] = 5;
@@ -96,14 +96,14 @@ if(function_exists("date_default_timezone_set"))
 }
 
 // ----------------- OTHER STUFF
-$REX['SYSTEM_ADDONS'] = array('structure', 'templates', 'modules', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'image_manager', 'users');
+$REX['SYSTEM_ADDONS'] = array('structure', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'image_manager', 'users');
 $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
 
 // ----------------- DB1
 $REX['DB']['1']['HOST'] = "localhost";
 $REX['DB']['1']['LOGIN'] = "root";
 $REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo_4_3_0";
+$REX['DB']['1']['NAME'] = "redaxo_5_0";
 $REX['DB']['1']['PERSISTENT'] = false;
 
 // ----------------- DB2 - if necessary

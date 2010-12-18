@@ -8,26 +8,14 @@ class rex_image {
 	function rex_image($filepath)
 	{
 	  global $REX;
-	  
+
     // ----- check params
     if (!file_exists($filepath))
     {
       $this->sendError('Imagefile does not exist - '. $filepath);
       exit();
     }
-    
-    // ----- check filesize
-    $max_file_size = $REX['ADDON']['image_manager']['max_resizekb'] * 1024;
-    $filesize = filesize($filepath);
-    if ($filesize>$max_file_size)
-    {
-      $error  = 'Imagefile is to big.';
-      $error .= ' Only files < '.$REX['ADDON']['image_manager']['max_resizekb'].'kb are allowed';
-      $error .= '- '. $filepath . ', '. OOMedia::_getFormattedSize($filesize);
-      $this->sendError($error);
-      exit();
-    }
-    
+
     // ----- imagepfad speichern
     $this->img = array();
     $this->img['file'] = basename($filepath);
@@ -35,14 +23,14 @@ class rex_image {
     $this->img['quality'] = $REX['ADDON']['image_manager']['jpg_quality'];
     $this->img['format'] = strtoupper(OOMedia::_getExtension($this->img['filepath']));
 	}
-	
+
 	public function prepare()
 	{
 	  if(!isset($this->img['src']))
 	  {
       // ----- gif support ?
       $this->gifsupport = function_exists('imagegif');
-  
+
       // ----- detect image format
       $this->img['src'] = false;
       if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
@@ -64,7 +52,7 @@ class rex_image {
         // --- WBMP
         $this->img['src'] = @imagecreatefromwbmp($this->img["filepath"]);
       }
-  
+
       // ggf error image senden
       if (!$this->img['src'])
       {
@@ -76,7 +64,7 @@ class rex_image {
       }
 	  }
 	}
-	
+
 	public function refreshDimensions()
 	{
     $this->img['width'] = imagesx($this->img['src']);
@@ -92,32 +80,32 @@ class rex_image {
 	{
 		return $this->img['src'];
 	}
-	
+
 	public function getFormat()
 	{
 	  return $this->img['format'];
 	}
-	
+
   public function getFileName()
   {
 	  return $this->img['file'];
   }
-  
+
   public function getFilePath()
   {
 	  return $this->img['filepath'];
   }
-  
+
   public function getWidth()
   {
 	  return $this->img['width'];
   }
-  
+
   public function getHeight()
   {
 	  return $this->img['height'];
   }
-  
+
   public function destroy()
   {
     imagedestroy($this->img['src']);
@@ -127,37 +115,37 @@ class rex_image {
 	{
 	  $this->_sendImage($filename);
 	}
-	
+
   public function send($lastModified = null)
 	{
 	  ob_start();
     $res = $this->_sendImage(null, $lastModified);
     $content = ob_get_clean();
-    
+
     if(!$res)
       return false;
-    
+
     $this->sendHeader();
     rex_send_resource($content, false, $lastModified);
 	}
-	
+
 	public function sendHeader()
 	{
     header('Content-Disposition: inline; filename="'. $this->img['file'] .'"');
     header('Content-Type: image/' . $this->img['format']);
 	}
-	
+
 	protected function _sendImage($saveToFileName = null, $lastModified = null)
 	{
 		global $REX;
-		
+
     $file = $this->img["filepath"];
-    
+
     if(!$lastModified)
     {
       $lastModified = time();
     }
-    
+
     // ----- EXTENSION POINT
     $sendfile = TRUE;
     $sendfile = rex_register_extension_point('IMAGE_SEND', $sendfile,
@@ -172,7 +160,7 @@ class rex_image {
 
     if(!$sendfile)
       return FALSE;
-      
+
     // output image
     if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
     {
@@ -193,10 +181,10 @@ class rex_image {
     {
       imagewbmp($this->img['src'], $saveToFileName);
     }
-    
+
     if ($saveToFileName)
       @chmod($saveToFileName, $REX['FILEPERM']);
-      
+
     return TRUE;
 	}
 
@@ -214,7 +202,7 @@ class rex_image {
 	    $this->sendErrorImage($file);
 	  }
 	}
-	
+
 	protected function sendErrorImage($file = null)
 	{
 		if(!$file)
@@ -233,18 +221,18 @@ class rex_image {
 	   	return FALSE;
 
     $this->sendHeader();
-    
+
 		// error image nicht cachen
 		header('Cache-Control: false');
 		header('HTTP/1.0 404 Not Found');
-		
+
 		readfile($file);
 	}
-	
+
   /*
    * Static Method: Returns True, if the given image is a valid rex_image
    */
-  public function isValid($image)
+  static public function isValid($image)
   {
     return is_object($image) && is_a($image, 'rex_image');
   }

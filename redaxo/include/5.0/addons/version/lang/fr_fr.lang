@@ -6,5 +6,5 @@ version_working_to_live = en faire la Live Version
 version_preview = Previsualisation
 version_copy_live_to_workingversion = Copier vers Version de travail
 version_info_working_version_to_live = La Version de travail est maintenant une Live Version
-version_info_live_version_to_working = Live Version a été copié vers la Version de travail
-version_warning_working_version_to_live = La version de travail ne peut être copié car elle est vide
+version_info_live_version_to_working = Live Version a Ã©tÃ© copiÃ© vers la Version de travail
+version_warning_working_version_to_live = La version de travail ne peut Ãªtre copiÃ© car elle est vide
