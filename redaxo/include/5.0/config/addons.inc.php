@@ -22,7 +22,7 @@ require $REX['SRC_PATH']. '/config/plugins.inc.php';
 foreach(OOAddon::getAvailableAddons() as $addonName)
 {
   $addonsFolder = rex_addons_folder($addonName);
-  
+
   // add addon path for fragment loading
   if(is_readable($addonsFolder .'fragments'))
   {
@@ -34,17 +34,17 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
     rex_autoload::getInstance()->addDirectory($addonsFolder .'lib/');
   }
   // add addon path for i18n
-  if(isset($I18N) && is_readable($addonsFolder .'lang'))
+  if(isset($REX['I18N']) && is_readable($addonsFolder .'lang'))
   {
-    $I18N->appendFile($addonsFolder .'lang');
+    $REX['I18N']->appendFile($addonsFolder .'lang');
   }
   // load package infos
   rex_addonManager::loadPackage($addonName);
-  
+
   foreach(OOPlugin::getAvailablePlugins($addonName) as $pluginName)
   {
     $pluginsFolder = rex_plugins_folder($addonName, $pluginName);
-    
+
     // add plugin path for fragment loading
     if(is_readable($pluginsFolder .'fragments'))
     {
@@ -56,9 +56,9 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
       rex_autoload::getInstance()->addDirectory($pluginsFolder .'lib/');
     }
     // add plugin path for i18n
-    if(isset($I18N) && is_readable($pluginsFolder .'lang'))
+    if(isset($REX['I18N']) && is_readable($pluginsFolder .'lang'))
     {
-      $I18N->appendFile($pluginsFolder .'lang');
+      $REX['I18N']->appendFile($pluginsFolder .'lang');
     }
     // load package infos
     rex_pluginManager::loadPackage($addonName, $pluginName);
@@ -69,18 +69,18 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
 foreach(OOAddon::getAvailableAddons() as $addonName)
 {
   $addonsFolder = rex_addons_folder($addonName);
-  
+
   // include the addon itself
   if(is_readable($addonsFolder. 'config.inc.php'))
   {
     require $addonsFolder. 'config.inc.php';
   }
-    
+
   foreach(OOPlugin::getAvailablePlugins($addonName) as $pluginName)
   {
     $pluginsFolder = rex_plugins_folder($addonName, $pluginName);
-    
-    // transform the plugin into a regular addon and include it itself afterwards 
+
+    // transform the plugin into a regular addon and include it itself afterwards
     if(is_readable($pluginsFolder. 'config.inc.php'))
     {
       rex_pluginManager::addon2plugin($addonName, $pluginName, $pluginsFolder. 'config.inc.php');
@@ -91,7 +91,7 @@ foreach(OOAddon::getAvailableAddons() as $addonName)
 // ----- all addons configs included
 rex_register_extension_point('ADDONS_INCLUDED');
 
-// ----- Init REX-Vars 
+// ----- Init REX-Vars
 //require_once $REX['SRC_PATH'].'/core/classes/class.rex_var.inc.php';
 foreach($REX['VARIABLES'] as $key => $value)
 {
