@@ -286,15 +286,7 @@ if ($subpage == '')
   echo '
       <table class="rex-table" summary="'.$I18N->msg("addon_summary").'">
       <caption>'.$I18N->msg("addon_caption").'</caption>
-      <colgroup>
-      	<col width="40" />
-        <col width="*"/>
-        <col width="130" />
-        <col width="130" />
-        <col width="130" />
-        <col width="130" />
-        <col width="80" />
-      </colgroup>
+
   	  <thead>
         <tr>
           <th class="rex-icon rex-col-a">&nbsp;</th>
@@ -302,7 +294,7 @@ if ($subpage == '')
           <th class="rex-col-c">'.$I18N->msg("addon_hinstall").'</th>
           <th class="rex-col-d">'.$I18N->msg("addon_hactive").'</th>
           <th class="rex-col-e" colspan="2">'.$I18N->msg("addon_hdelete").'</th>
-          <th class="rex-col-g">'.$I18N->msg("addon_hprior").'</th>
+          <th class="rex-col-g rex-col-last">'.$I18N->msg("addon_hprior").'</th>
         </tr>
   	  </thead>
   	  <tbody>';
@@ -356,20 +348,19 @@ if ($subpage == '')
       $status = $I18N->msg("addon_notinstalled");
     }
     
-    $moveUp   = '<a href="'. $addonurl .'move=up" class="rex-move-up"><span>'.$I18N->msg("addon_move_up").'</span></a>';
-    $moveDown = '<a href="'. $addonurl .'move=down" class="rex-move-down"><span>'.$I18N->msg("addon_move_down").'</span></a>';
+    $moveUp   = '<a href="'. $addonurl .'move=up" class="rex-i-element rex-i-move-up"><span class="rex-i-element-in">'.$I18N->msg("addon_move_up").'</span></a>';
+    $moveDown = '<a href="'. $addonurl .'move=down" class="rex-i-element rex-i-move-down"><span class="rex-i-element-in">'.$I18N->msg("addon_move_down").'</span></a>';
 
     echo '
         <tr class="rex-addon">
-          <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text">'. htmlspecialchars($addon) .'</span></span></td>
-          <td class="rex-col-b">'.htmlspecialchars($addon).' '. $addonVers .'[<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>
+          <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-in">'. htmlspecialchars($addon) .'</span></span></td>
+          <td class="rex-col-b">'.htmlspecialchars($addon).' '. $addonVers .' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>
           <td class="rex-col-c">'.$install.'</td>
           <td class="rex-col-d">'.$status.'</td>
           <td class="rex-col-e">'.$uninstall.'</td>
           <td class="rex-col-f">'.$delete.'</td>
-          <td class="rex-col-g">
-            '. $moveUp .'
-            '. $moveDown .'
+          <td class="rex-col-g rex-col-last">
+            '. $moveUp . $moveDown .'
           </td>
         </tr>'."\n   ";
 
@@ -409,20 +400,19 @@ if ($subpage == '')
           $status = $I18N->msg("addon_notinstalled");
         }
         
-        $moveUp   = '<a href="'. $pluginurl .'move=up" class="rex-move-up"><span>'.$I18N->msg("addon_move_up").'</span></a>';
-        $moveDown = '<a href="'. $pluginurl .'move=down" class="rex-move-down"><span>'.$I18N->msg("addon_move_down").'</span></a>';
+        $moveUp   = '<a href="'. $pluginurl .'move=up" class="rex-i-element rex-i-move-up"><span class="rex-i-element-in">'.$I18N->msg("addon_move_up").'</span></a>';
+        $moveDown = '<a href="'. $pluginurl .'move=down" class="rex-i-element rex-i-move-down"><span class="rex-i-element-in">'.$I18N->msg("addon_move_down").'</span></a>';
         
         echo '
             <tr class="rex-plugin">
-              <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-plugin"><span class="rex-i-element-text">'. htmlspecialchars($plugin) .'</span></span></td>
+              <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-plugin"><span class="rex-i-element-in">'. htmlspecialchars($plugin) .'</span></span></td>
               <td class="rex-col-b">'.htmlspecialchars($plugin).' '. $pluginVers .' [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'&amp;pluginname='.$plugin.'">?</a>]</td>
               <td class="rex-col-c">'.$install.'</td>
               <td class="rex-col-d">'.$status.'</td>
               <td class="rex-col-e">'.$uninstall.'</td>
               <td class="rex-col-f">'.$delete.'</td>
-              <td class="rex-col-g">
-                '. $moveUp .'
-                '. $moveDown .'
+              <td class="rex-col-g rex-col-last">
+                '. $moveUp . $moveDown .'
               </td>
             </tr>'."\n   ";
       }
