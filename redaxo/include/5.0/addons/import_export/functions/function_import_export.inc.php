@@ -7,9 +7,9 @@ define('REX_A1_IMPORT_EVENT_POST', 4);
 
 // Da diese Funktion im Setup direkt eingebunden wird
 // hier das I18N Objekt ggf. erstellen
-if ($REX['REDAXO'] && !isset($I18N))
+if ($REX['REDAXO'] && !isset($REX['I18N']))
 {
-  global $I18N;
+  global $REX;
   require_once(dirname(dirname(__FILE__)).'/config.inc.php');
 }
 
@@ -25,7 +25,7 @@ if ($REX['REDAXO'] && !isset($I18N))
  */
 function rex_a1_import_db($filename)
 {
-  global $REX, $I18N;
+  global $REX;
 
   $return = array ();
   $return['state'] = false;
@@ -36,7 +36,7 @@ function rex_a1_import_db($filename)
 
   if ($filename == '' || substr($filename, -4, 4) != ".sql")
   {
-    $return['message'] = $I18N->msg('im_export_no_import_file_chosen_or_wrong_version').'<br>';
+    $return['message'] = $REX['I18N']->msg('im_export_no_import_file_chosen_or_wrong_version').'<br>';
     return $return;
   }
 
@@ -47,7 +47,7 @@ function rex_a1_import_db($filename)
   $version = strpos($conts, '## Redaxo Database Dump Version '.$REX['VERSION']);
   if($version === false)
   {
-    $return['message'] = $I18N->msg('im_export_no_valid_import_file').'. [## Redaxo Database Dump Version '.$REX['VERSION'].'] is missing';
+    $return['message'] = $REX['I18N']->msg('im_export_no_valid_import_file').'. [## Redaxo Database Dump Version '.$REX['VERSION'].'] is missing';
     return $return;
   }
   // Versionsstempel entfernen
@@ -64,7 +64,7 @@ function rex_a1_import_db($filename)
   else
   {
     // Prefix wurde nicht gefunden
-    $return['message'] = $I18N->msg('im_export_no_valid_import_file').'. [## Prefix '. $REX['TABLE_PREFIX'] .'] is missing';
+    $return['message'] = $REX['I18N']->msg('im_export_no_valid_import_file').'. [## Prefix '. $REX['TABLE_PREFIX'] .'] is missing';
     return $return;
   }
 
@@ -77,11 +77,11 @@ function rex_a1_import_db($filename)
     $charset = $matches[1];
     $conts = trim(str_replace('## charset '. $charset, '', $conts));
 
-    // $rexCharset = $I18N->msg('htmlcharset');
+    // $rexCharset = $REX['I18N']->msg('htmlcharset');
     $rexCharset = 'utf-8';
     if($rexCharset != $charset)
     {
-      $return['message'] = $I18N->msg('im_export_no_valid_charset').'. '.$rexCharset.' != '.$charset;
+      $return['message'] = $REX['I18N']->msg('im_export_no_valid_charset').'. '.$rexCharset.' != '.$charset;
       return $return;
     }
 
@@ -136,7 +136,7 @@ function rex_a1_import_db($filename)
     return $return;
   }
 
-  $msg .= $I18N->msg('im_export_database_imported').'. '.$I18N->msg('im_export_entry_count', count($lines)).'<br />';
+  $msg .= $REX['I18N']->msg('im_export_database_imported').'. '.$REX['I18N']->msg('im_export_entry_count', count($lines)).'<br />';
   unset($lines);
 
   // prüfen, ob eine user tabelle angelegt wurde
@@ -238,14 +238,14 @@ function rex_a1_import_db($filename)
  */
 function rex_a1_import_files($filename)
 {
-  global $REX, $I18N;
+  global $REX;
 
   $return = array ();
   $return['state'] = false;
 
   if ($filename == '' || substr($filename, -7, 7) != ".tar.gz")
   {
-    $return['message'] = $I18N->msg("im_export_no_import_file_chosen")."<br />";
+    $return['message'] = $REX['I18N']->msg("im_export_no_import_file_chosen")."<br />";
     return $return;
   }
 
@@ -263,10 +263,10 @@ function rex_a1_import_files($filename)
   $tar->openTAR($filename);
   if (!$tar->extractTar())
   {
-    $msg = $I18N->msg('im_export_problem_when_extracting').'<br />';
+    $msg = $REX['I18N']->msg('im_export_problem_when_extracting').'<br />';
     if (count($tar->message) > 0)
     {
-      $msg .= $I18N->msg('im_export_create_dirs_manually').'<br />';
+      $msg .= $REX['I18N']->msg('im_export_create_dirs_manually').'<br />';
       foreach($tar->message as $_message)
       {
         $msg .= rex_absPath($_message).'<br />';
@@ -275,7 +275,7 @@ function rex_a1_import_files($filename)
   }
   else
   {
-    $msg = $I18N->msg('im_export_file_imported').'<br />';
+    $msg = $REX['I18N']->msg('im_export_file_imported').'<br />';
   }
 
   // ----- EXTENSION POINT
@@ -297,7 +297,7 @@ function rex_a1_import_files($filename)
  */
 function rex_a1_export_db($filename)
 {
-  global $REX,$I18N;
+  global $REX;
 
   $fp = @fopen($filename, "w");
 
@@ -307,8 +307,8 @@ function rex_a1_export_db($filename)
   }
 
   // Im Frontend gibts kein I18N
-  if(!is_object($I18N))
-    $I18N = rex_create_lang($REX['LANG']);
+  if(!is_object($REX['I18N']))
+    $REX['I18N'] = rex_create_lang($REX['LANG']);
 
   $sql        = rex_sql::factory();
   $tables     = rex_sql::showTables(1, $REX['TABLE_PREFIX']);
@@ -322,7 +322,7 @@ function rex_a1_export_db($filename)
   // Versionsstempel hinzufügen
   fwrite($fp, '## Redaxo Database Dump Version '.$REX['VERSION'].$nl);
   fwrite($fp, '## Prefix '.$REX['TABLE_PREFIX'].$nl);
-  //fwrite($fp, '## charset '.$I18N->msg('htmlcharset').$nl.$nl);
+  //fwrite($fp, '## charset '.$REX['I18N']->msg('htmlcharset').$nl.$nl);
   fwrite($fp, '## charset utf-8'.$nl.$nl);
 //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 

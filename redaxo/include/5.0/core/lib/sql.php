@@ -889,13 +889,13 @@ class rex_sql
    */
   static public function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
   {
-    global $I18N;
+    global $REX;
 
     $err_msg = true;
     $link = @ mysql_connect($host, $login, $pw);
     if (!$link)
     {
-      $err_msg = $I18N->msg('setup_021');
+      $err_msg = $REX['I18N']->msg('setup_021');
     }
     elseif (!@ mysql_select_db($dbname, $link))
     {
@@ -904,12 +904,12 @@ class rex_sql
         mysql_query('CREATE DATABASE `'. $dbname .'`', $link);
         if(mysql_error($link) != '')
         {
-          $err_msg = $I18N->msg('setup_022');
+          $err_msg = $REX['I18N']->msg('setup_022');
         }
       }
       else
       {
-        $err_msg = $I18N->msg('setup_022');
+        $err_msg = $REX['I18N']->msg('setup_022');
       }
     }
 

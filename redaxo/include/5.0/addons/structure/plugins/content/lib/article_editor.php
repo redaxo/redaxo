@@ -20,7 +20,7 @@ class rex_article_editor extends rex_article
     $RE_CONTS, $RE_CONTS_CTYPE, $RE_MODUL_IN, $RE_MODUL_OUT,
     $RE_MODUL_ID, $RE_MODUL_NAME, $RE_C)
   {
-    global $REX, $I18N;
+    global $REX;
 
     if($this->mode=="edit")
     {
@@ -41,7 +41,7 @@ class rex_article_editor extends rex_article
               <div class="rex-form rex-form-content-editmode">
               <form action="'. $form_url .'" method="get" id="slice'. $RE_CONTS[$I_ID] .'">
                 <fieldset class="rex-form-col-1">
-                  <legend><span>'. $I18N->msg("add_block") .'</span></legend>
+                  <legend><span>'. $REX['I18N']->msg("add_block") .'</span></legend>
                   <input type="hidden" name="article_id" value="'. $this->article_id .'" />
                   <input type="hidden" name="page" value="content" />
                   <input type="hidden" name="mode" value="'. $this->mode .'" />
@@ -54,7 +54,7 @@ class rex_article_editor extends rex_article
                     <div class="rex-form-row">
                       <p class="rex-form-col-a rex-form-select">
                         '. $this->MODULESELECT[$this->ctype]->get() .'
-                        <noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
+                        <noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $REX['I18N']->msg("add_block") .'" /></noscript>
                       </p>
                     </div>
                   </div>
@@ -73,13 +73,13 @@ class rex_article_editor extends rex_article
       if(($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$RE_MODUL_ID[$I_ID]."]")) 
         && rex_template::hasModule($this->template_attributes, $this->ctype, $RE_MODUL_ID[$I_ID]))
       {
-        $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=edit') .'" class="rex-tx3">'. $I18N->msg('edit') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
-      	$listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=delete&amp;save=1') .'" class="rex-tx2" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'. $I18N->msg('delete') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+        $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=edit') .'" class="rex-tx3">'. $REX['I18N']->msg('edit') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
+      	$listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=delete&amp;save=1') .'" class="rex-tx2" onclick="return confirm(\''.$REX['I18N']->msg('delete').' ?\')">'. $REX['I18N']->msg('delete') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
 
         if ($REX['USER']->hasPerm('moveSlice[]'))
         {
-          $moveUp = $I18N->msg('move_slice_up');
-          $moveDown = $I18N->msg('move_slice_down');
+          $moveUp = $REX['I18N']->msg('move_slice_up');
+          $moveDown = $REX['I18N']->msg('move_slice_down');
           // upd stamp uebergeben, da sonst ein block nicht mehrfach hintereindander verschoben werden kann
           // (Links waeren sonst gleich und der Browser laesst das klicken auf den gleichen Link nicht zu)
           $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=moveup') .'" title="'. $moveUp .'" class="rex-slice-move-up"><span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
@@ -88,7 +88,7 @@ class rex_article_editor extends rex_article
 
       }else
       {
-        $listElements[] = '<b class="rex-tx2">'. $I18N->msg('no_editing_rights') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></b>';
+        $listElements[] = '<b class="rex-tx2">'. $REX['I18N']->msg('no_editing_rights') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></b>';
       	
       }
 
@@ -255,7 +255,7 @@ class rex_article_editor extends rex_article
 
   protected function preArticle()
   {
-    global $REX, $I18N;
+    global $REX;
 
     // ---------- moduleselect: nur module nehmen auf die der user rechte hat
     if($this->mode=='edit')
@@ -278,7 +278,7 @@ class rex_article_editor extends rex_article
         $this->MODULESELECT[$ct_id]->setSize('1');
         $this->MODULESELECT[$ct_id]->setStyle('class="rex-form-select"');
         $this->MODULESELECT[$ct_id]->setAttribute('onchange', 'this.form.submit();');
-        $this->MODULESELECT[$ct_id]->addOption('----------------------------  '.$I18N->msg('add_block'),'');
+        $this->MODULESELECT[$ct_id]->addOption('----------------------------  '.$REX['I18N']->msg('add_block'),'');
         foreach($modules as $m)
         {
           if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('module['.$m['id'].']'))
@@ -295,7 +295,7 @@ class rex_article_editor extends rex_article
 
   protected function postArticle($articleContent, $LCTSL_ID, $module_id)
   {
-    global $REX, $I18N;
+    global $REX;
 
     // ----- add module im edit mode
     if ($this->mode == "edit")
@@ -315,7 +315,7 @@ class rex_article_editor extends rex_article
             <div class="rex-form rex-form-content-editmode">
             <form action="'. $form_url .'" method="get">
               <fieldset class="rex-form-col-1">
-                <legend><span>'. $I18N->msg("add_block") .'</span></legend>
+                <legend><span>'. $REX['I18N']->msg("add_block") .'</span></legend>
                 <input type="hidden" name="article_id" value="'. $this->article_id .'" />
                 <input type="hidden" name="page" value="content" />
                 <input type="hidden" name="mode" value="'. $this->mode .'" />
@@ -329,7 +329,7 @@ class rex_article_editor extends rex_article
                     <div class="rex-form-row">
                       <p class="rex-form-col-a rex-form-select">
                         '. $this->MODULESELECT[$this->ctype]->get() .'
-                        <noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $I18N->msg("add_block") .'" /></noscript>
+                        <noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $REX['I18N']->msg("add_block") .'" /></noscript>
                       </p>
                     </div>
                   </div>
@@ -346,14 +346,14 @@ class rex_article_editor extends rex_article
   // ----- ADD Slice
   protected function addSlice($I_ID,$module_id)
   {
-    global $REX,$I18N;
+    global $REX;
 
     $MOD = rex_sql::factory();
     $MOD->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module WHERE id=$module_id");
     
     if ($MOD->getRows() != 1)
     {
-      $slice_content = rex_warning($I18N->msg('module_doesnt_exist'));
+      $slice_content = rex_warning($REX['I18N']->msg('module_doesnt_exist'));
     }else
     {
       $initDataSql = rex_sql::factory();
@@ -392,7 +392,7 @@ class rex_article_editor extends rex_article
         <div class="rex-form rex-form-content-editmode-add-slice">
         <form action="index.php#slice'. $I_ID .'" method="post" id="REX_FORM" enctype="multipart/form-data">
           <fieldset class="rex-form-col-1">
-            <legend><span>'. $I18N->msg('add_block').'</span></legend>
+            <legend><span>'. $REX['I18N']->msg('add_block').'</span></legend>
             <input type="hidden" name="article_id" value="'. $this->article_id .'" />
             <input type="hidden" name="page" value="content" />
             <input type="hidden" name="mode" value="'. $this->mode .'" />
@@ -405,7 +405,7 @@ class rex_article_editor extends rex_article
             
             <div class="rex-content-editmode-module-name">
               <h3 class="rex-hl4">
-                '. $I18N->msg("module") .': <span>'. htmlspecialchars($MOD->getValue("name")) .'</span>
+                '. $REX['I18N']->msg("module") .': <span>'. htmlspecialchars($MOD->getValue("name")) .'</span>
               </h3>
             </div>
               
@@ -426,7 +426,7 @@ class rex_article_editor extends rex_article
              <div class="rex-form-wrapper">              
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-submit">
-                  <input class="rex-form-submit" type="submit" name="btn_save" value="'. $I18N->msg('add_block') .'"'. rex_accesskey($I18N->msg('add_block'), $REX['ACKEY']['SAVE']) .' />
+                  <input class="rex-form-submit" type="submit" name="btn_save" value="'. $REX['I18N']->msg('add_block') .'"'. rex_accesskey($REX['I18N']->msg('add_block'), $REX['ACKEY']['SAVE']) .' />
                 </p>
               </div>
             </div>
@@ -449,14 +449,14 @@ class rex_article_editor extends rex_article
   // ----- EDIT Slice
   public function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID)
   {
-    global $REX, $I18N;
+    global $REX;
 
     $slice_content = '
       <a name="editslice"></a>
       <div class="rex-form rex-form-content-editmode-edit-slice">
       <form enctype="multipart/form-data" action="index.php#slice'.$RE_CONTS.'" method="post" id="REX_FORM">
         <fieldset class="rex-form-col-1">
-          <legend><span>'. $I18N->msg('edit_block') .'</span></legend>
+          <legend><span>'. $REX['I18N']->msg('edit_block') .'</span></legend>
           <input type="hidden" name="article_id" value="'.$this->article_id.'" />
           <input type="hidden" name="page" value="content" />
           <input type="hidden" name="mode" value="'.$this->mode.'" />
@@ -483,8 +483,8 @@ class rex_article_editor extends rex_article
           <div class="rex-form-wrapper">
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-submit">
-                <input class="rex-form-submit" type="submit" value="'.$I18N->msg('save_block').'" name="btn_save" '. rex_accesskey($I18N->msg('save_block'), $REX['ACKEY']['SAVE']) .' />
-                <input class="rex-form-submit rex-form-submit-2" type="submit" value="'.$I18N->msg('update_block').'" name="btn_update" '. rex_accesskey($I18N->msg('update_block'), $REX['ACKEY']['APPLY']) .' />
+                <input class="rex-form-submit" type="submit" value="'.$REX['I18N']->msg('save_block').'" name="btn_save" '. rex_accesskey($REX['I18N']->msg('save_block'), $REX['ACKEY']['SAVE']) .' />
+                <input class="rex-form-submit rex-form-submit-2" type="submit" value="'.$REX['I18N']->msg('update_block').'" name="btn_update" '. rex_accesskey($REX['I18N']->msg('update_block'), $REX['ACKEY']['APPLY']) .' />
               </p>
             </div>
           </div>

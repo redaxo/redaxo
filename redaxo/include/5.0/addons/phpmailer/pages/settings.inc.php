@@ -37,7 +37,7 @@ if (rex_post('btn_save', 'string') != '')
 
   if($message === true)
   {
-    $message  = $I18N->msg('phpmailer_config_saved_error');
+    $message  = $REX['I18N']->msg('phpmailer_config_saved_error');
 
     $template = "
     \$this->From             = '". $from ."';
@@ -55,7 +55,7 @@ if (rex_post('btn_save', 'string') != '')
 
     if(rex_replace_dynamic_contents($file, $template) !== false)
     {
-      $message = $I18N->msg('phpmailer_config_saved_successful');
+      $message = $REX['I18N']->msg('phpmailer_config_saved_successful');
     }
   }
 }
@@ -89,7 +89,7 @@ $sel_priority->setid('priority');
 $sel_priority->setName('priority');
 $sel_priority->setSize(1);
 $sel_priority->setSelected($priority);
-foreach(array(1 =>$I18N->msg('phpmailer_high'),3 => $I18N->msg('phpmailer_normal'),5 => $I18N->msg('phpmailer_low')) as $no => $name)
+foreach(array(1 =>$REX['I18N']->msg('phpmailer_high'),3 => $REX['I18N']->msg('phpmailer_normal'),5 => $REX['I18N']->msg('phpmailer_low')) as $no => $name)
   $sel_priority->addOption($name,$no);
 
 
@@ -99,7 +99,7 @@ if($message != '')
 ?>
 
 <div class="rex-addon-output">
-<h2 class="rex-hl2"><?php echo $I18N->msg('phpmailer_config_settings'); ?></h2>
+<h2 class="rex-hl2"><?php echo $REX['I18N']->msg('phpmailer_config_settings'); ?></h2>
 
 <div id="rex-addon-editmode" class="rex-form">
   <form action="" method="post">
@@ -110,81 +110,81 @@ if($message != '')
 
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-text">
-      <label for="fromname"><?php echo $I18N->msg('phpmailer_sender_name'); ?></label>
+      <label for="fromname"><?php echo $REX['I18N']->msg('phpmailer_sender_name'); ?></label>
       <input type="text" name="fromname" id="fromname" value="<?php echo $fromname ?>" />
     </p>
     </div>
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-text">
-      <label for="from"><?php echo $I18N->msg('phpmailer_sender_email'); ?></label>
+      <label for="from"><?php echo $REX['I18N']->msg('phpmailer_sender_email'); ?></label>
       <input type="text" name="from" id="from" value="<?php echo $from ?>" />
     </p>
     </div>
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-text">
-      <label for="confirmto"><?php echo $I18N->msg('phpmailer_confirm'); ?></label>
+      <label for="confirmto"><?php echo $REX['I18N']->msg('phpmailer_confirm'); ?></label>
       <input type="text" name="confirmto" id="confirmto" value="<?php echo $confirmto ?>" />
     </p>
     </div>
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-select">
-      <label for="mailer"><?php echo $I18N->msg('phpmailer_mailertype'); ?></label>
+      <label for="mailer"><?php echo $REX['I18N']->msg('phpmailer_mailertype'); ?></label>
       <?php echo $sel_mailer->show(); ?>
     </p>
     </div>
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-text">
-      <label for="host"><?php echo $I18N->msg('phpmailer_host'); ?></label>
+      <label for="host"><?php echo $REX['I18N']->msg('phpmailer_host'); ?></label>
       <input type="text" name="host" id="host" value="<?php echo $host ?>" />
     </p>
     </div>
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-text">
-      <label for="charset"><?php echo $I18N->msg('phpmailer_charset'); ?></label>
+      <label for="charset"><?php echo $REX['I18N']->msg('phpmailer_charset'); ?></label>
       <input type="text" name="charset" id="charset" value="<?php echo $charset ?>" />
     </p>
     </div>
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-text">
-      <label for="wordwrap"><?php echo $I18N->msg('phpmailer_wordwrap'); ?></label>
+      <label for="wordwrap"><?php echo $REX['I18N']->msg('phpmailer_wordwrap'); ?></label>
       <input type="text" name="wordwrap" id="wordwrap" value="<?php echo $wordwrap ?>" />
     </p>
     </div>
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-select">
-      <label for="encoding"><?php echo $I18N->msg('phpmailer_encoding'); ?></label>
+      <label for="encoding"><?php echo $REX['I18N']->msg('phpmailer_encoding'); ?></label>
       <?php echo $sel_encoding->show(); ?>
     </p>
     </div>
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-select">
-      <label for="priority"><?php echo $I18N->msg('phpmailer_priority'); ?></label>
+      <label for="priority"><?php echo $REX['I18N']->msg('phpmailer_priority'); ?></label>
       <?php echo $sel_priority->show(); ?>
     </p>
     </div>
     <div class="rex-form-row">
       <p class="rex-form-col-a rex-form-select">
-          <label for="smtpauth"><?php echo $I18N->msg('phpmailer_SMTPAuth'); ?></label>
+          <label for="smtpauth"><?php echo $REX['I18N']->msg('phpmailer_SMTPAuth'); ?></label>
           <?php echo $sel_smtpauth->show(); ?>
       </p>
     </div>
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-text">
-      <label for="Username"><?php echo $I18N->msg('phpmailer_Username'); ?></label>
+      <label for="Username"><?php echo $REX['I18N']->msg('phpmailer_Username'); ?></label>
       <input type="text" name="Username" id="Username" value="<?php echo $Username ?>" />
     </p>
     </div>
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-text">
-      <label for="Password"><?php echo $I18N->msg('phpmailer_Password'); ?></label>
+      <label for="Password"><?php echo $REX['I18N']->msg('phpmailer_Password'); ?></label>
       <input type="text" name="Password" id="Password" value="<?php echo $Password ?>" />
     </p>
     </div>
 
     <div class="rex-form-row">
       <p class="rex-form-col-a rex-form-submit">
-         <input class="rex-form-submit" type="submit" name="btn_save" value="<?php echo $I18N->msg('phpmailer_save'); ?>" />
-         <input class="rex-form-submit rex-form-submit-2" type="reset" name="btn_reset" value="<?php echo $I18N->msg('phpmailer_reset'); ?>" onclick="return confirm('<?php echo $I18N->msg('phpmailer_reset_info'); ?>');"/>
+         <input class="rex-form-submit" type="submit" name="btn_save" value="<?php echo $REX['I18N']->msg('phpmailer_save'); ?>" />
+         <input class="rex-form-submit rex-form-submit-2" type="reset" name="btn_reset" value="<?php echo $REX['I18N']->msg('phpmailer_reset'); ?>" onclick="return confirm('<?php echo $REX['I18N']->msg('phpmailer_reset_info'); ?>');"/>
       </p>
     </div>
 

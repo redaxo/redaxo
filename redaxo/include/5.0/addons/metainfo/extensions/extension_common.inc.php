@@ -19,7 +19,7 @@ rex_register_extension('OOMEDIA_IS_IN_USE', 'rex_a62_media_is_in_use');
  */
 function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 {
-  global $I18N, $REX;
+  global $REX;
 
   $s = '';
 
@@ -696,7 +696,7 @@ function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
 
 function rex_a62_media_is_in_use($params)
 {
-  global $REX, $I18N;
+  global $REX;
   
   $warning = $params['subject'];
 
@@ -757,11 +757,11 @@ function rex_a62_media_is_in_use($params)
       }
       if ($articles != '')
       {
-        $warning[] = $I18N->msg('minfo_media_in_use_art').'<br /><ul>'.$articles.'</ul>';
+        $warning[] = $REX['I18N']->msg('minfo_media_in_use_art').'<br /><ul>'.$articles.'</ul>';
       }
       if ($categories != '')
       {
-        $warning[] = $I18N->msg('minfo_media_in_use_cat').'<br /><ul>'.$categories.'</ul>';
+        $warning[] = $REX['I18N']->msg('minfo_media_in_use_cat').'<br /><ul>'.$categories.'</ul>';
       }
     }
   }
@@ -780,7 +780,7 @@ function rex_a62_media_is_in_use($params)
       }
       if ($media != '')
       {
-        $warning[] = $I18N->msg('minfo_media_in_use_med').'<br /><ul>'.$media.'</ul>';
+        $warning[] = $REX['I18N']->msg('minfo_media_in_use_med').'<br /><ul>'.$media.'</ul>';
       }
     }
   }

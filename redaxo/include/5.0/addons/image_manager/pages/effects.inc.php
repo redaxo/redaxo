@@ -23,7 +23,7 @@ if((rex_post('func') != '' || $func == 'delete')
    && $type_id > 0)
 {
   $counter = rex_imanager_deleteCacheByType($type_id);
-//  $info = $I18N->msg('imanager_cache_files_removed', $counter);
+//  $info = $REX['I18N']->msg('imanager_cache_files_removed', $counter);
 }
 
 //-------------- delete effect
@@ -36,7 +36,7 @@ if($func == 'delete' && $effect_id > 0)
 
   if($sql->delete())
   {
-     $info = $I18N->msg('imanager_effect_deleted') ;
+     $info = $REX['I18N']->msg('imanager_effect_deleted') ;
   }
   else
   {
@@ -55,14 +55,14 @@ if ($warning != '')
 echo '<div class="rex-addon-output-v2">';
 if ($func == '' && $type_id > 0)
 {
-  echo rex_content_block($I18N->msg('imanager_effect_list_header', htmlspecialchars($typeName)));
+  echo rex_content_block($REX['I18N']->msg('imanager_effect_list_header', htmlspecialchars($typeName)));
 
   $query = 'SELECT * FROM '.$REX['TABLE_PREFIX'].'679_type_effects WHERE type_id='.$type_id .' ORDER BY prior';
 
 	$list = rex_list::factory($query);
-  $list->setNoRowsMessage(htmlspecialchars($I18N->msg('imanager_effect_no_effects')));
-  $list->setCaption(htmlspecialchars($I18N->msg('imanager_effect_caption', $typeName)));
-  $list->addTableAttribute('summary', htmlspecialchars($I18N->msg('imanager_effect_summary', $typeName)));
+  $list->setNoRowsMessage(htmlspecialchars($REX['I18N']->msg('imanager_effect_no_effects')));
+  $list->setCaption(htmlspecialchars($REX['I18N']->msg('imanager_effect_caption', $typeName)));
+  $list->addTableAttribute('summary', htmlspecialchars($REX['I18N']->msg('imanager_effect_summary', $typeName)));
   $list->addTableColumnGroup(array(40, '*', 40, 130, 130));
 
 	$list->removeColumn('id');
@@ -72,24 +72,24 @@ if ($func == '' && $type_id > 0)
 	$list->removeColumn('updateuser');
 	$list->removeColumn('createdate');
 	$list->removeColumn('createuser');
-	$list->setColumnLabel('effect',htmlspecialchars($I18N->msg('imanager_type_name')));
-	$list->setColumnLabel('prior',htmlspecialchars($I18N->msg('imanager_type_prior')));
+	$list->setColumnLabel('effect',htmlspecialchars($REX['I18N']->msg('imanager_type_name')));
+	$list->setColumnLabel('prior',htmlspecialchars($REX['I18N']->msg('imanager_type_prior')));
 
 	// icon column
-  $thIcon = '<a class="rex-i-element rex-i-generic-add" href="'. $list->getUrl(array('type_id' => $type_id, 'func' => 'add')) .'"><span class="rex-i-element-text">'. htmlspecialchars($I18N->msg('imanager_effect_create')) .'</span></a>';
+  $thIcon = '<a class="rex-i-element rex-i-generic-add" href="'. $list->getUrl(array('type_id' => $type_id, 'func' => 'add')) .'"><span class="rex-i-element-text">'. htmlspecialchars($REX['I18N']->msg('imanager_effect_create')) .'</span></a>';
   $tdIcon = '<span class="rex-i-element rex-i-generic"><span class="rex-i-element-text">###name###</span></span>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('func' => 'edit', 'type_id' => $type_id, 'effect_id' => '###id###'));
 
   // functions column spans 2 data-columns
-  $funcs = $I18N->msg('imanager_effect_functions');
-  $list->addColumn($funcs, $I18N->msg('imanager_effect_edit'), -1, array('<th colspan="2">###VALUE###</th>','<td>###VALUE###</td>'));
+  $funcs = $REX['I18N']->msg('imanager_effect_functions');
+  $list->addColumn($funcs, $REX['I18N']->msg('imanager_effect_edit'), -1, array('<th colspan="2">###VALUE###</th>','<td>###VALUE###</td>'));
   $list->setColumnParams($funcs, array('func' => 'edit', 'type_id' => $type_id, 'effect_id' => '###id###'));
 
   $delete = 'deleteCol';
-  $list->addColumn($delete, $I18N->msg('imanager_effect_delete'), -1, array('','<td>###VALUE###</td>'));
+  $list->addColumn($delete, $REX['I18N']->msg('imanager_effect_delete'), -1, array('','<td>###VALUE###</td>'));
   $list->setColumnParams($delete, array('type_id' => $type_id, 'effect_id' => '###id###', 'func' => 'delete'));
-  $list->addLinkAttribute($delete, 'onclick', 'return confirm(\''.$I18N->msg('delete').' ?\')');
+  $list->addLinkAttribute($delete, 'onclick', 'return confirm(\''.$REX['I18N']->msg('delete').' ?\')');
 
 	$list->show();
 }
@@ -100,11 +100,11 @@ elseif ($func == 'add' && $type_id > 0 ||
 
   if($func == 'edit')
   {
-    $formLabel = $I18N->msg('imanager_effect_edit_header', htmlspecialchars($typeName));
+    $formLabel = $REX['I18N']->msg('imanager_effect_edit_header', htmlspecialchars($typeName));
   }
   else if ($func == 'add')
   {
-    $formLabel = $I18N->msg('imanager_effect_create_header', htmlspecialchars($typeName));
+    $formLabel = $REX['I18N']->msg('imanager_effect_create_header', htmlspecialchars($typeName));
   }
 
 	$form = rex_form::factory($REX['TABLE_PREFIX'].'679_type_effects',$formLabel,'id='.$effect_id);
@@ -114,7 +114,7 @@ elseif ($func == 'add' && $type_id > 0 ||
 
 	// effect name als SELECT
 	$field = $form->addSelectField('effect');
-	$field->setLabel($I18N->msg('imanager_effect_name'));
+	$field->setLabel($REX['I18N']->msg('imanager_effect_name'));
 	$select = $field->getSelect();
 	$select->addOptions($effectNames, true);
 	$select->setSize(1);
@@ -138,7 +138,7 @@ elseif ($func == 'add' && $type_id > 0 ||
 
   // effect prio
   $field = $form->addPrioField('prior');
-  $field->setLabel($I18N->msg('imanager_effect_prior'));
+  $field->setLabel($REX['I18N']->msg('imanager_effect_prior'));
   $field->setLabelField('effect');
   $field->setWhereCondition('type_id = '. $type_id);
 

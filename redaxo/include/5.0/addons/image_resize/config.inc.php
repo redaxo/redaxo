@@ -58,8 +58,8 @@ if ($rex_resize != '')
 if($REX['REDAXO'])
 {
 	$REX['ADDON'][$mypage]['SUBPAGES'] = array (
-  	array ('', $I18N->msg('iresize_subpage_desc')),
-  	array ('settings', $I18N->msg('iresize_subpage_config')),
-  	array ('clear_cache', $I18N->msg('iresize_subpage_clear_cache')),
+  	array ('', $REX['I18N']->msg('iresize_subpage_desc')),
+  	array ('settings', $REX['I18N']->msg('iresize_subpage_config')),
+  	array ('clear_cache', $REX['I18N']->msg('iresize_subpage_clear_cache')),
 	);
 }

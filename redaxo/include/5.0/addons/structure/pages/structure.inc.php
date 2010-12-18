@@ -42,7 +42,7 @@ require dirname(__FILE__) .'/../functions/function_rex_category.inc.php';
 
 // --------------------------------------------- TITLE
 
-rex_title($I18N->msg('title_structure'), $KATout);
+rex_title($REX['I18N']->msg('title_structure'), $KATout);
 
 $sprachen_add = '&amp;category_id='. $category_id;
 require dirname(__FILE__) .'/../functions/function_rex_languages.inc.php';
@@ -190,7 +190,7 @@ if($category)
 $add_category = '';
 if ($KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
 {
-  $add_category = '<a class="rex-i-element rex-i-category-add" href="'. $context->getUrl(array('function' => 'add_cat')) .'"'. rex_accesskey($I18N->msg('add_category'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.$I18N->msg("add_category").'</span></a>';
+  $add_category = '<a class="rex-i-element rex-i-category-add" href="'. $context->getUrl(array('function' => 'add_cat')) .'"'. rex_accesskey($REX['I18N']->msg('add_category'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.$REX['I18N']->msg("add_category").'</span></a>';
 }
 
 $add_header = '';
@@ -198,7 +198,7 @@ $add_col = '';
 $data_colspan = 4;
 if ($REX['USER']->hasPerm('advancedMode[]'))
 {
-  $add_header = '<th class="rex-small">'.$I18N->msg('header_id').'</th>';
+  $add_header = '<th class="rex-small">'.$REX['I18N']->msg('header_id').'</th>';
   $add_col = '<col width="40" />';
   $data_colspan = 5;
 }
@@ -253,9 +253,9 @@ echo '
 if($function == 'add_cat' || $function == 'edit_cat')
 {
 
-  $legend = $I18N->msg('add_category');
+  $legend = $REX['I18N']->msg('add_category');
   if ($function == 'edit_cat')
-    $legend = $I18N->msg('edit_category');
+    $legend = $REX['I18N']->msg('edit_category');
     
   echo '
   <div class="rex-form" id="rex-form-structure-category">
@@ -277,8 +277,8 @@ if($function == 'add_cat' || $function == 'edit_cat')
 // --------------------- PRINT CATS/SUBCATS
 
 echo '
-      <table class="rex-table rex-table-mrgn" summary="'. htmlspecialchars($I18N->msg('structure_categories_summary', $cat_name)) .'">
-        <caption>'. htmlspecialchars($I18N->msg('structure_categories_caption', $cat_name)) .'</caption>
+      <table class="rex-table rex-table-mrgn" summary="'. htmlspecialchars($REX['I18N']->msg('structure_categories_summary', $cat_name)) .'">
+        <caption>'. htmlspecialchars($REX['I18N']->msg('structure_categories_caption', $cat_name)) .'</caption>
         <colgroup>
           <col width="40" />
           '. $add_col .'
@@ -292,9 +292,9 @@ echo '
           <tr>
             <th class="rex-icon">'. $add_category .'</th>
             '. $add_header .'
-            <th>'.$I18N->msg('header_category').'</th>
-            <th>'.$I18N->msg('header_priority').'</th>
-            <th colspan="3">'.$I18N->msg('header_status').'</th>
+            <th>'.$REX['I18N']->msg('header_category').'</th>
+            <th>'.$REX['I18N']->msg('header_priority').'</th>
+            <th colspan="3">'.$REX['I18N']->msg('header_status').'</th>
           </tr>
         </thead>
         <tbody>';
@@ -326,7 +326,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnl
   }
 
   $meta_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
-  $add_buttons = '<input type="submit" class="rex-form-submit" name="catadd_function" value="'. $I18N->msg('add_category') .'"'. rex_accesskey($I18N->msg('add_category'), $REX['ACKEY']['SAVE']) .' />';
+  $add_buttons = '<input type="submit" class="rex-form-submit" name="catadd_function" value="'. $REX['I18N']->msg('add_category') .'"'. rex_accesskey($REX['I18N']->msg('add_category'), $REX['ACKEY']['SAVE']) .' />';
 
   $class = 'rex-table-row-activ';
   if($meta_buttons != "")
@@ -334,7 +334,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnl
 
   echo '
         <tr class="'. $class .'">
-          <td class="rex-icon"><span class="rex-i-element rex-i-category"><span class="rex-i-element-text">'. $I18N->msg('add_category') .'</span></span></td>
+          <td class="rex-icon"><span class="rex-i-element rex-i-category"><span class="rex-i-element-text">'. $REX['I18N']->msg('add_category') .'</span></span></td>
           '. $add_td .'
           <td><input class="rex-form-text" type="text" id="rex-form-field-name" name="category_name" />'. $meta_buttons .'</td>
           <td><input class="rex-form-text" type="text" id="rex-form-field-prior" name="Position_New_Category" value="'.($KAT->getRows()+1).'" /></td>
@@ -390,7 +390,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
         'id' => $edit_id,
         'clang' => $clang,
       ));
-      $add_buttons = '<input type="submit" class="rex-form-submit" name="catedit_function" value="'. $I18N->msg('save_category'). '"'. rex_accesskey($I18N->msg('save_category'), $REX['ACKEY']['SAVE']) .' />';
+      $add_buttons = '<input type="submit" class="rex-form-submit" name="catedit_function" value="'. $REX['I18N']->msg('save_category'). '"'. rex_accesskey($REX['I18N']->msg('save_category'), $REX['ACKEY']['SAVE']) .' />';
 
       $class = 'rex-table-row-activ';
       if($meta_buttons != "")
@@ -428,11 +428,11 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
     
       if (!$REX['USER']->hasPerm('editContentOnly[]'))
       {
-        $category_delete = '<a href="'. $context->getUrl(array('edit_id' => $i_category_id, 'function' => 'catdelete_function', 'catstart' => $catstart)) .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
+        $category_delete = '<a href="'. $context->getUrl(array('edit_id' => $i_category_id, 'function' => 'catdelete_function', 'catstart' => $catstart)) .'" onclick="return confirm(\''.$REX['I18N']->msg('delete').' ?\')">'.$REX['I18N']->msg('delete').'</a>';
       }
       else
       {
-        $category_delete = '<span class="rex-strike">'. $I18N->msg('delete') .'</span>';
+        $category_delete = '<span class="rex-strike">'. $REX['I18N']->msg('delete') .'</span>';
       }
 
       echo '
@@ -441,7 +441,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
           '. $add_td .'
           <td><a href="'. $kat_link .'">'. htmlspecialchars($KAT->getValue("catname")) .'</a></td>
           <td>'. htmlspecialchars($KAT->getValue("catprior")) .'</td>
-          <td><a href="'. $context->getUrl(array('edit_id' => $i_category_id, 'function' => 'edit_cat', 'catstart' => $catstart)) .'">'. $I18N->msg('change') .'</a></td>
+          <td><a href="'. $context->getUrl(array('edit_id' => $i_category_id, 'function' => 'edit_cat', 'catstart' => $catstart)) .'">'. $REX['I18N']->msg('change') .'</a></td>
           <td>'. $category_delete .'</td>
           <td>'. $kat_status .'</td>
         </tr>';
@@ -463,8 +463,8 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
           '. $add_td .'
           <td><a href="'. $kat_link .'">'.$KAT->getValue("catname").'</a></td>
           <td>'.htmlspecialchars($KAT->getValue("catprior")).'</td>
-          <td><span class="rex-strike">'. $I18N->msg('change') .'</span></td>
-          <td><span class="rex-strike">'. $I18N->msg('delete') .'</span></td>
+          <td><span class="rex-strike">'. $REX['I18N']->msg('change') .'</span></td>
+          <td><span class="rex-strike">'. $REX['I18N']->msg('delete') .'</span></td>
           <td><span class="rex-strike '. $status_class .'">'. $kat_status .'</span></td>
         </tr>';
   }
@@ -520,20 +520,20 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
     }
   }else
   {
-    $template_select->addOption($I18N->msg('option_no_template'), '0');
-    $TEMPLATE_NAME[0] = $I18N->msg('template_default_name');
+    $template_select->addOption($REX['I18N']->msg('option_no_template'), '0');
+    $TEMPLATE_NAME[0] = $REX['I18N']->msg('template_default_name');
   }
   
   // --------------------- ARTIKEL LIST
   $art_add_link = '';
   if ($KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
-    $art_add_link = '<a class="rex-i-element rex-i-article-add" href="'. $context->getUrl(array('function' => 'add_art')) .'"'. rex_accesskey($I18N->msg('article_add'), $REX['ACKEY']['ADD_2']) .'><span class="rex-i-element-text">'. $I18N->msg('article_add') .'</span></a>';
+    $art_add_link = '<a class="rex-i-element rex-i-article-add" href="'. $context->getUrl(array('function' => 'add_art')) .'"'. rex_accesskey($REX['I18N']->msg('article_add'), $REX['ACKEY']['ADD_2']) .'><span class="rex-i-element-text">'. $REX['I18N']->msg('article_add') .'</span></a>';
 
   $add_head = '';
   $add_col  = '';
   if ($REX['USER']->hasPerm('advancedMode[]'))
   {
-    $add_head = '<th class="rex-small">'. $I18N->msg('header_id') .'</th>';
+    $add_head = '<th class="rex-small">'. $REX['I18N']->msg('header_id') .'</th>';
     $add_col  = '<col width="40" />';
   }
   
@@ -574,9 +574,9 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
   if($function == 'add_art' || $function == 'edit_art')
   {
 
-    $legend = $I18N->msg('article_add');
+    $legend = $REX['I18N']->msg('article_add');
     if ($function == 'edit_art')
-      $legend = $I18N->msg('article_edit');
+      $legend = $REX['I18N']->msg('article_edit');
     
     echo '
     <div class="rex-form" id="rex-form-structure-article">
@@ -592,8 +592,8 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
   // ----------- PRINT OUT THE ARTICLES
   
   echo '
-      <table class="rex-table" summary="'. htmlspecialchars($I18N->msg('structure_articles_summary', $cat_name)) .'">
-        <caption>'. htmlspecialchars($I18N->msg('structure_articles_caption', $cat_name)).'</caption>
+      <table class="rex-table" summary="'. htmlspecialchars($REX['I18N']->msg('structure_articles_summary', $cat_name)) .'">
+        <caption>'. htmlspecialchars($REX['I18N']->msg('structure_articles_caption', $cat_name)).'</caption>
         <colgroup>
           <col width="40" />
           '. $add_col .'
@@ -609,11 +609,11 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
           <tr>
             <th class="rex-icon">'. $art_add_link .'</th>
             '. $add_head .'
-            <th>'.$I18N->msg('header_article_name').'</th>
-            <th>'.$I18N->msg('header_priority').'</th>
-            <th>'.$I18N->msg('header_template').'</th>
-            <th>'.$I18N->msg('header_date').'</th>
-            <th colspan="3">'.$I18N->msg('header_status').'</th>
+            <th>'.$REX['I18N']->msg('header_article_name').'</th>
+            <th>'.$REX['I18N']->msg('header_priority').'</th>
+            <th>'.$REX['I18N']->msg('header_template').'</th>
+            <th>'.$REX['I18N']->msg('header_date').'</th>
+            <th colspan="3">'.$REX['I18N']->msg('header_status').'</th>
           </tr>
         </thead>
         ';
@@ -646,13 +646,13 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
       $add_td = '<td class="rex-small">-</td>';
 
     echo '<tr class="rex-table-row-activ">
-            <td class="rex-icon"><span class="rex-i-element rex-i-article"><span class="rex-i-element-text">'.$I18N->msg('article_add') .'</span></span></td>
+            <td class="rex-icon"><span class="rex-i-element rex-i-article"><span class="rex-i-element-text">'.$REX['I18N']->msg('article_add') .'</span></span></td>
             '. $add_td .'
             <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="article_name" /></td>
             <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="Position_New_Article" value="'.($sql->getRows()+1).'" /></td>
             <td>'. $template_select->get() .'</td>
             <td>'. rex_formatter :: format(time(), 'strftime', 'date') .'</td>
-            <td colspan="3"><input type="submit" class="rex-form-submit" name="artadd_function" value="'.$I18N->msg('article_add') .'"'. rex_accesskey($I18N->msg('article_add'), $REX['ACKEY']['SAVE']) .' /></td>
+            <td colspan="3"><input type="submit" class="rex-form-submit" name="artadd_function" value="'.$REX['I18N']->msg('article_add') .'"'. rex_accesskey($REX['I18N']->msg('article_add'), $REX['ACKEY']['SAVE']) .' /></td>
           </tr>
           ';
   }
@@ -684,7 +684,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
               <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="Position_Article" value="'. htmlspecialchars($sql->getValue('prior')).'" /></td>
               <td>'. $template_select->get() .'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
-              <td colspan="3"><input type="submit" class="rex-form-submit" name="artedit_function" value="'. $I18N->msg('article_save') .'"'. rex_accesskey($I18N->msg('article_save'), $REX['ACKEY']['SAVE']) .' /></td>
+              <td colspan="3"><input type="submit" class="rex-form-submit" name="artedit_function" value="'. $REX['I18N']->msg('article_save') .'"'. rex_accesskey($REX['I18N']->msg('article_save'), $REX['ACKEY']['SAVE']) .' /></td>
             </tr>
             ';
 
@@ -702,7 +702,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
       $add_extra = '';
       if ($sql->getValue('startpage') == 1)
       {
-        $add_extra = '<td><span class="rex-strike">'. $I18N->msg('delete') .'</span></td>
+        $add_extra = '<td><span class="rex-strike">'. $REX['I18N']->msg('delete') .'</span></td>
                       <td><span class="rex-strike '. $article_class .'">'. $article_status .'</span></td>';
       }else
       {
@@ -712,9 +712,9 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
           $article_status = '<span class="rex-strike '. $article_class .'">'. $article_status .'</span>';
 
         if (!$REX['USER']->hasPerm('editContentOnly[]'))
-          $article_delete = '<a href="'. $context->getUrl(array('article_id' => $sql->getValue('id'), 'function' => 'artdelete_function', 'artstart' => $artstart)) .'" onclick="return confirm(\''.$I18N->msg('delete').' ?\')">'.$I18N->msg('delete').'</a>';
+          $article_delete = '<a href="'. $context->getUrl(array('article_id' => $sql->getValue('id'), 'function' => 'artdelete_function', 'artstart' => $artstart)) .'" onclick="return confirm(\''.$REX['I18N']->msg('delete').' ?\')">'.$REX['I18N']->msg('delete').'</a>';
         else
-          $article_delete = '<span class="rex-strike">'. $I18N->msg('delete') .'</span>';
+          $article_delete = '<span class="rex-strike">'. $REX['I18N']->msg('delete') .'</span>';
 
         $add_extra = '<td>'. $article_delete .'</td>
                       <td>'. $article_status .'</td>';
@@ -730,7 +730,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
               <td>'. htmlspecialchars($sql->getValue('prior')) .'</td>
               <td>'. $tmpl .'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
-              <td><a href="'. $context->getUrl(array('article_id' => $sql->getValue('id'), 'function' => 'edit_art', 'artstart' => $artstart)) .'">'. $I18N->msg('change') .'</a></td>
+              <td><a href="'. $context->getUrl(array('article_id' => $sql->getValue('id'), 'function' => 'edit_art', 'artstart' => $artstart)) .'">'. $REX['I18N']->msg('change') .'</a></td>
               '. $add_extra .'
             </tr>
             ';
@@ -754,8 +754,8 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
               <td>'. htmlspecialchars($sql->getValue('prior')).'</td>
               <td>'. $tmpl .'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
-              <td><span class="rex-strike">'.$I18N->msg('change').'</span></td>
-              <td><span class="rex-strike">'.$I18N->msg('delete').'</span></td>
+              <td><span class="rex-strike">'.$REX['I18N']->msg('change').'</span></td>
+              <td><span class="rex-strike">'.$REX['I18N']->msg('delete').'</span></td>
               <td><span class="rex-strike '. $art_status_class .'">'. $art_status .'</span></td>
             </tr>
             ';

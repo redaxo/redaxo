@@ -13,29 +13,29 @@ function rex_parse_article_name($name)
 
   if($firstCall)
   {
-    global $REX, $I18N;
+    global $REX;
 
     // Im Frontend gibts kein I18N
-    if(!$I18N)
-      $I18N = rex_create_lang($REX['LANG']);
+    if(!$REX['I18N'])
+      $REX['I18N'] = rex_create_lang($REX['LANG']);
 
     // Sprachspezifische Sonderzeichen Filtern
-    $search = explode('|', $I18N->msg('special_chars'));
-    $replace = explode('|', $I18N->msg('special_chars_rewrite'));
+    $search = explode('|', $REX['I18N']->msg('special_chars'));
+    $replace = explode('|', $REX['I18N']->msg('special_chars_rewrite'));
 
     $firstCall = false;
   }
 
-  return 
+  return
     // + durch - ersetzen
     str_replace('+','-',
         // ggf uebrige zeichen url-codieren
         urlencode(
           // mehrfach hintereinander auftretende spaces auf eines reduzieren
           preg_replace('/ {2,}/',' ',
-            // alle sonderzeichen raus 
+            // alle sonderzeichen raus
             preg_replace('/[^a-zA-Z_\-0-9 ]/', '',
-              // sprachspezifische zeichen umschreiben 
+              // sprachspezifische zeichen umschreiben
               str_replace($search, $replace, $name)
             )
           )

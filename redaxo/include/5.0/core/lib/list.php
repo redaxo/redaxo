@@ -90,7 +90,7 @@ class rex_list implements rex_url_provider
    */
   function rex_list($query, $rowsPerPage = 30, $listName = null, $debug = false)
   {
-    global $REX, $I18N;
+    global $REX;
 
     // --------- Validation
     if(!$listName) $listName = md5($query);
@@ -105,7 +105,7 @@ class rex_list implements rex_url_provider
     $this->rows = 0;
     $this->params = array();
     $this->tableAttributes = array();
-    $this->noRowsMessage = $I18N->msg('list_no_rows');
+    $this->noRowsMessage = $REX['I18N']->msg('list_no_rows');
 
     // --------- Form Attributes
     $this->formAttributes = array();
@@ -904,7 +904,7 @@ class rex_list implements rex_url_provider
    */
   function get()
   {
-    global $I18N;
+    global $REX;
 
     $s = "\n";
 

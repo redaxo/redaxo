@@ -125,7 +125,7 @@ class rex_form
    */
   protected function loadBackendConfig()
   {
-    global $I18N;
+    global $REX;
 
     $func = rex_request('func', 'string');
 
@@ -135,11 +135,11 @@ class rex_form
     $this->addParam('list', rex_request('list', 'string'));
 
     $controlFields = array();
-    $controlFields['save'] = $I18N->msg('form_save');
-    $controlFields['apply']  = $func == 'edit' ? $I18N->msg('form_apply') : '';
-    $controlFields['delete'] = $func == 'edit' ? $I18N->msg('form_delete') : '';
-    $controlFields['reset'] = '';//$I18N->msg('form_reset');
-    $controlFields['abort'] = $I18N->msg('form_abort');
+    $controlFields['save'] = $REX['I18N']->msg('form_save');
+    $controlFields['apply']  = $func == 'edit' ? $REX['I18N']->msg('form_apply') : '';
+    $controlFields['delete'] = $func == 'edit' ? $REX['I18N']->msg('form_delete') : '';
+    $controlFields['reset'] = '';//$REX['I18N']->msg('form_reset');
+    $controlFields['abort'] = $REX['I18N']->msg('form_abort');
 
     // ----- EXTENSION POINT
     $controlFields = rex_register_extension_point('REX_FORM_CONTROL_FIElDS', $controlFields, array('form' => $this));
@@ -1125,7 +1125,7 @@ class rex_form
 
   public function get()
   {
-    global $I18N;
+    global $REX;
 
     $this->init();
 
@@ -1140,7 +1140,7 @@ class rex_form
         // speichern und umleiten
         // Nachricht in der Liste anzeigen
         if(($result = $this->validate()) === true && ($result = $this->save()) === true)
-          $this->redirect($I18N->msg('form_saved'));
+          $this->redirect($REX['I18N']->msg('form_saved'));
         elseif(is_int($result) && isset($this->errorMessages[$result]))
           // Fehler aufgetreten fuer den eine errorMessage hinterlegt wurde (error codes)
           $this->setWarning($this->errorMessages[$result]);
@@ -1149,7 +1149,7 @@ class rex_form
           $this->setWarning($result);
         else
            // Allgemeine Fehlermeldung
-        $this->setWarning($I18N->msg('form_save_error'));
+        $this->setWarning($REX['I18N']->msg('form_save_error'));
       }
       elseif($controlElement->applied())
       {
@@ -1158,7 +1158,7 @@ class rex_form
         // speichern und wiederanzeigen
         // Nachricht im Formular anzeigen
         if(($result = $this->validate()) === true && ($result = $this->save()) === true)
-          $this->setMessage($I18N->msg('form_applied'));
+          $this->setMessage($REX['I18N']->msg('form_applied'));
         elseif(is_int($result) && isset($this->errorMessages[$result]))
           // Fehler aufgetreten fuer den eine errorMessage hinterlegt wurde (error codes)
           $this->setWarning($this->errorMessages[$result]);
@@ -1167,30 +1167,30 @@ class rex_form
           $this->setWarning($result);
         else
            // Allgemeine Fehlermeldung
-          $this->setWarning($I18N->msg('form_save_error'));
+          $this->setWarning($REX['I18N']->msg('form_save_error'));
       }
       elseif($controlElement->deleted())
       {
         // speichern und wiederanzeigen
         // Nachricht in der Liste anzeigen
         if(($result = $this->delete()) === true)
-          $this->redirect($I18N->msg('form_deleted'));
+          $this->redirect($REX['I18N']->msg('form_deleted'));
         elseif(is_string($result) && $result != '')
           $this->setWarning($result);
         else
-          $this->setWarning($I18N->msg('form_delete_error'));
+          $this->setWarning($REX['I18N']->msg('form_delete_error'));
       }
       elseif($controlElement->resetted())
       {
         // verwerfen und wiederanzeigen
         // Nachricht im Formular anzeigen
-        $this->setMessage($I18N->msg('form_resetted'));
+        $this->setMessage($REX['I18N']->msg('form_resetted'));
       }
       elseif($controlElement->aborted())
       {
         // verwerfen und umleiten
         // Nachricht in der Liste anzeigen
-        $this->redirect($I18N->msg('form_resetted'));
+        $this->redirect($REX['I18N']->msg('form_resetted'));
       }
     }
 

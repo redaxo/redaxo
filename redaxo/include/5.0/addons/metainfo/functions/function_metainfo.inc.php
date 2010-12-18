@@ -15,22 +15,22 @@
  */
 function a62_add_field_type($label, $dbtype, $dblength)
 {
-  global $REX, $I18N;
+  global $REX;
 
   if(!is_string($label) || empty($label))
-    return $I18N->msg('minfo_field_error_invalid_name');
+    return $REX['I18N']->msg('minfo_field_error_invalid_name');
 
   if(!is_string($dbtype) || empty($dbtype))
-    return $I18N->msg('minfo_field_error_invalid_type');
+    return $REX['I18N']->msg('minfo_field_error_invalid_type');
 
   if(!is_int($dblength) || empty($dblength))
-    return $I18N->msg('minfo_field_error_invalid_length');
+    return $REX['I18N']->msg('minfo_field_error_invalid_length');
 
   $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX']. '62_type WHERE label="'. addslashes($label) .'" LIMIT 1';
   $sql = rex_sql::factory();
   $sql->setQuery($qry);
   if($sql->getRows() != 0)
-    return $I18N->msg('minfo_field_error_unique_type');
+    return $REX['I18N']->msg('minfo_field_error_unique_type');
 
   $sql->setTable($REX['TABLE_PREFIX']. '62_type');
   $sql->setValue('label', $label);
@@ -54,7 +54,7 @@ function a62_delete_field_type($field_type_id)
   global $REX;
 
   if(!is_int($field_type_id) || empty($field_type_id))
-    return $I18N->msg('minfo_field_error_invalid_typeid');
+    return $REX['I18N']->msg('minfo_field_error_invalid_typeid');
 
   $sql = rex_sql::factory();
   $sql->setTable($REX['TABLE_PREFIX']. '62_type');
@@ -71,14 +71,14 @@ function a62_delete_field_type($field_type_id)
  */
 function a62_add_field($title, $name, $prior, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '')
 {
-  global $REX, $I18N;
+  global $REX;
 
   $prefix = a62_meta_prefix($name);
   $metaTable = a62_meta_table($prefix);
 
   // Prefix korrekt?
   if(!$metaTable)
-    return $I18N->msg('minfo_field_error_invalid_prefix');
+    return $REX['I18N']->msg('minfo_field_error_invalid_prefix');
 
   // TypeId korrekt?
   $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX'] .'62_type WHERE id='. $type .' LIMIT 2';
@@ -86,7 +86,7 @@ function a62_add_field($title, $name, $prior, $attributes, $type, $default, $par
   $typeInfos = $sql->getArray($qry);
 
   if($sql->getRows() != 1)
-    return $I18N->msg('minfo_field_error_invalid_type');
+    return $REX['I18N']->msg('minfo_field_error_invalid_type');
 
   $fieldDbType = $typeInfos[0]['dbtype'];
   $fieldDbLength = $typeInfos[0]['dblength'];
@@ -94,12 +94,12 @@ function a62_add_field($title, $name, $prior, $attributes, $type, $default, $par
   // Spalte existiert schon?
   $sql->setQuery('SELECT * FROM '. $metaTable . ' LIMIT 1');
   if(in_array($name, $sql->getFieldnames()))
-    return $I18N->msg('minfo_field_error_unique_name');
+    return $REX['I18N']->msg('minfo_field_error_unique_name');
 
   // Spalte extiert laut a62_params?
   $sql->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX']. '62_params WHERE name="'. addslashes($name) .'" LIMIT 1');
   if($sql->getRows() != 0)
-    return $I18N->msg('minfo_field_error_unique_name');
+    return $REX['I18N']->msg('minfo_field_error_unique_name');
 
   $sql->setTable($REX['TABLE_PREFIX']. '62_params');
   $sql->setValue('title', $title);
@@ -125,19 +125,19 @@ function a62_add_field($title, $name, $prior, $attributes, $type, $default, $par
 
 function a62_delete_field($fieldIdOrName)
 {
-  global $REX, $I18N;
+  global $REX;
 
   // Löschen anhand der FieldId
   if(is_int($fieldIdOrName))
   {
     $fieldQry = 'SELECT * FROM '. $REX['TABLE_PREFIX']. '62_params WHERE field_id='. $fieldIdOrName .' LIMIT 2';
-    $invalidField = $I18N->msg('minfo_field_error_invalid_fieldid');
+    $invalidField = $REX['I18N']->msg('minfo_field_error_invalid_fieldid');
   }
   // Löschen anhand des Feldnames
   else if(is_string($fieldIdOrName))
   {
     $fieldQry = 'SELECT * FROM '. $REX['TABLE_PREFIX']. '62_params WHERE name="'. addslashes($fieldIdOrName) .'" LIMIT 2';
-    $invalidField = $I18N->msg('minfo_field_error_invalid_name');
+    $invalidField = $REX['I18N']->msg('minfo_field_error_invalid_name');
   }
   else
   {
@@ -159,7 +159,7 @@ function a62_delete_field($fieldIdOrName)
   // Spalte existiert?
   $sql->setQuery('SELECT * FROM '. $metaTable . ' LIMIT 1');
   if(!in_array($name, $sql->getFieldnames()))
-    return $I18N->msg('minfo_field_error_invalid_name');
+    return $REX['I18N']->msg('minfo_field_error_invalid_name');
 
   $sql->setTable($REX['TABLE_PREFIX']. '62_params');
   $sql->setWhere('field_id='. $field_id);

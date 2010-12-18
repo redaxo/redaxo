@@ -6,7 +6,7 @@ class rex_xform_be_medialist extends rex_xform_abstract
 	function enterObject(&$email_elements,&$sql_elements,&$warning,&$form_output,$send = 0)
 	{	
 		
-		global $I18N;
+		global $REX;
 		
 		if (!isset($tmp_medialist)) $tmp_medialist = 0;
 		$tmp_medialist++;

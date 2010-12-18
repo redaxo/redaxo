@@ -49,7 +49,7 @@
  */
 function rex_title($head, $subtitle = '')
 {
-	global $article_id, $category_id, $page, $I18N;
+	global $article_id, $category_id, $page, $REX;
 
   if(empty($subtitle))
   {
@@ -58,7 +58,7 @@ function rex_title($head, $subtitle = '')
   else if(is_array($subtitle) && $subtitle[0] instanceof rex_be_page_container)
   {
     $nav = rex_be_navigation::factory();
-    $nav->setHeadline('default', $I18N->msg('subnavigation', $head));
+    $nav->setHeadline('default', $REX['I18N']->msg('subnavigation', $head));
     foreach($subtitle as $pageObj)
     {
       $nav->addPage($pageObj);
@@ -69,7 +69,7 @@ function rex_title($head, $subtitle = '')
   else
   {
     // REDAXO <= 4.2 compat
-	  $subtitle = '<div class="rex-title-row rex-title-row-sub">'.rex_get_subtitle($subtitle).'</div>';    
+	  $subtitle = '<div class="rex-title-row rex-title-row-sub">'.rex_get_subtitle($subtitle).'</div>';
   }
 
   // ----- EXTENSION POINT
@@ -133,7 +133,7 @@ function rex_get_subtitle($subline)
 
       $link = $subpage[0];
       $label = $subpage[1];
-      
+
       $perm = !empty($subpage[2]) ? $subpage[2] : '';
       $params = !empty($subpage[3]) ? rex_param_string($subpage[3]) : '';
       // Berechtigung prüfen
@@ -176,8 +176,8 @@ function rex_get_subtitle($subline)
           }
           $attr .= ' '.$attr_name .'="'. $attr_value .'"';
         }
-      } 
-      
+      }
+
       // Auf der aktiven Seite den Link nicht anzeigen
       if ($active)
       {
@@ -205,11 +205,11 @@ function rex_get_subtitle($subline)
       $i = 1;
       foreach($subtitle as $part)
       {
-	      if($i == 1) 
+	      if($i == 1)
 					$items .= '<li class="rex-navi-first">'. $part .'</li>';
-				else 
+				else
 	        $items .= '<li>'. $part .'</li>';
-					
+
         $i++;
       }
       $subtitle_str = '

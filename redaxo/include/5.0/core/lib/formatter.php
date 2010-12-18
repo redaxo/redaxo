@@ -14,7 +14,7 @@ abstract class rex_formatter
   {
     // it's not allowed to create instances of this class
   }
-  
+
   /**
    * Formatiert den String <code>$value</code>
    *
@@ -133,9 +133,9 @@ abstract class rex_formatter
 
   static public function _formatStrftime($value, $format)
   {
-    global $I18N;
+    global $REX;
 
-    if (!is_object($I18N)) $I18N = rex_create_lang();
+    if (!is_object($REX['I18N'])) $REX['I18N'] = rex_create_lang();
 
     if (empty ($value))
     {
@@ -145,12 +145,12 @@ abstract class rex_formatter
     if ($format == '' || $format == 'date')
     {
       // Default REX-Dateformat
-      $format = $I18N->msg('dateformat');
+      $format = $REX['I18N']->msg('dateformat');
     }
     elseif ($format == 'datetime')
     {
       // Default REX-Datetimeformat
-      $format = $I18N->msg('datetimeformat');
+      $format = $REX['I18N']->msg('datetimeformat');
     }
     return strftime($format, $value);
   }
@@ -370,8 +370,8 @@ abstract class rex_formatter
 
     return '<a href="'.rex_getUrl($value, $format['clang'], $format['params'], $format['divider']).'"'.$format['attr'].'>'.$value.'</a>';
   }
-  
-  
+
+
   /**
 	 * Returns the truncated $string
 	 *
@@ -382,13 +382,13 @@ abstract class rex_formatter
 	{
 	  if ($length == 0)
 	    return '';
-	
+
 	  if (strlen($string) > $length)
 	  {
 	    $length -= strlen($etc);
 	    if (!$break_words)
 	      $string = preg_replace('/\s+?(\S+)?$/', '', substr($string, 0, $length +1));
-	
+
 	    return substr($string, 0, $length).$etc;
 	  }
 	  else

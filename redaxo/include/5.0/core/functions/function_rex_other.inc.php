@@ -54,7 +54,7 @@ function rex_is_writable($item)
 
 function _rex_is_writable_info($is_writable, $item = '')
 {
-  global $I18N;
+  global $REX;
 
   $state = true;
   $key = '';
@@ -83,7 +83,7 @@ function _rex_is_writable_info($is_writable, $item = '')
     if($item != '')
       $file = '<b>'. $item .'</b>';
 
-    $state = $I18N->msg($key, '<span class="rex-error">', '</span>', rex_absPath($file));
+    $state = $REX['I18N']->msg($key, '<span class="rex-error">', '</span>', rex_absPath($file));
   }
 
   return $state;
@@ -270,15 +270,15 @@ function rex_translate($text, $I18N_Catalogue = null, $use_htmlspecialchars = tr
 
   if(!$I18N_Catalogue)
   {
-    global $REX, $I18N;
+    global $REX;
 
-    if(!$I18N)
-      $I18N = rex_create_lang($REX['LANG']);
+    if(!$REX['I18N'])
+      $REX['I18N'] = rex_create_lang($REX['LANG']);
 
-    if(!$I18N)
+    if(!$REX['I18N'])
       trigger_error('Unable to create language "'. $REX['LANG'] .'"', E_USER_ERROR);
 
-    return rex_translate($text, $I18N, $use_htmlspecialchars);
+    return rex_translate($text, $REX['I18N'], $use_htmlspecialchars);
   }
 
   $tranKey = 'translate:';
@@ -562,7 +562,7 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
   {
     $searchpath = $REX['SRC_PATH'] .DIRECTORY_SEPARATOR. "/core/lang";
   }
-  $lang_object = new i18n($locale, $searchpath);
+  $lang_object = new rex_i18n($locale, $searchpath);
 
   if ($_searchpath == '')
   {

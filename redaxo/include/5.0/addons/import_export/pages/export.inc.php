@@ -6,7 +6,7 @@
  * @version svn:$Id$
  */
 
-// Für größere Exports den Speicher für PHP erhöhen.
+// FÃ¼r grÃ¶ÃŸere Exports den Speicher fÃ¼r PHP erhÃ¶hen.
 @ini_set('memory_limit', '64M');
 
 // ------- Addon Includes
@@ -51,7 +51,7 @@ if ($function == 'export')
 
   if ($filename != $exportfilename)
   {
-    $info = $I18N->msg('im_export_filename_updated');
+    $info = $REX['I18N']->msg('im_export_filename_updated');
     $exportfilename = $filename;
   }
   else
@@ -84,7 +84,7 @@ if ($function == 'export')
 
       if (empty($EXPDIR))
       {
-        $warning = $I18N->msg('im_export_please_choose_folder');
+        $warning = $REX['I18N']->msg('im_export_please_choose_folder');
       }
       else
       {
@@ -108,12 +108,12 @@ if ($function == 'export')
       }
       else
       {
-        $info = $I18N->msg('im_export_file_generated_in').' '.strtr($filename . $ext, '\\', '/');
+        $info = $REX['I18N']->msg('im_export_file_generated_in').' '.strtr($filename . $ext, '\\', '/');
       }
     }
     else
     {
-      $warning = $I18N->msg('im_export_file_could_not_be_generated').' '.$I18N->msg('im_export_check_rights_in_directory').' '.$export_path;
+      $warning = $REX['I18N']->msg('im_export_file_could_not_be_generated').' '.$REX['I18N']->msg('im_export_check_rights_in_directory').' '.$export_path;
     }
   }
 }
@@ -131,15 +131,15 @@ if ($warning != '')
 
 <div class="rex-area">
   
-    <h3 class="rex-hl2"><?php echo $I18N->msg('im_export_export'); ?></h3>
+    <h3 class="rex-hl2"><?php echo $REX['I18N']->msg('im_export_export'); ?></h3>
   
     <div class="rex-area-content">
-      <p class="rex-tx1"><?php echo $I18N->msg('im_export_intro_export') ?></p>
+      <p class="rex-tx1"><?php echo $REX['I18N']->msg('im_export_intro_export') ?></p>
       
       <div class="rex-form" id="rex-form-export">
       <form action="index.php" enctype="multipart/form-data" method="post" >
         <fieldset class="rex-form-col-1">
-          <legend><?php echo $I18N->msg('im_export_export'); ?></legend>
+          <legend><?php echo $REX['I18N']->msg('im_export_export'); ?></legend>
           
           <div class="rex-form-wrapper">
             <input type="hidden" name="page" value="import_export" />
@@ -160,13 +160,13 @@ else
             <div class="rex-form-row">
               <p class="rex-form-radio rex-form-label-right">
                 <input class="rex-form-radio" type="radio" id="exporttype_sql" name="exporttype" value="sql"<?php echo $checkedsql ?> />
-                <label for="exporttype_sql"><?php echo $I18N->msg('im_export_database_export'); ?></label>
+                <label for="exporttype_sql"><?php echo $REX['I18N']->msg('im_export_database_export'); ?></label>
               </p>
             </div>
             <div class="rex-form-row rex-form-element-v2">
               <p class="rex-form-radio rex-form-label-right">
                 <input class="rex-form-radio" type="radio" id="exporttype_files" name="exporttype" value="files"<?php echo $checkedfiles ?> />
-                <label for="exporttype_files"><?php echo $I18N->msg('im_export_file_export'); ?></label>
+                <label for="exporttype_files"><?php echo $REX['I18N']->msg('im_export_file_export'); ?></label>
               </p>
               
               <div class="rex-form-checkboxes">
@@ -214,24 +214,24 @@ else
             <div class="rex-form-row">
               <p class="rex-form-radio rex-form-label-right">
                 <input class="rex-form-radio" type="radio" id="exportdl_server" name="exportdl" value="0"<?php echo $checked0; ?> />
-                <label for="exportdl_server"><?php echo $I18N->msg('im_export_save_on_server'); ?></label>
+                <label for="exportdl_server"><?php echo $REX['I18N']->msg('im_export_save_on_server'); ?></label>
               </p>
             </div>
             <div class="rex-form-row">
               <p class="rex-form-radio rex-form-label-right">
                 <input class="rex-form-radio" type="radio" id="exportdl_download" name="exportdl" value="1"<?php echo $checked1; ?> />
-                <label for="exportdl_download"><?php echo $I18N->msg('im_export_download_as_file'); ?></label>
+                <label for="exportdl_download"><?php echo $REX['I18N']->msg('im_export_download_as_file'); ?></label>
               </p>
             </div>
             <div class="rex-form-row">
               <p class="rex-form-text">
-                <label for="exportfilename"><?php echo $I18N->msg('im_export_filename'); ?></label>
+                <label for="exportfilename"><?php echo $REX['I18N']->msg('im_export_filename'); ?></label>
                 <input class="rex-form-text" type="text" id="exportfilename" name="exportfilename" value="<?php echo $exportfilename; ?>" />
               </p>
             </div>
             <div class="rex-form-row">
               <p class="rex-form-submit">
-                <input class="rex-form-submit" type="submit" value="<?php echo $I18N->msg('im_export_db_export'); ?>" />
+                <input class="rex-form-submit" type="submit" value="<?php echo $REX['I18N']->msg('im_export_db_export'); ?>" />
               </p>
             </div>
           </div>

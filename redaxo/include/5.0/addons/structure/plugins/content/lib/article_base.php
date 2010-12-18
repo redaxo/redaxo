@@ -210,13 +210,13 @@ class rex_article_base
 
   public function getArticle($curctype = -1)
   {
-    global $REX,$I18N;
+    global $REX;
 
     $this->ctype = $curctype;
 
     if ($this->article_id == 0)
     {
-      return $I18N->msg('no_article_available');
+      return $REX['I18N']->msg('no_article_available');
     }
     
     $sliceLimit = '';

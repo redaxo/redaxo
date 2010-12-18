@@ -40,14 +40,14 @@ function rex_moveSliceDown($slice_id, $clang)
  */
 function rex_moveSlice($slice_id, $clang, $direction)
 {
-  global $REX, $I18N;
+  global $REX;
 
   // ctype beachten
   // verschieben / vertauschen
   // article regenerieren.
 
   $success = false;
-  $message = $I18N->msg('slice_moved_error');
+  $message = $REX['I18N']->msg('slice_moved_error');
 
   $CM = rex_sql::factory();
   $CM->setQuery("select * from " . $REX['TABLE_PREFIX'] . "article_slice left join " . $REX['TABLE_PREFIX'] . "module on " . $REX['TABLE_PREFIX'] . "article_slice.modultyp_id=" . $REX['TABLE_PREFIX'] . "module.id where " . $REX['TABLE_PREFIX'] . "article_slice.id='$slice_id' and clang=$clang");
@@ -84,7 +84,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
           if (isset($SID[$slice_id]) && $SID[$slice_id] > 0)
             $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$slice_id] . "' where id='" . $SID[$slice_id] . "'");
           rex_deleteCacheArticleContent($slice_article_id, $clang);
-          $message = $I18N->msg('slice_moved');
+          $message = $REX['I18N']->msg('slice_moved');
           $success = true;
         }
       }
@@ -102,7 +102,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
           if (isset($SID[$SID[$slice_id]]) && $SID[$SID[$slice_id]] > 0)
             $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $slice_id . "' where id='" . $SID[$SID[$slice_id]] . "'");
           rex_deleteCacheArticleContent($slice_article_id, $clang);
-          $message = $I18N->msg('slice_moved');
+          $message = $REX['I18N']->msg('slice_moved');
           $success = true;
         }
       }
@@ -947,7 +947,7 @@ function rex_moveCategory($from_cat, $to_cat)
  */
 function rex_generateArticleContent($article_id, $clang = null)
 {
-  global $REX, $I18N;
+  global $REX;
   
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
@@ -974,7 +974,7 @@ function rex_generateArticleContent($article_id, $clang = null)
   
     if (rex_put_file_contents($article_content_file, $article_content) === FALSE)
     {
-      return $I18N->msg('article_could_not_be_generated')." ".$I18N->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
+      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').$REX['SRC_PATH'] .'/generated/articles/';
     }
   }
   

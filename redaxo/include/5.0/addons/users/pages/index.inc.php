@@ -11,8 +11,8 @@ $func = rex_request('func', 'string');
 
 // -------------- Header
 $subline = array(
-  array( '', $I18N->msg('users')),
-  array( 'roles', $I18N->msg('roles')),
+  array( '', $REX['I18N']->msg('users')),
+  array( 'roles', $REX['I18N']->msg('roles')),
 );
 
 switch($subpage)
@@ -27,7 +27,7 @@ switch($subpage)
 
 require $REX['SRC_PATH'] . '/core/layout/top.php';
 
-rex_title($I18N->msg('user_management'),$subline);
+rex_title($REX['I18N']->msg('user_management'),$subline);
 
 require dirname(__FILE__).'/'. $file;
 require $REX['SRC_PATH'] . '/core/layout/bottom.php';

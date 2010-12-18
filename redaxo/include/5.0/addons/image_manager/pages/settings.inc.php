@@ -30,13 +30,13 @@ $REX[\'ADDON\'][\'image_manager\'][\'jpg_quality\'] = '.$jpg_quality.';
 ';
 
   if(rex_replace_dynamic_contents($config_file, $content) !== false)
-    echo rex_info($I18N->msg('imanager_config_saved'));
+    echo rex_info($REX['I18N']->msg('imanager_config_saved'));
   else
-    echo rex_warning($I18N->msg('imanager_config_not_saved'));
+    echo rex_warning($REX['I18N']->msg('imanager_config_not_saved'));
 }
 
 if(!is_writable($config_file))
-  echo rex_warning($I18N->msg('imanager_config_not_writable', $config_file));
+  echo rex_warning($REX['I18N']->msg('imanager_config_not_writable', $config_file));
 
 echo '
 
@@ -46,7 +46,7 @@ echo '
 
   <div class="rex-form">
 	
-<h2 class="rex-hl2">'. $I18N->msg('imanager_subpage_config') .'</h2>
+<h2 class="rex-hl2">'. $REX['I18N']->msg('imanager_subpage_config') .'</h2>
   
 <form action="index.php" method="post">
 
@@ -58,14 +58,14 @@ echo '
 			
 			<div class="rex-form-row rex-form-element-v2">
 				<p class="rex-form-text">
-					<label for="jpg_quality">'. $I18N->msg('imanager_jpg_quality') .' [0-100]</label>
+					<label for="jpg_quality">'. $REX['I18N']->msg('imanager_jpg_quality') .' [0-100]</label>
 					<input class="rex-form-text" type="text" id="jpg_quality" name="jpg_quality" value="'. htmlspecialchars($REX['ADDON']['image_manager']['jpg_quality']).'" />
 				</p>
 			</div>
 			
 			<div class="rex-form-row rex-form-element-v2">
 				<p class="rex-form-submit">
-					<input type="submit" class="rex-form-submit" name="sendit" value="'.$I18N->msg('update').'" />
+					<input type="submit" class="rex-form-submit" name="sendit" value="'.$REX['I18N']->msg('update').'" />
 				</p>
 			</div>
 		</div>

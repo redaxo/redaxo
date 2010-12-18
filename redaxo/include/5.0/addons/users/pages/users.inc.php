@@ -66,7 +66,7 @@ $sel_role->setStyle('class="rex-form-select"');
 $sel_role->setSize(1);
 $sel_role->setName("userrole");
 $sel_role->setId("userrole");
-$sel_role->addOption($I18N->msg('user_no_role'), 0);
+$sel_role->addOption($REX['I18N']->msg('user_no_role'), 0);
 $roles = array();
 $sql_role = rex_sql::factory();
 $sql_role->setQuery('SELECT id, name FROM '. $REX['TABLE_PREFIX'] .'user_role');
@@ -114,8 +114,8 @@ $sel_startpage->setId("userperm-startpage");
 $sel_startpage->addOption("default","");
 
 $startpages = array();
-$startpages['structure'] = array($I18N->msg('structure'),'');
-$startpages['profile'] = array($I18N->msg('profile'),'');
+$startpages['structure'] = array($REX['I18N']->msg('structure'),'');
+$startpages['profile'] = array($REX['I18N']->msg('profile'),'');
 foreach($REX['ADDON']['status'] as $k => $v)
 {
 	if (isset($REX['ADDON']['perm'][$k]) && isset($REX['ADDON']['name'][$k]))
@@ -200,7 +200,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     $FUNC_UPDATE = "";
   }
 
-  $info = $I18N->msg('user_data_updated');
+  $info = $REX['I18N']->msg('user_data_updated');
 
 } elseif ($FUNC_DELETE != '')
 {
@@ -209,11 +209,11 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   {
     $deleteuser = rex_sql::factory();
     $deleteuser->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."user WHERE user_id = '$user_id' LIMIT 1");
-    $info = $I18N->msg("user_deleted");
+    $info = $REX['I18N']->msg("user_deleted");
     $user_id = 0;
   }else
   {
-    $warning = $I18N->msg("user_notdeleteself");
+    $warning = $REX['I18N']->msg("user_notdeleteself");
   }
 
 } elseif ($FUNC_ADD != '' and $save == 1)
@@ -258,7 +258,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     $adduser->insert();
     $user_id = 0;
     $FUNC_ADD = "";
-    $info = $I18N->msg('user_added');
+    $info = $REX['I18N']->msg('user_added');
   } else
   {
 
@@ -275,7 +275,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     if ($userperm_startpage == '') $userperm_startpage = 'default';
     $sel_startpage->setSelected($userperm_startpage);
 
-    $warning = $I18N->msg('user_login_exists');
+    $warning = $REX['I18N']->msg('user_login_exists');
   }
 }
 
@@ -304,11 +304,11 @@ if ($FUNC_ADD != "" || $user_id > 0)
   {
     // User Edit
 
-    $form_label = $I18N->msg('edit_user');
+    $form_label = $REX['I18N']->msg('edit_user');
     $add_hidden = '<input type="hidden" name="user_id" value="'.$user_id.'" />';
     $add_submit = '<div class="rex-form-row">
-						<p class="rex-form-col-a"><input type="submit" class="rex-form-submit" name="FUNC_UPDATE" value="'.$I18N->msg('user_save').'" '. rex_accesskey($I18N->msg('user_save'), $REX['ACKEY']['SAVE']) .' /></p>
-						<p class="rex-form-col-b"><input type="submit" class="rex-form-submit" name="FUNC_APPLY" value="'.$I18N->msg('user_apply').'" '. rex_accesskey($I18N->msg('user_apply'), $REX['ACKEY']['APPLY']) .' /></p>
+						<p class="rex-form-col-a"><input type="submit" class="rex-form-submit" name="FUNC_UPDATE" value="'.$REX['I18N']->msg('user_save').'" '. rex_accesskey($REX['I18N']->msg('user_save'), $REX['ACKEY']['SAVE']) .' /></p>
+						<p class="rex-form-col-b"><input type="submit" class="rex-form-submit" name="FUNC_APPLY" value="'.$REX['I18N']->msg('user_apply').'" '. rex_accesskey($REX['I18N']->msg('user_apply'), $REX['ACKEY']['APPLY']) .' /></p>
 					</div>';
 		$add_user_class = ' rex-form-read';
     $add_user_login = '<span class="rex-form-read" id="userlogin">'. htmlspecialchars($sql->getValue($REX['TABLE_PREFIX'].'user.login')) .'</span>';
@@ -375,7 +375,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
         <p class="rex-warning rex-form-checkbox rex-form-label-right">
         	<span>
 	          <input class="rex-form-checkbox" type="checkbox" name="logintriesreset" id="logintriesreset" value="1" />
-  	        <label for="logintriesreset">'. $I18N->msg("user_reset_tries",$REX['MAXLOGINS']) .'</label>
+  	        <label for="logintriesreset">'. $REX['I18N']->msg("user_reset_tries",$REX['MAXLOGINS']) .'</label>
   	      </span>
         </p>
         </div>';
@@ -386,11 +386,11 @@ if ($FUNC_ADD != "" || $user_id > 0)
   else
   {
     // User Add
-    $form_label = $I18N->msg('create_user');
+    $form_label = $REX['I18N']->msg('create_user');
     $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
     $add_submit = '<div class="rex-form-row">
 						<p class="rex-form-submit">
-						<input type="submit" class="rex-form-submit" name="function" value="'.$I18N->msg("add_user").'" '. rex_accesskey($I18N->msg('add_user'), $REX['ACKEY']['SAVE']) .' />
+						<input type="submit" class="rex-form-submit" name="function" value="'.$REX['I18N']->msg("add_user").'" '. rex_accesskey($REX['I18N']->msg('add_user'), $REX['ACKEY']['SAVE']) .' />
 						</p>
 					</div>';
     $add_admin_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
@@ -416,23 +416,23 @@ if ($FUNC_ADD != "" || $user_id > 0)
 
         <div class="rex-form-row">
           <p class="rex-form-col-a'.$add_user_class.'">
-            <label for="userlogin">'. htmlspecialchars($I18N->msg('login_name')).'</label>
+            <label for="userlogin">'. htmlspecialchars($REX['I18N']->msg('login_name')).'</label>
             '. $add_user_login .'
           </p>
           <p class="rex-form-col-b rex-form-text">
-            <label for="userpsw">'.$I18N->msg('password').'</label>
+            <label for="userpsw">'.$REX['I18N']->msg('password').'</label>
             <input type="text" id="userpsw" name="userpsw" value="'.htmlspecialchars($userpsw).'" />
-            '. ($REX['PSWFUNC']!='' ? '<span class="rex-form-notice">'. $I18N->msg('psw_encrypted') .'</span>' : '') .'
+            '. ($REX['PSWFUNC']!='' ? '<span class="rex-form-notice">'. $REX['I18N']->msg('psw_encrypted') .'</span>' : '') .'
           </p>
 		    </div>
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-text">
-            <label for="username">'.$I18N->msg('name').'</label>
+            <label for="username">'.$REX['I18N']->msg('name').'</label>
             <input type="text" id="username" name="username" value="'.htmlspecialchars($username).'" />
           </p>
           <p class="rex-form-col-b rex-form-text">
-            <label for="userdesc">'.$I18N->msg('description').'</label>
+            <label for="userdesc">'.$REX['I18N']->msg('description').'</label>
             <input type="text" id="userdesc" name="userdesc" value="'.htmlspecialchars($userdesc).'" />
           </p>
     		</div>
@@ -440,28 +440,28 @@ if ($FUNC_ADD != "" || $user_id > 0)
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
             '. $add_admin_chkbox .'
-            <label for="useradmin">'.$I18N->msg('user_admin').'</label>
+            <label for="useradmin">'.$REX['I18N']->msg('user_admin').'</label>
           </p>
           <p class="rex-form-col-b rex-form-checkbox rex-form-label-right">
             '. $add_status_chkbox .'
-            <label for="userstatus">'.$I18N->msg('user_status').'</label>
+            <label for="userstatus">'.$REX['I18N']->msg('user_status').'</label>
           </p>
     		</div>
 
     		<div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
-            <label for="userrole">'.$I18N->msg('user_role').'</label>
+            <label for="userrole">'.$REX['I18N']->msg('user_role').'</label>
             '. $sel_role->get() .'
           </p>
 		    </div>
 
 		    <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
-            <label for="userperm-startpage">'.$I18N->msg('startpage').'</label>
+            <label for="userperm-startpage">'.$REX['I18N']->msg('startpage').'</label>
             '. $sel_startpage->get() .'
           </p>
           <p class="rex-form-col-b rex-form-select">
-            <label for="userperm-mylang">'.$I18N->msg('backend_language').'</label>
+            <label for="userperm-mylang">'.$REX['I18N']->msg('backend_language').'</label>
             '.$sel_be_sprache->get().'
           </p>
 		    </div>
@@ -509,19 +509,19 @@ if ($FUNC_ADD != "" || $user_id > 0)
 if (isset($SHOW) and $SHOW)
 {
   $list = rex_list::factory('SELECT user_id, name, login, lasttrydate FROM '.$REX['TABLE_PREFIX'].'user ORDER BY name');
-  $list->setCaption($I18N->msg('user_caption'));
-  $list->addTableAttribute('summary', $I18N->msg('user_summary'));
+  $list->setCaption($REX['I18N']->msg('user_caption'));
+  $list->addTableAttribute('summary', $REX['I18N']->msg('user_summary'));
   $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 153));
 
   $tdIcon = '<span class="rex-i-element rex-i-user"><span class="rex-i-element-text">###name###</span></span>';
-  $thIcon = '<a class="rex-i-element rex-i-user-add" href="'. $list->getUrl(array('FUNC_ADD' => '1')) .'"'. rex_accesskey($I18N->msg('create_user'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'. $I18N->msg('create_user') .'</span></a>';
+  $thIcon = '<a class="rex-i-element rex-i-user-add" href="'. $list->getUrl(array('FUNC_ADD' => '1')) .'"'. rex_accesskey($REX['I18N']->msg('create_user'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'. $REX['I18N']->msg('create_user') .'</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('user_id' => '###user_id###'));
 
   $list->setColumnLabel('user_id', 'ID');
   $list->setColumnLayout('user_id', array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
 
-  $list->setColumnLabel('name', $I18N->msg('name'));
+  $list->setColumnLabel('name', $REX['I18N']->msg('name'));
   $list->setColumnParams('name', array('user_id' => '###user_id###'));
   $list->setColumnFormat('name', 'custom',
     create_function(
@@ -531,13 +531,13 @@ if (isset($SHOW) and $SHOW)
     )
   );
 
-  $list->setColumnLabel('login', $I18N->msg('login'));
+  $list->setColumnLabel('login', $REX['I18N']->msg('login'));
 
-  $list->setColumnLabel('lasttrydate', $I18N->msg('last_login'));
+  $list->setColumnLabel('lasttrydate', $REX['I18N']->msg('last_login'));
   $list->setColumnFormat('lasttrydate', 'strftime', 'datetime');
 
-  $list->addColumn('funcs', $I18N->msg('user_delete'));
-  $list->setColumnLabel('funcs', $I18N->msg('user_functions'));
+  $list->addColumn('funcs', $REX['I18N']->msg('user_delete'));
+  $list->setColumnLabel('funcs', $REX['I18N']->msg('user_functions'));
   $list->setColumnParams('funcs', array('FUNC_DELETE' => '1', 'user_id' => '###user_id###'));
   $list->setColumnFormat('funcs', 'custom',
     create_function(
@@ -546,12 +546,12 @@ if (isset($SHOW) and $SHOW)
        $list = $params["list"];
        if($list->getValue("user_id") == $REX["USER"]->getValue("user_id"))
        {
-         return \'<span class="rex-strike">'. $I18N->msg('user_delete') .'</span>\';
+         return \'<span class="rex-strike">'. $REX['I18N']->msg('user_delete') .'</span>\';
        }
-       return $list->getColumnLink("funcs","'. $I18N->msg('user_delete') .'");'
+       return $list->getColumnLink("funcs","'. $REX['I18N']->msg('user_delete') .'");'
     )
   );
-  $list->addLinkAttribute('funcs', 'onclick', 'return confirm(\''.$I18N->msg('delete').' ?\')');
+  $list->addLinkAttribute('funcs', 'onclick', 'return confirm(\''.$REX['I18N']->msg('delete').' ?\')');
 
   $list->show();
 }

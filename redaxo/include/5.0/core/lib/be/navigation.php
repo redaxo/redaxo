@@ -37,7 +37,7 @@ class rex_be_navigation
 
   public function getNavigation()
   {
-    global $REX,$I18N;
+    global $REX;
     $s = '<dl class="rex-navi">';
     if(is_array($this->pages))
     {
@@ -193,22 +193,22 @@ class rex_be_navigation
 
   public function getHeadline($block)
   {
-    global $I18N;
+    global $REX;
 
     if (isset($this->headlines[$block]))
       return $this->headlines[$block];
 
     if ($block != 'default')
-      return $I18N->msg('navigation_'.$block);
+      return $REX['I18N']->msg('navigation_'.$block);
 
     return '';
   }
 
   static public function getSetupPage()
   {
-    global $I18N;
+    global $REX;
 
-    $page = new rex_be_page($I18N->msg('setup'));
+    $page = new rex_be_page($REX['I18N']->msg('setup'));
     $page->setIsCorePage(true);
     return $page;
   }
@@ -223,45 +223,45 @@ class rex_be_navigation
 
   static public function getLoggedInPages(/*rex_login_sql*/ $rexUser)
   {
-    global $I18N;
+    global $REX;
 
     $pages = array();
 
-    $profile = new rex_be_page($I18N->msg('profile'));
+    $profile = new rex_be_page($REX['I18N']->msg('profile'));
     $profile->setIsCorePage(true);
     $pages['profile'] = $profile;
 
-    $credits = new rex_be_page($I18N->msg('credits'));
+    $credits = new rex_be_page($REX['I18N']->msg('credits'));
     $credits->setIsCorePage(true);
     $pages['credits'] = $credits;
 
-//    $user = new rex_be_page($I18N->msg('user'), array('page'=>'user'));
+//    $user = new rex_be_page($REX['I18N']->msg('user'), array('page'=>'user'));
 //    $user->setIsCorePage(true);
 //    $user->setRequiredPermissions('isAdmin');
 //    $pages['user'] = new rex_be_page_main('system', $user);
 
-    $addon = new rex_be_page($I18N->msg('addon'), array('page'=>'addon'));
+    $addon = new rex_be_page($REX['I18N']->msg('addon'), array('page'=>'addon'));
     $addon->setIsCorePage(true);
     $addon->setRequiredPermissions('isAdmin');
     $pages['addon'] = new rex_be_page_main('system', $addon);
     $pages['addon']->setPrio(60);
 
-    $settings = new rex_be_page($I18N->msg('main_preferences'), array('page'=>'specials', 'subpage' => ''));
+    $settings = new rex_be_page($REX['I18N']->msg('main_preferences'), array('page'=>'specials', 'subpage' => ''));
     $settings->setIsCorePage(true);
     $settings->setRequiredPermissions('isAdmin');
     $settings->setHref('index.php?page=specials&subpage=');
 
-    $languages = new rex_be_page($I18N->msg('languages'), array('page'=>'specials', 'subpage' => 'lang'));
+    $languages = new rex_be_page($REX['I18N']->msg('languages'), array('page'=>'specials', 'subpage' => 'lang'));
     $languages->setIsCorePage(true);
     $languages->setRequiredPermissions('isAdmin');
     $languages->setHref('index.php?page=specials&subpage=lang');
 
-    $syslog = new rex_be_page($I18N->msg('syslog'), array('page'=>'specials', 'subpage' => 'log'));
+    $syslog = new rex_be_page($REX['I18N']->msg('syslog'), array('page'=>'specials', 'subpage' => 'log'));
     $syslog->setIsCorePage(true);
     $syslog->setRequiredPermissions('isAdmin');
     $syslog->setHref('index.php?page=specials&subpage=log');
 
-    $mainSpecials = new rex_be_page($I18N->msg('specials'), array('page'=>'specials'));
+    $mainSpecials = new rex_be_page($REX['I18N']->msg('specials'), array('page'=>'specials'));
     $mainSpecials->setIsCorePage(true);
     $mainSpecials->setRequiredPermissions('isAdmin');
     $mainSpecials->addSubPage($settings);

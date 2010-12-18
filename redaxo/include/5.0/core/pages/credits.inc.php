@@ -22,7 +22,7 @@ foreach (OOAddon::getRegisteredAddons() as $addon)
 
   if ($version)   $version       = '['.$version.']';
   if ($author)    $author        = htmlspecialchars($author);
-  if (!$isActive) $author        = $I18N->msg('credits_addon_inactive');
+  if (!$isActive) $author        = $REX['I18N']->msg('credits_addon_inactive');
   
   $OOAddon =  new stdClass();
   $OOAddon->name = $addon;
@@ -46,7 +46,7 @@ foreach (OOAddon::getRegisteredAddons() as $addon)
 
       if ($version)   $version       = '['.$version.']';
       if ($author)    $author        = htmlspecialchars($author);
-      if (!$isActive) $author        = $I18N->msg('credits_addon_inactive');
+      if (!$isActive) $author        = $REX['I18N']->msg('credits_addon_inactive');
 
       $OOPlugin =  new stdClass();
       $OOPlugin->name = $plugin ;
@@ -70,7 +70,7 @@ foreach (OOAddon::getRegisteredAddons() as $addon)
   
 }
 
-rex_title($I18N->msg("credits"), "");
+rex_title($REX['I18N']->msg("credits"), "");
 
 $coreCredits = new rex_fragment();
 echo $coreCredits->parse('pages/credits/core');

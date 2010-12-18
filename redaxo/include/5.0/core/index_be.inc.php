@@ -52,7 +52,7 @@ if ($REX['SETUP'])
   if($REX['LANG'] == '')
     $REX['LANG'] = 'de_de';
 
-  $I18N = rex_create_lang($REX['LANG']);
+  $REX['I18N'] = rex_create_lang($REX['LANG']);
 
   $REX['PAGES']['setup'] = rex_be_navigation::getSetupPage();
   $REX['PAGE'] = "setup";
@@ -60,7 +60,7 @@ if ($REX['SETUP'])
 }else
 {
   // ----------------- CREATE LANG OBJ
-  $I18N = rex_create_lang($REX['LANG']);
+  $REX['I18N'] = rex_create_lang($REX['LANG']);
 
   // ---- prepare login
   $REX['LOGIN'] = new rex_backend_login();
@@ -98,7 +98,7 @@ if ($REX['SETUP'])
   {
     // Userspezifische Sprache einstellen
     $lang = $REX['LOGIN']->getLanguage();
-    $I18N = rex_create_lang($lang);
+    $REX['I18N'] = rex_create_lang($lang);
 
     $REX['USER'] = $REX['LOGIN']->USER;
   }
