@@ -22,7 +22,7 @@ if ($REX['REDAXO'])
   
   if($REX["USER"])
   {
-    rex_register_extension('PAGE_HEADER', function(){
+    rex_register_extension('PAGE_HEADER', function($params){
       $params['subject'] .= "\n  ".
         '<script type="text/javascript" src="../redaxo_media/addons/mediapool/plugins/linkmap/linkmap.js"></script>';
     
