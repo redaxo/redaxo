@@ -85,16 +85,8 @@ class rex_sql
    *
    * @param $query Abfrage
    */
-  protected function getQueryDBID($qry = null)
+  static protected function getQueryDBID($qry)
   {
-    if(!$qry)
-    {
-      if(isset($this)) // Nur bei angelegtem Object
-        $qry = $this->query;
-      else
-        return null;
-    }
-
     $qry = trim($qry);
 
     if(preg_match('/\(DB([1-9]){1}\)/i', $qry, $matches))
