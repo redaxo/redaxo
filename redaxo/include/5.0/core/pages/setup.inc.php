@@ -57,11 +57,7 @@ function rex_setup_import($import_sql, $import_archiv = null)
 	{
 		if (file_exists($import_sql) && ($import_archiv === null || $import_archiv !== null && file_exists($import_archiv)))
 		{
-			// Hier I18N_IM_EXPORT global definieren, damit es aus der config.inc.php übernommen
-			// wird und auch in der danach includeten function verfügbar ist
-			global $I18N_IM_EXPORT;
-
-			$I18N->appendFile($REX['SRC_PATH'] .'/addons/import_export/lang/');
+			$REX['I18N']->appendFile($REX['SRC_PATH'] .'/addons/import_export/lang/');
 			require_once $export_addon_dir.'/classes/class.tar.inc.php';
 			require_once $export_addon_dir.'/classes/class.rex_tar.inc.php';
 
@@ -222,7 +218,7 @@ function rex_setup_setUtf8()
 	{
 	  // initial purge all generated files
 	  rex_deleteDir($REX['SRC_PATH'].'/generated', FALSE);
-	  
+
 	  // copy alle media files of the current rex-version into redaxo_media
 	  rex_copyDir($REX['SRC_PATH'] .'/media', $REX['OPENMEDIAFOLDER']);
 
