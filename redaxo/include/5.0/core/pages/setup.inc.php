@@ -347,7 +347,7 @@ function rex_setup_setUtf8()
 		echo $I18N->msg('setup_016_1', ' class="rex-ul1"', '<span class="rex-ok">', '</span>');
 		echo '<div class="rex-message"><p class="rex-warning" id="security_warning" style="display: none;"><span>'. $I18N->msg('setup_security_msg') .'</span></p></div>
           <noscript><div class="rex-message"><p class="rex-warning"><span>'. $I18N->msg('setup_no_js_security_msg') .'</span></p></div></noscript>
-          <iframe src="include/'.$REX['VF'].'/core/pages/setup.inc.php?page=setup&amp;checkmodus=1.5&amp;lang='.$lang.'" style="display: none;"></iframe>
+          <iframe src="include/'.$REX['VERSION_FOLDER'].'/core/pages/setup.inc.php?page=setup&amp;checkmodus=1.5&amp;lang='.$lang.'" style="display: none;"></iframe>
        </div>
        <div class="rex-area-footer">
          <p id="nextstep" class="rex-algn-rght">
