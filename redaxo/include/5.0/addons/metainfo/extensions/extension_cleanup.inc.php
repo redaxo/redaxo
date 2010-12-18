@@ -11,15 +11,15 @@
 rex_register_extension('A1_BEFORE_DB_IMPORT', 'rex_a62_metainfo_cleanup');
 
 /**
- * Alle Metafelder löschen, nicht das nach einem Import in der Parameter Tabelle
- * noch Datensätze zu Feldern stehen, welche nicht als Spalten in der
+ * Alle Metafelder lÃ¶schen, nicht das nach einem Import in der Parameter Tabelle
+ * noch DatensÃ¤tze zu Feldern stehen, welche nicht als Spalten in der
  * rex_article angelegt wurden!
  */
 function rex_a62_metainfo_cleanup($params)
 {
 	global $REX;
 
-	// Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
+	// Cleanup nur durchfÃ¼hren, wenn auch die rex_article Tabelle neu angelegt wird
 	if(isset($params['force']) && $params['force'] != true &&
      strpos($params['content'], 'CREATE TABLE `'. $REX['TABLE_PREFIX'] .'article`') === false &&
 	   strpos($params['content'], 'CREATE TABLE '. $REX['TABLE_PREFIX'] .'article') === false)
@@ -47,7 +47,7 @@ function rex_a62_metainfo_cleanup($params)
   }
 
 
-  // evtl reste aufräumen
+  // evtl reste aufrÃ¤umen
   $tablePrefixes = array('article' => array('art_', 'cat_'), 'file' => array('med_'));
   foreach($tablePrefixes as $table => $prefixes)
   {

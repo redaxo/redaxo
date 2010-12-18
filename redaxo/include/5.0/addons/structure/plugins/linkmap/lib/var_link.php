@@ -96,7 +96,7 @@ class rex_var_link extends rex_var
   }
 
   /**
-   * Button für die Eingabe
+   * Button fÃ¼r die Eingabe
    */
   private function matchLinkButton(& $sql, $content)
   {
@@ -120,7 +120,7 @@ class rex_var_link extends rex_var
       if ($id < 11 && $id > 0)
       {
         // Wenn vom Programmierer keine Kategorie vorgegeben wurde,
-        // die Linkmap mit der aktuellen Kategorie öffnen
+        // die Linkmap mit der aktuellen Kategorie Ã¶ffnen
       	list ($category, $args) = $this->extractArg('category', $args, $def_category);
 
         $replace = $this->getLinkButton($id, $this->getValue($sql, 'link' . $id), $category, $args);
@@ -133,7 +133,7 @@ class rex_var_link extends rex_var
   }
 
   /**
-   * Button für die Eingabe
+   * Button fÃ¼r die Eingabe
    */
   private function matchLinkListButton(& $sql, $content)
   {
@@ -158,7 +158,7 @@ class rex_var_link extends rex_var
   }
 
   /**
-   * Wert für die Ausgabe
+   * Wert fÃ¼r die Ausgabe
    */
   private function matchLink(& $sql, $content)
   {
@@ -184,7 +184,7 @@ class rex_var_link extends rex_var
   }
 
   /**
-   * Wert für die Ausgabe
+   * Wert fÃ¼r die Ausgabe
    */
   private function matchLinkId(& $sql, $content)
   {
@@ -207,7 +207,7 @@ class rex_var_link extends rex_var
   }
 
   /**
-   * Wert für die Ausgabe
+   * Wert fÃ¼r die Ausgabe
    */
   private function matchLinkList(& $sql, $content)
   {
@@ -237,7 +237,7 @@ class rex_var_link extends rex_var
   }
 
   /**
-   * Gibt das Button Template zurück
+   * Gibt das Button Template zurÃ¼ck
    */
   static public function getLinkButton($id, $article_id, $category = '')
   {
@@ -247,7 +247,7 @@ class rex_var_link extends rex_var
     $clang = '';
     $art = OOArticle :: getArticleById($article_id);
 
-    // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim öffnen der Linkmap dessen Kategorie anzeigen
+    // Falls ein Artikel vorausgewÃ¤hlt ist, dessen Namen anzeigen und beim Ã¶ffnen der Linkmap dessen Kategorie anzeigen
     if (OOArticle :: isValid($art))
     {
       $art_name = $art->getName();
@@ -291,7 +291,7 @@ class rex_var_link extends rex_var
   }
 
   /**
-   * Gibt das ListButton Template zurück
+   * Gibt das ListButton Template zurÃ¼ck
    */
   static public function getLinklistButton($id, $value, $category = '')
   {

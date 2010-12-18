@@ -23,7 +23,7 @@ $info = '';
 $warning = '';
 $warning_block = '';
 
-// ---------------------------- ACTIONSFUNKTIONEN FÜR MODULE
+// ---------------------------- ACTIONSFUNKTIONEN FÃœR MODULE
 if ($add_action != "")
 {
   $action = rex_sql::factory();
@@ -59,7 +59,7 @@ elseif ($function_action == 'delete')
 
 
 
-// ---------------------------- FUNKTIONEN FÜR MODULE
+// ---------------------------- FUNKTIONEN FÃœR MODULE
 
 if ($function == 'delete')
 {

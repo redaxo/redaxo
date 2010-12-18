@@ -9,9 +9,9 @@
  */
 
 /**
- * Fügt einen neuen Feldtyp ein
+ * FÃ¼gt einen neuen Feldtyp ein
  *
- * Gibt beim Erfolg die Id des Feldes zurück, bei Fehler die Fehlermeldung
+ * Gibt beim Erfolg die Id des Feldes zurÃ¼ck, bei Fehler die Fehlermeldung
  */
 function a62_add_field_type($label, $dbtype, $dblength)
 {
@@ -45,9 +45,9 @@ function a62_add_field_type($label, $dbtype, $dblength)
 }
 
 /**
- * Löscht einen Feldtyp
+ * LÃ¶scht einen Feldtyp
  *
- * Gibt beim Erfolg true zurück, sonst eine Fehlermeldung
+ * Gibt beim Erfolg true zurÃ¼ck, sonst eine Fehlermeldung
  */
 function a62_delete_field_type($field_type_id)
 {
@@ -67,7 +67,7 @@ function a62_delete_field_type($field_type_id)
 }
 
 /**
- * Fügt ein MetaFeld hinzu und legt dafür eine Spalte in der MetaTable an
+ * FÃ¼gt ein MetaFeld hinzu und legt dafÃ¼r eine Spalte in der MetaTable an
  */
 function a62_add_field($title, $name, $prior, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '')
 {
@@ -127,13 +127,13 @@ function a62_delete_field($fieldIdOrName)
 {
   global $REX, $I18N;
 
-  // Löschen anhand der FieldId
+  // LÃ¶schen anhand der FieldId
   if(is_int($fieldIdOrName))
   {
     $fieldQry = 'SELECT * FROM '. $REX['TABLE_PREFIX']. '62_params WHERE field_id='. $fieldIdOrName .' LIMIT 2';
     $invalidField = $I18N->msg('minfo_field_error_invalid_fieldid');
   }
-  // Löschen anhand des Feldnames
+  // LÃ¶schen anhand des Feldnames
   else if(is_string($fieldIdOrName))
   {
     $fieldQry = 'SELECT * FROM '. $REX['TABLE_PREFIX']. '62_params WHERE name="'. addslashes($fieldIdOrName) .'" LIMIT 2';
@@ -185,7 +185,7 @@ function a62_meta_prefix($name)
 }
 
 /**
- * Gibt die mit dem Prefix verbundenen Tabellennamen zurück
+ * Gibt die mit dem Prefix verbundenen Tabellennamen zurÃ¼ck
  */
 function a62_meta_table($prefix)
 {

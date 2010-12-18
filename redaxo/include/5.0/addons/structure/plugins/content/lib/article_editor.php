@@ -162,8 +162,8 @@ class rex_article_editor extends rex_article
 
           $REX_ACTION = array ();
 
-          // nach klick auf den übernehmen button,
-          // die POST werte übernehmen
+          // nach klick auf den Ã¼bernehmen button,
+          // die POST werte Ã¼bernehmen
           if(rex_request_method() == 'post' && rex_var::isEditEvent())
           {
             foreach ($REX['VARIABLES'] as $obj)

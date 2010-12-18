@@ -2,7 +2,7 @@
 
 /**
  * Template Objekt.
- * Zuständig für die Verarbeitung eines Templates
+ * ZustÃ¤ndig fÃ¼r die Verarbeitung eines Templates
  *
  * @package redaxo4
  * @version svn:$Id$

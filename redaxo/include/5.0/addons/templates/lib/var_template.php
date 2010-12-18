@@ -22,7 +22,7 @@ class rex_var_template extends rex_var
   }
 
   /**
-   * Wert für die Ausgabe
+   * Wert fÃ¼r die Ausgabe
    */
   private function matchTemplate($content)
   {

@@ -11,11 +11,11 @@
 rex_register_extension('OOMEDIA_IS_IN_USE', 'rex_a62_media_is_in_use');
 
 /**
- * Erstellt den nötigen HTML Code um ein Formular zu erweitern
+ * Erstellt den nÃ¶tigen HTML Code um ein Formular zu erweitern
  *
- * @param $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
- * @param $activeItem objekt, dass mit getValue() die Werte des akuellen Eintrags zurückgibt
- * @param $formatCallback callback, dem die infos als Array übergeben werden und den formatierten HTML Text zurückgibt
+ * @param $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthÃ¤lt
+ * @param $activeItem objekt, dass mit getValue() die Werte des akuellen Eintrags zurÃ¼ckgibt
+ * @param $formatCallback callback, dem die infos als Array Ã¼bergeben werden und den formatierten HTML Text zurÃ¼ckgibt
  */
 function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 {
@@ -23,7 +23,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 
   $s = '';
 
-  // Startwert für MEDIABUTTON, MEDIALIST, LINKLIST zähler
+  // Startwert fÃ¼r MEDIABUTTON, MEDIALIST, LINKLIST zÃ¤hler
   $media_id = 1;
   $mlist_id = 1;
   $link_id  = 1;
@@ -425,10 +425,10 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
 }
 
 /**
- * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt
+ * Ãœbernimmt die gePOSTeten werte in ein rex_sql-Objekt
  *
  * @param $sqlSave rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
- * @param $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
+ * @param $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthÃ¤lt
  */
 function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
 {
@@ -491,7 +491,7 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
         if($fieldType == REX_A62_FIELD_SELECT && strpos($fieldAttributes, 'multiple') !== false ||
            $fieldType == REX_A62_FIELD_CHECKBOX)
         {
-          // Mehrwertiges Feld, aber nur ein Wert ausgewählt
+          // Mehrwertiges Feld, aber nur ein Wert ausgewÃ¤hlt
           $saveValue = '|'. $postValue .'|';
         }
         else
@@ -515,7 +515,7 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
  * Ermittelt die metainfo felder mit dem Prefix $prefix limitiert auf die Kategorien $restrictions
  * 
  * @param string $prefix Feldprefix      
- * @param string $restrictionsCondition SQL Where-Bedingung zum einschränken der Metafelder
+ * @param string $restrictionsCondition SQL Where-Bedingung zum einschrÃ¤nken der Metafelder
  * @return rex_sql Metainfofelder
  */
 function _rex_a62_metainfo_sqlfields($prefix, $restrictionsCondition)
@@ -639,7 +639,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
 /**
  * Artikel & Kategorien:
  *
- * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt und speichert diese
+ * Ãœbernimmt die gePOSTeten werte in ein rex_sql-Objekt und speichert diese
  */
 function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
 {
@@ -656,7 +656,7 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
 
   $article->update();
 
-  // Artikel nochmal mit den zusätzlichen Werten neu generieren
+  // Artikel nochmal mit den zusÃ¤tzlichen Werten neu generieren
   rex_generateArticleMeta($params['id'], $params['clang']);
 
   return $params;
@@ -664,8 +664,8 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
 
 function _rex_a62_metainfo_art_handleSave($params, $sqlFields)
 { 
-	// Nur speichern wenn auch das MetaForm ausgefüllt wurde
-	// z.b. nicht speichern wenn über be_search select navigiert wurde
+	// Nur speichern wenn auch das MetaForm ausgefÃ¼llt wurde
+	// z.b. nicht speichern wenn Ã¼ber be_search select navigiert wurde
   if(rex_post('meta_article_name', 'string', null) === null) return $params;
   
   return _rex_a62_metainfo_cat_handleSave($params, $sqlFields);
@@ -674,7 +674,7 @@ function _rex_a62_metainfo_art_handleSave($params, $sqlFields)
 /**
  * Medien:
  *
- * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt und speichert diese
+ * Ãœbernimmt die gePOSTeten werte in ein rex_sql-Objekt und speichert diese
  */
 function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
 {

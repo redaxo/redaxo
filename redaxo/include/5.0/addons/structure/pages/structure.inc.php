@@ -34,7 +34,7 @@ if(count($mountpoints)==1 && $category_id == 0)
   $category_id = current($mountpoints);
 }
   
-// --------------------------------------------- Rechte prŸfen
+// --------------------------------------------- Rechte prÅ¸fen
 require dirname(__FILE__) .'/../functions/function_rex_structure.inc.php';
 require dirname(__FILE__) .'/../functions/function_rex_category.inc.php';
 
@@ -128,7 +128,7 @@ if ($function == 'status_article' && $article_id != ''
   else
     $warning = $message;
 }
-// Hier mit !== vergleichen, da 0 auch einen gültige category_id ist (RootArtikel)
+// Hier mit !== vergleichen, da 0 auch einen gÃ¼ltige category_id ist (RootArtikel)
 elseif (rex_post('artadd_function', 'boolean') && $category_id !== '' && $KATPERM &&  !$REX['USER']->hasPerm('editContentOnly[]'))
 {
   // --------------------- ARTIKEL ADD
@@ -618,7 +618,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
         </thead>
         ';
 
-  // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
+  // tbody nur anzeigen, wenn spÃ¤ter auch inhalt drinnen stehen wird
   if($sql->getRows() > 0 || $function == 'add_art')
   {
     echo '<tbody>
@@ -764,7 +764,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
     $sql->counter++;
   }
 
-  // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
+  // tbody nur anzeigen, wenn spÃ¤ter auch inhalt drinnen stehen wird
   if($sql->getRows() > 0 || $function == 'add_art')
   {
     echo '

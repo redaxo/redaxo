@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Löscht die gecachte Medium-Datei.
+ * LÃ¶scht die gecachte Medium-Datei.
  *
  * @param $filename Dateiname
  * 
@@ -17,7 +17,7 @@ function rex_deleteCacheMedia($filename)
 }
 
 /**
- * Löscht die gecachten Dateien der Media-Kategorie.
+ * LÃ¶scht die gecachten Dateien der Media-Kategorie.
  *
  * @param $category_id Id der Media-Kategorie
  * 
@@ -33,7 +33,7 @@ function rex_deleteCacheMediaCategory($category_id)
 }
 
 /**
- * Löscht die gecachten Media-Listen.
+ * LÃ¶scht die gecachten Media-Listen.
  * 
  * @return void
  */
@@ -55,7 +55,7 @@ function rex_deleteCacheMediaLists()
 }
 
 /**
- * Löscht die gecachte Liste mit den Media der Kategorie.
+ * LÃ¶scht die gecachte Liste mit den Media der Kategorie.
  *
  * @param $category_id Id der Media-Kategorie
  * 
@@ -70,7 +70,7 @@ function rex_deleteCacheMediaList($category_id)
 }
 
 /**
- * Löscht die gecachten Media-Kategorien-Listen.
+ * LÃ¶scht die gecachten Media-Kategorien-Listen.
  * 
  * @return void
  */
@@ -86,7 +86,7 @@ function rex_deleteCacheMediaCategoryLists()
 }
 
 /**
- * Löscht die gecachte Media-Kategorien-Liste.
+ * LÃ¶scht die gecachte Media-Kategorien-Liste.
  *
  * @param $category_id Id der Media-Kategorie
  * 

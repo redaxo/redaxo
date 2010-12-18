@@ -44,7 +44,7 @@ class rex_var_category extends rex_var
   }
   
   /**
-   * Werte für die Ausgabe
+   * Werte fÃ¼r die Ausgabe
    */
   private function matchCategory($content, $replaceInTemplate = false)
   {
@@ -66,8 +66,8 @@ class rex_var_category extends rex_var
         // REX_CATEGORY[field=name] feld von aktueller kategorie verwenden
       	if(OOCategory::hasValue($field))
         {
-          // bezeichner wählen, der keine variablen
-          // aus modulen/templates überschreibt
+          // bezeichner wÃ¤hlen, der keine variablen
+          // aus modulen/templates Ã¼berschreibt
           // beachte: root-artikel haben keine kategorie
           $varname_art = '$__rex_art';
           $varname_cat = '$__rex_cat';
@@ -85,8 +85,8 @@ class rex_var_category extends rex_var
         {
           if(OOCategory::hasValue($field))
           {
-            // bezeichner wählen, der keine variablen
-	          // aus modulen/templates überschreibt
+            // bezeichner wÃ¤hlen, der keine variablen
+	          // aus modulen/templates Ã¼berschreibt
 	          $varname = '$__rex_cat';
 	          $tpl = '<?php
 	          '. $varname .' = OOCategory::getCategoryById('. $category_id .', '. $clang .');

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Funktionensammlung für die Strukturverwaltung
+ * Funktionensammlung fÃ¼r die Strukturverwaltung
  *
  * @package redaxo4
  * @version svn:$Id$
@@ -133,7 +133,7 @@ function rex_addCategory($category_id, $data)
 /**
  * Bearbeitet einer Kategorie
  * 
- * @param int   $category_id Id der Kategorie die verändert werden soll
+ * @param int   $category_id Id der Kategorie die verÃ¤ndert werden soll
  * @param int   $clang       Id der Sprache
  * @param array $data        Array mit den Daten der Kategorie 
  * 
@@ -239,9 +239,9 @@ function rex_editCategory($category_id, $clang, $data)
 }
 
 /**
- * Löscht eine Kategorie und reorganisiert die Prioritäten verbleibender Geschwister-Kategorien
+ * LÃ¶scht eine Kategorie und reorganisiert die PrioritÃ¤ten verbleibender Geschwister-Kategorien
  * 
- * @param int $category_id Id der Kategorie die gelöscht werden soll
+ * @param int $category_id Id der Kategorie die gelÃ¶scht werden soll
  * 
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
@@ -258,16 +258,16 @@ function rex_deleteCategoryReorganized($category_id)
   $thisCat = rex_sql::factory();
   $thisCat->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id='.$category_id.' and clang='. $clang);
 
-  // Prüfen ob die Kategorie existiert
+  // PrÃ¼fen ob die Kategorie existiert
   if ($thisCat->getRows() == 1)
   {
     $KAT = rex_sql::factory();
     $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$category_id' and clang='$clang' and startpage=1");
-    // Prüfen ob die Kategorie noch Unterkategorien besitzt
+    // PrÃ¼fen ob die Kategorie noch Unterkategorien besitzt
     if ($KAT->getRows() == 0)
     {
       $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id='$category_id' and clang='$clang' and startpage=0");
-      // Prüfen ob die Kategorie noch Artikel besitzt (ausser dem Startartikel)
+      // PrÃ¼fen ob die Kategorie noch Artikel besitzt (ausser dem Startartikel)
       if ($KAT->getRows() == 0)
       {
         $thisCat = rex_sql::factory();
@@ -317,11 +317,11 @@ function rex_deleteCategoryReorganized($category_id)
 }
 
 /**
- * Ändert den Status der Kategorie
+ * Ã„ndert den Status der Kategorie
  * 
- * @param int       $category_id   Id der Kategorie die gelöscht werden soll
+ * @param int       $category_id   Id der Kategorie die gelÃ¶scht werden soll
  * @param int       $clang         Id der Sprache
- * @param int|null  $status        Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
+ * @param int|null  $status        Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nÃ¤chsten Status weitergeschaltet werden soll
  * 
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
@@ -337,8 +337,8 @@ function rex_categoryStatus($category_id, $clang, $status = null)
   $KAT->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$category_id' and clang=$clang and startpage=1");
   if ($KAT->getRows() == 1)
   {
-    // Status wurde nicht von außen vorgegeben,
-    // => zyklisch auf den nächsten Weiterschalten
+    // Status wurde nicht von auÃŸen vorgegeben,
+    // => zyklisch auf den nÃ¤chsten Weiterschalten
     if(!$status)
       $newstatus = ($KAT->getValue('status') + 1) % count($catStatusTypes);
     else
@@ -378,7 +378,7 @@ function rex_categoryStatus($category_id, $clang, $status = null)
 }
 
 /**
- * Gibt alle Stati zurück, die für eine Kategorie gültig sind
+ * Gibt alle Stati zurÃ¼ck, die fÃ¼r eine Kategorie gÃ¼ltig sind
  * 
  * @return array Array von Stati
  */
@@ -500,7 +500,7 @@ function rex_addArticle($data)
 /**
  * Bearbeitet einen Artikel
  * 
- * @param int   $article_id  Id des Artikels der verändert werden soll
+ * @param int   $article_id  Id des Artikels der verÃ¤ndert werden soll
  * @param int   $clang       Id der Sprache
  * @param array $data        Array mit den Daten des Artikels 
  * 
@@ -584,9 +584,9 @@ function rex_editArticle($article_id, $clang, $data)
 }
 
 /**
- * Löscht einen Artikel und reorganisiert die Prioritäten verbleibender Geschwister-Artikel
+ * LÃ¶scht einen Artikel und reorganisiert die PrioritÃ¤ten verbleibender Geschwister-Artikel
  * 
- * @param int $article_id Id des Artikels die gelöscht werden soll
+ * @param int $article_id Id des Artikels die gelÃ¶scht werden soll
  * 
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
@@ -632,11 +632,11 @@ function rex_deleteArticleReorganized($article_id)
 }
 
 /**
- * Ändert den Status des Artikels
+ * Ã„ndert den Status des Artikels
  * 
- * @param int       $article_id Id des Artikels die gelöscht werden soll
+ * @param int       $article_id Id des Artikels die gelÃ¶scht werden soll
  * @param int       $clang      Id der Sprache
- * @param int|null  $status     Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
+ * @param int|null  $status     Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nÃ¤chsten Status weitergeschaltet werden soll
  * 
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
@@ -655,8 +655,8 @@ function rex_articleStatus($article_id, $clang, $status = null)
   $GA->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$article_id' and clang=$clang");
   if ($GA->getRows() == 1)
   {
-    // Status wurde nicht von außen vorgegeben,
-    // => zyklisch auf den nächsten Weiterschalten
+    // Status wurde nicht von auÃŸen vorgegeben,
+    // => zyklisch auf den nÃ¤chsten Weiterschalten
     if(!$status)
       $newstatus = ($GA->getValue('status') + 1) % count($artStatusTypes);
     else
@@ -701,7 +701,7 @@ function rex_articleStatus($article_id, $clang, $status = null)
 }
 
 /**
- * Gibt alle Stati zurück, die für einen Artikel gültig sind
+ * Gibt alle Stati zurÃ¼ck, die fÃ¼r einen Artikel gÃ¼ltig sind
  * 
  * @return array Array von Stati
  */

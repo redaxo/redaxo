@@ -12,7 +12,7 @@
  * 
  * Attribute:
  *   - category  => Kategorie in die beim oeffnen des Medienpools gesprungen werden soll
- *   - types     => Filter für Dateiendungen die im Medienpool zur Auswahl stehen sollen
+ *   - types     => Filter fÃ¼r Dateiendungen die im Medienpool zur Auswahl stehen sollen
  *   - preview   => Bei Bildertypen ein Vorschaubild einblenden
  *   - mimetype  => Mimetype des Bildes ausgeben
  *
@@ -115,7 +115,7 @@ class rex_var_media extends rex_var
   }
 
   /**
-   * MediaButton für die Eingabe
+   * MediaButton fÃ¼r die Eingabe
    */
   private function matchMediaButton(& $sql, $content)
   {
@@ -146,7 +146,7 @@ class rex_var_media extends rex_var
   }
 
   /**
-   * MediaListButton für die Eingabe
+   * MediaListButton fÃ¼r die Eingabe
    */
   private function matchMediaListButton(& $sql, $content)
   {
@@ -182,7 +182,7 @@ class rex_var_media extends rex_var
   }
 
   /**
-   * Wert für die Ausgabe
+   * Wert fÃ¼r die Ausgabe
    */
   private function matchMedia(& $sql, $content)
   {
@@ -224,7 +224,7 @@ class rex_var_media extends rex_var
   }
 
   /**
-   * Wert für die Ausgabe
+   * Wert fÃ¼r die Ausgabe
    */
   private function matchMediaList(& $sql, $content)
   {
@@ -252,7 +252,7 @@ class rex_var_media extends rex_var
   }
 
   /**
-   * Gibt das Button Template zurück
+   * Gibt das Button Template zurÃ¼ck
    */
   static public function getMediaButton($id, $category = '', $args = array())
   {
@@ -323,7 +323,7 @@ class rex_var_media extends rex_var
   }
 
   /**
-   * Gibt das ListButton Template zurück
+   * Gibt das ListButton Template zurÃ¼ck
    */
   static public function getMedialistButton($id, $value, $category = '', $args = array())
   {

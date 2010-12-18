@@ -84,8 +84,8 @@ if ($function == "add" or $function == "edit")
       }
     }
 
-    // Daten wieder in den Rohzustand versetzen, da für serialize()/unserialize()
-    // keine Zeichen escaped werden dürfen
+    // Daten wieder in den Rohzustand versetzen, da fÃ¼r serialize()/unserialize()
+    // keine Zeichen escaped werden dÃ¼rfen
     for($i=1;$i<count($ctypes)+1;$i++)
     {
       $ctypes[$i] = stripslashes($ctypes[$i]);
@@ -221,7 +221,7 @@ if ($function == "add" or $function == "edit")
       
     $ctypes_out = '';
     $i = 1;
-    $ctypes[] = ""; // Extra, fŸr Neue Spalte
+    $ctypes[] = ""; // Extra, fÅ¸r Neue Spalte
     
     if (is_array($ctypes)) {
       foreach ($ctypes as $id => $name) 
@@ -337,7 +337,7 @@ if ($function == "add" or $function == "edit")
             </div>
         </fieldset>
 
-        <!-- DIV nötig fuer JQuery slideIn -->
+        <!-- DIV nÃ¶tig fuer JQuery slideIn -->
         <div id="rex-form-template-ctype">
         <fieldset class="rex-form-col-1">
           <legend>'.$I18N->msg("content_types").' [ctypes]</legend>
