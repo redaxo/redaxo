@@ -206,8 +206,8 @@ function buildRelease($name = null, $version = null)
 
     // compat klasse aktivieren
     $cont = str_replace(
-      "// include_once \$REX['SRC_PATH'].'/core/classes/class.compat.inc.php';",
-      "include_once \$REX['SRC_PATH'].'/core/classes/class.compat.inc.php';",
+      "// include_once \$REX['INCLUDE_PATH'].'/core/classes/class.compat.inc.php';",
+      "include_once \$REX['INCLUDE_PATH'].'/core/classes/class.compat.inc.php';",
       $cont,
       $count
     );
