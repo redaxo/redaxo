@@ -107,7 +107,7 @@ if ($REX['SETUP'])
 // ----- Prepare Core Pages
 if($REX['USER'])
 {
-  $REX['PAGES'] = rex_be_navigation::getLoggedInPages($REX['USER']);
+  $REX['PAGES'] = rex_be_navigation::getLoggedInPages();
 }
 
 // ----- INCLUDE ADDONS

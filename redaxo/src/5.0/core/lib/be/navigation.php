@@ -221,7 +221,7 @@ class rex_be_navigation
     return $page;
   }
 
-  static public function getLoggedInPages(/*rex_login_sql*/ $rexUser)
+  static public function getLoggedInPages()
   {
     global $REX;
 
@@ -234,11 +234,6 @@ class rex_be_navigation
     $credits = new rex_be_page($REX['I18N']->msg('credits'));
     $credits->setIsCorePage(true);
     $pages['credits'] = $credits;
-
-//    $user = new rex_be_page($REX['I18N']->msg('user'), array('page'=>'user'));
-//    $user->setIsCorePage(true);
-//    $user->setRequiredPermissions('isAdmin');
-//    $pages['user'] = new rex_be_page_main('system', $user);
 
     $addon = new rex_be_page($REX['I18N']->msg('addon'), array('page'=>'addon'));
     $addon->setIsCorePage(true);
