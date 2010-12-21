@@ -1,6 +1,6 @@
 <?php
 
-class OOPlugin extends rex_ooplugin
+class OOPlugin extends rex_ooPlugin
 {
 
 }

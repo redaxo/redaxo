@@ -41,7 +41,7 @@ class rex_category_select extends rex_select
       {
         foreach($this->rootId as $rootId)
         {
-          if($rootCat = rex_oocategory::getCategoryById($rootId, $this->clang))
+          if($rootCat = rex_ooCategory::getCategoryById($rootId, $this->clang))
           {
             $this->addCatOption($rootCat, 0);
           }
@@ -49,7 +49,7 @@ class rex_category_select extends rex_select
       }
       else
       {
-        if($rootCat = rex_oocategory::getCategoryById($this->rootId, $this->clang))
+        if($rootCat = rex_ooCategory::getCategoryById($this->rootId, $this->clang))
         {
           $this->addCatOption($rootCat, 0);
         }
@@ -59,7 +59,7 @@ class rex_category_select extends rex_select
     {
       if(!$this->check_perms || $REX['USER']->isAdmin() || $REX['USER']->hasPerm('csw[0]'))
       {
-        if($rootCats = rex_oocategory :: getRootCategories($this->ignore_offlines, $this->clang))
+        if($rootCats = rex_ooCategory :: getRootCategories($this->ignore_offlines, $this->clang))
         {
           foreach($rootCats as $rootCat)
           {
@@ -72,7 +72,7 @@ class rex_category_select extends rex_select
         $mountpoints = $REX['USER']->getMountpoints();
         foreach($mountpoints as $id)
         {
-          $cat = rex_oocategory::getCategoryById($id, $this->clang);
+          $cat = rex_ooCategory::getCategoryById($id, $this->clang);
           if ($cat && !$REX['USER']->hasCategoryPerm($cat->getParentId()))
             $this->addCatOption($cat, 0);
         }
@@ -80,7 +80,7 @@ class rex_category_select extends rex_select
     }
   }
   
-  protected function addCatOption(/*rex_oocategory*/ $cat, $group = null)
+  protected function addCatOption(/*rex_ooCategory*/ $cat, $group = null)
   {
     global $REX;
 

@@ -7,7 +7,7 @@
  * @version svn:$Id$
  */
 
-class rex_oomedia
+class rex_ooMedia
 {
   // id
   var $_id = "";
@@ -18,7 +18,7 @@ class rex_oomedia
 
   // categoryname
   var $_cat_name = "";
-  // rex_oomediacategory
+  // rex_ooMediacategory
   var $_cat = "";
 
   // filename
@@ -51,7 +51,7 @@ class rex_oomedia
   /**
    * @access protected
    */
-  function rex_oomedia($id = null)
+  function rex_ooMedia($id = null)
   {
     $this->getMediaById($id);
   }
@@ -61,14 +61,14 @@ class rex_oomedia
    */
   static function getMediaByName($filename)
   {
-    return rex_oomedia :: getMediaByFileName($filename);
+    return rex_ooMedia :: getMediaByFileName($filename);
   }
 
   /**
    * @access public
    *
-   * @example rex_oomedia::getMediaByExtension('css');
-   * @example rex_oomedia::getMediaByExtension('gif');
+   * @example rex_ooMedia::getMediaByExtension('css');
+   * @example rex_ooMedia::getMediaByExtension('gif');
    */
   static function getMediaByExtension($extension)
   {
@@ -90,7 +90,7 @@ class rex_oomedia
       if (isset($REX['MEDIA']['EXTENSION'][$extension]) && is_array($REX['MEDIA']['EXTENSION'][$extension]))
       {
         foreach($REX['MEDIA']['EXTENSION'][$extension] as $filename)
-          $media[] = rex_oomedia :: getMediaByFileName($filename);
+          $media[] = rex_ooMedia :: getMediaByFileName($filename);
       }
     }
 
@@ -127,7 +127,7 @@ class rex_oomedia
         'filesize' => 'size'
       );
 
-      $media = new rex_oomedia();
+      $media = new rex_ooMedia();
       foreach($REX['MEDIA']['FILENAME'][$name] as $key => $value)
       {
         if(in_array($key, array_keys($aliasMap)))
@@ -161,7 +161,7 @@ class rex_oomedia
   {
     if ($this->_cat === null)
     {
-      $this->_cat = rex_oomediaCategory :: getCategoryById($this->getCategoryId());
+      $this->_cat = rex_ooMediaCategory :: getCategoryById($this->getCategoryId());
     }
     return $this->_cat;
   }
@@ -447,7 +447,7 @@ class rex_oomedia
       {
         unset ($params['resize']);
         // Resize Addon installiert?
-        if (rex_ooaddon::isAvailable('image_resize'))
+        if (rex_ooAddon::isAvailable('image_resize'))
         {
           $resize = true;
           if (isset ($params['width']))
@@ -574,7 +574,7 @@ class rex_oomedia
    */
   static function isValid($media)
   {
-    return is_object($media) && is_a($media, 'rex_oomedia');
+    return is_object($media) && is_a($media, 'rex_ooMedia');
   }
 
   /**
@@ -604,7 +604,7 @@ class rex_oomedia
       );
     }
 
-    return in_array(rex_oomedia :: _getExtension($filename), $imageExtensions);
+    return in_array(rex_ooMedia :: _getExtension($filename), $imageExtensions);
   }
 
   /**
@@ -643,7 +643,7 @@ class rex_oomedia
 
     // deprecated since REX 4.3
     // ----- EXTENSION POINT
-    $query = rex_register_extension_point('rex_oomedia_IS_IN_USE_QUERY', $query,
+    $query = rex_register_extension_point('rex_ooMedia_IS_IN_USE_QUERY', $query,
       array(
         'filename' => $this->getFileName(),
         'media' => $this,
@@ -659,7 +659,7 @@ class rex_oomedia
       {
         $aid = $art_arr['article_id'];
         $clang = $art_arr['clang'];
-        $ooa = rex_ooarticle::getArticleById($aid, $clang);
+        $ooa = rex_ooArticle::getArticleById($aid, $clang);
         $name = $ooa->getName();
         $warning[0] .='<li><a href="javascript:openPage(\'index.php?page=content&amp;article_id='. $aid .'&amp;mode=edit&amp;clang='. $clang .'\')">'. $name .'</a></li>';
       }
@@ -667,7 +667,7 @@ class rex_oomedia
     }
 
     // ----- EXTENSION POINT
-    $warning = rex_register_extension_point('rex_oomedia_IS_IN_USE', $warning,
+    $warning = rex_register_extension_point('rex_ooMedia_IS_IN_USE', $warning,
       array(
         'filename' => $this->getFileName(),
         'media' => $this,
@@ -720,7 +720,7 @@ class rex_oomedia
    */
   function toString()
   {
-    return 'rex_oomedia, "'.$this->getId().'", "'.$this->getFileName().'"'."<br/>\n";
+    return 'rex_ooMedia, "'.$this->getId().'", "'.$this->getFileName().'"'."<br/>\n";
   }
 
   // new functions by vscope
@@ -819,7 +819,7 @@ class rex_oomedia
 
     if($filename != null)
     {
-      $OOMed = rex_oomedia::getMediaByFileName($filename);
+      $OOMed = rex_ooMedia::getMediaByFileName($filename);
       if($OOMed)
       {
         return $OOMed->delete();
@@ -891,7 +891,7 @@ class rex_oomedia
 
   static function isDocType($type)
   {
-    return in_array($type, rex_oomedia :: getDocTypes());
+    return in_array($type, rex_ooMedia :: getDocTypes());
   }
 
   // allowed image upload types
@@ -911,7 +911,7 @@ class rex_oomedia
 
   static function isImageType($type)
   {
-    return in_array($type, rex_oomedia :: getImageTypes());
+    return in_array($type, rex_ooMedia :: getImageTypes());
   }
 
   static function compareImageTypes($type1, $type2)
@@ -974,10 +974,10 @@ class rex_oomedia
 
     $sql = rex_sql::factory();
     // $sql->debugsql = true;
-    $sql->setQuery('SELECT filename FROM ' . rex_oomedia :: _getTableName() . ' WHERE file_id='.$id);
+    $sql->setQuery('SELECT filename FROM ' . rex_ooMedia :: _getTableName() . ' WHERE file_id='.$id);
     if ($sql->getRows() == 1)
     {
-      return rex_oomedia :: getMediaByFileName($sql->getValue('filename'));
+      return rex_ooMedia :: getMediaByFileName($sql->getValue('filename'));
     }
 
     return NULL;

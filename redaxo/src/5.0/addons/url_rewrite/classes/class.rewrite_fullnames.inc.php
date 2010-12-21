@@ -347,7 +347,7 @@ function rex_rewriter_generate_pathnames($params)
         $path = explode('|', $path);
         foreach ($path as $p)
         {
-          $ooc = rex_oocategory::getCategoryById($p, $clang);
+          $ooc = rex_ooCategory::getCategoryById($p, $clang);
           $name = $ooc->getName();
           unset($ooc); // speicher freigeben
           
@@ -355,7 +355,7 @@ function rex_rewriter_generate_pathnames($params)
         }
       }
       
-      $ooa = rex_ooarticle::getArticleById($db->getValue('id'), $clang);
+      $ooa = rex_ooArticle::getArticleById($db->getValue('id'), $clang);
       if($ooa->isStartArticle())
       {
         $ooc = $ooa->getCategory();

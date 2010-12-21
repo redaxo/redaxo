@@ -6,7 +6,7 @@
  * @version svn:$Id$
  */
 
-class rex_oocategory extends rex_ooredaxo
+class rex_ooCategory extends rex_ooRedaxo
 {
   public function __construct($params = false, $clang = false)
   {
@@ -15,11 +15,11 @@ class rex_oocategory extends rex_ooredaxo
 
   /*
    * CLASS Function:
-   * Return an rex_ooredaxo object based on an id
+   * Return an rex_ooRedaxo object based on an id
    */
   static public function getCategoryById($category_id, $clang = false)
   {
-    return rex_ooarticle :: getArticleById($category_id, $clang, true);
+    return rex_ooArticle :: getArticleById($category_id, $clang, true);
   }
 
   /*
@@ -57,7 +57,7 @@ class rex_oocategory extends rex_ooredaxo
       {
         foreach ($REX['RE_CAT_ID'][$cat_parent_id] as $var)
         {
-          $category = rex_oocategory :: getCategoryById($var, $clang);
+          $category = rex_ooCategory :: getCategoryById($var, $clang);
           if ($ignore_offlines)
           {
             if ($category->isOnline())
@@ -89,7 +89,7 @@ class rex_oocategory extends rex_ooredaxo
    * CLASS Function:
    * Return a list of top level categories, ie.
    * categories that have no parent.
-   * Returns an array of rex_oocategory objects sorted by $prior.
+   * Returns an array of rex_ooCategory objects sorted by $prior.
    *
    * If $ignore_offlines is set to TRUE,
    * all categories with status 0 will be
@@ -102,13 +102,13 @@ class rex_oocategory extends rex_ooredaxo
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-    return rex_oocategory :: getChildrenById(0, $ignore_offlines, $clang);
+    return rex_ooCategory :: getChildrenById(0, $ignore_offlines, $clang);
   }
 
   /*
    * Object Function:
    * Return a list of all subcategories.
-   * Returns an array of rex_ooredaxo objects sorted by $prior.
+   * Returns an array of rex_ooRedaxo objects sorted by $prior.
    *
    * If $ignore_offlines is set to TRUE,
    * all categories with status 0 will be
@@ -119,7 +119,7 @@ class rex_oocategory extends rex_ooredaxo
     if ($clang === false)
       $clang = $this->_clang;
 
-    return rex_oocategory :: getChildrenById($this->_id, $ignore_offlines, $clang);
+    return rex_ooCategory :: getChildrenById($this->_id, $ignore_offlines, $clang);
   }
 
   /*
@@ -131,7 +131,7 @@ class rex_oocategory extends rex_ooredaxo
     if ($clang === false)
       $clang = $this->_clang;
 
-    return rex_oocategory :: getCategoryById($this->_re_id, $clang);
+    return rex_ooCategory :: getCategoryById($this->_re_id, $clang);
   }
 
   /*
@@ -153,14 +153,14 @@ class rex_oocategory extends rex_ooredaxo
    */
   public function isAncestor($other_cat)
   {
-    $category = rex_oocategory :: _getCategoryObject($other_cat);
+    $category = rex_ooCategory :: _getCategoryObject($other_cat);
     return in_array($this->_id, explode('|', $category->getPath()));
   }
 
   /*
    * Object Function:
    * Return a list of articles in this category
-   * Returns an array of rex_ooarticle objects sorted by $prior.
+   * Returns an array of rex_ooArticle objects sorted by $prior.
    *
    * If $ignore_offlines is set to TRUE,
    * all articles with status 0 will be
@@ -168,7 +168,7 @@ class rex_oocategory extends rex_ooredaxo
    */
   public function getArticles($ignore_offlines = false)
   {
-    return rex_ooarticle :: getArticlesOfCategory($this->_id, $ignore_offlines, $this->_clang);
+    return rex_ooArticle :: getArticlesOfCategory($this->_id, $ignore_offlines, $this->_clang);
   }
 
   /*
@@ -177,7 +177,7 @@ class rex_oocategory extends rex_ooredaxo
    */
   public function getStartArticle()
   {
-    return rex_ooarticle :: getCategoryStartArticle($this->_id, $this->_clang);
+    return rex_ooArticle :: getCategoryStartArticle($this->_id, $this->_clang);
   }
 
   /*
@@ -224,14 +224,14 @@ class rex_oocategory extends rex_ooredaxo
     }
     elseif (is_int($category))
     {
-      return rex_oocategory :: getCategoryById($category, $clang);
+      return rex_ooCategory :: getCategoryById($category, $clang);
     }
     elseif (is_array($category))
     {
       $catlist = array ();
       foreach ($category as $cat)
       {
-        $catobj = rex_oocategory :: _getCategoryObject($cat, $clang);
+        $catobj = rex_ooCategory :: _getCategoryObject($cat, $clang);
         if (is_object($catobj))
         {
           $catlist[] = $catobj;
@@ -253,11 +253,11 @@ class rex_oocategory extends rex_ooredaxo
 
   /*
    * Static Method:
-   * Returns True if the given category is a valid rex_oocategory
+   * Returns True if the given category is a valid rex_ooCategory
    */
   static public function isValid($category)
   {
-    return is_object($category) && is_a($category, 'rex_oocategory');
+    return is_object($category) && is_a($category, 'rex_ooCategory');
   }
 
   /*
@@ -288,7 +288,7 @@ class rex_oocategory extends rex_ooredaxo
     	}
     }else
     {
-    	if($c = rex_oocategory::getCategoryById($category_id))
+    	if($c = rex_ooCategory::getCategoryById($category_id))
     	{
     		$path = $c->getPathAsArray();
     		$path[] = $category_id;

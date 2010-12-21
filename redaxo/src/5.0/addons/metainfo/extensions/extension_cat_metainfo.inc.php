@@ -24,7 +24,7 @@ function rex_a62_metainfo_button($params)
 	$restrictionsCondition = '';
 	if(isset($params['id']) && $params['id'] != '')
 	{
-    $OOCat = rex_oocategory::getCategoryById($params['id']);
+    $OOCat = rex_ooCategory::getCategoryById($params['id']);
     
     // Alle Metafelder des Pfades sind erlaubt
     foreach(explode('|', $OOCat->getPath()) as $pathElement)

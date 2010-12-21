@@ -18,7 +18,7 @@ if($REX['REDAXO'] && is_object($REX["USER"]))
 	$REX['ADDON']['pages'][$mypage][] = array ('', $REX['I18N']->msg('im_export_export'));
 }
 
-if(rex_ooaddon::isAvailable('cronjob'))
+if(rex_ooAddon::isAvailable('cronjob'))
 {
   require_once dirname(__FILE__) .'/classes/class.cronjob.inc.php';
   

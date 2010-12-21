@@ -37,9 +37,9 @@ $REX['ADDON']['nexttime']['cronjob'] = "0";
 rex_register_extension('ADDONS_INCLUDED',
   function($params)
   {
-    foreach(rex_ooplugin::getAvailablePlugins('cronjob') as $plugin)
+    foreach(rex_ooPlugin::getAvailablePlugins('cronjob') as $plugin)
     {
-      if(($type = rex_ooplugin::getProperty('cronjob', $plugin, 'cronjob_type')) != '')
+      if(($type = rex_ooPlugin::getProperty('cronjob', $plugin, 'cronjob_type')) != '')
       {
         rex_cronjob_manager::registerType($type);
       }

@@ -1,6 +1,6 @@
 <?php
 
-class OOArticle extends rex_ooarticle
+class OOArticle extends rex_ooArticle
 {
 
 }

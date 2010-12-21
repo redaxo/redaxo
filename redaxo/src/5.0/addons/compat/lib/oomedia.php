@@ -1,6 +1,6 @@
 <?php
 
-class OOMedia extends rex_oomedia
+class OOMedia extends rex_ooMedia
 {
 
 }

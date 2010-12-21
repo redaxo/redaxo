@@ -18,7 +18,7 @@ $mdl_help = '<?php rex_a79_help_overview(); ?>';
 
 
 $mdl_ex ='<?php
-if(rex_ooaddon::isAvailable("textile"))
+if(rex_ooAddon::isAvailable("textile"))
 {
   if(REX_IS_VALUE[1])
   {

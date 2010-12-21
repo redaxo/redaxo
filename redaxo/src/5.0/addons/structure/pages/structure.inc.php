@@ -183,7 +183,7 @@ if ($info != "")
   echo rex_info($info);
 
 $cat_name = 'Homepage';
-$category = rex_oocategory::getCategoryById($category_id, $clang);
+$category = rex_ooCategory::getCategoryById($category_id, $clang);
 if($category)
   $cat_name = $category->getName();
 
@@ -298,7 +298,7 @@ echo '
           </tr>
         </thead>
         <tbody>';
-if ($category_id != 0 && ($category = rex_oocategory::getCategoryById($category_id)))
+if ($category_id != 0 && ($category = rex_ooCategory::getCategoryById($category_id)))
 {
   echo '<tr>
           <td class="rex-icon">&nbsp;</td>';
@@ -510,7 +510,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
   $template_select->setId('rex-form-template');
   $template_select->setSize(1);
 
-  $templates = rex_oocategory::getTemplates($category_id);
+  $templates = rex_ooCategory::getTemplates($category_id);
   if(count($templates)>0)
   {
     foreach($templates as $t_id => $t_name)

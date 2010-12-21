@@ -35,7 +35,7 @@ class rex_thumbnail
     $this->gifsupport = function_exists('imageGIF');
 
     // ----- detect image format
-    $this->img['format'] = strtoupper(rex_oomedia::_getExtension($imgfile));
+    $this->img['format'] = strtoupper(rex_ooMedia::_getExtension($imgfile));
     $this->img['src'] = false;
     
     if (strpos($imgfile, 'cache/') === false)

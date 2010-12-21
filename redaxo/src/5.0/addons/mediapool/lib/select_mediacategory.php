@@ -32,7 +32,7 @@ class rex_mediacategory_select extends rex_select
       {
         foreach($this->rootId as $rootId)
         {
-          if($rootCat = rex_oomediaCategory::getCategoryById($rootId))
+          if($rootCat = rex_ooMediaCategory::getCategoryById($rootId))
           {
             $this->addCatOption($rootCat);
           }
@@ -40,7 +40,7 @@ class rex_mediacategory_select extends rex_select
       }
       else
       {
-        if($rootCat = rex_oomediaCategory::getCategoryById($this->rootId))
+        if($rootCat = rex_ooMediaCategory::getCategoryById($this->rootId))
         {
           $this->addCatOption($rootCat);
         }
@@ -48,7 +48,7 @@ class rex_mediacategory_select extends rex_select
     }
     else
     {
-      if ($rootCats = rex_oomediaCategory::getRootCategories())
+      if ($rootCats = rex_ooMediaCategory::getRootCategories())
       {
         foreach($rootCats as $rootCat)
         {
@@ -58,7 +58,7 @@ class rex_mediacategory_select extends rex_select
     }
   }
   
-  protected function addCatOption(/*rex_oomediaCategory*/ $mediacat)
+  protected function addCatOption(/*rex_ooMediaCategory*/ $mediacat)
   {
     global $REX;
     

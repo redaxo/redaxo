@@ -6,7 +6,7 @@
  * @version svn:$Id$
  */
 
-class rex_ooarticle extends rex_ooredaxo
+class rex_ooArticle extends rex_ooRedaxo
 {
   public function __construct($params = FALSE, $clang = FALSE)
   {
@@ -15,9 +15,9 @@ class rex_ooarticle extends rex_ooredaxo
 
   /**
    * CLASS Function:
-   * Return an rex_ooredaxo object based on an id
+   * Return an rex_ooRedaxo object based on an id
    */
-  static public function getArticleById($article_id, $clang = FALSE, $rex_oocategory = FALSE)
+  static public function getArticleById($article_id, $clang = FALSE, $rex_ooCategory = FALSE)
   {
     global $REX;
 
@@ -41,10 +41,10 @@ class rex_ooarticle extends rex_ooredaxo
     {
       require_once ($article_path);
 
-      if ($rex_oocategory)
-        return new rex_oocategory(rex_ooredaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
+      if ($rex_ooCategory)
+        return new rex_ooCategory(rex_ooRedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
       else
-        return new rex_ooarticle(rex_ooredaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
+        return new rex_ooArticle(rex_ooRedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
     }
 
     return NULL;
@@ -61,7 +61,7 @@ class rex_ooarticle extends rex_ooredaxo
     if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
 
-    return rex_ooarticle :: getArticleById($REX['START_ARTICLE_ID'], $clang);
+    return rex_ooArticle :: getArticleById($REX['START_ARTICLE_ID'], $clang);
   }
 
   /**
@@ -75,7 +75,7 @@ class rex_ooarticle extends rex_ooredaxo
     if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
 
-    return rex_ooarticle :: getArticleById($a_category_id, $clang);
+    return rex_ooArticle :: getArticleById($a_category_id, $clang);
   }
 
   /**
@@ -107,7 +107,7 @@ class rex_ooarticle extends rex_ooredaxo
       {
   	    foreach ($REX['RE_ID'][$a_category_id] as $var)
   	    {
-  	      $article = rex_ooarticle :: getArticleById($var, $clang);
+  	      $article = rex_ooArticle :: getArticleById($var, $clang);
   	      if ($ignore_offlines)
   	      {
   	        if ($article->isOnline())
@@ -132,7 +132,7 @@ class rex_ooarticle extends rex_ooredaxo
    */
   static public function getRootArticles($ignore_offlines = FALSE, $clang = FALSE)
   {
-    return rex_ooarticle :: getArticlesOfCategory(0, $ignore_offlines, $clang);
+    return rex_ooArticle :: getArticlesOfCategory(0, $ignore_offlines, $clang);
   }
 
   /**
@@ -150,7 +150,7 @@ class rex_ooarticle extends rex_ooredaxo
    */
   public function getCategory()
   {
-    return rex_oocategory :: getCategoryById($this->getCategoryId(), $this->getClang());
+    return rex_ooCategory :: getCategoryById($this->getCategoryId(), $this->getClang());
   }
 
   /**
@@ -176,11 +176,11 @@ class rex_ooarticle extends rex_ooredaxo
   }
 
   /*
-   * Static Method: Returns True when the given article is a valid rex_ooarticle
+   * Static Method: Returns True when the given article is a valid rex_ooArticle
    */
   static public function isValid($article)
   {
-    return is_object($article) && is_a($article, 'rex_ooarticle');
+    return is_object($article) && is_a($article, 'rex_ooArticle');
   }
 
   public function getValue($value)

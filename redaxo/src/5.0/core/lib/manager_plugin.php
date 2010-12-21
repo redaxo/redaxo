@@ -136,7 +136,7 @@ class rex_pluginManager extends rex_baseManager
     // addonName als 1. Parameter einfügen
     array_unshift($arguments, $this->addonName);
 
-    return rex_call_func(array('rex_ooplugin', $method), $arguments, false);
+    return rex_call_func(array('rex_ooPlugin', $method), $arguments, false);
   }
 
   protected function loadPackageInfos($pluginName)
@@ -173,7 +173,7 @@ class rex_pluginManager extends rex_baseManager
         {
           foreach($addonConfig as $confName => $confValue)
           {
-            rex_ooplugin::setProperty($addonName, $pluginName, $confName, rex_translate_array($confValue));
+            rex_ooPlugin::setProperty($addonName, $pluginName, $confName, rex_translate_array($confValue));
           }
         }
       }
@@ -192,9 +192,9 @@ class rex_pluginManager extends rex_baseManager
     $i18nPrefix = 'addon_dependencies_error_';
     $state = array();
 
-    foreach(rex_ooaddon::getAvailableAddons() as $availAddonName)
+    foreach(rex_ooAddon::getAvailableAddons() as $availAddonName)
     {
-      $requirements = rex_ooaddon::getProperty($availAddonName, 'requires', array());
+      $requirements = rex_ooAddon::getProperty($availAddonName, 'requires', array());
       if(isset($requirements['addons']) && is_array($requirements['addons']))
       {
         foreach($requirements['addons'] as $addonName => $addonAttr)
@@ -213,9 +213,9 @@ class rex_pluginManager extends rex_baseManager
       }
 
       // check if another Plugin which is installed, depends on the addon being un-installed
-      foreach(rex_ooplugin::getAvailablePlugins($availAddonName) as $availPluginName)
+      foreach(rex_ooPlugin::getAvailablePlugins($availAddonName) as $availPluginName)
       {
-        $requirements = rex_ooplugin::getProperty($availAddonName, $availPluginName, 'requires', array());
+        $requirements = rex_ooPlugin::getProperty($availAddonName, $availPluginName, 'requires', array());
         if(isset($requirements['addons']) && is_array($requirements['addons']))
         {
           foreach($requirements['addons'] as $addonName => $addonAttr)

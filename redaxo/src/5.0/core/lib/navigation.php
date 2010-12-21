@@ -121,20 +121,20 @@ class rex_navigation
 
     foreach($path as $pathItem)
     {
-      $cat = rex_oocategory::getCategoryById($pathItem);
+      $cat = rex_ooCategory::getCategoryById($pathItem);
       $lis .= '<li class="rex-lvl'. $i .'"><a href="'. $cat->getUrl() .'">'. htmlspecialchars($cat->getName()) .'</a></li>';
       $i++;
     }
 
     if($includeCurrent)
     {
-      if($art = rex_ooarticle::getArticleById($this->current_article_id))
+      if($art = rex_ooArticle::getArticleById($this->current_article_id))
         if(!$art->isStartpage())
         {
           $lis .= '<li class="rex-lvl'. $i .'">'. htmlspecialchars($art->getName()) .'</li>';
         }else
         {
-          $cat = rex_oocategory::getCategoryById($this->current_article_id);
+          $cat = rex_ooCategory::getCategoryById($this->current_article_id);
           $lis .= '<li class="rex-lvl'. $i .'">'. htmlspecialchars($cat->getName()) .'</li>';
         }
     }
@@ -165,7 +165,7 @@ class rex_navigation
     global $REX;
 
     $article_id = $REX["ARTICLE_ID"];
-    if($OOArt = rex_ooarticle::getArticleById($article_id))
+    if($OOArt = rex_ooArticle::getArticleById($article_id))
     {
       $path = trim($OOArt->getValue("path"), '|');
 
@@ -186,9 +186,9 @@ class rex_navigation
     static $depth = 0;
 
     if($category_id < 1)
-      $nav_obj = rex_oocategory::getRootCategories($ignore_offlines);
+      $nav_obj = rex_ooCategory::getRootCategories($ignore_offlines);
     else
-      $nav_obj = rex_oocategory::getChildrenById($category_id, $ignore_offlines);
+      $nav_obj = rex_ooCategory::getChildrenById($category_id, $ignore_offlines);
 
     $return = "";
 

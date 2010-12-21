@@ -97,7 +97,7 @@ class rex_addonManager extends rex_baseManager
 
   protected function apiCall($method, array $arguments)
   {
-    return rex_call_func(array('rex_ooaddon', $method), $arguments, false);
+    return rex_call_func(array('rex_ooAddon', $method), $arguments, false);
   }
 
   protected function loadPackageInfos($addonName)
@@ -134,7 +134,7 @@ class rex_addonManager extends rex_baseManager
         {
           foreach($addonConfig as $confName => $confValue)
           {
-            rex_ooaddon::setProperty($addonName, $confName, rex_translate_array($confValue));
+            rex_ooAddon::setProperty($addonName, $confName, rex_translate_array($confValue));
           }
         }
       }
@@ -153,9 +153,9 @@ class rex_addonManager extends rex_baseManager
     $i18nPrefix = 'addon_dependencies_error_';
     $state = array();
 
-    foreach(rex_ooaddon::getAvailableAddons() as $availAddonName)
+    foreach(rex_ooAddon::getAvailableAddons() as $availAddonName)
     {
-      $requirements = rex_ooaddon::getProperty($availAddonName, 'requires', array());
+      $requirements = rex_ooAddon::getProperty($availAddonName, 'requires', array());
       if(isset($requirements['addons']) && is_array($requirements['addons']))
       {
         foreach($requirements['addons'] as $depName => $depAttr)
@@ -168,9 +168,9 @@ class rex_addonManager extends rex_baseManager
       }
 
       // check if another Plugin which is installed, depends on the addon being un-installed
-      foreach(rex_ooplugin::getAvailablePlugins($availAddonName) as $availPluginName)
+      foreach(rex_ooPlugin::getAvailablePlugins($availAddonName) as $availPluginName)
       {
-        $requirements = rex_ooplugin::getProperty($availAddonName, $availPluginName, 'requires', array());
+        $requirements = rex_ooPlugin::getProperty($availAddonName, $availPluginName, 'requires', array());
         if(isset($requirements['addons']) && is_array($requirements['addons']))
         {
           foreach($requirements['addons'] as $depName => $depAttr)

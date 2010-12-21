@@ -21,7 +21,7 @@ class rex_image {
     $this->img['file'] = basename($filepath);
     $this->img['filepath'] = $filepath;
     $this->img['quality'] = $REX['ADDON']['image_manager']['jpg_quality'];
-    $this->img['format'] = strtoupper(rex_oomedia::_getExtension($this->img['filepath']));
+    $this->img['format'] = strtoupper(rex_ooMedia::_getExtension($this->img['filepath']));
 	}
 
 	public function prepare()

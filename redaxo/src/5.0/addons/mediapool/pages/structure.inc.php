@@ -73,9 +73,9 @@ if ($PERMALL)
 
   $textpath = '<li> : <a href="'.$link.'0">Start</a></li>';
   $cat_id = rex_request('cat_id', 'int');
-  if ($cat_id == 0 || !($OOCat = rex_oomediaCategory::getCategoryById($cat_id)))
+  if ($cat_id == 0 || !($OOCat = rex_ooMediaCategory::getCategoryById($cat_id)))
   {
-    $OOCats = rex_oomediaCategory::getRootCategories();
+    $OOCats = rex_ooMediaCategory::getRootCategories();
     $cat_id = 0;
     $catpath = "|";
   }else
@@ -89,7 +89,7 @@ if ($PERMALL)
       $iid = current($paths);
       if ($iid != "")
       {
-        $icat = rex_oomediaCategory::getCategoryById($iid);
+        $icat = rex_ooMediaCategory::getCategoryById($iid);
         $textpath .= '<li> : <a href="'.$link.$iid.'">'.$icat->getName().'</a></li>';
       }
       next($paths);

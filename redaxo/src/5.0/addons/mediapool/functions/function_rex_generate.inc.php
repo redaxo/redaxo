@@ -111,7 +111,7 @@ function rex_generateMedia($filename)
 {
   global $REX;
   
-  $query = 'SELECT * FROM ' . rex_oomedia :: _getTableName() . ' WHERE filename = "'.$filename.'"';
+  $query = 'SELECT * FROM ' . rex_ooMedia :: _getTableName() . ' WHERE filename = "'.$filename.'"';
   $sql = rex_sql::factory();
   //$sql->debugsql = true;
   $sql->setQuery($query);
@@ -144,7 +144,7 @@ function rex_generateMediaCategory($category_id)
 {
   global $REX;
   
-  $query = 'SELECT * FROM ' . rex_oomediaCategory :: _getTableName() . ' WHERE id = '.$category_id;
+  $query = 'SELECT * FROM ' . rex_ooMediaCategory :: _getTableName() . ' WHERE id = '.$category_id;
   $sql = rex_sql::factory();
   //$sql->debugsql = true;
   $sql->setQuery($query);
@@ -177,7 +177,7 @@ function rex_generateMediaList($category_id)
 {
   global $REX;
   
-  $query = 'SELECT filename FROM ' . rex_oomedia :: _getTableName() . ' WHERE category_id = ' . $category_id;
+  $query = 'SELECT filename FROM ' . rex_ooMedia :: _getTableName() . ' WHERE category_id = ' . $category_id;
   $sql = rex_sql::factory();
   $sql->setQuery($query);
   
@@ -207,7 +207,7 @@ function rex_generateMediaCategoryList($category_id)
 {
   global $REX;
   
-  $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . rex_oomediaCategory :: _getTableName() . ' WHERE re_id = ' . $category_id . ' ORDER BY sort, name';
+  $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . rex_ooMediaCategory :: _getTableName() . ' WHERE re_id = ' . $category_id . ' ORDER BY sort, name';
   $sql = rex_sql::factory();
   //$sql->debugsql = true;
   $sql->setQuery($query);
@@ -238,7 +238,7 @@ function rex_generateMediaExtensionList($extension)
 {
   global $REX;
   
-  $query = 'SELECT filename FROM ' . rex_oomedia :: _getTableName() . ' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "' . $extension . '"';
+  $query = 'SELECT filename FROM ' . rex_ooMedia :: _getTableName() . ' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "' . $extension . '"';
   $sql = rex_sql::factory();
   $sql->setQuery($query);
   

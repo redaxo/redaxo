@@ -130,10 +130,10 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
   {
   	$state = true;
 
-  	if($state === true && !rex_ooaddon::isInstalled($systemAddon))
+  	if($state === true && !rex_ooAddon::isInstalled($systemAddon))
   	  $state = $addonManager->install($systemAddon, $installDump);
 
-  	if($state === true && !rex_ooaddon::isActivated($systemAddon))
+  	if($state === true && !rex_ooAddon::isActivated($systemAddon))
   	  $state = $addonManager->activate($systemAddon);
 
   	if($state !== true)

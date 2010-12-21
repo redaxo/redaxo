@@ -8,7 +8,7 @@
  * @version svn:$Id$
  */
 
-rex_register_extension('rex_oomedia_IS_IN_USE', 'rex_a62_media_is_in_use');
+rex_register_extension('rex_ooMedia_IS_IN_USE', 'rex_a62_media_is_in_use');
 
 /**
  * Erstellt den nötigen HTML Code um ein Formular zu erweitern
@@ -561,7 +561,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
     if($params['id'] != '')
     {
       $s = '';
-      $OOArt = rex_ooarticle::getArticleById($params['id'], $params['clang']);
+      $OOArt = rex_ooArticle::getArticleById($params['id'], $params['clang']);
       
       // Alle Metafelder des Pfades sind erlaubt
       foreach(explode('|', $OOArt->getPath()) as $pathElement)
@@ -581,7 +581,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
     
     if($params['id'] != '')
     {
-      $OOCat = rex_oocategory::getCategoryById($params['id'], $params['clang']);
+      $OOCat = rex_ooCategory::getCategoryById($params['id'], $params['clang']);
       
       // Alle Metafelder des Pfades sind erlaubt
       foreach(explode('|', $OOCat->getPath()) as $pathElement)
@@ -611,7 +611,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
       $s = '';
       if($catId != 0)
       {
-        $OOCat = rex_oomediaCategory::getCategoryById($catId);
+        $OOCat = rex_ooMediaCategory::getCategoryById($catId);
         
         // Alle Metafelder des Pfades sind erlaubt
         foreach(explode('|', $OOCat->getPath()) as $pathElement)

@@ -203,7 +203,7 @@ function _rex_cast_var($var, $vartype, $default, $mode)
       $var = (int) $var;
       if($mode == 'found')
       {
-        if(!rex_ooarticle::isValid(rex_ooarticle::getArticleById($var)))
+        if(!rex_ooArticle::isValid(rex_ooArticle::getArticleById($var)))
           $var = (int) $default; 
       }
       break;
@@ -211,7 +211,7 @@ function _rex_cast_var($var, $vartype, $default, $mode)
       $var = (int) $var;
       if($mode == 'found')
       {
-        if(!rex_oocategory::isValid(rex_oocategory::getCategoryById($var)))
+        if(!rex_ooCategory::isValid(rex_ooCategory::getCategoryById($var)))
           $var = (int) $default;
       } 
       break;

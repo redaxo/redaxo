@@ -360,13 +360,13 @@ abstract class rex_baseManager
       foreach($requirements['addons'] as $depName => $depAttr)
       {
         // check if dependency exists
-        if(!rex_ooaddon::isAvailable($depName))
+        if(!rex_ooAddon::isAvailable($depName))
         {
           $state[] = $REX['I18N']->msg('addon_requirement_error_addon', $depName);
         }
         else
         {
-          if(($msg = $this->checkRequirementVersion('addon_', $depAttr, rex_ooaddon::getVersion($depName), $depName)) !== true)
+          if(($msg = $this->checkRequirementVersion('addon_', $depAttr, rex_ooAddon::getVersion($depName), $depName)) !== true)
           {
             $state[] = $msg;
           }
@@ -377,11 +377,11 @@ abstract class rex_baseManager
             foreach($depAttr['plugins'] as $pluginName => $pluginAttr)
             {
               // check if dependency exists
-              if(!rex_ooplugin::isAvailable($depName, $pluginName))
+              if(!rex_ooPlugin::isAvailable($depName, $pluginName))
               {
                 $state[] = $REX['I18N']->msg('addon_requirement_error_plugin', $depName, $pluginName);
               }
-              elseif(($msg = $this->checkRequirementVersion('plugin_', $pluginAttr, rex_ooplugin::getVersion($depName, $pluginName), $depName, $pluginName)) !== true)
+              elseif(($msg = $this->checkRequirementVersion('plugin_', $pluginAttr, rex_ooPlugin::getVersion($depName, $pluginName), $depName, $pluginName)) !== true)
               {
                 $state[] = $msg;
               }

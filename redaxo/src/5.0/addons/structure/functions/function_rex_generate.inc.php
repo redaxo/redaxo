@@ -130,7 +130,7 @@ function rex_generateArticleMeta($article_id, $clang = null)
       'last_update_stamp' => time()
     );
 
-    $class_vars = rex_ooredaxo::getClassVars();
+    $class_vars = rex_ooRedaxo::getClassVars();
     unset($class_vars[array_search('id', $class_vars)]);
     $db_fields = $class_vars;
 

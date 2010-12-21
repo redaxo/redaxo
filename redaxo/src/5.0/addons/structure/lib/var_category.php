@@ -64,7 +64,7 @@ class rex_var_category extends rex_var
       if($category_id == 0)
       {
         // REX_CATEGORY[field=name] feld von aktueller kategorie verwenden
-      	if(rex_oocategory::hasValue($field))
+      	if(rex_ooCategory::hasValue($field))
         {
           // bezeichner wählen, der keine variablen
           // aus modulen/templates überschreibt
@@ -72,7 +72,7 @@ class rex_var_category extends rex_var
           $varname_art = '$__rex_art';
           $varname_cat = '$__rex_cat';
           $tpl = '<?php
-          '. $varname_art .' = rex_ooarticle::getArticleById($REX[\'ARTICLE_ID\'], '. $clang .');
+          '. $varname_art .' = rex_ooArticle::getArticleById($REX[\'ARTICLE_ID\'], '. $clang .');
           '. $varname_cat .' = '. $varname_art .'->getCategory();
           if('. $varname_cat .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname_cat .'->getValue(\''. addslashes($field) .'\')') .');
           ?>';
@@ -83,13 +83,13 @@ class rex_var_category extends rex_var
         // REX_CATEGORY[field=name id=5] feld von gegebene category_id verwenden
       	if($field)
         {
-          if(rex_oocategory::hasValue($field))
+          if(rex_ooCategory::hasValue($field))
           {
             // bezeichner wählen, der keine variablen
 	          // aus modulen/templates überschreibt
 	          $varname = '$__rex_cat';
 	          $tpl = '<?php
-	          '. $varname .' = rex_oocategory::getCategoryById('. $category_id .', '. $clang .');
+	          '. $varname .' = rex_ooCategory::getCategoryById('. $category_id .', '. $clang .');
             if('. $varname .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .');
 	          ?>';
           }

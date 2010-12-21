@@ -203,7 +203,7 @@ class rex_var_media extends rex_var
           // Mimetype ausgeben
           if(isset($args['mimetype']))
           {
-            $OOM = rex_oomedia::getMediaByName($this->getValue($sql, 'file' . $id));
+            $OOM = rex_ooMedia::getMediaByName($this->getValue($sql, 'file' . $id));
             if($OOM)
             {
               $replace = $OOM->getType();
@@ -273,9 +273,9 @@ class rex_var_media extends rex_var
     if(isset($args['preview']) && $args['preview'])
     {
       $wdgtClass .= ' rex-widget-preview';
-      if(rex_ooaddon::isAvailable('image_manager'))
+      if(rex_ooAddon::isAvailable('image_manager'))
         $wdgtClass .= ' rex-widget-preview-image-manager';
-      else if(rex_ooaddon::isAvailable('image_resize'))
+      else if(rex_ooAddon::isAvailable('image_resize'))
         $wdgtClass .= ' rex-widget-preview-image-resize';
     }
 
@@ -344,9 +344,9 @@ class rex_var_media extends rex_var
     if(isset($args['preview']) && $args['preview'])
     {
       $wdgtClass .= ' rex-widget-preview';
-      if(rex_ooaddon::isAvailable('image_manager'))
+      if(rex_ooAddon::isAvailable('image_manager'))
         $wdgtClass .= ' rex-widget-preview-image-manager';
-      else if(rex_ooaddon::isAvailable('image_resize'))
+      else if(rex_ooAddon::isAvailable('image_resize'))
         $wdgtClass .= ' rex-widget-preview-image-resize';
     }
 

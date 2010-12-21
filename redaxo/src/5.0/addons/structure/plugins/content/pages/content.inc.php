@@ -61,7 +61,7 @@ if ($article->getRows() == 1)
     $ctype = 1; // default = 1
 
   // ----- Artikel wurde gefunden - Kategorie holen
-  $OOArt = rex_ooarticle::getArticleById($article_id, $clang);
+  $OOArt = rex_ooArticle::getArticleById($article_id, $clang);
   $category_id = $OOArt->getCategoryId();
 
   // ----- category pfad und rechte

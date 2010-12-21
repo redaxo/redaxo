@@ -42,8 +42,8 @@ function rex_a256_search_structure($params)
   // ------------ Suche via ArtikelId
   if($a256_article_id != 0)
   {
-    $OOArt = rex_ooarticle::getArticleById($a256_article_id, $a256_clang);
-    if(rex_ooarticle::isValid($OOArt))
+    $OOArt = rex_ooArticle::getArticleById($a256_article_id, $a256_clang);
+    if(rex_ooArticle::isValid($OOArt))
     {
       header('Location:'. sprintf($editUrl, $a256_article_id, $a256_clang, urlencode($a256_article_name)));
       exit();
@@ -53,8 +53,8 @@ function rex_a256_search_structure($params)
   // Auswahl eines normalen Artikels => category holen
   if($article_id != 0)
   {
-    $OOArt = rex_ooarticle::getArticleById($article_id, $clang);
-    // Falls Artikel gerade geloescht wird, gibts keinen rex_ooarticle
+    $OOArt = rex_ooArticle::getArticleById($article_id, $clang);
+    // Falls Artikel gerade geloescht wird, gibts keinen rex_ooArticle
     if($OOArt)
       $category_id = $OOArt->getCategoryId();
   }
@@ -75,7 +75,7 @@ function rex_a256_search_structure($params)
         catname LIKE "%'. $a256_article_name .'%"
       )';
 
-    switch(rex_ooaddon::getProperty('be_search', 'searchmode', 'local'))
+    switch(rex_ooAddon::getProperty('be_search', 'searchmode', 'local'))
     {
       case 'local':
       {
@@ -93,7 +93,7 @@ function rex_a256_search_structure($params)
     // Suche ergab nur einen Treffer => Direkt auf den Treffer weiterleiten
     if($foundRows == 1)
     {
-      $OOArt = rex_ooarticle::getArticleById($search->getValue('id'), $a256_clang);
+      $OOArt = rex_ooArticle::getArticleById($search->getValue('id'), $a256_clang);
       if($REX['USER']->hasCategoryPerm($OOArt->getCategoryId()))
       {
         header('Location:'. sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)));
@@ -107,7 +107,7 @@ function rex_a256_search_structure($params)
       $search_result .= '<ul class="a256-search-result">';
       for($i = 0; $i < $foundRows; $i++)
       {
-        $OOArt = rex_ooarticle::getArticleById($search->getValue('id'), $a256_clang);
+        $OOArt = rex_ooArticle::getArticleById($search->getValue('id'), $a256_clang);
         $label = $OOArt->getName();
 
         if($REX['USER']->hasCategoryPerm($OOArt->getCategoryId()))

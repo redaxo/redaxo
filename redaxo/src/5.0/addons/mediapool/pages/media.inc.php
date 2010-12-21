@@ -11,8 +11,8 @@ $media_method = rex_request('media_method', 'string');
 // *************************************** CONFIG
 
 $thumbs = true;
-$image_manager = rex_ooaddon::isAvailable('image_manager');
-$image_resize = rex_ooaddon::isAvailable('image_resize');
+$image_manager = rex_ooAddon::isAvailable('image_manager');
+$image_resize = rex_ooAddon::isAvailable('image_resize');
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
@@ -94,7 +94,7 @@ $cat_out = rex_register_extension_point('MEDIA_LIST_TOOLBAR', $cat_out,
 if ($subpage=='media' && rex_post('btn_delete', 'string'))
 {
   // TODO: getMediaById() deprecated, daher getMediaByFileName() nutzen
-  $media = rex_oomedia::getMediaById($file_id);
+  $media = rex_ooMedia::getMediaById($file_id);
 
   if ($media)
   {
@@ -189,18 +189,18 @@ if ($subpage == "media")
     $fname = $gf->getValue('filename');
     $ffiletype = $gf->getValue('filetype');
     $ffile_size = $gf->getValue('filesize');
-    $ffile_size = rex_oomedia::_getFormattedSize($ffile_size);
+    $ffile_size = rex_ooMedia::_getFormattedSize($ffile_size);
     $rex_file_category = $gf->getValue('category_id');
 
     $encoded_fname = urlencode($fname);
     $file_ext = substr(strrchr($fname, '.'),1);
     $icon_src = 'media/mime-default.gif';
-    if (rex_oomedia::isDocType($file_ext)) $icon_src = 'media/mime-'.$file_ext.'.gif';
+    if (rex_ooMedia::isDocType($file_ext)) $icon_src = 'media/mime-'.$file_ext.'.gif';
     {
       $thumbnail = '<img src="'. $icon_src .'" alt="'. htmlspecialchars($ftitle) .'" title="'. htmlspecialchars($ftitle) .'" />';
     }
 
-    $ffiletype_ii = rex_oomedia::_isImage($fname);
+    $ffiletype_ii = rex_ooMedia::_isImage($fname);
     if ($ffiletype_ii)
     {
       $fwidth = $gf->getValue('width');
@@ -381,7 +381,7 @@ if ($subpage == "media")
     else
     {
       $catname = $REX['I18N']->msg('pool_kats_no');
-      $Cat = rex_oomediaCategory::getCategoryById($rex_file_category);
+      $Cat = rex_ooMediaCategory::getCategoryById($rex_file_category);
       if ($Cat) $catname = $Cat->getName();
 
       if($REX['USER']->hasPerm('advancedMode[]'))
@@ -485,7 +485,7 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
   	
     foreach($selectedmedia as $file_name)
     {
-			$media = rex_oomedia::getMediaByFileName($file_name);
+			$media = rex_ooMedia::getMediaByFileName($file_name);
 			if ($media)
 			{
 			 if ($PERMALL || $REX['USER']->hasPerm('media['.$media->getCategoryId().']'))
@@ -696,7 +696,7 @@ if ($subpage == '')
       $desc .= '<br />';
 
     // wenn datei fehlt
-    if (!rex_oomedia::fileExists($file_name))
+    if (!rex_ooMedia::fileExists($file_name))
     {
       $thumbnail = '<img src="media/mime-error.gif" width="44" height="38" alt="file does not exist" />';
     }
@@ -704,13 +704,13 @@ if ($subpage == '')
     {
       $file_ext = substr(strrchr($file_name,'.'),1);
       $icon_src = 'media/mime-default.gif';
-      if (rex_oomedia::isDocType($file_ext))
+      if (rex_ooMedia::isDocType($file_ext))
       {
         $icon_src = 'media/mime-'. $file_ext .'.gif';
       }
       $thumbnail = '<img src="'. $icon_src .'" width="44" height="38" alt="'. $alt .'" title="'. $alt .'" />';
 
-      if (rex_oomedia::_isImage($file_name) && $thumbs)
+      if (rex_ooMedia::_isImage($file_name) && $thumbs)
       {
         $thumbnail = '<img src="'. $REX['HTDOCS_PATH'] .'files/'.$file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
         if ($image_manager)
@@ -725,7 +725,7 @@ if ($subpage == '')
 
     // ----- get file size
     $size = $file_size;
-    $file_size = rex_oomedia::_getFormattedSize($size);
+    $file_size = rex_ooMedia::_getFormattedSize($size);
 
     if ($file_title == '') $file_title = '['.$REX['I18N']->msg('pool_file_notitle').']';
     if($REX['USER']->hasPerm('advancedMode[]')) $file_title .= ' ['. $file_id .']';
@@ -734,7 +734,7 @@ if ($subpage == '')
     $opener_link = '';
     if ($opener_input_field == 'TINYIMG')
     {
-      if (rex_oomedia::_isImage($file_name))
+      if (rex_ooMedia::_isImage($file_name))
       {
         $opener_link .= "<a href=\"javascript:insertImage('$file_name','".$files->getValue("title")."')\">".$REX['I18N']->msg('pool_image_get')."</a><br>";
       }

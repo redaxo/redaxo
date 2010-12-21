@@ -199,7 +199,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
     $p_new = pathinfo($_FILES['file_new']['name']);
     $p_old = pathinfo($FILEINFOS["filename"]);
 
-    // if ($ffiletype == $FILEINFOS["filetype"] || rex_oomedia::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
+    // if ($ffiletype == $FILEINFOS["filetype"] || rex_ooMedia::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
     if($p_new['extension'] == $p_old['extension'])
     {
       if (move_uploaded_file($ffilename,$REX['MEDIAFOLDER'] .'/'. $FILEINFOS["filename"]) ||
@@ -372,7 +372,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
       '<span class="rex-form-notice">
          '. $REX['I18N']->msg('phpini_settings') .':<br />
          '. ((rex_ini_get('file_uploads') == 0) ? '<span>'. $REX['I18N']->msg('pool_upload') .':</span> <em>'. $REX['I18N']->msg('pool_upload_disabled') .'</em><br />' : '') .'
-         <span>'. $REX['I18N']->msg('pool_max_uploadsize') .':</span> '. rex_oomedia::_getFormattedSize(rex_ini_get('upload_max_filesize')) .'<br />
+         <span>'. $REX['I18N']->msg('pool_max_uploadsize') .':</span> '. rex_ooMedia::_getFormattedSize(rex_ini_get('upload_max_filesize')) .'<br />
          <span>'. $REX['I18N']->msg('pool_max_uploadtime') .':</span> '. rex_ini_get('max_input_time') .'s
        </span>';
     }

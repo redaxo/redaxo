@@ -16,11 +16,11 @@ $warning = '';
 
 
 // -------------- READ CONFIG
-$ADDONS    = rex_ooaddon::getRegisteredAddons();
+$ADDONS    = rex_ooAddon::getRegisteredAddons();
 $PLUGINS   = array();
 foreach($ADDONS as $_addon)
 {
-  $PLUGINS[$_addon] = rex_ooplugin::getRegisteredPlugins($_addon);
+  $PLUGINS[$_addon] = rex_ooPlugin::getRegisteredPlugins($_addon);
 }
 
 // -------------- CHECK IF CONFIG FILES ARE UP2DATE
@@ -62,11 +62,11 @@ if ($subpage == '')
   }
 
   // -------------- RE-READ CONFIG
-  $ADDONS    = rex_ooaddon::getRegisteredAddons();
+  $ADDONS    = rex_ooAddon::getRegisteredAddons();
   $PLUGINS   = array();
   foreach($ADDONS as $_addon)
   {
-    $PLUGINS[$_addon] = rex_ooplugin::getRegisteredPlugins($_addon);
+    $PLUGINS[$_addon] = rex_ooPlugin::getRegisteredPlugins($_addon);
   }
 }
 
@@ -92,17 +92,17 @@ if ($subpage == 'help' && $addonname != '')
   if($pluginname != '')
   {
     $helpfile    = rex_plugins_folder($addonname, $pluginname);
-    $version     = rex_ooplugin::getVersion($addonname, $pluginname);
-    $author      = rex_ooplugin::getAuthor($addonname, $pluginname);
-    $supportPage = rex_ooplugin::getSupportPage($addonname, $pluginname);
+    $version     = rex_ooPlugin::getVersion($addonname, $pluginname);
+    $author      = rex_ooPlugin::getAuthor($addonname, $pluginname);
+    $supportPage = rex_ooPlugin::getSupportPage($addonname, $pluginname);
     $addonname   = $addonname .' / '. $pluginname;
   }
   else
   {
     $helpfile    = rex_addons_folder($addonname);
-    $version     = rex_ooaddon::getVersion($addonname);
-    $author      = rex_ooaddon::getAuthor($addonname);
-    $supportPage = rex_ooaddon::getSupportPage($addonname);
+    $version     = rex_ooAddon::getVersion($addonname);
+    $author      = rex_ooAddon::getAuthor($addonname);
+    $supportPage = rex_ooAddon::getSupportPage($addonname);
   }
   $helpfile .= DIRECTORY_SEPARATOR.'help.inc.php';
 
@@ -298,15 +298,15 @@ if ($subpage == '')
   	  </thead>
   	  <tbody>';
 
-  foreach (rex_ooaddon::getRegisteredAddons() as $addon)
+  foreach (rex_ooAddon::getRegisteredAddons() as $addon)
   {
     // load package infos, especially for un-available addons
     rex_addonManager::loadPackage($addon);
 
-    $addonVers = rex_ooaddon::getVersion($addon, '');
+    $addonVers = rex_ooAddon::getVersion($addon, '');
     $addonurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;';
 
-  	if (rex_ooaddon::isSystemAddon($addon))
+  	if (rex_ooAddon::isSystemAddon($addon))
   	{
   		$delete = $REX['I18N']->msg("addon_systemaddon");
   	}
@@ -315,10 +315,10 @@ if ($subpage == '')
   		$delete = '<a href="'. $addonurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($REX['I18N']->msg('addon_delete_question', $addon)).'\');">'.$REX['I18N']->msg("addon_delete").'</a>';
   	}
 
-    if (rex_ooaddon::isInstalled($addon))
+    if (rex_ooAddon::isInstalled($addon))
     {
       $install = $REX['I18N']->msg("addon_yes").' - <a href="'. $addonurl .'install=1">'.$REX['I18N']->msg("addon_reinstall").'</a>';
-      if(count(rex_ooplugin::getInstalledPlugins($addon)) > 0)
+      if(count(rex_ooPlugin::getInstalledPlugins($addon)) > 0)
       {
         $uninstall = $REX['I18N']->msg("plugin_plugins_installed");
         $delete = $REX['I18N']->msg("plugin_plugins_installed");
@@ -334,11 +334,11 @@ if ($subpage == '')
       $uninstall = $REX['I18N']->msg("addon_notinstalled");
     }
 
-    if (rex_ooaddon::isActivated($addon))
+    if (rex_ooAddon::isActivated($addon))
     {
       $status = $REX['I18N']->msg("addon_yes").' - <a href="'. $addonurl .'activate=0">'.$REX['I18N']->msg("addon_deactivate").'</a>';
     }
-    elseif (rex_ooaddon::isInstalled($addon))
+    elseif (rex_ooAddon::isInstalled($addon))
     {
       $status = $REX['I18N']->msg("addon_no").' - <a href="'. $addonurl .'activate=1">'.$REX['I18N']->msg("addon_activate").'</a>';
     }
@@ -363,19 +363,19 @@ if ($subpage == '')
           </td>
         </tr>'."\n   ";
 
-    if(rex_ooaddon::isAvailable($addon))
+    if(rex_ooAddon::isAvailable($addon))
     {
-      foreach(rex_ooplugin::getRegisteredPlugins($addon) as $plugin)
+      foreach(rex_ooPlugin::getRegisteredPlugins($addon) as $plugin)
       {
         // load package infos, especially for un-available plugin
         rex_pluginManager::loadPackage($addon, $plugin);
 
-        $pluginVers = rex_ooplugin::getVersion($addon, $plugin, '');
+        $pluginVers = rex_ooPlugin::getVersion($addon, $plugin, '');
         $pluginurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;pluginname='. $plugin .'&amp;';
 
         $delete = '<a href="'. $pluginurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($REX['I18N']->msg('plugin_delete_question', $plugin)).'\');">'.$REX['I18N']->msg("addon_delete").'</a>';
 
-        if (rex_ooplugin::isInstalled($addon, $plugin))
+        if (rex_ooPlugin::isInstalled($addon, $plugin))
         {
           $install = $REX['I18N']->msg("addon_yes").' - <a href="'. $pluginurl .'install=1">'.$REX['I18N']->msg("addon_reinstall").'</a>';
           $uninstall = '<a href="'. $pluginurl .'uninstall=1" onclick="return confirm(\''.htmlspecialchars($REX['I18N']->msg("plugin_uninstall_question", $plugin)).'\');">'.$REX['I18N']->msg("addon_uninstall").'</a>';
@@ -386,11 +386,11 @@ if ($subpage == '')
           $uninstall = $REX['I18N']->msg("addon_notinstalled");
         }
 
-        if (rex_ooplugin::isActivated($addon, $plugin))
+        if (rex_ooPlugin::isActivated($addon, $plugin))
         {
           $status = $REX['I18N']->msg("addon_yes").' - <a href="'. $pluginurl .'activate=0">'.$REX['I18N']->msg("addon_deactivate").'</a>';
         }
-        elseif (rex_ooplugin::isInstalled($addon, $plugin))
+        elseif (rex_ooPlugin::isInstalled($addon, $plugin))
         {
           $status = $REX['I18N']->msg("addon_no").' - <a href="'. $pluginurl .'activate=1">'.$REX['I18N']->msg("addon_activate").'</a>';
         }

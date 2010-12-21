@@ -82,7 +82,7 @@ $navi_path = '<ul id="rex-navi-path">';
 
 
 $isRoot = $category_id === 0;
-$category = rex_oocategory::getCategoryById($category_id);
+$category = rex_ooCategory::getCategoryById($category_id);
 $link = rex_linkmap_url(array('category_id' => 0), $GlobalParams);
 
 $navi_path .= '<li>'.$REX['I18N']->msg('path').' </li>';
@@ -114,7 +114,7 @@ rex_title('Linkmap', $navi_path);
 			<h3 class="rex-hl2"><?php echo $REX['I18N']->msg('lmap_categories'); ?></h3>
 			<div class="rex-area-content">
 			<?php
-			$roots = rex_oocategory::getRootCategories();
+			$roots = rex_ooCategory::getRootCategories();
 			
 			$mountpoints = $REX["USER"]->getMountpoints();
 			if(count($mountpoints)>0)
@@ -122,8 +122,8 @@ rex_title('Linkmap', $navi_path);
 				$roots = array();
 				foreach($mountpoints as $mp)
 				{
-					if(rex_oocategory::getCategoryById($mp))
-						$roots[] = rex_oocategory::getCategoryById($mp);
+					if(rex_ooCategory::getCategoryById($mp))
+						$roots[] = rex_ooCategory::getCategoryById($mp);
 				}
 				
 			}
@@ -140,7 +140,7 @@ rex_title('Linkmap', $navi_path);
 			<?php
 			$articles = null;
 			if($isRoot && count($mountpoints)==0)
-				$articles = rex_ooarticle::getRootArticles();
+				$articles = rex_ooArticle::getRootArticles();
 			else if($category)
 				$articles = $category->getArticles();
 	

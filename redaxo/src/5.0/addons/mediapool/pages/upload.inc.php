@@ -33,7 +33,7 @@ if ($media_method == 'add_file')
   
         if($opener_input_field == 'TINYIMG')
         {
-          if (rex_oomedia::_isImage($file_name))
+          if (rex_ooMedia::_isImage($file_name))
           {
             $js = "insertImage('$file_name','$title');";
           }

@@ -41,7 +41,7 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
  */
 function rex_a62_metainfo_form($params)
 {
-  $OOArt = rex_ooarticle::getArticleById($params['id'], $params['clang']);
+  $OOArt = rex_ooArticle::getArticleById($params['id'], $params['clang']);
 
   $params['activeItem'] = $params['article'];
   // Hier die category_id setzen, damit beim klick auf den REX_LINK_BUTTON der Medienpool in der aktuellen Kategorie startet

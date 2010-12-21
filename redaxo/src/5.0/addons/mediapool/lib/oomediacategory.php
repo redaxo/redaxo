@@ -7,7 +7,7 @@
  * @version svn:$Id$
  */
 
-class rex_oomediaCategory
+class rex_ooMediaCategory
 {
   // id
   var $_id = "";
@@ -37,7 +37,7 @@ class rex_oomediaCategory
   /**
   * @access protected
   */
-  function rex_oomediaCategory($id = null)
+  function rex_ooMediaCategory($id = null)
   {
     $this->getCategoryById($id);
   }
@@ -64,7 +64,7 @@ class rex_oomediaCategory
     {
       require_once ($cat_path);
 
-      $cat = new rex_oomediaCategory();
+      $cat = new rex_ooMediaCategory();
 
       $cat->_id = $REX['MEDIA']['CAT_ID'][$id]['id'];
       $cat->_parent_id = $REX['MEDIA']['CAT_ID'][$id]['re_id'];
@@ -92,7 +92,7 @@ class rex_oomediaCategory
    */
   static function getRootCategories()
   {
-    return rex_oomediaCategory :: getChildrenById(0);
+    return rex_ooMediaCategory :: getChildrenById(0);
   }
 
   /**
@@ -123,7 +123,7 @@ class rex_oomediaCategory
       if (isset($REX['MEDIA']['RE_CAT_ID'][$id]) && is_array($REX['MEDIA']['RE_CAT_ID'][$id]))
       {
         foreach($REX['MEDIA']['RE_CAT_ID'][$id] as $cat_id)
-          $catlist[] = rex_oomediaCategory :: getCategoryById($cat_id);
+          $catlist[] = rex_ooMediaCategory :: getCategoryById($cat_id);
       }
     }
 
@@ -135,7 +135,7 @@ class rex_oomediaCategory
    */
   function toString()
   {
-    return 'rex_oomediaCategory, "' . $this->getId() . '", "' . $this->getName() . '"' . "<br/>\n";
+    return 'rex_ooMediaCategory, "' . $this->getId() . '", "' . $this->getName() . '"' . "<br/>\n";
   }
 
   /**
@@ -225,13 +225,13 @@ class rex_oomediaCategory
    */
   function getParent()
   {
-    return rex_oomediaCategory :: getCategoryById($this->getParentId());
+    return rex_ooMediaCategory :: getCategoryById($this->getParentId());
   }
 
   /**
    * @access public
    * Get an array of all parentCategories.
-   * Returns an array of rex_ooredaxo objects sorted by $prior.
+   * Returns an array of rex_ooRedaxo objects sorted by $prior.
    *
    */
   function getParentTree()
@@ -246,7 +246,7 @@ class rex_oomediaCategory
         {
           if($var != '')
           {
-            $tree[] = rex_oomediaCategory :: getCategoryById($var);
+            $tree[] = rex_ooMediaCategory :: getCategoryById($var);
           }
         }
       }
@@ -280,7 +280,7 @@ class rex_oomediaCategory
 
     if ($this->_children === null)
     {
-      $this->_children = rex_oomediaCategory :: getChildrenById($this->getId());
+      $this->_children = rex_ooMediaCategory :: getChildrenById($this->getId());
     }
 
     return $this->_children;
@@ -320,7 +320,7 @@ class rex_oomediaCategory
         if (isset($REX['MEDIA']['MEDIA_CAT_ID'][$id]) && is_array($REX['MEDIA']['MEDIA_CAT_ID'][$id]))
         {
           foreach($REX['MEDIA']['MEDIA_CAT_ID'][$id] as $filename)
-            $this->_files[] = rex_oomedia :: getMediaByFileName($filename);
+            $this->_files[] = rex_ooMedia :: getMediaByFileName($filename);
         }
       }
     }
@@ -361,7 +361,7 @@ class rex_oomediaCategory
     {
       return $mediaCat == $this->getParentId();
     }
-    elseif (rex_oomediaCategory :: isValid($mediaCat))
+    elseif (rex_ooMediaCategory :: isValid($mediaCat))
     {
       return $this->getParentId() == $mediaCat->getId();
     }
@@ -373,7 +373,7 @@ class rex_oomediaCategory
    */
   static function isValid($mediaCat)
   {
-    return is_object($mediaCat) && is_a($mediaCat, 'rex_oomediacategory');
+    return is_object($mediaCat) && is_a($mediaCat, 'rex_ooMediacategory');
   }
 
   /**

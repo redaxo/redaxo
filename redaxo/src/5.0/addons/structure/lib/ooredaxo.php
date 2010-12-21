@@ -6,7 +6,7 @@
  * @version svn:$Id$
  */
 
-abstract class rex_ooredaxo
+abstract class rex_ooRedaxo
 {
   /*
    * these vars get read out
@@ -34,7 +34,7 @@ abstract class rex_ooredaxo
   {
     if ($params !== false)
     {
-      foreach (rex_ooredaxo :: getClassVars() as $var)
+      foreach (rex_ooRedaxo :: getClassVars() as $var)
       {
         if(isset($params[$var]))
         {
@@ -82,7 +82,7 @@ abstract class rex_ooredaxo
 
     if(!$values)
     {
-      $values = rex_ooredaxo :: getClassVars();
+      $values = rex_ooRedaxo :: getClassVars();
     }
 
     if (in_array($value, $values))
@@ -122,7 +122,7 @@ abstract class rex_ooredaxo
         include_once($file);
 
         // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
-        $genVars = rex_ooredaxo::convertGeneratedArray($REX['ART'][$REX['START_ARTICLE_ID']],0);
+        $genVars = rex_ooRedaxo::convertGeneratedArray($REX['ART'][$REX['START_ARTICLE_ID']],0);
         unset($genVars['article_id']);
         unset($genVars['last_update_stamp']);
         foreach($genVars as $name => $value)
@@ -151,14 +151,14 @@ abstract class rex_ooredaxo
   */
   static public function convertGeneratedArray($generatedArray, $clang)
   {
-    $rex_ooredaxoArray['id'] = $generatedArray['article_id'][$clang];
-    $rex_ooredaxoArray['clang'] = $clang;
+    $rex_ooRedaxoArray['id'] = $generatedArray['article_id'][$clang];
+    $rex_ooRedaxoArray['clang'] = $clang;
     foreach ($generatedArray as $key => $var)
     {
-      $rex_ooredaxoArray[$key] = $var[$clang];
+      $rex_ooRedaxoArray[$key] = $var[$clang];
     }
-    unset ($rex_ooredaxoArray['_article_id']);
-    return $rex_ooredaxoArray;
+    unset ($rex_ooRedaxoArray['_article_id']);
+    return $rex_ooRedaxoArray;
   }
 
   /*
@@ -203,7 +203,7 @@ abstract class rex_ooredaxo
    */
   public function getParent()
   {
-    return rex_ooarticle::getArticleById($this->_re_id);
+    return rex_ooArticle::getArticleById($this->_re_id);
   }
 
   /*
@@ -232,7 +232,7 @@ abstract class rex_ooredaxo
    */
   public function getFileMedia()
   {
-    return rex_oomedia :: getMediaByFileName($this->getValue('art_file'));
+    return rex_ooMedia :: getMediaByFileName($this->getValue('art_file'));
   }
 
   /**
@@ -279,7 +279,7 @@ abstract class rex_ooredaxo
    */
   public function getUpdateDate($format = null)
   {
-    return rex_oomedia :: _getDate($this->_updatedate, $format);
+    return rex_ooMedia :: _getDate($this->_updatedate, $format);
   }
 
   /*
@@ -297,7 +297,7 @@ abstract class rex_ooredaxo
    */
   public function getCreateDate($format = null)
   {
-    return rex_oomedia :: _getDate($this->_createdate, $format);
+    return rex_ooMedia :: _getDate($this->_createdate, $format);
   }
 
   /*
@@ -376,7 +376,7 @@ abstract class rex_ooredaxo
   /*
    * Object Function:
    * Get an array of all parentCategories.
-   * Returns an array of rex_ooredaxo objects sorted by $prior.
+   * Returns an array of rex_ooRedaxo objects sorted by $prior.
    */
   public function getParentTree()
   {
@@ -395,7 +395,7 @@ abstract class rex_ooredaxo
         {
           if ($var != '')
           {
-            $return[] = rex_oocategory :: getCategoryById($var, $this->_clang);
+            $return[] = rex_ooCategory :: getCategoryById($var, $this->_clang);
           }
         }
       }

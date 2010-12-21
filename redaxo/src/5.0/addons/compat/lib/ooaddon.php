@@ -1,6 +1,6 @@
 <?php
 
-class OOAddon extends rex_ooaddon
+class OOAddon extends rex_ooAddon
 {
 
 }

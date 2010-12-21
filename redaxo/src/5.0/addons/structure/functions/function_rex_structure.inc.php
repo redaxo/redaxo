@@ -55,7 +55,7 @@ function rex_addCategory($category_id, $data)
   }
 
   // Alle Templates der Kategorie
-  $templates = rex_oocategory::getTemplates($category_id);
+  $templates = rex_ooCategory::getTemplates($category_id);
   // Kategorie in allen Sprachen anlegen
   $AART = rex_sql::factory();
   foreach($REX['CLANG'] as $key => $val)
@@ -426,7 +426,7 @@ function rex_addArticle($data)
       $data['prior'] = 1;
   }
 
-  $templates = rex_oocategory::getTemplates($data['category_id']);
+  $templates = rex_ooCategory::getTemplates($data['category_id']);
 
   // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
   // oder leer setzen.
@@ -443,7 +443,7 @@ function rex_addArticle($data)
   foreach($REX['CLANG'] as $key => $val)
   {
     // ------- Kategorienamen holen
-    $category = rex_oocategory::getCategoryById($data['category_id'], $key);
+    $category = rex_ooCategory::getCategoryById($data['category_id'], $key);
 
     $category_name = '';
     if($category)
@@ -516,7 +516,7 @@ function rex_editArticle($article_id, $clang, $data)
   if(!is_array($data))
     trigger_error('Expecting $data to be an array!', E_USER_ERROR);
 
-  $templates = rex_oocategory::getTemplates($data['category_id']);
+  $templates = rex_ooCategory::getTemplates($data['category_id']);
 
   // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
   // oder leer setzen.

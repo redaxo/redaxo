@@ -6,10 +6,10 @@
  * @version svn:$Id$
  */
 
-class rex_ooaddon extends rex_addon
+class rex_ooAddon extends rex_addon
 {
   /**
-   * Erstellt eine rex_ooaddon instanz
+   * Erstellt eine rex_ooAddon instanz
    *
    * @param string $addon Name des Addons
    */
@@ -39,9 +39,9 @@ class rex_ooaddon extends rex_addon
   static public function getAvailableAddons()
   {
     $avail = array();
-    foreach(rex_ooaddon::getRegisteredAddons() as $addonName)
+    foreach(rex_ooAddon::getRegisteredAddons() as $addonName)
     {
-      if(rex_ooaddon::isAvailable($addonName))
+      if(rex_ooAddon::isAvailable($addonName))
         $avail[] = $addonName;
     }
 

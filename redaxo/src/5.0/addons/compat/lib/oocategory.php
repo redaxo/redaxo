@@ -1,6 +1,6 @@
 <?php
 
-class OOCategory extends rex_oocategory
+class OOCategory extends rex_ooCategory
 {
 
 }

@@ -10,12 +10,12 @@ include_once $REX['INCLUDE_PATH'].'/core/functions/function_rex_other.inc.php';
 include_once $REX['INCLUDE_PATH'].'/core/functions/function_rex_addons.inc.php';
 
 $addons = array();
-foreach (rex_ooaddon::getRegisteredAddons() as $addon)
+foreach (rex_ooAddon::getRegisteredAddons() as $addon)
 {
-  $isActive    = rex_ooaddon::isActivated($addon);
-  $version     = rex_ooaddon::getVersion($addon);
-  $author      = rex_ooaddon::getAuthor($addon);
-  $supportPage = rex_ooaddon::getSupportPage($addon);
+  $isActive    = rex_ooAddon::isActivated($addon);
+  $version     = rex_ooAddon::getVersion($addon);
+  $author      = rex_ooAddon::getAuthor($addon);
+  $supportPage = rex_ooAddon::getSupportPage($addon);
 
   if ($isActive) $cl = 'rex-clr-grn';
   else $cl = 'rex-clr-red';
@@ -24,22 +24,22 @@ foreach (rex_ooaddon::getRegisteredAddons() as $addon)
   if ($author)    $author        = htmlspecialchars($author);
   if (!$isActive) $author        = $REX['I18N']->msg('credits_addon_inactive');
   
-  $rex_ooaddon =  new stdClass();
-  $rex_ooaddon->name = $addon;
-  $rex_ooaddon->version = $version;
-  $rex_ooaddon->author = $author;
-  $rex_ooaddon->supportpage = $supportPage;
-  $rex_ooaddon->class = $cl;
+  $rex_ooAddon =  new stdClass();
+  $rex_ooAddon->name = $addon;
+  $rex_ooAddon->version = $version;
+  $rex_ooAddon->author = $author;
+  $rex_ooAddon->supportpage = $supportPage;
+  $rex_ooAddon->class = $cl;
 
   $plugins = array();
   if($isActive)
   {
-    foreach(rex_ooplugin::getAvailablePlugins($addon) as $plugin)
+    foreach(rex_ooPlugin::getAvailablePlugins($addon) as $plugin)
     {
-      $isActive    = rex_ooplugin::isActivated($addon, $plugin);
-      $version     = rex_ooplugin::getVersion($addon, $plugin);
-      $author      = rex_ooplugin::getAuthor($addon, $plugin);
-      $supportPage = rex_ooplugin::getSupportPage($addon, $plugin);
+      $isActive    = rex_ooPlugin::isActivated($addon, $plugin);
+      $version     = rex_ooPlugin::getVersion($addon, $plugin);
+      $author      = rex_ooPlugin::getAuthor($addon, $plugin);
+      $supportPage = rex_ooPlugin::getSupportPage($addon, $plugin);
 
       if ($isActive) $cl = 'rex-clr-grn';
       else $cl = 'rex-clr-red';
@@ -48,18 +48,18 @@ foreach (rex_ooaddon::getRegisteredAddons() as $addon)
       if ($author)    $author        = htmlspecialchars($author);
       if (!$isActive) $author        = $REX['I18N']->msg('credits_addon_inactive');
 
-      $rex_ooplugin =  new stdClass();
-      $rex_ooplugin->name = $plugin ;
-      $rex_ooplugin->version = $version;
-      $rex_ooplugin->author = $author;
-      $rex_ooplugin->supportpage = $supportPage;
-      $rex_ooplugin->class = $cl;
-      $plugins []= $rex_ooplugin;
+      $rex_ooPlugin =  new stdClass();
+      $rex_ooPlugin->name = $plugin ;
+      $rex_ooPlugin->version = $version;
+      $rex_ooPlugin->author = $author;
+      $rex_ooPlugin->supportpage = $supportPage;
+      $rex_ooPlugin->class = $cl;
+      $plugins []= $rex_ooPlugin;
     }
   }
   
-  $rex_ooaddon->plugins = $plugins; 
-  $addons[]=$rex_ooaddon;
+  $rex_ooAddon->plugins = $plugins; 
+  $addons[]=$rex_ooAddon;
   //  echo '
 //      <tr class="rex-addon">
 //        <td class="rex-col-a"><span class="'.$cl.'">'.htmlspecialchars($addon).'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>

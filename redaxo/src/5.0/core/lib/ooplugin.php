@@ -6,10 +6,10 @@
  * @version svn:$Id$
  */
 
-class rex_ooplugin extends rex_addon
+class rex_ooPlugin extends rex_addon
 {
   /**
-   * Erstellt eine rex_ooplugin instanz
+   * Erstellt eine rex_ooPlugin instanz
    *
    * @param string $addon Name des Addons
    */
@@ -26,7 +26,7 @@ class rex_ooplugin extends rex_addon
   {
     if ($plugin === null)
     {
-      throw new InvalidArgumentException('Missing Argument 2 for rex_ooplugin::isAvailable()');
+      throw new InvalidArgumentException('Missing Argument 2 for rex_ooPlugin::isAvailable()');
     }
     return parent::isAvailable(array($addon, $plugin));
   }
@@ -39,7 +39,7 @@ class rex_ooplugin extends rex_addon
   {
     if ($plugin === null)
     {
-      throw new InvalidArgumentException('Missing Argument 2 for rex_ooplugin::isActivated()');
+      throw new InvalidArgumentException('Missing Argument 2 for rex_ooPlugin::isActivated()');
     }
     return parent::isActivated(array($addon, $plugin));
   }
@@ -52,7 +52,7 @@ class rex_ooplugin extends rex_addon
   {
     if ($plugin === null)
     {
-      throw new InvalidArgumentException('Missing Argument 2 for rex_ooplugin::isInstalled()');
+      throw new InvalidArgumentException('Missing Argument 2 for rex_ooPlugin::isInstalled()');
     }
     return parent::isInstalled(array($addon, $plugin));
   }
@@ -65,7 +65,7 @@ class rex_ooplugin extends rex_addon
   {
     if ($plugin === null)
     {
-      throw new InvalidArgumentException('Missing Argument 2 for rex_ooplugin::getSupportPage()');
+      throw new InvalidArgumentException('Missing Argument 2 for rex_ooPlugin::getSupportPage()');
     }
     return parent::getSupportPage(array($addon, $plugin), $default);
   }
@@ -78,7 +78,7 @@ class rex_ooplugin extends rex_addon
   {
     if ($plugin === null)
     {
-      throw new InvalidArgumentException('Missing Argument 2 for rex_ooplugin::getVersion()');
+      throw new InvalidArgumentException('Missing Argument 2 for rex_ooPlugin::getVersion()');
     }
     return parent::getVersion(array($addon, $plugin), $default);
   }
@@ -91,7 +91,7 @@ class rex_ooplugin extends rex_addon
   {
     if ($plugin === null)
     {
-      throw new InvalidArgumentException('Missing Argument 2 for rex_ooplugin::getAuthor()');
+      throw new InvalidArgumentException('Missing Argument 2 for rex_ooPlugin::getAuthor()');
     }
     return parent::getAuthor(array($addon, $plugin), $default);
   }
@@ -104,7 +104,7 @@ class rex_ooplugin extends rex_addon
   {
     if ($property === null)
     {
-      throw new InvalidArgumentException('Missing Argument 3 for rex_ooplugin::getProperty()');
+      throw new InvalidArgumentException('Missing Argument 3 for rex_ooPlugin::getProperty()');
     }
     return parent::getProperty(array($addon, $plugin), $property, $default);
   }
@@ -117,7 +117,7 @@ class rex_ooplugin extends rex_addon
   {
     if ($value === null)
     {
-      throw new InvalidArgumentException('Missing Argument 4 for rex_ooplugin::setProperty()');
+      throw new InvalidArgumentException('Missing Argument 4 for rex_ooPlugin::setProperty()');
     }
     return parent::setProperty(array($addon, $plugin), $property, $value);
   }
@@ -132,9 +132,9 @@ class rex_ooplugin extends rex_addon
   static public function getAvailablePlugins($addon)
   {
     $avail = array();
-    foreach(rex_ooplugin::getRegisteredPlugins($addon) as $plugin)
+    foreach(rex_ooPlugin::getRegisteredPlugins($addon) as $plugin)
     {
-      if(rex_ooplugin::isAvailable($addon, $plugin))
+      if(rex_ooPlugin::isAvailable($addon, $plugin))
       {
         $avail[] = $plugin;
       }
@@ -154,9 +154,9 @@ class rex_ooplugin extends rex_addon
   static public function getInstalledPlugins($addon)
   {
     $avail = array();
-    foreach(rex_ooplugin::getRegisteredPlugins($addon) as $plugin)
+    foreach(rex_ooPlugin::getRegisteredPlugins($addon) as $plugin)
     {
-      if(rex_ooplugin::isInstalled($addon, $plugin))
+      if(rex_ooPlugin::isInstalled($addon, $plugin))
       {
         $avail[] = $plugin;
       }

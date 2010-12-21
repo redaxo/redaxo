@@ -76,7 +76,7 @@ class rex_var_article extends rex_var
         // REX_ARTICLE[field=name] keine id -> feld von aktuellem artikel verwenden
       	if($field)
 	      {
-	        if(rex_ooarticle::hasValue($field))
+	        if(rex_ooArticle::hasValue($field))
 	        {
 	          $tpl = '<?php echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, '$this->getValue(\''. addslashes($field) .'\')') .'); ?>';
 	        }
@@ -97,13 +97,13 @@ class rex_var_article extends rex_var
         // REX_ARTICLE[field=name id=5] feld von gegebene artikel id verwenden
       	if($field)
         {
-          if(rex_ooarticle::hasValue($field))
+          if(rex_ooArticle::hasValue($field))
           {
 	        	// bezeichner wählen, der keine variablen
 	          // aus modulen/templates überschreibt
 	          $varname = '$__rex_art';
 	          $tpl = '<?php
-	          '. $varname .' = rex_ooarticle::getArticleById('. $article_id .', '. $clang .');
+	          '. $varname .' = rex_ooArticle::getArticleById('. $article_id .', '. $clang .');
 	          if('. $varname .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .');
 	          ?>';
           }

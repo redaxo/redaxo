@@ -313,7 +313,7 @@ function rex_article2startpage($neu_id){
 
   // cat felder sammeln. +
   $params = array('path','prior','catname','startpage','catprior','status');
-  $db_fields = rex_ooredaxo::getClassVars();
+  $db_fields = rex_ooRedaxo::getClassVars();
   foreach($db_fields as $field)
   {
     if(substr($field,0,4)=='cat_') $params[] = $field;

@@ -97,7 +97,7 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
   $name = 'NoName';
   if ($id != 0)
   {
-    $ooa = rex_ooarticle :: getArticleById($id, $clang);
+    $ooa = rex_ooArticle :: getArticleById($id, $clang);
     if ($ooa)
       $name = rex_parse_article_name($ooa->getName());
   }

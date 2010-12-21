@@ -25,7 +25,7 @@ function rex_be_add_page($params)
 function rex_be_style_css_add($params)
 {
   $addon = "be_style";
-  foreach(rex_ooplugin::getAvailablePlugins($addon) as $plugin)
+  foreach(rex_ooPlugin::getAvailablePlugins($addon) as $plugin)
   {
   	$params["subject"] .= "\n".'  <link rel="stylesheet" type="text/css" href="../redaxo_media/addons/'.$addon.'/plugins/'.$plugin.'/css_main.css" media="screen, projection, print" />';
   }
