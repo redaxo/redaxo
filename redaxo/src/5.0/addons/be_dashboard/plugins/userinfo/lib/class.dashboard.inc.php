@@ -17,14 +17,14 @@
 
 class rex_stats_component extends rex_dashboard_component
 {
-  function rex_stats_component()
+  public function __construct()
   {
     global $REX;
 
     // default cache lifetime in seconds
     $cache_options['lifetime'] = 1800;
 
-    parent::rex_dashboard_component('userinfo-stats', $cache_options);
+    parent::__construct('userinfo-stats', $cache_options);
     $this->setTitle($REX['I18N']->msg('userinfo_component_stats_title'));
     $this->setBlock($REX['I18N']->msg('userinfo_block_stats'));
   }
@@ -119,11 +119,11 @@ class rex_stats_component extends rex_dashboard_component
 
 class rex_articles_component extends rex_dashboard_component
 {
-  function rex_articles_component()
+  function __construct()
   {
     global $REX;
 
-    parent::rex_dashboard_component('userinfo-articles');
+    parent::__construct('userinfo-articles');
     $this->setTitle($REX['I18N']->msg('userinfo_component_articles_title'));
     $this->setTitleUrl('index.php?page=structure');
     $this->setBlock($REX['I18N']->msg('userinfo_block_latest_infos'));
@@ -176,11 +176,11 @@ class rex_articles_component extends rex_dashboard_component
 
 class rex_media_component extends rex_dashboard_component
 {
-  function rex_media_component()
+  public function __construct()
   {
     global $REX;
 
-    parent::rex_dashboard_component('userinfo-media');
+    parent::__construct('userinfo-media');
     $this->setTitle($REX['I18N']->msg('userinfo_component_media_title'));
     $this->setTitleUrl('javascript:openMediaPool();');
     $this->setBlock($REX['I18N']->msg('userinfo_block_latest_infos'));

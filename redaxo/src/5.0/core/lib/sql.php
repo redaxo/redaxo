@@ -7,22 +7,25 @@
 
 class rex_sql
 {
-  var $values; // Werte von setValue
-  var $fieldnames; // Spalten im ResultSet
+  public
+    $debugsql; // debug schalter
 
-  var $table; // Tabelle setzen
-  var $wherevar; // WHERE Bediengung
-  var $query; // letzter Query String
-  var $counter; // ResultSet Cursor
-  var $rows; // anzahl der treffer
-  var $result; // ResultSet
-  var $last_insert_id; // zuletzt angelegte auto_increment nummer
-  var $debugsql; // debug schalter
-  var $identifier; // Datenbankverbindung
-  var $DBID; // ID der Verbindung
+  private
+    $values, // Werte von setValue
+    $fieldnames, // Spalten im ResultSet
 
-  var $error; // Fehlertext
-  var $errno; // Fehlernummer
+    $table, // Tabelle setzen
+    $wherevar, // WHERE Bediengung
+    $query, // letzter Query String
+    $counter, // ResultSet Cursor
+    $rows, // anzahl der treffer
+    $result, // ResultSet
+    $last_insert_id, // zuletzt angelegte auto_increment nummer
+    $identifier, // Datenbankverbindung
+    $DBID, // ID der Verbindung
+
+    $error, // Fehlertext
+    $errno; // Fehlernummer
 
   protected function rex_sql($DBID = 1)
   {
@@ -101,11 +104,11 @@ class rex_sql
    *
    * @param $query Abfrage
    */
-  protected function stripQueryDBID(&$qry)
+  static protected function stripQueryDBID(&$qry)
   {
     $qry = trim($qry);
 
-    if(($qryDBID = rex_sql::getQueryDBID($qry)) !== false)
+    if(($qryDBID = self::getQueryDBID($qry)) !== false)
       $qry = substr($qry, 6);
 
     return $qryDBID;
@@ -125,19 +128,11 @@ class rex_sql
    *
    * @param $query Abfrage
    */
-  public function getQueryType($qry = null)
+  static public function getQueryType($qry)
   {
-    if(!$qry)
-    {
-      if(isset($this)) // Nur bei angelegtem Object
-        $qry = $this->query;
-      else
-        return null;
-    }
-
     $qry = trim($qry);
     // DBID aus dem Query herausschneiden, falls vorhanden
-    rex_sql::stripQueryDBID($qry);
+    self::stripQueryDBID($qry);
 
     if(preg_match('/^(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE)/i', $qry, $matches))
       return strtoupper($matches[1]);
@@ -154,7 +149,7 @@ class rex_sql
    */
   public function setDBQuery($qry)
   {
-    if(($qryDBID = rex_sql::stripQueryDBID($qry)) !== false)
+    if(($qryDBID = self::stripQueryDBID($qry)) !== false)
       $this->selectDB($qryDBID);
 
     return $this->setQuery($qry);
@@ -188,7 +183,7 @@ class rex_sql
 
     if ($this->result)
     {
-      if (($qryType = $this->getQueryType()) !== false)
+      if (($qryType = self::getQueryType($this->query)) !== false)
       {
         switch ($qryType)
         {
@@ -768,7 +763,7 @@ class rex_sql
    */
   static public function showCreateTable($table, $DBID=1)
   {
-    $sql = rex_sql::factory($DBID);
+    $sql = self::factory($DBID);
     $array = $sql->getArray("SHOW CREATE TABLE `$table`");
     $create = reset($array);
     $create = $create['Create Table'];
@@ -792,7 +787,7 @@ class rex_sql
     	$qry .= ' LIKE "'.$tablePrefix.'%"';
     }
 
-    $sql = rex_sql::factory($DBID);
+    $sql = self::factory($DBID);
     $tables = $sql->getArray($qry);
     $tables = array_map('reset', $tables);
 
@@ -808,7 +803,7 @@ class rex_sql
    */
   static public function showColumns($table, $DBID=1)
   {
-    $sql = rex_sql::factory($DBID);
+    $sql = self::factory($DBID);
     $sql->setQuery('SHOW COLUMNS FROM '.$table);
 
     $columns = array();
@@ -923,7 +918,7 @@ class rex_sql
     if($DBID === null)
     {
       foreach($REX['DB'] as $DBID => $DBSettings)
-        rex_sql::disconnect($DBID);
+        self::disconnect($DBID);
 
       return;
     }
@@ -932,9 +927,9 @@ class rex_sql
        isset($REX['DB'][$DBID]['IDENTIFIER']) &&
        is_resource($REX['DB'][$DBID]['IDENTIFIER']))
     {
-      $db = rex_sql::factory($DBID);
+      $db = self::factory($DBID);
 
-      if(rex_sql::isValid($db))
+      if(self::isValid($db))
         mysql_close($db->identifier);
     }
   }

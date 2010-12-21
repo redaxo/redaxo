@@ -2,32 +2,33 @@
 
 class rex_form_widget_media_element extends rex_form_element
 {
-  var $category_id = 0;
-  var $args = array();
-  
+  private
+    $category_id = 0,
+    $args = array();
+
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
-  function rex_form_widget_media_element($tag = '', &$table, $attributes = array())
+  public function __construct($tag = '', &$table, array $attributes = array())
   {
-    parent::rex_form_element('', $table, $attributes);
+    parent::__construct('', $table, $attributes);
   }
 
-  function setCategoryId($category_id)
+  public function setCategoryId($category_id)
   {
     $this->category_id = $category_id;
   }
 
-  function setTypes($types)
+  public function setTypes($types)
   {
     $this->args['types'] = $types;
   }
-  
-  function setPreview($preview = true)
+
+  public function setPreview($preview = true)
   {
     $this->args['preview'] = $preview;
   }
 
-  function formatElement()
+  public function formatElement()
   {
     static $widget_counter = 1;
 

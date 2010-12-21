@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 /**
  * RSS Reader Addon
- * 
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
  *
@@ -29,17 +29,17 @@ require_once dirname(__FILE__) .'/../libs/simplepie.inc.php';
  * @param string $cache_location This is where you want the cache to be stored.
  * @param int $cache_duration This is the number of seconds that you want to store the cache file for.
  */
-class rex_rssReader extends SimplePie 
+class rex_rssReader extends SimplePie
 {
-  function rex_rssReader($feed_url = null, $cache_location = null, $cache_duration = null)
+  public function __construct($feed_url = null, $cache_location = null, $cache_duration = null)
   {
     global $REX;
-    
+
     if($cache_location == null)
     {
       $cache_location = $REX['INCLUDE_PATH'] .'/generated/files/';
     }
-    
+
     parent::SimplePie($feed_url, $cache_location, $cache_duration);
   }
 }

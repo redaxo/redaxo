@@ -2,7 +2,7 @@
 
 class rex_addonManager extends rex_baseManager
 {
-  var $configArray;
+  private $configArray;
 
   function __construct($configArray)
   {
@@ -95,11 +95,8 @@ class rex_addonManager extends rex_baseManager
     return rex_generateAddons($this->configArray);
   }
 
-  protected function apiCall($method, $arguments)
+  protected function apiCall($method, array $arguments)
   {
-    if(!is_array($arguments))
-      trigger_error('Expecting $arguments to be an array!', E_USER_ERROR);
-
     return rex_call_func(array('rex_ooaddon', $method), $arguments, false);
   }
 

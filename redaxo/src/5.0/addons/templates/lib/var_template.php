@@ -11,7 +11,7 @@ class rex_var_template extends rex_var
 {
   // --------------------------------- Output
 
-  public function getBEOutput(& $sql, $content)
+  public function getBEOutput(rex_sql $sql, $content)
   {
     return $this->matchTemplate($content);
   }
@@ -31,9 +31,9 @@ class rex_var_template extends rex_var
 
     foreach ($matches as $match)
     {
-      list ($param_str, $args) = $match;      
+      list ($param_str, $args) = $match;
       list ($template_id, $args) = $this->extractArg('id', $args, 0);
-      
+
       if($template_id > 0)
       {
         $varname = '$__rex_tpl'. $template_id;

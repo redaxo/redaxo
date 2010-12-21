@@ -39,7 +39,7 @@ class rex_form
   /**
    * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!
    */
-  protected function rex_form($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+  protected function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     global $REX;
 //    $debug = true;
@@ -211,7 +211,7 @@ class rex_form
   /**
    * Fuegt dem Formular ein Input-Feld hinzu
    */
-  public function addField($tag, $name, $value = null, $attributes = array(), $addElement = true)
+  public function addField($tag, $name, $value = null, array $attributes = array(), $addElement = true)
   {
     $element = $this->createElement($tag, $name, $value, $attributes);
 
@@ -229,7 +229,7 @@ class rex_form
    *
    * Ein Container-Feld wiederrum kann weitere Felder enthalten.
    */
-  public function addContainerField($name, $value = null, $attributes = array())
+  public function addContainerField($name, $value = null, array $attributes = array())
   {
     if(!isset($attributes['class']))
       $attributes['class'] = 'rex-form-element-container';
@@ -242,7 +242,7 @@ class rex_form
   /**
    * Fuegt dem Formular ein Input-Feld mit dem Type $type hinzu.
    */
-  public function addInputField($type, $name, $value = null, $attributes = array(), $addElement = true)
+  public function addInputField($type, $name, $value = null, array $attributes = array(), $addElement = true)
   {
     $attributes['type'] = $type;
     $field = $this->addField('input', $name, $value, $attributes, $addElement);
@@ -252,7 +252,7 @@ class rex_form
   /**
    * Fuegt dem Formular ein Text-Feld hinzu
    */
-  public function addTextField($name, $value = null, $attributes = array())
+  public function addTextField($name, $value = null, array $attributes = array())
   {
     if(!isset($attributes['class']))
     	$attributes['class'] = 'rex-form-text';
@@ -264,7 +264,7 @@ class rex_form
    * Fuegt dem Formular ein Read-Only-Text-Feld hinzu.
    * Dazu wird ein input-Element verwendet.
    */
-  public function addReadOnlyTextField($name, $value = null, $attributes = array())
+  public function addReadOnlyTextField($name, $value = null, array $attributes = array())
   {
     $attributes['readonly'] = 'readonly';
     if(!isset($attributes['class']))
@@ -277,7 +277,7 @@ class rex_form
    * Fuegt dem Formular ein Read-Only-Feld hinzu.
    * Dazu wird ein span-Element verwendet.
    */
-  public function addReadOnlyField($name, $value = null, $attributes = array())
+  public function addReadOnlyField($name, $value = null, array $attributes = array())
   {
     $attributes['internal::fieldSeparateEnding'] = true;
     $attributes['internal::noNameAttribute'] = true;
@@ -290,7 +290,7 @@ class rex_form
   /**
    * Fuegt dem Fomular ein Hidden-Feld hinzu.
    */
-  public function addHiddenField($name, $value = null, $attributes = array())
+  public function addHiddenField($name, $value = null, array $attributes = array())
   {
     $field = $this->addInputField('hidden', $name, $value, $attributes, true);
     return $field;
@@ -300,7 +300,7 @@ class rex_form
    * Fuegt dem Fomular ein Checkbox-Feld hinzu.
    * Dies ermoeglicht die Mehrfach-Selektion aus einer vorgegeben Auswahl an Werten.
    */
-  public function addCheckboxField($name, $value = null, $attributes = array())
+  public function addCheckboxField($name, $value = null, array $attributes = array())
   {
     $attributes['internal::fieldClass'] = 'rex_form_checkbox_element';
     if(!isset($attributes['class']))
@@ -313,7 +313,7 @@ class rex_form
    * Fuegt dem Formular ein Radio-Feld hinzu.
    * Dies ermoeglicht eine Einfache-Selektion aus einer vorgegeben Auswahl an Werten.
    */
-  public function addRadioField($name, $value = null, $attributes = array())
+  public function addRadioField($name, $value = null, array $attributes = array())
   {
     if(!isset($attributes['class']))
     	$attributes['class'] = 'rex-form-radio';
@@ -325,7 +325,7 @@ class rex_form
   /**
    * Fuegt dem Formular ein Textarea-Feld hinzu.
    */
-  public function addTextAreaField($name, $value = null, $attributes = array())
+  public function addTextAreaField($name, $value = null, array $attributes = array())
   {
     $attributes['internal::fieldSeparateEnding'] = true;
     if(!isset($attributes['cols']))
@@ -342,7 +342,7 @@ class rex_form
   /**
    * Fuegt dem Formular ein Select/Auswahl-Feld hinzu.
    */
-  public function addSelectField($name, $value = null, $attributes = array())
+  public function addSelectField($name, $value = null, array $attributes = array())
   {
     if(!isset($attributes['class']))
     	$attributes['class'] = 'rex-form-select';
@@ -354,7 +354,7 @@ class rex_form
   /**
    * Fuegt dem Formular ein Feld hinzu mitdem die Prioritaet von Datensaetzen verwaltet werden kann.
    */
-  public function addPrioField($name, $value = null, $attributes = array())
+  public function addPrioField($name, $value = null, array $attributes = array())
   {
     if(!isset($attributes['class']))
     	$attributes['class'] = 'rex-form-select';
@@ -367,7 +367,7 @@ class rex_form
    * Fuegt dem Formular ein Feld hinzu mit dem der Medienpool angebunden werden kann.
    * Es kann nur ein Element aus dem Medienpool eingefuegt werden.
    */
-  public function addMediaField($name, $value = null, $attributes = array())
+  public function addMediaField($name, $value = null, array $attributes = array())
   {
     $attributes['internal::fieldClass'] = 'rex_form_widget_media_element';
     $field = $this->addField('', $name, $value, $attributes, true);
@@ -378,7 +378,7 @@ class rex_form
    * Fuegt dem Formular ein Feld hinzu mit dem der Medienpool angebunden werden kann.
    * Damit koennen mehrere Elemente aus dem Medienpool eingefuegt werden.
    */
-  public function addMedialistField($name, $value = null, $attributes = array())
+  public function addMedialistField($name, $value = null, array $attributes = array())
   {
     $attributes['internal::fieldClass'] = 'rex_form_widget_medialist_element';
     $field = $this->addField('', $name, $value, $attributes, true);
@@ -389,7 +389,7 @@ class rex_form
    * Fuegt dem Formular ein Feld hinzu mit dem die Struktur-Verwaltung angebunden werden kann.
    * Es kann nur ein Element aus der Struktur eingefuegt werden.
    */
-  public function addLinkmapField($name, $value = null, $attributes = array())
+  public function addLinkmapField($name, $value = null, array $attributes = array())
   {
     $attributes['internal::fieldClass'] = 'rex_form_widget_linkmap_element';
     $field = $this->addField('', $name, $value, $attributes, true);
@@ -400,7 +400,7 @@ class rex_form
    * Fuegt dem Formular ein Feld hinzu mit dem die Struktur-Verwaltung angebunden werden kann.
    * Damit koennen mehrere Elemente aus der Struktur eingefuegt werden.
    */
-  public function addLinklistField($name, $value = null, $attributes = array())
+  public function addLinklistField($name, $value = null, array $attributes = array())
   {
     $attributes['internal::fieldClass'] = 'rex_form_widget_linklist_element';
     $field = $this->addField('', $name, $value, $attributes, true);
@@ -466,7 +466,7 @@ class rex_form
   /**
    * Allgemeine Bootleneck-Methode um Elemente in das Formular einzufuegen.
    */
-  protected function addElement(&$element)
+  protected function addElement(rex_form_element $element)
   {
     $this->elements[$this->fieldset][] = $element;
     return $element;
@@ -498,7 +498,7 @@ class rex_form
   /**
    * Erstellt ein Input-Element anhand des Strings $inputType
    */
-  public function createInput($inputType, $name, $value = null, $attributes = array())
+  public function createInput($inputType, $name, $value = null, array $attributes = array())
   {
     $tag        = rex_form::getInputTagName($inputType);
     $className  = rex_form::getInputClassName($inputType);
@@ -513,7 +513,7 @@ class rex_form
   /**
    * Erstellt ein Input-Element anhand von $tag
    */
-  protected function createElement($tag, $name, $value, $attributes = array())
+  protected function createElement($tag, $name, $value, array $attributes = array())
   {
     $id = $this->tableName.'_'.$this->fieldset.'_'.$name;
 
@@ -715,19 +715,19 @@ class rex_form
 
   // --------- Form Methods
 
-  protected function isHeaderElement($element)
+  protected function isHeaderElement(rex_form_element $element)
   {
-    return is_object($element) && $element->getTag() == 'input' && $element->getAttribute('type') == 'hidden';
+    return $element->getTag() == 'input' && $element->getAttribute('type') == 'hidden';
   }
 
-  protected function isFooterElement($element)
+  protected function isFooterElement(rex_form_element $element)
   {
     return $this->isControlElement($element);
   }
 
-  protected function isControlElement($element)
+  protected function isControlElement(rex_form_element $element)
   {
-    return is_object($element) && is_a($element, 'rex_form_control_element');
+    return is_a($element, 'rex_form_control_element');
   }
 
   protected function getHeaderElements()
@@ -901,7 +901,7 @@ class rex_form
    * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
    * kurz vorm speichern
    */
-  protected function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
+  protected function preSave($fieldsetName, $fieldName, $fieldValue, $saveSql)
   {
     global $REX;
 
@@ -1093,7 +1093,7 @@ class rex_form
     return $deleted;
   }
 
-  protected function redirect($listMessage = '', $listWarning = '', $params = array())
+  protected function redirect($listMessage = '', $listWarning = '', array $params = array())
   {
     if($listMessage != '')
     {

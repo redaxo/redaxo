@@ -2,10 +2,11 @@
 
 class rex_pluginManager extends rex_baseManager
 {
-  var $configArray;
-  var $addonName;
+  private
+    $configArray,
+    $addonName;
 
-  function __construct($configArray, $addonName)
+  function __construct(array $configArray, $addonName)
   {
     $this->configArray =& $configArray;
     $this->addonName = $addonName;
@@ -130,11 +131,8 @@ class rex_pluginManager extends rex_baseManager
     return rex_generatePlugins($this->configArray);
   }
 
-  protected function apiCall($method, $arguments)
+  protected function apiCall($method, array $arguments)
   {
-    if(!is_array($arguments))
-      trigger_error('Expecting $arguments to be an array!', E_USER_ERROR);
-
     // addonName als 1. Parameter einfügen
     array_unshift($arguments, $this->addonName);
 

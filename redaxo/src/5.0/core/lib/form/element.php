@@ -2,20 +2,21 @@
 
 class rex_form_element
 {
-  var $value;
-  var $label;
-  var $tag;
-  var $table;
-  var $attributes;
-  var $separateEnding;
-  var $fieldName;
-  var $header;
-  var $footer;
-  var $prefix;
-  var $suffix;
-  var $notice;
+  protected
+    $value,
+    $label,
+    $tag,
+    $table,
+    $attributes,
+    $separateEnding,
+    $fieldName,
+    $header,
+    $footer,
+    $prefix,
+    $suffix,
+    $notice;
 
-  function rex_form_element($tag, &$table, $attributes = array(), $separateEnding = false)
+  public function __construct($tag, &$table, array $attributes = array(), $separateEnding = false)
   {
     $this->value = null;
     $this->label = '';
@@ -32,107 +33,107 @@ class rex_form_element
 
   // --------- Attribute setter/getters
 
-  function setValue($value)
+  public function setValue($value)
   {
     $this->value = $value;
   }
 
-  function getSaveValue()
+  public function getSaveValue()
   {
     return $this->getValue();
   }
-  
-  function getValue()
+
+  public function getValue()
   {
     return $this->value;
   }
 
-  function setFieldName($name)
+  public function setFieldName($name)
   {
     $this->fieldName = $name;
   }
 
-  function getFieldName()
+  public function getFieldName()
   {
     return $this->fieldName;
   }
 
-  function setLabel($label)
+  public function setLabel($label)
   {
     $this->label = $label;
   }
 
-  function getLabel()
+  public function getLabel()
   {
     return $this->label;
   }
 
-  function setNotice($notice)
+  public function setNotice($notice)
   {
     $this->notice = $notice;
   }
 
-  function getNotice()
+  public function getNotice()
   {
     return $this->notice;
   }
 
-  function getTag()
+  public function getTag()
   {
     return $this->tag;
   }
 
-  function setSuffix($suffix)
+  public function setSuffix($suffix)
   {
     $this->suffix = $suffix;
   }
 
-  function getSuffix()
+  public function getSuffix()
   {
     return $this->suffix;
   }
 
-  function setPrefix($prefix)
+  public function setPrefix($prefix)
   {
     $this->prefix = $prefix;
   }
 
-  function getPrefix()
+  public function getPrefix()
   {
     return $this->prefix;
   }
 
-  function setHeader($header)
+  public function setHeader($header)
   {
     $this->header = $header;
   }
 
-  function getHeader()
+  public function getHeader()
   {
     return $this->header;
   }
 
-  function setFooter($footer)
+  public function setFooter($footer)
   {
     $this->footer = $footer;
   }
 
-  function getFooter()
+  public function getFooter()
   {
     return $this->footer;
   }
 
-  static function _normalizeId($id)
+  static public function _normalizeId($id)
   {
     return preg_replace('/[^a-zA-Z\-0-9_]/i','_', $id);
   }
 
-  static function _normalizeName($name)
+  static public function _normalizeName($name)
   {
     return preg_replace('/[^\[\]a-zA-Z\-0-9_]/i','_', $name);
   }
 
-  function setAttribute($name, $value)
+  public function setAttribute($name, $value)
   {
     if($name == 'value')
     {
@@ -153,7 +154,7 @@ class rex_form_element
     }
   }
 
-  function getAttribute($name, $default = null)
+  public function getAttribute($name, $default = null)
   {
     if($name == 'value')
     {
@@ -167,39 +168,39 @@ class rex_form_element
     return $default;
   }
 
-  function setAttributes($attributes)
+  public function setAttributes(array $attributes)
   {
     $this->attributes = array();
-    
+
     foreach($attributes as $name => $value)
     {
       $this->setAttribute($name, $value);
     }
   }
 
-  function getAttributes()
+  public function getAttributes()
   {
     return $this->attributes;
   }
 
-  function hasAttribute($name)
+  public function hasAttribute($name)
   {
     return isset($this->attributes[$name]);
   }
 
-  function hasSeparateEnding()
+  public function hasSeparateEnding()
   {
     return $this->separateEnding;
   }
 
   // --------- Element Methods
 
-  function formatClass()
+  protected function formatClass()
   {
     return $this->getAttribute('class');
   }
 
-  function formatLabel()
+  protected function formatLabel()
   {
     $s = '';
     $label = $this->getLabel();
@@ -212,7 +213,7 @@ class rex_form_element
     return $s;
   }
 
-  function formatElement()
+  public function formatElement()
   {
     $attr = '';
     $value = htmlspecialchars($this->getValue());
@@ -233,7 +234,7 @@ class rex_form_element
     }
   }
 
-  function formatNotice()
+  protected function formatNotice()
   {
     $notice = $this->getNotice();
     if($notice != '')
@@ -242,21 +243,21 @@ class rex_form_element
     }
     return '';
   }
-  
-  function wrapContent($content)
+
+  protected function wrapContent($content)
   {
     return
        '<p class="rex-form-col-a '. $this->formatClass() .'">
          '. $content .'
         </p>'. "\n";
   }
-  
-  function _get()
+
+  protected function _get()
   {
     $s = '';
-    
+
     $s .= $this->getPrefix();
-    
+
     $s .= $this->formatLabel();
     $s .= $this->formatElement();
     $s .= $this->formatNotice();
@@ -266,7 +267,7 @@ class rex_form_element
     return $s;
   }
 
-  function get()
+  public function get()
   {
     $s = '';
     $s .= $this->getHeader();
@@ -279,7 +280,7 @@ class rex_form_element
     return $s;
   }
 
-  function show()
+  public function show()
   {
     echo $this->get();
   }

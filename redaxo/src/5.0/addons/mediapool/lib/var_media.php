@@ -9,7 +9,7 @@
  * REX_MEDIALIST[1],
  * REX_MEDIA_BUTTON[1],
  * REX_MEDIALIST_BUTTON[1]
- * 
+ *
  * Attribute:
  *   - category  => Kategorie in die beim oeffnen des Medienpools gesprungen werden soll
  *   - types     => Filter für Dateiendungen die im Medienpool zur Auswahl stehen sollen
@@ -42,7 +42,7 @@ class rex_var_media extends rex_var
     return $REX_ACTION;
   }
 
-  public function getACDatabaseValues(array $REX_ACTION, & $sql)
+  public function getACDatabaseValues(array $REX_ACTION, rex_sql $sql)
   {
     for ($i = 1; $i < 11; $i++)
     {
@@ -53,7 +53,7 @@ class rex_var_media extends rex_var
     return $REX_ACTION;
   }
 
-  public function setACValues(& $sql, array $REX_ACTION, $escape = false)
+  public function setACValues(rex_sql $sql, array $REX_ACTION, $escape = false)
   {
     global $REX;
 
@@ -66,7 +66,7 @@ class rex_var_media extends rex_var
 
   // --------------------------------- Output
 
-  public function getBEInput(& $sql, $content)
+  public function getBEInput(rex_sql $sql, $content)
   {
     $content = $this->matchMediaButton($sql, $content);
     $content = $this->matchMediaListButton($sql, $content);
@@ -74,7 +74,7 @@ class rex_var_media extends rex_var
     return $content;
   }
 
-  public function getBEOutput(& $sql, $content)
+  public function getBEOutput(rex_sql $sql, $content)
   {
     $content = $this->getOutput($sql, $content);
     return $content;
@@ -83,7 +83,7 @@ class rex_var_media extends rex_var
   /**
    * Ersetzt die Value Platzhalter
    */
-  private function getOutput(& $sql, $content)
+  private function getOutput(rex_sql $sql, $content)
   {
     $content = $this->matchMedia($sql, $content);
     $content = $this->matchMediaList($sql, $content);
@@ -94,8 +94,8 @@ class rex_var_media extends rex_var
   {
     switch($name)
     {
-      case '0' :  
-        $args['id'] = (int) $value; 
+      case '0' :
+        $args['id'] = (int) $value;
         break;
       case '1' :
       case 'category' :
@@ -117,7 +117,7 @@ class rex_var_media extends rex_var
   /**
    * MediaButton für die Eingabe
    */
-  private function matchMediaButton(& $sql, $content)
+  private function matchMediaButton(rex_sql $sql, $content)
   {
     $vars = array (
       'REX_FILE_BUTTON',
@@ -130,11 +130,11 @@ class rex_var_media extends rex_var
       {
         list ($param_str, $args) = $match;
         list ($id, $args) = $this->extractArg('id', $args, 0);
-        
+
         if ($id < 11 && $id > 0)
         {
           list ($category, $args) = $this->extractArg('category', $args, '');
-          
+
           $replace = $this->getMediaButton($id, $category, $args);
           $replace = $this->handleGlobalWidgetParams($var, $args, $replace);
           $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
@@ -148,7 +148,7 @@ class rex_var_media extends rex_var
   /**
    * MediaListButton für die Eingabe
    */
-  private function matchMediaListButton(& $sql, $content)
+  private function matchMediaListButton(rex_sql $sql, $content)
   {
     $vars = array (
       'REX_FILELIST_BUTTON',
@@ -161,7 +161,7 @@ class rex_var_media extends rex_var
       {
         list ($param_str, $args) = $match;
         list ($id, $args) = $this->extractArg('id', $args, 0);
-        
+
         if ($id < 11 && $id > 0)
         {
         	$category = '';
@@ -184,7 +184,7 @@ class rex_var_media extends rex_var
   /**
    * Wert für die Ausgabe
    */
-  private function matchMedia(& $sql, $content)
+  private function matchMedia(rex_sql $sql, $content)
   {
     $vars = array (
       'REX_FILE',
@@ -197,7 +197,7 @@ class rex_var_media extends rex_var
       {
         list ($param_str, $args) = $match;
         list ($id, $args) = $this->extractArg('id', $args, 0);
-        
+
         if ($id > 0 && $id < 11)
         {
           // Mimetype ausgeben
@@ -226,7 +226,7 @@ class rex_var_media extends rex_var
   /**
    * Wert für die Ausgabe
    */
-  private function matchMediaList(& $sql, $content)
+  private function matchMediaList(rex_sql $sql, $content)
   {
     $vars = array (
       'REX_FILELIST',
@@ -239,7 +239,7 @@ class rex_var_media extends rex_var
       {
         list ($param_str, $args) = $match;
         list ($id, $args) = $this->extractArg('id', $args, 0);
-        
+
         if ($id > 0 && $id < 11)
         {
           $replace = $this->getValue($sql, 'filelist' . $id);
@@ -254,7 +254,7 @@ class rex_var_media extends rex_var
   /**
    * Gibt das Button Template zurück
    */
-  static public function getMediaButton($id, $category = '', $args = array())
+  static public function getMediaButton($id, $category = '', array $args = array())
   {
     global $REX;
 
@@ -325,7 +325,7 @@ class rex_var_media extends rex_var
   /**
    * Gibt das ListButton Template zurück
    */
-  static public function getMedialistButton($id, $value, $category = '', $args = array())
+  static public function getMedialistButton($id, $value, $category = '', array $args = array())
   {
     global $REX;
 

@@ -5,11 +5,11 @@
  * REX_CATEGORY[field=xzy]
  * REX_CATEGORY[field=xzy id=3]
  * REX_CATEGORY[field=xzy id=3 clang=2]
- * 
+ *
  * Attribute:
  *   - field    => Feld der Kategorie, das ausgegeben werden soll
  *   - clang    => ClangId der Kategorie
- *   
+ *
  *
  * @package redaxo4
  * @version svn:$Id$
@@ -24,7 +24,7 @@ class rex_var_category extends rex_var
     return $this->matchCategory($content, true);
   }
 
-  public function getBEOutput(& $sql, $content)
+  public function getBEOutput(rex_sql $sql, $content)
   {
     return $this->matchCategory($content);
   }
@@ -42,7 +42,7 @@ class rex_var_category extends rex_var
     }
     return parent::handleDefaultParam($varname, $args, $name, $value);
   }
-  
+
   /**
    * Werte für die Ausgabe
    */
@@ -52,14 +52,14 @@ class rex_var_category extends rex_var
 
     $var = 'REX_CATEGORY';
     $matches = $this->getVarParams($content, $var);
-    
+
     foreach ($matches as $match)
     {
     	list ($param_str, $args)   = $match;
       list ($category_id, $args) = $this->extractArg('id',    $args, 0);
       list ($clang, $args)       = $this->extractArg('clang', $args, '$REX[\'CUR_CLANG\']');
       list ($field, $args)       = $this->extractArg('field', $args, '');
-      
+
       $tpl = '';
       if($category_id == 0)
       {
@@ -90,12 +90,12 @@ class rex_var_category extends rex_var
 	          $varname = '$__rex_cat';
 	          $tpl = '<?php
 	          '. $varname .' = rex_oocategory::getCategoryById('. $category_id .', '. $clang .');
-            if('. $varname .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .');	          
+            if('. $varname .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .');
 	          ?>';
           }
         }
       }
-      
+
       if($tpl != '')
         $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
     }

@@ -3,13 +3,13 @@
 /**
  * REX_ARTICLE[1]
  * REX_ARTICLE[id=1]
- * 
+ *
  * REX_ARTICLE[id=1 ctype=2 clang=1]
- * 
+ *
  * REX_ARTICLE[field='id']
  * REX_ARTICLE[field='description' id=3]
  * REX_ARTICLE[field='description' id=3 clang=2]
- * 
+ *
  * Attribute:
  *   - clang     => ClangId des Artikels festlegen
  *   - ctype     => Spalte des Artikels festlegen
@@ -28,7 +28,7 @@ class rex_var_article extends rex_var
     return $this->matchArticle($content, true);
   }
 
-  public function getBEOutput(& $sql, $content)
+  public function getBEOutput(rex_sql $sql, $content)
   {
     return $this->matchArticle($content);
   }
@@ -51,7 +51,7 @@ class rex_var_article extends rex_var
     }
     return parent::handleDefaultParam($varname, $args, $name, $value);
   }
-  
+
   /**
    * Werte für die Ausgabe
    */
@@ -61,7 +61,7 @@ class rex_var_article extends rex_var
 
     $var = 'REX_ARTICLE';
     $matches = $this->getVarParams($content, $var);
-    
+
     foreach ($matches as $match)
     {
       list ($param_str, $args)  = $match;
@@ -69,7 +69,7 @@ class rex_var_article extends rex_var
       list ($clang, $args)      = $this->extractArg('clang', $args, '$REX[\'CUR_CLANG\']');
       list ($ctype, $args)      = $this->extractArg('ctype', $args, -1);
       list ($field, $args)      = $this->extractArg('field', $args, '');
-      
+
       $tpl = '';
       if($article_id == 0)
       {
@@ -122,7 +122,7 @@ class rex_var_article extends rex_var
 	        ?>';
         }
       }
-      
+
       if($tpl != '')
         $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
     }

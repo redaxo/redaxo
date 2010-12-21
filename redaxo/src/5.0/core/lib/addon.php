@@ -2,24 +2,25 @@
 
 /**
  * Basisklasse für Addons/Plugins
- * 
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
 class rex_addon
 {
-  /*array*/ var $data;
-  private $name;
-  
+  private
+    $name,
+    $data;
+
   /**
    * rex_addon Konstruktor.
-   * 
-   * @param string|array $namespace Namensraum des rex-Addons 
+   *
+   * @param string|array $namespace Namensraum des rex-Addons
    */
   protected function __construct($namespace)
   {
     global $REX;
-    
+
     // plugin?
     if(is_array($namespace))
     {
@@ -28,7 +29,7 @@ class rex_addon
       {
         throw new rexException('Unexpected namespace format!');
       }
-        
+
       $addon = $namespace[0];
       $plugin = $namespace[1];
       $this->data =& $REX['ADDON']['plugins'][$addon];
@@ -41,12 +42,12 @@ class rex_addon
       $this->name = $namespace;
     }
   }
-  
+
   /**
    * Erstellt ein rex-Addon aus dem Namespace $namespace.
-   * 
+   *
    * @param string|array $namespace Namensraum des rex-Addons
-   *  
+   *
    * @return rex_addon Zum namespace erstellte rex-Addon instanz
    */
   static protected function create($namespace)
@@ -55,28 +56,28 @@ class rex_addon
     {
       throw new InvalidArgumentException('Namespace must not be null!');
     }
-      
+
     static $addons = array();
-    
+
     $nsString = $namespace;
     if(is_array($namespace))
     {
       $nsString = implode('/', $namespace);
     }
-    
+
     if(!isset($addons[$nsString]))
     {
-      $addons[$nsString] = new rex_addon($namespace); 
+      $addons[$nsString] = new rex_addon($namespace);
     }
-    
+
     return $addons[$nsString];
   }
-  
+
   /**
    * Prüft ob das rex-Addon verfügbar ist, also installiert und aktiviert.
-   * 
+   *
    * @param string|array $addon Name des Addons
-   * 
+   *
    * @return boolean TRUE, wenn das rex-Addon verfügbar ist, sonst FALSE
    */
   static public function isAvailable($addon)
@@ -86,21 +87,21 @@ class rex_addon
 
   /**
    * Prüft ob das rex-Addon aktiviert ist.
-   * 
+   *
    * @param string|array $addon Name des Addons
-   * 
+   *
    * @return boolean TRUE, wenn das rex-Addon aktiviert ist, sonst FALSE
    */
   static public function isActivated($addon)
   {
     return rex_addon::getProperty($addon, 'status', false) == true;
   }
-  
+
   /**
    * Prüft ob das rex-Addon installiert ist.
-   * 
+   *
    * @param string|array $addon Name des Addons
-   * 
+   *
    * @return boolean TRUE, wenn das rex-Addon installiert ist, sonst FALSE
    */
   static public function isInstalled($addon)
@@ -110,10 +111,10 @@ class rex_addon
 
   /**
    * Gibt die Version des rex-Addons zurück.
-   * 
+   *
    * @param string|array $addon Name des Addons
    * @param mixed $default Rückgabewert, falls keine Version gefunden wurde
-   * 
+   *
    * @return string Versionsnummer des Addons
    */
   static public function getVersion($addon, $default = null)
@@ -123,10 +124,10 @@ class rex_addon
 
   /**
    * Gibt den Autor des rex-Addons zurück.
-   * 
+   *
    * @param string|array $addon Name des Addons
    * @param mixed $default Rückgabewert, falls kein Autor gefunden wurde
-   * 
+   *
    * @return string Autor des Addons
    */
   static public function getAuthor($addon, $default = null)
@@ -136,10 +137,10 @@ class rex_addon
 
   /**
    * Gibt die Support-Adresse des rex-Addons zurück.
-   * 
+   *
    * @param string|array $addon Name des Addons
    * @param mixed $default Rückgabewert, falls keine Support-Adresse gefunden wurde
-   * 
+   *
    * @return string Versionsnummer des Addons
    */
   static public function getSupportPage($addon, $default = null)
@@ -149,17 +150,17 @@ class rex_addon
 
   /**
    * Setzt eine Eigenschaft des rex-Addons.
-   * 
+   *
    * @param string|array $addon Name des Addons
-   * @param string $property Name der Eigenschaft 
-   * @param mixed $property Wert der Eigenschaft 
-   * 
+   * @param string $property Name der Eigenschaft
+   * @param mixed $property Wert der Eigenschaft
+   *
    * @return string Versionsnummer des Addons
    */
   static public function setProperty($addon, $property, $value)
   {
     $rexAddon = rex_addon::create($addon);
-    
+
     if(!isset($rexAddon->data[$property]))
       $rexAddon->data[$property] = array();
 
@@ -168,11 +169,11 @@ class rex_addon
 
   /**
    * Gibt eine Eigenschaft des rex-Addons zurück.
-   * 
+   *
    * @param string|array $addon Name des Addons
-   * @param string $property Name der Eigenschaft 
+   * @param string $property Name der Eigenschaft
    * @param mixed $default Rückgabewert, falls die Eigenschaft nicht gefunden wurde
-   * 
+   *
    * @return string Wert der Eigenschaft des Addons
    */
   static public function getProperty($addon, $property, $default = null)

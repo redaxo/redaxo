@@ -20,7 +20,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
 
 abstract class rex_cache
 {
-  var $options;
+  private $options;
 
   /**
    * Available options:
@@ -33,7 +33,7 @@ abstract class rex_cache
    *
    * * lifetime (optional): The default life time (default value: 86400)
    */
-  public function rex_cache($options = array())
+  public function __construct(array $options = array())
   {
     $this->options = array_merge(array(
       'automatic_cleaning_factor' => 1000,

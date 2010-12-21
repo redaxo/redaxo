@@ -15,14 +15,14 @@
  */
 class rex_function_cache
 {
-  var $cache = null;
+  private $cache = null;
 
   /**
    * Constructor.
    *
    * @param sfCache $cache An sfCache object instance
    */
-  public function rex_function_cache(rex_cache $cache)
+  public function __construct(rex_cache $cache)
   {
     $this->cache = $cache;
   }
@@ -42,7 +42,7 @@ class rex_function_cache
    *
    * @return mixed The result of the function/method
    */
-  public function call($callable, $arguments = array())
+  public function call($callable, array $arguments = array())
   {
     // Generate a cache id
     $key = $this->computeCacheKey($callable, $arguments);
@@ -93,7 +93,7 @@ class rex_function_cache
    *
    * @return string The associated cache key
    */
-  public function computeCacheKey($callable, $arguments = array())
+  public function computeCacheKey($callable, array $arguments = array())
   {
     return md5(serialize($callable).serialize($arguments));
   }

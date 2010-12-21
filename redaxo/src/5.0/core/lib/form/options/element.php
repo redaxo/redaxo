@@ -1,25 +1,25 @@
 <?php
 
-class rex_form_options_element extends rex_form_element
+abstract class rex_form_options_element extends rex_form_element
 {
-  var $options;
+  private $options;
 
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
-  function rex_form_options_element($tag = '', &$table, $attributes = array())
+  public function __construct($tag = '', &$table, array $attributes = array())
   {
-    parent::rex_form_element($tag, $table, $attributes);
+    parent::__construct($tag, $table, $attributes);
     $this->options = array();
   }
 
-  function addOption($name, $value)
+  public function addOption($name, $value)
   {
     $this->options[$name] = $value;
   }
 
-  function addOptions($options, $useOnlyValues = false)
+  public function addOptions(array $options, $useOnlyValues = false)
   {
-    if(is_array($options) && count($options)>0)
+    if(count($options)>0)
     {
       foreach ($options as $key => $option)
       {
@@ -38,8 +38,8 @@ class rex_form_options_element extends rex_form_element
       }
     }
   }
-  
-  function addArrayOptions($options, $use_keys = true)
+
+  public function addArrayOptions(array $options, $use_keys = true)
   {
   	foreach($options as $key => $value)
   	{
@@ -50,19 +50,19 @@ class rex_form_options_element extends rex_form_element
   	}
   }
 
-  function addSqlOptions($qry)
+  public function addSqlOptions($qry)
   {
     $sql = rex_sql::factory();
     $this->addOptions($sql->getArray($qry, MYSQL_NUM));
   }
 
-  function addDBSqlOptions($qry)
+  public function addDBSqlOptions($qry)
   {
     $sql = rex_sql::factory();
     $this->addOptions($sql->getDBArray($qry, MYSQL_NUM));
   }
 
-  function getOptions()
+  public function getOptions()
   {
     return $this->options;
   }

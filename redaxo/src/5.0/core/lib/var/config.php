@@ -2,10 +2,10 @@
 
 /**
  * REX_CONFIG[field=xzy]
- * 
+ *
  * Attribute:
  *   - field    => Feld, das ausgegeben werden soll
- *   
+ *
  *
  * @package redaxo4
  * @version svn:$Id$
@@ -20,11 +20,11 @@ class rex_var_config extends rex_var
     return $this->matchConfig($content);
   }
 
-  public function getBEOutput(& $sql, $content)
+  public function getBEOutput(rex_sql $sql, $content)
   {
     return $this->matchConfig($content);
   }
-  
+
   /**
    * Werte für die Ausgabe
    */

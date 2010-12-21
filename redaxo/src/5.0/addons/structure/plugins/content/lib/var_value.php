@@ -32,7 +32,7 @@ class rex_var_value extends rex_var
     return $REX_ACTION;
   }
 
-  public function getACDatabaseValues(array $REX_ACTION, & $sql)
+  public function getACDatabaseValues(array $REX_ACTION, rex_sql $sql)
   {
     for ($i = 1; $i < 21; $i++)
     {
@@ -44,7 +44,7 @@ class rex_var_value extends rex_var
     return $REX_ACTION;
   }
 
-  public function setACValues(& $sql, array $REX_ACTION, $escape = false)
+  public function setACValues(rex_sql $sql, array $REX_ACTION, $escape = false)
   {
     global $REX;
 
@@ -59,7 +59,7 @@ class rex_var_value extends rex_var
 
   // --------------------------------- Output
 
-  public function getBEOutput(& $sql, $content)
+  public function getBEOutput(rex_sql $sql, $content)
   {
     $content = $this->getOutput($sql, $content, true);
 
@@ -70,21 +70,21 @@ class rex_var_value extends rex_var
     return $content;
   }
 
-  public function getBEInput(& $sql, $content)
+  public function getBEInput(rex_sql $sql, $content)
   {
     $content = $this->getOutput($sql, $content);
     $content = str_replace('REX_PHP', htmlspecialchars($this->getValue($sql, 'php'),ENT_QUOTES), $content);
     return $content;
   }
 
-  public function getFEOutput(& $sql, $content)
+  public function getFEOutput(rex_sql $sql, $content)
   {
     $content = $this->getOutput($sql, $content, true);
     $content = str_replace('REX_PHP', $this->getValue($sql, 'php'), $content);
     return $content;
   }
 
-  public function getOutput(& $sql, $content, $nl2br = false)
+  public function getOutput(rex_sql $sql, $content, $nl2br = false)
   {
     $content = $this->matchValue($sql, $content, $nl2br);
     $content = $this->matchHtmlValue($sql, $content);
@@ -98,7 +98,7 @@ class rex_var_value extends rex_var
   /**
    * Wert für die Ausgabe
    */
-  private function _matchValue(& $sql, $content, $var, $escape = false, $nl2br = false, $stripPHP = false, $booleanize = false)
+  private function _matchValue(rex_Sql $sql, $content, $var, $escape = false, $nl2br = false, $stripPHP = false, $booleanize = false)
   {
     $matches = $this->getVarParams($content, $var);
 
@@ -106,7 +106,7 @@ class rex_var_value extends rex_var
     {
       list ($param_str, $args) = $match;
       list ($id, $args) = $this->extractArg('id', $args, 0);
-      
+
       if ($id > 0 && $id < 21)
       {
         $replace = $this->getValue($sql, 'value' . $id);
@@ -140,22 +140,22 @@ class rex_var_value extends rex_var
     return $content;
   }
 
-  private function matchValue(& $sql, $content, $nl2br = false)
+  private function matchValue(rex_sql $sql, $content, $nl2br = false)
   {
     return $this->_matchValue($sql, $content, 'REX_VALUE', true, $nl2br);
   }
 
-  private function matchHtmlValue(& $sql, $content)
+  private function matchHtmlValue(rex_sql $sql, $content)
   {
     return $this->_matchValue($sql, $content, 'REX_HTML_VALUE', false, false, true);
   }
 
-  private function matchPhpValue(& $sql, $content)
+  private function matchPhpValue(rex_sql $sql, $content)
   {
     return $this->_matchValue($sql, $content, 'REX_PHP_VALUE', false, false, false);
   }
 
-  private function matchIsValue(& $sql, $content)
+  private function matchIsValue(rex_sql $sql, $content)
   {
     return $this->_matchValue($sql, $content, 'REX_IS_VALUE', false, false, false, true);
   }

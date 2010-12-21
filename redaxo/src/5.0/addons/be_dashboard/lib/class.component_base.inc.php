@@ -12,11 +12,14 @@
 
 abstract class rex_dashboard_component_base
 {
-  var $id;
-  var $config;
-  var $funcCache;
+  protected
+    $config;
 
-  function rex_dashboard_component_base($id, $cache_options = array())
+  private
+    $id,
+    $funcCache;
+
+  public function __construct($id, array $cache_options = array())
   {
     $this->id = $id;
     $this->funcCache = new rex_function_cache(new rex_file_cache($cache_options));

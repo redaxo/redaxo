@@ -79,7 +79,7 @@ class rex_be_navigation
 
   }
 
-  private function _getNavigation($blockPages, $level = 0, $block = '')
+  private function _getNavigation(array $blockPages, $level = 0, $block = '')
   {
       global $REX;
 
@@ -97,35 +97,35 @@ class rex_be_navigation
 
         if(!$page->getHidden() && $page->checkPermission($REX['USER']))
         {
-	        if($first)
-	        {
-	          $first = FALSE;
-	          $page->addItemClass('rex-navi-first');
-	        }
-	        $page->addLinkClass($page->getItemAttr('class'));
+          if($first)
+          {
+            $first = FALSE;
+            $page->addItemClass('rex-navi-first');
+          }
+          $page->addLinkClass($page->getItemAttr('class'));
 
-	        $itemAttr = '';
-	        foreach($page->getItemAttr(null) as $name => $value)
-	        {
-	          $itemAttr .= $name .'="'. trim($value) .'" ';
-	        }
+          $itemAttr = '';
+          foreach($page->getItemAttr(null) as $name => $value)
+          {
+            $itemAttr .= $name .'="'. trim($value) .'" ';
+          }
 
-	        $linkAttr = '';
-	        foreach($page->getLinkAttr(null) as $name => $value)
-	        {
-	          $linkAttr .= $name .'="'. trim($value) .'" ';
-	        }
+          $linkAttr = '';
+          foreach($page->getLinkAttr(null) as $name => $value)
+          {
+            $linkAttr .= $name .'="'. trim($value) .'" ';
+          }
 
-	        $href = str_replace('&', '&amp;', $page->getHref());
+          $href = str_replace('&', '&amp;', $page->getHref());
 
-	        $echo .= '<li '. $itemAttr .'><a '. $linkAttr . ' href="'. $href .'">'. $page->getTitle() .'</a>';
+          $echo .= '<li '. $itemAttr .'><a '. $linkAttr . ' href="'. $href .'">'. $page->getTitle() .'</a>';
 
-	        $subpages = $page->getSubPages();
-	        if(is_array($subpages) && count($subpages) > 0)
-	        {
-	          $echo .= $this->_getNavigation($subpages, $level);
-	        }
-	        $echo .= '</li>';
+          $subpages = $page->getSubPages();
+          if(is_array($subpages) && count($subpages) > 0)
+          {
+            $echo .= $this->_getNavigation($subpages, $level);
+          }
+          $echo .= '</li>';
         }
       }
 
@@ -141,35 +141,35 @@ class rex_be_navigation
   {
     if(is_array($this->pages))
     {
-	    foreach($this->pages as $block => $blockPages)
-	    {
-	      foreach($blockPages as $mn => $pageContainer)
-	      {
-	        $page = $pageContainer->getPage();
+      foreach($this->pages as $block => $blockPages)
+      {
+        foreach($blockPages as $mn => $pageContainer)
+        {
+          $page = $pageContainer->getPage();
 
-	        // check main pages
-	        $condition = $page->getActivateCondition();
-	        if($this->checkActivateCondition($condition))
-	        {
-	          $page->addItemClass('rex-active');
+          // check main pages
+          $condition = $page->getActivateCondition();
+          if($this->checkActivateCondition($condition))
+          {
+            $page->addItemClass('rex-active');
 
-	          // check for subpages
+            // check for subpages
   	        $subpages = $page->getSubPages();
   	        foreach($subpages as $sn => $subpage)
   	        {
   	          $condition = $subpage->getActivateCondition();
   	          if($this->checkActivateCondition($condition))
   	          {
-  	            $subpages[$sn]->addItemClass('rex-active');
+  	            $subpage->addItemClass('rex-active');
   	          }
   	        }
-	        }
-	      }
-	    }
+          }
+        }
+      }
     }
   }
 
-  private function checkActivateCondition($a)
+  private function checkActivateCondition(array $a)
   {
     if(empty($a))
     {

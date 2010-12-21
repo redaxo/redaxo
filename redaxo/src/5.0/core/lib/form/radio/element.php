@@ -4,19 +4,19 @@ class rex_form_radio_element extends rex_form_options_element
 {
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
-  function rex_form_radio_element($tag = '', &$table, $attributes = array())
+  function __construct($tag = '', &$table, array $attributes = array())
   {
-    parent::rex_form_options_element('', $table, $attributes);
+    parent::__construct('', $table, $attributes);
     // Jedes radio bekommt eingenes Label
   }
 
-  function formatLabel()
+  protected function formatLabel()
   {
     // Da Jedes Feld schon ein Label hat, hier nur eine "Ueberschrift" anbringen
     return '<span>'. $this->getLabel() .'</span>';
   }
 
-  function formatElement()
+  public function formatElement()
   {
     $s = '';
     $value = $this->getValue();

@@ -2,35 +2,36 @@
 
 class rex_form_container_element extends rex_form_element
 {
-  var $fields;
-  var $multiple;
-  var $active;
+  private
+    $fields,
+    $multiple,
+    $active;
 
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
-  function rex_form_container_element($tag = '', &$table, $attributes = array())
+  public function _construct($tag = '', &$table, array $attributes = array())
   {
-    parent::rex_form_element('', $table, $attributes);
+    parent::__construct('', $table, $attributes);
     $this->fields = array();
     $this->multiple = true;
   }
 
-  function setMultiple($multiple = true)
+  public function setMultiple($multiple = true)
   {
     $this->multiple = $multiple;
   }
 
-  function setActive($group)
+  public function setActive($group)
   {
     $this->active = $group;
   }
 
-  function addField($type, $name, $value = null, $attributes = array())
+  public function addField($type, $name, $value = null, array $attributes = array())
   {
     return $this->addGroupedField('elementContainer', $type, $name, $value, $attributes);
   }
 
-  function addGroupedField($group, $type, $name, $value = null, $attributes = array())
+  public function addGroupedField($group, $type, $name, $value = null, array $attributes = array())
   {
     $field = $this->table->createInput($type, $name, $value, $attributes);
 
@@ -43,12 +44,12 @@ class rex_form_container_element extends rex_form_element
     return $field;
   }
 
-  function getFields()
+  public function getFields()
   {
     return $this->fields;
   }
 
-  function prepareInnerFields()
+  protected function prepareInnerFields()
   {
     $values = unserialize($this->getValue());
     if($this->multiple)
@@ -59,8 +60,7 @@ class rex_form_container_element extends rex_form_element
         {
           if(isset($values[$group][$field->getFieldName()]))
           {
-            // PHP4 compat notation
-            $this->fields[$group][$key]->setValue($values[$group][$field->getFieldName()]);
+            $field->setValue($values[$group][$field->getFieldName()]);
           }
         }
       }
@@ -71,14 +71,13 @@ class rex_form_container_element extends rex_form_element
       {
         if(isset($values[$field->getFieldName()]))
         {
-          // PHP4 compat notation
-          $this->fields[$this->active][$key]->setValue($values[$field->getFieldName()]);
+          $field->setValue($values[$field->getFieldName()]);
         }
       }
     }
   }
 
-  function formatElement()
+  public function formatElement()
   {
     $this->prepareInnerFields();
 
@@ -107,7 +106,7 @@ class rex_form_container_element extends rex_form_element
     return $format;
   }
 
-  function get()
+  public function get()
   {
     $s = '';
     $s .= $this->getHeader();
@@ -117,7 +116,7 @@ class rex_form_container_element extends rex_form_element
     return $s;
   }
 
-  function getSaveValue()
+  public function getSaveValue()
   {
     $value = array();
     if($this->multiple)

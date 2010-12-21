@@ -12,9 +12,9 @@
 
 abstract class rex_dashboard_notification extends rex_dashboard_component_base
 {
-  var $message;
+  private $message;
 
-  function rex_dashboard_notification($id, $cache_options = array())
+  public function __construct($id, array $cache_options = array())
   {
     if(!isset($cache_options['lifetime']))
     {
@@ -23,7 +23,7 @@ abstract class rex_dashboard_notification extends rex_dashboard_component_base
     }
 
     $this->message = '';
-    parent::rex_dashboard_component_base($id, $cache_options);
+    parent::__construct($id, $cache_options);
   }
 
   public function setMessage($message)

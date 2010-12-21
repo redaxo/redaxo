@@ -32,11 +32,11 @@ class rex_file_cache extends rex_cache
    *
    * @see rex_cache
    */
-  public function rex_file_cache($options = array())
+  public function __construct(array $options = array())
   {
     global $REX;
 
-    parent::rex_cache($options);
+    parent::__construct($options);
 
     if (!$this->getOption('cache_dir'))
     {
@@ -238,7 +238,7 @@ class rex_file_cache extends rex_cache
     {
       if ($type & REX_CACHE_FILE_READ_LAST_MODIFIED)
       {
-        $data[REX_CACHE_FILE_READ_LAST_MODIFIED] = intval(@fread($fp, 12, 12));
+        $data[REX_CACHE_FILE_READ_LAST_MODIFIED] = intval(@fread($fp, 12));
 //        $data[REX_CACHE_FILE_READ_LAST_MODIFIED] = intval(@stream_get_contents($fp, 12, 12));
       }
       if ($type & REX_CACHE_FILE_READ_DATA)

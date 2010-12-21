@@ -6,7 +6,7 @@
  * REX_LINK_ID,
  * REX_LINKLIST_BUTTON,
  * REX_LINKLIST
- * 
+ *
  * Attribute:
  *   - category  => Kategorie in die beim oeffnen der Linkmapw gesprungen werden soll
  *
@@ -33,7 +33,7 @@ class rex_var_link extends rex_var
     return $REX_ACTION;
   }
 
-  public function getACDatabaseValues(array $REX_ACTION, & $sql)
+  public function getACDatabaseValues(array $REX_ACTION, rex_sql $sql)
   {
     for ($i = 1; $i < 11; $i++)
     {
@@ -44,7 +44,7 @@ class rex_var_link extends rex_var
     return $REX_ACTION;
   }
 
-  public function setACValues(& $sql, array $REX_ACTION, $escape = false)
+  public function setACValues(rex_sql $sql, array $REX_ACTION, $escape = false)
   {
     global $REX;
 
@@ -57,12 +57,12 @@ class rex_var_link extends rex_var
 
   // --------------------------------- Output
 
-  public function getBEOutput(& $sql, $content)
+  public function getBEOutput(rex_sql $sql, $content)
   {
     return $this->getOutput($sql, $content);
   }
 
-  public function getBEInput(& $sql, $content)
+  public function getBEInput(rex_sql $sql, $content)
   {
     $content = $this->getOutput($sql, $content);
     $content = $this->matchLinkButton($sql, $content);
@@ -71,7 +71,7 @@ class rex_var_link extends rex_var
     return $content;
   }
 
-  private function getOutput(& $sql, $content)
+  private function getOutput(rex_sql $sql, $content)
   {
     $content = $this->matchLinkList($sql, $content);
     $content = $this->matchLink($sql, $content);
@@ -84,8 +84,8 @@ class rex_var_link extends rex_var
   {
     switch($name)
     {
-      case '0' : 
-        $args['id'] = (int) $value; 
+      case '0' :
+        $args['id'] = (int) $value;
         break;
       case '1' :
       case 'category' :
@@ -98,7 +98,7 @@ class rex_var_link extends rex_var
   /**
    * Button für die Eingabe
    */
-  private function matchLinkButton(& $sql, $content)
+  private function matchLinkButton(rex_sql $sql, $content)
   {
   	global $REX;
 
@@ -116,7 +116,7 @@ class rex_var_link extends rex_var
     {
       list ($param_str, $args) = $match;
       list ($id, $args) = $this->extractArg('id', $args, 0);
-      
+
       if ($id < 11 && $id > 0)
       {
         // Wenn vom Programmierer keine Kategorie vorgegeben wurde,
@@ -135,7 +135,7 @@ class rex_var_link extends rex_var
   /**
    * Button für die Eingabe
    */
-  private function matchLinkListButton(& $sql, $content)
+  private function matchLinkListButton(rex_sql $sql, $content)
   {
     $var = 'REX_LINKLIST_BUTTON';
     $matches = $this->getVarParams($content, $var);
@@ -143,7 +143,7 @@ class rex_var_link extends rex_var
     {
       list ($param_str, $args) = $match;
       list ($id, $args) = $this->extractArg('id', $args, 0);
-      
+
       if ($id < 11 && $id > 0)
       {
         list ($category, $args) = $this->extractArg('category', $args, 0);
@@ -160,7 +160,7 @@ class rex_var_link extends rex_var
   /**
    * Wert für die Ausgabe
    */
-  private function matchLink(& $sql, $content)
+  private function matchLink(rex_sql $sql, $content)
   {
     $var = 'REX_LINK';
     $matches = $this->getVarParams($content, $var);
@@ -168,7 +168,7 @@ class rex_var_link extends rex_var
     {
       list ($param_str, $args) = $match;
       list ($id, $args) = $this->extractArg('id', $args, 0);
-      
+
       if ($id > 0 && $id < 11)
       {
       	$replace = '';
@@ -186,7 +186,7 @@ class rex_var_link extends rex_var
   /**
    * Wert für die Ausgabe
    */
-  private function matchLinkId(& $sql, $content)
+  private function matchLinkId(rex_sql $sql, $content)
   {
     $var = 'REX_LINK_ID';
     $matches = $this->getVarParams($content, $var);
@@ -194,7 +194,7 @@ class rex_var_link extends rex_var
     {
       list ($param_str, $args) = $match;
       list ($id, $args) = $this->extractArg('id', $args, 0);
-      
+
       if ($id > 0 && $id < 11)
       {
         $replace = $this->getValue($sql, 'link' . $id);
@@ -209,7 +209,7 @@ class rex_var_link extends rex_var
   /**
    * Wert für die Ausgabe
    */
-  private function matchLinkList(& $sql, $content)
+  private function matchLinkList(rex_sql $sql, $content)
   {
     $var = 'REX_LINKLIST';
     $matches = $this->getVarParams($content, $var);
@@ -217,7 +217,7 @@ class rex_var_link extends rex_var
     {
       list ($param_str, $args) = $match;
       list ($id, $args) = $this->extractArg('id', $args, 0);
-      
+
       if ($id > 0 && $id < 11)
       {
         $replace = $this->getValue($sql, 'linklist' . $id);
@@ -228,7 +228,7 @@ class rex_var_link extends rex_var
 
     return $content;
   }
-  
+
   // TODO: passenden namen finden
   static public function _getLinkButton($name, $linkId, $article_id, $category = '')
   {

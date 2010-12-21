@@ -12,11 +12,11 @@
 
 class rex_notification_component extends rex_dashboard_component
 {
-  function rex_notification_component()
+  public function __construct()
   {
     global $REX;
 
-    parent::rex_dashboard_component_base('notifications');
+    parent::__construct('notifications');
     $this->setTitle($REX['I18N']->msg('dashboard_notifications'));
     $this->setFormat('full');
   }

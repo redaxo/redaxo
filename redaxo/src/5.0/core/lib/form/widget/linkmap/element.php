@@ -2,21 +2,21 @@
 
 class rex_form_widget_linkmap_element extends rex_form_element
 {
-  var $category_id = 0;
+  private $category_id = 0;
 
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
-  function rex_form_widget_linkmap_element($tag = '', &$table, $attributes = array())
+  public function __construct($tag = '', &$table, array $attributes = array())
   {
-    parent::rex_form_element('', $table, $attributes);
+    parent::__construct('', $table, $attributes);
   }
 
-  function setCategoryId($category_id)
+  public function setCategoryId($category_id)
   {
     $this->category_id = $category_id;
   }
 
-  function formatElement()
+  public function formatElement()
   {
     static $widget_counter = 1;
 

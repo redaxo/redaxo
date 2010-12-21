@@ -2,15 +2,16 @@
 
 class rex_form_control_element extends rex_form_element
 {
-  var $saveElement;
-  var $applyElement;
-  var $deleteElement;
-  var $resetElelement;
-  var $abortElement;
+  private
+    $saveElement,
+    $applyElement,
+    $deleteElement,
+    $resetElelement,
+    $abortElement;
 
-  function rex_form_control_element(&$table, $saveElement = null, $applyElement = null, $deleteElement = null, $resetElement = null, $abortElement = null)
+  public function __construct(&$table, rex_form_element $saveElement = null, rex_form_element $applyElement = null, rex_form_element $deleteElement = null, rex_form_element $resetElement = null, rex_form_element $abortElement = null)
   {
-    parent::rex_form_element('', $table);
+    parent::__construct('', $table);
 
     $this->saveElement = $saveElement;
     $this->applyElement = $applyElement;
@@ -19,21 +20,21 @@ class rex_form_control_element extends rex_form_element
     $this->abortElement = $abortElement;
   }
 
-  function _get()
+  protected function _get()
   {
     global $REX;
 
     $s = '';
-    
+
     $class = '';
 
     if($this->saveElement)
     {
       if(!$this->saveElement->hasAttribute('class'))
         $this->saveElement->setAttribute('class', 'rex-form-submit');
-			
+
 			$class = $this->saveElement->formatClass();
-			
+
       $s .= $this->saveElement->formatElement();
     }
 
@@ -41,7 +42,7 @@ class rex_form_control_element extends rex_form_element
     {
       if(!$this->applyElement->hasAttribute('class'))
         $this->applyElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
-			
+
 			$class = $this->applyElement->formatClass();
 
       $s .= $this->applyElement->formatElement();
@@ -54,7 +55,7 @@ class rex_form_control_element extends rex_form_element
 
       if(!$this->deleteElement->hasAttribute('onclick'))
         $this->deleteElement->setAttribute('onclick', 'return confirm(\''. $REX['I18N']->msg('form_delete') .'?\');');
-			
+
 			$class = $this->deleteElement->formatClass();
 
       $s .= $this->deleteElement->formatElement();
@@ -67,7 +68,7 @@ class rex_form_control_element extends rex_form_element
 
       if(!$this->resetElement->hasAttribute('onclick'))
         $this->resetElement->setAttribute('onclick', 'return confirm(\''. $REX['I18N']->msg('form_reset') .'?\');');
-			
+
 			$class = $this->resetElement->formatClass();
 
       $s .= $this->resetElement->formatElement();
@@ -77,12 +78,12 @@ class rex_form_control_element extends rex_form_element
     {
       if(!$this->abortElement->hasAttribute('class'))
         $this->abortElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
-			
+
 			$class = $this->abortElement->formatClass();
 
       $s .= $this->abortElement->formatElement();
     }
-    
+
     if ($s != '')
     {
     	if ($class != '')
@@ -95,32 +96,32 @@ class rex_form_control_element extends rex_form_element
     return $s;
   }
 
-  function submitted($element)
+  public function submitted($element)
   {
     return is_object($element) && rex_post($element->getAttribute('name'), 'string') != '';
   }
 
-  function saved()
+  public function saved()
   {
     return $this->submitted($this->saveElement);
   }
 
-  function applied()
+  public function applied()
   {
     return $this->submitted($this->applyElement);
   }
 
-  function deleted()
+  public function deleted()
   {
     return $this->submitted($this->deleteElement);
   }
 
-  function resetted()
+  public function resetted()
   {
     return $this->submitted($this->resetElement);
   }
 
-  function aborted()
+  public function aborted()
   {
     return $this->submitted($this->abortElement);
   }

@@ -17,7 +17,7 @@ class rex_var_globals extends rex_var
   {
     // determine event-type...
     $REX_ACTION = $this->getEventData($REX_ACTION);
-    
+
     // Variablen hier einfuegen, damit sie in einer
     // Aktion abgefragt werden können
     $REX_ACTION['ARTICLE_ID'] = rex_request('article_id', 'int');
@@ -28,11 +28,11 @@ class rex_var_globals extends rex_var
     return $REX_ACTION;
   }
 
-  public function getACDatabaseValues(array $REX_ACTION, & $sql)
+  public function getACDatabaseValues(array $REX_ACTION, rex_sql $sql)
   {
     // determine event-type...
     $REX_ACTION = $this->getEventData($REX_ACTION);
-    
+
     // Variablen hier einfuegen, damit sie in einer
     // Aktion abgefragt werden können
     $REX_ACTION['ARTICLE_ID'] = $this->getValue($sql, 'article_id');
@@ -44,13 +44,13 @@ class rex_var_globals extends rex_var
     return $REX_ACTION;
   }
 
-  public function setACValues(& $sql, array $REX_ACTION, $escape = false)
+  public function setACValues(rex_sql $sql, array $REX_ACTION, $escape = false)
   {
     $this->setValue($sql, 'id', $REX_ACTION['SLICE_ID'], $escape);
     $this->setValue($sql, 'ctype', $REX_ACTION['CTYPE_ID'], $escape);
     $this->setValue($sql, 'modultyp_id', $REX_ACTION['MODULE_ID'], $escape);
   }
-  
+
   private function getEventData($REX_ACTION)
   {
     // SLICE ID im Update Mode setzen
@@ -76,7 +76,7 @@ class rex_var_globals extends rex_var
 
   // --------------------------------- Output
 
-  public function getBEOutput(& $sql, $content)
+  public function getBEOutput(rex_sql $sql, $content)
   {
     // Modulabhängige Globale Variablen ersetzen
     $content = str_replace('REX_MODULE_ID',(int) $this->getValue($sql, 'modultyp_id'), $content);

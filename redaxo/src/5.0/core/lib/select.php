@@ -2,10 +2,11 @@
 
 class rex_select
 {
-	var $attributes;
-  var $options;
-  var $option_selected;
-  
+  private
+    $attributes,
+    $options,
+    $option_selected;
+
   ################ Konstruktor
   public function rex_select()
   {
@@ -60,7 +61,7 @@ class rex_select
     else
       $this->delAttribute('multiple');
   }
-  
+
   ############### disabled ?
   public function setDisabled($disabled = true)
   {
@@ -69,7 +70,7 @@ class rex_select
     else
       $this->delAttribute('disabled');
   }
-  
+
   ################ select name
   public function setName($name)
   {
@@ -137,7 +138,7 @@ class rex_select
   /**
    * Fügt eine Option hinzu
    */
-  public function addOption($name, $value, $id = 0, $re_id = 0, $attributes = array())
+  public function addOption($name, $value, $id = 0, $re_id = 0, array $attributes = array())
   {
     $this->options[$re_id][] = array ($name, $value, $id, $attributes);
   }
@@ -196,7 +197,7 @@ class rex_select
    * Fügt ein Array von Optionen hinzu, dass eine Key/Value Struktur hat.
    * Wenn $use_keys mit false, werden die Array-Keys mit den Array-Values überschrieben
    */
-  public function addArrayOptions($options, $use_keys = true)
+  public function addArrayOptions(array $options, $use_keys = true)
   {
   	foreach($options as $key => $value)
   	{
@@ -233,7 +234,7 @@ class rex_select
   	{
   		$attr .= ' '. $name .'="'. $value .'"';
   	}
-  	
+
     $ausgabe = "\n";
 		$ausgabe .= '<select'.$attr.'>'."\n";
 
@@ -281,7 +282,7 @@ class rex_select
     return $ausgabe;
   }
 
-  private function _outOption($name, $value, $level = 0, $attributes = array())
+  private function _outOption($name, $value, $level = 0, array $attributes = array())
   {
     $name = htmlspecialchars($name);
     $value = htmlspecialchars($value);
@@ -289,10 +290,10 @@ class rex_select
     $bsps = '';
     if ($level > 0)
       $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
-    
+
     if ($this->option_selected !== null && in_array($value, $this->option_selected))
       $attributes['selected'] = 'selected';
-    
+
     $attr = '';
   	foreach($attributes as $n => $v)
   	{

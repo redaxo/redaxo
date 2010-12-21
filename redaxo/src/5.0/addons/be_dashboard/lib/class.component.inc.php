@@ -12,14 +12,15 @@
 
 abstract class rex_dashboard_component extends rex_dashboard_component_base
 {
-  var $title;
-  var $titleUrl;
-  var $content;
+  private
+    $title,
+    $titleUrl,
+    $content,
 
-  var $format;
-  var $block;
+    $format,
+    $block;
 
-  function rex_dashboard_component($id, $cache_options = array())
+  function __construct($id, array $cache_options = array())
   {
     if(!isset($cache_options['lifetime']))
     {
@@ -34,7 +35,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
     $this->format = 'half';
     $this->block = '';
 
-    parent::rex_dashboard_component_base($id, $cache_options);
+    parent::__construct($id, $cache_options);
   }
 
   /**

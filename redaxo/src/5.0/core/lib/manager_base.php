@@ -5,7 +5,7 @@
  */
 abstract class rex_baseManager
 {
-  var $i18nPrefix;
+  private $i18nPrefix;
 
   /**
    * Konstruktor
@@ -477,7 +477,7 @@ abstract class rex_baseManager
    * @param $method Name der Funktion
    * @param $arguments Array von Parametern/Argumenten
    */
-  protected abstract function apiCall($method, $arguments);
+  protected abstract function apiCall($method, array $arguments);
 
   /**
    * Laedt die package.yml in $REX

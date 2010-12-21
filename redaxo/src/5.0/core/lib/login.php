@@ -10,9 +10,9 @@
 
 class rex_login_sql extends rex_sql
 {
-  function rex_login_sql($DBID = 1)
+  public function __construct($DBID = 1)
   {
-    parent::rex_sql($DBID);
+    parent::__construct($DBID);
   }
 
   protected function isValueOf($feld, $prop)
@@ -85,14 +85,14 @@ class rex_login_sql extends rex_sql
     return FALSE;
   }
 
-	public function hasMediaCategoryPerm($category_id)
+  public function hasMediaCategoryPerm($category_id)
   {
     return $this->isValueOf('rights', 'admin[]') ||
            $this->isValueOf('rights', 'media[0]') ||
            $this->isValueOf('rights', 'media[' . $category_id . ']');
   }
 
-	public function hasMediaPerm()
+  public function hasMediaPerm()
   {
     return $this->isValueOf('rights', 'admin[]') ||
            $this->isValueOf('rights', 'media[0]') ||
@@ -182,22 +182,25 @@ class rex_login_sql extends rex_sql
 
 class rex_login
 {
-  var $DB;
-  var $session_duration;
-  var $login_query;
-  var $user_query;
-  var $system_id;
-  var $usr_login;
-  var $usr_psw;
-  var $logout;
-  var $message;
-  var $uid;
-  var $USER;
-  var $passwordfunction;
-  var $cache;
-  var $login_status;
+  public
+    $USER,
+    $message;
 
-  public function rex_login()
+  protected
+    $DB,
+    $session_duration,
+    $login_query,
+    $user_query,
+    $system_id,
+    $usr_login,
+    $usr_psw,
+    $logout,
+    $uid,
+    $passwordfunction,
+    $cache,
+    $login_status;
+
+  public function __construct()
   {
     $this->DB = 1;
     $this->logout = false;
@@ -489,13 +492,13 @@ class rex_login
 
 class rex_backend_login extends rex_login
 {
-  var $tableName;
+  private $tableName;
 
-  public function rex_backend_login()
+  public function __construct()
   {
     global $REX;
 
-    parent::rex_login();
+    parent::__construct();
 
     $tableName = $REX['TABLE_PREFIX'].'user';
     $this->setSqlDb(1);
@@ -553,10 +556,10 @@ class rex_backend_login extends rex_login
   }
 
   public function getLanguage()
-	{
-	  global $REX;
+  {
+    global $REX;
 
-		if (preg_match_all('@#be_lang\[([^\]]*)\]#@' , $this->getValue("rights"), $matches))
+  	if (preg_match_all('@#be_lang\[([^\]]*)\]#@' , $this->getValue("rights"), $matches))
     {
       foreach ($matches[1] as $match)
       {
@@ -564,11 +567,11 @@ class rex_backend_login extends rex_login
       }
     }
     return $REX['LANG'];
-	}
+  }
 
-	public function getStartpage()
-	{
-	  global $REX;
+  public function getStartpage()
+  {
+    global $REX;
 
   	if (preg_match_all('@#startpage\[([^\]]*)\]#@' , $this->getValue("rights"), $matches))
   	{
@@ -578,5 +581,5 @@ class rex_backend_login extends rex_login
     	}
   	}
   	return $REX['START_PAGE'];
-	}
+  }
 }

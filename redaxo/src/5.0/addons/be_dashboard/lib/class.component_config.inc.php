@@ -12,11 +12,14 @@
 
 abstract class rex_dashboard_component_config
 {
-  var $id;
-  var $settings;
-  var $settingsCache;
+  protected
+    $settings;
 
-  public function rex_dashboard_component_config($defaultSettings)
+  private
+    $id,
+    $settingsCache;
+
+  public function __construct(array $defaultSettings)
   {
     static $counter = 0;
     $counter++;
@@ -53,7 +56,7 @@ abstract class rex_dashboard_component_config
    * Laedt die Einstellungen der Komponente.
    * Falls noch keine Einstellungen hinterlegt sind, wird $defaultSettings als Einstellungen geladen.
    */
-  protected function load($defaultSettings)
+  protected function load(array $defaultSettings)
   {
     return unserialize($this->settingsCache->get($this->getCacheKey(), serialize($defaultSettings)));
   }

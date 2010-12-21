@@ -15,7 +15,7 @@
  * und offline categorien nicht beachten
  *
  * Navigation:
- * 
+ *
  * $nav = rex_navigation::factory();
  * $nav->setClasses(array('lev1', 'lev2', 'lev3'));
  * $nav->setLinkClasses(array('alev1', 'alev2', 'alev3'));
@@ -25,28 +25,29 @@
  *
  * $nav = rex_navigation::factory();
  * $nav->show(0,-1,TRUE,TRUE);
- * 
+ *
  * Breadcrump:
- * 
+ *
  * $nav = rex_navigation::factory();
  * $nav->showBreadcrumb(true);
  */
 
 class rex_navigation
 {
-	var $depth; // Wieviele Ebene tief, ab der Startebene
-	var $open; // alles aufgeklappt, z.b. Sitemap
-	var $ignore_offlines;
-	var $path = array();
-	var $classes = array();
+  private
+  $depth, // Wieviele Ebene tief, ab der Startebene
+  $open, // alles aufgeklappt, z.b. Sitemap
+  $ignore_offlines,
+  $path = array(),
+  $classes = array(),
 
-	var $current_article_id = -1; // Aktueller Artikel
-	var $current_category_id = -1; // Aktuelle Katgorie
+  $current_article_id = -1, // Aktueller Artikel
+  $current_category_id = -1; // Aktuelle Katgorie
 
-	private function rex_navigation()
-	{
-	  // nichts zu tun
-	}
+  private function __construct()
+  {
+    // nichts zu tun
+  }
 
   public function factory()
   {
@@ -60,52 +61,52 @@ class rex_navigation
 
     return new $class();
   }
-  
+
   /**
    * Generiert eine Navigation
-   * 
+   *
    * @param $category_id Id der Wurzelkategorie
    * @param $depth Anzahl der Ebenen die angezeigt werden sollen
    * @param $open True, wenn nur Elemente der aktiven Kategorie angezeigt werden sollen, sonst FALSE
    * @param $ignore_offlines FALSE, wenn offline Elemente angezeigt werden, sonst TRUE
    */
-	public function get($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = FALSE)
-	{
+  public function get($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = FALSE)
+  {
     if(!$this->_setActivePath()) return FALSE;
-    
-	  $this->depth = $depth;
+
+    $this->depth = $depth;
     $this->open = $open;
     $this->ignore_offlines = $ignore_offlines;
-	  
-		return $this->_getNavigation($category_id,$this->ignore_offlines);
-	}
+
+    return $this->_getNavigation($category_id,$this->ignore_offlines);
+  }
 
   /**
    * @see get()
    */
-	public function show($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = FALSE)
-	{
-		echo $this->get($category_id, $depth, $open, $ignore_offlines);
-	}
-	
+  public function show($category_id = 0,$depth = 3,$open = FALSE, $ignore_offlines = FALSE)
+  {
+    echo $this->get($category_id, $depth, $open, $ignore_offlines);
+  }
+
   /**
    * Generiert eine Breadcrumb-Navigation
-   * 
+   *
    * @param $startPageLabel Label der Startseite, falls FALSE keine Start-Page anzeigen
    * @param $includeCurrent True wenn der aktuelle Artikel enthalten sein soll, sonst FALSE
    * @param $category_id Id der Wurzelkategorie
    */
-	public function getBreadcrumb($startPageLabel, $includeCurrent = FALSE, $category_id = 0)
-	{
-	  if(!$this->_setActivePath()) return FALSE;
-	  
-	  global $REX;
-    
-	  $path = $this->path;
-            
+  public function getBreadcrumb($startPageLabel, $includeCurrent = FALSE, $category_id = 0)
+  {
+    if(!$this->_setActivePath()) return FALSE;
+
+    global $REX;
+
+    $path = $this->path;
+
     $i = 1;
     $lis = '';
-    
+
     if($startPageLabel)
     {
       $lis .= '<li class="rex-lvl'. $i .'"><a href="'. rex_getUrl($REX['START_ARTICLE_ID']) .'">'. htmlspecialchars($startPageLabel) .'</a></li>';
@@ -117,14 +118,14 @@ class rex_navigation
         unset($path[0]);
       }
     }
-    
+
     foreach($path as $pathItem)
     {
       $cat = rex_oocategory::getCategoryById($pathItem);
       $lis .= '<li class="rex-lvl'. $i .'"><a href="'. $cat->getUrl() .'">'. htmlspecialchars($cat->getName()) .'</a></li>';
       $i++;
     }
-    
+
     if($includeCurrent)
     {
       if($art = rex_ooarticle::getArticleById($this->current_article_id))
@@ -133,88 +134,88 @@ class rex_navigation
           $lis .= '<li class="rex-lvl'. $i .'">'. htmlspecialchars($art->getName()) .'</li>';
         }else
         {
-        	$cat = rex_oocategory::getCategoryById($this->current_article_id);
+          $cat = rex_oocategory::getCategoryById($this->current_article_id);
           $lis .= '<li class="rex-lvl'. $i .'">'. htmlspecialchars($cat->getName()) .'</li>';
         }
     }
-    
+
     return '<ul class="rex-breadcrumb">'. $lis .'</ul>';
-	}
-	
-	/**
-	 * @see getBreadcrumb()
-	 */
+  }
+
+  /**
+   * @see getBreadcrumb()
+   */
   public function showBreadcrumb($includeCurrent = FALSE, $category_id = 0)
   {
     echo $this->getBreadcrumb($includeCurrent, $category_id);
   }
-  
-	public function setClasses($classes)
-	{
-	  $this->classes = $classes;
-	}
 
-	public function setLinkClasses($classes)
-	{
-	  $this->linkclasses = $classes;
-	}
+  public function setClasses($classes)
+  {
+    $this->classes = $classes;
+  }
 
-	private function _setActivePath()
-	{
-		global $REX;
+  public function setLinkClasses($classes)
+  {
+    $this->linkclasses = $classes;
+  }
 
-		$article_id = $REX["ARTICLE_ID"];
-		if($OOArt = rex_ooarticle::getArticleById($article_id))
-		{
-		  $path = trim($OOArt->getValue("path"), '|');
-		  
-		  $this->path = array();
-		  if($path != "")
-			 $this->path = explode("|",$path);
-			 
+  private function _setActivePath()
+  {
+    global $REX;
+
+    $article_id = $REX["ARTICLE_ID"];
+    if($OOArt = rex_ooarticle::getArticleById($article_id))
+    {
+      $path = trim($OOArt->getValue("path"), '|');
+
+      $this->path = array();
+      if($path != "")
+        $this->path = explode("|",$path);
+
       $this->current_article_id = $article_id;
-			$this->current_category_id = $OOArt->getCategoryId();
-			return TRUE;
-		}
-		
-		return FALSE;
-	}
+      $this->current_category_id = $OOArt->getCategoryId();
+      return TRUE;
+    }
 
-	protected function _getNavigation($category_id,$ignore_offlines = TRUE)
-	{
-	  static $depth = 0;
-	  
+    return FALSE;
+  }
+
+  protected function _getNavigation($category_id,$ignore_offlines = TRUE)
+  {
+    static $depth = 0;
+
     if($category_id < 1)
-	  	$nav_obj = rex_oocategory::getRootCategories($ignore_offlines);
-		else
-	  	$nav_obj = rex_oocategory::getChildrenById($category_id, $ignore_offlines);
+      $nav_obj = rex_oocategory::getRootCategories($ignore_offlines);
+    else
+      $nav_obj = rex_oocategory::getChildrenById($category_id, $ignore_offlines);
 
-  	$return = "";
+    $return = "";
 
-		if(count($nav_obj)>0)
-		  $return .= '<ul class="rex-navi'. ($depth+1) .'">';
+    if(count($nav_obj)>0)
+      $return .= '<ul class="rex-navi'. ($depth+1) .'">';
 
-		foreach($nav_obj as $nav)
-		{
-		  $liClass = '';
-		  $linkClass = '';
-		  
-		  // classes abhaengig vom pfad
-			if($nav->getId() == $this->current_category_id)
-			{
-			  $liClass .= ' rex-current';
-			  $linkClass .= ' rex-current';
-			}
-			elseif (in_array($nav->getId(),$this->path))
-			{
+    foreach($nav_obj as $nav)
+    {
+      $liClass = '';
+      $linkClass = '';
+
+      // classes abhaengig vom pfad
+      if($nav->getId() == $this->current_category_id)
+      {
+        $liClass .= ' rex-current';
+        $linkClass .= ' rex-current';
+      }
+      elseif (in_array($nav->getId(),$this->path))
+      {
         $liClass .= ' rex-active';
-			  $linkClass .= ' rex-active';
-			}
-			else
-			{
+        $linkClass .= ' rex-active';
+      }
+      else
+      {
         $liClass .= ' rex-normal';
-			}
-			
+      }
+
       // classes abhaengig vom level
       if(isset($this->classes[$depth]))
         $liClass .= ' '. $this->classes[$depth];
@@ -224,27 +225,27 @@ class rex_navigation
 
 
 
-			$linkClass = $linkClass == '' ? '' : ' class="'. ltrim($linkClass) .'"';
-			  
+      $linkClass = $linkClass == '' ? '' : ' class="'. ltrim($linkClass) .'"';
+
       $return .= '<li class="rex-article-'. $nav->getId() . $liClass .'">';
-			$return .= '<a'. $linkClass .' href="'.$nav->getUrl().'">'.htmlspecialchars($nav->getName()).'</a>';
+      $return .= '<a'. $linkClass .' href="'.$nav->getUrl().'">'.htmlspecialchars($nav->getName()).'</a>';
 
-			$depth++;
-			if(($this->open || 
-			    $nav->getId() == $this->current_category_id || 
-			    in_array($nav->getId(),$this->path))
-         && ($this->depth > $depth || $this->depth < 0))
-			{
-				$return .= $this->_getNavigation($nav->getId(),$ignore_offlines);
-			}
-			$depth--;
+      $depth++;
+      if(($this->open ||
+        $nav->getId() == $this->current_category_id ||
+        in_array($nav->getId(),$this->path))
+        && ($this->depth > $depth || $this->depth < 0))
+      {
+        $return .= $this->_getNavigation($nav->getId(),$ignore_offlines);
+      }
+      $depth--;
 
-			$return .= '</li>';
-		}
+      $return .= '</li>';
+    }
 
-		if(count($nav_obj)>0)
-	  	$return .= '</ul>';
+    if(count($nav_obj)>0)
+      $return .= '</ul>';
 
-		return $return;
-	}
+    return $return;
+  }
 }
