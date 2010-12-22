@@ -319,7 +319,8 @@ class rex_login
   {
     global $REX;
 
-    if (!is_object($REX['I18N'])) $REX['I18N'] = rex_create_lang();
+    if(!isset($REX['I18N']) || !is_object($REX['I18N']))
+      $REX['I18N'] = rex_create_lang($REX['LANG']);
 
     // wenn logout dann header schreiben und auf error seite verweisen
     // message schreiben

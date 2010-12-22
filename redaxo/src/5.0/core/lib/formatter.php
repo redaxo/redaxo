@@ -135,7 +135,8 @@ abstract class rex_formatter
   {
     global $REX;
 
-    if (!is_object($REX['I18N'])) $REX['I18N'] = rex_create_lang();
+    if(!isset($REX['I18N']) || !is_object($REX['I18N']))
+      $REX['I18N'] = rex_create_lang();
 
     if (empty ($value))
     {

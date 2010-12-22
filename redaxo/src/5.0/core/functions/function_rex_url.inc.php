@@ -16,7 +16,7 @@ function rex_parse_article_name($name)
     global $REX;
 
     // Im Frontend gibts kein I18N
-    if(!$REX['I18N'])
+    if(!isset($REX['I18N']) || !is_object($REX['I18N']))
       $REX['I18N'] = rex_create_lang($REX['LANG']);
 
     // Sprachspezifische Sonderzeichen Filtern

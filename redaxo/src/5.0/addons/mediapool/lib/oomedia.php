@@ -615,7 +615,7 @@ class rex_ooMedia
     global $REX;
 
     // Im Frontend gibts kein I18N
-    if(!is_object($REX['I18N']))
+    if(!isset($REX['I18N']) || !is_object($REX['I18N']))
       $REX['I18N'] = rex_create_lang($REX['LANG']);
 
     $sql = rex_sql::factory();

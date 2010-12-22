@@ -272,7 +272,7 @@ function rex_translate($text, $I18N_Catalogue = null, $use_htmlspecialchars = tr
   {
     global $REX;
 
-    if(!$REX['I18N'])
+    if(!isset($REX['I18N']) || !is_object($REX['I18N']))
       $REX['I18N'] = rex_create_lang($REX['LANG']);
 
     if(!$REX['I18N'])

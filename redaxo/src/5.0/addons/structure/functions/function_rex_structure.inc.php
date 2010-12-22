@@ -644,7 +644,7 @@ function rex_articleStatus($article_id, $clang, $status = null)
 {
   global $REX;
 
-  if(!is_object($REX['I18N']))
+  if(!isset($REX['I18N']) || !is_object($REX['I18N']))
     $REX['I18N'] = rex_create_lang($REX['LANG']);
 
   $success = false;
