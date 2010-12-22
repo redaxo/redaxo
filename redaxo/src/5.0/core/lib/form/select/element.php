@@ -2,9 +2,9 @@
 
 class rex_form_select_element extends rex_form_element
 {
-  private
-    $select,
-    $separator;
+  protected $select;
+
+  private $separator;
 
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
