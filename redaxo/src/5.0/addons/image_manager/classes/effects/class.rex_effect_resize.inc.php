@@ -1,15 +1,16 @@
 <?php
 
 // Todo:
-// - Vergr��ern erlauben oder nicht. aber eher als Modul einsetzen, also
+// - Vergrößern erlauben oder nicht. aber eher als Modul einsetzen, also
 // fit
 
 class rex_effect_resize extends rex_effect_abstract
 {
-	var $options;
-	var $script;
+	private
+	  $options,
+	  $script;
 
-	function rex_effect_resize()
+	public function __construct()
 	{
 
 		$this->options = array('maximum','minimum','exact');
@@ -39,7 +40,7 @@ class rex_effect_resize extends rex_effect_abstract
 
 	}
 
-	function execute()
+	public function execute()
 	{
 		$gdimage = $this->image->getImage();
 		$w = $this->image->getWidth();
@@ -110,7 +111,7 @@ class rex_effect_resize extends rex_effect_abstract
 		$this->image->refreshDimensions();
 	}
 
-	function resizeMax($w, $h)
+	private function resizeMax($w, $h)
 	{
 		if (!empty($this->params['height']) && !empty($this->params['width']))
 		{
@@ -137,7 +138,7 @@ class rex_effect_resize extends rex_effect_abstract
 		}
 	}
 
-	function resizeMin($w, $h)
+	private function resizeMin($w, $h)
 	{
 		if (!empty($this->params['height']) && !empty($this->params['width']))
 		{
@@ -165,7 +166,7 @@ class rex_effect_resize extends rex_effect_abstract
 	}
 
 
-	function keepTransparent($des)
+	private function keepTransparent($des)
 	{
 		$image = $this->image;
 		if ($image->getFormat() == 'PNG')
@@ -186,7 +187,7 @@ class rex_effect_resize extends rex_effect_abstract
 		}
 	}
 
-	function getParams()
+	public function getParams()
 	{
 		global $REX;
 

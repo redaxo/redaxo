@@ -12,7 +12,11 @@
 class rex_effect_workspace extends rex_effect_abstract
 {
 
-	function rex_effect_workspace()
+  private
+    $options,
+    $script;
+
+	public function rex_effect_workspace()
 	{
 		$this->options = array(
 		  'top',
@@ -57,7 +61,7 @@ class rex_effect_workspace extends rex_effect_abstract
 
 	}
 
-	function execute()
+	public function execute()
 	{
 
 		$gdimage = $this->image->getImage();
@@ -167,7 +171,7 @@ class rex_effect_workspace extends rex_effect_abstract
 		*/
 	}
 
-	function keepTransparent($des)
+	private function keepTransparent($des)
 	{
 		$image = $this->image;
 		if ($image->getFormat() == 'PNG')
@@ -188,7 +192,7 @@ class rex_effect_workspace extends rex_effect_abstract
 		}
 	}
 
-	function getParams()
+	public function getParams()
 	{
 		global $REX;
 

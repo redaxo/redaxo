@@ -7,7 +7,7 @@
 class rex_effect_insert_image extends rex_effect_abstract{
 
 
-	function execute()
+	public function execute()
 	{
 		global $REX;
 
@@ -78,7 +78,7 @@ class rex_effect_insert_image extends rex_effect_abstract{
     $brand->destroy();
 	}
 
-	function getParams()
+	public function getParams()
 	{
 		global $REX;
 

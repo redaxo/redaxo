@@ -1,14 +1,14 @@
 <?php
 
-// �bernommen von cerdmann.com
-// Unsharp mask algorithm by Torstein H�nsi 2003 (thoensi_at_netcom_dot_no)
+// Übernommen von cerdmann.com
+// Unsharp mask algorithm by Torstein Hönsi 2003 (thoensi_at_netcom_dot_no)
 // Christoph Erdmann: changed it a little, cause i could not reproduce the darker blurred image, now it is up to 15% faster with same results
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////
 ////                  Unsharp Mask for PHP - version 2.1.1
 ////
-////    Unsharp mask algorithm by Torstein H�nsi 2003-07.
+////    Unsharp mask algorithm by Torstein Hönsi 2003-07.
 ////             thoensi_at_netcom_dot_no.
 ////               Please leave this notice.
 ////
@@ -17,7 +17,7 @@
 
 class rex_effect_filter_blur extends rex_effect_abstract{
 
-	function execute()
+	public function execute()
 	{
 		// Attempt to calibrate the parameters to Photoshop:
 		if ($this->params["amount"] > 500)
@@ -94,7 +94,7 @@ class rex_effect_filter_blur extends rex_effect_abstract{
 	}
 
 
-	function getParams()
+	public function getParams()
 	{
 		global $REX;
 

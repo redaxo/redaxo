@@ -15,17 +15,19 @@
 
 class rex_tar extends tar
 {
+  private $message;
+
   // constructor to omit warnings
-  function rex_tar()
+  public function __construct()
   {
-    parent::tar();
+    parent::__construct();
   }
-  
+
   // Open a TAR file
-  function openTAR($filename) {
+  public function openTAR($filename) {
     // call constructor to omit warnings instead of unset vars..
-    
-    $this->rex_tar();
+
+    $this->__construct();
     // Clear any values from previous tar archives
     unset($this->filename);
     unset($this->isGzipped);
@@ -45,7 +47,7 @@ class rex_tar extends tar
   }
 
   // Add a file to the tar archive
-  function addFile($filename) {
+  public function addFile($filename) {
     // Make sure the file we are adding exists!
     if(!file_exists($filename))
       return false;
@@ -83,7 +85,7 @@ class rex_tar extends tar
   }
 
   // Add a directory to this tar archive
-  function addDirectory($dirname) {
+  public function addDirectory($dirname) {
     if(!file_exists($dirname))
       return false;
 
@@ -106,7 +108,7 @@ class rex_tar extends tar
 
   // Read a non gzipped tar file in for processing
   // PRIVATE ACCESS FUNCTION
-  function __readTar($filename='') {
+  protected function __readTar($filename='') {
     // Set the filename to load
     if(!$filename)
       $filename = $this->filename;
@@ -134,7 +136,7 @@ class rex_tar extends tar
   }
 
   // Saves tar archive to a different file than the current file
-  function toTar($filename,$useGzip) {
+  public function toTar($filename,$useGzip) {
 
     // Encode processed files into TAR file format
     $this->__generateTar();
@@ -165,7 +167,7 @@ class rex_tar extends tar
 
   // Generates a TAR file from the processed data
   // PRIVATE ACCESS FUNCTION
-  function __generateTAR() {
+  protected function __generateTAR() {
     // Clear any data currently in $this->tar_file
 //    unset($this->tar_file);
     // STM: Warnung gefixed
@@ -260,10 +262,7 @@ class rex_tar extends tar
     return true;
   }
 
-
-  var $message;
-
-  function extractTar()
+  public function extractTar()
   {
     // kills: Warnung verhindern
     if(is_array($this->files))

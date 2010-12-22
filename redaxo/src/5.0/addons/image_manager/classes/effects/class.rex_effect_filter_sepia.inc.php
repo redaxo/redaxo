@@ -2,7 +2,7 @@
 
 class rex_effect_filter_sepia extends rex_effect_abstract{
 
-	function execute()
+	public function execute()
 	{
 		$img = $this->image->getImage();
 
@@ -25,7 +25,7 @@ class rex_effect_filter_sepia extends rex_effect_abstract{
 
 	}
 
-	function getParams()
+	public function getParams()
 	{
 		global $REX;
 

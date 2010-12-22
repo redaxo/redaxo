@@ -4,7 +4,7 @@
 ////
 ////                  Unsharp Mask for PHP - version 2.1.1
 ////
-////    Unsharp mask algorithm by Torstein H�nsi 2003-07.
+////    Unsharp mask algorithm by Torstein Hönsi 2003-07.
 ////             thoensi_at_netcom_dot_no.
 ////               Please leave this notice.
 ////
@@ -15,7 +15,7 @@
 
 class rex_effect_filter_sharpen extends rex_effect_abstract{
 
-	function execute()
+	public function execute()
 	{
 
 		// Attempt to calibrate the parameters to Photoshop:
@@ -145,7 +145,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 			imagedestroy($imgBlur);
 	}
 
-	function getParams()
+	public function getParams()
 	{
 		global $REX;
 
