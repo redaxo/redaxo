@@ -2,7 +2,7 @@
 
 /**
  * RSS Reader Addon
- * 
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
  *
@@ -23,13 +23,7 @@ if($REX["REDAXO"] && $REX["USER"])
 {
   if(rex_request('page', 'string') == 'be_dashboard')
   {
-    // warnings/notices der externen lib verhindern 
-    $oldReporting = error_reporting(0);
-    require_once dirname(__FILE__) .'/classes/class.rss_reader.inc.php';
-    error_reporting($oldReporting);
-    
     require_once dirname(__FILE__) .'/functions/function_reader.inc.php';
-    require_once dirname(__FILE__) .'/classes/class.dashboard.inc.php';
 
     rex_register_extension(
       'DASHBOARD_COMPONENT',
