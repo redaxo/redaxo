@@ -68,7 +68,7 @@ if ($function == 'export')
       while (file_exists($export_path.$filename.'_'.$i.$ext)) $i++;
       $filename = $filename.'_'.$i;
     }
-    
+
     if ($exporttype == 'sql')
     {
       // ------------------------------ FUNC EXPORT SQL
@@ -130,17 +130,17 @@ if ($warning != '')
 ?>
 
 <div class="rex-area">
-  
+
     <h3 class="rex-hl2"><?php echo $REX['I18N']->msg('im_export_export'); ?></h3>
-  
+
     <div class="rex-area-content">
       <p class="rex-tx1"><?php echo $REX['I18N']->msg('im_export_intro_export') ?></p>
-      
+
       <div class="rex-form" id="rex-form-export">
       <form action="index.php" enctype="multipart/form-data" method="post" >
         <fieldset class="rex-form-col-1">
           <legend><?php echo $REX['I18N']->msg('im_export_export'); ?></legend>
-          
+
           <div class="rex-form-wrapper">
             <input type="hidden" name="page" value="import_export" />
             <input type="hidden" name="function" value="export" />
@@ -168,11 +168,11 @@ else
                 <input class="rex-form-radio" type="radio" id="exporttype_files" name="exporttype" value="files"<?php echo $checkedfiles ?> />
                 <label for="exporttype_files"><?php echo $REX['I18N']->msg('im_export_file_export'); ?></label>
               </p>
-              
+
               <div class="rex-form-checkboxes">
                 <div class="rex-form-checkboxes-wrapper">
 <?php
-  $dir = $REX['INCLUDE_PATH'] .'/core/../../';
+  $dir = realpath($REX['HTDOCS_PATH']);
   $folders = readSubFolders($dir);
 
   foreach ($folders as $file)
