@@ -14,33 +14,34 @@
 
 class rex_ooArticleSlice
 {
-  var $_id;
-  var $_article_id;
-  var $_clang;
-  var $_ctype;
-  var $_modultyp_id;
+  private
+    $_id,
+    $_article_id,
+    $_clang,
+    $_ctype,
+    $_modultyp_id,
 
-  var $_re_article_slice_id;
-  var $_next_article_slice_id;
+    $_re_article_slice_id,
+    $_next_article_slice_id,
 
-  var $_createdate;
-  var $_updatedate;
-  var $_createuser;
-  var $_updateuser;
-  var $_revision;
+    $_createdate,
+    $_updatedate,
+    $_createuser,
+    $_updateuser,
+    $_revision,
 
-  var $_values;
-  var $_files;
-  var $_filelists;
-  var $_links;
-  var $_linklists;
-  var $_php;
-  var $_html;
+    $_values,
+    $_files,
+    $_filelists,
+    $_links,
+    $_linklists,
+    $_php,
+    $_html;
 
   /*
    * Constructor
    */
-  public function rex_ooArticleSlice(
+  public function __construct(
   	$id, $article_id, $clang, $ctype, $modultyp_id,
     $re_article_slice_id, $next_article_slice_id,
     $createdate,$updatedate,$createuser,$updateuser,$revision,
@@ -82,7 +83,7 @@ class rex_ooArticleSlice
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-    return rex_ooArticleSlice::_getSliceWhere('id='. $an_id .' AND clang='. $clang.' and revision='.$revision);
+    return self::_getSliceWhere('id='. $an_id .' AND clang='. $clang.' and revision='.$revision);
   }
 
   /*
@@ -100,17 +101,17 @@ class rex_ooArticleSlice
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-   return rex_ooArticleSlice::_getSliceWhere('a.article_id='. $an_article_id .' AND
+   return self::_getSliceWhere('a.article_id='. $an_article_id .' AND
                                           a.clang='. $clang .' AND
                                           (
                                            (a.re_article_slice_id=0 AND a.ctype=1 AND a.id = b.id)
                                             OR
                                            (b.ctype=2 AND a.ctype=1 AND b.id = a.re_article_slice_id)
                                           )
-                                          AND a.revision='.$revision.' 
+                                          AND a.revision='.$revision.'
                                           AND b.revision='.$revision,
                                           $REX['TABLE_PREFIX'].'article_slice a, '. $REX['TABLE_PREFIX'].'article_slice b',
-                                          'a.*' 
+                                          'a.*'
                                           );
   }
 
@@ -125,7 +126,7 @@ class rex_ooArticleSlice
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-    return rex_ooArticleSlice::_getSliceWhere('a.article_id='. $an_article_id .' AND
+    return self::_getSliceWhere('a.article_id='. $an_article_id .' AND
                                           a.clang='. $clang .' AND
                                           a.ctype='. $ctype .' AND
                                           (
@@ -133,7 +134,7 @@ class rex_ooArticleSlice
                                             OR
                                            (b.ctype != a.ctype AND b.id = a.re_article_slice_id)
                                           )
-                                          AND a.revision='.$revision.' 
+                                          AND a.revision='.$revision.'
                                           AND b.revision='.$revision,
                                           $REX['TABLE_PREFIX'].'article_slice a, '. $REX['TABLE_PREFIX'].'article_slice b',
                                           'a.*'
@@ -153,9 +154,9 @@ class rex_ooArticleSlice
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-    return rex_ooArticleSlice::_getSliceWhere('article_id='. $an_article_id .' AND clang='. $clang .' AND revision='.$revision, array());
+    return self::_getSliceWhere('article_id='. $an_article_id .' AND clang='. $clang .' AND revision='.$revision, array());
   }
-  
+
    /*
    * CLASS Function:
    * Return all slices for an article that have a certain
@@ -169,9 +170,9 @@ class rex_ooArticleSlice
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-    return rex_ooArticleSlice::_getSliceWhere('article_id='. $an_article_id .' AND clang='. $clang .' AND modultyp_id='. $a_moduletype_id .' AND revision='.$revision, array());
+    return self::_getSliceWhere('article_id='. $an_article_id .' AND clang='. $clang .' AND modultyp_id='. $a_moduletype_id .' AND revision='.$revision, array());
   }
-  
+
   /*
    * Object Function:
    * Return the next slice for this article
@@ -179,7 +180,7 @@ class rex_ooArticleSlice
    */
   public function getNextSlice()
   {
-    return rex_ooArticleSlice::_getSliceWhere('re_article_slice_id = '. $this->_id .' AND clang = '. $this->_clang.' AND ctype = '. $this->_ctype.' AND revision='.$this->_revision);
+    return self::_getSliceWhere('re_article_slice_id = '. $this->_id .' AND clang = '. $this->_clang.' AND ctype = '. $this->_ctype.' AND revision='.$this->_revision);
   }
 
   /*
@@ -187,7 +188,7 @@ class rex_ooArticleSlice
    */
   public function getPreviousSlice()
   {
-    return rex_ooArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang.' AND ctype = '. $this->_ctype.' AND revision='.$this->_revision);
+    return self::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang.' AND ctype = '. $this->_ctype.' AND revision='.$this->_revision);
   }
 
   /**
@@ -201,7 +202,7 @@ class rex_ooArticleSlice
     $art->setArticleId($this->getArticleId());
     $art->setClang($this->getClang());
     $art->getSlice = $this->getId();
-    $art->setEval(true); 
+    $art->setEval(true);
     return @$art->replaceLinks( $art->getArticle() );
   }
 
@@ -279,7 +280,7 @@ class rex_ooArticleSlice
   {
     return $this->_ctype;
   }
-  
+
   public function getRevision()
   {
     return $this->_revision;
@@ -400,6 +401,6 @@ class rex_ooArticleSlice
    */
   public function getPrevSlice()
   {
-    return rex_ooArticleSlice::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang .' AND revision = '.$this->_revision);
+    return self::_getSliceWhere('id = '. $this->_re_article_slice_id .' AND clang = '. $this->_clang .' AND revision = '.$this->_revision);
   }
 }

@@ -11,15 +11,16 @@
 
 class rex_a62_tableExpander extends rex_form
 {
-  var $metaPrefix;
-  var $tableManager;
+  private
+    $metaPrefix,
+    $tableManager;
 
-  public function rex_a62_tableExpander($metaPrefix, $metaTable, $tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+  public function __construct($metaPrefix, $metaTable, $tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     $this->metaPrefix = $metaPrefix;
     $this->tableManager = new rex_a62_tableManager($metaTable);
 
-    parent::rex_form($tableName, $fieldset, $whereCondition, $method, $debug);
+    parent::__construct($tableName, $fieldset, $whereCondition, $method, $debug);
   }
 
   public function init()
@@ -138,7 +139,7 @@ class rex_a62_tableExpander extends rex_form
 
     if(($result = parent::delete()) === true)
     {
-      // Prios neu setzen, damit keine l�cken entstehen
+      // Prios neu setzen, damit keine lücken entstehen
       $this->organizePriorities(1,2);
       return $this->tableManager->deleteColumn($columnName);
     }
@@ -146,7 +147,7 @@ class rex_a62_tableExpander extends rex_form
     return $result;
   }
 
-  protected function preSave($fieldsetName, $fieldName, $fieldValue, &$saveSql)
+  protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
   {
     global $REX;
 

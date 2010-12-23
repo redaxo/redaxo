@@ -8,7 +8,7 @@ class rex_select
     $option_selected;
 
   ################ Konstruktor
-  public function rex_select()
+  public function __construct()
   {
     $this->init();
   }

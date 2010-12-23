@@ -11,21 +11,22 @@ abstract class rex_ooRedaxo
   /*
    * these vars get read out
    */
-  var $_id = '';
-  var $_re_id = '';
-  var $_clang = '';
-  var $_name = '';
-  var $_catname = '';
-  var $_template_id = '';
-  var $_path = '';
-  var $_prior = '';
-  var $_startpage = '';
-  var $_status = '';
-  var $_attributes = '';
-  var $_updatedate = '';
-  var $_createdate = '';
-  var $_updateuser = '';
-  var $_createuser = '';
+  protected
+    $_id = '',
+    $_re_id = '',
+    $_clang = '',
+    $_name = '',
+    $_catname = '',
+    $_template_id = '',
+    $_path = '',
+    $_prior = '',
+    $_startpage = '',
+    $_status = '',
+    $_attributes = '',
+    $_updatedate = '',
+    $_createdate = '',
+    $_updateuser = '',
+    $_createuser = '';
 
   /*
    * Constructor
@@ -34,7 +35,7 @@ abstract class rex_ooRedaxo
   {
     if ($params !== false)
     {
-      foreach (rex_ooRedaxo :: getClassVars() as $var)
+      foreach (self :: getClassVars() as $var)
       {
         if(isset($params[$var]))
         {
@@ -76,13 +77,13 @@ abstract class rex_ooRedaxo
     return null;
   }
 
-  protected function _hasValue($value, $prefixes = array())
+  protected function _hasValue($value, array $prefixes = array())
   {
     static $values = null;
 
     if(!$values)
     {
-      $values = rex_ooRedaxo :: getClassVars();
+      $values = self :: getClassVars();
     }
 
     if (in_array($value, $values))
@@ -122,7 +123,7 @@ abstract class rex_ooRedaxo
         include_once($file);
 
         // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
-        $genVars = rex_ooRedaxo::convertGeneratedArray($REX['ART'][$REX['START_ARTICLE_ID']],0);
+        $genVars = self::convertGeneratedArray($REX['ART'][$REX['START_ARTICLE_ID']],0);
         unset($genVars['article_id']);
         unset($genVars['last_update_stamp']);
         foreach($genVars as $name => $value)

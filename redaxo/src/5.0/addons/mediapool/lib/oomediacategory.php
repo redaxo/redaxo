@@ -10,34 +10,34 @@
 class rex_ooMediaCategory
 {
   // id
-  var $_id = "";
+  private $_id = "";
   // re_id
-  var $_parent_id = "";
+  private $_parent_id = "";
 
   // name
-  var $_name = "";
+  private $_name = "";
   // path
-  var $_path = "";
+  private $_path = "";
 
   // createdate
-  var $_createdate = "";
+  private $_createdate = "";
   // updatedate
-  var $_updatedate = "";
+  private $_updatedate = "";
 
   // createuser
-  var $_createuser = "";
+  private $_createuser = "";
   // updateuser
-  var $_updateuser = "";
+  private $_updateuser = "";
 
   // child categories
-  var $_children = "";
+  private $_children = "";
   // files (media)
-  var $_files = "";
+  private $_files = "";
 
   /**
   * @access protected
   */
-  function rex_ooMediaCategory($id = null)
+  protected function __construct($id = null)
   {
     $this->getCategoryById($id);
   }
@@ -45,7 +45,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  static function getCategoryById($id)
+  static public function getCategoryById($id)
   {
     global $REX;
 
@@ -90,15 +90,15 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  static function getRootCategories()
+  static public function getRootCategories()
   {
-    return rex_ooMediaCategory :: getChildrenById(0);
+    return self :: getChildrenById(0);
   }
 
   /**
    * @access public
    */
-  static function getChildrenById($id)
+  static public function getChildrenById($id)
   {
     global $REX;
 
@@ -123,7 +123,7 @@ class rex_ooMediaCategory
       if (isset($REX['MEDIA']['RE_CAT_ID'][$id]) && is_array($REX['MEDIA']['RE_CAT_ID'][$id]))
       {
         foreach($REX['MEDIA']['RE_CAT_ID'][$id] as $cat_id)
-          $catlist[] = rex_ooMediaCategory :: getCategoryById($cat_id);
+          $catlist[] = self :: getCategoryById($cat_id);
       }
     }
 
@@ -133,7 +133,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function toString()
+  public function toString()
   {
     return 'rex_ooMediaCategory, "' . $this->getId() . '", "' . $this->getName() . '"' . "<br/>\n";
   }
@@ -141,7 +141,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function getId()
+  public function getId()
   {
     return $this->_id;
   }
@@ -149,7 +149,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function getName()
+  public function getName()
   {
     return $this->_name;
   }
@@ -157,7 +157,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function getPath()
+  public function getPath()
   {
     return $this->_path;
   }
@@ -183,7 +183,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function getUpdateUser()
+  public function getUpdateUser()
   {
     return $this->_updateuser;
   }
@@ -191,7 +191,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function getUpdateDate()
+  public function getUpdateDate()
   {
     return $this->_updatedate;
   }
@@ -199,7 +199,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function getCreateUser()
+  public function getCreateUser()
   {
     return $this->_createuser;
   }
@@ -207,7 +207,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function getCreateDate()
+  public function getCreateDate()
   {
     return $this->_createdate;
   }
@@ -215,7 +215,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function getParentId()
+  public function getParentId()
   {
     return $this->_parent_id;
   }
@@ -223,9 +223,9 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function getParent()
+  public function getParent()
   {
-    return rex_ooMediaCategory :: getCategoryById($this->getParentId());
+    return self :: getCategoryById($this->getParentId());
   }
 
   /**
@@ -234,7 +234,7 @@ class rex_ooMediaCategory
    * Returns an array of rex_ooRedaxo objects sorted by $prior.
    *
    */
-  function getParentTree()
+  public function getParentTree()
   {
     $tree = array();
     if($this->_path)
@@ -246,7 +246,7 @@ class rex_ooMediaCategory
         {
           if($var != '')
           {
-            $tree[] = rex_ooMediaCategory :: getCategoryById($var);
+            $tree[] = self :: getCategoryById($var);
           }
         }
       }
@@ -258,7 +258,7 @@ class rex_ooMediaCategory
    * Object Function:
    * Checks if $anObj is in the parent tree of the object
    */
-  function inParentTree($anObj)
+  public function inParentTree($anObj)
   {
   	$tree = $this->getParentTree();
   	foreach($tree as $treeObj)
@@ -274,7 +274,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function getChildren()
+  public function getChildren()
   {
     global $REX;
 
@@ -289,7 +289,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function countChildren()
+  public function countChildren()
   {
     return count($this->getChildren());
   }
@@ -297,7 +297,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function getMedia()
+  public function getMedia()
   {
     global $REX;
 
@@ -331,7 +331,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function countMedia()
+  public function countMedia()
   {
     return count($this->getFiles());
   }
@@ -339,7 +339,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function isHidden()
+  public function isHidden()
   {
     return $this->_hide;
   }
@@ -347,7 +347,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function isRootCategory()
+  public function isRootCategory()
   {
     return $this->hasParent() === false;
   }
@@ -355,7 +355,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function isParent($mediaCat)
+  public function isParent($mediaCat)
   {
     if (is_int($mediaCat))
     {
@@ -371,7 +371,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  static function isValid($mediaCat)
+  static public function isValid($mediaCat)
   {
     return is_object($mediaCat) && is_a($mediaCat, 'rex_ooMediacategory');
   }
@@ -379,7 +379,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function hasParent()
+  public function hasParent()
   {
     return $this->getParentId() != 0;
   }
@@ -387,7 +387,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function hasChildren()
+  public function hasChildren()
   {
     return count($this->getChildren()) > 0;
   }
@@ -395,15 +395,15 @@ class rex_ooMediaCategory
   /**
    * @access public
    */
-  function hasMedia()
+  public function hasMedia()
   {
     return count($this->getMedia()) > 0;
   }
 
   /**
-   * @access protected
+   * @access public
    */
-  static function _getTableName()
+  static public function _getTableName()
   {
     global $REX;
     return $REX['TABLE_PREFIX'] . 'file_category';
@@ -413,7 +413,7 @@ class rex_ooMediaCategory
    * @access public
    * @return Returns <code>true</code> on success or <code>false</code> on error
    */
-  function save()
+  public function save()
   {
     $sql = rex_sql::factory();
     $sql->setTable($this->_getTableName());
@@ -445,7 +445,7 @@ class rex_ooMediaCategory
    * @access public
    * @return Returns <code>true</code> on success or <code>false</code> on error
    */
-  function delete($recurse = false)
+  public function delete($recurse = false)
   {
     // Rekursiv l�schen?
     if(!$recurse && $this->hasChildren())
@@ -487,7 +487,7 @@ class rex_ooMediaCategory
    * @access public
    * @deprecated 4.2 - 17.05.2008
    */
-  function countFiles()
+  public function countFiles()
   {
     return $this->countMedia();
   }
@@ -496,7 +496,7 @@ class rex_ooMediaCategory
    * @access public
    * @deprecated 4.2 - 17.05.2008
    */
-  function hasFiles()
+  public function hasFiles()
   {
     return $this->hasMedia();
   }
@@ -505,7 +505,7 @@ class rex_ooMediaCategory
    * @access public
    * @deprecated 4.2 - 17.05.2008
    */
-  function getFiles()
+  public function getFiles()
   {
     return $this->getMedia();
   }

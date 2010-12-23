@@ -2,13 +2,14 @@
 
 class rex_input_date extends rex_input
 {
-  var $yearSelect;
-  var $monthSelect;
-  var $daySelect;
+  private
+    $yearSelect,
+    $monthSelect,
+    $daySelect;
 
-  function rex_input_date()
+  public function __construct()
   {
-    parent::rex_input();
+    parent::__construct();
 
     $this->yearSelect = new rex_select();
     $this->yearSelect->addOptions(range(2005,date('Y')+10), true);

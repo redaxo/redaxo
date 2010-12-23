@@ -42,9 +42,9 @@ class rex_ooArticle extends rex_ooRedaxo
       require_once ($article_path);
 
       if ($rex_ooCategory)
-        return new rex_ooCategory(rex_ooRedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
+        return new rex_ooCategory(self :: convertGeneratedArray($REX['ART'][$article_id], $clang));
       else
-        return new rex_ooArticle(rex_ooRedaxo :: convertGeneratedArray($REX['ART'][$article_id], $clang));
+        return new rex_ooArticle(self :: convertGeneratedArray($REX['ART'][$article_id], $clang));
     }
 
     return NULL;
@@ -61,7 +61,7 @@ class rex_ooArticle extends rex_ooRedaxo
     if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
 
-    return rex_ooArticle :: getArticleById($REX['START_ARTICLE_ID'], $clang);
+    return self :: getArticleById($REX['START_ARTICLE_ID'], $clang);
   }
 
   /**
@@ -75,7 +75,7 @@ class rex_ooArticle extends rex_ooRedaxo
     if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
 
-    return rex_ooArticle :: getArticleById($a_category_id, $clang);
+    return self :: getArticleById($a_category_id, $clang);
   }
 
   /**
@@ -107,7 +107,7 @@ class rex_ooArticle extends rex_ooRedaxo
       {
   	    foreach ($REX['RE_ID'][$a_category_id] as $var)
   	    {
-  	      $article = rex_ooArticle :: getArticleById($var, $clang);
+  	      $article = self :: getArticleById($var, $clang);
   	      if ($ignore_offlines)
   	      {
   	        if ($article->isOnline())
@@ -132,7 +132,7 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   static public function getRootArticles($ignore_offlines = FALSE, $clang = FALSE)
   {
-    return rex_ooArticle :: getArticlesOfCategory(0, $ignore_offlines, $clang);
+    return self :: getArticlesOfCategory(0, $ignore_offlines, $clang);
   }
 
   /**

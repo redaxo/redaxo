@@ -2,12 +2,13 @@
 
 class rex_input_time extends rex_input
 {
-  var $hourSelect;
-  var $timeSelect;
+  private
+    $hourSelect,
+    $timeSelect;
 
-  function rex_input_time()
+  public function __construct()
   {
-    parent::rex_input();
+    parent::__construct();
 
     $this->hourSelect = new rex_select();
     $this->hourSelect->addOptions(range(0,23), true);

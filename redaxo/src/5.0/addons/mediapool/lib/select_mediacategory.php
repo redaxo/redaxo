@@ -3,27 +3,28 @@
 ################ Class MediaKategorie Select
 class rex_mediacategory_select extends rex_select
 {
-  var $check_perms;
-  var $rootId;
-  
-  public function rex_mediacategory_select($check_perms = true)
+  private
+    $check_perms,
+    $rootId;
+
+  public function __construct($check_perms = true)
   {
     $this->check_perms = $check_perms;
     $this->rootId = null;
-    
-    parent::rex_select();
+
+    parent::__construct();
   }
-  
+
   /**
    * Kategorie-Id oder ein Array von Kategorie-Ids als Wurzelelemente der Select-Box.
-   * 
-   * @param $rootId mixed Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente. 
+   *
+   * @param $rootId mixed Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente.
    */
   public function setRootId($rootId)
   {
     $this->rootId = $rootId;
   }
-  
+
   protected function addCatOptions()
   {
     if($this->rootId !== null)
@@ -57,20 +58,20 @@ class rex_mediacategory_select extends rex_select
       }
     }
   }
-  
-  protected function addCatOption(/*rex_ooMediaCategory*/ $mediacat)
+
+  protected function addCatOption(rex_ooMediaCategory $mediacat)
   {
     global $REX;
-    
+
     if(!$this->check_perms ||
         $this->check_perms && $REX['USER']->hasMediaCategoryPerm($mediacat->getId()))
     {
       $mid = $mediacat->getId();
       $mname = $mediacat->getName();
-      
+
       if($REX['USER']->hasPerm('advancedMode[]'))
         $mname .= ' ['. $mid .']';
-        
+
       $this->addOption($mname, $mid, $mid, $mediacat->getParentId());
       $childs = $mediacat->getChildren();
       if (is_array($childs))
@@ -82,16 +83,16 @@ class rex_mediacategory_select extends rex_select
       }
     }
   }
-  
+
   public function get()
   {
     static $loaded = false;
-    
+
     if(!$loaded)
     {
       $this->addCatOptions();
     }
-    
+
     return parent::get();
   }
 }

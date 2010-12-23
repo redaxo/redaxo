@@ -8,7 +8,8 @@
 class rex_sql
 {
   public
-    $debugsql; // debug schalter
+    $debugsql, // debug schalter
+    $counter; // ResultSet Cursor
 
   private
     $values, // Werte von setValue
@@ -17,7 +18,6 @@ class rex_sql
     $table, // Tabelle setzen
     $wherevar, // WHERE Bediengung
     $query, // letzter Query String
-    $counter, // ResultSet Cursor
     $rows, // anzahl der treffer
     $result, // ResultSet
     $last_insert_id, // zuletzt angelegte auto_increment nummer

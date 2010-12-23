@@ -9,14 +9,14 @@
 
 class rex_article_editor extends rex_article
 {
-  var $MODULESELECT;
+  private $MODULESELECT;
 
-  public function rex_article_editor($article_id = null, $clang = null)
+  public function __construct($article_id = null, $clang = null)
   {
-    parent::rex_article($article_id, $clang);
+    parent::__construct($article_id, $clang);
   }
 
-  protected function outputSlice($artDataSql, $module_id, $I_ID,
+  protected function outputSlice(rex_sql $artDataSql, $module_id, $I_ID,
     $RE_CONTS, $RE_CONTS_CTYPE, $RE_MODUL_IN, $RE_MODUL_OUT,
     $RE_MODUL_ID, $RE_MODUL_NAME, $RE_C)
   {
@@ -49,7 +49,7 @@ class rex_article_editor extends rex_article
                   <input type="hidden" name="function" value="add" />
                   <input type="hidden" name="clang" value="'.$this->clang.'" />
                   <input type="hidden" name="ctype" value="'.$this->ctype.'" />
-                  
+
                   <div class="rex-form-wrapper">
                     <div class="rex-form-row">
                       <p class="rex-form-col-a rex-form-select">
@@ -64,13 +64,13 @@ class rex_article_editor extends rex_article
 
       }
 
-      
+
       // ----- Slicemenue
-      
+
       $sliceUrl = 'index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $RE_CONTS[$I_ID] .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $RE_CONTS[$I_ID];
       $listElements = array();
-      
-      if(($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$RE_MODUL_ID[$I_ID]."]")) 
+
+      if(($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$RE_MODUL_ID[$I_ID]."]"))
         && rex_template::hasModule($this->template_attributes, $this->ctype, $RE_MODUL_ID[$I_ID]))
       {
         $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=edit') .'" class="rex-tx3">'. $REX['I18N']->msg('edit') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></a>';
@@ -89,7 +89,7 @@ class rex_article_editor extends rex_article
       }else
       {
         $listElements[] = '<b class="rex-tx2">'. $REX['I18N']->msg('no_editing_rights') .' <span>'. $RE_MODUL_NAME[$I_ID] .'</span></b>';
-      	
+
       }
 
       // ----- EXTENSION POINT
@@ -137,7 +137,7 @@ class rex_article_editor extends rex_article
 
       $mne .= '</ul></div></div>';
 
-      
+
       // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
       if($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$RE_MODUL_ID[$I_ID]."]"))
       {
@@ -180,11 +180,11 @@ class rex_article_editor extends rex_article
               $REX_ACTION = $obj->getACDatabaseValues($REX_ACTION, $artDataSql);
             }
           }
-          
+
           // ----- PRE VIEW ACTION [EDIT]
           $REX_ACTION = rex_execPreViewAction($RE_MODUL_ID[$I_ID], 'edit', $REX_ACTION);
           // ----- / PRE VIEW ACTION
-          
+
           // ****************** Action Werte in SQL-Objekt uebernehmen
           foreach($REX['VARIABLES'] as $obj)
           {
@@ -213,9 +213,9 @@ class rex_article_editor extends rex_article
       }else
       {
         // ----- hat keine rechte an diesem modul
-       
+
         $slice_content .= $mne;
-        
+
         // Modulinhalt ausgeben
         $slice_content .= '
                 <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
@@ -248,7 +248,7 @@ class rex_article_editor extends rex_article
         $RE_C
       );
     }
-    
+
     return $slice_content;
   }
 
@@ -324,7 +324,7 @@ class rex_article_editor extends rex_article
                 <input type="hidden" name="clang" value="'.$this->clang.'" />
                 <input type="hidden" name="ctype" value="'.$this->ctype.'" />
 
-                  
+
                   <div class="rex-form-wrapper">
                     <div class="rex-form-row">
                       <p class="rex-form-col-a rex-form-select">
@@ -350,7 +350,7 @@ class rex_article_editor extends rex_article
 
     $MOD = rex_sql::factory();
     $MOD->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."module WHERE id=$module_id");
-    
+
     if ($MOD->getRows() != 1)
     {
       $slice_content = rex_warning($REX['I18N']->msg('module_doesnt_exist'));
@@ -363,19 +363,19 @@ class rex_article_editor extends rex_article
       {
         $REX_ACTION = $obj->getACRequestValues($REX_ACTION);
       }
-      
+
       // ----- PRE VIEW ACTION [ADD]
       $REX_ACTION = rex_execPreViewAction($module_id, 'add', $REX_ACTION);
       // ----- / PRE VIEW ACTION
-      
+
       // ****************** Action Werte in Sql-Objekt uebernehmen
       foreach($REX['VARIABLES'] as $obj)
       {
         $obj->setACValues($initDataSql, $REX_ACTION);
       }
-      
+
       $moduleInput = $this->replaceVars($initDataSql, $MOD->getValue("input"));
-      
+
       $msg = '';
       if($this->warning != '')
       {
@@ -385,7 +385,7 @@ class rex_article_editor extends rex_article
       {
         $msg .= rex_info($this->info);
       }
-      
+
       $slice_content = '
         <a name="addslice"></a>
         '. $msg .'
@@ -402,15 +402,15 @@ class rex_article_editor extends rex_article
             <input type="hidden" name="save" value="1" />
             <input type="hidden" name="clang" value="'. $this->clang .'" />
             <input type="hidden" name="ctype" value="'.$this->ctype .'" />
-            
+
             <div class="rex-content-editmode-module-name">
               <h3 class="rex-hl4">
                 '. $REX['I18N']->msg("module") .': <span>'. htmlspecialchars($MOD->getValue("name")) .'</span>
               </h3>
             </div>
-              
+
             <div class="rex-form-wrapper">
-              
+
               <div class="rex-form-row">
                 <div class="rex-content-editmode-slice-input">
                 <div class="rex-content-editmode-slice-input-2">
@@ -418,12 +418,12 @@ class rex_article_editor extends rex_article
                 </div>
                 </div>
               </div>
-              
+
             </div>
           </fieldset>
-          
+
           <fieldset class="rex-form-col-1">
-             <div class="rex-form-wrapper">              
+             <div class="rex-form-wrapper">
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-submit">
                   <input class="rex-form-submit" type="submit" name="btn_save" value="'. $REX['I18N']->msg('add_block') .'"'. rex_accesskey($REX['I18N']->msg('add_block'), $REX['ACKEY']['SAVE']) .' />
@@ -442,7 +442,7 @@ class rex_article_editor extends rex_article
         </script>';
 
     }
-    
+
     return $slice_content;
   }
 
@@ -467,7 +467,7 @@ class rex_article_editor extends rex_article
           <input type="hidden" name="save" value="1" />
           <input type="hidden" name="update" value="0" />
           <input type="hidden" name="clang" value="'.$this->clang.'" />
-            
+
           <div class="rex-form-wrapper">
             <div class="rex-form-row">
               <div class="rex-content-editmode-slice-input">

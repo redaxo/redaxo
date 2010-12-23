@@ -19,7 +19,7 @@ define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
  */
 class rex_form
 {
-  private
+  protected
     $name,
     $tableName,
     $method,
@@ -901,7 +901,7 @@ class rex_form
    * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
    * kurz vorm speichern
    */
-  protected function preSave($fieldsetName, $fieldName, $fieldValue, $saveSql)
+  protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
   {
     global $REX;
 

@@ -2,14 +2,14 @@
 
 class rex_input_text extends rex_input
 {
-  function rex_input_text()
+  public function __construct()
   {
-    parent::rex_input();
+    parent::__construct();
     $this->setAttribute('class', 'rex-form-text');
     $this->setAttribute('type', 'text');
   }
-  
-  function getHtml()
+
+  public function getHtml()
   {
     $value = htmlspecialchars($this->value);
     return '<input'. $this->getAttributeString() .' value="'. $value .'" />';

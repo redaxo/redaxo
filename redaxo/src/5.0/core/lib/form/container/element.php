@@ -9,7 +9,7 @@ class rex_form_container_element extends rex_form_element
 
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
-  public function _construct($tag = '', &$table, array $attributes = array())
+  public function _construct($tag = '', rex_form $table = null, array $attributes = array())
   {
     parent::__construct('', $table, $attributes);
     $this->fields = array();

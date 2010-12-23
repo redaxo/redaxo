@@ -16,12 +16,12 @@ class rex_form_element
     $suffix,
     $notice;
 
-  public function __construct($tag, &$table, array $attributes = array(), $separateEnding = false)
+  public function __construct($tag, rex_form $table = null, array $attributes = array(), $separateEnding = false)
   {
     $this->value = null;
     $this->label = '';
     $this->tag = $tag;
-    $this->table =& $table;
+    $this->table = $table;
     $this->setAttributes($attributes);
     $this->separateEnding = $separateEnding;
     $this->setHeader('');

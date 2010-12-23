@@ -2,17 +2,17 @@
 
 /**
  * PHPMailer Addon
- *  
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
- * 
+ *
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
 
 class rex_mailer extends PHPMailer
 {
-  function rex_mailer()
+  public function __construct()
   {
     global $REX;
 
@@ -34,7 +34,7 @@ class rex_mailer extends PHPMailer
     $this->PluginDir = $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/';
   }
 
-  function SetLanguage($lang_type = 'de', $lang_path = null)
+  public function SetLanguage($lang_type = 'de', $lang_path = null)
   {
     global $REX;
 

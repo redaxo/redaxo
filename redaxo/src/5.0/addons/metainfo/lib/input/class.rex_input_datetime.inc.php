@@ -2,12 +2,13 @@
 
 class rex_input_datetime extends rex_input
 {
-  var $dateInput;
-  var $timeInput;
+  private
+    $dateInput,
+    $timeInput;
 
-  function rex_input_datetime()
+  public function __construct()
   {
-    parent::rex_input();
+    parent::__construct();
 
     $this->dateInput = rex_input::factory('date');
     $this->timeInput = rex_input::factory('time');

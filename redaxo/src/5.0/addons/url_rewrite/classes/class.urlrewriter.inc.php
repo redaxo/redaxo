@@ -7,22 +7,22 @@
  * @version svn:$Id$
  */
 
-class rexUrlRewriter
+abstract class rex_urlRewriter
 {
   // Konstruktor
-  function rexUrlRewriter()
+  public function __construct()
   {
     // nichts tun
   }
 
   // Parameter aus der URL für das Script verarbeiten
-  function prepare()
+  public function prepare()
   {
     // nichts tun
   }
 
   // Url neu schreiben
-  function rewrite($params)
+  public function rewrite(array $params)
   {
     $id = $params['id'];
     $name = $params['name'];

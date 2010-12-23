@@ -57,7 +57,7 @@ class rex_ooCategory extends rex_ooRedaxo
       {
         foreach ($REX['RE_CAT_ID'][$cat_parent_id] as $var)
         {
-          $category = rex_ooCategory :: getCategoryById($var, $clang);
+          $category = self :: getCategoryById($var, $clang);
           if ($ignore_offlines)
           {
             if ($category->isOnline())
@@ -102,7 +102,7 @@ class rex_ooCategory extends rex_ooRedaxo
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-    return rex_ooCategory :: getChildrenById(0, $ignore_offlines, $clang);
+    return self :: getChildrenById(0, $ignore_offlines, $clang);
   }
 
   /*
@@ -119,7 +119,7 @@ class rex_ooCategory extends rex_ooRedaxo
     if ($clang === false)
       $clang = $this->_clang;
 
-    return rex_ooCategory :: getChildrenById($this->_id, $ignore_offlines, $clang);
+    return self :: getChildrenById($this->_id, $ignore_offlines, $clang);
   }
 
   /*
@@ -131,7 +131,7 @@ class rex_ooCategory extends rex_ooRedaxo
     if ($clang === false)
       $clang = $this->_clang;
 
-    return rex_ooCategory :: getCategoryById($this->_re_id, $clang);
+    return self :: getCategoryById($this->_re_id, $clang);
   }
 
   /*
@@ -153,7 +153,7 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   public function isAncestor($other_cat)
   {
-    $category = rex_ooCategory :: _getCategoryObject($other_cat);
+    $category = self :: _getCategoryObject($other_cat);
     return in_array($this->_id, explode('|', $category->getPath()));
   }
 
@@ -224,14 +224,14 @@ class rex_ooCategory extends rex_ooRedaxo
     }
     elseif (is_int($category))
     {
-      return rex_ooCategory :: getCategoryById($category, $clang);
+      return self :: getCategoryById($category, $clang);
     }
     elseif (is_array($category))
     {
       $catlist = array ();
       foreach ($category as $cat)
       {
-        $catobj = rex_ooCategory :: _getCategoryObject($cat, $clang);
+        $catobj = self :: _getCategoryObject($cat, $clang);
         if (is_object($catobj))
         {
           $catlist[] = $catobj;
@@ -288,7 +288,7 @@ class rex_ooCategory extends rex_ooRedaxo
     	}
     }else
     {
-    	if($c = rex_ooCategory::getCategoryById($category_id))
+    	if($c = self::getCategoryById($category_id))
     	{
     		$path = $c->getPathAsArray();
     		$path[] = $category_id;

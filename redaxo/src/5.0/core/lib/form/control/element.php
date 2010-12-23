@@ -9,7 +9,7 @@ class rex_form_control_element extends rex_form_element
     $resetElelement,
     $abortElement;
 
-  public function __construct(&$table, rex_form_element $saveElement = null, rex_form_element $applyElement = null, rex_form_element $deleteElement = null, rex_form_element $resetElement = null, rex_form_element $abortElement = null)
+  public function __construct(rex_form $table, rex_form_element $saveElement = null, rex_form_element $applyElement = null, rex_form_element $deleteElement = null, rex_form_element $resetElement = null, rex_form_element $abortElement = null)
   {
     parent::__construct('', $table);
 

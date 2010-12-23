@@ -11,12 +11,12 @@
 class rex_article extends rex_article_base
 {
   // bc schalter
-  var $viasql;
+  private $viasql;
 
-  public function rex_article($article_id = null, $clang = null)
+  public function __construct($article_id = null, $clang = null)
   {
     $this->viasql = FALSE;
-    parent::rex_article_base($article_id, $clang);
+    parent::__construct($article_id, $clang);
   }
 
   // bc
@@ -105,7 +105,7 @@ class rex_article extends rex_article_base
     {
       return parent::getArticle($curctype);
     }
-    
+
     global $REX;
 
     $this->ctype = $curctype;

@@ -7,7 +7,7 @@ class rex_category_select extends rex_select
   private $check_perms;
   private $rootId;
 
-  public function rex_category_select($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
+  public function __construct($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
   {
     $this->ignore_offlines = $ignore_offlines;
     $this->clang = $clang;
@@ -15,26 +15,26 @@ class rex_category_select extends rex_select
     $this->add_homepage = $add_homepage;
     $this->rootId = null;
 
-    parent::rex_select();
+    parent::__construct();
   }
 
   /**
    * Kategorie-Id oder ein Array von Kategorie-Ids als Wurzelelemente der Select-Box.
-   * 
-   * @param $rootId mixed Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente. 
+   *
+   * @param $rootId mixed Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente.
    */
   public function setRootId($rootId)
   {
     $this->rootId = $rootId;
   }
-  
+
   protected function addCatOptions()
   {
     global $REX;
 
     if($this->add_homepage)
       $this->addOption('Homepage', 0);
-      
+
     if($this->rootId !== null)
     {
       if(is_array($this->rootId))
@@ -79,8 +79,8 @@ class rex_category_select extends rex_select
       }
     }
   }
-  
-  protected function addCatOption(/*rex_ooCategory*/ $cat, $group = null)
+
+  protected function addCatOption(rex_ooCategory $cat, $group = null)
   {
     global $REX;
 
@@ -89,13 +89,13 @@ class rex_category_select extends rex_select
     {
       $cid = $cat->getId();
       $cname = $cat->getName();
-      
+
       if($REX['USER']->hasPerm('advancedMode[]'))
         $cname .= ' ['. $cid .']';
-      
+
       if($group === null)
         $group = $cat->getParentId();
-      
+
       $this->addOption($cname, $cid, $cid, $group);
       $childs = $cat->getChildren($this->ignore_offlines, $this->clang);
       if (is_array($childs))
@@ -111,15 +111,15 @@ class rex_category_select extends rex_select
   public function get()
   {
     static $loaded = false;
-    
+
     if(!$loaded)
     {
       $this->addCatOptions();
     }
-    
+
     return parent::get();
   }
-  
+
   private function _outGroup($re_id, $level = 0)
   {
 		global $REX;
@@ -144,7 +144,7 @@ class rex_category_select extends rex_select
       {
       	$level--;
       }
-      
+
       $subgroup = $this->_getGroup($id, true);
       if ($subgroup !== false)
       {
@@ -153,5 +153,5 @@ class rex_category_select extends rex_select
     }
     return $ausgabe;
   }
-  
+
 }

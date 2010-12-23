@@ -11,10 +11,11 @@
 
 class rex_a62_tableManager
 {
-  var $tableName;
-  var $DBID;
+  private
+    $tableName,
+    $DBID;
 
-  function rex_a62_tableManager($tableName, $DBID =1)
+  public function __construct($tableName, $DBID =1)
   {
     $this->tableName = $tableName;
     $this->DBID = $DBID;

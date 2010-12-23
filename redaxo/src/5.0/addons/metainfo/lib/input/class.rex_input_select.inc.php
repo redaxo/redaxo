@@ -2,11 +2,11 @@
 
 class rex_input_select extends rex_input
 {
-  var $select;
+  private $select;
 
-  function rex_input_select()
+  public function __construct()
   {
-    parent::rex_input();
+    parent::__construct();
 
     $this->select = new rex_select();
     $this->setAttribute('class', 'rex-form-select');

@@ -10,48 +10,48 @@
 class rex_ooMedia
 {
   // id
-  var $_id = "";
+  private $_id = "";
   // parent (FOR FUTURE USE!)
-  var $_parent_id = "";
+  private $_parent_id = "";
   // categoryid
-  var $_cat_id = "";
+  private $_cat_id = "";
 
   // categoryname
-  var $_cat_name = "";
+  private $_cat_name = "";
   // rex_ooMediacategory
-  var $_cat = "";
+  private $_cat = "";
 
   // filename
-  var $_name = "";
+  private $_name = "";
   // originalname
-  var $_orgname = "";
+  private $_orgname = "";
   // filetype
-  var $_type = "";
+  private $_type = "";
   // filesize
-  var $_size = "";
+  private $_size = "";
 
   // filewidth
-  var $_width = "";
+  private $_width = "";
   // fileheight
-  var $_height = "";
+  private $_height = "";
 
   // filetitle
-  var $_title = "";
+  private $_title = "";
 
   // updatedate
-  var $_updatedate = "";
+  private $_updatedate = "";
   // createdate
-  var $_createdate = "";
+  private $_createdate = "";
 
   // updateuser
-  var $_updateuser = "";
+  private $_updateuser = "";
   // createuser
-  var $_createuser = "";
+  private $_createuser = "";
 
   /**
    * @access protected
    */
-  function rex_ooMedia($id = null)
+  protected function __construct($id = null)
   {
     $this->getMediaById($id);
   }
@@ -59,7 +59,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  static function getMediaByName($filename)
+  static public function getMediaByName($filename)
   {
     return rex_ooMedia :: getMediaByFileName($filename);
   }
@@ -70,7 +70,7 @@ class rex_ooMedia
    * @example rex_ooMedia::getMediaByExtension('css');
    * @example rex_ooMedia::getMediaByExtension('gif');
    */
-  static function getMediaByExtension($extension)
+  static public function getMediaByExtension($extension)
   {
     global $REX;
 
@@ -100,7 +100,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  static function getMediaByFileName($name)
+  static public function getMediaByFileName($name)
   {
     global $REX;
 
@@ -149,7 +149,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getId()
+  public function getId()
   {
     return $this->_id;
   }
@@ -157,7 +157,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getCategory()
+  public function getCategory()
   {
     if ($this->_cat === null)
     {
@@ -169,7 +169,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getCategoryName()
+  public function getCategoryName()
   {
     if ($this->_cat_name === null)
     {
@@ -184,7 +184,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getCategoryId()
+  public function getCategoryId()
   {
     return $this->_cat_id;
   }
@@ -192,7 +192,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getParentId()
+  public function getParentId()
   {
     return $this->_parent_id;
   }
@@ -200,7 +200,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function hasParent()
+  public function hasParent()
   {
     return $this->getParentId() != 0;
   }
@@ -226,7 +226,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getTitle()
+  public function getTitle()
   {
     return $this->_title;
   }
@@ -234,7 +234,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getFileName()
+  public function getFileName()
   {
     return $this->_name;
   }
@@ -242,7 +242,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getOrgFileName()
+  public function getOrgFileName()
   {
     return $this->_orgname;
   }
@@ -250,7 +250,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getPath()
+  public function getPath()
   {
     global $REX;
     return $REX['HTDOCS_PATH'].'files';
@@ -259,7 +259,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getFullPath()
+  public function getFullPath()
   {
     return $this->getPath().'/'.$this->getFileName();
   }
@@ -267,7 +267,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getWidth()
+  public function getWidth()
   {
     return $this->_width;
   }
@@ -275,7 +275,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getHeight()
+  public function getHeight()
   {
     return $this->_height;
   }
@@ -283,7 +283,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getType()
+  public function getType()
   {
     return $this->_type;
   }
@@ -291,7 +291,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getSize()
+  public function getSize()
   {
     return $this->_size;
   }
@@ -299,7 +299,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getFormattedSize()
+  public function getFormattedSize()
   {
     return self::_getFormattedSize($this->getSize());
   }
@@ -307,7 +307,7 @@ class rex_ooMedia
   /**
    * @access protected
    */
-  static function _getFormattedSize($size)
+  static protected function _getFormattedSize($size)
   {
 
     // Setup some common file size measurements.
@@ -352,7 +352,7 @@ class rex_ooMedia
    * @access public
    * @static
    */
-  function _getDate($date, $format = null)
+  static public function _getDate($date, $format = null)
   {
     if ($format !== null)
     {
@@ -371,7 +371,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getUpdateUser()
+  public function getUpdateUser()
   {
     return $this->_updateuser;
   }
@@ -380,7 +380,7 @@ class rex_ooMedia
    * @access public
     * @see #_getDate
    */
-  function getUpdateDate($format = null)
+  public function getUpdateDate($format = null)
   {
     return $this->_getDate($this->_updatedate, $format);
   }
@@ -388,7 +388,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getCreateUser()
+  public function getCreateUser()
   {
     return $this->_createuser;
   }
@@ -397,7 +397,7 @@ class rex_ooMedia
    * @access public
     * @see #_getDate
    */
-  function getCreateDate($format = null)
+  public function getCreateDate($format = null)
   {
     return $this->_getDate($this->_createdate, $format);
   }
@@ -405,7 +405,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function toImage($params = array ())
+  public function toImage(array $params = array ())
   {
     global $REX;
 
@@ -530,14 +530,14 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function toLink($attributes = '')
+  public function toLink($attributes = '')
   {
     return sprintf('<a href="%s" title="%s"%s>%s</a>', $this->getFullPath(), $this->getDescription(), $attributes, $this->getFileName());
   }
   /**
    * @access public
    */
-  function toIcon($iconAttributes = array ())
+  public function toIcon(array $iconAttributes = array ())
   {
     global $REX;
 
@@ -572,7 +572,7 @@ class rex_ooMedia
    * @access public
    * @static
    */
-  static function isValid($media)
+  static public function isValid($media)
   {
     return is_object($media) && is_a($media, 'rex_ooMedia');
   }
@@ -580,7 +580,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function isImage()
+  public function isImage()
   {
     return $this->_isImage($this->getFileName());
   }
@@ -589,7 +589,7 @@ class rex_ooMedia
    * @access public
    * @static
    */
-  static function _isImage($filename)
+  static public function _isImage($filename)
   {
     static $imageExtensions;
 
@@ -610,7 +610,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function isInUse()
+  public function isInUse()
   {
     global $REX;
 
@@ -643,7 +643,7 @@ class rex_ooMedia
 
     // deprecated since REX 4.3
     // ----- EXTENSION POINT
-    $query = rex_register_extension_point('rex_ooMedia_IS_IN_USE_QUERY', $query,
+    $query = rex_register_extension_point('OOMEDIA_IS_IN_USE_QUERY', $query,
       array(
         'filename' => $this->getFileName(),
         'media' => $this,
@@ -667,7 +667,7 @@ class rex_ooMedia
     }
 
     // ----- EXTENSION POINT
-    $warning = rex_register_extension_point('rex_ooMedia_IS_IN_USE', $warning,
+    $warning = rex_register_extension_point('OOMEDIA_IS_IN_USE', $warning,
       array(
         'filename' => $this->getFileName(),
         'media' => $this,
@@ -683,7 +683,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function toHTML($attributes = '')
+  public function toHTML($attributes = '')
   {
     global $REX;
 
@@ -718,7 +718,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function toString()
+  public function toString()
   {
     return 'rex_ooMedia, "'.$this->getId().'", "'.$this->getFileName().'"'."<br/>\n";
   }
@@ -727,7 +727,7 @@ class rex_ooMedia
   /**
     * @access public
    */
-  function getExtension()
+  public function getExtension()
   {
     return $this->_getExtension($this->_name);
   }
@@ -736,7 +736,7 @@ class rex_ooMedia
    * @access public
    * @static
    */
-  static function _getExtension($filename)
+  static public function _getExtension($filename)
   {
     return substr(strrchr($filename, "."), 1);
   }
@@ -744,7 +744,7 @@ class rex_ooMedia
   /**
    * @access public
    */
-  function getIcon($useDefaultIcon = true)
+  public function getIcon($useDefaultIcon = true)
   {
     global $REX;
 
@@ -752,7 +752,7 @@ class rex_ooMedia
     $folder = $REX['HTDOCS_PATH'] .'redaxo/media/';
     $icon = $folder .'mime-'.$ext.'.gif';
 
-    // Dateityp f�r den kein Icon vorhanden ist
+    // Dateityp für den kein Icon vorhanden ist
     if (!file_exists($icon))
     {
       if($useDefaultIcon)
@@ -764,9 +764,9 @@ class rex_ooMedia
   }
 
   /**
-   * @access protected
+   * @access public
    */
-  static function _getTableName()
+  static public function _getTableName()
   {
     global $REX;
     return $REX['TABLE_PREFIX'].'file';
@@ -776,7 +776,7 @@ class rex_ooMedia
    * @access public
    * @return Returns <code>true</code> on success or <code>false</code> on error
    */
-  function save()
+  public function save()
   {
     $sql = rex_sql::factory();
     $sql->setTable($this->_getTableName());
@@ -813,7 +813,7 @@ class rex_ooMedia
    * @access public
    * @return Returns <code>true</code> on success or <code>false</code> on error
    */
-  function delete($filename = null)
+  public function delete($filename = null)
   {
     global $REX;
 
@@ -842,7 +842,7 @@ class rex_ooMedia
     return false;
   }
 
-  static function fileExists($filename = null)
+  public function fileExists($filename = null)
   {
     global $REX;
 
@@ -855,7 +855,7 @@ class rex_ooMedia
   }
 
   // allowed filetypes
-  static function getDocTypes()
+  static public function getDocTypes()
   {
     static $docTypes = array (
       'bmp',
@@ -889,13 +889,13 @@ class rex_ooMedia
     return $docTypes;
   }
 
-  static function isDocType($type)
+  static public function isDocType($type)
   {
     return in_array($type, rex_ooMedia :: getDocTypes());
   }
 
   // allowed image upload types
-  static function getImageTypes()
+  static public function getImageTypes()
   {
     static $imageTypes = array (
       'image/gif',
@@ -909,12 +909,12 @@ class rex_ooMedia
     return $imageTypes;
   }
 
-  static function isImageType($type)
+  static public function isImageType($type)
   {
     return in_array($type, rex_ooMedia :: getImageTypes());
   }
 
-  static function compareImageTypes($type1, $type2)
+  static public function compareImageTypes($type1, $type2)
   {
     static $jpg = array (
       'image/jpg',
@@ -925,7 +925,7 @@ class rex_ooMedia
     return in_array($type1, $jpg) && in_array($type2, $jpg);
   }
 
-  function hasValue($value)
+  public function hasValue($value)
   {
     if (substr($value, 0, 1) != '_')
     {
@@ -934,7 +934,7 @@ class rex_ooMedia
     return isset($this->$value);
   }
 
-  function getValue($value)
+  public function getValue($value)
   {
     if (substr($value, 0, 1) != '_')
     {
@@ -964,7 +964,7 @@ class rex_ooMedia
    * @deprecated 20.02.2010
    * Stattdessen getMediaByFileName() nutzen
    */
-  static function getMediaById($id)
+  static public function getMediaById($id)
   {
     global $REX;
 
@@ -974,10 +974,10 @@ class rex_ooMedia
 
     $sql = rex_sql::factory();
     // $sql->debugsql = true;
-    $sql->setQuery('SELECT filename FROM ' . rex_ooMedia :: _getTableName() . ' WHERE file_id='.$id);
+    $sql->setQuery('SELECT filename FROM ' . self :: _getTableName() . ' WHERE file_id='.$id);
     if ($sql->getRows() == 1)
     {
-      return rex_ooMedia :: getMediaByFileName($sql->getValue('filename'));
+      return self :: getMediaByFileName($sql->getValue('filename'));
     }
 
     return NULL;
