@@ -250,7 +250,7 @@ function rex_a1_import_files($filename)
   }
 
   // Ordner /files komplett leeren
-  rex_deleteFiles($REX['INCLUDE_PATH'] ."/core/../../files");
+  rex_deleteFiles($REX['MEDIAFOLDER']);
 
   $tar = new rex_tar;
 

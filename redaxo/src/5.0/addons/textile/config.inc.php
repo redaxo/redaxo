@@ -4,7 +4,7 @@
  * Textile Addon
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -12,7 +12,6 @@
 $REX['PERM'][] = 'textile[]';
 $REX['EXTPERM'][] = 'textile[help]';
 
-require_once($REX['INCLUDE_PATH']. '/addons/textile/classes/class.textile.inc.php');
 require_once $REX['INCLUDE_PATH']. '/addons/textile/functions/function_textile.inc.php';
 
 if ($REX['REDAXO'])

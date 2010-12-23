@@ -9,15 +9,6 @@
 
 if ($REX['MOD_REWRITE'] !== false)
 {
-  $UrlRewriteBasedir = dirname(__FILE__);
-  require_once $UrlRewriteBasedir.'/classes/class.urlrewriter.inc.php';
-
-  // --------- configuration
-
-  // Modify this line to include the right rewriter
-  require_once $UrlRewriteBasedir.'/classes/class.rewrite_fullnames.inc.php';
-
-  // --------- end of configuration
 
   $rewriter = new rex_urlRewriter_fullnames();
   $rewriter->prepare();

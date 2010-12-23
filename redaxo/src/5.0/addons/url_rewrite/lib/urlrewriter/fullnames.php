@@ -1,7 +1,5 @@
 <?php
 
-define('FULLNAMES_PATHLIST', $REX['INCLUDE_PATH'] .'/generated/files/pathlist.php');
-
 /**
  * URL-Rewrite Addon
  * @author markus.staab[at]redaxo[dot]de Markus Staab
@@ -46,17 +44,40 @@ define('FULLNAMES_PATHLIST', $REX['INCLUDE_PATH'] .'/generated/files/pathlist.ph
 class rex_urlRewriter_fullnames extends rex_urlRewriter
 {
   private
+    $PATHLIST,
+
     $use_levenshtein,
     $use_params_rewrite;
 
   // Konstruktor
   public function __construct($use_levenshtein = false, $use_params_rewrite = false)
   {
+    global $REX;
+
+    $this->PATHLIST = $REX['INCLUDE_PATH'] .'/generated/files/pathlist.php';
+
     $this->use_levenshtein = $use_levenshtein;
     $this->use_params_rewrite = $use_params_rewrite;
 
     // Parent Konstruktor aufrufen
     parent::__construct();
+
+    if ($REX['REDAXO'])
+    {
+      // Die Pathnames bei folgenden Extension Points aktualisieren
+      $extension = array($this, 'generatePathnames');
+      $extensionPoints = array(
+        'CAT_ADDED',   'CAT_UPDATED',   'CAT_DELETED',
+        'ART_ADDED',   'ART_UPDATED',   'ART_DELETED',
+        'ART_TO_CAT',  'CAT_TO_ART',    'ART_TO_STARTPAGE',
+        'CLANG_ADDED', 'CLANG_UPDATED', 'CLANG_DELETED',
+        'ALL_GENERATED', 'ART_META_UPDATED');
+
+      foreach($extensionPoints as $extensionPoint)
+      {
+        rex_register_extension($extensionPoint, $extension);
+      }
+    }
   }
 
   // Parameter aus der URL für das Script verarbeiten
@@ -67,11 +88,11 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
     $article_id = -1;
     $clang = $REX["CUR_CLANG"];
 
-    if(!file_exists(FULLNAMES_PATHLIST))
-       rex_rewriter_generate_pathnames(array());
+    if(!file_exists($this->PATHLIST))
+       $this->generatePathnames(array());
 
     // REXPATH wird auch im Backend benötigt, z.B. beim bearbeiten von Artikeln
-    require_once (FULLNAMES_PATHLIST);
+    require_once ($this->PATHLIST);
 
     if(!$REX['REDAXO'])
     {
@@ -251,141 +272,118 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
     // da dieser den <base href="" /> nicht kennt.
     return $baseDir .$url;
   }
-}
 
-/*
- * Allgemeine EP Definitionen
- */
 
-if ($REX['REDAXO'])
-{
-  // Die Pathnames bei folgenden Extension Points aktualisieren
-  $extension = 'rex_rewriter_generate_pathnames';
-  $extensionPoints = array(
-    'CAT_ADDED',   'CAT_UPDATED',   'CAT_DELETED',
-    'ART_ADDED',   'ART_UPDATED',   'ART_DELETED',
-    'ART_TO_CAT',  'CAT_TO_ART',    'ART_TO_STARTPAGE',
-    'CLANG_ADDED', 'CLANG_UPDATED', 'CLANG_DELETED',
-    'ALL_GENERATED', 'ART_META_UPDATED');
-
-  foreach($extensionPoints as $extensionPoint)
+  /**
+   * generiert die Pathlist, abhŠngig von Aktion
+   * @author markus.staab[at]redaxo[dot]de Markus Staab
+   * @package redaxo4.2
+   */
+  public function generatePathnames($params)
   {
-    rex_register_extension($extensionPoint, $extension);
-  }
-}
+    global $REX, $REXPATH;
 
-
-/**
- * rex_rewriter_generate_pathnames
- * generiert die Pathlist, abhŠngig von Aktion
- * @author markus.staab[at]redaxo[dot]de Markus Staab
- * @package redaxo4.2
- */
-
-function rex_rewriter_generate_pathnames($params)
-{
-  global $REX, $REXPATH;
-
-  if(file_exists(FULLNAMES_PATHLIST))
-  {
-    require_once (FULLNAMES_PATHLIST);
-  }
-
-  if(!isset($REXPATH))
-    $REXPATH = array();
-
-  if(!isset($params['extension_point']))
-    $params['extension_point'] = '';
-
-  $where = '';
-  switch($params['extension_point'])
-  {
-    // ------- sprachabhängig, einen artikel aktualisieren
-    case 'CAT_DELETED':
-    case 'ART_DELETED':
-      unset($REXPATH[$params['id']]);
-      break;
-    case 'CAT_ADDED':
-    case 'CAT_UPDATED':
-    case 'ART_ADDED':
-    case 'ART_UPDATED':
-    case 'ART_TO_CAT':
-    case 'CAT_TO_ART':
-    case 'ART_META_UPDATED':
-      $where = '(id='. $params['id'] .' AND clang='. $params['clang'] .') OR (path LIKE "%|'. $params['id'] .'|%" AND clang='. $params['clang'] .')';
-      break;
-    // ------- alles aktualisieren
-    case 'CLANG_ADDED':
-    case 'CLANG_UPDATED':
-    case 'CLANG_DELETED':
-    case 'ART_TO_STARTPAGE':
-    case 'ALL_GENERATED':
-    default:
-      $REXPATH = array();
-      $where = '1=1';
-			break;
-  }
-
-  if($where != '')
-  {
-    $db = rex_sql::factory();
-    // $db->debugsql=true;
-    $db->setQuery('SELECT id,clang,path,startpage FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where.' and revision=0');
-
-    while($db->hasNext())
+    if(file_exists($this->PATHLIST))
     {
-      $clang = $db->getValue('clang');
-      $pathname = '';
-      if (count($REX['CLANG']) > 1)
-      {
-        $pathname = $REX['CLANG'][$clang].'/';
-      }
-
-      // pfad über kategorien bauen
-      $path = trim($db->getValue('path'), '|');
-      if($path != '')
-      {
-        $path = explode('|', $path);
-        foreach ($path as $p)
-        {
-          $ooc = rex_ooCategory::getCategoryById($p, $clang);
-          $name = $ooc->getName();
-          unset($ooc); // speicher freigeben
-
-          $pathname = rex_rewriter_appendToPath($pathname, $name);
-        }
-      }
-
-      $ooa = rex_ooArticle::getArticleById($db->getValue('id'), $clang);
-      if($ooa->isStartArticle())
-      {
-        $ooc = $ooa->getCategory();
-        $catname = $ooc->getName();
-        unset($ooc); // speicher freigeben
-        $pathname = rex_rewriter_appendToPath($pathname, $catname);
-      }
-
-      // eigentlicher artikel anhängen
-      $name = $ooa->getName();
-      unset($ooa); // speicher freigeben
-      $pathname = rex_rewriter_appendToPath($pathname, $name);
-
-      $pathname = substr($pathname,0,strlen($pathname)-1).'.html';
-      $REXPATH[$db->getValue('id')][$db->getValue('clang')] = $pathname;
-
-      $db->next();
+      require_once ($this->PATHLIST);
     }
+
+    if(!isset($REXPATH))
+      $REXPATH = array();
+
+    if(!isset($params['extension_point']))
+      $params['extension_point'] = '';
+
+    $where = '';
+    switch($params['extension_point'])
+    {
+      // ------- sprachabhängig, einen artikel aktualisieren
+      case 'CAT_DELETED':
+      case 'ART_DELETED':
+        unset($REXPATH[$params['id']]);
+        break;
+      case 'CAT_ADDED':
+      case 'CAT_UPDATED':
+      case 'ART_ADDED':
+      case 'ART_UPDATED':
+      case 'ART_TO_CAT':
+      case 'CAT_TO_ART':
+      case 'ART_META_UPDATED':
+        $where = '(id='. $params['id'] .' AND clang='. $params['clang'] .') OR (path LIKE "%|'. $params['id'] .'|%" AND clang='. $params['clang'] .')';
+        break;
+      // ------- alles aktualisieren
+      case 'CLANG_ADDED':
+      case 'CLANG_UPDATED':
+      case 'CLANG_DELETED':
+      case 'ART_TO_STARTPAGE':
+      case 'ALL_GENERATED':
+      default:
+        $REXPATH = array();
+        $where = '1=1';
+  			break;
+    }
+
+    if($where != '')
+    {
+      $db = rex_sql::factory();
+      // $db->debugsql=true;
+      $db->setQuery('SELECT id,clang,path,startpage FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where.' and revision=0');
+
+      while($db->hasNext())
+      {
+        $clang = $db->getValue('clang');
+        $pathname = '';
+        if (count($REX['CLANG']) > 1)
+        {
+          $pathname = $REX['CLANG'][$clang].'/';
+        }
+
+        // pfad über kategorien bauen
+        $path = trim($db->getValue('path'), '|');
+        if($path != '')
+        {
+          $path = explode('|', $path);
+          foreach ($path as $p)
+          {
+            $ooc = rex_ooCategory::getCategoryById($p, $clang);
+            $name = $ooc->getName();
+            unset($ooc); // speicher freigeben
+
+            $pathname = self::appendToPath($pathname, $name);
+          }
+        }
+
+        $ooa = rex_ooArticle::getArticleById($db->getValue('id'), $clang);
+        if($ooa->isStartArticle())
+        {
+          $ooc = $ooa->getCategory();
+          $catname = $ooc->getName();
+          unset($ooc); // speicher freigeben
+          $pathname = self::appendToPath($pathname, $catname);
+        }
+
+        // eigentlicher artikel anhängen
+        $name = $ooa->getName();
+        unset($ooa); // speicher freigeben
+        $pathname = self::appendToPath($pathname, $name);
+
+        $pathname = substr($pathname,0,strlen($pathname)-1).'.html';
+        $REXPATH[$db->getValue('id')][$db->getValue('clang')] = $pathname;
+
+        $db->next();
+      }
+    }
+
+    rex_put_file_contents($this->PATHLIST, "<?php\n\$REXPATH = ". var_export($REXPATH, true) .";\n");
   }
 
-  rex_put_file_contents(FULLNAMES_PATHLIST, "<?php\n\$REXPATH = ". var_export($REXPATH, true) .";\n");
-}
-
-function rex_rewriter_appendToPath($path, $name)
-{
-  if ($name != '')
+  static private function appendToPath($path, $name)
   {
-    $name = strtolower(rex_parse_article_name($name));
-    $path .= $name.'/';
+    if ($name != '')
+    {
+      $name = strtolower(rex_parse_article_name($name));
+      $path .= $name.'/';
+    }
+    return $path;
   }
-  return $path;
 }
