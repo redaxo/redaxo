@@ -29,7 +29,7 @@ function rex_a62_metainfo_cleanup($params)
   
   // since this extension may be used also when the addon is not yet installed,
   // require needed classes manually
-  require_once dirname(__FILE__) .'/../lib/class.rex_table_manager.inc.php';
+  require_once dirname(__FILE__) .'/../lib/table_manager.php';
 
   $sql = rex_sql::factory();
   $sql->setQuery('SELECT name FROM ' . $REX['TABLE_PREFIX'] . '62_params');
