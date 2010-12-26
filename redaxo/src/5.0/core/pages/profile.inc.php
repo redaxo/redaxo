@@ -209,7 +209,7 @@ else
 					<div class="rex-form-row">
 			    	<p class="rex-form-col-a rex-form-text">
               			<label for="userpsw">'.$REX['I18N']->msg('old_password').'</label>
-						<input class="rex-form-text" type="password" id="userpsw" name="userpsw" />
+							<input class="rex-form-text" type="password" id="userpsw" name="userpsw" autocomplete="off" />
 						</p>
 					</div>
 
@@ -217,11 +217,11 @@ else
 					<div class="rex-form-row">
 			    	<p class="rex-form-col-a rex-form-text">
              				 <label for="userpsw">'.$REX['I18N']->msg('new_password').'</label>
-							<input class="rex-form-text" type="password" id="userpsw_new_1" name="userpsw_new_1" />
+							<input class="rex-form-text" type="password" id="userpsw_new_1" name="userpsw_new_1" autocomplete="off" />
 						</p>
 			    	<p class="rex-form-col-b rex-form-text">
               				<label for="userpsw">'.$REX['I18N']->msg('new_password_repeat').'</label>
-							<input class="rex-form-text" type="password" id="userpsw_new_2" name="userpsw_new_2" />
+							<input class="rex-form-text" type="password" id="userpsw_new_2" name="userpsw_new_2" autocomplete="off" />
 						</p>
 					</div>
 

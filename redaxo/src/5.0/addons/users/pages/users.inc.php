@@ -421,7 +421,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
           </p>
           <p class="rex-form-col-b rex-form-text">
             <label for="userpsw">'.$REX['I18N']->msg('password').'</label>
-            <input type="text" id="userpsw" name="userpsw" value="'.htmlspecialchars($userpsw).'" />
+            <input type="password" id="userpsw" name="userpsw" autocomplete="off" />
             '. ($REX['PSWFUNC']!='' ? '<span class="rex-form-notice">'. $REX['I18N']->msg('psw_encrypted') .'</span>' : '') .'
           </p>
 		    </div>
