@@ -192,13 +192,17 @@ function rex_setup_setUtf8()
   }
 }
 
+// --------------------------------------------- END: SETUP FUNCTIONS
 
-
-	// --------------------------------------------- END: SETUP FUNCTIONS
-
-
-	$MSG['err'] = "";
-
+  // -- setup requirements
+	$min_version = '5.3.0';
+ 	$min_mysql_version = '5.0';
+ 	$min_php_extensions = array('session', 'mysql', 'pcre');
+  // -- /setup requirements
+   	
+  $MSG['err'] = "";
+	$err_msg = '';
+	
 	$checkmodus = rex_request('checkmodus', 'float');
 	$send       = rex_request('send', 'string');
 	$dbanlegen  = rex_request('dbanlegen', 'string');
@@ -263,9 +267,6 @@ function rex_setup_setUtf8()
 		$license_file = $Basedir.'/../../../../../_lizenz.txt';
 		$license = '<p class="rex-tx1">'.nl2br(rex_get_file_contents($license_file)).'</p>';
 
-		if(strpos($REX['LANG'], 'utf') !== false)
-		echo $license;
-		else
 		echo $license;
 
 		echo '</div>
@@ -281,15 +282,14 @@ function rex_setup_setUtf8()
 
 	if ($checkmodus == 1)
 	{
-		$min_version = '5.3.0';
-		// -------------------------- VERSIONSCHECK
+	  // -------------------------- VERSIONSCHECK
 		if (version_compare(phpversion(), $min_version, '<') == 1)
 		{
 			$MSG['err'] .= '<li>'. $REX['I18N']->msg('setup_010', phpversion(), $min_version).'</li>';
 		}
-
+		
 		// -------------------------- EXTENSION CHECK
-		foreach(array('session', 'mysql', 'pcre') as $extension)
+		foreach($min_php_extensions as $extension)
 		{
 			if(!extension_loaded($extension))
 			$MSG['err'] .= '<li>'. $REX['I18N']->msg('setup_010_1', $extension).'</li>';
@@ -403,19 +403,35 @@ function rex_setup_setUtf8()
 		}
 
 		// -------------------------- DATENBANKZUGRIFF
-		$err = rex_sql::checkDbConnection($mysql_host, $redaxo_db_user_login, $redaxo_db_user_pass, $dbname, $redaxo_db_create);
-		if($err !== true)
+		if($err_msg == '')
 		{
-			$err_msg = $err;
+  		$err = rex_sql::checkDbConnection($mysql_host, $redaxo_db_user_login, $redaxo_db_user_pass, $dbname, $redaxo_db_create);
+  		if($err !== true)
+  		{
+  			$err_msg = $err;
+  		}
 		}
-		else
+		
+		// -------------------------- MySQl VERSIONSCHECK
+		if($err_msg == '')
+		{
+		  // init dummy sql object, so mysql version will be detected
+		  rex_sql::factory();
+		  
+  		if (rex_version_compare($REX['MYSQL_VERSION'], $min_mysql_version, '<') == 1)
+  		{
+  			$err_msg = $REX['I18N']->msg('setup_022_1', $REX['MYSQL_VERSION'], $min_mysql_version);
+  		}
+		}
+
+		// everything went fine, advance to the next setup step
+		if($err_msg == '')
 		{
 			$REX['DB']['1']['NAME'] = $dbname;
 			$REX['DB']['1']['LOGIN'] = $redaxo_db_user_login;
 			$REX['DB']['1']['PSW'] = $redaxo_db_user_pass;
 			$REX['DB']['1']['HOST'] = $mysql_host;
 
-			$err_msg = "";
 			$checkmodus = 3;
 			$send = "";
 		}
@@ -447,7 +463,7 @@ function rex_setup_setUtf8()
           <input type="hidden" name="send" value="1" />
           <input type="hidden" name="lang" value="'.$lang.'" />';
 
-		if (isset ($err_msg) and $err_msg != '') {
+		if ($err_msg != '') {
 			echo rex_warning($err_msg);
 		}
 
@@ -543,7 +559,6 @@ function rex_setup_setUtf8()
 
 	if ($checkmodus == 3 && $send == 1)
 	{
-		$err_msg = '';
 		$dbanlegen = rex_post('dbanlegen', 'int', '');
 
 		// -------------------------- Benötigte Tabellen prüfen
@@ -566,7 +581,7 @@ function rex_setup_setUtf8()
 			// ----- vorhandenen seite updaten
 			$import_sql = $REX['INCLUDE_PATH'].'/core/install/update4_x_to_5_0.sql';
 			if($err_msg == '')
-			$err_msg .= rex_setup_import($import_sql);
+			  $err_msg .= rex_setup_import($import_sql);
 
 			// Aktuelle Daten updaten wenn utf8, da falsch in v4.2.1 abgelegt wurde.
 			/*if (rex_lang_is_utf8())
@@ -673,8 +688,8 @@ function rex_setup_setUtf8()
             <div class="rex-form-wrapper">
         ';
 
-		if (isset ($err_msg) and $err_msg != '')
-		echo rex_warning($err_msg.'<br />'.$REX['I18N']->msg('setup_033'));
+		if ($err_msg != '')
+		  echo rex_warning($err_msg.'<br />'.$REX['I18N']->msg('setup_033'));
 
 		$dbchecked = array_fill(0, 6, '');
 		switch ($dbanlegen)
@@ -892,7 +907,7 @@ function rex_setup_setUtf8()
         ';
 
 		if ($err_msg != "")
-		echo rex_warning($err_msg);
+		  echo rex_warning($err_msg);
 
 		$redaxo_user_login = rex_post('redaxo_user_login', 'string');
 		$redaxo_user_pass  = rex_post('redaxo_user_pass', 'string');
