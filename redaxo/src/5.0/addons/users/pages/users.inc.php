@@ -150,22 +150,26 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   $loginReset = rex_request('logintriesreset', 'int');
   $userstatus = rex_request('userstatus', 'int');
 
-  // the service side encryption of pw is only required
-  // when not already encrypted by client using javascript
-  if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0' && $userpsw != $sql->getValue($REX['TABLE_PREFIX'].'user.psw'))
-    $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
-
   $updateuser = rex_sql::factory();
   $updateuser->setTable($REX['TABLE_PREFIX'].'user');
   $updateuser->setWhere('user_id='. $user_id);
   $updateuser->setValue('name',$username);
   $updateuser->setValue('role', $userrole);
   $updateuser->addGlobalUpdateFields();
-  $updateuser->setValue('psw',$userpsw);
   $updateuser->setValue('description',$userdesc);
   if ($loginReset == 1) $updateuser->setValue('login_tries','0');
   if ($userstatus == 1) $updateuser->setValue('status',1);
   else $updateuser->setValue('status',0);
+  
+  if($userpsw != '')
+  {
+    // the service side encryption of pw is only required
+    // when not already encrypted by client using javascript
+    if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0' && $userpsw != $sql->getValue($REX['TABLE_PREFIX'].'user.psw'))
+      $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
+      
+    $updateuser->setValue('psw',$userpsw);
+  }
 
   $perm = '';
   if ($useradmin == 1)
