@@ -98,6 +98,7 @@ if ($REX['SETUP'])
   {
     // Userspezifische Sprache einstellen
     $lang = $REX['LOGIN']->getLanguage();
+    $lang = $lang == 'default' ? $REX['LANG']: $lang;
     $REX['I18N'] = rex_create_lang($lang);
 
     $REX['USER'] = $REX['LOGIN']->USER;
