@@ -58,8 +58,6 @@ function rex_setup_import($import_sql, $import_archiv = null)
 		if (file_exists($import_sql) && ($import_archiv === null || $import_archiv !== null && file_exists($import_archiv)))
 		{
 			$REX['I18N']->appendFile($REX['INCLUDE_PATH'] .'/addons/import_export/lang/');
-			require_once $export_addon_dir.'/classes/class.tar.inc.php';
-			require_once $export_addon_dir.'/classes/class.rex_tar.inc.php';
 
 			// DB Import
 			$state_db = rex_a1_import_db($import_sql);
