@@ -100,7 +100,7 @@ class sfYamlParser
         {
           if (isset($values['leadspaces'])
             && ' ' == $values['leadspaces']
-            && preg_match('#^(?P<key>'.sfYamlInline::REGEX_QUOTED_STRING.'|[^ \'"\{].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $values['value'], $matches))
+            && preg_match('#^(?P<key>'.sfYamlInline::REGEX_QUOTED_STRING.'|[^ \'"\{\[].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $values['value'], $matches))
           {
             // this is a compact notation element, add to next block and parse
             $c = $this->getRealCurrentLineNb();
@@ -121,7 +121,7 @@ class sfYamlParser
           }
         }
       }
-      else if (preg_match('#^(?P<key>'.sfYamlInline::REGEX_QUOTED_STRING.'|[^ \'"].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $this->currentLine, $values))
+      else if (preg_match('#^(?P<key>'.sfYamlInline::REGEX_QUOTED_STRING.'|[^ \'"\[\{].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $this->currentLine, $values))
       {
         $key = sfYamlInline::parseScalar($values['key']);
 
