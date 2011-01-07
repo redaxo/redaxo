@@ -387,22 +387,32 @@ if ($checkmodus == 2 && $send == 1)
 	$redaxo_db_user_pass       = str_replace("\'", "'", rex_post('redaxo_db_user_pass', 'string'));
 	$dbname                    = str_replace("\'", "'", rex_post('dbname', 'string'));
 	$redaxo_db_create          = rex_post('redaxo_db_create', 'boolean');
-
-	$cont = preg_replace("@(REX\['SERVER'\].?\=.?\")[^\"]*@", '${1}'.$serveraddress, $cont);
-	$cont = preg_replace("@(REX\['SERVERNAME'\].?\=.?\")[^\"]*@", '${1}'.$serverbezeichnung, $cont);
-	$cont = preg_replace("@(REX\['LANG'\].?\=.?\")[^\"]*@", '${1}'.$lang, $cont);
-	$cont = preg_replace("@(REX\['INSTNAME'\].?\=.?\")[^\"]*@", '${1}'."rex".date("YmdHis"), $cont);
-	$cont = preg_replace("@(REX\['ERROR_EMAIL'\].?\=.?\")[^\"]*@", '${1}'.$error_email, $cont);
-	$cont = preg_replace("@(REX\['TIMEZONE'\].?\=.?\")[^\"]*@", '${1}'.$timezone, $cont);
-	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['HOST'\].?\=.?\")[^\"]*@", '${1}'.$mysql_host, $cont);
-	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_login, $cont);
-	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_pass, $cont);
-	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['NAME'\].?\=.?\")[^\"]*@", '${1}'.$dbname, $cont);
-
-	if(rex_put_file_contents($master_file, $cont) === false)
+	
+  // check if timezone is valid
+	if(@date_default_timezone_set($timezone) === false)
 	{
-		$err_msg = $REX['I18N']->msg('setup_020', '<b>', '</b>');
+	  $err_msg = $REX['I18N']->msg('setup_invalid_timezone');
 	}
+
+	if($err_msg == '')
+	{
+  	$cont = preg_replace("@(REX\['SERVER'\].?\=.?\")[^\"]*@", '${1}'.$serveraddress, $cont);
+  	$cont = preg_replace("@(REX\['SERVERNAME'\].?\=.?\")[^\"]*@", '${1}'.$serverbezeichnung, $cont);
+  	$cont = preg_replace("@(REX\['LANG'\].?\=.?\")[^\"]*@", '${1}'.$lang, $cont);
+  	$cont = preg_replace("@(REX\['INSTNAME'\].?\=.?\")[^\"]*@", '${1}'."rex".date("YmdHis"), $cont);
+  	$cont = preg_replace("@(REX\['ERROR_EMAIL'\].?\=.?\")[^\"]*@", '${1}'.$error_email, $cont);
+  	$cont = preg_replace("@(REX\['TIMEZONE'\].?\=.?\")[^\"]*@", '${1}'.$timezone, $cont);
+  	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['HOST'\].?\=.?\")[^\"]*@", '${1}'.$mysql_host, $cont);
+  	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_login, $cont);
+  	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_pass, $cont);
+  	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['NAME'\].?\=.?\")[^\"]*@", '${1}'.$dbname, $cont);
+  	
+  	if(rex_put_file_contents($master_file, $cont) === false)
+  	{
+  		$err_msg = $REX['I18N']->msg('setup_020', '<b>', '</b>');
+  	}
+	}
+
 
 	// -------------------------- DATENBANKZUGRIFF
 	if($err_msg == '')

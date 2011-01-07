@@ -316,6 +316,7 @@ setup_027 = Name der Datenbank
 setup_028 = Passwort
 setup_029 = Weiter zu Schritt 3
 setup_timezone = Zeitzone
+setup_invalid_timezone = Zeitzone ist ungültig!
 setup_0201 = Allgemeine Redaxo-Einstellungen
 setup_0202 = Datenbankinformationen
 setup_step3 = Setup: Schritt 3 von 5
