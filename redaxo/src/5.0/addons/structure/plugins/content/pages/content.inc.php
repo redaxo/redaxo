@@ -95,7 +95,7 @@ if ($article->getRows() == 1)
   $info     = rex_request('info', 'string');
   
   // ----- mode defs
-  if ($mode != 'meta')
+  if ($mode != 'meta' && $mode != 'metafuncs')
     $mode = 'edit';
 
   // ----- Sprachenblock
@@ -624,11 +624,19 @@ if ($article->getRows() == 1)
     {
       $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $REX['I18N']->msg('edit_mode') . '</a>';
       $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $REX['I18N']->msg('metadata') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=metafuncs&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $REX['I18N']->msg('metafuncs') . '</a>';
+    }
+    else if ($mode == 'meta')
+    {
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $REX['I18N']->msg('edit_mode') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $REX['I18N']->msg('metadata') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=metafuncs&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $REX['I18N']->msg('metafuncs') . '</a>';
     }
     else
     {
       $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $REX['I18N']->msg('edit_mode') . '</a>';
-      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $REX['I18N']->msg('metadata') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '"'. rex_tabindex() .'>' . $REX['I18N']->msg('metadata') . '</a>';
+      $listElements[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=metafuncs&amp;clang=' . $clang . '&amp;ctype=' . $ctype . '" class="rex-active"'. rex_tabindex() .'>' . $REX['I18N']->msg('metafuncs') . '</a>';
     }
 
     $listElements[] = '<a href="../' . rex_getUrl($article_id,$clang) . '" onclick="window.open(this.href); return false;" '. rex_tabindex() .'>' . $REX['I18N']->msg('show') . '</a>';
@@ -782,10 +790,32 @@ if ($article->getRows() == 1)
       
       echo '</div>';
       
-      $isStartpage = $article->getValue('startpage') == 1;
+      echo '
+                  </form>
+                </div>';
 
-      // ------------------------------------------------------------- SONSTIGES START
+      // ------------------------------------------ ENDE: META VIEW
+
       
+    }
+    elseif ($mode == 'metafuncs')
+    {
+      
+      // ------------------------------------------ START: META FUNCS
+      
+      echo '
+        <div class="rex-form" id="rex-form-content-metamode">
+          <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
+                <input type="hidden" name="page" value="content" />
+                <input type="hidden" name="article_id" value="' . $article_id . '" />
+                <input type="hidden" name="mode" value="metafuncs" />
+                <input type="hidden" name="save" value="1" />
+                <input type="hidden" name="clang" value="' . $clang . '" />
+                <input type="hidden" name="ctype" value="' . $ctype . '" />
+                ';
+      
+                
+      $isStartpage = $article->getValue('startpage') == 1;
       $out = '';
 
       // --------------------------------------------------- ZUM STARTARTICLE MACHEN START
@@ -1044,7 +1074,7 @@ if ($article->getRows() == 1)
                   </form>
                 </div>';
 
-      // ------------------------------------------ END: META VIEW
+      // ------------------------------------------ END: META FUNCS
 
     }
 
