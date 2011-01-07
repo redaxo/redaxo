@@ -87,7 +87,7 @@ $REX['MAXCLANGS'] = 15;
 $REX['START_PAGE'] = 'structure';
 
 // Zeitzone setzen
-$REX['TIMEZONE'] = 'Europe/Berlin';
+$REX['TIMEZONE'] = "Europe/Berlin";
 
 if(function_exists("date_default_timezone_set"))
 {

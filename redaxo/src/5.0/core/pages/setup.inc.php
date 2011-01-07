@@ -381,6 +381,7 @@ if ($checkmodus == 2 && $send == 1)
 	$serveraddress             = str_replace("\'", "'", rex_post('serveraddress', 'string'));
 	$serverbezeichnung         = str_replace("\'", "'", rex_post('serverbezeichnung', 'string'));
 	$error_email               = str_replace("\'", "'", rex_post('error_email', 'string'));
+	$timezone                  = str_replace("\'", "'", rex_post('timezone', 'string'));
 	$mysql_host                = str_replace("\'", "'", rex_post('mysql_host', 'string'));
 	$redaxo_db_user_login      = str_replace("\'", "'", rex_post('redaxo_db_user_login', 'string'));
 	$redaxo_db_user_pass       = str_replace("\'", "'", rex_post('redaxo_db_user_pass', 'string'));
@@ -392,6 +393,7 @@ if ($checkmodus == 2 && $send == 1)
 	$cont = preg_replace("@(REX\['LANG'\].?\=.?\")[^\"]*@", '${1}'.$lang, $cont);
 	$cont = preg_replace("@(REX\['INSTNAME'\].?\=.?\")[^\"]*@", '${1}'."rex".date("YmdHis"), $cont);
 	$cont = preg_replace("@(REX\['ERROR_EMAIL'\].?\=.?\")[^\"]*@", '${1}'.$error_email, $cont);
+	$cont = preg_replace("@(REX\['TIMEZONE'\].?\=.?\")[^\"]*@", '${1}'.$timezone, $cont);
 	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['HOST'\].?\=.?\")[^\"]*@", '${1}'.$mysql_host, $cont);
 	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_login, $cont);
 	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_pass, $cont);
@@ -442,6 +444,7 @@ else
 	$serveraddress         = $REX['SERVER'];
 	$serverbezeichnung     = $REX['SERVERNAME'];
 	$error_email           = $REX['ERROR_EMAIL'];
+	$timezone              = $REX['TIMEZONE'];
 
 	// DB Infos
 	$dbname                = $REX['DB']['1']['NAME'];
@@ -489,6 +492,14 @@ if ($checkmodus == 2)
               <p class="rex-form-col-a rex-form-text">
                 <label for="error_email">'.$REX['I18N']->msg("setup_026").'</label>
                 <input class="rex-form-text" type="text" id="error_email" name="error_email" value="'.$error_email.'"'. rex_tabindex() .' />
+              </p>
+            </div>
+            
+            <div class="rex-form-row">
+              <p class="rex-form-col-a rex-form-text">
+                <label for="timezone">'.$REX['I18N']->msg("setup_timezone").'</label>
+                <input class="rex-form-text" type="text" id="timezone" name="timezone" value="'.$timezone.'"'. rex_tabindex() .' />
+                <span class="rex-form-notice">see <a href="http://php.net/timezones">http://php.net/timezones</a></span>
               </p>
             </div>
         </div>
