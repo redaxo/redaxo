@@ -89,10 +89,7 @@ $REX['START_PAGE'] = 'structure';
 // Zeitzone setzen
 $REX['TIMEZONE'] = "Europe/Berlin";
 
-if(function_exists("date_default_timezone_set"))
-{
-  date_default_timezone_set($REX['TIMEZONE']);
-}
+date_default_timezone_set($REX['TIMEZONE']);
 
 // ----------------- OTHER STUFF
 $REX['SYSTEM_ADDONS'] = array('structure', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'image_manager', 'users');
