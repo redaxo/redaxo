@@ -2,10 +2,9 @@
 /.buildpath
 /.project
 /files
-/redaxo_media/addons
-/redaxo/include/5.0/generated
-/redaxo/include/5.0/generated/articles
-/redaxo/include/5.0/generated/templates
-/redaxo/include/5.0/generated/files
-/redaxo/include/5.0/generated/cache
-/redaxo/include/5.0/addons/cronjob/logs
+/redaxo_media
+/redaxo/src/5.0/generated
+/redaxo/src/5.0/generated/articles
+/redaxo/src/5.0/generated/templates
+/redaxo/src/5.0/generated/files
+/redaxo/src/5.0/addons/cronjob/logs
