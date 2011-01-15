@@ -82,7 +82,7 @@ class rex_config
         self::$changedData[$namespace] = array();
       self::$changedData[$namespace][$key] = true;
 
-      // since it was re-added, do not longer mark as delete
+      // since it was re-added, do not longer mark as deleted
       if(isset(self::$deletedData[$namespace]) && isset(self::$deletedData[$namespace][$key]))
         unset(self::$deletedData[$namespace][$key]);
 
@@ -321,7 +321,7 @@ class rex_config
     global $REX;
     
     $sql = rex_sql::factory();
-    $sql->debugsql = true;
+    // $sql->debugsql = true;
     
     // remove all deleted data
     foreach(self::$deletedData as $namespace => $nsData)
