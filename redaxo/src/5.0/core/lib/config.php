@@ -8,11 +8,41 @@
  */
 class rex_config
 {
+  /**
+   * Constant for the redaxo core namespace
+   * @var string
+   */
   const CORE_NS = 'rex-core';
   
+  /**
+   * Flag to indicate if the config was initialized
+   * @var boolean
+   */
   private static $initialized = false;
+  
+  /**
+   * Flag which indicates if database needs an update, because settings have changed.
+   * @var boolean
+   */
   private static $changed = false;
+  
+  /**
+   * data read from database
+   * @var array
+   */
   private static $data = array();
+  
+  /**
+   * data which is modified during this request
+   * @var array
+   */
+  private static $changedData = array();
+  
+  /**
+   * data which was deleted durint this request
+   * @var array
+   */
+  private static $deletedData = array();
   
   /**
    * Method which saves an arbitary value associated to the given key.
@@ -42,23 +72,21 @@ class rex_config
     }
     
     if(!isset(self::$data[$namespace]))
-    {
       self::$data[$namespace] = array();
-    }
     
     $existed = isset(self::$data[$namespace][$key]);
-    if($existed)
+    if(!$existed || $existed && self::$data[$namespace][$key] != $value)
     {
-      // check if new value differs from old
-      if(self::$data[$namespace][$key] != $value)
-      {
-        self::$data[$namespace][$key] = $value;    
-        self::$changed = true;
-      }
-    }
-    else
-    {
-      // add a new config-setting
+      // keep track of changed data
+      if(!isset(self::$changedData[$namespace]))
+        self::$changedData[$namespace] = array();
+      self::$changedData[$namespace][$key] = true;
+
+      // since it was re-added, do not longer mark as delete
+      if(isset(self::$deletedData[$namespace]) && isset(self::$deletedData[$namespace][$key]))
+        unset(self::$deletedData[$namespace][$key]);
+
+      // re-set the data in the container 
       self::$data[$namespace][$key] = $value;    
       self::$changed = true;
     }
@@ -126,6 +154,16 @@ class rex_config
     
     if(isset(self::$data[$namespace]) && isset(self::$data[$namespace][$key]))
     {
+      // keep track of deleted data
+      if(!isset(self::$deletedData[$namespace]))
+        self::$deletedData[$namespace] = array();
+      self::$deletedData[$namespace][$key] = true;
+      
+      // since it will be deleted, do not longer mark as changed
+      if(isset(self::$changedData[$namespace]) && isset(self::$changedData[$namespace][$key]))
+        unset(self::$changedData[$namespace][$key]);
+      
+      // delete the data from the container
       unset(self::$data[$namespace][$key]);
       self::$changed = true;
       return true;
@@ -135,7 +173,6 @@ class rex_config
   
   /**
    * Removes all settings associated with the given namespace
-   * Enter description here ...
    * 
    * @param string $namespace A namespace e.g. an addon name
    * 
@@ -154,6 +191,11 @@ class rex_config
     
     if(isset(self::$data[$namespace]))
     {
+      foreach(self::$data[$namespace] as $key => $value)
+      {
+        self::remove($key, $namespace);
+      }
+      
       unset(self::$data[$namespace]);
       self::$changed = true;
       return true;
@@ -172,6 +214,13 @@ class rex_config
       return;
       
     define('REX_CONFIG_FILE_CACHE', $REX['INCLUDE_PATH'] .'/generated/files/config.cache');
+    
+    // take care, so we are able to write a cache file on shutdown
+    // (check here, since exceptions in shutdown functions are not visible to the user)
+    if(!is_writable(dirname(REX_CONFIG_FILE_CACHE)))
+    {
+      throw new rexException('rex-config: cache dir "'. dirname(REX_CONFIG_FILE_CACHE) .'" is not writable!');
+    }
 
     // save cache on shutdown
     register_shutdown_function(array(__CLASS__, 'save'));
@@ -249,6 +298,10 @@ class rex_config
     if(!self::$changed)
       return;
       
+    // after all no data needs to be deleted or update, so skip save
+    if(empty(self::$deletedData) && empty(self::$changedData))
+      return;
+      
     // delete cache-file; will be regenerated on next request
     if(file_exists(REX_CONFIG_FILE_CACHE))
     {
@@ -268,13 +321,21 @@ class rex_config
     global $REX;
     
     $sql = rex_sql::factory();
-    // $sql->debugsql = true;
+    $sql->debugsql = true;
     
-    // truncate the whole table
-    $sql->setQuery('DELETE FROM '. $REX['TABLE_PREFIX']. 'config');
-
-    // re-insert all data
-    foreach(self::$data as $namespace => $nsData)
+    // remove all deleted data
+    foreach(self::$deletedData as $namespace => $nsData)
+    {
+      foreach($nsData as $key => $value)
+      {
+        $sql->setTable($REX['TABLE_PREFIX']. 'config');
+        $sql->setWhere('namespace=`' .$namespace.'` and key=`'.  $key .'`');
+        $sql->delete();
+      }
+    }
+    
+    // update all changed data
+    foreach(self::$changedData as $namespace => $nsData)
     {
       foreach($nsData as $key => $value)
       {
@@ -282,7 +343,7 @@ class rex_config
         $sql->setValue('namespace', $namespace);
         $sql->setValue('key', $key);
         $sql->setValue('value', serialize($value));
-        $sql->insert();
+        $sql->replace();
       }
     }
   }
