@@ -187,7 +187,7 @@ class rex_config
     {
       foreach(self::$data[$namespace] as $key => $value)
       {
-        self::remove($key, $namespace);
+        self::remove($namespace, $key);
       }
 
       unset(self::$data[$namespace]);
