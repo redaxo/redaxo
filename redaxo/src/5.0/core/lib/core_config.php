@@ -30,6 +30,14 @@ class rex_core_config
     return rex_config::get(self::CORE_NS, $key, $default);
   }
 
+/**
+   * @see rex_config::has()
+   */
+  public static function has($key)
+  {
+    return rex_config::has(self::CORE_NS, $key);
+  }
+
   /**
    * @see rex_config::remove()
    */

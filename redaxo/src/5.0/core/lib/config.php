@@ -123,13 +123,39 @@ class rex_config
   }
 
   /**
+   * Returns if the given key is set.
+   *
+   * @param string $namespace A namespace e.g. an addon name
+   * @param string $key The associated key
+   *
+   * @return boolean TRUE if the key is set, otherwise FALSE
+   *
+   * @throws rexException on invalid parameters
+   */
+  public static function has($namespace, $key)
+  {
+    self::init();
+
+    if(!is_string($namespace))
+    {
+      throw new rexException('rex_config: expecting $namespace to be a string');
+    }
+    if(!is_string($key))
+    {
+      throw new rexException('rex_config: expecting $key to be a string');
+    }
+
+    return isset(self::$data[$namespace][$key]);
+  }
+
+  /**
    * Removes the setting associated with the given key.
    * The key might also be associated to a given namespace.
    *
    * @param string $namespace A namespace e.g. an addon name
    * @param string $key The associated key
    *
-   * @return TRUE if the value was found and removed, otherwise FALSE
+   * @return boolean TRUE if the value was found and removed, otherwise FALSE
    *
    * @throws rexException on invalid parameters
    */
