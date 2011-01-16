@@ -234,17 +234,9 @@ class rex_cronjob_manager_sql
       $nexttime = 0;
     else
       $nexttime = max(1, $nexttime);
-    if ($nexttime != $REX['ADDON']['nexttime']['cronjob'])
-    {
-      $content = '$REX[\'ADDON\'][\'nexttime\'][\'cronjob\'] = "'. addslashes($nexttime) .'";';
-      $file = $REX['INCLUDE_PATH'] .'/addons/cronjob/config.inc.php';
-      if (rex_replace_dynamic_contents($file, $content))
-      {
-        $REX['ADDON']['nexttime']['cronjob'] = $nexttime;
-        return true;
-      }
-    }
-    return false;
+
+    rex_config::set('cronjob', 'nexttime', $nexttime);
+    return true;
   }
 
   private function _calculateNextTime($interval)

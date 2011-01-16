@@ -30,10 +30,6 @@ if($REX['REDAXO'])
 define('REX_CRONJOB_LOG_FOLDER', $REX['INCLUDE_PATH'] .'/addons/cronjob/logs/');
 define('REX_CRONJOB_TABLE'     , $REX['TABLE_PREFIX'] .'630_cronjobs');
 
-// --- DYN
-$REX['ADDON']['nexttime']['cronjob'] = "0";
-// --- /DYN
-
 rex_register_extension('ADDONS_INCLUDED',
   function($params)
   {
@@ -47,9 +43,9 @@ rex_register_extension('ADDONS_INCLUDED',
   }
 );
 
-if (isset($REX['ADDON']['nexttime'][$mypage])
-  && $REX['ADDON']['nexttime'][$mypage] != 0
-  && time() >= $REX['ADDON']['nexttime'][$mypage])
+$nexttime = rex_config::get($mypage, 'nexttime');
+
+if ($nexttime != 0 && time() >= $nexttime)
 {
   rex_register_extension($EP,
     function ($params)

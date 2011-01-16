@@ -6,7 +6,7 @@
  * @author <a href="http://www.vscope.at">www.vscope.at</a>
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  *
  * @package redaxo4
  * @version svn:$Id$
@@ -28,6 +28,11 @@ if($error == '')
 
   if(($state = rex_is_writable($file)) !== true)
     $error = $state;
+}
+
+if($error == '' && !rex_config::has('image_manager', 'jpg_quality'))
+{
+  rex_config::set('image_manager', 'jpg_quality', 85);
 }
 
 if ($error != '')
