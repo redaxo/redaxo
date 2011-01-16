@@ -116,6 +116,11 @@ class rex_addonManager extends rex_baseManager
     return $REX['OPENMEDIAFOLDER'] .DIRECTORY_SEPARATOR .'addons'. DIRECTORY_SEPARATOR .$addonName;
   }
 
+  protected function configNamespace($addonName)
+  {
+    return $addonName;
+  }
+
   /**
    * Loads the package.yml into $REX
    *
