@@ -199,7 +199,7 @@ $min_version = '5.3.0';
 $min_mysql_version = '5.0';
 $min_php_extensions = array('session', 'mysql', 'pcre');
 // -- /setup requirements
- 	
+
 $MSG['err'] = "";
 $err_msg = '';
 
@@ -287,7 +287,7 @@ if ($checkmodus == 1)
 	{
 		$MSG['err'] .= '<li>'. $REX['I18N']->msg('setup_010', phpversion(), $min_version).'</li>';
 	}
-	
+
 	// -------------------------- EXTENSION CHECK
 	foreach($min_php_extensions as $extension)
 	{
@@ -387,7 +387,7 @@ if ($checkmodus == 2 && $send == 1)
 	$redaxo_db_user_pass       = str_replace("\'", "'", rex_post('redaxo_db_user_pass', 'string'));
 	$dbname                    = str_replace("\'", "'", rex_post('dbname', 'string'));
 	$redaxo_db_create          = rex_post('redaxo_db_create', 'boolean');
-	
+
   // check if timezone is valid
 	if(@date_default_timezone_set($timezone) === false)
 	{
@@ -406,7 +406,7 @@ if ($checkmodus == 2 && $send == 1)
   	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_login, $cont);
   	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_pass, $cont);
   	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['NAME'\].?\=.?\")[^\"]*@", '${1}'.$dbname, $cont);
-  	
+
   	if(rex_put_file_contents($master_file, $cont) === false)
   	{
   		$err_msg = $REX['I18N']->msg('setup_020', '<b>', '</b>');
@@ -423,13 +423,13 @@ if ($checkmodus == 2 && $send == 1)
 			$err_msg = $err;
 		}
 	}
-	
+
 	// -------------------------- MySQl VERSIONSCHECK
 	if($err_msg == '')
 	{
 	  // init dummy sql object, so mysql version will be detected
 	  rex_sql::factory();
-	  
+
 		if (rex_version_compare($REX['MYSQL_VERSION'], $min_mysql_version, '<') == 1)
 		{
 			$err_msg = $REX['I18N']->msg('setup_022_1', $REX['MYSQL_VERSION'], $min_mysql_version);
@@ -504,7 +504,7 @@ if ($checkmodus == 2)
                 <input class="rex-form-text" type="text" id="error_email" name="error_email" value="'.$error_email.'"'. rex_tabindex() .' />
               </p>
             </div>
-            
+
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="timezone">'.$REX['I18N']->msg("setup_timezone").'</label>
@@ -595,6 +595,7 @@ if ($checkmodus == 3 && $send == 1)
 		$REX['TABLE_PREFIX'] .'template',
 		$REX['TABLE_PREFIX'] .'user',
 		$REX['TABLE_PREFIX'] .'user_role',
+		$REX['TABLE_PREFIX'] .'config'
 	);
 
 	if ($dbanlegen == 4)
