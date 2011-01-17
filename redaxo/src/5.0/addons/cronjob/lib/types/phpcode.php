@@ -10,9 +10,10 @@
  */
 
 class rex_cronjob_phpcode extends rex_cronjob
-{ 
+{
   public function execute()
   {
+    global $REX;
     $code = preg_replace('/^\<\?(?:php)?/', '', $this->getParam('code'));
     $is = ini_set('display_errors', true);
     ob_start();
@@ -30,24 +31,24 @@ class rex_cronjob_phpcode extends rex_cronjob
       return true;
     return false;
   }
-  
+
   public function getTypeName()
   {
     global $REX;
     return $REX['I18N']->msg('cronjob_type_phpcode');
   }
-  
-  public function getParamFields()
-	{
-		global $REX;
 
-		return array(
-  		array(
+  public function getParamFields()
+  {
+  	global $REX;
+
+  	return array(
+  	  array(
         'label' => $REX['I18N']->msg('cronjob_type_phpcode'),
         'name'  => 'code',
         'type'  => 'textarea',
         'attributes' => array('rows' => 20)
       )
     );
-	}
+  }
 }
