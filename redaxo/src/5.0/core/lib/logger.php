@@ -38,7 +38,7 @@ class rex_logger {
 
     set_error_handler(array($logger, 'logError'));
     set_exception_handler(array($logger, 'logException'));
-    register_shutdown_function(array($logger, 'close'));
+    register_shutdown_function(array($logger, 'shutdown'));
   }
 
   static public function unregister()
@@ -59,20 +59,20 @@ class rex_logger {
     $this->logError($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
   }
 
-  public function logError($errno, $errstr, $errfile, $errline)
+  public function logError($errno, $errstr, $errfile, $errline, $printError = true)
   {
     $errorType = '<b>'. $this->getErrorType($errno) .'</b>';
 
-    $msg = "$errstr in file <span class='rex-err-file'>$errfile</span> on line <span class='rex-err-line'>$errline</span><br />\n";
+    $msg = "$errstr in <b>$errfile</b> on line <b>$errline</b><br />\n";
 
     // errors which should be reported regarding error_reporting() will be echo'ed to the end-user
-    if (ini_get('display_errors') && (error_reporting() & $errno) == $errno) {
+    if ($printError && ini_get('display_errors') && (error_reporting() & $errno) == $errno) {
       echo $errorType .': '. $msg;
     }
 
     $this->log($errorType .'['. $errno .']: '. $msg);
 
-    if(in_array($errno, array(E_USER_ERROR, E_ERROR)))
+    if(in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR)))
     {
       exit(1);
     }
@@ -101,16 +101,36 @@ class rex_logger {
       fclose($this->handle);
     }
   }
-  
+
+  public function shutdown()
+  {
+    if($this->registered)
+    {
+      $error = error_get_last();
+      if(is_array($error))
+      {
+        $this->logError($error['type'], $error['message'], $error['file'], $error['line'], false);
+      }
+    }
+
+    $this->close();
+  }
+
   private function getErrorType($errno)
   {
     switch ($errno) {
       case E_USER_ERROR:
       case E_ERROR:
-        return 'Error';
+      case E_COMPILE_ERROR:
+      case E_RECOVERABLE_ERROR:
+        return 'Fatal error';
+
+      case E_PARSE:
+        return 'Parse error';
 
       case E_USER_WARNING:
       case E_WARNING:
+      case E_COMPILE_WARNING:
         return 'Warning';
 
       case E_USER_NOTICE:
