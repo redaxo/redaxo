@@ -120,6 +120,7 @@ class rex_article extends rex_article_base
       if(!file_exists($article_content_file))
       {
         include_once ($REX["INCLUDE_PATH"]."/core/functions/function_rex_generate.inc.php");
+        include_once ($REX["INCLUDE_PATH"]."/addons/structure/plugins/content/functions/function_rex_content.inc.php");
         $generated = rex_generateArticleContent($this->article_id, $this->clang);
         if($generated !== true)
         {
