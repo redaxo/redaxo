@@ -486,6 +486,26 @@ function rex_version_compare($version1, $version2, $comparator = null)
   return version_compare($version1, $version2, $comparator);
 }
 
+/**
+ * Escaped einen String
+ *
+ * @param $string Zu escapender String
+ */
+function rex_addslashes($string, $flag = '\\\'\"')
+{
+  if ($flag == '\\\'\"')
+  {
+    $string = str_replace('\\', '\\\\', $string);
+    $string = str_replace('\'', '\\\'', $string);
+    $string = str_replace('"', '\"', $string);
+  }elseif ($flag == '\\\'')
+  {
+    $string = str_replace('\\', '\\\\', $string);
+    $string = str_replace('\'', '\\\'', $string);
+  }
+  return $string;
+}
+
 // ------------------------------------- Allgemeine PHP Functions
 
 /* PHP5 Functions */
