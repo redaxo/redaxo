@@ -98,7 +98,7 @@ class rex_var_value extends rex_var
   /**
    * Wert für die Ausgabe
    */
-  private function _matchValue(rex_Sql $sql, $content, $var, $escape = false, $nl2br = false, $stripPHP = false, $booleanize = false)
+  private function _matchValue(rex_sql $sql, $content, $var, $escape = false, $nl2br = false, $stripPHP = false, $booleanize = false)
   {
     $matches = $this->getVarParams($content, $var);
 

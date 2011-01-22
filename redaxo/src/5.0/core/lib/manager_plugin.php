@@ -155,6 +155,11 @@ class rex_pluginManager extends rex_baseManager
     return $REX['OPENMEDIAFOLDER'] .DIRECTORY_SEPARATOR .'addons'. DIRECTORY_SEPARATOR. $this->addonName .DIRECTORY_SEPARATOR .'plugins'. DIRECTORY_SEPARATOR. $pluginName;
   }
 
+protected function configNamespace($pluginName)
+  {
+    return $this->addonName .'/'. $pluginName;
+  }
+
   /**
    * Loads the package.yml into $REX
    *

@@ -48,7 +48,7 @@ class rex_template
     return $file;
   }
 
-  public function getFilePath($template_id)
+  static public function getFilePath($template_id)
   {
     if($template_id<1) return FALSE;
 

@@ -154,6 +154,11 @@ abstract class rex_baseManager
       }
     }
 
+    if($state === TRUE)
+    {
+      rex_config::removeNamespace($this->configNamespace($addonName));
+    }
+
     if($state !== TRUE)
     {
       // Fehler beim uninstall -> Addon bleibt installiert
@@ -493,4 +498,9 @@ abstract class rex_baseManager
    * Findet den Basispfad für Media-Dateien
    */
   protected abstract function mediaFolder($addonName);
+
+  /**
+   * Findet den Namespace für rex_config
+   */
+  protected abstract function configNamespace($addonName);
 }

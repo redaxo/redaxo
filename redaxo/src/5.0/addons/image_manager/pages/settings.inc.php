@@ -14,29 +14,16 @@
 
 $func = rex_request('func', 'string');
 $jpg_quality = rex_request('jpg_quality', 'int');
-$old_syntax = rex_request('old_syntax', 'int');
-
-$config_file = $REX['INCLUDE_PATH'].'/addons/image_manager/config.inc.php';
 
 if ($func == 'update')
 {
   if($jpg_quality > 100) $jpg_quality = 100;
   else if ($jpg_quality < 0) $jpg_quality = 0;
 
-	$REX['ADDON']['image_manager']['jpg_quality'] = $jpg_quality;
+  rex_config::set('image_manager', 'jpg_quality', $jpg_quality);
 
-	$content = '
-$REX[\'ADDON\'][\'image_manager\'][\'jpg_quality\'] = '.$jpg_quality.';
-';
-
-  if(rex_replace_dynamic_contents($config_file, $content) !== false)
-    echo rex_info($REX['I18N']->msg('imanager_config_saved'));
-  else
-    echo rex_warning($REX['I18N']->msg('imanager_config_not_saved'));
+  echo rex_info($REX['I18N']->msg('imanager_config_saved'));
 }
-
-if(!is_writable($config_file))
-  echo rex_warning($REX['I18N']->msg('imanager_config_not_writable', $config_file));
 
 echo '
 
@@ -45,9 +32,9 @@ echo '
 
 
   <div class="rex-form">
-	
+
 <h2 class="rex-hl2">'. $REX['I18N']->msg('imanager_subpage_config') .'</h2>
-  
+
 <form action="index.php" method="post">
 
 		<fieldset class="rex-form-col-1">
@@ -55,14 +42,14 @@ echo '
 			<input type="hidden" name="page" value="image_manager" />
 			<input type="hidden" name="subpage" value="settings" />
 			<input type="hidden" name="func" value="update" />
-			
+
 			<div class="rex-form-row rex-form-element-v2">
 				<p class="rex-form-text">
 					<label for="jpg_quality">'. $REX['I18N']->msg('imanager_jpg_quality') .' [0-100]</label>
-					<input class="rex-form-text" type="text" id="jpg_quality" name="jpg_quality" value="'. htmlspecialchars($REX['ADDON']['image_manager']['jpg_quality']).'" />
+					<input class="rex-form-text" type="text" id="jpg_quality" name="jpg_quality" value="'. htmlspecialchars(rex_config::get('image_manager', 'jpg_quality')).'" />
 				</p>
 			</div>
-			
+
 			<div class="rex-form-row rex-form-element-v2">
 				<p class="rex-form-submit">
 					<input type="submit" class="rex-form-submit" name="sendit" value="'.$REX['I18N']->msg('update').'" />

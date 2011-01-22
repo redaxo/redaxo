@@ -18,13 +18,13 @@ function rex_generateAll()
 
   // ----------------------------------------------------------- generated löschen
   rex_deleteDir($REX['INCLUDE_PATH'].'/generated', FALSE);
-  
+
   // ----------------------------------------------------------- generiere clang
   if(($MSG = rex_generateClang()) !== TRUE)
   {
     return $MSG;
   }
-  
+
   // ----------------------------------------------------------- message
   $MSG = $REX['I18N']->msg('delete_cache_message');
 
@@ -43,14 +43,14 @@ function rex_generateAll()
  *
  * @param $file Zu löschender Ordner/Datei
  * @param $delete_folders Ordner auch löschen? false => nein, true => ja
- * 
+ *
  * @return TRUE bei Erfolg, sonst FALSE
  */
 function rex_deleteDir($file, $delete_folders = FALSE)
 {
   $debug = FALSE;
   $state = TRUE;
-  
+
   $file = rtrim($file, DIRECTORY_SEPARATOR);
 
   if (file_exists($file))
@@ -63,7 +63,7 @@ function rex_deleteDir($file, $delete_folders = FALSE)
       {
         if($debug)
           echo "Unable to open dir '$file'<br />\n";
-          
+
         return FALSE;
       }
 
@@ -85,7 +85,7 @@ function rex_deleteDir($file, $delete_folders = FALSE)
       {
         return FALSE;
       }
-      
+
 
       // Ordner auch löschen?
       if ($delete_folders)
@@ -95,7 +95,7 @@ function rex_deleteDir($file, $delete_folders = FALSE)
         {
           if($debug)
             echo "Unable to delete folder '$file'<br />\n";
-            
+
           return FALSE;
         }
       }
@@ -108,7 +108,7 @@ function rex_deleteDir($file, $delete_folders = FALSE)
       {
         if($debug)
           echo "Unable to delete file '$file'<br />\n";
-            
+
         return FALSE;
       }
     }
@@ -128,13 +128,13 @@ function rex_deleteDir($file, $delete_folders = FALSE)
  * Lösch allen Datei in einem Ordner
  *
  * @param $file Pfad zum Ordner
- * 
+ *
  * @return TRUE bei Erfolg, sonst FALSE
  */
 function rex_deleteFiles($file)
 {
   $debug = FALSE;
-  
+
   $file = rtrim($file, DIRECTORY_SEPARATOR);
 
   if (file_exists($file))
@@ -147,7 +147,7 @@ function rex_deleteFiles($file)
       {
         if($debug)
           echo "Unable to open dir '$file'<br />\n";
-          
+
         return FALSE;
       }
 
@@ -157,17 +157,17 @@ function rex_deleteFiles($file)
         {
           continue;
         }
-        
+
 	      if (!@ unlink($file))
 	      {
 	        if($debug)
 	          echo "Unable to delete file '$file'<br />\n";
-	            
+
 	        return FALSE;
 	      }
-    
+
       }
-      closedir($handle);     
+      closedir($handle);
     }
     else
     {
@@ -188,20 +188,20 @@ function rex_deleteFiles($file)
 
 /**
  * Kopiert eine Ordner von $srcdir nach $dstdir
- * 
+ *
  * @param $srcdir Zu kopierendes Verzeichnis
  * @param $dstdir Zielpfad
  * @param $startdir Pfad ab welchem erst neue Ordner generiert werden
- * 
+ *
  * @return TRUE bei Erfolg, FALSE bei Fehler
  */
 function rex_copyDir($srcdir, $dstdir, $startdir = "")
 {
   global $REX;
-  
+
   $debug = FALSE;
   $state = TRUE;
-  
+
   if(!is_dir($dstdir))
   {
     $dir = '';
@@ -212,21 +212,21 @@ function rex_copyDir($srcdir, $dstdir, $startdir = "")
       {
         if($debug)
           echo "Create dir '$dir'<br />\n";
-          
+
         mkdir($dir);
         chmod($dir, $REX['DIRPERM']);
       }
     }
   }
-  
+
   if($curdir = opendir($srcdir))
   {
     while($file = readdir($curdir))
     {
       if($file != '.' && $file != '..' && $file != '.svn')
       {
-        $srcfile = $srcdir . DIRECTORY_SEPARATOR . $file;    
-        $dstfile = $dstdir . DIRECTORY_SEPARATOR . $file;    
+        $srcfile = $srcdir . DIRECTORY_SEPARATOR . $file;
+        $dstfile = $dstdir . DIRECTORY_SEPARATOR . $file;
         if(is_file($srcfile))
         {
           $isNewer = TRUE;
@@ -234,7 +234,7 @@ function rex_copyDir($srcdir, $dstdir, $startdir = "")
           {
             $isNewer = (filemtime($srcfile) - filemtime($dstfile)) > 0;
           }
-            
+
           if($isNewer)
           {
             if($debug)
@@ -271,7 +271,7 @@ function rex_copyDir($srcdir, $dstdir, $startdir = "")
  * Löscht eine Clang
  *
  * @param $id Zu löschende ClangId
- * 
+ *
  * @return TRUE bei Erfolg, sonst FALSE
  */
 function rex_deleteCLang($clang)
@@ -288,7 +288,7 @@ function rex_deleteCLang($clang)
   $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article where clang='$clang'");
   $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where clang='$clang'");
   $del->setQuery("delete from ".$REX['TABLE_PREFIX']."clang where id='$clang'");
-  
+
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_DELETED','',
     array (
@@ -298,7 +298,7 @@ function rex_deleteCLang($clang)
   );
 
   rex_generateAll();
-  
+
   return TRUE;
 }
 
@@ -307,19 +307,19 @@ function rex_deleteCLang($clang)
  *
  * @param $id   Id der Clang
  * @param $name Name der Clang
- * 
+ *
  * @return TRUE bei Erfolg, sonst FALSE
  */
 function rex_addCLang($id, $name)
 {
   global $REX;
-  
+
   if(isset($REX['CLANG'][$id])) return FALSE;
 
   $REX['CLANG'][$id] = $name;
   $file = $REX['INCLUDE_PATH']."/config/clang.inc.php";
   rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n");
-  
+
   $firstLang = rex_sql::factory();
   $firstLang->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='0'");
   $fields = $firstLang->getFieldnames();
@@ -354,7 +354,7 @@ function rex_addCLang($id, $name)
 
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
-  
+
   return TRUE;
 }
 
@@ -363,13 +363,13 @@ function rex_addCLang($id, $name)
  *
  * @param $id   Id der Clang
  * @param $name Name der Clang
- * 
+ *
  * @return TRUE bei Erfolg, sonst FALSE
  */
 function rex_editCLang($id, $name)
 {
   global $REX;
-  
+
   if(!isset($REX['CLANG'][$id])) return false;
 
   $REX['CLANG'][$id] = $name;
@@ -381,15 +381,15 @@ function rex_editCLang($id, $name)
 
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));
-  
+
   return TRUE;
 }
 
 /**
  * Schreibt Addoneigenschaften in die Datei include/addons.inc.php
- * 
+ *
  * @param array Array mit den Namen der Addons aus dem Verzeichnis addons/
- * 
+ *
  * @return TRUE bei Erfolg, sonst FALSE
  */
 function rex_generateAddons(array $ADDONS)
@@ -414,7 +414,7 @@ function rex_generateAddons(array $ADDONS)
         rex_ooAddon::getProperty($addon, $prop)
       );
     }
-    $content .= "\n";      
+    $content .= "\n";
   }
 
   // Da dieser Funktion oefter pro request aufgerufen werden kann,
@@ -431,15 +431,15 @@ function rex_generateAddons(array $ADDONS)
 
 /**
  * Schreibt Plugineigenschaften in die Datei include/plugins.inc.php
- * 
+ *
  * @param array Array mit den Namen der Plugins aus dem Verzeichnis addons/plugins
- * 
+ *
  * @return TRUE bei Erfolg, sonst eine Fehlermeldung
  */
 function rex_generatePlugins(array $PLUGINS)
 {
   global $REX;
-  
+
   $content = "";
   foreach ($PLUGINS as $addon => $_plugins)
   {
@@ -447,10 +447,10 @@ function rex_generatePlugins(array $PLUGINS)
     {
       if (!rex_ooPlugin :: isInstalled($addon, $plugin))
         rex_ooPlugin::setProperty($addon, $plugin, 'install', 0);
-  
+
       if (!rex_ooPlugin :: isActivated($addon, $plugin))
         rex_ooPlugin::setProperty($addon, $plugin, 'status', 0);
-  
+
       foreach(array('install', 'status') as $prop)
       {
         $content .= sprintf(
@@ -479,49 +479,27 @@ function rex_generatePlugins(array $PLUGINS)
 
 /**
  * Schreibt Spracheigenschaften in die Datei include/clang.inc.php
- * 
+ *
  * @return TRUE bei Erfolg, sonst eine Fehlermeldung
  */
 function rex_generateClang()
 {
   global $REX;
-  
+
   $lg = rex_sql::factory();
   $lg->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
-  
+
   $REX['CLANG'] = array();
   while($lg->hasNext())
   {
-    $REX['CLANG'][$lg->getValue("id")] = $lg->getValue("name"); 
+    $REX['CLANG'][$lg->getValue("id")] = $lg->getValue("name");
     $lg->next();
   }
-  
+
   $file = $REX['INCLUDE_PATH']."/config/clang.inc.php";
   if(rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n") === FALSE)
   {
     return 'Datei "'.$file.'" hat keine Schreibrechte';
   }
   return TRUE;
-}
-
-// ----------------------------------------- generate helpers
-
-/**
- * Escaped einen String
- *
- * @param $string Zu escapender String
- */
-function rex_addslashes($string, $flag = '\\\'\"')
-{
-  if ($flag == '\\\'\"')
-  {
-    $string = str_replace('\\', '\\\\', $string);
-    $string = str_replace('\'', '\\\'', $string);
-    $string = str_replace('"', '\"', $string);
-  }elseif ($flag == '\\\'')
-  {
-    $string = str_replace('\\', '\\\\', $string);
-    $string = str_replace('\'', '\\\'', $string);
-  }
-  return $string;
 }

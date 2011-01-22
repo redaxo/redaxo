@@ -14,10 +14,6 @@ $mypage = 'image_manager';
 
 $REX['PERM'][] = 'image_manager[]';
 
-// --- DYN
-$REX['ADDON']['image_manager']['jpg_quality'] = 85;
-// --- /DYN
-
 $REX['ADDON']['image_manager']['classpaths']['effects'] = array();
 $REX['ADDON']['image_manager']['classpaths']['effects'][] = dirname(__FILE__). '/classes/effects/';
 
@@ -34,11 +30,11 @@ if($rex_img_file != '' && $rex_img_type != '')
 {
   $imagepath = $REX['HTDOCS_PATH'].'files/'.$rex_img_file;
   $cachepath = $REX['INCLUDE_PATH'].'/generated/files/';
-  
+
   $image         = new rex_image($imagepath);
   $image_cacher  = new rex_image_cacher($cachepath);
 	$image_manager = new rex_image_manager($image_cacher);
-	
+
 	$image = $image_manager->applyEffects($image, $rex_img_type);
 	$image_manager->sendImage($image, $rex_img_type);
 	exit();
@@ -55,36 +51,36 @@ if($REX['REDAXO'])
       rex_image_cacher::deleteCache($params["filename"]);
     }
   }
-  
+
   $descPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_desc'), array(
       'page'=>'image_manager',
       'subpage'=>''
     )
-  ); 
+  );
   $descPage->setHref('index.php?page=image_manager');
-  
+
   $confPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_types'), array(
       'page'=>'image_manager',
       'subpage'=>array('types','effects')
     )
-  ); 
+  );
   $confPage->setHref('index.php?page=image_manager&subpage=types');
-  
+
   $settingsPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_config'), array(
       'page'=>'image_manager',
       'subpage'=>'settings'
     )
-  ); 
+  );
   $settingsPage->setHref('index.php?page=image_manager&subpage=settings');
-  
+
   $ccPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_clear_cache'), array(
       'page'=>'image_manager',
       'subpage'=>'clear_cache'
     )
-  ); 
+  );
   $ccPage->setHref('index.php?page=image_manager&subpage=clear_cache');
   $ccPage->setLinkAttr('onclick', 'return confirm(\''.$REX['I18N']->msg('imanager_type_cache_delete').' ?\')');
-  
+
 	$REX['ADDON']['pages'][$mypage] = array (
 	  $descPage, $confPage, $settingsPage, $ccPage
 	);
