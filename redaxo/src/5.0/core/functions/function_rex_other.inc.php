@@ -443,40 +443,25 @@ function rex_replace_dynamic_contents($path, $content)
  * @param $whereCondition Where-Bedingung zur Einschränkung des ResultSets
  * @param $orderBy Sortierung des ResultSets
  * @param $id_field Name des Primaerschluessels der Tabelle
+ * @param $startBy Startpriorität
  */
-function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id')
+function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id', $startBy = 1)
 {
-//  // Datenbankvariable initialisieren
-//  $qry = 'SET @count='. ($startBy - 1);
-//  $sql = rex_sql::getInstance();
-//  $sql->setQuery($qry);
-//
-//  // Spalte updaten
-//  $qry = 'UPDATE '. $tableName .' SET '. $priorColumnName .' = ( SELECT @count := @count +1 )';
-//
-//  if($whereCondition != '')
-//    $qry .= ' WHERE '. $whereCondition;
-//
-//  if($orderBy != '')
-//    $qry .= ' ORDER BY '. $orderBy;
-//
-//  $sql = rex_sql::getInstance();
-//  $sql->setQuery($qry);
+  // Datenbankvariable initialisieren
+  $qry = 'SET @count='. ($startBy - 1);
+  $sql = rex_sql::factory();
+  $sql->setQuery($qry);
 
-  $qry = 'select * from '.$tableName;
+  // Spalte updaten
+  $qry = 'UPDATE '. $tableName .' SET '. $priorColumnName .' = ( SELECT @count := @count +1 )';
+
   if($whereCondition != '')
     $qry .= ' WHERE '. $whereCondition;
+
   if($orderBy != '')
     $qry .= ' ORDER BY '. $orderBy;
 
-  $gu = rex_sql::factory();
-  $gr = rex_sql::factory();
-  $gr->setQuery($qry);
-  for ($i = 0; $i < $gr->getRows(); $i ++)
-  {
-      $gu->setQuery('update '.$tableName.' set '.$priorColumnName.'='.($i+1).' where '.$id_field.'='.$gr->getValue($id_field));
-      $gr->next();
-  }
+  $sql->setQuery($qry);
 }
 
 function rex_version_compare($version1, $version2, $comparator = null)
