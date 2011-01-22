@@ -90,7 +90,7 @@ class rex_image_cacher
     }
 
     // send file
-    $image->sendHeader();
+    $image->sendHeader(array("Content-Length" => filesize($cacheFile)));
     readfile($cacheFile);
     //	  }
   }
