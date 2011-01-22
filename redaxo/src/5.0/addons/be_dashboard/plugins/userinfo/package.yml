@@ -1,0 +1,18 @@
+userinfo:
+  version: '1.3'
+  author: 'Markus Staab'
+  supportpage: forum.redaxo.de
+  
+  requires:
+    addons:
+      structure:
+        min-version: '1.3'
+        plugins:
+          content:
+            min-version: '1.3'
+      metainfo:
+        min-version: '1.3'
+      modules:
+        min-version: '1.3'
+      templates:
+        min-version: '1.3'
