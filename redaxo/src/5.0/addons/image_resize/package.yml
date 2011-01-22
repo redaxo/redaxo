@@ -6,5 +6,5 @@ image_resize:
   supportpage: forum.redaxo.de
   
   requires:
-    php-extension:
+    php-extensions:
       - gd

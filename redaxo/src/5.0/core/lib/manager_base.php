@@ -346,9 +346,9 @@ abstract class rex_baseManager
       }
     }
 
-    if(isset($requirements['php-extension']) && is_array($requirements['php-extension']))
+    if(isset($requirements['php-extensions']) && is_array($requirements['php-extensions']))
     {
-      foreach($requirements['php-extension'] as $reqExt)
+      foreach($requirements['php-extensions'] as $reqExt)
       {
         if(is_string($reqExt))
         {
