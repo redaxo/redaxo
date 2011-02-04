@@ -4,7 +4,9 @@ function rex_imanager_supportedEffects()
 {
   global $REX;
   
-  $dirs = $REX['ADDON']['image_manager']['classpaths']['effects'];
+  $dirs = array(
+    dirname(__FILE__). '/../lib/effects/'
+  );
   
   $effects = array();
   foreach($dirs as $dir)

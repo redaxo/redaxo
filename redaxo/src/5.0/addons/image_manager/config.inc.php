@@ -14,14 +14,6 @@ $mypage = 'image_manager';
 
 $REX['PERM'][] = 'image_manager[]';
 
-$REX['ADDON']['image_manager']['classpaths']['effects'] = array();
-$REX['ADDON']['image_manager']['classpaths']['effects'][] = dirname(__FILE__). '/classes/effects/';
-
-require_once (dirname(__FILE__). '/classes/class.rex_image.inc.php');
-require_once (dirname(__FILE__). '/classes/class.rex_image_cacher.inc.php');
-require_once (dirname(__FILE__). '/classes/class.rex_image_manager.inc.php');
-require_once (dirname(__FILE__). '/classes/class.rex_effect_abstract.inc.php');
-
 //--- handle image request
 $rex_img_file = rex_get('rex_img_file', 'string');
 $rex_img_type = rex_get('rex_img_type', 'string');

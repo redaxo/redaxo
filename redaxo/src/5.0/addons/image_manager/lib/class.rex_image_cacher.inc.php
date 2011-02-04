@@ -95,7 +95,7 @@ class rex_image_cacher
     //	  }
   }
 
-  /*
+  /**
    * Static Method: Returns True, if the given cacher is a valid rex_image_cacher
    */
   static public function isValid($cacher)

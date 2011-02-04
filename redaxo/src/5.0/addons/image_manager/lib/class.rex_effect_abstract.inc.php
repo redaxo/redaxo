@@ -16,11 +16,16 @@ abstract class rex_effect_abstract
   	$this->params = $params;
   }
 
-  // exectute effect on $this->img
+  /**
+   * exectute effect on $this->img
+   */
   abstract public function execute();
 
+  /**
+   * returns an array of parameters which are required for the effect
+   */
   public function getParams()
   {
-    // returns an array of parameters which are required for the effect
+    // NOOP
   }
 }

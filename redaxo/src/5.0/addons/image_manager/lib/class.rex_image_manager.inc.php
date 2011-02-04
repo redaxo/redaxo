@@ -22,7 +22,6 @@ class rex_image_manager
       foreach($set as $effect_params)
       {
       	$effect_class = 'rex_effect_'.$effect_params['effect'];
-      	require_once dirname(__FILE__).'/effects/class.'.$effect_class.'.inc.php';
 
       	$effect = new $effect_class;
       	$effect->setImage($image);
