@@ -372,7 +372,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
       '<span class="rex-form-notice">
          '. $REX['I18N']->msg('phpini_settings') .':<br />
          '. ((rex_ini_get('file_uploads') == 0) ? '<span>'. $REX['I18N']->msg('pool_upload') .':</span> <em>'. $REX['I18N']->msg('pool_upload_disabled') .'</em><br />' : '') .'
-         <span>'. $REX['I18N']->msg('pool_max_uploadsize') .':</span> '. rex_ooMedia::_getFormattedSize(rex_ini_get('upload_max_filesize')) .'<br />
+         <span>'. $REX['I18N']->msg('pool_max_uploadsize') .':</span> '. rex_ooMedia::formatSize(rex_ini_get('upload_max_filesize')) .'<br />
          <span>'. $REX['I18N']->msg('pool_max_uploadtime') .':</span> '. rex_ini_get('max_input_time') .'s
        </span>';
     }

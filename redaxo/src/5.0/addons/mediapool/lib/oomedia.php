@@ -305,17 +305,15 @@ class rex_ooMedia
   }
 
   /**
-   * @access protected
+   * Formates the given filesize into a userfriendly form
    */
-  static protected function _getFormattedSize($size)
+  static public function formatSize($size)
   {
-
     // Setup some common file size measurements.
     $kb = 1024; // Kilobyte
     $mb = 1024 * $kb; // Megabyte
     $gb = 1024 * $mb; // Gigabyte
     $tb = 1024 * $gb; // Terabyte
-    // Get the file size in bytes.
 
     // If it's less than a kb we just return the size, otherwise we keep going until
     // the size is in the appropriate measurement range.
