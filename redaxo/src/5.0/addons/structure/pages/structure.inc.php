@@ -392,7 +392,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       ));
       $add_buttons = '<input type="submit" class="rex-form-submit" name="catedit_function" value="'. $REX['I18N']->msg('save_category'). '"'. rex_accesskey($REX['I18N']->msg('save_category'), $REX['ACKEY']['SAVE']) .' />';
 
-      $class = 'rex-table-row-activ';
+      $class = 'rex-table-row-active';
       if($meta_buttons != "")
         $class .= ' rex-has-metainfo';
 
@@ -645,7 +645,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
     if ($REX['USER']->hasPerm('advancedMode[]'))
       $add_td = '<td class="rex-small">-</td>';
 
-    echo '<tr class="rex-table-row-activ">
+    echo '<tr class="rex-table-row-active">
             <td class="rex-icon"><span class="rex-i-element rex-i-article"><span class="rex-i-element-text">'.$REX['I18N']->msg('article_add') .'</span></span></td>
             '. $add_td .'
             <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="article_name" /></td>
@@ -677,7 +677,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
 
       $template_select->setSelected($sql->getValue('template_id'));
 
-      echo '<tr class="rex-table-row-activ">
+      echo '<tr class="rex-table-row-active">
               <td class="rex-icon"><a class="rex-i-element '.$class.'" href="'. $context->getUrl(array('page' => 'content', 'article_id' => $sql->getValue('id'))) .'"><span class="rex-i-element-text">' .htmlspecialchars($sql->getValue("name")).'</span></a></td>
               '. $add_td .'
               <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="article_name" value="' .htmlspecialchars($sql->getValue('name')).'" /></td>
