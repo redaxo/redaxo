@@ -47,7 +47,7 @@ else
       $KATPATH .= $KPATH[$ii]."|";
       if ($KATPERM || $REX['USER']->hasCategoryPerm($catid))
       {
-        $KATout .= ' <li><a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a></li>';
+        $KATout .= '<li><a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a></li>';
 
         if($REX['USER']->hasPerm('csw['.$catid.']'))
         {
@@ -61,7 +61,7 @@ else
   {
     $catname = str_replace(' ', '&nbsp;', htmlspecialchars($KAT->getValue('catname')));
 
-    $KATout .= ' <li><a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a></li>';
+    $KATout .= '<li><a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a></li>';
     $KATPATH .= $category_id .'|';
 
     if ($REX['USER']->hasPerm('csw['. $category_id .']'))
@@ -82,8 +82,7 @@ $KATout = '
   	<dt>'.$REX['I18N']->msg('path').'</dt>
   	<dd>
 			<ul class="rex-navi">
-				<li><a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'"'. rex_tabindex() .'>Homepage</a></li>
-				'. $KATout .'
+				<li><a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'"'. rex_tabindex() .'>Homepage</a></li>'. $KATout .'
 			</ul>
 		</dd>
 	</dl>
