@@ -27,13 +27,13 @@ class rex_sql
     $error, // Fehlertext
     $errno; // Fehlernummer
 
-  protected function rex_sql($DBID = 1)
+  protected function __construct($DBID = 1)
   {
     global $REX;
 
     $this->debugsql = false;
     $this->selectDB($DBID);
-	$this->initConnection();
+	  $this->initConnection();
   }
 
 
@@ -42,7 +42,7 @@ class rex_sql
    */
   protected function initConnection()
   {
-	global $REX;
+	  global $REX;
     if($REX['MYSQL_VERSION'] == '')
     {
       // ggf. Strict Mode abschalten
@@ -793,10 +793,11 @@ class rex_sql
     $qry = 'SHOW TABLES';
     if($tablePrefix != null)
     {
-      $tablePrefix = str_replace('_', '\_', $tablePrefix);
+		  // replace LIKE wildcards
+      $tablePrefix = str_replace(array('_', '%'), array('\_', '\%'), $tablePrefix);
     	$qry .= ' LIKE "'.$tablePrefix.'%"';
     }
-
+    
     $sql = self::factory($DBID);
     $tables = $sql->getArray($qry);
     $tables = array_map('reset', $tables);
@@ -859,7 +860,6 @@ class rex_sql
     }
 
     $obj = new $class($DBID);
-    $obj->initConnection();
 
     return $obj;
   }
