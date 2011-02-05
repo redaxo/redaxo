@@ -294,11 +294,14 @@ class rex_a62_tableExpander extends rex_form
   {
     if($newPrio == $oldPrio)
       return;
+      
+    // replace LIKE wildcards
+    $metaPrefix = str_replace(array('_', '%'), array('\_', '\%'), $this->metaPrefix);
 
     rex_organize_priorities(
       $this->tableName,
       'prior',
-      'name LIKE "'. $this->metaPrefix .'%"',
+      'name LIKE "'. $metaPrefix .'%"',
       'prior, updatedate desc',
       'field_id'
     );

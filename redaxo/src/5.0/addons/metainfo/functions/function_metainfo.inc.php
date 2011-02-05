@@ -117,6 +117,9 @@ function a62_add_field($title, $name, $prior, $attributes, $type, $default, $par
   if(!$sql->insert())
     return $sql->getError();
 
+  // replace LIKE wildcards
+  $prefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
+  
   rex_organize_priorities($REX['TABLE_PREFIX']. '62_params', 'prior', 'name LIKE "'. $prefix .'%"', 'prior, updatedate', 'field_id');
 
   $tableManager = new rex_a62_tableManager($metaTable);

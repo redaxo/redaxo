@@ -42,7 +42,10 @@ if ($func == 'delete')
 //------------------------------> Eintragsliste
 if ($func == '')
 {
-  $list = rex_list::factory('SELECT field_id, name FROM '. $REX['TABLE_PREFIX'] .'62_params WHERE `name` LIKE "'. $prefix .'%" ORDER BY prior');
+  // replace LIKE wildcards
+  $likePrefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
+  
+  $list = rex_list::factory('SELECT field_id, name FROM '. $REX['TABLE_PREFIX'] .'62_params WHERE `name` LIKE "'. $likePrefix .'%" ORDER BY prior');
 
   $list->setCaption($REX['I18N']->msg('minfo_field_list_caption'));
   $imgHeader = '<a class="rex-i-element rex-i-metainfo-add" href="'. $list->getUrl(array('func' => 'add')) .'"><span class="rex-i-element-text">'.$REX['I18N']->msg('add').'</span></a>';
