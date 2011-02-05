@@ -65,14 +65,17 @@ function rex_a256_search_structure($params)
   // auch gesucht wuerde
   if($a256_article_name_post != '')
   {
+		// replace LIKE wildcards
+    $a256_article_name_like = str_replace(array('_', '%'), array('\_', '\%'), $a256_article_name);
+    
     $qry = '
     SELECT id
     FROM '. $REX['TABLE_PREFIX'] .'article
     WHERE
       clang = '. $a256_clang .' AND
       (
-        name LIKE "%'. $a256_article_name .'%" OR
-        catname LIKE "%'. $a256_article_name .'%"
+        name LIKE "%'. $a256_article_name_like .'%" OR
+        catname LIKE "%'. $a256_article_name_like .'%"
       )';
 
     switch(rex_ooAddon::getProperty('be_search', 'searchmode', 'local'))

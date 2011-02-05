@@ -31,7 +31,7 @@ function openMediaDetails(id, file_id, file_category_id)
   {
     id = '';  
   }
-  newPoolWindow('index.php?page=mediapool&subpage=detail&opener_input_field='+ id + '&file_id=' + file_id + '&file_category_id=' + file_category_id);
+  newPoolWindow('index.php?page=mediapool&subpage=media&opener_input_field='+ id + '&file_id=' + file_id + '&file_category_id=' + file_category_id);
 }
 
 function openMediaPool(id)
@@ -62,7 +62,7 @@ function viewREXMedia(id,param)
     param = '';  
   }
   if (value != '') {
-    param = param + '&subpage=detail&file_name='+ value;
+    param = param + '&subpage=media&file_name='+ value;
     newPoolWindow('index.php?page=mediapool' + param + '&opener_input_field=' + mediaid);
   }
 }
@@ -79,7 +79,7 @@ function addREXMedia(id,params)
   {
     params = '';  
   }
-  newPoolWindow('index.php?page=mediapool&action=media_upload&subpage=add_file&opener_input_field=REX_MEDIA_'+id+params);
+  newPoolWindow('index.php?page=mediapool&subpage=upload&opener_input_field=REX_MEDIA_'+id+params);
 }
 
 function openREXMedialist(id,param)
@@ -95,7 +95,7 @@ function openREXMedialist(id,param)
   }
   for (ii = 0; ii < sourcelength; ii++) {
     if (source.options[ii].selected) {
-      param += '&subpage=detail&file_name='+ source.options[ii].value;
+      param += '&subpage=media&file_name='+ source.options[ii].value;
       break;
     }
   }
@@ -115,7 +115,7 @@ function viewREXMedialist(id,param)
   }
   for (ii = 0; ii < sourcelength; ii++) {
     if (source.options[ii].selected) {
-      param += '&subpage=detail&file_name='+ source.options[ii].value;
+      param += '&subpage=media&file_name='+ source.options[ii].value;
       break;
     }
   }
@@ -129,7 +129,7 @@ function addREXMedialist(id,params)
   {
     params = '';  
   }
-  newPoolWindow('index.php?page=mediapool&action=media_upload&subpage=add_file&opener_input_field=REX_MEDIALIST_'+id+params);
+  newPoolWindow('index.php?page=mediapool&subpage=upload&opener_input_field=REX_MEDIALIST_'+id+params);
 }
 
 function deleteREXMedialist(id){

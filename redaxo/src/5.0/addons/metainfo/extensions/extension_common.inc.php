@@ -522,6 +522,9 @@ function _rex_a62_metainfo_sqlfields($prefix, $restrictionsCondition)
 {
   global $REX;
   
+  // replace LIKE wildcards
+  $prefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
+  
   $qry = 'SELECT
             *
           FROM
@@ -725,7 +728,10 @@ function rex_a62_media_is_in_use($params)
         $where[$key][] = $name .'="'. $filename .'"';
         break;
       case '7':
-        $where[$key][] = '('. $name .' = "'. $filename .'" OR '. $name .' LIKE "%,'. $filename .'" OR '. $name .' LIKE "%,'. $filename .',%" OR '. $name .' LIKE "'. $filename .',%")';
+        // replace LIKE wildcards
+        $likeFilename = str_replace(array('_', '%'), array('\_', '\%'), $filename);
+        
+        $where[$key][] = '('. $name .' = "'. $filename .'" OR '. $name .' LIKE "%,'. $likeFilename .'" OR '. $name .' LIKE "%,'. $likeFilename .',%" OR '. $name .' LIKE "'. $likeFilename .',%")';
         break;
       default :
         trigger_error ('Unexpected fieldtype "'. $sql->getValue('type') .'"!', E_USER_ERROR);

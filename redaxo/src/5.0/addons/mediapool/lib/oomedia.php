@@ -301,7 +301,7 @@ class rex_ooMedia
    */
   public function getFormattedSize()
   {
-    return self::_getFormattedSize($this->getSize());
+    return self::formatSize($this->getSize());
   }
 
   /**
@@ -618,11 +618,14 @@ class rex_ooMedia
 
     $sql = rex_sql::factory();
     $filename = addslashes($this->getFileName());
+    // replace LIKE wildcards
+    $likeFilename = str_replace(array('_', '%'), array('\_', '\%'), $filename);
+    
 
     $values = array();
     for ($i = 1; $i < 21; $i++)
     {
-      $values[] = 'value'.$i.' LIKE "%'.$filename.'%"';
+      $values[] = 'value'.$i.' LIKE "%'.$likeFilename.'%"';
     }
 
     $files = array();
@@ -630,7 +633,7 @@ class rex_ooMedia
     for ($i = 1; $i < 11; $i++)
     {
       $files[] = 'file'.$i.'="'.$filename.'"';
-      $filelists[] = '(filelist'.$i.' = "'.$filename.'" OR filelist'.$i.' LIKE "'.$filename.',%" OR filelist'.$i.' LIKE "%,'.$filename.',%" OR filelist'.$i.' LIKE "%,'.$filename.'" ) ';
+      $filelists[] = '(filelist'.$i.' = "'.$filename.'" OR filelist'.$i.' LIKE "'.$likeFilename.',%" OR filelist'.$i.' LIKE "%,'.$likeFilename.',%" OR filelist'.$i.' LIKE "%,'.$likeFilename.'" ) ';
     }
 
     $where = '';

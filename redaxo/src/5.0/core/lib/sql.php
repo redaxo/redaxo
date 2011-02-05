@@ -7,46 +7,49 @@
 
 class rex_sql
 {
-  public
-    $debugsql, // debug schalter
-    $counter; // ResultSet Cursor
-
   private
+    $debugsql, // debug schalter
+    $counter, // pointer 
     $values, // Werte von setValue
     $fieldnames, // Spalten im ResultSet
+    $lastRow, // Wert der zuletzt gefetchten zeile
 
     $table, // Tabelle setzen
     $wherevar, // WHERE Bediengung
     $rows, // anzahl der treffer
     $stmt, // ResultSet
-    $pdo, // Datenbankverbindung
+    $pdo = array(), // array von datenbankverbindungen
     $DBID; // ID der Verbindung
 
-  protected function rex_sql($DBID = 1)
+  protected function __construct($DBID = 1)
   {
     global $REX;
 
     $this->debugsql = false;
     $this->selectDB($DBID);
+	  $this->initConnection();
+  }
 
+
+  /**
+   * Initialisiert die Datenbankverbindung (Character Set, etc.)
+   */
+  protected function initConnection()
+  {
+	  global $REX;
+	  
     if($REX['MYSQL_VERSION'] == '')
     {
-      // ggf. Strict Mode abschalten
-      $this->setQuery('SET SQL_MODE=""');
-
       // MySQL Version bestimmen
       $res = $this->getArray('SELECT VERSION() as VERSION');
       if(preg_match('/([0-9]+\.([0-9\.])+)/', $res[0]['VERSION'], $matches))
       {
         $REX['MYSQL_VERSION'] = $matches[1];
-      }
-      else
+      }else
       {
         throw new rexException('Could not identifiy MySQL Version!');
       }
     }
-
-    $this->flush();
   }
 
   /**
@@ -67,19 +70,26 @@ class rex_sql
     );
 
     try {
-      $this->pdo = new PDO($dsn, $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW'], $options);
+      if(!isset($this->pdo[$this->DBID]))
+      {
+        $this->pdo[$this->DBID] = new PDO($dsn, $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW'], $options);
+        // ggf. Strict Mode abschalten
+        $this->setQuery('SET SQL_MODE=""');
+        // set encoding
+        $this->setQuery('SET NAMES utf8');
+        $this->setQuery('SET CHARACTER SET utf8');
+      }
     }
     catch(PDOException $e)
     {
       echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . $REX['ERROR_EMAIL'] . ">" . $REX['ERROR_EMAIL'] . "</a>\n | Thank you!\n</font>";
       exit;
     }
-    $this->setQuery('SET CHARACTER SET utf8');
   }
 
   /**
-   * Gibt die DatenbankId der Abfrage (SQL) zurück,
-   * oder false wenn die Abfrage keine DBID enthält
+   * Gibt die DatenbankId der Abfrage (SQL) zurueck,
+   * oder false wenn die Abfrage keine DBID enthaelt
    *
    * @param $query Abfrage
    */
@@ -94,7 +104,7 @@ class rex_sql
   }
 
   /**
-   * Entfernt die DBID aus einer Abfrage (SQL) und gibt die DBID zurück falls
+   * Entfernt die DBID aus einer Abfrage (SQL) und gibt die DBID zurueck falls
    * vorhanden, sonst false
    *
    * @param $query Abfrage
@@ -110,10 +120,10 @@ class rex_sql
   }
 
   /**
-   * Gibt den Typ der Abfrage (SQL) zurück,
-   * oder false wenn die Abfrage keinen Typ enthält
+   * Gibt den Typ der Abfrage (SQL) zurueck,
+   * oder false wenn die Abfrage keinen Typ enthaelt
    *
-   * Mögliche Typen:
+   * Moegliche Typen:
    * - SELECT
    * - SHOW
    * - UPDATE
@@ -160,29 +170,39 @@ class rex_sql
 	  $this->debugsql = $debug;
   }
   
+  /**
+   * Prepares a PDOStatement
+   * 
+   * @param string $qry A query string with placeholders
+   * 
+   * @return PDOStatement The prepared statement
+   */
   public function prepareQuery($qry)
   {
-    return ($this->stmt = $this->pdo->prepare($qry));
+    return ($this->stmt = $this->pdo[$this->DBID]->prepare($qry));
   }
   
-  public function execute($params)
+  /**
+   * Executes the prepared statement with the given input parameters
+   * @param array $params Array of input parameters
+   */
+  public function execute(array $params)
   {
     $this->stmt->execute($params);
   }
 
   /**
-   * Setzt eine Abfrage (SQL) ab
+   * Executes the given sql-query (un-prepared)
    *
-   * @param $query Abfrage
-   * @return boolean True wenn die Abfrage erfolgreich war (keine DB-Errors
-   * auftreten), sonst false
+   * @param $query The sql-query
+   * @return boolean true on success, otherwise false
    */
   public function setQuery($qry)
   {
-    // Alle Werte zurücksetzen
+    // Alle Werte zuruecksetzen
     $this->flush();
 
-    $this->stmt = $this->pdo->query(trim($qry));
+    $this->stmt = $this->pdo[$this->DBID]->query(trim($qry));
     
     if($this->stmt !== false)
     {
@@ -243,8 +263,8 @@ class rex_sql
   }
 
   /**
-   * Prüft den Wert einer Spalte der aktuellen Zeile ob ein Wert enthalten ist
-   * @param $feld Spaltenname des zu prüfenden Feldes
+   * Prueft den Wert einer Spalte der aktuellen Zeile ob ein Wert enthalten ist
+   * @param $feld Spaltenname des zu pruefenden Feldes
    * @param $prop Wert, der enthalten sein soll
    */
   protected function isValueOf($feld, $prop)
@@ -268,17 +288,16 @@ class rex_sql
   }
 
   /**
-   * Gibt den Wert einer Spalte im ResultSet zurück
+   * Gibt den Wert einer Spalte im ResultSet zurueck
    * @param $value Name der Spalte
    * @param [$row] Zeile aus dem ResultSet
    * 
-   * @deprecated
+   * @deprecated use getRow() instead!
    */
   public function getValue($feldname)
   {
     if(empty($feldname))
     {
-      debug_print_backtrace();
       throw new rexException('parameter fieldname must not be empty!');
     }
     
@@ -288,13 +307,6 @@ class rex_sql
     if(empty($this->lastRow))
     {
       $this->lastRow = $this->stmt->fetch(PDO::FETCH_ASSOC);
-      if(!is_array($this->lastRow))
-      {
-        $this->debugsql = true;
-        $this->printError($this->stmt->queryString);
-        $this->debugsql = false;
-        $this->lastRow = array();
-      }
     }
   		
     $res = false;
@@ -309,9 +321,6 @@ class rex_sql
 
       if($sendWarnings && function_exists('debug_backtrace'))
       {
-//        var_dump($feldname);
-//        var_dump($this->lastRow[$feldname]);
-//        var_dump($this->lastRow);
         $trace = debug_backtrace();
         $loc = $trace[1];
         echo '<b>Warning</b>:  rex_sql->getValue('. $feldname .'): Initial error found in file <b>'. $loc['file'] .'</b> on line <b>'. $loc['line'] .'</b><br />';
@@ -332,7 +341,7 @@ class rex_sql
   }
 
   /**
-   * Prüft, ob eine Spalte im Resultset vorhanden ist
+   * Prueft, ob eine Spalte im Resultset vorhanden ist
    * @param $value Name der Spalte
    */
   public function hasValue($feldname)
@@ -341,10 +350,10 @@ class rex_sql
   }
 
   /**
-   * Prüft, ob das Feld mit dem Namen $feldname Null ist.
+   * Prueft, ob das Feld mit dem Namen $feldname Null ist.
    *
    * Falls das Feld nicht vorhanden ist,
-   * wird Null zurückgegeben, sonst True/False
+   * wird Null zurueckgegeben, sonst True/False
    */
   public function isNull($feldname)
   {
@@ -355,7 +364,7 @@ class rex_sql
   }
 
   /**
-   * Gibt die Anzahl der Zeilen zurück
+   * Gibt die Anzahl der Zeilen zurueck
    */
   public function getRows()
   {
@@ -363,8 +372,8 @@ class rex_sql
   }
 
   /**
-   * Gibt die Zeilennummer zurück, auf der sich gerade der
-   * interne Zähler befindet
+   * Gibt die Zeilennummer zurueck, auf der sich gerade der
+   * interne Zaehler befindet
    *
    * @deprecated since version 4.3.0
    */
@@ -374,7 +383,7 @@ class rex_sql
   }
 
   /**
-   * Gibt die Anzahl der Felder/Spalten zurück
+   * Gibt die Anzahl der Felder/Spalten zurueck
    */
   public function getFields()
   {
@@ -383,7 +392,7 @@ class rex_sql
 
   /**
    * Baut den SET bestandteil mit der
-   * verfügbaren values zusammen und gibt diesen zurück
+   * verfuegbaren values zusammen und gibt diesen zurueck
    *
    * @see setValue
    */
@@ -426,6 +435,7 @@ class rex_sql
    */
   public function select($fields)
   {
+    // TODO use prepared-statement
     return $this->setQuery('SELECT '. $fields .' FROM `' . $this->table . '` '. $this->wherevar);
   }
 
@@ -439,6 +449,7 @@ class rex_sql
    */
   public function update($successMessage = null)
   {
+    // TODO use prepared-statement
     return $this->statusQuery('UPDATE `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar, $successMessage);
   }
 
@@ -451,6 +462,7 @@ class rex_sql
    */
   public function insert($successMessage = null)
   {
+    // TODO use prepared-statement
     return $this->statusQuery('INSERT INTO `' . $this->table . '` SET ' . $this->buildSetQuery(), $successMessage);
   }
 
@@ -464,6 +476,7 @@ class rex_sql
    */
   public function replace($successMessage = null)
   {
+    // TODO use prepared-statement
     return $this->statusQuery('REPLACE INTO `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar, $successMessage);
   }
 
@@ -476,17 +489,18 @@ class rex_sql
    */
   public function delete($successMessage = null)
   {
+    // TODO use prepared-statement
     return $this->statusQuery('DELETE FROM `' . $this->table . '` ' . $this->wherevar, $successMessage);
   }
 
   /**
    * Setzt den Query $query ab.
    *
-   * Wenn die Variable $successMessage gefüllt ist, dann wird diese bei
-   * erfolgreichem absetzen von $query zurückgegeben, sonst die MySQL
+   * Wenn die Variable $successMessage gefuellt ist, dann wird diese bei
+   * erfolgreichem absetzen von $query zurueckgegeben, sonst die MySQL
    * Fehlermeldung
    *
-   * Wenn die Variable $successMessage nicht gefüllt ist, verhält sich diese
+   * Wenn die Variable $successMessage nicht gefuellt ist, verhaelt sich diese
    * Methode genauso wie setQuery()
    *
    * Beispiel:
@@ -495,7 +509,7 @@ class rex_sql
    * $sql = rex_sql::factory();
    * $message = $sql->statusQuery(
    *    'INSERT  INTO abc SET a="ab"',
-   *    'Datensatz  erfolgreich eingefügt');
+   *    'Datensatz  erfolgreich eingefuegt');
    * </code>
    *
    *  anstatt von
@@ -503,7 +517,7 @@ class rex_sql
    * <code>
    * $sql = rex_sql::factory();
    * if($sql->setQuery('INSERT INTO abc SET a="ab"'))
-   *   $message  = 'Datensatz erfolgreich eingefügt');
+   *   $message  = 'Datensatz erfolgreich eingefuegt');
    * else
    *   $message  = $sql- >getError();
    * </code>
@@ -522,7 +536,7 @@ class rex_sql
   }
 
   /**
-   * Stellt alle Werte auf den Ursprungszustand zurück
+   * Stellt alle Werte auf den Ursprungszustand zurueck
    */
   public function flush()
   {
@@ -537,7 +551,7 @@ class rex_sql
   }
 
   /**
-   * Stellt alle Values, die mit setValue() gesetzt wurden, zurück
+   * Stellt alle Values, die mit setValue() gesetzt wurden, zurueck
    *
    * @see #setValue(), #getValue()
    */
@@ -548,7 +562,7 @@ class rex_sql
 
 
   /**
-   * Setzt den Cursor des Resultsets auf die nächst niedrigere Stelle
+   * Setzt den Cursor des Resultsets auf die naechst niedrigere Stelle
    */
   /*
   public function previous()
@@ -558,16 +572,16 @@ class rex_sql
   */
 
   /**
-   * Setzt den Cursor des Resultsets auf die nächst höhere Stelle
+   * Setzt den Cursor des Resultsets auf die naechst hoehere Stelle
    */
   public function next()
   {
     $this->counter++;
-    $this->lastRow = array();
+    $this->lastRow = $this->stmt->fetch($fetch_type);
   }
 
   /*
-   * Prüft ob das Resultset weitere Datensätze enthält
+   * Prueft ob das Resultset weitere Datensaetze enthaelt
    */
   public function hasNext()
   {
@@ -575,32 +589,35 @@ class rex_sql
   }
 
   /**
-   * Setzt den Cursor des Resultsets zurück zum Anfang
+   * Setzt den Cursor des Resultsets zurueck zum Anfang
    */
   public function reset()
   {
+    // re-execute the statement
+    $this->stmt->execute();
     $this->counter = 0;
   }
 
   /**
    * Setzt den Cursor des Resultsets aufs Ende
    */
+  /*
   public function last()
   {
     $this->counter = ($this->rows - 1);
   }
+  */
 
   /**
-   * Gibt die letzte InsertId zurück
+   * Gibt die letzte InsertId zurueck
    */
   public function getLastId()
   {
-    var_dump($this->pdo->lastInsertId());
-    return $this->pdo->lastInsertId();
+    return $this->pdo[$this->DBID]->lastInsertId();
   }
 
   /**
-   * Lädt das komplette Resultset in ein Array und gibt dieses zurück und
+   * Laedt das komplette Resultset in ein Array und gibt dieses zurueck und
    * wechselt die DBID falls vorhanden
    *
    * @param string $sql Abfrage
@@ -613,7 +630,7 @@ class rex_sql
   }
 
   /**
-   * Lädt das komplette Resultset in ein Array und gibt dieses zurück
+   * Laedt das komplette Resultset in ein Array und gibt dieses zurueck
    *
    * @param string $sql Abfrage
    * @param string $fetch_type Default: PDO::FETCH_ASSOC
@@ -649,19 +666,19 @@ class rex_sql
   }
 
   /**
-   * Gibt die zuletzt aufgetretene Fehlernummer zurück
+   * Gibt die zuletzt aufgetretene Fehlernummer zurueck
    */
   public function getErrno()
   {
-    return (int) $this->pdo->errorCode();
+    return (int) $this->pdo[$this->DBID]->errorCode();
   }
 
   /**
-   * Gibt den zuletzt aufgetretene Fehler zurück
+   * Gibt den zuletzt aufgetretene Fehler zurueck
    */
   public function getError()
   {
-    $errorInfos = $this->pdo->errorInfo();
+    $errorInfos = $this->pdo[$this->DBID]->errorInfo();
     // idx0 	SQLSTATE error code (a five characters alphanumeric identifier defined in the ANSI SQL standard).
     // idx1 	Driver-specific error code.
     // idx2 	Driver-specific error message.
@@ -669,7 +686,7 @@ class rex_sql
   }
 
   /**
-   * Prüft, ob ein Fehler aufgetreten ist
+   * Prueft, ob ein Fehler aufgetreten ist
    */
   public function hasError()
   {
@@ -679,12 +696,17 @@ class rex_sql
   /**
    * Gibt die letzte Fehlermeldung aus
    */
-  public function printError($query)
+  protected function printError()
   {
     if ($this->debugsql == true)
     {
+      if(!is_object($this->stmt))
+      {
+        throw new rexException('you have to execute a statement before printing an corresponding error-message!');
+      }
+      
       echo '<hr />' . "\n";
-      echo 'Query: ' . nl2br(htmlspecialchars($query)) . "<br />\n";
+      echo 'Query: ' . nl2br(htmlspecialchars($this->stmt->queryString)) . "<br />\n";
 
       if (strlen($this->getRows()) > 0)
       {
@@ -699,13 +721,14 @@ class rex_sql
   }
 
   /**
-   * Setzt eine Spalte auf den nächst möglich auto_increment Wert
+   * Setzt eine Spalte auf den naechst moeglich auto_increment Wert
    * @param $field Name der Spalte
    */
   public function setNewId($field)
   {
-    // setNewId muss neues sql Objekt verwenden, da sonst bestehende informationen im Objekt überschrieben werden
+    // setNewId muss neues sql Objekt verwenden, da sonst bestehende informationen im Objekt ueberschrieben werden
     $sql = rex_sql::factory();
+    // TODO use prepared statement
     if($sql->setQuery('SELECT `' . $field . '` FROM `' . $this->table . '` ORDER BY `' . $field . '` DESC LIMIT 1'))
     {
       if ($sql->getRows() == 0)
@@ -723,7 +746,7 @@ class rex_sql
   }
 
   /**
-   * Gibt die Spaltennamen des ResultSets zurück
+   * Gibt die Spaltennamen des ResultSets zurueck
    */
   public function getFieldnames()
   {
@@ -739,13 +762,13 @@ class rex_sql
   }
 
   /**
-   * Escaped den übergeben Wert für den DB Query
+   * Escaped den uebergeben Wert fuer den DB Query
    *
    * @param $value den zu escapenden Wert
    */
   public function escape($value)
   {
-    return $this->pdo->quote($value);
+    return $this->pdo[$this->DBID]->quote($value);
   }
 
   /**
@@ -778,10 +801,11 @@ class rex_sql
     $qry = 'SHOW TABLES';
     if($tablePrefix != null)
     {
-      $tablePrefix = str_replace('_', '\_', $tablePrefix);
+		  // replace LIKE wildcards
+      $tablePrefix = str_replace(array('_', '%'), array('\_', '\%'), $tablePrefix);
     	$qry .= ' LIKE "'.$tablePrefix.'%"';
     }
-
+    
     $sql = self::factory($DBID);
     $tables = $sql->getArray($qry);
     $tables = array_map('reset', $tables);
@@ -794,7 +818,7 @@ class rex_sql
    *
    * @param $table string Name der Tabelle
    * @param $DBID int Id der Datenbankverbindung
-   * @return array Ein Array das die Metadaten enthält
+   * @return array Ein Array das die Metadaten enthaelt
    */
   static public function showColumns($table, $DBID=1)
   {
@@ -821,7 +845,7 @@ class rex_sql
   }
 
   /**
-   * Gibt die Serverversion zurück.
+   * Gibt die Serverversion zurueck.
    *
    * Die Versionsinformation ist erst bekannt,
    * nachdem der rex_sql Konstruktor einmalig erfolgreich durchlaufen wurde.
@@ -851,11 +875,13 @@ class rex_sql
       );
     }
 
-    return new $class($DBID);
+    $obj = new $class($DBID);
+
+    return $obj;
   }
 
   /**
-   * Gibt ein SQL Singelton Objekt zurück
+   * Gibt ein SQL Singelton Objekt zurueck
    *
    * @deprecated since 4.3.0
    */

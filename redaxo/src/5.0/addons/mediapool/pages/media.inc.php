@@ -725,7 +725,7 @@ if ($subpage == '')
 
     // ----- get file size
     $size = $file_size;
-    $file_size = rex_ooMedia::_getFormattedSize($size);
+    $file_size = rex_ooMedia::formatSize($size);
 
     if ($file_title == '') $file_title = '['.$REX['I18N']->msg('pool_file_notitle').']';
     if($REX['USER']->hasPerm('advancedMode[]')) $file_title .= ' ['. $file_id .']';
