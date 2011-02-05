@@ -9,7 +9,7 @@
  * @version svn:$Id$
  */
 
-function rex_a256_search_mpool($params)
+function rex_be_search_mpool($params)
 {
   global $REX;
 
@@ -19,14 +19,14 @@ function rex_a256_search_mpool($params)
   }
 
   if(rex_request('subpage', 'string') != '') return $params['subject'];
-  $media_name = rex_request('a256_media_name', 'string');
+  $media_name = rex_request('be_media_name', 'string');
 
   $subject = $params['subject'];
 
   $search_form = '
-    <p class="rex-form-col-a rex-form-text" id="a256-media-search">
-      <label for="a256-media-name">'. $REX['I18N']->msg('be_search_mpool_media') .'</label>
-      <input class="rex-form-text" type="text" name="a256_media_name" id="a256-media-name" value="'. $media_name .'" />
+    <p class="rex-form-col-a rex-form-text" id="be_search-media-search">
+      <label for="be_search-media-name">'. $REX['I18N']->msg('be_search_mpool_media') .'</label>
+      <input class="rex-form-text" type="text" name="be_search_media_name" id="be_search-media-name" value="'. $media_name .'" />
       <input class="rex-form-submit" type="submit" value="'. $REX['I18N']->msg('be_search_mpool_start') .'" />
     </p>
   ';
@@ -38,7 +38,7 @@ function rex_a256_search_mpool($params)
   return $subject;
 }
 
-function rex_a256_search_mpool_query($params)
+function rex_be_search_mpool_query($params)
 {
   global $REX;
 
@@ -47,7 +47,7 @@ function rex_a256_search_mpool_query($params)
     return $params['subject'];
   }
 
-  $media_name = rex_request('a256_media_name', 'string');
+  $media_name = rex_request('be_search_media_name', 'string');
   if($media_name == '') return $params['subject'];
 
   $qry = $params['subject'];

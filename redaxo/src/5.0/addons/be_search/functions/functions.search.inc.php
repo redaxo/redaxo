@@ -5,11 +5,11 @@
  * 
  * @param $params
  */
-function rex_a256_highlight_hit($string, $needle)
+function rex_be_search_highlight_hit($string, $needle)
 {
   return preg_replace(
     '/(.*)('. preg_quote($needle, '/') .')(.*)/i',
-    '\\1<span class="a256-search-hit">\\2</span>\\3',
+    '\\1<span class="be_search-search-hit">\\2</span>\\3',
     $string
   );
 }
@@ -19,7 +19,7 @@ function rex_a256_highlight_hit($string, $needle)
  * 
  * @param $params Extension-Point Parameter
  */
-function rex_a256_extensions_handler($params)
+function rex_be_search_extensions_handler($params)
 {
   global $REX;
   
@@ -31,23 +31,23 @@ function rex_a256_extensions_handler($params)
   if($page == 'structure')
   {
     require_once $REX['INCLUDE_PATH'] .'/addons/be_search/extensions/extension_search_structure.inc.php';
-    rex_register_extension('PAGE_STRUCTURE_HEADER', 'rex_a256_search_structure');
+    rex_register_extension('PAGE_STRUCTURE_HEADER', 'rex_be_search_structure');
   }
   elseif($page == 'content')
   {
     require_once $REX['INCLUDE_PATH'] .'/addons/be_search/extensions/extension_search_structure.inc.php';
-    rex_register_extension('PAGE_CONTENT_HEADER', 'rex_a256_search_structure');
+    rex_register_extension('PAGE_CONTENT_HEADER', 'rex_be_search_structure');
   }
   elseif ($page == 'mediapool')
   {
     require_once $REX['INCLUDE_PATH'] .'/addons/be_search/extensions/extension_search_mpool.inc.php';
-    rex_register_extension('MEDIA_LIST_TOOLBAR', 'rex_a256_search_mpool');
-    rex_register_extension('MEDIA_LIST_QUERY', 'rex_a256_search_mpool_query');
+    rex_register_extension('MEDIA_LIST_TOOLBAR', 'rex_be_search_mpool');
+    rex_register_extension('MEDIA_LIST_QUERY', 'rex_be_search_mpool_query');
   }
 }
 
 /**
- * Fügt die benötigen Stylesheets ein
+ * FÃ¼gt die benÃ¶tigen Stylesheets ein
  * 
  * @param $params Extension-Point Parameter
  */
@@ -56,7 +56,7 @@ function rex_be_search_css_add($params)
   $addon = 'be_search';
   
   $params['subject'] .= "\n  ".
-    '<link rel="stylesheet" type="text/css" href="../files/addons/'.$addon.'/be_search.css" />';
+    '<link rel="stylesheet" type="text/css" href="../redaxo_media/addons/'.$addon.'/be_search.css" />';
   $params['subject'] .= "\n  ".
     '<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="../files/addons/'.$addon.'/be_search_ie_lte_7.css" /><![endif]-->';
   
