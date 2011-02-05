@@ -33,7 +33,16 @@ class rex_sql
 
     $this->debugsql = false;
     $this->selectDB($DBID);
+	$this->initConnection();
+  }
 
+
+  /**
+   * Initialisiert die Datenbankverbindung (Character Set, etc.)
+   */
+  protected function initConnection()
+  {
+	global $REX;
     if($REX['MYSQL_VERSION'] == '')
     {
       // ggf. Strict Mode abschalten
@@ -44,17 +53,18 @@ class rex_sql
       if(preg_match('/([0-9]+\.([0-9\.])+)/', $res[0]['VERSION'], $matches))
       {
         $REX['MYSQL_VERSION'] = $matches[1];
-      }
-      else
+      }else
       {
         exit('Could not identifiy MySQL Version!');
       }
 
       // connection auf UTF8 trimmen
       if(version_compare($REX['MYSQL_VERSION'], '5.0.7', '>='))
+      {
         mysql_set_charset('utf8', $this->identifier);
-      else
+      }else{
         $this->setQuery('SET NAMES utf8');
+      }
     }
 
     $this->flush();
@@ -848,7 +858,10 @@ class rex_sql
       );
     }
 
-    return new $class($DBID);
+    $obj = new $class($DBID);
+    $obj->initConnection();
+
+    return $obj;
   }
 
   /**
