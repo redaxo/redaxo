@@ -328,7 +328,7 @@ if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnl
   $meta_buttons = rex_register_extension_point('CAT_FORM_BUTTONS', "" );
   $add_buttons = '<input type="submit" class="rex-form-submit" name="catadd_function" value="'. $REX['I18N']->msg('add_category') .'"'. rex_accesskey($REX['I18N']->msg('add_category'), $REX['ACKEY']['SAVE']) .' />';
 
-  $class = 'rex-table-row-activ';
+  $class = 'rex-table-row-active';
   if($meta_buttons != "")
     $class .= ' rex-has-metainfo';
 
