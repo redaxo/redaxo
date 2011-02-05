@@ -71,18 +71,35 @@ if ($article->getRows() == 1)
 
   if ($REX['PAGE'] == 'content' && $article_id > 0)
   {
-    $KATout .= "\n" . '<dl class="rex-navi-article"><dt>';
-
-    if ($article->getValue('startpage') == 1)
-      $KATout .= $REX['I18N']->msg('start_article');
-    else
-      $KATout .= $REX['I18N']->msg('article');
-
+		$term = ($article->getValue('startpage') == 1) ? $REX['I18N']->msg('start_article') : $REX['I18N']->msg('article');
     $catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
-
-    $KATout .= '</dt><dd><ul class="rex-navi"><li class="rex-navi-first"><a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '"'. rex_tabindex() .'>' . $catname . '</a></li></ul></dd>';
+		
+		$list_entries = array();
+    $list_entries[] = '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '"'. rex_tabindex() .'>' . $catname . '</a>';
     // $KATout .= " [$article_id]";
-    $KATout .= '</dl>';
+    
+		/*	ul-Liste erstellen */
+		$fragment_list = array();
+		$fragment_list[1]['attributes']['class'] = 'rex-navi';
+		$fragment_list[1]['entries'] = $list_entries;
+		
+		$fragment = new rex_fragment();
+		$fragment->setVar('lists', $fragment_list, false);
+		$ul_list = $fragment->parse('list/ul_list');
+		unset($fragment);
+    
+    
+		/*	dl-Liste erstellen */
+		$fragment_list = array();
+		$fragment_list[1]['attributes']['class'] = 'rex-navi-article';
+		$fragment_list[1]['entries'][ $term ] = $ul_list;
+		
+		$fragment = new rex_fragment();
+		$fragment->setVar('lists', $fragment_list, false);
+		$dl_list = $fragment->parse('list/dl_list');
+		unset($fragment);
+
+		$KATout .= $dl_list;
   }
 
   // ----- Titel anzeigen
