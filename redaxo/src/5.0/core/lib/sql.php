@@ -7,10 +7,11 @@
 
 class rex_sql
 {
-  public $debugsql; // debug schalter
-  
+  public
+    $debugsql, // debug schalter
+    $counter; // pointer
+
   private
-    $counter, // pointer 
     $values, // Werte von setValue
     $fieldnames, // Spalten im ResultSet
     $lastRow, // Wert der zuletzt gefetchten zeile
@@ -38,7 +39,7 @@ class rex_sql
   protected function initConnection()
   {
 	  global $REX;
-	  
+
     if($REX['MYSQL_VERSION'] == '')
     {
       // MySQL Version bestimmen
@@ -170,19 +171,19 @@ class rex_sql
   {
 	  $this->debugsql = $debug;
   }
-  
+
   /**
    * Prepares a PDOStatement
-   * 
+   *
    * @param string $qry A query string with placeholders
-   * 
+   *
    * @return PDOStatement The prepared statement
    */
   public function prepareQuery($qry)
   {
     return ($this->stmt = $this->pdo[$this->DBID]->prepare($qry));
   }
-  
+
   /**
    * Executes the prepared statement with the given input parameters
    * @param array $params Array of input parameters
@@ -204,7 +205,7 @@ class rex_sql
     $this->flush();
 
     $this->stmt = $this->pdo[$this->DBID]->query(trim($qry));
-    
+
     if($this->stmt !== false)
     {
       $this->rows = $this->stmt->rowCount();
@@ -292,7 +293,7 @@ class rex_sql
    * Gibt den Wert einer Spalte im ResultSet zurueck
    * @param $value Name der Spalte
    * @param [$row] Zeile aus dem ResultSet
-   * 
+   *
    * @deprecated use getRow() instead!
    */
   public function getValue($feldname)
@@ -301,15 +302,15 @@ class rex_sql
     {
       throw new rexException('parameter fieldname must not be empty!');
     }
-    
+
   	if(isset($this->values[$feldname]))
   		return $this->values[$feldname];
-  		
+
     if(empty($this->lastRow))
     {
       $this->lastRow = $this->stmt->fetch(PDO::FETCH_ASSOC);
     }
-  		
+
     $res = false;
     // isset doesn't work here, because values may also be null
     if(array_key_exists($feldname, $this->lastRow))
@@ -327,7 +328,7 @@ class rex_sql
         echo '<b>Warning</b>:  rex_sql->getValue('. $feldname .'): Initial error found in file <b>'. $loc['file'] .'</b> on line <b>'. $loc['line'] .'</b><br />';
       }
     }
-    
+
     return $res;
   }
 
@@ -705,7 +706,7 @@ class rex_sql
       {
         throw new rexException('you have to execute a statement before printing an corresponding error-message!');
       }
-      
+
       echo '<hr />' . "\n";
       echo 'Query: ' . nl2br(htmlspecialchars($this->stmt->queryString)) . "<br />\n";
 
@@ -806,7 +807,7 @@ class rex_sql
       $tablePrefix = str_replace(array('_', '%'), array('\_', '\%'), $tablePrefix);
     	$qry .= ' LIKE "'.$tablePrefix.'%"';
     }
-    
+
     $sql = self::factory($DBID);
     $tables = $sql->getArray($qry);
     $tables = array_map('reset', $tables);
@@ -839,7 +840,7 @@ class rex_sql
       );
       $sql->next();
     }
-    
+
     var_dump($columns);
 
     return $columns;
@@ -854,12 +855,12 @@ class rex_sql
   static public function getServerVersion()
   {
     global $REX;
-    
+
     if(!isset($REX['MYSQL_VERSION']))
     {
       throw new rexException('there has to be at last one '. __CLASS__ .'-object to check the server version');
     }
-    
+
     return $REX['MYSQL_VERSION'];
   }
 
