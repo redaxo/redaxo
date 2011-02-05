@@ -79,12 +79,7 @@ else
 $KATout = '
 <!-- *** OUTPUT OF CATEGORY-TOOLBAR - START *** -->
   <dl class="rex-navi-path">
-  	<dt>'.$REX['I18N']->msg('path').'</dt>
-  	<dd>
-			<ul class="rex-navi">
-				<li class="rex-navi-first"><a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'"'. rex_tabindex() .'>Homepage</a></li>'. $KATout .'
-			</ul>
-		</dd>
+  	<dt>'.$REX['I18N']->msg('path').'</dt><dd><ul class="rex-navi"><li class="rex-navi-first"><a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'"'. rex_tabindex() .'>Homepage</a></li>'. $KATout .'</ul></dd>
 	</dl>
 <!-- *** OUTPUT OF CATEGORY-TOOLBAR - END *** -->
 ';
