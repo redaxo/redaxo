@@ -17,15 +17,10 @@ class rex_sql
 
     $table, // Tabelle setzen
     $wherevar, // WHERE Bediengung
-    $query, // letzter Query String
     $rows, // anzahl der treffer
-    $result, // ResultSet
-    $last_insert_id, // zuletzt angelegte auto_increment nummer
-    $identifier, // Datenbankverbindung
-    $DBID, // ID der Verbindung
-
-    $error, // Fehlertext
-    $errno; // Fehlernummer
+    $stmt, // ResultSet
+    $pdo, // Datenbankverbindung
+    $DBID; // ID der Verbindung
 
   protected function rex_sql($DBID = 1)
   {
@@ -47,14 +42,8 @@ class rex_sql
       }
       else
       {
-        exit('Could not identifiy MySQL Version!');
+        throw new rexException('Could not identifiy MySQL Version!');
       }
-
-      // connection auf UTF8 trimmen
-      if(version_compare($REX['MYSQL_VERSION'], '5.0.7', '>='))
-        mysql_set_charset('utf8', $this->identifier);
-      else
-        $this->setQuery('SET NAMES utf8');
     }
 
     $this->flush();
@@ -69,17 +58,23 @@ class rex_sql
 
     $this->DBID = $DBID;
 
-    if($REX['DB'][$DBID]['PERSISTENT'])
-      $this->identifier = @mysql_pconnect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
-    else
-      $this->identifier = @mysql_connect($REX['DB'][$DBID]['HOST'], $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW']);
+    $dsn = 'mysql:host='. $REX['DB'][$DBID]['HOST'] .';dbname='. $REX['DB'][$DBID]['NAME'];
+    $options = array(
+      PDO::ATTR_PERSISTENT => (boolean) $REX['DB'][$DBID]['PERSISTENT'],
+      //PDO::ATTR_FETCH_TABLE_NAMES => true,
+//      PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL,
+//      PDO::ATTR_EMULATE_PREPARES => true,
+    );
 
-    if (!@mysql_select_db($REX['DB'][$DBID]['NAME'], $this->identifier))
+    try {
+      $this->pdo = new PDO($dsn, $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW'], $options);
+    }
+    catch(PDOException $e)
     {
       echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . $REX['ERROR_EMAIL'] . ">" . $REX['ERROR_EMAIL'] . "</a>\n | Thank you!\n</font>";
       exit;
     }
-    $REX['DB'][$DBID]['IDENTIFIER'] = $this->identifier;
+    $this->setQuery('SET CHARACTER SET utf8');
   }
 
   /**
@@ -164,6 +159,16 @@ class rex_sql
   {
 	  $this->debugsql = $debug;
   }
+  
+  public function prepareQuery($qry)
+  {
+    return ($this->stmt = $this->pdo->prepare($qry));
+  }
+  
+  public function execute($params)
+  {
+    $this->stmt->execute($params);
+  }
 
   /**
    * Setzt eine Abfrage (SQL) ab
@@ -177,50 +182,24 @@ class rex_sql
     // Alle Werte zurücksetzen
     $this->flush();
 
-    $qry = trim($qry);
-    $this->query = $qry;
-    $this->result = @ mysql_query($qry, $this->identifier);
-
-    if ($this->result)
+    $this->stmt = $this->pdo->query(trim($qry));
+    
+    if($this->stmt !== false)
     {
-      if (($qryType = self::getQueryType($this->query)) !== false)
-      {
-        switch ($qryType)
-        {
-          case 'SELECT' :
-          case 'SHOW' :
-          {
-            $this->rows = mysql_num_rows($this->result);
-            break;
-          }
-          case 'REPLACE' :
-          case 'DELETE' :
-          case 'UPDATE' :
-          {
-            $this->rows = mysql_affected_rows($this->identifier);
-            break;
-          }
-          case 'INSERT' :
-          {
-            $this->rows = mysql_affected_rows($this->identifier);
-            $this->last_insert_id = mysql_insert_id($this->identifier);
-            break;
-          }
-        }
-      }
+      $this->rows = $this->stmt->rowCount();
     }
-    else
-    {
-      $this->error = mysql_error($this->identifier);
-      $this->errno = mysql_errno($this->identifier);
+    else {
+      debug_print_backtrace();
+      throw new rexException($qry);
     }
 
-    if ($this->debugsql || $this->error != '')
+    $hasError = $this->hasError();
+    if ($this->debugsql || $hasError)
     {
       $this->printError($qry);
     }
 
-    return $this->getError() === '';
+    return !$hasError;
   }
 
   /**
@@ -292,30 +271,53 @@ class rex_sql
    * Gibt den Wert einer Spalte im ResultSet zurück
    * @param $value Name der Spalte
    * @param [$row] Zeile aus dem ResultSet
+   * 
+   * @deprecated
    */
-  public function getValue($feldname, $row = null)
+  public function getValue($feldname)
   {
+    if(empty($feldname))
+    {
+      debug_print_backtrace();
+      throw new rexException('parameter fieldname must not be empty!');
+    }
+    
   	if(isset($this->values[$feldname]))
   		return $this->values[$feldname];
-
-    $_row = $this->counter;
-    if (is_int($row))
+  		
+    if(empty($this->lastRow))
     {
-      $_row = $row;
+      $this->lastRow = $this->stmt->fetch(PDO::FETCH_ASSOC);
+      if(!is_array($this->lastRow))
+      {
+        $this->debugsql = true;
+        $this->printError($this->stmt->queryString);
+        $this->debugsql = false;
+        $this->lastRow = array();
+      }
     }
-
-    $res = mysql_result($this->result, $_row, $feldname);
-    if($res === false)
+  		
+    $res = false;
+    // isset doesn't work here, because values may also be null
+    if(array_key_exists($feldname, $this->lastRow))
+    {
+      $res = $this->lastRow[$feldname];
+    }
+    else
     {
       $sendWarnings = (error_reporting() & E_WARNING) == E_WARNING;
 
       if($sendWarnings && function_exists('debug_backtrace'))
       {
+//        var_dump($feldname);
+//        var_dump($this->lastRow[$feldname]);
+//        var_dump($this->lastRow);
         $trace = debug_backtrace();
-        $loc = $trace[0];
-        echo '<b>Warning</b>:  mysql_result('. $feldname .'): Initial error found in file <b>'. $loc['file'] .'</b> on line <b>'. $loc['line'] .'</b><br />';
+        $loc = $trace[1];
+        echo '<b>Warning</b>:  rex_sql->getValue('. $feldname .'): Initial error found in file <b>'. $loc['file'] .'</b> on line <b>'. $loc['line'] .'</b><br />';
       }
     }
+    
     return $res;
   }
 
@@ -323,9 +325,10 @@ class rex_sql
    * Gibt den Wert der aktuellen Zeile im ResultSet zurueck und
    * bewegt den internen Zeiger auf die naechste Zeile
    */
-  public function getRow($fetch_type = MYSQL_ASSOC)
+  public function getRow($fetch_type = PDO::FETCH_ASSOC)
   {
-    return mysql_fetch_array($this->result, $fetch_type);
+    $this->lastRow = $this->stmt->fetch($fetch_type);
+    return $this->lastRow;
   }
 
   /**
@@ -375,7 +378,7 @@ class rex_sql
    */
   public function getFields()
   {
-    return mysql_num_fields($this->result);
+    return $this->stmt->columnCount();
   }
 
   /**
@@ -524,17 +527,13 @@ class rex_sql
   public function flush()
   {
     $this->flushValues();
+    $this->lastRow = array();
     $this->fieldnames = array ();
 
     $this->table = '';
     $this->wherevar = '';
-    $this->query = '';
     $this->counter = 0;
     $this->rows = 0;
-    $this->result = '';
-    $this->last_insert_id = '';
-    $this->error = '';
-    $this->errno = '';
   }
 
   /**
@@ -551,10 +550,12 @@ class rex_sql
   /**
    * Setzt den Cursor des Resultsets auf die nächst niedrigere Stelle
    */
+  /*
   public function previous()
   {
     $this->counter--;
   }
+  */
 
   /**
    * Setzt den Cursor des Resultsets auf die nächst höhere Stelle
@@ -562,6 +563,7 @@ class rex_sql
   public function next()
   {
     $this->counter++;
+    $this->lastRow = array();
   }
 
   /*
@@ -593,7 +595,8 @@ class rex_sql
    */
   public function getLastId()
   {
-    return $this->last_insert_id;
+    var_dump($this->pdo->lastInsertId());
+    return $this->pdo->lastInsertId();
   }
 
   /**
@@ -601,10 +604,10 @@ class rex_sql
    * wechselt die DBID falls vorhanden
    *
    * @param string $sql Abfrage
-   * @param string $fetch_type Default: MYSQL_ASSOC; weitere: MYSQL_NUM, MYSQL_BOTH
+   * @param string $fetch_type Default: PDO::FETCH_ASSOC
    * @return array
    */
-  public function getDBArray($sql = '', $fetch_type = MYSQL_ASSOC)
+  public function getDBArray($sql = '', $fetch_type = PDO::FETCH_ASSOC)
   {
     return $this->_getArray($sql, $fetch_type, 'DBQuery');
   }
@@ -613,10 +616,10 @@ class rex_sql
    * Lädt das komplette Resultset in ein Array und gibt dieses zurück
    *
    * @param string $sql Abfrage
-   * @param string $fetch_type Default: MYSQL_ASSOC; weitere: MYSQL_NUM, MYSQL_BOTH
+   * @param string $fetch_type Default: PDO::FETCH_ASSOC
    * @return array
    */
-  public function getArray($sql = '', $fetch_type = MYSQL_ASSOC)
+  public function getArray($sql = '', $fetch_type = PDO::FETCH_ASSOC)
   {
     return $this->_getArray($sql, $fetch_type);
   }
@@ -627,7 +630,7 @@ class rex_sql
    * @see getArray()
    * @see getDBArray()
    * @param string $sql Abfrage
-   * @param string $fetch_type MYSQL_ASSOC, MYSQL_NUM oder MYSQL_BOTH
+   * @param string $fetch_type PDO::FETCH_ASSOC
    * @param string $qryType void oder DBQuery
    * @return array
    */
@@ -642,13 +645,7 @@ class rex_sql
       }
     }
 
-    $data = array();
-    while ($row = @ mysql_fetch_array($this->result, $fetch_type))
-    {
-      $data[] = $row;
-    }
-
-    return $data;
+    return $this->stmt->fetchAll($fetch_type);
   }
 
   /**
@@ -656,15 +653,19 @@ class rex_sql
    */
   public function getErrno()
   {
-    return $this->errno;
+    return (int) $this->pdo->errorCode();
   }
 
   /**
-   * Gibt den zuletzt aufgetretene Fehlernummer zurück
+   * Gibt den zuletzt aufgetretene Fehler zurück
    */
   public function getError()
   {
-    return $this->error;
+    $errorInfos = $this->pdo->errorInfo();
+    // idx0 	SQLSTATE error code (a five characters alphanumeric identifier defined in the ANSI SQL standard).
+    // idx1 	Driver-specific error code.
+    // idx2 	Driver-specific error message.
+    return $errorInfos[2];
   }
 
   /**
@@ -672,7 +673,7 @@ class rex_sql
    */
   public function hasError()
   {
-    return $this->error != '';
+    return $this->getErrno() != 0;
   }
 
   /**
@@ -730,7 +731,8 @@ class rex_sql
     {
       for ($i = 0; $i < $this->getFields(); $i++)
       {
-        $this->fieldnames[] = mysql_field_name($this->result, $i);
+        $metadata = $this->stmt->getColumnMeta($i);
+        $this->fieldnames[] = $metadata['name'];
       }
     }
     return $this->fieldnames;
@@ -740,17 +742,10 @@ class rex_sql
    * Escaped den übergeben Wert für den DB Query
    *
    * @param $value den zu escapenden Wert
-   * @param [$delimiter] Delimiter der verwendet wird, wenn es sich bei $value
-   * um einen String handelt
    */
-  public function escape($value, $delimiter = '')
+  public function escape($value)
   {
-    // Quote if not a number or a numeric string
-    if (!is_numeric($value))
-    {
-      $value = $delimiter . mysql_real_escape_string($value, $this->identifier) . $delimiter;
-    }
-    return $value;
+    return $this->pdo->quote($value);
   }
 
   /**
@@ -807,7 +802,7 @@ class rex_sql
     $sql->setQuery('SHOW COLUMNS FROM '.$table);
 
     $columns = array();
-    for($i = 0; $i < $sql->getRows(); $i++)
+    while($sql->hasNext())
     {
       $columns [] = array(
         'name' => $sql->getValue('Field'),
@@ -819,6 +814,8 @@ class rex_sql
       );
       $sql->next();
     }
+    
+    var_dump($columns);
 
     return $columns;
   }
@@ -832,6 +829,12 @@ class rex_sql
   static public function getServerVersion()
   {
     global $REX;
+    
+    if(!isset($REX['MYSQL_VERSION']))
+    {
+      throw new rexException('there has to be at last one '. __CLASS__ .'-object to check the server version');
+    }
+    
     return $REX['MYSQL_VERSION'];
   }
 
@@ -866,14 +869,15 @@ class rex_sql
    */
   public function freeResult()
   {
-    if(is_resource($this->result))
-      mysql_free_result($this->result);
+    if($this->stmt)
+      $this->stmt->closeCursor();
   }
 
   /**
    * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
    * Datenbank an
    */
+  /*
   static public function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
   {
     global $REX;
@@ -906,33 +910,7 @@ class rex_sql
     }
     return $err_msg;
   }
-
-  /**
-   * Schließt die Verbindung zum DB Server
-   */
-  static public function disconnect($DBID=1)
-  {
-    global $REX;
-
-    // Alle Connections schließen
-    if($DBID === null)
-    {
-      foreach($REX['DB'] as $DBID => $DBSettings)
-        self::disconnect($DBID);
-
-      return;
-    }
-
-    if(!$REX['DB'][$DBID]['PERSISTENT'] &&
-       isset($REX['DB'][$DBID]['IDENTIFIER']) &&
-       is_resource($REX['DB'][$DBID]['IDENTIFIER']))
-    {
-      $db = self::factory($DBID);
-
-      if(self::isValid($db))
-        mysql_close($db->identifier);
-    }
-  }
+  */
 
   public function addGlobalUpdateFields($user = null)
   {

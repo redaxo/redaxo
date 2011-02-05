@@ -505,7 +505,7 @@ class rex_backend_login extends rex_login
     $this->setSqlDb(1);
     $this->setSysID($REX['INSTNAME']);
     $this->setSessiontime($REX['SESSION_DURATION']);
-    $this->setUserID($tableName .'.user_id');
+    $this->setUserID('user_id');
     $qry = 'SELECT CONCAT('.$tableName.'.rights, IFNULL(roles.rights,"")) AS rights, '.$tableName.'.* FROM '. $tableName .' LEFT JOIN '.$REX['TABLE_PREFIX'].'user_role roles ON roles.id = role WHERE status=1';
     $this->setUserquery($qry .' AND user_id = "USR_UID"');
     $this->setLoginquery($qry .' AND login = "USR_LOGIN" AND psw = "USR_PSW" AND lasttrydate <'. (time()-$REX['RELOGINDELAY']).' AND login_tries<'.$REX['MAXLOGINS']);
@@ -520,6 +520,7 @@ class rex_backend_login extends rex_login
     // $fvs->debugsql = true;
     $userId = $this->getSessionVar('UID');
     $check = parent::checkLogin();
+    
 
     if($check)
     {

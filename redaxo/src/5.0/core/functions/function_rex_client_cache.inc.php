@@ -161,9 +161,6 @@ function rex_send_content($content, $lastModified, $etag, $environment, $sendcha
   if($REX['USE_MD5'] === 'true' || $REX['USE_MD5'] == $environment)
     rex_send_checksum(md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content)));
 
-  // Evtl offene Db Verbindungen schließen
-  rex_sql::disconnect(null);
-
   // content length schicken, damit der browser einen ladebalken anzeigen kann
   header('Content-Length: '. strlen($content));
 
