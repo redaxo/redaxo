@@ -10,6 +10,3 @@
  */
 
 $REX['PERM'][] = 'phpmailer[]';
-
-require_once($REX['INCLUDE_PATH']. '/addons/phpmailer/classes/class.phpmailer.php');
-require_once($REX['INCLUDE_PATH']. '/addons/phpmailer/classes/class.rex_mailer.inc.php');
