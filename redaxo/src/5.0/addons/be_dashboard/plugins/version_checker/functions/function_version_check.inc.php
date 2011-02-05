@@ -12,7 +12,7 @@
 
 function rex_a657_get_latest_version()
 {
-  $updateUrl = 'http://www.redaxo.de/de/latestversion';
+  $updateUrl = 'http://www.redaxo.org/de/latestversion';
 
   $latestVersion = rex_a657_open_http_socket($updateUrl, $errno, $errstr, 15);
   if($latestVersion !== false)

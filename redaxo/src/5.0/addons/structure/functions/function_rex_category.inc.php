@@ -11,6 +11,10 @@ $KATebene = 0; // aktuelle Ebene: default
 $KATPATH = '|'; // Standard für path Eintragungen in DB
 if (!isset($KATout)) $KATout = ''; // Variable definiert und vorbelegt wenn nicht existent
 
+if (!isset($KAToutARR)) $KAToutARR = array(); // Variable definiert und vorbelegt wenn nicht existent
+$KAToutARR[] = '<a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'"'. rex_tabindex() .'>Homepage</a>';
+
+
 $KATPERM = false;
 if ($REX['USER']->hasPerm('csw[0]') || $REX['USER']->isAdmin()) $KATPERM = true;
 
@@ -47,8 +51,7 @@ else
       $KATPATH .= $KPATH[$ii]."|";
       if ($KATPERM || $REX['USER']->hasCategoryPerm($catid))
       {
-        $KATout .= '<li><a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a></li>';
-
+        $KAToutARR[] = '<a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a>';
         if($REX['USER']->hasPerm('csw['.$catid.']'))
         {
           $KATPERM = true;
@@ -61,7 +64,7 @@ else
   {
     $catname = str_replace(' ', '&nbsp;', htmlspecialchars($KAT->getValue('catname')));
 
-    $KATout .= '<li><a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a></li>';
+    $KAToutARR[] = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a>';
     $KATPATH .= $category_id .'|';
 
     if ($REX['USER']->hasPerm('csw['. $category_id .']'))
@@ -77,9 +80,30 @@ else
 }
 
 $KATout = '
-<!-- *** OUTPUT OF CATEGORY-TOOLBAR - START *** -->
-  <dl class="rex-navi-path">
-  	<dt>'.$REX['I18N']->msg('path').'</dt><dd><ul class="rex-navi"><li class="rex-navi-first"><a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'"'. rex_tabindex() .'>Homepage</a></li>'. $KATout .'</ul></dd>
-	</dl>
-<!-- *** OUTPUT OF CATEGORY-TOOLBAR - END *** -->
-';
+<!-- *** OUTPUT OF CATEGORY-TOOLBAR - START *** -->';
+
+/*	ul-Liste erstellen */
+$list = array();
+$list[1]['attributes']['class'] = 'rex-navi';
+$list[1]['entries'] = $KAToutARR;
+
+$fragment = new rex_fragment();
+$fragment->setVar('lists', $list, false);
+$ul_list = $fragment->parse('list/ul_list');
+unset($fragment);
+
+
+/*	dl-Liste erstellen  */
+$list = array();
+$list[1]['attributes']['class'] = 'rex-navi-path';
+$list[1]['entries'][$REX['I18N']->msg('path')] = $ul_list;
+
+$fragment = new rex_fragment();
+$fragment->setVar('lists', $list, false);
+$dl_list = $fragment->parse('list/dl_list');
+$dl_list = preg_replace('/(?:(?<=\>)|(?<=\/\>))(\s+)(?=\<\/?)/', '', $dl_list);
+unset($fragment);
+
+$KATout .= $dl_list;
+$KATout .= '
+<!-- *** OUTPUT OF CATEGORY-TOOLBAR - END *** -->';

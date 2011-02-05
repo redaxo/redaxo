@@ -27,7 +27,8 @@ if($REX["REDAXO"])
 	function rex_be_style_agk_skin_css_add($params)
 	{
 	  $params["subject"] .= '      
-	    <!--[if lte IE 7]>
+    <link rel="stylesheet" href="../redaxo_media/addons/be_style/plugins/agk_skin/css_main.css" type="text/css" media="screen, projection, print" />
+	  <!--[if lte IE 7]>
 	      <link rel="stylesheet" href="../redaxo_media/addons/be_style/plugins/agk_skin/css_ie_lte_7.css" type="text/css" media="screen, projection, print" />
 	    <![endif]-->
 	    <!--[if lte IE 6]>
