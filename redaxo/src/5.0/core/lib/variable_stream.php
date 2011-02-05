@@ -18,7 +18,7 @@ class rex_variableStream
     }
     if(!is_string($protocol) || empty($protocol))
     {
-      throw new rexException('Expecting $protocol to be a strin and not empty!');
+      throw new rexException('Expecting $protocol to be a string and not empty!');
     }
     if(!is_string($path) && !is_int($path) || empty($path))
     {
