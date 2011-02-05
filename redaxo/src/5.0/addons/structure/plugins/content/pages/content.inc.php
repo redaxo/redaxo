@@ -71,16 +71,16 @@ if ($article->getRows() == 1)
 
   if ($REX['PAGE'] == 'content' && $article_id > 0)
   {
-    $KATout .= "\n" . '<dl class="rex-navi-path"><dt>';
+    $KATout .= "\n" . '<dl class="rex-navi-article"><dt>';
 
     if ($article->getValue('startpage') == 1)
-      $KATout .= $REX['I18N']->msg('start_article') . ' : ';
+      $KATout .= $REX['I18N']->msg('start_article');
     else
-      $KATout .= $REX['I18N']->msg('article') . ' : ';
+      $KATout .= $REX['I18N']->msg('article');
 
     $catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
 
-    $KATout .= '</dt><dd><a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '"'. rex_tabindex() .'>' . $catname . '</a></dd>';
+    $KATout .= '</dt><dd><ul class="rex-navi"><li class="rex-navi-first"><a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '"'. rex_tabindex() .'>' . $catname . '</a></li></ul></dd>';
     // $KATout .= " [$article_id]";
     $KATout .= '</dl>';
   }
