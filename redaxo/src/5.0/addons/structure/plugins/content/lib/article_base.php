@@ -208,7 +208,9 @@ class rex_article_base
       	$I_ID = $k;
     }
 
-    return $this->replaceVars($artDataSql, $RE_MODUL_OUT[$I_ID]);
+    $output = $this->replaceVars($artDataSql, $RE_MODUL_OUT[$I_ID]);
+
+    return $this->getVariableStreamOutput($output, 'module', $RE_MODUL_ID[$I_ID] .'/output');
   }
 
 
@@ -290,7 +292,7 @@ class rex_article_base
     {
       // ----- ctype unterscheidung
       if ($this->mode != "edit" && $i == 0)
-        $articleContent = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { ?>";
+        $articleContent = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { \n";
 
       // ------------- EINZELNER SLICE - AUSGABE
       $artDataSql->counter = $RE_C[$I_ID];
@@ -337,7 +339,7 @@ class rex_article_base
       // ----- zwischenstand: ctype .. wenn ctype neu dann if
       if ($this->mode != "edit" && isset($RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]) && $RE_CONTS_CTYPE[$I_ID] != $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] && $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] != "")
       {
-        $articleContent .= "<?php } if(\$this->ctype == '".$RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]."' || \$this->ctype == '-1'){ ?>";
+        $articleContent .= "\n } if(\$this->ctype == '".$RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]."' || \$this->ctype == '-1'){ \n";
       }
 
       // zum nachsten slice
@@ -347,15 +349,14 @@ class rex_article_base
     }
 
     // ----- end: ctype unterscheidung
-    if ($this->mode != "edit" && $i>0) $articleContent .= "<?php } ?>";
+    if ($this->mode != "edit" && $i>0) $articleContent .= "\n } ?>";
 
 
     // ----- post hook
     $articleContent = $this->postArticle($articleContent, $LCTSL_ID, $module_id);
 
     // -------------------------- schreibe content
-    if ($this->eval === FALSE) echo $this->replaceLinks($articleContent);
-    else eval("?>".$articleContent);
+    echo $this->replaceLinks($articleContent);
 
     // ----- end: article caching
     $CONTENT = ob_get_contents();
@@ -389,7 +390,7 @@ class rex_article_base
       $TEMPLATE = new rex_template();
       $TEMPLATE->setId($this->template_id);
       $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
-      eval("?>".$tplContent);
+      require rex_variableStream::factory($tplContent, 'template', $this->template_id);
 
       $CONTENT = ob_get_contents();
       ob_end_clean();
@@ -398,6 +399,24 @@ class rex_article_base
     {
       $CONTENT = "no template";
     }
+
+    return $CONTENT;
+  }
+
+  protected function getVariableStreamOutput($content, $protocol, $path)
+  {
+    global $REX;
+
+    if (!$this->eval)
+    {
+      return "require rex_variableStream::factory('". rex_addslashes($content, '\\\'') ."', '$protocol', '$path');\n";
+    }
+
+    ob_start();
+    ob_implicit_flush(0);
+    require rex_variableStream::factory($content, $protocol, $path);
+    $CONTENT = ob_get_contents();
+    ob_end_clean();
 
     return $CONTENT;
   }

@@ -18,7 +18,7 @@ class rex_event_select extends rex_select
   {
     global $REX;
 
-    parent::rex_select();
+    parent::__construct();
 
     $this->setMultiple(1);
 
@@ -200,7 +200,7 @@ if ($function == "add" || $function == "edit")
     $sel_postsave_status->setName('postsavestatus[]');
     $sel_postsave_status->setId('postsavestatus');
 		$sel_postsave_status->setStyle('class="rex-form-select"');
-		
+
 		$allPreviewChecked = $previewstatus == 3 ? ' checked="checked"' : '';
     foreach (array (1,2,4) as $var)
     {
@@ -244,14 +244,14 @@ if ($function == "add" || $function == "edit")
           		<input type="hidden" name="function" value="' . $function . '" />
 		          <input type="hidden" name="save" value="1" />
     		      <input type="hidden" name="action_id" value="' . $action_id . '" />
-    		      
+
     		      <div class="rex-form-row">
 			          <p class="rex-form-col-a rex-form-text">
       			    	<label for="name">' . $REX['I18N']->msg('action_name') . '</label>
 			            <input class="rex-form-text" type="text" size="10" id="name" name="name" value="' . htmlspecialchars($name) . '" />
       			    </p>
       			  </div>
-      			  
+
               <div class="rex-clearer"></div>
       			</div>
           </fieldset>
@@ -266,11 +266,11 @@ if ($function == "add" || $function == "edit")
 			          	<span class="rex-form-notice">' . $REX['I18N']->msg('action_hint') . '</span>
 			          </p>
 			        </div>
-			         
+
 			        <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
                   <input class="rex-form-checkbox" id="preview_allevents" type="checkbox" name="preview_allevents" '. $allPreviewChecked .' />
-                  <label for="preview_allevents">'.$REX['I18N']->msg("action_event_all").'</label> 
+                  <label for="preview_allevents">'.$REX['I18N']->msg("action_event_all").'</label>
                 </p>
                 <div id="preview_events">
                   <p class="rex-form-col-a rex-form-select">
@@ -280,11 +280,11 @@ if ($function == "add" || $function == "edit")
   			         	</p>
 			         	</div>
 			        </div>
-			        
+
               <div class="rex-clearer"></div>
 			      </div>
 	        </fieldset>
-	        
+
           <fieldset class="rex-form-col-1">
             <legend>Presave-Action ['. $REX['I18N']->msg('action_mode_presave') .']</legend>
            	<div class="rex-form-wrapper">
@@ -295,11 +295,11 @@ if ($function == "add" || $function == "edit")
 			          	<span class="rex-form-notice">' . $REX['I18N']->msg('action_hint') . '</span>
 			          </p>
 			        </div>
-			         
+
 			        <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
                   <input class="rex-form-checkbox" id="presave_allevents" type="checkbox" name="presave_allevents" '. $allPresaveChecked .' />
-                  <label for="presave_allevents">'.$REX['I18N']->msg("action_event_all").'</label> 
+                  <label for="presave_allevents">'.$REX['I18N']->msg("action_event_all").'</label>
                 </p>
                 <div id="presave_events">
 			            <p class="rex-form-col-a rex-form-select">
@@ -309,12 +309,12 @@ if ($function == "add" || $function == "edit")
       			      </p>
       			    </div>
       			  </div>
-      			  
+
               <div class="rex-clearer"></div>
       			</div>
           </fieldset>
-          
-	        
+
+
           <fieldset class="rex-form-col-1">
             <legend class="rex-lgnd">Postsave-Action ['. $REX['I18N']->msg('action_mode_postsave') .']</legend>
            	<div class="rex-form-wrapper">
@@ -325,11 +325,11 @@ if ($function == "add" || $function == "edit")
 			          	<span class="rex-form-notice">' . $REX['I18N']->msg('action_hint') . '</span>
 			          </p>
 			        </div>
-			         
+
 			        <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
                   <input class="rex-form-checkbox" id="postsave_allevents" type="checkbox" name="postsave_allevents" '. $allPostsaveChecked .' />
-                  <label for="postsave_allevents">'.$REX['I18N']->msg("action_event_all").'</label> 
+                  <label for="postsave_allevents">'.$REX['I18N']->msg("action_event_all").'</label>
                 </p>
                 <div id="postsave_events">
 			            <p class="rex-form-col-a rex-form-select">
@@ -339,11 +339,11 @@ if ($function == "add" || $function == "edit")
 		  	         	</p>
 		  	        </div>
 			        </div>
-			        
+
               <div class="rex-clearer"></div>
 			      </div>
 			    </fieldset>
-			    
+
           <fieldset class="rex-form-col-1">
            	<div class="rex-form-wrapper">
     		      <div class="rex-form-row">
@@ -356,25 +356,25 @@ if ($function == "add" || $function == "edit")
           </fieldset>
         </form>
       </div>
-      
+
       <script type="text/javascript">
       <!--
 
       jQuery(function($) {
         var eventTypes = "#preview #presave #postsave";
-        
+
         $(eventTypes.split(" ")).each(function() {
           var eventType = this;
           $(eventType+ "_allevents").click(function() {
             $(eventType+"_events").slideToggle("slow");
           });
-          
+
           if($(eventType+"_allevents").is(":checked")) {
             $(eventType+"_events").hide();
           }
         });
       });
-            
+
       -->
       </script>
       ';
