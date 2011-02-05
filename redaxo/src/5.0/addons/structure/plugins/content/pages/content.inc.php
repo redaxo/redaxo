@@ -71,18 +71,18 @@ if ($article->getRows() == 1)
 
   if ($REX['PAGE'] == 'content' && $article_id > 0)
   {
-    $KATout .= "\n" . '<p>';
+    $KATout .= "\n" . '<dl class="rex-navi-article"><dt>';
 
     if ($article->getValue('startpage') == 1)
-      $KATout .= $REX['I18N']->msg('start_article') . ' : ';
+      $KATout .= $REX['I18N']->msg('start_article');
     else
-      $KATout .= $REX['I18N']->msg('article') . ' : ';
+      $KATout .= $REX['I18N']->msg('article');
 
     $catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
 
-    $KATout .= '<a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '"'. rex_tabindex() .'>' . $catname . '</a>';
+    $KATout .= '</dt><dd><ul class="rex-navi"><li class="rex-navi-first"><a href="index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '"'. rex_tabindex() .'>' . $catname . '</a></li></ul></dd>';
     // $KATout .= " [$article_id]";
-    $KATout .= '</p>';
+    $KATout .= '</dl>';
   }
 
   // ----- Titel anzeigen
@@ -567,11 +567,6 @@ if ($article->getRows() == 1)
     {
       $listElements = array();
 
-      if ($num_ctypes > 1)
-        $listElements[] = $REX['I18N']->msg('content_types').': ';
-      else
-        $listElements[] = $REX['I18N']->msg('content_type').': ';
-
       $i = 1;
       foreach ($REX['CTYPE'] as $key => $val)
       {
@@ -601,20 +596,27 @@ if ($article->getRows() == 1)
         )
       );
 
-      $ctype_menu .= "\n".'<ul id="rex-navi-ctype">';
+      $ctype_menu .= "\n".'<dl class="rex-navi-ctype"><dt>';
+      
+
+      if ($num_ctypes > 1)
+        $ctype_menu .= $REX['I18N']->msg('content_types');
+      else
+        $ctype_menu .= $REX['I18N']->msg('content_type');
+      
+      $ctype_menu .= '</dt><dd><ul class="rex-navi">';
+      
       $menu_counter = 0;
       foreach($listElements as $listElement)
       {
         $menu_counter++;
         
-        $class = '';
-        if($menu_counter == 2)
-          $class = ' class="rex-navi-first"';
+        $class = ($menu_counter == 1) ? ' class="rex-navi-first"' : '';
           
         $ctype_menu .= '<li'.$class.'>'.$listElement.'</li>';
   
       }
-      $ctype_menu .= '</ul>';
+      $ctype_menu .= '</ul></dd></dl>';
     }
 
     $menu = $ctype_menu;
@@ -652,7 +654,7 @@ if ($article->getRows() == 1)
       )
     );
 
-    $menu .= "\n".'<ul class="rex-navi-content">';
+    $menu .= "\n".'<ul class="rex-navi rex-navi-article-content">';
     $num_elements = count($listElements);
     $menu_first = true;
     for($i = 0; $i < $num_elements; $i++)
@@ -672,12 +674,12 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: AUSGABE
     echo '
             <!-- *** OUTPUT OF ARTICLE-CONTENT - START *** -->
-            <div class="rex-content-header">
-            <div class="rex-content-header-2">
-              ' . $menu . '
-              <div class="rex-clearer"></div>
-            </div>
-            </div>
+           	<div class="rex-block rex-article-content">
+							<div class="rex-header">
+							<div class="rex-header2">
+								' . $menu . '
+							</div>
+							</div>
             ';
 
     // ------------------------------------------ WARNING
@@ -1079,7 +1081,8 @@ if ($article->getRows() == 1)
     }
 
     echo '
-            </div>
+							</div>
+							</div>
             </div>
             <!-- *** OUTPUT OF ARTICLE-CONTENT - END *** -->
             ';

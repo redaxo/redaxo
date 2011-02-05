@@ -82,7 +82,7 @@ $KATout = '
   	<dt>'.$REX['I18N']->msg('path').'</dt>
   	<dd>
 			<ul class="rex-navi">
-				<li><a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'"'. rex_tabindex() .'>Homepage</a></li>'. $KATout .'
+				<li class="rex-navi-first"><a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'"'. rex_tabindex() .'>Homepage</a></li>'. $KATout .'
 			</ul>
 		</dd>
 	</dl>
