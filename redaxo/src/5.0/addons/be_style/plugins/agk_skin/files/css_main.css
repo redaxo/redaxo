@@ -317,6 +317,7 @@ div.rex-widget img {
 
 
 /***************************************************** Pfadnavi */
+/***************************************************** Artikelnavi */
 .rex-navi-path dt, 
 .rex-navi-path dd, 
 .rex-navi-path ul, 
@@ -325,6 +326,10 @@ div.rex-widget img {
 .rex-navi-article ul {
 	display: inline;
 	font-weight: bold;
+}
+.rex-navi-path dt, 
+.rex-navi-article dt {
+	padding-right: 2px;
 }
 .rex-navi-path .rex-navi li, 
 .rex-navi-article .rex-navi li {
