@@ -7,8 +7,9 @@
 
 class rex_sql
 {
+  public $debugsql; // debug schalter
+  
   private
-    $debugsql, // debug schalter
     $counter, // pointer 
     $values, // Werte von setValue
     $fieldnames, // Spalten im ResultSet
