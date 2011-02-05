@@ -249,8 +249,6 @@ if(count($mountpoints)>0 && $category_id == 0)
 echo '
 <!-- *** OUTPUT CATEGORIES - START *** -->';
 
-echo '<div class="rex-block rex-structure-category">';
-
 // ---------- INLINE THE EDIT/ADD FORM
 if($function == 'add_cat' || $function == 'edit_cat')
 {
@@ -279,7 +277,7 @@ if($function == 'add_cat' || $function == 'edit_cat')
 // --------------------- PRINT CATS/SUBCATS
 
 echo '
-      <table class="rex-table" summary="'. htmlspecialchars($REX['I18N']->msg('structure_categories_summary', $cat_name)) .'">
+      <table class="rex-table rex-table-mrgn" summary="'. htmlspecialchars($REX['I18N']->msg('structure_categories_summary', $cat_name)) .'">
         <caption>'. htmlspecialchars($REX['I18N']->msg('structure_categories_caption', $cat_name)) .'</caption>
         <colgroup>
           <col width="40" />
@@ -493,8 +491,6 @@ if($function == 'add_cat' || $function == 'edit_cat')
 </div>';
 }
 
-echo '</div>';
-
 echo '
 <!-- *** OUTPUT CATEGORIES - END *** -->
 ';
@@ -503,8 +499,6 @@ echo '
 
 echo '
 <!-- *** OUTPUT ARTICLES - START *** -->';
-
-echo '<div class="rex-block rex-structure-article">';
 
 // --------------------- READ TEMPLATES
 
@@ -796,9 +790,6 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
   }
 }
 
-
-
-echo '</div>';
 
 echo '
 <!-- *** OUTPUT ARTICLES - END *** -->
