@@ -9,7 +9,7 @@
  * @version svn:$Id$
  */
 
-function rex_a256_search_structure($params)
+function rex_be_search_structure($params)
 {
   global $REX;
 
@@ -20,8 +20,8 @@ function rex_a256_search_structure($params)
 
   $message = '';
   $search_result = '';
-  $editUrl = 'index.php?page=content&article_id=%s&mode=edit&clang=%s&a256_article_name=%s';
-  $structureUrl = 'index.php?page=structure&category_id=%s&clang=%s&a256_article_name=%s';
+  $editUrl = 'index.php?page=content&article_id=%s&mode=edit&clang=%s&be_search_article_name=%s';
+  $structureUrl = 'index.php?page=structure&category_id=%s&clang=%s&be_search_article_name=%s';
 
   // ------------ globale Parameter
   $page         = rex_request('page', 'string');
@@ -33,19 +33,19 @@ function rex_a256_search_structure($params)
   $function     = rex_request('function', 'string');
 
   // ------------ Parameter
-  $a256_article_id        = rex_request('a256_article_id'  , 'int');
-  $a256_clang             = rex_request('a256_clang'       , 'int');
-  $a256_article_name      = rex_request('a256_article_name', 'string');
-  $a256_article_name_post = rex_post('a256_article_name', 'string');
+  $be_search_article_id        = rex_request('be_search_article_id'  , 'int');
+  $be_search_clang             = rex_request('be_search_clang'       , 'int');
+  $be_search_article_name      = rex_request('be_search_article_name', 'string');
+  $be_search_article_name_post = rex_post('be_search_article_name', 'string');
   $mode                   = rex_request('mode', 'string');
 
   // ------------ Suche via ArtikelId
-  if($a256_article_id != 0)
+  if($be_search_article_id != 0)
   {
-    $OOArt = rex_ooArticle::getArticleById($a256_article_id, $a256_clang);
+    $OOArt = rex_ooArticle::getArticleById($be_search_article_id, $be_search_clang);
     if(rex_ooArticle::isValid($OOArt))
     {
-      header('Location:'. sprintf($editUrl, $a256_article_id, $a256_clang, urlencode($a256_article_name)));
+      header('Location:'. sprintf($editUrl, $be_search_article_id, $be_search_clang, urlencode($be_search_article_name)));
       exit();
     }
   }
@@ -63,19 +63,19 @@ function rex_a256_search_structure($params)
   // hier nur den post artikel namen abfragen,
   // da sonst bei vorherigen headerweiterleitungen
   // auch gesucht wuerde
-  if($a256_article_name_post != '')
+  if($be_search_article_name_post != '')
   {
 		// replace LIKE wildcards
-    $a256_article_name_like = str_replace(array('_', '%'), array('\_', '\%'), $a256_article_name);
+    $be_search_article_name_like = str_replace(array('_', '%'), array('\_', '\%'), $be_search_article_name);
     
     $qry = '
     SELECT id
     FROM '. $REX['TABLE_PREFIX'] .'article
     WHERE
-      clang = '. $a256_clang .' AND
+      clang = '. $be_search_clang .' AND
       (
-        name LIKE "%'. $a256_article_name_like .'%" OR
-        catname LIKE "%'. $a256_article_name_like .'%"
+        name LIKE "%'. $be_search_article_name_like .'%" OR
+        catname LIKE "%'. $be_search_article_name_like .'%"
       )';
 
     switch(rex_ooAddon::getProperty('be_search', 'searchmode', 'local'))
@@ -96,21 +96,21 @@ function rex_a256_search_structure($params)
     // Suche ergab nur einen Treffer => Direkt auf den Treffer weiterleiten
     if($foundRows == 1)
     {
-      $OOArt = rex_ooArticle::getArticleById($search->getValue('id'), $a256_clang);
+      $OOArt = rex_ooArticle::getArticleById($search->getValue('id'), $be_search_clang);
       if($REX['USER']->hasCategoryPerm($OOArt->getCategoryId()))
       {
-        header('Location:'. sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)));
+        header('Location:'. sprintf($editUrl, $search->getValue('id'), $be_search_clang, urlencode($be_search_article_name)));
         exit();
       }
     }
     // Mehrere Suchtreffer, Liste anzeigen
     else if($foundRows > 0)
     {
-      $needle = htmlspecialchars($a256_article_name);
-      $search_result .= '<ul class="a256-search-result">';
+      $needle = htmlspecialchars($be_search_article_name);
+      $search_result .= '<ul class="be_search-search-result">';
       for($i = 0; $i < $foundRows; $i++)
       {
-        $OOArt = rex_ooArticle::getArticleById($search->getValue('id'), $a256_clang);
+        $OOArt = rex_ooArticle::getArticleById($search->getValue('id'), $be_search_clang);
         $label = $OOArt->getName();
 
         if($REX['USER']->hasCategoryPerm($OOArt->getCategoryId()))
@@ -135,9 +135,9 @@ function rex_a256_search_structure($params)
             }
 
             $treeLabel = htmlspecialchars($treeLabel);
-            $treeLabel = rex_a256_highlight_hit($treeLabel, $needle);
+            $treeLabel = rex_be_search_highlight_hit($treeLabel, $needle);
           
-            $s .= '<li>'. $prefix .'<a href="'. sprintf($structureUrl, $treeItem->getId(), $a256_clang, urlencode($a256_article_name)) .'">'. $treeLabel .' </a></li>';
+            $s .= '<li>'. $prefix .'<a href="'. sprintf($structureUrl, $treeItem->getId(), $be_search_clang, urlencode($be_search_article_name)) .'">'. $treeLabel .' </a></li>';
           }
 
           $prefix = ': ';
@@ -148,11 +148,11 @@ function rex_a256_search_structure($params)
           }
 
           $label = htmlspecialchars($label);
-          $label = rex_a256_highlight_hit($label, $needle);
+          $label = rex_be_search_highlight_hit($label, $needle);
           
-          $s .= '<li>'. $prefix .'<a href="'. sprintf($editUrl, $search->getValue('id'), $a256_clang, urlencode($a256_article_name)) .'">'. $label .' </a></li>';
+          $s .= '<li>'. $prefix .'<a href="'. sprintf($editUrl, $search->getValue('id'), $be_search_clang, urlencode($be_search_article_name)) .'">'. $label .' </a></li>';
 
-          $search_result .= '<li><ul class="a256-search-hit">'. $s .'</ul></li>';
+          $search_result .= '<li><ul class="be_search-search-hit">'. $s .'</ul></li>';
         }
         $search->next();
       }
@@ -174,7 +174,7 @@ function rex_a256_search_structure($params)
 
   $category_select = new rex_category_select(false, false, true, $add_homepage);
   $category_select->setName($select_name);
-  $category_select->setId('rex-a256-category-id');
+  $category_select->setId('rex-be_search-category-id');
   $category_select->setSize('1');
   $category_select->setAttribute('onchange', 'this.form.submit();');
   $category_select->setSelected($category_id);
@@ -189,25 +189,25 @@ function rex_a256_search_structure($params)
         <input type="hidden" name="article_id" value="'. $article_id .'" />
         <input type="hidden" name="clang" value="'. $clang .'" />
         <input type="hidden" name="ctype" value="'. $ctype .'" />
-        <input type="hidden" name="a256_clang" value="'. $clang .'" />
+        <input type="hidden" name="be_search_clang" value="'. $clang .'" />
 
 		    <div class="rex-fl-lft">
-	        <label for="rex-a256-article-name">'. $REX['I18N']->msg('be_search_article_name') .'</label>
-    	    <input class="rex-form-text" type="text" name="a256_article_name" id="rex-a256-article-name" value="'. htmlspecialchars(stripslashes($a256_article_name)) .'"'. rex_tabindex() .' />
+	        <label for="rex-be_search-article-name">'. $REX['I18N']->msg('be_search_article_name') .'</label>
+    	    <input class="rex-form-text" type="text" name="be_search_article_name" id="rex-be_search-article-name" value="'. htmlspecialchars(stripslashes($be_search_article_name)) .'"'. rex_tabindex() .' />
 
-        	<label for="rex-a256-article-id">'. $REX['I18N']->msg('be_search_article_id') .'</label>
-	        <input class="rex-form-text" type="text" name="a256_article_id" id="rex-a256-article-id"'. rex_tabindex() .' />
-    	    <input class="rex-form-submit" type="submit" name="a256_start_search" value="'. $REX['I18N']->msg('be_search_start') .'"'. rex_tabindex() .' />
+        	<label for="rex-be_search-article-id">'. $REX['I18N']->msg('be_search_article_id') .'</label>
+	        <input class="rex-form-text" type="text" name="be_search_article_id" id="rex-be_search-article-id"'. rex_tabindex() .' />
+    	    <input class="rex-form-submit" type="submit" name="be_search_start_search" value="'. $REX['I18N']->msg('be_search_start') .'"'. rex_tabindex() .' />
 		    </div>
 
     		<div class="rex-fl-rght">
-    			<label for="rex-a256-category-id">'. $REX['I18N']->msg('be_search_quick_navi') .'</label>';
+    			<label for="rex-be_search-category-id">'. $REX['I18N']->msg('be_search_quick_navi') .'</label>';
 
     			$category_select->setAttribute('tabindex', rex_tabindex(false));
 
   $form .= $category_select->get() .'
     			<noscript>
-    			  <input type="submit" name="a256_start_jump" value="'. $REX['I18N']->msg('be_search_jump_to_category') .'" />
+    			  <input type="submit" name="be_search_start_jump" value="'. $REX['I18N']->msg('be_search_jump_to_category') .'" />
     			</noscript>
         </div>
         </fieldset>
@@ -215,7 +215,7 @@ function rex_a256_search_structure($params)
       </div>';
 
   $search_bar = $message.
-  '<div id="rex-a256-searchbar" class="rex-toolbar rex-toolbar-has-form">
+  '<div id="rex-be_search-searchbar" class="rex-toolbar rex-toolbar-has-form">
    <div class="rex-toolbar-content">
      '. $form .'
      '. $search_result .'
