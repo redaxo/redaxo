@@ -201,7 +201,7 @@ class rex_article_editor extends rex_article
                 <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
                 <div class="rex-content-editmode-slice-output">
                   <div class="rex-content-editmode-slice-output-2">
-                    '. $RE_MODUL_OUT[$I_ID] .'
+                    '. $this->getVariableStreamOutput($RE_MODUL_OUT[$I_ID], 'module', $RE_MODUL_ID[$I_ID] .'/output') .'
                   </div>
                 </div>
                 <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
@@ -221,7 +221,7 @@ class rex_article_editor extends rex_article
                 <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
                 <div class="rex-content-editmode-slice-output">
                   <div class="rex-content-editmode-slice-output-2">
-                    '. $RE_MODUL_OUT[$I_ID] .'
+                    '. $this->getVariableStreamOutput($RE_MODUL_OUT[$I_ID], 'module', $RE_MODUL_ID[$I_ID] .'/output') .'
                   </div>
                 </div>
                 <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
@@ -376,6 +376,8 @@ class rex_article_editor extends rex_article
 
       $moduleInput = $this->replaceVars($initDataSql, $MOD->getValue("input"));
 
+      $moduleInput = $this->getVariableStreamOutput($moduleInput, 'module', $module_id .'/input');
+
       $msg = '';
       if($this->warning != '')
       {
@@ -472,7 +474,7 @@ class rex_article_editor extends rex_article
             <div class="rex-form-row">
               <div class="rex-content-editmode-slice-input">
                 <div class="rex-content-editmode-slice-input-2">
-                '. $RE_MODUL_IN .'
+                '. $this->getVariableStreamOutput($RE_MODUL_IN, 'module', $RE_MODUL_ID.'/input') .'
                 </div>
               </div>
             </div>

@@ -131,7 +131,7 @@ class rex_article extends rex_article_base
 
       if(file_exists($article_content_file))
       {
-        eval (rex_get_file_contents($article_content_file));
+        require $article_content_file;
       }
 
       // ----- end: article caching

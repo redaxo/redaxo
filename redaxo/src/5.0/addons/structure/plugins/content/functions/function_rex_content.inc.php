@@ -5,10 +5,10 @@ require_once $REX['INCLUDE_PATH'] . '/addons/structure/functions/function_rex_st
 
 /**
  * Verschiebt einen Slice nach oben
- * 
+ *
  * @param int $slice_id Id des Slices
  * @param int $clang    Id der Sprache
- *  
+ *
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
 function rex_moveSliceUp($slice_id, $clang)
@@ -18,10 +18,10 @@ function rex_moveSliceUp($slice_id, $clang)
 
 /**
  * Verschiebt einen Slice nach unten
- * 
+ *
  * @param int $slice_id Id des Slices
  * @param int $clang    Id der Sprache
- *  
+ *
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
 function rex_moveSliceDown($slice_id, $clang)
@@ -31,11 +31,11 @@ function rex_moveSliceDown($slice_id, $clang)
 
 /**
  * Verschiebt einen Slice
- * 
+ *
  * @param int    $slice_id  Id des Slices
  * @param int    $clang     Id der Sprache
  * @param string $direction Richtung in die verschoben werden soll
- *  
+ *
  * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
  */
 function rex_moveSlice($slice_id, $clang, $direction)
@@ -118,15 +118,15 @@ function rex_moveSlice($slice_id, $clang, $direction)
 
 /**
  * Löscht einen Slice
- * 
+ *
  * @param int    $slice_id  Id des Slices
- * 
+ *
  * @return boolean TRUE bei Erfolg, sonst FALSE
  */
 function rex_deleteSlice($slice_id)
 {
   global $REX;
-  
+
   // zu loeschender slice suchen
   $curr = rex_sql::factory();
   $curr->setQuery('SELECT * FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE id=' . $slice_id);
@@ -134,7 +134,7 @@ function rex_deleteSlice($slice_id)
   {
     return false;
   }
-  
+
   // nachfolge slice suchen
   $next = rex_sql::factory();
   $next->setQuery('SELECT * FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE re_article_slice_id=' . $slice_id);
@@ -150,18 +150,18 @@ function rex_deleteSlice($slice_id)
 
 /**
  * Führt alle pre-view Aktionen eines Moduls aus
- * 
+ *
  * @param int    $module_id  Id des Moduls
  * @param string $function   Funktion/Modus der Aktion
  * @param array  $REX_ACTION Array zum modifizieren der initialwerte
- * 
+ *
  * @return array Das gefüllte REX_ACTION-Array
  */
 function rex_execPreViewAction($module_id, $function, $REX_ACTION)
 {
   global $REX;
   $modebit = rex_getActionModeBit($function);
-  
+
   $ga = rex_sql::factory();
   $ga->setQuery('SELECT preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $module_id .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
 
@@ -179,17 +179,17 @@ function rex_execPreViewAction($module_id, $function, $REX_ACTION)
 
     $ga->next();
   }
-  
+
   return $REX_ACTION;
 }
 
 /**
  * Führt alle pre-save Aktionen eines Moduls aus
- * 
+ *
  * @param int    $module_id  Id des Moduls
  * @param string $function   Funktion/Modus der Aktion
  * @param array  $REX_ACTION Array zum speichern des Status
- * 
+ *
  * @return array Ein Array welches eine Meldung sowie das gefüllte REX_ACTION-Array beinhaltet
  */
 function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
@@ -197,7 +197,7 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
   global $REX;
   $modebit = rex_getActionModeBit($function);
 	$messages = array();
-	
+
   $ga = rex_sql::factory();
   $ga->setQuery('SELECT presave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE presave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.presavemode & ' . $modebit . ') = ' . $modebit . ')');
 
@@ -224,11 +224,11 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
 
 /**
  * Führt alle post-save Aktionen eines Moduls aus
- * 
+ *
  * @param int    $module_id  Id des Moduls
  * @param string $function   Funktion/Modus der Aktion
  * @param array  $REX_ACTION Array zum speichern des Status
- * 
+ *
  * @return string Eine Meldung
  */
 function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
@@ -236,7 +236,7 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
   global $REX;
   $modebit = rex_getActionModeBit($function);
 	$messages = array();
-	
+
   $ga = rex_sql::factory();
   $ga->setQuery('SELECT postsave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE postsave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.postsavemode & ' . $modebit . ') = ' . $modebit . ')');
 
@@ -263,9 +263,9 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
 
 /**
  * Übersetzt den Modus in das dazugehörige Bitwort
- * 
+ *
  * @param string $function   Funktion/Modus der Aktion
- * 
+ *
  * @return int Ein Bitwort
  */
 function rex_getActionModeBit($function)
@@ -284,7 +284,7 @@ function rex_getActionModeBit($function)
  * Konvertiert einen Artikel zum Startartikel der eigenen Kategorie
  *
  * @param int $neu_id  Artikel ID des Artikels, der Startartikel werden soll
- * 
+ *
  * @return boolean TRUE bei Erfolg, sonst FALSE
  */
 function rex_article2startpage($neu_id){
@@ -392,7 +392,7 @@ function rex_article2startpage($neu_id){
       'clang' => $clang,
     ));
   }
-          
+
   return true;
 }
 
@@ -400,13 +400,13 @@ function rex_article2startpage($neu_id){
  * Konvertiert einen Artikel in eine Kategorie
  *
  * @param int $art_id  Artikel ID des Artikels, der in eine Kategorie umgewandelt werden soll
- * 
+ *
  * @return boolean TRUE bei Erfolg, sonst FALSE
  */
 function rex_article2category($art_id){
 
   global $REX;
-  
+
   $sql = rex_sql::factory();
 
   // LANG SCHLEIFE
@@ -414,7 +414,7 @@ function rex_article2category($art_id){
   {
     // artikel
     $sql->setQuery('select re_id, name from '.$REX['TABLE_PREFIX']."article where id=$art_id and startpage=0 and clang=$clang");
-    
+
     if (!isset($re_id))
       $re_id = $sql->getValue('re_id');
 
@@ -425,7 +425,7 @@ function rex_article2category($art_id){
     $sql->setValue('catname', $sql->getValue('name'));
     $sql->setValue('catprior', 100);
     $sql->update();
-    
+
     rex_newCatPrio($re_id, $clang, 0, 100);
   }
 
@@ -439,7 +439,7 @@ function rex_article2category($art_id){
       'clang' => $clang,
     ));
   }
-          
+
   return true;
 }
 
@@ -447,15 +447,15 @@ function rex_article2category($art_id){
  * Konvertiert eine Kategorie in einen Artikel
  *
  * @param int $art_id  Artikel ID der Kategorie, die in einen Artikel umgewandelt werden soll
- * 
+ *
  * @return boolean TRUE bei Erfolg, sonst FALSE
  */
 function rex_category2article($art_id){
 
   global $REX;
-  
+
   $sql = rex_sql::factory();
-  
+
   // Kategorie muss leer sein
   $sql->setQuery('SELECT pid FROM '. $REX['TABLE_PREFIX'] .'article WHERE re_id='. $art_id .' LIMIT 1');
   if ($sql->getRows() != 0)
@@ -466,7 +466,7 @@ function rex_category2article($art_id){
   {
     // artikel
     $sql->setQuery('select re_id, name from '.$REX['TABLE_PREFIX']."article where id=$art_id and startpage=1 and clang=$clang");
-    
+
     if (!isset($re_id))
       $re_id = $sql->getValue('re_id');
 
@@ -476,7 +476,7 @@ function rex_category2article($art_id){
     $sql->setValue('startpage', 0);
     $sql->setValue('prior', 100);
     $sql->update();
-    
+
     rex_newArtPrio($re_id, $clang, 0, 100);
   }
 
@@ -490,7 +490,7 @@ function rex_category2article($art_id){
       'clang' => $clang,
     ));
   }
-          
+
   return true;
 }
 
@@ -513,7 +513,7 @@ function rex_copyCategory($from_cat, $to_cat)
  * @param int [$from_clang] ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
  * @param int [$to_clang]   ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
  * @param array [$params]     Array von Spaltennamen, welche kopiert werden sollen
- * 
+ *
  * @return boolean TRUE bei Erfolg, sonst FALSE
  */
 function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params = array ())
@@ -563,7 +563,7 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
  * @param int [$from_clang]      ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
  * @param int [$to_clang]        ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
  * @param int [$from_re_sliceid] Id des Slices, bei dem begonnen werden soll
- * 
+ *
  * @return boolean TRUE bei Erfolg, sonst FALSE
  */
 function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from_re_sliceid = 0, $revision = 0)
@@ -584,7 +584,7 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
     $glid->setQuery("select r1.id, r1.re_article_slice_id
                      from ".$REX['TABLE_PREFIX']."article_slice as r1
                      left join ".$REX['TABLE_PREFIX']."article_slice as r2 on r1.id=r2.re_article_slice_id
-                     where 
+                     where
 												r1.article_id=$to_id and r1.clang=$to_clang and r1.revision=$revision
 												and r2.id is NULL");
     if ($glid->getRows() == 1)
@@ -631,7 +631,7 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
  *
  * @param int $id          ArtikelId des zu kopierenden Artikels
  * @param int $to_cat_id   KategorieId in die der Artikel kopiert werden soll
- * 
+ *
  * @return boolean FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
  */
 function rex_copyArticle($id, $to_cat_id)
@@ -731,7 +731,7 @@ function rex_copyArticle($id, $to_cat_id)
  * @param int $id          ArtikelId des zu verschiebenden Artikels
  * @param int $from_cat_id KategorieId des Artikels, der Verschoben wird
  * @param int $to_cat_id   KategorieId in die der Artikel verschoben werden soll
- * 
+ *
  * @return boolean TRUE bei Erfolg, sonst FALSE
  */
 function rex_moveArticle($id, $from_cat_id, $to_cat_id)
@@ -819,7 +819,7 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
  *
  * @param int $from_cat_id KategorieId der Kategorie, die verschoben werden soll (Quelle)
  * @param int $to_cat_id   KategorieId der Kategorie, IN die verschoben werden soll (Ziel)
- * 
+ *
  * @return boolean TRUE bei Erfolg, sonst FALSE
  */
 function rex_moveCategory($from_cat, $to_cat)
@@ -933,36 +933,36 @@ function rex_moveCategory($from_cat, $to_cat)
       }
     }
   }
-  
+
   return true;
 }
 
 /**
  * Generiert den Artikel-Cache des Artikelinhalts.
- * 
+ *
  * @param $article_id Id des zu generierenden Artikels
  * @param [$clang ClangId des Artikels]
- * 
+ *
  * @return TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
  */
 function rex_generateArticleContent($article_id, $clang = null)
 {
   global $REX;
-  
+
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
     if($clang !== null && $clang != $_clang)
       continue;
-      
+
     $CONT = new rex_article_base();
     $CONT->setCLang($_clang);
     $CONT->setEval(FALSE); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
     if (!$CONT->setArticleId($article_id)) return FALSE;
-  
+
     // --------------------------------------------------- Artikelcontent speichern
     $article_content_file = $REX['INCLUDE_PATH']."/generated/articles/$article_id.$_clang.content";
-    $article_content = "?>".$CONT->getArticle();
-  
+    $article_content = $CONT->getArticle();
+
     // ----- EXTENSION POINT
     $article_content = rex_register_extension_point('GENERATE_FILTER', $article_content,
       array (
@@ -971,12 +971,12 @@ function rex_generateArticleContent($article_id, $clang = null)
         'article' => $CONT
       )
     );
-  
+
     if (rex_put_file_contents($article_content_file, $article_content) === FALSE)
     {
       return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').$REX['INCLUDE_PATH'] .'/generated/articles/';
     }
   }
-  
+
   return TRUE;
 }
