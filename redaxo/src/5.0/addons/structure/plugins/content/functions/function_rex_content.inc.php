@@ -163,7 +163,7 @@ function rex_execPreViewAction($module_id, $function, $REX_ACTION)
   $modebit = rex_getActionModeBit($function);
 
   $ga = rex_sql::factory();
-  $ga->setQuery('SELECT preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $module_id .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
+  $ga->setQuery('SELECT a.id, preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $module_id .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
 
   while ($ga->hasNext())
   {
@@ -175,7 +175,7 @@ function rex_execPreViewAction($module_id, $function, $REX_ACTION)
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    eval('?>'.$iaction);
+    require rex_variableStream::factory($iaction, 'action', $ga->getValue('id') .'/preview');
 
     $ga->next();
   }
@@ -199,7 +199,7 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
 	$messages = array();
 
   $ga = rex_sql::factory();
-  $ga->setQuery('SELECT presave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE presave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.presavemode & ' . $modebit . ') = ' . $modebit . ')');
+  $ga->setQuery('SELECT a.id, presave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE presave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.presavemode & ' . $modebit . ') = ' . $modebit . ')');
 
   while ($ga->hasNext())
   {
@@ -212,7 +212,7 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    eval ('?>' . $iaction);
+    require rex_variableStream::factory($iaction, 'action', $ga->getValue('id') .'/presave');
 
     if ($REX_ACTION['MSG'] != '')
       $messages[] = $REX_ACTION['MSG'];
@@ -238,7 +238,7 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
 	$messages = array();
 
   $ga = rex_sql::factory();
-  $ga->setQuery('SELECT postsave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE postsave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.postsavemode & ' . $modebit . ') = ' . $modebit . ')');
+  $ga->setQuery('SELECT a.id, postsave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE postsave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.postsavemode & ' . $modebit . ') = ' . $modebit . ')');
 
   while ($ga->hasNext())
   {
@@ -251,7 +251,7 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    eval ('?>' . $iaction);
+    require rex_variableStream::factory($iaction, 'action', $ga->getValue('id') .'/postsave');
 
     if ($REX_ACTION['MSG'] != '')
       $messages[] = $REX_ACTION['MSG'];
