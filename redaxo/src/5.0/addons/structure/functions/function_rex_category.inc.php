@@ -83,3 +83,4 @@ $KATout = '
 	</dl>
 <!-- *** OUTPUT OF CATEGORY-TOOLBAR - END *** -->
 ';
+
