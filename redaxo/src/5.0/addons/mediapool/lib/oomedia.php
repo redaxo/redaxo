@@ -301,7 +301,7 @@ class rex_ooMedia
    */
   public function getFormattedSize()
   {
-    return self::_getFormattedSize($this->getSize());
+    return self::formatSize($this->getSize());
   }
 
   /**
