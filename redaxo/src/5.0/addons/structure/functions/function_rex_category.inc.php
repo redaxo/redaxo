@@ -100,9 +100,10 @@ $list[1]['entries'][$REX['I18N']->msg('path')] = $ul_list;
 
 $fragment = new rex_fragment();
 $fragment->setVar('lists', $list, false);
-$KATout .= $fragment->parse('list/dl_list');
+$dl_list = $fragment->parse('list/dl_list');
+$dl_list = preg_replace('/(?:(?<=\>)|(?<=\/\>))(\s+)(?=\<\/?)/', '', $dl_list);
 unset($fragment);
 
-
+$KATout .= $dl_list;
 $KATout .= '
 <!-- *** OUTPUT OF CATEGORY-TOOLBAR - END *** -->';
