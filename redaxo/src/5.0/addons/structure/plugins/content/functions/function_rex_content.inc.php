@@ -175,7 +175,7 @@ function rex_execPreViewAction($module_id, $function, $REX_ACTION)
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    require rex_variableStream::factory($iaction, 'action', $ga->getValue('id') .'/preview');
+    require rex_variableStream::factory('action/'. $ga->getValue('id') .'/preview', $iaction);
 
     $ga->next();
   }
@@ -212,7 +212,7 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    require rex_variableStream::factory($iaction, 'action', $ga->getValue('id') .'/presave');
+    require rex_variableStream::factory('action/'. $ga->getValue('id') .'/presave', $iaction);
 
     if ($REX_ACTION['MSG'] != '')
       $messages[] = $REX_ACTION['MSG'];
@@ -251,7 +251,7 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    require rex_variableStream::factory($iaction, 'action', $ga->getValue('id') .'/postsave');
+    require rex_variableStream::factory('action/'. $ga->getValue('id') .'/postsave', $iaction);
 
     if ($REX_ACTION['MSG'] != '')
       $messages[] = $REX_ACTION['MSG'];

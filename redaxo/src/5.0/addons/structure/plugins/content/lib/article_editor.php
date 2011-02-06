@@ -201,7 +201,7 @@ class rex_article_editor extends rex_article
                 <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
                 <div class="rex-content-editmode-slice-output">
                   <div class="rex-content-editmode-slice-output-2">
-                    '. $this->getVariableStreamOutput($RE_MODUL_OUT[$I_ID], 'module', $RE_MODUL_ID[$I_ID] .'/output') .'
+                    '. $this->getVariableStreamOutput('module/'. $RE_MODUL_ID[$I_ID] .'/output', $RE_MODUL_OUT[$I_ID]) .'
                   </div>
                 </div>
                 <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
@@ -221,7 +221,7 @@ class rex_article_editor extends rex_article
                 <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
                 <div class="rex-content-editmode-slice-output">
                   <div class="rex-content-editmode-slice-output-2">
-                    '. $this->getVariableStreamOutput($RE_MODUL_OUT[$I_ID], 'module', $RE_MODUL_ID[$I_ID] .'/output') .'
+                    '. $this->getVariableStreamOutput('module/'. $RE_MODUL_ID[$I_ID] .'/output', $RE_MODUL_OUT[$I_ID]) .'
                   </div>
                 </div>
                 <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
@@ -376,7 +376,7 @@ class rex_article_editor extends rex_article
 
       $moduleInput = $this->replaceVars($initDataSql, $MOD->getValue("input"));
 
-      $moduleInput = $this->getVariableStreamOutput($moduleInput, 'module', $module_id .'/input');
+      $moduleInput = $this->getVariableStreamOutput('module/'. $module_id .'/input', $moduleInput);
 
       $msg = '';
       if($this->warning != '')
@@ -474,7 +474,7 @@ class rex_article_editor extends rex_article
             <div class="rex-form-row">
               <div class="rex-content-editmode-slice-input">
                 <div class="rex-content-editmode-slice-input-2">
-                '. $this->getVariableStreamOutput($RE_MODUL_IN, 'module', $RE_MODUL_ID.'/input') .'
+                '. $this->getVariableStreamOutput('module/'. $RE_MODUL_ID.'/input', $RE_MODUL_IN) .'
                 </div>
               </div>
             </div>

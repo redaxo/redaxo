@@ -3,53 +3,44 @@
 class rex_variableStream
 {
   static private
-    $registeredProtocols = array(),
-    $nextContent;
+    $nextContent = array();
 
   private
     $position,
     $content;
 
-  static public function factory($content, $protocol, $path)
+  static public function register()
+  {
+    stream_wrapper_register('redaxo', __CLASS__);
+  }
+
+  static public function factory($path, $content)
   {
     if(!is_string($content))
     {
       throw new rexException('Expecting $content to be a string!');
     }
-    if(!is_string($protocol) || empty($protocol))
+    if(!is_string($path) || empty($path))
     {
-      throw new rexException('Expecting $protocol to be a string and not empty!');
-    }
-    if(!is_string($path) && !is_int($path) || empty($path))
-    {
-      throw new rexException('Expecting $path to be a string or integer and not empty!');
+      throw new rexException('Expecting $path to be a string and not empty!');
     }
 
-    if(!in_array($protocol, self::$registeredProtocols))
-    {
-      if(in_array($protocol, stream_get_wrappers()))
-      {
-        throw new rexException('Protocol "'.$protocol.'" already exists!');
-      }
-      stream_wrapper_register($protocol, __CLASS__);
-      self::$registeredProtocols[] = $protocol;
-    }
+    $path = 'redaxo://'. $path;
+    self::$nextContent[$path] = $content;
 
-    self::$nextContent = $content;
-
-    return $protocol .'://'. $path;
+    return $path;
   }
 
   public function stream_open($path, $mode, $options, &$opened_path)
   {
-    if(!is_string(self::$nextContent))
+    if(!isset(self::$nextContent[$path]) || !is_string(self::$nextContent[$path]))
     {
       return false;
     }
 
     $this->position = 0;
-    $this->content = self::$nextContent;
-    self::$nextContent = null;
+    $this->content = self::$nextContent[$path];
+    unset(self::$nextContent[$path]);
 
     return true;
   }

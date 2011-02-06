@@ -210,7 +210,7 @@ class rex_article_base
 
     $output = $this->replaceVars($artDataSql, $RE_MODUL_OUT[$I_ID]);
 
-    return $this->getVariableStreamOutput($output, 'module', $RE_MODUL_ID[$I_ID] .'/output');
+    return $this->getVariableStreamOutput('module/'. $RE_MODUL_ID[$I_ID] .'/output', $output);
   }
 
 
@@ -390,7 +390,7 @@ class rex_article_base
       $TEMPLATE = new rex_template();
       $TEMPLATE->setId($this->template_id);
       $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
-      require rex_variableStream::factory($tplContent, 'template', $this->template_id);
+      require rex_variableStream::factory('template/'. $this->template_id, $tplContent);
 
       $CONTENT = ob_get_contents();
       ob_end_clean();
@@ -403,18 +403,18 @@ class rex_article_base
     return $CONTENT;
   }
 
-  protected function getVariableStreamOutput($content, $protocol, $path)
+  protected function getVariableStreamOutput($path, $content)
   {
     global $REX;
 
     if (!$this->eval)
     {
-      return "require rex_variableStream::factory('". rex_addslashes($content, '\\\'') ."', '$protocol', '$path');\n";
+      return "require rex_variableStream::factory('$path', '". rex_addslashes($content, '\\\'') ."');\n";
     }
 
     ob_start();
     ob_implicit_flush(0);
-    require rex_variableStream::factory($content, $protocol, $path);
+    require rex_variableStream::factory($path, $content);
     $CONTENT = ob_get_contents();
     ob_end_clean();
 

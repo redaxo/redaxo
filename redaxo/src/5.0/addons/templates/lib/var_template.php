@@ -39,7 +39,7 @@ class rex_var_template extends rex_var
         $varname = '$__rex_tpl'. $template_id;
         $tpl = '<?php
         '. $varname .' = new rex_template('. $template_id .');
-        require rex_variableStream::factory('. $this->handleGlobalVarParamsSerialized($var, $args, '$this->replaceCommonVars('. $varname .'->getTemplate(), '. $template_id .')') .", 'template', ". $template_id .');
+        require rex_variableStream::factory("template/'. $template_id .'", '. $this->handleGlobalVarParamsSerialized($var, $args, '$this->replaceCommonVars('. $varname .'->getTemplate(), '. $template_id .')') .');
         ?>';
 	      $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
       }

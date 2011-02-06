@@ -30,6 +30,8 @@ rex_autoload::register();
 rex_logger::register();
 // add core base-fragmentpath to fragmentloader
 rex_fragment::addDirectory($REX['INCLUDE_PATH'].'/core/fragments/');
+// register stream wrapper
+rex_variableStream::register();
 
 //require_once $REX['INCLUDE_PATH'].'/core/classes/class.i18n.inc.php';
 //require_once $REX['INCLUDE_PATH'].'/core/classes/class.rex_sql.inc.php';
