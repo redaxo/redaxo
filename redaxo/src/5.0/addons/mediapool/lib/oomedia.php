@@ -485,7 +485,7 @@ class rex_ooMedia
       // Bild resizen?
       if ($resize)
       {
-        $file = 'index.php?rex_resize='.$resizeParam.$resizeMode.'__'.$this->getFileName();
+        $file = rex_path::frontendController('?rex_resize='.$resizeParam.$resizeMode.'__'.$this->getFileName());
       }
       else
       {

@@ -24,7 +24,7 @@
 <body <?php echo $this->bodyAttr; ?>>
 <div id="rex-website">
   <div id="rex-header">
-    <p class="rex-header-top"><a href="../index.php" onclick="window.open(this.href); return false"><?php echo $this->config('SERVERNAME') ?></a></p>
+    <p class="rex-header-top"><a href="<?php echo rex_path::frontendController() ?>" onclick="window.open(this.href); return false"><?php echo $this->config('SERVERNAME') ?></a></p>
   </div>
 
   <div id="rex-navi-logout"><?php echo $this->logout ?></div>

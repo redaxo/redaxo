@@ -237,11 +237,11 @@ if ($subpage == "media")
       {
         if ($image_manager)
         {
-          $imgn = $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_img_type=rex_mediapool_detail&amp;rex_img_file='. $encoded_fname;
-          $img_max = $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_img_type=rex_mediapool_maximized&amp;rex_img_file='. $encoded_fname;
+          $imgn = rex_path::frontendController('?rex_img_type=rex_mediapool_detail&amp;rex_img_file='. $encoded_fname);
+          $img_max = rex_path::frontendController('?rex_img_type=rex_mediapool_maximized&amp;rex_img_file='. $encoded_fname);
         }
         else if($image_resize && $rfwidth>199)
-          $imgn = $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_resize=200a__'. $encoded_fname;
+          $imgn = rex_path::frontendController('?rex_resize=200a__'. $encoded_fname);
       }
 
       $add_image = '<div class="rex-mediapool-detail-image">
@@ -715,10 +715,10 @@ if ($subpage == '')
         $thumbnail = '<img src="'. rex_path::media($file_name, true) .'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
         if ($image_manager)
         {
-          $thumbnail = '<img src="'. $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_img_type=rex_mediapool_preview&amp;rex_img_file='.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
+          $thumbnail = '<img src="'. rex_path::frontendController('?rex_img_type=rex_mediapool_preview&amp;rex_img_file='.$encoded_file_name) .'" alt="'. $alt .'" title="'. $alt .'" />';
         }else if($image_resize)
         {
-          $thumbnail = '<img src="'. $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_resize=80a__'.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
+          $thumbnail = '<img src="'. rex_path::frontendController('?rex_resize=80a__'.$encoded_file_name) .'" alt="'. $alt .'" title="'. $alt .'" />';
         }
       }
     }
