@@ -132,7 +132,7 @@ class rex_sql
     // DBID aus dem Query herausschneiden, falls vorhanden
     self::stripQueryDBID($qry);
 
-    if(preg_match('/^(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE)/i', $qry, $matches))
+    if(preg_match('/^(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE)/i', $qry, $matches))
       return strtoupper($matches[1]);
 
     return false;
@@ -201,7 +201,9 @@ class rex_sql
     {
       $this->rows = $this->stmt->rowCount();
     }
-    else {
+    // since CREATE statements don't return a resultset, FALSE is considered successfull
+    else if(self::getQueryType($qry) != 'CREATE')
+    {
       debug_print_backtrace();
       throw new rexException($qry);
     }
