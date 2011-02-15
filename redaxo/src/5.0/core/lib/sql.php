@@ -434,6 +434,11 @@ class rex_sql
 //        $qry .= '`' . $fld_name . '`=' . $this->escape($value);
       }
     }
+    
+    if(trim($qry) == '')
+    {
+      throw new rexException('no values given to buildSetQuery for select(), update(), insert() or replace()');
+    }
 
     return $qry;
   }
