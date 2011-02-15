@@ -27,6 +27,13 @@ function rex_a62_metainfo_cleanup($params)
     return;
   }
   
+  // check wheter tables exists
+  $tables = rex_sql::showTables();
+  if(!isset($tables[$REX['TABLE_PREFIX'] . '62_params']))
+  {
+    return false;
+  }
+  
   // since this extension may be used also when the addon is not yet installed,
   // require needed classes manually
   require_once dirname(__FILE__) .'/../lib/table_manager.php';
