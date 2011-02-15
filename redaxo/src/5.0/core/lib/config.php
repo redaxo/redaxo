@@ -233,7 +233,7 @@ class rex_config
     if(self::$initialized)
       return;
 
-    define('REX_CONFIG_FILE_CACHE', $REX['INCLUDE_PATH'] .'/generated/files/config.cache');
+    define('REX_CONFIG_FILE_CACHE', rex_path::generated('files/config.cache'));
 
     // take care, so we are able to write a cache file on shutdown
     // (check here, since exceptions in shutdown functions are not visible to the user)

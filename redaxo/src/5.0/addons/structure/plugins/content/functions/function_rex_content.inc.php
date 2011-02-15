@@ -960,7 +960,7 @@ function rex_generateArticleContent($article_id, $clang = null)
     if (!$CONT->setArticleId($article_id)) return FALSE;
 
     // --------------------------------------------------- Artikelcontent speichern
-    $article_content_file = $REX['INCLUDE_PATH']."/generated/articles/$article_id.$_clang.content";
+    $article_content_file = rex_path::generated("articles/'$article_id.$_clang.content");
     $article_content = $CONT->getArticle();
 
     // ----- EXTENSION POINT
@@ -974,7 +974,7 @@ function rex_generateArticleContent($article_id, $clang = null)
 
     if (rex_put_file_contents($article_content_file, $article_content) === FALSE)
     {
-      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').$REX['INCLUDE_PATH'] .'/generated/articles/';
+      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
     }
   }
 

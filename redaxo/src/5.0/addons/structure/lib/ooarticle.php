@@ -29,7 +29,7 @@ class rex_ooArticle extends rex_ooRedaxo
     if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
 
-    $article_path = $REX['INCLUDE_PATH'].'/generated/articles/'.$article_id.'.'.$clang.'.article';
+    $article_path = rex_path::generated('articles/'.$article_id.'.'.$clang.'.article');
     if (!file_exists($article_path))
 		{
 		  // FIXME: find better path detection
@@ -89,7 +89,7 @@ class rex_ooArticle extends rex_ooRedaxo
     if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
 
-    $articlelist = $REX['INCLUDE_PATH']."/generated/articles/".$a_category_id.".".$clang.".alist";
+    $articlelist = rex_path::generated('articles/'.$a_category_id.".".$clang.".alist");
     if(!file_exists($articlelist))
     {
       // FIXME: find better path detection

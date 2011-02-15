@@ -59,7 +59,7 @@ class rex_template
   {
     global $REX;
 
-    return $REX['INCLUDE_PATH'].'/generated/templates';
+    return rex_path::generated('templates');
   }
 
   public function getTemplate()

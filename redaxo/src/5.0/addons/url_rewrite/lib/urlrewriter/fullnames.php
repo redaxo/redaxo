@@ -54,7 +54,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
   {
     global $REX;
 
-    $this->PATHLIST = $REX['INCLUDE_PATH'] .'/generated/files/pathlist.php';
+    $this->PATHLIST = rex_path::generated('files/pathlist.php');
 
     $this->use_levenshtein = $use_levenshtein;
     $this->use_params_rewrite = $use_params_rewrite;

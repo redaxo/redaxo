@@ -23,7 +23,7 @@ require_once $REX['INCLUDE_PATH'].'/core/functions/function_rex_other.inc.php';
 require_once $REX["INCLUDE_PATH"].'/core/lib/autoload.php';
 
 // add core base-classpath to autoloader
-$loader = rex_autoload::getInstance($REX['INCLUDE_PATH'] .'/generated/files/autoload.cache');
+$loader = rex_autoload::getInstance(rex_path::generated('files/autoload.cache'));
 $loader->addDirectory($REX['INCLUDE_PATH'] .'/core/lib/');
 // register core-classes  as php-handlers
 rex_autoload::register();

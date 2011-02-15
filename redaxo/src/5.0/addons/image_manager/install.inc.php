@@ -24,7 +24,7 @@ if($error == '')
 
 if($error == '')
 {
-  $file = $REX['INCLUDE_PATH'] .'/generated/files';
+  $file = rex_path::generated('files');
 
   if(($state = rex_is_writable($file)) !== true)
     $error = $state;

@@ -8,18 +8,18 @@
  *
  * @param $id ArtikelId des Artikels
  * @param [$clang ClangId des Artikels]
- * 
+ *
  * @return void
  */
 function rex_deleteCacheArticle($id, $clang = null)
 {
   global $REX;
-  
+
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
     if($clang !== null && $clang != $_clang)
       continue;
-      
+
     rex_deleteCacheArticleMeta($id, $clang);
     rex_deleteCacheArticleContent($id, $clang);
     rex_deleteCacheArticleLists($id, $clang);
@@ -32,20 +32,20 @@ function rex_deleteCacheArticle($id, $clang = null)
  *
  * @param $id ArtikelId des Artikels
  * @param [$clang ClangId des Artikels]
- * 
+ *
  * @return void
  */
 function rex_deleteCacheArticleMeta($id, $clang = null)
 {
   global $REX;
-  
-  $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated/articles'. DIRECTORY_SEPARATOR;
+
+  $cachePath = rex_path::generate('articles/');
 
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
     if($clang !== null && $clang != $_clang)
       continue;
-      
+
     @unlink($cachePath . $id .'.'. $_clang .'.article');
   }
 }
@@ -56,20 +56,20 @@ function rex_deleteCacheArticleMeta($id, $clang = null)
  *
  * @param $id ArtikelId des Artikels
  * @param [$clang ClangId des Artikels]
- * 
+ *
  * @return void
  */
 function rex_deleteCacheArticleContent($id, $clang = null)
 {
   global $REX;
-  
-  $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated/articles'. DIRECTORY_SEPARATOR;
+
+  $cachePath = rex_path::generate('articles/');
 
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
     if($clang !== null && $clang != $_clang)
       continue;
-      
+
     @unlink($cachePath . $id .'.'. $_clang .'.content');
   }
 }
@@ -80,20 +80,20 @@ function rex_deleteCacheArticleContent($id, $clang = null)
  *
  * @param $id ArtikelId des Artikels
  * @param [$clang ClangId des Artikels]
- * 
+ *
  * @return void
  */
 function rex_deleteCacheArticleLists($id, $clang = null)
 {
   global $REX;
-  
-  $cachePath = $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR .'generated/articles'. DIRECTORY_SEPARATOR;
+
+  $cachePath = rex_path::generate('articles/');
 
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
     if($clang !== null && $clang != $_clang)
       continue;
-      
+
     @unlink($cachePath . $id .'.'. $_clang .'.alist');
     @unlink($cachePath . $id .'.'. $_clang .'.clist');
   }
@@ -102,28 +102,28 @@ function rex_deleteCacheArticleLists($id, $clang = null)
 
 /**
  * Generiert den Artikel-Cache der Metainformationen.
- * 
+ *
  * @param $article_id Id des zu generierenden Artikels
  * @param [$clang ClangId des Artikels]
- * 
+ *
  * @return TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
  */
 function rex_generateArticleMeta($article_id, $clang = null)
 {
   global $REX;
-  
+
   $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX'] .'article WHERE id='. (int) $article_id;
   if($clang !== NULL)
   {
     $qry .= ' AND clang='. (int) $clang;
   }
-  
+
   $sql = rex_sql::factory();
   $sql->setQuery($qry);
   while($sql->hasNext())
   {
     $_clang = $sql->getValue('clang');
-    
+
     // --------------------------------------------------- Artikelparameter speichern
     $params = array(
       'article_id' => $article_id,
@@ -143,19 +143,19 @@ function rex_generateArticleMeta($article_id, $clang = null)
       $content .='$REX[\'ART\']['. $article_id .'][\''. $name .'\']['. $_clang .'] = \''. rex_addslashes($value,'\\\'') .'\';'."\n";
     }
     $content .= '?>';
-    
-    $article_file = $REX['INCLUDE_PATH']."/generated/articles/$article_id.$_clang.article";
+
+    $article_file = rex_path::generate("articles/$article_id.$_clang.article");
     if (rex_put_file_contents($article_file, $content) === FALSE)
     {
-      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').$REX['INCLUDE_PATH'] .'/generated/articles/';
+      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generate('articles/');
     }
-    
+
     // damit die aktuellen änderungen sofort wirksam werden, einbinden!
     require ($article_file);
-    
+
     $sql->next();
   }
-  
+
   return TRUE;
 }
 
@@ -163,7 +163,7 @@ function rex_generateArticleMeta($article_id, $clang = null)
  * Löscht einen Artikel
  *
  * @param $id ArtikelId des Artikels, der gelöscht werden soll
- * 
+ *
  * @return Erfolgsmeldung bzw. Fehlermeldung bei Fehlern.
  */
 function rex_deleteArticle($id)
@@ -204,7 +204,7 @@ function rex_deleteArticle($id)
   {
     $re_id = $ART->getValue('re_id');
     $return['state'] = true;
-    
+
     $return = rex_register_extension_point('ART_PRE_DELETED', $return, array (
                     "id"          => $id,
                     "re_id"       => $re_id,
@@ -220,7 +220,7 @@ function rex_deleteArticle($id)
     {
       return $return;
     }
-    
+
     if ($ART->getValue('startpage') == 1)
     {
       $return['message'] = $REX['I18N']->msg('category_deleted');
@@ -261,7 +261,7 @@ function rex_deleteArticle($id)
  * Generiert alle *.alist u. *.clist Dateien einer Kategorie/eines Artikels
  *
  * @param $re_id   KategorieId oder ArtikelId, die erneuert werden soll
- * 
+ *
  * @return TRUE wenn der Artikel gelöscht wurde, sonst eine Fehlermeldung
  */
 function rex_generateLists($re_id, $clang = null)
@@ -280,7 +280,7 @@ function rex_generateLists($re_id, $clang = null)
   {
     if($clang !== null && $clang != $_clang)
       continue;
-        
+
     // --------------------------------------- ARTICLE LIST
 
     $GC = rex_sql::factory();
@@ -295,10 +295,10 @@ function rex_generateLists($re_id, $clang = null)
     }
     $content .= "\n?>";
 
-    $article_list_file = $REX['INCLUDE_PATH']."/generated/articles/$re_id.$_clang.alist";
+    $article_list_file = rex_path::generate("articles/$re_id.$_clang.alist");
     if (rex_put_file_contents($article_list_file, $content) === FALSE)
     {
-      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').$REX['INCLUDE_PATH'] .'/generated/articles/';
+      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generate('articles/');
     }
 
     // --------------------------------------- CAT LIST
@@ -314,12 +314,12 @@ function rex_generateLists($re_id, $clang = null)
     }
     $content .= "\n?>";
 
-    $article_categories_file = $REX['INCLUDE_PATH']."/generated/articles/$re_id.$_clang.clist";
+    $article_categories_file = rex_path::generate("articles/$re_id.$_clang.clist");
     if (rex_put_file_contents($article_categories_file, $content) === FALSE)
     {
-      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').$REX['INCLUDE_PATH'] .'/generated/articles/';
+      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generate('articles/');
     }
   }
-  
+
   return TRUE;
 }

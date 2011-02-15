@@ -23,7 +23,7 @@ class rex_logger {
     if (!isset(self::$instance))
     {
       // TODO: Move rex_logger init to the very beginning of the boostrap, so we are able to inject the path by parameter!
-      self::$instance = new rex_logger($REX['INCLUDE_PATH'] .'/generated/files/system.log');
+      self::$instance = new rex_logger(rex_path::generated('files/system.log'));
     }
 
     return self::$instance;

@@ -38,7 +38,7 @@ class rex_ooCategory extends rex_ooRedaxo
     if ($clang === false)
       $clang = $REX['CUR_CLANG'];
 
-    $categorylist = $REX['INCLUDE_PATH']."/generated/articles/".$cat_parent_id.".".$clang.".clist";
+    $categorylist = rex_path::generated('articles/'.$cat_parent_id.".".$clang.".clist");
 
     $catlist = array ();
 

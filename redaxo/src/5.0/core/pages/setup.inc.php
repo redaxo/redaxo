@@ -219,7 +219,7 @@ require_once $export_addon_dir.'/functions/function_import_export.inc.php';
 if (!($checkmodus > 0 && $checkmodus < 10))
 {
   // initial purge all generated files
-  rex_deleteDir($REX['INCLUDE_PATH'].'/generated', FALSE);
+  rex_deleteDir(rex_path::generated(), FALSE);
 
   // copy alle media files of the current rex-version into redaxo_media
   rex_copyDir($REX['INCLUDE_PATH'] .'/media', $REX['OPENMEDIAFOLDER']);
@@ -301,10 +301,10 @@ if ($checkmodus == 1)
 		$REX['INCLUDE_PATH'] .'/config/addons.inc.php',
 		$REX['INCLUDE_PATH'] .'/config/plugins.inc.php',
 		$REX['INCLUDE_PATH'] .'/config/clang.inc.php',
-		$REX['INCLUDE_PATH'] .'/generated',
-		$REX['INCLUDE_PATH'] .'/generated/articles',
-		$REX['INCLUDE_PATH'] .'/generated/templates',
-		$REX['INCLUDE_PATH'] .'/generated/files',
+		rex_path::generated(),
+		rex_path::generated('articles'),
+		rex_path::generated('templates'),
+		rex_path::generated('files'),
 		rex_path::media(),
 		rex_path::media('_readme.txt'),
 		getImportDir()
@@ -431,7 +431,7 @@ if ($checkmodus == 2 && $send == 1)
 		$REX['DB']['1']['LOGIN'] = $redaxo_db_user_login;
 		$REX['DB']['1']['PSW'] = $redaxo_db_user_pass;
 		$REX['DB']['1']['HOST'] = $mysql_host;
-		
+
 	  $serverVersion = rex_sql::getServerVersion();
 		if (rex_version_compare($serverVersion, $min_mysql_version, '<') == 1)
 		{

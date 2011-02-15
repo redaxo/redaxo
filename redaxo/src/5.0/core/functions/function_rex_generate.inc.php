@@ -17,7 +17,7 @@ function rex_generateAll()
   global $REX;
 
   // ----------------------------------------------------------- generated löschen
-  rex_deleteDir($REX['INCLUDE_PATH'].'/generated', FALSE);
+  rex_deleteDir(rex_path::generated(), FALSE);
 
   // ----------------------------------------------------------- generiere clang
   if(($MSG = rex_generateClang()) !== TRUE)
