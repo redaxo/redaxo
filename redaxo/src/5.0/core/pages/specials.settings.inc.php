@@ -167,7 +167,7 @@ echo '
             PHP: '.phpversion().'</p>
             
             <h4 class="rex-hl3">'.$REX['I18N']->msg("database").'</h4>
-            <p class="rex-tx1">MySQL: '.$REX['MYSQL_VERSION'].'<br />'.$REX['I18N']->msg("name").': '.$REX['DB']['1']['NAME'].'<br />'.$REX['I18N']->msg("host").': '.$REX['DB']['1']['HOST'].'</p>
+            <p class="rex-tx1">MySQL: '.rex_sql::getServerVersion().'<br />'.$REX['I18N']->msg("name").': '.$REX['DB']['1']['NAME'].'<br />'.$REX['I18N']->msg("host").': '.$REX['DB']['1']['HOST'].'</p>
 						
 					</div>
 				</div>
