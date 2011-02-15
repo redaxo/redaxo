@@ -4,7 +4,7 @@
  * Klasse zur Verbindung und Interatkion mit der Datenbank
  * @version svn:$Id$
  */
-
+// see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
 class rex_sql
 {
   public
@@ -16,7 +16,6 @@ class rex_sql
     $fieldnames, // Spalten im ResultSet
     $tablenames, // Tabelle im ResultSet
     $lastRow, // Wert der zuletzt gefetchten zeile
-
     $table, // Tabelle setzen
     $wherevar, // WHERE Bediengung
     $rows, // anzahl der treffer
@@ -32,29 +31,6 @@ class rex_sql
 
     $this->debugsql = false;
     $this->selectDB($DBID);
-	  $this->initConnection();
-  }
-
-
-  /**
-   * Initialisiert die Datenbankverbindung (Character Set, etc.)
-   */
-  protected function initConnection()
-  {
-	  global $REX;
-
-    if($REX['MYSQL_VERSION'] == '')
-    {
-      // MySQL Version bestimmen
-      $this->setQuery('SELECT VERSION() as VERSION');
-      if(preg_match('/([0-9]+\.([0-9\.])+)/', $this->getValue('VERSION'), $matches))
-      {
-        $REX['MYSQL_VERSION'] = $matches[1];
-      }else
-      {
-        throw new rexException('Could not identifiy MySQL Version!');
-      }
-    }
   }
 
   /**
@@ -70,15 +46,13 @@ class rex_sql
     try {
       if(!isset(self::$pdo[$this->DBID]))
       {
-        $dsn = 'mysql:host='. $REX['DB'][$DBID]['HOST'] .';dbname='. $REX['DB'][$DBID]['NAME'];
-        $options = array(
-          PDO::ATTR_PERSISTENT => (boolean) $REX['DB'][$DBID]['PERSISTENT'],
-          PDO::ATTR_FETCH_TABLE_NAMES => true,
-    //      PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL,
-    //      PDO::ATTR_EMULATE_PREPARES => true,
+        $conn = self::createConnection(
+          $REX['DB'][$DBID]['HOST'],
+          $REX['DB'][$DBID]['NAME'],
+          $REX['DB'][$DBID]['LOGIN'],
+          $REX['DB'][$DBID]['PSW']
         );
-        
-        self::$pdo[$this->DBID] = new PDO($dsn, $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW'], $options);
+        self::$pdo[$this->DBID] = $conn;
         // ggf. Strict Mode abschalten
         $this->setQuery('SET SQL_MODE=""');
         // set encoding
@@ -91,6 +65,19 @@ class rex_sql
       echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . $REX['ERROR_EMAIL'] . ">" . $REX['ERROR_EMAIL'] . "</a>\n | Thank you!\n</font>";
       exit;
     }
+  }
+  
+  static protected function createConnection($host, $database, $login, $password, $persistent = false)
+  {
+    $dsn = 'mysql:host='. $host .';dbname='. $database;
+    $options = array(
+      PDO::ATTR_PERSISTENT => (boolean) $persistent,
+      PDO::ATTR_FETCH_TABLE_NAMES => true,
+//      PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL,
+//      PDO::ATTR_EMULATE_PREPARES => true,
+    );
+    
+    return new PDO($dsn, $login, $password, $options);
   }
 
   /**
@@ -145,7 +132,7 @@ class rex_sql
     // DBID aus dem Query herausschneiden, falls vorhanden
     self::stripQueryDBID($qry);
 
-    if(preg_match('/^(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE)/i', $qry, $matches))
+    if(preg_match('/^(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE)/i', $qry, $matches))
       return strtoupper($matches[1]);
 
     return false;
@@ -214,7 +201,9 @@ class rex_sql
     {
       $this->rows = $this->stmt->rowCount();
     }
-    else {
+    // since CREATE statements don't return a ResultSet, FALSE is considered successfull
+    else if(self::getQueryType($qry) != 'CREATE')
+    {
       debug_print_backtrace();
       throw new rexException($qry);
     }
@@ -444,6 +433,11 @@ class rex_sql
 // brauchen wir hier nicht mehr escapen
 //        $qry .= '`' . $fld_name . '`=' . $this->escape($value);
       }
+    }
+    
+    if(trim($qry) == '')
+    {
+      throw new rexException('no values given to buildSetQuery for select(), update(), insert() or replace()');
     }
 
     return $qry;
@@ -877,8 +871,6 @@ class rex_sql
       $sql->next();
     }
 
-    var_dump($columns);
-
     return $columns;
   }
 
@@ -888,16 +880,14 @@ class rex_sql
    * Die Versionsinformation ist erst bekannt,
    * nachdem der rex_sql Konstruktor einmalig erfolgreich durchlaufen wurde.
    */
-  static public function getServerVersion()
+  static public function getServerVersion($DBID = 1)
   {
-    global $REX;
-
-    if(!isset($REX['MYSQL_VERSION']))
+    if(!isset(self::$pdo[$DBID]))
     {
-      throw new rexException('there has to be at last one '. __CLASS__ .'-object to check the server version');
+      // create connection if necessary
+      $dummy = new rex_sql($DBID);
     }
-
-    return $REX['MYSQL_VERSION'];
+    return self::$pdo[$DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
   }
 
   static public function factory($DBID=1, $class=null)
@@ -941,40 +931,70 @@ class rex_sql
    * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
    * Datenbank an
    */
-  /*
   static public function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
   {
     global $REX;
-
+    
     $err_msg = true;
-    $link = @ mysql_connect($host, $login, $pw);
-    if (!$link)
+    
+    try 
     {
-      $err_msg = $REX['I18N']->msg('setup_021');
+      $conn = self::createConnection(
+        $host,
+        $dbname,
+        $login,
+        $pw
+      );
     }
-    elseif (!@ mysql_select_db($dbname, $link))
+    catch (PDOException $e)
     {
-      if($createDb)
+      if(strpos($e->getMessage(), 'SQLSTATE[42000]') !== false)
       {
-        mysql_query('CREATE DATABASE `'. $dbname .'`', $link);
-        if(mysql_error($link) != '')
+        if($createDb)
         {
+          try {
+            // use the "mysql" db for the connection
+            $conn = self::createConnection(
+              $host,
+              'mysql',
+              $login,
+              $pw
+            );
+            if($conn->exec('CREATE DATABASE '. $dbname) !== 1)
+            {
+              // unable to create db
+              $err_msg = $REX['I18N']->msg('setup_021');
+            }
+          }
+          catch (PDOException $e)
+          {
+            // unable to find database
+            $err_msg = $REX['I18N']->msg('setup_022');
+          }
+        }
+        else
+        {
+          // unable to find database
           $err_msg = $REX['I18N']->msg('setup_022');
         }
       }
+      else if(strpos($e->getMessage(), 'SQLSTATE[28000]') !== false)
+      {
+        // unable to connect
+        $err_msg = $REX['I18N']->msg('setup_021');
+      }
       else
       {
-        $err_msg = $REX['I18N']->msg('setup_022');
+        // we didn't expected this error, so rethrow it to show it to the admin/end-user
+        throw $e;
       }
     }
-
-    if($link)
-    {
-      mysql_close($link);
-    }
-    return $err_msg;
+    
+    // close the connection
+    $conn = null;
+    
+    return  $err_msg;
   }
-  */
 
   public function addGlobalUpdateFields($user = null)
   {
