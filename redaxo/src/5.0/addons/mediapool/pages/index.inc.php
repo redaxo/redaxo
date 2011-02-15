@@ -171,7 +171,7 @@ function selectMediaListArray(files)
             var sourcelength = source.options.length;
 
             var files = getObjArray(files);
-            
+
             for(var i = 0; i < files.length; i++)
             {
               if (files[i].checked)
@@ -193,13 +193,13 @@ function selectMediaListArray(files)
 
 function insertImage(src,alt)
 {
-  window.opener.insertImage('files/' + src, alt);
+  window.opener.insertImage(<?php echo rex_path::media('', true); ?> + src, alt);
   self.close();
 }
 
 function insertLink(src)
 {
-  window.opener.insertFileLink('files/' + src);
+  window.opener.insertFileLink(<?php echo rex_path::media('', true); ?> + src);
   self.close();
 }
 

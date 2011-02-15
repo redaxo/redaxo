@@ -20,7 +20,7 @@ $rex_img_type = rex_get('rex_img_type', 'string');
 
 if($rex_img_file != '' && $rex_img_type != '')
 {
-  $imagepath = $REX['HTDOCS_PATH'].'files/'.$rex_img_file;
+  $imagepath = rex_path::media($rex_img_file, true);
   $cachepath = $REX['INCLUDE_PATH'].'/generated/files/';
 
   $image         = new rex_image($imagepath);

@@ -8,11 +8,11 @@ if($PERMALL)
 {
   // ---- Dateien aus dem Ordner lesen
   $folder_files = array();
-  $handle = opendir($REX['MEDIAFOLDER']);
+  $handle = opendir(rex_path::media());
   if($handle) {
     while(($file = readdir($handle)) !== false)
     {
-      if(!is_file($REX['MEDIAFOLDER'] .'/'. $file)) continue;
+      if(!is_file(rex_path::media($file))) continue;
 
       // Tempfiles nicht synchronisieren
       if(substr($file, 0, strlen($REX['TEMP_PREFIX'])) != $REX['TEMP_PREFIX'])
@@ -42,7 +42,7 @@ if($PERMALL)
   {
     $sync_files = rex_post('sync_files', 'array');
     $ftitle     = rex_post('ftitle', 'string');
-    
+
     if($diff_count > 0)
     {
       foreach($sync_files as $file)
@@ -63,7 +63,7 @@ if($PERMALL)
       $diff_count = count($diff_files);
     }else
     {
- 
+
     }
   }elseif(rex_post('save', 'boolean'))
   {
@@ -87,7 +87,7 @@ if($PERMALL)
     {
       echo '<div class="rex-form-row">
               <p class="rex-form-checkbox rex-form-label-right">';
-      if(is_writable($REX['MEDIAFOLDER'] .'/'. $file))
+      if(is_writable(rex_path::media($file)))
       {
         echo '<input class="rex-form-checkbox" type="checkbox" id="sync_file_'. $file .'" name="sync_files[]" value="'. $file .'" />
               <label for="sync_file_'. $file .'">'. $file .'</label>';

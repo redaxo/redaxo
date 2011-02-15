@@ -14,7 +14,7 @@ function rex_absPath($rel_path, $rel_to_current = false)
 
   $stack = array();
   // Pfad relativ zum aktuellen Verzeichnis?
-  // z.b. ../../files
+  // z.b. ../../media
   if($rel_to_current)
   {
     $path = realpath('.');

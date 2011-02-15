@@ -44,11 +44,11 @@ $cat_out = '<div class="rex-form" id="rex-form-mediapool-selectcategory">
               <form action="index.php" method="post">
                 <fieldset class="rex-form-col-1">
                   <legend>'. $REX['I18N']->msg('pool_select_cat') .'</legend>
-                  
+
                   <div class="rex-form-wrapper">
                     <input type="hidden" name="page" value="mediapool" />
                     '. $arg_fields .'
-                    
+
                     <div class="rex-form-row">
                       <p class="rex-form-select">
                         <label for="rex_file_category">'. $REX['I18N']->msg('pool_kats') .'</label>
@@ -74,7 +74,7 @@ if ($subpage!='media')
                     </noscript>';
 }
 
-      
+
 $cat_out .= '     </div>
                 </fieldset>
               </form>
@@ -143,14 +143,14 @@ if ($subpage=="media" && rex_post('btn_update', 'string')){
   {
     if ($PERMALL || ($REX['USER']->hasPerm('media['.$gf->getValue('category_id').']') && $REX['USER']->hasPerm('media['. $rex_file_category .']')))
     {
-      
+
       $FILEINFOS = array();
       $FILEINFOS["rex_file_category"] = $rex_file_category;
       $FILEINFOS["file_id"] = $file_id;
       $FILEINFOS["title"] = rex_request("ftitle","string");
       $FILEINFOS["filetype"] = $gf->getValue('filetype');
       $FILEINFOS["filename"] = $gf->getValue('filename');
-      
+
       $return = rex_mediapool_updateMedia($_FILES['file_new'],$FILEINFOS,$REX['USER']->getValue("login"));
 
       if($return["ok"] == 1)
@@ -205,7 +205,7 @@ if ($subpage == "media")
     {
       $fwidth = $gf->getValue('width');
       $fheight = $gf->getValue('height');
-      if($size = @getimagesize($REX['HTDOCS_PATH'].'/files/'.$fname))
+      if($size = @getimagesize(rex_path::media($fname, true)))
       {
         $fwidth = $size[0];
         $fheight = $size[1];
@@ -227,10 +227,10 @@ if ($subpage == "media")
           <span class="rex-form-read" id="fwidth">'. $fwidth .' px / '. $fheight .' px</span>
         </p>
       </div>';
-      $imgn = $REX['HTDOCS_PATH'] .'files/'. $fname .'" width="'. $rfwidth;
-      $img_max = $REX['HTDOCS_PATH'] .'files/'. $fname;
+      $imgn = rex_path::media($fname, true) .'" width="'. $rfwidth;
+      $img_max = rex_path::media($fname, true);
 
-      if (!file_exists($REX['MEDIAFOLDER'] .'/'. $fname))
+      if (!file_exists(rex_path::media($fname)))
       {
         $imgn = 'media/mime-error.gif';
       }else if ($thumbs)
@@ -264,7 +264,7 @@ if ($subpage == "media")
       echo rex_info($info);
       $info = '';
     }
-    
+
     if($opener_input_field == 'TINYIMG')
     {
       if ($ffiletype_ii)
@@ -306,7 +306,7 @@ if ($subpage == "media")
           <form action="index.php" method="post" enctype="multipart/form-data">
             <fieldset class="rex-form-col-1">
               <legend>'. $REX['I18N']->msg('pool_file_edit') . $opener_link.'</legend>
-              
+
               <div class="rex-form-wrapper">
                 <input type="hidden" name="page" value="mediapool" />
                 <input type="hidden" name="subpage" value="media" />
@@ -320,7 +320,7 @@ if ($subpage == "media")
                       <input class="rex-form-text" type="text" size="20" id="ftitle" name="ftitle" value="'. htmlspecialchars($ftitle) .'" />
                     </p>
                   </div>
-                  
+
                   <div class="rex-form-row">
                     <p class="rex-form-select">
                       <label for="rex_file_new_category">'. $REX['I18N']->msg('pool_file_category') .'</label>
@@ -338,31 +338,31 @@ if ($subpage == "media")
                   <div class="rex-form-row">
                     <p class="rex-form-read">
                       <label for="flink">'. $REX['I18N']->msg('pool_filename') .'</label>
-                      <span class="rex-form-read"><a href="../files/'. $encoded_fname .'" id="flink">'. htmlspecialchars($fname) .'</a> [' . $ffile_size . ']</span>
+                      <span class="rex-form-read"><a href="'. rex_path::media($encoded_fname, true) .'" id="flink">'. htmlspecialchars($fname) .'</a> [' . $ffile_size . ']</span>
                     </p>
                   </div>
-                  
+
                   <div class="rex-form-row">
                     <p class="rex-form-read">
                       <label for="fupdate">'. $REX['I18N']->msg('pool_last_update') .'</label>
                       <span class="rex-form-read" id="fupdate">'. strftime($REX['I18N']->msg('datetimeformat'),$gf->getValue("updatedate")) .' ['. $gf->getValue("updateuser") .']</span>
                     </p>
                   </div>
-                  
+
                   <div class="rex-form-row">
                     <p class="rex-form-read">
                       <label for="fcreate">'. $REX['I18N']->msg('pool_created') .'</label>
                       <span class="rex-form-read" id="fcreate">'. strftime($REX['I18N']->msg('datetimeformat'),$gf->getValue("createdate")).' ['.$gf->getValue("createuser") .']</span>
                     </p>
                   </div>
-                  
+
                   <div class="rex-form-row">
                     <p class="rex-form-file">
                       <label for="file_new">'. $REX['I18N']->msg('pool_file_exchange') .'</label>
                       <input class="rex-form-file" type="file" id="file_new" name="file_new" size="20" />
                     </p>
                   </div>
-                  
+
                   <div class="rex-form-row">
                     <p class="rex-form-submit">
                       <input type="submit" class="rex-form-submit" value="'. $REX['I18N']->msg('pool_file_update') .'" name="btn_update"'. rex_accesskey($REX['I18N']->msg('pool_file_update'), $REX['ACKEY']['SAVE']) .' />
@@ -410,7 +410,7 @@ if ($subpage == "media")
                   <div class="rex-form-row">
                     <p class="rex-form-read">
                         <label for="flink">'. $REX['I18N']->msg('pool_filename') .'</label>
-                        <a class="rex-form-read" href="../files/'. $encoded_fname .'" id="flink">'. $fname .'</a> [' . $ffile_size . ']
+                        <a class="rex-form-read" href="'. rex_path::media($encoded_fname, true) .'" id="flink">'. $fname .'</a> [' . $ffile_size . ']
                     </p>
                   </div>
                   <div class="rex-form-row">
@@ -425,10 +425,10 @@ if ($subpage == "media")
                         <span class="rex-form-read" id="fcreate">'. strftime($REX['I18N']->msg('datetimeformat'),$gf->getValue("createdate")).' ['.$gf->getValue("createuser") .']</span>
                     </p>
                   </div>
-                  
+
                 </div><!-- END rex-mediapool-detail-data //-->
                 '. $add_image .'
-                
+
 
               	<div class="rex-clearer"></div>
               </div>
@@ -482,7 +482,7 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
   {
   	$warning = array();
   	$info = array();
-  	
+
     foreach($selectedmedia as $file_name)
     {
 			$media = rex_ooMedia::getMediaByFileName($file_name);
@@ -563,7 +563,7 @@ if ($subpage == '')
     echo rex_info($info);
     $info = '';
   }
-    
+
   if(!empty($args['types']))
     echo rex_info($REX['I18N']->msg('pool_file_filter', $args['types']));
 
@@ -572,7 +572,7 @@ if ($subpage == '')
        <form action="index.php" method="post" enctype="multipart/form-data">
           <fieldset class="rex-form-col-1">
             <legend class="rex-form-hidden-legend">'. $REX['I18N']->msg('pool_selectedmedia') .'</legend>
-            
+
             <div class="rex-form-wrapper">
               <input type="hidden" name="page" value="mediapool" />
               <input type="hidden" id="media_method" name="media_method" value="" />
@@ -712,7 +712,7 @@ if ($subpage == '')
 
       if (rex_ooMedia::_isImage($file_name) && $thumbs)
       {
-        $thumbnail = '<img src="'. $REX['HTDOCS_PATH'] .'files/'.$file_name.'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
+        $thumbnail = '<img src="'. rex_path::media($file_name, true) .'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
         if ($image_manager)
         {
           $thumbnail = '<img src="'. $REX['HTDOCS_PATH'] . $REX['FRONTEND_FILE'] .'?rex_img_type=rex_mediapool_preview&amp;rex_img_file='.$encoded_file_name.'" alt="'. $alt .'" title="'. $alt .'" />';
@@ -754,7 +754,7 @@ if ($subpage == '')
 
     $add_td = '<td></td>';
     if ($PERMALL) $add_td = '<td class="rex-icon"><input class="rex-form-checkbox" type="checkbox" name="selectedmedia[]" value="'.$file_name.'" /></td>';
-    
+
     $thumbnail = str_replace('src="', 'longdesc="', $thumbnail);
     $thumbnail = str_replace('<img', '<img class="img-ondemand" src="data:image/gif;base64,R0lGODlhAQABAIAAAPj8/wAAACwAAAAAAQABAAACAkQBADs"', $thumbnail);
 

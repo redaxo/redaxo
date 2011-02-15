@@ -253,7 +253,7 @@ class rex_ooMedia
   public function getPath()
   {
     global $REX;
-    return $REX['HTDOCS_PATH'].'files';
+    return rex_path::media('', true);
   }
 
   /**
@@ -490,7 +490,7 @@ class rex_ooMedia
       else
       {
         // Bild 1:1 anzeigen
-        $path .= 'files/';
+        $path .= 'media/';
         $file = $this->getFileName();
       }
     }
@@ -620,7 +620,7 @@ class rex_ooMedia
     $filename = addslashes($this->getFileName());
     // replace LIKE wildcards
     $likeFilename = str_replace(array('_', '%'), array('\_', '\%'), $filename);
-    
+
 
     $values = array();
     for ($i = 1; $i < 21; $i++)
@@ -833,7 +833,7 @@ class rex_ooMedia
 
       if($this->fileExists())
       {
-        unlink($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$this->getFileName());
+        unlink(rex_path::media($this->getFileName()));
       }
 
       rex_deleteCacheMedia($this->getFileName());
@@ -852,7 +852,7 @@ class rex_ooMedia
       $filename = $this->getFileName();
     }
 
-    return file_exists($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$filename);
+    return file_exists(rex_path::media($filename));
   }
 
   // allowed filetypes

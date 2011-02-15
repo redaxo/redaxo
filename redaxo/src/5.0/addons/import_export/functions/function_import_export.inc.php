@@ -250,7 +250,7 @@ function rex_a1_import_files($filename)
   }
 
   // Ordner /files komplett leeren
-  rex_deleteFiles($REX['MEDIAFOLDER']);
+  rex_deleteFiles(rex_path::media());
 
   $tar = new rex_tar;
 
@@ -486,7 +486,7 @@ function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
   global $REX;
 
   $handle = opendir($path.$dir);
-  $isMediafolder = realpath($path.$dir) == $REX['MEDIAFOLDER'];
+  $isMediafolder = realpath($path.$dir).'/' == rex_path::media();
   while (false !== ($file = readdir($handle)))
   {
     // Alles exportieren, außer ...

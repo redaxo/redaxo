@@ -364,7 +364,7 @@ function deleteREX(id, i_list, i_select)
     source.options[position] = null;
     sourcelength--;
 
-    // Wenn das erste gelöscht wurde
+    // Wenn das erste gelï¿½scht wurde
     if(position == 0)
     {
       // Und es gibt noch weitere,
@@ -588,7 +588,7 @@ jQuery(function($){
     	url = '../index.php?rex_resize=246a__'+ value;
     else
     {
-      url = '../files/'+ value;
+      url = '../media/'+ value;
       width = 246;
     }
     
@@ -601,7 +601,7 @@ jQuery(function($){
         value.substr(-4) == "jpeg")
       )
     {
-      // img tag nur einmalig einfügen, ggf erzeugen wenn nicht vorhanden
+      // img tag nur einmalig einfï¿½gen, ggf erzeugen wenn nicht vorhanden
       var img = $('img', div);
       if(img.length == 0)
       {

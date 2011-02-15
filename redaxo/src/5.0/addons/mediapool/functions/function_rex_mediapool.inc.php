@@ -41,10 +41,10 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
   if($doSubindexing)
   {
     // ----- datei schon vorhanden -> namen aendern -> _1 ..
-    if (file_exists($REX['MEDIAFOLDER'].'/'.$NFILENAME))
+    if (file_exists(rex_path::media($NFILENAME)))
     {
       $cnt = 1;
-      while(file_exists($REX['MEDIAFOLDER'].'/'.$NFILE_NAME.'_'.$cnt.$NFILE_EXT))
+      while(file_exists(rex_path::media($NFILE_NAME.'_'.$cnt.$NFILE_EXT)))
         $cnt++;
 
       $NFILENAME = $NFILE_NAME.'_'.$cnt.$NFILE_EXT;
@@ -87,8 +87,8 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
   $message = '';
 
   // ----- alter/neuer filename
-  $srcFile = $REX['MEDIAFOLDER'].'/'.$FILENAME;
-  $dstFile = $REX['MEDIAFOLDER'].'/'.$NFILENAME;
+  $srcFile = rex_path::media($FILENAME);
+  $dstFile = rex_path::media($NFILENAME);
 
   $success = true;
   if($isFileUpload) // Fileupload?
@@ -202,8 +202,8 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
     // if ($ffiletype == $FILEINFOS["filetype"] || rex_ooMedia::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
     if($p_new['extension'] == $p_old['extension'])
     {
-      if (move_uploaded_file($ffilename,$REX['MEDIAFOLDER'] .'/'. $FILEINFOS["filename"]) ||
-          copy($ffilename,$REX['MEDIAFOLDER'] .'/'. $FILEINFOS["filename"]))
+      if (move_uploaded_file($ffilename, rex_path::media($FILEINFOS["filename"])) ||
+          copy($ffilename, rex_path::media($FILEINFOS["filename"])))
       {
         $RETURN["msg"] = $REX['I18N']->msg('pool_file_changed');
 				$FILEINFOS["filetype"] = $ffiletype;
@@ -212,12 +212,12 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
         $FILESQL->setValue('filetype',$FILEINFOS["filetype"]);
         // $FILESQL->setValue('originalname',$ffilename);
         $FILESQL->setValue('filesize',$FILEINFOS["filesize"]);
-        if($size = @getimagesize($REX['MEDIAFOLDER'] .'/'. $FILEINFOS["filename"]))
+        if($size = @getimagesize(rex_path::media($FILEINFOS["filename"])))
         {
           $FILESQL->setValue('width',$size[0]);
           $FILESQL->setValue('height',$size[1]);
         }
-        @chmod($REX['MEDIAFOLDER'].'/'. $FILEINFOS["filename"], $REX['FILEPERM']);
+        @chmod(rex_path::media($FILEINFOS["filename"]), $REX['FILEPERM']);
         $updated = true;
       }else
       {
@@ -295,7 +295,7 @@ function rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize
 {
   global $REX;
 
-  $abs_file = $REX['MEDIAFOLDER'].'/'. $physical_filename;
+  $abs_file = rex_path::media($physical_filename);
 
   if(!file_exists($abs_file))
   {

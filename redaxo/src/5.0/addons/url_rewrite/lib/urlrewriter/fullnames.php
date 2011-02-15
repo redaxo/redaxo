@@ -18,7 +18,7 @@
  *     RewriteCond %{REQUEST_FILENAME} !-d
  *     RewriteCond %{REQUEST_FILENAME} !-l
  *     RewriteCond %{REQUEST_URI} !^redaxo/.*
- *     RewriteCond %{REQUEST_URI} !^files/.*
+ *     RewriteCond %{REQUEST_URI} !^media/.*
  *     RewriteRule ^(.*)$ index.php?%{QUERY_STRING} [L]
  *
  *   2) .htaccess file in das redaxo/ verzeichnis:

@@ -378,7 +378,7 @@ jQuery(function($){
     	url = '../index.php?rex_resize=246a__'+ value;
     else
     {
-      url = '../files/'+ value;
+      url = '../media/'+ value;
       width = 246;
     }
     
