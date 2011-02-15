@@ -14,14 +14,17 @@ class rex_sql
   private
     $values, // Werte von setValue
     $fieldnames, // Spalten im ResultSet
+    $tablenames, // Tabelle im ResultSet
     $lastRow, // Wert der zuletzt gefetchten zeile
 
     $table, // Tabelle setzen
     $wherevar, // WHERE Bediengung
     $rows, // anzahl der treffer
     $stmt, // ResultSet
-    $pdo = array(), // array von datenbankverbindungen
     $DBID; // ID der Verbindung
+    
+  private static
+    $pdo = array(); // array von datenbankverbindungen
 
   protected function __construct($DBID = 1)
   {
@@ -43,8 +46,8 @@ class rex_sql
     if($REX['MYSQL_VERSION'] == '')
     {
       // MySQL Version bestimmen
-      $res = $this->getArray('SELECT VERSION() as VERSION');
-      if(preg_match('/([0-9]+\.([0-9\.])+)/', $res[0]['VERSION'], $matches))
+      $this->setQuery('SELECT VERSION() as VERSION');
+      if(preg_match('/([0-9]+\.([0-9\.])+)/', $this->getValue('VERSION'), $matches))
       {
         $REX['MYSQL_VERSION'] = $matches[1];
       }else
@@ -63,18 +66,19 @@ class rex_sql
 
     $this->DBID = $DBID;
 
-    $dsn = 'mysql:host='. $REX['DB'][$DBID]['HOST'] .';dbname='. $REX['DB'][$DBID]['NAME'];
-    $options = array(
-      PDO::ATTR_PERSISTENT => (boolean) $REX['DB'][$DBID]['PERSISTENT'],
-      //PDO::ATTR_FETCH_TABLE_NAMES => true,
-//      PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL,
-//      PDO::ATTR_EMULATE_PREPARES => true,
-    );
 
     try {
-      if(!isset($this->pdo[$this->DBID]))
+      if(!isset(self::$pdo[$this->DBID]))
       {
-        $this->pdo[$this->DBID] = new PDO($dsn, $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW'], $options);
+        $dsn = 'mysql:host='. $REX['DB'][$DBID]['HOST'] .';dbname='. $REX['DB'][$DBID]['NAME'];
+        $options = array(
+          PDO::ATTR_PERSISTENT => (boolean) $REX['DB'][$DBID]['PERSISTENT'],
+          PDO::ATTR_FETCH_TABLE_NAMES => true,
+    //      PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL,
+    //      PDO::ATTR_EMULATE_PREPARES => true,
+        );
+        
+        self::$pdo[$this->DBID] = new PDO($dsn, $REX['DB'][$DBID]['LOGIN'], $REX['DB'][$DBID]['PSW'], $options);
         // ggf. Strict Mode abschalten
         $this->setQuery('SET SQL_MODE=""');
         // set encoding
@@ -181,7 +185,7 @@ class rex_sql
    */
   public function prepareQuery($qry)
   {
-    return ($this->stmt = $this->pdo[$this->DBID]->prepare($qry));
+    return ($this->stmt = self::$pdo[$this->DBID]->prepare($qry));
   }
 
   /**
@@ -204,7 +208,7 @@ class rex_sql
     // Alle Werte zuruecksetzen
     $this->flush();
 
-    $this->stmt = $this->pdo[$this->DBID]->query(trim($qry));
+    $this->stmt = self::$pdo[$this->DBID]->query(trim($qry));
 
     if($this->stmt !== false)
     {
@@ -293,8 +297,6 @@ class rex_sql
    * Gibt den Wert einer Spalte im ResultSet zurueck
    * @param $value Name der Spalte
    * @param [$row] Zeile aus dem ResultSet
-   *
-   * @deprecated use getRow() instead!
    */
   public function getValue($feldname)
   {
@@ -302,7 +304,26 @@ class rex_sql
     {
       throw new rexException('parameter fieldname must not be empty!');
     }
-
+    
+    // check if there is an table alias defined
+    // if not, try to guess the tablename
+    if(strpos($feldname, '.') === false)
+    {
+      $tables = $this->getTablenames();
+      foreach($tables as $table)
+      {
+        if($this->hasValue($table .'.'. $feldname))
+        {
+          return $this->fetchValue($table .'.'. $feldname);
+        }
+      }
+    }
+    
+    return $this->fetchValue($feldname);
+  }
+  
+  protected function fetchValue($feldname)
+  {
   	if(isset($this->values[$feldname]))
   		return $this->values[$feldname];
 
@@ -615,7 +636,7 @@ class rex_sql
    */
   public function getLastId()
   {
-    return $this->pdo[$this->DBID]->lastInsertId();
+    return self::$pdo[$this->DBID]->lastInsertId();
   }
 
   /**
@@ -672,7 +693,7 @@ class rex_sql
    */
   public function getErrno()
   {
-    return (int) $this->pdo[$this->DBID]->errorCode();
+    return (int) self::$pdo[$this->DBID]->errorCode();
   }
 
   /**
@@ -680,7 +701,7 @@ class rex_sql
    */
   public function getError()
   {
-    $errorInfos = $this->pdo[$this->DBID]->errorInfo();
+    $errorInfos = self::$pdo[$this->DBID]->errorInfo();
     // idx0 	SQLSTATE error code (a five characters alphanumeric identifier defined in the ANSI SQL standard).
     // idx1 	Driver-specific error code.
     // idx2 	Driver-specific error message.
@@ -752,15 +773,30 @@ class rex_sql
    */
   public function getFieldnames()
   {
-    if(empty($this->fieldnames))
+    $this->fetchMeta();
+    return $this->fieldnames;
+  }
+  
+  public function getTablenames()
+  {
+    $this->fetchMeta();
+    return $this->tablenames;
+  }
+  
+  private function fetchMeta()
+  {
+    if($this->fieldnames === NULL || $this->tablenames === NULL)
     {
+      $this->fieldnames = array();
+      $this->tablenames = array();
+      
       for ($i = 0; $i < $this->getFields(); $i++)
       {
         $metadata = $this->stmt->getColumnMeta($i);
         $this->fieldnames[] = $metadata['name'];
+        $this->tablenames[] = $metadata['table'];
       }
     }
-    return $this->fieldnames;
   }
 
   /**
@@ -770,7 +806,7 @@ class rex_sql
    */
   public function escape($value)
   {
-    return $this->pdo[$this->DBID]->quote($value);
+    return self::$pdo[$this->DBID]->quote($value);
   }
 
   /**
