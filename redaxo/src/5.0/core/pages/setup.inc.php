@@ -9,7 +9,7 @@ if (!isset($REX))
 	echo '<html>
           <title></title>
           <head>
-            <script src="../../../../../redaxo_media/standard.js" type="text/javascript"></script>
+            <script src="../../../../../assets/standard.js" type="text/javascript"></script>
             <script type="text/javascript">
               var needle = new parent.getObj("security_warning");
               var span = needle.obj;
@@ -305,8 +305,8 @@ if ($checkmodus == 1)
 		$REX['INCLUDE_PATH'] .'/generated/articles',
 		$REX['INCLUDE_PATH'] .'/generated/templates',
 		$REX['INCLUDE_PATH'] .'/generated/files',
-		$REX['MEDIAFOLDER'],
-		$REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR.'_readme.txt',
+		rex_path::media(),
+		rex_path::media('_readme.txt'),
 		getImportDir()
 	);
 

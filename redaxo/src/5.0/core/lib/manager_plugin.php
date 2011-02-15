@@ -149,10 +149,9 @@ class rex_pluginManager extends rex_baseManager
     return rex_plugins_folder($this->addonName, $pluginName);
   }
 
-  protected function mediaFolder($pluginName)
+  protected function assetsFolder($pluginName)
   {
-    global $REX;
-    return $REX['OPENMEDIAFOLDER'] .DIRECTORY_SEPARATOR .'addons'. DIRECTORY_SEPARATOR. $this->addonName .DIRECTORY_SEPARATOR .'plugins'. DIRECTORY_SEPARATOR. $pluginName;
+    return rex_path::pluginAssets($this->addonName, $pluginName);
   }
 
 protected function configNamespace($pluginName)

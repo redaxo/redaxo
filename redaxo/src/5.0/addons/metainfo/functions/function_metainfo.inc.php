@@ -217,7 +217,7 @@ function a62_extensions_handler($params)
   if($page == 'metainfo' || ($page == 'content' && $mode == 'meta'))
   {
     rex_register_extension('PAGE_HEADER',
-      create_function('$params', 'return $params[\'subject\'] ."\n".\'  <script src="../redaxo_media/addons/'. $mypage .'/metainfo.js" type="text/javascript"></script>\';')
+      create_function('$params', 'return $params[\'subject\'] ."\n".\'  <script src="'. rex_path::addonAssets($mypage, 'metainfo.js', true) .'" type="text/javascript"></script>\';')
     );
   }
 

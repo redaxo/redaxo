@@ -485,7 +485,7 @@ function rex_mediapool_Syncform($rex_file_category)
 function rex_mediapool_add_assets($params)
 {
   $params['subject'] .= "\n  ".
-    '<script type="text/javascript" src="../redaxo_media/addons/mediapool/mediapool.js"></script>';
+    '<script type="text/javascript" src="'. rex_path::addonAssets('mediapool', 'mediapool.js', true) .'"></script>';
 
   return $params['subject'];
 }

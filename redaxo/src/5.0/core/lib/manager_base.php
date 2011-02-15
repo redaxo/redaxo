@@ -33,7 +33,7 @@ abstract class rex_baseManager
     $install_file = $install_dir.'install.inc.php';
     $install_sql  = $install_dir.'install.sql';
     $config_file  = $install_dir.'config.inc.php';
-    $files_dir    = $install_dir.'files';
+    $files_dir    = $install_dir.'assets';
     $package_file = $install_dir.'package.yml';
 
     // Pruefen des Addon Ornders auf Schreibrechte,
@@ -82,7 +82,7 @@ abstract class rex_baseManager
     // Dateien kopieren
     if($state === TRUE && is_dir($files_dir))
     {
-      if(!rex_copyDir($files_dir, $this->mediaFolder($addonName), $REX['OPENMEDIAFOLDER']))
+      if(!rex_copyDir($files_dir, $this->assetsFolder($addonName), rex_path::assets()))
       {
         $state = $this->I18N('install_cant_copy_files');
       }
@@ -145,7 +145,7 @@ abstract class rex_baseManager
         $state = 'Error found in uninstall.sql:<br />'. $state;
     }
 
-    $mediaFolder = $this->mediaFolder($addonName);
+    $mediaFolder = $this->assetsFolder($addonName);
     if($state === TRUE && is_dir($mediaFolder))
     {
       if(!rex_deleteDir($mediaFolder, TRUE))
@@ -495,9 +495,9 @@ abstract class rex_baseManager
   protected abstract function baseFolder($addonName);
 
   /**
-   * Findet den Basispfad für Media-Dateien
+   * Findet den Basispfad für Assets-Dateien
    */
-  protected abstract function mediaFolder($addonName);
+  protected abstract function assetsFolder($addonName);
 
   /**
    * Findet den Namespace für rex_config
