@@ -427,6 +427,11 @@ if ($checkmodus == 2 && $send == 1)
 	// -------------------------- MySQl VERSIONSCHECK
 	if($err_msg == '')
 	{
+		$REX['DB']['1']['NAME'] = $dbname;
+		$REX['DB']['1']['LOGIN'] = $redaxo_db_user_login;
+		$REX['DB']['1']['PSW'] = $redaxo_db_user_pass;
+		$REX['DB']['1']['HOST'] = $mysql_host;
+		
 	  $serverVersion = rex_sql::getServerVersion();
 		if (rex_version_compare($serverVersion, $min_mysql_version, '<') == 1)
 		{
@@ -437,11 +442,6 @@ if ($checkmodus == 2 && $send == 1)
 	// everything went fine, advance to the next setup step
 	if($err_msg == '')
 	{
-		$REX['DB']['1']['NAME'] = $dbname;
-		$REX['DB']['1']['LOGIN'] = $redaxo_db_user_login;
-		$REX['DB']['1']['PSW'] = $redaxo_db_user_pass;
-		$REX['DB']['1']['HOST'] = $mysql_host;
-
 		$checkmodus = 3;
 		$send = "";
 	}
