@@ -50,7 +50,11 @@ class rex_ooCategory extends rex_ooRedaxo
 
     if (file_exists($categorylist))
     {
-      include ($categorylist);
+      if (!isset ($REX['RE_CAT_ID'][$cat_parent_id]))
+      {
+        $REX['RE_CAT_ID'][$cat_parent_id] = json_decode(rex_get_file_contents($categorylist), true);   
+      }
+      
       if (isset ($REX['RE_CAT_ID'][$cat_parent_id]) and is_array($REX['RE_CAT_ID'][$cat_parent_id]))
       {
         foreach ($REX['RE_CAT_ID'][$cat_parent_id] as $var)

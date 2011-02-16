@@ -137,21 +137,20 @@ function rex_generateArticleMeta($article_id, $clang = null)
     foreach($db_fields as $field)
       $params[$field] = $sql->getValue($field);
 
-    $content = '<?php'."\n";
+    $cacheArray = array();
     foreach($params as $name => $value)
     {
-      $content .='$REX[\'ART\']['. $article_id .'][\''. $name .'\']['. $_clang .'] = \''. rex_addslashes($value,'\\\'') .'\';'."\n";
+      $cacheArray[$name][$_clang] = $value;
     }
-    $content .= '?>';
 
     $article_file = rex_path::generated("articles/$article_id.$_clang.article");
-    if (rex_put_file_contents($article_file, $content) === FALSE)
+    if (rex_put_file_contents($article_file, json_encode($cacheArray)) === FALSE)
     {
       return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
     }
 
     // damit die aktuellen änderungen sofort wirksam werden, einbinden!
-    require ($article_file);
+    $REX['ART'][$article_id] = json_decode(rex_get_file_contents($article_file), true);
 
     $sql->next();
   }
