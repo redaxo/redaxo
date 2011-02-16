@@ -187,6 +187,27 @@ function rex_deleteFiles($file)
 }
 
 /**
+ * Erstellt einne Ordner
+ *
+ * @param $dir Zu erstellendes Verzeichnis
+ * @param $recursive
+ *
+ * @return TRUE bei Erfolg, FALSE bei Fehler
+ */
+function rex_createDir($dir, $recursive = true)
+{
+  global $REX;
+
+  if(mkdir($dir, $REX['DIRPERM'], $recursive))
+  {
+    @chmod($dir, $REX['DIRPERM']);
+    return true;
+  }
+
+  return false;
+}
+
+/**
  * Kopiert eine Ordner von $srcdir nach $dstdir
  *
  * @param $srcdir Zu kopierendes Verzeichnis
