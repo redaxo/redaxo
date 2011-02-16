@@ -107,7 +107,7 @@ class rex_addonManager extends rex_baseManager
 
   protected function baseFolder($addonName)
   {
-    return rex_addons_folder($addonName);
+    return rex_path::addon($addonName);
   }
 
   protected function assetsFolder($addonName)
@@ -127,7 +127,7 @@ class rex_addonManager extends rex_baseManager
    */
   static public function loadPackage($addonName)
   {
-    $package_file = rex_addons_folder($addonName). 'package.yml';
+    $package_file = rex_path::addon($addonName, 'package.yml');
 
     if(is_readable($package_file))
     {

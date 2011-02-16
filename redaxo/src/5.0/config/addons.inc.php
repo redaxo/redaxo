@@ -21,7 +21,7 @@ require rex_path::src('config/plugins.inc.php');
 // so it is transparent in which order the addons are included afterwards.
 foreach(rex_ooAddon::getAvailableAddons() as $addonName)
 {
-  $addonsFolder = rex_addons_folder($addonName);
+  $addonsFolder = rex_path::addon($addonName);
 
   // add addon path for fragment loading
   if(is_readable($addonsFolder .'fragments'))
@@ -43,7 +43,7 @@ foreach(rex_ooAddon::getAvailableAddons() as $addonName)
 
   foreach(rex_ooPlugin::getAvailablePlugins($addonName) as $pluginName)
   {
-    $pluginsFolder = rex_plugins_folder($addonName, $pluginName);
+    $pluginsFolder = rex_path::plugin($addonName, $pluginName);
 
     // add plugin path for fragment loading
     if(is_readable($pluginsFolder .'fragments'))
@@ -68,7 +68,7 @@ foreach(rex_ooAddon::getAvailableAddons() as $addonName)
 // now we actually include the addons logic
 foreach(rex_ooAddon::getAvailableAddons() as $addonName)
 {
-  $addonsFolder = rex_addons_folder($addonName);
+  $addonsFolder = rex_path::addon($addonName);
 
   // include the addon itself
   if(is_readable($addonsFolder. 'config.inc.php'))
@@ -78,7 +78,7 @@ foreach(rex_ooAddon::getAvailableAddons() as $addonName)
 
   foreach(rex_ooPlugin::getAvailablePlugins($addonName) as $pluginName)
   {
-    $pluginsFolder = rex_plugins_folder($addonName, $pluginName);
+    $pluginsFolder = rex_path::plugin($addonName, $pluginName);
 
     // transform the plugin into a regular addon and include it itself afterwards
     if(is_readable($pluginsFolder. 'config.inc.php'))

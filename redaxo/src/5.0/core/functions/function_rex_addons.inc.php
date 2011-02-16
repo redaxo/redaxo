@@ -9,8 +9,6 @@
 
 function rex_addons_folder($addon = null)
 {
-  global $REX;
-
   if(!is_null($addon))
   {
     return rex_path::addon($addon);
@@ -23,7 +21,7 @@ function rex_read_addons_folder($folder = '')
 {
   if ($folder == '')
   {
-    $folder = rex_addons_folder();
+    $folder = rex_path::src('addons/');
   }
 
   $addons = array ();
@@ -252,38 +250,6 @@ function rex_read_sql_dump($file)
     }
 
     return $ret;
-  }
-
-  return false;
-}
-
-/**
- * Sucht innerhalb des $REX['ADDON']['page'] Array rekursiv nach der page
- * $needle
- *
- * Gibt bei erfolgreicher Suche den Namen des Addons zurück, indem die page
- * gefuden wurde, sonst false
- */
-function rex_search_addon_page($needle, $haystack = null)
-{
-  global $REX;
-
-  if($haystack === null)
-    $haystack = $REX['ADDON']['page'];
-
-  foreach($haystack as $key => $value)
-  {
-    if(is_array($value))
-    {
-      $found = rex_search_addon_page($needle, $value);
-    }
-    else
-    {
-      $found = $needle == $value;
-    }
-
-    if($found !== false)
-      return $key;
   }
 
   return false;

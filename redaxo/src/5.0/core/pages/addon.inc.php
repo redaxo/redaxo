@@ -91,7 +91,7 @@ if ($subpage == 'help' && $addonname != '')
 {
   if($pluginname != '')
   {
-    $helpfile    = rex_plugins_folder($addonname, $pluginname);
+    $helpfile    = rex_path::plugin($addonname, $pluginname, 'help.inc.php');
     $version     = rex_ooPlugin::getVersion($addonname, $pluginname);
     $author      = rex_ooPlugin::getAuthor($addonname, $pluginname);
     $supportPage = rex_ooPlugin::getSupportPage($addonname, $pluginname);
@@ -99,12 +99,11 @@ if ($subpage == 'help' && $addonname != '')
   }
   else
   {
-    $helpfile    = rex_addons_folder($addonname);
+    $helpfile    = rex_path::addon($addonname, 'help.inc.php');
     $version     = rex_ooAddon::getVersion($addonname);
     $author      = rex_ooAddon::getAuthor($addonname);
     $supportPage = rex_ooAddon::getSupportPage($addonname);
   }
-  $helpfile .= DIRECTORY_SEPARATOR.'help.inc.php';
 
   $credits = '';
   $credits .= $REX['I18N']->msg("credits_name") .': <span>'. htmlspecialchars($addonname) .'</span><br />';

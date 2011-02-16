@@ -8,16 +8,12 @@
 
 function rex_plugins_folder($addon, $plugin = null)
 {
-  $addonFolder = rex_addons_folder($addon);
-  
   if($plugin)
   {
-    $pluginDir = $addonFolder. 'plugins' .DIRECTORY_SEPARATOR. $plugin .DIRECTORY_SEPARATOR;
-    
-    return $pluginDir;
+    return rex_path::plugin($addon, $plugin);
   }
 
-  return $addonFolder. 'plugins' .DIRECTORY_SEPARATOR;
+  return rex_path::addon($addon, 'plugins/');
 }
 
 function rex_plugins_file()
@@ -32,9 +28,9 @@ function rex_read_plugins_folder($addon, $folder = '')
 
   if ($folder == '')
   {
-    $folder = rex_plugins_folder($addon, '*');
+    $folder = rex_path::plugin($addon, '*');
   }
-  
+
   $files = glob(rtrim($folder,DIRECTORY_SEPARATOR), GLOB_NOSORT);
   if(is_array($files))
   {
@@ -43,6 +39,6 @@ function rex_read_plugins_folder($addon, $folder = '')
       $plugins[] = basename($file);
     }
   }
-  
+
   return $plugins;
 }

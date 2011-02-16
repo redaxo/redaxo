@@ -146,7 +146,7 @@ class rex_pluginManager extends rex_baseManager
 
   protected function baseFolder($pluginName)
   {
-    return rex_plugins_folder($this->addonName, $pluginName);
+    return rex_path::plugin($this->addonName, $pluginName);
   }
 
   protected function assetsFolder($pluginName)
@@ -154,7 +154,7 @@ class rex_pluginManager extends rex_baseManager
     return rex_path::pluginAssets($this->addonName, $pluginName);
   }
 
-protected function configNamespace($pluginName)
+  protected function configNamespace($pluginName)
   {
     return $this->addonName .'/'. $pluginName;
   }
@@ -166,7 +166,7 @@ protected function configNamespace($pluginName)
    */
   static public function loadPackage($addonName, $pluginName)
   {
-    $package_file = rex_plugins_folder($addonName, $pluginName). 'package.yml';
+    $package_file = rex_path::plugin($addonName, $pluginName, 'package.yml');
 
     if(is_readable($package_file))
     {
