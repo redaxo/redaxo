@@ -350,7 +350,7 @@ setup_050 = Leider konnte die master.inc.php nicht beschrieben werden. Bitte än
 setup_051 = {0}Herzlichen Glückwunsch zu Ihrem REDAXO!{1}
 setup_052 = {0}Bitte noch dieses beachten:{1}<ul{2}><li>1. Mit dem {3}eingerichtetem Zugang einloggen{4}</li><li>2. Importieren einer Demo über [wenn eingeloggt]: Import/Export und dort jeweils die Datenbank und Files installieren.</li></ul>
 setup_053 = Viel Spass und Erfolg<br />Das REDAXO Team
-setup_security_msg = Der Ordner redaxo/src ist unsicher. Bitte schützen Sie diesen Ordner und starten das Setup erneut!
+setup_security_msg = Der Ordner redaxo ist unsicher. Bitte schützen Sie diesen Ordner und starten das Setup erneut!
 setup_no_js_security_msg = Prüfen Sie, ob Dateien aus dem Ordner redaxo/include direkt aufrufbar sind! Dies darf aus Sicherheitsgründen nicht möglich sein!
 setup_create_db = Datenbank anlegen?
 

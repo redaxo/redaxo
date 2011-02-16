@@ -473,7 +473,7 @@ jQuery(function($){
     setCookie('htaccess_check', '1', time.toGMTString());
     $.get('src/config.inc.php', 
       function(data) {
-        $('#rex-wrapper2').prepend('<div class="rex-message"><p class="rex-warning"><span>The folder redaxo/src is insecure. Please protect this folder.</span></p></div>');
+        $('#rex-wrapper2').prepend('<div class="rex-message"><p class="rex-warning"><span>The folder redaxo is insecure. Please protect this folder.</span></p></div>');
         setCookie('htaccess_check', '');
       }
     );
