@@ -18,6 +18,7 @@ require_once rex_path::src('core/functions/function_rex_extension.inc.php');
 require_once rex_path::src('core/functions/function_rex_addons.inc.php');
 require_once rex_path::src('core/functions/function_rex_plugins.inc.php');
 require_once rex_path::src('core/functions/function_rex_other.inc.php');
+require_once rex_path::src('core/functions/function_rex_generate.inc.php');
 
 // ----- CLASSES
 require_once rex_path::src('core/lib/autoload.php');
@@ -36,5 +37,4 @@ rex_variableStream::register();
 if ($REX['REDAXO'])
 {
   require_once rex_path::src('core/functions/function_rex_title.inc.php');
-  require_once rex_path::src('core/functions/function_rex_generate.inc.php');
 }

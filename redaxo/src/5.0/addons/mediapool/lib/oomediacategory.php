@@ -56,7 +56,6 @@ class rex_ooMediaCategory
     $cat_path = rex_path::generate('files/'.$id.'.mcat');
     if (!file_exists($cat_path))
 		{
-			require_once ($REX['INCLUDE_PATH'] .'/core/functions/function_rex_generate.inc.php');
     	rex_generateMediaCategory($id);
 		}
 
@@ -112,7 +111,6 @@ class rex_ooMediaCategory
     $catlist_path = rex_path::generate('files/'.$id.'.mclist');
     if (!file_exists($catlist_path))
 		{
-			require_once ($REX['INCLUDE_PATH'] .'/core/functions/function_rex_generate.inc.php');
     	rex_generateMediaCategoryList($id);
 		}
 
@@ -309,7 +307,6 @@ class rex_ooMediaCategory
       $list_path = rex_path::generate('files/'.$id.'.mlist');
       if (!file_exists($list_path))
   		{
-  			require_once ($REX['INCLUDE_PATH'] .'/core/functions/function_rex_generate.inc.php');
       	rex_generateMediaList($id);
   		}
 

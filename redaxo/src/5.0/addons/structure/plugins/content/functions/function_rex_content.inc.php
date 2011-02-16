@@ -1,6 +1,6 @@
 <?php
 
-require_once $REX['INCLUDE_PATH'] . '/addons/structure/functions/function_rex_structure.inc.php';
+require_once rex_path::addon('structure', 'functions/function_rex_structure.inc.php');
 
 
 /**

@@ -21,6 +21,6 @@ echo "\n  <div class=\"rex-addon-output-v2\">\n  ";
 if (!in_array($subpage, array('log')))
   $subpage = 'cronjobs';
 
-require $REX['INCLUDE_PATH'] .'/addons/cronjob/pages/'. $subpage .'.inc.php';
+require rex_path::addon('cronjob', 'pages/'. $subpage .'.inc.php');
 
 echo "\n  </div>";

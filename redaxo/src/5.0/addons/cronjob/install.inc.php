@@ -11,12 +11,7 @@
 
 $error = '';
 
-$config_file = $REX['INCLUDE_PATH'] .'/addons/cronjob/config.inc.php';
-
-if(($state = rex_is_writable($config_file)) !== true)
-  $error .= $state;
-
-$log_folder = $REX['INCLUDE_PATH'] .'/addons/cronjob/logs/';
+$log_folder = rex_path::addon('cronjob', 'logs/');
 
 if(($state = rex_is_writable($log_folder)) !== true)
   $error .= $state;

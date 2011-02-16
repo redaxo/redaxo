@@ -44,9 +44,7 @@ class rex_ooCategory extends rex_ooRedaxo
 
     if (!file_exists($categorylist))
     {
-      // FIXME: find better path detection
-      require_once dirname(__FILE__). '/../functions/function_rex_generate.inc.php';
-//      require_once ($REX['INCLUDE_PATH'].'/core/functions/function_rex_generate.inc.php');
+      require_once rex_path::addon('structure', 'functions/function_rex_generate.inc.php');
     	rex_generateLists($cat_parent_id);
     }
 

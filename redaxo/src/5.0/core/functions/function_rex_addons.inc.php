@@ -16,7 +16,7 @@ function rex_addons_folder($addon = null)
     return rex_path::addon($addon);
   }
 
-  return rex_path::src('addons');
+  return rex_path::src('addons/');
 }
 
 function rex_read_addons_folder($folder = '')

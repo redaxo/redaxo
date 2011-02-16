@@ -31,4 +31,4 @@ switch($subpage)
     break;
 }
 
-    require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
+    require rex_path::addon($page, 'pages/'.$subpage.'.inc.php');

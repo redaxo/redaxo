@@ -15,7 +15,7 @@ $REX['ADDON'] = array();
 // --- /DYN
 // ----------------- /DONT EDIT BELOW THIS
 
-require $REX['INCLUDE_PATH']. '/config/plugins.inc.php';
+require rex_path::src('config/plugins.inc.php');
 
 // in the first run, we register all folders for class- and fragment-loading,
 // so it is transparent in which order the addons are included afterwards.
@@ -92,9 +92,7 @@ foreach(rex_ooAddon::getAvailableAddons() as $addonName)
 rex_register_extension_point('ADDONS_INCLUDED');
 
 // ----- Init REX-Vars
-//require_once $REX['INCLUDE_PATH'].'/core/classes/class.rex_var.inc.php';
 foreach($REX['VARIABLES'] as $key => $value)
 {
-//  require_once ($REX['INCLUDE_PATH'].'/core/classes/variables/class.'.$value.'.inc.php');
   $REX['VARIABLES'][$key] = new $value;
 }

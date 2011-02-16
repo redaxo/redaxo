@@ -3,7 +3,7 @@
 function getImportDir() {
     global $REX;
 
-    return $REX['INCLUDE_PATH'] .'/addons/import_export/backup';
+    return rex_path::addon('import_export', 'backup');
 }
 
 function readImportFolder($fileprefix)

@@ -76,7 +76,6 @@ class rex_template
 
     if($this->getId()<1) return FALSE;
 
-    include_once ($REX['INCLUDE_PATH'].'/core/functions/function_rex_generate.inc.php');
     return rex_generateTemplate($this->getId());
   }
 

@@ -59,17 +59,9 @@ $REX['USE_LAST_MODIFIED'] = "true"; // String: "true"/"false"/"fronted"/"backend
 // allow client to validate content integrity
 $REX['USE_MD5'] = "true"; // String: "true"/"false"/"fronted"/"backend"
 
-// versch. Pfade
-$REX['FRONTEND_PATH'] = realpath($REX['HTDOCS_PATH']);
-$REX['MEDIAFOLDER']   = realpath($REX['HTDOCS_PATH'].'files');
-$REX['OPENMEDIAFOLDER']   = realpath($REX['HTDOCS_PATH'].'redaxo_media');
-
 // Prefixes
 $REX['TABLE_PREFIX']  = 'rex_';
 $REX['TEMP_PREFIX']   = 'tmp_';
-
-// Frontenddatei
-$REX['FRONTEND_FILE'] = 'index.php';
 
 // Passwortverschluesselung
 $REX['PSWFUNC'] = "sha1";
@@ -152,10 +144,10 @@ $REX['VARIABLES'][] = 'rex_var_config';
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 
 // ----------------- INCLUDE FUNCTIONS
-if(!$REX['NOFUNCTIONS']) include_once ($REX["INCLUDE_PATH"].'/core/functions.inc.php');
+if(!$REX['NOFUNCTIONS']) include_once rex_path::src('core/functions.inc.php');
 
 // ----- SET CLANG
-include_once $REX['INCLUDE_PATH'].'/config/clang.inc.php';
+include_once rex_path::src('config/clang.inc.php');
 
 $REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', $REX['START_CLANG_ID']);
 

@@ -119,8 +119,7 @@ class rex_article extends rex_article_base
       $article_content_file = rex_path::generated('articles/'.$this->article_id.'.'.$this->clang.'.content');
       if(!file_exists($article_content_file))
       {
-        include_once ($REX["INCLUDE_PATH"]."/core/functions/function_rex_generate.inc.php");
-        include_once ($REX["INCLUDE_PATH"]."/addons/structure/plugins/content/functions/function_rex_content.inc.php");
+        include_once rex_path::plugin('structure', 'content', 'functions/function_rex_content.inc.php');
         $generated = rex_generateArticleContent($this->article_id, $this->clang);
         if($generated !== true)
         {

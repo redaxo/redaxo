@@ -77,7 +77,6 @@ class rex_ooMedia
     $extlist_path = rex_path::generate('files/'.$extension.'.mextlist');
     if (!file_exists($extlist_path))
 		{
-			require_once ($REX['INCLUDE_PATH'].'/core/functions/function_rex_generate.inc.php');
     	rex_generateMediaExtensionList($extension);
 		}
 
@@ -110,7 +109,6 @@ class rex_ooMedia
     $media_path = rex_path::generate('files/'.$name.'.media');
     if (!file_exists($media_path))
 		{
-			require_once ($REX['INCLUDE_PATH'] .'/core/functions/function_rex_generate.inc.php');
     	rex_generateMedia($name);
 		}
 

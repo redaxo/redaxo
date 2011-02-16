@@ -14,8 +14,6 @@ class rex_mailer extends PHPMailer
 {
   public function __construct()
   {
-    global $REX;
-
     $this->From             = rex_config::get('phpmailer', 'from');
     $this->FromName         = rex_config::get('phpmailer', 'fromname');
     $this->ConfirmReadingTo = rex_config::get('phpmailer', 'confirmto');
@@ -29,15 +27,13 @@ class rex_mailer extends PHPMailer
     $this->Username         = rex_config::get('phpmailer', 'username');
     $this->Password         = rex_config::get('phpmailer', 'password');
 
-    $this->PluginDir = $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/';
+    $this->PluginDir = rex_path::addon('phpmailer', 'classes/');
   }
 
   public function SetLanguage($lang_type = 'de', $lang_path = null)
   {
-    global $REX;
-
     if ($lang_path == null)
-      $lang_path = $REX['INCLUDE_PATH'] . '/addons/phpmailer/classes/language/';
+      $lang_path = rex_path::addon('phpmailer', 'classes/language/');
 
     parent :: SetLanguage($lang_type, $lang_path);
   }

@@ -256,8 +256,8 @@ echo '
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
-										<label for="rex_include_path">$REX[\'INCLUDE_PATH\']</label>
-										<span class="rex-form-read" id="rex_include_path" title="'. rex_path::src('core') .'">&quot;';
+										<label for="rex_src_path">rex_path::src()</label>
+										<span class="rex-form-read" id="rex_src_path" title="'. rex_path::src() .'">&quot;';
 
 										$tmp = rex_path::src();
 										if (strlen($tmp)>21)

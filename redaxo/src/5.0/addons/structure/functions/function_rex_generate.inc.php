@@ -144,7 +144,7 @@ function rex_generateArticleMeta($article_id, $clang = null)
     }
     $content .= '?>';
 
-    $article_file = rex_path::generate("articles/$article_id.$_clang.article");
+    $article_file = rex_path::generated("articles/$article_id.$_clang.article");
     if (rex_put_file_contents($article_file, $content) === FALSE)
     {
       return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generate('articles/');
