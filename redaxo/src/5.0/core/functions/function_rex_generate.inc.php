@@ -246,8 +246,8 @@ function rex_copyDir($srcdir, $dstdir, $startdir = "")
     {
       if($file != '.' && $file != '..' && $file != '.svn')
       {
-        $srcfile = $srcdir . DIRECTORY_SEPARATOR . $file;
-        $dstfile = $dstdir . DIRECTORY_SEPARATOR . $file;
+        $srcfile = rtrim($srcdir, '/\\') . '/' . $file;
+        $dstfile = rtrim($dstdir, '/\\') . '/' . $file;
         if(is_file($srcfile))
         {
           $isNewer = TRUE;
