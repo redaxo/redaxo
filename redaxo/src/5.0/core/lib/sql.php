@@ -204,7 +204,6 @@ class rex_sql
     // since CREATE statements don't return a ResultSet, FALSE is considered successfull
     else if(self::getQueryType($qry) != 'CREATE')
     {
-      debug_print_backtrace();
       throw new rexException($qry);
     }
 
@@ -299,6 +298,8 @@ class rex_sql
     if(strpos($feldname, '.') === false)
     {
       $tables = $this->getTablenames();
+      // add empty table to array, so computed fields will be find
+      array_unshift($tables, '');
       foreach($tables as $table)
       {
         if($this->hasValue($table .'.'. $feldname))
@@ -437,7 +438,7 @@ class rex_sql
     
     if(trim($qry) == '')
     {
-      throw new rexException('no values given to buildSetQuery for select(), update(), insert() or replace()');
+      throw new rexException('no values given to buildSetQuery for update(), insert() or replace()');
     }
 
     return $qry;
@@ -559,7 +560,8 @@ class rex_sql
   {
     $this->flushValues();
     $this->lastRow = array();
-    $this->fieldnames = array ();
+    $this->fieldnames = NULL;
+    $this->tablenames = NULL;
 
     $this->table = '';
     $this->wherevar = '';
@@ -788,7 +790,11 @@ class rex_sql
       {
         $metadata = $this->stmt->getColumnMeta($i);
         $this->fieldnames[] = $metadata['name'];
-        $this->tablenames[] = $metadata['table'];
+        
+        if(!in_array($metadata['table'], $this->tablenames))
+        {
+          $this->tablenames[] = $metadata['table'];
+        }
       }
     }
   }
