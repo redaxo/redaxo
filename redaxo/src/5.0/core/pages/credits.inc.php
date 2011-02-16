@@ -6,8 +6,8 @@
  * @version svn:$Id$
  */
 
-include_once $REX['INCLUDE_PATH'].'/core/functions/function_rex_other.inc.php';
-include_once $REX['INCLUDE_PATH'].'/core/functions/function_rex_addons.inc.php';
+include_once rex_path::src('core/functions/function_rex_other.inc.php');
+include_once rex_path::src('core/functions/function_rex_addons.inc.php');
 
 $addons = array();
 foreach (rex_ooAddon::getRegisteredAddons() as $addon)
@@ -23,7 +23,7 @@ foreach (rex_ooAddon::getRegisteredAddons() as $addon)
   if ($version)   $version       = '['.$version.']';
   if ($author)    $author        = htmlspecialchars($author);
   if (!$isActive) $author        = $REX['I18N']->msg('credits_addon_inactive');
-  
+
   $rex_ooAddon =  new stdClass();
   $rex_ooAddon->name = $addon;
   $rex_ooAddon->version = $version;
@@ -57,8 +57,8 @@ foreach (rex_ooAddon::getRegisteredAddons() as $addon)
       $plugins []= $rex_ooPlugin;
     }
   }
-  
-  $rex_ooAddon->plugins = $plugins; 
+
+  $rex_ooAddon->plugins = $plugins;
   $addons[]=$rex_ooAddon;
   //  echo '
 //      <tr class="rex-addon">
@@ -67,7 +67,7 @@ foreach (rex_ooAddon::getRegisteredAddons() as $addon)
 //        <td class="rex-col-c'.$cl.'">'. $author .'</td>
 //        <td class="rex-col-d'.$cl.'">'. $supportPage .'</td>
 //      </tr>';
-  
+
 }
 
 rex_title($REX['I18N']->msg("credits"), "");

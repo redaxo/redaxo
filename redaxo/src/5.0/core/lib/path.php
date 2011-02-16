@@ -76,7 +76,7 @@ class rex_path
 
   static public function src($file = '')
   {
-    return self::absBase('redaxo/src/'. self::version .'/'. $file);
+    return self::absBase('redaxo/src/'. self::$version .'/'. $file);
   }
 
   static public function addon($addon, $file = '')

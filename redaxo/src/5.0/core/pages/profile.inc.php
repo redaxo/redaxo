@@ -31,7 +31,7 @@ $sel_be_sprache->setName("userperm_be_sprache");
 $sel_be_sprache->setId("userperm-mylang");
 $sel_be_sprache->addOption("default","");
 
-$langpath = $REX['INCLUDE_PATH'] .'/core/lang';
+$langpath = rex_path::src('core/lang');
 $langs = array();
 if ($handle = opendir($langpath))
 {

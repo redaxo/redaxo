@@ -554,7 +554,7 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
 
   if ($searchpath == '')
   {
-    $searchpath = $REX['INCLUDE_PATH'] .DIRECTORY_SEPARATOR. "/core/lang";
+    $searchpath = rex_path::src('core/lang');
   }
   $lang_object = new rex_i18n($locale, $searchpath);
 

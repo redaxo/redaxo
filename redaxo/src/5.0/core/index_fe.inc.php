@@ -11,7 +11,7 @@ ob_start();
 ob_implicit_flush(0);
 
 // ----------------- MAGIC QUOTES CHECK
-require $REX["INCLUDE_PATH"].'/core/functions/function_rex_mquotes.inc.php';
+require rex_path::src('core/functions/function_rex_mquotes.inc.php');
 
 // --------------------------- ini settings
 
@@ -22,10 +22,10 @@ require $REX["INCLUDE_PATH"].'/core/functions/function_rex_mquotes.inc.php';
 
 // --------------------------- globals
 
-include $REX["INCLUDE_PATH"].'/config/master.inc.php';
+include rex_path::src('config/master.inc.php');
 
 // ----- INCLUDE ADDONS
-include_once $REX["INCLUDE_PATH"].'/config/addons.inc.php';
+include_once rex_path::src('config/addons.inc.php');
 
 if($REX['SETUP'])
 {

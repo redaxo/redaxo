@@ -11,10 +11,10 @@ ob_start();
 ob_implicit_flush(0);
 
 // ----------------- MAGIC QUOTES CHECK
-require_once $REX["INCLUDE_PATH"].'/core/functions/function_rex_mquotes.inc.php';
+require_once rex_path::src('core/functions/function_rex_mquotes.inc.php');
 
 
-require_once $REX["INCLUDE_PATH"].'/config/master.inc.php';
+require_once rex_path::src('config/master.inc.php');
 
 // ----- addon/normal page path
 $REX['PAGEPATH'] = '';
@@ -33,7 +33,7 @@ if ($REX['SETUP'])
   // ----------------- SET SETUP LANG
   $REX['LANG'] = '';
   $requestLang = rex_request('lang', 'string');
-  $langpath = $REX['INCLUDE_PATH'].'/core/lang';
+  $langpath = rex_path::src('core/lang');
   $REX['LANGUAGES'] = array();
   if ($handle = opendir($langpath))
   {
@@ -112,7 +112,7 @@ if($REX['USER'])
 }
 
 // ----- INCLUDE ADDONS
-include_once $REX['INCLUDE_PATH'] .'/config/addons.inc.php';
+include_once rex_path::src('config/addons.inc.php');
 
 // ----- Prepare AddOn Pages
 if($REX['USER'])
@@ -223,7 +223,7 @@ if($REX['USER'])
         {
           if(!$pluginPage->getPage()->hasPath())
           {
-            $pagePath = $REX['INCLUDE_PATH'].'/addons/'. $addonName .'/plugins/'. $pluginName .'/pages/index.inc.php';
+            $pagePath = rex_path::plugin($addonName, $pluginName, 'pages/index.inc.php');
             $pluginPage->getPage()->setPath($pagePath);
           }
           $REX['PAGES'][$pluginName] = $pluginPage;
@@ -323,13 +323,13 @@ if($pageObj->hasPath())
 }else if($pageObj->isCorePage())
 {
   // Core Page
-  require $REX["INCLUDE_PATH"].'/core/layout/top.php';
-  require $REX["INCLUDE_PATH"].'/core/pages/'. $REX['PAGE'] .'.inc.php';
-  require $REX["INCLUDE_PATH"].'/core/layout/bottom.php';
+  require rex_path::src('core/layout/top.php');
+  require rex_path::src('core/pages/'. $REX['PAGE'] .'.inc.php');
+  require rex_path::src('core/layout/bottom.php');
 }else
 {
   // Addon Page
-  require $REX['INCLUDE_PATH'].'/addons/'. $REX['PAGE'] .'/pages/index.inc.php';
+  require rex_path::addon($REX['PAGE'], 'pages/index.inc.php');
 }
 // ----- caching end für output filter
 $CONTENT = ob_get_contents();
