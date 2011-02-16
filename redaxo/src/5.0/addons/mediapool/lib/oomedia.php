@@ -412,18 +412,10 @@ class rex_ooMedia
       $params = array();
     }
 
-    $path = $REX['HTDOCS_PATH'];
-    if (isset ($params['path']))
-    {
-      $path = $params['path'];
-      unset ($params['path']);
-    }
-
     // Ist das Media ein Bild?
     if (!$this->isImage())
     {
-      $path = 'media/';
-      $file = 'file_dummy.gif';
+      $file = rex_path::pluginAssets('be_style', 'base_old', 'file_dummy.gif', true);
 
       // Verwenden einer statischen variable, damit getimagesize nur einmal aufgerufen
       // werden muss, da es sehr lange dauert
@@ -431,7 +423,7 @@ class rex_ooMedia
 
       if (empty ($dummyFileSize))
       {
-        $dummyFileSize = getimagesize($path.$file);
+        $dummyFileSize = getimagesize($file);
       }
       $params['width'] = $dummyFileSize[0];
       $params['height'] = $dummyFileSize[1];
@@ -472,7 +464,7 @@ class rex_ooMedia
             $resizeParam = 100;
           }
 
-          // Evtl. Gr��eneinheiten entfernen
+          // Evtl. Größeneinheiten entfernen
           $resizeParam = str_replace(array (
             'px',
             'pt',
@@ -490,8 +482,7 @@ class rex_ooMedia
       else
       {
         // Bild 1:1 anzeigen
-        $path .= 'media/';
-        $file = $this->getFileName();
+        $file = rex_path::media($this->getFileName(), true);
       }
     }
 
@@ -522,7 +513,7 @@ class rex_ooMedia
       $additional .= ' '.$name.'="'.$value.'"';
     }
 
-    return sprintf('<img src="%s"%s />', $path.$file, $additional);
+    return sprintf('<img src="%s"%s />', $file, $additional);
   }
 
   /**
@@ -750,7 +741,7 @@ class rex_ooMedia
     global $REX;
 
     $ext = $this->getExtension();
-    $folder = $REX['HTDOCS_PATH'] .'redaxo/media/';
+    $folder = rex_path::pluginAssets('be_style', 'base_old', '', true);
     $icon = $folder .'mime-'.$ext.'.gif';
 
     // Dateityp für den kein Icon vorhanden ist

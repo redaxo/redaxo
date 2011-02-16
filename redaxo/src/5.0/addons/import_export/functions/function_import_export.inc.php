@@ -467,8 +467,7 @@ function rex_a1_export_files($folders)
 
   foreach ($folders as $key => $item)
   {
-    // Hier HTDOCS statt INLCUDE PATH, da INLCUDE PATH absolut ist!
-    _rex_a1_add_folder_to_tar($tar, $REX['HTDOCS_PATH']."redaxo/src/../../", $key);
+    _rex_a1_add_folder_to_tar($tar, rex_path::frontend('', true), $key);
   }
 
   // ----- EXTENSION POINT

@@ -170,7 +170,7 @@ else
               <div class="rex-form-checkboxes">
                 <div class="rex-form-checkboxes-wrapper">
 <?php
-  $dir = realpath($REX['HTDOCS_PATH']);
+  $dir = rex_path::frontend();
   $folders = readSubFolders($dir);
 
   foreach ($folders as $file)
