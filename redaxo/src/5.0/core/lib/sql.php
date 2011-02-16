@@ -437,7 +437,8 @@ class rex_sql
     
     if(trim($qry) == '')
     {
-      throw new rexException('no values given to buildSetQuery for update(), insert() or replace()');
+      // FIXME
+      trigger_error('no values given to buildSetQuery for update(), insert() or replace()', E_USER_WARNING);
     }
 
     return $qry;
