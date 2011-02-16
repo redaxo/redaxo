@@ -204,7 +204,6 @@ class rex_sql
     // since CREATE statements don't return a ResultSet, FALSE is considered successfull
     else if(self::getQueryType($qry) != 'CREATE')
     {
-      debug_print_backtrace();
       throw new rexException($qry);
     }
 
