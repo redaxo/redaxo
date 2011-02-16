@@ -10,15 +10,13 @@
 function rex_addons_folder($addon = null)
 {
   global $REX;
-  
+
   if(!is_null($addon))
   {
-    $addonDir = $REX['INCLUDE_PATH'] .DIRECTORY_SEPARATOR. 'addons' .DIRECTORY_SEPARATOR. $addon .DIRECTORY_SEPARATOR;
-    
-    return $addonDir;
+    return rex_path::addon($addon);
   }
-  
-  return $REX['INCLUDE_PATH']. DIRECTORY_SEPARATOR. 'addons' .DIRECTORY_SEPARATOR;
+
+  return rex_path::src('addons/');
 }
 
 function rex_read_addons_folder($folder = '')

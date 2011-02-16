@@ -113,7 +113,7 @@ function rex_a1_import_db($filename)
 
   if (!function_exists('PMA_splitSqlFile'))
   {
-    include_once ($REX['INCLUDE_PATH'].'/core/functions/function_rex_addons.inc.php');
+    include_once rex_path::src('core/functions/function_rex_addons.inc.php');
   }
 
   // Datei aufteilen
@@ -250,7 +250,7 @@ function rex_a1_import_files($filename)
   }
 
   // Ordner /files komplett leeren
-  rex_deleteFiles($REX['MEDIAFOLDER']);
+  rex_deleteFiles(rex_path::media());
 
   $tar = new rex_tar;
 
@@ -467,8 +467,7 @@ function rex_a1_export_files($folders)
 
   foreach ($folders as $key => $item)
   {
-    // Hier HTDOCS statt INLCUDE PATH, da INLCUDE PATH absolut ist!
-    _rex_a1_add_folder_to_tar($tar, $REX['HTDOCS_PATH']."redaxo/src/../../", $key);
+    _rex_a1_add_folder_to_tar($tar, rex_path::frontend('', true), $key);
   }
 
   // ----- EXTENSION POINT
@@ -486,7 +485,7 @@ function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
   global $REX;
 
   $handle = opendir($path.$dir);
-  $isMediafolder = realpath($path.$dir) == $REX['MEDIAFOLDER'];
+  $isMediafolder = realpath($path.$dir).'/' == rex_path::media();
   while (false !== ($file = readdir($handle)))
   {
     // Alles exportieren, außer ...

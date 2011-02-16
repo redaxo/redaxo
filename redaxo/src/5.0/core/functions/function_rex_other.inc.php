@@ -14,7 +14,7 @@ function rex_absPath($rel_path, $rel_to_current = false)
 
   $stack = array();
   // Pfad relativ zum aktuellen Verzeichnis?
-  // z.b. ../../files
+  // z.b. ../../media
   if($rel_to_current)
   {
     $path = realpath('.');
@@ -554,7 +554,7 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
 
   if ($searchpath == '')
   {
-    $searchpath = $REX['INCLUDE_PATH'] .DIRECTORY_SEPARATOR. "/core/lang";
+    $searchpath = rex_path::src('core/lang');
   }
   $lang_object = new rex_i18n($locale, $searchpath);
 

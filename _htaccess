@@ -15,10 +15,11 @@ RewriteRule ^([0-9]*)- index.php?article_id=$1&%{QUERY_STRING}
 
 ### Remove Comments when you user Fullname "url_rewrite" AddOn 
 #RewriteCond %{REQUEST_URI} !^redaxo/.*
-#RewriteCond %{REQUEST_URI} !^files/.*
+#RewriteCond %{REQUEST_URI} !^media/.*
+#RewriteCond %{REQUEST_URI} !^assets/.*
 #RewriteRule ^(.*)$ index.php?%{QUERY_STRING} [L]
 
 ### In case you want to secure all files via your own addon remove comment
-# RewriteRule ^files/(.*) /index.php?rex_media=$1&%{QUERY_STRING} [NC]
+# RewriteRule ^media/(.*) /index.php?rex_media=$1&%{QUERY_STRING} [NC]
 
 </IfModule>

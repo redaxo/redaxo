@@ -85,7 +85,7 @@ $sel_be_sprache->setSize(1);
 $sel_be_sprache->setName("userperm_be_sprache");
 $sel_be_sprache->setId("userperm-mylang");
 $sel_be_sprache->addOption("default","");
-$langpath = $REX['INCLUDE_PATH'].'/core/lang';
+$langpath = rex_path::src('core/lang');
 $langs = array();
 if ($handle = opendir($langpath))
 {
@@ -160,14 +160,14 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   if ($loginReset == 1) $updateuser->setValue('login_tries','0');
   if ($userstatus == 1) $updateuser->setValue('status',1);
   else $updateuser->setValue('status',0);
-  
+
   if($userpsw != '')
   {
     // the service side encryption of pw is only required
     // when not already encrypted by client using javascript
     if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0' && $userpsw != $sql->getValue($REX['TABLE_PREFIX'].'user.psw'))
       $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
-      
+
     $updateuser->setValue('psw',$userpsw);
   }
 

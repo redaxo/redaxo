@@ -12,11 +12,11 @@ $func       = rex_request('func', 'string');
 $warning = '';
 $info = '';
 
-$logFile = $REX['INCLUDE_PATH'] .'/generated/files/system.log';
+$logFile = rex_path::generated('files/system.log');
 if ($func == 'delLog')
 {
-  // close logger, to free remaining file-handles to syslog 
-  // so we can safely delete the file 
+  // close logger, to free remaining file-handles to syslog
+  // so we can safely delete the file
   rex_logger::getInstance()->close();
   if(unlink($logFile))
   {
@@ -30,12 +30,12 @@ if ($func == 'delLog')
 {
   // clear output-buffer
   while(ob_get_level()) ob_end_clean();
-  
+
   echo '<html><head></head><body>';
-  
+
   // TODO use rex_send_file (would load entire file in the php-memory!) ?
   readfile($logFile);
-  
+
   echo '
     <span id="endmarker" />
     <script type="text/javascript">

@@ -53,10 +53,9 @@ class rex_ooMediaCategory
     if (!is_numeric($id))
       return null;
 
-    $cat_path = $REX['INCLUDE_PATH'] .'/generated/files/'.$id.'.mcat';
+    $cat_path = rex_path::generate('files/'.$id.'.mcat');
     if (!file_exists($cat_path))
 		{
-			require_once ($REX['INCLUDE_PATH'] .'/core/functions/function_rex_generate.inc.php');
     	rex_generateMediaCategory($id);
 		}
 
@@ -109,10 +108,9 @@ class rex_ooMediaCategory
 
     $catlist = array();
 
-    $catlist_path = $REX['INCLUDE_PATH'] .'/generated/files/'.$id.'.mclist';
+    $catlist_path = rex_path::generate('files/'.$id.'.mclist');
     if (!file_exists($catlist_path))
 		{
-			require_once ($REX['INCLUDE_PATH'] .'/core/functions/function_rex_generate.inc.php');
     	rex_generateMediaCategoryList($id);
 		}
 
@@ -306,10 +304,9 @@ class rex_ooMediaCategory
       $this->_files = array();
       $id = $this->getId();
 
-      $list_path = $REX['INCLUDE_PATH'] .'/generated/files/'.$id.'.mlist';
+      $list_path = rex_path::generate('files/'.$id.'.mlist');
       if (!file_exists($list_path))
   		{
-  			require_once ($REX['INCLUDE_PATH'] .'/core/functions/function_rex_generate.inc.php');
       	rex_generateMediaList($id);
   		}
 

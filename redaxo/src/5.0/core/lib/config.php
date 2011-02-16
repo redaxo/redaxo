@@ -132,7 +132,7 @@ class rex_config
    *
    * @throws rexException on invalid parameters
    */
-  public static function has($namespace, $key)
+  public static function has($namespace, $key = null)
   {
     self::init();
 
@@ -140,6 +140,12 @@ class rex_config
     {
       throw new rexException('rex_config: expecting $namespace to be a string');
     }
+
+    if ($key === null)
+    {
+      return isset(self::$data[$namespace]);
+    }
+
     if(!is_string($key))
     {
       throw new rexException('rex_config: expecting $key to be a string');
@@ -233,7 +239,7 @@ class rex_config
     if(self::$initialized)
       return;
 
-    define('REX_CONFIG_FILE_CACHE', $REX['INCLUDE_PATH'] .'/generated/files/config.cache');
+    define('REX_CONFIG_FILE_CACHE', rex_path::generated('files/config.cache'));
 
     // take care, so we are able to write a cache file on shutdown
     // (check here, since exceptions in shutdown functions are not visible to the user)

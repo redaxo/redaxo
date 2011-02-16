@@ -18,7 +18,7 @@
  *     RewriteCond %{REQUEST_FILENAME} !-d
  *     RewriteCond %{REQUEST_FILENAME} !-l
  *     RewriteCond %{REQUEST_URI} !^redaxo/.*
- *     RewriteCond %{REQUEST_URI} !^files/.*
+ *     RewriteCond %{REQUEST_URI} !^media/.*
  *     RewriteRule ^(.*)$ index.php?%{QUERY_STRING} [L]
  *
  *   2) .htaccess file in das redaxo/ verzeichnis:
@@ -54,7 +54,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
   {
     global $REX;
 
-    $this->PATHLIST = $REX['INCLUDE_PATH'] .'/generated/files/pathlist.php';
+    $this->PATHLIST = rex_path::generated('files/pathlist.php');
 
     $this->use_levenshtein = $use_levenshtein;
     $this->use_params_rewrite = $use_params_rewrite;
@@ -122,7 +122,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
       if(($pos = strpos($path, '#')) !== false)
         $path = substr($path, 0, $pos);
 
-      if (($path == '') || ($path == $REX['FRONTEND_FILE']))
+      if (($path == '') || (rex_path::frontend($path, true) == rex_path::frontendController()))
       {
         $this->setArticleId($REX['START_ARTICLE_ID']);
         return true;

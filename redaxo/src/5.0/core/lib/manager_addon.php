@@ -110,10 +110,9 @@ class rex_addonManager extends rex_baseManager
     return rex_addons_folder($addonName);
   }
 
-  protected function mediaFolder($addonName)
+  protected function assetsFolder($addonName)
   {
-    global $REX;
-    return $REX['OPENMEDIAFOLDER'] .DIRECTORY_SEPARATOR .'addons'. DIRECTORY_SEPARATOR .$addonName;
+    return rex_path::addonAssets($addonName);
   }
 
   protected function configNamespace($addonName)

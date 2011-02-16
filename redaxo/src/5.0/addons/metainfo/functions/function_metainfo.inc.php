@@ -119,7 +119,7 @@ function a62_add_field($title, $name, $prior, $attributes, $type, $default, $par
 
   // replace LIKE wildcards
   $prefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
-  
+
   rex_organize_priorities($REX['TABLE_PREFIX']. '62_params', 'prior', 'name LIKE "'. $prefix .'%"', 'prior, updatedate', 'field_id');
 
   $tableManager = new rex_a62_tableManager($metaTable);
@@ -202,25 +202,25 @@ function a62_meta_table($prefix)
 
 /**
  * Bindet ggf extensions ein
- * 
+ *
  * @param $params
  */
 function a62_extensions_handler($params)
 {
   global $REX;
-  
+
   $page = $params['subject'];
   $mode = rex_request('mode', 'string');
   $mypage = 'metainfo';
-  
+
   // additional javascripts
   if($page == 'metainfo' || ($page == 'content' && $mode == 'meta'))
   {
     rex_register_extension('PAGE_HEADER',
-      create_function('$params', 'return $params[\'subject\'] ."\n".\'  <script src="../files/addons/'. $mypage .'/metainfo.js" type="text/javascript"></script>\';')
+      create_function('$params', 'return $params[\'subject\'] ."\n".\'  <script src="'. rex_path::addonAssets($mypage, 'metainfo.js', true) .'" type="text/javascript"></script>\';')
     );
   }
-  
+
   // include extensions
   $curDir = dirname(__FILE__) .'/..';
   if ($page == 'content' && $mode == 'meta')

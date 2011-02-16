@@ -23,16 +23,16 @@ function rex_version_initArticle($params)
 	$version = rex_request("rex_version","int");
 	if($version != 1)
 		return;
-		
+
 	if(!isset($_SESSION))
 		session_start();
-		
+
 	if (!rex_hasBackendSession())
 	{
-    echo 'no permission for the working version';	  
+    echo 'no permission for the working version';
 		exit();
 	}
-	
+
   $params['article']->setSliceRevision($version);
 	if(is_a($params['article'], 'rex_article'))
 	{
@@ -52,17 +52,17 @@ function rex_version_header($params)
 	$rex_version_article = $REX['LOGIN']->getSessionVar("rex_version_article");
 	if(!is_array($rex_version_article))
 		$rex_version_article = array();
-	
+
 	$working_version_empty = TRUE;
 	$gw = rex_sql::factory();
 	$gw->setQuery('select * from '.$REX['TABLE_PREFIX'].'article_slice where article_id='.$params['article_id'].' and clang='.$params['clang'].' and revision=1 LIMIT 1');
 	if($gw->getRows()>0)
 		$working_version_empty = FALSE;
-	
+
 	$revisions = array();
 	$revisions[0] = $REX['I18N']->msg("version_liveversion");
 	$revisions[1] = $REX['I18N']->msg("version_workingversion");
-	
+
 	$version_id = rex_request("rex_set_version","int","-1");
 
 	if($version_id === 0)
@@ -75,7 +75,7 @@ function rex_version_header($params)
 	{
 			$rex_version_article[$params['article_id']] = 1;
 	}
-	
+
 	$func = rex_request("rex_version_func","string");
 	switch($func)
 	{
@@ -85,20 +85,20 @@ function rex_version_header($params)
 		  	$return .= rex_warning($REX['I18N']->msg("version_warning_working_version_to_live"));
 		  }else if(!$REX['USER']->hasPerm('version[only_working_version]'))
 		  {
-				require $REX['INCLUDE_PATH'] .'/addons/version/functions/function_rex_copyrevisioncontent.inc.php';
+				require rex_path::addon('version', 'functions/function_rex_copyrevisioncontent.inc.php');
 				// rex_copyRevisionContent($article_id,$clang,$from_revision_id, $to_revision_id, $gc->getValue("id"),$delete_to_revision);
 				rex_copyRevisionContent($params['article_id'],$params['clang'],1, 0, 0, TRUE);
 		  	$return .= rex_info($REX['I18N']->msg("version_info_working_version_to_live"));
 		  }
 		break;
 		case("copy_live_to_work"):
-			require $REX['INCLUDE_PATH'] .'/addons/version/functions/function_rex_copyrevisioncontent.inc.php';
+			require rex_path::addon('version', 'functions/function_rex_copyrevisioncontent.inc.php');
 			// rex_copyRevisionContent($article_id,$clang,$from_revision_id, $to_revision_id, $gc->getValue("id"),$delete_to_revision);
 			rex_copyRevisionContent($params['article_id'],$params['clang'],0, 1, 0, TRUE);
 		  $return .= rex_info($REX['I18N']->msg("version_info_live_version_to_working"));
 		break;
 	}
-	
+
   if($REX['USER']->hasPerm('version[only_working_version]'))
   {
 		$rex_version_article[$params['article_id']] = 1;
@@ -135,7 +135,7 @@ function rex_version_header($params)
   {
     $s->setDisabled();
   }
-   
+
   $return .= '<ul class="rex-display-inline">';
   $return .= '<li class="rex-navi-first"><label for="rex-select-version-id">'.$REX['I18N']->msg('version').':</label> '.$s->get().'</li>';
 
@@ -173,10 +173,10 @@ function rex_version_header($params)
 
 <style type="text/css">
   /* <![CDATA[ */
-		#rex-version-header label { 
+		#rex-version-header label {
 			font-weight: bold;
-		}  
-		#rex-version-header li { 
+		}
+		#rex-version-header li {
 			margin-right: 15px;
 		}
 		div.rex-version-revision-0 {
@@ -187,11 +187,11 @@ function rex_version_header($params)
 		}
   /* ]]> */
 </style>
-			
+
 		</div>
 	';
-	
+
 	$params['slice_revision'] = $rex_version_article[$params['article_id']];
-	
+
 	return $return;
 }

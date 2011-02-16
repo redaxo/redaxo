@@ -135,7 +135,7 @@ function rex_no_rewrite($id, $name, $clang, $param_string, $divider)
     $_clang .= $divider.'clang='.$clang;
   }
 
-  return $REX["FRONTEND_FILE"].'?article_id='.$id .$_clang.$param_string;
+  return rex_path::frontendController('?article_id='.$id .$_clang.$param_string);
 }
 
 /**

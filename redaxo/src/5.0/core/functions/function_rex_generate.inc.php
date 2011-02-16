@@ -17,7 +17,7 @@ function rex_generateAll()
   global $REX;
 
   // ----------------------------------------------------------- generated löschen
-  rex_deleteDir($REX['INCLUDE_PATH'].'/generated', FALSE);
+  rex_deleteDir(rex_path::generated(), FALSE);
 
   // ----------------------------------------------------------- generiere clang
   if(($MSG = rex_generateClang()) !== TRUE)
@@ -187,6 +187,27 @@ function rex_deleteFiles($file)
 }
 
 /**
+ * Erstellt einne Ordner
+ *
+ * @param $dir Zu erstellendes Verzeichnis
+ * @param $recursive
+ *
+ * @return TRUE bei Erfolg, FALSE bei Fehler
+ */
+function rex_createDir($dir, $recursive = true)
+{
+  global $REX;
+
+  if(mkdir($dir, $REX['DIRPERM'], $recursive))
+  {
+    @chmod($dir, $REX['DIRPERM']);
+    return true;
+  }
+
+  return false;
+}
+
+/**
  * Kopiert eine Ordner von $srcdir nach $dstdir
  *
  * @param $srcdir Zu kopierendes Verzeichnis
@@ -317,7 +338,7 @@ function rex_addCLang($id, $name)
   if(isset($REX['CLANG'][$id])) return FALSE;
 
   $REX['CLANG'][$id] = $name;
-  $file = $REX['INCLUDE_PATH']."/config/clang.inc.php";
+  $file = rex_path::src('config/clang.inc.php');
   rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n");
 
   $firstLang = rex_sql::factory();
@@ -373,7 +394,7 @@ function rex_editCLang($id, $name)
   if(!isset($REX['CLANG'][$id])) return false;
 
   $REX['CLANG'][$id] = $name;
-  $file = $REX['INCLUDE_PATH']."/config/clang.inc.php";
+  $file = rex_path::src('config/clang.inc.php');
   rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n");
 
   $edit = rex_sql::factory();
@@ -421,7 +442,7 @@ function rex_generateAddons(array $ADDONS)
   // hier die caches loeschen
   clearstatcache();
 
-  $file = $REX['INCLUDE_PATH']."/config/addons.inc.php";
+  $file = rex_path::src('config/addons.inc.php');
   if(rex_replace_dynamic_contents($file, $content) === FALSE)
   {
     return 'Datei "'.$file.'" hat keine Schreibrechte';
@@ -469,7 +490,7 @@ function rex_generatePlugins(array $PLUGINS)
   // hier die caches löschen
   clearstatcache();
 
-  $file = $REX['INCLUDE_PATH']."/config/plugins.inc.php";
+  $file = rex_path::src('config/plugins.inc.php');
   if(rex_replace_dynamic_contents($file, $content) === false)
   {
     return 'Datei "'.$file.'" hat keine Schreibrechte';
@@ -496,7 +517,7 @@ function rex_generateClang()
     $lg->next();
   }
 
-  $file = $REX['INCLUDE_PATH']."/config/clang.inc.php";
+  $file = rex_path::src('config/clang.inc.php');
   if(rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n") === FALSE)
   {
     return 'Datei "'.$file.'" hat keine Schreibrechte';

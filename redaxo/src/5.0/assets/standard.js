@@ -1,7 +1,5 @@
 /* 
  REDAXO JavaScript library
- @package redaxo4 
- @version svn:$Id$
  */ 
 
 // -------------------------------------------------------------------------------------------------------------------
@@ -93,7 +91,7 @@ function newWindow(name,link,width,height,type)
                 extra = 'empty';
         }else
         {
-                extra = type
+                extra = type;
         }
 
         if (type=="nav")
@@ -132,216 +130,10 @@ if (opener != null)
   var winObjCounter = -1;
 }
 
-// -------------------------------------------------------------------------------------------------------------------
-
-function newPoolWindow(link) 
-{
-    newWindow( 'rexmediapopup'+(winObjCounter+1), link, 800,600,',status=yes,resizable=yes');
-}
-
-function newLinkMapWindow(link) 
-{
-    newWindow( 'linkmappopup', link, 800,600,',status=yes,resizable=yes');
-}
-
-function openMediaDetails(id, file_id, file_category_id)
-{
-  if (typeof(id) == 'undefined')
-  {
-    id = '';  
-  }
-  newPoolWindow('index.php?page=mediapool&subpage=detail&opener_input_field='+ id + '&file_id=' + file_id + '&file_category_id=' + file_category_id);
-}
-
-function openMediaPool(id)
-{
-  if (typeof(id) == 'undefined')
-  {
-    id = '';  
-  }
-  newPoolWindow('index.php?page=mediapool&opener_input_field='+ id);
-}
-
-function openREXMedia(id,param)
-{
-  var mediaid = 'REX_MEDIA_'+id;
-  if (typeof(param) == 'undefined')
-  {
-    param = '';  
-  }
-  newPoolWindow('index.php?page=mediapool' + param + '&opener_input_field=' + mediaid);
-}
-
-function viewREXMedia(id,param)
-{
-  var mediaid = 'REX_MEDIA_'+id;
-  var value = document.getElementById(mediaid).value;
-  if ( typeof(param) == 'undefined')
-  {
-    param = '';  
-  }
-  if (value != '') {
-    param = param + '&subpage=detail&file_name='+ value;
-    newPoolWindow('index.php?page=mediapool' + param + '&opener_input_field=' + mediaid);
-  }
-}
-
-function deleteREXMedia(id)
-{
-    var a = new getObj("REX_MEDIA_"+id);
-    a.obj.value = "";
-}
-
-function addREXMedia(id,params)
-{
-  if (typeof(params) == 'undefined')
-  {
-    params = '';  
-  }
-  newPoolWindow('index.php?page=mediapool&action=media_upload&subpage=add_file&opener_input_field=REX_MEDIA_'+id+params);
-}
-
-function openLinkMap(id, param)
-{
-  if (typeof(id) == 'undefined')
-  {
-    id = '';  
-  }
-  if (typeof(param) == 'undefined')
-  {
-    param = '';  
-  }
-  newLinkMapWindow('index.php?page=linkmap&opener_input_field=' + id + param);
-}
-
 function setValue(id,value)
 {
   var field = new getObj(id);
   field.obj.value = value;
-}
-
-function setAllCheckBoxes(FieldName, mthis)
-{
-  var CheckValue;
-
-  if (mthis.checked) CheckValue=true;
-  else CheckValue=false;
-
-  var objCheckBoxes = new getObjArray(FieldName);
-  if(!objCheckBoxes) return;
-
-  var countCheckBoxes = objCheckBoxes.length;
-  if(!countCheckBoxes) objCheckBoxes.checked = CheckValue;
-  else
-    // set the check value for all check boxes
-    for(var i = 0; i < countCheckBoxes; i++)
-      objCheckBoxes[i].checked = CheckValue;
-}
-
-function deleteREXLink(id)
-{
-  var link;
-  link = new getObj("LINK_"+id);
-  link.obj.value = "";
-  link = new getObj("LINK_"+id+"_NAME");
-  link.obj.value = "";
-}
-
-function openREXMedialist(id,param)
-{
-  var medialist = 'REX_MEDIALIST_' + id;
-  var mediaselect = 'REX_MEDIALIST_SELECT_' + id;
-  var needle = new getObj(mediaselect);
-  var source = needle.obj;
-  var sourcelength = source.options.length;
-  if ( typeof(param) == 'undefined')
-  {
-    param = '';
-  }
-  for (ii = 0; ii < sourcelength; ii++) {
-    if (source.options[ii].selected) {
-      param += '&subpage=detail&file_name='+ source.options[ii].value;
-      break;
-    }
-  }
-  newPoolWindow('index.php?page=mediapool'+ param +'&opener_input_field='+ medialist);
-}
-
-function viewREXMedialist(id,param)
-{
-  var medialist = 'REX_MEDIALIST_' + id;
-  var mediaselect = 'REX_MEDIALIST_SELECT_' + id;
-  var needle = new getObj(mediaselect);
-  var source = needle.obj;
-  var sourcelength = source.options.length;
-  if ( typeof(param) == 'undefined')
-  {
-    param = '';
-  }
-  for (ii = 0; ii < sourcelength; ii++) {
-    if (source.options[ii].selected) {
-      param += '&subpage=detail&file_name='+ source.options[ii].value;
-      break;
-    }
-  }
-  if(param != '')
-    newPoolWindow('index.php?page=mediapool' + param + '&opener_input_field=' + medialist);
-}
-
-function addREXMedialist(id,params)
-{
-  if (typeof(params) == 'undefined')
-  {
-    params = '';  
-  }
-  newPoolWindow('index.php?page=mediapool&action=media_upload&subpage=add_file&opener_input_field=REX_MEDIALIST_'+id+params);
-}
-
-function deleteREXMedialist(id){
-  deleteREX(id, 'REX_MEDIALIST_', 'REX_MEDIALIST_SELECT_');
-}
-
-function moveREXMedialist(id, direction){
-  moveREX(id, 'REX_MEDIALIST_', 'REX_MEDIALIST_SELECT_', direction);
-}
-
-function writeREXMedialist(id){
-  writeREX(id, 'REX_MEDIALIST_', 'REX_MEDIALIST_SELECT_');
-}
-
-function openREXLinklist(id, param)
-{
-  var linklist = 'REX_LINKLIST_'+id;
-  var linkselect = 'REX_LINKLIST_SELECT_'+id;
-  var needle = new getObj(linkselect);
-  var source = needle.obj;
-  var sourcelength = source.options.length;
-  
-  if ( typeof(param) == 'undefined')
-  {
-    param = '';  
-  }
-
-  for (ii = 0; ii < sourcelength; ii++) {
-    if (source.options[ii].selected) {
-      param = '&action=link_details&file_name='+ source.options[ii].value;
-      break;
-    }
-  }
-  
-  newLinkMapWindow('index.php?page=linkmap&opener_input_field='+linklist+param);
-}
-
-function deleteREXLinklist(id){
-  deleteREX(id, 'REX_LINKLIST_', 'REX_LINKLIST_SELECT_');
-}
-
-function moveREXLinklist(id, direction){
-  moveREX(id, 'REX_LINKLIST_', 'REX_LINKLIST_SELECT_', direction);
-}
-
-function writeREXLinklist(id){
-  writeREX(id, 'REX_LINKLIST_', 'REX_LINKLIST_SELECT_');
 }
 
 function deleteREX(id, i_list, i_select)
@@ -364,7 +156,7 @@ function deleteREX(id, i_list, i_select)
     source.options[position] = null;
     sourcelength--;
 
-    // Wenn das erste gelöscht wurde
+    // Wenn das erste gelï¿½scht wurde
     if(position == 0)
     {
       // Und es gibt noch weitere,
@@ -563,8 +355,6 @@ function toggleElement(id,display)
 
 
 jQuery(function($){
-
-  
   // ------------------ Preview fuer REX_MEDIA_BUTTONS, REX_MEDIALIST_BUTTONS
   function rexShowMediaPreview() {
     var value, img_type;
@@ -588,7 +378,7 @@ jQuery(function($){
     	url = '../index.php?rex_resize=246a__'+ value;
     else
     {
-      url = '../files/'+ value;
+      url = '../media/'+ value;
       width = 246;
     }
     
@@ -601,7 +391,7 @@ jQuery(function($){
         value.substr(-4) == "jpeg")
       )
     {
-      // img tag nur einmalig einfügen, ggf erzeugen wenn nicht vorhanden
+      // img tag nur einmalig einfï¿½gen, ggf erzeugen wenn nicht vorhanden
       var img = $('img', div);
       if(img.length == 0)
       {
@@ -676,4 +466,50 @@ jQuery(function($){
       });    
   });
 
+  if ($('#rex-page-login').length == 0 && getCookie('htaccess_check') == '')
+  {
+    time = new Date();
+    time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
+    setCookie('htaccess_check', '1', time.toGMTString());
+    $.get('src/config.inc.php', 
+      function(data) {
+        $('#rex-wrapper2').prepend('<div class="rex-message"><p class="rex-warning"><span>The folder redaxo is insecure. Please protect this folder.</span></p></div>');
+        setCookie('htaccess_check', '');
+      }
+    );
+  }
+  
+
 });
+
+
+// cookie functions
+// necessary for be_dashboard
+
+function setCookie(name, value, expires, path, domain, secure) {
+	if (typeof expires != undefined && expires == "never") {
+		// never expire means expires in 3000 days
+		expires = new Date();
+		expires.setTime(expires.getTime() + (1000 * 60 * 60 * 24 * 3000));
+		expires = expires.toGMTString();
+	}
+
+	document.cookie = name + "=" + escape(value)
+			+ ((expires) ? "; expires=" + expires : "")
+			+ ((path) ? "; path=" + path : "")
+			+ ((domain) ? "; domain=" + domain : "")
+			+ ((secure) ? "; secure" : "");
+}
+
+function getCookie(cookieName) {
+	var theCookie = "" + document.cookie;
+	var ind = theCookie.indexOf(cookieName);
+	if (ind == -1 || cookieName == "")
+		return "";
+
+	var ind1 = theCookie.indexOf(';', ind);
+	if (ind1 == -1)
+		ind1 = theCookie.length;
+
+	return unescape(theCookie.substring(ind + cookieName.length + 1, ind1));
+}

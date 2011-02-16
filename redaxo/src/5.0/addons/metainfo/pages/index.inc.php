@@ -11,9 +11,6 @@
 // Parameter
 $Basedir = dirname(__FILE__);
 
-// Include Header and Navigation
-require $REX['INCLUDE_PATH'] .'/core/layout/top.php';
-
 $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
@@ -46,6 +43,3 @@ $metaTable = a62_meta_table($prefix);
 require $Basedir .'/field.inc.php';
 
 echo '</div>';
-
-// Include Footer
-require $REX['INCLUDE_PATH'] .'/core/layout/bottom.php';

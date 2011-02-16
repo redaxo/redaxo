@@ -116,7 +116,7 @@ abstract class rex_ooRedaxo
 
       $vars = array();
 
-      $file = $REX['INCLUDE_PATH']. '/generated/articles/'.  $REX['START_ARTICLE_ID'] .'.0.article';
+      $file = rex_path::generated('articles/'.  $REX['START_ARTICLE_ID'] .'.0.article');
       if(!$REX['REDAXO'] && file_exists($file))
       {
         // Im GetGenerated Modus, die Spaltennamen aus den generated Dateien holen

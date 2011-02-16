@@ -1,10 +1,10 @@
 /.settings
 /.buildpath
 /.project
-/files
-/redaxo_media
-/redaxo/src/5.0/generated
-/redaxo/src/5.0/generated/articles
-/redaxo/src/5.0/generated/templates
-/redaxo/src/5.0/generated/files
-/redaxo/src/5.0/addons/cronjob/logs
+/assets
+/media
+/redaxo/data
+/redaxo/generated
+/redaxo/generated/articles
+/redaxo/generated/templates
+/redaxo/generated/files

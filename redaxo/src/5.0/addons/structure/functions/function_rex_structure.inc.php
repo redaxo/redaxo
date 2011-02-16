@@ -668,11 +668,6 @@ function rex_articleStatus($article_id, $clang, $status = null)
     $EA->setValue('status', $newstatus);
     $EA->addGlobalUpdateFields($REX['REDAXO'] ? null : 'frontend');
 
-    if (!$REX['REDAXO'])
-    {
-      include_once $REX['INCLUDE_PATH'].'/core/functions/function_rex_generate.inc.php';
-    }
-
     if($EA->update())
     {
       $message = $REX['I18N']->msg('article_status_updated');

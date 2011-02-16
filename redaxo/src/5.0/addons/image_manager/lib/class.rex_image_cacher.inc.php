@@ -126,8 +126,8 @@ class rex_image_cacher
     }
 
     $folders = array();
-    $folders[] = $REX['INCLUDE_PATH'] . '/generated/files/';
-    $folders[] = $REX['HTDOCS_PATH'] . 'files/';
+    $folders[] = rex_path::generated('files/');
+    $folders[] = rex_path::media('', true);
 
     $counter = 0;
     foreach($folders as $folder)

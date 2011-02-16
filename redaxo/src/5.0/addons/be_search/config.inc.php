@@ -23,7 +23,7 @@ $REX['EXTPERM'][] = 'be_search[structure]';
 if ($REX['REDAXO'])
 {
   // Include Functions
-  require_once $REX['INCLUDE_PATH'] .'/addons/be_search/functions/functions.search.inc.php';
-  
+  require_once rex_path::addon('be_search', 'functions/functions.search.inc.php');
+
   rex_register_extension('PAGE_CHECKED', 'rex_be_search_extensions_handler');
 }

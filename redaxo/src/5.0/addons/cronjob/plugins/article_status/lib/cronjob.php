@@ -8,7 +8,7 @@
  * @package redaxo4
  * @version svn:$Id$
  */
- 
+
 class rex_cronjob_article_status extends rex_cronjob
 {
   public function execute()
@@ -24,8 +24,8 @@ class rex_cronjob_article_status extends rex_cronjob
     $sql = rex_sql::factory();
     // $sql->debugsql = true;
     $sql->setQuery('
-      SELECT  name 
-      FROM    '. $REX['TABLE_PREFIX'] .'62_params 
+      SELECT  name
+      FROM    '. $REX['TABLE_PREFIX'] .'62_params
       WHERE   name="'. $from['field'] .'" OR name="'. $to['field'] .'"
     ');
     $rows = $sql->getRows();
@@ -43,26 +43,26 @@ class rex_cronjob_article_status extends rex_cronjob
       $this->setMessage($msg);
       return false;
     }
-    
+
     $time = time();
     $sql->setQuery('
-      SELECT  id, clang, status 
-      FROM    '. $REX['TABLE_PREFIX'] .'article 
-      WHERE 
-        (     '. $from['field'] .' > 0 
-        AND   '. $from['field'] .' < '. $time .' 
+      SELECT  id, clang, status
+      FROM    '. $REX['TABLE_PREFIX'] .'article
+      WHERE
+        (     '. $from['field'] .' > 0
+        AND   '. $from['field'] .' < '. $time .'
         AND   status IN ('. implode(',', $from['before']) .')
         AND   ('. $to['field'] .' > '. $time .' OR '. $to['field'] .' = 0 OR '. $to['field'] .' = "")
         )
-      OR 
-        (     '. $to['field'] .' > 0 
-        AND   '. $to['field'] .' < '. $time .' 
+      OR
+        (     '. $to['field'] .' > 0
+        AND   '. $to['field'] .' < '. $time .'
         AND   status IN ('. implode(',', $to['before']) .')
         )
     ');
     $rows = $sql->getRows();
 
-    include_once $REX['INCLUDE_PATH'].'/addons/structure/functions/function_rex_structure.inc.php';
+    include_once rex_path::addon('structure', 'functions/function_rex_structure.inc.php');
 
     for($i = 0; $i < $rows; $i++)
     {
@@ -70,14 +70,14 @@ class rex_cronjob_article_status extends rex_cronjob
         $status = $from['after'];
       else
         $status = $to['after'];
-      
+
       rex_articleStatus($sql->getValue('id'), $sql->getValue('clang'), $status);
       $sql->next();
     }
     $this->setMessage('Updated articles: '. $rows);
     return true;
   }
-  
+
   public function getTypeName()
   {
     global $REX;

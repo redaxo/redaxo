@@ -10,10 +10,10 @@
 @ini_set('memory_limit', '64M');
 
 // ------- Addon Includes
-include_once $REX['INCLUDE_PATH'] .'/addons/import_export/functions/function_import_export.inc.php';
-include_once $REX['INCLUDE_PATH'] .'/addons/import_export/functions/function_folder.inc.php';
-include_once $REX['INCLUDE_PATH'] .'/addons/import_export/functions/function_import_folder.inc.php';
-include_once $REX['INCLUDE_PATH'] .'/addons/import_export/functions/function_string.inc.php';
+include_once rex_path::addon('import_export', 'functions/function_import_export.inc.php');
+include_once rex_path::addon('import_export', 'functions/function_folder.inc.php');
+include_once rex_path::addon('import_export', 'functions/function_import_folder.inc.php');
+include_once rex_path::addon('import_export', 'functions/function_string.inc.php');
 
 $info = '';
 $warning = '';
@@ -170,7 +170,7 @@ else
               <div class="rex-form-checkboxes">
                 <div class="rex-form-checkboxes-wrapper">
 <?php
-  $dir = realpath($REX['HTDOCS_PATH']);
+  $dir = rex_path::frontend();
   $folders = readSubFolders($dir);
 
   foreach ($folders as $file)

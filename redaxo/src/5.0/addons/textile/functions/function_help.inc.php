@@ -3,7 +3,7 @@
  * Textile Addon
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -164,9 +164,9 @@ function rex_a79_help_links()
       ),
     'links_attributes' =>
       array(
-        array ($REX['I18N']->msg('textile_link_attr_title') .':files/test.jpg'),
-        array ($REX['I18N']->msg('textile_link_attr_rel') .':files/test.jpg'),
-        array ($REX['I18N']->msg('textile_link_attr_title_rel') .':files/test.jpg'),
+        array ($REX['I18N']->msg('textile_link_attr_title') .':media/test.jpg'),
+        array ($REX['I18N']->msg('textile_link_attr_rel') .':media/test.jpg'),
+        array ($REX['I18N']->msg('textile_link_attr_title_rel') .':media/test.jpg'),
       ),
     'anchor' =>
       array(

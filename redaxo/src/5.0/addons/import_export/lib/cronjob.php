@@ -9,8 +9,8 @@ class rex_cronjob_export extends rex_cronjob
   {
     global $REX;
 
-    include_once $REX['INCLUDE_PATH'] .'/addons/import_export/functions/function_import_export.inc.php';
-    include_once $REX['INCLUDE_PATH'] .'/addons/import_export/functions/function_import_folder.inc.php';
+    include_once rex_path::addon('import_export', 'functions/function_import_export.inc.php');
+    include_once rex_path::addon('import_export', 'functions/function_import_folder.inc.php');
 
     $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
     $filename = str_replace("%HTTP_HOST", $_SERVER['HTTP_HOST'], $filename);

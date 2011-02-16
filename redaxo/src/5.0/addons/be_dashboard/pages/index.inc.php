@@ -10,8 +10,6 @@
  * @version svn:$Id$
  */
 
-require $REX['INCLUDE_PATH'] .'/core/layout/top.php';
-
 rex_title($REX['I18N']->msg('dashboard'), '');
 
 $contentFound = false;
@@ -145,5 +143,3 @@ if(!$contentFound)
 {
   echo rex_warning($REX['I18N']->msg('dashboard_no_content'));
 }
-
-require $REX['INCLUDE_PATH'] .'/core/layout/bottom.php';

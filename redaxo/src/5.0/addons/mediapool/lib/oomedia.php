@@ -74,10 +74,9 @@ class rex_ooMedia
   {
     global $REX;
 
-    $extlist_path = $REX['INCLUDE_PATH'].'/generated/files/'.$extension.'.mextlist';
+    $extlist_path = rex_path::generate('files/'.$extension.'.mextlist');
     if (!file_exists($extlist_path))
 		{
-			require_once ($REX['INCLUDE_PATH'].'/core/functions/function_rex_generate.inc.php');
     	rex_generateMediaExtensionList($extension);
 		}
 
@@ -107,10 +106,9 @@ class rex_ooMedia
     if ($name == '')
       return null;
 
-    $media_path = $REX['INCLUDE_PATH'].'/generated/files/'.$name.'.media';
+    $media_path = rex_path::generate('files/'.$name.'.media');
     if (!file_exists($media_path))
 		{
-			require_once ($REX['INCLUDE_PATH'] .'/core/functions/function_rex_generate.inc.php');
     	rex_generateMedia($name);
 		}
 
@@ -253,7 +251,7 @@ class rex_ooMedia
   public function getPath()
   {
     global $REX;
-    return $REX['HTDOCS_PATH'].'files';
+    return rex_path::media('', true);
   }
 
   /**
@@ -412,18 +410,10 @@ class rex_ooMedia
       $params = array();
     }
 
-    $path = $REX['HTDOCS_PATH'];
-    if (isset ($params['path']))
-    {
-      $path = $params['path'];
-      unset ($params['path']);
-    }
-
     // Ist das Media ein Bild?
     if (!$this->isImage())
     {
-      $path = 'media/';
-      $file = 'file_dummy.gif';
+      $file = rex_path::pluginAssets('be_style', 'base_old', 'file_dummy.gif', true);
 
       // Verwenden einer statischen variable, damit getimagesize nur einmal aufgerufen
       // werden muss, da es sehr lange dauert
@@ -431,7 +421,7 @@ class rex_ooMedia
 
       if (empty ($dummyFileSize))
       {
-        $dummyFileSize = getimagesize($path.$file);
+        $dummyFileSize = getimagesize($file);
       }
       $params['width'] = $dummyFileSize[0];
       $params['height'] = $dummyFileSize[1];
@@ -472,7 +462,7 @@ class rex_ooMedia
             $resizeParam = 100;
           }
 
-          // Evtl. Gr��eneinheiten entfernen
+          // Evtl. Größeneinheiten entfernen
           $resizeParam = str_replace(array (
             'px',
             'pt',
@@ -485,13 +475,12 @@ class rex_ooMedia
       // Bild resizen?
       if ($resize)
       {
-        $file = 'index.php?rex_resize='.$resizeParam.$resizeMode.'__'.$this->getFileName();
+        $file = rex_path::frontendController('?rex_resize='.$resizeParam.$resizeMode.'__'.$this->getFileName());
       }
       else
       {
         // Bild 1:1 anzeigen
-        $path .= 'files/';
-        $file = $this->getFileName();
+        $file = rex_path::media($this->getFileName(), true);
       }
     }
 
@@ -522,7 +511,7 @@ class rex_ooMedia
       $additional .= ' '.$name.'="'.$value.'"';
     }
 
-    return sprintf('<img src="%s"%s />', $path.$file, $additional);
+    return sprintf('<img src="%s"%s />', $file, $additional);
   }
 
   /**
@@ -620,7 +609,7 @@ class rex_ooMedia
     $filename = addslashes($this->getFileName());
     // replace LIKE wildcards
     $likeFilename = str_replace(array('_', '%'), array('\_', '\%'), $filename);
-    
+
 
     $values = array();
     for ($i = 1; $i < 21; $i++)
@@ -750,7 +739,7 @@ class rex_ooMedia
     global $REX;
 
     $ext = $this->getExtension();
-    $folder = $REX['HTDOCS_PATH'] .'redaxo/media/';
+    $folder = rex_path::pluginAssets('be_style', 'base_old', '', true);
     $icon = $folder .'mime-'.$ext.'.gif';
 
     // Dateityp für den kein Icon vorhanden ist
@@ -833,7 +822,7 @@ class rex_ooMedia
 
       if($this->fileExists())
       {
-        unlink($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$this->getFileName());
+        unlink(rex_path::media($this->getFileName()));
       }
 
       rex_deleteCacheMedia($this->getFileName());
@@ -852,7 +841,7 @@ class rex_ooMedia
       $filename = $this->getFileName();
     }
 
-    return file_exists($REX['MEDIAFOLDER'].DIRECTORY_SEPARATOR.$filename);
+    return file_exists(rex_path::media($filename));
   }
 
   // allowed filetypes

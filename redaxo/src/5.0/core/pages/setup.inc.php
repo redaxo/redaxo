@@ -9,7 +9,7 @@ if (!isset($REX))
 	echo '<html>
           <title></title>
           <head>
-            <script src="../../../../../redaxo_media/standard.js" type="text/javascript"></script>
+            <script src="../../../../../assets/standard.js" type="text/javascript"></script>
             <script type="text/javascript">
               var needle = new parent.getObj("security_warning");
               var span = needle.obj;
@@ -57,7 +57,7 @@ function rex_setup_import($import_sql, $import_archiv = null)
 	{
 		if (file_exists($import_sql) && ($import_archiv === null || $import_archiv !== null && file_exists($import_archiv)))
 		{
-			$REX['I18N']->appendFile($REX['INCLUDE_PATH'] .'/addons/import_export/lang/');
+			$REX['I18N']->appendFile(rex_path::addon('import_export', 'lang/'));
 
 			// DB Import
 			$state_db = rex_a1_import_db($import_sql);
@@ -109,7 +109,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 {
 	global $REX;
 
-	require_once $REX['INCLUDE_PATH'].'/core/functions/function_rex_addons.inc.php';
+	require_once rex_path::src('core/functions/function_rex_addons.inc.php');
 
 	$addonErr = '';
 	$ADDONS = rex_read_addons_folder();
@@ -209,7 +209,7 @@ $dbanlegen  = rex_request('dbanlegen', 'string');
 $noadmin    = rex_request('noadmin', 'string');
 $lang       = rex_request('lang', 'string');
 
-$export_addon_dir = $REX['INCLUDE_PATH'] .'/addons/import_export';
+$export_addon_dir = rex_path::addon('import_export');
 require_once $export_addon_dir.'/functions/function_folder.inc.php';
 require_once $export_addon_dir.'/functions/function_import_folder.inc.php';
 require_once $export_addon_dir.'/functions/function_import_export.inc.php';
@@ -219,12 +219,12 @@ require_once $export_addon_dir.'/functions/function_import_export.inc.php';
 if (!($checkmodus > 0 && $checkmodus < 10))
 {
   // initial purge all generated files
-  rex_deleteDir($REX['INCLUDE_PATH'].'/generated', FALSE);
+  rex_deleteDir(rex_path::generated(), FALSE);
 
   // copy alle media files of the current rex-version into redaxo_media
-  rex_copyDir($REX['INCLUDE_PATH'] .'/media', $REX['OPENMEDIAFOLDER']);
+  rex_copyDir(rex_path::src('assets'), rex_path::assets());
 
-	$langpath = $REX['INCLUDE_PATH'].'/core/lang';
+	$langpath = rex_path::src('core/lang');
 	foreach($REX['LANGUAGES'] as $l)
 	{
 		$I18N_T = rex_create_lang($l,$langpath,FALSE);
@@ -297,21 +297,21 @@ if ($checkmodus == 1)
 
 	// -------------------------- SCHREIBRECHTE
 	$WRITEABLES = array (
-		$REX['INCLUDE_PATH'] .'/config/master.inc.php',
-		$REX['INCLUDE_PATH'] .'/config/addons.inc.php',
-		$REX['INCLUDE_PATH'] .'/config/plugins.inc.php',
-		$REX['INCLUDE_PATH'] .'/config/clang.inc.php',
-		$REX['INCLUDE_PATH'] .'/generated',
-		$REX['INCLUDE_PATH'] .'/generated/articles',
-		$REX['INCLUDE_PATH'] .'/generated/templates',
-		$REX['INCLUDE_PATH'] .'/generated/files',
-		$REX['MEDIAFOLDER'],
-		$REX['MEDIAFOLDER'] .DIRECTORY_SEPARATOR.'_readme.txt',
+		rex_path::src('config/master.inc.php'),
+		rex_path::src('config/addons.inc.php'),
+		rex_path::src('config/plugins.inc.php'),
+		rex_path::src('config/clang.inc.php'),
+		rex_path::generated(),
+		rex_path::generated('articles'),
+		rex_path::generated('templates'),
+		rex_path::generated('files'),
+		rex_path::media(),
+		rex_path::media('_readme.txt'),
 		getImportDir()
 	);
 
 	foreach($REX['SYSTEM_ADDONS'] as $system_addon)
-	  $WRITEABLES[] = $REX['INCLUDE_PATH'] .'/addons'.DIRECTORY_SEPARATOR. $system_addon;
+	  $WRITEABLES[] = rex_path::addon($system_addon);
 
 	$res = rex_setup_is_writable($WRITEABLES);
 	if(count($res) > 0)
@@ -374,7 +374,7 @@ elseif ($MSG['err'] != "")
 
 if ($checkmodus == 2 && $send == 1)
 {
-	$master_file = $REX['INCLUDE_PATH'].'/config/master.inc.php';
+	$master_file = rex_path::src('config/master.inc.php');
 	$cont = rex_get_file_contents($master_file);
 
 	// Einfache quotes nicht escapen, da der String zwischen doppelten quotes stehen wird
@@ -431,7 +431,7 @@ if ($checkmodus == 2 && $send == 1)
 		$REX['DB']['1']['LOGIN'] = $redaxo_db_user_login;
 		$REX['DB']['1']['PSW'] = $redaxo_db_user_pass;
 		$REX['DB']['1']['HOST'] = $mysql_host;
-		
+
 	  $serverVersion = rex_sql::getServerVersion();
 		if (rex_version_compare($serverVersion, $min_mysql_version, '<') == 1)
 		{
@@ -599,7 +599,7 @@ if ($checkmodus == 3 && $send == 1)
 	if ($dbanlegen == 4)
 	{
 		// ----- vorhandenen seite updaten
-		$import_sql = $REX['INCLUDE_PATH'].'/core/install/update4_x_to_5_0.sql';
+		$import_sql = rex_path::src('core/install/update4_x_to_5_0.sql');
 		if($err_msg == '')
 		  $err_msg .= rex_setup_import($import_sql);
 
@@ -643,7 +643,7 @@ if ($checkmodus == 3 && $send == 1)
 	elseif ($dbanlegen == 1)
 	{
 		// ----- volle Datenbank, alte DB löschen / drop
-		$import_sql = $REX['INCLUDE_PATH'].'/core/install/redaxo5_0.sql';
+		$import_sql = rex_path::src('core/install/redaxo5_0.sql');
 
 		$db = rex_sql::factory();
 		foreach($requiredTables as $table)
@@ -658,7 +658,7 @@ if ($checkmodus == 3 && $send == 1)
 	elseif ($dbanlegen == 0)
 	{
 		// ----- leere Datenbank neu einrichten
-		$import_sql = $REX['INCLUDE_PATH'].'/core/install/redaxo5_0.sql';
+		$import_sql = rex_path::src('core/install/redaxo5_0.sql');
 
 		if($err_msg == '')
 		  $err_msg .= rex_setup_import($import_sql);
@@ -994,7 +994,7 @@ if ($checkmodus == 4)
 
 if ($checkmodus == 5)
 {
-	$master_file = $REX['INCLUDE_PATH'].'/config/master.inc.php';
+	$master_file = rex_path::src('config/master.inc.php');
 	$cont = rex_get_file_contents($master_file);
 	$cont = preg_replace("@(REX\['SETUP'\].?\=.?)[^;]*@", '$1false', $cont);
 

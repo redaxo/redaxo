@@ -4,12 +4,10 @@
  * Version AddOn
  *
  * @author jan.kristinus@redaxo.de Jan Kristinus
- * 
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
-
-require $REX['INCLUDE_PATH'] .'/core/layout/top.php';
 
 rex_title('Version AddOn');
 
@@ -25,4 +23,3 @@ rex_title('Version AddOn');
 </div>
 
 <?php
-require $REX['INCLUDE_PATH'] .'/core/layout/bottom.php';

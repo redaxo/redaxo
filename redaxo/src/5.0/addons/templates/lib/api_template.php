@@ -59,7 +59,7 @@ class rex_template
   {
     global $REX;
 
-    return $REX['INCLUDE_PATH'].'/generated/templates';
+    return rex_path::generated('templates');
   }
 
   public function getTemplate()
@@ -76,7 +76,6 @@ class rex_template
 
     if($this->getId()<1) return FALSE;
 
-    include_once ($REX['INCLUDE_PATH'].'/core/functions/function_rex_generate.inc.php');
     return rex_generateTemplate($this->getId());
   }
 

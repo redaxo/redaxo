@@ -331,7 +331,7 @@ class rex_ooArticleSlice
   public function getMediaUrl($index)
   {
     global $REX;
-    return $REX['MEDIAFOLDER'].'/'.$this->getMedia($index);
+    return rex_path::media($this->getMedia($index));
   }
 
   public function getMediaList($index)
@@ -365,7 +365,7 @@ class rex_ooArticleSlice
   public function getFileUrl($index)
   {
     global $REX;
-    return $REX['MEDIAFOLDER'].'/'.$this->getFile($index);
+    return rex_path::media($this->getFile($index));
   }
 
   /**

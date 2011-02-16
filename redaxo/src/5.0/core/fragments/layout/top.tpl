@@ -5,9 +5,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Language" content="<?php echo $this->i18n('htmllang'); ?>" />
   <!-- jQuery immer nach den Stylesheets! -->
-  <script src="../redaxo_media/jquery.min.js" type="text/javascript"></script>
-  <script src="../redaxo_media/standard.js" type="text/javascript"></script>
-  <script src="../redaxo_media/sha1.js" type="text/javascript"></script>
+  <script src="<?php echo rex_path::assets('jquery.min.js', true); ?>" type="text/javascript"></script>
+  <script src="<?php echo rex_path::assets('standard.js', true); ?>" type="text/javascript"></script>
+  <script src="<?php echo rex_path::assets('sha1.js', true); ?>" type="text/javascript"></script>
   <script type="text/javascript">
   <!--
   var redaxo = true;
@@ -24,7 +24,7 @@
 <body <?php echo $this->bodyAttr; ?>>
 <div id="rex-website">
   <div id="rex-header">
-    <p class="rex-header-top"><a href="../index.php" onclick="window.open(this.href); return false"><?php echo $this->config('SERVERNAME') ?></a></p>
+    <p class="rex-header-top"><a href="<?php echo rex_path::frontendController() ?>" onclick="window.open(this.href); return false"><?php echo $this->config('SERVERNAME') ?></a></p>
   </div>
 
   <div id="rex-navi-logout"><?php echo $this->logout ?></div>

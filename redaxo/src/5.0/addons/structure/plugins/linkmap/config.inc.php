@@ -19,13 +19,13 @@ if ($REX['REDAXO'])
   $page->setRequiredPermissions('hasStructurePerm');
 
   $REX['ADDON']['page'][$mypage] = new rex_be_page_main('system', $page);
-  
+
   if($REX["USER"])
   {
     rex_register_extension('PAGE_HEADER', function($params){
       $params['subject'] .= "\n  ".
-        '<script type="text/javascript" src="../redaxo_media/addons/mediapool/plugins/linkmap/linkmap.js"></script>';
-    
+        '<script type="text/javascript" src="'. rex_path::pluginAssets('structure', 'linkmap', 'linkmap.js', true) .'"></script>';
+
       return $params['subject'];
     });
   }
