@@ -612,7 +612,10 @@ class rex_sql
   public function reset()
   {
     // re-execute the statement
-    $this->stmt->execute();
+    if($this->stmt)
+    {
+      $this->stmt->execute();
+    }
     $this->counter = 0;
   }
 
