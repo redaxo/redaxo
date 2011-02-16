@@ -96,7 +96,7 @@ class rex_path
 
   static private function absBase($file = '')
   {
-    return self::$absBase . $file;
+    return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, self::$absBase . $file);
   }
 
   static private function base($file, $relative = false)

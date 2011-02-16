@@ -9,7 +9,7 @@
  */
 function rex_deleteCacheMedia($filename)
 {
-  @unlink(rex_path::generate('files/'. $filename . '.media'));
+  @unlink(rex_path::generated('files/'. $filename . '.media'));
   rex_deleteCacheMediaLists();
 }
 
@@ -22,7 +22,7 @@ function rex_deleteCacheMedia($filename)
  */
 function rex_deleteCacheMediaCategory($category_id)
 {
-  @unlink(rex_path::generate('files/'. $category_id . '.mcat'));
+  @unlink(rex_path::generated('files/'. $category_id . '.mcat'));
   rex_deleteCacheMediaCategoryLists();
 }
 
@@ -33,7 +33,7 @@ function rex_deleteCacheMediaCategory($category_id)
  */
 function rex_deleteCacheMediaLists()
 {
-  $cachePath = rex_path::generate('files/');
+  $cachePath = rex_path::generated('files/');
 
   $glob = glob($cachePath . '*.mlist');
   if(is_array($glob))
@@ -55,7 +55,7 @@ function rex_deleteCacheMediaLists()
  */
 function rex_deleteCacheMediaList($category_id)
 {
-  @unlink(rex_path::generate('files/'. $category_id . '.mlist'));
+  @unlink(rex_path::generated('files/'. $category_id . '.mlist'));
 }
 
 /**
@@ -65,7 +65,7 @@ function rex_deleteCacheMediaList($category_id)
  */
 function rex_deleteCacheMediaCategoryLists()
 {
-  $cachePath = rex_path::generate('files/');
+  $cachePath = rex_path::generated('files/');
   $glob = glob($cachePath . '*.mclist');
   if (is_array($glob))
     foreach ($glob as $file)
@@ -81,7 +81,7 @@ function rex_deleteCacheMediaCategoryLists()
  */
 function rex_deleteCacheMediaCategoryList($category_id)
 {
-  @unlink(rex_path::generate('files/'. $category_id . '.mclist'));
+  @unlink(rex_path::generated('files/'. $category_id . '.mclist'));
 }
 
 /**
@@ -110,7 +110,7 @@ function rex_generateMedia($filename)
   }
   $content .= '?>';
 
-  $media_file = rex_path::generate('files/'. $filename .'.media');
+  $media_file = rex_path::generated('files/'. $filename .'.media');
   if (rex_put_file_contents($media_file, $content))
     return true;
 
@@ -143,7 +143,7 @@ function rex_generateMediaCategory($category_id)
   }
   $content .= '?>';
 
-  $cat_file = rex_path::generate('files/'. $category_id .'.mcat');
+  $cat_file = rex_path::generated('files/'. $category_id .'.mcat');
   if (rex_put_file_contents($cat_file, $content))
     return true;
 
@@ -173,7 +173,7 @@ function rex_generateMediaList($category_id)
   }
   $content .= '?>';
 
-  $list_file = rex_path::generate('files/'. $category_id .'.mlist');
+  $list_file = rex_path::generated('files/'. $category_id .'.mlist');
   if (rex_put_file_contents($list_file, $content))
     return true;
 
@@ -204,7 +204,7 @@ function rex_generateMediaCategoryList($category_id)
   }
   $content .= '?>';
 
-  $list_file = rex_path::generate('files/'. $category_id .'.mclist');
+  $list_file = rex_path::generated('files/'. $category_id .'.mclist');
   if (rex_put_file_contents($list_file, $content))
     return true;
 
@@ -234,7 +234,7 @@ function rex_generateMediaExtensionList($extension)
   }
   $content .= '?>';
 
-  $list_file = rex_path::generate('files/'. $extension .'.mextlist');
+  $list_file = rex_path::generated('files/'. $extension .'.mextlist');
   if (rex_put_file_contents($list_file, $content))
     return true;
 

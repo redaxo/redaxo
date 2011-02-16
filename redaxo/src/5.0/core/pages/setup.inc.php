@@ -307,6 +307,8 @@ if ($checkmodus == 1)
 		rex_path::generated('files'),
 		rex_path::media(),
 		rex_path::media('_readme.txt'),
+		rex_path::assets(),
+		rex_path::assets('_readme.txt'),
 		getImportDir()
 	);
 
