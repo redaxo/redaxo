@@ -27,9 +27,6 @@ switch ($subpage)
 }
 
 
-require $REX['INCLUDE_PATH'] . '/core/layout/top.php';
-
 rex_title($title, array (array ('', $REX['I18N']->msg('modules')), array ('actions', $REX['I18N']->msg('actions'))));
 
 require dirname(__FILE__).'/'. $file;
-require $REX['INCLUDE_PATH'] . '/core/layout/bottom.php';

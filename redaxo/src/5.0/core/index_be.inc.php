@@ -315,22 +315,31 @@ $REX['PAGE_NO_NAVI'] = !$pageObj->hasNavigation();
 // page variable validated
 rex_register_extension_point( 'PAGE_CHECKED', $REX['PAGE'], array('pages' => $REX['PAGES']));
 
+$path = '';
 if($pageObj->hasPath())
 {
   // If page has a new/overwritten path
-  require $pageObj->getPath();
-
+  $path = $pageObj->getPath();
 }else if($pageObj->isCorePage())
 {
   // Core Page
-  require rex_path::src('core/layout/top.php');
-  require rex_path::src('core/pages/'. $REX['PAGE'] .'.inc.php');
-  require rex_path::src('core/layout/bottom.php');
+  $path = rex_path::src('core/pages/'. $REX['PAGE'] .'.inc.php');
 }else
 {
   // Addon Page
-  require rex_path::addon($REX['PAGE'], 'pages/index.inc.php');
+  $path = rex_path::addon($REX['PAGE'], 'pages/index.inc.php');
 }
+
+if($pageObj->hasLayout())
+{
+  require rex_path::src('core/layout/top.php');
+  require $path;
+  require rex_path::src('core/layout/bottom.php');
+}else
+{
+  require $path;
+}
+
 // ----- caching end für output filter
 $CONTENT = ob_get_contents();
 ob_end_clean();

@@ -3,13 +3,11 @@
 /**
  * Install
  *
- * @author 
- * 
+ * @author
+ *
  * @package redaxo5
  * @version svn:$Id$
  */
-
-require $REX['INCLUDE_PATH'] .'/core/layout/top.php';
 
 $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
@@ -34,6 +32,3 @@ switch($subpage)
 }
 
     require $REX['INCLUDE_PATH'] . '/addons/'.$page.'/pages/'.$subpage.'.inc.php';
-
-
-require $REX['INCLUDE_PATH'] .'/core/layout/bottom.php';

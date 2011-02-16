@@ -1,8 +1,5 @@
 <?php
 
-// Include Header and Navigation
-require $REX['INCLUDE_PATH'] .'/core/layout/top.php';
-
 /**
  *
  * @package redaxo4
@@ -223,6 +220,3 @@ switch($subpage)
 }
 
 require dirname(__FILE__).'/'.$file;
-
-// Include Header and Navigation
-require $REX['INCLUDE_PATH'] .'/core/layout/bottom.php';

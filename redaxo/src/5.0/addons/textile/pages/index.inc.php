@@ -4,12 +4,10 @@
  * Textile Addon
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  * @package redaxo4
  * @version svn:$Id$
  */
-
-require $REX['INCLUDE_PATH'] .'/core/layout/top.php';
 
 rex_title('Textile');
 
@@ -57,4 +55,3 @@ else
 </div>
 
 <?php
-require $REX['INCLUDE_PATH'] .'/core/layout/bottom.php';

@@ -24,11 +24,11 @@ if ($num_clang>1)
      $lang = array();
      $lang['id'] = $key;
      $lang['name'] = rex_translate($val);
-     
+
      $lang['class'] = '';
      if($i == 1)
        $lang['class'] = 'rex-navi-first';
-        
+
      $lang['url'] = '';
      if (!$REX['USER']->isAdmin() && !$REX['USER']->hasPerm('clang[all]') && !$REX['USER']->hasPerm('clang['. $key .']'))
      {
@@ -42,7 +42,7 @@ if ($num_clang>1)
      {
        $class = '';
        if ($key==$clang) $class = 'rex-active';
-      
+
        $lang['link_class'] = $class;
        $lang['url'] = 'index.php?page='. $REX["PAGE"] .'&amp;clang='. $key . $sprachen_add .'&amp;ctype='. $ctype;
 //      echo '<a'.$class.' href=""'. rex_tabindex() .'>'. $val .'</a>';
@@ -63,7 +63,6 @@ if ($stop)
       '. rex_warning('You have no permission to this area') .'
 <!-- *** OUTPUT OF CLANG-VALIDATE - END *** -->
 ';
-  require $REX['INCLUDE_PATH'] ."/core/layout/bottom.php";
   exit;
 }
 else if ($num_clang>1)

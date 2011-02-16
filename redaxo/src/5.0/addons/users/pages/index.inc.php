@@ -25,9 +25,6 @@ switch($subpage)
   	break;
 }
 
-require $REX['INCLUDE_PATH'] . '/core/layout/top.php';
-
 rex_title($REX['I18N']->msg('user_management'),$subline);
 
 require dirname(__FILE__).'/'. $file;
-require $REX['INCLUDE_PATH'] . '/core/layout/bottom.php';

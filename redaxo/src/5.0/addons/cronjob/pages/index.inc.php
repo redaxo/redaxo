@@ -8,8 +8,6 @@
  * @package redaxo4
  * @version svn:$Id$
  */
- 
-require $REX['INCLUDE_PATH'] .'/core/layout/top.php';
 
 $page    = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
@@ -26,5 +24,3 @@ if (!in_array($subpage, array('log')))
 require $REX['INCLUDE_PATH'] .'/addons/cronjob/pages/'. $subpage .'.inc.php';
 
 echo "\n  </div>";
-
-require $REX['INCLUDE_PATH'] .'/core/layout/bottom.php';
