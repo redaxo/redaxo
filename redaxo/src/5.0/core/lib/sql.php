@@ -439,7 +439,7 @@ class rex_sql
     
     if(trim($qry) == '')
     {
-      throw new rexException('no values given to buildSetQuery for select(), update(), insert() or replace()');
+      throw new rexException('no values given to buildSetQuery for update(), insert() or replace()');
     }
 
     return $qry;
