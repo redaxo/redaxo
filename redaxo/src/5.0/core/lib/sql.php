@@ -299,6 +299,8 @@ class rex_sql
     if(strpos($feldname, '.') === false)
     {
       $tables = $this->getTablenames();
+      // add empty table to array, so computed fields will be find
+      array_unshift($tables, '');
       foreach($tables as $table)
       {
         if($this->hasValue($table .'.'. $feldname))
@@ -559,7 +561,8 @@ class rex_sql
   {
     $this->flushValues();
     $this->lastRow = array();
-    $this->fieldnames = array ();
+    $this->fieldnames = NULL;
+    $this->tablenames = NULL;
 
     $this->table = '';
     $this->wherevar = '';
@@ -788,7 +791,11 @@ class rex_sql
       {
         $metadata = $this->stmt->getColumnMeta($i);
         $this->fieldnames[] = $metadata['name'];
-        $this->tablenames[] = $metadata['table'];
+        
+        if(!in_array($metadata['table'], $this->tablenames))
+        {
+          $this->tablenames[] = $metadata['table'];
+        }
       }
     }
   }
