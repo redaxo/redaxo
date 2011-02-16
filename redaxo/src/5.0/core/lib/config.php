@@ -132,7 +132,7 @@ class rex_config
    *
    * @throws rexException on invalid parameters
    */
-  public static function has($namespace, $key)
+  public static function has($namespace, $key = null)
   {
     self::init();
 
@@ -140,6 +140,12 @@ class rex_config
     {
       throw new rexException('rex_config: expecting $namespace to be a string');
     }
+
+    if ($key === null)
+    {
+      return isset(self::$data[$namespace]);
+    }
+
     if(!is_string($key))
     {
       throw new rexException('rex_config: expecting $key to be a string');
