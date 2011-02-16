@@ -39,7 +39,7 @@ function rex_deleteCacheArticleMeta($id, $clang = null)
 {
   global $REX;
 
-  $cachePath = rex_path::generate('articles/');
+  $cachePath = rex_path::generated('articles/');
 
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
@@ -63,7 +63,7 @@ function rex_deleteCacheArticleContent($id, $clang = null)
 {
   global $REX;
 
-  $cachePath = rex_path::generate('articles/');
+  $cachePath = rex_path::generated('articles/');
 
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
@@ -87,7 +87,7 @@ function rex_deleteCacheArticleLists($id, $clang = null)
 {
   global $REX;
 
-  $cachePath = rex_path::generate('articles/');
+  $cachePath = rex_path::generated('articles/');
 
   foreach($REX['CLANG'] as $_clang => $clang_name)
   {
@@ -147,7 +147,7 @@ function rex_generateArticleMeta($article_id, $clang = null)
     $article_file = rex_path::generated("articles/$article_id.$_clang.article");
     if (rex_put_file_contents($article_file, $content) === FALSE)
     {
-      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generate('articles/');
+      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
     }
 
     // damit die aktuellen änderungen sofort wirksam werden, einbinden!
@@ -295,10 +295,10 @@ function rex_generateLists($re_id, $clang = null)
     }
     $content .= "\n?>";
 
-    $article_list_file = rex_path::generate("articles/$re_id.$_clang.alist");
+    $article_list_file = rex_path::generated("articles/$re_id.$_clang.alist");
     if (rex_put_file_contents($article_list_file, $content) === FALSE)
     {
-      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generate('articles/');
+      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
     }
 
     // --------------------------------------- CAT LIST
@@ -314,10 +314,10 @@ function rex_generateLists($re_id, $clang = null)
     }
     $content .= "\n?>";
 
-    $article_categories_file = rex_path::generate("articles/$re_id.$_clang.clist");
+    $article_categories_file = rex_path::generated("articles/$re_id.$_clang.clist");
     if (rex_put_file_contents($article_categories_file, $content) === FALSE)
     {
-      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generate('articles/');
+      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
     }
   }
 
