@@ -19,45 +19,27 @@ $wordwrap = rex_post('wordwrap', 'int', $testMailer->WordWrap);
 $encoding = rex_post('encoding', 'string', $testMailer->Encoding);
 $Password = rex_post('Password', 'string', $testMailer->Password);
 $Username = rex_post('Username', 'string', $testMailer->Username);
-$smtpauth_default = "false";
-if($testMailer->SMTPAuth)
-  $smtpauth_default = "true";
-$smtpauth = rex_post('smtpauth', 'string', $smtpauth_default);
+$smtpauth = rex_post('smtpauth', 'boolean', $testMailer->SMTPAuth);
 $priority = rex_post('priority', 'int', $testMailer->Priority);
-
-if($smtpauth != "true")
-  $smtpauth = "false";
 
 $message = '';
 
 if (rex_post('btn_save', 'string') != '')
 {
-  $file = $REX['INCLUDE_PATH'] .'/addons/phpmailer/classes/class.rex_mailer.inc.php';
-  $message = rex_is_writable($file);
+  rex_config::set('phpmailer', 'from',     $from);
+  rex_config::set('phpmailer', 'fromname', $fromname);
+  rex_config::set('phpmailer', 'confirmto', $confirmto);
+  rex_config::set('phpmailer', 'mailer',   $mailer);
+  rex_config::set('phpmailer', 'host',     $host);
+  rex_config::set('phpmailer', 'charset',  $charset);
+  rex_config::set('phpmailer', 'wordwrap', $wordwrap);
+  rex_config::set('phpmailer', 'encoding', $encoding);
+  rex_config::set('phpmailer', 'priority', $priority);
+  rex_config::set('phpmailer', 'smtpauth', $smtpauth);
+  rex_config::set('phpmailer', 'username', $Username);
+  rex_config::set('phpmailer', 'password', $Password);
 
-  if($message === true)
-  {
-    $message  = $REX['I18N']->msg('phpmailer_config_saved_error');
-
-    $template = "
-    \$this->From             = '". $from ."';
-    \$this->FromName         = '". $fromname ."';
-    \$this->ConfirmReadingTo = '". $confirmto ."';
-    \$this->Mailer           = '". $mailer ."';
-    \$this->Host             = '". $host ."';
-    \$this->CharSet          = '". $charset ."';
-    \$this->WordWrap         = ". $wordwrap .";
-    \$this->Encoding         = '". $encoding ."';
-    \$this->Priority         = ". $priority .";
-    \$this->SMTPAuth         = ". $smtpauth .";
-    \$this->Username         = '". $Username ."';
-    \$this->Password         = '". $Password."';";
-
-    if(rex_replace_dynamic_contents($file, $template) !== false)
-    {
-      $message = $REX['I18N']->msg('phpmailer_config_saved_successful');
-    }
-  }
+  $message = $REX['I18N']->msg('phpmailer_config_saved_successful');
 }
 
 $sel_mailer = new rex_select();
@@ -73,8 +55,8 @@ $sel_smtpauth->setId('smtpauth');
 $sel_smtpauth->setName('smtpauth');
 $sel_smtpauth->setSize(1);
 $sel_smtpauth->setSelected($smtpauth);
-foreach(array('false', 'true') as $type)
-$sel_smtpauth->addOption($type,$type);
+foreach(array(0 => 'false', 1 => 'true') as $i => $type)
+$sel_smtpauth->addOption($type,$i);
 
 $sel_encoding = new rex_select();
 $sel_encoding->setId('encoding');
