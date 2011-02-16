@@ -6,10 +6,14 @@ class rex_pluginManager extends rex_baseManager
     $configArray,
     $addonName;
 
-  function __construct(array $configArray, $addonName)
+  function __construct($addonName)
   {
-    $this->configArray =& $configArray;
     $this->addonName = $addonName;
+    $this->configArray = array();
+    foreach(rex_ooAddon::getRegisteredAddons() as $_addon)
+    {
+      $this->configArray[$_addon] = rex_ooPlugin::getRegisteredPlugins($_addon);
+    }
     parent::__construct('plugin_');
   }
 

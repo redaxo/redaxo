@@ -61,29 +61,22 @@ if ($subpage == '')
     }
   }
 
-  // -------------- RE-READ CONFIG
-  $ADDONS    = rex_ooAddon::getRegisteredAddons();
-  $PLUGINS   = array();
-  foreach($ADDONS as $_addon)
-  {
-    $PLUGINS[$_addon] = rex_ooPlugin::getRegisteredPlugins($_addon);
-  }
 }
 
 // -------------- Sanity checks
-$addonname  = array_search($addonname, $ADDONS) !== false ? $addonname : '';
+$addonname  = in_array($addonname, rex_ooAddon::getRegisteredAddons()) ? $addonname : '';
 if($addonname != '')
-  $pluginname = array_search($pluginname, $PLUGINS[$addonname]) !== false ? $pluginname : '';
+  $pluginname = in_array($pluginname, rex_ooPlugin::getRegisteredPlugins($addonname)) ? $pluginname : '';
 else
   $pluginname = '';
 
 if($pluginname != '')
 {
-  $addonManager = new rex_pluginManager($PLUGINS, $addonname);
+  $addonManager = new rex_pluginManager($addonname);
 }
 else
 {
-  $addonManager = new rex_addonManager($ADDONS);
+  $addonManager = new rex_addonManager();
 }
 
 // ----------------- HELPPAGE

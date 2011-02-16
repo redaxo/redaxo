@@ -4,9 +4,9 @@ class rex_addonManager extends rex_baseManager
 {
   private $configArray;
 
-  function __construct($configArray)
+  function __construct()
   {
-    $this->configArray = $configArray;
+    $this->configArray = rex_ooAddon::getRegisteredAddons();
     parent::__construct('addon_');
   }
 

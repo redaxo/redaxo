@@ -19,12 +19,7 @@ $error = '';
 $addonname = 'be_style';
 $plugins = array('base', 'agk_skin');
 
-$ADDONS    = rex_read_addons_folder();
-$PLUGINS   = array();
-foreach($ADDONS as $_addon)
-  $PLUGINS[$_addon] = rex_read_plugins_folder($_addon);
-
-$pluginManager = new rex_pluginManager($PLUGINS, $addonname);
+$pluginManager = new rex_pluginManager($addonname);
 
 foreach($plugins as $pluginname)
 {

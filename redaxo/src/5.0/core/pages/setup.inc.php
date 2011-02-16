@@ -112,8 +112,15 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 	require_once rex_path::src('core/functions/function_rex_addons.inc.php');
 
 	$addonErr = '';
-	$ADDONS = rex_read_addons_folder();
-	$addonManager = new rex_addonManager($ADDONS);
+	rex_generateAddons(rex_read_addons_folder());
+	$PLUGINS = array();
+	foreach(rex_ooAddon::getRegisteredAddons() as $addon)
+	{
+	  $PLUGINS[$addon] = rex_read_plugins_folder($addon);
+	}
+	rex_generatePlugins($PLUGINS);
+
+	$addonManager = new rex_addonManager();
   if($uninstallBefore)
   {
     foreach(array_reverse($REX['SYSTEM_ADDONS']) as $systemAddon)
