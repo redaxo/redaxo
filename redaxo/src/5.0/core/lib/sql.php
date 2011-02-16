@@ -201,10 +201,9 @@ class rex_sql
     {
       $this->rows = $this->stmt->rowCount();
     }
-    // since CREATE statements don't return a ResultSet, FALSE is considered successfull
-    else if(self::getQueryType($qry) != 'CREATE')
+    else
     {
-      throw new rexException($qry);
+      $this->rows = 0;
     }
 
     $hasError = $this->hasError();
