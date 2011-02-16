@@ -297,7 +297,7 @@ class rex_sql
     if(strpos($feldname, '.') === false)
     {
       $tables = $this->getTablenames();
-      // add empty table to array, so computed fields will be find
+      // add empty table to array, so computed fields will be found
       array_unshift($tables, '');
       foreach($tables as $table)
       {
