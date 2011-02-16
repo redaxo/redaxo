@@ -223,6 +223,9 @@ function rex_copyDir($srcdir, $dstdir, $startdir = "")
   $debug = FALSE;
   $state = TRUE;
 
+  $srcfile = rtrim($srcdir, DIRECTORY_SEPARATOR);
+  $dstfile = rtrim($dstdir, DIRECTORY_SEPARATOR);
+
   if(!is_dir($dstdir))
   {
     $dir = '';
@@ -246,8 +249,8 @@ function rex_copyDir($srcdir, $dstdir, $startdir = "")
     {
       if($file != '.' && $file != '..' && $file != '.svn')
       {
-        $srcfile = rtrim($srcdir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $file;
-        $dstfile = rtrim($dstdir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $file;
+        $srcfile = $srcdir . DIRECTORY_SEPARATOR . $file;
+        $dstfile = $dstdir . DIRECTORY_SEPARATOR . $file;
         if(is_file($srcfile))
         {
           $isNewer = TRUE;
