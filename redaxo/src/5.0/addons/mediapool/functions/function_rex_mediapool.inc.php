@@ -71,7 +71,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
   $rex_file_category = (int) $rex_file_category;
 
   $gc = rex_sql::factory();
-  $gc->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category WHERE id='. $rex_file_category);
+  $gc->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'media_category WHERE id='. $rex_file_category);
 	if ($gc->getRows() != 1)
 	{
   	$rex_file_category = 0;
@@ -119,7 +119,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
       $FILETYPE = $size['mime'];
 
     $FILESQL = rex_sql::factory();
-    $FILESQL->setTable($REX['TABLE_PREFIX'].'file');
+    $FILESQL->setTable($REX['TABLE_PREFIX'].'media');
     $FILESQL->setValue('filetype',$FILETYPE);
     $FILESQL->setValue('title',$FILEINFOS['title']);
     $FILESQL->setValue('filename',$NFILENAME);
@@ -182,8 +182,8 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
 
   $FILESQL = rex_sql::factory();
   // $FILESQL->debugsql = 1;
-  $FILESQL->setTable($REX['TABLE_PREFIX'].'file');
-  $FILESQL->setWhere('file_id='. $FILEINFOS["file_id"]);
+  $FILESQL->setTable($REX['TABLE_PREFIX'].'media');
+  $FILESQL->setWhere('media_id='. $FILEINFOS["file_id"]);
   $FILESQL->setValue('title',$FILEINFOS["title"]);
   $FILESQL->setValue('category_id',$FILEINFOS["rex_file_category"]);
 
@@ -240,7 +240,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
   {
     $RETURN["filename"] = $FILEINFOS["filename"];
     $RETURN["filetype"] = $FILEINFOS["filetype"];
-    $RETURN["file_id"] = $FILEINFOS["file_id"];
+    $RETURN["media_id"] = $FILEINFOS["file_id"];
   }
 
 	$FILESQL->addGlobalUpdateFields();

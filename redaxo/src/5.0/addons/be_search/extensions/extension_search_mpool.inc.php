@@ -30,7 +30,7 @@ function rex_be_search_mpool($params)
       <input class="rex-form-submit" type="submit" value="'. $REX['I18N']->msg('be_search_mpool_start') .'" />
     </p>
   ';
-  
+
   $subject = str_replace('<div class="rex-form-row">', '<div class="rex-form-row">' . $search_form, $subject);
   $subject = str_replace('<fieldset class="rex-form-col-1">', '<fieldset class="rex-form-col-2">', $subject);
   $subject = str_replace('<p class="rex-form-select">', '<p class="rex-form-col-b rex-form-select">', $subject);
@@ -68,7 +68,7 @@ function rex_be_search_mpool_query($params)
     }
   }
 
-  $qry = str_replace('FROM ', 'FROM '. $REX['TABLE_PREFIX'] .'file_category c,', $qry);
+  $qry = str_replace('FROM ', 'FROM '. $REX['TABLE_PREFIX'] .'media_category c,', $qry);
   $qry = str_replace('WHERE ', 'WHERE '. $where .' AND ', $qry);
 
   return $qry;

@@ -116,8 +116,8 @@ class rex_ooMedia
     {
       require_once ($media_path);
       $aliasMap = array(
-        'file_id' => 'id',
-        're_file_id' => 'parent_id',
+        'media_id' => 'id',
+        're_media_id' => 'parent_id',
         'category_id' => 'cat_id',
         'filename' => 'name',
         'originalname' => 'orgname',
@@ -759,7 +759,7 @@ class rex_ooMedia
   static public function _getTableName()
   {
     global $REX;
-    return $REX['TABLE_PREFIX'].'file';
+    return $REX['TABLE_PREFIX'].'media';
   }
 
   /**
@@ -770,7 +770,7 @@ class rex_ooMedia
   {
     $sql = rex_sql::factory();
     $sql->setTable($this->_getTableName());
-    $sql->setValue('re_file_id', $this->getParentId());
+    $sql->setValue('re_media_id', $this->getParentId());
     $sql->setValue('category_id', $this->getCategoryId());
     $sql->setValue('filetype', $this->getType());
     $sql->setValue('filename', $this->getFileName());
@@ -783,7 +783,7 @@ class rex_ooMedia
     if ($this->getId() !== null)
     {
       $sql->addGlobalUpdateFields();
-      $sql->setWhere('file_id='.$this->getId() . ' LIMIT 1');
+      $sql->setWhere('media_id='.$this->getId() . ' LIMIT 1');
       $success = $sql->update();
       if ($success)
         rex_deleteCacheMedia($this->getFileName());
@@ -816,7 +816,7 @@ class rex_ooMedia
       }
     }else
     {
-      $qry = 'DELETE FROM '.$this->_getTableName().' WHERE file_id = '.$this->getId().' LIMIT 1';
+      $qry = 'DELETE FROM '.$this->_getTableName().' WHERE media_id = '.$this->getId().' LIMIT 1';
       $sql = rex_sql::factory();
       $sql->setQuery($qry);
 
@@ -964,7 +964,7 @@ class rex_ooMedia
 
     $sql = rex_sql::factory();
     // $sql->debugsql = true;
-    $sql->setQuery('SELECT filename FROM ' . self :: _getTableName() . ' WHERE file_id='.$id);
+    $sql->setQuery('SELECT filename FROM ' . self :: _getTableName() . ' WHERE media_id='.$id);
     if ($sql->getRows() == 1)
     {
       return self :: getMediaByFileName($sql->getValue('filename'));

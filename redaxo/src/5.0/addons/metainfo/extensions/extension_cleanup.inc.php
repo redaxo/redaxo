@@ -26,14 +26,14 @@ function rex_a62_metainfo_cleanup($params)
   {
     return;
   }
-  
+
   // check wheter tables exists
   $tables = rex_sql::showTables();
   if(!isset($tables[$REX['TABLE_PREFIX'] . '62_params']))
   {
     return false;
   }
-  
+
   // since this extension may be used also when the addon is not yet installed,
   // require needed classes manually
   require_once dirname(__FILE__) .'/../lib/table_manager.php';
@@ -44,7 +44,7 @@ function rex_a62_metainfo_cleanup($params)
   for ($i = 0; $i < $sql->getRows(); $i++)
   {
     if (substr($sql->getValue('name'), 0, 4) == 'med_')
-      $tableManager = new rex_a62_tableManager($REX['TABLE_PREFIX'] . 'file');
+      $tableManager = new rex_a62_tableManager($REX['TABLE_PREFIX'] . 'media');
     else
       $tableManager = new rex_a62_tableManager($REX['TABLE_PREFIX'] . 'article');
 
@@ -55,7 +55,7 @@ function rex_a62_metainfo_cleanup($params)
 
 
   // evtl reste aufräumen
-  $tablePrefixes = array('article' => array('art_', 'cat_'), 'file' => array('med_'));
+  $tablePrefixes = array('article' => array('art_', 'cat_'), 'media' => array('med_'));
   foreach($tablePrefixes as $table => $prefixes)
   {
     $table = $REX['TABLE_PREFIX'] .$table;

@@ -403,7 +403,7 @@ class rex_ooMediaCategory
   static public function _getTableName()
   {
     global $REX;
-    return $REX['TABLE_PREFIX'] . 'file_category';
+    return $REX['TABLE_PREFIX'] . 'media_category';
   }
 
   /**

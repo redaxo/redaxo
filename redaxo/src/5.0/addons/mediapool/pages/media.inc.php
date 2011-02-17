@@ -18,7 +18,7 @@ $image_resize = rex_ooAddon::isAvailable('image_resize');
 
 // ***** kategorie auswahl
 $db = rex_sql::factory();
-$file_cat = $db->getArray('SELECT * FROM '.$REX['TABLE_PREFIX'].'file_category ORDER BY name ASC');
+$file_cat = $db->getArray('SELECT * FROM '.$REX['TABLE_PREFIX'].'media_category ORDER BY name ASC');
 
 // ***** select bauen
 $sel_media = new rex_mediacategory_select($check_perm = false);
@@ -138,7 +138,7 @@ if ($subpage=='media' && rex_post('btn_delete', 'string'))
 if ($subpage=="media" && rex_post('btn_update', 'string')){
 
   $gf = rex_sql::factory();
-  $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."file where file_id='$file_id'");
+  $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."media where media_id='$file_id'");
   if ($gf->getRows()==1)
   {
     if ($PERMALL || ($REX['USER']->hasPerm('media['.$gf->getValue('category_id').']') && $REX['USER']->hasPerm('media['. $rex_file_category .']')))
@@ -177,7 +177,7 @@ if ($subpage=="media" && rex_post('btn_update', 'string')){
 if ($subpage == "media")
 {
   $gf = rex_sql::factory();
-  $gf->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'file WHERE file_id = "'.$file_id.'"');
+  $gf->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'media WHERE media_id = "'.$file_id.'"');
   if ($gf->getRows()==1)
   {
     $TPERM = false;
@@ -454,7 +454,7 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
 
       $db = rex_sql::factory();
       // $db->debugsql = true;
-      $db->setTable($REX['TABLE_PREFIX'].'file');
+      $db->setTable($REX['TABLE_PREFIX'].'media');
       $db->setWhere('filename="'.$file_name.'"');
       $db->setValue('category_id',$rex_file_category);
       $db->addGlobalUpdateFields();
@@ -602,7 +602,7 @@ if ($subpage == '')
   {
     $add_input = '';
     $filecat = rex_sql::factory();
-    $filecat->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."file_category ORDER BY name ASC LIMIT 1");
+    $filecat->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."media_category ORDER BY name ASC LIMIT 1");
     if ($filecat->getRows() > 0)
     {
       $cats_sel->setId('rex_move_file_dest_category');
@@ -644,7 +644,7 @@ if ($subpage == '')
     }
     $where .= ' AND ('. implode(' OR ', $types) .')';
   }
-  $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."file f WHERE ". $where ." ORDER BY f.updatedate desc";
+  $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."media f WHERE ". $where ." ORDER BY f.updatedate desc";
 
   // ----- EXTENSION POINT
   $qry = rex_register_extension_point('MEDIA_LIST_QUERY', $qry,
@@ -660,7 +660,7 @@ if ($subpage == '')
   print '<tbody>';
   for ($i=0;$i<$files->getRows();$i++)
   {
-    $file_id =   $files->getValue('file_id');
+    $file_id =   $files->getValue('media_id');
     $file_name = $files->getValue('filename');
     $file_oname = $files->getValue('originalname');
     $file_title = $files->getValue('title');
@@ -777,7 +777,7 @@ if ($subpage == '')
 
     echo rex_register_extension_point('MEDIA_LIST_FUNCTIONS',$opener_link,
       array(
-        "file_id" => $files->getValue('file_id'),
+        "file_id" => $files->getValue('media_id'),
         "file_name" => $files->getValue('filename'),
         "file_oname" => $files->getValue('originalname'),
         "file_title" => $files->getValue('title'),

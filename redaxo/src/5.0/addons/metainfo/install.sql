@@ -57,5 +57,5 @@ ALTER TABLE `%TABLE_PREFIX%article` ADD `art_file` VARCHAR(255);
 ALTER TABLE `%TABLE_PREFIX%article` ADD `art_teaser` VARCHAR(255);
 ALTER TABLE `%TABLE_PREFIX%article` ADD `art_type_id` VARCHAR(255);
 
-ALTER TABLE `%TABLE_PREFIX%file` ADD `med_description` TEXT;
-ALTER TABLE `%TABLE_PREFIX%file` ADD `med_copyright` TEXT;
+ALTER TABLE `%TABLE_PREFIX%media` ADD `med_description` TEXT;
+ALTER TABLE `%TABLE_PREFIX%media` ADD `med_copyright` TEXT;

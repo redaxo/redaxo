@@ -27,7 +27,7 @@ if(!defined('REX_A62_FIELD_TEXT'))
   define('REX_A62_FIELD_DATETIME',             11);
   define('REX_A62_FIELD_LEGEND',               12);
   define('REX_A62_FIELD_TIME',                 13);
-  
+
   define('REX_A62_FIELD_COUNT',                13);
 }
 
@@ -35,7 +35,7 @@ $REX['ADDON']['prefixes'][$mypage] = array('art_', 'cat_', 'med_');
 $REX['ADDON']['metaTables'][$mypage] = array(
   'art_' => $REX['TABLE_PREFIX'] .'article',
   'cat_' => $REX['TABLE_PREFIX'] .'article',
-  'med_' => $REX['TABLE_PREFIX'] .'file',
+  'med_' => $REX['TABLE_PREFIX'] .'media',
 );
 
 if ($REX['REDAXO'])

@@ -199,14 +199,14 @@ class rex_media_component extends rex_dashboard_component
 
     $limit = A659_DEFAULT_LIMIT;
 
-    $list = rex_list::factory('SELECT category_id, file_id, filename, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'file ORDER BY updatedate DESC LIMIT '.$limit);
+    $list = rex_list::factory('SELECT category_id, media_id, filename, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'media ORDER BY updatedate DESC LIMIT '.$limit);
     $list->setCaption($REX['I18N']->msg('pool_file_caption'));
     $list->addTableAttribute('summary', $REX['I18N']->msg('pool_file_summary'));
     $list->addTableColumnGroup(array(40, '*', 120, 150));
 
     $list->removeColumn('category_id');
-    $list->removeColumn('file_id');
-    $editParams = array('page' => 'mediapool', 'subpage' => 'detail', 'rex_file_category' => '###category_id###', 'file_id' => '###file_id###');
+    $list->removeColumn('media_id');
+    $editParams = array('page' => 'mediapool', 'subpage' => 'detail', 'rex_file_category' => '###category_id###', 'file_id' => '###media_id###');
 
     $thIcon = '';
     $tdIcon = '<span class="rex-i-element rex-i-media"><span class="rex-i-element-text">###filename###</span></span>';
