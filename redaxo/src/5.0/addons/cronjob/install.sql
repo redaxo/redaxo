@@ -1,6 +1,4 @@
-DROP TABLE IF EXISTS `%TABLE_PREFIX%630_cronjobs`;
-
-CREATE TABLE `%TABLE_PREFIX%630_cronjobs` (
+CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%cronjob` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `description` varchar(255) default NULL,

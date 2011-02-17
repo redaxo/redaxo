@@ -28,7 +28,7 @@ if($REX['REDAXO'])
 }
 
 define('REX_CRONJOB_LOG_FOLDER', rex_path::addonData($mypage));
-define('REX_CRONJOB_TABLE'     , $REX['TABLE_PREFIX'] .'630_cronjobs');
+define('REX_CRONJOB_TABLE'     , $REX['TABLE_PREFIX'] .'cronjob');
 
 rex_register_extension('ADDONS_INCLUDED',
   function($params)
