@@ -25,7 +25,7 @@ Zum einbinden eines Bildes muss dazu der Bildtyp in der Url notiert werden.
 
 <h3>Anwendungsbeispiele:</h3>
 <p>
-  <?php echo $REX["FRONTEND_FILE"]; ?>?rex_img_type=ImgTypeName&amp;rex_img_file=ImageFileName
+  index.php?rex_img_type=ImgTypeName&amp;rex_img_file=ImageFileName
 </p>
 
 
