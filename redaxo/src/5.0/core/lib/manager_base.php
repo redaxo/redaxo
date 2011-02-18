@@ -265,22 +265,6 @@ abstract class rex_baseManager
   }
 
   /**
-   * Moves the addon one step forward in the include-chain.
-   * The addon will therefore be included earlier in the bootstrap process.
-   *
-   * @param $addonName Name of the addon
-   */
-  public abstract function moveUp($addonName);
-
-  /**
-   * Moves the addon one step backwards in the include-chain.
-   * The addon will therefore be included later in the bootstrap process.
-   *
-   * @param $addonName Name of the addon
-   */
-  public abstract function moveDown($addonName);
-
-  /**
    * Verifies if the installation of the given Addon was successfull.
    *
    * @param string $addonName The name of the addon

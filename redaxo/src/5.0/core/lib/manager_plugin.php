@@ -65,56 +65,6 @@ class rex_pluginManager extends rex_baseManager
     $REX['ADDON'] = array_merge_recursive($ADDONSsic, $REX['ADDON']);
   }
 
-  public function moveUp($pluginName)
-  {
-    global $REX;
-
-    $key = array_search($pluginName, $this->configArray[$this->addonName]);
-    if($key === false)
-    {
-      throw new rexException('Plugin with name "'. $pluginName .'" not found!');
-    }
-
-    // it's not allowed to move the first addon up
-    if($key === 0)
-    {
-      return $REX['I18N']->msg('addon_move_first_up_not_allowed');
-    }
-
-    // swap addon with it's predecessor
-    $prev = $this->configArray[$this->addonName][$key - 1];
-    $this->configArray[$this->addonName][$key - 1] = $this->configArray[$this->addonName][$key];
-    $this->configArray[$this->addonName][$key] = $prev;
-
-    // save the changes
-    return $this->generateConfig();
-  }
-
-  public function moveDown($pluginName)
-  {
-    global $REX;
-
-    $key = array_search($pluginName, $this->configArray[$this->addonName]);
-    if($key === false)
-    {
-      throw new rexException('Plugin with name "'. $pluginName .'" not found!');
-    }
-
-    // it's not allowed to move the last addon down
-    if($key === (count($this->configArray[$this->addonName]) - 1) )
-    {
-      return $REX['I18N']->msg('addon_move_last_down_not_allowed');
-    }
-
-    // swap addon with it's successor
-    $next = $this->configArray[$this->addonName][$key + 1];
-    $this->configArray[$this->addonName][$key + 1] = $this->configArray[$this->addonName][$key];
-    $this->configArray[$this->addonName][$key] = $next;
-
-    // save the changes
-    return $this->generateConfig();
-  }
-
   protected function includeConfig($addonName, $configFile)
   {
     rex_pluginManager::addon2plugin($this->addonName, $addonName, $configFile);
