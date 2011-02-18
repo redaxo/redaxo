@@ -1,6 +1,6 @@
 <?php
 
-class rex_addonManager extends rex_baseManager
+class rex_addonManager extends rex_packageManager
 {
   private $configArray;
 

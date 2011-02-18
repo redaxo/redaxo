@@ -3,7 +3,7 @@
 /**
  * Managerklasse zum handeln von rexAddons
  */
-abstract class rex_baseManager
+abstract class rex_packageManager
 {
   private $i18nPrefix;
 
