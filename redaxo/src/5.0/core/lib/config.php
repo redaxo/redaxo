@@ -280,7 +280,7 @@ class rex_config
     // delete cache-file, will be regenerated on next request
     if(file_exists(REX_CONFIG_FILE_CACHE))
     {
-      self::$data = sfYaml::load(REX_CONFIG_FILE_CACHE);
+      self::$data = json_decode(REX_CONFIG_FILE_CACHE);
       return true;
     }
     return false;
@@ -309,7 +309,7 @@ class rex_config
    */
   private static function generateCache()
   {
-    if(rex_put_file_contents(REX_CONFIG_FILE_CACHE, sfYaml::dump(self::$data)) <= 0)
+    if(rex_put_file_contents(REX_CONFIG_FILE_CACHE, json_encode(self::$data)) <= 0)
     {
       throw new rexException('rex-config: unable to write cache file '. REX_CONFIG_FILE_CACHE);
     }
