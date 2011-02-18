@@ -258,6 +258,7 @@ abstract class rex_baseManager
     $state = TRUE;
     $state = $state && $this->uninstall($addonName);
     $state = $state && rex_deleteDir($this->baseFolder($addonName), TRUE);
+    $state = $state && rex_deleteDir($this->dataFolder($addonName), true);
     $state = $state && $this->generateConfig();
 
     return $state;
@@ -498,6 +499,11 @@ abstract class rex_baseManager
    * Findet den Basispfad für Assets-Dateien
    */
   protected abstract function assetsFolder($addonName);
+
+  /**
+   * Findet den Pfad für den Data-Ordner
+   */
+  protected abstract function dataFolder($addonName);
 
   /**
    * Findet den Namespace für rex_config

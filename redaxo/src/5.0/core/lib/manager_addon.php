@@ -115,6 +115,11 @@ class rex_addonManager extends rex_baseManager
     return rex_path::addonAssets($addonName);
   }
 
+  protected function dataFolder($addonName)
+  {
+    return rex_path::addonData($addonName);
+  }
+
   protected function configNamespace($addonName)
   {
     return $addonName;

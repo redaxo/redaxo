@@ -158,6 +158,11 @@ class rex_pluginManager extends rex_baseManager
     return rex_path::pluginAssets($this->addonName, $pluginName);
   }
 
+  protected function dataFolder($pluginName)
+  {
+    return rex_path::pluginData($this->addonName, $pluginName);
+  }
+
   protected function configNamespace($pluginName)
   {
     return $this->addonName .'/'. $pluginName;
