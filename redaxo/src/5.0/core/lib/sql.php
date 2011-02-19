@@ -646,7 +646,7 @@ class rex_sql
    * @param string $fetch_type Default: PDO::FETCH_ASSOC
    * @return array
    */
-  public function getDBArray($sql = '', $fetch_type = PDO::FETCH_ASSOC)
+  public function getDBArray($sql, $fetch_type = PDO::FETCH_ASSOC)
   {
     return $this->_getArray($sql, $fetch_type, 'DBQuery');
   }
@@ -658,7 +658,7 @@ class rex_sql
    * @param string $fetch_type Default: PDO::FETCH_ASSOC
    * @return array
    */
-  public function getArray($sql = '', $fetch_type = PDO::FETCH_ASSOC)
+  public function getArray($sql, $fetch_type = PDO::FETCH_ASSOC)
   {
     return $this->_getArray($sql, $fetch_type);
   }
@@ -675,20 +675,22 @@ class rex_sql
    */
   private function _getArray($sql, $fetch_type, $qryType = 'default')
   {
-    if ($sql != '')
+    if ($sql == '')
     {
-      switch($qryType)
-      {
-        case 'DBQuery': $this->setDBQuery($sql); break;
-        default       : $this->setQuery($sql);
-      }
+      throw new rexException('sql query must not be empty!');
     }
-
-    if($this->stmt)
+    
+    self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
+    
+    switch($qryType)
     {
-      return $this->stmt->fetchAll($fetch_type);
+      case 'DBQuery': $this->setDBQuery($sql); break;
+      default       : $this->setQuery($sql);
     }
-    return FALSE;
+    
+    self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
+    
+    return $this->stmt->fetchAll($fetch_type);
   }
 
   /**
