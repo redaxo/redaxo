@@ -11,7 +11,7 @@ ob_start();
 ob_implicit_flush(0);
 
 // ----------------- MAGIC QUOTES CHECK
-require rex_path::src('core/functions/function_rex_mquotes.inc.php');
+// require rex_path::src('core/functions/function_rex_mquotes.inc.php');
 
 // --------------------------- ini settings
 
