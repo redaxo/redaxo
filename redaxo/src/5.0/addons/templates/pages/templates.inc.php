@@ -121,7 +121,7 @@ if ($function == "add" or $function == "edit")
     $attributes = rex_setAttributes("ctype", $ctypes, "");
     $attributes = rex_setAttributes("modules", $modules, "");
     $attributes = rex_setAttributes("categories", $categories, "");
-    $TPL->setValue("attributes", addslashes($attributes));
+    $TPL->setValue("attributes", $attributes);
     $TPL->addGlobalCreateFields();
 
     if ($function == "add")
@@ -129,7 +129,7 @@ if ($function == "add" or $function == "edit")
       $attributes = rex_setAttributes("ctype", $ctypes, "");
       $attributes = rex_setAttributes("modules", $modules, $attributes);
       $attributes = rex_setAttributes("categories", $categories, $attributes);
-      $TPL->setValue("attributes", addslashes($attributes));
+      $TPL->setValue("attributes", $attributes);
       $TPL->addGlobalCreateFields();
 
       if($TPL->insert())
@@ -147,7 +147,7 @@ if ($function == "add" or $function == "edit")
       $attributes = rex_setAttributes("categories", $categories, $attributes);
 
       $TPL->setWhere("id='$template_id'");
-      $TPL->setValue("attributes", addslashes($attributes));
+      $TPL->setValue("attributes", $attributes);
       $TPL->addGlobalUpdateFields();
 
       if($TPL->update())
@@ -156,8 +156,8 @@ if ($function == "add" or $function == "edit")
         $warning = $TPL->getError();
     }
     // werte werden direkt wieder ausgegeben
-    $templatename = stripslashes($templatename);
-    $content = stripslashes($content);
+//    $templatename = stripslashes($templatename);
+//    $content = stripslashes($content);
 
     rex_deleteDir(rex_path::generated('templates'), 0);
 
