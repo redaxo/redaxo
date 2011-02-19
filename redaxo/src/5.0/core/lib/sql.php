@@ -203,13 +203,28 @@ class rex_sql
    * @param $query The sql-query
    * @return boolean true on success, otherwise false
    */
-  public function setQuery($qry)
+  public function setQuery($qry, $params = NULL)
   {
     // Alle Werte zuruecksetzen
     $this->flush();
 
     $this->query = $qry;
-    $this->stmt = self::$pdo[$this->DBID]->query(trim($qry));
+    
+    if($params !== NULL)
+    {
+      if(!is_array($params))
+      {
+        throw new rexException('expecting $params to be an array, "'. gettype($params) .'" given!');
+      }
+      var_dump($qry);
+      var_dump($params);
+      $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
+      $this->stmt->execute($params);
+    }
+    else
+    {
+      $this->stmt = self::$pdo[$this->DBID]->query(trim($qry));
+    }
 
     if($this->stmt !== false)
     {
@@ -429,7 +444,7 @@ class rex_sql
    *
    * @see setValue
    */
-  protected function buildSetQuery()
+  protected function buildPreparedValues()
   {
     $qry = '';
     if (is_array($this->values))
@@ -438,28 +453,17 @@ class rex_sql
       {
         if ($qry != '')
         {
-          $qry .= ',';
+          $qry .= ', ';
         }
 
-        // Bei <tabelle>.<feld> Notation '.' ersetzen, da sonst `<tabelle>.<feld>` entsteht
-        if(strpos($fld_name, '.') !== false)
-          $fld_name = str_replace('.', '`.`', $fld_name);
-
-        if($value === null)
-          $qry .= '`' . $fld_name . '`= NULL';
-        else
-          $qry .= '`' . $fld_name . '`=\'' . $value .'\'';
-
-// Da Werte via POST/GET schon mit magic_quotes escaped werden,
-// brauchen wir hier nicht mehr escapen
-//        $qry .= '`' . $fld_name . '`=' . $this->escape($value);
+        $qry .= $fld_name . ' = :'. $fld_name;
       }
     }
     
     if(trim($qry) == '')
     {
       // FIXME
-      trigger_error('no values given to buildSetQuery for update(), insert() or replace()', E_USER_WARNING);
+      trigger_error('no values given to buildPreparedValues for update(), insert() or replace()', E_USER_WARNING);
     }
 
     return $qry;
@@ -474,7 +478,6 @@ class rex_sql
    */
   public function select($fields)
   {
-    // TODO use prepared-statement
     return $this->setQuery('SELECT '. $fields .' FROM `' . $this->table . '` '. $this->wherevar);
   }
 
@@ -488,8 +491,11 @@ class rex_sql
    */
   public function update($successMessage = null)
   {
-    // TODO use prepared-statement
-    return $this->statusQuery('UPDATE `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar, $successMessage);
+    return $this->preparedStatusQuery(
+    	'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->wherevar,
+      $this->values,
+      $successMessage
+    );
   }
 
   /**
@@ -501,8 +507,11 @@ class rex_sql
    */
   public function insert($successMessage = null)
   {
-    // TODO use prepared-statement
-    return $this->statusQuery('INSERT INTO `' . $this->table . '` SET ' . $this->buildSetQuery(), $successMessage);
+    return $this->preparedStatusQuery(
+    	'INSERT INTO `' . $this->table . '` SET ' . $this->buildPreparedValues(),
+      $this->values,
+      $successMessage
+    );
   }
 
   /**
@@ -515,8 +524,11 @@ class rex_sql
    */
   public function replace($successMessage = null)
   {
-    // TODO use prepared-statement
-    return $this->statusQuery('REPLACE INTO `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar, $successMessage);
+    return $this->preparedStatusQuery(
+    	'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->wherevar,
+      $this->values,
+      $successMessage
+    );
   }
 
   /**
@@ -528,7 +540,6 @@ class rex_sql
    */
   public function delete($successMessage = null)
   {
-    // TODO use prepared-statement
     return $this->statusQuery('DELETE FROM `' . $this->table . '` ' . $this->wherevar, $successMessage);
   }
 
@@ -573,6 +584,19 @@ class rex_sql
     }
     return $res;
   }
+  
+  public function preparedStatusQuery($query, $params, $successMessage = null)
+  {
+    $res = $this->setQuery($query, $params);
+    if($successMessage)
+    {
+      if($res)
+        return $successMessage;
+      else
+        return $this->getError();
+    }
+    return $res;
+  }
 
   /**
    * Stellt alle Werte auf den Ursprungszustand zurueck
@@ -582,6 +606,7 @@ class rex_sql
     $this->flushValues();
     $this->lastRow = array();
     $this->fieldnames = NULL;
+    $this->rawFieldnames = NULL;
     $this->tablenames = NULL;
 
     $this->table = '';
