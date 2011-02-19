@@ -640,7 +640,7 @@ class rex_sql
   public function next()
   {
     $this->counter++;
-    $this->lastRow = $this->stmt->fetch($fetch_type);
+    $this->lastRow = $this->stmt->fetch();
   }
 
   /*
