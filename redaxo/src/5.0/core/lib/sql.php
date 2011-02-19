@@ -14,12 +14,14 @@ class rex_sql
   private
     $values, // Werte von setValue
     $fieldnames, // Spalten im ResultSet
+    $rawFieldnames,
     $tablenames, // Tabelle im ResultSet
     $lastRow, // Wert der zuletzt gefetchten zeile
     $table, // Tabelle setzen
     $wherevar, // WHERE Bediengung
     $rows, // anzahl der treffer
     $stmt, // ResultSet
+    $query,
     $DBID; // ID der Verbindung
     
   private static
@@ -39,12 +41,12 @@ class rex_sql
   protected function selectDB($DBID)
   {
     global $REX;
-
+    
     $this->DBID = $DBID;
 
-
-    try {
-      if(!isset(self::$pdo[$this->DBID]))
+    try
+    {
+      if(!isset(self::$pdo[$DBID]))
       {
         $conn = self::createConnection(
           $REX['DB'][$DBID]['HOST'],
@@ -52,13 +54,15 @@ class rex_sql
           $REX['DB'][$DBID]['LOGIN'],
           $REX['DB'][$DBID]['PSW']
         );
-        self::$pdo[$this->DBID] = $conn;
+        self::$pdo[$DBID] = $conn;
+        
         // ggf. Strict Mode abschalten
         $this->setQuery('SET SQL_MODE=""');
         // set encoding
         $this->setQuery('SET NAMES utf8');
         $this->setQuery('SET CHARACTER SET utf8');
       }
+      
     }
     catch(PDOException $e)
     {
@@ -147,10 +151,19 @@ class rex_sql
    */
   public function setDBQuery($qry)
   {
+    // save origin connection-id
+    $oldDBID = $this->DBID;
+    
+    // change connection-id but only for this one query
     if(($qryDBID = self::stripQueryDBID($qry)) !== false)
       $this->selectDB($qryDBID);
 
-    return $this->setQuery($qry);
+    $result = $this->setQuery($qry);
+    
+    // restore connection-id
+    $this->DBID = $oldDBID;
+    
+    return $result;
   }
 
   /**
@@ -195,6 +208,7 @@ class rex_sql
     // Alle Werte zuruecksetzen
     $this->flush();
 
+    $this->query = $qry;
     $this->stmt = self::$pdo[$this->DBID]->query(trim($qry));
 
     if($this->stmt !== false)
@@ -297,11 +311,9 @@ class rex_sql
     if(strpos($feldname, '.') === false)
     {
       $tables = $this->getTablenames();
-      // add empty table to array, so computed fields will be found
-      array_unshift($tables, '');
       foreach($tables as $table)
       {
-        if($this->hasValue($table .'.'. $feldname))
+        if(in_array($table .'.'. $feldname, $this->rawFieldnames))
         {
           return $this->fetchValue($table .'.'. $feldname);
         }
@@ -335,7 +347,11 @@ class rex_sql
       {
         $trace = debug_backtrace();
         $loc = $trace[1];
+        var_dump($this->fieldnames);
+        var_dump($this->tablenames);
+        var_dump($this->lastRow);
         echo '<b>Warning</b>:  rex_sql->getValue('. $feldname .'): Initial error found in file <b>'. $loc['file'] .'</b> on line <b>'. $loc['line'] .'</b><br />';
+        exit();
       }
     }
 
@@ -358,6 +374,11 @@ class rex_sql
    */
   public function hasValue($feldname)
   {
+    if(strpos($feldname, '.') !== false)
+    {
+      $parts = explode('.', $feldname);
+      return in_array($parts[0], $this->getTablenames()) && in_array($parts[1], $this->getFieldnames());
+    }
     return in_array($feldname, $this->getFieldnames());
   }
 
@@ -646,9 +667,9 @@ class rex_sql
    * @param string $fetch_type Default: PDO::FETCH_ASSOC
    * @return array
    */
-  public function getDBArray($sql, $fetch_type = PDO::FETCH_ASSOC)
+  public function getDBArray($sql = NULL, $fetch_type = PDO::FETCH_ASSOC)
   {
-    return $this->_getArray($sql, $fetch_type, 'DBQuery');
+    return $this->_getArray($sql ? $sql :  $this->query, $fetch_type, 'DBQuery');
   }
 
   /**
@@ -658,9 +679,9 @@ class rex_sql
    * @param string $fetch_type Default: PDO::FETCH_ASSOC
    * @return array
    */
-  public function getArray($sql, $fetch_type = PDO::FETCH_ASSOC)
+  public function getArray($sql = NULL, $fetch_type = PDO::FETCH_ASSOC)
   {
-    return $this->_getArray($sql, $fetch_type);
+    return $this->_getArray($sql ? $sql :  $this->query, $fetch_type);
   }
 
   /**
@@ -675,19 +696,17 @@ class rex_sql
    */
   private function _getArray($sql, $fetch_type, $qryType = 'default')
   {
-    if ($sql == '')
+    if (empty($sql))
     {
       throw new rexException('sql query must not be empty!');
     }
     
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
-    
     switch($qryType)
     {
       case 'DBQuery': $this->setDBQuery($sql); break;
       default       : $this->setQuery($sql);
     }
-    
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
     
     return $this->stmt->fetchAll($fetch_type);
@@ -790,15 +809,19 @@ class rex_sql
   
   private function fetchMeta()
   {
-    if($this->fieldnames === NULL || $this->tablenames === NULL)
+    if($this->fieldnames === NULL)
     {
+      $this->rawFieldnames = array();
       $this->fieldnames = array();
       $this->tablenames = array();
       
       for ($i = 0; $i < $this->getFields(); $i++)
       {
         $metadata = $this->stmt->getColumnMeta($i);
-        $this->fieldnames[] = $metadata['name'];
+        
+        // strip table-name from column
+        $this->fieldnames[] = substr($metadata['name'], strlen($metadata['table'].'.'));
+        $this->rawFieldnames[] = $metadata['name'];
         
         if(!in_array($metadata['table'], $this->tablenames))
         {
