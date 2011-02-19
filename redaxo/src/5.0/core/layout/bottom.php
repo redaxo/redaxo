@@ -7,5 +7,5 @@
  */
 
 $bottomfragment = new rex_fragment();
-echo $bottomfragment->parse('layout/bottom');
+echo $bottomfragment->parse('rex_bottom');
 unset($bottomfragment);
