@@ -684,7 +684,11 @@ class rex_sql
       }
     }
 
-    return $this->stmt->fetchAll($fetch_type);
+    if($this->stmt)
+    {
+      return $this->stmt->fetchAll($fetch_type);
+    }
+    return FALSE;
   }
 
   /**
