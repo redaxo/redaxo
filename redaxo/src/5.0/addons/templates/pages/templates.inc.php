@@ -192,8 +192,7 @@ if ($function == "add" or $function == "edit")
     $modul_select->setStyle('class="rex-form-select"');
     $modul_select->setSize(10);
     $m_sql = rex_sql::factory();
-    $m_sql->setQuery('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
-    foreach($m_sql->getArray() as $m)
+    foreach($m_sql->getArray('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name') as $m)
       $modul_select->addOption($m["name"],$m["id"]);
 
     // Kategorien
