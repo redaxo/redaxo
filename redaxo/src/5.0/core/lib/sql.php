@@ -216,8 +216,6 @@ class rex_sql
       {
         throw new rexException('expecting $params to be an array, "'. gettype($params) .'" given!');
       }
-      var_dump($qry);
-      var_dump($params);
       $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
       $this->stmt->execute($params);
     }
