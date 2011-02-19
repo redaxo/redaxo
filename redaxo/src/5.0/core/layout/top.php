@@ -93,5 +93,5 @@ $topfragment->setVar('pageHeader', rex_register_extension_point('PAGE_HEADER', '
 $topfragment->setVar('bodyAttr', $body, false);
 $topfragment->setVar('logout', $logout, false);
 $topfragment->setVar('navigation', $navigation, false);
-echo $topfragment->parse('layout/top');
+echo $topfragment->parse('rex_top');
 unset($topfragment);
