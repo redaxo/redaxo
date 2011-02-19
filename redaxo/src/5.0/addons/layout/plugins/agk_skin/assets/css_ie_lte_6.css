@@ -1,0 +1,10 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version svn:$Id$
+ */
+
+div#rex-wrapper, 
+div#rex-navi-main {
+  display: inline;
+}
