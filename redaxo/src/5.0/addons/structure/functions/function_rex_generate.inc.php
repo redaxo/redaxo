@@ -289,7 +289,7 @@ function rex_generateLists($re_id, $clang = null)
     $cacheArray = array();
     for ($i = 0; $i < $GC->getRows(); $i ++)
     {
-      $cacheArray[$re_id][$i] = $GC->getValue("id");
+      $cacheArray[$i] = $GC->getValue("id");
 //      $content .= "\$REX['RE_ID']['$re_id']['$i'] = \"".$GC->getValue("id")."\";\n";
       $GC->next();
     }
@@ -308,7 +308,7 @@ function rex_generateLists($re_id, $clang = null)
     $cacheArray = array();
     for ($i = 0; $i < $GC->getRows(); $i ++)
     {
-      $cacheArray[$re_id][$i] = $GC->getValue("id");
+      $cacheArray[$i] = $GC->getValue("id");
 //      $content .= "\$REX['RE_CAT_ID']['$re_id']['$i'] = \"".$GC->getValue("id")."\";\n";
       $GC->next();
     }
