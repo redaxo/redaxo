@@ -15,7 +15,7 @@
 
 $error = '';
 
-// Plugins mitinstallieren
+/*// Plugins mitinstallieren
 $addonname = 'be_style';
 $plugins = array('base', 'agk_skin');
 
@@ -39,7 +39,7 @@ foreach($plugins as $pluginname)
   {
     break;
   }
-}
+}*/
 
 if ($error != '')
   $REX['ADDON']['installmsg']['be_style'] = $error;
