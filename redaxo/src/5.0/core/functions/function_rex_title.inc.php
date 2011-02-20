@@ -49,7 +49,7 @@
  */
 function rex_title($head, $subtitle = '')
 {
-	global $article_id, $category_id, $page, $REX;
+  global $article_id, $category_id, $page, $REX;
 
   if(empty($subtitle))
   {
@@ -69,36 +69,18 @@ function rex_title($head, $subtitle = '')
   else
   {
     // REDAXO <= 4.2 compat
-	  $subtitle = '<div class="rex-title-row rex-title-row-sub">'.rex_get_subtitle($subtitle).'</div>';
+    $subtitle = '<div class="rex-title-row rex-title-row-sub">'.rex_get_subtitle($subtitle).'</div>';
   }
-
-  // ----- EXTENSION POINT
-  $head = rex_register_extension_point('PAGE_TITLE', $head,
-    array(
-      'category_id' => $category_id,
-      'article_id' => $article_id,
-      'page' => $page
-    )
-  );
-
-  print '
-	<div class="rex-title">
-  		<div class="rex-title-row"><h1 class="rex-hl1">'.$head.'</h1></div>
-  		'.$subtitle.'
-	</div>';
-
-  rex_register_extension_point('PAGE_TITLE_SHOWN', $subtitle,
-    array(
-      'category_id' => $category_id,
-      'article_id' => $article_id,
-      'page' => $page
-    )
-  );
-
-  print '
-<!-- *** OUTPUT OF CONTENT - START *** -->
-	<div id="rex-output">
-	';
+  
+  
+  $fragment = new rex_fragment();
+  $fragment->setVar('category_id', $category_id, false);
+  $fragment->setVar('article_id', $article_id, false);
+  $fragment->setVar('page', $page, false);
+  $fragment->setVar('title', rex_register_extension_point('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page)), false);
+  $fragment->setVar('subtitle', $subtitle, false);
+  echo $fragment->parse('rex_title');
+  unset($fragment);
 }
 
 /**
@@ -205,10 +187,10 @@ function rex_get_subtitle($subline)
       $i = 1;
       foreach($subtitle as $part)
       {
-	      if($i == 1)
-					$items .= '<li class="rex-navi-first">'. $part .'</li>';
-				else
-	        $items .= '<li>'. $part .'</li>';
+        if($i == 1)
+          $items .= '<li class="rex-navi-first">'. $part .'</li>';
+        else
+          $items .= '<li>'. $part .'</li>';
 
         $i++;
       }

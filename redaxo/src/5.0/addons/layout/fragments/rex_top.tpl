@@ -23,12 +23,13 @@
 </head>
 <body <?php echo $this->bodyAttr; ?>>
 <div id="rex-website">
+
   <div id="rex-header">
-    <p class="rex-header-top"><a href="<?php echo rex_path::frontendController() ?>" onclick="window.open(this.href); return false"><?php echo $this->config('SERVERNAME') ?></a></p>
+    <p class="rex-server"><a href="<?php echo rex_path::frontendController() ?>" onclick="window.open(this.href); return false"><?php echo $this->config('SERVERNAME') ?></a></p>
+  
+	  <div id="rex-navi-logout"><?php echo $this->logout ?></div>
   </div>
 
-  <div id="rex-navi-logout"><?php echo $this->logout ?></div>
   <div id="rex-navi-main"><?php echo $this->navigation ?></div>
 
-  <div id="rex-wrapper">
-    <div id="rex-wrapper2">
+  <div id="rex-content">
