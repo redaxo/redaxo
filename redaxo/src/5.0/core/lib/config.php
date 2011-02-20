@@ -280,7 +280,7 @@ class rex_config
     // delete cache-file, will be regenerated on next request
     if(file_exists(REX_CONFIG_FILE_CACHE))
     {
-      self::$data = json_decode(REX_CONFIG_FILE_CACHE);
+      self::$data = json_decode(rex_get_file_contents(REX_CONFIG_FILE_CACHE), true);
       return true;
     }
     return false;
