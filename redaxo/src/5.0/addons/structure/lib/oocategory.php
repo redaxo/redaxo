@@ -52,7 +52,7 @@ class rex_ooCategory extends rex_ooRedaxo
     {
       if (!isset ($REX['RE_CAT_ID'][$cat_parent_id]))
       {
-        $REX['RE_CAT_ID'][$cat_parent_id] = json_decode(rex_get_file_contents($categorylist), true);   
+        $REX['RE_CAT_ID'][$cat_parent_id] = json_decode(rex_get_file_contents($categorylist), true);
       }
       
       if (isset ($REX['RE_CAT_ID'][$cat_parent_id]) and is_array($REX['RE_CAT_ID'][$cat_parent_id]))
@@ -282,11 +282,13 @@ class rex_ooCategory extends rex_ooRedaxo
     if($category_id < 1)
     {
     	// Alle globalen Templates
-    	foreach($t_sql->getArray() as $t)
+    	while($t_sql->hasNext())
     	{
-        $categories = rex_getAttributes("categories", $t["attributes"]);
-        if (!is_array($categories) || $categories["all"] == 1)
-    		  $templates[$t["id"]] = $t['name'];
+        $categories = rex_getAttributes('categories', $t_sql->getValue('attributes'));
+        if (!is_array($categories) || $categories['all'] == 1)
+    		  $templates[$t_sql->getValue('id')] = $t_sql->getValue('name');
+      		  
+      	$t_sql->next();
     	}
     }else
     {
@@ -294,13 +296,13 @@ class rex_ooCategory extends rex_ooRedaxo
     	{
     		$path = $c->getPathAsArray();
     		$path[] = $category_id;
-	    	foreach($t_sql->getArray() as $t)
-	    	{
-	    		$categories = rex_getAttributes("categories", $t["attributes"]);
+      	while($t_sql->hasNext())
+      	{
+	    		$categories = rex_getAttributes('categories', $t_sql->getValue('attributes'));
 	    		// template ist nicht kategoriespezifisch -> includen
-	    		if(!is_array($categories) || $categories["all"] == 1)
+	    		if(!is_array($categories) || $categories['all'] == 1)
 	    		{
-            $templates[$t["id"]] = $t['name'];
+            $templates[$t_sql->getValue('id')] = $t_sql->getValue('name');
 	    		}
 	    		else
 	    		{
@@ -310,12 +312,14 @@ class rex_ooCategory extends rex_ooRedaxo
   	    		{
   	    			if(in_array($p,$categories))
   	    			{
-  	    				$templates[$t["id"]] = $t['name'];
+  	    				$templates[$t_sql->getValue('id')] = $t_sql->getValue('name');
   	    				break;
   	    			}
   	    		}
 	    		}
-	    	}
+	    		
+        	$t_sql->next();
+      	}
     	}
     }
     return $templates;

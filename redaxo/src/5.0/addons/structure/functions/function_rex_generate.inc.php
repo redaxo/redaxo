@@ -285,17 +285,17 @@ function rex_generateLists($re_id, $clang = null)
     $GC = rex_sql::factory();
     // $GC->debugsql = 1;
     $GC->setQuery("select * from ".$REX['TABLE_PREFIX']."article where (re_id=$re_id and clang=$_clang and startpage=0) OR (id=$re_id and clang=$_clang and startpage=1) order by prior,name");
-    $content = "<?php\n";
+    
+    $cacheArray = array();
     for ($i = 0; $i < $GC->getRows(); $i ++)
     {
-      $id = $GC->getValue("id");
-      $content .= "\$REX['RE_ID']['$re_id']['$i'] = \"".$GC->getValue("id")."\";\n";
+      $cacheArray[$i] = $GC->getValue("id");
+//      $content .= "\$REX['RE_ID']['$re_id']['$i'] = \"".$GC->getValue("id")."\";\n";
       $GC->next();
     }
-    $content .= "\n?>";
 
     $article_list_file = rex_path::generated("articles/$re_id.$_clang.alist");
-    if (rex_put_file_contents($article_list_file, $content) === FALSE)
+    if (rex_put_file_contents($article_list_file, json_encode($cacheArray)) === FALSE)
     {
       return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
     }
@@ -304,17 +304,17 @@ function rex_generateLists($re_id, $clang = null)
 
     $GC = rex_sql::factory();
     $GC->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id=$re_id and clang=$_clang and startpage=1 order by catprior,name");
-    $content = "<?php\n";
+    
+    $cacheArray = array();
     for ($i = 0; $i < $GC->getRows(); $i ++)
     {
-      $id = $GC->getValue("id");
-      $content .= "\$REX['RE_CAT_ID']['$re_id']['$i'] = \"".$GC->getValue("id")."\";\n";
+      $cacheArray[$i] = $GC->getValue("id");
+//      $content .= "\$REX['RE_CAT_ID']['$re_id']['$i'] = \"".$GC->getValue("id")."\";\n";
       $GC->next();
     }
-    $content .= "\n?>";
 
     $article_categories_file = rex_path::generated("articles/$re_id.$_clang.clist");
-    if (rex_put_file_contents($article_categories_file, $content) === FALSE)
+    if (rex_put_file_contents($article_categories_file, json_encode($cacheArray)) === FALSE)
     {
       return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
     }

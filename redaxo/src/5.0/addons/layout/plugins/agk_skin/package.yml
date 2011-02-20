@@ -1,0 +1,11 @@
+agk_skin:
+  version: '0.1'
+  author: 'Design: Ralph Zumkeller; Umsetzung: Thomas Blum'
+  supportpage: forum.redaxo.de
+  
+  requires:
+    addons:
+      layout:
+        plugins:
+          base:
+            min-version: '0.1'

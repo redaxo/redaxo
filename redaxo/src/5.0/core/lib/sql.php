@@ -14,12 +14,15 @@ class rex_sql
   private
     $values, // Werte von setValue
     $fieldnames, // Spalten im ResultSet
+    $rawFieldnames,
     $tablenames, // Tabelle im ResultSet
     $lastRow, // Wert der zuletzt gefetchten zeile
     $table, // Tabelle setzen
     $wherevar, // WHERE Bediengung
+    $whereParams, // WHERE parameter array
     $rows, // anzahl der treffer
     $stmt, // ResultSet
+    $query,
     $DBID; // ID der Verbindung
     
   private static
@@ -30,6 +33,7 @@ class rex_sql
     global $REX;
 
     $this->debugsql = false;
+    $this->flush();
     $this->selectDB($DBID);
   }
 
@@ -39,12 +43,12 @@ class rex_sql
   protected function selectDB($DBID)
   {
     global $REX;
-
+    
     $this->DBID = $DBID;
 
-
-    try {
-      if(!isset(self::$pdo[$this->DBID]))
+    try
+    {
+      if(!isset(self::$pdo[$DBID]))
       {
         $conn = self::createConnection(
           $REX['DB'][$DBID]['HOST'],
@@ -52,13 +56,15 @@ class rex_sql
           $REX['DB'][$DBID]['LOGIN'],
           $REX['DB'][$DBID]['PSW']
         );
-        self::$pdo[$this->DBID] = $conn;
+        self::$pdo[$DBID] = $conn;
+        
         // ggf. Strict Mode abschalten
         $this->setQuery('SET SQL_MODE=""');
         // set encoding
         $this->setQuery('SET NAMES utf8');
         $this->setQuery('SET CHARACTER SET utf8');
       }
+      
     }
     catch(PDOException $e)
     {
@@ -147,10 +153,19 @@ class rex_sql
    */
   public function setDBQuery($qry)
   {
+    // save origin connection-id
+    $oldDBID = $this->DBID;
+    
+    // change connection-id but only for this one query
     if(($qryDBID = self::stripQueryDBID($qry)) !== false)
       $this->selectDB($qryDBID);
 
-    return $this->setQuery($qry);
+    $result = $this->setQuery($qry);
+    
+    // restore connection-id
+    $this->DBID = $oldDBID;
+    
+    return $result;
   }
 
   /**
@@ -190,12 +205,26 @@ class rex_sql
    * @param $query The sql-query
    * @return boolean true on success, otherwise false
    */
-  public function setQuery($qry)
+  public function setQuery($qry, $params = array())
   {
     // Alle Werte zuruecksetzen
     $this->flush();
 
-    $this->stmt = self::$pdo[$this->DBID]->query(trim($qry));
+    $this->query = $qry;
+    
+    if(!empty($params))
+    {
+      if(!is_array($params))
+      {
+        throw new rexException('expecting $params to be an array, "'. gettype($params) .'" given!');
+      }
+      $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
+      $this->stmt->execute($params);
+    }
+    else
+    {
+      $this->stmt = self::$pdo[$this->DBID]->query(trim($qry));
+    }
 
     if($this->stmt !== false)
     {
@@ -274,10 +303,39 @@ class rex_sql
 
   /**
    * Setzt die WHERE Bedienung der Abfrage
+   * 
+   * example 1:
+   *  	$sql->setWhere(array('id' => 3, 'field' => ''));
+   *   
+   * example 2:
+   *  	$sql->setWhere('myid = :id OR anotherfield = :field', array('id' => 3, 'field' => ''));
+   *   
+   * example 3:
+   *  	$sql->setWhere('myid="35" OR abc="zdf"'); 
    */
-  public function setWhere($where)
+  public function setWhere($where, $whereParams = NULL)
   {
-    $this->wherevar = "WHERE $where";
+    if(is_array($where))
+    {
+      $this->wherevar = "WHERE";
+      $this->whereParams = $where;
+    }
+    else if(is_string($where) && is_array($whereParams))
+    {
+      $this->wherevar = "WHERE $where";
+      $this->whereParams = $whereParams;
+    }
+    else if(is_string($where))
+    {
+      trigger_error('you have to take care to provide escaped values for your where-string!', E_USER_WARNING);
+      
+      $this->wherevar = "WHERE $where";
+      $this->whereParams = array();
+    }
+    else
+    {
+      throw new rexException('expecting $where to be an array, "'. gettype($where) .'" given!');
+    }
   }
 
   /**
@@ -297,11 +355,9 @@ class rex_sql
     if(strpos($feldname, '.') === false)
     {
       $tables = $this->getTablenames();
-      // add empty table to array, so computed fields will be found
-      array_unshift($tables, '');
       foreach($tables as $table)
       {
-        if($this->hasValue($table .'.'. $feldname))
+        if(in_array($table .'.'. $feldname, $this->rawFieldnames))
         {
           return $this->fetchValue($table .'.'. $feldname);
         }
@@ -336,6 +392,7 @@ class rex_sql
         $trace = debug_backtrace();
         $loc = $trace[1];
         echo '<b>Warning</b>:  rex_sql->getValue('. $feldname .'): Initial error found in file <b>'. $loc['file'] .'</b> on line <b>'. $loc['line'] .'</b><br />';
+        exit();
       }
     }
 
@@ -358,6 +415,11 @@ class rex_sql
    */
   public function hasValue($feldname)
   {
+    if(strpos($feldname, '.') !== false)
+    {
+      $parts = explode('.', $feldname);
+      return in_array($parts[0], $this->getTablenames()) && in_array($parts[1], $this->getFieldnames());
+    }
     return in_array($feldname, $this->getFieldnames());
   }
 
@@ -408,7 +470,7 @@ class rex_sql
    *
    * @see setValue
    */
-  protected function buildSetQuery()
+  protected function buildPreparedValues()
   {
     $qry = '';
     if (is_array($this->values))
@@ -417,30 +479,38 @@ class rex_sql
       {
         if ($qry != '')
         {
-          $qry .= ',';
+          $qry .= ', ';
         }
 
-        // Bei <tabelle>.<feld> Notation '.' ersetzen, da sonst `<tabelle>.<feld>` entsteht
-        if(strpos($fld_name, '.') !== false)
-          $fld_name = str_replace('.', '`.`', $fld_name);
-
-        if($value === null)
-          $qry .= '`' . $fld_name . '`= NULL';
-        else
-          $qry .= '`' . $fld_name . '`=\'' . $value .'\'';
-
-// Da Werte via POST/GET schon mit magic_quotes escaped werden,
-// brauchen wir hier nicht mehr escapen
-//        $qry .= '`' . $fld_name . '`=' . $this->escape($value);
+        $qry .= $fld_name . ' = :'. $fld_name;
       }
     }
     
     if(trim($qry) == '')
     {
       // FIXME
-      trigger_error('no values given to buildSetQuery for update(), insert() or replace()', E_USER_WARNING);
+      trigger_error('no values given to buildPreparedValues for update(), insert() or replace()', E_USER_WARNING);
     }
 
+    return $qry;
+  }
+  
+  protected function buildPreparedWhere()
+  {
+    $qry = '';
+    if(is_array($this->whereParams))
+    {
+      foreach($this->whereParams as $fld_name => $value)
+      {
+        // TODO add AND/OR alternation depending on nesting level
+        if ($qry != '')
+        {
+          $qry .= ' AND ';
+        }
+        
+        $qry .= $fld_name . ' = :'. $fld_name;
+      }
+    }
     return $qry;
   }
 
@@ -453,8 +523,10 @@ class rex_sql
    */
   public function select($fields)
   {
-    // TODO use prepared-statement
-    return $this->setQuery('SELECT '. $fields .' FROM `' . $this->table . '` '. $this->wherevar);
+    return $this->setQuery(
+    	'SELECT '. $fields .' FROM `' . $this->table . '` '. $this->wherevar .' '. $this->buildPreparedWhere(),
+      $this->whereParams
+    );
   }
 
   /**
@@ -467,8 +539,11 @@ class rex_sql
    */
   public function update($successMessage = null)
   {
-    // TODO use prepared-statement
-    return $this->statusQuery('UPDATE `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar, $successMessage);
+    return $this->preparedStatusQuery(
+    	'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->wherevar .' '. $this->buildPreparedWhere(),
+      array_merge($this->values, $this->whereParams),
+      $successMessage
+    );
   }
 
   /**
@@ -480,8 +555,11 @@ class rex_sql
    */
   public function insert($successMessage = null)
   {
-    // TODO use prepared-statement
-    return $this->statusQuery('INSERT INTO `' . $this->table . '` SET ' . $this->buildSetQuery(), $successMessage);
+    return $this->preparedStatusQuery(
+    	'INSERT INTO `' . $this->table . '` SET ' . $this->buildPreparedValues(),
+      $this->values,
+      $successMessage
+    );
   }
 
   /**
@@ -494,8 +572,11 @@ class rex_sql
    */
   public function replace($successMessage = null)
   {
-    // TODO use prepared-statement
-    return $this->statusQuery('REPLACE INTO `' . $this->table . '` SET ' . $this->buildSetQuery() .' '. $this->wherevar, $successMessage);
+    return $this->preparedStatusQuery(
+    	'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->wherevar .' '. $this->buildPreparedWhere(),
+      array_merge($this->values, $this->whereParams),
+      $successMessage
+    );
   }
 
   /**
@@ -507,8 +588,11 @@ class rex_sql
    */
   public function delete($successMessage = null)
   {
-    // TODO use prepared-statement
-    return $this->statusQuery('DELETE FROM `' . $this->table . '` ' . $this->wherevar, $successMessage);
+    return $this->preparedStatusQuery(
+    	'DELETE FROM `' . $this->table . '` ' . $this->wherevar .' '. $this->buildPreparedWhere(),
+      $this->whereParams,
+      $successMessage
+    );
   }
 
   /**
@@ -552,15 +636,30 @@ class rex_sql
     }
     return $res;
   }
+  
+  public function preparedStatusQuery($query, $params, $successMessage = null)
+  {
+    $res = $this->setQuery($query, $params);
+    if($successMessage)
+    {
+      if($res)
+        return $successMessage;
+      else
+        return $this->getError();
+    }
+    return $res;
+  }
 
   /**
    * Stellt alle Werte auf den Ursprungszustand zurueck
    */
   public function flush()
   {
-    $this->flushValues();
+    $this->values = array ();
+    $this->whereParams = array ();
     $this->lastRow = array();
     $this->fieldnames = NULL;
+    $this->rawFieldnames = NULL;
     $this->tablenames = NULL;
 
     $this->table = '';
@@ -596,7 +695,7 @@ class rex_sql
   public function next()
   {
     $this->counter++;
-    $this->lastRow = $this->stmt->fetch($fetch_type);
+    $this->lastRow = $this->stmt->fetch();
   }
 
   /*
@@ -646,9 +745,9 @@ class rex_sql
    * @param string $fetch_type Default: PDO::FETCH_ASSOC
    * @return array
    */
-  public function getDBArray($sql = '', $fetch_type = PDO::FETCH_ASSOC)
+  public function getDBArray($sql = NULL, $fetch_type = PDO::FETCH_ASSOC)
   {
-    return $this->_getArray($sql, $fetch_type, 'DBQuery');
+    return $this->_getArray($sql ? $sql :  $this->query, $fetch_type, 'DBQuery');
   }
 
   /**
@@ -658,9 +757,9 @@ class rex_sql
    * @param string $fetch_type Default: PDO::FETCH_ASSOC
    * @return array
    */
-  public function getArray($sql = '', $fetch_type = PDO::FETCH_ASSOC)
+  public function getArray($sql = NULL, $fetch_type = PDO::FETCH_ASSOC)
   {
-    return $this->_getArray($sql, $fetch_type);
+    return $this->_getArray($sql ? $sql :  $this->query, $fetch_type);
   }
 
   /**
@@ -675,15 +774,19 @@ class rex_sql
    */
   private function _getArray($sql, $fetch_type, $qryType = 'default')
   {
-    if ($sql != '')
+    if (empty($sql))
     {
-      switch($qryType)
-      {
-        case 'DBQuery': $this->setDBQuery($sql); break;
-        default       : $this->setQuery($sql);
-      }
+      throw new rexException('sql query must not be empty!');
     }
-
+    
+    self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
+    switch($qryType)
+    {
+      case 'DBQuery': $this->setDBQuery($sql); break;
+      default       : $this->setQuery($sql);
+    }
+    self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
+    
     return $this->stmt->fetchAll($fetch_type);
   }
 
@@ -784,15 +887,19 @@ class rex_sql
   
   private function fetchMeta()
   {
-    if($this->fieldnames === NULL || $this->tablenames === NULL)
+    if($this->fieldnames === NULL)
     {
+      $this->rawFieldnames = array();
       $this->fieldnames = array();
       $this->tablenames = array();
       
       for ($i = 0; $i < $this->getFields(); $i++)
       {
         $metadata = $this->stmt->getColumnMeta($i);
-        $this->fieldnames[] = $metadata['name'];
+        
+        // strip table-name from column
+        $this->fieldnames[] = substr($metadata['name'], strlen($metadata['table'].'.'));
+        $this->rawFieldnames[] = $metadata['name'];
         
         if(!in_array($metadata['table'], $this->tablenames))
         {

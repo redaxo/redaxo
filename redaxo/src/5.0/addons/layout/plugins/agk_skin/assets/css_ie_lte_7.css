@@ -1,0 +1,19 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version svn:$Id$
+ */ 
+ 
+div#rex-footer, 
+div#rex-navi-main dd {
+  zoom: 1;
+}
+div#rex-footer {
+  clear:both;
+  float:none;
+}
+
+div.rex-area-col-b, 
+div.rex-addon-col-b {
+	width: 49.9%;
+}

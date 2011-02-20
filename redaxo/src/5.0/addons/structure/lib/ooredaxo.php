@@ -40,8 +40,7 @@ abstract class rex_ooRedaxo
         if(isset($params[$var]))
         {
           $class_var = '_'.$var;
-          $value = $params[$var];
-          $this->$class_var = $value;
+          $this->$class_var = $params[$var];
         }
       }
     }
