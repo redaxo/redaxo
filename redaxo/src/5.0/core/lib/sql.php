@@ -19,6 +19,7 @@ class rex_sql
     $lastRow, // Wert der zuletzt gefetchten zeile
     $table, // Tabelle setzen
     $wherevar, // WHERE Bediengung
+    $whereParams, // WHERE parameter array
     $rows, // anzahl der treffer
     $stmt, // ResultSet
     $query,
@@ -32,6 +33,7 @@ class rex_sql
     global $REX;
 
     $this->debugsql = false;
+    $this->flush();
     $this->selectDB($DBID);
   }
 
@@ -203,14 +205,14 @@ class rex_sql
    * @param $query The sql-query
    * @return boolean true on success, otherwise false
    */
-  public function setQuery($qry, $params = NULL)
+  public function setQuery($qry, $params = array())
   {
     // Alle Werte zuruecksetzen
     $this->flush();
 
     $this->query = $qry;
     
-    if($params !== NULL)
+    if(!empty($params))
     {
       if(!is_array($params))
       {
@@ -301,10 +303,39 @@ class rex_sql
 
   /**
    * Setzt die WHERE Bedienung der Abfrage
+   * 
+   * example 1:
+   *  	$sql->setWhere(array('id' => 3, 'field' => ''));
+   *   
+   * example 2:
+   *  	$sql->setWhere('myid = :id OR anotherfield = :field', array('id' => 3, 'field' => ''));
+   *   
+   * example 3:
+   *  	$sql->setWhere('myid="35" OR abc="zdf"'); 
    */
-  public function setWhere($where)
+  public function setWhere($where, $whereParams = NULL)
   {
-    $this->wherevar = "WHERE $where";
+    if(is_array($where))
+    {
+      $this->wherevar = "WHERE";
+      $this->whereParams = $where;
+    }
+    else if(is_string($where) && is_array($whereParams))
+    {
+      $this->wherevar = "WHERE $where";
+      $this->whereParams = $whereParams;
+    }
+    else if(is_string($where))
+    {
+      trigger_error('you have to take care to provide escaped values for your where-string!', E_USER_WARNING);
+      
+      $this->wherevar = "WHERE $where";
+      $this->whereParams = array();
+    }
+    else
+    {
+      throw new rexException('expecting $where to be an array, "'. gettype($where) .'" given!');
+    }
   }
 
   /**
@@ -360,9 +391,6 @@ class rex_sql
       {
         $trace = debug_backtrace();
         $loc = $trace[1];
-        var_dump($this->fieldnames);
-        var_dump($this->tablenames);
-        var_dump($this->lastRow);
         echo '<b>Warning</b>:  rex_sql->getValue('. $feldname .'): Initial error found in file <b>'. $loc['file'] .'</b> on line <b>'. $loc['line'] .'</b><br />';
         exit();
       }
@@ -466,6 +494,25 @@ class rex_sql
 
     return $qry;
   }
+  
+  protected function buildPreparedWhere()
+  {
+    $qry = '';
+    if(is_array($this->whereParams))
+    {
+      foreach($this->whereParams as $fld_name => $value)
+      {
+        // TODO add AND/OR alternation depending on nesting level
+        if ($qry != '')
+        {
+          $qry .= ' AND ';
+        }
+        
+        $qry .= $fld_name . ' = :'. $fld_name;
+      }
+    }
+    return $qry;
+  }
 
   /**
    * Setzt eine Select-Anweisung auf die angegebene Tabelle
@@ -476,7 +523,10 @@ class rex_sql
    */
   public function select($fields)
   {
-    return $this->setQuery('SELECT '. $fields .' FROM `' . $this->table . '` '. $this->wherevar);
+    return $this->setQuery(
+    	'SELECT '. $fields .' FROM `' . $this->table . '` '. $this->wherevar .' '. $this->buildPreparedWhere(),
+      $this->whereParams
+    );
   }
 
   /**
@@ -490,8 +540,8 @@ class rex_sql
   public function update($successMessage = null)
   {
     return $this->preparedStatusQuery(
-    	'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->wherevar,
-      $this->values,
+    	'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->wherevar .' '. $this->buildPreparedWhere(),
+      array_merge($this->values, $this->whereParams),
       $successMessage
     );
   }
@@ -523,8 +573,8 @@ class rex_sql
   public function replace($successMessage = null)
   {
     return $this->preparedStatusQuery(
-    	'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->wherevar,
-      $this->values,
+    	'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->wherevar .' '. $this->buildPreparedWhere(),
+      array_merge($this->values, $this->whereParams),
       $successMessage
     );
   }
@@ -538,7 +588,11 @@ class rex_sql
    */
   public function delete($successMessage = null)
   {
-    return $this->statusQuery('DELETE FROM `' . $this->table . '` ' . $this->wherevar, $successMessage);
+    return $this->preparedStatusQuery(
+    	'DELETE FROM `' . $this->table . '` ' . $this->wherevar .' '. $this->buildPreparedWhere(),
+      $this->whereParams,
+      $successMessage
+    );
   }
 
   /**
@@ -601,7 +655,8 @@ class rex_sql
    */
   public function flush()
   {
-    $this->flushValues();
+    $this->values = array ();
+    $this->whereParams = array ();
     $this->lastRow = array();
     $this->fieldnames = NULL;
     $this->rawFieldnames = NULL;
