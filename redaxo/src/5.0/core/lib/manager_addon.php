@@ -70,6 +70,11 @@ class rex_addonManager extends rex_packageManager
     return rex_path::addonData($addonName);
   }
 
+  protected function package($addonName)
+  {
+    return $addonName;
+  }
+
   protected function configNamespace($addonName)
   {
     return $addonName;

@@ -197,6 +197,16 @@ abstract class rex_packageManager
         $this->apiCall('setProperty', array($addonName, 'status', 1));
         $state = $this->generateConfig();
       }
+      if($state === true)
+      {
+        $order = rex_core_config::get('package-order', array());
+        $package = $this->package($addonName);
+        if(!in_array($package, $order))
+        {
+          $order[] = $package;
+        }
+        rex_core_config::set('package-order', $order);
+      }
     }
     else
     {
@@ -237,6 +247,13 @@ abstract class rex_packageManager
       // reload autoload cache when addon is deactivated,
       // so the index doesn't contain outdated class definitions
       rex_autoload::getInstance()->removeCache();
+
+      $order = rex_core_config::get('package-order', array());
+      if(($key = array_search($this->package($addonName), $order)) !== false)
+      {
+        unset($order[$key]);
+        rex_core_config::set('package-order', array_values($order));
+      }
     }
     else
     {
@@ -488,6 +505,11 @@ abstract class rex_packageManager
    * Findet den Pfad für den Data-Ordner
    */
   protected abstract function dataFolder($addonName);
+
+  /**
+   * Package representation
+   */
+  protected abstract function package($addonName);
 
   /**
    * Findet den Namespace für rex_config

@@ -124,6 +124,11 @@ class rex_pluginManager extends rex_packageManager
     return rex_path::pluginData($this->addonName, $pluginName);
   }
 
+  protected function package($pluginName)
+  {
+    return array($this->addonName, $pluginName);
+  }
+
   protected function configNamespace($pluginName)
   {
     return $this->addonName .'/'. $pluginName;
