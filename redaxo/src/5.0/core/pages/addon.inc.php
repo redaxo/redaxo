@@ -322,7 +322,14 @@ if ($subpage == '')
         $pluginVers = rex_ooPlugin::getVersion($addon, $plugin, '');
         $pluginurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;pluginname='. $plugin .'&amp;';
 
-        $delete = '<a href="'. $pluginurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($REX['I18N']->msg('plugin_delete_question', $plugin)).'\');">'.$REX['I18N']->msg("addon_delete").'</a>';
+        if (rex_ooPlugin::isSystemPlugin($addon, $plugin))
+      	{
+      		$delete = $REX['I18N']->msg("plugin_systemplugin");
+      	}
+      	else
+      	{
+      	  $delete = '<a href="'. $pluginurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($REX['I18N']->msg('plugin_delete_question', $plugin)).'\');">'.$REX['I18N']->msg("addon_delete").'</a>';
+      	}
 
         if (rex_ooPlugin::isInstalled($addon, $plugin))
         {

@@ -19,6 +19,20 @@ class rex_ooPlugin extends rex_addon
   }
 
   /**
+   * Prüft, ob ein System-Plugin vorliegt
+   *
+   * @param string $addon Name des Addons
+   * @param string $plugin Name des Plugins
+   *
+   * @return boolean TRUE, wenn es sich um ein System-Addon handelt, sonst FALSE
+   */
+  static public function isSystemPlugin($addon, $plugin)
+  {
+    global $REX;
+    return in_array(array($addon, $plugin), $REX['SYSTEM_PACKAGES']);
+  }
+
+  /**
    * @override
    * @see redaxo/include/classes/rex_addon#isAvailable($addon)
    */

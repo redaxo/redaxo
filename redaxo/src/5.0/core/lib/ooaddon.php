@@ -28,7 +28,7 @@ class rex_ooAddon extends rex_addon
   static public function isSystemAddon($addon)
   {
     global $REX;
-    return in_array($addon, $REX['SYSTEM_ADDONS']);
+    return in_array($addon, $REX['SYSTEM_PACKAGES']);
   }
 
   /**

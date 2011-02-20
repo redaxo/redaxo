@@ -421,6 +421,8 @@ plugin_delete_question = PlugIn "{0}" löschen?
 plugin_uninstall_question = PlugIn "{0}" de-installieren?
 plugin_install_cant_copy_files = Fehler beim Kopieren des /files Ordners!
 plugin_install_cant_delete_files = Fehler beim Löschen des /files Ordners!
+plugin_systemplugin = System PlugIn
+plugin_systemplugin_delete_not_allowed = System PlugIns dürfen nicht gelöscht werden!
 
 # redaxo\include\pages\credits.inc.php
 credits = Credits

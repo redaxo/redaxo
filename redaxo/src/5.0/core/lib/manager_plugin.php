@@ -17,6 +17,17 @@ class rex_pluginManager extends rex_packageManager
     parent::__construct('plugin_');
   }
 
+  public function delete($pluginName)
+  {
+    global $REX;
+
+    // System AddOns dürfen nicht gelöscht werden!
+    if(in_array(array($this->addonName, $pluginName), $REX['SYSTEM_PACKAGES']))
+      return $REX['I18N']->msg('plugin_systemplugin_delete_not_allowed');
+
+    return parent::delete($pluginName);
+  }
+
   /**
    * Wandelt ein AddOn in ein PlugIn eines anderen AddOns um
    *

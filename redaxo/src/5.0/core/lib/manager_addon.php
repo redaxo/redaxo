@@ -15,7 +15,7 @@ class rex_addonManager extends rex_packageManager
     global $REX;
 
     // System AddOns dürfen nicht gelöscht werden!
-    if(in_array($addonName, $REX['SYSTEM_ADDONS']))
+    if(in_array($addonName, $REX['SYSTEM_PACKAGES']))
       return $REX['I18N']->msg('addon_systemaddon_delete_not_allowed');
 
     return parent::delete($addonName);
