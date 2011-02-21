@@ -12,7 +12,7 @@ $KATPATH = '|'; // Standard für path Eintragungen in DB
 if (!isset($KATout)) $KATout = ''; // Variable definiert und vorbelegt wenn nicht existent
 
 if (!isset($KAToutARR)) $KAToutARR = array(); // Variable definiert und vorbelegt wenn nicht existent
-$KAToutARR[] = '<a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'"'. rex_tabindex() .'>Homepage</a>';
+$KAToutARR[]['content'] = '<a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'"'. rex_tabindex() .'>Homepage</a>';
 
 
 $KATPERM = false;
@@ -51,7 +51,7 @@ else
       $KATPATH .= $KPATH[$ii]."|";
       if ($KATPERM || $REX['USER']->hasCategoryPerm($catid))
       {
-        $KAToutARR[] = '<a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a>';
+        $KAToutARR[]['content'] = '<a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a>';
         if($REX['USER']->hasPerm('csw['.$catid.']'))
         {
           $KATPERM = true;
@@ -64,7 +64,7 @@ else
   {
     $catname = str_replace(' ', '&nbsp;', htmlspecialchars($KAT->getValue('catname')));
 
-    $KAToutARR[] = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a>';
+    $KAToutARR[]['content'] = '<a href="index.php?page=structure&amp;category_id='. $category_id .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a>';
     $KATPATH .= $category_id .'|';
 
     if ($REX['USER']->hasPerm('csw['. $category_id .']'))
@@ -84,24 +84,16 @@ $KATout = '
 
 /*	ul-Liste erstellen */
 $list = array();
-$list[1]['attributes']['class'] = 'rex-navi';
-$list[1]['entries'] = $KAToutARR;
-
-$fragment = new rex_fragment();
-$fragment->setVar('lists', $list, false);
-$ul_list = $fragment->parse('list/ul_list');
-unset($fragment);
-
+$list[1]['items'] = $KAToutARR;
 
 /*	dl-Liste erstellen  */
-$list = array();
-$list[1]['attributes']['class'] = 'rex-navi-path';
-$list[1]['entries'][$REX['I18N']->msg('path')] = $ul_list;
+$navi = array();
+$navi['items'][$REX['I18N']->msg('path')] = $list;
 
 $fragment = new rex_fragment();
-$fragment->setVar('lists', $list, false);
-$dl_list = $fragment->parse('list/dl_list');
-$dl_list = preg_replace('/(?:(?<=\>)|(?<=\/\>))(\s+)(?=\<\/?)/', '', $dl_list);
+$fragment->setVar('list', $navi, false);
+$dl_list = $fragment->parse('core_navi_path');
+//$dl_list = preg_replace('/(?:(?<=\>)|(?<=\/\>))(\s+)(?=\<\/?)/', '', $dl_list);
 unset($fragment);
 
 $KATout .= $dl_list;
