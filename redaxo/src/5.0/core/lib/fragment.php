@@ -58,7 +58,7 @@ class rex_fragment
    *
    * @param string $filename the filename of the fragment to parse.
    */
-  public function parse($filename)
+  public function parse($filename, $delete_whitespaces = true)
   {
     global $REX;
 
@@ -75,7 +75,11 @@ class rex_fragment
       if(is_readable($fragment))
       {
         ob_start();
-        require $fragment;
+        if ($delete_whitespaces)
+          preg_replace('/(?:(?<=\>)|(?<=\/\>))(\s+)(?=\<\/?)/', '', require $fragment);
+        else
+          require $fragment;
+
         return ob_get_clean();
       }
     }

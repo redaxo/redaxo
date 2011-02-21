@@ -9,44 +9,151 @@
 /******************************************** Default **************************
 *******************************************************************************/
 .rex-clearer {
-	display: block;
-	clear: both;
-	line-height: 0em;
-	height: 1px;
-	font-size: 0;
-	visibility: hidden;
+  display: block;
+  clear: both;
+  line-height: 0em;
+  height: 1px;
+  font-size: 0;
+  visibility: hidden;
 }
 
 .rex-clear {
-	clear: both;
+  clear: both;
 }
 
 .rex-hidden {
-	display: inline !important;
-	position: absolute !important;
-	left: -1000px !important;
-	top: -1000px !important;
-	width: 0px !important;
-	height: 0px !important;
-	overflow: hidden !important;
-	background-color: #FFF !important;
+  display: inline !important;
+  position: absolute !important;
+  left: -1000px !important;
+  top: -1000px !important;
+  width: 0px !important;
+  height: 0px !important;
+  overflow: hidden !important;
+  background-color: #FFF !important;
 }
 
 .rex-reverse {
-	unicode-bidi: bidi-override;
-	direction: rtl;
+  unicode-bidi: bidi-override;
+  direction: rtl;
 }
 
 
 
-/*	Fonts **********************************************************************
+/*  Fonts **********************************************************************
 *******************************************************************************/
 .layout-base {
-	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+  font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+  font-size: 12px;
 }
 
 pre, 
 code {
-	font-family: "Monospace", monospace;	
+  font-family: "Monospace", monospace;  
 }
 
+
+
+/* --------------------------- 333 */
+body > div > div, 
+body > div > div > div, 
+body > div > div > div > div, 
+body > div > div > div > div > div {
+  margin: 20px;
+  padding: 0 20px 20px 20px;
+  border: 3px solid #333;
+}
+
+body > div > div:before, 
+body > div > div > div:before, 
+body > div > div > div > div:before, 
+body > div > div > div > div > div:before {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 0px 0 20px -20px;
+  background-color: #333;
+  color: #fff;
+  font-family: "Monospace", monospace;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1;
+}
+
+
+/* --------------------------- 666 */
+body > div > div > div {
+  border-color: #666;
+}
+body > div > div > div:before {
+  background-color: #666;
+}
+
+
+/* --------------------------- 999 */
+body > div > div > div > div {
+  border-color: #999;
+}
+body > div > div > div > div:before {
+  background-color: #999;
+}
+
+
+/* --------------------------- aaa */
+body > div > div > div > div > div {
+  border-color: #aaa;
+}
+body > div > div > div > div > div:before {
+  background-color: #aaa;
+}
+
+
+
+
+
+#rex-extra:before {
+  content: 'rex-extra';
+}
+#rex-footer:before {
+  content: 'rex-footer';
+}
+#rex-header:before {
+  content: 'rex-header';
+}
+#rex-main:before {
+  content: 'rex-main';
+}
+#rex-navi-main:before {
+  content: 'rex-navi-main';
+}
+#rex-sidebar:before {
+  content: 'rex-sidebar';
+}
+
+
+.rex-info:before {
+  content: 'rex-info';
+}
+.rex-message:before {
+  content: 'rex-message';
+}
+.rex-section:before {
+  content: 'rex-section';
+}
+.rex-title:before {
+  content: 'rex-title';
+}
+
+
+
+
+div[class="rex-message-block"]:before {
+  display: inline-block;
+  content: 'css : deprecated';
+  padding: 5px 10px;
+  margin: 0px 0 20px -20px;
+  background-color: #b00;
+  color: #fff;
+  font-family: "Monospace", monospace;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1;
+}

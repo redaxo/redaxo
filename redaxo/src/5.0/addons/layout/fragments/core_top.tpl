@@ -22,14 +22,14 @@
   <?php echo $this->pageHeader ?>
 </head>
 <body <?php echo $this->bodyAttr; ?>>
-<div id="rex-website">
+<div id="rex-page">
 
-  <div id="rex-header">
+  <div class="rex-header" id="rex-header">
     <p class="rex-server"><a href="<?php echo rex_path::frontendController() ?>" onclick="window.open(this.href); return false"><?php echo $this->config('SERVERNAME') ?></a></p>
   
-	  <div id="rex-navi-logout"><?php echo $this->logout ?></div>
+	  <div class="rex-navi-logout"><?php echo $this->logout ?></div>
   </div>
 
-  <div id="rex-navi-main"><?php echo $this->navigation ?></div>
+  <div class="rex-nav" id="rex-navi-main"><?php echo $this->navigation ?></div>
 
-  <div id="rex-content">
+  <div id="rex-main">

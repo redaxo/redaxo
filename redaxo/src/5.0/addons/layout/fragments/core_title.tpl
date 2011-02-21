@@ -1,8 +1,9 @@
 
-	<div class="rex-section">
-		<div class="rex-title">
-				<div class="rex-title-row"><h1 class="rex-hl1"><?php echo $this->title; ?></h1></div>
-				<?php echo $this->subtitle; ?>
+	<div class="rex-section" id="rex-title">
+
+		<div class="rex-header">
+			<h1><?php echo $this->title; ?></h1>
+			<?php echo $this->subtitle; ?>
 		</div>
 		
 		<?php
