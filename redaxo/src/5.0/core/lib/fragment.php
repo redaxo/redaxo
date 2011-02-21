@@ -238,7 +238,7 @@ class rex_fragment
    */
   public function __get($name)
   {
-    if(isset($this->vars[$name]))
+    if(array_key_exists($name, $this->vars))
     {
       return $this->vars[$name];
     }
