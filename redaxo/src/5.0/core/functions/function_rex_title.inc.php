@@ -79,7 +79,7 @@ function rex_title($head, $subtitle = '')
   $fragment->setVar('page', $page, false);
   $fragment->setVar('title', rex_register_extension_point('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page)), false);
   $fragment->setVar('subtitle', $subtitle, false);
-  echo $fragment->parse('rex_title');
+  echo $fragment->parse('core_title');
   unset($fragment);
 }
 

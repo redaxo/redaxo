@@ -44,7 +44,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 {
   $accesskey = 1;
   $user_name = $REX['USER']->getValue('name') != '' ? $REX['USER']->getValue('name') : $REX['USER']->getValue('login');
-  $logout = '<ul class="rex-logout"><li class="rex-navi-first"><span>' . $REX['I18N']->msg('logged_in_as') . ' '. htmlspecialchars($user_name) .'</span></li><li><a href="index.php?page=profile">' . $REX['I18N']->msg('profile_title') . '</a></li><li><a href="index.php?rex_logout=1"'. rex_accesskey($REX['I18N']->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $REX['I18N']->msg('logout') . '</a></li></ul>' . "\n";
+  $logout = '<ul class="rex-logout"><li class="rex-first"><span>' . $REX['I18N']->msg('logged_in_as') . ' '. htmlspecialchars($user_name) .'</span></li><li><a href="index.php?page=profile">' . $REX['I18N']->msg('profile_title') . '</a></li><li><a href="index.php?rex_logout=1"'. rex_accesskey($REX['I18N']->msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . $REX['I18N']->msg('logout') . '</a></li></ul>' . "\n";
 }else if(!$REX["PAGE_NO_NAVI"])
 {
   $logout = '<p class="rex-logout">' . $REX['I18N']->msg('logged_out') . '</p>';
@@ -93,5 +93,5 @@ $topfragment->setVar('pageHeader', rex_register_extension_point('PAGE_HEADER', '
 $topfragment->setVar('bodyAttr', $body, false);
 $topfragment->setVar('logout', $logout, false);
 $topfragment->setVar('navigation', $navigation, false);
-echo $topfragment->parse('rex_top');
+echo $topfragment->parse('core_top');
 unset($topfragment);

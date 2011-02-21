@@ -163,7 +163,7 @@ function rex_message($message, $cssClass, $sorround_tag)
 {
   $return = '';
 
-  $return = '<div class="rex-message"><'. $sorround_tag .' class="'. $cssClass .'">';
+  $return = '<div class="rex-section"><div class="rex-message"><'. $sorround_tag .' class="'. $cssClass .'">';
 
   if ($sorround_tag != 'p')
     $return .= '<p>';
@@ -173,7 +173,7 @@ function rex_message($message, $cssClass, $sorround_tag)
   if ($sorround_tag != 'p')
     $return .= '</p>';
 
-  $return .= '</'. $sorround_tag .'></div>';
+  $return .= '</'. $sorround_tag .'></div></div>';
 
   return $return;
 }
