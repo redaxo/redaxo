@@ -232,7 +232,7 @@ $catPager = new rex_pager($KAT->getValue('rowCount'), 3, 'catstart');
 $catFragment = new rex_fragment();
 $catFragment->setVar('urlprovider', $context);
 $catFragment->setVar('pager', $catPager);
-echo $catFragment->parse('rex_list/pagination');
+echo $catFragment->parse('core_rex_list_pagination');
 
 // --------------------- GET THE DATA
 
@@ -562,7 +562,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
   $artFragment = new rex_fragment();
   $artFragment->setVar('urlprovider', $context);
   $artFragment->setVar('pager', $artPager);
-  echo $artFragment->parse('rex_list/pagination');
+  echo $artFragment->parse('core_rex_list_pagination');
 
   // ---------- READ DATA
   $sql->setQuery('SELECT *
