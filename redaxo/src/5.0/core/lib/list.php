@@ -769,7 +769,7 @@ class rex_list implements rex_url_provider
     $fragment = new rex_fragment();
     $fragment->setVar('urlprovider', $this);
     $fragment->setVar('pager', $this->pager);
-    return $fragment->parse('rex_list/pagination');
+    return $fragment->parse('core_rex_list_pagination');
   }
 
   /**

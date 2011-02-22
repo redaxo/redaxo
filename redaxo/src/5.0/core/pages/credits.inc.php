@@ -73,10 +73,10 @@ foreach (rex_ooAddon::getRegisteredAddons() as $addon)
 rex_title($REX['I18N']->msg("credits"), "");
 
 $coreCredits = new rex_fragment();
-echo $coreCredits->parse('pages/credits/core');
+echo $coreCredits->parse('core_page_credits_core');
 unset($coreCredits);
 
 $addonCredits = new rex_fragment();
 $addonCredits->setVar('addons', $addons);
-echo $addonCredits->parse('pages/credits/addons');
+echo $addonCredits->parse('core_page_credits_addons');
 unset($addonCredits);
