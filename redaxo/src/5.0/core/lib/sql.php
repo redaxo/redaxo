@@ -653,7 +653,7 @@ class rex_sql
   /**
    * Stellt alle Werte auf den Ursprungszustand zurueck
    */
-  public function flush()
+  private function flush()
   {
     $this->values = array ();
     $this->whereParams = array ();
@@ -673,7 +673,7 @@ class rex_sql
    *
    * @see #setValue(), #getValue()
    */
-  public function flushValues()
+  private function flushValues()
   {
     $this->values = array ();
   }
@@ -709,7 +709,7 @@ class rex_sql
   /**
    * Setzt den Cursor des Resultsets zurueck zum Anfang
    */
-  public function reset()
+  private function reset()
   {
     // re-execute the statement
     if($this->stmt)
