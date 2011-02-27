@@ -222,7 +222,7 @@ elseif ($func == 'add' && $type_id > 0 ||
 	{
 		$form->addParam('effect_id', $effect_id);
 	}
-	@$form->show();
+	$form->show();
 }
 
 echo '</div>';
