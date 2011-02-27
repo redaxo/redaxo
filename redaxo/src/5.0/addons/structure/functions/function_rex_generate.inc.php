@@ -46,7 +46,8 @@ function rex_deleteCacheArticleMeta($id, $clang = null)
     if($clang !== null && $clang != $_clang)
       continue;
 
-    @unlink($cachePath . $id .'.'. $_clang .'.article');
+    if(file_exists($cachePath . $id .'.'. $_clang .'.article'))
+      unlink($cachePath . $id .'.'. $_clang .'.article');
   }
 }
 
@@ -70,7 +71,8 @@ function rex_deleteCacheArticleContent($id, $clang = null)
     if($clang !== null && $clang != $_clang)
       continue;
 
-    @unlink($cachePath . $id .'.'. $_clang .'.content');
+    if(file_exists($cachePath . $id .'.'. $_clang .'.content'))
+      unlink($cachePath . $id .'.'. $_clang .'.content');
   }
 }
 
@@ -94,8 +96,11 @@ function rex_deleteCacheArticleLists($id, $clang = null)
     if($clang !== null && $clang != $_clang)
       continue;
 
-    @unlink($cachePath . $id .'.'. $_clang .'.alist');
-    @unlink($cachePath . $id .'.'. $_clang .'.clist');
+    if(file_exists($cachePath . $id .'.'. $_clang .'.alist'))
+      unlink($cachePath . $id .'.'. $_clang .'.alist');
+      
+    if(file_exists($cachePath . $id .'.'. $_clang .'.clist'))
+      unlink($cachePath . $id .'.'. $_clang .'.clist');
   }
 }
 
