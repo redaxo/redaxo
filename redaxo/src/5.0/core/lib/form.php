@@ -1050,8 +1050,7 @@ class rex_form
         // Callback, um die Values vor dem Speichern noch beeinflussen zu können
         $fieldValue = $this->preSave($fieldsetName, $fieldName, $fieldValue, $sql);
 
-        // Den POST-Wert in die DB speichern (inkl. slashes)
-        $sql->setValue($fieldName, addslashes($fieldValue));
+        $sql->setValue($fieldName, $fieldValue);
       }
     }
 
