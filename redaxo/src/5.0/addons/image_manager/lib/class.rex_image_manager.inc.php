@@ -13,23 +13,28 @@ class rex_image_manager
   {
   	global $REX;
 
+  	$set = array();
     if(!$this->image_cacher->isCached($image, $type))
     {
       $set = $this->effectsFromType($type);
       $image->prepare();
 
+	    if(count($set) == 0)
+	    {
+	      $image->send();
+	    }
       // execute effects on image
       foreach($set as $effect_params)
       {
       	$effect_class = 'rex_effect_'.$effect_params['effect'];
-
       	$effect = new $effect_class;
       	$effect->setImage($image);
       	$effect->setParams($effect_params['params']);
       	$effect->execute();
       }
+    
     }
-
+    
     return $image;
   }
 

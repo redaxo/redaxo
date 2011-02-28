@@ -107,7 +107,7 @@ class rex_effect_resize extends rex_effect_abstract
 		$this->keepTransparent($des);
 		imagecopyresampled($des, $gdimage, 0, 0, 0, 0, $this->params['width'], $this->params['height'], $w, $h);
 
-		$gdimage = $des;
+		$this->image->setImage($des);
 		$this->image->refreshDimensions();
 	}
 

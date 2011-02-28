@@ -76,6 +76,7 @@ class rex_effect_insert_image extends rex_effect_abstract{
     imagecopy($gdimage, $gdbrand, $dstX + $padding_x, $dstY + $padding_y, 0, 0, $brand_width, $brand_height);
 
     $brand->destroy();
+    $this->image->setImage($gdimage);
 	}
 
 	public function getParams()

@@ -60,6 +60,8 @@ class rex_effect_flip extends rex_effect_abstract
       }
       $gdimage = $output_image_resource;
     }
+    
+    $this->image->setImage($gdimage);
 
   }
 

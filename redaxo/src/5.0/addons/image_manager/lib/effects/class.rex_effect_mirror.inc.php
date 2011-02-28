@@ -77,16 +77,17 @@ class rex_effect_mirror extends rex_effect_abstract
 
 		if($this->params["set_transparent"] != "colored")
 		{
-			$this->image->img["format"] = "PNG";
+			$this->image->setFormat("PNG");
 		}
 
 		$trans = false;
-		if($this->image->img["format"] == "PNG")
+		if($this->image->getFormat() == "PNG")
 		{
 				$trans = true;
 		}
 
 		$gdimage = $this->imagereflection ( $gdimage, $this->params["height"], $trans, array ($this->params["bg_r"], $this->params["bg_g"], $this->params["bg_b"]) );
+		$this->image->setImage($gdimage);
 		$this->image->refreshDimensions();
 		return;
 

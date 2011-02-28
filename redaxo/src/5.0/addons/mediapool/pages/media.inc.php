@@ -189,7 +189,7 @@ if ($subpage == "media")
     $fname = $gf->getValue('filename');
     $ffiletype = $gf->getValue('filetype');
     $ffile_size = $gf->getValue('filesize');
-    $ffile_size = rex_ooMedia::_getFormattedSize($ffile_size);
+    $ffile_size = rex_ooMedia::getFormattedSize($ffile_size);
     $rex_file_category = $gf->getValue('category_id');
 
     $encoded_fname = urlencode($fname);

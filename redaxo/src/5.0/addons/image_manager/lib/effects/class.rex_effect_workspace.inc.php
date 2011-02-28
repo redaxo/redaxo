@@ -156,7 +156,7 @@ class rex_effect_workspace extends rex_effect_abstract
 		}
 
 		ImageCopy ($workspace, $gdimage, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h);
-		$gdimage = $workspace;
+		$this->image->setImage($workspace);
 		$this->image->refreshDimensions();
 
 		return;

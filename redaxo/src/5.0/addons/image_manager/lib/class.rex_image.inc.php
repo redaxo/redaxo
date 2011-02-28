@@ -21,7 +21,7 @@ class rex_image {
     $this->img = array();
     $this->img['file'] = basename($filepath);
     $this->img['filepath'] = $filepath;
-    $this->img['quality'] = rex_config::get('image_manager', 'jpg_quality');
+    $this->img['quality'] = 80; // rex_config::get('image_manager', 'jpg_quality');
     $this->img['format'] = strtoupper(rex_ooMedia::_getExtension($this->img['filepath']));
   }
 
@@ -82,11 +82,21 @@ class rex_image {
     return $this->img['src'];
   }
 
+  public function setImage($src)
+  {
+    $this->img['src'] = $src;
+  }
+  
   public function getFormat()
   {
     return $this->img['format'];
   }
-
+  
+  public function setFormat($format)
+  {
+    $this->img['format'] = $format;
+  }
+  
   public function getFileName()
   {
     return $this->img['file'];
@@ -126,7 +136,7 @@ class rex_image {
     if(!$res)
       return false;
 
-    $this->sendHeader();
+    $this->sendHeader(array("Content-Length" => strlen($content)));
     rex_send_resource($content, false, $lastModified);
   }
 
@@ -230,7 +240,7 @@ class rex_image {
     // error image nicht cachen
     header('Cache-Control: false');
     header('HTTP/1.0 404 Not Found');
-
+    header('Content-Length: ' . filesize($file));
     readfile($file);
   }
 

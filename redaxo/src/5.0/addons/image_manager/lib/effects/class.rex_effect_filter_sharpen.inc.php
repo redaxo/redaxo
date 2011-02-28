@@ -143,6 +143,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 			}
 			imagedestroy($imgCanvas);
 			imagedestroy($imgBlur);
+			$this->image->setImage($gdimage);
 	}
 
 	public function getParams()
