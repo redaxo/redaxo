@@ -164,7 +164,7 @@ function rex_a1_import_db($filename)
        lasttrydate int(11) NOT NULL DEFAULT 0,
        session_id varchar(255) NOT NULL,
        PRIMARY KEY(user_id)
-     ) TYPE=MyISAM;';
+     ) ENGINE=MyISAM;';
     $db = rex_sql::factory();
     $db->setQuery($create_user_table);
     $error = $db->getError();
@@ -191,7 +191,7 @@ function rex_a1_import_db($filename)
        createdate int(11) NOT NULL DEFAULT 0,
        updatedate int(11) NOT NULL DEFAULT 0
        PRIMARY KEY(id)
-     ) TYPE=MyISAM;';
+     ) ENGINE=MyISAM;';
     $db = rex_sql::factory();
     $db->setQuery($create_user_role_table);
     $error = $db->getError();
