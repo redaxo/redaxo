@@ -1,4 +1,5 @@
-# redaxo\include\pages\structure.inc.php
+structure = Struktur
+
 title_structure = Strukturverwaltung
 no_such_category = Kategorie nicht vorhanden!
 category_updated = Kategorie wurde aktualisiert.
@@ -29,7 +30,15 @@ article_add = Artikel hinzufügen
 article_edit = Artikel editieren
 article_save = Artikel speichern
 article = Artikel
+start_article = Startartikel
+no_article_available  =  Kein Artikel vorhanden
 structure_categories_summary = Auflistung aller Unterkategorien der Kategorie "{0}"
 structure_categories_caption = Liste der Unterkategorien der Kategorie "{0}"
 structure_articles_summary = Auflistung aller Artikel der Kategorie "{0}"
 structure_articles_caption = Liste der Artikel der Kategorie "{0}"
+article_deleted = Artikel wurde gelöscht!
+article_could_not_be_generated  =  Artikel konnte nicht erstellt werden.
+category_deleted  =  Kategorie wurde gelöscht!
+category_doesnt_exist  =  Kategorie existiert nicht!
+cant_delete_sitestartarticle = Der Webseiten-Startartikel kann nicht gelöscht werden!
+cant_delete_notfoundarticle = Der "Nicht-gefunden" Artikel kann nicht gelöscht werden!

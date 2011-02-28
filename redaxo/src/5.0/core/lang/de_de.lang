@@ -15,14 +15,20 @@ ctrl = Mehrfachauswahl mit STRG
 special_chars = ä|ö|ü|Ä|Ö|Ü|ß|&
 special_chars_rewrite = ae|oe|ue|Ae|Oe|Ue|ss|und
 
+# Allgemein
+update = aktualisieren
+add = hinzufügen
+edit  =  Editieren
+delete  =  Löschen
+path = Pfad
+name = Name
+description = Beschreibung
+no_editing_rights = Keine Editiererlaubnis
+check_rights_in_directory  =  Bitte überprüfen Sie die Rechte im Ordner
+
 # redaxo/redaxo/index.php
 specials = System
-module = Module
-template = Templates
 user = Benutzer
-mediapool = Medienpool
-content = Artikel
-structure = Struktur
 profile = Mein Profil
 logout = abmelden
 navigation_system = Hauptmenü
@@ -43,121 +49,9 @@ login_logged_out = Abgemeldet.
 logged_out  =  nicht angemeldet
 logged_in_as  =  Angemeldet als
 
-# redaxo/include/classes/class.article.inc.php
-add_block  =  Block hinzufügen
-edit  =  Editieren
-delete  =  Löschen
-no_editing_rights = Keine Editiererlaubnis
-no_article_available  =  Kein Artikel vorhanden
-module_doesnt_exist =  Dieses Modul existiert nicht!
-update_block = Block übernehmen
-save_block = Block speichern
-edit_block = Block bearbeiten
-
 # redaxo/include/classes/class.form.inc.php
 form_field_first_prior = Am Anfang
 form_field_after_prior = Nach dem Feld "{0}"
-
-# redaxo/include/functions/function_rex_generate.inc.php
-article_deleted = Artikel wurde gelöscht!
-article_could_not_be_generated  =  Artikel konnte nicht erstellt werden.
-check_rights_in_directory  =  Bitte überprüfen Sie die Rechte im Ordner
-category_deleted  =  Kategorie wurde gelöscht!
-category_doesnt_exist  =  Kategorie existiert nicht!
-cant_delete_sitestartarticle = Der Webseiten-Startartikel kann nicht gelöscht werden!
-cant_delete_notfoundarticle = Der "Nicht-gefunden" Artikel kann nicht gelöscht werden!
-
-# redaxo\include\pages\module.inc.php
-modules_not_found = Es wurden keine Module gefunden
-module_cannot_be_deleted = Modul '{0}' kann nicht gelöscht werden, da es noch von folgenden Artikeln genutzt wird:
-module_deleted = Modul wurde gelöscht!
-module_added = Modul wurde hinzugefügt
-module_updated = Modul wurde aktualisiert
-module_caption = Liste der angelegten Module
-module_summary = Auflistung aller angelegten Module
-articel_updated = Artikel wurden aktualisiert
-create_module = Neues Modul erstellen
-input = Eingabe
-output = Ausgabe
-module_name = Name
-save_module_and_quit = Modul speichern
-save_module_and_continue = Modul übernehmen
-module_description = Modulbezeichnung
-module_functions = Funktionen
-delete_module = Modul löschen
-module_edit = Modul editieren
-action_taken = Aktion wurde übernommen
-action_deleted_from_modul = Aktion wurde aus dem Modul gelöscht!
-action = Aktion
-actions = Aktionen
-action_cannot_be_deleted = Aktion '{0}' kann nicht gelöscht werden, da es noch von folgenden Modulen genutzt wird:
-action_deleted = Aktion wurde gelöscht
-action_added = Aktion wurde hinzugefügt
-action_updated = Aktion wurde aktualisiert
-action_create = Aktion erstellen
-action_name = Aktionsname
-save_action_and_quit = Aktion speichern
-save_action_and_continue = Aktion übernehmen
-action_functions = Funktionen
-action_event_all = Für alle Events aktiviert
-action_event_edit = Beim Bearbeiten des Moduls
-action_event_delete = Beim Löschen des Moduls
-action_event_add = Beim Hinzufügen des Moduls
-action_event = zugewiesene(s) Event(s)
-action_mode_preview = Wird vor dem Anzeigen des Moduls ausgeführt
-action_mode_presave = Wird vor dem Speichern des Moduls ausgeführt
-action_mode_postsave = Wird nach dem Speichern des Moduls ausgeführt
-action_delete = Aktion löschen
-action_edit = Aktion bearbeiten
-action_add = Aktion hinzufügen
-action_hint = Alle Werte sind in $REX_ACTION verfügbar
-action_caption = Liste der angelegten Aktionen
-action_summary = Auflistung aller angelegten Aktionen
-actions_added_caption = Liste der zugewiesenen Aktionen
-actions_added_summary = Auflistung aller zugewiesenen Aktionen
-
-# redaxo\include\functions\function_rex_category.inc.php
-article = Artikel
-start_article = Startartikel
-path = Pfad
-
-# redaxo\include\pages\user.inc.php
-title_user = Benutzer
-user_data_updated = Benutzerdaten wurden aktualisiert!
-user_deleted = Benutzer wurde gelöscht!
-user_added = Benutzer wurde hinzugefügt!
-create_user = Neuen Benutzer anlegen
-add_user = Benutzer hinzufügen
-edit_user = Benutzer bearbeiten
-user_reset_tries = Dieser Zugang ist wegen zuvieler Fehlversuche (mehr als {0}) deaktiviert worden. Durch Aktivieren der Checkbox kann der Zugang wieder freigeschaltet werden.
-user_login_exists = Benutzerlogin existiert schon!
-user_admin = Admin (Alle Rechte / Alles sichtbar)
-user_notdeleteself = ***** Sie können sich nicht selbst löschen!
-user_lang_xs = Sprachenzugriff
-user_all = Allgemein
-user_save = Benutzer speichern
-user_apply = Benutzer übernehmen
-user_delete = Benutzer löschen
-user_functions = Funktionen
-user_options = Optionen
-all_categories = Alle Kategorien
-all_mediafolder = Alle Medienordner
-categories = Kategorien
-mediafolder = Medienordner
-modules = Module
-extras = Extras
-last_login = Letzter Login
-login = Login
-name = Name
-psw_encrypted = Dieses Passwort ist verschlüsselt - bei Änderungen einfach neues Passwort eingeben
-user_caption = Liste der angelegten Benutzer
-user_summary = Auflistung aller angelegten Benutzer
-user_status = User ist aktiv
-backend_language = Backendsprache
-startpage = Startseite
-update = aktualisieren
-add = hinzufügen
-
 
 # redaxo\include\pages\special.inc.php
 info_updated = Informationen wurden aktualisiert!
@@ -196,92 +90,6 @@ syslog = Systemlog
 syslog_delete = Systemlog löschen
 syslog_deleted = Systemlog gelöscht
 syslog_delete_error = Fehler beim löschen des Systemlogs!
-
-# redaxo\include\pages\medienpool.inc.php
-pool_name = Medienpool
-pool_kats = Kategorien
-pool_kats_no = Keine Kategorie
-pool_search = suchen
-pool_media = Medienpool
-pool_file_list = Medien
-pool_file_insert = Medium hinzufügen
-pool_cat_list = Medienkategorien verwalten
-pool_select_cat = Medienkategorie auswählen
-pool_sync_files = Dateien Synchronisieren
-pool_sync_button = Synchronisieren
-pool_sync_title = Dateien Synchronisieren
-pool_sync_affected_files = Betroffene Dateien
-pool_sync_no_diffs = keine Unterschiede festgestellt!
-pool_sync_files_synced = Dateien wurden synchronisiert.
-pool_file_not_found = Datei wurde nicht gefunden
-pool_file_upload_error = Fehler beim Upload der Datei
-pool_file_upload_errortype = Diese Datei kann nicht zum Austausch benutzt werden, da sie von einem anderen Dateityp ist
-pool_file_title = Titel
-pool_file_file = Datei
-pool_file_infos_updated = Dateiinformationen wurden aktualisiert!
-pool_file_upload = Hinzufügen
-pool_file_upload_get = Hinzufügen und übernehmen
-pool_file_filter = Ansicht beschränkt auf Dateien vom Typ {0}!
-pool_kat_saved = Medienkategorie "{0}" wurde angelegt
-pool_kat_updated = Medienkategorie "{0}" wurde aktualisiert
-pool_kat_deleted = Medienkategorie wurde gelöscht
-pool_kat_create_label = Neue Medienkategorie anlegen
-pool_kat_create = Medienkategorie hinzufügen
-pool_kat_edit = Medienkategorie bearbeiten
-pool_kat_not_deleted = Kategorie kann nicht gelöscht werden, da sich noch Dateien in dieser Kategorie befinden!
-pool_kat_name = Name
-pool_kat_function = Funktion
-pool_kat_update = Aktualisieren
-pool_kat_edit = Editieren
-pool_kat_delete = Löschen
-pool_kat_path = Pfad
-pool_kat_caption = Liste der Medienkategorien
-pool_kat_summary = Auflistung der Medienkategorien
-pool_file_detail = Medien: Detailansicht
-pool_filename = Dateiname
-pool_file_exchange = Datei austauschen
-pool_file_update = Aktualisieren
-pool_file_delete = Löschen
-pool_file_edit = Medium bearbeiten
-pool_file_details = Detailinformationen
-pool_file_thumbnail = Thumbnail
-pool_file_info = Dateiinfo
-pool_file_description = Beschreibung
-pool_file_functions = Funktionen
-pool_file_notitle = Kein Titel eingegeben
-pool_file_edit = Medium bearbeiten
-pool_file_caption = Liste der Medien der Medienkategorie "{0}"
-pool_file_summary = Auflistung der Medien der Medienkategorie "{0}"
-pool_file_category = Medienkategorie
-pool_file_description = Beschreibung
-pool_file_deleted = Datei wurde gelöscht
-pool_file_delete_error_1 = Die Datei "{0}" kann nicht gelöscht werden!
-pool_file_delete_error_2 = Sie wird derzeit von folgenden Objekten verwendet:
-pool_file_in_use_articles = Artikel (Inhalt)
-pool_file_changed = Die Datei wurde ausgetauscht!
-pool_file_added = Datei wurde hinzugefügt.
-pool_file_movefailed = Dateiupload ist fehlgeschlagen.
-pool_img_width = Breite
-pool_img_height = Höhe
-pool_selectedmedia = Ausgewählte Medien:
-pool_delete_selectedmedia = löschen
-pool_changecat_selectedmedia = in Kategorie verschieben
-pool_get_selectedmedia = übernehmen
-pool_selectedmedia_error = Keine Medien ausgewählt
-pool_selectedmedia_moved = Selektierte Medien sind verschoben worden
-pool_select_all = Alle
-pool_nomediafound = Keine Dateien in dieser Medienkategorie gefunden
-pool_image_get = Bild einfügen
-pool_link_get = Link einsetzen
-pool_file_get = Datei übernehmen
-pool_last_update = Letztes Update
-pool_created = Erstellt am
-pool_select_all = Alle markieren
-pool_file_not_writable = Datei ist nicht beschreibbar!
-pool_max_uploadsize = Maximale Uploadgröße
-pool_max_uploadtime = Maximale Uploadzeit
-pool_upload_disabled = Deaktiviert!
-pool_upload = Dateiupload
 
 # redaxo\include\pages\medienpool.inc.php\setup.inc.php
 setup = Setup
@@ -446,13 +254,8 @@ old_password = Altes Psw.
 new_password = Neues Psw.
 new_password_repeat = Neues Psw. wdh.
 profile_save_psw = Passwort speichern
-
-
-# redaxo\include\pages\linkmap.inc.php
-linkmap = Linkmap
-lmap_categories = Kategorien
-lmap_articles = Artikel
-lmap_has_no_template = hat kein Template
+backend_language = Backendsprache
+user_data_updated = Benutzerdaten wurden aktualisiert!
 
 # redaxo\include\classes\class.rex_list.inc.php
 list_previous = vorherige Seite
@@ -472,21 +275,3 @@ form_applied = Eingaben wurden übernommen!
 form_deleted = Eingaben wurden gelöscht!
 form_delete_error = Fehler beim löschen!
 form_resetted = Eingaben wurden verworfen!
-
-# redaxo\include\classes\variables\class.rex_var_media.inc.php
-var_media_open = Medium auswählen
-var_media_new = Neues Medium hinzufügen
-var_media_remove = Ausgewähltes Medium löschen
-var_media_view = Ausgewähltes Medium anzeigen
-var_medialist_move_top = Ausgewähltes Medium an den Anfang verschieben
-var_medialist_move_up = Ausgewähltes Medium nach oben verschieben
-var_medialist_move_down = Ausgewähltes Medium nach unten verschieben
-var_medialist_move_bottom  = Ausgewähltes Medium an das Ende verschieben
-
-# redaxo\include\classes\variables\class.rex_var_link.inc.php
-var_link_open = Link auswählen
-var_link_delete = Ausgewählten Link löschen
-var_linklist_move_top = Ausgewählten Link an den Anfang verschieben
-var_linklist_move_up = Ausgewählten Link nach oben verschieben
-var_linklist_move_down = Ausgewählten Link nach unten verschieben
-var_linklist_move_bottom  = Ausgewählten Link an das Ende verschieben

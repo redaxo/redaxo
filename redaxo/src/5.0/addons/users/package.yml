@@ -3,7 +3,7 @@ users:
   author: Jan Kristinus, Gregor Harlan
   supportpage: forum.redaxo.de
   
-  name: 'translate:user_management'
+  name: 'translate:users'
   perm: isAdmin
   navigation:
     block: system

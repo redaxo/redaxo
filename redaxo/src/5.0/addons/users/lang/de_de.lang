@@ -1,9 +1,36 @@
-# redaxo\include\pages\user.inc.php
-
-roles = Rollen
 user_management = Benutzerverwaltung
+roles = Rollen
 user = Benutzer
 users = Benutzer
+
+user_deleted = Benutzer wurde gelöscht!
+user_added = Benutzer wurde hinzugefügt!
+create_user = Neuen Benutzer anlegen
+add_user = Benutzer hinzufügen
+edit_user = Benutzer bearbeiten
+user_reset_tries = Dieser Zugang ist wegen zuvieler Fehlversuche (mehr als {0}) deaktiviert worden. Durch Aktivieren der Checkbox kann der Zugang wieder freigeschaltet werden.
+user_login_exists = Benutzerlogin existiert schon!
+user_admin = Admin (Alle Rechte / Alles sichtbar)
+user_notdeleteself = ***** Sie können sich nicht selbst löschen!
+user_lang_xs = Sprachenzugriff
+user_all = Allgemein
+user_save = Benutzer speichern
+user_apply = Benutzer übernehmen
+user_delete = Benutzer löschen
+user_functions = Funktionen
+user_options = Optionen
+all_categories = Alle Kategorien
+all_mediafolder = Alle Medienordner
+categories = Kategorien
+mediafolder = Medienordner
+extras = Extras
+last_login = Letzter Login
+login = Login
+psw_encrypted = Dieses Passwort ist verschlüsselt - bei Änderungen einfach neues Passwort eingeben
+user_caption = Liste der angelegten Benutzer
+user_summary = Auflistung aller angelegten Benutzer
+user_status = User ist aktiv
+startpage = Startseite
 
 user_role = Rolle
 user_role_data_updated = Rolle wurde aktualisiert!

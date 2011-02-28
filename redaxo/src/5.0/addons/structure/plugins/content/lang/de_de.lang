@@ -1,4 +1,10 @@
-# redaxo\include\pages\content.inc.php
+content = Artikel
+
+add_block  =  Block hinzufügen
+module_doesnt_exist =  Dieses Modul existiert nicht!
+update_block = Block übernehmen
+save_block = Block speichern
+edit_block = Block bearbeiten
 move_slice_up = Nach oben verschieben
 move_slice_down = Nach unten verschieben
 block_updated = Block wurde aktualisiert!
