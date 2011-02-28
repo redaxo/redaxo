@@ -6,7 +6,7 @@
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -14,66 +14,75 @@ $mypage = 'image_manager';
 
 $REX['PERM'][] = 'image_manager[]';
 
-//--- handle image request
-$rex_img_file = rex_get('rex_img_file', 'string');
-$rex_img_type = rex_get('rex_img_type', 'string');
+rex_register_extension('ADDONS_INCLUDED','rex_image_manager_init');
 
-if($rex_img_file != '' && $rex_img_type != '')
+function rex_image_manager_init()
 {
-  $imagepath = rex_path::media($rex_img_file, true);
-  $cachepath = rex_path::generated('files/');
+	global $REX;
 
-  $image         = new rex_image($imagepath);
-  $image_cacher  = new rex_image_cacher($cachepath);
-	$image_manager = new rex_image_manager($image_cacher);
+	//--- handle image request
+	$rex_img_file = rex_get('rex_img_file', 'string');
+	$rex_img_type = rex_get('rex_img_type', 'string');
 
-	$image = $image_manager->applyEffects($image, $rex_img_type);
-	$image_manager->sendImage($image, $rex_img_type);
-	exit();
+	if($rex_img_file != '' && $rex_img_type != '')
+	{
+		$imagepath = rex_path::media($rex_img_file, true);
+		$cachepath = rex_path::generated('files/');
+
+		$image         = new rex_image($imagepath);
+		$image_cacher  = new rex_image_cacher($cachepath);
+		$image_manager = new rex_image_manager($image_cacher);
+
+		$image = $image_manager->applyEffects($image, $rex_img_type);
+		$image_manager->sendImage($image, $rex_img_type);
+
+		exit();
+
+	}
 }
 
 
 if($REX['REDAXO'])
 {
-  // delete thumbnails on mediapool changes
-  if(!function_exists('rex_image_manager_ep_mediaupdated'))
-  {
-    rex_register_extension('MEDIA_UPDATED', 'rex_image_manager_ep_mediaupdated');
-    function rex_image_manager_ep_mediaupdated($params){
-      rex_image_cacher::deleteCache($params["filename"]);
-    }
-  }
+	// delete thumbnails on mediapool changes
+	if(!function_exists('rex_image_manager_ep_mediaupdated'))
+	{
+		rex_register_extension('MEDIA_UPDATED', 'rex_image_manager_ep_mediaupdated');
+		function rex_image_manager_ep_mediaupdated($params){
+			rex_image_cacher::deleteCache($params["filename"]);
+		}
+	}
 
-  $descPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_desc'), array(
+	$descPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_desc'), array(
       'page'=>'image_manager',
       'subpage'=>''
-    )
-  );
-  $descPage->setHref('index.php?page=image_manager');
+      )
+      );
+      $descPage->setHref('index.php?page=image_manager');
 
-  $confPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_types'), array(
+      $confPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_types'), array(
       'page'=>'image_manager',
       'subpage'=>array('types','effects')
-    )
-  );
-  $confPage->setHref('index.php?page=image_manager&subpage=types');
+      )
+      );
+      $confPage->setHref('index.php?page=image_manager&subpage=types');
 
-  $settingsPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_config'), array(
+      $settingsPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_config'), array(
       'page'=>'image_manager',
       'subpage'=>'settings'
-    )
-  );
-  $settingsPage->setHref('index.php?page=image_manager&subpage=settings');
+      )
+      );
+      $settingsPage->setHref('index.php?page=image_manager&subpage=settings');
 
-  $ccPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_clear_cache'), array(
+      $ccPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_clear_cache'), array(
       'page'=>'image_manager',
       'subpage'=>'clear_cache'
-    )
-  );
-  $ccPage->setHref('index.php?page=image_manager&subpage=clear_cache');
-  $ccPage->setLinkAttr('onclick', 'return confirm(\''.$REX['I18N']->msg('imanager_type_cache_delete').' ?\')');
+      )
+      );
+      $ccPage->setHref('index.php?page=image_manager&subpage=clear_cache');
+      $ccPage->setLinkAttr('onclick', 'return confirm(\''.$REX['I18N']->msg('imanager_type_cache_delete').' ?\')');
 
-	$REX['ADDON']['pages'][$mypage] = array (
-	  $descPage, $confPage, $settingsPage, $ccPage
-	);
+      $REX['ADDON']['pages'][$mypage] = array (
+      $descPage, $confPage, $settingsPage, $ccPage
+      );
 }
