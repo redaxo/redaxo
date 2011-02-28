@@ -51,9 +51,8 @@ class rex_ooMedia
   /**
    * @access protected
    */
-  protected function __construct($id = null)
+  protected function __construct()
   {
-    $this->getMediaById($id);
   }
 
   /**
