@@ -960,7 +960,7 @@ function rex_generateArticleContent($article_id, $clang = null)
     if (!$CONT->setArticleId($article_id)) return FALSE;
 
     // --------------------------------------------------- Artikelcontent speichern
-    $article_content_file = rex_path::generated("articles/'$article_id.$_clang.content");
+    $article_content_file = rex_path::generated("articles/$article_id.$_clang.content");
     $article_content = $CONT->getArticle();
 
     // ----- EXTENSION POINT
