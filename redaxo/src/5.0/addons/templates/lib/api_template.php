@@ -86,7 +86,9 @@ class rex_template
 		if($this->id<1) return FALSE;
 
 		$file = $this->getFilePath($this->getId());
-    return @unlink($file);
+		if(file_exists($file))
+      return unlink($file);
+    return true;
   }
 
   static public function hasModule($template_attributes,$ctype,$module_id)

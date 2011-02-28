@@ -9,7 +9,8 @@
  */
 function rex_deleteCacheMedia($filename)
 {
-  @unlink(rex_path::generated('files/'. $filename . '.media'));
+  if(file_exists(rex_path::generated('files/'. $filename . '.media')))
+    unlink(rex_path::generated('files/'. $filename . '.media'));
   rex_deleteCacheMediaLists();
 }
 
@@ -22,7 +23,8 @@ function rex_deleteCacheMedia($filename)
  */
 function rex_deleteCacheMediaCategory($category_id)
 {
-  @unlink(rex_path::generated('files/'. $category_id . '.mcat'));
+  if(file_exists(rex_path::generated('files/'. $category_id . '.mcat')))
+    unlink(rex_path::generated('files/'. $category_id . '.mcat'));
   rex_deleteCacheMediaCategoryLists();
 }
 
@@ -38,12 +40,12 @@ function rex_deleteCacheMediaLists()
   $glob = glob($cachePath . '*.mlist');
   if(is_array($glob))
     foreach ($glob as $file)
-      @unlink($file);
+      unlink($file);
 
   $glob = glob($cachePath . '*.mextlist');
   if(is_array($glob))
     foreach ($glob as $file)
-      @unlink($file);
+      unlink($file);
 }
 
 /**
@@ -69,7 +71,7 @@ function rex_deleteCacheMediaCategoryLists()
   $glob = glob($cachePath . '*.mclist');
   if (is_array($glob))
     foreach ($glob as $file)
-      @unlink($file);
+      unlink($file);
 }
 
 /**
@@ -81,7 +83,8 @@ function rex_deleteCacheMediaCategoryLists()
  */
 function rex_deleteCacheMediaCategoryList($category_id)
 {
-  @unlink(rex_path::generated('files/'. $category_id . '.mclist'));
+  if(file_exists(rex_path::generated('files/'. $category_id . '.mclist')))
+    unlink(rex_path::generated('files/'. $category_id . '.mclist'));
 }
 
 /**

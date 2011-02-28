@@ -2,7 +2,7 @@
 
 /**
  * REDAXO Autoloader.
- * 
+ *
  * This class was mainly copied from the Symfony Framework:
  * Fabien Potencier <fabien.potencier@symfony-project.com>
  *
@@ -183,7 +183,8 @@ class rex_autoload
    */
   public function removeCache()
   {
-    @unlink($this->cacheFile);
+    if(file_exists($this->cacheFile))
+      unlink($this->cacheFile);
   }
 
   /**
@@ -217,7 +218,7 @@ class rex_autoload
         $this->addFile($dir, false);
       }
     }
-    
+
     if($subdirs = glob($classdir .'*', GLOB_ONLYDIR))
     {
       // recursive over subdirectories
@@ -226,7 +227,7 @@ class rex_autoload
       }
     }
   }
-  
+
   /**
    * Adds files to the autoloading system.
    *
