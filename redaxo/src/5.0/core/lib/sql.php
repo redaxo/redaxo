@@ -709,7 +709,7 @@ class rex_sql
   /**
    * Setzt den Cursor des Resultsets zurueck zum Anfang
    */
-  private function reset()
+  public function reset()
   {
     // re-execute the statement
     if($this->stmt)
