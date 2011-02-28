@@ -106,15 +106,14 @@ function rex_generateMedia($filename)
   if ($sql->getRows() == 0)
     return false;
 
-  $content = '<?php'."\n";
+  $cacheArray = array();
   foreach($sql->getFieldNames() as $fieldName)
   {
-    $content .= '$REX[\'MEDIA\'][\'FILENAME\'][\''. $filename .'\'][\''. $fieldName .'\'] = \''. rex_addslashes($sql->getValue($fieldName),'\\\'') .'\';'."\n";
+    $cacheArray[$fieldName] = $sql->getValue($fieldName);
   }
-  $content .= '?>';
 
   $media_file = rex_path::generated('files/'. $filename .'.media');
-  if (rex_put_file_contents($media_file, $content))
+  if (rex_put_file_contents($media_file, json_encode($cacheArray)))
     return true;
 
   return false;
@@ -139,15 +138,14 @@ function rex_generateMediaCategory($category_id)
   if ($sql->getRows() == 0)
     return false;
 
-  $content = '<?php'."\n";
+  $cacheArray = array();
   foreach($sql->getFieldNames() as $fieldName)
   {
-    $content .= '$REX[\'MEDIA\'][\'CAT_ID\']['. $category_id .'][\''. $fieldName .'\'] = \''. rex_addslashes($sql->getValue($fieldName),'\\\'') .'\';'."\n";
+    $cacheArray[$fieldName] = $sql->getValue($fieldName);
   }
-  $content .= '?>';
 
   $cat_file = rex_path::generated('files/'. $category_id .'.mcat');
-  if (rex_put_file_contents($cat_file, $content))
+  if (rex_put_file_contents($cat_file, json_encode($cacheArray)))
     return true;
 
   return false;
@@ -168,16 +166,15 @@ function rex_generateMediaList($category_id)
   $sql = rex_sql::factory();
   $sql->setQuery($query);
 
-  $content = '<?php'."\n";
+  $cacheArray = array();
   for ($i = 0; $i < $sql->getRows(); $i++)
   {
-    $content .= '$REX[\'MEDIA\'][\'MEDIA_CAT_ID\']['. $category_id .']['. $i .'] = \''. $sql->getValue('filename') .'\';'."\n";
+    $cacheArray[] = $sql->getValue('filename');
     $sql->next();
   }
-  $content .= '?>';
 
   $list_file = rex_path::generated('files/'. $category_id .'.mlist');
-  if (rex_put_file_contents($list_file, $content))
+  if (rex_put_file_contents($list_file, json_encode($cacheArray)))
     return true;
 
   return false;
@@ -199,16 +196,15 @@ function rex_generateMediaCategoryList($category_id)
   //$sql->debugsql = true;
   $sql->setQuery($query);
 
-  $content = '<?php'."\n";
+  $cacheArray = array();
   for ($i = 0; $i < $sql->getRows(); $i++)
   {
-    $content .='$REX[\'MEDIA\'][\'RE_CAT_ID\']['. $category_id .']['. $i .'] = \''. $sql->getValue('id') .'\';'."\n";
+    $cacheArray[] = $sql->getValue('id');
     $sql->next();
   }
-  $content .= '?>';
 
   $list_file = rex_path::generated('files/'. $category_id .'.mclist');
-  if (rex_put_file_contents($list_file, $content))
+  if (rex_put_file_contents($list_file, json_encode($cacheArray)))
     return true;
 
   return false;
@@ -229,16 +225,15 @@ function rex_generateMediaExtensionList($extension)
   $sql = rex_sql::factory();
   $sql->setQuery($query);
 
-  $content = '<?php'."\n";
+  $cacheArray = array();
   for ($i = 0; $i < $sql->getRows(); $i++)
   {
-    $content .= '$REX[\'MEDIA\'][\'EXTENSION\'][\''. $extension .'\']['. $i .'] = \''. $sql->getValue('filename') .'\';'."\n";
+    $cacheArray[] = $sql->getValue('filename');
     $sql->next();
   }
-  $content .= '?>';
 
   $list_file = rex_path::generated('files/'. $extension .'.mextlist');
-  if (rex_put_file_contents($list_file, $content))
+  if (rex_put_file_contents($list_file, json_encode($cacheArray)))
     return true;
 
   return false;

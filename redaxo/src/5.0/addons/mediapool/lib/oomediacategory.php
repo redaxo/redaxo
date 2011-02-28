@@ -61,7 +61,7 @@ class rex_ooMediaCategory
 
     if (file_exists($cat_path))
     {
-      require_once ($cat_path);
+      $REX['MEDIA']['CAT_ID'][$id] = json_decode(rex_get_file_contents($cat_path), true);
 
       $cat = new rex_ooMediaCategory();
 
@@ -116,7 +116,7 @@ class rex_ooMediaCategory
 
     if (file_exists($catlist_path))
     {
-      require_once ($catlist_path);
+      $REX['MEDIA']['RE_CAT_ID'][$id] = json_decode(rex_get_file_contents($catlist_path), true);
 
       if (isset($REX['MEDIA']['RE_CAT_ID'][$id]) && is_array($REX['MEDIA']['RE_CAT_ID'][$id]))
       {
@@ -312,7 +312,7 @@ class rex_ooMediaCategory
 
       if (file_exists($list_path))
       {
-        require_once ($list_path);
+        $REX['MEDIA']['MEDIA_CAT_ID'][$id] = json_decode(rex_get_file_contents($list_path), true);
 
         if (isset($REX['MEDIA']['MEDIA_CAT_ID'][$id]) && is_array($REX['MEDIA']['MEDIA_CAT_ID'][$id]))
         {
