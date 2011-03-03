@@ -15,7 +15,7 @@ CREATE TABLE `%TABLE_PREFIX%62_params` (
   `updatedate` int(11) NOT NULL,
   PRIMARY KEY  (`field_id`),
   UNIQUE KEY `name` (`name`)
-);
+) ENGINE=MyISAM ;
 
 CREATE TABLE `%TABLE_PREFIX%62_type` (
   `id` int(10) unsigned NOT NULL auto_increment,
