@@ -2,7 +2,7 @@ templates:
   name: 'Templates'
   version: '1.3'
   author: Markus Staab
-  supportpage: forum.redaxo.de
+  supportpage: www.redaxo.org/de/forum/
   perm: admin[]
   navigation:
     block: system

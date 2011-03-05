@@ -32,7 +32,7 @@
  *   5) ggf. Rewrite-Base der .htaccess Datei anpassen
  *
  * @author staab[at]public-4u[dot]de Markus Staab
- * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
+ * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
  * @author office[at]vscope[dot]at Wolfgang Huttegger
  * @author <a href="http://www.vscope.at/">vscope new media</a>

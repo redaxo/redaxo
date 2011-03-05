@@ -3,4 +3,4 @@ phpmailer:
   author: 'Markus Staab, Brent R. Matzelle'
   name: PHPMailer
   perm: phpmailer[]
-  supportpage: forum.redaxo.de
+  supportpage: www.redaxo.org/de/forum/

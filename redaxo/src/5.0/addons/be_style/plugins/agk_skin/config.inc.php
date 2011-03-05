@@ -19,7 +19,7 @@ $mypage = 'agk_skin';
 
 $REX['ADDON']['version'][$mypage] = '1.3';
 $REX['ADDON']['author'][$mypage] = 'Design: Ralph Zumkeller; Umsetzung: Thomas Blum';
-$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
+$REX['ADDON']['supportpage'][$mypage] = 'www.redaxo.org/de/forum/';
 
 if($REX["REDAXO"])
 {

@@ -12,9 +12,9 @@
   <p class="rex-tx1">
     <b>Markus Staab</b>, markus.staab@redaxo.de<br />
     Kernentwickler<br />
-    REDAXO, <a href="http://www.redaxo.de" onclick="window.open(this.href); return false;">www.redaxo.de</a>
+    REDAXO, <a href="http://www.redaxo.org" onclick="window.open(this.href); return false;">www.redaxo.org</a>
   </p>
-  
+
   <p class="rex-tx1">
     <b>Gregor Harlan</b>, gregor.harlan@redaxo.de<br />
     Kernentwickler<br />

@@ -3,7 +3,7 @@ metainfo:
   name: Meta Infos
   perm: admin[]
   author: 'Markus Staab, Jan Kristinus'
-  supportpage: forum.redaxo.de
+  supportpage: www.redaxo.org/de/forum/
   
   pages:
     - ['', 'translate:article']

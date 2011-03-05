@@ -7,7 +7,7 @@
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  * 
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
+ * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
  * @package redaxo4
  * @version svn:$Id$
@@ -17,5 +17,5 @@
 <h3>Backend Style Addon</h3>
 
 <p>
-Addon zum verändern der Optik des Backends
+Addon zum verï¿½ndern der Optik des Backends
 </p>

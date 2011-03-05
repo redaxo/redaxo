@@ -3,7 +3,7 @@ image_manager:
   author: 'Markus Staab, Jan Kristinus'
   name: 'Image Manager'
   perm: image_manager[]
-  supportpage: forum.redaxo.de
+  supportpage: www.redaxo.org/de/forum/
   
   requires:
     php-extensions:

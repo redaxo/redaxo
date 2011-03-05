@@ -3,4 +3,4 @@ import_export:
   author: 'Jan Kristinus, Markus Staab'
   name: 'translate:im_export_importexport'
   perm: import_export[export]
-  supportpage: forum.redaxo.de
+  supportpage: www.redaxo.org/de/forum/

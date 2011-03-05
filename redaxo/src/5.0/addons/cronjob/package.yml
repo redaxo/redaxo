@@ -1,7 +1,7 @@
 cronjob:
   version: '1.1'
   author: 'Gregor Harlan'
-  supportpage: forum.redaxo.de
+  supportpage: www.redaxo.org/de/forum/
   
   name: 'translate:cronjob_title'
   perm: admin[]
