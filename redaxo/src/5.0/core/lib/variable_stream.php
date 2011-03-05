@@ -3,16 +3,12 @@
 class rex_variableStream
 {
   static private
+    $registered = false,
     $nextContent = array();
 
   private
     $position,
     $content;
-
-  static public function register()
-  {
-    stream_wrapper_register('redaxo', __CLASS__);
-  }
 
   static public function factory($path, $content)
   {
@@ -23,6 +19,12 @@ class rex_variableStream
     if(!is_string($path) || empty($path))
     {
       throw new rexException('Expecting $path to be a string and not empty!');
+    }
+
+    if(!self::$registered)
+    {
+      stream_wrapper_register('redaxo', __CLASS__);
+      self::$registered = true;
     }
 
     $path = 'redaxo://'. $path;
