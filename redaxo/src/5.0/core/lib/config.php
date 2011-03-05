@@ -58,11 +58,11 @@ class rex_config
 
     if(!is_string($namespace))
     {
-      throw new rexException('rex_config: expecting $namespace to be a string');
+      throw new rexException('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
     }
     if(!is_string($key))
     {
-      throw new rexException('rex_config: expecting $key to be a string');
+      throw new rexException('rex_config: expecting $key to be a string, '. gettype($key) . ' given!');
     }
 
     if(!isset(self::$data[$namespace]))
@@ -108,11 +108,11 @@ class rex_config
 
     if(!is_string($namespace))
     {
-      throw new rexException('rex_config: expecting $namespace to be a string');
+      throw new rexException('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
     }
     if(!is_string($key))
     {
-      throw new rexException('rex_config: expecting $key to be a string');
+      throw new rexException('rex_config: expecting $key to be a string, '. gettype($key) . ' given!');
     }
 
     if(isset(self::$data[$namespace]) && isset(self::$data[$namespace][$key]))
@@ -138,7 +138,7 @@ class rex_config
 
     if(!is_string($namespace))
     {
-      throw new rexException('rex_config: expecting $namespace to be a string');
+      throw new rexException('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
     }
 
     if ($key === null)
@@ -148,7 +148,7 @@ class rex_config
 
     if(!is_string($key))
     {
-      throw new rexException('rex_config: expecting $key to be a string');
+      throw new rexException('rex_config: expecting $key to be a string, '. gettype($key) . ' given!');
     }
 
     return isset(self::$data[$namespace][$key]);
@@ -171,11 +171,11 @@ class rex_config
 
     if(!is_string($namespace))
     {
-      throw new rexException('rex_config: expecting $namespace to be a string');
+      throw new rexException('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
     }
     if(!is_string($key))
     {
-      throw new rexException('rex_config: expecting $key to be a string');
+      throw new rexException('rex_config: expecting $key to be a string, '. gettype($key) . ' given!');
     }
 
     if(isset(self::$data[$namespace]) && isset(self::$data[$namespace][$key]))
@@ -212,7 +212,7 @@ class rex_config
 
     if(!is_string($namespace))
     {
-      throw new rexException('rex_config: expecting $namespace to be a string');
+      throw new rexException('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
     }
 
     if(isset(self::$data[$namespace]))
