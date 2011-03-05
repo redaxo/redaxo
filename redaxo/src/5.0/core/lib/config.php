@@ -355,7 +355,10 @@ class rex_config
       foreach($nsData as $key => $value)
       {
         $sql->setTable($REX['TABLE_PREFIX']. 'config');
-        $sql->setWhere('namespace="'. $namespace .'" and `key`="'. $key .'"');
+        $sql->setWhere(array(
+          'namespace' => $namespace,
+          'key' => $key
+        ));
         $sql->delete();
       }
     }
