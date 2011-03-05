@@ -317,7 +317,7 @@ class rex_sql
    * example 2:
    *  	$sql->setWhere('myid = :id OR anotherfield = :field', array('id' => 3, 'field' => ''));
    *
-   * example 3:
+   * example 3 (deprecated):
    *  	$sql->setWhere('myid="35" OR abc="zdf"');
    */
   public function setWhere($where, $whereParams = NULL)
