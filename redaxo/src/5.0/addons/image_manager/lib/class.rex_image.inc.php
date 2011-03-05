@@ -21,7 +21,7 @@ class rex_image {
     $this->img = array();
     $this->img['file'] = basename($filepath);
     $this->img['filepath'] = $filepath;
-    $this->img['quality'] = 80; // rex_config::get('image_manager', 'jpg_quality');
+    $this->img['quality'] = rex_config::get('image_manager', 'jpg_quality', 80);
     $this->img['format'] = strtoupper(rex_ooMedia::_getExtension($this->img['filepath']));
   }
 
@@ -86,17 +86,17 @@ class rex_image {
   {
     $this->img['src'] = $src;
   }
-  
+
   public function getFormat()
   {
     return $this->img['format'];
   }
-  
+
   public function setFormat($format)
   {
     $this->img['format'] = $format;
   }
-  
+
   public function getFileName()
   {
     return $this->img['file'];
