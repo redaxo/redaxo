@@ -219,7 +219,14 @@ class rex_sql
         throw new rexException('expecting $params to be an array, "'. gettype($params) .'" given!');
       }
       $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
-      $this->stmt->execute($params);
+      if($this->stmt)
+      {
+        $this->stmt->execute($params);
+      }
+      else
+      {
+        throw new rexException('Error occured while preparing statement "'. $qry .'"!');
+      }
     }
     else
     {
@@ -482,7 +489,7 @@ class rex_sql
           $qry .= ', ';
         }
 
-        $qry .= $fld_name . ' = :'. $fld_name;
+        $qry .= '`'. $fld_name . '` = :'. $fld_name;
       }
     }
 
@@ -508,7 +515,7 @@ class rex_sql
           $qry .= ' AND ';
         }
 
-        $qry .= $fld_name . ' = :'. $fld_name;
+        $qry .= '`' .$fld_name . '` = :'. $fld_name;
       }
     }
     return $qry;
