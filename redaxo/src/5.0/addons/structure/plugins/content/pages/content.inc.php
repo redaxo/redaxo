@@ -237,12 +237,12 @@ if ($article->getRows() == 1)
               }
               elseif ($function == 'add')
               {
-                $newsql->setValue($sliceTable .'.re_article_slice_id', $slice_id);
-                $newsql->setValue($sliceTable .'.article_id', $article_id);
-                $newsql->setValue($sliceTable .'.modultyp_id', $module_id);
-                $newsql->setValue($sliceTable .'.clang', $clang);
-                $newsql->setValue($sliceTable .'.ctype', $ctype);
-                $newsql->setValue($sliceTable .'.revision', $slice_revision);
+                $newsql->setValue('re_article_slice_id', $slice_id);
+                $newsql->setValue('article_id', $article_id);
+                $newsql->setValue('modultyp_id', $module_id);
+                $newsql->setValue('clang', $clang);
+                $newsql->setValue('ctype', $ctype);
+                $newsql->setValue('revision', $slice_revision);
               }
 
               // ****************** SPEICHERN FALLS NOETIG

@@ -171,7 +171,7 @@ abstract class rex_var
       $value = addslashes($value);
     }
 
-    $sql->setValue($REX['TABLE_PREFIX'] . 'article_slice.' . $fieldname, $value);
+    $sql->setValue($fieldname, $value);
   }
 
   /**
