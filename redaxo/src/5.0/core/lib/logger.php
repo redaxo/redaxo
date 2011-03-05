@@ -2,7 +2,7 @@
 
 /**
  * Simple Logger class
- *  
+ *
  * @author staabm
  */
 class rex_logger {
@@ -26,7 +26,7 @@ class rex_logger {
 
   /**
    * Retrieves the logger instance
-   * 
+   *
    * @return rex_logger the logger instance
    */
   static public function getInstance()
@@ -73,7 +73,7 @@ class rex_logger {
 
   /**
    * Logs the given Exception
-   * 
+   *
    * @param Exception $exception The Exception to log
    */
   public function logException(Exception $exception)
@@ -83,14 +83,15 @@ class rex_logger {
 
   /**
    * Logs a error message
-   * 
+   *
    * @param integer $errno The error code to log
    * @param string  $errstr The error message
    * @param string  $errfile The file in which the error occured
    * @param integer $errline The line of the file in which the error occured
-   * @param boolean $printError Flag to indicate whether the error should be printed, or not 
+   * @param array   $errcontext Array that points to the active symbol table at the point the error occurred.
+   * @param boolean $printError Flag to indicate whether the error should be printed, or not
    */
-  public function logError($errno, $errstr, $errfile, $errline, $printError = true)
+  public function logError($errno, $errstr, $errfile, $errline, array $errcontext = null, $printError = true)
   {
     if(!is_int($errno))
     {
@@ -112,7 +113,7 @@ class rex_logger {
     {
       throw new rexException('Expecting $printError to be boolean, but '. gettype($printError) .' given!');
     }
-    
+
     $errorType = '<b>'. $this->getErrorType($errno) .'</b>';
 
     $msg = "$errstr in <b>$errfile</b> on line <b>$errline</b><br />\n";
@@ -132,7 +133,7 @@ class rex_logger {
 
   /**
    * Logs the given message
-   * 
+   *
    * @param String $message the message to log
    */
   public function log($message)
@@ -141,7 +142,7 @@ class rex_logger {
     {
       throw new rexException('Expecting $message to be string, but '. gettype($message) .' given!');
     }
-    
+
     fwrite($this->handle, date('r') .'<br />'. $message);
   }
 
@@ -161,7 +162,7 @@ class rex_logger {
 
   /**
    * Closes the logfile. The logfile is not be able to log further message after beeing closed.
-   * 
+   *
 	 * You dont need to close the logfile manually when it was registered during the request.
    */
   public function close()
@@ -182,7 +183,7 @@ class rex_logger {
       $error = error_get_last();
       if(is_array($error))
       {
-        $this->logError($error['type'], $error['message'], $error['file'], $error['line'], false);
+        $this->logError($error['type'], $error['message'], $error['file'], $error['line'], null, false);
       }
     }
 
@@ -191,7 +192,7 @@ class rex_logger {
 
   /**
    * Get a human readable string representing the given php error code
-   * 
+   *
    * @param int $errno a php error code, e.g. E_ERROR
    */
   private function getErrorType($errno)
