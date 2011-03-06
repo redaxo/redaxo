@@ -5,6 +5,9 @@
  *
  * This class was mainly copied from the Symfony Framework:
  * Fabien Potencier <fabien.potencier@symfony-project.com>
+ * 
+ * Adjusted in the following places
+ * - file-cache uses json instead of a serialized php array to boost performance
  *
  * @package redaxo4
  * @version svn:$Id$
@@ -126,7 +129,7 @@ class rex_autoload
       return;
     }
 
-    list($this->classes, $this->dirs, $this->files) = unserialize(file_get_contents($this->cacheFile));
+    list($this->classes, $this->dirs, $this->files) = json_decode(file_get_contents($this->cacheFile), true);
 
     $this->cacheLoaded = true;
     $this->cacheChanged = false;
@@ -141,7 +144,7 @@ class rex_autoload
     {
       if (is_writable(dirname($this->cacheFile)))
       {
-        file_put_contents($this->cacheFile, serialize(array($this->classes, $this->dirs, $this->files)));
+        file_put_contents($this->cacheFile, json_encode(array($this->classes, $this->dirs, $this->files)));
         $this->cacheChanged = false;
       }
       else
