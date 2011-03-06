@@ -23,6 +23,7 @@ class rex_effect_filter_sepia extends rex_effect_abstract{
 			imagecolorset( $img, $i, $red, $green, $blue );
 		}
 
+		$this->image->setImage($img);
 	}
 
 	public function getParams()

@@ -9,7 +9,7 @@ der Kontaktseite aufgenommen werden.
 If you use REDAXO you may add these informations in your imprint or contact page
 
 CMS: REDAXO - Open Source Content Management System
-LINK: www.redaxo.de
+LINK: www.redaxo.org
 
 
 // ----- addons/phpmailer/classes/class.phpmailer.inc.php

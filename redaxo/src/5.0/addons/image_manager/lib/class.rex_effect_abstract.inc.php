@@ -2,7 +2,7 @@
 
 abstract class rex_effect_abstract
 {
-  protected
+  public
     $image, // rex_image
     $params = array(); // effekt parameter
 

@@ -291,7 +291,7 @@ class rex_select
     if ($level > 0)
       $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
 
-    if ($this->option_selected !== null && in_array($value, $this->option_selected))
+    if ($this->option_selected !== null && in_array($value, $this->option_selected, TRUE))
       $attributes['selected'] = 'selected';
 
     $attr = '';

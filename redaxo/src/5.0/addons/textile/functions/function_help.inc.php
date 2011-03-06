@@ -159,8 +159,8 @@ function rex_a79_help_links()
       ),
     'links_extern' =>
       array(
-        array ($REX['I18N']->msg('textile_link_external') .':http://doku.redaxo.de'),
-        array ($REX['I18N']->msg('textile_link_external_anchor') .':http://www..redaxo.de#news'),
+        array ($REX['I18N']->msg('textile_link_external') .':http://www.redaxo.org'),
+        array ($REX['I18N']->msg('textile_link_external_anchor') .':http://www.redaxo.org#news'),
       ),
     'links_attributes' =>
       array(
@@ -199,8 +199,8 @@ function rex_a79_help_lists()
     array(
     'lists' =>
       array(
-        array($REX['I18N']->msg('textile_numeric_list') .":\n# redaxo.de\n# forum.redaxo.de"),
-        array($REX['I18N']->msg('textile_enum_list') .":\n* redaxo.de\n* forum.redaxo.de"),
+        array($REX['I18N']->msg('textile_numeric_list') .":\n# redaxo.org\n# www.redaxo.org/de/forum/"),
+        array($REX['I18N']->msg('textile_enum_list') .":\n* redaxo.org\n* www.redaxo.org/de/forum/"),
       )
     )
   );
@@ -215,7 +215,7 @@ function rex_a79_help_tables()
     'tables' =>
       array(
         array("|_. Id|_. Name|\n|1|Peter|"),
-        array("|www.redaxo.de|35|\n|doku.redaxo.de|32|\n|wiki.redaxo.de|12|"),
+        array("|www.redaxo.org|35|\n|doku.redaxo.org|32|\n|wiki.redaxo.org|12|"),
       )
   ));
 }

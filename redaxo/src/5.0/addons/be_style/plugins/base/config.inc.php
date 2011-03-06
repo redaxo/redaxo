@@ -15,7 +15,7 @@ $mypage = 'base';
 
 $REX['ADDON']['version'][$mypage] = '1.0';
 $REX['ADDON']['author'][$mypage] = 'Thomas Blum';
-$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
+$REX['ADDON']['supportpage'][$mypage] = 'www.redaxo.org/de/forum/';
 
 if($REX["REDAXO"])
 {

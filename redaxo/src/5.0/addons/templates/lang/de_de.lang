@@ -1,4 +1,5 @@
-# redaxo\include\pages\template.inc.php
+template = Templates
+
 templates_not_found = Es wurden keine Templates gefunden
 title_templates = Templates
 cant_delete_template_because_its_in_use = Template '{0}' kann nicht gelöscht werden, da es noch von Artikeln genutzt wird oder das Default Template ist.

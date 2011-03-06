@@ -1,7 +1,7 @@
 version:
   version: '0.2'
   author: Jan Kristinus
-  supportpage: forum.redaxo.de
+  supportpage: www.redaxo.org/de/forum/
   
   requires:
     addons:

@@ -15,7 +15,7 @@ CREATE TABLE `%TABLE_PREFIX%62_params` (
   `updatedate` int(11) NOT NULL,
   PRIMARY KEY  (`field_id`),
   UNIQUE KEY `name` (`name`)
-);
+) ENGINE=MyISAM ;
 
 CREATE TABLE `%TABLE_PREFIX%62_type` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -23,7 +23,7 @@ CREATE TABLE `%TABLE_PREFIX%62_type` (
   `dbtype` varchar(255) NOT NULL,
   `dblength` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO %TABLE_PREFIX%62_type VALUES (1,  'text', 'text', 0);
 INSERT INTO %TABLE_PREFIX%62_type VALUES (2,  'textarea', 'text', 0);

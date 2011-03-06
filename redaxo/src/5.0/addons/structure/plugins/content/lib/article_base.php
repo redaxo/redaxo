@@ -409,7 +409,7 @@ class rex_article_base
 
     if (!$this->eval)
     {
-      return "require rex_variableStream::factory('$path', '". rex_addslashes($content, '\\\'') ."');\n";
+      return "require rex_variableStream::factory('$path', \n<<<'VARIABLE_STREAM_CONTENT'\n". $content ."\nVARIABLE_STREAM_CONTENT\n);\n";
     }
 
     ob_start();

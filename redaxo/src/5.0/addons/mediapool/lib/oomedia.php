@@ -51,9 +51,8 @@ class rex_ooMedia
   /**
    * @access protected
    */
-  protected function __construct($id = null)
+  protected function __construct()
   {
-    $this->getMediaById($id);
   }
 
   /**
@@ -84,7 +83,7 @@ class rex_ooMedia
 
     if (file_exists($extlist_path))
     {
-      require_once ($extlist_path);
+      $REX['MEDIA']['EXTENSION'][$extension] = json_decode(rex_get_file_contents($extlist_path), true);
 
       if (isset($REX['MEDIA']['EXTENSION'][$extension]) && is_array($REX['MEDIA']['EXTENSION'][$extension]))
       {
@@ -114,7 +113,7 @@ class rex_ooMedia
 
     if (file_exists($media_path))
     {
-      require_once ($media_path);
+      $REX['MEDIA']['FILENAME'][$name] = json_decode(rex_get_file_contents($media_path), true);
       $aliasMap = array(
         'media_id' => 'id',
         're_media_id' => 'parent_id',

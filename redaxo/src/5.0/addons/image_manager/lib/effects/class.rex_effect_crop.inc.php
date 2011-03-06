@@ -77,7 +77,7 @@ class rex_effect_crop extends rex_effect_abstract
     $this->keepTransparent($des);
     imagecopyresampled($des, $gdimage, 0, 0, $offset_width, $offset_height, $this->params['width'], $this->params['height'], $this->params['width'], $this->params['height']);
 
-    $gdimage = $des;
+    $this->image->setImage($des);;
     $this->image->refreshDimensions();
 
   }

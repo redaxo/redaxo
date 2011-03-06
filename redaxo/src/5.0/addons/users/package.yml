@@ -1,9 +1,9 @@
 users:
   version: '1.0'
   author: Jan Kristinus, Gregor Harlan
-  supportpage: forum.redaxo.de
+  supportpage: www.redaxo.org/de/forum/
   
-  name: 'translate:user_management'
+  name: 'translate:users'
   perm: isAdmin
   navigation:
     block: system

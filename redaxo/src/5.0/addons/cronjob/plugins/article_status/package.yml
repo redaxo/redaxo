@@ -1,7 +1,7 @@
 article_status:
   version: '1.0'
   author: Gregor Harlan
-  supportpage: forum.redaxo.de
+  supportpage: www.redaxo.org/de/forum/
     
   requires:
     addons:

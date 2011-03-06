@@ -42,7 +42,8 @@ class rex_effect_filter_greyscale extends rex_effect_abstract
       }
     }
 
-    $gdimage = $dst_im;
+    $this->image->setImage($dst_im);
+    
   }
 
   public function getParams()

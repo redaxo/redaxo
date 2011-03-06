@@ -8,7 +8,7 @@
  * @author <a href="http://www.symfony-project.org/">www.symfony-project.org</a>
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
+ * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
  * @package redaxo4
  * @version svn:$Id$
@@ -94,7 +94,9 @@ class rex_file_cache extends rex_cache
    */
   public function remove($key)
   {
-    return @unlink($this->getFilePath($key));
+    if(file_exists($this->getFilePath($key)))
+      return unlink($this->getFilePath($key));
+    return true;
   }
 
   /**
@@ -129,7 +131,8 @@ class rex_file_cache extends rex_cache
       }
       else
       {
-        @unlink($path);
+        if(file_exists($path))
+          unlink($path);
       }
     }
   }
@@ -148,7 +151,7 @@ class rex_file_cache extends rex_cache
     // TODO PHP4 Compat!
     foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->getOption('cache_dir'))) as $file)
     {
-      if (REX_CACHE_CLEAN_ALL == $mode || !$this->isValid($file))
+      if ((REX_CACHE_CLEAN_ALL == $mode || !$this->isValid($file)) && file_exists($file))
       {
         $result = @unlink($file) && $result;
       }

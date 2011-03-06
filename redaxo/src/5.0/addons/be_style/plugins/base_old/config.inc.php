@@ -19,7 +19,7 @@ $mypage = 'base_old';
 
 $REX['ADDON']['version'][$mypage] = '1.0';
 $REX['ADDON']['author'][$mypage] = 'Design: Ralph Zumkeller; Umsetzung: Thomas Blum';
-$REX['ADDON']['supportpage'][$mypage] = 'forum.redaxo.de';
+$REX['ADDON']['supportpage'][$mypage] = 'www.redaxo.org/de/forum/';
 
 if($REX["REDAXO"])
 {

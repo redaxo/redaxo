@@ -90,7 +90,7 @@ class rex_effect_filter_blur extends rex_effect_abstract{
 	      }
 	    }
 	  }
-	  $gdimage = $imgBlur;
+	  $this->image->setImage($imgBlur);
 	}
 
 

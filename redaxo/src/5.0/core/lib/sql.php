@@ -24,7 +24,7 @@ class rex_sql
     $stmt, // ResultSet
     $query,
     $DBID; // ID der Verbindung
-    
+
   private static
     $pdo = array(); // array von datenbankverbindungen
 
@@ -43,7 +43,7 @@ class rex_sql
   protected function selectDB($DBID)
   {
     global $REX;
-    
+
     $this->DBID = $DBID;
 
     try
@@ -57,14 +57,14 @@ class rex_sql
           $REX['DB'][$DBID]['PSW']
         );
         self::$pdo[$DBID] = $conn;
-        
+
         // ggf. Strict Mode abschalten
         $this->setQuery('SET SQL_MODE=""');
         // set encoding
         $this->setQuery('SET NAMES utf8');
         $this->setQuery('SET CHARACTER SET utf8');
       }
-      
+
     }
     catch(PDOException $e)
     {
@@ -72,7 +72,7 @@ class rex_sql
       exit;
     }
   }
-  
+
   static protected function createConnection($host, $database, $login, $password, $persistent = false)
   {
     $dsn = 'mysql:host='. $host .';dbname='. $database;
@@ -82,7 +82,7 @@ class rex_sql
 //      PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL,
 //      PDO::ATTR_EMULATE_PREPARES => true,
     );
-    
+
     return new PDO($dsn, $login, $password, $options);
   }
 
@@ -155,16 +155,16 @@ class rex_sql
   {
     // save origin connection-id
     $oldDBID = $this->DBID;
-    
+
     // change connection-id but only for this one query
     if(($qryDBID = self::stripQueryDBID($qry)) !== false)
       $this->selectDB($qryDBID);
 
     $result = $this->setQuery($qry);
-    
+
     // restore connection-id
     $this->DBID = $oldDBID;
-    
+
     return $result;
   }
 
@@ -211,7 +211,7 @@ class rex_sql
     $this->flush();
 
     $this->query = $qry;
-    
+
     if(!empty($params))
     {
       if(!is_array($params))
@@ -219,7 +219,14 @@ class rex_sql
         throw new rexException('expecting $params to be an array, "'. gettype($params) .'" given!');
       }
       $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
-      $this->stmt->execute($params);
+      if($this->stmt)
+      {
+        $this->stmt->execute($params);
+      }
+      else
+      {
+        throw new rexException('Error occured while preparing statement "'. $qry .'"!');
+      }
     }
     else
     {
@@ -303,15 +310,15 @@ class rex_sql
 
   /**
    * Setzt die WHERE Bedienung der Abfrage
-   * 
+   *
    * example 1:
    *  	$sql->setWhere(array('id' => 3, 'field' => ''));
-   *   
+   *
    * example 2:
    *  	$sql->setWhere('myid = :id OR anotherfield = :field', array('id' => 3, 'field' => ''));
-   *   
-   * example 3:
-   *  	$sql->setWhere('myid="35" OR abc="zdf"'); 
+   *
+   * example 3 (deprecated):
+   *  	$sql->setWhere('myid="35" OR abc="zdf"');
    */
   public function setWhere($where, $whereParams = NULL)
   {
@@ -328,7 +335,7 @@ class rex_sql
     else if(is_string($where))
     {
       trigger_error('you have to take care to provide escaped values for your where-string!', E_USER_WARNING);
-      
+
       $this->wherevar = "WHERE $where";
       $this->whereParams = array();
     }
@@ -349,7 +356,7 @@ class rex_sql
     {
       throw new rexException('parameter fieldname must not be empty!');
     }
-    
+
     // check if there is an table alias defined
     // if not, try to guess the tablename
     if(strpos($feldname, '.') === false)
@@ -363,10 +370,10 @@ class rex_sql
         }
       }
     }
-    
+
     return $this->fetchValue($feldname);
   }
-  
+
   protected function fetchValue($feldname)
   {
   	if(isset($this->values[$feldname]))
@@ -482,10 +489,10 @@ class rex_sql
           $qry .= ', ';
         }
 
-        $qry .= $fld_name . ' = :'. $fld_name;
+        $qry .= '`'. $fld_name . '` = :'. $fld_name;
       }
     }
-    
+
     if(trim($qry) == '')
     {
       // FIXME
@@ -494,7 +501,7 @@ class rex_sql
 
     return $qry;
   }
-  
+
   protected function buildPreparedWhere()
   {
     $qry = '';
@@ -507,8 +514,8 @@ class rex_sql
         {
           $qry .= ' AND ';
         }
-        
-        $qry .= $fld_name . ' = :'. $fld_name;
+
+        $qry .= '`' .$fld_name . '` = :'. $fld_name;
       }
     }
     return $qry;
@@ -636,7 +643,7 @@ class rex_sql
     }
     return $res;
   }
-  
+
   public function preparedStatusQuery($query, $params, $successMessage = null)
   {
     $res = $this->setQuery($query, $params);
@@ -653,7 +660,7 @@ class rex_sql
   /**
    * Stellt alle Werte auf den Ursprungszustand zurueck
    */
-  public function flush()
+  private function flush()
   {
     $this->values = array ();
     $this->whereParams = array ();
@@ -778,7 +785,7 @@ class rex_sql
     {
       throw new rexException('sql query must not be empty!');
     }
-    
+
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
     switch($qryType)
     {
@@ -786,7 +793,7 @@ class rex_sql
       default       : $this->setQuery($sql);
     }
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
-    
+
     return $this->stmt->fetchAll($fetch_type);
   }
 
@@ -878,13 +885,13 @@ class rex_sql
     $this->fetchMeta();
     return $this->fieldnames;
   }
-  
+
   public function getTablenames()
   {
     $this->fetchMeta();
     return $this->tablenames;
   }
-  
+
   private function fetchMeta()
   {
     if($this->fieldnames === NULL)
@@ -892,15 +899,15 @@ class rex_sql
       $this->rawFieldnames = array();
       $this->fieldnames = array();
       $this->tablenames = array();
-      
+
       for ($i = 0; $i < $this->getFields(); $i++)
       {
         $metadata = $this->stmt->getColumnMeta($i);
-        
+
         // strip table-name from column
         $this->fieldnames[] = substr($metadata['name'], strlen($metadata['table'].'.'));
         $this->rawFieldnames[] = $metadata['name'];
-        
+
         if(!in_array($metadata['table'], $this->tablenames))
         {
           $this->tablenames[] = $metadata['table'];
@@ -1050,10 +1057,10 @@ class rex_sql
   static public function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
   {
     global $REX;
-    
+
     $err_msg = true;
-    
-    try 
+
+    try
     {
       $conn = self::createConnection(
         $host,
@@ -1105,10 +1112,10 @@ class rex_sql
         throw $e;
       }
     }
-    
+
     // close the connection
     $conn = null;
-    
+
     return  $err_msg;
   }
 

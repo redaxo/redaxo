@@ -142,7 +142,7 @@ class rex_fragment
    */
   protected function subfragment($filename, array $params = array())
   {
-    $fragment = new rex_fragment(array_merge($this->vars, $params), $this->basePath);
+    $fragment = new rex_fragment(array_merge($this->vars, $params));
     echo $fragment->parse($filename);
   }
 
