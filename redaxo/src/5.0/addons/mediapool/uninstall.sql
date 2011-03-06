@@ -1,2 +1,2 @@
-DROP TABLE `rex_media`;
-DROP TABLE `rex_media_category`;
+DROP TABLE IF EXISTS `%TABLE_PREFIX%media`;
+DROP TABLE IF EXISTS `%TABLE_PREFIX%media_category`;
