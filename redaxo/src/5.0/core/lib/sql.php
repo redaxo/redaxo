@@ -381,6 +381,11 @@ class rex_sql
 
     if(empty($this->lastRow))
     {
+      // no row fetched, but also no query was executed before
+      if($this->stmt == null)
+      {
+        return null;
+      }
       $this->lastRow = $this->stmt->fetch(PDO::FETCH_ASSOC);
     }
 
