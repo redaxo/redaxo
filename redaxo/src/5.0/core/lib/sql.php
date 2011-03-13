@@ -245,7 +245,7 @@ class rex_sql
     $hasError = $this->hasError();
     if ($this->debugsql || $hasError)
     {
-      $this->printError($qry);
+      $this->printError($qry, $params);
     }
 
     return !$hasError;
@@ -833,17 +833,15 @@ class rex_sql
   /**
    * Gibt die letzte Fehlermeldung aus
    */
-  protected function printError()
+  protected function printError($qry, $params)
   {
     if ($this->debugsql == true)
     {
-      if(!is_object($this->stmt))
-      {
-        throw new rexException('you have to execute a statement before printing an corresponding error-message!');
-      }
-
       echo '<hr />' . "\n";
-      echo 'Query: ' . nl2br(htmlspecialchars($this->stmt->queryString)) . "<br />\n";
+      echo 'Query: ' . nl2br(htmlspecialchars($qry)) . "<br />\n";
+      
+      if(!empty($params))
+        echo 'Params: ' . htmlspecialchars(print_r($params, true)) . "<br />\n";
 
       if (strlen($this->getRows()) > 0)
       {
