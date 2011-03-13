@@ -1018,6 +1018,13 @@ class rex_sql
     return self::$pdo[$DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
   }
 
+  /**
+   * Creates a rex_sql instance
+   * 
+   * @param integer $DBID
+   * @param string $class a classname
+   * @return rex_sql Returns a rex_sql instance
+   */
   static public function factory($DBID=1, $class=null)
   {
     // keine spezielle klasse angegeben -> default klasse verwenden?
@@ -1032,7 +1039,12 @@ class rex_sql
     }
 
     $obj = new $class($DBID);
-
+    
+    if(!($obj instanceof rex_sql))
+    {
+      throw new rexException('$class is expected to define a subclass of rex_sql!');
+    }
+    
     return $obj;
   }
 
