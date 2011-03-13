@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `clang` int(11) NOT NULL,
   `ctype` int(11) NOT NULL,
-  `re_article_slice_id` int(11) NOT NULL,
+  `prior` int(11) NOT NULL,
   `value1` text,
   `value2` text,
   `value3` text,
@@ -71,12 +71,10 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
   `updatedate` int(11) NOT NULL,
   `createuser` varchar(255) NOT NULL,
   `updateuser` varchar(255) NOT NULL,
-  `next_article_slice_id` int(11) DEFAULT NULL,
   `revision` int(11) NOT NULL,
-  PRIMARY KEY (`id`,`re_article_slice_id`,`article_id`,`modultyp_id`),
+  PRIMARY KEY (`id`,`prior`,`article_id`,`modultyp_id`),
   KEY `id` (`id`),
   KEY `clang` (`clang`),
-  KEY `re_article_slice_id` (`re_article_slice_id`),
   KEY `article_id` (`article_id`),
   KEY `find_slices` (`clang`,`article_id`)
 ) ENGINE=MyISAM ;

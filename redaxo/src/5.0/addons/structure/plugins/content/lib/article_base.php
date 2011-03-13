@@ -27,7 +27,7 @@ class rex_article_base
 
     $ctype,
     $clang,
-    $getSlice,
+    //$getSlice,
 
     $eval,
 
@@ -198,19 +198,19 @@ class rex_article_base
     return $this->ARTICLE->hasValue($this->correctValue($value));
   }
 
-  protected function outputSlice(rex_sql $artDataSql, $module_id, $I_ID,
-    $RE_CONTS, $RE_CONTS_CTYPE, $RE_MODUL_IN, $RE_MODUL_OUT,
-    $RE_MODUL_ID, $RE_MODUL_NAME, $RE_C)
+  protected function outputSlice(rex_sql $artDataSql, $module_id)
   {
+    /*
     if($this->getSlice)
     {
       foreach($RE_CONTS as $k => $v)
       	$I_ID = $k;
     }
+    */
 
-    $output = $this->replaceVars($artDataSql, $RE_MODUL_OUT[$I_ID]);
+    $output = $this->replaceVars($artDataSql, $artDataSql->getValue($REX['TABLE_PREFIX'].'module.output'));
 
-    return $this->getVariableStreamOutput('module/'. $RE_MODUL_ID[$I_ID] .'/output', $output);
+    return $this->getVariableStreamOutput('module/'. $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id') .'/output', $output);
   }
 
 
@@ -226,9 +226,11 @@ class rex_article_base
     }
 
     $sliceLimit = '';
+    /*
     if ($this->getSlice) {
       $sliceLimit = " AND ".$REX['TABLE_PREFIX']."article_slice.id = '" . $this->getSlice . "' ";
     }
+    */
 
     // ----- start: article caching
     ob_start();
@@ -247,69 +249,38 @@ class rex_article_base
               ".$REX['TABLE_PREFIX']."article.clang='".$this->clang."' AND
               ".$REX['TABLE_PREFIX']."article_slice.revision='".$this->slice_revision."'
               ". $sliceLimit ."
-              ORDER BY ".$REX['TABLE_PREFIX']."article_slice.re_article_slice_id";
+              ORDER BY ".$REX['TABLE_PREFIX']."article_slice.prior";
 
     $artDataSql = rex_sql::factory();
     if($this->debug)
       $artDataSql->debugsql = 1;
+      
     $artDataSql->setQuery($sql);
-    $rows=$artDataSql->getRows();
-
-    $RE_CONTS = array();
-    $RE_CONTS_CTYPE = array();
-    $RE_MODUL_OUT = array();
-    $RE_MODUL_IN = array();
-    $RE_MODUL_ID = array();
-    $RE_MODUL_NAME = array();
-    $RE_C = array();
-
-    // ---------- SLICE IDS/MODUL SETZEN - speichern der daten
-    for ($i=0; $i<$rows; $i++)
-    {
-      $RE_SLICE_ID                  = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.re_article_slice_id');
-
-      $RE_CONTS[$RE_SLICE_ID]       = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
-      $RE_CONTS_CTYPE[$RE_SLICE_ID] = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
-      $RE_MODUL_IN[$RE_SLICE_ID]    = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.input');
-      $RE_MODUL_OUT[$RE_SLICE_ID]   = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.output');
-      $RE_MODUL_ID[$RE_SLICE_ID]    = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
-      $RE_MODUL_NAME[$RE_SLICE_ID]  = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.name');
-      $RE_C[$RE_SLICE_ID]           = $i;
-      $artDataSql->next();
-    }
 
     // pre hook
+    // TODO make preArticle return the article-content
     $this->preArticle();
 
-    // ---------- SLICE IDS SORTIEREN UND AUSGEBEN
-    $I_ID = 0;
-    $PRE_ID = 0;
-    $LCTSL_ID = 0;
-    $artDataSql->reset();
+    // ---------- SLICES AUSGEBEN
     $articleContent = "";
-
-    for ($i=0; $i<$rows; $i++)
+    $prevCtype = null;
+    
+    $artDataSql->reset();
+    while($artDataSql->hasNext())
     {
+      $sliceId       = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
+      $sliceCtypeId  = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
+      $sliceModuleId = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
+      
       // ----- ctype unterscheidung
       if ($this->mode != "edit" && $i == 0)
-        $articleContent = "<?php if (\$this->ctype == '".$RE_CONTS_CTYPE[$I_ID]."' || (\$this->ctype == '-1')) { \n";
+        $articleContent = "<?php if (\$this->ctype == '". $sliceCtypeId ."' || (\$this->ctype == '-1')) { \n";
 
       // ------------- EINZELNER SLICE - AUSGABE
-      $artDataSql->counter = $RE_C[$I_ID];
-
       $slice_content = $this->outputSlice(
         $artDataSql,
-        $module_id,
-        $I_ID,
-        $RE_CONTS,
-        $RE_CONTS_CTYPE,
-        $RE_MODUL_IN,
-        $RE_MODUL_OUT,
-        $RE_MODUL_ID,
-        $RE_MODUL_NAME,
-        $RE_C
+        $module_id
       );
-
       // --------------- ENDE EINZELNER SLICE
 
       // --------------- EP: SLICE_SHOW
@@ -319,33 +290,28 @@ class rex_article_base
         array(
           'article_id' => $this->article_id,
           'clang' => $this->clang,
-          'ctype' => $RE_CONTS_CTYPE[$I_ID],
-          'module_id' => $RE_MODUL_ID[$I_ID],
-          'slice_id' => $RE_CONTS[$I_ID],
+          'ctype' => $sliceCtypeId,
+          'module_id' => $sliceModuleId,
+          'slice_id' => $sliceId,
           'function' => $this->function,
           'function_slice_id' => $this->slice_id
         )
       );
 
       // ---------- slice in ausgabe speichern wenn ctype richtig
-      if ($this->ctype == -1 or $this->ctype == $RE_CONTS_CTYPE[$I_ID])
+      if ($this->ctype == -1 || $this->ctype == $sliceCtypeId)
       {
         $articleContent .= $slice_content;
-
-        // last content type slice id
-        $LCTSL_ID = $RE_CONTS[$I_ID];
       }
 
       // ----- zwischenstand: ctype .. wenn ctype neu dann if
-      if ($this->mode != "edit" && isset($RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]) && $RE_CONTS_CTYPE[$I_ID] != $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] && $RE_CONTS_CTYPE[$RE_CONTS[$I_ID]] != "")
+      if ($this->mode != "edit" && isset($prevCtype) && $sliceCtypeId != $prevCtype)
       {
-        $articleContent .= "\n } if(\$this->ctype == '".$RE_CONTS_CTYPE[$RE_CONTS[$I_ID]]."' || \$this->ctype == '-1'){ \n";
+        $articleContent .= "\n } if(\$this->ctype == '".$sliceCtypeId."' || \$this->ctype == '-1'){ \n";
       }
 
-      // zum nachsten slice
-      $I_ID = $RE_CONTS[$I_ID];
-      $PRE_ID = $I_ID;
-
+      $prevCtype = $sliceCtypeId;
+      $artDataSql->next();
     }
 
     // ----- end: ctype unterscheidung
@@ -353,7 +319,7 @@ class rex_article_base
 
 
     // ----- post hook
-    $articleContent = $this->postArticle($articleContent, $LCTSL_ID, $module_id);
+    $articleContent = $this->postArticle($articleContent, $module_id);
 
     // -------------------------- schreibe content
     echo $this->replaceLinks($articleContent);
@@ -370,7 +336,13 @@ class rex_article_base
     // nichts tun
   }
 
-  protected function postArticle($articleContent, $LCTSL_ID, $module_id)
+  /**
+   * Method which gets called, after all slices are processed
+   * 
+   * @param string $articleContent The content of the article
+   * @param integer $module_id A module id
+   */
+  protected function postArticle($articleContent, $module_id)
   {
     // nichts tun
     return $articleContent;
@@ -442,7 +414,7 @@ class rex_article_base
     {
       if ($this->mode == 'edit')
       {
-        if (($this->function == 'add' && $sliceId == '0') ||
+        if (($this->function == 'add' && $sliceId == null) ||
             ($this->function == 'edit' && $sliceId == $this->slice_id))
         {
           if (isset($REX['ACTION']['SAVE']) && $REX['ACTION']['SAVE'] === false)

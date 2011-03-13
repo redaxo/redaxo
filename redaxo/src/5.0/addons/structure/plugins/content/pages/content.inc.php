@@ -226,6 +226,7 @@ if ($article->getRows() == 1)
             // ----- SAVE/UPDATE SLICE
             if ($function == 'add' || $function == 'edit')
             {
+              
               $newsql = rex_sql::factory();
               // $newsql->debugsql = true;
               $sliceTable = $REX['TABLE_PREFIX'] . 'article_slice';
@@ -237,12 +238,22 @@ if ($article->getRows() == 1)
               }
               elseif ($function == 'add')
               {
-                $newsql->setValue('re_article_slice_id', $slice_id);
+                // determine prior value to get the new slice into the right order
+                $prevSlice = rex_sql::factory();
+                // $prevSlice->debugsql = true;
+                if($slice_id == -1) // -1 is used when adding after the last article-slice
+                  $prevSlice->setQuery('SELECT IFNULL(MAX(prior),0)+1 as prior FROM '. $sliceTable . ' WHERE article_id='. $article_id . ' AND clang='. $clang .' AND ctype='. $ctype . ' AND revision='. $slice_revision);
+                else 
+                  $prevSlice->setQuery('SELECT * FROM '. $sliceTable . ' WHERE id='. $slice_id);
+                
+                $prior = $prevSlice->getValue('prior');
+                  
                 $newsql->setValue('article_id', $article_id);
                 $newsql->setValue('modultyp_id', $module_id);
                 $newsql->setValue('clang', $clang);
                 $newsql->setValue('ctype', $ctype);
                 $newsql->setValue('revision', $slice_revision);
+                $newsql->setValue('prior', $prior);
               }
 
               // ****************** SPEICHERN FALLS NOETIG
@@ -266,12 +277,15 @@ if ($article->getRows() == 1)
                 $newsql->addGlobalCreateFields();
                 if ($newsql->insert())
                 {
-                  $last_id = $newsql->getLastId();
-                  if ($newsql->setQuery('UPDATE ' . $REX['TABLE_PREFIX'] . 'article_slice SET re_article_slice_id=' . $last_id . ' WHERE re_article_slice_id=' . $slice_id . ' AND id<>' . $last_id . ' AND article_id=' . $article_id . ' AND clang=' . $clang .' AND revision='.$slice_revision))
-                  {
-                    $info = $action_message . $REX['I18N']->msg('block_added');
-                    $slice_id = $last_id;
-                  }
+                  rex_organize_priorities(
+                    $REX['TABLE_PREFIX'] . 'article_slice',
+                    'prior',
+                    'article_id=' . $article_id . ' AND clang=' . $clang .' AND revision='.$slice_revision,
+                    'prior, updatedate DESC'
+                  );
+                  
+                  $info = $action_message . $REX['I18N']->msg('block_added');
+                  $slice_id = $newsql->getLastId();
                   $function = "";
                 }
                 else
@@ -283,6 +297,7 @@ if ($article->getRows() == 1)
             else
             {
               // make delete
+              // TODO adjust to prior
               if(rex_deleteSlice($slice_id))
               {
                 $global_info = $REX['I18N']->msg('block_deleted');

@@ -16,11 +16,21 @@ class rex_article_editor extends rex_article
     parent::__construct($article_id, $clang);
   }
 
-  protected function outputSlice(rex_sql $artDataSql, $module_id, $I_ID,
-    $RE_CONTS, $RE_CONTS_CTYPE, $RE_MODUL_IN, $RE_MODUL_OUT,
-    $RE_MODUL_ID, $RE_MODUL_NAME, $RE_C)
+  protected function outputSlice(rex_sql $artDataSql, $module_id)
   {
     global $REX;
+    
+    // TODO Remove workarround
+    $I_ID = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
+    
+    $RE_CONTS[$I_ID]       = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
+    $RE_CONTS_CTYPE[$I_ID] = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
+    $RE_MODUL_IN[$I_ID]    = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.input');
+    $RE_MODUL_OUT[$I_ID]   = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.output');
+    $RE_MODUL_ID[$I_ID]    = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
+    $RE_MODUL_NAME[$I_ID]  = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.name');
+    // TODO /Remove workarround
+    
 
     if($this->mode=="edit")
     {
@@ -39,7 +49,7 @@ class rex_article_editor extends rex_article
 
         $slice_content = '
               <div class="rex-form rex-form-content-editmode">
-              <form action="'. $form_url .'" method="get" id="slice'. $RE_CONTS[$I_ID] .'">
+              <form action="'. $form_url .'" method="get" id="slice'. $I_ID .'">
                 <fieldset class="rex-form-col-1">
                   <legend><span>'. $REX['I18N']->msg("add_block") .'</span></legend>
                   <input type="hidden" name="article_id" value="'. $this->article_id .'" />
@@ -237,15 +247,7 @@ class rex_article_editor extends rex_article
       // ----- wenn mode nicht edit
       $slice_content = parent::outputSlice(
         $artDataSql,
-        $module_id,
-        $I_ID,
-        $RE_CONTS,
-        $RE_CONTS_CTYPE,
-        $RE_MODUL_IN,
-        $RE_MODUL_OUT,
-        $RE_MODUL_ID,
-        $RE_MODUL_NAME,
-        $RE_C
+        $module_id
       );
     }
 
@@ -293,9 +295,12 @@ class rex_article_editor extends rex_article
     }
   }
 
-  protected function postArticle($articleContent, $LCTSL_ID, $module_id)
+  protected function postArticle($articleContent, $module_id)
   {
     global $REX;
+    
+    // special identifier for the slot behind the last slice
+    $LCTSL_ID = -1;
 
     // ----- add module im edit mode
     if ($this->mode == "edit")
