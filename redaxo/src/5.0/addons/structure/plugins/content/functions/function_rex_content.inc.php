@@ -56,7 +56,6 @@ function rex_moveSlice($slice_id, $clang, $direction)
   {
     // prepare sql for later saving
     $upd = rex_sql::factory();
-    $upd->debugsql = true;
     $upd->setTable($REX['TABLE_PREFIX'] . "article_slice");
     $upd->setWhere(array(
       'id' => $slice_id
