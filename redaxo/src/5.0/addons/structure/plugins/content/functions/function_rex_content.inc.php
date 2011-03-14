@@ -49,63 +49,50 @@ function rex_moveSlice($slice_id, $clang, $direction)
   $success = false;
   $message = $REX['I18N']->msg('slice_moved_error');
 
+  // check if slice id is valid
   $CM = rex_sql::factory();
-  $CM->setQuery("select * from " . $REX['TABLE_PREFIX'] . "article_slice left join " . $REX['TABLE_PREFIX'] . "module on " . $REX['TABLE_PREFIX'] . "article_slice.modultyp_id=" . $REX['TABLE_PREFIX'] . "module.id where " . $REX['TABLE_PREFIX'] . "article_slice.id='$slice_id' and clang=$clang");
+  $CM->setQuery("select * from " . $REX['TABLE_PREFIX'] . "article_slice where id='$slice_id' and clang=$clang");
   if ($CM->getRows() == 1)
   {
-    $slice_id = $CM->getValue($REX['TABLE_PREFIX'] . "article_slice.id");
-    $slice_article_id = $CM->getValue("article_id");
-    $re_slice_id = $CM->getValue($REX['TABLE_PREFIX'] . "article_slice.re_article_slice_id");
-    $slice_ctype = $CM->getValue($REX['TABLE_PREFIX'] . "article_slice.ctype");
-
-    $gs = rex_sql::factory();
-    // $gs->debugsql = 1;
-    $gs->setQuery("select * from " . $REX['TABLE_PREFIX'] . "article_slice where article_id='$slice_article_id'");
-    $SID = array();
-    $SREID = array();
-    $SCTYPE = array();
-    for ($i = 0; $i < $gs->getRows(); $i++)
+    // prepare sql for later saving
+    $upd = rex_sql::factory();
+    $upd->debugsql = true;
+    $upd->setTable($REX['TABLE_PREFIX'] . "article_slice");
+    $upd->setWhere(array(
+      'id' => $slice_id
+    ));
+    
+    // some vars for later use
+    $article_id = $CM->getValue('article_id');
+    $ctype = $CM->getValue('ctype');
+    $slice_revision = $CM->getValue('revision');
+    
+    if ($direction == "moveup" || $direction == "movedown")
     {
-      $SID[$gs->getValue("re_article_slice_id")] = $gs->getValue("id");
-      $SREID[$gs->getValue("id")] = $gs->getValue("re_article_slice_id");
-      $SCTYPE[$gs->getValue("id")] = $gs->getValue("ctype");
-      $gs->next();
-    }
-
-    // ------ moveup
-    if ($direction == "moveup")
-    {
-      if (isset($SREID[$slice_id]) && $SREID[$slice_id] > 0)
+      if ($direction == "moveup")
       {
-        if ($SCTYPE[$SREID[$slice_id]] == $slice_ctype)
-        {
-          $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$SREID[$slice_id]] . "' where id='" . $slice_id . "'");
-          $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $slice_id . "' where id='" . $SREID[$slice_id] . "'");
-          if (isset($SID[$slice_id]) && $SID[$slice_id] > 0)
-            $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$slice_id] . "' where id='" . $SID[$slice_id] . "'");
-          rex_deleteCacheArticleContent($slice_article_id, $clang);
-          $message = $REX['I18N']->msg('slice_moved');
-          $success = true;
-        }
+        $upd->setValue('prior', $CM->getValue('prior')-1);
+        $updSort = 'DESC';
       }
-    }
-
-    // ------ movedown
-    else if ($direction == "movedown")
-    {
-      if (isset($SID[$slice_id]) && $SID[$slice_id] > 0)
+      else if ($direction == "movedown")
       {
-        if ($SCTYPE[$SID[$slice_id]] == $slice_ctype)
-        {
-          $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SREID[$slice_id] . "' where id='" . $SID[$slice_id] . "'");
-          $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $SID[$slice_id] . "' where id='" . $slice_id . "'");
-          if (isset($SID[$SID[$slice_id]]) && $SID[$SID[$slice_id]] > 0)
-            $gs->setQuery("update " . $REX['TABLE_PREFIX'] . "article_slice set re_article_slice_id='" . $slice_id . "' where id='" . $SID[$SID[$slice_id]] . "'");
-          rex_deleteCacheArticleContent($slice_article_id, $clang);
-          $message = $REX['I18N']->msg('slice_moved');
-          $success = true;
-        }
+        $upd->setValue('prior', $CM->getValue('prior')+1);
+        $updSort = 'ASC';
       }
+      $upd->addGlobalUpdateFields();
+      $upd->update();
+      
+      rex_organize_priorities(
+        $REX['TABLE_PREFIX'] . 'article_slice',
+        'prior',
+        'article_id=' . $article_id . ' AND clang=' . $clang .' AND ctype='. $ctype .' AND revision='. $slice_revision,
+        'prior, updatedate '. $updSort
+      );
+      
+      rex_deleteCacheArticleContent($article_id, $clang);
+      
+      $message = $REX['I18N']->msg('slice_moved');
+      $success = true;
     }
     else
     {
