@@ -113,7 +113,7 @@ function rex_deleteSlice($slice_id)
 {
   global $REX;
 
-  // zu loeschender slice suchen
+  // check if slice id is valid
   $curr = rex_sql::factory();
   $curr->setQuery('SELECT * FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE id=' . $slice_id);
   if($curr->getRows() != 1)
@@ -121,16 +121,18 @@ function rex_deleteSlice($slice_id)
     return false;
   }
 
-  // nachfolge slice suchen
-  $next = rex_sql::factory();
-  $next->setQuery('SELECT * FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE re_article_slice_id=' . $slice_id);
-  if ($next->getRows() == 1 )
-  {
-    // ggf. nachfolger auf eigenen vorgaenger verweisen
-    $next->setQuery('UPDATE ' . $REX['TABLE_PREFIX'] . 'article_slice SET re_article_slice_id=' . $curr->getValue('re_article_slice_id') . ' where id=' . $next->getValue('id'));
-  }
-  // slice loeschen
+  // delete the slice
   $curr->setQuery('DELETE FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE id=' . $slice_id);
+  
+  // reorg remaining slices
+  rex_organize_priorities(
+    $REX['TABLE_PREFIX'] . 'article_slice',
+    'prior',
+    'article_id=' . $curr->getValue('article_id') . ' AND clang=' . $curr->getValue('clang') .' AND ctype='. $curr->getValue('ctype') .' AND revision='. $curr->getValue('revision'),
+    'prior'
+  );
+
+  // check if delete was successfull
   return $curr->getRows() == 1;
 }
 
@@ -560,56 +562,61 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
     return false;
 
   $gc = rex_sql::factory();
-  $gc->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice where re_article_slice_id='$from_re_sliceid' and article_id='$from_id' and clang='$from_clang' and revision='$revision'");
+  $gc->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice where article_id='$from_id' and clang='$from_clang' and revision='$revision'");
 
-  if ($gc->getRows() == 1)
+  if ($gc->getRows() > 0)
   {
-
-    // letzt slice_id des ziels holen ..
-    $glid = rex_sql::factory();
-    $glid->setQuery("select r1.id, r1.re_article_slice_id
-                     from ".$REX['TABLE_PREFIX']."article_slice as r1
-                     left join ".$REX['TABLE_PREFIX']."article_slice as r2 on r1.id=r2.re_article_slice_id
-                     where
-												r1.article_id=$to_id and r1.clang=$to_clang and r1.revision=$revision
-												and r2.id is NULL");
-    if ($glid->getRows() == 1)
-      $to_last_slice_id = $glid->getValue("r1.id");
-    else
-      $to_last_slice_id = 0;
-
     $ins = rex_sql::factory();
     $ins->setTable($REX['TABLE_PREFIX']."article_slice");
+    $ctypes = array();
 
     $cols = rex_sql::factory();
     // $cols->debugsql = 1;
     $cols->setquery("SHOW COLUMNS FROM ".$REX['TABLE_PREFIX']."article_slice");
-    for ($j = 0; $j < $cols->rows; $j ++, $cols->next())
+    while($gc->hasNext())
     {
-      $colname = $cols->getValue("Field");
-      if ($colname == "clang") $value = $to_clang;
-      elseif ($colname == "re_article_slice_id") $value = $to_last_slice_id;
-      elseif ($colname == "article_id") $value = $to_id;
-      elseif ($colname == "createdate") $value = time();
-      elseif ($colname == "updatedate") $value = time();
-      elseif ($colname == "createuser") $value = $REX['USER']->getValue("login");
-      elseif ($colname == "updateuser") $value = $REX['USER']->getValue("login");
-      else
-        $value = $gc->getValue($colname);
-
-      if ($colname != "id")
-        $ins->setValue($colname, $ins->escape($value));
+      while($cols->hasNext())
+      {
+        $colname = $cols->getValue("Field");
+        if ($colname == "clang") $value = $to_clang;
+        elseif ($colname == "article_id") $value = $to_id;
+        else
+          $value = $gc->getValue($colname);
+  
+        // collect all affected ctypes
+        if ($colname == "ctype")
+          $ctypes[$value] = $value;
+        
+        if ($colname != "id")
+          $ins->setValue($colname, $value);
+          
+        $cols->next();
+      }
+      $cols->reset();
+      
+      $ins->addGlobalUpdateFields();
+      $ins->addGlobalCreateFields();
+      $ins->insert();
+      
+      $gc->next();
     }
-    $ins->insert();
 
-    // id holen und als re setzen und weitermachen..
-    rex_copyContent($from_id, $to_id, $from_clang, $to_clang, $gc->getValue("id"), $revision);
+    foreach($ctypes as $ctype)
+    {
+      // reorg slices
+      rex_organize_priorities(
+        $REX['TABLE_PREFIX'] . 'article_slice',
+        'prior',
+        'article_id=' . $to_id . ' AND clang=' . $to_clang .' AND ctype='. $ctype .' AND revision='. $revision,
+        'prior, updatedate'
+      );
+    }
+  
+    rex_deleteCacheArticleContent($to_id, $to_clang);
     return true;
   }
 
-  rex_deleteCacheArticleContent($to_id, $to_clang);
-
-  return true;
+  return false;
 }
 
 /**
@@ -660,28 +667,30 @@ function rex_copyArticle($id, $to_cat_id)
         if ($new_id == "") $new_id = $art_sql->setNewId('id');
         $art_sql->setValue('id', $new_id); // neuen auto_incrment erzwingen
         $art_sql->setValue('re_id', $to_cat_id);
-        $art_sql->setValue('path', $path);
-        $art_sql->setValue('catname', $art_sql->escape($catname));
+        $art_sql->setValue('catname', $catname);
         $art_sql->setValue('catprior', 0);
+        $art_sql->setValue('path', $path);
         $art_sql->setValue('prior', 99999); // Artikel als letzten Artikel in die neue Kat einfügen
         $art_sql->setValue('status', 0); // Kopierter Artikel offline setzen
         $art_sql->setValue('startpage', 0);
+        $art_sql->addGlobalUpdateFields();
         $art_sql->addGlobalCreateFields();
 
         // schon gesetzte Felder nicht wieder überschreiben
-        $dont_copy = array ('id', 'pid', 're_id', 'catname', 'catprior', 'path', 'prior', 'status', 'createdate', 'createuser', 'startpage');
+        $dont_copy = array ('id', 'pid', 're_id', 'catname', 'catprior', 'path', 'prior', 'status', 'updatedate', 'updateuser', 'createdate', 'createuser', 'startpage');
 
         foreach (array_diff($from_sql->getFieldnames(), $dont_copy) as $fld_name)
         {
-          $art_sql->setValue($fld_name, $art_sql->escape($from_sql->getValue($fld_name)));
+          $art_sql->setValue($fld_name, $from_sql->getValue($fld_name));
         }
 
         $art_sql->setValue("clang", $clang);
         $art_sql->insert();
 
+        // TODO Doublecheck... is this really correct?
         $revisions = rex_sql::factory();
-        $revisions->setQuery("select revision from ".$REX['TABLE_PREFIX']."article_slice where re_article_slice_id='0' and article_id='$id' and clang='$clang'");
-        for($i = 0; $i < $revisions->getRows(); $i++)
+        $revisions->setQuery("select revision from ".$REX['TABLE_PREFIX']."article_slice where prior=1 AND ctype=1 AND article_id='$id' AND clang='$clang'");
+        while($revisions->hasNext())
         {
           // ArticleSlices kopieren
           rex_copyContent($id, $new_id, $clang, $clang, 0, $revisions->getValue('revision'));
