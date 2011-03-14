@@ -280,7 +280,7 @@ if ($article->getRows() == 1)
                   rex_organize_priorities(
                     $REX['TABLE_PREFIX'] . 'article_slice',
                     'prior',
-                    'article_id=' . $article_id . ' AND clang=' . $clang .' AND revision='.$slice_revision,
+                    'article_id=' . $article_id . ' AND clang=' . $clang .' AND ctype='. $ctype .' AND revision='. $slice_revision,
                     'prior, updatedate DESC'
                   );
                   
@@ -297,7 +297,6 @@ if ($article->getRows() == 1)
             else
             {
               // make delete
-              // TODO adjust to prior
               if(rex_deleteSlice($slice_id))
               {
                 $global_info = $REX['I18N']->msg('block_deleted');
