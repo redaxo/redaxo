@@ -646,7 +646,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
  */
 function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
 {
-  if($_SERVER['REQUEST_METHOD'] != 'POST') return $params;
+  if(rex_request_method() != 'post') return $params;
 
   global $REX;
 
@@ -681,7 +681,7 @@ function _rex_a62_metainfo_art_handleSave($params, $sqlFields)
  */
 function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
 {
-  if($_SERVER['REQUEST_METHOD'] != 'POST' || !isset($params['media_id'])) return $params;
+  if(rex_request_method() != 'post' || !isset($params['media_id'])) return $params;
 
   global $REX;
 
