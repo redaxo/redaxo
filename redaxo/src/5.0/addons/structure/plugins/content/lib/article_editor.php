@@ -15,77 +15,6 @@ class rex_article_editor extends rex_article
   {
     parent::__construct($article_id, $clang);
   }
-  
-  private function getSliceMenu(rex_sql $artDataSql)
-  {
-    global $REX;
-    
-    $sliceId      = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
-    $sliceCtype   = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
-    
-    $moduleId     = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
-    $moduleName   = htmlspecialchars($artDataSql->getValue($REX['TABLE_PREFIX'].'module.name'));
-  
-
-    $sliceUrl = 'index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $sliceId .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $sliceId;
-    $listElements = array();
-
-    if(($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$moduleId."]"))
-      && rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId))
-    {
-      $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=edit') .'" class="rex-tx3">'. $REX['I18N']->msg('edit') .' <span>'. $moduleName .'</span></a>';
-    	$listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=delete&amp;save=1') .'" class="rex-tx2" onclick="return confirm(\''.$REX['I18N']->msg('delete').' ?\')">'. $REX['I18N']->msg('delete') .' <span>'. $moduleName .'</span></a>';
-
-      if ($REX['USER']->hasPerm('moveSlice[]'))
-      {
-        $moveUp = $REX['I18N']->msg('move_slice_up');
-        $moveDown = $REX['I18N']->msg('move_slice_down');
-        // upd stamp uebergeben, da sonst ein block nicht mehrfach hintereindander verschoben werden kann
-        // (Links waeren sonst gleich und der Browser laesst das klicken auf den gleichen Link nicht zu)
-        $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=moveup') .'" title="'. $moveUp .'" class="rex-slice-move-up"><span>'. $moduleName .'</span></a>';
-        $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=movedown') .'" title="'. $moveDown .'" class="rex-slice-move-down"><span>'. $moduleName .'</span></a>';
-      }
-
-    }
-    else
-    {
-      $listElements[] = '<b class="rex-tx2">'. $REX['I18N']->msg('no_editing_rights') .' <span>'. $moduleName .'</span></b>';
-    }
-
-    // ----- EXTENSION POINT
-    $listElements = rex_register_extension_point(
-      'ART_SLICE_MENU',
-      $listElements,
-      array(
-        'article_id' => $this->article_id,
-        'clang' => $this->clang,
-        'ctype' => $sliceCtype,
-        'module_id' => $moduleId,
-        'slice_id' => $sliceId,
-        'perm' => ($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$moduleId."]"))
-      )
-    );
-    
-    // ----- render the list
-    $mne = '';
-    $listElementFlag = true;
-    foreach($listElements as $listElement)
-    {
-      $class = '';
-      if ($listElementFlag)
-      {
-        $class = ' class="rex-navi-first"';
-        if(count($listElements) == 1)
-        {
-          $class = ' class="rex-navi-first rex-navi-onlyone"';
-        }
-        $listElementFlag = false;
-      }
-      $mne  .= '<li'.$class.'>'. $listElement .'</li>';
-    }
-    
-    return '<ul>'. $mne .'</ul>';
-  }
 
   protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
   {
@@ -236,6 +165,77 @@ class rex_article_editor extends rex_article
     return $slice_content;
   }
   
+  private function getSliceMenu(rex_sql $artDataSql)
+  {
+    global $REX;
+    
+    $sliceId      = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
+    $sliceCtype   = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
+    
+    $moduleId     = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
+    $moduleName   = htmlspecialchars($artDataSql->getValue($REX['TABLE_PREFIX'].'module.name'));
+  
+
+    $sliceUrl = 'index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $sliceId .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $sliceId;
+    $listElements = array();
+
+    if(($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$moduleId."]"))
+      && rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId))
+    {
+      $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=edit') .'" class="rex-tx3">'. $REX['I18N']->msg('edit') .' <span>'. $moduleName .'</span></a>';
+    	$listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;function=delete&amp;save=1') .'" class="rex-tx2" onclick="return confirm(\''.$REX['I18N']->msg('delete').' ?\')">'. $REX['I18N']->msg('delete') .' <span>'. $moduleName .'</span></a>';
+
+      if ($REX['USER']->hasPerm('moveSlice[]'))
+      {
+        $moveUp = $REX['I18N']->msg('move_slice_up');
+        $moveDown = $REX['I18N']->msg('move_slice_down');
+        // upd stamp uebergeben, da sonst ein block nicht mehrfach hintereindander verschoben werden kann
+        // (Links waeren sonst gleich und der Browser laesst das klicken auf den gleichen Link nicht zu)
+        $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=moveup') .'" title="'. $moveUp .'" class="rex-slice-move-up"><span>'. $moduleName .'</span></a>';
+        $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=movedown') .'" title="'. $moveDown .'" class="rex-slice-move-down"><span>'. $moduleName .'</span></a>';
+      }
+
+    }
+    else
+    {
+      $listElements[] = '<b class="rex-tx2">'. $REX['I18N']->msg('no_editing_rights') .' <span>'. $moduleName .'</span></b>';
+    }
+
+    // ----- EXTENSION POINT
+    $listElements = rex_register_extension_point(
+      'ART_SLICE_MENU',
+      $listElements,
+      array(
+        'article_id' => $this->article_id,
+        'clang' => $this->clang,
+        'ctype' => $sliceCtype,
+        'module_id' => $moduleId,
+        'slice_id' => $sliceId,
+        'perm' => ($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$moduleId."]"))
+      )
+    );
+    
+    // ----- render the list
+    $mne = '';
+    $listElementFlag = true;
+    foreach($listElements as $listElement)
+    {
+      $class = '';
+      if ($listElementFlag)
+      {
+        $class = ' class="rex-navi-first"';
+        if(count($listElements) == 1)
+        {
+          $class = ' class="rex-navi-first rex-navi-onlyone"';
+        }
+        $listElementFlag = false;
+      }
+      $mne  .= '<li'.$class.'>'. $listElement .'</li>';
+    }
+    
+    return '<ul>'. $mne .'</ul>';
+  }
+  
   /**
    * Wraps the output of a module
    * 
@@ -314,7 +314,6 @@ class rex_article_editor extends rex_article
         // ----- BLOCKAUSWAHL - SELECT
         $this->MODULESELECT[$this->ctype]->setId("module_id". $LCTSL_ID);
 
-        // $slice_content = $add_select_box;
         $slice_content = '
             <div class="rex-form rex-form-content-editmode">
             <form action="index.php" method="get">
