@@ -114,6 +114,9 @@ class rex_addonManager extends rex_packageManager
   {
     $state = parent::checkRequirements($addonName);
 
+    if($state !== true)
+      return $state;
+
     $pluginManager = new rex_pluginManager($addonName);
     foreach(rex_ooPlugin::getRegisteredPlugins($addonName) as $plugin)
     {
@@ -173,14 +176,6 @@ class rex_addonManager extends rex_packageManager
           }
         }
       }
-    }
-
-    $pluginManager = new rex_pluginManager($addonName);
-    foreach(rex_ooPlugin::getAvailablePlugins($addonName) as $plugin)
-    {
-      $return = $pluginManager->checkDependencies($plugin);
-      if(is_string($return) && !empty($return))
-        $state[] = $return;
     }
 
     return empty($state) ? true : implode('<br />', $state);
