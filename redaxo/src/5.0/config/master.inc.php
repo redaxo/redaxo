@@ -148,7 +148,10 @@ if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 if(!$REX['NOFUNCTIONS']) include_once rex_path::src('core/functions.inc.php');
 
 // ----- SET CLANG
-include_once rex_path::src('config/clang.inc.php');
+$REX['CLANG'] = array();
+$clangFile = rex_path::generated('files/clang.cache');
+if(file_exists($clangFile))
+  $REX['CLANG'] = json_decode(rex_get_file_contents(rex_path::generated('files/clang.cache')), true);
 
 $REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', $REX['START_CLANG_ID']);
 

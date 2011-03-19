@@ -336,7 +336,6 @@ if ($checkmodus == 1)
 		rex_path::src('config/master.inc.php'),
 		rex_path::src('config/addons.inc.php'),
 		rex_path::src('config/plugins.inc.php'),
-		rex_path::src('config/clang.inc.php'),
 		rex_path::generated(),
 		rex_path::generated('articles'),
 		rex_path::generated('templates'),
@@ -719,6 +718,7 @@ if ($checkmodus == 3 && $send == 1)
 
 	if ($err_msg == "")
 	{
+	  rex_generateClang();
 		$send = "";
 		$checkmodus = 4;
 	}

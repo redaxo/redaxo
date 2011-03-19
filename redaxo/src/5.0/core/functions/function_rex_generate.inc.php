@@ -341,8 +341,8 @@ function rex_addCLang($id, $name)
   if(isset($REX['CLANG'][$id])) return FALSE;
 
   $REX['CLANG'][$id] = $name;
-  $file = rex_path::src('config/clang.inc.php');
-  rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n");
+  $file = rex_path::generated('files/clang.cache');
+  rex_put_file_contents($file, json_encode($REX['CLANG']));
 
   $firstLang = rex_sql::factory();
   $firstLang->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='0'");
@@ -397,8 +397,8 @@ function rex_editCLang($id, $name)
   if(!isset($REX['CLANG'][$id])) return false;
 
   $REX['CLANG'][$id] = $name;
-  $file = rex_path::src('config/clang.inc.php');
-  rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n");
+  $file = rex_path::generated('files/clang.cache');
+  rex_put_file_contents($file, json_encode($REX['CLANG']));
 
   $edit = rex_sql::factory();
   $edit->setQuery("update ".$REX['TABLE_PREFIX']."clang set name='$name' where id='$id'");
@@ -520,8 +520,8 @@ function rex_generateClang()
     $lg->next();
   }
 
-  $file = rex_path::src('config/clang.inc.php');
-  if(rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n") === FALSE)
+  $file = rex_path::generated('files/clang.cache');
+  if(rex_put_file_contents($file, json_encode($REX['CLANG'])) === FALSE)
   {
     return 'Datei "'.$file.'" hat keine Schreibrechte';
   }
