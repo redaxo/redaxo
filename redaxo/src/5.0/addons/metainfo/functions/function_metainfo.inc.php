@@ -216,9 +216,9 @@ function a62_extensions_handler($params)
   // additional javascripts
   if($page == 'metainfo' || ($page == 'content' && $mode == 'meta'))
   {
-    rex_register_extension('PAGE_HEADER',
-      create_function('$params', 'return $params[\'subject\'] ."\n".\'  <script src="'. rex_path::addonAssets($mypage, 'metainfo.js', true) .'" type="text/javascript"></script>\';')
-    );
+    rex_register_extension('PAGE_HEADER', function($params) {
+      return $params['subject'] ."\n".'  <script src="'. rex_path::addonAssets($mypage, 'metainfo.js', true) .'" type="text/javascript"></script>';
+    });
   }
 
   // include extensions
