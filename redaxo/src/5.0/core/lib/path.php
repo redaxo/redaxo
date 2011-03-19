@@ -2,6 +2,10 @@
 
 class rex_path
 {
+  const
+    RELATIVE = true,
+    ABSOLUTE = false;
+    
   static private
     $relBase,
     $absBase,
@@ -14,9 +18,9 @@ class rex_path
     self::$version = $version;
   }
 
-  static public function frontend($file = '', $relative = false)
+  static public function frontend($file = '', $pathType = rex_path::ABSOLUTE)
   {
-    return self::base($file, $relative);
+    return self::base($file, $pathType);
   }
 
   static public function frontendController($params = '')
@@ -24,9 +28,9 @@ class rex_path
     return self::relBase('index.php'. $params);
   }
 
-  static public function backend($file = '', $relative = false)
+  static public function backend($file = '', $pathType = rex_path::ABSOLUTE)
   {
-    return self::base('redaxo/'. $file, $relative);
+    return self::base('redaxo/'. $file, $pathType);
   }
 
   static public function backendController($params = '')
@@ -34,24 +38,24 @@ class rex_path
     return self::relBase('redaxo/index.php'. $params);
   }
 
-  static public function media($file = '', $relative = false)
+  static public function media($file = '', $pathType = rex_path::ABSOLUTE)
   {
-    return self::base('media/'. $file, $relative);
+    return self::base('media/'. $file, $pathType);
   }
 
-  static public function assets($file = '', $relative = false)
+  static public function assets($file = '', $pathType = rex_path::ABSOLUTE)
   {
-    return self::base('assets/'. $file, $relative);
+    return self::base('assets/'. $file, $pathType);
   }
 
-  static public function addonAssets($addon, $file = '', $relative = false)
+  static public function addonAssets($addon, $file = '', $pathType = rex_path::ABSOLUTE)
   {
-    return self::assets('addons/'. $addon .'/'. $file, $relative);
+    return self::assets('addons/'. $addon .'/'. $file, $pathType);
   }
 
-  static public function pluginAssets($addon, $plugin, $file = '', $relative = false)
+  static public function pluginAssets($addon, $plugin, $file = '', $pathType = rex_path::ABSOLUTE)
   {
-    return self::addonAssets($addon, 'plugins/'. $plugin .'/'. $file, $relative);
+    return self::addonAssets($addon, 'plugins/'. $plugin .'/'. $file, $pathType);
   }
 
   static public function data($file = '')
@@ -99,8 +103,8 @@ class rex_path
     return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, self::$absBase . $file);
   }
 
-  static private function base($file, $relative = false)
+  static private function base($file, $pathType = rex_path::ABSOLUTE)
   {
-    return $relative ? self::relBase($file) : self::absBase($file);
+    return $pathType == rex_path::ABSOLUTE ? self::absBase($file) : self::relBase($file);
   }
 }
