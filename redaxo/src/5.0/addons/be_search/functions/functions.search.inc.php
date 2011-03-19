@@ -56,9 +56,9 @@ function rex_be_search_css_add($params)
   $addon = 'be_search';
 
   $params['subject'] .= "\n  ".
-    '<link rel="stylesheet" type="text/css" href="'. rex_path::addonAssets($addon, 'be_search.css') .'" />';
+    '<link rel="stylesheet" type="text/css" href="'. rex_path::addonAssets($addon, 'be_search.css', rex_path::RELATIVE) .'" />';
   $params['subject'] .= "\n  ".
-    '<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="'. rex_path::addonAssets($addon, 'be_search_ie_lte_7.css') .'" /><![endif]-->';
+    '<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="'. rex_path::addonAssets($addon, 'be_search_ie_lte_7.css', rex_path::RELATIVE) .'" /><![endif]-->';
 
   return $params['subject'];
 }
