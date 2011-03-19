@@ -391,7 +391,7 @@ class rex_sql
 
     $res = false;
     // isset doesn't work here, because values may also be null
-    if(array_key_exists($feldname, $this->lastRow))
+    if(is_array($this->lastRow) && array_key_exists($feldname, $this->lastRow))
     {
       $res = $this->lastRow[$feldname];
     }
