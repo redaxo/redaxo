@@ -467,7 +467,7 @@ function rex_a1_export_files($folders)
 
   foreach ($folders as $key => $item)
   {
-    _rex_a1_add_folder_to_tar($tar, rex_path::frontend('', true), $key);
+    _rex_a1_add_folder_to_tar($tar, rex_path::frontend('', rex_path::RELATIVE), $key);
   }
 
   // ----- EXTENSION POINT

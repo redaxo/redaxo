@@ -26,7 +26,7 @@ function rex_image_manager_init()
 
 	if($rex_img_file != '' && $rex_img_type != '')
 	{
-		$imagepath = rex_path::media($rex_img_file, true);
+		$imagepath = rex_path::media($rex_img_file, rex_path::RELATIVE);
 		$cachepath = rex_path::generated('files/');
 
 		$image         = new rex_image($imagepath);

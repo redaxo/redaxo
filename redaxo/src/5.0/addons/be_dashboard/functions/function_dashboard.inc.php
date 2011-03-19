@@ -14,9 +14,9 @@ function rex_a655_add_assets($params)
   if($REX['PAGE'] != $addon) return '';
 
   $params['subject'] .= "\n  ".
-    '<link rel="stylesheet" type="text/css" href="'. rex_path::addonAssets($addon, 'be_dashboard.css') .'" />';
+    '<link rel="stylesheet" type="text/css" href="'. rex_path::addonAssets($addon, 'be_dashboard.css', rex_path::RELATIVE) .'" />';
   $params['subject'] .= "\n  ".
-    '<script type="text/javascript" src="'. rex_path::addonAssets($addon, 'be_dashboard.js') .'"></script>';
+    '<script type="text/javascript" src="'. rex_path::addonAssets($addon, 'be_dashboard.js', rex_path::RELATIVE) .'"></script>';
 
   return $params['subject'];
 }

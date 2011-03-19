@@ -24,18 +24,18 @@ if($REX["REDAXO"])
   {
 
   	$params["subject"] = '
-  <link rel="stylesheet" type="text/css" href="'. rex_path::pluginAssets('be_style', 'base', 'css_import.css', true) .'" media="screen, projection, print" />
+  <link rel="stylesheet" type="text/css" href="'. rex_path::pluginAssets('be_style', 'base', 'css_import.css', rex_path::RELATIVE) .'" media="screen, projection, print" />
 
   <!--[if lte IE 7]>
-    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base', 'css_ie_lte_7.css', true) .'" type="text/css" media="screen, projection, print" />
+    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base', 'css_ie_lte_7.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
   <![endif]-->
 
   <!--[if IE 7]>
-    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base', 'css_ie_7.css', true) .'" type="text/css" media="screen, projection, print" />
+    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base', 'css_ie_7.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
   <![endif]-->
 
   <!--[if lte IE 6]>
-    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base', 'css_ie_lte_6.css', true) .'" type="text/css" media="screen, projection, print" />
+    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base', 'css_ie_lte_6.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
   <![endif]-->
 
   '.$params["subject"];

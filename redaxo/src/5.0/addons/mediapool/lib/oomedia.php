@@ -250,7 +250,7 @@ class rex_ooMedia
   public function getPath()
   {
     global $REX;
-    return rex_path::media('', true);
+    return rex_path::media('', rex_path::RELATIVE);
   }
 
   /**
@@ -412,7 +412,7 @@ class rex_ooMedia
     // Ist das Media ein Bild?
     if (!$this->isImage())
     {
-      $file = rex_path::pluginAssets('be_style', 'base_old', 'file_dummy.gif', true);
+      $file = rex_path::pluginAssets('be_style', 'base_old', 'file_dummy.gif', rex_path::RELATIVE);
 
       // Verwenden einer statischen variable, damit getimagesize nur einmal aufgerufen
       // werden muss, da es sehr lange dauert
@@ -479,7 +479,7 @@ class rex_ooMedia
       else
       {
         // Bild 1:1 anzeigen
-        $file = rex_path::media($this->getFileName(), true);
+        $file = rex_path::media($this->getFileName(), rex_path::RELATIVE);
       }
     }
 
@@ -738,7 +738,7 @@ class rex_ooMedia
     global $REX;
 
     $ext = $this->getExtension();
-    $folder = rex_path::pluginAssets('be_style', 'base_old', '', true);
+    $folder = rex_path::pluginAssets('be_style', 'base_old', '', rex_path::RELATIVE);
     $icon = $folder .'mime-'.$ext.'.gif';
 
     // Dateityp für den kein Icon vorhanden ist

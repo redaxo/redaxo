@@ -10,7 +10,7 @@ function rex_a79_css_add($params)
   $addon = 'textile';
 
   $params['subject'] .= "\n  ".
-    '<link rel="stylesheet" type="text/css" href="'. rex_path::addonAssets($addon, 'textile.css', true) .'" />';
+    '<link rel="stylesheet" type="text/css" href="'. rex_path::addonAssets($addon, 'textile.css', rex_path::RELATIVE) .'" />';
 
   return $params['subject'];
 }

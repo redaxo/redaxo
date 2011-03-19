@@ -95,7 +95,7 @@ class rex_image_manager
   {
     global $REX;
 
-    $imagepath = rex_path::media($rex_img_file, true);
+    $imagepath = rex_path::media($rex_img_file, rex_path::RELATIVE);
     $cachepath = rex_path::generated('files/');
 
     $image         = new rex_image($imagepath);
