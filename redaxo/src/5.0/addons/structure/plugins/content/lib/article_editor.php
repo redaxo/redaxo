@@ -16,6 +16,10 @@ class rex_article_editor extends rex_article
     parent::__construct($article_id, $clang);
   }
 
+  /**
+   * (non-PHPdoc)
+   * @see rex_article_base::outputSlice()
+   */
   protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
   {
     global $REX;
@@ -140,6 +144,11 @@ class rex_article_editor extends rex_article
     return $slice_content;
   }
   
+  /**
+   * Returns the slice menu
+   * 
+   * @param rex_sql $artDataSql rex_sql istance containing all the slice and module information
+   */
   private function getSliceMenu(rex_sql $artDataSql)
   {
     global $REX;
@@ -264,7 +273,10 @@ class rex_article_editor extends rex_article
     
   }
 
-
+  /**
+   * (non-PHPdoc)
+   * @see rex_article_base::preArticle()
+   */
   protected function preArticle()
   {
     global $REX;
@@ -305,6 +317,10 @@ class rex_article_editor extends rex_article
     }
   }
 
+  /**
+   * (non-PHPdoc)
+   * @see rex_article_base::postArticle()
+   */
   protected function postArticle($articleContent, $moduleIdToAdd)
   {
     global $REX;

@@ -198,7 +198,13 @@ class rex_article_base
     return $this->ARTICLE->hasValue($this->correctValue($value));
   }
 
-  protected function outputSlice(rex_sql $artDataSql, $module_id)
+  /**
+   * Outputs a slice
+   * 
+   * @param rex_sql $artDataSql A rex_sql instance containing all slice and module data
+   * @param integer $moduleIdToAdd The id of the module, which was selected using the ModuleSelect
+   */
+  protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
   {
     /*
     if($this->getSlice)
@@ -331,13 +337,16 @@ class rex_article_base
     return $CONTENT;
   }
 
+  /**
+   * Method which gets called, before the slices of the article are processed
+   */
   protected function preArticle()
   {
     // nichts tun
   }
 
   /**
-   * Method which gets called, after all slices are processed
+   * Method which gets called, after all slices have been processed
    * 
    * @param string $articleContent The content of the article
    * @param integer $module_id A module id
