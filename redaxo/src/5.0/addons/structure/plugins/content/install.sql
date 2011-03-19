@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
   `createuser` varchar(255) NOT NULL,
   `updateuser` varchar(255) NOT NULL,
   `revision` int(11) NOT NULL,
-  PRIMARY KEY (`id`,`prior`,`article_id`,`modultyp_id`),
+  PRIMARY KEY (`article_id`,`prior`,`modultyp_id`),
   KEY `id` (`id`),
   KEY `clang` (`clang`),
   KEY `article_id` (`article_id`),
