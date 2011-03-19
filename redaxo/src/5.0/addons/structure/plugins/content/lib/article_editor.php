@@ -46,32 +46,7 @@ class rex_article_editor extends rex_article
       else
       {
         // ----- BLOCKAUSWAHL - SELECT
-        $this->MODULESELECT[$this->ctype]->setId("module_id". $sliceId);
-
-        $slice_content = '
-              <div class="rex-form rex-form-content-editmode">
-              <form action="index.php" method="get" id="slice'. $sliceId .'">
-                <fieldset class="rex-form-col-1">
-                  <legend><span>'. $REX['I18N']->msg("add_block") .'</span></legend>
-                  <input type="hidden" name="article_id" value="'. $this->article_id .'" />
-                  <input type="hidden" name="page" value="content" />
-                  <input type="hidden" name="mode" value="'. $this->mode .'" />
-                  <input type="hidden" name="slice_id" value="'. $sliceId .'" />
-                  <input type="hidden" name="function" value="add" />
-                  <input type="hidden" name="clang" value="'.$this->clang.'" />
-                  <input type="hidden" name="ctype" value="'.$this->ctype.'" />
-
-                  <div class="rex-form-wrapper">
-                    <div class="rex-form-row">
-                      <p class="rex-form-col-a rex-form-select">
-                        '. $this->MODULESELECT[$this->ctype]->get() .'
-                        <noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $REX['I18N']->msg("add_block") .'" /></noscript>
-                      </p>
-                    </div>
-                  </div>
-                </fieldset>
-              </form>
-              </div>';
+        $slice_content = $this->getModuleSelect($sliceId);
       }
 
       // ----- Display message at current slice
@@ -254,6 +229,40 @@ class rex_article_editor extends rex_article
             <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
             ';
   }
+  
+  private function getModuleSelect($sliceId)
+  {
+    global $REX;
+    
+    // ----- BLOCKAUSWAHL - SELECT
+    $this->MODULESELECT[$this->ctype]->setId("module_id". $sliceId);
+
+    return '
+          <div class="rex-form rex-form-content-editmode">
+          <form action="index.php" method="get" id="slice'. $sliceId .'">
+            <fieldset class="rex-form-col-1">
+              <legend><span>'. $REX['I18N']->msg("add_block") .'</span></legend>
+              <input type="hidden" name="article_id" value="'. $this->article_id .'" />
+              <input type="hidden" name="page" value="content" />
+              <input type="hidden" name="mode" value="'. $this->mode .'" />
+              <input type="hidden" name="slice_id" value="'. $sliceId .'" />
+              <input type="hidden" name="function" value="add" />
+              <input type="hidden" name="clang" value="'.$this->clang.'" />
+              <input type="hidden" name="ctype" value="'.$this->ctype.'" />
+
+              <div class="rex-form-wrapper">
+                <div class="rex-form-row">
+                  <p class="rex-form-col-a rex-form-select">
+                    '. $this->MODULESELECT[$this->ctype]->get() .'
+                    <noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $REX['I18N']->msg("add_block") .'" /></noscript>
+                  </p>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+          </div>';
+    
+  }
 
 
   protected function preArticle()
@@ -312,36 +321,11 @@ class rex_article_editor extends rex_article
       }else
       {
         // ----- BLOCKAUSWAHL - SELECT
-        $this->MODULESELECT[$this->ctype]->setId("module_id". $LCTSL_ID);
-
-        $slice_content = '
-            <div class="rex-form rex-form-content-editmode">
-            <form action="index.php" method="get">
-              <fieldset class="rex-form-col-1">
-                <legend><span>'. $REX['I18N']->msg("add_block") .'</span></legend>
-                <input type="hidden" name="article_id" value="'. $this->article_id .'" />
-                <input type="hidden" name="page" value="content" />
-                <input type="hidden" name="mode" value="'. $this->mode .'" />
-                <input type="hidden" name="slice_id" value="'. $LCTSL_ID .'" />
-                <input type="hidden" name="function" value="add" />
-                <input type="hidden" name="clang" value="'.$this->clang.'" />
-                <input type="hidden" name="ctype" value="'.$this->ctype.'" />
-
-
-                  <div class="rex-form-wrapper">
-                    <div class="rex-form-row">
-                      <p class="rex-form-col-a rex-form-select">
-                        '. $this->MODULESELECT[$this->ctype]->get() .'
-                        <noscript><input class="rex-form-submit" type="submit" name="btn_add" value="'. $REX['I18N']->msg("add_block") .'" /></noscript>
-                      </p>
-                    </div>
-                  </div>
-              </fieldset>
-            </form>
-            </div>';
+        $slice_content = $this->getModuleSelect($LCTSL_ID);
       }
       $articleContent .= $slice_content;
     }
+    
     return $articleContent;
   }
 
