@@ -122,7 +122,8 @@ function rex_deleteSlice($slice_id)
   }
 
   // delete the slice
-  $curr->setQuery('DELETE FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE id=' . $slice_id);
+  $del = rex_sql::factory();
+  $del->setQuery('DELETE FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE id=' . $slice_id);
   
   // reorg remaining slices
   rex_organize_priorities(
