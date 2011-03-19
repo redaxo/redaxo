@@ -36,8 +36,8 @@ if(array_key_exists($addon_key,$addons))
 		// - abhaengigkeiten von anderen addon zu diesem addon prüfen
 		// -- andere addons erst vom user deaktiveren lassen
 		// - erklärung was man machen muss wenn es schief gegangen ist...
-			
-			
+
+
 		// download - alte version sichern - neues drüberbügeln - update.php ausführen
 		// downloads - keine alte version ist vorhanden
 
@@ -81,7 +81,7 @@ if(array_key_exists($addon_key,$addons))
 
 	echo '<tbody>';
 	echo '<tr><th>Verfügbare Version</th><td>'.htmlspecialchars($addon['file_version']).'</td></tr>';
-	$current_version = rex_addon::getVersion($addon_key);
+	$current_version = rex_ooAddon::getVersion($addon_key);
 	if(!in_array($addon_key,$registered_addons)){ $current_version = 'AddOn ist nicht vorhanden.';
 	}elseif($current_version == "") { $current_version = 'AddOn ist vorhanden aber Version ist nicht auslesbar'; }
 	echo '<tr><th>Einsetzte Version</th><td>'.htmlspecialchars($current_version).'</td></tr>';
@@ -93,7 +93,7 @@ if(array_key_exists($addon_key,$addons))
 	echo '</table>';
 
 	$submit = 'AddOn herunterladen und einspielen.';
-	$current_version = rex_addon::getVersion($addon_key);
+	$current_version = rex_ooAddon::getVersion($addon_key);
 	if(!in_array($addon_key,$registered_addons))
 	{
 		echo rex_info('AddOn ist bisher nicht vorhanden und kann installiert werden.');
@@ -113,7 +113,7 @@ if(array_key_exists($addon_key,$addons))
 	}else
 	{
 		echo rex_warning('Die vorhandene Version des AddOns ist neuer als die verfügbare Version. Da dies nicht vorkommen sollte, empfehlen wir keine Aktualisierung.');
-		 
+
 	}
 
 	echo '<p><a href="index.php?page=install&subpage=addons&addon_key='.$addon_key.'&func=install">'.$submit.'</a></p>';
@@ -156,35 +156,35 @@ if($show_list)
 		if(!in_array($addon,$registered_addons))
 		{
 			$status = 'Addon ist nicht vorhanden';
-			
+
 		}else
 		{
-			$version = rex_addon::getVersion($addon);
+			$version = rex_ooAddon::getVersion($addon);
 			if($version == "") {
 				$status = 'Keine Version auslesbar';
-				
+
 			}else
 			{
 				if (version_compare( $version , $v['file_version']) == -1)
 				{
 					$status = 'Aktuellere Version vorhanden<br /><br />Aktuell: '.$version.'<br />Verfügbar: '.$v['file_version'];
-					
+
 				}else
 				{
 					$status = 'Keine neuere Version verfügbar';
-					
+
 				}
 
 			}
 
 		}
-		
+
 		echo '<td>'.$status.'</td>';
 		echo '</tr>';
 
 	}
 	echo '<tbody>';
-	
+
 	echo '</table>';
 
 }

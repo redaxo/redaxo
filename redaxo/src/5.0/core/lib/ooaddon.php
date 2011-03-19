@@ -6,7 +6,7 @@
  * @version svn:$Id$
  */
 
-class rex_ooAddon extends rex_addon
+class rex_ooAddon extends rex_package
 {
   /**
    * Erstellt eine rex_ooAddon instanz
