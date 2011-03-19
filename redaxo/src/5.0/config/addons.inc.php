@@ -17,7 +17,10 @@ $REX['ADDON'] = array();
 
 require rex_path::src('config/plugins.inc.php');
 
-$packageOrder = rex_core_config::get('package-order', array());
+if($REX['SETUP'])
+  $packageOrder = array('be_style', array('be_style', 'base'), array('be_style', 'agk_skin'));
+else
+  $packageOrder = rex_core_config::get('package-order', array());
 
 // in the first run, we register all folders for class- and fragment-loading,
 // so it is transparent in which order the addons are included afterwards.
@@ -49,25 +52,28 @@ foreach($packageOrder as $addonName)
   {
     list($addonName, $pluginName) = $addonName;
 
-    $pluginsFolder = rex_path::plugin($addonName, $pluginName);
+    if(rex_ooAddon::isAvailable($addonName))
+    {
+      $pluginsFolder = rex_path::plugin($addonName, $pluginName);
 
-    // add plugin path for fragment loading
-    if(is_readable($pluginsFolder .'fragments'))
-    {
-      rex_fragment::addDirectory($pluginsFolder .'fragments/');
+      // add plugin path for fragment loading
+      if(is_readable($pluginsFolder .'fragments'))
+      {
+        rex_fragment::addDirectory($pluginsFolder .'fragments/');
+      }
+      // add plugin path for class-loading
+      if(is_readable($pluginsFolder .'lib'))
+      {
+        rex_autoload::getInstance()->addDirectory($pluginsFolder .'lib/');
+      }
+      // add plugin path for i18n
+      if(isset($REX['I18N']) && is_readable($pluginsFolder .'lang'))
+      {
+        $REX['I18N']->appendFile($pluginsFolder .'lang');
+      }
+      // load package infos
+      rex_pluginManager::loadPackage($addonName, $pluginName);
     }
-    // add plugin path for class-loading
-    if(is_readable($pluginsFolder .'lib'))
-    {
-      rex_autoload::getInstance()->addDirectory($pluginsFolder .'lib/');
-    }
-    // add plugin path for i18n
-    if(isset($REX['I18N']) && is_readable($pluginsFolder .'lang'))
-    {
-      $REX['I18N']->appendFile($pluginsFolder .'lang');
-    }
-    // load package infos
-    rex_pluginManager::loadPackage($addonName, $pluginName);
   }
 }
 
@@ -88,12 +94,15 @@ foreach($packageOrder as $addonName)
   {
     list($addonName, $pluginName) = $addonName;
 
-    $pluginsFolder = rex_path::plugin($addonName, $pluginName);
-
-    // transform the plugin into a regular addon and include it itself afterwards
-    if(is_readable($pluginsFolder .'config.inc.php'))
+    if(rex_ooAddon::isAvailable($addonName))
     {
-      rex_pluginManager::addon2plugin($addonName, $pluginName, $pluginsFolder .'config.inc.php');
+      $pluginsFolder = rex_path::plugin($addonName, $pluginName);
+
+      // transform the plugin into a regular addon and include it itself afterwards
+      if(is_readable($pluginsFolder .'config.inc.php'))
+      {
+        rex_pluginManager::addon2plugin($addonName, $pluginName, $pluginsFolder .'config.inc.php');
+      }
     }
   }
 }
