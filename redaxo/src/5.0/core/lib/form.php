@@ -100,6 +100,8 @@ class rex_form
 
   /**
    * Methode zum erstellen von rex_form Instanzen
+   * 
+   * @return rex_form a rex_form instance
    */
   public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $class = null)
   {
