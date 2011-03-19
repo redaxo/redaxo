@@ -199,13 +199,7 @@ abstract class rex_packageManager
       }
       if($state === true)
       {
-        $order = rex_core_config::get('package-order', array());
-        $package = $this->package($addonName);
-        if(!in_array($package, $order))
-        {
-          $order[] = $package;
-        }
-        rex_core_config::set('package-order', $order);
+        $this->addToPackageOrder($addonName);
       }
     }
     else
@@ -248,12 +242,7 @@ abstract class rex_packageManager
       // so the index doesn't contain outdated class definitions
       rex_autoload::getInstance()->removeCache();
 
-      $order = rex_core_config::get('package-order', array());
-      if(($key = array_search($this->package($addonName), $order)) !== false)
-      {
-        unset($order[$key]);
-        rex_core_config::set('package-order', array_values($order));
-      }
+      $this->removeFromPackageOrder($addonName);
     }
     else
     {
@@ -444,6 +433,37 @@ abstract class rex_packageManager
    * @param string $addonName The name of the addon
    */
   protected abstract function checkDependencies($addonName);
+
+	/**
+   * Adds the package to the package order
+   *
+   * @param string $packageName The name of the package
+   */
+  protected function addToPackageOrder($packageName)
+  {
+    $order = rex_core_config::get('package-order', array());
+    $package = $this->package($packageName);
+    if(!in_array($package, $order))
+    {
+      $order[] = $package;
+      rex_core_config::set('package-order', $order);
+    }
+  }
+
+  /**
+   * Removes the package from the package order
+   *
+   * @param string $packageName The name of the package
+   */
+  protected function removeFromPackageOrder($packageName)
+  {
+    $order = rex_core_config::get('package-order', array());
+    if(($key = array_search($this->package($packageName), $order)) !== false)
+    {
+      unset($order[$key]);
+      rex_core_config::set('package-order', array_values($order));
+    }
+  }
 
   /**
    * Übersetzen eines Sprachschlüssels unter Verwendung des Prefixes

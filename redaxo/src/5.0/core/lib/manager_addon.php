@@ -150,4 +150,35 @@ class rex_addonManager extends rex_packageManager
 
     return empty($state) ? true : implode('<br />', $state);
   }
+	/**
+   * Adds the package to the package order
+   *
+   * @param string $addonName The name of the addon
+   */
+  protected function addToPackageOrder($addonName)
+  {
+    parent::addToPackageOrder($addonName);
+
+    $pluginManager = new rex_pluginManager($addonName);
+    foreach(rex_ooPlugin::getAvailablePlugins($addonName) as $plugin)
+    {
+      $pluginManager->addToPackageOrder($plugin);
+    }
+  }
+
+  /**
+   * Removes the package from the package order
+   *
+   * @param string $addonName The name of the addon
+   */
+  protected function removeFromPackageOrder($addonName)
+  {
+    parent::removeFromPackageOrder($addonName);
+
+    $pluginManager = new rex_pluginManager($addonName);
+    foreach(rex_ooPlugin::getRegisteredPlugins($addonName) as $plugin)
+    {
+      $pluginManager->removeFromPackageOrder($plugin);
+    }
+  }
 }
