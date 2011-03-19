@@ -17,7 +17,10 @@ $REX['ADDON'] = array();
 
 require rex_path::src('config/plugins.inc.php');
 
-$packageOrder = rex_core_config::get('package-order', array());
+if($REX['SETUP'])
+  $packageOrder = array('be_style', array('be_style', 'base'), array('be_style', 'agk_skin'));
+else
+  $packageOrder = rex_core_config::get('package-order', array());
 
 // in the first run, we register all folders for class- and fragment-loading,
 // so it is transparent in which order the addons are included afterwards.
