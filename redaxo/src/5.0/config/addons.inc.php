@@ -17,32 +17,38 @@ $REX['ADDON'] = array();
 
 require rex_path::src('config/plugins.inc.php');
 
+$packageOrder = rex_core_config::get('package-order', array());
+
 // in the first run, we register all folders for class- and fragment-loading,
 // so it is transparent in which order the addons are included afterwards.
-foreach(rex_ooAddon::getAvailableAddons() as $addonName)
+foreach($packageOrder as $addonName)
 {
-  $addonsFolder = rex_path::addon($addonName);
+  if(!is_array($addonName))
+  {
+    $addonsFolder = rex_path::addon($addonName);
 
-  // add addon path for fragment loading
-  if(is_readable($addonsFolder .'fragments'))
-  {
-    rex_fragment::addDirectory($addonsFolder .'fragments/');
+    // add addon path for fragment loading
+    if(is_readable($addonsFolder .'fragments'))
+    {
+      rex_fragment::addDirectory($addonsFolder .'fragments/');
+    }
+    // add addon path for class-loading
+    if(is_readable($addonsFolder .'lib'))
+    {
+      rex_autoload::getInstance()->addDirectory($addonsFolder .'lib/');
+    }
+    // add addon path for i18n
+    if(isset($REX['I18N']) && is_readable($addonsFolder .'lang'))
+    {
+      $REX['I18N']->appendFile($addonsFolder .'lang');
+    }
+    // load package infos
+    rex_addonManager::loadPackage($addonName);
   }
-  // add addon path for class-loading
-  if(is_readable($addonsFolder .'lib'))
+  else
   {
-    rex_autoload::getInstance()->addDirectory($addonsFolder .'lib/');
-  }
-  // add addon path for i18n
-  if(isset($REX['I18N']) && is_readable($addonsFolder .'lang'))
-  {
-    $REX['I18N']->appendFile($addonsFolder .'lang');
-  }
-  // load package infos
-  rex_addonManager::loadPackage($addonName);
+    list($addonName, $pluginName) = $addonName;
 
-  foreach(rex_ooPlugin::getAvailablePlugins($addonName) as $pluginName)
-  {
     $pluginsFolder = rex_path::plugin($addonName, $pluginName);
 
     // add plugin path for fragment loading
@@ -66,24 +72,28 @@ foreach(rex_ooAddon::getAvailableAddons() as $addonName)
 }
 
 // now we actually include the addons logic
-foreach(rex_ooAddon::getAvailableAddons() as $addonName)
+foreach($packageOrder as $addonName)
 {
-  $addonsFolder = rex_path::addon($addonName);
-
-  // include the addon itself
-  if(is_readable($addonsFolder. 'config.inc.php'))
+  if(!is_array($addonName))
   {
-    require $addonsFolder. 'config.inc.php';
+    $addonsFolder = rex_path::addon($addonName);
+
+    // include the addon itself
+    if(is_readable($addonsFolder .'config.inc.php'))
+    {
+      require $addonsFolder .'config.inc.php';
+    }
   }
-
-  foreach(rex_ooPlugin::getAvailablePlugins($addonName) as $pluginName)
+  else
   {
+    list($addonName, $pluginName) = $addonName;
+
     $pluginsFolder = rex_path::plugin($addonName, $pluginName);
 
     // transform the plugin into a regular addon and include it itself afterwards
-    if(is_readable($pluginsFolder. 'config.inc.php'))
+    if(is_readable($pluginsFolder .'config.inc.php'))
     {
-      rex_pluginManager::addon2plugin($addonName, $pluginName, $pluginsFolder. 'config.inc.php');
+      rex_pluginManager::addon2plugin($addonName, $pluginName, $pluginsFolder .'config.inc.php');
     }
   }
 }

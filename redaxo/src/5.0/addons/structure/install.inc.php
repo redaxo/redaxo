@@ -11,7 +11,7 @@
 
 $error = '';
 
-// Plugins mitinstallieren
+/*// Plugins mitinstallieren
 $addonname = 'structure';
 $plugins = array('content', 'linkmap');
 
@@ -35,7 +35,7 @@ foreach($plugins as $pluginname)
   {
     break;
   }
-}
+}*/
 
 if ($error != '')
   $REX['ADDON']['installmsg']['structure'] = $error;

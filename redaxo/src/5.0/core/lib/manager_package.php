@@ -3,7 +3,7 @@
 /**
  * Managerklasse zum handeln von rexAddons
  */
-abstract class rex_baseManager
+abstract class rex_packageManager
 {
   private $i18nPrefix;
 
@@ -197,6 +197,16 @@ abstract class rex_baseManager
         $this->apiCall('setProperty', array($addonName, 'status', 1));
         $state = $this->generateConfig();
       }
+      if($state === true)
+      {
+        $order = rex_core_config::get('package-order', array());
+        $package = $this->package($addonName);
+        if(!in_array($package, $order))
+        {
+          $order[] = $package;
+        }
+        rex_core_config::set('package-order', $order);
+      }
     }
     else
     {
@@ -237,6 +247,13 @@ abstract class rex_baseManager
       // reload autoload cache when addon is deactivated,
       // so the index doesn't contain outdated class definitions
       rex_autoload::getInstance()->removeCache();
+
+      $order = rex_core_config::get('package-order', array());
+      if(($key = array_search($this->package($addonName), $order)) !== false)
+      {
+        unset($order[$key]);
+        rex_core_config::set('package-order', array_values($order));
+      }
     }
     else
     {
@@ -263,22 +280,6 @@ abstract class rex_baseManager
 
     return $state;
   }
-
-  /**
-   * Moves the addon one step forward in the include-chain.
-   * The addon will therefore be included earlier in the bootstrap process.
-   *
-   * @param $addonName Name of the addon
-   */
-  public abstract function moveUp($addonName);
-
-  /**
-   * Moves the addon one step backwards in the include-chain.
-   * The addon will therefore be included later in the bootstrap process.
-   *
-   * @param $addonName Name of the addon
-   */
-  public abstract function moveDown($addonName);
 
   /**
    * Verifies if the installation of the given Addon was successfull.
@@ -504,6 +505,11 @@ abstract class rex_baseManager
    * Findet den Pfad für den Data-Ordner
    */
   protected abstract function dataFolder($addonName);
+
+  /**
+   * Package representation
+   */
+  protected abstract function package($addonName);
 
   /**
    * Findet den Namespace für rex_config

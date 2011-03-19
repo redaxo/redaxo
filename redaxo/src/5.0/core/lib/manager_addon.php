@@ -1,6 +1,6 @@
 <?php
 
-class rex_addonManager extends rex_baseManager
+class rex_addonManager extends rex_packageManager
 {
   private $configArray;
 
@@ -15,60 +15,10 @@ class rex_addonManager extends rex_baseManager
     global $REX;
 
     // System AddOns dürfen nicht gelöscht werden!
-    if(in_array($addonName, $REX['SYSTEM_ADDONS']))
+    if(in_array($addonName, $REX['SYSTEM_PACKAGES']))
       return $REX['I18N']->msg('addon_systemaddon_delete_not_allowed');
 
     return parent::delete($addonName);
-  }
-
-  public function moveUp($addonName)
-  {
-    global $REX;
-
-    $key = array_search($addonName, $this->configArray);
-    if($key === false)
-    {
-      throw new rexException('Addon with name "'. $addonName .'" not found!');
-    }
-
-    // it's not allowed to move the first addon up
-    if($key === 0)
-    {
-      return $REX['I18N']->msg('addon_move_first_up_not_allowed');
-    }
-
-    // swap addon with it's predecessor
-    $prev = $this->configArray[$key - 1];
-    $this->configArray[$key - 1] = $this->configArray[$key];
-    $this->configArray[$key] = $prev;
-
-    // save the changes
-    return $this->generateConfig();
-  }
-
-  public function moveDown($addonName)
-  {
-    global $REX;
-
-    $key = array_search($addonName, $this->configArray);
-    if($key === false)
-    {
-      throw new rexException('Addon with name "'. $addonName .'" not found!');
-    }
-
-    // it's not allowed to move the last addon down
-    if($key === (count($this->configArray) - 1) )
-    {
-      return $REX['I18N']->msg('addon_move_last_down_not_allowed');
-    }
-
-    // swap addon with it's successor
-    $next = $this->configArray[$key + 1];
-    $this->configArray[$key + 1] = $this->configArray[$key];
-    $this->configArray[$key] = $next;
-
-    // save the changes
-    return $this->generateConfig();
   }
 
   protected function includeConfig($addonName, $configFile)
@@ -118,6 +68,11 @@ class rex_addonManager extends rex_baseManager
   protected function dataFolder($addonName)
   {
     return rex_path::addonData($addonName);
+  }
+
+  protected function package($addonName)
+  {
+    return $addonName;
   }
 
   protected function configNamespace($addonName)

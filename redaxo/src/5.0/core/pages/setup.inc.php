@@ -123,26 +123,55 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 	$addonManager = new rex_addonManager();
   if($uninstallBefore)
   {
-    foreach(array_reverse($REX['SYSTEM_ADDONS']) as $systemAddon)
+    foreach(array_reverse($REX['SYSTEM_PACKAGES']) as $addon)
     {
-    	$state = $addonManager->uninstall($systemAddon);
+      if(!is_array($addon))
+      {
+        $state = $addonManager->uninstall($addon);
 
-    	if($state !== true)
-    	  $addonErr .= '<li>'. $systemAddon .'<ul><li>'. $state .'</li></ul></li>';
+        if($state !== true)
+    	    $addonErr .= '<li>'. $addon .'<ul><li>'. $state .'</li></ul></li>';
+      }
+      else
+      {
+        list($addon, $plugin) = $addon;
+        $pluginManager = new rex_pluginManager($addon);
+        $state = $pluginManager->uninstall($plugin);
+
+        if($state !== true)
+    	    $addonErr .= '<li>'. $addon .' / '. $plugin .'<ul><li>'. $state .'</li></ul></li>';
+      }
     }
   }
-  foreach($REX['SYSTEM_ADDONS'] as $systemAddon)
+  foreach($REX['SYSTEM_PACKAGES'] as $addon)
   {
   	$state = true;
 
-  	if($state === true && !rex_ooAddon::isInstalled($systemAddon))
-  	  $state = $addonManager->install($systemAddon, $installDump);
+  	if(!is_array($addon))
+  	{
+    	if($state === true && !rex_ooAddon::isInstalled($addon))
+    	  $state = $addonManager->install($addon, $installDump);
 
-  	if($state === true && !rex_ooAddon::isActivated($systemAddon))
-  	  $state = $addonManager->activate($systemAddon);
+    	if($state === true && !rex_ooAddon::isActivated($addon))
+    	  $state = $addonManager->activate($addon);
 
-  	if($state !== true)
-  	  $addonErr .= '<li>'. $systemAddon .'<ul><li>'. $state .'</li></ul></li>';
+    	if($state !== true)
+    	  $addonErr .= '<li>'. $addon .'<ul><li>'. $state .'</li></ul></li>';
+  	}
+  	else
+  	{
+  	  list($addon, $plugin) = $addon;
+      $pluginManager = new rex_pluginManager($addon);
+
+      if($state === true && !rex_ooPlugin::isInstalled($addon, $plugin))
+    	  $state = $pluginManager->install($plugin, $installDump);
+
+    	if($state === true && !rex_ooPlugin::isActivated($addon, $plugin))
+    	  $state = $pluginManager->activate($plugin);
+
+    	if($state !== true)
+    	  $addonErr .= '<li>'. $addon .' / '. $plugin .'<ul><li>'. $state .'</li></ul></li>';
+  	}
   }
 
 	if($addonErr != '')
@@ -319,8 +348,11 @@ if ($checkmodus == 1)
 		getImportDir()
 	);
 
-	foreach($REX['SYSTEM_ADDONS'] as $system_addon)
-	  $WRITEABLES[] = rex_path::addon($system_addon);
+	foreach($REX['SYSTEM_PACKAGES'] as $system_addon)
+	{
+	  if(!is_array($system_addon))
+	    $WRITEABLES[] = rex_path::addon($system_addon);
+	}
 
 	$res = rex_setup_is_writable($WRITEABLES);
 	if(count($res) > 0)

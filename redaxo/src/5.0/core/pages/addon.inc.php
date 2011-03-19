@@ -218,42 +218,6 @@ if ($addonname != '')
       $redirect = true;
     }
   }
-  // ----------------- ADDON MOVE
-  elseif ($move)
-  {
-    if($move == 'up')
-    {
-      if($pluginname != '')
-      {
-        if (($warning = $addonManager->moveUp($pluginname)) === true)
-        {
-          $info = $REX['I18N']->msg("plugin_moved_up", $pluginname);
-          $redirect = true;
-        }
-      }
-      else if (($warning = $addonManager->moveUp($addonname)) === true)
-      {
-        $info = $REX['I18N']->msg("addon_moved_up", $addonname);
-        $redirect = true;
-      }
-    }
-    else if($move == 'down')
-    {
-      if($pluginname != '')
-      {
-        if (($warning = $addonManager->moveDown($pluginname)) === true)
-        {
-          $info = $REX['I18N']->msg("plugin_moved_down", $pluginname);
-          $redirect = true;
-        }
-      }
-      else if (($warning = $addonManager->moveDown($addonname)) === true)
-      {
-        $info = $REX['I18N']->msg("addon_moved_down", $addonname);
-        $redirect = true;
-      }
-    }
-  }
 
   if ($redirect)
   {
@@ -284,8 +248,7 @@ if ($subpage == '')
           <th class="rex-col-b">'.$REX['I18N']->msg("addon_hname").'</th>
           <th class="rex-col-c">'.$REX['I18N']->msg("addon_hinstall").'</th>
           <th class="rex-col-d">'.$REX['I18N']->msg("addon_hactive").'</th>
-          <th class="rex-col-e" colspan="2">'.$REX['I18N']->msg("addon_hdelete").'</th>
-          <th class="rex-col-g rex-col-last">'.$REX['I18N']->msg("addon_hprior").'</th>
+          <th class="rex-col-e" colspan="2" rex-col-last>'.$REX['I18N']->msg("addon_hdelete").'</th>
         </tr>
   	  </thead>
   	  <tbody>';
@@ -339,9 +302,6 @@ if ($subpage == '')
       $status = $REX['I18N']->msg("addon_notinstalled");
     }
 
-    $moveUp   = '<a href="'. $addonurl .'move=up" class="rex-i-element rex-i-move-up"><span class="rex-i-element-in">'.$REX['I18N']->msg("addon_move_up").'</span></a>';
-    $moveDown = '<a href="'. $addonurl .'move=down" class="rex-i-element rex-i-move-down"><span class="rex-i-element-in">'.$REX['I18N']->msg("addon_move_down").'</span></a>';
-
     echo '
         <tr class="rex-addon">
           <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-in">'. htmlspecialchars($addon) .'</span></span></td>
@@ -349,10 +309,7 @@ if ($subpage == '')
           <td class="rex-col-c">'.$install.'</td>
           <td class="rex-col-d">'.$status.'</td>
           <td class="rex-col-e">'.$uninstall.'</td>
-          <td class="rex-col-f">'.$delete.'</td>
-          <td class="rex-col-g rex-col-last">
-            '. $moveUp . $moveDown .'
-          </td>
+          <td class="rex-col-f rex-col-last">'.$delete.'</td>
         </tr>'."\n   ";
 
     if(rex_ooAddon::isAvailable($addon))
@@ -365,7 +322,14 @@ if ($subpage == '')
         $pluginVers = rex_ooPlugin::getVersion($addon, $plugin, '');
         $pluginurl = 'index.php?page=addon&amp;addonname='.$addon.'&amp;pluginname='. $plugin .'&amp;';
 
-        $delete = '<a href="'. $pluginurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($REX['I18N']->msg('plugin_delete_question', $plugin)).'\');">'.$REX['I18N']->msg("addon_delete").'</a>';
+        if (rex_ooPlugin::isSystemPlugin($addon, $plugin))
+      	{
+      		$delete = $REX['I18N']->msg("plugin_systemplugin");
+      	}
+      	else
+      	{
+      	  $delete = '<a href="'. $pluginurl .'delete=1" onclick="return confirm(\''.htmlspecialchars($REX['I18N']->msg('plugin_delete_question', $plugin)).'\');">'.$REX['I18N']->msg("addon_delete").'</a>';
+      	}
 
         if (rex_ooPlugin::isInstalled($addon, $plugin))
         {
@@ -391,9 +355,6 @@ if ($subpage == '')
           $status = $REX['I18N']->msg("addon_notinstalled");
         }
 
-        $moveUp   = '<a href="'. $pluginurl .'move=up" class="rex-i-element rex-i-move-up"><span class="rex-i-element-in">'.$REX['I18N']->msg("addon_move_up").'</span></a>';
-        $moveDown = '<a href="'. $pluginurl .'move=down" class="rex-i-element rex-i-move-down"><span class="rex-i-element-in">'.$REX['I18N']->msg("addon_move_down").'</span></a>';
-
         echo '
             <tr class="rex-plugin">
               <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-plugin"><span class="rex-i-element-in">'. htmlspecialchars($plugin) .'</span></span></td>
@@ -401,10 +362,7 @@ if ($subpage == '')
               <td class="rex-col-c">'.$install.'</td>
               <td class="rex-col-d">'.$status.'</td>
               <td class="rex-col-e">'.$uninstall.'</td>
-              <td class="rex-col-f">'.$delete.'</td>
-              <td class="rex-col-g rex-col-last">
-                '. $moveUp . $moveDown .'
-              </td>
+              <td class="rex-col-f rex-col-last">'.$delete.'</td>
             </tr>'."\n   ";
       }
     }
