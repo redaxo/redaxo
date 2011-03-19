@@ -14,23 +14,30 @@ $subpage    = rex_request('subpage', 'string');
 $info       = stripslashes(rex_request('info', 'string'));
 $warning = '';
 
-
-// -------------- READ CONFIG
-$ADDONS    = rex_ooAddon::getRegisteredAddons();
-$PLUGINS   = array();
-foreach($ADDONS as $_addon)
-{
-  $PLUGINS[$_addon] = rex_ooPlugin::getRegisteredPlugins($_addon);
-}
+$redirect = false;
 
 // -------------- CHECK IF CONFIG FILES ARE UP2DATE
 if ($subpage == '')
 {
+  // -------------- READ CONFIG
+  $ADDONS    = rex_ooAddon::getRegisteredAddons();
+  $PLUGINS   = array();
+  foreach($ADDONS as $_addon)
+  {
+    $PLUGINS[$_addon] = rex_ooPlugin::getRegisteredPlugins($_addon);
+  }
+
   // Vergleiche Addons aus dem Verzeichnis addons/ mit den Eintraegen in config/addons.inc.php
   // Wenn ein Addon in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
   $addonsFilesys = rex_read_addons_folder();
-  if (count(array_diff($ADDONS, $addonsFilesys)) > 0 ||
-      count(array_diff($addonsFilesys, $ADDONS)) > 0)
+  $deleteAddons = array_diff($ADDONS, $addonsFilesys);
+  if(!empty($deleteAddons))
+  {
+    $addonManager = new rex_addonManager();
+    array_map(array($addonManager, 'delete'), $deleteAddons);
+    $redirect = true;
+  }
+  if (count($deleteAddons) > 0 || count(array_diff($addonsFilesys, $ADDONS)) > 0)
   {
     if (($state = rex_generateAddons($addonsFilesys)) !== true)
     {
@@ -49,9 +56,14 @@ if ($subpage == '')
   // Wenn ein plugin in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
   foreach($addonsFilesys as $addon)
   {
-    if (!isset($PLUGINS[$addon]) ||
-        count(array_diff($PLUGINS[$addon], $pluginsFilesys[$addon])) > 0 ||
-        count(array_diff($pluginsFilesys[$addon], $PLUGINS[$addon])) > 0)
+    $deletePlugins = array_diff($PLUGINS[$addon], $pluginsFilesys[$addon]);
+    if(!empty($deletePlugins))
+    {
+      $pluginManager = new rex_pluginManager($addon);
+      array_map(array($pluginManager, 'delete'), $deletePlugins);
+      $redirect = true;
+    }
+    if (!isset($PLUGINS[$addon]) || count($deletePlugins) > 0 || count(array_diff($pluginsFilesys[$addon], $PLUGINS[$addon])) > 0)
     {
       if (($state = rex_generatePlugins($pluginsFilesys)) !== true)
       {
@@ -132,8 +144,6 @@ if ($addonname != '')
   $uninstall  = rex_get('uninstall', 'int', -1);
   $delete     = rex_get('delete', 'int', -1);
   $move       = rex_get('move', 'string', '');
-
-  $redirect = false;
 
   // ----------------- ADDON INSTALL
   if ($install == 1)
@@ -219,11 +229,12 @@ if ($addonname != '')
     }
   }
 
-  if ($redirect)
-  {
-    header('Location: index.php?page=addon&info='. $info);
-    exit;
-  }
+}
+
+if ($redirect)
+{
+  header('Location: index.php?page=addon&info='. $info);
+  exit;
 }
 
 // ----------------- OUT
