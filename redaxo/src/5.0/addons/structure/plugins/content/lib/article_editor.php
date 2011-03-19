@@ -216,13 +216,11 @@ class rex_article_editor extends rex_article
           }
 
           $slice_content .= $this->editSlice($sliceId,$moduleInput,$sliceCtype, $moduleId);
-          $slice_content = $this->replaceVars($artDataSql, $slice_content);
         }
         else
         {
           // Modulinhalt ausgeben
           $slice_content .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
-          $slice_content = $this->replaceVars($artDataSql, $slice_content);
         }
       }
       else
@@ -230,8 +228,9 @@ class rex_article_editor extends rex_article
         // ----- hat keine rechte an diesem modul, einfach ausgeben
         $slice_content .= $mne;
         $slice_content .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
-        $slice_content = $this->replaceVars($artDataSql, $slice_content);
       }
+      
+      $slice_content = $this->replaceVars($artDataSql, $slice_content);
     }
     
     return $slice_content;
