@@ -86,15 +86,13 @@ function rex_version_header($params)
 		  }else if(!$REX['USER']->hasPerm('version[only_working_version]'))
 		  {
 				require rex_path::addon('version', 'functions/function_rex_copyrevisioncontent.inc.php');
-				// rex_copyRevisionContent($article_id,$clang,$from_revision_id, $to_revision_id, $gc->getValue("id"),$delete_to_revision);
-				rex_copyRevisionContent($params['article_id'],$params['clang'],1, 0, 0, TRUE);
+				rex_copyRevisionContent($params['article_id'],$params['clang'],rex_article_revision::WORK, rex_article_revision::LIVE);
 		  	$return .= rex_info($REX['I18N']->msg("version_info_working_version_to_live"));
 		  }
 		break;
 		case("copy_live_to_work"):
 			require rex_path::addon('version', 'functions/function_rex_copyrevisioncontent.inc.php');
-			// rex_copyRevisionContent($article_id,$clang,$from_revision_id, $to_revision_id, $gc->getValue("id"),$delete_to_revision);
-			rex_copyRevisionContent($params['article_id'],$params['clang'],0, 1, 0, TRUE);
+			rex_copyRevisionContent($params['article_id'],$params['clang'],rex_article_revision::LIVE, rex_article_revision::WORK);
 		  $return .= rex_info($REX['I18N']->msg("version_info_live_version_to_working"));
 		break;
 	}
