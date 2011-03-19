@@ -9,6 +9,7 @@
  * @version svn:$Id$
  */
 
+// TODO Adjust to re_article_slice_id -> prior changes
 if(!function_exists("rex_copyRevisionContent"))
 {
 	function rex_copyRevisionContent($article_id,$clang,$from_revision_id, $to_revision_id, $from_re_sliceid = 0, $to_revision_delete = FALSE)
