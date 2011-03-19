@@ -20,24 +20,32 @@ class rex_article_editor extends rex_article
   {
     global $REX;
     
-    $sliceId      = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
-    $sliceCtype   = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
-    
-    $moduleInput  = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.input');
-    $moduleOutput = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.output');
-    $moduleId     = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
-    $moduleName   = htmlspecialchars($artDataSql->getValue($REX['TABLE_PREFIX'].'module.name'));
-
-    if($this->mode=="edit")
+    if($this->mode != 'edit')
     {
-      $form_url = 'index.php';
+      // ----- wenn mode nicht edit
+      $slice_content = parent::outputSlice(
+        $artDataSql,
+        $moduleIdToAdd
+      );
+    }
+    else
+    {
+      $form_url     = 'index.php';
+      $sliceId      = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
+      $sliceCtype   = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
+      
+      $moduleInput  = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.input');
+      $moduleOutput = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.output');
+      $moduleId     = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
+      $moduleName   = htmlspecialchars($artDataSql->getValue($REX['TABLE_PREFIX'].'module.name'));
 
       // ----- add select box einbauen
       if($this->function=="add" && $this->slice_id == $sliceId)
       {
         $slice_content = $this->addSlice($sliceId, $moduleIdToAdd);
 
-      }else
+      }
+      else
       {
 
         // ----- BLOCKAUSWAHL - SELECT
@@ -92,10 +100,10 @@ class rex_article_editor extends rex_article
           $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=movedown') .'" title="'. $moveDown .'" class="rex-slice-move-down"><span>'. $moduleName .'</span></a>';
         }
 
-      }else
+      }
+      else
       {
         $listElements[] = '<b class="rex-tx2">'. $REX['I18N']->msg('no_editing_rights') .' <span>'. $moduleName .'</span></b>';
-
       }
 
       // ----- EXTENSION POINT
@@ -235,17 +243,8 @@ class rex_article_editor extends rex_article
 
         $slice_content = $this->replaceVars($artDataSql, $slice_content);
       }
-
-    }else
-    {
-
-      // ----- wenn mode nicht edit
-      $slice_content = parent::outputSlice(
-        $artDataSql,
-        $moduleIdToAdd
-      );
     }
-
+    
     return $slice_content;
   }
 
