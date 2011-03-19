@@ -469,10 +469,10 @@ function rex_generatePlugins(array $PLUGINS)
   {
     foreach($_plugins as $plugin)
     {
-      if (!rex_ooPlugin :: isInstalled($addon, $plugin))
+      if (!rex_ooPlugin :: getProperty($addon, $plugin, 'install', 0))
         rex_ooPlugin::setProperty($addon, $plugin, 'install', 0);
 
-      if (!rex_ooPlugin :: isActivated($addon, $plugin))
+      if (!rex_ooPlugin :: getProperty($addon, $plugin, 'status', 0))
         rex_ooPlugin::setProperty($addon, $plugin, 'status', 0);
 
       foreach(array('install', 'status') as $prop)

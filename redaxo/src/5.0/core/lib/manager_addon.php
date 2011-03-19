@@ -106,6 +106,33 @@ class rex_addonManager extends rex_packageManager
   }
 
   /**
+   * Checks whether the requirements are met.
+   *
+   * @param string $addonName The name of the addon
+   */
+  protected function checkRequirements($addonName)
+  {
+    $state = parent::checkRequirements($addonName);
+
+    $pluginManager = new rex_pluginManager($addonName);
+    foreach(rex_ooPlugin::getRegisteredPlugins($addonName) as $plugin)
+    {
+      // do not use rex_ooPlugin::isAvailable() here, because parent addon isn't activated
+      if(rex_ooPlugin::getProperty($addonName, $plugin, 'status', false))
+      {
+        $pluginManager->loadPackageInfos($plugin);
+        $return = $pluginManager->checkRequirements($plugin);
+        if(is_string($return) && !empty($return))
+        {
+          $pluginManager->deactivate($plugin);
+        }
+      }
+    }
+
+    return $state;
+  }
+
+  /**
    * Checks if another Addon/Plugin which is activated, depends on the given addon
    *
    * @param string $addonName The name of the addon
@@ -148,8 +175,17 @@ class rex_addonManager extends rex_packageManager
       }
     }
 
+    $pluginManager = new rex_pluginManager($addonName);
+    foreach(rex_ooPlugin::getAvailablePlugins($addonName) as $plugin)
+    {
+      $return = $pluginManager->checkDependencies($plugin);
+      if(is_string($return) && !empty($return))
+        $state[] = $return;
+    }
+
     return empty($state) ? true : implode('<br />', $state);
   }
+
 	/**
    * Adds the package to the package order
    *
