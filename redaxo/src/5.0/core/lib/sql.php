@@ -243,9 +243,13 @@ class rex_sql
     }
 
     $hasError = $this->hasError();
-    if ($this->debugsql || $hasError)
+    if ($this->debugsql)
     {
       $this->printError($qry, $params);
+    }
+    else if ($hasError)
+    {
+      throw new rexException($this->getError());
     }
 
     return !$hasError;
@@ -835,23 +839,20 @@ class rex_sql
    */
   protected function printError($qry, $params)
   {
-    if ($this->debugsql == true)
-    {
-      echo '<hr />' . "\n";
-      echo 'Query: ' . nl2br(htmlspecialchars($qry)) . "<br />\n";
-      
-      if(!empty($params))
-        echo 'Params: ' . htmlspecialchars(print_r($params, true)) . "<br />\n";
+    echo '<hr />' . "\n";
+    echo 'Query: ' . nl2br(htmlspecialchars($qry)) . "<br />\n";
+    
+    if(!empty($params))
+      echo 'Params: ' . htmlspecialchars(print_r($params, true)) . "<br />\n";
 
-      if (strlen($this->getRows()) > 0)
-      {
-        echo 'Affected Rows: ' . $this->getRows() . "<br />\n";
-      }
-      if (strlen($this->getError()) > 0)
-      {
-        echo 'Error Message: ' . htmlspecialchars($this->getError()) . "<br />\n";
-        echo 'Error Code: ' . $this->getErrno() . "<br />\n";
-      }
+    if (strlen($this->getRows()) > 0)
+    {
+      echo 'Affected Rows: ' . $this->getRows() . "<br />\n";
+    }
+    if (strlen($this->getError()) > 0)
+    {
+      echo 'Error Message: ' . htmlspecialchars($this->getError()) . "<br />\n";
+      echo 'Error Code: ' . $this->getErrno() . "<br />\n";
     }
   }
 
@@ -902,7 +903,7 @@ class rex_sql
       $this->rawFieldnames = array();
       $this->fieldnames = array();
       $this->tablenames = array();
-
+      
       for ($i = 0; $i < $this->getFields(); $i++)
       {
         $metadata = $this->stmt->getColumnMeta($i);
