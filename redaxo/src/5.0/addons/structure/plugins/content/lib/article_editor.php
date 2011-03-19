@@ -143,32 +143,14 @@ class rex_article_editor extends rex_article
                 </fieldset>
               </form>
               </div>';
-
       }
 
-
-      // ----- Slicemenue
-      $mne = "";
-
-      $containerClass = '';
-      if($this->function=="edit" && $this->slice_id == $sliceId)
+      // ----- Display message at current slice
+      //if($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$moduleId."]"))
       {
-        $containerClass = 'rex-form-content-editmode-edit-slice';
-      }
-
-      $mne .= '
-      		<div class="rex-content-editmode-module-name '. $containerClass .'">
-            <h3 class="rex-hl4">'. $moduleName .'</h3>
-            <div class="rex-navi-slice">'. $this->getSliceMenu($artDataSql) .'</div>
-          </div>';
-
-      // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
-      if($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$moduleId."]"))
-      {
-        $msg = '';
-
         if($this->function != 'add' && $this->slice_id == $sliceId)
         {
+          $msg = '';
           if($this->warning != '')
           {
             $msg .= rex_warning($this->warning);
@@ -177,9 +159,26 @@ class rex_article_editor extends rex_article
           {
             $msg .= rex_info($this->info);
           }
+          $slice_content .= $msg;
         }
+      }
 
-        $slice_content .= $msg.$mne;
+      // ----- Slicemenue
+      $containerClass = '';
+      if($this->function=="edit" && $this->slice_id == $sliceId)
+      {
+        $containerClass = 'rex-form-content-editmode-edit-slice';
+      }
+
+      $slice_content .= '
+      		<div class="rex-content-editmode-module-name '. $containerClass .'">
+            <h3 class="rex-hl4">'. $moduleName .'</h3>
+            <div class="rex-navi-slice">'. $this->getSliceMenu($artDataSql) .'</div>
+          </div>';
+      
+      // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
+      if($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$moduleId."]"))
+      {
         if($this->function=="edit" && $this->slice_id == $sliceId)
         {
           // **************** Aktueller Slice
@@ -216,21 +215,22 @@ class rex_article_editor extends rex_article
           }
 
           $slice_content .= $this->editSlice($sliceId,$moduleInput,$sliceCtype, $moduleId);
+          $slice_content = $this->replaceVars($artDataSql, $slice_content);
         }
         else
         {
           // Modulinhalt ausgeben
           $slice_content .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
+          $slice_content = $this->replaceVars($artDataSql, $slice_content);
         }
       }
       else
       {
         // ----- hat keine rechte an diesem modul, einfach ausgeben
-        $slice_content .= $mne;
         $slice_content .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
+        $slice_content = $this->replaceVars($artDataSql, $slice_content);
       }
       
-      $slice_content = $this->replaceVars($artDataSql, $slice_content);
     }
     
     return $slice_content;
