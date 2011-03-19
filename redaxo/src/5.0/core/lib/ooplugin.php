@@ -42,7 +42,7 @@ class rex_ooPlugin extends rex_addon
     {
       throw new InvalidArgumentException('Missing Argument 2 for rex_ooPlugin::isAvailable()');
     }
-    return parent::isAvailable(array($addon, $plugin));
+    return parent::isAvailable($addon) && parent::isAvailable(array($addon, $plugin));
   }
 
   /**
@@ -55,7 +55,7 @@ class rex_ooPlugin extends rex_addon
     {
       throw new InvalidArgumentException('Missing Argument 2 for rex_ooPlugin::isActivated()');
     }
-    return parent::isActivated(array($addon, $plugin));
+    return parent::isActivated($addon) && parent::isActivated(array($addon, $plugin));
   }
 
   /**
@@ -68,7 +68,7 @@ class rex_ooPlugin extends rex_addon
     {
       throw new InvalidArgumentException('Missing Argument 2 for rex_ooPlugin::isInstalled()');
     }
-    return parent::isInstalled(array($addon, $plugin));
+    return parent::isInstalled($addon) && parent::isInstalled(array($addon, $plugin));
   }
 
   /**
