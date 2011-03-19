@@ -101,7 +101,6 @@ class rex_article_editor extends rex_article
     }
     else
     {
-      $form_url     = 'index.php';
       $sliceId      = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
       $sliceCtype   = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
       
@@ -114,17 +113,15 @@ class rex_article_editor extends rex_article
       if($this->function=="add" && $this->slice_id == $sliceId)
       {
         $slice_content = $this->addSlice($sliceId, $moduleIdToAdd);
-
       }
       else
       {
-
         // ----- BLOCKAUSWAHL - SELECT
         $this->MODULESELECT[$this->ctype]->setId("module_id". $sliceId);
 
         $slice_content = '
               <div class="rex-form rex-form-content-editmode">
-              <form action="'. $form_url .'" method="get" id="slice'. $sliceId .'">
+              <form action="index.php" method="get" id="slice'. $sliceId .'">
                 <fieldset class="rex-form-col-1">
                   <legend><span>'. $REX['I18N']->msg("add_block") .'</span></legend>
                   <input type="hidden" name="article_id" value="'. $this->article_id .'" />
@@ -312,8 +309,6 @@ class rex_article_editor extends rex_article
     // ----- add module im edit mode
     if ($this->mode == "edit")
     {
-      $form_url = 'index.php';
-
       if($this->function=="add" && $this->slice_id == $LCTSL_ID)
       {
         $slice_content = $this->addSlice($LCTSL_ID,$moduleIdToAdd);
@@ -325,7 +320,7 @@ class rex_article_editor extends rex_article
         // $slice_content = $add_select_box;
         $slice_content = '
             <div class="rex-form rex-form-content-editmode">
-            <form action="'. $form_url .'" method="get">
+            <form action="index.php" method="get">
               <fieldset class="rex-form-col-1">
                 <legend><span>'. $REX['I18N']->msg("add_block") .'</span></legend>
                 <input type="hidden" name="article_id" value="'. $this->article_id .'" />
