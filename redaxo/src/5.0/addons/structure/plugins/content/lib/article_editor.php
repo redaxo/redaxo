@@ -221,41 +221,39 @@ class rex_article_editor extends rex_article
         else
         {
           // Modulinhalt ausgeben
-          $slice_content .= '
-                <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
-                <div class="rex-content-editmode-slice-output">
-                  <div class="rex-content-editmode-slice-output-2">
-                    '. $this->getVariableStreamOutput('module/'. $moduleId .'/output', $moduleOutput) .'
-                  </div>
-                </div>
-                <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
-                ';
-
+          $slice_content .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
           $slice_content = $this->replaceVars($artDataSql, $slice_content);
         }
-
-      }else
+      }
+      else
       {
-        // ----- hat keine rechte an diesem modul
-
+        // ----- hat keine rechte an diesem modul, einfach ausgeben
         $slice_content .= $mne;
-
-        // Modulinhalt ausgeben
-        $slice_content .= '
-                <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
-                <div class="rex-content-editmode-slice-output">
-                  <div class="rex-content-editmode-slice-output-2">
-                    '. $this->getVariableStreamOutput('module/'. $moduleId .'/output', $moduleOutput) .'
-                  </div>
-                </div>
-                <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
-                ';
-
+        $slice_content .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
         $slice_content = $this->replaceVars($artDataSql, $slice_content);
       }
     }
     
     return $slice_content;
+  }
+  
+  /**
+   * Wraps the output of a module
+   * 
+   * @param integer $moduleId The id of the module
+   * @param string $moduleOutput The output of the module
+   */
+  private function getWrappedModuleOutput($moduleId, $moduleOutput)
+  {
+    return '
+            <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
+            <div class="rex-content-editmode-slice-output">
+              <div class="rex-content-editmode-slice-output-2">
+                '. $this->getVariableStreamOutput('module/'. $moduleId .'/output', $moduleOutput) .'
+              </div>
+            </div>
+            <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
+            ';
   }
 
 
