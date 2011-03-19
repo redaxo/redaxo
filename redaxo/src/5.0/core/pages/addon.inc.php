@@ -56,7 +56,7 @@ if ($subpage == '')
   // Wenn ein plugin in der Datei fehlt oder nicht mehr vorhanden ist, aendere den Dateiinhalt.
   foreach($addonsFilesys as $addon)
   {
-    $deletePlugins = array_diff($PLUGINS[$addon], $pluginsFilesys[$addon]);
+    $deletePlugins = isset($PLUGINS[$addon]) ? array_diff($PLUGINS[$addon], $pluginsFilesys[$addon]) : array();
     if(!empty($deletePlugins))
     {
       $pluginManager = new rex_pluginManager($addon);
