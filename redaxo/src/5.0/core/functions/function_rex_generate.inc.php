@@ -365,7 +365,7 @@ function rex_addCLang($id, $name)
           if ($value == 'status')
             $newLang->setValue('status', '0'); // Alle neuen Artikel offline
       else
-        $newLang->setValue($value, $firstLang->escape($firstLang->getValue($value)));
+        $newLang->setValue($value, $firstLang->getValue($value));
     }
 
     $newLang->insert();
