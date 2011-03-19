@@ -453,7 +453,7 @@ class rex_article_editor extends rex_article
   }
 
   // ----- EDIT Slice
-  public function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID)
+  protected function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID)
   {
     global $REX;
 
