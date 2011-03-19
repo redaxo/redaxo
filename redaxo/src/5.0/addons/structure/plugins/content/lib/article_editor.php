@@ -20,13 +20,13 @@ class rex_article_editor extends rex_article
   {
     global $REX;
     
-    $sliceId = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
-    $sliceCtype = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
+    $sliceId      = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
+    $sliceCtype   = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
     
-    $moduleInput    = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.input');
-    $moduleOutput   = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.output');
-    $moduleId    = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
-    $moduleName  = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.name');
+    $moduleInput  = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.input');
+    $moduleOutput = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.output');
+    $moduleId     = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
+    $moduleName   = htmlspecialchars($artDataSql->getValue($REX['TABLE_PREFIX'].'module.name'));
 
     if($this->mode=="edit")
     {
@@ -35,7 +35,7 @@ class rex_article_editor extends rex_article
       // ----- add select box einbauen
       if($this->function=="add" && $this->slice_id == $sliceId)
       {
-        $slice_content = $this->addSlice($sliceId,$moduleIdToAdd);
+        $slice_content = $this->addSlice($sliceId, $moduleIdToAdd);
 
       }else
       {
@@ -120,7 +120,7 @@ class rex_article_editor extends rex_article
         $mne .= '<div class="rex-content-editmode-module-name">';
 
       $mne .= '
-              <h3 class="rex-hl4">'. htmlspecialchars($moduleName) .'</h3>
+              <h3 class="rex-hl4">'. $moduleName .'</h3>
               <div class="rex-navi-slice">
                 <ul>
             ';
