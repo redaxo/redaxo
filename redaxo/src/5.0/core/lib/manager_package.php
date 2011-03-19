@@ -195,6 +195,11 @@ abstract class rex_packageManager
       if ($state === true)
       {
         $this->apiCall('setProperty', array($addonName, 'status', 1));
+        $configFile = $this->baseFolder($addonName) .'config.inc.php';
+        if(is_readable($configFile))
+        {
+          $this->includeConfig($addonName, $configFile);
+        }
         $state = $this->generateConfig();
       }
       if($state === true)
