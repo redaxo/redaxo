@@ -44,11 +44,11 @@ class rex_var_globals extends rex_var
     return $REX_ACTION;
   }
 
-  public function setACValues(rex_sql $sql, array $REX_ACTION, $escape = false)
+  public function setACValues(rex_sql $sql, array $REX_ACTION)
   {
-    $this->setValue($sql, 'id', $REX_ACTION['SLICE_ID'], $escape);
-    $this->setValue($sql, 'ctype', $REX_ACTION['CTYPE_ID'], $escape);
-    $this->setValue($sql, 'modultyp_id', $REX_ACTION['MODULE_ID'], $escape);
+    $this->setValue($sql, 'id', $REX_ACTION['SLICE_ID']);
+    $this->setValue($sql, 'ctype', $REX_ACTION['CTYPE_ID']);
+    $this->setValue($sql, 'modultyp_id', $REX_ACTION['MODULE_ID']);
   }
 
   private function getEventData($REX_ACTION)

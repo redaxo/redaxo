@@ -44,14 +44,14 @@ class rex_var_link extends rex_var
     return $REX_ACTION;
   }
 
-  public function setACValues(rex_sql $sql, array $REX_ACTION, $escape = false)
+  public function setACValues(rex_sql $sql, array $REX_ACTION)
   {
     global $REX;
 
     for ($i = 1; $i < 11; $i++)
     {
-      $this->setValue($sql, 'link'. $i, $REX_ACTION['LINK'][$i], $escape);
-      $this->setValue($sql, 'linklist'. $i, $REX_ACTION['LINKLIST'][$i], $escape);
+      $this->setValue($sql, 'link'. $i, $REX_ACTION['LINK'][$i]);
+      $this->setValue($sql, 'linklist'. $i, $REX_ACTION['LINKLIST'][$i]);
     }
   }
 

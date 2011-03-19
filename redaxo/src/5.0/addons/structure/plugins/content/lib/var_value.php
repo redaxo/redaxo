@@ -44,17 +44,17 @@ class rex_var_value extends rex_var
     return $REX_ACTION;
   }
 
-  public function setACValues(rex_sql $sql, array $REX_ACTION, $escape = false)
+  public function setACValues(rex_sql $sql, array $REX_ACTION)
   {
     global $REX;
 
     for ($i = 1; $i < 21; $i++)
     {
-      $this->setValue($sql, 'value' . $i, $REX_ACTION['VALUE'][$i], $escape);
+      $this->setValue($sql, 'value' . $i, $REX_ACTION['VALUE'][$i]);
     }
 
-    $this->setValue($sql, 'php', $REX_ACTION['PHP'], $escape);
-    $this->setValue($sql, 'html', $REX_ACTION['HTML'], $escape);
+    $this->setValue($sql, 'php', $REX_ACTION['PHP']);
+    $this->setValue($sql, 'html', $REX_ACTION['HTML']);
   }
 
   // --------------------------------- Output

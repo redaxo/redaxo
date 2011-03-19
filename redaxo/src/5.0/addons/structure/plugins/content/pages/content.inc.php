@@ -259,7 +259,7 @@ if ($article->getRows() == 1)
               // ****************** SPEICHERN FALLS NOETIG
               foreach ($REX['VARIABLES'] as $obj)
               {
-                $obj->setACValues($newsql, $REX_ACTION, true);
+                $obj->setACValues($newsql, $REX_ACTION);
               }
 
               if ($function == 'edit')
