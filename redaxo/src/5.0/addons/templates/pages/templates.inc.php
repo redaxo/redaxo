@@ -445,7 +445,11 @@ if ($OUT)
   $list->setColumnParams('name', array('function' => 'edit', 'template_id' => '###id###'));
 
   $list->setColumnLabel('active', $REX['I18N']->msg('header_template_active'));
-  $list->setColumnFormat('active', 'custom', create_function('$params', 'global $REX; $list = $params["list"]; return $list->getValue("active") == 1 ? $REX["I18N"]->msg("yes") : $REX["I18N"]->msg("no");'));
+  $list->setColumnFormat('active', 'custom', function($params) {
+    global $REX;
+    $list = $params['list'];
+    return $list->getValue('active') == 1 ? $REX['I18N']->msg('yes') : $REX['I18N']->msg('no'); 
+  });
 
   $list->addColumn($REX['I18N']->msg('header_template_functions'), $REX['I18N']->msg('delete_template'));
   $list->setColumnParams($REX['I18N']->msg('header_template_functions'), array('function' => 'delete', 'template_id' => '###id###'));

@@ -90,18 +90,15 @@ if ($func == '')
   $list->addColumn($delete, '', -1, array('','<td>###VALUE###</td>'));
   $list->setColumnParams($delete, array('type_id' => '###id###', 'func' => 'delete'));
   $list->addLinkAttribute($delete, 'onclick', 'return confirm(\''.$REX['I18N']->msg('delete').' ?\')');
-  $list->setColumnFormat($delete, 'custom',
-    create_function(
-      '$params',
-      'global $REX;
-       $list = $params["list"];
-       if($list->getValue("status") == 1)
-       {
-         return \''. $REX['I18N']->msg('imanager_type_system') .'\';
-       }
-       return $list->getColumnLink("'. $delete .'","'. $REX['I18N']->msg('imanager_type_delete') .'");'
-    )
-  );
+  $list->setColumnFormat($delete, 'custom', function ($params) {
+    global $REX;
+    $list = $params["list"];
+    if($list->getValue("status") == 1)
+    {
+    return $REX['I18N']->msg('imanager_type_system');
+    }
+    return $list->getColumnLink($delete, $REX['I18N']->msg('imanager_type_delete'));
+  });
 
 	$list->show();
 }
