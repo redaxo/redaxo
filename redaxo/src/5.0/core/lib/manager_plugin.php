@@ -2,18 +2,11 @@
 
 class rex_pluginManager extends rex_packageManager
 {
-  private
-    $configArray,
-    $addonName;
+  private $addonName;
 
   function __construct($addonName)
   {
     $this->addonName = $addonName;
-    $this->configArray = array();
-    foreach(rex_ooAddon::getRegisteredAddons() as $_addon)
-    {
-      $this->configArray[$_addon] = rex_ooPlugin::getRegisteredPlugins($_addon);
-    }
     parent::__construct('plugin_');
   }
 
