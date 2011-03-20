@@ -18,7 +18,7 @@ class rex_image_manager
     {
       $set = $this->effectsFromType($type);
       $set   = rex_register_extension_point('IMAGE_MANAGER_FILTERSET',$set,array('rex_image_type'=>$type));
-      
+
       $image->prepare();
 
 	    if(count($set) == 0)
@@ -34,9 +34,9 @@ class rex_image_manager
       	$effect->setParams($effect_params['params']);
       	$effect->execute();
       }
-    
+
     }
-    
+
     return $image;
   }
 
@@ -57,7 +57,7 @@ class rex_image_manager
     while($sql->hasNext())
     {
       $effname = $sql->getValue('effect');
-      $params = unserialize($sql->getValue('parameters'));
+      $params = json_decode($sql->getValue('parameters'), true);
       $effparams = array();
 
       // extract parameter out of array

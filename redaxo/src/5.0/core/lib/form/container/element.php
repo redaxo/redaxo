@@ -51,7 +51,7 @@ class rex_form_container_element extends rex_form_element
 
   protected function prepareInnerFields()
   {
-    $values = unserialize($this->getValue());
+    $values = json_decode($this->getValue(), true);
     if($this->multiple)
     {
       foreach($this->fields as $group => $groupFields)
@@ -146,6 +146,6 @@ class rex_form_container_element extends rex_form_element
         }
       }
     }
-    return serialize($value);
+    return json_encode($value);
   }
 }
