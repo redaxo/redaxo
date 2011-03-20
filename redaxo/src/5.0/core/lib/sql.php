@@ -50,11 +50,12 @@ class rex_sql
     {
       if(!isset(self::$pdo[$DBID]))
       {
+        $config = sfYaml::load(rex_path::backend('src/dbconfig.yml'));
         $conn = self::createConnection(
-          $REX['DB'][$DBID]['HOST'],
-          $REX['DB'][$DBID]['NAME'],
-          $REX['DB'][$DBID]['LOGIN'],
-          $REX['DB'][$DBID]['PSW']
+          $config['DB'.$DBID]['host'],
+          $config['DB'.$DBID]['name'],
+          $config['DB'.$DBID]['login'],
+          $config['DB'.$DBID]['password']
         );
         self::$pdo[$DBID] = $conn;
 
@@ -841,7 +842,7 @@ class rex_sql
   {
     echo '<hr />' . "\n";
     echo 'Query: ' . nl2br(htmlspecialchars($qry)) . "<br />\n";
-    
+
     if(!empty($params))
       echo 'Params: ' . htmlspecialchars(print_r($params, true)) . "<br />\n";
 
@@ -903,7 +904,7 @@ class rex_sql
       $this->rawFieldnames = array();
       $this->fieldnames = array();
       $this->tablenames = array();
-      
+
       for ($i = 0; $i < $this->getFields(); $i++)
       {
         $metadata = $this->stmt->getColumnMeta($i);
@@ -1019,7 +1020,7 @@ class rex_sql
 
   /**
    * Creates a rex_sql instance
-   * 
+   *
    * @param integer $DBID
    * @param string $class a classname
    * @return rex_sql Returns a rex_sql instance
@@ -1038,12 +1039,12 @@ class rex_sql
     }
 
     $obj = new $class($DBID);
-    
+
     if(!($obj instanceof rex_sql))
     {
       throw new rexException('$class is expected to define a subclass of rex_sql!');
     }
-    
+
     return $obj;
   }
 

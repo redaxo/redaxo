@@ -135,6 +135,8 @@ $sel_mod_rewrite->setSelected($REX['MOD_REWRITE'] === false ? 'FALSE' : 'TRUE');
 $sel_mod_rewrite->addOption('TRUE', 'TRUE');
 $sel_mod_rewrite->addOption('FALSE', 'FALSE');
 
+$dbconfig = sfYaml::load(rex_path::backend('src/dbconfig.yml'));
+
 if ($warning != '')
   echo rex_warning($warning);
 
@@ -167,7 +169,7 @@ echo '
             PHP: '.phpversion().'</p>
 
             <h4 class="rex-hl3">'.$REX['I18N']->msg("database").'</h4>
-            <p class="rex-tx1">MySQL: '.rex_sql::getServerVersion().'<br />'.$REX['I18N']->msg("name").': '.$REX['DB']['1']['NAME'].'<br />'.$REX['I18N']->msg("host").': '.$REX['DB']['1']['HOST'].'</p>
+            <p class="rex-tx1">MySQL: '.rex_sql::getServerVersion().'<br />'.$REX['I18N']->msg("name").': '.$dbconfig['DB1']['name'].'<br />'.$REX['I18N']->msg("host").': '.$dbconfig['DB1']['host'].'</p>
 
 					</div>
 				</div>
@@ -219,14 +221,14 @@ echo '
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-db-host">$REX[\'DB\'][\'1\'][\'HOST\']</label>
-										<span class="rex-form-read" id="rex-form-db-host">&quot;'.$REX['DB']['1']['HOST'].'&quot;</span>
+										<span class="rex-form-read" id="rex-form-db-host">&quot;'.$dbconfig['DB1']['host'].'&quot;</span>
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
 										<label for="rex-form-db-login">$REX[\'DB\'][\'1\'][\'LOGIN\']</label>
-										<span id="rex-form-db-login">&quot;'.$REX['DB']['1']['LOGIN'].'&quot;</span>
+										<span id="rex-form-db-login">&quot;'.$dbconfig['DB1']['login'].'&quot;</span>
 									</p>
 								</div>
 
@@ -240,7 +242,7 @@ echo '
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-db-name">$REX[\'DB\'][\'1\'][\'NAME\']</label>
-										<span class="rex-form-read" id="rex-form-db-name">&quot;'.htmlspecialchars($REX['DB']['1']['NAME']).'&quot;</span>
+										<span class="rex-form-read" id="rex-form-db-name">&quot;'.htmlspecialchars($dbconfig['DB1']['name']).'&quot;</span>
 									</p>
 								</div>
 							</div>
