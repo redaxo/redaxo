@@ -112,13 +112,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 	require_once rex_path::src('core/functions/function_rex_addons.inc.php');
 
 	$addonErr = '';
-	rex_generateAddons(rex_read_addons_folder());
-	$PLUGINS = array();
-	foreach(rex_ooAddon::getRegisteredAddons() as $addon)
-	{
-	  $PLUGINS[$addon] = rex_read_plugins_folder($addon);
-	}
-	rex_generatePlugins($PLUGINS);
+	rex_packageManager::synchronizeWithFileSystem();
 
 	$addonManager = new rex_addonManager();
   if($uninstallBefore)
@@ -334,9 +328,6 @@ if ($checkmodus == 1)
 	// -------------------------- SCHREIBRECHTE
 	$WRITEABLES = array (
 		rex_path::src('config/master.inc.php'),
-		rex_path::src('config/addons.inc.php'),
-		rex_path::src('config/plugins.inc.php'),
-		rex_path::src('config/clang.inc.php'),
 		rex_path::generated(),
 		rex_path::generated('articles'),
 		rex_path::generated('templates'),
@@ -443,15 +434,26 @@ if ($checkmodus == 2 && $send == 1)
   	$cont = preg_replace("@(REX\['INSTNAME'\].?\=.?\")[^\"]*@", '${1}'."rex".date("YmdHis"), $cont);
   	$cont = preg_replace("@(REX\['ERROR_EMAIL'\].?\=.?\")[^\"]*@", '${1}'.$error_email, $cont);
   	$cont = preg_replace("@(REX\['TIMEZONE'\].?\=.?\")[^\"]*@", '${1}'.$timezone, $cont);
-  	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['HOST'\].?\=.?\")[^\"]*@", '${1}'.$mysql_host, $cont);
-  	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['LOGIN'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_login, $cont);
-  	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['PSW'\].?\=.?\")[^\"]*@", '${1}'.$redaxo_db_user_pass, $cont);
-  	$cont = preg_replace("@(REX\['DB'\]\['1'\]\['NAME'\].?\=.?\")[^\"]*@", '${1}'.$dbname, $cont);
 
   	if(rex_put_file_contents($master_file, $cont) === false)
   	{
   		$err_msg = $REX['I18N']->msg('setup_020', '<b>', '</b>');
   	}
+	}
+
+	if($err_msg == '')
+	{
+	  $dbconfigFile = rex_path::backend('src/dbconfig.yml');
+	  $dbconfig = sfYaml::load($dbconfigFile);
+	  $dbconfig['DB1']['host'] = $mysql_host;
+    $dbconfig['DB1']['login'] = $redaxo_db_user_login;
+    $dbconfig['DB1']['password'] = $redaxo_db_user_pass;
+    $dbconfig['DB1']['name'] = $dbname;
+
+    if(!rex_put_file_contents($dbconfigFile, sfYaml::dump($dbconfig)))
+    {
+      $err_msg = $REX['I18N']->msg('setup_020_1', '<b>', '</b>');
+    }
 	}
 
 
@@ -468,11 +470,6 @@ if ($checkmodus == 2 && $send == 1)
 	// -------------------------- MySQl VERSIONSCHECK
 	if($err_msg == '')
 	{
-		$REX['DB']['1']['NAME'] = $dbname;
-		$REX['DB']['1']['LOGIN'] = $redaxo_db_user_login;
-		$REX['DB']['1']['PSW'] = $redaxo_db_user_pass;
-		$REX['DB']['1']['HOST'] = $mysql_host;
-
 	  $serverVersion = rex_sql::getServerVersion();
 		if (rex_version_compare($serverVersion, $min_mysql_version, '<') == 1)
 		{
@@ -496,10 +493,11 @@ else
 	$timezone              = $REX['TIMEZONE'];
 
 	// DB Infos
-	$dbname                = $REX['DB']['1']['NAME'];
-	$redaxo_db_user_login  = $REX['DB']['1']['LOGIN'];
-	$redaxo_db_user_pass   = $REX['DB']['1']['PSW'];
-	$mysql_host            = $REX['DB']['1']['HOST'];
+	$dbconfig = sfYaml::load(rex_path::backend('src/dbconfig.yml'));
+	$dbname                = $dbconfig['DB1']['name'];
+	$redaxo_db_user_login  = $dbconfig['DB1']['login'];
+	$redaxo_db_user_pass   = $dbconfig['DB1']['password'];
+	$mysql_host            = $dbconfig['DB1']['host'];
 }
 
 if ($checkmodus == 2)
@@ -719,6 +717,7 @@ if ($checkmodus == 3 && $send == 1)
 
 	if ($err_msg == "")
 	{
+	  rex_generateClang();
 		$send = "";
 		$checkmodus = 4;
 	}

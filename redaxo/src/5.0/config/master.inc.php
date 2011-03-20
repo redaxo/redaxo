@@ -88,20 +88,6 @@ date_default_timezone_set($REX['TIMEZONE']);
 $REX['SYSTEM_PACKAGES'] = array('structure', array('structure', 'content'), array('structure', 'linkmap'), 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', array('be_style', 'base'), array('be_style', 'agk_skin'), 'image_manager', 'users');
 $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
 
-// ----------------- DB1
-$REX['DB']['1']['HOST'] = "localhost";
-$REX['DB']['1']['LOGIN'] = "root";
-$REX['DB']['1']['PSW'] = "";
-$REX['DB']['1']['NAME'] = "redaxo_5_0";
-$REX['DB']['1']['PERSISTENT'] = false;
-
-// ----------------- DB2 - if necessary
-$REX['DB']['2']['HOST'] = "";
-$REX['DB']['2']['LOGIN'] = "";
-$REX['DB']['2']['PSW'] = "";
-$REX['DB']['2']['NAME'] = "";
-$REX['DB']['2']['PERSISTENT'] = false;
-
 // ----------------- Accesskeys
 $REX['ACKEY']['SAVE'] = 's';
 $REX['ACKEY']['APPLY'] = 'x';
@@ -148,7 +134,10 @@ if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 if(!$REX['NOFUNCTIONS']) include_once rex_path::src('core/functions.inc.php');
 
 // ----- SET CLANG
-include_once rex_path::src('config/clang.inc.php');
+$REX['CLANG'] = array();
+$clangFile = rex_path::generated('files/clang.cache');
+if(file_exists($clangFile))
+  $REX['CLANG'] = json_decode(rex_get_file_contents(rex_path::generated('files/clang.cache')), true);
 
 $REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', $REX['START_CLANG_ID']);
 

@@ -185,7 +185,7 @@ class rex_cronjob_manager_sql
       $id       = $sql->getValue('id');
       $name     = $sql->getValue('name');
       $type     = $sql->getValue('type');
-      $params   = unserialize($sql->getValue('parameters'));
+      $params   = json_decode($sql->getValue('parameters'), true);
       $interval = $sql->getValue('interval');
 
       $cronjob = rex_cronjob::factory($type);

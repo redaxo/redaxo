@@ -6,7 +6,7 @@
  * @version svn:$Id$
  */
 
-class rex_ooPlugin extends rex_addon
+class rex_ooPlugin extends rex_package
 {
   /**
    * Erstellt eine rex_ooPlugin instanz
@@ -34,7 +34,7 @@ class rex_ooPlugin extends rex_addon
 
   /**
    * @override
-   * @see redaxo/include/classes/rex_addon#isAvailable($addon)
+   * @see rex_package::isAvailable()
    */
   static public function isAvailable($addon, $plugin = null)
   {
@@ -42,12 +42,12 @@ class rex_ooPlugin extends rex_addon
     {
       throw new InvalidArgumentException('Missing Argument 2 for rex_ooPlugin::isAvailable()');
     }
-    return parent::isAvailable(array($addon, $plugin));
+    return parent::isAvailable($addon) && parent::isAvailable(array($addon, $plugin));
   }
 
   /**
    * @override
-   * @see redaxo/include/classes/rex_addon#isActivated($addon)
+   * @seerex_package::isActivated()
    */
   static public function isActivated($addon, $plugin = null)
   {
@@ -55,12 +55,12 @@ class rex_ooPlugin extends rex_addon
     {
       throw new InvalidArgumentException('Missing Argument 2 for rex_ooPlugin::isActivated()');
     }
-    return parent::isActivated(array($addon, $plugin));
+    return parent::isActivated($addon) && parent::isActivated(array($addon, $plugin));
   }
 
   /**
    * @override
-   * @see redaxo/include/classes/rex_addon#isInstalled($addon)
+   * @see rex_package::isInstalled()
    */
   static public function isInstalled($addon, $plugin = null)
   {
@@ -68,12 +68,12 @@ class rex_ooPlugin extends rex_addon
     {
       throw new InvalidArgumentException('Missing Argument 2 for rex_ooPlugin::isInstalled()');
     }
-    return parent::isInstalled(array($addon, $plugin));
+    return parent::isInstalled($addon) && parent::isInstalled(array($addon, $plugin));
   }
 
   /**
    * @override
-   * @see redaxo/include/classes/rex_addon#getSupportPage($addon, $default)
+   * @see rex_package::getSupportPage()
    */
   static public function getSupportPage($addon, $plugin = null, $default = null)
   {
@@ -86,7 +86,7 @@ class rex_ooPlugin extends rex_addon
 
   /**
    * @override
-   * @see redaxo/include/classes/rex_addon#getVersion($addon, $default)
+   * @see rex_package::getVersion()
    */
   static public function getVersion($addon, $plugin = null, $default = null)
   {
@@ -99,7 +99,7 @@ class rex_ooPlugin extends rex_addon
 
   /**
    * @override
-   * @see redaxo/include/classes/rex_addon#getAuthor($addon, $default)
+   * @see rex_package::getAuthor()
    */
   static public function getAuthor($addon, $plugin = null, $default = null)
   {
@@ -112,7 +112,7 @@ class rex_ooPlugin extends rex_addon
 
   /**
    * @override
-   * @see redaxo/include/classes/rex_addon#getProperty($addon, $property, $default)
+   * @see rex_package::getProperty()
    */
   static public function getProperty($addon, $plugin, $property = null, $default = null)
   {
@@ -125,7 +125,7 @@ class rex_ooPlugin extends rex_addon
 
   /**
    * @override
-   * @see redaxo/include/classes/rex_addon#setProperty($addon, $property, $value)
+   * @see rex_package::setProperty()
    */
   static public function setProperty($addon, $plugin, $property, $value = null)
   {

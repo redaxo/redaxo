@@ -73,8 +73,7 @@ abstract class rex_packageManager
         // Installation ok
         if ($state === TRUE)
         {
-          // regenerate Addons file
-          $state = $this->generateConfig();
+          $this->saveConfig();
         }
       }
     }
@@ -172,7 +171,7 @@ abstract class rex_packageManager
     }
     else
     {
-      $state = $this->generateConfig();
+      $this->saveConfig();
     }
 
     return $state;
@@ -185,6 +184,8 @@ abstract class rex_packageManager
    */
   public function activate($addonName)
   {
+    global $REX;
+
     if ($this->apiCall('isInstalled', array($addonName)))
     {
       // load package infos
@@ -195,17 +196,19 @@ abstract class rex_packageManager
       if ($state === true)
       {
         $this->apiCall('setProperty', array($addonName, 'status', 1));
-        $state = $this->generateConfig();
+        if(!$REX['SETUP'])
+        {
+          $configFile = $this->baseFolder($addonName) .'config.inc.php';
+          if(is_readable($configFile))
+          {
+            $this->includeConfig($addonName, $configFile);
+          }
+        }
+        $this->saveConfig();
       }
       if($state === true)
       {
-        $order = rex_core_config::get('package-order', array());
-        $package = $this->package($addonName);
-        if(!in_array($package, $order))
-        {
-          $order[] = $package;
-        }
-        rex_core_config::set('package-order', $order);
+        $this->addToPackageOrder($addonName);
       }
     }
     else
@@ -235,11 +238,7 @@ abstract class rex_packageManager
     if ($state === true)
     {
       $this->apiCall('setProperty', array($addonName, 'status', 0));
-      $state = $this->generateConfig();
-
-      // error while config generation, rollback addon status
-      if($state !== TRUE)
-        $this->apiCall('setProperty', array($addonName, 'status', 1));
+      $this->saveConfig();
     }
 
     if($state === TRUE)
@@ -248,12 +247,7 @@ abstract class rex_packageManager
       // so the index doesn't contain outdated class definitions
       rex_autoload::getInstance()->removeCache();
 
-      $order = rex_core_config::get('package-order', array());
-      if(($key = array_search($this->package($addonName), $order)) !== false)
-      {
-        unset($order[$key]);
-        rex_core_config::set('package-order', array_values($order));
-      }
+      $this->removeFromPackageOrder($addonName);
     }
     else
     {
@@ -276,7 +270,7 @@ abstract class rex_packageManager
     $state = $state && $this->uninstall($addonName);
     $state = $state && rex_deleteDir($this->baseFolder($addonName), TRUE);
     $state = $state && rex_deleteDir($this->dataFolder($addonName), true);
-    $state = $state && $this->generateConfig();
+    $this->saveConfig();
 
     return $state;
   }
@@ -445,6 +439,37 @@ abstract class rex_packageManager
    */
   protected abstract function checkDependencies($addonName);
 
+	/**
+   * Adds the package to the package order
+   *
+   * @param string $packageName The name of the package
+   */
+  protected function addToPackageOrder($packageName)
+  {
+    $order = rex_core_config::get('package-order', array());
+    $package = $this->package($packageName);
+    if(!in_array($package, $order))
+    {
+      $order[] = $package;
+      rex_core_config::set('package-order', $order);
+    }
+  }
+
+  /**
+   * Removes the package from the package order
+   *
+   * @param string $packageName The name of the package
+   */
+  protected function removeFromPackageOrder($packageName)
+  {
+    $order = rex_core_config::get('package-order', array());
+    if(($key = array_search($this->package($packageName), $order)) !== false)
+    {
+      unset($order[$key]);
+      rex_core_config::set('package-order', array_values($order));
+    }
+  }
+
   /**
    * Übersetzen eines Sprachschlüssels unter Verwendung des Prefixes
    */
@@ -472,11 +497,6 @@ abstract class rex_packageManager
    * Bindet die deinstallations-Datei eines Addons ein
    */
   protected abstract function includeUninstaller($addonName, $uninstallFile);
-
-  /**
-   * Speichert den aktuellen Zustand
-   */
-  protected abstract function generateConfig();
 
   /**
    * Ansprechen einer API funktion
@@ -515,4 +535,79 @@ abstract class rex_packageManager
    * Findet den Namespace für rex_config
    */
   protected abstract function configNamespace($addonName);
+
+  /**
+   * Saves the package config
+   */
+  static protected function saveConfig()
+  {
+    global $REX;
+
+    $config = array();
+    $config['install'] = $REX['ADDON']['install'];
+    $config['status'] = $REX['ADDON']['status'];
+    $config['plugins'] = array();
+    if(isset($REX['ADDON']['plugins']) && is_array($REX['ADDON']['plugins']))
+    {
+      foreach($REX['ADDON']['plugins'] as $addon => $pluginConfig)
+      {
+        $config['plugins'][$addon]['install'] = $pluginConfig['install'];
+        $config['plugins'][$addon]['status'] = $pluginConfig['status'];
+      }
+    }
+    rex_core_config::set('package-config', $config);
+  }
+
+  /**
+   * Synchronizes the packages with the file system
+   */
+  static public function synchronizeWithFileSystem()
+  {
+    global $REX;
+
+    $addons = self::readPackageFolder(rex_path::addon('*'));
+    $addonManager = new rex_addonManager();
+    array_map(array($addonManager, 'delete'), array_diff(rex_ooAddon::getRegisteredAddons(), $addons));
+    foreach($addons as $addon)
+    {
+      $REX['ADDON']['install'][$addon] = rex_ooAddon::getProperty($addon, 'install', false);
+      $REX['ADDON']['status'][$addon] = rex_ooAddon::getProperty($addon, 'status', false);
+      $plugins = self::readPackageFolder(rex_path::plugin($addon, '*'));
+      $pluginManager = new rex_pluginManager($addon);
+      array_map(array($pluginManager, 'delete'), array_diff(rex_ooPlugin::getRegisteredPlugins($addon), $plugins));
+      foreach($plugins as $plugin)
+      {
+        $REX['ADDON']['plugins'][$addon]['install'][$plugin] = rex_ooPlugin::getProperty($addon, $plugin, 'install', false);
+        $REX['ADDON']['plugins'][$addon]['status'][$plugin] = rex_ooPlugin::getProperty($addon, $plugin, 'status', false);
+      }
+      if(isset($REX['ADDON']['plugins'][$addon]['install']) && is_array($REX['ADDON']['plugins'][$addon]['install']))
+        ksort($REX['ADDON']['plugins'][$addon]['install']);
+      if(isset($REX['ADDON']['plugins'][$addon]['status']) && is_array($REX['ADDON']['plugins'][$addon]['status']))
+        ksort($REX['ADDON']['plugins'][$addon]['status']);
+    }
+    ksort($REX['ADDON']['install']);
+    ksort($REX['ADDON']['status']);
+    self::saveConfig();
+  }
+
+  /**
+   * Returns the subfolders of the given folder
+   *
+   * @param string $folder Folder
+   */
+  static private function readPackageFolder($folder)
+  {
+    $packages = array ();
+
+    $files = glob(rtrim($folder, DIRECTORY_SEPARATOR), GLOB_NOSORT);
+    if(is_array($files))
+    {
+      foreach($files as $file)
+      {
+        $packages[] = basename($file);
+      }
+    }
+
+    return $packages;
+  }
 }

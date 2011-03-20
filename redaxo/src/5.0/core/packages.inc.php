@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Addonlist
+ * Packages loading
  * @package redaxo4
  * @version svn:$Id$
  */
@@ -10,17 +10,21 @@
 unset($REX['ADDON']);
 $REX['ADDON'] = array();
 
-// ----------------- DONT EDIT BELOW THIS
-// --- DYN
-// --- /DYN
-// ----------------- /DONT EDIT BELOW THIS
-
-require rex_path::src('config/plugins.inc.php');
-
 if($REX['SETUP'])
+{
+  $REX['ADDON']['install']['be_style'] = 1;
+  $REX['ADDON']['status']['be_style'] = 1;
+  $REX['ADDON']['plugins']['be_style']['install']['base'] = 1;
+  $REX['ADDON']['plugins']['be_style']['status']['base'] = 1;
+  $REX['ADDON']['plugins']['be_style']['install']['agk_skin'] = 1;
+  $REX['ADDON']['plugins']['be_style']['status']['agk_skin'] = 1;
   $packageOrder = array('be_style', array('be_style', 'base'), array('be_style', 'agk_skin'));
+}
 else
+{
+  $REX['ADDON'] = rex_core_config::get('package-config', array());
   $packageOrder = rex_core_config::get('package-order', array());
+}
 
 // in the first run, we register all folders for class- and fragment-loading,
 // so it is transparent in which order the addons are included afterwards.

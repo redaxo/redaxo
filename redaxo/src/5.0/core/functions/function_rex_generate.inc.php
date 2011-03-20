@@ -341,8 +341,8 @@ function rex_addCLang($id, $name)
   if(isset($REX['CLANG'][$id])) return FALSE;
 
   $REX['CLANG'][$id] = $name;
-  $file = rex_path::src('config/clang.inc.php');
-  rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n");
+  $file = rex_path::generated('files/clang.cache');
+  rex_put_file_contents($file, json_encode($REX['CLANG']));
 
   $firstLang = rex_sql::factory();
   $firstLang->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='0'");
@@ -365,7 +365,7 @@ function rex_addCLang($id, $name)
           if ($value == 'status')
             $newLang->setValue('status', '0'); // Alle neuen Artikel offline
       else
-        $newLang->setValue($value, $firstLang->escape($firstLang->getValue($value)));
+        $newLang->setValue($value, $firstLang->getValue($value));
     }
 
     $newLang->insert();
@@ -397,8 +397,8 @@ function rex_editCLang($id, $name)
   if(!isset($REX['CLANG'][$id])) return false;
 
   $REX['CLANG'][$id] = $name;
-  $file = rex_path::src('config/clang.inc.php');
-  rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n");
+  $file = rex_path::generated('files/clang.cache');
+  rex_put_file_contents($file, json_encode($REX['CLANG']));
 
   $edit = rex_sql::factory();
   $edit->setQuery("update ".$REX['TABLE_PREFIX']."clang set name='$name' where id='$id'");
@@ -406,98 +406,6 @@ function rex_editCLang($id, $name)
   // ----- EXTENSION POINT
   rex_register_extension_point('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));
 
-  return TRUE;
-}
-
-/**
- * Schreibt Addoneigenschaften in die Datei include/addons.inc.php
- *
- * @param array Array mit den Namen der Addons aus dem Verzeichnis addons/
- *
- * @return TRUE bei Erfolg, sonst FALSE
- */
-function rex_generateAddons(array $ADDONS)
-{
-  global $REX;
-
-  $content = "";
-  foreach ($ADDONS as $addon)
-  {
-    if (!rex_ooAddon :: isInstalled($addon))
-      rex_ooAddon::setProperty($addon, 'install', 0);
-
-    if (!rex_ooAddon :: isActivated($addon))
-      rex_ooAddon::setProperty($addon, 'status', 0);
-
-    foreach(array('install', 'status') as $prop)
-    {
-      $content .= sprintf(
-        "\$REX['ADDON']['%s']['%s'] = '%d';\n",
-        $prop,
-        $addon,
-        rex_ooAddon::getProperty($addon, $prop)
-      );
-    }
-    $content .= "\n";
-  }
-
-  // Da dieser Funktion oefter pro request aufgerufen werden kann,
-  // hier die caches loeschen
-  clearstatcache();
-
-  $file = rex_path::src('config/addons.inc.php');
-  if(rex_replace_dynamic_contents($file, $content) === FALSE)
-  {
-    return 'Datei "'.$file.'" hat keine Schreibrechte';
-  }
-  return TRUE;
-}
-
-/**
- * Schreibt Plugineigenschaften in die Datei include/plugins.inc.php
- *
- * @param array Array mit den Namen der Plugins aus dem Verzeichnis addons/plugins
- *
- * @return TRUE bei Erfolg, sonst eine Fehlermeldung
- */
-function rex_generatePlugins(array $PLUGINS)
-{
-  global $REX;
-
-  $content = "";
-  foreach ($PLUGINS as $addon => $_plugins)
-  {
-    foreach($_plugins as $plugin)
-    {
-      if (!rex_ooPlugin :: isInstalled($addon, $plugin))
-        rex_ooPlugin::setProperty($addon, $plugin, 'install', 0);
-
-      if (!rex_ooPlugin :: isActivated($addon, $plugin))
-        rex_ooPlugin::setProperty($addon, $plugin, 'status', 0);
-
-      foreach(array('install', 'status') as $prop)
-      {
-        $content .= sprintf(
-          "\$REX['ADDON']['plugins']['%s']['%s']['%s'] = '%d';\n",
-          $addon,
-          $prop,
-          $plugin,
-          rex_ooPlugin::getProperty($addon, $plugin, $prop)
-        );
-      }
-      $content .= "\n";
-    }
-  }
-
-  // Da dieser Funktion öfter pro request aufgerufen werden kann,
-  // hier die caches löschen
-  clearstatcache();
-
-  $file = rex_path::src('config/plugins.inc.php');
-  if(rex_replace_dynamic_contents($file, $content) === false)
-  {
-    return 'Datei "'.$file.'" hat keine Schreibrechte';
-  }
   return TRUE;
 }
 
@@ -520,8 +428,8 @@ function rex_generateClang()
     $lg->next();
   }
 
-  $file = rex_path::src('config/clang.inc.php');
-  if(rex_replace_dynamic_contents($file, "\$REX['CLANG'] = ". var_export($REX['CLANG'], TRUE) .";\n") === FALSE)
+  $file = rex_path::generated('files/clang.cache');
+  if(rex_put_file_contents($file, json_encode($REX['CLANG'])) === FALSE)
   {
     return 'Datei "'.$file.'" hat keine Schreibrechte';
   }

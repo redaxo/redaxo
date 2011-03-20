@@ -90,7 +90,7 @@ class rex_fragment
   // -------------------------- in fragment helpers
 
   /**
-   * Escapes the value $val
+   * Escapes the value $val for proper use in the gui
    *
    * @param mixed $val the value to escape
    */

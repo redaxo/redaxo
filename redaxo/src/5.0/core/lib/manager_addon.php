@@ -40,11 +40,6 @@ class rex_addonManager extends rex_packageManager
     require $uninstallFile;
   }
 
-  protected function generateConfig()
-  {
-    return rex_generateAddons($this->configArray);
-  }
-
   protected function apiCall($method, array $arguments)
   {
     return rex_call_func(array('rex_ooAddon', $method), $arguments, false);
@@ -106,6 +101,36 @@ class rex_addonManager extends rex_packageManager
   }
 
   /**
+   * Checks whether the requirements are met.
+   *
+   * @param string $addonName The name of the addon
+   */
+  protected function checkRequirements($addonName)
+  {
+    $state = parent::checkRequirements($addonName);
+
+    if($state !== true)
+      return $state;
+
+    $pluginManager = new rex_pluginManager($addonName);
+    foreach(rex_ooPlugin::getRegisteredPlugins($addonName) as $plugin)
+    {
+      // do not use rex_ooPlugin::isAvailable() here, because parent addon isn't activated
+      if(rex_ooPlugin::getProperty($addonName, $plugin, 'status', false))
+      {
+        $pluginManager->loadPackageInfos($plugin);
+        $return = $pluginManager->checkRequirements($plugin);
+        if(is_string($return) && !empty($return))
+        {
+          $pluginManager->deactivate($plugin);
+        }
+      }
+    }
+
+    return $state;
+  }
+
+  /**
    * Checks if another Addon/Plugin which is activated, depends on the given addon
    *
    * @param string $addonName The name of the addon
@@ -149,5 +174,37 @@ class rex_addonManager extends rex_packageManager
     }
 
     return empty($state) ? true : implode('<br />', $state);
+  }
+
+	/**
+   * Adds the package to the package order
+   *
+   * @param string $addonName The name of the addon
+   */
+  protected function addToPackageOrder($addonName)
+  {
+    parent::addToPackageOrder($addonName);
+
+    $pluginManager = new rex_pluginManager($addonName);
+    foreach(rex_ooPlugin::getAvailablePlugins($addonName) as $plugin)
+    {
+      $pluginManager->addToPackageOrder($plugin);
+    }
+  }
+
+  /**
+   * Removes the package from the package order
+   *
+   * @param string $addonName The name of the addon
+   */
+  protected function removeFromPackageOrder($addonName)
+  {
+    parent::removeFromPackageOrder($addonName);
+
+    $pluginManager = new rex_pluginManager($addonName);
+    foreach(rex_ooPlugin::getRegisteredPlugins($addonName) as $plugin)
+    {
+      $pluginManager->removeFromPackageOrder($plugin);
+    }
   }
 }

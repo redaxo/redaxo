@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Layout 
+ * Layout
  *
  * @author jan[dot]kristinus[at]redaxo[dot]de Jan Kristinus
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
@@ -16,7 +16,7 @@
 
 $error = '';
 
-// Plugins mitinstallieren
+/*/ Plugins mitinstallieren
 $addonname = 'layout';
 
 $plugins = array('base', 'agk_skin');
@@ -41,7 +41,7 @@ foreach($plugins as $pluginname)
   {
     break;
   }
-}
+}*/
 
 if ($error != '')
   $REX['ADDON']['installmsg'][$addonname] = $error;

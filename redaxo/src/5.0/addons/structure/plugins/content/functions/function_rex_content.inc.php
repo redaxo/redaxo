@@ -332,10 +332,8 @@ function rex_article2startpage($neu_id){
     // austauschen der definierten paramater
     foreach($params as $param)
     {
-      $neu_value = $neu->escape($neu->getValue($param));
-      $alt_value = $alt->escape($alt->getValue($param));
-      $alt2->setValue($param,$neu_value);
-      $neu2->setValue($param,$alt_value);
+      $alt2->setValue($param,$neu->getValue($param));
+      $neu2->setValue($param,$alt->getValue($param));
     }
     $alt2->update();
     $neu2->update();
@@ -532,7 +530,7 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
 
     foreach ($params as $key => $value)
     {
-      $uc->setValue($value, $gc->escape($gc->getValue($value)));
+      $uc->setValue($value, $gc->getValue($value));
     }
 
     $uc->update();
@@ -775,7 +773,7 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
         $art_sql->setTable($REX['TABLE_PREFIX'].'article');
         $art_sql->setValue('re_id', $re_id);
         $art_sql->setValue('path', $path);
-        $art_sql->setValue('catname', $art_sql->escape($catname));
+        $art_sql->setValue('catname', $catname);
         // Artikel als letzten Artikel in die neue Kat einfügen
         $art_sql->setValue('prior', '99999');
         // Kopierter Artikel offline setzen

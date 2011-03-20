@@ -299,7 +299,7 @@ class rex_config
     self::$data = array();
     while($sql->hasNext())
     {
-      self::$data[$sql->getValue('namespace')][$sql->getValue('key')] = unserialize($sql->getValue('value'));
+      self::$data[$sql->getValue('namespace')][$sql->getValue('key')] = json_decode($sql->getValue('value'), true);
       $sql->next();
     }
   }
@@ -371,7 +371,7 @@ class rex_config
         $sql->setTable($REX['TABLE_PREFIX']. 'config');
         $sql->setValue('namespace', $namespace);
         $sql->setValue('key', $key);
-        $sql->setValue('value', serialize($value));
+        $sql->setValue('value', json_encode($value));
         $sql->replace();
       }
     }

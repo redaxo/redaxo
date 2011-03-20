@@ -16,9 +16,8 @@ abstract class rex_var
    *
    * @param rex_sql $sql A datacontainer of the current slice (to be filled)
    * @param array $REX_ACTION Array of userinput
-   * @param boolean $escape Flag which indicates if the userinput need to be escaped
    */
-  public function setACValues(rex_sql $sql, array $REX_ACTION, $escape = false)
+  public function setACValues(rex_sql $sql, array $REX_ACTION)
   {
     // nothing todo
   }
@@ -160,17 +159,10 @@ abstract class rex_var
    * @param rex_sql $sql The article-slice datacontainer
    * @param string $fieldname The name of the property to set
    * @param string $value The value to set
-   * @param boolean $escape Flag which indicates if the userinput need to be escaped
    */
-  protected function setValue(rex_sql $sql, $fieldname, $value, $escape = false)
+  protected function setValue(rex_sql $sql, $fieldname, $value)
   {
     global $REX;
-
-    if($escape)
-    {
-      $value = addslashes($value);
-    }
-
     $sql->setValue($fieldname, $value);
   }
 

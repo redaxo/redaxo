@@ -117,16 +117,16 @@ function _rex_is_writable($item)
 
 function rex_getAttributes($name,$content,$default = null)
 {
-  $prop = unserialize($content);
+  $prop = json_decode($content, true);
   if (isset($prop[$name])) return $prop[$name];
   return $default;
 }
 
 function rex_setAttributes($name,$value,$content)
 {
-  $prop = unserialize($content);
+  $prop = json_decode($content, true);
   $prop[$name] = $value;
-  return serialize($prop);
+  return json_encode($prop);
 }
 
 /**

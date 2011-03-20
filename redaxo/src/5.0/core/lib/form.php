@@ -997,10 +997,8 @@ class rex_form
         if (is_array($fieldValue))
           $fieldValue = '|' . implode('|', $fieldValue) . '|';
 
-        // Den POST-Wert als Value in das Feld speichern
-        // Da generell alles von REDAXO escaped wird, hier slashes entfernen
         // PHP4 compat notation
-        $saveElements[$fieldsetName][$key]->setValue(stripslashes($fieldValue));
+        $saveElements[$fieldsetName][$key]->setValue($fieldValue);
       }
     }
   }
