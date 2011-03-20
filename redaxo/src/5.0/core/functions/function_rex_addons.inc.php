@@ -1,42 +1,5 @@
 <?php
 
-/**
- * Addon Funktionen
- * @package redaxo4
- * @version svn:$Id$
- */
-
-
-function rex_addons_folder($addon = null)
-{
-  if(!is_null($addon))
-  {
-    return rex_path::addon($addon);
-  }
-
-  return rex_path::src('addons/');
-}
-
-function rex_read_addons_folder($folder = '')
-{
-  if ($folder == '')
-  {
-    $folder = rex_path::src('addons/');
-  }
-
-  $addons = array ();
-  $hdl = opendir($folder);
-  while (($file = readdir($hdl)) !== false)
-  {
-    if ($file != '.' && $file != '..' && is_dir($folder.$file.'/.'))
-    {
-      $addons[] = $file;
-    }
-  }
-  closedir($hdl);
-
-  return $addons;
-}
 
 // ------------------------------------- Helpers
 
