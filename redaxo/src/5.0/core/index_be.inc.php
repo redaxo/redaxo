@@ -112,7 +112,7 @@ if($REX['USER'])
 }
 
 // ----- INCLUDE ADDONS
-include_once rex_path::src('config/addons.inc.php');
+include_once rex_path::src('core/addons.inc.php');
 
 // ----- Prepare AddOn Pages
 if($REX['USER'])

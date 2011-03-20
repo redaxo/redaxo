@@ -25,7 +25,7 @@ ob_implicit_flush(0);
 include rex_path::src('config/master.inc.php');
 
 // ----- INCLUDE ADDONS
-include_once rex_path::src('config/addons.inc.php');
+include_once rex_path::src('core/addons.inc.php');
 
 if($REX['SETUP'])
 {

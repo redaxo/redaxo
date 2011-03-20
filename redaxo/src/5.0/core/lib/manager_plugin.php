@@ -91,11 +91,6 @@ class rex_pluginManager extends rex_packageManager
     rex_pluginManager::addon2plugin($this->addonName, $addonName, $uninstallFile);
   }
 
-  protected function generateConfig()
-  {
-    return rex_generatePlugins($this->configArray);
-  }
-
   protected function apiCall($method, array $arguments)
   {
     // addonName als 1. Parameter einfügen

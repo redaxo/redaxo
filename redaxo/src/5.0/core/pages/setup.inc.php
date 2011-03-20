@@ -112,13 +112,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 	require_once rex_path::src('core/functions/function_rex_addons.inc.php');
 
 	$addonErr = '';
-	rex_generateAddons(rex_read_addons_folder());
-	$PLUGINS = array();
-	foreach(rex_ooAddon::getRegisteredAddons() as $addon)
-	{
-	  $PLUGINS[$addon] = rex_read_plugins_folder($addon);
-	}
-	rex_generatePlugins($PLUGINS);
+	rex_packageManager::synchronizeWithFileSystem();
 
 	$addonManager = new rex_addonManager();
   if($uninstallBefore)
@@ -334,8 +328,6 @@ if ($checkmodus == 1)
 	// -------------------------- SCHREIBRECHTE
 	$WRITEABLES = array (
 		rex_path::src('config/master.inc.php'),
-		rex_path::src('config/addons.inc.php'),
-		rex_path::src('config/plugins.inc.php'),
 		rex_path::generated(),
 		rex_path::generated('articles'),
 		rex_path::generated('templates'),

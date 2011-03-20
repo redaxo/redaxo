@@ -40,11 +40,6 @@ class rex_addonManager extends rex_packageManager
     require $uninstallFile;
   }
 
-  protected function generateConfig()
-  {
-    return rex_generateAddons($this->configArray);
-  }
-
   protected function apiCall($method, array $arguments)
   {
     return rex_call_func(array('rex_ooAddon', $method), $arguments, false);
