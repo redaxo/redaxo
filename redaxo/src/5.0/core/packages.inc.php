@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Addonlist
+ * Packages loading
  * @package redaxo4
  * @version svn:$Id$
  */
