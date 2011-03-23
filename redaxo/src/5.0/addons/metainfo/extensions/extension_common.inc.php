@@ -657,7 +657,9 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
 
   _rex_a62_metainfo_handleSave($params, $article, $sqlFields);
 
-  $article->update();
+  // do the save only when metafields are defined
+  if($article->hasValues())
+    $article->update();
 
   // Artikel nochmal mit den zusätzlichen Werten neu generieren
   rex_generateArticleMeta($params['id'], $params['clang']);
@@ -692,7 +694,9 @@ function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
 
   _rex_a62_metainfo_handleSave($params, $media, $sqlFields);
 
-  $media->update();
+  // do the save only when metafields are defined
+  if($media->hasValues())
+    $media->update();
 
   return $params;
 }

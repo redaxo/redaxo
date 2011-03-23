@@ -295,6 +295,14 @@ class rex_sql
     }
     return false;
   }
+  
+  /**
+   * Returns whether values are set inside this rex_sql object
+   */
+  public function hasValues()
+  {
+    return !empty($this->values);
+  }
 
   /**
    * Prueft den Wert einer Spalte der aktuellen Zeile ob ein Wert enthalten ist
