@@ -53,13 +53,13 @@ abstract class rex_form_options_element extends rex_form_element
   public function addSqlOptions($qry)
   {
     $sql = rex_sql::factory();
-    $this->addOptions($sql->getArray($qry, MYSQL_NUM));
+    $this->addOptions($sql->getArray($qry, PDO::FETCH_NUM));
   }
 
   public function addDBSqlOptions($qry)
   {
     $sql = rex_sql::factory();
-    $this->addOptions($sql->getDBArray($qry, MYSQL_NUM));
+    $this->addOptions($sql->getDBArray($qry, PDO::FETCH_NUM));
   }
 
   public function getOptions()

@@ -107,7 +107,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         if(rex_sql::getQueryType($params) == 'SELECT')
         {
           $sql = rex_sql::factory();
-          $value_groups = $sql->getDBArray($params, MYSQL_NUM);
+          $value_groups = $sql->getDBArray($params, PDO::FETCH_NUM);
           foreach($value_groups as $value_group)
           {
             if(isset($value_group[1]))
