@@ -9,7 +9,7 @@
 // ----------------- SERVER VARS
 
 // Setupservicestatus - if everything ok -> false; if problem set to true;
-$REX['SETUP'] = false;
+$REX['SETUP'] = true;
 $REX['SERVER'] = "redaxo.org";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['VERSION'] = "5";
