@@ -80,3 +80,35 @@ function rex_copyDir($srcdir, $dstdir)
 {
   return rex_dir::copy($srcdir, $dstdir);
 }
+
+/**
+ * @see rex_path::absolute()
+ *
+ * @deprecated 5.0
+ */
+function rex_absPath($rel_path, $rel_to_current = false)
+{
+  $stack = array();
+  // Pfad relativ zum aktuellen Verzeichnis?
+  // z.b. ../../media
+  if($rel_to_current)
+  {
+    $path = realpath('.');
+    $stack = explode(DIRECTORY_SEPARATOR, $path);
+  }
+  // pfadtrenner vereinheitlichen
+  $rel_path = str_replace('\\', '/', $rel_path);
+  foreach (explode('/', $rel_path) as $dir)
+  {
+    // Aktuelles Verzeichnis, oder Ordner ohne Namen
+    if ($dir == '.' || $dir == '')
+      continue;
+    // Zum Parent
+    if ($dir == '..')
+      array_pop($stack);
+    // Normaler Ordner
+    else
+      array_push($stack, $dir);
+  }
+  return implode(DIRECTORY_SEPARATOR, $stack);
+}

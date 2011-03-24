@@ -269,7 +269,7 @@ function rex_a1_import_files($filename)
       $msg .= $REX['I18N']->msg('im_export_create_dirs_manually').'<br />';
       foreach($tar->message as $_message)
       {
-        $msg .= rex_absPath($_message).'<br />';
+        $msg .= rex_path::absolute($_message).'<br />';
       }
     }
   }

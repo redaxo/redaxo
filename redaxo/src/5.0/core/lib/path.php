@@ -5,7 +5,7 @@ class rex_path
   const
     RELATIVE = true,
     ABSOLUTE = false;
-    
+
   static private
     $relBase,
     $absBase,
@@ -106,5 +106,43 @@ class rex_path
   static private function base($file, $pathType = rex_path::ABSOLUTE)
   {
     return $pathType == rex_path::ABSOLUTE ? self::absBase($file) : self::relBase($file);
+  }
+
+  /**
+   * Converts a relative path to an absolute
+   *
+   * @param string $relPath The relative path
+   * @params boolean $relToCurrent When TRUE, the returned path is relative to the current directory
+   *
+   * @return string Absolute path
+   */
+  static public function absolute($relPath, $relToCurrent = false)
+  {
+    $stack = array();
+    // Pfad relativ zum aktuellen Verzeichnis?
+    // z.b. ../../media
+    if($relToCurrent)
+    {
+      $path = realpath('.');
+      $stack = explode(DIRECTORY_SEPARATOR, $path);
+    }
+
+    // pfadtrenner vereinheitlichen
+    $relPath = str_replace('\\', '/', $relPath);
+    foreach (explode('/', $rel_path) as $dir)
+    {
+      // Aktuelles Verzeichnis, oder Ordner ohne Namen
+      if ($dir == '.' || $dir == '')
+        continue;
+
+      // Zum Parent
+      if ($dir == '..')
+        array_pop($stack);
+      // Normaler Ordner
+      else
+        array_push($stack, $dir);
+    }
+
+    return implode(DIRECTORY_SEPARATOR, $stack);
   }
 }

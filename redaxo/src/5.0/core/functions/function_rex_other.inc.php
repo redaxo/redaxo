@@ -7,40 +7,6 @@
  */
 
 /**
- * Berechnet aus einem Relativen Pfad einen Absoluten
- */
-function rex_absPath($rel_path, $rel_to_current = false)
-{
-
-  $stack = array();
-  // Pfad relativ zum aktuellen Verzeichnis?
-  // z.b. ../../media
-  if($rel_to_current)
-  {
-    $path = realpath('.');
-    $stack = explode(DIRECTORY_SEPARATOR, $path);
-  }
-
-  // pfadtrenner vereinheitlichen
-  $rel_path = str_replace('\\', '/', $rel_path);
-  foreach (explode('/', $rel_path) as $dir)
-  {
-    // Aktuelles Verzeichnis, oder Ordner ohne Namen
-    if ($dir == '.' || $dir == '')
-      continue;
-
-    // Zum Parent
-    if ($dir == '..')
-      array_pop($stack);
-    // Normaler Ordner
-    else
-      array_push($stack, $dir);
-  }
-
-  return implode(DIRECTORY_SEPARATOR, $stack);
-}
-
-/**
  * Prüfen ob ein/e Datei/Ordner beschreibbar ist
  *
  * @access public
@@ -83,7 +49,7 @@ function _rex_is_writable_info($is_writable, $item = '')
     if($item != '')
       $file = '<b>'. $item .'</b>';
 
-    $state = $REX['I18N']->msg($key, '<span class="rex-error">', '</span>', rex_absPath($file));
+    $state = $REX['I18N']->msg($key, '<span class="rex-error">', '</span>', rex_path::absolute($file));
   }
 
   return $state;
