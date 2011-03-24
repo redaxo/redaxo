@@ -229,7 +229,7 @@ class rex_article_base
 
     if ($this->article_id == 0)
     {
-      return $REX['I18N']->msg('no_article_available');
+      return rex_i18n::msg('no_article_available');
     }
 
     $sliceLimit = '';

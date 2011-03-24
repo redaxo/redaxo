@@ -45,9 +45,9 @@ foreach($packageOrder as $addonName)
       rex_autoload::getInstance()->addDirectory($addonsFolder .'lib/');
     }
     // add addon path for i18n
-    if(isset($REX['I18N']) && is_readable($addonsFolder .'lang'))
+    if(is_readable($addonsFolder .'lang'))
     {
-      $REX['I18N']->appendFile($addonsFolder .'lang');
+      rex_i18n::addDirectory($addonsFolder .'lang');
     }
     // load package infos
     rex_addonManager::loadPackage($addonName);
@@ -71,9 +71,9 @@ foreach($packageOrder as $addonName)
         rex_autoload::getInstance()->addDirectory($pluginsFolder .'lib/');
       }
       // add plugin path for i18n
-      if(isset($REX['I18N']) && is_readable($pluginsFolder .'lang'))
+      if(is_readable($pluginsFolder .'lang'))
       {
-        $REX['I18N']->appendFile($pluginsFolder .'lang');
+        rex_i18n::addDirectory($pluginsFolder .'lang');
       }
       // load package infos
       rex_pluginManager::loadPackage($addonName, $pluginName);

@@ -47,7 +47,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
   // article regenerieren.
 
   $success = false;
-  $message = $REX['I18N']->msg('slice_moved_error');
+  $message = rex_i18n::msg('slice_moved_error');
 
   // check if slice id is valid
   $CM = rex_sql::factory();
@@ -90,7 +90,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
 
       rex_deleteCacheArticleContent($article_id, $clang);
 
-      $message = $REX['I18N']->msg('slice_moved');
+      $message = rex_i18n::msg('slice_moved');
       $success = true;
     }
     else
@@ -968,7 +968,7 @@ function rex_generateArticleContent($article_id, $clang = null)
 
     if (rex_file::put($article_content_file, $article_content) === FALSE)
     {
-      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
+      return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::generated('articles/');
     }
   }
 

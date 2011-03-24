@@ -37,14 +37,14 @@ class rex_rss_reader_component extends rex_dashboard_component
 
     if($content == '')
     {
-      $content .= $REX['I18N']->msg('rss_reader_component_noconfig');
+      $content .= rex_i18n::msg('rss_reader_component_noconfig');
       $content .= ' ';
       $content .= '<a href="#" onclick="componentToggleSettings(\''. $this->getId() .'\'); return false;">';
-      $content .= $REX['I18N']->msg('rss_reader_component_opensettings');
+      $content .= rex_i18n::msg('rss_reader_component_opensettings');
       $content .= '</a>';
     }
 
-    $this->setTitle($REX['I18N']->msg('rss_reader_component_title'));
+    $this->setTitle(rex_i18n::msg('rss_reader_component_title'));
     $this->setContent($content);
   }
 }

@@ -60,8 +60,8 @@ function rex_version_header($params)
 		$working_version_empty = FALSE;
 
 	$revisions = array();
-	$revisions[0] = $REX['I18N']->msg("version_liveversion");
-	$revisions[1] = $REX['I18N']->msg("version_workingversion");
+	$revisions[0] = rex_i18n::msg("version_liveversion");
+	$revisions[1] = rex_i18n::msg("version_workingversion");
 
 	$version_id = rex_request("rex_set_version","int","-1");
 
@@ -82,18 +82,18 @@ function rex_version_header($params)
 		case("copy_work_to_live"):
 		  if($working_version_empty)
 		  {
-		  	$return .= rex_warning($REX['I18N']->msg("version_warning_working_version_to_live"));
+		  	$return .= rex_warning(rex_i18n::msg("version_warning_working_version_to_live"));
 		  }else if(!$REX['USER']->hasPerm('version[only_working_version]'))
 		  {
 				require rex_path::addon('version', 'functions/function_rex_copyrevisioncontent.inc.php');
 				rex_copyRevisionContent($params['article_id'],$params['clang'],rex_article_revision::WORK, rex_article_revision::LIVE);
-		  	$return .= rex_info($REX['I18N']->msg("version_info_working_version_to_live"));
+		  	$return .= rex_info(rex_i18n::msg("version_info_working_version_to_live"));
 		  }
 		break;
 		case("copy_live_to_work"):
 			require rex_path::addon('version', 'functions/function_rex_copyrevisioncontent.inc.php');
 			rex_copyRevisionContent($params['article_id'],$params['clang'],rex_article_revision::LIVE, rex_article_revision::WORK);
-		  $return .= rex_info($REX['I18N']->msg("version_info_live_version_to_working"));
+		  $return .= rex_info(rex_i18n::msg("version_info_live_version_to_working"));
 		break;
 	}
 
@@ -135,25 +135,25 @@ function rex_version_header($params)
   }
 
   $return .= '<ul class="rex-display-inline">';
-  $return .= '<li class="rex-navi-first"><label for="rex-select-version-id">'.$REX['I18N']->msg('version').':</label> '.$s->get().'</li>';
+  $return .= '<li class="rex-navi-first"><label for="rex-select-version-id">'.rex_i18n::msg('version').':</label> '.$s->get().'</li>';
 
   if($REX['USER']->hasPerm('version[only_working_version]'))
 	{
 		if($rex_version_article[$params['article_id']]>0)
 		{
-      $return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work">'.$REX['I18N']->msg('version_copy_from_liveversion').'</a></li>';
-			$return .= '<li><a href="/'.rex_getUrl($params['article_id'],$params['clang'],array("rex_version"=>1)).'" target="_blank">'.$REX['I18N']->msg("version_preview").'</a></li>';
+      $return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work">'.rex_i18n::msg('version_copy_from_liveversion').'</a></li>';
+			$return .= '<li><a href="/'.rex_getUrl($params['article_id'],$params['clang'],array("rex_version"=>1)).'" target="_blank">'.rex_i18n::msg("version_preview").'</a></li>';
 		}
 	}else
 	{
 		if($rex_version_article[$params['article_id']]>0)
 		{
 			if(!$working_version_empty)
-			  $return .= '<li><a href="'.$link.'&rex_version_func=copy_work_to_live">'.$REX['I18N']->msg('version_working_to_live').'</a></li>';
-      $return .= '<li><a href="../'.rex_getUrl($params['article_id'],$params['clang'],array("rex_version"=>1)).'" target="_blank">'.$REX['I18N']->msg("version_preview").'</a></li>';
+			  $return .= '<li><a href="'.$link.'&rex_version_func=copy_work_to_live">'.rex_i18n::msg('version_working_to_live').'</a></li>';
+      $return .= '<li><a href="../'.rex_getUrl($params['article_id'],$params['clang'],array("rex_version"=>1)).'" target="_blank">'.rex_i18n::msg("version_preview").'</a></li>';
 		}else
 		{
-			$return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work" onclick="return confirm(\''.$REX['I18N']->msg('version_confirm_copy_live_to_workingversion').'\');">'.$REX['I18N']->msg('version_copy_live_to_workingversion').'</a></li>';
+			$return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work" onclick="return confirm(\''.rex_i18n::msg('version_confirm_copy_live_to_workingversion').'\');">'.rex_i18n::msg('version_copy_live_to_workingversion').'</a></li>';
 		}
 	}
   $return .= '</ul>';

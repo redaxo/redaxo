@@ -19,10 +19,10 @@ class rex_cronjob_component extends rex_dashboard_component
     global $REX;
 
     parent::__construct('cronjob');
-    $this->setTitle($REX['I18N']->msg('cronjob_dashboard_component_title'));
+    $this->setTitle(rex_i18n::msg('cronjob_dashboard_component_title'));
     $this->setTitleUrl('index.php?page=cronjob');
     $this->setFormat('full');
-    $this->setBlock($REX['I18N']->msg('cronjob_dashboard_block'));
+    $this->setBlock(rex_i18n::msg('cronjob_dashboard_block'));
   }
 
   public function checkPermission()

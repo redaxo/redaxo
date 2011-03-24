@@ -88,7 +88,7 @@ $list[1]['items'] = $KAToutARR;
 
 /*	dl-Liste erstellen  */
 $navi = array();
-$navi['items'][$REX['I18N']->msg('path')] = $list;
+$navi['items'][rex_i18n::msg('path')] = $list;
 
 $fragment = new rex_fragment();
 $fragment->setVar('list', $navi, false);

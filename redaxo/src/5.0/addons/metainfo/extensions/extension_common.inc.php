@@ -73,7 +73,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     }
 
     if($title != '')
-      $label = rex_translate($title);
+      $label = rex_i18n::translate($title);
     else
       $label = htmlspecialchars($name);
 
@@ -127,11 +127,11 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
                strpos($value_group, 'translate:') !== 0)
             {
               $temp = explode(':', $value_group, 2);
-              $values[$temp[0]] = rex_translate($temp[1]);
+              $values[$temp[0]] = rex_i18n::translate($temp[1]);
             }
             else
             {
-              $values[$value_group] = rex_translate($value_group);
+              $values[$value_group] = rex_i18n::translate($value_group);
             }
           }
         }
@@ -229,11 +229,11 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
                strpos($value_group, 'translate:') !== 0)
             {
               $temp = explode(':', $value_group, 2);
-              $values[$temp[0]] = rex_translate($temp[1]);
+              $values[$temp[0]] = rex_i18n::translate($temp[1]);
             }
             else
             {
-              $values[$value_group] = rex_translate($value_group);
+              $values[$value_group] = rex_i18n::translate($value_group);
             }
           }
           $select->addOptions($values);
@@ -767,11 +767,11 @@ function rex_a62_media_is_in_use($params)
       }
       if ($articles != '')
       {
-        $warning[] = $REX['I18N']->msg('minfo_media_in_use_art').'<br /><ul>'.$articles.'</ul>';
+        $warning[] = rex_i18n::msg('minfo_media_in_use_art').'<br /><ul>'.$articles.'</ul>';
       }
       if ($categories != '')
       {
-        $warning[] = $REX['I18N']->msg('minfo_media_in_use_cat').'<br /><ul>'.$categories.'</ul>';
+        $warning[] = rex_i18n::msg('minfo_media_in_use_cat').'<br /><ul>'.$categories.'</ul>';
       }
     }
   }
@@ -790,7 +790,7 @@ function rex_a62_media_is_in_use($params)
       }
       if ($media != '')
       {
-        $warning[] = $REX['I18N']->msg('minfo_media_in_use_med').'<br /><ul>'.$media.'</ul>';
+        $warning[] = rex_i18n::msg('minfo_media_in_use_med').'<br /><ul>'.$media.'</ul>';
       }
     }
   }

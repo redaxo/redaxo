@@ -85,33 +85,33 @@ class rex_effect_insert_image extends rex_effect_abstract{
 
 		return array(
 			array(
-				'label' => $REX['I18N']->msg('imanager_effect_brand_image'),
+				'label' => rex_i18n::msg('imanager_effect_brand_image'),
 				'name' => 'brandimage',
 				'type'	=> 'media',
 				'default' => ''
 			),
 			array(
-				'label' => $REX['I18N']->msg('imanager_effect_brand_hpos'),
+				'label' => rex_i18n::msg('imanager_effect_brand_hpos'),
 				'name' => 'hpos',
 				'type'	=> 'select',
 				'options'	=> array('left','center','right'),
 				'default' => 'left'
 			),
 			array(
-				'label' => $REX['I18N']->msg('imanager_effect_brand_vpos'),
+				'label' => rex_i18n::msg('imanager_effect_brand_vpos'),
 				'name' => 'vpos',
 				'type'	=> 'select',
 				'options'	=> array('top','middle','bottom'),
 				'default' => 'top'
 			),
 			array(
-				'label' => $REX['I18N']->msg('imanager_effect_brand_padding_x'),
+				'label' => rex_i18n::msg('imanager_effect_brand_padding_x'),
 				'name' => 'padding_x',
 				'type'	=> 'int',
 				'default' => '-10'
 			),
 			array(
-				'label' => $REX['I18N']->msg('imanager_effect_brand_padding_y'),
+				'label' => rex_i18n::msg('imanager_effect_brand_padding_y'),
 				'name' => 'padding_y',
 				'type'	=> 'int',
 				'default' => '-10'

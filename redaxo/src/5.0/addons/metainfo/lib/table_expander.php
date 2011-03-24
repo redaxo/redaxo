@@ -32,16 +32,16 @@ class rex_a62_tableExpander extends rex_form
     $typeFields = rex_register_extension_point( 'A62_TYPE_FIELDS', array(REX_A62_FIELD_SELECT, REX_A62_FIELD_RADIO, REX_A62_FIELD_CHECKBOX, REX_A62_FIELD_REX_MEDIA_BUTTON, REX_A62_FIELD_REX_MEDIALIST_BUTTON, REX_A62_FIELD_REX_LINK_BUTTON, REX_A62_FIELD_REX_LINKLIST_BUTTON));
 
     $field = $this->addReadOnlyField('prefix', $this->metaPrefix);
-    $field->setLabel($REX['I18N']->msg('minfo_field_label_prefix'));
+    $field->setLabel(rex_i18n::msg('minfo_field_label_prefix'));
 
     $field = $this->addTextField('name');
-    $field->setLabel($REX['I18N']->msg('minfo_field_label_name'));
+    $field->setLabel(rex_i18n::msg('minfo_field_label_name'));
 
     $field = $this->addSelectField('prior');
-    $field->setLabel($REX['I18N']->msg('minfo_field_label_prior'));
+    $field->setLabel(rex_i18n::msg('minfo_field_label_prior'));
     $select = $field->getSelect();
     $select->setSize(1);
-    $select->addOption($REX['I18N']->msg('minfo_field_first_prior'), 1);
+    $select->addOption(rex_i18n::msg('minfo_field_first_prior'), 1);
     // Im Edit Mode das Feld selbst nicht als Position einf�gen
     $qry = 'SELECT name,prior FROM '. $this->tableName .' WHERE `name` LIKE "'. $this->metaPrefix .'%"';
     if($this->isEditMode())
@@ -54,15 +54,15 @@ class rex_a62_tableExpander extends rex_form
     for($i = 0; $i < $sql->getRows(); $i++)
     {
       $select->addOption(
-        $REX['I18N']->msg('minfo_field_after_prior', $sql->getValue('name')),
+        rex_i18n::msg('minfo_field_after_prior', $sql->getValue('name')),
         $sql->getValue('prior')+1
       );
       $sql->next();
     }
 
     $field = $this->addTextField('title');
-    $field->setLabel($REX['I18N']->msg('minfo_field_label_title'));
-    $field->setNotice($REX['I18N']->msg('minfo_field_notice_title'));
+    $field->setLabel(rex_i18n::msg('minfo_field_label_title'));
+    $field->setNotice(rex_i18n::msg('minfo_field_notice_title'));
 
 	  $gq = rex_sql::factory();
 		$gq->setQuery('SELECT dbtype,id FROM '. $REX['TABLE_PREFIX'] .'62_type');
@@ -76,7 +76,7 @@ class rex_a62_tableExpander extends rex_form
 		}
 
     $field = $this->addSelectField('type');
-    $field->setLabel($REX['I18N']->msg('minfo_field_label_type'));
+    $field->setLabel(rex_i18n::msg('minfo_field_label_type'));
     $field->setAttribute('onchange', 'meta_checkConditionalFields(this, new Array('. implode(',', $typeFields) .'), new Array('. implode(',', $textFields) .'));');
     $select = $field->getSelect();
     $select->setSize(1);
@@ -89,9 +89,9 @@ class rex_a62_tableExpander extends rex_form
     $notices = '';
     for($i = 1; $i < REX_A62_FIELD_COUNT; $i++)
     {
-      if($REX['I18N']->hasMsg('minfo_field_params_notice_'. $i))
+      if(rex_i18n::hasMsg('minfo_field_params_notice_'. $i))
       {
-        $notices .= '<span class="rex-form-notice" id="a62_field_params_notice_'. $i .'" style="display:none">'. $REX['I18N']->msg('minfo_field_params_notice_'. $i) .'</span>'. "\n";
+        $notices .= '<span class="rex-form-notice" id="a62_field_params_notice_'. $i .'" style="display:none">'. rex_i18n::msg('minfo_field_params_notice_'. $i) .'</span>'. "\n";
       }
     }
     $notices .= '
@@ -101,21 +101,21 @@ class rex_a62_tableExpander extends rex_form
     </script>';
 
     $field = $this->addTextAreaField('params');
-    $field->setLabel($REX['I18N']->msg('minfo_field_label_params'));
+    $field->setLabel(rex_i18n::msg('minfo_field_label_params'));
     $field->setSuffix($notices);
 
     $field = $this->addTextAreaField('attributes');
-    $field->setLabel($REX['I18N']->msg('minfo_field_label_attributes'));
-    $notice = '<span class="rex-form-notice" id="a62_field_attributes_notice">'. $REX['I18N']->msg('minfo_field_attributes_notice') .'</span>'. "\n";
+    $field->setLabel(rex_i18n::msg('minfo_field_label_attributes'));
+    $notice = '<span class="rex-form-notice" id="a62_field_attributes_notice">'. rex_i18n::msg('minfo_field_attributes_notice') .'</span>'. "\n";
     $field->setSuffix($notice);
 
     $field = $this->addTextField('default');
-    $field->setLabel($REX['I18N']->msg('minfo_field_label_default'));
+    $field->setLabel(rex_i18n::msg('minfo_field_label_default'));
 
     $attributes = array();
     $attributes['internal::fieldClass'] = 'rex_form_restrictons_element';
     $field = $this->addField('', 'restrictions', $value = null, $attributes);
-    $field->setLabel($REX['I18N']->msg('minfo_field_label_restrictions'));
+    $field->setLabel(rex_i18n::msg('minfo_field_label_restrictions'));
     $field->setAttribute('size', 10);
 
     parent::init();
@@ -124,7 +124,7 @@ class rex_a62_tableExpander extends rex_form
   public function getFieldsetName()
   {
     global $REX;
-    return $REX['I18N']->msg('minfo_field_fieldset');
+    return rex_i18n::msg('minfo_field_fieldset');
   }
 
   protected function delete()
@@ -196,10 +196,10 @@ class rex_a62_tableExpander extends rex_form
 
     $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
     if($fieldName == '')
-      return $REX['I18N']->msg('minfo_field_error_name');
+      return rex_i18n::msg('minfo_field_error_name');
 
     if(preg_match('/[^a-zA-Z0-9\_]/', $fieldName))
-      return $REX['I18N']->msg('minfo_field_error_chars_name');
+      return rex_i18n::msg('minfo_field_error_chars_name');
 
     // Pr�fen ob schon eine Spalte mit dem Namen existiert (nur beim add n�tig)
     if(!$this->isEditMode())
@@ -208,7 +208,7 @@ class rex_a62_tableExpander extends rex_form
       $sql->setQuery('SELECT * FROM '. $this->tableName .' WHERE name="'. $this->addPrefix($fieldName) .'" LIMIT 1');
       if($sql->getRows() == 1)
       {
-        return $REX['I18N']->msg('minfo_field_error_unique_name');
+        return rex_i18n::msg('minfo_field_error_unique_name');
       }
     }
 
@@ -294,7 +294,7 @@ class rex_a62_tableExpander extends rex_form
   {
     if($newPrio == $oldPrio)
       return;
-      
+
     // replace LIKE wildcards
     $metaPrefix = str_replace(array('_', '%'), array('\_', '\%'), $this->metaPrefix);
 

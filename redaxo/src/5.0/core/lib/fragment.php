@@ -167,10 +167,10 @@ class rex_fragment
     {
       // pass along all given parameters
       $args = func_get_args();
-      return call_user_func_array(array($REX['I18N'], 'msg'), $args);
+      return call_user_func_array(array('rex_i18n', 'msg'), $args);
     }
 
-    return $REX['I18N']->msg($key);
+    return rex_i18n::msg($key);
   }
 
   /**

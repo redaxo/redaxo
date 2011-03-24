@@ -193,17 +193,17 @@ class rex_effect_resize extends rex_effect_abstract
 
 		return array(
 			array(
-				'label'=>$REX['I18N']->msg('imanager_effect_resize_width'),
+				'label'=>rex_i18n::msg('imanager_effect_resize_width'),
 				'name' => 'width',
 				'type' => 'int',
 			),
 			array(
-				'label'=>$REX['I18N']->msg('imanager_effect_resize_height'),
+				'label'=>rex_i18n::msg('imanager_effect_resize_height'),
 				'name' => 'height',
 				'type' => 'int'
 			),
 			array(
-				'label' => $REX['I18N']->msg('imanager_effect_resize_style'),
+				'label' => rex_i18n::msg('imanager_effect_resize_style'),
 				'name' => 'style',
 				'type'  => 'select',
 				'options' => $this->options,
@@ -211,7 +211,7 @@ class rex_effect_resize extends rex_effect_abstract
 				'suffix' => $this->script
 			),
 			array(
-				'label'=>$REX['I18N']->msg('imanager_effect_resize_imgtosmall'),
+				'label'=>rex_i18n::msg('imanager_effect_resize_imgtosmall'),
 				'name' => 'allow_enlarge',
 				'type' => 'select',
 				'options' => array('enlarge', 'not_enlarge'),

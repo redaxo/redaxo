@@ -1,22 +1,30 @@
 <?php
 
 /**
- * Sprachobjekt zur Internationalisierung (I18N)
+ * @see rex_i18n
  *
- * @package redaxo4
- * @version svn:$Id$
+ * @deprecated 5.0
  */
-
 class i18n extends rex_i18n
 {
-  /*
-   * Constructor
-   * the locale must of the common form, eg. de_de, en_us or just plain en, de.
-   * the searchpath is where the language files are located
+  /**
+   * @see rex_i18n::setLocale()
+   *
+   * @deprecated 5.0
    */
-  public function __construct($locale = "de_de", $searchpath)
+  public function __construct($locale = "de_de", $searchpath, $setLocale = false)
   {
-    parent::__construct($locale, $searchpath);
+    parent::setLocale($locale, $setLocale);
+    parent::addDirectory($searchpath);
   }
 
+  /**
+   * @see rex_i18n::addDirectory()
+   *
+   * @deprecated 5.0
+   */
+  public function appendFile($searchPath)
+  {
+    parent::addDirectory($searchPath);
+  }
 }

@@ -34,17 +34,17 @@ function rex_a657_check_version()
   if(version_compare($rexVersion, $latestVersion, '>'))
   {
     // Dev version
-    $notice = rex_warning($REX['I18N']->msg('vchecker_dev_version', $rexVersion));
+    $notice = rex_warning(rex_i18n::msg('vchecker_dev_version', $rexVersion));
   }
   else if (version_compare($rexVersion, $latestVersion, '<'))
   {
     // update required
-    $notice = rex_warning($REX['I18N']->msg('vchecker_old_version', $rexVersion, $latestVersion));
+    $notice = rex_warning(rex_i18n::msg('vchecker_old_version', $rexVersion, $latestVersion));
   }
   else
   {
     // current version
-    $notice = rex_info($REX['I18N']->msg('vchecker_current_version', $rexVersion));
+    $notice = rex_info(rex_i18n::msg('vchecker_current_version', $rexVersion));
   }
 
   return $notice;

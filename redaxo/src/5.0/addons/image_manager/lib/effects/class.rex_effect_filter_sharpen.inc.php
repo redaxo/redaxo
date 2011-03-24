@@ -152,19 +152,19 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 
 		return array(
 		array(
-        'label' => $REX['I18N']->msg('imanager_effect_sharpen_amount'),
+        'label' => rex_i18n::msg('imanager_effect_sharpen_amount'),
         'name' => 'amount',
         'type'  => 'int',
         'default' => '80'
         ),
         array(
-        'label' => $REX['I18N']->msg('imanager_effect_sharpen_radius'),
+        'label' => rex_i18n::msg('imanager_effect_sharpen_radius'),
         'name' => 'radius',
         'type'  => 'int',
         'default' => '0.5'
         ),
         array(
-        'label' => $REX['I18N']->msg('imanager_effect_sharpen_threshold'),
+        'label' => rex_i18n::msg('imanager_effect_sharpen_threshold'),
         'name' => 'threshold',
         'type'  => 'int',
         'default' => '3'

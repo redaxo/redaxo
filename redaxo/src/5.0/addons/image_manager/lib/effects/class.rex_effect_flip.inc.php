@@ -72,7 +72,7 @@ class rex_effect_flip extends rex_effect_abstract
 
     return array(
       array(
-        'label' => $REX['I18N']->msg('imanager_effect_flip'),
+        'label' => rex_i18n::msg('imanager_effect_flip'),
         'name' => 'flip',
         'type'  => 'select',
         'options' => $this->options,

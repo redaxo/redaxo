@@ -14,7 +14,7 @@ $subpage = rex_request('subpage', 'string');
 $func    = rex_request('func', 'string');
 $oid     = rex_request('oid', 'int');
 
-rex_title($REX['I18N']->msg("cronjob_title"), $REX['ADDON']['pages']['cronjob']);
+rex_title(rex_i18n::msg("cronjob_title"), $REX['ADDON']['pages']['cronjob']);
 
 echo "\n  <div class=\"rex-addon-output-v2\">\n  ";
 

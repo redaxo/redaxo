@@ -28,6 +28,8 @@ $loader->addDirectory(rex_path::src('core/lib/'));
 // register core-classes  as php-handlers
 rex_autoload::register();
 rex_logger::register();
+// add core lang directory to rex_i18n
+rex_i18n::addDirectory(rex_path::src('core/lang'));
 // add core base-fragmentpath to fragmentloader
 rex_fragment::addDirectory(rex_path::src('core/fragments/'));
 // register core REX_VARS

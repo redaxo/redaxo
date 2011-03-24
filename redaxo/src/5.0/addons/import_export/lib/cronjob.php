@@ -39,8 +39,8 @@ class rex_cronjob_export extends rex_cronjob
         }
         $mail = new rex_mailer;
         $mail->AddAddress($this->mailaddress);
-        $mail->Subject = $REX['I18N']->msg('im_export_mail_subject');
-        $mail->Body = $REX['I18N']->msg('im_export_mail_body', $REX['SERVERNAME']);
+        $mail->Subject = rex_i18n::msg('im_export_mail_subject');
+        $mail->Body = rex_i18n::msg('im_export_mail_body', $REX['SERVERNAME']);
         $mail->AddAttachment($dir . $file . $ext, $filename . $ext);
         if ($mail->Send())
         {
@@ -61,7 +61,7 @@ class rex_cronjob_export extends rex_cronjob
   public function getTypeName()
   {
     global $REX;
-    return $REX['I18N']->msg('im_export_database_export');
+    return rex_i18n::msg('im_export_database_export');
   }
 
   public function getParamFields()
@@ -70,22 +70,22 @@ class rex_cronjob_export extends rex_cronjob
 
     $fields = array(
       array(
-        'label' => $REX['I18N']->msg('im_export_filename'),
+        'label' => rex_i18n::msg('im_export_filename'),
         'name'  => 'filename',
         'type'  => 'text',
         'default' => self::DEFAULT_FILENAME,
-        'notice'  => $REX['I18N']->msg('im_export_filename_notice')
+        'notice'  => rex_i18n::msg('im_export_filename_notice')
       ),
   		array(
         'name'  => 'sendmail',
         'type'  => 'checkbox',
-        'options' => array(1 => $REX['I18N']->msg('im_export_send_mail'))
+        'options' => array(1 => rex_i18n::msg('im_export_send_mail'))
       )
     );
     if (rex_ooAddon::isActivated('phpmailer'))
     {
       $fields[] = array(
-        'label' => $REX['I18N']->msg('im_export_mailaddress'),
+        'label' => rex_i18n::msg('im_export_mailaddress'),
         'name'  => 'mailaddress',
         'type'  => 'text',
         'visible_if' => array('sendmail' => 1)
@@ -93,7 +93,7 @@ class rex_cronjob_export extends rex_cronjob
     }
     else
     {
-  		$fields[1]['notice'] = $REX['I18N']->msg('im_export_send_mail_notice');
+  		$fields[1]['notice'] = rex_i18n::msg('im_export_send_mail_notice');
   		$fields[1]['attributes'] = array('disabled' => 'disabled');
     }
     return $fields;

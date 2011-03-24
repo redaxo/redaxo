@@ -9,7 +9,7 @@ $REX['FRONTEND_FILE'] = 'index.php';
 
 if($REX['REDAXO'])
 {
-  $I18N = $REX['I18N'];
+  $I18N = new i18n($REX['LANG']);
 }
 
 require_once dirname(__FILE__) .'/functions/function_rex_file.inc.php';

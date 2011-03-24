@@ -54,7 +54,7 @@ EOD;
 
 ?>
 <div class="rex-addon-output">
-	<h2 class="rex-hl2"><?php echo $REX['I18N']->msg('phpmailer_example_headline'); ?></h2>
+	<h2 class="rex-hl2"><?php echo rex_i18n::msg('phpmailer_example_headline'); ?></h2>
 	<div class="rex-addon-content">
 	  <?php rex_highlight_string($mdl_ex); ?>
 	</div>

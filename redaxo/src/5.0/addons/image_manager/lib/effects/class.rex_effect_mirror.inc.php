@@ -99,12 +99,12 @@ class rex_effect_mirror extends rex_effect_abstract
 
 		return array(
 			array(
-				'label'=>$REX['I18N']->msg('im_fx_mirror_height'),		// Length in Pixel or Prozent
+				'label'=>rex_i18n::msg('im_fx_mirror_height'),		// Length in Pixel or Prozent
 				'name' => 'height',
 				'type' => 'int',
 			),
 			array(
-				'label'=>$REX['I18N']->msg('im_fx_mirror_background_color'),
+				'label'=>rex_i18n::msg('im_fx_mirror_background_color'),
 				'name' => 'set_transparent',
 				'type' => 'select',
 				'options' => array('colored', 'transparent / png24'),
@@ -113,17 +113,17 @@ class rex_effect_mirror extends rex_effect_abstract
 			),
 
 			array(
-				'label'=>$REX['I18N']->msg('im_fx_mirror_background_r'),
+				'label'=>rex_i18n::msg('im_fx_mirror_background_r'),
 				'name' => 'bg_r',
 				'type' => 'int',
 			),
 			array(
-				'label'=>$REX['I18N']->msg('im_fx_mirror_background_g'),
+				'label'=>rex_i18n::msg('im_fx_mirror_background_g'),
 				'name' => 'bg_g',
 				'type' => 'int',
 			),
 			array(
-				'label'=>$REX['I18N']->msg('im_fx_mirror_background_b'),
+				'label'=>rex_i18n::msg('im_fx_mirror_background_b'),
 				'name' => 'bg_b',
 				'type' => 'int',
 			),

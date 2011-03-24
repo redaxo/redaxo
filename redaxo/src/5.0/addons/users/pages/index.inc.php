@@ -11,8 +11,8 @@ $func = rex_request('func', 'string');
 
 // -------------- Header
 $subline = array(
-  array( '', $REX['I18N']->msg('users')),
-  array( 'roles', $REX['I18N']->msg('roles')),
+  array( '', rex_i18n::msg('users')),
+  array( 'roles', rex_i18n::msg('roles')),
 );
 
 switch($subpage)
@@ -25,6 +25,6 @@ switch($subpage)
   	break;
 }
 
-rex_title($REX['I18N']->msg('user_management'),$subline);
+rex_title(rex_i18n::msg('user_management'),$subline);
 
 require dirname(__FILE__).'/'. $file;

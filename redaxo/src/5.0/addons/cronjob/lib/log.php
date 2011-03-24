@@ -70,8 +70,8 @@ class rex_cronjob_log
     global $REX;
     $lines = explode("\n", trim(self::getLogOfMonth($month, $year)));
     $monthName = rex_formatter::format(mktime(0,0,0,$month,1,1), 'strftime', '%B');
-    $caption = $REX['I18N']->msg('cronjob_log_caption_1', $monthName, $year);
-    $summary = $REX['I18N']->msg('cronjob_log_summary_1', $monthName, $year);
+    $caption = rex_i18n::msg('cronjob_log_caption_1', $monthName, $year);
+    $summary = rex_i18n::msg('cronjob_log_summary_1', $monthName, $year);
     return self::_getList($lines, $caption, $summary);
   }
 
@@ -95,8 +95,8 @@ class rex_cronjob_log
           break 2;
       }
     }
-    $caption = $REX['I18N']->msg('cronjob_log_caption_2');
-    $summary = $REX['I18N']->msg('cronjob_log_summary_2');
+    $caption = rex_i18n::msg('cronjob_log_caption_2');
+    $summary = rex_i18n::msg('cronjob_log_summary_2');
     return self::_getList($messages, $caption, $summary);
   }
 
@@ -164,16 +164,16 @@ class rex_cronjob_log
         <thead>
           <tr>
             <th class="rex-icon"></th>
-            <th>'. $REX['I18N']->msg('cronjob_log_date') .'</th>
-            <th>'. $REX['I18N']->msg('cronjob_name') .'</th>
-            <th>'. $REX['I18N']->msg('cronjob_log_message') .'</th>
+            <th>'. rex_i18n::msg('cronjob_log_date') .'</th>
+            <th>'. rex_i18n::msg('cronjob_name') .'</th>
+            <th>'. rex_i18n::msg('cronjob_log_message') .'</th>
           </tr>
         </thead>
         <tbody>';
     if (!is_array($lines) || count($lines) == 0)
     {
       $list .= '
-          <tr><td colspan="4">'. $REX['I18N']->msg('cronjob_log_no_data') .'</td></tr>';
+          <tr><td colspan="4">'. rex_i18n::msg('cronjob_log_no_data') .'</td></tr>';
     }
     else
     {
@@ -190,11 +190,11 @@ class rex_cronjob_log
         $data[4] = str_replace(' | ', '<br />', htmlspecialchars($data[4]));
         if ($data[2] == '--')
         {
-          $icon = '<span class="rex-i-element rex-i-cronjob" title="'. $REX['I18N']->msg('cronjob_not_editable') .'"><span class="rex-i-element-text">'. $REX['I18N']->msg('cronjob_not_editable') .'</span></span>';
+          $icon = '<span class="rex-i-element rex-i-cronjob" title="'. rex_i18n::msg('cronjob_not_editable') .'"><span class="rex-i-element-text">'. rex_i18n::msg('cronjob_not_editable') .'</span></span>';
         }
         else
         {
-          $icon = '<a href="index.php?page=cronjob&amp;list=cronjobs&amp;func=edit&amp;oid='. trim($data[2]) .'" title="'. $REX['I18N']->msg('cronjob_edit') .'"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. $REX['I18N']->msg('cronjob_edit') .'</span></span></a>';
+          $icon = '<a href="index.php?page=cronjob&amp;list=cronjobs&amp;func=edit&amp;oid='. trim($data[2]) .'" title="'. rex_i18n::msg('cronjob_edit') .'"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">'. rex_i18n::msg('cronjob_edit') .'</span></span></a>';
         }
 
         $list .= '

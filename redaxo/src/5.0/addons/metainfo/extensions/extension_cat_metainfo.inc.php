@@ -62,7 +62,7 @@ function rex_a62_metainfo_button($params)
 		}
   }
 
-  //--></script><a id="rex-i-meta-category" class="rex-i-generic-open" href="javascript:rex_metainfo_toggle();">'. $REX['I18N']->msg('minfo_edit_metadata') .'</a></p>';
+  //--></script><a id="rex-i-meta-category" class="rex-i-generic-open" href="javascript:rex_metainfo_toggle();">'. rex_i18n::msg('minfo_edit_metadata') .'</a></p>';
 
 	   return $params['subject'] . $return;
   }

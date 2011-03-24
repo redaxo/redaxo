@@ -23,7 +23,7 @@ $msg = '';
 if ($subpage == 'clear_cache')
 {
   $c = rex_image_cacher::deleteCache();
-  $msg = $REX['I18N']->msg('imanager_cache_files_removed', $c);
+  $msg = rex_i18n::msg('imanager_cache_files_removed', $c);
 }
 
 rex_title('Image Manager', $REX['ADDON']['pages']['image_manager']);

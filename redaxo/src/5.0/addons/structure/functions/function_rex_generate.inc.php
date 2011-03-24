@@ -146,7 +146,7 @@ function rex_generateArticleMeta($article_id, $clang = null)
     $article_file = rex_path::generated("articles/$article_id.$_clang.article");
     if (rex_file::putCache($article_file, $cacheArray) === FALSE)
     {
-      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
+      return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::generated('articles/');
     }
 
     // damit die aktuellen änderungen sofort wirksam werden, einbinden!
@@ -187,12 +187,12 @@ function rex_deleteArticle($id)
 
   if ($id == $REX['START_ARTICLE_ID'])
   {
-    $return['message'] = $REX['I18N']->msg('cant_delete_sitestartarticle');
+    $return['message'] = rex_i18n::msg('cant_delete_sitestartarticle');
     return $return;
   }
   if ($id == $REX['NOTFOUND_ARTICLE_ID'])
   {
-    $return['message'] = $REX['I18N']->msg('cant_delete_notfoundarticle');
+    $return['message'] = rex_i18n::msg('cant_delete_notfoundarticle');
     return $return;
   }
 
@@ -222,7 +222,7 @@ function rex_deleteArticle($id)
 
     if ($ART->getValue('startpage') == 1)
     {
-      $return['message'] = $REX['I18N']->msg('category_deleted');
+      $return['message'] = rex_i18n::msg('category_deleted');
       $SART = rex_sql::factory();
       $SART->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where re_id='.$id.' and clang=0');
       for ($i = 0; $i < $SART->getRows(); $i ++)
@@ -232,7 +232,7 @@ function rex_deleteArticle($id)
       }
     }else
     {
-      $return['message'] = $REX['I18N']->msg('article_deleted');
+      $return['message'] = rex_i18n::msg('article_deleted');
     }
 
     // Rekursion über alle Kindkategorien ergab keine Fehler
@@ -251,7 +251,7 @@ function rex_deleteArticle($id)
   }
   else
   {
-    $return['message'] = $REX['I18N']->msg('category_doesnt_exist');
+    $return['message'] = rex_i18n::msg('category_doesnt_exist');
     return $return;
   }
 }
@@ -297,7 +297,7 @@ function rex_generateLists($re_id, $clang = null)
     $article_list_file = rex_path::generated("articles/$re_id.$_clang.alist");
     if (rex_file::putCache($article_list_file, $cacheArray) === FALSE)
     {
-      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
+      return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::generated('articles/');
     }
 
     // --------------------------------------- CAT LIST
@@ -316,7 +316,7 @@ function rex_generateLists($re_id, $clang = null)
     $article_categories_file = rex_path::generated("articles/$re_id.$_clang.clist");
     if (rex_file::put($article_categories_file, $cacheArray) === FALSE)
     {
-      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
+      return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::generated('articles/');
     }
   }
 

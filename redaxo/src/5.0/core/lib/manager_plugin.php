@@ -16,7 +16,7 @@ class rex_pluginManager extends rex_packageManager
 
     // System AddOns dürfen nicht gelöscht werden!
     if(in_array(array($this->addonName, $pluginName), $REX['SYSTEM_PACKAGES']))
-      return $REX['I18N']->msg('plugin_systemplugin_delete_not_allowed');
+      return rex_i18n::msg('plugin_systemplugin_delete_not_allowed');
 
     return parent::delete($pluginName);
   }
@@ -140,7 +140,7 @@ class rex_pluginManager extends rex_packageManager
         {
           foreach($addonConfig as $confName => $confValue)
           {
-            rex_ooPlugin::setProperty($addonName, $pluginName, $confName, rex_translate_array($confValue));
+            rex_ooPlugin::setProperty($addonName, $pluginName, $confName, rex_i18n::translateArray($confValue));
           }
         }
       }
@@ -172,7 +172,7 @@ class rex_pluginManager extends rex_packageManager
             {
               if($depName == $pluginName)
               {
-                $state[] = $REX['I18N']->msg($i18nPrefix .'addon', $availAddonName);
+                $state[] = rex_i18n::msg($i18nPrefix .'addon', $availAddonName);
               }
             }
           }
@@ -193,7 +193,7 @@ class rex_pluginManager extends rex_packageManager
               {
                 if($depName == $pluginName)
                 {
-                  $state[] = $REX['I18N']->msg($i18nPrefix .'plugin', $availAddonName, $availPluginName);
+                  $state[] = rex_i18n::msg($i18nPrefix .'plugin', $availAddonName, $availPluginName);
                 }
               }
             }

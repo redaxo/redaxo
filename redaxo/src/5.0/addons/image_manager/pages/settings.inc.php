@@ -22,7 +22,7 @@ if ($func == 'update')
 
   rex_config::set('image_manager', 'jpg_quality', $jpg_quality);
 
-  echo rex_info($REX['I18N']->msg('imanager_config_saved'));
+  echo rex_info(rex_i18n::msg('imanager_config_saved'));
 }
 
 echo '
@@ -33,7 +33,7 @@ echo '
 
   <div class="rex-form">
 
-<h2 class="rex-hl2">'. $REX['I18N']->msg('imanager_subpage_config') .'</h2>
+<h2 class="rex-hl2">'. rex_i18n::msg('imanager_subpage_config') .'</h2>
 
 <form action="index.php" method="post">
 
@@ -45,14 +45,14 @@ echo '
 
 			<div class="rex-form-row rex-form-element-v2">
 				<p class="rex-form-text">
-					<label for="jpg_quality">'. $REX['I18N']->msg('imanager_jpg_quality') .' [0-100]</label>
+					<label for="jpg_quality">'. rex_i18n::msg('imanager_jpg_quality') .' [0-100]</label>
 					<input class="rex-form-text" type="text" id="jpg_quality" name="jpg_quality" value="'. htmlspecialchars(rex_config::get('image_manager', 'jpg_quality')).'" />
 				</p>
 			</div>
 
 			<div class="rex-form-row rex-form-element-v2">
 				<p class="rex-form-submit">
-					<input type="submit" class="rex-form-submit" name="sendit" value="'.$REX['I18N']->msg('update').'" />
+					<input type="submit" class="rex-form-submit" name="sendit" value="'.rex_i18n::msg('update').'" />
 				</p>
 			</div>
 		</div>

@@ -20,11 +20,11 @@ if ($func == 'delLog')
   rex_logger::getInstance()->close();
   if(rex_file::delete($logFile))
   {
-    $info = $REX['I18N']->msg('syslog_deleted');
+    $info = rex_i18n::msg('syslog_deleted');
   }
   else
   {
-    $warning = $REX['I18N']->msg('syslog_delete_error');
+    $warning = rex_i18n::msg('syslog_delete_error');
   }
 } else if ($func == 'readlog')
 {
@@ -59,5 +59,5 @@ if ($warning != '')
   <input type="hidden" name="page" value="<?php echo $page; ?>" />
   <input type="hidden" name="subpage" value="<?php echo $subpage; ?>" />
   <input type="hidden" name="func" value="delLog" />
-  <input type="submit" name="del_btn" value="<?php echo $REX['I18N']->msg('syslog_delete'); ?>" onclick="return confirm('<?php echo $REX['I18N']->msg('delete'); ?>?')">
+  <input type="submit" name="del_btn" value="<?php echo rex_i18n::msg('syslog_delete'); ?>" onclick="return confirm('<?php echo rex_i18n::msg('delete'); ?>?')">
 </form>

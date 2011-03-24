@@ -23,7 +23,7 @@ if ($num_clang>1)
   {
      $lang = array();
      $lang['id'] = $key;
-     $lang['name'] = rex_translate($val);
+     $lang['name'] = rex_i18n::translate($val);
 
      $lang['class'] = '';
      if($i == 1)

@@ -15,13 +15,9 @@ function rex_parse_article_name($name)
   {
     global $REX;
 
-    // Im Frontend gibts kein I18N
-    if(!isset($REX['I18N']) || !is_object($REX['I18N']))
-      $REX['I18N'] = rex_create_lang($REX['LANG']);
-
     // Sprachspezifische Sonderzeichen Filtern
-    $search = explode('|', $REX['I18N']->msg('special_chars'));
-    $replace = explode('|', $REX['I18N']->msg('special_chars_rewrite'));
+    $search = explode('|', rex_i18n::msg('special_chars'));
+    $replace = explode('|', rex_i18n::msg('special_chars_rewrite'));
 
     $firstCall = false;
   }

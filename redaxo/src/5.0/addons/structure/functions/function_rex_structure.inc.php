@@ -118,7 +118,7 @@ function rex_addCategory($category_id, $data)
         )
       );
 
-      $message = $REX['I18N']->msg("category_added_and_startarticle_created");
+      $message = rex_i18n::msg("category_added_and_startarticle_created");
       $success = true;
     }
     else
@@ -203,7 +203,7 @@ function rex_editCategory($category_id, $clang, $data)
       rex_newCatPrio($re_id, $clang, $data['catprior'], $old_prio);
     }
 
-    $message = $REX['I18N']->msg('category_updated');
+    $message = rex_i18n::msg('category_updated');
 
     rex_deleteCacheArticle($category_id, $clang);
 
@@ -302,15 +302,15 @@ function rex_deleteCategoryReorganized($category_id)
 
       }else
       {
-        $return['message'] = $REX['I18N']->msg('category_could_not_be_deleted').' '.$REX['I18N']->msg('category_still_contains_articles');
+        $return['message'] = rex_i18n::msg('category_could_not_be_deleted').' '.rex_i18n::msg('category_still_contains_articles');
       }
     }else
     {
-      $return['message'] = $REX['I18N']->msg('category_could_not_be_deleted').' '.$REX['I18N']->msg('category_still_contains_subcategories');
+      $return['message'] = rex_i18n::msg('category_could_not_be_deleted').' '.rex_i18n::msg('category_still_contains_subcategories');
     }
   }else
   {
-    $return['message'] = $REX['I18N']->msg('category_could_not_be_deleted');
+    $return['message'] = rex_i18n::msg('category_could_not_be_deleted');
   }
 
   return array($return['state'],$return['message']);
@@ -352,7 +352,7 @@ function rex_categoryStatus($category_id, $clang, $status = null)
 
     if($EKAT->update())
     {
-      $message = $REX['I18N']->msg('category_status_updated');
+      $message = rex_i18n::msg('category_status_updated');
       rex_deleteCacheArticle($category_id, $clang);
 
       // ----- EXTENSION POINT
@@ -371,7 +371,7 @@ function rex_categoryStatus($category_id, $clang, $status = null)
   }
   else
   {
-    $message = $REX['I18N']->msg("no_such_category");
+    $message = rex_i18n::msg("no_such_category");
   }
 
   return array($success, $message);
@@ -392,8 +392,8 @@ function rex_categoryStatusTypes()
   {
     $catStatusTypes = array(
       // Name, CSS-Class
-      array($REX['I18N']->msg('status_offline'), 'rex-offline'),
-      array($REX['I18N']->msg('status_online'), 'rex-online')
+      array(rex_i18n::msg('status_offline'), 'rex-offline'),
+      array(rex_i18n::msg('status_online'), 'rex-online')
     );
 
     // ----- EXTENSION POINT
@@ -437,7 +437,7 @@ function rex_addArticle($data)
      $data['template_id'] = key($templates);
   }
 
-  $message = $REX['I18N']->msg('article_added');
+  $message = rex_i18n::msg('article_added');
 
   $AART = rex_sql::factory();
   foreach($REX['CLANG'] as $key => $val)
@@ -547,7 +547,7 @@ function rex_editArticle($article_id, $clang, $data)
 
   if($EA->update())
   {
-    $message = $REX['I18N']->msg('article_updated');
+    $message = rex_i18n::msg('article_updated');
 
     // ----- PRIOR
     rex_newArtPrio($data['category_id'], $clang, $data['prior'], $thisArt->getValue('prior'));
@@ -644,9 +644,6 @@ function rex_articleStatus($article_id, $clang, $status = null)
 {
   global $REX;
 
-  if(!isset($REX['I18N']) || !is_object($REX['I18N']))
-    $REX['I18N'] = rex_create_lang($REX['LANG']);
-
   $success = false;
   $message = '';
   $artStatusTypes = rex_articleStatusTypes();
@@ -670,7 +667,7 @@ function rex_articleStatus($article_id, $clang, $status = null)
 
     if($EA->update())
     {
-      $message = $REX['I18N']->msg('article_status_updated');
+      $message = rex_i18n::msg('article_status_updated');
       rex_deleteCacheArticle($article_id, $clang);
 
       // ----- EXTENSION POINT
@@ -689,7 +686,7 @@ function rex_articleStatus($article_id, $clang, $status = null)
   }
   else
   {
-    $message = $REX['I18N']->msg("no_such_category");
+    $message = rex_i18n::msg("no_such_category");
   }
 
   return array($success, $message);
@@ -710,8 +707,8 @@ function rex_articleStatusTypes()
   {
     $artStatusTypes = array(
       // Name, CSS-Class
-      array($REX['I18N']->msg('status_offline'), 'rex-offline'),
-      array($REX['I18N']->msg('status_online'), 'rex-online')
+      array(rex_i18n::msg('status_offline'), 'rex-offline'),
+      array(rex_i18n::msg('status_online'), 'rex-online')
     );
 
     // ----- EXTENSION POINT

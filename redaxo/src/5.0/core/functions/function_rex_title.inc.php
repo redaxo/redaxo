@@ -58,7 +58,7 @@ function rex_title($head, $subtitle = '')
   else if(is_array($subtitle) && $subtitle[0] instanceof rex_be_page_container)
   {
     $nav = rex_be_navigation::factory();
-    $nav->setHeadline('default', $REX['I18N']->msg('subnavigation', $head));
+    $nav->setHeadline('default', rex_i18n::msg('subnavigation', $head));
     foreach($subtitle as $pageObj)
     {
       $nav->addPage($pageObj);

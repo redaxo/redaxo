@@ -355,7 +355,7 @@ class rex_ooMedia
       {
         // TODO Im Frontend gibts kein I18N
         // global $REX;
-        //$format = $REX['I18N']->msg('dateformat');
+        //$format = rex_i18n::msg('dateformat');
         $format = '%a %d. %B %Y';
       }
       return strftime($format, $date);
@@ -600,10 +600,6 @@ class rex_ooMedia
   {
     global $REX;
 
-    // Im Frontend gibts kein I18N
-    if(!isset($REX['I18N']) || !is_object($REX['I18N']))
-      $REX['I18N'] = rex_create_lang($REX['LANG']);
-
     $sql = rex_sql::factory();
     $filename = addslashes($this->getFileName());
     // replace LIKE wildcards
@@ -643,7 +639,7 @@ class rex_ooMedia
     $res = $sql->getArray($query);
     if($sql->getRows() > 0)
     {
-      $warning[0] = $REX['I18N']->msg('pool_file_in_use_articles').'<br /><ul>';
+      $warning[0] = rex_i18n::msg('pool_file_in_use_articles').'<br /><ul>';
       foreach($res as $art_arr)
       {
         $aid = $art_arr['article_id'];

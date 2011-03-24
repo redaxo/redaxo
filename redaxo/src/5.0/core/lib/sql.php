@@ -1111,25 +1111,25 @@ class rex_sql
             if($conn->exec('CREATE DATABASE '. $dbname) !== 1)
             {
               // unable to create db
-              $err_msg = $REX['I18N']->msg('setup_021');
+              $err_msg = rex_i18n::msg('setup_021');
             }
           }
           catch (PDOException $e)
           {
             // unable to find database
-            $err_msg = $REX['I18N']->msg('setup_022');
+            $err_msg = rex_i18n::msg('setup_022');
           }
         }
         else
         {
           // unable to find database
-          $err_msg = $REX['I18N']->msg('setup_022');
+          $err_msg = rex_i18n::msg('setup_022');
         }
       }
       else if(strpos($e->getMessage(), 'SQLSTATE[28000]') !== false)
       {
         // unable to connect
-        $err_msg = $REX['I18N']->msg('setup_021');
+        $err_msg = rex_i18n::msg('setup_021');
       }
       else
       {

@@ -67,11 +67,11 @@ class rex_form_prio_element extends rex_form_select_element
     $sql = rex_sql::factory();
     $sql->setQuery($qry);
 
-    $this->select->addOption($REX['I18N']->msg($this->firstOptionMsg), 1);
+    $this->select->addOption(rex_i18n::msg($this->firstOptionMsg), 1);
     while($sql->hasNext())
     {
       $this->select->addOption(
-        $REX['I18N']->msg($this->optionMsg, $sql->getValue($this->labelField)),
+        rex_i18n::msg($this->optionMsg, $sql->getValue($this->labelField)),
         $sql->getValue($name)+1
       );
       $sql->next();

@@ -31,28 +31,11 @@ $REX['LOGIN'] = NULL;
 if ($REX['SETUP'])
 {
   // ----------------- SET SETUP LANG
-  $REX['LANG'] = '';
   $requestLang = rex_request('lang', 'string');
-  $langpath = rex_path::src('core/lang');
-  $REX['LANGUAGES'] = array();
-  if ($handle = opendir($langpath))
-  {
-    while (false !== ($file = readdir($handle)))
-    {
-      if (substr($file,-5) == '.lang')
-      {
-        $locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
-        $REX['LANGUAGES'][] = $locale;
-        if($requestLang == $locale)
-          $REX['LANG'] = $locale;
-      }
-    }
-  }
-  closedir($handle);
-  if($REX['LANG'] == '')
-    $REX['LANG'] = 'de_de';
+  if(in_array($requestLang, rex_i18n::getLocales()))
+    $REX['LANG'] = $requestLang;
 
-  $REX['I18N'] = rex_create_lang($REX['LANG']);
+  rex_i18n::setLocale($REX['LANG']);
 
   $REX['PAGES']['setup'] = rex_be_navigation::getSetupPage();
   $REX['PAGE'] = "setup";
@@ -60,7 +43,7 @@ if ($REX['SETUP'])
 }else
 {
   // ----------------- CREATE LANG OBJ
-  $REX['I18N'] = rex_create_lang($REX['LANG']);
+  rex_i18n::setLocale($REX['LANG']);
 
   // ---- prepare login
   $REX['LOGIN'] = new rex_backend_login();
@@ -98,8 +81,10 @@ if ($REX['SETUP'])
   {
     // Userspezifische Sprache einstellen
     $lang = $REX['LOGIN']->getLanguage();
-    $lang = $lang == 'default' ? $REX['LANG']: $lang;
-    $REX['I18N'] = rex_create_lang($lang);
+    if($lang != 'default' && $lang != $REX['LANG'])
+    {
+      rex_i18n::setLocale($lang);
+    }
 
     $REX['USER'] = $REX['LOGIN']->USER;
   }

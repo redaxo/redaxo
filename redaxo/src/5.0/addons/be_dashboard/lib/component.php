@@ -133,7 +133,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
                 </div>
                 <div class="rex-dashboard-component-footer">
                   <p>
-                    '. $REX['I18N']->msg('dashboard_component_lastupdate') .'
+                    '. rex_i18n::msg('dashboard_component_lastupdate') .'
                     %%cachetime%%
                   </p>
                 </div>

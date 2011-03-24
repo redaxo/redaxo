@@ -21,7 +21,7 @@ function rex_a79_help_overview()
   $formats = rex_a79_help_overview_formats();
 
   echo '<div class="a79_help_overview">
-          <h3 class="a79">'. $REX['I18N']->msg('textile_instructions') .'</h3>
+          <h3 class="a79">'. rex_i18n::msg('textile_instructions') .'</h3>
           <table style="width: 100%">
             <colgroup>
               <col width="50%" />
@@ -42,8 +42,8 @@ function rex_a79_help_overview()
 
             <tbody id="'. $id .'" style="display: none">
               <tr>
-                <th>'. $REX['I18N']->msg('textile_input') .'</th>
-                <th>'. $REX['I18N']->msg('textile_preview') .'</th>
+                <th>'. rex_i18n::msg('textile_input') .'</th>
+                <th>'. rex_i18n::msg('textile_preview') .'</th>
               </tr>
            ';
 
@@ -92,19 +92,19 @@ function rex_a79_help_headlines()
 {
   global $REX;
 
-  return array($REX['I18N']->msg('textile_headlines'),
+  return array(rex_i18n::msg('textile_headlines'),
     array(
     'headlines1-3' =>
       array(
-        array('h1. '. $REX['I18N']->msg('textile_headline') .' 1'),
-        array('h2. '. $REX['I18N']->msg('textile_headline') .' 2'),
-        array('h3. '. $REX['I18N']->msg('textile_headline') .' 3'),
+        array('h1. '. rex_i18n::msg('textile_headline') .' 1'),
+        array('h2. '. rex_i18n::msg('textile_headline') .' 2'),
+        array('h3. '. rex_i18n::msg('textile_headline') .' 3'),
       ),
     'headlines4-6' =>
       array(
-        array('h4. '. $REX['I18N']->msg('textile_headline') .' 4'),
-        array('h5. '. $REX['I18N']->msg('textile_headline') .' 5'),
-        array('h6. '. $REX['I18N']->msg('textile_headline') .' 6'),
+        array('h4. '. rex_i18n::msg('textile_headline') .' 4'),
+        array('h5. '. rex_i18n::msg('textile_headline') .' 5'),
+        array('h6. '. rex_i18n::msg('textile_headline') .' 6'),
       ),
     )
   );
@@ -114,29 +114,29 @@ function rex_a79_help_formats()
 {
   global $REX;
 
-  return array($REX['I18N']->msg('textile_text_formatting'),
+  return array(rex_i18n::msg('textile_text_formatting'),
     array(
     'text_xhtml' =>
       array(
-        array('_'. $REX['I18N']->msg('textile_text_italic') .'_'),
-        array('*'. $REX['I18N']->msg('textile_text_bold') .'*'),
+        array('_'. rex_i18n::msg('textile_text_italic') .'_'),
+        array('*'. rex_i18n::msg('textile_text_bold') .'*'),
       ),
     'text_html' =>
       array(
-        array('__'. $REX['I18N']->msg('textile_text_italic') .'__'),
-        array('**'. $REX['I18N']->msg('textile_text_bold') .'**'),
+        array('__'. rex_i18n::msg('textile_text_italic') .'__'),
+        array('**'. rex_i18n::msg('textile_text_bold') .'**'),
       ),
     'cite' =>
       array(
-        array('bq. '. $REX['I18N']->msg('textile_text_cite')),
-        array('??'. $REX['I18N']->msg('textile_text_source_author') .'??'),
+        array('bq. '. rex_i18n::msg('textile_text_cite')),
+        array('??'. rex_i18n::msg('textile_text_source_author') .'??'),
       ),
     'overwork' =>
       array(
-        array('-'. $REX['I18N']->msg('textile_text_strike') .'-'),
-        array('+'. $REX['I18N']->msg('textile_text_insert') .'+'),
-        array('^'. $REX['I18N']->msg('textile_text_sup') .'^'),
-        array('~'. $REX['I18N']->msg('textile_text_sub') .'~'),
+        array('-'. rex_i18n::msg('textile_text_strike') .'-'),
+        array('+'. rex_i18n::msg('textile_text_insert') .'+'),
+        array('^'. rex_i18n::msg('textile_text_sup') .'^'),
+        array('~'. rex_i18n::msg('textile_text_sub') .'~'),
       ),
     'code' =>
       array(
@@ -150,27 +150,27 @@ function rex_a79_help_links()
 {
   global $REX;
 
-  return array($REX['I18N']->msg('textile_links'),
+  return array(rex_i18n::msg('textile_links'),
     array(
     'links_intern' =>
       array(
-        array ($REX['I18N']->msg('textile_link_internal') .':redaxo://5'),
-        array ($REX['I18N']->msg('textile_link_internal_anchor') .':redaxo://7#AGB'),
+        array (rex_i18n::msg('textile_link_internal') .':redaxo://5'),
+        array (rex_i18n::msg('textile_link_internal_anchor') .':redaxo://7#AGB'),
       ),
     'links_extern' =>
       array(
-        array ($REX['I18N']->msg('textile_link_external') .':http://www.redaxo.org'),
-        array ($REX['I18N']->msg('textile_link_external_anchor') .':http://www.redaxo.org#news'),
+        array (rex_i18n::msg('textile_link_external') .':http://www.redaxo.org'),
+        array (rex_i18n::msg('textile_link_external_anchor') .':http://www.redaxo.org#news'),
       ),
     'links_attributes' =>
       array(
-        array ($REX['I18N']->msg('textile_link_attr_title') .':media/test.jpg'),
-        array ($REX['I18N']->msg('textile_link_attr_rel') .':media/test.jpg'),
-        array ($REX['I18N']->msg('textile_link_attr_title_rel') .':media/test.jpg'),
+        array (rex_i18n::msg('textile_link_attr_title') .':media/test.jpg'),
+        array (rex_i18n::msg('textile_link_attr_rel') .':media/test.jpg'),
+        array (rex_i18n::msg('textile_link_attr_title_rel') .':media/test.jpg'),
       ),
     'anchor' =>
       array(
-        array ($REX['I18N']->msg('textile_link_anchor') .":\n\np(#Impressum). ". $REX['I18N']->msg('textile_link_anchor_text')),
+        array (rex_i18n::msg('textile_link_anchor') .":\n\np(#Impressum). ". rex_i18n::msg('textile_link_anchor_text')),
       ),
     )
   );
@@ -180,12 +180,12 @@ function rex_a79_help_footnotes()
 {
   global $REX;
 
-  return array($REX['I18N']->msg('textile_footnotes'),
+  return array(rex_i18n::msg('textile_footnotes'),
     array(
     'footnotes' =>
       array(
-        array($REX['I18N']->msg('textile_footnote_text'). '[1] ..'),
-        array('fn1. '. $REX['I18N']->msg('textile_footnote_note')),
+        array(rex_i18n::msg('textile_footnote_text'). '[1] ..'),
+        array('fn1. '. rex_i18n::msg('textile_footnote_note')),
       ),
     )
   );
@@ -195,12 +195,12 @@ function rex_a79_help_lists()
 {
   global $REX;
 
-  return array($REX['I18N']->msg('textile_lists'),
+  return array(rex_i18n::msg('textile_lists'),
     array(
     'lists' =>
       array(
-        array($REX['I18N']->msg('textile_numeric_list') .":\n# redaxo.org\n# www.redaxo.org/de/forum/"),
-        array($REX['I18N']->msg('textile_enum_list') .":\n* redaxo.org\n* www.redaxo.org/de/forum/"),
+        array(rex_i18n::msg('textile_numeric_list') .":\n# redaxo.org\n# www.redaxo.org/de/forum/"),
+        array(rex_i18n::msg('textile_enum_list') .":\n* redaxo.org\n* www.redaxo.org/de/forum/"),
       )
     )
   );
@@ -210,7 +210,7 @@ function rex_a79_help_tables()
 {
   global $REX;
 
-  return array($REX['I18N']->msg('textile_tables'),
+  return array(rex_i18n::msg('textile_tables'),
     array(
     'tables' =>
       array(

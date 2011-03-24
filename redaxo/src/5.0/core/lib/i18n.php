@@ -1,102 +1,94 @@
 <?php
 
 /**
- * Sprachobjekt zur Internationalisierung (I18N)
- *
- * @package redaxo4
- * @version svn:$Id$
+ * Class for internationalization
  */
-
 class rex_i18n
 {
-  private static
-    $locales = array();
-  private
-    $searchpath,
-    $locale,
-    $text,
-  	$text_loaded;
-
-  /*
-   * Constructor
-   * the locale must of the common form, eg. de_de, en_us or just plain en, de.
-   * the searchpath is where the language files are located
-   */
-  public function __construct($locale = "de_de", $searchpath)
-  {
-    $this->searchpath = $searchpath;
-    $this->text = array ();
-    $this->locale = $locale;
-    $this->text_loaded = FALSE;
-  }
-
-  /*
-   * Lädt alle Übersetzungen der aktuellen Sprache aus dem Sprachpfad und fügt diese dem Katalog hinzu.
-   */
-  public function loadTexts()
-  {
-    if($this->appendFile($this->searchpath))
-    {
-  		$this->text_loaded = TRUE;
-    }
-  }
+  static private
+    $locales = array(),
+    $directories = array(),
+    $loaded = false,
+    $locale = null,
+    $msg = array();
 
   /**
-   * Sucht im angegebenden Ordner nach eine Sprachdatei der aktuellen Sprache und fügt diese dem Sprachkatalog an
+   * Switches the current locale
    *
-   * @param string $searchPath Pfad in dem die Sprachdatei gesucht werden soll
+   * @param string $locale The new locale
+   * @param boolean $phpSetLocale When TRUE, php function setlocale() will be called
+   *
+   * @return string The last locale
    */
-  public function appendFile($searchPath)
+  static public function setLocale($locale, $phpSetLocale = true)
   {
-    $filename = $searchPath . DIRECTORY_SEPARATOR . $this->locale . ".lang";
-    return $this->appendFileName($filename);
-  }
+    $saveLocale = self::$locale;
+    self::$locale = $locale;
 
-  /**
-   * Fuegt die angegebene Datei $filename diese dem Sprachkatalog an
-   *
-   * @param string $filename Datei die hinzugefügt werden soll
-   */
-  public function appendFileName($filename)
-  {
-    if (is_readable($filename))
+    self::loadAll();
+
+    if($phpSetLocale)
     {
-      $handle = fopen($filename, "r");
-      if($handle)
+      $locales = array();
+      foreach(explode(',', trim(self::msg('setlocale'))) as $locale)
       {
-        while (!feof($handle))
-        {
-          $buffer = fgets($handle, 4096);
-          if (preg_match("/^([^\s]*)\s*=\s*(.*)$/", $buffer, $matches))
-          {
-            $this->addMsg($matches[1], trim($matches[2]));
-          }
-        }
-        fclose($handle);
-        return TRUE;
+        $locales[] = $locale .'.UTF-8';
+        $locales[] = $locale .'.UTF8';
+        $locales[] = $locale .'.utf-8';
+        $locales[] = $locale .'.utf8';
       }
+
+      foreach(explode(',', trim(self::msg('setlocale'))) as $locale)
+        $locales[] = $locale;
+
+      setlocale(LC_ALL, $locales);
     }
 
-    return FALSE;
+    return $saveLocale;
   }
 
   /**
-   * Durchsucht den Sprachkatalog nach einem Schlüssel und gibt die dazugehörige Übersetzung zurück
+   * Returns the current locale
    *
-   * @param string $key Zu suchender Schlüssel
+   * @return string The current locale
    */
-  public function msg($key)
+  static public function getLocale()
   {
-  	global $REX;
+    return self::$locale;
+  }
 
-  	if(!$this->text_loaded)
-  	{
-  	  $this->loadTexts();
-  	}
+  /**
+   * Adds a directory with lang files
+   *
+   * @param string $dir Path to the directory
+   */
+  static public function addDirectory($dir)
+  {
+    self::$directories[] = rtrim($dir, DIRECTORY_SEPARATOR);
 
-    if ($this->hasMsg($key))
+    if(self::$loaded)
     {
-      $msg = $this->text[$key];
+      self::loadFile($dir .DIRECTORY_SEPARATOR. self::$locale .'.lang');
+    }
+  }
+
+  /**
+   * Returns the translation for the given key
+   *
+   * @param string $key Key
+   *
+   * @return string Translation for the key
+   */
+  static public function msg($key)
+  {
+    if(!self::$loaded)
+    {
+      self::loadAll();
+    }
+
+    if (self::hasMsg($key))
+    {
+      $msg = self::$msg[$key];
     }
     else
     {
@@ -122,40 +114,40 @@ class rex_i18n
   }
 
   /**
-   * Fügt dem Sprachkatalog unter dem gegebenen Schlüssel eine neue Übersetzung hinzu
+   * Checks if there is a translation for the given key
    *
-   * @param string $key Schlüssel unter dem die Übersetzung abgelegt wird
-   * @param string $msg Übersetzter Text
+   * @param string $key Key
+   *
+   * @return boolean TRUE on success, else FALSE
    */
-  public function addMsg($key, $msg)
+  static public function hasMsg($key)
   {
-    $this->text[$key] = $msg;
+  	return isset(self::$msg[$key]);
   }
 
   /**
-   * Prüft ob der Sprachkatalog zu dem gegebenen Schlüssel eine Übersetzung beinhaltet
+   * Adds a new translation to the catalogue
    *
-   * @param string $key Zu suchender Schlüssel
-   * @return boolean TRUE Wenn der Schlüssel gefunden wurde, sonst FALSE
+   * @param string $key Key
+   * @param string $message Message for the key
    */
-  public function hasMsg($key)
+  static public function addMsg($key, $msg)
   {
-  	return isset ($this->text[$key]);
+    self::$msg[$key] = $msg;
   }
 
   /**
-   * Durchsucht den Searchpath nach allen verfügbaren Sprachdateien und gibt diese zurück
+   * Returns the locales
    *
-   * @param string $searchpath Zu duruchsuchender Ordner
-   * @return array Array von gefundenen Sprachen (locales)
+   * @return array Array of Locales
    */
-  static public function getLocales($searchpath)
+  static public function getLocales()
   {
-    if (empty (self::$locales) && is_readable($searchpath))
+    if (empty(self::$locales) && isset(self::$directories[0]) && is_readable(self::$directories[0]))
     {
-      self::$locales = array ();
+      self::$locales = array();
 
-      $handle = opendir($searchpath);
+      $handle = opendir(self::$directories[0]);
       while ($file = readdir($handle))
       {
         if ($file != "." && $file != "..")
@@ -172,4 +164,110 @@ class rex_i18n
     return self::$locales;
   }
 
+  /**
+   * Translates the $text, if it begins with 'translate:', else it returns $text
+   *
+   * @param string $text The text for translation.
+   * @param boolean $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
+   *
+   * @return string Translated text
+   */
+  static public function translate($text, $use_htmlspecialchars = true)
+  {
+    if(!is_string($text))
+    {
+      throw new InvalidArgumentException('Expecting $text to be a String, "'. gettype($text) .'" given!');
+    }
+
+    $tranKey = 'translate:';
+    $transKeyLen = strlen($tranKey);
+    if(substr($text, 0, $transKeyLen) == $tranKey)
+    {
+      $text = self::msg(substr($text, $transKeyLen));
+    }
+
+    if($use_htmlspecialchars)
+      return htmlspecialchars($text);
+
+    return $text;
+  }
+
+  /**
+   * Translates all array elements
+   *
+   * @param array $text The Array of Strings for translation.
+   * @param boolean $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
+   */
+  static public function translateArray($array, $use_htmlspecialchars = true)
+  {
+    if(is_array($array))
+    {
+      foreach($array as $key => $value)
+      {
+        $array[$key] = self::translateArray($value, $use_htmlspecialchars);
+      }
+      return $array;
+    }
+    else if (is_string($array))
+    {
+      return self::translate($array, $use_htmlspecialchars);
+    }
+    else if (is_scalar($array))
+    {
+      return $array;
+    }
+    else
+    {
+      throw new InvalidArgumentException('Expecting $text to be a String or Array of Scalar, "'. gettype($array) .'" given!');
+    }
+  }
+
+  /**
+   * Loads the translation definitions of the given file
+   *
+   * @param string $file Path to the file
+   *
+   * @return boolean TRUE on success, FALSE on failure
+   */
+  static private function loadFile($file)
+  {
+    if (is_readable($file))
+    {
+      $handle = fopen($file, "r");
+      if($handle)
+      {
+        while (!feof($handle))
+        {
+          $buffer = fgets($handle, 4096);
+          if (preg_match("/^([^\s]*)\s*=\s*(.*)$/", $buffer, $matches))
+          {
+            self::addMsg($matches[1], trim($matches[2]));
+          }
+        }
+        fclose($handle);
+        return TRUE;
+      }
+    }
+
+    return FALSE;
+  }
+
+  /**
+   * Loads all translation defintions
+   */
+  static private function loadAll()
+  {
+    global $REX;
+
+    self::$msg = array();
+    if(!self::$locale)
+    {
+      self::$locale = $REX['LANG'];
+    }
+    foreach(self::$directories as $dir)
+    {
+      self::loadFile($dir .DIRECTORY_SEPARATOR. self::$locale .'.lang');
+    }
+    self::$loaded = true;
+  }
 }

@@ -85,7 +85,7 @@ $isRoot = $category_id === 0;
 $category = rex_ooCategory::getCategoryById($category_id);
 $link = rex_linkmap_url(array('category_id' => 0), $GlobalParams);
 
-$navi_path .= '<li>'.$REX['I18N']->msg('path').' </li>';
+$navi_path .= '<li>'.rex_i18n::msg('path').' </li>';
 $navi_path .= '<li>: <a href="'.$link.'">Homepage</a> </li>';
 
 $tree = array();
@@ -111,7 +111,7 @@ rex_title('Linkmap', $navi_path);
 <div id="rex-linkmap">
 	<div class="rex-area-col-2">
 		<div class="rex-area-col-a">
-			<h3 class="rex-hl2"><?php echo $REX['I18N']->msg('lmap_categories'); ?></h3>
+			<h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_categories'); ?></h3>
 			<div class="rex-area-content">
 			<?php
 			$roots = rex_ooCategory::getRootCategories();
@@ -134,7 +134,7 @@ rex_title('Linkmap', $navi_path);
 		</div>
 		
 		<div class="rex-area-col-b">
-			<h3 class="rex-hl2"><?php echo $REX['I18N']->msg('lmap_articles'); ?></h3>
+			<h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_articles'); ?></h3>
 			<div class="rex-area-content">
 			<ul>
 			<?php

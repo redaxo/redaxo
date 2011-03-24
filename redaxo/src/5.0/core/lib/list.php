@@ -105,7 +105,7 @@ class rex_list implements rex_url_provider
     $this->rows = 0;
     $this->params = array();
     $this->tableAttributes = array();
-    $this->noRowsMessage = $REX['I18N']->msg('list_no_rows');
+    $this->noRowsMessage = rex_i18n::msg('list_no_rows');
 
     // --------- Form Attributes
     $this->formAttributes = array();

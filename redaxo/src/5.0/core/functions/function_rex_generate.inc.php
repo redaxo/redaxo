@@ -26,7 +26,7 @@ function rex_generateAll()
   }
 
   // ----------------------------------------------------------- message
-  $MSG = $REX['I18N']->msg('delete_cache_message');
+  $MSG = rex_i18n::msg('delete_cache_message');
 
   // ----- EXTENSION POINT
   $MSG = rex_register_extension_point('ALL_GENERATED', $MSG);

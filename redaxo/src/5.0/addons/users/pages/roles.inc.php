@@ -32,7 +32,7 @@ sort($REX['PERM']);
 foreach($REX['PERM'] as $perm)
 {
   $key = 'perm_general_'. $perm;
-  $name = $REX['I18N']->hasMsg($key) ? $REX['I18N']->msg($key) : $perm;
+  $name = rex_i18n::hasMsg($key) ? rex_i18n::msg($key) : $perm;
   $sel_all->addOption($name, $perm);
 }
 $userperm_all = rex_request('userperm_all', 'array');
@@ -49,7 +49,7 @@ sort($REX['EXTPERM']);
 foreach($REX['EXTPERM'] as $perm)
 {
   $key = 'perm_options_'. $perm;
-  $name = $REX['I18N']->hasMsg($key) ? $REX['I18N']->msg($key) : $perm;
+  $name = rex_i18n::hasMsg($key) ? rex_i18n::msg($key) : $perm;
   $sel_ext->addOption($name, $perm);
 }
 $userperm_ext = rex_request('userperm_ext', 'array');
@@ -127,7 +127,7 @@ if (isset($REX['EXTRAPERM']))
   foreach($REX['EXTRAPERM'] as $perm)
   {
     $key = 'perm_extras_'. $perm;
-    $name = $REX['I18N']->hasMsg($key) ? $REX['I18N']->msg($key) : $perm;
+    $name = rex_i18n::hasMsg($key) ? rex_i18n::msg($key) : $perm;
     $sel_extra->addOption($name, $perm);
   }
 }
@@ -217,13 +217,13 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     $FUNC_UPDATE = "";
   }
 
-  $info = $REX['I18N']->msg('user_role_data_updated');
+  $info = rex_i18n::msg('user_role_data_updated');
 
 } elseif ($FUNC_DELETE != '')
 {
   $deleteuser = rex_sql::factory();
   $deleteuser->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."user_role WHERE id = '$id' LIMIT 1");
-  $info = $REX['I18N']->msg("user_role_deleted");
+  $info = rex_i18n::msg("user_role_deleted");
   $id = 0;
 
 } elseif ($FUNC_ADD != '' and $save == '')
@@ -289,7 +289,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   $adduser->insert();
   $id = 0;
   $FUNC_ADD = "";
-  $info = $REX['I18N']->msg('user_role_added');
+  $info = rex_i18n::msg('user_role_added');
 }
 
 
@@ -315,11 +315,11 @@ if ($FUNC_ADD != "" || $id > 0)
   {
     // User Edit
 
-    $form_label = $REX['I18N']->msg('edit_user_role');
+    $form_label = rex_i18n::msg('edit_user_role');
     $add_hidden = '<input type="hidden" name="id" value="'.$id.'" />';
     $add_submit = '<div class="rex-form-row">
-						<p class="rex-form-col-a"><input type="submit" class="rex-form-submit" name="FUNC_UPDATE" value="'.$REX['I18N']->msg('user_role_save').'" '. rex_accesskey($REX['I18N']->msg('user_role_save'), $REX['ACKEY']['SAVE']) .' /></p>
-						<p class="rex-form-col-b"><input type="submit" class="rex-form-submit" name="FUNC_APPLY" value="'.$REX['I18N']->msg('user_role_apply').'" '. rex_accesskey($REX['I18N']->msg('user_role_apply'), $REX['ACKEY']['APPLY']) .' /></p>
+						<p class="rex-form-col-a"><input type="submit" class="rex-form-submit" name="FUNC_UPDATE" value="'.rex_i18n::msg('user_role_save').'" '. rex_accesskey(rex_i18n::msg('user_role_save'), $REX['ACKEY']['SAVE']) .' /></p>
+						<p class="rex-form-col-b"><input type="submit" class="rex-form-submit" name="FUNC_APPLY" value="'.rex_i18n::msg('user_role_apply').'" '. rex_accesskey(rex_i18n::msg('user_role_apply'), $REX['ACKEY']['APPLY']) .' /></p>
 					</div>';
 		$add_user_class = ' rex-form-read';
 
@@ -374,11 +374,11 @@ if ($FUNC_ADD != "" || $id > 0)
   else
   {
     // User Add
-    $form_label = $REX['I18N']->msg('create_user_role');
+    $form_label = rex_i18n::msg('create_user_role');
     $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
     $add_submit = '<div class="rex-form-row">
 						<p class="rex-form-submit">
-						<input type="submit" class="rex-form-submit" name="function" value="'.$REX['I18N']->msg("add_user_role").'" '. rex_accesskey($REX['I18N']->msg('add_user_role'), $REX['ACKEY']['SAVE']) .' />
+						<input type="submit" class="rex-form-submit" name="function" value="'.rex_i18n::msg("add_user_role").'" '. rex_accesskey(rex_i18n::msg('add_user_role'), $REX['ACKEY']['SAVE']) .' />
 						</p>
 					</div>';
   }
@@ -397,71 +397,71 @@ if ($FUNC_ADD != "" || $id > 0)
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-text">
-            <label for="username">'.$REX['I18N']->msg('name').'</label>
+            <label for="username">'.rex_i18n::msg('name').'</label>
             <input type="text" class="rex-form-text" id="username" name="username" value="'.htmlspecialchars($username).'" />
           </p>
           <p class="rex-form-col-b rex-form-textarea">
-            <label for="userdesc">'.$REX['I18N']->msg('description').'</label>
+            <label for="userdesc">'.rex_i18n::msg('description').'</label>
             <textarea id="userdesc" class="rex-form-textarea" cols="50" rows="4" name="userdesc">'.htmlspecialchars($userdesc).'</textarea>
           </p>
     		</div>
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
-            <label for="userperm-sprachen">'.$REX['I18N']->msg('user_lang_xs').'</label>
+            <label for="userperm-sprachen">'.rex_i18n::msg('user_lang_xs').'</label>
             '. $sel_sprachen->get() .'
-            <span class="rex-form-notice">'. $REX['I18N']->msg('ctrl') .'</span>
+            <span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>
           </p>
 		    </div>
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
-            <label for="userperm-all">'.$REX['I18N']->msg('user_all').'</label>
+            <label for="userperm-all">'.rex_i18n::msg('user_all').'</label>
             '. $sel_all->get() .'
-            <span class="rex-form-notice">'. $REX['I18N']->msg('ctrl') .'</span>
+            <span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>
           </p>
           <p class="rex-form-col-b rex-form-select">
-            <label for="userperm-ext">'.$REX['I18N']->msg('user_options').'</label>
+            <label for="userperm-ext">'.rex_i18n::msg('user_options').'</label>
             '. $sel_ext->get() .'
-            <span class="rex-form-notice">'. $REX['I18N']->msg('ctrl') .'</span>
+            <span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>
           </p>
 		    </div>
 
 				<div class="rex-form-row" id="cats_mcats_box">
 					<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
 						<input class="rex-form-checkbox" type="checkbox" id="allcats" name="allcats" value="1" '.$allcatschecked.' />
-						<label for="allcats">'.$REX['I18N']->msg('all_categories').'</label>
+						<label for="allcats">'.rex_i18n::msg('all_categories').'</label>
 					</p>
 					<p class="rex-form-col-b rex-form-checkbox rex-form-label-right">
 						<input class="rex-form-checkbox" type="checkbox" id="allmcats" name="allmcats" value="1" '.$allmcatschecked.' />
-						<label for="allmcats">'.$REX['I18N']->msg('all_mediafolder').'</label>
+						<label for="allmcats">'.rex_i18n::msg('all_mediafolder').'</label>
 					</p>
 				</div>
 
 				<div class="rex-form-row" id="cats_mcats_perms">
 					<p class="rex-form-col-a rex-form-select">
-						<label for="userperm-cat">'.$REX['I18N']->msg('categories').'</label>
+						<label for="userperm-cat">'.rex_i18n::msg('categories').'</label>
 						' .$sel_cat->get() .'
-						<span class="rex-form-notice">'. $REX['I18N']->msg('ctrl') .'</span>
+						<span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>
 					</p>
 					<p class="rex-form-col-b rex-form-select">
-						<label for="userperm-media">'.$REX['I18N']->msg('mediafolder').'</label>
+						<label for="userperm-media">'.rex_i18n::msg('mediafolder').'</label>
 						'. $sel_media->get() .'
-						<span class="rex-form-notice">'. $REX['I18N']->msg('ctrl') .'</span>
+						<span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>
 					</p>
 				</div>
 
 
 				<div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
-            <label for="userperm-module">'.$REX['I18N']->msg('modules').'</label>
+            <label for="userperm-module">'.rex_i18n::msg('modules').'</label>
             '.$sel_module->get().'
-            <span class="rex-form-notice">'. $REX['I18N']->msg('ctrl') .'</span>
+            <span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>
           </p>
           <p class="rex-form-col-b rex-form-select">
-            <label for="userperm-extra">'.$REX['I18N']->msg('extras').'</label>
+            <label for="userperm-extra">'.rex_i18n::msg('extras').'</label>
             '. $sel_extra->get() .'
-            <span class="rex-form-notice">'. $REX['I18N']->msg('ctrl') .'</span>
+            <span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>
           </p>
 		    </div>
 
@@ -532,25 +532,25 @@ if ($FUNC_ADD != "" || $id > 0)
 if (isset($SHOW) && $SHOW)
 {
   $list = rex_list::factory('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'user_role');
-  $list->setCaption($REX['I18N']->msg('user_role_caption'));
-  $list->addTableAttribute('summary', $REX['I18N']->msg('user_role_summary'));
+  $list->setCaption(rex_i18n::msg('user_role_caption'));
+  $list->addTableAttribute('summary', rex_i18n::msg('user_role_summary'));
   $list->addTableColumnGroup(array(40, '5%', '*', 153));
 
   $tdIcon = '<span class="rex-i-element rex-i-user"><span class="rex-i-element-text">###name###</span></span>';
-  $thIcon = '<a class="rex-i-element rex-i-user-add" href="'. $list->getUrl(array('FUNC_ADD' => '1')) .'"'. rex_accesskey($REX['I18N']->msg('create_user_role'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'. $REX['I18N']->msg('create_user_role') .'</span></a>';
+  $thIcon = '<a class="rex-i-element rex-i-user-add" href="'. $list->getUrl(array('FUNC_ADD' => '1')) .'"'. rex_accesskey(rex_i18n::msg('create_user_role'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'. rex_i18n::msg('create_user_role') .'</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('id' => '###id###'));
 
   $list->setColumnLabel('id', 'ID');
   $list->setColumnLayout('id', array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
 
-  $list->setColumnLabel('name', $REX['I18N']->msg('name'));
+  $list->setColumnLabel('name', rex_i18n::msg('name'));
   $list->setColumnParams('name', array('id' => '###id###'));
 
-  $list->addColumn('funcs', $REX['I18N']->msg('user_role_delete'));
-  $list->setColumnLabel('funcs', $REX['I18N']->msg('user_functions'));
+  $list->addColumn('funcs', rex_i18n::msg('user_role_delete'));
+  $list->setColumnLabel('funcs', rex_i18n::msg('user_functions'));
   $list->setColumnParams('funcs', array('FUNC_DELETE' => '1', 'id' => '###id###'));
-  $list->addLinkAttribute('funcs', 'onclick', 'return confirm(\''.$REX['I18N']->msg('delete').' ?\')');
+  $list->addLinkAttribute('funcs', 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
 
   $list->show();
 }

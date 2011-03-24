@@ -10,7 +10,7 @@
  * @version svn:$Id$
  */
 
-rex_title($REX['I18N']->msg('dashboard'), '');
+rex_title(rex_i18n::msg('dashboard'), '');
 
 $contentFound = false;
 
@@ -42,7 +42,7 @@ foreach($dashboard_components as $index => $component)
 
     if($block == '' && $format == 'half')
     {
-      $block = $REX['I18N']->msg('dashboard_component_block_misc');
+      $block = rex_i18n::msg('dashboard_component_block_misc');
     }
 
     if(!isset($components[$format]))
@@ -141,5 +141,5 @@ foreach($components as $format => $componentBlocks)
 
 if(!$contentFound)
 {
-  echo rex_warning($REX['I18N']->msg('dashboard_no_content'));
+  echo rex_warning(rex_i18n::msg('dashboard_no_content'));
 }

@@ -135,9 +135,6 @@ abstract class rex_formatter
   {
     global $REX;
 
-    if(!isset($REX['I18N']) || !is_object($REX['I18N']))
-      $REX['I18N'] = rex_create_lang();
-
     if (empty ($value))
     {
       return '';
@@ -146,12 +143,12 @@ abstract class rex_formatter
     if ($format == '' || $format == 'date')
     {
       // Default REX-Dateformat
-      $format = $REX['I18N']->msg('dateformat');
+      $format = rex_i18n::msg('dateformat');
     }
     elseif ($format == 'datetime')
     {
       // Default REX-Datetimeformat
-      $format = $REX['I18N']->msg('datetimeformat');
+      $format = rex_i18n::msg('datetimeformat');
     }
     return strftime($format, $value);
   }

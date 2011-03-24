@@ -81,6 +81,6 @@ class rex_cronjob_article_status extends rex_cronjob
   public function getTypeName()
   {
     global $REX;
-    return $REX['I18N']->msg('cronjob_article_status');
+    return rex_i18n::msg('cronjob_article_status');
   }
 }

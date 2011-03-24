@@ -49,7 +49,7 @@ function _rex_is_writable_info($is_writable, $item = '')
     if($item != '')
       $file = '<b>'. $item .'</b>';
 
-    $state = $REX['I18N']->msg($key, '<span class="rex-error">', '</span>', rex_path::absolute($file));
+    $state = rex_i18n::msg($key, '<span class="rex-error">', '</span>', rex_path::absolute($file));
   }
 
   return $state;
@@ -220,78 +220,6 @@ function rex_ini_get($val)
 }
 
 /**
- * Uebersetzt den text $text, falls dieser mit dem prefix "translate:" beginnt.
- * Ansonsten wird $text zurueckgegeben.
- *
- * @param string $text The text for translation.
- * @param i18n $I18N_Catalogue The catalogue for translation. If null use the system-catalogue by default
- * @param boolean $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
- */
-function rex_translate($text, $I18N_Catalogue = null, $use_htmlspecialchars = true)
-{
-  if(!is_string($text))
-  {
-    throw new InvalidArgumentException('Expecting $text to be a String, "'. gettype($text) .'" given!');
-  }
-
-  if(!$I18N_Catalogue)
-  {
-    global $REX;
-
-    if(!isset($REX['I18N']) || !is_object($REX['I18N']))
-      $REX['I18N'] = rex_create_lang($REX['LANG']);
-
-    if(!$REX['I18N'])
-      trigger_error('Unable to create language "'. $REX['LANG'] .'"', E_USER_ERROR);
-
-    return rex_translate($text, $REX['I18N'], $use_htmlspecialchars);
-  }
-
-  $tranKey = 'translate:';
-  $transKeyLen = strlen($tranKey);
-  if(substr($text, 0, $transKeyLen) == $tranKey)
-  {
-    $text = $I18N_Catalogue->msg(substr($text, $transKeyLen));
-  }
-
-  if($use_htmlspecialchars)
-    return htmlspecialchars($text);
-
-  return $text;
-}
-
-/**
- * Uebersetzt alle texte in $array die mit "translate:" beginnen.
- *
- * @param array $text The Array of Strings for translation.
- * @param i18n $I18N_Catalogue The catalogue for translation. If null use the system-catalogue by default
- * @param boolean $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
- */
-function rex_translate_array($array, $I18N_Catalogue = null, $use_htmlspecialchars = true)
-{
-  if(is_array($array))
-  {
-    foreach($array as $key => $value)
-    {
-      $array[$key] = rex_translate_array($value, $I18N_Catalogue, $use_htmlspecialchars);
-    }
-    return $array;
-  }
-  else if (is_string($array))
-  {
-    return rex_translate($array, $I18N_Catalogue, $use_htmlspecialchars);
-  }
-  else if (is_scalar($array))
-  {
-    return $array;
-  }
-  else
-  {
-    throw new InvalidArgumentException('Expecting $text to be a String or Array of Strings, "'. gettype($array) .'" given!');
-  }
-}
-
-/**
  * Leitet auf einen anderen Artikel weiter
  */
 function rex_redirect($article_id, $clang = '', $params = array())
@@ -451,51 +379,6 @@ function rex_highlight_file($filename, $return = false)
     return $s;
   }
   echo $s;
-}
-
-/**
- * Funktion zum Anlegen eines Sprache-Objekts
- *
- * @param $locale Locale der Sprache
- * @param $searchpath Pfad zum Ordner indem die Sprachdatei gesucht werden soll
- * @param $setlocale TRUE, wenn die locale für die Umgebung gesetzt werden soll, sonst FALSE
- * @return unknown_type
- */
-function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
-{
-  global $REX;
-
-  $_searchpath = $searchpath;
-
-  if ($searchpath == '')
-  {
-    $searchpath = rex_path::src('core/lang');
-  }
-  $lang_object = new rex_i18n($locale, $searchpath);
-
-  if ($_searchpath == '')
-  {
-    $REX['LOCALES'] = $lang_object->getLocales($searchpath);
-  }
-
-  if($setlocale)
-  {
-    $locales = array();
-    foreach(explode(',', trim($lang_object->msg('setlocale'))) as $locale)
-    {
-      $locales[]= $locale .'.UTF-8';
-      $locales[]= $locale .'.UTF8';
-      $locales[]= $locale .'.utf-8';
-      $locales[]= $locale .'.utf8';
-    }
-
-    foreach(explode(',', trim($lang_object->msg('setlocale'))) as $locale)
-      $locales[]= $locale;
-
-    setlocale(LC_ALL, $locales);
-  }
-
-  return $lang_object;
 }
 
 /**

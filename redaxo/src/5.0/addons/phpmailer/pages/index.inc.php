@@ -18,11 +18,11 @@ $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
 $subpages = array(
-  array('',$REX['I18N']->msg('phpmailer_configuration')),
-  array('example',$REX['I18N']->msg('phpmailer_example')),
+  array('',rex_i18n::msg('phpmailer_configuration')),
+  array('example',rex_i18n::msg('phpmailer_example')),
 );
 
-rex_title($REX['I18N']->msg('phpmailer_title'), $subpages);
+rex_title(rex_i18n::msg('phpmailer_title'), $subpages);
 
 switch($subpage)
 {

@@ -24,7 +24,7 @@ if ($PERMALL)
 
     if($db->update())
     {
-      $info = $REX['I18N']->msg('pool_kat_updated',$cat_name);
+      $info = rex_i18n::msg('pool_kat_updated',$cat_name);
       rex_deleteCacheMediaCategory($edit_id);
     }
     else
@@ -43,10 +43,10 @@ if ($PERMALL)
       $gf->setQuery('DELETE FROM '.$REX['TABLE_PREFIX'].'media_category WHERE id='. $edit_id);
       rex_deleteCacheMediaCategory($edit_id);
       rex_deleteCacheMediaLists();
-      $info = $REX['I18N']->msg('pool_kat_deleted');
+      $info = rex_i18n::msg('pool_kat_deleted');
     }else
     {
-      $warning = $REX['I18N']->msg('pool_kat_not_deleted');
+      $warning = rex_i18n::msg('pool_kat_not_deleted');
     }
   } elseif ($media_method == 'add_file_cat')
   {
@@ -60,7 +60,7 @@ if ($PERMALL)
 
     if($db->insert())
     {
-      $info = $REX['I18N']->msg('pool_kat_saved', stripslashes(rex_request('catname')));
+      $info = rex_i18n::msg('pool_kat_saved', stripslashes(rex_request('catname')));
       rex_deleteCacheMediaCategoryList(rex_request('cat_id', 'int'));
     }
     else
@@ -98,7 +98,7 @@ if ($PERMALL)
     $catpath = $OOCat->getPath()."$cat_id|";
   }
 
-  echo '<div id="rex-navi-path"><ul><li>'. $REX['I18N']->msg('pool_kat_path') .'</li> '. $textpath .'</ul></div>';
+  echo '<div id="rex-navi-path"><ul><li>'. rex_i18n::msg('pool_kat_path') .'</li> '. $textpath .'</ul></div>';
 
   if ($warning != '')
   {
@@ -114,7 +114,7 @@ if ($PERMALL)
   if ($media_method == 'add_cat' || $media_method == 'update_file_cat')
   {
     $add_mode = $media_method == 'add_cat';
-    $legend = $add_mode ? $REX['I18N']->msg('pool_kat_create_label') : $REX['I18N']->msg('pool_kat_edit');
+    $legend = $add_mode ? rex_i18n::msg('pool_kat_create_label') : rex_i18n::msg('pool_kat_edit');
     $method = $add_mode ? 'add_file_cat' : 'edit_file_cat';
 
     echo '
@@ -133,8 +133,8 @@ if ($PERMALL)
     ';
   }
 
-  echo '<table class="rex-table" summary="'.htmlspecialchars($REX['I18N']->msg('pool_kat_summary')).'">
-          <caption class="rex-hide">'.$REX['I18N']->msg('pool_kat_caption').'</caption>
+  echo '<table class="rex-table" summary="'.htmlspecialchars(rex_i18n::msg('pool_kat_summary')).'">
+          <caption class="rex-hide">'.rex_i18n::msg('pool_kat_caption').'</caption>
           <colgroup>
             <col width="40" />
             <col width="40" />
@@ -144,10 +144,10 @@ if ($PERMALL)
           </colgroup>
           <thead>
             <tr>
-              <th class="rex-icon"><a class="rex-i-element rex-i-mediapool-category-add" href="'. $link . $cat_id .'&amp;media_method=add_cat"'. rex_accesskey($REX['I18N']->msg('pool_kat_create'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'. $REX['I18N']->msg('pool_kat_create') .'</span></a></th>
+              <th class="rex-icon"><a class="rex-i-element rex-i-mediapool-category-add" href="'. $link . $cat_id .'&amp;media_method=add_cat"'. rex_accesskey(rex_i18n::msg('pool_kat_create'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'. rex_i18n::msg('pool_kat_create') .'</span></a></th>
               <th class="rex-small">ID</th>
-              <th>'. $REX['I18N']->msg('pool_kat_name') .'</th>
-              <th colspan="2">'. $REX['I18N']->msg('pool_kat_function') .'</th>
+              <th>'. rex_i18n::msg('pool_kat_name') .'</th>
+              <th colspan="2">'. rex_i18n::msg('pool_kat_function') .'</th>
             </tr>
           </thead>
           <tbody>';
@@ -156,14 +156,14 @@ if ($PERMALL)
   {
     echo '
       <tr class="rex-table-row-activ">
-        <td class="rex-icon"><span class="rex-i-element rex-i-mediapool-category"><span class="rex-i-element-text">'.$REX['I18N']->msg('pool_kat_create').'</span></span></td>
+        <td class="rex-icon"><span class="rex-i-element rex-i-mediapool-category"><span class="rex-i-element-text">'.rex_i18n::msg('pool_kat_create').'</span></span></td>
         <td class="rex-small">-</td>
         <td>
-          <label class="rex-form-hidden-label" for="rex-form-field-name">'. $REX['I18N']->msg('pool_kat_name') .'</label>
+          <label class="rex-form-hidden-label" for="rex-form-field-name">'. rex_i18n::msg('pool_kat_name') .'</label>
           <input class="rex-form-text" type="text" size="10" id="rex-form-field-name" name="catname" value="" />
         </td>
         <td colspan="2">
-          <input type="submit" class="rex-form-submit" value="'. $REX['I18N']->msg('pool_kat_create'). '"'. rex_accesskey($REX['I18N']->msg('pool_kat_create'), $REX['ACKEY']['SAVE']) .' />
+          <input type="submit" class="rex-form-submit" value="'. rex_i18n::msg('pool_kat_create'). '"'. rex_accesskey(rex_i18n::msg('pool_kat_create'), $REX['ACKEY']['SAVE']) .' />
         </td>
       </tr>
     ';
@@ -182,11 +182,11 @@ if ($PERMALL)
           <td class="rex-icon"><span class="rex-i-element rex-i-mediapool-category"><span class="rex-i-element-text">'. htmlspecialchars($OOCat->getName()).'</span></span></td>
           <td class="rex-small">'. $iid .'</td>
           <td>
-            <label class="rex-form-hidden-label" for="rex-form-field-name">'. $REX['I18N']->msg('pool_kat_name') .'</label>
+            <label class="rex-form-hidden-label" for="rex-form-field-name">'. rex_i18n::msg('pool_kat_name') .'</label>
             <input class="rex-form-text" type="text" id="rex-form-field-name" name="cat_name" value="'. htmlspecialchars($iname) .'" />
           </td>
           <td colspan="2">
-            <input type="submit" class="rex-form-submit" value="'. $REX['I18N']->msg('pool_kat_update'). '"'. rex_accesskey($REX['I18N']->msg('pool_kat_update'), $REX['ACKEY']['SAVE']) .' />
+            <input type="submit" class="rex-form-submit" value="'. rex_i18n::msg('pool_kat_update'). '"'. rex_accesskey(rex_i18n::msg('pool_kat_update'), $REX['ACKEY']['SAVE']) .' />
           </td>
         </tr>
       ';
@@ -196,8 +196,8 @@ if ($PERMALL)
               <td class="rex-icon"><a class="rex-i-element rex-i-mediapool-category" href="'. $link . $iid .'"><span class="rex-i-element-text">'.htmlspecialchars($OOCat->getName()).'</span></a></td>
               <td class="rex-small">'. $iid .'</td>
               <td><a href="'. $link . $iid .'">'. htmlspecialchars($OOCat->getName()) .'</a></td>
-              <td><a href="'. $link . $cat_id .'&amp;media_method=update_file_cat&amp;edit_id='. $iid .'">'. $REX['I18N']->msg('pool_kat_edit').'</a></td>
-              <td><a href="'. $link . $cat_id .'&amp;media_method=delete_file_cat&amp;edit_id='. $iid .'" onclick="return confirm(\''. $REX['I18N']->msg('delete').' ?\')">'. $REX['I18N']->msg('pool_kat_delete') .'</a></td>
+              <td><a href="'. $link . $cat_id .'&amp;media_method=update_file_cat&amp;edit_id='. $iid .'">'. rex_i18n::msg('pool_kat_edit').'</a></td>
+              <td><a href="'. $link . $cat_id .'&amp;media_method=delete_file_cat&amp;edit_id='. $iid .'" onclick="return confirm(\''. rex_i18n::msg('delete').' ?\')">'. rex_i18n::msg('pool_kat_delete') .'</a></td>
             </tr>';
     }
   }

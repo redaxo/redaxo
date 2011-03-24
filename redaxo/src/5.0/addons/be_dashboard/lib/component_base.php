@@ -138,7 +138,7 @@ abstract class rex_dashboard_component_base
       $class = $action['class'];
       $id = $this->getId(). '-'. $laction;
       $onclick = 'component'. ucfirst($action['name']) .'(\''. $this->getId() .'\'); return false;';
-      $title = $REX['I18N']->msg('dashboard_component_action_'. $laction);
+      $title = rex_i18n::msg('dashboard_component_action_'. $laction);
 
       $content .= '<li>';
       $content .= '<a class="'.$class.'" href="#" onclick="'.$onclick.'" id="'.$id.'" title="'.$title.'">';
