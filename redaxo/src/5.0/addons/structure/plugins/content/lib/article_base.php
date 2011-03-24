@@ -206,6 +206,7 @@ class rex_article_base
    */
   protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
   {
+    global $REX;
     /*
     if($this->getSlice)
     {
@@ -272,7 +273,8 @@ class rex_article_base
     $prevCtype = null;
 
     $artDataSql->reset();
-    while($artDataSql->hasNext())
+    $rows = $artDataSql->getRows();
+    for($i = 0; $i < $rows; ++$i)
     {
       $sliceId       = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
       $sliceCtypeId  = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
