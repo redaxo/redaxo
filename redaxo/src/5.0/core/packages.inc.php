@@ -113,9 +113,3 @@ foreach($packageOrder as $addonName)
 
 // ----- all addons configs included
 rex_register_extension_point('ADDONS_INCLUDED');
-
-// ----- Init REX-Vars
-foreach($REX['VARIABLES'] as $key => $value)
-{
-  $REX['VARIABLES'][$key] = new $value;
-}

@@ -197,7 +197,7 @@ if ($article->getRows() == 1)
           $REX_ACTION = array ();
           $REX_ACTION['SAVE'] = true;
 
-          foreach ($REX['VARIABLES'] as $obj)
+          foreach (rex_var::getVars() as $obj)
           {
             $REX_ACTION = $obj->getACRequestValues($REX_ACTION);
           }
@@ -226,7 +226,7 @@ if ($article->getRows() == 1)
             // ----- SAVE/UPDATE SLICE
             if ($function == 'add' || $function == 'edit')
             {
-              
+
               $newsql = rex_sql::factory();
               // $newsql->debugsql = true;
               $sliceTable = $REX['TABLE_PREFIX'] . 'article_slice';
@@ -243,11 +243,11 @@ if ($article->getRows() == 1)
                 // $prevSlice->debugsql = true;
                 if($slice_id == -1) // -1 is used when adding after the last article-slice
                   $prevSlice->setQuery('SELECT IFNULL(MAX(prior),0)+1 as prior FROM '. $sliceTable . ' WHERE article_id='. $article_id . ' AND clang='. $clang .' AND ctype='. $ctype . ' AND revision='. $slice_revision);
-                else 
+                else
                   $prevSlice->setQuery('SELECT * FROM '. $sliceTable . ' WHERE id='. $slice_id);
-                
+
                 $prior = $prevSlice->getValue('prior');
-                  
+
                 $newsql->setValue('article_id', $article_id);
                 $newsql->setValue('modultyp_id', $module_id);
                 $newsql->setValue('clang', $clang);
@@ -257,7 +257,7 @@ if ($article->getRows() == 1)
               }
 
               // ****************** SPEICHERN FALLS NOETIG
-              foreach ($REX['VARIABLES'] as $obj)
+              foreach (rex_var::getVars() as $obj)
               {
                 $obj->setACValues($newsql, $REX_ACTION);
               }
@@ -283,7 +283,7 @@ if ($article->getRows() == 1)
                     'article_id=' . $article_id . ' AND clang=' . $clang .' AND ctype='. $ctype .' AND revision='. $slice_revision,
                     'prior, updatedate DESC'
                   );
-                  
+
                   $info = $action_message . $REX['I18N']->msg('block_added');
                   $slice_id = $newsql->getLastId();
                   $function = "";

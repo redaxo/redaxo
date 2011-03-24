@@ -123,10 +123,6 @@ $REX['EXTPERM'][] = 'article2category[]';
 $REX['EXTRAPERM'] = array();
 $REX['EXTRAPERM'][] = 'editContentOnly[]';
 
-// ----- standard variables
-$REX['VARIABLES'] = array();
-$REX['VARIABLES'][] = 'rex_var_config';
-
 // ----------------- default values
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 

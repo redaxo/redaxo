@@ -23,7 +23,7 @@ class rex_article_editor extends rex_article
   protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
   {
     global $REX;
-    
+
     if($this->mode != 'edit')
     {
       // ----- wenn mode nicht edit
@@ -36,7 +36,7 @@ class rex_article_editor extends rex_article
     {
       $sliceId      = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
       $sliceCtype   = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
-      
+
       $moduleInput  = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.input');
       $moduleOutput = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.output');
       $moduleId     = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
@@ -83,7 +83,7 @@ class rex_article_editor extends rex_article
             <h3 class="rex-hl4">'. $moduleName .'</h3>
             <div class="rex-navi-slice">'. $this->getSliceMenu($artDataSql) .'</div>
           </div>';
-      
+
       // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
       if($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$moduleId."]"))
       {
@@ -97,7 +97,7 @@ class rex_article_editor extends rex_article
           // die POST werte übernehmen
           if(rex_request_method() == 'post' && rex_var::isEditEvent())
           {
-            foreach ($REX['VARIABLES'] as $obj)
+            foreach (rex_var::getVars() as $obj)
             {
               $REX_ACTION = $obj->getACRequestValues($REX_ACTION);
             }
@@ -106,7 +106,7 @@ class rex_article_editor extends rex_article
           // (1. Aufruf via Editieren Link)
           else
           {
-            foreach ($REX['VARIABLES'] as $obj)
+            foreach (rex_var::getVars() as $obj)
             {
               $REX_ACTION = $obj->getACDatabaseValues($REX_ACTION, $artDataSql);
             }
@@ -117,7 +117,7 @@ class rex_article_editor extends rex_article
           // ----- / PRE VIEW ACTION
 
           // ****************** Action Werte in SQL-Objekt uebernehmen
-          foreach($REX['VARIABLES'] as $obj)
+          foreach(rex_var::getVars() as $obj)
           {
             $obj->setACValues($artDataSql, $REX_ACTION);
           }
@@ -138,27 +138,27 @@ class rex_article_editor extends rex_article
         $slice_content .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
         $slice_content = $this->replaceVars($artDataSql, $slice_content);
       }
-      
+
     }
-    
+
     return $slice_content;
   }
-  
+
   /**
    * Returns the slice menu
-   * 
+   *
    * @param rex_sql $artDataSql rex_sql istance containing all the slice and module information
    */
   private function getSliceMenu(rex_sql $artDataSql)
   {
     global $REX;
-    
+
     $sliceId      = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
     $sliceCtype   = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
-    
+
     $moduleId     = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
     $moduleName   = htmlspecialchars($artDataSql->getValue($REX['TABLE_PREFIX'].'module.name'));
-  
+
 
     $sliceUrl = 'index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $sliceId .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $sliceId;
     $listElements = array();
@@ -198,7 +198,7 @@ class rex_article_editor extends rex_article
         'perm' => ($REX['USER']->isAdmin() || $REX['USER']->hasPerm("module[".$moduleId."]"))
       )
     );
-    
+
     // ----- render the list
     $mne = '';
     $listElementFlag = true;
@@ -216,13 +216,13 @@ class rex_article_editor extends rex_article
       }
       $mne  .= '<li'.$class.'>'. $listElement .'</li>';
     }
-    
+
     return '<ul>'. $mne .'</ul>';
   }
-  
+
   /**
    * Wraps the output of a module
-   * 
+   *
    * @param integer $moduleId The id of the module
    * @param string $moduleOutput The output of the module
    */
@@ -238,11 +238,11 @@ class rex_article_editor extends rex_article
             <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
             ';
   }
-  
+
   private function getModuleSelect($sliceId)
   {
     global $REX;
-    
+
     // ----- BLOCKAUSWAHL - SELECT
     $this->MODULESELECT[$this->ctype]->setId("module_id". $sliceId);
 
@@ -270,7 +270,7 @@ class rex_article_editor extends rex_article
             </fieldset>
           </form>
           </div>';
-    
+
   }
 
   /**
@@ -324,7 +324,7 @@ class rex_article_editor extends rex_article
   protected function postArticle($articleContent, $moduleIdToAdd)
   {
     global $REX;
-    
+
     // special identifier for the slot behind the last slice
     $LCTSL_ID = -1;
 
@@ -341,7 +341,7 @@ class rex_article_editor extends rex_article
       }
       $articleContent .= $slice_content;
     }
-    
+
     return $articleContent;
   }
 
@@ -362,7 +362,7 @@ class rex_article_editor extends rex_article
       $initDataSql = rex_sql::factory();
 
       $REX_ACTION = array();
-      foreach ($REX['VARIABLES'] as $obj)
+      foreach (rex_var::getVars() as $obj)
       {
         $REX_ACTION = $obj->getACRequestValues($REX_ACTION);
       }
@@ -372,7 +372,7 @@ class rex_article_editor extends rex_article
       // ----- / PRE VIEW ACTION
 
       // ****************** Action Werte in Sql-Objekt uebernehmen
-      foreach($REX['VARIABLES'] as $obj)
+      foreach(rex_var::getVars() as $obj)
       {
         $obj->setACValues($initDataSql, $REX_ACTION);
       }

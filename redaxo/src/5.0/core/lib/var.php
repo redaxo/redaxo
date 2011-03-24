@@ -7,6 +7,49 @@
  */
 abstract class rex_var
 {
+  static private
+    $vars = array(),
+    $initialized = false;
+
+  /**
+   * Registers a REX_VAR
+   *
+   * @param string $var Class name of the REX_VAR
+   */
+  static public function registerVar($var)
+  {
+    if(!is_subclass_of($var, __CLASS__))
+    {
+      throw new rexException('$var must be a subclass of '. __CLASS__);
+    }
+
+    if(self::$initialized && !is_object($var))
+    {
+      self::$vars[] = new $var;
+    }
+    else
+    {
+      self::$vars[] = $var;
+    }
+  }
+
+  /**
+   * Returns the registered REX_VARS
+   */
+  static public function getVars()
+  {
+    if (!self::$initialized)
+    {
+      foreach(self::$vars as $key => $var)
+      {
+        if(!is_object($var))
+          self::$vars[$key] = new $var;
+      }
+    }
+
+    return self::$vars;
+  }
+
   // --------------------------------- Actions
 
   /**

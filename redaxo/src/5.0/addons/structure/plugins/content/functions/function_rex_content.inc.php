@@ -60,12 +60,12 @@ function rex_moveSlice($slice_id, $clang, $direction)
     $upd->setWhere(array(
       'id' => $slice_id
     ));
-    
+
     // some vars for later use
     $article_id = $CM->getValue('article_id');
     $ctype = $CM->getValue('ctype');
     $slice_revision = $CM->getValue('revision');
-    
+
     if ($direction == "moveup" || $direction == "movedown")
     {
       if ($direction == "moveup")
@@ -80,16 +80,16 @@ function rex_moveSlice($slice_id, $clang, $direction)
       }
       $upd->addGlobalUpdateFields();
       $upd->update();
-      
+
       rex_organize_priorities(
         $REX['TABLE_PREFIX'] . 'article_slice',
         'prior',
         'article_id=' . $article_id . ' AND clang=' . $clang .' AND ctype='. $ctype .' AND revision='. $slice_revision,
         'prior, updatedate '. $updSort
       );
-      
+
       rex_deleteCacheArticleContent($article_id, $clang);
-      
+
       $message = $REX['I18N']->msg('slice_moved');
       $success = true;
     }
@@ -124,7 +124,7 @@ function rex_deleteSlice($slice_id)
   // delete the slice
   $del = rex_sql::factory();
   $del->setQuery('DELETE FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE id=' . $slice_id);
-  
+
   // reorg remaining slices
   rex_organize_priorities(
     $REX['TABLE_PREFIX'] . 'article_slice',
@@ -159,7 +159,7 @@ function rex_execPreViewAction($module_id, $function, $REX_ACTION)
     $iaction = $ga->getValue('preview');
 
     // ****************** VARIABLEN ERSETZEN
-    foreach($REX['VARIABLES'] as $obj)
+    foreach(rex_var::getVars() as $obj)
     {
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
@@ -196,7 +196,7 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
     $iaction = $ga->getValue('presave');
 
     // *********************** WERTE ERSETZEN
-    foreach ($REX['VARIABLES'] as $obj)
+    foreach (rex_var::getVars() as $obj)
     {
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
@@ -235,7 +235,7 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
     $iaction = $ga->getValue('postsave');
 
     // ***************** WERTE ERSETZEN UND POSTACTION AUSFÜHREN
-    foreach ($REX['VARIABLES'] as $obj)
+    foreach (rex_var::getVars() as $obj)
     {
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
@@ -581,22 +581,22 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
         elseif ($colname == "article_id") $value = $to_id;
         else
           $value = $gc->getValue($colname);
-  
+
         // collect all affected ctypes
         if ($colname == "ctype")
           $ctypes[$value] = $value;
-        
+
         if ($colname != "id")
           $ins->setValue($colname, $value);
-          
+
         $cols->next();
       }
       $cols->reset();
-      
+
       $ins->addGlobalUpdateFields();
       $ins->addGlobalCreateFields();
       $ins->insert();
-      
+
       $gc->next();
     }
 
@@ -610,7 +610,7 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
         'prior, updatedate'
       );
     }
-  
+
     rex_deleteCacheArticleContent($to_id, $to_clang);
     return true;
   }

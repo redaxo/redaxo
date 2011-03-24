@@ -30,6 +30,8 @@ rex_autoload::register();
 rex_logger::register();
 // add core base-fragmentpath to fragmentloader
 rex_fragment::addDirectory(rex_path::src('core/fragments/'));
+// register core REX_VARS
+rex_var::registerVar('rex_var_config');
 
 if ($REX['REDAXO'])
 {

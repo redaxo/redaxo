@@ -31,4 +31,4 @@ if ($REX['REDAXO'])
   }
 }
 
-$REX['VARIABLES'][] = 'rex_var_link';
+rex_var::registerVar('rex_var_link');

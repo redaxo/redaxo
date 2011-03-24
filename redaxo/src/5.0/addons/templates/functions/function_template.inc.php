@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 /**
  * Generiert den TemplateCache im Filesystem
- * 
+ *
  * @param $template_id Id des zu generierenden Templates
- * 
+ *
  * @return TRUE bei Erfolg, sonst FALSE
  */
 function rex_generateTemplate($template_id)
@@ -21,7 +21,7 @@ function rex_generateTemplate($template_id)
     $templateFile = rex_template::getFilePath($template_id);
 
     $content = $sql->getValue('content');
-    foreach($REX['VARIABLES'] as $var)
+    foreach(rex_var::getVars() as $var)
     {
       $content = $var->getTemplate($content);
     }

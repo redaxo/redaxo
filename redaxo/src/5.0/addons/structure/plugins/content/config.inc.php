@@ -20,4 +20,4 @@ if ($REX['REDAXO'])
   $REX['ADDON']['page'][$mypage] = new rex_be_page_main('system', $page);
 }
 
-$REX['VARIABLES'][] = 'rex_var_value';
+rex_var::registerVar('rex_var_value');

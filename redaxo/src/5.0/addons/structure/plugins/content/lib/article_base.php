@@ -200,7 +200,7 @@ class rex_article_base
 
   /**
    * Outputs a slice
-   * 
+   *
    * @param rex_sql $artDataSql A rex_sql instance containing all slice and module data
    * @param integer $moduleIdToAdd The id of the module, which was selected using the ModuleSelect
    */
@@ -260,7 +260,7 @@ class rex_article_base
     $artDataSql = rex_sql::factory();
     if($this->debug)
       $artDataSql->debugsql = 1;
-      
+
     $artDataSql->setQuery($sql);
 
     // pre hook
@@ -270,14 +270,14 @@ class rex_article_base
     // ---------- SLICES AUSGEBEN
     $articleContent = "";
     $prevCtype = null;
-    
+
     $artDataSql->reset();
     while($artDataSql->hasNext())
     {
       $sliceId       = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
       $sliceCtypeId  = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
       $sliceModuleId = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
-      
+
       // ----- ctype unterscheidung
       if ($this->mode != "edit" && $i == 0)
         $articleContent = "<?php if (\$this->ctype == '". $sliceCtypeId ."' || (\$this->ctype == '-1')) { \n";
@@ -347,7 +347,7 @@ class rex_article_base
 
   /**
    * Method which gets called, after all slices have been processed
-   * 
+   *
    * @param string $articleContent The content of the article
    * @param integer $module_id A module id
    */
@@ -419,7 +419,7 @@ class rex_article_base
     $sliceId = $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
     $flushValues = false;
 
-    foreach($REX['VARIABLES'] as $var)
+    foreach(rex_var::getVars() as $var)
     {
       if ($this->mode == 'edit')
       {
