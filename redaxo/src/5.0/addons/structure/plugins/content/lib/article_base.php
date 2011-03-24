@@ -15,6 +15,7 @@ class rex_article_base
     $info,
     $debug,
 
+    $getSlice,
     $template_id,
     $template_attributes;
 
@@ -27,7 +28,6 @@ class rex_article_base
 
     $ctype,
     $clang,
-    //$getSlice,
 
     $eval,
 
@@ -207,13 +207,6 @@ class rex_article_base
   protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
   {
     global $REX;
-    /*
-    if($this->getSlice)
-    {
-      foreach($RE_CONTS as $k => $v)
-      	$I_ID = $k;
-    }
-    */
 
     $output = $this->replaceVars($artDataSql, $artDataSql->getValue($REX['TABLE_PREFIX'].'module.output'));
 
@@ -233,11 +226,9 @@ class rex_article_base
     }
 
     $sliceLimit = '';
-    /*
     if ($this->getSlice) {
-      $sliceLimit = " AND ".$REX['TABLE_PREFIX']."article_slice.id = '" . $this->getSlice . "' ";
+      $sliceLimit = " AND ".$REX['TABLE_PREFIX']."article_slice.id = '" . ((int) $this->getSlice) . "' ";
     }
-    */
 
     // ----- start: article caching
     ob_start();
@@ -257,7 +248,7 @@ class rex_article_base
               ".$REX['TABLE_PREFIX']."article_slice.revision='".$this->slice_revision."'
               ". $sliceLimit ."
               ORDER BY ".$REX['TABLE_PREFIX']."article_slice.prior";
-
+    
     $artDataSql = rex_sql::factory();
     if($this->debug)
       $artDataSql->debugsql = 1;
