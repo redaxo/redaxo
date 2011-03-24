@@ -166,7 +166,7 @@ abstract class rex_packageManager
       {
         $this->apiCall('setProperty', array($addonName, 'status', 1));
       }
-      $this->generateConfig();
+      $this->saveConfig();
       $state = $this->I18N('no_uninstall', $addonName) .'<br />'. $state;
     }
     else
