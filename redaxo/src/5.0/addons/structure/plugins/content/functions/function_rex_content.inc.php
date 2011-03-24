@@ -966,7 +966,7 @@ function rex_generateArticleContent($article_id, $clang = null)
       )
     );
 
-    if (rex_put_file_contents($article_content_file, $article_content) === FALSE)
+    if (rex_file::put($article_content_file, $article_content) === FALSE)
     {
       return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
     }

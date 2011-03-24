@@ -17,7 +17,7 @@ function rex_generateAll()
   global $REX;
 
   // ----------------------------------------------------------- generated löschen
-  rex_deleteDir(rex_path::generated(), FALSE);
+  rex_dir::deleteFiles(rex_path::generated());
 
   // ----------------------------------------------------------- generiere clang
   if(($MSG = rex_generateClang()) !== TRUE)
@@ -35,259 +35,6 @@ function rex_generateAll()
 }
 
 
-
-
-
-/**
- * Löscht einen Ordner/Datei mit Unterordnern
- *
- * @param $file Zu löschender Ordner/Datei
- * @param $delete_folders Ordner auch löschen? false => nein, true => ja
- *
- * @return TRUE bei Erfolg, sonst FALSE
- */
-function rex_deleteDir($file, $delete_folders = FALSE)
-{
-  $debug = FALSE;
-  $state = TRUE;
-
-  $file = rtrim($file, DIRECTORY_SEPARATOR);
-
-  if (file_exists($file))
-  {
-    // Fehler unterdrücken, falls keine Berechtigung
-    if (@ is_dir($file))
-    {
-      $handle = opendir($file);
-      if (!$handle)
-      {
-        if($debug)
-          echo "Unable to open dir '$file'<br />\n";
-
-        return FALSE;
-      }
-
-      while ($filename = readdir($handle))
-      {
-        if ($filename == '.' || $filename == '..')
-        {
-          continue;
-        }
-
-        if (!rex_deleteDir($file.DIRECTORY_SEPARATOR.$filename, $delete_folders))
-        {
-          $state = FALSE;
-        }
-      }
-      closedir($handle);
-
-      if ($state !== TRUE)
-      {
-        return FALSE;
-      }
-
-
-      // Ordner auch löschen?
-      if ($delete_folders)
-      {
-        // Fehler unterdrücken, falls keine Berechtigung
-        if (!@ rmdir($file))
-        {
-          if($debug)
-            echo "Unable to delete folder '$file'<br />\n";
-
-          return FALSE;
-        }
-      }
-    }
-    else
-    {
-      // Datei löschen
-      // Fehler unterdrücken, falls keine Berechtigung
-      if (!@ unlink($file))
-      {
-        if($debug)
-          echo "Unable to delete file '$file'<br />\n";
-
-        return FALSE;
-      }
-    }
-  }
-  else
-  {
-    if($debug)
-      echo "file '$file'not found!<br />\n";
-    // Datei/Ordner existiert nicht
-    return FALSE;
-  }
-
-  return TRUE;
-}
-
-/**
- * Lösch allen Datei in einem Ordner
- *
- * @param $file Pfad zum Ordner
- *
- * @return TRUE bei Erfolg, sonst FALSE
- */
-function rex_deleteFiles($file)
-{
-  $debug = FALSE;
-
-  $file = rtrim($file, DIRECTORY_SEPARATOR);
-
-  if (file_exists($file))
-  {
-    // Fehler unterdrücken, falls keine Berechtigung
-    if (@ is_dir($file))
-    {
-      $handle = opendir($file);
-      if (!$handle)
-      {
-        if($debug)
-          echo "Unable to open dir '$file'<br />\n";
-
-        return FALSE;
-      }
-
-      while ($filename = readdir($handle))
-      {
-        if ($filename == '.' || $filename == '..')
-        {
-          continue;
-        }
-
-	      if (!@ unlink($file))
-	      {
-	        if($debug)
-	          echo "Unable to delete file '$file'<br />\n";
-
-	        return FALSE;
-	      }
-
-      }
-      closedir($handle);
-    }
-    else
-    {
-      // Datei löschen
-      // Fehler unterdrücken, falls keine Berechtigung
-    }
-  }
-  else
-  {
-    if($debug)
-      echo "file '$file'not found!<br />\n";
-    // Datei/Ordner existiert nicht
-    return FALSE;
-  }
-
-  return TRUE;
-}
-
-/**
- * Erstellt einne Ordner
- *
- * @param $dir Zu erstellendes Verzeichnis
- * @param $recursive
- *
- * @return TRUE bei Erfolg, FALSE bei Fehler
- */
-function rex_createDir($dir, $recursive = true)
-{
-  global $REX;
-
-  if(mkdir($dir, $REX['DIRPERM'], $recursive))
-  {
-    @chmod($dir, $REX['DIRPERM']);
-    return true;
-  }
-
-  return false;
-}
-
-/**
- * Kopiert eine Ordner von $srcdir nach $dstdir
- *
- * @param $srcdir Zu kopierendes Verzeichnis
- * @param $dstdir Zielpfad
- * @param $startdir Pfad ab welchem erst neue Ordner generiert werden
- *
- * @return TRUE bei Erfolg, FALSE bei Fehler
- */
-function rex_copyDir($srcdir, $dstdir, $startdir = "")
-{
-  global $REX;
-
-  $debug = FALSE;
-  $state = TRUE;
-
-  $srcfile = rtrim($srcdir, DIRECTORY_SEPARATOR);
-  $dstfile = rtrim($dstdir, DIRECTORY_SEPARATOR);
-
-  if(!is_dir($dstdir))
-  {
-    $dir = '';
-    foreach(explode(DIRECTORY_SEPARATOR, $dstdir) as $dirPart)
-    {
-      $dir .= $dirPart . DIRECTORY_SEPARATOR;
-      if(strpos($startdir,$dir) !== 0 && !is_dir($dir))
-      {
-        if($debug)
-          echo "Create dir '$dir'<br />\n";
-
-        mkdir($dir);
-        chmod($dir, $REX['DIRPERM']);
-      }
-    }
-  }
-
-  if($curdir = opendir($srcdir))
-  {
-    while($file = readdir($curdir))
-    {
-      if($file != '.' && $file != '..' && $file != '.svn')
-      {
-        $srcfile = $srcdir . DIRECTORY_SEPARATOR . $file;
-        $dstfile = $dstdir . DIRECTORY_SEPARATOR . $file;
-        if(is_file($srcfile))
-        {
-          $isNewer = TRUE;
-          if(is_file($dstfile))
-          {
-            $isNewer = (filemtime($srcfile) - filemtime($dstfile)) > 0;
-          }
-
-          if($isNewer)
-          {
-            if($debug)
-              echo "Copying '$srcfile' to '$dstfile'...";
-            if(copy($srcfile, $dstfile))
-            {
-              touch($dstfile, filemtime($srcfile));
-              chmod($dstfile, $REX['FILEPERM']);
-              if($debug)
-                echo "OK<br />\n";
-            }
-            else
-            {
-              if($debug)
-               echo "Error: File '$srcfile' could not be copied!<br />\n";
-              return FALSE;
-            }
-          }
-        }
-        else if(is_dir($srcfile))
-        {
-          $state = rex_copyDir($srcfile, $dstfile, $startdir) && $state;
-        }
-      }
-    }
-    closedir($curdir);
-  }
-  return $state;
-}
 
 // ----------------------------------------- CLANG
 
@@ -342,7 +89,7 @@ function rex_addCLang($id, $name)
 
   $REX['CLANG'][$id] = $name;
   $file = rex_path::generated('files/clang.cache');
-  rex_put_file_contents($file, json_encode($REX['CLANG']));
+  rex_file::putCache($file, $REX['CLANG']);
 
   $firstLang = rex_sql::factory();
   $firstLang->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='0'");
@@ -398,7 +145,7 @@ function rex_editCLang($id, $name)
 
   $REX['CLANG'][$id] = $name;
   $file = rex_path::generated('files/clang.cache');
-  rex_put_file_contents($file, json_encode($REX['CLANG']));
+  rex_file::putCache($file, $REX['CLANG']);
 
   $edit = rex_sql::factory();
   $edit->setQuery("update ".$REX['TABLE_PREFIX']."clang set name='$name' where id='$id'");
@@ -429,7 +176,7 @@ function rex_generateClang()
   }
 
   $file = rex_path::generated('files/clang.cache');
-  if(rex_put_file_contents($file, json_encode($REX['CLANG'])) === FALSE)
+  if(rex_file::putCache($file, $REX['CLANG']) === FALSE)
   {
     return 'Datei "'.$file.'" hat keine Schreibrechte';
   }

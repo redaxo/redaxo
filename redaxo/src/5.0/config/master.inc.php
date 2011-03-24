@@ -133,7 +133,7 @@ if(!$REX['NOFUNCTIONS']) include_once rex_path::src('core/functions.inc.php');
 $REX['CLANG'] = array();
 $clangFile = rex_path::generated('files/clang.cache');
 if(file_exists($clangFile))
-  $REX['CLANG'] = json_decode(rex_get_file_contents(rex_path::generated('files/clang.cache')), true);
+  $REX['CLANG'] = rex_file::getCache(rex_path::generated('files/clang.cache'));
 
 $REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', $REX['START_CLANG_ID']);
 

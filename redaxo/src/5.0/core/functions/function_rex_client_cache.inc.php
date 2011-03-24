@@ -26,7 +26,7 @@ function rex_send_file($file, $contentType, $environment = 'backend')
   header('Content-Type: '. $contentType);
   header('Content-Disposition: inline; filename="'.basename($file).'"');
 
-  $content = rex_get_file_contents($file);
+  $content = rex_file::get($file);
   $cacheKey = md5($content . $file . $contentType . $environment);
 
   rex_send_content(

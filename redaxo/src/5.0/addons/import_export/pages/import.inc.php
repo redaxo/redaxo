@@ -35,7 +35,7 @@ if ($exportfilename == '')
 if ($function == "delete")
 {
   // ------------------------------ FUNC DELETE
-  if (unlink(getImportDir().'/'.$impname));
+  if (rex_file::delete(getImportDir().'/'.$impname));
   $info = $REX['I18N']->msg("im_export_file_deleted");
 }
 elseif ($function == "dbimport")
@@ -64,10 +64,10 @@ elseif ($function == "dbimport")
       $state = rex_a1_import_db($file_temp);
       $info = $state['message'];
 
-      // temp datei l�schen
-      if ($impname == "" && file_exists($file_temp))
+      // temp datei löschen
+      if ($impname == "")
       {
-        unlink($file_temp);
+        rex_file::delete($file_temp);
       }
     }
     else
@@ -108,10 +108,10 @@ elseif ($function == "fileimport")
 				$warning = $return['message'];
 			}
 
-      // temp datei l�schen
-      if ($impname == "" && file_exists($file_temp))
+      // temp datei löschen
+      if ($impname == "")
       {
-        unlink($file_temp);
+        rex_file::delete($file_temp);
       }
     }
     else

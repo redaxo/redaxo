@@ -18,7 +18,7 @@ if ($func == 'delLog')
   // close logger, to free remaining file-handles to syslog
   // so we can safely delete the file
   rex_logger::getInstance()->close();
-  if(unlink($logFile))
+  if(rex_file::delete($logFile))
   {
     $info = $REX['I18N']->msg('syslog_deleted');
   }

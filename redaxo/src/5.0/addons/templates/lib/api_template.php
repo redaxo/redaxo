@@ -67,7 +67,7 @@ class rex_template
   	$file = $this->getFile();
   	if(!$file) return FALSE;
 
-  	return rex_get_file_contents($file);
+  	return rex_file::get($file);
   }
 
   public function generate()
@@ -86,8 +86,7 @@ class rex_template
 		if($this->id<1) return FALSE;
 
 		$file = $this->getFilePath($this->getId());
-		if(file_exists($file))
-      return unlink($file);
+		rex_file::delete($file);
     return true;
   }
 

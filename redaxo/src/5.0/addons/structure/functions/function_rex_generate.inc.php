@@ -46,8 +46,7 @@ function rex_deleteCacheArticleMeta($id, $clang = null)
     if($clang !== null && $clang != $_clang)
       continue;
 
-    if(file_exists($cachePath . $id .'.'. $_clang .'.article'))
-      unlink($cachePath . $id .'.'. $_clang .'.article');
+    rex_file::delete($cachePath . $id .'.'. $_clang .'.article');
   }
 }
 
@@ -71,8 +70,7 @@ function rex_deleteCacheArticleContent($id, $clang = null)
     if($clang !== null && $clang != $_clang)
       continue;
 
-    if(file_exists($cachePath . $id .'.'. $_clang .'.content'))
-      unlink($cachePath . $id .'.'. $_clang .'.content');
+    rex_file::delete($cachePath . $id .'.'. $_clang .'.content');
   }
 }
 
@@ -96,11 +94,8 @@ function rex_deleteCacheArticleLists($id, $clang = null)
     if($clang !== null && $clang != $_clang)
       continue;
 
-    if(file_exists($cachePath . $id .'.'. $_clang .'.alist'))
-      unlink($cachePath . $id .'.'. $_clang .'.alist');
-      
-    if(file_exists($cachePath . $id .'.'. $_clang .'.clist'))
-      unlink($cachePath . $id .'.'. $_clang .'.clist');
+    rex_file::delete($cachePath . $id .'.'. $_clang .'.alist');
+    rex_file::delete($cachePath . $id .'.'. $_clang .'.clist');
   }
 }
 
@@ -149,13 +144,13 @@ function rex_generateArticleMeta($article_id, $clang = null)
     }
 
     $article_file = rex_path::generated("articles/$article_id.$_clang.article");
-    if (rex_put_file_contents($article_file, json_encode($cacheArray)) === FALSE)
+    if (rex_file::putCache($article_file, $cacheArray) === FALSE)
     {
       return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
     }
 
     // damit die aktuellen änderungen sofort wirksam werden, einbinden!
-    $REX['ART'][$article_id] = json_decode(rex_get_file_contents($article_file), true);
+    $REX['ART'][$article_id] = rex_file::getCache($article_file);
 
     $sql->next();
   }
@@ -290,7 +285,7 @@ function rex_generateLists($re_id, $clang = null)
     $GC = rex_sql::factory();
     // $GC->debugsql = 1;
     $GC->setQuery("select * from ".$REX['TABLE_PREFIX']."article where (re_id=$re_id and clang=$_clang and startpage=0) OR (id=$re_id and clang=$_clang and startpage=1) order by prior,name");
-    
+
     $cacheArray = array();
     for ($i = 0; $i < $GC->getRows(); $i ++)
     {
@@ -300,7 +295,7 @@ function rex_generateLists($re_id, $clang = null)
     }
 
     $article_list_file = rex_path::generated("articles/$re_id.$_clang.alist");
-    if (rex_put_file_contents($article_list_file, json_encode($cacheArray)) === FALSE)
+    if (rex_file::putCache($article_list_file, $cacheArray) === FALSE)
     {
       return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
     }
@@ -309,7 +304,7 @@ function rex_generateLists($re_id, $clang = null)
 
     $GC = rex_sql::factory();
     $GC->setQuery("select * from ".$REX['TABLE_PREFIX']."article where re_id=$re_id and clang=$_clang and startpage=1 order by catprior,name");
-    
+
     $cacheArray = array();
     for ($i = 0; $i < $GC->getRows(); $i ++)
     {
@@ -319,7 +314,7 @@ function rex_generateLists($re_id, $clang = null)
     }
 
     $article_categories_file = rex_path::generated("articles/$re_id.$_clang.clist");
-    if (rex_put_file_contents($article_categories_file, json_encode($cacheArray)) === FALSE)
+    if (rex_file::put($article_categories_file, $cacheArray) === FALSE)
     {
       return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
     }

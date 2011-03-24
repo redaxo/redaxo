@@ -29,7 +29,7 @@ class rex_ooArticle extends rex_ooRedaxo
     if ($clang === FALSE)
       $clang = $REX['CUR_CLANG'];
 
-      
+
     $article_path = rex_path::generated('articles/'.$article_id.'.'.$clang.'.article');
     if (!file_exists($article_path))
 		{
@@ -41,7 +41,7 @@ class rex_ooArticle extends rex_ooRedaxo
     {
       if(!isset($REX['ART'][$article_id]))
       {
-        $REX['ART'][$article_id] = json_decode(rex_get_file_contents($article_path), true);
+        $REX['ART'][$article_id] = rex_file::getCache($article_path);
       }
 
       if ($rex_ooCategory)
@@ -104,7 +104,7 @@ class rex_ooArticle extends rex_ooRedaxo
     {
       if(!isset($REX['RE_ID'][$a_category_id]))
       {
-        $REX['RE_ID'][$a_category_id] = json_decode(rex_get_file_contents($articlelist), true);
+        $REX['RE_ID'][$a_category_id] = rex_file::getCache($articlelist);
       }
 
       if(isset($REX['RE_ID'][$a_category_id]))

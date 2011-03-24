@@ -121,7 +121,7 @@ abstract class rex_ooRedaxo
         // Im GetGenerated Modus, die Spaltennamen aus den generated Dateien holen
         if(!isset($REX['ART'][$REX['START_ARTICLE_ID']]))
         {
-          $REX['ART'][$REX['START_ARTICLE_ID']] = json_decode(rex_get_file_contents($file), true);
+          $REX['ART'][$REX['START_ARTICLE_ID']] = rex_file::getCache($file);
         }
 
         // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!

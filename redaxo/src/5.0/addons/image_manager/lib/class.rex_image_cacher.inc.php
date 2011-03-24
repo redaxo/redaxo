@@ -137,7 +137,7 @@ class rex_image_cacher
       {
         foreach ($glob as $file)
         {
-          if(unlink($file))
+          if(rex_file::delete($file))
           {
             $counter++;
           }

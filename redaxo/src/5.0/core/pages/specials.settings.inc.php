@@ -14,10 +14,10 @@ if ($func == 'setup')
   // REACTIVATE SETUP
 
   $master_file = rex_path::src('config/master.inc.php');
-  $cont = rex_get_file_contents($master_file);
+  $cont = rex_file::get($master_file);
   $cont = preg_replace("@(REX\['SETUP'\].?\=.?)[^;]*@", '$1true', $cont);
   // echo nl2br(htmlspecialchars($cont));
-  if (rex_put_file_contents($master_file, $cont) !== false)
+  if (rex_file::put($master_file, $cont) !== false)
   {
     $info = $REX['I18N']->msg('setup_error1', '<a href="index.php">', '</a>');
   }
@@ -47,7 +47,7 @@ elseif ($func == 'updateinfos')
 
   $REX['LANG'] = $neu_lang;
   $master_file = rex_path::src('config/master.inc.php');
-  $cont = rex_get_file_contents($master_file);
+  $cont = rex_file::get($master_file);
 
   if(!rex_ooArticle::isValid($startArt))
   {
@@ -86,7 +86,7 @@ elseif ($func == 'updateinfos')
 
   if($warning == '')
   {
-    if(rex_put_file_contents($master_file, $cont) > 0)
+    if(rex_file::put($master_file, $cont) > 0)
     {
       $info = $REX['I18N']->msg('info_updated');
 
@@ -135,7 +135,7 @@ $sel_mod_rewrite->setSelected($REX['MOD_REWRITE'] === false ? 'FALSE' : 'TRUE');
 $sel_mod_rewrite->addOption('TRUE', 'TRUE');
 $sel_mod_rewrite->addOption('FALSE', 'FALSE');
 
-$dbconfig = sfYaml::load(rex_path::backend('src/dbconfig.yml'));
+$dbconfig = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
 
 if ($warning != '')
   echo rex_warning($warning);

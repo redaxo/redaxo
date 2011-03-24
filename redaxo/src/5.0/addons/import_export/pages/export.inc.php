@@ -87,7 +87,7 @@ if ($function == 'export')
       else
       {
         $content    = rex_a1_export_files($EXPDIR);
-        $hasContent = rex_put_file_contents($export_path.$filename.$ext, $content);
+        $hasContent = rex_file::put($export_path.$filename.$ext, $content);
       }
       // ------------------------------ /FUNC EXPORT FILES
     }
@@ -101,7 +101,7 @@ if ($function == 'export')
         header("Content-type: $header");
         header("Content-Disposition: attachment; filename=$filename");
         readfile($export_path.$filename);
-        unlink($export_path.$filename);
+        rex_file::delete($export_path.$filename);
         exit;
       }
       else

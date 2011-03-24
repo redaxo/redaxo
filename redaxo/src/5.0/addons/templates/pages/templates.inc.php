@@ -32,7 +32,7 @@ if ($function == "delete")
   }else
   {
     $del->setQuery("DELETE FROM " . $REX['TABLE_PREFIX'] . "template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
-    rex_deleteDir(rex_path::generated('templates/' . $template_id . '.template'), 0);
+    rex_file::delete(rex_path::generated('templates/' . $template_id . '.template'));
     $info = $REX['I18N']->msg("template_deleted");
   }
 
@@ -159,7 +159,7 @@ if ($function == "add" or $function == "edit")
 //    $templatename = stripslashes($templatename);
 //    $content = stripslashes($content);
 
-    rex_deleteDir(rex_path::generated('templates'), 0);
+    rex_dir::delete(rex_path::generated('templates'), false);
 
     if ($goon != "") {
       $function = "edit";
@@ -448,7 +448,7 @@ if ($OUT)
   $list->setColumnFormat('active', 'custom', function($params) {
     global $REX;
     $list = $params['list'];
-    return $list->getValue('active') == 1 ? $REX['I18N']->msg('yes') : $REX['I18N']->msg('no'); 
+    return $list->getValue('active') == 1 ? $REX['I18N']->msg('yes') : $REX['I18N']->msg('no');
   });
 
   $list->addColumn($REX['I18N']->msg('header_template_functions'), $REX['I18N']->msg('delete_template'));

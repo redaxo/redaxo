@@ -280,7 +280,7 @@ class rex_config
     // delete cache-file, will be regenerated on next request
     if(file_exists(REX_CONFIG_FILE_CACHE))
     {
-      self::$data = json_decode(rex_get_file_contents(REX_CONFIG_FILE_CACHE), true);
+      self::$data = rex_file::getCache(REX_CONFIG_FILE_CACHE);
       return true;
     }
     return false;
@@ -309,7 +309,7 @@ class rex_config
    */
   private static function generateCache()
   {
-    if(rex_put_file_contents(REX_CONFIG_FILE_CACHE, json_encode(self::$data)) <= 0)
+    if(rex_file::putCache(REX_CONFIG_FILE_CACHE, self::$data) <= 0)
     {
       throw new rexException('rex-config: unable to write cache file '. REX_CONFIG_FILE_CACHE);
     }
@@ -329,10 +329,7 @@ class rex_config
       return;
 
     // delete cache-file; will be regenerated on next request
-    if(file_exists(REX_CONFIG_FILE_CACHE))
-    {
-      unlink(REX_CONFIG_FILE_CACHE);
-    }
+    rex_file::delete(REX_CONFIG_FILE_CACHE);
 
     // save all data to the db
     self::saveToDb();

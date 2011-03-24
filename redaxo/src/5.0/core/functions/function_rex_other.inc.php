@@ -408,32 +408,6 @@ function rex_split_string($string)
   return $result;
 }
 
-function rex_put_file_contents($path, $content)
-{
-  global $REX;
-
-  $writtenBytes = file_put_contents($path, $content);
-  @ chmod($path, $REX['FILEPERM']);
-
-  return $writtenBytes;
-}
-
-function rex_get_file_contents($path)
-{
-  return file_get_contents($path);
-}
-
-function rex_replace_dynamic_contents($path, $content)
-{
-  if($fcontent = rex_get_file_contents($path))
-  {
-    $content = "// --- DYN\n". trim($content) ."\n// --- /DYN";
-    $fcontent = preg_replace("@(\/\/.---.DYN.*\/\/.---.\/DYN)@s", $content, $fcontent);
-    return rex_put_file_contents($path, $fcontent);
-  }
-  return false;
-}
-
 /**
  * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
  * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte

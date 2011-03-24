@@ -374,7 +374,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
       }
     }
 
-    rex_put_file_contents($this->PATHLIST, "<?php\n\$REXPATH = ". var_export($REXPATH, true) .";\n");
+    rex_file::put($this->PATHLIST, "<?php\n\$REXPATH = ". var_export($REXPATH, true) .";\n");
   }
 
   static private function appendToPath($path, $name)

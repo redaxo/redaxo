@@ -15,7 +15,7 @@ class rex_cronjob_log
   {
     $folder = REX_CRONJOB_LOG_FOLDER;
     $years = array ();
-  
+
     $hdl = opendir($folder);
     if($hdl)
     {
@@ -27,14 +27,14 @@ class rex_cronjob_log
         }
       }
       closedir($hdl);
-      
+
       // Sortiere Array
       sort($years);
     }
-  
-    return $years;  
+
+    return $years;
   }
-  
+
   static public function getMonths($year)
   {
     $folder = REX_CRONJOB_LOG_FOLDER;
@@ -46,7 +46,7 @@ class rex_cronjob_log
     }
     return $months;
   }
-  
+
   static public function getYearMonthArray()
   {
     $array = array();
@@ -58,13 +58,13 @@ class rex_cronjob_log
     }
     return $array;
   }
-  
+
   static public function getLogOfMonth($month, $year)
   {
     $file = REX_CRONJOB_LOG_FOLDER . $year .'/'. $year .'-'. $month .'.log';
-    return rex_get_file_contents($file);
+    return rex_file::get($file);
   }
-  
+
   static public function getListOfMonth($month, $year)
   {
     global $REX;
@@ -74,7 +74,7 @@ class rex_cronjob_log
     $summary = $REX['I18N']->msg('cronjob_log_summary_1', $monthName, $year);
     return self::_getList($lines, $caption, $summary);
   }
-  
+
   static public function getListOfNewestMessages($limit = 10)
   {
     global $REX;
@@ -86,11 +86,11 @@ class rex_cronjob_log
       foreach($months as $month)
       {
         $lines = explode("\n", trim(self::getLogOfMonth($month, $year)));
-        
+
         $end = min($limit - count($messages), count($lines));
         for($i = 0; $i < $end; $i++)
           $messages[] = $lines[$i];
-        
+
         if (count($messages) >= $limit)
           break 2;
       }
@@ -99,51 +99,50 @@ class rex_cronjob_log
     $summary = $REX['I18N']->msg('cronjob_log_summary_2');
     return self::_getList($messages, $caption, $summary);
   }
-  
+
   static public function save($name, $success, $message = '', $id = null)
   {
     global $REX;
-    
+
     $year = date('Y');
     $month = date('m');
-    
+
     // in den Log-Dateien festes Datumsformat verwenden
     // wird bei der Ausgabe entsprechend der lokalen Einstellungen umgewandelt
     // rex_formatter nicht verwenden, da im Frontend nicht verfuegbar
     $newline = date('Y-m-d H:i');
-    
+
     if ($success)
       $newline .= ' | SUCCESS | ';
     else
       $newline .= ' |  ERROR  | ';
-    
+
     if (!$id)
       $id = '--';
     else
       $id = str_pad($id, 2, ' ', STR_PAD_LEFT);
-      
+
     $newline .= $id .' | '. $name;
-    
+
     if ($message)
       $newline .= ' | '. str_replace(array("\r\n", "\n"), ' | ', trim(strip_tags($message)));
-    
+
     $dir = REX_CRONJOB_LOG_FOLDER . $year;
     if (!is_dir($dir))
     {
-      mkdir($dir);
-      chmod($dir, $REX['DIRPERM']);
+      rex_dir::create($dir);
     }
-    
+
     $content = '';
     $file = $dir .'/'. $year .'-'. $month .'.log';
     if (file_exists($file))
-      $content = rex_get_file_contents($file);
-    
+      $content = rex_file::get($file);
+
     $content = $newline ."\n". $content;
-    
-    return rex_put_file_contents($file, $content);
+
+    return rex_file::put($file, $content);
   }
-  
+
   static private function _getList($lines, $caption = '', $summary = '')
   {
     global $REX;

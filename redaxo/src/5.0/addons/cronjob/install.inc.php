@@ -13,8 +13,7 @@ $error = '';
 
 $log_folder = rex_path::addonData('cronjob');
 
-if(!file_exists($log_folder))
-  rex_createDir($log_folder);
+rex_dir::create($log_folder);
 
 if(($state = rex_is_writable($log_folder)) !== true)
   $error .= $state;

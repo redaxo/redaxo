@@ -249,10 +249,10 @@ require_once $export_addon_dir.'/functions/function_import_export.inc.php';
 if (!($checkmodus > 0 && $checkmodus < 10))
 {
   // initial purge all generated files
-  rex_deleteDir(rex_path::generated(), FALSE);
+  rex_dir::deleteFiles(rex_path::generated());
 
   // copy alle media files of the current rex-version into redaxo_media
-  rex_copyDir(rex_path::src('assets'), rex_path::assets());
+  rex_dir::copy(rex_path::src('assets'), rex_path::assets());
 
 	$langpath = rex_path::src('core/lang');
 	foreach($REX['LANGUAGES'] as $l)
@@ -295,7 +295,7 @@ if ($checkmodus == '0.5')
 
 	$Basedir = dirname(__FILE__);
 	$license_file = $Basedir.'/../../../../../_lizenz.txt';
-	$license = '<p class="rex-tx1">'.nl2br(rex_get_file_contents($license_file)).'</p>';
+	$license = '<p class="rex-tx1">'.nl2br(rex_file::get($license_file)).'</p>';
 
 	echo $license;
 
@@ -407,7 +407,7 @@ elseif ($MSG['err'] != "")
 if ($checkmodus == 2 && $send == 1)
 {
 	$master_file = rex_path::src('config/master.inc.php');
-	$cont = rex_get_file_contents($master_file);
+	$cont = rex_file::get($master_file);
 
 	// Einfache quotes nicht escapen, da der String zwischen doppelten quotes stehen wird
 	$serveraddress             = str_replace("\'", "'", rex_post('serveraddress', 'string'));
@@ -435,7 +435,7 @@ if ($checkmodus == 2 && $send == 1)
   	$cont = preg_replace("@(REX\['ERROR_EMAIL'\].?\=.?\")[^\"]*@", '${1}'.$error_email, $cont);
   	$cont = preg_replace("@(REX\['TIMEZONE'\].?\=.?\")[^\"]*@", '${1}'.$timezone, $cont);
 
-  	if(rex_put_file_contents($master_file, $cont) === false)
+  	if(rex_file::put($master_file, $cont) === false)
   	{
   		$err_msg = $REX['I18N']->msg('setup_020', '<b>', '</b>');
   	}
@@ -444,13 +444,13 @@ if ($checkmodus == 2 && $send == 1)
 	if($err_msg == '')
 	{
 	  $dbconfigFile = rex_path::backend('src/dbconfig.yml');
-	  $dbconfig = sfYaml::load($dbconfigFile);
+	  $dbconfig = rex_file::getConfig($dbconfigFile);
 	  $dbconfig['DB1']['host'] = $mysql_host;
     $dbconfig['DB1']['login'] = $redaxo_db_user_login;
     $dbconfig['DB1']['password'] = $redaxo_db_user_pass;
     $dbconfig['DB1']['name'] = $dbname;
 
-    if(!rex_put_file_contents($dbconfigFile, sfYaml::dump($dbconfig)))
+    if(!rex_file::putConfig($dbconfigFile, $dbconfig))
     {
       $err_msg = $REX['I18N']->msg('setup_020_1', '<b>', '</b>');
     }
@@ -493,7 +493,7 @@ else
 	$timezone              = $REX['TIMEZONE'];
 
 	// DB Infos
-	$dbconfig = sfYaml::load(rex_path::backend('src/dbconfig.yml'));
+	$dbconfig = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
 	$dbname                = $dbconfig['DB1']['name'];
 	$redaxo_db_user_login  = $dbconfig['DB1']['login'];
 	$redaxo_db_user_pass   = $dbconfig['DB1']['password'];
@@ -1027,10 +1027,10 @@ if ($checkmodus == 4)
 if ($checkmodus == 5)
 {
 	$master_file = rex_path::src('config/master.inc.php');
-	$cont = rex_get_file_contents($master_file);
+	$cont = rex_file::get($master_file);
 	$cont = preg_replace("@(REX\['SETUP'\].?\=.?)[^;]*@", '$1false', $cont);
 
-	if(rex_put_file_contents($master_file, $cont))
+	if(rex_file::put($master_file, $cont))
 	{
 		$errmsg = "";
 	}

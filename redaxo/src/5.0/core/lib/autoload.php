@@ -5,7 +5,7 @@
  *
  * This class was mainly copied from the Symfony Framework:
  * Fabien Potencier <fabien.potencier@symfony-project.com>
- * 
+ *
  * Adjusted in the following places
  * - file-cache uses json instead of a serialized php array to boost performance
  *
@@ -186,8 +186,7 @@ class rex_autoload
    */
   public function removeCache()
   {
-    if(file_exists($this->cacheFile))
-      unlink($this->cacheFile);
+    rex_file::delete($this->cacheFile);
   }
 
   /**

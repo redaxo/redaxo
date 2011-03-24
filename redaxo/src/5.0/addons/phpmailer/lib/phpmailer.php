@@ -1237,16 +1237,12 @@ class PHPMailer {
         file_put_contents($file, $body); //TODO check this worked
         $signed = tempnam("", "signed");
         if (@openssl_pkcs7_sign($file, $signed, "file://".$this->sign_cert_file, array("file://".$this->sign_key_file, $this->sign_key_pass), NULL)) {
-          if(file_exists($file))
-            unlink($file);
-          if(file_exists($signed))
-            unlink($signed);
+          rex_file::delete($file);
+          rex_file::delete($signed);
           $body = file_get_contents($signed);
         } else {
-          if(file_exists($file))
-            unlink($file);
-          if(file_exists($signed))
-            unlink($signed);
+          rex_file::delete($file);
+          rex_file::delete($signed);
           throw new phpmailerException($this->Lang("signing").openssl_error_string());
         }
       } catch (phpmailerException $e) {

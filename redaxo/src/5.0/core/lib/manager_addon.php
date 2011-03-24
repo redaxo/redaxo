@@ -83,7 +83,7 @@ class rex_addonManager extends rex_packageManager
 
     if(is_readable($package_file))
     {
-      $ymlConfig = sfYaml::load($package_file);
+      $ymlConfig = rex_file::getConfig($package_file);
       if($ymlConfig)
       {
         foreach($ymlConfig as $addonConfig)

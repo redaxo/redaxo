@@ -50,7 +50,7 @@ class rex_sql
     {
       if(!isset(self::$pdo[$DBID]))
       {
-        $config = sfYaml::load(rex_path::backend('src/dbconfig.yml'));
+        $config = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
         $conn = self::createConnection(
           $config['DB'.$DBID]['host'],
           $config['DB'.$DBID]['name'],
@@ -295,7 +295,7 @@ class rex_sql
     }
     return false;
   }
-  
+
   /**
    * Returns whether values are set inside this rex_sql object
    */

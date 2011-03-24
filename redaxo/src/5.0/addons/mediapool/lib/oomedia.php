@@ -83,7 +83,7 @@ class rex_ooMedia
 
     if (file_exists($extlist_path))
     {
-      $REX['MEDIA']['EXTENSION'][$extension] = json_decode(rex_get_file_contents($extlist_path), true);
+      $REX['MEDIA']['EXTENSION'][$extension] = rex_file::getCache($extlist_path);
 
       if (isset($REX['MEDIA']['EXTENSION'][$extension]) && is_array($REX['MEDIA']['EXTENSION'][$extension]))
       {
@@ -113,7 +113,7 @@ class rex_ooMedia
 
     if (file_exists($media_path))
     {
-      $REX['MEDIA']['FILENAME'][$name] = json_decode(rex_get_file_contents($media_path), true);
+      $REX['MEDIA']['FILENAME'][$name] = rex_file::getCache($media_path);
       $aliasMap = array(
         'media_id' => 'id',
         're_media_id' => 'parent_id',
@@ -821,7 +821,7 @@ class rex_ooMedia
 
       if($this->fileExists())
       {
-        unlink(rex_path::media($this->getFileName()));
+        rex_file::delete(rex_path::media($this->getFileName()));
       }
 
       rex_deleteCacheMedia($this->getFileName());

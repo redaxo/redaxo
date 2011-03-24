@@ -81,7 +81,7 @@ abstract class rex_packageManager
     // Dateien kopieren
     if($state === TRUE && is_dir($files_dir))
     {
-      if(!rex_copyDir($files_dir, $this->assetsFolder($addonName), rex_path::assets()))
+      if(!rex_dir::copy($files_dir, $this->assetsFolder($addonName)))
       {
         $state = $this->I18N('install_cant_copy_files');
       }
@@ -147,7 +147,7 @@ abstract class rex_packageManager
     $mediaFolder = $this->assetsFolder($addonName);
     if($state === TRUE && is_dir($mediaFolder))
     {
-      if(!rex_deleteDir($mediaFolder, TRUE))
+      if(!rex_dir::delete($mediaFolder))
       {
         $state = $this->I18N('install_cant_delete_files');
       }
@@ -268,8 +268,8 @@ abstract class rex_packageManager
     // bei erfolg, komplett löschen
     $state = TRUE;
     $state = $state && $this->uninstall($addonName);
-    $state = $state && rex_deleteDir($this->baseFolder($addonName), TRUE);
-    $state = $state && rex_deleteDir($this->dataFolder($addonName), true);
+    $state = $state && rex_dir::delete($this->baseFolder($addonName));
+    $state = $state && rex_dir::delete($this->dataFolder($addonName));
     $this->saveConfig();
 
     return $state;

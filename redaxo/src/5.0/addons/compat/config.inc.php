@@ -12,4 +12,5 @@ if($REX['REDAXO'])
   $I18N = $REX['I18N'];
 }
 
-require_once dirname(__FILE__) .'/functions/functions.inc.php';
+require_once dirname(__FILE__) .'/functions/function_rex_file.inc.php';
+require_once dirname(__FILE__) .'/functions/function_rex_lang.inc.php';

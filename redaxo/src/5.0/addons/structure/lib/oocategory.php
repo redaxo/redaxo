@@ -52,9 +52,9 @@ class rex_ooCategory extends rex_ooRedaxo
     {
       if (!isset ($REX['RE_CAT_ID'][$cat_parent_id]))
       {
-        $REX['RE_CAT_ID'][$cat_parent_id] = json_decode(rex_get_file_contents($categorylist), true);
+        $REX['RE_CAT_ID'][$cat_parent_id] = rex_file::getCache($categorylist);
       }
-      
+
       if (isset ($REX['RE_CAT_ID'][$cat_parent_id]) and is_array($REX['RE_CAT_ID'][$cat_parent_id]))
       {
         foreach ($REX['RE_CAT_ID'][$cat_parent_id] as $var)
@@ -287,7 +287,7 @@ class rex_ooCategory extends rex_ooRedaxo
         $categories = rex_getAttributes('categories', $t_sql->getValue('attributes'));
         if (!is_array($categories) || $categories['all'] == 1)
     		  $templates[$t_sql->getValue('id')] = $t_sql->getValue('name');
-      		  
+
       	$t_sql->next();
     	}
     }else
@@ -317,7 +317,7 @@ class rex_ooCategory extends rex_ooRedaxo
   	    			}
   	    		}
 	    		}
-	    		
+
         	$t_sql->next();
       	}
     	}

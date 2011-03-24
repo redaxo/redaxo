@@ -25,7 +25,7 @@ function rex_generateTemplate($template_id)
     {
       $content = $var->getTemplate($content);
     }
-    if(rex_put_file_contents($templateFile, $content) !== FALSE)
+    if(rex_file::put($templateFile, $content) !== FALSE)
     {
       return TRUE;
     }

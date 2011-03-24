@@ -64,7 +64,7 @@ class rex_tar extends tar
 //    $file_contents = fread($fp,filesize($filename));
 //    fclose($fp);
     // STM: hier mit get_file_contents ist viel schneller
-    $file_contents = rex_get_file_contents($filename);
+    $file_contents = rex_file::get($filename);
 
     // Add file to processed data
     $this->numFiles++;
@@ -118,7 +118,7 @@ class rex_tar extends tar
 //    $this->tar_file = fread($fp,filesize($filename));
 //    fclose($fp);
     // STM: hier mit get_file_contents ist viel schneller
-    $this->tar_file = rex_get_file_contents($filename);
+    $this->tar_file = rex_file::get($filename);
 
     if($this->tar_file[0] == chr(31) && $this->tar_file[1] == chr(139) && $this->tar_file[2] == chr(8)) {
       if(!function_exists("gzinflate"))
@@ -162,7 +162,7 @@ class rex_tar extends tar
       return $file;
 
     // STM: hier mit put_file_contents ist viel schneller
-    return rex_put_file_contents($filename, $file) !== false;
+    return rex_file::put($filename, $file) !== false;
   }
 
   // Generates a TAR file from the processed data

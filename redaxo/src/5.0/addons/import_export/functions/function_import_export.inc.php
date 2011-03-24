@@ -40,7 +40,7 @@ function rex_a1_import_db($filename)
     return $return;
   }
 
-  $conts = rex_get_file_contents($filename);
+  $conts = rex_file::get($filename);
 
   // Versionsstempel prüfen
   // ## Redaxo Database Dump Version x.x
@@ -250,7 +250,7 @@ function rex_a1_import_files($filename)
   }
 
   // Ordner /files komplett leeren
-  rex_deleteFiles(rex_path::media());
+  rex_dir::deleteFiles(rex_path::media());
 
   $tar = new rex_tar;
 
@@ -430,7 +430,7 @@ function rex_a1_export_db($filename)
   // Den Dateiinhalt geben wir nur dann weiter, wenn es unbedingt notwendig ist.
   if (rex_extension_is_registered('A1_AFTER_DB_EXPORT'))
   {
-    $content    = rex_get_file_contents($filename);
+    $content    = rex_file::get($filename);
     $hashBefore = md5($content);
     // ----- EXTENSION POINT
     $content    = rex_register_extension_point('A1_AFTER_DB_EXPORT', $content);
@@ -438,7 +438,7 @@ function rex_a1_export_db($filename)
 
     if ($hashAfter != $hashBefore)
     {
-      rex_put_file_contents($filename, $content);
+      rex_file::put($filename, $content);
       $hasContent = !empty($content);
       unset($content);
     }
