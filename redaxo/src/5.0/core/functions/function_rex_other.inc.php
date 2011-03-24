@@ -467,31 +467,6 @@ function rex_addslashes($string, $flag = '\\\'\"')
 
 // ------------------------------------- Allgemeine PHP Functions
 
-/* PHP5 Functions */
-
-if (!function_exists("htmlspecialchars_decode"))
-{
-  function htmlspecialchars_decode($string, $quote_style = ENT_COMPAT) {
-    return strtr($string, array_flip(get_html_translation_table(HTML_SPECIALCHARS, $quote_style)));
-  }
-}
-
-if (!function_exists('file_put_contents'))
-{
-  function file_put_contents($path, $content)
-  {
-    $fp = @fopen($path, 'wb');
-    if ($fp)
-    {
-      $writtenBytes = fwrite($fp, $content, strlen($content));
-
-      if(fclose($fp))
-        return $writtenBytes;
-    }
-    return false;
-  }
-}
-
 function rex_highlight_string($string, $return = false)
 {
   $s = '<p class="rex-code">'. highlight_string($string, true) .'</p>';
