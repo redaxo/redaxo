@@ -129,13 +129,13 @@ class rex_dir
           }
           else if($recursive)
           {
-            $state = self::_delete($file, $recursive, $deleteDirs, $deleteSelf) && $state;
+            $state = self::_delete($file, $recursive, $deleteDirs) && $state;
           }
         }
       }
       closedir($handle);
 
-      if ($state !== TRUE || ($deleteSelf || $deleteDirs) && !rmdir($dir))
+      if ($state !== TRUE || ($deleteSelf && $deleteDirs && !rmdir($dir)))
       {
         return FALSE;
       }
