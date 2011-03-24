@@ -110,7 +110,7 @@ class rex_article extends rex_article_base
 
     $this->ctype = $curctype;
 
-    if (/*!$this->getSlice &&*/ $this->article_id != 0)
+    if (!$this->getSlice && $this->article_id != 0)
     {
       // ----- start: article caching
       ob_start();
