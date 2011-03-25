@@ -131,4 +131,57 @@ class rex_file
     }
     return true;
   }
+
+  /**
+   * Extracts the extension of the given filename
+   *
+   * @param string $filename Filename
+   *
+   * @return string Extension of $filename
+   */
+  static public function extension($filename)
+  {
+    return substr(strrchr($filename, "."), 1);
+  }
+
+	/**
+   * Formates the filesize of the given file into a userfriendly form
+   *
+   * @params string|int $fileOrSize Path to the file or filesize
+   *
+   * @return string Formatted filesize
+   */
+  static public function formattedSize($fileOrSize)
+  {
+    $size = is_file($fileOrSize) ? filesize($fileOrSize) : $fileOrSize;
+
+    // Setup some common file size measurements.
+    $kb = 1024; // Kilobyte
+    $mb = 1024 * $kb; // Megabyte
+    $gb = 1024 * $mb; // Gigabyte
+    $tb = 1024 * $gb; // Terabyte
+
+    // If it's less than a kb we just return the size, otherwise we keep going until
+    // the size is in the appropriate measurement range.
+    if ($size < $kb)
+    {
+      return $size." Bytes";
+    }
+    elseif ($size < $mb)
+    {
+      return round($size / $kb, 2)." KBytes";
+    }
+    elseif ($size < $gb)
+    {
+      return round($size / $mb, 2)." MBytes";
+    }
+    elseif ($size < $tb)
+    {
+      return round($size / $gb, 2)." GBytes";
+    }
+    else
+    {
+      return round($size / $tb, 2)." TBytes";
+    }
+  }
 }

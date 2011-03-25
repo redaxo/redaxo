@@ -218,46 +218,6 @@ abstract class rex_ooRedaxo
     return $this->_name;
   }
 
-  /**
-   * Accessor Method:
-   * returns the name of the article
-   * @deprecated 4.0 17.09.2007
-   */
-  public function getFile()
-  {
-    return $this->getValue('art_file');
-  }
-
-  /**
-   * Accessor Method:
-   * returns the name of the article
-   * @deprecated 4.0 17.09.2007
-   */
-  public function getFileMedia()
-  {
-    return rex_ooMedia :: getMediaByFileName($this->getValue('art_file'));
-  }
-
-  /**
-   * Accessor Method:
-   * returns the article description.
-   * @deprecated 4.0 17.09.2007
-   */
-  public function getDescription()
-  {
-    return $this->getValue('art_description');
-  }
-
-  /**
-   * Accessor Method:
-   * returns the Type ID of the article.
-   * @deprecated 4.0 17.09.2007
-   */
-  public function getTypeId()
-  {
-    return $this->getValue('art_type_id');
-  }
-
   /*
    * Accessor Method:
    * returns the article priority
@@ -282,7 +242,7 @@ abstract class rex_ooRedaxo
    */
   public function getUpdateDate($format = null)
   {
-    return rex_ooMedia :: _getDate($this->_updatedate, $format);
+    return self :: _getDate($this->_updatedate, $format);
   }
 
   /*
@@ -300,7 +260,7 @@ abstract class rex_ooRedaxo
    */
   public function getCreateDate($format = null)
   {
-    return rex_ooMedia :: _getDate($this->_createdate, $format);
+    return self :: _getDate($this->_createdate, $format);
   }
 
   /*
@@ -471,5 +431,29 @@ abstract class rex_ooRedaxo
   public function toString()
   {
     return $this->_id.', '.$this->_name.', '. ($this->isOnline() ? 'online' : 'offline');
+  }
+
+/**
+   * Formats a datestamp with the given format.
+   *
+   * If format is <code>null</code> the datestamp is returned.
+   *
+   * If format is <code>''</code> the datestamp is formated
+   * with the default <code>dateformat</code> (lang-files).
+   *
+   * @access public
+   * @static
+   */
+  static protected function _getDate($date, $format = null)
+  {
+    if ($format !== null)
+    {
+      if ($format == '')
+      {
+        $format = rex_i18n::msg('dateformat');
+      }
+      return strftime($format, $date);
+    }
+    return $date;
   }
 }

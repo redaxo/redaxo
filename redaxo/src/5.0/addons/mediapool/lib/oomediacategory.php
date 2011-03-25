@@ -277,7 +277,7 @@ class rex_ooMediaCategory
 
     if ($this->_children === null)
     {
-      $this->_children = rex_ooMediaCategory :: getChildrenById($this->getId());
+      $this->_children = self :: getChildrenById($this->getId());
     }
 
     return $this->_children;
@@ -357,7 +357,7 @@ class rex_ooMediaCategory
     {
       return $mediaCat == $this->getParentId();
     }
-    elseif (rex_ooMediaCategory :: isValid($mediaCat))
+    elseif (self :: isValid($mediaCat))
     {
       return $this->getParentId() == $mediaCat->getId();
     }

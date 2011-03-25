@@ -189,7 +189,7 @@ if ($subpage == "media")
     $fname = $gf->getValue('filename');
     $ffiletype = $gf->getValue('filetype');
     $ffile_size = $gf->getValue('filesize');
-    $ffile_size = rex_ooMedia::formatSize($ffile_size);
+    $ffile_size = rex_file::formattedSize($ffile_size);
     $rex_file_category = $gf->getValue('category_id');
 
     $encoded_fname = urlencode($fname);
@@ -696,7 +696,7 @@ if ($subpage == '')
       $desc .= '<br />';
 
     // wenn datei fehlt
-    if (!rex_ooMedia::fileExists($file_name))
+    if (!file_exists(rex_path::media($file_name)))
     {
       $thumbnail = '<img src="media/mime-error.gif" width="44" height="38" alt="file does not exist" />';
     }
@@ -725,7 +725,7 @@ if ($subpage == '')
 
     // ----- get file size
     $size = $file_size;
-    $file_size = rex_ooMedia::formatSize($size);
+    $file_size = rex_file::formattedSize($size);
 
     if ($file_title == '') $file_title = '['.rex_i18n::msg('pool_file_notitle').']';
     if($REX['USER']->hasPerm('advancedMode[]')) $file_title .= ' ['. $file_id .']';

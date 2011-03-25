@@ -22,7 +22,7 @@ class rex_image {
     $this->img['file'] = basename($filepath);
     $this->img['filepath'] = $filepath;
     $this->img['quality'] = rex_config::get('image_manager', 'jpg_quality', 80);
-    $this->img['format'] = strtoupper(rex_ooMedia::_getExtension($this->img['filepath']));
+    $this->img['format'] = strtoupper(rex_file::extension($this->img['filepath']));
   }
 
   public function prepare()
