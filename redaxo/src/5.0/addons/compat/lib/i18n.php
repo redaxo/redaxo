@@ -14,8 +14,13 @@ class i18n extends rex_i18n
    */
   public function __construct($locale = "de_de", $searchpath, $setLocale = false)
   {
+    global $REX;
+
     parent::setLocale($locale, $setLocale);
     parent::addDirectory($searchpath);
+
+    $REX['LOCALES'] = rex_i18h::getLocales();
+    $REX['LANGUAGES'] = $REX['LOCALES'];
   }
 
   /**
