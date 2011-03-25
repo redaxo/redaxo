@@ -8,7 +8,7 @@
  * @version svn:$Id$
  */
 
-rex_register_extension('rex_ooMedia_IS_IN_USE', 'rex_a62_media_is_in_use');
+rex_register_extension('OOMEDIA_IS_IN_USE', 'rex_a62_media_is_in_use');
 
 /**
  * Erstellt den nötigen HTML Code um ein Formular zu erweitern
