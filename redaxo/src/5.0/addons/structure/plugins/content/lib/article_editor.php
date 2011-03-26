@@ -277,7 +277,7 @@ class rex_article_editor extends rex_article
    * (non-PHPdoc)
    * @see rex_article_base::preArticle()
    */
-  protected function preArticle()
+  protected function preArticle($articleContent, $module_id)
   {
     global $REX;
 
@@ -315,6 +315,8 @@ class rex_article_editor extends rex_article
         }
       }
     }
+    
+    return parent::preArticle($articleContent, $module_id);
   }
 
   /**

@@ -260,13 +260,12 @@ class rex_article_base
     $artDataSql->setQuery($sql);
 
     // pre hook
-    // TODO make preArticle return the article-content
-    $this->preArticle();
+    $articleContent = '';
+    $articleContent = $this->preArticle($articleContent, $module_id);
 
     // ---------- SLICES AUSGEBEN
-    $articleContent = "";
+    
     $prevCtype = null;
-
     $artDataSql->reset();
     $rows = $artDataSql->getRows();
     for($i = 0; $i < $rows; ++$i)
@@ -336,10 +335,14 @@ class rex_article_base
 
   /**
    * Method which gets called, before the slices of the article are processed
+   * 
+   * @param string $articleContent The content of the article
+   * @param integer $module_id A module id
    */
-  protected function preArticle()
+  protected function preArticle($articleContent, $module_id)
   {
     // nichts tun
+    return $articleContent;
   }
 
   /**
