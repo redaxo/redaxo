@@ -179,6 +179,10 @@ class rex_ooArticleSlice
   /**
    * Gibt den Slice formatiert zurück
    * @since 4.1 - 29.05.2008
+   * 
+   * @deprecated 5.0
+   * 
+   * @see rex_article#getSlice()
    */
   public function getSlice()
   {
@@ -186,9 +190,7 @@ class rex_ooArticleSlice
     $art = new rex_article();
     $art->setArticleId($this->getArticleId());
     $art->setClang($this->getClang());
-    $art->getSlice = $this->getId();
-    $art->setEval(true);
-    return @$art->replaceLinks( $art->getArticle() );
+    return $art->getSlice($this->getId());
   }
 
   static protected function _getSliceWhere($where, $table = null, $fields = null, $default = null)

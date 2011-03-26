@@ -15,7 +15,6 @@ class rex_article_base
     $info,
     $debug,
 
-    $getSlice,
     $template_id,
     $template_attributes;
 
@@ -23,6 +22,7 @@ class rex_article_base
     $category_id,
     $article_id,
     $slice_id,
+    $getSlice,
     $mode,
     $function,
 
@@ -211,8 +211,32 @@ class rex_article_base
 
     return $this->getVariableStreamOutput('module/'. $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id') .'/output', $output);
   }
+  
+  
+  /**
+   * Returns the content of the given slice-id.
+   * 
+   * @param integer $sliceId A article-slice id
+   */
+  public function getSlice($sliceId)
+  {
+    $oldEval = $this->eval;
+    $this->setEval(true);
+    
+    $this->getSlice = $sliceId;
+    $sliceContent = $this->getArticle();
+    $this->getSlice = 0;
+    
+    $this->setEval($oldEval);
+    return $this->replaceLinks($sliceContent);
+  }
 
 
+  /**
+   * Returns the content of the article of the given ctype. If no ctype is given, content of all ctypes is returned.
+   * 
+   * @param integer $curctype The ctype to fetch, or -1 for all ctypes
+   */
   public function getArticle($curctype = -1)
   {
     global $REX;
