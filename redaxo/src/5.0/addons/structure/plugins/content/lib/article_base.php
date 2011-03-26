@@ -31,7 +31,6 @@ class rex_article_base
 
     $eval,
 
-    $article_revision,
     $slice_revision,
 
     $ARTICLE;
@@ -44,11 +43,11 @@ class rex_article_base
     $this->template_id = 0;
     $this->ctype = -1; // zeigt alles an
     $this->slice_id = 0;
+    $this->getSlice = 0;
 
     $this->mode = "view";
     $this->eval = FALSE;
 
-    $this->article_revision = 0;
     $this->slice_revision = 0;
 
     $this->debug = FALSE;
@@ -220,13 +219,18 @@ class rex_article_base
 
     $this->ctype = $curctype;
 
-    if ($this->article_id == 0)
+    if ($this->article_id == 0 && $this->getSlice == 0)
     {
       return rex_i18n::msg('no_article_available');
     }
+    
+    $articleLimit = '';
+    if($this->article_id != 0) {
+      $articleLimit = ' AND '. $REX['TABLE_PREFIX']."article_slice.article_id=".$this->article_id;
+    }
 
     $sliceLimit = '';
-    if ($this->getSlice) {
+    if ($this->getSlice != 0) {
       $sliceLimit = " AND ".$REX['TABLE_PREFIX']."article_slice.id = '" . ((int) $this->getSlice) . "' ";
     }
 
@@ -242,10 +246,10 @@ class rex_article_base
             LEFT JOIN ".$REX['TABLE_PREFIX']."module ON ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."module.id
             LEFT JOIN ".$REX['TABLE_PREFIX']."article ON ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id
             WHERE
-              ".$REX['TABLE_PREFIX']."article_slice.article_id='".$this->article_id."' AND
               ".$REX['TABLE_PREFIX']."article_slice.clang='".$this->clang."' AND
               ".$REX['TABLE_PREFIX']."article.clang='".$this->clang."' AND
               ".$REX['TABLE_PREFIX']."article_slice.revision='".$this->slice_revision."'
+              ". $articleLimit ."
               ". $sliceLimit ."
               ORDER BY ".$REX['TABLE_PREFIX']."article_slice.prior";
     
