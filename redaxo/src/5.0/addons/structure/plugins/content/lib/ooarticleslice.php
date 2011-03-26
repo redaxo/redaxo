@@ -186,7 +186,6 @@ class rex_ooArticleSlice
    */
   public function getSlice()
   {
-  	// TODO:: ------------------- .' AND revision='.$this->revision
     $art = new rex_article();
     $art->setArticleId($this->getArticleId());
     $art->setClang($this->getClang());
