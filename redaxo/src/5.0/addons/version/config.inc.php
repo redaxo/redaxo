@@ -85,14 +85,12 @@ function rex_version_header($params)
 		  	$return .= rex_warning(rex_i18n::msg("version_warning_working_version_to_live"));
 		  }else if(!$REX['USER']->hasPerm('version[only_working_version]'))
 		  {
-				require rex_path::addon('version', 'functions/function_rex_copyrevisioncontent.inc.php');
-				rex_copyRevisionContent($params['article_id'],$params['clang'],rex_article_revision::WORK, rex_article_revision::LIVE);
+				rex_article_revision::copyContent($params['article_id'],$params['clang'],rex_article_revision::WORK, rex_article_revision::LIVE);
 		  	$return .= rex_info(rex_i18n::msg("version_info_working_version_to_live"));
 		  }
 		break;
 		case("copy_live_to_work"):
-			require rex_path::addon('version', 'functions/function_rex_copyrevisioncontent.inc.php');
-			rex_copyRevisionContent($params['article_id'],$params['clang'],rex_article_revision::LIVE, rex_article_revision::WORK);
+			rex_article_revision::copyContent($params['article_id'],$params['clang'],rex_article_revision::LIVE, rex_article_revision::WORK);
 		  $return .= rex_info(rex_i18n::msg("version_info_live_version_to_working"));
 		break;
 	}
