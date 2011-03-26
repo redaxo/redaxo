@@ -190,6 +190,7 @@ class rex_ooArticleSlice
     $art = new rex_article();
     $art->setArticleId($this->getArticleId());
     $art->setClang($this->getClang());
+    $art->setSliceRevision($this->getRevision());
     return $art->getSlice($this->getId());
   }
 
