@@ -60,7 +60,7 @@ if ($PERMALL)
 
     if($db->insert())
     {
-      $info = rex_i18n::msg('pool_kat_saved', stripslashes(rex_request('catname')));
+      $info = rex_i18n::msg('pool_kat_saved', rex_request('catname'));
       rex_media_cache::deleteCategoryList(rex_request('cat_id', 'int'));
     }
     else

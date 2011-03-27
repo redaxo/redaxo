@@ -193,7 +193,7 @@ function rex_be_search_structure($params)
 
 		    <div class="rex-fl-lft">
 	        <label for="rex-be_search-article-name">'. rex_i18n::msg('be_search_article_name') .'</label>
-    	    <input class="rex-form-text" type="text" name="be_search_article_name" id="rex-be_search-article-name" value="'. htmlspecialchars(stripslashes($be_search_article_name)) .'"'. rex_tabindex() .' />
+    	    <input class="rex-form-text" type="text" name="be_search_article_name" id="rex-be_search-article-name" value="'. htmlspecialchars($be_search_article_name) .'"'. rex_tabindex() .' />
 
         	<label for="rex-be_search-article-id">'. rex_i18n::msg('be_search_article_id') .'</label>
 	        <input class="rex-form-text" type="text" name="be_search_article_id" id="rex-be_search-article-id"'. rex_tabindex() .' />

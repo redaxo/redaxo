@@ -3,41 +3,6 @@
 class rex_clang_service
 {
   /**
-   * Löscht eine Clang
-   *
-   * @param $id Zu löschende ClangId
-   *
-   * @return TRUE bei Erfolg, sonst FALSE
-   */
-  static public function deleteCLang($clang)
-  {
-    global $REX;
-
-    if ($clang == 0 || !isset($REX['CLANG'][$clang]))
-    return FALSE;
-
-    $clangName = $REX['CLANG'][$clang];
-    unset ($REX['CLANG'][$clang]);
-
-    $del = rex_sql::factory();
-    $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article where clang='$clang'");
-    $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where clang='$clang'");
-    $del->setQuery("delete from ".$REX['TABLE_PREFIX']."clang where id='$clang'");
-
-    // ----- EXTENSION POINT
-    rex_register_extension_point('CLANG_DELETED','',
-    array (
-      'id' => $clang,
-      'name' => $clangName,
-    )
-    );
-
-    rex_generateAll();
-
-    return TRUE;
-  }
-
-  /**
    * Erstellt eine Clang
    *
    * @param $id   Id der Clang
@@ -83,7 +48,10 @@ class rex_clang_service
     }
 
     $newLang = rex_sql::factory();
-    $newLang->setQuery("insert into ".$REX['TABLE_PREFIX']."clang set id='$id',name='$name'");
+    $newLang->setTable($REX['TABLE_PREFIX']."clang");
+    $newLang->setValue('id', $id);
+    $newLang->setValue('name', $name);
+    $newLang->insert();
 
     // ----- EXTENSION POINT
     rex_register_extension_point('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
@@ -109,15 +77,53 @@ class rex_clang_service
     $file = rex_path::generated('files/clang.cache');
     rex_file::putCache($file, $REX['CLANG']);
 
-    $edit = rex_sql::factory();
-    $edit->setQuery("update ".$REX['TABLE_PREFIX']."clang set name='$name' where id='$id'");
-
+    $editLang = rex_sql::factory();
+    $editLang->setTable($REX['TABLE_PREFIX']."clang");
+    $editLang->setValue('id', $id);
+    $editLang->setValue('name', $name);
+    $editLang->update();
+    
     // ----- EXTENSION POINT
     rex_register_extension_point('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));
 
     return TRUE;
   }
 
+  /**
+   * Löscht eine Clang
+   *
+   * @param $id Zu löschende ClangId
+   *
+   * @return TRUE bei Erfolg, sonst FALSE
+   */
+  static public function deleteCLang($clang)
+  {
+    global $REX;
+
+    if ($clang == 0 || !isset($REX['CLANG'][$clang]))
+    return FALSE;
+
+    $clangName = $REX['CLANG'][$clang];
+    unset ($REX['CLANG'][$clang]);
+
+    $del = rex_sql::factory();
+    $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article where clang='$clang'");
+    $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where clang='$clang'");
+    $del->setQuery("delete from ".$REX['TABLE_PREFIX']."clang where id='$clang'");
+
+    // ----- EXTENSION POINT
+    rex_register_extension_point('CLANG_DELETED','',
+    array (
+      'id' => $clang,
+      'name' => $clangName,
+    )
+    );
+
+    rex_generateAll();
+
+    return TRUE;
+  }
+  
   /**
    * Schreibt Spracheigenschaften in die Datei include/clang.inc.php
    *

@@ -193,7 +193,7 @@ class rex_list implements rex_url_provider
    */
   public function getMessage()
   {
-    return stripslashes(rex_request($this->getName().'_msg', 'string'));
+    return rex_request($this->getName().'_msg', 'string');
   }
 
   /**
@@ -203,7 +203,7 @@ class rex_list implements rex_url_provider
    */
   public function getWarning()
   {
-    return stripslashes(rex_request($this->getName().'_warning', 'string'));
+    return rex_request($this->getName().'_warning', 'string');
   }
 
   /**

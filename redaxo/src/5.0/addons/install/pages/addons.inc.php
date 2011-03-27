@@ -22,7 +22,7 @@ if(array_key_exists($addon_key,$addons))
 	$addon = $addons[$addon_key];
 	rex_addonManager::loadPackage($addon_key);
 
-	echo rex_info(htmlspecialchars(stripslashes($msg)));
+	echo rex_info(htmlspecialchars($msg));
 
 
 	if($func == "install")

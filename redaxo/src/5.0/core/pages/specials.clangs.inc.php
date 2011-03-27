@@ -38,7 +38,7 @@ if ($add_clang_save)
     if (!array_key_exists($clang_id, $REX['CLANG']))
     {
       $info = rex_i18n::msg('clang_created');
-      rex_clang_service::addCLang($clang_id, stripslashes($clang_name));
+      rex_clang_service::addCLang($clang_id, $clang_name);
       unset ($clang_id);
    	  $func = '';
     }
@@ -59,7 +59,7 @@ elseif ($edit_clang_save)
 {
   if (array_key_exists($clang_id, $REX['CLANG']))
   {
-    rex_clang_service::editCLang($clang_id, stripslashes($clang_name));
+    rex_clang_service::editCLang($clang_id, $clang_name);
     $info = rex_i18n::msg('clang_edited');
     $func = '';
     unset ($clang_id);

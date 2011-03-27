@@ -84,13 +84,6 @@ if ($function == "add" or $function == "edit")
       }
     }
 
-    // Daten wieder in den Rohzustand versetzen, da für serialize()/unserialize()
-    // keine Zeichen escaped werden dürfen
-    for($i=1;$i<count($ctypes)+1;$i++)
-    {
-      $ctypes[$i] = stripslashes($ctypes[$i]);
-    }
-
     $categories = rex_post("categories", "array");
     // leerer eintrag = 0
     if(count($categories) == 0 || !isset($categories["all"]) || $categories["all"] != 1)
@@ -155,9 +148,6 @@ if ($function == "add" or $function == "edit")
       else
         $warning = $TPL->getError();
     }
-    // werte werden direkt wieder ausgegeben
-//    $templatename = stripslashes($templatename);
-//    $content = stripslashes($content);
 
     rex_dir::delete(rex_path::generated('templates'), false);
 

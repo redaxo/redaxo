@@ -11,7 +11,7 @@ rex_title(rex_i18n::msg('addon'), '');
 $addonname  = rex_request('addonname', 'string');
 $pluginname = rex_request('pluginname', 'string');
 $subpage    = rex_request('subpage', 'string');
-$info       = stripslashes(rex_request('info', 'string'));
+$info       = rex_request('info', 'string');
 $warning = '';
 
 $redirect = false;

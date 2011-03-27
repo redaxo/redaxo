@@ -44,7 +44,6 @@ if ($function == 'export')
   // ------------------------------ FUNC EXPORT
 
   $exportfilename = strtolower($exportfilename);
-  $exportfilename = stripslashes($exportfilename);
   $filename       = preg_replace('@[^\.a-z0-9_\-]@', '', $exportfilename);
 
   if ($filename != $exportfilename)

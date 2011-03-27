@@ -22,12 +22,12 @@ class rex_var_value extends rex_var
     $values = rex_request('VALUE', 'array');
     for ($i = 1; $i < 21; $i++)
     {
-      $value = isset($values[$i]) ? stripslashes($values[$i]) : '';
+      $value = isset($values[$i]) ? $values[$i] : '';
 
       $REX_ACTION['VALUE'][$i] = $value;
     }
-    $REX_ACTION['PHP'] = stripslashes(rex_request('INPUT_PHP', 'string'));
-    $REX_ACTION['HTML'] = $this->stripPHP(stripslashes(rex_request('INPUT_HTML', 'string')));
+    $REX_ACTION['PHP'] = rex_request('INPUT_PHP', 'string');
+    $REX_ACTION['HTML'] = $this->stripPHP(rex_request('INPUT_HTML', 'string'));
 
     return $REX_ACTION;
   }

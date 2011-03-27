@@ -507,7 +507,7 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
 
     // Werte im aktuellen Objekt speichern, dass zur Anzeige verwendet wird
     if(isset($params['activeItem']))
-      $params['activeItem']->setValue($fieldName, stripslashes($saveValue));
+      $params['activeItem']->setValue($fieldName, $saveValue);
   }
 }
 

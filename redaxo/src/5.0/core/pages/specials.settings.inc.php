@@ -92,10 +92,9 @@ elseif ($func == 'updateinfos')
 
       // Zuweisungen für Wiederanzeige
       $REX['MOD_REWRITE'] = $neu_modrewrite === 'TRUE';
-      // FŸr die Wiederanzeige Slashes strippen
-      $REX['ERROR_EMAIL'] = stripslashes($neu_error_emailaddress);
-      $REX['SERVER'] = stripslashes($neu_SERVER);
-      $REX['SERVERNAME'] = stripslashes($neu_SERVERNAME);
+      $REX['ERROR_EMAIL'] = $neu_error_emailaddress;
+      $REX['SERVER'] = $neu_SERVER;
+      $REX['SERVERNAME'] = $neu_SERVERNAME;
     }
   }
 }

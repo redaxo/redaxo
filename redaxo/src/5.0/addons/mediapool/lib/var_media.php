@@ -32,8 +32,8 @@ class rex_var_media extends rex_var
 
     for ($i = 1; $i < 11; $i++)
     {
-      $media     = isset($values[$i]) ? stripslashes($values[$i]) : '';
-      $medialist = isset($listvalues[$i]) ? stripslashes($listvalues[$i]) : '';
+      $media     = isset($values[$i]) ? $values[$i] : '';
+      $medialist = isset($listvalues[$i]) ? $listvalues[$i] : '';
 
       $REX_ACTION['MEDIA'][$i]     = $media;
       $REX_ACTION['MEDIALIST'][$i] = $medialist;

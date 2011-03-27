@@ -110,8 +110,6 @@ if ($function == 'add' or $function == 'edit')
 
     if ($function == 'add')
     {
-      // $modultyp->setQuery("INSERT INTO ".$REX['TABLE_PREFIX']."modultyp (category_id, name, eingabe, ausgabe) VALUES ('$category_id', '$mname', '$eingabe', '$ausgabe')");
-
       $IMOD = rex_sql::factory();
       $IMOD->setTable($REX['TABLE_PREFIX'].'module');
       $IMOD->setValue('name',$mname);
@@ -145,7 +143,7 @@ if ($function == 'add' or $function == 'edit')
         else
           $warning = $UMOD->getError();
 
-        $new_ausgabe = stripslashes($ausgabe);
+        $new_ausgabe = $ausgabe;
 
 		if ($old_ausgabe != $new_ausgabe)
 		{

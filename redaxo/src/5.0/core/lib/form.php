@@ -517,29 +517,6 @@ class rex_form
   }
 
   /**
-   * Entfernt rekursiv die slashes von $value.
-   */
-  private function stripslashes($value)
-  {
-    if (is_array($value))
-    {
-      foreach($value as $k => $v)
-      {
-        $value[$k] = $this->stripslashes($v);
-      }
-      return $value;
-    }
-    else if (is_string($value))
-    {
-      return stripslashes($value);
-    }
-    else
-    {
-      trigger_error('Unexpected parameter type "'. gettype($value) .'"!', E_USER_ERROR);
-    }
-  }
-
-  /**
    * Erstellt ein Input-Element anhand des Strings $inputType
    * 
    * @return rex_form_element
@@ -569,7 +546,7 @@ class rex_form
     $postValue = $this->elementPostValue($this->getFieldsetName(), $name);
     if($postValue !== null)
     {
-      $value = $this->stripslashes($postValue);
+      $value = $postValue;
     }
 
     // Wert aus der DB nehmen, falls keiner extern und keiner im POST angegeben

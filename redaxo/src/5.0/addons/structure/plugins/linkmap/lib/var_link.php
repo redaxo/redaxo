@@ -24,8 +24,8 @@ class rex_var_link extends rex_var
     $listvalues = rex_request('LINKLIST', 'array');
     for ($i = 1; $i < 11; $i++)
     {
-      $link     = isset($values[$i]) ? stripslashes($values[$i]) : '';
-      $linklist = isset($listvalues[$i]) ? stripslashes($listvalues[$i]) : '';
+      $link     = isset($values[$i]) ? $values[$i] : '';
+      $linklist = isset($listvalues[$i]) ? $listvalues[$i] : '';
 
       $REX_ACTION['LINK'][$i] = $link;
       $REX_ACTION['LINKLIST'][$i] = $linklist;

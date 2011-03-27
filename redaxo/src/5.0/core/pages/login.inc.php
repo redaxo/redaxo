@@ -44,7 +44,7 @@ echo '
     	<div class="rex-form-row">
 		    <p class="rex-form-col-a rex-form-text">
     			<label for="rex-form-login">'.rex_i18n::msg('login_name').':</label>
-      		<input type="text" value="'.stripslashes(htmlspecialchars($rex_user_login)).'" id="rex-form-login" name="rex_user_login"'. rex_tabindex() .' />
+      		<input type="text" value="'.htmlspecialchars($rex_user_login).'" id="rex-form-login" name="rex_user_login"'. rex_tabindex() .' />
     		</p>
     	</div>
     	<div class="rex-form-row">
