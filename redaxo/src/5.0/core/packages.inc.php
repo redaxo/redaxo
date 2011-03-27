@@ -37,12 +37,12 @@ foreach($packageOrder as $addonName)
     // add addon path for fragment loading
     if(is_readable($addonsFolder .'fragments'))
     {
-      rex_fragment::addDirectory($addonsFolder .'fragments/');
+      rex_fragment::addDirectory($addonsFolder .'fragments'.DIRECTORY_SEPARATOR);
     }
     // add addon path for class-loading
     if(is_readable($addonsFolder .'lib'))
     {
-      rex_autoload::getInstance()->addDirectory($addonsFolder .'lib/');
+      rex_autoload::getInstance()->addDirectory($addonsFolder .'lib'.DIRECTORY_SEPARATOR);
     }
     // add addon path for i18n
     if(is_readable($addonsFolder .'lang'))
@@ -63,12 +63,12 @@ foreach($packageOrder as $addonName)
       // add plugin path for fragment loading
       if(is_readable($pluginsFolder .'fragments'))
       {
-        rex_fragment::addDirectory($pluginsFolder .'fragments/');
+        rex_fragment::addDirectory($pluginsFolder .'fragments'.DIRECTORY_SEPARATOR);
       }
       // add plugin path for class-loading
       if(is_readable($pluginsFolder .'lib'))
       {
-        rex_autoload::getInstance()->addDirectory($pluginsFolder .'lib/');
+        rex_autoload::getInstance()->addDirectory($pluginsFolder .'lib'.DIRECTORY_SEPARATOR);
       }
       // add plugin path for i18n
       if(is_readable($pluginsFolder .'lang'))

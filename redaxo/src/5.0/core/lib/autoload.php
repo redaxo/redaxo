@@ -225,7 +225,7 @@ class rex_autoload
     {
       // recursive over subdirectories
       foreach($subdirs as $subdir) {
-        $this->addDirectory($subdir .'/');
+        $this->addDirectory($subdir .DIRECTORY_SEPARATOR);
       }
     }
   }
