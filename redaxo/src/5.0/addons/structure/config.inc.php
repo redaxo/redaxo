@@ -12,5 +12,3 @@
 rex_var::registerVar('rex_var_globals');
 rex_var::registerVar('rex_var_article');
 rex_var::registerVar('rex_var_category');
-
-require_once dirname(__FILE__). '/functions/function_rex_generate.inc.php';

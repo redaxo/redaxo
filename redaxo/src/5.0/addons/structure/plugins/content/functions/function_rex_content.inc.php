@@ -88,7 +88,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
         'prior, updatedate '. $updSort
       );
 
-      rex_deleteCacheArticleContent($article_id, $clang);
+      rex_article_cache::deleteContent($article_id, $clang);
 
       $message = rex_i18n::msg('slice_moved');
       $success = true;
@@ -365,7 +365,7 @@ function rex_article2startpage($neu_id){
 
   foreach($GAID as $gid)
   {
-    rex_deleteCacheArticle($gid);
+    rex_article_cache::delete($gid);
   }
 
   $users = rex_sql::factory();
@@ -416,8 +416,8 @@ function rex_article2category($art_id){
     rex_category_service::newCatPrio($re_id, $clang, 0, 100);
   }
 
-  rex_deleteCacheArticleLists($re_id);
-  rex_deleteCacheArticle($art_id);
+  rex_article_cache::deleteLists($re_id);
+  rex_article_cache::delete($art_id);
 
   foreach($REX['CLANG'] as $clang => $clang_name)
   {
@@ -467,8 +467,8 @@ function rex_category2article($art_id){
     rex_article_service::newArtPrio($re_id, $clang, 0, 100);
   }
 
-  rex_deleteCacheArticleLists($re_id);
-  rex_deleteCacheArticle($art_id);
+  rex_article_cache::deleteLists($re_id);
+  rex_article_cache::delete($art_id);
 
   foreach($REX['CLANG'] as $clang => $clang_name)
   {
@@ -535,7 +535,7 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
 
     $uc->update();
 
-    rex_deleteCacheArticleMeta($to_id,$to_clang);
+    rex_article_cache::deleteMeta($to_id,$to_clang);
     return true;
   }
   return false;
@@ -611,7 +611,7 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
       );
     }
 
-    rex_deleteCacheArticleContent($to_id, $to_clang);
+    rex_article_cache::deleteContent($to_id, $to_clang);
     return true;
   }
 
@@ -711,10 +711,10 @@ function rex_copyArticle($id, $to_cat_id)
   }
 
   // Caches des Artikels löschen, in allen Sprachen
-  rex_deleteCacheArticle($id);
+  rex_article_cache::delete($id);
 
   // Caches der Kategorien löschen, da sich derin befindliche Artikel geändert haben
-  rex_deleteCacheArticle($to_cat_id);
+  rex_article_cache::delete($to_cat_id);
 
   return $new_id;
 }
@@ -799,11 +799,11 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
   }
 
   // Caches des Artikels löschen, in allen Sprachen
-  rex_deleteCacheArticle($id);
+  rex_article_cache::delete($id);
 
   // Caches der Kategorien löschen, da sich derin befindliche Artikel geändert haben
-  rex_deleteCacheArticle($from_cat_id);
-  rex_deleteCacheArticle($to_cat_id);
+  rex_article_cache::delete($from_cat_id);
+  rex_article_cache::delete($to_cat_id);
 
   return true;
 }
@@ -918,7 +918,7 @@ function rex_moveCategory($from_cat, $to_cat)
       // ----- generiere artikel neu - ohne neue inhaltsgenerierung
       foreach($RC as $id => $key)
       {
-        rex_deleteCacheArticle($id);
+        rex_article_cache::delete($id);
       }
 
       foreach($REX['CLANG'] as $clang => $clang_name)

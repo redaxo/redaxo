@@ -662,7 +662,7 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
     $article->update();
 
   // Artikel nochmal mit den zusätzlichen Werten neu generieren
-  rex_generateArticleMeta($params['id'], $params['clang']);
+  rex_article_cache::generateMeta($params['id'], $params['clang']);
 
   return $params;
 }

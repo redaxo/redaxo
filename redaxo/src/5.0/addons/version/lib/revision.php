@@ -46,7 +46,7 @@ class rex_article_revision
 	    $gc->next();
 	  }
 	  
-	  rex_deleteCacheArticle($article_id);
+	  rex_article_cache::delete($article_id);
 	  return true;
 	}    
 }

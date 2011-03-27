@@ -33,8 +33,7 @@ class rex_ooArticle extends rex_ooRedaxo
     $article_path = rex_path::generated('articles/'.$article_id.'.'.$clang.'.article');
     if (!file_exists($article_path))
 		{
-		  require_once rex_path::addon('structure', 'functions/function_rex_generate.inc.php');
-    	rex_generateArticleMeta($article_id, $clang);
+    	rex_article_cache::generateMeta($article_id, $clang);
 		}
 
     if (file_exists($article_path))
@@ -95,8 +94,7 @@ class rex_ooArticle extends rex_ooRedaxo
     $articlelist = rex_path::generated('articles/'.$a_category_id.".".$clang.".alist");
     if(!file_exists($articlelist))
     {
-      require_once rex_path::addon('structure', 'functions/function_rex_generate.inc.php');
-      rex_generateLists($a_category_id, $clang);
+      rex_article_cache::generateLists($a_category_id, $clang);
     }
 
     $artlist = array ();

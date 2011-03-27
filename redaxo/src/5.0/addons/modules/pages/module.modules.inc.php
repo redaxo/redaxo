@@ -156,7 +156,7 @@ if ($function == 'add' or $function == 'edit')
               WHERE ".$REX['TABLE_PREFIX']."article_slice.modultyp_id='$modul_id'");
           for ($i=0; $i<$gc->getRows(); $i++)
           {
-          	rex_deleteCacheArticle($gc->getValue($REX['TABLE_PREFIX']."article.id"));
+          	rex_article_cache::delete($gc->getValue($REX['TABLE_PREFIX']."article.id"));
             $gc->next();
           }
         }

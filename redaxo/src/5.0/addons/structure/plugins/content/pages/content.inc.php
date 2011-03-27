@@ -314,7 +314,7 @@ if ($article->getRows() == 1)
             $EA->setWhere('id='. $article_id .' AND clang='. $clang);
             $EA->addGlobalUpdateFields();
             $EA->update();
-            rex_deleteCacheArticle($article_id, $clang);
+            rex_article_cache::delete($article_id, $clang);
 
             rex_register_extension_point('ART_CONTENT_UPDATED', '',
               array (
@@ -574,7 +574,7 @@ if ($article->getRows() == 1)
         $article->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "article WHERE id='$article_id' AND clang='$clang'");
         $info = rex_i18n::msg("metadata_updated");
 
-        rex_deleteCacheArticle($article_id, $clang);
+        rex_article_cache::delete($article_id, $clang);
 
         // ----- EXTENSION POINT
         $info = rex_register_extension_point('ART_META_UPDATED', $info, array (

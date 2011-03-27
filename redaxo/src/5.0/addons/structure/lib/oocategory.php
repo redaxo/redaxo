@@ -44,8 +44,7 @@ class rex_ooCategory extends rex_ooRedaxo
 
     if (!file_exists($categorylist))
     {
-      require_once rex_path::addon('structure', 'functions/function_rex_generate.inc.php');
-    	rex_generateLists($cat_parent_id);
+    	rex_article_cache::generateLists($cat_parent_id);
     }
 
     if (file_exists($categorylist))

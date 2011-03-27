@@ -43,6 +43,12 @@ class rex_article_service
     {
       // ------- Kategorienamen holen
       $category = rex_ooCategory::getCategoryById($data['category_id'], $key);
+      
+      $categoryName = '';
+      if($category)
+      {
+        $categoryName = $category->getName();
+      }
 
       $AART->setTable($REX['TABLE_PREFIX'].'article');
       if (!isset ($id) or !$id)
@@ -50,7 +56,7 @@ class rex_article_service
       else
       $AART->setValue('id', $id);
       $AART->setValue('name', $data['name']);
-      $AART->setValue('catname', $category->getName());
+      $AART->setValue('catname', $categoryName);
       $AART->setValue('attributes', '');
       $AART->setValue('clang', $key);
       $AART->setValue('re_id', $data['category_id']);
@@ -146,7 +152,7 @@ class rex_article_service
 
       // ----- PRIOR
       self::newArtPrio($data['category_id'], $clang, $data['prior'], $thisArt->getValue('prior'));
-      rex_deleteCacheArticle($article_id, $clang);
+      rex_article_cache::delete($article_id, $clang);
 
       // ----- EXTENSION POINT
       $message = rex_register_extension_point('ART_UPDATED', $message,
@@ -305,12 +311,12 @@ class rex_article_service
       // => löschen erlaubt
       if($return['state'] === true)
       {
-        rex_deleteCacheArticle($id);
+        rex_article_cache::delete($id);
         $ART->setQuery('delete from '.$REX['TABLE_PREFIX'].'article where id='.$id);
         $ART->setQuery('delete from '.$REX['TABLE_PREFIX'].'article_slice where article_id='.$id);
 
         // --------------------------------------------------- Listen generieren
-        rex_generateLists($re_id);
+        rex_article_cache::generateLists($re_id);
       }
 
       return $return;
@@ -360,7 +366,7 @@ class rex_article_service
       if($EA->update())
       {
         $message = rex_i18n::msg('article_status_updated');
-        rex_deleteCacheArticle($article_id, $clang);
+        rex_article_cache::delete($article_id, $clang);
 
         // ----- EXTENSION POINT
         $message = rex_register_extension_point('ART_STATUS', $message, array (
@@ -441,7 +447,7 @@ class rex_article_service
       'pid'
       );
 
-      rex_deleteCacheArticleLists($re_id, $clang);
+      rex_article_cache::deleteLists($re_id, $clang);
     }
   }
 }

@@ -181,7 +181,7 @@ class rex_category_service
 
           if($EART->update())
           {
-            rex_deleteCacheArticle($ArtSql->getValue('id'), $clang);
+            rex_article_cache::delete($ArtSql->getValue('id'), $clang);
           }
           else
           {
@@ -206,7 +206,7 @@ class rex_category_service
 
       $message = rex_i18n::msg('category_updated');
 
-      rex_deleteCacheArticle($category_id, $clang);
+      rex_article_cache::delete($category_id, $clang);
 
       // ----- EXTENSION POINT
       // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
@@ -354,7 +354,7 @@ class rex_category_service
       if($EKAT->update())
       {
         $message = rex_i18n::msg('category_status_updated');
-        rex_deleteCacheArticle($category_id, $clang);
+        rex_article_cache::delete($category_id, $clang);
 
         // ----- EXTENSION POINT
         $message = rex_register_extension_point('CAT_STATUS', $message, array (
@@ -438,7 +438,7 @@ class rex_category_service
       'pid'
       );
 
-      rex_deleteCacheArticleLists($re_id, $clang);
+      rex_article_cache::deleteLists($re_id, $clang);
     }
   }
 }
