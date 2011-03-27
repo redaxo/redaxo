@@ -87,7 +87,7 @@ class rex_fragment
     throw new rexException(sprintf('Fragmentfile "%s.tpl" not found!', $filename));
   }
 
-  // -------------------------- in fragment helpers
+  // -------------------------- in-fragment helpers
 
   /**
    * Escapes the value $val for proper use in the gui
@@ -248,5 +248,5 @@ class rex_fragment
     return null;
   }
 
-  // /-------------------------- in fragment helpers
+  // /-------------------------- in-fragment helpers
 }

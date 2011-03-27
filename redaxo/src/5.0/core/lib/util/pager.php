@@ -55,7 +55,7 @@ class rex_pager
   }
   
   /**
-   * Returns the cursor for the actual pagination.
+   * Returns the current pagination position.
    * 
    * When the parameter pageNo is given, the cursor for the given page is returned.
    * When no parameter is given, the cursor for active page is returned. 
