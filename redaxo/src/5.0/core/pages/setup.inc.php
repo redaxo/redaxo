@@ -717,7 +717,7 @@ if ($checkmodus == 3 && $send == 1)
 
 	if ($err_msg == "")
 	{
-	  rex_generateClang();
+	  rex_clang_service::generateCache();
 		$send = "";
 		$checkmodus = 4;
 	}
