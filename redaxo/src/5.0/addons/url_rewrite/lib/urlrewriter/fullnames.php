@@ -329,9 +329,9 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
       // $db->debugsql=true;
       $db->setQuery('SELECT id,clang,path,startpage FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where.' and revision=0');
 
-      while($db->hasNext())
+      foreach($db as $art)
       {
-        $clang = $db->getValue('clang');
+        $clang = $art->getValue('clang');
         $pathname = '';
         if (count($REX['CLANG']) > 1)
         {
@@ -339,7 +339,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
         }
 
         // pfad über kategorien bauen
-        $path = trim($db->getValue('path'), '|');
+        $path = trim($art->getValue('path'), '|');
         if($path != '')
         {
           $path = explode('|', $path);
@@ -353,7 +353,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
           }
         }
 
-        $ooa = rex_ooArticle::getArticleById($db->getValue('id'), $clang);
+        $ooa = rex_ooArticle::getArticleById($art->getValue('id'), $clang);
         if($ooa->isStartArticle())
         {
           $ooc = $ooa->getCategory();
@@ -368,9 +368,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
         $pathname = self::appendToPath($pathname, $name);
 
         $pathname = substr($pathname,0,strlen($pathname)-1).'.html';
-        $REXPATH[$db->getValue('id')][$db->getValue('clang')] = $pathname;
-
-        $db->next();
+        $REXPATH[$art->getValue('id')][$art->getValue('clang')] = $pathname;
       }
     }
 

@@ -964,17 +964,16 @@ class rex_sql implements Iterator
     $sql->setQuery('SHOW COLUMNS FROM '.$table);
 
     $columns = array();
-    while($sql->hasNext())
+    foreach($sql as $col)
     {
       $columns [] = array(
-        'name' => $sql->getValue('Field'),
-        'type' => $sql->getValue('Type'),
-        'null' => $sql->getValue('Null'),
-        'key' => $sql->getValue('Key'),
-        'default' => $sql->getValue('Default'),
-        'extra' => $sql->getValue('Extra')
+        'name' => $col->getValue('Field'),
+        'type' => $col->getValue('Type'),
+        'null' => $col->getValue('Null'),
+        'key' => $col->getValue('Key'),
+        'default' => $col->getValue('Default'),
+        'extra' => $col->getValue('Extra')
       );
-      $sql->next();
     }
 
     return $columns;

@@ -277,9 +277,9 @@ class rex_category_service
           $re_id = $thisCat->getValue('re_id');
           $return = rex_deleteArticle($category_id);
 
-          while($thisCat->hasNext())
+          foreach($thisCat as $row)
           {
-            $_clang = $thisCat->getValue('clang');
+            $_clang = $row->getValue('clang');
 
             // ----- PRIOR
             self::newCatPrio($re_id, $_clang, 0, 1);
@@ -289,13 +289,11 @@ class rex_category_service
             'id'     => $category_id,
             're_id'  => $re_id,
             'clang'  => $_clang,
-            'name'   => $thisCat->getValue('catname'),
-            'prior'  => $thisCat->getValue('catprior'),
-            'path'   => $thisCat->getValue('path'),
-            'status' => $thisCat->getValue('status'),
+            'name'   => $row->getValue('catname'),
+            'prior'  => $row->getValue('catprior'),
+            'path'   => $row->getValue('path'),
+            'status' => $row->getValue('status'),
             ));
-
-            $thisCat->next();
           }
 
           $users = rex_sql::factory();

@@ -120,9 +120,9 @@ class rex_article_cache
 
     $sql = rex_sql::factory();
     $sql->setQuery($qry);
-    while($sql->hasNext())
+    foreach($sql as $row)
     {
-      $_clang = $sql->getValue('clang');
+      $_clang = $row->getValue('clang');
 
       // --------------------------------------------------- Artikelparameter speichern
       $params = array(
@@ -135,7 +135,7 @@ class rex_article_cache
       $db_fields = $class_vars;
 
       foreach($db_fields as $field)
-      $params[$field] = $sql->getValue($field);
+      $params[$field] = $row->getValue($field);
 
       $cacheArray = array();
       foreach($params as $name => $value)
@@ -151,8 +151,6 @@ class rex_article_cache
 
       // damit die aktuellen änderungen sofort wirksam werden, einbinden!
       $REX['ART'][$article_id] = rex_file::getCache($article_file);
-
-      $sql->next();
     }
 
     return TRUE;

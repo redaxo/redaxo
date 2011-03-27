@@ -297,10 +297,9 @@ class rex_config
     $sql->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX']. 'config');
 
     self::$data = array();
-    while($sql->hasNext())
+    foreach($sql as $cfg)
     {
-      self::$data[$sql->getValue('namespace')][$sql->getValue('key')] = json_decode($sql->getValue('value'), true);
-      $sql->next();
+      self::$data[$cfg->getValue('namespace')][$cfg->getValue('key')] = json_decode($cfg->getValue('value'), true);
     }
   }
 

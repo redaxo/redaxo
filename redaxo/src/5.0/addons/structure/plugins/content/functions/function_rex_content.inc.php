@@ -154,9 +154,9 @@ function rex_execPreViewAction($module_id, $function, $REX_ACTION)
   $ga = rex_sql::factory();
   $ga->setQuery('SELECT a.id, preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $module_id .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
 
-  while ($ga->hasNext())
+  foreach ($ga as $row)
   {
-    $iaction = $ga->getValue('preview');
+    $iaction = $row->getValue('preview');
 
     // ****************** VARIABLEN ERSETZEN
     foreach(rex_var::getVars() as $obj)
@@ -164,9 +164,7 @@ function rex_execPreViewAction($module_id, $function, $REX_ACTION)
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    require rex_variableStream::factory('action/'. $ga->getValue('id') .'/preview', $iaction);
-
-    $ga->next();
+    require rex_variableStream::factory('action/'. $row->getValue('id') .'/preview', $iaction);
   }
 
   return $REX_ACTION;
@@ -190,10 +188,10 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
   $ga = rex_sql::factory();
   $ga->setQuery('SELECT a.id, presave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE presave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.presavemode & ' . $modebit . ') = ' . $modebit . ')');
 
-  while ($ga->hasNext())
+  foreach($ga as $row)
   {
     $REX_ACTION['MSG'] = '';
-    $iaction = $ga->getValue('presave');
+    $iaction = $row->getValue('presave');
 
     // *********************** WERTE ERSETZEN
     foreach (rex_var::getVars() as $obj)
@@ -201,12 +199,10 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    require rex_variableStream::factory('action/'. $ga->getValue('id') .'/presave', $iaction);
+    require rex_variableStream::factory('action/'. $row->getValue('id') .'/presave', $iaction);
 
     if ($REX_ACTION['MSG'] != '')
       $messages[] = $REX_ACTION['MSG'];
-
-    $ga->next();
   }
   return array(implode(' | ', $messages), $REX_ACTION);
 }
@@ -229,10 +225,10 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
   $ga = rex_sql::factory();
   $ga->setQuery('SELECT a.id, postsave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE postsave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.postsavemode & ' . $modebit . ') = ' . $modebit . ')');
 
-  while ($ga->hasNext())
+  foreach ($ga as $row)
   {
     $REX_ACTION['MSG'] = '';
-    $iaction = $ga->getValue('postsave');
+    $iaction = $row->getValue('postsave');
 
     // ***************** WERTE ERSETZEN UND POSTACTION AUSFÜHREN
     foreach (rex_var::getVars() as $obj)
@@ -240,12 +236,10 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    require rex_variableStream::factory('action/'. $ga->getValue('id') .'/postsave', $iaction);
+    require rex_variableStream::factory('action/'. $row->getValue('id') .'/postsave', $iaction);
 
     if ($REX_ACTION['MSG'] != '')
       $messages[] = $REX_ACTION['MSG'];
-
-    $ga->next();
   }
   return implode(' | ', $messages);
 }
@@ -572,15 +566,15 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
     $cols = rex_sql::factory();
     // $cols->debugsql = 1;
     $cols->setquery("SHOW COLUMNS FROM ".$REX['TABLE_PREFIX']."article_slice");
-    while($gc->hasNext())
+    foreach($gc as $slice)
     {
-      while($cols->hasNext())
+      foreach($cols as $col)
       {
-        $colname = $cols->getValue("Field");
+        $colname = $col->getValue("Field");
         if ($colname == "clang") $value = $to_clang;
         elseif ($colname == "article_id") $value = $to_id;
         else
-          $value = $gc->getValue($colname);
+          $value = $slice->getValue($colname);
 
         // collect all affected ctypes
         if ($colname == "ctype")
@@ -588,16 +582,11 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
 
         if ($colname != "id")
           $ins->setValue($colname, $value);
-
-        $cols->next();
       }
-      $cols->reset();
 
       $ins->addGlobalUpdateFields();
       $ins->addGlobalCreateFields();
       $ins->insert();
-
-      $gc->next();
     }
 
     foreach($ctypes as $ctype)
@@ -689,11 +678,10 @@ function rex_copyArticle($id, $to_cat_id)
         // TODO Doublecheck... is this really correct?
         $revisions = rex_sql::factory();
         $revisions->setQuery("select revision from ".$REX['TABLE_PREFIX']."article_slice where prior=1 AND ctype=1 AND article_id='$id' AND clang='$clang'");
-        while($revisions->hasNext())
+        foreach($revisions as $rev)
         {
           // ArticleSlices kopieren
-          rex_copyContent($id, $new_id, $clang, $clang, 0, $revisions->getValue('revision'));
-          $revisions->next();
+          rex_copyContent($id, $new_id, $clang, $clang, 0, $rev->getValue('revision'));
         }
 
         // Prios neu berechnen

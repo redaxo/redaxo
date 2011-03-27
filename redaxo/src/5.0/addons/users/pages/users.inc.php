@@ -70,11 +70,10 @@ $sel_role->addOption(rex_i18n::msg('user_no_role'), 0);
 $roles = array();
 $sql_role = rex_sql::factory();
 $sql_role->setQuery('SELECT id, name FROM '. $REX['TABLE_PREFIX'] .'user_role');
-while($sql_role->hasNext())
+foreach($sql_role as $role)
 {
-  $roles[$sql_role->getValue('id')] = $sql_role->getValue('name');
-  $sel_role->addOption($sql_role->getValue('name'), $sql_role->getValue('id'));
-  $sql_role->next();
+  $roles[$role->getValue('id')] = $role->getValue('name');
+  $sel_role->addOption($role->getValue('name'), $role->getValue('id'));
 }
 $userrole = rex_request('userrole', 'string');
 

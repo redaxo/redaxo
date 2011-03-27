@@ -21,20 +21,18 @@ class rex_article_revision
 	  $gc = rex_sql::factory();
 	  $gc->setQuery("select * from ".$REX['TABLE_PREFIX']."article_slice where article_id='$article_id' and clang='$clang' and revision='$from_revision_id' ORDER by ctype, prior");
 	  
-	  while($gc->hasNext())
+    $cols = rex_sql::factory();
+    $cols->setquery("SHOW COLUMNS FROM ".$REX['TABLE_PREFIX']."article_slice");
+	  foreach($gc as $slice)
 	  {
 	    $ins = rex_sql::factory();
 	    // $ins->debugsql = 1;
 	    $ins->setTable($REX['TABLE_PREFIX']."article_slice");
 	    
-	    $cols = rex_sql::factory();
-	    $cols->setquery("SHOW COLUMNS FROM ".$REX['TABLE_PREFIX']."article_slice");
-	    while($cols->hasNext())
+	    foreach($cols as $col)
 	    {
-	      $colname = $cols->getValue("Field");
-        $ins->setValue($colname, $gc->getValue($colname));
-	        
-	      $cols->next();
+	      $colname = $col->getValue("Field");
+        $ins->setValue($colname, $slice->getValue($colname));
 	    }
 	    
       $ins->setValue('id', 0); // trigger auto increment
@@ -42,8 +40,6 @@ class rex_article_revision
 	    $ins->addGlobalCreateFields();
 	    $ins->addGlobalUpdateFields();
 	    $ins->insert();
-	    
-	    $gc->next();
 	  }
 	  
 	  rex_article_cache::delete($article_id);

@@ -97,7 +97,7 @@ function rex_addCLang($id, $name)
 
   $newLang = rex_sql::factory();
   // $newLang->debugsql = 1;
-  while($firstLang->hasNext())
+  foreach($firstLang as $firstLangArt)
   {
     $newLang->setTable($REX['TABLE_PREFIX']."article");
 
@@ -112,13 +112,11 @@ function rex_addCLang($id, $name)
           if ($value == 'status')
             $newLang->setValue('status', '0'); // Alle neuen Artikel offline
       else
-        $newLang->setValue($value, $firstLang->getValue($value));
+        $newLang->setValue($value, $firstLangArt->getValue($value));
     }
 
     $newLang->insert();
-    $firstLang->next();
   }
-  $firstLang->freeResult();
 
   $newLang = rex_sql::factory();
   $newLang->setQuery("insert into ".$REX['TABLE_PREFIX']."clang set id='$id',name='$name'");
@@ -169,10 +167,9 @@ function rex_generateClang()
   $lg->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
 
   $REX['CLANG'] = array();
-  while($lg->hasNext())
+  foreach($lg as $lang)
   {
-    $REX['CLANG'][$lg->getValue("id")] = $lg->getValue("name");
-    $lg->next();
+    $REX['CLANG'][$lang->getValue("id")] = $lang->getValue("name");
   }
 
   $file = rex_path::generated('files/clang.cache');

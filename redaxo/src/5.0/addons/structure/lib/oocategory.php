@@ -281,13 +281,11 @@ class rex_ooCategory extends rex_ooRedaxo
     if($category_id < 1)
     {
     	// Alle globalen Templates
-    	while($t_sql->hasNext())
+    	foreach($t_sql as $row)
     	{
-        $categories = rex_getAttributes('categories', $t_sql->getValue('attributes'));
+        $categories = rex_getAttributes('categories', $row->getValue('attributes'));
         if (!is_array($categories) || $categories['all'] == 1)
-    		  $templates[$t_sql->getValue('id')] = $t_sql->getValue('name');
-
-      	$t_sql->next();
+    		  $templates[$row->getValue('id')] = $row->getValue('name');
     	}
     }else
     {
@@ -295,13 +293,13 @@ class rex_ooCategory extends rex_ooRedaxo
     	{
     		$path = $c->getPathAsArray();
     		$path[] = $category_id;
-      	while($t_sql->hasNext())
+    	  foreach($t_sql as $row)
       	{
-	    		$categories = rex_getAttributes('categories', $t_sql->getValue('attributes'));
+	    		$categories = rex_getAttributes('categories', $row->getValue('attributes'));
 	    		// template ist nicht kategoriespezifisch -> includen
 	    		if(!is_array($categories) || $categories['all'] == 1)
 	    		{
-            $templates[$t_sql->getValue('id')] = $t_sql->getValue('name');
+            $templates[$row->getValue('id')] = $row->getValue('name');
 	    		}
 	    		else
 	    		{
@@ -311,13 +309,11 @@ class rex_ooCategory extends rex_ooRedaxo
   	    		{
   	    			if(in_array($p,$categories))
   	    			{
-  	    				$templates[$t_sql->getValue('id')] = $t_sql->getValue('name');
+  	    				$templates[$row->getValue('id')] = $row->getValue('name');
   	    				break;
   	    			}
   	    		}
 	    		}
-
-        	$t_sql->next();
       	}
     	}
     }
