@@ -71,7 +71,7 @@ class rex_cronjob_article_status extends rex_cronjob
       else
         $status = $to['after'];
 
-      rex_articleStatus($sql->getValue('id'), $sql->getValue('clang'), $status);
+      rex_article_service::articleStatus($sql->getValue('id'), $sql->getValue('clang'), $status);
       $sql->next();
     }
     $this->setMessage('Updated articles: '. $rows);

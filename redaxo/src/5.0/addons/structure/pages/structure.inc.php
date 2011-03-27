@@ -35,7 +35,6 @@ if(count($mountpoints)==1 && $category_id == 0)
 }
 
 // --------------------------------------------- Rechte prŸfen
-require dirname(__FILE__) .'/../functions/function_rex_structure.inc.php';
 require dirname(__FILE__) .'/../functions/function_rex_category.inc.php';
 
 
@@ -48,8 +47,8 @@ $sprachen_add = '&amp;category_id='. $category_id;
 require dirname(__FILE__) .'/../functions/function_rex_languages.inc.php';
 
 // -------------- STATUS_TYPE Map
-$catStatusTypes = rex_categoryStatusTypes();
-$artStatusTypes = rex_articleStatusTypes();
+$catStatusTypes = rex_category_service::statusTypes();
+$artStatusTypes = rex_article_service::statusTypes();
 
 $context = new rex_context(array(
   'page' => 'structure',
@@ -68,7 +67,7 @@ if (rex_post('catedit_function', 'boolean') && $edit_id != '' && $KATPERM)
   $data['catname']  = rex_post('kat_name', 'string');
   $data['path']     = $KATPATH;
 
-  list($success, $message) = rex_editCategory($edit_id, $clang, $data);
+  list($success, $message) = rex_category_service::editCategory($edit_id, $clang, $data);
 
   if($success)
     $info = $message;
@@ -78,7 +77,7 @@ if (rex_post('catedit_function', 'boolean') && $edit_id != '' && $KATPERM)
 elseif ($function == 'catdelete_function' && $edit_id != '' && $KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
 {
   // --------------------- KATEGORIE DELETE
-  list($success, $message) = rex_deleteCategoryReorganized($edit_id);
+  list($success, $message) = rex_category_service::deleteCategory($edit_id);
 
   if($success)
   {
@@ -92,7 +91,7 @@ elseif ($function == 'catdelete_function' && $edit_id != '' && $KATPERM && !$REX
         && ($REX['USER']->isAdmin() || $KATPERM && $REX['USER']->hasPerm('publishArticle[]')))
 {
   // --------------------- KATEGORIE STATUS
-  list($success, $message) = rex_categoryStatus($edit_id, $clang);
+  list($success, $message) = rex_category_service::categoryStatus($edit_id, $clang);
 
   if($success)
     $info = $message;
@@ -107,7 +106,7 @@ elseif (rex_post('catadd_function', 'boolean') && $KATPERM && !$REX['USER']->has
   $data['catname']  = rex_post('category_name', 'string');
   $data['path']     = $KATPATH;
 
-  list($success, $message) = rex_addCategory($category_id, $data);
+  list($success, $message) = rex_category_service::addCategory($category_id, $data);
 
   if($success)
     $info = $message;
@@ -121,7 +120,7 @@ if ($function == 'status_article' && $article_id != ''
     && ($REX['USER']->isAdmin() || $KATPERM && $REX['USER']->hasPerm('publishArticle[]')))
 {
   // --------------------- ARTICLE STATUS
-  list($success, $message) = rex_articleStatus($article_id, $clang);
+  list($success, $message) = rex_article_service::articleStatus($article_id, $clang);
 
   if($success)
     $info = $message;
@@ -139,7 +138,7 @@ elseif (rex_post('artadd_function', 'boolean') && $category_id !== '' && $KATPER
   $data['category_id'] = $category_id;
   $data['path']        = $KATPATH;
 
-  list($success, $message) = rex_addArticle($data);
+  list($success, $message) = rex_article_service::addArticle($data);
 
   if($success)
     $info = $message;
@@ -156,7 +155,7 @@ elseif (rex_post('artedit_function', 'boolean') && $article_id != '' && $KATPERM
   $data['category_id'] = $category_id;
   $data['path']        = $KATPATH;
 
-  list($success, $message) = rex_editArticle($article_id, $clang, $data);
+  list($success, $message) = rex_article_service::editArticle($article_id, $clang, $data);
 
   if($success)
     $info = $message;
@@ -166,7 +165,7 @@ elseif (rex_post('artedit_function', 'boolean') && $article_id != '' && $KATPERM
 elseif ($function == 'artdelete_function' && $article_id != '' && $KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
 {
   // --------------------- ARTIKEL DELETE
-  list($success, $message) = rex_deleteArticleReorganized($article_id);
+  list($success, $message) = rex_article_service::deleteArticle($article_id);
 
   if($success)
     $info = $message;

@@ -413,7 +413,7 @@ function rex_article2category($art_id){
     $sql->setValue('catprior', 100);
     $sql->update();
 
-    rex_newCatPrio($re_id, $clang, 0, 100);
+    rex_category_service::newCatPrio($re_id, $clang, 0, 100);
   }
 
   rex_deleteCacheArticleLists($re_id);
@@ -464,7 +464,7 @@ function rex_category2article($art_id){
     $sql->setValue('prior', 100);
     $sql->update();
 
-    rex_newArtPrio($re_id, $clang, 0, 100);
+    rex_article_service::newArtPrio($re_id, $clang, 0, 100);
   }
 
   rex_deleteCacheArticleLists($re_id);
@@ -697,7 +697,7 @@ function rex_copyArticle($id, $to_cat_id)
         }
 
         // Prios neu berechnen
-        rex_newArtPrio($to_cat_id, $clang, 1, 0);
+        rex_article_service::newArtPrio($to_cat_id, $clang, 1, 0);
       }
       else
       {
@@ -784,8 +784,8 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
         $art_sql->update();
 
         // Prios neu berechnen
-        rex_newArtPrio($to_cat_id, $clang, 1, 0);
-        rex_newArtPrio($from_cat_id, $clang, 1, 0);
+        rex_article_service::newArtPrio($to_cat_id, $clang, 1, 0);
+        rex_article_service::newArtPrio($from_cat_id, $clang, 1, 0);
       }
       else
       {
@@ -923,7 +923,7 @@ function rex_moveCategory($from_cat, $to_cat)
 
       foreach($REX['CLANG'] as $clang => $clang_name)
       {
-        rex_newCatPrio($fcat->getValue("re_id"),$clang,0,1);
+        rex_category_service::newCatPrio($fcat->getValue("re_id"),$clang,0,1);
       }
     }
   }
