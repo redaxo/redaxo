@@ -10,7 +10,7 @@
  * @author Dave Holloway
  * @author <a href="http://www.GN2-Netwerk.de">www.GN2-Netwerk.de</a>
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -26,7 +26,7 @@
 	$rxa_tinymce['medienpool'] = ($rxa_tinymce['rexversion'] > '41') ? 'mediapool' : 'medienpool';
 	$rxa_tinymce['linkmap'] = 'linkmap';
 
-	// Pfad für HTML-Ausgabe
+	// Pfad fï¿½r HTML-Ausgabe
 	$rxa_tinymce['fe_path'] = $REX['HTDOCS_PATH'] . 'files/addons/' . $rxa_tinymce['name'];
 
 
@@ -57,10 +57,10 @@ $REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
 		// rexTinyMCEEditor-Klasse
 		include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/classes/class.tinymce.inc.php';
 
-		// Funktionen für TinyMCE
+		// Funktionen fï¿½r TinyMCE
 		include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/functions/function_rex_tinymce.inc.php';
 
-		// Kompatibilitäts-Funktionen
+		// Kompatibilitï¿½ts-Funktionen
 		include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/functions/function_rex_compat.inc.php';
 
 		// Request-Variablen
@@ -78,7 +78,7 @@ $REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
 		// Im Backend Sprachobjekt anlegen
 		$I18N_A52 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/lang/');
 
-		// Addon-Subnavigation für das REDAXO-Menue
+		// Addon-Subnavigation fï¿½r das REDAXO-Menue
 		$REX['ADDON'][$rxa_tinymce['name']]['SUBPAGES'] = array (
 			array('', $I18N_A52->msg('menu_module')),
 			array('settings', $I18N_A52->msg('menu_settings')),
@@ -87,20 +87,20 @@ $REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
 			array('info', $I18N_A52->msg('menu_information')),
 		);
 
-		// ausgewählte Seiten laut Konfiguration
+		// ausgewï¿½hlte Seiten laut Konfiguration
 		$rxa_tinymce['includepages'] = explode(',', trim(str_replace(' ', '', $REX['ADDON'][$rxa_tinymce['name']]['pages'])));
 		if (!in_array('content', $rxa_tinymce['includepages'])) // Bei 'content' immer!
 		{
 			$rxa_tinymce['includepages'][] = 'content';
 		}
 
-		// TinyMCE ins Backend integrieren, nur in ausgewählten Seiten laut Konfiguration
+		// TinyMCE ins Backend integrieren, nur in ausgewï¿½hlten Seiten laut Konfiguration
 		if(($rxa_tinymce['get_page'] <> '') and in_array($rxa_tinymce['get_page'], $rxa_tinymce['includepages']) and ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on'))
 		{
 			rex_register_extension('OUTPUT_FILTER', 'a52_tinymce_opf');
 		}
 
-		// Outputfilter für Medienpool und Linkmap
+		// Outputfilter fï¿½r Medienpool und Linkmap
 		if ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on') // nur wen TinyMCE aktiv
 		{
 			$rxa_tinymce['get_inputfield'] = rex_request('opener_input_field', 'string');

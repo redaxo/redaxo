@@ -8,7 +8,7 @@
  * @author jan.kristinus[at]yakmara[dot]de Jan Kristinus
  * @author dh[at]daveholloway[dot]co[dot]uk Dave Holloway
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

@@ -2,7 +2,7 @@
 
 /** 
  * Funktionen zum handeln von magic_quotes=off  
- * @package redaxo4 
+ * @package redaxo5 
  * @version svn:$Id$ 
  */
 

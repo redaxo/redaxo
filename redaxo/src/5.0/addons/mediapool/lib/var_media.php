@@ -17,7 +17,7 @@
  *   - mimetype  => Mimetype des Bildes ausgeben
  *
  * Alle Variablen die mit REX_FILE beginnnen sind als deprecated anzusehen!
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

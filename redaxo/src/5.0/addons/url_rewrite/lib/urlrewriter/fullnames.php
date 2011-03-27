@@ -3,7 +3,7 @@
 /**
  * URL-Rewrite Addon
  * @author markus.staab[at]redaxo[dot]de Markus Staab
- * @package redaxo4.2
+ * @package redaxo5.2
  */
 
 /**
@@ -277,7 +277,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
   /**
    * generiert die Pathlist, abhŠngig von Aktion
    * @author markus.staab[at]redaxo[dot]de Markus Staab
-   * @package redaxo4.2
+   * @package redaxo5.2
    */
   public function generatePathnames($params)
   {

@@ -2,7 +2,7 @@
 
 /**
  * Funktionen zur Ausgabe der Titel Leiste und Subnavigation
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

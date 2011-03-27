@@ -1,6 +1,6 @@
 /* 
  REDAXO JavaScript library
- @package redaxo4 
+ @package redaxo5 
  @version svn:$Id$
  */ 
 

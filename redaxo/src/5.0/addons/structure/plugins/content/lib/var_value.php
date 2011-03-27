@@ -9,7 +9,7 @@
  * REX_HTML,
  * REX_IS_VALUE
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

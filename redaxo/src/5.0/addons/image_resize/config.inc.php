@@ -11,7 +11,7 @@
  * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

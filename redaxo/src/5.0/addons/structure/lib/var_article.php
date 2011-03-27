@@ -15,7 +15,7 @@
  *   - ctype     => Spalte des Artikels festlegen
  *   - field     => Nur dieses Feld des Artikels ausgeben
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

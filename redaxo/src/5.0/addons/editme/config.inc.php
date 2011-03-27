@@ -5,7 +5,7 @@
  *
  * @author jan@kristinus.de
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  * 
  * 
@@ -13,15 +13,15 @@
  * - translate bei den Eingabefeldern setzen
  * - export einbauen, sollte direkt auch als import gehen
  * - import umbauen so dass, wenn Id gesetzt ist, Datensaetze ersetzt werden
- * - wenn medien im medienpool geloescht werden Ÿber EP auch prŸfen ob in EM etwas vorhanden ist
- * - Einfaches OOF fŸr EM bauen, Datensaetze, Listen, Relationen, Export und Import
+ * - wenn medien im medienpool geloescht werden ï¿½ber EP auch prï¿½fen ob in EM etwas vorhanden ist
+ * - Einfaches OOF fï¿½r EM bauen, Datensaetze, Listen, Relationen, Export und Import
  * - Caching einbauen
- * - Lšsung finden um einfach spezifische Feldtypen definieren zu kšnnen, INT, VARCHAR, FLOAT etc.
+ * - Lï¿½sung finden um einfach spezifische Feldtypen definieren zu kï¿½nnen, INT, VARCHAR, FLOAT etc.
  * - onDelete bei Feldern einbauen
  * - Mehrsprachige Felder besser einbauen, XForm erweitern
- * - weitere XForm-Klassen umbauen fŸr EM.
- * - Generate All immer nach €nderungen bei Tabellen + Feldern
- * - Ÿbersetzung vervollstŠndigen, nur noch tables.inc.php und englisch
+ * - weitere XForm-Klassen umbauen fï¿½r EM.
+ * - Generate All immer nach ï¿½nderungen bei Tabellen + Feldern
+ * - ï¿½bersetzung vervollstï¿½ndigen, nur noch tables.inc.php und englisch
  * 
  */
 
@@ -71,13 +71,13 @@ if($REX["REDAXO"] && !$REX['SETUP'])
 				$be_page = new rex_be_page($table['label'], array('page'=>$mypage, 'subpage' => $table['name']));
 				$be_page->setHref('index.php?page=editme&subpage='.$table['name']);
 				$subpages[] = new rex_be_page_main($mypage, $be_page);
-				// $subpages[] = array($table['name'],$table['label']); // fŸr rex 4.2.1
+				// $subpages[] = array($table['name'],$table['label']); // fï¿½r rex 4.2.1
 			}
 		}
 	}
 
 	$REX['ADDON']['pages'][$mypage] = $subpages;
-	// $REX['ADDON'][$mypage]['SUBPAGES'] = $subpages; // fŸr rex 4.2.1
+	// $REX['ADDON'][$mypage]['SUBPAGES'] = $subpages; // fï¿½r rex 4.2.1
 
 	function rex_editme_assets($params){
 		$params['subject'] .= "\n  ".'<script src="../files/addons/editme/em.js" type="text/javascript"></script>';

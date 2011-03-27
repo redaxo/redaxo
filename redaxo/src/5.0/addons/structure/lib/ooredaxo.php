@@ -2,7 +2,7 @@
 
 /**
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

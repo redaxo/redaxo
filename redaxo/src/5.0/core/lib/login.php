@@ -4,7 +4,7 @@
 /**
  * Klasse zum handling des Login/Logout-Mechanismuses
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

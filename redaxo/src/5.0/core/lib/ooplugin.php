@@ -2,7 +2,7 @@
 
 /**
  * Klasse zum prüfen ob Plugins installiert/aktiviert sind
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

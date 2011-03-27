@@ -7,7 +7,7 @@
  *   - field    => Feld, das ausgegeben werden soll
  *
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

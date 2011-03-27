@@ -10,7 +10,7 @@
  * Attribute:
  *   - category  => Kategorie in die beim oeffnen der Linkmapw gesprungen werden soll
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

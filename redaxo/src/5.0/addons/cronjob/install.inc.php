@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

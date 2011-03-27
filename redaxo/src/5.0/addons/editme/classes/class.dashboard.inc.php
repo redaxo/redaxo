@@ -6,7 +6,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.de">www.redaxo.de</a>
  * 
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

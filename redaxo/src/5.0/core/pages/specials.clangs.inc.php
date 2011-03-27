@@ -2,7 +2,7 @@
 
 /**
  * Verwaltung der Content Sprachen
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

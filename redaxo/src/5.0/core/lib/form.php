@@ -2,7 +2,7 @@
 
 /**
  * Klasse zum erstellen von Listen
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

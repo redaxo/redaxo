@@ -6,7 +6,7 @@ define('REX_LIST_OPT_SORT', 0);
 /**
  * Klasse zum erstellen von Listen
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

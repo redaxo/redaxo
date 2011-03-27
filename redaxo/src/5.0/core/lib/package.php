@@ -3,7 +3,7 @@
 /**
  * Basisklasse für Addons/Plugins
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 class rex_package

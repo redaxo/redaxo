@@ -9,7 +9,7 @@
  * Adjusted in the following places
  * - file-cache uses json instead of a serialized php array to boost performance
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 class rex_autoload

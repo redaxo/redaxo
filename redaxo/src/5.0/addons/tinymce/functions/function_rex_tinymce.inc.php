@@ -10,7 +10,7 @@
  * @author Dave Holloway
  * @author <a href="http://www.GN2-Netwerk.de">www.GN2-Netwerk.de</a>
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -66,7 +66,7 @@ if (!function_exists('a52_readFolderFiles'))
 } // End function_exists
 
 /**
- * Output-Filter für das Backend, TinyMCE in den ausgewählten Seiten integrieren
+ * Output-Filter fï¿½r das Backend, TinyMCE in den ausgewï¿½hlten Seiten integrieren
  */
 if (!function_exists('a52_tinymce_opf'))
 {
@@ -82,12 +82,12 @@ if (!function_exists('a52_tinymce_opf'))
 			return $content;
 		}
 
-		// Ausgabe für das Backend aufbereiten
+		// Ausgabe fï¿½r das Backend aufbereiten
 		$n = "\n";
 		$t = '  ';
 		$cssLink = $n . $t . '<!-- Addon TinyMCE -->';
 
-		// Selectbox Fix für IE6
+		// Selectbox Fix fï¿½r IE6
 		$cssLink .= $n . $t . '<!--[if lte IE 6]>';
 		$script = $rxa_tinymce['fe_path'] . '/selectfix/select_fix.js';
 		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
@@ -100,7 +100,7 @@ if (!function_exists('a52_tinymce_opf'))
 		$script = str_replace('\\', '/', $script);
 		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
 
-		// Script für Media
+		// Script fï¿½r Media
 		$script = $rxa_tinymce['fe_path'] . '/tiny_mce/plugins/media/js/rexembed.js';
 		$script = str_replace('\\', '/', $script);
 		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
@@ -116,7 +116,7 @@ if (!function_exists('a52_tinymce_opf'))
 } // End function_exists
 
 /**
- * Extension-Point für Medienpool Button "Hinzufügen und übernehmen"
+ * Extension-Point fï¿½r Medienpool Button "Hinzufï¿½gen und ï¿½bernehmen"
  */
 if (!function_exists('a52_tinymce_output_init'))
 {
@@ -134,7 +134,7 @@ if (!function_exists('a52_tinymce_output_init'))
 ?>
 
 /**
- * Callback-Funktion für das oeffnen der Linkmap bzw. Medienpool
+ * Callback-Funktion fï¿½r das oeffnen der Linkmap bzw. Medienpool
  */ 
 function rexCustomFileBrowser(field_name, url, type, win)
 {
@@ -185,7 +185,7 @@ function rexCustomFileBrowser(field_name, url, type, win)
  */ 
 <?php			
 /*
-// wird evtl. noch mal benötigt
+// wird evtl. noch mal benï¿½tigt
 function rexCustomURLConverter(url, node, on_save) {
 	if (url.substr(0,6) == 'files/')
 	{
@@ -203,7 +203,7 @@ function rexCustomURLConverter(url, node, on_save) {
 } // End function_exists
 
 /**
- * Extension-Point für Medienpool Button "Hinzufügen und übernehmen"
+ * Extension-Point fï¿½r Medienpool Button "Hinzufï¿½gen und ï¿½bernehmen"
  */
 if (!function_exists('a52_tinymce_mediaadded'))
 {
@@ -211,7 +211,7 @@ if (!function_exists('a52_tinymce_mediaadded'))
 	{
 		global $REX;
 
-		// Status Tinymce, Hinzufügen und Hinzufügen+Übernehmen
+		// Status Tinymce, Hinzufï¿½gen und Hinzufï¿½gen+ï¿½bernehmen
 		$_SESSION['a52_tinymce'] = 'true';
 		$_SESSION['a52_save'] = '';
 		if (isset($_POST['save'])) 
@@ -220,14 +220,14 @@ if (!function_exists('a52_tinymce_mediaadded'))
 		if (isset($_POST['saveand-exit'])) 
 			$_SESSION['a52_saveand-exit'] = $_POST['saveand-exit'];
 
-		// Dateinamen für Outputfilter merken!
+		// Dateinamen fï¿½r Outputfilter merken!
 		$_SESSION['a52_media_added_filename'] = $params['filename'];
 		$_SESSION['a52_media_added_title'] = $params['title'];
 	}
 } // End function_exists
 
 /**
- * Output-Filter für Medienpool und Linkmap
+ * Output-Filter fï¿½r Medienpool und Linkmap
  */
 if (!function_exists('a52_tinymce_opf_media_linkmap'))
 {
@@ -242,14 +242,14 @@ if (!function_exists('a52_tinymce_opf_media_linkmap'))
 
 		$content = $params['subject'];
 
-		// JavaScript für TinyMCE-Popups
+		// JavaScript fï¿½r TinyMCE-Popups
 		$scriptoutput = $n . '<script type="text/javascript" src="' . $rxa_tinymce['fe_path'] . '/tiny_mce/tiny_mce_popup.js"></script>';
 
-		// JavaScript für Medienpool
+		// JavaScript fï¿½r Medienpool
 		if ($page == $rxa_tinymce['medienpool'])
 		{
 			$scriptoutput .= $n . '<script type="text/javascript" src="' . $rxa_tinymce['fe_path'] . '/mediapool.js"></script>';
-			// Medium hinzufügen und übernehmen, Fenster schliessen
+			// Medium hinzufï¿½gen und ï¿½bernehmen, Fenster schliessen
 			if (isset($_SESSION['a52_saveand-exit']) and ($_SESSION['a52_saveand-exit'] <> '')) 
 			{
 				$scriptoutput .= $n . '<script type="text/javascript">';
@@ -263,7 +263,7 @@ if (!function_exists('a52_tinymce_opf_media_linkmap'))
 			}
 		}
 
-		// JavaScript für Linkmap
+		// JavaScript fï¿½r Linkmap
 		if ($page == $rxa_tinymce['linkmap'])
 		{
 			$scriptoutput .= $n . '<script type="text/javascript" src="' . $rxa_tinymce['fe_path'] . '/linkmap.js"></script>';

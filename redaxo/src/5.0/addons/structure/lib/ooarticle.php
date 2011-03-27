@@ -2,7 +2,7 @@
 
 /**
  * Object Oriented Framework: Bildet einen Artikel der Struktur ab
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

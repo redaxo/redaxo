@@ -9,7 +9,7 @@
  *
  * @author	Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @see     http://www.mkssoftware.com/docs/man4/tar.4.asp
  */
 

@@ -4,7 +4,7 @@
  * Klasse regelt den Zugriff auf Artikelinhalte.
  * Alle benötigten Daten werden von der DB bezogen.
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

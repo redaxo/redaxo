@@ -10,7 +10,7 @@
  * @author Dave Holloway
  * @author <a href="http://www.GN2-Netwerk.de">www.GN2-Netwerk.de</a>
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -24,14 +24,14 @@ if (!isset($REX['DIRPERM']))
 }
 
 /**
- * Für Kompatibilität mit Modulen REDAXO 3.1.x / 4.x mit TinyMCE 2
+ * Fï¿½r Kompatibilitï¿½t mit Modulen REDAXO 3.1.x / 4.x mit TinyMCE 2
  */
 class rexTiny2Editor extends rexTinyMCEEditor
 {
 }
 
 /**
- * für REDAXO 3.2.x
+ * fï¿½r REDAXO 3.2.x
  */
 if (!function_exists('rex_info'))
 {
@@ -42,7 +42,7 @@ if (!function_exists('rex_info'))
 } // End function_exists
 
 /**
- * für REDAXO 3.2.x
+ * fï¿½r REDAXO 3.2.x
  */
 if (!function_exists('rex_request'))
 {
@@ -53,7 +53,7 @@ if (!function_exists('rex_request'))
 } // End function_exists
 
 /**
- * für REDAXO 3.2.x
+ * fï¿½r REDAXO 3.2.x
  */
 if (!function_exists('_rex_array_key_cast'))
 {
@@ -82,7 +82,7 @@ if (!function_exists('_rex_array_key_cast'))
 } // End function_exists
 
 /**
- * für REDAXO 3.2.x
+ * fï¿½r REDAXO 3.2.x
  */
 if (!function_exists('_rex_cast_var'))
 {
@@ -119,7 +119,7 @@ if (!function_exists('_rex_cast_var'))
 } // end function_exists
 
 /**
- * für REDAXO 3.2.x
+ * fï¿½r REDAXO 3.2.x
  */
 if (!function_exists('rex_put_file_contents'))
 {
@@ -135,7 +135,7 @@ if (!function_exists('rex_put_file_contents'))
 } // end function_exists
 
 /**
- * für REDAXO 3.2.x
+ * fï¿½r REDAXO 3.2.x
  */
 if (!function_exists('rex_get_file_contents'))
 {
@@ -146,7 +146,7 @@ if (!function_exists('rex_get_file_contents'))
 } // end function_exists
 
 /**
- * für REDAXO 3.2.x
+ * fï¿½r REDAXO 3.2.x
  */
 if (!function_exists('rex_replace_dynamic_contents'))
 {
@@ -163,7 +163,7 @@ if (!function_exists('rex_replace_dynamic_contents'))
 } // End function_exists
 
 /**
- * für REDAXO 4.0.x
+ * fï¿½r REDAXO 4.0.x
  */
 if (!function_exists('rex_highlight_string'))
 {
@@ -179,7 +179,7 @@ if (!function_exists('rex_highlight_string'))
 } // End function_exists
 
 /**
- * für REDAXO 4.1.x
+ * fï¿½r REDAXO 4.1.x
  */
 if (!function_exists('rex_copyDir'))
 {
@@ -255,7 +255,7 @@ if (!function_exists('rex_copyDir'))
 } // End function_exists
 
 /**
- * für REDAXO 3.2.x
+ * fï¿½r REDAXO 3.2.x
  */
 if (!function_exists('rex_deleteDir'))
 {
@@ -268,7 +268,7 @@ if (!function_exists('rex_deleteDir'))
 
 	  if (file_exists($file))
 	  {
-		// Fehler unterdrücken, falls keine Berechtigung
+		// Fehler unterdrï¿½cken, falls keine Berechtigung
 		if (@ is_dir($file))
 		{
 		  $handle = opendir($file);
@@ -300,10 +300,10 @@ if (!function_exists('rex_deleteDir'))
 		  }
 		  
 
-		  // Ordner auch löschen?
+		  // Ordner auch lï¿½schen?
 		  if ($delete_folders)
 		  {
-			// Fehler unterdrücken, falls keine Berechtigung
+			// Fehler unterdrï¿½cken, falls keine Berechtigung
 			if (!@ rmdir($file))
 			{
 			  if($debug)
@@ -315,8 +315,8 @@ if (!function_exists('rex_deleteDir'))
 		}
 		else
 		{
-		  // Datei löschen
-		  // Fehler unterdrücken, falls keine Berechtigung
+		  // Datei lï¿½schen
+		  // Fehler unterdrï¿½cken, falls keine Berechtigung
 		  if (!@ unlink($file))
 		  {
 			if($debug)
@@ -339,7 +339,7 @@ if (!function_exists('rex_deleteDir'))
 } // end function_exists
 
 /**
- * Workaround für PHP4
+ * Workaround fï¿½r PHP4
  */
 if (!function_exists('file_get_contents'))
 {
@@ -358,7 +358,7 @@ if (!function_exists('file_get_contents'))
 } // end function_exists
 
 /**
- * Workaround für PHP4
+ * Workaround fï¿½r PHP4
  */
 if (!function_exists('file_put_contents'))
 {

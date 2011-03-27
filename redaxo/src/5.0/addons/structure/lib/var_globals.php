@@ -5,7 +5,7 @@
  * REX_SLICE_ID,
  * REX_CTYPE_ID
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

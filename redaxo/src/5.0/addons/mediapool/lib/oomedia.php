@@ -3,7 +3,7 @@
 
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Bindet nötige Klassen/Funktionen ein
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

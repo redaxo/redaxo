@@ -3,7 +3,7 @@
 /**
  * Erweiterung eines Artikels um slicemanagement.
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
