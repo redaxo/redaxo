@@ -5,7 +5,7 @@
  * @version svn:$Id$
  */
 // see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
-class rex_sql
+class rex_sql implements Iterator
 {
   public
     $debugsql, // debug schalter
@@ -703,26 +703,6 @@ class rex_sql
     $this->values = array ();
   }
 
-
-  /**
-   * Setzt den Cursor des Resultsets auf die naechst niedrigere Stelle
-   */
-  /*
-  public function previous()
-  {
-    $this->counter--;
-  }
-  */
-
-  /**
-   * Setzt den Cursor des Resultsets auf die naechst hoehere Stelle
-   */
-  public function next()
-  {
-    $this->counter++;
-    $this->lastRow = $this->stmt->fetch();
-  }
-
   /*
    * Prueft ob das Resultset weitere Datensaetze enthaelt
    */
@@ -737,22 +717,12 @@ class rex_sql
   public function reset()
   {
     // re-execute the statement
-    if($this->stmt)
+    if($this->stmt && $this->counter != 0)
     {
       $this->stmt->execute();
+      $this->counter = 0;
     }
-    $this->counter = 0;
   }
-
-  /**
-   * Setzt den Cursor des Resultsets aufs Ende
-   */
-  /*
-  public function last()
-  {
-    $this->counter = ($this->rows - 1);
-  }
-  */
 
   /**
    * Gibt die letzte InsertId zurueck
@@ -1163,9 +1133,53 @@ class rex_sql
     $this->setValue('createdate', time());
     $this->setValue('createuser', $user);
   }
-
+  
   static public function isValid($object)
   {
     return is_object($object) && is_a($object, 'rex_sql');
   }
+  
+  // ----------------- iterator interface
+
+  /**
+   * @see http://www.php.net/manual/en/iterator.rewind.php
+   */
+  function rewind()
+  {
+    $this->reset();
+  }
+
+  /**
+   * @see http://www.php.net/manual/en/iterator.current.php
+   */
+  function current()
+  {
+    return $this;
+  }
+
+  /**
+   * @see http://www.php.net/manual/en/iterator.key.php
+   */
+  function key()
+  {
+    return $this->counter;
+  }
+
+  /**
+   * @see http://www.php.net/manual/en/iterator.next.php
+   */
+  function next()
+  {
+    $this->counter++;
+    $this->lastRow = $this->stmt->fetch();
+  }
+  
+  /**
+   * @see http://www.php.net/manual/en/iterator.valid.php
+   */
+  function valid()
+  {
+    return $this->hasNext();
+  }
+  // ----------------- /iterator interface
 }
