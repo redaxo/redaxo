@@ -52,10 +52,10 @@ class rex_sql implements Iterator
       {
         $config = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
         $conn = self::createConnection(
-          $config['DB'.$DBID]['host'],
-          $config['DB'.$DBID]['name'],
-          $config['DB'.$DBID]['login'],
-          $config['DB'.$DBID]['password']
+          $config['DB'][$DBID]['host'],
+          $config['DB'][$DBID]['name'],
+          $config['DB'][$DBID]['login'],
+          $config['DB'][$DBID]['password']
         );
         self::$pdo[$DBID] = $conn;
 
@@ -1132,12 +1132,12 @@ class rex_sql implements Iterator
     $this->setValue('createdate', time());
     $this->setValue('createuser', $user);
   }
-  
+
   static public function isValid($object)
   {
     return is_object($object) && is_a($object, 'rex_sql');
   }
-  
+
   // ----------------- iterator interface
 
   /**
@@ -1172,7 +1172,7 @@ class rex_sql implements Iterator
     $this->counter++;
     $this->lastRow = $this->stmt->fetch();
   }
-  
+
   /**
    * @see http://www.php.net/manual/en/iterator.valid.php
    */
