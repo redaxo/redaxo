@@ -461,7 +461,7 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
       if($db->update())
       {
         $info = rex_i18n::msg('pool_selectedmedia_moved');
-        rex_deleteCacheMedia($file_name);
+        rex_media_cache::delete($file_name);
       }
       else
       {

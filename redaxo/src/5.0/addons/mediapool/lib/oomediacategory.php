@@ -55,7 +55,7 @@ class rex_ooMediaCategory
     $cat_path = rex_path::generated('files/'.$id.'.mcat');
     if (!file_exists($cat_path))
 		{
-    	rex_generateMediaCategory($id);
+    	rex_media_cache::generateCategory($id);
 		}
 
     if (file_exists($cat_path))
@@ -110,7 +110,7 @@ class rex_ooMediaCategory
     $catlist_path = rex_path::generated('files/'.$id.'.mclist');
     if (!file_exists($catlist_path))
 		{
-    	rex_generateMediaCategoryList($id);
+    	rex_media_cache::generateCategoryList($id);
 		}
 
     if (file_exists($catlist_path))
@@ -306,7 +306,7 @@ class rex_ooMediaCategory
       $list_path = rex_path::generated('files/'.$id.'.mlist');
       if (!file_exists($list_path))
   		{
-      	rex_generateMediaList($id);
+      	rex_media_cache::generateList($id);
   		}
 
       if (file_exists($list_path))
@@ -424,7 +424,7 @@ class rex_ooMediaCategory
       $sql->setWhere('id=' . $this->getId() . ' LIMIT 1');
       $success = $sql->update();
       if ($success)
-        rex_deleteCacheMediaCategory($this->getId());
+        rex_media_cache::deleteCategory($this->getId());
       return $success;
     }
     else
@@ -432,7 +432,7 @@ class rex_ooMediaCategory
       $sql->addGlobalCreateFields();
       $success = $sql->insert();
       if ($success)
-        rex_deleteCacheMediaCategoryList($this->getParentId());
+        rex_media_cache::deleteCategoryList($this->getParentId());
       return $success;
     }
   }
@@ -473,8 +473,8 @@ class rex_ooMediaCategory
     // $sql->debugsql = true;
     $sql->setQuery($qry);
 
-    rex_deleteCacheMediaCategory($this->getId());
-    rex_deleteCacheMediaList($this->getId());
+    rex_media_cache::deleteCategory($this->getId());
+    rex_media_cache::deleteList($this->getId());
 
     return !$sql->hasError() || $sql->getRows() != 1;
   }

@@ -25,6 +25,4 @@ if($REX["REDAXO"])
   }
 }
 
-require_once dirname(__FILE__). '/functions/function_rex_generate.inc.php';
-
 rex_var::registerVar('rex_var_media');
