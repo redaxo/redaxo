@@ -1,3 +1,4 @@
+TABLE_PREFIX: rex_
 DB:
   1:
     host: localhost
