@@ -245,7 +245,7 @@ abstract class rex_packageManager
     {
       // reload autoload cache when addon is deactivated,
       // so the index doesn't contain outdated class definitions
-      rex_autoload::getInstance()->removeCache();
+      rex_autoload::removeCache();
 
       $this->removeFromPackageOrder($addonName);
     }

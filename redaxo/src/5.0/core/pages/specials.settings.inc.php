@@ -168,7 +168,7 @@ echo '
             PHP: '.phpversion().'</p>
 
             <h4 class="rex-hl3">'.rex_i18n::msg("database").'</h4>
-            <p class="rex-tx1">MySQL: '.rex_sql::getServerVersion().'<br />'.rex_i18n::msg("name").': '.$dbconfig['DB1']['name'].'<br />'.rex_i18n::msg("host").': '.$dbconfig['DB1']['host'].'</p>
+            <p class="rex-tx1">MySQL: '.rex_sql::getServerVersion().'<br />'.rex_i18n::msg("name").': '.$dbconfig['DB'][1]['name'].'<br />'.rex_i18n::msg("host").': '.$dbconfig['DB1']['host'].'</p>
 
 					</div>
 				</div>
@@ -220,14 +220,14 @@ echo '
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-db-host">$REX[\'DB\'][\'1\'][\'HOST\']</label>
-										<span class="rex-form-read" id="rex-form-db-host">&quot;'.$dbconfig['DB1']['host'].'&quot;</span>
+										<span class="rex-form-read" id="rex-form-db-host">&quot;'.$dbconfig['DB'][1]['host'].'&quot;</span>
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
 										<label for="rex-form-db-login">$REX[\'DB\'][\'1\'][\'LOGIN\']</label>
-										<span id="rex-form-db-login">&quot;'.$dbconfig['DB1']['login'].'&quot;</span>
+										<span id="rex-form-db-login">&quot;'.$dbconfig['DB'][1]['login'].'&quot;</span>
 									</p>
 								</div>
 
@@ -241,7 +241,7 @@ echo '
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-db-name">$REX[\'DB\'][\'1\'][\'NAME\']</label>
-										<span class="rex-form-read" id="rex-form-db-name">&quot;'.htmlspecialchars($dbconfig['DB1']['name']).'&quot;</span>
+										<span class="rex-form-read" id="rex-form-db-name">&quot;'.htmlspecialchars($dbconfig['DB'][1]['name']).'&quot;</span>
 									</p>
 								</div>
 							</div>

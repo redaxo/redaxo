@@ -42,7 +42,7 @@ foreach($packageOrder as $addonName)
     // add addon path for class-loading
     if(is_readable($addonsFolder .'lib'))
     {
-      rex_autoload::getInstance()->addDirectory($addonsFolder .'lib'.DIRECTORY_SEPARATOR);
+      rex_autoload::addDirectory($addonsFolder .'lib'.DIRECTORY_SEPARATOR);
     }
     // add addon path for i18n
     if(is_readable($addonsFolder .'lang'))
@@ -68,7 +68,7 @@ foreach($packageOrder as $addonName)
       // add plugin path for class-loading
       if(is_readable($pluginsFolder .'lib'))
       {
-        rex_autoload::getInstance()->addDirectory($pluginsFolder .'lib'.DIRECTORY_SEPARATOR);
+        rex_autoload::addDirectory($pluginsFolder .'lib'.DIRECTORY_SEPARATOR);
       }
       // add plugin path for i18n
       if(is_readable($pluginsFolder .'lang'))

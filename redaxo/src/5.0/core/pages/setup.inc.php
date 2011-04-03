@@ -445,12 +445,12 @@ if ($checkmodus == 2 && $send == 1)
 	{
 	  $dbconfigFile = rex_path::backend('src/dbconfig.yml');
 	  $dbconfig = rex_file::getConfig($dbconfigFile);
-	  $dbconfig['DB1']['host'] = $mysql_host;
-    $dbconfig['DB1']['login'] = $redaxo_db_user_login;
-    $dbconfig['DB1']['password'] = $redaxo_db_user_pass;
-    $dbconfig['DB1']['name'] = $dbname;
+	  $dbconfig['DB'][1]['host'] = $mysql_host;
+    $dbconfig['DB'][1]['login'] = $redaxo_db_user_login;
+    $dbconfig['DB'][1]['password'] = $redaxo_db_user_pass;
+    $dbconfig['DB'][1]['name'] = $dbname;
 
-    if(!rex_file::putConfig($dbconfigFile, $dbconfig))
+    if(!rex_file::putConfig($dbconfigFile, $dbconfig, 3))
     {
       $err_msg = rex_i18n::msg('setup_020_1', '<b>', '</b>');
     }
@@ -494,10 +494,10 @@ else
 
 	// DB Infos
 	$dbconfig = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
-	$dbname                = $dbconfig['DB1']['name'];
-	$redaxo_db_user_login  = $dbconfig['DB1']['login'];
-	$redaxo_db_user_pass   = $dbconfig['DB1']['password'];
-	$mysql_host            = $dbconfig['DB1']['host'];
+	$dbname                = $dbconfig['DB'][1]['name'];
+	$redaxo_db_user_login  = $dbconfig['DB'][1]['login'];
+	$redaxo_db_user_pass   = $dbconfig['DB'][1]['password'];
+	$mysql_host            = $dbconfig['DB'][1]['host'];
 }
 
 if ($checkmodus == 2)

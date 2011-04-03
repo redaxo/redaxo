@@ -23,10 +23,10 @@ require_once rex_path::src('core/functions/function_rex_generate.inc.php');
 require_once rex_path::src('core/lib/autoload.php');
 
 // add core base-classpath to autoloader
-$loader = rex_autoload::getInstance(rex_path::generated('files/autoload.cache'));
-$loader->addDirectory(rex_path::src('core/lib/'));
+rex_autoload::addDirectory(rex_path::src('core/lib/'));
 // register core-classes  as php-handlers
 rex_autoload::register();
+// register rex_logger
 rex_logger::register();
 // add core lang directory to rex_i18n
 rex_i18n::addDirectory(rex_path::src('core/lang'));

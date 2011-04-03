@@ -16,9 +16,6 @@ class rex_autoload
 {
   static protected
     $registered = false,
-    $instance   = null;
-
-  protected
     $cacheFile    = null,
     $cacheLoaded  = false,
     $cacheChanged = false,
@@ -26,33 +23,6 @@ class rex_autoload
     $files        = array(),
     $classes      = array(),
     $overriden    = array();
-
-  protected function __construct($cacheFile = null)
-  {
-    if (null !== $cacheFile)
-    {
-      $this->cacheFile = $cacheFile;
-    }
-
-    $this->loadCache();
-  }
-
-  /**
-   * Retrieves the singleton instance of this class.
-   *
-   * @param  string $cacheFile  The file path to save the cache
-   *
-   * @return rex_autoload   A rex_autoload implementation instance.
-   */
-  static public function getInstance($cacheFile = null)
-  {
-    if (!isset(self::$instance))
-    {
-      self::$instance = new rex_autoload($cacheFile);
-    }
-
-    return self::$instance;
-  }
 
   /**
    * Register rex_autoload in spl autoloader.
@@ -67,15 +37,14 @@ class rex_autoload
     }
 
     ini_set('unserialize_callback_func', 'spl_autoload_call');
-    if (false === spl_autoload_register(array(self::getInstance(), 'autoload')))
+    if (false === spl_autoload_register(array(__CLASS__, 'autoload')))
     {
-      throw new sfException(sprintf('Unable to register %s::autoload as an autoloading method.', get_class(self::getInstance())));
+      throw new sfException(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
     }
 
-    if (self::getInstance()->cacheFile)
-    {
-      register_shutdown_function(array(self::getInstance(), 'saveCache'));
-    }
+    self::$cacheFile = rex_path::generated('files/autoload.cache');
+    self::loadCache();
+    register_shutdown_function(array(__CLASS__, 'saveCache'));
 
     self::$registered = true;
   }
@@ -87,7 +56,7 @@ class rex_autoload
    */
   static public function unregister()
   {
-    spl_autoload_unregister(array(self::getInstance(), 'autoload'));
+    spl_autoload_unregister(array(__CLASS__, 'autoload'));
     self::$registered = false;
   }
 
@@ -98,7 +67,7 @@ class rex_autoload
    *
    * @return boolean Returns true if the class has been loaded
    */
-  public function autoload($class)
+  static public function autoload($class)
   {
     $class = strtolower($class);
 
@@ -109,9 +78,9 @@ class rex_autoload
     }
 
     // we have a class path for the class, let's include it
-    if (isset($this->classes[$class]))
+    if (isset(self::$classes[$class]))
     {
-      require $this->classes[$class];
+      require self::$classes[$class];
 
       return true;
     }
@@ -122,34 +91,34 @@ class rex_autoload
   /**
    * Loads the cache.
    */
-  public function loadCache()
+  static public function loadCache()
   {
-    if (!$this->cacheFile || !is_readable($this->cacheFile))
+    if (!self::$cacheFile || !is_readable(self::$cacheFile))
     {
       return;
     }
 
-    list($this->classes, $this->dirs, $this->files) = json_decode(file_get_contents($this->cacheFile), true);
+    list(self::$classes, self::$dirs, self::$files) = json_decode(file_get_contents(self::$cacheFile), true);
 
-    $this->cacheLoaded = true;
-    $this->cacheChanged = false;
+    self::$cacheLoaded = true;
+    self::$cacheChanged = false;
   }
 
   /**
    * Saves the cache.
    */
-  public function saveCache()
+  static public function saveCache()
   {
-    if ($this->cacheChanged)
+    if (self::$cacheChanged)
     {
-      if (is_writable(dirname($this->cacheFile)))
+      if (is_writable(dirname(self::$cacheFile)))
       {
-        file_put_contents($this->cacheFile, json_encode(array($this->classes, $this->dirs, $this->files)));
-        $this->cacheChanged = false;
+        file_put_contents(self::$cacheFile, json_encode(array(self::$classes, self::$dirs, self::$files)));
+        self::$cacheChanged = false;
       }
       else
       {
-        throw new rexException("Unable to write autoload cachefile '"+ $this->cacheFile +"'!");
+        throw new rexException("Unable to write autoload cachefile '"+ self::$cacheFile +"'!");
       }
     }
   }
@@ -157,36 +126,36 @@ class rex_autoload
   /**
    * Reloads cache.
    */
-  public function reload()
+  static public function reload()
   {
-    $this->classes = array();
-    $this->cacheLoaded = false;
+    self::$classes = array();
+    self::$cacheLoaded = false;
 
-    foreach ($this->dirs as $dir)
+    foreach (self::$dirs as $dir)
     {
-      $this->addDirectory($dir);
+      self::addDirectory($dir);
     }
 
-    foreach ($this->files as $file)
+    foreach (self::$files as $file)
     {
-      $this->addFile($file);
+      self::addFile($file);
     }
 
-    foreach ($this->overriden as $class => $path)
+    foreach (self::$overriden as $class => $path)
     {
-      $this->classes[$class] = $path;
+      self::$classes[$class] = $path;
     }
 
-    $this->cacheLoaded = true;
-    $this->cacheChanged = true;
+    self::$cacheLoaded = true;
+    self::$cacheChanged = true;
   }
 
   /**
    * Removes the cache.
    */
-  public function removeCache()
+  static public function removeCache()
   {
-    rex_file::delete($this->cacheFile);
+    rex_file::delete(self::$cacheFile);
   }
 
   /**
@@ -195,29 +164,29 @@ class rex_autoload
    * @param string $dir The directory to look for classes
    * @param string $ext The extension to look for
    */
-  public function addDirectory($classdir, $ext = '.php')
+  static public function addDirectory($classdir, $ext = '.php')
   {
     if ($dirs = glob($classdir .'*'. $ext))
     {
       foreach ($dirs as $dir)
       {
-        if (false !== $key = array_search($dir, $this->dirs))
+        if (false !== $key = array_search($dir, self::$dirs))
         {
-          unset($this->dirs[$key]);
-          $this->dirs[] = $dir;
+          unset(self::$dirs[$key]);
+          self::$dirs[] = $dir;
 
-          if ($this->cacheLoaded)
+          if (self::$cacheLoaded)
           {
             continue;
           }
         }
         else
         {
-          $this->dirs[] = $dir;
+          self::$dirs[] = $dir;
         }
 
-        $this->cacheChanged = true;
-        $this->addFile($dir, false);
+        self::$cacheChanged = true;
+        self::addFile($dir, false);
       }
     }
 
@@ -225,7 +194,7 @@ class rex_autoload
     {
       // recursive over subdirectories
       foreach($subdirs as $subdir) {
-        $this->addDirectory($subdir .DIRECTORY_SEPARATOR);
+        self::addDirectory($subdir .DIRECTORY_SEPARATOR);
       }
     }
   }
@@ -236,11 +205,11 @@ class rex_autoload
    * @param array   $files    An array of files
    * @param Boolean $register Whether to register those files as single entities (used when reloading)
    */
-  public function addFiles(array $files, $register = true)
+  static public function addFiles(array $files, $register = true)
   {
     foreach ($files as $file)
     {
-      $this->addFile($file, $register);
+      self::addFile($file, $register);
     }
   }
 
@@ -250,16 +219,16 @@ class rex_autoload
    * @param string  $file     A file path
    * @param Boolean $register Whether to register those files as single entities (used when reloading)
    */
-  public function addFile($file, $register = true)
+  static public function addFile($file, $register = true)
   {
     if (!is_file($file))
     {
       return;
     }
 
-    if (in_array($file, $this->files))
+    if (in_array($file, self::$files))
     {
-      if ($this->cacheLoaded)
+      if (self::$cacheLoaded)
       {
         return;
       }
@@ -268,19 +237,19 @@ class rex_autoload
     {
       if ($register)
       {
-        $this->files[] = $file;
+        self::$files[] = $file;
       }
     }
 
     if ($register)
     {
-      $this->cacheChanged = true;
+      self::$cacheChanged = true;
     }
 
     preg_match_all('~^\s*(?:abstract\s+|final\s+)?(?:class|interface)\s+(\w+)~mi', file_get_contents($file), $classes);
     foreach ($classes[1] as $class)
     {
-      $this->classes[strtolower($class)] = $file;
+      self::$classes[strtolower($class)] = $file;
     }
   }
 
@@ -290,13 +259,13 @@ class rex_autoload
    * @param string $class A PHP class name
    * @param string $path  An absolute path
    */
-  public function setClassPath($class, $path)
+  static public function setClassPath($class, $path)
   {
     $class = strtolower($class);
 
-    $this->overriden[$class] = $path;
+    self::$overriden[$class] = $path;
 
-    $this->classes[$class] = $path;
+    self::$classes[$class] = $path;
   }
 
   /**
@@ -306,10 +275,10 @@ class rex_autoload
    *
    * @return string|null An absolute path
    */
-  public function getClassPath($class)
+  static public function getClassPath($class)
   {
     $class = strtolower($class);
 
-    return isset($this->classes[$class]) ? $this->classes[$class] : null;
+    return isset(self::$classes[$class]) ? self::$classes[$class] : null;
   }
 }

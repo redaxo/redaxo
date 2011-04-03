@@ -59,10 +59,6 @@ $REX['USE_LAST_MODIFIED'] = "true"; // String: "true"/"false"/"fronted"/"backend
 // allow client to validate content integrity
 $REX['USE_MD5'] = "true"; // String: "true"/"false"/"fronted"/"backend"
 
-// Prefixes
-$REX['TABLE_PREFIX']  = 'rex_';
-$REX['TEMP_PREFIX']   = 'tmp_';
-
 // Passwortverschluesselung
 $REX['PSWFUNC'] = "sha1";
 
@@ -128,6 +124,11 @@ if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 
 // ----------------- INCLUDE FUNCTIONS
 if(!$REX['NOFUNCTIONS']) include_once rex_path::src('core/functions.inc.php');
+
+// Prefixes
+$dbconfig = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
+$REX['TABLE_PREFIX'] = $dbconfig['TABLE_PREFIX'];
+$REX['TEMP_PREFIX']  = 'tmp_';
 
 // ----- SET CLANG
 $REX['CLANG'] = array();
