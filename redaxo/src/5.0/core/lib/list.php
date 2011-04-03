@@ -166,6 +166,11 @@ class rex_list implements rex_url_provider
       );
     }
 
+    if(!($obj instanceof rex_list))
+    {
+      throw new rexException('$class is expected to define a subclass of rex_list!');
+    }
+    
     return new $class($query, $rowsPerPage, $listName, $debug);
   }
 

@@ -119,6 +119,11 @@ class rex_form
       );
     }
 
+    if(!($obj instanceof rex_form))
+    {
+      throw new rexException('$class is expected to define a subclass of rex_form!');
+    }
+    
     return new $class($tableName, $fieldset, $whereCondition, $method, $debug);
   }
 
