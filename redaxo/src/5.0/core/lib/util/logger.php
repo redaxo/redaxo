@@ -54,6 +54,8 @@ class rex_logger {
     set_error_handler(array($logger, 'logError'));
     set_exception_handler(array($logger, 'logException'));
     register_shutdown_function(array($logger, 'shutdown'));
+    
+    $logger->open();
   }
 
   /**
@@ -69,6 +71,8 @@ class rex_logger {
     restore_error_handler();
     restore_exception_handler();
     // unregister of shutdown function is not possible
+    
+    $logger->close();
   }
 
   /**
@@ -151,7 +155,11 @@ class rex_logger {
    */
   public function open()
   {
-    $this->handle = fopen($this->file, 'ab');
+    // check if already opened
+    if(!$this->handle)
+    {
+      $this->handle = fopen($this->file, 'ab');
+    }
 
     if(!$this->handle)
     {

@@ -8,9 +8,14 @@
 function rex_generateAll()
 {
   global $REX;
+  
+  // unregister logger, so the logfile can also be deleted
+  rex_logger::unregister();
 
   // ----------------------------------------------------------- generated löschen
   rex_dir::deleteFiles(rex_path::generated());
+  
+  rex_logger::register();
 
   // ----------------------------------------------------------- generiere clang
   if(($MSG = rex_clang_service::generateCache()) !== TRUE)
