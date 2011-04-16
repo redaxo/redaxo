@@ -13,11 +13,10 @@ class rex_article_service
   {
     global $REX;
 
-    $success = true;
     $message = '';
 
     if(!is_array($data))
-    trigger_error('Expecting $data to be an array!', E_USER_ERROR);
+    throw  new rexApiException('Expecting $data to be an array!');
 
     if(isset($data['prior']))
     {
@@ -75,8 +74,7 @@ class rex_article_service
       }
       else
       {
-        $success = false;
-        $message = $AART->getError();
+        throw new rexApiException($AART->getError());
       }
 
       // ----- EXTENSION POINT
@@ -95,7 +93,7 @@ class rex_article_service
       );
     }
 
-    return array($success, $message);
+    return $message;
   }
 
   /**
@@ -111,12 +109,22 @@ class rex_article_service
   {
     global $REX;
 
-    $success = false;
     $message = '';
 
     if(!is_array($data))
-    trigger_error('Expecting $data to be an array!', E_USER_ERROR);
+    throw new rexApiException('Expecting $data to be an array!');
 
+    // Artikel mit alten Daten selektieren
+    $thisArt = rex_sql::factory();
+    $thisArt->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$article_id.' and clang='. $clang);
+    
+    if ($thisArt->getRows() != 1)
+    {
+      throw new rexApiException('Unable to find article with id "'. $article_id .'" and clang "'. $clang .'"!');
+    }
+    
+    $ooArt = rex_ooArticle::getArticleById($article_id, $clang);
+    $data['category_id'] = $ooArt->getCategoryId();
     $templates = rex_ooCategory::getTemplates($data['category_id']);
 
     // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
@@ -125,17 +133,17 @@ class rex_article_service
     {
       $data['template_id'] = 0;
       if(count($templates)>0)
-      $data['template_id'] = key($templates);
+      {
+        $data['template_id'] = key($templates);
+      }
     }
-
-    // Artikel mit alten Daten selektieren
-    $thisArt = rex_sql::factory();
-    $thisArt->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$article_id.' and clang='. $clang);
 
     if(isset($data['prior']))
     {
       if($data['prior'] <= 0)
-      $data['prior'] = 1;
+      {
+        $data['prior'] = 1;
+      }
     }
 
     $EA = rex_sql::factory();
@@ -167,19 +175,16 @@ class rex_article_service
         'prior' => $data['prior'],
         'path' => $data['path'],
         'template_id' => $data['template_id'],
-
         'data' => $data,
       )
       );
-
-      $success = true;
     }
     else
     {
-      $message = $EA->getError();
+      throw new rexApiException($EA->getError());
     }
 
-    return array($success, $message);
+    return $message;
   }
 
   /**
@@ -193,16 +198,13 @@ class rex_article_service
   {
     global $REX;
 
-    $return = array();
-    $return['state'] = FALSE;
-    $return['message'] = '';
-
     $Art = rex_sql::factory();
     $Art->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$article_id.' and startpage=0');
 
-    if ($Art->getRows() == count($REX['CLANG']))
+    $message = '';
+    if ($Art->getRows() > 0)
     {
-      $return = self::_deleteArticle($article_id);
+      $message = self::_deleteArticle($article_id);
       $re_id = $Art->getValue("re_id");
 
       foreach($REX['CLANG'] as $clang => $clang_name)
@@ -211,7 +213,7 @@ class rex_article_service
         self::newArtPrio($Art->getValue("re_id"), $clang, 0, 1);
 
         // ----- EXTENSION POINT
-        $return = rex_register_extension_point('ART_DELETED', $return,
+        $message = rex_register_extension_point('ART_DELETED', $message,
         array (
           "id"          => $article_id,
           "clang"       => $clang,
@@ -227,7 +229,12 @@ class rex_article_service
         $Art->next();
       }
     }
-    return array($return['state'],$return['message']);
+    else
+    {
+      throw new rexApiException(rex_i18n::msg('article_doesnt_exist'));
+    }
+    
+    return $message;
   }
 
   /**
@@ -237,7 +244,7 @@ class rex_article_service
    *
    * @return Erfolgsmeldung bzw. Fehlermeldung bei Fehlern.
    */
-  static private function _deleteArticle($id)
+  static public function _deleteArticle($id)
   {
     global $REX;
 
@@ -254,29 +261,23 @@ class rex_article_service
     // -> startpage = 1
     // --> rekursiv aufrufen
 
-    $return = array();
-    $return['state'] = FALSE;
-
     if ($id == $REX['START_ARTICLE_ID'])
     {
-      $return['message'] = rex_i18n::msg('cant_delete_sitestartarticle');
-      return $return;
+      throw new rexApiException(rex_i18n::msg('cant_delete_sitestartarticle'));
     }
     if ($id == $REX['NOTFOUND_ARTICLE_ID'])
     {
-      $return['message'] = rex_i18n::msg('cant_delete_notfoundarticle');
-      return $return;
+      throw new rexApiException(rex_i18n::msg('cant_delete_notfoundarticle'));
     }
 
     $ART = rex_sql::factory();
     $ART->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$id.' and clang=0');
 
+    $message = '';
     if ($ART->getRows() > 0)
     {
       $re_id = $ART->getValue('re_id');
-      $return['state'] = true;
-
-      $return = rex_register_extension_point('ART_PRE_DELETED', $return, array (
+      $message = rex_register_extension_point('ART_PRE_DELETED', $message, array (
                     "id"          => $id,
                     "re_id"       => $re_id,
                     'name'        => $ART->getValue('name'),
@@ -287,44 +288,33 @@ class rex_article_service
       )
       );
 
-      if(!$return["state"])
-      {
-        return $return;
-      }
-
       if ($ART->getValue('startpage') == 1)
       {
-        $return['message'] = rex_i18n::msg('category_deleted');
+        $message = rex_i18n::msg('category_deleted');
         $SART = rex_sql::factory();
         $SART->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where re_id='.$id.' and clang=0');
         for ($i = 0; $i < $SART->getRows(); $i ++)
         {
-          $return['state'] = self::_deleteArticle($id);
+          self::_deleteArticle($id);
           $SART->next();
         }
       }else
       {
-        $return['message'] = rex_i18n::msg('article_deleted');
+        $message = rex_i18n::msg('article_deleted');
       }
 
-      // Rekursion über alle Kindkategorien ergab keine Fehler
-      // => löschen erlaubt
-      if($return['state'] === true)
-      {
-        rex_article_cache::delete($id);
-        $ART->setQuery('delete from '.$REX['TABLE_PREFIX'].'article where id='.$id);
-        $ART->setQuery('delete from '.$REX['TABLE_PREFIX'].'article_slice where article_id='.$id);
+      rex_article_cache::delete($id);
+      $ART->setQuery('delete from '.$REX['TABLE_PREFIX'].'article where id='.$id);
+      $ART->setQuery('delete from '.$REX['TABLE_PREFIX'].'article_slice where article_id='.$id);
 
-        // --------------------------------------------------- Listen generieren
-        rex_article_cache::generateLists($re_id);
-      }
+      // --------------------------------------------------- Listen generieren
+      rex_article_cache::generateLists($re_id);
 
-      return $return;
+      return $message;
     }
     else
     {
-      $return['message'] = rex_i18n::msg('category_doesnt_exist');
-      return $return;
+      throw new rexApiException(rex_i18n::msg('category_doesnt_exist'));
     }
   }
 
@@ -342,7 +332,6 @@ class rex_article_service
   {
     global $REX;
 
-    $success = false;
     $message = '';
     $artStatusTypes = self::statusTypes();
 
@@ -374,20 +363,18 @@ class rex_article_service
         'clang' => $clang,
         'status' => $newstatus
         ));
-
-        $success = true;
       }
       else
       {
-        $message = $EA->getError();
+        throw new rexApiException($EA->getError());
       }
     }
     else
     {
-      $message = rex_i18n::msg("no_such_category");
+      throw new rexApiException(rex_i18n::msg("no_such_category"));
     }
 
-    return array($success, $message);
+    return $message;
   }
 
   /**
@@ -423,9 +410,6 @@ class rex_article_service
    * @param $clang    ClangId der Kategorie, die erneuert werden soll
    * @param $new_prio Neue PrioNr der Kategorie
    * @param $old_prio Alte PrioNr der Kategorie
-   *
-   * @deprecated 4.1 - 26.03.2008
-   * Besser die rex_organize_priorities() Funktion verwenden!
    *
    * @return void
    */

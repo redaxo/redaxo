@@ -20,11 +20,8 @@ class rex_category_service
   {
     global $REX;
 
-    $success = false;
-    $message = '';
-
     if(!is_array($data))
-    trigger_error('Expecting $data to be an array!', E_USER_ERROR);
+      throw new rexApiException('Expecting $data to be an array!');
 
     $startpageTemplates = array();
     if ($category_id != "")
@@ -39,6 +36,7 @@ class rex_category_service
       }
     }
 
+    // TODO add checks for req. parameters
     if(isset($data['catprior']))
     {
       if($data['catprior'] <= 0)
@@ -102,6 +100,8 @@ class rex_category_service
           self::newCatPrio($category_id, $key, 0, $data['catprior']);
         }
 
+        $message = rex_i18n::msg("category_added_and_startarticle_created");
+        
         // ----- EXTENSION POINT
         // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
         $message = rex_register_extension_point('CAT_ADDED', $message,
@@ -119,16 +119,14 @@ class rex_category_service
         )
         );
 
-        $message = rex_i18n::msg("category_added_and_startarticle_created");
-        $success = true;
       }
       else
       {
-        $message = $AART->getError();
+        throw new rexApiException($AART->getError());
       }
     }
 
-    return array($success, $message);
+    return $message;
   }
 
   /**
@@ -138,17 +136,14 @@ class rex_category_service
    * @param int   $clang       Id der Sprache
    * @param array $data        Array mit den Daten der Kategorie
    *
-   * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+   * @return string Eine Statusmeldung
    */
   static public function editCategory($category_id, $clang, $data)
   {
     global $REX;
 
-    $success = false;
-    $message = '';
-
     if(!is_array($data))
-    trigger_error('Expecting $data to be an array!', E_USER_ERROR);
+    throw new rexApiException('Expecting $data to be an array!');
 
     // --- Kategorie mit alten Daten selektieren
     $thisCat = rex_sql::factory();
@@ -160,7 +155,6 @@ class rex_category_service
     $EKAT->setWhere("id=$category_id AND startpage=1 AND clang=$clang");
     $EKAT->setValue('catname', $data['catname']);
     $EKAT->setValue('catprior', $data['catprior']);
-    $EKAT->setValue('path', $data['path']);
     $EKAT->addGlobalUpdateFields();
 
     if($EKAT->update())
@@ -185,7 +179,7 @@ class rex_category_service
           }
           else
           {
-            $message .= $EART->getError();
+            throw new rexApiException($EART->getError());
           }
 
           $ArtSql->next();
@@ -228,15 +222,13 @@ class rex_category_service
         'data' => $data,
       )
       );
-
-      $success = true;
     }
     else
     {
-      $message = $EKAT->getError();
+      throw new rexApiException($EKAT->getError());
     }
 
-    return array($success, $message);
+    return $message;
   }
 
   /**
@@ -244,15 +236,11 @@ class rex_category_service
    *
    * @param int $category_id Id der Kategorie die gelöscht werden soll
    *
-   * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+   * @return string Eine Statusmeldung
    */
   static public function deleteCategory($category_id)
   {
     global $REX;
-
-    $return = array();
-    $return['state'] = FALSE;
-    $return['message'] = '';
 
     $clang = 0;
 
@@ -275,7 +263,7 @@ class rex_category_service
           $thisCat->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id='.$category_id);
 
           $re_id = $thisCat->getValue('re_id');
-          $return = rex_deleteArticle($category_id);
+          $message = rex_article_service::_deleteArticle($category_id);
 
           foreach($thisCat as $row)
           {
@@ -285,7 +273,7 @@ class rex_category_service
             self::newCatPrio($re_id, $_clang, 0, 1);
 
             // ----- EXTENSION POINT
-            $return = rex_register_extension_point('CAT_DELETED', $return, array (
+            $message = rex_register_extension_point('CAT_DELETED', $message, array (
             'id'     => $category_id,
             're_id'  => $re_id,
             'clang'  => $_clang,
@@ -301,18 +289,18 @@ class rex_category_service
 
         }else
         {
-          $return['message'] = rex_i18n::msg('category_could_not_be_deleted').' '.rex_i18n::msg('category_still_contains_articles');
+          throw new rexApiException(rex_i18n::msg('category_could_not_be_deleted').' '.rex_i18n::msg('category_still_contains_articles'));
         }
       }else
       {
-        $return['message'] = rex_i18n::msg('category_could_not_be_deleted').' '.rex_i18n::msg('category_still_contains_subcategories');
+        throw new rexApiException(rex_i18n::msg('category_could_not_be_deleted').' '.rex_i18n::msg('category_still_contains_subcategories'));
       }
     }else
     {
-      $return['message'] = rex_i18n::msg('category_could_not_be_deleted');
+      throw new rexApiException(rex_i18n::msg('category_could_not_be_deleted'));
     }
 
-    return array($return['state'],$return['message']);
+    return $message;
   }
 
   /**
@@ -328,7 +316,6 @@ class rex_category_service
   {
     global $REX;
 
-    $success = false;
     $message = '';
     $catStatusTypes = self::statusTypes();
 
@@ -360,20 +347,18 @@ class rex_category_service
         'clang' => $clang,
         'status' => $newstatus
         ));
-
-        $success = true;
       }
       else
       {
-        $message = $EKAT->getError();
+        throw new rexApiException($EKAT->getError());
       }
     }
     else
     {
-      $message = rex_i18n::msg("no_such_category");
+      throw new rexApiException(rex_i18n::msg("no_such_category"));
     }
 
-    return array($success, $message);
+    return $message;
   }
 
   /**
@@ -412,9 +397,6 @@ class rex_category_service
    * @param $clang    ClangId der Kategorie, die erneuert werden soll
    * @param $new_prio Neue PrioNr der Kategorie
    * @param $old_prio Alte PrioNr der Kategorie
-   *
-   * @deprecated 4.1 - 26.03.2008
-   * Besser die rex_organize_priorities() Funktion verwenden!
    *
    * @return void
    */

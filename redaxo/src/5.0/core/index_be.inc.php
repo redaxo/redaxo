@@ -300,6 +300,9 @@ $REX['PAGE_NO_NAVI'] = !$pageObj->hasNavigation();
 // page variable validated
 rex_register_extension_point( 'PAGE_CHECKED', $REX['PAGE'], array('pages' => $REX['PAGES']));
 
+// trigger api functions
+rex_api_function::handleCall();
+
 $path = '';
 if($pageObj->hasPath())
 {

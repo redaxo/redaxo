@@ -53,5 +53,8 @@ if($REX['SETUP'])
 $CONTENT = ob_get_contents();
 ob_end_clean();
 
+// trigger api functions
+rex_api_function::handleCall();
+
 // ----- inhalt ausgeben
 rex_send_article($REX['ARTICLE'], $CONTENT, 'frontend');
