@@ -16,6 +16,8 @@ class rex_ooArticle extends rex_ooRedaxo
   /**
    * CLASS Function:
    * Return an rex_ooRedaxo object based on an id
+   * 
+   * @return rex_ooArticle
    */
   static public function getArticleById($article_id, $clang = FALSE, $rex_ooCategory = FALSE)
   {
@@ -55,6 +57,8 @@ class rex_ooArticle extends rex_ooRedaxo
   /**
    * CLASS Function:
    * Return the site wide start article
+   * 
+   * @return rex_ooArticle
    */
   static public function getSiteStartArticle($clang = FALSE)
   {
@@ -69,6 +73,8 @@ class rex_ooArticle extends rex_ooRedaxo
   /**
    * CLASS Function:
    * Return start article for a certain category
+   * 
+   * @return rex_ooArticle
    */
   static public function getCategoryStartArticle($a_category_id, $clang = FALSE)
   {
@@ -83,6 +89,8 @@ class rex_ooArticle extends rex_ooRedaxo
   /**
    * CLASS Function:
    * Return a list of articles for a certain category
+   * 
+   * @return array[rex_ooArticle]
    */
   static public function getArticlesOfCategory($a_category_id, $ignore_offlines = FALSE, $clang = FALSE)
   {
@@ -131,6 +139,8 @@ class rex_ooArticle extends rex_ooRedaxo
   /**
    * CLASS Function:
    * Return a list of top-level articles
+   * 
+   * @return array[rex_ooArticle]
    */
   static public function getRootArticles($ignore_offlines = FALSE, $clang = FALSE)
   {
@@ -140,15 +150,19 @@ class rex_ooArticle extends rex_ooRedaxo
   /**
    * Accessor Method:
    * returns the category id
+   * 
+   * @return int
    */
   public function getCategoryId()
   {
     return $this->isStartPage() ? $this->getId() : $this->getParentId();
   }
 
-  /*
+  /**
    * Object Function:
    * Returns the parent category
+   * 
+   * @return rex_ooCategory
    */
   public function getCategory()
   {
@@ -158,6 +172,8 @@ class rex_ooArticle extends rex_ooRedaxo
   /**
    * Accessor Method:
    * returns the path of the category/article
+   * 
+   * @return string
    */
   public function getPath()
   {
@@ -170,6 +186,8 @@ class rex_ooArticle extends rex_ooRedaxo
   /**
    * Accessor Method:
    * returns the path ids of the category/article as an array
+   * 
+   * @return array[int]
    */
   public function getPathAsArray()
   {
@@ -177,14 +195,21 @@ class rex_ooArticle extends rex_ooRedaxo
   	return array_values(array_map('intval', array_filter($path)));
   }
 
-  /*
+  /**
    * Static Method: Returns True when the given article is a valid rex_ooArticle
+   * 
+   * @return boolean
    */
   static public function isValid($article)
   {
     return is_object($article) && is_a($article, 'rex_ooArticle');
   }
 
+  /**
+   * @see rex_ooRedaxo::getValue()
+   * 
+   * @return string
+   */
   public function getValue($value)
   {
     // alias für re_id -> category_id
@@ -197,6 +222,11 @@ class rex_ooArticle extends rex_ooRedaxo
     return parent::getValue($value);
   }
 
+  /**
+   * @param string $value
+   * 
+   * @return string
+   */
   public function hasValue($value)
   {
   	return parent::_hasValue($value, array('art_'));
