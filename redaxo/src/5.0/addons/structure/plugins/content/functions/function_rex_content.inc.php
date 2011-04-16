@@ -1,8 +1,5 @@
 <?php
 
-require_once rex_path::addon('structure', 'functions/function_rex_structure.inc.php');
-
-
 /**
  * Verschiebt einen Slice nach oben
  *
