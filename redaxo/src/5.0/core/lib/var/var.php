@@ -300,8 +300,7 @@ abstract class rex_var
   static public function handleGlobalVarParamsSerialized($varname, array $args, $value)
   {
     $varname = str_replace('"', '\"', $varname);
-    $args = str_replace('"', '\"', serialize($args));
-    return 'rex_var::handleGlobalVarParams("'. $varname .'", unserialize("'. $args .'"), '. $value .')';
+    return 'rex_var::handleGlobalVarParams("'. $varname .'", json_decode("'. json_encode($args) .'", true), '. $value .')';
   }
 
   /**
