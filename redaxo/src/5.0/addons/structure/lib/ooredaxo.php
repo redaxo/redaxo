@@ -387,7 +387,7 @@ abstract class rex_ooRedaxo
   /**
    * Object Function:
    * Get an array of all parentCategories.
-   * Returns an array of rex_ooRedaxo objects sorted by $prior.
+   * Returns an array of rex_ooRedaxo objects.
    * 
    * @return array[rex_ooCategory]
    */
