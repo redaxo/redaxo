@@ -102,9 +102,10 @@ class rex_var_article extends rex_var
           {
 	        	// bezeichner wählen, der keine variablen
 	          // aus modulen/templates überschreibt
-	          $varname = '$__rex_art';
+            // clang als string übergeben wg ${xxx} notation
+            $varname = '$__rex_art';
 	          $tpl = '<?php
-	          '. $varname .' = rex_ooArticle::getArticleById('. $article_id .', '. $clang .');
+	          '. $varname .' = rex_ooArticle::getArticleById('. $article_id .', "'. $clang .'");
 	          if('. $varname .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .');
 	          ?>';
           }

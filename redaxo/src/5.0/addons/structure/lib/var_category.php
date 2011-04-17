@@ -70,10 +70,11 @@ class rex_var_category extends rex_var
           // bezeichner wählen, der keine variablen
           // aus modulen/templates überschreibt
           // beachte: root-artikel haben keine kategorie
+          // clang als string übergeben wg ${xxx} notation
           $varname_art = '$__rex_art';
           $varname_cat = '$__rex_cat';
           $tpl = '<?php
-          '. $varname_art .' = rex_ooArticle::getArticleById($REX[\'ARTICLE_ID\'], '. $clang .');
+          '. $varname_art .' = rex_ooArticle::getArticleById($REX[\'ARTICLE_ID\'], "'. $clang .'");
           '. $varname_cat .' = '. $varname_art .'->getCategory();
           if('. $varname_cat .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname_cat .'->getValue(\''. addslashes($field) .'\')') .');
           ?>';
@@ -88,9 +89,10 @@ class rex_var_category extends rex_var
           {
             // bezeichner wählen, der keine variablen
 	          // aus modulen/templates überschreibt
-	          $varname = '$__rex_cat';
+            // clang als string übergeben wg ${xxx} notation
+            $varname = '$__rex_cat';
 	          $tpl = '<?php
-	          '. $varname .' = rex_ooCategory::getCategoryById('. $category_id .', '. $clang .');
+	          '. $varname .' = rex_ooCategory::getCategoryById('. $category_id .', "'. $clang .'");
             if('. $varname .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .');
 	          ?>';
           }
