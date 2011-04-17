@@ -227,7 +227,7 @@ class rex_ooArticle extends rex_ooRedaxo
    * 
    * @return string
    */
-  public function hasValue($value)
+  static public function hasValue($value)
   {
   	return parent::_hasValue($value, array('art_'));
   }

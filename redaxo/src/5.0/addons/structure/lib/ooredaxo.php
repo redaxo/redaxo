@@ -83,7 +83,7 @@ abstract class rex_ooRedaxo
    * @param array $prefixes
    * @return boolean
    */
-  protected function _hasValue($value, array $prefixes = array())
+  static protected function _hasValue($value, array $prefixes = array())
   {
     static $values = null;
 

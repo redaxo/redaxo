@@ -281,7 +281,7 @@ class rex_ooCategory extends rex_ooRedaxo
    * @param string $value
    * @return boolean
    */
-  public function hasValue($value)
+  static public function hasValue($value)
   {
     return parent::_hasValue($value, array('cat_'));
   }
