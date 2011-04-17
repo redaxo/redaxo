@@ -66,7 +66,7 @@ class rex_var_article extends rex_var
     {
       list ($param_str, $args)  = $match;
       $article_id = $this->getArg('id',    $args, 0);
-      // use ${xxx} notation so the var can be interpreted correctly when re-serialize
+      // use ${xxx} notation so the var can be interpreted correctly when de-serialized
       $clang      = $this->getArg('clang', $args, '${REX[\'CUR_CLANG\']}');
       $ctype      = $this->getArg('ctype', $args, -1);
       $field      = $this->getArg('field', $args, '');

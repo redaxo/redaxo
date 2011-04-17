@@ -57,6 +57,7 @@ class rex_var_category extends rex_var
     {
     	list ($param_str, $args)   = $match;
       $category_id = $this->getArg('id',    $args, 0);
+      // use ${xxx} notation so the var can be interpreted correctly when de-serialized
       $clang       = $this->getArg('clang', $args, '${REX[\'CUR_CLANG\']}');
       $field       = $this->getArg('field', $args, '');
 
