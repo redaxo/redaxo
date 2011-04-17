@@ -35,6 +35,8 @@ if(count($mountpoints)==1 && $category_id == 0)
 }
 
 // --------------------------------------------- Rechte prŸfen
+$KATPERM = $REX['USER']->hasCategoryPerm($category_id);
+
 require dirname(__FILE__) .'/../functions/function_rex_category.inc.php';
 
 
