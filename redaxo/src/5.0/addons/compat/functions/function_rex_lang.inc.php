@@ -19,7 +19,7 @@ function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
 
   if ($searchpath == '')
   {
-    $searchpath = rex_path::src('core/lang');
+    $searchpath = rex_path::core('/lang');
   }
   $lang_object = new i18n($locale, $searchpath, $setlocale);
 

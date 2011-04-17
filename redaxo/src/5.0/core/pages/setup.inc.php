@@ -109,7 +109,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 {
 	global $REX;
 
-	require_once rex_path::src('core/functions/function_rex_addons.inc.php');
+	require_once rex_path::core('/functions/function_rex_addons.inc.php');
 
 	$addonErr = '';
 	rex_packageManager::synchronizeWithFileSystem();
@@ -630,7 +630,7 @@ if ($checkmodus == 3 && $send == 1)
 	if ($dbanlegen == 4)
 	{
 		// ----- vorhandenen seite updaten
-		$import_sql = rex_path::src('core/install/update4_x_to_5_0.sql');
+		$import_sql = rex_path::core('/install/update4_x_to_5_0.sql');
 		if($err_msg == '')
 		  $err_msg .= rex_setup_import($import_sql);
 
@@ -674,7 +674,7 @@ if ($checkmodus == 3 && $send == 1)
 	elseif ($dbanlegen == 1)
 	{
 		// ----- volle Datenbank, alte DB löschen / drop
-		$import_sql = rex_path::src('core/install/redaxo5_0.sql');
+		$import_sql = rex_path::core('/install/redaxo5_0.sql');
 
 		$db = rex_sql::factory();
 		foreach($requiredTables as $table)
@@ -689,7 +689,7 @@ if ($checkmodus == 3 && $send == 1)
 	elseif ($dbanlegen == 0)
 	{
 		// ----- leere Datenbank neu einrichten
-		$import_sql = rex_path::src('core/install/redaxo5_0.sql');
+		$import_sql = rex_path::core('/install/redaxo5_0.sql');
 
 		if($err_msg == '')
 		  $err_msg .= rex_setup_import($import_sql);

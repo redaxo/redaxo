@@ -6,8 +6,8 @@
  * @version svn:$Id$
  */
 
-include_once rex_path::src('core/functions/function_rex_other.inc.php');
-include_once rex_path::src('core/functions/function_rex_addons.inc.php');
+include_once rex_path::core('/functions/function_rex_other.inc.php');
+include_once rex_path::core('/functions/function_rex_addons.inc.php');
 
 $addons = array();
 foreach (rex_ooAddon::getRegisteredAddons() as $addon)
