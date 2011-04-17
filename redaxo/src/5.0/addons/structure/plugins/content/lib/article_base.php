@@ -211,22 +211,22 @@ class rex_article_base
 
     return $this->getVariableStreamOutput('module/'. $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id') .'/output', $output);
   }
-  
-  
+
+
   /**
    * Returns the content of the given slice-id.
-   * 
+   *
    * @param integer $sliceId A article-slice id
    */
   public function getSlice($sliceId)
   {
     $oldEval = $this->eval;
     $this->setEval(true);
-    
+
     $this->getSlice = $sliceId;
     $sliceContent = $this->getArticle();
     $this->getSlice = 0;
-    
+
     $this->setEval($oldEval);
     return $this->replaceLinks($sliceContent);
   }
@@ -234,7 +234,7 @@ class rex_article_base
 
   /**
    * Returns the content of the article of the given ctype. If no ctype is given, content of all ctypes is returned.
-   * 
+   *
    * @param integer $curctype The ctype to fetch, or -1 for all ctypes
    */
   public function getArticle($curctype = -1)
@@ -247,7 +247,7 @@ class rex_article_base
     {
       return rex_i18n::msg('no_article_available');
     }
-    
+
     $articleLimit = '';
     if($this->article_id != 0) {
       $articleLimit = ' AND '. $REX['TABLE_PREFIX']."article_slice.article_id=".$this->article_id;
@@ -276,7 +276,7 @@ class rex_article_base
               ". $articleLimit ."
               ". $sliceLimit ."
               ORDER BY ".$REX['TABLE_PREFIX']."article_slice.prior";
-    
+
     $artDataSql = rex_sql::factory();
     if($this->debug)
       $artDataSql->debugsql = 1;
@@ -288,7 +288,7 @@ class rex_article_base
     $articleContent = $this->preArticle($articleContent, $module_id);
 
     // ---------- SLICES AUSGEBEN
-    
+
     $prevCtype = null;
     $artDataSql->reset();
     $rows = $artDataSql->getRows();
@@ -299,7 +299,7 @@ class rex_article_base
       $sliceModuleId = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
 
       // ----- ctype unterscheidung
-      if ($this->mode != "edit" && $i == 0)
+      if ($this->mode != "edit" && !$this->eval && $i == 0)
         $articleContent = "<?php if (\$this->ctype == '". $sliceCtypeId ."' || (\$this->ctype == '-1')) { \n";
 
       // ------------- EINZELNER SLICE - AUSGABE
@@ -331,7 +331,7 @@ class rex_article_base
       }
 
       // ----- zwischenstand: ctype .. wenn ctype neu dann if
-      if ($this->mode != "edit" && isset($prevCtype) && $sliceCtypeId != $prevCtype)
+      if ($this->mode != "edit" && !$this->eval && isset($prevCtype) && $sliceCtypeId != $prevCtype)
       {
         $articleContent .= "\n } if(\$this->ctype == '".$sliceCtypeId."' || \$this->ctype == '-1'){ \n";
       }
@@ -341,7 +341,7 @@ class rex_article_base
     }
 
     // ----- end: ctype unterscheidung
-    if ($this->mode != "edit" && $i>0) $articleContent .= "\n } ?>";
+    if ($this->mode != "edit" && !$this->eval && $i>0) $articleContent .= "\n } ?>";
 
 
     // ----- post hook
@@ -359,7 +359,7 @@ class rex_article_base
 
   /**
    * Method which gets called, before the slices of the article are processed
-   * 
+   *
    * @param string $articleContent The content of the article
    * @param integer $module_id A module id
    */
