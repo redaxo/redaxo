@@ -67,7 +67,6 @@ if ($article->getRows() == 1)
   // ----- category pfad und rechte
   require rex_path::addon('structure', 'functions/function_rex_category.inc.php');
   // $KATout kommt aus dem include
-  // $KATPERM
 
   if ($REX['PAGE'] == 'content' && $article_id > 0)
   {
@@ -136,7 +135,7 @@ if ($article->getRows() == 1)
   );
 
   // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
-  if (!($KATPERM || $REX['USER']->hasPerm('article[' . $article_id . ']')))
+  if (!$REX['USER']->hasCategoryPerm($category_id))
   {
     // ----- hat keine rechte an diesem artikel
     echo rex_warning(rex_i18n::msg('no_rights_to_edit'));
