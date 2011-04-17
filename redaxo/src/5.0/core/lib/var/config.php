@@ -38,7 +38,7 @@ class rex_var_config extends rex_var
     foreach ($matches as $match)
     {
     	list ($param_str, $args)   = $match;
-      list ($field, $args)       = $this->extractArg('field', $args, '');
+      $field       = $this->getArg('field', $args, '');
 
       $tpl = '';
       $varname1 = '$REX[\''. addslashes($field) .'\']';

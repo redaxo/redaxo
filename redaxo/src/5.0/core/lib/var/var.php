@@ -299,8 +299,10 @@ abstract class rex_var
    */
   static public function handleGlobalVarParamsSerialized($varname, array $args, $value)
   {
-    $varname = str_replace('"', '\"', $varname);
-    return 'rex_var::handleGlobalVarParams("'. $varname .'", json_decode("'. json_encode($args) .'", true), '. $value .')';
+    $varname = str_replace("'", "\'", $varname);
+    $json = str_replace('"', '\"', json_encode($args));
+    //  use double-quotes inside json_decode so php-vars in the json string get evaluated by the interpreter 
+    return 'rex_var::handleGlobalVarParams(\''. $varname .'\', json_decode("'. $json .'", true), '. $value .')';
   }
 
   /**
@@ -367,23 +369,28 @@ abstract class rex_var
   }
 
   /**
-   * Extracts the argument $name out of the array $args.
-   * If the argument will be found it will be deleted from the array.
-   * If the value will not be found $default is returned as the value.
+   * Get the argument $name out of the array $args.
+   * 
+   * If the value will not be found $default is returned.
+   * The default value will also be written into the array $args.
+   * 
+   * @param string $name
+   * @param array $args
+   * @param string $default
    *
-   * @return array a array containing the value of the search arg (or $default) and the remaing $args array
+   * @return string the value of the arg, or $default if the arg cannot be found
    */
-  protected function extractArg($name, array $args, $default = null)
+  protected function getArg($name, array &$args, $default = null)
   {
-  	$val = $default;
   	if(isset($args[$name]))
   	{
-  		$val = $args[$name];
-  		unset($args[$name]);
+  		return $args[$name];
   	}
-  	return array($val, $args);
+  	// we write the default back into the array, to get the default also into the parameters for the later callback
+  	$args[$name] = $default;
+  	return $default;
   }
-
+  
   /**
    * Split a string on every space which it contains.
    * Spaces within single or double quotes are preserved.

@@ -56,9 +56,9 @@ class rex_var_category extends rex_var
     foreach ($matches as $match)
     {
     	list ($param_str, $args)   = $match;
-      list ($category_id, $args) = $this->extractArg('id',    $args, 0);
-      list ($clang, $args)       = $this->extractArg('clang', $args, '$REX[\'CUR_CLANG\']');
-      list ($field, $args)       = $this->extractArg('field', $args, '');
+      $category_id = $this->getArg('id',    $args, 0);
+      $clang       = $this->getArg('clang', $args, '${REX[\'CUR_CLANG\']}');
+      $field       = $this->getArg('field', $args, '');
 
       $tpl = '';
       if($category_id == 0)

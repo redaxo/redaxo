@@ -115,13 +115,13 @@ class rex_var_link extends rex_var
     foreach ($matches as $match)
     {
       list ($param_str, $args) = $match;
-      list ($id, $args) = $this->extractArg('id', $args, 0);
+      $id = $this->getArg('id', $args, 0);
 
       if ($id < 11 && $id > 0)
       {
         // Wenn vom Programmierer keine Kategorie vorgegeben wurde,
         // die Linkmap mit der aktuellen Kategorie öffnen
-      	list ($category, $args) = $this->extractArg('category', $args, $def_category);
+      	$category = $this->getArg('category', $args, $def_category);
 
         $replace = $this->getLinkButton($id, $this->getValue($sql, 'link' . $id), $category, $args);
         $replace = $this->handleGlobalWidgetParams($var, $args, $replace);
@@ -142,11 +142,11 @@ class rex_var_link extends rex_var
     foreach ($matches as $match)
     {
       list ($param_str, $args) = $match;
-      list ($id, $args) = $this->extractArg('id', $args, 0);
+      $id = $this->getArg('id', $args, 0);
 
       if ($id < 11 && $id > 0)
       {
-        list ($category, $args) = $this->extractArg('category', $args, 0);
+        $category = $this->getArg('category', $args, 0);
 
         $replace = $this->getLinklistButton($id, $this->getValue($sql, 'linklist' . $id), $category);
         $replace = $this->handleGlobalWidgetParams($var, $args, $replace);
@@ -167,7 +167,7 @@ class rex_var_link extends rex_var
     foreach ($matches as $match)
     {
       list ($param_str, $args) = $match;
-      list ($id, $args) = $this->extractArg('id', $args, 0);
+      $id = $this->getArg('id', $args, 0);
 
       if ($id > 0 && $id < 11)
       {
@@ -193,7 +193,7 @@ class rex_var_link extends rex_var
     foreach ($matches as $match)
     {
       list ($param_str, $args) = $match;
-      list ($id, $args) = $this->extractArg('id', $args, 0);
+      $id = $this->getArg('id', $args, 0);
 
       if ($id > 0 && $id < 11)
       {
@@ -216,7 +216,7 @@ class rex_var_link extends rex_var
     foreach ($matches as $match)
     {
       list ($param_str, $args) = $match;
-      list ($id, $args) = $this->extractArg('id', $args, 0);
+      $id = $this->getArg('id', $args, 0);
 
       if ($id > 0 && $id < 11)
       {
