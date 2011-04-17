@@ -62,7 +62,7 @@ abstract class rex_ooRedaxo
    * 
    * @return string
    */
-  protected function getValue($value)
+  public function getValue($value)
   {
     // damit alte rex_article felder wie teaser, online_from etc
     // noch funktionieren
