@@ -7,7 +7,6 @@
  * @version svn:$Id$
  */
 
-$KATebene = 0; // aktuelle Ebene: default
 $KATout = ''; // Variable definiert und vorbelegt wenn nicht existent
 $KAToutARR = array(); // Variable definiert und vorbelegt wenn nicht existent
 
