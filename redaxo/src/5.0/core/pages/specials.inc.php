@@ -26,4 +26,4 @@ switch($subpage)
   default : $file = 'specials.settings.inc.php'; break;
 }
 
-require rex_path::core('/pages/'.$file);
+require rex_path::core('pages/'.$file);
