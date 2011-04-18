@@ -113,7 +113,7 @@ function rex_a1_import_db($filename)
 
   if (!function_exists('PMA_splitSqlFile'))
   {
-    include_once rex_path::core('/functions/function_rex_addons.inc.php');
+    include_once rex_path::core('functions/function_rex_addons.inc.php');
   }
 
   // Datei aufteilen
