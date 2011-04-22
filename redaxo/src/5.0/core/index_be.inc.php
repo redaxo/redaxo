@@ -10,9 +10,6 @@
 ob_start();
 ob_implicit_flush(0);
 
-// ----------------- MAGIC QUOTES CHECK
-// require_once rex_path::core('functions/function_rex_mquotes.inc.php');
-
 
 require_once rex_path::src('config/master.inc.php');
 
