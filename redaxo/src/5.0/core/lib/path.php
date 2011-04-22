@@ -18,7 +18,7 @@ class rex_path
     self::$version = $version;
   }
 
-  static public function frontend($file = '', $pathType = rex_path::ABSOLUTE)
+  static public function frontend($file = '', $pathType = self::ABSOLUTE)
   {
     return self::base($file, $pathType);
   }
@@ -28,7 +28,7 @@ class rex_path
     return self::relBase('index.php'. $params);
   }
 
-  static public function backend($file = '', $pathType = rex_path::ABSOLUTE)
+  static public function backend($file = '', $pathType = self::ABSOLUTE)
   {
     return self::base('redaxo/'. $file, $pathType);
   }
@@ -38,22 +38,22 @@ class rex_path
     return self::relBase('redaxo/index.php'. $params);
   }
 
-  static public function media($file = '', $pathType = rex_path::ABSOLUTE)
+  static public function media($file = '', $pathType = self::ABSOLUTE)
   {
     return self::base('media/'. $file, $pathType);
   }
 
-  static public function assets($file = '', $pathType = rex_path::ABSOLUTE)
+  static public function assets($file = '', $pathType = self::ABSOLUTE)
   {
     return self::base('assets/'. $file, $pathType);
   }
 
-  static public function addonAssets($addon, $file = '', $pathType = rex_path::ABSOLUTE)
+  static public function addonAssets($addon, $file = '', $pathType = self::ABSOLUTE)
   {
     return self::assets('addons/'. $addon .'/'. $file, $pathType);
   }
 
-  static public function pluginAssets($addon, $plugin, $file = '', $pathType = rex_path::ABSOLUTE)
+  static public function pluginAssets($addon, $plugin, $file = '', $pathType = self::ABSOLUTE)
   {
     return self::addonAssets($addon, 'plugins/'. $plugin .'/'. $file, $pathType);
   }
@@ -83,6 +83,11 @@ class rex_path
     return self::absBase('redaxo/src/'. self::$version .'/'. $file);
   }
 
+  static public function core($file = '')
+  {
+    return self::src('core/'. $file);
+  }
+
   static public function addon($addon, $file = '')
   {
     return self::src('addons/'. $addon .'/'. $file);
@@ -103,9 +108,9 @@ class rex_path
     return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, self::$absBase . $file);
   }
 
-  static private function base($file, $pathType = rex_path::ABSOLUTE)
+  static private function base($file, $pathType = self::ABSOLUTE)
   {
-    return $pathType == rex_path::ABSOLUTE ? self::absBase($file) : self::relBase($file);
+    return $pathType == self::ABSOLUTE ? self::absBase($file) : self::relBase($file);
   }
 
   /**

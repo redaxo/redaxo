@@ -123,7 +123,7 @@ $REX['EXTRAPERM'][] = 'editContentOnly[]';
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 
 // ----------------- INCLUDE FUNCTIONS
-if(!$REX['NOFUNCTIONS']) include_once rex_path::src('core/functions.inc.php');
+if(!$REX['NOFUNCTIONS']) include_once rex_path::core('functions.inc.php');
 
 // Prefixes
 $dbconfig = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));

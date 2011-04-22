@@ -11,7 +11,7 @@ ob_start();
 ob_implicit_flush(0);
 
 // ----------------- MAGIC QUOTES CHECK
-// require_once rex_path::src('core/functions/function_rex_mquotes.inc.php');
+// require_once rex_path::core('functions/function_rex_mquotes.inc.php');
 
 
 require_once rex_path::src('config/master.inc.php');
@@ -97,7 +97,7 @@ if($REX['USER'])
 }
 
 // ----- INCLUDE ADDONS
-include_once rex_path::src('core/packages.inc.php');
+include_once rex_path::core('packages.inc.php');
 
 // ----- Prepare AddOn Pages
 if($REX['USER'])
@@ -311,7 +311,7 @@ if($pageObj->hasPath())
 }else if($pageObj->isCorePage())
 {
   // Core Page
-  $path = rex_path::src('core/pages/'. $REX['PAGE'] .'.inc.php');
+  $path = rex_path::core('pages/'. $REX['PAGE'] .'.inc.php');
 }else
 {
   // Addon Page
@@ -320,9 +320,9 @@ if($pageObj->hasPath())
 
 if($pageObj->hasLayout())
 {
-  require rex_path::src('core/layout/top.php');
+  require rex_path::core('layout/top.php');
   require $path;
-  require rex_path::src('core/layout/bottom.php');
+  require rex_path::core('layout/bottom.php');
 }else
 {
   require $path;

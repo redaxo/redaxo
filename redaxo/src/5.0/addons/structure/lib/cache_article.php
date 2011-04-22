@@ -214,7 +214,7 @@ class rex_article_cache
       }
 
       $article_categories_file = rex_path::generated("articles/$re_id.$_clang.clist");
-      if (rex_file::put($article_categories_file, $cacheArray) === FALSE)
+      if (rex_file::putCache($article_categories_file, $cacheArray) === FALSE)
       {
         return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::generated('articles/');
       }
