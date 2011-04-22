@@ -249,7 +249,7 @@ require_once $export_addon_dir.'/functions/function_import_export.inc.php';
 if (!($checkmodus > 0 && $checkmodus < 10))
 {
   // initial purge all generated files
-  rex_dir::deleteFiles(rex_path::generated());
+  rex_deleteAll();
 
   // copy alle media files of the current rex-version into redaxo_media
   rex_dir::copy(rex_path::src('assets'), rex_path::assets());
