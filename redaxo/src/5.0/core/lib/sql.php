@@ -207,7 +207,9 @@ class rex_sql implements Iterator
   }
 
   /**
-   * Executes the given sql-query (un-prepared)
+   * Executes the given sql-query.
+   * 
+   * If parameters will be provided, a prepared statement will be executed. 
    *
    * @param $query The sql-query
    * @return boolean true on success, otherwise false
@@ -308,6 +310,8 @@ class rex_sql implements Iterator
 
   /**
    * Returns whether values are set inside this rex_sql object
+   * 
+   * @return boolean True if value isset and not null, otherwise False 
    */
   public function hasValues()
   {
@@ -935,6 +939,108 @@ class rex_sql implements Iterator
   }
 
   /**
+   * Gibt ein SQL Singelton Objekt zurueck
+   *
+   * @deprecated since 4.3.0
+   */
+  public function getInstance($DBID=1, $deprecatedSecondParam = null)
+  {
+  	return rex_sql::factory($DBID);
+  }
+
+  /**
+   * Gibt den Speicher wieder frei
+   * 
+   * @return rex_sql the current rex_sql object
+   */
+  public function freeResult()
+  {
+    if($this->stmt)
+      $this->stmt->closeCursor();
+      
+    return $this;
+  }
+
+  /**
+   * @param string $user the name of the user who created the dataset. Defaults to the current user.
+   * 
+   * @return rex_sql the current rex_sql object
+   */
+  public function addGlobalUpdateFields($user = null)
+  {
+    global $REX;
+
+    if(!$user) $user = $REX['USER']->getValue('login');
+
+    $this->setValue('updatedate', time());
+    $this->setValue('updateuser', $user);
+    
+    return $this;
+  }
+
+  /**
+   * @param string $user the name of the user who updated the dataset. Defaults to the current user.
+   * 
+   * @return rex_sql the current rex_sql object
+   */
+  public function addGlobalCreateFields($user = null)
+  {
+    global $REX;
+
+    if(!$user) $user = $REX['USER']->getValue('login');
+
+    $this->setValue('createdate', time());
+    $this->setValue('createuser', $user);
+    
+    return $this;
+  }
+
+
+  // ----------------- iterator interface
+
+  /**
+   * @see http://www.php.net/manual/en/iterator.rewind.php
+   */
+  function rewind()
+  {
+    $this->reset();
+  }
+
+  /**
+   * @see http://www.php.net/manual/en/iterator.current.php
+   */
+  function current()
+  {
+    return $this;
+  }
+
+  /**
+   * @see http://www.php.net/manual/en/iterator.key.php
+   */
+  function key()
+  {
+    return $this->counter;
+  }
+
+  /**
+   * @see http://www.php.net/manual/en/iterator.next.php
+   */
+  function next()
+  {
+    $this->counter++;
+    $this->lastRow = $this->stmt->fetch();
+  }
+
+  /**
+   * @see http://www.php.net/manual/en/iterator.valid.php
+   */
+  function valid()
+  {
+    return $this->hasNext();
+  }
+  // ----------------- /iterator interface
+  
+  /**
    * Erstellt das CREATE TABLE Statement um die Tabelle $table
    * der Datenbankverbindung $DBID zu erstellen.
    *
@@ -1049,31 +1155,8 @@ class rex_sql implements Iterator
 
     return $obj;
   }
-
-  /**
-   * Gibt ein SQL Singelton Objekt zurueck
-   *
-   * @deprecated since 4.3.0
-   */
-  public function getInstance($DBID=1, $deprecatedSecondParam = null)
-  {
-  	return rex_sql::factory($DBID);
-  }
-
-  /**
-   * Gibt den Speicher wieder frei
-   * 
-   * @return rex_sql the current rex_sql object
-   */
-  public function freeResult()
-  {
-    if($this->stmt)
-      $this->stmt->closeCursor();
-      
-    return $this;
-  }
-
-  /**
+  
+	/**
    * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
    * Datenbank an
    */
@@ -1142,86 +1225,8 @@ class rex_sql implements Iterator
     return  $err_msg;
   }
 
-  /**
-   * @param string $user the name of the user who created the dataset. Defaults to the current user.
-   * 
-   * @return rex_sql the current rex_sql object
-   */
-  public function addGlobalUpdateFields($user = null)
-  {
-    global $REX;
-
-    if(!$user) $user = $REX['USER']->getValue('login');
-
-    $this->setValue('updatedate', time());
-    $this->setValue('updateuser', $user);
-    
-    return $this;
-  }
-
-  /**
-   * @param string $user the name of the user who updated the dataset. Defaults to the current user.
-   * 
-   * @return rex_sql the current rex_sql object
-   */
-  public function addGlobalCreateFields($user = null)
-  {
-    global $REX;
-
-    if(!$user) $user = $REX['USER']->getValue('login');
-
-    $this->setValue('createdate', time());
-    $this->setValue('createuser', $user);
-    
-    return $this;
-  }
-
   static public function isValid($object)
   {
     return is_object($object) && is_a($object, 'rex_sql');
   }
-
-  // ----------------- iterator interface
-
-  /**
-   * @see http://www.php.net/manual/en/iterator.rewind.php
-   */
-  function rewind()
-  {
-    $this->reset();
-  }
-
-  /**
-   * @see http://www.php.net/manual/en/iterator.current.php
-   */
-  function current()
-  {
-    return $this;
-  }
-
-  /**
-   * @see http://www.php.net/manual/en/iterator.key.php
-   */
-  function key()
-  {
-    return $this->counter;
-  }
-
-  /**
-   * @see http://www.php.net/manual/en/iterator.next.php
-   */
-  function next()
-  {
-    $this->counter++;
-    $this->lastRow = $this->stmt->fetch();
-  }
-
-  /**
-   * @see http://www.php.net/manual/en/iterator.valid.php
-   */
-  function valid()
-  {
-    return $this->hasNext();
-  }
-  // ----------------- /iterator interface
 }
