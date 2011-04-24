@@ -173,10 +173,14 @@ class rex_sql implements Iterator
    * Setzt Debugmodus an/aus
    *
    * @param $debug Debug TRUE/FALSE
+   * 
+   * @return rex_sql the current rex_sql object
    */
   public function setDebug($debug = TRUE)
   {
 	  $this->debugsql = $debug;
+	  
+	  return $this;
   }
 
   /**
@@ -194,10 +198,12 @@ class rex_sql implements Iterator
   /**
    * Executes the prepared statement with the given input parameters
    * @param array $params Array of input parameters
+   * 
+   * @return boolean True on success, False on error
    */
   public function execute(array $params)
   {
-    $this->stmt->execute($params);
+    return $this->stmt->execute($params);
   }
 
   /**
@@ -260,21 +266,27 @@ class rex_sql implements Iterator
    * Setzt den Tabellennamen
    *
    * @param $table Tabellenname
+   * @return rex_sql the current rex_sql object
    */
   public function setTable($table)
   {
     $this->table = $table;
+    
+    return $this;
   }
 
   /**
-   * Setzt den Wert eine Spalte
+   * Set the value of a column
    *
-   * @param $feldname Spaltenname
-   * @param $wert Wert
+   * @param $colName Name of the column
+   * @param $value The value
+   * @return rex_sql the current rex_sql object
    */
-  public function setValue($feldname, $wert)
+  public function setValue($colName, $value)
   {
-    $this->values[$feldname] = $wert;
+    $this->values[$colName] = $value;
+    
+    return $this;
   }
 
   /**
@@ -282,18 +294,16 @@ class rex_sql implements Iterator
    *
    * @param $valueArray Ein Array von Werten
    * @param $wert Wert
+   * @return rex_sql the current rex_sql object
    */
-  public function setValues($valueArray)
+  public function setValues(array $valueArray)
   {
-    if(is_array($valueArray))
+    foreach($valueArray as $name => $value)
     {
-      foreach($valueArray as $name => $value)
-      {
-        $this->setValue($name, $value);
-      }
-      return true;
+      $this->setValue($name, $value);
     }
-    return false;
+    
+    return $this;
   }
 
   /**
@@ -332,6 +342,8 @@ class rex_sql implements Iterator
    *
    * example 3 (deprecated):
    *  	$sql->setWhere('myid="35" OR abc="zdf"');
+   *  
+   * @return rex_sql the current rex_sql object
    */
   public function setWhere($where, $whereParams = NULL)
   {
@@ -356,6 +368,8 @@ class rex_sql implements Iterator
     {
       throw new rexException('expecting $where to be an array, "'. gettype($where) .'" given!');
     }
+    
+    return $this;
   }
 
   /**
@@ -677,6 +691,8 @@ class rex_sql implements Iterator
 
   /**
    * Stellt alle Werte auf den Ursprungszustand zurueck
+   * 
+   * @return rex_sql the current rex_sql object
    */
   private function flush()
   {
@@ -691,16 +707,21 @@ class rex_sql implements Iterator
     $this->wherevar = '';
     $this->counter = 0;
     $this->rows = 0;
+    
+    return $this;
   }
 
   /**
    * Stellt alle Values, die mit setValue() gesetzt wurden, zurueck
    *
    * @see #setValue(), #getValue()
+   * @return rex_sql the current rex_sql object
    */
   public function flushValues()
   {
     $this->values = array ();
+    
+    return $this;
   }
 
   /*
@@ -713,6 +734,8 @@ class rex_sql implements Iterator
 
   /**
    * Setzt den Cursor des Resultsets zurueck zum Anfang
+   * 
+   * @return rex_sql the current rex_sql object
    */
   public function reset()
   {
@@ -722,6 +745,8 @@ class rex_sql implements Iterator
       $this->stmt->execute();
       $this->counter = 0;
     }
+    
+    return $this;
   }
 
   /**
@@ -1037,11 +1062,15 @@ class rex_sql implements Iterator
 
   /**
    * Gibt den Speicher wieder frei
+   * 
+   * @return rex_sql the current rex_sql object
    */
   public function freeResult()
   {
     if($this->stmt)
       $this->stmt->closeCursor();
+      
+    return $this;
   }
 
   /**
@@ -1113,6 +1142,11 @@ class rex_sql implements Iterator
     return  $err_msg;
   }
 
+  /**
+   * @param string $user the name of the user who created the dataset. Defaults to the current user.
+   * 
+   * @return rex_sql the current rex_sql object
+   */
   public function addGlobalUpdateFields($user = null)
   {
     global $REX;
@@ -1121,8 +1155,15 @@ class rex_sql implements Iterator
 
     $this->setValue('updatedate', time());
     $this->setValue('updateuser', $user);
+    
+    return $this;
   }
 
+  /**
+   * @param string $user the name of the user who updated the dataset. Defaults to the current user.
+   * 
+   * @return rex_sql the current rex_sql object
+   */
   public function addGlobalCreateFields($user = null)
   {
     global $REX;
@@ -1131,6 +1172,8 @@ class rex_sql implements Iterator
 
     $this->setValue('createdate', time());
     $this->setValue('createuser', $user);
+    
+    return $this;
   }
 
   static public function isValid($object)
