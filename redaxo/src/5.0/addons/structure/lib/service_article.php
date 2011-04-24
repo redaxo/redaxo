@@ -29,6 +29,18 @@ class rex_article_service
       $data['prior'] = 1;
     }
 
+    // parent may be null, when adding in the root cat
+    $parent = rex_ooCategory::getCategoryById($data['category_id']);
+    if($parent)
+    {
+      $path = $parent->getPath();
+      $path .= $parent->getId(). '|';
+    }
+    else
+    {
+      $path = '|';
+    }
+
     $templates = rex_ooCategory::getTemplates($data['category_id']);
 
     // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
@@ -71,7 +83,7 @@ class rex_article_service
       $AART->setValue('clang', $key);
       $AART->setValue('re_id', $data['category_id']);
       $AART->setValue('prior', $data['prior']);
-      $AART->setValue('path', $data['path']);
+      $AART->setValue('path', $path);
       $AART->setValue('startpage', 0);
       $AART->setValue('status', 0);
       $AART->setValue('template_id', $data['template_id']);
@@ -97,7 +109,7 @@ class rex_article_service
         'name' => $data['name'],
         're_id' => $data['category_id'],
         'prior' => $data['prior'],
-        'path' => $data['path'],
+        'path' => $path,
         'template_id' => $data['template_id'],
         'data' => $data,
       )

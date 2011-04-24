@@ -19,9 +19,16 @@ class rex_category_service
   static public function addCategory($category_id, $data)
   {
     global $REX;
+    
+    $message = '';
 
     if(!is_array($data))
-      throw new rexApiException('Expecting $data to be an array!');
+    {
+      throw  new rexApiException('Expecting $data to be an array!');
+    }
+
+    self::reqKey($data, 'catprior');
+    self::reqKey($data, 'catname');
 
     $startpageTemplates = array();
     if ($category_id != "")
@@ -36,10 +43,20 @@ class rex_category_service
       }
     }
 
-    // TODO add checks for req. parameters
-    if(isset($data['catprior']))
+    // parent may be null, when adding in the root cat
+    $parent = rex_ooCategory::getCategoryById($category_id);
+    if($parent)
     {
-      if($data['catprior'] <= 0)
+      $path = $parent->getPath();
+      $path .= $parent->getId(). '|';
+    }
+    else
+    {
+      $path = '|';
+    }
+
+    if($data['catprior'] <= 0)
+    {
       $data['catprior'] = 1;
     }
 
@@ -61,7 +78,9 @@ class rex_category_service
     {
       $template_id = $REX['DEFAULT_TEMPLATE_ID'];
       if(isset ($startpageTemplates[$key]) && $startpageTemplates[$key] != '')
-      $template_id = $startpageTemplates[$key];
+      {
+        $template_id = $startpageTemplates[$key];
+      }
 
       // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
       // oder leer setzen.
@@ -69,14 +88,20 @@ class rex_category_service
       {
         $template_id = 0;
         if(count($templates)>0)
-        $template_id = key($templates);
+        {
+          $template_id = key($templates);
+        }
       }
 
       $AART->setTable($REX['TABLE_PREFIX'].'article');
       if (!isset ($id))
-      $id = $AART->setNewId('id');
+      {
+        $id = $AART->setNewId('id');
+      }
       else
-      $AART->setValue('id', $id);
+      {
+        $AART->setValue('id', $id);
+      }
 
       $AART->setValue('clang', $key);
       $AART->setValue('template_id', $template_id);
@@ -86,7 +111,7 @@ class rex_category_service
       $AART->setValue('catprior', $data['catprior']);
       $AART->setValue('re_id', $category_id);
       $AART->setValue('prior', 1);
-      $AART->setValue('path', $data['path']);
+      $AART->setValue('path', $path);
       $AART->setValue('startpage', 1);
       $AART->setValue('status', $data['status']);
       $AART->addGlobalUpdateFields();
@@ -101,7 +126,7 @@ class rex_category_service
         }
 
         $message = rex_i18n::msg("category_added_and_startarticle_created");
-        
+
         // ----- EXTENSION POINT
         // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
         $message = rex_register_extension_point('CAT_ADDED', $message,
@@ -112,7 +137,7 @@ class rex_category_service
           'clang' => $key,
           'name' => $data['catname'],
           'prior' => $data['catprior'],
-          'path' => $data['path'],
+          'path' => $path,
           'status' => $data['status'],
           'article' => clone($AART),
           'data' => $data,
@@ -141,9 +166,16 @@ class rex_category_service
   static public function editCategory($category_id, $clang, $data)
   {
     global $REX;
+    
+    $message = '';
 
     if(!is_array($data))
-    throw new rexApiException('Expecting $data to be an array!');
+    {
+      throw  new rexApiException('Expecting $data to be an array!');
+    }
+
+    self::reqKey($data, 'catprior');
+    self::reqKey($data, 'catname');
 
     // --- Kategorie mit alten Daten selektieren
     $thisCat = rex_sql::factory();
@@ -419,6 +451,20 @@ class rex_category_service
       );
 
       rex_article_cache::deleteLists($re_id, $clang);
+    }
+  }
+
+  /**
+   * Checks whether the required array key $keyName isset
+   *
+   * @param array $array The array
+   * @param string $keyName The key
+   */
+  static protected function reqKey($array, $keyName)
+  {
+    if(!isset($array[$keyName]))
+    {
+      throw new rexApiException('Missing required parameter "'. $keyName .'"!');
     }
   }
 }
