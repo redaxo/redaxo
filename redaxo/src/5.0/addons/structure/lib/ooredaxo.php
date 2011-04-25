@@ -227,7 +227,7 @@ abstract class rex_ooRedaxo
    */
   public function getParent()
   {
-    return rex_ooArticle::getArticleById($this->_re_id);
+    return rex_ooArticle::getArticleById($this->_re_id, $this->_clang);
   }
 
   /**
