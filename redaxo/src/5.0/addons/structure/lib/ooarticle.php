@@ -16,7 +16,7 @@ class rex_ooArticle extends rex_ooRedaxo
   /**
    * CLASS Function:
    * Return an rex_ooRedaxo object based on an id
-   * 
+   *
    * @return rex_ooArticle
    */
   static public function getArticleById($article_id, $clang = FALSE, $rex_ooCategory = FALSE)
@@ -26,17 +26,20 @@ class rex_ooArticle extends rex_ooRedaxo
     $article_id = (int) $article_id;
 
     if($article_id <= 0)
+    {
       return NULL;
+    }
 
     if ($clang === FALSE)
+    {
       $clang = $REX['CUR_CLANG'];
-
+    }
 
     $article_path = rex_path::generated('articles/'.$article_id.'.'.$clang.'.article');
     if (!file_exists($article_path))
-		{
-    	rex_article_cache::generateMeta($article_id, $clang);
-		}
+    {
+      rex_article_cache::generateMeta($article_id, $clang);
+    }
 
     if (file_exists($article_path))
     {
@@ -46,9 +49,13 @@ class rex_ooArticle extends rex_ooRedaxo
       }
 
       if ($rex_ooCategory)
+      {
         return new rex_ooCategory(self :: convertGeneratedArray($REX['ART'][$article_id], $clang));
+      }
       else
+      {
         return new rex_ooArticle(self :: convertGeneratedArray($REX['ART'][$article_id], $clang));
+      }
     }
 
     return NULL;
@@ -57,7 +64,7 @@ class rex_ooArticle extends rex_ooRedaxo
   /**
    * CLASS Function:
    * Return the site wide start article
-   * 
+   *
    * @return rex_ooArticle
    */
   static public function getSiteStartArticle($clang = FALSE)
@@ -65,15 +72,17 @@ class rex_ooArticle extends rex_ooRedaxo
     global $REX;
 
     if ($clang === FALSE)
+    {
       $clang = $REX['CUR_CLANG'];
-
+    }
+    
     return self :: getArticleById($REX['START_ARTICLE_ID'], $clang);
   }
 
   /**
    * CLASS Function:
    * Return start article for a certain category
-   * 
+   *
    * @return rex_ooArticle
    */
   static public function getCategoryStartArticle($a_category_id, $clang = FALSE)
@@ -81,15 +90,17 @@ class rex_ooArticle extends rex_ooRedaxo
     global $REX;
 
     if ($clang === FALSE)
+    {
       $clang = $REX['CUR_CLANG'];
-
+    }
+    
     return self :: getArticleById($a_category_id, $clang);
   }
 
   /**
    * CLASS Function:
    * Return a list of articles for a certain category
-   * 
+   *
    * @return array[rex_ooArticle]
    */
   static public function getArticlesOfCategory($a_category_id, $ignore_offlines = FALSE, $clang = FALSE)
@@ -97,8 +108,10 @@ class rex_ooArticle extends rex_ooRedaxo
     global $REX;
 
     if ($clang === FALSE)
+    {
       $clang = $REX['CUR_CLANG'];
-
+    }
+    
     $articlelist = rex_path::generated('articles/'.$a_category_id.".".$clang.".alist");
     if(!file_exists($articlelist))
     {
@@ -115,21 +128,21 @@ class rex_ooArticle extends rex_ooRedaxo
 
       if(isset($REX['RE_ID'][$a_category_id]))
       {
-  	    foreach ($REX['RE_ID'][$a_category_id] as $var)
-  	    {
-  	      $article = self :: getArticleById($var, $clang);
-  	      if ($ignore_offlines)
-  	      {
-  	        if ($article->isOnline())
-  	        {
-  	          $artlist[] = $article;
-  	        }
-  	      }
-  	      else
-  	      {
-  	        $artlist[] = $article;
-  	      }
-  	    }
+        foreach ($REX['RE_ID'][$a_category_id] as $var)
+        {
+          $article = self :: getArticleById($var, $clang);
+          if ($ignore_offlines)
+          {
+            if ($article->isOnline())
+            {
+              $artlist[] = $article;
+            }
+          }
+          else
+          {
+            $artlist[] = $article;
+          }
+        }
       }
     }
 
@@ -139,7 +152,7 @@ class rex_ooArticle extends rex_ooRedaxo
   /**
    * CLASS Function:
    * Return a list of top-level articles
-   * 
+   *
    * @return array[rex_ooArticle]
    */
   static public function getRootArticles($ignore_offlines = FALSE, $clang = FALSE)
@@ -150,7 +163,7 @@ class rex_ooArticle extends rex_ooRedaxo
   /**
    * Accessor Method:
    * returns the category id
-   * 
+   *
    * @return int
    */
   public function getCategoryId()
@@ -161,7 +174,7 @@ class rex_ooArticle extends rex_ooRedaxo
   /**
    * Object Function:
    * Returns the parent category
-   * 
+   *
    * @return rex_ooCategory
    */
   public function getCategory()
@@ -172,46 +185,50 @@ class rex_ooArticle extends rex_ooRedaxo
   /**
    * Accessor Method:
    * returns the parent object of the article
-   * 
+   *
    * @return rex_ooArticle
    */
   public function getParent($clang = false)
   {
-    if ($clang === false)
-      $clang = $this->_clang;
-      
+    if ($clang === FALSE)
+    {
+      $clang = $REX['CUR_CLANG'];
+    }
+    
     return rex_ooArticle::getArticleById($this->_re_id, $clang);
   }
-  
+
   /**
    * Accessor Method:
    * returns the path of the category/article
-   * 
+   *
    * @return string
    */
   public function getPath()
   {
-      if($this->isStartArticle())
-        return $this->_path.$this->_id .'|';
+    if($this->isStartArticle())
+    {
+      return $this->_path.$this->_id .'|';
+    }
 
-      return $this->_path;
+    return $this->_path;
   }
 
   /**
    * Accessor Method:
    * returns the path ids of the category/article as an array
-   * 
+   *
    * @return array[int]
    */
   public function getPathAsArray()
   {
     $path = explode('|', $this->getPath());
-  	return array_values(array_map('intval', array_filter($path)));
+    return array_values(array_map('intval', array_filter($path)));
   }
 
   /**
    * Static Method: Returns True when the given article is a valid rex_ooArticle
-   * 
+   *
    * @return boolean
    */
   static public function isValid($article)
@@ -221,7 +238,7 @@ class rex_ooArticle extends rex_ooRedaxo
 
   /**
    * @see rex_ooRedaxo::getValue()
-   * 
+   *
    * @return string
    */
   public function getValue($value)
@@ -238,12 +255,11 @@ class rex_ooArticle extends rex_ooRedaxo
 
   /**
    * @param string $value
-   * 
+   *
    * @return string
    */
   static public function hasValue($value)
   {
-  	return parent::_hasValue($value, array('art_'));
+    return parent::_hasValue($value, array('art_'));
   }
-
 }

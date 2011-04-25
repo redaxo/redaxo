@@ -39,9 +39,11 @@ class rex_ooCategory extends rex_ooRedaxo
     if($cat_parent_id < 0)
       return array();
 
-    if ($clang === false)
+    if ($clang === FALSE)
+    {
       $clang = $REX['CUR_CLANG'];
-
+    }
+      
     $categorylist = rex_path::generated('articles/'.$cat_parent_id.".".$clang.".clist");
 
     $catlist = array ();
@@ -106,9 +108,11 @@ class rex_ooCategory extends rex_ooRedaxo
   {
     global $REX;
 
-    if ($clang === false)
+    if ($clang === FALSE)
+    {
       $clang = $REX['CUR_CLANG'];
-
+    }
+    
     return self :: getChildrenById(0, $ignore_offlines, $clang);
   }
 
@@ -125,9 +129,11 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   public function getChildren($ignore_offlines = false, $clang = false)
   {
-    if ($clang === false)
-      $clang = $this->_clang;
-
+    if ($clang === FALSE)
+    {
+      $clang = $REX['CUR_CLANG'];
+    }
+    
     return self :: getChildrenById($this->_id, $ignore_offlines, $clang);
   }
 
@@ -139,9 +145,11 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   public function getParent($clang = false)
   {
-    if ($clang === false)
-      $clang = $this->_clang;
-
+    if ($clang === FALSE)
+    {
+      $clang = $REX['CUR_CLANG'];
+    }
+    
     return self :: getCategoryById($this->_re_id, $clang);
   }
 
