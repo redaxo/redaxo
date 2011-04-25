@@ -9,11 +9,17 @@ class rex_article_cache
    * @param $id ArtikelId des Artikels
    * @param [$clang ClangId des Artikels]
    *
-   * @return void
+   * @return boolean True on success, False on errro
    */
   static public function delete($id, $clang = null)
   {
     global $REX;
+
+    // sanity check
+    if($id < 0)
+    {
+      return false;
+    }
 
     foreach($REX['CLANG'] as $_clang => $clang_name)
     {
@@ -24,6 +30,8 @@ class rex_article_cache
       self::deleteContent($id, $clang);
       self::deleteLists($id, $clang);
     }
+
+    return true;
   }
 
   /**
@@ -33,11 +41,17 @@ class rex_article_cache
    * @param $id ArtikelId des Artikels
    * @param [$clang ClangId des Artikels]
    *
-   * @return void
+   * @return boolean True on success, False on errro
    */
   static public function deleteMeta($id, $clang = null)
   {
     global $REX;
+
+    // sanity check
+    if($id < 0)
+    {
+      return false;
+    }
 
     $cachePath = rex_path::generated('articles/');
 
@@ -48,6 +62,8 @@ class rex_article_cache
 
       rex_file::delete($cachePath . $id .'.'. $_clang .'.article');
     }
+
+    return true;
   }
 
   /**
@@ -57,11 +73,17 @@ class rex_article_cache
    * @param $id ArtikelId des Artikels
    * @param [$clang ClangId des Artikels]
    *
-   * @return void
+   * @return boolean True on success, False on errro
    */
   static public function deleteContent($id, $clang = null)
   {
     global $REX;
+
+    // sanity check
+    if($id < 0)
+    {
+      return false;
+    }
 
     $cachePath = rex_path::generated('articles/');
 
@@ -72,6 +94,8 @@ class rex_article_cache
 
       rex_file::delete($cachePath . $id .'.'. $_clang .'.content');
     }
+
+    return true;
   }
 
   /**
@@ -81,11 +105,17 @@ class rex_article_cache
    * @param $id ArtikelId des Artikels
    * @param [$clang ClangId des Artikels]
    *
-   * @return void
+   * @return boolean True on success, False on errro
    */
   static public function deleteLists($id, $clang = null)
   {
     global $REX;
+
+    // sanity check
+    if($id < 0)
+    {
+      return false;
+    }
 
     $cachePath = rex_path::generated('articles/');
 
@@ -97,6 +127,8 @@ class rex_article_cache
       rex_file::delete($cachePath . $id .'.'. $_clang .'.alist');
       rex_file::delete($cachePath . $id .'.'. $_clang .'.clist');
     }
+
+    return true;
   }
 
 
@@ -111,6 +143,12 @@ class rex_article_cache
   static public function generateMeta($article_id, $clang = null)
   {
     global $REX;
+
+    // sanity check
+    if($article_id <= 0)
+    {
+      return false;
+    }
 
     $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX'] .'article WHERE id='. (int) $article_id;
     if($clang !== NULL)
@@ -166,6 +204,13 @@ class rex_article_cache
   static public function generateLists($re_id, $clang = null)
   {
     global $REX;
+
+    // sanity check
+    if($re_id < 0)
+    {
+      return false;
+    }
+
 
     // generiere listen
     //

@@ -39,13 +39,21 @@ class rex_media_cache
 
     $glob = glob($cachePath . '*.mlist');
     if(is_array($glob))
-    foreach ($glob as $file)
-    rex_file::delete($file);
+    {
+      foreach ($glob as $file)
+      {
+        rex_file::delete($file);
+      }
+    }
 
     $glob = glob($cachePath . '*.mextlist');
     if(is_array($glob))
-    foreach ($glob as $file)
-    rex_file::delete($file);
+    {
+      foreach ($glob as $file)
+      {
+        rex_file::delete($file);
+      }
+    }
   }
 
   /**
@@ -68,10 +76,15 @@ class rex_media_cache
   static public function deleteCategoryLists()
   {
     $cachePath = rex_path::generated('files/');
+
     $glob = glob($cachePath . '*.mclist');
-    if (is_array($glob))
-    foreach ($glob as $file)
-    rex_file::delete($file);
+    if(is_array($glob))
+    {
+      foreach ($glob as $file)
+      {
+        rex_file::delete($file);
+      }
+    }
   }
 
   /**
@@ -103,7 +116,9 @@ class rex_media_cache
     $sql->setQuery($query);
 
     if ($sql->getRows() == 0)
-    return false;
+    {
+      return false;
+    }
 
     $cacheArray = array();
     foreach($sql->getFieldNames() as $fieldName)
@@ -113,7 +128,9 @@ class rex_media_cache
 
     $media_file = rex_path::generated('files/'. $filename .'.media');
     if (rex_file::putCache($media_file, $cacheArray))
-    return true;
+    {
+      return true;
+    }
 
     return false;
   }
@@ -129,13 +146,21 @@ class rex_media_cache
   {
     global $REX;
 
+    // sanity check
+    if($category_id<0)
+    {
+      return false;
+    }
+
     $query = 'SELECT * FROM ' . rex_ooMediaCategory :: _getTableName() . ' WHERE id = '.$category_id;
     $sql = rex_sql::factory();
     //$sql->debugsql = true;
     $sql->setQuery($query);
 
     if ($sql->getRows() == 0)
-    return false;
+    {
+      return false;
+    }
 
     $cacheArray = array();
     foreach($sql->getFieldNames() as $fieldName)
@@ -145,7 +170,9 @@ class rex_media_cache
 
     $cat_file = rex_path::generated('files/'. $category_id .'.mcat');
     if (rex_file::putCache($cat_file, $cacheArray))
-    return true;
+    {
+      return true;
+    }
 
     return false;
   }
@@ -161,6 +188,12 @@ class rex_media_cache
   {
     global $REX;
 
+    // sanity check
+    if($category_id<0)
+    {
+      return false;
+    }
+
     $query = 'SELECT filename FROM ' . rex_ooMedia :: _getTableName() . ' WHERE category_id = ' . $category_id;
     $sql = rex_sql::factory();
     $sql->setQuery($query);
@@ -174,7 +207,9 @@ class rex_media_cache
 
     $list_file = rex_path::generated('files/'. $category_id .'.mlist');
     if (rex_file::putCache($list_file, $cacheArray))
-    return true;
+    {
+      return true;
+    }
 
     return false;
   }
@@ -190,6 +225,12 @@ class rex_media_cache
   {
     global $REX;
 
+    // sanity check
+    if($category_id<0)
+    {
+      return false;
+    }
+
     $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . rex_ooMediaCategory :: _getTableName() . ' WHERE re_id = ' . $category_id . ' ORDER BY sort, name';
     $sql = rex_sql::factory();
     //$sql->debugsql = true;
@@ -204,7 +245,9 @@ class rex_media_cache
 
     $list_file = rex_path::generated('files/'. $category_id .'.mclist');
     if (rex_file::putCache($list_file, $cacheArray))
-    return true;
+    {
+      return true;
+    }
 
     return false;
   }
@@ -233,7 +276,9 @@ class rex_media_cache
 
     $list_file = rex_path::generated('files/'. $extension .'.mextlist');
     if (rex_file::putCache($list_file, $cacheArray))
-    return true;
+    {
+      return true;
+    }
 
     return false;
   }
