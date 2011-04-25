@@ -171,6 +171,20 @@ class rex_ooArticle extends rex_ooRedaxo
 
   /**
    * Accessor Method:
+   * returns the parent object of the article
+   * 
+   * @return rex_ooArticle
+   */
+  public function getParent($clang = false)
+  {
+    if ($clang === false)
+      $clang = $this->_clang;
+      
+    return rex_ooArticle::getArticleById($this->_re_id, $clang);
+  }
+  
+  /**
+   * Accessor Method:
    * returns the path of the category/article
    * 
    * @return string
