@@ -3,19 +3,14 @@
 // ----------------------------------------- Alles generieren
 
 /**
- * Löscht den vollständigen Artikel-Cache.
+ * Löscht den vollständigen Artikel-Cache und generiert den clang-cache
  */
 function rex_generateAll()
 {
   global $REX;
   
-  // unregister logger, so the logfile can also be deleted
-  rex_logger::unregister();
-
   // ----------------------------------------------------------- generated löschen
-  rex_dir::deleteFiles(rex_path::generated());
-  
-  rex_logger::register();
+  rex_deleteAll();
 
   // ----------------------------------------------------------- generiere clang
   if(($MSG = rex_clang_service::generateCache()) !== TRUE)
@@ -30,4 +25,17 @@ function rex_generateAll()
   $MSG = rex_register_extension_point('ALL_GENERATED', $MSG);
 
   return $MSG;
+}
+
+/**
+ * Löscht den vollständigen Artikel-Cache.
+ */
+function rex_deleteAll()
+{
+  // unregister logger, so the logfile can also be deleted
+  rex_logger::unregister();
+
+  rex_dir::deleteFiles(rex_path::generated());
+  
+  rex_logger::register();
 }

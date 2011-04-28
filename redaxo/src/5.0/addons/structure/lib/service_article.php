@@ -16,12 +16,29 @@ class rex_article_service
     $message = '';
 
     if(!is_array($data))
-    throw  new rexApiException('Expecting $data to be an array!');
-
-    if(isset($data['prior']))
     {
-      if($data['prior'] <= 0)
+      throw  new rexApiException('Expecting $data to be an array!');
+    }
+
+    self::reqKey($data, 'category_id');
+    self::reqKey($data, 'prior');
+    self::reqKey($data, 'name');
+
+    if($data['prior'] <= 0)
+    {
       $data['prior'] = 1;
+    }
+
+    // parent may be null, when adding in the root cat
+    $parent = rex_ooCategory::getCategoryById($data['category_id']);
+    if($parent)
+    {
+      $path = $parent->getPath();
+      $path .= $parent->getId(). '|';
+    }
+    else
+    {
+      $path = '|';
     }
 
     $templates = rex_ooCategory::getTemplates($data['category_id']);
@@ -32,7 +49,9 @@ class rex_article_service
     {
       $data['template_id'] = 0;
       if(count($templates)>0)
-      $data['template_id'] = key($templates);
+      {
+        $data['template_id'] = key($templates);
+      }
     }
 
     $message = rex_i18n::msg('article_added');
@@ -42,7 +61,7 @@ class rex_article_service
     {
       // ------- Kategorienamen holen
       $category = rex_ooCategory::getCategoryById($data['category_id'], $key);
-      
+
       $categoryName = '';
       if($category)
       {
@@ -50,17 +69,21 @@ class rex_article_service
       }
 
       $AART->setTable($REX['TABLE_PREFIX'].'article');
-      if (!isset ($id) or !$id)
-      $id = $AART->setNewId('id');
+      if (!isset ($id) || !$id)
+      {
+        $id = $AART->setNewId('id');
+      }
       else
-      $AART->setValue('id', $id);
+      {
+        $AART->setValue('id', $id);
+      }
       $AART->setValue('name', $data['name']);
       $AART->setValue('catname', $categoryName);
       $AART->setValue('attributes', '');
       $AART->setValue('clang', $key);
       $AART->setValue('re_id', $data['category_id']);
       $AART->setValue('prior', $data['prior']);
-      $AART->setValue('path', $data['path']);
+      $AART->setValue('path', $path);
       $AART->setValue('startpage', 0);
       $AART->setValue('status', 0);
       $AART->setValue('template_id', $data['template_id']);
@@ -86,7 +109,7 @@ class rex_article_service
         'name' => $data['name'],
         're_id' => $data['category_id'],
         'prior' => $data['prior'],
-        'path' => $data['path'],
+        'path' => $path,
         'template_id' => $data['template_id'],
         'data' => $data,
       )
@@ -112,17 +135,19 @@ class rex_article_service
     $message = '';
 
     if(!is_array($data))
-    throw new rexApiException('Expecting $data to be an array!');
+    {
+      throw  new rexApiException('Expecting $data to be an array!');
+    }
 
     // Artikel mit alten Daten selektieren
     $thisArt = rex_sql::factory();
     $thisArt->setQuery('select * from '.$REX['TABLE_PREFIX'].'article where id='.$article_id.' and clang='. $clang);
-    
+
     if ($thisArt->getRows() != 1)
     {
       throw new rexApiException('Unable to find article with id "'. $article_id .'" and clang "'. $clang .'"!');
     }
-    
+
     $ooArt = rex_ooArticle::getArticleById($article_id, $clang);
     $data['category_id'] = $ooArt->getCategoryId();
     $templates = rex_ooCategory::getTemplates($data['category_id']);
@@ -233,7 +258,7 @@ class rex_article_service
     {
       throw new rexApiException(rex_i18n::msg('article_doesnt_exist'));
     }
-    
+
     return $message;
   }
 
@@ -432,6 +457,20 @@ class rex_article_service
       );
 
       rex_article_cache::deleteLists($re_id, $clang);
+    }
+  }
+
+  /**
+   * Checks whether the required array key $keyName isset
+   *
+   * @param array $array The array
+   * @param string $keyName The key
+   */
+  static protected function reqKey($array, $keyName)
+  {
+    if(!isset($array[$keyName]))
+    {
+      throw new rexApiException('Missing required parameter "'. $keyName .'"!');
     }
   }
 }

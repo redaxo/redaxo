@@ -22,25 +22,11 @@ class rex_api_article_add extends rex_api_function
       throw new rexApiException('user has no permission for this category!');
     }
     
-    // parent may be null, when adding in the root cat
-    $parent = rex_ooCategory::getCategoryById($category_id);
-    // TODO refactor path-build-code into article-service
-    if($parent)
-    {
-      $path = $parent->getPath();
-      $path .= $parent->getId(). '|';
-    }
-    else
-    {
-      $path = '|';
-    }
-    
     $data = array();
     $data['name']        = rex_post('article-name', 'string');
     $data['prior']       = rex_post('article-position', 'int');
     $data['template_id'] = rex_post('template_id', 'rex-template-id');
     $data['category_id'] = $category_id;
-    $data['path']        = $path;
   
     return rex_article_service::addArticle($data);
   }
