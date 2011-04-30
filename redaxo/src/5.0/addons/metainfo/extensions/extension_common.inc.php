@@ -652,7 +652,7 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
   $article = rex_sql::factory();
 //  $article->debugsql = true;
   $article->setTable($REX['TABLE_PREFIX']. 'article');
-  $article->setWhere('id='. $params['id'] .' AND clang='. $params['clang']);
+  $article->setWhere('id=:id AND clang=:clang', array(':id'=> $params['id'], ':clang' => $params['clang']));
 
   _rex_a62_metainfo_handleSave($params, $article, $sqlFields);
 
@@ -689,7 +689,7 @@ function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
   $media = rex_sql::factory();
 //  $media->debugsql = true;
   $media->setTable($REX['TABLE_PREFIX']. 'media');
-  $media->setWhere('media_id='. $params['media_id']);
+  $media->setWhere('media_id=:mediaid', array(':mediaid' => $params['media_id']));
 
   _rex_a62_metainfo_handleSave($params, $media, $sqlFields);
 
