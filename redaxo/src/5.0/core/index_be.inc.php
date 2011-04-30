@@ -330,4 +330,4 @@ $CONTENT = ob_get_contents();
 ob_end_clean();
 
 // ----- inhalt ausgeben
-rex_send_article(null, $CONTENT, 'backend', TRUE);
+rex_resource::sendArticle(null, $CONTENT, 'backend', TRUE);

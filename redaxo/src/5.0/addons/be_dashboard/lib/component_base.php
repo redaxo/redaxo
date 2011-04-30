@@ -95,7 +95,7 @@ abstract class rex_dashboard_component_base
         // clear output-buffer
         while(@ob_end_clean());
 
-        rex_send_resource($content);
+        rex_response::sendResource($content);
         exit();
       }
 

@@ -49,6 +49,7 @@ $article_id =& $REX['ARTICLE_ID'];
 $clang =& $REX['CUR_CLANG'];
 
 $dir = dirname(__FILE__);
+require_once $dir .'/functions/function_rex_client_cache.inc.php';
 require_once $dir .'/functions/function_rex_extension.inc.php';
 require_once $dir .'/functions/function_rex_file.inc.php';
 require_once $dir .'/functions/function_rex_lang.inc.php';

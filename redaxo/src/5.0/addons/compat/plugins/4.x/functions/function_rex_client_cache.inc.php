@@ -1,19 +1,9 @@
 <?php
 
 /**
- * HTTP1.1 Client Cache Features
+ * @see rex_response::sendFile()
  *
- * @package redaxo5
- * @version svn:$Id$
- */
-
-/**
- * Sendet eine Datei zum Client
- *
- * @param $file string Pfad zur Datei
- * @param $contentType ContentType der Datei
- * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
- * (frontend/backend)
+ * @deprecated 5.0
  */
 function rex_send_file($file, $contentType, $environment = 'backend')
 {
@@ -40,11 +30,9 @@ function rex_send_file($file, $contentType, $environment = 'backend')
 }
 
 /**
- * Sendet eine ressource zum Client,
- * fügt ggf. HTTP1.1 cache headers hinzu
+ * @see rex_response::sendResource()
  *
- * @param $content string Inhalt der Ressource
- * @param $sendcharset boolean TRUE, wenn der Charset mitgeschickt werden soll, sonst FALSE
+ * @deprecated 5.0
  */
 function rex_send_resource($content, $sendcharset = TRUE, $lastModified = null, $etag = null)
 {
@@ -66,14 +54,9 @@ function rex_send_resource($content, $sendcharset = TRUE, $lastModified = null, 
 }
 
 /**
- * Sendet einen rex_article zum Client,
- * fügt ggf. HTTP1.1 cache headers hinzu
+ * @see rex_response::sendArticle()
  *
- * @param $REX_ARTICLE rex_article Den zu sendenen Artikel
- * @param $content string Inhalt des Artikels
- * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
- * (frontend/backend)
- * @param $sendcharset boolean TRUE, wenn der Charset mitgeschickt werden soll, sonst FALSE
+ * @deprecated 5.0
  */
 function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = FALSE)
 {
@@ -114,15 +97,9 @@ function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = F
 }
 
 /**
- * Sendet den Content zum Client,
- * fügt ggf. HTTP1.1 cache headers hinzu
+ * @see rex_response::sendContent()
  *
- * @param $content string Inhalt des Artikels
- * @param $lastModified integer Last-Modified Timestamp
- * @param $cacheKey string Cachekey zur identifizierung des Caches
- * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
- * (frontend/backend)
- * @param $sendcharset boolean TRUE, wenn der Charset mitgeschickt werden soll, sonst FALSE
+ * @deprecated 5.0
  */
 function rex_send_content($content, $lastModified, $etag, $environment, $sendcharset = FALSE)
 {
@@ -162,11 +139,9 @@ function rex_send_content($content, $lastModified, $etag, $environment, $sendcha
 }
 
 /**
- * Prüft, ob sich dateien geändert haben
+ * @see rex_response::sendLastModified()
  *
- * XHTML 1.1: HTTP_IF_MODIFIED_SINCE feature
- *
- * @param $lastModified integer Last-Modified Timestamp
+ * @deprecated 5.0
  */
 function rex_send_last_modified($lastModified = null)
 {
@@ -191,12 +166,9 @@ function rex_send_last_modified($lastModified = null)
 }
 
 /**
- * Prüft ob sich der Inhalt einer Seite im Cache des Browsers befindet und
- * verweisst ggf. auf den Cache
+ * @see rex_response::sendEtag()
  *
- * XHTML 1.1: HTTP_IF_NONE_MATCH feature
- *
- * @param $cacheKey string Cachekey zur identifizierung des Caches
+ * @deprecated 5.0
  */
 function rex_send_etag($cacheKey)
 {
@@ -219,12 +191,9 @@ function rex_send_etag($cacheKey)
 }
 
 /**
- * Kodiert den Inhalt des Artikels in GZIP/X-GZIP, wenn der Browser eines der
- * Formate unterstützt
+ * @see rex_response::sendGzip()
  *
- * XHTML 1.1: HTTP_ACCEPT_ENCODING feature
- *
- * @param $content string Inhalt des Artikels
+ * @deprecated 5.0
  */
 function rex_send_gzip($content)
 {
@@ -257,12 +226,9 @@ function rex_send_gzip($content)
 }
 
 /**
- * Sendet eine MD5 Checksumme als HTTP Header, damit der Browser validieren
- * kann, ob Übertragungsfehler aufgetreten sind
+ * @see rex_response::sendChecksum()
  *
- * XHTML 1.1: HTTP_CONTENT_MD5 feature
- *
- * @param $md5 string MD5 Summe des Inhalts
+ * @deprecated 5.0
  */
 function rex_send_checksum($md5)
 {

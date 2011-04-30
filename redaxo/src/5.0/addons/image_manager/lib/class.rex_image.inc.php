@@ -137,7 +137,7 @@ class rex_image {
       return false;
 
     $this->sendHeader(array("Content-Length" => strlen($content)));
-    rex_send_resource($content, false, $lastModified);
+    rex_response::sendResource($content, false, $lastModified);
   }
 
   public function sendHeader($params = array())

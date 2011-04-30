@@ -54,4 +54,4 @@ ob_end_clean();
 rex_api_function::handleCall();
 
 // ----- inhalt ausgeben
-rex_send_article($REX['ARTICLE'], $CONTENT, 'frontend');
+rex_resource::sendArticle($REX['ARTICLE'], $CONTENT, 'frontend');
