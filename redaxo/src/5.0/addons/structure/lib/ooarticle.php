@@ -190,6 +190,8 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   public function getParent($clang = false)
   {
+    global $REX;
+    
     if ($clang === FALSE)
     {
       $clang = $REX['CUR_CLANG'];

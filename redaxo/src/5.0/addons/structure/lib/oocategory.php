@@ -129,6 +129,8 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   public function getChildren($ignore_offlines = false, $clang = false)
   {
+    global $REX;
+    
     if ($clang === FALSE)
     {
       $clang = $REX['CUR_CLANG'];
@@ -145,6 +147,8 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   public function getParent($clang = false)
   {
+    global $REX;
+    
     if ($clang === FALSE)
     {
       $clang = $REX['CUR_CLANG'];
