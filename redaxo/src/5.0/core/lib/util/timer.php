@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class for stop the script time
+ * Class to stop the script time
  *
  * @author gharlan
  *
