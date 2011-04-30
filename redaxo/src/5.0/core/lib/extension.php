@@ -5,8 +5,12 @@
  * 
  * @author Markus Staab
  */
-class rex_extension
+abstract class rex_extension
 {
+  private function __construct(){
+    // subclassing not allowed
+  }
+  
   /**
    * Array aller ExtensionsPoints und deren Extensions
    * @var array
