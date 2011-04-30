@@ -184,7 +184,7 @@ class rex_category_service
     // --- Kategorie selbst updaten
     $EKAT = rex_sql::factory();
     $EKAT->setTable($REX['TABLE_PREFIX']."article");
-    $EKAT->setWhere("id=$category_id AND startpage=1 AND clang=$clang");
+    $EKAT->setWhere(array('id' => $category_id, 'startpage' => 1,'clang'=>$clang));
     $EKAT->setValue('catname', $data['catname']);
     $EKAT->setValue('catprior', $data['catprior']);
     $EKAT->addGlobalUpdateFields();
