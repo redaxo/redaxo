@@ -367,7 +367,7 @@ class rex_sql implements Iterator
     {
       $trace = debug_backtrace();
       $loc = $trace[0];
-      trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line "'. $loc['line'] .'"!', E_USER_WARNING);
+      trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
 
       $this->wherevar = "WHERE $where";
       $this->whereParams = array();
