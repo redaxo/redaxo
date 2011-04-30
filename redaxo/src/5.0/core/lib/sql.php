@@ -340,7 +340,8 @@ class rex_sql implements Iterator
    * Setzt die WHERE Bedienung der Abfrage
    *
    * example 1:
-   *  	$sql->setWhere(array('id' => 3, 'field' => ''));
+   *  	$sql->setWhere(array('id' => 3, 'field' => '')); // results in id = 3 AND field = ''
+   *  	$sql->setWhere(array(array('id' => 3, 'field' => ''))); // results in id = 3 OR field = ''
    *
    * example 2:
    *  	$sql->setWhere('myid = :id OR anotherfield = :field', array('id' => 3, 'field' => ''));
@@ -546,16 +547,48 @@ class rex_sql implements Iterator
     $qry = '';
     if(is_array($this->whereParams))
     {
-      foreach($this->whereParams as $fld_name => $value)
-      {
-        // TODO add AND/OR alternation depending on nesting level
-        if ($qry != '')
-        {
-          $qry .= ' AND ';
-        }
+      $qry = $this->buildWhereArg($this->whereParams);
+    }
+    return $qry;
+  }
 
-        $qry .= '`' .$fld_name . '` = :'. $fld_name;
+  /**
+   * Concats the given array to a sql condition.
+   * AND/OR opartors are alternated depending on $level
+   *  
+   * @param array $arrFields
+   * @param int $level
+   */
+  private function buildWhereArg(array $arrFields, $level = 0)
+  {
+    $op = '';
+    if($level % 2 == 1)
+    {
+      $op = ' OR ';
+    }
+    else
+    {
+      $op = ' AND ';
+    }
+    
+    $qry = '';
+    foreach($arrFields as $fld_name => $value)
+    {
+      $arg = '';
+      if(is_array($value))
+      {
+        $arg = '('. $this->buildWhereArg($value, $level+1) .')';
       }
+      else
+      {
+        $arg = '`' .$fld_name . '` = :'. $fld_name;
+      }
+
+      if ($qry != '')
+      {
+        $qry .= $op;
+      }
+      $qry .= $arg;
     }
     return $qry;
   }
