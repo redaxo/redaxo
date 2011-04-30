@@ -98,7 +98,7 @@ class rex_fragment
 
   /**
    * Decorate the current fragment, with another fragment.
-   * The decorated fragments receives the parameters which are given.
+   * The decorated fragment receives the parameters which are passed to this method.
    *
    * @param string $filename The filename of the fragment used for decoration
    * @param array $params A array of key-value pairs to pass as parameters
