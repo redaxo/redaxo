@@ -13,7 +13,7 @@ class rex_sql_dump
    *
    * @return true bei Erfolg, sonst eine Fehlermeldung
    */
-  static public function execute($file, $debug = false)
+  static public function import($file, $debug = false)
   {
     $sql = rex_sql::factory();
     $sql->debugsql = $debug;

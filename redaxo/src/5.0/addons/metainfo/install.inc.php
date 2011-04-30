@@ -17,7 +17,7 @@ rex_a62_metainfo_cleanup(array('force' => true));
 
 // uninstall ausführen, damit die db clean ist vorm neuen install
 $uninstall = $curDir.'/uninstall.sql';
-rex_sql_dump::execute($uninstall);
+rex_sql_dump::import($uninstall);
 
 // TODO:
 // - Update von alten Version einfliessen lassen

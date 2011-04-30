@@ -24,11 +24,11 @@ function rex_tabindex($html = true)
 }
 
 /**
- * @see rex_sql_dump::execute()
+ * @see rex_sql_dump::import()
  *
  * @deprecated 5.0
  */
 function rex_install_dump($file, $debug = false)
 {
-  return rex_sql_dump::execute($file, $debug);
+  return rex_sql_dump::import($file, $debug);
 }
