@@ -1,7 +1,5 @@
 <?php
 
-$mypage = 'compat';
-
 $REX['INCLUDE_PATH'] = rex_path::src();
 $REX['FRONTEND_PATH'] = rex_path::frontend();
 $REX['MEDIAFOLDER']   = rex_path::media();
