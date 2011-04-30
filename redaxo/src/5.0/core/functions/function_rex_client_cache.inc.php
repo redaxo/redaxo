@@ -110,7 +110,7 @@ function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = F
     $sendcharset);
 
   // ----- EXTENSION POINT - (read only)
-  rex_extension::registerPoint( 'OUTPUT_FILTER_CACHE', $content, '', true);
+  rex_extension::registerPoint( 'OUTPUT_FILTER_CACHE', $content, array(), true);
 }
 
 /**
