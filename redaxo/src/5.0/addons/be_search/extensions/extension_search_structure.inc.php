@@ -193,17 +193,15 @@ function rex_be_search_structure($params)
 
 		    <div class="rex-fl-lft">
 	        <label for="rex-be_search-article-name">'. rex_i18n::msg('be_search_article_name') .'</label>
-    	    <input class="rex-form-text" type="text" name="be_search_article_name" id="rex-be_search-article-name" value="'. htmlspecialchars($be_search_article_name) .'"'. rex_tabindex() .' />
+    	    <input class="rex-form-text" type="text" name="be_search_article_name" id="rex-be_search-article-name" value="'. htmlspecialchars($be_search_article_name) .'" />
 
         	<label for="rex-be_search-article-id">'. rex_i18n::msg('be_search_article_id') .'</label>
-	        <input class="rex-form-text" type="text" name="be_search_article_id" id="rex-be_search-article-id"'. rex_tabindex() .' />
-    	    <input class="rex-form-submit" type="submit" name="be_search_start_search" value="'. rex_i18n::msg('be_search_start') .'"'. rex_tabindex() .' />
+	        <input class="rex-form-text" type="text" name="be_search_article_id" id="rex-be_search-article-id" />
+    	    <input class="rex-form-submit" type="submit" name="be_search_start_search" value="'. rex_i18n::msg('be_search_start') .'" />
 		    </div>
 
     		<div class="rex-fl-rght">
     			<label for="rex-be_search-category-id">'. rex_i18n::msg('be_search_quick_navi') .'</label>';
-
-    			$category_select->setAttribute('tabindex', rex_tabindex(false));
 
   $form .= $category_select->get() .'
     			<noscript>

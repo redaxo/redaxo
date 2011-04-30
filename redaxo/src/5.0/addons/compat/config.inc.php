@@ -13,4 +13,5 @@ if($REX['REDAXO'])
 }
 
 require_once dirname(__FILE__) .'/functions/function_rex_file.inc.php';
-require_once dirname(__FILE__) .'/functions/function_rex_lang.inc.php';
+require_once dirname(__FILE__) .'/functions/function_rex_file.inc.php';
+require_once dirname(__FILE__) .'/functions/function_rex_other.inc.php';

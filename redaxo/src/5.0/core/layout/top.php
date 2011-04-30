@@ -78,7 +78,6 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
         $item['extra'] = rex_accesskey($pageArr['title'], $accesskey++);
       */
         
-      $pageObj->setLinkAttr('tabindex', rex_tabindex(false));
       $n->addPage($pageContainer);
     }
   }

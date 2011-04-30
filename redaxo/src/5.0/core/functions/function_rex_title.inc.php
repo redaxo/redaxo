@@ -165,17 +165,17 @@ function rex_get_subtitle($subline)
       {
         // $format = '%s';
         // $subtitle[] = sprintf($format, $label);
-        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s'. rex_tabindex() .' class="rex-active%s">%s</a>';
+        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s class="rex-active%s">%s</a>';
         $subtitle[] = sprintf($format, $link, $params, $attr, $add_class, $label);
       }
       elseif ($link == '')
       {
-        $format = '<a href="?page='. $cur_page .'%s"%s'. rex_tabindex() .'>%s</a>';
+        $format = '<a href="?page='. $cur_page .'%s"%s>%s</a>';
         $subtitle[] = sprintf($format, $params, $attr, $label);
       }
       else
       {
-        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s'. rex_tabindex() .'>%s</a>';
+        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s>%s</a>';
         $subtitle[] = sprintf($format, $link, $params, $attr, $label);
       }
     }

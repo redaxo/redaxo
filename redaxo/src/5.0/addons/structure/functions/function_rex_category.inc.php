@@ -11,7 +11,7 @@ $KATout = ''; // Variable definiert und vorbelegt wenn nicht existent
 $KAToutARR = array(); // Variable definiert und vorbelegt wenn nicht existent
 
 // link to root kategory
-$KAToutARR[]['content'] = '<a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'"'. rex_tabindex() .'>Homepage</a>';
+$KAToutARR[]['content'] = '<a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'">Homepage</a>';
 
 $KAT = rex_sql::factory();
 // $KAT->debugsql = true;
@@ -37,7 +37,7 @@ else
     if ($REX['USER']->hasCategoryPerm($catid))
     {
       $catname = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
-      $KAToutARR[]['content'] = '<a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'"'. rex_tabindex() .'>'. $catname .'</a>';
+      $KAToutARR[]['content'] = '<a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'">'. $catname .'</a>';
     }
   }
 }

@@ -44,7 +44,6 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     $dblength      = $sqlFields->getValue('dblength');
     $restrictions  = $sqlFields->getValue('restrictions');
 
-    $attr .= rex_tabindex();
     $attrArray = rex_split_string($attr);
     if(isset($attrArray['perm']))
     {

@@ -45,7 +45,6 @@ if ($num_clang>1)
 
        $lang['link_class'] = $class;
        $lang['url'] = 'index.php?page='. $REX["PAGE"] .'&amp;clang='. $key . $sprachen_add .'&amp;ctype='. $ctype;
-//      echo '<a'.$class.' href=""'. rex_tabindex() .'>'. $val .'</a>';
      }
      $i++;
      $languages[] = $lang;
