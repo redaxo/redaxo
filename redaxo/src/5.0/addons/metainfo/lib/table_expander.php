@@ -272,8 +272,8 @@ class rex_a62_tableExpander extends rex_form
           $upd = rex_sql::factory();
           $upd->debugsql =& $this->debug;
           $upd->setTable($this->tableManager->getTableName());
-          $upd->setWhere('`'. $fieldName .'`="'. addSlashes($fieldOldDefault) .'"');
-          $upd->setValue($fieldName, addSlashes($fieldDefault));
+          $upd->setWhere(array($fieldName => $fieldOldDefault));
+          $upd->setValue($fieldName, $fieldDefault);
           return $upd->update();
         }
 
