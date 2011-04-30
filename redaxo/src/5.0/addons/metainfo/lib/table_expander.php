@@ -201,9 +201,16 @@ class rex_a62_tableExpander extends rex_form
     if(preg_match('/[^a-zA-Z0-9\_]/', $fieldName))
       return rex_i18n::msg('minfo_field_error_chars_name');
 
-    // Pr�fen ob schon eine Spalte mit dem Namen existiert (nur beim add n�tig)
+    // Pruefen ob schon eine Spalte mit dem Namen existiert (nur beim add noetig)
     if(!$this->isEditMode())
     {
+      // die tabelle selbst checken
+      if($this->tableManager->hasColumn($this->addPrefix($fieldName)))
+      {
+        return rex_i18n::msg('minfo_field_error_unique_name');
+      }
+      
+      // das meta-schema checken
       $sql = rex_sql::factory();
       $sql->setQuery('SELECT * FROM '. $this->tableName .' WHERE name="'. $this->addPrefix($fieldName) .'" LIMIT 1');
       if($sql->getRows() == 1)
@@ -211,7 +218,7 @@ class rex_a62_tableExpander extends rex_form
         return rex_i18n::msg('minfo_field_error_unique_name');
       }
     }
-
+    
     return parent::validate();
   }
 
@@ -220,8 +227,8 @@ class rex_a62_tableExpander extends rex_form
     $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
 
     // Den alten Wert aus der DB holen
-    // Dies muss hier geschehen, da in parent::save() die Werte f�r die DB mit den
-    // POST werten �berschrieben werden!
+    // Dies muss hier geschehen, da in parent::save() die Werte fuer die DB mit den
+    // POST werten ueberschrieben werden!
     $fieldOldName = '';
     $fieldOldPrior = 9999999999999; // dirty, damit die prio richtig l�uft...
     $fieldOldDefault = '';
@@ -249,7 +256,7 @@ class rex_a62_tableExpander extends rex_form
       $fieldDbType = $result[0]['dbtype'];
       $fieldDbLength = $result[0]['dblength'];
 
-      // TEXT Spalten d�rfen in MySQL keine Defaultwerte haben
+      // TEXT Spalten duerfen in MySQL keine Defaultwerte haben
       if($fieldDbType == 'text')
         $fieldDefault = null;
 
