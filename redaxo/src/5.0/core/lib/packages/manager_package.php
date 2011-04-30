@@ -201,6 +201,7 @@ abstract class rex_packageManager
           $configFile = $this->baseFolder($addonName) .'config.inc.php';
           if(is_readable($configFile))
           {
+            rex_autoload::addDirectory($this->baseFolder($addonName) .DIRECTORY_SEPARATOR .'lib');
             $this->includeConfig($addonName, $configFile);
           }
         }
@@ -450,7 +451,15 @@ abstract class rex_packageManager
     $package = $this->package($packageName);
     if(!in_array($package, $order))
     {
-      $order[] = $package;
+      if(self::addonName($package) == 'compat')
+      {
+        for($i = 0; self::addonName($order[$i]) == 'compat'; ++$i);
+        array_splice($order, $i, 0, array($package));
+      }
+      else
+      {
+        $order[] = $package;
+      }
       rex_core_config::set('package-order', $order);
     }
   }
@@ -530,6 +539,18 @@ abstract class rex_packageManager
    * Package representation
    */
   protected abstract function package($addonName);
+
+  /**
+   * Returns the addon name of the given package
+   *
+   * @param string|array $package Package representation
+   *
+   * @return string Addon name
+   */
+  static protected function addonName($package)
+  {
+    return is_string($package) ? $package : $package[0];
+  }
 
   /**
    * Findet den Namespace für rex_config
