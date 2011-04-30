@@ -147,7 +147,10 @@ class rex_logger {
       throw new rexException('Expecting $message to be string, but '. gettype($message) .' given!');
     }
 
-    fwrite($this->handle, date('r') .'<br />'. $message);
+    if(is_resource($this->handle))
+    {
+      fwrite($this->handle, date('r') .'<br />'. $message);
+    }
   }
 
   /**
