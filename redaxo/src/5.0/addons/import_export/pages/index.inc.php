@@ -8,7 +8,10 @@
  */
 
 // Für größere Exports den Speicher für PHP erhöhen.
-@ini_set('memory_limit', '64M');
+if(rex_ini_get('memory_limit') < 67108864)
+{
+  @ini_set('memory_limit', '64M');
+}
 
 // ------- Addon Includes
 include_once rex_path::addon('import_export', 'functions/function_import_export.inc.php');
