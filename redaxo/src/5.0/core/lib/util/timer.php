@@ -42,7 +42,6 @@ class rex_timer
   public function start()
   {
     $this->start = microtime(true);
-    echo $this->start;
   }
 
   /**
