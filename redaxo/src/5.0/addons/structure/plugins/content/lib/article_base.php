@@ -52,10 +52,6 @@ class rex_article_base
 
     $this->debug = FALSE;
 
-    $this->ARTICLE = rex_sql::factory();
-    if($this->debug)
-      $this->ARTICLE->debugsql = 1;
-
     if($clang !== null)
       $this->setCLang($clang);
     else
@@ -72,6 +68,17 @@ class rex_article_base
 
     if ($article_id !== null)
       $this->setArticleId($article_id);
+  }
+
+  protected function getSqlInstance()
+  {
+    if(!is_object($this->ARTICLE))
+    {
+      $this->ARTICLE = rex_sql::factory();
+      if($this->debug)
+        $this->ARTICLE->debugsql = 1;
+    }
+    return $this->ARTICLE;
   }
 
   public function setSliceRevision($sr)
@@ -111,9 +118,10 @@ class rex_article_base
 
     // ---------- select article
     $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE ".$REX['TABLE_PREFIX']."article.id='$article_id' AND clang='".$this->clang."'";
-    $this->ARTICLE->setQuery($qry);
+    $sql = $this->getSqlInstance();
+    $sql->setQuery($qry);
 
-    if ($this->ARTICLE->getRows() == 1)
+    if ($sql->getRows() == 1)
     {
       $this->template_id = $this->getValue('template_id');
       $this->category_id = $this->getValue('category_id');
@@ -173,7 +181,7 @@ class rex_article_base
     global $REX;
     $value = $this->correctValue($value);
 
-    return $this->ARTICLE->getValue($value);
+    return $this->getSqlInstance()->getValue($value);
   }
 
   public function getValue($value)
@@ -194,7 +202,7 @@ class rex_article_base
 
   public function hasValue($value)
   {
-    return $this->ARTICLE->hasValue($this->correctValue($value));
+    return $this->getSqlInstance()->hasValue($this->correctValue($value));
   }
 
   /**
