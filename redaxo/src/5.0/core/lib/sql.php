@@ -364,7 +364,9 @@ class rex_sql implements Iterator
     }
     else if(is_string($where))
     {
-      trigger_error('you have to take care to provide escaped values for your where-string!', E_USER_WARNING);
+      $trace = debug_backtrace();
+      $loc = $trace[0];
+      trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line "'. $loc['line'] .'"!', E_USER_WARNING);
 
       $this->wherevar = "WHERE $where";
       $this->whereParams = array();
@@ -1085,10 +1087,31 @@ class rex_sql implements Iterator
 
   /**
    * Sucht Spalteninformationen der Tabelle $table der Datenbankverbindung $DBID.
+   * 
+   * Beispiel fuer den Rueckgabewert:
+   * 
+	 * Array ( 
+	 * 	[0] => Array (
+	 * 		[name] => pid
+	 * 	  [type] => int(11)
+	 *    [null] => NO
+	 *    [key] => PRI
+	 *    [default] =>
+	 *    [extra] => auto_increment 
+   *  )
+   *  [1] => Array (
+   *  	[name] => id
+   *  	[type] => int(11)
+   *  	[null] => NO
+   *  	[key] => MUL
+   *  	[default] =>
+   *  	[extra] =>
+   *  )
+   * ) 
    *
    * @param $table string Name der Tabelle
    * @param $DBID int Id der Datenbankverbindung
-   * @return array Ein Array das die Metadaten enthaelt
+   * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
    */
   static public function showColumns($table, $DBID=1)
   {
