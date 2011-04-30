@@ -601,11 +601,24 @@ class rex_sql implements Iterator
    */
   public function insert($successMessage = null)
   {
-    return $this->preparedStatusQuery(
+    // hold a copies of the query fields for later debug out (the class property will be reverted in setQuery())
+    $tableName = $this->table;
+    $values = $this->values;
+    
+    $res = $this->preparedStatusQuery(
     	'INSERT INTO `' . $this->table . '` SET ' . $this->buildPreparedValues(),
       $this->values,
       $successMessage
     );
+    
+    // provide debug infos, if insert is considered successfull, but no rows were inserted.
+    // this happens when you violate against a NOTNULL constraint
+    if($res && $this->getRows() == 0)
+    {
+      trigger_error('Error while inserting into table "'. $tableName .'" with values '. print_r($values, true) .'! Check your null/not-null constraints!', E_USER_ERROR);
+    }
+    
+    return $res;
   }
 
   /**
