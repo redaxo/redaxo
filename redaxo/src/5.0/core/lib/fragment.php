@@ -2,10 +2,23 @@
 
 class rex_fragment
 {
-  private static $fragmentDirs = array();
-
+  /**
+   * filename of the actual fragmentfile
+   * @var string
+   */
   private $filename;
+  
+  /**
+   * key-value pair which represents all variables defined inside the fragment
+   * @var array
+   */
   private $vars;
+  
+  /**
+   * another fragment which can optionaly be used to decorate the current fragment
+   * @var rex_fragment
+   */
+  private $decorator;
 
   /**
    * Creates a fragment with the given variables.
@@ -15,18 +28,6 @@ class rex_fragment
   public function rex_fragment(array $vars = array())
   {
     $this->vars = $vars;
-  }
-
-  /**
-   * Add a path to the fragment search path
-   *
-   * @param string $path A path to a directory where fragments can be found
-   */
-  public static function addDirectory($path)
-  {
-    // add the new directory in front of the already know dirs,
-    // so a later caller can override core settings/fragments
-    array_unshift(self::$fragmentDirs, $path);
   }
 
   /**
@@ -80,13 +81,33 @@ class rex_fragment
         else
           require $fragment;
 
-        return ob_get_clean();
+        $content =  ob_get_clean();
+        
+        if($this->decorator)
+        {
+          $this->decorator->setVar('rexDecoratedContent', $content, false);
+          $content = $this->decorator->parse($this->decorator->filename);
+        }
+        
+        return $content;
       }
     }
 
     throw new rexException(sprintf('Fragmentfile "%s.tpl" not found!', $filename));
   }
 
+  /**
+   * Decorate the current fragment, with another fragment.
+   * The decorated fragments receives the parameters which are given.
+   *
+   * @param string $filename The filename of the fragment used for decoration
+   * @param array $params A array of key-value pairs to pass as parameters
+   */
+  public function decorate($filename, array $params)
+  {
+    $this->decorator = new rex_fragment($params);
+    $this->decorator->filename = $filename;
+  }
   // -------------------------- in-fragment helpers
 
   /**
@@ -249,4 +270,22 @@ class rex_fragment
   }
 
   // /-------------------------- in-fragment helpers
+  
+  /**
+   * array which contains all folders in which fragments will be searched for at runtime
+   * @var array
+   */
+  private static $fragmentDirs = array();
+
+  /**
+   * Add a path to the fragment search path
+   *
+   * @param string $path A path to a directory where fragments can be found
+   */
+  public static function addDirectory($path)
+  {
+    // add the new directory in front of the already know dirs,
+    // so a later caller can override core settings/fragments
+    array_unshift(self::$fragmentDirs, $path);
+  }
 }
