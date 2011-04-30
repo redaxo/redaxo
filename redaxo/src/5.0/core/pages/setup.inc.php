@@ -207,7 +207,7 @@ function rex_setup_setUtf8()
           $privalue = $r[$pri];
           $uv = rex_sql::factory();
           $uv->setTable($table);
-          $uv->setWhere($pri.'= "'.$privalue.'"');
+          $uv->setWhere(array($pri => $privalue));
           foreach($columns as $key => $column) {
             if ($pri!=$column) {
               $value = $r[$column];
