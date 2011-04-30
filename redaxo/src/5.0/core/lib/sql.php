@@ -1122,7 +1122,7 @@ class rex_sql implements Iterator
     if(!isset(self::$pdo[$DBID]))
     {
       // create connection if necessary
-      $dummy = new rex_sql($DBID);
+      $dummy = rex_sql::factory($DBID);
     }
     return self::$pdo[$DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
   }

@@ -184,11 +184,11 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 function rex_setup_setUtf8()
 {
   global $REX;
-  $gt = new rex_sql();
+  $gt = rex_sql::factory();
   $gt->setQuery("show tables");
   foreach($gt->getArray() as $t) {
     $table = $t["Tables_in_".$REX['DB']['1']['NAME']];
-    $gc = new rex_sql();
+    $gc = rex_sql::factory();
     $gc->setQuery("show columns from $table");
     if(substr($table,0,strlen($REX['TABLE_PREFIX'])) == $REX['TABLE_PREFIX']) {
       $columns = Array();
@@ -200,12 +200,12 @@ function rex_setup_setUtf8()
         }
       }
       if ($pri != "") {
-        $gr = new rex_sql();
+        $gr = rex_sql::factory();
         $gr->setQuery("select * from $table");
         foreach($gr->getArray() as $r) {
           reset($columns);
           $privalue = $r[$pri];
-          $uv = new rex_sql();
+          $uv = rex_sql::factory();
           $uv->setTable($table);
           $uv->setWhere($pri.'= "'.$privalue.'"');
           foreach($columns as $key => $column) {
