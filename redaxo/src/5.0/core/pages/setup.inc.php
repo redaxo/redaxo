@@ -212,7 +212,7 @@ function rex_setup_setUtf8()
             if ($pri!=$column) {
               $value = $r[$column];
               $newvalue = utf8_decode($value);
-              $uv->setValue($column,addslashes($newvalue));
+              $uv->setValue($column,$newvalue);
             }
           }
           $uv->update();
