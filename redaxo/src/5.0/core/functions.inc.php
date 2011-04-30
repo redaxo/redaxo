@@ -6,7 +6,8 @@
  */
 
 // ----------------- TIMER
-require_once rex_path::core('functions/function_rex_time.inc.php');
+require_once rex_path::core('lib/util/timer.php');
+rex_timer::getInstance()->start();
 
 // ----------------- REDAXO requireS
 // ----- FUNCTIONS
