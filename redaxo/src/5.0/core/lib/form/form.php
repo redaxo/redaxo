@@ -121,7 +121,7 @@ class rex_form
 
     if($class != __CLASS__ && !is_subclass_of($class, __CLASS__))
     {
-      throw new rexException('$class is expected to define a subclass of rex_form!');
+      throw new rexException('$class is expected to define a subclass of '. __CLASS__ .'!');
     }
 
     return new $class($tableName, $fieldset, $whereCondition, $method, $debug);

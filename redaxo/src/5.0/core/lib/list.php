@@ -156,7 +156,7 @@ class rex_list implements rex_url_provider
     if(!$class)
     {
       // ----- EXTENSION POINT
-      $class = rex_extension::registerPoint('REX_LIST_CLASSNAME', 'rex_list',
+      $class = rex_extension::registerPoint('REX_LIST_CLASSNAME', __CLASS__,
         array(
           'query'       => $query,
           'rowsPerPage' => $rowsPerPage,
@@ -166,13 +166,12 @@ class rex_list implements rex_url_provider
       );
     }
 
-    $list = new $class($query, $rowsPerPage, $listName, $debug);
-    if(!($list instanceof rex_list))
+    if($class != __CLASS__ && !is_subclass_of($class, __CLASS__))
     {
-      throw new rexException('$class is expected to define a subclass of rex_list!');
+      throw new rexException('$class is expected to define a subclass of '. __CLASS__ .'!');
     }
-    
-    return $list;
+
+    return new $class($query, $rowsPerPage, $listName, $debug);
   }
 
   public function init()

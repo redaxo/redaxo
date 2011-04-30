@@ -555,7 +555,7 @@ class rex_sql implements Iterator
   /**
    * Concats the given array to a sql condition.
    * AND/OR opartors are alternated depending on $level
-   *  
+   *
    * @param array $arrFields
    * @param int $level
    */
@@ -570,7 +570,7 @@ class rex_sql implements Iterator
     {
       $op = ' AND ';
     }
-    
+
     $qry = '';
     foreach($arrFields as $fld_name => $value)
     {
@@ -637,20 +637,20 @@ class rex_sql implements Iterator
     // hold a copies of the query fields for later debug out (the class property will be reverted in setQuery())
     $tableName = $this->table;
     $values = $this->values;
-    
+
     $res = $this->preparedStatusQuery(
     	'INSERT INTO `' . $this->table . '` SET ' . $this->buildPreparedValues(),
       $this->values,
       $successMessage
     );
-    
+
     // provide debug infos, if insert is considered successfull, but no rows were inserted.
     // this happens when you violate against a NOTNULL constraint
     if($res && $this->getRows() == 0)
     {
       trigger_error('Error while inserting into table "'. $tableName .'" with values '. print_r($values, true) .'! Check your null/not-null constraints!', E_USER_ERROR);
     }
-    
+
     return $res;
   }
 
@@ -1133,17 +1133,17 @@ class rex_sql implements Iterator
 
   /**
    * Sucht Spalteninformationen der Tabelle $table der Datenbankverbindung $DBID.
-   * 
+   *
    * Beispiel fuer den Rueckgabewert:
-   * 
-	 * Array ( 
+   *
+	 * Array (
 	 * 	[0] => Array (
 	 * 		[name] => pid
 	 * 	  [type] => int(11)
 	 *    [null] => NO
 	 *    [key] => PRI
 	 *    [default] =>
-	 *    [extra] => auto_increment 
+	 *    [extra] => auto_increment
    *  )
    *  [1] => Array (
    *  	[name] => id
@@ -1153,7 +1153,7 @@ class rex_sql implements Iterator
    *  	[default] =>
    *  	[extra] =>
    *  )
-   * ) 
+   * )
    *
    * @param $table string Name der Tabelle
    * @param $DBID int Id der Datenbankverbindung
@@ -1209,21 +1209,19 @@ class rex_sql implements Iterator
     if(!$class)
     {
       // ----- EXTENSION POINT
-      $class = rex_extension::registerPoint('REX_SQL_CLASSNAME', 'rex_sql',
+      $class = rex_extension::registerPoint('REX_SQL_CLASSNAME', __CLASS__,
         array(
           'DBID'      => $DBID
         )
       );
     }
 
-    $obj = new $class($DBID);
-
-    if(!($obj instanceof rex_sql))
+    if($class != __CLASS__ && !is_subclass_of($class, __CLASS__))
     {
-      throw new rexException('$class is expected to define a subclass of rex_sql!');
+      throw new rexException('$class is expected to define a subclass of '. __CLASS__ .'!');
     }
 
-    return $obj;
+    return new $class($DBID);
   }
 
 	/**
