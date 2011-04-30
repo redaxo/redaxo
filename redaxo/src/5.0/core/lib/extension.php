@@ -1,23 +1,30 @@
 <?php
 
+/**
+ * Klasse die Einsprungpunkte zur Erweiterung der Kernfunktionalitaetet bietet.
+ * 
+ * @author Markus Staab
+ */
 class rex_extension
 {
+  /**
+   * Array aller ExtensionsPoints und deren Extensions
+   * @var array
+   */
   static private $extensions = array();
+  
   /**
    * Definiert einen Extension Point
    *
    * @param $extensionPoint Name des ExtensionPoints
    * @param $subject Objekt/Variable die beeinflusst werden soll
    * @param $params Parameter für die Callback-Funktion
+   * 
+   * @return mixed $subject, ggf. manipuliert durch registrierte Extensions.
    */
-  static public function registerPoint($extensionPoint, $subject = '', $params = array (), $read_only = false)
+  static public function registerPoint($extensionPoint, $subject = '', array $params = array (), $read_only = false)
   {
     $result = $subject;
-
-    if (!is_array($params))
-    {
-      $params = array ();
-    }
 
     // Name des EP als Parameter mit übergeben
     $params['extension_point'] = $extensionPoint;
@@ -62,9 +69,8 @@ class rex_extension
    * @param $function Name der Callback-Funktion
    * @param [$params] Array von zusätzlichen Parametern
    */
-  static public function register($extensionPoint, $callable, $params = array())
+  static public function register($extensionPoint, $callable, array $params = array())
   {
-    if(!is_array($params)) $params = array();
     self::$extensions[$extensionPoint][] = array($callable, $params);
   }
 
@@ -72,6 +78,8 @@ class rex_extension
    * Prüft ob eine extension für den angegebenen Extension Point definiert ist
    *
    * @param $extensionPoint Name des ExtensionPoints
+   * 
+   * @return boolean True, wenn eine Extension für den uebergeben ExtensionPoint definiert ist, sonst False
    */
   static public function isRegistered($extensionPoint)
   {
@@ -82,6 +90,8 @@ class rex_extension
    * Gibt ein Array mit Namen von Extensions zurück, die am angegebenen Extension Point definiert wurden
    *
    * @param $extensionPoint Name des ExtensionPoints
+   * 
+   * @return array Ein array von registrierten Extensions
    */
   static public function getRegisteredExtensions($extensionPoint)
   {
