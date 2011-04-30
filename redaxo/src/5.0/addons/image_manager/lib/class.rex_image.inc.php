@@ -163,7 +163,7 @@ class rex_image {
 
     // ----- EXTENSION POINT
     $sendfile = TRUE;
-    $sendfile = rex_register_extension_point('IMAGE_SEND', $sendfile,
+    $sendfile = rex_extension::registerPoint('IMAGE_SEND', $sendfile,
       array (
         // TODO Parameter anpassen
         'img' => $this->img,
@@ -225,7 +225,7 @@ class rex_image {
 
     // ----- EXTENSION POINT
     $sendfile = TRUE;
-    $sendfile = rex_register_extension_point('IMAGE_ERROR_SEND', $sendfile,
+    $sendfile = rex_extension::registerPoint('IMAGE_ERROR_SEND', $sendfile,
       array (
       	'img' => $this->img,
         'file' => $file,

@@ -19,7 +19,7 @@ if($REX["REDAXO"] && $REX["USER"])
   {
     require_once dirname(__FILE__) .'/functions/function_reader.inc.php';
 
-    rex_register_extension(
+    rex_extension::register(
       'DASHBOARD_COMPONENT',
       array(new rex_rss_reader_component(), 'registerAsExtension')
     );

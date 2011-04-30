@@ -22,7 +22,7 @@ function rex_generateAll()
   $MSG = rex_i18n::msg('delete_cache_message');
 
   // ----- EXTENSION POINT
-  $MSG = rex_register_extension_point('ALL_GENERATED', $MSG);
+  $MSG = rex_extension::registerPoint('ALL_GENERATED', $MSG);
 
   return $MSG;
 }

@@ -117,7 +117,7 @@ class rex_cronjob_manager
     $types = self::$types;
 
     // ----- EXTENSION POINT - DEPRECATED
-    $types = rex_register_extension_point('CRONJOB_TYPES', $types);
+    $types = rex_extension::registerPoint('CRONJOB_TYPES', $types);
 
     return $types;
   }

@@ -48,7 +48,9 @@ $article_id =& $REX['ARTICLE_ID'];
  */
 $clang =& $REX['CUR_CLANG'];
 
-require_once dirname(__FILE__) .'/functions/function_rex_file.inc.php';
-require_once dirname(__FILE__) .'/functions/function_rex_file.inc.php';
-require_once dirname(__FILE__) .'/functions/function_rex_mediapool.inc.php';
-require_once dirname(__FILE__) .'/functions/function_rex_other.inc.php';
+$dir = dirname(__FILE__);
+require_once $dir .'/functions/function_rex_extension.inc.php';
+require_once $dir .'/functions/function_rex_file.inc.php';
+require_once $dir .'/functions/function_rex_file.inc.php';
+require_once $dir .'/functions/function_rex_mediapool.inc.php';
+require_once $dir .'/functions/function_rex_other.inc.php';

@@ -56,7 +56,7 @@ class rex_navigation
     if(!$class)
     {
       // ----- EXTENSION POINT
-      $class = rex_register_extension_point('REX_NAVI_CLASSNAME', 'rex_navigation');
+      $class = rex_extension::registerPoint('REX_NAVI_CLASSNAME', 'rex_navigation');
     }
 
     return new $class();

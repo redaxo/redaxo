@@ -156,7 +156,7 @@ class rex_list implements rex_url_provider
     if(!$class)
     {
       // ----- EXTENSION POINT
-      $class = rex_register_extension_point('REX_LIST_CLASSNAME', 'rex_list',
+      $class = rex_extension::registerPoint('REX_LIST_CLASSNAME', 'rex_list',
         array(
           'query'       => $query,
           'rowsPerPage' => $rowsPerPage,

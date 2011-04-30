@@ -44,5 +44,5 @@ if ($REX['REDAXO'])
   require_once $curDir .'/functions/function_metainfo.inc.php';
   require_once $curDir .'/extensions/extension_common.inc.php';
 
-  rex_register_extension('PAGE_CHECKED', 'a62_extensions_handler');
+  rex_extension::register('PAGE_CHECKED', 'a62_extensions_handler');
 }

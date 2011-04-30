@@ -3,7 +3,7 @@
 $subpages = array();
 rex_title("be_style", $subpages);
 
-$pluginContent = rex_register_extension_point('BE_STYLE_PAGE_CONTENT', '', array());
+$pluginContent = rex_extension::registerPoint('BE_STYLE_PAGE_CONTENT', '', array());
 
 echo '
 <div class="rex-addon-output">

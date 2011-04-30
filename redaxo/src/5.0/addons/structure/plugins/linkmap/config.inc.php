@@ -22,7 +22,7 @@ if ($REX['REDAXO'])
 
   if($REX["USER"])
   {
-    rex_register_extension('PAGE_HEADER', function($params){
+    rex_extension::register('PAGE_HEADER', function($params){
       $params['subject'] .= "\n  ".
         '<script type="text/javascript" src="'. rex_path::pluginAssets('structure', 'linkmap', 'linkmap.js', rex_path::RELATIVE) .'"></script>';
 

@@ -75,7 +75,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
 
       foreach($extensionPoints as $extensionPoint)
       {
-        rex_register_extension($extensionPoint, $extension);
+        rex_extension::register($extensionPoint, $extension);
       }
     }
   }
@@ -193,7 +193,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
       }elseif($article_id == -1)
       {
 				// ----- EXTENSION POINT
-				$article_info = rex_register_extension_point('URL_REWRITE_ARTICLE_ID_NOT_FOUND', '' );
+				$article_info = rex_extension::registerPoint('URL_REWRITE_ARTICLE_ID_NOT_FOUND', '' );
 				if (isset($article_info['article_id']) && $article_info['article_id'] > -1)
 				{
 					$article_id = $article_info['article_id'];

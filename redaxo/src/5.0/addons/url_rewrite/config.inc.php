@@ -13,5 +13,5 @@ if ($REX['MOD_REWRITE'] !== false)
   $rewriter = new rex_urlRewriter_fullnames();
   $rewriter->prepare();
 
-  rex_register_extension('URL_REWRITE', array ($rewriter, 'rewrite'));
+  rex_extension::register('URL_REWRITE', array ($rewriter, 'rewrite'));
 }

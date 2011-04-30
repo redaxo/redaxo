@@ -22,7 +22,7 @@ class rex_form_prio_element extends rex_form_select_element
     $this->optionMsg = 'form_field_after_prior';
     $this->select->setSize(1);
 
-    rex_register_extension('REX_FORM_SAVED', array($this, 'organizePriorities'));
+    rex_extension::register('REX_FORM_SAVED', array($this, 'organizePriorities'));
   }
 
   /**

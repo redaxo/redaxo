@@ -61,7 +61,7 @@ if($REX["REDAXO"])
 
     return $params["subject"];
   }
-	rex_register_extension('PAGE_HEADER', "rex_be_style_base_old_css_add");
+	rex_extension::register('PAGE_HEADER', "rex_be_style_base_old_css_add");
 
 
 	function rex_be_style_base_old_css_body($params)
@@ -70,7 +70,7 @@ if($REX["REDAXO"])
     return $params["subject"];
   }
 
-  rex_register_extension('PAGE_BODY_ATTR', 'rex_be_style_base_old_css_body');
+  rex_extension::register('PAGE_BODY_ATTR', 'rex_be_style_base_old_css_body');
 
 
 }

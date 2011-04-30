@@ -19,5 +19,5 @@ $mypage = 'be_style';
 if($REX["REDAXO"])
 {
   require_once rex_path::addon($mypage, 'extensions/function_extensions.inc.php');
-  rex_register_extension('ADDONS_INCLUDED', 'rex_be_add_page');
+  rex_extension::register('ADDONS_INCLUDED', 'rex_be_add_page');
 }

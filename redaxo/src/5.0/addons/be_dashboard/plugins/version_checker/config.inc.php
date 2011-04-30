@@ -19,6 +19,6 @@ if($REX["REDAXO"] && $REX["USER"])
   {
     require_once dirname(__FILE__) .'/functions/function_version_check.inc.php';
 
-    rex_register_extension('DASHBOARD_NOTIFICATION', array(new rex_version_checker_notification(), 'registerAsExtension'));
+    rex_extension::register('DASHBOARD_NOTIFICATION', array(new rex_version_checker_notification(), 'registerAsExtension'));
   }
 }

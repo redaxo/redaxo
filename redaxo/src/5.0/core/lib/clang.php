@@ -54,7 +54,7 @@ class rex_clang_service
     $newLang->insert();
 
     // ----- EXTENSION POINT
-    rex_register_extension_point('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
+    rex_extension::registerPoint('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
 
     return TRUE;
   }
@@ -84,7 +84,7 @@ class rex_clang_service
     $editLang->update();
     
     // ----- EXTENSION POINT
-    rex_register_extension_point('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));
+    rex_extension::registerPoint('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));
 
     return TRUE;
   }
@@ -112,7 +112,7 @@ class rex_clang_service
     $del->setQuery("delete from ".$REX['TABLE_PREFIX']."clang where id='$clang'");
 
     // ----- EXTENSION POINT
-    rex_register_extension_point('CLANG_DELETED','',
+    rex_extension::registerPoint('CLANG_DELETED','',
     array (
       'id' => $clang,
       'name' => $clangName,

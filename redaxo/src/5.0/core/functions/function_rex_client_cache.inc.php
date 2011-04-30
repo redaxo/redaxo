@@ -80,7 +80,7 @@ function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = F
   global $REX;
 
   // ----- EXTENSION POINT
-  $content = rex_register_extension_point( 'OUTPUT_FILTER', $content, array('environment' => $environment,'sendcharset' => $sendcharset));
+  $content = rex_extension::registerPoint( 'OUTPUT_FILTER', $content, array('environment' => $environment,'sendcharset' => $sendcharset));
 
   // dynamische teile sollen die md5 summe nicht beeinflussen
   $etag = md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content));
@@ -110,7 +110,7 @@ function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = F
     $sendcharset);
 
   // ----- EXTENSION POINT - (read only)
-  rex_register_extension_point( 'OUTPUT_FILTER_CACHE', $content, '', true);
+  rex_extension::registerPoint( 'OUTPUT_FILTER_CACHE', $content, '', true);
 }
 
 /**

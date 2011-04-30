@@ -13,7 +13,7 @@ class rex_be_navigation
     if(!self::$class)
     {
       // ----- EXTENSION POINT
-      self::$class = rex_register_extension_point('REX_BE_NAVI_CLASSNAME', 'rex_be_navigation');
+      self::$class = rex_extension::registerPoint('REX_BE_NAVI_CLASSNAME', 'rex_be_navigation');
     }
 
     return new self::$class();

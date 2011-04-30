@@ -109,7 +109,7 @@ class rex_form
     if(!$class)
     {
       // ----- EXTENSION POINT
-      $class = rex_register_extension_point('REX_FORM_CLASSNAME', 'rex_form',
+      $class = rex_extension::registerPoint('REX_FORM_CLASSNAME', 'rex_form',
         array(
           'tableName'      => $tableName,
           'fieldset'       => $fieldset,
@@ -149,7 +149,7 @@ class rex_form
     $controlFields['abort'] = rex_i18n::msg('form_abort');
 
     // ----- EXTENSION POINT
-    $controlFields = rex_register_extension_point('REX_FORM_CONTROL_FIElDS', $controlFields, array('form' => $this));
+    $controlFields = rex_extension::registerPoint('REX_FORM_CONTROL_FIElDS', $controlFields, array('form' => $this));
 
     $controlElements = array();
     foreach($controlFields as $name => $label)
@@ -656,7 +656,7 @@ class rex_form
   static public function getInputClassName($inputType)
   {
     // ----- EXTENSION POINT
-    $className = rex_register_extension_point('REX_FORM_INPUT_CLASS', '', array('inputType' => $inputType));
+    $className = rex_extension::registerPoint('REX_FORM_INPUT_CLASS', '', array('inputType' => $inputType));
 
     if($className)
     {
@@ -691,7 +691,7 @@ class rex_form
   static public function getInputTagName($inputType)
   {
     // ----- EXTENSION POINT
-    $inputTag = rex_register_extension_point('REX_FORM_INPUT_TAG', '', array('inputType' => $inputType));
+    $inputTag = rex_extension::registerPoint('REX_FORM_INPUT_TAG', '', array('inputType' => $inputType));
 
     if($inputTag)
     {
@@ -721,7 +721,7 @@ class rex_form
   static public function getInputAttributes($inputType)
   {
     // ----- EXTENSION POINT
-    $inputAttr = rex_register_extension_point('REX_FORM_INPUT_ATTRIBUTES', array(), array('inputType' => $inputType));
+    $inputAttr = rex_extension::registerPoint('REX_FORM_INPUT_ATTRIBUTES', array(), array('inputType' => $inputType));
 
     if($inputAttr)
     {
@@ -1195,7 +1195,7 @@ class rex_form
 
     // ----- EXTENSION POINT
     if ($saved)
-      $saved = rex_register_extension_point('REX_FORM_SAVED', $saved, array('form' => $this, 'sql' => $sql));
+      $saved = rex_extension::registerPoint('REX_FORM_SAVED', $saved, array('form' => $this, 'sql' => $sql));
     else
       $saved = $sql->getErrno();
 
@@ -1216,7 +1216,7 @@ class rex_form
 
     // ----- EXTENSION POINT
     if ($deleted)
-      $deleted = rex_register_extension_point('REX_FORM_DELETED', $deleted, array('form' => $this, 'sql' => $deleteSql));
+      $deleted = rex_extension::registerPoint('REX_FORM_DELETED', $deleted, array('form' => $this, 'sql' => $deleteSql));
     else
       $deleted = $deleteSql->getErrno();
 

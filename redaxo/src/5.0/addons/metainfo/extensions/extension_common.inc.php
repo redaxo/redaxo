@@ -8,7 +8,7 @@
  * @version svn:$Id$
  */
 
-rex_register_extension('OOMEDIA_IS_IN_USE', 'rex_a62_media_is_in_use');
+rex_extension::register('OOMEDIA_IS_IN_USE', 'rex_a62_media_is_in_use');
 
 /**
  * Erstellt den nötigen HTML Code um ein Formular zu erweitern
@@ -401,7 +401,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       {
         // ----- EXTENSION POINT
         list($field, $tag, $tag_attr, $id, $label, $labelIt) =
-          rex_register_extension_point( 'A62_CUSTOM_FIELD',
+          rex_extension::registerPoint( 'A62_CUSTOM_FIELD',
             array(
               $field,
               $tag,

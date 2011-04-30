@@ -1209,7 +1209,7 @@ class rex_sql implements Iterator
     if(!$class)
     {
       // ----- EXTENSION POINT
-      $class = rex_register_extension_point('REX_SQL_CLASSNAME', 'rex_sql',
+      $class = rex_extension::registerPoint('REX_SQL_CLASSNAME', 'rex_sql',
         array(
           'DBID'      => $DBID
         )

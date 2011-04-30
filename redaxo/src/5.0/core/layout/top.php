@@ -29,7 +29,7 @@ $body_attr["id"] = array('rex-page-'.$body_id);
 $body_attr["onunload"] = array('closeAll();');
 
 // ----- EXTENSION POINT
-$body_attr = rex_register_extension_point('PAGE_BODY_ATTR', $body_attr );
+$body_attr = rex_extension::registerPoint('PAGE_BODY_ATTR', $body_attr );
 
 $body = "";
 foreach($body_attr as $k => $v){
@@ -88,7 +88,7 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 
 $topfragment = new rex_fragment();
 $topfragment->setVar('pageTitle', $page_title);
-$topfragment->setVar('pageHeader', rex_register_extension_point('PAGE_HEADER', '' ), false);
+$topfragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', '' ), false);
 $topfragment->setVar('bodyAttr', $body, false);
 $topfragment->setVar('logout', $logout, false);
 $topfragment->setVar('navigation', $navigation, false);

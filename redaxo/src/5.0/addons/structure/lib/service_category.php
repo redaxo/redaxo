@@ -129,7 +129,7 @@ class rex_category_service
 
         // ----- EXTENSION POINT
         // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
-        $message = rex_register_extension_point('CAT_ADDED', $message,
+        $message = rex_extension::registerPoint('CAT_ADDED', $message,
         array (
           'category' => clone($AART),
           'id' => $id,
@@ -236,7 +236,7 @@ class rex_category_service
 
       // ----- EXTENSION POINT
       // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
-      $message = rex_register_extension_point('CAT_UPDATED', $message,
+      $message = rex_extension::registerPoint('CAT_UPDATED', $message,
       array (
         'id' => $category_id,
 
@@ -305,7 +305,7 @@ class rex_category_service
             self::newCatPrio($re_id, $_clang, 0, 1);
 
             // ----- EXTENSION POINT
-            $message = rex_register_extension_point('CAT_DELETED', $message, array (
+            $message = rex_extension::registerPoint('CAT_DELETED', $message, array (
             'id'     => $category_id,
             're_id'  => $re_id,
             'clang'  => $_clang,
@@ -374,7 +374,7 @@ class rex_category_service
         rex_article_cache::delete($category_id, $clang);
 
         // ----- EXTENSION POINT
-        $message = rex_register_extension_point('CAT_STATUS', $message, array (
+        $message = rex_extension::registerPoint('CAT_STATUS', $message, array (
         'id' => $category_id,
         'clang' => $clang,
         'status' => $newstatus
@@ -413,7 +413,7 @@ class rex_category_service
       );
 
       // ----- EXTENSION POINT
-      $catStatusTypes = rex_register_extension_point('CAT_STATUS_TYPES', $catStatusTypes);
+      $catStatusTypes = rex_extension::registerPoint('CAT_STATUS_TYPES', $catStatusTypes);
     }
 
     return $catStatusTypes;

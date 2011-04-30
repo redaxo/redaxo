@@ -101,7 +101,7 @@ class rex_article_service
       }
 
       // ----- EXTENSION POINT
-      $message = rex_register_extension_point('ART_ADDED', $message,
+      $message = rex_extension::registerPoint('ART_ADDED', $message,
       array (
         'id' => $id,
         'clang' => $key,
@@ -188,7 +188,7 @@ class rex_article_service
       rex_article_cache::delete($article_id, $clang);
 
       // ----- EXTENSION POINT
-      $message = rex_register_extension_point('ART_UPDATED', $message,
+      $message = rex_extension::registerPoint('ART_UPDATED', $message,
       array (
         'id' => $article_id,
 				'article' => clone($EA),
@@ -238,7 +238,7 @@ class rex_article_service
         self::newArtPrio($Art->getValue("re_id"), $clang, 0, 1);
 
         // ----- EXTENSION POINT
-        $message = rex_register_extension_point('ART_DELETED', $message,
+        $message = rex_extension::registerPoint('ART_DELETED', $message,
         array (
           "id"          => $article_id,
           "clang"       => $clang,
@@ -302,7 +302,7 @@ class rex_article_service
     if ($ART->getRows() > 0)
     {
       $re_id = $ART->getValue('re_id');
-      $message = rex_register_extension_point('ART_PRE_DELETED', $message, array (
+      $message = rex_extension::registerPoint('ART_PRE_DELETED', $message, array (
                     "id"          => $id,
                     "re_id"       => $re_id,
                     'name'        => $ART->getValue('name'),
@@ -383,7 +383,7 @@ class rex_article_service
         rex_article_cache::delete($article_id, $clang);
 
         // ----- EXTENSION POINT
-        $message = rex_register_extension_point('ART_STATUS', $message, array (
+        $message = rex_extension::registerPoint('ART_STATUS', $message, array (
         'id' => $article_id,
         'clang' => $clang,
         'status' => $newstatus
@@ -422,7 +422,7 @@ class rex_article_service
       );
 
       // ----- EXTENSION POINT
-      $artStatusTypes = rex_register_extension_point('ART_STATUS_TYPES', $artStatusTypes);
+      $artStatusTypes = rex_extension::registerPoint('ART_STATUS_TYPES', $artStatusTypes);
     }
 
     return $artStatusTypes;

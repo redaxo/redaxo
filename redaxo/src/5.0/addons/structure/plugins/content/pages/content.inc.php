@@ -119,7 +119,7 @@ if ($article->getRows() == 1)
   require rex_path::addon('structure', 'functions/function_rex_languages.inc.php');
 
   // ----- EXTENSION POINT
-  echo rex_register_extension_point('PAGE_CONTENT_HEADER', '',
+  echo rex_extension::registerPoint('PAGE_CONTENT_HEADER', '',
     array(
       'article_id' => $article_id,
       'clang' => $clang,
@@ -315,7 +315,7 @@ if ($article->getRows() == 1)
             $EA->update();
             rex_article_cache::delete($article_id, $clang);
 
-            rex_register_extension_point('ART_CONTENT_UPDATED', '',
+            rex_extension::registerPoint('ART_CONTENT_UPDATED', '',
               array (
                 'id' => $article_id,
                 'clang' => $clang
@@ -576,7 +576,7 @@ if ($article->getRows() == 1)
         rex_article_cache::delete($article_id, $clang);
 
         // ----- EXTENSION POINT
-        $info = rex_register_extension_point('ART_META_UPDATED', $info, array (
+        $info = rex_extension::registerPoint('ART_META_UPDATED', $info, array (
           'id' => $article_id,
           'clang' => $clang,
           'name' => $meta_article_name,
@@ -616,7 +616,7 @@ if ($article->getRows() == 1)
       }
 
       // ----- EXTENSION POINT
-      $listElements = rex_register_extension_point('PAGE_CONTENT_CTYPE_MENU', $listElements,
+      $listElements = rex_extension::registerPoint('PAGE_CONTENT_CTYPE_MENU', $listElements,
         array(
           'article_id' => $article_id,
           'clang' => $clang,
@@ -674,7 +674,7 @@ if ($article->getRows() == 1)
     $listElements[] = '<a href="' . rex_getUrl($article_id,$clang) . '" onclick="window.open(this.href); return false;">' . rex_i18n::msg('show') . '</a>';
 
     // ----- EXTENSION POINT
-    $listElements = rex_register_extension_point('PAGE_CONTENT_MENU', $listElements,
+    $listElements = rex_extension::registerPoint('PAGE_CONTENT_MENU', $listElements,
       array(
         'article_id' => $article_id,
         'clang' => $clang,
@@ -797,7 +797,7 @@ if ($article->getRows() == 1)
                   <div class="rex-clearer"></div>';
 
       // ----- EXTENSION POINT
-      echo rex_register_extension_point('ART_META_FORM', '', array (
+      echo rex_extension::registerPoint('ART_META_FORM', '', array (
         'id' => $article_id,
         'clang' => $clang,
         'article' => $article
@@ -815,7 +815,7 @@ if ($article->getRows() == 1)
              </fieldset>';
 
       // ----- EXTENSION POINT
-      echo rex_register_extension_point('ART_META_FORM_SECTION', '', array (
+      echo rex_extension::registerPoint('ART_META_FORM_SECTION', '', array (
         'id' => $article_id,
         'clang' => $clang
       ));

@@ -8,11 +8,11 @@
  * @version svn:$Id$
  */
 
-rex_register_extension('MEDIA_FORM_EDIT', 'rex_a62_metainfo_form');
-rex_register_extension('MEDIA_FORM_ADD', 'rex_a62_metainfo_form');
+rex_extension::register('MEDIA_FORM_EDIT', 'rex_a62_metainfo_form');
+rex_extension::register('MEDIA_FORM_ADD', 'rex_a62_metainfo_form');
 
-rex_register_extension('MEDIA_ADDED', 'rex_a62_metainfo_form');
-rex_register_extension('MEDIA_UPDATED', 'rex_a62_metainfo_form');
+rex_extension::register('MEDIA_ADDED', 'rex_a62_metainfo_form');
+rex_extension::register('MEDIA_UPDATED', 'rex_a62_metainfo_form');
 
 /**
  * Callback, dass ein Formular item formatiert

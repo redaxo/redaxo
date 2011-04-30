@@ -364,7 +364,7 @@ function rex_article2startpage($neu_id){
 
   foreach($REX['CLANG'] as $clang => $clang_name)
   {
-    rex_register_extension_point('ART_TO_STARTPAGE', '', array (
+    rex_extension::registerPoint('ART_TO_STARTPAGE', '', array (
       'id' => $neu_id,
       'id_old' => $alt_id,
       'clang' => $clang,
@@ -412,7 +412,7 @@ function rex_article2category($art_id){
 
   foreach($REX['CLANG'] as $clang => $clang_name)
   {
-    rex_register_extension_point('ART_TO_CAT', '', array (
+    rex_extension::registerPoint('ART_TO_CAT', '', array (
       'id' => $art_id,
       'clang' => $clang,
     ));
@@ -463,7 +463,7 @@ function rex_category2article($art_id){
 
   foreach($REX['CLANG'] as $clang => $clang_name)
   {
-    rex_register_extension_point('CAT_TO_ART', '', array (
+    rex_extension::registerPoint('CAT_TO_ART', '', array (
       'id' => $art_id,
       'clang' => $clang,
     ));
@@ -943,7 +943,7 @@ function rex_generateArticleContent($article_id, $clang = null)
     $article_content = $CONT->getArticle();
 
     // ----- EXTENSION POINT
-    $article_content = rex_register_extension_point('GENERATE_FILTER', $article_content,
+    $article_content = rex_extension::registerPoint('GENERATE_FILTER', $article_content,
       array (
         'id' => $article_id,
         'clang' => $_clang,

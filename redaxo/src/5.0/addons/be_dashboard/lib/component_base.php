@@ -120,7 +120,7 @@ abstract class rex_dashboard_component_base
     $actions[] = array('name' => 'toggleView', 'class' => 'rex-i-toggleview-off');
 
     // ----- EXTENSION POINT
-    $actions = rex_register_extension_point('DASHBOARD_COMPONENT_ACTIONS', $actions);
+    $actions = rex_extension::registerPoint('DASHBOARD_COMPONENT_ACTIONS', $actions);
 
     return $actions;
   }

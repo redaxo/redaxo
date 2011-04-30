@@ -593,7 +593,7 @@ class rex_ooMedia
 
     // deprecated since REX 4.3
     // ----- EXTENSION POINT
-    $query = rex_register_extension_point('OOMEDIA_IS_IN_USE_QUERY', $query,
+    $query = rex_extension::registerPoint('OOMEDIA_IS_IN_USE_QUERY', $query,
       array(
         'filename' => $this->getFileName(),
         'media' => $this,
@@ -617,7 +617,7 @@ class rex_ooMedia
     }
 
     // ----- EXTENSION POINT
-    $warning = rex_register_extension_point('OOMEDIA_IS_IN_USE', $warning,
+    $warning = rex_extension::registerPoint('OOMEDIA_IS_IN_USE', $warning,
       array(
         'filename' => $this->getFileName(),
         'media' => $this,

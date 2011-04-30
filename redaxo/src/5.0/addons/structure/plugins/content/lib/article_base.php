@@ -58,7 +58,7 @@ class rex_article_base
       $this->setClang($REX['CUR_CLANG']);
 
     // ----- EXTENSION POINT
-    rex_register_extension_point('ART_INIT', '',
+    rex_extension::registerPoint('ART_INIT', '',
       array (
           'article' => &$this,
           'article_id' => $article_id,
@@ -318,7 +318,7 @@ class rex_article_base
       // --------------- ENDE EINZELNER SLICE
 
       // --------------- EP: SLICE_SHOW
-      $slice_content = rex_register_extension_point(
+      $slice_content = rex_extension::registerPoint(
         'SLICE_SHOW',
         $slice_content,
         array(

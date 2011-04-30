@@ -21,7 +21,7 @@ if($REX["REDAXO"])
   // im backend und eingeloggt?
   if($REX["USER"])
   {
-    rex_register_extension('PAGE_HEADER', 'rex_mediapool_add_assets');
+    rex_extension::register('PAGE_HEADER', 'rex_mediapool_add_assets');
   }
 }
 
