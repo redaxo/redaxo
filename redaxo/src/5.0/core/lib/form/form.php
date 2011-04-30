@@ -100,7 +100,7 @@ class rex_form
 
   /**
    * Methode zum erstellen von rex_form Instanzen
-   * 
+   *
    * @return rex_form a rex_form instance
    */
   public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $class = null)
@@ -109,7 +109,7 @@ class rex_form
     if(!$class)
     {
       // ----- EXTENSION POINT
-      $class = rex_extension::registerPoint('REX_FORM_CLASSNAME', 'rex_form',
+      $class = rex_extension::registerPoint('REX_FORM_CLASSNAME', __CLASS__,
         array(
           'tableName'      => $tableName,
           'fieldset'       => $fieldset,
@@ -119,11 +119,11 @@ class rex_form
       );
     }
 
-    if(!($obj instanceof rex_form))
+    if($class != __CLASS__ && !is_subclass_of($class, __CLASS__))
     {
       throw new rexException('$class is expected to define a subclass of rex_form!');
     }
-    
+
     return new $class($tableName, $fieldset, $whereCondition, $method, $debug);
   }
 
@@ -181,7 +181,7 @@ class rex_form
 
   /**
    * Gibt eine Formular-Url zurück
-   * 
+   *
    * @return string
    */
   public function getUrl($params = array(), $escape = true)
@@ -219,7 +219,7 @@ class rex_form
 
   /**
    * Fuegt dem Formular ein Input-Feld hinzu
-   * 
+   *
    * @return rex_form_element
    */
   public function addField($tag, $name, $value = null, array $attributes = array(), $addElement = true)
@@ -239,7 +239,7 @@ class rex_form
    * Fuegt dem Formular ein Container-Feld hinzu.
    *
    * Ein Container-Feld wiederrum kann weitere Felder enthalten.
-   * 
+   *
    * @return rex_form_container_element
    */
   public function addContainerField($name, $value = null, array $attributes = array())
@@ -254,7 +254,7 @@ class rex_form
 
   /**
    * Fuegt dem Formular ein Input-Feld mit dem Type $type hinzu.
-   * 
+   *
    * @return rex_form_element
    */
   public function addInputField($type, $name, $value = null, array $attributes = array(), $addElement = true)
@@ -266,7 +266,7 @@ class rex_form
 
   /**
    * Fuegt dem Formular ein Text-Feld hinzu
-   * 
+   *
    * @return rex_form_element
    */
   public function addTextField($name, $value = null, array $attributes = array())
@@ -280,7 +280,7 @@ class rex_form
   /**
    * Fuegt dem Formular ein Read-Only-Text-Feld hinzu.
    * Dazu wird ein input-Element verwendet.
-   * 
+   *
    * @return rex_form_element
    */
   public function addReadOnlyTextField($name, $value = null, array $attributes = array())
@@ -295,7 +295,7 @@ class rex_form
   /**
    * Fuegt dem Formular ein Read-Only-Feld hinzu.
    * Dazu wird ein span-Element verwendet.
-   * 
+   *
    * @return rex_form_element
    */
   public function addReadOnlyField($name, $value = null, array $attributes = array())
@@ -310,7 +310,7 @@ class rex_form
 
   /**
    * Fuegt dem Fomular ein Hidden-Feld hinzu.
-   * 
+   *
    * @return rex_form_element
    */
   public function addHiddenField($name, $value = null, array $attributes = array())
@@ -322,7 +322,7 @@ class rex_form
   /**
    * Fuegt dem Fomular ein Checkbox-Feld hinzu.
    * Dies ermoeglicht die Mehrfach-Selektion aus einer vorgegeben Auswahl an Werten.
-   * 
+   *
    * @return rex_form_checkbox_element
    */
   public function addCheckboxField($name, $value = null, array $attributes = array())
@@ -337,7 +337,7 @@ class rex_form
   /**
    * Fuegt dem Formular ein Radio-Feld hinzu.
    * Dies ermoeglicht eine Einfache-Selektion aus einer vorgegeben Auswahl an Werten.
-   * 
+   *
    * @return rex_form_radio_element
    */
   public function addRadioField($name, $value = null, array $attributes = array())
@@ -351,7 +351,7 @@ class rex_form
 
   /**
    * Fuegt dem Formular ein Textarea-Feld hinzu.
-   * 
+   *
    * @return rex_form_element
    */
   public function addTextAreaField($name, $value = null, array $attributes = array())
@@ -370,7 +370,7 @@ class rex_form
 
   /**
    * Fuegt dem Formular ein Select/Auswahl-Feld hinzu.
-   * 
+   *
    * @return rex_form_select_element
    */
   public function addSelectField($name, $value = null, array $attributes = array())
@@ -384,7 +384,7 @@ class rex_form
 
   /**
    * Fuegt dem Formular ein Feld hinzu mitdem die Prioritaet von Datensaetzen verwaltet werden kann.
-   * 
+   *
    * @return rex_form_prio_element
    */
   public function addPrioField($name, $value = null, array $attributes = array())
@@ -399,7 +399,7 @@ class rex_form
   /**
    * Fuegt dem Formular ein Feld hinzu mit dem der Medienpool angebunden werden kann.
    * Es kann nur ein Element aus dem Medienpool eingefuegt werden.
-   * 
+   *
    * @return rex_form_widget_media_element
    */
   public function addMediaField($name, $value = null, array $attributes = array())
@@ -412,7 +412,7 @@ class rex_form
   /**
    * Fuegt dem Formular ein Feld hinzu mit dem der Medienpool angebunden werden kann.
    * Damit koennen mehrere Elemente aus dem Medienpool eingefuegt werden.
-   * 
+   *
    * @return rex_form_widget_medialist_element
    */
   public function addMedialistField($name, $value = null, array $attributes = array())
@@ -425,7 +425,7 @@ class rex_form
   /**
    * Fuegt dem Formular ein Feld hinzu mit dem die Struktur-Verwaltung angebunden werden kann.
    * Es kann nur ein Element aus der Struktur eingefuegt werden.
-   * 
+   *
    * @return rex_form_widget_linkmap_element
    */
   public function addLinkmapField($name, $value = null, array $attributes = array())
@@ -438,7 +438,7 @@ class rex_form
   /**
    * Fuegt dem Formular ein Feld hinzu mit dem die Struktur-Verwaltung angebunden werden kann.
    * Damit koennen mehrere Elemente aus der Struktur eingefuegt werden.
-   * 
+   *
    * @return rex_form_widget_linklist_element
    */
   public function addLinklistField($name, $value = null, array $attributes = array())
@@ -451,7 +451,7 @@ class rex_form
   /**
    * Fuegt dem Fomualar ein Control-Feld hinzu.
    * Damit koennen versch. Aktionen mit dem Fomular durchgefuert werden.
-   * 
+   *
    * @return rex_form_control_element
    */
   public function addControlField($saveElement = null, $applyElement = null, $deleteElement = null, $resetElement = null, $abortElement = null)
@@ -479,7 +479,7 @@ class rex_form
 
   /**
    * Gibt alle Parameter des Fomulars zurueck.
-   * 
+   *
    * @return array
    */
   public function getParams()
@@ -498,7 +498,7 @@ class rex_form
   /**
    * Gibt den Wert des Parameters $name zurueck,
    * oder $default kein Parameter mit dem Namen exisitiert.
-   * 
+   *
    * @return string
    */
   public function getParam($name, $default = null)
@@ -512,7 +512,7 @@ class rex_form
 
   /**
    * Allgemeine Bootleneck-Methode um Elemente in das Formular einzufuegen.
-   * 
+   *
    * @return rex_form_element
    */
   protected function addElement(rex_form_element $element)
@@ -523,7 +523,7 @@ class rex_form
 
   /**
    * Erstellt ein Input-Element anhand des Strings $inputType
-   * 
+   *
    * @return rex_form_element
    */
   public function createInput($inputType, $name, $value = null, array $attributes = array())
@@ -540,7 +540,7 @@ class rex_form
 
   /**
    * Erstellt ein Input-Element anhand von $tag
-   * 
+   *
    * @return rex_form_element
    */
   protected function createElement($tag, $name, $value, array $attributes = array())
@@ -626,7 +626,7 @@ class rex_form
 
   /**
    * Prueft ob sich das Formular im Edit-Modus befindet.
-   * 
+   *
    * @return boolean
    */
   public function isEditMode()
@@ -650,7 +650,7 @@ class rex_form
   /**
    * @param string $inputType
    * @throws rexException
-   * 
+   *
    * @return rex_form_element
    */
   static public function getInputClassName($inputType)
@@ -685,7 +685,7 @@ class rex_form
 
   /**
    * @param string $inputType
-   * 
+   *
    * @return string
    */
   static public function getInputTagName($inputType)
@@ -713,9 +713,9 @@ class rex_form
   }
 
   /**
-   * 
+   *
    * @param string $inputType
-   * 
+   *
    * @return array
    */
   static public function getInputAttributes($inputType)
@@ -766,7 +766,7 @@ class rex_form
 
   /**
    * @param rex_form_element $element
-   * 
+   *
    * @return boolean
    */
   protected function isHeaderElement(rex_form_element $element)
@@ -776,7 +776,7 @@ class rex_form
 
   /**
    * @param rex_form_element $element
-   * 
+   *
    * @return boolean
    */
   protected function isFooterElement(rex_form_element $element)
@@ -786,7 +786,7 @@ class rex_form
 
   /**
    * @param rex_form_element $element
-   * 
+   *
    * @return boolean
    */
   protected function isControlElement(rex_form_element $element)
@@ -917,7 +917,7 @@ class rex_form
   /**
    * @param string $fieldsetName
    * @param string $elementName
-   * 
+   *
    * @return rex_form_element
    */
   protected function getElement($fieldsetName, $elementName)
@@ -930,7 +930,7 @@ class rex_form
   /**
    * @param string $fieldsetName
    * @param string $elementName
-   * 
+   *
    * @return rex_form_element
    */
   private function _getElement($fieldsetName, $elementName)
@@ -1085,7 +1085,7 @@ class rex_form
    *   $el    = $this->getElement($fieldSetName, $fieldName);
    *   $val   = $el->getValue();
    * erreichbar.
-   * 
+   *
    * @return boolean
    */
   protected function validate()
@@ -1123,9 +1123,9 @@ class rex_form
 
   /**
    * Returns True if the given form is a valid rex_form
-   * 
+   *
    * @param object $form
-   * 
+   *
    * @return boolean
    */
   static public function isValid($form)
@@ -1135,7 +1135,7 @@ class rex_form
 
   /**
    * @param object $form
-   * 
+   *
    * @return boolean
    */
   public function equals($form)
@@ -1153,7 +1153,7 @@ class rex_form
    *
    * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler,
    * einen String mit einer Fehlermeldung oder den von der Datenbank gelieferten ErrorCode.
-   * 
+   *
    * @return boolean
    */
   protected function save()
