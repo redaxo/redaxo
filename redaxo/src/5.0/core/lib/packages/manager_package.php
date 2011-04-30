@@ -64,7 +64,7 @@ abstract class rex_packageManager
 
         if($state === TRUE && $installDump === TRUE && is_readable($install_sql))
         {
-          $state = rex_install_dump($install_sql);
+          $state = rex_sql_dump::execute($install_sql);
 
           if($state !== TRUE)
             $state = 'Error found in install.sql:<br />'. $state;
@@ -138,7 +138,7 @@ abstract class rex_packageManager
 
     if($state === TRUE && is_readable($uninstall_sql))
     {
-      $state = rex_install_dump($uninstall_sql);
+      $state = rex_sql_dump::execute($uninstall_sql);
 
       if($state !== TRUE)
         $state = 'Error found in uninstall.sql:<br />'. $state;

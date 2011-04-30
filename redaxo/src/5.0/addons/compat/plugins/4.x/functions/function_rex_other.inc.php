@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Gibt den nächsten freien Tabindex zurück.
  * Der Tabindex ist eine stetig fortlaufende Zahl,
@@ -23,4 +23,12 @@ function rex_tabindex($html = true)
   return ++$REX['TABINDEX'];
 }
 
-?>
+/**
+ * @see rex_sql_dump::execute()
+ *
+ * @deprecated 5.0
+ */
+function rex_install_dump($file, $debug = false)
+{
+  return rex_sql_dump::execute($file, $debug);
+}
