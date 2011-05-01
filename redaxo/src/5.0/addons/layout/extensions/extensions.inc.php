@@ -25,9 +25,6 @@ function rex_layout_addPage($params)
 {
   if(rex_extension::isRegistered('LAYOUT_PAGE_CONTENT'))
   {
-    global $REX;
-
-    $mypage = 'layout';
-    $REX['ADDON']['name'][$mypage] = 'Layout';
+    rex_addon::get('layout')->setProperty('name', 'Layout');
   }
 }

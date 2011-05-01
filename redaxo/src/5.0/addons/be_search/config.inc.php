@@ -15,7 +15,7 @@ $mypage = 'be_search';
 // global => Es werden immer alle Kategorien durchsucht
 // local => Es werden immer die aktuelle+Unterkategorien durchsucht
 // $REX['ADDON']['searchmode'][$mypage] = 'global';
-$REX['ADDON']['searchmode'][$mypage] = 'local';
+$this->setProperty('searchmode', 'local');
 
 $REX['EXTPERM'][] = 'be_search[mediapool]';
 $REX['EXTPERM'][] = 'be_search[structure]';

@@ -31,12 +31,12 @@ if(!defined('REX_A62_FIELD_TEXT'))
   define('REX_A62_FIELD_COUNT',                13);
 }
 
-$REX['ADDON']['prefixes'][$mypage] = array('art_', 'cat_', 'med_');
-$REX['ADDON']['metaTables'][$mypage] = array(
+$this->setProperty('prefixes', array('art_', 'cat_', 'med_'));
+$this->setProperty('metaTables', array(
   'art_' => $REX['TABLE_PREFIX'] .'article',
   'cat_' => $REX['TABLE_PREFIX'] .'article',
   'med_' => $REX['TABLE_PREFIX'] .'media',
-);
+));
 
 if ($REX['REDAXO'])
 {

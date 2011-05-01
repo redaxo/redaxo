@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * Mediapool Addon
@@ -12,10 +12,9 @@
 $error = '';
 
 if ($error != '')
+  $this->setProperty('installmsg', $error);
+else
 {
-  $REX['ADDON']['installmsg']['mediapool'] = $error;
-}else
-{
-  $REX['ADDON']['install']['mediapool'] = true;
+  $this->setProperty('install', true);
   rex_generateAll();
 }

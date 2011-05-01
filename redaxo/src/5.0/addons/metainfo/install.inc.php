@@ -23,6 +23,6 @@ rex_sql_dump::import($uninstall);
 // - Update von alten Version einfliessen lassen
 
 if ($error != '')
-  $REX['ADDON']['installmsg']['metainfo'] = $error;
+  $this->setProperty('installmsg', $error);
 else
-  $REX['ADDON']['install']['metainfo'] = true;
+  $this->setProperty('install', true);

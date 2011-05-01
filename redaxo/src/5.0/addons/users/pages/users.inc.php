@@ -107,6 +107,8 @@ $sel_startpage->addOption("default","");
 $startpages = array();
 $startpages['structure'] = array(rex_i18n::msg('structure'),'');
 $startpages['profile'] = array(rex_i18n::msg('profile'),'');
+// TODO set startpages
+/*
 foreach($REX['ADDON']['status'] as $k => $v)
 {
 	if (isset($REX['ADDON']['perm'][$k]) && isset($REX['ADDON']['name'][$k]))
@@ -114,6 +116,7 @@ foreach($REX['ADDON']['status'] as $k => $v)
 		$startpages[$k] = array($REX['ADDON']['name'][$k],$REX['ADDON']['perm'][$k]);
 	}
 }
+*/
 
 foreach($startpages as $k => $v)
 {

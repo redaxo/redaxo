@@ -29,6 +29,6 @@ if(!rex_config::has('phpmailer'))
 }
 
 if ($error != '')
-  $REX['ADDON']['installmsg']['phpmailer'] = $error;
+  $this->setProperty('installmsg', $error);
 else
-  $REX['ADDON']['install']['phpmailer'] = true;
+  $this->setProperty('install', true);

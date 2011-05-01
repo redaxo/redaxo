@@ -24,6 +24,6 @@ if($error == '' && !rex_config::has('cronjob', 'nexttime'))
 }
 
 if ($error != '')
-  $REX['ADDON']['installmsg']['cronjob'] = $error;
+  $this->setProperty('installmsg', $error);
 else
-  $REX['ADDON']['install']['cronjob'] = true;
+  $this->setProperty('install', true);

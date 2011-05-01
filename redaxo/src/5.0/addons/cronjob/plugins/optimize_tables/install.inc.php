@@ -25,4 +25,4 @@ if ($sql->getRows() == 0)
   $sql->insert();
 }
 
-$REX['ADDON']['install']['optimize_tables'] = 1;
+$this->setProperty('install', true);
