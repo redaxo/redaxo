@@ -116,7 +116,7 @@ class rex_addon extends rex_package
     }
     if(!isset($this->plugins[$plugin]))
     {
-      return rex_nullAddon::getInstance();
+      return rex_nullPlugin::getInstance();
     }
     return $this->plugins[$plugin];
   }
