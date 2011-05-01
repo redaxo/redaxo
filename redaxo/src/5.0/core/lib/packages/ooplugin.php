@@ -6,7 +6,7 @@
  * @version svn:$Id$
  */
 
-class rex_ooPlugin extends rex_package
+class rex_ooPlugin extends rex_ooPackage
 {
   /**
    * Erstellt eine rex_ooPlugin instanz

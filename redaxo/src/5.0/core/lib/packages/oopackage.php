@@ -6,7 +6,7 @@
  * @package redaxo5
  * @version svn:$Id$
  */
-class rex_package
+class rex_ooPackage
 {
   private
     $name,
@@ -67,7 +67,7 @@ class rex_package
 
     if(!isset($addons[$nsString]))
     {
-      $addons[$nsString] = new rex_package($package);
+      $addons[$nsString] = new rex_ooPackage($package);
     }
 
     return $addons[$nsString];
