@@ -17,8 +17,8 @@ class rex_plugin extends rex_package
   /**
    * Constructor
    *
-   * @param string $name
-   * @param rex_addon $addon
+   * @param string $name Name
+   * @param rex_addon $addon Parent addon
    */
   public function __construct($name, rex_addon $addon)
   {
@@ -118,5 +118,27 @@ class rex_plugin extends rex_package
   public function isAvailable()
   {
     return $this->getAddon()->isAvailable() && parent::isAvailable();
+  }
+}
+
+
+/**
+ * Represents a dummy plugin that doesn't exists in file system
+ *
+ * @author gharlan
+ */
+class rex_nullPlugin extends rex_plugin implements rex_nullPackage
+{
+  /**
+   * Constructor
+   *
+   * @param string $name Name
+   * @param rex_addon $addon Parent addon
+   */
+  public function __construct($name, rex_addon $addon)
+  {
+    parent::__construct($name, $addon);
+    $this->setConfig('install', false);
+    $this->setConfig('status', false);
   }
 }

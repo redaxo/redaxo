@@ -399,7 +399,7 @@ class rex_ooMedia
       {
         unset ($params['resize']);
         // Resize Addon installiert?
-        if (rex_addon::exists('image_resize') && rex_addon::get('image_resize')->isAvailable())
+        if (rex_addon::get('image_resize')->isAvailable())
         {
           $resize = true;
           if (isset ($params['width']))

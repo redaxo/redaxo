@@ -24,7 +24,7 @@ abstract class rex_package
   /**
    * Constructor
    *
-   * @param string $name
+   * @param string $name Name
    */
   public function __construct($name)
   {
@@ -249,3 +249,11 @@ abstract class rex_package
     include $this->getBasePath($file);
   }
 }
+
+
+/**
+ * Represents a dummy package that doesn't exists in file system
+ *
+ * @author gharlan
+ */
+interface rex_nullPackage{}

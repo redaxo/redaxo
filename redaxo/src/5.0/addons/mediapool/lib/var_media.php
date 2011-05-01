@@ -273,9 +273,9 @@ class rex_var_media extends rex_var
     if(isset($args['preview']) && $args['preview'])
     {
       $wdgtClass .= ' rex-widget-preview';
-      if(rex_addon::exists('image_manager') && rex_addon::get('image_manager')->isAvailable())
+      if(rex_addon::get('image_manager')->isAvailable())
         $wdgtClass .= ' rex-widget-preview-image-manager';
-      else if(rex_addon::exists('image_resize') && rex_addon::get('image_resize')->isAvailable())
+      else if(rex_addon::get('image_resize')->isAvailable())
         $wdgtClass .= ' rex-widget-preview-image-resize';
     }
 
@@ -344,9 +344,9 @@ class rex_var_media extends rex_var
     if(isset($args['preview']) && $args['preview'])
     {
       $wdgtClass .= ' rex-widget-preview';
-      if(rex_addon::exists('image_manager') && rex_addon::get('image_manager')->isAvailable())
+      if(rex_addon::get('image_manager')->isAvailable())
         $wdgtClass .= ' rex-widget-preview-image-manager';
-      else if(rex_addon::exists('image_resize') && rex_addon::get('image_resize')->isAvailable())
+      else if(rex_addon::get('image_resize')->isAvailable())
         $wdgtClass .= ' rex-widget-preview-image-resize';
     }
 

@@ -36,7 +36,7 @@ class rex_addon extends rex_package
     }
     if(!isset(self::$addons[$addon]))
     {
-      throw new rexException('AddOn "'. $addon .'" doesn\'t exists!');
+      return new rex_nullAddon($addon);
     }
     return self::$addons[$addon];
   }
@@ -116,7 +116,7 @@ class rex_addon extends rex_package
     }
     if(!isset($this->plugins[$plugin]))
     {
-      throw new rexException('AddOn "'. $this->getName() .'" hasn\'t a PlugIn "'. $plugin .'"');
+      return new rex_nullPlugin($plugin, $this);
     }
     return $this->plugins[$plugin];
   }
@@ -237,5 +237,26 @@ class rex_addon extends rex_package
         }
       }
     }
+  }
+}
+
+
+/**
+ * Represents a dummy addon that doesn't exists in file system
+ *
+ * @author gharlan
+ */
+class rex_nullAddon extends rex_addon implements rex_nullPackage
+{
+  /**
+   * Constructor
+   *
+   * @param string $name Name
+   */
+  public function __construct($name)
+  {
+    parent::__construct($name);
+    $this->setConfig('install', false);
+    $this->setConfig('status', false);
   }
 }

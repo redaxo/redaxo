@@ -17,7 +17,7 @@ if($REX['REDAXO'] && is_object($REX["USER"]))
   $this->setProperty('pages', $pages);
 }
 
-if(rex_addon::exists('cronjob') && rex_addon::get('cronjob')->isAvailable())
+if(rex_addon::get('cronjob')->isAvailable())
 {
   rex_cronjob_manager::registerType('rex_cronjob_export');
 }
