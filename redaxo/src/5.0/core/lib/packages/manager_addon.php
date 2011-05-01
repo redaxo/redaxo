@@ -2,124 +2,38 @@
 
 class rex_addonManager extends rex_packageManager
 {
-  function __construct()
-  {
-    parent::__construct('addon_');
-  }
-
-  public function delete($addonName)
-  {
-    global $REX;
-
-    // System AddOns dürfen nicht gelöscht werden!
-    if(in_array($addonName, $REX['SYSTEM_PACKAGES']))
-      return rex_i18n::msg('addon_systemaddon_delete_not_allowed');
-
-    return parent::delete($addonName);
-  }
-
-  protected function includeConfig($addonName, $configFile)
-  {
-    global $REX; // Nötig damit im Addon verfügbar
-    require $configFile;
-  }
-
-
-  protected function includeInstaller($addonName, $installFile)
-  {
-    global $REX; // Nötig damit im Addon verfügbar
-    require $installFile;
-  }
-
-  protected function includeUninstaller($addonName, $uninstallFile)
-  {
-    global $REX; // Nötig damit im Addon verfügbar
-    require $uninstallFile;
-  }
-
-  protected function apiCall($method, array $arguments)
-  {
-    return rex_call_func(array('rex_ooAddon', $method), $arguments, false);
-  }
-
-  protected function loadPackageInfos($addonName)
-  {
-    return self::loadPackage($addonName);
-  }
-
-  protected function baseFolder($addonName)
-  {
-    return rex_path::addon($addonName);
-  }
-
-  protected function assetsFolder($addonName)
-  {
-    return rex_path::addonAssets($addonName);
-  }
-
-  protected function dataFolder($addonName)
-  {
-    return rex_path::addonData($addonName);
-  }
-
-  protected function package($addonName)
-  {
-    return $addonName;
-  }
-
-  protected function configNamespace($addonName)
-  {
-    return $addonName;
-  }
-
   /**
-   * Loads the package.yml into $REX
+   * Constructor
    *
-   * @param string $addonName The name of the addon
+   * @param rex_addon $addon Addon
    */
-  static public function loadPackage($addonName)
+  public function __construct(rex_addon $addon)
   {
-    $package_file = rex_path::addon($addonName, 'package.yml');
-
-    if(is_readable($package_file))
-    {
-      $ymlConfig = rex_file::getConfig($package_file);
-      if($ymlConfig)
-      {
-        foreach($ymlConfig as $addonConfig)
-        {
-          foreach($addonConfig as $confName => $confValue)
-          {
-            rex_ooAddon::setProperty($addonName, $confName, rex_i18n::translateArray($confValue));
-          }
-        }
-      }
-    }
+    parent::__construct($addon, 'addon_');
   }
 
-  /**
-   * Checks whether the requirements are met.
-   *
-   * @param string $addonName The name of the addon
+  /* (non-PHPdoc)
+   * @see rex_packageManager::checkRequirements()
    */
-  protected function checkRequirements($addonName)
+  protected function checkRequirements()
   {
-    $state = parent::checkRequirements($addonName);
+    $state = parent::checkRequirements();
 
     if($state !== true)
       return $state;
 
     $pluginManager = new rex_pluginManager($addonName);
-    foreach(rex_ooPlugin::getRegisteredPlugins($addonName) as $plugin)
+    foreach($this->package->getRegisteredPlugins() as $plugin)
     {
-      // do not use rex_ooPlugin::isAvailable() here, because parent addon isn't activated
-      if(rex_ooPlugin::getProperty($addonName, $plugin, 'status', false))
+      // do not use isAvailable() here, because parent addon isn't activated
+      if($plugin->getProperty('status', false))
       {
-        $pluginManager->loadPackageInfos($plugin);
-        $return = $pluginManager->checkRequirements($plugin);
+        $pluginManager = new rex_pluginManager($plugin);
+        $pluginManager->loadPackageInfos();
+        $return = $pluginManager->checkRequirements();
         if(is_string($return) && !empty($return))
         {
-          $pluginManager->deactivate($plugin);
+          $pluginManager->deactivate();
         }
       }
     }
@@ -127,43 +41,41 @@ class rex_addonManager extends rex_packageManager
     return $state;
   }
 
-  /**
-   * Checks if another Addon/Plugin which is activated, depends on the given addon
-   *
-   * @param string $addonName The name of the addon
+  /* (non-PHPdoc)
+   * @see rex_packageManager::checkDependencies()
    */
-  protected function checkDependencies($addonName)
+  protected function checkDependencies()
   {
     global $REX;
 
     $i18nPrefix = 'addon_dependencies_error_';
     $state = array();
 
-    foreach(rex_ooAddon::getAvailableAddons() as $availAddonName)
+    foreach(rex_addon::getAvailableAddons() as $addonName => $addon)
     {
-      $requirements = rex_ooAddon::getProperty($availAddonName, 'requires', array());
+      $requirements = $addon->getProperty('requires', array());
       if(isset($requirements['addons']) && is_array($requirements['addons']))
       {
         foreach($requirements['addons'] as $depName => $depAttr)
         {
-          if($depName == $addonName)
+          if($depName == $this->package->getName())
           {
-            $state[] = rex_i18n::msg($i18nPrefix .'addon', $availAddonName);
+            $state[] = rex_i18n::msg($i18nPrefix .'addon', $addonName);
           }
         }
       }
 
       // check if another Plugin which is installed, depends on the addon being un-installed
-      foreach(rex_ooPlugin::getAvailablePlugins($availAddonName) as $availPluginName)
+      foreach($addon->getAvailablePlugins() as $pluginName => $plugin)
       {
-        $requirements = rex_ooPlugin::getProperty($availAddonName, $availPluginName, 'requires', array());
+        $requirements = $plugin->getProperty('requires', array());
         if(isset($requirements['addons']) && is_array($requirements['addons']))
         {
           foreach($requirements['addons'] as $depName => $depAttr)
           {
-            if($depName == $addonName)
+            if($depName == $this->package->getName())
             {
-              $state[] = rex_i18n::msg($i18nPrefix .'plugin', $availAddonName, $availPluginName);
+              $state[] = rex_i18n::msg($i18nPrefix .'plugin', $addonName, $pluginName);
             }
           }
         }
@@ -173,34 +85,30 @@ class rex_addonManager extends rex_packageManager
     return empty($state) ? true : implode('<br />', $state);
   }
 
-	/**
-   * Adds the package to the package order
-   *
-   * @param string $addonName The name of the addon
-   */
-  protected function addToPackageOrder($addonName)
+	/* (non-PHPdoc)
+	 * @see rex_packageManager::addToPackageOrder()
+	 */
+	protected function addToPackageOrder()
   {
-    parent::addToPackageOrder($addonName);
+    parent::addToPackageOrder();
 
-    $pluginManager = new rex_pluginManager($addonName);
-    foreach(rex_ooPlugin::getAvailablePlugins($addonName) as $plugin)
+    foreach($this->package->getAvailablePlugins() as $plugin)
     {
-      $pluginManager->addToPackageOrder($plugin);
+      $pluginManager = new rex_pluginManager($plugin);
+      $pluginManager->addToPackageOrder();
     }
   }
 
-  /**
-   * Removes the package from the package order
-   *
-   * @param string $addonName The name of the addon
+  /* (non-PHPdoc)
+   * @see rex_packageManager::removeFromPackageOrder()
    */
-  protected function removeFromPackageOrder($addonName)
+  protected function removeFromPackageOrder()
   {
-    parent::removeFromPackageOrder($addonName);
+    parent::removeFromPackageOrder();
 
-    $pluginManager = new rex_pluginManager($addonName);
-    foreach(rex_ooPlugin::getRegisteredPlugins($addonName) as $plugin)
+    foreach($this->package->getRegisteredPlugins() as $plugin)
     {
+      $pluginManager = new rex_pluginManager($plugin);
       $pluginManager->removeFromPackageOrder($plugin);
     }
   }
