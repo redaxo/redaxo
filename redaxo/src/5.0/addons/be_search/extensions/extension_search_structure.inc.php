@@ -67,7 +67,7 @@ function rex_be_search_structure($params)
   {
 		// replace LIKE wildcards
     $be_search_article_name_like = str_replace(array('_', '%'), array('\_', '\%'), $be_search_article_name);
-    
+
     $qry = '
     SELECT id
     FROM '. $REX['TABLE_PREFIX'] .'article
@@ -78,7 +78,7 @@ function rex_be_search_structure($params)
         catname LIKE "%'. $be_search_article_name_like .'%"
       )';
 
-    switch(rex_ooAddon::getProperty('be_search', 'searchmode', 'local'))
+    switch(rex_addon::get('be_search')->getProperty('searchmode', 'local'))
     {
       case 'local':
       {
@@ -136,7 +136,7 @@ function rex_be_search_structure($params)
 
             $treeLabel = htmlspecialchars($treeLabel);
             $treeLabel = rex_be_search_highlight_hit($treeLabel, $needle);
-          
+
             $s .= '<li>'. $prefix .'<a href="'. sprintf($structureUrl, $treeItem->getId(), $be_search_clang, urlencode($be_search_article_name)) .'">'. $treeLabel .' </a></li>';
           }
 
@@ -149,7 +149,7 @@ function rex_be_search_structure($params)
 
           $label = htmlspecialchars($label);
           $label = rex_be_search_highlight_hit($label, $needle);
-          
+
           $s .= '<li>'. $prefix .'<a href="'. sprintf($editUrl, $search->getValue('id'), $be_search_clang, urlencode($be_search_article_name)) .'">'. $label .' </a></li>';
 
           $search_result .= '<li><ul class="be_search-search-hit">'. $s .'</ul></li>';

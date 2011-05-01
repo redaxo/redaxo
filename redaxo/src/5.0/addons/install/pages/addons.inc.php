@@ -6,7 +6,7 @@
  *
  */
 
-$registered_addons = rex_ooAddon::getRegisteredAddons();
+$registered_addons = array_keys(rex_addon::getRegisteredAddons());
 $addons = rex_install::getAddOns();
 
 $show_list = TRUE;
@@ -20,7 +20,8 @@ if(array_key_exists($addon_key,$addons))
 	$func = rex_request("func","string");
 	$msg = rex_request("msg","string");
 	$addon = $addons[$addon_key];
-	rex_addonManager::loadPackage($addon_key);
+	$addonObj = rex_addon::get($addon_key);
+	rex_addonManager::loadPackageInfos(rex_addon::get($addonObj));
 
 	echo rex_info(htmlspecialchars($msg));
 
@@ -81,7 +82,7 @@ if(array_key_exists($addon_key,$addons))
 
 	echo '<tbody>';
 	echo '<tr><th>Verfügbare Version</th><td>'.htmlspecialchars($addon['file_version']).'</td></tr>';
-	$current_version = rex_ooAddon::getVersion($addon_key);
+	$current_version = $addonObj->getVersion();
 	if(!in_array($addon_key,$registered_addons)){ $current_version = 'AddOn ist nicht vorhanden.';
 	}elseif($current_version == "") { $current_version = 'AddOn ist vorhanden aber Version ist nicht auslesbar'; }
 	echo '<tr><th>Einsetzte Version</th><td>'.htmlspecialchars($current_version).'</td></tr>';
@@ -93,7 +94,7 @@ if(array_key_exists($addon_key,$addons))
 	echo '</table>';
 
 	$submit = 'AddOn herunterladen und einspielen.';
-	$current_version = rex_ooAddon::getVersion($addon_key);
+	$current_version = $addonObj->getVersion();
 	if(!in_array($addon_key,$registered_addons))
 	{
 		echo rex_info('AddOn ist bisher nicht vorhanden und kann installiert werden.');
@@ -144,7 +145,8 @@ if($show_list)
 	echo '<tbody>';
 	foreach($addons as $addon => $v)
 	{
-		rex_addonManager::loadPackage($addon);
+	  $addonObj = rex_addon::get($addon);
+		rex_addonManager::loadPackageInfos($addonObj);
 
 		echo '<tr>';
 		echo '<td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-in">be_dashboard</span></span></td>';
@@ -159,7 +161,7 @@ if($show_list)
 
 		}else
 		{
-			$version = rex_ooAddon::getVersion($addon);
+			$version = $addonObj->getVersion();
 			if($version == "") {
 				$status = 'Keine Version auslesbar';
 

@@ -18,7 +18,7 @@ if($REX['REDAXO'] && is_object($REX["USER"]))
   $REX['ADDON']['pages'][$mypage][] = array ('', rex_i18n::msg('im_export_export'));
 }
 
-if(rex_ooAddon::isAvailable('cronjob'))
+if(rex_addon::exists('cronjob') && rex_addon::get('cronjob')->isAvailable())
 {
   rex_cronjob_manager::registerType('rex_cronjob_export');
 }

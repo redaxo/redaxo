@@ -117,55 +117,30 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 	$addonManager = new rex_addonManager();
   if($uninstallBefore)
   {
-    foreach(array_reverse($REX['SYSTEM_PACKAGES']) as $addon)
+    foreach(array_reverse($REX['SYSTEM_PACKAGES']) as $packageRepresentation)
     {
-      if(!is_array($addon))
-      {
-        $state = $addonManager->uninstall($addon);
+      $package = rex_package::get($packageRepresentation);
+      $manager = rex_packageManager::factory($package);
+      $state = $manager->uninstall();
 
-        if($state !== true)
-    	    $addonErr .= '<li>'. $addon .'<ul><li>'. $state .'</li></ul></li>';
-      }
-      else
-      {
-        list($addon, $plugin) = $addon;
-        $pluginManager = new rex_pluginManager($addon);
-        $state = $pluginManager->uninstall($plugin);
-
-        if($state !== true)
-    	    $addonErr .= '<li>'. $addon .' / '. $plugin .'<ul><li>'. $state .'</li></ul></li>';
-      }
+      if($state !== true)
+    	  $addonErr .= '<li>'. $package->getConfigNamespace() .'<ul><li>'. $state .'</li></ul></li>';
     }
   }
-  foreach($REX['SYSTEM_PACKAGES'] as $addon)
+  foreach($REX['SYSTEM_PACKAGES'] as $packageRepresentation)
   {
   	$state = true;
+  	$package = rex_package::get($packageRepresentation);
+  	$manager = rex_packageManager::factory($package);
 
-  	if(!is_array($addon))
-  	{
-    	if($state === true && !rex_ooAddon::isInstalled($addon))
-    	  $state = $addonManager->install($addon, $installDump);
+  	if($state === true && !$package->isInstalled())
+  	  $state = $manager->install($installDump);
 
-    	if($state === true && !rex_ooAddon::isActivated($addon))
-    	  $state = $addonManager->activate($addon);
+  	if($state === true && !$package->isActivated())
+  	  $state = $manager->activate();
 
-    	if($state !== true)
-    	  $addonErr .= '<li>'. $addon .'<ul><li>'. $state .'</li></ul></li>';
-  	}
-  	else
-  	{
-  	  list($addon, $plugin) = $addon;
-      $pluginManager = new rex_pluginManager($addon);
-
-      if($state === true && !rex_ooPlugin::isInstalled($addon, $plugin))
-    	  $state = $pluginManager->install($plugin, $installDump);
-
-    	if($state === true && !rex_ooPlugin::isActivated($addon, $plugin))
-    	  $state = $pluginManager->activate($plugin);
-
-    	if($state !== true)
-    	  $addonErr .= '<li>'. $addon .' / '. $plugin .'<ul><li>'. $state .'</li></ul></li>';
-  	}
+  	if($state !== true)
+  	  $addonErr .= '<li>'. $addon .'<ul><li>'. $state .'</li></ul></li>';
   }
 
 	if($addonErr != '')
