@@ -36,7 +36,7 @@ class rex_addon extends rex_package
     }
     if(!isset(self::$addons[$addon]))
     {
-      return new rex_nullAddon($addon);
+      return rex_nullAddon::getInstance();
     }
     return self::$addons[$addon];
   }
@@ -116,7 +116,7 @@ class rex_addon extends rex_package
     }
     if(!isset($this->plugins[$plugin]))
     {
-      return new rex_nullPlugin($plugin, $this);
+      return rex_nullAddon::getInstance();
     }
     return $this->plugins[$plugin];
   }
@@ -249,14 +249,31 @@ class rex_addon extends rex_package
 class rex_nullAddon extends rex_addon implements rex_nullPackage
 {
   /**
-   * Constructor
+   * Singleton instance
    *
-   * @param string $name Name
+   * @var rex_nullAddon;
    */
-  public function __construct($name)
+  static private $instance;
+
+  /**
+   * Constructor
+   */
+  public function __construct()
   {
-    parent::__construct($name);
+    parent::__construct('nullAddon');
     $this->setConfig('install', false);
     $this->setConfig('status', false);
+  }
+
+  /* (non-PHPdoc)
+   * @see rex_nullPackage::getInstance()
+   */
+  static public function getInstance()
+  {
+    if(!is_object(self::$instance))
+    {
+      self::$instance = new self;
+    }
+    return self::$instance;
   }
 }

@@ -256,4 +256,12 @@ abstract class rex_package
  *
  * @author gharlan
  */
-interface rex_nullPackage{}
+interface rex_nullPackage
+{
+  /**
+   * Returns the singleton instance
+   *
+   * @return rex_nullPackage
+   */
+  static public function getInstance();
+}

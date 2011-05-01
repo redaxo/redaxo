@@ -130,15 +130,31 @@ class rex_plugin extends rex_package
 class rex_nullPlugin extends rex_plugin implements rex_nullPackage
 {
   /**
-   * Constructor
+   * Singleton instance
    *
-   * @param string $name Name
-   * @param rex_addon $addon Parent addon
+   * @var rex_nullPlugin;
    */
-  public function __construct($name, rex_addon $addon)
+  static private $instance;
+
+  /**
+   * Constructor
+   */
+  public function __construct()
   {
-    parent::__construct($name, $addon);
+    parent::__construct('nullPlugin', null);
     $this->setConfig('install', false);
     $this->setConfig('status', false);
+  }
+
+  /* (non-PHPdoc)
+   * @see rex_nullPackage::getInstance()
+   */
+  static public function getInstance()
+  {
+    if(!is_object(self::$instance))
+    {
+      self::$instance = new self;
+    }
+    return self::$instance;
   }
 }
