@@ -261,8 +261,8 @@ class rex_nullAddon extends rex_addon implements rex_nullPackage
   public function __construct()
   {
     parent::__construct('nullAddon');
-    $this->setConfig('install', false);
-    $this->setConfig('status', false);
+    $this->setProperty('install', false);
+    $this->setProperty('status', false);
   }
 
   /* (non-PHPdoc)
