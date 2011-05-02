@@ -111,14 +111,9 @@ function rex_a1_import_db($filename)
   // require import skript to do some userside-magic
   rex_a1_import_skript(str_replace('.sql', '.php', $filename), REX_A1_IMPORT_DB, REX_A1_IMPORT_EVENT_PRE);
 
-  if (!function_exists('PMA_splitSqlFile'))
-  {
-    include_once rex_path::core('functions/function_rex_addons.inc.php');
-  }
-
   // Datei aufteilen
   $lines = array();
-  PMA_splitSqlFile($lines, $conts, 0);
+  rex_sql_dump::splitSqlFile($lines, $conts, 0);
 
   $sql   = rex_sql::factory();
   foreach ($lines as $line) {

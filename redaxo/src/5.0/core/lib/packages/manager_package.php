@@ -70,7 +70,7 @@ abstract class rex_packageManager
   {
     $state = TRUE;
 
-    $install_dir  = $this->package->basePath();
+    $install_dir  = $this->package->getBasePath();
     $install_file = $install_dir . self::INSTALL_FILE;
     $install_sql  = $install_dir . self::INSTALL_SQL;
     $config_file  = $install_dir . self::CONFIG_FILE;
@@ -121,7 +121,7 @@ abstract class rex_packageManager
     // Dateien kopieren
     if($state === TRUE && is_dir($files_dir))
     {
-      if(!rex_dir::copy($files_dir, $this->package->assetsPath()))
+      if(!rex_dir::copy($files_dir, $this->package->getAssetsPath()))
       {
         $state = $this->I18N('install_cant_copy_files');
       }
@@ -130,7 +130,7 @@ abstract class rex_packageManager
     if($state !== TRUE)
     {
       $this->package->setProperty('install', 0);
-      $state = $this->I18N('no_install', $package->getName()) .'<br />'. $state;
+      $state = $this->I18N('no_install', $this->package->getName()) .'<br />'. $state;
     }
 
     return $state;
@@ -145,7 +145,7 @@ abstract class rex_packageManager
   {
     $state = TRUE;
 
-    $install_dir    = $this->package->basePath();
+    $install_dir    = $this->package->getBasePath();
     $uninstall_file = $install_dir . self::UNINSTALL_FILE;
     $uninstall_sql  = $install_dir . self::UNINSTALL_SQL;
 
@@ -183,7 +183,7 @@ abstract class rex_packageManager
         $state = 'Error found in uninstall.sql:<br />'. $state;
     }
 
-    $mediaFolder = $this->package->assetsPath();
+    $mediaFolder = $this->package->getAssetsPath();
     if($state === TRUE && is_dir($mediaFolder))
     {
       if(!rex_dir::delete($mediaFolder))
@@ -194,7 +194,7 @@ abstract class rex_packageManager
 
     if($state === TRUE)
     {
-      rex_config::removeNamespace($this->package->configNamespace());
+      rex_config::removeNamespace($this->package->getConfigNamespace());
     }
 
     if($state !== TRUE)
@@ -237,10 +237,10 @@ abstract class rex_packageManager
         $this->package->setProperty('status', 1);
         if(!$REX['SETUP'])
         {
-          $configFile = $this->package->basePath() .'config.inc.php';
-          if(is_readable($this->package->basePath(self::CONFIG_FILE)))
+          $configFile = $this->package->getBasePath() .'config.inc.php';
+          if(is_readable($this->package->getBasePath(self::CONFIG_FILE)))
           {
-            rex_autoload::addDirectory($this->package->basePath('lib'));
+            rex_autoload::addDirectory($this->package->getBasePath('lib'));
             $this->package->includeFile(self::CONFIG_FILE);
           }
         }
@@ -304,12 +304,15 @@ abstract class rex_packageManager
    */
   public function delete()
   {
+    if($this->package->isSystemPackage())
+      return $this->I18N('systempackage_delete_not_allowed');
+
     // zuerst deinstallieren
     // bei erfolg, komplett löschen
     $state = TRUE;
     $state = $state && $this->uninstall();
-    $state = $state && rex_dir::delete($this->package->basePath());
-    $state = $state && rex_dir::delete($this->package->dataPath());
+    $state = $state && rex_dir::delete($this->package->getBasePath());
+    $state = $state && rex_dir::delete($this->package->getDataPath());
     $this->saveConfig();
 
     return $state;
@@ -320,9 +323,6 @@ abstract class rex_packageManager
    */
   private function verifyInstallation()
   {
-    if($this->package->isSystemPackage())
-      return $this->I18N('systempackage_delete_not_allowed');
-
     $state = TRUE;
 
     // Wurde das "install" Flag gesetzt?

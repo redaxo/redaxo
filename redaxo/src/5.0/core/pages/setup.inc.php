@@ -109,12 +109,9 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 {
 	global $REX;
 
-	require_once rex_path::core('functions/function_rex_addons.inc.php');
-
 	$addonErr = '';
 	rex_packageManager::synchronizeWithFileSystem();
 
-	$addonManager = new rex_addonManager();
   if($uninstallBefore)
   {
     foreach(array_reverse($REX['SYSTEM_PACKAGES']) as $packageRepresentation)
@@ -140,7 +137,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
   	  $state = $manager->activate();
 
   	if($state !== true)
-  	  $addonErr .= '<li>'. $addon .'<ul><li>'. $state .'</li></ul></li>';
+  	  $addonErr .= '<li>'. $package->getPackageRepresentation() .'<ul><li>'. $state .'</li></ul></li>';
   }
 
 	if($addonErr != '')

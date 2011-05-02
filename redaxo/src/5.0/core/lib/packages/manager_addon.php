@@ -22,7 +22,6 @@ class rex_addonManager extends rex_packageManager
     if($state !== true)
       return $state;
 
-    $pluginManager = new rex_pluginManager($addonName);
     foreach($this->package->getRegisteredPlugins() as $plugin)
     {
       // do not use isAvailable() here, because parent addon isn't activated
