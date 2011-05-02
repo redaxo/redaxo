@@ -62,9 +62,9 @@ class rex_addon extends rex_package
   }
 
   /* (non-PHPdoc)
-   * @see rex_package::getPackageRepresentation()
+   * @see rex_package::getPackageId()
    */
-  public function getPackageRepresentation()
+  public function getPackageId()
   {
     return $this->getName();
   }
@@ -91,14 +91,6 @@ class rex_addon extends rex_package
   public function getDataPath($file = '')
   {
     return rex_path::addonData($this->getName(), $file);
-  }
-
-  /* (non-PHPdoc)
-   * @see rex_package::getConfigNamespace()
-   */
-  public function getConfigNamespace()
-  {
-    return $this->getName();
   }
 
   /**

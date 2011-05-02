@@ -121,7 +121,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
       $state = $manager->uninstall();
 
       if($state !== true)
-    	  $addonErr .= '<li>'. $package->getConfigNamespace() .'<ul><li>'. $state .'</li></ul></li>';
+    	  $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $state .'</li></ul></li>';
     }
   }
   foreach($REX['SYSTEM_PACKAGES'] as $packageRepresentation)
@@ -137,7 +137,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
   	  $state = $manager->activate();
 
   	if($state !== true)
-  	  $addonErr .= '<li>'. $package->getPackageRepresentation() .'<ul><li>'. $state .'</li></ul></li>';
+  	  $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $state .'</li></ul></li>';
   }
 
 	if($addonErr != '')
@@ -313,7 +313,7 @@ if ($checkmodus == 1)
 
 	foreach($REX['SYSTEM_PACKAGES'] as $system_addon)
 	{
-	  if(!is_array($system_addon))
+	  if(strpos($system_addon, '/') === false)
 	    $WRITEABLES[] = rex_path::addon($system_addon);
 	}
 

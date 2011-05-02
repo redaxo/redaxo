@@ -32,19 +32,25 @@ abstract class rex_package
   }
 
   /**
-   * Returns the package (addon or plugin) by the given package representation
+   * Returns the package (addon or plugin) by the given package id
    *
-   * @param string|array $package Package representation
+   * @param string $packageId Package ID
    *
    * @return rex_addon|rex_plugin
    */
-  static public function get($package)
+  static public function get($packageId)
   {
-    if(!is_string($package) && (!is_array($package) || !isset($package[0]) || !isset($package[1])))
+    if(!is_string($packageId))
     {
-      throw new rexException('Expecting $package to be string or array with two elements!');
+      throw new rexException('Expecting $packageId to be string, but '. gettype($packageId) .' given!');
     }
-    return is_string($package) ? rex_addon::get($package) : rex_addon::get($package[0])->getPlugin($package[1]);
+    $package = explode('/', $packageId);
+    $addon = rex_addon::get($package[0]);
+    if(isset($package[1]))
+    {
+      return $addon->getPlugin($package[1]);
+    }
+    return $addon;
   }
 
   /**
@@ -75,11 +81,11 @@ abstract class rex_package
   abstract public function getAddon();
 
   /**
-   * Returns the package representation
+   * Returns the package ID
    *
-   * @return string|array
+   * @return string
    */
-  abstract public function getPackageRepresentation();
+  abstract public function getPackageId();
 
   /**
    * Returns the base path
@@ -103,18 +109,11 @@ abstract class rex_package
   abstract public function getDataPath($file = '');
 
   /**
-   * Returns the config namespace
-   *
-   * @return string
-   */
-  abstract public function getConfigNamespace();
-
-  /**
    * @see rex_config::set()
    */
   public function setConfig($key, $value)
   {
-    return rex_config::set($this->getConfigNamespace(), $key, $value);
+    return rex_config::set($this->getPackageId(), $key, $value);
   }
 
   /**
@@ -122,7 +121,7 @@ abstract class rex_package
    */
   public function getConfig($key, $default)
   {
-    return rex_config::get($this->getConfigNamespace(), $key, $default);
+    return rex_config::get($this->getPackageId(), $key, $default);
   }
 
   /**
@@ -130,7 +129,7 @@ abstract class rex_package
    */
   public function hasConfig($key)
   {
-    return rex_config::has($this->getConfigNamespace(), $key);
+    return rex_config::has($this->getPackageId(), $key);
   }
 
   /**
@@ -219,7 +218,7 @@ abstract class rex_package
   public function isSystemPackage()
   {
     global $REX;
-    return in_array($this->getPackageRepresentation(), $REX['SYSTEM_PACKAGES']);
+    return in_array($this->getPackageId(), $REX['SYSTEM_PACKAGES']);
   }
 
   /**

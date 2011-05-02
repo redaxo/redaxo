@@ -194,7 +194,7 @@ abstract class rex_packageManager
 
     if($state === TRUE)
     {
-      rex_config::removeNamespace($this->package->getConfigNamespace());
+      rex_config::removeNamespace($this->package->getPackageId());
     }
 
     if($state !== TRUE)
@@ -482,7 +482,7 @@ abstract class rex_packageManager
   protected function addToPackageOrder()
   {
     $order = rex_core_config::get('package-order', array());
-    $package = $this->package->getPackageRepresentation();
+    $package = $this->package->getPackageId();
     if(!in_array($package, $order))
     {
       if($this->package->getAddon()->getName() == 'compat')
@@ -504,7 +504,7 @@ abstract class rex_packageManager
   protected function removeFromPackageOrder()
   {
     $order = rex_core_config::get('package-order', array());
-    if(($key = array_search($this->package->getPackageRepresentation(), $order)) !== false)
+    if(($key = array_search($this->package->getPackageId(), $order)) !== false)
     {
       unset($order[$key]);
       rex_core_config::set('package-order', array_values($order));
