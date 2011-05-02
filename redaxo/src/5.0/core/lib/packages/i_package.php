@@ -17,7 +17,7 @@ interface rex_i_package
   /**
    * Returns the related Addon
    *
-   * @return rex_i_addon
+   * @return rex_addon
    */
   public function getAddon();
 
