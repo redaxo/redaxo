@@ -5,7 +5,7 @@
  *
  * @author gharlan
  */
-class rex_plugin extends rex_package
+class rex_plugin extends rex_package implements rex_i_plugin
 {
   /**
    * Parent addon
@@ -65,7 +65,7 @@ class rex_plugin extends rex_package
   }
 
   /* (non-PHPdoc)
-   * @see rex_package::getAddon()
+   * @see rex_i_package::getAddon()
    */
   public function getAddon()
   {
@@ -73,7 +73,7 @@ class rex_plugin extends rex_package
   }
 
   /* (non-PHPdoc)
-   * @see rex_package::getPackageId()
+   * @see rex_i_package::getPackageId()
    */
   public function getPackageId()
   {
@@ -81,7 +81,7 @@ class rex_plugin extends rex_package
   }
 
   /* (non-PHPdoc)
-   * @see rex_package::getBasePath()
+   * @see rex_i_package::getBasePath()
    */
   public function getBasePath($file = '')
   {
@@ -89,7 +89,7 @@ class rex_plugin extends rex_package
   }
 
   /* (non-PHPdoc)
-   * @see rex_package::getAssetsPath()
+   * @see rex_i_package::getAssetsPath()
    */
   public function getAssetsPath($file = '')
   {
@@ -97,7 +97,7 @@ class rex_plugin extends rex_package
   }
 
   /* (non-PHPdoc)
-   * @see rex_package::getDataPath()
+   * @see rex_i_package::getDataPath()
    */
   public function getDataPath($file = '')
   {
@@ -105,48 +105,10 @@ class rex_plugin extends rex_package
   }
 
   /* (non-PHPdoc)
-   * @see rex_package::isAvailable()
+   * @see rex_i_package::isAvailable()
    */
   public function isAvailable()
   {
     return $this->getAddon()->isAvailable() && parent::isAvailable();
-  }
-}
-
-
-/**
- * Represents a dummy plugin that doesn't exists in file system
- *
- * @author gharlan
- */
-class rex_nullPlugin extends rex_plugin implements rex_nullPackage
-{
-  /**
-   * Singleton instance
-   *
-   * @var rex_nullPlugin;
-   */
-  static private $instance;
-
-  /**
-   * Constructor
-   */
-  public function __construct()
-  {
-    parent::__construct('nullPlugin', rex_nullAddon::getInstance());
-    $this->setProperty('install', false);
-    $this->setProperty('status', false);
-  }
-
-  /* (non-PHPdoc)
-   * @see rex_nullPackage::getInstance()
-   */
-  static public function getInstance()
-  {
-    if(!is_object(self::$instance))
-    {
-      self::$instance = new self;
-    }
-    return self::$instance;
   }
 }

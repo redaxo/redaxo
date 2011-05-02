@@ -5,7 +5,7 @@
  *
  * @author gharlan
  */
-abstract class rex_package
+abstract class rex_package implements rex_i_package
 {
   /**
    * Name of the package
@@ -70,78 +70,40 @@ abstract class rex_package
     return rex_addon::exists($package[0]);
   }
 
-  /**
-   * Returns the name of the package
-   *
-   * @return string Name
+  /* (non-PHPdoc)
+   * @see rex_i_package::getName()
    */
   public function getName()
   {
     return $this->name;
   }
 
-  /**
-   * Returns the related Addon
-   */
-  abstract public function getAddon();
-
-  /**
-   * Returns the package ID
-   *
-   * @return string
-   */
-  abstract public function getPackageId();
-
-  /**
-   * Returns the base path
-   *
-   * @param string $file File
-   */
-  abstract public function getBasePath($file = '');
-
-  /**
-   * Returns the assets path
-   *
-   * @param string $file File
-   */
-  abstract public function getAssetsPath($file = '');
-
-  /**
-   * Returns the data path
-   *
-   * @param string $file File
-   */
-  abstract public function getDataPath($file = '');
-
-  /**
-   * @see rex_config::set()
+  /* (non-PHPdoc)
+   * @see rex_i_package::setConfig()
    */
   public function setConfig($key, $value)
   {
     return rex_config::set($this->getPackageId(), $key, $value);
   }
 
-  /**
-   * @see rex_config::get()
+  /* (non-PHPdoc)
+   * @see rex_i_package::getConfig()
    */
-  public function getConfig($key, $default)
+  public function getConfig($key, $default = null)
   {
     return rex_config::get($this->getPackageId(), $key, $default);
   }
 
-  /**
-   * @see rex_config::has()
+  /* (non-PHPdoc)
+   * @see rex_i_package::hasConfig()
    */
   public function hasConfig($key)
   {
     return rex_config::has($this->getPackageId(), $key);
   }
 
-  /**
-   * Sets a property
-   *
-   * @param string $key Key of the property
-   * @param mixed $value New value for the property
+  /* (non-PHPdoc)
+   * @see rex_i_package::setProperty()
    */
   public function setProperty($key, $value)
   {
@@ -152,13 +114,8 @@ abstract class rex_package
     $this->properties[$key] = $value;
   }
 
-  /**
-   * Returns a property
-   *
-   * @param string $key Key of the property
-   * @param mixed $default Default value, will be returned if the property isn't set
-   *
-   * @return mixed
+  /* (non-PHPdoc)
+   * @see rex_i_package::getProperty()
    */
   public function getProperty($key, $default = null)
   {
@@ -173,119 +130,77 @@ abstract class rex_package
     return $default;
   }
 
-  /**
-   * Returns if a property is set
-   *
-   * @param string $key Key of the property
-   *
-   * @return boolean
+  /* (non-PHPdoc)
+   * @see rex_i_package::hasProperty()
    */
   public function hasProperty($key)
   {
     return is_string($key) && isset($this->properties[$key]);
   }
 
-	/**
-   * Returns if the package is available (activated and installed)
-   *
-   * @return boolean
-   */
-  public function isAvailable()
+	/* (non-PHPdoc)
+	 * @see rex_i_package::isAvailable()
+	 */
+	public function isAvailable()
   {
     return $this->isInstalled() && $this->isActivated();
   }
 
-	/**
-   * Returns if the package is installed
-   *
-   * @return boolean
-   */
-  public function isInstalled()
+	/* (non-PHPdoc)
+	 * @see rex_i_package::isInstalled()
+	 */
+	public function isInstalled()
   {
     return (boolean) $this->getProperty('install', false);
   }
 
-	/**
-   * Returns if the package is activated
-   *
-   * @return boolean
-   */
-  public function isActivated()
+	/* (non-PHPdoc)
+	 * @see rex_i_package::isActivated()
+	 */
+	public function isActivated()
   {
     return (boolean) $this->getProperty('status', false);
   }
 
-	/**
-   * Returns if it is a system package
-   *
-   * @return boolean
-   */
-  public function isSystemPackage()
+	/* (non-PHPdoc)
+	 * @see rex_i_package::isSystemPackage()
+	 */
+	public function isSystemPackage()
   {
     global $REX;
     return in_array($this->getPackageId(), $REX['SYSTEM_PACKAGES']);
   }
 
-  /**
-   * Returns the author
-   *
-   * @param mixed $default Default value, will be returned if the property isn't set
-   *
-   * @return mixed
+  /* (non-PHPdoc)
+   * @see rex_i_package::getAuthor()
    */
   public function getAuthor($default = null)
   {
     return $this->getProperty('author', $default);
   }
 
-  /**
-   * Returns the version
-   *
-   * @param mixed $default Default value, will be returned if the property isn't set
-   *
-   * @return mixed
+  /* (non-PHPdoc)
+   * @see rex_i_package::getVersion()
    */
   public function getVersion($default = null)
   {
     return $this->getProperty('version', $default);
   }
 
-  /**
-   * Returns the supportpage
-   *
-   * @param mixed $default Default value, will be returned if the property isn't set
-   *
-   * @return mixed
+  /* (non-PHPdoc)
+   * @see rex_i_package::getSupportPage()
    */
   public function getSupportPage($default = null)
   {
     return $this->getProperty('supportpage', $default);
   }
 
-  /**
-   * Includes a file in the package context
-   *
-   * @param string $file Filename
+  /* (non-PHPdoc)
+   * @see rex_i_package::includeFile()
    */
   public function includeFile($file)
   {
     global $REX;
     include $this->getBasePath($file);
   }
-}
-
-
-/**
- * Represents a dummy package that doesn't exists in file system
- *
- * @author gharlan
- */
-interface rex_nullPackage
-{
-  /**
-   * Returns the singleton instance
-   *
-   * @return rex_nullPackage
-   */
-  static public function getInstance();
 }

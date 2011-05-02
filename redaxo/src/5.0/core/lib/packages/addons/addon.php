@@ -5,7 +5,7 @@
  *
  * @author gharlan
  */
-class rex_addon extends rex_package
+class rex_addon extends rex_package implements rex_i_addon
 {
   /**
    * Array of all addons
@@ -54,7 +54,7 @@ class rex_addon extends rex_package
   }
 
   /* (non-PHPdoc)
-   * @see rex_package::getAddon()
+   * @see rex_i_package::getAddon()
    */
   public function getAddon()
   {
@@ -62,7 +62,7 @@ class rex_addon extends rex_package
   }
 
   /* (non-PHPdoc)
-   * @see rex_package::getPackageId()
+   * @see rex_i_package::getPackageId()
    */
   public function getPackageId()
   {
@@ -70,7 +70,7 @@ class rex_addon extends rex_package
   }
 
   /* (non-PHPdoc)
-   * @see rex_package::getBasePath()
+   * @see rex_i_package::getBasePath()
    */
   public function getBasePath($file = '')
   {
@@ -78,7 +78,7 @@ class rex_addon extends rex_package
   }
 
   /* (non-PHPdoc)
-   * @see rex_package::getAssetsPath()
+   * @see rex_i_package::getAssetsPath()
    */
   public function getAssetsPath($file = '')
   {
@@ -86,19 +86,15 @@ class rex_addon extends rex_package
   }
 
   /* (non-PHPdoc)
-   * @see rex_package::getDataPath()
+   * @see rex_i_package::getDataPath()
    */
   public function getDataPath($file = '')
   {
     return rex_path::addonData($this->getName(), $file);
   }
 
-  /**
-   * Returns the child plugin by the given name
-   *
-   * @param string $plugin Name of the plugin
-   *
-   * @return rex_plugin
+  /* (non-PHPdoc)
+   * @see rex_i_addon::getPlugin()
    */
   public function getPlugin($plugin)
   {
@@ -113,32 +109,24 @@ class rex_addon extends rex_package
     return $this->plugins[$plugin];
   }
 
-  /**
-   * Returns if the plugin exists
-   *
-   * @param string $plugin Name of the plugin
-   *
-   * @return boolean
+  /* (non-PHPdoc)
+   * @see rex_i_addon::pluginExists()
    */
   public function pluginExists($plugin)
   {
     return is_string($plugin) && isset($this->plugins[$plugins]);
   }
 
-  /**
-   * Returns the registered plugins
-   *
-   * @return array[rex_plugin]
+  /* (non-PHPdoc)
+   * @see rex_i_addon::getRegisteredPlugins()
    */
   public function getRegisteredPlugins()
   {
     return $this->plugins;
   }
 
-  /**
-   * Returns the installed plugins
-   *
-   * @return array[rex_plugin]
+  /* (non-PHPdoc)
+   * @see rex_i_addon::getInstalledPlugins()
    */
   public function getInstalledPlugins()
   {
@@ -150,10 +138,8 @@ class rex_addon extends rex_package
     );
   }
 
-	/**
-   * Returns the available plugins
-   *
-   * @return array[rex_plugin]
+  /* (non-PHPdoc)
+   * @see rex_i_addon::getAvailablePlugins()
    */
   public function getAvailablePlugins()
   {
@@ -229,43 +215,5 @@ class rex_addon extends rex_package
         }
       }
     }
-  }
-}
-
-
-/**
- * Represents a dummy addon that doesn't exists in file system
- *
- * @author gharlan
- */
-class rex_nullAddon extends rex_addon implements rex_nullPackage
-{
-  /**
-   * Singleton instance
-   *
-   * @var rex_nullAddon;
-   */
-  static private $instance;
-
-  /**
-   * Constructor
-   */
-  public function __construct()
-  {
-    parent::__construct('nullAddon');
-    $this->setProperty('install', false);
-    $this->setProperty('status', false);
-  }
-
-  /* (non-PHPdoc)
-   * @see rex_nullPackage::getInstance()
-   */
-  static public function getInstance()
-  {
-    if(!is_object(self::$instance))
-    {
-      self::$instance = new self;
-    }
-    return self::$instance;
   }
 }
