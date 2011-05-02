@@ -56,13 +56,18 @@ abstract class rex_package
   /**
    * Returns if the package exists
    *
-   * @param string $package
+   * @param string $packageId Package ID
    *
    * @return boolean
    */
-  static public function exists($package)
+  static public function exists($packageId)
   {
-    return false;
+    $package = explode('/', $packageId);
+    if(isset($package[1]))
+    {
+      return rex_plugin::exists($package[0], $package[1]);
+    }
+    return rex_addon::exists($package[0]);
   }
 
   /**
