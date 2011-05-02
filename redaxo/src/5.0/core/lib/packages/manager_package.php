@@ -560,12 +560,12 @@ abstract class rex_packageManager
   {
     foreach(rex_addon::getRegisteredAddons() as $addonName => $addon)
     {
-      $config['install'][$addonName] = $addon->isInstalled();
-      $config['status'][$addonName] = $addon->isActivated();
+      $config[$addonName]['install'] = $addon->isInstalled();
+      $config[$addonName]['status'] = $addon->isActivated();
       foreach($addon->getRegisteredPlugins() as $pluginName => $plugin)
       {
-        $config['plugins'][$addonName]['install'][$pluginName] = $plugin->isInstalled();
-        $config['plugins'][$addonName]['status'][$pluginName] = $plugin->isActivated();
+        $config[$addonName]['plugins'][$pluginName]['install'] = $plugin->isInstalled();
+        $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->isActivated();
       }
     }
     rex_core_config::set('package-config', $config);
@@ -588,8 +588,8 @@ abstract class rex_packageManager
     {
       if(!rex_addon::exists($addonName))
       {
-        $config['install'][$addonName] = false;
-        $config['status'][$addonName] = false;
+        $config[$addonName]['install'] = false;
+        $config[$addonName]['status'] = false;
         $registeredPlugins = array();
       }
       else
@@ -604,16 +604,13 @@ abstract class rex_packageManager
       }
       foreach(array_diff($plugins, $registeredPlugins) as $pluginName)
       {
-        $config['plugins'][$addonName]['install'][$pluginName] = false;
-        $config['plugins'][$addonName]['status'][$pluginName] = false;
+        $config[$addonName]['plugins'][$pluginName]['install'] = false;
+        $config[$addonName]['plugins'][$pluginName]['status'] = false;
       }
-      if(isset($config['plugins'][$addonName]['install']) && is_array($config['plugins'][$addonName]['install']))
-        ksort($config['plugins'][$addonName]['install']);
-      if(isset($config['plugins'][$addonName]['status']) && is_array($config['plugins'][$addonName]['status']))
-        ksort($config['plugins'][$addonName]['status']);
+      if(isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins']))
+        ksort($config[$addonName]['plugins']);
     }
-    ksort($config['install']);
-    ksort($config['status']);
+    ksort($config);
 
     rex_core_config::set('package-config', $config);
     rex_addon::initialize();

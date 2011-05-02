@@ -220,19 +220,19 @@ class rex_addon extends rex_package
   {
     self::$addons = array();
     $config = rex_core_config::get('package-config');
-    foreach($config['install'] as $addonName => $install)
+    foreach($config as $addonName => $addonConfig)
     {
       $addon = new rex_addon($addonName);
-      $addon->setProperty('install', $install);
-      $addon->setProperty('status', $config['status'][$addonName]);
+      $addon->setProperty('install', $addonConfig['install']);
+      $addon->setProperty('status', $addonConfig['status']);
       self::$addons[$addonName] = $addon;
-      if(isset($config['plugins'][$addonName]['install']) && is_array($config['plugins'][$addonName]['install']))
+      if(isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins']))
       {
-        foreach($config['plugins'][$addonName]['install'] as $pluginName => $pluginInstall)
+        foreach($config[$addonName]['plugins'] as $pluginName => $pluginConfig)
         {
           $plugin = new rex_plugin($pluginName, $addon);
-          $plugin->setProperty('install', $pluginInstall);
-          $plugin->setProperty('status', $config['plugins'][$addonName]['status'][$pluginName]);
+          $plugin->setProperty('install', $pluginConfig['install']);
+          $plugin->setProperty('status', $pluginConfig['status']);
           $addon->plugins[$pluginName] = $plugin;
         }
       }
