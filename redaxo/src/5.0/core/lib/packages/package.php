@@ -126,6 +126,14 @@ abstract class rex_package
   }
 
   /**
+   * @see rex_config::has()
+   */
+  public function hasConfig($key)
+  {
+    return rex_config::has($this->getConfigNamespace(), $key);
+  }
+
+  /**
    * Sets a property
    *
    * @param string $key Key of the property
@@ -159,6 +167,18 @@ abstract class rex_package
       return $this->properties[$key];
     }
     return $default;
+  }
+
+  /**
+   * Returns if a property is set
+   *
+   * @param string $key Key of the property
+   *
+   * @return boolean
+   */
+  public function hasProperty($key)
+  {
+    return is_string($key) && isset($this->properties[$key]);
   }
 
 	/**
