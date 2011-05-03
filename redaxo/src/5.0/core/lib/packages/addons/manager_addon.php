@@ -2,8 +2,6 @@
 
 class rex_addonManager extends rex_packageManager
 {
-  static protected $class;
-
   /**
    * Constructor
    *

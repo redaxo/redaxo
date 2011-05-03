@@ -10,9 +10,9 @@ abstract class rex_nullPackage implements rex_i_package
   /**
    * Singleton instance
    *
-   * @var rex_nullPackage;
+   * @var array[rex_nullPackage];
    */
-  static protected $instance;
+  static private $instances = array();
 
   /**
    * Returns the singleton instance
@@ -21,7 +21,12 @@ abstract class rex_nullPackage implements rex_i_package
    */
   static public function getInstance()
   {
-    return static::$instance ?: static::$instance = new static;
+    $class = get_called_class();
+    if(!isset(self::$instances[$class]))
+    {
+      self::$instances[$class] = new static;
+    }
+    return self::$instances[$class];
   }
 
   /* (non-PHPdoc)

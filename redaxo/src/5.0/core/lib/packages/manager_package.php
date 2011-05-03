@@ -14,7 +14,7 @@ abstract class rex_packageManager
     UNINSTALL_SQL = 'uninstall.sql',
     ASSETS_FOLDER = 'assets';
 
-  static protected $class;
+  static private $classes = array();
 
   /**
    * @var rex_package
@@ -65,7 +65,7 @@ abstract class rex_packageManager
     {
       throw new rexException('$class is expected to define a subclass of '. $calledClass .'!');
     }
-    static::$class = $class;
+    self::$classes[$calledClass] = $class;
   }
 
   /**
@@ -75,7 +75,8 @@ abstract class rex_packageManager
    */
   static public function getClass()
   {
-    return static::$class ?: get_called_class();
+    $calledClass = get_called_class();
+    return isset(self::$classes[$calledClass]) ? self::$classes[$calledClass] : $calledClass;
   }
 
   /**
