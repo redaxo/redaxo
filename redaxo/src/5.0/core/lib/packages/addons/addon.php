@@ -114,7 +114,7 @@ class rex_addon extends rex_package implements rex_i_addon
    */
   public function pluginExists($plugin)
   {
-    return is_string($plugin) && isset($this->plugins[$plugins]);
+    return is_string($plugin) && isset($this->plugins[$plugin]);
   }
 
   /* (non-PHPdoc)
