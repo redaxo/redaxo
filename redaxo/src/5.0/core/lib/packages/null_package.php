@@ -177,7 +177,7 @@ abstract class rex_nullPackage implements rex_i_package
   /* (non-PHPdoc)
    * @see rex_i_package::includeFile()
    */
-  public function includeFile($file)
+  public function includeFile($file, array $globals = array())
   {
   }
 }

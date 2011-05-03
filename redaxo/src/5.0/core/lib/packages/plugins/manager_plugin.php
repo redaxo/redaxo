@@ -2,12 +2,14 @@
 
 class rex_pluginManager extends rex_packageManager
 {
+  static protected $class;
+
 	/**
    * Constructor
    *
    * @param rex_plugin $plugin Plugin
    */
-  public function __construct(rex_plugin $plugin)
+  protected function __construct(rex_plugin $plugin)
   {
     parent::__construct($plugin, 'plugin_');
   }

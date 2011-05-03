@@ -32,12 +32,12 @@ else
 if($pluginname != '')
 {
   $package = rex_plugin::get($addonname, $pluginname);
-  $addonManager = new rex_pluginManager($package);
+  $addonManager = rex_pluginManager::factory($package);
 }
 elseif($addonname != '')
 {
   $package = rex_addon::get($addonname);
-  $addonManager = new rex_addonManager($package);
+  $addonManager = rex_addonManager::factory($package);
 }
 
 // ----------------- HELPPAGE

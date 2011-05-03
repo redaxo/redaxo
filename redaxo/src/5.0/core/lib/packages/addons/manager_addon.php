@@ -2,12 +2,14 @@
 
 class rex_addonManager extends rex_packageManager
 {
+  static protected $class;
+
   /**
    * Constructor
    *
    * @param rex_addon $addon Addon
    */
-  public function __construct(rex_addon $addon)
+  protected function __construct(rex_addon $addon)
   {
     parent::__construct($addon, 'addon_');
   }
@@ -27,7 +29,7 @@ class rex_addonManager extends rex_packageManager
       // do not use isAvailable() here, because parent addon isn't activated
       if($plugin->getProperty('status', false))
       {
-        $pluginManager = new rex_pluginManager($plugin);
+        $pluginManager = rex_pluginManager::factory($plugin);
         $pluginManager->loadPackageInfos();
         $return = $pluginManager->checkRequirements();
         if(is_string($return) && !empty($return))
@@ -93,7 +95,7 @@ class rex_addonManager extends rex_packageManager
 
     foreach($this->package->getAvailablePlugins() as $plugin)
     {
-      $pluginManager = new rex_pluginManager($plugin);
+      $pluginManager = rex_pluginManager::factory($plugin);
       $pluginManager->addToPackageOrder();
     }
   }
@@ -107,7 +109,7 @@ class rex_addonManager extends rex_packageManager
 
     foreach($this->package->getRegisteredPlugins() as $plugin)
     {
-      $pluginManager = new rex_pluginManager($plugin);
+      $pluginManager = rex_pluginManager::factory($plugin);
       $pluginManager->removeFromPackageOrder($plugin);
     }
   }

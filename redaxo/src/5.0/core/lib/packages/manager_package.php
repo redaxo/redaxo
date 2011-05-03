@@ -14,6 +14,8 @@ abstract class rex_packageManager
     UNINSTALL_SQL = 'uninstall.sql',
     ASSETS_FOLDER = 'assets';
 
+  static protected $class;
+
   /**
    * @var rex_package
    */
@@ -42,21 +44,38 @@ abstract class rex_packageManager
    */
   static public function factory(rex_package $package)
   {
-    if($package instanceof rex_plugin)
+    if(get_called_class() == __CLASS__)
     {
-      return new rex_pluginManager($package);
+      $class = $package instanceof rex_plugin ? 'rex_pluginManager' : 'rex_addonManager';
+      return $class::factory($package);
     }
-    return new rex_addonManager($package);
+    $class = static::getClass();
+    return new $class($package);
   }
 
   /**
-   * Sets a new package
+   * Sets the manager class
    *
-   * @param rex_package $package Package
+   * @param string $class
    */
-  public function setPackage(rex_package $package)
+  static public function setClass($class)
   {
-    $this->package = $package;
+    $calledClass = get_called_class();
+    if($class != $calledClass && !is_subclass_of($class, $calledClass))
+    {
+      throw new rexException('$class is expected to define a subclass of '. $calledClass .'!');
+    }
+    static::$class = $class;
+  }
+
+  /**
+   * Returns the manager class
+   *
+   * @return string
+   */
+  static public function getClass()
+  {
+    return static::$class ?: get_called_class();
   }
 
   /**
@@ -93,7 +112,7 @@ abstract class rex_packageManager
         // check if install.inc.php exists
         if (is_readable($install_file))
         {
-          $this->package->includeFile(self::INSTALL_FILE);
+          $this->includeFile(self::INSTALL_FILE);
           $state = $this->verifyInstallation();
         }
         else
@@ -165,7 +184,7 @@ abstract class rex_packageManager
       // check if uninstall.inc.php exists
       if (is_readable($uninstall_file))
       {
-        $this->package->includeFile(self::UNINSTALL_FILE);
+        $this->includeFile(self::UNINSTALL_FILE);
         $state = $this->verifyUninstallation();
       }
       else
@@ -241,7 +260,7 @@ abstract class rex_packageManager
           if(is_readable($this->package->getBasePath(self::CONFIG_FILE)))
           {
             rex_autoload::addDirectory($this->package->getBasePath('lib'));
-            $this->package->includeFile(self::CONFIG_FILE);
+            $this->includeFile(self::CONFIG_FILE);
           }
         }
         $this->saveConfig();
@@ -529,6 +548,16 @@ abstract class rex_packageManager
   }
 
   /**
+   * Includes a file inside the package context
+   *
+   * @param string $file
+   */
+  public function includeFile($file)
+  {
+    return $this->package->includeFile($file);
+  }
+
+  /**
    * Loads the package infos
    *
    * @param rex_package $package Package
@@ -581,7 +610,7 @@ abstract class rex_packageManager
     $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
     foreach(array_diff($registeredAddons, $addons) as $addonName)
     {
-      $manager = new rex_addonManager(rex_addon::get($addonName));
+      $manager = rex_addonManager::factory(rex_addon::get($addonName));
       $manager->delete();
     }
     foreach($addons as $addonName)
@@ -599,7 +628,7 @@ abstract class rex_packageManager
       $plugins = self::readPackageFolder(rex_path::plugin($addonName, '*'));
       foreach(array_diff($registeredPlugins, $plugins) as $pluginName)
       {
-        $manager = new rex_pluginManager(rex_plugin::get($addonName, $pluginName));
+        $manager = rex_pluginManager::factory(rex_plugin::get($addonName, $pluginName));
         $manager->delete();
       }
       foreach(array_diff($plugins, $registeredPlugins) as $pluginName)
