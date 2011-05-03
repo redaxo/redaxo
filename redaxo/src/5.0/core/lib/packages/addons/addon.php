@@ -130,12 +130,7 @@ class rex_addon extends rex_package implements rex_i_addon
    */
   public function getInstalledPlugins()
   {
-    return array_filter($this->plugins,
-      function(rex_plugin $plugin)
-      {
-        return $plugin->isInstalled();
-      }
-    );
+    return array_filter($this->plugins, self::getFilterFunction('isInstalled'));
   }
 
   /* (non-PHPdoc)
@@ -143,12 +138,7 @@ class rex_addon extends rex_package implements rex_i_addon
    */
   public function getAvailablePlugins()
   {
-    return array_filter($this->plugins,
-      function(rex_plugin $plugin)
-      {
-        return $plugin->isAvailable();
-      }
-    );
+    return array_filter($this->plugins, self::getFilterFunction('isAvailable'));
   }
 
   /**
@@ -168,12 +158,7 @@ class rex_addon extends rex_package implements rex_i_addon
    */
   static public function getInstalledAddons()
   {
-    return array_filter(self::$addons,
-      function(rex_addon $addon)
-      {
-        return $addon->isAvailable();
-      }
-    );
+    return array_filter(self::$addons, self::getFilterFunction('isInstalled'));
   }
 
   /**
@@ -183,12 +168,7 @@ class rex_addon extends rex_package implements rex_i_addon
    */
   static public function getAvailableAddons()
   {
-    return array_filter(self::$addons,
-      function(rex_addon $addon)
-      {
-        return $addon->isAvailable();
-      }
-    );
+    return array_filter(self::$addons, self::getFilterFunction('isAvailable'));
   }
 
   /**
@@ -215,5 +195,18 @@ class rex_addon extends rex_package implements rex_i_addon
         }
       }
     }
+  }
+
+  /**
+   * Returns a filter function
+   *
+   * @param string $method A rex_package method
+   */
+  static private function getFilterFunction($method)
+  {
+    return function(rex_package $package) use ($method)
+    {
+      return $package->$method();
+    };
   }
 }
