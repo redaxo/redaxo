@@ -7,6 +7,8 @@
  */
 class rex_nullAddon extends rex_nullPackage implements rex_i_addon
 {
+  static protected $instance;
+
   /* (non-PHPdoc)
    * @see rex_i_addon::getPlugin()
    */
