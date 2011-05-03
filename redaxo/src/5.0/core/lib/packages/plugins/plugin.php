@@ -111,4 +111,40 @@ class rex_plugin extends rex_package implements rex_i_plugin
   {
     return $this->getAddon()->isAvailable() && parent::isAvailable();
   }
+
+  /**
+   * Returns the registered plugins of the given addon
+   *
+   * @param string $addon Addon name
+   *
+   * @return array[rex_plugin]
+   */
+  static public function getRegisteredPlugins($addon)
+  {
+    return rex_addon::get($addon)->getRegisteredPlugins();
+  }
+
+  /**
+   * Returns the installed plugins of the given addons
+   *
+   * @param string $addon Addon name
+   *
+   * @return array[rex_plugin]
+   */
+  static public function getInstalledPlugins($addon)
+  {
+    return rex_addon::get($addon)->getInstalledPlugins();
+  }
+
+  /**
+   * Returns the available plugins of the given addons
+   *
+   * @param string $addon Addon name
+   *
+   * @return array[rex_plugin]
+   */
+  static public function getAvailablePlugins($addon)
+  {
+    return rex_addon::get($addon)->getAvailablePlugins();
+  }
 }
