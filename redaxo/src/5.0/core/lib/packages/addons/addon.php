@@ -130,7 +130,7 @@ class rex_addon extends rex_package implements rex_i_addon
    */
   public function getInstalledPlugins()
   {
-    return array_filter($this->plugins, self::getFilterFunction('isInstalled'));
+    return self::filterPackages($this->plugins, 'isInstalled');
   }
 
   /* (non-PHPdoc)
@@ -138,7 +138,7 @@ class rex_addon extends rex_package implements rex_i_addon
    */
   public function getAvailablePlugins()
   {
-    return array_filter($this->plugins, self::getFilterFunction('isAvailable'));
+    return self::filterPackages($this->plugins, 'isAvailable');
   }
 
   /**
@@ -158,7 +158,7 @@ class rex_addon extends rex_package implements rex_i_addon
    */
   static public function getInstalledAddons()
   {
-    return array_filter(self::$addons, self::getFilterFunction('isInstalled'));
+    return self::filterPackages(self::$addons, 'isInstalled');
   }
 
   /**
@@ -168,7 +168,7 @@ class rex_addon extends rex_package implements rex_i_addon
    */
   static public function getAvailableAddons()
   {
-    return array_filter(self::$addons, self::getFilterFunction('isAvailable'));
+    return self::filterPackages(self::$addons, 'isAvailable');
   }
 
   /**
@@ -198,15 +198,20 @@ class rex_addon extends rex_package implements rex_i_addon
   }
 
   /**
-   * Returns a filter function
+   * Filters packages by the given method
    *
+   * @param array $packages Array of packages
    * @param string $method A rex_package method
+   *
+   * @return array[rex_package]
    */
-  static private function getFilterFunction($method)
+  static private function filterPackages(array $packages, $method)
   {
-    return function(rex_package $package) use ($method)
-    {
-      return $package->$method();
-    };
+    return array_filter($packages,
+      function(rex_package $package) use ($method)
+      {
+        return $package->$method();
+      }
+    );
   }
 }
