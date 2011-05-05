@@ -5,7 +5,7 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -21,12 +21,12 @@ class rex_a62_tableManager
     $this->DBID = $DBID;
   }
 
-  function getTableName()
+  public function getTableName()
   {
     return $this->tableName;
   }
 
-  function addColumn($name, $type, $length, $default = null, $nullable = true)
+  public function addColumn($name, $type, $length, $default = null, $nullable = true)
   {
     $qry = 'ALTER TABLE `'. $this->getTableName() .'` ADD ';
     $qry .= '`'. $name .'` '. $type;
@@ -43,7 +43,7 @@ class rex_a62_tableManager
     return $this->setQuery($qry);
   }
 
-  function editColumn($oldname, $name, $type, $length, $default = null, $nullable = true)
+  public function editColumn($oldname, $name, $type, $length, $default = null, $nullable = true)
   {
     $qry = 'ALTER TABLE `'. $this->getTableName() .'` CHANGE ';
     $qry .= '`'. $oldname .'` `'. $name .'` '. $type;
@@ -60,15 +60,29 @@ class rex_a62_tableManager
     return $this->setQuery($qry);
   }
 
-  function deleteColumn($name)
+  public function deleteColumn($name)
   {
     $qry = 'ALTER TABLE `'. $this->getTableName() .'` DROP ';
     $qry .= '`'. $name .'`';
 
     return $this->setQuery($qry);
   }
+  
+  public function hasColumn($name)
+  {
+    $columns = rex_sql::showColumns($this->getTableName(), $this->DBID);
+    
+    foreach($columns as $column)
+    {
+      if($column['name'] == $name)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
 
-  function setQuery($qry)
+  protected function setQuery($qry)
   {
     $sql = rex_sql::factory($this->DBID);
     return $sql->setQuery($qry);

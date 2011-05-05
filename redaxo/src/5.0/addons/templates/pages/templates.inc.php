@@ -2,11 +2,11 @@
 
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
-rex_title($REX['I18N']->msg('title_templates'), '');
+rex_title(rex_i18n::msg('title_templates'), '');
 
 $OUT = TRUE;
 
@@ -27,19 +27,19 @@ if ($function == "delete")
 
   if ($del->getRows() > 0  || $REX['DEFAULT_TEMPLATE_ID'] == $template_id)
   {
-    $warning = $REX['I18N']->msg("cant_delete_template_because_its_in_use", 'ID = '.$template_id);
+    $warning = rex_i18n::msg("cant_delete_template_because_its_in_use", 'ID = '.$template_id);
 
   }else
   {
     $del->setQuery("DELETE FROM " . $REX['TABLE_PREFIX'] . "template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
-    rex_deleteDir(rex_path::generated('templates/' . $template_id . '.template'), 0);
-    $info = $REX['I18N']->msg("template_deleted");
+    rex_file::delete(rex_path::generated('templates/' . $template_id . '.template'));
+    $info = rex_i18n::msg("template_deleted");
   }
 
 }elseif ($function == "edit")
 {
 
-  $legend = $REX['I18N']->msg("edit_template") . ' [ID=' . $template_id . ']';
+  $legend = rex_i18n::msg("edit_template") . ' [ID=' . $template_id . ']';
 
   $hole = rex_sql::factory();
   $hole->setQuery("SELECT * FROM " . $REX['TABLE_PREFIX'] . "template WHERE id = '$template_id'");
@@ -62,7 +62,7 @@ if ($function == "delete")
   $active = '';
   $template_id = '';
   $attributes = '';
-  $legend = $REX['I18N']->msg("create_template");
+  $legend = rex_i18n::msg("create_template");
 
 }
 
@@ -82,13 +82,6 @@ if ($function == "add" or $function == "edit")
       {
         unset ($ctypes[$num_ctypes -1]);
       }
-    }
-
-    // Daten wieder in den Rohzustand versetzen, da für serialize()/unserialize()
-    // keine Zeichen escaped werden dürfen
-    for($i=1;$i<count($ctypes)+1;$i++)
-    {
-      $ctypes[$i] = stripslashes($ctypes[$i]);
     }
 
     $categories = rex_post("categories", "array");
@@ -118,10 +111,6 @@ if ($function == "add" or $function == "edit")
     $TPL->setValue("name", $templatename);
     $TPL->setValue("active", $active);
     $TPL->setValue("content", $content);
-    $attributes = rex_setAttributes("ctype", $ctypes, "");
-    $attributes = rex_setAttributes("modules", $modules, "");
-    $attributes = rex_setAttributes("categories", $categories, "");
-    $TPL->setValue("attributes", $attributes);
     $TPL->addGlobalCreateFields();
 
     if ($function == "add")
@@ -135,7 +124,7 @@ if ($function == "add" or $function == "edit")
       if($TPL->insert())
       {
         $template_id = $TPL->getLastId();
-        $info = $REX['I18N']->msg("template_added");
+        $info = rex_i18n::msg("template_added");
       }else
       {
         $warning = $TPL->getError();
@@ -145,21 +134,18 @@ if ($function == "add" or $function == "edit")
       $attributes = rex_setAttributes("ctype", $ctypes, $attributes);
       $attributes = rex_setAttributes("modules", $modules, $attributes);
       $attributes = rex_setAttributes("categories", $categories, $attributes);
+      $TPL->setValue("attributes", $attributes);
 
       $TPL->setWhere("id='$template_id'");
-      $TPL->setValue("attributes", $attributes);
       $TPL->addGlobalUpdateFields();
 
       if($TPL->update())
-        $info = $REX['I18N']->msg("template_updated");
+        $info = rex_i18n::msg("template_updated");
       else
         $warning = $TPL->getError();
     }
-    // werte werden direkt wieder ausgegeben
-//    $templatename = stripslashes($templatename);
-//    $content = stripslashes($content);
 
-    rex_deleteDir(rex_path::generated('templates'), 0);
+    rex_dir::delete(rex_path::generated('templates'), false);
 
     if ($goon != "") {
       $function = "edit";
@@ -251,12 +237,12 @@ if ($function == "add" or $function == "edit")
         if(!isset($modules[$i]['all']) || $modules[$i]['all'] == 1)
           $ctypes_out .= ' checked="checked" ';
         $ctypes_out .= ' value="1" />
-          <label for="allmodules'.$i.'">'.$REX['I18N']->msg("modules_available_all").'</label>
+          <label for="allmodules'.$i.'">'.rex_i18n::msg("modules_available_all").'</label>
         </p>
         <p class="rex-form-col-a rex-form-select" id="p_modules'.$i.'">
-          <label for="modules_'.$i.'_select">'.$REX['I18N']->msg("modules_available").'</label>
+          <label for="modules_'.$i.'_select">'.rex_i18n::msg("modules_available").'</label>
           '.$modul_select->get().'
-          <span class="rex-form-notice">'. $REX['I18N']->msg('ctrl') .'</span>
+          <span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>
         </p>
         </div>';
         $i++;
@@ -311,7 +297,7 @@ if ($function == "add" or $function == "edit")
 
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-text">
-                  <label for="ltemplatename">' . $REX['I18N']->msg("template_name") . '</label>
+                  <label for="ltemplatename">' . rex_i18n::msg("template_name") . '</label>
                   <input class="rex-form-text" type="text" size="10" id="ltemplatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />
                 </p>
               </div>
@@ -319,7 +305,7 @@ if ($function == "add" or $function == "edit")
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
                   <input class="rex-form-checkbox" type="checkbox" id="active" name="active" value="1"' . $tmpl_active_checked . '/>
-                  <label for="active">' . $REX['I18N']->msg("checkbox_template_active") . '<span>' . $REX['I18N']->msg("checkbox_template_active_info") . '</span></label>
+                  <label for="active">' . rex_i18n::msg("checkbox_template_active") . '<span>' . rex_i18n::msg("checkbox_template_active_info") . '</span></label>
                 </p>
               </div>
 
@@ -327,7 +313,7 @@ if ($function == "add" or $function == "edit")
 
               <div class="rex-form-row">
                 <p class="rex-form-col-a rex-form-textarea">
-                  <label for="content">' . $REX['I18N']->msg("header_template") . '</label>
+                  <label for="content">' . rex_i18n::msg("header_template") . '</label>
                   <textarea class="rex-form-textarea" name="content" id="content" cols="50" rows="6">' . htmlspecialchars($content) . '</textarea>
                 </p>
               </div>
@@ -339,7 +325,7 @@ if ($function == "add" or $function == "edit")
         <!-- DIV nötig fuer JQuery slideIn -->
         <div id="rex-form-template-ctype">
         <fieldset class="rex-form-col-1">
-          <legend>'.$REX['I18N']->msg("content_types").' [ctypes]</legend>
+          <legend>'.rex_i18n::msg("content_types").' [ctypes]</legend>
 
           <div class="rex-form-wrapper">
             ' . $ctypes_out . '
@@ -350,7 +336,7 @@ if ($function == "add" or $function == "edit")
 
          <div id="rex-form-template-categories">
         	<fieldset class="rex-form-col-1">
-   			    <legend>'.$REX['I18N']->msg("template_categories").'</legend>
+   			    <legend>'.rex_i18n::msg("template_categories").'</legend>
               <div class="rex-form-wrapper">
 
               	<div class="rex-form-row">
@@ -359,15 +345,15 @@ if ($function == "add" or $function == "edit")
 				        if(!isset($categories['all']) || $categories['all'] == 1)
 				          echo ' checked="checked" ';
 				        echo ' value="1" />
-				          <label for="allcategories">'.$REX['I18N']->msg("template_categories_all").'</label>
+				          <label for="allcategories">'.rex_i18n::msg("template_categories_all").'</label>
 				        </p>
 				        </div>
 
               	<div class="rex-form-row" id="p_categories">
 		        		<p class="rex-form-col-a rex-form-select">
-				          <label for="categories_select">'.$REX['I18N']->msg("template_categories_custom").'</label>
+				          <label for="categories_select">'.rex_i18n::msg("template_categories_custom").'</label>
 				          '.$cat_select->get().'
-				          <span class="rex-form-notice">'. $REX['I18N']->msg('ctrl') .'</span>
+				          <span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>
 				        </p>
 				      </div>
             </div>
@@ -378,8 +364,8 @@ if ($function == "add" or $function == "edit")
           <div class="rex-form-wrapper">
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-submit">
-                <input class="rex-form-submit" type="submit" value="' . $REX['I18N']->msg("save_template_and_quit") . '"'. rex_accesskey($REX['I18N']->msg('save_template_and_quit'), $REX['ACKEY']['SAVE']) .' />
-                <input class="rex-form-submit rex-form-submit-2" type="submit" name="goon" value="' . $REX['I18N']->msg("save_template_and_continue") . '"'. rex_accesskey($REX['I18N']->msg('save_template_and_continue'), $REX['ACKEY']['APPLY']) .' />
+                <input class="rex-form-submit" type="submit" value="' . rex_i18n::msg("save_template_and_quit") . '"'. rex_accesskey(rex_i18n::msg('save_template_and_quit'), $REX['ACKEY']['SAVE']) .' />
+                <input class="rex-form-submit rex-form-submit-2" type="submit" name="goon" value="' . rex_i18n::msg("save_template_and_continue") . '"'. rex_accesskey(rex_i18n::msg('save_template_and_continue'), $REX['ACKEY']['APPLY']) .' />
               </p>
             </div>
           </div>
@@ -429,33 +415,33 @@ if ($OUT)
     echo rex_warning($warning);
 
   $list = rex_list::factory('SELECT id, name, active FROM '.$REX['TABLE_PREFIX'].'template ORDER BY name');
-  $list->setCaption($REX['I18N']->msg('header_template_caption'));
-  $list->addTableAttribute('summary', $REX['I18N']->msg('header_template_summary'));
+  $list->setCaption(rex_i18n::msg('header_template_caption'));
+  $list->addTableAttribute('summary', rex_i18n::msg('header_template_summary'));
   $list->addTableColumnGroup(array(40, 40, '*', 153, 153));
 
   $tdIcon = '<span class="rex-i-element rex-i-template"><span class="rex-i-element-text">###name###</span></span>';
-  $thIcon = '<a class="rex-i-element rex-i-template-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey($REX['I18N']->msg('create_template'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.$REX['I18N']->msg('create_template').'</span></a>';
+  $thIcon = '<a class="rex-i-element rex-i-template-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey(rex_i18n::msg('create_template'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.rex_i18n::msg('create_template').'</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('function' => 'edit', 'template_id' => '###id###'));
 
   $list->setColumnLabel('id', 'ID');
   $list->setColumnLayout('id',  array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
 
-  $list->setColumnLabel('name', $REX['I18N']->msg('header_template_description'));
+  $list->setColumnLabel('name', rex_i18n::msg('header_template_description'));
   $list->setColumnParams('name', array('function' => 'edit', 'template_id' => '###id###'));
 
-  $list->setColumnLabel('active', $REX['I18N']->msg('header_template_active'));
+  $list->setColumnLabel('active', rex_i18n::msg('header_template_active'));
   $list->setColumnFormat('active', 'custom', function($params) {
     global $REX;
     $list = $params['list'];
-    return $list->getValue('active') == 1 ? $REX['I18N']->msg('yes') : $REX['I18N']->msg('no'); 
+    return $list->getValue('active') == 1 ? rex_i18n::msg('yes') : rex_i18n::msg('no');
   });
 
-  $list->addColumn($REX['I18N']->msg('header_template_functions'), $REX['I18N']->msg('delete_template'));
-  $list->setColumnParams($REX['I18N']->msg('header_template_functions'), array('function' => 'delete', 'template_id' => '###id###'));
-  $list->addLinkAttribute($REX['I18N']->msg('header_template_functions'), 'onclick', 'return confirm(\''.$REX['I18N']->msg('delete').' ?\')');
+  $list->addColumn(rex_i18n::msg('header_template_functions'), rex_i18n::msg('delete_template'));
+  $list->setColumnParams(rex_i18n::msg('header_template_functions'), array('function' => 'delete', 'template_id' => '###id###'));
+  $list->addLinkAttribute(rex_i18n::msg('header_template_functions'), 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
 
-  $list->setNoRowsMessage($REX['I18N']->msg('templates_not_found'));
+  $list->setNoRowsMessage(rex_i18n::msg('templates_not_found'));
 
   $list->show();
 }

@@ -5,7 +5,7 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -34,22 +34,22 @@ else
 ?>
 
 <div class="rex-addon-output">
-	<h2 class="rex-hl2"><?php echo $REX['I18N']->msg('textile_code_for_module_input'); ?></h2>
+	<h2 class="rex-hl2"><?php echo rex_i18n::msg('textile_code_for_module_input'); ?></h2>
 
 	<div class="rex-addon-content">
-		<p class="rex-tx1"><?php echo $REX['I18N']->msg('textile_module_intro_help'); ?></p>
+		<p class="rex-tx1"><?php echo rex_i18n::msg('textile_module_intro_help'); ?></p>
 		<?php rex_highlight_string($mdl_help); ?>
-		<p class="rex-tx1"><?php echo $REX['I18N']->msg('textile_module_rights'); ?></p>
+		<p class="rex-tx1"><?php echo rex_i18n::msg('textile_module_rights'); ?></p>
 	</div>
 </div>
 
 <div class="rex-addon-output">
-	<h2 class="rex-hl2"><?php echo $REX['I18N']->msg('textile_code_for_module_output'); ?></h2>
+	<h2 class="rex-hl2"><?php echo rex_i18n::msg('textile_code_for_module_output'); ?></h2>
 
 	<div class="rex-addon-content">
-		<p class="rex-tx1"><?php echo $REX['I18N']->msg('textile_module_intro_moduleoutput'); ?></p>
+		<p class="rex-tx1"><?php echo rex_i18n::msg('textile_module_intro_moduleoutput'); ?></p>
 
-		<h3><?php echo $REX['I18N']->msg('textile_example_for'); ?> REX_VALUE[1]</h3>
+		<h3><?php echo rex_i18n::msg('textile_example_for'); ?> REX_VALUE[1]</h3>
 		<?php rex_highlight_string($mdl_ex); ?>
 	</div>
 </div>

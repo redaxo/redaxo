@@ -13,9 +13,9 @@ if($REX['REDAXO'] && is_object($REX["USER"]))
 
   if($REX["USER"]->hasPerm('import_export[import]') || $REX["USER"]->isAdmin())
   {
-  	$REX['ADDON']['pages'][$mypage][] = array ('import', $REX['I18N']->msg('im_export_import'));
+  	$REX['ADDON']['pages'][$mypage][] = array ('import', rex_i18n::msg('im_export_import'));
   }
-  $REX['ADDON']['pages'][$mypage][] = array ('', $REX['I18N']->msg('im_export_export'));
+  $REX['ADDON']['pages'][$mypage][] = array ('', rex_i18n::msg('im_export_export'));
 }
 
 if(rex_ooAddon::isAvailable('cronjob'))

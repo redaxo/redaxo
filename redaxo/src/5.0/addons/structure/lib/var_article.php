@@ -15,7 +15,7 @@
  *   - ctype     => Spalte des Artikels festlegen
  *   - field     => Nur dieses Feld des Artikels ausgeben
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -65,10 +65,11 @@ class rex_var_article extends rex_var
     foreach ($matches as $match)
     {
       list ($param_str, $args)  = $match;
-      list ($article_id, $args) = $this->extractArg('id',    $args, 0);
-      list ($clang, $args)      = $this->extractArg('clang', $args, '$REX[\'CUR_CLANG\']');
-      list ($ctype, $args)      = $this->extractArg('ctype', $args, -1);
-      list ($field, $args)      = $this->extractArg('field', $args, '');
+      $article_id = $this->getArg('id',    $args, 0);
+      // use ${xxx} notation so the var can be interpreted correctly when de-serialized
+      $clang      = $this->getArg('clang', $args, '${REX[\'CUR_CLANG\']}');
+      $ctype      = $this->getArg('ctype', $args, -1);
+      $field      = $this->getArg('field', $args, '');
 
       $tpl = '';
       if($article_id == 0)
@@ -101,9 +102,10 @@ class rex_var_article extends rex_var
           {
 	        	// bezeichner wählen, der keine variablen
 	          // aus modulen/templates überschreibt
-	          $varname = '$__rex_art';
+            // clang als string übergeben wg ${xxx} notation
+            $varname = '$__rex_art';
 	          $tpl = '<?php
-	          '. $varname .' = rex_ooArticle::getArticleById('. $article_id .', '. $clang .');
+	          '. $varname .' = rex_ooArticle::getArticleById('. $article_id .', "'. $clang .'");
 	          if('. $varname .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .');
 	          ?>';
           }
@@ -113,11 +115,12 @@ class rex_var_article extends rex_var
         {
 	        // bezeichner wählen, der keine variablen
 	        // aus modulen/templates überschreibt
-	        $varname = '$__rex_art';
+          // clang als string übergeben wg ${xxx} notation
+          $varname = '$__rex_art';
 	        $tpl = '<?php
 	        '. $varname .' = new rex_article();
 	        '. $varname .'->setArticleId('. $article_id .');
-	        '. $varname .'->setClang('. $clang .');
+	        '. $varname .'->setClang("'. $clang .'");
           echo '. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getArticle('. $ctype .')') .';
 	        ?>';
         }

@@ -20,7 +20,7 @@ $addon = 'layout';
 if($REX['REDAXO'])
 {
   require_once rex_path::addon($addon, 'extensions/extensions.inc.php');
-  rex_register_extension('ADDONS_INCLUDED', 'rex_layout_addPage');
+  rex_extension::register('ADDONS_INCLUDED', 'rex_layout_addPage');
   
   require_once rex_path::addon($addon, 'functions/include.inc.php');
 }

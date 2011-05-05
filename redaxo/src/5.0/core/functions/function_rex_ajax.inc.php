@@ -3,8 +3,8 @@
 /**
  * Returns true if the request is a XMLHttpRequest.
  *
- * It works if your JavaScript library set an X-Requested-With HTTP header.
- * Works with Prototype, Mootools, jQuery, and perhaps others.
+ * This only works if your javaScript library sets an X-Requested-With HTTP header.
+ * This is the case with Prototype, Mootools, jQuery, and perhaps others.
  *
  * Inspired by a method of the symfony framework.
  *
@@ -12,5 +12,5 @@
  */
 function rex_isXmlHttpRequest()
 {
-  return $_SERVER['X_REQUESTED_WITH'] == 'XMLHttpRequest';
+  return isset($_SERVER['X_REQUESTED_WITH']) && $_SERVER['X_REQUESTED_WITH'] == 'XMLHttpRequest';
 }

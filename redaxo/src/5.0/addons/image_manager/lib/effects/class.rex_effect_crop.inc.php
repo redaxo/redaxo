@@ -113,34 +113,34 @@ class rex_effect_crop extends rex_effect_abstract
 
     return array(
       array(
-        'label'=>$REX['I18N']->msg('imanager_effect_crop_width'),
+        'label'=>rex_i18n::msg('imanager_effect_crop_width'),
         'name' => 'width',
         'type' => 'int'
       ),
       array(
-        'label'=>$REX['I18N']->msg('imanager_effect_crop_height'),
+        'label'=>rex_i18n::msg('imanager_effect_crop_height'),
         'name' => 'height',
         'type' => 'int'
       ),
       array(
-        'label'=>$REX['I18N']->msg('imanager_effect_crop_offset_width'),
+        'label'=>rex_i18n::msg('imanager_effect_crop_offset_width'),
         'name' => 'offset_width',
         'type' => 'int'
       ),
       array(
-        'label'=>$REX['I18N']->msg('imanager_effect_crop_offset_height'),
+        'label'=>rex_i18n::msg('imanager_effect_crop_offset_height'),
         'name' => 'offset_height',
         'type' => 'int'
       ),
       array(
-        'label' => $REX['I18N']->msg('imanager_effect_brand_hpos'),
+        'label' => rex_i18n::msg('imanager_effect_brand_hpos'),
         'name' => 'hpos',
         'type'	=> 'select',
         'options'	=> array('left','center','right'),
         'default' => 'center'
       ),
       array(
-        'label' => $REX['I18N']->msg('imanager_effect_brand_vpos'),
+        'label' => rex_i18n::msg('imanager_effect_brand_vpos'),
         'name' => 'vpos',
         'type'	=> 'select',
         'options'	=> array('top','middle','bottom'),

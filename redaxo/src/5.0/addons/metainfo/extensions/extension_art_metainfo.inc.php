@@ -4,11 +4,11 @@
  * MetaForm Addon
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * 
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
-rex_register_extension('ART_META_FORM', 'rex_a62_metainfo_form');
+rex_extension::register('ART_META_FORM', 'rex_a62_metainfo_form');
 
 /**
  * Callback, dass ein Formular item formatiert

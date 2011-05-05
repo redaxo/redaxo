@@ -4,11 +4,11 @@
  * MetaForm Addon
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
-rex_register_extension('rex_ooMedia_IS_IN_USE', 'rex_a62_media_is_in_use');
+rex_extension::register('OOMEDIA_IS_IN_USE', 'rex_a62_media_is_in_use');
 
 /**
  * Erstellt den nötigen HTML Code um ein Formular zu erweitern
@@ -44,7 +44,6 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     $dblength      = $sqlFields->getValue('dblength');
     $restrictions  = $sqlFields->getValue('restrictions');
 
-    $attr .= rex_tabindex();
     $attrArray = rex_split_string($attr);
     if(isset($attrArray['perm']))
     {
@@ -73,7 +72,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     }
 
     if($title != '')
-      $label = rex_translate($title);
+      $label = rex_i18n::translate($title);
     else
       $label = htmlspecialchars($name);
 
@@ -107,7 +106,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
         if(rex_sql::getQueryType($params) == 'SELECT')
         {
           $sql = rex_sql::factory();
-          $value_groups = $sql->getDBArray($params, MYSQL_NUM);
+          $value_groups = $sql->getDBArray($params, PDO::FETCH_NUM);
           foreach($value_groups as $value_group)
           {
             if(isset($value_group[1]))
@@ -127,11 +126,11 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
                strpos($value_group, 'translate:') !== 0)
             {
               $temp = explode(':', $value_group, 2);
-              $values[$temp[0]] = rex_translate($temp[1]);
+              $values[$temp[0]] = rex_i18n::translate($temp[1]);
             }
             else
             {
-              $values[$value_group] = rex_translate($value_group);
+              $values[$value_group] = rex_i18n::translate($value_group);
             }
           }
         }
@@ -229,11 +228,11 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
                strpos($value_group, 'translate:') !== 0)
             {
               $temp = explode(':', $value_group, 2);
-              $values[$temp[0]] = rex_translate($temp[1]);
+              $values[$temp[0]] = rex_i18n::translate($temp[1]);
             }
             else
             {
-              $values[$value_group] = rex_translate($value_group);
+              $values[$value_group] = rex_i18n::translate($value_group);
             }
           }
           $select->addOptions($values);
@@ -402,7 +401,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       {
         // ----- EXTENSION POINT
         list($field, $tag, $tag_attr, $id, $label, $labelIt) =
-          rex_register_extension_point( 'A62_CUSTOM_FIELD',
+          rex_extension::registerPoint( 'A62_CUSTOM_FIELD',
             array(
               $field,
               $tag,
@@ -507,7 +506,7 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
 
     // Werte im aktuellen Objekt speichern, dass zur Anzeige verwendet wird
     if(isset($params['activeItem']))
-      $params['activeItem']->setValue($fieldName, stripslashes($saveValue));
+      $params['activeItem']->setValue($fieldName, $saveValue);
   }
 }
 
@@ -653,14 +652,16 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
   $article = rex_sql::factory();
 //  $article->debugsql = true;
   $article->setTable($REX['TABLE_PREFIX']. 'article');
-  $article->setWhere('id='. $params['id'] .' AND clang='. $params['clang']);
+  $article->setWhere('id=:id AND clang=:clang', array(':id'=> $params['id'], ':clang' => $params['clang']));
 
   _rex_a62_metainfo_handleSave($params, $article, $sqlFields);
 
-  $article->update();
+  // do the save only when metafields are defined
+  if($article->hasValues())
+    $article->update();
 
   // Artikel nochmal mit den zusätzlichen Werten neu generieren
-  rex_generateArticleMeta($params['id'], $params['clang']);
+  rex_article_cache::generateMeta($params['id'], $params['clang']);
 
   return $params;
 }
@@ -688,11 +689,13 @@ function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
   $media = rex_sql::factory();
 //  $media->debugsql = true;
   $media->setTable($REX['TABLE_PREFIX']. 'media');
-  $media->setWhere('media_id='. $params['media_id']);
+  $media->setWhere('media_id=:mediaid', array(':mediaid' => $params['media_id']));
 
   _rex_a62_metainfo_handleSave($params, $media, $sqlFields);
 
-  $media->update();
+  // do the save only when metafields are defined
+  if($media->hasValues())
+    $media->update();
 
   return $params;
 }
@@ -763,11 +766,11 @@ function rex_a62_media_is_in_use($params)
       }
       if ($articles != '')
       {
-        $warning[] = $REX['I18N']->msg('minfo_media_in_use_art').'<br /><ul>'.$articles.'</ul>';
+        $warning[] = rex_i18n::msg('minfo_media_in_use_art').'<br /><ul>'.$articles.'</ul>';
       }
       if ($categories != '')
       {
-        $warning[] = $REX['I18N']->msg('minfo_media_in_use_cat').'<br /><ul>'.$categories.'</ul>';
+        $warning[] = rex_i18n::msg('minfo_media_in_use_cat').'<br /><ul>'.$categories.'</ul>';
       }
     }
   }
@@ -786,7 +789,7 @@ function rex_a62_media_is_in_use($params)
       }
       if ($media != '')
       {
-        $warning[] = $REX['I18N']->msg('minfo_media_in_use_med').'<br /><ul>'.$media.'</ul>';
+        $warning[] = rex_i18n::msg('minfo_media_in_use_med').'<br /><ul>'.$media.'</ul>';
       }
     }
   }

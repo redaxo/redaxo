@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -10,7 +10,7 @@
 $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
-//rex_title($REX['I18N']->msg('specials'),$subline);
+//rex_title(rex_i18n::msg('specials'),$subline);
 
 switch($subpage)
 {

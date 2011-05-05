@@ -6,7 +6,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -39,7 +39,7 @@ class rex_version_checker_notification extends rex_dashboard_notification
     }
     else
     {
-      $this->setMessage(rex_warning('Version-Checker: '. $REX['I18N']->msg('vchecker_connection_error')));
+      $this->setMessage(rex_warning('Version-Checker: '. rex_i18n::msg('vchecker_connection_error')));
     }
   }
 }

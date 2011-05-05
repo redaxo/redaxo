@@ -22,7 +22,7 @@ class rex_image {
     $this->img['file'] = basename($filepath);
     $this->img['filepath'] = $filepath;
     $this->img['quality'] = rex_config::get('image_manager', 'jpg_quality', 80);
-    $this->img['format'] = strtoupper(rex_ooMedia::_getExtension($this->img['filepath']));
+    $this->img['format'] = strtoupper(rex_file::extension($this->img['filepath']));
   }
 
   public function prepare()
@@ -137,7 +137,7 @@ class rex_image {
       return false;
 
     $this->sendHeader(array("Content-Length" => strlen($content)));
-    rex_send_resource($content, false, $lastModified);
+    rex_response::sendResource($content, false, $lastModified);
   }
 
   public function sendHeader($params = array())
@@ -163,7 +163,7 @@ class rex_image {
 
     // ----- EXTENSION POINT
     $sendfile = TRUE;
-    $sendfile = rex_register_extension_point('IMAGE_SEND', $sendfile,
+    $sendfile = rex_extension::registerPoint('IMAGE_SEND', $sendfile,
       array (
         // TODO Parameter anpassen
         'img' => $this->img,
@@ -225,7 +225,7 @@ class rex_image {
 
     // ----- EXTENSION POINT
     $sendfile = TRUE;
-    $sendfile = rex_register_extension_point('IMAGE_ERROR_SEND', $sendfile,
+    $sendfile = rex_extension::registerPoint('IMAGE_ERROR_SEND', $sendfile,
       array (
       	'img' => $this->img,
         'file' => $file,

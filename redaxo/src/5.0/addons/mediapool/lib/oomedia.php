@@ -3,7 +3,7 @@
 
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -60,7 +60,7 @@ class rex_ooMedia
    */
   static public function getMediaByName($filename)
   {
-    return rex_ooMedia :: getMediaByFileName($filename);
+    return self :: getMediaByFileName($filename);
   }
 
   /**
@@ -76,19 +76,19 @@ class rex_ooMedia
     $extlist_path = rex_path::generated('files/'.$extension.'.mextlist');
     if (!file_exists($extlist_path))
 		{
-    	rex_generateMediaExtensionList($extension);
+    	rex_media_cache::generateExtensionList($extension);
 		}
 
     $media = array();
 
     if (file_exists($extlist_path))
     {
-      $REX['MEDIA']['EXTENSION'][$extension] = json_decode(rex_get_file_contents($extlist_path), true);
+      $REX['MEDIA']['EXTENSION'][$extension] = rex_file::getCache($extlist_path);
 
       if (isset($REX['MEDIA']['EXTENSION'][$extension]) && is_array($REX['MEDIA']['EXTENSION'][$extension]))
       {
         foreach($REX['MEDIA']['EXTENSION'][$extension] as $filename)
-          $media[] = rex_ooMedia :: getMediaByFileName($filename);
+          $media[] = self :: getMediaByFileName($filename);
       }
     }
 
@@ -108,12 +108,12 @@ class rex_ooMedia
     $media_path = rex_path::generated('files/'.$name.'.media');
     if (!file_exists($media_path))
 		{
-    	rex_generateMedia($name);
+    	rex_media_cache::generate($name);
 		}
 
     if (file_exists($media_path))
     {
-      $REX['MEDIA']['FILENAME'][$name] = json_decode(rex_get_file_contents($media_path), true);
+      $REX['MEDIA']['FILENAME'][$name] = rex_file::getCache($media_path);
       $aliasMap = array(
         'media_id' => 'id',
         're_media_id' => 'parent_id',
@@ -298,42 +298,7 @@ class rex_ooMedia
    */
   public function getFormattedSize()
   {
-    return self::formatSize($this->getSize());
-  }
-
-  /**
-   * Formates the given filesize into a userfriendly form
-   */
-  static public function formatSize($size)
-  {
-    // Setup some common file size measurements.
-    $kb = 1024; // Kilobyte
-    $mb = 1024 * $kb; // Megabyte
-    $gb = 1024 * $mb; // Gigabyte
-    $tb = 1024 * $gb; // Terabyte
-
-    // If it's less than a kb we just return the size, otherwise we keep going until
-    // the size is in the appropriate measurement range.
-    if ($size < $kb)
-    {
-      return $size." Bytes";
-    }
-    elseif ($size < $mb)
-    {
-      return round($size / $kb, 2)." KBytes";
-    }
-    elseif ($size < $gb)
-    {
-      return round($size / $mb, 2)." MBytes";
-    }
-    elseif ($size < $tb)
-    {
-      return round($size / $gb, 2)." GBytes";
-    }
-    else
-    {
-      return round($size / $tb, 2)." TBytes";
-    }
+    return rex_file::formattedSize($this->getSize());
   }
 
   /**
@@ -355,7 +320,7 @@ class rex_ooMedia
       {
         // TODO Im Frontend gibts kein I18N
         // global $REX;
-        //$format = $REX['I18N']->msg('dateformat');
+        //$format = rex_i18n::msg('dateformat');
         $format = '%a %d. %B %Y';
       }
       return strftime($format, $date);
@@ -590,7 +555,7 @@ class rex_ooMedia
       );
     }
 
-    return in_array(rex_ooMedia :: _getExtension($filename), $imageExtensions);
+    return in_array(rex_file::extension($filename), $imageExtensions);
   }
 
   /**
@@ -599,10 +564,6 @@ class rex_ooMedia
   public function isInUse()
   {
     global $REX;
-
-    // Im Frontend gibts kein I18N
-    if(!isset($REX['I18N']) || !is_object($REX['I18N']))
-      $REX['I18N'] = rex_create_lang($REX['LANG']);
 
     $sql = rex_sql::factory();
     $filename = addslashes($this->getFileName());
@@ -632,7 +593,7 @@ class rex_ooMedia
 
     // deprecated since REX 4.3
     // ----- EXTENSION POINT
-    $query = rex_register_extension_point('OOMEDIA_IS_IN_USE_QUERY', $query,
+    $query = rex_extension::registerPoint('OOMEDIA_IS_IN_USE_QUERY', $query,
       array(
         'filename' => $this->getFileName(),
         'media' => $this,
@@ -643,7 +604,7 @@ class rex_ooMedia
     $res = $sql->getArray($query);
     if($sql->getRows() > 0)
     {
-      $warning[0] = $REX['I18N']->msg('pool_file_in_use_articles').'<br /><ul>';
+      $warning[0] = rex_i18n::msg('pool_file_in_use_articles').'<br /><ul>';
       foreach($res as $art_arr)
       {
         $aid = $art_arr['article_id'];
@@ -656,7 +617,7 @@ class rex_ooMedia
     }
 
     // ----- EXTENSION POINT
-    $warning = rex_register_extension_point('OOMEDIA_IS_IN_USE', $warning,
+    $warning = rex_extension::registerPoint('OOMEDIA_IS_IN_USE', $warning,
       array(
         'filename' => $this->getFileName(),
         'media' => $this,
@@ -718,16 +679,7 @@ class rex_ooMedia
    */
   public function getExtension()
   {
-    return $this->_getExtension($this->_name);
-  }
-
-  /**
-   * @access public
-   * @static
-   */
-  static public function _getExtension($filename)
-  {
-    return substr(strrchr($filename, "."), 1);
+    return rex_file::extension($this->_name);
   }
 
   /**
@@ -785,7 +737,7 @@ class rex_ooMedia
       $sql->setWhere('media_id='.$this->getId() . ' LIMIT 1');
       $success = $sql->update();
       if ($success)
-        rex_deleteCacheMedia($this->getFileName());
+        rex_media_cache::delete($this->getFileName());
       return $success;
     }
     else
@@ -793,7 +745,7 @@ class rex_ooMedia
       $sql->addGlobalCreateFields();
       $success = $sql->insert();
       if ($success)
-        rex_deleteCacheMediaList($this->getCategoryId());
+        rex_media_cache::deleteList($this->getCategoryId());
       return $success;
     }
   }
@@ -808,7 +760,7 @@ class rex_ooMedia
 
     if($filename != null)
     {
-      $OOMed = rex_ooMedia::getMediaByFileName($filename);
+      $OOMed = self::getMediaByFileName($filename);
       if($OOMed)
       {
         return $OOMed->delete();
@@ -821,10 +773,10 @@ class rex_ooMedia
 
       if($this->fileExists())
       {
-        unlink(rex_path::media($this->getFileName()));
+        rex_file::delete(rex_path::media($this->getFileName()));
       }
 
-      rex_deleteCacheMedia($this->getFileName());
+      rex_media_cache::delete($this->getFileName());
 
       return $sql->getError();
     }
@@ -880,7 +832,7 @@ class rex_ooMedia
 
   static public function isDocType($type)
   {
-    return in_array($type, rex_ooMedia :: getDocTypes());
+    return in_array($type, self :: getDocTypes());
   }
 
   // allowed image upload types
@@ -900,7 +852,7 @@ class rex_ooMedia
 
   static public function isImageType($type)
   {
-    return in_array($type, rex_ooMedia :: getImageTypes());
+    return in_array($type, self :: getImageTypes());
   }
 
   static public function compareImageTypes($type1, $type2)

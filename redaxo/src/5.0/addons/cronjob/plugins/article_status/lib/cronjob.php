@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -71,7 +71,7 @@ class rex_cronjob_article_status extends rex_cronjob
       else
         $status = $to['after'];
 
-      rex_articleStatus($sql->getValue('id'), $sql->getValue('clang'), $status);
+      rex_article_service::articleStatus($sql->getValue('id'), $sql->getValue('clang'), $status);
       $sql->next();
     }
     $this->setMessage('Updated articles: '. $rows);
@@ -81,6 +81,6 @@ class rex_cronjob_article_status extends rex_cronjob
   public function getTypeName()
   {
     global $REX;
-    return $REX['I18N']->msg('cronjob_article_status');
+    return rex_i18n::msg('cronjob_article_status');
   }
 }

@@ -6,7 +6,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -118,7 +118,7 @@ abstract class rex_dashboard_component_config
                       <input type="hidden" name="page" value="'. $REX['PAGE'] .'" />
                       '. $content .'
                       <p class="rex-form-col-a rex-form-submit">
-                        <input type="submit" class="rex-form-submit" name="'. $btnName .'" value="'. $REX['I18N']->msg('dashboard_component_save_config') .'" />
+                        <input type="submit" class="rex-form-submit" name="'. $btnName .'" value="'. rex_i18n::msg('dashboard_component_save_config') .'" />
                       </p>
                     </form>
                   </div>';

@@ -2,7 +2,7 @@
 /**
  * Getter Funktionen zum Handling von Superglobalen Variablen 
  * 
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -169,6 +169,7 @@ function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
  *  - real
  *  - object
  *  - array
+ *  - array[<type>], z.b. array[int]
  *  - '' (nicht casten)
  *  
  * Mögliche REDAXO-Typen sind:
@@ -267,8 +268,35 @@ function _rex_cast_var($var, $vartype, $default, $mode)
     // kein Cast, nichts tun
     case ''       : break;
     
-    // Evtl Typo im vartype, deshalb hier fehlermeldung!
-    default: trigger_error('Unexpected vartype "'. $vartype .'" in _rex_cast_var()!', E_USER_ERROR); exit(); 
+    default:
+      // check for array with generic type
+      if(strpos($vartype, 'array[') === 0)
+      {
+        if(empty($var))
+          $var = array();
+        else 
+          $var = (array) $var;
+
+        // check if every element in the array is from the generic type
+        $matches = array();
+        if(preg_match('@array\[([^\]]*)\]@', $vartype, $matches))
+        {
+          foreach($var as $key => $value)
+          {
+            try {
+              $var[$key] = _rex_cast_var($value, $matches[1], '', 'found');
+            } catch (rexException $e) {
+              // Evtl Typo im vartype, mit urspr. typ als fehler melden
+              throw new rexException('Unexpected vartype "'. $vartype .'" in _rex_cast_var()!'); 
+            }
+          }
+        }
+      }
+      else
+      {
+        // Evtl Typo im vartype, deshalb hier fehlermeldung!
+        throw new rexException('Unexpected vartype "'. $vartype .'" in _rex_cast_var()!'); 
+      }
   }
   
   return $var;

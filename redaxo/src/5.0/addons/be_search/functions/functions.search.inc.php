@@ -25,24 +25,24 @@ function rex_be_search_extensions_handler($params)
 
   $page = $params['subject'];
 
-  rex_register_extension('PAGE_HEADER', 'rex_be_search_css_add');
+  rex_extension::register('PAGE_HEADER', 'rex_be_search_css_add');
 
   // Include Extensions
   if($page == 'structure')
   {
     require_once rex_path::addon('be_search', 'extensions/extension_search_structure.inc.php');
-    rex_register_extension('PAGE_STRUCTURE_HEADER', 'rex_be_search_structure');
+    rex_extension::register('PAGE_STRUCTURE_HEADER', 'rex_be_search_structure');
   }
   elseif($page == 'content')
   {
     require_once rex_path::addon('be_search', 'extensions/extension_search_structure.inc.php');
-    rex_register_extension('PAGE_CONTENT_HEADER', 'rex_be_search_structure');
+    rex_extension::register('PAGE_CONTENT_HEADER', 'rex_be_search_structure');
   }
   elseif ($page == 'mediapool')
   {
     require_once rex_path::addon('be_search', 'extensions/extension_search_mpool.inc.php');
-    rex_register_extension('MEDIA_LIST_TOOLBAR', 'rex_be_search_mpool');
-    rex_register_extension('MEDIA_LIST_QUERY', 'rex_be_search_mpool_query');
+    rex_extension::register('MEDIA_LIST_TOOLBAR', 'rex_be_search_mpool');
+    rex_extension::register('MEDIA_LIST_QUERY', 'rex_be_search_mpool_query');
   }
 }
 

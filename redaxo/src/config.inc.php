@@ -10,8 +10,8 @@ if (isset($REX))
   rex_path::init($REX['HTDOCS_PATH'], $REX['VERSION_FOLDER']);
 
   if($REX['REDAXO'])
-  	include rex_path::src('core/index_be.inc.php');
+  	include rex_path::core('index_be.inc.php');
   else
-  	include rex_path::src('core/index_fe.inc.php');
+  	include rex_path::core('index_fe.inc.php');
 
 }

@@ -2,7 +2,7 @@
 
 /**
  * Packages loading
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -37,17 +37,17 @@ foreach($packageOrder as $addonName)
     // add addon path for fragment loading
     if(is_readable($addonsFolder .'fragments'))
     {
-      rex_fragment::addDirectory($addonsFolder .'fragments/');
+      rex_fragment::addDirectory($addonsFolder .'fragments'.DIRECTORY_SEPARATOR);
     }
     // add addon path for class-loading
     if(is_readable($addonsFolder .'lib'))
     {
-      rex_autoload::getInstance()->addDirectory($addonsFolder .'lib/');
+      rex_autoload::addDirectory($addonsFolder .'lib'.DIRECTORY_SEPARATOR);
     }
     // add addon path for i18n
-    if(isset($REX['I18N']) && is_readable($addonsFolder .'lang'))
+    if(is_readable($addonsFolder .'lang'))
     {
-      $REX['I18N']->appendFile($addonsFolder .'lang');
+      rex_i18n::addDirectory($addonsFolder .'lang');
     }
     // load package infos
     rex_addonManager::loadPackage($addonName);
@@ -63,17 +63,17 @@ foreach($packageOrder as $addonName)
       // add plugin path for fragment loading
       if(is_readable($pluginsFolder .'fragments'))
       {
-        rex_fragment::addDirectory($pluginsFolder .'fragments/');
+        rex_fragment::addDirectory($pluginsFolder .'fragments'.DIRECTORY_SEPARATOR);
       }
       // add plugin path for class-loading
       if(is_readable($pluginsFolder .'lib'))
       {
-        rex_autoload::getInstance()->addDirectory($pluginsFolder .'lib/');
+        rex_autoload::addDirectory($pluginsFolder .'lib'.DIRECTORY_SEPARATOR);
       }
       // add plugin path for i18n
-      if(isset($REX['I18N']) && is_readable($pluginsFolder .'lang'))
+      if(is_readable($pluginsFolder .'lang'))
       {
-        $REX['I18N']->appendFile($pluginsFolder .'lang');
+        rex_i18n::addDirectory($pluginsFolder .'lang');
       }
       // load package infos
       rex_pluginManager::loadPackage($addonName, $pluginName);
@@ -112,10 +112,4 @@ foreach($packageOrder as $addonName)
 }
 
 // ----- all addons configs included
-rex_register_extension_point('ADDONS_INCLUDED');
-
-// ----- Init REX-Vars
-foreach($REX['VARIABLES'] as $key => $value)
-{
-  $REX['VARIABLES'][$key] = new $value;
-}
+rex_extension::registerPoint('ADDONS_INCLUDED');

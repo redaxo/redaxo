@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -32,7 +32,7 @@ class rex_cronjob_form extends rex_form
     global $REX;
     $el = $this->getElement($this->mainFieldset,'name');
     if ($el->getValue() == '') {
-      return $REX['I18N']->msg('cronjob_error_no_name');
+      return rex_i18n::msg('cronjob_error_no_name');
     }
     return true;
   }
@@ -61,12 +61,12 @@ class rex_cronjob_form_interval_element extends rex_form_element
     $select->setStyle('width:120px');
     $select->setName($name);
     $select->setSize(1);
-    $select->addOption($REX['I18N']->msg('cronjob_interval_minutes'), 'i');
-    $select->addOption($REX['I18N']->msg('cronjob_interval_hour'),    'h');
-    $select->addOption($REX['I18N']->msg('cronjob_interval_day'),     'd');
-    $select->addOption($REX['I18N']->msg('cronjob_interval_week'),    'w');
-    $select->addOption($REX['I18N']->msg('cronjob_interval_month'),   'm');
-    $select->addOption($REX['I18N']->msg('cronjob_interval_year'),    'y');
+    $select->addOption(rex_i18n::msg('cronjob_interval_minutes'), 'i');
+    $select->addOption(rex_i18n::msg('cronjob_interval_hour'),    'h');
+    $select->addOption(rex_i18n::msg('cronjob_interval_day'),     'd');
+    $select->addOption(rex_i18n::msg('cronjob_interval_week'),    'w');
+    $select->addOption(rex_i18n::msg('cronjob_interval_month'),   'm');
+    $select->addOption(rex_i18n::msg('cronjob_interval_year'),    'y');
     $select->setSelected($value[2]);
 
     return '

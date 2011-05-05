@@ -8,7 +8,7 @@
  * Framework for accessing vital parts of your website.
  * This framework can be used in Modules, Templates and PHP-Slices!
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -179,16 +179,18 @@ class rex_ooArticleSlice
   /**
    * Gibt den Slice formatiert zurück
    * @since 4.1 - 29.05.2008
+   * 
+   * @deprecated 5.0
+   * 
+   * @see rex_article#getSlice()
    */
   public function getSlice()
   {
-  	// TODO:: ------------------- .' AND revision='.$this->revision
     $art = new rex_article();
     $art->setArticleId($this->getArticleId());
     $art->setClang($this->getClang());
-    $art->getSlice = $this->getId();
-    $art->setEval(true);
-    return @$art->replaceLinks( $art->getArticle() );
+    $art->setSliceRevision($this->getRevision());
+    return $art->getSlice($this->getId());
   }
 
   static protected function _getSliceWhere($where, $table = null, $fields = null, $default = null)

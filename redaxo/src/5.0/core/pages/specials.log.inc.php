@@ -2,7 +2,7 @@
 
 /**
  * Verwaltung der Content Sprachen
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -17,15 +17,19 @@ if ($func == 'delLog')
 {
   // close logger, to free remaining file-handles to syslog
   // so we can safely delete the file
-  rex_logger::getInstance()->close();
-  if(unlink($logFile))
+  rex_logger::unregister();
+
+  if(rex_file::delete($logFile))
   {
-    $info = $REX['I18N']->msg('syslog_deleted');
+    $info = rex_i18n::msg('syslog_deleted');
   }
   else
   {
-    $warning = $REX['I18N']->msg('syslog_delete_error');
+    $warning = rex_i18n::msg('syslog_delete_error');
   }
+
+  rex_logger::register();
+
 } else if ($func == 'readlog')
 {
   // clear output-buffer
@@ -33,7 +37,7 @@ if ($func == 'delLog')
 
   echo '<html><head></head><body>';
 
-  // TODO use rex_send_file (would load entire file in the php-memory!) ?
+  // use rex_response::sendFile() (would load entire file in the php-memory!) ?
   readfile($logFile);
 
   echo '
@@ -59,5 +63,5 @@ if ($warning != '')
   <input type="hidden" name="page" value="<?php echo $page; ?>" />
   <input type="hidden" name="subpage" value="<?php echo $subpage; ?>" />
   <input type="hidden" name="func" value="delLog" />
-  <input type="submit" name="del_btn" value="<?php echo $REX['I18N']->msg('syslog_delete'); ?>" onclick="return confirm('<?php echo $REX['I18N']->msg('delete'); ?>?')">
+  <input type="submit" name="del_btn" value="<?php echo rex_i18n::msg('syslog_delete'); ?>" onclick="return confirm('<?php echo rex_i18n::msg('delete'); ?>?')">
 </form>

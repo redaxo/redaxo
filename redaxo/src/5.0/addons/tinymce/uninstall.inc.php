@@ -10,7 +10,7 @@
  * @author Dave Holloway
  * @author <a href="http://www.GN2-Netwerk.de">www.GN2-Netwerk.de</a>
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 	
@@ -28,7 +28,7 @@
 		{
 			if(!rex_deleteDir($addon_filesdir, true))
 			{
-				$REX['ADDON']['installmsg'][$rxa_tinymce['name']] = 'Verzeichnis '.$addon_filesdir.' konnte nicht gelöscht werden!';
+				$REX['ADDON']['installmsg'][$rxa_tinymce['name']] = 'Verzeichnis '.$addon_filesdir.' konnte nicht gelï¿½scht werden!';
 				$REX['ADDON']['install'][$rxa_tinymce['name']] = 1;	
 			}
 		}

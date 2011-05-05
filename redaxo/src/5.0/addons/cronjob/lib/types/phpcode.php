@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -35,7 +35,7 @@ class rex_cronjob_phpcode extends rex_cronjob
   public function getTypeName()
   {
     global $REX;
-    return $REX['I18N']->msg('cronjob_type_phpcode');
+    return rex_i18n::msg('cronjob_type_phpcode');
   }
 
   public function getParamFields()
@@ -44,7 +44,7 @@ class rex_cronjob_phpcode extends rex_cronjob
 
   	return array(
   	  array(
-        'label' => $REX['I18N']->msg('cronjob_type_phpcode'),
+        'label' => rex_i18n::msg('cronjob_type_phpcode'),
         'name'  => 'code',
         'type'  => 'textarea',
         'attributes' => array('rows' => 20)

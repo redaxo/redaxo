@@ -14,7 +14,7 @@ $mypage = 'image_manager';
 
 $REX['PERM'][] = 'image_manager[]';
 
-rex_register_extension('ADDONS_INCLUDED','rex_image_manager_init');
+rex_extension::register('ADDONS_INCLUDED','rex_image_manager_init');
 
 function rex_image_manager_init()
 {
@@ -47,40 +47,40 @@ if($REX['REDAXO'])
 	// delete thumbnails on mediapool changes
 	if(!function_exists('rex_image_manager_ep_mediaupdated'))
 	{
-		rex_register_extension('MEDIA_UPDATED', 'rex_image_manager_ep_mediaupdated');
+		rex_extension::register('MEDIA_UPDATED', 'rex_image_manager_ep_mediaupdated');
 		function rex_image_manager_ep_mediaupdated($params){
 			rex_image_cacher::deleteCache($params["filename"]);
 		}
 	}
 
-	$descPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_desc'), array(
+	$descPage = new rex_be_page(rex_i18n::msg('imanager_subpage_desc'), array(
       'page'=>'image_manager',
       'subpage'=>''
       )
       );
       $descPage->setHref('index.php?page=image_manager');
 
-      $confPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_types'), array(
+      $confPage = new rex_be_page(rex_i18n::msg('imanager_subpage_types'), array(
       'page'=>'image_manager',
       'subpage'=>array('types','effects')
       )
       );
       $confPage->setHref('index.php?page=image_manager&subpage=types');
 
-      $settingsPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_config'), array(
+      $settingsPage = new rex_be_page(rex_i18n::msg('imanager_subpage_config'), array(
       'page'=>'image_manager',
       'subpage'=>'settings'
       )
       );
       $settingsPage->setHref('index.php?page=image_manager&subpage=settings');
 
-      $ccPage = new rex_be_page($REX['I18N']->msg('imanager_subpage_clear_cache'), array(
+      $ccPage = new rex_be_page(rex_i18n::msg('imanager_subpage_clear_cache'), array(
       'page'=>'image_manager',
       'subpage'=>'clear_cache'
       )
       );
       $ccPage->setHref('index.php?page=image_manager&subpage=clear_cache');
-      $ccPage->setLinkAttr('onclick', 'return confirm(\''.$REX['I18N']->msg('imanager_type_cache_delete').' ?\')');
+      $ccPage->setLinkAttr('onclick', 'return confirm(\''.rex_i18n::msg('imanager_type_cache_delete').' ?\')');
 
       $REX['ADDON']['pages'][$mypage] = array (
       $descPage, $confPage, $settingsPage, $ccPage

@@ -7,7 +7,7 @@
  *   - field    => Feld, das ausgegeben werden soll
  *
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -38,7 +38,7 @@ class rex_var_config extends rex_var
     foreach ($matches as $match)
     {
     	list ($param_str, $args)   = $match;
-      list ($field, $args)       = $this->extractArg('field', $args, '');
+      $field       = $this->getArg('field', $args, '');
 
       $tpl = '';
       $varname1 = '$REX[\''. addslashes($field) .'\']';

@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -54,7 +54,7 @@ class rex_cronjob_phpcallback extends rex_cronjob
   public function getTypeName()
   {
     global $REX;
-    return $REX['I18N']->msg('cronjob_type_phpcallback');
+    return rex_i18n::msg('cronjob_type_phpcallback');
   }
   
   public function getParamFields()
@@ -63,10 +63,10 @@ class rex_cronjob_phpcallback extends rex_cronjob
 
 		return array(
   		array(
-        'label' => $REX['I18N']->msg('cronjob_type_phpcallback'),
+        'label' => rex_i18n::msg('cronjob_type_phpcallback'),
         'name'  => 'callback',
         'type'  => 'text',
-        'notice' => $REX['I18N']->msg('cronjob_examples') .': foo(), foo(1, \'string\'), foo::bar()'
+        'notice' => rex_i18n::msg('cronjob_examples') .': foo(), foo(1, \'string\'), foo::bar()'
       )
     );
 	}

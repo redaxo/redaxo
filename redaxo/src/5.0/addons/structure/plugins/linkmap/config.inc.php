@@ -5,7 +5,7 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -14,7 +14,7 @@ $mypage = 'linkmap';
 if ($REX['REDAXO'])
 {
   // $REX['ADDON']['rxid'][$mypage] = '62';
-  $page = new rex_be_page_popup($REX['I18N']->msg('linkmap'), '', array('page' => 'linkmap'));
+  $page = new rex_be_page_popup(rex_i18n::msg('linkmap'), '', array('page' => 'linkmap'));
   $page->setHidden(true);
   $page->setRequiredPermissions('hasStructurePerm');
 
@@ -22,7 +22,7 @@ if ($REX['REDAXO'])
 
   if($REX["USER"])
   {
-    rex_register_extension('PAGE_HEADER', function($params){
+    rex_extension::register('PAGE_HEADER', function($params){
       $params['subject'] .= "\n  ".
         '<script type="text/javascript" src="'. rex_path::pluginAssets('structure', 'linkmap', 'linkmap.js', rex_path::RELATIVE) .'"></script>';
 
@@ -31,4 +31,4 @@ if ($REX['REDAXO'])
   }
 }
 
-$REX['VARIABLES'][] = 'rex_var_link';
+rex_var::registerVar('rex_var_link');

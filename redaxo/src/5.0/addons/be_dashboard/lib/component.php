@@ -6,7 +6,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -133,7 +133,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
                 </div>
                 <div class="rex-dashboard-component-footer">
                   <p>
-                    '. $REX['I18N']->msg('dashboard_component_lastupdate') .'
+                    '. rex_i18n::msg('dashboard_component_lastupdate') .'
                     %%cachetime%%
                   </p>
                 </div>

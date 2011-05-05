@@ -2,7 +2,7 @@
 
 /**
  * Dient zur Ausgabe des Sprachen-blocks
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -23,7 +23,7 @@ if ($num_clang>1)
   {
      $lang = array();
      $lang['id'] = $key;
-     $lang['name'] = rex_translate($val);
+     $lang['name'] = rex_i18n::translate($val);
 
      $lang['class'] = '';
      if($i == 1)
@@ -45,7 +45,6 @@ if ($num_clang>1)
 
        $lang['link_class'] = $class;
        $lang['url'] = 'index.php?page='. $REX["PAGE"] .'&amp;clang='. $key . $sprachen_add .'&amp;ctype='. $ctype;
-//      echo '<a'.$class.' href=""'. rex_tabindex() .'>'. $val .'</a>';
      }
      $i++;
      $languages[] = $lang;

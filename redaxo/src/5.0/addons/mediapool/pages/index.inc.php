@@ -2,7 +2,7 @@
 
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -65,7 +65,7 @@ $gc->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'media_category WHERE id='. 
 if ($gc->getRows() != 1)
 {
   $rex_file_category = 0;
-  $rex_file_category_name = $REX['I18N']->msg('pool_kats_no');
+  $rex_file_category_name = rex_i18n::msg('pool_kats_no');
 }else
 {
   $rex_file_category_name = $gc->getValue('name');
@@ -79,14 +79,14 @@ if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('media[0]')) $PERMALL = tru
 
 // -------------- Header
 $subline = array(
-  array('', $REX['I18N']->msg('pool_file_list')),
-  array('upload', $REX['I18N']->msg('pool_file_insert')),
+  array('', rex_i18n::msg('pool_file_list')),
+  array('upload', rex_i18n::msg('pool_file_insert')),
 );
 
 if($PERMALL)
 {
-  $subline[] = array('structure', $REX['I18N']->msg('pool_cat_list'));
-  $subline[] = array('sync', $REX['I18N']->msg('pool_sync_files'));
+  $subline[] = array('structure', rex_i18n::msg('pool_cat_list'));
+  $subline[] = array('sync', rex_i18n::msg('pool_sync_files'));
 }
 
 // Arg Url an Menulinks anhaengen
@@ -97,13 +97,13 @@ foreach($subline as $key => $item)
 }
 
 // ----- EXTENSION POINT
-$subline = rex_register_extension_point('PAGE_MEDIAPOOL_MENU', $subline,
+$subline = rex_extension::registerPoint('PAGE_MEDIAPOOL_MENU', $subline,
   array(
     'subpage' => $subpage,
   )
 );
 
-$title = $REX['I18N']->msg('pool_media');
+$title = rex_i18n::msg('pool_media');
 rex_title($title, $subline);
 
 // -------------- Messages

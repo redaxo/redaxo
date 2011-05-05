@@ -10,14 +10,14 @@
  * @author Dave Holloway
  * @author <a href="http://www.GN2-Netwerk.de">www.GN2-Netwerk.de</a>
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
 	// Addon-Konfiguration
 	include dirname( __FILE__) . '/config.inc.php';
 
-	// Schreibberechtigung für Konfigurationsetzen
+	// Schreibberechtigung fï¿½r Konfigurationsetzen
 	@chmod(dirname( __FILE__) . '/config.inc.php', 0755);
 
 	// Install ok

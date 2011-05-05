@@ -5,7 +5,7 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -19,6 +19,6 @@ Kategorien und Medien im Backend.
 
 <p>
 Die Suchergebnisse beziehen sich immer auf die aktuell
-ausgewählte Kategorie und deren Unterkategorien. Ausserdem werden
-die Berechtigungen berücksichtigt
+ausgewï¿½hlte Kategorie und deren Unterkategorien. Ausserdem werden
+die Berechtigungen berï¿½cksichtigt
 </p>

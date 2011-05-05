@@ -2,16 +2,13 @@
 
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
 // ----- ob caching start für output filter
 ob_start();
 ob_implicit_flush(0);
-
-// ----------------- MAGIC QUOTES CHECK
-// require rex_path::src('core/functions/function_rex_mquotes.inc.php');
 
 // --------------------------- ini settings
 
@@ -25,7 +22,7 @@ ob_implicit_flush(0);
 include rex_path::src('config/master.inc.php');
 
 // ----- INCLUDE ADDONS
-include_once rex_path::src('core/packages.inc.php');
+include_once rex_path::core('packages.inc.php');
 
 if($REX['SETUP'])
 {
@@ -53,5 +50,8 @@ if($REX['SETUP'])
 $CONTENT = ob_get_contents();
 ob_end_clean();
 
+// trigger api functions
+rex_api_function::handleCall();
+
 // ----- inhalt ausgeben
-rex_send_article($REX['ARTICLE'], $CONTENT, 'frontend');
+rex_response::sendArticle($REX['ARTICLE'], $CONTENT, 'frontend');

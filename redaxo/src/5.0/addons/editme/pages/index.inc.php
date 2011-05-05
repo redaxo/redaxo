@@ -5,7 +5,7 @@
  *
  * @author jan.kristinus@redaxo.de Jan Kristinus
  * 
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 

@@ -4,7 +4,7 @@
  * Klasse regelt den Zugriff auf Artikelinhalte.
  * Alle benötigten Daten werden von der DB bezogen.
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -22,16 +22,15 @@ class rex_article_base
     $category_id,
     $article_id,
     $slice_id,
+    $getSlice,
     $mode,
     $function,
 
     $ctype,
     $clang,
-    //$getSlice,
 
     $eval,
 
-    $article_revision,
     $slice_revision,
 
     $ARTICLE;
@@ -44,18 +43,14 @@ class rex_article_base
     $this->template_id = 0;
     $this->ctype = -1; // zeigt alles an
     $this->slice_id = 0;
+    $this->getSlice = 0;
 
     $this->mode = "view";
     $this->eval = FALSE;
 
-    $this->article_revision = 0;
     $this->slice_revision = 0;
 
     $this->debug = FALSE;
-
-    $this->ARTICLE = rex_sql::factory();
-    if($this->debug)
-      $this->ARTICLE->debugsql = 1;
 
     if($clang !== null)
       $this->setCLang($clang);
@@ -63,7 +58,7 @@ class rex_article_base
       $this->setClang($REX['CUR_CLANG']);
 
     // ----- EXTENSION POINT
-    rex_register_extension_point('ART_INIT', '',
+    rex_extension::registerPoint('ART_INIT', '',
       array (
           'article' => &$this,
           'article_id' => $article_id,
@@ -73,6 +68,17 @@ class rex_article_base
 
     if ($article_id !== null)
       $this->setArticleId($article_id);
+  }
+
+  protected function getSqlInstance()
+  {
+    if(!is_object($this->ARTICLE))
+    {
+      $this->ARTICLE = rex_sql::factory();
+      if($this->debug)
+        $this->ARTICLE->debugsql = 1;
+    }
+    return $this->ARTICLE;
   }
 
   public function setSliceRevision($sr)
@@ -112,9 +118,10 @@ class rex_article_base
 
     // ---------- select article
     $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE ".$REX['TABLE_PREFIX']."article.id='$article_id' AND clang='".$this->clang."'";
-    $this->ARTICLE->setQuery($qry);
+    $sql = $this->getSqlInstance();
+    $sql->setQuery($qry);
 
-    if ($this->ARTICLE->getRows() == 1)
+    if ($sql->getRows() == 1)
     {
       $this->template_id = $this->getValue('template_id');
       $this->category_id = $this->getValue('category_id');
@@ -174,7 +181,7 @@ class rex_article_base
     global $REX;
     $value = $this->correctValue($value);
 
-    return $this->ARTICLE->getValue($value);
+    return $this->getSqlInstance()->getValue($value);
   }
 
   public function getValue($value)
@@ -195,24 +202,18 @@ class rex_article_base
 
   public function hasValue($value)
   {
-    return $this->ARTICLE->hasValue($this->correctValue($value));
+    return $this->getSqlInstance()->hasValue($this->correctValue($value));
   }
 
   /**
    * Outputs a slice
-   * 
+   *
    * @param rex_sql $artDataSql A rex_sql instance containing all slice and module data
    * @param integer $moduleIdToAdd The id of the module, which was selected using the ModuleSelect
    */
   protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
   {
-    /*
-    if($this->getSlice)
-    {
-      foreach($RE_CONTS as $k => $v)
-      	$I_ID = $k;
-    }
-    */
+    global $REX;
 
     $output = $this->replaceVars($artDataSql, $artDataSql->getValue($REX['TABLE_PREFIX'].'module.output'));
 
@@ -220,23 +221,50 @@ class rex_article_base
   }
 
 
+  /**
+   * Returns the content of the given slice-id.
+   *
+   * @param integer $sliceId A article-slice id
+   */
+  public function getSlice($sliceId)
+  {
+    $oldEval = $this->eval;
+    $this->setEval(true);
+
+    $this->getSlice = $sliceId;
+    $sliceContent = $this->getArticle();
+    $this->getSlice = 0;
+
+    $this->setEval($oldEval);
+    return $this->replaceLinks($sliceContent);
+  }
+
+
+  /**
+   * Returns the content of the article of the given ctype. If no ctype is given, content of all ctypes is returned.
+   *
+   * @param integer $curctype The ctype to fetch, or -1 for all ctypes
+   */
   public function getArticle($curctype = -1)
   {
     global $REX;
 
     $this->ctype = $curctype;
 
-    if ($this->article_id == 0)
+    if ($this->article_id == 0 && $this->getSlice == 0)
     {
-      return $REX['I18N']->msg('no_article_available');
+      return rex_i18n::msg('no_article_available');
+    }
+
+    $articleLimit = '';
+    if($this->article_id != 0) {
+      $articleLimit = ' AND '. $REX['TABLE_PREFIX']."article_slice.article_id=".$this->article_id;
     }
 
     $sliceLimit = '';
-    /*
-    if ($this->getSlice) {
-      $sliceLimit = " AND ".$REX['TABLE_PREFIX']."article_slice.id = '" . $this->getSlice . "' ";
+    if ($this->getSlice != 0) {
+      $sliceLimit = " AND ".$REX['TABLE_PREFIX']."article_slice.id = '" . ((int) $this->getSlice) . "' ";
     }
-    */
 
     // ----- start: article caching
     ob_start();
@@ -250,36 +278,36 @@ class rex_article_base
             LEFT JOIN ".$REX['TABLE_PREFIX']."module ON ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."module.id
             LEFT JOIN ".$REX['TABLE_PREFIX']."article ON ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id
             WHERE
-              ".$REX['TABLE_PREFIX']."article_slice.article_id='".$this->article_id."' AND
               ".$REX['TABLE_PREFIX']."article_slice.clang='".$this->clang."' AND
               ".$REX['TABLE_PREFIX']."article.clang='".$this->clang."' AND
               ".$REX['TABLE_PREFIX']."article_slice.revision='".$this->slice_revision."'
+              ". $articleLimit ."
               ". $sliceLimit ."
               ORDER BY ".$REX['TABLE_PREFIX']."article_slice.prior";
 
     $artDataSql = rex_sql::factory();
     if($this->debug)
       $artDataSql->debugsql = 1;
-      
+
     $artDataSql->setQuery($sql);
 
     // pre hook
-    // TODO make preArticle return the article-content
-    $this->preArticle();
+    $articleContent = '';
+    $articleContent = $this->preArticle($articleContent, $module_id);
 
     // ---------- SLICES AUSGEBEN
-    $articleContent = "";
+
     $prevCtype = null;
-    
     $artDataSql->reset();
-    while($artDataSql->hasNext())
+    $rows = $artDataSql->getRows();
+    for($i = 0; $i < $rows; ++$i)
     {
       $sliceId       = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
       $sliceCtypeId  = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
       $sliceModuleId = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
-      
+
       // ----- ctype unterscheidung
-      if ($this->mode != "edit" && $i == 0)
+      if ($this->mode != "edit" && !$this->eval && $i == 0)
         $articleContent = "<?php if (\$this->ctype == '". $sliceCtypeId ."' || (\$this->ctype == '-1')) { \n";
 
       // ------------- EINZELNER SLICE - AUSGABE
@@ -290,7 +318,7 @@ class rex_article_base
       // --------------- ENDE EINZELNER SLICE
 
       // --------------- EP: SLICE_SHOW
-      $slice_content = rex_register_extension_point(
+      $slice_content = rex_extension::registerPoint(
         'SLICE_SHOW',
         $slice_content,
         array(
@@ -311,7 +339,7 @@ class rex_article_base
       }
 
       // ----- zwischenstand: ctype .. wenn ctype neu dann if
-      if ($this->mode != "edit" && isset($prevCtype) && $sliceCtypeId != $prevCtype)
+      if ($this->mode != "edit" && !$this->eval && isset($prevCtype) && $sliceCtypeId != $prevCtype)
       {
         $articleContent .= "\n } if(\$this->ctype == '".$sliceCtypeId."' || \$this->ctype == '-1'){ \n";
       }
@@ -321,7 +349,7 @@ class rex_article_base
     }
 
     // ----- end: ctype unterscheidung
-    if ($this->mode != "edit" && $i>0) $articleContent .= "\n } ?>";
+    if ($this->mode != "edit" && !$this->eval && $i>0) $articleContent .= "\n } ?>";
 
 
     // ----- post hook
@@ -339,15 +367,19 @@ class rex_article_base
 
   /**
    * Method which gets called, before the slices of the article are processed
+   *
+   * @param string $articleContent The content of the article
+   * @param integer $module_id A module id
    */
-  protected function preArticle()
+  protected function preArticle($articleContent, $module_id)
   {
     // nichts tun
+    return $articleContent;
   }
 
   /**
    * Method which gets called, after all slices have been processed
-   * 
+   *
    * @param string $articleContent The content of the article
    * @param integer $module_id A module id
    */
@@ -419,7 +451,7 @@ class rex_article_base
     $sliceId = $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
     $flushValues = false;
 
-    foreach($REX['VARIABLES'] as $var)
+    foreach(rex_var::getVars() as $var)
     {
       if ($this->mode == 'edit')
       {

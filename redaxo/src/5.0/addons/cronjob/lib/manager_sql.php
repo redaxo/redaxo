@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -127,7 +127,7 @@ class rex_cronjob_manager_sql
       }
       else
       {
-        rex_register_extension('OUTPUT_FILTER_CACHE',
+        rex_extension::register('OUTPUT_FILTER_CACHE',
           function($params)
           {
             $params['manager']->tryExecuteSql($params['sql'], true, true);

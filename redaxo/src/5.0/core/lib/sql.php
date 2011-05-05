@@ -5,7 +5,7 @@
  * @version svn:$Id$
  */
 // see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
-class rex_sql
+class rex_sql implements Iterator
 {
   public
     $debugsql, // debug schalter
@@ -50,12 +50,13 @@ class rex_sql
     {
       if(!isset(self::$pdo[$DBID]))
       {
-        $config = sfYaml::load(rex_path::backend('src/dbconfig.yml'));
+        $config = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
         $conn = self::createConnection(
-          $config['DB'.$DBID]['host'],
-          $config['DB'.$DBID]['name'],
-          $config['DB'.$DBID]['login'],
-          $config['DB'.$DBID]['password']
+          $config['DB'][$DBID]['host'],
+          $config['DB'][$DBID]['name'],
+          $config['DB'][$DBID]['login'],
+          $config['DB'][$DBID]['password'],
+          $config['DB'][$DBID]['persistent']
         );
         self::$pdo[$DBID] = $conn;
 
@@ -173,10 +174,14 @@ class rex_sql
    * Setzt Debugmodus an/aus
    *
    * @param $debug Debug TRUE/FALSE
+   *
+   * @return rex_sql the current rex_sql object
    */
   public function setDebug($debug = TRUE)
   {
 	  $this->debugsql = $debug;
+
+	  return $this;
   }
 
   /**
@@ -194,14 +199,18 @@ class rex_sql
   /**
    * Executes the prepared statement with the given input parameters
    * @param array $params Array of input parameters
+   *
+   * @return boolean True on success, False on error
    */
   public function execute(array $params)
   {
-    $this->stmt->execute($params);
+    return $this->stmt->execute($params);
   }
 
   /**
-   * Executes the given sql-query (un-prepared)
+   * Executes the given sql-query.
+   *
+   * If parameters will be provided, a prepared statement will be executed.
    *
    * @param $query The sql-query
    * @return boolean true on success, otherwise false
@@ -260,21 +269,27 @@ class rex_sql
    * Setzt den Tabellennamen
    *
    * @param $table Tabellenname
+   * @return rex_sql the current rex_sql object
    */
   public function setTable($table)
   {
     $this->table = $table;
+
+    return $this;
   }
 
   /**
-   * Setzt den Wert eine Spalte
+   * Set the value of a column
    *
-   * @param $feldname Spaltenname
-   * @param $wert Wert
+   * @param $colName Name of the column
+   * @param $value The value
+   * @return rex_sql the current rex_sql object
    */
-  public function setValue($feldname, $wert)
+  public function setValue($colName, $value)
   {
-    $this->values[$feldname] = $wert;
+    $this->values[$colName] = $value;
+
+    return $this;
   }
 
   /**
@@ -282,18 +297,26 @@ class rex_sql
    *
    * @param $valueArray Ein Array von Werten
    * @param $wert Wert
+   * @return rex_sql the current rex_sql object
    */
-  public function setValues($valueArray)
+  public function setValues(array $valueArray)
   {
-    if(is_array($valueArray))
+    foreach($valueArray as $name => $value)
     {
-      foreach($valueArray as $name => $value)
-      {
-        $this->setValue($name, $value);
-      }
-      return true;
+      $this->setValue($name, $value);
     }
-    return false;
+
+    return $this;
+  }
+
+  /**
+   * Returns whether values are set inside this rex_sql object
+   *
+   * @return boolean True if value isset and not null, otherwise False
+   */
+  public function hasValues()
+  {
+    return !empty($this->values);
   }
 
   /**
@@ -317,13 +340,16 @@ class rex_sql
    * Setzt die WHERE Bedienung der Abfrage
    *
    * example 1:
-   *  	$sql->setWhere(array('id' => 3, 'field' => ''));
+   *  	$sql->setWhere(array('id' => 3, 'field' => '')); // results in id = 3 AND field = ''
+   *  	$sql->setWhere(array(array('id' => 3, 'field' => ''))); // results in id = 3 OR field = ''
    *
    * example 2:
    *  	$sql->setWhere('myid = :id OR anotherfield = :field', array('id' => 3, 'field' => ''));
    *
    * example 3 (deprecated):
    *  	$sql->setWhere('myid="35" OR abc="zdf"');
+   *
+   * @return rex_sql the current rex_sql object
    */
   public function setWhere($where, $whereParams = NULL)
   {
@@ -339,7 +365,9 @@ class rex_sql
     }
     else if(is_string($where))
     {
-      trigger_error('you have to take care to provide escaped values for your where-string!', E_USER_WARNING);
+      $trace = debug_backtrace();
+      $loc = $trace[0];
+      trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
 
       $this->wherevar = "WHERE $where";
       $this->whereParams = array();
@@ -348,6 +376,8 @@ class rex_sql
     {
       throw new rexException('expecting $where to be an array, "'. gettype($where) .'" given!');
     }
+
+    return $this;
   }
 
   /**
@@ -517,16 +547,48 @@ class rex_sql
     $qry = '';
     if(is_array($this->whereParams))
     {
-      foreach($this->whereParams as $fld_name => $value)
-      {
-        // TODO add AND/OR alternation depending on nesting level
-        if ($qry != '')
-        {
-          $qry .= ' AND ';
-        }
+      $qry = $this->buildWhereArg($this->whereParams);
+    }
+    return $qry;
+  }
 
-        $qry .= '`' .$fld_name . '` = :'. $fld_name;
+  /**
+   * Concats the given array to a sql condition.
+   * AND/OR opartors are alternated depending on $level
+   *
+   * @param array $arrFields
+   * @param int $level
+   */
+  private function buildWhereArg(array $arrFields, $level = 0)
+  {
+    $op = '';
+    if($level % 2 == 1)
+    {
+      $op = ' OR ';
+    }
+    else
+    {
+      $op = ' AND ';
+    }
+
+    $qry = '';
+    foreach($arrFields as $fld_name => $value)
+    {
+      $arg = '';
+      if(is_array($value))
+      {
+        $arg = '('. $this->buildWhereArg($value, $level+1) .')';
       }
+      else
+      {
+        $arg = '`' .$fld_name . '` = :'. $fld_name;
+      }
+
+      if ($qry != '')
+      {
+        $qry .= $op;
+      }
+      $qry .= $arg;
     }
     return $qry;
   }
@@ -572,11 +634,24 @@ class rex_sql
    */
   public function insert($successMessage = null)
   {
-    return $this->preparedStatusQuery(
+    // hold a copies of the query fields for later debug out (the class property will be reverted in setQuery())
+    $tableName = $this->table;
+    $values = $this->values;
+
+    $res = $this->preparedStatusQuery(
     	'INSERT INTO `' . $this->table . '` SET ' . $this->buildPreparedValues(),
       $this->values,
       $successMessage
     );
+
+    // provide debug infos, if insert is considered successfull, but no rows were inserted.
+    // this happens when you violate against a NOTNULL constraint
+    if($res && $this->getRows() == 0)
+    {
+      trigger_error('Error while inserting into table "'. $tableName .'" with values '. print_r($values, true) .'! Check your null/not-null constraints!', E_USER_ERROR);
+    }
+
+    return $res;
   }
 
   /**
@@ -669,6 +744,8 @@ class rex_sql
 
   /**
    * Stellt alle Werte auf den Ursprungszustand zurueck
+   *
+   * @return rex_sql the current rex_sql object
    */
   private function flush()
   {
@@ -683,36 +760,21 @@ class rex_sql
     $this->wherevar = '';
     $this->counter = 0;
     $this->rows = 0;
+
+    return $this;
   }
 
   /**
    * Stellt alle Values, die mit setValue() gesetzt wurden, zurueck
    *
    * @see #setValue(), #getValue()
+   * @return rex_sql the current rex_sql object
    */
   public function flushValues()
   {
     $this->values = array ();
-  }
 
-
-  /**
-   * Setzt den Cursor des Resultsets auf die naechst niedrigere Stelle
-   */
-  /*
-  public function previous()
-  {
-    $this->counter--;
-  }
-  */
-
-  /**
-   * Setzt den Cursor des Resultsets auf die naechst hoehere Stelle
-   */
-  public function next()
-  {
-    $this->counter++;
-    $this->lastRow = $this->stmt->fetch();
+    return $this;
   }
 
   /*
@@ -725,26 +787,20 @@ class rex_sql
 
   /**
    * Setzt den Cursor des Resultsets zurueck zum Anfang
+   *
+   * @return rex_sql the current rex_sql object
    */
   public function reset()
   {
     // re-execute the statement
-    if($this->stmt)
+    if($this->stmt && $this->counter != 0)
     {
       $this->stmt->execute();
+      $this->counter = 0;
     }
-    $this->counter = 0;
-  }
 
-  /**
-   * Setzt den Cursor des Resultsets aufs Ende
-   */
-  /*
-  public function last()
-  {
-    $this->counter = ($this->rows - 1);
+    return $this;
   }
-  */
 
   /**
    * Gibt die letzte InsertId zurueck
@@ -932,6 +988,108 @@ class rex_sql
   }
 
   /**
+   * Gibt ein SQL Singelton Objekt zurueck
+   *
+   * @deprecated since 4.3.0
+   */
+  public function getInstance($DBID=1, $deprecatedSecondParam = null)
+  {
+  	return rex_sql::factory($DBID);
+  }
+
+  /**
+   * Gibt den Speicher wieder frei
+   *
+   * @return rex_sql the current rex_sql object
+   */
+  public function freeResult()
+  {
+    if($this->stmt)
+      $this->stmt->closeCursor();
+
+    return $this;
+  }
+
+  /**
+   * @param string $user the name of the user who created the dataset. Defaults to the current user.
+   *
+   * @return rex_sql the current rex_sql object
+   */
+  public function addGlobalUpdateFields($user = null)
+  {
+    global $REX;
+
+    if(!$user) $user = $REX['USER']->getValue('login');
+
+    $this->setValue('updatedate', time());
+    $this->setValue('updateuser', $user);
+
+    return $this;
+  }
+
+  /**
+   * @param string $user the name of the user who updated the dataset. Defaults to the current user.
+   *
+   * @return rex_sql the current rex_sql object
+   */
+  public function addGlobalCreateFields($user = null)
+  {
+    global $REX;
+
+    if(!$user) $user = $REX['USER']->getValue('login');
+
+    $this->setValue('createdate', time());
+    $this->setValue('createuser', $user);
+
+    return $this;
+  }
+
+
+  // ----------------- iterator interface
+
+  /**
+   * @see http://www.php.net/manual/en/iterator.rewind.php
+   */
+  function rewind()
+  {
+    $this->reset();
+  }
+
+  /**
+   * @see http://www.php.net/manual/en/iterator.current.php
+   */
+  function current()
+  {
+    return $this;
+  }
+
+  /**
+   * @see http://www.php.net/manual/en/iterator.key.php
+   */
+  function key()
+  {
+    return $this->counter;
+  }
+
+  /**
+   * @see http://www.php.net/manual/en/iterator.next.php
+   */
+  function next()
+  {
+    $this->counter++;
+    $this->lastRow = $this->stmt->fetch();
+  }
+
+  /**
+   * @see http://www.php.net/manual/en/iterator.valid.php
+   */
+  function valid()
+  {
+    return $this->hasNext();
+  }
+  // ----------------- /iterator interface
+
+  /**
    * Erstellt das CREATE TABLE Statement um die Tabelle $table
    * der Datenbankverbindung $DBID zu erstellen.
    *
@@ -976,27 +1134,47 @@ class rex_sql
   /**
    * Sucht Spalteninformationen der Tabelle $table der Datenbankverbindung $DBID.
    *
+   * Beispiel fuer den Rueckgabewert:
+   *
+	 * Array (
+	 * 	[0] => Array (
+	 * 		[name] => pid
+	 * 	  [type] => int(11)
+	 *    [null] => NO
+	 *    [key] => PRI
+	 *    [default] =>
+	 *    [extra] => auto_increment
+   *  )
+   *  [1] => Array (
+   *  	[name] => id
+   *  	[type] => int(11)
+   *  	[null] => NO
+   *  	[key] => MUL
+   *  	[default] =>
+   *  	[extra] =>
+   *  )
+   * )
+   *
    * @param $table string Name der Tabelle
    * @param $DBID int Id der Datenbankverbindung
-   * @return array Ein Array das die Metadaten enthaelt
+   * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
    */
   static public function showColumns($table, $DBID=1)
   {
     $sql = self::factory($DBID);
-    $sql->setQuery('SHOW COLUMNS FROM '.$table);
+    $sql->setQuery('SHOW COLUMNS FROM `'. $table .'`');
 
     $columns = array();
-    while($sql->hasNext())
+    foreach($sql as $col)
     {
       $columns [] = array(
-        'name' => $sql->getValue('Field'),
-        'type' => $sql->getValue('Type'),
-        'null' => $sql->getValue('Null'),
-        'key' => $sql->getValue('Key'),
-        'default' => $sql->getValue('Default'),
-        'extra' => $sql->getValue('Extra')
+        'name' => $col->getValue('Field'),
+        'type' => $col->getValue('Type'),
+        'null' => $col->getValue('Null'),
+        'key' => $col->getValue('Key'),
+        'default' => $col->getValue('Default'),
+        'extra' => $col->getValue('Extra')
       );
-      $sql->next();
     }
 
     return $columns;
@@ -1013,7 +1191,7 @@ class rex_sql
     if(!isset(self::$pdo[$DBID]))
     {
       // create connection if necessary
-      $dummy = new rex_sql($DBID);
+      $dummy = rex_sql::factory($DBID);
     }
     return self::$pdo[$DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
   }
@@ -1031,43 +1209,22 @@ class rex_sql
     if(!$class)
     {
       // ----- EXTENSION POINT
-      $class = rex_register_extension_point('REX_SQL_CLASSNAME', 'rex_sql',
+      $class = rex_extension::registerPoint('REX_SQL_CLASSNAME', __CLASS__,
         array(
           'DBID'      => $DBID
         )
       );
     }
 
-    $obj = new $class($DBID);
-
-    if(!($obj instanceof rex_sql))
+    if($class != __CLASS__ && !is_subclass_of($class, __CLASS__))
     {
-      throw new rexException('$class is expected to define a subclass of rex_sql!');
+      throw new rexException('$class is expected to define a subclass of '. __CLASS__ .'!');
     }
 
-    return $obj;
+    return new $class($DBID);
   }
 
-  /**
-   * Gibt ein SQL Singelton Objekt zurueck
-   *
-   * @deprecated since 4.3.0
-   */
-  public function getInstance($DBID=1, $deprecatedSecondParam = null)
-  {
-  	return rex_sql::factory($DBID);
-  }
-
-  /**
-   * Gibt den Speicher wieder frei
-   */
-  public function freeResult()
-  {
-    if($this->stmt)
-      $this->stmt->closeCursor();
-  }
-
-  /**
+	/**
    * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
    * Datenbank an
    */
@@ -1103,25 +1260,25 @@ class rex_sql
             if($conn->exec('CREATE DATABASE '. $dbname) !== 1)
             {
               // unable to create db
-              $err_msg = $REX['I18N']->msg('setup_021');
+              $err_msg = rex_i18n::msg('setup_021');
             }
           }
           catch (PDOException $e)
           {
             // unable to find database
-            $err_msg = $REX['I18N']->msg('setup_022');
+            $err_msg = rex_i18n::msg('setup_022');
           }
         }
         else
         {
           // unable to find database
-          $err_msg = $REX['I18N']->msg('setup_022');
+          $err_msg = rex_i18n::msg('setup_022');
         }
       }
       else if(strpos($e->getMessage(), 'SQLSTATE[28000]') !== false)
       {
         // unable to connect
-        $err_msg = $REX['I18N']->msg('setup_021');
+        $err_msg = rex_i18n::msg('setup_021');
       }
       else
       {
@@ -1134,26 +1291,6 @@ class rex_sql
     $conn = null;
 
     return  $err_msg;
-  }
-
-  public function addGlobalUpdateFields($user = null)
-  {
-    global $REX;
-
-    if(!$user) $user = $REX['USER']->getValue('login');
-
-    $this->setValue('updatedate', time());
-    $this->setValue('updateuser', $user);
-  }
-
-  public function addGlobalCreateFields($user = null)
-  {
-    global $REX;
-
-    if(!$user) $user = $REX['USER']->getValue('login');
-
-    $this->setValue('createdate', time());
-    $this->setValue('createuser', $user);
   }
 
   static public function isValid($object)

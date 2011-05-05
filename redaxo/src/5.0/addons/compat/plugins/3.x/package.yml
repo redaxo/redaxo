@@ -1,0 +1,11 @@
+3.x:
+  version: '1.0'
+  author: Gregor Harlan
+  supportpage: www.redaxo.org/de/forum/
+  
+  requires:
+    addons:
+      compat:
+        plugins:
+          4.x:
+            min-version: '1.0'

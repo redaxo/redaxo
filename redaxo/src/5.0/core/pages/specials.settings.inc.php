@@ -2,7 +2,7 @@
 
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -14,16 +14,16 @@ if ($func == 'setup')
   // REACTIVATE SETUP
 
   $master_file = rex_path::src('config/master.inc.php');
-  $cont = rex_get_file_contents($master_file);
+  $cont = rex_file::get($master_file);
   $cont = preg_replace("@(REX\['SETUP'\].?\=.?)[^;]*@", '$1true', $cont);
   // echo nl2br(htmlspecialchars($cont));
-  if (rex_put_file_contents($master_file, $cont) !== false)
+  if (rex_file::put($master_file, $cont) !== false)
   {
-    $info = $REX['I18N']->msg('setup_error1', '<a href="index.php">', '</a>');
+    $info = rex_i18n::msg('setup_error1', '<a href="index.php">', '</a>');
   }
   else
   {
-    $warning = $REX['I18N']->msg('setup_error2');
+    $warning = rex_i18n::msg('setup_error2');
   }
 }elseif ($func == 'generate')
 {
@@ -47,11 +47,11 @@ elseif ($func == 'updateinfos')
 
   $REX['LANG'] = $neu_lang;
   $master_file = rex_path::src('config/master.inc.php');
-  $cont = rex_get_file_contents($master_file);
+  $cont = rex_file::get($master_file);
 
   if(!rex_ooArticle::isValid($startArt))
   {
-    $warning .= $REX['I18N']->msg('settings_invalid_sitestart_article')."<br />";
+    $warning .= rex_i18n::msg('settings_invalid_sitestart_article')."<br />";
   }else
   {
     $cont = preg_replace("@(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*@", '${1}'.strtolower($neu_startartikel), $cont);
@@ -60,7 +60,7 @@ elseif ($func == 'updateinfos')
 
   if(!rex_ooArticle::isValid($notFoundArt))
   {
-    $warning .= $REX['I18N']->msg('settings_invalid_notfound_article')."<br />";
+    $warning .= rex_i18n::msg('settings_invalid_notfound_article')."<br />";
   }else
   {
 	  $cont = preg_replace("@(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*@", '${1}'.strtolower($neu_notfoundartikel), $cont);
@@ -71,7 +71,7 @@ elseif ($func == 'updateinfos')
   $sql->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'template WHERE id='. $neu_defaulttemplateid .' AND active=1');
   if($sql->getRows() != 1 && $neu_defaulttemplateid != 0)
   {
-    $warning .= $REX['I18N']->msg('settings_invalid_default_template')."<br />";
+    $warning .= rex_i18n::msg('settings_invalid_default_template')."<br />";
   }else
 	{
 	  $cont = preg_replace("@(REX\['DEFAULT_TEMPLATE_ID'\].?\=.?)[^;]*@", '${1}'.strtolower($neu_defaulttemplateid), $cont);
@@ -86,16 +86,15 @@ elseif ($func == 'updateinfos')
 
   if($warning == '')
   {
-    if(rex_put_file_contents($master_file, $cont) > 0)
+    if(rex_file::put($master_file, $cont) > 0)
     {
-      $info = $REX['I18N']->msg('info_updated');
+      $info = rex_i18n::msg('info_updated');
 
       // Zuweisungen für Wiederanzeige
       $REX['MOD_REWRITE'] = $neu_modrewrite === 'TRUE';
-      // FŸr die Wiederanzeige Slashes strippen
-      $REX['ERROR_EMAIL'] = stripslashes($neu_error_emailaddress);
-      $REX['SERVER'] = stripslashes($neu_SERVER);
-      $REX['SERVERNAME'] = stripslashes($neu_SERVERNAME);
+      $REX['ERROR_EMAIL'] = $neu_error_emailaddress;
+      $REX['SERVER'] = $neu_SERVER;
+      $REX['SERVERNAME'] = $neu_SERVERNAME;
     }
   }
 }
@@ -109,7 +108,7 @@ $sel_template->setSelected($REX['DEFAULT_TEMPLATE_ID']);
 
 $templates = rex_ooCategory::getTemplates(0);
 if (empty($templates))
-  $sel_template->addOption($REX['I18N']->msg('option_no_template'), 0);
+  $sel_template->addOption(rex_i18n::msg('option_no_template'), 0);
 else
   $sel_template->addArrayOptions($templates);
 
@@ -120,7 +119,7 @@ $sel_lang->setId('rex-form-lang');
 $sel_lang->setSize(1);
 $sel_lang->setSelected($REX['LANG']);
 
-foreach ($REX['LOCALES'] as $l)
+foreach (rex_i18n::getLocales() as $l)
 {
   $sel_lang->addOption($l, $l);
 }
@@ -135,7 +134,7 @@ $sel_mod_rewrite->setSelected($REX['MOD_REWRITE'] === false ? 'FALSE' : 'TRUE');
 $sel_mod_rewrite->addOption('TRUE', 'TRUE');
 $sel_mod_rewrite->addOption('FALSE', 'FALSE');
 
-$dbconfig = sfYaml::load(rex_path::backend('src/dbconfig.yml'));
+$dbconfig = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
 
 if ($warning != '')
   echo rex_warning($warning);
@@ -152,36 +151,36 @@ echo '
 			<div class="rex-area-col-2">
 				<div class="rex-area-col-a">
 
-					<h3 class="rex-hl2">'.$REX['I18N']->msg("specials_features").'</h3>
+					<h3 class="rex-hl2">'.rex_i18n::msg("specials_features").'</h3>
 
 					<div class="rex-area-content">
-						<h4 class="rex-hl3">'.$REX['I18N']->msg("delete_cache").'</h4>
-						<p class="rex-tx1">'.$REX['I18N']->msg("delete_cache_description").'</p>
-						<p class="rex-button"><a class="rex-button" href="index.php?page=specials&amp;func=generate"><span><span>'.$REX['I18N']->msg("delete_cache").'</span></span></a></p>
+						<h4 class="rex-hl3">'.rex_i18n::msg("delete_cache").'</h4>
+						<p class="rex-tx1">'.rex_i18n::msg("delete_cache_description").'</p>
+						<p class="rex-button"><a class="rex-button" href="index.php?page=specials&amp;func=generate"><span><span>'.rex_i18n::msg("delete_cache").'</span></span></a></p>
 
-						<h4 class="rex-hl3">'.$REX['I18N']->msg("setup").'</h4>
-						<p class="rex-tx1">'.$REX['I18N']->msg("setup_text").'</p>
-						<p class="rex-button"><a class="rex-button" href="index.php?page=specials&amp;func=setup" onclick="return confirm(\''.$REX['I18N']->msg("setup").'?\');"><span><span>'.$REX['I18N']->msg("setup").'</span></span></a></p>
+						<h4 class="rex-hl3">'.rex_i18n::msg("setup").'</h4>
+						<p class="rex-tx1">'.rex_i18n::msg("setup_text").'</p>
+						<p class="rex-button"><a class="rex-button" href="index.php?page=specials&amp;func=setup" onclick="return confirm(\''.rex_i18n::msg("setup").'?\');"><span><span>'.rex_i18n::msg("setup").'</span></span></a></p>
 
-            <h4 class="rex-hl3">'.$REX['I18N']->msg("version").'</h4>
+            <h4 class="rex-hl3">'.rex_i18n::msg("version").'</h4>
             <p class="rex-tx1">
             REDAXO: '.$REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION'].'<br />
             PHP: '.phpversion().'</p>
 
-            <h4 class="rex-hl3">'.$REX['I18N']->msg("database").'</h4>
-            <p class="rex-tx1">MySQL: '.rex_sql::getServerVersion().'<br />'.$REX['I18N']->msg("name").': '.$dbconfig['DB1']['name'].'<br />'.$REX['I18N']->msg("host").': '.$dbconfig['DB1']['host'].'</p>
+            <h4 class="rex-hl3">'.rex_i18n::msg("database").'</h4>
+            <p class="rex-tx1">MySQL: '.rex_sql::getServerVersion().'<br />'.rex_i18n::msg("name").': '.$dbconfig['DB'][1]['name'].'<br />'.rex_i18n::msg("host").': '.$dbconfig['DB'][1]['host'].'</p>
 
 					</div>
 				</div>
 
 				<div class="rex-area-col-b">
 
-					<h3 class="rex-hl2">'.$REX['I18N']->msg("specials_settings").'</h3>
+					<h3 class="rex-hl2">'.rex_i18n::msg("specials_settings").'</h3>
 
 					<div class="rex-area-content">
 
 						<fieldset class="rex-form-col-1">
-							<legend>'.$REX['I18N']->msg("general_info_header").'</legend>
+							<legend>'.rex_i18n::msg("general_info_header").'</legend>
 
 							<div class="rex-form-wrapper">
 
@@ -214,21 +213,21 @@ echo '
 
 						<!--
 						<fieldset class="rex-form-col-1">
-							<legend>'.$REX['I18N']->msg("db1_can_only_be_changed_by_setup").'</legend>
+							<legend>'.rex_i18n::msg("db1_can_only_be_changed_by_setup").'</legend>
 
 							<div class="rex-form-wrapper">
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-db-host">$REX[\'DB\'][\'1\'][\'HOST\']</label>
-										<span class="rex-form-read" id="rex-form-db-host">&quot;'.$dbconfig['DB1']['host'].'&quot;</span>
+										<span class="rex-form-read" id="rex-form-db-host">&quot;'.$dbconfig['DB'][1]['host'].'&quot;</span>
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
 										<label for="rex-form-db-login">$REX[\'DB\'][\'1\'][\'LOGIN\']</label>
-										<span id="rex-form-db-login">&quot;'.$dbconfig['DB1']['login'].'&quot;</span>
+										<span id="rex-form-db-login">&quot;'.$dbconfig['DB'][1]['login'].'&quot;</span>
 									</p>
 								</div>
 
@@ -242,7 +241,7 @@ echo '
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-db-name">$REX[\'DB\'][\'1\'][\'NAME\']</label>
-										<span class="rex-form-read" id="rex-form-db-name">&quot;'.htmlspecialchars($dbconfig['DB1']['name']).'&quot;</span>
+										<span class="rex-form-read" id="rex-form-db-name">&quot;'.htmlspecialchars($dbconfig['DB'][1]['name']).'&quot;</span>
 									</p>
 								</div>
 							</div>
@@ -251,7 +250,7 @@ echo '
 
 						<!--
 						<fieldset class="rex-form-col-1">
-							<legend>'.$REX['I18N']->msg("specials_others").'</legend>
+							<legend>'.rex_i18n::msg("specials_others").'</legend>
 
 							<div class="rex-form-wrapper">
 						-->
@@ -315,7 +314,7 @@ echo '
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-submit">
-										<input type="submit" class="rex-form-submit" name="sendit" value="'.$REX['I18N']->msg("specials_update").'"'. rex_accesskey($REX['I18N']->msg('specials_update'), $REX['ACKEY']['SAVE']) .' />
+										<input type="submit" class="rex-form-submit" name="sendit" value="'.rex_i18n::msg("specials_update").'"'. rex_accesskey(rex_i18n::msg('specials_update'), $REX['ACKEY']['SAVE']) .' />
 									</p>
 								</div>
 

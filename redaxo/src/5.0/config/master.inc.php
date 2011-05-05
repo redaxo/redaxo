@@ -18,7 +18,7 @@ $REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(664); // oktaler wert
 $REX['DIRPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20110107210804";
+$REX['INSTNAME'] = "rex20110323195019";
 $REX['SESSION_DURATION'] = 3000;
 
 // Is set first time SQL Object ist initialised
@@ -58,10 +58,6 @@ $REX['USE_LAST_MODIFIED'] = "true"; // String: "true"/"false"/"fronted"/"backend
 // activate md5 checksum support
 // allow client to validate content integrity
 $REX['USE_MD5'] = "true"; // String: "true"/"false"/"fronted"/"backend"
-
-// Prefixes
-$REX['TABLE_PREFIX']  = 'rex_';
-$REX['TEMP_PREFIX']   = 'tmp_';
 
 // Passwortverschluesselung
 $REX['PSWFUNC'] = "sha1";
@@ -123,21 +119,22 @@ $REX['EXTPERM'][] = 'article2category[]';
 $REX['EXTRAPERM'] = array();
 $REX['EXTRAPERM'][] = 'editContentOnly[]';
 
-// ----- standard variables
-$REX['VARIABLES'] = array();
-$REX['VARIABLES'][] = 'rex_var_config';
-
 // ----------------- default values
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 
 // ----------------- INCLUDE FUNCTIONS
-if(!$REX['NOFUNCTIONS']) include_once rex_path::src('core/functions.inc.php');
+if(!$REX['NOFUNCTIONS']) include_once rex_path::core('functions.inc.php');
+
+// Prefixes
+$dbconfig = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
+$REX['TABLE_PREFIX'] = $dbconfig['TABLE_PREFIX'];
+$REX['TEMP_PREFIX']  = 'tmp_';
 
 // ----- SET CLANG
 $REX['CLANG'] = array();
 $clangFile = rex_path::generated('files/clang.cache');
 if(file_exists($clangFile))
-  $REX['CLANG'] = json_decode(rex_get_file_contents(rex_path::generated('files/clang.cache')), true);
+  $REX['CLANG'] = rex_file::getCache(rex_path::generated('files/clang.cache'));
 
 $REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', $REX['START_CLANG_ID']);
 

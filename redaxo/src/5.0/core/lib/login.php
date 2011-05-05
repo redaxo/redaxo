@@ -4,7 +4,7 @@
 /**
  * Klasse zum handling des Login/Logout-Mechanismuses
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -319,9 +319,6 @@ class rex_login
   {
     global $REX;
 
-    if(!isset($REX['I18N']) || !is_object($REX['I18N']))
-      $REX['I18N'] = rex_create_lang($REX['LANG']);
-
     // wenn logout dann header schreiben und auf error seite verweisen
     // message schreiben
 
@@ -362,7 +359,7 @@ class rex_login
         }
         else
         {
-          $this->message = $REX['I18N']->msg('login_error', '<strong>'. $REX['RELOGINDELAY'] .'</strong>');
+          $this->message = rex_i18n::msg('login_error', '<strong>'. $REX['RELOGINDELAY'] .'</strong>');
           $this->setSessionVar('UID', '');
         }
 
@@ -385,23 +382,23 @@ class rex_login
           }
           else
           {
-	          $this->message = $REX['I18N']->msg('login_session_expired');
+	          $this->message = rex_i18n::msg('login_session_expired');
           }
         }
         else
         {
-          $this->message = $REX['I18N']->msg('login_user_not_found');
+          $this->message = rex_i18n::msg('login_user_not_found');
         }
       }
       else
       {
-        $this->message = $REX['I18N']->msg('login_welcome');
+        $this->message = rex_i18n::msg('login_welcome');
         $ok = false;
       }
     }
     else
     {
-      $this->message = $REX['I18N']->msg('login_logged_out');
+      $this->message = rex_i18n::msg('login_logged_out');
       $this->setSessionVar('UID', '');
     }
 
@@ -520,7 +517,7 @@ class rex_backend_login extends rex_login
     // $fvs->debugsql = true;
     $userId = $this->getSessionVar('UID');
     $check = parent::checkLogin();
-    
+
 
     if($check)
     {

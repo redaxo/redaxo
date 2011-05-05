@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -16,5 +16,5 @@ switch($subpage)
   default : $file = 'content.inc.php'; break;
 }
 
-//rex_title($REX['I18N']->msg('specials'),$subline);
+//rex_title(rex_i18n::msg('specials'),$subline);
 require dirname(__FILE__).'/'. $file;

@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -33,7 +33,7 @@ if ($add_action != "")
 
   if($action->insert())
   {
-    $info = $REX['I18N']->msg('action_taken');
+    $info = rex_i18n::msg('action_taken');
     $goon = '1';
   }
   else
@@ -49,7 +49,7 @@ elseif ($function_action == 'delete')
   
   if($action->delete())
   {
-     $info = $REX['I18N']->msg('action_deleted_from_modul') ;
+     $info = rex_i18n::msg('action_deleted_from_modul') ;
   }
   else
   {
@@ -81,7 +81,7 @@ if ($function == 'delete')
 
       $label = $OOArt->getName() .' ['. $aid .']';
       if(count($REX['CLANG']) > 1)
-        $label = '('. rex_translate($REX['CLANG'][$clang_id]) .') '. $label;
+        $label = '('. rex_i18n::translate($REX['CLANG'][$clang_id]) .') '. $label;
 
       $module_in_use_message .= '<li><a href="index.php?page=modules&amp;article_id='. $aid .'&clang='. $clang_id .'&ctype='. $ctype .'">'. htmlspecialchars($label) .'</a></li>';
       $del->next();
@@ -92,13 +92,13 @@ if ($function == 'delete')
       $warning_block = '<ul>' . $module_in_use_message . '</ul>';
     }
 
-    $warning = $REX['I18N']->msg("module_cannot_be_deleted",$modulname);
+    $warning = rex_i18n::msg("module_cannot_be_deleted",$modulname);
   } else
   {
     $del->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."module WHERE id='$modul_id'");
     $del->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."module_action WHERE module_id='$modul_id'");
 
-    $info = $REX['I18N']->msg("module_deleted");
+    $info = rex_i18n::msg("module_deleted");
   }
 }
 
@@ -110,8 +110,6 @@ if ($function == 'add' or $function == 'edit')
 
     if ($function == 'add')
     {
-      // $modultyp->setQuery("INSERT INTO ".$REX['TABLE_PREFIX']."modultyp (category_id, name, eingabe, ausgabe) VALUES ('$category_id', '$mname', '$eingabe', '$ausgabe')");
-
       $IMOD = rex_sql::factory();
       $IMOD->setTable($REX['TABLE_PREFIX'].'module');
       $IMOD->setValue('name',$mname);
@@ -120,7 +118,7 @@ if ($function == 'add' or $function == 'edit')
       $IMOD->addGlobalCreateFields();
 
       if($IMOD->insert())
-        $info = $REX['I18N']->msg('module_added');
+        $info = rex_i18n::msg('module_added');
       else
         $warning = $IMOD->getError();
 
@@ -141,11 +139,11 @@ if ($function == 'add' or $function == 'edit')
         $UMOD->addGlobalUpdateFields();
 
         if($UMOD->update())
-          $info = $REX['I18N']->msg('module_updated').' | '.$REX['I18N']->msg('articel_updated');
+          $info = rex_i18n::msg('module_updated').' | '.rex_i18n::msg('articel_updated');
         else
           $warning = $UMOD->getError();
 
-        $new_ausgabe = stripslashes($ausgabe);
+        $new_ausgabe = $ausgabe;
 
 		if ($old_ausgabe != $new_ausgabe)
 		{
@@ -156,7 +154,7 @@ if ($function == 'add' or $function == 'edit')
               WHERE ".$REX['TABLE_PREFIX']."article_slice.modultyp_id='$modul_id'");
           for ($i=0; $i<$gc->getRows(); $i++)
           {
-          	rex_deleteCacheArticle($gc->getValue($REX['TABLE_PREFIX']."article.id"));
+          	rex_article_cache::delete($gc->getValue($REX['TABLE_PREFIX']."article.id"));
             $gc->next();
           }
         }
@@ -178,7 +176,7 @@ if ($function == 'add' or $function == 'edit')
   {
     if ($function == 'edit')
     {
-      $legend = $REX['I18N']->msg('module_edit').' [ID='.$modul_id.']';
+      $legend = rex_i18n::msg('module_edit').' [ID='.$modul_id.']';
 
       $hole = rex_sql::factory();
       $hole->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'module WHERE id='.$modul_id);
@@ -189,11 +187,11 @@ if ($function == 'add' or $function == 'edit')
     }
     else
     {
-      $legend = $REX['I18N']->msg('create_module');
+      $legend = rex_i18n::msg('create_module');
     }
 
     $btn_update = '';
-    if ($function != 'add') $btn_update = '<input type="submit" class="rex-form-submit rex-form-submit-2" name="goon" value="'.$REX['I18N']->msg("save_module_and_continue").'"'. rex_accesskey($REX['I18N']->msg('save_module_and_continue'), $REX['ACKEY']['APPLY']) .' />';
+    if ($function != 'add') $btn_update = '<input type="submit" class="rex-form-submit rex-form-submit-2" name="goon" value="'.rex_i18n::msg("save_module_and_continue").'"'. rex_accesskey(rex_i18n::msg('save_module_and_continue'), $REX['ACKEY']['APPLY']) .' />';
 
     if ($info != '')
       echo rex_info($info);
@@ -218,19 +216,19 @@ if ($function == 'add' or $function == 'edit')
 						
 						<div class="rex-form-row">
     			  	<p class="rex-form-col-a rex-form-text">
-      					<label for="mname">'.$REX['I18N']->msg("module_name").'</label>
+      					<label for="mname">'.rex_i18n::msg("module_name").'</label>
 	      				<input class="rex-form-text" type="text" size="10" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />
   	  			  </p>
     				</div>
 						<div class="rex-form-row">
     				  <p class="rex-form-col-a rex-form-textarea">
-      					<label for="eingabe">'.$REX['I18N']->msg("input").'</label>
+      					<label for="eingabe">'.rex_i18n::msg("input").'</label>
       					<textarea class="rex-form-textarea" cols="50" rows="6" name="eingabe" id="eingabe">'.htmlspecialchars($eingabe).'</textarea>
     				  </p>
     				</div>
 						<div class="rex-form-row">
     			  	<p class="rex-form-col-a rex-form-textarea">
-      					<label for="ausgabe">'.$REX['I18N']->msg("output").'</label>
+      					<label for="ausgabe">'.rex_i18n::msg("output").'</label>
 	      				<textarea class="rex-form-textarea" cols="50" rows="6" name="ausgabe" id="ausgabe">'.htmlspecialchars($ausgabe).'</textarea>
   	  			  </p>
     				</div>
@@ -243,7 +241,7 @@ if ($function == 'add' or $function == 'edit')
       		<div class="rex-form-wrapper">
 						<div class="rex-form-row">
     				  <p class="rex-form-col-a rex-form-submit">
-      					<input class="rex-form-submit" type="submit" value="'.$REX['I18N']->msg("save_module_and_quit").'"'. rex_accesskey($REX['I18N']->msg('save_module_and_quit'), $REX['ACKEY']['SAVE']) .' />
+      					<input class="rex-form-submit" type="submit" value="'.rex_i18n::msg("save_module_and_quit").'"'. rex_accesskey(rex_i18n::msg('save_module_and_quit'), $REX['ACKEY']['SAVE']) .' />
         				'. $btn_update .'
       				</p>
     				</div>
@@ -267,7 +265,7 @@ if ($function == 'add' or $function == 'edit')
 				$add_col = '';
 				if ($REX['USER']->hasPerm('advancedMode[]'))
 				{
-					$add_header = '<th class="rex-small">'.$REX['I18N']->msg('header_id').'</th>';
+					$add_header = '<th class="rex-small">'.rex_i18n::msg('header_id').'</th>';
 					$add_col = '<col width="40" />';
 				}
 				
@@ -277,7 +275,7 @@ if ($function == 'add' or $function == 'edit')
           $iaction_id = $gma->getValue($REX['TABLE_PREFIX'].'module_action.id');
           $action_id = $gma->getValue($REX['TABLE_PREFIX'].'module_action.action_id');
           $action_edit_url = 'index.php?page=modules&amp;subpage=actions&amp;action_id='.$action_id.'&amp;function=edit';
-          $action_name = rex_translate($gma->getValue('name'));
+          $action_name = rex_i18n::translate($gma->getValue('name'));
 
           $actions .= '<tr>
           	<td class="rex-icon"><a class="rex-i-element rex-i-action" href="'. $action_edit_url .'"><span class="rex-i-element-text">' . htmlspecialchars($action_name) . '</span></a></td>';
@@ -288,7 +286,7 @@ if ($function == 'add' or $function == 'edit')
           }
           	
           $actions .= '<td><a href="'. $action_edit_url .'">'. $action_name .'</a></td>
-          	<td><a href="index.php?page=modules&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.$REX['I18N']->msg('delete').' ?\')">'.$REX['I18N']->msg('action_delete').'</a></td>
+          	<td><a href="index.php?page=modules&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('action_delete').'</a></td>
           </tr>';
 
           $gma->next();
@@ -297,8 +295,8 @@ if ($function == 'add' or $function == 'edit')
         if($actions !='')
         {
           $actions = '
-  					<table class="rex-table" summary="'.$REX['I18N']->msg('actions_added_summary').'">
-  						<caption>'.$REX['I18N']->msg('actions_added_caption').'</caption>
+  					<table class="rex-table" summary="'.rex_i18n::msg('actions_added_summary').'">
+  						<caption>'.rex_i18n::msg('actions_added_caption').'</caption>
     					<colgroup>
       				<col width="40" />
       				'.$add_col.'
@@ -309,8 +307,8 @@ if ($function == 'add' or $function == 'edit')
       					<tr>
         					<th class="rex-icon">&nbsp;</th>
         					'.$add_header.'
-        					<th>' . $REX['I18N']->msg('action_name') . '</th>
-        					<th>' . $REX['I18N']->msg('action_functions') . '</th>
+        					<th>' . rex_i18n::msg('action_name') . '</th>
+        					<th>' . rex_i18n::msg('action_functions') . '</th>
       					</tr>
     					</thead>
     				<tbody>
@@ -328,26 +326,26 @@ if ($function == 'add' or $function == 'edit')
 
         for ($i=0; $i<$gaa->getRows(); $i++)
         {
-          $gaa_sel->addOption(rex_translate($gaa->getValue('name'), null, false),$gaa->getValue('id'));
+          $gaa_sel->addOption(rex_i18n::translate($gaa->getValue('name'), null, false),$gaa->getValue('id'));
           $gaa->next();
         }
 
         echo
         $actions .'
 				<fieldset class="rex-form-col-1">
-          <legend>'.$REX['I18N']->msg('action_add').'</legend>
+          <legend>'.rex_i18n::msg('action_add').'</legend>
       		<div class="rex-form-wrapper">
 						
 						<div class="rex-form-row">
 							<p class="rex-form-col-a rex-form-select">
-								<label for="action_id">'.$REX['I18N']->msg('action').'</label>
+								<label for="action_id">'.rex_i18n::msg('action').'</label>
 								'.$gaa_sel->get().'
 					  	</p>
 					  </div>
 					  
 						<div class="rex-form-row">
 					  	<p class="rex-form-col-a rex-form-submit">
-								<input class="rex-form-submit" type="submit" value="'.$REX['I18N']->msg('action_add').'" name="add_action" />
+								<input class="rex-form-submit" type="submit" value="'.rex_i18n::msg('action_add').'" name="add_action" />
 					  	</p>
 					  </div>
 				  </div>
@@ -375,26 +373,26 @@ if ($OUT)
     echo rex_warning_block($warning_block);
 
   $list = rex_list::factory('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'module ORDER BY name');
-  $list->setCaption($REX['I18N']->msg('module_caption'));
-  $list->addTableAttribute('summary', $REX['I18N']->msg('module_summary'));
+  $list->setCaption(rex_i18n::msg('module_caption'));
+  $list->addTableAttribute('summary', rex_i18n::msg('module_summary'));
   $list->addTableColumnGroup(array(40, 40, '*', 153));
 
   $tdIcon = '<span class="rex-i-element rex-i-module"><span class="rex-i-element-text">###name###</span></span>';
-  $thIcon = '<a class="rex-i-element rex-i-module-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey($REX['I18N']->msg('create_module'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.$REX['I18N']->msg('create_module').'</span></a>';
+  $thIcon = '<a class="rex-i-element rex-i-module-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey(rex_i18n::msg('create_module'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.rex_i18n::msg('create_module').'</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('function' => 'edit', 'modul_id' => '###id###'));
 
   $list->setColumnLabel('id', 'ID');
   $list->setColumnLayout('id', array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
 
-  $list->setColumnLabel('name', $REX['I18N']->msg('module_description'));
+  $list->setColumnLabel('name', rex_i18n::msg('module_description'));
   $list->setColumnParams('name', array('function' => 'edit', 'modul_id' => '###id###'));
 
-  $list->addColumn($REX['I18N']->msg('module_functions'), $REX['I18N']->msg('delete_module'));
-  $list->setColumnParams($REX['I18N']->msg('module_functions'), array('function' => 'delete', 'modul_id' => '###id###'));
-  $list->addLinkAttribute($REX['I18N']->msg('module_functions'), 'onclick', 'return confirm(\''.$REX['I18N']->msg('delete').' ?\')');
+  $list->addColumn(rex_i18n::msg('module_functions'), rex_i18n::msg('delete_module'));
+  $list->setColumnParams(rex_i18n::msg('module_functions'), array('function' => 'delete', 'modul_id' => '###id###'));
+  $list->addLinkAttribute(rex_i18n::msg('module_functions'), 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
 
-	$list->setNoRowsMessage($REX['I18N']->msg('modules_not_found'));
+	$list->setNoRowsMessage(rex_i18n::msg('modules_not_found'));
 
   $list->show();
 }

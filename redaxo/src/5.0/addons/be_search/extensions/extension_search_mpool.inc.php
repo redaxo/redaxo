@@ -5,7 +5,7 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -25,9 +25,9 @@ function rex_be_search_mpool($params)
 
   $search_form = '
     <p class="rex-form-col-a rex-form-text" id="be_search-media-search">
-      <label for="be_search-media-name">'. $REX['I18N']->msg('be_search_mpool_media') .'</label>
+      <label for="be_search-media-name">'. rex_i18n::msg('be_search_mpool_media') .'</label>
       <input class="rex-form-text" type="text" name="be_search_media_name" id="be_search-media-name" value="'. $media_name .'" />
-      <input class="rex-form-submit" type="submit" value="'. $REX['I18N']->msg('be_search_mpool_start') .'" />
+      <input class="rex-form-submit" type="submit" value="'. rex_i18n::msg('be_search_mpool_start') .'" />
     </p>
   ';
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Funktionen zur Ausgabe der Titel Leiste und Subnavigation
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -58,7 +58,7 @@ function rex_title($head, $subtitle = '')
   else if(is_array($subtitle) && $subtitle[0] instanceof rex_be_page_container)
   {
     $nav = rex_be_navigation::factory();
-    $nav->setHeadline('default', $REX['I18N']->msg('subnavigation', $head));
+    $nav->setHeadline('default', rex_i18n::msg('subnavigation', $head));
     foreach($subtitle as $pageObj)
     {
       $nav->addPage($pageObj);
@@ -77,7 +77,7 @@ function rex_title($head, $subtitle = '')
   $fragment->setVar('category_id', $category_id, false);
   $fragment->setVar('article_id', $article_id, false);
   $fragment->setVar('page', $page, false);
-  $fragment->setVar('title', rex_register_extension_point('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page)), false);
+  $fragment->setVar('title', rex_extension::registerPoint('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page)), false);
   $fragment->setVar('subtitle', $subtitle, false);
   echo $fragment->parse('core_title');
   unset($fragment);
@@ -165,17 +165,17 @@ function rex_get_subtitle($subline)
       {
         // $format = '%s';
         // $subtitle[] = sprintf($format, $label);
-        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s'. rex_tabindex() .' class="rex-active%s">%s</a>';
+        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s class="rex-active%s">%s</a>';
         $subtitle[] = sprintf($format, $link, $params, $attr, $add_class, $label);
       }
       elseif ($link == '')
       {
-        $format = '<a href="?page='. $cur_page .'%s"%s'. rex_tabindex() .'>%s</a>';
+        $format = '<a href="?page='. $cur_page .'%s"%s>%s</a>';
         $subtitle[] = sprintf($format, $params, $attr, $label);
       }
       else
       {
-        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s'. rex_tabindex() .'>%s</a>';
+        $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s>%s</a>';
         $subtitle[] = sprintf($format, $link, $params, $attr, $label);
       }
     }

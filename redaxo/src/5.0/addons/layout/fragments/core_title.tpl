@@ -7,7 +7,7 @@
 		</div>
 		
 		<?php
-		rex_register_extension_point('PAGE_TITLE_SHOWN', $this->subtitle, 
+		rex_extension::registerPoint('PAGE_TITLE_SHOWN', $this->subtitle, 
 			array(
 				'category_id' => $this->category_id, 
 				'article_id' => $this->article_id, 

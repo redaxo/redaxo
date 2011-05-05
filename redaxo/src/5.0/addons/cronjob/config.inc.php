@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -30,7 +30,7 @@ if($REX['REDAXO'])
 define('REX_CRONJOB_LOG_FOLDER', rex_path::addonData($mypage));
 define('REX_CRONJOB_TABLE'     , $REX['TABLE_PREFIX'] .'cronjob');
 
-rex_register_extension('ADDONS_INCLUDED',
+rex_extension::register('ADDONS_INCLUDED',
   function($params)
   {
     foreach(rex_ooPlugin::getAvailablePlugins('cronjob') as $plugin)
@@ -47,7 +47,7 @@ $nexttime = rex_config::get($mypage, 'nexttime');
 
 if ($nexttime != 0 && time() >= $nexttime)
 {
-  rex_register_extension($EP,
+  rex_extension::register($EP,
     function ($params)
     {
       global $REX;

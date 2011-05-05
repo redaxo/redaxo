@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -12,12 +12,12 @@ $func = rex_request('func', 'string');
 
 // -------------- Header
 $subline = array(
-  array( '', $REX['I18N']->msg('main_preferences')),
-  array( 'lang', $REX['I18N']->msg('languages')),
-  array( 'log', $REX['I18N']->msg('syslog')),
+  array( '', rex_i18n::msg('main_preferences')),
+  array( 'lang', rex_i18n::msg('languages')),
+  array( 'log', rex_i18n::msg('syslog')),
 );
 
-rex_title($REX['I18N']->msg('specials'),$subline);
+rex_title(rex_i18n::msg('specials'),$subline);
 
 switch($subpage)
 {
@@ -26,4 +26,4 @@ switch($subpage)
   default : $file = 'specials.settings.inc.php'; break;
 }
 
-require rex_path::src('core/pages/'.$file);
+require rex_path::core('pages/'.$file);

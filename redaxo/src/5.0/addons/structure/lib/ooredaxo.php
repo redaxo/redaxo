@@ -2,7 +2,7 @@
 
 /**
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -12,21 +12,21 @@ abstract class rex_ooRedaxo
    * these vars get read out
    */
   protected
-    $_id = '',
-    $_re_id = '',
-    $_clang = '',
-    $_name = '',
-    $_catname = '',
-    $_template_id = '',
-    $_path = '',
-    $_prior = '',
-    $_startpage = '',
-    $_status = '',
-    $_attributes = '',
-    $_updatedate = '',
-    $_createdate = '',
-    $_updateuser = '',
-    $_createuser = '';
+  $_id = '',
+  $_re_id = '',
+  $_clang = '',
+  $_name = '',
+  $_catname = '',
+  $_template_id = '',
+  $_path = '',
+  $_prior = '',
+  $_startpage = '',
+  $_status = '',
+  $_attributes = '',
+  $_updatedate = '',
+  $_createdate = '',
+  $_updateuser = '',
+  $_createuser = '';
 
   /*
    * Constructor
@@ -56,27 +56,34 @@ abstract class rex_ooRedaxo
     $this->_clang = $clang;
   }
 
-  /*
+  /**
    * Class Function:
    * Returns Object Value
+   *
+   * @return string
    */
-  protected function getValue($value)
+  public function getValue($value)
   {
     // damit alte rex_article felder wie teaser, online_from etc
     // noch funktionieren
     // gleicher BC code nochmals in article::getValue
     foreach(array('_', 'art_', 'cat_') as $prefix)
     {
-    	$val = $prefix . $value;
-    	if(isset($this->$val))
-    	{
-    	  return $this->$val;
-    	}
+      $val = $prefix . $value;
+      if(isset($this->$val))
+      {
+        return $this->$val;
+      }
     }
     return null;
   }
 
-  protected function _hasValue($value, array $prefixes = array())
+  /**
+   * @param string $value
+   * @param array $prefixes
+   * @return boolean
+   */
+  static protected function _hasValue($value, array $prefixes = array())
   {
     static $values = null;
 
@@ -87,14 +94,14 @@ abstract class rex_ooRedaxo
 
     if (in_array($value, $values))
     {
-    	return true;
+      return true;
     }
 
     foreach($prefixes as $prefix)
     {
       if (in_array($prefix . $value, $values))
       {
-      	return true;
+        return true;
       }
     }
 
@@ -104,6 +111,8 @@ abstract class rex_ooRedaxo
   /**
    * CLASS Function:
    * Returns an Array containing article field names
+   *
+   * @return array[string]
    */
   static public function getClassVars()
   {
@@ -121,7 +130,7 @@ abstract class rex_ooRedaxo
         // Im GetGenerated Modus, die Spaltennamen aus den generated Dateien holen
         if(!isset($REX['ART'][$REX['START_ARTICLE_ID']]))
         {
-          $REX['ART'][$REX['START_ARTICLE_ID']] = json_decode(rex_get_file_contents($file), true);
+          $REX['ART'][$REX['START_ARTICLE_ID']] = rex_file::getCache($file);
         }
 
         // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
@@ -148,10 +157,12 @@ abstract class rex_ooRedaxo
     return $vars;
   }
 
-  /*
-  * CLASS Function:
-  * Converts Genernated Array to OOBase Format Array
-  */
+  /**
+   * CLASS Function:
+   * Converts Genernated Array to OOBase Format Array
+   *
+   * @return array
+   */
   static public function convertGeneratedArray($generatedArray, $clang)
   {
     $rex_ooRedaxoArray['id'] = $generatedArray['article_id'][$clang];
@@ -164,54 +175,63 @@ abstract class rex_ooRedaxo
     return $rex_ooRedaxoArray;
   }
 
-  /*
+  /**
    * Accessor Method:
    * returns the clang of the category
+   *
+   * @return integer
    */
   public function getClang()
   {
     return $this->_clang;
   }
 
-  /*
+  /**
    * Object Helper Function:
    * Returns a url for linking to this article
+   *
+   * @return string
    */
   public function getUrl($params = '', $divider = '&amp;')
   {
     return rex_getUrl($this->getId(), $this->getClang(), $params, $divider);
   }
 
-  /*
+  /**
    * Accessor Method:
    * returns the id of the article
+   *
+   * @return integer
    */
   public function getId()
   {
     return $this->_id;
   }
 
-  /*
+  /**
    * Accessor Method:
    * returns the parent_id of the article
+   *
+   * @return integer
    */
   public function getParentId()
   {
     return $this->_re_id;
   }
 
-  /*
-   * Accessor Method:
-   * returns the parent object of the article
+  /**
+   * Object Function:
+   * Returns the parent category
+   *
+   * @return rex_ooRedaxo
    */
-  public function getParent()
-  {
-    return rex_ooArticle::getArticleById($this->_re_id);
-  }
+  public abstract function getParent($clang = false);
 
-  /*
+  /**
    * Accessor Method:
    * returns the name of the article
+   *
+   * @return string
    */
   public function getName()
   {
@@ -220,126 +240,104 @@ abstract class rex_ooRedaxo
 
   /**
    * Accessor Method:
-   * returns the name of the article
-   * @deprecated 4.0 17.09.2007
-   */
-  public function getFile()
-  {
-    return $this->getValue('art_file');
-  }
-
-  /**
-   * Accessor Method:
-   * returns the name of the article
-   * @deprecated 4.0 17.09.2007
-   */
-  public function getFileMedia()
-  {
-    return rex_ooMedia :: getMediaByFileName($this->getValue('art_file'));
-  }
-
-  /**
-   * Accessor Method:
-   * returns the article description.
-   * @deprecated 4.0 17.09.2007
-   */
-  public function getDescription()
-  {
-    return $this->getValue('art_description');
-  }
-
-  /**
-   * Accessor Method:
-   * returns the Type ID of the article.
-   * @deprecated 4.0 17.09.2007
-   */
-  public function getTypeId()
-  {
-    return $this->getValue('art_type_id');
-  }
-
-  /*
-   * Accessor Method:
    * returns the article priority
+   *
+   * @return integer
    */
   public function getPriority()
   {
     return $this->_prior;
   }
 
-  /*
+  /**
    * Accessor Method:
    * returns the last update user
+   *
+   * @return string
    */
   public function getUpdateUser()
   {
     return $this->_updateuser;
   }
 
-  /*
+  /**
    * Accessor Method:
    * returns the last update date
+   *
+   * @return integer
    */
   public function getUpdateDate($format = null)
   {
-    return rex_ooMedia :: _getDate($this->_updatedate, $format);
+    return self :: _getDate($this->_updatedate, $format);
   }
 
-  /*
+  /**
    * Accessor Method:
    * returns the creator
+   *
+   * @return string
    */
   public function getCreateUser()
   {
     return $this->_createuser;
   }
 
-  /*
+  /**
    * Accessor Method:
    * returns the creation date
+   *
+   * @return integer
    */
   public function getCreateDate($format = null)
   {
-    return rex_ooMedia :: _getDate($this->_createdate, $format);
+    return self :: _getDate($this->_createdate, $format);
   }
 
-  /*
+  /**
    * Accessor Method:
    * returns true if article is online.
+   *
+   * @return boolean
    */
   public function isOnline()
   {
     return $this->_status == 1;
   }
 
-  /*
+  /**
    * Accessor Method:
    * returns true if article is offline.
+   *
+   * @return boolean
    */
   public function isOffline()
   {
     return $this->_status == 0;
   }
 
-  /*
+  /**
    * Accessor Method:
    * returns the template id
+   *
+   * @return integer
    */
   public function getTemplateId()
   {
     return $this->_template_id;
   }
 
-  /*
+  /**
    * Accessor Method:
    * returns true if article has a template.
+   *
+   * @return boolean
    */
   public function hasTemplate()
   {
-	return $this->_template_id > 0;
+    return $this->_template_id > 0;
   }
 
-  /*
+  /**
    * Accessor Method:
    * Returns a link to this article
    *
@@ -347,6 +345,8 @@ abstract class rex_ooRedaxo
    * @param [$attributes] array Attribute die dem Link hinzugefügt werden sollen. Default: null
    * @param [$sorround_tag] string HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
    * @param [sorround_attributes] array Attribute die Umgebenden-Element hinzugefügt werden sollen. Default: null
+   *
+   * @return string
    */
   public function toLink($params = '', $attributes = null, $sorround_tag = null, $sorround_attributes = null)
   {
@@ -361,6 +361,11 @@ abstract class rex_ooRedaxo
     return $link;
   }
 
+  /**
+   * @param array $attributes
+   *
+   * @return string
+   */
   protected function _toAttributeString($attributes)
   {
     $attr = '';
@@ -376,10 +381,12 @@ abstract class rex_ooRedaxo
     return $attr;
   }
 
-  /*
+  /**
    * Object Function:
    * Get an array of all parentCategories.
-   * Returns an array of rex_ooRedaxo objects sorted by $prior.
+   * Returns an array of rex_ooRedaxo objects.
+   *
+   * @return array[rex_ooCategory]
    */
   public function getParentTree()
   {
@@ -388,9 +395,9 @@ abstract class rex_ooRedaxo
     if ($this->_path)
     {
       if($this->isStartArticle())
-        $explode = explode('|', $this->_path.$this->_id.'|');
+      $explode = explode('|', $this->_path.$this->_id.'|');
       else
-        $explode = explode('|', $this->_path);
+      $explode = explode('|', $this->_path);
 
       if (is_array($explode))
       {
@@ -407,27 +414,31 @@ abstract class rex_ooRedaxo
     return $return;
   }
 
-  /*
+  /**
    * Object Function:
    * Checks if $anObj is in the parent tree of the object
+   *
+   * @return boolean
    */
   public function inParentTree($anObj)
   {
-  	$tree = $this->getParentTree();
-  	foreach($tree as $treeObj)
-  	{
-  		if($treeObj == $anObj)
-  		{
-  			return true;
-  		}
-  	}
-  	return false;
+    $tree = $this->getParentTree();
+    foreach($tree as $treeObj)
+    {
+      if($treeObj == $anObj)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
    *  Accessor Method:
    * returns true if this Article is the Startpage for the category.
    * @deprecated
+   *
+   * @return boolean
    */
   public function isStartPage()
   {
@@ -437,6 +448,8 @@ abstract class rex_ooRedaxo
   /**
    *  Accessor Method:
    * returns true if this Article is the Startpage for the category.
+   *
+   * @return boolean
    */
   public function isStartArticle()
   {
@@ -446,6 +459,8 @@ abstract class rex_ooRedaxo
   /**
    *  Accessor Method:
    * returns true if this Article is the Startpage for the entire site.
+   *
+   * @return boolean
    */
   public function isSiteStartArticle()
   {
@@ -456,6 +471,8 @@ abstract class rex_ooRedaxo
   /**
    *  Accessor Method:
    *  returns  true if this Article is the not found article
+   *
+   *  @return boolean
    */
   public function isNotFoundArticle()
   {
@@ -463,13 +480,39 @@ abstract class rex_ooRedaxo
     return $this->_id == $REX['NOTFOUND_ARTICLE_ID'];
   }
 
-  /*
+  /**
    * Object Helper Function:
    * Returns a String representation of this object
    * for debugging purposes.
+   *
+   * @return string
    */
   public function toString()
   {
     return $this->_id.', '.$this->_name.', '. ($this->isOnline() ? 'online' : 'offline');
+  }
+
+  /**
+   * Formats a datestamp with the given format.
+   *
+   * If format is <code>null</code> the datestamp is returned.
+   *
+   * If format is <code>''</code> the datestamp is formated
+   * with the default <code>dateformat</code> (lang-files).
+   *
+   * @access public
+   * @static
+   */
+  static protected function _getDate($date, $format = null)
+  {
+    if ($format !== null)
+    {
+      if ($format == '')
+      {
+        $format = rex_i18n::msg('dateformat');
+      }
+      return strftime($format, $date);
+    }
+    return $date;
   }
 }

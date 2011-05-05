@@ -10,7 +10,7 @@
  * Attribute:
  *   - category  => Kategorie in die beim oeffnen der Linkmapw gesprungen werden soll
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -24,8 +24,8 @@ class rex_var_link extends rex_var
     $listvalues = rex_request('LINKLIST', 'array');
     for ($i = 1; $i < 11; $i++)
     {
-      $link     = isset($values[$i]) ? stripslashes($values[$i]) : '';
-      $linklist = isset($listvalues[$i]) ? stripslashes($listvalues[$i]) : '';
+      $link     = isset($values[$i]) ? $values[$i] : '';
+      $linklist = isset($listvalues[$i]) ? $listvalues[$i] : '';
 
       $REX_ACTION['LINK'][$i] = $link;
       $REX_ACTION['LINKLIST'][$i] = $linklist;
@@ -115,13 +115,13 @@ class rex_var_link extends rex_var
     foreach ($matches as $match)
     {
       list ($param_str, $args) = $match;
-      list ($id, $args) = $this->extractArg('id', $args, 0);
+      $id = $this->getArg('id', $args, 0);
 
       if ($id < 11 && $id > 0)
       {
         // Wenn vom Programmierer keine Kategorie vorgegeben wurde,
         // die Linkmap mit der aktuellen Kategorie öffnen
-      	list ($category, $args) = $this->extractArg('category', $args, $def_category);
+      	$category = $this->getArg('category', $args, $def_category);
 
         $replace = $this->getLinkButton($id, $this->getValue($sql, 'link' . $id), $category, $args);
         $replace = $this->handleGlobalWidgetParams($var, $args, $replace);
@@ -142,11 +142,11 @@ class rex_var_link extends rex_var
     foreach ($matches as $match)
     {
       list ($param_str, $args) = $match;
-      list ($id, $args) = $this->extractArg('id', $args, 0);
+      $id = $this->getArg('id', $args, 0);
 
       if ($id < 11 && $id > 0)
       {
-        list ($category, $args) = $this->extractArg('category', $args, 0);
+        $category = $this->getArg('category', $args, 0);
 
         $replace = $this->getLinklistButton($id, $this->getValue($sql, 'linklist' . $id), $category);
         $replace = $this->handleGlobalWidgetParams($var, $args, $replace);
@@ -167,7 +167,7 @@ class rex_var_link extends rex_var
     foreach ($matches as $match)
     {
       list ($param_str, $args) = $match;
-      list ($id, $args) = $this->extractArg('id', $args, 0);
+      $id = $this->getArg('id', $args, 0);
 
       if ($id > 0 && $id < 11)
       {
@@ -193,7 +193,7 @@ class rex_var_link extends rex_var
     foreach ($matches as $match)
     {
       list ($param_str, $args) = $match;
-      list ($id, $args) = $this->extractArg('id', $args, 0);
+      $id = $this->getArg('id', $args, 0);
 
       if ($id > 0 && $id < 11)
       {
@@ -216,7 +216,7 @@ class rex_var_link extends rex_var
     foreach ($matches as $match)
     {
       list ($param_str, $args) = $match;
-      list ($id, $args) = $this->extractArg('id', $args, 0);
+      $id = $this->getArg('id', $args, 0);
 
       if ($id > 0 && $id < 11)
       {
@@ -279,8 +279,8 @@ class rex_var_link extends rex_var
 		  </p>
        <p class="rex-widget-icons rex-widget-1col">
        	<span class="rex-widget-column rex-widget-column-first">
-  	     	<a href="#" class="'. $open_class .'" onclick="'. $open_func .'return false;" title="'. $REX['I18N']->msg('var_link_open') .'"'. rex_tabindex() .'></a>
- 	  			<a href="#" class="'. $delete_class .'" onclick="'. $delete_func .'return false;" title="'. $REX['I18N']->msg('var_link_delete') .'"'. rex_tabindex() .'></a>
+  	     	<a href="#" class="'. $open_class .'" onclick="'. $open_func .'return false;" title="'. rex_i18n::msg('var_link_open') .'"></a>
+ 	  			<a href="#" class="'. $delete_class .'" onclick="'. $delete_func .'return false;" title="'. rex_i18n::msg('var_link_delete') .'"></a>
 	 	  	</span>
  		  </p>
  		</div>
@@ -332,20 +332,20 @@ class rex_var_link extends rex_var
     <div class="rex-widget-linklist">
       <input type="hidden" name="LINKLIST['. $id .']" id="REX_LINKLIST_'. $id .'" value="'. $value .'" />
       <p class="rex-widget-field">
-        <select name="LINKLIST_SELECT[' . $id . ']" id="REX_LINKLIST_SELECT_' . $id . '" size="8"'. rex_tabindex() .'>
+        <select name="LINKLIST_SELECT[' . $id . ']" id="REX_LINKLIST_SELECT_' . $id . '" size="8">
           ' . $options . '
         </select>
       </p>
        <p class="rex-widget-icons rex-widget-2col">
        	<span class="rex-widget-column rex-widget-column-first">
-					<a href="#" class="rex-icon-file-top" onclick="moveREXLinklist(' . $id . ',\'top\');return false;" title="'. $REX['I18N']->msg('var_linklist_move_top') .'"'. rex_tabindex() .'></a>
-					<a href="#" class="rex-icon-file-up" onclick="moveREXLinklist(' . $id . ',\'up\');return false;" title="'. $REX['I18N']->msg('var_linklist_move_up') .'"'. rex_tabindex() .'></a>
-					<a href="#" class="rex-icon-file-down" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="'. $REX['I18N']->msg('var_linklist_move_down') .'"'. rex_tabindex() .'></a>
-	        <a href="#" class="rex-icon-file-bottom" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="'. $REX['I18N']->msg('var_linklist_move_bottom') .'"'. rex_tabindex() .'></a>
+					<a href="#" class="rex-icon-file-top" onclick="moveREXLinklist(' . $id . ',\'top\');return false;" title="'. rex_i18n::msg('var_linklist_move_top') .'"></a>
+					<a href="#" class="rex-icon-file-up" onclick="moveREXLinklist(' . $id . ',\'up\');return false;" title="'. rex_i18n::msg('var_linklist_move_up') .'"></a>
+					<a href="#" class="rex-icon-file-down" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="'. rex_i18n::msg('var_linklist_move_down') .'"></a>
+	        <a href="#" class="rex-icon-file-bottom" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="'. rex_i18n::msg('var_linklist_move_bottom') .'"></a>
        	</span>
        	<span class="rex-widget-column">
-					<a href="#" class="'. $open_class .'" onclick="'. $open_func .'return false;" title="'. $REX['I18N']->msg('var_link_open') .'"'. rex_tabindex() .'></a>
-					<a href="#" class="'. $delete_class .'" onclick="'. $delete_func .'return false;" title="'. $REX['I18N']->msg('var_link_delete') .'"'. rex_tabindex() .'></a>
+					<a href="#" class="'. $open_class .'" onclick="'. $open_func .'return false;" title="'. rex_i18n::msg('var_link_open') .'"></a>
+					<a href="#" class="'. $delete_class .'" onclick="'. $delete_func .'return false;" title="'. rex_i18n::msg('var_link_delete') .'"></a>
         </span>
  	    </p>
     </div>

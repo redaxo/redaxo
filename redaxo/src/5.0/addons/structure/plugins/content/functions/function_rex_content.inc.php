@@ -1,8 +1,5 @@
 <?php
 
-require_once rex_path::addon('structure', 'functions/function_rex_structure.inc.php');
-
-
 /**
  * Verschiebt einen Slice nach oben
  *
@@ -47,7 +44,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
   // article regenerieren.
 
   $success = false;
-  $message = $REX['I18N']->msg('slice_moved_error');
+  $message = rex_i18n::msg('slice_moved_error');
 
   // check if slice id is valid
   $CM = rex_sql::factory();
@@ -60,12 +57,12 @@ function rex_moveSlice($slice_id, $clang, $direction)
     $upd->setWhere(array(
       'id' => $slice_id
     ));
-    
+
     // some vars for later use
     $article_id = $CM->getValue('article_id');
     $ctype = $CM->getValue('ctype');
     $slice_revision = $CM->getValue('revision');
-    
+
     if ($direction == "moveup" || $direction == "movedown")
     {
       if ($direction == "moveup")
@@ -80,17 +77,17 @@ function rex_moveSlice($slice_id, $clang, $direction)
       }
       $upd->addGlobalUpdateFields();
       $upd->update();
-      
+
       rex_organize_priorities(
         $REX['TABLE_PREFIX'] . 'article_slice',
         'prior',
         'article_id=' . $article_id . ' AND clang=' . $clang .' AND ctype='. $ctype .' AND revision='. $slice_revision,
         'prior, updatedate '. $updSort
       );
-      
-      rex_deleteCacheArticleContent($article_id, $clang);
-      
-      $message = $REX['I18N']->msg('slice_moved');
+
+      rex_article_cache::deleteContent($article_id, $clang);
+
+      $message = rex_i18n::msg('slice_moved');
       $success = true;
     }
     else
@@ -124,7 +121,7 @@ function rex_deleteSlice($slice_id)
   // delete the slice
   $del = rex_sql::factory();
   $del->setQuery('DELETE FROM ' . $REX['TABLE_PREFIX'] . 'article_slice WHERE id=' . $slice_id);
-  
+
   // reorg remaining slices
   rex_organize_priorities(
     $REX['TABLE_PREFIX'] . 'article_slice',
@@ -154,19 +151,17 @@ function rex_execPreViewAction($module_id, $function, $REX_ACTION)
   $ga = rex_sql::factory();
   $ga->setQuery('SELECT a.id, preview FROM '.$REX['TABLE_PREFIX'].'module_action ma,'. $REX['TABLE_PREFIX']. 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $module_id .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
 
-  while ($ga->hasNext())
+  foreach ($ga as $row)
   {
-    $iaction = $ga->getValue('preview');
+    $iaction = $row->getValue('preview');
 
     // ****************** VARIABLEN ERSETZEN
-    foreach($REX['VARIABLES'] as $obj)
+    foreach(rex_var::getVars() as $obj)
     {
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    require rex_variableStream::factory('action/'. $ga->getValue('id') .'/preview', $iaction);
-
-    $ga->next();
+    require rex_variableStream::factory('action/'. $row->getValue('id') .'/preview', $iaction);
   }
 
   return $REX_ACTION;
@@ -190,23 +185,21 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
   $ga = rex_sql::factory();
   $ga->setQuery('SELECT a.id, presave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE presave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.presavemode & ' . $modebit . ') = ' . $modebit . ')');
 
-  while ($ga->hasNext())
+  foreach($ga as $row)
   {
     $REX_ACTION['MSG'] = '';
-    $iaction = $ga->getValue('presave');
+    $iaction = $row->getValue('presave');
 
     // *********************** WERTE ERSETZEN
-    foreach ($REX['VARIABLES'] as $obj)
+    foreach (rex_var::getVars() as $obj)
     {
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    require rex_variableStream::factory('action/'. $ga->getValue('id') .'/presave', $iaction);
+    require rex_variableStream::factory('action/'. $row->getValue('id') .'/presave', $iaction);
 
     if ($REX_ACTION['MSG'] != '')
       $messages[] = $REX_ACTION['MSG'];
-
-    $ga->next();
   }
   return array(implode(' | ', $messages), $REX_ACTION);
 }
@@ -229,23 +222,21 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
   $ga = rex_sql::factory();
   $ga->setQuery('SELECT a.id, postsave FROM ' . $REX['TABLE_PREFIX'] . 'module_action ma,' . $REX['TABLE_PREFIX'] . 'action a WHERE postsave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.postsavemode & ' . $modebit . ') = ' . $modebit . ')');
 
-  while ($ga->hasNext())
+  foreach ($ga as $row)
   {
     $REX_ACTION['MSG'] = '';
-    $iaction = $ga->getValue('postsave');
+    $iaction = $row->getValue('postsave');
 
     // ***************** WERTE ERSETZEN UND POSTACTION AUSFÜHREN
-    foreach ($REX['VARIABLES'] as $obj)
+    foreach (rex_var::getVars() as $obj)
     {
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    require rex_variableStream::factory('action/'. $ga->getValue('id') .'/postsave', $iaction);
+    require rex_variableStream::factory('action/'. $row->getValue('id') .'/postsave', $iaction);
 
     if ($REX_ACTION['MSG'] != '')
       $messages[] = $REX_ACTION['MSG'];
-
-    $ga->next();
   }
   return implode(' | ', $messages);
 }
@@ -365,7 +356,7 @@ function rex_article2startpage($neu_id){
 
   foreach($GAID as $gid)
   {
-    rex_deleteCacheArticle($gid);
+    rex_article_cache::delete($gid);
   }
 
   $users = rex_sql::factory();
@@ -373,7 +364,7 @@ function rex_article2startpage($neu_id){
 
   foreach($REX['CLANG'] as $clang => $clang_name)
   {
-    rex_register_extension_point('ART_TO_STARTPAGE', '', array (
+    rex_extension::registerPoint('ART_TO_STARTPAGE', '', array (
       'id' => $neu_id,
       'id_old' => $alt_id,
       'clang' => $clang,
@@ -413,15 +404,15 @@ function rex_article2category($art_id){
     $sql->setValue('catprior', 100);
     $sql->update();
 
-    rex_newCatPrio($re_id, $clang, 0, 100);
+    rex_category_service::newCatPrio($re_id, $clang, 0, 100);
   }
 
-  rex_deleteCacheArticleLists($re_id);
-  rex_deleteCacheArticle($art_id);
+  rex_article_cache::deleteLists($re_id);
+  rex_article_cache::delete($art_id);
 
   foreach($REX['CLANG'] as $clang => $clang_name)
   {
-    rex_register_extension_point('ART_TO_CAT', '', array (
+    rex_extension::registerPoint('ART_TO_CAT', '', array (
       'id' => $art_id,
       'clang' => $clang,
     ));
@@ -464,15 +455,15 @@ function rex_category2article($art_id){
     $sql->setValue('prior', 100);
     $sql->update();
 
-    rex_newArtPrio($re_id, $clang, 0, 100);
+    rex_article_service::newArtPrio($re_id, $clang, 0, 100);
   }
 
-  rex_deleteCacheArticleLists($re_id);
-  rex_deleteCacheArticle($art_id);
+  rex_article_cache::deleteLists($re_id);
+  rex_article_cache::delete($art_id);
 
   foreach($REX['CLANG'] as $clang => $clang_name)
   {
-    rex_register_extension_point('CAT_TO_ART', '', array (
+    rex_extension::registerPoint('CAT_TO_ART', '', array (
       'id' => $art_id,
       'clang' => $clang,
     ));
@@ -535,7 +526,7 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
 
     $uc->update();
 
-    rex_deleteCacheArticleMeta($to_id,$to_clang);
+    rex_article_cache::deleteMeta($to_id,$to_clang);
     return true;
   }
   return false;
@@ -572,32 +563,27 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
     $cols = rex_sql::factory();
     // $cols->debugsql = 1;
     $cols->setquery("SHOW COLUMNS FROM ".$REX['TABLE_PREFIX']."article_slice");
-    while($gc->hasNext())
+    foreach($gc as $slice)
     {
-      while($cols->hasNext())
+      foreach($cols as $col)
       {
-        $colname = $cols->getValue("Field");
+        $colname = $col->getValue("Field");
         if ($colname == "clang") $value = $to_clang;
         elseif ($colname == "article_id") $value = $to_id;
         else
-          $value = $gc->getValue($colname);
-  
+          $value = $slice->getValue($colname);
+
         // collect all affected ctypes
         if ($colname == "ctype")
           $ctypes[$value] = $value;
-        
+
         if ($colname != "id")
           $ins->setValue($colname, $value);
-          
-        $cols->next();
       }
-      $cols->reset();
-      
+
       $ins->addGlobalUpdateFields();
       $ins->addGlobalCreateFields();
       $ins->insert();
-      
-      $gc->next();
     }
 
     foreach($ctypes as $ctype)
@@ -610,8 +596,8 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
         'prior, updatedate'
       );
     }
-  
-    rex_deleteCacheArticleContent($to_id, $to_clang);
+
+    rex_article_cache::deleteContent($to_id, $to_clang);
     return true;
   }
 
@@ -689,15 +675,14 @@ function rex_copyArticle($id, $to_cat_id)
         // TODO Doublecheck... is this really correct?
         $revisions = rex_sql::factory();
         $revisions->setQuery("select revision from ".$REX['TABLE_PREFIX']."article_slice where prior=1 AND ctype=1 AND article_id='$id' AND clang='$clang'");
-        while($revisions->hasNext())
+        foreach($revisions as $rev)
         {
           // ArticleSlices kopieren
-          rex_copyContent($id, $new_id, $clang, $clang, 0, $revisions->getValue('revision'));
-          $revisions->next();
+          rex_copyContent($id, $new_id, $clang, $clang, 0, $rev->getValue('revision'));
         }
 
         // Prios neu berechnen
-        rex_newArtPrio($to_cat_id, $clang, 1, 0);
+        rex_article_service::newArtPrio($to_cat_id, $clang, 1, 0);
       }
       else
       {
@@ -711,10 +696,10 @@ function rex_copyArticle($id, $to_cat_id)
   }
 
   // Caches des Artikels löschen, in allen Sprachen
-  rex_deleteCacheArticle($id);
+  rex_article_cache::delete($id);
 
   // Caches der Kategorien löschen, da sich derin befindliche Artikel geändert haben
-  rex_deleteCacheArticle($to_cat_id);
+  rex_article_cache::delete($to_cat_id);
 
   return $new_id;
 }
@@ -784,8 +769,8 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
         $art_sql->update();
 
         // Prios neu berechnen
-        rex_newArtPrio($to_cat_id, $clang, 1, 0);
-        rex_newArtPrio($from_cat_id, $clang, 1, 0);
+        rex_article_service::newArtPrio($to_cat_id, $clang, 1, 0);
+        rex_article_service::newArtPrio($from_cat_id, $clang, 1, 0);
       }
       else
       {
@@ -799,11 +784,11 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
   }
 
   // Caches des Artikels löschen, in allen Sprachen
-  rex_deleteCacheArticle($id);
+  rex_article_cache::delete($id);
 
   // Caches der Kategorien löschen, da sich derin befindliche Artikel geändert haben
-  rex_deleteCacheArticle($from_cat_id);
-  rex_deleteCacheArticle($to_cat_id);
+  rex_article_cache::delete($from_cat_id);
+  rex_article_cache::delete($to_cat_id);
 
   return true;
 }
@@ -918,12 +903,12 @@ function rex_moveCategory($from_cat, $to_cat)
       // ----- generiere artikel neu - ohne neue inhaltsgenerierung
       foreach($RC as $id => $key)
       {
-        rex_deleteCacheArticle($id);
+        rex_article_cache::delete($id);
       }
 
       foreach($REX['CLANG'] as $clang => $clang_name)
       {
-        rex_newCatPrio($fcat->getValue("re_id"),$clang,0,1);
+        rex_category_service::newCatPrio($fcat->getValue("re_id"),$clang,0,1);
       }
     }
   }
@@ -958,7 +943,7 @@ function rex_generateArticleContent($article_id, $clang = null)
     $article_content = $CONT->getArticle();
 
     // ----- EXTENSION POINT
-    $article_content = rex_register_extension_point('GENERATE_FILTER', $article_content,
+    $article_content = rex_extension::registerPoint('GENERATE_FILTER', $article_content,
       array (
         'id' => $article_id,
         'clang' => $_clang,
@@ -966,9 +951,9 @@ function rex_generateArticleContent($article_id, $clang = null)
       )
     );
 
-    if (rex_put_file_contents($article_content_file, $article_content) === FALSE)
+    if (rex_file::put($article_content_file, $article_content) === FALSE)
     {
-      return $REX['I18N']->msg('article_could_not_be_generated')." ".$REX['I18N']->msg('check_rights_in_directory').rex_path::generated('articles/');
+      return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::generated('articles/');
     }
   }
 

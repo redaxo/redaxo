@@ -6,11 +6,11 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
-rex_title($REX['I18N']->msg('dashboard'), '');
+rex_title(rex_i18n::msg('dashboard'), '');
 
 $contentFound = false;
 
@@ -29,7 +29,7 @@ if($content != '')
 
 // ----- EXTENSION POINT
 $dashboard_components = array();
-$dashboard_components = rex_register_extension_point('DASHBOARD_COMPONENT', $dashboard_components);
+$dashboard_components = rex_extension::registerPoint('DASHBOARD_COMPONENT', $dashboard_components);
 
 // ------------ sort components by block and format
 $components = array();
@@ -42,7 +42,7 @@ foreach($dashboard_components as $index => $component)
 
     if($block == '' && $format == 'half')
     {
-      $block = $REX['I18N']->msg('dashboard_component_block_misc');
+      $block = rex_i18n::msg('dashboard_component_block_misc');
     }
 
     if(!isset($components[$format]))
@@ -141,5 +141,5 @@ foreach($components as $format => $componentBlocks)
 
 if(!$contentFound)
 {
-  echo rex_warning($REX['I18N']->msg('dashboard_no_content'));
+  echo rex_warning(rex_i18n::msg('dashboard_no_content'));
 }

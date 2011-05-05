@@ -12,7 +12,7 @@
 $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 
-rex_title($REX['I18N']->msg("install_name"),array());
+rex_title(rex_i18n::msg("install_name"),array());
 
 
 // addons

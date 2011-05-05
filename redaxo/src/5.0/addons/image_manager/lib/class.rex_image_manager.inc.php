@@ -17,7 +17,7 @@ class rex_image_manager
     if(!$this->image_cacher->isCached($image, $type))
     {
       $set = $this->effectsFromType($type);
-      $set   = rex_register_extension_point('IMAGE_MANAGER_FILTERSET',$set,array('rex_image_type'=>$type));
+      $set   = rex_extension::registerPoint('IMAGE_MANAGER_FILTERSET',$set,array('rex_image_type'=>$type));
 
       $image->prepare();
 
@@ -54,10 +54,10 @@ class rex_image_manager
     $sql->setQuery($qry);
 
     $effects = array();
-    while($sql->hasNext())
+    foreach($sql as $row)
     {
-      $effname = $sql->getValue('effect');
-      $params = json_decode($sql->getValue('parameters'), true);
+      $effname = $row->getValue('effect');
+      $params = json_decode($row->getValue('parameters'), true);
       $effparams = array();
 
       // extract parameter out of array
@@ -76,7 +76,6 @@ class rex_image_manager
       );
 
       $effects[] = $effect;
-      $sql->next();
     }
     return $effects;
   }

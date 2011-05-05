@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -14,19 +14,19 @@ switch ($subpage)
 {
   case 'actions' :
     {
-      $title = $REX['I18N']->msg('modules').': '.$REX['I18N']->msg('actions');
+      $title = rex_i18n::msg('modules').': '.rex_i18n::msg('actions');
       $file = 'module.action.inc.php';
       break;
     }
   default :
     {
-      $title = $REX['I18N']->msg('modules');
+      $title = rex_i18n::msg('modules');
       $file = 'module.modules.inc.php';
       break;
     }
 }
 
 
-rex_title($title, array (array ('', $REX['I18N']->msg('modules')), array ('actions', $REX['I18N']->msg('actions'))));
+rex_title($title, array (array ('', rex_i18n::msg('modules')), array ('actions', rex_i18n::msg('actions'))));
 
 require dirname(__FILE__).'/'. $file;

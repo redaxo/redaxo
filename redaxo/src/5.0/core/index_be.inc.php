@@ -2,16 +2,13 @@
 
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
 // ----- caching start für output filter
 ob_start();
 ob_implicit_flush(0);
-
-// ----------------- MAGIC QUOTES CHECK
-// require_once rex_path::src('core/functions/function_rex_mquotes.inc.php');
 
 
 require_once rex_path::src('config/master.inc.php');
@@ -31,28 +28,11 @@ $REX['LOGIN'] = NULL;
 if ($REX['SETUP'])
 {
   // ----------------- SET SETUP LANG
-  $REX['LANG'] = '';
   $requestLang = rex_request('lang', 'string');
-  $langpath = rex_path::src('core/lang');
-  $REX['LANGUAGES'] = array();
-  if ($handle = opendir($langpath))
-  {
-    while (false !== ($file = readdir($handle)))
-    {
-      if (substr($file,-5) == '.lang')
-      {
-        $locale = substr($file,0,strlen($file)-strlen(substr($file,-5)));
-        $REX['LANGUAGES'][] = $locale;
-        if($requestLang == $locale)
-          $REX['LANG'] = $locale;
-      }
-    }
-  }
-  closedir($handle);
-  if($REX['LANG'] == '')
-    $REX['LANG'] = 'de_de';
+  if(in_array($requestLang, rex_i18n::getLocales()))
+    $REX['LANG'] = $requestLang;
 
-  $REX['I18N'] = rex_create_lang($REX['LANG']);
+  rex_i18n::setLocale($REX['LANG']);
 
   $REX['PAGES']['setup'] = rex_be_navigation::getSetupPage();
   $REX['PAGE'] = "setup";
@@ -60,7 +40,7 @@ if ($REX['SETUP'])
 }else
 {
   // ----------------- CREATE LANG OBJ
-  $REX['I18N'] = rex_create_lang($REX['LANG']);
+  rex_i18n::setLocale($REX['LANG']);
 
   // ---- prepare login
   $REX['LOGIN'] = new rex_backend_login();
@@ -98,8 +78,10 @@ if ($REX['SETUP'])
   {
     // Userspezifische Sprache einstellen
     $lang = $REX['LOGIN']->getLanguage();
-    $lang = $lang == 'default' ? $REX['LANG']: $lang;
-    $REX['I18N'] = rex_create_lang($lang);
+    if($lang != 'default' && $lang != $REX['LANG'])
+    {
+      rex_i18n::setLocale($lang);
+    }
 
     $REX['USER'] = $REX['LOGIN']->USER;
   }
@@ -112,7 +94,7 @@ if($REX['USER'])
 }
 
 // ----- INCLUDE ADDONS
-include_once rex_path::src('core/packages.inc.php');
+include_once rex_path::core('packages.inc.php');
 
 // ----- Prepare AddOn Pages
 if($REX['USER'])
@@ -313,7 +295,10 @@ $REX['PAGE_NO_NAVI'] = !$pageObj->hasNavigation();
 
 // ----- EXTENSION POINT
 // page variable validated
-rex_register_extension_point( 'PAGE_CHECKED', $REX['PAGE'], array('pages' => $REX['PAGES']));
+rex_extension::registerPoint( 'PAGE_CHECKED', $REX['PAGE'], array('pages' => $REX['PAGES']));
+
+// trigger api functions
+rex_api_function::handleCall();
 
 $path = '';
 if($pageObj->hasPath())
@@ -323,7 +308,7 @@ if($pageObj->hasPath())
 }else if($pageObj->isCorePage())
 {
   // Core Page
-  $path = rex_path::src('core/pages/'. $REX['PAGE'] .'.inc.php');
+  $path = rex_path::core('pages/'. $REX['PAGE'] .'.inc.php');
 }else
 {
   // Addon Page
@@ -332,9 +317,9 @@ if($pageObj->hasPath())
 
 if($pageObj->hasLayout())
 {
-  require rex_path::src('core/layout/top.php');
+  require rex_path::core('layout/top.php');
   require $path;
-  require rex_path::src('core/layout/bottom.php');
+  require rex_path::core('layout/bottom.php');
 }else
 {
   require $path;
@@ -345,4 +330,4 @@ $CONTENT = ob_get_contents();
 ob_end_clean();
 
 // ----- inhalt ausgeben
-rex_send_article(null, $CONTENT, 'backend', TRUE);
+rex_response::sendArticle(null, $CONTENT, 'backend', TRUE);

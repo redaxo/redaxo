@@ -3,7 +3,7 @@
 
 /**
  * Object Oriented Framework: Bildet eine Kategorie im Medienpool ab
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -55,12 +55,12 @@ class rex_ooMediaCategory
     $cat_path = rex_path::generated('files/'.$id.'.mcat');
     if (!file_exists($cat_path))
 		{
-    	rex_generateMediaCategory($id);
+    	rex_media_cache::generateCategory($id);
 		}
 
     if (file_exists($cat_path))
     {
-      $REX['MEDIA']['CAT_ID'][$id] = json_decode(rex_get_file_contents($cat_path), true);
+      $REX['MEDIA']['CAT_ID'][$id] = rex_file::getCache($cat_path);
 
       $cat = new rex_ooMediaCategory();
 
@@ -110,12 +110,12 @@ class rex_ooMediaCategory
     $catlist_path = rex_path::generated('files/'.$id.'.mclist');
     if (!file_exists($catlist_path))
 		{
-    	rex_generateMediaCategoryList($id);
+    	rex_media_cache::generateCategoryList($id);
 		}
 
     if (file_exists($catlist_path))
     {
-      $REX['MEDIA']['RE_CAT_ID'][$id] = json_decode(rex_get_file_contents($catlist_path), true);
+      $REX['MEDIA']['RE_CAT_ID'][$id] = rex_file::getCache($catlist_path);
 
       if (isset($REX['MEDIA']['RE_CAT_ID'][$id]) && is_array($REX['MEDIA']['RE_CAT_ID'][$id]))
       {
@@ -277,7 +277,7 @@ class rex_ooMediaCategory
 
     if ($this->_children === null)
     {
-      $this->_children = rex_ooMediaCategory :: getChildrenById($this->getId());
+      $this->_children = self :: getChildrenById($this->getId());
     }
 
     return $this->_children;
@@ -306,12 +306,12 @@ class rex_ooMediaCategory
       $list_path = rex_path::generated('files/'.$id.'.mlist');
       if (!file_exists($list_path))
   		{
-      	rex_generateMediaList($id);
+      	rex_media_cache::generateList($id);
   		}
 
       if (file_exists($list_path))
       {
-        $REX['MEDIA']['MEDIA_CAT_ID'][$id] = json_decode(rex_get_file_contents($list_path), true);
+        $REX['MEDIA']['MEDIA_CAT_ID'][$id] = rex_file::getCache($list_path);
 
         if (isset($REX['MEDIA']['MEDIA_CAT_ID'][$id]) && is_array($REX['MEDIA']['MEDIA_CAT_ID'][$id]))
         {
@@ -357,7 +357,7 @@ class rex_ooMediaCategory
     {
       return $mediaCat == $this->getParentId();
     }
-    elseif (rex_ooMediaCategory :: isValid($mediaCat))
+    elseif (self :: isValid($mediaCat))
     {
       return $this->getParentId() == $mediaCat->getId();
     }
@@ -424,7 +424,7 @@ class rex_ooMediaCategory
       $sql->setWhere('id=' . $this->getId() . ' LIMIT 1');
       $success = $sql->update();
       if ($success)
-        rex_deleteCacheMediaCategory($this->getId());
+        rex_media_cache::deleteCategory($this->getId());
       return $success;
     }
     else
@@ -432,7 +432,7 @@ class rex_ooMediaCategory
       $sql->addGlobalCreateFields();
       $success = $sql->insert();
       if ($success)
-        rex_deleteCacheMediaCategoryList($this->getParentId());
+        rex_media_cache::deleteCategoryList($this->getParentId());
       return $success;
     }
   }
@@ -473,8 +473,8 @@ class rex_ooMediaCategory
     // $sql->debugsql = true;
     $sql->setQuery($qry);
 
-    rex_deleteCacheMediaCategory($this->getId());
-    rex_deleteCacheMediaList($this->getId());
+    rex_media_cache::deleteCategory($this->getId());
+    rex_media_cache::deleteList($this->getId());
 
     return !$sql->hasError() || $sql->getRows() != 1;
   }
