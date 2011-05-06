@@ -218,7 +218,27 @@ abstract class rex_ooRedaxo
   {
     return $this->_re_id;
   }
+  
+  /**
+   * Accessor Method:
+   * returns the path of the category/article
+   *
+   * @return string
+   */
+  public abstract function getPath();
 
+  /**
+   * Accessor Method:
+   * returns the path ids of the category/article as an array
+   *
+   * @return array[int]
+   */
+  public function getPathAsArray()
+  {
+    $path = explode('|', $this->getPath());
+    return array_values(array_map('intval', array_filter($path)));
+  }
+  
   /**
    * Object Function:
    * Returns the parent category

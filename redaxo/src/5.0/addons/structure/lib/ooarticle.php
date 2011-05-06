@@ -217,18 +217,6 @@ class rex_ooArticle extends rex_ooRedaxo
   }
 
   /**
-   * Accessor Method:
-   * returns the path ids of the category/article as an array
-   *
-   * @return array[int]
-   */
-  public function getPathAsArray()
-  {
-    $path = explode('|', $this->getPath());
-    return array_values(array_map('intval', array_filter($path)));
-  }
-
-  /**
    * Static Method: Returns True when the given article is a valid rex_ooArticle
    *
    * @return boolean

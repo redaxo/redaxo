@@ -234,26 +234,6 @@ class rex_ooCategory extends rex_ooRedaxo
   }
 
   /**
-   * Accessor Method:
-   * returns the path ids of the category as an array
-   * 
-   * @return array[int]
-   */
-  public function getPathAsArray()
-  {
-  	$p = explode('|',$this->_path);
-  	foreach($p as $k => $v)
-  	{
-  		if($v == '')
-  			unset($p[$k]);
-  		else
-  		  $p[$k] = (int) $v;
-  	}
-
-    return array_values($p);
-  }
-
-  /**
    * @param integer $category
    * @param integer $clang
    * 
