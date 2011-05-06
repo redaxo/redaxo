@@ -54,7 +54,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_package::getAddon()
+   * @see rex_packageInterface::getAddon()
    */
   public function getAddon()
   {
@@ -62,7 +62,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_package::getPackageId()
+   * @see rex_packageInterface::getPackageId()
    */
   public function getPackageId()
   {
@@ -70,7 +70,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_package::getBasePath()
+   * @see rex_packageInterface::getBasePath()
    */
   public function getBasePath($file = '')
   {
@@ -78,7 +78,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_package::getAssetsPath()
+   * @see rex_packageInterface::getAssetsPath()
    */
   public function getAssetsPath($file = '')
   {
@@ -86,7 +86,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_package::getDataPath()
+   * @see rex_packageInterface::getDataPath()
    */
   public function getDataPath($file = '')
   {
@@ -94,7 +94,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_addon::getPlugin()
+   * @see rex_addonInterface::getPlugin()
    */
   public function getPlugin($plugin)
   {
@@ -110,7 +110,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_addon::pluginExists()
+   * @see rex_addonInterface::pluginExists()
    */
   public function pluginExists($plugin)
   {
@@ -118,7 +118,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_addon::getRegisteredPlugins()
+   * @see rex_addonInterface::getRegisteredPlugins()
    */
   public function getRegisteredPlugins()
   {
@@ -126,7 +126,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_addon::getInstalledPlugins()
+   * @see rex_addonInterface::getInstalledPlugins()
    */
   public function getInstalledPlugins()
   {
@@ -134,7 +134,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_addon::getAvailablePlugins()
+   * @see rex_addonInterface::getAvailablePlugins()
    */
   public function getAvailablePlugins()
   {

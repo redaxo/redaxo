@@ -8,7 +8,7 @@
 class rex_nullAddon extends rex_nullPackage implements rex_addonInterface
 {
   /* (non-PHPdoc)
-   * @see rex_i_addon::getPlugin()
+   * @see rex_addonInterface::getPlugin()
    */
   public function getPlugin($plugin)
   {
@@ -16,7 +16,7 @@ class rex_nullAddon extends rex_nullPackage implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_addon::pluginExists()
+   * @see rex_addonInterface::pluginExists()
    */
   public function pluginExists($plugin)
   {
@@ -24,7 +24,7 @@ class rex_nullAddon extends rex_nullPackage implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_addon::getRegisteredPlugins()
+   * @see rex_addonInterface::getRegisteredPlugins()
    */
   public function getRegisteredPlugins()
   {
@@ -32,7 +32,7 @@ class rex_nullAddon extends rex_nullPackage implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_addon::getInstalledPlugins()
+   * @see rex_addonInterface::getInstalledPlugins()
    */
   public function getInstalledPlugins()
   {
@@ -40,7 +40,7 @@ class rex_nullAddon extends rex_nullPackage implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_addon::getAvailablePlugins()
+   * @see rex_addonInterface::getAvailablePlugins()
    */
   public function getAvailablePlugins()
   {

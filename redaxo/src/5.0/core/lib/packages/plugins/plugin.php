@@ -65,7 +65,7 @@ class rex_plugin extends rex_package implements rex_pluginInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_package::getAddon()
+   * @see rex_packageInterface::getAddon()
    */
   public function getAddon()
   {
@@ -73,7 +73,7 @@ class rex_plugin extends rex_package implements rex_pluginInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_package::getPackageId()
+   * @see rex_packageInterface::getPackageId()
    */
   public function getPackageId()
   {
@@ -81,7 +81,7 @@ class rex_plugin extends rex_package implements rex_pluginInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_package::getBasePath()
+   * @see rex_packageInterface::getBasePath()
    */
   public function getBasePath($file = '')
   {
@@ -89,7 +89,7 @@ class rex_plugin extends rex_package implements rex_pluginInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_package::getAssetsPath()
+   * @see rex_packageInterface::getAssetsPath()
    */
   public function getAssetsPath($file = '')
   {
@@ -97,7 +97,7 @@ class rex_plugin extends rex_package implements rex_pluginInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_package::getDataPath()
+   * @see rex_packageInterface::getDataPath()
    */
   public function getDataPath($file = '')
   {
@@ -105,7 +105,7 @@ class rex_plugin extends rex_package implements rex_pluginInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_i_package::isAvailable()
+   * @see rex_packageInterface::isAvailable()
    */
   public function isAvailable()
   {
