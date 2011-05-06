@@ -5,7 +5,7 @@
  *
  * @author gharlan
  */
-class rex_plugin extends rex_package implements rex_i_plugin
+class rex_plugin extends rex_package implements rex_pluginInterface
 {
   /**
    * Parent addon

@@ -5,7 +5,7 @@
  *
  * @author gharlan
  */
-class rex_nullAddon extends rex_nullPackage implements rex_i_addon
+class rex_nullAddon extends rex_nullPackage implements rex_addonInterface
 {
   /* (non-PHPdoc)
    * @see rex_i_addon::getPlugin()

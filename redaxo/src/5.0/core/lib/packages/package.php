@@ -5,7 +5,7 @@
  *
  * @author gharlan
  */
-abstract class rex_package implements rex_i_package
+abstract class rex_package implements rex_packageInterface
 {
   /**
    * Name of the package

@@ -5,7 +5,7 @@
  *
  * @author gharlan
  */
-interface rex_i_package
+interface rex_packageInterface
 {
 	/**
    * Returns the name of the package

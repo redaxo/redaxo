@@ -5,7 +5,7 @@
  *
  * @author gharlan
  */
-abstract class rex_nullPackage implements rex_i_package
+abstract class rex_nullPackage implements rex_packageInterface
 {
   /**
    * Singleton instance

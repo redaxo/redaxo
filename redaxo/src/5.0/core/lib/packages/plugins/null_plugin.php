@@ -5,6 +5,6 @@
  *
  * @author gharlan
  */
-class rex_nullPlugin extends rex_nullPackage implements rex_i_plugin
+class rex_nullPlugin extends rex_nullPackage implements rex_pluginInterface
 {
 }

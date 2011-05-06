@@ -5,7 +5,7 @@
  *
  * @author gharlan
  */
-interface rex_i_addon
+interface rex_addonInterface extends rex_packageInterface
 {
   /**
    * Returns the child plugin by the given name

@@ -5,7 +5,7 @@
  *
  * @author gharlan
  */
-class rex_addon extends rex_package implements rex_i_addon
+class rex_addon extends rex_package implements rex_addonInterface
 {
   /**
    * Array of all addons

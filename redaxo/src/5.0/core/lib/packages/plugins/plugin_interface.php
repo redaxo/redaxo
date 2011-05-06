@@ -5,7 +5,7 @@
  *
  * @author gharlan
  */
-interface rex_i_plugin
+interface rex_pluginInterface extends rex_packageInterface
 {
 
 }
