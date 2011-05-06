@@ -28,7 +28,7 @@ class rex_addonManager extends rex_packageManager
       if($plugin->getProperty('status', false))
       {
         $pluginManager = rex_pluginManager::factory($plugin);
-        $pluginManager->loadPackageInfos();
+        self::loadPackageInfos($plugin);
         $return = $pluginManager->checkRequirements();
         if(is_string($return) && !empty($return))
         {
