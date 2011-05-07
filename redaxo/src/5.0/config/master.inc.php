@@ -9,7 +9,7 @@
 // ----------------- SERVER VARS
 
 // Setupservicestatus - if everything ok -> false; if problem set to true;
-$REX['SETUP'] = true;
+$REX['SETUP'] = false;
 $REX['SERVER'] = "redaxo.org";
 $REX['SERVERNAME'] = "REDAXO";
 $REX['VERSION'] = "5";
@@ -18,7 +18,7 @@ $REX['MINORVERSION'] = "0";
 $REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
 $REX['FILEPERM'] = octdec(664); // oktaler wert
 $REX['DIRPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20110323195019";
+$REX['INSTNAME'] = "rex20110507123124";
 $REX['SESSION_DURATION'] = 3000;
 
 // Is set first time SQL Object ist initialised
@@ -81,7 +81,7 @@ date_default_timezone_set($REX['TIMEZONE']);
 
 // ----------------- OTHER STUFF
 //$REX['SYSTEM_ADDONS'] = array('structure', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'image_manager', 'users');
-$REX['SYSTEM_PACKAGES'] = array('structure', 'structure/content', 'structure/linkmap', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/base', 'be_style/agk_skin', 'image_manager', 'users');
+$REX['SYSTEM_PACKAGES'] = array('structure', 'structure/content', 'structure/linkmap', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/agk_skin', 'image_manager', 'users');
 $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
 
 // ----------------- Accesskeys

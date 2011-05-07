@@ -1,22 +1,15 @@
 <?php
 
-class rex_be_navigation
+class rex_be_navigation extends rex_factory
 {
-  private static
-    $class;
   private
     $headlines = array(),
     $pages;
 
   static public function factory()
   {
-    if(!self::$class)
-    {
-      // ----- EXTENSION POINT
-      self::$class = rex_extension::registerPoint('REX_BE_NAVI_CLASSNAME', 'rex_be_navigation');
-    }
-
-    return new self::$class();
+    $class = self::getFactoryClass();
+    return new $class();
   }
 
   public function addPage(rex_be_page_container $mainPage)
