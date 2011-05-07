@@ -24,29 +24,24 @@ $REX['ADDON']['supportpage'][$mypage] = 'www.redaxo.org/de/forum/';
 if($REX["REDAXO"])
 {
 
-	function rex_be_style_agk_skin_css_add($params)
+	rex_extension::register('PAGE_HEADER', function ($params) use ($mypage)
 	{
 	  $params["subject"] .= '
-    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'agk_skin', 'css_import.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
+    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_import.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
 	  <!--[if lte IE 7]>
-	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'agk_skin', 'css_ie_lte_7.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
-	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'agk_skin', 'css_agk_ie_lte_7.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
+	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_ie_lte_7.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
+	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_agk_ie_lte_7.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
 	    <![endif]-->
 	    <!--[if lte IE 6]>
-	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'agk_skin', 'css_ie_lte_6.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
-	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'agk_skin', 'css_agk_ie_lte_6.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
+	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_ie_lte_6.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
+	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_agk_ie_lte_6.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
 	    <![endif]-->';
 	  return $params["subject"];
-	}
+	});
 
-	rex_extension::register('PAGE_HEADER', 'rex_be_style_agk_skin_css_add');
-
-	function rex_be_style_agk_skin_css_body($params)
+	rex_extension::register('PAGE_BODY_ATTR', function ($params)
 	{
 	  $params["subject"]["class"][] = "be-style-agk-skin";
 	  return $params["subject"];
-	}
-
-	rex_extension::register('PAGE_BODY_ATTR', 'rex_be_style_agk_skin_css_body');
-
+	});
 }
