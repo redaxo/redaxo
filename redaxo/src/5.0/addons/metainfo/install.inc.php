@@ -19,6 +19,24 @@ rex_a62_metainfo_cleanup(array('force' => true));
 $uninstall = $curDir.'/uninstall.sql';
 rex_sql_dump::import($uninstall);
 
+// check wheter the columns inside the core have already been installed
+$coreAlreadyUpdated = false;
+$articleColumns = rex_sql::showColumns($REX['TABLE_PREFIX']. 'article');
+foreach($articleColumns as $column)
+{
+  if($column['name'] == 'art_online_from')
+  {
+    $coreAlreadyUpdated = true;
+    break;
+  }
+}
+
+if(!$coreAlreadyUpdated)
+{
+  $coreinstall = $curDir.'/coreinstall.sql';
+  rex_sql_dump::import($coreinstall);
+}
+
 // TODO:
 // - Update von alten Version einfliessen lassen
 
