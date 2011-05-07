@@ -14,7 +14,6 @@ rex_timer::getInstance()->start();
 require_once rex_path::core('functions/function_rex_globals.inc.php');
 require_once rex_path::core('functions/function_rex_mquotes.inc.php');
 require_once rex_path::core('functions/function_rex_ajax.inc.php');
-require_once rex_path::core('functions/function_rex_url.inc.php');
 require_once rex_path::core('functions/function_rex_callable.inc.php');
 require_once rex_path::core('functions/function_rex_other.inc.php');
 require_once rex_path::core('functions/function_rex_generate.inc.php');
