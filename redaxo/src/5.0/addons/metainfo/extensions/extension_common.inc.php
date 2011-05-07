@@ -4,11 +4,11 @@
  * MetaForm Addon
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
-rex_register_extension('OOMEDIA_IS_IN_USE', 'rex_a62_media_is_in_use');
+rex_extension::register('OOMEDIA_IS_IN_USE', 'rex_a62_media_is_in_use');
 
 /**
  * Erstellt den nötigen HTML Code um ein Formular zu erweitern
@@ -44,7 +44,6 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
     $dblength      = $sqlFields->getValue('dblength');
     $restrictions  = $sqlFields->getValue('restrictions');
 
-    $attr .= rex_tabindex();
     $attrArray = rex_split_string($attr);
     if(isset($attrArray['perm']))
     {
@@ -402,7 +401,7 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
       {
         // ----- EXTENSION POINT
         list($field, $tag, $tag_attr, $id, $label, $labelIt) =
-          rex_register_extension_point( 'A62_CUSTOM_FIELD',
+          rex_extension::registerPoint( 'A62_CUSTOM_FIELD',
             array(
               $field,
               $tag,
@@ -507,7 +506,7 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
 
     // Werte im aktuellen Objekt speichern, dass zur Anzeige verwendet wird
     if(isset($params['activeItem']))
-      $params['activeItem']->setValue($fieldName, stripslashes($saveValue));
+      $params['activeItem']->setValue($fieldName, $saveValue);
   }
 }
 
@@ -653,7 +652,7 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
   $article = rex_sql::factory();
 //  $article->debugsql = true;
   $article->setTable($REX['TABLE_PREFIX']. 'article');
-  $article->setWhere('id='. $params['id'] .' AND clang='. $params['clang']);
+  $article->setWhere('id=:id AND clang=:clang', array(':id'=> $params['id'], ':clang' => $params['clang']));
 
   _rex_a62_metainfo_handleSave($params, $article, $sqlFields);
 
@@ -662,7 +661,7 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
     $article->update();
 
   // Artikel nochmal mit den zusätzlichen Werten neu generieren
-  rex_generateArticleMeta($params['id'], $params['clang']);
+  rex_article_cache::generateMeta($params['id'], $params['clang']);
 
   return $params;
 }
@@ -690,7 +689,7 @@ function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
   $media = rex_sql::factory();
 //  $media->debugsql = true;
   $media->setTable($REX['TABLE_PREFIX']. 'media');
-  $media->setWhere('media_id='. $params['media_id']);
+  $media->setWhere('media_id=:mediaid', array(':mediaid' => $params['media_id']));
 
   _rex_a62_metainfo_handleSave($params, $media, $sqlFields);
 

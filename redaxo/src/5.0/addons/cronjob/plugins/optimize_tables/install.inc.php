@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -25,4 +25,4 @@ if ($sql->getRows() == 0)
   $sql->insert();
 }
 
-$REX['ADDON']['install']['optimize_tables'] = 1;
+$this->setProperty('install', true);

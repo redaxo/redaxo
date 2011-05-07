@@ -6,7 +6,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -29,7 +29,7 @@ if($content != '')
 
 // ----- EXTENSION POINT
 $dashboard_components = array();
-$dashboard_components = rex_register_extension_point('DASHBOARD_COMPONENT', $dashboard_components);
+$dashboard_components = rex_extension::registerPoint('DASHBOARD_COMPONENT', $dashboard_components);
 
 // ------------ sort components by block and format
 $components = array();

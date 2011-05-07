@@ -1,12 +1,14 @@
-DB1:
-  host: localhost
-  login: root
-  password: ''
-  name: redaxo_5_0
-  persistent: false
-DB2:
-  host: ''
-  login: ''
-  password: ''
-  name: ''
-  persistent: false
+TABLE_PREFIX: rex_
+DB:
+  1:
+    host: localhost
+    login: root
+    password: ''
+    name: redaxo_5_0
+    persistent: false
+  2:
+    host: ''
+    login: ''
+    password: ''
+    name: ''
+    persistent: false

@@ -2,7 +2,7 @@
 
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -97,7 +97,7 @@ foreach($subline as $key => $item)
 }
 
 // ----- EXTENSION POINT
-$subline = rex_register_extension_point('PAGE_MEDIAPOOL_MENU', $subline,
+$subline = rex_extension::registerPoint('PAGE_MEDIAPOOL_MENU', $subline,
   array(
     'subpage' => $subpage,
   )

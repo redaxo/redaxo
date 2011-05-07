@@ -14,7 +14,7 @@ $mypage = 'image_manager';
 
 $REX['PERM'][] = 'image_manager[]';
 
-rex_register_extension('ADDONS_INCLUDED','rex_image_manager_init');
+rex_extension::register('ADDONS_INCLUDED','rex_image_manager_init');
 
 function rex_image_manager_init()
 {
@@ -47,7 +47,7 @@ if($REX['REDAXO'])
 	// delete thumbnails on mediapool changes
 	if(!function_exists('rex_image_manager_ep_mediaupdated'))
 	{
-		rex_register_extension('MEDIA_UPDATED', 'rex_image_manager_ep_mediaupdated');
+		rex_extension::register('MEDIA_UPDATED', 'rex_image_manager_ep_mediaupdated');
 		function rex_image_manager_ep_mediaupdated($params){
 			rex_image_cacher::deleteCache($params["filename"]);
 		}
@@ -82,7 +82,7 @@ if($REX['REDAXO'])
       $ccPage->setHref('index.php?page=image_manager&subpage=clear_cache');
       $ccPage->setLinkAttr('onclick', 'return confirm(\''.rex_i18n::msg('imanager_type_cache_delete').' ?\')');
 
-      $REX['ADDON']['pages'][$mypage] = array (
+      $this->setProperty('pages', array (
       $descPage, $confPage, $settingsPage, $ccPage
-      );
+      ));
 }

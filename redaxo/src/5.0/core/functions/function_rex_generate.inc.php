@@ -1,26 +1,19 @@
 <?php
 
-
-/**
- * Funktionensammlung für die generierung der Artikel/Templates/Kategorien/Metainfos.. etc.
- * @package redaxo4
- * @version svn:$Id$
- */
-
 // ----------------------------------------- Alles generieren
 
 /**
- * Löscht den vollständigen Artikel-Cache.
+ * Löscht den vollständigen Artikel-Cache und generiert den clang-cache
  */
 function rex_generateAll()
 {
   global $REX;
-
+  
   // ----------------------------------------------------------- generated löschen
-  rex_dir::deleteFiles(rex_path::generated());
+  rex_deleteAll();
 
   // ----------------------------------------------------------- generiere clang
-  if(($MSG = rex_generateClang()) !== TRUE)
+  if(($MSG = rex_clang_service::generateCache()) !== TRUE)
   {
     return $MSG;
   }
@@ -29,156 +22,20 @@ function rex_generateAll()
   $MSG = rex_i18n::msg('delete_cache_message');
 
   // ----- EXTENSION POINT
-  $MSG = rex_register_extension_point('ALL_GENERATED', $MSG);
+  $MSG = rex_extension::registerPoint('ALL_GENERATED', $MSG);
 
   return $MSG;
 }
 
-
-
-// ----------------------------------------- CLANG
-
 /**
- * Löscht eine Clang
- *
- * @param $id Zu löschende ClangId
- *
- * @return TRUE bei Erfolg, sonst FALSE
+ * Löscht den vollständigen Artikel-Cache.
  */
-function rex_deleteCLang($clang)
+function rex_deleteAll()
 {
-  global $REX;
+  // unregister logger, so the logfile can also be deleted
+  rex_logger::unregister();
 
-  if ($clang == 0 || !isset($REX['CLANG'][$clang]))
-    return FALSE;
-
-  $clangName = $REX['CLANG'][$clang];
-  unset ($REX['CLANG'][$clang]);
-
-  $del = rex_sql::factory();
-  $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article where clang='$clang'");
-  $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where clang='$clang'");
-  $del->setQuery("delete from ".$REX['TABLE_PREFIX']."clang where id='$clang'");
-
-  // ----- EXTENSION POINT
-  rex_register_extension_point('CLANG_DELETED','',
-    array (
-      'id' => $clang,
-      'name' => $clangName,
-    )
-  );
-
-  rex_generateAll();
-
-  return TRUE;
-}
-
-/**
- * Erstellt eine Clang
- *
- * @param $id   Id der Clang
- * @param $name Name der Clang
- *
- * @return TRUE bei Erfolg, sonst FALSE
- */
-function rex_addCLang($id, $name)
-{
-  global $REX;
-
-  if(isset($REX['CLANG'][$id])) return FALSE;
-
-  $REX['CLANG'][$id] = $name;
-  $file = rex_path::generated('files/clang.cache');
-  rex_file::putCache($file, $REX['CLANG']);
-
-  $firstLang = rex_sql::factory();
-  $firstLang->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='0'");
-  $fields = $firstLang->getFieldnames();
-
-  $newLang = rex_sql::factory();
-  // $newLang->debugsql = 1;
-  while($firstLang->hasNext())
-  {
-    $newLang->setTable($REX['TABLE_PREFIX']."article");
-
-    foreach($fields as $key => $value)
-    {
-      if ($value == 'pid')
-        echo ''; // nix passiert
-      else
-        if ($value == 'clang')
-          $newLang->setValue('clang', $id);
-        else
-          if ($value == 'status')
-            $newLang->setValue('status', '0'); // Alle neuen Artikel offline
-      else
-        $newLang->setValue($value, $firstLang->getValue($value));
-    }
-
-    $newLang->insert();
-    $firstLang->next();
-  }
-  $firstLang->freeResult();
-
-  $newLang = rex_sql::factory();
-  $newLang->setQuery("insert into ".$REX['TABLE_PREFIX']."clang set id='$id',name='$name'");
-
-  // ----- EXTENSION POINT
-  rex_register_extension_point('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
-
-  return TRUE;
-}
-
-/**
- * Ändert eine Clang
- *
- * @param $id   Id der Clang
- * @param $name Name der Clang
- *
- * @return TRUE bei Erfolg, sonst FALSE
- */
-function rex_editCLang($id, $name)
-{
-  global $REX;
-
-  if(!isset($REX['CLANG'][$id])) return false;
-
-  $REX['CLANG'][$id] = $name;
-  $file = rex_path::generated('files/clang.cache');
-  rex_file::putCache($file, $REX['CLANG']);
-
-  $edit = rex_sql::factory();
-  $edit->setQuery("update ".$REX['TABLE_PREFIX']."clang set name='$name' where id='$id'");
-
-  // ----- EXTENSION POINT
-  rex_register_extension_point('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));
-
-  return TRUE;
-}
-
-/**
- * Schreibt Spracheigenschaften in die Datei include/clang.inc.php
- *
- * @return TRUE bei Erfolg, sonst eine Fehlermeldung
- */
-function rex_generateClang()
-{
-  global $REX;
-
-  $lg = rex_sql::factory();
-  $lg->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
-
-  $REX['CLANG'] = array();
-  while($lg->hasNext())
-  {
-    $REX['CLANG'][$lg->getValue("id")] = $lg->getValue("name");
-    $lg->next();
-  }
-
-  $file = rex_path::generated('files/clang.cache');
-  if(rex_file::putCache($file, $REX['CLANG']) === FALSE)
-  {
-    return 'Datei "'.$file.'" hat keine Schreibrechte';
-  }
-  return TRUE;
+  rex_dir::deleteFiles(rex_path::generated());
+  
+  rex_logger::register();
 }

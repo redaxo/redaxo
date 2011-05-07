@@ -2,16 +2,13 @@
 
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
 // ----- caching start für output filter
 ob_start();
 ob_implicit_flush(0);
-
-// ----------------- MAGIC QUOTES CHECK
-// require_once rex_path::src('core/functions/function_rex_mquotes.inc.php');
 
 
 require_once rex_path::src('config/master.inc.php');
@@ -97,17 +94,17 @@ if($REX['USER'])
 }
 
 // ----- INCLUDE ADDONS
-include_once rex_path::src('core/packages.inc.php');
+include_once rex_path::core('packages.inc.php');
 
 // ----- Prepare AddOn Pages
 if($REX['USER'])
 {
-  foreach(rex_ooAddon::getAvailableAddons() as $addonName)
+  foreach(rex_addon::getAvailableAddons() as $addonName => $addon)
   {
-    $page  = rex_ooAddon::getProperty($addonName, 'page', null);
-    $title = rex_ooAddon::getProperty($addonName, 'name', '');
-    $href  = rex_ooAddon::getProperty($addonName, 'link',  'index.php?page='. $addonName);
-    $perm  = rex_ooAddon::getProperty($addonName, 'perm', '');
+    $page  = $addon->getProperty('page', null);
+    $title = $addon->getProperty('name', '');
+    $href  = $addon->getProperty('link',  'index.php?page='. $addonName);
+    $perm  = $addon->getProperty('perm', '');
 
     // prepare addons root-page
     $addonPage = null;
@@ -123,9 +120,10 @@ if($REX['USER'])
         $addonPage->setHref($href);
 
         // wegen REX Version = 4.2 - alter Stil "SUBPAGES"
+        // TODO im compat addon erledigen
         if(isset($REX['ADDON'][$addonName]['SUBPAGES']))
         {
-          $REX['ADDON']['pages'][$addonName] = $REX['ADDON'][$addonName]['SUBPAGES'];
+          $addon->setProperty('pages', $REX['ADDON'][$addonName]['SUBPAGES']);
         }
         // *** ENDE wegen <=4.2
       }
@@ -134,7 +132,7 @@ if($REX['USER'])
     if($addonPage)
     {
       // adds be_page's
-      foreach(rex_ooAddon::getProperty($addonName, 'pages', array()) as $s)
+      foreach($addon->getProperty('pages', array()) as $s)
       {
         if (is_array($s))
         {
@@ -156,13 +154,13 @@ if($REX['USER'])
     }
 
     // handle plugins
-    foreach(rex_ooPlugin::getAvailablePlugins($addonName) as $pluginName)
+    foreach($addon->getAvailablePlugins() as $pluginName => $plugin)
     {
-      $page  = rex_ooPlugin::getProperty($addonName, $pluginName, 'page', null);
+      $page  = $plugin->getProperty('page', null);
 
-      $title = rex_ooPlugin::getProperty($addonName, $pluginName, 'name', '');
-      $href  = rex_ooPlugin::getProperty($addonName, $pluginName, 'link',  'index.php?page='. $addonName . '&subpage='. $pluginName);
-      $perm  = rex_ooPlugin::getProperty($addonName, $pluginName, 'perm', '');
+      $title = $plugin->getProperty('name', '');
+      $href  = $plugin->getProperty('link',  'index.php?page='. $addonName . '&subpage='. $pluginName);
+      $perm  = $plugin->getProperty('perm', '');
 
       // prepare plugins root-page
       $pluginPage = null;
@@ -180,7 +178,7 @@ if($REX['USER'])
       }
 
       // add plugin-be_page's to addon
-      foreach(rex_ooPlugin::getProperty($addonName, $pluginName, 'pages', array()) as $s)
+      foreach($plugin->getProperty('pages', array()) as $s)
       {
         if(is_array($s) && $addonPage)
         {
@@ -216,7 +214,7 @@ if($REX['USER'])
         else
         {
           // "navigation" adds attributes to the plugin-root page
-          $navProperties = rex_ooPlugin::getProperty($addonName, $pluginName, 'navigation', array());
+          $navProperties = $plugin->getProperty('navigation', array());
           // if there are some navigation attributes set, create a main page and apply attributes to it
           if(count($navProperties) > 0)
           {
@@ -250,7 +248,7 @@ if($REX['USER'])
         $mainAddonPage = new rex_be_page_main('addons', $addonPage);
 
         // "navigation" adds attributes to the addon-root page
-        foreach(rex_ooAddon::getProperty($addonName, 'navigation', array()) as $key => $value)
+        foreach($addon->getProperty('navigation', array()) as $key => $value)
         {
           $mainAddonPage->_set($key, $value);
         }
@@ -298,7 +296,10 @@ $REX['PAGE_NO_NAVI'] = !$pageObj->hasNavigation();
 
 // ----- EXTENSION POINT
 // page variable validated
-rex_register_extension_point( 'PAGE_CHECKED', $REX['PAGE'], array('pages' => $REX['PAGES']));
+rex_extension::registerPoint( 'PAGE_CHECKED', $REX['PAGE'], array('pages' => $REX['PAGES']));
+
+// trigger api functions
+rex_api_function::handleCall();
 
 $path = '';
 if($pageObj->hasPath())
@@ -308,7 +309,7 @@ if($pageObj->hasPath())
 }else if($pageObj->isCorePage())
 {
   // Core Page
-  $path = rex_path::src('core/pages/'. $REX['PAGE'] .'.inc.php');
+  $path = rex_path::core('pages/'. $REX['PAGE'] .'.inc.php');
 }else
 {
   // Addon Page
@@ -317,9 +318,9 @@ if($pageObj->hasPath())
 
 if($pageObj->hasLayout())
 {
-  require rex_path::src('core/layout/top.php');
+  require rex_path::core('layout/top.php');
   require $path;
-  require rex_path::src('core/layout/bottom.php');
+  require rex_path::core('layout/bottom.php');
 }else
 {
   require $path;
@@ -330,4 +331,4 @@ $CONTENT = ob_get_contents();
 ob_end_clean();
 
 // ----- inhalt ausgeben
-rex_send_article(null, $CONTENT, 'backend', TRUE);
+rex_response::sendArticle(null, $CONTENT, 'backend', TRUE);

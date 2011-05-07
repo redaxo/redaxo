@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -14,6 +14,6 @@ $error = '';
 rex_dir::delete(rex_path::addonData('cronjob'));
 
 if ($error != '')
-  $REX['ADDON']['installmsg']['cronjob'] = $error;
+  $this->setProperty('installmsg', $error);
 else
-  $REX['ADDON']['install']['cronjob'] = false;
+  $this->setProperty('install', false);

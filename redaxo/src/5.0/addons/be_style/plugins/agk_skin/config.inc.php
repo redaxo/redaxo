@@ -11,7 +11,7 @@
  * @author thomas[dot]blum[at]redaxo[dot]de Thomas Blum
  * @author <a href="http://www.blumbeet.com">www.blumbeet.com</a>
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -39,7 +39,7 @@ if($REX["REDAXO"])
 	  return $params["subject"];
 	}
 
-	rex_register_extension('PAGE_HEADER', 'rex_be_style_agk_skin_css_add');
+	rex_extension::register('PAGE_HEADER', 'rex_be_style_agk_skin_css_add');
 
 	function rex_be_style_agk_skin_css_body($params)
 	{
@@ -47,6 +47,6 @@ if($REX["REDAXO"])
 	  return $params["subject"];
 	}
 
-	rex_register_extension('PAGE_BODY_ATTR', 'rex_be_style_agk_skin_css_body');
+	rex_extension::register('PAGE_BODY_ATTR', 'rex_be_style_agk_skin_css_body');
 
 }

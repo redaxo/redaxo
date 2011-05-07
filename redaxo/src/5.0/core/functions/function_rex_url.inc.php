@@ -2,7 +2,7 @@
 
 /**
  * URL Funktionen
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -84,7 +84,7 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
   // ----- get clang
   // Wenn eine rexExtension vorhanden ist, immer die clang mitgeben!
   // Die rexExtension muss selbst entscheiden was sie damit macht
-  if ($_clang === '' && (count($REX['CLANG']) > 1 || rex_extension_is_registered( 'URL_REWRITE')))
+  if ($_clang === '' && (count($REX['CLANG']) > 1 || rex_extension::isRegistered( 'URL_REWRITE')))
     $clang = $REX['CUR_CLANG'];
 
   // ----- get params
@@ -99,7 +99,7 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
   }
 
   // ----- EXTENSION POINT
-  $url = rex_register_extension_point('URL_REWRITE', '', array ('id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string, 'divider' => $_divider));
+  $url = rex_extension::registerPoint('URL_REWRITE', '', array ('id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string, 'divider' => $_divider));
 
   if ($url == '')
   {

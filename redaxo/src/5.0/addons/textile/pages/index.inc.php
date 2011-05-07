@@ -5,7 +5,7 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -16,7 +16,7 @@ $mdl_help = '<?php rex_a79_help_overview(); ?>';
 
 
 $mdl_ex ='<?php
-if(rex_ooAddon::isAvailable("textile"))
+if(rex_addon::isAvailable("textile"))
 {
   if(REX_IS_VALUE[1])
   {

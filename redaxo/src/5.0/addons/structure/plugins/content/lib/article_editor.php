@@ -3,7 +3,7 @@
 /**
  * Erweiterung eines Artikels um slicemanagement.
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -186,7 +186,7 @@ class rex_article_editor extends rex_article
     }
 
     // ----- EXTENSION POINT
-    $listElements = rex_register_extension_point(
+    $listElements = rex_extension::registerPoint(
       'ART_SLICE_MENU',
       $listElements,
       array(

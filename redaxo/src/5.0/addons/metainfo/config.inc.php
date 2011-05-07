@@ -5,7 +5,7 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -31,12 +31,12 @@ if(!defined('REX_A62_FIELD_TEXT'))
   define('REX_A62_FIELD_COUNT',                13);
 }
 
-$REX['ADDON']['prefixes'][$mypage] = array('art_', 'cat_', 'med_');
-$REX['ADDON']['metaTables'][$mypage] = array(
+$this->setProperty('prefixes', array('art_', 'cat_', 'med_'));
+$this->setProperty('metaTables', array(
   'art_' => $REX['TABLE_PREFIX'] .'article',
   'cat_' => $REX['TABLE_PREFIX'] .'article',
   'med_' => $REX['TABLE_PREFIX'] .'media',
-);
+));
 
 if ($REX['REDAXO'])
 {
@@ -44,5 +44,5 @@ if ($REX['REDAXO'])
   require_once $curDir .'/functions/function_metainfo.inc.php';
   require_once $curDir .'/extensions/extension_common.inc.php';
 
-  rex_register_extension('PAGE_CHECKED', 'a62_extensions_handler');
+  rex_extension::register('PAGE_CHECKED', 'a62_extensions_handler');
 }

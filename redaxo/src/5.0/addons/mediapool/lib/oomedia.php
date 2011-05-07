@@ -3,7 +3,7 @@
 
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -76,7 +76,7 @@ class rex_ooMedia
     $extlist_path = rex_path::generated('files/'.$extension.'.mextlist');
     if (!file_exists($extlist_path))
 		{
-    	rex_generateMediaExtensionList($extension);
+    	rex_media_cache::generateExtensionList($extension);
 		}
 
     $media = array();
@@ -108,7 +108,7 @@ class rex_ooMedia
     $media_path = rex_path::generated('files/'.$name.'.media');
     if (!file_exists($media_path))
 		{
-    	rex_generateMedia($name);
+    	rex_media_cache::generate($name);
 		}
 
     if (file_exists($media_path))
@@ -399,7 +399,7 @@ class rex_ooMedia
       {
         unset ($params['resize']);
         // Resize Addon installiert?
-        if (rex_ooAddon::isAvailable('image_resize'))
+        if (rex_addon::get('image_resize')->isAvailable())
         {
           $resize = true;
           if (isset ($params['width']))
@@ -593,7 +593,7 @@ class rex_ooMedia
 
     // deprecated since REX 4.3
     // ----- EXTENSION POINT
-    $query = rex_register_extension_point('OOMEDIA_IS_IN_USE_QUERY', $query,
+    $query = rex_extension::registerPoint('OOMEDIA_IS_IN_USE_QUERY', $query,
       array(
         'filename' => $this->getFileName(),
         'media' => $this,
@@ -617,7 +617,7 @@ class rex_ooMedia
     }
 
     // ----- EXTENSION POINT
-    $warning = rex_register_extension_point('OOMEDIA_IS_IN_USE', $warning,
+    $warning = rex_extension::registerPoint('OOMEDIA_IS_IN_USE', $warning,
       array(
         'filename' => $this->getFileName(),
         'media' => $this,
@@ -737,7 +737,7 @@ class rex_ooMedia
       $sql->setWhere('media_id='.$this->getId() . ' LIMIT 1');
       $success = $sql->update();
       if ($success)
-        rex_deleteCacheMedia($this->getFileName());
+        rex_media_cache::delete($this->getFileName());
       return $success;
     }
     else
@@ -745,7 +745,7 @@ class rex_ooMedia
       $sql->addGlobalCreateFields();
       $success = $sql->insert();
       if ($success)
-        rex_deleteCacheMediaList($this->getCategoryId());
+        rex_media_cache::deleteList($this->getCategoryId());
       return $success;
     }
   }
@@ -776,7 +776,7 @@ class rex_ooMedia
         rex_file::delete(rex_path::media($this->getFileName()));
       }
 
-      rex_deleteCacheMedia($this->getFileName());
+      rex_media_cache::delete($this->getFileName());
 
       return $sql->getError();
     }

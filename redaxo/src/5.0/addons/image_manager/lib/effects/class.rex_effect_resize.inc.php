@@ -183,7 +183,6 @@ class rex_effect_resize extends rex_effect_abstract
 				imagefill($des, 0, 0, $colorTransparent);
 				imagecolortransparent($des, $colorTransparent);
 			}
-			imagetruecolortopalette($des, true, 256);
 		}
 	}
 

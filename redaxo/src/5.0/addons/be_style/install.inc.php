@@ -9,7 +9,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -42,6 +42,6 @@ foreach($plugins as $pluginname)
 }*/
 
 if ($error != '')
-  $REX['ADDON']['installmsg']['be_style'] = $error;
+  $this->setProperty('installmsg', $error);
 else
-  $REX['ADDON']['install']['be_style'] = true;
+  $this->setProperty('install', true);

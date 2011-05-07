@@ -2,20 +2,17 @@
 
 /**
  * Creditsseite. Auflistung der Credits an die Entwickler von REDAXO und den AddOns.
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
-include_once rex_path::src('core/functions/function_rex_other.inc.php');
-include_once rex_path::src('core/functions/function_rex_addons.inc.php');
-
 $addons = array();
-foreach (rex_ooAddon::getRegisteredAddons() as $addon)
+foreach (rex_addon::getRegisteredAddons() as $addon)
 {
-  $isActive    = rex_ooAddon::isActivated($addon);
-  $version     = rex_ooAddon::getVersion($addon);
-  $author      = rex_ooAddon::getAuthor($addon);
-  $supportPage = rex_ooAddon::getSupportPage($addon);
+  $isActive    = $addon->isActivated();
+  $version     = $addon->getVersion();
+  $author      = $addon->getAuthor();
+  $supportPage = $addon->getSupportPage();
 
   if ($isActive) $cl = 'rex-clr-grn';
   else $cl = 'rex-clr-red';
@@ -25,7 +22,7 @@ foreach (rex_ooAddon::getRegisteredAddons() as $addon)
   if (!$isActive) $author        = rex_i18n::msg('credits_addon_inactive');
 
   $rex_ooAddon =  new stdClass();
-  $rex_ooAddon->name = $addon;
+  $rex_ooAddon->name = $addon->getName();
   $rex_ooAddon->version = $version;
   $rex_ooAddon->author = $author;
   $rex_ooAddon->supportpage = $supportPage;
@@ -34,12 +31,12 @@ foreach (rex_ooAddon::getRegisteredAddons() as $addon)
   $plugins = array();
   if($isActive)
   {
-    foreach(rex_ooPlugin::getAvailablePlugins($addon) as $plugin)
+    foreach($addon->getAvailablePlugins() as $plugin)
     {
-      $isActive    = rex_ooPlugin::isActivated($addon, $plugin);
-      $version     = rex_ooPlugin::getVersion($addon, $plugin);
-      $author      = rex_ooPlugin::getAuthor($addon, $plugin);
-      $supportPage = rex_ooPlugin::getSupportPage($addon, $plugin);
+      $isActive    = $plugin->isActivated();
+      $version     = $plugin->getVersion();
+      $author      = $plugin->getAuthor();
+      $supportPage = $plugin->getSupportPage();
 
       if ($isActive) $cl = 'rex-clr-grn';
       else $cl = 'rex-clr-red';
@@ -49,7 +46,7 @@ foreach (rex_ooAddon::getRegisteredAddons() as $addon)
       if (!$isActive) $author        = rex_i18n::msg('credits_addon_inactive');
 
       $rex_ooPlugin =  new stdClass();
-      $rex_ooPlugin->name = $plugin ;
+      $rex_ooPlugin->name = $plugin->getName() ;
       $rex_ooPlugin->version = $version;
       $rex_ooPlugin->author = $author;
       $rex_ooPlugin->supportpage = $supportPage;

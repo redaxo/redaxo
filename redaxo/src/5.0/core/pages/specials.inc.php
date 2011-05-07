@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -26,4 +26,4 @@ switch($subpage)
   default : $file = 'specials.settings.inc.php'; break;
 }
 
-require rex_path::src('core/pages/'.$file);
+require rex_path::core('pages/'.$file);

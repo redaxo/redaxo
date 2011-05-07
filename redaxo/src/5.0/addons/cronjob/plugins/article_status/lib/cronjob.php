@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -15,7 +15,7 @@ class rex_cronjob_article_status extends rex_cronjob
   {
     global $REX;
 
-    $config = rex_ooPlugin::getProperty('cronjob', 'article_status', 'config');
+    $config = rex_plugin::get('cronjob', 'article_status')->getProperty('config');
     $from = $config['from'];
     $to   = $config['to'];
     $from['before'] = (array) $from['before'];
@@ -71,7 +71,7 @@ class rex_cronjob_article_status extends rex_cronjob
       else
         $status = $to['after'];
 
-      rex_articleStatus($sql->getValue('id'), $sql->getValue('clang'), $status);
+      rex_article_service::articleStatus($sql->getValue('id'), $sql->getValue('clang'), $status);
       $sql->next();
     }
     $this->setMessage('Updated articles: '. $rows);

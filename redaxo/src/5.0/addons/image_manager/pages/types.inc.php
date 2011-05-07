@@ -114,7 +114,7 @@ elseif ($func == 'add' ||
     $formLabel = rex_i18n::msg('imanager_type_create');
   }
 
-  rex_register_extension('REX_FORM_CONTROL_FIElDS', 'rex_imanager_handle_form_control_fields');
+  rex_extension::register('REX_FORM_CONTROL_FIElDS', 'rex_imanager_handle_form_control_fields');
   $form = rex_form::factory($REX['TABLE_PREFIX'].'679_types',$formLabel,'id='.$type_id);
 
   $form->addErrorMessage(REX_FORM_ERROR_VIOLATE_UNIQUE_KEY, rex_i18n::msg('imanager_error_type_name_not_unique'));

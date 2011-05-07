@@ -4,17 +4,17 @@
  * MetaForm Addon
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * 
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
-rex_register_extension('CAT_FORM_ADD', 'rex_a62_metainfo_form');
-rex_register_extension('CAT_FORM_EDIT', 'rex_a62_metainfo_form');
+rex_extension::register('CAT_FORM_ADD', 'rex_a62_metainfo_form');
+rex_extension::register('CAT_FORM_EDIT', 'rex_a62_metainfo_form');
 
-rex_register_extension('CAT_ADDED', 'rex_a62_metainfo_form');
-rex_register_extension('CAT_UPDATED', 'rex_a62_metainfo_form');
+rex_extension::register('CAT_ADDED', 'rex_a62_metainfo_form');
+rex_extension::register('CAT_UPDATED', 'rex_a62_metainfo_form');
 
-rex_register_extension('CAT_FORM_BUTTONS', 'rex_a62_metainfo_button');
+rex_extension::register('CAT_FORM_BUTTONS', 'rex_a62_metainfo_button');
 
 function rex_a62_metainfo_button($params)
 {

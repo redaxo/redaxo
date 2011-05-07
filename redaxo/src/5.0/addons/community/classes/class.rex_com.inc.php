@@ -2,7 +2,7 @@
 
 /**
  * Klasse
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -13,7 +13,7 @@ class rex_com
 	{
 	
 		// Zitate			[quote]wieder[/quote]
-		// Fett				[b]ermöglichen[/b]
+		// Fett				[b]ermï¿½glichen[/b]
 		// Durchstrichen	[strike]text[/strike]
 		// Unterstrichen	[u]underline[/u]
 		// Smilies			:) ;) ...

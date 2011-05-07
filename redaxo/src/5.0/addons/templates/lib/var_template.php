@@ -3,7 +3,7 @@
 /**
  * REX_TEMPLATE[2]
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -32,7 +32,7 @@ class rex_var_template extends rex_var
     foreach ($matches as $match)
     {
       list ($param_str, $args) = $match;
-      list ($template_id, $args) = $this->extractArg('id', $args, 0);
+      $template_id = $this->getArg('id', $args, 0);
 
       if($template_id > 0)
       {

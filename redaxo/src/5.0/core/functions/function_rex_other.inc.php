@@ -2,7 +2,7 @@
 
 /**
  * Funktionen zur Ausgabe der Titel Leiste und Subnavigation
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -81,6 +81,15 @@ function _rex_is_writable($item)
   return 0;
 }
 
+/**
+ * Get the attribute $name out of $content. if the attribute is not defined $default is returned.
+ *  
+ * @param string $name
+ * @param string $content
+ * @param mixed $default
+ * 
+ * @return mixed the attribute with $name if existent, otherwise $default
+ */
 function rex_getAttributes($name,$content,$default = null)
 {
   $prop = json_decode($content, true);
@@ -88,36 +97,21 @@ function rex_getAttributes($name,$content,$default = null)
   return $default;
 }
 
+/**
+ * Set the attribute $name to $value into $content.
+ * 
+ * @param string $name
+ * @param string $value
+ * @param string $content
+ * 
+ * @return string the encoded content
+ */
 function rex_setAttributes($name,$value,$content)
 {
   $prop = json_decode($content, true);
   $prop[$name] = $value;
   return json_encode($prop);
 }
-
-/**
- * Gibt den nächsten freien Tabindex zurück.
- * Der Tabindex ist eine stetig fortlaufende Zahl,
- * welche die Priorität der Tabulatorsprünge des Browsers regelt.
- *
- * @return integer nächster freier Tabindex
- */
-function rex_tabindex($html = true)
-{
-  global $REX;
-
-  if (empty($REX['TABINDEX']))
-  {
-    $REX['TABINDEX'] = 0;
-  }
-
-  if($html === true)
-  {
-    return ' tabindex="'. ++$REX['TABINDEX'] .'"';
-  }
-  return ++$REX['TABINDEX'];
-}
-
 
 function array_insert($array, $index, $value)
 {

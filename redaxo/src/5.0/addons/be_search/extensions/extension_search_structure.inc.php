@@ -5,7 +5,7 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -67,7 +67,7 @@ function rex_be_search_structure($params)
   {
 		// replace LIKE wildcards
     $be_search_article_name_like = str_replace(array('_', '%'), array('\_', '\%'), $be_search_article_name);
-    
+
     $qry = '
     SELECT id
     FROM '. $REX['TABLE_PREFIX'] .'article
@@ -78,7 +78,7 @@ function rex_be_search_structure($params)
         catname LIKE "%'. $be_search_article_name_like .'%"
       )';
 
-    switch(rex_ooAddon::getProperty('be_search', 'searchmode', 'local'))
+    switch(rex_addon::get('be_search')->getProperty('searchmode', 'local'))
     {
       case 'local':
       {
@@ -136,7 +136,7 @@ function rex_be_search_structure($params)
 
             $treeLabel = htmlspecialchars($treeLabel);
             $treeLabel = rex_be_search_highlight_hit($treeLabel, $needle);
-          
+
             $s .= '<li>'. $prefix .'<a href="'. sprintf($structureUrl, $treeItem->getId(), $be_search_clang, urlencode($be_search_article_name)) .'">'. $treeLabel .' </a></li>';
           }
 
@@ -149,7 +149,7 @@ function rex_be_search_structure($params)
 
           $label = htmlspecialchars($label);
           $label = rex_be_search_highlight_hit($label, $needle);
-          
+
           $s .= '<li>'. $prefix .'<a href="'. sprintf($editUrl, $search->getValue('id'), $be_search_clang, urlencode($be_search_article_name)) .'">'. $label .' </a></li>';
 
           $search_result .= '<li><ul class="be_search-search-hit">'. $s .'</ul></li>';
@@ -193,17 +193,15 @@ function rex_be_search_structure($params)
 
 		    <div class="rex-fl-lft">
 	        <label for="rex-be_search-article-name">'. rex_i18n::msg('be_search_article_name') .'</label>
-    	    <input class="rex-form-text" type="text" name="be_search_article_name" id="rex-be_search-article-name" value="'. htmlspecialchars(stripslashes($be_search_article_name)) .'"'. rex_tabindex() .' />
+    	    <input class="rex-form-text" type="text" name="be_search_article_name" id="rex-be_search-article-name" value="'. htmlspecialchars($be_search_article_name) .'" />
 
         	<label for="rex-be_search-article-id">'. rex_i18n::msg('be_search_article_id') .'</label>
-	        <input class="rex-form-text" type="text" name="be_search_article_id" id="rex-be_search-article-id"'. rex_tabindex() .' />
-    	    <input class="rex-form-submit" type="submit" name="be_search_start_search" value="'. rex_i18n::msg('be_search_start') .'"'. rex_tabindex() .' />
+	        <input class="rex-form-text" type="text" name="be_search_article_id" id="rex-be_search-article-id" />
+    	    <input class="rex-form-submit" type="submit" name="be_search_start_search" value="'. rex_i18n::msg('be_search_start') .'" />
 		    </div>
 
     		<div class="rex-fl-rght">
     			<label for="rex-be_search-category-id">'. rex_i18n::msg('be_search_quick_navi') .'</label>';
-
-    			$category_select->setAttribute('tabindex', rex_tabindex(false));
 
   $form .= $category_select->get() .'
     			<noscript>

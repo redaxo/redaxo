@@ -27,7 +27,7 @@ if (!isset($REX))
 
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -109,63 +109,35 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 {
 	global $REX;
 
-	require_once rex_path::src('core/functions/function_rex_addons.inc.php');
-
 	$addonErr = '';
 	rex_packageManager::synchronizeWithFileSystem();
 
-	$addonManager = new rex_addonManager();
   if($uninstallBefore)
   {
-    foreach(array_reverse($REX['SYSTEM_PACKAGES']) as $addon)
+    foreach(array_reverse($REX['SYSTEM_PACKAGES']) as $packageRepresentation)
     {
-      if(!is_array($addon))
-      {
-        $state = $addonManager->uninstall($addon);
+      $package = rex_package::get($packageRepresentation);
+      $manager = rex_packageManager::factory($package);
+      $state = $manager->uninstall();
 
-        if($state !== true)
-    	    $addonErr .= '<li>'. $addon .'<ul><li>'. $state .'</li></ul></li>';
-      }
-      else
-      {
-        list($addon, $plugin) = $addon;
-        $pluginManager = new rex_pluginManager($addon);
-        $state = $pluginManager->uninstall($plugin);
-
-        if($state !== true)
-    	    $addonErr .= '<li>'. $addon .' / '. $plugin .'<ul><li>'. $state .'</li></ul></li>';
-      }
+      if($state !== true)
+    	  $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $state .'</li></ul></li>';
     }
   }
-  foreach($REX['SYSTEM_PACKAGES'] as $addon)
+  foreach($REX['SYSTEM_PACKAGES'] as $packageRepresentation)
   {
   	$state = true;
+  	$package = rex_package::get($packageRepresentation);
+  	$manager = rex_packageManager::factory($package);
 
-  	if(!is_array($addon))
-  	{
-    	if($state === true && !rex_ooAddon::isInstalled($addon))
-    	  $state = $addonManager->install($addon, $installDump);
+  	if($state === true && !$package->isInstalled())
+  	  $state = $manager->install($installDump);
 
-    	if($state === true && !rex_ooAddon::isActivated($addon))
-    	  $state = $addonManager->activate($addon);
+  	if($state === true && !$package->isActivated())
+  	  $state = $manager->activate();
 
-    	if($state !== true)
-    	  $addonErr .= '<li>'. $addon .'<ul><li>'. $state .'</li></ul></li>';
-  	}
-  	else
-  	{
-  	  list($addon, $plugin) = $addon;
-      $pluginManager = new rex_pluginManager($addon);
-
-      if($state === true && !rex_ooPlugin::isInstalled($addon, $plugin))
-    	  $state = $pluginManager->install($plugin, $installDump);
-
-    	if($state === true && !rex_ooPlugin::isActivated($addon, $plugin))
-    	  $state = $pluginManager->activate($plugin);
-
-    	if($state !== true)
-    	  $addonErr .= '<li>'. $addon .' / '. $plugin .'<ul><li>'. $state .'</li></ul></li>';
-  	}
+  	if($state !== true)
+  	  $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $state .'</li></ul></li>';
   }
 
 	if($addonErr != '')
@@ -184,11 +156,11 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 function rex_setup_setUtf8()
 {
   global $REX;
-  $gt = new rex_sql();
+  $gt = rex_sql::factory();
   $gt->setQuery("show tables");
   foreach($gt->getArray() as $t) {
     $table = $t["Tables_in_".$REX['DB']['1']['NAME']];
-    $gc = new rex_sql();
+    $gc = rex_sql::factory();
     $gc->setQuery("show columns from $table");
     if(substr($table,0,strlen($REX['TABLE_PREFIX'])) == $REX['TABLE_PREFIX']) {
       $columns = Array();
@@ -200,19 +172,19 @@ function rex_setup_setUtf8()
         }
       }
       if ($pri != "") {
-        $gr = new rex_sql();
+        $gr = rex_sql::factory();
         $gr->setQuery("select * from $table");
         foreach($gr->getArray() as $r) {
           reset($columns);
           $privalue = $r[$pri];
-          $uv = new rex_sql();
+          $uv = rex_sql::factory();
           $uv->setTable($table);
-          $uv->setWhere($pri.'= "'.$privalue.'"');
+          $uv->setWhere(array($pri => $privalue));
           foreach($columns as $key => $column) {
             if ($pri!=$column) {
               $value = $r[$column];
               $newvalue = utf8_decode($value);
-              $uv->setValue($column,addslashes($newvalue));
+              $uv->setValue($column,$newvalue);
             }
           }
           $uv->update();
@@ -249,7 +221,7 @@ require_once $export_addon_dir.'/functions/function_import_export.inc.php';
 if (!($checkmodus > 0 && $checkmodus < 10))
 {
   // initial purge all generated files
-  rex_dir::deleteFiles(rex_path::generated());
+  rex_deleteAll();
 
   // copy alle media files of the current rex-version into redaxo_media
   rex_dir::copy(rex_path::src('assets'), rex_path::assets());
@@ -260,7 +232,7 @@ if (!($checkmodus > 0 && $checkmodus < 10))
   {
   	rex_i18n::setLocale($locale,FALSE); // Locale nicht neu setzen
     $label = rex_i18n::msg('lang');
-    $langs[$locale] = '<li><a href="index.php?checkmodus=0.5&amp;lang='.$locale.'"'. rex_tabindex() .'>'.$label.'</a></li>';
+    $langs[$locale] = '<li><a href="index.php?checkmodus=0.5&amp;lang='.$locale.'">'.$label.'</a></li>';
   }
   rex_i18n::setLocale($saveLocale, false);
 
@@ -302,7 +274,7 @@ if ($checkmodus == '0.5')
 	echo '</div>
       </div>
       <div class="rex-area-footer">
-        <p class="rex-algn-rght"><a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.rex_i18n::msg("setup_006").'</a></p>
+        <p class="rex-algn-rght"><a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'">&raquo; '.rex_i18n::msg("setup_006").'</a></p>
       </div>';
 
 	$checkmodus = 0;
@@ -341,7 +313,7 @@ if ($checkmodus == 1)
 
 	foreach($REX['SYSTEM_PACKAGES'] as $system_addon)
 	{
-	  if(!is_array($system_addon))
+	  if(strpos($system_addon, '/') === false)
 	    $WRITEABLES[] = rex_path::addon($system_addon);
 	}
 
@@ -380,7 +352,7 @@ if ($MSG['err'] == '' && $checkmodus == 1)
      </div>
      <div class="rex-area-footer">
        <p id="nextstep" class="rex-algn-rght">
-         <a href="index.php?page=setup&amp;checkmodus=2&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.rex_i18n::msg('setup_017').'</a>
+         <a href="index.php?page=setup&amp;checkmodus=2&amp;lang='.$lang.'">&raquo; '.rex_i18n::msg('setup_017').'</a>
        </p>
      </div>';
 
@@ -397,7 +369,7 @@ elseif ($MSG['err'] != "")
       </div>
       <div class="rex-area-footer">
         <p class="rex-algn-rght">
-          <a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'"'. rex_tabindex() .'>&raquo; '.rex_i18n::msg('setup_017').'</a>
+          <a href="index.php?page=setup&amp;checkmodus=1&amp;lang='.$lang.'">&raquo; '.rex_i18n::msg('setup_017').'</a>
         </p>
       </div>';
 }
@@ -445,12 +417,12 @@ if ($checkmodus == 2 && $send == 1)
 	{
 	  $dbconfigFile = rex_path::backend('src/dbconfig.yml');
 	  $dbconfig = rex_file::getConfig($dbconfigFile);
-	  $dbconfig['DB1']['host'] = $mysql_host;
-    $dbconfig['DB1']['login'] = $redaxo_db_user_login;
-    $dbconfig['DB1']['password'] = $redaxo_db_user_pass;
-    $dbconfig['DB1']['name'] = $dbname;
+	  $dbconfig['DB'][1]['host'] = $mysql_host;
+    $dbconfig['DB'][1]['login'] = $redaxo_db_user_login;
+    $dbconfig['DB'][1]['password'] = $redaxo_db_user_pass;
+    $dbconfig['DB'][1]['name'] = $dbname;
 
-    if(!rex_file::putConfig($dbconfigFile, $dbconfig))
+    if(!rex_file::putConfig($dbconfigFile, $dbconfig, 3))
     {
       $err_msg = rex_i18n::msg('setup_020_1', '<b>', '</b>');
     }
@@ -494,10 +466,10 @@ else
 
 	// DB Infos
 	$dbconfig = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
-	$dbname                = $dbconfig['DB1']['name'];
-	$redaxo_db_user_login  = $dbconfig['DB1']['login'];
-	$redaxo_db_user_pass   = $dbconfig['DB1']['password'];
-	$mysql_host            = $dbconfig['DB1']['host'];
+	$dbname                = $dbconfig['DB'][1]['name'];
+	$redaxo_db_user_login  = $dbconfig['DB'][1]['login'];
+	$redaxo_db_user_pass   = $dbconfig['DB'][1]['password'];
+	$mysql_host            = $dbconfig['DB'][1]['host'];
 }
 
 if ($checkmodus == 2)
@@ -524,28 +496,28 @@ if ($checkmodus == 2)
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="serveraddress">'.rex_i18n::msg("setup_024").'</label>
-                <input class="rex-form-text" type="text" id="serveraddress" name="serveraddress" value="'.$serveraddress.'"'. rex_tabindex() .' />
+                <input class="rex-form-text" type="text" id="serveraddress" name="serveraddress" value="'.$serveraddress.'" />
               </p>
             </div>
 
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="serverbezeichnung">'.rex_i18n::msg("setup_025").'</label>
-                <input class="rex-form-text" type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.$serverbezeichnung.'"'. rex_tabindex() .' />
+                <input class="rex-form-text" type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.$serverbezeichnung.'" />
               </p>
             </div>
 
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="error_email">'.rex_i18n::msg("setup_026").'</label>
-                <input class="rex-form-text" type="text" id="error_email" name="error_email" value="'.$error_email.'"'. rex_tabindex() .' />
+                <input class="rex-form-text" type="text" id="error_email" name="error_email" value="'.$error_email.'" />
               </p>
             </div>
 
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="timezone">'.rex_i18n::msg("setup_timezone").'</label>
-                <input class="rex-form-text" type="text" id="timezone" name="timezone" value="'.$timezone.'"'. rex_tabindex() .' />
+                <input class="rex-form-text" type="text" id="timezone" name="timezone" value="'.$timezone.'" />
                 <span class="rex-form-notice">see <a href="http://php.net/timezones">http://php.net/timezones</a></span>
               </p>
             </div>
@@ -558,35 +530,35 @@ if ($checkmodus == 2)
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="dbname">'.rex_i18n::msg("setup_027").'</label>
-                <input class="rex-form-text" type="text" value="'.$dbname.'" id="dbname" name="dbname"'. rex_tabindex() .' />
+                <input class="rex-form-text" type="text" value="'.$dbname.'" id="dbname" name="dbname" />
               </p>
             </div>
 
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="mysql_host">MySQL Host</label>
-                <input class="rex-form-text" type="text" id="mysql_host" name="mysql_host" value="'.$mysql_host.'"'. rex_tabindex() .' />
+                <input class="rex-form-text" type="text" id="mysql_host" name="mysql_host" value="'.$mysql_host.'" />
               </p>
             </div>
 
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="redaxo_db_user_login">Login</label>
-                <input class="rex-form-text" type="text" id="redaxo_db_user_login" name="redaxo_db_user_login" value="'.$redaxo_db_user_login.'"'. rex_tabindex() .' />
+                <input class="rex-form-text" type="text" id="redaxo_db_user_login" name="redaxo_db_user_login" value="'.$redaxo_db_user_login.'" />
               </p>
             </div>
 
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="redaxo_db_user_pass">'.rex_i18n::msg("setup_028").'</label>
-                <input class="rex-form-text" type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="'.$redaxo_db_user_pass.'"'. rex_tabindex() .' />
+                <input class="rex-form-text" type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="'.$redaxo_db_user_pass.'" />
               </p>
             </div>
 
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-checkbox">
                 <label for="redaxo_db_create">'.rex_i18n::msg("setup_create_db").'</label>
-                <input class="rex-form-checkbox" type="checkbox" id="redaxo_db_create" name="redaxo_db_create" value="1"'. rex_tabindex() .' />
+                <input class="rex-form-checkbox" type="checkbox" id="redaxo_db_create" name="redaxo_db_create" value="1" />
               </p>
             </div>
           </div>
@@ -596,7 +568,7 @@ if ($checkmodus == 2)
           <div class="rex-form-wrapper">
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-submit">
-                <input class="rex-form-submit" type="submit" value="'.rex_i18n::msg("setup_029").'"'. rex_tabindex() .' />
+                <input class="rex-form-submit" type="submit" value="'.rex_i18n::msg("setup_029").'" />
               </p>
             </div>
 
@@ -630,7 +602,7 @@ if ($checkmodus == 3 && $send == 1)
 	if ($dbanlegen == 4)
 	{
 		// ----- vorhandenen seite updaten
-		$import_sql = rex_path::src('core/install/update4_x_to_5_0.sql');
+		$import_sql = rex_path::core('install/update4_x_to_5_0.sql');
 		if($err_msg == '')
 		  $err_msg .= rex_setup_import($import_sql);
 
@@ -674,7 +646,7 @@ if ($checkmodus == 3 && $send == 1)
 	elseif ($dbanlegen == 1)
 	{
 		// ----- volle Datenbank, alte DB löschen / drop
-		$import_sql = rex_path::src('core/install/redaxo5_0.sql');
+		$import_sql = rex_path::core('install/redaxo5_0.sql');
 
 		$db = rex_sql::factory();
 		foreach($requiredTables as $table)
@@ -689,7 +661,7 @@ if ($checkmodus == 3 && $send == 1)
 	elseif ($dbanlegen == 0)
 	{
 		// ----- leere Datenbank neu einrichten
-		$import_sql = rex_path::src('core/install/redaxo5_0.sql');
+		$import_sql = rex_path::core('install/redaxo5_0.sql');
 
 		if($err_msg == '')
 		  $err_msg .= rex_setup_import($import_sql);
@@ -717,7 +689,7 @@ if ($checkmodus == 3 && $send == 1)
 
 	if ($err_msg == "")
 	{
-	  rex_generateClang();
+	  rex_clang_service::generateCache();
 		$send = "";
 		$checkmodus = 4;
 	}
@@ -812,7 +784,7 @@ if ($checkmodus == 3)
 
 	<div class="rex-form-row">
 		<p class="rex-form-col-a rex-form-radio rex-form-label-right">
-      <input class="rex-form-radio" type="radio" id="dbanlegen_0" name="dbanlegen" value="0"'.$dbchecked[0]. rex_tabindex() .' />
+      <input class="rex-form-radio" type="radio" id="dbanlegen_0" name="dbanlegen" value="0"'.$dbchecked[0].' />
       <label for="dbanlegen_0">'.rex_i18n::msg('setup_034').'</label>
     </p>
   </div>
@@ -857,7 +829,7 @@ if ($checkmodus == 3)
 			<div class="rex-form-wrapper">
 				<div class="rex-form-row">
 					<p class="rex-form-col-a rex-form-submit">
-						<input class="rex-form-submit" type="submit" value="'.rex_i18n::msg('setup_039').'"'. rex_tabindex() .' />
+						<input class="rex-form-submit" type="submit" value="'.rex_i18n::msg('setup_039').'" />
 					</p>
 				</div>
 			</div>
@@ -968,13 +940,13 @@ if ($checkmodus == 4)
   	<div class="rex-form-row">
 	    <p class="rex-form-col-a rex-form-text">
         <label for="redaxo_user_login">'.rex_i18n::msg("setup_046").':</label>
-        <input class="rex-form-text" type="text" value="'.$redaxo_user_login.'" id="redaxo_user_login" name="redaxo_user_login"'. rex_tabindex() .'/>
+        <input class="rex-form-text" type="text" value="'.$redaxo_user_login.'" id="redaxo_user_login" name="redaxo_user_login" />
       </p>
     </div>
   	<div class="rex-form-row">
 	    <p class="rex-form-col-a rex-form-text">
         <label for="redaxo_user_pass">'.rex_i18n::msg("setup_047").':</label>
-        <input class="rex-form-text" type="password" value="'.$redaxo_user_pass.'" id="redaxo_user_pass" name="redaxo_user_pass"'. rex_tabindex() .'/>
+        <input class="rex-form-text" type="password" value="'.$redaxo_user_pass.'" id="redaxo_user_pass" name="redaxo_user_pass" />
       </p>
     </div>';
 
@@ -983,7 +955,7 @@ if ($checkmodus == 4)
 		echo '
   	<div class="rex-form-row">
 	    <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-        <input class="rex-form-checkbox" type="checkbox" id="noadmin" name="noadmin" value="1"'. rex_tabindex() .'/>
+        <input class="rex-form-checkbox" type="checkbox" id="noadmin" name="noadmin" value="1" />
         <label for="noadmin">'.rex_i18n::msg("setup_048").'</label>
       </p>
     </div>';
@@ -996,7 +968,7 @@ if ($checkmodus == 4)
       <div class="rex-form-wrapper">
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-submit">
-            <input class="rex-form-submit" type="submit" value="'.rex_i18n::msg("setup_049").'"'. rex_tabindex() .' />
+            <input class="rex-form-submit" type="submit" value="'.rex_i18n::msg("setup_049").'" />
           </p>
         </div>
       </div>

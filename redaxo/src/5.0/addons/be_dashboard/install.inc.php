@@ -2,11 +2,11 @@
 
 /**
  * Backenddashboard Addon
- * 
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
- * 
- * @package redaxo4
+ *
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -21,6 +21,6 @@ if($error == '')
 }
 
 if ($error != '')
-  $REX['ADDON']['installmsg']['be_dashboard'] = $error;
+  $this->setProperty('installmsg', $error);
 else
-  $REX['ADDON']['install']['be_dashboard'] = true;
+  $this->setProperty('install', true);

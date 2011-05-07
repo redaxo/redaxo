@@ -2,7 +2,7 @@
 
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -84,13 +84,6 @@ if ($function == "add" or $function == "edit")
       }
     }
 
-    // Daten wieder in den Rohzustand versetzen, da für serialize()/unserialize()
-    // keine Zeichen escaped werden dürfen
-    for($i=1;$i<count($ctypes)+1;$i++)
-    {
-      $ctypes[$i] = stripslashes($ctypes[$i]);
-    }
-
     $categories = rex_post("categories", "array");
     // leerer eintrag = 0
     if(count($categories) == 0 || !isset($categories["all"]) || $categories["all"] != 1)
@@ -118,10 +111,6 @@ if ($function == "add" or $function == "edit")
     $TPL->setValue("name", $templatename);
     $TPL->setValue("active", $active);
     $TPL->setValue("content", $content);
-    $attributes = rex_setAttributes("ctype", $ctypes, "");
-    $attributes = rex_setAttributes("modules", $modules, "");
-    $attributes = rex_setAttributes("categories", $categories, "");
-    $TPL->setValue("attributes", $attributes);
     $TPL->addGlobalCreateFields();
 
     if ($function == "add")
@@ -145,9 +134,9 @@ if ($function == "add" or $function == "edit")
       $attributes = rex_setAttributes("ctype", $ctypes, $attributes);
       $attributes = rex_setAttributes("modules", $modules, $attributes);
       $attributes = rex_setAttributes("categories", $categories, $attributes);
+      $TPL->setValue("attributes", $attributes);
 
       $TPL->setWhere("id='$template_id'");
-      $TPL->setValue("attributes", $attributes);
       $TPL->addGlobalUpdateFields();
 
       if($TPL->update())
@@ -155,9 +144,6 @@ if ($function == "add" or $function == "edit")
       else
         $warning = $TPL->getError();
     }
-    // werte werden direkt wieder ausgegeben
-//    $templatename = stripslashes($templatename);
-//    $content = stripslashes($content);
 
     rex_dir::delete(rex_path::generated('templates'), false);
 

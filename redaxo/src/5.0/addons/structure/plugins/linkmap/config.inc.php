@@ -5,7 +5,7 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -18,11 +18,11 @@ if ($REX['REDAXO'])
   $page->setHidden(true);
   $page->setRequiredPermissions('hasStructurePerm');
 
-  $REX['ADDON']['page'][$mypage] = new rex_be_page_main('system', $page);
+  $this->setProperty('page', new rex_be_page_main('system', $page));
 
   if($REX["USER"])
   {
-    rex_register_extension('PAGE_HEADER', function($params){
+    rex_extension::register('PAGE_HEADER', function($params){
       $params['subject'] .= "\n  ".
         '<script type="text/javascript" src="'. rex_path::pluginAssets('structure', 'linkmap', 'linkmap.js', rex_path::RELATIVE) .'"></script>';
 

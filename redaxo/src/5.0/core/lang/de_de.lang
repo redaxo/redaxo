@@ -197,7 +197,7 @@ addon_no = nein
 addon_caption = Liste der verfügbaren AddOns
 addon_summary = Auflistung aller AddOns
 addon_systemaddon = System AddOn
-addon_systemaddon_delete_not_allowed = System AddOns dürfen nicht gelöscht werden!
+addon_systempackage_delete_not_allowed = System AddOns dürfen nicht gelöscht werden!
 addon_install_cant_copy_files = Fehler beim Kopieren des /assets Ordners!
 addon_install_cant_delete_files = Fehler beim Löschen des /assets Ordners!
 addon_requirement_error_redaxo_exact_version = Es wird REDAXO {0} benötigt, {1} ist aber installiert!
@@ -231,7 +231,7 @@ plugin_uninstall_question = PlugIn "{0}" de-installieren?
 plugin_install_cant_copy_files = Fehler beim Kopieren des /assets Ordners!
 plugin_install_cant_delete_files = Fehler beim Löschen des /assets Ordners!
 plugin_systemplugin = System PlugIn
-plugin_systemplugin_delete_not_allowed = System PlugIns dürfen nicht gelöscht werden!
+plugin_systempackage_delete_not_allowed = System PlugIns dürfen nicht gelöscht werden!
 
 # redaxo\include\pages\credits.inc.php
 credits = Credits

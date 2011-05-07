@@ -29,13 +29,13 @@ function rex_epIncludePageHeader($params)
 
 function rex_includeCss($markup)
 {
-	rex_register_extension('PAGE_HEADER', 'rex_epIncludePageHeader', array('markup' => $markup));
+	rex_extension::register('PAGE_HEADER', 'rex_epIncludePageHeader', array('markup' => $markup));
 }
 
 
 function rex_includeJavascript($markup)
 {
-	rex_register_extension('PAGE_HEADER', 'rex_epIncludePageHeader', array('markup' => $markup));
+	rex_extension::register('PAGE_HEADER', 'rex_epIncludePageHeader', array('markup' => $markup));
 }
 
 
@@ -66,5 +66,5 @@ function rex_addBodyClass($class)
 
 function rex_addBodyAttribute($attribute, $value)
 {
-	rex_register_extension('PAGE_BODY_ATTR', 'rex_epAddBodyAttribute', array('attributes' => array($attribute => $value)));
+	rex_extension::register('PAGE_BODY_ATTR', 'rex_epAddBodyAttribute', array('attributes' => array($attribute => $value)));
 }

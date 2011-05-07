@@ -5,7 +5,7 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -17,12 +17,12 @@ rex_a62_metainfo_cleanup(array('force' => true));
 
 // uninstall ausführen, damit die db clean ist vorm neuen install
 $uninstall = $curDir.'/uninstall.sql';
-rex_install_dump($uninstall);
+rex_sql_dump::import($uninstall);
 
 // TODO:
 // - Update von alten Version einfliessen lassen
 
 if ($error != '')
-  $REX['ADDON']['installmsg']['metainfo'] = $error;
+  $this->setProperty('installmsg', $error);
 else
-  $REX['ADDON']['install']['metainfo'] = true;
+  $this->setProperty('install', true);

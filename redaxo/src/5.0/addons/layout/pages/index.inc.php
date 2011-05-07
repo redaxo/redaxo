@@ -3,7 +3,7 @@
 $subpages = array();
 rex_title('layout', $subpages);
 
-$pluginContent = rex_register_extension_point('LAYOUT_PAGE_CONTENT', '', array());
+$pluginContent = rex_extension::registerPoint('LAYOUT_PAGE_CONTENT', '', array());
 
 echo '
 <div class="rex-addon-output">

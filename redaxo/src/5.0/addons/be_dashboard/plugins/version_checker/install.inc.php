@@ -2,11 +2,11 @@
 
 /**
  * REDAXO Version Checker Addon
- * 
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
- * 
- * @package redaxo4
+ *
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -15,7 +15,7 @@ $error = '';
 if($error == '')
 {
   require_once dirname(__FILE__) .'/functions/function_version_check.inc.php';
-  
+
   $url = 'http://www.redaxo.org';
   if(!rex_a657_open_http_socket($url, $errno, $errstr, 5))
   {
@@ -29,6 +29,6 @@ if($error == '')
 }
 
 if ($error != '')
-  $REX['ADDON']['installmsg']['version_checker'] = $error;
+  $this->setProperty('installmsg', $error);
 else
-  $REX['ADDON']['install']['version_checker'] = true;
+  $this->setProperty('install', true);

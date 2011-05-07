@@ -61,10 +61,9 @@ function rex_imanager_deleteCacheByType($type_id)
   $sql->setQuery($qry);
   
   $counter = 0;
-  while($sql->hasNext())
+  foreach($sql as $row)
   {
-    $counter += rex_image_cacher::deleteCache(null, $sql->getValue('name'));
-    $sql->next();
+    $counter += rex_image_cacher::deleteCache(null, $row->getValue('name'));
   }
   
   return $counter;

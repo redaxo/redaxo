@@ -2,7 +2,7 @@
 
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -11,8 +11,8 @@ $media_method = rex_request('media_method', 'string');
 // *************************************** CONFIG
 
 $thumbs = true;
-$image_manager = rex_ooAddon::isAvailable('image_manager');
-$image_resize = rex_ooAddon::isAvailable('image_resize');
+$image_manager = rex_addon::get('image_manager')->isAvailable();
+$image_resize = rex_addon::get('image_resize')->isAvailable();
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
@@ -31,7 +31,7 @@ $sel_media->setAttribute('onchange', 'this.form.submit();');
 $sel_media->addOption(rex_i18n::msg('pool_kats_no'),"0");
 
 // ----- EXTENSION POINT
-echo rex_register_extension_point('PAGE_MEDIAPOOL_HEADER', '',
+echo rex_extension::registerPoint('PAGE_MEDIAPOOL_HEADER', '',
   array(
     'subpage' => $subpage,
     'category_id' => $rex_file_category
@@ -82,7 +82,7 @@ $cat_out .= '     </div>
 ';
 
 // ----- EXTENSION POINT
-$cat_out = rex_register_extension_point('MEDIA_LIST_TOOLBAR', $cat_out,
+$cat_out = rex_extension::registerPoint('MEDIA_LIST_TOOLBAR', $cat_out,
   array(
     'subpage' => $subpage,
     'category_id' => $rex_file_category
@@ -157,8 +157,8 @@ if ($subpage=="media" && rex_post('btn_update', 'string')){
       {
         $info = $return['msg'];
         // ----- EXTENSION POINT
-         // rex_register_extension_point('MEDIA_UPDATED','',array('id' => $file_id, 'type' => $FILEINFOS["filetype"], 'filename' => $FILEINFOS["filename"] ));
-         rex_register_extension_point('MEDIA_UPDATED','', $return);
+         // rex_extension::registerPoint('MEDIA_UPDATED','',array('id' => $file_id, 'type' => $FILEINFOS["filetype"], 'filename' => $FILEINFOS["filename"] ));
+         rex_extension::registerPoint('MEDIA_UPDATED','', $return);
       }else
       {
         $warning = $return['msg'];
@@ -331,7 +331,7 @@ if ($subpage == "media")
               	<div class="rex-clearer"></div>';
 
   // ----- EXTENSION POINT
-  echo rex_register_extension_point('MEDIA_FORM_EDIT', '', array ('file_id' => $file_id, 'media' => $gf));
+  echo rex_extension::registerPoint('MEDIA_FORM_EDIT', '', array ('file_id' => $file_id, 'media' => $gf));
 
   echo '
                       '. $add_ext_info .'
@@ -461,7 +461,7 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
       if($db->update())
       {
         $info = rex_i18n::msg('pool_selectedmedia_moved');
-        rex_deleteCacheMedia($file_name);
+        rex_media_cache::delete($file_name);
       }
       else
       {
@@ -647,7 +647,7 @@ if ($subpage == '')
   $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."media f WHERE ". $where ." ORDER BY f.updatedate desc";
 
   // ----- EXTENSION POINT
-  $qry = rex_register_extension_point('MEDIA_LIST_QUERY', $qry,
+  $qry = rex_extension::registerPoint('MEDIA_LIST_QUERY', $qry,
     array(
       'category_id' => $rex_file_category
     )
@@ -775,7 +775,7 @@ if ($subpage == '')
             </td>
             <td>';
 
-    echo rex_register_extension_point('MEDIA_LIST_FUNCTIONS',$opener_link,
+    echo rex_extension::registerPoint('MEDIA_LIST_FUNCTIONS',$opener_link,
       array(
         "file_id" => $files->getValue('media_id'),
         "file_name" => $files->getValue('filename'),

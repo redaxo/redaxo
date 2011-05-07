@@ -4,7 +4,7 @@
  * MetaForm Addon
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -15,7 +15,7 @@ $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
-rex_title('Metainformationen erweitern', $REX['ADDON']['pages'][$page]);
+rex_title('Metainformationen erweitern', rex_addon::get('metainfo')->getProperty('pages'));
 
 echo '<div class="rex-addon-output-v2">';
 

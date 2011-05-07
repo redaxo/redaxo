@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Utitility class to generate relative and absolute path
+ *
+ * @author gharlan[at]web[dot]de Gregor Harlan
+ *
+ * @package redaxo5
+ * @version svn:$Id$
+ */
 class rex_path
 {
   const
@@ -18,94 +26,162 @@ class rex_path
     self::$version = $version;
   }
 
-  static public function frontend($file = '', $pathType = rex_path::ABSOLUTE)
+  /**
+   * Returns the path to the frontend
+   */
+  static public function frontend($file = '', $pathType = self::ABSOLUTE)
   {
     return self::base($file, $pathType);
   }
 
+  /**
+   * Returns the path to the frontend-controller (index.php from frontend)
+   */
   static public function frontendController($params = '')
   {
     return self::relBase('index.php'. $params);
   }
 
-  static public function backend($file = '', $pathType = rex_path::ABSOLUTE)
+  /**
+   * Returns the path to the backend
+   */
+  static public function backend($file = '', $pathType = self::ABSOLUTE)
   {
     return self::base('redaxo/'. $file, $pathType);
   }
 
+  /**
+   * Returns the path to the backend-controller (index.php from backend)
+   */
   static public function backendController($params = '')
   {
     return self::relBase('redaxo/index.php'. $params);
   }
 
-  static public function media($file = '', $pathType = rex_path::ABSOLUTE)
+  /**
+   * Returns the path to the media-folder
+   */
+  static public function media($file = '', $pathType = self::ABSOLUTE)
   {
     return self::base('media/'. $file, $pathType);
   }
 
-  static public function assets($file = '', $pathType = rex_path::ABSOLUTE)
+  /**
+   * Returns the path to the assets folder of the core, which contains all assets required by the core to work properly.
+   */
+  static public function assets($file = '', $pathType = self::ABSOLUTE)
   {
     return self::base('assets/'. $file, $pathType);
   }
 
-  static public function addonAssets($addon, $file = '', $pathType = rex_path::ABSOLUTE)
+  /**
+   * Returns the path to the assets folder of the given addon, which contains all assets required by the addon to work properly.
+   *
+   * @see #assets
+   */
+  static public function addonAssets($addon, $file = '', $pathType = self::ABSOLUTE)
   {
     return self::assets('addons/'. $addon .'/'. $file, $pathType);
   }
 
-  static public function pluginAssets($addon, $plugin, $file = '', $pathType = rex_path::ABSOLUTE)
+  /**
+   * Returns the path to the assets folder of the given plugin of the given addon
+   *
+   * @see #assets
+   */
+  static public function pluginAssets($addon, $plugin, $file = '', $pathType = self::ABSOLUTE)
   {
     return self::addonAssets($addon, 'plugins/'. $plugin .'/'. $file, $pathType);
   }
 
+  /**
+   * Returns the path to the data folder of the core.
+   */
   static public function data($file = '')
   {
     return self::absBase('redaxo/data/'. $file);
   }
 
+  /**
+   * Returns the path to the data folder of the given addon.
+   */
   static public function addonData($addon, $file = '')
   {
     return self::data('addons/'. $addon .'/'. $file);
   }
 
+  /**
+   * Returns the path to the data folder of the given plugin of the given addon.
+   */
   static public function pluginData($addon, $plugin, $file = '')
   {
     return self::addonData($addon, 'plugins/'. $plugin .'/'. $file);
   }
 
+  /**
+   * Returns the path to the generated folder
+   */
   static public function generated($file = '')
   {
     return self::absBase('redaxo/generated/'. $file);
   }
 
+  /**
+   * Returns the path to the active version folder.
+   *
+   * There might be several version folders, but only one active.
+   */
   static public function src($file = '')
   {
     return self::absBase('redaxo/src/'. self::$version .'/'. $file);
   }
 
+  /**
+   * Returns the path to the actual core
+   */
+  static public function core($file = '')
+  {
+    return self::src('core/'. $file);
+  }
+
+  /**
+   * Returns the base path to the folder of the given addon
+   */
   static public function addon($addon, $file = '')
   {
     return self::src('addons/'. $addon .'/'. $file);
   }
 
+  /**
+   * Returns the base path to the folder of the plugin of the given addon
+   */
   static public function plugin($addon, $plugin, $file = '')
   {
     return self::addon($addon, 'plugins/'. $plugin .'/'. $file);
   }
 
+  /**
+   * Returns a relative path
+   */
   static private function relBase($file = '')
   {
     return self::$relBase . $file;
   }
 
+  /**
+   * Returns a absolute path
+   */
   static private function absBase($file = '')
   {
     return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, self::$absBase . $file);
   }
 
-  static private function base($file, $pathType = rex_path::ABSOLUTE)
+  /**
+   * Returns a base path
+   */
+  static private function base($file, $pathType = self::ABSOLUTE)
   {
-    return $pathType == rex_path::ABSOLUTE ? self::absBase($file) : self::relBase($file);
+    return $pathType == self::ABSOLUTE ? self::absBase($file) : self::relBase($file);
   }
 
   /**
@@ -129,7 +205,7 @@ class rex_path
 
     // pfadtrenner vereinheitlichen
     $relPath = str_replace('\\', '/', $relPath);
-    foreach (explode('/', $rel_path) as $dir)
+    foreach (explode('/', $relPath) as $dir)
     {
       // Aktuelles Verzeichnis, oder Ordner ohne Namen
       if ($dir == '.' || $dir == '')

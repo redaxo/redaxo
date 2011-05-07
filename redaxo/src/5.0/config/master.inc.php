@@ -59,10 +59,6 @@ $REX['USE_LAST_MODIFIED'] = "true"; // String: "true"/"false"/"fronted"/"backend
 // allow client to validate content integrity
 $REX['USE_MD5'] = "true"; // String: "true"/"false"/"fronted"/"backend"
 
-// Prefixes
-$REX['TABLE_PREFIX']  = 'rex_';
-$REX['TEMP_PREFIX']   = 'tmp_';
-
 // Passwortverschluesselung
 $REX['PSWFUNC'] = "sha1";
 
@@ -85,7 +81,7 @@ date_default_timezone_set($REX['TIMEZONE']);
 
 // ----------------- OTHER STUFF
 //$REX['SYSTEM_ADDONS'] = array('structure', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'image_manager', 'users');
-$REX['SYSTEM_PACKAGES'] = array('structure', array('structure', 'content'), array('structure', 'linkmap'), 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', array('be_style', 'base'), array('be_style', 'agk_skin'), 'image_manager', 'users');
+$REX['SYSTEM_PACKAGES'] = array('structure', 'structure/content', 'structure/linkmap', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/base', 'be_style/agk_skin', 'image_manager', 'users');
 $REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
 
 // ----------------- Accesskeys
@@ -127,7 +123,12 @@ $REX['EXTRAPERM'][] = 'editContentOnly[]';
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 
 // ----------------- INCLUDE FUNCTIONS
-if(!$REX['NOFUNCTIONS']) include_once rex_path::src('core/functions.inc.php');
+if(!$REX['NOFUNCTIONS']) include_once rex_path::core('functions.inc.php');
+
+// Prefixes
+$dbconfig = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
+$REX['TABLE_PREFIX'] = $dbconfig['TABLE_PREFIX'];
+$REX['TEMP_PREFIX']  = 'tmp_';
 
 // ----- SET CLANG
 $REX['CLANG'] = array();

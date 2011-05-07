@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -17,7 +17,7 @@ abstract class rex_cronjob
 
   final public static function factory($class)
   {
-    if (!rex_autoload::getInstance()->autoload($class))
+    if (!rex_autoload::autoload($class))
       return $class;
 
     return new $class();

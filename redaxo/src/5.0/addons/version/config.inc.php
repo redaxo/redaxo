@@ -5,7 +5,7 @@
  *
  * @author jan@kristinus.de
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -15,7 +15,7 @@ $REX['EXTRAPERM'][] = 'version[only_working_version]';
 // $REX['EXTPERM'][] = 'version[admin]';
 
 // ***** an EPs andocken
-rex_register_extension('ART_INIT', 'rex_version_initArticle');
+rex_extension::register('ART_INIT', 'rex_version_initArticle');
 function rex_version_initArticle($params)
 {
 	global $REX;
@@ -41,7 +41,7 @@ function rex_version_initArticle($params)
 	$params['article']->setEval(TRUE);
 }
 
-rex_register_extension('PAGE_CONTENT_HEADER', 'rex_version_header');
+rex_extension::register('PAGE_CONTENT_HEADER', 'rex_version_header');
 function rex_version_header($params)
 {
 

@@ -3,7 +3,7 @@
 /**
  * Funktionensammlung für den Medienpool
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -139,7 +139,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
     $message .= rex_i18n::msg("pool_file_added");
 
-    rex_deleteCacheMediaList($rex_file_category);
+    rex_media_cache::deleteList($rex_file_category);
   }
 
   $RETURN['title'] = $FILEINFOS['title'];
@@ -158,7 +158,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
   // ----- EXTENSION POINT
   if ($success)
-    rex_register_extension_point('MEDIA_ADDED','',$RETURN);
+    rex_extension::registerPoint('MEDIA_ADDED','',$RETURN);
 
   return $RETURN;
 }
@@ -246,7 +246,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
 	$FILESQL->addGlobalUpdateFields();
 	$FILESQL->update();
 
-  rex_deleteCacheMedia($FILEINFOS["filename"]);
+  rex_media_cache::delete($FILEINFOS["filename"]);
 
 
 /*
@@ -420,7 +420,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
               <div class="rex-form-row">
                 <p class="rex-form-text">
                   <label for="ftitle">'.rex_i18n::msg('pool_file_title').'</label>
-                  <input class="rex-form-text" type="text" size="20" id="ftitle" name="ftitle" value="'.htmlspecialchars(stripslashes($ftitle)).'" />
+                  <input class="rex-form-text" type="text" size="20" id="ftitle" name="ftitle" value="'.htmlspecialchars($ftitle).'" />
                 </p>
               </div>
 
@@ -434,7 +434,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
               <div class="rex-clearer"></div>';
 
   // ----- EXTENSION POINT
-  $s .= rex_register_extension_point('MEDIA_FORM_ADD', '');
+  $s .= rex_extension::registerPoint('MEDIA_FORM_ADD', '');
 
   $s .=        $add_file .'
               <div class="rex-form-row">

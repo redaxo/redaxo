@@ -2,7 +2,7 @@
 
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -44,14 +44,14 @@ echo '
     	<div class="rex-form-row">
 		    <p class="rex-form-col-a rex-form-text">
     			<label for="rex-form-login">'.rex_i18n::msg('login_name').':</label>
-      		<input type="text" value="'.stripslashes(htmlspecialchars($rex_user_login)).'" id="rex-form-login" name="rex_user_login"'. rex_tabindex() .' />
+      		<input type="text" value="'.htmlspecialchars($rex_user_login).'" id="rex-form-login" name="rex_user_login" />
     		</p>
     	</div>
     	<div class="rex-form-row">
 		    <p class="rex-form-col-a rex-form-password">
       		<label for="REX_UPSW">'.rex_i18n::msg('password').':</label>
-      		<input class="rex-form-password" type="password" name="rex_user_psw" id="REX_UPSW"'. rex_tabindex() .' />
-	    		<input class="rex-form-submit" type="submit" value="'.rex_i18n::msg('login').'"'. rex_tabindex() .' />
+      		<input class="rex-form-password" type="password" name="rex_user_psw" id="REX_UPSW" />
+	    		<input class="rex-form-submit" type="submit" value="'.rex_i18n::msg('login').'" />
 	    	</p>
 	    </div>
 	  </div>

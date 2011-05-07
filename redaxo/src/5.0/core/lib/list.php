@@ -6,7 +6,7 @@ define('REX_LIST_OPT_SORT', 0);
 /**
  * Klasse zum erstellen von Listen
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -156,7 +156,7 @@ class rex_list implements rex_url_provider
     if(!$class)
     {
       // ----- EXTENSION POINT
-      $class = rex_register_extension_point('REX_LIST_CLASSNAME', 'rex_list',
+      $class = rex_extension::registerPoint('REX_LIST_CLASSNAME', __CLASS__,
         array(
           'query'       => $query,
           'rowsPerPage' => $rowsPerPage,
@@ -164,6 +164,11 @@ class rex_list implements rex_url_provider
           'debug'       => $debug
         )
       );
+    }
+
+    if($class != __CLASS__ && !is_subclass_of($class, __CLASS__))
+    {
+      throw new rexException('$class is expected to define a subclass of '. __CLASS__ .'!');
     }
 
     return new $class($query, $rowsPerPage, $listName, $debug);
@@ -193,7 +198,7 @@ class rex_list implements rex_url_provider
    */
   public function getMessage()
   {
-    return stripslashes(rex_request($this->getName().'_msg', 'string'));
+    return rex_request($this->getName().'_msg', 'string');
   }
 
   /**
@@ -203,7 +208,7 @@ class rex_list implements rex_url_provider
    */
   public function getWarning()
   {
-    return stripslashes(rex_request($this->getName().'_warning', 'string'));
+    return rex_request($this->getName().'_warning', 'string');
   }
 
   /**

@@ -22,7 +22,7 @@ class rex_form_prio_element extends rex_form_select_element
     $this->optionMsg = 'form_field_after_prior';
     $this->select->setSize(1);
 
-    rex_register_extension('REX_FORM_SAVED', array($this, 'organizePriorities'));
+    rex_extension::register('REX_FORM_SAVED', array($this, 'organizePriorities'));
   }
 
   /**
@@ -68,13 +68,12 @@ class rex_form_prio_element extends rex_form_select_element
     $sql->setQuery($qry);
 
     $this->select->addOption(rex_i18n::msg($this->firstOptionMsg), 1);
-    while($sql->hasNext())
+    foreach($sql as $opt)
     {
       $this->select->addOption(
-        rex_i18n::msg($this->optionMsg, $sql->getValue($this->labelField)),
-        $sql->getValue($name)+1
+        rex_i18n::msg($this->optionMsg, $opt->getValue($this->labelField)),
+        $opt->getValue($name)+1
       );
-      $sql->next();
     }
 
     return parent::formatElement();

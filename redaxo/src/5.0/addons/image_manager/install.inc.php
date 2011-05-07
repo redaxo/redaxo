@@ -8,7 +8,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -28,6 +28,6 @@ if($error == '' && !rex_config::has('image_manager', 'jpg_quality'))
 }
 
 if ($error != '')
-  $REX['ADDON']['installmsg']['image_manager'] = $error;
+  $this->setProperty('installmsg', $error);
 else
-  $REX['ADDON']['install']['image_manager'] = true;
+  $this->setProperty('install', true);

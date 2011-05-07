@@ -8,7 +8,7 @@ CREATE TABLE `%TABLE_PREFIX%62_params` (
   `default` varchar(255) NOT NULL,
   `params` text default NULL,
   `validate` text NULL,
-  `restrictions` text NOT NULL,
+  `restrictions` text NULL,
   `createuser` varchar(255) NOT NULL,
   `createdate` int(11) NOT NULL,
   `updateuser` varchar(255) NOT NULL,

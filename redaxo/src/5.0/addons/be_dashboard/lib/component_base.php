@@ -6,7 +6,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -95,7 +95,7 @@ abstract class rex_dashboard_component_base
         // clear output-buffer
         while(@ob_end_clean());
 
-        rex_send_resource($content);
+        rex_response::sendResource($content);
         exit();
       }
 
@@ -120,7 +120,7 @@ abstract class rex_dashboard_component_base
     $actions[] = array('name' => 'toggleView', 'class' => 'rex-i-toggleview-off');
 
     // ----- EXTENSION POINT
-    $actions = rex_register_extension_point('DASHBOARD_COMPONENT_ACTIONS', $actions);
+    $actions = rex_extension::registerPoint('DASHBOARD_COMPONENT_ACTIONS', $actions);
 
     return $actions;
   }

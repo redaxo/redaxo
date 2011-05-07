@@ -2,7 +2,7 @@
 
 /**
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -70,11 +70,10 @@ $sel_role->addOption(rex_i18n::msg('user_no_role'), 0);
 $roles = array();
 $sql_role = rex_sql::factory();
 $sql_role->setQuery('SELECT id, name FROM '. $REX['TABLE_PREFIX'] .'user_role');
-while($sql_role->hasNext())
+foreach($sql_role as $role)
 {
-  $roles[$sql_role->getValue('id')] = $sql_role->getValue('name');
-  $sel_role->addOption($sql_role->getValue('name'), $sql_role->getValue('id'));
-  $sql_role->next();
+  $roles[$role->getValue('id')] = $role->getValue('name');
+  $sel_role->addOption($role->getValue('name'), $role->getValue('id'));
 }
 $userrole = rex_request('userrole', 'string');
 
@@ -108,6 +107,8 @@ $sel_startpage->addOption("default","");
 $startpages = array();
 $startpages['structure'] = array(rex_i18n::msg('structure'),'');
 $startpages['profile'] = array(rex_i18n::msg('profile'),'');
+// TODO set startpages
+/*
 foreach($REX['ADDON']['status'] as $k => $v)
 {
 	if (isset($REX['ADDON']['perm'][$k]) && isset($REX['ADDON']['name'][$k]))
@@ -115,6 +116,7 @@ foreach($REX['ADDON']['status'] as $k => $v)
 		$startpages[$k] = array($REX['ADDON']['name'][$k],$REX['ADDON']['perm'][$k]);
 	}
 }
+*/
 
 foreach($startpages as $k => $v)
 {

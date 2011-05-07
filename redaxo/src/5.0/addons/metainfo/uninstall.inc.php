@@ -5,11 +5,11 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
-$REX['ADDON']['install']['metainfo'] = 0;
+$this->setProperty('install', false);
 // ERRMSG IN CASE: $REX['ADDON']['installmsg']['metainfo'] = "Deinstallation fehlgeschlagen weil...";
 
 $curDir = dirname(__FILE__);

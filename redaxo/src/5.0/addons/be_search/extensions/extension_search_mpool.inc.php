@@ -5,7 +5,7 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -56,7 +56,7 @@ function rex_be_search_mpool_query($params)
   // replace LIKE wildcards
   $media_name = str_replace(array('_', '%'), array('\_', '\%'), $media_name);
   $where = " f.category_id = c.id AND (f.filename LIKE '%". $media_name ."%' OR f.title LIKE '%". $media_name ."%')";
-  switch(rex_ooAddon::getProperty('be_search', 'searchmode', 'local'))
+  switch(rex_addon::get('be_search')->getProperty('searchmode', 'local'))
   {
     case 'local':
     {

@@ -5,7 +5,7 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
@@ -29,7 +29,7 @@ class rex_a62_tableExpander extends rex_form
 
     // ----- EXTENSION POINT
     // IDs aller Feldtypen bei denen das Parameter-Feld eingeblendet werden soll
-    $typeFields = rex_register_extension_point( 'A62_TYPE_FIELDS', array(REX_A62_FIELD_SELECT, REX_A62_FIELD_RADIO, REX_A62_FIELD_CHECKBOX, REX_A62_FIELD_REX_MEDIA_BUTTON, REX_A62_FIELD_REX_MEDIALIST_BUTTON, REX_A62_FIELD_REX_LINK_BUTTON, REX_A62_FIELD_REX_LINKLIST_BUTTON));
+    $typeFields = rex_extension::registerPoint( 'A62_TYPE_FIELDS', array(REX_A62_FIELD_SELECT, REX_A62_FIELD_RADIO, REX_A62_FIELD_CHECKBOX, REX_A62_FIELD_REX_MEDIA_BUTTON, REX_A62_FIELD_REX_MEDIALIST_BUTTON, REX_A62_FIELD_REX_LINK_BUTTON, REX_A62_FIELD_REX_LINKLIST_BUTTON));
 
     $field = $this->addReadOnlyField('prefix', $this->metaPrefix);
     $field->setLabel(rex_i18n::msg('minfo_field_label_prefix'));
@@ -201,9 +201,16 @@ class rex_a62_tableExpander extends rex_form
     if(preg_match('/[^a-zA-Z0-9\_]/', $fieldName))
       return rex_i18n::msg('minfo_field_error_chars_name');
 
-    // Pr�fen ob schon eine Spalte mit dem Namen existiert (nur beim add n�tig)
+    // Pruefen ob schon eine Spalte mit dem Namen existiert (nur beim add noetig)
     if(!$this->isEditMode())
     {
+      // die tabelle selbst checken
+      if($this->tableManager->hasColumn($this->addPrefix($fieldName)))
+      {
+        return rex_i18n::msg('minfo_field_error_unique_name');
+      }
+      
+      // das meta-schema checken
       $sql = rex_sql::factory();
       $sql->setQuery('SELECT * FROM '. $this->tableName .' WHERE name="'. $this->addPrefix($fieldName) .'" LIMIT 1');
       if($sql->getRows() == 1)
@@ -211,7 +218,7 @@ class rex_a62_tableExpander extends rex_form
         return rex_i18n::msg('minfo_field_error_unique_name');
       }
     }
-
+    
     return parent::validate();
   }
 
@@ -220,8 +227,8 @@ class rex_a62_tableExpander extends rex_form
     $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
 
     // Den alten Wert aus der DB holen
-    // Dies muss hier geschehen, da in parent::save() die Werte f�r die DB mit den
-    // POST werten �berschrieben werden!
+    // Dies muss hier geschehen, da in parent::save() die Werte fuer die DB mit den
+    // POST werten ueberschrieben werden!
     $fieldOldName = '';
     $fieldOldPrior = 9999999999999; // dirty, damit die prio richtig l�uft...
     $fieldOldDefault = '';
@@ -249,7 +256,7 @@ class rex_a62_tableExpander extends rex_form
       $fieldDbType = $result[0]['dbtype'];
       $fieldDbLength = $result[0]['dblength'];
 
-      // TEXT Spalten d�rfen in MySQL keine Defaultwerte haben
+      // TEXT Spalten duerfen in MySQL keine Defaultwerte haben
       if($fieldDbType == 'text')
         $fieldDefault = null;
 
@@ -272,8 +279,8 @@ class rex_a62_tableExpander extends rex_form
           $upd = rex_sql::factory();
           $upd->debugsql =& $this->debug;
           $upd->setTable($this->tableManager->getTableName());
-          $upd->setWhere('`'. $fieldName .'`="'. addSlashes($fieldOldDefault) .'"');
-          $upd->setValue($fieldName, addSlashes($fieldDefault));
+          $upd->setWhere(array($fieldName => $fieldOldDefault));
+          $upd->setValue($fieldName, $fieldDefault);
           return $upd->update();
         }
 

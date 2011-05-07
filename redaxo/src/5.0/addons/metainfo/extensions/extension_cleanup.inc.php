@@ -4,11 +4,11 @@
  * MetaForm Addon
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo4
+ * @package redaxo5
  * @version svn:$Id$
  */
 
-rex_register_extension('A1_BEFORE_DB_IMPORT', 'rex_a62_metainfo_cleanup');
+rex_extension::register('A1_BEFORE_DB_IMPORT', 'rex_a62_metainfo_cleanup');
 
 /**
  * Alle Metafelder löschen, nicht das nach einem Import in der Parameter Tabelle

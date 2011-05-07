@@ -7,7 +7,7 @@
 interface rex_be_page_container
 {
   /**
-   * Returns the page which wrapped in this container
+   * Returns the page which is wrapped in this container
    */
   function getPage();
 }

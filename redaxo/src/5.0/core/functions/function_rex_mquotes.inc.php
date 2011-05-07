@@ -1,14 +1,15 @@
 <?php
 
 /** 
- * Funktionen zum handeln von magic_quotes=off  
+ * Function to compensate the deprecated magic_quotes_gpc setting
+ *   
  * @package redaxo4 
  * @version svn:$Id$ 
  */
 
-if (!get_magic_quotes_gpc())
+if (get_magic_quotes_gpc())
 {
-	function addSlashesOnArray(&$theArray)
+	function removeSlashesOnArray(&$theArray)
 	{
 		if (is_array($theArray))
 		{
@@ -17,10 +18,10 @@ if (!get_magic_quotes_gpc())
 			{
 				if (is_array($AVal))
 				{
-					addSlashesOnArray($theArray[$Akey]);
+					removeSlashesOnArray($theArray[$Akey]);
 				}else
 				{
-					$theArray[$Akey] = addslashes($AVal);
+					$theArray[$Akey] = stripslashes($AVal);
 				}
 			}
 			reset($theArray);
@@ -29,17 +30,16 @@ if (!get_magic_quotes_gpc())
 	
 	if (is_array($_GET))
 	{
-	    addSlashesOnArray($_GET);
+	    removeSlashesOnArray($_GET);
 	}
 	
 	if (is_array($_POST))
 	{
-	    addSlashesOnArray($_POST);
+	    removeSlashesOnArray($_POST);
 	}
 	
 	if (is_array($_REQUEST))
 	{
-	    addSlashesOnArray($_REQUEST);
+	    removeSlashesOnArray($_REQUEST);
 	}
-	
 }
