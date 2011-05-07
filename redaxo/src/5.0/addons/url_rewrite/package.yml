@@ -1,9 +1,8 @@
-url_rewrite:
-  version: '1.1.4'
-  author: Markus Staab, Wolfgang Huttegger, Ruediger Nitzsche, Jan Kristinus
-  supportpage: www.redaxo.org/de/forum/
-  
-  requires:
-    addons:
-      structure:
-        min-version: '1.3'
+version: '1.1.4'
+author: Markus Staab, Wolfgang Huttegger, Ruediger Nitzsche, Jan Kristinus
+supportpage: www.redaxo.org/de/forum/
+
+requires:
+  addons:
+    structure:
+      min-version: '1.3'

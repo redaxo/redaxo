@@ -301,29 +301,47 @@ rex_extension::registerPoint( 'PAGE_CHECKED', $REX['PAGE'], array('pages' => $RE
 // trigger api functions
 rex_api_function::handleCall();
 
+if($pageObj->hasLayout())
+{
+  require rex_path::core('layout/top.php');
+}
+
 $path = '';
+$pageObj = $REX['PAGES'][$REX['PAGE']]->getPage();
 if($pageObj->hasPath())
 {
   // If page has a new/overwritten path
   $path = $pageObj->getPath();
-}else if($pageObj->isCorePage())
+  if(preg_match('@'. preg_quote(rex_path::src('addons/'), '@') .'([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@', $path, $matches))
+  {
+    $package = rex_addon::get($matches[1]);
+    if(isset($matches[2]))
+    {
+      $package = $package->getPlugin($matches[2]);
+    }
+    $manager = rex_packageManager::factory($package);
+    $manager->includeFile(str_replace($path, $package->getBasePath()));
+  }
+  else
+  {
+    require $path;
+  }
+}
+else if($pageObj->isCorePage())
 {
   // Core Page
-  $path = rex_path::core('pages/'. $REX['PAGE'] .'.inc.php');
-}else
+  require rex_path::core('pages/'. $REX['PAGE'] .'.inc.php');
+}
+else
 {
   // Addon Page
-  $path = rex_path::addon($REX['PAGE'], 'pages/index.inc.php');
+  $manager = rex_addonManager::factory(rex_addon::get($REX['PAGE']));
+  $manager->includeFile('pages/index.inc.php');
 }
 
 if($pageObj->hasLayout())
 {
-  require rex_path::core('layout/top.php');
-  require $path;
   require rex_path::core('layout/bottom.php');
-}else
-{
-  require $path;
 }
 
 // ----- caching end für output filter

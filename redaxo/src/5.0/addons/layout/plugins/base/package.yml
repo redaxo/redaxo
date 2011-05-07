@@ -1,4 +1,3 @@
-base:
-  version: '0.1'
-  author: 'Thomas Blum'
-  supportpage: www.redaxo.org/de/forum/
+version: '0.1'
+author: 'Thomas Blum'
+supportpage: www.redaxo.org/de/forum/

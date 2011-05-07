@@ -1,4 +1,3 @@
-be_style:
-  version: '1.3'
-  author: 'Jan Kristinus, Markus Staab'
-  supportpage: www.redaxo.org/de/forum/
+version: '1.3'
+author: 'Jan Kristinus, Markus Staab'
+supportpage: www.redaxo.org/de/forum/
