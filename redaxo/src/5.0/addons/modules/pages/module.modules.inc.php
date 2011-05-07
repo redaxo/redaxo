@@ -83,7 +83,7 @@ if ($function == 'delete')
       if(count($REX['CLANG']) > 1)
         $label = '('. rex_i18n::translate($REX['CLANG'][$clang_id]) .') '. $label;
 
-      $module_in_use_message .= '<li><a href="index.php?page=modules&amp;article_id='. $aid .'&clang='. $clang_id .'&ctype='. $ctype .'">'. htmlspecialchars($label) .'</a></li>';
+      $module_in_use_message .= '<li><a href="index.php?page=content&amp;article_id='. $aid .'&clang='. $clang_id .'&ctype='. $ctype .'">'. htmlspecialchars($label) .'</a></li>';
       $del->next();
     }
 
