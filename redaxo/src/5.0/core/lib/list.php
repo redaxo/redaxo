@@ -42,7 +42,7 @@ $list->setColumnFormat('id', 'custom',
 
 */
 
-class rex_list implements rex_url_provider
+class rex_list extends rex_factory implements rex_url_provider
 {
   private $query;
   private $sql;
@@ -155,15 +155,7 @@ class rex_list implements rex_url_provider
     // keine spezielle klasse angegeben -> default klasse verwenden?
     if(!$class)
     {
-      // ----- EXTENSION POINT
-      $class = rex_extension::registerPoint('REX_LIST_CLASSNAME', __CLASS__,
-        array(
-          'query'       => $query,
-          'rowsPerPage' => $rowsPerPage,
-          'listName'    => $listName,
-          'debug'       => $debug
-        )
-      );
+      $class = self::getClass();
     }
 
     if($class != __CLASS__ && !is_subclass_of($class, __CLASS__))

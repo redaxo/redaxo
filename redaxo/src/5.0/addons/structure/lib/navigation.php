@@ -32,7 +32,7 @@
  * $nav->showBreadcrumb(true);
  */
 
-class rex_navigation
+class rex_navigation extends rex_factory
 {
   private
   $depth, // Wieviele Ebene tief, ab der Startebene
@@ -49,16 +49,9 @@ class rex_navigation
     // nichts zu tun
   }
 
-  public function factory()
+  static public function factory()
   {
-    static $class = null;
-
-    if(!$class)
-    {
-      // ----- EXTENSION POINT
-      $class = rex_extension::registerPoint('REX_NAVI_CLASSNAME', 'rex_navigation');
-    }
-
+    $class = self::getClass();
     return new $class();
   }
 

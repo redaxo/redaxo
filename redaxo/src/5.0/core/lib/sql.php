@@ -5,7 +5,7 @@
  * @version svn:$Id$
  */
 // see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
-class rex_sql implements Iterator
+class rex_sql extends rex_factory implements Iterator
 {
   public
     $debugsql, // debug schalter
@@ -1208,12 +1208,7 @@ class rex_sql implements Iterator
     // keine spezielle klasse angegeben -> default klasse verwenden?
     if(!$class)
     {
-      // ----- EXTENSION POINT
-      $class = rex_extension::registerPoint('REX_SQL_CLASSNAME', __CLASS__,
-        array(
-          'DBID'      => $DBID
-        )
-      );
+      $class = self::getClass();
     }
 
     if($class != __CLASS__ && !is_subclass_of($class, __CLASS__))
