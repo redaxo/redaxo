@@ -1,4 +1,4 @@
-	<div class="rex-title">
+	<div id="rex-title">
   		<div class="rex-title-row"><h1 class="rex-hl1"><?php echo $this->title; ?></h1></div>
   		<?php echo $this->subtitle; ?>
 	</div>
