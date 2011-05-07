@@ -176,22 +176,27 @@ class rex_addon extends rex_package implements rex_addonInterface
    */
   static public function initialize()
   {
-    self::$addons = array();
     $config = rex_core_config::get('package-config');
     foreach($config as $addonName => $addonConfig)
     {
-      $addon = new rex_addon($addonName);
+      if(!isset(self::$addons[$addonName]))
+      {
+        self::$addons[$addonName] = new rex_addon($addonName);
+      }
+      $addon = self::$addons[$addonName];
       $addon->setProperty('install', $addonConfig['install']);
       $addon->setProperty('status', $addonConfig['status']);
-      self::$addons[$addonName] = $addon;
       if(isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins']))
       {
         foreach($config[$addonName]['plugins'] as $pluginName => $pluginConfig)
         {
-          $plugin = new rex_plugin($pluginName, $addon);
+          if(!isset($addon->plugins[$pluginName]))
+          {
+            $addon->plugins[$pluginName] = new rex_plugin($pluginName, $addon);
+          }
+          $plugin = $addon->plugins[$pluginName];
           $plugin->setProperty('install', $pluginConfig['install']);
           $plugin->setProperty('status', $pluginConfig['status']);
-          $addon->plugins[$pluginName] = $plugin;
         }
       }
     }
