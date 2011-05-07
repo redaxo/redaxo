@@ -21,7 +21,7 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   static public function getArticleById($article_id, $clang = FALSE)
   {
-    return parent::getById($article_id, $clang);
+    return parent :: getById($article_id, $clang);
   }
 
   /**
@@ -32,7 +32,7 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   static public function getSiteStartArticle($clang = FALSE)
   {
-    return self :: getArticleById($REX['START_ARTICLE_ID'], $clang);
+    return parent :: getById($REX['START_ARTICLE_ID'], $clang);
   }
 
   /**
@@ -43,7 +43,7 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   static public function getCategoryStartArticle($a_category_id, $clang = FALSE)
   {
-    return self :: getArticleById($a_category_id, $clang);
+    return parent :: getById($a_category_id, $clang);
   }
 
   /**
