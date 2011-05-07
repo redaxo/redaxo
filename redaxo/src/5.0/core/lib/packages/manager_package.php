@@ -544,12 +544,9 @@ abstract class rex_packageManager extends rex_factory
       $ymlConfig = rex_file::getConfig($package_file);
       if($ymlConfig)
       {
-        foreach($ymlConfig as $packageConfig)
+        foreach($ymlConfig as $confName => $confValue)
         {
-          foreach($packageConfig as $confName => $confValue)
-          {
-            $package->setProperty($confName, rex_i18n::translateArray($confValue));
-          }
+          $package->setProperty($confName, rex_i18n::translateArray($confValue));
         }
       }
     }

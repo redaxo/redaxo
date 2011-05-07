@@ -1,6 +1,5 @@
-import_export:
-  version: '1.3'
-  author: 'Jan Kristinus, Markus Staab'
-  name: 'translate:im_export_importexport'
-  perm: import_export[export]
-  supportpage: www.redaxo.org/de/forum/
+version: '1.3'
+author: 'Jan Kristinus, Markus Staab'
+name: 'translate:im_export_importexport'
+perm: import_export[export]
+supportpage: www.redaxo.org/de/forum/
