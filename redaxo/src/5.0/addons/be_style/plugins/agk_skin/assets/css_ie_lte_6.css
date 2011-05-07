@@ -4,7 +4,7 @@
  * @version svn:$Id$
  */
 
-div#rex-wrapper, 
-div#rex-navi-main {
-  display: inline;
+div.rex-content-header ul, 
+div#rex-form-content-metamode fieldset.rex-form-col-1 div.rex-form-row p.rex-form-read span {
+	display: inline;
 }
