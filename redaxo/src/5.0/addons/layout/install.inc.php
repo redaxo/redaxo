@@ -15,9 +15,9 @@
  */
 
 $error = '';
+$addonname = 'layout';
 
 /*/ Plugins mitinstallieren
-$addonname = 'layout';
 
 $plugins = array('base', 'agk_skin');
 

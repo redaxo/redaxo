@@ -53,7 +53,7 @@ code {
 
 
 
-/* --------------------------- 333 */
+/* --------------------------- 333 
 body > div > div, 
 body > div > div > div, 
 body > div > div > div > div, 
@@ -77,36 +77,36 @@ body > div > div > div > div > div:before {
   font-weight: normal;
   line-height: 1;
 }
+*/
 
-
-/* --------------------------- 666 */
+/* --------------------------- 666 
 body > div > div > div {
   border-color: #666;
 }
 body > div > div > div:before {
   background-color: #666;
 }
+*/
 
-
-/* --------------------------- 999 */
+/* --------------------------- 999 
 body > div > div > div > div {
   border-color: #999;
 }
 body > div > div > div > div:before {
   background-color: #999;
 }
+*/
 
-
-/* --------------------------- aaa */
+/* --------------------------- aaa 
 body > div > div > div > div > div {
   border-color: #aaa;
 }
 body > div > div > div > div > div:before {
   background-color: #aaa;
 }
+*/
 
-
-
+/*
 
 
 #rex-extra:before {
@@ -157,3 +157,5 @@ div[class="rex-message-block"]:before {
   font-weight: normal;
   line-height: 1;
 }
+
+*/

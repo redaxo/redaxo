@@ -1,0 +1,556 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version svn:$Id$
+ */
+
+
+caption.rex-hidden,
+legend.rex-hidden {
+	display: none;
+}
+
+
+div.rex-addon-output ol, 
+div.rex-addon-output ul, 
+div.rex-content-editmode-slice-input ol, 
+div.rex-content-editmode-slice-input ul, 
+div.rex-content-editmode-slice-output ol, 
+div.rex-content-editmode-slice-output ul {
+	margin-left: 20px;
+}
+
+
+/*	Abstaende ******************************************************************
+*******************************************************************************/
+/*  Allgemeine Anweiungen siehe unten */
+h3.rex-hl3, 
+h4.rex-hl3, 
+p.rex-tx1, 
+p.rex-tx4, 
+ul.rex-ul1, 
+div.rex-addon-content h3, 
+div.rex-addon-content h4, 
+div.rex-addon-content p, 
+div.rex-addon-content ul, 
+div.rex-addon-content ol, 
+div.rex-addon-content dl, 
+div#rex-form-mediapool-selectcategory {
+	margin-bottom: 1em;
+}
+p.rex-button {
+	margin-bottom: 2em;
+}
+
+div.rex-addon-content h3, 
+div.rex-addon-content h4 {
+	padding-top: 1em;
+} 
+
+
+/*	Ueberschriften *************************************************************
+*******************************************************************************/
+.rex-hl2 {
+	padding: 7px 5px;
+}
+div.rex-content-editmode-module-name h3.rex-hl4 {
+	padding: 8px 5px 7px 5px;
+}
+
+/*	Texte **********************************************************************
+*******************************************************************************/
+.rex-tx2, 
+.rex-tx3, 
+.rex-tx4 {
+	font-weight: bold;
+}
+
+
+/*	Listen *********************************************************************
+*******************************************************************************/
+ul.rex-ul1 {
+	margin-left: 20px;
+}
+ul.rex-ul1 li {
+	list-style-type: square;
+}
+
+
+/*	Code ***********************************************************************
+*******************************************************************************/
+.rex-code {
+  display: block;
+  padding: 10px;
+  border-width: 1px;
+  border-style: solid;
+}
+
+
+/*	Hinweise *******************************************************************
+*******************************************************************************/
+div.rex-message {
+	clear: both;
+	width: 100%;
+	margin: 0 0 10px 0;
+	font-weight: bold;
+}
+div.rex-form div.rex-message, 
+div.rex-content-editmode div.rex-message  {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+div.rex-content-editmode div.rex-message {
+	margin-bottom: 0;
+}
+/*
+table div.rex-message,
+body#rex-page-content div.rex-message,
+div.rex-content-editmode-slc div.rex-message {
+	margin-bottom: 0px;
+}
+body#rex-page-mediapool div.rex-message {
+	margin-bottom: 2px;
+}
+div.rex-content-editmode-slc div.rex-message {
+	padding: 0;
+}
+*/
+div.rex-message .rex-info, 
+div.rex-message .rex-warning {
+	padding: 8px 5px;
+}
+div.rex-message span {
+	display: block;
+	padding: 0 45px;
+}
+
+
+
+div.rex-message-block {
+	clear: both;
+	margin-bottom: 10px;
+}
+div.rex-message-content {
+	margin-left: 39px;
+	padding: 10px 5px;
+	border-left-width: 1px;
+	border-left-style: solid;
+}
+
+
+div.rex-message-block ol {
+	margin: 0 0 0 20px;
+}
+div.rex-message-block ol li {
+	list-style-type: decimal;
+}
+div.rex-message-block ul {
+	margin: 0 0 0 18px;
+}
+div.rex-message-block ul li {
+	list-style-type: square;
+}
+
+
+/*	Buttons ********************************************************************
+*******************************************************************************/
+p.rex-button-add {
+}
+
+/*  Kategorietabelle Metainfo Button */
+div#rex-form-structure-category p.rex-button-add {
+  display: block;
+  float: right;
+  margin: 3px 5px 0 0;
+}
+div#rex-form-structure-category p.rex-button-add a {
+  display: block;
+  width: 16px;
+  height: 16px;
+  text-indent: -1000em;
+}
+
+/*	Table **********************************************************************
+*******************************************************************************/
+table.rex-table {
+	clear: both;
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 1px;
+}
+table.rex-table-mrgn, 
+div#rex-form-structure-category {
+	margin-bottom: 10px;
+}
+div#rex-form-structure-category table.rex-table-mrgn {
+	margin-bottom: 0px;
+}
+	
+	
+table.rex-table caption,
+table.rex-table th,
+table.rex-table td {
+	padding: 9px 5px;
+	border-width: 1px;
+	border-style: solid;
+	border-right-width: 0;
+	vertical-align: top;
+}
+table.rex-table tr.rex-metainfo-cat td {
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+div#rex-form-structure-article table.rex-table th,
+div#rex-form-structure-article table.rex-table td, 
+div#rex-form-structure-category table.rex-table th,
+div#rex-form-structure-category table.rex-table td, 
+div#rex-form-system-language table.rex-table th,
+div#rex-form-system-language table.rex-table td, 
+div#rex-form-mediapool-media table.rex-table th,
+div#rex-form-mediapool-media table.rex-table td,  
+div#rex-form-mediapool-categories table.rex-table th,
+div#rex-form-mediapool-categories table.rex-table td {
+	vertical-align: middle;
+}
+table.rex-table caption {
+	padding: 5px;
+	border-bottom: 0;
+	border-left: 0;
+	text-align: left;
+}
+
+table.rex-table caption {
+	display: inline !important;
+	position: absolute !important;
+	left: -1000px !important;
+	top: -1000px !important;
+	width: 0px !important;
+	height: 0px !important;
+	overflow: hidden !important;
+	background-color: #FFF !important;
+	
+	
+	display: none !important;
+	visibility: hidden !important;
+	font-size: 0px !important;
+	line-height: 0px !important;
+}
+
+body#rex-page-module table.rex-table caption {
+	border:0;
+}
+
+table.rex-table th {
+	border-bottom: 0;
+	text-align: left;
+}
+
+/*	real width = border + padding + width */
+table.rex-table th.rex-icon,
+table.rex-table td.rex-icon, 
+table.rex-table th.rex-small,
+table.rex-table td.rex-small {
+	width: 29px;
+	text-align: center;
+}
+table.rex-table th.rex-icon,
+table.rex-table td.rex-icon {
+	padding-top: 6px;
+	padding-bottom: 0;
+}
+div#rex-form-structure-article table.rex-table th.rex-icon,
+div#rex-form-structure-article table.rex-table td.rex-icon, 
+div#rex-form-structure-category table.rex-table th.rex-icon,
+div#rex-form-structure-category table.rex-table td.rex-icon, 
+div#rex-form-mediapool-media table.rex-table th.rex-icon,
+div#rex-form-mediapool-media table.rex-table td.rex-icon, 
+div#rex-form-mediapool-categories table.rex-table th.rex-icon,
+div#rex-form-mediapool-categories table.rex-table td.rex-icon {
+	padding-bottom: 6px;
+}
+body#rex-page-addon table.rex-table tr.rex-plugin td.rex-col-b, 
+body#rex-page-credits table.rex-table tr.rex-plugin td.rex-col-a {
+	padding-left: 15px;
+}
+
+table.rex-table th.rex-colz,
+table.rex-table td.rex-colz {
+	width: 153px;
+}
+/*
+table.rex-table th.rex-icon img, 
+table.rex-table td.rex-icon img {
+	vertical-align: middle;
+}
+*/
+
+
+/*	Allgemeiner Block (Addon Hilfeseiten) / Addon Seiten ***********************
+*******************************************************************************/
+div.rex-area, 
+div.rex-addon-output {
+	float: left;
+	width: 100%;
+}
+div.rex-area-content, 
+div.rex-addon-content {
+	padding: 10px 5px;
+}
+div.rex-area-footer, 
+div.rex-addon-footer {
+	padding: 7px 5px;
+	font-weight: bold;
+}
+
+/*	Spaltigkeit ****************************************************************
+*******************************************************************************/
+div.rex-area-col-2, 
+div.rex-addon-col-2 {
+	position: relative;
+	float: left;
+	width: 100%;
+}
+div.rex-area-col-a, 
+div.rex-area-col-b, 
+div.rex-addon-col-a, 
+div.rex-addon-col-b {
+	float: left;
+	width: 50%;
+}
+div.rex-area-col-b, 
+div.rex-addon-col-b {
+	float: right;
+}
+
+
+
+/*	Setup **********************************************************************
+*******************************************************************************/
+/* Language */
+div#rex-setup ul.rex-setup-language {
+	font-weight: bold;
+	text-align: center;
+}
+div#rex-setup ul.rex-setup-language li {
+	display: block;
+	padding: 5px 0;
+}
+
+/* License */
+div.rex-area-scroll {
+	margin: 30px 0;
+	padding: 5px 0 5px 5px;
+	width: 500px;
+	height: 200px;
+	overflow: auto;
+	border-width: 1px;
+	border-style: solid;
+}
+/*	Editmode *******************************************************************
+*******************************************************************************/
+div.rex-content-editmode, 
+div.rex-content-editmode-module-name {
+	float: left;
+	width: 100%;
+}
+
+div.rex-content-editmode-module-name h3 {
+	float: left;
+}
+div.rex-content-editmode-module-name div.rex-navi-slice {
+	float: right;
+}
+
+div.rex-content-editmode-slice-input, 
+div.rex-content-editmode-slice-output {
+	clear: both;
+	padding: 10px;
+} 
+div.rex-content-editmode-slice-output {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+
+/*	Linkmap ********************************************************************
+*******************************************************************************/
+div#rex-linkmap {
+	clear: both;
+	position: relative;
+	float: left;
+	width: 100%;
+}
+
+
+/*	Medienpool *****************************************************************
+*******************************************************************************/
+div#rex-mediapool-detail-wrapper {
+  float: left;
+  width: 100%;
+}
+div.rex-mediapool-detail-image {
+	float: right;
+	width: 34%;
+	padding-top: 24px;
+	text-align: center;
+}
+
+/*	Widget *********************************************************************
+*******************************************************************************/
+div.rex-widget {
+	float: left;
+	margin-bottom: 10px;
+	padding: 5px;
+	border-width: 1px;
+	border-style: solid;
+}
+/*	Breite war von "div.rex-form div.rex-form-row p" */
+div#rex-output div.rex-widget p {
+	width: auto;
+}
+
+div.rex-widget p.rex-widget-icons {
+	padding: 2px 0 0 10px;
+}
+div.rex-widget p.rex-widget-icons a {
+	display: block;
+	width: 16px;
+	height: 16px;
+	margin-left: 2px;
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-add {
+	background-image: url(../media/file_add.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-bottom {
+	background-image: url(../media/file_bottom.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-delete {
+	background-image: url(../media/file_del.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-down {
+	background-image: url(../media/file_down.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-open {
+	background-image: url(../media/file_open.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-top {
+	background-image: url(../media/file_top.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-up {
+	background-image: url(../media/file_up.gif);
+}
+div.rex-widget p.rex-widget-icons a.rex-icon-file-view {
+	background-image: url(../media/file_view.gif);
+}
+
+div.rex-widget p.rex-widget-1col a {
+	float: left;
+}
+div.rex-widget p.rex-widget-2col .rex-widget-column {
+	float: left;
+}
+div.rex-widget p.rex-widget-2col a {
+	margin-bottom: 2px;
+}
+
+div.rex-media-preview {
+	clear: both;
+	
+}
+div.rex-media-preview img {
+	margin: 10px 10px 10px 0;
+}
+
+
+/*	System Addon : Import / Export *********************************************
+*******************************************************************************/
+body#rex-page-import-export table.rex-table tr th {
+	white-space: nowrap;
+}
+
+body#rex-page-import-export div.rex-area-content, 
+body#rex-page-import-export div.rex-addon-content {
+	padding: 0;
+}
+body#rex-page-import-export div.rex-area-content p.rex-tx1 {
+	margin-bottom: 0px;
+	padding: 5px;
+}
+
+
+
+/*	Toolbar ********************************************************************
+*******************************************************************************/
+div.rex-toolbar {
+	position: relative;
+	margin-bottom: 10px;
+}
+div.rex-toolbar-content {
+	margin-left: 40px;
+	padding: 10px 5px;
+	border-left-width: 1px;
+	border-left-style: solid;
+}
+div.rex-toolbar-has-form div.rex-toolbar-content {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+
+
+/*	Contentblock ***************************************************************
+*******************************************************************************/
+div.rex-content-block {
+	position: relative;
+	margin-bottom: 10px;
+}
+div.rex-content-block-content {
+	padding: 10px 5px;
+}
+div.rex-content-block-has-form div.rex-content-block-content {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+
+
+/*	Icons **********************************************************************
+*******************************************************************************/
+.rex-i-element {
+	display: block;
+	width: 18px;
+	height: 18px;
+	margin: 0 auto;
+	text-indent: -1000em;
+}
+.rex-i-element-text {
+}
+
+
+
+/*	Abstaende allgemein ********************************************************
+*******************************************************************************/
+/*  margin-bottom */
+body div#rex-website .rex-mab-10 {
+	margin-bottom: 10px;
+}
+
+/*  padding-top */
+body div#rex-website .rex-pat-0 {
+	padding-top: 0px;
+}
+
+/*  padding-right */
+body div#rex-website .rex-par-0 {
+	padding-right: 0px;
+}
+
+/*  padding-bottom */
+body div#rex-website .rex-pab-0 {
+	padding-bottom: 0px;
+}
+
+/*  padding-left */
+body div#rex-website .rex-pal-0 {
+	padding-left: 0px;
+}
