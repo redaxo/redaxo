@@ -3,7 +3,7 @@
 /**
  * Manager class for packages
  */
-abstract class rex_packageManager
+abstract class rex_packageManager extends rex_factory
 {
   const
     PACKAGE_FILE = 'package.yml',
@@ -13,8 +13,6 @@ abstract class rex_packageManager
     UNINSTALL_FILE = 'uninstall.inc.php',
     UNINSTALL_SQL = 'uninstall.sql',
     ASSETS_FOLDER = 'assets';
-
-  static private $classes = array();
 
   /**
    * @var rex_package
@@ -49,34 +47,8 @@ abstract class rex_packageManager
       $class = $package instanceof rex_plugin ? 'rex_pluginManager' : 'rex_addonManager';
       return $class::factory($package);
     }
-    $class = static::getClass();
+    $class = static::getFactoryClass();
     return new $class($package);
-  }
-
-  /**
-   * Sets the manager class
-   *
-   * @param string $class
-   */
-  static public function setClass($class)
-  {
-    $calledClass = get_called_class();
-    if($class != $calledClass && !is_subclass_of($class, $calledClass))
-    {
-      throw new rexException('$class is expected to define a subclass of '. $calledClass .'!');
-    }
-    self::$classes[$calledClass] = $class;
-  }
-
-  /**
-   * Returns the manager class
-   *
-   * @return string
-   */
-  static public function getClass()
-  {
-    $calledClass = get_called_class();
-    return isset(self::$classes[$calledClass]) ? self::$classes[$calledClass] : $calledClass;
   }
 
   /**

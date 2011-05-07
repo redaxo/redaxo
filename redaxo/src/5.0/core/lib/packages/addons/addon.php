@@ -176,7 +176,7 @@ class rex_addon extends rex_package implements rex_addonInterface
    */
   static public function initialize()
   {
-    $config = rex_core_config::get('package-config');
+    $config = rex_core_config::get('package-config', array());
     foreach($config as $addonName => $addonConfig)
     {
       if(!isset(self::$addons[$addonName]))
