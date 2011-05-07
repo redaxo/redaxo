@@ -320,7 +320,7 @@ if($pageObj->hasPath())
       $package = $package->getPlugin($matches[2]);
     }
     $manager = rex_packageManager::factory($package);
-    $manager->includeFile(str_replace($path, $package->getBasePath(), ''));
+    $manager->includeFile(str_replace($package->getBasePath(), '', $path));
   }
   else
   {
