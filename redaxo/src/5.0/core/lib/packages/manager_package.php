@@ -47,7 +47,7 @@ abstract class rex_packageManager extends rex_factory
       $class = $package instanceof rex_plugin ? 'rex_pluginManager' : 'rex_addonManager';
       return $class::factory($package);
     }
-    $class = static::getClass();
+    $class = static::getFactoryClass();
     return new $class($package);
   }
 

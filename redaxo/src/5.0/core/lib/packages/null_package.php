@@ -34,7 +34,7 @@ abstract class rex_nullPackage implements rex_packageInterface
    */
   public function getName()
   {
-    return getClass($this);
+    return getFactoryClass($this);
   }
 
   /* (non-PHPdoc)

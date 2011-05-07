@@ -14,7 +14,7 @@
  *
  *   static public function factory($param)
  *   {
- *   	 $class = self::getClass();
+ *   	 $class = self::getFactoryClass();
  *     return new $class($param);
  *   }
  * }
@@ -30,11 +30,11 @@ abstract class rex_factory
   static private $classes = array();
 
   /**
-   * Sets the class
+   * Sets the class for the factory
    *
    * @param string $class Classname
    */
-  static public function setClass($subclass)
+  static public function setFactoryClass($subclass)
   {
     $calledClass = get_called_class();
     if($subclass != $calledClass && !is_subclass_of($subclass, $calledClass))
@@ -45,11 +45,11 @@ abstract class rex_factory
   }
 
   /**
-   * Returns the class
+   * Returns the class for the factory
    *
    * @return string
    */
-  static public function getClass()
+  static public function getFactoryClass()
   {
     $calledClass = get_called_class();
     return isset(self::$classes[$calledClass]) ? self::$classes[$calledClass] : $calledClass;

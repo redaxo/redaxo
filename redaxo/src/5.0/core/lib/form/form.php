@@ -108,7 +108,7 @@ class rex_form extends rex_factory
     // keine spezielle klasse angegeben -> default klasse verwenden?
     if(!$class)
     {
-      $class = self::getClass();
+      $class = self::getFactoryClass();
     }
 
     if($class != __CLASS__ && !is_subclass_of($class, __CLASS__))
