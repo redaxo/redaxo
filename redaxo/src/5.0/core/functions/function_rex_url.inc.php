@@ -115,6 +115,22 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
   return $url;
 }
 
+/**
+ * Leitet auf einen anderen Artikel weiter
+ */
+function rex_redirect($article_id, $clang = '', $params = array())
+{
+  global $REX;
+
+  // Alle OBs schließen
+  while(@ob_end_clean());
+
+  $divider = '&';
+
+  header('Location: '. rex_getUrl($article_id, $clang, $params, $divider));
+  exit();
+}
+
 // ----------------------------------------- Rewrite functions
 
 /**

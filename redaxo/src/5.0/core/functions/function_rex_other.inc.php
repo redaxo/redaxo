@@ -214,22 +214,6 @@ function rex_ini_get($val)
 }
 
 /**
- * Leitet auf einen anderen Artikel weiter
- */
-function rex_redirect($article_id, $clang = '', $params = array())
-{
-  global $REX;
-
-  // Alle OBs schließen
-  while(@ob_end_clean());
-
-  $divider = '&';
-
-  header('Location: '. rex_getUrl($article_id, $clang, $params, $divider));
-  exit();
-}
-
-/**
  * Trennt einen String an Leerzeichen auf.
  * Dabei wird beachtet, dass Strings in " zusammengehören
  */
