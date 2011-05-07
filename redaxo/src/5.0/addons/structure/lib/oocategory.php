@@ -21,7 +21,7 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   static public function getCategoryById($category_id, $clang = false)
   {
-    return rex_ooArticle :: getArticleById($category_id, $clang, true);
+    return parent :: getById($category_id, $clang);
   }
 
   /**
