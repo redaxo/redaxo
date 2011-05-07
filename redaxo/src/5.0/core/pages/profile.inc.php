@@ -137,129 +137,15 @@ if ($sql->getRows()!=1)
 else
 {
   // $userpsw = $sql->getValue($REX['TABLE_PREFIX'].'user.psw');
-  $username = $sql->getValue($REX['TABLE_PREFIX'].'user.name');
-  $userdesc = $sql->getValue($REX['TABLE_PREFIX'].'user.description');
+  $user_name = $sql->getValue($REX['TABLE_PREFIX'].'user.name');
+  $user_desc = $sql->getValue($REX['TABLE_PREFIX'].'user.description');
+  $user_login = $sql->getValue($REX['TABLE_PREFIX'].'user.login');
 
-  echo '
-    <div class="rex-form" id="rex-form-profile">
-    <form action="index.php" method="post">
-      <fieldset class="rex-form-col-2">
-        <legend>'.rex_i18n::msg('profile_myprofile').'</legend>
-
-        <div class="rex-form-wrapper">
-          <input type="hidden" name="page" value="profile" />
-
-					<div class="rex-form-row">
-						<p class="rex-form-col-a rex-form-read">
-              <label for="userlogin">'. htmlspecialchars(rex_i18n::msg('login_name')).'</label>
-              <span class="rex-form-read" id="userlogin">'. htmlspecialchars($sql->getValue($REX['TABLE_PREFIX'].'user.login')) .'</span>
-						</p>
-
-	          <p class="rex-form-col-b rex-form-select">
-	            <label for="userperm-mylang">'.rex_i18n::msg('backend_language').'</label>
-	            '.$sel_be_sprache->get().'
-	          </p>
-					</div>
-
-					<div class="rex-form-row">
-						<p class="rex-form-col-a rex-form-text">
-              <label for="username">'.rex_i18n::msg('name').'</label>
-              <input class="rex-form-text" type="text" id="username" name="username" value="'.htmlspecialchars($username).'" />
-            </p>
-						<p class="rex-form-col-b rex-form-text">
-              <label for="userdesc">'.rex_i18n::msg('description').'</label>
-              <input class="rex-form-text" type="text" id="userdesc" name="userdesc" value="'.htmlspecialchars($userdesc).'" />
-            </p>
-      		</div>
-
-      	</div>
-      </fieldset>
-
-      <fieldset class="rex-form-col-1">
-        <div class="rex-form-wrapper">
-          <div class="rex-form-row">
-						<p class="rex-form-col-a rex-form-submit">
-            	<input class="rex-form-submit" type="submit" name="upd_profile_button" value="'.rex_i18n::msg('profile_save').'" '. rex_accesskey(rex_i18n::msg('profile_save'), $REX['ACKEY']['SAVE']) .' />
-            </p>
-          </div>
-        </div>
-      </fieldset>
-    </form>
-    </div>
-  ';
-
-  echo '<p>&nbsp;</p>
-    <div class="rex-form" id="rex-form-profile-psw">
-    <form action="index.php" method="post" id="pwformular">
-      <input type="hidden" name="javascript" value="0" id="javascript" />
-      <fieldset class="rex-form-col-2">
-        <legend>'.rex_i18n::msg('profile_changepsw').'</legend>
-
-        <div class="rex-form-wrapper">
-          <input type="hidden" name="page" value="profile" />
-
-					<div class="rex-form-row">
-			    	<p class="rex-form-col-a rex-form-text">
-              			<label for="userpsw">'.rex_i18n::msg('old_password').'</label>
-							<input class="rex-form-text" type="password" id="userpsw" name="userpsw" autocomplete="off" />
-						</p>
-					</div>
-
-
-					<div class="rex-form-row">
-			    	<p class="rex-form-col-a rex-form-text">
-             				 <label for="userpsw">'.rex_i18n::msg('new_password').'</label>
-							<input class="rex-form-text" type="password" id="userpsw_new_1" name="userpsw_new_1" autocomplete="off" />
-						</p>
-			    	<p class="rex-form-col-b rex-form-text">
-              				<label for="userpsw">'.rex_i18n::msg('new_password_repeat').'</label>
-							<input class="rex-form-text" type="password" id="userpsw_new_2" name="userpsw_new_2" autocomplete="off" />
-						</p>
-					</div>
-
-      	</div>
-      </fieldset>
-
-      <fieldset class="rex-form-col-1">
-        <div class="rex-form-wrapper">
-          <div class="rex-form-row">
-						<p class="rex-form-col-a rex-form-submit">
-            	<input class="rex-form-submit" type="submit" name="upd_psw_button" value="'.rex_i18n::msg('profile_save_psw').'" '. rex_accesskey(rex_i18n::msg('profile_save_psw'), $REX['ACKEY']['SAVE']) .' />
-            </p>
-          </div>
-        </div>
-      </fieldset>
-    </form>
-    </div>
-
-    <script type="text/javascript">
-       <!--
-      jQuery(function($) {
-        $("#username").focus();
-
-        $("#pwformular")
-          .submit(function(){
-          	var pwInp0 = $("#userpsw");
-          	if(pwInp0.val() != "")
-          	{
-            	pwInp0.val(Sha1.hash(pwInp0.val()));
-          	}
-
-          	var pwInp1 = $("#userpsw_new_1");
-          	if(pwInp1.val() != "")
-          	{
-            	pwInp1.val(Sha1.hash(pwInp1.val()));
-          	}
-
-          	var pwInp2 = $("#userpsw_new_2");
-          	if(pwInp2.val() != "")
-          	{
-          		pwInp2.val(Sha1.hash(pwInp2.val()));
-          	}
-        });
-
-        $("#javascript").val("1");
-      });
-       //-->
-    </script>';
+  $fragment = new rex_fragment();
+  $fragment->setVar('user_name', $user_name);
+  $fragment->setVar('user_desc', $user_desc);
+  $fragment->setVar('user_login', $user_login);
+  $fragment->setVar('backend_language', $sel_be_sprache->get(), false);
+  echo $fragment->parse('core_profile');
+  unset($fragment);
 }
