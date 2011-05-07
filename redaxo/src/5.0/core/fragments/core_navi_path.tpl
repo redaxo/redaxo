@@ -1,4 +1,18 @@
 
+  <div id="rex-navi-path">
+  <ul>
+	 	<?php foreach($this->list['items'] as $key => $values): ?>
+		<li><?php echo $key; ?></li>
+		 	<?php foreach($values as $value): ?>
+		 	<?php foreach($value['items'] as $item): ?>
+  		<li><?php echo $item['content']; ?></li>
+  		<?php endforeach; ?>
+  		<?php endforeach; ?>
+		<?php endforeach; ?>
+	</ul>
+  </div>
+  
+  <?php /*
   <div class="rex-navi-path">
   <dl>
 	 	<?php foreach($this->list['items'] as $key => $value): ?>
@@ -7,3 +21,4 @@
 		<?php endforeach; ?>
 	</dl>
   </div>
+  */ ?>
