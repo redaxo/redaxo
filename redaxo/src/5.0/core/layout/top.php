@@ -86,11 +86,11 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
   $navigation = $n->getNavigation();
 }
 
-$topfragment = new rex_fragment();
-$topfragment->setVar('pageTitle', $page_title);
-$topfragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', '' ), false);
-$topfragment->setVar('bodyAttr', $body, false);
-$topfragment->setVar('logout', $logout, false);
-$topfragment->setVar('navigation', $navigation, false);
-echo $topfragment->parse('core_top');
-unset($topfragment);
+$fragment = new rex_fragment();
+$fragment->setVar('pageTitle', $page_title);
+$fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', '' ), false);
+$fragment->setVar('bodyAttr', $body, false);
+$fragment->setVar('logout', $logout, false);
+$fragment->setVar('navigation', $navigation, false);
+echo $fragment->parse('top');
+unset($fragment);
