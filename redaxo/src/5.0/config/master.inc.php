@@ -6,76 +6,26 @@
  * @version svn:$Id$
  */
 
-// ----------------- SERVER VARS
+// ----------------- VERSION
 
-// Setupservicestatus - if everything ok -> false; if problem set to true;
-$REX['SETUP'] = true;
-$REX['SERVER'] = "redaxo.org";
-$REX['SERVERNAME'] = "REDAXO";
 $REX['VERSION'] = "5";
 $REX['SUBVERSION'] = "0";
 $REX['MINORVERSION'] = "0";
-$REX['ERROR_EMAIL'] = "jan.kristinus@yakamara.de";
-$REX['FILEPERM'] = octdec(664); // oktaler wert
-$REX['DIRPERM'] = octdec(775); // oktaler wert
-$REX['INSTNAME'] = "rex20110507123124";
-$REX['SESSION_DURATION'] = 3000;
 
 // Is set first time SQL Object ist initialised
 $REX['MYSQL_VERSION'] = "";
 
-// default article id
-$REX['START_ARTICLE_ID'] = 1;
+// ----------------- default values
+if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 
-// if there is no article -> change to this article
-$REX['NOTFOUND_ARTICLE_ID'] = 1;
+// ----------------- INCLUDE FUNCTIONS
+if(!$REX['NOFUNCTIONS']) include_once rex_path::core('functions.inc.php');
 
-// default clang id
-$REX['START_CLANG_ID'] = 0;
-
-// default template id, if > 0 used as default, else template_id determined by inheritance
-$REX['DEFAULT_TEMPLATE_ID'] = 0;
-
-// default language
-$REX['LANG'] = "de_de";
-
-// activate frontend mod_rewrite support for url-rewriting
-// Boolean: true/false
-$REX['MOD_REWRITE'] = false;
-
-// activate gzip output support
-// reduces amount of data need to be send to the client, but increases cpu load of the server
-$REX['USE_GZIP'] = "false"; // String: "true"/"false"/"fronted"/"backend"
-
-// activate e-tag support
-// tag content with a cache key to improve usage of client cache
-$REX['USE_ETAG'] = "true"; // String: "true"/"false"/"fronted"/"backend"
-
-// activate last-modified support
-// tag content with a last-modified timestamp to improve usage of client cache
-$REX['USE_LAST_MODIFIED'] = "true"; // String: "true"/"false"/"fronted"/"backend"
-
-// activate md5 checksum support
-// allow client to validate content integrity
-$REX['USE_MD5'] = "true"; // String: "true"/"false"/"fronted"/"backend"
-
-// Passwortverschluesselung
-$REX['PSWFUNC'] = "sha1";
-
-// bei fehllogin 5 sekunden kein relogin moeglich
-$REX['RELOGINDELAY'] = 5;
-
-// maximal erlaubte login versuche
-$REX['MAXLOGINS'] = 50;
-
-// maximal erlaubte anzahl an sprachen
-$REX['MAXCLANGS'] = 15;
-
-// Page auf die nach dem Login weitergeleitet wird
-$REX['START_PAGE'] = 'structure';
-
-// Zeitzone setzen
-$REX['TIMEZONE'] = "Europe/Berlin";
+$config = rex_file::getConfig(rex_path::backend('src/config.yml'));
+foreach($config as $key => $value)
+{
+  $REX[strtoupper($key)] = $value;
+}
 
 date_default_timezone_set($REX['TIMEZONE']);
 
@@ -118,17 +68,6 @@ $REX['EXTPERM'][] = 'article2category[]';
 // ----- extras
 $REX['EXTRAPERM'] = array();
 $REX['EXTRAPERM'][] = 'editContentOnly[]';
-
-// ----------------- default values
-if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
-
-// ----------------- INCLUDE FUNCTIONS
-if(!$REX['NOFUNCTIONS']) include_once rex_path::core('functions.inc.php');
-
-// Prefixes
-$dbconfig = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
-$REX['TABLE_PREFIX'] = $dbconfig['TABLE_PREFIX'];
-$REX['TEMP_PREFIX']  = 'tmp_';
 
 // ----- SET CLANG
 $REX['CLANG'] = array();

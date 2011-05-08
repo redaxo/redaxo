@@ -23,7 +23,7 @@
             PHP: <?php echo phpversion(); ?></p>
 
             <h4 class="rex-hl3"><?php echo rex_i18n::msg("database"); ?></h4>
-            <p class="rex-tx1">MySQL: <?php echo rex_sql::getServerVersion(); ?><br /><?php echo rex_i18n::msg("name"); ?>: <?php echo $this->dbconfig['DB'][1]['name']; ?><br /><?php echo rex_i18n::msg("host"); ?>: <?php echo $this->dbconfig['DB'][1]['host']; ?></p>
+            <p class="rex-tx1">MySQL: <?php echo rex_sql::getServerVersion(); ?><br /><?php echo rex_i18n::msg("name"); ?>: <?php echo $REX['DB'][1]['name']; ?><br /><?php echo rex_i18n::msg("host"); ?>: <?php echo $REX['DB'][1]['host']; ?></p>
 
 					</div>
 				</div>
@@ -75,14 +75,14 @@
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-db-host">$REX[\'DB\'][\'1\'][\'HOST\']</label>
-										<span class="rex-form-read" id="rex-form-db-host">&quot;<?php echo $this->dbconfig['DB'][1]['host']; ?>&quot;</span>
+										<span class="rex-form-read" id="rex-form-db-host">&quot;<?php echo $REX['DB'][1]['host']; ?>&quot;</span>
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
 										<label for="rex-form-db-login">$REX[\'DB\'][\'1\'][\'LOGIN\']</label>
-										<span id="rex-form-db-login">&quot;<?php echo $this->dbconfig['DB'][1]['login']; ?>&quot;</span>
+										<span id="rex-form-db-login">&quot;<?php echo $REX['DB'][1]['login']; ?>&quot;</span>
 									</p>
 								</div>
 
@@ -96,7 +96,7 @@
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-db-name">$REX[\'DB\'][\'1\'][\'NAME\']</label>
-										<span class="rex-form-read" id="rex-form-db-name">&quot;<?php echo htmlspecialchars($this->dbconfig['DB'][1]['name']); ?>&quot;</span>
+										<span class="rex-form-read" id="rex-form-db-name">&quot;<?php echo htmlspecialchars($REX['DB'][1]['name']); ?>&quot;</span>
 									</p>
 								</div>
 							</div>

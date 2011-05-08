@@ -376,103 +376,71 @@ elseif ($MSG['err'] != "")
 
 // ---------------------------------- MODUS 2 | master.inc.php - Datenbankcheck
 
-if ($checkmodus == 2 && $send == 1)
+if($checkmodus == 2)
 {
-	$master_file = rex_path::src('config/master.inc.php');
-	$cont = rex_file::get($master_file);
+  $configFile = rex_path::backend('src/config.yml');
+	$config = rex_file::getConfig($configFile);
 
-	// Einfache quotes nicht escapen, da der String zwischen doppelten quotes stehen wird
-	$serveraddress             = str_replace("\'", "'", rex_post('serveraddress', 'string'));
-	$serverbezeichnung         = str_replace("\'", "'", rex_post('serverbezeichnung', 'string'));
-	$error_email               = str_replace("\'", "'", rex_post('error_email', 'string'));
-	$timezone                  = str_replace("\'", "'", rex_post('timezone', 'string'));
-	$mysql_host                = str_replace("\'", "'", rex_post('mysql_host', 'string'));
-	$redaxo_db_user_login      = str_replace("\'", "'", rex_post('redaxo_db_user_login', 'string'));
-	$redaxo_db_user_pass       = str_replace("\'", "'", rex_post('redaxo_db_user_pass', 'string'));
-	$dbname                    = str_replace("\'", "'", rex_post('dbname', 'string'));
-	$redaxo_db_create          = rex_post('redaxo_db_create', 'boolean');
+  if ($send == 1)
+  {
+  	// Einfache quotes nicht escapen, da der String zwischen doppelten quotes stehen wird
+  	$config['server']            = rex_post('serveraddress', 'string');
+  	$config['servername']        = rex_post('serverbezeichnung', 'string');
+  	$config['lang']              = $lang;
+  	$config['instname']          = 'rex'. date('YmdHis');
+  	$config['error_email']       = rex_post('error_email', 'string');
+  	$config['timezone']          = rex_post('timezone', 'string');
+  	$config['db'][1]['host']     = rex_post('mysql_host', 'string');
+  	$config['db'][1]['login']    = rex_post('redaxo_db_user_login', 'string');
+  	$config['db'][1]['password'] = rex_post('redaxo_db_user_pass', 'string');
+  	$config['db'][1]['name']     = rex_post('dbname', 'string');
+  	$redaxo_db_create            = rex_post('redaxo_db_create', 'boolean');
 
-  // check if timezone is valid
-	if(@date_default_timezone_set($timezone) === false)
-	{
-	  $err_msg = rex_i18n::msg('setup_invalid_timezone');
-	}
-
-	if($err_msg == '')
-	{
-  	$cont = preg_replace("@(REX\['SERVER'\].?\=.?\")[^\"]*@", '${1}'.$serveraddress, $cont);
-  	$cont = preg_replace("@(REX\['SERVERNAME'\].?\=.?\")[^\"]*@", '${1}'.$serverbezeichnung, $cont);
-  	$cont = preg_replace("@(REX\['LANG'\].?\=.?\")[^\"]*@", '${1}'.$lang, $cont);
-  	$cont = preg_replace("@(REX\['INSTNAME'\].?\=.?\")[^\"]*@", '${1}'."rex".date("YmdHis"), $cont);
-  	$cont = preg_replace("@(REX\['ERROR_EMAIL'\].?\=.?\")[^\"]*@", '${1}'.$error_email, $cont);
-  	$cont = preg_replace("@(REX\['TIMEZONE'\].?\=.?\")[^\"]*@", '${1}'.$timezone, $cont);
-
-  	if(rex_file::put($master_file, $cont) === false)
+    // check if timezone is valid
+  	if(@date_default_timezone_set($config['timezone']) === false)
   	{
-  		$err_msg = rex_i18n::msg('setup_020', '<b>', '</b>');
+  	  $err_msg = rex_i18n::msg('setup_invalid_timezone');
   	}
-	}
 
-	if($err_msg == '')
-	{
-	  $dbconfigFile = rex_path::backend('src/dbconfig.yml');
-	  $dbconfig = rex_file::getConfig($dbconfigFile);
-	  $dbconfig['DB'][1]['host'] = $mysql_host;
-    $dbconfig['DB'][1]['login'] = $redaxo_db_user_login;
-    $dbconfig['DB'][1]['password'] = $redaxo_db_user_pass;
-    $dbconfig['DB'][1]['name'] = $dbname;
-
-    if(!rex_file::putConfig($dbconfigFile, $dbconfig, 3))
-    {
-      $err_msg = rex_i18n::msg('setup_020_1', '<b>', '</b>');
-    }
-	}
+  	if($err_msg == '')
+  	{
+      if(!rex_file::putConfig($configFile, $config, 3))
+      {
+        $err_msg = rex_i18n::msg('setup_020', '<b>', '</b>');
+      }
+  	}
 
 
-	// -------------------------- DATENBANKZUGRIFF
-	if($err_msg == '')
-	{
-		$err = rex_sql::checkDbConnection($mysql_host, $redaxo_db_user_login, $redaxo_db_user_pass, $dbname, $redaxo_db_create);
-		if($err !== true)
-		{
-			$err_msg = $err;
-		}
-	}
+  	// -------------------------- DATENBANKZUGRIFF
+  	if($err_msg == '')
+  	{
+  		$err = rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $redaxo_db_create);
+  		if($err !== true)
+  		{
+  			$err_msg = $err;
+  		}
+  	}
 
-	// -------------------------- MySQl VERSIONSCHECK
-	if($err_msg == '')
-	{
-	  $serverVersion = rex_sql::getServerVersion();
-		if (rex_version_compare($serverVersion, $min_mysql_version, '<') == 1)
-		{
-			$err_msg = rex_i18n::msg('setup_022_1', $serverVersion, $min_mysql_version);
-		}
-	}
+  	// -------------------------- MySQl VERSIONSCHECK
+  	if($err_msg == '')
+  	{
+  	  $serverVersion = rex_sql::getServerVersion();
+  		if (rex_version_compare($serverVersion, $min_mysql_version, '<') == 1)
+  		{
+  			$err_msg = rex_i18n::msg('setup_022_1', $serverVersion, $min_mysql_version);
+  		}
+  	}
 
-	// everything went fine, advance to the next setup step
-	if($err_msg == '')
-	{
-		$checkmodus = 3;
-		$send = "";
-	}
-}
-else
-{
-	// Allgemeine Infos
-	$serveraddress         = $REX['SERVER'];
-	$serverbezeichnung     = $REX['SERVERNAME'];
-	$error_email           = $REX['ERROR_EMAIL'];
-	$timezone              = $REX['TIMEZONE'];
-
-	// DB Infos
-	$dbconfig = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
-	$dbname                = $dbconfig['DB'][1]['name'];
-	$redaxo_db_user_login  = $dbconfig['DB'][1]['login'];
-	$redaxo_db_user_pass   = $dbconfig['DB'][1]['password'];
-	$mysql_host            = $dbconfig['DB'][1]['host'];
+  	// everything went fine, advance to the next setup step
+  	if($err_msg == '')
+  	{
+  		$checkmodus = 3;
+  		$send = "";
+  	}
+  }
 }
 
-if ($checkmodus == 2)
+if($checkmodus == 2)
 {
 	rex_setup_title(rex_i18n::msg('setup_step2'));
 
@@ -496,28 +464,28 @@ if ($checkmodus == 2)
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="serveraddress">'.rex_i18n::msg("setup_024").'</label>
-                <input class="rex-form-text" type="text" id="serveraddress" name="serveraddress" value="'.$serveraddress.'" />
+                <input class="rex-form-text" type="text" id="serveraddress" name="serveraddress" value="'.$config['server'].'" />
               </p>
             </div>
 
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="serverbezeichnung">'.rex_i18n::msg("setup_025").'</label>
-                <input class="rex-form-text" type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.$serverbezeichnung.'" />
+                <input class="rex-form-text" type="text" id="serverbezeichnung" name="serverbezeichnung" value="'.$config['servername'].'" />
               </p>
             </div>
 
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="error_email">'.rex_i18n::msg("setup_026").'</label>
-                <input class="rex-form-text" type="text" id="error_email" name="error_email" value="'.$error_email.'" />
+                <input class="rex-form-text" type="text" id="error_email" name="error_email" value="'.$config['error_email'].'" />
               </p>
             </div>
 
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="timezone">'.rex_i18n::msg("setup_timezone").'</label>
-                <input class="rex-form-text" type="text" id="timezone" name="timezone" value="'.$timezone.'" />
+                <input class="rex-form-text" type="text" id="timezone" name="timezone" value="'.$config['timezone'].'" />
                 <span class="rex-form-notice">see <a href="http://php.net/timezones">http://php.net/timezones</a></span>
               </p>
             </div>
@@ -530,28 +498,28 @@ if ($checkmodus == 2)
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="dbname">'.rex_i18n::msg("setup_027").'</label>
-                <input class="rex-form-text" type="text" value="'.$dbname.'" id="dbname" name="dbname" />
+                <input class="rex-form-text" type="text" value="'.$config['db'][1]['name'].'" id="dbname" name="dbname" />
               </p>
             </div>
 
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="mysql_host">MySQL Host</label>
-                <input class="rex-form-text" type="text" id="mysql_host" name="mysql_host" value="'.$mysql_host.'" />
+                <input class="rex-form-text" type="text" id="mysql_host" name="mysql_host" value="'.$config['db'][1]['host'].'" />
               </p>
             </div>
 
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="redaxo_db_user_login">Login</label>
-                <input class="rex-form-text" type="text" id="redaxo_db_user_login" name="redaxo_db_user_login" value="'.$redaxo_db_user_login.'" />
+                <input class="rex-form-text" type="text" id="redaxo_db_user_login" name="redaxo_db_user_login" value="'.$config['db'][1]['login'].'" />
               </p>
             </div>
 
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="redaxo_db_user_pass">'.rex_i18n::msg("setup_028").'</label>
-                <input class="rex-form-text" type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="'.$redaxo_db_user_pass.'" />
+                <input class="rex-form-text" type="text" id="redaxo_db_user_pass" name="redaxo_db_user_pass" value="'.$config['db'][1]['password'].'" />
               </p>
             </div>
 
@@ -998,11 +966,11 @@ if ($checkmodus == 4)
 
 if ($checkmodus == 5)
 {
-	$master_file = rex_path::src('config/master.inc.php');
-	$cont = rex_file::get($master_file);
-	$cont = preg_replace("@(REX\['SETUP'\].?\=.?)[^;]*@", '$1false', $cont);
+	$configFile = rex_path::backend('src/config.yml');
+	$config = rex_file::getConfig($configFile);
+	$config['setup'] = false;
 
-	if(rex_file::put($master_file, $cont))
+	if(rex_file::putConfig($configFile, $config, 3))
 	{
 		$errmsg = "";
 	}
