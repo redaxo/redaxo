@@ -56,7 +56,7 @@ class rex_request
    *
    * @return mixed
    */
-  static public function rex_server($varname, $vartype = '', $default = '')
+  static public function server($varname, $vartype = '', $default = '')
   {
     return self::arrayKeyCast($_SERVER, $varname, $vartype, $default);
   }
@@ -70,7 +70,7 @@ class rex_request
    *
    * @return mixed
    */
-  static public function rex_session($varname, $vartype = '', $default = '')
+  static public function session($varname, $vartype = '', $default = '')
   {
     global $REX;
 
