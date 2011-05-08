@@ -164,7 +164,7 @@ if ($info != '')
             <h4 class="rex-hl3"><?php echo rex_i18n::msg("version"); ?></h4>
             <p class="rex-tx1">
             REDAXO: <?php echo $REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION']; ?><br />
-            PHP: <?php echo phpversion(); ?> (<a href="index.php?page=phpinfo">php_info</a>)</p>
+            PHP: <?php echo phpversion(); ?> (<a href="index.php?page=specials&amp;subpage=phpinfo">php_info</a>)</p>
 
             <h4 class="rex-hl3"><?php echo rex_i18n::msg("database"); ?></h4>
             <p class="rex-tx1">MySQL: <?php echo rex_sql::getServerVersion(); ?><br /><?php echo rex_i18n::msg("name"); ?>: <?php echo $REX['DB'][1]['name']; ?><br /><?php echo rex_i18n::msg("host"); ?>: <?php echo $REX['DB'][1]['host']; ?></p>

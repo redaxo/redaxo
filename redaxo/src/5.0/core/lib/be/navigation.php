@@ -249,23 +249,23 @@ class rex_be_navigation extends rex_factory
     $syslog->setRequiredPermissions('isAdmin');
     $syslog->setHref('index.php?page=specials&subpage=log');
 
+    $phpinfo = new rex_be_page(rex_i18n::msg('phpinfo'), array('page'=>'specials', 'subpage' => 'phpinfo'));
+    $phpinfo->setIsCorePage(true);
+    $phpinfo->setRequiredPermissions('isAdmin');
+    $phpinfo->setHidden(true);
+    $phpinfo->setHasLayout(false);
+    $phpinfo->setHref('index.php?page=specials&subpage=phpinfo');
+    
     $mainSpecials = new rex_be_page(rex_i18n::msg('specials'), array('page'=>'specials'));
     $mainSpecials->setIsCorePage(true);
     $mainSpecials->setRequiredPermissions('isAdmin');
     $mainSpecials->addSubPage($settings);
     $mainSpecials->addSubPage($languages);
     $mainSpecials->addSubPage($syslog);
+    $mainSpecials->addSubPage($phpinfo);
     $pages['specials'] = new rex_be_page_main('system', $mainSpecials);
     $pages['specials']->setPrio(70);
 
-    $phpinfo = new rex_be_page(rex_i18n::msg('phpinfo'), array('page'=>'phpinfo'));
-    $phpinfo->setIsCorePage(true);
-    $phpinfo->setRequiredPermissions('isAdmin');
-    $phpinfo->setHidden(true);
-    $phpinfo->setHasLayout(false);
-    $pages['phpinfo'] = new rex_be_page_main('phpinfo', $phpinfo);
-    $pages['phpinfo']->setPrio(80);
-    
     $pages['addon'] = new rex_be_page_main('system', $addon);
     $pages['addon']->setPrio(60);
 
