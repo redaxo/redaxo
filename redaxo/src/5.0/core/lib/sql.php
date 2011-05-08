@@ -543,6 +543,12 @@ class rex_sql extends rex_factory implements Iterator
 
   protected function buildPreparedWhere()
   {
+    // we have an custom where criteria, so we don't need to build one automatically
+    if($this->wherevar != '')
+    {
+      return '';  
+    }
+    
     $qry = '';
     if(is_array($this->whereParams))
     {
