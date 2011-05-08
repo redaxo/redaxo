@@ -50,13 +50,12 @@ class rex_sql extends rex_factory implements Iterator
     {
       if(!isset(self::$pdo[$DBID]))
       {
-        $config = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
         $conn = self::createConnection(
-          $config['DB'][$DBID]['host'],
-          $config['DB'][$DBID]['name'],
-          $config['DB'][$DBID]['login'],
-          $config['DB'][$DBID]['password'],
-          $config['DB'][$DBID]['persistent']
+          $REX['DB'][$DBID]['host'],
+          $REX['DB'][$DBID]['name'],
+          $REX['DB'][$DBID]['login'],
+          $REX['DB'][$DBID]['password'],
+          $REX['DB'][$DBID]['persistent']
         );
         self::$pdo[$DBID] = $conn;
 

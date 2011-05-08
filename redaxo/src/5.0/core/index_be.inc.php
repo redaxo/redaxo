@@ -11,7 +11,7 @@ ob_start();
 ob_implicit_flush(0);
 
 
-require_once rex_path::src('config/master.inc.php');
+require_once rex_path::core('master.inc.php');
 
 // ----- addon/normal page path
 $REX['PAGEPATH'] = '';
@@ -320,7 +320,7 @@ if($pageObj->hasPath())
       $package = $package->getPlugin($matches[2]);
     }
     $manager = rex_packageManager::factory($package);
-    $manager->includeFile(str_replace($path, $package->getBasePath()));
+    $manager->includeFile(str_replace($package->getBasePath(), '', $path));
   }
   else
   {

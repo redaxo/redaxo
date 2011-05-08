@@ -134,8 +134,6 @@ $sel_mod_rewrite->setSelected($REX['MOD_REWRITE'] === false ? 'FALSE' : 'TRUE');
 $sel_mod_rewrite->addOption('TRUE', 'TRUE');
 $sel_mod_rewrite->addOption('FALSE', 'FALSE');
 
-$dbconfig = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
-
 if ($warning != '')
   echo rex_warning($warning);
 
@@ -145,7 +143,6 @@ if ($info != '')
 
 
 $fragment = new rex_fragment();
-$fragment->setVar('dbconfig', $dbconfig);
 $fragment->setVar('template', $sel_template->get(), false);
 $fragment->setVar('language', $sel_lang->get(), false);
 $fragment->setVar('mod_rewrite', $sel_mod_rewrite->get(), false);

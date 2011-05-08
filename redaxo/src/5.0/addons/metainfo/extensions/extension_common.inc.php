@@ -433,7 +433,7 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
 {
   global $REX;
 
-  if($_SERVER['REQUEST_METHOD'] != 'POST') return;
+  if(rex_request_method() != 'post') return;
 
   for($i = 0;$i < $sqlFields->getRows(); $i++, $sqlFields->next())
   {
@@ -574,7 +574,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
         }
       }
 
-      $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
+      $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
     }
   }
   else if($prefix == 'cat_')
@@ -598,7 +598,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
       $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
     }
 
-    $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
+    $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
   }
   else if($prefix == 'med_')
   {
@@ -628,12 +628,25 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
       // Auch die Kategorie selbst kann Metafelder haben
       $s .= ' OR `p`.`restrictions` LIKE "%|'. $catId .'|%"';
 
-      $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
+      $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
     }
   }
 
   $sqlFields = _rex_a62_metainfo_sqlfields($prefix, $restrictionsCondition);
   $params = rex_call_func($saveCallback, array($params, $sqlFields), false);
+  
+  // trigger callback of sql fields
+  foreach($sqlFields as $row)
+  {
+    if($row->getValue('callback') != '')
+    {
+      // use a small sandbox, so the callback cannot affect our local variables
+      $sandboxFunc = function($field_id, $callback) {
+        require rex_variableStream::factory('metainfo/'. $field_id .'/callback', $callback);
+      };
+      $sandboxFunc($row->getValue('field_id'), $row->getValue('callback'));
+    }
+  }
 
   return rex_a62_metaFields($sqlFields, $activeItem, 'rex_a62_metainfo_form_item', $params);
 }

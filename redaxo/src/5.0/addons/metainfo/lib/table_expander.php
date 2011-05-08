@@ -108,13 +108,18 @@ class rex_a62_tableExpander extends rex_form
     $field->setLabel(rex_i18n::msg('minfo_field_label_attributes'));
     $notice = '<span class="rex-form-notice" id="a62_field_attributes_notice">'. rex_i18n::msg('minfo_field_attributes_notice') .'</span>'. "\n";
     $field->setSuffix($notice);
+    
+    $field = $this->addTextAreaField('callback');
+    $field->setLabel(rex_i18n::msg('minfo_field_label_callback'));
+    $notice = '<span class="rex-form-notice" id="a62_field_attributes_notice">'. rex_i18n::msg('minfo_field_label_notice') .'</span>'. "\n";
+    $field->setSuffix($notice);
 
     $field = $this->addTextField('default');
     $field->setLabel(rex_i18n::msg('minfo_field_label_default'));
 
     $attributes = array();
     $attributes['internal::fieldClass'] = 'rex_form_restrictons_element';
-    $field = $this->addField('', 'restrictions', $value = null, $attributes);
+    $field = $this->addField('', 'restrictions', null, $attributes);
     $field->setLabel(rex_i18n::msg('minfo_field_label_restrictions'));
     $field->setAttribute('size', 10);
 

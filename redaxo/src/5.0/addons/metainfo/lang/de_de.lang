@@ -16,6 +16,7 @@ minfo_field_label_function = Funktion
 minfo_field_label_id = ID
 minfo_field_label_type = Feldtyp
 minfo_field_label_attributes = Feldattribute
+minfo_field_label_callback = Callback
 minfo_field_label_default = Standardwert
 minfo_field_label_nullable = Pflichtfeld
 minfo_field_label_params = Parameter
@@ -37,6 +38,7 @@ minfo_field_params_notice_8 = Beispiel:<br /> category=1
 minfo_field_params_notice_9 = Beispiel:<br /> category=1
 
 minfo_field_attributes_notice = Beispiel:<br /> style=color:red multiple=multiple class=my_css_class perm=admin[]
+minfo_field_label_notice = Code der wird ausgeführt, wenn der Wert des Feldes geändert wird.
 
 minfo_field_error_name = Bitte Spaltennamen eingeben!
 minfo_field_error_unique_name = Der angegebene Spaltenname existiert schon!
