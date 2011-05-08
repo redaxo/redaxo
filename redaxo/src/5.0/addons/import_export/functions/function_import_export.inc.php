@@ -111,14 +111,9 @@ function rex_a1_import_db($filename)
   // require import skript to do some userside-magic
   rex_a1_import_skript(str_replace('.sql', '.php', $filename), REX_A1_IMPORT_DB, REX_A1_IMPORT_EVENT_PRE);
 
-  if (!function_exists('PMA_splitSqlFile'))
-  {
-    include_once rex_path::core('functions/function_rex_addons.inc.php');
-  }
-
   // Datei aufteilen
   $lines = array();
-  PMA_splitSqlFile($lines, $conts, 0);
+  rex_sql_dump::splitSqlFile($lines, $conts, 0);
 
   $sql   = rex_sql::factory();
   foreach ($lines as $line) {
@@ -330,14 +325,14 @@ function rex_a1_export_db($filename)
       //---- export metadata
       $create = rex_sql::showCreateTable($table);
 
-      fwrite($fp, "DROP TABLE IF EXISTS `$table`;\n");
-      fwrite($fp, "$create;\n");
+      fwrite($fp, 'DROP TABLE IF EXISTS `'.$table.'`;'.$nl);
+      fwrite($fp, $create.';'.$nl);
 
-      $fields = $sql->getArray("SHOW FIELDS FROM `$table`");
+      $fields = $sql->getArray('SHOW FIELDS FROM `'.$table.'`');
 
       foreach ($fields as $field)
       {
-        if (preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $field['Type']))
+        if(preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $field['Type']))
         {
           $field = 'int';
         }
@@ -359,14 +354,15 @@ function rex_a1_export_db($filename)
       do
       {
         $sql->freeResult();
-        $sql->setQuery("SELECT * FROM `$table` LIMIT $start,$max");
+        $sql->setQuery('SELECT * FROM `'.$table.'` LIMIT '.$start.','.$max);
+        $count = $sql->getRows();
 
-        if ($sql->getRows() > 0 && $start == 0)
+        if($count > 0 && $start == 0)
         {
-          fwrite($fp, "\nLOCK TABLES `$table` WRITE;");
-          fwrite($fp, "\n/*!40000 ALTER TABLE `$table` DISABLE KEYS */;");
+          fwrite($fp, $nl.'LOCK TABLES `'.$table.'` WRITE;');
+          fwrite($fp, $nl.'/*!40000 ALTER TABLE `'.$table.'` DISABLE KEYS */;');
         }
-        elseif ($sql->getRows() == 0)
+        elseif ($count == 0)
         {
           break;
         }
@@ -374,13 +370,13 @@ function rex_a1_export_db($filename)
         $start += $max;
         $values = array();
 
-        while($sql->hasNext())
+        foreach($sql->getArray() as $row)
         {
           $record = array();
 
           foreach ($fields as $idx => $type)
           {
-            $column = $sql->getValue($idx);
+            $column = $row[$idx];
 
             switch ($type)
             {
@@ -398,22 +394,20 @@ function rex_a1_export_db($filename)
           }
 
           $values[] = $nl .'  ('.implode(',', $record).')';
-          $sql->next();
         }
 
         if (!empty($values))
         {
-          $values = implode(',', $values);
-          fwrite($fp, "\nINSERT INTO `$table` VALUES $values;");
+          fwrite($fp, $nl.'INSERT INTO `'.$table.'` VALUES '.implode(',', $values).';');
           unset($values);
         }
       }
-      while ($sql->getRows() >= $max);
+      while ($count >= $max);
 
       if ($start > 0)
       {
-        fwrite($fp, "\n/*!40000 ALTER TABLE `$table` ENABLE KEYS */;");
-        fwrite($fp, "\nUNLOCK TABLES;\n\n");
+        fwrite($fp, $nl.'/*!40000 ALTER TABLE `'.$table.'` ENABLE KEYS */;');
+        fwrite($fp, $nl.'UNLOCK TABLES;'.$nl.$nl);
       }
     }
   }

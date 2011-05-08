@@ -25,4 +25,4 @@ if ($sql->getRows() == 0)
   $sql->insert();
 }
 
-$REX['ADDON']['install']['article_status'] = 1;
+$this->setProperty('install', true);

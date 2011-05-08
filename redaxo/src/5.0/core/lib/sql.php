@@ -5,7 +5,7 @@
  * @version svn:$Id$
  */
 // see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
-class rex_sql implements Iterator
+class rex_sql extends rex_factory implements Iterator
 {
   public
     $debugsql, // debug schalter
@@ -50,13 +50,12 @@ class rex_sql implements Iterator
     {
       if(!isset(self::$pdo[$DBID]))
       {
-        $config = rex_file::getConfig(rex_path::backend('src/dbconfig.yml'));
         $conn = self::createConnection(
-          $config['DB'][$DBID]['host'],
-          $config['DB'][$DBID]['name'],
-          $config['DB'][$DBID]['login'],
-          $config['DB'][$DBID]['password'],
-          $config['DB'][$DBID]['persistent']
+          $REX['DB'][$DBID]['host'],
+          $REX['DB'][$DBID]['name'],
+          $REX['DB'][$DBID]['login'],
+          $REX['DB'][$DBID]['password'],
+          $REX['DB'][$DBID]['persistent']
         );
         self::$pdo[$DBID] = $conn;
 
@@ -392,6 +391,10 @@ class rex_sql implements Iterator
       throw new rexException('parameter fieldname must not be empty!');
     }
 
+    // fast fail,... value already set manually?
+  	if(isset($this->values[$feldname]))
+  		return $this->values[$feldname];
+  		
     // check if there is an table alias defined
     // if not, try to guess the tablename
     if(strpos($feldname, '.') === false)
@@ -544,6 +547,12 @@ class rex_sql implements Iterator
 
   protected function buildPreparedWhere()
   {
+    // we have an custom where criteria, so we don't need to build one automatically
+    if($this->wherevar != '')
+    {
+      return '';  
+    }
+    
     $qry = '';
     if(is_array($this->whereParams))
     {
@@ -1100,10 +1109,8 @@ class rex_sql implements Iterator
   static public function showCreateTable($table, $DBID=1)
   {
     $sql = self::factory($DBID);
-    $array = $sql->getArray("SHOW CREATE TABLE `$table`");
-    $create = reset($array);
-    $create = $create['Create Table'];
-    return $create;
+    $array = $sql->getArray('SHOW CREATE TABLE `'.$table.'`');
+    return $array['Create Table'];
   }
 
   /**
@@ -1208,12 +1215,7 @@ class rex_sql implements Iterator
     // keine spezielle klasse angegeben -> default klasse verwenden?
     if(!$class)
     {
-      // ----- EXTENSION POINT
-      $class = rex_extension::registerPoint('REX_SQL_CLASSNAME', __CLASS__,
-        array(
-          'DBID'      => $DBID
-        )
-      );
+      $class = self::getFactoryClass();
     }
 
     if($class != __CLASS__ && !is_subclass_of($class, __CLASS__))

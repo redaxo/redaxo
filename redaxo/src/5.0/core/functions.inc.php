@@ -10,14 +10,6 @@ require_once rex_path::core('lib/util/timer.php');
 rex_timer::getInstance()->start();
 
 // ----------------- REDAXO requireS
-// ----- FUNCTIONS
-require_once rex_path::core('functions/function_rex_globals.inc.php');
-require_once rex_path::core('functions/function_rex_ajax.inc.php');
-require_once rex_path::core('functions/function_rex_url.inc.php');
-require_once rex_path::core('functions/function_rex_callable.inc.php');
-require_once rex_path::core('functions/function_rex_other.inc.php');
-require_once rex_path::core('functions/function_rex_generate.inc.php');
-
 // ----- CLASSES
 require_once rex_path::core('lib/autoload.php');
 
@@ -33,6 +25,14 @@ rex_i18n::addDirectory(rex_path::core('lang'));
 rex_fragment::addDirectory(rex_path::core('fragments/'));
 // register core REX_VARS
 rex_var::registerVar('rex_var_config');
+
+// ----- FUNCTIONS
+require_once rex_path::core('functions/function_rex_globals.inc.php');
+require_once rex_path::core('functions/function_rex_mquotes.inc.php');
+require_once rex_path::core('functions/function_rex_ajax.inc.php');
+require_once rex_path::core('functions/function_rex_callable.inc.php');
+require_once rex_path::core('functions/function_rex_other.inc.php');
+require_once rex_path::core('functions/function_rex_generate.inc.php');
 
 if ($REX['REDAXO'])
 {

@@ -10,9 +10,6 @@ function rex_be_add_page($params)
 {
   if(rex_extension::isRegistered('BE_STYLE_PAGE_CONTENT'))
   {
-    global $REX;
-
-    $mypage = 'be_style';
-    $REX['ADDON']['name'][$mypage] = 'Backend Style';
+    rex_addon::get('be_style')->setProperty('name', 'Backend Style');
   }
 }

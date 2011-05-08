@@ -173,7 +173,9 @@ class rex_article_cache
       $db_fields = $class_vars;
 
       foreach($db_fields as $field)
-      $params[$field] = $row->getValue($field);
+      {
+        $params[$field] = $row->getValue($field);
+      }
 
       $cacheArray = array();
       foreach($params as $name => $value)
@@ -186,9 +188,6 @@ class rex_article_cache
       {
         return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::generated('articles/');
       }
-
-      // damit die aktuellen änderungen sofort wirksam werden, einbinden!
-      $REX['ART'][$article_id] = rex_file::getCache($article_file);
     }
 
     return TRUE;

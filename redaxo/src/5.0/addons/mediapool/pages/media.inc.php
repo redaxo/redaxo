@@ -11,8 +11,8 @@ $media_method = rex_request('media_method', 'string');
 // *************************************** CONFIG
 
 $thumbs = true;
-$image_manager = rex_ooAddon::isAvailable('image_manager');
-$image_resize = rex_ooAddon::isAvailable('image_resize');
+$image_manager = rex_addon::get('image_manager')->isAvailable();
+$image_resize = rex_addon::get('image_resize')->isAvailable();
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 

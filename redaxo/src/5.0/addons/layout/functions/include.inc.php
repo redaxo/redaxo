@@ -20,7 +20,7 @@
 function rex_epIncludePageHeader($params)
 {	
 	if (isset($params['markup']))
-		$params['subject'] = $params['markup'].$params['subject'];
+		$params['subject'] = $params['subject'].$params['markup'];
 
 
 	return $params['subject'];

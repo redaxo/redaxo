@@ -15,9 +15,9 @@
  */
 
 $error = '';
+$addonname = 'layout';
 
 /*/ Plugins mitinstallieren
-$addonname = 'layout';
 
 $plugins = array('base', 'agk_skin');
 
@@ -44,6 +44,6 @@ foreach($plugins as $pluginname)
 }*/
 
 if ($error != '')
-  $REX['ADDON']['installmsg'][$addonname] = $error;
+  $this->setProperty('installmsg', $error);
 else
-  $REX['ADDON']['install'][$addonname] = true;
+  $this->setProperty('install', true);

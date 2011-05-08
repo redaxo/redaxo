@@ -21,7 +21,7 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   static public function getCategoryById($category_id, $clang = false)
   {
-    return rex_ooArticle :: getArticleById($category_id, $clang, true);
+    return parent :: getById($category_id, $clang);
   }
 
   /**
@@ -231,26 +231,6 @@ class rex_ooCategory extends rex_ooRedaxo
   public function getPath()
   {
     return $this->_path;
-  }
-
-  /**
-   * Accessor Method:
-   * returns the path ids of the category as an array
-   * 
-   * @return array[int]
-   */
-  public function getPathAsArray()
-  {
-  	$p = explode('|',$this->_path);
-  	foreach($p as $k => $v)
-  	{
-  		if($v == '')
-  			unset($p[$k]);
-  		else
-  		  $p[$k] = (int) $v;
-  	}
-
-    return array_values($p);
   }
 
   /**

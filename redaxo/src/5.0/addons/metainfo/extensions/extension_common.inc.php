@@ -14,10 +14,10 @@ rex_extension::register('OOMEDIA_IS_IN_USE', 'rex_a62_media_is_in_use');
  * Erstellt den nötigen HTML Code um ein Formular zu erweitern
  *
  * @param $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
- * @param $activeItem objekt, dass mit getValue() die Werte des akuellen Eintrags zurückgibt
  * @param $formatCallback callback, dem die infos als Array übergeben werden und den formatierten HTML Text zurückgibt
+ * @param $epParams array Array of all EP parameters
  */
-function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
+function rex_a62_metaFields($sqlFields, $formatCallback, $epParams)
 {
   global $REX;
 
@@ -28,6 +28,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
   $mlist_id = 1;
   $link_id  = 1;
   $llist_id = 1;
+  
+  $activeItem = isset($epParams['activeItem']) ? $epParams['activeItem'] : null;
 
   $sqlFields->reset();
   for($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next())
@@ -433,14 +435,13 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
 {
   global $REX;
 
-  if($_SERVER['REQUEST_METHOD'] != 'POST') return;
+  if(rex_request_method() != 'post') return;
 
   for($i = 0;$i < $sqlFields->getRows(); $i++, $sqlFields->next())
   {
     $fieldName = $sqlFields->getValue('name');
     $fieldType = $sqlFields->getValue('type');
     $fieldAttributes = $sqlFields->getValue('attributes');
-    $postValue = rex_post($fieldName, 'array');
 
     // dont save restricted fields
     $attrArray = rex_split_string($fieldAttributes);
@@ -452,62 +453,81 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
       }
       unset($attrArray['perm']);
     }
-
-    // handle date types with timestamps
-    if(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute']))
-    {
-      if(isset($postValue['active']))
-        $saveValue = mktime((int)$postValue['hour'],(int)$postValue['minute'],0,(int)$postValue['month'],(int)$postValue['day'],(int)$postValue['year']);
-      else
-        $saveValue = 0;
-    }
-    // handle date types without timestamps
-    elseif(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']))
-    {
-      if(isset($postValue['active']))
-        $saveValue = mktime(0,0,0,(int)$postValue['month'],(int)$postValue['day'],(int)$postValue['year']);
-      else
-        $saveValue = 0;
-    }
-    // handle time types
-    elseif(isset($postValue['hour']) && isset($postValue['minute']))
-    {
-      if(isset($postValue['active']))
-        $saveValue = mktime((int)$postValue['hour'],(int)$postValue['minute'],0,0,0,0);
-      else
-        $saveValue = 0;
-    }
-    else
-    {
-      if(count($postValue) > 1)
-      {
-        // Mehrwertige Felder
-        $saveValue = '|'. implode('|', $postValue) .'|';
-      }
-      else
-      {
-        $postValue = isset($postValue[0]) ? $postValue[0] : '';
-        if($fieldType == REX_A62_FIELD_SELECT && strpos($fieldAttributes, 'multiple') !== false ||
-           $fieldType == REX_A62_FIELD_CHECKBOX)
-        {
-          // Mehrwertiges Feld, aber nur ein Wert ausgewählt
-          $saveValue = '|'. $postValue .'|';
-        }
-        else
-        {
-          // Einwertige Felder
-          $saveValue = $postValue;
-        }
-      }
-    }
-
+    
     // Wert in SQL zum speichern
+    $saveValue = _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes);
     $sqlSave->setValue($fieldName, $saveValue);
-
+    
     // Werte im aktuellen Objekt speichern, dass zur Anzeige verwendet wird
     if(isset($params['activeItem']))
       $params['activeItem']->setValue($fieldName, $saveValue);
   }
+}
+
+/**
+ * Retrieves the posted value for the given field and converts it into a saveable format.
+ * 
+ * @param string $fieldName The name of the field
+ * @param int $fieldType One of the REX_A62_FIELD_* constants
+ * @param string $fieldAttributes The attributes of the field
+ */
+function _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes)
+{
+  global $REX;
+
+  if(rex_request_method() != 'post') return null;
+
+  $postValue = rex_post($fieldName, 'array');
+  
+  // handle date types with timestamps
+  if(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute']))
+  {
+    if(isset($postValue['active']))
+      $saveValue = mktime((int)$postValue['hour'],(int)$postValue['minute'],0,(int)$postValue['month'],(int)$postValue['day'],(int)$postValue['year']);
+    else
+      $saveValue = 0;
+  }
+  // handle date types without timestamps
+  elseif(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']))
+  {
+    if(isset($postValue['active']))
+      $saveValue = mktime(0,0,0,(int)$postValue['month'],(int)$postValue['day'],(int)$postValue['year']);
+    else
+      $saveValue = 0;
+  }
+  // handle time types
+  elseif(isset($postValue['hour']) && isset($postValue['minute']))
+  {
+    if(isset($postValue['active']))
+      $saveValue = mktime((int)$postValue['hour'],(int)$postValue['minute'],0,0,0,0);
+    else
+      $saveValue = 0;
+  }
+  else
+  {
+    if(count($postValue) > 1)
+    {
+      // Mehrwertige Felder
+      $saveValue = '|'. implode('|', $postValue) .'|';
+    }
+    else
+    {
+      $postValue = isset($postValue[0]) ? $postValue[0] : '';
+      if($fieldType == REX_A62_FIELD_SELECT && strpos($fieldAttributes, 'multiple') !== false ||
+         $fieldType == REX_A62_FIELD_CHECKBOX)
+      {
+        // Mehrwertiges Feld, aber nur ein Wert ausgewählt
+        $saveValue = '|'. $postValue .'|';
+      }
+      else
+      {
+        // Einwertige Felder
+        $saveValue = $postValue;
+      }
+    }
+  }
+  
+  return $saveValue;
 }
 
 /**
@@ -574,7 +594,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
         }
       }
 
-      $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
+      $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
     }
   }
   else if($prefix == 'cat_')
@@ -598,7 +618,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
       $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
     }
 
-    $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
+    $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
   }
   else if($prefix == 'med_')
   {
@@ -628,14 +648,37 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
       // Auch die Kategorie selbst kann Metafelder haben
       $s .= ' OR `p`.`restrictions` LIKE "%|'. $catId .'|%"';
 
-      $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
+      $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
     }
   }
 
   $sqlFields = _rex_a62_metainfo_sqlfields($prefix, $restrictionsCondition);
   $params = rex_call_func($saveCallback, array($params, $sqlFields), false);
+  
+  // trigger callback of sql fields
+  if(rex_request_method() == 'post')
+  {
+    foreach($sqlFields as $key => $row)
+    {
+      if($row->getValue('callback') != '')
+      {
+        // use a small sandbox, so the callback cannot affect our local variables
+        $sandboxFunc = function($field)
+        {
+          $fieldName = $field->getValue('name');
+          $fieldType = $field->getValue('type');
+          $fieldAttributes = $field->getValue('attributes');
+          $fieldValue = _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes);
+          
+          require rex_variableStream::factory('metainfo/'. $field->getValue('field_id') .'/callback', $field->getValue('callback'));
+        };
+        // pass a clone to the custom handler, so the callback will not change our var
+        $sandboxFunc(clone $row);
+      }
+    }
+  }
 
-  return rex_a62_metaFields($sqlFields, $activeItem, 'rex_a62_metainfo_form_item', $params);
+  return rex_a62_metaFields($sqlFields, 'rex_a62_metainfo_form_item', $params);
 }
 
 /**
@@ -650,9 +693,9 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
   global $REX;
 
   $article = rex_sql::factory();
-//  $article->debugsql = true;
+  // $article->debugsql = true;
   $article->setTable($REX['TABLE_PREFIX']. 'article');
-  $article->setWhere('id=:id AND clang=:clang', array(':id'=> $params['id'], ':clang' => $params['clang']));
+  $article->setWhere('id=:id AND clang=:clang', array('id'=> $params['id'], 'clang' => $params['clang']));
 
   _rex_a62_metainfo_handleSave($params, $article, $sqlFields);
 
@@ -662,7 +705,7 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
 
   // Artikel nochmal mit den zusätzlichen Werten neu generieren
   rex_article_cache::generateMeta($params['id'], $params['clang']);
-
+  
   return $params;
 }
 
@@ -689,7 +732,7 @@ function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
   $media = rex_sql::factory();
 //  $media->debugsql = true;
   $media->setTable($REX['TABLE_PREFIX']. 'media');
-  $media->setWhere('media_id=:mediaid', array(':mediaid' => $params['media_id']));
+  $media->setWhere('media_id=:mediaid', array('mediaid' => $params['media_id']));
 
   _rex_a62_metainfo_handleSave($params, $media, $sqlFields);
 

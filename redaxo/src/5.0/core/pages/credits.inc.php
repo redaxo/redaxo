@@ -6,16 +6,13 @@
  * @version svn:$Id$
  */
 
-include_once rex_path::core('functions/function_rex_other.inc.php');
-include_once rex_path::core('functions/function_rex_addons.inc.php');
-
 $addons = array();
-foreach (rex_ooAddon::getRegisteredAddons() as $addon)
+foreach (rex_addon::getRegisteredAddons() as $addon)
 {
-  $isActive    = rex_ooAddon::isActivated($addon);
-  $version     = rex_ooAddon::getVersion($addon);
-  $author      = rex_ooAddon::getAuthor($addon);
-  $supportPage = rex_ooAddon::getSupportPage($addon);
+  $isActive    = $addon->isActivated();
+  $version     = $addon->getVersion();
+  $author      = $addon->getAuthor();
+  $supportPage = $addon->getSupportPage();
 
   if ($isActive) $cl = 'rex-clr-grn';
   else $cl = 'rex-clr-red';
@@ -25,7 +22,7 @@ foreach (rex_ooAddon::getRegisteredAddons() as $addon)
   if (!$isActive) $author        = rex_i18n::msg('credits_addon_inactive');
 
   $rex_ooAddon =  new stdClass();
-  $rex_ooAddon->name = $addon;
+  $rex_ooAddon->name = $addon->getName();
   $rex_ooAddon->version = $version;
   $rex_ooAddon->author = $author;
   $rex_ooAddon->supportpage = $supportPage;
@@ -34,12 +31,12 @@ foreach (rex_ooAddon::getRegisteredAddons() as $addon)
   $plugins = array();
   if($isActive)
   {
-    foreach(rex_ooPlugin::getAvailablePlugins($addon) as $plugin)
+    foreach($addon->getAvailablePlugins() as $plugin)
     {
-      $isActive    = rex_ooPlugin::isActivated($addon, $plugin);
-      $version     = rex_ooPlugin::getVersion($addon, $plugin);
-      $author      = rex_ooPlugin::getAuthor($addon, $plugin);
-      $supportPage = rex_ooPlugin::getSupportPage($addon, $plugin);
+      $isActive    = $plugin->isActivated();
+      $version     = $plugin->getVersion();
+      $author      = $plugin->getAuthor();
+      $supportPage = $plugin->getSupportPage();
 
       if ($isActive) $cl = 'rex-clr-grn';
       else $cl = 'rex-clr-red';
@@ -49,7 +46,7 @@ foreach (rex_ooAddon::getRegisteredAddons() as $addon)
       if (!$isActive) $author        = rex_i18n::msg('credits_addon_inactive');
 
       $rex_ooPlugin =  new stdClass();
-      $rex_ooPlugin->name = $plugin ;
+      $rex_ooPlugin->name = $plugin->getName() ;
       $rex_ooPlugin->version = $version;
       $rex_ooPlugin->author = $author;
       $rex_ooPlugin->supportpage = $supportPage;
@@ -72,11 +69,92 @@ foreach (rex_ooAddon::getRegisteredAddons() as $addon)
 
 rex_title(rex_i18n::msg("credits"), "");
 
-$coreCredits = new rex_fragment();
-echo $coreCredits->parse('core_page_credits_core');
-unset($coreCredits);
+echo '
+<div class="rex-area rex-mab-10">
+  <h3 class="rex-hl2">REDAXO '. $REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION'] .'</h3>
 
-$addonCredits = new rex_fragment();
-$addonCredits->setVar('addons', $addons);
-echo $addonCredits->parse('core_page_credits_addons');
-unset($addonCredits);
+  <div class="rex-area-content">
+
+  <p class="rex-tx1">
+    <b>Jan Kristinus</b>, jan.kristinus@redaxo.de<br />
+    Erfinder und Kernentwickler<br />
+    Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
+  </p>
+
+  <p class="rex-tx1">
+    <b>Markus Staab</b>, markus.staab@redaxo.de<br />
+    Kernentwickler<br />
+    REDAXO, <a href="http://www.redaxo.org" onclick="window.open(this.href); return false;">www.redaxo.org</a>
+  </p>
+
+  <p class="rex-tx1">
+    <b>Gregor Harlan</b>, gregor.harlan@redaxo.de<br />
+    Kernentwickler<br />
+    meyerharlan, <a href="http://meyerharlan.de" onclick="window.open(this.href); return false;">www.meyerharlan.de</a>
+  </p>
+
+  <p class="rex-tx1">
+    <b>Thomas Blum</b>, thomas.blum@redaxo.de<br />
+    Layout/Design Entwickler<br />
+    blumbeet - web.studio, <a href="http://www.blumbeet.com" onclick="window.open(this.href); return false;">www.blumbeet.com</a>
+  </p>
+  </div>
+</div>';
+
+
+echo '
+<div class="rex-area">
+
+  <table class="rex-table"  summary="'. rex_i18n::msg("credits_summary") .'">
+    <caption>'. rex_i18n::msg("credits_caption") .'</caption>
+    <thead>
+    <tr>
+      <th>'. rex_i18n::msg("credits_name") .'</th>
+      <th>'. rex_i18n::msg("credits_version") .'</th>
+      <th>'. rex_i18n::msg("credits_author") .'</th>
+      <th>'. rex_i18n::msg("credits_supportpage") .'</th>
+    </tr>
+    </thead>
+
+    <tbody>';
+    
+    foreach($addons as $addon)
+    {
+      echo '
+      <tr class="rex-addon">
+        <td class="rex-col-a"><span class="'. $addon->class .'">'. $addon->name .'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='. $addon->name .'">?</a>]</td>
+        <td class="rex-col-b '. $addon->class .'">'. $addon->version .'</td>
+        <td class="rex-col-c '. $addon->class .'">'. $addon->author .'</td>
+        <td class="rex-col-d '. $addon->class .'">';
+        
+        if ($addon->supportpage)
+        {
+          echo '<a href="http://'. $addon->supportpage .'" onclick="window.open(this.href); return false;">'. $addon->supportpage .'</a>';
+        }
+      
+      echo '
+        </td>
+      </tr>';
+      
+      foreach($addon->plugins as $plugin)
+      {
+        echo '
+        <tr class="rex-plugin">
+          <td class="rex-col-a"><span class="'. $plugin->class .'">'. $plugin->name .'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='. $addon->name .'&amp;pluginname='. $plugin->name .'">?</a>]</td>
+          <td class="rex-col-b '. $plugin->class .'">'. $plugin->version .'</td>
+          <td class="rex-col-c '. $plugin->class .'">'. $plugin->author .'</td>
+          <td class="rex-col-d '. $plugin->class .'">';
+          
+          if ($plugin->supportpage)
+          {
+            echo '<a href="http://'. $plugin->supportpage .'" onclick="window.open(this.href); return false;">'. $plugin->supportpage .'</a>';
+          }
+        echo '
+          </td>
+        </tr>';
+      }
+    }
+    echo '
+    </tbody>
+  </table>
+</div>';

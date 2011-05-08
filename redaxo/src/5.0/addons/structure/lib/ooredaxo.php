@@ -174,6 +174,71 @@ abstract class rex_ooRedaxo
     unset ($rex_ooRedaxoArray['_article_id']);
     return $rex_ooRedaxoArray;
   }
+  
+  /**
+   * Array of rex_ooRedaxo instances, key by classname, id and clang
+   * @var array[string][int][int]
+   */
+  private static $instanceCache;
+  
+  /**
+   * Return an rex_ooRedaxo object based on an id.
+   * The instance will be cached in an instance-pool and therefore re-used by a later call. 
+   * 
+   * @param int $id the article id
+   * @param int $clang the clang id
+   * @throws rexException
+   * 
+   * @return rex_ooRedaxo A rex_ooRedaxo instance typed to the late-static binding type of the caller
+   */
+  static protected function getById($id, $clang)
+  {
+    global $REX;
+
+    $id = (int) $id;
+
+    if($id <= 0)
+    {
+      return NULL;
+    }
+
+    if ($clang === FALSE)
+    {
+      $clang = $REX['CUR_CLANG'];
+    }
+    
+    // save cache per subclass
+    $subclass = get_called_class();
+    
+    // check if the class was already stored in the instanceCache
+    if(isset(self::$instanceCache[$subclass][$id][$clang]))
+    {
+      return self::$instanceCache[$subclass][$id][$clang];
+    }
+
+    $article_path = rex_path::generated('articles/'.$id.'.'.$clang.'.article');
+    // generate cache if not exists
+    if (!file_exists($article_path))
+    {
+      rex_article_cache::generateMeta($id, $clang);
+    }
+    
+    // article is valid, if cache exists after generation
+    if (file_exists($article_path))
+    {
+      // load metadata from cache
+      $metadata = rex_file::getCache($article_path);
+      
+      // create object with the loaded metadata
+      $impl = new $subclass(self :: convertGeneratedArray($metadata, $clang));
+
+      // put the constructed object into the instance-cache for faster re-use
+      self::$instanceCache[$subclass][$id][$clang] = $impl;
+      return $impl;
+    }
+
+    return NULL;
+  }  
 
   /**
    * Accessor Method:
@@ -218,7 +283,27 @@ abstract class rex_ooRedaxo
   {
     return $this->_re_id;
   }
+  
+  /**
+   * Accessor Method:
+   * returns the path of the category/article
+   *
+   * @return string
+   */
+  public abstract function getPath();
 
+  /**
+   * Accessor Method:
+   * returns the path ids of the category/article as an array
+   *
+   * @return array[int]
+   */
+  public function getPathAsArray()
+  {
+    $path = explode('|', $this->getPath());
+    return array_values(array_map('intval', array_filter($path)));
+  }
+  
   /**
    * Object Function:
    * Returns the parent category

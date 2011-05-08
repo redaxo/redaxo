@@ -1,0 +1,908 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version svn:$Id$
+ */
+
+/************************************* Reset allgemein - NICHTS VERAENDERN *****
+*******************************************************************************/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+ol, ul {
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+input {
+	margin: 0;
+	padding: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+body {
+	line-height: 1;
+}
+/*
+ol, ul {
+	list-style: none;
+}
+*/
+blockquote, q {
+	quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: '';
+	content: none;
+}
+:focus {
+	outline: 0;
+}
+ins {
+	text-decoration: underline;
+}
+del {
+	text-decoration: line-through;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/*********************************************** Reset - NICHTS VERAENDERN *****
+*******************************************************************************/
+a {
+	text-decoration: none;
+}
+img, iframe {
+	vertical-align: bottom;
+}
+strong {
+	font-weight: bold;
+}
+input, textarea, select {
+	font-size: 1em;
+}
+html {
+	height: 100.01%;
+	margin-bottom: -1px;
+}
+body {
+	position: relative;
+	background-color: #FFF;
+	color: #000;
+	font-size: 100.01%;
+	font-weight: normal;
+	line-height: 1;
+	text-align: left;
+}
+
+
+/******************************************** Standard - NICHTS VERAENDERN *****
+*******************************************************************************/
+body, div,
+h1, h2, h3, h4, h5, h6, p,
+a, span,
+li {
+	background-repeat: no-repeat;
+}
+
+.rex-nospace {
+	margin: 0;
+	padding: 0;
+}
+
+.rex-clearer {
+	display: block;
+	clear: both;
+	line-height: 0em;
+	height: 1px;
+	font-size: 0;
+	visibility: hidden;
+}
+
+.rex-clear {
+	clear: both;
+}
+
+.rex-hidden {
+	display: inline !important;
+	position: absolute !important;
+	left: -1000px !important;
+	top: -1000px !important;
+	width: 0px !important;
+	height: 0px !important;
+	overflow: hidden !important;
+	background-color: #FFF !important;
+}
+
+.rex-rvrs {
+	unicode-bidi: bidi-override;
+	direction: rtl;
+}
+
+.rex-fl-lft {
+	float: left;
+}
+
+.rex-fl-rght {
+	float: right;
+}
+
+.rex-algn-lft {
+	text-align: left;
+}
+
+.rex-algn-rght {
+	text-align: right;
+}
+.rex-strike {
+	text-decoration: line-through;
+}
+.rex-display-inline, 
+ol.rex-display-inline li, 
+ul.rex-display-inline li {
+	display: inline;
+}
+
+div#rex-website a {
+	text-decoration: none;
+}
+div#rex-website a:hover {
+	text-decoration: underline;
+}
+
+
+
+/*	Schriftarten ***************************************************************
+*******************************************************************************/
+body, 
+input, 
+textarea, 
+select {
+	font-family: Verdana, Arial, sans-serif;
+}
+
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	font-family: Monospace, Courier, ;
+}
+
+/*	Schriftgroessen ************************************************************
+*******************************************************************************/
+.rex-code {
+	font-size: 1.2em;
+}
+div#rex-title h1 {
+	font-size: 1.3em;
+}
+.rex-hl4, 
+.rex-tx2, 
+.rex-tx3, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	font-size: 1.2em;
+}
+
+
+
+/*	Schriftgroessen fuer Ausgabe der Module / Slices */
+.rex-content-editmode-slice-output h1 {
+	font-size: 2em;
+}
+.rex-content-editmode-slice-output h2 {
+	font-size: 1.6em;
+}
+.rex-content-editmode-slice-output h3 {
+	font-size: 1.4em;
+}
+.rex-content-editmode-slice-output h4 {
+	font-size: 1.2em;
+}
+.rex-content-editmode-slice-output h5 {
+	font-size: 1.1em;
+}
+.rex-content-editmode-slice-output h6 {
+	font-size: 1em;
+}
+
+
+
+/*	Zeilenhoehen ***************************************************************
+*******************************************************************************/
+
+div#rex-title ul,
+div#rex-title p,
+div#rex-output div#rex-navi-page ul, 
+div.rex-content-header ul {
+	line-height: 3;
+}
+
+div#rex-title h1 {
+	line-height: 2.3;
+}
+div.rex-addon-content, 
+div.rex-area-content, 
+div.rex-content-editmode-slice-input, 
+div.rex-content-editmode-slice-output {
+	line-height: 1.6;
+}
+.rex-code, 
+ul.rex-ul1, 
+div#rex-navi-logout p,
+div#rex-navi-logout ul,
+div#rex-navi-main ul, 
+div.rex-message-block {
+	line-height: 1.2;
+}
+body#rex-page-linkmap div.rex-area-content, 
+div.rex-addon-content p.rex-form-checkbox, 
+div.rex-addon-content p.rex-form-radio, 
+div.rex-area-content p.rex-form-checkbox, 
+div.rex-area-content p.rex-form-radio  {
+  line-height: 1em;
+}
+
+
+/*	Textfarben *****************************************************************
+*******************************************************************************/
+/*	Grau */
+body,
+div#rex-header p.rex-header-top a,
+div#rex-navi-main ul li a.rex-active, 
+div#rex-navi-footer ul li,
+div#rex-navi-footer ul li a,
+div#rex-clang ul li a.rex-active,
+div#rex-output div#rex-navi-page ul li a.rex-active,
+div.rex-title-row ul li a.rex-active,
+div.rex-content-header ul li a.rex-active,
+div.rex-content-header ul li span, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a.rex-active {
+	color: #32353A;
+}
+
+/*	Weiss */
+div#rex-navi-logout p a,
+div#rex-navi-logout a,
+div#rex-navi-main ul li,
+div#rex-navi-main ul li a {
+	color: #FFF;
+}
+
+table.rex-table caption {
+	color: #9C9A96;
+}
+/*	Rot */
+a {
+	color: #F2353A;
+}
+.rex-warning,
+div.rex-warning-block {
+	color: #EA1144;
+}
+.rex-offline,
+div#rex-linkmap ul li a.rex-offline {
+	color: #A00;
+}
+
+/*	Gruen */
+.rex-info,
+div.rex-info-block,
+div.rex-info-block a {
+	color: #107C2C;
+}
+.rex-ok,
+.rex-online,
+div#rex-linkmap ul li a.rex-online {
+	color: #3EC94A;
+}
+.rex-tx3 {
+	color: #478C44;
+}
+/*	Blau */
+div.rex-content-header ul li a {
+	color: #669;
+}
+/*
+.rex-nice {
+	color:#3A3;
+}
+
+.rex-error {
+	color:#C33;
+}
+.rex-clr-red {
+	color:#EA1144;
+}
+*/
+
+/*	Background Color ***********************************************************
+*******************************************************************************/
+div.rex-content-editmode div.rex-form-content-editmode, 
+div.rex-content-editmode div.rex-form-content-editmode div.rex-form-wrapper, 
+div.rex-content-editmode div.rex-form-content-editmode-add-slice, 
+div.rex-content-editmode div.rex-form-content-editmode-add-slice div.rex-form-wrapper, 
+div.rex-content-editmode div.rex-form-content-editmode-edit-slice, 
+div.rex-content-editmode div.rex-form-content-editmode-edit-slice div.rex-form-wrapper {
+	background-color: transparent;
+}
+/*	Weiss */
+div.rex-area-scroll, 
+div.rex-widget {
+	background-color: #FFF;
+}
+
+/*	Grau Hellsten */
+.rex-code, 
+div.rex-content-body, 
+table.rex-table caption, 
+table.rex-table tr.rex-plugin td {
+	background-color: #FAF9F5;
+}
+/*	Grau Heller */
+div#rex-footer,
+div#rex-header p.rex-header-top,
+div#rex-title,
+div#rex-linkmap, 
+div#rex-output div#rex-navi-page, 
+div#rex-navi-path, 
+div#rex-form-system-setup,
+div#rex-mediapool-detail-wrapper, 
+div.rex-area, 
+div.rex-addon-output, 
+div.rex-content-header,
+div.rex-content-cols, 
+div.rex-form div.rex-form-wrapper,
+div.rex-toolbar, 
+div.rex-content-block, 
+div.rex-widget p.rex-widget-field input,
+div.rex-widget p.rex-widget-field select, 
+table.rex-table {
+	background-color: #F0EFEB;
+}
+/*	Grau Hell */
+table.rex-table tr.rex-table-row-activ td {
+	background-color: #E7E6E3;
+}
+/*	Grau Normal */
+.rex-hl2, 
+div.rex-form, 
+div.rex-area-footer, 
+div.rex-addon-footer, 
+table.rex-table th, 
+table.rex-table tr td.rex-colored {
+	background-color: #D7D6D3;
+}
+/*	Rot */
+.rex-warning,
+div.rex-warning-block {
+	background-color: #FAE9E5;
+}
+
+/*	Gruen */
+.rex-info,
+div.rex-info-block {
+	background-color: #D2EFD9;
+}
+div#rex-navi-main {
+	background-color: #AAB9A8;
+}
+
+/*	Blau */
+div.rex-content-editmode-module-name div.rex-navi-slice {
+	background-color: #E4EFF2;
+}
+div.rex-content-editmode {
+	background-color: #D6E1E4;
+}
+div.rex-content-editmode-module-name {
+	background-color: #CCD7DD;
+}
+div.rex-content-editmode div.rex-form-content-editmode {
+	background-color: #B0BDC3;
+}
+
+div.rex-toolbar div.rex-form {
+  background-color: transparent;
+}
+
+/*	Background Images **********************************************************
+*******************************************************************************/
+div.rex-content-header, 
+div#rex-linkmap div.rex-area-col-b ul li a {
+	background-image: url(../media/document.gif);
+}
+div.rex-content-header {
+	background-position: 13px 50%;
+}
+div#rex-linkmap div.rex-area-col-b ul li a {
+	background-position: 0px 50%;
+}
+
+.rex-info {
+	background-image: url(../media/excla_mark_green.gif);
+	background-position: 0% 50%;
+}
+
+/*	File */
+div#rex-linkmap ul li.rex-children ul li,
+div#rex-linkmap ul li ul li.rex-children-last {
+	background-image: url(../media/file.gif);
+	background-position: -21px 0px;
+}
+div#rex-linkmap ul li ul li.rex-children-last {
+	background-image: url(../media/file_last_2.gif);
+}
+
+div#rex-linkmap, 
+div#rex-linkmap ul li ul {
+	background-image:url(../media/file_vert.gif);
+	background-position: 49% 0px;
+	background-repeat: repeat-y;
+}
+div#rex-linkmap ul li ul {
+	background-position: 2px 0px;
+}
+
+/*	Folder */
+div#rex-linkmap ul li a {
+	background-image: url(../media/folder_off_empty.gif);
+}
+div#rex-linkmap ul li a.rex-linkmap-is-not-empty {
+	background-image: url(../media/folder_off.gif);
+}
+div#rex-linkmap ul li.rex-active a.rex-active {
+	background-image: url(../media/folder_on_empty.gif);
+}
+div#rex-linkmap ul li.rex-active a.rex-linkmap-is-not-empty.rex-active {
+	background-image: url(../media/folder_on.gif);
+}
+
+
+div#rex-linkmap div.rex-area-col-b ul li.rex-linkmap-startpage a {
+	background-image: url(../media/liste.gif);
+}
+div#rex-title {
+	background-image: url(../media/logo.jpg);
+	background-position: 100% 50%;
+}
+.rex-warning {
+	background-image: url(../media/warning.gif);
+	background-position: 0% 50%;
+}
+
+
+/*	Corner */
+body#rex-page-addon table.rex-table tr.rex-plugin td.rex-col-b, 
+body#rex-page-credits table.rex-table tr.rex-plugin td.rex-col-a {
+	background-image: url(../media/corner.gif);
+	background-position: 7px 12px;
+	background-repeat: no-repeat;
+}
+
+
+/*	Pipe white */
+div#rex-navi-logout ul li, 
+div#rex-navi-main ul li {
+	background-image: url(../media/pipe_c1.gif);
+	background-position: 0px 2px;
+}
+div#rex-navi-logout ul li.rex-navi-first, 
+div#rex-navi-main ul li.rex-navi-first {
+	background: none;
+}
+
+
+/*	Pipe grey */
+div#rex-navi-page ul li a, 
+#rex-title .rex-navi ul li a,
+div#rex-clang ul li a,
+div.rex-content-header ul li a, 
+div#rex-navi-footer ul li {
+	background-image: url(../media/pipe_c2.gif);
+	background-position: 0px 2px;
+}
+div#rex-navi-page ul li.rex-navi-first a, 
+#rex-title .rex-navi ul li.rex-navi-first a,
+div#rex-clang ul li.rex-navi-first a,
+div.rex-content-header ul li.rex-navi-first a, 
+div#rex-navi-footer ul li.rex-navi-first {
+	background: none;
+}
+
+
+
+/*	Paginate */
+div.rex-navi-paginate ul li.rex-navi-paginate-prev a {
+	background-image: url(../media/back.gif);
+}
+div.rex-navi-paginate ul li.rex-navi-paginate-next a {
+	background-image: url(../media/forward.gif);
+}
+div.rex-navi-paginate ul li.rex-navi-paginate-page a, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	background-image: url(../media/list_pages.gif);
+	background-position: 100% -50px;
+}
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	background-position: 0 0;
+}
+
+
+
+/*	Button - Arrow Up */
+div.rex-navi-slice ul li a.rex-slice-move-up {
+	background-image: url(../media/file_up.gif);
+}
+
+/*	Button - Arrow Down */ 
+div.rex-navi-slice ul li a.rex-slice-move-down {
+	background-image: url(../media/file_down.gif);
+}
+
+
+
+
+.rex-i-action {
+	background-image: url(../media/action.gif);
+}
+.rex-i-action-add {
+	background-image: url(../media/action_plus.gif);
+}
+.rex-i-addon {
+	background-image: url(../media/addon.gif);
+}
+.rex-i-article {
+	background-image: url(../media/document.gif);
+}
+.rex-i-article-add {
+	background-image: url(../media/document_plus.gif);
+}
+.rex-i-article-startpage {
+	background-image: url(../media/liste.gif);
+}
+.rex-i-clang {
+	background-image: url(../media/flag.gif);
+}
+.rex-i-clang-add {
+	background-image: url(../media/flag_plus.gif);
+}
+.rex-i-cronjob {
+	/*	TODO */
+	background-image: url(../media/cronjob.gif);
+	background-image: url(../media/document.gif);
+}
+.rex-i-cronjob-add {
+	/*	TODO */
+	background-image: url(../media/cronjob_add.gif);
+	background-image: url(../media/document_plus.gif);
+}
+.rex-i-generic {
+	/*	TODO */
+	background-image: url(../media/generic.gif);
+	background-image: url(../media/document.gif);
+}
+.rex-i-generic-add {
+	/*	TODO */
+	background-image: url(../media/generic_add.gif);
+	background-image: url(../media/file_add.gif);
+}
+.rex-i-generic-delete {
+	/*	TODO */
+	background-image: url(../media/generic_delete.gif);
+	background-image: url(../media/file_del.gif);
+}
+.rex-i-generic-close {
+	/*	TODO */
+	background-image: url(../media/generic_close.gif);
+	background-image: url(../media/file_del.gif);
+}
+.rex-i-generic-open {
+	/*	TODO */
+	background-image: url(../media/generic_open.gif);
+	background-image: url(../media/file_add.gif);
+}
+.rex-i-media {
+	background-image: url(../media/file_view.gif);
+}
+.rex-i-metainfo {
+	background-image: url(../media/metainfo.gif);
+}
+.rex-i-metainfo-add {
+	background-image: url(../media/metainfo_plus.gif);
+}
+.rex-i-module {
+	background-image: url(../media/modul.gif);
+}
+.rex-i-module-add {
+	background-image: url(../media/modul_plus.gif);
+}
+.rex-i-refresh {
+	background-image: url(../media/refresh.gif);
+}
+.rex-i-refresh-ani {
+	background-image: url(../media/refresh_ani.gif);
+}
+.rex-i-refresh-err {
+  /*	TODO */
+  background-image: url(../media/refresh_err.gif);
+  background-image: url(../media/file_add.gif);
+}
+.rex-i-slice {
+	background-image: url(../media/slice.gif);
+}
+.rex-i-template {
+	background-image: url(../media/template.gif);
+}
+.rex-i-template-add {
+	background-image: url(../media/template_plus.gif);
+}
+.rex-i-togglesettings {
+  /*TODO better image, backport to default skin */
+	background-image: url(../media/file_add.gif);
+}
+.rex-i-togglesettings-off {
+  /*TODO better image, backport to default skin */
+ 	background-image: url(../media/togglesettings_off.gif);
+  background-image: url(../media/file_del.gif);
+}
+.rex-i-toggleview {
+  /*TODO better image, backport to default skin */
+	background-image: url(../media/file_add.gif);
+}
+.rex-i-toggleview-off {
+  /*TODO backport to default skin */
+ 	background-image: url(../media/toggleview_off.gif);
+	background-image: url(../media/file_del.gif);
+}
+.rex-i-user {
+	background-image: url(../media/user.gif);
+}
+.rex-i-user-add {
+	background-image: url(../media/user_plus.gif);
+}
+
+.rex-i-category, 
+.rex-i-mediapool-category {
+	background-image: url(../media/folder.gif);
+}
+.rex-i-category-add, 
+.rex-i-mediapool-category-add {
+	background-image: url(../media/folder_plus.gif);
+}
+
+
+
+.rex-table tr.rex-info,
+.rex-table tr.rex-warning {
+	background-image: none;
+}
+.rex-table tr.rex-warning {
+	font-weight: bold;
+}
+
+/*	Border Color ***************************************************************
+*******************************************************************************/
+div#rex-footer {
+	border-top-color: #AAB9A8;
+}
+
+/*	Weiss */
+table.rex-table caption,
+table.rex-table th,
+table.rex-table td {
+	border-color: #FFF;
+}
+div.rex-form {
+	border-top-color: #FFF;
+}
+div.rex-content-header ul.rex-navi-content {
+	border-right-color: #FFF;
+}
+div#rex-title h1,
+div#rex-title ul,
+div#rex-title p, 
+div.rex-form div.rex-form-row, 
+div.rex-form div.rex-message, 
+div.rex-content-editmode div.rex-message, 
+div.rex-content-editmode-slice-input, 
+div.rex-content-editmode-slice-output {
+	border-bottom-color: #FFF;
+}
+div.rex-message-content, 
+div.rex-toolbar-content,
+div.rex-content-header-2,
+div.rex-content-header ul.rex-navi-content {
+	border-left-color: #FFF;
+}
+
+/*	Grau */
+div.rex-area-scroll, 
+div.rex-widget {
+	border-color: #999;
+}
+
+/*	Rot */
+.rex-code {
+  border-color: #F2353A;
+}
+
+
+
+/*	Elemente verstecken ********************************************************
+		Hinweis: 
+			den Elementen nicht die Klasse "rex-hidden" einzeln zuweisen, 
+			da diese von anderen Layouts eventuell dargestellt werden sollen
+*******************************************************************************/
+div#rex-navi-main dt, 
+div.rex-navi-slice ul li span, 
+div.rex-form-content-editmode legend, 
+div.rex-form-content-editmode legend span, 
+div.rex-form-content-editmode-add-slice legend, 
+div.rex-form-content-editmode-add-slice legend span, 
+div.rex-form-content-editmode-edit-slice legend, 
+div.rex-form-content-editmode-edit-slice legend span, 
+div.rex-title-row-sub dl.rex-navi dt {
+	display: inline !important;
+	position: absolute !important;
+	left: -1000px !important;
+	top: -1000px !important;
+	width: 0px !important;
+	height: 0px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	background-color: #FFF !important;
+	overflow: hidden !important;
+}
+
+/*	Seitenstruktur *************************************************************
+*******************************************************************************/
+body {
+	margin: 8px;
+}
+
+div#rex-website {
+	position: relative;
+	width: 770px;
+	font-size: .625em;
+}
+body#rex-page-linkmap div#rex-website, 
+body#rex-page-mediapool div#rex-website {
+	width: 100%;
+}
+
+div#rex-header,
+div#rex-footer,
+div#rex-wrapper,
+div#rex-output {
+	position: relative;
+	clear: both;
+	float: left;
+	width: 100%;
+}
+div#rex-footer {
+	margin: 10px 0;
+	padding: 5px 0;
+	border-top-width: 20px;
+	border-top-style: solid;
+}
+div#rex-header p.rex-header-top {
+	padding: 5px;
+	text-align: right;
+}
+
+div#rex-output {
+	margin-top: 10px;
+}
+div.rex-content-body {
+	clear: both;
+	float: left;
+	width: 100%;
+}
+div.rex-content-body-2 {
+	padding: 0px 154px 0 41px;
+}
+
+/*	Titel **********************************************************************
+*******************************************************************************/
+div#rex-title {
+	margin-top: 10px;
+	height: 61px;
+}
+
+html>body div#rex-title {
+	height: auto;
+	min-height: 61px;
+}
+body#rex-page-linkmap div#rex-title,
+body#rex-page-mediapool div#rex-title {
+	background-image: none;
+}
+/* einzeilig */
+body#rex-page-linkmap div#rex-title {
+	height: 31px;
+}
+html>body#rex-page-linkmap div#rex-title {
+	height: auto;
+	min-height: 31px;
+}
+body#rex-page-linkmap div#rex-title p {
+	display: none;
+}
+
+div#rex-title div.rex-title-row {
+	width: 617px;
+}
+body#rex-page-linkmap div#rex-title div.rex-title-row,
+body#rex-page-mediapool div#rex-title div.rex-title-row {
+	width: 100%;
+}
+div#rex-title h1,
+div#rex-title ul,
+div#rex-title p {
+	padding-left: 5px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+
+/*	Extras *********************************************************************
+*******************************************************************************/
+div#rex-redaxo-link {
+	position: absolute;
+	right: 0;
+	top: 64px;
+}
+div#rex-redaxo-link a {
+	display: block;
+	width: 153px;
+	height: 41px;
+	text-indent: -1000em;
+}
+body#rex-page-linkmap div#rex-redaxo-link, 
+body#rex-page-mediapool div#rex-redaxo-link {
+	display: none;
+}
+
+
+
+
+
+
+/*	Abstaende im Slice *********************************************************
+*******************************************************************************/
+div.rex-content-editmode div.rex-content-editmode-slice-output .rex-message, 
+div.rex-content-editmode-slice-output p, 
+div.rex-content-editmode-slice-output dl, 
+div.rex-content-editmode-slice-output ol, 
+div.rex-content-editmode-slice-output ul, 
+div.rex-content-editmode-slice-output table {
+	margin-bottom: 1em;
+}
+div.rex-content-editmode-slice-output .rex-message p, 
+div.rex-content-editmode-slice-output .rex-message dl, 
+div.rex-content-editmode-slice-output .rex-message ol, 
+div.rex-content-editmode-slice-output .rex-message ul, 
+div.rex-content-editmode-slice-output .rex-message table {
+	margin-bottom: 0;
+}

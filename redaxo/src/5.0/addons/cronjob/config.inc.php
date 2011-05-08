@@ -33,9 +33,9 @@ define('REX_CRONJOB_TABLE'     , $REX['TABLE_PREFIX'] .'cronjob');
 rex_extension::register('ADDONS_INCLUDED',
   function($params)
   {
-    foreach(rex_ooPlugin::getAvailablePlugins('cronjob') as $plugin)
+    foreach(rex_addon::get('cronjob')->getAvailablePlugins() as $plugin)
     {
-      if(($type = rex_ooPlugin::getProperty('cronjob', $plugin, 'cronjob_type')) != '')
+      if(($type = $plugin->getProperty('cronjob_type')) != '')
       {
         rex_cronjob_manager::registerType($type);
       }

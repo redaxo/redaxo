@@ -1,5 +1,7 @@
 <?php
 
+global $I18N, $REX_USER, $REX_LOGIN, $article_id, $clang;
+
 /**
  * @deprecated 5.0
  */
@@ -55,3 +57,6 @@ require_once $dir .'/functions/function_rex_file.inc.php';
 require_once $dir .'/functions/function_rex_lang.inc.php';
 require_once $dir .'/functions/function_rex_mediapool.inc.php';
 require_once $dir .'/functions/function_rex_other.inc.php';
+
+rex_addonManager::setFactoryClass('rex_addonManagerCompat');
+rex_pluginManager::setFactoryClass('rex_pluginManagerCompat');

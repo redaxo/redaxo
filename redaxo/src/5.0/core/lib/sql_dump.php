@@ -90,7 +90,7 @@ class rex_sql_dump
    * @access  public
    */
   // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
-  static private function splitSqlFile(& $ret, $sql, $release)
+  static public function splitSqlFile(& $ret, $sql, $release)
   {
     // do not trim, see bug #1030644
     //$sql          = trim($sql);

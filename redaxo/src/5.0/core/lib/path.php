@@ -2,7 +2,7 @@
 
 /**
  * Utitility class to generate relative and absolute path
- * 
+ *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
  * @package redaxo5
@@ -76,7 +76,7 @@ class rex_path
 
   /**
    * Returns the path to the assets folder of the given addon, which contains all assets required by the addon to work properly.
-   * 
+   *
    * @see #assets
    */
   static public function addonAssets($addon, $file = '', $pathType = self::ABSOLUTE)
@@ -86,7 +86,7 @@ class rex_path
 
   /**
    * Returns the path to the assets folder of the given plugin of the given addon
-   * 
+   *
    * @see #assets
    */
   static public function pluginAssets($addon, $plugin, $file = '', $pathType = self::ABSOLUTE)
@@ -128,7 +128,7 @@ class rex_path
 
   /**
    * Returns the path to the active version folder.
-   * 
+   *
    * There might be several version folders, but only one active.
    */
   static public function src($file = '')
@@ -205,7 +205,7 @@ class rex_path
 
     // pfadtrenner vereinheitlichen
     $relPath = str_replace('\\', '/', $relPath);
-    foreach (explode('/', $rel_path) as $dir)
+    foreach (explode('/', $relPath) as $dir)
     {
       // Aktuelles Verzeichnis, oder Ordner ohne Namen
       if ($dir == '.' || $dir == '')

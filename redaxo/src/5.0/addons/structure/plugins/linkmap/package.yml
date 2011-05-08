@@ -1,4 +1,3 @@
-linkmap:
-  version: '1.3'
-  author: Markus Staab
-  supportpage: www.redaxo.org/de/forum/
+version: '1.3'
+author: Markus Staab
+supportpage: www.redaxo.org/de/forum/

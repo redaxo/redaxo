@@ -134,13 +134,28 @@ function rex_message($message, $cssClass, $sorround_tag)
     $return .= '</p>';
 
   $return .= '</'. $sorround_tag .'></div></div>';
-
+  
+  if ($sorround_tag != 'p')
+    $message = '<p>'.$message.'</p>';
+  /*
+  $fragment = new rex_fragment();
+  $fragment->setVar('class', $cssClass);
+  $fragment->setVar('message', $content, false);
+  $return = $fragment->parse('message');
+  */
   return $return;
 }
 
 function rex_info($message, $cssClass = null, $sorround_tag = null)
 {
   if(!$cssClass) $cssClass = 'rex-info';
+  if(!$sorround_tag) $sorround_tag = 'div';
+  return rex_message($message, $cssClass, $sorround_tag);
+}
+
+function rex_success($message, $cssClass = null, $sorround_tag = null)
+{
+  if(!$cssClass) $cssClass = 'rex-success';
   if(!$sorround_tag) $sorround_tag = 'div';
   return rex_message($message, $cssClass, $sorround_tag);
 }
@@ -177,6 +192,17 @@ function rex_message_block($message, $cssClass, $sorround_tag)
           </div>';
 }
 
+function rex_toolbar($content, $cssClass = null)
+{
+  $return = '';
+  $fragment = new rex_fragment();
+  $fragment->setVar('class', $cssClass);
+  $fragment->setVar('content', $content, false);
+  $return = $fragment->parse('toolbar');
+
+  return $return;
+}
+
 function rex_content_block($content)
 {
   return '<div class="rex-content-block"><div class="rex-content-block-content">'. $content .'</div></div>';
@@ -211,22 +237,6 @@ function rex_ini_get($val)
   }
 
   return $val;
-}
-
-/**
- * Leitet auf einen anderen Artikel weiter
- */
-function rex_redirect($article_id, $clang = '', $params = array())
-{
-  global $REX;
-
-  // Alle OBs schließen
-  while(@ob_end_clean());
-
-  $divider = '&';
-
-  header('Location: '. rex_getUrl($article_id, $clang, $params, $divider));
-  exit();
 }
 
 /**

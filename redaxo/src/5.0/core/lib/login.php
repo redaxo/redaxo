@@ -477,14 +477,7 @@ class rex_login
   public function sessionFixation()
   {
     // 1. parameter ist erst seit php5.1 verfügbar
-    if (version_compare(phpversion(), '5.1.0', '>=') == 1)
-    {
-      session_regenerate_id(true);
-    }
-    else if (function_exists('session_regenerate_id'))
-    {
-      session_regenerate_id();
-    }
+    session_regenerate_id(true);
   }
 }
 

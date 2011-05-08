@@ -18,7 +18,7 @@ if ($REX['REDAXO'])
   $page->setHidden(true);
   $page->setRequiredPermissions('hasStructurePerm');
 
-  $REX['ADDON']['page'][$mypage] = new rex_be_page_main('system', $page);
+  $this->setProperty('page', new rex_be_page_main('system', $page));
 
   if($REX["USER"])
   {

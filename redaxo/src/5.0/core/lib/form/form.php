@@ -17,7 +17,7 @@ define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
  *
  * Nachdem alle Felder eingefuegt wurden, muss das Fomular mit get() oder show() ausgegeben werden.
  */
-class rex_form
+class rex_form extends rex_factory
 {
   protected
     $name,
@@ -108,15 +108,7 @@ class rex_form
     // keine spezielle klasse angegeben -> default klasse verwenden?
     if(!$class)
     {
-      // ----- EXTENSION POINT
-      $class = rex_extension::registerPoint('REX_FORM_CLASSNAME', __CLASS__,
-        array(
-          'tableName'      => $tableName,
-          'fieldset'       => $fieldset,
-          'whereCondition' => $whereCondition,
-          'method'         => $method,
-          'debug'          => $debug)
-      );
+      $class = self::getFactoryClass();
     }
 
     if($class != __CLASS__ && !is_subclass_of($class, __CLASS__))

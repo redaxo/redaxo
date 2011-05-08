@@ -1,0 +1,39 @@
+setup: true
+instname: rex20110507162412
+server: redaxo.org
+servername: REDAXO
+error_email: jan.kristinus@yakamara.de
+fileperm: 0664
+dirperm: 0775
+session_duration: 3000
+start_article_id: 1
+notfound_article_id: 1
+start_clang_id: 0
+default_template_id: 0
+lang: de_de
+mod_rewrite: false
+use_gzip: false
+use_etag: false
+use_last_modified: true
+use_md5: true
+pswfunc: sha1
+relogindelay: 5
+maxlogins: 50
+maxclangs: 15
+start_page: structure
+timezone: Europe/Berlin
+table_prefix: rex_
+temp_prefix: tmp_
+db:
+  1:
+    host: localhost
+    login: root
+    password: ''
+    name: redaxo_5_0
+    persistent: false
+  2:
+    host: ''
+    login: ''
+    password: ''
+    name: ''
+    persistent: false

@@ -1,11 +1,10 @@
-be_search:
-  version: '1.3'
-  author: Markus Staab
-  supportpage: www.redaxo.org/de/forum/
-  
-  requires:
-    addons:
-      structure:
-        min-version: '1.3'
-      mediapool:
-        min-version: '1.3'
+version: '1.3'
+author: Markus Staab
+supportpage: www.redaxo.org/de/forum/
+
+requires:
+  addons:
+    structure:
+      min-version: '1.3'
+    mediapool:
+      min-version: '1.3'

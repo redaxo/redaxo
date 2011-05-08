@@ -194,7 +194,7 @@ function a62_meta_prefix($name)
  */
 function a62_meta_table($prefix)
 {
-  $metaTables = rex_ooAddon::getProperty('metainfo', 'metaTables', array());
+  $metaTables = rex_addon::get('metainfo')->getProperty('metaTables', array());
 
   if(isset($metaTables[$prefix]))
     return $metaTables[$prefix];

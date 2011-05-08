@@ -733,3 +733,4 @@ hinweise: bei anpassungen beachten !
   * $REX[VAR] -> $REX['VAR'] (Bei allen Arrays)
   * Einheitliche Dateiheader verwenden
   * keine tabular - ein tab = 2 leerzeichen
+  

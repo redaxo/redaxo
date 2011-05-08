@@ -19,46 +19,9 @@ class rex_ooArticle extends rex_ooRedaxo
    *
    * @return rex_ooArticle
    */
-  static public function getArticleById($article_id, $clang = FALSE, $rex_ooCategory = FALSE)
+  static public function getArticleById($article_id, $clang = FALSE)
   {
-    global $REX;
-
-    $article_id = (int) $article_id;
-
-    if($article_id <= 0)
-    {
-      return NULL;
-    }
-
-    if ($clang === FALSE)
-    {
-      $clang = $REX['CUR_CLANG'];
-    }
-
-    $article_path = rex_path::generated('articles/'.$article_id.'.'.$clang.'.article');
-    if (!file_exists($article_path))
-    {
-      rex_article_cache::generateMeta($article_id, $clang);
-    }
-
-    if (file_exists($article_path))
-    {
-      if(!isset($REX['ART'][$article_id]))
-      {
-        $REX['ART'][$article_id] = rex_file::getCache($article_path);
-      }
-
-      if ($rex_ooCategory)
-      {
-        return new rex_ooCategory(self :: convertGeneratedArray($REX['ART'][$article_id], $clang));
-      }
-      else
-      {
-        return new rex_ooArticle(self :: convertGeneratedArray($REX['ART'][$article_id], $clang));
-      }
-    }
-
-    return NULL;
+    return parent :: getById($article_id, $clang);
   }
 
   /**
@@ -69,14 +32,7 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   static public function getSiteStartArticle($clang = FALSE)
   {
-    global $REX;
-
-    if ($clang === FALSE)
-    {
-      $clang = $REX['CUR_CLANG'];
-    }
-    
-    return self :: getArticleById($REX['START_ARTICLE_ID'], $clang);
+    return parent :: getById($REX['START_ARTICLE_ID'], $clang);
   }
 
   /**
@@ -87,14 +43,7 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   static public function getCategoryStartArticle($a_category_id, $clang = FALSE)
   {
-    global $REX;
-
-    if ($clang === FALSE)
-    {
-      $clang = $REX['CUR_CLANG'];
-    }
-    
-    return self :: getArticleById($a_category_id, $clang);
+    return parent :: getById($a_category_id, $clang);
   }
 
   /**
@@ -214,18 +163,6 @@ class rex_ooArticle extends rex_ooRedaxo
     }
 
     return $this->_path;
-  }
-
-  /**
-   * Accessor Method:
-   * returns the path ids of the category/article as an array
-   *
-   * @return array[int]
-   */
-  public function getPathAsArray()
-  {
-    $path = explode('|', $this->getPath());
-    return array_values(array_map('intval', array_filter($path)));
   }
 
   /**

@@ -1,40 +1,72 @@
 <?php
 
 /**
- * Managerklasse zum handeln von rexAddons
+ * Manager class for packages
  */
-abstract class rex_packageManager
+abstract class rex_packageManager extends rex_factory
 {
+  const
+    PACKAGE_FILE = 'package.yml',
+    CONFIG_FILE = 'config.inc.php',
+    INSTALL_FILE = 'install.inc.php',
+    INSTALL_SQL = 'install.sql',
+    UNINSTALL_FILE = 'uninstall.inc.php',
+    UNINSTALL_SQL = 'uninstall.sql',
+    ASSETS_FOLDER = 'assets';
+
+  /**
+   * @var rex_package
+   */
+  protected $package;
+
   private $i18nPrefix;
 
   /**
-   * Konstruktor
+   * Constructor
    *
-   * @param $i18nPrefix Sprachprefix aller I18N Sprachschlüssel
+   * @param rex_package $package Package
+   * @param string $i18nPrefix Prefix for i18n
    */
-  function __construct($i18nPrefix)
+  protected function __construct(rex_package $package, $i18nPrefix)
   {
+    $this->package = $package;
     $this->i18nPrefix = $i18nPrefix;
   }
 
   /**
-   * Installiert ein Addon
+   * Creates the manager for the package
    *
-   * @param $addonName Name des Addons
-   * @param $installDump Flag, ob die Datei install.sql importiert werden soll
+   * @param rex_package $package Package
+   *
+   * @return rex_packageManager
    */
-  public function install($addonName, $installDump = TRUE)
+  static public function factory(rex_package $package)
   {
-  	global $REX;
+    if(get_called_class() == __CLASS__)
+    {
+      $class = $package instanceof rex_plugin ? 'rex_pluginManager' : 'rex_addonManager';
+      return $class::factory($package);
+    }
+    $class = static::getFactoryClass();
+    return new $class($package);
+  }
 
+  /**
+   * Installs a package
+   *
+   * @param $installDump When TRUE, the sql dump will be importet
+   *
+   * @return boolean|string TRUE on success, message on error
+   */
+  public function install($installDump = TRUE)
+  {
     $state = TRUE;
 
-    $install_dir  = $this->baseFolder($addonName);
-    $install_file = $install_dir.'install.inc.php';
-    $install_sql  = $install_dir.'install.sql';
-    $config_file  = $install_dir.'config.inc.php';
-    $files_dir    = $install_dir.'assets';
-    $package_file = $install_dir.'package.yml';
+    $install_dir  = $this->package->getBasePath();
+    $install_file = $install_dir . self::INSTALL_FILE;
+    $install_sql  = $install_dir . self::INSTALL_SQL;
+    $config_file  = $install_dir . self::CONFIG_FILE;
+    $files_dir    = $install_dir . self::ASSETS_FOLDER;
 
     // Pruefen des Addon Ornders auf Schreibrechte,
     // damit das Addon spaeter wieder geloescht werden kann
@@ -43,23 +75,23 @@ abstract class rex_packageManager
     if ($state === TRUE)
     {
       // load package infos
-      $this->loadPackageInfos($addonName);
+      self::loadPackageInfos($this->package);
 
       // check if requirements are met
-      $state = $this->checkRequirements($addonName);
+      $state = $this->checkRequirements();
 
       if($state === TRUE)
       {
         // check if install.inc.php exists
         if (is_readable($install_file))
         {
-          $this->includeInstaller($addonName, $install_file);
-          $state = $this->verifyInstallation($addonName);
+          $this->includeFile(self::INSTALL_FILE);
+          $state = $this->verifyInstallation();
         }
         else
         {
           // no install file -> no error
-          $this->apiCall('setProperty', array($addonName, 'install', 1));
+          $this->package->setProperty('install', 1);
         }
 
         if($state === TRUE && $installDump === TRUE && is_readable($install_sql))
@@ -81,7 +113,7 @@ abstract class rex_packageManager
     // Dateien kopieren
     if($state === TRUE && is_dir($files_dir))
     {
-      if(!rex_dir::copy($files_dir, $this->assetsFolder($addonName)))
+      if(!rex_dir::copy($files_dir, $this->package->getAssetsPath()))
       {
         $state = $this->I18N('install_cant_copy_files');
       }
@@ -89,31 +121,30 @@ abstract class rex_packageManager
 
     if($state !== TRUE)
     {
-      $this->apiCall('setProperty', array($addonName, 'install', 0));
-      $state = $this->I18N('no_install', $addonName) .'<br />'. $state;
+      $this->package->setProperty('install', 0);
+      $state = $this->I18N('no_install', $this->package->getName()) .'<br />'. $state;
     }
 
     return $state;
   }
 
   /**
-   * De-installiert ein Addon
+   * Uninstalls a package
    *
-   * @param $addonName Name des Addons
+   * @return boolean|string TRUE on success, message on error
    */
-  public function uninstall($addonName)
+  public function uninstall()
   {
     $state = TRUE;
 
-    $install_dir    = $this->baseFolder($addonName);
-    $uninstall_file = $install_dir.'uninstall.inc.php';
-    $uninstall_sql  = $install_dir.'uninstall.sql';
-    $package_file   = $install_dir.'package.yml';
+    $install_dir    = $this->package->getBasePath();
+    $uninstall_file = $install_dir . self::UNINSTALL_FILE;
+    $uninstall_sql  = $install_dir . self::UNINSTALL_SQL;
 
-    $isActivated = $this->apiCall('isActivated', array($addonName));
+    $isActivated = $this->package->isActivated();
     if ($isActivated)
     {
-      $state = $this->deactivate($addonName);
+      $state = $this->deactivate();
       if ($state !== true)
       {
         return $state;
@@ -126,13 +157,13 @@ abstract class rex_packageManager
       // check if uninstall.inc.php exists
       if (is_readable($uninstall_file))
       {
-        $this->includeUninstaller($addonName, $uninstall_file);
-        $state = $this->verifyUninstallation($addonName);
+        $this->includeFile(self::UNINSTALL_FILE);
+        $state = $this->verifyUninstallation();
       }
       else
       {
         // no uninstall file -> no error
-        $this->apiCall('setProperty', array($addonName, 'install', 0));
+        $this->package->setProperty('install', 0);
       }
     }
 
@@ -144,7 +175,7 @@ abstract class rex_packageManager
         $state = 'Error found in uninstall.sql:<br />'. $state;
     }
 
-    $mediaFolder = $this->assetsFolder($addonName);
+    $mediaFolder = $this->package->getAssetsPath();
     if($state === TRUE && is_dir($mediaFolder))
     {
       if(!rex_dir::delete($mediaFolder))
@@ -155,19 +186,19 @@ abstract class rex_packageManager
 
     if($state === TRUE)
     {
-      rex_config::removeNamespace($this->configNamespace($addonName));
+      rex_config::removeNamespace($this->package->getPackageId());
     }
 
     if($state !== TRUE)
     {
       // Fehler beim uninstall -> Addon bleibt installiert
-      $this->apiCall('setProperty', array($addonName, 'install', 1));
+      $this->package->setProperty('install', 1);
       if($isActivated)
       {
-        $this->apiCall('setProperty', array($addonName, 'status', 1));
+        $this->package->setProperty('status', 1);
       }
       $this->saveConfig();
-      $state = $this->I18N('no_uninstall', $addonName) .'<br />'. $state;
+      $state = $this->I18N('no_uninstall', $this->package->getName()) .'<br />'. $state;
     }
     else
     {
@@ -178,67 +209,66 @@ abstract class rex_packageManager
   }
 
   /**
-   * Aktiviert ein Addon
+   * Activates a package
    *
-   * @param $addonName Name des Addons
+   * @return boolean|string TRUE on success, message on error
    */
-  public function activate($addonName)
+  public function activate()
   {
     global $REX;
 
-    if ($this->apiCall('isInstalled', array($addonName)))
+    if ($this->package->isInstalled())
     {
       // load package infos
-      $this->loadPackageInfos($addonName);
+      self::loadPackageInfos($this->package);
 
-      $state = $this->checkRequirements($addonName);
+      $state = $this->checkRequirements();
 
       if ($state === true)
       {
-        $this->apiCall('setProperty', array($addonName, 'status', 1));
+        $this->package->setProperty('status', 1);
         if(!$REX['SETUP'])
         {
-          $configFile = $this->baseFolder($addonName) .'config.inc.php';
-          if(is_readable($configFile))
+          if(is_readable($this->package->getBasePath(self::CONFIG_FILE)))
           {
-            rex_autoload::addDirectory($this->baseFolder($addonName) .DIRECTORY_SEPARATOR .'lib');
-            $this->includeConfig($addonName, $configFile);
+            rex_autoload::addDirectory($this->package->getBasePath('lib'));
+            $this->includeFile(self::CONFIG_FILE);
           }
         }
         $this->saveConfig();
       }
       if($state === true)
       {
-        $this->addToPackageOrder($addonName);
+        $this->addToPackageOrder();
       }
     }
     else
     {
-      $state = $this->I18N('not_installed', $addonName);
+      $state = $this->I18N('not_installed', $this->package->getName());
     }
 
     if($state !== TRUE)
     {
       // error while config generation, rollback addon status
-      $this->apiCall('setProperty', array($addonName, 'status', 0));
-      $state = $this->I18N('no_activation', $addonName) .'<br />'. $state;
+      $this->package->setProperty('status', 0);
+      $state = $this->I18N('no_activation', $this->package->getName()) .'<br />'. $state;
     }
 
     return $state;
   }
 
   /**
-   * Deaktiviert ein Addon
+   * Deactivates a package
    *
-   * @param $addonName Name des Addons
+   * @return boolean|string TRUE on success, message on error
    */
-  public function deactivate($addonName)
+  public function deactivate()
   {
-    $state = $this->checkDependencies($addonName);
+    $state = $this->checkDependencies();
 
     if ($state === true)
     {
-      $this->apiCall('setProperty', array($addonName, 'status', 0));
+      $this->package->setProperty('status', 0);
       $this->saveConfig();
     }
 
@@ -248,50 +278,66 @@ abstract class rex_packageManager
       // so the index doesn't contain outdated class definitions
       rex_autoload::removeCache();
 
-      $this->removeFromPackageOrder($addonName);
+      $this->removeFromPackageOrder();
     }
     else
     {
-      $state = $this->I18N('no_deactivation', $addonName) .'<br />'. $state;
+      $state = $this->I18N('no_deactivation', $this->package->getName()) .'<br />'. $state;
     }
 
     return $state;
   }
 
   /**
-   * Löscht ein Addon im Filesystem
+   * Deletes a package
    *
-   * @param $addonName Name des Addons
+   * @return boolean|string TRUE on success, message on error
    */
-  public function delete($addonName)
+  public function delete()
   {
+    return $this->_delete();
+  }
+
+  /**
+   * Deletes a package
+   *
+   * @param boolean $ignoreState
+   *
+   * @return boolean|string TRUE on success, message on error
+   */
+  protected function _delete($ignoreState = false)
+  {
+    if(!$ignoreState && $this->package->isSystemPackage())
+      return $this->I18N('systempackage_delete_not_allowed');
+
     // zuerst deinstallieren
     // bei erfolg, komplett löschen
     $state = TRUE;
-    $state = $state && $this->uninstall($addonName);
-    $state = $state && rex_dir::delete($this->baseFolder($addonName));
-    $state = $state && rex_dir::delete($this->dataFolder($addonName));
-    $this->saveConfig();
+    $state = ($ignoreState || $state) && $this->uninstall();
+    $state = ($ignoreState || $state) && rex_dir::delete($this->package->getBasePath());
+    $state = ($ignoreState || $state) && rex_dir::delete($this->package->getDataPath());
+    if(!$ignoreState)
+    {
+      $this->saveConfig();
+    }
 
-    return $state;
+    return $ignoreState ? true : $state;
   }
 
   /**
    * Verifies if the installation of the given Addon was successfull.
-   *
-   * @param string $addonName The name of the addon
    */
-  private function verifyInstallation($addonName)
+  private function verifyInstallation()
   {
     $state = TRUE;
 
     // Wurde das "install" Flag gesetzt?
     // Fehlermeldung ausgegeben? Wenn ja, Abbruch
-    if(($instmsg = $this->apiCall('getProperty', array($addonName, 'installmsg', ''))) != '')
+    if(($instmsg = $this->package->getProperty('installmsg', '')) != '')
     {
       $state = $instmsg;
     }
-    elseif(!$this->apiCall('isInstalled', array($addonName)))
+    elseif(!$this->package->isInstalled())
     {
       $state = $this->I18N('no_reason');
     }
@@ -301,20 +347,18 @@ abstract class rex_packageManager
 
   /**
    * Verifies if the un-installation of the given Addon was successfull.
-   *
-   * @param string $addonName The name of the addon
    */
-  private function verifyUninstallation($addonName)
+  private function verifyUninstallation()
   {
     $state = TRUE;
 
     // Wurde das "install" Flag gesetzt?
     // Fehlermeldung ausgegeben? Wenn ja, Abbruch
-    if(($instmsg = $this->apiCall('getProperty', array($addonName, 'installmsg', ''))) != '')
+    if(($instmsg = $this->package->getProperty('installmsg', '')) != '')
     {
       $state = $instmsg;
     }
-    elseif($this->apiCall('isInstalled', array($addonName)))
+    elseif($this->package->isInstalled())
     {
       $state = $this->I18N('no_reason');
     }
@@ -324,15 +368,13 @@ abstract class rex_packageManager
 
   /**
    * Checks whether the requirements are met.
-   *
-   * @param string $addonName The name of the addon
    */
-  protected function checkRequirements($addonName)
+  protected function checkRequirements()
   {
     global $REX;
 
     $state = array();
-    $requirements = $this->apiCall('getProperty', array($addonName, 'requires', array()));
+    $requirements = $this->package->getProperty('requires', array());
 
     if(isset($requirements['redaxo']) && is_array($requirements['redaxo']))
     {
@@ -362,13 +404,15 @@ abstract class rex_packageManager
       foreach($requirements['addons'] as $depName => $depAttr)
       {
         // check if dependency exists
-        if(!rex_ooAddon::isAvailable($depName))
+        if(!rex_addon::exists($depName) || !rex_addon::get($depName)->isAvailable())
         {
           $state[] = rex_i18n::msg('addon_requirement_error_addon', $depName);
         }
         else
         {
-          if(($msg = $this->checkRequirementVersion('addon_', $depAttr, rex_ooAddon::getVersion($depName), $depName)) !== true)
+          $addon = rex_addon::get($depName);
+
+          if(($msg = $this->checkRequirementVersion('addon_', $depAttr, $addon->getVersion(), $depName)) !== true)
           {
             $state[] = $msg;
           }
@@ -379,11 +423,11 @@ abstract class rex_packageManager
             foreach($depAttr['plugins'] as $pluginName => $pluginAttr)
             {
               // check if dependency exists
-              if(!rex_ooPlugin::isAvailable($depName, $pluginName))
+              if(!rex_plugin::exists($depName, $pluginName) || !rex_plugin::get($depName, $pluginName)->isAvailable())
               {
                 $state[] = rex_i18n::msg('addon_requirement_error_plugin', $depName, $pluginName);
               }
-              elseif(($msg = $this->checkRequirementVersion('plugin_', $pluginAttr, rex_ooPlugin::getVersion($depName, $pluginName), $depName, $pluginName)) !== true)
+              elseif(($msg = $this->checkRequirementVersion('plugin_', $pluginAttr, rex_plugin::get($depName, $pluginName)->getVersion(), $depName, $pluginName)) !== true)
               {
                 $state[] = $msg;
               }
@@ -435,25 +479,21 @@ abstract class rex_packageManager
 
   /**
    * Checks if another Addon which is activated, depends on the given addon
-   *
-   * @param string $addonName The name of the addon
    */
-  protected abstract function checkDependencies($addonName);
+  protected abstract function checkDependencies();
 
 	/**
    * Adds the package to the package order
-   *
-   * @param string $packageName The name of the package
    */
-  protected function addToPackageOrder($packageName)
+  protected function addToPackageOrder()
   {
     $order = rex_core_config::get('package-order', array());
-    $package = $this->package($packageName);
+    $package = $this->package->getPackageId();
     if(!in_array($package, $order))
     {
-      if(self::addonName($package) == 'compat')
+      if($this->package->getAddon()->getName() == 'compat')
       {
-        for($i = 0; self::addonName($order[$i]) == 'compat'; ++$i);
+        for($i = 0; rex_package::get($order[$i])->getAddon()->getName() == 'compat'; ++$i);
         array_splice($order, $i, 0, array($package));
       }
       else
@@ -466,13 +506,11 @@ abstract class rex_packageManager
 
   /**
    * Removes the package from the package order
-   *
-   * @param string $packageName The name of the package
    */
-  protected function removeFromPackageOrder($packageName)
+  protected function removeFromPackageOrder()
   {
     $order = rex_core_config::get('package-order', array());
-    if(($key = array_search($this->package($packageName), $order)) !== false)
+    if(($key = array_search($this->package->getPackageId(), $order)) !== false)
     {
       unset($order[$key]);
       rex_core_config::set('package-order', array_values($order));
@@ -480,7 +518,11 @@ abstract class rex_packageManager
   }
 
   /**
-   * Übersetzen eines Sprachschlüssels unter Verwendung des Prefixes
+   * Translates the given key
+   *
+   * @param string $key Key
+   *
+   * @return string Tranlates text
    */
   protected function I18N()
   {
@@ -493,87 +535,51 @@ abstract class rex_packageManager
   }
 
   /**
-   * Bindet die config-Datei eines Addons ein
-   */
-  protected abstract function includeConfig($addonName, $configFile);
-
-  /**
-   * Bindet die installations-Datei eines Addons ein
-   */
-  protected abstract function includeInstaller($addonName, $installFile);
-
-  /**
-   * Bindet die deinstallations-Datei eines Addons ein
-   */
-  protected abstract function includeUninstaller($addonName, $uninstallFile);
-
-  /**
-   * Ansprechen einer API funktion
+   * Includes a file inside the package context
    *
-   * @param $method Name der Funktion
-   * @param $arguments Array von Parametern/Argumenten
+   * @param string $file
    */
-  protected abstract function apiCall($method, array $arguments);
-
-  /**
-   * Laedt die package.yml in $REX
-   */
-  protected abstract function loadPackageInfos($addonName);
-
-  /**
-   * Findet den Basispfad eines Addons
-   */
-  protected abstract function baseFolder($addonName);
-
-  /**
-   * Findet den Basispfad für Assets-Dateien
-   */
-  protected abstract function assetsFolder($addonName);
-
-  /**
-   * Findet den Pfad für den Data-Ordner
-   */
-  protected abstract function dataFolder($addonName);
-
-  /**
-   * Package representation
-   */
-  protected abstract function package($addonName);
-
-  /**
-   * Returns the addon name of the given package
-   *
-   * @param string|array $package Package representation
-   *
-   * @return string Addon name
-   */
-  static protected function addonName($package)
+  public function includeFile($file)
   {
-    return is_string($package) ? $package : $package[0];
+    return $this->package->includeFile($file);
   }
 
   /**
-   * Findet den Namespace für rex_config
+   * Loads the package infos
+   *
+   * @param rex_package $package Package
    */
-  protected abstract function configNamespace($addonName);
+  static public function loadPackageInfos(rex_package $package)
+  {
+    $package_file = $package->getBasePath(self::PACKAGE_FILE);
+
+    if(is_readable($package_file))
+    {
+      $ymlConfig = rex_file::getConfig($package_file);
+      if($ymlConfig)
+      {
+        foreach($ymlConfig as $confName => $confValue)
+        {
+          $package->setProperty($confName, rex_i18n::translateArray($confValue));
+        }
+      }
+    }
+  }
 
   /**
    * Saves the package config
    */
   static protected function saveConfig()
   {
-    global $REX;
-
     $config = array();
-    $config['install'] = $REX['ADDON']['install'];
-    $config['status'] = $REX['ADDON']['status'];
-    $config['plugins'] = array();
-    if(isset($REX['ADDON']['plugins']) && is_array($REX['ADDON']['plugins']))
+    foreach(rex_addon::getRegisteredAddons() as $addonName => $addon)
     {
-      foreach($REX['ADDON']['plugins'] as $addon => $pluginConfig)
+      $config[$addonName]['install'] = $addon->isInstalled();
+      $config[$addonName]['status'] = $addon->isActivated();
+      foreach($addon->getRegisteredPlugins() as $pluginName => $plugin)
       {
-        $config['plugins'][$addon]['install'] = $pluginConfig['install'];
-        $config['plugins'][$addon]['status'] = $pluginConfig['status'];
+        $config[$addonName]['plugins'][$pluginName]['install'] = $plugin->isInstalled();
+        $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->isActivated();
       }
     }
     rex_core_config::set('package-config', $config);
@@ -584,31 +590,50 @@ abstract class rex_packageManager
    */
   static public function synchronizeWithFileSystem()
   {
-    global $REX;
-
+    $config = rex_core_config::get('package-config');
     $addons = self::readPackageFolder(rex_path::addon('*'));
-    $addonManager = new rex_addonManager();
-    array_map(array($addonManager, 'delete'), array_diff(rex_ooAddon::getRegisteredAddons(), $addons));
-    foreach($addons as $addon)
+    $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
+    foreach(array_diff($registeredAddons, $addons) as $addonName)
     {
-      $REX['ADDON']['install'][$addon] = rex_ooAddon::getProperty($addon, 'install', false);
-      $REX['ADDON']['status'][$addon] = rex_ooAddon::getProperty($addon, 'status', false);
-      $plugins = self::readPackageFolder(rex_path::plugin($addon, '*'));
-      $pluginManager = new rex_pluginManager($addon);
-      array_map(array($pluginManager, 'delete'), array_diff(rex_ooPlugin::getRegisteredPlugins($addon), $plugins));
-      foreach($plugins as $plugin)
-      {
-        $REX['ADDON']['plugins'][$addon]['install'][$plugin] = rex_ooPlugin::getProperty($addon, $plugin, 'install', false);
-        $REX['ADDON']['plugins'][$addon]['status'][$plugin] = rex_ooPlugin::getProperty($addon, $plugin, 'status', false);
-      }
-      if(isset($REX['ADDON']['plugins'][$addon]['install']) && is_array($REX['ADDON']['plugins'][$addon]['install']))
-        ksort($REX['ADDON']['plugins'][$addon]['install']);
-      if(isset($REX['ADDON']['plugins'][$addon]['status']) && is_array($REX['ADDON']['plugins'][$addon]['status']))
-        ksort($REX['ADDON']['plugins'][$addon]['status']);
+      $manager = rex_addonManager::factory(rex_addon::get($addonName));
+      $manager->_delete(true);
+      unset($config[$addonName]);
     }
-    ksort($REX['ADDON']['install']);
-    ksort($REX['ADDON']['status']);
-    self::saveConfig();
+    foreach($addons as $addonName)
+    {
+      if(!rex_addon::exists($addonName))
+      {
+        $config[$addonName]['install'] = false;
+        $config[$addonName]['status'] = false;
+        $registeredPlugins = array();
+      }
+      else
+      {
+        $addon = rex_addon::get($addonName);
+        $config[$addonName]['install'] = $addon->isInstalled();
+        $config[$addonName]['status'] = $addon->isActivated();
+        $registeredPlugins = array_keys($addon->getRegisteredPlugins());
+      }
+      $plugins = self::readPackageFolder(rex_path::plugin($addonName, '*'));
+      foreach(array_diff($registeredPlugins, $plugins) as $pluginName)
+      {
+        $manager = rex_pluginManager::factory(rex_plugin::get($addonName, $pluginName));
+        $manager->_delete(true);
+        unset($config[$addonName]['plugins'][$pluginName]);
+      }
+      foreach($plugins as $pluginName)
+      {
+        $plugin = rex_plugin::get($addonName, $pluginName);
+        $config[$addonName]['plugins'][$pluginName]['install'] = $plugin->isInstalled();
+        $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->isActivated();
+      }
+      if(isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins']))
+        ksort($config[$addonName]['plugins']);
+    }
+    ksort($config);
+
+    rex_core_config::set('package-config', $config);
+    rex_addon::initialize();
   }
 
   /**
