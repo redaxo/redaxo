@@ -151,37 +151,8 @@ class rex_file
    *
    * @return string Formatted filesize
    */
-  static public function formattedSize($fileOrSize)
+  static public function formattedSize($fileOrSize, $format = array())
   {
-    $size = is_file($fileOrSize) ? filesize($fileOrSize) : $fileOrSize;
-
-    // Setup some common file size measurements.
-    $kb = 1024; // Kilobyte
-    $mb = 1024 * $kb; // Megabyte
-    $gb = 1024 * $mb; // Gigabyte
-    $tb = 1024 * $gb; // Terabyte
-
-    // If it's less than a kb we just return the size, otherwise we keep going until
-    // the size is in the appropriate measurement range.
-    if ($size < $kb)
-    {
-      return $size." Bytes";
-    }
-    elseif ($size < $mb)
-    {
-      return round($size / $kb, 2)." KBytes";
-    }
-    elseif ($size < $gb)
-    {
-      return round($size / $mb, 2)." MBytes";
-    }
-    elseif ($size < $tb)
-    {
-      return round($size / $gb, 2)." GBytes";
-    }
-    else
-    {
-      return round($size / $tb, 2)." TBytes";
-    }
+    return rex_formatter :: format(is_file($fileOrSize) ? filesize($fileOrSize) : $fileOrSize, 'filesize', $format);
   }
 }

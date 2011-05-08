@@ -50,6 +50,8 @@ abstract class rex_formatter
    *    + formatiert ein Medium via rex_ooMedia
    * - custom
    *    + formatiert den Wert anhand einer Benutzer definierten Callback Funktion
+   * - filesize
+   *    + formatiert einen Zahlenwert und gibt ihn als Bytegröße aus
    */
   static public function format($value, $format_type, $format)
   {
@@ -107,6 +109,10 @@ abstract class rex_formatter
     elseif ($format_type == 'custom')
     {
       $value = rex_formatter::_formatCustom($value, $format);
+    }
+    elseif ($format_type == 'filesize')
+    {
+      $value = rex_formatter::_formatFilesize($value, $format);
     }
 
     return $value;
@@ -290,6 +296,36 @@ abstract class rex_formatter
     }
 
     return rex_call_func($format, $value);
+  }
+  
+  static public function _formatFilesize($value, $format)
+  {
+    $units = array('B','KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB');
+    $unit_index = 0;
+    while(($value / 1024) >= 1)
+    {
+      $value /= 1024;
+      $unit_index++;
+    }
+    
+    if(isset($format[0]))
+    {
+      $z = intval($value * pow(10, $precision = intval($format[0])));
+      for($i = 0; $i < intval($precision); $i++)
+      {
+        if(($z % 10) == 0)
+        {
+          $format[0] = intval($format[0]) - 1;
+          $z = intval($z / 10);
+        }
+        else
+        {
+          break;
+        }
+      }
+    }
+    
+    return rex_formatter::_formatNumber($value, $format).' '.$units[$unit_index];
   }
 
   static public function _formatRexMedia($value, $format)
