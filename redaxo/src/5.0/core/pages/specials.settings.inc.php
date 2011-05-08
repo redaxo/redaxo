@@ -13,11 +13,11 @@ if ($func == 'setup')
 {
   // REACTIVATE SETUP
 
-  $master_file = rex_path::src('config/master.inc.php');
-  $cont = rex_file::get($master_file);
-  $cont = preg_replace("@(REX\['SETUP'\].?\=.?)[^;]*@", '$1true', $cont);
+  $configFile = rex_path::backend('src/config.yml');
+  $config = rex_file::getConfig($configFile);
+  $config['setup'] = true;
   // echo nl2br(htmlspecialchars($cont));
-  if (rex_file::put($master_file, $cont) !== false)
+  if (rex_file::putConfig($configFile, $config) !== false)
   {
     $info = rex_i18n::msg('setup_error1', '<a href="index.php">', '</a>');
   }
@@ -46,15 +46,15 @@ elseif ($func == 'updateinfos')
   $notFoundArt = rex_ooArticle::getArticleById($neu_notfoundartikel);
 
   $REX['LANG'] = $neu_lang;
-  $master_file = rex_path::src('config/master.inc.php');
-  $cont = rex_file::get($master_file);
+  $configFile = rex_path::backend('src/config.yml');
+  $config = rex_file::getConfig($configFile);
 
   if(!rex_ooArticle::isValid($startArt))
   {
     $warning .= rex_i18n::msg('settings_invalid_sitestart_article')."<br />";
   }else
   {
-    $cont = preg_replace("@(REX\['START_ARTICLE_ID'\].?\=.?)[^;]*@", '${1}'.strtolower($neu_startartikel), $cont);
+    $config['start_article_id'] = $neu_startartikel;
     $REX['START_ARTICLE_ID'] = $neu_startartikel;
   }
 
@@ -63,7 +63,7 @@ elseif ($func == 'updateinfos')
     $warning .= rex_i18n::msg('settings_invalid_notfound_article')."<br />";
   }else
   {
-	  $cont = preg_replace("@(REX\['NOTFOUND_ARTICLE_ID'\].?\=.?)[^;]*@", '${1}'.strtolower($neu_notfoundartikel), $cont);
+	  $config['notfound_article_id'] = $neu_notfoundartikel;
     $REX['NOTFOUND_ARTICLE_ID'] = $neu_notfoundartikel;
   }
 
@@ -74,19 +74,19 @@ elseif ($func == 'updateinfos')
     $warning .= rex_i18n::msg('settings_invalid_default_template')."<br />";
   }else
 	{
-	  $cont = preg_replace("@(REX\['DEFAULT_TEMPLATE_ID'\].?\=.?)[^;]*@", '${1}'.strtolower($neu_defaulttemplateid), $cont);
+	  $config['default_template_id'] = $neu_defaulttemplateid;
     $REX['DEFAULT_TEMPLATE_ID'] = $neu_defaulttemplateid;
 	}
 
-  $cont = preg_replace("@(REX\['ERROR_EMAIL'\].?\=.?)[^;]*@", '$1"'.strtolower($neu_error_emailaddress).'"', $cont);
-  $cont = preg_replace("@(REX\['LANG'\].?\=.?)[^;]*@", '$1"'.$neu_lang.'"', $cont);
-  $cont = preg_replace("@(REX\['SERVER'\].?\=.?)[^;]*@", '$1"'. ($neu_SERVER).'"', $cont);
-  $cont = preg_replace("@(REX\['SERVERNAME'\].?\=.?)[^;]*@", '$1"'. ($neu_SERVERNAME).'"', $cont);
-  $cont = preg_replace("@(REX\['MOD_REWRITE'\].?\=.?)[^;]*@",'$1'.strtolower($neu_modrewrite),$cont);
+  $config['error_email'] = $neu_error_emailaddress;
+  $config['lang'] = $neu_lang;
+  $config['server'] = $neu_SERVER;
+  $config['servername'] = $neu_SERVERNAME;
+  $config['mod_rewrite'] = $neu_modrewrite;
 
   if($warning == '')
   {
-    if(rex_file::put($master_file, $cont) > 0)
+    if(rex_file::putConfig($configFile, $config) > 0)
     {
       $info = rex_i18n::msg('info_updated');
 
