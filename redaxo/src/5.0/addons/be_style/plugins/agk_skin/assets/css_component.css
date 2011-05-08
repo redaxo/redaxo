@@ -522,6 +522,7 @@ div.rex-content-block-has-form div.rex-content-block-content {
 	height: 18px;
 	margin: 0 auto;
 	text-indent: -1000em;
+	overflow: hidden;
 }
 .rex-i-element-text {
 }
