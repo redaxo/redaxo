@@ -14,10 +14,10 @@ rex_extension::register('OOMEDIA_IS_IN_USE', 'rex_a62_media_is_in_use');
  * Erstellt den nötigen HTML Code um ein Formular zu erweitern
  *
  * @param $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
- * @param $activeItem objekt, dass mit getValue() die Werte des akuellen Eintrags zurückgibt
  * @param $formatCallback callback, dem die infos als Array übergeben werden und den formatierten HTML Text zurückgibt
+ * @param $epParams array Array of all EP parameters
  */
-function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
+function rex_a62_metaFields($sqlFields, $formatCallback, $epParams)
 {
   global $REX;
 
@@ -28,6 +28,8 @@ function rex_a62_metaFields($sqlFields, $activeItem, $formatCallback, $epParams)
   $mlist_id = 1;
   $link_id  = 1;
   $llist_id = 1;
+  
+  $activeItem = isset($epParams['activeItem']) ? $epParams['activeItem'] : null;
 
   $sqlFields->reset();
   for($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next())
@@ -455,7 +457,7 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
     // Wert in SQL zum speichern
     $saveValue = _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes);
     $sqlSave->setValue($fieldName, $saveValue);
-
+    
     // Werte im aktuellen Objekt speichern, dass zur Anzeige verwendet wird
     if(isset($params['activeItem']))
       $params['activeItem']->setValue($fieldName, $saveValue);
@@ -676,7 +678,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
     }
   }
 
-  return rex_a62_metaFields($sqlFields, $activeItem, 'rex_a62_metainfo_form_item', $params);
+  return rex_a62_metaFields($sqlFields, 'rex_a62_metainfo_form_item', $params);
 }
 
 /**
@@ -703,7 +705,7 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
 
   // Artikel nochmal mit den zusätzlichen Werten neu generieren
   rex_article_cache::generateMeta($params['id'], $params['clang']);
-
+  
   return $params;
 }
 
