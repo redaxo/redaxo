@@ -258,6 +258,18 @@ class rex_be_navigation extends rex_factory
     $pages['specials'] = new rex_be_page_main('system', $mainSpecials);
     $pages['specials']->setPrio(70);
 
+    $phpinfo = new rex_be_page(rex_i18n::msg('phpinfo'), array('page'=>'phpinfo'));
+    $phpinfo->setIsCorePage(true);
+    $phpinfo->setRequiredPermissions('isAdmin');
+    $phpinfo->setHidden(true);
+    $phpinfo->setHasLayout(false);
+    $pages['phpinfo'] = new rex_be_page_main('phpinfo', $phpinfo);
+    $pages['phpinfo']->setPrio(80);
+    
+    $pages['addon'] = new rex_be_page_main('system', $addon);
+    $pages['addon']->setPrio(60);
+
+    
     return $pages;
   }
 }

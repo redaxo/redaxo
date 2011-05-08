@@ -299,7 +299,7 @@ if ($checkmodus == 1)
 
 	// -------------------------- SCHREIBRECHTE
 	$WRITEABLES = array (
-		rex_path::src('config/master.inc.php'),
+		rex_path::core('master.inc.php'),
 		rex_path::generated(),
 		rex_path::generated('articles'),
 		rex_path::generated('templates'),

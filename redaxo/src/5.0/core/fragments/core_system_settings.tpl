@@ -20,11 +20,10 @@
             <h4 class="rex-hl3"><?php echo rex_i18n::msg("version"); ?></h4>
             <p class="rex-tx1">
             REDAXO: <?php echo $REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION']; ?><br />
-            PHP: <?php echo phpversion(); ?></p>
+            PHP: <?php echo phpversion(); ?> (<a href="index.php?page=phpinfo">php_info</a>)</p>
 
             <h4 class="rex-hl3"><?php echo rex_i18n::msg("database"); ?></h4>
             <p class="rex-tx1">MySQL: <?php echo rex_sql::getServerVersion(); ?><br /><?php echo rex_i18n::msg("name"); ?>: <?php echo $REX['DB'][1]['name']; ?><br /><?php echo rex_i18n::msg("host"); ?>: <?php echo $REX['DB'][1]['host']; ?></p>
-
 					</div>
 				</div>
 
@@ -50,14 +49,14 @@
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
-										<label for="rex-form-server">$REX[\'SERVER\']</label>
+										<label for="rex-form-server">$REX['SERVER']</label>
 										<input class="rex-form-text" type="text" id="rex-form-server" name="neu_SERVER" value="<?php echo htmlspecialchars($REX['SERVER']); ?>" />
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
-										<label for="rex-form-servername">$REX[\'SERVERNAME\']</label>
+										<label for="rex-form-servername">$REX['SERVERNAME']</label>
 										<input class="rex-form-text" type="text" id="rex-form-servername" name="neu_SERVERNAME" value="<?php echo htmlspecialchars($REX['SERVERNAME']); ?>" />
 									</p>
 								</div>
@@ -128,42 +127,42 @@
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
-										<label for="rex-form-error-email">$REX[\'ERROR_EMAIL\']</label>
+										<label for="rex-form-error-email">$REX['ERROR_EMAIL']</label>
 										<input class="rex-form-text" type="text" id="rex-form-error-email" name="neu_error_emailaddress" value="<?php echo htmlspecialchars($REX['ERROR_EMAIL']); ?>" />
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-widget">
-										<label for="rex-form-startarticle-id">$REX[\'START_ARTICLE_ID\']</label>
+										<label for="rex-form-startarticle-id">$REX['START_ARTICLE_ID']</label>
 										<?php echo rex_var_link::_getLinkButton('neu_startartikel', 1, $REX['START_ARTICLE_ID']); ?>
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-widget">
-										<label for="rex-form-notfound-article-id">$REX[\'NOTFOUND_ARTICLE_ID\']</label>
+										<label for="rex-form-notfound-article-id">$REX['NOTFOUND_ARTICLE_ID']</label>
                     <?php echo rex_var_link::_getLinkButton('neu_notfoundartikel', 2, $REX['NOTFOUND_ARTICLE_ID']); ?>
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-select">
-										<label for="rex-form-default-template-id">$REX[\'DEFAULT_TEMPLATE_ID\']</label>
+										<label for="rex-form-default-template-id">$REX['DEFAULT_TEMPLATE_ID']</label>
 										<?php echo $this->template; ?>
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-select">
-										<label for="rex-form-lang">$REX[\'LANG\']</label>
+										<label for="rex-form-lang">$REX['LANG']</label>
 										<?php echo $this->language; ?>
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-select">
-										<label for="rex-form-mod-rewrite">$REX[\'MOD_REWRITE\']</label>
+										<label for="rex-form-mod-rewrite">$REX['MOD_REWRITE']</label>
 										<?php echo $this->mod_rewrite; ?>
 									</p>
 								</div>
