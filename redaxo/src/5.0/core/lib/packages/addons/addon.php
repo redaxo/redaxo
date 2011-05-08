@@ -177,26 +177,24 @@ class rex_addon extends rex_package implements rex_addonInterface
   static public function initialize()
   {
     $config = rex_core_config::get('package-config', array());
+    $addons = self::$addons;
+    self::$addons = array();
     foreach($config as $addonName => $addonConfig)
     {
-      if(!isset(self::$addons[$addonName]))
-      {
-        self::$addons[$addonName] = new rex_addon($addonName);
-      }
-      $addon = self::$addons[$addonName];
+      $addon = isset($addons[$addonName]) ? $addons[$addonName] : new rex_addon($addonName);
       $addon->setProperty('install', $addonConfig['install']);
       $addon->setProperty('status', $addonConfig['status']);
+      self::$addons[$addonName] = $addon;
       if(isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins']))
       {
+        $plugins = $addon->plugins;
+        $addon->plugins = array();
         foreach($config[$addonName]['plugins'] as $pluginName => $pluginConfig)
         {
-          if(!isset($addon->plugins[$pluginName]))
-          {
-            $addon->plugins[$pluginName] = new rex_plugin($pluginName, $addon);
-          }
-          $plugin = $addon->plugins[$pluginName];
+          $plugin = isset($plugins[$pluginName]) ? $plugins[$pluginName] : new rex_plugin($pluginName, $addon);
           $plugin->setProperty('install', $pluginConfig['install']);
           $plugin->setProperty('status', $pluginConfig['status']);
+          $addon->plugins[$pluginName] = $plugin;
         }
       }
     }
