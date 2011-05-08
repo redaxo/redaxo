@@ -226,6 +226,9 @@ if (!($checkmodus > 0 && $checkmodus < 10))
   // copy alle media files of the current rex-version into redaxo_media
   rex_dir::copy(rex_path::src('assets'), rex_path::assets());
 
+  // copy agk_skin files
+  rex_dir::copy(rex_path::plugin('be_style', 'agk_skin', 'assets'), rex_path::pluginAssets('be_style', 'agk_skin'));
+
 	$saveLocale = rex_i18n::getLocale();
   $langs = array();
   foreach(rex_i18n::getLocales() as $locale)
@@ -380,64 +383,64 @@ if($checkmodus == 2)
 {
   $configFile = rex_path::backend('src/config.yml');
 	$config = rex_file::getConfig($configFile);
+}
 
-  if ($send == 1)
-  {
-  	// Einfache quotes nicht escapen, da der String zwischen doppelten quotes stehen wird
-  	$config['server']            = rex_post('serveraddress', 'string');
-  	$config['servername']        = rex_post('serverbezeichnung', 'string');
-  	$config['lang']              = $lang;
-  	$config['instname']          = 'rex'. date('YmdHis');
-  	$config['error_email']       = rex_post('error_email', 'string');
-  	$config['timezone']          = rex_post('timezone', 'string');
-  	$config['db'][1]['host']     = rex_post('mysql_host', 'string');
-  	$config['db'][1]['login']    = rex_post('redaxo_db_user_login', 'string');
-  	$config['db'][1]['password'] = rex_post('redaxo_db_user_pass', 'string');
-  	$config['db'][1]['name']     = rex_post('dbname', 'string');
-  	$redaxo_db_create            = rex_post('redaxo_db_create', 'boolean');
+if ($checkmodus == 2 && $send == 1)
+{
+	// Einfache quotes nicht escapen, da der String zwischen doppelten quotes stehen wird
+	$config['server']            = rex_post('serveraddress', 'string');
+	$config['servername']        = rex_post('serverbezeichnung', 'string');
+	$config['lang']              = $lang;
+	$config['instname']          = 'rex'. date('YmdHis');
+	$config['error_email']       = rex_post('error_email', 'string');
+	$config['timezone']          = rex_post('timezone', 'string');
+	$config['db'][1]['host']     = rex_post('mysql_host', 'string');
+	$config['db'][1]['login']    = rex_post('redaxo_db_user_login', 'string');
+	$config['db'][1]['password'] = rex_post('redaxo_db_user_pass', 'string');
+	$config['db'][1]['name']     = rex_post('dbname', 'string');
+	$redaxo_db_create            = rex_post('redaxo_db_create', 'boolean');
 
-    // check if timezone is valid
-  	if(@date_default_timezone_set($config['timezone']) === false)
-  	{
-  	  $err_msg = rex_i18n::msg('setup_invalid_timezone');
-  	}
+  // check if timezone is valid
+	if(@date_default_timezone_set($config['timezone']) === false)
+	{
+	  $err_msg = rex_i18n::msg('setup_invalid_timezone');
+	}
 
-  	if($err_msg == '')
-  	{
-      if(!rex_file::putConfig($configFile, $config, 3))
-      {
-        $err_msg = rex_i18n::msg('setup_020', '<b>', '</b>');
-      }
-  	}
+	if($err_msg == '')
+	{
+    if(!rex_file::putConfig($configFile, $config, 3))
+    {
+      $err_msg = rex_i18n::msg('setup_020', '<b>', '</b>');
+    }
+	}
 
 
-  	// -------------------------- DATENBANKZUGRIFF
-  	if($err_msg == '')
-  	{
-  		$err = rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $redaxo_db_create);
-  		if($err !== true)
-  		{
-  			$err_msg = $err;
-  		}
-  	}
+	// -------------------------- DATENBANKZUGRIFF
+	if($err_msg == '')
+	{
+		$err = rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $redaxo_db_create);
+		if($err !== true)
+		{
+			$err_msg = $err;
+		}
+	}
 
-  	// -------------------------- MySQl VERSIONSCHECK
-  	if($err_msg == '')
-  	{
-  	  $serverVersion = rex_sql::getServerVersion();
-  		if (rex_version_compare($serverVersion, $min_mysql_version, '<') == 1)
-  		{
-  			$err_msg = rex_i18n::msg('setup_022_1', $serverVersion, $min_mysql_version);
-  		}
-  	}
+	// -------------------------- MySQl VERSIONSCHECK
+	if($err_msg == '')
+	{
+	  $serverVersion = rex_sql::getServerVersion();
+		if (rex_version_compare($serverVersion, $min_mysql_version, '<') == 1)
+		{
+			$err_msg = rex_i18n::msg('setup_022_1', $serverVersion, $min_mysql_version);
+		}
+	}
 
-  	// everything went fine, advance to the next setup step
-  	if($err_msg == '')
-  	{
-  		$checkmodus = 3;
-  		$send = "";
-  	}
-  }
+	// everything went fine, advance to the next setup step
+	if($err_msg == '')
+	{
+		$checkmodus = 3;
+		$send = "";
+	}
 }
 
 if($checkmodus == 2)

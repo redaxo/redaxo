@@ -174,16 +174,37 @@ class rex_addon extends rex_package implements rex_addonInterface
   /**
    * Initializes all packages
    */
-  static public function initialize()
+  static public function initialize($dbExists = true)
   {
-    $config = rex_core_config::get('package-config', array());
+    global $REX;
+
+    if($dbExists)
+    {
+      $config = rex_core_config::get('package-config', array());
+    }
+    else
+    {
+      $config = array();
+      foreach($REX['SETUP_PACKAGES'] as $packageId)
+      {
+        $package = explode('/', $packageId);
+        if(isset($package[1]))
+        {
+          $config[$package[0]]['plugins'][$package[1]]['install'] = false;
+        }
+        else
+        {
+          $config[$package[0]]['install'] = false;
+        }
+      }
+    }
     $addons = self::$addons;
     self::$addons = array();
     foreach($config as $addonName => $addonConfig)
     {
       $addon = isset($addons[$addonName]) ? $addons[$addonName] : new rex_addon($addonName);
-      $addon->setProperty('install', $addonConfig['install']);
-      $addon->setProperty('status', $addonConfig['status']);
+      $addon->setProperty('install', isset($addonConfig['install']) ? $addonConfig['install'] : false);
+      $addon->setProperty('status', isset($addonConfig['status']) ? $addonConfig['status'] : false);
       self::$addons[$addonName] = $addon;
       if(isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins']))
       {
@@ -192,8 +213,8 @@ class rex_addon extends rex_package implements rex_addonInterface
         foreach($config[$addonName]['plugins'] as $pluginName => $pluginConfig)
         {
           $plugin = isset($plugins[$pluginName]) ? $plugins[$pluginName] : new rex_plugin($pluginName, $addon);
-          $plugin->setProperty('install', $pluginConfig['install']);
-          $plugin->setProperty('status', $pluginConfig['status']);
+          $plugin->setProperty('install', isset($pluginConfig['install']) ? $pluginConfig['install'] : false);
+          $plugin->setProperty('status', isset($pluginConfig['status']) ? $pluginConfig['status'] : false);
           $addon->plugins[$pluginName] = $plugin;
         }
       }
