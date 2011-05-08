@@ -391,6 +391,10 @@ class rex_sql extends rex_factory implements Iterator
       throw new rexException('parameter fieldname must not be empty!');
     }
 
+    // fast fail,... value already set manually?
+  	if(isset($this->values[$feldname]))
+  		return $this->values[$feldname];
+  		
     // check if there is an table alias defined
     // if not, try to guess the tablename
     if(strpos($feldname, '.') === false)
