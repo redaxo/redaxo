@@ -19,7 +19,7 @@ ob_implicit_flush(0);
 
 // --------------------------- globals
 
-include rex_path::src('config/master.inc.php');
+include rex_path::core('master.inc.php');
 
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.inc.php');
