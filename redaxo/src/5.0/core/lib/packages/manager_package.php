@@ -296,18 +296,33 @@ abstract class rex_packageManager extends rex_factory
    */
   public function delete()
   {
-    if($this->package->isSystemPackage())
+    return $this->_delete();
+  }
+
+  /**
+   * Deletes a package
+   *
+   * @param boolean $ignoreState
+   *
+   * @return boolean|string TRUE on success, message on error
+   */
+  protected function _delete($ignoreState = false)
+  {
+    if(!$ignoreState && $this->package->isSystemPackage())
       return $this->I18N('systempackage_delete_not_allowed');
 
     // zuerst deinstallieren
     // bei erfolg, komplett löschen
     $state = TRUE;
-    $state = $state && $this->uninstall();
-    $state = $state && rex_dir::delete($this->package->getBasePath());
-    $state = $state && rex_dir::delete($this->package->getDataPath());
-    $this->saveConfig();
+    $state = ($ignoreState || $state) && $this->uninstall();
+    $state = ($ignoreState || $state) && rex_dir::delete($this->package->getBasePath());
+    $state = ($ignoreState || $state) && rex_dir::delete($this->package->getDataPath());
+    if(!$ignoreState)
+    {
+      $this->saveConfig();
+    }
 
-    return $state;
+    return $ignoreState ? true : $state;
   }
 
   /**
@@ -557,6 +572,7 @@ abstract class rex_packageManager extends rex_factory
    */
   static protected function saveConfig()
   {
+    $config = array();
     foreach(rex_addon::getRegisteredAddons() as $addonName => $addon)
     {
       $config[$addonName]['install'] = $addon->isInstalled();
@@ -581,7 +597,8 @@ abstract class rex_packageManager extends rex_factory
     foreach(array_diff($registeredAddons, $addons) as $addonName)
     {
       $manager = rex_addonManager::factory(rex_addon::get($addonName));
-      $manager->delete();
+      $manager->_delete(true);
+      unset($config[$addonName]);
     }
     foreach($addons as $addonName)
     {
@@ -599,7 +616,8 @@ abstract class rex_packageManager extends rex_factory
       foreach(array_diff($registeredPlugins, $plugins) as $pluginName)
       {
         $manager = rex_pluginManager::factory(rex_plugin::get($addonName, $pluginName));
-        $manager->delete();
+        $manager->_delete(true);
+        unset($config[$addonName]['plugins'][$pluginName]);
       }
       foreach(array_diff($plugins, $registeredPlugins) as $pluginName)
       {
