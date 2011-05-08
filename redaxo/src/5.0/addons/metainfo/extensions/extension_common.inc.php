@@ -691,7 +691,7 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
   global $REX;
 
   $article = rex_sql::factory();
-  $article->debugsql = true;
+  // $article->debugsql = true;
   $article->setTable($REX['TABLE_PREFIX']. 'article');
   $article->setWhere('id=:id AND clang=:clang', array('id'=> $params['id'], 'clang' => $params['clang']));
 
