@@ -440,7 +440,6 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
     $fieldName = $sqlFields->getValue('name');
     $fieldType = $sqlFields->getValue('type');
     $fieldAttributes = $sqlFields->getValue('attributes');
-    $postValue = rex_post($fieldName, 'array');
 
     // dont save restricted fields
     $attrArray = rex_split_string($fieldAttributes);
@@ -452,62 +451,81 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
       }
       unset($attrArray['perm']);
     }
-
-    // handle date types with timestamps
-    if(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute']))
-    {
-      if(isset($postValue['active']))
-        $saveValue = mktime((int)$postValue['hour'],(int)$postValue['minute'],0,(int)$postValue['month'],(int)$postValue['day'],(int)$postValue['year']);
-      else
-        $saveValue = 0;
-    }
-    // handle date types without timestamps
-    elseif(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']))
-    {
-      if(isset($postValue['active']))
-        $saveValue = mktime(0,0,0,(int)$postValue['month'],(int)$postValue['day'],(int)$postValue['year']);
-      else
-        $saveValue = 0;
-    }
-    // handle time types
-    elseif(isset($postValue['hour']) && isset($postValue['minute']))
-    {
-      if(isset($postValue['active']))
-        $saveValue = mktime((int)$postValue['hour'],(int)$postValue['minute'],0,0,0,0);
-      else
-        $saveValue = 0;
-    }
-    else
-    {
-      if(count($postValue) > 1)
-      {
-        // Mehrwertige Felder
-        $saveValue = '|'. implode('|', $postValue) .'|';
-      }
-      else
-      {
-        $postValue = isset($postValue[0]) ? $postValue[0] : '';
-        if($fieldType == REX_A62_FIELD_SELECT && strpos($fieldAttributes, 'multiple') !== false ||
-           $fieldType == REX_A62_FIELD_CHECKBOX)
-        {
-          // Mehrwertiges Feld, aber nur ein Wert ausgewählt
-          $saveValue = '|'. $postValue .'|';
-        }
-        else
-        {
-          // Einwertige Felder
-          $saveValue = $postValue;
-        }
-      }
-    }
-
+    
     // Wert in SQL zum speichern
+    $saveValue = _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes);
     $sqlSave->setValue($fieldName, $saveValue);
 
     // Werte im aktuellen Objekt speichern, dass zur Anzeige verwendet wird
     if(isset($params['activeItem']))
       $params['activeItem']->setValue($fieldName, $saveValue);
   }
+}
+
+/**
+ * Retrieves the posted value for the given field and converts it into a saveable format.
+ * 
+ * @param string $fieldName The name of the field
+ * @param int $fieldType One of the REX_A62_FIELD_* constants
+ * @param string $fieldAttributes The attributes of the field
+ */
+function _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes)
+{
+  global $REX;
+
+  if(rex_request_method() != 'post') return null;
+
+  $postValue = rex_post($fieldName, 'array');
+  
+  // handle date types with timestamps
+  if(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute']))
+  {
+    if(isset($postValue['active']))
+      $saveValue = mktime((int)$postValue['hour'],(int)$postValue['minute'],0,(int)$postValue['month'],(int)$postValue['day'],(int)$postValue['year']);
+    else
+      $saveValue = 0;
+  }
+  // handle date types without timestamps
+  elseif(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']))
+  {
+    if(isset($postValue['active']))
+      $saveValue = mktime(0,0,0,(int)$postValue['month'],(int)$postValue['day'],(int)$postValue['year']);
+    else
+      $saveValue = 0;
+  }
+  // handle time types
+  elseif(isset($postValue['hour']) && isset($postValue['minute']))
+  {
+    if(isset($postValue['active']))
+      $saveValue = mktime((int)$postValue['hour'],(int)$postValue['minute'],0,0,0,0);
+    else
+      $saveValue = 0;
+  }
+  else
+  {
+    if(count($postValue) > 1)
+    {
+      // Mehrwertige Felder
+      $saveValue = '|'. implode('|', $postValue) .'|';
+    }
+    else
+    {
+      $postValue = isset($postValue[0]) ? $postValue[0] : '';
+      if($fieldType == REX_A62_FIELD_SELECT && strpos($fieldAttributes, 'multiple') !== false ||
+         $fieldType == REX_A62_FIELD_CHECKBOX)
+      {
+        // Mehrwertiges Feld, aber nur ein Wert ausgewählt
+        $saveValue = '|'. $postValue .'|';
+      }
+      else
+      {
+        // Einwertige Felder
+        $saveValue = $postValue;
+      }
+    }
+  }
+  
+  return $saveValue;
 }
 
 /**
@@ -636,15 +654,25 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
   $params = rex_call_func($saveCallback, array($params, $sqlFields), false);
   
   // trigger callback of sql fields
-  foreach($sqlFields as $row)
+  if(rex_request_method() == 'post')
   {
-    if($row->getValue('callback') != '')
+    foreach($sqlFields as $key => $row)
     {
-      // use a small sandbox, so the callback cannot affect our local variables
-      $sandboxFunc = function($field_id, $callback) {
-        require rex_variableStream::factory('metainfo/'. $field_id .'/callback', $callback);
-      };
-      $sandboxFunc($row->getValue('field_id'), $row->getValue('callback'));
+      if($row->getValue('callback') != '')
+      {
+        // use a small sandbox, so the callback cannot affect our local variables
+        $sandboxFunc = function($field)
+        {
+          $fieldName = $field->getValue('name');
+          $fieldType = $field->getValue('type');
+          $fieldAttributes = $field->getValue('attributes');
+          $fieldValue = _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes);
+          
+          require rex_variableStream::factory('metainfo/'. $field->getValue('field_id') .'/callback', $field->getValue('callback'));
+        };
+        // pass a clone to the custom handler, so the callback will not change our var
+        $sandboxFunc(clone $row);
+      }
     }
   }
 
