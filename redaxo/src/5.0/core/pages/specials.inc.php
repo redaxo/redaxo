@@ -23,6 +23,7 @@ switch($subpage)
 {
   case 'lang': $file = 'specials.clangs.inc.php'; break;
   case 'log': $file = 'specials.log.inc.php'; break;
+  case 'phpinfo': $file = 'specials.phpinfo.inc.php'; break;
   default : $file = 'specials.settings.inc.php'; break;
 }
 
