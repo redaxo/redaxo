@@ -658,7 +658,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
   // trigger callback of sql fields
   if(rex_request_method() == 'post')
   {
-    foreach($sqlFields as $key => $row)
+    foreach($sqlFields as $row)
     {
       if($row->getValue('callback') != '')
       {
