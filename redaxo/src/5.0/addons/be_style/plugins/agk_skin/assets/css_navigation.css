@@ -61,7 +61,7 @@ div#rex-navi-main ul li.rex-navi-first {
 }
 div#rex-navi-footer ul {
 	float: left;
-	width: 70%;
+	/*width: 70%;*/
 	margin: 0 5px;
 }
 div#rex-navi-footer ul li {

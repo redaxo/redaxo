@@ -229,7 +229,6 @@ abstract class rex_packageManager extends rex_factory
         $this->package->setProperty('status', 1);
         if(!$REX['SETUP'])
         {
-          $configFile = $this->package->getBasePath() .'config.inc.php';
           if(is_readable($this->package->getBasePath(self::CONFIG_FILE)))
           {
             rex_autoload::addDirectory($this->package->getBasePath('lib'));
@@ -610,7 +609,10 @@ abstract class rex_packageManager extends rex_factory
       }
       else
       {
-        $registeredPlugins = array_keys(rex_addon::get($addonName)->getRegisteredPlugins());
+        $addon = rex_addon::get($addonName);
+        $config[$addonName]['install'] = $addon->isInstalled();
+        $config[$addonName]['status'] = $addon->isActivated();
+        $registeredPlugins = array_keys($addon->getRegisteredPlugins());
       }
       $plugins = self::readPackageFolder(rex_path::plugin($addonName, '*'));
       foreach(array_diff($registeredPlugins, $plugins) as $pluginName)
@@ -619,10 +621,11 @@ abstract class rex_packageManager extends rex_factory
         $manager->_delete(true);
         unset($config[$addonName]['plugins'][$pluginName]);
       }
-      foreach(array_diff($plugins, $registeredPlugins) as $pluginName)
+      foreach($plugins as $pluginName)
       {
-        $config[$addonName]['plugins'][$pluginName]['install'] = false;
-        $config[$addonName]['plugins'][$pluginName]['status'] = false;
+        $plugin = rex_plugin::get($addonName, $pluginName);
+        $config[$addonName]['plugins'][$pluginName]['install'] = $plugin->isInstalled();
+        $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->isActivated();
       }
       if(isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins']))
         ksort($config[$addonName]['plugins']);

@@ -69,7 +69,7 @@ class rex_file
    *
    * @return int Number of written bytes
    */
-  static public function putConfig($file, $content, $inline = 2)
+  static public function putConfig($file, $content, $inline = 3)
   {
     return self::put($file, sfYaml::dump($content, $inline));
   }

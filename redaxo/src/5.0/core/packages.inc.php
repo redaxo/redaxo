@@ -12,14 +12,8 @@ $REX['ADDON'] = array();
 
 if($REX['SETUP'])
 {
-  /*$REX['ADDON']['install']['be_style'] = 1;
-  $REX['ADDON']['status']['be_style'] = 1;
-  $REX['ADDON']['plugins']['be_style']['install']['base'] = 1;
-  $REX['ADDON']['plugins']['be_style']['status']['base'] = 1;
-  $REX['ADDON']['plugins']['be_style']['install']['agk_skin'] = 1;
-  $REX['ADDON']['plugins']['be_style']['status']['agk_skin'] = 1;*/
-  //$packageOrder = array('be_style', array('be_style', 'base'), array('be_style', 'agk_skin'));
-  $packageOrder = array();
+  rex_addon::initialize(false);
+  $packageOrder = $REX['SETUP_PACKAGES'];
 }
 else
 {
@@ -29,9 +23,9 @@ else
 
 // in the first run, we register all folders for class- and fragment-loading,
 // so it is transparent in which order the addons are included afterwards.
-foreach($packageOrder as $packageRepresentation)
+foreach($packageOrder as $packageId)
 {
-  $package = rex_package::get($packageRepresentation);
+  $package = rex_package::get($packageId);
   $folder = $package->getBasePath();
 
   // add package path for fragment loading
@@ -54,9 +48,9 @@ foreach($packageOrder as $packageRepresentation)
 }
 
 // now we actually include the addons logic
-foreach($packageOrder as $packageRepresentation)
+foreach($packageOrder as $packageId)
 {
-  $package = rex_package::get($packageRepresentation);
+  $package = rex_package::get($packageId);
   $folder = $package->getBasePath();
 
   // include the addon itself
