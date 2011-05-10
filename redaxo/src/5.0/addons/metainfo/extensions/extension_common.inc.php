@@ -665,6 +665,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
         // use a small sandbox, so the callback cannot affect our local variables
         $sandboxFunc = function($field)
         {
+          // TODO add var to ref the actual table (rex_article,...)
           $fieldName = $field->getValue('name');
           $fieldType = $field->getValue('type');
           $fieldAttributes = $field->getValue('attributes');
