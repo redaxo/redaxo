@@ -22,11 +22,11 @@ if ($rex_user_loginmessage != '')
           setTimeout(disableLogin, 1000);
         } else {
           $("div.rex-message p span").html("'. htmlspecialchars(rex_i18n::msg('login_welcome')) .'");
-          $("#loginformular input:not(:hidden)").attr("disabled", "");
+          $("#loginformular input:not(:hidden)").prop("disabled", "");
           $("#rex-form-login").focus();
         }
       };
-      $("#loginformular input:not(:hidden)").attr("disabled", "disabled");
+      $("#loginformular input:not(:hidden)").prop("disabled", "disabled");
       setTimeout(disableLogin, 1000);
     }';
 }

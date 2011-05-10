@@ -658,13 +658,14 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
   // trigger callback of sql fields
   if(rex_request_method() == 'post')
   {
-    foreach($sqlFields as $key => $row)
+    foreach($sqlFields as $row)
     {
       if($row->getValue('callback') != '')
       {
         // use a small sandbox, so the callback cannot affect our local variables
         $sandboxFunc = function($field)
         {
+          // TODO add var to ref the actual table (rex_article,...)
           $fieldName = $field->getValue('name');
           $fieldType = $field->getValue('type');
           $fieldAttributes = $field->getValue('attributes');

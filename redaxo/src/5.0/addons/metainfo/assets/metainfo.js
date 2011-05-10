@@ -47,11 +47,10 @@ function meta_checkConditionalFields(selectEl, activeIds, textIds) {
 
 jQuery( function($) {
   function disableSelect(chkbox) {
-    var disabled = $(chkbox).is(":checked") ? '' : 'disabled';
     var sibling = chkbox;
     while (sibling != null) {
       if (sibling.nodeType == 1 && sibling.tagName.toLowerCase() == "select") {
-        $(sibling).attr('disabled', disabled);
+        $(sibling).prop('disabled', !chkbox.checked);
       }
       sibling = sibling.previousSibling;
     }
@@ -65,6 +64,3 @@ jQuery( function($) {
     disableSelect(this);
   });
 });
-
-
-

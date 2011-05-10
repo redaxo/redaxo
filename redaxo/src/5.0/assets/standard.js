@@ -432,7 +432,7 @@ jQuery(function($){
       return true;
     
      var key = String.fromCharCode(event.which);
-     var haystack = $("input[accesskey="+ key +"]");
+     var haystack = $("a[accesskey='"+ key +"']");
      
      if(haystack.size() > 0)
      {
@@ -441,7 +441,7 @@ jQuery(function($){
      }
      else
      {
-       haystack = $("a[accesskey="+ key +"]");
+       haystack = $("a[accesskey='"+ key +"']");
        
        if(haystack.size() > 0)
        {
