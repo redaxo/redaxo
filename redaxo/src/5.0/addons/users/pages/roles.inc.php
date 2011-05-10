@@ -492,14 +492,14 @@ if ($FUNC_ADD != "" || $id > 0)
       animate = typeof(animate) == "undefined" ? true : animate;
 
       if(c_checked)
-        $("#userperm-cat").attr("disabled", "disabled");
+        $("#userperm-cat").prop("disabled", "disabled");
       else
-        $("#userperm-cat").attr("disabled", "");
+        $("#userperm-cat").prop("disabled", "");
 
       if(m_checked)
-        $("#userperm-media").attr("disabled", "disabled");
+        $("#userperm-media").prop("disabled", "disabled");
       else
-        $("#userperm-media").attr("disabled", "");
+        $("#userperm-media").prop("disabled", "");
 
       if(animate)
       {
