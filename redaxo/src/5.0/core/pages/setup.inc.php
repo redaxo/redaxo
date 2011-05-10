@@ -199,7 +199,7 @@ function rex_setup_setUtf8()
 // -- setup requirements
 $min_version = '5.3.0';
 $min_mysql_version = '5.0';
-$min_php_extensions = array('session', 'mysql', 'pcre');
+$min_php_extensions = array('session', 'pdo', 'pcre');
 // -- /setup requirements
 
 $MSG['err'] = "";
