@@ -1,0 +1,13 @@
+version: '1.0'
+author: 'Markus Staab, Jan Kristinus'
+name: 'Media Manager'
+perm: media_manager[]
+supportpage: www.redaxo.org/de/forum/
+pages:
+  - ['', 'translate:media_manager_subpage_desc']
+  - ['types', 'translate:media_manager_subpage_types']
+  - ['settings', 'translate:media_manager_subpage_config']
+  - ['clear_cache', 'translate:media_manager_subpage_clear_cache']
+requires:
+  php-extensions:
+    - gd
