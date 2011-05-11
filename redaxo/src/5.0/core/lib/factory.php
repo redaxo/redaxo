@@ -39,7 +39,7 @@ abstract class rex_factory
     $calledClass = get_called_class();
     if($subclass != $calledClass && !is_subclass_of($subclass, $calledClass))
     {
-      throw new rexException('$class is expected to define a subclass of '. $calledClass .'!');
+      throw new rexException('$class "'. $subclass .'" is expected to define a subclass of '. $calledClass .'!');
     }
     self::$classes[$calledClass] = $subclass;
   }
