@@ -3,8 +3,5 @@
 /.project
 /assets
 /media
+/redaxo/cache
 /redaxo/data
-/redaxo/generated
-/redaxo/generated/articles
-/redaxo/generated/templates
-/redaxo/generated/files
