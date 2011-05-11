@@ -15,7 +15,7 @@ $REX['FRONTEND_PATH'] = rex_path::frontend();
 /**
  * @deprecated 5.0
  */
-$REX['MEDIAFOLDER']   = rex_path::media();
+$REX['MEDIAFOLDER']   = rex_path::media('', rex_path::ABSOLUTE);
 
 /**
  * @deprecated 5.0

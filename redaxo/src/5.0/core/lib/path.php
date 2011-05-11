@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Utitility class to generate relative and absolute path
+ * Utility class to generate relative and absolute path
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
@@ -119,11 +119,11 @@ class rex_path
   }
 
   /**
-   * Returns the path to the generated folder
+   * Returns the path to the cache folder
    */
-  static public function generated($file = '')
+  static public function cache($file = '')
   {
-    return self::absBase('redaxo/generated/'. $file);
+    return self::absBase('redaxo/cache/'. $file);
   }
 
   /**

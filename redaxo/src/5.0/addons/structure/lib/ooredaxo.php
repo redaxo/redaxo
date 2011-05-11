@@ -124,7 +124,7 @@ abstract class rex_ooRedaxo
 
       $vars = array();
 
-      $file = rex_path::generated('articles/'.  $REX['START_ARTICLE_ID'] .'.0.article');
+      $file = rex_path::cache('articles/'.  $REX['START_ARTICLE_ID'] .'.0.article');
       if(!$REX['REDAXO'] && file_exists($file))
       {
         // Im GetGenerated Modus, die Spaltennamen aus den generated Dateien holen
@@ -216,7 +216,7 @@ abstract class rex_ooRedaxo
       return self::$instanceCache[$subclass][$id][$clang];
     }
 
-    $article_path = rex_path::generated('articles/'.$id.'.'.$clang.'.article');
+    $article_path = rex_path::cache('articles/'.$id.'.'.$clang.'.article');
     // generate cache if not exists
     if (!file_exists($article_path))
     {

@@ -35,7 +35,7 @@ class rex_logger {
 
     if (!isset(self::$instance))
     {
-      self::$instance = new rex_logger(rex_path::generated('files/system.log'));
+      self::$instance = new rex_logger(rex_path::cache('system.log'));
     }
 
     return self::$instance;
@@ -54,7 +54,7 @@ class rex_logger {
     set_error_handler(array($logger, 'logError'));
     set_exception_handler(array($logger, 'logException'));
     register_shutdown_function(array($logger, 'shutdown'));
-    
+
     $logger->open();
   }
 
@@ -71,7 +71,7 @@ class rex_logger {
     restore_error_handler();
     restore_exception_handler();
     // unregister of shutdown function is not possible
-    
+
     $logger->close();
   }
 

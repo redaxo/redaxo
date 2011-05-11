@@ -12,7 +12,7 @@ $func       = rex_request('func', 'string');
 $warning = '';
 $info = '';
 
-$logFile = rex_path::generated('files/system.log');
+$logFile = rex_path::cache('system.log');
 if ($func == 'delLog')
 {
   // close logger, to free remaining file-handles to syslog

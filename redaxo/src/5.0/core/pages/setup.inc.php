@@ -303,10 +303,7 @@ if ($checkmodus == 1)
 	// -------------------------- SCHREIBRECHTE
 	$WRITEABLES = array (
 		rex_path::core('master.inc.php'),
-		rex_path::generated(),
-		rex_path::generated('articles'),
-		rex_path::generated('templates'),
-		rex_path::generated('files'),
+		rex_path::cache(),
 		rex_path::media(),
 		rex_path::media('_readme.txt'),
 		rex_path::assets(),

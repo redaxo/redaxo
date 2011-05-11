@@ -126,7 +126,7 @@ class rex_image_cacher
     }
 
     $folders = array();
-    $folders[] = rex_path::generated('files/');
+    $folders[] = rex_path::cache('media/');
     $folders[] = rex_path::media('', rex_path::RELATIVE);
 
     $counter = 0;
