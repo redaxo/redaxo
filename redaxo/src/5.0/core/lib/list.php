@@ -706,6 +706,7 @@ class rex_list extends rex_factory implements rex_url_provider
   {
     if(!$this->rows)
     {
+      // TODO add SQL_CALC_FOUND_ROWS
       $sql = rex_sql::factory();
       $sql->debugsql = $this->debug;
       $sql->setQuery($this->query);
