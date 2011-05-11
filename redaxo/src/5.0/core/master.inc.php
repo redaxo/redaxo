@@ -27,6 +27,9 @@ foreach($config as $key => $value)
   $REX[strtoupper($key)] = $value;
 }
 
+$REX['FILEPERM'] = octdec($REX['FILEPERM']);
+$REX['DIRPERM'] = octdec($REX['DIRPERM']);
+
 date_default_timezone_set($REX['TIMEZONE']);
 
 // ----------------- OTHER STUFF
