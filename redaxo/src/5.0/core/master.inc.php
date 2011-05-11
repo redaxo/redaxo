@@ -19,7 +19,7 @@ $REX['MYSQL_VERSION'] = "";
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 
 // ----------------- INCLUDE FUNCTIONS
-if(!$REX['NOFUNCTIONS']) include_once rex_path::core('functions.inc.php');
+require_once rex_path::core('functions.inc.php');
 
 $config = rex_file::getConfig(rex_path::backend('src/config.yml'));
 foreach($config as $key => $value)
