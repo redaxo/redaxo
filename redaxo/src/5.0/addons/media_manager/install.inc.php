@@ -11,14 +11,6 @@
 
 $error = '';
 
-if($error == '')
-{
-  $file = rex_path::generated('files');
-
-  if(($state = rex_is_writable($file)) !== true)
-    $error = $state;
-}
-
 if($error == '' && !rex_config::has('media_manager', 'jpg_quality'))
 {
   rex_config::set('media_manager', 'jpg_quality', 85);
