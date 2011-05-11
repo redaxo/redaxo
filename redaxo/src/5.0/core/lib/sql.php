@@ -11,7 +11,7 @@ class rex_sql extends rex_factory implements Iterator
     $debugsql, // debug schalter
     $counter; // pointer
 
-  private
+  protected
     $values, // Werte von setValue
     $fieldnames, // Spalten im ResultSet
     $rawFieldnames,
@@ -37,7 +37,7 @@ class rex_sql extends rex_factory implements Iterator
     $this->selectDB($DBID);
   }
 
-  /**
+  /**f
    * Stellt die Verbindung zur Datenbank her
    */
   protected function selectDB($DBID)
@@ -216,30 +216,23 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function setQuery($qry, $params = array())
   {
+    if(!is_array($params))
+    {
+      throw new rexException('expecting $params to be an array, "'. gettype($params) .'" given!');
+    }
+    
     // Alle Werte zuruecksetzen
     $this->flush();
-
     $this->query = $qry;
-
-    if(!empty($params))
+    
+    $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
+    if($this->stmt)
     {
-      if(!is_array($params))
-      {
-        throw new rexException('expecting $params to be an array, "'. gettype($params) .'" given!');
-      }
-      $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
-      if($this->stmt)
-      {
-        $this->stmt->execute($params);
-      }
-      else
-      {
-        throw new rexException('Error occured while preparing statement "'. $qry .'"!');
-      }
+      $this->execute($params);
     }
     else
     {
-      $this->stmt = self::$pdo[$this->DBID]->query(trim($qry));
+      throw new rexException('Error occured while preparing statement "'. $qry .'"!');
     }
 
     if($this->stmt !== false)
@@ -804,7 +797,7 @@ class rex_sql extends rex_factory implements Iterator
     // re-execute the statement
     if($this->stmt && $this->counter != 0)
     {
-      $this->stmt->execute();
+      $this->execute();
       $this->counter = 0;
     }
 
