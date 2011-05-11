@@ -22,7 +22,7 @@ class rex_sql_debug extends rex_sql
     parent::execute($params);
     $stop = microtime(true);
     
-    $diff = $stop - $start;
+    $diff = ($stop - $start)*1000;
     self::$queries[] = array($qry, rex_formatter::format($diff, 'number', array(3)));
   }
   
