@@ -29,7 +29,7 @@ class rex_media_manager
 	  {
 	    return $this->media;
 	  }
-      
+
       // execute effects on image
       foreach($set as $effect_params)
       {
@@ -39,7 +39,7 @@ class rex_media_manager
       	$effect->setParams($effect_params['params']);
       	$effect->execute();
       }
-	
+
     }
 
   }
@@ -94,13 +94,13 @@ class rex_media_manager
   public function setCachePath($cache_path = "")
   {
   	$this->cache_path = $cache_path;
-  
+
   }
 
   public function getCachePath()
   {
   	return $this->cache_path;
-  
+
   }
 
   function useCache($t = TRUE)
@@ -138,7 +138,7 @@ class rex_media_manager
 
     return false;
   }
-  
+
   public function getCacheFile()
   {
     $cacheParams = md5(serialize($this->type));
@@ -164,7 +164,7 @@ class rex_media_manager
     {
 
 		// header auslesen und ausgeben
-		
+
 		// src auslesen und ausgeben
 
 echo "gecachte version senden";
@@ -176,11 +176,11 @@ echo "geachten header verwenden";
 
     }else
     {
-    	if($this->use_cache) 
+    	if($this->use_cache)
     		$this->media->sendMedia($this->getCacheFile(), $this->getHeaderCacheFile(),1);
 		else
     		$this->media->sendMedia($this->getCacheFile(), $this->getHeaderCacheFile(),0);
-		
+
     }
 
 
@@ -198,7 +198,7 @@ echo "geachten header verwenden";
     global $REX;
 
     $media_path = rex_path::media($rex_media_file, rex_path::RELATIVE);
-    $cache_path = rex_path::generated('files/');
+    $cache_path = rex_path::cache('media/');
 
     $media         = new rex_media($media_path);
     $media_cacher  = new rex_media_manager_cacher($cache_path);
@@ -214,7 +214,7 @@ echo "geachten header verwenden";
     return $media_cacher->getCachedImage($rex_media_file, $rex_media_type);
   }
   */
-  
+
     /**
    * deletes all cache files for the given filename.
    * if not filename is provided all cache files are cleared.
@@ -238,7 +238,7 @@ echo "geachten header verwenden";
     }
 
     $folders = array();
-    $folders[] = rex_path::generated('files/');
+    $folders[] = rex_path::cache('media/');
     $folders[] = rex_path::media('', rex_path::RELATIVE);
 
     $counter = 0;
@@ -260,5 +260,5 @@ echo "geachten header verwenden";
     return $counter;
   }
 
-  
+
 }

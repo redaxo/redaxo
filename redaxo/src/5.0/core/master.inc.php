@@ -19,13 +19,20 @@ $REX['MYSQL_VERSION'] = "";
 if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 
 // ----------------- INCLUDE FUNCTIONS
-if(!$REX['NOFUNCTIONS']) include_once rex_path::core('functions.inc.php');
+require_once rex_path::core('functions.inc.php');
 
 $config = rex_file::getConfig(rex_path::backend('src/config.yml'));
 foreach($config as $key => $value)
 {
   $REX[strtoupper($key)] = $value;
 }
+
+// --------- Debug extensions
+rex_sql::setFactoryClass(new rex_sql_debug());
+// rex_extension::setFactoryClass(new rex_extension_debug());
+
+$REX['FILEPERM'] = octdec($REX['FILEPERM']);
+$REX['DIRPERM'] = octdec($REX['DIRPERM']);
 
 date_default_timezone_set($REX['TIMEZONE']);
 

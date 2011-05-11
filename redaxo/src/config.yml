@@ -3,8 +3,8 @@ instname: rex20110507162412
 server: redaxo.org
 servername: REDAXO
 error_email: jan.kristinus@yakamara.de
-fileperm: 0664
-dirperm: 0775
+fileperm: '0664'
+dirperm: '0775'
 session_duration: 3000
 start_article_id: 1
 notfound_article_id: 1

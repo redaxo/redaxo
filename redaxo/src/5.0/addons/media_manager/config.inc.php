@@ -26,9 +26,9 @@ function rex_media_manager_init()
 
 	if($rex_media_manager_file != '' && $rex_media_manager_type != '')
 	{
-		
+
 		$media_path    = rex_path::media($rex_media_manager_file, rex_path::RELATIVE);
-		$cache_path    = rex_path::generated('files/');
+		$cache_path    = rex_path::cache('media/');
 
 		$media         = new rex_media($media_path);
 		// $media_manager_cacher  = new rex_media_manager_cacher($cache_path);
