@@ -1,0 +1,96 @@
+# addon:image_manager en_gb
+
+media_manager_subpage_desc = Description
+media_manager_subpage_config = Configuration
+media_manager_subpage_types = Edit imagetypes
+media_manager_subpage_clear_cache = Delete cache
+
+media_manager_cache_files_removed = {0} cachefiles deleted
+
+media_manager_config_saved = configuration updated!
+media_manager_config_not_saved = configuration could not be saved!
+media_manager_config_not_writable = configurationfile "{0}" can not be written!
+
+media_manager_max_resizekb = Maximum size of a image in kilobyte, which can be used of image-manager
+media_manager_max_resizepx = Maximum size of a image in pixel, which can be used of image-manager
+media_manager_jpg_quality = JPG/JPEG output-quality
+
+media_manager_id = id
+media_manager_name = name
+media_manager_edittype = edit imagetypes
+media_manager_settings = settings
+
+media_manager_yes = yes
+media_manager_no = no
+
+media_manager_error_name = please enter a namen.
+media_manager_error_settings = please check the settings.
+
+media_manager_type_caption = list of imagetypes
+media_manager_type_summary = list of imagetypes
+media_manager_type_no_types = no imagetypes found
+media_manager_type_create = create imagetype
+media_manager_type_edit = edit imagetype
+media_manager_type_effekts_edit = edit effect
+media_manager_type_delete = delete imagetype
+media_manager_type_name = name
+media_manager_type_prior = prio
+media_manager_type_description = description
+media_manager_type_functions = function
+media_manager_type_cache_delete = delete cache
+media_manager_type_system = system imagetype
+
+media_manager_effect_list_header = effect of imagetype "{0}"
+media_manager_effect_edit_header = imagetype "{0}": edit effect 
+media_manager_effect_create_header = imagetype "{0}": create effect
+media_manager_effect_caption = list of effects of imagetype "{0}"
+media_manager_effect_summary = list of effects of imagetype "{0}"
+media_manager_effect_no_effects = no effect found
+media_manager_effect_create = create effect
+media_manager_effect_edit = edit effect 
+media_manager_effect_delete = delete effect 
+media_manager_effect_name = effect
+media_manager_effect_prior = order
+media_manager_effect_parameters = parameter
+media_manager_effect_functions = functions
+media_manager_effect_deleted = delete effect
+
+media_manager_effect_brand_image = image
+media_manager_effect_brand_hpos = horizontal position
+media_manager_effect_brand_vpos = vertical position
+media_manager_effect_brand_padding_x = padding x
+media_manager_effect_brand_padding_y = padding y 
+
+media_manager_effect_blur_amount = amount
+media_manager_effect_blur_radius = radius
+media_manager_effect_blur_threshold = threshold
+
+media_manager_effect_sharpen_amount = amount
+media_manager_effect_sharpen_radius = radius
+media_manager_effect_sharpen_threshold = threshold
+
+media_manager_effect_resize_width = width
+media_manager_effect_resize_height = height
+media_manager_effect_resize_style = mode
+media_manager_effect_resize_imgtosmall = if image is to small
+
+media_manager_effect_crop_width = width
+media_manager_effect_crop_height = height
+media_manager_effect_crop_offset_width = offset width 
+media_manager_effect_crop_offset_height = offset height
+media_manager_effect_crop_position = position
+
+media_manager_effect_flip = direction
+
+media_manager_error_type_name_not_unique = an imagetype with this name already exists!
+
+im_fx_mirror_height = refl. height (50 / 10%)
+im_fx_mirror_background_color = background
+im_fx_mirror_background_r = background R (0-255)
+im_fx_mirror_background_g = background G (0-255)
+im_fx_mirror_background_b = background B (0-255)
+
+im_fx_workspace_pos = Position
+
+form_field_first_prior = first position
+form_field_after_prior = after "{0}"

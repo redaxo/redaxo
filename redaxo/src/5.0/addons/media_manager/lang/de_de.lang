@@ -1,0 +1,93 @@
+# addon:image_manager de_de
+
+media_manager_subpage_desc = Erklärung
+media_manager_subpage_config = Konfiguration
+media_manager_subpage_types = Bildtypen bearbeiten
+media_manager_subpage_clear_cache = Cache löschen
+
+media_manager_cache_files_removed = {0} Cache-Dateien gelöscht
+
+media_manager_config_saved = Konfiguration wurde aktualisiert!
+media_manager_config_not_saved = Konfiguration konnte nicht gespeichert werden!
+media_manager_config_not_writable = Konfigurationsdatei "{0}" ist nicht beschreibbar!
+
+media_manager_max_resizekb = Maximale Größe einer Datei in Kilobyte, die über Image-Manager umgewandelt werden darf
+media_manager_max_resizepx = Maximale Größe einer Datei in Pixel, die über Image-Manager umgewandelt werden darf
+media_manager_jpg_quality = JPG/JPEG Ausgabe-Qualität
+
+media_manager_id = ID
+media_manager_name = Name
+media_manager_edittype = Bildtypen bearbeiten
+media_manager_settings = Einstellungen
+
+media_manager_yes = Ja
+media_manager_no = Nein
+
+media_manager_error_name = Bitte geben Sie einen Namen ein.
+media_manager_error_settings = Bitte geben Sie Inhalte bei Einstellungen ein.
+
+media_manager_type_caption = Liste der angelegten Bildtypen
+media_manager_type_summary = Auflistung aller angelegten Bildtypen
+media_manager_type_no_types = Keine Bildtypen vorhanden
+media_manager_type_create = Bildtyp erstellen
+media_manager_type_edit = Bildtyp bearbeiten
+media_manager_type_effekts_edit = Effekte bearbeiten
+media_manager_type_delete = Bildtyp löschen
+media_manager_type_name = Name
+media_manager_type_prior = Prio
+media_manager_type_description = Beschreibung
+media_manager_type_functions = Funktionen
+media_manager_type_cache_delete = Cache löschen
+media_manager_type_system = System Bildtyp
+
+media_manager_effect_list_header = Effekte des Bildtyps "{0}"
+media_manager_effect_edit_header = Bildtyp "{0}": Effekt bearbeiten 
+media_manager_effect_create_header = Bildtyp "{0}": Effekt erstellen
+media_manager_effect_caption = Liste der angelegten Effekte des Bildtyps "{0}"
+media_manager_effect_summary = Auflistung aller angelegten Effekte des Bildtyps "{0}"
+media_manager_effect_no_effects = Keine Effekte vorhanden
+media_manager_effect_create = Effekt erstellen
+media_manager_effect_edit = Effekt bearbeiten 
+media_manager_effect_delete = Effekt löschen 
+media_manager_effect_name = Effekt
+media_manager_effect_prior = Effektreihenfolge
+media_manager_effect_parameters = Parameter
+media_manager_effect_functions = Funktionen
+media_manager_effect_deleted = Effekt gelöscht
+
+media_manager_effect_brand_image = Bild
+media_manager_effect_brand_hpos = horizontale Ausrichtung
+media_manager_effect_brand_vpos = vertikale Ausrichtung
+media_manager_effect_brand_padding_x = horizontaler Abstand zum Rand
+media_manager_effect_brand_padding_y = vertikaler Abstand zum Rand 
+
+media_manager_effect_blur_amount = Unschärfegrad
+media_manager_effect_blur_radius = Größe der Unschärfematrix
+media_manager_effect_blur_threshold = Grenzwert
+
+media_manager_effect_sharpen_amount = Schärfegrad
+media_manager_effect_sharpen_radius = Größe der Schärfematrix
+media_manager_effect_sharpen_threshold = Grenzwert
+
+media_manager_effect_resize_width = Zielbreite
+media_manager_effect_resize_height = Zielhöhe
+media_manager_effect_resize_style = Modus
+media_manager_effect_resize_imgtosmall = Wenn Bild zu klein
+
+media_manager_effect_crop_width = Zielbreite
+media_manager_effect_crop_height = Zielhöhe
+media_manager_effect_crop_offset_width = Horizontaler Versatz/Offset 
+media_manager_effect_crop_offset_height = Vertikaler Versatz/Offset
+media_manager_effect_crop_position = Bezugspunkt
+
+media_manager_effect_flip = Richtung
+
+media_manager_error_type_name_not_unique = Ein Bildtyp mit diesem namen existiert bereits!
+
+im_fx_mirror_height = Refl. Höhe (50 / 10%)
+im_fx_mirror_background_color = Hintergrundfarbe
+im_fx_mirror_background_r = Hintergrund R (0-255)
+im_fx_mirror_background_g = Hintergrund G (0-255)
+im_fx_mirror_background_b = Hintergrund B (0-255)
+
+im_fx_workspace_pos = Position
