@@ -17,7 +17,7 @@ class rex_clang_service
     if(isset($REX['CLANG'][$id])) return FALSE;
 
     $REX['CLANG'][$id] = $name;
-    $file = rex_path::generated('files/clang.cache');
+    $file = rex_path::cache('clang.cache');
     rex_file::putCache($file, $REX['CLANG']);
 
     $firstLang = rex_sql::factory();
@@ -74,7 +74,7 @@ class rex_clang_service
     if(!isset($REX['CLANG'][$id])) return false;
 
     $REX['CLANG'][$id] = $name;
-    $file = rex_path::generated('files/clang.cache');
+    $file = rex_path::cache('clang.cache');
     rex_file::putCache($file, $REX['CLANG']);
 
     $editLang = rex_sql::factory();
@@ -82,7 +82,7 @@ class rex_clang_service
     $editLang->setValue('id', $id);
     $editLang->setValue('name', $name);
     $editLang->update();
-    
+
     // ----- EXTENSION POINT
     rex_extension::registerPoint('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));
 
@@ -123,7 +123,7 @@ class rex_clang_service
 
     return TRUE;
   }
-  
+
   /**
    * Schreibt Spracheigenschaften in die Datei include/clang.inc.php
    *
@@ -142,7 +142,7 @@ class rex_clang_service
       $REX['CLANG'][$lang->getValue("id")] = $lang->getValue("name");
     }
 
-    $file = rex_path::generated('files/clang.cache');
+    $file = rex_path::cache('clang.cache');
     if(rex_file::putCache($file, $REX['CLANG']) === FALSE)
     {
       return 'Datei "'.$file.'" hat keine Schreibrechte';

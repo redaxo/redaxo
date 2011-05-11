@@ -73,7 +73,7 @@ class rex_ooMedia
   {
     global $REX;
 
-    $extlist_path = rex_path::generated('files/'.$extension.'.mextlist');
+    $extlist_path = rex_path::cache('media/'.$extension.'.mextlist');
     if (!file_exists($extlist_path))
 		{
     	rex_media_cache::generateExtensionList($extension);
@@ -105,7 +105,7 @@ class rex_ooMedia
     if ($name == '')
       return null;
 
-    $media_path = rex_path::generated('files/'.$name.'.media');
+    $media_path = rex_path::cache('media/'.$name.'.media');
     if (!file_exists($media_path))
 		{
     	rex_media_cache::generate($name);

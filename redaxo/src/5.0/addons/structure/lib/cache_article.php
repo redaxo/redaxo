@@ -53,7 +53,7 @@ class rex_article_cache
       return false;
     }
 
-    $cachePath = rex_path::generated('articles/');
+    $cachePath = rex_path::cache('articles/');
 
     foreach($REX['CLANG'] as $_clang => $clang_name)
     {
@@ -85,7 +85,7 @@ class rex_article_cache
       return false;
     }
 
-    $cachePath = rex_path::generated('articles/');
+    $cachePath = rex_path::cache('articles/');
 
     foreach($REX['CLANG'] as $_clang => $clang_name)
     {
@@ -117,7 +117,7 @@ class rex_article_cache
       return false;
     }
 
-    $cachePath = rex_path::generated('articles/');
+    $cachePath = rex_path::cache('articles/');
 
     foreach($REX['CLANG'] as $_clang => $clang_name)
     {
@@ -183,10 +183,10 @@ class rex_article_cache
         $cacheArray[$name][$_clang] = $value;
       }
 
-      $article_file = rex_path::generated("articles/$article_id.$_clang.article");
+      $article_file = rex_path::cache("articles/$article_id.$_clang.article");
       if (rex_file::putCache($article_file, $cacheArray) === FALSE)
       {
-        return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::generated('articles/');
+        return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::cache('articles/');
       }
     }
 
@@ -238,10 +238,10 @@ class rex_article_cache
         $GC->next();
       }
 
-      $article_list_file = rex_path::generated("articles/$re_id.$_clang.alist");
+      $article_list_file = rex_path::cache("articles/$re_id.$_clang.alist");
       if (rex_file::putCache($article_list_file, $cacheArray) === FALSE)
       {
-        return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::generated('articles/');
+        return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::cache('articles/');
       }
 
       // --------------------------------------- CAT LIST
@@ -257,10 +257,10 @@ class rex_article_cache
         $GC->next();
       }
 
-      $article_categories_file = rex_path::generated("articles/$re_id.$_clang.clist");
+      $article_categories_file = rex_path::cache("articles/$re_id.$_clang.clist");
       if (rex_file::putCache($article_categories_file, $cacheArray) === FALSE)
       {
-        return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::generated('articles/');
+        return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::cache('articles/');
       }
     }
 

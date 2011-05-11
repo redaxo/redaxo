@@ -71,9 +71,9 @@ $REX['EXTRAPERM'][] = 'editContentOnly[]';
 
 // ----- SET CLANG
 $REX['CLANG'] = array();
-$clangFile = rex_path::generated('files/clang.cache');
+$clangFile = rex_path::cache('clang.cache');
 if(file_exists($clangFile))
-  $REX['CLANG'] = rex_file::getCache(rex_path::generated('files/clang.cache'));
+  $REX['CLANG'] = rex_file::getCache(rex_path::cache('clang.cache'));
 
 $REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', $REX['START_CLANG_ID']);
 

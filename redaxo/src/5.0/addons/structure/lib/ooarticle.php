@@ -61,7 +61,7 @@ class rex_ooArticle extends rex_ooRedaxo
       $clang = $REX['CUR_CLANG'];
     }
     
-    $articlelist = rex_path::generated('articles/'.$a_category_id.".".$clang.".alist");
+    $articlelist = rex_path::cache('articles/'.$a_category_id.".".$clang.".alist");
     if(!file_exists($articlelist))
     {
       rex_article_cache::generateLists($a_category_id, $clang);

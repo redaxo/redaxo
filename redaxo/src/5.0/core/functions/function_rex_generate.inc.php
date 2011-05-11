@@ -35,7 +35,7 @@ function rex_deleteAll()
   // unregister logger, so the logfile can also be deleted
   rex_logger::unregister();
 
-  rex_dir::deleteFiles(rex_path::generated());
+  rex_dir::deleteFiles(rex_path::cache());
   
   rex_logger::register();
 }

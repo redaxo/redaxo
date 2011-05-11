@@ -174,7 +174,7 @@ class rex_response
     if(!$lastModified)
       $lastModified = time();
 
-    $lastModified = date('r', $lastModified);
+    $lastModified = date('r', (float) $lastModified);
 
     // Sende Last-Modification time
     header('Last-Modified: ' . $lastModified);

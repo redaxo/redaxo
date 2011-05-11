@@ -48,16 +48,21 @@ class rex_file
    * @param string $file Path to the file
    * @param string $content Content for the file
    *
-   * @return int Number of written bytes
+   * @return boolean TRUE on success, FALSE on failure
    */
   static public function put($file, $content)
   {
     global $REX;
 
-    $writtenBytes = file_put_contents($file, $content);
-    chmod($file, $REX['FILEPERM']);
+    rex_dir::create(dirname($file));
 
-    return $writtenBytes;
+    if(file_put_contents($file, $content) !== false)
+    {
+      chmod($file, $REX['FILEPERM']);
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -67,7 +72,7 @@ class rex_file
    * @param mixed $content Content for the file
    * @param integer $inline The level where you switch to inline YAML
    *
-   * @return int Number of written bytes
+   * @return boolean TRUE on success, FALSE on failure
    */
   static public function putConfig($file, $content, $inline = 3)
   {
@@ -80,7 +85,7 @@ class rex_file
    * @param string $file Path to the file
    * @param mixed $content Content for the file
    *
-   * @return int Number of written bytes
+   * @return boolean TRUE on success, FALSE on failure
    */
   static public function putCache($file, $content)
   {

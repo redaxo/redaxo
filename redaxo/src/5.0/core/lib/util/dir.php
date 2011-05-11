@@ -17,7 +17,7 @@ class rex_dir
   {
     global $REX;
 
-    if(!is_dir($dir) && mkdir($dir, $REX['DIRPERM'], $recursive))
+    if(is_dir($dir) || mkdir($dir, $REX['DIRPERM'], $recursive))
     {
       chmod($dir, $REX['DIRPERM']);
       return true;

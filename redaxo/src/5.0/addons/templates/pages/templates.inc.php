@@ -33,7 +33,7 @@ if ($function == "delete")
   }else
   {
     $del->setQuery("DELETE FROM " . $REX['TABLE_PREFIX'] . "template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
-    rex_file::delete(rex_path::generated('templates/' . $template_id . '.template'));
+    rex_file::delete(rex_path::cache('templates/' . $template_id . '.template'));
     $info = rex_i18n::msg("template_deleted");
   }
 
@@ -146,7 +146,7 @@ if ($function == "add" or $function == "edit")
         $warning = $TPL->getError();
     }
 
-    rex_dir::delete(rex_path::generated('templates'), false);
+    rex_dir::delete(rex_path::cache('templates'), false);
 
     if ($goon != "") {
       $function = "edit";
