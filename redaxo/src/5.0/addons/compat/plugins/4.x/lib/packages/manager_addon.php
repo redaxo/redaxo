@@ -2,6 +2,23 @@
 
 class rex_addonManagerCompat extends rex_addonManager
 {
+  public function install($installDump = TRUE)
+  {
+    $state = parent::install($installDump);
+
+    // Dateien kopieren
+    $files_dir = $this->package->getBasePath('files');
+    if($state === TRUE && is_dir($files_dir))
+    {
+      if(!rex_dir::copy($files_dir, $this->package->getAssetsPath()))
+      {
+        $state = $this->I18N('install_cant_copy_files');
+      }
+    }
+
+    return $state;
+  }
+
   public function includeFile($file)
   {
     global $REX;
