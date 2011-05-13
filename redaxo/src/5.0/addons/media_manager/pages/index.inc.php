@@ -26,7 +26,7 @@ if ($subpage == 'clear_cache')
   $msg = rex_i18n::msg('media_manager_cache_files_removed', $c);
 }
 
-rex_title('Media Manager', $this->getProperty('pages'));
+rex_title('Media Manager');
 
 // Include Current Page
 switch($subpage)

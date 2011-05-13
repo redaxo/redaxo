@@ -53,6 +53,10 @@ function rex_title($head, $subtitle = '')
 
   if(empty($subtitle))
   {
+    $subtitle = $REX['PAGES'][$REX['PAGE']]->getPage()->getSubPages();
+  }
+  if(empty($subtitle))
+  {
     $subtitle = '<div class="rex-title-row rex-title-row-sub rex-title-row-empty"><p>&nbsp;</p></div>';
   }
   else if(is_array($subtitle) && $subtitle[0] instanceof rex_be_page_container)
@@ -71,8 +75,8 @@ function rex_title($head, $subtitle = '')
     // REDAXO <= 4.2 compat
     $subtitle = '<div class="rex-title-row rex-title-row-sub">'.rex_get_subtitle($subtitle).'</div>';
   }
-  
-  
+
+
   $fragment = new rex_fragment();
   $fragment->setVar('category_id', $category_id, false);
   $fragment->setVar('article_id', $article_id, false);
