@@ -5,57 +5,29 @@
  *
  * @author staabm
  */
-class rex_logger {
+abstract class rex_logger
+{
   private static
-    $instance;
-
-  private
     $file,
     $handle,
     $registered;
-
-  /**
-   * Constructs a logger
-   * @param String $file file in which will be logged
-   */
-  protected function __construct($file)
-  {
-    $this->file = $file;
-    $this->open();
-  }
-
-  /**
-   * Retrieves the logger instance
-   *
-   * @return rex_logger the logger instance
-   */
-  static public function getInstance()
-  {
-    global $REX;
-
-    if (!isset(self::$instance))
-    {
-      self::$instance = new rex_logger(rex_path::cache('system.log'));
-    }
-
-    return self::$instance;
-  }
 
   /**
    * Registers the logger instance as php-error/exception handler
    */
   static public function register()
   {
-    $logger = self::getInstance();
+    if(self::$registered)
+      return;
 
-    if($logger->registered) return;
-      $logger->registered = true;
+    self::$registered = true;
+    self::$file = rex_path::cache('system.log');
 
-    set_error_handler(array($logger, 'logError'));
-    set_exception_handler(array($logger, 'logException'));
-    register_shutdown_function(array($logger, 'shutdown'));
+    set_error_handler(array(__CLASS__, 'logError'));
+    set_exception_handler(array(__CLASS__, 'logException'));
+    register_shutdown_function(array(__CLASS__, 'shutdown'));
 
-    $logger->open();
+    self::open();
   }
 
   /**
@@ -63,16 +35,16 @@ class rex_logger {
    */
   static public function unregister()
   {
-    $logger = self::getInstance();
+    if(!self::$registered)
+      return;
 
-    if(!$logger->registered) return;
-    $logger->registered = false;
+    self::$registered = false;
 
     restore_error_handler();
     restore_exception_handler();
     // unregister of shutdown function is not possible
 
-    $logger->close();
+    self::close();
   }
 
   /**
@@ -80,9 +52,9 @@ class rex_logger {
    *
    * @param Exception $exception The Exception to log
    */
-  public function logException(Exception $exception)
+  static public function logException(Exception $exception)
   {
-    $this->logError($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
+    self::logError($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
   }
 
   /**
@@ -95,7 +67,7 @@ class rex_logger {
    * @param array   $errcontext Array that points to the active symbol table at the point the error occurred.
    * @param boolean $printError Flag to indicate whether the error should be printed, or not
    */
-  public function logError($errno, $errstr, $errfile, $errline, array $errcontext = null, $printError = true)
+  static public function logError($errno, $errstr, $errfile, $errline, array $errcontext = null, $printError = true)
   {
     if(!is_int($errno))
     {
@@ -118,7 +90,7 @@ class rex_logger {
       throw new rexException('Expecting $printError to be boolean, but '. gettype($printError) .' given!');
     }
 
-    $errorType = '<b>'. $this->getErrorType($errno) .'</b>';
+    $errorType = '<b>'. self::getErrorType($errno) .'</b>';
 
     $msg = "$errstr in <b>$errfile</b> on line <b>$errline</b><br />\n";
 
@@ -127,7 +99,7 @@ class rex_logger {
       echo $errorType .': '. $msg;
     }
 
-    $this->log($errorType .'['. $errno .']: '. $msg);
+    self::log($errorType .'['. $errno .']: '. $msg);
 
     if(in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR)))
     {
@@ -140,33 +112,33 @@ class rex_logger {
    *
    * @param String $message the message to log
    */
-  public function log($message)
+  static public function log($message)
   {
     if(!is_string($message))
     {
       throw new rexException('Expecting $message to be string, but '. gettype($message) .' given!');
     }
 
-    if(is_resource($this->handle))
+    if(is_resource(self::$handle))
     {
-      fwrite($this->handle, date('r') .'<br />'. $message);
+      fwrite(self::$handle, date('r') .'<br />'. $message);
     }
   }
 
   /**
    * Prepares the logifle for later use
    */
-  public function open()
+  static public function open()
   {
     // check if already opened
-    if(!$this->handle)
+    if(!self::$handle)
     {
-      $this->handle = fopen($this->file, 'ab');
+      self::$handle = fopen(self::$file, 'ab');
     }
 
-    if(!$this->handle)
+    if(!self::$handle)
     {
-      echo 'Error while creating logfile '. $this->file;
+      echo 'Error while creating logfile '. self::$file;
       exit();
     }
   }
@@ -176,29 +148,29 @@ class rex_logger {
    *
 	 * You dont need to close the logfile manually when it was registered during the request.
    */
-  public function close()
+  static public function close()
   {
-    if(is_resource($this->handle))
+    if(is_resource(self::$handle))
     {
-      fclose($this->handle);
+      fclose(self::$handle);
     }
   }
 
   /**
    * Shutdown-handler which is called at the very end of the request
    */
-  public function shutdown()
+  static public function shutdown()
   {
-    if($this->registered)
+    if(self::$registered)
     {
       $error = error_get_last();
       if(is_array($error))
       {
-        $this->logError($error['type'], $error['message'], $error['file'], $error['line'], null, false);
+        self::logError($error['type'], $error['message'], $error['file'], $error['line'], null, false);
       }
     }
 
-    $this->close();
+    self::close();
   }
 
   /**
@@ -206,7 +178,7 @@ class rex_logger {
    *
    * @param int $errno a php error code, e.g. E_ERROR
    */
-  private function getErrorType($errno)
+  static private function getErrorType($errno)
   {
     switch ($errno) {
       case E_USER_ERROR:
