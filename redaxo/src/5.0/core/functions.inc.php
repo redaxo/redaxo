@@ -5,10 +5,6 @@
  * @version svn:$Id$
  */
 
-// ----------------- TIMER
-require_once rex_path::core('lib/util/timer.php');
-rex_timer::getInstance()->start();
-
 // ----------------- REDAXO requireS
 // ----- CLASSES
 require_once rex_path::core('lib/autoload.php');
@@ -17,6 +13,8 @@ require_once rex_path::core('lib/autoload.php');
 rex_autoload::addDirectory(rex_path::core('lib/'));
 // register core-classes  as php-handlers
 rex_autoload::register();
+// start timer
+rex_timer::getInstance()->start();
 // register rex_logger
 rex_logger::register();
 // add core lang directory to rex_i18n

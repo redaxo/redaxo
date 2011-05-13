@@ -27,6 +27,6 @@ switch ($subpage)
 }
 
 
-rex_title($title, array (array ('', rex_i18n::msg('modules')), array ('actions', rex_i18n::msg('actions'))));
+rex_title($title);
 
 require dirname(__FILE__).'/'. $file;

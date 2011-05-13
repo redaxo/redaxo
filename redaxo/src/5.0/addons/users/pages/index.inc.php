@@ -9,12 +9,6 @@
 $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
-// -------------- Header
-$subline = array(
-  array( '', rex_i18n::msg('users')),
-  array( 'roles', rex_i18n::msg('roles')),
-);
-
 switch($subpage)
 {
   case('roles'):
@@ -25,6 +19,6 @@ switch($subpage)
   	break;
 }
 
-rex_title(rex_i18n::msg('user_management'),$subline);
+rex_title(rex_i18n::msg('user_management'));
 
 require dirname(__FILE__).'/'. $file;

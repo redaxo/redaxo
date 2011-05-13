@@ -2,32 +2,37 @@
 
 /**
  * Klasse die Einsprungpunkte zur Erweiterung der Kernfunktionalitaetet bietet.
- * 
+ *
  * @author Markus Staab
  */
-abstract class rex_extension
+abstract class rex_extension extends rex_factory
 {
-  private function __construct(){
-    // subclassing not allowed
-  }
-  
   /**
    * Array aller ExtensionsPoints und deren Extensions
    * @var array
    */
   static private $extensions = array();
-  
+
+  private function __construct(){
+    // subclassing not allowed
+  }
+
   /**
    * Definiert einen Extension Point
    *
    * @param $extensionPoint Name des ExtensionPoints
    * @param $subject Objekt/Variable die beeinflusst werden soll
    * @param $params Parameter für die Callback-Funktion
-   * 
+   *
    * @return mixed $subject, ggf. manipuliert durch registrierte Extensions.
    */
   static public function registerPoint($extensionPoint, $subject = '', array $params = array (), $read_only = false)
   {
+    if(static::hasFactoryClass())
+    {
+      return static::callFactoryClass(__FUNCTION__, func_get_args());
+    }
+
     $result = $subject;
 
     // Name des EP als Parameter mit übergeben
@@ -75,6 +80,10 @@ abstract class rex_extension
    */
   static public function register($extensionPoint, $callable, array $params = array())
   {
+    if(static::hasFactoryClass())
+    {
+      return static::callFactoryClass(__FUNCTION__, func_get_args());
+    }
     self::$extensions[$extensionPoint][] = array($callable, $params);
   }
 
@@ -82,11 +91,15 @@ abstract class rex_extension
    * Prüft ob eine extension für den angegebenen Extension Point definiert ist
    *
    * @param $extensionPoint Name des ExtensionPoints
-   * 
+   *
    * @return boolean True, wenn eine Extension für den uebergeben ExtensionPoint definiert ist, sonst False
    */
   static public function isRegistered($extensionPoint)
   {
+    if(static::hasFactoryClass())
+    {
+      return static::callFactoryClass(__FUNCTION__, func_get_args());
+    }
     return !empty (self::$extensions[$extensionPoint]);
   }
 
@@ -94,12 +107,16 @@ abstract class rex_extension
    * Gibt ein Array mit Namen von Extensions zurück, die am angegebenen Extension Point definiert wurden
    *
    * @param $extensionPoint Name des ExtensionPoints
-   * 
+   *
    * @return array Ein array von registrierten Extensions
    */
   static public function getRegisteredExtensions($extensionPoint)
   {
-    if(rex_extension::isRegistered($extensionPoint))
+    if(static::hasFactoryClass())
+    {
+      return static::callFactoryClass(__FUNCTION__, func_get_args());
+    }
+    if(static::isRegistered($extensionPoint))
     {
       return self::$extensions[$extensionPoint][0];
     }

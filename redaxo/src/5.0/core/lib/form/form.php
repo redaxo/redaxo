@@ -103,19 +103,9 @@ class rex_form extends rex_factory
    *
    * @return rex_form a rex_form instance
    */
-  public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $class = null)
+  public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
-    // keine spezielle klasse angegeben -> default klasse verwenden?
-    if(!$class)
-    {
-      $class = self::getFactoryClass();
-    }
-
-    if($class != __CLASS__ && !is_subclass_of($class, __CLASS__))
-    {
-      throw new rexException('$class is expected to define a subclass of '. __CLASS__ .'!');
-    }
-
+    $class = self::getFactoryClass();
     return new $class($tableName, $fieldset, $whereCondition, $method, $debug);
   }
 

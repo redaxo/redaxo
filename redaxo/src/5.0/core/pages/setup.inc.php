@@ -1,31 +1,6 @@
 <?php
 
 /**
- * Direkter Aufruf, um zu testen, ob der Ordner redaxo/src
- * erreichbar ist. Dies darf aus Sicherheitsgründen nicht möglich sein!
- */
-if (!isset($REX))
-{
-	echo '<html>
-          <title></title>
-          <head>
-            <script src="../../../../../assets/standard.js" type="text/javascript"></script>
-            <script type="text/javascript">
-              var needle = new parent.getObj("security_warning");
-              var span = needle.obj;
-              span.style.display="";
-              var needle = new parent.getObj("nextstep");
-              var span = needle.obj;
-              span.style.display="none";
-            </script>
-          </head>
-          <body></body>
-        </html>';
-	exit();
-}
-
-
-/**
  *
  * @package redaxo5
  * @version svn:$Id$
@@ -224,7 +199,7 @@ if (!($checkmodus > 0 && $checkmodus < 10))
   rex_deleteAll();
 
   // copy alle media files of the current rex-version into redaxo_media
-  rex_dir::copy(rex_path::src('assets'), rex_path::assets());
+  rex_dir::copy(rex_path::core('assets'), rex_path::assets());
 
   // copy agk_skin files
   rex_dir::copy(rex_path::plugin('be_style', 'agk_skin', 'assets'), rex_path::pluginAssets('be_style', 'agk_skin'));
@@ -348,7 +323,6 @@ if ($MSG['err'] == '' && $checkmodus == 1)
 	echo rex_i18n::msg('setup_016_1', ' class="rex-ul1"', '<span class="rex-ok">', '</span>');
 	echo '<div class="rex-message"><p class="rex-warning" id="security_warning" style="display: none;"><span>'. rex_i18n::msg('setup_security_msg') .'</span></p></div>
         <noscript><div class="rex-message"><p class="rex-warning"><span>'. rex_i18n::msg('setup_no_js_security_msg') .'</span></p></div></noscript>
-        <iframe src="src/'.$REX['VERSION_FOLDER'].'/core/pages/setup.inc.php?page=setup&amp;checkmodus=1.5&amp;lang='.$lang.'" style="display: none;"></iframe>
      </div>
      <div class="rex-area-footer">
        <p id="nextstep" class="rex-algn-rght">

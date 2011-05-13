@@ -28,8 +28,8 @@ foreach($config as $key => $value)
 }
 
 // --------- Debug extensions
-rex_sql::setFactoryClass(new rex_sql_debug());
-// rex_extension::setFactoryClass(new rex_extension_debug());
+rex_sql::setFactoryClass('rex_sql_debug');
+// rex_extension::setFactoryClass('rex_extension_debug');
 
 $REX['FILEPERM'] = octdec($REX['FILEPERM']);
 $REX['DIRPERM'] = octdec($REX['DIRPERM']);

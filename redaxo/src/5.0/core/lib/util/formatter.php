@@ -203,7 +203,7 @@ abstract class rex_formatter
     }
     else
     {
-      if (!startsWith($format['params'], '?'))
+      if (strstr($format['params'], '?') != $format['params'])
       {
         $format['params'] = '?'.$format['params'];
       }
@@ -232,7 +232,7 @@ abstract class rex_formatter
     }
     else
     {
-      if (!startsWith($format['params'], '?'))
+      if (strstr($format['params'], '?') != $format['params'])
       {
         $format['params'] = '?'.$format['params'];
       }
@@ -263,7 +263,7 @@ abstract class rex_formatter
     if (empty ($format['break_words']))
       $format['break_words'] = false;
 
-    return truncate($value, $format['length'], $format['etc'], $format['break_words']);
+    return self::truncate($value, $format['length'], $format['etc'], $format['break_words']);
   }
 
   static public function _formatNl2br($value, $format)
@@ -297,7 +297,7 @@ abstract class rex_formatter
 
     return rex_call_func($format, $value);
   }
-  
+
   static public function _formatFilesize($value, $format)
   {
     $units = array('B','KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB');
@@ -307,7 +307,7 @@ abstract class rex_formatter
       $value /= 1024;
       $unit_index++;
     }
-    
+
     if(isset($format[0]))
     {
       $z = intval($value * pow(10, $precision = intval($format[0])));
@@ -324,7 +324,7 @@ abstract class rex_formatter
         }
       }
     }
-    
+
     return rex_formatter::_formatNumber($value, $format).' '.$units[$unit_index];
   }
 
@@ -390,7 +390,7 @@ abstract class rex_formatter
     }
     else
     {
-      if (!startsWith($format['params'], '?'))
+      if (strstr($format['params'], '?') != $format['params'])
       {
         $format['params'] = '?'.$format['params'];
       }

@@ -465,21 +465,26 @@ jQuery(function($){
         ENABLE_KEY_NAV = true;
       });    
   });
-
+  
   if ($('#rex-page-login').length == 0 && getCookie('htaccess_check') == '')
   {
     time = new Date();
     time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
     setCookie('htaccess_check', '1', time.toGMTString());
-    $.get('src/config.inc.php', 
-      function(data) {
-        $('#rex-wrapper2').prepend('<div class="rex-message"><p class="rex-warning"><span>The folder redaxo is insecure. Please protect this folder.</span></p></div>');
-        setCookie('htaccess_check', '');
-      }
-    );
+    checkHtaccess('cache', '_readme.txt');
+    checkHtaccess('data', '_readme.txt');
+    checkHtaccess('src', 'config.yml');
   }
   
-
+  function checkHtaccess(dir, file)
+  {
+    $.get(dir +'/'+ file, 
+	  function(data) {
+	    $('#rex-wrapper2').prepend('<div class="rex-message"><p class="rex-warning"><span>The folder redaxo/'+ dir +' is insecure. Please protect this folder.</span></p></div>');
+	    setCookie('htaccess_check', '');
+	  }
+	);
+  }
 });
 
 

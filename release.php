@@ -288,7 +288,7 @@ function readFilteredFolder($dir, $fileprefix)
 
   foreach ($folder as $file)
   {
-    if (endsWith($file, $fileprefix))
+    if(substr($file, strlen($file) - strlen($fileprefix)) == $fileprefix)
     {
       $filtered[] = $file;
     }

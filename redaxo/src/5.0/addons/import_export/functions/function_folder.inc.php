@@ -3,7 +3,7 @@
 
 /**
  * Returns the content of the given folder
- * 
+ *
  * @param $dir Path to the folder
  * @return Array Content of the folder or false on error
  * @author Markus Staab <staab@public-4u.de>
@@ -31,7 +31,7 @@ if (!function_exists('readFolder'))
 /**
  * Returns the content of the given folder.
  * The content will be filtered with the given $fileprefix
- * 
+ *
  * @param $dir Path to the folder
  * @param $fileprefix Fileprefix to filter
  * @return Array Filtered-content of the folder or false on error
@@ -52,7 +52,7 @@ if (!function_exists('readFilteredFolder'))
 
       foreach ($folder as $file)
       {
-         if (endsWith($file, $fileprefix))
+         if(substr($file, strlen($file) - strlen($fileprefix)) == $fileprefix)
          {
             $filtered[] = $file;
          }
@@ -64,7 +64,7 @@ if (!function_exists('readFilteredFolder'))
 
 /**
  * Returns the files of the given folder
- * 
+ *
  * @param $dir Path to the folder
  * @return Array Files of the folder or false on error
  * @author Markus Staab <staab@public-4u.de>
@@ -95,7 +95,7 @@ if (!function_exists('readFolderFiles'))
 
 /**
  * Returns the subfolders of the given folder
- * 
+ *
  * @param $dir Path to the folder
  * @param $ignore_dots True if the system-folders "." and ".." should be ignored
  * @return Array Subfolders of the folder or false on error
