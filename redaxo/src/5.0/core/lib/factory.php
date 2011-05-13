@@ -58,4 +58,28 @@ abstract class rex_factory
     $calledClass = get_called_class();
     return isset(self::$classes[$calledClass]) ? self::$classes[$calledClass] : $calledClass;
   }
+
+  /**
+   * Returns if the class has a custom factory class
+   *
+   * @return boolean
+   */
+  static public function hasFactoryClass()
+  {
+    $calledClass = get_called_class();
+    return isset(self::$classes[$calledClass]) && self::$classes[$calledClass] != $calledClass;
+  }
+
+  /**
+   * Calls the factory class with the given method and arguments
+   *
+   * @param string $method Method name
+   * @param array $arguments Array of arguments
+   * @return mixed Result of the callback
+   */
+  static protected function callFactoryClass($method, array $arguments)
+  {
+    $class = static::getFactoryClass();
+    return call_user_func_array(array($class, $method), $arguments);
+  }
 }
