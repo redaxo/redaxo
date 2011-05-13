@@ -8,11 +8,6 @@ class rex_sql_debug extends rex_sql
     $count = 0,
     $queries = array();
 
-  protected function __construct($DBID = 1)
-  {
-    parent::__construct($DBID);
-  }
-
   public function execute(array $params)
   {
     self::$count++;
