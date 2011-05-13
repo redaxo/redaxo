@@ -220,11 +220,11 @@ class rex_sql extends rex_factory implements Iterator
     {
       throw new rexException('expecting $params to be an array, "'. gettype($params) .'" given!');
     }
-    
+
     // Alle Werte zuruecksetzen
     $this->flush();
     $this->query = $qry;
-    
+
     $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
     if($this->stmt)
     {
@@ -387,7 +387,7 @@ class rex_sql extends rex_factory implements Iterator
     // fast fail,... value already set manually?
   	if(isset($this->values[$feldname]))
   		return $this->values[$feldname];
-  		
+
     // check if there is an table alias defined
     // if not, try to guess the tablename
     if(strpos($feldname, '.') === false)
@@ -543,9 +543,9 @@ class rex_sql extends rex_factory implements Iterator
     // we have an custom where criteria, so we don't need to build one automatically
     if($this->wherevar != '')
     {
-      return '';  
+      return '';
     }
-    
+
     $qry = '';
     if(is_array($this->whereParams))
     {
@@ -994,9 +994,9 @@ class rex_sql extends rex_factory implements Iterator
    *
    * @deprecated since 4.3.0
    */
-  public function getInstance($DBID=1, $deprecatedSecondParam = null)
+  static public function getInstance($DBID=1, $deprecatedSecondParam = null)
   {
-  	return rex_sql::factory($DBID);
+  	return static::factory($DBID);
   }
 
   /**
@@ -1200,22 +1200,11 @@ class rex_sql extends rex_factory implements Iterator
    * Creates a rex_sql instance
    *
    * @param integer $DBID
-   * @param string $class a classname
    * @return rex_sql Returns a rex_sql instance
    */
-  static public function factory($DBID=1, $class=null)
+  static public function factory($DBID=1)
   {
-    // keine spezielle klasse angegeben -> default klasse verwenden?
-    if(!$class)
-    {
-      $class = self::getFactoryClass();
-    }
-
-    if($class != __CLASS__ && !is_subclass_of($class, __CLASS__))
-    {
-      throw new rexException('$class is expected to define a subclass of '. __CLASS__ .'!');
-    }
-
+    $class = self::getFactoryClass();
     return new $class($DBID);
   }
 
