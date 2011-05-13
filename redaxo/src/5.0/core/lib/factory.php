@@ -36,6 +36,10 @@ abstract class rex_factory
    */
   static public function setFactoryClass($subclass)
   {
+    if(!is_string($subclass))
+    {
+      throw new rexException('Expecting $subclass to be a string, '. gettype($subclass) . ' given!');
+    }
     $calledClass = get_called_class();
     if($subclass != $calledClass && !is_subclass_of($subclass, $calledClass))
     {
