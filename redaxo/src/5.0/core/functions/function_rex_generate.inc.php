@@ -8,7 +8,7 @@
 function rex_generateAll()
 {
   global $REX;
-  
+
   // ----------------------------------------------------------- generated löschen
   rex_deleteAll();
 
@@ -35,7 +35,17 @@ function rex_deleteAll()
   // unregister logger, so the logfile can also be deleted
   rex_logger::unregister();
 
-  rex_dir::deleteFiles(rex_path::cache());
-  
+  foreach(new FilesystemIterator(rex_path::cache(), FilesystemIterator::SKIP_DOTS) as $file)
+  {
+    if($file->isDir())
+    {
+      rex_dir::delete($file->getPathname());
+    }
+    elseif(!in_array($file->getFilename(), array('.htaccess', '_readme.txt')))
+    {
+      rex_file::delete($file->getPathname());
+    }
+  }
+
   rex_logger::register();
 }
