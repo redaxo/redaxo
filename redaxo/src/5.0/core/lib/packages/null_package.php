@@ -5,30 +5,8 @@
  *
  * @author gharlan
  */
-abstract class rex_nullPackage implements rex_packageInterface
+abstract class rex_nullPackage extends rex_singleton implements rex_packageInterface
 {
-  /**
-   * Singleton instance
-   *
-   * @var array[rex_nullPackage];
-   */
-  static private $instances = array();
-
-  /**
-   * Returns the singleton instance
-   *
-   * @return rex_nullPackage
-   */
-  static public function getInstance()
-  {
-    $class = get_called_class();
-    if(!isset(self::$instances[$class]))
-    {
-      self::$instances[$class] = new static;
-    }
-    return self::$instances[$class];
-  }
-
   /* (non-PHPdoc)
    * @see rex_packageInterface::getName()
    */

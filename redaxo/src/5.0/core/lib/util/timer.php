@@ -8,10 +8,8 @@
  * @package redaxo5
  * @version svn:$Id$
  */
-class rex_timer
+class rex_timer extends rex_singleton
 {
-  static private $instance;
-
   private $start;
 
   /**
@@ -20,20 +18,6 @@ class rex_timer
   public function __construct()
   {
     $this->start();
-  }
-
-  /**
-   * Returns the standard instance
-   *
-   * @return rex_timer
-   */
-  static public function getInstance()
-  {
-    if(!is_object(self::$instance))
-    {
-      self::$instance = new self();
-    }
-    return self::$instance;
   }
 
   /**
