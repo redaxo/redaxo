@@ -1,6 +1,16 @@
 <?php
 
-class rex_debug_util {
+/**
+ * This class provides common debug utility functions
+ * 
+ * @author staabm
+ */
+abstract class rex_debug_util {
+  
+  private function __construct()
+  {
+    // it's not allowed to create instances of this class
+  }
   
   /**
    * Injects some content into the page-content of a backend page

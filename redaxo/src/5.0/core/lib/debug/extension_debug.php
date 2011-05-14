@@ -2,6 +2,11 @@
 
 rex_extension::register('OUTPUT_FILTER', array('rex_extension_debug', 'printStats'));
 
+/**
+ * Class to monitor extension points
+ * 
+ * @author staabm
+ */
 class rex_extension_debug extends rex_extension
 {
   private static
