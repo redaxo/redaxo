@@ -17,7 +17,7 @@ class rex_extension_debug extends rex_extension
     $timer = new rex_timer();
     $res = parent::registerPoint($extensionPoint, $subject, $params, $read_only);
 
-    self::$calls[] = array($extensionPoint, $timer->stop(rex_timer::MILLISEC));
+    self::$calls[] = array($extensionPoint, $timer->getFormattedTime(rex_timer::MILLISEC));
 
     return $res;
   }

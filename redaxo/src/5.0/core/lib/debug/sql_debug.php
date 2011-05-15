@@ -21,7 +21,7 @@ class rex_sql_debug extends rex_sql
     $timer = new rex_timer();
     $res = parent::execute($params);
 
-    self::$queries[] = array($qry, $timer->stop(rex_timer::MILLISEC));
+    self::$queries[] = array($qry, $timer->getFormattedTime(rex_timer::MILLISEC));
 
     return $res;
   }

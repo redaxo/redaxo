@@ -22,28 +22,38 @@ class rex_timer extends rex_singleton
    */
   public function __construct()
   {
-    $this->start();
+    $this->reset();
   }
 
   /**
-   * Starts the timer
+   * Resets the timer
    */
-  public function start()
+  public function reset()
   {
     $this->start = microtime(true);
   }
 
   /**
-   * Stops the timer and returns the formatted time difference
+   * Returns the time difference
+   *
+   * @return float Time difference in seconds
+   */
+  public function getTime()
+  {
+    return microtime(true) - $this->start;
+  }
+
+  /**
+   * Returns the formatted time difference
    *
    * @param int $precision Factor which will be multiplied, for convertion into different units (e.g. 1000 for milli,...)
    * @param int $decimals Number of decimals points
    *
    * @return string Formatted time difference
    */
-  public function stop($precision = self::SEC, $decimals = 3)
+  public function getFormattedTime($precision = self::SEC, $decimals = 3)
   {
-    $time = (microtime(true) - $this->start) * $precision;
+    $time = $this->getTime() * $precision;
     return rex_formatter::format($time, 'number', array($decimals));
   }
 }
