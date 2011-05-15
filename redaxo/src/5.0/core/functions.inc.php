@@ -14,7 +14,7 @@ rex_autoload::addDirectory(rex_path::core('lib/'));
 // register core-classes  as php-handlers
 rex_autoload::register();
 // start timer
-rex_timer::getInstance()->start();
+rex_timer::getInstance()->reset();
 // register rex_logger
 rex_logger::register();
 // add core lang directory to rex_i18n
