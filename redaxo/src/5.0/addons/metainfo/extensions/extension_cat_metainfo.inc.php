@@ -3,7 +3,7 @@
 /**
  * MetaForm Addon
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
+ *
  * @package redaxo5
  * @version svn:$Id$
  */
@@ -18,14 +18,12 @@ rex_extension::register('CAT_FORM_BUTTONS', 'rex_a62_metainfo_button');
 
 function rex_a62_metainfo_button($params)
 {
-	global $REX;
-	
-  $s = '';
+	$s = '';
 	$restrictionsCondition = '';
 	if(isset($params['id']) && $params['id'] != '')
 	{
     $OOCat = rex_ooCategory::getCategoryById($params['id']);
-    
+
     // Alle Metafelder des Pfades sind erlaubt
     foreach(explode('|', $OOCat->getPath()) as $pathElement)
     {
@@ -34,13 +32,13 @@ function rex_a62_metainfo_button($params)
         $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
       }
     }
-    
+
     // Auch die Kategorie selbst kann Metafelder haben
     $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
 	}
   $restrictionsCondition = 'AND (`p`.`restrictions` = ""'. $s .')';
 
-	
+
 	$fields = _rex_a62_metainfo_sqlfields('cat_', $restrictionsCondition);
 	if ($fields->getRows() >= 1)
   {
@@ -55,7 +53,7 @@ function rex_a62_metainfo_button($params)
 			metacat.removeClass("rex-i-generic-open");
 			metacat.addClass("rex-i-generic-close");
 		}
-		else 
+		else
 		{
 			metacat.removeClass("rex-i-generic-close");
 			metacat.addClass("rex-i-generic-open");
@@ -75,14 +73,12 @@ function rex_a62_metainfo_button($params)
  */
 function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
 {
-  global $REX;
-
   $add_td = '';
   $class_td = '';
   $class_tr = '';
-  if ($REX['USER']->hasPerm('advancedMode[]'))
+  if (rex_core::getUser()->hasPerm('advancedMode[]'))
     $add_td = '<td></td>';
-  
+
   $element = $field;
   if ($labelIt)
   {
@@ -92,14 +88,14 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
   	     '.$field.'
   	   </'.$tag.'>';
   }
-  
+
   if ($typeLabel == 'legend')
   {
   	$element = '<p class="rex-form-legend">'. $label .'</p>';
     $class_td = ' class="rex-colored"';
     $class_tr .= ' rex-metainfo-cat-b';
   }
-  
+
   $s = '
   <tr class="rex-table-row-activ rex-metainfo-cat'. $class_tr .'" style="display:none;">
   	<td></td>

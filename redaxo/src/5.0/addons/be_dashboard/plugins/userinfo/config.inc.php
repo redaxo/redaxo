@@ -13,7 +13,7 @@
 $mypage = 'userinfo';
 
 // im backend und eingeloggt?
-if($REX["REDAXO"] && $REX["USER"])
+if(rex_core::isBackend() && rex_core::getUser())
 {
   if(rex_request('page', 'string') == 'be_dashboard')
   {

@@ -10,10 +10,8 @@
 
 function rex_a79_help_overview()
 {
-  global $REX;
-
   // check perms
-  if(!$REX['USER']->hasPerm('textile[help]'))
+  if(!rex_core::getUser()->hasPerm('textile[help]'))
   {
   	return;
   }
@@ -90,8 +88,6 @@ function rex_a79_help_overview_formats()
 
 function rex_a79_help_headlines()
 {
-  global $REX;
-
   return array(rex_i18n::msg('textile_headlines'),
     array(
     'headlines1-3' =>
@@ -112,8 +108,6 @@ function rex_a79_help_headlines()
 
 function rex_a79_help_formats()
 {
-  global $REX;
-
   return array(rex_i18n::msg('textile_text_formatting'),
     array(
     'text_xhtml' =>
@@ -148,8 +142,6 @@ function rex_a79_help_formats()
 
 function rex_a79_help_links()
 {
-  global $REX;
-
   return array(rex_i18n::msg('textile_links'),
     array(
     'links_intern' =>
@@ -178,8 +170,6 @@ function rex_a79_help_links()
 
 function rex_a79_help_footnotes()
 {
-  global $REX;
-
   return array(rex_i18n::msg('textile_footnotes'),
     array(
     'footnotes' =>
@@ -193,8 +183,6 @@ function rex_a79_help_footnotes()
 
 function rex_a79_help_lists()
 {
-  global $REX;
-
   return array(rex_i18n::msg('textile_lists'),
     array(
     'lists' =>
@@ -208,8 +196,6 @@ function rex_a79_help_lists()
 
 function rex_a79_help_tables()
 {
-  global $REX;
-
   return array(rex_i18n::msg('textile_tables'),
     array(
     'tables' =>

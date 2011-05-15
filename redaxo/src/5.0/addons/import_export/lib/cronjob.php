@@ -7,14 +7,12 @@ class rex_cronjob_export extends rex_cronjob
 
   public function execute()
   {
-    global $REX;
-
     include_once rex_path::addon('import_export', 'functions/function_import_export.inc.php');
     include_once rex_path::addon('import_export', 'functions/function_import_folder.inc.php');
 
     $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
     $filename = str_replace("%HTTP_HOST", $_SERVER['HTTP_HOST'], $filename);
-    $filename = str_replace("%REX_VERSION", $REX['VERSION'].$REX['SUBVERSION'].$REX['MINORVERSION'], $filename);
+    $filename = str_replace("%REX_VERSION", rex_core::getProperty('version').rex_core::getProperty('subversion').rex_core::getProperty('minorversion'), $filename);
     $filename = strftime($filename);
     $file = $filename;
     $dir = getImportDir() .'/';
@@ -40,7 +38,7 @@ class rex_cronjob_export extends rex_cronjob
         $mail = new rex_mailer;
         $mail->AddAddress($this->mailaddress);
         $mail->Subject = rex_i18n::msg('im_export_mail_subject');
-        $mail->Body = rex_i18n::msg('im_export_mail_body', $REX['SERVERNAME']);
+        $mail->Body = rex_i18n::msg('im_export_mail_body', rex_core::getProperty('servername'));
         $mail->AddAttachment($dir . $file . $ext, $filename . $ext);
         if ($mail->Send())
         {
@@ -60,15 +58,12 @@ class rex_cronjob_export extends rex_cronjob
 
   public function getTypeName()
   {
-    global $REX;
     return rex_i18n::msg('im_export_database_export');
   }
 
   public function getParamFields()
   {
-		global $REX;
-
-    $fields = array(
+		$fields = array(
       array(
         'label' => rex_i18n::msg('im_export_filename'),
         'name'  => 'filename',

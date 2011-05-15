@@ -18,8 +18,6 @@ rex_extension::register('ADDONS_INCLUDED','rex_media_manager_init');
 
 function rex_media_manager_init()
 {
-	global $REX;
-
 	//--- handle image request
 	$rex_media_manager_file = rex_get('rex_media_file', 'string');
 	$rex_media_manager_type = rex_get('rex_media_type', 'string');
@@ -43,7 +41,7 @@ function rex_media_manager_init()
 	}
 }
 
-if($REX['REDAXO'])
+if(rex_core::isBackend())
 {
 	// delete thumbnails on mediapool changes
 	if(!function_exists('rex_media_manager_ep_mediaupdated'))

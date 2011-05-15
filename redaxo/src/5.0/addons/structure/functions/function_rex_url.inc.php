@@ -13,8 +13,6 @@ function rex_parse_article_name($name)
 
   if($firstCall)
   {
-    global $REX;
-
     // Sprachspezifische Sonderzeichen Filtern
     $search = explode('|', rex_i18n::msg('special_chars'));
     $replace = explode('|', rex_i18n::msg('special_chars_rewrite'));
@@ -104,7 +102,7 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
   if ($url == '')
   {
     // ----- get rewrite function
-    if ($REX['MOD_REWRITE'] === true || $REX['MOD_REWRITE'] == 'true')
+    if (rex_core::getProperty('mod_rewrite'))
       $rewrite_fn = 'rex_apache_rewrite';
     else
       $rewrite_fn = 'rex_no_rewrite';
@@ -120,8 +118,6 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
  */
 function rex_redirect($article_id, $clang = '', $params = array())
 {
-  global $REX;
-
   // Alle OBs schließen
   while(@ob_end_clean());
 

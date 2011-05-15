@@ -25,8 +25,6 @@ class rex_a62_tableExpander extends rex_form
 
   public function init()
   {
-    global $REX;
-
     // ----- EXTENSION POINT
     // IDs aller Feldtypen bei denen das Parameter-Feld eingeblendet werden soll
     $typeFields = rex_extension::registerPoint( 'A62_TYPE_FIELDS', array(REX_A62_FIELD_SELECT, REX_A62_FIELD_RADIO, REX_A62_FIELD_CHECKBOX, REX_A62_FIELD_REX_MEDIA_BUTTON, REX_A62_FIELD_REX_MEDIALIST_BUTTON, REX_A62_FIELD_REX_LINK_BUTTON, REX_A62_FIELD_REX_LINKLIST_BUTTON));
@@ -65,7 +63,7 @@ class rex_a62_tableExpander extends rex_form
     $field->setNotice(rex_i18n::msg('minfo_field_notice_title'));
 
 	  $gq = rex_sql::factory();
-		$gq->setQuery('SELECT dbtype,id FROM '. $REX['TABLE_PREFIX'] .'62_type');
+		$gq->setQuery('SELECT dbtype,id FROM '. rex_core::getTablePrefix() .'62_type');
 		$textFields = array();
 		foreach($gq->getArray() as $f)
 		{
@@ -83,7 +81,7 @@ class rex_a62_tableExpander extends rex_form
 
     $changeTypeFieldId = $field->getAttribute('id');
 
-    $qry = 'SELECT label,id FROM '. $REX['TABLE_PREFIX'] .'62_type';
+    $qry = 'SELECT label,id FROM '. rex_core::getTablePrefix() .'62_type';
     $select->addSqlOptions($qry);
 
     $notices = '';
@@ -108,7 +106,7 @@ class rex_a62_tableExpander extends rex_form
     $field->setLabel(rex_i18n::msg('minfo_field_label_attributes'));
     $notice = '<span class="rex-form-notice" id="a62_field_attributes_notice">'. rex_i18n::msg('minfo_field_attributes_notice') .'</span>'. "\n";
     $field->setSuffix($notice);
-    
+
     $field = $this->addTextAreaField('callback');
     $field->setLabel(rex_i18n::msg('minfo_field_label_callback'));
     $notice = '<span class="rex-form-notice" id="a62_field_attributes_notice">'. rex_i18n::msg('minfo_field_label_notice') .'</span>'. "\n";
@@ -128,7 +126,6 @@ class rex_a62_tableExpander extends rex_form
 
   public function getFieldsetName()
   {
-    global $REX;
     return rex_i18n::msg('minfo_field_fieldset');
   }
 
@@ -154,8 +151,6 @@ class rex_a62_tableExpander extends rex_form
 
   protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
   {
-    global $REX;
-
     if($fieldsetName == $this->getFieldsetName() && $fieldName == 'name')
     {
       // Den Namen mit Prefix speichern
@@ -197,8 +192,6 @@ class rex_a62_tableExpander extends rex_form
 
   protected function validate()
   {
-    global $REX;
-
     $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
     if($fieldName == '')
       return rex_i18n::msg('minfo_field_error_name');
@@ -214,7 +207,7 @@ class rex_a62_tableExpander extends rex_form
       {
         return rex_i18n::msg('minfo_field_error_unique_name');
       }
-      
+
       // das meta-schema checken
       $sql = rex_sql::factory();
       $sql->setQuery('SELECT * FROM '. $this->tableName .' WHERE name="'. $this->addPrefix($fieldName) .'" LIMIT 1');
@@ -223,7 +216,7 @@ class rex_a62_tableExpander extends rex_form
         return rex_i18n::msg('minfo_field_error_unique_name');
       }
     }
-    
+
     return parent::validate();
   }
 
@@ -246,8 +239,6 @@ class rex_a62_tableExpander extends rex_form
 
     if(parent::save())
     {
-      global $REX;
-
       $this->organizePriorities($this->elementPostValue($this->getFieldsetName(), 'prior'), $fieldOldPrior);
       rex_generateAll();
 
@@ -257,7 +248,7 @@ class rex_a62_tableExpander extends rex_form
 
       $sql = rex_sql::factory();
       $sql->debugsql =& $this->debug;
-      $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `'. $REX['TABLE_PREFIX'] .'62_type` WHERE id='. $fieldType);
+      $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `'. rex_core::getTablePrefix() .'62_type` WHERE id='. $fieldType);
       $fieldDbType = $result[0]['dbtype'];
       $fieldDbLength = $result[0]['dblength'];
 

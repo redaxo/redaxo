@@ -102,7 +102,7 @@ function rex_mediapool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids,
   if(empty($mediacat)) return;
 
   $mname = $mediacat->getName();
-  if($REX['USER']->hasPerm('advancedMode[]'))
+  if(rex_core::getUser()->hasPerm('advancedMode[]'))
     $mname .= ' ['. $mediacat->getId() .']';
 
   $mediacat_ids[] = $mediacat->getId();
@@ -128,11 +128,11 @@ function rex_mediapool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediacat
   if(empty($mediacat)) return;
 
   $mname = $mediacat->getName();
-  if($REX['USER']->hasPerm('advancedMode[]'))
+  if(rex_core::getUser()->hasPerm('advancedMode[]'))
     $mname .= ' ['. $mediacat->getId() .']';
 
   $mediacat_ids[] = $mediacat->getId();
-  if ($PERMALL || $REX['USER']->hasPerm('media['.$mediacat->getId().']'))
+  if ($PERMALL || rex_core::getUser()->hasPerm('media['.$mediacat->getId().']'))
     $select->addOption($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
 
   $childs = $mediacat->getChildren();

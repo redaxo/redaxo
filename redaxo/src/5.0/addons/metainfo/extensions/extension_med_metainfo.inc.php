@@ -56,10 +56,8 @@ function rex_a62_metainfo_form($params)
   }
   else if($params['extension_point'] == 'MEDIA_ADDED')
   {
-    global $REX;
-
     $sql = rex_sql::factory();
-    $qry = 'SELECT media_id FROM '. $REX['TABLE_PREFIX'] .'media WHERE filename="'. $params['filename'] .'"';
+    $qry = 'SELECT media_id FROM '. rex_core::getTablePrefix() .'media WHERE filename="'. $params['filename'] .'"';
     $sql->setQuery($qry);
     if($sql->getRows() == 1)
     {

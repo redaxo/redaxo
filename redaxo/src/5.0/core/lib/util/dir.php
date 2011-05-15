@@ -15,11 +15,9 @@ class rex_dir
    */
   static public function create($dir, $recursive = true)
   {
-    global $REX;
-
-    if(is_dir($dir) || mkdir($dir, $REX['DIRPERM'], $recursive))
+    if(is_dir($dir) || mkdir($dir, rex_core::getProperty('dirperm'), $recursive))
     {
-      chmod($dir, $REX['DIRPERM']);
+      chmod($dir, rex_core::getProperty('dirperm'));
       return true;
     }
 
@@ -36,8 +34,6 @@ class rex_dir
    */
   static public function copy($srcdir, $dstdir)
   {
-    global $REX;
-
     $state = TRUE;
 
     $srcdir = rtrim($srcdir, DIRECTORY_SEPARATOR);

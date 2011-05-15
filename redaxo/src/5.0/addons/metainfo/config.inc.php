@@ -33,12 +33,12 @@ if(!defined('REX_A62_FIELD_TEXT'))
 
 $this->setProperty('prefixes', array('art_', 'cat_', 'med_'));
 $this->setProperty('metaTables', array(
-  'art_' => $REX['TABLE_PREFIX'] .'article',
-  'cat_' => $REX['TABLE_PREFIX'] .'article',
-  'med_' => $REX['TABLE_PREFIX'] .'media',
+  'art_' => rex_core::getTablePrefix() .'article',
+  'cat_' => rex_core::getTablePrefix() .'article',
+  'med_' => rex_core::getTablePrefix() .'media',
 ));
 
-if ($REX['REDAXO'])
+if (rex_core::isBackend())
 {
   $curDir = dirname(__FILE__);
   require_once $curDir .'/functions/function_metainfo.inc.php';

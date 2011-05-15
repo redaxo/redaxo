@@ -10,10 +10,10 @@
  */
 
 $sql = rex_sql::factory();
-$sql->setQuery('SELECT id FROM '. $REX['TABLE_PREFIX'] .'cronjob WHERE type="rex_cronjob_article_status" LIMIT 1');
+$sql->setQuery('SELECT id FROM '. rex_core::getTablePrefix() .'cronjob WHERE type="rex_cronjob_article_status" LIMIT 1');
 if ($sql->getRows() == 0)
 {
-  $sql->setTable($REX['TABLE_PREFIX'] .'cronjob');
+  $sql->setTable(rex_core::getTablePrefix() .'cronjob');
   $sql->setValue('name', 'Artikel-Status');
   $sql->setValue('type', 'rex_cronjob_article_status');
   $sql->setValue('interval', '|1|d|');

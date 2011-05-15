@@ -23,7 +23,7 @@ class rex_pluginManagerCompat extends rex_pluginManager
   {
     global $REX;
 
-    $ADDONsic = $REX['ADDON'];
+    $ADDONsic = isset($REX['ADDON']) ? $REX['ADDON'] : array();
     $REX['ADDON'] = array();
 
     $package->includeFile($file, array('REX_USER', 'REX_LOGIN', 'I18N', 'article_id', 'clang'));

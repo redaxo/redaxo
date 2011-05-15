@@ -46,8 +46,6 @@ class rex_cronjob_manager
 
   public function tryExecute($cronjob, $name = '', $params = array(), $log = true, $id = null)
   {
-    global $REX;
-
     $message = '';
     $success = rex_cronjob::isValid($cronjob);
     if(!$success)
@@ -90,12 +88,11 @@ class rex_cronjob_manager
 
   private function log($success, $message)
   {
-    global $REX;
     $name = $this->name;
     if (!$name)
     {
       if (rex_cronjob::isValid($this->cronjob))
-        $name = $REX['REDAXO'] ? $cronjob->getTypeName() : $cronjob->getType();
+        $name = rex_core::isBackend() ? $cronjob->getTypeName() : $cronjob->getType();
       else
         $name = '[no name]';
     }

@@ -34,8 +34,6 @@ class rex_file_cache extends rex_cache
    */
   public function __construct(array $options = array())
   {
-    global $REX;
-
     parent::__construct($options);
 
     if (!$this->getOption('cache_dir'))

@@ -257,12 +257,10 @@ class rex_i18n
    */
   static private function loadAll()
   {
-    global $REX;
-
     self::$msg = array();
     if(!self::$locale)
     {
-      self::$locale = $REX['LANG'];
+      self::$locale = rex_core::getProperty('lang');
     }
     foreach(self::$directories as $dir)
     {

@@ -72,7 +72,7 @@ $sel->setName('clang_id');
 $sel->setStyle('class="rex-form-select"');
 $sel->setId('rex-form-clang-id');
 $sel->setSize(1);
-$remaingClangs = array_diff(range(0, $REX['MAXCLANGS']-1), array_keys($REX['CLANG']));
+$remaingClangs = array_diff(range(0, rex_core::getProperty('maxlogins')-1), array_keys($REX['CLANG']));
 foreach ($remaingClangs as $clang)
 {
   $sel->addOption($clang, $clang);
@@ -144,16 +144,16 @@ if ($func == 'addclang')
 }
 foreach ($REX['CLANG'] as $lang_id => $lang)
 {
-  
-  $add_td = '';      
+
+  $add_td = '';
   $add_td = '<td class="rex-small">'.$lang_id.'</td>';
-  
+
   $delLink = rex_i18n::msg('clang_delete');
   if($lang_id == 0)
    $delLink = '<span class="rex-strike">'. $delLink .'</span>';
   else
     $delLink = '<a href="index.php?page=specials&amp;subpage=lang&amp;func=deleteclang&amp;clang_id='.$lang_id.'" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'. $delLink .'</a>';
-    
+
   // Edit form
   if ($func == "editclang" && $clang_id == $lang_id)
   {
@@ -169,7 +169,7 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
   else
   {
     $editLink = 'index.php?page=specials&amp;subpage=lang&amp;func=editclang&amp;clang_id='.$lang_id.'#clang';
-    
+
     echo '
           <tr>
             <td class="rex-small"><a class="rex-i-element rex-i-clang" href="'. $editLink .'"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></a></td>

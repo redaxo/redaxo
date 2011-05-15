@@ -55,7 +55,7 @@ function rex_imanager_deleteCacheByType($type_id)
 {
   global $REX;
   
-  $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX'].'679_types' . ' WHERE id='. $type_id;
+  $qry = 'SELECT * FROM '. rex_core::getTablePrefix().'679_types' . ' WHERE id='. $type_id;
   $sql = rex_sql::factory();
 //  $sql->debugsql = true;
   $sql->setQuery($qry);

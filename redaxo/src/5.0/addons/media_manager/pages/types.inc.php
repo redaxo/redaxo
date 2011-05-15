@@ -20,7 +20,7 @@ if($func == 'delete' && $type_id > 0)
 {
   $sql = rex_sql::factory();
 //  $sql->debugsql = true;
-  $sql->setTable($REX['TABLE_PREFIX'].'media_manager_types');
+  $sql->setTable(rex_core::getTablePrefix().'media_manager_types');
   $sql->setWhere('id='. $type_id . ' LIMIT 1');
 
   if($sql->delete())
@@ -55,7 +55,7 @@ if ($func == '')
 {
   // Nach Status sortieren, damit Systemtypen immer zuletzt stehen
   // (werden am seltesten bearbeitet)
-  $query = 'SELECT * FROM '.$REX['TABLE_PREFIX'].'media_manager_types ORDER BY status';
+  $query = 'SELECT * FROM '.rex_core::getTablePrefix().'media_manager_types ORDER BY status';
 
 	$list = rex_list::factory($query);
 	$list->setNoRowsMessage(rex_i18n::msg('media_manager_type_no_types'));
@@ -91,7 +91,6 @@ if ($func == '')
   $list->setColumnParams($delete, array('type_id' => '###id###', 'func' => 'delete'));
   $list->addLinkAttribute($delete, 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
   $list->setColumnFormat($delete, 'custom', function ($params) {
-    global $REX;
     $list = $params["list"];
     if($list->getValue("status") == 1)
     {
@@ -115,7 +114,7 @@ elseif ($func == 'add' ||
   }
 
   rex_extension::register('REX_FORM_CONTROL_FIELDS', 'rex_media_manager_handle_form_control_fields');
-  $form = rex_form::factory($REX['TABLE_PREFIX'].'media_manager_types',$formLabel,'id='.$type_id);
+  $form = rex_form::factory(rex_core::getTablePrefix().'media_manager_types',$formLabel,'id='.$type_id);
 
   $form->addErrorMessage(REX_FORM_ERROR_VIOLATE_UNIQUE_KEY, rex_i18n::msg('media_manager_error_type_name_not_unique'));
 

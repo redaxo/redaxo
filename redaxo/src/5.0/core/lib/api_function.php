@@ -3,11 +3,11 @@
 /**
  * This is a base class for all functions which a component may provide for public use.
  * Those function will be called automatically by the core.
- * Inside an api function you might check the preconditions which have to be met (permissions, etc.) 
- * and forward the call to an underlying service which does the actual job.  
- * 
+ * Inside an api function you might check the preconditions which have to be met (permissions, etc.)
+ * and forward the call to an underlying service which does the actual job.
+ *
  * There can only be one rex_api_function called per request, but not every request must have an api function.
- * 
+ *
  * The classname of a possible implementation must start with "rex_api".
  *
  * A api function may also be called by an ajax-request.
@@ -23,39 +23,39 @@ abstract class rex_api_function
   {
     // NOOP
   }
-  
+
   /**
-   * Flag, indicating if this api function may be called from the frontend. False by default  
+   * Flag, indicating if this api function may be called from the frontend. False by default
    * @var boolean
    */
   protected $published = false;
-  
+
   /**
    * Flag indicating if the api function was executed successfully
    * @var boolean
    */
   protected $succeeded = false;
-  
+
   /**
-   * Statusmessage (error/info) 
+   * Statusmessage (error/info)
    * @var string
    */
   protected $message = '';
-  
-  
+
+
   /**
-   * Returns end-user friendly statusmessage 
-   * 
+   * Returns end-user friendly statusmessage
+   *
    * @return string a statusmessage
    */
   public function getMessage()
   {
     return $this->message;
   }
-  
+
   /**
    * Returns whether the api function was executed successfully
-   * 
+   *
    * @return boolean true on success, false on error
    */
   public function isSuccessfull()
@@ -117,29 +117,27 @@ abstract class rex_api_function
 
     return null;
   }
-  
+
   /**
    * checks whether an api function is bound to the current requests. If so, so the api function will be executed.
    */
   static public function handleCall()
   {
-    global $REX;
-    
     $apiFunc = self::factory();
 
     if($apiFunc != null)
     {
       if($apiFunc->published === false)
       {
-        if($REX['REDAXO'] !== true)
+        if(rex_core::isBackend() !== true)
           throw new rexApiException('the api function '. get_class($apiFunc) .' is not published, therefore can only be called from the backend!');
-          
-        if(!$REX['USER'])
+
+        if(!rex_core::getUser())
           throw new rexApiException('missing backend session to call api function '. get_class($apiFunc) .'!');
       }
-      
+
       try {
-        
+
         $message = $apiFunc->execute();
         $apiFunc->message = $message;
         $apiFunc->succeeded = true;

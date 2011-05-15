@@ -148,8 +148,6 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
 
 	public function getParams()
 	{
-		global $REX;
-
 		return array(
 		array(
         'label' => rex_i18n::msg('imanager_effect_sharpen_amount'),

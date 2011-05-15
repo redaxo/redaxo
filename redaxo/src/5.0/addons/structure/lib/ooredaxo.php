@@ -124,17 +124,18 @@ abstract class rex_ooRedaxo
 
       $vars = array();
 
-      $file = rex_path::cache('articles/'.  $REX['START_ARTICLE_ID'] .'.0.article');
-      if(!$REX['REDAXO'] && file_exists($file))
+      $startId = rex_core::getProperty('start_article_id');
+      $file = rex_path::cache('articles/'.  $startId .'.0.article');
+      if(!rex_core::isBackend() && file_exists($file))
       {
         // Im GetGenerated Modus, die Spaltennamen aus den generated Dateien holen
-        if(!isset($REX['ART'][$REX['START_ARTICLE_ID']]))
+        if(!isset($REX['ART'][$startId]))
         {
-          $REX['ART'][$REX['START_ARTICLE_ID']] = rex_file::getCache($file);
+          $REX['ART'][$startId] = rex_file::getCache($file);
         }
 
         // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
-        $genVars = self::convertGeneratedArray($REX['ART'][$REX['START_ARTICLE_ID']],0);
+        $genVars = self::convertGeneratedArray($REX['ART'][$startId],0);
         unset($genVars['article_id']);
         unset($genVars['last_update_stamp']);
         foreach($genVars as $name => $value)
@@ -146,7 +147,7 @@ abstract class rex_ooRedaxo
       {
         // Im Backend die Spalten aus der DB auslesen / via EP holen
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'article LIMIT 0');
+        $sql->setQuery('SELECT * FROM '. rex_core::getTablePrefix() .'article LIMIT 0');
         foreach($sql->getFieldnames() as $field)
         {
           $vars[] = $field;
@@ -174,21 +175,21 @@ abstract class rex_ooRedaxo
     unset ($rex_ooRedaxoArray['_article_id']);
     return $rex_ooRedaxoArray;
   }
-  
+
   /**
    * Array of rex_ooRedaxo instances, key by classname, id and clang
    * @var array[string][int][int]
    */
   private static $instanceCache;
-  
+
   /**
    * Return an rex_ooRedaxo object based on an id.
-   * The instance will be cached in an instance-pool and therefore re-used by a later call. 
-   * 
+   * The instance will be cached in an instance-pool and therefore re-used by a later call.
+   *
    * @param int $id the article id
    * @param int $clang the clang id
    * @throws rexException
-   * 
+   *
    * @return rex_ooRedaxo A rex_ooRedaxo instance typed to the late-static binding type of the caller
    */
   static protected function getById($id, $clang)
@@ -206,10 +207,10 @@ abstract class rex_ooRedaxo
     {
       $clang = $REX['CUR_CLANG'];
     }
-    
+
     // save cache per subclass
     $subclass = get_called_class();
-    
+
     // check if the class was already stored in the instanceCache
     if(isset(self::$instanceCache[$subclass][$id][$clang]))
     {
@@ -222,13 +223,13 @@ abstract class rex_ooRedaxo
     {
       rex_article_cache::generateMeta($id, $clang);
     }
-    
+
     // article is valid, if cache exists after generation
     if (file_exists($article_path))
     {
       // load metadata from cache
       $metadata = rex_file::getCache($article_path);
-      
+
       // create object with the loaded metadata
       $impl = new $subclass(self :: convertGeneratedArray($metadata, $clang));
 
@@ -238,7 +239,7 @@ abstract class rex_ooRedaxo
     }
 
     return NULL;
-  }  
+  }
 
   /**
    * Accessor Method:
@@ -283,7 +284,7 @@ abstract class rex_ooRedaxo
   {
     return $this->_re_id;
   }
-  
+
   /**
    * Accessor Method:
    * returns the path of the category/article
@@ -303,7 +304,7 @@ abstract class rex_ooRedaxo
     $path = explode('|', $this->getPath());
     return array_values(array_map('intval', array_filter($path)));
   }
-  
+
   /**
    * Object Function:
    * Returns the parent category
@@ -549,8 +550,7 @@ abstract class rex_ooRedaxo
    */
   public function isSiteStartArticle()
   {
-    global $REX;
-    return $this->_id == $REX['START_ARTICLE_ID'];
+    return $this->_id == rex_core::getProperty('start_article_id');
   }
 
   /**
@@ -561,8 +561,7 @@ abstract class rex_ooRedaxo
    */
   public function isNotFoundArticle()
   {
-    global $REX;
-    return $this->_id == $REX['NOTFOUND_ARTICLE_ID'];
+    return $this->_id == rex_core::getProperty('notfound_article_id');
   }
 
   /**

@@ -9,7 +9,7 @@
 // basic request vars
 $category_id = rex_request('category_id', 'rex-category-id');
 $article_id  = rex_request('article_id',  'rex-article-id');
-$clang       = rex_request('clang',       'rex-clang-id', $REX['START_CLANG_ID']);
+$clang       = rex_request('clang',       'rex-clang-id', rex_core::getProperty('start_article_id'));
 $ctype       = rex_request('ctype',       'rex-ctype-id');
 
 // additional request vars
@@ -27,7 +27,7 @@ $warning = '';
 
 // --------------------------------------------- Mountpoints
 
-$mountpoints = $REX["USER"]->getMountpoints();
+$mountpoints = rex_core::getUser()->getMountpoints();
 if(count($mountpoints)==1 && $category_id == 0)
 {
   // Nur ein Mointpoint -> Sprung in die Kategory
@@ -35,7 +35,7 @@ if(count($mountpoints)==1 && $category_id == 0)
 }
 
 // --------------------------------------------- Rechte prŸfen
-$KATPERM = $REX['USER']->hasCategoryPerm($category_id);
+$KATPERM = rex_core::getUser()->hasCategoryPerm($category_id);
 
 require dirname(__FILE__) .'/../functions/function_rex_category.inc.php';
 
@@ -88,7 +88,7 @@ if($category)
   $cat_name = $category->getName();
 
 $add_category = '';
-if ($KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
+if ($KATPERM && !rex_core::getUser()->hasPerm('editContentOnly[]'))
 {
   $add_category = '<a class="rex-i-element rex-i-category-add" href="'. $context->getUrl(array('function' => 'add_cat')) .'"'. rex_accesskey(rex_i18n::msg('add_category'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.rex_i18n::msg("add_category").'</span></a>';
 }
@@ -96,7 +96,7 @@ if ($KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
 $add_header = '';
 $add_col = '';
 $data_colspan = 4;
-if ($REX['USER']->hasPerm('advancedMode[]'))
+if (rex_core::getUser()->hasPerm('advancedMode[]'))
 {
   $add_header = '<th class="rex-small">'.rex_i18n::msg('header_id').'</th>';
   $add_col = '<col width="40" />';
@@ -119,10 +119,10 @@ $KAT = rex_sql::factory();
 if(count($mountpoints)>0 && $category_id == 0)
 {
   $re_id = implode(',', $mountpoints);
-  $KAT->setQuery('SELECT COUNT(*) as rowCount FROM '.$REX['TABLE_PREFIX'].'article WHERE id IN ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catname');
+  $KAT->setQuery('SELECT COUNT(*) as rowCount FROM '.rex_core::getTablePrefix().'article WHERE id IN ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catname');
 }else
 {
-  $KAT->setQuery('SELECT COUNT(*) as rowCount FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
+  $KAT->setQuery('SELECT COUNT(*) as rowCount FROM '.rex_core::getTablePrefix().'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
 }
 
 // --------------------- ADD PAGINATION
@@ -139,10 +139,10 @@ echo $catFragment->parse('core_rex_list_pagination');
 if(count($mountpoints)>0 && $category_id == 0)
 {
   $re_id = implode(',', $mountpoints);
-  $KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE id IN ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catname LIMIT '. $catPager->getCursor(). ','. $catPager->getRowsPerPage());
+  $KAT->setQuery('SELECT * FROM '.rex_core::getTablePrefix().'article WHERE id IN ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catname LIMIT '. $catPager->getCursor(). ','. $catPager->getRowsPerPage());
 }else
 {
-  $KAT->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior LIMIT '. $catPager->getCursor(). ','. $catPager->getRowsPerPage());
+  $KAT->setQuery('SELECT * FROM '.rex_core::getTablePrefix().'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior LIMIT '. $catPager->getCursor(). ','. $catPager->getRowsPerPage());
 }
 
 
@@ -204,7 +204,7 @@ if ($category_id != 0 && ($category = rex_ooCategory::getCategoryById($category_
 {
   echo '<tr>
           <td class="rex-icon">&nbsp;</td>';
-  if ($REX['USER']->hasPerm('advancedMode[]'))
+  if (rex_core::getUser()->hasPerm('advancedMode[]'))
   {
     echo '<td class="rex-small">-</td>';
   }
@@ -219,10 +219,10 @@ if ($category_id != 0 && ($category = rex_ooCategory::getCategoryById($category_
 
 // --------------------- KATEGORIE ADD FORM
 
-if ($function == 'add_cat' && $KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
+if ($function == 'add_cat' && $KATPERM && !rex_core::getUser()->hasPerm('editContentOnly[]'))
 {
   $add_td = '';
-  if ($REX['USER']->hasPerm('advancedMode[]'))
+  if (rex_core::getUser()->hasPerm('advancedMode[]'))
   {
     $add_td = '<td class="rex-small">-</td>';
   }
@@ -272,7 +272,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 
   if ($KATPERM)
   {
-    if ($REX['USER']->isAdmin() || $KATPERM && $REX['USER']->hasPerm('publishCategory[]'))
+    if (rex_core::getUser()->isAdmin() || $KATPERM && rex_core::getUser()->hasPerm('publishCategory[]'))
     {
       $kat_status = '<a href="'. $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_status', 'catstart' => $catstart)) .'" class="'. $status_class .'">'. $kat_status .'</a>';
     }
@@ -285,7 +285,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
     {
       // --------------------- KATEGORIE EDIT FORM
       $add_td = '';
-      if ($REX['USER']->hasPerm('advancedMode[]'))
+      if (rex_core::getUser()->hasPerm('advancedMode[]'))
       {
         $add_td = '<td class="rex-small">'. $i_category_id .'</td>';
       }
@@ -295,7 +295,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
         'id' => $edit_id,
         'clang' => $clang,
       ));
-      
+
       $add_buttons = '
     	<input type="hidden" name="rex-api-call" value="category_edit" />
     	<input type="hidden" name="category-id" value="'. $edit_id .'" />
@@ -330,12 +330,12 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       // --------------------- KATEGORIE WITH WRITE
 
       $add_td = '';
-      if ($REX['USER']->hasPerm('advancedMode[]'))
+      if (rex_core::getUser()->hasPerm('advancedMode[]'))
       {
         $add_td = '<td class="rex-small">'. $i_category_id .'</td>';
       }
 
-      if (!$REX['USER']->hasPerm('editContentOnly[]'))
+      if (!rex_core::getUser()->hasPerm('editContentOnly[]'))
       {
         $category_delete = '<a href="'. $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_delete', 'catstart' => $catstart)) .'" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('delete').'</a>';
       }
@@ -357,11 +357,11 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
     }
 
   }
-  elseif (/*$REX['USER']->hasPerm('csr['. $i_category_id .']') ||*/ $REX['USER']->hasPerm('csw['. $i_category_id .']'))
+  elseif (/*rex_core::getUser()->hasPerm('csr['. $i_category_id .']') ||*/ rex_core::getUser()->hasPerm('csw['. $i_category_id .']'))
   {
       // --------------------- KATEGORIE WITH READ
       $add_td = '';
-      if ($REX['USER']->hasPerm('advancedMode[]'))
+      if (rex_core::getUser()->hasPerm('advancedMode[]'))
       {
         $add_td = '<td class="rex-small">'. $i_category_id .'</td>';
       }
@@ -415,7 +415,7 @@ echo '<div class="rex-block rex-structure-article">';
 
 // --------------------- READ TEMPLATES
 
-if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
+if ($category_id > 0 || ($category_id == 0 && !rex_core::getUser()->hasMountpoints()))
 {
 
   $template_select = new rex_select;
@@ -439,12 +439,12 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
 
   // --------------------- ARTIKEL LIST
   $art_add_link = '';
-  if ($KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
+  if ($KATPERM && !rex_core::getUser()->hasPerm('editContentOnly[]'))
     $art_add_link = '<a class="rex-i-element rex-i-article-add" href="'. $context->getUrl(array('function' => 'add_art')) .'"'. rex_accesskey(rex_i18n::msg('article_add'), $REX['ACKEY']['ADD_2']) .'><span class="rex-i-element-text">'. rex_i18n::msg('article_add') .'</span></a>';
 
   $add_head = '';
   $add_col  = '';
-  if ($REX['USER']->hasPerm('advancedMode[]'))
+  if (rex_core::getUser()->hasPerm('advancedMode[]'))
   {
     $add_head = '<th class="rex-small">'. rex_i18n::msg('header_id') .'</th>';
     $add_col  = '<col width="40" />';
@@ -455,7 +455,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
   // $sql->debugsql = true;
   $sql->setQuery('SELECT COUNT(*) as artCount
         FROM
-          '.$REX['TABLE_PREFIX'].'article
+          '.rex_core::getTablePrefix().'article
         WHERE
           ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1))
           AND clang='. $clang .'
@@ -474,7 +474,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
   // ---------- READ DATA
   $sql->setQuery('SELECT *
         FROM
-          '.$REX['TABLE_PREFIX'].'article
+          '.rex_core::getTablePrefix().'article
         WHERE
           ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1))
           AND clang='. $clang .'
@@ -539,17 +539,18 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
   }
 
   // --------------------- ARTIKEL ADD FORM
-  if ($function == 'add_art' && $KATPERM && !$REX['USER']->hasPerm('editContentOnly[]'))
+  if ($function == 'add_art' && $KATPERM && !rex_core::getUser()->hasPerm('editContentOnly[]'))
   {
-    if($REX['DEFAULT_TEMPLATE_ID'] > 0 && isset($TEMPLATE_NAME[$REX['DEFAULT_TEMPLATE_ID']]))
+    $defaultTemplateId = rex_core::getProperty('default_template_id');
+    if($defaultTemplateId > 0 && isset($TEMPLATE_NAME[$defaultTemplateId]))
     {
-      $template_select->setSelected($REX['DEFAULT_TEMPLATE_ID']);
+      $template_select->setSelected($defaultTemplateId);
 
     }else
     {
       // template_id vom Startartikel erben
       $sql2 = rex_sql::factory();
-      $sql2->setQuery('SELECT template_id FROM '.$REX['TABLE_PREFIX'].'article WHERE id='. $category_id .' AND clang='. $clang .' AND startpage=1');
+      $sql2->setQuery('SELECT template_id FROM '.rex_core::getTablePrefix().'article WHERE id='. $category_id .' AND clang='. $clang .' AND startpage=1');
       if ($sql2->getRows() == 1)
         $template_select->setSelected($sql2->getValue('template_id'));
     }
@@ -557,8 +558,8 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
     $add_td = '
     	<input type="hidden" name="rex-api-call" value="article_add" />
     ';
-    
-    if ($REX['USER']->hasPerm('advancedMode[]'))
+
+    if (rex_core::getUser()->hasPerm('advancedMode[]'))
       $add_td .= '<td class="rex-small">-</td>';
 
       echo '<tr class="rex-table-row-active">
@@ -590,8 +591,8 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
       $add_td = '
       	<input type="hidden" name="rex-api-call" value="article_edit" />
       ';
-      
-      if ($REX['USER']->hasPerm('advancedMode[]'))
+
+      if (rex_core::getUser()->hasPerm('advancedMode[]'))
         $add_td .= '<td class="rex-small">'. $sql->getValue("id") .'</td>';
 
       $template_select->setSelected($sql->getValue('template_id'));
@@ -612,7 +613,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
       // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
 
       $add_td = '';
-      if ($REX['USER']->hasPerm('advancedMode[]'))
+      if (rex_core::getUser()->hasPerm('advancedMode[]'))
         $add_td = '<td class="rex-small">'. $sql->getValue('id') .'</td>';
 
       $article_status = $artStatusTypes[$sql->getValue('status')][0];
@@ -625,12 +626,12 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
                       <td><span class="rex-strike '. $article_class .'">'. $article_status .'</span></td>';
       }else
       {
-        if ($REX['USER']->isAdmin() || $KATPERM && $REX['USER']->hasPerm('publishArticle[]'))
+        if (rex_core::getUser()->isAdmin() || $KATPERM && rex_core::getUser()->hasPerm('publishArticle[]'))
           $article_status = '<a href="'. $context->getUrl(array('article_id' => $sql->getValue('id'), 'rex-api-call' => 'article_status', 'artstart' => $artstart)) .'" class="rex-status-link '. $article_class .'">'. $article_status .'</a>';
         else
           $article_status = '<span class="rex-strike '. $article_class .'">'. $article_status .'</span>';
 
-        if (!$REX['USER']->hasPerm('editContentOnly[]'))
+        if (!rex_core::getUser()->hasPerm('editContentOnly[]'))
           $article_delete = '<a href="'. $context->getUrl(array('article_id' => $sql->getValue('id'), 'rex-api-call' => 'article_delete', 'artstart' => $artstart)) .'" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('delete').'</a>';
         else
           $article_delete = '<span class="rex-strike">'. rex_i18n::msg('delete') .'</span>';
@@ -659,7 +660,7 @@ if ($category_id > 0 || ($category_id == 0 && !$REX["USER"]->hasMountpoints()))
       // --------------------- ARTIKEL NORMAL VIEW | NO EDIT NO ENTER
 
       $add_td = '';
-      if ($REX['USER']->hasPerm('advancedMode[]'))
+      if (rex_core::getUser()->hasPerm('advancedMode[]'))
         $add_td = '<td class="rex-small">'. $sql->getValue('id') .'</td>';
 
       $art_status = $artStatusTypes[$sql->getValue('status')][0];

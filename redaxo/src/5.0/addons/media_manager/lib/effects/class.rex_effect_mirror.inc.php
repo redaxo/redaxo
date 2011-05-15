@@ -95,8 +95,6 @@ class rex_effect_mirror extends rex_effect_abstract
 
 	public function getParams()
 	{
-		global $REX;
-
 		return array(
 			array(
 				'label'=>rex_i18n::msg('im_fx_mirror_height'),		// Length in Pixel or Prozent

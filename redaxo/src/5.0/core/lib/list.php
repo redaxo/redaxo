@@ -90,8 +90,6 @@ class rex_list extends rex_factory implements rex_url_provider
    */
   protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false)
   {
-    global $REX;
-
     // --------- Validation
     if(!$listName) $listName = md5($query);
 
@@ -144,7 +142,7 @@ class rex_list extends rex_factory implements rex_url_provider
       $this->columnNames[] = $columnName;
 
     // --------- Load Env
-    if($REX['REDAXO'])
+    if(rex_core::isBackend())
       $this->loadBackendConfig();
 
     $this->init();
@@ -886,8 +884,6 @@ class rex_list extends rex_factory implements rex_url_provider
    */
   public function get()
   {
-    global $REX;
-
     $s = "\n";
 
     // Form vars

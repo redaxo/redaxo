@@ -150,8 +150,6 @@ class rex_login_sql extends rex_sql
    */
   public function getCategoryPermAsSql()
   {
-    global $REX;
-
     $whereCond = '';
 
     if( $this->isAdmin() ||
@@ -163,7 +161,7 @@ class rex_login_sql extends rex_sql
     else
     {
       $whereCond = '1=0';
-      $categoryPerms = $REX['USER']->getPermAsArray('csw');
+      $categoryPerms = rex_core::getUser()->getPermAsArray('csw');
       foreach($categoryPerms as $catPerm)
       {
         $whereCond .= ' OR path LIKE "%|'. $catPerm .'|%"';
@@ -317,8 +315,6 @@ class rex_login
    */
   public function checkLogin()
   {
-    global $REX;
-
     // wenn logout dann header schreiben und auf error seite verweisen
     // message schreiben
 
@@ -359,7 +355,7 @@ class rex_login
         }
         else
         {
-          $this->message = rex_i18n::msg('login_error', '<strong>'. $REX['RELOGINDELAY'] .'</strong>');
+          $this->message = rex_i18n::msg('login_error', '<strong>'. rex_core::getProperty('relogindelay') .'</strong>');
           $this->setSessionVar('UID', '');
         }
 
@@ -487,25 +483,21 @@ class rex_backend_login extends rex_login
 
   public function __construct()
   {
-    global $REX;
-
     parent::__construct();
 
-    $tableName = $REX['TABLE_PREFIX'].'user';
+    $tableName = rex_core::getTablePrefix().'user';
     $this->setSqlDb(1);
-    $this->setSysID($REX['INSTNAME']);
-    $this->setSessiontime($REX['SESSION_DURATION']);
+    $this->setSysID(rex_core::getProperty('instname'));
+    $this->setSessiontime(rex_core::getProperty('session_duration'));
     $this->setUserID('user_id');
-    $qry = 'SELECT CONCAT('.$tableName.'.rights, IFNULL(roles.rights,"")) AS rights, '.$tableName.'.* FROM '. $tableName .' LEFT JOIN '.$REX['TABLE_PREFIX'].'user_role roles ON roles.id = role WHERE status=1';
+    $qry = 'SELECT CONCAT('.$tableName.'.rights, IFNULL(roles.rights,"")) AS rights, '.$tableName.'.* FROM '. $tableName .' LEFT JOIN '.rex_core::getTablePrefix().'user_role roles ON roles.id = role WHERE status=1';
     $this->setUserquery($qry .' AND user_id = "USR_UID"');
-    $this->setLoginquery($qry .' AND login = "USR_LOGIN" AND psw = "USR_PSW" AND lasttrydate <'. (time()-$REX['RELOGINDELAY']).' AND login_tries<'.$REX['MAXLOGINS']);
+    $this->setLoginquery($qry .' AND login = "USR_LOGIN" AND psw = "USR_PSW" AND lasttrydate <'. (time()-rex_core::getProperty('relogindelay')).' AND login_tries<'.rex_core::getProperty('maxlogins'));
     $this->tableName = $tableName;
   }
 
   public function checkLogin()
   {
-    global $REX;
-
     $fvs = rex_sql::factory();
     // $fvs->debugsql = true;
     $userId = $this->getSessionVar('UID');
@@ -549,29 +541,25 @@ class rex_backend_login extends rex_login
 
   public function getLanguage()
   {
-    global $REX;
-
-  	if (preg_match_all('@#be_lang\[([^\]]*)\]#@' , $this->getValue("rights"), $matches))
+    if (preg_match_all('@#be_lang\[([^\]]*)\]#@' , $this->getValue("rights"), $matches))
     {
       foreach ($matches[1] as $match)
       {
         return $match;
       }
     }
-    return $REX['LANG'];
+    return rex_core::getProperty('lang');
   }
 
   public function getStartpage()
   {
-    global $REX;
-
-  	if (preg_match_all('@#startpage\[([^\]]*)\]#@' , $this->getValue("rights"), $matches))
+    if (preg_match_all('@#startpage\[([^\]]*)\]#@' , $this->getValue("rights"), $matches))
   	{
     	foreach ($matches[1] as $match)
     	{
       	return $match;
     	}
   	}
-  	return $REX['START_PAGE'];
+  	return rex_core::getProperty('start_page');
   }
 }

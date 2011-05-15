@@ -19,8 +19,6 @@ rex_extension::register('OOMEDIA_IS_IN_USE', 'rex_a62_media_is_in_use');
  */
 function rex_a62_metaFields($sqlFields, $formatCallback, $epParams)
 {
-  global $REX;
-
   $s = '';
 
   // Startwert für MEDIABUTTON, MEDIALIST, LINKLIST zähler
@@ -28,7 +26,7 @@ function rex_a62_metaFields($sqlFields, $formatCallback, $epParams)
   $mlist_id = 1;
   $link_id  = 1;
   $llist_id = 1;
-  
+
   $activeItem = isset($epParams['activeItem']) ? $epParams['activeItem'] : null;
 
   $sqlFields->reset();
@@ -49,7 +47,7 @@ function rex_a62_metaFields($sqlFields, $formatCallback, $epParams)
     $attrArray = rex_split_string($attr);
     if(isset($attrArray['perm']))
     {
-      if(!$REX['USER']->hasPerm($attrArray['perm']))
+      if(!rex_core::getUser()->hasPerm($attrArray['perm']))
       {
         continue;
       }
@@ -433,8 +431,6 @@ function rex_a62_metaFields($sqlFields, $formatCallback, $epParams)
  */
 function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
 {
-  global $REX;
-
   if(rex_request_method() != 'post') return;
 
   for($i = 0;$i < $sqlFields->getRows(); $i++, $sqlFields->next())
@@ -447,17 +443,17 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
     $attrArray = rex_split_string($fieldAttributes);
     if(isset($attrArray['perm']))
     {
-      if(!$REX['USER']->hasPerm($attrArray['perm']))
+      if(!rex_core::getUser()->hasPerm($attrArray['perm']))
       {
         continue;
       }
       unset($attrArray['perm']);
     }
-    
+
     // Wert in SQL zum speichern
     $saveValue = _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes);
     $sqlSave->setValue($fieldName, $saveValue);
-    
+
     // Werte im aktuellen Objekt speichern, dass zur Anzeige verwendet wird
     if(isset($params['activeItem']))
       $params['activeItem']->setValue($fieldName, $saveValue);
@@ -466,19 +462,17 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
 
 /**
  * Retrieves the posted value for the given field and converts it into a saveable format.
- * 
+ *
  * @param string $fieldName The name of the field
  * @param int $fieldType One of the REX_A62_FIELD_* constants
  * @param string $fieldAttributes The attributes of the field
  */
 function _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes)
 {
-  global $REX;
-
   if(rex_request_method() != 'post') return null;
 
   $postValue = rex_post($fieldName, 'array');
-  
+
   // handle date types with timestamps
   if(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute']))
   {
@@ -526,7 +520,7 @@ function _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes)
       }
     }
   }
-  
+
   return $saveValue;
 }
 
@@ -539,16 +533,14 @@ function _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes)
  */
 function _rex_a62_metainfo_sqlfields($prefix, $restrictionsCondition)
 {
-  global $REX;
-
   // replace LIKE wildcards
   $prefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
 
   $qry = 'SELECT
             *
           FROM
-            '. $REX['TABLE_PREFIX'] .'62_params p,
-            '. $REX['TABLE_PREFIX'] .'62_type t
+            '. rex_core::getTablePrefix() .'62_params p,
+            '. rex_core::getTablePrefix() .'62_type t
           WHERE
             `p`.`type` = `t`.`id` AND
             `p`.`name` LIKE "'. $prefix .'%"
@@ -654,7 +646,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
 
   $sqlFields = _rex_a62_metainfo_sqlfields($prefix, $restrictionsCondition);
   $params = rex_call_func($saveCallback, array($params, $sqlFields), false);
-  
+
   // trigger callback of sql fields
   if(rex_request_method() == 'post')
   {
@@ -670,7 +662,7 @@ function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
           $fieldType = $field->getValue('type');
           $fieldAttributes = $field->getValue('attributes');
           $fieldValue = _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes);
-          
+
           require rex_variableStream::factory('metainfo/'. $field->getValue('field_id') .'/callback', $field->getValue('callback'));
         };
         // pass a clone to the custom handler, so the callback will not change our var
@@ -691,11 +683,9 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
 {
   if(rex_request_method() != 'post') return $params;
 
-  global $REX;
-
   $article = rex_sql::factory();
   // $article->debugsql = true;
-  $article->setTable($REX['TABLE_PREFIX']. 'article');
+  $article->setTable(rex_core::getTablePrefix(). 'article');
   $article->setWhere('id=:id AND clang=:clang', array('id'=> $params['id'], 'clang' => $params['clang']));
 
   _rex_a62_metainfo_handleSave($params, $article, $sqlFields);
@@ -706,7 +696,7 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
 
   // Artikel nochmal mit den zusätzlichen Werten neu generieren
   rex_article_cache::generateMeta($params['id'], $params['clang']);
-  
+
   return $params;
 }
 
@@ -728,11 +718,9 @@ function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
 {
   if(rex_request_method() != 'post' || !isset($params['media_id'])) return $params;
 
-  global $REX;
-
   $media = rex_sql::factory();
 //  $media->debugsql = true;
-  $media->setTable($REX['TABLE_PREFIX']. 'media');
+  $media->setTable(rex_core::getTablePrefix(). 'media');
   $media->setWhere('media_id=:mediaid', array('mediaid' => $params['media_id']));
 
   _rex_a62_metainfo_handleSave($params, $media, $sqlFields);
@@ -746,12 +734,10 @@ function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
 
 function rex_a62_media_is_in_use($params)
 {
-  global $REX;
-
   $warning = $params['subject'];
 
   $sql = rex_sql::factory();
-  $sql->setQuery('SELECT `name`, `type` FROM `'. $REX['TABLE_PREFIX'] .'62_params` WHERE `type` IN(6,7)');
+  $sql->setQuery('SELECT `name`, `type` FROM `'. rex_core::getTablePrefix() .'62_params` WHERE `type` IN(6,7)');
 
   $rows = $sql->getRows();
   if($rows == 0)
@@ -790,7 +776,7 @@ function rex_a62_media_is_in_use($params)
   $categories = '';
   if (!empty($where['articles']))
   {
-    $sql->setQuery('SELECT id, clang, re_id, name, catname, startpage FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. implode(' OR ', $where['articles']));
+    $sql->setQuery('SELECT id, clang, re_id, name, catname, startpage FROM '. rex_core::getTablePrefix() .'article WHERE '. implode(' OR ', $where['articles']));
     if ($sql->getRows() > 0)
     {
       foreach($sql->getArray() as $art_arr)
@@ -821,7 +807,7 @@ function rex_a62_media_is_in_use($params)
   $media = '';
   if (!empty($where['media']))
   {
-    $sql->setQuery('SELECT media_id, filename, category_id FROM '. $REX['TABLE_PREFIX'] .'media WHERE '. implode(' OR ', $where['media']));
+    $sql->setQuery('SELECT media_id, filename, category_id FROM '. rex_core::getTablePrefix() .'media WHERE '. implode(' OR ', $where['media']));
     if ($sql->getRows() > 0)
     {
       foreach($sql->getArray() as $med_arr)

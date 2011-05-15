@@ -45,7 +45,7 @@ if ($func == '')
   // replace LIKE wildcards
   $likePrefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
   
-  $list = rex_list::factory('SELECT field_id, name FROM '. $REX['TABLE_PREFIX'] .'62_params WHERE `name` LIKE "'. $likePrefix .'%" ORDER BY prior');
+  $list = rex_list::factory('SELECT field_id, name FROM '. rex_core::getTablePrefix() .'62_params WHERE `name` LIKE "'. $likePrefix .'%" ORDER BY prior');
 
   $list->setCaption(rex_i18n::msg('minfo_field_list_caption'));
   $imgHeader = '<a class="rex-i-element rex-i-metainfo-add" href="'. $list->getUrl(array('func' => 'add')) .'"><span class="rex-i-element-text">'.rex_i18n::msg('add').'</span></a>';
@@ -72,7 +72,7 @@ if ($func == '')
 //------------------------------> Formular
 elseif ($func == 'edit' || $func == 'add')
 {
-  $form = new rex_a62_tableExpander($prefix, $metaTable, $REX['TABLE_PREFIX'] .'62_params', rex_i18n::msg('minfo_field_fieldset'),'field_id='. $field_id);
+  $form = new rex_a62_tableExpander($prefix, $metaTable, rex_core::getTablePrefix() .'62_params', rex_i18n::msg('minfo_field_fieldset'),'field_id='. $field_id);
 
   if($func == 'edit')
     $form->addParam('field_id', $field_id);

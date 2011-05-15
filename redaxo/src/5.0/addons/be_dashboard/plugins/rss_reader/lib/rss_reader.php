@@ -32,8 +32,6 @@ class rex_rssReader extends SimplePie
 {
   public function __construct($feed_url = null, $cache_location = null, $cache_duration = null)
   {
-    global $REX;
-
     parent::__construct();
 
     if($cache_location == null)

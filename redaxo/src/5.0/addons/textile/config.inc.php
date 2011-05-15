@@ -14,7 +14,7 @@ $REX['EXTPERM'][] = 'textile[help]';
 
 require_once rex_path::addon('textile', 'functions/function_textile.inc.php');
 
-if ($REX['REDAXO'])
+if (rex_core::isBackend())
 {
   require_once rex_path::addon('textile', 'extensions/function_extensions.inc.php');
   require_once rex_path::addon('textile', 'functions/function_help.inc.php');

@@ -18,11 +18,9 @@ class rex_response
    */
   static public function sendFile($file, $contentType, $environment = 'backend')
   {
-    global $REX;
-
     // Cachen für Dateien aktivieren
-    $temp = $REX['USE_LAST_MODIFIED'];
-    $REX['USE_LAST_MODIFIED'] = true;
+    $temp = rex_core::getProperty('use_last_modified');
+    rex_core::setProperty('use_last_modified', true);
 
     header('Content-Type: '. $contentType);
     header('Content-Disposition: inline; filename="'.basename($file).'"');
@@ -37,7 +35,7 @@ class rex_response
       $environment);
 
     // Setting zurücksetzen
-    $REX['USE_LAST_MODIFIED'] = $temp;
+    rex_core::setProperty('use_last_modified', $temp);
   }
 
   /**
@@ -49,8 +47,6 @@ class rex_response
    */
   static public function sendResource($content, $sendcharset = TRUE, $lastModified = null, $etag = null)
   {
-    global $REX;
-
     if(!$etag)
     {
       $etag = md5($content);
@@ -60,7 +56,7 @@ class rex_response
       $lastModified = time();
     }
 
-    self::sendContent($content, $lastModified, $etag, $REX['REDAXO'] ? 'backend' : 'frontend', $sendcharset);
+    self::sendContent($content, $lastModified, $etag, rex_core::isBackend() ? 'backend' : 'frontend', $sendcharset);
 
   //  self::sendContent($content, $lastModified, $etag, $environment, $sendcharset = FALSE)
 
@@ -78,8 +74,6 @@ class rex_response
    */
   static public function sendArticle($REX_ARTICLE, $content, $environment, $sendcharset = FALSE)
   {
-    global $REX;
-
     // ----- EXTENSION POINT
     $content = rex_extension::registerPoint( 'OUTPUT_FILTER', $content, array('environment' => $environment,'sendcharset' => $sendcharset));
 
@@ -92,8 +86,8 @@ class rex_response
       $etag .= $REX_ARTICLE->getValue('pid');
 
       $art_id = $REX_ARTICLE->getArticleId();
-      if($art_id == $REX['NOTFOUND_ARTICLE_ID'] &&
-         $art_id != $REX['START_ARTICLE_ID'])
+      if($art_id == rex_core::getProperty('notfound_article_id') &&
+         $art_id != rex_core::getProperty('start_article_id'))
       {
         header("HTTP/1.0 404 Not Found");
       }
@@ -127,8 +121,6 @@ class rex_response
    */
   static public function sendContent($content, $lastModified, $etag, $environment, $sendcharset = FALSE)
   {
-    global $REX;
-
     // Cachen erlauben, nach revalidierung
     // see http://xhtmlforum.de/35221-php-session-etag-header.html#post257967
     session_cache_limiter('none');
@@ -140,20 +132,20 @@ class rex_response
     }
 
     // ----- Last-Modified
-    if($REX['USE_LAST_MODIFIED'] === 'true' || $REX['USE_LAST_MODIFIED'] == $environment)
+    if(rex_core::getProperty('use_last_modified') === 'true' || rex_core::getProperty('use_last_modified') == $environment)
       self::sendLastModified($lastModified);
 
     // ----- ETAG
-    if($REX['USE_ETAG'] === 'true' || $REX['USE_ETAG'] == $environment)
+    if(rex_core::getProperty('use_etag') === 'true' || rex_core::getProperty('use_etag') == $environment)
       self::sendEtag($etag);
 
     // ----- GZIP
-    if($REX['USE_GZIP'] === 'true' || $REX['USE_GZIP'] == $environment)
+    if(rex_core::getProperty('use_gzip') === 'true' || rex_core::getProperty('use_gzip') == $environment)
       $content = self::sendGzip($content);
 
     // ----- MD5 Checksum
     // dynamische teile sollen die md5 summe nicht beeinflussen
-    if($REX['USE_MD5'] === 'true' || $REX['USE_MD5'] == $environment)
+    if(rex_core::getProperty('use_md5') === 'true' || rex_core::getProperty('use_md5') == $environment)
       self::sendChecksum(md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content)));
 
     // content length schicken, damit der browser einen ladebalken anzeigen kann

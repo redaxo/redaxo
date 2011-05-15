@@ -71,7 +71,7 @@ rex_title(rex_i18n::msg("credits"), "");
 
 echo '
 <div class="rex-area rex-mab-10">
-  <h3 class="rex-hl2">REDAXO '. $REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION'] .'</h3>
+  <h3 class="rex-hl2">REDAXO '. rex_core::getProperty('version').'.'.rex_core::getProperty('subversion').'.'.rex_core::getProperty('minorversion') .'</h3>
 
   <div class="rex-area-content">
 
@@ -117,7 +117,7 @@ echo '
     </thead>
 
     <tbody>';
-    
+
     foreach($addons as $addon)
     {
       echo '
@@ -126,16 +126,16 @@ echo '
         <td class="rex-col-b '. $addon->class .'">'. $addon->version .'</td>
         <td class="rex-col-c '. $addon->class .'">'. $addon->author .'</td>
         <td class="rex-col-d '. $addon->class .'">';
-        
+
         if ($addon->supportpage)
         {
           echo '<a href="http://'. $addon->supportpage .'" onclick="window.open(this.href); return false;">'. $addon->supportpage .'</a>';
         }
-      
+
       echo '
         </td>
       </tr>';
-      
+
       foreach($addon->plugins as $plugin)
       {
         echo '
@@ -144,7 +144,7 @@ echo '
           <td class="rex-col-b '. $plugin->class .'">'. $plugin->version .'</td>
           <td class="rex-col-c '. $plugin->class .'">'. $plugin->author .'</td>
           <td class="rex-col-d '. $plugin->class .'">';
-          
+
           if ($plugin->supportpage)
           {
             echo '<a href="http://'. $plugin->supportpage .'" onclick="window.open(this.href); return false;">'. $plugin->supportpage .'</a>';

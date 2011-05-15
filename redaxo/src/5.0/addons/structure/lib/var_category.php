@@ -48,9 +48,7 @@ class rex_var_category extends rex_var
    */
   private function matchCategory($content, $replaceInTemplate = false)
   {
-  	global $REX;
-
-    $var = 'REX_CATEGORY';
+  	$var = 'REX_CATEGORY';
     $matches = $this->getVarParams($content, $var);
 
     foreach ($matches as $match)

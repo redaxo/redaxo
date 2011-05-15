@@ -15,7 +15,7 @@ if($PERMALL)
       if(!is_file(rex_path::media($file))) continue;
 
       // Tempfiles nicht synchronisieren
-      if(substr($file, 0, strlen($REX['TEMP_PREFIX'])) != $REX['TEMP_PREFIX'])
+      if(substr($file, 0, strlen(rex_core::getTempPrefix())) != rex_core::getTempPrefix())
       {
         $folder_files[] = $file;
       }
@@ -26,7 +26,7 @@ if($PERMALL)
 
   // ---- Dateien aus der DB lesen
   $db = rex_sql::factory();
-  $db->setQuery('SELECT filename FROM '. $REX['TABLE_PREFIX'].'media');
+  $db->setQuery('SELECT filename FROM '. rex_core::getTablePrefix().'media');
   $db_files = array();
 
   for($i=0;$i<$db->getRows();$i++)

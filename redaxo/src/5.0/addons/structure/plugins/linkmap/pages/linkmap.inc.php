@@ -13,7 +13,7 @@ $clang = rex_request('clang', 'rex-clang-id');
 
 
 $GlobalParams = array(
-  'page' => $REX["PAGE"],
+  'page' => rex_core::getProperty('page'),
   'HTMLArea' => $HTMLArea,
   'opener_input_field' => $opener_input_field,
   'opener_input_field_name' => $opener_input_field_name,
@@ -43,7 +43,7 @@ if ($opener_input_field != '' && $opener_input_field_name == '')
 if($opener_input_field=="TINY"){
 	$func_body .= 'window.opener.insertLink(link,name);
 	               self.close();';
-} 
+}
 else if (substr($opener_input_field,0,13)=="REX_LINKLIST_")
 {
 $id = substr($opener_input_field,13,strlen($opener_input_field));
@@ -55,7 +55,7 @@ $func_body .= 'var linklist = "REX_LINKLIST_SELECT_'. $id .'";
                option = opener.document.createElement("OPTION");
                option.text = name;
                option.value = linkid;
-			   
+
 			   source.options.add(option, sourcelength);
 			   opener.writeREXLinklist('. $id .');';
 }
@@ -101,7 +101,7 @@ if ($category)
 }
 $navi_path .= '</ul>';
 
-//rex_title($REX['SERVERNAME'], 'Linkmap');
+//rex_title(rex_core::getProperty('servername'), 'Linkmap');
 rex_title('Linkmap', $navi_path);
 ?>
 
@@ -115,8 +115,8 @@ rex_title('Linkmap', $navi_path);
 			<div class="rex-area-content">
 			<?php
 			$roots = rex_ooCategory::getRootCategories();
-			
-			$mountpoints = $REX["USER"]->getMountpoints();
+
+			$mountpoints = rex_core::getUser()->getMountpoints();
 			if(count($mountpoints)>0)
 			{
 				$roots = array();
@@ -125,14 +125,14 @@ rex_title('Linkmap', $navi_path);
 					if(rex_ooCategory::getCategoryById($mp))
 						$roots[] = rex_ooCategory::getCategoryById($mp);
 				}
-				
+
 			}
-			
+
 			echo rex_linkmap_tree($tree, $category_id, $roots, $GlobalParams);
 			?>
 			</div>
 		</div>
-		
+
 		<div class="rex-area-col-b">
 			<h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_articles'); ?></h3>
 			<div class="rex-area-content">
@@ -143,14 +143,14 @@ rex_title('Linkmap', $navi_path);
 				$articles = rex_ooArticle::getRootArticles();
 			else if($category)
 				$articles = $category->getArticles();
-	
+
 			if ($articles)
 			{
 				foreach($articles as $article)
 				{
 					$liClass = $article->isStartpage() ? ' class="rex-linkmap-startpage"' : '';
 					$url = rex_linkmap_backlink($article->getId(), htmlspecialchars($article->getName()));
-	
+
 					echo rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"');
 					echo '</li>'. "\n";
 				}

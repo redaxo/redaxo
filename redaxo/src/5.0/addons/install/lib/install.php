@@ -10,11 +10,11 @@ class rex_install {
 
 	function getCurrentREDAXOVersion()
 	{
-		$v = $REX['VERSION'].$REX['SUBVERSION'];
-			
+		$v = rex_core::getProperty('version').rex_core::getProperty('subversion');
+
 		// TODO:
 		return "4.3";
-			
+
 	}
 
 
@@ -22,8 +22,6 @@ class rex_install {
 
 	function getAddOns()
 	{
-		global $REX;
-
 		$addons = array();
 		$c = rex_install::request('GET', 'www.redaxo.org', 80, '/de/_system/_webservice/addons/', array('v' => rex_install::getCurrentREDAXOVersion()));
 		if($c !== FALSE)
@@ -40,8 +38,6 @@ class rex_install {
 
 	function getModules()
 	{
-		global $REX;
-
 		$addons = array();
 		$c = rex_install::request('GET', 'www.redaxo.org', 80, '/de/_system/_webservice/modules/', array('v' => rex_install::getCurrentREDAXOVersion()));
 		if($c !== FALSE)
@@ -58,8 +54,6 @@ class rex_install {
 
 	function getTemplates()
 	{
-		global $REX;
-
 		$addons = array();
 		$c = rex_install::request('GET', 'www.redaxo.org', 80, '/de/_system/_webservice/templates/', array('v' => rex_install::getCurrentREDAXOVersion()));
 		if($c !== FALSE)
@@ -76,8 +70,6 @@ class rex_install {
 
 	function getPlugIns()
 	{
-		global $REX;
-
 		$addons = array();
 		$c = rex_install::request('GET', 'www.redaxo.org', 80, '/de/_system/_webservice/plugins/', array('v' => rex_install::getCurrentREDAXOVersion()));
 		if($c !== FALSE)
@@ -146,15 +138,15 @@ class rex_install {
 		$req .= 'Accept-Language: en-us,en;q=0.5' . $crlf;
 		$req .= 'Accept-Encoding: deflate' . $crlf;
 		$req .= 'Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7' . $crlf;
-			
+
 		foreach ($custom_headers as $k => $v) {
 			$req .= $k .': '. $v . $crlf;
 		}
-			
+
 		if (!empty($cookie_str)) {
 			$req .= 'Cookie: '. substr($cookie_str, 0, -2) . $crlf;
 		}
-			
+
 		if ($verb == 'POST' && !empty($postdata_str))
 		{
 			$postdata_str = substr($postdata_str, 0, -1);
@@ -165,29 +157,29 @@ class rex_install {
 		{
 			$req .= $crlf;
 		}
-			
+
 		if ($req_hdr){
 			$ret .= $req;
 		}
-			
+
 		if (($fp = @fsockopen($ip, $port, $errno, $errstr)) == false)
 		{
 			return FALSE;
 			return "Error $errno: $errstr\n";
 		}
-			
+
 		stream_set_timeout($fp, 0, $timeout * 1000);
-			
+
 		fputs($fp, $req);
 		while ($line = fgets($fp)){
 			$ret .= $line;
 		}
 		fclose($fp);
-			
+
 		if (!$res_hdr){
 			$ret = substr($ret, strpos($ret, "\r\n\r\n") + 4);
 		}
-			
+
 		return $ret;
 	}
 

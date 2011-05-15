@@ -7,13 +7,13 @@ class rex_fragment
    * @var string
    */
   private $filename;
-  
+
   /**
    * key-value pair which represents all variables defined inside the fragment
    * @var array
    */
   private $vars;
-  
+
   /**
    * another fragment which can optionaly be used to decorate the current fragment
    * @var rex_fragment
@@ -82,13 +82,13 @@ class rex_fragment
           require $fragment;
 
         $content =  ob_get_clean();
-        
+
         if($this->decorator)
         {
           $this->decorator->setVar('rexDecoratedContent', $content, false);
           $content = $this->decorator->parse($this->decorator->filename);
         }
-        
+
         return $content;
       }
     }
@@ -174,8 +174,6 @@ class rex_fragment
    */
   protected function i18n($key)
   {
-    global $REX;
-
     if(!is_string($key))
     {
       throw new rexException(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
@@ -201,19 +199,12 @@ class rex_fragment
    */
   protected function config($key)
   {
-    global $REX;
-
     if(!is_string($key))
     {
       throw new rexException(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
     }
 
-    if(isset($REX[$key]))
-    {
-      return $REX[$key];
-    }
-
-    return null;
+    return rex_core::getProperty($key);
   }
 
   /**
@@ -270,7 +261,7 @@ class rex_fragment
   }
 
   // /-------------------------- in-fragment helpers
-  
+
   /**
    * array which contains all folders in which fragments will be searched for at runtime
    * @var array

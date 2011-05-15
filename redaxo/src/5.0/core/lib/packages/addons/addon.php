@@ -176,16 +176,14 @@ class rex_addon extends rex_package implements rex_addonInterface
    */
   static public function initialize($dbExists = true)
   {
-    global $REX;
-
     if($dbExists)
     {
-      $config = rex_core_config::get('package-config', array());
+      $config = rex_core::getConfig('package-config', array());
     }
     else
     {
       $config = array();
-      foreach($REX['SETUP_PACKAGES'] as $packageId)
+      foreach(rex_core::getProperty('setup_packages') as $packageId)
       {
         $package = explode('/', $packageId);
         if(isset($package[1]))

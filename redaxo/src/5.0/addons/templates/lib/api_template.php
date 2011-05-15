@@ -57,8 +57,6 @@ class rex_template
 
   static public function getTemplatesDir()
   {
-    global $REX;
-
     return rex_path::cache('templates');
   }
 
@@ -72,8 +70,6 @@ class rex_template
 
   public function generate()
   {
-    global $REX;
-
     if($this->getId()<1) return FALSE;
 
     return rex_generateTemplate($this->getId());
@@ -81,9 +77,7 @@ class rex_template
 
   public function deleteCache()
   {
-  	global $REX;
-
-		if($this->id<1) return FALSE;
+  	if($this->id<1) return FALSE;
 
 		$file = $this->getFilePath($this->getId());
 		rex_file::delete($file);

@@ -32,7 +32,7 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   static public function getSiteStartArticle($clang = FALSE)
   {
-    return parent :: getById($REX['START_ARTICLE_ID'], $clang);
+    return parent :: getById(rex_core::getProperty('start_article_id'), $clang);
   }
 
   /**
@@ -60,7 +60,7 @@ class rex_ooArticle extends rex_ooRedaxo
     {
       $clang = $REX['CUR_CLANG'];
     }
-    
+
     $articlelist = rex_path::cache('articles/'.$a_category_id.".".$clang.".alist");
     if(!file_exists($articlelist))
     {
@@ -140,12 +140,12 @@ class rex_ooArticle extends rex_ooRedaxo
   public function getParent($clang = false)
   {
     global $REX;
-    
+
     if ($clang === FALSE)
     {
       $clang = $REX['CUR_CLANG'];
     }
-    
+
     return rex_ooArticle::getArticleById($this->_re_id, $clang);
   }
 

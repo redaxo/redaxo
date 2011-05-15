@@ -22,15 +22,11 @@ class rex_version_checker_notification extends rex_dashboard_notification
 
   public function checkPermission()
   {
-    global $REX;
-
-    return $REX['USER']->isAdmin();
+    return rex_core::getUser()->isAdmin();
   }
 
   protected function prepare()
   {
-    global $REX;
-
     $versionCheck = rex_a657_check_version();
 
     if($versionCheck)

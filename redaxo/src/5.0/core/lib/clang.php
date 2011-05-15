@@ -21,14 +21,14 @@ class rex_clang_service
     rex_file::putCache($file, $REX['CLANG']);
 
     $firstLang = rex_sql::factory();
-    $firstLang->setQuery("select * from ".$REX['TABLE_PREFIX']."article where clang='0'");
+    $firstLang->setQuery("select * from ".rex_core::getTablePrefix()."article where clang='0'");
     $fields = $firstLang->getFieldnames();
 
     $newLang = rex_sql::factory();
     // $newLang->debugsql = 1;
     foreach($firstLang as $firstLangArt)
     {
-      $newLang->setTable($REX['TABLE_PREFIX']."article");
+      $newLang->setTable(rex_core::getTablePrefix()."article");
 
       foreach($fields as $key => $value)
       {
@@ -48,7 +48,7 @@ class rex_clang_service
     }
 
     $newLang = rex_sql::factory();
-    $newLang->setTable($REX['TABLE_PREFIX']."clang");
+    $newLang->setTable(rex_core::getTablePrefix()."clang");
     $newLang->setValue('id', $id);
     $newLang->setValue('name', $name);
     $newLang->insert();
@@ -78,7 +78,7 @@ class rex_clang_service
     rex_file::putCache($file, $REX['CLANG']);
 
     $editLang = rex_sql::factory();
-    $editLang->setTable($REX['TABLE_PREFIX']."clang");
+    $editLang->setTable(rex_core::getTablePrefix()."clang");
     $editLang->setValue('id', $id);
     $editLang->setValue('name', $name);
     $editLang->update();
@@ -107,9 +107,9 @@ class rex_clang_service
     unset ($REX['CLANG'][$clang]);
 
     $del = rex_sql::factory();
-    $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article where clang='$clang'");
-    $del->setQuery("delete from ".$REX['TABLE_PREFIX']."article_slice where clang='$clang'");
-    $del->setQuery("delete from ".$REX['TABLE_PREFIX']."clang where id='$clang'");
+    $del->setQuery("delete from ".rex_core::getTablePrefix()."article where clang='$clang'");
+    $del->setQuery("delete from ".rex_core::getTablePrefix()."article_slice where clang='$clang'");
+    $del->setQuery("delete from ".rex_core::getTablePrefix()."clang where id='$clang'");
 
     // ----- EXTENSION POINT
     rex_extension::registerPoint('CLANG_DELETED','',
@@ -134,7 +134,7 @@ class rex_clang_service
     global $REX;
 
     $lg = rex_sql::factory();
-    $lg->setQuery("select * from ".$REX['TABLE_PREFIX']."clang order by id");
+    $lg->setQuery("select * from ".rex_core::getTablePrefix()."clang order by id");
 
     $REX['CLANG'] = array();
     foreach($lg as $lang)

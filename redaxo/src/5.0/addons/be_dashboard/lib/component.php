@@ -110,8 +110,6 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
 
   public function _get()
   {
-    global $REX;
-
     $this->prepare();
     $content = $this->content;
 

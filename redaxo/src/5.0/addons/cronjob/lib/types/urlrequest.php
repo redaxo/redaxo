@@ -10,7 +10,7 @@
  */
 
 class rex_cronjob_urlrequest extends rex_cronjob
-{ 
+{
   public function execute()
   {
     $parts = parse_url($this->getParam('url'));
@@ -21,7 +21,7 @@ class rex_cronjob_urlrequest extends rex_cronjob
     }
     if (!isset($parts['scheme']))
       $parts['scheme'] = 'http';
-      
+
     $supportedProtocols = array('http', 'https');
     if (!in_array($parts['scheme'], $supportedProtocols))
     {
@@ -34,7 +34,7 @@ class rex_cronjob_urlrequest extends rex_cronjob
       {
         case 'http' : $parts['port'] = 80;  break;
         case 'https': $parts['port'] = 443; break;
-        default: 
+        default:
           $this->setMessage('Unknown port');
           return false;
       }
@@ -89,7 +89,7 @@ class rex_cronjob_urlrequest extends rex_cronjob
       $success = $parts[1] >= 200 && $parts[1] < 300;
       $message = $parts[1] .' '. $parts[2];
       if (in_array($parts[1], array(301, 302, 303, 307))
-        && $this->getParam('redirect', true) 
+        && $this->getParam('redirect', true)
         && preg_match('/Location: ([^\s]*)/', $content, $matches)
         && isset($matches[1]))
       {
@@ -109,17 +109,14 @@ class rex_cronjob_urlrequest extends rex_cronjob
     $this->setMessage($errno .' '. $errstr);
     return false;
   }
-  
+
   public function getTypeName()
   {
-    global $REX;
     return rex_i18n::msg('cronjob_type_urlrequest');
   }
-  
+
   public function getParamFields()
 	{
-		global $REX;
-
 		return array(
   		array(
         'label' => rex_i18n::msg('cronjob_type_urlrequest_url'),

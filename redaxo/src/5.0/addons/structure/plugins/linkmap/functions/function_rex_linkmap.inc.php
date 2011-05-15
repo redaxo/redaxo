@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 function rex_linkmap_url($local = array(),$globals = array())
 {
@@ -25,14 +25,12 @@ function rex_linkmap_backlink($id, $name)
 
 function rex_linkmap_format_label($OOobject)
 {
-  global $REX;
-
   $label = $OOobject->getName();
 
   if(trim($label) == '')
     $label = '&nbsp;';
 
-  if ($REX['USER']->hasPerm('advancedMode[]'))
+  if (rex_core::getUser()->hasPerm('advancedMode[]'))
     $label .= ' ['. $OOobject->getId() .']';
 
   if(rex_ooArticle::isValid($OOobject) && !$OOobject->hasTemplate())

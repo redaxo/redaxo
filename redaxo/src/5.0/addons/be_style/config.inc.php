@@ -16,7 +16,7 @@
 $mypage = 'be_style';
 
 /* Addon Parameter */
-if($REX["REDAXO"])
+if(rex_core::isBackend())
 {
   require_once rex_path::addon($mypage, 'extensions/function_extensions.inc.php');
   rex_extension::register('ADDONS_INCLUDED', 'rex_be_add_page');

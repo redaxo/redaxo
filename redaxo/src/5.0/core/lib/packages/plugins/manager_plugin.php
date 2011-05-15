@@ -17,8 +17,6 @@ class rex_pluginManager extends rex_packageManager
    */
   protected function checkDependencies()
   {
-    global $REX;
-
     $i18nPrefix = 'addon_dependencies_error_';
     $state = array();
 

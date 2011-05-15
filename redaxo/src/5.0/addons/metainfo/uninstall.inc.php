@@ -10,7 +10,6 @@
  */
 
 $this->setProperty('install', false);
-// ERRMSG IN CASE: $REX['ADDON']['installmsg']['metainfo'] = "Deinstallation fehlgeschlagen weil...";
 
 $curDir = dirname(__FILE__);
 require_once ($curDir .'/extensions/extension_cleanup.inc.php');

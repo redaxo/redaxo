@@ -71,7 +71,6 @@ class rex_cronjob_manager_sql
 
   public function setStatus($id, $status)
   {
-    global $REX;
     $this->sql->setTable(REX_CRONJOB_TABLE);
     $this->sql->setWhere('id = '. $id);
     $this->sql->setValue('status', $status);
@@ -83,7 +82,6 @@ class rex_cronjob_manager_sql
 
   public function setExecutionStart($id, $time = null)
   {
-    global $REX;
     $time = $time === null ? time() : $time;
     $this->sql->setTable(REX_CRONJOB_TABLE);
     $this->sql->setWhere('id = '. $id);
@@ -103,7 +101,6 @@ class rex_cronjob_manager_sql
 
   public function check()
   {
-    global $REX;
     $sql = rex_sql::factory();
     // $sql->setDebug();
     $sql->setQuery('
@@ -111,7 +108,7 @@ class rex_cronjob_manager_sql
       FROM      '. REX_CRONJOB_TABLE .'
       WHERE     status = 1
         AND     execution_start < '. (time() - 2 * ini_get('max_execution_time')) .'
-        AND     environment LIKE "%|'. (int)$REX['REDAXO'] .'|%"
+        AND     environment LIKE "%|'. (int)rex_core::isBackend() .'|%"
         AND     nexttime <= '. time() .'
       ORDER BY  nexttime ASC, execution_moment DESC, name ASC
       LIMIT     1
@@ -160,12 +157,11 @@ class rex_cronjob_manager_sql
 
   public function tryExecute($id, $log = true)
   {
-    global $REX;
     $sql = rex_sql::factory();
     $sql->setQuery('
       SELECT    id, name, type, parameters, `interval`
       FROM      '. REX_CRONJOB_TABLE .'
-      WHERE     id = '. $id .' AND environment LIKE "%|'. (int)$REX['REDAXO'] .'|%"
+      WHERE     id = '. $id .' AND environment LIKE "%|'. (int)rex_core::isBackend() .'|%"
       LIMIT     1
     ');
     if ($sql->getRows() != 1)
@@ -179,7 +175,6 @@ class rex_cronjob_manager_sql
 
   public function tryExecuteSql(rex_sql $sql, $log = true, $resetExecutionStart = false)
   {
-    global $REX;
     if ($sql->getRows() > 0)
     {
       $id       = $sql->getValue('id');
@@ -225,7 +220,6 @@ class rex_cronjob_manager_sql
 
   public function saveNextTime($nexttime = null)
   {
-    global $REX;
     if ($nexttime === null)
     {
       $nexttime = $this->getMinNextTime();

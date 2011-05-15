@@ -17,7 +17,7 @@ if ($PERMALL)
   {
     $cat_name = rex_request('cat_name', 'string');
     $db = rex_sql::factory();
-    $db->setTable($REX['TABLE_PREFIX'].'media_category');
+    $db->setTable(rex_core::getTablePrefix().'media_category');
     $db->setWhere('id='.$edit_id);
     $db->setValue('name',$cat_name);
     $db->addGlobalUpdateFields();
@@ -35,12 +35,12 @@ if ($PERMALL)
   } elseif ($media_method == 'delete_file_cat')
   {
     $gf = rex_sql::factory();
-    $gf->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'media WHERE category_id='.$edit_id);
+    $gf->setQuery('SELECT * FROM '.rex_core::getTablePrefix().'media WHERE category_id='.$edit_id);
     $gd = rex_sql::factory();
-    $gd->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'media_category WHERE re_id='.$edit_id);
+    $gd->setQuery('SELECT * FROM '.rex_core::getTablePrefix().'media_category WHERE re_id='.$edit_id);
     if ($gf->getRows()==0 && $gd->getRows()==0)
     {
-      $gf->setQuery('DELETE FROM '.$REX['TABLE_PREFIX'].'media_category WHERE id='. $edit_id);
+      $gf->setQuery('DELETE FROM '.rex_core::getTablePrefix().'media_category WHERE id='. $edit_id);
       rex_media_cache::deleteCategory($edit_id);
       rex_media_cache::deleteLists();
       $info = rex_i18n::msg('pool_kat_deleted');
@@ -51,7 +51,7 @@ if ($PERMALL)
   } elseif ($media_method == 'add_file_cat')
   {
     $db = rex_sql::factory();
-    $db->setTable($REX['TABLE_PREFIX'].'media_category');
+    $db->setTable(rex_core::getTablePrefix().'media_category');
     $db->setValue('name',rex_request('catname', 'string'));
     $db->setValue('re_id', rex_request('cat_id', 'int'));
     $db->setValue('path', rex_request('catpath', 'string'));

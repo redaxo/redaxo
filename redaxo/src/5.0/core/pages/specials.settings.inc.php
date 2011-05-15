@@ -45,7 +45,7 @@ elseif ($func == 'updateinfos')
   $startArt = rex_ooArticle::getArticleById($neu_startartikel);
   $notFoundArt = rex_ooArticle::getArticleById($neu_notfoundartikel);
 
-  $REX['LANG'] = $neu_lang;
+  rex_core::setProperty('lang', $neu_lang);
   $configFile = rex_path::src('config.yml');
   $config = rex_file::getConfig($configFile);
 
@@ -55,7 +55,7 @@ elseif ($func == 'updateinfos')
   }else
   {
     $config['start_article_id'] = $neu_startartikel;
-    $REX['START_ARTICLE_ID'] = $neu_startartikel;
+    rex_core::setProperty('start_article_id', $neu_startartikel);
   }
 
   if(!rex_ooArticle::isValid($notFoundArt))
@@ -64,18 +64,18 @@ elseif ($func == 'updateinfos')
   }else
   {
 	  $config['notfound_article_id'] = $neu_notfoundartikel;
-    $REX['NOTFOUND_ARTICLE_ID'] = $neu_notfoundartikel;
+    rex_core::setProperty('notfound_article_id', $neu_notfoundartikel);
   }
 
   $sql = rex_sql::factory();
-  $sql->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'] .'template WHERE id='. $neu_defaulttemplateid .' AND active=1');
+  $sql->setQuery('SELECT * FROM '. rex_core::getTablePrefix() .'template WHERE id='. $neu_defaulttemplateid .' AND active=1');
   if($sql->getRows() != 1 && $neu_defaulttemplateid != 0)
   {
     $warning .= rex_i18n::msg('settings_invalid_default_template')."<br />";
   }else
 	{
 	  $config['default_template_id'] = $neu_defaulttemplateid;
-    $REX['DEFAULT_TEMPLATE_ID'] = $neu_defaulttemplateid;
+    rex_core::setProperty('default_template_id', $neu_defaulttemplateid);
 	}
 
   $config['error_email'] = $neu_error_emailaddress;
@@ -91,10 +91,10 @@ elseif ($func == 'updateinfos')
       $info = rex_i18n::msg('info_updated');
 
       // Zuweisungen für Wiederanzeige
-      $REX['MOD_REWRITE'] = $neu_modrewrite === 'TRUE';
-      $REX['ERROR_EMAIL'] = $neu_error_emailaddress;
-      $REX['SERVER'] = $neu_SERVER;
-      $REX['SERVERNAME'] = $neu_SERVERNAME;
+      rex_core::setProperty('mod_rewrite', $neu_modrewrite === 'TRUE');
+      rex_core::setProperty('error_email', $neu_error_emailaddress);
+      rex_core::setProperty('server', $neu_SERVER);
+      rex_core::setProperty('servername', $neu_SERVERNAME);
     }
   }
 }
@@ -104,7 +104,7 @@ $sel_template->setStyle('class="rex-form-select"');
 $sel_template->setName('neu_defaulttemplateid');
 $sel_template->setId('rex-form-default-template-id');
 $sel_template->setSize(1);
-$sel_template->setSelected($REX['DEFAULT_TEMPLATE_ID']);
+$sel_template->setSelected(rex_core::getProperty('default_template_id'));
 
 $templates = rex_ooCategory::getTemplates(0);
 if (empty($templates))
@@ -117,7 +117,7 @@ $sel_lang->setStyle('class="rex-form-select"');
 $sel_lang->setName('neu_lang');
 $sel_lang->setId('rex-form-lang');
 $sel_lang->setSize(1);
-$sel_lang->setSelected($REX['LANG']);
+$sel_lang->setSelected(rex_core::getProperty('lang'));
 
 foreach (rex_i18n::getLocales() as $l)
 {
@@ -129,7 +129,7 @@ $sel_mod_rewrite->setSize(1);
 $sel_mod_rewrite->setStyle('class="rex-form-select"');
 $sel_mod_rewrite->setName('neu_modrewrite');
 $sel_mod_rewrite->setId('rex-form-mod-rewrite');
-$sel_mod_rewrite->setSelected($REX['MOD_REWRITE'] === false ? 'FALSE' : 'TRUE');
+$sel_mod_rewrite->setSelected(rex_core::getProperty('mod_rewrite') === false ? 'FALSE' : 'TRUE');
 
 $sel_mod_rewrite->addOption('TRUE', 'TRUE');
 $sel_mod_rewrite->addOption('FALSE', 'FALSE');
@@ -140,6 +140,7 @@ if ($warning != '')
 if ($info != '')
   echo rex_info($info);
 
+$dbconfig = rex_core::getProperty('db');
 
 ?>
   <div class="rex-form" id="rex-form-system-setup">
@@ -163,11 +164,11 @@ if ($info != '')
 
             <h4 class="rex-hl3"><?php echo rex_i18n::msg("version"); ?></h4>
             <p class="rex-tx1">
-            REDAXO: <?php echo $REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION']; ?><br />
+            REDAXO: <?php echo rex_core::getProperty('version').'.'.rex_core::getProperty('subversion').'.'.rex_core::getProperty('minorversion'); ?><br />
             PHP: <?php echo phpversion(); ?> (<a href="index.php?page=specials&amp;subpage=phpinfo">php_info</a>)</p>
 
             <h4 class="rex-hl3"><?php echo rex_i18n::msg("database"); ?></h4>
-            <p class="rex-tx1">MySQL: <?php echo rex_sql::getServerVersion(); ?><br /><?php echo rex_i18n::msg("name"); ?>: <?php echo $REX['DB'][1]['name']; ?><br /><?php echo rex_i18n::msg("host"); ?>: <?php echo $REX['DB'][1]['host']; ?></p>
+            <p class="rex-tx1">MySQL: <?php echo rex_sql::getServerVersion(); ?><br /><?php echo rex_i18n::msg("name"); ?>: <?php echo $dbconfig[1]['name']; ?><br /><?php echo rex_i18n::msg("host"); ?>: <?php echo $dbconfig[1]['host']; ?></p>
 					</div>
 				</div>
 
@@ -186,7 +187,7 @@ if ($info != '')
 							<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-version">Version</label>
-										<span class="rex-form-read" id="rex-form-version"><?php echo $REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION']; ?></span>
+										<span class="rex-form-read" id="rex-form-version"><?php echo rex_core::getProperty('version').'.'.rex_core::getProperty('subversion').'.'.rex_core::getProperty('minorversion'); ?></span>
 									</p>
 								</div>
 						-->
@@ -194,14 +195,14 @@ if ($info != '')
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
 										<label for="rex-form-server">$REX['SERVER']</label>
-										<input class="rex-form-text" type="text" id="rex-form-server" name="neu_SERVER" value="<?php echo htmlspecialchars($REX['SERVER']); ?>" />
+										<input class="rex-form-text" type="text" id="rex-form-server" name="neu_SERVER" value="<?php echo htmlspecialchars(rex_core::getProperty('server')); ?>" />
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
 										<label for="rex-form-servername">$REX['SERVERNAME']</label>
-										<input class="rex-form-text" type="text" id="rex-form-servername" name="neu_SERVERNAME" value="<?php echo htmlspecialchars($REX['SERVERNAME']); ?>" />
+										<input class="rex-form-text" type="text" id="rex-form-servername" name="neu_SERVERNAME" value="<?php echo htmlspecialchars(rex_core::getProperty('servername')); ?>" />
 									</p>
 								</div>
 							</div>
@@ -218,14 +219,14 @@ if ($info != '')
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-db-host">$REX[\'DB\'][\'1\'][\'HOST\']</label>
-										<span class="rex-form-read" id="rex-form-db-host">&quot;<?php echo $REX['DB'][1]['host']; ?>&quot;</span>
+										<span class="rex-form-read" id="rex-form-db-host">&quot;<?php echo $dbconfig[1]['host']; ?>&quot;</span>
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
 										<label for="rex-form-db-login">$REX[\'DB\'][\'1\'][\'LOGIN\']</label>
-										<span id="rex-form-db-login">&quot;<?php echo $REX['DB'][1]['login']; ?>&quot;</span>
+										<span id="rex-form-db-login">&quot;<?php echo $dbconfig[1]['login']; ?>&quot;</span>
 									</p>
 								</div>
 
@@ -239,7 +240,7 @@ if ($info != '')
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-db-name">$REX[\'DB\'][\'1\'][\'NAME\']</label>
-										<span class="rex-form-read" id="rex-form-db-name">&quot;<?php echo htmlspecialchars($REX['DB'][1]['name']); ?>&quot;</span>
+										<span class="rex-form-read" id="rex-form-db-name">&quot;<?php echo htmlspecialchars($dbconfig[1]['name']); ?>&quot;</span>
 									</p>
 								</div>
 							</div>
@@ -272,21 +273,21 @@ if ($info != '')
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
 										<label for="rex-form-error-email">$REX['ERROR_EMAIL']</label>
-										<input class="rex-form-text" type="text" id="rex-form-error-email" name="neu_error_emailaddress" value="<?php echo htmlspecialchars($REX['ERROR_EMAIL']); ?>" />
+										<input class="rex-form-text" type="text" id="rex-form-error-email" name="neu_error_emailaddress" value="<?php echo htmlspecialchars(rex_core::getProperty('error_email')); ?>" />
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-widget">
 										<label for="rex-form-startarticle-id">$REX['START_ARTICLE_ID']</label>
-										<?php echo rex_var_link::_getLinkButton('neu_startartikel', 1, $REX['START_ARTICLE_ID']); ?>
+										<?php echo rex_var_link::_getLinkButton('neu_startartikel', 1, rex_core::getProperty('start_article_id')); ?>
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-widget">
 										<label for="rex-form-notfound-article-id">$REX['NOTFOUND_ARTICLE_ID']</label>
-                    <?php echo rex_var_link::_getLinkButton('neu_notfoundartikel', 2, $REX['NOTFOUND_ARTICLE_ID']); ?>
+                    <?php echo rex_var_link::_getLinkButton('neu_notfoundartikel', 2, rex_core::getProperty('notfound_article_id')); ?>
 									</p>
 								</div>
 

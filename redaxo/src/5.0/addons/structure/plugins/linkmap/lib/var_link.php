@@ -46,8 +46,6 @@ class rex_var_link extends rex_var
 
   public function setACValues(rex_sql $sql, array $REX_ACTION)
   {
-    global $REX;
-
     for ($i = 1; $i < 11; $i++)
     {
       $this->setValue($sql, 'link'. $i, $REX_ACTION['LINK'][$i]);
@@ -100,8 +98,6 @@ class rex_var_link extends rex_var
    */
   private function matchLinkButton(rex_sql $sql, $content)
   {
-  	global $REX;
-
   	$def_category = '';
   	$article_id = rex_request('article_id', 'int');
   	if($article_id != 0)
@@ -262,7 +258,7 @@ class rex_var_link extends rex_var
     $delete_class = 'rex-icon-file-delete rex-icon-file-delete-inactive';
     $open_func    = '';
     $delete_func  = '';
-    if ($REX['USER']->hasStructurePerm())
+    if (rex_core::getUser()->hasStructurePerm())
     {
       $open_class   = 'rex-icon-file-open';
       $delete_class = 'rex-icon-file-delete';
@@ -319,7 +315,7 @@ class rex_var_link extends rex_var
     $delete_class = 'rex-icon-file-delete rex-icon-file-delete-inactive';
     $open_func    = '';
     $delete_func  = '';
-    if ($REX['USER']->hasStructurePerm())
+    if (rex_core::getUser()->hasStructurePerm())
     {
       $open_class   = 'rex-icon-file-open';
       $delete_class = 'rex-icon-file-delete';

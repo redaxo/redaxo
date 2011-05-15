@@ -17,7 +17,7 @@ $REX['ADDON']['version'][$mypage] = '1.3';
 $REX['ADDON']['author'][$mypage] = 'Umsetzung: Thomas Blum';
 $REX['ADDON']['supportpage'][$mypage] = 'www.redaxo.org/de/forum/';
 
-if($REX["REDAXO"])
+if(rex_core::isBackend())
 {
 
 	rex_extension::register('PAGE_HEADER', function ($params) use ($mypage)

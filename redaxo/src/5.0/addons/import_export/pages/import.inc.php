@@ -30,7 +30,7 @@ if ($impname != '')
 }
 
 if ($exportfilename == '')
-  $exportfilename = 'rex_'.$REX['VERSION'].'_'.date("Ymd");
+  $exportfilename = 'rex_'.rex_core::getProperty('version').'_'.date("Ymd");
 
 if ($function == "delete")
 {

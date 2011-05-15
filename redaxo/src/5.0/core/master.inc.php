@@ -6,36 +6,32 @@
  * @version svn:$Id$
  */
 
-// ----------------- VERSION
-
-$REX['VERSION'] = "5";
-$REX['SUBVERSION'] = "0";
-$REX['MINORVERSION'] = "0";
-
-// Is set first time SQL Object ist initialised
-$REX['MYSQL_VERSION'] = "";
-
-// ----------------- default values
-if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
-
 // ----------------- INCLUDE FUNCTIONS
 require_once rex_path::core('functions.inc.php');
+
+// ----------------- VERSION
+
+rex_core::setProperty('version', 5);
+rex_core::setProperty('subversion', 0);
+rex_core::setProperty('minorversion', 0);
+
+rex_core::setProperty('redaxo', $REX['REDAXO']);
 
 $config = rex_file::getConfig(rex_path::src('config.yml'));
 foreach($config as $key => $value)
 {
-  $REX[strtoupper($key)] = $value;
+  rex_core::setProperty($key, $value);
 }
 
-$REX['FILEPERM'] = octdec($REX['FILEPERM']);
-$REX['DIRPERM'] = octdec($REX['DIRPERM']);
+rex_core::setProperty('fileperm', octdec(rex_core::getProperty('fileperm', '0664')));
+rex_core::setProperty('dirperm', octdec(rex_core::getProperty('dirperm', '0775')));
 
-date_default_timezone_set($REX['TIMEZONE']);
+date_default_timezone_set(rex_core::getProperty('timezone', 'Europe/Berlin'));
 
 // ----------------- OTHER STUFF
-$REX['SETUP_PACKAGES'] = array('be_style', 'be_style/agk_skin');
-$REX['SYSTEM_PACKAGES'] = array('structure', 'structure/content', 'structure/linkmap', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/agk_skin', 'image_manager', 'users');
-$REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
+rex_core::setProperty('setup_packages', array('be_style', 'be_style/agk_skin'));
+rex_core::setProperty('system_packages', array('structure', 'structure/content', 'structure/linkmap', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/agk_skin', 'image_manager', 'users'));
+rex_core::setProperty('mediapool', array('blocked_extension' => array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp')));
 
 // ----------------- Accesskeys
 $REX['ACKEY']['SAVE'] = 's';
@@ -78,9 +74,9 @@ $clangFile = rex_path::cache('clang.cache');
 if(file_exists($clangFile))
   $REX['CLANG'] = rex_file::getCache(rex_path::cache('clang.cache'));
 
-$REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', $REX['START_CLANG_ID']);
+$REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', rex_core::getProperty('start_clang_id'));
 
 if(rex_request('article_id', 'int') == 0)
-  $REX['ARTICLE_ID'] = $REX['START_ARTICLE_ID'];
+  $REX['ARTICLE_ID'] = rex_core::getProperty('start_article_id');
 else
-  $REX['ARTICLE_ID'] = rex_request('article_id','rex-article-id', $REX['NOTFOUND_ARTICLE_ID']);
+  $REX['ARTICLE_ID'] = rex_request('article_id','rex-article-id', rex_core::getProperty('notfound_article_id'));

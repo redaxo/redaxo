@@ -249,7 +249,6 @@ class rex_ooMedia
    */
   public function getPath()
   {
-    global $REX;
     return rex_path::media('', rex_path::RELATIVE);
   }
 
@@ -319,7 +318,6 @@ class rex_ooMedia
       if ($format == '')
       {
         // TODO Im Frontend gibts kein I18N
-        // global $REX;
         //$format = rex_i18n::msg('dateformat');
         $format = '%a %d. %B %Y';
       }
@@ -367,8 +365,6 @@ class rex_ooMedia
    */
   public function toImage(array $params = array ())
   {
-    global $REX;
-
     if(!is_array($params))
     {
       $params = array();
@@ -485,13 +481,12 @@ class rex_ooMedia
   {
     return sprintf('<a href="%s" title="%s"%s>%s</a>', $this->getFullPath(), $this->getDescription(), $attributes, $this->getFileName());
   }
+
   /**
    * @access public
    */
   public function toIcon(array $iconAttributes = array ())
   {
-    global $REX;
-
     $ext = $this->getExtension();
     $icon = $this->getIcon();
 
@@ -563,8 +558,6 @@ class rex_ooMedia
    */
   public function isInUse()
   {
-    global $REX;
-
     $sql = rex_sql::factory();
     $filename = addslashes($this->getFileName());
     // replace LIKE wildcards
@@ -589,7 +582,7 @@ class rex_ooMedia
     $where .= implode(' OR ', $files).' OR ';
     $where .= implode(' OR ', $filelists) .' OR ';
     $where .= implode(' OR ', $values);
-    $query = 'SELECT DISTINCT article_id, clang FROM '.$REX['TABLE_PREFIX'].'article_slice WHERE '. $where;
+    $query = 'SELECT DISTINCT article_id, clang FROM '.rex_core::getTablePrefix().'article_slice WHERE '. $where;
 
     // deprecated since REX 4.3
     // ----- EXTENSION POINT
@@ -635,8 +628,6 @@ class rex_ooMedia
    */
   public function toHTML($attributes = '')
   {
-    global $REX;
-
     $file = $this->getFullPath();
     $filetype = $this->getExtension();
 
@@ -687,8 +678,6 @@ class rex_ooMedia
    */
   public function getIcon($useDefaultIcon = true)
   {
-    global $REX;
-
     $ext = $this->getExtension();
     $folder = rex_path::pluginAssets('be_style', 'base_old', '', rex_path::RELATIVE);
     $icon = $folder .'mime-'.$ext.'.gif';
@@ -709,8 +698,7 @@ class rex_ooMedia
    */
   static public function _getTableName()
   {
-    global $REX;
-    return $REX['TABLE_PREFIX'].'media';
+    return rex_core::getTablePrefix().'media';
   }
 
   /**
@@ -756,8 +744,6 @@ class rex_ooMedia
    */
   public function delete($filename = null)
   {
-    global $REX;
-
     if($filename != null)
     {
       $OOMed = self::getMediaByFileName($filename);
@@ -785,8 +771,6 @@ class rex_ooMedia
 
   public function fileExists($filename = null)
   {
-    global $REX;
-
     if($filename === null)
     {
       $filename = $this->getFileName();
@@ -907,8 +891,6 @@ class rex_ooMedia
    */
   static public function getMediaById($id)
   {
-    global $REX;
-
     $id = (int) $id;
     if ($id==0)
       return null;

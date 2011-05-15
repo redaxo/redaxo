@@ -111,13 +111,11 @@ class rex_article_base
 
   public function setArticleId($article_id)
   {
-    global $REX;
-
     $article_id = (int) $article_id;
     $this->article_id = $article_id;
 
     // ---------- select article
-    $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."article WHERE ".$REX['TABLE_PREFIX']."article.id='$article_id' AND clang='".$this->clang."'";
+    $qry = "SELECT * FROM ".rex_core::getTablePrefix()."article WHERE ".rex_core::getTablePrefix()."article.id='$article_id' AND clang='".$this->clang."'";
     $sql = $this->getSqlInstance();
     $sql->setQuery($qry);
 
@@ -178,7 +176,6 @@ class rex_article_base
 
   protected function _getValue($value)
   {
-    global $REX;
     $value = $this->correctValue($value);
 
     return $this->getSqlInstance()->getValue($value);
@@ -213,11 +210,9 @@ class rex_article_base
    */
   protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
   {
-    global $REX;
+    $output = $this->replaceVars($artDataSql, $artDataSql->getValue(rex_core::getTablePrefix().'module.output'));
 
-    $output = $this->replaceVars($artDataSql, $artDataSql->getValue($REX['TABLE_PREFIX'].'module.output'));
-
-    return $this->getVariableStreamOutput('module/'. $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id') .'/output', $output);
+    return $this->getVariableStreamOutput('module/'. $artDataSql->getValue(rex_core::getTablePrefix().'module.id') .'/output', $output);
   }
 
 
@@ -258,12 +253,12 @@ class rex_article_base
 
     $articleLimit = '';
     if($this->article_id != 0) {
-      $articleLimit = ' AND '. $REX['TABLE_PREFIX']."article_slice.article_id=".$this->article_id;
+      $articleLimit = ' AND '. rex_core::getTablePrefix()."article_slice.article_id=".$this->article_id;
     }
 
     $sliceLimit = '';
     if ($this->getSlice != 0) {
-      $sliceLimit = " AND ".$REX['TABLE_PREFIX']."article_slice.id = '" . ((int) $this->getSlice) . "' ";
+      $sliceLimit = " AND ".rex_core::getTablePrefix()."article_slice.id = '" . ((int) $this->getSlice) . "' ";
     }
 
     // ----- start: article caching
@@ -272,18 +267,18 @@ class rex_article_base
     $module_id = rex_request('module_id', 'int');
 
     // ---------- alle teile/slices eines artikels auswaehlen
-    $sql = "SELECT ".$REX['TABLE_PREFIX']."module.id, ".$REX['TABLE_PREFIX']."module.name, ".$REX['TABLE_PREFIX']."module.output, ".$REX['TABLE_PREFIX']."module.input, ".$REX['TABLE_PREFIX']."article_slice.*, ".$REX['TABLE_PREFIX']."article.re_id
+    $sql = "SELECT ".rex_core::getTablePrefix()."module.id, ".rex_core::getTablePrefix()."module.name, ".rex_core::getTablePrefix()."module.output, ".rex_core::getTablePrefix()."module.input, ".rex_core::getTablePrefix()."article_slice.*, ".rex_core::getTablePrefix()."article.re_id
             FROM
-              ".$REX['TABLE_PREFIX']."article_slice
-            LEFT JOIN ".$REX['TABLE_PREFIX']."module ON ".$REX['TABLE_PREFIX']."article_slice.modultyp_id=".$REX['TABLE_PREFIX']."module.id
-            LEFT JOIN ".$REX['TABLE_PREFIX']."article ON ".$REX['TABLE_PREFIX']."article_slice.article_id=".$REX['TABLE_PREFIX']."article.id
+              ".rex_core::getTablePrefix()."article_slice
+            LEFT JOIN ".rex_core::getTablePrefix()."module ON ".rex_core::getTablePrefix()."article_slice.modultyp_id=".rex_core::getTablePrefix()."module.id
+            LEFT JOIN ".rex_core::getTablePrefix()."article ON ".rex_core::getTablePrefix()."article_slice.article_id=".rex_core::getTablePrefix()."article.id
             WHERE
-              ".$REX['TABLE_PREFIX']."article_slice.clang='".$this->clang."' AND
-              ".$REX['TABLE_PREFIX']."article.clang='".$this->clang."' AND
-              ".$REX['TABLE_PREFIX']."article_slice.revision='".$this->slice_revision."'
+              ".rex_core::getTablePrefix()."article_slice.clang='".$this->clang."' AND
+              ".rex_core::getTablePrefix()."article.clang='".$this->clang."' AND
+              ".rex_core::getTablePrefix()."article_slice.revision='".$this->slice_revision."'
               ". $articleLimit ."
               ". $sliceLimit ."
-              ORDER BY ".$REX['TABLE_PREFIX']."article_slice.prior";
+              ORDER BY ".rex_core::getTablePrefix()."article_slice.prior";
 
     $artDataSql = rex_sql::factory();
     if($this->debug)
@@ -302,9 +297,9 @@ class rex_article_base
     $rows = $artDataSql->getRows();
     for($i = 0; $i < $rows; ++$i)
     {
-      $sliceId       = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
-      $sliceCtypeId  = $artDataSql->getValue($REX['TABLE_PREFIX'].'article_slice.ctype');
-      $sliceModuleId = $artDataSql->getValue($REX['TABLE_PREFIX'].'module.id');
+      $sliceId       = $artDataSql->getValue(rex_core::getTablePrefix().'article_slice.id');
+      $sliceCtypeId  = $artDataSql->getValue(rex_core::getTablePrefix().'article_slice.ctype');
+      $sliceModuleId = $artDataSql->getValue(rex_core::getTablePrefix().'module.id');
 
       // ----- ctype unterscheidung
       if ($this->mode != "edit" && !$this->eval && $i == 0)
@@ -448,7 +443,7 @@ class rex_article_base
     global $REX;
 
     $tmp = '';
-    $sliceId = $sql->getValue($REX['TABLE_PREFIX'].'article_slice.id');
+    $sliceId = $sql->getValue(rex_core::getTablePrefix().'article_slice.id');
     $flushValues = false;
 
     foreach(rex_var::getVars() as $var)
@@ -504,18 +499,16 @@ class rex_article_base
   // ---- Artikelweite globale variablen werden ersetzt
   public function replaceCommonVars($content, $template_id = null)
   {
-    global $REX;
-
     static $user_id = null;
     static $user_login = null;
 
     // UserId gibts nur im Backend
     if($user_id === null)
     {
-      if(isset($REX['USER']))
+      if(rex_core::getUser())
       {
-        $user_id = $REX['USER']->getValue('user_id');
-        $user_login = $REX['USER']->getValue('login');
+        $user_id = rex_core::getUser()->getValue('user_id');
+        $user_login = rex_core::getUser()->getValue('login');
       }else
       {
         $user_id = '';

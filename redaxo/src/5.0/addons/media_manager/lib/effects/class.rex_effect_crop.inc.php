@@ -109,8 +109,6 @@ class rex_effect_crop extends rex_effect_abstract
 
   public function getParams()
   {
-    global $REX;
-
     return array(
       array(
         'label'=>rex_i18n::msg('imanager_effect_crop_width'),
