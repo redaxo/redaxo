@@ -797,7 +797,7 @@ class rex_sql extends rex_factory implements Iterator
     // re-execute the statement
     if($this->stmt && $this->counter != 0)
     {
-      $this->execute();
+      $this->execute(array());
       $this->counter = 0;
     }
 
