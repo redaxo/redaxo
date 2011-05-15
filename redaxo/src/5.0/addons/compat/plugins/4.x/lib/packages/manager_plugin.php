@@ -19,14 +19,14 @@ class rex_pluginManagerCompat extends rex_pluginManager
     return $state;
   }
 
-  public function includeFile($file)
+  static public function includeFile(rex_package $package, $file)
   {
     global $REX;
 
     $ADDONsic = $REX['ADDON'];
     $REX['ADDON'] = array();
 
-    $this->package->includeFile($file, array('REX_USER', 'REX_LOGIN', 'I18N', 'article_id', 'clang'));
+    $package->includeFile($file, array('REX_USER', 'REX_LOGIN', 'I18N', 'article_id', 'clang'));
 
     if(isset($REX['ADDON']) && is_array($REX['ADDON']))
     {
@@ -34,10 +34,10 @@ class rex_pluginManagerCompat extends rex_pluginManager
       {
         foreach($propertyArray as $pluginName => $value)
         {
-          if($pluginName == $this->package->getName())
+          if($pluginName == $package->getName())
           {
-            $this->package->setProperty($property, $value);
-            $ADDONsic['plugins'][$this->package->getAddon()->getName()][$property][$pluginName] = $value;
+            $package->setProperty($property, $value);
+            $ADDONsic['plugins'][$package->getAddon()->getName()][$property][$pluginName] = $value;
           }
         }
       }

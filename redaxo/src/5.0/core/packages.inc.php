@@ -56,8 +56,8 @@ foreach($packageOrder as $packageId)
   // include the addon itself
   if(is_readable($folder .'config.inc.php'))
   {
-    $manager = rex_packageManager::factory($package);
-    $manager->includeFile(rex_packageManager::CONFIG_FILE);
+    //$manager = rex_packageManager::factory($package);
+    rex_packageManager::includeFile($package, rex_packageManager::CONFIG_FILE);
   }
 }
 
