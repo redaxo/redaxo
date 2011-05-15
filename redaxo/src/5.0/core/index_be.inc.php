@@ -312,7 +312,7 @@ if($pageObj->hasPath())
 {
   // If page has a new/overwritten path
   $path = $pageObj->getPath();
-  if(preg_match('@'. preg_quote(rex_path::src('addons/'), '@') .'([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@', $path, $matches))
+  if(preg_match('@'. preg_quote(rex_path::version('addons/'), '@') .'([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@', $path, $matches))
   {
     $package = rex_addon::get($matches[1]);
     if(isset($matches[2]))

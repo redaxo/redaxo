@@ -21,7 +21,7 @@ if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 // ----------------- INCLUDE FUNCTIONS
 require_once rex_path::core('functions.inc.php');
 
-$config = rex_file::getConfig(rex_path::backend('src/config.yml'));
+$config = rex_file::getConfig(rex_path::src('config.yml'));
 foreach($config as $key => $value)
 {
   $REX[strtoupper($key)] = $value;
@@ -29,7 +29,7 @@ foreach($config as $key => $value)
 
 // --------- Debug extensions
 rex_sql::setFactoryClass('rex_sql_debug');
-// rex_extension::setFactoryClass('rex_extension_debug');
+rex_extension::setFactoryClass('rex_extension_debug');
 
 $REX['FILEPERM'] = octdec($REX['FILEPERM']);
 $REX['DIRPERM'] = octdec($REX['DIRPERM']);

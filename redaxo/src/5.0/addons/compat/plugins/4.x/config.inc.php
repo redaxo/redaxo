@@ -5,7 +5,7 @@ global $I18N, $REX_USER, $REX_LOGIN, $article_id, $clang;
 /**
  * @deprecated 5.0
  */
-$REX['INCLUDE_PATH'] = rex_path::src();
+$REX['INCLUDE_PATH'] = rex_path::version();
 
 /**
  * @deprecated 5.0

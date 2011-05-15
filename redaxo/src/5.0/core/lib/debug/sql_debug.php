@@ -2,6 +2,11 @@
 
 rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'printStats'));
 
+/**
+ * Class to monitor sql queries
+ *
+ * @author staabm
+ */
 class rex_sql_debug extends rex_sql
 {
   private static
@@ -13,12 +18,12 @@ class rex_sql_debug extends rex_sql
     self::$count++;
     $qry = $this->stmt->queryString;
 
-    $start = microtime(true);
-    parent::execute($params);
-    $stop = microtime(true);
+    $timer = new rex_timer();
+    $res = parent::execute($params);
 
-    $diff = ($stop - $start)*1000;
-    self::$queries[] = array($qry, rex_formatter::format($diff, 'number', array(3)));
+    self::$queries[] = array($qry, $timer->stop(rex_timer::MILLISEC));
+
+    return $res;
   }
 
   static public function printStats($params)
@@ -27,9 +32,9 @@ class rex_sql_debug extends rex_sql
 
     foreach(self::$queries as $qry)
     {
-      $debugout .= $qry[0]. ' ' .$qry[1] . 'ms<br/>';
+      $debugout .= 'Query: '. $qry[0]. ' ' .$qry[1] . 'ms<br/>';
     }
 
-    return str_replace('<div id="sidebar">', '<div>'. $debugout .'</div><div id="sidebar">', $params['subject']);
+    return rex_debug_util::injectHtml($debugout, $params['subject']);
   }
 }

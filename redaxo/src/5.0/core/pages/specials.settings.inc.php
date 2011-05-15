@@ -13,7 +13,7 @@ if ($func == 'setup')
 {
   // REACTIVATE SETUP
 
-  $configFile = rex_path::backend('src/config.yml');
+  $configFile = rex_path::src('config.yml');
   $config = rex_file::getConfig($configFile);
   $config['setup'] = true;
   // echo nl2br(htmlspecialchars($cont));
@@ -46,7 +46,7 @@ elseif ($func == 'updateinfos')
   $notFoundArt = rex_ooArticle::getArticleById($neu_notfoundartikel);
 
   $REX['LANG'] = $neu_lang;
-  $configFile = rex_path::backend('src/config.yml');
+  $configFile = rex_path::src('config.yml');
   $config = rex_file::getConfig($configFile);
 
   if(!rex_ooArticle::isValid($startArt))
@@ -255,10 +255,10 @@ if ($info != '')
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
-										<label for="rex_src_path">rex_path::src()</label>
-										<span class="rex-form-read" id="rex_src_path" title="'. rex_path::src() .'">&quot;
+										<label for="rex_src_path">rex_path::version()</label>
+										<span class="rex-form-read" id="rex_src_path" title="'. rex_path::version() .'">&quot;
                   <?php
-										$tmp = rex_path::src();
+										$tmp = rex_path::version();
 										if (strlen($tmp)>21)
 											$tmp = substr($tmp,0,8)."..".substr($tmp,strlen($tmp)-13);
 
