@@ -42,7 +42,6 @@ if ($REX['REDAXO'])
 {
   $curDir = dirname(__FILE__);
   require_once $curDir .'/functions/function_metainfo.inc.php';
-  require_once $curDir .'/extensions/extension_common.inc.php';
 
   rex_extension::register('PAGE_CHECKED', 'a62_extensions_handler');
 }

@@ -227,15 +227,15 @@ function a62_extensions_handler($params)
   $curDir = dirname(__FILE__) .'/..';
   if ($page == 'content' && $mode == 'meta')
   {
-    require_once ($curDir. '/extensions/extension_art_metainfo.inc.php');
+    require_once ($curDir. '/lib/handler/article_handler.php');
   }
   elseif ($page == 'structure')
   {
-    require_once ($curDir. '/extensions/extension_cat_metainfo.inc.php');
+    require_once ($curDir. '/lib/handler/category_handler.php');
   }
   elseif ($page == 'mediapool')
   {
-    require_once ($curDir. '/extensions/extension_med_metainfo.inc.php');
+    require_once ($curDir. '/lib/handler/media_handler.php');
   }
   elseif ($page == 'import_export')
   {
