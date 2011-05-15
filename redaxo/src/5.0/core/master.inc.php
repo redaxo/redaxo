@@ -21,7 +21,7 @@ if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
 // ----------------- INCLUDE FUNCTIONS
 require_once rex_path::core('functions.inc.php');
 
-$config = rex_file::getConfig(rex_path::backend('src/config.yml'));
+$config = rex_file::getConfig(rex_path::src('config.yml'));
 foreach($config as $key => $value)
 {
   $REX[strtoupper($key)] = $value;

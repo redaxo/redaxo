@@ -127,13 +127,21 @@ class rex_path
   }
 
   /**
+   * Returns the path to the src folder.
+   */
+  static public function src($file = '')
+  {
+    return self::absBase('redaxo/src/'. $file);
+  }
+
+  /**
    * Returns the path to the active version folder.
    *
    * There might be several version folders, but only one active.
    */
-  static public function src($file = '')
+  static public function version($file = '')
   {
-    return self::absBase('redaxo/src/'. self::$version .'/'. $file);
+    return self::src(self::$version .'/'. $file);
   }
 
   /**
@@ -141,7 +149,7 @@ class rex_path
    */
   static public function core($file = '')
   {
-    return self::src('core/'. $file);
+    return self::version('core/'. $file);
   }
 
   /**
@@ -149,7 +157,7 @@ class rex_path
    */
   static public function addon($addon, $file = '')
   {
-    return self::src('addons/'. $addon .'/'. $file);
+    return self::version('addons/'. $addon .'/'. $file);
   }
 
   /**
