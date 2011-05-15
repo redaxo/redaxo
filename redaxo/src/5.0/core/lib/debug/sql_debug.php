@@ -4,7 +4,7 @@ rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'printStats'));
 
 /**
  * Class to monitor sql queries
- * 
+ *
  * @author staabm
  */
 class rex_sql_debug extends rex_sql
@@ -21,8 +21,8 @@ class rex_sql_debug extends rex_sql
     $timer = new rex_timer();
     $res = parent::execute($params);
 
-    self::$queries[] = array($qry, $timer->stop(3, 1000));
-    
+    self::$queries[] = array($qry, $timer->stop(rex_timer::MILLISEC));
+
     return $res;
   }
 
@@ -34,7 +34,7 @@ class rex_sql_debug extends rex_sql
     {
       $debugout .= 'Query: '. $qry[0]. ' ' .$qry[1] . 'ms<br/>';
     }
-    
+
     return rex_debug_util::injectHtml($debugout, $params['subject']);
   }
 }
