@@ -9,10 +9,10 @@
 // ----- CLASSES
 require_once rex_path::core('lib/autoload.php');
 
-// add core base-classpath to autoloader
-rex_autoload::addDirectory(rex_path::core('lib/'));
 // register core-classes  as php-handlers
 rex_autoload::register();
+// add core base-classpath to autoloader
+rex_autoload::addDirectory(rex_path::core('lib/'));
 // start timer
 rex_timer::getInstance()->reset();
 // register rex_logger
