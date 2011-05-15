@@ -85,7 +85,7 @@ abstract class rex_packageManager extends rex_factory
         // check if install.inc.php exists
         if (is_readable($install_file))
         {
-          self::includeFile($this->package, self::INSTALL_FILE);
+          static::includeFile($this->package, self::INSTALL_FILE);
           $state = $this->verifyInstallation();
         }
         else
@@ -157,7 +157,7 @@ abstract class rex_packageManager extends rex_factory
       // check if uninstall.inc.php exists
       if (is_readable($uninstall_file))
       {
-        self::includeFile($this->package, self::UNINSTALL_FILE);
+        static::includeFile($this->package, self::UNINSTALL_FILE);
         $state = $this->verifyUninstallation();
       }
       else
@@ -232,7 +232,7 @@ abstract class rex_packageManager extends rex_factory
           if(is_readable($this->package->getBasePath(self::CONFIG_FILE)))
           {
             rex_autoload::addDirectory($this->package->getBasePath('lib'));
-            self::includeFile($this->package, self::CONFIG_FILE);
+            static::includeFile($this->package, self::CONFIG_FILE);
           }
         }
         $this->saveConfig();
@@ -542,8 +542,7 @@ abstract class rex_packageManager extends rex_factory
    */
   static public function includeFile(rex_package $package, $file)
   {
-    $class = get_called_class();
-    if($class == __CLASS__)
+    if(get_called_class() == __CLASS__)
     {
       $class = $package instanceof rex_plugin ? 'rex_pluginManager' : 'rex_addonManager';
       return $class::includeFile($package, $file);
