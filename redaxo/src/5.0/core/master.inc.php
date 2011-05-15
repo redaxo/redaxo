@@ -27,10 +27,6 @@ foreach($config as $key => $value)
   $REX[strtoupper($key)] = $value;
 }
 
-// --------- Debug extensions
-rex_sql::setFactoryClass('rex_sql_debug');
-rex_extension::setFactoryClass('rex_extension_debug');
-
 $REX['FILEPERM'] = octdec($REX['FILEPERM']);
 $REX['DIRPERM'] = octdec($REX['DIRPERM']);
 
