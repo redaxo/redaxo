@@ -67,10 +67,22 @@ if($PERMALL)
     }
   }elseif(rex_post('save', 'boolean'))
   {
-  	$warning = rex_i18n::msg('pool_file_not_found');
+    $warning = rex_i18n::msg('pool_file_not_found');
   }
 
-  echo rex_mediapool_Syncform($rex_file_category);
+  $params = array();
+  $params['form_title'] = rex_i18n::msg('pool_sync_title');
+  $params['button_title'] = rex_i18n::msg('pool_sync_button');
+  $params['rex_file_category'] = $rex_file_category;
+  $params['file_chooser'] = false;
+  $params['close_form'] = false;
+
+  $params['subpage'] = $subpage;
+  $params['ftitle'] = "";
+  $params['warning'] = $warning;
+  $params['info'] = $info;
+
+  echo rex_mediapool_Mediaform($params);
 
   $title = rex_i18n::msg('pool_sync_affected_files');
   if(!empty($diff_count))
