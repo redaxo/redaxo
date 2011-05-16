@@ -230,7 +230,7 @@ class rex_article_editor extends rex_article
             <!-- *** OUTPUT OF MODULE-OUTPUT - START *** -->
             <div class="rex-content-editmode-slice-output">
               <div class="rex-content-editmode-slice-output-2">
-                '. $this->getVariableStreamOutput('module/'. $moduleId .'/output', $moduleOutput) .'
+                '. $this->getStreamOutput('module/'. $moduleId .'/output', $moduleOutput) .'
               </div>
             </div>
             <!-- *** OUTPUT OF MODULE-OUTPUT - END *** -->
@@ -371,7 +371,7 @@ class rex_article_editor extends rex_article
 
       $moduleInput = $this->replaceVars($initDataSql, $MOD->getValue("input"));
 
-      $moduleInput = $this->getVariableStreamOutput('module/'. $moduleIdToAdd .'/input', $moduleInput);
+      $moduleInput = $this->getStreamOutput('module/'. $moduleIdToAdd .'/input', $moduleInput);
 
       $msg = '';
       if($this->warning != '')
@@ -467,7 +467,7 @@ class rex_article_editor extends rex_article
             <div class="rex-form-row">
               <div class="rex-content-editmode-slice-input">
                 <div class="rex-content-editmode-slice-input-2">
-                '. $this->getVariableStreamOutput('module/'. $RE_MODUL_ID.'/input', $RE_MODUL_IN) .'
+                '. $this->getStreamOutput('module/'. $RE_MODUL_ID.'/input', $RE_MODUL_IN) .'
                 </div>
               </div>
             </div>

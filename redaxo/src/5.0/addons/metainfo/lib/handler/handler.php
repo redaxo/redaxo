@@ -655,7 +655,7 @@ class rex_metainfoHandler
             $fieldAttributes = $field->getValue('attributes');
             $fieldValue = _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes);
 
-            require rex_variableStream::factory('metainfo/'. $field->getValue('field_id') .'/callback', $field->getValue('callback'));
+            require rex_stream::factory('metainfo/'. $field->getValue('field_id') .'/callback', $field->getValue('callback'));
           };
           // pass a clone to the custom handler, so the callback will not change our var
           $sandboxFunc(clone $row);

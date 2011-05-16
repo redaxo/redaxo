@@ -212,7 +212,7 @@ class rex_article_base
   {
     $output = $this->replaceVars($artDataSql, $artDataSql->getValue(rex::getTablePrefix().'module.output'));
 
-    return $this->getVariableStreamOutput('module/'. $artDataSql->getValue(rex::getTablePrefix().'module.id') .'/output', $output);
+    return $this->getStreamOutput('module/'. $artDataSql->getValue(rex::getTablePrefix().'module.id') .'/output', $output);
   }
 
 
@@ -398,7 +398,7 @@ class rex_article_base
       $TEMPLATE = new rex_template();
       $TEMPLATE->setId($this->template_id);
       $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
-      require rex_variableStream::factory('template/'. $this->template_id, $tplContent);
+      require rex_stream::factory('template/'. $this->template_id, $tplContent);
 
       $CONTENT = ob_get_contents();
       ob_end_clean();
@@ -411,18 +411,18 @@ class rex_article_base
     return $CONTENT;
   }
 
-  protected function getVariableStreamOutput($path, $content)
+  protected function getStreamOutput($path, $content)
   {
     global $REX;
 
     if (!$this->eval)
     {
-      return "require rex_variableStream::factory('$path', \n<<<'VARIABLE_STREAM_CONTENT'\n". $content ."\nVARIABLE_STREAM_CONTENT\n);\n";
+      return "require rex_stream::factory('$path', \n<<<'STREAM_CONTENT'\n". $content ."\nSTREAM_CONTENT\n);\n";
     }
 
     ob_start();
     ob_implicit_flush(0);
-    require rex_variableStream::factory($path, $content);
+    require rex_stream::factory($path, $content);
     $CONTENT = ob_get_contents();
     ob_end_clean();
 
