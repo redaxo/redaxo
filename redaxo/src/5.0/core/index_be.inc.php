@@ -29,10 +29,10 @@ if (rex::isSetup())
   if(in_array($requestLang, rex_i18n::getLocales()))
     rex::setProperty('lang', $requestLang);
 
-  rex_i18n::setLocale($REX['LANG']);
+  rex_i18n::setLocale(rex::getProperty('lang'));
 
   $REX['PAGES']['setup'] = rex_be_navigation::getSetupPage();
-  rex::setProperty('page', "setup");
+  $page = 'setup';
 
 }else
 {
