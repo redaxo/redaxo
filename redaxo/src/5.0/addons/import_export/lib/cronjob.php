@@ -12,7 +12,7 @@ class rex_cronjob_export extends rex_cronjob
 
     $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
     $filename = str_replace("%HTTP_HOST", $_SERVER['HTTP_HOST'], $filename);
-    $filename = str_replace("%REX_VERSION", rex::getProperty('version').rex::getProperty('subversion').rex::getProperty('minorversion'), $filename);
+    $filename = str_replace("%REX_VERSION", rex::getVersion(''), $filename);
     $filename = strftime($filename);
     $file = $filename;
     $dir = getImportDir() .'/';

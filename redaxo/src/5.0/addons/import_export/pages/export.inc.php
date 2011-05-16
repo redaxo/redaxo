@@ -34,7 +34,7 @@ if ($impname != '')
 }
 
 if ($exportfilename == '')
-  $exportfilename = strtolower($_SERVER['HTTP_HOST']).'_rex'.rex::getProperty('version').rex::getProperty('subversion').rex::getProperty('minorversion').'_'.date("Ymd");
+  $exportfilename = strtolower($_SERVER['HTTP_HOST']).'_rex'.rex::getVersion('').'_'.date("Ymd");
 
 if ($function == 'export')
 {

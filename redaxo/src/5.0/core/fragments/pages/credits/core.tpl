@@ -1,5 +1,5 @@
 <div class="rex-area rex-mab-10">
-  <h3 class="rex-hl2">REDAXO <?php echo rex::getProperty('version').'.'.rex::getProperty('subversion').'.'.rex::getProperty('minorversion') ?></h3>
+  <h3 class="rex-hl2">REDAXO <?php echo rex::getVersion() ?></h3>
 
   <div class="rex-area-content">
 

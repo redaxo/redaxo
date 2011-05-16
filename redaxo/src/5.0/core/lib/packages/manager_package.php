@@ -374,7 +374,7 @@ abstract class rex_packageManager extends rex_factory
 
     if(isset($requirements['redaxo']) && is_array($requirements['redaxo']))
     {
-      $rexVers = rex::getProperty('version') .'.'. rex::getProperty('subversion') .'.'. rex::getProperty('minorversion');
+      $rexVers = rex::getVersion();
       if (($msg = $this->checkRequirementVersion('redaxo_', $requirements['redaxo'], $rexVers)) !== true)
       {
         return $msg;

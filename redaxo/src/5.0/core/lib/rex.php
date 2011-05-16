@@ -72,4 +72,9 @@ class rex
   {
     return self::getProperty('user');
   }
+
+  static public function getVersion($separator = '.')
+  {
+    return self::getProperty('version') . $separator . self::getProperty('subversion') . $separator . self::getProperty('minorversion');
+  }
 }

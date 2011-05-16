@@ -164,7 +164,7 @@ $dbconfig = rex::getProperty('db');
 
             <h4 class="rex-hl3"><?php echo rex_i18n::msg("version"); ?></h4>
             <p class="rex-tx1">
-            REDAXO: <?php echo rex::getProperty('version').'.'.rex::getProperty('subversion').'.'.rex::getProperty('minorversion'); ?><br />
+            REDAXO: <?php echo rex::getVersion(); ?><br />
             PHP: <?php echo phpversion(); ?> (<a href="index.php?page=specials&amp;subpage=phpinfo">php_info</a>)</p>
 
             <h4 class="rex-hl3"><?php echo rex_i18n::msg("database"); ?></h4>
@@ -187,7 +187,7 @@ $dbconfig = rex::getProperty('db');
 							<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-version">Version</label>
-										<span class="rex-form-read" id="rex-form-version"><?php echo rex::getProperty('version').'.'.rex::getProperty('subversion').'.'.rex::getProperty('minorversion'); ?></span>
+										<span class="rex-form-read" id="rex-form-version"><?php echo rex::getVersion(); ?></span>
 									</p>
 								</div>
 						-->

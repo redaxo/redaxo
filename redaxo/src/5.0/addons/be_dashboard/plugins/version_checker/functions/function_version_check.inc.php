@@ -28,7 +28,7 @@ function rex_a657_check_version()
   $latestVersion = rex_a657_get_latest_version();
   if(!$latestVersion) return false;
 
-  $rexVersion = rex::getProperty('version').'.'.rex::getProperty('subversion').'.'.rex::getProperty('minorversion');
+  $rexVersion = rex::getVersion();
   if(version_compare($rexVersion, $latestVersion, '>'))
   {
     // Dev version
