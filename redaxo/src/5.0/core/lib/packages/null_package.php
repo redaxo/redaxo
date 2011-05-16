@@ -12,7 +12,7 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
    */
   public function getName()
   {
-    return getFactoryClass($this);
+    return get_class($this);
   }
 
   /* (non-PHPdoc)
