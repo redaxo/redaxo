@@ -42,7 +42,7 @@ function rex_image_manager_init()
 }
 
 
-if(rex_core::isBackend())
+if(rex::isBackend())
 {
 	// delete thumbnails on mediapool changes
 	if(!function_exists('rex_image_manager_ep_mediaupdated'))

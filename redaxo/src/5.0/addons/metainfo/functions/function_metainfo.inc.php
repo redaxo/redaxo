@@ -24,13 +24,13 @@ function a62_add_field_type($label, $dbtype, $dblength)
   if(!is_int($dblength) || empty($dblength))
     return rex_i18n::msg('minfo_field_error_invalid_length');
 
-  $qry = 'SELECT * FROM '. rex_core::getTablePrefix(). '62_type WHERE label=:label LIMIT 1';
+  $qry = 'SELECT * FROM '. rex::getTablePrefix(). '62_type WHERE label=:label LIMIT 1';
   $sql = rex_sql::factory();
   $sql->setQuery($qry, array(':label' => $label));
   if($sql->getRows() != 0)
     return rex_i18n::msg('minfo_field_error_unique_type');
 
-  $sql->setTable(rex_core::getTablePrefix(). '62_type');
+  $sql->setTable(rex::getTablePrefix(). '62_type');
   $sql->setValue('label', $label);
   $sql->setValue('dbtype', $dbtype);
   $sql->setValue('dblength', $dblength);
@@ -53,7 +53,7 @@ function a62_delete_field_type($field_type_id)
     return rex_i18n::msg('minfo_field_error_invalid_typeid');
 
   $sql = rex_sql::factory();
-  $sql->setTable(rex_core::getTablePrefix(). '62_type');
+  $sql->setTable(rex::getTablePrefix(). '62_type');
   $sql->setWhere(array('id' => $field_type_id));
 
   if(!$sql->delete())
@@ -75,7 +75,7 @@ function a62_add_field($title, $name, $prior, $attributes, $type, $default, $par
     return rex_i18n::msg('minfo_field_error_invalid_prefix');
 
   // TypeId korrekt?
-  $qry = 'SELECT * FROM '. rex_core::getTablePrefix() .'62_type WHERE id='. $type .' LIMIT 2';
+  $qry = 'SELECT * FROM '. rex::getTablePrefix() .'62_type WHERE id='. $type .' LIMIT 2';
   $sql = rex_sql::factory();
   $typeInfos = $sql->getArray($qry);
 
@@ -91,13 +91,13 @@ function a62_add_field($title, $name, $prior, $attributes, $type, $default, $par
     return rex_i18n::msg('minfo_field_error_unique_name');
 
   // Spalte extiert laut a62_params?
-  $qry = 'SELECT * FROM '. rex_core::getTablePrefix(). '62_params WHERE name=:name LIMIT 1';
+  $qry = 'SELECT * FROM '. rex::getTablePrefix(). '62_params WHERE name=:name LIMIT 1';
   $sql = rex_sql::factory();
   $sql->setQuery($qry, array(':name' => $name));
   if($sql->getRows() != 0)
     return rex_i18n::msg('minfo_field_error_unique_name');
 
-  $sql->setTable(rex_core::getTablePrefix(). '62_params');
+  $sql->setTable(rex::getTablePrefix(). '62_params');
   $sql->setValue('title', $title);
   $sql->setValue('name', $name);
   $sql->setValue('prior', $prior);
@@ -116,7 +116,7 @@ function a62_add_field($title, $name, $prior, $attributes, $type, $default, $par
   // replace LIKE wildcards
   $prefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
 
-  rex_organize_priorities(rex_core::getTablePrefix(). '62_params', 'prior', 'name LIKE "'. $prefix .'%"', 'prior, updatedate', 'field_id');
+  rex_organize_priorities(rex::getTablePrefix(). '62_params', 'prior', 'name LIKE "'. $prefix .'%"', 'prior, updatedate', 'field_id');
 
   $tableManager = new rex_a62_tableManager($metaTable);
   return $tableManager->addColumn($name, $fieldDbType, $fieldDbLength, $default);
@@ -127,13 +127,13 @@ function a62_delete_field($fieldIdOrName)
   // Löschen anhand der FieldId
   if(is_int($fieldIdOrName))
   {
-    $fieldQry = 'SELECT * FROM '. rex_core::getTablePrefix(). '62_params WHERE field_id=:idOrName LIMIT 2';
+    $fieldQry = 'SELECT * FROM '. rex::getTablePrefix(). '62_params WHERE field_id=:idOrName LIMIT 2';
     $invalidField = rex_i18n::msg('minfo_field_error_invalid_fieldid');
   }
   // Löschen anhand des Feldnames
   else if(is_string($fieldIdOrName))
   {
-    $fieldQry = 'SELECT * FROM '. rex_core::getTablePrefix(). '62_params WHERE name=:idOrName LIMIT 2';
+    $fieldQry = 'SELECT * FROM '. rex::getTablePrefix(). '62_params WHERE name=:idOrName LIMIT 2';
     $invalidField = rex_i18n::msg('minfo_field_error_invalid_name');
   }
   else
@@ -158,7 +158,7 @@ function a62_delete_field($fieldIdOrName)
   if(!in_array($name, $sql->getFieldnames()))
     return rex_i18n::msg('minfo_field_error_invalid_name');
 
-  $sql->setTable(rex_core::getTablePrefix(). '62_params');
+  $sql->setTable(rex::getTablePrefix(). '62_params');
   $sql->setWhere(array('field_id' => $field_id));
 
   if(!$sql->delete())

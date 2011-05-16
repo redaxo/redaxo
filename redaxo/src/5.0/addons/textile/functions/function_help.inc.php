@@ -11,7 +11,7 @@
 function rex_a79_help_overview()
 {
   // check perms
-  if(!rex_core::getUser()->hasPerm('textile[help]'))
+  if(!rex::getUser()->hasPerm('textile[help]'))
   {
   	return;
   }

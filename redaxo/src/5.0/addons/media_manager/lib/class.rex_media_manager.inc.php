@@ -46,7 +46,7 @@ class rex_media_manager
   {
     $qry = '
       SELECT e.*
-      FROM '. rex_core::getTablePrefix().'media_manager_types t, '. rex_core::getTablePrefix().'media_manager_type_effects e
+      FROM '. rex::getTablePrefix().'media_manager_types t, '. rex::getTablePrefix().'media_manager_type_effects e
       WHERE e.type_id = t.id AND t.name="'. $type .'" order by e.prior';
 
     $sql = rex_sql::factory();

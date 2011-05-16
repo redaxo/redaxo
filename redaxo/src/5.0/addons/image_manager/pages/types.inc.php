@@ -20,7 +20,7 @@ if($func == 'delete' && $type_id > 0)
 {
   $sql = rex_sql::factory();
 //  $sql->debugsql = true;
-  $sql->setTable(rex_core::getTablePrefix().'679_types');
+  $sql->setTable(rex::getTablePrefix().'679_types');
   $sql->setWhere('id='. $type_id . ' LIMIT 1');
 
   if($sql->delete())
@@ -55,7 +55,7 @@ if ($func == '')
 {
   // Nach Status sortieren, damit Systemtypen immer zuletzt stehen
   // (werden am seltesten bearbeitet)
-  $query = 'SELECT * FROM '.rex_core::getTablePrefix().'679_types ORDER BY status';
+  $query = 'SELECT * FROM '.rex::getTablePrefix().'679_types ORDER BY status';
 
 	$list = rex_list::factory($query);
 	$list->setNoRowsMessage(rex_i18n::msg('imanager_type_no_types'));
@@ -115,7 +115,7 @@ elseif ($func == 'add' ||
   }
 
   rex_extension::register('REX_FORM_CONTROL_FIElDS', 'rex_imanager_handle_form_control_fields');
-  $form = rex_form::factory(rex_core::getTablePrefix().'679_types',$formLabel,'id='.$type_id);
+  $form = rex_form::factory(rex::getTablePrefix().'679_types',$formLabel,'id='.$type_id);
 
   $form->addErrorMessage(REX_FORM_ERROR_VIOLATE_UNIQUE_KEY, rex_i18n::msg('imanager_error_type_name_not_unique'));
 

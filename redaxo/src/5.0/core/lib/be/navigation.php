@@ -85,7 +85,7 @@ class rex_be_navigation extends rex_factory
       {
         $page = $pageContainer->getPage();
 
-        if(!$page->getHidden() && $page->checkPermission(rex_core::getUser()))
+        if(!$page->getHidden() && $page->checkPermission(rex::getUser()))
         {
           if($first)
           {

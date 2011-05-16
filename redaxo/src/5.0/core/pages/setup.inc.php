@@ -86,7 +86,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 
   if($uninstallBefore)
   {
-    foreach(array_reverse(rex_core::getProperty('system_packages')) as $packageRepresentation)
+    foreach(array_reverse(rex::getProperty('system_packages')) as $packageRepresentation)
     {
       $package = rex_package::get($packageRepresentation);
       $manager = rex_packageManager::factory($package);
@@ -96,7 +96,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
     	  $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $state .'</li></ul></li>';
     }
   }
-  foreach(rex_core::getProperty('system_packages') as $packageRepresentation)
+  foreach(rex::getProperty('system_packages') as $packageRepresentation)
   {
   	$state = true;
   	$package = rex_package::get($packageRepresentation);
@@ -134,7 +134,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
     $table = $t["Tables_in_".$REX['DB']['1']['NAME']];
     $gc = rex_sql::factory();
     $gc->setQuery("show columns from $table");
-    if(substr($table,0,strlen(rex_core::getTablePrefix())) == rex_core::getTablePrefix()) {
+    if(substr($table,0,strlen(rex::getTablePrefix())) == rex::getTablePrefix()) {
       $columns = Array();
       $pri = "";
       foreach($gc->getArray() as $c) {
@@ -232,7 +232,7 @@ if ($checkmodus == '0.5')
 {
 	rex_setup_title('SETUP: START');
 
-	rex_core::setProperty('lang', $lang);
+	rex::setProperty('lang', $lang);
 
 	echo rex_i18n::msg('setup_005', '<h2 class="rex-hl2">', '</h2>');
 	echo '<div class="rex-area-content">';
@@ -283,7 +283,7 @@ if ($checkmodus == 1)
 		getImportDir()
 	);
 
-	foreach(rex_core::getProperty('system_packages') as $system_addon)
+	foreach(rex::getProperty('system_packages') as $system_addon)
 	{
 	  if(strpos($system_addon, '/') === false)
 	    $WRITEABLES[] = rex_path::addon($system_addon);
@@ -532,10 +532,10 @@ if ($checkmodus == 3 && $send == 1)
 
 	// -------------------------- Benötigte Tabellen prüfen
 	$requiredTables = array (
-		rex_core::getTablePrefix() .'clang',
-		rex_core::getTablePrefix() .'user',
-		rex_core::getTablePrefix() .'user_role',
-		rex_core::getTablePrefix() .'config'
+		rex::getTablePrefix() .'clang',
+		rex::getTablePrefix() .'user',
+		rex::getTablePrefix() .'user_role',
+		rex::getTablePrefix() .'config'
 	);
 
 	if ($dbanlegen == 4)
@@ -614,7 +614,7 @@ if ($checkmodus == 3 && $send == 1)
 		$existingTables = array();
 		foreach(rex_sql::showTables() as $tblname)
 		{
-			if (substr($tblname, 0, strlen(rex_core::getTablePrefix())) == rex_core::getTablePrefix())
+			if (substr($tblname, 0, strlen(rex::getTablePrefix())) == rex::getTablePrefix())
 			{
 				$existingTables[] = $tblname;
 			}
@@ -805,7 +805,7 @@ if ($checkmodus == 4 && $send == 1)
 		if ($err_msg == "")
 		{
 			$ga = rex_sql::factory();
-			$ga->setQuery("select * from ".rex_core::getTablePrefix()."user where login='$redaxo_user_login'");
+			$ga->setQuery("select * from ".rex::getTablePrefix()."user where login='$redaxo_user_login'");
 
 			if ($ga->getRows() > 0)
 			{
@@ -815,12 +815,12 @@ if ($checkmodus == 4 && $send == 1)
 			{
         // the service side encryption of pw is only required
         // when not already encrypted by client using javascript
-        if (rex_core::getProperty('pswfunc') != '' && rex_post('javascript') == '0')
-					$redaxo_user_pass = call_user_func(rex_core::getProperty('pswfunc'), $redaxo_user_pass);
+        if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0')
+					$redaxo_user_pass = call_user_func(rex::getProperty('pswfunc'), $redaxo_user_pass);
 
 				$user = rex_sql::factory();
 				// $user->debugsql = true;
-				$user->setTable(rex_core::getTablePrefix().'user');
+				$user->setTable(rex::getTablePrefix().'user');
 				$user->setValue('name', 'Administrator');
 				$user->setValue('login', $redaxo_user_login);
 				$user->setValue('psw', $redaxo_user_pass);
@@ -837,7 +837,7 @@ if ($checkmodus == 4 && $send == 1)
 	else
 	{
 		$gu = rex_sql::factory();
-		$gu->setQuery("select * from ".rex_core::getTablePrefix()."user LIMIT 1");
+		$gu->setQuery("select * from ".rex::getTablePrefix()."user LIMIT 1");
 		if ($gu->getRows() == 0)
 		$err_msg .= rex_i18n::msg('setup_044');
 	}
@@ -852,7 +852,7 @@ if ($checkmodus == 4 && $send == 1)
 if ($checkmodus == 4)
 {
 	$user_sql = rex_sql::factory();
-	$user_sql->setQuery("select * from ".rex_core::getTablePrefix()."user LIMIT 1");
+	$user_sql->setQuery("select * from ".rex::getTablePrefix()."user LIMIT 1");
 
 	rex_setup_title(rex_i18n::msg("setup_step4"));
 

@@ -25,7 +25,7 @@ class rex_cronjob_component extends rex_dashboard_component
 
   public function checkPermission()
   {
-    return rex_core::getUser()->isAdmin();
+    return rex::getUser()->isAdmin();
   }
 
   protected function prepare()

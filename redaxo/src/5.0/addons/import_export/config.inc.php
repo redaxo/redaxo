@@ -2,14 +2,14 @@
 
 $mypage = 'import_export';
 
-if(rex_core::isBackend() && is_object(rex_core::getUser()))
+if(rex::isBackend() && is_object(rex::getUser()))
 {
   $REX['PERM'][] = 'import_export[export]';
   $REX['PERM'][] = 'import_export[import]';
 
   $pages = array();
 
-  if(rex_core::getUser()->hasPerm('import_export[import]') || rex_core::getUser()->isAdmin())
+  if(rex::getUser()->hasPerm('import_export[import]') || rex::getUser()->isAdmin())
   {
   	$pages[] = array ('import', rex_i18n::msg('im_export_import'));
   }

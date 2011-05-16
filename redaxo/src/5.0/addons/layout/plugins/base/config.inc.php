@@ -12,7 +12,7 @@ $addon = 'layout';
 $plugin = 'base';
 
 
-if(rex_core::isBackend())
+if(rex::isBackend())
 {
 	$markup = '<link rel="stylesheet" type="text/css" href="'. rex_path::pluginAssets($addon, $plugin, 'css_import.css', rex_path::RELATIVE) .'" media="screen, projection, print" />';
 	rex_includeCss($markup);

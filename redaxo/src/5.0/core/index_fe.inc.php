@@ -24,7 +24,7 @@ include rex_path::core('master.inc.php');
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.inc.php');
 
-if(rex_core::isSetup())
+if(rex::isSetup())
 {
 	header('Location:redaxo/');
 	exit();
@@ -33,7 +33,7 @@ if(rex_core::isSetup())
 $REX['ARTICLE'] = new rex_article;
 $REX['ARTICLE']->setCLang($REX['CUR_CLANG']);
 
-if(rex_core::isSetup())
+if(rex::isSetup())
 {
 	header('Location: redaxo/index.php');
 	exit();

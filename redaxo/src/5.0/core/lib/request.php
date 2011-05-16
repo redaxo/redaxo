@@ -72,9 +72,9 @@ class rex_request
    */
   static public function session($varname, $vartype = '', $default = '')
   {
-    if(isset($_SESSION[$varname][rex_core::getProperty('instname')]))
+    if(isset($_SESSION[$varname][rex::getProperty('instname')]))
     {
-      return self::castVar($_SESSION[$varname][rex_core::getProperty('instname')], $vartype, $default, 'found');
+      return self::castVar($_SESSION[$varname][rex::getProperty('instname')], $vartype, $default, 'found');
     }
 
     if($default === '')
@@ -92,7 +92,7 @@ class rex_request
    */
   static public function setSession($varname, $value)
   {
-    $_SESSION[$varname][rex_core::getProperty('instname')] = $value;
+    $_SESSION[$varname][rex::getProperty('instname')] = $value;
   }
 
   /**
@@ -102,7 +102,7 @@ class rex_request
    */
   static public function unsetSession($varname)
   {
-    unset($_SESSION[$varname][rex_core::getProperty('instname')]);
+    unset($_SESSION[$varname][rex::getProperty('instname')]);
   }
 
   /**

@@ -8,11 +8,11 @@
 
 $popups_arr = array('linkmap', 'mediapool');
 
-$page_title = rex_core::getProperty('servername');
+$page_title = rex::getProperty('servername');
 
 if(!isset($page_name))
 {
-  $curPage = $REX['PAGES'][rex_core::getProperty('page')]->getPage();
+  $curPage = $REX['PAGES'][rex::getProperty('page')]->getPage();
   $page_name = $curPage->getTitle();
 }
 
@@ -20,7 +20,7 @@ if ($page_name != '')
   $page_title .= ' - ' . $page_name;
 
 $body_attr = array();
-$body_id = str_replace('_', '-', rex_core::getProperty('page'));
+$body_id = str_replace('_', '-', rex::getProperty('page'));
 
 if (in_array($body_id, $popups_arr))
   $body_attr["class"] = array('rex-popup'.$body_id);
@@ -40,10 +40,10 @@ foreach($body_attr as $k => $v){
 }
 
 $logout = '';
-if (rex_core::getUser() && !$REX["PAGE_NO_NAVI"])
+if (rex::getUser() && !$REX["PAGE_NO_NAVI"])
 {
   $accesskey = 1;
-  $user_name = rex_core::getUser()->getValue('name') != '' ? rex_core::getUser()->getValue('name') : rex_core::getUser()->getValue('login');
+  $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
   $logout = '<ul class="rex-logout"><li class="rex-first"><span>' . rex_i18n::msg('logged_in_as') . ' '. htmlspecialchars($user_name) .'</span></li><li><a href="index.php?page=profile">' . rex_i18n::msg('profile_title') . '</a></li><li><a href="index.php?rex_logout=1"'. rex_accesskey(rex_i18n::msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . rex_i18n::msg('logout') . '</a></li></ul>' . "\n";
 }else if(!$REX["PAGE_NO_NAVI"])
 {
@@ -55,10 +55,10 @@ if (rex_core::getUser() && !$REX["PAGE_NO_NAVI"])
 
 
 $navigation = '';
-if (rex_core::getUser() && !$REX["PAGE_NO_NAVI"])
+if (rex::getUser() && !$REX["PAGE_NO_NAVI"])
 {
 	$n = rex_be_navigation::factory();
-	foreach(rex_core::getUser()->pages as $p => $pageContainer)
+	foreach(rex::getUser()->pages as $p => $pageContainer)
   {
 		$p = strtolower($p);
     if(rex_be_page_main::isValid($pageContainer))

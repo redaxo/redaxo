@@ -92,7 +92,7 @@ class rex_cronjob_manager
     if (!$name)
     {
       if (rex_cronjob::isValid($this->cronjob))
-        $name = rex_core::isBackend() ? $cronjob->getTypeName() : $cronjob->getType();
+        $name = rex::isBackend() ? $cronjob->getTypeName() : $cronjob->getType();
       else
         $name = '[no name]';
     }

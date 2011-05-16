@@ -47,7 +47,7 @@ abstract class rex_dashboard_component_base
     if($this->checkPermission())
     {
       $callable = array($this, '_get');
-      $cachekey = $this->funcCache->computeCacheKey($callable, array(rex_core::getUser()->getUserLogin()));
+      $cachekey = $this->funcCache->computeCacheKey($callable, array(rex::getUser()->getUserLogin()));
       $cacheBackend = $this->funcCache->getCache();
 
       $configForm = '';
@@ -69,14 +69,14 @@ abstract class rex_dashboard_component_base
       }
 
       // prueft ob inhalte des callables gecacht vorliegen
-      $content = $this->funcCache->call($callable, array(rex_core::getUser()->getUserLogin()));
+      $content = $this->funcCache->call($callable, array(rex::getUser()->getUserLogin()));
 
       // wenn gecachter inhalt leer ist, vom cache entfernen und nochmals checken
       // damit leere komponenten sofort angezeigt werden, wenn neue inhalte verfuegbar sind
       if($content == '')
       {
         $cacheBackend->remove($cachekey);
-        $content = $this->funcCache->call($callable, array(rex_core::getUser()->getUserLogin()));
+        $content = $this->funcCache->call($callable, array(rex::getUser()->getUserLogin()));
       }
 
       $cachestamp = $cacheBackend->getLastModified($cachekey);

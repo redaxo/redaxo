@@ -63,7 +63,7 @@ abstract class rex_dashboard_component_config
 
   private function getCacheKey()
   {
-    return get_class($this) .'_uid'. rex_core::getUser()->getValue('user_id');
+    return get_class($this) .'_uid'. rex::getUser()->getValue('user_id');
   }
 
   /**
@@ -111,7 +111,7 @@ abstract class rex_dashboard_component_config
 
       $content = '<div class="rex-form rex-dashboard-component-config">
                     <form action="index.php" method="post">
-                      <input type="hidden" name="page" value="'. rex_core::getProperty('page') .'" />
+                      <input type="hidden" name="page" value="'. rex::getProperty('page') .'" />
                       '. $content .'
                       <p class="rex-form-col-a rex-form-submit">
                         <input type="submit" class="rex-form-submit" name="'. $btnName .'" value="'. rex_i18n::msg('dashboard_component_save_config') .'" />

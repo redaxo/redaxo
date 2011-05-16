@@ -11,7 +11,7 @@
 
 $mypage = 'content';
 
-if (rex_core::isBackend())
+if (rex::isBackend())
 {
   $page = new rex_be_page(rex_i18n::msg('content'), array('page' => 'linkmap'));
   $page->setRequiredPermissions('hasStructurePerm');

@@ -260,7 +260,7 @@ class rex_i18n
     self::$msg = array();
     if(!self::$locale)
     {
-      self::$locale = rex_core::getProperty('lang');
+      self::$locale = rex::getProperty('lang');
     }
     foreach(self::$directories as $dir)
     {

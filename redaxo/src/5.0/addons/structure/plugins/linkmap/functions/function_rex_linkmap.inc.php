@@ -30,7 +30,7 @@ function rex_linkmap_format_label($OOobject)
   if(trim($label) == '')
     $label = '&nbsp;';
 
-  if (rex_core::getUser()->hasPerm('advancedMode[]'))
+  if (rex::getUser()->hasPerm('advancedMode[]'))
     $label .= ' ['. $OOobject->getId() .']';
 
   if(rex_ooArticle::isValid($OOobject) && !$OOobject->hasTemplate())

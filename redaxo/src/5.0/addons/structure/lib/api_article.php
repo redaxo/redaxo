@@ -9,7 +9,7 @@ class rex_api_article_add extends rex_api_function
     /**
      * @var rex_login_sql
      */
-    $user = rex_core::getUser();
+    $user = rex::getUser();
 
     // check permissions
     if($user->hasPerm('editContentOnly[]')) {
@@ -41,7 +41,7 @@ class rex_api_article_edit extends rex_api_function
     /**
      * @var rex_login_sql
      */
-    $user = rex_core::getUser();
+    $user = rex::getUser();
 
     // check permissions
     if($user->hasPerm('editContentOnly[]')) {
@@ -72,7 +72,7 @@ class rex_api_article_delete extends rex_api_function
     /**
      * @var rex_login_sql
      */
-    $user = rex_core::getUser();
+    $user = rex::getUser();
 
     // check permissions
     if($user->hasPerm('editContentOnly[]')) {
@@ -98,7 +98,7 @@ class rex_api_article_status extends rex_api_function
     /**
      * @var rex_login_sql
      */
-    $user = rex_core::getUser();
+    $user = rex::getUser();
 
     // check permissions
     if($user->isAdmin() || $user->hasCategoryPerm($catId) && $user->hasPerm('publishArticle[]')) {

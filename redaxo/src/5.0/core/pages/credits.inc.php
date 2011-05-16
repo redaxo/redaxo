@@ -71,7 +71,7 @@ rex_title(rex_i18n::msg("credits"), "");
 
 echo '
 <div class="rex-area rex-mab-10">
-  <h3 class="rex-hl2">REDAXO '. rex_core::getProperty('version').'.'.rex_core::getProperty('subversion').'.'.rex_core::getProperty('minorversion') .'</h3>
+  <h3 class="rex-hl2">REDAXO '. rex::getProperty('version').'.'.rex::getProperty('subversion').'.'.rex::getProperty('minorversion') .'</h3>
 
   <div class="rex-area-content">
 

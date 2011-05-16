@@ -55,7 +55,7 @@ class rex_category_select extends rex_select
     }
     else
     {
-      if(!$this->check_perms || rex_core::getUser()->isAdmin() || rex_core::getUser()->hasPerm('csw[0]'))
+      if(!$this->check_perms || rex::getUser()->isAdmin() || rex::getUser()->hasPerm('csw[0]'))
       {
         if($rootCats = rex_ooCategory :: getRootCategories($this->ignore_offlines, $this->clang))
         {
@@ -65,13 +65,13 @@ class rex_category_select extends rex_select
           }
         }
       }
-      elseif(rex_core::getUser()->hasMountpoints())
+      elseif(rex::getUser()->hasMountpoints())
       {
-        $mountpoints = rex_core::getUser()->getMountpoints();
+        $mountpoints = rex::getUser()->getMountpoints();
         foreach($mountpoints as $id)
         {
           $cat = rex_ooCategory::getCategoryById($id, $this->clang);
-          if ($cat && !rex_core::getUser()->hasCategoryPerm($cat->getParentId()))
+          if ($cat && !rex::getUser()->hasCategoryPerm($cat->getParentId()))
             $this->addCatOption($cat, 0);
         }
       }
@@ -81,12 +81,12 @@ class rex_category_select extends rex_select
   protected function addCatOption(rex_ooCategory $cat, $group = null)
   {
     if(!$this->check_perms ||
-        $this->check_perms && rex_core::getUser()->hasCategoryPerm($cat->getId(),FALSE))
+        $this->check_perms && rex::getUser()->hasCategoryPerm($cat->getId(),FALSE))
     {
       $cid = $cat->getId();
       $cname = $cat->getName();
 
-      if(rex_core::getUser()->hasPerm('advancedMode[]'))
+      if(rex::getUser()->hasPerm('advancedMode[]'))
         $cname .= ' ['. $cid .']';
 
       if($group === null)
@@ -132,10 +132,10 @@ class rex_category_select extends rex_select
       $name = $option[0];
       $value = $option[1];
       $id = $option[2];
-      if($id==0 || !$this->check_perms || ($this->check_perms && rex_core::getUser()->hasCategoryPerm($option[2],TRUE)))
+      if($id==0 || !$this->check_perms || ($this->check_perms && rex::getUser()->hasCategoryPerm($option[2],TRUE)))
       {
           $ausgabe .= $this->_outOption($name, $value, $level);
-      }elseif(($this->check_perms && rex_core::getUser()->hasCategoryPerm($option[2],FALSE)))
+      }elseif(($this->check_perms && rex::getUser()->hasCategoryPerm($option[2],FALSE)))
       {
       	$level--;
       }

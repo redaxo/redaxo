@@ -46,7 +46,7 @@ class rex_sql extends rex_factory implements Iterator
     {
       if(!isset(self::$pdo[$DBID]))
       {
-        $dbconfig = rex_core::getProperty('db');
+        $dbconfig = rex::getProperty('db');
         $conn = self::createConnection(
           $dbconfig[$DBID]['host'],
           $dbconfig[$DBID]['name'],
@@ -66,7 +66,7 @@ class rex_sql extends rex_factory implements Iterator
     }
     catch(PDOException $e)
     {
-      echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . rex_core::getProperty('error_email') . ">" . rex_core::getProperty('error_email') . "</a>\n | Thank you!\n</font>";
+      echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . rex::getProperty('error_email') . ">" . rex::getProperty('error_email') . "</a>\n | Thank you!\n</font>";
       exit;
     }
   }
@@ -1016,7 +1016,7 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function addGlobalUpdateFields($user = null)
   {
-    if(!$user) $user = rex_core::getUser()->getValue('login');
+    if(!$user) $user = rex::getUser()->getValue('login');
 
     $this->setValue('updatedate', time());
     $this->setValue('updateuser', $user);
@@ -1031,7 +1031,7 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function addGlobalCreateFields($user = null)
   {
-    if(!$user) $user = rex_core::getUser()->getValue('login');
+    if(!$user) $user = rex::getUser()->getValue('login');
 
     $this->setValue('createdate', time());
     $this->setValue('createuser', $user);

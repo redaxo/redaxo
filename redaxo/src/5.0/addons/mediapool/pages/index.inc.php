@@ -46,7 +46,7 @@ $rex_file_category = rex_request('rex_file_category', 'rex-mediacategory-id', -1
 if ($file_name != "")
 {
   $sql = rex_sql::factory();
-  $sql->setQuery("select * from ".rex_core::getTablePrefix()."media where filename='$file_name'");
+  $sql->setQuery("select * from ".rex::getTablePrefix()."media where filename='$file_name'");
   if ($sql->getRows()==1)
   {
     $file_id = $sql->getValue("file_id");
@@ -61,7 +61,7 @@ if($rex_file_category == -1)
 
 
 $gc = rex_sql::factory();
-$gc->setQuery('SELECT * FROM '.rex_core::getTablePrefix().'media_category WHERE id='. $rex_file_category);
+$gc->setQuery('SELECT * FROM '.rex::getTablePrefix().'media_category WHERE id='. $rex_file_category);
 if ($gc->getRows() != 1)
 {
   $rex_file_category = 0;
@@ -75,7 +75,7 @@ rex_set_session('media[rex_file_category]', $rex_file_category);
 
 // -------------- PERMS
 $PERMALL = false;
-if (rex_core::getUser()->isAdmin() || rex_core::getUser()->hasPerm('media[0]')) $PERMALL = true;
+if (rex::getUser()->isAdmin() || rex::getUser()->hasPerm('media[0]')) $PERMALL = true;
 
 // -------------- Header
 $subline = array(

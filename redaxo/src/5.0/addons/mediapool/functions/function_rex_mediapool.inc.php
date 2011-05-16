@@ -28,7 +28,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
   }
 
   // ---- ext checken - alle scriptendungen rausfiltern
-  $mProp = rex_core::getProperty('mediapool');
+  $mProp = rex::getProperty('mediapool');
   if (in_array($NFILE_EXT,$mProp['blocked_extensions']))
   {
     $NFILE_NAME .= $NFILE_EXT;
@@ -68,7 +68,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
   $rex_file_category = (int) $rex_file_category;
 
   $gc = rex_sql::factory();
-  $gc->setQuery('SELECT * FROM '.rex_core::getTablePrefix().'media_category WHERE id='. $rex_file_category);
+  $gc->setQuery('SELECT * FROM '.rex::getTablePrefix().'media_category WHERE id='. $rex_file_category);
 	if ($gc->getRows() != 1)
 	{
   	$rex_file_category = 0;
@@ -107,7 +107,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
   if($success)
   {
-    @chmod($dstFile, rex_core::getProperty('fileperm'));
+    @chmod($dstFile, rex::getProperty('fileperm'));
 
     // get widht height
     $size = @getimagesize($dstFile);
@@ -116,7 +116,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
       $FILETYPE = $size['mime'];
 
     $FILESQL = rex_sql::factory();
-    $FILESQL->setTable(rex_core::getTablePrefix().'media');
+    $FILESQL->setTable(rex::getTablePrefix().'media');
     $FILESQL->setValue('filetype',$FILETYPE);
     $FILESQL->setValue('title',$FILEINFOS['title']);
     $FILESQL->setValue('filename',$NFILENAME);
@@ -177,7 +177,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
 
   $FILESQL = rex_sql::factory();
   // $FILESQL->debugsql = 1;
-  $FILESQL->setTable(rex_core::getTablePrefix().'media');
+  $FILESQL->setTable(rex::getTablePrefix().'media');
   $FILESQL->setWhere('media_id='. $FILEINFOS["file_id"]);
   $FILESQL->setValue('title',$FILEINFOS["title"]);
   $FILESQL->setValue('category_id',$FILEINFOS["rex_file_category"]);
@@ -212,7 +212,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
           $FILESQL->setValue('width',$size[0]);
           $FILESQL->setValue('height',$size[1]);
         }
-        @chmod(rex_path::media($FILEINFOS["filename"]), rex_core::getProperty('fileperm'));
+        @chmod(rex_path::media($FILEINFOS["filename"]), rex::getProperty('fileperm'));
         $updated = true;
       }else
       {
@@ -359,7 +359,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
   if($file_chooser)
   {
     $devInfos = '';
-    if(rex_core::getUser()->hasPerm('advancedMode[]'))
+    if(rex::getUser()->hasPerm('advancedMode[]'))
     {
       $devInfos =
       '<span class="rex-form-notice">

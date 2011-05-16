@@ -178,12 +178,12 @@ class rex_addon extends rex_package implements rex_addonInterface
   {
     if($dbExists)
     {
-      $config = rex_core::getConfig('package-config', array());
+      $config = rex::getConfig('package-config', array());
     }
     else
     {
       $config = array();
-      foreach(rex_core::getProperty('setup_packages') as $packageId)
+      foreach(rex::getProperty('setup_packages') as $packageId)
       {
         $package = explode('/', $packageId);
         if(isset($package[1]))

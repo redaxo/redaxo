@@ -23,7 +23,7 @@ class rex_cronjob_article_status extends rex_cronjob
     // $sql->debugsql = true;
     $sql->setQuery('
       SELECT  name
-      FROM    '. rex_core::getTablePrefix() .'62_params
+      FROM    '. rex::getTablePrefix() .'62_params
       WHERE   name="'. $from['field'] .'" OR name="'. $to['field'] .'"
     ');
     $rows = $sql->getRows();
@@ -45,7 +45,7 @@ class rex_cronjob_article_status extends rex_cronjob
     $time = time();
     $sql->setQuery('
       SELECT  id, clang, status
-      FROM    '. rex_core::getTablePrefix() .'article
+      FROM    '. rex::getTablePrefix() .'article
       WHERE
         (     '. $from['field'] .' > 0
         AND   '. $from['field'] .' < '. $time .'

@@ -1,6 +1,6 @@
 <?php
 
-class rex_core
+class rex
 {
   const CONFIG_NAMESPACE = 'rex-core';
 

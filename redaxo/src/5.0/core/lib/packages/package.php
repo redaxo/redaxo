@@ -167,7 +167,7 @@ abstract class rex_package implements rex_packageInterface
 	 */
 	public function isSystemPackage()
   {
-    return in_array($this->getPackageId(), rex_core::getProperty('system_packages'));
+    return in_array($this->getPackageId(), rex::getProperty('system_packages'));
   }
 
   /* (non-PHPdoc)

@@ -36,7 +36,7 @@ include_once ($REX['INCLUDE_PATH'] .'/addons/image_resize/classes/class.thumbnai
 require_once $REX['INCLUDE_PATH'] .'/addons/image_resize/extensions/extension_wysiwyg.inc.php';
 rex_register_extension('OUTPUT_FILTER', 'rex_resize_wysiwyg_output');
 
-if (rex_core::isBackend())
+if (rex::isBackend())
 {
 	// Bei Update Cache loeschen
   if(!function_exists('rex_image_ep_mediaupdated'))
@@ -55,7 +55,7 @@ if ($rex_resize != '')
 	rex_thumbnail::createFromUrl($rex_resize);
 }
 
-if(rex_core::isBackend())
+if(rex::isBackend())
 {
 	$REX['ADDON'][$mypage]['SUBPAGES'] = array (
   	array ('', $REX['I18N']->msg('iresize_subpage_desc')),

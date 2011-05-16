@@ -22,23 +22,23 @@ $REX['MEDIAFOLDER']   = rex_path::media('', rex_path::ABSOLUTE);
  */
 $REX['FRONTEND_FILE'] = 'index.php';
 
-if(rex_core::isBackend())
+if(rex::isBackend())
 {
   /**
 	 * @deprecated 5.0
 	 */
-  $I18N = new i18n(rex_core::getProperty('lang'));
+  $I18N = new i18n(rex::getProperty('lang'));
 }
 
 /**
  * @deprecated 4.2
  */
-$REX_USER = rex_core::getUser();
+$REX_USER = rex::getUser();
 
 /**
  * @deprecated 4.2
  */
-$REX_LOGIN = rex_core::getProperty('login');
+$REX_LOGIN = rex::getProperty('login');
 
 /**
  * @deprecated 4.2

@@ -399,7 +399,7 @@ class rex_ooMediaCategory
    */
   static public function _getTableName()
   {
-    return rex_core::getTablePrefix() . 'media_category';
+    return rex::getTablePrefix() . 'media_category';
   }
 
   /**

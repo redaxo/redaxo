@@ -63,7 +63,7 @@ class rex_a62_tableExpander extends rex_form
     $field->setNotice(rex_i18n::msg('minfo_field_notice_title'));
 
 	  $gq = rex_sql::factory();
-		$gq->setQuery('SELECT dbtype,id FROM '. rex_core::getTablePrefix() .'62_type');
+		$gq->setQuery('SELECT dbtype,id FROM '. rex::getTablePrefix() .'62_type');
 		$textFields = array();
 		foreach($gq->getArray() as $f)
 		{
@@ -81,7 +81,7 @@ class rex_a62_tableExpander extends rex_form
 
     $changeTypeFieldId = $field->getAttribute('id');
 
-    $qry = 'SELECT label,id FROM '. rex_core::getTablePrefix() .'62_type';
+    $qry = 'SELECT label,id FROM '. rex::getTablePrefix() .'62_type';
     $select->addSqlOptions($qry);
 
     $notices = '';
@@ -248,7 +248,7 @@ class rex_a62_tableExpander extends rex_form
 
       $sql = rex_sql::factory();
       $sql->debugsql =& $this->debug;
-      $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `'. rex_core::getTablePrefix() .'62_type` WHERE id='. $fieldType);
+      $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `'. rex::getTablePrefix() .'62_type` WHERE id='. $fieldType);
       $fieldDbType = $result[0]['dbtype'];
       $fieldDbLength = $result[0]['dblength'];
 

@@ -248,7 +248,7 @@ class rex_media {
     }
 
     if ($saveToFileName)
-      @chmod($saveToFileName, rex_core::getProperty('fileperm'));
+      @chmod($saveToFileName, rex::getProperty('fileperm'));
 
     return TRUE;
   }

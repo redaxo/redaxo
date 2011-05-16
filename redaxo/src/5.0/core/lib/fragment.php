@@ -204,7 +204,7 @@ class rex_fragment
       throw new rexException(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
     }
 
-    return rex_core::getProperty($key);
+    return rex::getProperty($key);
   }
 
   /**

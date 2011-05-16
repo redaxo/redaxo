@@ -129,10 +129,10 @@ abstract class rex_api_function
     {
       if($apiFunc->published === false)
       {
-        if(rex_core::isBackend() !== true)
+        if(rex::isBackend() !== true)
           throw new rexApiException('the api function '. get_class($apiFunc) .' is not published, therefore can only be called from the backend!');
 
-        if(!rex_core::getUser())
+        if(!rex::getUser())
           throw new rexApiException('missing backend session to call api function '. get_class($apiFunc) .'!');
       }
 

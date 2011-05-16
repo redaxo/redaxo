@@ -13,11 +13,11 @@ if ($media_method == 'add_file')
     {
       $FILEINFOS['title'] = rex_request('ftitle', 'string');
   
-      if (!$PERMALL && !rex_core::getUser()->hasPerm("media[$rex_file_category]")) 
+      if (!$PERMALL && !rex::getUser()->hasPerm("media[$rex_file_category]")) 
       	$rex_file_category = 0;
   
       // function in function.rex_mediapool.inc.php
-      $return = rex_mediapool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,rex_core::getUser()->getValue("login"));
+      $return = rex_mediapool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,rex::getUser()->getValue("login"));
       $info = $return['msg'];
       $subpage = "";
       

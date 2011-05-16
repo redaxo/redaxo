@@ -10,7 +10,7 @@ class rex_install {
 
 	function getCurrentREDAXOVersion()
 	{
-		$v = rex_core::getProperty('version').rex_core::getProperty('subversion');
+		$v = rex::getProperty('version').rex::getProperty('subversion');
 
 		// TODO:
 		return "4.3";

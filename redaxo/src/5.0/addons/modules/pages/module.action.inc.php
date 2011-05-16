@@ -45,10 +45,10 @@ if ($function == 'delete')
   $qry = 'SELECT
             *
           FROM
-            '. rex_core::getTablePrefix() .'action a,
-            '. rex_core::getTablePrefix() .'module_action ma
+            '. rex::getTablePrefix() .'action a,
+            '. rex::getTablePrefix() .'module_action ma
           LEFT JOIN
-           '. rex_core::getTablePrefix() .'module m
+           '. rex::getTablePrefix() .'module m
           ON
             ma.module_id = m.id
           WHERE
@@ -74,7 +74,7 @@ if ($function == 'delete')
   }
   else
   {
-    $del->setQuery("DELETE FROM " . rex_core::getTablePrefix() . "action WHERE id='$action_id' LIMIT 1");
+    $del->setQuery("DELETE FROM " . rex::getTablePrefix() . "action WHERE id='$action_id' LIMIT 1");
     $info = rex_i18n::msg("action_deleted");
   }
 }
@@ -110,7 +110,7 @@ if ($function == "add" || $function == "edit")
     foreach ($postsavestatus as $status)
       $postsavemode |= $status;
 
-    $faction->setTable(rex_core::getTablePrefix() . 'action');
+    $faction->setTable(rex::getTablePrefix() . 'action');
     $faction->setValue('name', $name);
     $faction->setValue('preview', $previewaction);
     $faction->setValue('presave', $presaveaction);
@@ -156,7 +156,7 @@ if ($function == "add" || $function == "edit")
       $legend = rex_i18n::msg('action_edit') . ' [ID=' . $action_id . ']';
 
       $action = rex_sql::factory();
-      $action->setQuery('SELECT * FROM '.rex_core::getTablePrefix().'action WHERE id='.$action_id);
+      $action->setQuery('SELECT * FROM '.rex::getTablePrefix().'action WHERE id='.$action_id);
 
       $name           = $action->getValue('name');
       $previewaction  = $action->getValue('preview');
@@ -419,7 +419,7 @@ if ($OUT)
     ';
 
   $sql = rex_sql::factory();
-  $sql->setQuery('SELECT * FROM ' . rex_core::getTablePrefix() . 'action ORDER BY name');
+  $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'action ORDER BY name');
   $rows = $sql->getRows();
 
   if($rows > 0)

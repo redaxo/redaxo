@@ -53,7 +53,7 @@ function rex_title($head, $subtitle = '')
 
   if(empty($subtitle))
   {
-    $subtitle = $REX['PAGES'][rex_core::getProperty('page')]->getPage()->getSubPages();
+    $subtitle = $REX['PAGES'][rex::getProperty('page')]->getPage()->getSubPages();
   }
   if(empty($subtitle))
   {
@@ -124,7 +124,7 @@ function rex_get_subtitle($subline)
       if ($perm != '')
       {
         // Hat der User das Recht für die aktuelle Subpage?
-        if (!rex_core::getUser()->isAdmin() && !rex_core::getUser()->hasPerm($perm))
+        if (!rex::getUser()->isAdmin() && !rex::getUser()->hasPerm($perm))
         {
           // Wenn der User kein Recht hat, und diese Seite öffnen will -> Fehler
           if ($cur_subpage == $link)

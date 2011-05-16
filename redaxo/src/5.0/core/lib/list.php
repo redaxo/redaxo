@@ -142,7 +142,7 @@ class rex_list extends rex_factory implements rex_url_provider
       $this->columnNames[] = $columnName;
 
     // --------- Load Env
-    if(rex_core::isBackend())
+    if(rex::isBackend())
       $this->loadBackendConfig();
 
     $this->init();

@@ -11,7 +11,7 @@
 
 $mypage = 'install';
 
-if (rex_core::isBackend())
+if (rex::isBackend())
 {
 }
 

@@ -13,7 +13,7 @@
 $REX['PERM'][] = 'be_dashboard[]';
 
 // im backend und eingeloggt?
-if(rex_core::isBackend() && rex_core::getUser())
+if(rex::isBackend() && rex::getUser())
 {
   if(rex_request('page', 'string') == 'be_dashboard')
   {

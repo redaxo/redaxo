@@ -32,7 +32,7 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   static public function getSiteStartArticle($clang = FALSE)
   {
-    return parent :: getById(rex_core::getProperty('start_article_id'), $clang);
+    return parent :: getById(rex::getProperty('start_article_id'), $clang);
   }
 
   /**

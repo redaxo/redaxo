@@ -13,7 +13,7 @@ $clang = rex_request('clang', 'rex-clang-id');
 
 
 $GlobalParams = array(
-  'page' => rex_core::getProperty('page'),
+  'page' => rex::getProperty('page'),
   'HTMLArea' => $HTMLArea,
   'opener_input_field' => $opener_input_field,
   'opener_input_field_name' => $opener_input_field_name,
@@ -101,7 +101,7 @@ if ($category)
 }
 $navi_path .= '</ul>';
 
-//rex_title(rex_core::getProperty('servername'), 'Linkmap');
+//rex_title(rex::getProperty('servername'), 'Linkmap');
 rex_title('Linkmap', $navi_path);
 ?>
 
@@ -116,7 +116,7 @@ rex_title('Linkmap', $navi_path);
 			<?php
 			$roots = rex_ooCategory::getRootCategories();
 
-			$mountpoints = rex_core::getUser()->getMountpoints();
+			$mountpoints = rex::getUser()->getMountpoints();
 			if(count($mountpoints)>0)
 			{
 				$roots = array();

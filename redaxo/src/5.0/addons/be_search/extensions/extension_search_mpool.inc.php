@@ -11,7 +11,7 @@
 
 function rex_be_search_mpool($params)
 {
-  if(!rex_core::getUser()->hasPerm('be_search[mediapool]'))
+  if(!rex::getUser()->hasPerm('be_search[mediapool]'))
   {
     return $params['subject'];
   }
@@ -38,7 +38,7 @@ function rex_be_search_mpool($params)
 
 function rex_be_search_mpool_query($params)
 {
-  if(!rex_core::getUser()->hasPerm('be_search[mediapool]'))
+  if(!rex::getUser()->hasPerm('be_search[mediapool]'))
   {
     return $params['subject'];
   }
@@ -64,7 +64,7 @@ function rex_be_search_mpool_query($params)
     }
   }
 
-  $qry = str_replace('FROM ', 'FROM '. rex_core::getTablePrefix() .'media_category c,', $qry);
+  $qry = str_replace('FROM ', 'FROM '. rex::getTablePrefix() .'media_category c,', $qry);
   $qry = str_replace('WHERE ', 'WHERE '. $where .' AND ', $qry);
 
   return $qry;

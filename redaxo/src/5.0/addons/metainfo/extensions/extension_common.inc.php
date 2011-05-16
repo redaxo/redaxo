@@ -47,7 +47,7 @@ function rex_a62_metaFields($sqlFields, $formatCallback, $epParams)
     $attrArray = rex_split_string($attr);
     if(isset($attrArray['perm']))
     {
-      if(!rex_core::getUser()->hasPerm($attrArray['perm']))
+      if(!rex::getUser()->hasPerm($attrArray['perm']))
       {
         continue;
       }
@@ -443,7 +443,7 @@ function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
     $attrArray = rex_split_string($fieldAttributes);
     if(isset($attrArray['perm']))
     {
-      if(!rex_core::getUser()->hasPerm($attrArray['perm']))
+      if(!rex::getUser()->hasPerm($attrArray['perm']))
       {
         continue;
       }
@@ -539,8 +539,8 @@ function _rex_a62_metainfo_sqlfields($prefix, $restrictionsCondition)
   $qry = 'SELECT
             *
           FROM
-            '. rex_core::getTablePrefix() .'62_params p,
-            '. rex_core::getTablePrefix() .'62_type t
+            '. rex::getTablePrefix() .'62_params p,
+            '. rex::getTablePrefix() .'62_type t
           WHERE
             `p`.`type` = `t`.`id` AND
             `p`.`name` LIKE "'. $prefix .'%"
@@ -685,7 +685,7 @@ function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
 
   $article = rex_sql::factory();
   // $article->debugsql = true;
-  $article->setTable(rex_core::getTablePrefix(). 'article');
+  $article->setTable(rex::getTablePrefix(). 'article');
   $article->setWhere('id=:id AND clang=:clang', array('id'=> $params['id'], 'clang' => $params['clang']));
 
   _rex_a62_metainfo_handleSave($params, $article, $sqlFields);
@@ -720,7 +720,7 @@ function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
 
   $media = rex_sql::factory();
 //  $media->debugsql = true;
-  $media->setTable(rex_core::getTablePrefix(). 'media');
+  $media->setTable(rex::getTablePrefix(). 'media');
   $media->setWhere('media_id=:mediaid', array('mediaid' => $params['media_id']));
 
   _rex_a62_metainfo_handleSave($params, $media, $sqlFields);
@@ -737,7 +737,7 @@ function rex_a62_media_is_in_use($params)
   $warning = $params['subject'];
 
   $sql = rex_sql::factory();
-  $sql->setQuery('SELECT `name`, `type` FROM `'. rex_core::getTablePrefix() .'62_params` WHERE `type` IN(6,7)');
+  $sql->setQuery('SELECT `name`, `type` FROM `'. rex::getTablePrefix() .'62_params` WHERE `type` IN(6,7)');
 
   $rows = $sql->getRows();
   if($rows == 0)
@@ -776,7 +776,7 @@ function rex_a62_media_is_in_use($params)
   $categories = '';
   if (!empty($where['articles']))
   {
-    $sql->setQuery('SELECT id, clang, re_id, name, catname, startpage FROM '. rex_core::getTablePrefix() .'article WHERE '. implode(' OR ', $where['articles']));
+    $sql->setQuery('SELECT id, clang, re_id, name, catname, startpage FROM '. rex::getTablePrefix() .'article WHERE '. implode(' OR ', $where['articles']));
     if ($sql->getRows() > 0)
     {
       foreach($sql->getArray() as $art_arr)
@@ -807,7 +807,7 @@ function rex_a62_media_is_in_use($params)
   $media = '';
   if (!empty($where['media']))
   {
-    $sql->setQuery('SELECT media_id, filename, category_id FROM '. rex_core::getTablePrefix() .'media WHERE '. implode(' OR ', $where['media']));
+    $sql->setQuery('SELECT media_id, filename, category_id FROM '. rex::getTablePrefix() .'media WHERE '. implode(' OR ', $where['media']));
     if ($sql->getRows() > 0)
     {
       foreach($sql->getArray() as $med_arr)

@@ -208,7 +208,7 @@ function rex_content_block($content)
 
 function rex_accesskey($title, $key)
 {
-  if(rex_core::getUser()->hasPerm('accesskeys[]'))
+  if(rex::getUser()->hasPerm('accesskeys[]'))
     return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
 
   return ' title="'. $title .'"';
@@ -391,7 +391,7 @@ function rex_hasBackendSession()
   if(!isset($_SESSION))
     return false;
 
-  $instname = rex_core::getProperty('instname');
+  $instname = rex::getProperty('instname');
 
   if(!isset($_SESSION[$instname]))
     return false;

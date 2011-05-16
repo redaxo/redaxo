@@ -17,7 +17,7 @@
 $addon = 'layout';
 
 /* Addon Parameter */
-if(rex_core::isBackend())
+if(rex::isBackend())
 {
   require_once rex_path::addon($addon, 'extensions/extensions.inc.php');
   rex_extension::register('ADDONS_INCLUDED', 'rex_layout_addPage');

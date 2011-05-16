@@ -72,7 +72,7 @@ $sel->setName('clang_id');
 $sel->setStyle('class="rex-form-select"');
 $sel->setId('rex-form-clang-id');
 $sel->setSize(1);
-$remaingClangs = array_diff(range(0, rex_core::getProperty('maxlogins')-1), array_keys($REX['CLANG']));
+$remaingClangs = array_diff(range(0, rex::getProperty('maxlogins')-1), array_keys($REX['CLANG']));
 foreach ($remaingClangs as $clang)
 {
   $sel->addOption($clang, $clang);

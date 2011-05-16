@@ -22,34 +22,34 @@ $REX['PAGES'] = array();
 $page = '';
 
 // ----------------- SETUP
-if (rex_core::isSetup())
+if (rex::isSetup())
 {
   // ----------------- SET SETUP LANG
   $requestLang = rex_request('lang', 'string');
   if(in_array($requestLang, rex_i18n::getLocales()))
-    rex_core::setProperty('lang', $requestLang);
+    rex::setProperty('lang', $requestLang);
 
   rex_i18n::setLocale($REX['LANG']);
 
   $REX['PAGES']['setup'] = rex_be_navigation::getSetupPage();
-  rex_core::setProperty('page', "setup");
+  rex::setProperty('page', "setup");
 
 }else
 {
   // ----------------- CREATE LANG OBJ
-  rex_i18n::setLocale(rex_core::getProperty('lang'));
+  rex_i18n::setLocale(rex::getProperty('lang'));
 
   // ---- prepare login
   $login = new rex_backend_login();
-  rex_core::setProperty('login', $login);
+  rex::setProperty('login', $login);
 
   $rex_user_login = rex_post('rex_user_login', 'string');
   $rex_user_psw = rex_post('rex_user_psw', 'string');
 
   // the service side encryption of pw is only required
   // when not already encrypted by client using javascript
-  if (rex_core::getProperty('pswfunc') != '' && rex_post('javascript') == '0')
-    rex_core::getProperty('login')->setPasswordFunction(rex_core::getProperty('pswfunc'));
+  if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0')
+    rex::getProperty('login')->setPasswordFunction(rex::getProperty('pswfunc'));
 
   if (rex_get('rex_logout', 'boolean'))
     $login->setLogout(true);
@@ -69,23 +69,23 @@ if (rex_core::isSetup())
 
     $REX['PAGES']['login'] = rex_be_navigation::getLoginPage();
     $page = 'login';
-    rex_core::setProperty('page', 'login');
+    rex::setProperty('page', 'login');
   }
   else
   {
     // Userspezifische Sprache einstellen
     $lang = $login->getLanguage();
-    if($lang != 'default' && $lang != rex_core::getProperty('lang'))
+    if($lang != 'default' && $lang != rex::getProperty('lang'))
     {
       rex_i18n::setLocale($lang);
     }
 
-    rex_core::setProperty('user', $login->USER);
+    rex::setProperty('user', $login->USER);
   }
 }
 
 // ----- Prepare Core Pages
-if(rex_core::getUser())
+if(rex::getUser())
 {
   $REX['PAGES'] = rex_be_navigation::getLoggedInPages();
 }
@@ -94,7 +94,7 @@ if(rex_core::getUser())
 include_once rex_path::core('packages.inc.php');
 
 // ----- Prepare AddOn Pages
-if(rex_core::getUser())
+if(rex::getUser())
 {
   foreach(rex_addon::getAvailableAddons() as $addonName => $addon)
   {
@@ -105,11 +105,11 @@ if(rex_core::getUser())
 
     // prepare addons root-page
     $addonPage = null;
-    if ($page != null && $page instanceof rex_be_page_container && $page->getPage()->checkPermission(rex_core::getUser()))
+    if ($page != null && $page instanceof rex_be_page_container && $page->getPage()->checkPermission(rex::getUser()))
     {
         $addonPage = $page;
     }
-    else if($perm == '' || rex_core::getUser()->hasPerm($perm) || rex_core::getUser()->isAdmin())
+    else if($perm == '' || rex::getUser()->hasPerm($perm) || rex::getUser()->isAdmin())
     {
       if ($title != '')
       {
@@ -133,7 +133,7 @@ if(rex_core::getUser())
       {
         if (is_array($s))
         {
-          if (!isset($s[2]) || rex_core::getUser()->hasPerm($s[2]) || rex_core::getUser()->isAdmin())
+          if (!isset($s[2]) || rex::getUser()->hasPerm($s[2]) || rex::getUser()->isAdmin())
           {
             $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
             $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
@@ -161,11 +161,11 @@ if(rex_core::getUser())
 
       // prepare plugins root-page
       $pluginPage = null;
-      if ($page != null && $page instanceof rex_be_page_container && $page->getPage()->checkPermission(rex_core::getUser()))
+      if ($page != null && $page instanceof rex_be_page_container && $page->getPage()->checkPermission(rex::getUser()))
       {
           $pluginPage = $page;
       }
-      else if ($perm == '' || rex_core::getUser()->hasPerm($perm) || rex_core::getUser()->isAdmin())
+      else if ($perm == '' || rex::getUser()->hasPerm($perm) || rex::getUser()->isAdmin())
       {
         if($title != '')
         {
@@ -179,7 +179,7 @@ if(rex_core::getUser())
       {
         if(is_array($s) && $addonPage)
         {
-          if (!isset($s[2]) || rex_core::getUser()->hasPerm($s[2]) || rex_core::getUser()->isAdmin())
+          if (!isset($s[2]) || rex::getUser()->hasPerm($s[2]) || rex::getUser()->isAdmin())
           {
             $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
             $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
@@ -256,7 +256,7 @@ if(rex_core::getUser())
 }
 
 // Set Startpage
-if($user = rex_core::getUser())
+if($user = rex::getUser())
 {
   $user->pages = $REX['PAGES'];
 
@@ -268,11 +268,11 @@ if($user = rex_core::getUser())
     (($p=$REX['PAGES'][$page]->getPage()) && !$p->checkPermission($user)))
   {
     // --- neue page bestimmen und diese in neuem request dann verarbeiten
-    $page = rex_core::getProperty('login')->getStartpage();
+    $page = rex::getProperty('login')->getStartpage();
     if(!isset($REX['PAGES'][$page]) ||
       (($p=$REX['PAGES'][$page]->getPage()) && !$p->checkPermission($user)))
     {
-      $page = rex_core::getProperty('start_page');
+      $page = rex::getProperty('start_page');
       if(!isset($REX['PAGES'][$page]) ||
         (($p=$REX['PAGES'][$page]->getPage()) && !$p->checkPermission($user)))
       {
@@ -286,7 +286,7 @@ if($user = rex_core::getUser())
   }
 }
 
-rex_core::setProperty('page', $page);
+rex::setProperty('page', $page);
 $pageObj = $REX['PAGES'][$page]->getPage();
 $REX['PAGE_NO_NAVI'] = !$pageObj->hasNavigation();
 

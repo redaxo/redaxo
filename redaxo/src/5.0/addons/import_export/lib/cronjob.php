@@ -12,7 +12,7 @@ class rex_cronjob_export extends rex_cronjob
 
     $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
     $filename = str_replace("%HTTP_HOST", $_SERVER['HTTP_HOST'], $filename);
-    $filename = str_replace("%REX_VERSION", rex_core::getProperty('version').rex_core::getProperty('subversion').rex_core::getProperty('minorversion'), $filename);
+    $filename = str_replace("%REX_VERSION", rex::getProperty('version').rex::getProperty('subversion').rex::getProperty('minorversion'), $filename);
     $filename = strftime($filename);
     $file = $filename;
     $dir = getImportDir() .'/';
@@ -38,7 +38,7 @@ class rex_cronjob_export extends rex_cronjob
         $mail = new rex_mailer;
         $mail->AddAddress($this->mailaddress);
         $mail->Subject = rex_i18n::msg('im_export_mail_subject');
-        $mail->Body = rex_i18n::msg('im_export_mail_body', rex_core::getProperty('servername'));
+        $mail->Body = rex_i18n::msg('im_export_mail_body', rex::getProperty('servername'));
         $mail->AddAttachment($dir . $file . $ext, $filename . $ext);
         if ($mail->Send())
         {

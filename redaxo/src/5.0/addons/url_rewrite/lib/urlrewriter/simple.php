@@ -28,7 +28,7 @@ class rex_urlRewriter_simple extends rex_urlRewriter
     }
     elseif ((empty( $_GET['article_id'])) && ( empty( $_POST['article_id'])))
     {
-      $article_id = rex_core::getProperty('start_article_id');
+      $article_id = rex::getProperty('start_article_id');
     }
   }
 

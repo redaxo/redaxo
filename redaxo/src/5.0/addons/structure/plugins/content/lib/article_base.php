@@ -115,7 +115,7 @@ class rex_article_base
     $this->article_id = $article_id;
 
     // ---------- select article
-    $qry = "SELECT * FROM ".rex_core::getTablePrefix()."article WHERE ".rex_core::getTablePrefix()."article.id='$article_id' AND clang='".$this->clang."'";
+    $qry = "SELECT * FROM ".rex::getTablePrefix()."article WHERE ".rex::getTablePrefix()."article.id='$article_id' AND clang='".$this->clang."'";
     $sql = $this->getSqlInstance();
     $sql->setQuery($qry);
 
@@ -210,9 +210,9 @@ class rex_article_base
    */
   protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
   {
-    $output = $this->replaceVars($artDataSql, $artDataSql->getValue(rex_core::getTablePrefix().'module.output'));
+    $output = $this->replaceVars($artDataSql, $artDataSql->getValue(rex::getTablePrefix().'module.output'));
 
-    return $this->getVariableStreamOutput('module/'. $artDataSql->getValue(rex_core::getTablePrefix().'module.id') .'/output', $output);
+    return $this->getVariableStreamOutput('module/'. $artDataSql->getValue(rex::getTablePrefix().'module.id') .'/output', $output);
   }
 
 
@@ -253,12 +253,12 @@ class rex_article_base
 
     $articleLimit = '';
     if($this->article_id != 0) {
-      $articleLimit = ' AND '. rex_core::getTablePrefix()."article_slice.article_id=".$this->article_id;
+      $articleLimit = ' AND '. rex::getTablePrefix()."article_slice.article_id=".$this->article_id;
     }
 
     $sliceLimit = '';
     if ($this->getSlice != 0) {
-      $sliceLimit = " AND ".rex_core::getTablePrefix()."article_slice.id = '" . ((int) $this->getSlice) . "' ";
+      $sliceLimit = " AND ".rex::getTablePrefix()."article_slice.id = '" . ((int) $this->getSlice) . "' ";
     }
 
     // ----- start: article caching
@@ -267,18 +267,18 @@ class rex_article_base
     $module_id = rex_request('module_id', 'int');
 
     // ---------- alle teile/slices eines artikels auswaehlen
-    $sql = "SELECT ".rex_core::getTablePrefix()."module.id, ".rex_core::getTablePrefix()."module.name, ".rex_core::getTablePrefix()."module.output, ".rex_core::getTablePrefix()."module.input, ".rex_core::getTablePrefix()."article_slice.*, ".rex_core::getTablePrefix()."article.re_id
+    $sql = "SELECT ".rex::getTablePrefix()."module.id, ".rex::getTablePrefix()."module.name, ".rex::getTablePrefix()."module.output, ".rex::getTablePrefix()."module.input, ".rex::getTablePrefix()."article_slice.*, ".rex::getTablePrefix()."article.re_id
             FROM
-              ".rex_core::getTablePrefix()."article_slice
-            LEFT JOIN ".rex_core::getTablePrefix()."module ON ".rex_core::getTablePrefix()."article_slice.modultyp_id=".rex_core::getTablePrefix()."module.id
-            LEFT JOIN ".rex_core::getTablePrefix()."article ON ".rex_core::getTablePrefix()."article_slice.article_id=".rex_core::getTablePrefix()."article.id
+              ".rex::getTablePrefix()."article_slice
+            LEFT JOIN ".rex::getTablePrefix()."module ON ".rex::getTablePrefix()."article_slice.modultyp_id=".rex::getTablePrefix()."module.id
+            LEFT JOIN ".rex::getTablePrefix()."article ON ".rex::getTablePrefix()."article_slice.article_id=".rex::getTablePrefix()."article.id
             WHERE
-              ".rex_core::getTablePrefix()."article_slice.clang='".$this->clang."' AND
-              ".rex_core::getTablePrefix()."article.clang='".$this->clang."' AND
-              ".rex_core::getTablePrefix()."article_slice.revision='".$this->slice_revision."'
+              ".rex::getTablePrefix()."article_slice.clang='".$this->clang."' AND
+              ".rex::getTablePrefix()."article.clang='".$this->clang."' AND
+              ".rex::getTablePrefix()."article_slice.revision='".$this->slice_revision."'
               ". $articleLimit ."
               ". $sliceLimit ."
-              ORDER BY ".rex_core::getTablePrefix()."article_slice.prior";
+              ORDER BY ".rex::getTablePrefix()."article_slice.prior";
 
     $artDataSql = rex_sql::factory();
     if($this->debug)
@@ -297,9 +297,9 @@ class rex_article_base
     $rows = $artDataSql->getRows();
     for($i = 0; $i < $rows; ++$i)
     {
-      $sliceId       = $artDataSql->getValue(rex_core::getTablePrefix().'article_slice.id');
-      $sliceCtypeId  = $artDataSql->getValue(rex_core::getTablePrefix().'article_slice.ctype');
-      $sliceModuleId = $artDataSql->getValue(rex_core::getTablePrefix().'module.id');
+      $sliceId       = $artDataSql->getValue(rex::getTablePrefix().'article_slice.id');
+      $sliceCtypeId  = $artDataSql->getValue(rex::getTablePrefix().'article_slice.ctype');
+      $sliceModuleId = $artDataSql->getValue(rex::getTablePrefix().'module.id');
 
       // ----- ctype unterscheidung
       if ($this->mode != "edit" && !$this->eval && $i == 0)
@@ -443,7 +443,7 @@ class rex_article_base
     global $REX;
 
     $tmp = '';
-    $sliceId = $sql->getValue(rex_core::getTablePrefix().'article_slice.id');
+    $sliceId = $sql->getValue(rex::getTablePrefix().'article_slice.id');
     $flushValues = false;
 
     foreach(rex_var::getVars() as $var)
@@ -505,10 +505,10 @@ class rex_article_base
     // UserId gibts nur im Backend
     if($user_id === null)
     {
-      if(rex_core::getUser())
+      if(rex::getUser())
       {
-        $user_id = rex_core::getUser()->getValue('user_id');
-        $user_login = rex_core::getUser()->getValue('login');
+        $user_id = rex::getUser()->getValue('user_id');
+        $user_login = rex::getUser()->getValue('login');
       }else
       {
         $user_id = '';

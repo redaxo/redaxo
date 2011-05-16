@@ -21,7 +21,7 @@ $REX['ADDON']['version'][$mypage] = '1.0';
 $REX['ADDON']['author'][$mypage] = 'Design: Ralph Zumkeller; Umsetzung: Thomas Blum';
 $REX['ADDON']['supportpage'][$mypage] = 'www.redaxo.org/de/forum/';
 
-if(rex_core::isBackend())
+if(rex::isBackend())
 {
 
 	function rex_be_style_base_old_css_add($params)

@@ -7,7 +7,7 @@ define('REX_A1_IMPORT_EVENT_POST', 4);
 
 // Da diese Funktion im Setup direkt eingebunden wird
 // hier das I18N Objekt ggf. erstellen
-/*if (rex_core::isBackend() && !isset($REX['I18N']))
+/*if (rex::isBackend() && !isset($REX['I18N']))
 {
   global $REX;
   require_once(dirname(dirname(__FILE__)).'/config.inc.php');
@@ -42,14 +42,14 @@ function rex_a1_import_db($filename)
 
   // Versionsstempel prüfen
   // ## Redaxo Database Dump Version x.x
-  $version = strpos($conts, '## Redaxo Database Dump Version '.rex_core::getProperty('version'));
+  $version = strpos($conts, '## Redaxo Database Dump Version '.rex::getProperty('version'));
   if($version === false)
   {
-    $return['message'] = rex_i18n::msg('im_export_no_valid_import_file').'. [## Redaxo Database Dump Version '.rex_core::getProperty('version').'] is missing';
+    $return['message'] = rex_i18n::msg('im_export_no_valid_import_file').'. [## Redaxo Database Dump Version '.rex::getProperty('version').'] is missing';
     return $return;
   }
   // Versionsstempel entfernen
-  $conts = trim(str_replace('## Redaxo Database Dump Version '.rex_core::getProperty('version'), '', $conts));
+  $conts = trim(str_replace('## Redaxo Database Dump Version '.rex::getProperty('version'), '', $conts));
 
   // Prefix prüfen
   // ## Prefix xxx_
@@ -62,7 +62,7 @@ function rex_a1_import_db($filename)
   else
   {
     // Prefix wurde nicht gefunden
-    $return['message'] = rex_i18n::msg('im_export_no_valid_import_file').'. [## Prefix '. rex_core::getTablePrefix() .'] is missing';
+    $return['message'] = rex_i18n::msg('im_export_no_valid_import_file').'. [## Prefix '. rex::getTablePrefix() .'] is missing';
     return $return;
   }
 
@@ -87,13 +87,13 @@ function rex_a1_import_db($filename)
 
 
   // Prefix im export mit dem der installation angleichen
-  if(rex_core::getTablePrefix() != $prefix)
+  if(rex::getTablePrefix() != $prefix)
   {
     // Hier case-insensitiv ersetzen, damit alle möglich Schreibweisen (TABLE TablE, tAblE,..) ersetzt werden
     // Dies ist wichtig, da auch SQLs innerhalb von Ein/Ausgabe der Module vom rex-admin verwendet werden
-    $conts = preg_replace('/(TABLES? `?)' . preg_quote($prefix, '/') .'/i', '$1'. rex_core::getTablePrefix(), $conts);
-    $conts = preg_replace('/(INTO `?)'  . preg_quote($prefix, '/') .'/i', '$1'. rex_core::getTablePrefix(), $conts);
-    $conts = preg_replace('/(EXISTS `?)'. preg_quote($prefix, '/') .'/i', '$1'. rex_core::getTablePrefix(), $conts);
+    $conts = preg_replace('/(TABLES? `?)' . preg_quote($prefix, '/') .'/i', '$1'. rex::getTablePrefix(), $conts);
+    $conts = preg_replace('/(INTO `?)'  . preg_quote($prefix, '/') .'/i', '$1'. rex::getTablePrefix(), $conts);
+    $conts = preg_replace('/(EXISTS `?)'. preg_quote($prefix, '/') .'/i', '$1'. rex::getTablePrefix(), $conts);
   }
 
   // ----- EXTENSION POINT
@@ -134,12 +134,12 @@ function rex_a1_import_db($filename)
 
   // prüfen, ob eine user tabelle angelegt wurde
   $tables = rex_sql::showTables();
-  $user_table_found = in_array(rex_core::getTablePrefix().'user', $tables);
+  $user_table_found = in_array(rex::getTablePrefix().'user', $tables);
 
   if (!$user_table_found)
   {
     $create_user_table = '
-    CREATE TABLE '. rex_core::getTablePrefix() .'user
+    CREATE TABLE '. rex::getTablePrefix() .'user
      (
        user_id int(11) NOT NULL auto_increment,
        name varchar(255) NOT NULL,
@@ -169,11 +169,11 @@ function rex_a1_import_db($filename)
     }
   }
 
-  $user_role_table_found = in_array(rex_core::getTablePrefix().'user_role', $tables);
+  $user_role_table_found = in_array(rex::getTablePrefix().'user_role', $tables);
   if (!$user_role_table_found)
   {
     $create_user_role_table = '
-    CREATE TABLE '. rex_core::getTablePrefix() .'user_role
+    CREATE TABLE '. rex::getTablePrefix() .'user_role
      (
        id int(11) NOT NULL auto_increment,
        name varchar(255) NOT NULL,
@@ -296,7 +296,7 @@ function rex_a1_export_db($filename)
   }
 
   $sql        = rex_sql::factory();
-  $tables     = rex_sql::showTables(1, rex_core::getTablePrefix());
+  $tables     = rex_sql::showTables(1, rex::getTablePrefix());
 
   $nl         = "\n";
   $insertSize = 5000;
@@ -305,16 +305,16 @@ function rex_a1_export_db($filename)
   rex_extension::registerPoint('A1_BEFORE_DB_EXPORT');
 
   // Versionsstempel hinzufügen
-  fwrite($fp, '## Redaxo Database Dump Version '.rex_core::getProperty('version').$nl);
-  fwrite($fp, '## Prefix '.rex_core::getTablePrefix().$nl);
+  fwrite($fp, '## Redaxo Database Dump Version '.rex::getProperty('version').$nl);
+  fwrite($fp, '## Prefix '.rex::getTablePrefix().$nl);
   //fwrite($fp, '## charset '.rex_i18n::msg('htmlcharset').$nl.$nl);
   fwrite($fp, '## charset utf-8'.$nl.$nl);
 //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
   foreach ($tables as $table)
   {
-    if (!in_array($table, array(rex_core::getTablePrefix().'user', rex_core::getTablePrefix().'user_role')) // User Tabellen nicht exportieren
-        && substr($table, 0 , strlen(rex_core::getTablePrefix().rex_core::getTempPrefix())) != rex_core::getTablePrefix().rex_core::getTempPrefix()) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
+    if (!in_array($table, array(rex::getTablePrefix().'user', rex::getTablePrefix().'user_role')) // User Tabellen nicht exportieren
+        && substr($table, 0 , strlen(rex::getTablePrefix().rex::getTempPrefix())) != rex::getTablePrefix().rex::getTempPrefix()) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
     {
       //---- export metadata
       $create = rex_sql::showCreateTable($table);
@@ -476,7 +476,7 @@ function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
     if($file == '.' || $file == '..' || $file == '.svn')
       continue;
 
-    if(substr($file, 0, strlen(rex_core::getTempPrefix())) == rex_core::getTempPrefix())
+    if(substr($file, 0, strlen(rex::getTempPrefix())) == rex::getTempPrefix())
       continue;
 
     if($isMediafolder && $file == 'addons')

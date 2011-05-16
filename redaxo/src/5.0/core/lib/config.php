@@ -290,7 +290,7 @@ class rex_config
   private static function loadFromDb()
   {
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT * FROM '. rex_core::getTablePrefix(). 'config');
+    $sql->setQuery('SELECT * FROM '. rex::getTablePrefix(). 'config');
 
     self::$data = array();
     foreach($sql as $cfg)
@@ -344,7 +344,7 @@ class rex_config
     {
       foreach($nsData as $key => $value)
       {
-        $sql->setTable(rex_core::getTablePrefix(). 'config');
+        $sql->setTable(rex::getTablePrefix(). 'config');
         $sql->setWhere(array(
           'namespace' => $namespace,
           'key' => $key
@@ -358,7 +358,7 @@ class rex_config
     {
       foreach($nsData as $key => $value)
       {
-        $sql->setTable(rex_core::getTablePrefix(). 'config');
+        $sql->setTable(rex::getTablePrefix(). 'config');
         $sql->setValue('namespace', $namespace);
         $sql->setValue('key', $key);
         $sql->setValue('value', json_encode($value));

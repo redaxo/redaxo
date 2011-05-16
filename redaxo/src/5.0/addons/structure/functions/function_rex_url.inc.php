@@ -102,7 +102,7 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
   if ($url == '')
   {
     // ----- get rewrite function
-    if (rex_core::getProperty('mod_rewrite'))
+    if (rex::getProperty('mod_rewrite'))
       $rewrite_fn = 'rex_apache_rewrite';
     else
       $rewrite_fn = 'rex_no_rewrite';

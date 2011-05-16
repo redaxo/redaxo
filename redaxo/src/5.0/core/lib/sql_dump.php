@@ -34,13 +34,13 @@ class rex_sql_dump
 
   static private function prepareQuery($qry)
   {
-    // rex_core::getUser() gibts im Setup nicht
-    if(rex_core::getUser())
-      $qry = str_replace('%USER%', rex_core::getUser()->getValue('login'), $qry);
+    // rex::getUser() gibts im Setup nicht
+    if(rex::getUser())
+      $qry = str_replace('%USER%', rex::getUser()->getValue('login'), $qry);
 
     $qry = str_replace('%TIME%', time(), $qry);
-    $qry = str_replace('%TABLE_PREFIX%', rex_core::getTablePrefix(), $qry);
-    $qry = str_replace('%TEMP_PREFIX%', rex_core::getTempPrefix(), $qry);
+    $qry = str_replace('%TABLE_PREFIX%', rex::getTablePrefix(), $qry);
+    $qry = str_replace('%TEMP_PREFIX%', rex::getTempPrefix(), $qry);
 
     return $qry;
   }

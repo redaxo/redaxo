@@ -56,7 +56,7 @@ class rex_file
 
     if(file_put_contents($file, $content) !== false)
     {
-      chmod($file, rex_core::getProperty('fileperm'));
+      chmod($file, rex::getProperty('fileperm'));
       return true;
     }
 
@@ -110,7 +110,7 @@ class rex_file
       if(copy($srcfile, $dstfile))
       {
         touch($dstfile, filemtime($srcfile));
-        chmod($dstfile, rex_core::getProperty('fileperm'));
+        chmod($dstfile, rex::getProperty('fileperm'));
         return true;
       }
     }

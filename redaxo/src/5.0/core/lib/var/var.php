@@ -192,7 +192,7 @@ abstract class rex_var
    */
   protected function getValue(rex_sql $sql, $value)
   {
-    return $sql->getValue(rex_core::getTablePrefix() . 'article_slice.' . $value);
+    return $sql->getValue(rex::getTablePrefix() . 'article_slice.' . $value);
   }
 
   /**

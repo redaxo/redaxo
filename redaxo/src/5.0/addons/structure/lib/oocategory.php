@@ -303,7 +303,7 @@ class rex_ooCategory extends rex_ooRedaxo
 
     $templates = array();
     $t_sql = rex_sql::factory();
-    $t_sql->setQuery('select id,name,attributes from '.rex_core::getTablePrefix().'template where active='. $ignore_inactive .' order by name');
+    $t_sql->setQuery('select id,name,attributes from '.rex::getTablePrefix().'template where active='. $ignore_inactive .' order by name');
 
     if($category_id < 1)
     {

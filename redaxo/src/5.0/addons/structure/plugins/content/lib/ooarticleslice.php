@@ -196,7 +196,7 @@ class rex_ooArticleSlice
   static protected function _getSliceWhere($where, $table = null, $fields = null, $default = null)
   {
     if(!$table)
-      $table = rex_core::getTablePrefix().'article_slice';
+      $table = rex::getTablePrefix().'article_slice';
 
     if(!$fields)
       $fields = '*';

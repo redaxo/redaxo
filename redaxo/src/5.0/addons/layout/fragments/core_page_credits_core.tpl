@@ -1,7 +1,7 @@
 <div class="rex-article" id="credits-core">
 
   <div class="rex-header">
-    <h2 class="rex-hl2">REDAXO <?php echo rex_core::getProperty('version').'.'.rex_core::getProperty('subversion').'.'.rex_core::getProperty('minorversion') ?></h2>
+    <h2 class="rex-hl2">REDAXO <?php echo rex::getProperty('version').'.'.rex::getProperty('subversion').'.'.rex::getProperty('minorversion') ?></h2>
   </div>
 
   <div class="rex-content">

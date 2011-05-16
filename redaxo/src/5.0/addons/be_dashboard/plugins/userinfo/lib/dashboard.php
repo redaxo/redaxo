@@ -125,7 +125,7 @@ class rex_articles_component extends rex_dashboard_component
 
   public function checkPermission()
   {
-    return rex_core::getUser()->isAdmin() || rex_core::getUser()->hasStructurePerm();
+    return rex::getUser()->isAdmin() || rex::getUser()->hasStructurePerm();
   }
 
   protected function prepare()
@@ -133,8 +133,8 @@ class rex_articles_component extends rex_dashboard_component
     $limit = A659_DEFAULT_LIMIT;
 
     $qry = 'SELECT id, re_id, clang, startpage, name, updateuser, updatedate
-            FROM '. rex_core::getTablePrefix() .'article
-            WHERE '. rex_core::getUser()->getCategoryPermAsSql() .'
+            FROM '. rex::getTablePrefix() .'article
+            WHERE '. rex::getUser()->getCategoryPermAsSql() .'
             GROUP BY id
             ORDER BY updatedate DESC
             LIMIT '. $limit;
@@ -177,14 +177,14 @@ class rex_media_component extends rex_dashboard_component
 
   public function checkPermission()
   {
-    return rex_core::getUser()->hasMediaPerm();
+    return rex::getUser()->hasMediaPerm();
   }
 
   protected function prepare()
   {
     $limit = A659_DEFAULT_LIMIT;
 
-    $list = rex_list::factory('SELECT category_id, media_id, filename, updateuser, updatedate FROM '. rex_core::getTablePrefix() .'media ORDER BY updatedate DESC LIMIT '.$limit);
+    $list = rex_list::factory('SELECT category_id, media_id, filename, updateuser, updatedate FROM '. rex::getTablePrefix() .'media ORDER BY updatedate DESC LIMIT '.$limit);
     $list->setCaption(rex_i18n::msg('pool_file_caption'));
     $list->addTableAttribute('summary', rex_i18n::msg('pool_file_summary'));
     $list->addTableColumnGroup(array(40, '*', 120, 150));

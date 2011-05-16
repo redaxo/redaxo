@@ -161,7 +161,7 @@ class rex_login_sql extends rex_sql
     else
     {
       $whereCond = '1=0';
-      $categoryPerms = rex_core::getUser()->getPermAsArray('csw');
+      $categoryPerms = rex::getUser()->getPermAsArray('csw');
       foreach($categoryPerms as $catPerm)
       {
         $whereCond .= ' OR path LIKE "%|'. $catPerm .'|%"';
@@ -355,7 +355,7 @@ class rex_login
         }
         else
         {
-          $this->message = rex_i18n::msg('login_error', '<strong>'. rex_core::getProperty('relogindelay') .'</strong>');
+          $this->message = rex_i18n::msg('login_error', '<strong>'. rex::getProperty('relogindelay') .'</strong>');
           $this->setSessionVar('UID', '');
         }
 
@@ -485,14 +485,14 @@ class rex_backend_login extends rex_login
   {
     parent::__construct();
 
-    $tableName = rex_core::getTablePrefix().'user';
+    $tableName = rex::getTablePrefix().'user';
     $this->setSqlDb(1);
-    $this->setSysID(rex_core::getProperty('instname'));
-    $this->setSessiontime(rex_core::getProperty('session_duration'));
+    $this->setSysID(rex::getProperty('instname'));
+    $this->setSessiontime(rex::getProperty('session_duration'));
     $this->setUserID('user_id');
-    $qry = 'SELECT CONCAT('.$tableName.'.rights, IFNULL(roles.rights,"")) AS rights, '.$tableName.'.* FROM '. $tableName .' LEFT JOIN '.rex_core::getTablePrefix().'user_role roles ON roles.id = role WHERE status=1';
+    $qry = 'SELECT CONCAT('.$tableName.'.rights, IFNULL(roles.rights,"")) AS rights, '.$tableName.'.* FROM '. $tableName .' LEFT JOIN '.rex::getTablePrefix().'user_role roles ON roles.id = role WHERE status=1';
     $this->setUserquery($qry .' AND user_id = "USR_UID"');
-    $this->setLoginquery($qry .' AND login = "USR_LOGIN" AND psw = "USR_PSW" AND lasttrydate <'. (time()-rex_core::getProperty('relogindelay')).' AND login_tries<'.rex_core::getProperty('maxlogins'));
+    $this->setLoginquery($qry .' AND login = "USR_LOGIN" AND psw = "USR_PSW" AND lasttrydate <'. (time()-rex::getProperty('relogindelay')).' AND login_tries<'.rex::getProperty('maxlogins'));
     $this->tableName = $tableName;
   }
 
@@ -548,7 +548,7 @@ class rex_backend_login extends rex_login
         return $match;
       }
     }
-    return rex_core::getProperty('lang');
+    return rex::getProperty('lang');
   }
 
   public function getStartpage()
@@ -560,6 +560,6 @@ class rex_backend_login extends rex_login
       	return $match;
     	}
   	}
-  	return rex_core::getProperty('start_page');
+  	return rex::getProperty('start_page');
   }
 }

@@ -148,7 +148,7 @@ class rex_article_cache
       return false;
     }
 
-    $qry = 'SELECT * FROM '. rex_core::getTablePrefix() .'article WHERE id='. (int) $article_id;
+    $qry = 'SELECT * FROM '. rex::getTablePrefix() .'article WHERE id='. (int) $article_id;
     if($clang !== NULL)
     {
       $qry .= ' AND clang='. (int) $clang;
@@ -226,7 +226,7 @@ class rex_article_cache
 
       $GC = rex_sql::factory();
       // $GC->debugsql = 1;
-      $GC->setQuery("select * from ".rex_core::getTablePrefix()."article where (re_id=$re_id and clang=$_clang and startpage=0) OR (id=$re_id and clang=$_clang and startpage=1) order by prior,name");
+      $GC->setQuery("select * from ".rex::getTablePrefix()."article where (re_id=$re_id and clang=$_clang and startpage=0) OR (id=$re_id and clang=$_clang and startpage=1) order by prior,name");
 
       $cacheArray = array();
       for ($i = 0; $i < $GC->getRows(); $i ++)
@@ -245,7 +245,7 @@ class rex_article_cache
       // --------------------------------------- CAT LIST
 
       $GC = rex_sql::factory();
-      $GC->setQuery("select * from ".rex_core::getTablePrefix()."article where re_id=$re_id and clang=$_clang and startpage=1 order by catprior,name");
+      $GC->setQuery("select * from ".rex::getTablePrefix()."article where re_id=$re_id and clang=$_clang and startpage=1 order by catprior,name");
 
       $cacheArray = array();
       for ($i = 0; $i < $GC->getRows(); $i ++)

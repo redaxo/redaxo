@@ -6,15 +6,15 @@
  * @version svn:$Id$
  */
 
-if(rex_core::isSetup())
+if(rex::isSetup())
 {
   rex_addon::initialize(false);
-  $packageOrder = rex_core::getProperty('setup_packages');
+  $packageOrder = rex::getProperty('setup_packages');
 }
 else
 {
   rex_addon::initialize();
-  $packageOrder = rex_core::getConfig('package-order', array());
+  $packageOrder = rex::getConfig('package-order', array());
 }
 
 // in the first run, we register all folders for class- and fragment-loading,

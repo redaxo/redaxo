@@ -124,9 +124,9 @@ abstract class rex_ooRedaxo
 
       $vars = array();
 
-      $startId = rex_core::getProperty('start_article_id');
+      $startId = rex::getProperty('start_article_id');
       $file = rex_path::cache('articles/'.  $startId .'.0.article');
-      if(!rex_core::isBackend() && file_exists($file))
+      if(!rex::isBackend() && file_exists($file))
       {
         // Im GetGenerated Modus, die Spaltennamen aus den generated Dateien holen
         if(!isset($REX['ART'][$startId]))
@@ -147,7 +147,7 @@ abstract class rex_ooRedaxo
       {
         // Im Backend die Spalten aus der DB auslesen / via EP holen
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM '. rex_core::getTablePrefix() .'article LIMIT 0');
+        $sql->setQuery('SELECT * FROM '. rex::getTablePrefix() .'article LIMIT 0');
         foreach($sql->getFieldnames() as $field)
         {
           $vars[] = $field;
@@ -550,7 +550,7 @@ abstract class rex_ooRedaxo
    */
   public function isSiteStartArticle()
   {
-    return $this->_id == rex_core::getProperty('start_article_id');
+    return $this->_id == rex::getProperty('start_article_id');
   }
 
   /**
@@ -561,7 +561,7 @@ abstract class rex_ooRedaxo
    */
   public function isNotFoundArticle()
   {
-    return $this->_id == rex_core::getProperty('notfound_article_id');
+    return $this->_id == rex::getProperty('notfound_article_id');
   }
 
   /**

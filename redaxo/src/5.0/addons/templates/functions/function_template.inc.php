@@ -10,7 +10,7 @@
 function rex_generateTemplate($template_id)
 {
   $sql = rex_sql::factory();
-  $qry = 'SELECT * FROM '. rex_core::getTablePrefix()  .'template WHERE id = '.$template_id;
+  $qry = 'SELECT * FROM '. rex::getTablePrefix()  .'template WHERE id = '.$template_id;
   $sql->setQuery($qry);
 
   if($sql->getRows() == 1)

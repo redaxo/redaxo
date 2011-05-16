@@ -76,7 +76,7 @@ function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $label
   $add_td = '';
   $class_td = '';
   $class_tr = '';
-  if (rex_core::getUser()->hasPerm('advancedMode[]'))
+  if (rex::getUser()->hasPerm('advancedMode[]'))
     $add_td = '<td></td>';
 
   $element = $field;

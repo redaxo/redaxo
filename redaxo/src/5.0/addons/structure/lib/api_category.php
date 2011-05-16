@@ -9,7 +9,7 @@ class rex_api_category_add extends rex_api_function
     /**
      * @var rex_login_sql
      */
-    $user = rex_core::getUser();
+    $user = rex::getUser();
 
     // check permissions
     if($user->hasPerm('editContentOnly[]')) {
@@ -39,7 +39,7 @@ class rex_api_category_edit extends rex_api_function
     /**
      * @var rex_login_sql
      */
-    $user = rex_core::getUser();
+    $user = rex::getUser();
 
     // check permissions
     if(!$user->hasCategoryPerm($catId)) {
@@ -64,7 +64,7 @@ class rex_api_category_delete extends rex_api_function
     /**
      * @var rex_login_sql
      */
-    $user = rex_core::getUser();
+    $user = rex::getUser();
 
     // check permissions
     if($user->hasPerm('editContentOnly[]')) {
@@ -89,7 +89,7 @@ class rex_api_category_status extends rex_api_function
     /**
      * @var rex_login_sql
      */
-    $user = rex_core::getUser();
+    $user = rex::getUser();
 
     // check permissions
     if($user->isAdmin() || $user->hasCategoryPerm($catId) && $user->hasPerm('publishArticle[]')) {

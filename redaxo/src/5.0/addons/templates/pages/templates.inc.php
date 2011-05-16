@@ -22,17 +22,17 @@ $warning = '';
 if ($function == "delete")
 {
   $del = rex_sql::factory();
-  $del->setQuery("SELECT " . rex_core::getTablePrefix() . "article.id," . rex_core::getTablePrefix() . "template.name FROM " . rex_core::getTablePrefix() . "article
-    LEFT JOIN " . rex_core::getTablePrefix() . "template ON " . rex_core::getTablePrefix() . "article.template_id=" . rex_core::getTablePrefix() . "template.id
-    WHERE " . rex_core::getTablePrefix() . "article.template_id='$template_id' LIMIT 0,10");
+  $del->setQuery("SELECT " . rex::getTablePrefix() . "article.id," . rex::getTablePrefix() . "template.name FROM " . rex::getTablePrefix() . "article
+    LEFT JOIN " . rex::getTablePrefix() . "template ON " . rex::getTablePrefix() . "article.template_id=" . rex::getTablePrefix() . "template.id
+    WHERE " . rex::getTablePrefix() . "article.template_id='$template_id' LIMIT 0,10");
 
-  if ($del->getRows() > 0  || rex_core::getProperty('default_template_id') == $template_id)
+  if ($del->getRows() > 0  || rex::getProperty('default_template_id') == $template_id)
   {
     $warning = rex_i18n::msg("cant_delete_template_because_its_in_use", 'ID = '.$template_id);
 
   }else
   {
-    $del->setQuery("DELETE FROM " . rex_core::getTablePrefix() . "template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
+    $del->setQuery("DELETE FROM " . rex::getTablePrefix() . "template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
     rex_file::delete(rex_path::cache('templates/' . $template_id . '.template'));
     $info = rex_i18n::msg("template_deleted");
   }
@@ -43,7 +43,7 @@ if ($function == "delete")
   $legend = rex_i18n::msg("edit_template") . ' [ID=' . $template_id . ']';
 
   $hole = rex_sql::factory();
-  $hole->setQuery("SELECT * FROM " . rex_core::getTablePrefix() . "template WHERE id = '$template_id'");
+  $hole->setQuery("SELECT * FROM " . rex::getTablePrefix() . "template WHERE id = '$template_id'");
   if($hole->getRows() == 1)
   {
     $templatename = $hole->getValue("name");
@@ -108,7 +108,7 @@ if ($function == "add" or $function == "edit")
     }
 
     $TPL = rex_sql::factory();
-    $TPL->setTable(rex_core::getTablePrefix() . "template");
+    $TPL->setTable(rex::getTablePrefix() . "template");
     $TPL->setValue("name", $templatename);
     $TPL->setValue("active", $active);
     $TPL->setValue("content", $content);
@@ -179,7 +179,7 @@ if ($function == "add" or $function == "edit")
     $modul_select->setStyle('class="rex-form-select"');
     $modul_select->setSize(10);
     $m_sql = rex_sql::factory();
-    foreach($m_sql->getArray('SELECT id, name FROM '.rex_core::getTablePrefix().'module ORDER BY name') as $m)
+    foreach($m_sql->getArray('SELECT id, name FROM '.rex::getTablePrefix().'module ORDER BY name') as $m)
       $modul_select->addOption($m["name"],$m["id"]);
 
     // Kategorien
@@ -415,7 +415,7 @@ if ($OUT)
   if ($warning != '')
     echo rex_warning($warning);
 
-  $list = rex_list::factory('SELECT id, name, active FROM '.rex_core::getTablePrefix().'template ORDER BY name');
+  $list = rex_list::factory('SELECT id, name, active FROM '.rex::getTablePrefix().'template ORDER BY name');
   $list->setCaption(rex_i18n::msg('header_template_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('header_template_summary'));
   $list->addTableColumnGroup(array(40, 40, '*', 153, 153));

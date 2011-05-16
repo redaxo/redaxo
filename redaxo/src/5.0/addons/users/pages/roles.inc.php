@@ -13,7 +13,7 @@ $warning = '';
 if ($id != 0)
 {
   $sql = rex_sql::factory();
-  $sql->setQuery('SELECT * FROM '.rex_core::getTablePrefix().'user_role WHERE id = '. $id .' LIMIT 2');
+  $sql->setQuery('SELECT * FROM '.rex::getTablePrefix().'user_role WHERE id = '. $id .' LIMIT 2');
   if ($sql->getRows()!= 1) $id = 0;
 }
 
@@ -87,7 +87,7 @@ $sel_sprachen->setSize(3);
 $sel_sprachen->setName('userperm_sprachen[]');
 $sel_sprachen->setId('userperm-sprachen');
 $sqlsprachen = rex_sql::factory();
-$sqlsprachen->setQuery('select * from '.rex_core::getTablePrefix().'clang order by id');
+$sqlsprachen->setQuery('select * from '.rex::getTablePrefix().'clang order by id');
 for ($i=0;$i<$sqlsprachen->getRows();$i++)
 {
   $name = $sqlsprachen->getValue('name');
@@ -105,7 +105,7 @@ $sel_module->setSize(10);
 $sel_module->setName('userperm_module[]');
 $sel_module->setId('userperm-module');
 $sqlmodule = rex_sql::factory();
-$sqlmodule->setQuery('select * from '.rex_core::getTablePrefix().'module order by name');
+$sqlmodule->setQuery('select * from '.rex::getTablePrefix().'module order by name');
 for ($i=0;$i<$sqlmodule->getRows();$i++)
 {
   $sel_module->addOption($sqlmodule->getValue('name'),$sqlmodule->getValue('id'));
@@ -152,7 +152,7 @@ $allmcatschecked = "";
 if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 {
   $updateuser = rex_sql::factory();
-  $updateuser->setTable(rex_core::getTablePrefix().'user_role');
+  $updateuser->setTable(rex::getTablePrefix().'user_role');
   $updateuser->setWhere('id='. $id);
   $updateuser->setValue('name',$username);
   $updateuser->addGlobalUpdateFields();
@@ -182,7 +182,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   foreach($userperm_cat as $ccat)
   {
     $gp = rex_sql::factory();
-    $gp->setQuery("select * from ".rex_core::getTablePrefix()."article where id='$ccat' and clang=0");
+    $gp->setQuery("select * from ".rex::getTablePrefix()."article where id='$ccat' and clang=0");
     if ($gp->getRows()==1)
     {
       // Alle Eltern-Kategorien im Pfad bis zu ausgewählten, mit
@@ -222,7 +222,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 } elseif ($FUNC_DELETE != '')
 {
   $deleteuser = rex_sql::factory();
-  $deleteuser->setQuery("DELETE FROM ".rex_core::getTablePrefix()."user_role WHERE id = '$id' LIMIT 1");
+  $deleteuser->setQuery("DELETE FROM ".rex::getTablePrefix()."user_role WHERE id = '$id' LIMIT 1");
   $info = rex_i18n::msg("user_role_deleted");
   $id = 0;
 
@@ -233,7 +233,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 } elseif ($FUNC_ADD != '' and $save == 1)
 {
   $adduser = rex_sql::factory();
-  $adduser->setTable(rex_core::getTablePrefix().'user_role');
+  $adduser->setTable(rex::getTablePrefix().'user_role');
   $adduser->setValue('name',$username);
   $adduser->setValue('description',$userdesc);
   $adduser->addGlobalCreateFields();
@@ -263,7 +263,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   foreach($userperm_cat as $ccat)
   {
     $gp = rex_sql::factory();
-    $gp->setQuery("select * from ".rex_core::getTablePrefix()."article where id='$ccat' and clang=0");
+    $gp->setQuery("select * from ".rex::getTablePrefix()."article where id='$ccat' and clang=0");
     if ($gp->getRows()==1)
     {
       // Alle Eltern-Kategorien im Pfad bis zu ausgewählten, mit
@@ -324,7 +324,7 @@ if ($FUNC_ADD != "" || $id > 0)
 		$add_user_class = ' rex-form-read';
 
     $sql = new rex_login_sql;
-    $sql->setQuery('select * from '. rex_core::getTablePrefix() .'user_role where id='. $id);
+    $sql->setQuery('select * from '. rex::getTablePrefix() .'user_role where id='. $id);
 
     if ($sql->getRows()==1)
     {
@@ -531,7 +531,7 @@ if ($FUNC_ADD != "" || $id > 0)
 
 if (isset($SHOW) && $SHOW)
 {
-  $list = rex_list::factory('SELECT id, name FROM '.rex_core::getTablePrefix().'user_role');
+  $list = rex_list::factory('SELECT id, name FROM '.rex::getTablePrefix().'user_role');
   $list->setCaption(rex_i18n::msg('user_role_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('user_role_summary'));
   $list->addTableColumnGroup(array(40, '5%', '*', 153));

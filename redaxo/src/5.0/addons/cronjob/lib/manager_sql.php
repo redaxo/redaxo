@@ -108,7 +108,7 @@ class rex_cronjob_manager_sql
       FROM      '. REX_CRONJOB_TABLE .'
       WHERE     status = 1
         AND     execution_start < '. (time() - 2 * ini_get('max_execution_time')) .'
-        AND     environment LIKE "%|'. (int)rex_core::isBackend() .'|%"
+        AND     environment LIKE "%|'. (int)rex::isBackend() .'|%"
         AND     nexttime <= '. time() .'
       ORDER BY  nexttime ASC, execution_moment DESC, name ASC
       LIMIT     1
@@ -161,7 +161,7 @@ class rex_cronjob_manager_sql
     $sql->setQuery('
       SELECT    id, name, type, parameters, `interval`
       FROM      '. REX_CRONJOB_TABLE .'
-      WHERE     id = '. $id .' AND environment LIKE "%|'. (int)rex_core::isBackend() .'|%"
+      WHERE     id = '. $id .' AND environment LIKE "%|'. (int)rex::isBackend() .'|%"
       LIMIT     1
     ');
     if ($sql->getRows() != 1)

@@ -51,7 +51,7 @@ function rex_media_manager_effectClass($effectFile)
 
 function rex_media_manager_deleteCacheByType($type_id)
 {
-  $qry = 'SELECT * FROM '. rex_core::getTablePrefix().'media_manager_types' . ' WHERE id='. $type_id;
+  $qry = 'SELECT * FROM '. rex::getTablePrefix().'media_manager_types' . ' WHERE id='. $type_id;
   $sql = rex_sql::factory();
 //  $sql->debugsql = true;
   $sql->setQuery($qry);

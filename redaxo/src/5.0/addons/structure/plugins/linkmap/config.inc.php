@@ -11,7 +11,7 @@
 
 $mypage = 'linkmap';
 
-if (rex_core::isBackend())
+if (rex::isBackend())
 {
   $page = new rex_be_page_popup(rex_i18n::msg('linkmap'), '', array('page' => 'linkmap'));
   $page->setHidden(true);
@@ -19,7 +19,7 @@ if (rex_core::isBackend())
 
   $this->setProperty('page', new rex_be_page_main('system', $page));
 
-  if(rex_core::getUser())
+  if(rex::getUser())
   {
     rex_extension::register('PAGE_HEADER', function($params){
       $params['subject'] .= "\n  ".

@@ -47,7 +47,7 @@ $warning = '';
 if ($user_id != 0)
 {
   $sql = rex_sql::factory();
-  $sql->setQuery('SELECT * FROM '.rex_core::getTablePrefix().'user WHERE user_id = '. $user_id .' LIMIT 2');
+  $sql->setQuery('SELECT * FROM '.rex::getTablePrefix().'user WHERE user_id = '. $user_id .' LIMIT 2');
   if ($sql->getRows()!= 1) $user_id = 0;
 }
 
@@ -69,7 +69,7 @@ $sel_role->setId("userrole");
 $sel_role->addOption(rex_i18n::msg('user_no_role'), 0);
 $roles = array();
 $sql_role = rex_sql::factory();
-$sql_role->setQuery('SELECT id, name FROM '. rex_core::getTablePrefix() .'user_role');
+$sql_role->setQuery('SELECT id, name FROM '. rex::getTablePrefix() .'user_role');
 foreach($sql_role as $role)
 {
   $roles[$role->getValue('id')] = $role->getValue('name');
@@ -145,7 +145,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   $userstatus = rex_request('userstatus', 'int');
 
   $updateuser = rex_sql::factory();
-  $updateuser->setTable(rex_core::getTablePrefix().'user');
+  $updateuser->setTable(rex::getTablePrefix().'user');
   $updateuser->setWhere('user_id='. $user_id);
   $updateuser->setValue('name',$username);
   $updateuser->setValue('role', $userrole);
@@ -159,8 +159,8 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   {
     // the service side encryption of pw is only required
     // when not already encrypted by client using javascript
-    if (rex_core::getProperty('pswfunc') != '' && rex_post('javascript') == '0' && $userpsw != $sql->getValue(rex_core::getTablePrefix().'user.psw'))
-      $userpsw = call_user_func(rex_core::getProperty('pswfunc'),$userpsw);
+    if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0' && $userpsw != $sql->getValue(rex::getTablePrefix().'user.psw'))
+      $userpsw = call_user_func(rex::getProperty('pswfunc'),$userpsw);
 
     $updateuser->setValue('psw',$userpsw);
   }
@@ -203,10 +203,10 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 } elseif ($FUNC_DELETE != '')
 {
   // man kann sich selbst nicht l�schen..
-  if (rex_core::getUser()->getValue("user_id") != $user_id)
+  if (rex::getUser()->getValue("user_id") != $user_id)
   {
     $deleteuser = rex_sql::factory();
-    $deleteuser->setQuery("DELETE FROM ".rex_core::getTablePrefix()."user WHERE user_id = '$user_id' LIMIT 1");
+    $deleteuser->setQuery("DELETE FROM ".rex::getTablePrefix()."user WHERE user_id = '$user_id' LIMIT 1");
     $info = rex_i18n::msg("user_deleted");
     $user_id = 0;
   }else
@@ -217,17 +217,17 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 } elseif ($FUNC_ADD != '' and $save == 1)
 {
   $adduser = rex_sql::factory();
-  $adduser->setQuery("SELECT * FROM ".rex_core::getTablePrefix()."user WHERE login = '$userlogin'");
+  $adduser->setQuery("SELECT * FROM ".rex::getTablePrefix()."user WHERE login = '$userlogin'");
 
   if ($adduser->getRows()==0 and $userlogin != '')
   {
     $adduser = rex_sql::factory();
-    $adduser->setTable(rex_core::getTablePrefix().'user');
+    $adduser->setTable(rex::getTablePrefix().'user');
     $adduser->setValue('name',$username);
     // the service side encryption of pw is only required
     // when not already encrypted by client using javascript
-    if (rex_core::getProperty('pswfunc') != '' && rex_post('javascript') == '0')
-      $userpsw = call_user_func(rex_core::getProperty('pswfunc'),$userpsw);
+    if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0')
+      $userpsw = call_user_func(rex::getProperty('pswfunc'),$userpsw);
     $adduser->setValue('psw',$userpsw);
     $adduser->setValue('login',$userlogin);
     $adduser->setValue('description',$userdesc);
@@ -309,10 +309,10 @@ if ($FUNC_ADD != "" || $user_id > 0)
 						<p class="rex-form-col-b"><input type="submit" class="rex-form-submit" name="FUNC_APPLY" value="'.rex_i18n::msg('user_apply').'" '. rex_accesskey(rex_i18n::msg('user_apply'), $REX['ACKEY']['APPLY']) .' /></p>
 					</div>';
 		$add_user_class = ' rex-form-read';
-    $add_user_login = '<span class="rex-form-read" id="userlogin">'. htmlspecialchars($sql->getValue(rex_core::getTablePrefix().'user.login')) .'</span>';
+    $add_user_login = '<span class="rex-form-read" id="userlogin">'. htmlspecialchars($sql->getValue(rex::getTablePrefix().'user.login')) .'</span>';
 
     $sql = new rex_login_sql;
-    $sql->setQuery('select * from '. rex_core::getTablePrefix() .'user where user_id='. $user_id);
+    $sql->setQuery('select * from '. rex::getTablePrefix() .'user where user_id='. $user_id);
 
     if ($sql->getRows()==1)
     {
@@ -320,10 +320,10 @@ if ($FUNC_ADD != "" || $user_id > 0)
       if ($sql->isAdmin()) $adminchecked = 'checked="checked"';
       else $adminchecked = '';
 
-      if ($sql->getValue(rex_core::getTablePrefix().'user.status') == 1) $statuschecked = 'checked="checked"';
+      if ($sql->getValue(rex::getTablePrefix().'user.status') == 1) $statuschecked = 'checked="checked"';
       else $statuschecked = '';
 
-      $userrole = $sql->getValue(rex_core::getTablePrefix().'user.role');
+      $userrole = $sql->getValue(rex::getTablePrefix().'user.role');
       $sel_role->setSelected($userrole);
 
 			foreach($langs as $k => $v)
@@ -339,12 +339,12 @@ if ($FUNC_ADD != "" || $user_id > 0)
 			$sel_startpage->setSelected($userperm_startpage);
 
 
-      $userpsw = $sql->getValue(rex_core::getTablePrefix().'user.psw');
-      $username = $sql->getValue(rex_core::getTablePrefix().'user.name');
-      $userdesc = $sql->getValue(rex_core::getTablePrefix().'user.description');
+      $userpsw = $sql->getValue(rex::getTablePrefix().'user.psw');
+      $username = $sql->getValue(rex::getTablePrefix().'user.name');
+      $userdesc = $sql->getValue(rex::getTablePrefix().'user.description');
 
       // Der Benutzer kann sich selbst die Rechte nicht entziehen
-      if (rex_core::getUser()->getValue('login') == $sql->getValue(rex_core::getTablePrefix().'user.login') && $adminchecked != '')
+      if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix().'user.login') && $adminchecked != '')
       {
         $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input class="rex-form-checkbox" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' disabled="disabled" />';
       }
@@ -354,7 +354,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
       }
 
       // Der Benutzer kann sich selbst den Status nicht entziehen
-      if (rex_core::getUser()->getValue('login') == $sql->getValue(rex_core::getTablePrefix().'user.login') && $statuschecked != '')
+      if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix().'user.login') && $statuschecked != '')
       {
         $add_status_chkbox = '<input type="hidden" name="userstatus" value="1" /><input class="rex-form-checkbox" type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' disabled="disabled" />';
       }
@@ -366,14 +366,14 @@ if ($FUNC_ADD != "" || $user_id > 0)
 
 
       // Account gesperrt?
-      if (rex_core::getProperty('maxlogins') < $sql->getValue("login_tries"))
+      if (rex::getProperty('maxlogins') < $sql->getValue("login_tries"))
       {
         $add_login_reset_chkbox = '
         <div class="rex-message">
         <p class="rex-warning rex-form-checkbox rex-form-label-right">
         	<span>
 	          <input class="rex-form-checkbox" type="checkbox" name="logintriesreset" id="logintriesreset" value="1" />
-  	        <label for="logintriesreset">'. rex_i18n::msg("user_reset_tries",rex_core::getProperty('maxlogins')) .'</label>
+  	        <label for="logintriesreset">'. rex_i18n::msg("user_reset_tries",rex::getProperty('maxlogins')) .'</label>
   	      </span>
         </p>
         </div>';
@@ -420,7 +420,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
           <p class="rex-form-col-b rex-form-text">
             <label for="userpsw">'.rex_i18n::msg('password').'</label>
             <input type="password" id="userpsw" name="userpsw" autocomplete="off" />
-            '. (rex_core::getProperty('pswfunc')!='' ? '<span class="rex-form-notice">'. rex_i18n::msg('psw_encrypted') .'</span>' : '') .'
+            '. (rex::getProperty('pswfunc')!='' ? '<span class="rex-form-notice">'. rex_i18n::msg('psw_encrypted') .'</span>' : '') .'
           </p>
 		    </div>
 
@@ -506,7 +506,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
 
 if (isset($SHOW) and $SHOW)
 {
-  $list = rex_list::factory('SELECT user_id, name, login, lasttrydate FROM '.rex_core::getTablePrefix().'user ORDER BY name');
+  $list = rex_list::factory('SELECT user_id, name, login, lasttrydate FROM '.rex::getTablePrefix().'user ORDER BY name');
   $list->setCaption(rex_i18n::msg('user_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('user_summary'));
   $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 153));
@@ -536,7 +536,7 @@ if (isset($SHOW) and $SHOW)
   $list->setColumnParams('funcs', array('FUNC_DELETE' => '1', 'user_id' => '###user_id###'));
   $list->setColumnFormat('funcs', 'custom', function ($params) {
     $list = $params['list'];
-    if($list->getValue('user_id') == rex_core::getUser()->getValue('user_id'))
+    if($list->getValue('user_id') == rex::getUser()->getValue('user_id'))
     {
       return '<span class="rex-strike">'. rex_i18n::msg('user_delete') .'</span>';
     }

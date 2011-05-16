@@ -582,7 +582,7 @@ class rex_ooMedia
     $where .= implode(' OR ', $files).' OR ';
     $where .= implode(' OR ', $filelists) .' OR ';
     $where .= implode(' OR ', $values);
-    $query = 'SELECT DISTINCT article_id, clang FROM '.rex_core::getTablePrefix().'article_slice WHERE '. $where;
+    $query = 'SELECT DISTINCT article_id, clang FROM '.rex::getTablePrefix().'article_slice WHERE '. $where;
 
     // deprecated since REX 4.3
     // ----- EXTENSION POINT
@@ -698,7 +698,7 @@ class rex_ooMedia
    */
   static public function _getTableName()
   {
-    return rex_core::getTablePrefix().'media';
+    return rex::getTablePrefix().'media';
   }
 
   /**

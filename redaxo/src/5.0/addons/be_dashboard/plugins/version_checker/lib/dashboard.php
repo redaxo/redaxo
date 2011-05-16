@@ -22,7 +22,7 @@ class rex_version_checker_notification extends rex_dashboard_notification
 
   public function checkPermission()
   {
-    return rex_core::getUser()->isAdmin();
+    return rex::getUser()->isAdmin();
   }
 
   protected function prepare()
