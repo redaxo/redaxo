@@ -21,8 +21,6 @@ function rex_be_search_highlight_hit($string, $needle)
  */
 function rex_be_search_extensions_handler($params)
 {
-  global $REX;
-
   $page = $params['subject'];
 
   rex_extension::register('PAGE_HEADER', 'rex_be_search_css_add');

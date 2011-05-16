@@ -4,17 +4,15 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
 {
   function rex_a62_media_is_in_use($params)
   {
-    global $REX;
-  
     $warning = $params['subject'];
-  
+
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT `name`, `type` FROM `'. $REX['TABLE_PREFIX'] .'62_params` WHERE `type` IN(6,7)');
-  
+    $sql->setQuery('SELECT `name`, `type` FROM `'. rex::getTablePrefix() .'62_params` WHERE `type` IN(6,7)');
+
     $rows = $sql->getRows();
     if($rows == 0)
       return $warning;
-  
+
     $where = array(
       'articles' => array(),
       'media' => array()
@@ -35,7 +33,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
         case '7':
           // replace LIKE wildcards
           $likeFilename = str_replace(array('_', '%'), array('\_', '\%'), $filename);
-  
+
           $where[$key][] = '('. $name .' = "'. $filename .'" OR '. $name .' LIKE "%,'. $likeFilename .'" OR '. $name .' LIKE "%,'. $likeFilename .',%" OR '. $name .' LIKE "'. $likeFilename .',%")';
           break;
         default :
@@ -43,12 +41,12 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
       }
       $sql->next();
     }
-  
+
     $articles = '';
     $categories = '';
     if (!empty($where['articles']))
     {
-      $sql->setQuery('SELECT id, clang, re_id, name, catname, startpage FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. implode(' OR ', $where['articles']));
+      $sql->setQuery('SELECT id, clang, re_id, name, catname, startpage FROM '. rex::getTablePrefix() .'article WHERE '. implode(' OR ', $where['articles']));
       if ($sql->getRows() > 0)
       {
         foreach($sql->getArray() as $art_arr)
@@ -79,7 +77,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     $media = '';
     if (!empty($where['media']))
     {
-      $sql->setQuery('SELECT media_id, filename, category_id FROM '. $REX['TABLE_PREFIX'] .'media WHERE '. implode(' OR ', $where['media']));
+      $sql->setQuery('SELECT media_id, filename, category_id FROM '. rex::getTablePrefix() .'media WHERE '. implode(' OR ', $where['media']));
       if ($sql->getRows() > 0)
       {
         foreach($sql->getArray() as $med_arr)
@@ -95,7 +93,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
         }
       }
     }
-  
+
     return $warning;
   }
 
@@ -107,20 +105,18 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
   function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
   {
     if(rex_request_method() != 'post' || !isset($params['media_id'])) return $params;
-  
-    global $REX;
-  
+
     $media = rex_sql::factory();
   //  $media->debugsql = true;
-    $media->setTable($REX['TABLE_PREFIX']. 'media');
+    $media->setTable(rex::getTablePrefix(). 'media');
     $media->setWhere('media_id=:mediaid', array('mediaid' => $params['media_id']));
-  
+
     parent::_rex_a62_metainfo_handleSave($params, $media, $sqlFields);
-  
+
     // do the save only when metafields are defined
     if($media->hasValues())
       $media->update();
-  
+
     return $params;
   }
 
@@ -130,27 +126,27 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
   function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
   {
     $s = '';
-  
+
     if($typeLabel != 'legend')
       $s .= '<div class="rex-form-row">';
-  
+
     if($tag != '')
       $s .= '<'. $tag . $tag_attr  .'>'. "\n";
-  
+
     if($labelIt)
       $s .= '<label for="'. $id .'">'. $label .'</label>'. "\n";
-  
+
     $s .= $field. "\n";
-  
+
     if($tag != '')
       $s .='</'.$tag.'>'. "\n";
-  
+
     if($typeLabel != 'legend')
       $s .= '</div>';
-  
+
     return $s;
   }
-  
+
   /**
    * Erweitert das Meta-Formular um die neuen Meta-Felder
    */
@@ -166,10 +162,8 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     }
     else if($params['extension_point'] == 'MEDIA_ADDED')
     {
-      global $REX;
-  
       $sql = rex_sql::factory();
-      $qry = 'SELECT media_id FROM '. $REX['TABLE_PREFIX'] .'media WHERE filename="'. $params['filename'] .'"';
+      $qry = 'SELECT media_id FROM '. rex::getTablePrefix() .'media WHERE filename="'. $params['filename'] .'"';
       $sql->setQuery($qry);
       if($sql->getRows() == 1)
       {
@@ -181,9 +175,9 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
         exit();
       }
     }
-  
+
     return parent::_rex_a62_metainfo_form('med_', $params, array($this, '_rex_a62_metainfo_med_handleSave'));
-  }  
+  }
 }
 
 $mediaHandler = new rex_mediaMetainfoHandler();
