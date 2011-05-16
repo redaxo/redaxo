@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Protocol handler to include variables like files (php code will be evaluated)
+ * Stream wrapper to include variables like files (php code will be evaluated)
  *
  * Example:
  * <code>
@@ -11,6 +11,8 @@
  * </code>
  *
  * @author gharlan
+ *
+ * @link http://www.php.net/manual/en/class.streamwrapper.php
  */
 class rex_stream
 {
@@ -23,7 +25,7 @@ class rex_stream
     $content;
 
   /**
-   * Prepares a new variable stream
+   * Prepares a new stream
    *
    * @param string $path Virtual path which should describe the content (e.g. "template/1"), only relevant for error messages
    * @param string $content Content which will be included
@@ -32,13 +34,13 @@ class rex_stream
    */
   static public function factory($path, $content)
   {
-    if(!is_string($content))
-    {
-      throw new rexException('Expecting $content to be a string!');
-    }
     if(!is_string($path) || empty($path))
     {
       throw new rexException('Expecting $path to be a string and not empty!');
+    }
+    if(!is_string($content))
+    {
+      throw new rexException('Expecting $content to be a string!');
     }
 
     if(!self::$registered)
