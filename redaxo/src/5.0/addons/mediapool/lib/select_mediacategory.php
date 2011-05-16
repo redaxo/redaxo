@@ -61,15 +61,13 @@ class rex_mediacategory_select extends rex_select
 
   protected function addCatOption(rex_ooMediaCategory $mediacat)
   {
-    global $REX;
-
     if(!$this->check_perms ||
-        $this->check_perms && $REX['USER']->hasMediaCategoryPerm($mediacat->getId()))
+        $this->check_perms && rex::getUser()->hasMediaCategoryPerm($mediacat->getId()))
     {
       $mid = $mediacat->getId();
       $mname = $mediacat->getName();
 
-      if($REX['USER']->hasPerm('advancedMode[]'))
+      if(rex::getUser()->hasPerm('advancedMode[]'))
         $mname .= ' ['. $mid .']';
 
       $this->addOption($mname, $mid, $mid, $mediacat->getParentId());

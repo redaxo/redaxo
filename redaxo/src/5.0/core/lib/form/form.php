@@ -41,7 +41,6 @@ class rex_form extends rex_factory
    */
   protected function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
-    global $REX;
 //    $debug = true;
 
     if(!in_array($method, array('post', 'get')))
@@ -86,7 +85,7 @@ class rex_form extends rex_factory
     }
 
     // --------- Load Env
-    if($REX['REDAXO'])
+    if(rex::isBackend())
       $this->loadBackendConfig();
   }
 
@@ -114,8 +113,6 @@ class rex_form extends rex_factory
    */
   protected function loadBackendConfig()
   {
-    global $REX;
-
     $func = rex_request('func', 'string');
 
     $this->addParam('page', rex_request('page', 'string'));
@@ -997,8 +994,6 @@ class rex_form extends rex_factory
    */
   protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
   {
-    global $REX;
-
     static $setOnce = false;
 
     if(!$setOnce)
@@ -1006,7 +1001,7 @@ class rex_form extends rex_factory
       $fieldnames = $this->sql->getFieldnames();
 
       if(in_array('updateuser', $fieldnames))
-        $saveSql->setValue('updateuser', $REX['USER']->getValue('login'));
+        $saveSql->setValue('updateuser', rex::getUser()->getValue('login'));
 
       if(in_array('updatedate', $fieldnames))
         $saveSql->setValue('updatedate', time());
@@ -1014,7 +1009,7 @@ class rex_form extends rex_factory
       if(!$this->isEditMode())
       {
         if(in_array('createuser', $fieldnames))
-          $saveSql->setValue('createuser', $REX['USER']->getValue('login'));
+          $saveSql->setValue('createuser', rex::getUser()->getValue('login'));
 
         if(in_array('createdate', $fieldnames))
           $saveSql->setValue('createdate', time());
@@ -1240,8 +1235,6 @@ class rex_form extends rex_factory
    */
   public function get()
   {
-    global $REX;
-
     $this->init();
 
     $this->setApplyUrl($this->getUrl(array('func' => ''), false));

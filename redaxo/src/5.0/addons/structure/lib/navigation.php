@@ -93,8 +93,6 @@ class rex_navigation extends rex_factory
   {
     if(!$this->_setActivePath()) return FALSE;
 
-    global $REX;
-
     $path = $this->path;
 
     $i = 1;
@@ -102,11 +100,11 @@ class rex_navigation extends rex_factory
 
     if($startPageLabel)
     {
-      $lis .= '<li class="rex-lvl'. $i .'"><a href="'. rex_getUrl($REX['START_ARTICLE_ID']) .'">'. htmlspecialchars($startPageLabel) .'</a></li>';
+      $lis .= '<li class="rex-lvl'. $i .'"><a href="'. rex_getUrl(rex::getProperty('start_article_id')) .'">'. htmlspecialchars($startPageLabel) .'</a></li>';
       $i++;
 
       // StartArticle nicht doppelt anzeigen
-      if(isset($path[0]) && $path[0] == $REX['START_ARTICLE_ID'])
+      if(isset($path[0]) && $path[0] == rex::getProperty('start_article_id'))
       {
         unset($path[0]);
       }

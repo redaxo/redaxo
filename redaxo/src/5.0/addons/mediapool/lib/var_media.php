@@ -55,8 +55,6 @@ class rex_var_media extends rex_var
 
   public function setACValues(rex_sql $sql, array $REX_ACTION)
   {
-    global $REX;
-
     for ($i = 1; $i < 11; $i++)
     {
       $this->setValue($sql, 'file'. $i    , $REX_ACTION['MEDIA'][$i]    );
@@ -256,8 +254,6 @@ class rex_var_media extends rex_var
    */
   static public function getMediaButton($id, $category = '', array $args = array())
   {
-    global $REX;
-
     $open_params = '';
     if ($category != '')
     {
@@ -287,7 +283,7 @@ class rex_var_media extends rex_var
     $add_func     = '';
     $delete_func  = '';
     $view_func    = '';
-    if ($REX['USER']->hasMediaPerm())
+    if (rex::getUser()->hasMediaPerm())
     {
       $open_class   = 'rex-icon-file-open';
       $add_class    = 'rex-icon-file-add';
@@ -327,8 +323,6 @@ class rex_var_media extends rex_var
    */
   static public function getMedialistButton($id, $value, $category = '', array $args = array())
   {
-    global $REX;
-
     $open_params = '';
     if ($category != '')
     {
@@ -371,7 +365,7 @@ class rex_var_media extends rex_var
     $add_func     = '';
     $delete_func  = '';
     $view_func    = '';
-    if ($REX['USER']->hasMediaPerm())
+    if (rex::getUser()->hasMediaPerm())
     {
       $open_class   = 'rex-icon-file-open';
       $add_class    = 'rex-icon-file-add';

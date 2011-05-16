@@ -52,13 +52,11 @@ class rex_file
    */
   static public function put($file, $content)
   {
-    global $REX;
-
     rex_dir::create(dirname($file));
 
     if(file_put_contents($file, $content) !== false)
     {
-      chmod($file, $REX['FILEPERM']);
+      chmod($file, rex::getProperty('fileperm'));
       return true;
     }
 
@@ -102,8 +100,6 @@ class rex_file
    */
   static public function copy($srcfile, $dstfile)
   {
-    global $REX;
-
     if(is_file($srcfile))
     {
       if(is_dir($dstfile))
@@ -114,7 +110,7 @@ class rex_file
       if(copy($srcfile, $dstfile))
       {
         touch($dstfile, filemtime($srcfile));
-        chmod($dstfile, $REX['FILEPERM']);
+        chmod($dstfile, rex::getProperty('fileperm'));
         return true;
       }
     }

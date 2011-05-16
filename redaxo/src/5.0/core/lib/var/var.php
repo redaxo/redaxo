@@ -192,8 +192,7 @@ abstract class rex_var
    */
   protected function getValue(rex_sql $sql, $value)
   {
-    global $REX;
-    return $sql->getValue($REX['TABLE_PREFIX'] . 'article_slice.' . $value);
+    return $sql->getValue(rex::getTablePrefix() . 'article_slice.' . $value);
   }
 
   /**
@@ -205,7 +204,6 @@ abstract class rex_var
    */
   protected function setValue(rex_sql $sql, $fieldname, $value)
   {
-    global $REX;
     $sql->setValue($fieldname, $value);
   }
 
@@ -301,7 +299,7 @@ abstract class rex_var
   {
     $varname = str_replace("'", "\'", $varname);
     $json = str_replace('"', '\"', json_encode($args));
-    //  use double-quotes inside json_decode so php-vars in the json string get evaluated by the interpreter 
+    //  use double-quotes inside json_decode so php-vars in the json string get evaluated by the interpreter
     return 'rex_var::handleGlobalVarParams(\''. $varname .'\', json_decode("'. $json .'", true), '. $value .')';
   }
 
@@ -370,10 +368,10 @@ abstract class rex_var
 
   /**
    * Get the argument $name out of the array $args.
-   * 
+   *
    * If the value will not be found $default is returned.
    * The default value will also be written into the array $args.
-   * 
+   *
    * @param string $name
    * @param array $args
    * @param string $default
@@ -390,7 +388,7 @@ abstract class rex_var
   	$args[$name] = $default;
   	return $default;
   }
-  
+
   /**
    * Split a string on every space which it contains.
    * Spaces within single or double quotes are preserved.

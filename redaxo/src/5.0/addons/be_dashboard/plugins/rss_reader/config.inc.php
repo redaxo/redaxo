@@ -13,7 +13,7 @@
 $mypage = 'rss_reader';
 
 // im backend und eingeloggt?
-if($REX["REDAXO"] && $REX["USER"])
+if(rex::isBackend() && rex::getUser())
 {
   if(rex_request('page', 'string') == 'be_dashboard')
   {

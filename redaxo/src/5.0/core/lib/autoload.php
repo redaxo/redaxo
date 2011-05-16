@@ -39,7 +39,7 @@ class rex_autoload
     ini_set('unserialize_callback_func', 'spl_autoload_call');
     if (false === spl_autoload_register(array(__CLASS__, 'autoload')))
     {
-      throw new sfException(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
+      throw new rexException(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
     }
 
     self::$cacheFile = rex_path::cache('autoload.cache');
@@ -166,7 +166,7 @@ class rex_autoload
    */
   static public function addDirectory($classdir, $ext = '.php')
   {
-    if ($dirs = glob($classdir .'*'. $ext))
+    if ($dirs = glob($classdir .'*'. $ext, GLOB_NOSORT))
     {
       foreach ($dirs as $dir)
       {
@@ -190,7 +190,7 @@ class rex_autoload
       }
     }
 
-    if($subdirs = glob($classdir .'*', GLOB_ONLYDIR))
+    if($subdirs = glob($classdir .'*', GLOB_ONLYDIR | GLOB_NOSORT))
     {
       // recursive over subdirectories
       foreach($subdirs as $subdir) {

@@ -6,19 +6,15 @@
  * @version svn:$Id$
  */
 
-// ----------------- addons
-unset($REX['ADDON']);
-$REX['ADDON'] = array();
-
-if($REX['SETUP'])
+if(rex::isSetup())
 {
   rex_addon::initialize(false);
-  $packageOrder = $REX['SETUP_PACKAGES'];
+  $packageOrder = rex::getProperty('setup_packages');
 }
 else
 {
   rex_addon::initialize();
-  $packageOrder = rex_core_config::get('package-order', array());
+  $packageOrder = rex::getConfig('package-order', array());
 }
 
 // in the first run, we register all folders for class- and fragment-loading,
@@ -56,8 +52,8 @@ foreach($packageOrder as $packageId)
   // include the addon itself
   if(is_readable($folder .'config.inc.php'))
   {
-    $manager = rex_packageManager::factory($package);
-    $manager->includeFile(rex_packageManager::CONFIG_FILE);
+    //$manager = rex_packageManager::factory($package);
+    rex_packageManager::includeFile($package, rex_packageManager::CONFIG_FILE);
   }
 }
 

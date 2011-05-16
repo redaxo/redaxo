@@ -139,8 +139,6 @@ abstract class rex_formatter
 
   static public function _formatStrftime($value, $format)
   {
-    global $REX;
-
     if (empty ($value))
     {
       return '';

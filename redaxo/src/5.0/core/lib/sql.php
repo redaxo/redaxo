@@ -30,8 +30,6 @@ class rex_sql extends rex_factory implements Iterator
 
   protected function __construct($DBID = 1)
   {
-    global $REX;
-
     $this->debugsql = false;
     $this->flush();
     $this->selectDB($DBID);
@@ -42,20 +40,19 @@ class rex_sql extends rex_factory implements Iterator
    */
   protected function selectDB($DBID)
   {
-    global $REX;
-
     $this->DBID = $DBID;
 
     try
     {
       if(!isset(self::$pdo[$DBID]))
       {
+        $dbconfig = rex::getProperty('db');
         $conn = self::createConnection(
-          $REX['DB'][$DBID]['host'],
-          $REX['DB'][$DBID]['name'],
-          $REX['DB'][$DBID]['login'],
-          $REX['DB'][$DBID]['password'],
-          $REX['DB'][$DBID]['persistent']
+          $dbconfig[$DBID]['host'],
+          $dbconfig[$DBID]['name'],
+          $dbconfig[$DBID]['login'],
+          $dbconfig[$DBID]['password'],
+          $dbconfig[$DBID]['persistent']
         );
         self::$pdo[$DBID] = $conn;
 
@@ -69,7 +66,7 @@ class rex_sql extends rex_factory implements Iterator
     }
     catch(PDOException $e)
     {
-      echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . $REX['ERROR_EMAIL'] . ">" . $REX['ERROR_EMAIL'] . "</a>\n | Thank you!\n</font>";
+      echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . rex::getProperty('error_email') . ">" . rex::getProperty('error_email') . "</a>\n | Thank you!\n</font>";
       exit;
     }
   }
@@ -1019,9 +1016,7 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function addGlobalUpdateFields($user = null)
   {
-    global $REX;
-
-    if(!$user) $user = $REX['USER']->getValue('login');
+    if(!$user) $user = rex::getUser()->getValue('login');
 
     $this->setValue('updatedate', time());
     $this->setValue('updateuser', $user);
@@ -1036,9 +1031,7 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function addGlobalCreateFields($user = null)
   {
-    global $REX;
-
-    if(!$user) $user = $REX['USER']->getValue('login');
+    if(!$user) $user = rex::getUser()->getValue('login');
 
     $this->setValue('createdate', time());
     $this->setValue('createuser', $user);
@@ -1214,8 +1207,6 @@ class rex_sql extends rex_factory implements Iterator
    */
   static public function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
   {
-    global $REX;
-
     $err_msg = true;
 
     try

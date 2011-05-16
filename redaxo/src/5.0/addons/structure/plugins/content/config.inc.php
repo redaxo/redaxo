@@ -11,9 +11,8 @@
 
 $mypage = 'content';
 
-if ($REX['REDAXO'])
+if (rex::isBackend())
 {
-  // $REX['ADDON']['rxid'][$mypage] = '62';
   $page = new rex_be_page(rex_i18n::msg('content'), array('page' => 'linkmap'));
   $page->setRequiredPermissions('hasStructurePerm');
   $page->setHidden(true);

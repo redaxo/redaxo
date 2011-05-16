@@ -104,7 +104,7 @@ class rex_ooArticleSlice
         return $slice;
       }
     }
-      
+
     return null;
   }
 
@@ -179,9 +179,9 @@ class rex_ooArticleSlice
   /**
    * Gibt den Slice formatiert zurück
    * @since 4.1 - 29.05.2008
-   * 
+   *
    * @deprecated 5.0
-   * 
+   *
    * @see rex_article#getSlice()
    */
   public function getSlice()
@@ -195,10 +195,8 @@ class rex_ooArticleSlice
 
   static protected function _getSliceWhere($where, $table = null, $fields = null, $default = null)
   {
-    global $REX;
-
     if(!$table)
-      $table = $REX['TABLE_PREFIX'].'article_slice';
+      $table = rex::getTablePrefix().'article_slice';
 
     if(!$fields)
       $fields = '*';
@@ -316,7 +314,6 @@ class rex_ooArticleSlice
 
   public function getMediaUrl($index)
   {
-    global $REX;
     return rex_path::media($this->getMedia($index));
   }
 
@@ -350,7 +347,6 @@ class rex_ooArticleSlice
    */
   public function getFileUrl($index)
   {
-    global $REX;
     return rex_path::media($this->getFile($index));
   }
 

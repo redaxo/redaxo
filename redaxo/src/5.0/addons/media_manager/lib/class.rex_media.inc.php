@@ -13,8 +13,6 @@ class rex_media {
 
   public function __construct($media_path)
   {
-    global $REX;
-
     // ----- check params
     if (!file_exists($media_path))
     {
@@ -148,9 +146,9 @@ class rex_media {
 
   public function sendMedia($headerCacheFilename, $sourceCacheFilename, $save = FALSE)
   {
-  
+
   	// lastModified
-  
+
   	if($this->asImage)
   	{
 		$src = $this->getImageSource($sourceCacheFilename, $save = FALSE);
@@ -162,7 +160,7 @@ class rex_media {
  	ob_end_clean();
 	$this->sendHeader($headerCacheFilename,$save);
 	echo $src;
-  
+
     // rex_response::sendResource($content, false, $lastModified);
 
   }
@@ -172,13 +170,13 @@ class rex_media {
   public function getImageSource()
   {
   	ob_start();
-  	
+
   	// TODOS.. die Bildtypen einsetzen
-  	
+
     imagepng($this->image['src']);
     $content = ob_get_clean();
 	return $content;
-  
+
   }
 
   public function sendHeader($headerCacheFilename, $save = FALSE)
@@ -191,7 +189,7 @@ class rex_media {
 
   public function sendImageSource($headerCacheFilename, $save = FALSE)
   {
-  
+
   }
 
 
@@ -207,8 +205,6 @@ class rex_media {
 
   protected function _sendMedia($saveToFileName = null, $lastModified = null)
   {
-    global $REX;
-
     $file = $this->img["media_path"];
 
     if(!$lastModified)
@@ -252,7 +248,7 @@ class rex_media {
     }
 
     if ($saveToFileName)
-      @chmod($saveToFileName, $REX['FILEPERM']);
+      @chmod($saveToFileName, rex::getProperty('fileperm'));
 
     return TRUE;
   }

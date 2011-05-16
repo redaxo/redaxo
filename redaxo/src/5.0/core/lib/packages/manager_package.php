@@ -85,7 +85,7 @@ abstract class rex_packageManager extends rex_factory
         // check if install.inc.php exists
         if (is_readable($install_file))
         {
-          $this->includeFile(self::INSTALL_FILE);
+          static::includeFile($this->package, self::INSTALL_FILE);
           $state = $this->verifyInstallation();
         }
         else
@@ -157,7 +157,7 @@ abstract class rex_packageManager extends rex_factory
       // check if uninstall.inc.php exists
       if (is_readable($uninstall_file))
       {
-        $this->includeFile(self::UNINSTALL_FILE);
+        static::includeFile($this->package, self::UNINSTALL_FILE);
         $state = $this->verifyUninstallation();
       }
       else
@@ -215,8 +215,6 @@ abstract class rex_packageManager extends rex_factory
    */
   public function activate()
   {
-    global $REX;
-
     if ($this->package->isInstalled())
     {
       // load package infos
@@ -227,12 +225,12 @@ abstract class rex_packageManager extends rex_factory
       if ($state === true)
       {
         $this->package->setProperty('status', 1);
-        if(!$REX['SETUP'])
+        if(!rex::isSetup())
         {
           if(is_readable($this->package->getBasePath(self::CONFIG_FILE)))
           {
             rex_autoload::addDirectory($this->package->getBasePath('lib'));
-            $this->includeFile(self::CONFIG_FILE);
+            static::includeFile($this->package, self::CONFIG_FILE);
           }
         }
         $this->saveConfig();
@@ -371,14 +369,12 @@ abstract class rex_packageManager extends rex_factory
    */
   protected function checkRequirements()
   {
-    global $REX;
-
     $state = array();
     $requirements = $this->package->getProperty('requires', array());
 
     if(isset($requirements['redaxo']) && is_array($requirements['redaxo']))
     {
-      $rexVers = $REX['VERSION'] .'.'. $REX['SUBVERSION'] .'.'. $REX['MINORVERSION'];
+      $rexVers = rex::getVersion();
       if (($msg = $this->checkRequirementVersion('redaxo_', $requirements['redaxo'], $rexVers)) !== true)
       {
         return $msg;
@@ -451,8 +447,6 @@ abstract class rex_packageManager extends rex_factory
    */
   private function checkRequirementVersion($i18nPrefix, array $attributes, $version, $addonName = null, $pluginName = null)
   {
-    global $REX;
-
     $i18nPrefix = 'addon_requirement_error_'. $i18nPrefix;
     $state = true;
 
@@ -487,7 +481,7 @@ abstract class rex_packageManager extends rex_factory
    */
   protected function addToPackageOrder()
   {
-    $order = rex_core_config::get('package-order', array());
+    $order = rex::getConfig('package-order', array());
     $package = $this->package->getPackageId();
     if(!in_array($package, $order))
     {
@@ -500,7 +494,7 @@ abstract class rex_packageManager extends rex_factory
       {
         $order[] = $package;
       }
-      rex_core_config::set('package-order', $order);
+      rex::setConfig('package-order', $order);
     }
   }
 
@@ -509,11 +503,11 @@ abstract class rex_packageManager extends rex_factory
    */
   protected function removeFromPackageOrder()
   {
-    $order = rex_core_config::get('package-order', array());
+    $order = rex::getConfig('package-order', array());
     if(($key = array_search($this->package->getPackageId(), $order)) !== false)
     {
       unset($order[$key]);
-      rex_core_config::set('package-order', array_values($order));
+      rex::setConfig('package-order', array_values($order));
     }
   }
 
@@ -526,8 +520,6 @@ abstract class rex_packageManager extends rex_factory
    */
   protected function I18N()
   {
-    global $REX;
-
     $args = func_get_args();
     $args[0] = $this->i18nPrefix. $args[0];
 
@@ -537,11 +529,21 @@ abstract class rex_packageManager extends rex_factory
   /**
    * Includes a file inside the package context
    *
+   * @param rex_package $package Package
    * @param string $file
    */
-  public function includeFile($file)
+  static public function includeFile(rex_package $package, $file)
   {
-    return $this->package->includeFile($file);
+    if(get_called_class() == __CLASS__)
+    {
+      $class = $package instanceof rex_plugin ? 'rex_pluginManager' : 'rex_addonManager';
+      return $class::includeFile($package, $file);
+    }
+    if(static::hasFactoryClass())
+    {
+      return static::callFactoryClass(__FUNCTION__, func_get_args());
+    }
+    return $package->includeFile($file);
   }
 
   /**
@@ -582,7 +584,7 @@ abstract class rex_packageManager extends rex_factory
         $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->isActivated();
       }
     }
-    rex_core_config::set('package-config', $config);
+    rex::setConfig('package-config', $config);
   }
 
   /**
@@ -590,7 +592,7 @@ abstract class rex_packageManager extends rex_factory
    */
   static public function synchronizeWithFileSystem()
   {
-    $config = rex_core_config::get('package-config');
+    $config = rex::getConfig('package-config');
     $addons = self::readPackageFolder(rex_path::addon('*'));
     $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
     foreach(array_diff($registeredAddons, $addons) as $addonName)
@@ -632,7 +634,7 @@ abstract class rex_packageManager extends rex_factory
     }
     ksort($config);
 
-    rex_core_config::set('package-config', $config);
+    rex::setConfig('package-config', $config);
     rex_addon::initialize();
   }
 

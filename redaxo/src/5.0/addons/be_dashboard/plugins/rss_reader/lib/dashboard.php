@@ -24,8 +24,6 @@ class rex_rss_reader_component extends rex_dashboard_component
 
   protected function prepare()
   {
-    global $REX;
-
     $content = '';
     foreach($this->config->getFeedUrls() as $feedUrl)
     {

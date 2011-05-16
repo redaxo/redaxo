@@ -12,25 +12,25 @@ if ($media_method == 'add_file')
     if($_FILES['file_new']['name'] != '' && $_FILES['file_new']['name'] != 'none')
     {
       $FILEINFOS['title'] = rex_request('ftitle', 'string');
-
-      if (!$PERMALL && !$REX['USER']->hasPerm("media[$rex_file_category]"))
-      $rex_file_category = 0;
-
+  
+      if (!$PERMALL && !rex::getUser()->hasPerm("media[$rex_file_category]")) 
+      	$rex_file_category = 0;
+  
       // function in function.rex_mediapool.inc.php
-      $return = rex_mediapool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,$REX['USER']->getValue("login"));
+      $return = rex_mediapool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,rex::getUser()->getValue("login"));
       $info = $return['msg'];
       $subpage = "";
-
+      
       // ----- EXTENSION POINT
       if ($return['ok'] == 1)
-      rex_extension::registerPoint('MEDIA_ADDED','',$return);
-
+        rex_extension::registerPoint('MEDIA_ADDED','',$return);
+  
       if (rex_post('saveandexit', 'boolean') && $return['ok'] == 1)
       {
         $file_name = $return['filename'];
         $ffiletype = $return['type'];
         $title = $return['title'];
-
+  
         if($opener_input_field == 'TINYIMG')
         {
           if (rex_ooMedia::_isImage($file_name))
@@ -40,7 +40,7 @@ if ($media_method == 'add_file')
         }
         elseif($opener_input_field == 'TINY')
         {
-          $js = "insertLink('".$file_name."');";
+            $js = "insertLink('".$file_name."');";
         }
         elseif($opener_input_field != '')
         {
@@ -54,7 +54,7 @@ if ($media_method == 'add_file')
             $js = "selectMedia('".$file_name."');";
           }
         }
-
+  
         echo "<script language=javascript>\n";
         echo $js;
         // echo "\nself.close();\n";
@@ -62,13 +62,13 @@ if ($media_method == 'add_file')
         exit;
       }elseif($return['ok'] == 1)
       {
-        header('Location:index.php?page=mediapool&info='.urlencode(rex_i18n::msg('pool_file_added')).'&opener_input_field='.$opener_input_field);
-        exit;
+      	header('Location:index.php?page=mediapool&info='.urlencode(rex_i18n::msg('pool_file_added')).'&opener_input_field='.$opener_input_field);
+      	exit;
       }else
       {
-        $warning = rex_i18n::msg('pool_file_movefailed');
+      	$warning = rex_i18n::msg('pool_file_movefailed');
       }
-
+  
     }else
     {
       $warning = rex_i18n::msg('pool_file_not_found');
@@ -76,16 +76,5 @@ if ($media_method == 'add_file')
   }
 }
 
-$params = array();
-$params['form_title'] = rex_i18n::msg('pool_file_insert');
-$params['button_title'] = rex_i18n::msg('pool_file_upload');
-$params['rex_file_category'] = $rex_file_category;
-$params['file_chooser'] = TRUE;
-$params['close_form'] = TRUE;
-
-$params['subpage'] = $subpage;
-$params['ftitle'] = "";
-$params['warning'] = $warning;
-$params['info'] = $info;
-
-echo rex_mediapool_Mediaform($params);
+// ----- METHOD ADD FORM
+echo rex_mediapool_Uploadform($rex_file_category);

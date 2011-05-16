@@ -21,7 +21,7 @@ rex_sql_dump::import($uninstall);
 
 // check wheter the columns inside the core have already been installed
 $coreAlreadyUpdated = false;
-$articleColumns = rex_sql::showColumns($REX['TABLE_PREFIX']. 'article');
+$articleColumns = rex_sql::showColumns(rex::getTablePrefix(). 'article');
 foreach($articleColumns as $column)
 {
   if($column['name'] == 'art_online_from')

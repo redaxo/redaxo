@@ -60,7 +60,7 @@ class rex_effect_flip extends rex_effect_abstract
       }
       $gdimage = $output_image_resource;
     }
-    
+
     $this->image->setImage($gdimage);
 
   }
@@ -68,8 +68,6 @@ class rex_effect_flip extends rex_effect_abstract
 
   public function getParams()
   {
-    global $REX;
-
     return array(
       array(
         'label' => rex_i18n::msg('imanager_effect_flip'),

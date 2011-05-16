@@ -7,7 +7,7 @@ $func = rex_request('func','string');
 
 // ---- validate type_id
 $sql = rex_sql::factory();
-$sql->setQuery('SELECT * FROM '. $REX['TABLE_PREFIX'].'679_types WHERE id='. $type_id);
+$sql->setQuery('SELECT * FROM '. rex::getTablePrefix().'679_types WHERE id='. $type_id);
 if($sql->getRows() != 1)
 {
   unset($type_id);
@@ -31,7 +31,7 @@ if($func == 'delete' && $effect_id > 0)
 {
   $sql = rex_sql::factory();
 //  $sql->debugsql = true;
-  $sql->setTable($REX['TABLE_PREFIX'].'679_type_effects');
+  $sql->setTable(rex::getTablePrefix().'679_type_effects');
   $sql->setWhere('id='. $effect_id . ' LIMIT 1');
 
   if($sql->delete())
@@ -57,7 +57,7 @@ if ($func == '' && $type_id > 0)
 {
   echo rex_content_block(rex_i18n::msg('imanager_effect_list_header', htmlspecialchars($typeName)));
 
-  $query = 'SELECT * FROM '.$REX['TABLE_PREFIX'].'679_type_effects WHERE type_id='.$type_id .' ORDER BY prior';
+  $query = 'SELECT * FROM '.rex::getTablePrefix().'679_type_effects WHERE type_id='.$type_id .' ORDER BY prior';
 
 	$list = rex_list::factory($query);
   $list->setNoRowsMessage(htmlspecialchars(rex_i18n::msg('imanager_effect_no_effects')));
@@ -107,7 +107,7 @@ elseif ($func == 'add' && $type_id > 0 ||
     $formLabel = rex_i18n::msg('imanager_effect_create_header', htmlspecialchars($typeName));
   }
 
-	$form = rex_form::factory($REX['TABLE_PREFIX'].'679_type_effects',$formLabel,'id='.$effect_id);
+	$form = rex_form::factory(rex::getTablePrefix().'679_type_effects',$formLabel,'id='.$effect_id);
 
 	// image_type_id for reference to save into the db
   $form->addHiddenField('type_id', $type_id);

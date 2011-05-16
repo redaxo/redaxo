@@ -30,7 +30,6 @@ class rex_be_navigation extends rex_factory
 
   public function getNavigation()
   {
-    global $REX;
     $s = '<dl class="rex-navi">';
     if(is_array($this->pages))
     {
@@ -74,8 +73,6 @@ class rex_be_navigation extends rex_factory
 
   private function _getNavigation(array $blockPages, $level = 0, $block = '')
   {
-      global $REX;
-
       $level++;
       $id = '';
       if($block != '')
@@ -88,7 +85,7 @@ class rex_be_navigation extends rex_factory
       {
         $page = $pageContainer->getPage();
 
-        if(!$page->getHidden() && $page->checkPermission($REX['USER']))
+        if(!$page->getHidden() && $page->checkPermission(rex::getUser()))
         {
           if($first)
           {
@@ -186,8 +183,6 @@ class rex_be_navigation extends rex_factory
 
   public function getHeadline($block)
   {
-    global $REX;
-
     if (isset($this->headlines[$block]))
       return $this->headlines[$block];
 
@@ -199,8 +194,6 @@ class rex_be_navigation extends rex_factory
 
   static public function getSetupPage()
   {
-    global $REX;
-
     $page = new rex_be_page(rex_i18n::msg('setup'));
     $page->setIsCorePage(true);
     return $page;
@@ -216,8 +209,6 @@ class rex_be_navigation extends rex_factory
 
   static public function getLoggedInPages()
   {
-    global $REX;
-
     $pages = array();
 
     $profile = new rex_be_page(rex_i18n::msg('profile'));
@@ -255,7 +246,7 @@ class rex_be_navigation extends rex_factory
     $phpinfo->setHidden(true);
     $phpinfo->setHasLayout(false);
     $phpinfo->setHref('index.php?page=specials&subpage=phpinfo');
-    
+
     $mainSpecials = new rex_be_page(rex_i18n::msg('specials'), array('page'=>'specials'));
     $mainSpecials->setIsCorePage(true);
     $mainSpecials->setRequiredPermissions('isAdmin');
@@ -269,7 +260,7 @@ class rex_be_navigation extends rex_factory
     $pages['addon'] = new rex_be_page_main('system', $addon);
     $pages['addon']->setPrio(60);
 
-    
+
     return $pages;
   }
 }

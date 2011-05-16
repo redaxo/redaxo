@@ -8,8 +8,6 @@ class rex_form_restrictons_element extends rex_form_select_element
   // wg einheitlicher Konstrukturparameter
   public function __construct($tag = '', rex_a62_tableExpander $table = null, array $attributes = array())
   {
-    global $REX;
-
     parent::__construct('', $table, $attributes);
 
     $this->chkbox_element = new rex_form_checkbox_element('', $dummy = null);

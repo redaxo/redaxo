@@ -1,18 +1,18 @@
 <?php
 
 /**
- * protocol handler to include variables like files (php code will be evaluated)
+ * Protocol handler to include variables like files (php code will be evaluated)
  *
  * Example:
  * <code>
  * <?php
- *   include rex_variableStream::factory('myContent', '<php echo 'Hello World'; ?>');
+ *   include rex_stream::factory('myContent', '<?php echo "Hello World"; ?>');
  * ?>
  * </code>
  *
  * @author gharlan
  */
-class rex_variableStream
+class rex_stream
 {
   static private
     $registered = false,
@@ -28,7 +28,7 @@ class rex_variableStream
    * @param string $path Virtual path which should describe the content (e.g. "template/1"), only relevant for error messages
    * @param string $content Content which will be included
    *
-   * @return string Full path with protocol (e.g. "redaxo://template/1")
+   * @return string Full path with protocol (e.g. "rex://template/1")
    */
   static public function factory($path, $content)
   {
@@ -43,11 +43,11 @@ class rex_variableStream
 
     if(!self::$registered)
     {
-      stream_wrapper_register('redaxo', __CLASS__);
+      stream_wrapper_register('rex', __CLASS__);
       self::$registered = true;
     }
 
-    $path = 'redaxo://'. $path;
+    $path = 'rex://'. $path;
     self::$nextContent[$path] = $content;
 
     return $path;

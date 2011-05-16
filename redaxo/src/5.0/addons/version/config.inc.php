@@ -18,8 +18,6 @@ $REX['EXTRAPERM'][] = 'version[only_working_version]';
 rex_extension::register('ART_INIT', 'rex_version_initArticle');
 function rex_version_initArticle($params)
 {
-	global $REX;
-
 	$version = rex_request("rex_version","int");
 	if($version != 1)
 		return;
@@ -45,17 +43,15 @@ rex_extension::register('PAGE_CONTENT_HEADER', 'rex_version_header');
 function rex_version_header($params)
 {
 
-	global $REX;
+	$return = "";
 
-  $return = "";
-
-	$rex_version_article = $REX['LOGIN']->getSessionVar("rex_version_article");
+	$rex_version_article = rex::getProperty('login')->getSessionVar("rex_version_article");
 	if(!is_array($rex_version_article))
 		$rex_version_article = array();
 
 	$working_version_empty = TRUE;
 	$gw = rex_sql::factory();
-	$gw->setQuery('select * from '.$REX['TABLE_PREFIX'].'article_slice where article_id='.$params['article_id'].' and clang='.$params['clang'].' and revision=1 LIMIT 1');
+	$gw->setQuery('select * from '.rex::getTablePrefix().'article_slice where article_id='.$params['article_id'].' and clang='.$params['clang'].' and revision=1 LIMIT 1');
 	if($gw->getRows()>0)
 		$working_version_empty = FALSE;
 
@@ -83,7 +79,7 @@ function rex_version_header($params)
 		  if($working_version_empty)
 		  {
 		  	$return .= rex_warning(rex_i18n::msg("version_warning_working_version_to_live"));
-		  }else if(!$REX['USER']->hasPerm('version[only_working_version]'))
+		  }else if(!rex::getUser()->hasPerm('version[only_working_version]'))
 		  {
 				rex_article_revision::copyContent($params['article_id'],$params['clang'],rex_article_revision::WORK, rex_article_revision::LIVE);
 		  	$return .= rex_info(rex_i18n::msg("version_info_working_version_to_live"));
@@ -95,13 +91,13 @@ function rex_version_header($params)
 		break;
 	}
 
-  if($REX['USER']->hasPerm('version[only_working_version]'))
+  if(rex::getUser()->hasPerm('version[only_working_version]'))
   {
 		$rex_version_article[$params['article_id']] = 1;
   	unset($revisions[0]);
   }
 
-	$REX['LOGIN']->setSessionVar("rex_version_article", $rex_version_article);
+	rex::getProperty('login')->setSessionVar("rex_version_article", $rex_version_article);
 
 	$link = 'index.php?page='.$params['page'].'&article_id='.$params['article_id'].'&clang='.$params['clang'];
 
@@ -127,7 +123,7 @@ function rex_version_header($params)
   $s->setSize('1');
   $s->setAttribute('onchange', 'this.form.submit();');
 
-  if($REX['USER']->hasPerm('version[only_working_version]'))
+  if(rex::getUser()->hasPerm('version[only_working_version]'))
   {
     $s->setDisabled();
   }
@@ -135,7 +131,7 @@ function rex_version_header($params)
   $return .= '<ul class="rex-display-inline">';
   $return .= '<li class="rex-navi-first"><label for="rex-select-version-id">'.rex_i18n::msg('version').':</label> '.$s->get().'</li>';
 
-  if($REX['USER']->hasPerm('version[only_working_version]'))
+  if(rex::getUser()->hasPerm('version[only_working_version]'))
 	{
 		if($rex_version_article[$params['article_id']]>0)
 		{

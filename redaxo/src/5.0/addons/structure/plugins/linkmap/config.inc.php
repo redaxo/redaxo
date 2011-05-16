@@ -11,16 +11,15 @@
 
 $mypage = 'linkmap';
 
-if ($REX['REDAXO'])
+if (rex::isBackend())
 {
-  // $REX['ADDON']['rxid'][$mypage] = '62';
   $page = new rex_be_page_popup(rex_i18n::msg('linkmap'), '', array('page' => 'linkmap'));
   $page->setHidden(true);
   $page->setRequiredPermissions('hasStructurePerm');
 
   $this->setProperty('page', new rex_be_page_main('system', $page));
 
-  if($REX["USER"])
+  if(rex::getUser())
   {
     rex_extension::register('PAGE_HEADER', function($params){
       $params['subject'] .= "\n  ".

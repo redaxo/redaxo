@@ -30,8 +30,6 @@ class rex_category_select extends rex_select
 
   protected function addCatOptions()
   {
-    global $REX;
-
     if($this->add_homepage)
       $this->addOption('Homepage', 0);
 
@@ -57,7 +55,7 @@ class rex_category_select extends rex_select
     }
     else
     {
-      if(!$this->check_perms || $REX['USER']->isAdmin() || $REX['USER']->hasPerm('csw[0]'))
+      if(!$this->check_perms || rex::getUser()->isAdmin() || rex::getUser()->hasPerm('csw[0]'))
       {
         if($rootCats = rex_ooCategory :: getRootCategories($this->ignore_offlines, $this->clang))
         {
@@ -67,13 +65,13 @@ class rex_category_select extends rex_select
           }
         }
       }
-      elseif($REX['USER']->hasMountpoints())
+      elseif(rex::getUser()->hasMountpoints())
       {
-        $mountpoints = $REX['USER']->getMountpoints();
+        $mountpoints = rex::getUser()->getMountpoints();
         foreach($mountpoints as $id)
         {
           $cat = rex_ooCategory::getCategoryById($id, $this->clang);
-          if ($cat && !$REX['USER']->hasCategoryPerm($cat->getParentId()))
+          if ($cat && !rex::getUser()->hasCategoryPerm($cat->getParentId()))
             $this->addCatOption($cat, 0);
         }
       }
@@ -82,15 +80,13 @@ class rex_category_select extends rex_select
 
   protected function addCatOption(rex_ooCategory $cat, $group = null)
   {
-    global $REX;
-
     if(!$this->check_perms ||
-        $this->check_perms && $REX['USER']->hasCategoryPerm($cat->getId(),FALSE))
+        $this->check_perms && rex::getUser()->hasCategoryPerm($cat->getId(),FALSE))
     {
       $cid = $cat->getId();
       $cname = $cat->getName();
 
-      if($REX['USER']->hasPerm('advancedMode[]'))
+      if(rex::getUser()->hasPerm('advancedMode[]'))
         $cname .= ' ['. $cid .']';
 
       if($group === null)
@@ -122,8 +118,7 @@ class rex_category_select extends rex_select
 
   private function _outGroup($re_id, $level = 0)
   {
-		global $REX;
-  	if ($level > 100)
+		if ($level > 100)
     {
       // nur mal so zu sicherheit .. man weiss nie ;)
       echo "select->_outGroup overflow ($groupname)";
@@ -137,10 +132,10 @@ class rex_category_select extends rex_select
       $name = $option[0];
       $value = $option[1];
       $id = $option[2];
-      if($id==0 || !$this->check_perms || ($this->check_perms && $REX['USER']->hasCategoryPerm($option[2],TRUE)))
+      if($id==0 || !$this->check_perms || ($this->check_perms && rex::getUser()->hasCategoryPerm($option[2],TRUE)))
       {
           $ausgabe .= $this->_outOption($name, $value, $level);
-      }elseif(($this->check_perms && $REX['USER']->hasCategoryPerm($option[2],FALSE)))
+      }elseif(($this->check_perms && rex::getUser()->hasCategoryPerm($option[2],FALSE)))
       {
       	$level--;
       }

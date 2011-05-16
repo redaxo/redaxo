@@ -46,7 +46,7 @@ class rex_image_manager
 
     $qry = '
       SELECT e.*
-      FROM '. $REX['TABLE_PREFIX'].'679_types t, '. $REX['TABLE_PREFIX'].'679_type_effects e
+      FROM '. rex::getTablePrefix().'679_types t, '. rex::getTablePrefix().'679_type_effects e
       WHERE e.type_id = t.id AND t.name="'. $type .'" order by e.prior';
 
     $sql = rex_sql::factory();

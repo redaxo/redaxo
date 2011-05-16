@@ -15,9 +15,7 @@ class rex_media_manager
 
   function applyEffects($type)
   {
-  	global $REX;
-
-	$this->type = $type;
+  	$this->type = $type;
 
   	$set = array();
     if(!$this->isCached($type))
@@ -46,11 +44,9 @@ class rex_media_manager
 
   public function effectsFromType($type)
   {
-    global $REX;
-
     $qry = '
       SELECT e.*
-      FROM '. $REX['TABLE_PREFIX'].'media_manager_types t, '. $REX['TABLE_PREFIX'].'media_manager_type_effects e
+      FROM '. rex::getTablePrefix().'media_manager_types t, '. rex::getTablePrefix().'media_manager_type_effects e
       WHERE e.type_id = t.id AND t.name="'. $type .'" order by e.prior';
 
     $sql = rex_sql::factory();
@@ -195,8 +191,6 @@ echo "geachten header verwenden";
    /*
   static public function getMediaCache($rex_media_file, $rex_media_type)
   {
-    global $REX;
-
     $media_path = rex_path::media($rex_media_file, rex_path::RELATIVE);
     $cache_path = rex_path::cache('media/');
 
@@ -225,8 +219,6 @@ echo "geachten header verwenden";
    */
   static public function deleteCache($filename = null, $cacheParams = null)
   {
-    global $REX;
-
     if(!$filename)
     {
       $filename = '*';

@@ -5,22 +5,22 @@
  * @package redaxo5
  * @version svn:$Id$
  */
- 
+
 $popups_arr = array('linkmap', 'mediapool');
 
-$page_title = $REX['SERVERNAME'];
+$page_title = rex::getProperty('servername');
 
 if(!isset($page_name))
 {
-  $curPage = $REX['PAGES'][$REX['PAGE']]->getPage();
+  $curPage = $REX['PAGES'][rex::getProperty('page')]->getPage();
   $page_name = $curPage->getTitle();
 }
-  
+
 if ($page_name != '')
   $page_title .= ' - ' . $page_name;
 
 $body_attr = array();
-$body_id = str_replace('_', '-', $REX["PAGE"]);
+$body_id = str_replace('_', '-', rex::getProperty('page'));
 
 if (in_array($body_id, $popups_arr))
   $body_attr["class"] = array('rex-popup'.$body_id);
@@ -40,11 +40,11 @@ foreach($body_attr as $k => $v){
 }
 
 $logout = '';
-if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
+if (rex::getUser() && !$REX["PAGE_NO_NAVI"])
 {
   $accesskey = 1;
-  $user_name = $REX['USER']->getValue('name') != '' ? $REX['USER']->getValue('name') : $REX['USER']->getValue('login');
-  $logout = '<ul class="rex-logout"><li class="rex-first"><span>' . rex_i18n::msg('logged_in_as') . ' '. htmlspecialchars($user_name) .'</span></li><li><a href="index.php?page=profile">' . rex_i18n::msg('profile_title') . '</a></li><li><a href="index.php?rex_logout=1"'. rex_accesskey(rex_i18n::msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . rex_i18n::msg('logout') . '</a></li></ul>' . "\n";
+  $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
+  $logout = '<ul class="rex-logout"><li class="rex-first"><span>' . rex_i18n::msg('logged_in_as') . ' '. htmlspecialchars($user_name) .'</span></li><li><a href="index.php?page=profile">' . rex_i18n::msg('profile_title') . '</a></li><li><a href="index.php?rex_logout=1"'. rex::getAccesskey(rex_i18n::msg('logout'), 'logout') .'>' . rex_i18n::msg('logout') . '</a></li></ul>' . "\n";
 }else if(!$REX["PAGE_NO_NAVI"])
 {
   $logout = '<p class="rex-logout">' . rex_i18n::msg('logged_out') . '</p>';
@@ -52,36 +52,36 @@ if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
 {
   $logout = '<p class="rex-logout">&nbsp;</p>';
 }
-  
+
 
 $navigation = '';
-if ($REX['USER'] && !$REX["PAGE_NO_NAVI"])
+if (rex::getUser() && !$REX["PAGE_NO_NAVI"])
 {
 	$n = rex_be_navigation::factory();
-	foreach($REX['USER']->pages as $p => $pageContainer)
+	foreach(rex::getUser()->pages as $p => $pageContainer)
   {
 		$p = strtolower($p);
     if(rex_be_page_main::isValid($pageContainer))
     {
       $pageObj = $pageContainer->getPage();
       $pageObj->setItemAttr('id', 'rex-navi-page-'.strtolower(preg_replace('/[^a-zA-Z0-9\-_]*/', '', $p)));
-      
+
       if(!$pageContainer->getBlock())
         $pageContainer->setBlock('addons');
-        
+
       if(!$pageObj->getHref())
         $pageObj->setHref('index.php?page='.$p);
       /*
        if(isset ($REX['ACKEY']['ADDON'][$page]))
         $item['extra'] = rex_accesskey($name, $REX['ACKEY']['ADDON'][$page]);
-      else 
+      else
         $item['extra'] = rex_accesskey($pageArr['title'], $accesskey++);
       */
-        
+
       $n->addPage($pageContainer);
     }
   }
-	
+
   $n->setActiveElements();
   $navigation = $n->getNavigation();
 }

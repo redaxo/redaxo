@@ -6,52 +6,32 @@
  * @version svn:$Id$
  */
 
-// ----------------- VERSION
-
-$REX['VERSION'] = "5";
-$REX['SUBVERSION'] = "0";
-$REX['MINORVERSION'] = "0";
-
-// Is set first time SQL Object ist initialised
-$REX['MYSQL_VERSION'] = "";
-
-// ----------------- default values
-if (!isset($REX['NOFUNCTIONS'])) $REX['NOFUNCTIONS'] = false;
-
 // ----------------- INCLUDE FUNCTIONS
 require_once rex_path::core('functions.inc.php');
+
+// ----------------- VERSION
+
+rex::setProperty('version', 5);
+rex::setProperty('subversion', 0);
+rex::setProperty('minorversion', 0);
+
+rex::setProperty('redaxo', $REX['REDAXO']);
 
 $config = rex_file::getConfig(rex_path::src('config.yml'));
 foreach($config as $key => $value)
 {
-  $REX[strtoupper($key)] = $value;
+  rex::setProperty($key, $value);
 }
 
-// --------- Debug extensions
-rex_sql::setFactoryClass('rex_sql_debug');
-rex_extension::setFactoryClass('rex_extension_debug');
+rex::setProperty('fileperm', octdec(rex::getProperty('fileperm', '0664')));
+rex::setProperty('dirperm', octdec(rex::getProperty('dirperm', '0775')));
 
-$REX['FILEPERM'] = octdec($REX['FILEPERM']);
-$REX['DIRPERM'] = octdec($REX['DIRPERM']);
-
-date_default_timezone_set($REX['TIMEZONE']);
+date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
 // ----------------- OTHER STUFF
-$REX['SETUP_PACKAGES'] = array('be_style', 'be_style/agk_skin');
-$REX['SYSTEM_PACKAGES'] = array('structure', 'structure/content', 'structure/linkmap', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/agk_skin', 'image_manager', 'users');
-$REX['MEDIAPOOL']['BLOCKED_EXTENSIONS'] = array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp');
-
-// ----------------- Accesskeys
-$REX['ACKEY']['SAVE'] = 's';
-$REX['ACKEY']['APPLY'] = 'x';
-$REX['ACKEY']['DELETE'] = 'd';
-$REX['ACKEY']['ADD'] = 'a';
-// Wenn 2 Add Aktionen auf einer Seite sind (z.b. Struktur)
-$REX['ACKEY']['ADD_2'] = 'y';
-$REX['ACKEY']['LOGOUT'] = 'l';
-
-// ------ Accesskeys for Addons
-// $REX['ACKEY']['ADDON']['metainfo'] = 'm';
+rex::setProperty('setup_packages', array('be_style', 'be_style/agk_skin'));
+rex::setProperty('system_packages', array('structure', 'structure/content', 'structure/linkmap', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/agk_skin', 'image_manager', 'users'));
+rex::setProperty('mediapool', array('blocked_extension' => array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp')));
 
 // ----------------- REX PERMS
 
@@ -82,9 +62,9 @@ $clangFile = rex_path::cache('clang.cache');
 if(file_exists($clangFile))
   $REX['CLANG'] = rex_file::getCache(rex_path::cache('clang.cache'));
 
-$REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', $REX['START_CLANG_ID']);
+$REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', rex::getProperty('start_clang_id'));
 
 if(rex_request('article_id', 'int') == 0)
-  $REX['ARTICLE_ID'] = $REX['START_ARTICLE_ID'];
+  $REX['ARTICLE_ID'] = rex::getProperty('start_article_id');
 else
-  $REX['ARTICLE_ID'] = rex_request('article_id','rex-article-id', $REX['NOTFOUND_ARTICLE_ID']);
+  $REX['ARTICLE_ID'] = rex_request('article_id','rex-article-id', rex::getProperty('notfound_article_id'));

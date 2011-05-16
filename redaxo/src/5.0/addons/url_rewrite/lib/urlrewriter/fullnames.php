@@ -62,7 +62,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
     // Parent Konstruktor aufrufen
     parent::__construct();
 
-    if ($REX['REDAXO'])
+    if (rex::isBackend())
     {
       // Die Pathnames bei folgenden Extension Points aktualisieren
       $extension = array($this, 'generatePathnames');
@@ -94,11 +94,11 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
     // REXPATH wird auch im Backend benötigt, z.B. beim bearbeiten von Artikeln
     require_once ($this->PATHLIST);
 
-    if(!$REX['REDAXO'])
+    if(!rex::isBackend())
     {
       if(rex_request('article_id', 'int', 0) > 0)
   		{
-        $this->setArticleId(rex_request('article_id', 'int', $REX['START_ARTICLE_ID']));
+        $this->setArticleId(rex_request('article_id', 'int', rex::getProperty('start_article_id')));
         return true;
   		}
 
@@ -124,7 +124,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
 
       if (($path == '') || (rex_path::frontend($path, rex_path::RELATIVE) == rex_path::frontendController()))
       {
-        $this->setArticleId($REX['START_ARTICLE_ID']);
+        $this->setArticleId(rex::getProperty('start_article_id'));
         return true;
       }
 
@@ -211,7 +211,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
 					if(rex_request('article_id', 'int', 0) > 0)
 						$article_id = $REX['ARTICLE_ID'];
 					else
-						$article_id = $REX['NOTFOUND_ARTICLE_ID'];
+						$article_id = rex::getProperty('notfound_article_id');
 				}
       }
 
@@ -263,7 +263,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
     if (substr($baseDir, -1) !="/" )
       $baseDir .= "/";
 
-    if($REX['REDAXO'])
+    if(rex::isBackend())
     {
       $baseDir = '';
     }
@@ -327,7 +327,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
     {
       $db = rex_sql::factory();
       // $db->debugsql=true;
-      $db->setQuery('SELECT id,clang,path,startpage FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where.' and revision=0');
+      $db->setQuery('SELECT id,clang,path,startpage FROM '. rex::getTablePrefix() .'article WHERE '. $where.' and revision=0');
 
       foreach($db as $art)
       {

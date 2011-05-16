@@ -13,7 +13,7 @@ $warning = '';
 if ($id != 0)
 {
   $sql = rex_sql::factory();
-  $sql->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'user_role WHERE id = '. $id .' LIMIT 2');
+  $sql->setQuery('SELECT * FROM '.rex::getTablePrefix().'user_role WHERE id = '. $id .' LIMIT 2');
   if ($sql->getRows()!= 1) $id = 0;
 }
 
@@ -87,7 +87,7 @@ $sel_sprachen->setSize(3);
 $sel_sprachen->setName('userperm_sprachen[]');
 $sel_sprachen->setId('userperm-sprachen');
 $sqlsprachen = rex_sql::factory();
-$sqlsprachen->setQuery('select * from '.$REX['TABLE_PREFIX'].'clang order by id');
+$sqlsprachen->setQuery('select * from '.rex::getTablePrefix().'clang order by id');
 for ($i=0;$i<$sqlsprachen->getRows();$i++)
 {
   $name = $sqlsprachen->getValue('name');
@@ -105,7 +105,7 @@ $sel_module->setSize(10);
 $sel_module->setName('userperm_module[]');
 $sel_module->setId('userperm-module');
 $sqlmodule = rex_sql::factory();
-$sqlmodule->setQuery('select * from '.$REX['TABLE_PREFIX'].'module order by name');
+$sqlmodule->setQuery('select * from '.rex::getTablePrefix().'module order by name');
 for ($i=0;$i<$sqlmodule->getRows();$i++)
 {
   $sel_module->addOption($sqlmodule->getValue('name'),$sqlmodule->getValue('id'));
@@ -152,7 +152,7 @@ $allmcatschecked = "";
 if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 {
   $updateuser = rex_sql::factory();
-  $updateuser->setTable($REX['TABLE_PREFIX'].'user_role');
+  $updateuser->setTable(rex::getTablePrefix().'user_role');
   $updateuser->setWhere('id='. $id);
   $updateuser->setValue('name',$username);
   $updateuser->addGlobalUpdateFields();
@@ -182,7 +182,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   foreach($userperm_cat as $ccat)
   {
     $gp = rex_sql::factory();
-    $gp->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$ccat' and clang=0");
+    $gp->setQuery("select * from ".rex::getTablePrefix()."article where id='$ccat' and clang=0");
     if ($gp->getRows()==1)
     {
       // Alle Eltern-Kategorien im Pfad bis zu ausgewählten, mit
@@ -222,7 +222,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 } elseif ($FUNC_DELETE != '')
 {
   $deleteuser = rex_sql::factory();
-  $deleteuser->setQuery("DELETE FROM ".$REX['TABLE_PREFIX']."user_role WHERE id = '$id' LIMIT 1");
+  $deleteuser->setQuery("DELETE FROM ".rex::getTablePrefix()."user_role WHERE id = '$id' LIMIT 1");
   $info = rex_i18n::msg("user_role_deleted");
   $id = 0;
 
@@ -233,7 +233,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 } elseif ($FUNC_ADD != '' and $save == 1)
 {
   $adduser = rex_sql::factory();
-  $adduser->setTable($REX['TABLE_PREFIX'].'user_role');
+  $adduser->setTable(rex::getTablePrefix().'user_role');
   $adduser->setValue('name',$username);
   $adduser->setValue('description',$userdesc);
   $adduser->addGlobalCreateFields();
@@ -263,7 +263,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   foreach($userperm_cat as $ccat)
   {
     $gp = rex_sql::factory();
-    $gp->setQuery("select * from ".$REX['TABLE_PREFIX']."article where id='$ccat' and clang=0");
+    $gp->setQuery("select * from ".rex::getTablePrefix()."article where id='$ccat' and clang=0");
     if ($gp->getRows()==1)
     {
       // Alle Eltern-Kategorien im Pfad bis zu ausgewählten, mit
@@ -318,13 +318,13 @@ if ($FUNC_ADD != "" || $id > 0)
     $form_label = rex_i18n::msg('edit_user_role');
     $add_hidden = '<input type="hidden" name="id" value="'.$id.'" />';
     $add_submit = '<div class="rex-form-row">
-						<p class="rex-form-col-a"><input type="submit" class="rex-form-submit" name="FUNC_UPDATE" value="'.rex_i18n::msg('user_role_save').'" '. rex_accesskey(rex_i18n::msg('user_role_save'), $REX['ACKEY']['SAVE']) .' /></p>
-						<p class="rex-form-col-b"><input type="submit" class="rex-form-submit" name="FUNC_APPLY" value="'.rex_i18n::msg('user_role_apply').'" '. rex_accesskey(rex_i18n::msg('user_role_apply'), $REX['ACKEY']['APPLY']) .' /></p>
+						<p class="rex-form-col-a"><input type="submit" class="rex-form-submit" name="FUNC_UPDATE" value="'.rex_i18n::msg('user_role_save').'" '. rex::getAccesskey(rex_i18n::msg('user_role_save'), 'save') .' /></p>
+						<p class="rex-form-col-b"><input type="submit" class="rex-form-submit" name="FUNC_APPLY" value="'.rex_i18n::msg('user_role_apply').'" '. rex::getAccesskey(rex_i18n::msg('user_role_apply'), 'apply') .' /></p>
 					</div>';
 		$add_user_class = ' rex-form-read';
 
     $sql = new rex_login_sql;
-    $sql->setQuery('select * from '. $REX['TABLE_PREFIX'] .'user_role where id='. $id);
+    $sql->setQuery('select * from '. rex::getTablePrefix() .'user_role where id='. $id);
 
     if ($sql->getRows()==1)
     {
@@ -378,7 +378,7 @@ if ($FUNC_ADD != "" || $id > 0)
     $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
     $add_submit = '<div class="rex-form-row">
 						<p class="rex-form-submit">
-						<input type="submit" class="rex-form-submit" name="function" value="'.rex_i18n::msg("add_user_role").'" '. rex_accesskey(rex_i18n::msg('add_user_role'), $REX['ACKEY']['SAVE']) .' />
+						<input type="submit" class="rex-form-submit" name="function" value="'.rex_i18n::msg("add_user_role").'" '. rex::getAccesskey(rex_i18n::msg('add_user_role'), 'save') .' />
 						</p>
 					</div>';
   }
@@ -531,13 +531,13 @@ if ($FUNC_ADD != "" || $id > 0)
 
 if (isset($SHOW) && $SHOW)
 {
-  $list = rex_list::factory('SELECT id, name FROM '.$REX['TABLE_PREFIX'].'user_role');
+  $list = rex_list::factory('SELECT id, name FROM '.rex::getTablePrefix().'user_role');
   $list->setCaption(rex_i18n::msg('user_role_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('user_role_summary'));
   $list->addTableColumnGroup(array(40, '5%', '*', 153));
 
   $tdIcon = '<span class="rex-i-element rex-i-user"><span class="rex-i-element-text">###name###</span></span>';
-  $thIcon = '<a class="rex-i-element rex-i-user-add" href="'. $list->getUrl(array('FUNC_ADD' => '1')) .'"'. rex_accesskey(rex_i18n::msg('create_user_role'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'. rex_i18n::msg('create_user_role') .'</span></a>';
+  $thIcon = '<a class="rex-i-element rex-i-user-add" href="'. $list->getUrl(array('FUNC_ADD' => '1')) .'"'. rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') .'><span class="rex-i-element-text">'. rex_i18n::msg('create_user_role') .'</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('id' => '###id###'));
 

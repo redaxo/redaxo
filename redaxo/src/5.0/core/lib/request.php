@@ -72,11 +72,9 @@ class rex_request
    */
   static public function session($varname, $vartype = '', $default = '')
   {
-    global $REX;
-
-    if(isset($_SESSION[$varname][$REX['INSTNAME']]))
+    if(isset($_SESSION[$varname][rex::getProperty('instname')]))
     {
-      return self::castVar($_SESSION[$varname][$REX['INSTNAME']], $vartype, $default, 'found');
+      return self::castVar($_SESSION[$varname][rex::getProperty('instname')], $vartype, $default, 'found');
     }
 
     if($default === '')
@@ -94,9 +92,7 @@ class rex_request
    */
   static public function setSession($varname, $value)
   {
-    global $REX;
-
-    $_SESSION[$varname][$REX['INSTNAME']] = $value;
+    $_SESSION[$varname][rex::getProperty('instname')] = $value;
   }
 
   /**
@@ -106,9 +102,7 @@ class rex_request
    */
   static public function unsetSession($varname)
   {
-    global $REX;
-
-    unset($_SESSION[$varname][$REX['INSTNAME']]);
+    unset($_SESSION[$varname][rex::getProperty('instname')]);
   }
 
   /**

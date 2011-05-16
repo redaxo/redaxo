@@ -20,8 +20,6 @@ function rex_is_writable($item)
 
 function _rex_is_writable_info($is_writable, $item = '')
 {
-  global $REX;
-
   $state = true;
   $key = '';
   switch($is_writable)
@@ -83,11 +81,11 @@ function _rex_is_writable($item)
 
 /**
  * Get the attribute $name out of $content. if the attribute is not defined $default is returned.
- *  
+ *
  * @param string $name
  * @param string $content
  * @param mixed $default
- * 
+ *
  * @return mixed the attribute with $name if existent, otherwise $default
  */
 function rex_getAttributes($name,$content,$default = null)
@@ -99,11 +97,11 @@ function rex_getAttributes($name,$content,$default = null)
 
 /**
  * Set the attribute $name to $value into $content.
- * 
+ *
  * @param string $name
  * @param string $value
  * @param string $content
- * 
+ *
  * @return string the encoded content
  */
 function rex_setAttributes($name,$value,$content)
@@ -134,7 +132,7 @@ function rex_message($message, $cssClass, $sorround_tag)
     $return .= '</p>';
 
   $return .= '</'. $sorround_tag .'></div></div>';
-  
+
   if ($sorround_tag != 'p')
     $message = '<p>'.$message.'</p>';
   /*
@@ -206,16 +204,6 @@ function rex_toolbar($content, $cssClass = null)
 function rex_content_block($content)
 {
   return '<div class="rex-content-block"><div class="rex-content-block-content">'. $content .'</div></div>';
-}
-
-function rex_accesskey($title, $key)
-{
-  global $REX;
-
-  if($REX['USER']->hasPerm('accesskeys[]'))
-    return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
-
-  return ' title="'. $title .'"';
 }
 
 function rex_ini_get($val)
@@ -392,19 +380,13 @@ function rex_highlight_file($filename, $return = false)
  */
 function rex_hasBackendSession()
 {
-  global $REX;
-
   if(!isset($_SESSION))
     return false;
 
-  if(!isset($REX))
+  $instname = rex::getProperty('instname');
+
+  if(!isset($_SESSION[$instname]))
     return false;
 
-  if(!isset($REX['INSTNAME']))
-    return false;
-
-  if(!isset($_SESSION[$REX['INSTNAME']]))
-    return false;
-
-  return $_SESSION[$REX['INSTNAME']]['UID'] > 0;
+  return $_SESSION[$instname]['UID'] > 0;
 }

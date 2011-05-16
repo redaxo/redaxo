@@ -29,7 +29,6 @@ class rex_cronjob_form extends rex_form
 
   protected function validate()
   {
-    global $REX;
     $el = $this->getElement($this->mainFieldset,'name');
     if ($el->getValue() == '') {
       return rex_i18n::msg('cronjob_error_no_name');
@@ -50,7 +49,6 @@ class rex_cronjob_form_interval_element extends rex_form_element
 
   public function formatElement()
   {
-    global $REX;
     $name = $this->getAttribute('name').'[]';
     $value = explode('|', htmlspecialchars($this->getValue()));
     if (count($value) != 4)

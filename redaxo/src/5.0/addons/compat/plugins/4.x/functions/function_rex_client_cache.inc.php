@@ -47,7 +47,7 @@ function rex_send_resource($content, $sendcharset = TRUE, $lastModified = null, 
     $lastModified = time();
   }
 
-  rex_send_content($content, $lastModified, $etag, $REX['REDAXO'] ? 'backend' : 'frontend', $sendcharset);
+  rex_send_content($content, $lastModified, $etag, rex::isBackend() ? 'backend' : 'frontend', $sendcharset);
 
 //  rex_send_content($content, $lastModified, $etag, $environment, $sendcharset = FALSE)
 

@@ -7,11 +7,9 @@
  */
 function rex_a655_add_assets($params)
 {
-  global $REX;
-
   $addon = 'be_dashboard';
 
-  if($REX['PAGE'] != $addon) return '';
+  if(rex::getProperty('page') != $addon) return '';
 
   $params['subject'] .= "\n  ".
     '<link rel="stylesheet" type="text/css" href="'. rex_path::addonAssets($addon, 'be_dashboard.css', rex_path::RELATIVE) .'" />';

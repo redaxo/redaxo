@@ -9,9 +9,7 @@ class rex_effect_insert_image extends rex_effect_abstract{
 
 	public function execute()
 	{
-		global $REX;
-
-    // -------------------------------------- CONFIG
+		// -------------------------------------- CONFIG
     $brandimage = rex_path::media($this->params['brandimage']);
     if(!file_exists($brandimage) || !is_file($brandimage))
       $brandimage = dirname(__FILE__). '/../../media/brand.gif';
@@ -81,8 +79,6 @@ class rex_effect_insert_image extends rex_effect_abstract{
 
 	public function getParams()
 	{
-		global $REX;
-
 		return array(
 			array(
 				'label' => rex_i18n::msg('imanager_effect_brand_image'),

@@ -23,7 +23,7 @@ $subpage = rex_request('subpage', 'string');
 
 rex_title(rex_i18n::msg("im_export_importexport"));
 
-if($subpage == "import" && ($REX["USER"]->hasPerm('import_export[import]') || $REX["USER"]->isAdmin()))
+if($subpage == "import" && (rex::getUser()->hasPerm('import_export[import]') || rex::getUser()->isAdmin()))
   require rex_path::addon('import_export', 'pages/import.inc.php');
 else
   require rex_path::addon('import_export', 'pages/export.inc.php');
