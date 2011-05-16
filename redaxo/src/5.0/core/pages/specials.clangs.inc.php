@@ -120,7 +120,7 @@ echo '
       </colgroup>
       <thead>
         <tr>
-          <th class="rex-small"><a class="rex-i-element rex-i-clang-add" href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang"'. rex_accesskey(rex_i18n::msg('clang_add'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.rex_i18n::msg('clang_add').'</span></a></th>
+          <th class="rex-small"><a class="rex-i-element rex-i-clang-add" href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang"'. rex::getAccesskey(rex_i18n::msg('clang_add'), 'add') .'><span class="rex-i-element-text">'.rex_i18n::msg('clang_add').'</span></a></th>
           <th class="rex-small">ID</th>
           <th>'.rex_i18n::msg('clang_name').'</th>
           <th>'.rex_i18n::msg('clang_function').'</th>
@@ -138,7 +138,7 @@ if ($func == 'addclang')
           <td class="rex-small"><span class="rex-i-element rex-i-clang"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></span></td>
           <td class="rex-small">'.$sel->get().'</td>
           <td><input class="rex-form-text" type="text" id="rex-form-clang-name" name="clang_name" value="'.htmlspecialchars($clang_name).'" /></td>
-          <td><input class="rex-form-submit" type="submit" name="add_clang_save" value="'.rex_i18n::msg('clang_add').'"'. rex_accesskey(rex_i18n::msg('clang_add'), $REX['ACKEY']['SAVE']) .' /></td>
+          <td><input class="rex-form-submit" type="submit" name="add_clang_save" value="'.rex_i18n::msg('clang_add').'"'. rex::getAccesskey(rex_i18n::msg('clang_add'), 'save') .' /></td>
         </tr>
       ';
 }
@@ -162,7 +162,7 @@ foreach ($REX['CLANG'] as $lang_id => $lang)
             <td class="rex-small"><span class="rex-i-element rex-i-clang"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></span></td>
             '.$add_td.'
             <td><input class="rex-form-text" type="text" id="rex-form-clang-name" name="clang_name" value="'.htmlspecialchars($lang).'" /></td>
-            <td><input class="rex-form-submit" type="submit" name="edit_clang_save" value="'.rex_i18n::msg('clang_update').'"'. rex_accesskey(rex_i18n::msg('clang_update'), $REX['ACKEY']['SAVE']) .' /></td>
+            <td><input class="rex-form-submit" type="submit" name="edit_clang_save" value="'.rex_i18n::msg('clang_update').'"'. rex::getAccesskey(rex_i18n::msg('clang_update'), 'save') .' /></td>
           </tr>';
 
   }

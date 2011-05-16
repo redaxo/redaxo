@@ -44,7 +44,7 @@ if (rex::getUser() && !$REX["PAGE_NO_NAVI"])
 {
   $accesskey = 1;
   $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
-  $logout = '<ul class="rex-logout"><li class="rex-first"><span>' . rex_i18n::msg('logged_in_as') . ' '. htmlspecialchars($user_name) .'</span></li><li><a href="index.php?page=profile">' . rex_i18n::msg('profile_title') . '</a></li><li><a href="index.php?rex_logout=1"'. rex_accesskey(rex_i18n::msg('logout'), $REX['ACKEY']['LOGOUT']) .'>' . rex_i18n::msg('logout') . '</a></li></ul>' . "\n";
+  $logout = '<ul class="rex-logout"><li class="rex-first"><span>' . rex_i18n::msg('logged_in_as') . ' '. htmlspecialchars($user_name) .'</span></li><li><a href="index.php?page=profile">' . rex_i18n::msg('profile_title') . '</a></li><li><a href="index.php?rex_logout=1"'. rex::getAccesskey(rex_i18n::msg('logout'), 'logout') .'>' . rex_i18n::msg('logout') . '</a></li></ul>' . "\n";
 }else if(!$REX["PAGE_NO_NAVI"])
 {
   $logout = '<p class="rex-logout">' . rex_i18n::msg('logged_out') . '</p>';

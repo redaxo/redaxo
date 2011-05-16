@@ -314,7 +314,7 @@ $dbconfig = rex::getProperty('db');
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-submit">
-										<input type="submit" class="rex-form-submit" name="sendit" value="<?php echo rex_i18n::msg("specials_update"); ?>" <?php echo rex_accesskey(rex_i18n::msg('specials_update'), $REX['ACKEY']['SAVE']); ?> />
+										<input type="submit" class="rex-form-submit" name="sendit" value="<?php echo rex_i18n::msg("specials_update"); ?>" <?php echo rex::getAccesskey(rex_i18n::msg('specials_update'), 'save'); ?> />
 									</p>
 								</div>
 

@@ -318,8 +318,8 @@ if ($FUNC_ADD != "" || $id > 0)
     $form_label = rex_i18n::msg('edit_user_role');
     $add_hidden = '<input type="hidden" name="id" value="'.$id.'" />';
     $add_submit = '<div class="rex-form-row">
-						<p class="rex-form-col-a"><input type="submit" class="rex-form-submit" name="FUNC_UPDATE" value="'.rex_i18n::msg('user_role_save').'" '. rex_accesskey(rex_i18n::msg('user_role_save'), $REX['ACKEY']['SAVE']) .' /></p>
-						<p class="rex-form-col-b"><input type="submit" class="rex-form-submit" name="FUNC_APPLY" value="'.rex_i18n::msg('user_role_apply').'" '. rex_accesskey(rex_i18n::msg('user_role_apply'), $REX['ACKEY']['APPLY']) .' /></p>
+						<p class="rex-form-col-a"><input type="submit" class="rex-form-submit" name="FUNC_UPDATE" value="'.rex_i18n::msg('user_role_save').'" '. rex::getAccesskey(rex_i18n::msg('user_role_save'), 'save') .' /></p>
+						<p class="rex-form-col-b"><input type="submit" class="rex-form-submit" name="FUNC_APPLY" value="'.rex_i18n::msg('user_role_apply').'" '. rex::getAccesskey(rex_i18n::msg('user_role_apply'), 'apply') .' /></p>
 					</div>';
 		$add_user_class = ' rex-form-read';
 
@@ -378,7 +378,7 @@ if ($FUNC_ADD != "" || $id > 0)
     $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
     $add_submit = '<div class="rex-form-row">
 						<p class="rex-form-submit">
-						<input type="submit" class="rex-form-submit" name="function" value="'.rex_i18n::msg("add_user_role").'" '. rex_accesskey(rex_i18n::msg('add_user_role'), $REX['ACKEY']['SAVE']) .' />
+						<input type="submit" class="rex-form-submit" name="function" value="'.rex_i18n::msg("add_user_role").'" '. rex::getAccesskey(rex_i18n::msg('add_user_role'), 'save') .' />
 						</p>
 					</div>';
   }
@@ -537,7 +537,7 @@ if (isset($SHOW) && $SHOW)
   $list->addTableColumnGroup(array(40, '5%', '*', 153));
 
   $tdIcon = '<span class="rex-i-element rex-i-user"><span class="rex-i-element-text">###name###</span></span>';
-  $thIcon = '<a class="rex-i-element rex-i-user-add" href="'. $list->getUrl(array('FUNC_ADD' => '1')) .'"'. rex_accesskey(rex_i18n::msg('create_user_role'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'. rex_i18n::msg('create_user_role') .'</span></a>';
+  $thIcon = '<a class="rex-i-element rex-i-user-add" href="'. $list->getUrl(array('FUNC_ADD' => '1')) .'"'. rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') .'><span class="rex-i-element-text">'. rex_i18n::msg('create_user_role') .'</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('id' => '###id###'));
 

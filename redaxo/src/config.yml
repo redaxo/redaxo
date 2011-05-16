@@ -37,3 +37,10 @@ db:
     password: ''
     name: ''
     persistent: false
+accesskeys:
+  save: s
+  apply: x
+  delete: d
+  add: a
+  add_2: y
+  logout: l

@@ -182,7 +182,7 @@ else
       <div class="rex-form-wrapper">
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-submit">
-            <input class="rex-form-submit" type="submit" name="upd_profile_button" value="<?php echo rex_i18n::msg('profile_save'); ?>" <?php echo rex_accesskey(rex_i18n::msg('profile_save'), $REX['ACKEY']['SAVE']); ?> />
+            <input class="rex-form-submit" type="submit" name="upd_profile_button" value="<?php echo rex_i18n::msg('profile_save'); ?>" <?php echo rex::getAccesskey(rex_i18n::msg('profile_save'), 'save'); ?> />
           </p>
         </div>
       </div>
@@ -227,7 +227,7 @@ else
       <div class="rex-form-wrapper">
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-submit">
-            <input class="rex-form-submit" type="submit" name="upd_psw_button" value="<?php echo rex_i18n::msg('profile_save_psw'); ?>" <?php echo rex_accesskey(rex_i18n::msg('profile_save_psw'), $REX['ACKEY']['SAVE']); ?> />
+            <input class="rex-form-submit" type="submit" name="upd_psw_button" value="<?php echo rex_i18n::msg('profile_save_psw'); ?>" <?php echo rex::getAccesskey(rex_i18n::msg('profile_save_psw'), 'save'); ?> />
           </p>
         </div>
       </div>

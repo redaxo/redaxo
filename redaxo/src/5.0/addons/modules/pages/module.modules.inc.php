@@ -46,7 +46,7 @@ elseif ($function_action == 'delete')
   $action = rex_sql::factory();
   $action->setTable(rex::getTablePrefix().'module_action');
   $action->setWhere('id='. $iaction_id . ' LIMIT 1');
-  
+
   if($action->delete())
   {
      $info = rex_i18n::msg('action_deleted_from_modul') ;
@@ -191,7 +191,7 @@ if ($function == 'add' or $function == 'edit')
     }
 
     $btn_update = '';
-    if ($function != 'add') $btn_update = '<input type="submit" class="rex-form-submit rex-form-submit-2" name="goon" value="'.rex_i18n::msg("save_module_and_continue").'"'. rex_accesskey(rex_i18n::msg('save_module_and_continue'), $REX['ACKEY']['APPLY']) .' />';
+    if ($function != 'add') $btn_update = '<input type="submit" class="rex-form-submit rex-form-submit-2" name="goon" value="'.rex_i18n::msg("save_module_and_continue").'"'. rex::getAccesskey(rex_i18n::msg('save_module_and_continue'), 'apply') .' />';
 
     if ($info != '')
       echo rex_info($info);
@@ -213,7 +213,7 @@ if ($function == 'add' or $function == 'edit')
 						<input type="hidden" name="save" value="1" />
 						<input type="hidden" name="category_id" value="0" />
 						<input type="hidden" name="modul_id" value="'.$modul_id.'" />
-						
+
 						<div class="rex-form-row">
     			  	<p class="rex-form-col-a rex-form-text">
       					<label for="mname">'.rex_i18n::msg("module_name").'</label>
@@ -232,16 +232,16 @@ if ($function == 'add' or $function == 'edit')
 	      				<textarea class="rex-form-textarea" cols="50" rows="6" name="ausgabe" id="ausgabe">'.htmlspecialchars($ausgabe).'</textarea>
   	  			  </p>
     				</div>
-              
+
             <div class="rex-clearer"></div>
     			</div>
         </fieldset>
-        
+
 				<fieldset class="rex-form-col-1">
       		<div class="rex-form-wrapper">
 						<div class="rex-form-row">
     				  <p class="rex-form-col-a rex-form-submit">
-      					<input class="rex-form-submit" type="submit" value="'.rex_i18n::msg("save_module_and_quit").'"'. rex_accesskey(rex_i18n::msg('save_module_and_quit'), $REX['ACKEY']['SAVE']) .' />
+      					<input class="rex-form-submit" type="submit" value="'.rex_i18n::msg("save_module_and_quit").'"'. rex::getAccesskey(rex_i18n::msg('save_module_and_quit'), 'save') .' />
         				'. $btn_update .'
       				</p>
     				</div>
@@ -260,7 +260,7 @@ if ($function == 'add' or $function == 'edit')
       {
         $gma = rex_sql::factory();
         $gma->setQuery("SELECT * FROM ".rex::getTablePrefix()."module_action, ".rex::getTablePrefix()."action WHERE ".rex::getTablePrefix()."module_action.action_id=".rex::getTablePrefix()."action.id and ".rex::getTablePrefix()."module_action.module_id='$modul_id'");
-				
+
 				$add_header = '';
 				$add_col = '';
 				if (rex::getUser()->hasPerm('advancedMode[]'))
@@ -268,7 +268,7 @@ if ($function == 'add' or $function == 'edit')
 					$add_header = '<th class="rex-small">'.rex_i18n::msg('header_id').'</th>';
 					$add_col = '<col width="40" />';
 				}
-				
+
         $actions = '';
         for ($i=0; $i<$gma->getRows(); $i++)
         {
@@ -279,12 +279,12 @@ if ($function == 'add' or $function == 'edit')
 
           $actions .= '<tr>
           	<td class="rex-icon"><a class="rex-i-element rex-i-action" href="'. $action_edit_url .'"><span class="rex-i-element-text">' . htmlspecialchars($action_name) . '</span></a></td>';
-          	
+
 					if (rex::getUser()->hasPerm('advancedMode[]'))
 					{
              $actions .= '<td class="rex-small">' . $gma->getValue("id") . '</td>';
           }
-          	
+
           $actions .= '<td><a href="'. $action_edit_url .'">'. $action_name .'</a></td>
           	<td><a href="index.php?page=modules&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('action_delete').'</a></td>
           </tr>';
@@ -335,14 +335,14 @@ if ($function == 'add' or $function == 'edit')
 				<fieldset class="rex-form-col-1">
           <legend>'.rex_i18n::msg('action_add').'</legend>
       		<div class="rex-form-wrapper">
-						
+
 						<div class="rex-form-row">
 							<p class="rex-form-col-a rex-form-select">
 								<label for="action_id">'.rex_i18n::msg('action').'</label>
 								'.$gaa_sel->get().'
 					  	</p>
 					  </div>
-					  
+
 						<div class="rex-form-row">
 					  	<p class="rex-form-col-a rex-form-submit">
 								<input class="rex-form-submit" type="submit" value="'.rex_i18n::msg('action_add').'" name="add_action" />
@@ -378,7 +378,7 @@ if ($OUT)
   $list->addTableColumnGroup(array(40, 40, '*', 153));
 
   $tdIcon = '<span class="rex-i-element rex-i-module"><span class="rex-i-element-text">###name###</span></span>';
-  $thIcon = '<a class="rex-i-element rex-i-module-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey(rex_i18n::msg('create_module'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.rex_i18n::msg('create_module').'</span></a>';
+  $thIcon = '<a class="rex-i-element rex-i-module-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex::getAccesskey(rex_i18n::msg('create_module'), 'add') .'><span class="rex-i-element-text">'.rex_i18n::msg('create_module').'</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('function' => 'edit', 'modul_id' => '###id###'));
 

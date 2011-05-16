@@ -807,7 +807,7 @@ if ($article->getRows() == 1)
 
                   <div class="rex-form-row">
                     <p class="rex-form-col-a rex-form-submit">
-                      <input class="rex-form-submit" type="submit" name="savemeta" value="' . rex_i18n::msg("update_metadata") . '"'. rex_accesskey(rex_i18n::msg('update_metadata'), $REX['ACKEY']['SAVE']) .' />
+                      <input class="rex-form-submit" type="submit" name="savemeta" value="' . rex_i18n::msg("update_metadata") . '"'. rex::getAccesskey(rex_i18n::msg('update_metadata'), 'save') .' />
                     </p>
                   </div>
                   <div class="rex-clearer"></div>

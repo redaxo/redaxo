@@ -33,18 +33,6 @@ rex::setProperty('setup_packages', array('be_style', 'be_style/agk_skin'));
 rex::setProperty('system_packages', array('structure', 'structure/content', 'structure/linkmap', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/agk_skin', 'image_manager', 'users'));
 rex::setProperty('mediapool', array('blocked_extension' => array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp')));
 
-// ----------------- Accesskeys
-$REX['ACKEY']['SAVE'] = 's';
-$REX['ACKEY']['APPLY'] = 'x';
-$REX['ACKEY']['DELETE'] = 'd';
-$REX['ACKEY']['ADD'] = 'a';
-// Wenn 2 Add Aktionen auf einer Seite sind (z.b. Struktur)
-$REX['ACKEY']['ADD_2'] = 'y';
-$REX['ACKEY']['LOGOUT'] = 'l';
-
-// ------ Accesskeys for Addons
-// $REX['ACKEY']['ADDON']['metainfo'] = 'm';
-
 // ----------------- REX PERMS
 
 // ----- allgemein

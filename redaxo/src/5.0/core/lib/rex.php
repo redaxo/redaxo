@@ -77,4 +77,16 @@ class rex
   {
     return self::getProperty('version') . $separator . self::getProperty('subversion') . $separator . self::getProperty('minorversion');
   }
+
+  static public function getAccesskey($title, $key)
+  {
+    if(self::getUser()->hasPerm('accesskeys[]'))
+    {
+      $accesskeys = (array) self::getProperty('accesskeys', array());
+      if(isset($accesskeys[$key]))
+        return ' accesskey="'. $accesskeys[$key] .'" title="'. $title .' ['. $accesskeys[$key] .']"';
+    }
+
+    return ' title="'. $title .'"';
+  }
 }

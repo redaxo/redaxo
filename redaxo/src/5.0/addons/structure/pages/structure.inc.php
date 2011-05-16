@@ -90,7 +90,7 @@ if($category)
 $add_category = '';
 if ($KATPERM && !rex::getUser()->hasPerm('editContentOnly[]'))
 {
-  $add_category = '<a class="rex-i-element rex-i-category-add" href="'. $context->getUrl(array('function' => 'add_cat')) .'"'. rex_accesskey(rex_i18n::msg('add_category'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.rex_i18n::msg("add_category").'</span></a>';
+  $add_category = '<a class="rex-i-element rex-i-category-add" href="'. $context->getUrl(array('function' => 'add_cat')) .'"'. rex::getAccesskey(rex_i18n::msg('add_category'), 'add') .'><span class="rex-i-element-text">'.rex_i18n::msg("add_category").'</span></a>';
 }
 
 $add_header = '';
@@ -231,7 +231,7 @@ if ($function == 'add_cat' && $KATPERM && !rex::getUser()->hasPerm('editContentO
   $add_buttons = '
   	<input type="hidden" name="rex-api-call" value="category_add" />
   	<input type="hidden" name="parent-category-id" value="'. $category_id .'" />
-  	<input type="submit" class="rex-form-submit" name="category-add-button" value="'. rex_i18n::msg('add_category') .'"'. rex_accesskey(rex_i18n::msg('add_category'), $REX['ACKEY']['SAVE']) .' />';
+  	<input type="submit" class="rex-form-submit" name="category-add-button" value="'. rex_i18n::msg('add_category') .'"'. rex::getAccesskey(rex_i18n::msg('add_category'), 'save') .' />';
 
   $class = 'rex-table-row-active';
   if($meta_buttons != "")
@@ -299,7 +299,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       $add_buttons = '
     	<input type="hidden" name="rex-api-call" value="category_edit" />
     	<input type="hidden" name="category-id" value="'. $edit_id .'" />
-      <input type="submit" class="rex-form-submit" name="category-edit-button" value="'. rex_i18n::msg('save_category'). '"'. rex_accesskey(rex_i18n::msg('save_category'), $REX['ACKEY']['SAVE']) .' />';
+      <input type="submit" class="rex-form-submit" name="category-edit-button" value="'. rex_i18n::msg('save_category'). '"'. rex::getAccesskey(rex_i18n::msg('save_category'), 'save') .' />';
 
       $class = 'rex-table-row-active';
       if($meta_buttons != "")
@@ -440,7 +440,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->hasMountpoints())
   // --------------------- ARTIKEL LIST
   $art_add_link = '';
   if ($KATPERM && !rex::getUser()->hasPerm('editContentOnly[]'))
-    $art_add_link = '<a class="rex-i-element rex-i-article-add" href="'. $context->getUrl(array('function' => 'add_art')) .'"'. rex_accesskey(rex_i18n::msg('article_add'), $REX['ACKEY']['ADD_2']) .'><span class="rex-i-element-text">'. rex_i18n::msg('article_add') .'</span></a>';
+    $art_add_link = '<a class="rex-i-element rex-i-article-add" href="'. $context->getUrl(array('function' => 'add_art')) .'"'. rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2') .'><span class="rex-i-element-text">'. rex_i18n::msg('article_add') .'</span></a>';
 
   $add_head = '';
   $add_col  = '';
@@ -569,7 +569,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->hasMountpoints())
             <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="article-position" value="'.($sql->getRows()+1).'" /></td>
             <td>'. $template_select->get() .'</td>
             <td>'. rex_formatter :: format(time(), 'strftime', 'date') .'</td>
-            <td colspan="3"><input type="submit" class="rex-form-submit" name="artadd_function" value="'.rex_i18n::msg('article_add') .'"'. rex_accesskey(rex_i18n::msg('article_add'), $REX['ACKEY']['SAVE']) .' /></td>
+            <td colspan="3"><input type="submit" class="rex-form-submit" name="artadd_function" value="'.rex_i18n::msg('article_add') .'"'. rex::getAccesskey(rex_i18n::msg('article_add'), 'save') .' /></td>
           </tr>
           ';
   }
@@ -604,7 +604,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->hasMountpoints())
               <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="article-position" value="'. htmlspecialchars($sql->getValue('prior')).'" /></td>
               <td>'. $template_select->get() .'</td>
               <td>'. rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') .'</td>
-              <td colspan="3"><input type="submit" class="rex-form-submit" name="artedit_function" value="'. rex_i18n::msg('article_save') .'"'. rex_accesskey(rex_i18n::msg('article_save'), $REX['ACKEY']['SAVE']) .' /></td>
+              <td colspan="3"><input type="submit" class="rex-form-submit" name="artedit_function" value="'. rex_i18n::msg('article_save') .'"'. rex::getAccesskey(rex_i18n::msg('article_save'), 'save') .' /></td>
             </tr>
             ';
 

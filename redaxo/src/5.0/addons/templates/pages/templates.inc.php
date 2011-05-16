@@ -365,8 +365,8 @@ if ($function == "add" or $function == "edit")
           <div class="rex-form-wrapper">
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-submit">
-                <input class="rex-form-submit" type="submit" value="' . rex_i18n::msg("save_template_and_quit") . '"'. rex_accesskey(rex_i18n::msg('save_template_and_quit'), $REX['ACKEY']['SAVE']) .' />
-                <input class="rex-form-submit rex-form-submit-2" type="submit" name="goon" value="' . rex_i18n::msg("save_template_and_continue") . '"'. rex_accesskey(rex_i18n::msg('save_template_and_continue'), $REX['ACKEY']['APPLY']) .' />
+                <input class="rex-form-submit" type="submit" value="' . rex_i18n::msg("save_template_and_quit") . '"'. rex::getAccesskey(rex_i18n::msg('save_template_and_quit'), 'save') .' />
+                <input class="rex-form-submit rex-form-submit-2" type="submit" name="goon" value="' . rex_i18n::msg("save_template_and_continue") . '"'. rex::getAccesskey(rex_i18n::msg('save_template_and_continue'), 'apply') .' />
               </p>
             </div>
           </div>
@@ -421,7 +421,7 @@ if ($OUT)
   $list->addTableColumnGroup(array(40, 40, '*', 153, 153));
 
   $tdIcon = '<span class="rex-i-element rex-i-template"><span class="rex-i-element-text">###name###</span></span>';
-  $thIcon = '<a class="rex-i-element rex-i-template-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex_accesskey(rex_i18n::msg('create_template'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">'.rex_i18n::msg('create_template').'</span></a>';
+  $thIcon = '<a class="rex-i-element rex-i-template-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex::getAccesskey(rex_i18n::msg('create_template'), 'add') .'><span class="rex-i-element-text">'.rex_i18n::msg('create_template').'</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('function' => 'edit', 'template_id' => '###id###'));
 

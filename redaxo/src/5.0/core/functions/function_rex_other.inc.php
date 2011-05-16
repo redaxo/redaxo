@@ -206,14 +206,6 @@ function rex_content_block($content)
   return '<div class="rex-content-block"><div class="rex-content-block-content">'. $content .'</div></div>';
 }
 
-function rex_accesskey($title, $key)
-{
-  if(rex::getUser()->hasPerm('accesskeys[]'))
-    return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
-
-  return ' title="'. $title .'"';
-}
-
 function rex_ini_get($val)
 {
   $val = trim(ini_get($val));

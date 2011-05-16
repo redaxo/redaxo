@@ -396,7 +396,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
   $add_submit = '';
   if($close_form && $opener_input_field != '')
   {
-    $add_submit = '<input type="submit" class="rex-form-submit" name="saveandexit" value="'.rex_i18n::msg('pool_file_upload_get').'"'. rex_accesskey(rex_i18n::msg('pool_file_upload_get'), $REX['ACKEY']['SAVE']) .' />';
+    $add_submit = '<input type="submit" class="rex-form-submit" name="saveandexit" value="'.rex_i18n::msg('pool_file_upload_get').'"'. rex::getAccesskey(rex_i18n::msg('pool_file_upload_get'), 'save') .' />';
   }
 
   $s .= '
@@ -432,7 +432,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
   $s .=        $add_file .'
               <div class="rex-form-row">
                 <p class="rex-form-submit">
-                 <input class="rex-form-submit" type="submit" name="save" value="'.$button_title.'"'. rex_accesskey($button_title, $REX['ACKEY']['SAVE']) .' />
+                 <input class="rex-form-submit" type="submit" name="save" value="'.$button_title.'"'. rex::getAccesskey($button_title, 'save') .' />
                  '. $add_submit .'
                 </p>
               </div>
