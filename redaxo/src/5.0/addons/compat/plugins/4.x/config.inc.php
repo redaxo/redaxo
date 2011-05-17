@@ -28,6 +28,11 @@ $REX['MEDIAFOLDER']   = rex_path::media('', rex_path::ABSOLUTE);
  */
 $REX['FRONTEND_FILE'] = 'index.php';
 
+/**
+ * @deprecated 5.0
+ */
+$REX['GG'] = !rex::isBackend();
+
 if(rex::isBackend())
 {
   /**
