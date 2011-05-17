@@ -71,8 +71,6 @@ class rex_ooMedia
    */
   static public function getMediaByExtension($extension)
   {
-    global $REX;
-
     $extlist_path = rex_path::cache('media/'.$extension.'.mextlist');
     if (!file_exists($extlist_path))
 		{
@@ -83,11 +81,11 @@ class rex_ooMedia
 
     if (file_exists($extlist_path))
     {
-      $REX['MEDIA']['EXTENSION'][$extension] = rex_file::getCache($extlist_path);
+      $cache = rex_file::getCache($extlist_path);
 
-      if (isset($REX['MEDIA']['EXTENSION'][$extension]) && is_array($REX['MEDIA']['EXTENSION'][$extension]))
+      if(is_array($cache))
       {
-        foreach($REX['MEDIA']['EXTENSION'][$extension] as $filename)
+        foreach($cache as $filename)
           $media[] = self :: getMediaByFileName($filename);
       }
     }
@@ -100,8 +98,6 @@ class rex_ooMedia
    */
   static public function getMediaByFileName($name)
   {
-    global $REX;
-
     if ($name == '')
       return null;
 
@@ -113,7 +109,7 @@ class rex_ooMedia
 
     if (file_exists($media_path))
     {
-      $REX['MEDIA']['FILENAME'][$name] = rex_file::getCache($media_path);
+      $cache = rex_file::getCache($media_path);
       $aliasMap = array(
         'media_id' => 'id',
         're_media_id' => 'parent_id',
@@ -125,7 +121,7 @@ class rex_ooMedia
       );
 
       $media = new rex_ooMedia();
-      foreach($REX['MEDIA']['FILENAME'][$name] as $key => $value)
+      foreach($cache as $key => $value)
       {
         if(in_array($key, array_keys($aliasMap)))
           $var_name = '_'. $aliasMap[$key];

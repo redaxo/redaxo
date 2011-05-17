@@ -328,7 +328,7 @@ function rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize
  */
 function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
 {
-  global $REX, $subpage, $ftitle, $warning, $info;
+  global $subpage, $ftitle, $warning, $info;
 
   $s = '';
 
