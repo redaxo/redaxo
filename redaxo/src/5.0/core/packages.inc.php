@@ -40,7 +40,7 @@ foreach($packageOrder as $packageId)
     rex_i18n::addDirectory($folder .'lang');
   }
   // load package infos
-  rex_packageManager::loadPackageInfos($package);
+  rex_package_manager::loadPackageInfos($package);
 }
 
 // now we actually include the addons logic
@@ -52,8 +52,7 @@ foreach($packageOrder as $packageId)
   // include the addon itself
   if(is_readable($folder .'config.inc.php'))
   {
-    //$manager = rex_packageManager::factory($package);
-    rex_packageManager::includeFile($package, rex_packageManager::CONFIG_FILE);
+    rex_package_manager::includeFile($package, rex_package_manager::CONFIG_FILE);
   }
 }
 

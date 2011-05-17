@@ -5,7 +5,7 @@
  *
  * @author gharlan
  */
-class rex_addon extends rex_package implements rex_addonInterface
+class rex_addon extends rex_package implements rex_addon_interface
 {
   /**
    * Array of all addons
@@ -36,7 +36,7 @@ class rex_addon extends rex_package implements rex_addonInterface
     }
     if(!isset(self::$addons[$addon]))
     {
-      return rex_nullAddon::getInstance();
+      return rex_null_addon::getInstance();
     }
     return self::$addons[$addon];
   }
@@ -54,7 +54,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getAddon()
+   * @see rex_package_interface::getAddon()
    */
   public function getAddon()
   {
@@ -62,7 +62,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getPackageId()
+   * @see rex_package_interface::getPackageId()
    */
   public function getPackageId()
   {
@@ -70,7 +70,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getBasePath()
+   * @see rex_package_interface::getBasePath()
    */
   public function getBasePath($file = '')
   {
@@ -78,7 +78,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getAssetsPath()
+   * @see rex_package_interface::getAssetsPath()
    */
   public function getAssetsPath($file = '')
   {
@@ -86,7 +86,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getDataPath()
+   * @see rex_package_interface::getDataPath()
    */
   public function getDataPath($file = '')
   {
@@ -94,7 +94,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_addonInterface::getPlugin()
+   * @see rex_addon_interface::getPlugin()
    */
   public function getPlugin($plugin)
   {
@@ -104,13 +104,13 @@ class rex_addon extends rex_package implements rex_addonInterface
     }
     if(!isset($this->plugins[$plugin]))
     {
-      return rex_nullPlugin::getInstance();
+      return rex_null_plugin::getInstance();
     }
     return $this->plugins[$plugin];
   }
 
   /* (non-PHPdoc)
-   * @see rex_addonInterface::pluginExists()
+   * @see rex_addon_interface::pluginExists()
    */
   public function pluginExists($plugin)
   {
@@ -118,7 +118,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_addonInterface::getRegisteredPlugins()
+   * @see rex_addon_interface::getRegisteredPlugins()
    */
   public function getRegisteredPlugins()
   {
@@ -126,7 +126,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_addonInterface::getInstalledPlugins()
+   * @see rex_addon_interface::getInstalledPlugins()
    */
   public function getInstalledPlugins()
   {
@@ -134,7 +134,7 @@ class rex_addon extends rex_package implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_addonInterface::getAvailablePlugins()
+   * @see rex_addon_interface::getAvailablePlugins()
    */
   public function getAvailablePlugins()
   {

@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Represents a nullAddon
+ * Represents a null addon
  *
  * @author gharlan
  */
-class rex_nullAddon extends rex_nullPackage implements rex_addonInterface
+class rex_null_addon extends rex_null_package implements rex_addon_interface
 {
   /* (non-PHPdoc)
-   * @see rex_addonInterface::getPlugin()
+   * @see rex_addon_interface::getPlugin()
    */
   public function getPlugin($plugin)
   {
-    return rex_nullPlugin::getInstance();
+    return rex_null_plugin::getInstance();
   }
 
   /* (non-PHPdoc)
-   * @see rex_addonInterface::pluginExists()
+   * @see rex_addon_interface::pluginExists()
    */
   public function pluginExists($plugin)
   {
@@ -24,7 +24,7 @@ class rex_nullAddon extends rex_nullPackage implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_addonInterface::getRegisteredPlugins()
+   * @see rex_addon_interface::getRegisteredPlugins()
    */
   public function getRegisteredPlugins()
   {
@@ -32,7 +32,7 @@ class rex_nullAddon extends rex_nullPackage implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_addonInterface::getInstalledPlugins()
+   * @see rex_addon_interface::getInstalledPlugins()
    */
   public function getInstalledPlugins()
   {
@@ -40,7 +40,7 @@ class rex_nullAddon extends rex_nullPackage implements rex_addonInterface
   }
 
   /* (non-PHPdoc)
-   * @see rex_addonInterface::getAvailablePlugins()
+   * @see rex_addon_interface::getAvailablePlugins()
    */
   public function getAvailablePlugins()
   {

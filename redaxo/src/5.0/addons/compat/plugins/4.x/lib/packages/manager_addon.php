@@ -1,6 +1,6 @@
 <?php
 
-class rex_addonManagerCompat extends rex_addonManager
+class rex_addon_manager_compat extends rex_addon_manager
 {
   public function install($installDump = TRUE)
   {

@@ -19,7 +19,7 @@ $redirect = false;
 // -------------- CHECK IF CONFIG FILES ARE UP2DATE
 if ($subpage == '')
 {
-  rex_packageManager::synchronizeWithFileSystem();
+  rex_package_manager::synchronizeWithFileSystem();
 }
 
 // -------------- Sanity checks
@@ -32,12 +32,12 @@ else
 if($pluginname != '')
 {
   $package = rex_plugin::get($addonname, $pluginname);
-  $addonManager = rex_pluginManager::factory($package);
+  $addonManager = rex_plugin_manager::factory($package);
 }
 elseif($addonname != '')
 {
   $package = rex_addon::get($addonname);
-  $addonManager = rex_addonManager::factory($package);
+  $addonManager = rex_addon_manager::factory($package);
 }
 
 // ----------------- HELPPAGE
@@ -209,7 +209,7 @@ if ($subpage == '')
   foreach (rex_addon::getRegisteredAddons() as $addonName => $addon)
   {
     // load package infos, especially for un-available addons
-    rex_addonManager::loadPackageInfos($addon);
+    rex_addon_manager::loadPackageInfos($addon);
 
     $addonVers = $addon->getVersion('');
     $addonurl = 'index.php?page=addon&amp;addonname='.$addonName.'&amp;';
@@ -270,7 +270,7 @@ if ($subpage == '')
       foreach($addon->getRegisteredPlugins() as $pluginName => $plugin)
       {
         // load package infos, especially for un-available plugin
-        rex_pluginManager::loadPackageInfos($plugin);
+        rex_plugin_manager::loadPackageInfos($plugin);
 
         $pluginVers = $plugin->getVersion();
         $pluginurl = 'index.php?page=addon&amp;addonname='.$addonName.'&amp;pluginname='. $pluginName .'&amp;';

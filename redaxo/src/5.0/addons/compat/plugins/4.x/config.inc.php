@@ -58,5 +58,5 @@ require_once $dir .'/functions/function_rex_lang.inc.php';
 require_once $dir .'/functions/function_rex_mediapool.inc.php';
 require_once $dir .'/functions/function_rex_other.inc.php';
 
-rex_addonManager::setFactoryClass('rex_addonManagerCompat');
-rex_pluginManager::setFactoryClass('rex_pluginManagerCompat');
+rex_addon_manager::setFactoryClass('rex_addon_manager_compat');
+rex_plugin_manager::setFactoryClass('rex_plugin_manager_compat');

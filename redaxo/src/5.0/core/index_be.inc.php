@@ -316,7 +316,7 @@ if($pageObj->hasPath())
     {
       $package = $package->getPlugin($matches[2]);
     }
-    rex_packageManager::includeFile($package, str_replace($package->getBasePath(), '', $path));
+    rex_package_manager::includeFile($package, str_replace($package->getBasePath(), '', $path));
   }
   else
   {
@@ -331,7 +331,7 @@ else if($pageObj->isCorePage())
 else
 {
   // Addon Page
-  rex_addonManager::includeFile(rex_addon::get($page), 'pages/index.inc.php');
+  rex_addon_manager::includeFile(rex_addon::get($page), 'pages/index.inc.php');
 }
 
 if($pageObj->hasLayout())

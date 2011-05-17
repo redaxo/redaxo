@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Represents a nullPackage
+ * Represents a null package
  *
  * @author gharlan
  */
-abstract class rex_nullPackage extends rex_singleton implements rex_packageInterface
+abstract class rex_null_package extends rex_singleton implements rex_package_interface
 {
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getName()
+   * @see rex_package_interface::getName()
    */
   public function getName()
   {
@@ -16,15 +16,15 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getAddon()
+   * @see rex_package_interface::getAddon()
    */
   public function getAddon()
   {
-    return rex_nullAddon::getInstance();
+    return rex_null_addon::getInstance();
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getPackageId()
+   * @see rex_package_interface::getPackageId()
    */
   public function getPackageId()
   {
@@ -32,7 +32,7 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getBasePath()
+   * @see rex_package_interface::getBasePath()
    */
   public function getBasePath($file = '')
   {
@@ -40,7 +40,7 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getAssetsPath()
+   * @see rex_package_interface::getAssetsPath()
    */
   public function getAssetsPath($file = '')
   {
@@ -48,7 +48,7 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getDataPath()
+   * @see rex_package_interface::getDataPath()
    */
   public function getDataPath($file = '')
   {
@@ -56,14 +56,14 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::setConfig()
+   * @see rex_package_interface::setConfig()
    */
   public function setConfig($key, $value)
   {
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getConfig()
+   * @see rex_package_interface::getConfig()
    */
   public function getConfig($key, $default = null)
   {
@@ -71,7 +71,7 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::hasConfig()
+   * @see rex_package_interface::hasConfig()
    */
   public function hasConfig($key)
   {
@@ -79,14 +79,14 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::setProperty()
+   * @see rex_package_interface::setProperty()
    */
   public function setProperty($key, $value)
   {
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getProperty()
+   * @see rex_package_interface::getProperty()
    */
   public function getProperty($key, $default = null)
   {
@@ -94,7 +94,7 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::hasProperty()
+   * @see rex_package_interface::hasProperty()
    */
   public function hasProperty($key)
   {
@@ -102,7 +102,7 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::isAvailable()
+   * @see rex_package_interface::isAvailable()
    */
   public function isAvailable()
   {
@@ -110,7 +110,7 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::isInstalled()
+   * @see rex_package_interface::isInstalled()
    */
   public function isInstalled()
   {
@@ -118,7 +118,7 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::isActivated()
+   * @see rex_package_interface::isActivated()
    */
   public function isActivated()
   {
@@ -126,7 +126,7 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::isSystemPackage()
+   * @see rex_package_interface::isSystemPackage()
    */
   public function isSystemPackage()
   {
@@ -134,7 +134,7 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getAuthor()
+   * @see rex_package_interface::getAuthor()
    */
   public function getAuthor($default = null)
   {
@@ -142,7 +142,7 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getVersion()
+   * @see rex_package_interface::getVersion()
    */
   public function getVersion($default = null)
   {
@@ -150,7 +150,7 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::getSupportPage()
+   * @see rex_package_interface::getSupportPage()
    */
   public function getSupportPage($default = null)
   {
@@ -158,7 +158,7 @@ abstract class rex_nullPackage extends rex_singleton implements rex_packageInter
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageInterface::includeFile()
+   * @see rex_package_interface::includeFile()
    */
   public function includeFile($file, array $globals = array())
   {

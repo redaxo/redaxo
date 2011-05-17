@@ -82,14 +82,14 @@ function rex_setup_is_writable($items)
 function rex_setup_addons($uninstallBefore = false, $installDump = true)
 {
 	$addonErr = '';
-	rex_packageManager::synchronizeWithFileSystem();
+	rex_package_manager::synchronizeWithFileSystem();
 
   if($uninstallBefore)
   {
     foreach(array_reverse(rex::getProperty('system_packages')) as $packageRepresentation)
     {
       $package = rex_package::get($packageRepresentation);
-      $manager = rex_packageManager::factory($package);
+      $manager = rex_package_manager::factory($package);
       $state = $manager->uninstall();
 
       if($state !== true)
@@ -100,7 +100,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
   {
   	$state = true;
   	$package = rex_package::get($packageRepresentation);
-  	$manager = rex_packageManager::factory($package);
+  	$manager = rex_package_manager::factory($package);
 
   	if($state === true && !$package->isInstalled())
   	  $state = $manager->install($installDump);

@@ -3,7 +3,7 @@
 /**
  * Manager class for packages
  */
-abstract class rex_packageManager extends rex_factory
+abstract class rex_package_manager extends rex_factory
 {
   const
     PACKAGE_FILE = 'package.yml',
@@ -38,13 +38,13 @@ abstract class rex_packageManager extends rex_factory
    *
    * @param rex_package $package Package
    *
-   * @return rex_packageManager
+   * @return rex_package_manager
    */
   static public function factory(rex_package $package)
   {
     if(get_called_class() == __CLASS__)
     {
-      $class = $package instanceof rex_plugin ? 'rex_pluginManager' : 'rex_addonManager';
+      $class = $package instanceof rex_plugin ? 'rex_plugin_manager' : 'rex_addon_manager';
       return $class::factory($package);
     }
     $class = static::getFactoryClass();
@@ -536,7 +536,7 @@ abstract class rex_packageManager extends rex_factory
   {
     if(get_called_class() == __CLASS__)
     {
-      $class = $package instanceof rex_plugin ? 'rex_pluginManager' : 'rex_addonManager';
+      $class = $package instanceof rex_plugin ? 'rex_plugin_manager' : 'rex_addon_manager';
       return $class::includeFile($package, $file);
     }
     if(static::hasFactoryClass())
@@ -597,7 +597,7 @@ abstract class rex_packageManager extends rex_factory
     $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
     foreach(array_diff($registeredAddons, $addons) as $addonName)
     {
-      $manager = rex_addonManager::factory(rex_addon::get($addonName));
+      $manager = rex_addon_manager::factory(rex_addon::get($addonName));
       $manager->_delete(true);
       unset($config[$addonName]);
     }
@@ -619,7 +619,7 @@ abstract class rex_packageManager extends rex_factory
       $plugins = self::readPackageFolder(rex_path::plugin($addonName, '*'));
       foreach(array_diff($registeredPlugins, $plugins) as $pluginName)
       {
-        $manager = rex_pluginManager::factory(rex_plugin::get($addonName, $pluginName));
+        $manager = rex_plugin_manager::factory(rex_plugin::get($addonName, $pluginName));
         $manager->_delete(true);
         unset($config[$addonName]['plugins'][$pluginName]);
       }
