@@ -28,8 +28,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
   }
 
   // ---- ext checken - alle scriptendungen rausfiltern
-  $mProp = rex::getProperty('mediapool');
-  if (in_array($NFILE_EXT,$mProp['blocked_extensions']))
+  if (in_array($NFILE_EXT, rex_addon::get('mediapool')->getProperty('blocked_extensions')))
   {
     $NFILE_NAME .= $NFILE_EXT;
     $NFILE_EXT = '.txt';
