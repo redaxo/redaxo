@@ -13,11 +13,11 @@ class rex_api_article_add extends rex_api_function
 
     // check permissions
     if($user->hasPerm('editContentOnly[]')) {
-      throw new rex_apiException('api call not allowed for user with "editContentOnly[]"-option!');
+      throw new rex_api_exception('api call not allowed for user with "editContentOnly[]"-option!');
     }
 
     if(!$user->hasCategoryPerm($category_id)) {
-      throw new rex_apiException('user has no permission for this category!');
+      throw new rex_api_exception('user has no permission for this category!');
     }
 
     $data = array();
@@ -45,11 +45,11 @@ class rex_api_article_edit extends rex_api_function
 
     // check permissions
     if($user->hasPerm('editContentOnly[]')) {
-      throw new rex_apiException('api call not allowed for user with "editContentOnly[]"-option!');
+      throw new rex_api_exception('api call not allowed for user with "editContentOnly[]"-option!');
     }
 
     if(!$user->hasCategoryPerm($category_id)) {
-      throw new rex_apiException('user has no permission for this category!');
+      throw new rex_api_exception('user has no permission for this category!');
     }
 
     // --------------------- ARTIKEL EDIT
@@ -76,11 +76,11 @@ class rex_api_article_delete extends rex_api_function
 
     // check permissions
     if($user->hasPerm('editContentOnly[]')) {
-      throw new rex_apiException('api call not allowed for user with "editContentOnly[]"-option!');
+      throw new rex_api_exception('api call not allowed for user with "editContentOnly[]"-option!');
     }
 
     if(!$user->hasCategoryPerm($category_id)) {
-      throw new rex_apiException('user has no permission for this category!');
+      throw new rex_api_exception('user has no permission for this category!');
     }
 
     return rex_article_service::deleteArticle($article_id);
@@ -106,7 +106,7 @@ class rex_api_article_status extends rex_api_function
     }
     else
     {
-      throw new rex_apiException('user has no permission for this article!');
+      throw new rex_api_exception('user has no permission for this article!');
     }
   }
 }

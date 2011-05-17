@@ -130,10 +130,10 @@ abstract class rex_api_function
       if($apiFunc->published === false)
       {
         if(rex::isBackend() !== true)
-          throw new rex_apiException('the api function '. get_class($apiFunc) .' is not published, therefore can only be called from the backend!');
+          throw new rex_api_exception('the api function '. get_class($apiFunc) .' is not published, therefore can only be called from the backend!');
 
         if(!rex::getUser())
-          throw new rex_apiException('missing backend session to call api function '. get_class($apiFunc) .'!');
+          throw new rex_api_exception('missing backend session to call api function '. get_class($apiFunc) .'!');
       }
 
       try {
@@ -141,7 +141,7 @@ abstract class rex_api_function
         $message = $apiFunc->execute();
         $apiFunc->message = $message;
         $apiFunc->succeeded = true;
-      } catch (rex_apiException $e)
+      } catch (rex_api_exception $e)
       {
         $message = $e->getMessage();
         $apiFunc->message = $message;
@@ -167,4 +167,4 @@ abstract class rex_api_function
  *
  * @see rex_api_function
  */
-class rex_apiException extends rex_exception{};
+class rex_api_exception extends rex_exception{};
