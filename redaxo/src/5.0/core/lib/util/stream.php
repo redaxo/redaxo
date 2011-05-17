@@ -36,11 +36,11 @@ class rex_stream
   {
     if(!is_string($path) || empty($path))
     {
-      throw new rexException('Expecting $path to be a string and not empty!');
+      throw new rex_exception('Expecting $path to be a string and not empty!');
     }
     if(!is_string($content))
     {
-      throw new rexException('Expecting $content to be a string!');
+      throw new rex_exception('Expecting $content to be a string!');
     }
 
     if(!self::$registered)

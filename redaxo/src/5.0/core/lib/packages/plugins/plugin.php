@@ -42,11 +42,11 @@ class rex_plugin extends rex_package implements rex_pluginInterface
     }
     if(!is_string($addon))
     {
-      throw new rexException('Expecting $addon to be string, but '. gettype($addon) .' given!');
+      throw new rex_exception('Expecting $addon to be string, but '. gettype($addon) .' given!');
     }
     if(!is_string($plugin))
     {
-      throw new rexException('Expecting $plugin to be string, but '. gettype($plugin) .' given!');
+      throw new rex_exception('Expecting $plugin to be string, but '. gettype($plugin) .' given!');
     }
     return rex_addon::get($addon)->getPlugin($plugin);
   }

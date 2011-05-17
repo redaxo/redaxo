@@ -106,12 +106,12 @@ abstract class rex_api_function
         }
         else
         {
-          throw new rexException('$apiClass is expected to define a subclass of rex_api_function!');
+          throw new rex_exception('$apiClass is expected to define a subclass of rex_api_function!');
         }
       }
       else
       {
-          throw new rexException('$apiClass "'. $apiClass .'" not found!');
+          throw new rex_exception('$apiClass "'. $apiClass .'" not found!');
       }
     }
 
@@ -130,10 +130,10 @@ abstract class rex_api_function
       if($apiFunc->published === false)
       {
         if(rex::isBackend() !== true)
-          throw new rexApiException('the api function '. get_class($apiFunc) .' is not published, therefore can only be called from the backend!');
+          throw new rex_apiException('the api function '. get_class($apiFunc) .' is not published, therefore can only be called from the backend!');
 
         if(!rex::getUser())
-          throw new rexApiException('missing backend session to call api function '. get_class($apiFunc) .'!');
+          throw new rex_apiException('missing backend session to call api function '. get_class($apiFunc) .'!');
       }
 
       try {
@@ -141,7 +141,7 @@ abstract class rex_api_function
         $message = $apiFunc->execute();
         $apiFunc->message = $message;
         $apiFunc->succeeded = true;
-      } catch (rexApiException $e)
+      } catch (rex_apiException $e)
       {
         $message = $e->getMessage();
         $apiFunc->message = $message;
@@ -167,4 +167,4 @@ abstract class rex_api_function
  *
  * @see rex_api_function
  */
-class rexApiException extends rexException{};
+class rex_apiException extends rex_exception{};

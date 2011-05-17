@@ -188,7 +188,7 @@ abstract class rex_ooRedaxo
    *
    * @param int $id the article id
    * @param int $clang the clang id
-   * @throws rexException
+   * @throws rex_exception
    *
    * @return rex_ooRedaxo A rex_ooRedaxo instance typed to the late-static binding type of the caller
    */

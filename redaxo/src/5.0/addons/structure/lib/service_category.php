@@ -24,7 +24,7 @@ class rex_category_service
 
     if(!is_array($data))
     {
-      throw  new rexApiException('Expecting $data to be an array!');
+      throw  new rex_apiException('Expecting $data to be an array!');
     }
 
     self::reqKey($data, 'catprior');
@@ -147,7 +147,7 @@ class rex_category_service
       }
       else
       {
-        throw new rexApiException($AART->getError());
+        throw new rex_apiException($AART->getError());
       }
     }
 
@@ -169,7 +169,7 @@ class rex_category_service
 
     if(!is_array($data))
     {
-      throw  new rexApiException('Expecting $data to be an array!');
+      throw  new rex_apiException('Expecting $data to be an array!');
     }
 
     self::reqKey($data, 'catprior');
@@ -209,7 +209,7 @@ class rex_category_service
           }
           else
           {
-            throw new rexApiException($EART->getError());
+            throw new rex_apiException($EART->getError());
           }
 
           $ArtSql->next();
@@ -255,7 +255,7 @@ class rex_category_service
     }
     else
     {
-      throw new rexApiException($EKAT->getError());
+      throw new rex_apiException($EKAT->getError());
     }
 
     return $message;
@@ -317,15 +317,15 @@ class rex_category_service
 
         }else
         {
-          throw new rexApiException(rex_i18n::msg('category_could_not_be_deleted').' '.rex_i18n::msg('category_still_contains_articles'));
+          throw new rex_apiException(rex_i18n::msg('category_could_not_be_deleted').' '.rex_i18n::msg('category_still_contains_articles'));
         }
       }else
       {
-        throw new rexApiException(rex_i18n::msg('category_could_not_be_deleted').' '.rex_i18n::msg('category_still_contains_subcategories'));
+        throw new rex_apiException(rex_i18n::msg('category_could_not_be_deleted').' '.rex_i18n::msg('category_still_contains_subcategories'));
       }
     }else
     {
-      throw new rexApiException(rex_i18n::msg('category_could_not_be_deleted'));
+      throw new rex_apiException(rex_i18n::msg('category_could_not_be_deleted'));
     }
 
     return $message;
@@ -376,12 +376,12 @@ class rex_category_service
       }
       else
       {
-        throw new rexApiException($EKAT->getError());
+        throw new rex_apiException($EKAT->getError());
       }
     }
     else
     {
-      throw new rexApiException(rex_i18n::msg("no_such_category"));
+      throw new rex_apiException(rex_i18n::msg("no_such_category"));
     }
 
     return $message;
@@ -455,7 +455,7 @@ class rex_category_service
   {
     if(!isset($array[$keyName]))
     {
-      throw new rexApiException('Missing required parameter "'. $keyName .'"!');
+      throw new rex_apiException('Missing required parameter "'. $keyName .'"!');
     }
   }
 }

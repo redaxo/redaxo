@@ -628,7 +628,7 @@ class rex_form extends rex_factory
 
   /**
    * @param string $inputType
-   * @throws rexException
+   * @throws rex_exception
    *
    * @return rex_form_element
    */
@@ -657,7 +657,7 @@ class rex_form extends rex_factory
       case 'readonlytext' :
       case 'text'      :
       case 'textarea'  : $className = 'rex_form_element'; break;
-      default          : throw new rexException("Unexpected inputType '". $inputType ."'!");
+      default          : throw new rex_exception("Unexpected inputType '". $inputType ."'!");
     }
     return $className;
   }

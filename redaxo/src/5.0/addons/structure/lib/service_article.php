@@ -17,7 +17,7 @@ class rex_article_service
 
     if(!is_array($data))
     {
-      throw  new rexApiException('Expecting $data to be an array!');
+      throw  new rex_apiException('Expecting $data to be an array!');
     }
 
     self::reqKey($data, 'category_id');
@@ -97,7 +97,7 @@ class rex_article_service
       }
       else
       {
-        throw new rexApiException($AART->getError());
+        throw new rex_apiException($AART->getError());
       }
 
       // ----- EXTENSION POINT
@@ -134,7 +134,7 @@ class rex_article_service
 
     if(!is_array($data))
     {
-      throw  new rexApiException('Expecting $data to be an array!');
+      throw  new rex_apiException('Expecting $data to be an array!');
     }
 
     // Artikel mit alten Daten selektieren
@@ -143,7 +143,7 @@ class rex_article_service
 
     if ($thisArt->getRows() != 1)
     {
-      throw new rexApiException('Unable to find article with id "'. $article_id .'" and clang "'. $clang .'"!');
+      throw new rex_apiException('Unable to find article with id "'. $article_id .'" and clang "'. $clang .'"!');
     }
 
     $ooArt = rex_ooArticle::getArticleById($article_id, $clang);
@@ -204,7 +204,7 @@ class rex_article_service
     }
     else
     {
-      throw new rexApiException($EA->getError());
+      throw new rex_apiException($EA->getError());
     }
 
     return $message;
@@ -254,7 +254,7 @@ class rex_article_service
     }
     else
     {
-      throw new rexApiException(rex_i18n::msg('article_doesnt_exist'));
+      throw new rex_apiException(rex_i18n::msg('article_doesnt_exist'));
     }
 
     return $message;
@@ -284,11 +284,11 @@ class rex_article_service
 
     if ($id == rex::getProperty('start_article_id'))
     {
-      throw new rexApiException(rex_i18n::msg('cant_delete_sitestartarticle'));
+      throw new rex_apiException(rex_i18n::msg('cant_delete_sitestartarticle'));
     }
     if ($id == rex::getProperty('notfound_article_id'))
     {
-      throw new rexApiException(rex_i18n::msg('cant_delete_notfoundarticle'));
+      throw new rex_apiException(rex_i18n::msg('cant_delete_notfoundarticle'));
     }
 
     $ART = rex_sql::factory();
@@ -335,7 +335,7 @@ class rex_article_service
     }
     else
     {
-      throw new rexApiException(rex_i18n::msg('category_doesnt_exist'));
+      throw new rex_apiException(rex_i18n::msg('category_doesnt_exist'));
     }
   }
 
@@ -385,12 +385,12 @@ class rex_article_service
       }
       else
       {
-        throw new rexApiException($EA->getError());
+        throw new rex_apiException($EA->getError());
       }
     }
     else
     {
-      throw new rexApiException(rex_i18n::msg("no_such_category"));
+      throw new rex_apiException(rex_i18n::msg("no_such_category"));
     }
 
     return $message;
@@ -461,7 +461,7 @@ class rex_article_service
   {
     if(!isset($array[$keyName]))
     {
-      throw new rexApiException('Missing required parameter "'. $keyName .'"!');
+      throw new rex_apiException('Missing required parameter "'. $keyName .'"!');
     }
   }
 }

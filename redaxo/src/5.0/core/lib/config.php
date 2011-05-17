@@ -50,7 +50,7 @@ class rex_config
    *
    * @return boolean TRUE when an existing value was overridden, otherwise FALSE
    *
-   * @throws rexException on invalid parameters
+   * @throws rex_exception on invalid parameters
    */
   public static function set($namespace, $key, $value)
   {
@@ -58,11 +58,11 @@ class rex_config
 
     if(!is_string($namespace))
     {
-      throw new rexException('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
+      throw new rex_exception('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
     }
     if(!is_string($key))
     {
-      throw new rexException('rex_config: expecting $key to be a string, '. gettype($key) . ' given!');
+      throw new rex_exception('rex_config: expecting $key to be a string, '. gettype($key) . ' given!');
     }
 
     if(!isset(self::$data[$namespace]))
@@ -100,7 +100,7 @@ class rex_config
    *
    * @return the value for $key or $default if $key cannot be found in the given $namespace
    *
-   * @throws rexException on invalid parameters
+   * @throws rex_exception on invalid parameters
    */
   public static function get($namespace, $key, $default = null)
   {
@@ -108,11 +108,11 @@ class rex_config
 
     if(!is_string($namespace))
     {
-      throw new rexException('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
+      throw new rex_exception('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
     }
     if(!is_string($key))
     {
-      throw new rexException('rex_config: expecting $key to be a string, '. gettype($key) . ' given!');
+      throw new rex_exception('rex_config: expecting $key to be a string, '. gettype($key) . ' given!');
     }
 
     if(isset(self::$data[$namespace]) && isset(self::$data[$namespace][$key]))
@@ -130,7 +130,7 @@ class rex_config
    *
    * @return boolean TRUE if the key is set, otherwise FALSE
    *
-   * @throws rexException on invalid parameters
+   * @throws rex_exception on invalid parameters
    */
   public static function has($namespace, $key = null)
   {
@@ -138,7 +138,7 @@ class rex_config
 
     if(!is_string($namespace))
     {
-      throw new rexException('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
+      throw new rex_exception('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
     }
 
     if ($key === null)
@@ -148,7 +148,7 @@ class rex_config
 
     if(!is_string($key))
     {
-      throw new rexException('rex_config: expecting $key to be a string, '. gettype($key) . ' given!');
+      throw new rex_exception('rex_config: expecting $key to be a string, '. gettype($key) . ' given!');
     }
 
     return isset(self::$data[$namespace][$key]);
@@ -163,7 +163,7 @@ class rex_config
    *
    * @return boolean TRUE if the value was found and removed, otherwise FALSE
    *
-   * @throws rexException on invalid parameters
+   * @throws rex_exception on invalid parameters
    */
   public static function remove($namespace, $key)
   {
@@ -171,11 +171,11 @@ class rex_config
 
     if(!is_string($namespace))
     {
-      throw new rexException('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
+      throw new rex_exception('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
     }
     if(!is_string($key))
     {
-      throw new rexException('rex_config: expecting $key to be a string, '. gettype($key) . ' given!');
+      throw new rex_exception('rex_config: expecting $key to be a string, '. gettype($key) . ' given!');
     }
 
     if(isset(self::$data[$namespace]) && isset(self::$data[$namespace][$key]))
@@ -204,7 +204,7 @@ class rex_config
    *
    * @return TRUE if the namespace was found and removed, otherwise FALSE
    *
-   * @throws rexException
+   * @throws rex_exception
    */
   public static function removeNamespace($namespace)
   {
@@ -212,7 +212,7 @@ class rex_config
 
     if(!is_string($namespace))
     {
-      throw new rexException('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
+      throw new rex_exception('rex_config: expecting $namespace to be a string, '. gettype($namespace) . ' given!');
     }
 
     if(isset(self::$data[$namespace]))
@@ -243,7 +243,7 @@ class rex_config
     // (check here, since exceptions in shutdown functions are not visible to the user)
     if(!is_writable(dirname(REX_CONFIG_FILE_CACHE)))
     {
-      throw new rexException('rex-config: cache dir "'. dirname(REX_CONFIG_FILE_CACHE) .'" is not writable!');
+      throw new rex_exception('rex-config: cache dir "'. dirname(REX_CONFIG_FILE_CACHE) .'" is not writable!');
     }
 
     // save cache on shutdown
@@ -306,7 +306,7 @@ class rex_config
   {
     if(rex_file::putCache(REX_CONFIG_FILE_CACHE, self::$data) <= 0)
     {
-      throw new rexException('rex-config: unable to write cache file '. REX_CONFIG_FILE_CACHE);
+      throw new rex_exception('rex-config: unable to write cache file '. REX_CONFIG_FILE_CACHE);
     }
   }
 

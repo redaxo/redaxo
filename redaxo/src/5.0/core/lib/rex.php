@@ -25,7 +25,7 @@ class rex
   {
     if(!is_string($key))
     {
-      throw new rexException('Expecting $key to be string, but '. gettype($key) .' given!');
+      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
     }
     self::$properties[$key] = $value;
   }
@@ -34,7 +34,7 @@ class rex
   {
     if(!is_string($key))
     {
-      throw new rexException('Expecting $key to be string, but '. gettype($key) .' given!');
+      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
     }
     if(isset(self::$properties[$key]))
     {

@@ -161,7 +161,7 @@ class rex_request
   {
     if(!is_scalar($needle))
     {
-      throw new rexException('Scalar expected for $needle in arrayKeyCast()!');
+      throw new rex_exception('Scalar expected for $needle in arrayKeyCast()!');
     }
 
     if(array_key_exists($needle, $haystack))
@@ -217,7 +217,7 @@ class rex_request
 
     if(!is_string($vartype))
     {
-      throw new rexException('String expected for $vartype in castVar()!');
+      throw new rex_exception('String expected for $vartype in castVar()!');
     }
 
     switch($vartype)
@@ -308,9 +308,9 @@ class rex_request
             {
               try {
                 $var[$key] = self::castVar($value, $matches[1], '', 'found');
-              } catch (rexException $e) {
+              } catch (rex_exception $e) {
                 // Evtl Typo im vartype, mit urspr. typ als fehler melden
-                throw new rexException('Unexpected vartype "'. $vartype .'" in castVar()!');
+                throw new rex_exception('Unexpected vartype "'. $vartype .'" in castVar()!');
               }
             }
           }
@@ -318,7 +318,7 @@ class rex_request
         else
         {
           // Evtl Typo im vartype, deshalb hier fehlermeldung!
-          throw new rexException('Unexpected vartype "'. $vartype .'" in castVar()!');
+          throw new rex_exception('Unexpected vartype "'. $vartype .'" in castVar()!');
         }
     }
 

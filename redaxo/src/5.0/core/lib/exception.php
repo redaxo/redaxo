@@ -1,6 +1,6 @@
 <?php
 
-class rexException extends Exception
+class rex_exception extends Exception
 {
   public function __construct($message, $code = E_USER_ERROR, $previous = null)
   {
