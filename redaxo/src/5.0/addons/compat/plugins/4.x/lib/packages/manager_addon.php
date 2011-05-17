@@ -23,7 +23,7 @@ class rex_addon_manager_compat extends rex_addon_manager
   {
     global $REX;
 
-    $package->includeFile($file, array('REX_USER', 'REX_LOGIN', 'I18N', 'article_id', 'clang'));
+    $package->includeFile($file, array('REX', 'REX_USER', 'REX_LOGIN', 'I18N', 'article_id', 'clang'));
 
     if(isset($REX['ADDON']) && is_array($REX['ADDON']))
     {

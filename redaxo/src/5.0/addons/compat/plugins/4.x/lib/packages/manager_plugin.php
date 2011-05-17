@@ -21,27 +21,41 @@ class rex_plugin_manager_compat extends rex_plugin_manager
 
   static public function includeFile(rex_package $package, $file)
   {
-    global $REX;
+    global $REX, $ADDONsic;
 
-    $ADDONsic = isset($REX['ADDON']) ? $REX['ADDON'] : array();
-    $REX['ADDON'] = array();
-
-    $package->includeFile($file, array('REX_USER', 'REX_LOGIN', 'I18N', 'article_id', 'clang'));
-
-    if(isset($REX['ADDON']) && is_array($REX['ADDON']))
+    $transform = false;
+    if(in_array($file, array('config.inc.php', 'install.inc.php', 'uninstall.inc.php')))
     {
-      foreach($REX['ADDON'] as $property => $propertyArray)
+      $ADDONsic = isset($REX['ADDON']) ? $REX['ADDON'] : array();
+      $REX['ADDON'] = array();
+      $transform = true;
+    }
+
+    $package->includeFile($file, array('REX', 'REX_USER', 'REX_LOGIN', 'I18N', 'article_id', 'clang', 'ADDONsic'));
+
+    $addonName = $package->getAddon()->getName();
+    if($transform)
+    {
+      $array = isset($REX['ADDON']) ? $REX['ADDON'] : array();
+      $REX['ADDON'] = $ADDONsic;
+    }
+    else
+    {
+      $array = isset($REX['ADDON']['plugins'][$addonName]) ? $REX['ADDON']['plugins'][$addonName] : array();
+    }
+    if(isset($array) && is_array($array))
+    {
+      foreach($array as $property => $propertyArray)
       {
         foreach($propertyArray as $pluginName => $value)
         {
           if($pluginName == $package->getName())
           {
             $package->setProperty($property, $value);
-            $ADDONsic['plugins'][$package->getAddon()->getName()][$property][$pluginName] = $value;
+            $REX['ADDON']['plugins'][$addonName][$property][$pluginName] = $value;
           }
         }
       }
     }
-    $REX['ADDON'] = $ADDONsic;
   }
 }
