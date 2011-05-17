@@ -65,6 +65,11 @@ interface rex_package_interface
   public function hasConfig($key);
 
   /**
+   * @see rex_config::remove()
+   */
+  public function removeConfig($key);
+
+  /**
    * Sets a property
    *
    * @param string $key Key of the property
@@ -90,6 +95,13 @@ interface rex_package_interface
    * @return boolean
    */
   public function hasProperty($key);
+
+  /**
+   * Removes a property
+   *
+   * @param string $key Key of the property
+   */
+  public function removeProperty($key);
 
 	/**
    * Returns if the package is available (activated and installed)

@@ -103,6 +103,14 @@ abstract class rex_package implements rex_package_interface
   }
 
   /* (non-PHPdoc)
+   * @see rex_package_interface::removeConfig()
+   */
+  public function removeConfig($key)
+  {
+    return rex_config::remove($this->getPackageId(), $key);
+  }
+
+  /* (non-PHPdoc)
    * @see rex_package_interface::setProperty()
    */
   public function setProperty($key, $value)
@@ -136,6 +144,18 @@ abstract class rex_package implements rex_package_interface
   public function hasProperty($key)
   {
     return is_string($key) && isset($this->properties[$key]);
+  }
+
+  /* (non-PHPdoc)
+   * @see rex_package_interface::removeProperty()
+   */
+  public function removeProperty($key)
+  {
+    if(!is_string($key))
+    {
+      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
+    }
+    unset($this->properties[$key]);
   }
 
 	/* (non-PHPdoc)

@@ -21,6 +21,11 @@ class rex
     return rex_config::has(self::CONFIG_NAMESPACE, $key);
   }
 
+  static public function removeConfig($key)
+  {
+    return rex_config::remove(self::CONFIG_NAMESPACE, $key);
+  }
+
   static public function setProperty($key, $value)
   {
     if(!is_string($key))
@@ -46,6 +51,15 @@ class rex
   static public function hasProperty($key)
   {
     return is_string($key) && isset(self::$properties[$key]);
+  }
+
+  static public function removeProperty($key)
+  {
+    if(!is_string($key))
+    {
+      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
+    }
+    unset(self::$properties[$key]);
   }
 
   static public function isSetup()

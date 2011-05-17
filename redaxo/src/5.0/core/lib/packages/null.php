@@ -60,6 +60,7 @@ abstract class rex_null_package extends rex_singleton implements rex_package_int
    */
   public function setConfig($key, $value)
   {
+    return false;
   }
 
   /* (non-PHPdoc)
@@ -74,6 +75,14 @@ abstract class rex_null_package extends rex_singleton implements rex_package_int
    * @see rex_package_interface::hasConfig()
    */
   public function hasConfig($key)
+  {
+    return false;
+  }
+
+  /* (non-PHPdoc)
+   * @see rex_package_interface::removeConfig()
+   */
+  public function removeConfig($key)
   {
     return false;
   }
@@ -99,6 +108,13 @@ abstract class rex_null_package extends rex_singleton implements rex_package_int
   public function hasProperty($key)
   {
     return false;
+  }
+
+  /* (non-PHPdoc)
+   * @see rex_package_interface::removeProperty()
+   */
+  public function removeProperty($key)
+  {
   }
 
   /* (non-PHPdoc)
