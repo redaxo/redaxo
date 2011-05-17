@@ -11,6 +11,8 @@
 // - import checken
 // - mehrere ebenen in kategorienedit  einbauen
 
+global $subpage, $ftitle, $warning, $info;
+
 // -------------- Defaults
 $subpage      = rex_request('subpage', 'string');
 $func         = rex_request('func', 'string');
