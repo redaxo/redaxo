@@ -14,7 +14,7 @@ class rex
    *
    * @var array
    */
-  static private $properties = array();
+  static protected $properties = array();
 
   /**
    * @see rex_config::set()
