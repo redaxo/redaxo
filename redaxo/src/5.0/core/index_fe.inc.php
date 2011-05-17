@@ -17,10 +17,6 @@ ob_implicit_flush(0);
 @ini_set('arg_separator.input', '&amp;');
 @ini_set('arg_separator.output', '&amp;');
 
-// --------------------------- globals
-
-include rex_path::core('master.inc.php');
-
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.inc.php');
 

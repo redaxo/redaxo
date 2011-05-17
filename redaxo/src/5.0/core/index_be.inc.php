@@ -10,9 +10,6 @@
 ob_start();
 ob_implicit_flush(0);
 
-
-require_once rex_path::core('master.inc.php');
-
 // ----- addon/normal page path
 $REX['PAGEPATH'] = '';
 
