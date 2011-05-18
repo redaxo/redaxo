@@ -17,12 +17,14 @@ class rex_path
   static private
     $relBase,
     $absBase,
+    $backend,
     $version;
 
-  static public function init($htdocs, $version)
+  static public function init($htdocs, $backend, $version)
   {
     self::$relBase = $htdocs;
     self::$absBase = realpath($htdocs) .'/';
+    self::$backend = $backend;
     self::$version = $version;
   }
 
@@ -47,7 +49,7 @@ class rex_path
    */
   static public function backend($file = '', $pathType = self::ABSOLUTE)
   {
-    return self::base('redaxo/'. $file, $pathType);
+    return self::base(self::$backend .'/'. $file, $pathType);
   }
 
   /**
@@ -55,7 +57,7 @@ class rex_path
    */
   static public function backendController($params = '')
   {
-    return self::relBase('redaxo/index.php'. $params);
+    return self::relBase(self::$backend .'index.php'. $params);
   }
 
   /**
@@ -99,7 +101,7 @@ class rex_path
    */
   static public function data($file = '')
   {
-    return self::absBase('redaxo/data/'. $file);
+    return self::absBase(self::$backend .'/data/'. $file);
   }
 
   /**
@@ -123,7 +125,7 @@ class rex_path
    */
   static public function cache($file = '')
   {
-    return self::absBase('redaxo/cache/'. $file);
+    return self::absBase(self::$backend .'/cache/'. $file);
   }
 
   /**
@@ -131,7 +133,7 @@ class rex_path
    */
   static public function src($file = '')
   {
-    return self::absBase('redaxo/src/'. $file);
+    return self::absBase(self::$backend .'/src/'. $file);
   }
 
   /**

@@ -1,5 +1,5 @@
 <?php
 
-$REX['VERSION_FOLDER'] = '5.0'; // Versionfolder
+$REX['VERSION_FOLDER'] = '5.0';
 
-include $REX['HTDOCS_PATH'] .'/redaxo/src/'. $REX['VERSION_FOLDER'] .'/core/master.inc.php';
+include dirname(__FILE__) .'/'. $REX['VERSION_FOLDER'] .'/core/master.inc.php';

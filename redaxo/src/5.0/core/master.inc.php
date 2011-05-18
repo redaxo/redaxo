@@ -6,8 +6,8 @@
  * @version svn:$Id$
  */
 
-require_once $REX['HTDOCS_PATH'] .'/redaxo/src/'. $REX['VERSION_FOLDER'] .'/core/lib/path.php';
-rex_path::init($REX['HTDOCS_PATH'], $REX['VERSION_FOLDER']);
+require_once dirname(__FILE__) .'/lib/path.php';
+rex_path::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], $REX['VERSION_FOLDER']);
 
 require_once rex_path::core('lib/autoload.php');
 
