@@ -112,14 +112,6 @@ if(rex::getUser())
       {
         $addonPage = new rex_be_page($title, array('page' => $addonName));
         $addonPage->setHref($href);
-
-        // wegen REX Version = 4.2 - alter Stil "SUBPAGES"
-        // TODO im compat addon erledigen
-        if(isset($REX['ADDON'][$addonName]['SUBPAGES']))
-        {
-          $addon->setProperty('pages', $REX['ADDON'][$addonName]['SUBPAGES']);
-        }
-        // *** ENDE wegen <=4.2
       }
     }
 
