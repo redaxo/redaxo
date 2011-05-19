@@ -46,7 +46,7 @@ class rex_dir
 
     if($curdir = opendir($srcdir))
     {
-      while($file = readdir($curdir))
+      while(false !== ($file = readdir($curdir)))
       {
         if($file != '.' && $file != '..' && $file != '.svn')
         {
@@ -112,9 +112,9 @@ class rex_dir
 
     $dir = rtrim($dir, DIRECTORY_SEPARATOR);
 
-    if (file_exists($dir) && ($handle = opendir($dir)))
+    if(file_exists($dir) && ($handle = opendir($dir)))
     {
-      while (false !== ($filename = readdir($handle)))
+      while(false !== ($filename = readdir($handle)))
       {
         if ($filename != '.' && $filename != '..')
         {
