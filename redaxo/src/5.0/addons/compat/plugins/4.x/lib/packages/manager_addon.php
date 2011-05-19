@@ -37,6 +37,9 @@ class rex_addon_manager_compat extends rex_addon_manager
           }
         }
       }
+      /**
+       * @deprecated 4.2
+       */
       if(isset($REX['ADDON'][$package->getName()]['SUBPAGES']))
       {
         $package->setProperty('pages', $REX['ADDON'][$package->getName()]['SUBPAGES']);
