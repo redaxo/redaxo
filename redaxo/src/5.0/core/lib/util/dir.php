@@ -114,7 +114,7 @@ class rex_dir
 
     if (file_exists($dir) && ($handle = opendir($dir)))
     {
-      while ($filename = readdir($handle))
+      while (false !== ($filename = readdir($handle)))
       {
         if ($filename != '.' && $filename != '..')
         {
