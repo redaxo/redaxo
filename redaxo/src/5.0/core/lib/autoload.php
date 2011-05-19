@@ -39,7 +39,7 @@ class rex_autoload
     ini_set('unserialize_callback_func', 'spl_autoload_call');
     if (false === spl_autoload_register(array(__CLASS__, 'autoload')))
     {
-      throw new rex_exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
+      throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
     }
 
     self::$cacheFile = rex_path::cache('autoload.cache');
@@ -118,7 +118,7 @@ class rex_autoload
       }
       else
       {
-        throw new rex_exception("Unable to write autoload cachefile '"+ self::$cacheFile +"'!");
+        throw new Exception("Unable to write autoload cachefile '"+ self::$cacheFile +"'!");
       }
     }
   }
