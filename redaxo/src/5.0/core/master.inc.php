@@ -15,15 +15,14 @@ require_once rex_path::core('lib/autoload.php');
 rex_autoload::register();
 // add core base-classpath to autoloader
 rex_autoload::addDirectory(rex_path::core('lib/'));
-
-// add backend flag to rex
-rex::setProperty('redaxo', $REX['REDAXO']);
-unset($REX);
-
-// start timer
-rex::setProperty('timer', new rex_timer);
 // register rex_logger
 rex_logger::register();
+// start timer
+rex::setProperty('timer', new rex_timer);
+// add backend flag to rex
+rex::setProperty('redaxo', $REX['REDAXO']);
+// reset $REX
+unset($REX);
 // add core lang directory to rex_i18n
 rex_i18n::addDirectory(rex_path::core('lang'));
 // add core base-fragmentpath to fragmentloader
@@ -62,7 +61,7 @@ date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
 // ----------------- OTHER STUFF
 rex::setProperty('setup_packages', array('be_style', 'be_style/agk_skin'));
-rex::setProperty('system_packages', array('structure', 'structure/content', 'structure/linkmap', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/agk_skin', 'image_manager', 'users'));
+rex::setProperty('system_packages', array('structure', 'structure/content', 'structure/linkmap', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/agk_skin', 'image_manager'));
 
 // ----------------- REX PERMS
 
