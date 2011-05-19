@@ -5,9 +5,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Language" content="<?php echo $this->i18n('htmllang'); ?>" />
   <!-- jQuery immer nach den Stylesheets! -->
-  <script src="<?php echo rex_path::assets('jquery.min.js', rex_path::RELATIVE); ?>" type="text/javascript"></script>
-  <script src="<?php echo rex_path::assets('standard.js', rex_path::RELATIVE); ?>" type="text/javascript"></script>
-  <script src="<?php echo rex_path::assets('sha1.js', rex_path::RELATIVE); ?>" type="text/javascript"></script>
+  <script src="<?php echo rex_path::assets('jquery.min.js'); ?>" type="text/javascript"></script>
+  <script src="<?php echo rex_path::assets('standard.js'); ?>" type="text/javascript"></script>
+  <script src="<?php echo rex_path::assets('sha1.js'); ?>" type="text/javascript"></script>
   <script type="text/javascript">
   <!--
   var redaxo = true;

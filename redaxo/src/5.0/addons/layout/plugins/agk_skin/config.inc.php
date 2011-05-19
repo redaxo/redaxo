@@ -18,9 +18,9 @@ $plugin = 'agk_skin';
 
 if(rex::isBackend())
 {
-	$markup = '<link rel="stylesheet" type="text/css" href="'. rex_path::pluginAssets($addon, $plugin, 'css_import.css', rex_path::RELATIVE) .'" media="screen, projection, print" />';
+	$markup = '<link rel="stylesheet" type="text/css" href="'. rex_path::pluginAssets($addon, $plugin, 'css_import.css') .'" media="screen, projection, print" />';
 	rex_includeCss($markup);
-	
+
 	$class = 'layout-agk-skin';
 	rex_addBodyClass($class);
 }

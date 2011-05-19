@@ -39,8 +39,9 @@ interface rex_package_interface
    * Returns the assets path
    *
    * @param string $file File
+   * @param int $pathType Path type
    */
-  public function getAssetsPath($file = '');
+  public function getAssetsPath($file = '', $pathType = rex_path::RELATIVE);
 
   /**
    * Returns the data path

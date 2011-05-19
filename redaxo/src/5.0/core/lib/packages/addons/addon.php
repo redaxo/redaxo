@@ -80,9 +80,9 @@ class rex_addon extends rex_package implements rex_addon_interface
   /* (non-PHPdoc)
    * @see rex_package_interface::getAssetsPath()
    */
-  public function getAssetsPath($file = '')
+  public function getAssetsPath($file = '', $pathType = rex_path::RELATIVE)
   {
-    return rex_path::addonAssets($this->getName(), $file);
+    return rex_path::addonAssets($this->getName(), $file, $pathType);
   }
 
   /* (non-PHPdoc)

@@ -191,7 +191,7 @@ echo "geachten header verwenden";
    /*
   static public function getMediaCache($rex_media_file, $rex_media_type)
   {
-    $media_path = rex_path::media($rex_media_file, rex_path::RELATIVE);
+    $media_path = rex_path::media($rex_media_file);
     $cache_path = rex_path::cache('media/');
 
     $media         = new rex_media($media_path);
@@ -231,7 +231,7 @@ echo "geachten header verwenden";
 
     $folders = array();
     $folders[] = rex_path::cache('media/');
-    $folders[] = rex_path::media('', rex_path::RELATIVE);
+    $folders[] = rex_path::media();
 
     $counter = 0;
     foreach($folders as $folder)

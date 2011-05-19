@@ -10,7 +10,7 @@ class rex_plugin_manager_compat extends rex_plugin_manager
     $files_dir = $this->package->getBasePath('files');
     if($state === TRUE && is_dir($files_dir))
     {
-      if(!rex_dir::copy($files_dir, $this->package->getAssetsPath()))
+      if(!rex_dir::copy($files_dir, $this->package->getAssetsPath('', rex_path::ABSOLUTE)))
       {
         $state = $this->I18N('install_cant_copy_files');
       }

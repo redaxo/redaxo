@@ -166,7 +166,7 @@ else
               <div class="rex-form-checkboxes">
                 <div class="rex-form-checkboxes-wrapper">
 <?php
-  $dir = rex_path::frontend();
+  $dir = rex_path::frontend('', rex_path::ABSOLUTE);
   $folders = readSubFolders($dir);
 
   foreach ($folders as $file)

@@ -209,7 +209,7 @@ function a62_extensions_handler($params)
   if($page == 'metainfo' || ($page == 'content' && $mode == 'meta'))
   {
     rex_extension::register('PAGE_HEADER', function($params) use ($mypage) {
-      return $params['subject'] ."\n".'  <script src="'. rex_path::addonAssets($mypage, 'metainfo.js', rex_path::RELATIVE) .'" type="text/javascript"></script>';
+      return $params['subject'] ."\n".'  <script src="'. rex_path::addonAssets($mypage, 'metainfo.js') .'" type="text/javascript"></script>';
     });
   }
 

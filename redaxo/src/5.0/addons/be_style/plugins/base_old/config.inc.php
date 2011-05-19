@@ -27,22 +27,22 @@ if(rex::isBackend())
 	function rex_be_style_base_old_css_add($params)
   {
   	$params["subject"] = '
-  <link rel="stylesheet" type="text/css" href="'. rex_path::pluginAssets('be_style', 'base_old', 'css_import.css', rex_path::RELATIVE) .'" media="screen, projection, print" />
+  <link rel="stylesheet" type="text/css" href="'. rex_path::pluginAssets('be_style', 'base_old', 'css_import.css') .'" media="screen, projection, print" />
   <!--[if lte IE 7]>
-    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base_old', 'css_ie_lte_7.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
+    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base_old', 'css_ie_lte_7.css') .'" type="text/css" media="screen, projection, print" />
   <![endif]-->
 
   <!--[if IE 7]>
-    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base_old', 'css_ie_7.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
+    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base_old', 'css_ie_7.css') .'" type="text/css" media="screen, projection, print" />
   <![endif]-->
 
   <!--[if lte IE 6]>
-    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base_old', 'css_ie_lte_6.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
+    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base_old', 'css_ie_lte_6.css') .'" type="text/css" media="screen, projection, print" />
   <![endif]-->
 
   <!-- jQuery immer nach den Stylesheets! -->
-  <script src="'. rex_path::pluginAssets('be_style', 'base_old', 'jquery.min.js', rex_path::RELATIVE) .'" type="text/javascript"></script>
-  <script src="'. rex_path::pluginAssets('be_style', 'base_old', 'standard.js', rex_path::RELATIVE) .'" type="text/javascript"></script>
+  <script src="'. rex_path::pluginAssets('be_style', 'base_old', 'jquery.min.js') .'" type="text/javascript"></script>
+  <script src="'. rex_path::pluginAssets('be_style', 'base_old', 'standard.js') .'" type="text/javascript"></script>
   <script type="text/javascript">
   <!--
   var redaxo = true;

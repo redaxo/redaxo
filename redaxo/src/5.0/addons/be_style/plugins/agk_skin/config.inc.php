@@ -27,14 +27,14 @@ if(rex::isBackend())
 	rex_extension::register('PAGE_HEADER', function ($params) use ($mypage)
 	{
 	  $params["subject"] .= '
-    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_import.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
+    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_import.css') .'" type="text/css" media="screen, projection, print" />
 	  <!--[if lte IE 7]>
-	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_ie_lte_7.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
-	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_agk_ie_lte_7.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
+	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_ie_lte_7.css') .'" type="text/css" media="screen, projection, print" />
+	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_agk_ie_lte_7.css') .'" type="text/css" media="screen, projection, print" />
 	    <![endif]-->
 	    <!--[if lte IE 6]>
-	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_ie_lte_6.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
-	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_agk_ie_lte_6.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
+	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_ie_lte_6.css') .'" type="text/css" media="screen, projection, print" />
+	      <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', $mypage, 'css_agk_ie_lte_6.css') .'" type="text/css" media="screen, projection, print" />
 	    <![endif]-->';
 	  return $params["subject"];
 	});

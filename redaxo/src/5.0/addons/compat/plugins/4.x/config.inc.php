@@ -16,7 +16,7 @@ $REX['INCLUDE_PATH'] = rex_path::version();
 /**
  * @deprecated 5.0
  */
-$REX['FRONTEND_PATH'] = rex_path::frontend();
+$REX['FRONTEND_PATH'] = rex_path::frontend('', rex_path::ABSOLUTE);
 
 /**
  * @deprecated 5.0

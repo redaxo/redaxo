@@ -196,10 +196,10 @@ if (!($checkmodus > 0 && $checkmodus < 10))
   rex_deleteAll();
 
   // copy alle media files of the current rex-version into redaxo_media
-  rex_dir::copy(rex_path::core('assets'), rex_path::assets());
+  rex_dir::copy(rex_path::core('assets'), rex_path::assets('', rex_path::ABSOLUTE));
 
   // copy agk_skin files
-  rex_dir::copy(rex_path::plugin('be_style', 'agk_skin', 'assets'), rex_path::pluginAssets('be_style', 'agk_skin'));
+  rex_dir::copy(rex_path::plugin('be_style', 'agk_skin', 'assets'), rex_path::pluginAssets('be_style', 'agk_skin', rex_path::ABSOLUTE));
 
 	$saveLocale = rex_i18n::getLocale();
   $langs = array();
@@ -276,10 +276,10 @@ if ($checkmodus == 1)
 	$WRITEABLES = array (
 		rex_path::core('master.inc.php'),
 		rex_path::cache(),
-		rex_path::media(),
-		rex_path::media('_readme.txt'),
-		rex_path::assets(),
-		rex_path::assets('_readme.txt'),
+		rex_path::media('', rex_path::ABSOLUTE),
+		rex_path::media('_readme.txt', rex_path::ABSOLUTE),
+		rex_path::assets('', rex_path::ABSOLUTE),
+		rex_path::assets('_readme.txt', rex_path::ABSOLUTE),
 		getImportDir()
 	);
 
