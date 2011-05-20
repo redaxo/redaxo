@@ -106,7 +106,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
   if($success)
   {
-    @chmod($dstFile, rex::getProperty('fileperm'));
+    @chmod($dstFile, rex::getFilePerm());
 
     // get widht height
     $size = @getimagesize($dstFile);
@@ -211,7 +211,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
           $FILESQL->setValue('width',$size[0]);
           $FILESQL->setValue('height',$size[1]);
         }
-        @chmod(rex_path::media($FILEINFOS["filename"], rex_path::ABSOLUTE), rex::getProperty('fileperm'));
+        @chmod(rex_path::media($FILEINFOS["filename"], rex_path::ABSOLUTE), rex::getFilePerm());
         $updated = true;
       }else
       {

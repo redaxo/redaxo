@@ -54,9 +54,6 @@ foreach($config as $key => $value)
   rex::setProperty($key, $value);
 }
 
-rex::setProperty('fileperm', octdec(rex::getProperty('fileperm', '0664')));
-rex::setProperty('dirperm', octdec(rex::getProperty('dirperm', '0775')));
-
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
 // ----------------- OTHER STUFF

@@ -188,4 +188,24 @@ class rex
 
     return ' title="'. $title .'"';
   }
+
+  /**
+   * Returns the file perm
+   *
+   * @return int
+   */
+  static public function getFilePerm()
+  {
+    return octdec(rex::getProperty('fileperm', '0664'));
+  }
+
+  /**
+   * Returns the dir perm
+   *
+   * @return int
+   */
+  static public function getDirPerm()
+  {
+    return octdec(rex::getProperty('dirperm', '0775'));
+  }
 }

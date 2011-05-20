@@ -374,6 +374,11 @@ if ($checkmodus == 2 && $send == 1)
 	  $err_msg = rex_i18n::msg('setup_invalid_timezone');
 	}
 
+	foreach($config as $key => $value)
+	{
+	  rex::setProperty($key, $value);
+	}
+
 	if($err_msg == '')
 	{
     if(!rex_file::putConfig($configFile, $config, 3))

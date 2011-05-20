@@ -15,9 +15,9 @@ class rex_dir
    */
   static public function create($dir, $recursive = true)
   {
-    if(is_dir($dir) || mkdir($dir, rex::getProperty('dirperm'), $recursive))
+    if(is_dir($dir) || mkdir($dir, rex::getDirPerm(), $recursive))
     {
-      chmod($dir, rex::getProperty('dirperm'));
+      chmod($dir, rex::getDirPerm());
       return true;
     }
 
