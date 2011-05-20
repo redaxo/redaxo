@@ -82,14 +82,14 @@ function rex_setup_is_writable($items)
 function rex_setup_addons($uninstallBefore = false, $installDump = true)
 {
 	$addonErr = '';
-	rex_packageManager::synchronizeWithFileSystem();
+	rex_package_manager::synchronizeWithFileSystem();
 
   if($uninstallBefore)
   {
     foreach(array_reverse(rex::getProperty('system_packages')) as $packageRepresentation)
     {
       $package = rex_package::get($packageRepresentation);
-      $manager = rex_packageManager::factory($package);
+      $manager = rex_package_manager::factory($package);
       $state = $manager->uninstall();
 
       if($state !== true)
@@ -100,7 +100,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
   {
   	$state = true;
   	$package = rex_package::get($packageRepresentation);
-  	$manager = rex_packageManager::factory($package);
+  	$manager = rex_package_manager::factory($package);
 
   	if($state === true && !$package->isInstalled())
   	  $state = $manager->install($installDump);
@@ -196,10 +196,10 @@ if (!($checkmodus > 0 && $checkmodus < 10))
   rex_deleteAll();
 
   // copy alle media files of the current rex-version into redaxo_media
-  rex_dir::copy(rex_path::core('assets'), rex_path::assets());
+  rex_dir::copy(rex_path::core('assets'), rex_path::assets('', rex_path::ABSOLUTE));
 
   // copy agk_skin files
-  rex_dir::copy(rex_path::plugin('be_style', 'agk_skin', 'assets'), rex_path::pluginAssets('be_style', 'agk_skin'));
+  rex_dir::copy(rex_path::plugin('be_style', 'agk_skin', 'assets'), rex_path::pluginAssets('be_style', 'agk_skin', rex_path::ABSOLUTE));
 
 	$saveLocale = rex_i18n::getLocale();
   $langs = array();
@@ -276,10 +276,10 @@ if ($checkmodus == 1)
 	$WRITEABLES = array (
 		rex_path::core('master.inc.php'),
 		rex_path::cache(),
-		rex_path::media(),
-		rex_path::media('_readme.txt'),
-		rex_path::assets(),
-		rex_path::assets('_readme.txt'),
+		rex_path::media('', rex_path::ABSOLUTE),
+		rex_path::media('_readme.txt', rex_path::ABSOLUTE),
+		rex_path::assets('', rex_path::ABSOLUTE),
+		rex_path::assets('_readme.txt', rex_path::ABSOLUTE),
 		getImportDir()
 	);
 
@@ -372,6 +372,11 @@ if ($checkmodus == 2 && $send == 1)
 	if(@date_default_timezone_set($config['timezone']) === false)
 	{
 	  $err_msg = rex_i18n::msg('setup_invalid_timezone');
+	}
+
+	foreach($config as $key => $value)
+	{
+	  rex::setProperty($key, $value);
 	}
 
 	if($err_msg == '')

@@ -21,7 +21,7 @@ if(array_key_exists($addon_key,$addons))
 	$msg = rex_request("msg","string");
 	$addon = $addons[$addon_key];
 	$addonObj = rex_addon::get($addon_key);
-	rex_addonManager::loadPackageInfos(rex_addon::get($addonObj));
+	rex_addon_manager::loadPackageInfos(rex_addon::get($addonObj));
 
 	echo rex_info(htmlspecialchars($msg));
 
@@ -146,7 +146,7 @@ if($show_list)
 	foreach($addons as $addon => $v)
 	{
 	  $addonObj = rex_addon::get($addon);
-		rex_addonManager::loadPackageInfos($addonObj);
+		rex_addon_manager::loadPackageInfos($addonObj);
 
 		echo '<tr>';
 		echo '<td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-in">be_dashboard</span></span></td>';

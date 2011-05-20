@@ -5,7 +5,7 @@
  *
  * @author gharlan
  */
-interface rex_packageInterface
+interface rex_package_interface
 {
 	/**
    * Returns the name of the package
@@ -39,8 +39,9 @@ interface rex_packageInterface
    * Returns the assets path
    *
    * @param string $file File
+   * @param int $pathType Path type
    */
-  public function getAssetsPath($file = '');
+  public function getAssetsPath($file = '', $pathType = rex_path::RELATIVE);
 
   /**
    * Returns the data path
@@ -63,6 +64,11 @@ interface rex_packageInterface
    * @see rex_config::has()
    */
   public function hasConfig($key);
+
+  /**
+   * @see rex_config::remove()
+   */
+  public function removeConfig($key);
 
   /**
    * Sets a property
@@ -90,6 +96,13 @@ interface rex_packageInterface
    * @return boolean
    */
   public function hasProperty($key);
+
+  /**
+   * Removes a property
+   *
+   * @param string $key Key of the property
+   */
+  public function removeProperty($key);
 
 	/**
    * Returns if the package is available (activated and installed)

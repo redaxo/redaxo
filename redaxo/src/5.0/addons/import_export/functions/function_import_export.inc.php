@@ -241,7 +241,7 @@ function rex_a1_import_files($filename)
   }
 
   // Ordner /files komplett leeren
-  rex_dir::deleteFiles(rex_path::media());
+  rex_dir::deleteFiles(rex_path::media('', rex_path::ABSOLUTE));
 
   $tar = new rex_tar;
 
@@ -449,7 +449,7 @@ function rex_a1_export_files($folders)
 
   foreach ($folders as $key => $item)
   {
-    _rex_a1_add_folder_to_tar($tar, rex_path::frontend('', rex_path::RELATIVE), $key);
+    _rex_a1_add_folder_to_tar($tar, rex_path::frontend(), $key);
   }
 
   // ----- EXTENSION POINT
@@ -465,7 +465,7 @@ function rex_a1_export_files($folders)
 function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
 {
   $handle = opendir($path.$dir);
-  $isMediafolder = realpath($path.$dir).'/' == rex_path::media();
+  $isMediafolder = realpath($path.$dir).'/' == rex_path::media('', rex_path::ABSOLUTE);
   while (false !== ($file = readdir($handle)))
   {
     // Alles exportieren, außer ...

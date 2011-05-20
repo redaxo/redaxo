@@ -205,7 +205,7 @@ if ($subpage == "media")
     {
       $fwidth = $gf->getValue('width');
       $fheight = $gf->getValue('height');
-      if($size = @getimagesize(rex_path::media($fname, true)))
+      if($size = @getimagesize(rex_path::media($fname)))
       {
         $fwidth = $size[0];
         $fheight = $size[1];
@@ -227,10 +227,10 @@ if ($subpage == "media")
           <span class="rex-form-read" id="fwidth">'. $fwidth .' px / '. $fheight .' px</span>
         </p>
       </div>';
-      $imgn = rex_path::media($fname, true) .'" width="'. $rfwidth;
-      $img_max = rex_path::media($fname, true);
+      $imgn = rex_path::media($fname) .'" width="'. $rfwidth;
+      $img_max = rex_path::media($fname);
 
-      if (!file_exists(rex_path::media($fname)))
+      if (!file_exists(rex_path::media($fname, rex_path::ABSOLUTE)))
       {
         $imgn = 'media/mime-error.gif';
       }else if ($thumbs)
@@ -338,7 +338,7 @@ if ($subpage == "media")
                   <div class="rex-form-row">
                     <p class="rex-form-read">
                       <label for="flink">'. rex_i18n::msg('pool_filename') .'</label>
-                      <span class="rex-form-read"><a href="'. rex_path::media($encoded_fname, true) .'" id="flink">'. htmlspecialchars($fname) .'</a> [' . $ffile_size . ']</span>
+                      <span class="rex-form-read"><a href="'. rex_path::media($encoded_fname) .'" id="flink">'. htmlspecialchars($fname) .'</a> [' . $ffile_size . ']</span>
                     </p>
                   </div>
 
@@ -410,7 +410,7 @@ if ($subpage == "media")
                   <div class="rex-form-row">
                     <p class="rex-form-read">
                         <label for="flink">'. rex_i18n::msg('pool_filename') .'</label>
-                        <a class="rex-form-read" href="'. rex_path::media($encoded_fname, true) .'" id="flink">'. $fname .'</a> [' . $ffile_size . ']
+                        <a class="rex-form-read" href="'. rex_path::media($encoded_fname) .'" id="flink">'. $fname .'</a> [' . $ffile_size . ']
                     </p>
                   </div>
                   <div class="rex-form-row">
@@ -696,7 +696,7 @@ if ($subpage == '')
       $desc .= '<br />';
 
     // wenn datei fehlt
-    if (!file_exists(rex_path::media($file_name)))
+    if (!file_exists(rex_path::media($file_name, rex_path::ABSOLUTE)))
     {
       $thumbnail = '<img src="media/mime-error.gif" width="44" height="38" alt="file does not exist" />';
     }
@@ -712,7 +712,7 @@ if ($subpage == '')
 
       if (rex_ooMedia::_isImage($file_name) && $thumbs)
       {
-        $thumbnail = '<img src="'. rex_path::media($file_name, true) .'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
+        $thumbnail = '<img src="'. rex_path::media($file_name) .'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
         if ($image_manager)
         {
           $thumbnail = '<img src="'. rex_path::frontendController('?rex_img_type=rex_mediapool_preview&amp;rex_img_file='.$encoded_file_name) .'" alt="'. $alt .'" title="'. $alt .'" />';

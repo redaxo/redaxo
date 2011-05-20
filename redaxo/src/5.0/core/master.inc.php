@@ -6,16 +6,47 @@
  * @version svn:$Id$
  */
 
-// ----------------- INCLUDE FUNCTIONS
-require_once rex_path::core('functions.inc.php');
+require_once dirname(__FILE__) .'/lib/path.php';
+rex_path::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], $REX['VERSION_FOLDER']);
+
+require_once rex_path::core('lib/autoload.php');
+
+// register core-classes  as php-handlers
+rex_autoload::register();
+// add core base-classpath to autoloader
+rex_autoload::addDirectory(rex_path::core('lib/'));
+// register rex_logger
+rex_logger::register();
+// start timer
+rex::setProperty('timer', new rex_timer);
+// add backend flag to rex
+rex::setProperty('redaxo', $REX['REDAXO']);
+// reset $REX
+unset($REX);
+// add core lang directory to rex_i18n
+rex_i18n::addDirectory(rex_path::core('lang'));
+// add core base-fragmentpath to fragmentloader
+rex_fragment::addDirectory(rex_path::core('fragments/'));
+// register core REX_VARS
+rex_var::registerVar('rex_var_config');
+
+// ----------------- FUNCTIONS
+require_once rex_path::core('functions/function_rex_globals.inc.php');
+require_once rex_path::core('functions/function_rex_mquotes.inc.php');
+require_once rex_path::core('functions/function_rex_ajax.inc.php');
+require_once rex_path::core('functions/function_rex_callable.inc.php');
+require_once rex_path::core('functions/function_rex_other.inc.php');
+require_once rex_path::core('functions/function_rex_generate.inc.php');
+
+if(rex::isBackend())
+{
+  require_once rex_path::core('functions/function_rex_title.inc.php');
+}
 
 // ----------------- VERSION
-
 rex::setProperty('version', 5);
 rex::setProperty('subversion', 0);
 rex::setProperty('minorversion', 0);
-
-rex::setProperty('redaxo', $REX['REDAXO']);
 
 $config = rex_file::getConfig(rex_path::src('config.yml'));
 foreach($config as $key => $value)
@@ -23,15 +54,11 @@ foreach($config as $key => $value)
   rex::setProperty($key, $value);
 }
 
-rex::setProperty('fileperm', octdec(rex::getProperty('fileperm', '0664')));
-rex::setProperty('dirperm', octdec(rex::getProperty('dirperm', '0775')));
-
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
 // ----------------- OTHER STUFF
 rex::setProperty('setup_packages', array('be_style', 'be_style/agk_skin'));
 rex::setProperty('system_packages', array('structure', 'structure/content', 'structure/linkmap', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/agk_skin', 'image_manager', 'users'));
-rex::setProperty('mediapool', array('blocked_extension' => array('.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp')));
 
 // ----------------- REX PERMS
 
@@ -68,3 +95,12 @@ if(rex_request('article_id', 'int') == 0)
   $REX['ARTICLE_ID'] = rex::getProperty('start_article_id');
 else
   $REX['ARTICLE_ID'] = rex_request('article_id','rex-article-id', rex::getProperty('notfound_article_id'));
+
+if(rex::isBackend())
+{
+  require rex_path::core('index_be.inc.php');
+}
+else
+{
+  require rex_path::core('index_fe.inc.php');
+}

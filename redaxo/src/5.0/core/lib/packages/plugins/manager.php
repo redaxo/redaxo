@@ -1,6 +1,6 @@
 <?php
 
-class rex_pluginManager extends rex_packageManager
+class rex_plugin_manager extends rex_package_manager
 {
 	/**
    * Constructor
@@ -13,7 +13,7 @@ class rex_pluginManager extends rex_packageManager
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageManager::checkDependencies()
+   * @see rex_package_manager::checkDependencies()
    */
   protected function checkDependencies()
   {

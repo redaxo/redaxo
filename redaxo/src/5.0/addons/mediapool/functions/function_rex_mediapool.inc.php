@@ -28,8 +28,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
   }
 
   // ---- ext checken - alle scriptendungen rausfiltern
-  $mProp = rex::getProperty('mediapool');
-  if (in_array($NFILE_EXT,$mProp['blocked_extensions']))
+  if (in_array($NFILE_EXT, rex_addon::get('mediapool')->getProperty('blocked_extensions')))
   {
     $NFILE_NAME .= $NFILE_EXT;
     $NFILE_EXT = '.txt';
@@ -40,10 +39,10 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
   if($doSubindexing)
   {
     // ----- datei schon vorhanden -> namen aendern -> _1 ..
-    if (file_exists(rex_path::media($NFILENAME)))
+    if (file_exists(rex_path::media($NFILENAME, rex_path::ABSOLUTE)))
     {
       $cnt = 1;
-      while(file_exists(rex_path::media($NFILE_NAME.'_'.$cnt.$NFILE_EXT)))
+      while(file_exists(rex_path::media($NFILE_NAME.'_'.$cnt.$NFILE_EXT, rex_path::ABSOLUTE)))
         $cnt++;
 
       $NFILENAME = $NFILE_NAME.'_'.$cnt.$NFILE_EXT;
@@ -84,8 +83,8 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
   $message = '';
 
   // ----- alter/neuer filename
-  $srcFile = rex_path::media($FILENAME);
-  $dstFile = rex_path::media($NFILENAME);
+  $srcFile = rex_path::media($FILENAME, rex_path::ABSOLUTE);
+  $dstFile = rex_path::media($NFILENAME, rex_path::ABSOLUTE);
 
   $success = true;
   if($isFileUpload) // Fileupload?
@@ -107,7 +106,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
   if($success)
   {
-    @chmod($dstFile, rex::getProperty('fileperm'));
+    @chmod($dstFile, rex::getFilePerm());
 
     // get widht height
     $size = @getimagesize($dstFile);
@@ -197,8 +196,8 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
     // if ($ffiletype == $FILEINFOS["filetype"] || rex_ooMedia::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
     if($p_new['extension'] == $p_old['extension'])
     {
-      if (move_uploaded_file($ffilename, rex_path::media($FILEINFOS["filename"])) ||
-          copy($ffilename, rex_path::media($FILEINFOS["filename"])))
+      if (move_uploaded_file($ffilename, rex_path::media($FILEINFOS["filename"], rex_path::ABSOLUTE)) ||
+          copy($ffilename, rex_path::media($FILEINFOS["filename"], rex_path::ABSOLUTE)))
       {
         $RETURN["msg"] = rex_i18n::msg('pool_file_changed');
 				$FILEINFOS["filetype"] = $ffiletype;
@@ -207,12 +206,12 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
         $FILESQL->setValue('filetype',$FILEINFOS["filetype"]);
         // $FILESQL->setValue('originalname',$ffilename);
         $FILESQL->setValue('filesize',$FILEINFOS["filesize"]);
-        if($size = @getimagesize(rex_path::media($FILEINFOS["filename"])))
+        if($size = @getimagesize(rex_path::media($FILEINFOS["filename"], rex_path::ABSOLUTE)))
         {
           $FILESQL->setValue('width',$size[0]);
           $FILESQL->setValue('height',$size[1]);
         }
-        @chmod(rex_path::media($FILEINFOS["filename"]), rex::getProperty('fileperm'));
+        @chmod(rex_path::media($FILEINFOS["filename"], rex_path::ABSOLUTE), rex::getFilePerm());
         $updated = true;
       }else
       {
@@ -288,7 +287,7 @@ $RETURN['old_filename'] = $FILENAME;
  */
 function rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize = null, $filetype = null, $doSubindexing = FALSE)
 {
-  $abs_file = rex_path::media($physical_filename);
+  $abs_file = rex_path::media($physical_filename, rex_path::ABSOLUTE);
 
   if(!file_exists($abs_file))
   {
@@ -328,7 +327,7 @@ function rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize
  */
 function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
 {
-  global $REX, $subpage, $ftitle, $warning, $info;
+  global $subpage, $ftitle, $warning, $info;
 
   $s = '';
 
@@ -474,7 +473,7 @@ function rex_mediapool_Syncform($rex_file_category)
 function rex_mediapool_add_assets($params)
 {
   $params['subject'] .= "\n  ".
-    '<script type="text/javascript" src="'. rex_path::addonAssets('mediapool', 'mediapool.js', rex_path::RELATIVE) .'"></script>';
+    '<script type="text/javascript" src="'. rex_path::addonAssets('mediapool', 'mediapool.js') .'"></script>';
 
   return $params['subject'];
 }

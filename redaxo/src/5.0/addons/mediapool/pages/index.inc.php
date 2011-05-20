@@ -11,6 +11,8 @@
 // - import checken
 // - mehrere ebenen in kategorienedit  einbauen
 
+global $subpage, $ftitle, $warning, $info;
+
 // -------------- Defaults
 $subpage      = rex_request('subpage', 'string');
 $func         = rex_request('func', 'string');
@@ -190,13 +192,13 @@ function selectMediaListArray(files)
 
 function insertImage(src,alt)
 {
-  window.opener.insertImage("<?php echo rex_path::media('', true); ?>" + src, alt);
+  window.opener.insertImage(<?php echo rex_path::media(); ?> + src, alt);
   self.close();
 }
 
 function insertLink(src)
 {
-  window.opener.insertFileLink("<?php echo rex_path::media('', true); ?>" + src);
+  window.opener.insertFileLink(<?php echo rex_path::media(); ?> + src);
   self.close();
 }
 

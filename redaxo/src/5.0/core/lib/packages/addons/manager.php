@@ -1,6 +1,6 @@
 <?php
 
-class rex_addonManager extends rex_packageManager
+class rex_addon_manager extends rex_package_manager
 {
   /**
    * Constructor
@@ -13,7 +13,7 @@ class rex_addonManager extends rex_packageManager
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageManager::checkRequirements()
+   * @see rex_package_manager::checkRequirements()
    */
   protected function checkRequirements()
   {
@@ -27,7 +27,7 @@ class rex_addonManager extends rex_packageManager
       // do not use isAvailable() here, because parent addon isn't activated
       if($plugin->getProperty('status', false))
       {
-        $pluginManager = rex_pluginManager::factory($plugin);
+        $pluginManager = rex_plugin_manager::factory($plugin);
         self::loadPackageInfos($plugin);
         $return = $pluginManager->checkRequirements();
         if(is_string($return) && !empty($return))
@@ -41,7 +41,7 @@ class rex_addonManager extends rex_packageManager
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageManager::checkDependencies()
+   * @see rex_package_manager::checkDependencies()
    */
   protected function checkDependencies()
   {
@@ -83,7 +83,7 @@ class rex_addonManager extends rex_packageManager
   }
 
 	/* (non-PHPdoc)
-	 * @see rex_packageManager::addToPackageOrder()
+	 * @see rex_package_manager::addToPackageOrder()
 	 */
 	protected function addToPackageOrder()
   {
@@ -91,13 +91,13 @@ class rex_addonManager extends rex_packageManager
 
     foreach($this->package->getAvailablePlugins() as $plugin)
     {
-      $pluginManager = rex_pluginManager::factory($plugin);
+      $pluginManager = rex_plugin_manager::factory($plugin);
       $pluginManager->addToPackageOrder();
     }
   }
 
   /* (non-PHPdoc)
-   * @see rex_packageManager::removeFromPackageOrder()
+   * @see rex_package_manager::removeFromPackageOrder()
    */
   protected function removeFromPackageOrder()
   {
@@ -105,7 +105,7 @@ class rex_addonManager extends rex_packageManager
 
     foreach($this->package->getRegisteredPlugins() as $plugin)
     {
-      $pluginManager = rex_pluginManager::factory($plugin);
+      $pluginManager = rex_plugin_manager::factory($plugin);
       $pluginManager->removeFromPackageOrder($plugin);
     }
   }

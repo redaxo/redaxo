@@ -41,7 +41,7 @@ class rex_fragment
   {
     if(is_null($name))
     {
-      throw new rexException(sprintf('Expecting $name to be not null!'));
+      throw new rex_exception(sprintf('Expecting $name to be not null!'));
     }
 
     if($escape)
@@ -65,7 +65,7 @@ class rex_fragment
 
     if(!is_string($filename))
     {
-      throw new rexException(sprintf('Expecting $filename to be a string, %s given!', gettype($filename)));
+      throw new rex_exception(sprintf('Expecting $filename to be a string, %s given!', gettype($filename)));
     }
 
     $this->filename = $filename;
@@ -93,7 +93,7 @@ class rex_fragment
       }
     }
 
-    throw new rexException(sprintf('Fragmentfile "%s.tpl" not found!', $filename));
+    throw new rex_exception(sprintf('Fragmentfile "%s.tpl" not found!', $filename));
   }
 
   /**
@@ -149,7 +149,7 @@ class rex_fragment
     }
     else
     {
-      throw new rexException(sprintf('Unexpected type for $val, "%s" given', gettype($val)));
+      throw new rex_exception(sprintf('Unexpected type for $val, "%s" given', gettype($val)));
     }
   }
 
@@ -176,7 +176,7 @@ class rex_fragment
   {
     if(!is_string($key))
     {
-      throw new rexException(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
+      throw new rex_exception(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
     }
 
     // use the magic call only when more than one parameter is passed along,
@@ -201,7 +201,7 @@ class rex_fragment
   {
     if(!is_string($key))
     {
-      throw new rexException(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
+      throw new rex_exception(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
     }
 
     return rex::getProperty($key);
@@ -214,7 +214,7 @@ class rex_fragment
   {
     if(!is_array($params))
     {
-      throw new rexException(sprintf('Expecting $params to be a array, %s given!', gettype($filename)));
+      throw new rex_exception(sprintf('Expecting $params to be a array, %s given!', gettype($filename)));
     }
 
     if(!isset($params['page']))

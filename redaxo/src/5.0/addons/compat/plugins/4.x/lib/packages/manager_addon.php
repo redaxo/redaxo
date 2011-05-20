@@ -1,6 +1,6 @@
 <?php
 
-class rex_addonManagerCompat extends rex_addonManager
+class rex_addon_manager_compat extends rex_addon_manager
 {
   public function install($installDump = TRUE)
   {
@@ -10,7 +10,7 @@ class rex_addonManagerCompat extends rex_addonManager
     $files_dir = $this->package->getBasePath('files');
     if($state === TRUE && is_dir($files_dir))
     {
-      if(!rex_dir::copy($files_dir, $this->package->getAssetsPath()))
+      if(!rex_dir::copy($files_dir, $this->package->getAssetsPath('', rex_path::ABSOLUTE)))
       {
         $state = $this->I18N('install_cant_copy_files');
       }
@@ -23,7 +23,7 @@ class rex_addonManagerCompat extends rex_addonManager
   {
     global $REX;
 
-    $package->includeFile($file, array('REX_USER', 'REX_LOGIN', 'I18N', 'article_id', 'clang'));
+    $package->includeFile($file, array('REX', 'REX_USER', 'REX_LOGIN', 'I18N', 'article_id', 'clang'));
 
     if(isset($REX['ADDON']) && is_array($REX['ADDON']))
     {
@@ -36,6 +36,13 @@ class rex_addonManagerCompat extends rex_addonManager
             $package->setProperty($property, $value);
           }
         }
+      }
+      /**
+       * @deprecated 4.2
+       */
+      if(isset($REX['ADDON'][$package->getName()]['SUBPAGES']))
+      {
+        $package->setProperty('pages', $REX['ADDON'][$package->getName()]['SUBPAGES']);
       }
     }
   }

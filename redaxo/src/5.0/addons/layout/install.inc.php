@@ -21,7 +21,7 @@ $addonname = 'layout';
 
 $plugins = array('base', 'agk_skin');
 
-$pluginManager = new rex_pluginManager($addonname);
+$pluginManager = new rex_plugin_manager($addonname);
 
 foreach($plugins as $pluginname)
 {
