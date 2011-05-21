@@ -111,7 +111,10 @@ class rex_a62_tableExpander extends rex_form
     
     $field = $this->addTextAreaField('callback');
     $field->setLabel(rex_i18n::msg('minfo_field_label_callback'));
-    $notice = '<span class="rex-form-notice" id="a62_field_callback_notice">'. rex_i18n::msg('minfo_field_label_notice') .'</span>'. "\n";
+    $notice = '';
+    $notice .= '<span class="rex-form-notice" id="a62_field_callback_notice">'. rex_i18n::msg('minfo_field_label_notice') .'</span>'. "\n";
+    $notice .= '<label>'. rex_i18n::msg('minfo_field_label_callback_templates') .'</label>'. "\n";
+    $notice .= '<span class="rex-form-notice" id="a62_field_callback_template_notice"><a href="#">'. rex_i18n::msg('minfo_callback_lang_indep_field') .'</a></span>'. "\n";
     $field->setSuffix($notice);
 
     $field = $this->addTextField('default');
