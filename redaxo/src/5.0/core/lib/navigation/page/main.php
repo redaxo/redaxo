@@ -11,7 +11,7 @@ class rex_be_page_main implements rex_be_page_container
   {
     if(!is_string($block))
     {
-      throw new rexException('Expecting $block to be a string, '. gettype($block) .'given!');
+      throw new rex_exception('Expecting $block to be a string, '. gettype($block) .'given!');
     }
     
     $this->block = $block;

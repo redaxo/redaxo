@@ -34,8 +34,6 @@ class rex_article extends rex_article_base
       return parent::setArticleId($article_id);
     }
 
-    global $REX;
-
     $article_id = (int) $article_id;
     $this->article_id = $article_id;
 

@@ -7,8 +7,6 @@
  */
 function rex_generateAll()
 {
-  global $REX;
-
   // ----------------------------------------------------------- generated löschen
   rex_deleteAll();
 

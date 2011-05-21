@@ -13,24 +13,18 @@
 ?>
 <h3>Funktionen:</h3>
 
-<p>Addon zum generieren von Grafiken anhand von Bildtypen.</p>
+<p>Addon zum Anpassen von Grafiken und Handling von Dateien anhand von Mediatypen.</p>
 
 <h3>Benutzung:</h3>
 <p>
-Die Bildtypen werden in der Verwaltung des Addons erstellt und konfiguriert.
-Jeder Bildtyp kann beliebig viele Effekte enthalten, die auf das aktuelle Bild angewendet werden.
+Die Mediatypen werden in der Verwaltung des Addons erstellt und konfiguriert.
+Jeder Mediatyp kann beliebig viele Effekte enthalten, die auf das aktuelle Medium angewendet werden.
 
-Zum einbinden eines Bildes muss dazu der Bildtyp in der Url notiert werden.
+Zum einbinden eines Mediums muss dazu der Mediatyp in der Url notiert werden.
 </p>
 
 <h3>Anwendungsbeispiele:</h3>
 <p>
-  index.php?rex_img_type=ImgTypeName&amp;rex_img_file=ImageFileName
+  index.php?rex_media_type=ImgTypeName&amp;rex_media_file=ImageFileName
 </p>
 
-
-<h3>Version 1.0:</h3>
-<p>
-  Neue Filter eingebaut: mirror und workspace
-  Anpassung von resize
-</p>

@@ -9,7 +9,7 @@
 // rechte einbauen
 // admin[]
 // clang[xx], clang[0]
-// $REX['USER']->hasPerm("csw[0]")
+// rex::getUser()->hasPerm("csw[0]")
 
 reset($REX['CLANG']);
 $num_clang = count($REX['CLANG']);
@@ -30,7 +30,7 @@ if ($num_clang>1)
        $lang['class'] = 'rex-navi-first';
 
      $lang['url'] = '';
-     if (!$REX['USER']->isAdmin() && !$REX['USER']->hasPerm('clang[all]') && !$REX['USER']->hasPerm('clang['. $key .']'))
+     if (!rex::getUser()->isAdmin() && !rex::getUser()->hasPerm('clang[all]') && !rex::getUser()->hasPerm('clang['. $key .']'))
      {
        if ($clang == $key)
        {
@@ -44,7 +44,7 @@ if ($num_clang>1)
        if ($key==$clang) $class = 'rex-active';
 
        $lang['link_class'] = $class;
-       $lang['url'] = 'index.php?page='. $REX["PAGE"] .'&amp;clang='. $key . $sprachen_add .'&amp;ctype='. $ctype;
+       $lang['url'] = 'index.php?page='. rex::getProperty('page') .'&amp;clang='. $key . $sprachen_add .'&amp;ctype='. $ctype;
      }
      $i++;
      $languages[] = $lang;

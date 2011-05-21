@@ -71,23 +71,23 @@ abstract class rex_logger
   {
     if(!is_int($errno))
     {
-      throw new rexException('Expecting $errno to be integer, but '. gettype($errno) .' given!');
+      throw new rex_exception('Expecting $errno to be integer, but '. gettype($errno) .' given!');
     }
     if(!is_string($errstr))
     {
-      throw new rexException('Expecting $errstr to be string, but '. gettype($errstr) .' given!');
+      throw new rex_exception('Expecting $errstr to be string, but '. gettype($errstr) .' given!');
     }
     if(!is_string($errfile))
     {
-      throw new rexException('Expecting $errfile to be string, but '. gettype($errfile) .' given!');
+      throw new rex_exception('Expecting $errfile to be string, but '. gettype($errfile) .' given!');
     }
     if(!is_int($errline))
     {
-      throw new rexException('Expecting $errline to be integer, but '. gettype($errline) .' given!');
+      throw new rex_exception('Expecting $errline to be integer, but '. gettype($errline) .' given!');
     }
     if(!is_bool($printError))
     {
-      throw new rexException('Expecting $printError to be boolean, but '. gettype($printError) .' given!');
+      throw new rex_exception('Expecting $printError to be boolean, but '. gettype($printError) .' given!');
     }
 
     $errorType = '<b>'. self::getErrorType($errno) .'</b>';
@@ -116,7 +116,7 @@ abstract class rex_logger
   {
     if(!is_string($message))
     {
-      throw new rexException('Expecting $message to be string, but '. gettype($message) .' given!');
+      throw new rex_exception('Expecting $message to be string, but '. gettype($message) .' given!');
     }
 
     if(is_resource(self::$handle))

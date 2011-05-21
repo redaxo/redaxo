@@ -18,7 +18,7 @@ $image_resize = rex_addon::get('image_resize')->isAvailable();
 
 // ***** kategorie auswahl
 $db = rex_sql::factory();
-$file_cat = $db->getArray('SELECT * FROM '.$REX['TABLE_PREFIX'].'media_category ORDER BY name ASC');
+$file_cat = $db->getArray('SELECT * FROM '.rex::getTablePrefix().'media_category ORDER BY name ASC');
 
 // ***** select bauen
 $sel_media = new rex_mediacategory_select($check_perm = false);
@@ -99,7 +99,7 @@ if ($subpage=='media' && rex_post('btn_delete', 'string'))
   if ($media)
   {
     $file_name = $media->getFileName();
-    if ($PERMALL || $REX['USER']->hasPerm('media['.$media->getCategoryId().']'))
+    if ($PERMALL || rex::getUser()->hasPerm('media['.$media->getCategoryId().']'))
     {
       $uses = $media->isInUse();
       if($uses === false)
@@ -138,10 +138,10 @@ if ($subpage=='media' && rex_post('btn_delete', 'string'))
 if ($subpage=="media" && rex_post('btn_update', 'string')){
 
   $gf = rex_sql::factory();
-  $gf->setQuery("select * from ".$REX['TABLE_PREFIX']."media where media_id='$file_id'");
+  $gf->setQuery("select * from ".rex::getTablePrefix()."media where media_id='$file_id'");
   if ($gf->getRows()==1)
   {
-    if ($PERMALL || ($REX['USER']->hasPerm('media['.$gf->getValue('category_id').']') && $REX['USER']->hasPerm('media['. $rex_file_category .']')))
+    if ($PERMALL || (rex::getUser()->hasPerm('media['.$gf->getValue('category_id').']') && rex::getUser()->hasPerm('media['. $rex_file_category .']')))
     {
 
       $FILEINFOS = array();
@@ -151,7 +151,7 @@ if ($subpage=="media" && rex_post('btn_update', 'string')){
       $FILEINFOS["filetype"] = $gf->getValue('filetype');
       $FILEINFOS["filename"] = $gf->getValue('filename');
 
-      $return = rex_mediapool_updateMedia($_FILES['file_new'],$FILEINFOS,$REX['USER']->getValue("login"));
+      $return = rex_mediapool_updateMedia($_FILES['file_new'],$FILEINFOS,rex::getUser()->getValue("login"));
 
       if($return["ok"] == 1)
       {
@@ -177,11 +177,11 @@ if ($subpage=="media" && rex_post('btn_update', 'string')){
 if ($subpage == "media")
 {
   $gf = rex_sql::factory();
-  $gf->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'media WHERE media_id = "'.$file_id.'"');
+  $gf->setQuery('SELECT * FROM '.rex::getTablePrefix().'media WHERE media_id = "'.$file_id.'"');
   if ($gf->getRows()==1)
   {
     $TPERM = false;
-    if ($PERMALL || $REX['USER']->hasPerm("media[".$gf->getValue("category_id")."]")) $TPERM = true;
+    if ($PERMALL || rex::getUser()->hasPerm("media[".$gf->getValue("category_id")."]")) $TPERM = true;
 
     echo $cat_out;
 
@@ -205,7 +205,7 @@ if ($subpage == "media")
     {
       $fwidth = $gf->getValue('width');
       $fheight = $gf->getValue('height');
-      if($size = @getimagesize(rex_path::media($fname, true)))
+      if($size = @getimagesize(rex_path::media($fname)))
       {
         $fwidth = $size[0];
         $fheight = $size[1];
@@ -227,10 +227,10 @@ if ($subpage == "media")
           <span class="rex-form-read" id="fwidth">'. $fwidth .' px / '. $fheight .' px</span>
         </p>
       </div>';
-      $imgn = rex_path::media($fname, true) .'" width="'. $rfwidth;
-      $img_max = rex_path::media($fname, true);
+      $imgn = rex_path::media($fname) .'" width="'. $rfwidth;
+      $img_max = rex_path::media($fname);
 
-      if (!file_exists(rex_path::media($fname)))
+      if (!file_exists(rex_path::media($fname, rex_path::ABSOLUTE)))
       {
         $imgn = 'media/mime-error.gif';
       }else if ($thumbs)
@@ -338,7 +338,7 @@ if ($subpage == "media")
                   <div class="rex-form-row">
                     <p class="rex-form-read">
                       <label for="flink">'. rex_i18n::msg('pool_filename') .'</label>
-                      <span class="rex-form-read"><a href="'. rex_path::media($encoded_fname, true) .'" id="flink">'. htmlspecialchars($fname) .'</a> [' . $ffile_size . ']</span>
+                      <span class="rex-form-read"><a href="'. rex_path::media($encoded_fname) .'" id="flink">'. htmlspecialchars($fname) .'</a> [' . $ffile_size . ']</span>
                     </p>
                   </div>
 
@@ -365,8 +365,8 @@ if ($subpage == "media")
 
                   <div class="rex-form-row">
                     <p class="rex-form-submit">
-                      <input type="submit" class="rex-form-submit" value="'. rex_i18n::msg('pool_file_update') .'" name="btn_update"'. rex_accesskey(rex_i18n::msg('pool_file_update'), $REX['ACKEY']['SAVE']) .' />
-                      <input type="submit" class="rex-form-submit rex-form-submit-2" value="'. rex_i18n::msg('pool_file_delete') .'" name="btn_delete"'. rex_accesskey(rex_i18n::msg('pool_file_delete'), $REX['ACKEY']['DELETE']) .' onclick="return confirm(\''.rex_i18n::msg('delete').' ?\');" />
+                      <input type="submit" class="rex-form-submit" value="'. rex_i18n::msg('pool_file_update') .'" name="btn_update"'. rex::getAccesskey(rex_i18n::msg('pool_file_update'), 'save') .' />
+                      <input type="submit" class="rex-form-submit rex-form-submit-2" value="'. rex_i18n::msg('pool_file_delete') .'" name="btn_delete"'. rex::getAccesskey(rex_i18n::msg('pool_file_delete'), 'delete') .' onclick="return confirm(\''.rex_i18n::msg('delete').' ?\');" />
                     </p>
                   </div>
 
@@ -384,7 +384,7 @@ if ($subpage == "media")
       $Cat = rex_ooMediaCategory::getCategoryById($rex_file_category);
       if ($Cat) $catname = $Cat->getName();
 
-      if($REX['USER']->hasPerm('advancedMode[]'))
+      if(rex::getUser()->hasPerm('advancedMode[]'))
       {
         $ftitle .= ' ['. $file_id .']';
         $catname .= ' ['. $rex_file_category .']';
@@ -410,7 +410,7 @@ if ($subpage == "media")
                   <div class="rex-form-row">
                     <p class="rex-form-read">
                         <label for="flink">'. rex_i18n::msg('pool_filename') .'</label>
-                        <a class="rex-form-read" href="'. rex_path::media($encoded_fname, true) .'" id="flink">'. $fname .'</a> [' . $ffile_size . ']
+                        <a class="rex-form-read" href="'. rex_path::media($encoded_fname) .'" id="flink">'. $fname .'</a> [' . $ffile_size . ']
                     </p>
                   </div>
                   <div class="rex-form-row">
@@ -454,7 +454,7 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
 
       $db = rex_sql::factory();
       // $db->debugsql = true;
-      $db->setTable($REX['TABLE_PREFIX'].'media');
+      $db->setTable(rex::getTablePrefix().'media');
       $db->setWhere('filename="'.$file_name.'"');
       $db->setValue('category_id',$rex_file_category);
       $db->addGlobalUpdateFields();
@@ -488,7 +488,7 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
 			$media = rex_ooMedia::getMediaByFileName($file_name);
 			if ($media)
 			{
-			 if ($PERMALL || $REX['USER']->hasPerm('media['.$media->getCategoryId().']'))
+			 if ($PERMALL || rex::getUser()->hasPerm('media['.$media->getCategoryId().']'))
 			 {
 			   $uses = $media->isInUse();
 			   if($uses === false)
@@ -602,7 +602,7 @@ if ($subpage == '')
   {
     $add_input = '';
     $filecat = rex_sql::factory();
-    $filecat->setQuery("SELECT * FROM ".$REX['TABLE_PREFIX']."media_category ORDER BY name ASC LIMIT 1");
+    $filecat->setQuery("SELECT * FROM ".rex::getTablePrefix()."media_category ORDER BY name ASC LIMIT 1");
     if ($filecat->getRows() > 0)
     {
       $cats_sel->setId('rex_move_file_dest_category');
@@ -611,7 +611,7 @@ if ($subpage == '')
         '. $cats_sel->get() .'
         <input class="rex-form-submit rex-form-submit-2" type="submit" value="'. rex_i18n::msg('pool_changecat_selectedmedia') .'" onclick="var needle=new getObj(\'media_method\');needle.obj.value=\'updatecat_selectedmedia\';" />';
     }
-    $add_input .= '<input class="rex-form-submit rex-form-submit-2" type="submit" value="'.rex_i18n::msg('pool_delete_selectedmedia').'"'. rex_accesskey(rex_i18n::msg('pool_delete_selectedmedia'), $REX['ACKEY']['DELETE']) .' onclick="if(confirm(\''.rex_i18n::msg('delete').' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}" />';
+    $add_input .= '<input class="rex-form-submit rex-form-submit-2" type="submit" value="'.rex_i18n::msg('pool_delete_selectedmedia').'"'. rex::getAccesskey(rex_i18n::msg('pool_delete_selectedmedia'), 'delete') .' onclick="if(confirm(\''.rex_i18n::msg('delete').' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}" />';
     if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
     {
       $add_input .= '<input class="rex-form-submit rex-form-submit-2" type="submit" value="'.rex_i18n::msg('pool_get_selectedmedia').'" onclick="selectMediaListArray(\'selectedmedia[]\');return false;" />';
@@ -644,7 +644,7 @@ if ($subpage == '')
     }
     $where .= ' AND ('. implode(' OR ', $types) .')';
   }
-  $qry = "SELECT * FROM ".$REX['TABLE_PREFIX']."media f WHERE ". $where ." ORDER BY f.updatedate desc";
+  $qry = "SELECT * FROM ".rex::getTablePrefix()."media f WHERE ". $where ." ORDER BY f.updatedate desc";
 
   // ----- EXTENSION POINT
   $qry = rex_extension::registerPoint('MEDIA_LIST_QUERY', $qry,
@@ -696,7 +696,7 @@ if ($subpage == '')
       $desc .= '<br />';
 
     // wenn datei fehlt
-    if (!file_exists(rex_path::media($file_name)))
+    if (!file_exists(rex_path::media($file_name, rex_path::ABSOLUTE)))
     {
       $thumbnail = '<img src="media/mime-error.gif" width="44" height="38" alt="file does not exist" />';
     }
@@ -712,7 +712,7 @@ if ($subpage == '')
 
       if (rex_ooMedia::_isImage($file_name) && $thumbs)
       {
-        $thumbnail = '<img src="'. rex_path::media($file_name, true) .'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
+        $thumbnail = '<img src="'. rex_path::media($file_name) .'" width="80" alt="'. $alt .'" title="'. $alt .'" />';
         if ($image_manager)
         {
           $thumbnail = '<img src="'. rex_path::frontendController('?rex_img_type=rex_mediapool_preview&amp;rex_img_file='.$encoded_file_name) .'" alt="'. $alt .'" title="'. $alt .'" />';
@@ -728,7 +728,7 @@ if ($subpage == '')
     $file_size = rex_file::formattedSize($size);
 
     if ($file_title == '') $file_title = '['.rex_i18n::msg('pool_file_notitle').']';
-    if($REX['USER']->hasPerm('advancedMode[]')) $file_title .= ' ['. $file_id .']';
+    if(rex::getUser()->hasPerm('advancedMode[]')) $file_title .= ' ['. $file_id .']';
 
     // ----- opener
     $opener_link = '';

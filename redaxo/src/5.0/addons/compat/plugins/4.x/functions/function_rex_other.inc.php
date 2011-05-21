@@ -1,11 +1,7 @@
 <?php
+
 /**
- * Gibt den nächsten freien Tabindex zurück.
- * Der Tabindex ist eine stetig fortlaufende Zahl,
- * welche die Priorität der Tabulatorsprünge des Browsers regelt.
- *
- * @return integer nächster freier Tabindex
- * @deprecated since 5.0
+ * @deprecated 5.0
  */
 function rex_tabindex($html = true)
 {
@@ -31,4 +27,17 @@ function rex_tabindex($html = true)
 function rex_install_dump($file, $debug = false)
 {
   return rex_sql_dump::import($file, $debug);
+}
+
+/**
+ * @see rex::getAccesskey()
+ *
+ * @deprecated 5.0
+ */
+function rex_accesskey($title, $key)
+{
+  if(rex::getUser()->hasPerm('accesskeys[]'))
+    return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
+
+  return ' title="'. $title .'"';
 }

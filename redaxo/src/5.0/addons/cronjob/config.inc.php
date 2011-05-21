@@ -11,11 +11,11 @@
 
 $mypage = 'cronjob';
 
-if($REX['REDAXO'])
+if(rex::isBackend())
 {
   $EP = 'PAGE_CHECKED';
 
-  if($REX['USER'] && rex_request('page', 'string') == 'be_dashboard')
+  if(rex::getUser() && rex_request('page', 'string') == 'be_dashboard')
   {
     rex_register_extension (
       'DASHBOARD_COMPONENT',
@@ -28,7 +28,7 @@ if($REX['REDAXO'])
 }
 
 define('REX_CRONJOB_LOG_FOLDER', rex_path::addonData($mypage));
-define('REX_CRONJOB_TABLE'     , $REX['TABLE_PREFIX'] .'cronjob');
+define('REX_CRONJOB_TABLE'     , rex::getTablePrefix() .'cronjob');
 
 rex_extension::register('ADDONS_INCLUDED',
   function($params)
@@ -50,8 +50,7 @@ if ($nexttime != 0 && time() >= $nexttime)
   rex_extension::register($EP,
     function ($params)
     {
-      global $REX;
-      if (!$REX['REDAXO'] || !in_array($REX['PAGE'], array('setup', 'login', 'cronjob')))
+      if (!rex::isBackend() || !in_array(rex::getProperty('page'), array('setup', 'login', 'cronjob')))
       {
         rex_cronjob_manager_sql::factory()->check();
       }

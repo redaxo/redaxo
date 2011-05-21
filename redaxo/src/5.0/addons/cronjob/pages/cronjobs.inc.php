@@ -75,7 +75,6 @@ if ($func == '')
   $list->setColumnFormat('interval', 'custom',
     function ($params)
     {
-      global $REX;
       $value = explode('|', $params['list']->getValue('interval'));
       $str = $value[1] .' ';
       $array = array('i'=>'minutes', 'h'=>'hour', 'd'=>'day', 'w'=>'week', 'm'=>'month', 'y'=>'year');
@@ -88,7 +87,6 @@ if ($func == '')
   $list->setColumnFormat('environment', 'custom',
     function ($params)
     {
-      global $REX;
       $value = $params['list']->getValue('environment');
       $env = array();
       if (strpos($value, '|0|') !== false)
@@ -103,7 +101,6 @@ if ($func == '')
   $list->setColumnFormat('execution_moment', 'custom',
     function ($params)
     {
-      global $REX;
       if ($params['list']->getValue('execution_moment'))
         return rex_i18n::msg('cronjob_execution_beginning');
       return rex_i18n::msg('cronjob_execution_ending');
@@ -116,7 +113,6 @@ if ($func == '')
   $list->setColumnFormat('status', 'custom',
     function ($params)
     {
-      global $REX;
       $list = $params['list'];
       if (!class_exists($list->getValue('type')))
         $str = rex_i18n::msg('cronjob_status_invalid');
@@ -137,7 +133,6 @@ if ($func == '')
   $list->setColumnFormat('execute', 'custom',
     function ($params)
     {
-      global $REX;
       $list = $params['list'];
       if (strpos($list->getValue('environment'), '|1|') !== false && class_exists($list->getValue('type')))
         return $list->getColumnLink('execute', rex_i18n::msg('cronjob_execute'));

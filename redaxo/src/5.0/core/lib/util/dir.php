@@ -15,11 +15,9 @@ class rex_dir
    */
   static public function create($dir, $recursive = true)
   {
-    global $REX;
-
-    if(is_dir($dir) || mkdir($dir, $REX['DIRPERM'], $recursive))
+    if(is_dir($dir) || mkdir($dir, rex::getDirPerm(), $recursive))
     {
-      chmod($dir, $REX['DIRPERM']);
+      chmod($dir, rex::getDirPerm());
       return true;
     }
 
@@ -36,8 +34,6 @@ class rex_dir
    */
   static public function copy($srcdir, $dstdir)
   {
-    global $REX;
-
     $state = TRUE;
 
     $srcdir = rtrim($srcdir, DIRECTORY_SEPARATOR);
@@ -50,7 +46,7 @@ class rex_dir
 
     if($curdir = opendir($srcdir))
     {
-      while($file = readdir($curdir))
+      while(false !== ($file = readdir($curdir)))
       {
         if($file != '.' && $file != '..' && $file != '.svn')
         {
@@ -116,9 +112,9 @@ class rex_dir
 
     $dir = rtrim($dir, DIRECTORY_SEPARATOR);
 
-    if (file_exists($dir) && ($handle = opendir($dir)))
+    if(file_exists($dir) && ($handle = opendir($dir)))
     {
-      while ($filename = readdir($handle))
+      while(false !== ($filename = readdir($handle)))
       {
         if ($filename != '.' && $filename != '..')
         {

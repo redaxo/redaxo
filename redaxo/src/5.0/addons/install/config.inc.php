@@ -11,7 +11,7 @@
 
 $mypage = 'install';
 
-if ($REX['REDAXO'])
+if (rex::isBackend())
 {
 }
 

@@ -33,9 +33,11 @@ class rex_effect_filter_blur extends rex_effect_abstract{
 	    return;
 		}
 
-		$gdimage = $this->image->getImage();
-		$w = $this->image->getWidth();
-		$h = $this->image->getHeight();
+		$this->media->asImage();
+		
+		$gdimage = $this->media->getImage();
+		$w = $this->media->getWidth();
+		$h = $this->media->getHeight();
 
 		$imgCanvas = $gdimage;
 		$imgCanvas2 = $gdimage;
@@ -90,29 +92,27 @@ class rex_effect_filter_blur extends rex_effect_abstract{
 	      }
 	    }
 	  }
-	  $this->image->setImage($imgBlur);
+	  $this->media->setImage($imgBlur);
 	}
 
 
 	public function getParams()
 	{
-		global $REX;
-
 		return array(
 			array(
-				'label' => rex_i18n::msg('imanager_effect_blur_amount'),
+				'label' => rex_i18n::msg('media_manager_effect_blur_amount'),
 				'name' => 'amount',
 				'type'	=> 'int',
 				'default' => '80'
 			),
 			array(
-				'label' => rex_i18n::msg('imanager_effect_blur_radius'),
+				'label' => rex_i18n::msg('media_manager_effect_blur_radius'),
 				'name' => 'radius',
 				'type'	=> 'int',
 				'default' => '8'
 			),
 			array(
-				'label' => rex_i18n::msg('imanager_effect_blur_threshold'),
+				'label' => rex_i18n::msg('media_manager_effect_blur_threshold'),
 				'name' => 'threshold',
 				'type'	=> 'int',
 				'default' => '3'

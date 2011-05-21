@@ -2,12 +2,10 @@
 
 function rex_media_manager_supportedEffects()
 {
-  global $REX;
-  
   $dirs = array(
     dirname(__FILE__). '/../lib/effects/'
   );
-  
+
   $effects = array();
   foreach($dirs as $dir)
   {
@@ -53,18 +51,16 @@ function rex_media_manager_effectClass($effectFile)
 
 function rex_media_manager_deleteCacheByType($type_id)
 {
-  global $REX;
-  
-  $qry = 'SELECT * FROM '. $REX['TABLE_PREFIX'].'media_manager_types' . ' WHERE id='. $type_id;
+  $qry = 'SELECT * FROM '. rex::getTablePrefix().'media_manager_types' . ' WHERE id='. $type_id;
   $sql = rex_sql::factory();
 //  $sql->debugsql = true;
   $sql->setQuery($qry);
-  
+
   $counter = 0;
   foreach($sql as $row)
   {
-    $counter += rex_media_manager_cacher::deleteCache(null, $row->getValue('name'));
+    $counter += rex_media_manager::deleteCache(null, $row->getValue('name'));
   }
-  
+
   return $counter;
 }

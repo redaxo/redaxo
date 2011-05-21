@@ -190,8 +190,6 @@ class rex_effect_resize extends rex_effect_abstract
 
 	public function getParams()
 	{
-		global $REX;
-
 		return array(
 			array(
 				'label'=>rex_i18n::msg('media_manager_effect_resize_width'),

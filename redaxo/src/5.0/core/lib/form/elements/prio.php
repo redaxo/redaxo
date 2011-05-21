@@ -46,8 +46,6 @@ class rex_form_prio_element extends rex_form_select_element
 
   public function formatElement()
   {
-    global $REX;
-
     $name = $this->getFieldName();
 
     $qry = 'SELECT '. $this->labelField .','. $name .' FROM '. $this->table->getTableName() . ' WHERE 1=1';

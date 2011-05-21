@@ -7,7 +7,7 @@
 
 $info = '';
 $warning = '';
-$user_id = $REX['USER']->getValue('user_id');
+$user_id = rex::getUser()->getValue('user_id');
 
 // Allgemeine Infos
 $userpsw       = rex_request('userpsw', 'string');
@@ -44,7 +44,7 @@ $userperm_be_sprache = rex_request('userperm_be_sprache', 'string');
 $userperm_be_sprache_selected = '';
 foreach($langs as $k => $v)
 {
-	if ($REX['LOGIN']->USER->hasPerm('be_lang['.$k.']'))
+	if (rex::getProperty('login')->USER->hasPerm('be_lang['.$k.']'))
 	{
 	  $userperm_be_sprache_selected = $k;
 	}
@@ -56,7 +56,7 @@ foreach($langs as $k => $v)
 if (rex_post('upd_profile_button', 'string'))
 {
   $updateuser = rex_sql::factory();
-  $updateuser->setTable($REX['TABLE_PREFIX'].'user');
+  $updateuser->setTable(rex::getTablePrefix().'user');
   $updateuser->setWhere('user_id='. $user_id);
   $updateuser->setValue('name',$username);
   $updateuser->setValue('description',$userdesc);
@@ -67,7 +67,7 @@ if (rex_post('upd_profile_button', 'string'))
     $userperm_be_sprache = "default";
   $userperm_be_sprache_selected = $userperm_be_sprache;
 
-  $rights = $REX['USER']->removePerm('be_lang');
+  $rights = rex::getUser()->removePerm('be_lang');
   $rights .= 'be_lang['.$userperm_be_sprache.']#';
   $updateuser->setValue('rights',$rights);
 
@@ -83,20 +83,20 @@ if (rex_post('upd_profile_button', 'string'))
 if (rex_post('upd_psw_button', 'string'))
 {
   $updateuser = rex_sql::factory();
-  $updateuser->setTable($REX['TABLE_PREFIX'].'user');
+  $updateuser->setTable(rex::getTablePrefix().'user');
   $updateuser->setWhere('user_id='. $user_id);
 
   // the service side encryption of pw is only required
   // when not already encrypted by client using javascript
-  if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0')
-    $userpsw = call_user_func($REX['PSWFUNC'],$userpsw);
+  if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0')
+    $userpsw = call_user_func(rex::getProperty('pswfunc'),$userpsw);
 
-  if($userpsw != '' && $REX['USER']->getValue('psw') == $userpsw && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2)
+  if($userpsw != '' && rex::getUser()->getValue('psw') == $userpsw && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2)
   {
     // the service side encryption of pw is only required
     // when not already encrypted by client using javascript
-    if ($REX['PSWFUNC'] != '' && rex_post('javascript') == '0')
-      $userpsw_new_1 = call_user_func($REX['PSWFUNC'],$userpsw_new_1);
+    if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0')
+      $userpsw_new_1 = call_user_func(rex::getProperty('pswfunc'),$userpsw_new_1);
 
     $updateuser->setValue('psw',$userpsw_new_1);
     $updateuser->addGlobalUpdateFields();
@@ -129,21 +129,21 @@ if ($warning != '')
 // --------------------------------- FORMS
 
 $sql = new rex_login_sql;
-$sql->setQuery('select * from '. $REX['TABLE_PREFIX'] .'user where user_id='. $user_id);
+$sql->setQuery('select * from '. rex::getTablePrefix() .'user where user_id='. $user_id);
 if ($sql->getRows()!=1)
 {
   echo rex_warning('You have no permission to this area!');
 }
 else
 {
-  // $userpsw = $sql->getValue($REX['TABLE_PREFIX'].'user.psw');
-  $user_name = $sql->getValue($REX['TABLE_PREFIX'].'user.name');
-  $user_desc = $sql->getValue($REX['TABLE_PREFIX'].'user.description');
-  $user_login = $sql->getValue($REX['TABLE_PREFIX'].'user.login');
+  // $userpsw = $sql->getValue(rex::getTablePrefix().'user.psw');
+  $user_name = $sql->getValue(rex::getTablePrefix().'user.name');
+  $user_desc = $sql->getValue(rex::getTablePrefix().'user.description');
+  $user_login = $sql->getValue(rex::getTablePrefix().'user.login');
 
   ?>
-  
-  
+
+
   <div class="rex-form" id="rex-form-profile">
   <form action="index.php" method="post">
     <fieldset class="rex-form-col-2">
@@ -182,7 +182,7 @@ else
       <div class="rex-form-wrapper">
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-submit">
-            <input class="rex-form-submit" type="submit" name="upd_profile_button" value="<?php echo rex_i18n::msg('profile_save'); ?>" <?php echo rex_accesskey(rex_i18n::msg('profile_save'), $REX['ACKEY']['SAVE']); ?> />
+            <input class="rex-form-submit" type="submit" name="upd_profile_button" value="<?php echo rex_i18n::msg('profile_save'); ?>" <?php echo rex::getAccesskey(rex_i18n::msg('profile_save'), 'save'); ?> />
           </p>
         </div>
       </div>
@@ -227,7 +227,7 @@ else
       <div class="rex-form-wrapper">
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-submit">
-            <input class="rex-form-submit" type="submit" name="upd_psw_button" value="<?php echo rex_i18n::msg('profile_save_psw'); ?>" <?php echo rex_accesskey(rex_i18n::msg('profile_save_psw'), $REX['ACKEY']['SAVE']); ?> />
+            <input class="rex-form-submit" type="submit" name="upd_psw_button" value="<?php echo rex_i18n::msg('profile_save_psw'); ?>" <?php echo rex::getAccesskey(rex_i18n::msg('profile_save_psw'), 'save'); ?> />
           </p>
         </div>
       </div>

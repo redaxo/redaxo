@@ -16,8 +16,6 @@ class rex_cronjob_component extends rex_dashboard_component
 {
   public function __construct()
   {
-    global $REX;
-
     parent::__construct('cronjob');
     $this->setTitle(rex_i18n::msg('cronjob_dashboard_component_title'));
     $this->setTitleUrl('index.php?page=cronjob');
@@ -27,9 +25,7 @@ class rex_cronjob_component extends rex_dashboard_component
 
   public function checkPermission()
   {
-    global $REX;
-
-    return $REX['USER']->isAdmin();
+    return rex::getUser()->isAdmin();
   }
 
   protected function prepare()

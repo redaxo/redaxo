@@ -8,7 +8,7 @@
  * @package redaxo5
  * @version svn:$Id$
  */
-class rex_timer extends rex_singleton
+class rex_timer
 {
   const
     SEC = 1,

@@ -17,14 +17,10 @@ ob_implicit_flush(0);
 @ini_set('arg_separator.input', '&amp;');
 @ini_set('arg_separator.output', '&amp;');
 
-// --------------------------- globals
-
-include rex_path::core('master.inc.php');
-
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.inc.php');
 
-if($REX['SETUP'])
+if(rex::isSetup())
 {
 	header('Location:redaxo/');
 	exit();
@@ -33,7 +29,7 @@ if($REX['SETUP'])
 $REX['ARTICLE'] = new rex_article;
 $REX['ARTICLE']->setCLang($REX['CUR_CLANG']);
 
-if($REX['SETUP'])
+if(rex::isSetup())
 {
 	header('Location: redaxo/index.php');
 	exit();

@@ -8,14 +8,14 @@ if($PERMALL)
 {
   // ---- Dateien aus dem Ordner lesen
   $folder_files = array();
-  $handle = opendir(rex_path::media());
+  $handle = opendir(rex_path::media('', rex_path::ABSOLUTE));
   if($handle) {
     while(($file = readdir($handle)) !== false)
     {
-      if(!is_file(rex_path::media($file))) continue;
+      if(!is_file(rex_path::media($file, rex_path::ABSOLUTE))) continue;
 
       // Tempfiles nicht synchronisieren
-      if(substr($file, 0, strlen($REX['TEMP_PREFIX'])) != $REX['TEMP_PREFIX'])
+      if(substr($file, 0, strlen(rex::getTempPrefix())) != rex::getTempPrefix())
       {
         $folder_files[] = $file;
       }
@@ -26,7 +26,7 @@ if($PERMALL)
 
   // ---- Dateien aus der DB lesen
   $db = rex_sql::factory();
-  $db->setQuery('SELECT filename FROM '. $REX['TABLE_PREFIX'].'media');
+  $db->setQuery('SELECT filename FROM '. rex::getTablePrefix().'media');
   $db_files = array();
 
   for($i=0;$i<$db->getRows();$i++)
@@ -67,10 +67,22 @@ if($PERMALL)
     }
   }elseif(rex_post('save', 'boolean'))
   {
-  	$warning = rex_i18n::msg('pool_file_not_found');
+    $warning = rex_i18n::msg('pool_file_not_found');
   }
 
-  echo rex_mediapool_Syncform($rex_file_category);
+  $params = array();
+  $params['form_title'] = rex_i18n::msg('pool_sync_title');
+  $params['button_title'] = rex_i18n::msg('pool_sync_button');
+  $params['rex_file_category'] = $rex_file_category;
+  $params['file_chooser'] = false;
+  $params['close_form'] = false;
+
+  $params['subpage'] = $subpage;
+  $params['ftitle'] = "";
+  $params['warning'] = $warning;
+  $params['info'] = $info;
+
+  echo rex_mediapool_Mediaform($params);
 
   $title = rex_i18n::msg('pool_sync_affected_files');
   if(!empty($diff_count))
@@ -87,7 +99,7 @@ if($PERMALL)
     {
       echo '<div class="rex-form-row">
               <p class="rex-form-checkbox rex-form-label-right">';
-      if(is_writable(rex_path::media($file)))
+      if(is_writable(rex_path::media($file, rex_path::ABSOLUTE)))
       {
         echo '<input class="rex-form-checkbox" type="checkbox" id="sync_file_'. $file .'" name="sync_files[]" value="'. $file .'" />
               <label for="sync_file_'. $file .'">'. $file .'</label>';

@@ -9,12 +9,13 @@ class rex_effect_insert_image extends rex_effect_abstract{
 
 	public function execute()
 	{
-		global $REX;
-
-    // -------------------------------------- CONFIG
-    $brandimage = rex_path::media($this->params['brandimage']);
+	  
+	  $this->media->asImage();
+	  
+		// -------------------------------------- CONFIG
+    $brandimage = rex_path::media($this->params['brandimage'], rex_path::ABSOLUTE);
     if(!file_exists($brandimage) || !is_file($brandimage))
-      $brandimage = dirname(__FILE__). '/../../media/brand.gif';
+      return;
 
     // Abstand vom Rand
     $padding_x = -10;
@@ -36,13 +37,13 @@ class rex_effect_insert_image extends rex_effect_abstract{
       $vpos = (string) $this->params['vpos'];
 
     // -------------------------------------- /CONFIG
-    $brand = new rex_image($brandimage);
+    $brand = new rex_media($brandimage);
     $brand->prepare();
     $gdbrand = $brand->getImage();
-    $gdimage = $this->image->getImage();
+    $gdimage = $this->media->getImage();
 
-    $image_width  = $this->image->getWidth();
-    $image_height = $this->image->getHeight();
+    $image_width  = $this->media->getWidth();
+    $image_height = $this->media->getHeight();
     $brand_width  = $brand->getWidth();
     $brand_height = $brand->getHeight();
 
@@ -76,47 +77,44 @@ class rex_effect_insert_image extends rex_effect_abstract{
     imagecopy($gdimage, $gdbrand, $dstX + $padding_x, $dstY + $padding_y, 0, 0, $brand_width, $brand_height);
 
     $brand->destroy();
-    $this->image->setImage($gdimage);
+    $this->media->setImage($gdimage);
 	}
 
 	public function getParams()
 	{
-		global $REX;
-
 		return array(
 			array(
-				'label' => rex_i18n::msg('imanager_effect_brand_image'),
+				'label' => rex_i18n::msg('media_manager_effect_brand_image'),
 				'name' => 'brandimage',
 				'type'	=> 'media',
 				'default' => ''
 			),
 			array(
-				'label' => rex_i18n::msg('imanager_effect_brand_hpos'),
+				'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
 				'name' => 'hpos',
 				'type'	=> 'select',
 				'options'	=> array('left','center','right'),
 				'default' => 'left'
 			),
 			array(
-				'label' => rex_i18n::msg('imanager_effect_brand_vpos'),
+				'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
 				'name' => 'vpos',
 				'type'	=> 'select',
 				'options'	=> array('top','middle','bottom'),
 				'default' => 'top'
 			),
 			array(
-				'label' => rex_i18n::msg('imanager_effect_brand_padding_x'),
+				'label' => rex_i18n::msg('media_manager_effect_brand_padding_x'),
 				'name' => 'padding_x',
 				'type'	=> 'int',
 				'default' => '-10'
 			),
 			array(
-				'label' => rex_i18n::msg('imanager_effect_brand_padding_y'),
+				'label' => rex_i18n::msg('media_manager_effect_brand_padding_y'),
 				'name' => 'padding_y',
 				'type'	=> 'int',
 				'default' => '-10'
 			),
-			/*TODO: Optionaler Bildtyp f�r das ausgew�hlte Bild*/
 		);
 	}
 

@@ -15,7 +15,7 @@ $error = '';
 $addonname = 'structure';
 $plugins = array('content', 'linkmap');
 
-$pluginManager = new rex_pluginManager($addonname);
+$pluginManager = new rex_plugin_manager($addonname);
 
 foreach($plugins as $pluginname)
 {

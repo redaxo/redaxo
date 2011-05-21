@@ -21,8 +21,6 @@ function rex_be_search_highlight_hit($string, $needle)
  */
 function rex_be_search_extensions_handler($params)
 {
-  global $REX;
-
   $page = $params['subject'];
 
   rex_extension::register('PAGE_HEADER', 'rex_be_search_css_add');
@@ -56,9 +54,9 @@ function rex_be_search_css_add($params)
   $addon = 'be_search';
 
   $params['subject'] .= "\n  ".
-    '<link rel="stylesheet" type="text/css" href="'. rex_path::addonAssets($addon, 'be_search.css', rex_path::RELATIVE) .'" />';
+    '<link rel="stylesheet" type="text/css" href="'. rex_path::addonAssets($addon, 'be_search.css') .'" />';
   $params['subject'] .= "\n  ".
-    '<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="'. rex_path::addonAssets($addon, 'be_search_ie_lte_7.css', rex_path::RELATIVE) .'" /><![endif]-->';
+    '<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="'. rex_path::addonAssets($addon, 'be_search_ie_lte_7.css') .'" /><![endif]-->';
 
   return $params['subject'];
 }

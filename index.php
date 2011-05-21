@@ -3,6 +3,6 @@
 $REX = array();
 $REX['REDAXO'] = false;
 $REX['HTDOCS_PATH'] = './';
-// $REX['GG'] = true;
+$REX['BACKEND_FOLDER'] = 'redaxo';
 
-include($REX['HTDOCS_PATH'].'/redaxo/src/config.inc.php');
+include $REX['BACKEND_FOLDER'] .'/src/config.inc.php';

@@ -38,12 +38,12 @@ abstract class rex_factory
   {
     if(!is_string($subclass))
     {
-      throw new rexException('Expecting $subclass to be a string, '. gettype($subclass) . ' given!');
+      throw new rex_exception('Expecting $subclass to be a string, '. gettype($subclass) . ' given!');
     }
     $calledClass = get_called_class();
     if($subclass != $calledClass && !is_subclass_of($subclass, $calledClass))
     {
-      throw new rexException('$class "'. $subclass .'" is expected to define a subclass of '. $calledClass .'!');
+      throw new rex_exception('$class "'. $subclass .'" is expected to define a subclass of '. $calledClass .'!');
     }
     self::$classes[$calledClass] = $subclass;
   }

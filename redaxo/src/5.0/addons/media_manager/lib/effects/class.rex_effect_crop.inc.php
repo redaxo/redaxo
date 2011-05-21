@@ -11,9 +11,12 @@ class rex_effect_crop extends rex_effect_abstract
 
   public function execute()
   {
-    $gdimage = $this->image->getImage();
-    $w = $this->image->getWidth();
-    $h = $this->image->getHeight();
+    
+    $this->media->asImage();
+    
+    $gdimage = $this->media->getImage();
+    $w = $this->media->getWidth();
+    $h = $this->media->getHeight();
 
     if(empty($this->params['width']) || $this->params['width'] < 0 ||
       empty($this->params['height']) || $this->params['height'] < 0)
@@ -77,15 +80,15 @@ class rex_effect_crop extends rex_effect_abstract
     $this->keepTransparent($des);
     imagecopyresampled($des, $gdimage, 0, 0, $offset_width, $offset_height, $this->params['width'], $this->params['height'], $this->params['width'], $this->params['height']);
 
-    $this->image->setImage($des);;
-    $this->image->refreshDimensions();
+    $this->media->setImage($des);;
+    $this->media->refreshImageDimensions();
 
   }
 
 
   function keepTransparent($des)
   {
-    $image = $this->image;
+    $image = $this->media;
     if ($image->getFormat() == 'PNG')
     {
       imagealphablending($des, false);
@@ -109,38 +112,36 @@ class rex_effect_crop extends rex_effect_abstract
 
   public function getParams()
   {
-    global $REX;
-
     return array(
       array(
-        'label'=>rex_i18n::msg('imanager_effect_crop_width'),
+        'label'=>rex_i18n::msg('media_manager_effect_crop_width'),
         'name' => 'width',
         'type' => 'int'
       ),
       array(
-        'label'=>rex_i18n::msg('imanager_effect_crop_height'),
+        'label'=>rex_i18n::msg('media_manager_effect_crop_height'),
         'name' => 'height',
         'type' => 'int'
       ),
       array(
-        'label'=>rex_i18n::msg('imanager_effect_crop_offset_width'),
+        'label'=>rex_i18n::msg('media_manager_effect_crop_offset_width'),
         'name' => 'offset_width',
         'type' => 'int'
       ),
       array(
-        'label'=>rex_i18n::msg('imanager_effect_crop_offset_height'),
+        'label'=>rex_i18n::msg('media_manager_effect_crop_offset_height'),
         'name' => 'offset_height',
         'type' => 'int'
       ),
       array(
-        'label' => rex_i18n::msg('imanager_effect_brand_hpos'),
+        'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
         'name' => 'hpos',
         'type'	=> 'select',
         'options'	=> array('left','center','right'),
         'default' => 'center'
       ),
       array(
-        'label' => rex_i18n::msg('imanager_effect_brand_vpos'),
+        'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
         'name' => 'vpos',
         'type'	=> 'select',
         'options'	=> array('top','middle','bottom'),

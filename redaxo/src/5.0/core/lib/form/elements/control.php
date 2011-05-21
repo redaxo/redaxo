@@ -22,8 +22,6 @@ class rex_form_control_element extends rex_form_element
 
   protected function _get()
   {
-    global $REX;
-
     $s = '';
 
     $class = '';

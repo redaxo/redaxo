@@ -30,8 +30,6 @@ class rex_sql extends rex_factory implements Iterator
 
   protected function __construct($DBID = 1)
   {
-    global $REX;
-
     $this->debugsql = false;
     $this->flush();
     $this->selectDB($DBID);
@@ -42,20 +40,19 @@ class rex_sql extends rex_factory implements Iterator
    */
   protected function selectDB($DBID)
   {
-    global $REX;
-
     $this->DBID = $DBID;
 
     try
     {
       if(!isset(self::$pdo[$DBID]))
       {
+        $dbconfig = rex::getProperty('db');
         $conn = self::createConnection(
-          $REX['DB'][$DBID]['host'],
-          $REX['DB'][$DBID]['name'],
-          $REX['DB'][$DBID]['login'],
-          $REX['DB'][$DBID]['password'],
-          $REX['DB'][$DBID]['persistent']
+          $dbconfig[$DBID]['host'],
+          $dbconfig[$DBID]['name'],
+          $dbconfig[$DBID]['login'],
+          $dbconfig[$DBID]['password'],
+          $dbconfig[$DBID]['persistent']
         );
         self::$pdo[$DBID] = $conn;
 
@@ -69,7 +66,7 @@ class rex_sql extends rex_factory implements Iterator
     }
     catch(PDOException $e)
     {
-      echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . $REX['ERROR_EMAIL'] . ">" . $REX['ERROR_EMAIL'] . "</a>\n | Thank you!\n</font>";
+      echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . rex::getProperty('error_email') . ">" . rex::getProperty('error_email') . "</a>\n | Thank you!\n</font>";
       exit;
     }
   }
@@ -218,7 +215,7 @@ class rex_sql extends rex_factory implements Iterator
   {
     if(!is_array($params))
     {
-      throw new rexException('expecting $params to be an array, "'. gettype($params) .'" given!');
+      throw new rex_exception('expecting $params to be an array, "'. gettype($params) .'" given!');
     }
 
     // Alle Werte zuruecksetzen
@@ -232,7 +229,7 @@ class rex_sql extends rex_factory implements Iterator
     }
     else
     {
-      throw new rexException('Error occured while preparing statement "'. $qry .'"!');
+      throw new rex_exception('Error occured while preparing statement "'. $qry .'"!');
     }
 
     if($this->stmt !== false)
@@ -251,7 +248,7 @@ class rex_sql extends rex_factory implements Iterator
     }
     else if ($hasError)
     {
-      throw new rexException($this->getError());
+      throw new rex_exception($this->getError());
     }
 
     return !$hasError;
@@ -366,7 +363,7 @@ class rex_sql extends rex_factory implements Iterator
     }
     else
     {
-      throw new rexException('expecting $where to be an array, "'. gettype($where) .'" given!');
+      throw new rex_exception('expecting $where to be an array, "'. gettype($where) .'" given!');
     }
 
     return $this;
@@ -381,7 +378,7 @@ class rex_sql extends rex_factory implements Iterator
   {
     if(empty($feldname))
     {
-      throw new rexException('parameter fieldname must not be empty!');
+      throw new rex_exception('parameter fieldname must not be empty!');
     }
 
     // fast fail,... value already set manually?
@@ -851,7 +848,7 @@ class rex_sql extends rex_factory implements Iterator
   {
     if (empty($sql))
     {
-      throw new rexException('sql query must not be empty!');
+      throw new rex_exception('sql query must not be empty!');
     }
 
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
@@ -1019,9 +1016,7 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function addGlobalUpdateFields($user = null)
   {
-    global $REX;
-
-    if(!$user) $user = $REX['USER']->getValue('login');
+    if(!$user) $user = rex::getUser()->getValue('login');
 
     $this->setValue('updatedate', time());
     $this->setValue('updateuser', $user);
@@ -1036,9 +1031,7 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function addGlobalCreateFields($user = null)
   {
-    global $REX;
-
-    if(!$user) $user = $REX['USER']->getValue('login');
+    if(!$user) $user = rex::getUser()->getValue('login');
 
     $this->setValue('createdate', time());
     $this->setValue('createuser', $user);
@@ -1214,8 +1207,6 @@ class rex_sql extends rex_factory implements Iterator
    */
   static public function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
   {
-    global $REX;
-
     $err_msg = true;
 
     try

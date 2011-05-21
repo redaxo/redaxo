@@ -13,8 +13,6 @@ class rex_cronjob_article_status extends rex_cronjob
 {
   public function execute()
   {
-    global $REX;
-
     $config = rex_plugin::get('cronjob', 'article_status')->getProperty('config');
     $from = $config['from'];
     $to   = $config['to'];
@@ -25,7 +23,7 @@ class rex_cronjob_article_status extends rex_cronjob
     // $sql->debugsql = true;
     $sql->setQuery('
       SELECT  name
-      FROM    '. $REX['TABLE_PREFIX'] .'62_params
+      FROM    '. rex::getTablePrefix() .'62_params
       WHERE   name="'. $from['field'] .'" OR name="'. $to['field'] .'"
     ');
     $rows = $sql->getRows();
@@ -47,7 +45,7 @@ class rex_cronjob_article_status extends rex_cronjob
     $time = time();
     $sql->setQuery('
       SELECT  id, clang, status
-      FROM    '. $REX['TABLE_PREFIX'] .'article
+      FROM    '. rex::getTablePrefix() .'article
       WHERE
         (     '. $from['field'] .' > 0
         AND   '. $from['field'] .' < '. $time .'
@@ -80,7 +78,6 @@ class rex_cronjob_article_status extends rex_cronjob
 
   public function getTypeName()
   {
-    global $REX;
     return rex_i18n::msg('cronjob_article_status');
   }
 }

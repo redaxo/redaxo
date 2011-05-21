@@ -25,12 +25,10 @@ function rex_a657_get_latest_version()
 
 function rex_a657_check_version()
 {
-  global $REX;
-
   $latestVersion = rex_a657_get_latest_version();
   if(!$latestVersion) return false;
 
-  $rexVersion = $REX['VERSION'].'.'.$REX['SUBVERSION'].'.'.$REX['MINORVERSION'];
+  $rexVersion = rex::getVersion();
   if(version_compare($rexVersion, $latestVersion, '>'))
   {
     // Dev version

@@ -19,7 +19,7 @@ class rex_urlRewriter_simple extends rex_urlRewriter
   // Parameter aus der URL für das Script verarbeiten
   public function prepare()
   {
-    global $article_id, $clang, $REX;
+    global $article_id, $clang;
 
     if (ereg('^/([0-9]*)-([0-9]*)', $_SERVER['QUERY_STRING'], $_match))
     {
@@ -28,7 +28,7 @@ class rex_urlRewriter_simple extends rex_urlRewriter
     }
     elseif ((empty( $_GET['article_id'])) && ( empty( $_POST['article_id'])))
     {
-      $article_id = $REX['START_ARTICLE_ID'];
+      $article_id = rex::getProperty('start_article_id');
     }
   }
 

@@ -46,8 +46,6 @@ class rex_ooMediaCategory
    */
   static public function getCategoryById($id)
   {
-    global $REX;
-
     $id = (int) $id;
     if (!is_numeric($id))
       return null;
@@ -60,21 +58,21 @@ class rex_ooMediaCategory
 
     if (file_exists($cat_path))
     {
-      $REX['MEDIA']['CAT_ID'][$id] = rex_file::getCache($cat_path);
+      $cache = rex_file::getCache($cat_path);
 
       $cat = new rex_ooMediaCategory();
 
-      $cat->_id = $REX['MEDIA']['CAT_ID'][$id]['id'];
-      $cat->_parent_id = $REX['MEDIA']['CAT_ID'][$id]['re_id'];
+      $cat->_id = $cache['id'];
+      $cat->_parent_id = $cache['re_id'];
 
-      $cat->_name = $REX['MEDIA']['CAT_ID'][$id]['name'];
-      $cat->_path = $REX['MEDIA']['CAT_ID'][$id]['path'];
+      $cat->_name = $cache['name'];
+      $cat->_path = $cache['path'];
 
-      $cat->_createdate = $REX['MEDIA']['CAT_ID'][$id]['createdate'];
-      $cat->_updatedate = $REX['MEDIA']['CAT_ID'][$id]['updatedate'];
+      $cat->_createdate = $cache['createdate'];
+      $cat->_updatedate = $cache['updatedate'];
 
-      $cat->_createuser = $REX['MEDIA']['CAT_ID'][$id]['createuser'];
-      $cat->_updateuser = $REX['MEDIA']['CAT_ID'][$id]['updateuser'];
+      $cat->_createuser = $cache['createuser'];
+      $cat->_updateuser = $cache['updateuser'];
 
       $cat->_children = null;
       $cat->_files = null;
@@ -98,8 +96,6 @@ class rex_ooMediaCategory
    */
   static public function getChildrenById($id)
   {
-    global $REX;
-
     $id = (int) $id;
 
     if(!is_int($id))
@@ -115,11 +111,11 @@ class rex_ooMediaCategory
 
     if (file_exists($catlist_path))
     {
-      $REX['MEDIA']['RE_CAT_ID'][$id] = rex_file::getCache($catlist_path);
+      $cache = rex_file::getCache($catlist_path);
 
-      if (isset($REX['MEDIA']['RE_CAT_ID'][$id]) && is_array($REX['MEDIA']['RE_CAT_ID'][$id]))
+      if (is_array($cache))
       {
-        foreach($REX['MEDIA']['RE_CAT_ID'][$id] as $cat_id)
+        foreach($cache as $cat_id)
           $catlist[] = self :: getCategoryById($cat_id);
       }
     }
@@ -273,8 +269,6 @@ class rex_ooMediaCategory
    */
   public function getChildren()
   {
-    global $REX;
-
     if ($this->_children === null)
     {
       $this->_children = self :: getChildrenById($this->getId());
@@ -296,8 +290,6 @@ class rex_ooMediaCategory
    */
   public function getMedia()
   {
-    global $REX;
-
     if ($this->_files === null)
     {
       $this->_files = array();
@@ -311,11 +303,11 @@ class rex_ooMediaCategory
 
       if (file_exists($list_path))
       {
-        $REX['MEDIA']['MEDIA_CAT_ID'][$id] = rex_file::getCache($list_path);
+        $cache = rex_file::getCache($list_path);
 
-        if (isset($REX['MEDIA']['MEDIA_CAT_ID'][$id]) && is_array($REX['MEDIA']['MEDIA_CAT_ID'][$id]))
+        if(is_array($cache))
         {
-          foreach($REX['MEDIA']['MEDIA_CAT_ID'][$id] as $filename)
+          foreach($cache as $filename)
             $this->_files[] = rex_ooMedia :: getMediaByFileName($filename);
         }
       }
@@ -401,8 +393,7 @@ class rex_ooMediaCategory
    */
   static public function _getTableName()
   {
-    global $REX;
-    return $REX['TABLE_PREFIX'] . 'media_category';
+    return rex::getTablePrefix() . 'media_category';
   }
 
   /**

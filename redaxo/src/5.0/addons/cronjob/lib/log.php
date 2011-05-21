@@ -67,7 +67,6 @@ class rex_cronjob_log
 
   static public function getListOfMonth($month, $year)
   {
-    global $REX;
     $lines = explode("\n", trim(self::getLogOfMonth($month, $year)));
     $monthName = rex_formatter::format(mktime(0,0,0,$month,1,1), 'strftime', '%B');
     $caption = rex_i18n::msg('cronjob_log_caption_1', $monthName, $year);
@@ -77,7 +76,6 @@ class rex_cronjob_log
 
   static public function getListOfNewestMessages($limit = 10)
   {
-    global $REX;
     $array = array_reverse(self::getYearMonthArray(),true);
     $messages = array();
     foreach($array as $year => $months)
@@ -102,8 +100,6 @@ class rex_cronjob_log
 
   static public function save($name, $success, $message = '', $id = null)
   {
-    global $REX;
-
     $year = date('Y');
     $month = date('m');
 
@@ -145,7 +141,6 @@ class rex_cronjob_log
 
   static private function _getList($lines, $caption = '', $summary = '')
   {
-    global $REX;
     $table_attr = '';
     if (!empty($summary))
       $table_attr .= ' summary="'. $summary .'"';

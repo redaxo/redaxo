@@ -3,7 +3,7 @@
 /**
  * Manager class for packages
  */
-abstract class rex_packageManager extends rex_factory
+abstract class rex_package_manager extends rex_factory
 {
   const
     PACKAGE_FILE = 'package.yml',
@@ -38,13 +38,13 @@ abstract class rex_packageManager extends rex_factory
    *
    * @param rex_package $package Package
    *
-   * @return rex_packageManager
+   * @return rex_package_manager
    */
   static public function factory(rex_package $package)
   {
     if(get_called_class() == __CLASS__)
     {
-      $class = $package instanceof rex_plugin ? 'rex_pluginManager' : 'rex_addonManager';
+      $class = $package instanceof rex_plugin ? 'rex_plugin_manager' : 'rex_addon_manager';
       return $class::factory($package);
     }
     $class = static::getFactoryClass();
@@ -113,7 +113,7 @@ abstract class rex_packageManager extends rex_factory
     // Dateien kopieren
     if($state === TRUE && is_dir($files_dir))
     {
-      if(!rex_dir::copy($files_dir, $this->package->getAssetsPath()))
+      if(!rex_dir::copy($files_dir, $this->package->getAssetsPath('', rex_path::ABSOLUTE)))
       {
         $state = $this->I18N('install_cant_copy_files');
       }
@@ -175,7 +175,7 @@ abstract class rex_packageManager extends rex_factory
         $state = 'Error found in uninstall.sql:<br />'. $state;
     }
 
-    $mediaFolder = $this->package->getAssetsPath();
+    $mediaFolder = $this->package->getAssetsPath('', rex_path::ABSOLUTE);
     if($state === TRUE && is_dir($mediaFolder))
     {
       if(!rex_dir::delete($mediaFolder))
@@ -215,8 +215,6 @@ abstract class rex_packageManager extends rex_factory
    */
   public function activate()
   {
-    global $REX;
-
     if ($this->package->isInstalled())
     {
       // load package infos
@@ -227,7 +225,7 @@ abstract class rex_packageManager extends rex_factory
       if ($state === true)
       {
         $this->package->setProperty('status', 1);
-        if(!$REX['SETUP'])
+        if(!rex::isSetup())
         {
           if(is_readable($this->package->getBasePath(self::CONFIG_FILE)))
           {
@@ -371,14 +369,12 @@ abstract class rex_packageManager extends rex_factory
    */
   protected function checkRequirements()
   {
-    global $REX;
-
     $state = array();
     $requirements = $this->package->getProperty('requires', array());
 
     if(isset($requirements['redaxo']) && is_array($requirements['redaxo']))
     {
-      $rexVers = $REX['VERSION'] .'.'. $REX['SUBVERSION'] .'.'. $REX['MINORVERSION'];
+      $rexVers = rex::getVersion();
       if (($msg = $this->checkRequirementVersion('redaxo_', $requirements['redaxo'], $rexVers)) !== true)
       {
         return $msg;
@@ -451,8 +447,6 @@ abstract class rex_packageManager extends rex_factory
    */
   private function checkRequirementVersion($i18nPrefix, array $attributes, $version, $addonName = null, $pluginName = null)
   {
-    global $REX;
-
     $i18nPrefix = 'addon_requirement_error_'. $i18nPrefix;
     $state = true;
 
@@ -487,7 +481,7 @@ abstract class rex_packageManager extends rex_factory
    */
   protected function addToPackageOrder()
   {
-    $order = rex_core_config::get('package-order', array());
+    $order = rex::getConfig('package-order', array());
     $package = $this->package->getPackageId();
     if(!in_array($package, $order))
     {
@@ -500,7 +494,7 @@ abstract class rex_packageManager extends rex_factory
       {
         $order[] = $package;
       }
-      rex_core_config::set('package-order', $order);
+      rex::setConfig('package-order', $order);
     }
   }
 
@@ -509,11 +503,11 @@ abstract class rex_packageManager extends rex_factory
    */
   protected function removeFromPackageOrder()
   {
-    $order = rex_core_config::get('package-order', array());
+    $order = rex::getConfig('package-order', array());
     if(($key = array_search($this->package->getPackageId(), $order)) !== false)
     {
       unset($order[$key]);
-      rex_core_config::set('package-order', array_values($order));
+      rex::setConfig('package-order', array_values($order));
     }
   }
 
@@ -526,8 +520,6 @@ abstract class rex_packageManager extends rex_factory
    */
   protected function I18N()
   {
-    global $REX;
-
     $args = func_get_args();
     $args[0] = $this->i18nPrefix. $args[0];
 
@@ -544,7 +536,7 @@ abstract class rex_packageManager extends rex_factory
   {
     if(get_called_class() == __CLASS__)
     {
-      $class = $package instanceof rex_plugin ? 'rex_pluginManager' : 'rex_addonManager';
+      $class = $package instanceof rex_plugin ? 'rex_plugin_manager' : 'rex_addon_manager';
       return $class::includeFile($package, $file);
     }
     if(static::hasFactoryClass())
@@ -592,7 +584,7 @@ abstract class rex_packageManager extends rex_factory
         $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->isActivated();
       }
     }
-    rex_core_config::set('package-config', $config);
+    rex::setConfig('package-config', $config);
   }
 
   /**
@@ -600,12 +592,12 @@ abstract class rex_packageManager extends rex_factory
    */
   static public function synchronizeWithFileSystem()
   {
-    $config = rex_core_config::get('package-config');
+    $config = rex::getConfig('package-config');
     $addons = self::readPackageFolder(rex_path::addon('*'));
     $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
     foreach(array_diff($registeredAddons, $addons) as $addonName)
     {
-      $manager = rex_addonManager::factory(rex_addon::get($addonName));
+      $manager = rex_addon_manager::factory(rex_addon::get($addonName));
       $manager->_delete(true);
       unset($config[$addonName]);
     }
@@ -627,7 +619,7 @@ abstract class rex_packageManager extends rex_factory
       $plugins = self::readPackageFolder(rex_path::plugin($addonName, '*'));
       foreach(array_diff($registeredPlugins, $plugins) as $pluginName)
       {
-        $manager = rex_pluginManager::factory(rex_plugin::get($addonName, $pluginName));
+        $manager = rex_plugin_manager::factory(rex_plugin::get($addonName, $pluginName));
         $manager->_delete(true);
         unset($config[$addonName]['plugins'][$pluginName]);
       }
@@ -642,7 +634,7 @@ abstract class rex_packageManager extends rex_factory
     }
     ksort($config);
 
-    rex_core_config::set('package-config', $config);
+    rex::setConfig('package-config', $config);
     rex_addon::initialize();
   }
 

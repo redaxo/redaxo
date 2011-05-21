@@ -20,7 +20,7 @@ $this->setProperty('searchmode', 'local');
 $REX['EXTPERM'][] = 'be_search[mediapool]';
 $REX['EXTPERM'][] = 'be_search[structure]';
 
-if ($REX['REDAXO'])
+if (rex::isBackend())
 {
   // Include Functions
   require_once rex_path::addon('be_search', 'functions/functions.search.inc.php');

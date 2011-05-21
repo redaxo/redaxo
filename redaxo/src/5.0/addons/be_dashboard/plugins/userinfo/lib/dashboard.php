@@ -19,8 +19,6 @@ class rex_stats_component extends rex_dashboard_component
 {
   public function __construct()
   {
-    global $REX;
-
     // default cache lifetime in seconds
     $cache_options['lifetime'] = 1800;
 
@@ -31,8 +29,6 @@ class rex_stats_component extends rex_dashboard_component
 
   protected function prepare()
   {
-    global $REX;
-
     $stats = rex_a659_statistics();
 
     $content = '';
@@ -121,8 +117,6 @@ class rex_articles_component extends rex_dashboard_component
 {
   function __construct()
   {
-    global $REX;
-
     parent::__construct('userinfo-articles');
     $this->setTitle(rex_i18n::msg('userinfo_component_articles_title'));
     $this->setTitleUrl('index.php?page=structure');
@@ -131,19 +125,16 @@ class rex_articles_component extends rex_dashboard_component
 
   public function checkPermission()
   {
-    global $REX;
-    return $REX['USER']->isAdmin() || $REX['USER']->hasStructurePerm();
+    return rex::getUser()->isAdmin() || rex::getUser()->hasStructurePerm();
   }
 
   protected function prepare()
   {
-    global $REX;
-
     $limit = A659_DEFAULT_LIMIT;
 
     $qry = 'SELECT id, re_id, clang, startpage, name, updateuser, updatedate
-            FROM '. $REX['TABLE_PREFIX'] .'article
-            WHERE '. $REX['USER']->getCategoryPermAsSql() .'
+            FROM '. rex::getTablePrefix() .'article
+            WHERE '. rex::getUser()->getCategoryPermAsSql() .'
             GROUP BY id
             ORDER BY updatedate DESC
             LIMIT '. $limit;
@@ -178,8 +169,6 @@ class rex_media_component extends rex_dashboard_component
 {
   public function __construct()
   {
-    global $REX;
-
     parent::__construct('userinfo-media');
     $this->setTitle(rex_i18n::msg('userinfo_component_media_title'));
     $this->setTitleUrl('javascript:openMediaPool();');
@@ -188,18 +177,14 @@ class rex_media_component extends rex_dashboard_component
 
   public function checkPermission()
   {
-    global $REX;
-
-    return $REX['USER']->hasMediaPerm();
+    return rex::getUser()->hasMediaPerm();
   }
 
   protected function prepare()
   {
-    global $REX;
-
     $limit = A659_DEFAULT_LIMIT;
 
-    $list = rex_list::factory('SELECT category_id, media_id, filename, updateuser, updatedate FROM '. $REX['TABLE_PREFIX'] .'media ORDER BY updatedate DESC LIMIT '.$limit);
+    $list = rex_list::factory('SELECT category_id, media_id, filename, updateuser, updatedate FROM '. rex::getTablePrefix() .'media ORDER BY updatedate DESC LIMIT '.$limit);
     $list->setCaption(rex_i18n::msg('pool_file_caption'));
     $list->addTableAttribute('summary', rex_i18n::msg('pool_file_summary'));
     $list->addTableColumnGroup(array(40, '*', 120, 150));

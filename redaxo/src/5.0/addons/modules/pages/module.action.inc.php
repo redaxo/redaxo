@@ -16,8 +16,6 @@ class rex_event_select extends rex_select
 {
   function rex_event_select($options)
   {
-    global $REX;
-
     parent::__construct();
 
     $this->setMultiple(1);
@@ -47,10 +45,10 @@ if ($function == 'delete')
   $qry = 'SELECT
             *
           FROM
-            '. $REX['TABLE_PREFIX'] .'action a,
-            '. $REX['TABLE_PREFIX'] .'module_action ma
+            '. rex::getTablePrefix() .'action a,
+            '. rex::getTablePrefix() .'module_action ma
           LEFT JOIN
-           '. $REX['TABLE_PREFIX'] .'module m
+           '. rex::getTablePrefix() .'module m
           ON
             ma.module_id = m.id
           WHERE
@@ -76,7 +74,7 @@ if ($function == 'delete')
   }
   else
   {
-    $del->setQuery("DELETE FROM " . $REX['TABLE_PREFIX'] . "action WHERE id='$action_id' LIMIT 1");
+    $del->setQuery("DELETE FROM " . rex::getTablePrefix() . "action WHERE id='$action_id' LIMIT 1");
     $info = rex_i18n::msg("action_deleted");
   }
 }
@@ -112,7 +110,7 @@ if ($function == "add" || $function == "edit")
     foreach ($postsavestatus as $status)
       $postsavemode |= $status;
 
-    $faction->setTable($REX['TABLE_PREFIX'] . 'action');
+    $faction->setTable(rex::getTablePrefix() . 'action');
     $faction->setValue('name', $name);
     $faction->setValue('preview', $previewaction);
     $faction->setValue('presave', $presaveaction);
@@ -158,7 +156,7 @@ if ($function == "add" || $function == "edit")
       $legend = rex_i18n::msg('action_edit') . ' [ID=' . $action_id . ']';
 
       $action = rex_sql::factory();
-      $action->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'action WHERE id='.$action_id);
+      $action->setQuery('SELECT * FROM '.rex::getTablePrefix().'action WHERE id='.$action_id);
 
       $name           = $action->getValue('name');
       $previewaction  = $action->getValue('preview');
@@ -224,7 +222,7 @@ if ($function == "add" || $function == "edit")
 
     $btn_update = '';
     if ($function != 'add')
-      $btn_update = '<input type="submit" class="rex-form-submit rex-form-submit-2" name="goon" value="' . rex_i18n::msg('save_action_and_continue') . '"'. rex_accesskey(rex_i18n::msg('save_action_and_continue'), $REX['ACKEY']['APPLY']) .' />';
+      $btn_update = '<input type="submit" class="rex-form-submit rex-form-submit-2" name="goon" value="' . rex_i18n::msg('save_action_and_continue') . '"'. rex::getAccesskey(rex_i18n::msg('save_action_and_continue'), 'apply') .' />';
 
     if ($info != '')
       echo rex_info($info);
@@ -348,7 +346,7 @@ if ($function == "add" || $function == "edit")
            	<div class="rex-form-wrapper">
     		      <div class="rex-form-row">
 			    			<p class="rex-form-col-a rex-form-submit">
-			    				<input class="rex-form-submit" type="submit" value="' . rex_i18n::msg('save_action_and_quit') . '"'. rex_accesskey(rex_i18n::msg('save_action_and_quit'), $REX['ACKEY']['SAVE']) .' />
+			    				<input class="rex-form-submit" type="submit" value="' . rex_i18n::msg('save_action_and_quit') . '"'. rex::getAccesskey(rex_i18n::msg('save_action_and_quit'), 'save') .' />
 		    				' . $btn_update . '
 			    			</p>
 			    		</div>
@@ -409,7 +407,7 @@ if ($OUT)
       </colgroup>
       <thead>
         <tr>
-          <th class="rex-icon"><a class="rex-i-element rex-i-action-add" href="index.php?page=modules&amp;subpage=actions&amp;function=add"'. rex_accesskey(rex_i18n::msg('action_create'), $REX['ACKEY']['ADD']) .'><span class="rex-i-element-text">' . rex_i18n::msg('action_create') . '</span></a></th>
+          <th class="rex-icon"><a class="rex-i-element rex-i-action-add" href="index.php?page=modules&amp;subpage=actions&amp;function=add"'. rex::getAccesskey(rex_i18n::msg('action_create'), 'add') .'><span class="rex-i-element-text">' . rex_i18n::msg('action_create') . '</span></a></th>
           <th class="rex-small">ID</th>
           <th>' . rex_i18n::msg('action_name') . '</th>
           <th>Preview-Event(s)</th>
@@ -421,7 +419,7 @@ if ($OUT)
     ';
 
   $sql = rex_sql::factory();
-  $sql->setQuery('SELECT * FROM ' . $REX['TABLE_PREFIX'] . 'action ORDER BY name');
+  $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'action ORDER BY name');
   $rows = $sql->getRows();
 
   if($rows > 0)

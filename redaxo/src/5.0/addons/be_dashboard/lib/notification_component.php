@@ -14,8 +14,6 @@ class rex_notification_component extends rex_dashboard_component
 {
   public function __construct()
   {
-    global $REX;
-
     parent::__construct('notifications');
     $this->setTitle(rex_i18n::msg('dashboard_notifications'));
     $this->setFormat('full');

@@ -46,8 +46,6 @@ class rex_var_value extends rex_var
 
   public function setACValues(rex_sql $sql, array $REX_ACTION)
   {
-    global $REX;
-
     for ($i = 1; $i < 21; $i++)
     {
       $this->setValue($sql, 'value' . $i, $REX_ACTION['VALUE'][$i]);

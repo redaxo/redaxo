@@ -11,25 +11,23 @@ class rex_metainfoHandler
    */
   public function rex_a62_metaFields($sqlFields, $formatCallback, $epParams)
   {
-    global $REX;
-  
     $s = '';
-  
+
     // Startwert für MEDIABUTTON, MEDIALIST, LINKLIST zähler
     $media_id = 1;
     $mlist_id = 1;
     $link_id  = 1;
     $llist_id = 1;
-    
+
     $activeItem = isset($epParams['activeItem']) ? $epParams['activeItem'] : null;
-  
+
     $sqlFields->reset();
     for($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next())
     {
       // Umschliessendes Tag von Label und Formularelement
       $tag      = 'p';
       $tag_attr = '';
-  
+
       $name          = $sqlFields->getValue('name');
       $title         = $sqlFields->getValue('title');
       $params        = $sqlFields->getValue('params');
@@ -37,22 +35,22 @@ class rex_metainfoHandler
       $attr          = $sqlFields->getValue('attributes');
       $dblength      = $sqlFields->getValue('dblength');
       $restrictions  = $sqlFields->getValue('restrictions');
-  
+
       $attrArray = rex_split_string($attr);
       if(isset($attrArray['perm']))
       {
-        if(!$REX['USER']->hasPerm($attrArray['perm']))
+        if(!rex::getUser()->hasPerm($attrArray['perm']))
         {
           continue;
         }
         unset($attrArray['perm']);
       }
-  
+
       $dbvalues = array($sqlFields->getValue('default'));
       if($activeItem)
       {
         $itemValue = $activeItem->getValue($name);
-  
+
         if(strpos($itemValue, '|+|') !== false)
         {
           // Alte notation mit |+| als Trenner
@@ -64,23 +62,23 @@ class rex_metainfoHandler
           $dbvalues = explode('|', $activeItem->getValue($name));
         }
       }
-  
+
       if($title != '')
         $label = rex_i18n::translate($title);
       else
         $label = htmlspecialchars($name);
-  
+
       $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $label);
       $labelIt = true;
-  
+
       $field = '';
-  
+
       switch($typeLabel)
       {
         case 'text':
         {
           $tag_attr = ' class="rex-form-text"';
-  
+
           $rexInput = rex_input::factory($typeLabel);
           $rexInput->addAttributes($attrArray);
           $rexInput->setAttribute('id', $id);
@@ -128,11 +126,11 @@ class rex_metainfoHandler
               }
             }
           }
-  
+
           $class_s = $typeLabel;
           $class_p = $typeLabel == 'radio' ? 'radios' : 'checkboxes';
           $oneValue = (count($values) == 1);
-  
+
           if(!$oneValue)
           {
             $labelIt = false;
@@ -140,20 +138,20 @@ class rex_metainfoHandler
             $tag_attr = ' class="rex-form-col-a rex-form-'.$class_p.'"';
             $field .= '<p class="rex-form-label">'. $label .'</p><div class="rex-form-'.$class_p.'-wrapper">';
           }
-  
+
           foreach($values as $key => $value)
           {
             $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $id . $key);
-  
+
             // wenn man keine Werte angibt (Boolean Chkbox/Radio)
             // Dummy Wert annehmen, damit an/aus unterscheidung funktioniert
             if($oneValue && $key == '')
               $key = 'true';
-  
+
             $selected = '';
             if(in_array($key, $dbvalues))
               $selected = ' checked="checked"';
-  
+
             if($oneValue)
             {
               $tag_attr = ' class="rex-form-col-a rex-form-'. $class_s .'"';
@@ -166,43 +164,43 @@ class rex_metainfoHandler
               $field .= '<label for="'. $id .'">'. htmlspecialchars($value) .'</label>';
               $field .= '</p>'."\n";
             }
-  
+
           }
           if(!$oneValue)
           {
           	$field .= '</div>';
           }
-  
+
           break;
         }
         case 'select':
         {
           $tag_attr = ' class="rex-form-select"';
-  
+
           $select = new rex_select();
   				$select->setStyle('class="rex-form-select"');
           $select->setName($name);
           $select->setId($id);
           // hier mit den "raw"-values arbeiten, da die rex_select klasse selbst escaped
           $select->setSelected($dbvalues);
-  
+
   				$multiple = FALSE;
           foreach($attrArray as $attr_name => $attr_value)
           {
             if(empty($attr_name)) continue;
-  
+
             $select->setAttribute($attr_name, $attr_value);
-  
+
             if($attr_name == 'multiple')
             {
             	$multiple = TRUE;
               $select->setName($name.'[]');
             }
           }
-  
+
           if(!$multiple)
           	$select->setSize(1);
-  
+
           if(rex_sql::getQueryType($params) == 'SELECT')
           {
             // Werte via SQL Laden
@@ -231,7 +229,7 @@ class rex_metainfoHandler
             }
             $select->addOptions($values);
           }
-  
+
           $field .= $select->get();
           break;
         }
@@ -240,25 +238,25 @@ class rex_metainfoHandler
         case 'datetime':
         {
           $tag_attr = ' class="rex-form-select-date"';
-  
+
           $active = $dbvalues[0] != 0;
           if($dbvalues[0] == '')
             $dbvalues[0] = time();
-  
+
           $inputValue = array();
           $inputValue['year'] = date('Y', $dbvalues[0]);
           $inputValue['month'] = date('m', $dbvalues[0]);
           $inputValue['day'] = date('j', $dbvalues[0]);
           $inputValue['hour'] = date('G', $dbvalues[0]);
           $inputValue['minute'] = date('i', $dbvalues[0]);
-  
+
           $rexInput = rex_input::factory($typeLabel);
           $rexInput->addAttributes($attrArray);
           $rexInput->setAttribute('id', $id);
           $rexInput->setAttribute('name', $name);
           $rexInput->setValue($inputValue);
           $field = $rexInput->getHtml();
-  
+
           $checked = $active ? ' checked="checked"' : '';
           $field .= '<input class="rex-form-select-checkbox rex-metainfo-checkbox" type="checkbox" name="'. $name .'[active]" value="1"'. $checked .' />';
           break;
@@ -266,7 +264,7 @@ class rex_metainfoHandler
         case 'textarea':
         {
           $tag_attr = ' class="rex-form-textarea"';
-  
+
           $rexInput = rex_input::factory($typeLabel);
           $rexInput->addAttributes($attrArray);
           $rexInput->setAttribute('id', $id);
@@ -274,7 +272,7 @@ class rex_metainfoHandler
           if($activeItem)
             $rexInput->setValue($activeItem->getValue($name));
           $field = $rexInput->getHtml();
-  
+
           break;
         }
         case 'legend':
@@ -282,10 +280,10 @@ class rex_metainfoHandler
           $tag = '';
           $tag_attr = '';
           $labelIt = false;
-  
+
           // tabindex entfernen, macht bei einer legend wenig sinn
           $attr = preg_replace('@tabindex="[^"]*"@', '', $attr);
-  
+
           $field = '</div></fieldset><fieldset class="rex-form-col-1"><legend id="'. $id .'"'. $attr .'">'. $label .'</legend><div class="rex-form-wrapper">';
           break;
         }
@@ -293,25 +291,25 @@ class rex_metainfoHandler
         {
           $tag = 'div';
           $tag_attr = ' class="rex-form-widget"';
-  
+
           $paramArray = rex_split_string($params);
-  
+
           $rexInput = rex_input::factory('mediabutton');
           $rexInput->addAttributes($attrArray);
           $rexInput->setButtonId($media_id);
           $rexInput->setAttribute('name', $name);
           $rexInput->setValue($dbvalues[0]);
-  
+
           if(isset($paramArray['category']))
             $rexInput->setCategoryId($paramArray['category']);
           if(isset($paramArray['types']))
             $rexInput->setTypes($paramArray['types']);
           if(isset($paramArray['preview']))
             $rexInput->setPreview($paramArray['preview']);
-  
+
           $id = $rexInput->getAttribute('id');
           $field = $rexInput->getHtml();
-  
+
           $media_id++;
           break;
         }
@@ -319,26 +317,26 @@ class rex_metainfoHandler
         {
           $tag = 'div';
           $tag_attr = ' class="rex-form-widget"';
-  
+
           $paramArray = rex_split_string($params);
-  
+
           $name .= '[]';
           $rexInput = rex_input::factory('medialistbutton');
           $rexInput->addAttributes($attrArray);
           $rexInput->setButtonId($mlist_id);
           $rexInput->setAttribute('name', $name);
           $rexInput->setValue($dbvalues[0]);
-  
+
           if(isset($paramArray['category']))
             $rexInput->setCategoryId($paramArray['category']);
           if(isset($paramArray['types']))
             $rexInput->setTypes($paramArray['types']);
           if(isset($paramArray['preview']))
             $rexInput->setPreview($paramArray['preview']);
-  
+
           $id = $rexInput->getAttribute('id');
           $field = $rexInput->getHtml();
-  
+
           $mlist_id++;
           break;
         }
@@ -346,14 +344,14 @@ class rex_metainfoHandler
         {
           $tag = 'div';
           $tag_attr = ' class="rex-form-widget"';
-  
+
           $paramArray = rex_split_string($params);
           $category = '';
           if(isset($paramArray['category']))
             $category = $paramArray['category'];
           else if($activeItem)
             $category = $activeItem->getValue('category_id');
-  
+
           $rexInput = rex_input::factory('linkbutton');
           $rexInput->addAttributes($attrArray);
           $rexInput->setButtonId($link_id);
@@ -362,7 +360,7 @@ class rex_metainfoHandler
           $rexInput->setValue($dbvalues[0]);
           $id = $rexInput->getAttribute('id');
           $field = $rexInput->getHtml();
-  
+
           $link_id++;
           break;
         }
@@ -370,14 +368,14 @@ class rex_metainfoHandler
         {
           $tag = 'div';
           $tag_attr = ' class="rex-form-widget"';
-  
+
           $paramArray = rex_split_string($params);
           $category = '';
           if(isset($paramArray['category']))
             $category = $paramArray['category'];
           else if($activeItem)
             $category = $activeItem->getValue('category_id');
-  
+
           $name .= '[]';
           $rexInput = rex_input::factory('linklistbutton');
           $rexInput->addAttributes($attrArray);
@@ -387,7 +385,7 @@ class rex_metainfoHandler
           $rexInput->setValue(implode(',',$dbvalues));
           $id = $rexInput->getAttribute('id');
           $field = $rexInput->getHtml();
-  
+
           $llist_id++;
           break;
         }
@@ -410,13 +408,13 @@ class rex_metainfoHandler
               );
         }
       }
-  
+
       $s .= rex_call_func($formatCallback, array($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel), false);
     }
-  
+
     return $s;
   }
-  
+
   /**
    * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt
    *
@@ -425,52 +423,48 @@ class rex_metainfoHandler
    */
   public function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
   {
-    global $REX;
-  
     if(rex_request_method() != 'post') return;
-  
+
     for($i = 0;$i < $sqlFields->getRows(); $i++, $sqlFields->next())
     {
       $fieldName = $sqlFields->getValue('name');
       $fieldType = $sqlFields->getValue('type');
       $fieldAttributes = $sqlFields->getValue('attributes');
-  
+
       // dont save restricted fields
       $attrArray = rex_split_string($fieldAttributes);
       if(isset($attrArray['perm']))
       {
-        if(!$REX['USER']->hasPerm($attrArray['perm']))
+        if(!rex::getUser()->hasPerm($attrArray['perm']))
         {
           continue;
         }
         unset($attrArray['perm']);
       }
-      
+
       // Wert in SQL zum speichern
       $saveValue = self::_rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes);
       $sqlSave->setValue($fieldName, $saveValue);
-      
+
       // Werte im aktuellen Objekt speichern, dass zur Anzeige verwendet wird
       if(isset($params['activeItem']))
         $params['activeItem']->setValue($fieldName, $saveValue);
     }
   }
-  
+
   /**
    * Retrieves the posted value for the given field and converts it into a saveable format.
-   * 
+   *
    * @param string $fieldName The name of the field
    * @param int $fieldType One of the REX_A62_FIELD_* constants
    * @param string $fieldAttributes The attributes of the field
    */
   public function _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes)
   {
-    global $REX;
-  
     if(rex_request_method() != 'post') return null;
-  
+
     $postValue = rex_post($fieldName, 'array');
-    
+
     // handle date types with timestamps
     if(isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute']))
     {
@@ -518,10 +512,10 @@ class rex_metainfoHandler
         }
       }
     }
-    
+
     return $saveValue;
   }
-  
+
   /**
    * Ermittelt die metainfo felder mit dem Prefix $prefix limitiert auf die Kategorien $restrictions
    *
@@ -531,30 +525,28 @@ class rex_metainfoHandler
    */
   public function _rex_a62_metainfo_sqlfields($prefix, $restrictionsCondition)
   {
-    global $REX;
-  
     // replace LIKE wildcards
     $prefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
-  
+
     $qry = 'SELECT
               *
             FROM
-              '. $REX['TABLE_PREFIX'] .'62_params p,
-              '. $REX['TABLE_PREFIX'] .'62_type t
+              '. rex::getTablePrefix() .'62_params p,
+              '. rex::getTablePrefix() .'62_type t
             WHERE
               `p`.`type` = `t`.`id` AND
               `p`.`name` LIKE "'. $prefix .'%"
               '. $restrictionsCondition .'
               ORDER BY
               prior';
-  
+
     $sqlFields = rex_sql::factory();
     //$sqlFields->debugsql = true;
     $sqlFields->setQuery($qry);
-  
+
     return $sqlFields;
   }
-  
+
   /**
    * Erweitert das Meta-Formular um die neuen Meta-Felder
    *
@@ -568,7 +560,7 @@ class rex_metainfoHandler
     $activeItem = null;
     if(isset($params['activeItem']))
       $activeItem = $params['activeItem'];
-  
+
     $restrictionsCondition = '';
     if($prefix == 'art_')
     {
@@ -576,7 +568,7 @@ class rex_metainfoHandler
       {
         $s = '';
         $OOArt = rex_ooArticle::getArticleById($params['id'], $params['clang']);
-  
+
         // Alle Metafelder des Pfades sind erlaubt
         foreach(explode('|', $OOArt->getPath()) as $pathElement)
         {
@@ -585,18 +577,18 @@ class rex_metainfoHandler
             $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
           }
         }
-  
+
         $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
       }
     }
     else if($prefix == 'cat_')
     {
       $s = '';
-  
+
       if($params['id'] != '')
       {
         $OOCat = rex_ooCategory::getCategoryById($params['id'], $params['clang']);
-  
+
         // Alle Metafelder des Pfades sind erlaubt
         foreach(explode('|', $OOCat->getPath()) as $pathElement)
         {
@@ -605,11 +597,11 @@ class rex_metainfoHandler
             $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
           }
         }
-  
+
         // Auch die Kategorie selbst kann Metafelder haben
         $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
       }
-  
+
       $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
     }
     else if($prefix == 'med_')
@@ -619,14 +611,14 @@ class rex_metainfoHandler
       {
         $catId = $activeItem->getValue('category_id');
       }
-  
+
       if($catId !== '')
       {
         $s = '';
         if($catId != 0)
         {
           $OOCat = rex_ooMediaCategory::getCategoryById($catId);
-  
+
           // Alle Metafelder des Pfades sind erlaubt
           foreach(explode('|', $OOCat->getPath()) as $pathElement)
           {
@@ -636,17 +628,17 @@ class rex_metainfoHandler
             }
           }
         }
-  
+
         // Auch die Kategorie selbst kann Metafelder haben
         $s .= ' OR `p`.`restrictions` LIKE "%|'. $catId .'|%"';
-  
+
         $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
       }
     }
-  
+
     $sqlFields = self::_rex_a62_metainfo_sqlfields($prefix, $restrictionsCondition);
     $params = rex_call_func($saveCallback, array($params, $sqlFields), false);
-    
+
     // trigger callback of sql fields
     if(rex_request_method() == 'post')
     {
@@ -662,15 +654,15 @@ class rex_metainfoHandler
             $fieldType = $field->getValue('type');
             $fieldAttributes = $field->getValue('attributes');
             $fieldValue = _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes);
-            
-            require rex_variableStream::factory('metainfo/'. $field->getValue('field_id') .'/callback', $field->getValue('callback'));
+
+            require rex_stream::factory('metainfo/'. $field->getValue('field_id') .'/callback', $field->getValue('callback'));
           };
           // pass a clone to the custom handler, so the callback will not change our var
           $sandboxFunc(clone $row);
         }
       }
     }
-  
+
     return self::rex_a62_metaFields($sqlFields, array($this, 'rex_a62_metainfo_form_item'), $params);
   }
 }

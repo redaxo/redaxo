@@ -1,14 +1,5 @@
 <?php
 
-// Todo:
-
-
-// resize_workspace
-// - position top,topleft,left,bottomleft,bottom,bottomright,right,topright
-
-
-
-
 class rex_effect_workspace extends rex_effect_abstract
 {
 
@@ -64,9 +55,9 @@ class rex_effect_workspace extends rex_effect_abstract
 	public function execute()
 	{
 
-		$gdimage = $this->image->getImage();
-		$w = $this->image->getWidth();
-		$h = $this->image->getHeight();
+		$gdimage = $this->media->getImage();
+		$w = $this->media->getWidth();
+		$h = $this->media->getHeight();
 
 		$this->params["width"] = (int) $this->params["width"];
 		if($this->params["width"] < 0)
@@ -101,9 +92,9 @@ class rex_effect_workspace extends rex_effect_abstract
 		$trans = false;
 		if($this->params["set_transparent"] != "colored")
 		{
-			if($this->image->img["format"] != "GIF" && $this->image->img["format"] != "PNG")
+			if($this->media->getFormat() != "GIF" && $this->media->getFormat() != "PNG")
 			{
-				$this->image->img["format"] = "PNG";
+				$this->media->setFormat("PNG");
 			}
 			$trans = true;
 		}
@@ -118,7 +109,6 @@ class rex_effect_workspace extends rex_effect_abstract
 			imagealphablending($workspace, true);
 		}else
 		{
-			// und mit Hintergrundfarbe f�llen
 			imagefill($workspace, 0, 0, imagecolorallocate($workspace, $this->params["bg_r"], $this->params["bg_g"], $this->params["bg_b"]));
 		}
 
@@ -156,10 +146,8 @@ class rex_effect_workspace extends rex_effect_abstract
 		}
 
 		ImageCopy ($workspace, $gdimage, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h);
-		$this->image->setImage($workspace);
-		$this->image->refreshDimensions();
-
-		return;
+		$this->media->setImage($workspace);
+		$this->media->refreshImageDimensions();
 
 		// Transparenz erhalten
 		/*
@@ -173,7 +161,7 @@ class rex_effect_workspace extends rex_effect_abstract
 
 	private function keepTransparent($des)
 	{
-		$image = $this->image;
+		$image = $this->media;
 		if ($image->getFormat() == 'PNG')
 		{
 			imagealphablending($des, false);
@@ -194,35 +182,33 @@ class rex_effect_workspace extends rex_effect_abstract
 
 	public function getParams()
 	{
-		global $REX;
-
 		return array(
 			array(
-				'label'=>rex_i18n::msg('imanager_effect_resize_width'),
+				'label'=>rex_i18n::msg('media_manager_effect_resize_width'),
 				'name' => 'width',
 				'type' => 'int',
 			),
 			array(
-				'label'=>rex_i18n::msg('imanager_effect_resize_height'),
+				'label'=>rex_i18n::msg('media_manager_effect_resize_height'),
 				'name' => 'height',
 				'type' => 'int'
 			),
 			array(
-				'label' => rex_i18n::msg('imanager_effect_brand_hpos'),
+				'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
 				'name' => 'hpos',
 				'type'	=> 'select',
 				'options'	=> array('left','center','right'),
 				'default' => 'left'
 			),
 			array(
-				'label' => rex_i18n::msg('imanager_effect_brand_vpos'),
+				'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
 				'name' => 'vpos',
 				'type'	=> 'select',
 				'options'	=> array('top','middle','bottom'),
 				'default' => 'top'
 			),
 			array(
-				'label'=>rex_i18n::msg('im_fx_mirror_background_color'),
+				'label'=>rex_i18n::msg('media_manager_effect_mirror_background_color'),
 				'name' => 'set_transparent',
 				'type' => 'select',
 				'options' => array('colored', 'transparent'),
@@ -230,17 +216,17 @@ class rex_effect_workspace extends rex_effect_abstract
 				'suffix' => $this->script
 			),
 			array(
-				'label'=>rex_i18n::msg('im_fx_mirror_background_r'),
+				'label'=>rex_i18n::msg('media_manager_effect_mirror_background_r'),
 				'name' => 'bg_r',
 				'type' => 'int',
 			),
 			array(
-				'label'=>rex_i18n::msg('im_fx_mirror_background_g'),
+				'label'=>rex_i18n::msg('media_manager_effect_mirror_background_g'),
 				'name' => 'bg_g',
 				'type' => 'int',
 			),
 			array(
-				'label'=>rex_i18n::msg('im_fx_mirror_background_b'),
+				'label'=>rex_i18n::msg('media_manager_effect_mirror_background_b'),
 				'name' => 'bg_b',
 				'type' => 'int',
 			),

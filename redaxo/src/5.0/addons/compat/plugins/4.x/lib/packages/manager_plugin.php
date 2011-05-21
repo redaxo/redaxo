@@ -1,6 +1,6 @@
 <?php
 
-class rex_pluginManagerCompat extends rex_pluginManager
+class rex_plugin_manager_compat extends rex_plugin_manager
 {
   public function install($installDump = TRUE)
   {
@@ -10,7 +10,7 @@ class rex_pluginManagerCompat extends rex_pluginManager
     $files_dir = $this->package->getBasePath('files');
     if($state === TRUE && is_dir($files_dir))
     {
-      if(!rex_dir::copy($files_dir, $this->package->getAssetsPath()))
+      if(!rex_dir::copy($files_dir, $this->package->getAssetsPath('', rex_path::ABSOLUTE)))
       {
         $state = $this->I18N('install_cant_copy_files');
       }
@@ -21,27 +21,41 @@ class rex_pluginManagerCompat extends rex_pluginManager
 
   static public function includeFile(rex_package $package, $file)
   {
-    global $REX;
+    global $REX, $ADDONsic;
 
-    $ADDONsic = $REX['ADDON'];
-    $REX['ADDON'] = array();
-
-    $package->includeFile($file, array('REX_USER', 'REX_LOGIN', 'I18N', 'article_id', 'clang'));
-
-    if(isset($REX['ADDON']) && is_array($REX['ADDON']))
+    $transform = false;
+    if(in_array($file, array('config.inc.php', 'install.inc.php', 'uninstall.inc.php')))
     {
-      foreach($REX['ADDON'] as $property => $propertyArray)
+      $ADDONsic = isset($REX['ADDON']) ? $REX['ADDON'] : array();
+      $REX['ADDON'] = array();
+      $transform = true;
+    }
+
+    $package->includeFile($file, array('REX', 'REX_USER', 'REX_LOGIN', 'I18N', 'article_id', 'clang', 'ADDONsic'));
+
+    $addonName = $package->getAddon()->getName();
+    if($transform)
+    {
+      $array = isset($REX['ADDON']) ? $REX['ADDON'] : array();
+      $REX['ADDON'] = $ADDONsic;
+    }
+    else
+    {
+      $array = isset($REX['ADDON']['plugins'][$addonName]) ? $REX['ADDON']['plugins'][$addonName] : array();
+    }
+    if(isset($array) && is_array($array))
+    {
+      foreach($array as $property => $propertyArray)
       {
         foreach($propertyArray as $pluginName => $value)
         {
           if($pluginName == $package->getName())
           {
             $package->setProperty($property, $value);
-            $ADDONsic['plugins'][$package->getAddon()->getName()][$property][$pluginName] = $value;
+            $REX['ADDON']['plugins'][$addonName][$property][$pluginName] = $value;
           }
         }
       }
     }
-    $REX['ADDON'] = $ADDONsic;
   }
 }

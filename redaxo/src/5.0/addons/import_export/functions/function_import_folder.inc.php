@@ -1,8 +1,6 @@
 <?php
 // Import Folder Functions
 function getImportDir() {
-    global $REX;
-
     return rex_path::addon('import_export', 'backup');
 }
 

@@ -108,8 +108,6 @@ class rex_media_cache
    */
   static public function generate($filename)
   {
-    global $REX;
-
     $query = 'SELECT * FROM ' . rex_ooMedia :: _getTableName() . ' WHERE filename = "'.$filename.'"';
     $sql = rex_sql::factory();
     //$sql->debugsql = true;
@@ -144,8 +142,6 @@ class rex_media_cache
    */
   static public function generateCategory($category_id)
   {
-    global $REX;
-
     // sanity check
     if($category_id<0)
     {
@@ -186,8 +182,6 @@ class rex_media_cache
    */
   static public function generateList($category_id)
   {
-    global $REX;
-
     // sanity check
     if($category_id<0)
     {
@@ -223,8 +217,6 @@ class rex_media_cache
    */
   static public function generateCategoryList($category_id)
   {
-    global $REX;
-
     // sanity check
     if($category_id<0)
     {
@@ -261,8 +253,6 @@ class rex_media_cache
    */
   static public function generateExtensionList($extension)
   {
-    global $REX;
-
     $query = 'SELECT filename FROM ' . rex_ooMedia :: _getTableName() . ' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "' . $extension . '"';
     $sql = rex_sql::factory();
     $sql->setQuery($query);

@@ -72,11 +72,9 @@ class rex_request
    */
   static public function session($varname, $vartype = '', $default = '')
   {
-    global $REX;
-
-    if(isset($_SESSION[$varname][$REX['INSTNAME']]))
+    if(isset($_SESSION[$varname][rex::getProperty('instname')]))
     {
-      return self::castVar($_SESSION[$varname][$REX['INSTNAME']], $vartype, $default, 'found');
+      return self::castVar($_SESSION[$varname][rex::getProperty('instname')], $vartype, $default, 'found');
     }
 
     if($default === '')
@@ -94,9 +92,7 @@ class rex_request
    */
   static public function setSession($varname, $value)
   {
-    global $REX;
-
-    $_SESSION[$varname][$REX['INSTNAME']] = $value;
+    $_SESSION[$varname][rex::getProperty('instname')] = $value;
   }
 
   /**
@@ -106,9 +102,7 @@ class rex_request
    */
   static public function unsetSession($varname)
   {
-    global $REX;
-
-    unset($_SESSION[$varname][$REX['INSTNAME']]);
+    unset($_SESSION[$varname][rex::getProperty('instname')]);
   }
 
   /**
@@ -167,7 +161,7 @@ class rex_request
   {
     if(!is_scalar($needle))
     {
-      throw new rexException('Scalar expected for $needle in arrayKeyCast()!');
+      throw new rex_exception('Scalar expected for $needle in arrayKeyCast()!');
     }
 
     if(array_key_exists($needle, $haystack))
@@ -223,7 +217,7 @@ class rex_request
 
     if(!is_string($vartype))
     {
-      throw new rexException('String expected for $vartype in castVar()!');
+      throw new rex_exception('String expected for $vartype in castVar()!');
     }
 
     switch($vartype)
@@ -314,9 +308,9 @@ class rex_request
             {
               try {
                 $var[$key] = self::castVar($value, $matches[1], '', 'found');
-              } catch (rexException $e) {
+              } catch (rex_exception $e) {
                 // Evtl Typo im vartype, mit urspr. typ als fehler melden
-                throw new rexException('Unexpected vartype "'. $vartype .'" in castVar()!');
+                throw new rex_exception('Unexpected vartype "'. $vartype .'" in castVar()!');
               }
             }
           }
@@ -324,7 +318,7 @@ class rex_request
         else
         {
           // Evtl Typo im vartype, deshalb hier fehlermeldung!
-          throw new rexException('Unexpected vartype "'. $vartype .'" in castVar()!');
+          throw new rex_exception('Unexpected vartype "'. $vartype .'" in castVar()!');
         }
     }
 

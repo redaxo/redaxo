@@ -57,9 +57,7 @@ class rex_var_article extends rex_var
    */
   private function matchArticle($content, $replaceInTemplate = false)
   {
-  	global $REX;
-
-    $var = 'REX_ARTICLE';
+  	$var = 'REX_ARTICLE';
     $matches = $this->getVarParams($content, $var);
 
     foreach ($matches as $match)

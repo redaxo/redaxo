@@ -17,19 +17,17 @@ rex_extension::register('A1_BEFORE_DB_IMPORT', 'rex_a62_metainfo_cleanup');
  */
 function rex_a62_metainfo_cleanup($params)
 {
-	global $REX;
-
 	// Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
 	if(isset($params['force']) && $params['force'] != true &&
-     strpos($params['content'], 'CREATE TABLE `'. $REX['TABLE_PREFIX'] .'article`') === false &&
-	   strpos($params['content'], 'CREATE TABLE '. $REX['TABLE_PREFIX'] .'article') === false)
+     strpos($params['content'], 'CREATE TABLE `'. rex::getTablePrefix() .'article`') === false &&
+	   strpos($params['content'], 'CREATE TABLE '. rex::getTablePrefix() .'article') === false)
   {
     return;
   }
 
   // check wheter tables exists
   $tables = rex_sql::showTables();
-  if(!isset($tables[$REX['TABLE_PREFIX'] . '62_params']))
+  if(!isset($tables[rex::getTablePrefix() . '62_params']))
   {
     return false;
   }
@@ -39,14 +37,14 @@ function rex_a62_metainfo_cleanup($params)
   require_once dirname(__FILE__) .'/../lib/table_manager.php';
 
   $sql = rex_sql::factory();
-  $sql->setQuery('SELECT name FROM ' . $REX['TABLE_PREFIX'] . '62_params');
+  $sql->setQuery('SELECT name FROM ' . rex::getTablePrefix() . '62_params');
 
   for ($i = 0; $i < $sql->getRows(); $i++)
   {
     if (substr($sql->getValue('name'), 0, 4) == 'med_')
-      $tableManager = new rex_a62_tableManager($REX['TABLE_PREFIX'] . 'media');
+      $tableManager = new rex_a62_tableManager(rex::getTablePrefix() . 'media');
     else
-      $tableManager = new rex_a62_tableManager($REX['TABLE_PREFIX'] . 'article');
+      $tableManager = new rex_a62_tableManager(rex::getTablePrefix() . 'article');
 
     $tableManager->deleteColumn($sql->getValue('name'));
 
@@ -58,7 +56,7 @@ function rex_a62_metainfo_cleanup($params)
   $tablePrefixes = array('article' => array('art_', 'cat_'), 'media' => array('med_'));
   foreach($tablePrefixes as $table => $prefixes)
   {
-    $table = $REX['TABLE_PREFIX'] .$table;
+    $table = rex::getTablePrefix() .$table;
     $tableManager = new rex_a62_tableManager($table);
 
     foreach(rex_sql::showColumns($table) as $column)
@@ -72,5 +70,5 @@ function rex_a62_metainfo_cleanup($params)
   }
 
   $sql = rex_sql::factory();
-  $sql->setQuery('DELETE FROM '. $REX['TABLE_PREFIX'] .'62_params');
+  $sql->setQuery('DELETE FROM '. rex::getTablePrefix() .'62_params');
 }

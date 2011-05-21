@@ -11,6 +11,8 @@
 // - import checken
 // - mehrere ebenen in kategorienedit  einbauen
 
+global $subpage, $ftitle, $warning, $info;
+
 // -------------- Defaults
 $subpage      = rex_request('subpage', 'string');
 $func         = rex_request('func', 'string');
@@ -46,7 +48,7 @@ $rex_file_category = rex_request('rex_file_category', 'rex-mediacategory-id', -1
 if ($file_name != "")
 {
   $sql = rex_sql::factory();
-  $sql->setQuery("select * from ".$REX['TABLE_PREFIX']."media where filename='$file_name'");
+  $sql->setQuery("select * from ".rex::getTablePrefix()."media where filename='$file_name'");
   if ($sql->getRows()==1)
   {
     $file_id = $sql->getValue("file_id");
@@ -61,7 +63,7 @@ if($rex_file_category == -1)
 
 
 $gc = rex_sql::factory();
-$gc->setQuery('SELECT * FROM '.$REX['TABLE_PREFIX'].'media_category WHERE id='. $rex_file_category);
+$gc->setQuery('SELECT * FROM '.rex::getTablePrefix().'media_category WHERE id='. $rex_file_category);
 if ($gc->getRows() != 1)
 {
   $rex_file_category = 0;
@@ -75,7 +77,7 @@ rex_set_session('media[rex_file_category]', $rex_file_category);
 
 // -------------- PERMS
 $PERMALL = false;
-if ($REX['USER']->isAdmin() || $REX['USER']->hasPerm('media[0]')) $PERMALL = true;
+if (rex::getUser()->isAdmin() || rex::getUser()->hasPerm('media[0]')) $PERMALL = true;
 
 // -------------- Header
 $subline = array(
@@ -190,13 +192,13 @@ function selectMediaListArray(files)
 
 function insertImage(src,alt)
 {
-  window.opener.insertImage(<?php echo rex_path::media('', true); ?> + src, alt);
+  window.opener.insertImage(<?php echo rex_path::media(); ?> + src, alt);
   self.close();
 }
 
 function insertLink(src)
 {
-  window.opener.insertFileLink(<?php echo rex_path::media('', true); ?> + src);
+  window.opener.insertFileLink(<?php echo rex_path::media(); ?> + src);
   self.close();
 }
 

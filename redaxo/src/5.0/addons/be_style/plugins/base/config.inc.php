@@ -17,25 +17,25 @@ $REX['ADDON']['version'][$mypage] = '1.0';
 $REX['ADDON']['author'][$mypage] = 'Thomas Blum';
 $REX['ADDON']['supportpage'][$mypage] = 'www.redaxo.org/de/forum/';
 
-if($REX["REDAXO"])
+if(rex::isBackend())
 {
 
 	function rex_be_style_base_css_add($params)
   {
 
   	$params["subject"] = '
-  <link rel="stylesheet" type="text/css" href="'. rex_path::pluginAssets('be_style', 'base', 'css_import.css', rex_path::RELATIVE) .'" media="screen, projection, print" />
+  <link rel="stylesheet" type="text/css" href="'. rex_path::pluginAssets('be_style', 'base', 'css_import.css') .'" media="screen, projection, print" />
 
   <!--[if lte IE 7]>
-    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base', 'css_ie_lte_7.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
+    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base', 'css_ie_lte_7.css') .'" type="text/css" media="screen, projection, print" />
   <![endif]-->
 
   <!--[if IE 7]>
-    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base', 'css_ie_7.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
+    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base', 'css_ie_7.css') .'" type="text/css" media="screen, projection, print" />
   <![endif]-->
 
   <!--[if lte IE 6]>
-    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base', 'css_ie_lte_6.css', rex_path::RELATIVE) .'" type="text/css" media="screen, projection, print" />
+    <link rel="stylesheet" href="'. rex_path::pluginAssets('be_style', 'base', 'css_ie_lte_6.css') .'" type="text/css" media="screen, projection, print" />
   <![endif]-->
 
   '.$params["subject"];
