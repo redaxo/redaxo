@@ -4,11 +4,11 @@ class rex_media {
 
   private
 
-	$media_path = "",
-	$asImage = FALSE,
-    $gifsupport = FALSE,
-    $img,
-    $header = array();
+  $media_path = "",
+  $asImage = FALSE,
+  $gifsupport = FALSE,
+  $img,
+  $header = array();
 
 
   public function __construct($media_path)
@@ -20,8 +20,8 @@ class rex_media {
       exit();
     }
 
-	$this->media_path = $media_path;
-	$this->media = basename($media_path);
+    $this->media_path = $media_path;
+    $this->media = basename($media_path);
     $this->setHeader('Content-Disposition','inline; filename="'. $this->getMediaFilename() .'"');
 
   }
@@ -38,7 +38,7 @@ class rex_media {
 
   public function setHeader($type,$content)
   {
-  	$this->header[$type] = $content;
+    $this->header[$type] = $content;
   }
 
 
@@ -46,7 +46,7 @@ class rex_media {
   {
 
     if($this->asImage)
-      return;
+    return;
 
     $this->asImage = TRUE;
 
@@ -83,7 +83,7 @@ class rex_media {
       $this->image['format'] == 'PNG';
     }
 
-	$this->setHeader('Content-Type','image/' . $this->image['format']);
+    $this->setHeader('Content-Type','image/' . $this->image['format']);
 
     if (!$this->image['src'])
     {
@@ -132,34 +132,22 @@ class rex_media {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
   public function sendMedia($headerCacheFilename, $sourceCacheFilename, $save = FALSE)
   {
 
-  	// lastModified
+    // lastModified
 
-  	if($this->asImage)
-  	{
-		$src = $this->getImageSource($sourceCacheFilename, $save = FALSE);
-  	}else
-  	{
-  		$src = file_get_contents($this->getMediapath());
-  	}
-	$this->setHeader("Content-Length", strlen($src));
- 	ob_end_clean();
-	$this->sendHeader($headerCacheFilename,$save);
-	echo $src;
+    if($this->asImage)
+    {
+      $src = $this->getImageSource($sourceCacheFilename, $save = FALSE);
+    }else
+    {
+      $src = file_get_contents($this->getMediapath());
+    }
+    $this->setHeader("Content-Length", strlen($src));
+    ob_end_clean();
+    $this->sendHeader($headerCacheFilename,$save);
+    echo $src;
 
     // rex_response::sendResource($content, false, $lastModified);
 
@@ -169,13 +157,13 @@ class rex_media {
 
   public function getImageSource()
   {
-  	ob_start();
+    ob_start();
 
-  	// TODOS.. die Bildtypen einsetzen
+    // TODOS.. die Bildtypen einsetzen
 
     imagepng($this->image['src']);
     $content = ob_get_clean();
-	return $content;
+    return $content;
 
   }
 
@@ -215,16 +203,16 @@ class rex_media {
     // ----- EXTENSION POINT
     $sendfile = TRUE;
     $sendfile = rex_extension::registerPoint('MEDIA_SEND', $sendfile,
-      array (
+    array (
         'img' => $this->img,
         'file' => $this->img["file"],
         'lastModified' => $lastModified,
         'media_path' => $this->img["media_path"]
-      )
+    )
     );
 
     if(!$sendfile)
-      return FALSE;
+    return FALSE;
 
     // output image
     if ($this->img['format'] == 'JPG' || $this->img['format'] == 'JPEG')
@@ -234,9 +222,9 @@ class rex_media {
     elseif ($this->img['format'] == 'PNG')
     {
       if(isset($saveToFileName))
-        imagepng($this->img['src'], $saveToFileName);
+      imagepng($this->img['src'], $saveToFileName);
       else
-        imagepng($this->img['src']);
+      imagepng($this->img['src']);
     }
     elseif ($this->img['format'] == 'GIF')
     {
@@ -248,7 +236,7 @@ class rex_media {
     }
 
     if ($saveToFileName)
-      @chmod($saveToFileName, rex::getFilePerm());
+    @chmod($saveToFileName, rex::getFilePerm());
 
     return TRUE;
   }
@@ -302,19 +290,19 @@ class rex_media {
   protected function sendErrorImage($file = null)
   {
     if(!$file)
-  	  $file = dirname(__FILE__).'/../media/warning.jpg';
+    $file = dirname(__FILE__).'/../media/warning.jpg';
 
     // ----- EXTENSION POINT
     $sendfile = TRUE;
     $sendfile = rex_extension::registerPoint('IMAGE_ERROR_SEND', $sendfile,
-      array (
+    array (
       	'img' => $this->img,
         'file' => $file,
-      )
+    )
     );
 
     if(!$sendfile)
-      return FALSE;
+    return FALSE;
 
     $this->sendHeader(array("Content-Length" => filesize($file)));
 
@@ -328,11 +316,11 @@ class rex_media {
   /*
    * Static Method: Returns True, if the given image is a valid rex_image
    */
-   /*
-  static public function isValidImage($media)
-  {
-    return is_object($media) && is_a($media, 'rex_media');
-  }
-  */
+  /*
+   static public function isValidImage($media)
+   {
+   return is_object($media) && is_a($media, 'rex_media');
+   }
+   */
 
 }

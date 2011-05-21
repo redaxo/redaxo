@@ -22,7 +22,7 @@ $msg = '';
 
 if ($subpage == 'clear_cache')
 {
-  $c = rex_media_manager_cacher::deleteCache();
+  $c = rex_media_manager::deleteCache();
   $msg = rex_i18n::msg('media_manager_cache_files_removed', $c);
 }
 

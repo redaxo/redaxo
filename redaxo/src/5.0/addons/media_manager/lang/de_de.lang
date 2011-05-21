@@ -1,8 +1,8 @@
-# addon:image_manager de_de
+# addon:media_manager de_de
 
 media_manager_subpage_desc = Erklärung
 media_manager_subpage_config = Konfiguration
-media_manager_subpage_types = Bildtypen bearbeiten
+media_manager_subpage_types = Mediatypen bearbeiten
 media_manager_subpage_clear_cache = Cache löschen
 
 media_manager_cache_files_removed = {0} Cache-Dateien gelöscht
@@ -84,10 +84,10 @@ media_manager_effect_flip = Richtung
 
 media_manager_error_type_name_not_unique = Ein Bildtyp mit diesem namen existiert bereits!
 
-im_fx_mirror_height = Refl. Höhe (50 / 10%)
-im_fx_mirror_background_color = Hintergrundfarbe
-im_fx_mirror_background_r = Hintergrund R (0-255)
-im_fx_mirror_background_g = Hintergrund G (0-255)
-im_fx_mirror_background_b = Hintergrund B (0-255)
+media_manager_effect_mirror_height = Refl. Höhe (50 / 10%)
+media_manager_effect_mirror_background_color = Hintergrundfarbe
+media_manager_effect_mirror_background_r = Hintergrund R (0-255)
+media_manager_effect_mirror_background_g = Hintergrund G (0-255)
+media_manager_effect_mirror_background_b = Hintergrund B (0-255)
 
-im_fx_workspace_pos = Position
+media_manager_effect_workspace_pos = Position

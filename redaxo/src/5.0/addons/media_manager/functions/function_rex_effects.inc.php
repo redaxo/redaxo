@@ -59,7 +59,7 @@ function rex_media_manager_deleteCacheByType($type_id)
   $counter = 0;
   foreach($sql as $row)
   {
-    $counter += rex_media_manager_cacher::deleteCache(null, $row->getValue('name'));
+    $counter += rex_media_manager::deleteCache(null, $row->getValue('name'));
   }
 
   return $counter;

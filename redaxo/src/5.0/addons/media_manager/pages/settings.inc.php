@@ -1,7 +1,7 @@
 <?php
 
 /**
- * image_manager Addon
+ * media_manager Addon
  *
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @author jan.kristinus[at]yakmara[dot]de Jan Kristinus
