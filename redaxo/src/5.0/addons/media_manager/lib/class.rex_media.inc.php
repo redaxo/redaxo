@@ -10,25 +10,27 @@ class rex_media {
   $img,
   $header = array();
 
-
   public function __construct($media_path)
   {
-    // ----- check params
-    if (!file_exists($media_path))
-    {
-      $this->sendError('Media does not exist - '. $media_path);
-      exit();
-    }
-
-    $this->media_path = $media_path;
-    $this->media = basename($media_path);
-    $this->setHeader('Content-Disposition','inline; filename="'. $this->getMediaFilename() .'"');
-
+    $this->setMediapath($media_path);
   }
 
   public function getMediapath()
   {
     return $this->media_path;
+  }
+
+  public function setMediapath($media_path)
+  {
+    // ----- check params
+    if (!file_exists($media_path))
+    {
+      $media_path = rex_path::addon("media_manager","")."media/warning.jpg";
+    }
+    $this->media_path = $media_path;
+    $this->media = basename($media_path);
+    $this->setHeader('Content-Disposition','inline; filename="'. $this->getMediaFilename() .'"');
+    $this->asImage = FALSE;
   }
 
   public function getMediaFilename()
@@ -41,28 +43,25 @@ class rex_media {
     $this->header[$type] = $content;
   }
 
-
   public function asImage()
   {
 
     if($this->asImage)
-    return;
+    {
+      return;
+    }
 
     $this->asImage = TRUE;
 
-
-
     $this->image = array();
-    $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 80);
     $this->image['format'] = strtoupper(rex_file::extension($this->getMediapath()));
-
-    $this->gifsupport = function_exists('imagegif');
 
     $this->image['src'] = false;
 
     if ($this->image['format'] == 'JPG' || $this->image['format'] == 'JPEG')
     {
       $this->image['format'] = 'JPEG';
+      $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 80);
       $this->image['src'] = @imagecreatefromjpeg($this->getMediapath());
 
     }elseif ($this->image['format'] == 'PNG')
@@ -87,8 +86,8 @@ class rex_media {
 
     if (!$this->image['src'])
     {
-      $this->sendErrorImage('Unable to create gdressource from file "'.$this->getMediapath().'" !');
-      exit();
+      $this->setMediapath(rex_path::addon("media_manager","")."media/warning.jpg");
+      $this->asImage();
 
     }else
     {
@@ -106,7 +105,13 @@ class rex_media {
 
   public function hasGifSupport()
   {
-    return $this->gifsupport;
+    if(function_exists('imagegif'))
+    {
+      return TRUE;
+    }else
+    {
+      return FALSE;
+    }
   }
 
   public function getFormat()
@@ -286,32 +291,33 @@ class rex_media {
 
 
 
+  /*
+   protected function sendErrorImage($file = null)
+   {
+   if(!$file)
+   $file = dirname(__FILE__).'/../media/warning.jpg';
 
-  protected function sendErrorImage($file = null)
-  {
-    if(!$file)
-    $file = dirname(__FILE__).'/../media/warning.jpg';
+   // ----- EXTENSION POINT
+   $sendfile = TRUE;
+   $sendfile = rex_extension::registerPoint('IMAGE_ERROR_SEND', $sendfile,
+   array (
+   'img' => $this->img,
+   'file' => $file,
+   )
+   );
 
-    // ----- EXTENSION POINT
-    $sendfile = TRUE;
-    $sendfile = rex_extension::registerPoint('IMAGE_ERROR_SEND', $sendfile,
-    array (
-      	'img' => $this->img,
-        'file' => $file,
-    )
-    );
+   if(!$sendfile)
+   return FALSE;
 
-    if(!$sendfile)
-    return FALSE;
+   $this->sendHeader(array("Content-Length" => filesize($file)));
 
-    $this->sendHeader(array("Content-Length" => filesize($file)));
-
-    // error image nicht cachen
-    header('Cache-Control: false');
-    header('HTTP/1.0 404 Not Found');
-    header('Content-Length: ' . filesize($file));
-    readfile($file);
-  }
+   // error image nicht cachen
+   header('Cache-Control: false');
+   header('HTTP/1.0 404 Not Found');
+   header('Content-Length: ' . filesize($file));
+   readfile($file);
+   }
+   */
 
   /*
    * Static Method: Returns True, if the given image is a valid rex_image
