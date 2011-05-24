@@ -12,9 +12,6 @@
  * @version svn:$Id$
  */
 
-require_once (dirname(__FILE__). '/../functions/function_rex_effects.inc.php');
-require_once (dirname(__FILE__). '/../functions/function_rex_extensions.inc.php');
-
 $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');

@@ -1,4 +1,5 @@
 <?php
+
 $Basedir = dirname(__FILE__);
 
 $effect_id = rex_request('effect_id','int');
@@ -22,7 +23,7 @@ $warning = '';
 if((rex_post('func') != '' || $func == 'delete')
    && $type_id > 0)
 {
-  $counter = rex_media_manager_deleteCacheByType($type_id);
+  $counter = rex_media_manager::deleteCacheByType($type_id);
 //  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
 }
 
@@ -96,7 +97,7 @@ if ($func == '' && $type_id > 0)
 elseif ($func == 'add' && $type_id > 0 ||
         $func == 'edit' && $effect_id > 0 && $type_id > 0)
 {
-  $effectNames = rex_media_manager_supportedEffectNames();
+  $effectNames = rex_media_manager::getSupportedEffectNames();
 
   if($func == 'edit')
   {
@@ -147,7 +148,7 @@ elseif ($func == 'add' && $type_id > 0 ||
   $fieldContainer->setAttribute('style', 'display: none');
 	$fieldContainer->setSuffix($script);
 
-  $effects = rex_media_manager_supportedEffects();
+  $effects = rex_media_manager::getSupportedEffects();
 
   foreach($effects as $effectClass => $effectFile)
   {
