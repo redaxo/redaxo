@@ -163,7 +163,6 @@ interface rex_package_interface
    * Includes a file in the package context
    *
    * @param string $file Filename
-   * @param array $globals Array of global variablenames
    */
-  public function includeFile($file, array $globals = array());
+  public function includeFile($file);
 }

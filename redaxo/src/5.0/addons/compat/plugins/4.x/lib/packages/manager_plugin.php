@@ -31,7 +31,8 @@ class rex_plugin_manager_compat extends rex_plugin_manager
       $transform = true;
     }
 
-    $package->includeFile($file, array('REX', 'REX_USER', 'REX_LOGIN', 'I18N', 'article_id', 'clang', 'ADDONsic'));
+    $compatPackage = new rex_package_compat($package);
+    $compatPackage->includeFile($file);
 
     $addonName = $package->getAddon()->getName();
     if($transform)
