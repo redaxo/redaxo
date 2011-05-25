@@ -626,15 +626,15 @@ if ($article->getRows() == 1)
         )
       );
 
-      $ctype_menu .= "\n".'<dl class="rex-navi-ctype"><dt>';
+      $ctype_menu .= "\n".'<ul id="rex-navi-ctype">';
 
-
+      $ctype_menu .= '<li>';
       if ($num_ctypes > 1)
         $ctype_menu .= rex_i18n::msg('content_types');
       else
         $ctype_menu .= rex_i18n::msg('content_type');
+      $ctype_menu .= ' </li>';
 
-      $ctype_menu .= '</dt><dd><ul class="rex-navi">';
 
       $menu_counter = 0;
       foreach($listElements as $listElement)
@@ -646,7 +646,7 @@ if ($article->getRows() == 1)
         $ctype_menu .= '<li'.$class.'>'.$listElement.'</li>';
 
       }
-      $ctype_menu .= '</ul></dd></dl>';
+      $ctype_menu .= '</ul>';
     }
 
     $menu = $ctype_menu;
@@ -684,7 +684,7 @@ if ($article->getRows() == 1)
       )
     );
 
-    $menu .= "\n".'<ul class="rex-navi rex-navi-article-content">';
+    $menu .= "\n".'<ul class="rex-navi-content">';
     $num_elements = count($listElements);
     $menu_first = true;
     for($i = 0; $i < $num_elements; $i++)
@@ -704,12 +704,12 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: AUSGABE
     echo '
             <!-- *** OUTPUT OF ARTICLE-CONTENT - START *** -->
-           	<div class="rex-block rex-article-content">
-							<div class="rex-header">
-							<div class="rex-header2">
-								' . $menu . '
-							</div>
-							</div>
+            <div class="rex-content-header">
+            <div class="rex-content-header-2">
+              ' . $menu . '
+              <div class="rex-clearer"></div>
+            </div>
+            </div>
             ';
 
     // ------------------------------------------ WARNING
@@ -1108,7 +1108,6 @@ if ($article->getRows() == 1)
     echo '
 							</div>
 							</div>
-            </div>
             <!-- *** OUTPUT OF ARTICLE-CONTENT - END *** -->
             ';
 
