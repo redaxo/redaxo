@@ -1,6 +1,5 @@
 
-  <div id="rex-navi-path">
-  <ul>
+  <ul id="rex-navi-path">
 	 	<?php foreach($this->list['items'] as $key => $values): ?>
 		<li><?php echo $key; ?></li>
 		 	<?php foreach($values as $value): ?>
@@ -10,8 +9,7 @@
   		<?php endforeach; ?>
 		<?php endforeach; ?>
 	</ul>
-  </div>
-  
+
   <?php /*
   <div class="rex-navi-path">
   <dl>
