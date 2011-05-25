@@ -142,44 +142,37 @@ if ($info != '')
 
 $dbconfig = rex::getProperty('db');
 
-?>
-  <div class="rex-form" id="rex-form-system-setup">
-  	<form action="index.php" method="post">
-    	<input type="hidden" name="page" value="specials" />
-    	<input type="hidden" name="func" value="updateinfos" />
 
-			<div class="rex-area-col-2">
-				<div class="rex-area-col-a">
 
-					<h3 class="rex-hl2"><?php echo rex_i18n::msg("specials_features"); ?></h3>
+$version = rex_path::version();
+if (strlen($version)>21)
+	$version = substr($version,0,8)."..".substr($version,strlen($version)-13);
 
-					<div class="rex-area-content">
-						<h4 class="rex-hl3"><?php echo rex_i18n::msg("delete_cache"); ?></h4>
-						<p class="rex-tx1"><?php echo rex_i18n::msg("delete_cache_description"); ?></p>
-						<p class="rex-button"><a class="rex-button" href="index.php?page=specials&amp;func=generate"><span><span><?php echo rex_i18n::msg("delete_cache"); ?></span></span></a></p>
 
-						<h4 class="rex-hl3"><?php echo rex_i18n::msg("setup"); ?></h4>
-						<p class="rex-tx1"><?php echo rex_i18n::msg("setup_text"); ?></p>
-						<p class="rex-button"><a class="rex-button" href="index.php?page=specials&amp;func=setup" onclick="return confirm('<?php echo rex_i18n::msg("setup"); ?>?');"><span><span><?php echo rex_i18n::msg("setup"); ?></span></span></a></p>
+$headline_1 = rex_i18n::msg("specials_features");
+$headline_2 = rex_i18n::msg("specials_settings");
 
-            <h4 class="rex-hl3"><?php echo rex_i18n::msg("version"); ?></h4>
+$content_1 = '
+						<h4 class="rex-hl3">'.rex_i18n::msg("delete_cache").'</h4>
+						<p class="rex-tx1">'.rex_i18n::msg("delete_cache_description").'</p>
+						<p class="rex-button"><a class="rex-button" href="index.php?page=specials&amp;func=generate"><span><span>'.rex_i18n::msg("delete_cache").'</span></span></a></p>
+
+						<h4 class="rex-hl3">'.rex_i18n::msg("setup").'</h4>
+						<p class="rex-tx1">'.rex_i18n::msg("setup_text").'</p>
+						<p class="rex-button"><a class="rex-button" href="index.php?page=specials&amp;func=setup" onclick="return confirm(\''.rex_i18n::msg("setup").'?\');"><span><span>'.rex_i18n::msg("setup").'</span></span></a></p>
+
+            <h4 class="rex-hl3">'.rex_i18n::msg("version").'</h4>
             <p class="rex-tx1">
-            REDAXO: <?php echo rex::getVersion(); ?><br />
-            PHP: <?php echo phpversion(); ?> (<a href="index.php?page=specials&amp;subpage=phpinfo">php_info</a>)</p>
+            REDAXO: '.rex::getVersion().'<br />
+            PHP: '.phpversion().' (<a href="index.php?page=specials&amp;subpage=phpinfo">php_info</a>)</p>
 
-            <h4 class="rex-hl3"><?php echo rex_i18n::msg("database"); ?></h4>
-            <p class="rex-tx1">MySQL: <?php echo rex_sql::getServerVersion(); ?><br /><?php echo rex_i18n::msg("name"); ?>: <?php echo $dbconfig[1]['name']; ?><br /><?php echo rex_i18n::msg("host"); ?>: <?php echo $dbconfig[1]['host']; ?></p>
-					</div>
-				</div>
+            <h4 class="rex-hl3">'.rex_i18n::msg("database").'</h4>
+            <p class="rex-tx1">MySQL: '.rex_sql::getServerVersion().'<br />'.rex_i18n::msg("name").': '.$dbconfig[1]['name'].'<br />'.rex_i18n::msg("host").': '.$dbconfig[1]['host'].'</p>';
 
-				<div class="rex-area-col-b">
 
-					<h3 class="rex-hl2"><?php echo rex_i18n::msg("specials_settings"); ?></h3>
-
-					<div class="rex-area-content">
-
+$content_2 = '
 						<fieldset class="rex-form-col-1">
-							<legend><?php echo rex_i18n::msg("general_info_header"); ?></legend>
+							<legend>'. rex_i18n::msg("general_info_header").'</legend>
 
 							<div class="rex-form-wrapper">
 
@@ -187,22 +180,22 @@ $dbconfig = rex::getProperty('db');
 							<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-version">Version</label>
-										<span class="rex-form-read" id="rex-form-version"><?php echo rex::getVersion(); ?></span>
+										<span class="rex-form-read" id="rex-form-version">'. rex::getVersion().'</span>
 									</p>
 								</div>
 						-->
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
-										<label for="rex-form-server">$REX['SERVER']</label>
-										<input class="rex-form-text" type="text" id="rex-form-server" name="neu_SERVER" value="<?php echo htmlspecialchars(rex::getProperty('server')); ?>" />
+										<label for="rex-form-server">$REX[\'SERVER\']</label>
+										<input class="rex-form-text" type="text" id="rex-form-server" name="neu_SERVER" value="'. htmlspecialchars(rex::getProperty('server')).'" />
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
-										<label for="rex-form-servername">$REX['SERVERNAME']</label>
-										<input class="rex-form-text" type="text" id="rex-form-servername" name="neu_SERVERNAME" value="<?php echo htmlspecialchars(rex::getProperty('servername')); ?>" />
+										<label for="rex-form-servername">$REX[\'SERVERNAME\']</label>
+										<input class="rex-form-text" type="text" id="rex-form-servername" name="neu_SERVERNAME" value="'. htmlspecialchars(rex::getProperty('servername')).'" />
 									</p>
 								</div>
 							</div>
@@ -212,21 +205,21 @@ $dbconfig = rex::getProperty('db');
 
 						<!--
 						<fieldset class="rex-form-col-1">
-							<legend><?php echo rex_i18n::msg("db1_can_only_be_changed_by_setup"); ?></legend>
+							<legend>'. rex_i18n::msg("db1_can_only_be_changed_by_setup").'</legend>
 
 							<div class="rex-form-wrapper">
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-db-host">$REX[\'DB\'][\'1\'][\'HOST\']</label>
-										<span class="rex-form-read" id="rex-form-db-host">&quot;<?php echo $dbconfig[1]['host']; ?>&quot;</span>
+										<span class="rex-form-read" id="rex-form-db-host">&quot;'. $dbconfig[1]['host'].'&quot;</span>
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
 										<label for="rex-form-db-login">$REX[\'DB\'][\'1\'][\'LOGIN\']</label>
-										<span id="rex-form-db-login">&quot;<?php echo $dbconfig[1]['login']; ?>&quot;</span>
+										<span id="rex-form-db-login">&quot;'. $dbconfig[1]['login'].'&quot;</span>
 									</p>
 								</div>
 
@@ -240,7 +233,7 @@ $dbconfig = rex::getProperty('db');
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex-form-db-name">$REX[\'DB\'][\'1\'][\'NAME\']</label>
-										<span class="rex-form-read" id="rex-form-db-name">&quot;<?php echo htmlspecialchars($dbconfig[1]['name']); ?>&quot;</span>
+										<span class="rex-form-read" id="rex-form-db-name">&quot;'. htmlspecialchars($dbconfig[1]['name']).'&quot;</span>
 									</p>
 								</div>
 							</div>
@@ -257,75 +250,78 @@ $dbconfig = rex::getProperty('db');
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-read">
 										<label for="rex_src_path">rex_path::version()</label>
-										<span class="rex-form-read" id="rex_src_path" title="'. rex_path::version() .'">&quot;
-                  <?php
-										$tmp = rex_path::version();
-										if (strlen($tmp)>21)
-											$tmp = substr($tmp,0,8)."..".substr($tmp,strlen($tmp)-13);
-
-										echo $tmp;
-								  ?>
-
-					         &quot;</span>
+										<span class="rex-form-read" id="rex_src_path" title="'. rex_path::version() .'">&quot;'.$version.'&quot;</span>
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-text">
-										<label for="rex-form-error-email">$REX['ERROR_EMAIL']</label>
-										<input class="rex-form-text" type="text" id="rex-form-error-email" name="neu_error_emailaddress" value="<?php echo htmlspecialchars(rex::getProperty('error_email')); ?>" />
+										<label for="rex-form-error-email">$REX[\'ERROR_EMAIL\']</label>
+										<input class="rex-form-text" type="text" id="rex-form-error-email" name="neu_error_emailaddress" value="'. htmlspecialchars(rex::getProperty('error_email')).'" />
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-widget">
-										<label for="rex-form-startarticle-id">$REX['START_ARTICLE_ID']</label>
-										<?php echo rex_var_link::_getLinkButton('neu_startartikel', 1, rex::getProperty('start_article_id')); ?>
+										<label for="rex-form-startarticle-id">$REX[\'START_ARTICLE_ID\']</label>
+										'. rex_var_link::_getLinkButton('neu_startartikel', 1, rex::getProperty('start_article_id')).'
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-widget">
-										<label for="rex-form-notfound-article-id">$REX['NOTFOUND_ARTICLE_ID']</label>
-                    <?php echo rex_var_link::_getLinkButton('neu_notfoundartikel', 2, rex::getProperty('notfound_article_id')); ?>
+										<label for="rex-form-notfound-article-id">$REX[\'NOTFOUND_ARTICLE_ID\']</label>
+                    '. rex_var_link::_getLinkButton('neu_notfoundartikel', 2, rex::getProperty('notfound_article_id')).'
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-select">
-										<label for="rex-form-default-template-id">$REX['DEFAULT_TEMPLATE_ID']</label>
-										<?php echo $sel_template->get(); ?>
+										<label for="rex-form-default-template-id">$REX[\'DEFAULT_TEMPLATE_ID\']</label>
+										'. $sel_template->get().'
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-select">
-										<label for="rex-form-lang">$REX['LANG']</label>
-										<?php echo $sel_lang->get(); ?>
+										<label for="rex-form-lang">$REX[\'LANG\']</label>
+										'. $sel_lang->get().'
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-select">
-										<label for="rex-form-mod-rewrite">$REX['MOD_REWRITE']</label>
-										<?php echo $sel_mod_rewrite->get(); ?>
+										<label for="rex-form-mod-rewrite">$REX[\'MOD_REWRITE\']</label>
+										'. $sel_mod_rewrite->get().'
 									</p>
 								</div>
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-submit">
-										<input type="submit" class="rex-form-submit" name="sendit" value="<?php echo rex_i18n::msg("specials_update"); ?>" <?php echo rex::getAccesskey(rex_i18n::msg('specials_update'), 'save'); ?> />
+										<input type="submit" class="rex-form-submit" name="sendit" value="'. rex_i18n::msg("specials_update").'" '. rex::getAccesskey(rex_i18n::msg('specials_update'), 'save').' />
 									</p>
 								</div>
 
             <!--
 								</div>
 						-->
-						</fieldset>
-					</div> <!-- Ende rex-area-content //-->
+						</fieldset>';
 
-				</div> <!-- Ende rex-area-col-b //-->
-			</div> <!-- Ende rex-area-col-2 //-->
+?>
 
-		</form>
-	</div>
+<div class="rex-form" id="rex-form-system-setup">
+	<form action="index.php" method="post">
+  	<input type="hidden" name="page" value="specials" />
+  	<input type="hidden" name="func" value="updateinfos" />
+
+<?php
+$fragment = new rex_fragment();
+$fragment->setVar('headline_1', $headline_1, false);
+$fragment->setVar('headline_2', $headline_2, false);
+$fragment->setVar('content_1', $content_1, false);
+$fragment->setVar('content_2', $content_2, false);
+echo $fragment->parse('section_grid2col');
+unset($fragment);
+?>
+	</form>
+</div>
