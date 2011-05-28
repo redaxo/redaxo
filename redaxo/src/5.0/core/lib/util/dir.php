@@ -136,6 +136,6 @@ class rex_dir
    */
   static public function recursiveIterator($dir, $mode = rex_dir_recursive_iterator::CHILD_FIRST)
   {
-    return new rex_dir_recursive_iterator(self::iterator($dir), $flags);
+    return new rex_dir_recursive_iterator(self::iterator($dir), $mode);
   }
 }
