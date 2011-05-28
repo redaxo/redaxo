@@ -146,7 +146,7 @@ if ($func == '')
 
   $fieldset = $func == 'edit' ? rex_i18n::msg('cronjob_edit') : rex_i18n::msg('cronjob_add');
 
-  $form = rex_form::factory(REX_CRONJOB_TABLE, $fieldset, 'id = '. $oid, 'post', false, 'rex_cronjob_form');
+  $form = new rex_cronjob_form(REX_CRONJOB_TABLE, $fieldset, 'id = '. $oid, 'post', false);
   $form->addParam('oid', $oid);
   $form->setApplyUrl('index.php?page=cronjob');
   $form->setEditMode($func == 'edit');
