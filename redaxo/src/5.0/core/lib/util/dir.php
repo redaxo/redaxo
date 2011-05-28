@@ -2,6 +2,8 @@
 
 /**
  * Class for handling directories
+ *
+ * @author gharlan
  */
 class rex_dir
 {
@@ -10,7 +12,6 @@ class rex_dir
    *
    * @param string $dir Path of the new directory
    * @param boolean $recursive When FALSE, nested directories won't be created
-   *
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function create($dir, $recursive = true)
@@ -29,7 +30,6 @@ class rex_dir
    *
    * @param string $srcdir Path of the source directory
    * @param string $dstdir Path of the destination directory
-   *
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function copy($srcdir, $dstdir)
@@ -75,7 +75,6 @@ class rex_dir
    *
    * @param string $dir Path of the directory
    * @param boolean $deleteSelf When FALSE, only subdirectories and files will be deleted
-   *
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function delete($dir, $deleteSelf = true)
@@ -88,7 +87,6 @@ class rex_dir
    *
    * @param string $dir Path of the directory
    * @param boolean $recursive When FALSE, files in subdirectories won't be deleted
-   *
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function deleteFiles($dir, $recursive = true)
@@ -142,5 +140,30 @@ class rex_dir
     }
 
     return TRUE;
+  }
+
+  /**
+   * Returns an iterator for a directory
+   *
+   * @param string $dir Path of the directory
+   * @return rex_dir_iterator
+   * @see rex_dir_iterator
+   */
+  static public function iterator($dir)
+  {
+    return new rex_dir_iterator(new RecursiveDirectoryIterator($dir));
+  }
+
+  /**
+   * Returns a recursive iterator for a directory
+   *
+   * @param string $dir Path of the directory
+   * @param int $mode Mode, see {@link http://www.php.net/manual/en/recursiveiteratoriterator.construct.php}
+   * @return rex_dir_iterator
+   * @see rex_dir_iterator
+   */
+  static public function recursiveIterator($dir, $mode = rex_dir_recursive_iterator::CHILD_FIRST)
+  {
+    return new rex_dir_recursive_iterator(self::iterator($dir), $flags);
   }
 }
