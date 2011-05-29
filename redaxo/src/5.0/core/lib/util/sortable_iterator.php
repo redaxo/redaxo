@@ -23,7 +23,7 @@ class rex_sortable_iterator implements IteratorAggregate
    */
   public function __construct(Traversable $iterator, $sort = self::VALUES)
   {
-    $this->iterator = $iterator instanceof IteratorAggregate ? $iterator->getIterator() : $iterator;
+    $this->iterator = $iterator;
     $this->sort = $sort;
   }
 
