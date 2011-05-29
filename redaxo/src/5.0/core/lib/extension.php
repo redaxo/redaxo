@@ -47,7 +47,7 @@ abstract class rex_extension extends rex_factory
         {
           $func = $ext[0];
           $local_params = array_merge($params, $ext[1]);
-          rex_call_func($func, $local_params);
+          call_user_func($func, $local_params);
         }
       }
       else
@@ -56,7 +56,7 @@ abstract class rex_extension extends rex_factory
         {
           $func = $ext[0];
           $local_params = array_merge($params, $ext[1]);
-          $temp = rex_call_func($func, $local_params);
+          $temp = call_user_func($func, $local_params);
           // Rückgabewert nur auswerten wenn auch einer vorhanden ist
           // damit $params['subject'] nicht verfälscht wird
           // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist

@@ -523,7 +523,7 @@ abstract class rex_package_manager extends rex_factory
     $args = func_get_args();
     $args[0] = $this->i18nPrefix. $args[0];
 
-    return rex_call_func(array('rex_i18n', 'msg'), $args, false);
+    return call_user_func_array(array('rex_i18n', 'msg'), $args);
   }
 
   /**

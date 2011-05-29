@@ -409,7 +409,7 @@ class rex_metainfoHandler
         }
       }
 
-      $s .= rex_call_func($formatCallback, array($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel), false);
+      $s .= call_user_func_array($formatCallback, array($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel));
     }
 
     return $s;
@@ -637,7 +637,7 @@ class rex_metainfoHandler
     }
 
     $sqlFields = self::_rex_a62_metainfo_sqlfields($prefix, $restrictionsCondition);
-    $params = rex_call_func($saveCallback, array($params, $sqlFields), false);
+    $params = call_user_func_array($saveCallback, array($params, $sqlFields));
 
     // trigger callback of sql fields
     if(rex_request_method() == 'post')

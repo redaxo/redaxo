@@ -39,3 +39,28 @@ function rex_get_registered_extensions($extensionPoint)
 {
   return rex_extension::getRegisteredExtensions($extensionPoint);
 }
+
+/**
+ * @link http://www.php.net/manual/en/function.call-user-func.php
+ * @link http://www.php.net/manual/en/function.call-user-func-array.php
+ *
+ * @deprecated 5.0
+ */
+function rex_call_func($function, $params, $parseParamsAsArray = true)
+{
+	if($parseParamsAsArray === true)
+	{
+	  return call_user_func($func, $params);
+	}
+  return call_user_func_array($func, $params);
+}
+
+/**
+ * @link http://www.php.net/manual/en/function.is-callable.php
+ *
+ * @deprecated 5.0
+ */
+function rex_check_callable($_callable)
+{
+  return is_callable($_callable);
+}
