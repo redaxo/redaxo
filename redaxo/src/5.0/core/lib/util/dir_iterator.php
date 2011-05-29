@@ -89,6 +89,17 @@ class rex_dir_iterator extends RecursiveFilterIterator
     return $this;
   }
 
+  /**
+   * Sorts the elements
+   *
+   * @param int|callable $sort Sort mode, see {@link rex_sortable_iterator::__construct()}
+   * @return rex_sortable_iterator Sortable iterator
+   */
+  public function sort($sort = rex_sortable_iterator::KEYS)
+  {
+    return new rex_sortable_iterator($this, $sort);
+  }
+
   /* (non-PHPdoc)
    * @see RecursiveFilterIterator::getChildren()
    */
@@ -178,6 +189,17 @@ class rex_dir_iterator extends RecursiveFilterIterator
  */
 class rex_dir_recursive_iterator extends RecursiveIteratorIterator
 {
+  /**
+   * Sorts the elements
+   *
+   * @param int|callable $sort Sort mode, see {@link rex_sortable_iterator::__construct()}
+   * @return rex_sortable_iterator Sortable iterator
+   */
+  public function sort($sort = rex_sortable_iterator::KEYS)
+  {
+    return new rex_sortable_iterator($this, $sort);
+  }
+
   public function __call($method, $arguments)
   {
     call_user_func_array(array($this->getInnerIterator(), $method), $arguments);

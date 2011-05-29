@@ -16,7 +16,7 @@ class rex_cronjob_log
     $folder = REX_CRONJOB_LOG_FOLDER;
     $years = array ();
 
-    foreach(rex_dir::iterator($folder)->excludeFiles()->excludePrefixes('.') as $file)
+    foreach(rex_dir::iterator($folder)->excludeFiles()->excludePrefixes('.')->sort() as $file)
     {
       $years[] = $file->getFilename();
     }

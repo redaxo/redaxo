@@ -92,10 +92,10 @@ class rex_dir
   /**
    * Deletes files and directories by a rex_dir_iterator
    *
-   * @param Iterator $iterator Iterator, $iterator->current() must return an SplFileInfo-Object
+   * @param Traversable $iterator Iterator, $iterator->current() must return a SplFileInfo-Object
    * @return boolean TRUE on success, FALSE on failure
    */
-  static public function deleteIterator(Iterator $iterator)
+  static public function deleteIterator(Traversable $iterator)
   {
     $state = true;
 
