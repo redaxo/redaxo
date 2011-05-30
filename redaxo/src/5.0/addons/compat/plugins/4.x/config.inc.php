@@ -33,6 +33,18 @@ $REX['FRONTEND_FILE'] = 'index.php';
  */
 $REX['GG'] = !rex::isBackend();
 
+/**
+ * @deprecated 5.0
+ */
+// TODO uncomment this when $REX is completely removed from core
+//$REX->setCallbackAlias('CUR_CLANG', 'rex_clang::getId', 'rex_clang::setId');
+
+/**
+ * @deprecated 5.0
+ */
+// TODO uncomment this when $REX is completely removed from core
+//$REX->setCallbackAlias('CLANG', 'rex_clang::getAll', 'rex_clang::reset');
+
 if(rex::isBackend())
 {
   /**
@@ -59,7 +71,8 @@ $article_id =& $REX['ARTICLE_ID'];
 /**
  * @deprecated 4.2
  */
-$clang =& $REX['CUR_CLANG'];
+// TODO uncomment this when $REX is completely removed from core
+//$REX->setGlobalVarAlias('CUR_CLANG', 'clang');
 
 require_once __DIR__ .'/functions/function_rex_client_cache.inc.php';
 require_once __DIR__ .'/functions/function_rex_extension.inc.php';
