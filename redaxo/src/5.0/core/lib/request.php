@@ -243,7 +243,7 @@ class rex_request
         $var = (int) $var;
         if($mode == 'found')
         {
-          if(empty($REX['CLANG'][$var]))
+          if(!rex_clang::exists($var))
             $var = (int) $default;
         }
         break;

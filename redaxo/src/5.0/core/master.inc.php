@@ -83,12 +83,7 @@ $REX['EXTRAPERM'] = array();
 $REX['EXTRAPERM'][] = 'editContentOnly[]';
 
 // ----- SET CLANG
-$REX['CLANG'] = array();
-$clangFile = rex_path::cache('clang.cache');
-if(file_exists($clangFile))
-  $REX['CLANG'] = rex_file::getCache(rex_path::cache('clang.cache'));
-
-$REX['CUR_CLANG']  = rex_request('clang','rex-clang-id', rex::getProperty('start_clang_id'));
+rex_clang::setId(rex_request('clang','rex-clang-id', rex::getProperty('start_clang_id')));
 
 if(rex_request('article_id', 'int') == 0)
   $REX['ARTICLE_ID'] = rex::getProperty('start_article_id');

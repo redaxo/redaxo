@@ -82,8 +82,8 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
   // ----- get clang
   // Wenn eine rexExtension vorhanden ist, immer die clang mitgeben!
   // Die rexExtension muss selbst entscheiden was sie damit macht
-  if ($_clang === '' && (count($REX['CLANG']) > 1 || rex_extension::isRegistered( 'URL_REWRITE')))
-    $clang = $REX['CUR_CLANG'];
+  if ($_clang === '' && (rex_clang::count() > 1 || rex_extension::isRegistered( 'URL_REWRITE')))
+    $clang = rex_clang::getId();
 
   // ----- get params
   $param_string = rex_param_string($_params, $_divider);
@@ -135,10 +135,9 @@ function rex_redirect($article_id, $clang = '', $params = array())
  */
 function rex_no_rewrite($id, $name, $clang, $param_string, $divider)
 {
-  global $REX;
   $_clang = '';
 
-  if (count($REX['CLANG']) > 1)
+  if (rex_clang::count() > 1)
   {
     $_clang .= $divider.'clang='.$clang;
   }

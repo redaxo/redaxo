@@ -11,8 +11,6 @@ class rex_article_service
    */
   static public function addArticle($data)
   {
-    global $REX;
-
     $message = '';
 
     if(!is_array($data))
@@ -57,7 +55,7 @@ class rex_article_service
     $message = rex_i18n::msg('article_added');
 
     $AART = rex_sql::factory();
-    foreach($REX['CLANG'] as $key => $val)
+    foreach(rex_clang::getAllIds() as $key)
     {
       // ------- Kategorienamen holen
       $category = rex_ooCategory::getCategoryById($data['category_id'], $key);
@@ -219,8 +217,6 @@ class rex_article_service
    */
   static public function deleteArticle($article_id)
   {
-    global $REX;
-
     $Art = rex_sql::factory();
     $Art->setQuery('select * from '.rex::getTablePrefix().'article where id='.$article_id.' and startpage=0');
 
@@ -230,7 +226,7 @@ class rex_article_service
       $message = self::_deleteArticle($article_id);
       $re_id = $Art->getValue("re_id");
 
-      foreach($REX['CLANG'] as $clang => $clang_name)
+      foreach(rex_clang::getAllIds() as $clang)
       {
         // ----- PRIOR
         self::newArtPrio($Art->getValue("re_id"), $clang, 0, 1);

@@ -10,12 +10,6 @@ function rex_generateAll()
   // ----------------------------------------------------------- generated löschen
   rex_deleteAll();
 
-  // ----------------------------------------------------------- generiere clang
-  if(($MSG = rex_clang_service::generateCache()) !== TRUE)
-  {
-    return $MSG;
-  }
-
   // ----------------------------------------------------------- message
   $MSG = rex_i18n::msg('delete_cache_message');
 
@@ -36,4 +30,6 @@ function rex_deleteAll()
   rex_dir::deleteIterator(rex_dir::recursiveIterator(rex_path::cache())->excludeFiles(array('.htaccess', '_readme.txt'), false));
 
   rex_logger::register();
+
+  rex_clang::reset();
 }

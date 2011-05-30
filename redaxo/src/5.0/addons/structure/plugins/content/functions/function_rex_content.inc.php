@@ -262,8 +262,6 @@ function rex_getActionModeBit($function)
  */
 function rex_article2startpage($neu_id){
 
-  global $REX;
-
   $GAID = array();
 
   // neuen startartikel holen und schauen ob da
@@ -293,7 +291,7 @@ function rex_article2startpage($neu_id){
   }
 
   // LANG SCHLEIFE
-  foreach($REX['CLANG'] as $clang => $clang_name)
+  foreach(rex_clang::getAllIds() as $clang)
   {
     // alter startartikel
     $alt->setQuery("select * from ".rex::getTablePrefix()."article where id=$neu_cat_id and startpage=1 and clang=$clang");
@@ -355,7 +353,7 @@ function rex_article2startpage($neu_id){
   $users = rex_sql::factory();
   $users->setQuery('UPDATE '. rex::getTablePrefix() .'user SET rights = REPLACE(rights, "#csw['. $alt_id .']#", "#csw['. $neu_id .']#")');
 
-  foreach($REX['CLANG'] as $clang => $clang_name)
+  foreach(rex_clang::getAllIds() as $clang)
   {
     rex_extension::registerPoint('ART_TO_STARTPAGE', '', array (
       'id' => $neu_id,
@@ -374,14 +372,12 @@ function rex_article2startpage($neu_id){
  *
  * @return boolean TRUE bei Erfolg, sonst FALSE
  */
-function rex_article2category($art_id){
-
-  global $REX;
-
+function rex_article2category($art_id)
+{
   $sql = rex_sql::factory();
 
   // LANG SCHLEIFE
-  foreach($REX['CLANG'] as $clang => $clang_name)
+  foreach(rex_clang::getAllIds() as $clang)
   {
     // artikel
     $sql->setQuery('select re_id, name from '.rex::getTablePrefix()."article where id=$art_id and startpage=0 and clang=$clang");
@@ -403,7 +399,7 @@ function rex_article2category($art_id){
   rex_article_cache::deleteLists($re_id);
   rex_article_cache::delete($art_id);
 
-  foreach($REX['CLANG'] as $clang => $clang_name)
+  foreach(rex_clang::getAllIds() as $clang)
   {
     rex_extension::registerPoint('ART_TO_CAT', '', array (
       'id' => $art_id,
@@ -421,10 +417,8 @@ function rex_article2category($art_id){
  *
  * @return boolean TRUE bei Erfolg, sonst FALSE
  */
-function rex_category2article($art_id){
-
-  global $REX;
-
+function rex_category2article($art_id)
+{
   $sql = rex_sql::factory();
 
   // Kategorie muss leer sein
@@ -433,7 +427,7 @@ function rex_category2article($art_id){
     return false;
 
   // LANG SCHLEIFE
-  foreach($REX['CLANG'] as $clang => $clang_name)
+  foreach(rex_clang::getAllIds() as $clang)
   {
     // artikel
     $sql->setQuery('select re_id, name from '.rex::getTablePrefix()."article where id=$art_id and startpage=1 and clang=$clang");
@@ -454,7 +448,7 @@ function rex_category2article($art_id){
   rex_article_cache::deleteLists($re_id);
   rex_article_cache::delete($art_id);
 
-  foreach($REX['CLANG'] as $clang => $clang_name)
+  foreach(rex_clang::getAllIds() as $clang)
   {
     rex_extension::registerPoint('CAT_TO_ART', '', array (
       'id' => $art_id,
@@ -603,14 +597,12 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
  */
 function rex_copyArticle($id, $to_cat_id)
 {
-  global $REX;
-
   $id = (int) $id;
   $to_cat_id = (int) $to_cat_id;
   $new_id = '';
 
   // Artikel in jeder Sprache kopieren
-  foreach ($REX['CLANG'] as $clang => $clang_name)
+  foreach(rex_clang::getAllIds() as $clang)
   {
     // validierung der id & from_cat_id
     $from_sql = rex_sql::factory();
@@ -704,8 +696,6 @@ function rex_copyArticle($id, $to_cat_id)
  */
 function rex_moveArticle($id, $from_cat_id, $to_cat_id)
 {
-  global $REX;
-
   $id = (int) $id;
   $to_cat_id = (int) $to_cat_id;
   $from_cat_id = (int) $from_cat_id;
@@ -714,7 +704,7 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
     return false;
 
   // Artikel in jeder Sprache verschieben
-  foreach ($REX['CLANG'] as $clang => $clang_name)
+  foreach (rex_clang::getAllIds() as $clang)
   {
     // validierung der id & from_cat_id
     $from_sql = rex_sql::factory();
@@ -792,8 +782,6 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
  */
 function rex_moveCategory($from_cat, $to_cat)
 {
-  global $REX;
-
   $from_cat = (int) $from_cat;
   $to_cat = (int) $to_cat;
 
@@ -877,7 +865,7 @@ function rex_moveCategory($from_cat, $to_cat)
       $gmax = rex_sql::factory();
       $up = rex_sql::factory();
       // $up->debugsql = 1;
-      foreach($REX['CLANG'] as $clang => $clang_name)
+      foreach(rex_clang::getAllIds() as $clang)
       {
         $gmax->setQuery("select max(catprior) from ".rex::getTablePrefix()."article where re_id=$to_cat and clang=".$clang);
         $catprior = (int) $gmax->getValue("max(catprior)");
@@ -895,7 +883,7 @@ function rex_moveCategory($from_cat, $to_cat)
         rex_article_cache::delete($id);
       }
 
-      foreach($REX['CLANG'] as $clang => $clang_name)
+      foreach(rex_clang::getAllIds() as $clang)
       {
         rex_category_service::newCatPrio($fcat->getValue("re_id"),$clang,0,1);
       }
@@ -915,9 +903,7 @@ function rex_moveCategory($from_cat, $to_cat)
  */
 function rex_generateArticleContent($article_id, $clang = null)
 {
-  global $REX;
-
-  foreach($REX['CLANG'] as $_clang => $clang_name)
+  foreach(rex_clang::getAllIds() as $_clang)
   {
     if($clang !== null && $clang != $_clang)
       continue;

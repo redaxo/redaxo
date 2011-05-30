@@ -54,11 +54,9 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   static public function getArticlesOfCategory($a_category_id, $ignore_offlines = FALSE, $clang = FALSE)
   {
-    global $REX;
-
     if ($clang === FALSE)
     {
-      $clang = $REX['CUR_CLANG'];
+      $clang = rex_clang::getId();
     }
 
     $articlelist = rex_path::cache('articles/'.$a_category_id.".".$clang.".alist");
@@ -139,11 +137,9 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   public function getParent($clang = false)
   {
-    global $REX;
-
     if ($clang === FALSE)
     {
-      $clang = $REX['CUR_CLANG'];
+      $clang = rex_clang::getId();
     }
 
     return rex_ooArticle::getArticleById($this->_re_id, $clang);

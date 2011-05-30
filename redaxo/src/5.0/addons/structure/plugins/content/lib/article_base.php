@@ -37,8 +37,6 @@ class rex_article_base
 
   public function __construct($article_id = null, $clang = null)
   {
-    global $REX;
-
     $this->article_id = 0;
     $this->template_id = 0;
     $this->ctype = -1; // zeigt alles an
@@ -55,7 +53,7 @@ class rex_article_base
     if($clang !== null)
       $this->setCLang($clang);
     else
-      $this->setClang($REX['CUR_CLANG']);
+      $this->setClang(rex_clang::getId());
 
     // ----- EXTENSION POINT
     rex_extension::registerPoint('ART_INIT', '',
@@ -94,8 +92,8 @@ class rex_article_base
 
   public function setClang($value)
   {
-    global $REX;
-    if (!isset($REX['CLANG'][$value]) || $REX['CLANG'][$value] == "") $value = $REX['CUR_CLANG'];
+    if (!rex_clang::exists($value))
+      $value = rex_clang::getId();
     $this->clang = $value;
   }
 

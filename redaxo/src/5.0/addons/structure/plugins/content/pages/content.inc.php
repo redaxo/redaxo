@@ -934,7 +934,7 @@ if ($article->getRows() == 1)
         $lang_a->setSize('1');
         foreach ($clang_perm as $key)
         {
-          $val = rex_i18n::translate($REX['CLANG'][$key]);
+          $val = rex_i18n::translate(rex_clang::getName($key));
           $lang_a->addOption($val, $key);
         }
 
@@ -945,7 +945,7 @@ if ($article->getRows() == 1)
         $lang_b->setSize('1');
         foreach ($clang_perm as $key)
         {
-          $val = rex_i18n::translate($REX['CLANG'][$key]);
+          $val = rex_i18n::translate(rex_clang::getName($key));
           $lang_b->addOption($val, $key);
         }
 
