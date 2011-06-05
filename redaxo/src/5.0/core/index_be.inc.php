@@ -276,8 +276,13 @@ if($user = rex::getUser())
 }
 
 rex::setProperty('page', $page);
-$pageObj = $REX['PAGES'][$page]->getPage();
-$REX['PAGE_NO_NAVI'] = !$pageObj->hasNavigation();
+$_pageObj = $REX['PAGES'][$page]->getPage();
+$_activePageObj = $_pageObj;
+if($subpage = $_pageObj->getActiveSubPage())
+{
+  $_activePageObj = $subpage;
+}
+$REX['PAGE_NO_NAVI'] = !$_activePageObj->hasNavigation();
 
 
 // ----- EXTENSION POINT
@@ -287,17 +292,23 @@ rex_extension::registerPoint( 'PAGE_CHECKED', $page, array('pages' => $REX['PAGE
 // trigger api functions
 rex_api_function::handleCall();
 
-if($pageObj->hasLayout())
+if($_activePageObj->hasLayout())
 {
   require rex_path::core('layout/top.php');
 }
 
 $path = '';
-$pageObj = $REX['PAGES'][$page]->getPage();
-if($pageObj->hasPath())
+if($_activePageObj->hasPath())
+{
+  $path = $_activePageObj->getPath();
+}
+elseif($_pageObj->hasPath())
+{
+  $path = $_pageObj->getPath();
+}
+if($path != '')
 {
   // If page has a new/overwritten path
-  $path = $pageObj->getPath();
   if(preg_match('@'. preg_quote(rex_path::version('addons/'), '@') .'([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@', $path, $matches))
   {
     $package = rex_addon::get($matches[1]);
@@ -312,7 +323,7 @@ if($pageObj->hasPath())
     require $path;
   }
 }
-else if($pageObj->isCorePage())
+else if($_pageObj->isCorePage())
 {
   // Core Page
   require rex_path::core('pages/'. $page .'.inc.php');
@@ -323,7 +334,7 @@ else
   rex_addon_manager::includeFile(rex_addon::get($page), 'pages/index.inc.php');
 }
 
-if($pageObj->hasLayout())
+if($_activePageObj->hasLayout())
 {
   require rex_path::core('layout/bottom.php');
 }
