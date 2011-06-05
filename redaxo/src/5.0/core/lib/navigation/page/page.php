@@ -159,7 +159,7 @@ class rex_be_page implements rex_be_page_container
     return $this->title;
   }
 
-  public function setActivateCondition($activateCondition)
+  public function setActivateCondition(array $activateCondition)
   {
     $this->activateCondition = $activateCondition;
   }
