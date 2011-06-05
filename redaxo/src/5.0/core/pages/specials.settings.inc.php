@@ -164,7 +164,7 @@ $content_1 = '
             <h4 class="rex-hl3">'.rex_i18n::msg("version").'</h4>
             <p class="rex-tx1">
             REDAXO: '.rex::getVersion().'<br />
-            PHP: '.phpversion().' (<a href="index.php?page=specials&amp;subpage=phpinfo">php_info</a>)</p>
+            PHP: '.phpversion().' (<a href="index.php?page=specials&amp;subpage=phpinfo" onclick="newWindow(\'phpinfo\', this.href, 800,600,\',status=yes,resizable=yes\');return false;">php_info</a>)</p>
 
             <h4 class="rex-hl3">'.rex_i18n::msg("database").'</h4>
             <p class="rex-tx1">MySQL: '.rex_sql::getServerVersion().'<br />'.rex_i18n::msg("name").': '.$dbconfig[1]['name'].'<br />'.rex_i18n::msg("host").': '.$dbconfig[1]['host'].'</p>';
