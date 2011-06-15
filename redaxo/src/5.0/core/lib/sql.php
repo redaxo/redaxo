@@ -198,7 +198,7 @@ class rex_sql extends rex_factory implements Iterator
    *
    * @return boolean True on success, False on error
    */
-  public function execute(array $params)
+  public function execute($params)
   {
     return $this->stmt->execute($params);
   }
@@ -213,23 +213,32 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function setQuery($qry, $params = array())
   {
-    if(!is_array($params))
-    {
-      throw new rex_exception('expecting $params to be an array, "'. gettype($params) .'" given!');
-    }
-
     // Alle Werte zuruecksetzen
     $this->flush();
     $this->query = $qry;
 
-    $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
-    if($this->stmt)
+    if(!empty($params))
     {
-      $this->execute($params);
+      if(!is_array($params))
+      {
+        throw new rexException('expecting $params to be an array, "'. gettype($params) .'" given!');
+      }
+      $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
+      if($this->stmt)
+      {
+        if(!$this->stmt->execute($params))
+        {
+          $this->stmt->debugDumpParams();
+        }
+      }
+      else
+      {
+        throw new rexException('Error occured while preparing statement "'. $qry .'"!');
+      }
     }
     else
     {
-      throw new rex_exception('Error occured while preparing statement "'. $qry .'"!');
+      $this->stmt = self::$pdo[$this->DBID]->query(trim($qry));
     }
 
     if($this->stmt !== false)
@@ -344,12 +353,12 @@ class rex_sql extends rex_factory implements Iterator
   {
     if(is_array($where))
     {
-      $this->wherevar = "WHERE";
+      $this->wherevar = 'WHERE '. $this->buildWhereArg($where);
       $this->whereParams = $where;
     }
     else if(is_string($where) && is_array($whereParams))
     {
-      $this->wherevar = "WHERE $where";
+      $this->wherevar = 'WHERE '. $where;
       $this->whereParams = $whereParams;
     }
     else if(is_string($where))
@@ -358,7 +367,7 @@ class rex_sql extends rex_factory implements Iterator
       $loc = $trace[0];
       trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
 
-      $this->wherevar = "WHERE $where";
+      $this->wherevar = 'WHERE '. $where;
       $this->whereParams = array();
     }
     else
@@ -368,6 +377,47 @@ class rex_sql extends rex_factory implements Iterator
 
     return $this;
   }
+  
+  /**
+   * Concats the given array to a sql condition using bound parameters.
+   * AND/OR opartors are alternated depending on $level
+   *
+   * @param array $arrFields
+   * @param int $level
+   */
+  private function buildWhereArg(array $arrFields, $level = 0)
+  {
+    $op = '';
+    if($level % 2 == 1)
+    {
+      $op = ' OR ';
+    }
+    else
+    {
+      $op = ' AND ';
+    }
+
+    $qry = '';
+    foreach($arrFields as $fld_name => $value)
+    {
+      $arg = '';
+      if(is_array($value))
+      {
+        $arg = '('. $this->buildWhereArg($value, $level+1) .')';
+      }
+      else
+      {
+        $arg = '`' .$fld_name . '` = :'. $fld_name;
+      }
+
+      if ($qry != '')
+      {
+        $qry .= $op;
+      }
+      $qry .= $arg;
+    }
+    return $qry;
+  }  
 
   /**
    * Gibt den Wert einer Spalte im ResultSet zurueck
@@ -535,61 +585,15 @@ class rex_sql extends rex_factory implements Iterator
     return $qry;
   }
 
-  protected function buildPreparedWhere()
+  public function getWhere()
   {
     // we have an custom where criteria, so we don't need to build one automatically
     if($this->wherevar != '')
     {
-      return '';
+      return $this->wherevar;
     }
-
-    $qry = '';
-    if(is_array($this->whereParams))
-    {
-      $qry = $this->buildWhereArg($this->whereParams);
-    }
-    return $qry;
-  }
-
-  /**
-   * Concats the given array to a sql condition.
-   * AND/OR opartors are alternated depending on $level
-   *
-   * @param array $arrFields
-   * @param int $level
-   */
-  private function buildWhereArg(array $arrFields, $level = 0)
-  {
-    $op = '';
-    if($level % 2 == 1)
-    {
-      $op = ' OR ';
-    }
-    else
-    {
-      $op = ' AND ';
-    }
-
-    $qry = '';
-    foreach($arrFields as $fld_name => $value)
-    {
-      $arg = '';
-      if(is_array($value))
-      {
-        $arg = '('. $this->buildWhereArg($value, $level+1) .')';
-      }
-      else
-      {
-        $arg = '`' .$fld_name . '` = :'. $fld_name;
-      }
-
-      if ($qry != '')
-      {
-        $qry .= $op;
-      }
-      $qry .= $arg;
-    }
-    return $qry;
+    
+    return '';
   }
 
   /**
@@ -602,7 +606,7 @@ class rex_sql extends rex_factory implements Iterator
   public function select($fields)
   {
     return $this->setQuery(
-    	'SELECT '. $fields .' FROM `' . $this->table . '` '. $this->wherevar .' '. $this->buildPreparedWhere(),
+    	'SELECT '. $fields .' FROM `' . $this->table . '` '. $this->getWhere(),
       $this->whereParams
     );
   }
@@ -618,7 +622,7 @@ class rex_sql extends rex_factory implements Iterator
   public function update($successMessage = null)
   {
     return $this->preparedStatusQuery(
-    	'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->wherevar .' '. $this->buildPreparedWhere(),
+    	'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->getWhere(),
       array_merge($this->values, $this->whereParams),
       $successMessage
     );
@@ -664,7 +668,7 @@ class rex_sql extends rex_factory implements Iterator
   public function replace($successMessage = null)
   {
     return $this->preparedStatusQuery(
-    	'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->wherevar .' '. $this->buildPreparedWhere(),
+    	'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->getWhere(),
       array_merge($this->values, $this->whereParams),
       $successMessage
     );
@@ -680,7 +684,7 @@ class rex_sql extends rex_factory implements Iterator
   public function delete($successMessage = null)
   {
     return $this->preparedStatusQuery(
-    	'DELETE FROM `' . $this->table . '` ' . $this->wherevar .' '. $this->buildPreparedWhere(),
+    	'DELETE FROM `' . $this->table . '` '. $this->getWhere(),
       $this->whereParams,
       $successMessage
     );
@@ -794,7 +798,7 @@ class rex_sql extends rex_factory implements Iterator
     // re-execute the statement
     if($this->stmt && $this->counter != 0)
     {
-      $this->execute();
+      $this->stmt->execute();
       $this->counter = 0;
     }
 
