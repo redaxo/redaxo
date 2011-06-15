@@ -13,7 +13,7 @@ class rex_cronjob_form extends rex_form
 {
   private $mainFieldset;
 
-  protected function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+  public function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     parent::__construct($tableName, $fieldset, $whereCondition, $method, $debug);
     $this->mainFieldset = $fieldset;

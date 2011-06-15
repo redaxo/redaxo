@@ -8,21 +8,12 @@ if($PERMALL)
 {
   // ---- Dateien aus dem Ordner lesen
   $folder_files = array();
-  $handle = opendir(rex_path::media('', rex_path::ABSOLUTE));
-  if($handle) {
-    while(($file = readdir($handle)) !== false)
-    {
-      if(!is_file(rex_path::media($file, rex_path::ABSOLUTE))) continue;
-
-      // Tempfiles nicht synchronisieren
-      if(substr($file, 0, strlen(rex::getTempPrefix())) != rex::getTempPrefix())
-      {
-        $folder_files[] = $file;
-      }
-    }
-    closedir($handle);
+  $path = rex_path::media('', rex_path::ABSOLUTE);
+  $iterator = rex_dir::iterator($path)->excludeDirs()->excludeFiles('_readme.txt')->excludePrefixes(rex::getTempPrefix())->sort();
+  foreach($iterator as $file)
+  {
+    $folder_files[] = $file->getFilename();
   }
-  sort($folder_files);
 
   // ---- Dateien aus der DB lesen
   $db = rex_sql::factory();

@@ -12,13 +12,8 @@ class rex_clang_service
    */
   static public function addCLang($id, $name)
   {
-    global $REX;
-
-    if(isset($REX['CLANG'][$id])) return FALSE;
-
-    $REX['CLANG'][$id] = $name;
-    $file = rex_path::cache('clang.cache');
-    rex_file::putCache($file, $REX['CLANG']);
+    if(rex_clang::exists($id))
+      return FALSE;
 
     $firstLang = rex_sql::factory();
     $firstLang->setQuery("select * from ".rex::getTablePrefix()."article where clang='0'");
@@ -53,6 +48,8 @@ class rex_clang_service
     $newLang->setValue('name', $name);
     $newLang->insert();
 
+    rex_generateAll();
+
     // ----- EXTENSION POINT
     rex_extension::registerPoint('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
 
@@ -69,19 +66,16 @@ class rex_clang_service
    */
   static public function editCLang($id, $name)
   {
-    global $REX;
-
-    if(!isset($REX['CLANG'][$id])) return false;
-
-    $REX['CLANG'][$id] = $name;
-    $file = rex_path::cache('clang.cache');
-    rex_file::putCache($file, $REX['CLANG']);
+    if(!rex_clang::exists($id))
+      return false;
 
     $editLang = rex_sql::factory();
     $editLang->setTable(rex::getTablePrefix()."clang");
     $editLang->setValue('id', $id);
     $editLang->setValue('name', $name);
     $editLang->update();
+
+    rex_generateAll();
 
     // ----- EXTENSION POINT
     rex_extension::registerPoint('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));
@@ -98,18 +92,17 @@ class rex_clang_service
    */
   static public function deleteCLang($clang)
   {
-    global $REX;
+    if ($clang == 0 || !rex_clang::exists($clang))
+      return FALSE;
 
-    if ($clang == 0 || !isset($REX['CLANG'][$clang]))
-    return FALSE;
-
-    $clangName = $REX['CLANG'][$clang];
-    unset ($REX['CLANG'][$clang]);
+    $name = rex_clang::getName($clang);
 
     $del = rex_sql::factory();
     $del->setQuery("delete from ".rex::getTablePrefix()."article where clang='$clang'");
     $del->setQuery("delete from ".rex::getTablePrefix()."article_slice where clang='$clang'");
     $del->setQuery("delete from ".rex::getTablePrefix()."clang where id='$clang'");
+
+    rex_generateAll();
 
     // ----- EXTENSION POINT
     rex_extension::registerPoint('CLANG_DELETED','',
@@ -118,8 +111,6 @@ class rex_clang_service
       'name' => $clangName,
     )
     );
-
-    rex_generateAll();
 
     return TRUE;
   }
@@ -136,14 +127,14 @@ class rex_clang_service
     $lg = rex_sql::factory();
     $lg->setQuery("select * from ".rex::getTablePrefix()."clang order by id");
 
-    $REX['CLANG'] = array();
+    $clangs = array();
     foreach($lg as $lang)
     {
-      $REX['CLANG'][$lang->getValue("id")] = $lang->getValue("name");
+      $clangs[$lang->getValue("id")] = $lang->getValue("name");
     }
 
     $file = rex_path::cache('clang.cache');
-    if(rex_file::putCache($file, $REX['CLANG']) === FALSE)
+    if(rex_file::putCache($file, $clangs) === FALSE)
     {
       return 'Datei "'.$file.'" hat keine Schreibrechte';
     }

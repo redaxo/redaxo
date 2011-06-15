@@ -138,8 +138,7 @@ class rex_be_navigation extends rex_factory
           $page = $pageContainer->getPage();
 
           // check main pages
-          $condition = $page->getActivateCondition();
-          if($this->checkActivateCondition($condition))
+          if($page->isActive())
           {
             $page->addItemClass('rex-active');
 
@@ -147,8 +146,7 @@ class rex_be_navigation extends rex_factory
   	        $subpages = $page->getSubPages();
   	        foreach($subpages as $sn => $subpage)
   	        {
-  	          $condition = $subpage->getActivateCondition();
-  	          if($this->checkActivateCondition($condition))
+  	          if($subpage->isActive())
   	          {
   	            $subpage->addItemClass('rex-active');
   	          }
@@ -157,23 +155,6 @@ class rex_be_navigation extends rex_factory
         }
       }
     }
-  }
-
-  private function checkActivateCondition(array $a)
-  {
-    if(empty($a))
-    {
-      return false;
-    }
-    foreach($a as $k => $v)
-    {
-      $v = (array)  $v;
-      if(!in_array(rex_request($k), $v))
-      {
-        return FALSE;
-      }
-    }
-    return TRUE;
   }
 
   public function setHeadline($block, $headline)

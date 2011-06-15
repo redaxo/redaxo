@@ -2,6 +2,8 @@
 
 /**
  * Class for handling directories
+ *
+ * @author gharlan
  */
 class rex_dir
 {
@@ -10,7 +12,6 @@ class rex_dir
    *
    * @param string $dir Path of the new directory
    * @param boolean $recursive When FALSE, nested directories won't be created
-   *
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function create($dir, $recursive = true)
@@ -29,7 +30,6 @@ class rex_dir
    *
    * @param string $srcdir Path of the source directory
    * @param string $dstdir Path of the destination directory
-   *
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function copy($srcdir, $dstdir)
@@ -39,34 +39,21 @@ class rex_dir
     $srcdir = rtrim($srcdir, DIRECTORY_SEPARATOR);
     $dstdir = rtrim($dstdir, DIRECTORY_SEPARATOR);
 
-    if(!is_dir($dstdir))
+    self::create($dstdir);
+
+    foreach(self::recursiveIterator($srcdir) as $srcfile)
     {
-      self::create($dstdir);
+      $dstfile = $dstdir . substr($srcfile->getRealPath(), strlen($srcdir));
+      if($srcfile->isDir())
+      {
+        $state = self::create($dstfile) && $state;
+      }
+      elseif(!file_exists($dstfile) || $srcfile->getMTime() > filemtime($dstfile))
+      {
+        $state = rex_file::copy($srcfile->getRealPath(), $dstfile) && $state;
+      }
     }
 
-    if($curdir = opendir($srcdir))
-    {
-      while(false !== ($file = readdir($curdir)))
-      {
-        if($file != '.' && $file != '..' && $file != '.svn')
-        {
-          $srcfile = $srcdir . DIRECTORY_SEPARATOR . $file;
-          $dstfile = $dstdir . DIRECTORY_SEPARATOR . $file;
-          if(is_file($srcfile))
-          {
-            if(!file_exists($dstfile) || (filemtime($srcfile) - filemtime($dstfile)) > 0)
-            {
-              $state = rex_file::copy($srcfile, $dstfile) && $state;
-            }
-          }
-          else if(is_dir($srcfile))
-          {
-            $state = self::copy($srcfile, $dstfile) && $state;
-          }
-        }
-      }
-      closedir($curdir);
-    }
     return $state;
   }
 
@@ -75,12 +62,18 @@ class rex_dir
    *
    * @param string $dir Path of the directory
    * @param boolean $deleteSelf When FALSE, only subdirectories and files will be deleted
-   *
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function delete($dir, $deleteSelf = true)
   {
-    return self::_delete($dir, true, true, $deleteSelf);
+    if(self::deleteIterator(self::recursiveIterator($dir)))
+    {
+      if(!$deleteSelf || rmdir($dir))
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -88,59 +81,61 @@ class rex_dir
    *
    * @param string $dir Path of the directory
    * @param boolean $recursive When FALSE, files in subdirectories won't be deleted
-   *
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function deleteFiles($dir, $recursive = true)
   {
-    return self::_delete($dir, $recursive, false, false);
+    $iterator = $recursive ? self::recursiveIterator($dir) : self::iterator($dir);
+    return self::deleteIterator($iterator->excludeDirs());
   }
 
   /**
-   * Deletes a directory
+   * Deletes files and directories by a rex_dir_iterator
    *
-   * @param string $dir Path of the directory
-   * @param boolean $recursive When FALSE, files in subdirectories won't be deleted
-   * @param boolean $deleteDirs When FALSE, only files will be deleted
-   * @param boolean $deleteSelf When FALSE, only subdirectories and files will be deleted
-   *
+   * @param Traversable $iterator Iterator, $iterator->current() must return a SplFileInfo-Object
    * @return boolean TRUE on success, FALSE on failure
    */
-  static private function _delete($dir, $recursive = true, $deleteDirs = true, $deleteSelf = true)
+  static public function deleteIterator(Traversable $iterator)
   {
-    $state = TRUE;
+    $state = true;
 
-    $dir = rtrim($dir, DIRECTORY_SEPARATOR);
-
-    if(file_exists($dir) && ($handle = opendir($dir)))
+    foreach($iterator as $file)
     {
-      while(false !== ($filename = readdir($handle)))
+      if($file->isDir())
       {
-        if ($filename != '.' && $filename != '..')
-        {
-          $file = $dir . DIRECTORY_SEPARATOR . $filename;
-          if(is_file($file))
-          {
-            $state = rex_file::delete($file) && $state;
-          }
-          else if($recursive)
-          {
-            $state = self::_delete($file, $recursive, $deleteDirs) && $state;
-          }
-        }
+        $state = rmdir($file) && $state;
       }
-      closedir($handle);
-
-      if ($state !== TRUE || ($deleteSelf && $deleteDirs && !rmdir($dir)))
+      else
       {
-        return FALSE;
+        $state = rex_file::delete($file) && $state;
       }
     }
-    else
-    {
-      return FALSE;
-    }
 
-    return TRUE;
+    return $state;
+  }
+
+  /**
+   * Returns an iterator for a directory
+   *
+   * @param string $dir Path of the directory
+   * @return rex_dir_iterator
+   * @see rex_dir_iterator
+   */
+  static public function iterator($dir)
+  {
+    return new rex_dir_iterator(new RecursiveDirectoryIterator($dir));
+  }
+
+  /**
+   * Returns a recursive iterator for a directory
+   *
+   * @param string $dir Path of the directory
+   * @param int $mode Mode, see {@link http://www.php.net/manual/en/recursiveiteratoriterator.construct.php}
+   * @return rex_dir_iterator
+   * @see rex_dir_iterator
+   */
+  static public function recursiveIterator($dir, $mode = rex_dir_recursive_iterator::CHILD_FIRST)
+  {
+    return new rex_dir_recursive_iterator(self::iterator($dir), $mode);
   }
 }

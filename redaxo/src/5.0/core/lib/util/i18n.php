@@ -147,18 +147,13 @@ class rex_i18n
     {
       self::$locales = array();
 
-      $handle = opendir(self::$directories[0]);
-      while ($file = readdir($handle))
+      foreach(rex_dir::iterator(self::$directories[0])->excludeDirs() as $file)
       {
-        if ($file != "." && $file != "..")
+        if (preg_match("/^(\w+)\.lang$/", $file->getFilename(), $matches))
         {
-          if (preg_match("/^(\w+)\.lang$/", $file, $matches))
-          {
-            self::$locales[] = $matches[1];
-          }
+          self::$locales[] = $matches[1];
         }
       }
-      closedir($handle);
     }
 
     return self::$locales;

@@ -154,12 +154,24 @@ class rex_be_page implements rex_be_page_container
     return $this->subPages;
   }
 
+  public function getActiveSubPage()
+  {
+    foreach($this->getSubPages() as $subpage)
+    {
+      if($subpage->isActive())
+      {
+        return $subpage;
+      }
+    }
+    return null;
+  }
+
   public function getTitle()
   {
     return $this->title;
   }
 
-  public function setActivateCondition($activateCondition)
+  public function setActivateCondition(array $activateCondition)
   {
     $this->activateCondition = $activateCondition;
   }
@@ -167,6 +179,24 @@ class rex_be_page implements rex_be_page_container
   public function getActivateCondition()
   {
     return $this->activateCondition;
+  }
+
+  public function isActive()
+  {
+    $condition = $this->getActivateCondition();
+    if(empty($condition))
+    {
+      return false;
+    }
+    foreach($condition as $k => $v)
+    {
+      $v = (array) $v;
+      if(!in_array(rex_request($k), $v))
+      {
+        return false;
+      }
+    }
+    return true;
   }
 
   public function isCorePage()

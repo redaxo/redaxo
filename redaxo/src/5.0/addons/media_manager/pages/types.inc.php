@@ -9,23 +9,23 @@ $warning = '';
 
 //-------------- delete cache on type_name change or type deletion
 if((rex_post('func') == 'edit' || $func == 'delete')
-   && $type_id > 0)
+&& $type_id > 0)
 {
   $counter = rex_media_manager_deleteCacheByType($type_id);
-//  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
+  //  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
 }
 
 //-------------- delete type
 if($func == 'delete' && $type_id > 0)
 {
   $sql = rex_sql::factory();
-//  $sql->debugsql = true;
+  //  $sql->debugsql = true;
   $sql->setTable(rex::getTablePrefix().'media_manager_types');
   $sql->setWhere('id='. $type_id . ' LIMIT 1');
 
   if($sql->delete())
   {
-     $info = rex_i18n::msg('media_manager_type_deleted') ;
+    $info = rex_i18n::msg('media_manager_type_deleted') ;
   }
   else
   {
@@ -37,7 +37,7 @@ if($func == 'delete' && $type_id > 0)
 //-------------- delete cache by type-id
 if($func == 'delete_cache' && $type_id > 0)
 {
-  $counter = rex_media_manager_deleteCacheByType($type_id);
+  $counter = rex_media_manager::deleteCacheByType($type_id);
   $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
 
   $func = '';
@@ -45,10 +45,10 @@ if($func == 'delete_cache' && $type_id > 0)
 
 //-------------- output messages
 if ($info != '')
-  echo rex_info($info);
+echo rex_info($info);
 
 if ($warning != '')
-  echo rex_warning($warning);
+echo rex_warning($warning);
 
 echo '<div class="rex-addon-output-v2">';
 if ($func == '')
@@ -57,19 +57,19 @@ if ($func == '')
   // (werden am seltesten bearbeitet)
   $query = 'SELECT * FROM '.rex::getTablePrefix().'media_manager_types ORDER BY status';
 
-	$list = rex_list::factory($query);
-	$list->setNoRowsMessage(rex_i18n::msg('media_manager_type_no_types'));
-	$list->setCaption(rex_i18n::msg('media_manager_type_caption'));
-	$list->addTableAttribute('summary', rex_i18n::msg('media_manager_type_summary'));
-	$list->addTableColumnGroup(array(40, 100, '*', 120, 120, 120));
+  $list = rex_list::factory($query);
+  $list->setNoRowsMessage(rex_i18n::msg('media_manager_type_no_types'));
+  $list->setCaption(rex_i18n::msg('media_manager_type_caption'));
+  $list->addTableAttribute('summary', rex_i18n::msg('media_manager_type_summary'));
+  $list->addTableColumnGroup(array(40, 100, '*', 120, 120, 120));
 
-	$list->removeColumn('id');
-	$list->removeColumn('status');
-	$list->setColumnLabel('name',rex_i18n::msg('media_manager_type_name'));
-	$list->setColumnParams('name', array('func' => 'edit', 'type_id' => '###id###'));
-	$list->setColumnLabel('description',rex_i18n::msg('media_manager_type_description'));
+  $list->removeColumn('id');
+  $list->removeColumn('status');
+  $list->setColumnLabel('name',rex_i18n::msg('media_manager_type_name'));
+  $list->setColumnParams('name', array('func' => 'edit', 'type_id' => '###id###'));
+  $list->setColumnLabel('description',rex_i18n::msg('media_manager_type_description'));
 
-	// icon column
+  // icon column
   $thIcon = '<a class="rex-i-element rex-i-generic-add" href="'. $list->getUrl(array('func' => 'add')) .'"><span class="rex-i-element-text">'. rex_i18n::msg('media_manager_type_create') .'</span></a>';
   $tdIcon = '<span class="rex-i-element rex-i-generic"><span class="rex-i-element-text">###name###</span></span>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
@@ -94,15 +94,13 @@ if ($func == '')
     $list = $params["list"];
     if($list->getValue("status") == 1)
     {
-    return rex_i18n::msg('media_manager_type_system');
+      return rex_i18n::msg('media_manager_type_system');
     }
     return $list->getColumnLink($delete, rex_i18n::msg('media_manager_type_delete'));
   });
 
-	$list->show();
-}
-elseif ($func == 'add' ||
-        $func == 'edit' && $type_id > 0)
+  $list->show();
+}elseif ($func == 'add' || $func == 'edit' && $type_id > 0)
 {
   if($func == 'edit')
   {
@@ -113,23 +111,38 @@ elseif ($func == 'add' ||
     $formLabel = rex_i18n::msg('media_manager_type_create');
   }
 
+  function rex_media_manager_handle_form_control_fields($params)
+  {
+    $controlFields = $params['subject'];
+    $form = $params['form'];
+    $sql  = $form->getSql();
+
+    // remove delete button on internal types (status == 1)
+    if($sql->getRows() > 0 && $sql->hasValue('status') && $sql->getValue('status') == 1)
+    {
+      $controlFields['delete'] = '';
+    }
+    return $controlFields;
+  }
+
+
   rex_extension::register('REX_FORM_CONTROL_FIELDS', 'rex_media_manager_handle_form_control_fields');
   $form = rex_form::factory(rex::getTablePrefix().'media_manager_types',$formLabel,'id='.$type_id);
 
   $form->addErrorMessage(REX_FORM_ERROR_VIOLATE_UNIQUE_KEY, rex_i18n::msg('media_manager_error_type_name_not_unique'));
 
-	$field = $form->addTextField('name');
-	$field->setLabel(rex_i18n::msg('media_manager_type_name'));
+  $field = $form->addTextField('name');
+  $field->setLabel(rex_i18n::msg('media_manager_type_name'));
 
-	$field = $form->addTextareaField('description');
-	$field->setLabel(rex_i18n::msg('media_manager_type_description'));
+  $field = $form->addTextareaField('description');
+  $field->setLabel(rex_i18n::msg('media_manager_type_description'));
 
-	if($func == 'edit')
-	{
-		$form->addParam('type_id', $type_id);
-	}
+  if($func == 'edit')
+  {
+    $form->addParam('type_id', $type_id);
+  }
 
-	$form->show();
+  $form->show();
 }
 
 echo '</div>';

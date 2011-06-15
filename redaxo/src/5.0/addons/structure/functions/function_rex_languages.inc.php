@@ -11,15 +11,14 @@
 // clang[xx], clang[0]
 // rex::getUser()->hasPerm("csw[0]")
 
-reset($REX['CLANG']);
-$num_clang = count($REX['CLANG']);
+$num_clang = rex_clang::count();
 
 $stop = false;
 $languages = array();
 if ($num_clang>1)
 {
   $i = 1;
-  foreach($REX['CLANG'] as $key => $val)
+  foreach(rex_clang::getAll() as $key => $val)
   {
      $lang = array();
      $lang['id'] = $key;

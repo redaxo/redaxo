@@ -11,13 +11,10 @@ $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
 // -------------- Header
-$subline = array(
-  array( '', rex_i18n::msg('main_preferences')),
-  array( 'lang', rex_i18n::msg('languages')),
-  array( 'log', rex_i18n::msg('syslog')),
-);
-
-rex_title(rex_i18n::msg('specials'),$subline);
+if($subpage != 'phpinfo')
+{
+  rex_title(rex_i18n::msg('specials'));
+}
 
 switch($subpage)
 {

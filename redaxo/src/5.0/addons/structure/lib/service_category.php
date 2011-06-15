@@ -18,8 +18,6 @@ class rex_category_service
    */
   static public function addCategory($category_id, $data)
   {
-    global $REX;
-
     $message = '';
 
     if(!is_array($data))
@@ -74,7 +72,7 @@ class rex_category_service
     $templates = rex_ooCategory::getTemplates($category_id);
     // Kategorie in allen Sprachen anlegen
     $AART = rex_sql::factory();
-    foreach($REX['CLANG'] as $key => $val)
+    foreach(rex_clang::getAllIds() as $key)
     {
       $template_id = rex::getProperty('default_template_id');
       if(isset ($startpageTemplates[$key]) && $startpageTemplates[$key] != '')

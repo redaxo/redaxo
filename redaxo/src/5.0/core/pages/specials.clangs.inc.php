@@ -21,7 +21,7 @@ $info = '';
 // ----- delete clang
 if ($func == 'deleteclang' && $clang_id != "")
 {
-  if (array_key_exists($clang_id, $REX['CLANG']))
+  if(rex_clang::exists($clang_id))
   {
     rex_clang_service::deleteCLang($clang_id);
     $info = rex_i18n::msg('clang_deleted');
@@ -35,7 +35,7 @@ if ($add_clang_save)
 {
   if ($clang_name != '' && $clang_id > 0)
   {
-    if (!array_key_exists($clang_id, $REX['CLANG']))
+    if (!rex_clang::exists($clang_id))
     {
       $info = rex_i18n::msg('clang_created');
       rex_clang_service::addCLang($clang_id, $clang_name);
@@ -57,7 +57,7 @@ if ($add_clang_save)
 }
 elseif ($edit_clang_save)
 {
-  if (array_key_exists($clang_id, $REX['CLANG']))
+  if (rex_clang::exists($clang_id))
   {
     rex_clang_service::editCLang($clang_id, $clang_name);
     $info = rex_i18n::msg('clang_edited');
@@ -72,7 +72,7 @@ $sel->setName('clang_id');
 $sel->setStyle('class="rex-form-select"');
 $sel->setId('rex-form-clang-id');
 $sel->setSize(1);
-$remaingClangs = array_diff(range(0, rex::getProperty('maxlogins')-1), array_keys($REX['CLANG']));
+$remaingClangs = array_diff(range(0, rex::getProperty('maxlogins')-1), rex_clang::getAllIds());
 foreach ($remaingClangs as $clang)
 {
   $sel->addOption($clang, $clang);
@@ -142,7 +142,7 @@ if ($func == 'addclang')
         </tr>
       ';
 }
-foreach ($REX['CLANG'] as $lang_id => $lang)
+foreach (rex_clang::getAll() as $lang_id => $lang)
 {
 
   $add_td = '';

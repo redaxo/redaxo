@@ -176,7 +176,7 @@ abstract class rex_null_package extends rex_singleton implements rex_package_int
   /* (non-PHPdoc)
    * @see rex_package_interface::includeFile()
    */
-  public function includeFile($file, array $globals = array())
+  public function includeFile($file)
   {
   }
 }

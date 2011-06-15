@@ -237,8 +237,6 @@ class rex_var_link extends rex_var
    */
   static public function getLinkButton($id, $article_id, $category = '')
   {
-    global $REX;
-
     $art_name = '';
     $clang = '';
     $art = rex_ooArticle :: getArticleById($article_id);
@@ -250,7 +248,7 @@ class rex_var_link extends rex_var
 			$category = $art->getCategoryId();
     }
 
-    $open_params = '&clang=' . $REX['CUR_CLANG'];
+    $open_params = '&clang=' . rex_clang::getId();
     if ($category != '')
       $open_params .= '&category_id=' . $category;
 
@@ -291,9 +289,7 @@ class rex_var_link extends rex_var
    */
   static public function getLinklistButton($id, $value, $category = '')
   {
-    global $REX;
-
-    $open_params = '&clang=' . $REX['CUR_CLANG'];
+    $open_params = '&clang=' . rex_clang::getId();
     if ($category != '')
       $open_params .= '&category_id=' . $category;
 

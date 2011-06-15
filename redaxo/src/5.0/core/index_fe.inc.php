@@ -27,7 +27,7 @@ if(rex::isSetup())
 }
 
 $REX['ARTICLE'] = new rex_article;
-$REX['ARTICLE']->setCLang($REX['CUR_CLANG']);
+$REX['ARTICLE']->setCLang(rex_clang::getId());
 
 if(rex::isSetup())
 {

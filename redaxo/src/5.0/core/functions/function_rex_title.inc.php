@@ -41,7 +41,7 @@
  * $subpages = array(
  *  array( ''      , 'Index'   , '', array('a' => 'b')),
  *  array( 'lang'  , 'Sprachen', '', 'a=z&x=12'),
- *  array( 'groups', 'Gruppen' , '', array('clang' => $REX['CUR_CLANG']))
+ *  array( 'groups', 'Gruppen' , '', array('clang' => rex_clang::getId()))
  * );
  *
  * rex_title( 'Headline', $subpages)
@@ -55,11 +55,8 @@ function rex_title($head, $subtitle = '')
   {
     $subtitle = $REX['PAGES'][rex::getProperty('page')]->getPage()->getSubPages();
   }
-  if(empty($subtitle))
-  {
-    $subtitle = '<div class="rex-title-row rex-title-row-sub rex-title-row-empty"><p>&nbsp;</p></div>';
-  }
-  else if(is_array($subtitle) && $subtitle[0] instanceof rex_be_page_container)
+
+  if(is_array($subtitle) && isset($subtitle[0]) && $subtitle[0] instanceof rex_be_page_container)
   {
     $nav = rex_be_navigation::factory();
     $nav->setHeadline('default', rex_i18n::msg('subnavigation', $head));
@@ -68,12 +65,12 @@ function rex_title($head, $subtitle = '')
       $nav->addPage($pageObj);
     }
     $nav->setActiveElements();
-    $subtitle = '<div class="rex-title-row rex-title-row-sub rex-navi-page">'.$nav->getNavigation().'</div>';
+    $subtitle = $nav->getNavigation();
   }
   else
   {
     // REDAXO <= 4.2 compat
-    $subtitle = '<div class="rex-title-row rex-title-row-sub">'.rex_get_subtitle($subtitle).'</div>';
+    $subtitle = rex_get_subtitle($subtitle);
   }
 
 
@@ -83,7 +80,7 @@ function rex_title($head, $subtitle = '')
   $fragment->setVar('page', $page, false);
   $fragment->setVar('title', rex_extension::registerPoint('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page)), false);
   $fragment->setVar('subtitle', $subtitle, false);
-  echo $fragment->parse('core_title');
+  echo $fragment->parse('title');
   unset($fragment);
 }
 

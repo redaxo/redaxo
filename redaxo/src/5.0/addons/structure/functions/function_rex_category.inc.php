@@ -29,7 +29,7 @@ if ($KAT->getRows()!=1 || !rex::getUser()->hasCategoryPerm($category_id))
 else
 {
   // kategorie existiert
-  
+
   $ooCat = rex_ooCategory::getCategoryById($category_id, $clang);
   foreach($ooCat->getParentTree() as $parent)
   {
@@ -56,11 +56,10 @@ $navi['items'][rex_i18n::msg('path')] = $list;
 
 $fragment = new rex_fragment();
 $fragment->setVar('list', $navi, false);
-$dl_list = $fragment->parse('core_navi_path');
-//$dl_list = preg_replace('/(?:(?<=\>)|(?<=\/\>))(\s+)(?=\<\/?)/', '', $dl_list);
+$path = $fragment->parse('navi_path');
 unset($fragment);
 unset($navi);
 
-$KATout .= $dl_list;
+$KATout .= $path;
 $KATout .= '
 <!-- *** OUTPUT OF CATEGORY-TOOLBAR - END *** -->';

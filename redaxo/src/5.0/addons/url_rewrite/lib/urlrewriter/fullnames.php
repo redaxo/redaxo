@@ -86,7 +86,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
     global $REX, $REXPATH;
 
     $article_id = -1;
-    $clang = $REX["CUR_CLANG"];
+    $clang = rex_clang::getId();
 
     if(!file_exists($this->PATHLIST))
        $this->generatePathnames(array());
@@ -164,7 +164,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
       // Check Clang StartArtikel
       if ($article_id == -1)
       {
-        foreach ($REX['CLANG'] as $key => $var)
+        foreach (rex_clang::getAll() as $key => $var)
         {
           if ($var.'/' == $path || $var == $path)
           {
@@ -225,7 +225,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
     global $REX;
     $REX['ARTICLE_ID'] = $art_id;
     if($clang_id > -1)
-    	$REX['CUR_CLANG'] = $clang_id;
+    	rex_clang::setId($clang_id);
   }
 
   // Url neu schreiben
@@ -333,9 +333,9 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
       {
         $clang = $art->getValue('clang');
         $pathname = '';
-        if (count($REX['CLANG']) > 1)
+        if (rex_clang::count() > 1)
         {
-          $pathname = $REX['CLANG'][$clang].'/';
+          $pathname = rex_clang::getName($clang).'/';
         }
 
         // pfad über kategorien bauen

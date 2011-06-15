@@ -91,3 +91,5 @@ media_manager_effect_mirror_background_g = Hintergrund G (0-255)
 media_manager_effect_mirror_background_b = Hintergrund B (0-255)
 
 media_manager_effect_workspace_pos = Position
+
+media_manager_effect_folder = Alternativen Ordner default: "media"

@@ -290,10 +290,10 @@ abstract class rex_formatter
       }
       // $format ist in der Form
       // array(Name des Callables, Weitere Parameter)
-      return rex_call_func($format[0], $params);
+      return call_user_func($format[0], $params);
     }
 
-    return rex_call_func($format, $value);
+    return call_user_func($format, $value);
   }
 
   static public function _formatFilesize($value, $format)

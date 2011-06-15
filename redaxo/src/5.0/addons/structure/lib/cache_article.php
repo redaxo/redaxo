@@ -13,15 +13,13 @@ class rex_article_cache
    */
   static public function delete($id, $clang = null)
   {
-    global $REX;
-
     // sanity check
     if($id < 0)
     {
       return false;
     }
 
-    foreach($REX['CLANG'] as $_clang => $clang_name)
+    foreach(rex_clang::getAllIds() as $_clang)
     {
       if($clang !== null && $clang != $_clang)
       continue;
@@ -45,8 +43,6 @@ class rex_article_cache
    */
   static public function deleteMeta($id, $clang = null)
   {
-    global $REX;
-
     // sanity check
     if($id < 0)
     {
@@ -55,7 +51,7 @@ class rex_article_cache
 
     $cachePath = rex_path::cache('articles/');
 
-    foreach($REX['CLANG'] as $_clang => $clang_name)
+    foreach(rex_clang::getAllIds() as $_clang)
     {
       if($clang !== null && $clang != $_clang)
       continue;
@@ -77,8 +73,6 @@ class rex_article_cache
    */
   static public function deleteContent($id, $clang = null)
   {
-    global $REX;
-
     // sanity check
     if($id < 0)
     {
@@ -87,7 +81,7 @@ class rex_article_cache
 
     $cachePath = rex_path::cache('articles/');
 
-    foreach($REX['CLANG'] as $_clang => $clang_name)
+    foreach(rex_clang::getAllIds() as $_clang)
     {
       if($clang !== null && $clang != $_clang)
       continue;
@@ -109,8 +103,6 @@ class rex_article_cache
    */
   static public function deleteLists($id, $clang = null)
   {
-    global $REX;
-
     // sanity check
     if($id < 0)
     {
@@ -119,7 +111,7 @@ class rex_article_cache
 
     $cachePath = rex_path::cache('articles/');
 
-    foreach($REX['CLANG'] as $_clang => $clang_name)
+    foreach(rex_clang::getAllIds() as $_clang)
     {
       if($clang !== null && $clang != $_clang)
       continue;
@@ -200,8 +192,6 @@ class rex_article_cache
    */
   static public function generateLists($re_id, $clang = null)
   {
-    global $REX;
-
     // sanity check
     if($re_id < 0)
     {
@@ -217,7 +207,7 @@ class rex_article_cache
     // --> catgorie listen
     //
 
-    foreach($REX['CLANG'] as $_clang => $clang_name)
+    foreach(rex_clang::getAllIds() as $_clang)
     {
       if($clang !== null && $clang != $_clang)
       continue;

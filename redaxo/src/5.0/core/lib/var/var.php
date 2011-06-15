@@ -264,7 +264,7 @@ abstract class rex_var
     if(isset($args['callback']))
     {
       $args['subject'] = $value;
-      return rex_call_func($args['callback'], $args);
+      return call_user_func($args['callback'], $args);
     }
 
     $prefix = '';

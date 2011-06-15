@@ -127,12 +127,12 @@ class rex_login_sql extends rex_sql
   {
     global $REX;
     if($this->isValueOf('rights', 'admin[]'))
-      return array_keys($REX['CLANG']);
+      return rex_clang::getAllIds();
     preg_match_all('|\#clang\[([0-9]*)\]+|U', $this->getValue("rights"), $result, PREG_PATTERN_ORDER);
     $clangs = array();
     foreach($result[1] as $clang_id)
     {
-      if(isset($REX['CLANG'][$clang_id]))
+      if(rex_clang::exists($clang_id))
         $clangs[] = $clang_id;
     }
     return $clangs;

@@ -755,7 +755,7 @@ class rex_list extends rex_factory implements rex_url_provider
     $fragment = new rex_fragment();
     $fragment->setVar('urlprovider', $this);
     $fragment->setVar('pager', $this->pager);
-    return $fragment->parse('core_rex_list_pagination');
+    return $fragment->parse('pagination');
   }
 
   /**

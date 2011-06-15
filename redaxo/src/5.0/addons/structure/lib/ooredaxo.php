@@ -194,8 +194,6 @@ abstract class rex_ooRedaxo
    */
   static protected function getById($id, $clang)
   {
-    global $REX;
-
     $id = (int) $id;
 
     if($id <= 0)
@@ -205,7 +203,7 @@ abstract class rex_ooRedaxo
 
     if ($clang === FALSE)
     {
-      $clang = $REX['CUR_CLANG'];
+      $clang = rex_clang::getId();
     }
 
     // save cache per subclass
