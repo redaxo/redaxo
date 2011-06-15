@@ -134,6 +134,8 @@ class rex_article_service
     {
       throw  new rex_api_exception('Expecting $data to be an array!');
     }
+    
+    self::reqKey($data, 'name');
 
     // Artikel mit alten Daten selektieren
     $thisArt = rex_sql::factory();
@@ -164,6 +166,15 @@ class rex_article_service
       if($data['prior'] <= 0)
       {
         $data['prior'] = 1;
+      }
+    }
+
+    // complete remaining optional aprams
+    foreach(array('path', 'prior') as $optionalData)
+    {
+      if(!isset($data[$optionalData]))
+      {
+        $data[$optionalData] = $thisArt->getValue($optionalData);
       }
     }
 
