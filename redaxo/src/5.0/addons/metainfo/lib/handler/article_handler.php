@@ -2,19 +2,56 @@
 
 class rex_articleMetainfoHandler extends rex_metainfoHandler
 {
-  function _rex_a62_metainfo_art_handleSave($params, $sqlFields)
+  const PREFIX = 'art_';
+  
+  protected function handleSave(array $params, rex_sql $sqlFields)
   {
   	// Nur speichern wenn auch das MetaForm ausgefüllt wurde
   	// z.b. nicht speichern wenn über be_search select navigiert wurde
     if(rex_post('meta_article_name', 'string', null) === null) return $params;
   
-    return rex_categoryMetainfoHandler::_rex_a62_metainfo_cat_handleSave($params, $sqlFields);
+    $article = rex_sql::factory();
+    // $article->debugsql = true;
+    $article->setTable(rex::getTablePrefix(). 'article');
+    $article->setWhere('id=:id AND clang=:clang', array('id'=> $params['id'], 'clang' => $params['clang']));
+
+    parent::fetchRequestValues($params, $article, $sqlFields);
+
+    // do the save only when metafields are defined
+    if($article->hasValues())
+      $article->update();
+
+    // Artikel nochmal mit den zusätzlichen Werten neu generieren
+    rex_article_cache::generateMeta($params['id'], $params['clang']);
+
+    return $params;
   }
   
-  /**
-   * Callback, dass ein Formular item formatiert
-   */
-  function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
+  function buildFilterCondition(array $params)
+  {
+    $restrictionsCondition = '';
+    
+    if(!empty($params['id']))
+    {
+      $s = '';
+      $OOArt = rex_ooArticle::getArticleById($params['id'], $params['clang']);
+
+      // Alle Metafelder des Pfades sind erlaubt
+      foreach($OOArt->getPathAsArray() as $pathElement)
+      {
+        if($pathElement != '')
+        {
+          $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
+        }
+      }
+
+      $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
+    }
+    
+    return $restrictionsCondition;
+  }
+  
+  function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
   {
     $s = '';
     if($typeLabel != 'legend')
@@ -37,10 +74,7 @@ class rex_articleMetainfoHandler extends rex_metainfoHandler
     return $s;
   }
   
-  /**
-   * Erweitert das Meta-Formular um die neuen Meta-Felder
-   */
-  function rex_a62_metainfo_form($params)
+  public function extendForm(array $params)
   {
     $OOArt = rex_ooArticle::getArticleById($params['id'], $params['clang']);
   
@@ -48,10 +82,10 @@ class rex_articleMetainfoHandler extends rex_metainfoHandler
     // Hier die category_id setzen, damit beim klick auf den REX_LINK_BUTTON der Medienpool in der aktuellen Kategorie startet
     $params['activeItem']->setValue('category_id', $OOArt->getCategoryId());
   
-    return $params['subject'] . parent::_rex_a62_metainfo_form('art_', $params, array($this, '_rex_a62_metainfo_art_handleSave'));
+    return $params['subject'] . parent::renderFormAndSave(self::PREFIX, $params);
   }  
 }
 
 $artHandler = new rex_articleMetainfoHandler();
 
-rex_extension::register('ART_META_FORM', array($artHandler, 'rex_a62_metainfo_form'));
+rex_extension::register('ART_META_FORM', array($artHandler, 'extendForm'));

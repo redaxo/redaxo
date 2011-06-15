@@ -2,56 +2,13 @@
 
 class rex_categoryMetainfoHandler extends rex_metainfoHandler
 {
-  /**
-   * Artikel & Kategorien:
-   *
-   * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt und speichert diese
-   */
-  public function _rex_a62_metainfo_cat_handleSave($params, $sqlFields)
+  const PREFIX = 'cat_';
+  
+  static public function renderToggleButton(array $params)
   {
-    if(rex_request_method() != 'post') return $params;
+  	$restrictionsCondition = self::buildFilterCondition($params);
 
-    $article = rex_sql::factory();
-    // $article->debugsql = true;
-    $article->setTable(rex::getTablePrefix(). 'article');
-    $article->setWhere('id=:id AND clang=:clang', array('id'=> $params['id'], 'clang' => $params['clang']));
-
-    parent::_rex_a62_metainfo_handleSave($params, $article, $sqlFields);
-
-    // do the save only when metafields are defined
-    if($article->hasValues())
-      $article->update();
-
-    // Artikel nochmal mit den zusätzlichen Werten neu generieren
-    rex_article_cache::generateMeta($params['id'], $params['clang']);
-
-    return $params;
-  }
-
-  public function rex_a62_metainfo_button($params)
-  {
-  	$s = '';
-  	$restrictionsCondition = '';
-  	if(isset($params['id']) && $params['id'] != '')
-  	{
-      $OOCat = rex_ooCategory::getCategoryById($params['id']);
-
-      // Alle Metafelder des Pfades sind erlaubt
-      foreach(explode('|', $OOCat->getPath()) as $pathElement)
-      {
-        if($pathElement != '')
-        {
-          $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
-        }
-      }
-
-      // Auch die Kategorie selbst kann Metafelder haben
-      $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
-  	}
-    $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
-
-
-  	$fields = parent::_rex_a62_metainfo_sqlfields('cat_', $restrictionsCondition);
+  	$fields = parent::getSqlFields(self::PREFIX, $restrictionsCondition);
   	if ($fields->getRows() >= 1)
     {
     	$return = '<p class="rex-button-add"><script type="text/javascript"><!--
@@ -78,12 +35,56 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
     }
 
     return $params['subject'];
+  }  
+  
+  public function handleSave(array $params, rex_sql $sqlFields)
+  {
+    if(rex_request_method() != 'post') return $params;
+
+    $article = rex_sql::factory();
+    // $article->debugsql = true;
+    $article->setTable(rex::getTablePrefix(). 'article');
+    $article->setWhere('id=:id AND clang=:clang', array('id'=> $params['id'], 'clang' => $params['clang']));
+
+    parent::fetchRequestValues($params, $article, $sqlFields);
+
+    // do the save only when metafields are defined
+    if($article->hasValues())
+      $article->update();
+
+    // Artikel nochmal mit den zusätzlichen Werten neu generieren
+    rex_article_cache::generateMeta($params['id'], $params['clang']);
+
+    return $params;
   }
 
-  /**
-   * Callback, dass ein Formular item formatiert
-   */
-  public function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
+  protected function buildFilterCondition(array $params)
+  {
+    $s = '';
+
+    if(!empty($params['id']))
+    {
+      $OOCat = rex_ooCategory::getCategoryById($params['id'], $params['clang']);
+
+      // Alle Metafelder des Pfades sind erlaubt
+      foreach($OOCat->getPathAsArray() as $pathElement)
+      {
+        if($pathElement != '')
+        {
+          $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
+        }
+      }
+
+      // Auch die Kategorie selbst kann Metafelder haben
+      $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
+    }
+
+    $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
+
+    return $restrictionsCondition;
+  }
+
+  public function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
   {
     $add_td = '';
     $class_td = '';
@@ -122,10 +123,7 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
     return $s;
   }
 
-  /**
-   * Erweitert das Meta-Formular um die neuen Meta-Felder
-   */
-  public function rex_a62_metainfo_form($params)
+  public function extendForm(array $params)
   {
     if(isset($params['category']))
     {
@@ -135,7 +133,7 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
       $params['activeItem']->setValue('category_id', $params['id']);
     }
 
-    $result = parent::_rex_a62_metainfo_form('cat_', $params, array($this, '_rex_a62_metainfo_cat_handleSave'));
+    $result = parent::renderFormAndSave(self::PREFIX, $params);
 
     // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zur�ckgeben
     if($params['extension_point'] == 'CAT_UPDATED' || $params['extension_point'] == 'CAT_ADDED')
@@ -147,10 +145,10 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
 
 $catHandler = new rex_categoryMetainfoHandler();
 
-rex_extension::register('CAT_FORM_ADD', array($catHandler, 'rex_a62_metainfo_form'));
-rex_extension::register('CAT_FORM_EDIT', array($catHandler, 'rex_a62_metainfo_form'));
+rex_extension::register('CAT_FORM_ADD', array($catHandler, 'extendForm'));
+rex_extension::register('CAT_FORM_EDIT', array($catHandler, 'extendForm'));
 
-rex_extension::register('CAT_ADDED', array($catHandler, 'rex_a62_metainfo_form'));
-rex_extension::register('CAT_UPDATED', array($catHandler, 'rex_a62_metainfo_form'));
+rex_extension::register('CAT_ADDED', array($catHandler, 'extendForm'));
+rex_extension::register('CAT_UPDATED', array($catHandler, 'extendForm'));
 
-rex_extension::register('CAT_FORM_BUTTONS', array($catHandler, 'rex_a62_metainfo_button'));
+rex_extension::register('CAT_FORM_BUTTONS', array('rex_categoryMetainfoHandler', 'renderToggleButton'));

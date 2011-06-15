@@ -1,15 +1,14 @@
 <?php
 
-class rex_metainfoHandler
+abstract class rex_metainfoHandler
 {
   /**
    * Erstellt den nötigen HTML Code um ein Formular zu erweitern
    *
    * @param $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
-   * @param $formatCallback callback, dem die infos als Array übergeben werden und den formatierten HTML Text zurückgibt
    * @param $epParams array Array of all EP parameters
    */
-  public function rex_a62_metaFields($sqlFields, $formatCallback, $epParams)
+  public function renderMetaFields(rex_sql $sqlFields, array $epParams)
   {
     $s = '';
 
@@ -409,7 +408,7 @@ class rex_metainfoHandler
         }
       }
 
-      $s .= call_user_func_array($formatCallback, array($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel));
+      $s .= $this->renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel);
     }
 
     return $s;
@@ -421,7 +420,7 @@ class rex_metainfoHandler
    * @param $sqlSave rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
    * @param $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
    */
-  public function _rex_a62_metainfo_handleSave(&$params, &$sqlSave, $sqlFields)
+  static public function fetchRequestValues(&$params, &$sqlSave, $sqlFields)
   {
     if(rex_request_method() != 'post') return;
 
@@ -443,7 +442,7 @@ class rex_metainfoHandler
       }
 
       // Wert in SQL zum speichern
-      $saveValue = self::_rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes);
+      $saveValue = self::getSaveValue($fieldName, $fieldType, $fieldAttributes);
       $sqlSave->setValue($fieldName, $saveValue);
 
       // Werte im aktuellen Objekt speichern, dass zur Anzeige verwendet wird
@@ -459,7 +458,7 @@ class rex_metainfoHandler
    * @param int $fieldType One of the REX_A62_FIELD_* constants
    * @param string $fieldAttributes The attributes of the field
    */
-  public function _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes)
+  public function getSaveValue($fieldName, $fieldType, $fieldAttributes)
   {
     if(rex_request_method() != 'post') return null;
 
@@ -520,10 +519,10 @@ class rex_metainfoHandler
    * Ermittelt die metainfo felder mit dem Prefix $prefix limitiert auf die Kategorien $restrictions
    *
    * @param string $prefix Feldprefix
-   * @param string $restrictionsCondition SQL Where-Bedingung zum einschränken der Metafelder
+   * @param string $filterCondition SQL Where-Bedingung zum einschränken der Metafelder
    * @return rex_sql Metainfofelder
    */
-  public function _rex_a62_metainfo_sqlfields($prefix, $restrictionsCondition)
+  static protected function getSqlFields($prefix, $filterCondition)
   {
     // replace LIKE wildcards
     $prefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
@@ -536,7 +535,7 @@ class rex_metainfoHandler
             WHERE
               `p`.`type` = `t`.`id` AND
               `p`.`name` LIKE "'. $prefix .'%"
-              '. $restrictionsCondition .'
+              '. $filterCondition .'
               ORDER BY
               prior';
 
@@ -552,117 +551,85 @@ class rex_metainfoHandler
    *
    * @param string $prefix Feldprefix
    * @param string $params EP Params
-   * @param callback $saveCallback Callback, dass die Daten speichert
    */
-  public function _rex_a62_metainfo_form($prefix, $params, $saveCallback)
+  public function renderFormAndSave($prefix, array $params)
   {
     // Beim ADD gibts noch kein activeItem
     $activeItem = null;
     if(isset($params['activeItem']))
       $activeItem = $params['activeItem'];
 
-    $restrictionsCondition = '';
-    if($prefix == 'art_')
-    {
-      if($params['id'] != '')
-      {
-        $s = '';
-        $OOArt = rex_ooArticle::getArticleById($params['id'], $params['clang']);
-
-        // Alle Metafelder des Pfades sind erlaubt
-        foreach(explode('|', $OOArt->getPath()) as $pathElement)
-        {
-          if($pathElement != '')
-          {
-            $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
-          }
-        }
-
-        $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
-      }
-    }
-    else if($prefix == 'cat_')
-    {
-      $s = '';
-
-      if($params['id'] != '')
-      {
-        $OOCat = rex_ooCategory::getCategoryById($params['id'], $params['clang']);
-
-        // Alle Metafelder des Pfades sind erlaubt
-        foreach(explode('|', $OOCat->getPath()) as $pathElement)
-        {
-          if($pathElement != '')
-          {
-            $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
-          }
-        }
-
-        // Auch die Kategorie selbst kann Metafelder haben
-        $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
-      }
-
-      $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
-    }
-    else if($prefix == 'med_')
-    {
-      $catId = rex_session('media[rex_file_category]', 'int');
-      if($activeItem)
-      {
-        $catId = $activeItem->getValue('category_id');
-      }
-
-      if($catId !== '')
-      {
-        $s = '';
-        if($catId != 0)
-        {
-          $OOCat = rex_ooMediaCategory::getCategoryById($catId);
-
-          // Alle Metafelder des Pfades sind erlaubt
-          foreach(explode('|', $OOCat->getPath()) as $pathElement)
-          {
-            if($pathElement != '')
-            {
-              $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
-            }
-          }
-        }
-
-        // Auch die Kategorie selbst kann Metafelder haben
-        $s .= ' OR `p`.`restrictions` LIKE "%|'. $catId .'|%"';
-
-        $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
-      }
-    }
-
-    $sqlFields = self::_rex_a62_metainfo_sqlfields($prefix, $restrictionsCondition);
-    $params = call_user_func_array($saveCallback, array($params, $sqlFields));
+    $filterCondition = $this->buildFilterCondition($params);
+    $sqlFields = $this->getSqlFields($prefix, $filterCondition);
+    $params = $this->handleSave($params, $sqlFields);
 
     // trigger callback of sql fields
     if(rex_request_method() == 'post')
     {
-      foreach($sqlFields as $row)
-      {
-        if($row->getValue('callback') != '')
-        {
-          // use a small sandbox, so the callback cannot affect our local variables
-          $sandboxFunc = function($field)
-          {
-            // TODO add var to ref the actual table (rex_article,...)
-            $fieldName = $field->getValue('name');
-            $fieldType = $field->getValue('type');
-            $fieldAttributes = $field->getValue('attributes');
-            $fieldValue = _rex_a62_metainfo_saveValue($fieldName, $fieldType, $fieldAttributes);
-
-            require rex_stream::factory('metainfo/'. $field->getValue('field_id') .'/callback', $field->getValue('callback'));
-          };
-          // pass a clone to the custom handler, so the callback will not change our var
-          $sandboxFunc(clone $row);
-        }
-      }
+      $this->fireCallbacks($sqlFields);
     }
 
-    return self::rex_a62_metaFields($sqlFields, array($this, 'rex_a62_metainfo_form_item'), $params);
+    return self::renderMetaFields($sqlFields, $params);
   }
+  
+  protected function fireCallbacks(rex_sql $sqlFields)
+  {
+    foreach($sqlFields as $row)
+    {
+      if($row->getValue('callback') != '')
+      {
+        // use a small sandbox, so the callback cannot affect our local variables
+        $sandboxFunc = function($field)
+        {
+          // TODO add var to ref the actual table (rex_article,...)
+          $fieldName = $field->getValue('name');
+          $fieldType = $field->getValue('type');
+          $fieldAttributes = $field->getValue('attributes');
+          $fieldValue = getSaveValue($fieldName, $fieldType, $fieldAttributes);
+
+          require rex_stream::factory('metainfo/'. $field->getValue('field_id') .'/callback', $field->getValue('callback'));
+        };
+        // pass a clone to the custom handler, so the callback will not change our var
+        $sandboxFunc(clone $row);
+      }
+    }
+  }
+  
+  /**
+   * Build a SQL Filter String which fits for the current context params
+   * 
+   * @param array $params EP Params
+   */
+  protected abstract function buildFilterCondition(array $params);
+
+  /**
+   * Renders a field of the metaform. The rendered html will be returned.
+   * 
+   * @param string $field The html-source of the field itself
+   * @param string $tag The html-tag for the elements container, e.g. "p"
+   * @param string $tag_attr Attributes for the elements container, e.g. " class='rex-widget'"
+   * @param string $id The id of the field, used for current label or field-specific javascripts
+   * @param string $label The textlabel of the field
+   * @param boolean $labelIt True when an additional label needs to be rendered, otherweise False
+   * @param string $inputType The input type, e.g. "checkbox", "radio",...
+   * 
+   * @return string The rendered html
+   */
+  protected abstract function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $inputType);
+
+  /**
+   * Retrieves the activeItem from the current context.
+   * Afterwards the actual metaForm extension will be rendered.
+   * 
+   * @param array $params EP Params
+   */
+  public abstract function extendForm(array $params);
+  
+  /**
+   * Retrieves the POST values from the metaform, fill it into a rex_sql object and save it to a database table
+   * 
+   * @param array $params
+   * @param rex_sql $sqlFields
+   */
+  protected abstract function handleSave(array $params, rex_sql $sqlFields);
 }
