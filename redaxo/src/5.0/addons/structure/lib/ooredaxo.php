@@ -180,7 +180,7 @@ abstract class rex_ooRedaxo
    * Array of rex_ooRedaxo instances, keyed by classname, id and clang
    * @var array[string][int][int]
    */
-  private static $instanceCache;
+  private static $instanceCache = array();
 
   /**
    * Return an rex_ooRedaxo object based on an id.
