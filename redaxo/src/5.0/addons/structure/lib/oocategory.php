@@ -25,6 +25,12 @@ class rex_ooCategory extends rex_ooRedaxo
   }
 
   /**
+   * children of categories, keyed by category_id (parent ids)
+   * @var array[rex_ooArticle]
+   */
+  private static $childIds = array();
+  
+  /**
    * CLASS Function:
    * Return all Children by id
    *
@@ -32,8 +38,6 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   static public function getChildrenById($cat_parent_id, $ignore_offlines = false, $clang = false)
   {
-    global $REX;
-
     $cat_parent_id = (int) $cat_parent_id;
 
     if($cat_parent_id < 0)
@@ -55,14 +59,14 @@ class rex_ooCategory extends rex_ooRedaxo
 
     if (file_exists($categorylist))
     {
-      if (!isset ($REX['RE_CAT_ID'][$cat_parent_id]))
+      if (!isset (self::$childIds[$cat_parent_id]))
       {
-        $REX['RE_CAT_ID'][$cat_parent_id] = rex_file::getCache($categorylist);
+        self::$childIds[$cat_parent_id] = rex_file::getCache($categorylist);
       }
 
-      if (isset ($REX['RE_CAT_ID'][$cat_parent_id]) and is_array($REX['RE_CAT_ID'][$cat_parent_id]))
+      if (isset (self::$childIds[$cat_parent_id]) && is_array(self::$childIds[$cat_parent_id]))
       {
-        foreach ($REX['RE_CAT_ID'][$cat_parent_id] as $var)
+        foreach (self::$childIds[$cat_parent_id] as $var)
         {
           $category = self :: getCategoryById($var, $clang);
           if ($ignore_offlines)

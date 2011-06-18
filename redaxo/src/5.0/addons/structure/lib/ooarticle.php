@@ -45,6 +45,12 @@ class rex_ooArticle extends rex_ooRedaxo
   {
     return parent :: getById($a_category_id, $clang);
   }
+  
+  /**
+   * Articles of categories, keyed by category_id
+   * @var array[rex_ooArticle]
+   */
+  private static $articleIds = array();
 
   /**
    * CLASS Function:
@@ -68,14 +74,14 @@ class rex_ooArticle extends rex_ooRedaxo
     $artlist = array ();
     if(file_exists($articlelist))
     {
-      if(!isset($REX['RE_ID'][$a_category_id]))
+      if(!isset(self::$articleIds[$a_category_id]))
       {
-        $REX['RE_ID'][$a_category_id] = rex_file::getCache($articlelist);
+        self::$articleIds[$a_category_id] = rex_file::getCache($articlelist);
       }
 
-      if(isset($REX['RE_ID'][$a_category_id]))
+      if(self::$articleIds[$a_category_id])
       {
-        foreach ($REX['RE_ID'][$a_category_id] as $var)
+        foreach (self::$articleIds[$a_category_id] as $var)
         {
           $article = self :: getArticleById($var, $clang);
           if ($ignore_offlines)
