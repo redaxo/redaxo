@@ -1,6 +1,6 @@
 <?php
 
-rex_extension::register('OUTPUT_FILTER_CACHE', array('rex_extension_debug', 'doLog'));
+rex_extension::register('OUTPUT_FILTER', array('rex_extension_debug', 'doLog'));
 
 /**
  * Class to monitor extension points
@@ -27,7 +27,7 @@ class rex_extension_debug extends rex_extension
     $firephp = FirePHP::getInstance(true);
     foreach(self::$calls as $call)
     {
-      $firephp->log(__CLASS__, 'EP: '. $call[0]. ' ' .$call[1] . 'ms');
+      $firephp->log('EP: '. $call[0]. ' ' .$call[1] . 'ms', __CLASS__);
     }
   }
 }

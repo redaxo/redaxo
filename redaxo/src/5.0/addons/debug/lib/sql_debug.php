@@ -1,6 +1,6 @@
 <?php
 
-rex_extension::register('OUTPUT_FILTER_CACHE', array('rex_sql_debug', 'doLog'));
+rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'doLog'));
 
 /**
  * Class to monitor sql queries
@@ -31,7 +31,7 @@ class rex_sql_debug extends rex_sql
     $firephp = FirePHP::getInstance(true);
     foreach(self::$queries as $qry)
     {
-      $firephp->log(__CLASS__, 'Query: '. $qry[0]. ' ' .$qry[1] . 'ms');
+      $firephp->log('Query: '. $qry[0]. ' ' .$qry[1] . 'ms', __CLASS__);
     }
   }
 }
