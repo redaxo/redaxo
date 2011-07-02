@@ -80,23 +80,21 @@ if ($func == '')
   $list->addColumn($funcs, rex_i18n::msg('media_manager_type_effekts_edit'), -1, array('<th colspan="3">###VALUE###</th>','<td>###VALUE###</td>'));
   $list->setColumnParams($funcs, array('type_id' => '###id###', 'subpage' => 'effects'));
 
-  $delete = 'deleteCache';
-  $list->addColumn($delete, rex_i18n::msg('media_manager_type_cache_delete'), -1, array('','<td>###VALUE###</td>'));
-  $list->setColumnParams($delete, array('type_id' => '###id###', 'func' => 'delete_cache'));
-  $list->addLinkAttribute($delete, 'onclick', 'return confirm(\''.rex_i18n::msg('media_manager_type_cache_delete').' ?\')');
+  $list->addColumn('deleteCache', rex_i18n::msg('media_manager_type_cache_delete'), -1, array('','<td>###VALUE###</td>'));
+  $list->setColumnParams('deleteCache', array('type_id' => '###id###', 'func' => 'delete_cache'));
+  $list->addLinkAttribute('deleteCache', 'onclick', 'return confirm(\''.rex_i18n::msg('media_manager_type_cache_delete').' ?\')');
 
   // remove delete link on internal types (status == 1)
-  $delete = 'deleteType';
-  $list->addColumn($delete, '', -1, array('','<td>###VALUE###</td>'));
-  $list->setColumnParams($delete, array('type_id' => '###id###', 'func' => 'delete'));
-  $list->addLinkAttribute($delete, 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
-  $list->setColumnFormat($delete, 'custom', function ($params) {
+  $list->addColumn('deleteType', '', -1, array('','<td>###VALUE###</td>'));
+  $list->setColumnParams('deleteType', array('type_id' => '###id###', 'func' => 'delete'));
+  $list->addLinkAttribute('deleteType', 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
+  $list->setColumnFormat('deleteType', 'custom', function ($params) {
     $list = $params["list"];
     if($list->getValue("status") == 1)
     {
       return rex_i18n::msg('media_manager_type_system');
     }
-    return $list->getColumnLink($delete, rex_i18n::msg('media_manager_type_delete'));
+    return $list->getColumnLink('deleteType', rex_i18n::msg('media_manager_type_delete'));
   });
 
   $list->show();
