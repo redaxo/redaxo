@@ -198,7 +198,7 @@ class rex_sql extends rex_factory implements Iterator
    *
    * @return boolean True on success, False on error
    */
-  public function execute($params)
+  public function execute($params = array())
   {
     return $this->stmt->execute($params);
   }
