@@ -29,9 +29,11 @@ class rex_sql_debug extends rex_sql
   static public function doLog($params)
   {
     $firephp = FirePHP::getInstance(true);
+    $firephp->group(__CLASS__);
     foreach(self::$queries as $qry)
     {
-      $firephp->log('Query: '. $qry[0]. ' ' .$qry[1] . 'ms', __CLASS__);
+      $firephp->log('Query: '. $qry[0]. ' ' .$qry[1] . 'ms');
     }
+    $firephp->groupEnd();
   }
 }

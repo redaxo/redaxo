@@ -25,9 +25,11 @@ class rex_extension_debug extends rex_extension
   static public function doLog($params)
   {
     $firephp = FirePHP::getInstance(true);
+    $firephp->group(__CLASS__);
     foreach(self::$calls as $call)
     {
-      $firephp->log('EP: '. $call[0]. ' ' .$call[1] . 'ms', __CLASS__);
+      $firephp->log('EP: '. $call[0]. ' ' .$call[1] . 'ms');
     }
+    $firephp->groupEnd();
   }
 }

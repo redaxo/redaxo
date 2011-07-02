@@ -2,3 +2,4 @@
 
 rex_sql::setFactoryClass('rex_sql_debug');
 rex_extension::setFactoryClass('rex_extension_debug');
+rex_logger::setFactoryClass('rex_logger_debug');
