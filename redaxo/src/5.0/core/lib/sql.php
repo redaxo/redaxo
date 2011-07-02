@@ -226,7 +226,7 @@ class rex_sql extends rex_factory implements Iterator
       $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
       if($this->stmt)
       {
-        if(!$this->stmt->execute($params))
+        if(!$this->execute($params))
         {
           $this->stmt->debugDumpParams();
         }
@@ -798,7 +798,7 @@ class rex_sql extends rex_factory implements Iterator
     // re-execute the statement
     if($this->stmt && $this->counter != 0)
     {
-      $this->stmt->execute();
+      $this->execute();
       $this->counter = 0;
     }
 
