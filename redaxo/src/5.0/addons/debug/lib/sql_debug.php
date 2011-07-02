@@ -12,14 +12,14 @@ class rex_sql_debug extends rex_sql
   private static
     $queries = array();
 
-  public function execute($params)
+  public function execute($params = array())
   {
     $qry = $this->stmt->queryString;
 
     $timer = new rex_timer();
     $res = parent::execute($params);
 
-    self::$queries[] = array($qry, $timer->getFormattedTime(rex_timer::MILLISEC));
+    self::$queries[] = array($qry . ' (affected '. $this->getRows() .' rows)', $timer->getFormattedTime(rex_timer::MILLISEC));
 
     return $res;
   }
