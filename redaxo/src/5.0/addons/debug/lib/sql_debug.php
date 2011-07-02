@@ -10,12 +10,10 @@ rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'doLog'));
 class rex_sql_debug extends rex_sql
 {
   private static
-    $count = 0,
     $queries = array();
 
   public function execute($params)
   {
-    self::$count++;
     $qry = $this->stmt->queryString;
 
     $timer = new rex_timer();
