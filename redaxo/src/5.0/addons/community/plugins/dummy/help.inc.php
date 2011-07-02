@@ -1,1 +1,0 @@
-Hilfedatei für dummy

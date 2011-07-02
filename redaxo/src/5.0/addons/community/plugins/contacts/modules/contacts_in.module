@@ -1,1 +1,0 @@
-<?php$g = new rex_select;$g->setName("VALUE[1]");$g->addOption("Bestätigte Kontakte",0);$g->addOption("Unbestätigte Kontakte",1);$g->addOption("Zu bestätigende Kontakte",2);$g->setSelected("REX_VALUE[1]");$g->setSize(1);echo $g->show();?><br />

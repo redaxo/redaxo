@@ -1,3 +1,0 @@
-DROP TABLE `%TABLE_PREFIX%em_field`;
-DROP TABLE `%TABLE_PREFIX%em_table`;
-DROP TABLE `%TABLE_PREFIX%em_relation`;
