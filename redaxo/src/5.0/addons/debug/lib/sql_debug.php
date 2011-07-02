@@ -1,6 +1,6 @@
 <?php
 
-rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'printStats'));
+rex_extension::register('OUTPUT_FILTER_CACHE', array('rex_sql_debug', 'doLog'));
 
 /**
  * Class to monitor sql queries
@@ -13,7 +13,7 @@ class rex_sql_debug extends rex_sql
     $count = 0,
     $queries = array();
 
-  public function execute(array $params)
+  public function execute($params)
   {
     self::$count++;
     $qry = $this->stmt->queryString;
@@ -26,15 +26,12 @@ class rex_sql_debug extends rex_sql
     return $res;
   }
 
-  static public function printStats($params)
+  static public function doLog($params)
   {
-    $debugout = '';
-
+    $firephp = FirePHP::getInstance(true);
     foreach(self::$queries as $qry)
     {
-      $debugout .= 'Query: '. $qry[0]. ' ' .$qry[1] . 'ms<br/>';
+      $firephp->log(__CLASS__, 'Query: '. $qry[0]. ' ' .$qry[1] . 'ms');
     }
-
-    return rex_debug_util::injectHtml($debugout, $params['subject']);
   }
 }
