@@ -17,7 +17,7 @@
  *
  * @author staabm
  */
-abstract class rex_api_function
+abstract class rex_api_function extends rex_factory
 {
   protected function __construct()
   {
@@ -123,6 +123,11 @@ abstract class rex_api_function
    */
   static public function handleCall()
   {
+    if(static::hasFactoryClass())
+    {
+      return static::callFactoryClass(__FUNCTION__, func_get_args());
+    }
+    
     $apiFunc = self::factory();
 
     if($apiFunc != null)
