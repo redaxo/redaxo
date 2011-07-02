@@ -9,3 +9,6 @@ be_search_no_results = Kein Artikel entspricht dem Suchkriterium
 
 be_search_mpool_media = Mediumname
 be_search_mpool_start = suchen
+
+perm_options_be_search[mediapool] = Medienpool durchsuchen
+perm_options_be_search[structure] = Struktur durchsuchen
