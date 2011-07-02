@@ -109,9 +109,9 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     $restrictionsCondition = '';
     
     $catId = rex_session('media[rex_file_category]', 'int');
-    if($activeItem)
+    if(isset($params['activeItem']))
     {
-      $catId = $activeItem->getValue('category_id');
+      $catId = $params['activeItem']->getValue('category_id');
     }
 
     if($catId !== '')
