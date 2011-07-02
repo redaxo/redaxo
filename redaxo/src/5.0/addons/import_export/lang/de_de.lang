@@ -55,3 +55,6 @@ im_export_send_mail_notice = Für diese Option wird das Addon "phpmailer" benöt
 im_export_mailaddress = Mailadresse
 im_export_mail_subject = Neue Datenbanksicherung
 im_export_mail_body = Im Anhang befindet sich eine neue Datenbanksicherung der Website "{0}".
+
+perm_general_import_export[import] = Webseite importieren
+perm_general_import_export[export] = Webseite exportieren
