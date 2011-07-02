@@ -221,7 +221,7 @@ class rex_sql extends rex_factory implements Iterator
     {
       if(!is_array($params))
       {
-        throw new rexException('expecting $params to be an array, "'. gettype($params) .'" given!');
+        throw new rex_exception('expecting $params to be an array, "'. gettype($params) .'" given!');
       }
       $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
       if($this->stmt)
@@ -233,7 +233,7 @@ class rex_sql extends rex_factory implements Iterator
       }
       else
       {
-        throw new rexException('Error occured while preparing statement "'. $qry .'"!');
+        throw new rex_exception('Error occured while preparing statement "'. $qry .'"!');
       }
     }
     else
