@@ -5,7 +5,7 @@
  *
  * @author staabm
  */
-abstract class rex_logger
+abstract class rex_logger extends rex_factory
 {
   private static
     $file,
@@ -114,6 +114,11 @@ abstract class rex_logger
    */
   static public function log($message)
   {
+    if(static::hasFactoryClass())
+    {
+      return static::callFactoryClass(__FUNCTION__, func_get_args());
+    }
+
     if(!is_string($message))
     {
       throw new rex_exception('Expecting $message to be string, but '. gettype($message) .' given!');
