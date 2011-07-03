@@ -7,3 +7,5 @@ class rex_exception extends Exception
     parent:: __construct($message, $code, $previous);
   }
 }
+
+class rex_sql_exception extends rex_exception{};

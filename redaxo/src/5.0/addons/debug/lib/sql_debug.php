@@ -17,8 +17,16 @@ class rex_sql_debug extends rex_sql
     try {
       parent::setQuery($qry, $params);
     } catch (rex_exception $e) {
+      $trace = debug_backtrace();
+      for( $i=0 ; $trace && $i<sizeof($trace) ; $i++ ) {
+          if (isset($trace[$i]['file']) && strpos($trace[$i]['file'], 'sql.php') === false) {
+              $file = $trace[$i]['file'];
+              $line = $trace[$i]['line'];
+              break;
+          }
+      }
       $firephp = FirePHP::getInstance(true);
-      $firephp->error($e->getMessage()."\n".$e->getTrace());
+      $firephp->error($e->getMessage() .' in ' . $file . ' on line '. $line);
       throw $e; // re-throw exception after logging 
     }
   }

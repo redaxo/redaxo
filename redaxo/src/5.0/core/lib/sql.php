@@ -221,7 +221,7 @@ class rex_sql extends rex_factory implements Iterator
     {
       if(!is_array($params))
       {
-        throw new rex_exception('expecting $params to be an array, "'. gettype($params) .'" given!');
+        throw new rex_sql_exception('expecting $params to be an array, "'. gettype($params) .'" given!');
       }
       $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
       if($this->stmt)
@@ -233,7 +233,7 @@ class rex_sql extends rex_factory implements Iterator
       }
       else
       {
-        throw new rex_exception('Error occured while preparing statement "'. $qry .'"!');
+        throw new rex_sql_exception('Error occured while preparing statement "'. $qry .'"!');
       }
     }
     else
@@ -257,7 +257,7 @@ class rex_sql extends rex_factory implements Iterator
     }
     else if ($hasError)
     {
-      throw new rex_exception($this->getError());
+      throw new rex_sql_exception($this->getError());
     }
 
     return !$hasError;
@@ -372,7 +372,7 @@ class rex_sql extends rex_factory implements Iterator
     }
     else
     {
-      throw new rex_exception('expecting $where to be an array, "'. gettype($where) .'" given!');
+      throw new rex_sql_exception('expecting $where to be an array, "'. gettype($where) .'" given!');
     }
 
     return $this;
@@ -428,7 +428,7 @@ class rex_sql extends rex_factory implements Iterator
   {
     if(empty($feldname))
     {
-      throw new rex_exception('parameter fieldname must not be empty!');
+      throw new rex_sql_exception('parameter fieldname must not be empty!');
     }
 
     // fast fail,... value already set manually?
@@ -852,7 +852,7 @@ class rex_sql extends rex_factory implements Iterator
   {
     if (empty($sql))
     {
-      throw new rex_exception('sql query must not be empty!');
+      throw new rex_sql_exception('sql query must not be empty!');
     }
 
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
@@ -1159,7 +1159,7 @@ class rex_sql extends rex_factory implements Iterator
   static public function showColumns($table, $DBID=1)
   {
     $sql = self::factory($DBID);
-    $sql->setQuery('SHOW COLUMNS FROM `'. $table .'`');
+    $sql->setQuery('SHOW COLUMNS FROM a `'. $table .'`');
 
     $columns = array();
     foreach($sql as $col)
