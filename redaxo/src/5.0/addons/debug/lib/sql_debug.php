@@ -12,6 +12,17 @@ class rex_sql_debug extends rex_sql
   private static
     $queries = array();
 
+  public function setQuery($qry, $params = array())
+  {
+    try {
+      parent::setQuery($qry, $params);
+    } catch (rex_exception $e) {
+      $firephp = FirePHP::getInstance(true);
+      $firephp->error($e->getMessage()."\n".$e->getTrace());
+      throw $e; // re-throw exception after logging 
+    }
+  }
+  
   public function execute($params = array())
   {
     $qry = $this->stmt->queryString;
