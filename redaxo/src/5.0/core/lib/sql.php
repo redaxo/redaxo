@@ -8,7 +8,6 @@
 class rex_sql extends rex_factory implements Iterator
 {
   public
-    $debugsql, // debug schalter
     $counter; // pointer
 
   protected
@@ -30,7 +29,6 @@ class rex_sql extends rex_factory implements Iterator
 
   protected function __construct($DBID = 1)
   {
-    $this->debugsql = false;
     $this->flush();
     $this->selectDB($DBID);
   }
@@ -167,20 +165,6 @@ class rex_sql extends rex_factory implements Iterator
   }
 
   /**
-   * Setzt Debugmodus an/aus
-   *
-   * @param $debug Debug TRUE/FALSE
-   *
-   * @return rex_sql the current rex_sql object
-   */
-  public function setDebug($debug = TRUE)
-  {
-	  $this->debugsql = $debug;
-
-	  return $this;
-  }
-
-  /**
    * Prepares a PDOStatement
    *
    * @param string $qry A query string with placeholders
@@ -209,7 +193,7 @@ class rex_sql extends rex_factory implements Iterator
    * If parameters will be provided, a prepared statement will be executed.
    *
    * @param $query The sql-query
-   * @return boolean true on success, otherwise false
+   * @throws rex_sql_exception on errors
    */
   public function setQuery($qry, $params = array())
   {
@@ -228,7 +212,7 @@ class rex_sql extends rex_factory implements Iterator
       {
         if(!$this->execute($params))
         {
-          $this->stmt->debugDumpParams();
+          throw new rex_sql_exception('Error occured while executing statement "'. $qry .'" using params '. json_encode($params) .'!');
         }
       }
       else
@@ -250,17 +234,10 @@ class rex_sql extends rex_factory implements Iterator
       $this->rows = 0;
     }
 
-    $hasError = $this->hasError();
-    if ($this->debugsql)
-    {
-      $this->printError($qry, $params);
-    }
-    else if ($hasError)
+    if ($this->hasError())
     {
       throw new rex_sql_exception($this->getError());
     }
-
-    return !$hasError;
   }
 
   /**
@@ -619,12 +596,11 @@ class rex_sql extends rex_factory implements Iterator
    * @see #setValue()
    * @see #setWhere()
    */
-  public function update($successMessage = null)
+  public function update()
   {
-    return $this->preparedStatusQuery(
+    return $this->setQuery(
     	'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->getWhere(),
-      array_merge($this->values, $this->whereParams),
-      $successMessage
+      array_merge($this->values, $this->whereParams)
     );
   }
 
@@ -635,16 +611,15 @@ class rex_sql extends rex_factory implements Iterator
    * @see #setTable()
    * @see #setValue()
    */
-  public function insert($successMessage = null)
+  public function insert()
   {
     // hold a copies of the query fields for later debug out (the class property will be reverted in setQuery())
     $tableName = $this->table;
     $values = $this->values;
 
-    $res = $this->preparedStatusQuery(
+    $res = $this->setQuery(
     	'INSERT INTO `' . $this->table . '` SET ' . $this->buildPreparedValues(),
-      $this->values,
-      $successMessage
+      $this->values
     );
 
     // provide debug infos, if insert is considered successfull, but no rows were inserted.
@@ -665,12 +640,11 @@ class rex_sql extends rex_factory implements Iterator
    * @see #setValue()
    * @see #setWhere()
    */
-  public function replace($successMessage = null)
+  public function replace()
   {
-    return $this->preparedStatusQuery(
+    return $this->setQuery(
     	'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->getWhere(),
-      array_merge($this->values, $this->whereParams),
-      $successMessage
+      array_merge($this->values, $this->whereParams)
     );
   }
 
@@ -681,69 +655,68 @@ class rex_sql extends rex_factory implements Iterator
    * @see #setTable()
    * @see #setWhere()
    */
-  public function delete($successMessage = null)
+  public function delete()
   {
-    return $this->preparedStatusQuery(
+    return $this->setQuery(
     	'DELETE FROM `' . $this->table . '` '. $this->getWhere(),
-      $this->whereParams,
-      $successMessage
+      $this->whereParams
     );
   }
 
-  /**
-   * Setzt den Query $query ab.
-   *
-   * Wenn die Variable $successMessage gefuellt ist, dann wird diese bei
-   * erfolgreichem absetzen von $query zurueckgegeben, sonst die MySQL
-   * Fehlermeldung
-   *
-   * Wenn die Variable $successMessage nicht gefuellt ist, verhaelt sich diese
-   * Methode genauso wie setQuery()
-   *
-   * Beispiel:
-   *
-   * <code>
-   * $sql = rex_sql::factory();
-   * $message = $sql->statusQuery(
-   *    'INSERT  INTO abc SET a="ab"',
-   *    'Datensatz  erfolgreich eingefuegt');
-   * </code>
-   *
-   *  anstatt von
-   *
-   * <code>
-   * $sql = rex_sql::factory();
-   * if($sql->setQuery('INSERT INTO abc SET a="ab"'))
-   *   $message  = 'Datensatz erfolgreich eingefuegt');
-   * else
-   *   $message  = $sql- >getError();
-   * </code>
-   */
-  public function statusQuery($query, $successMessage = null)
-  {
-    $res = $this->setQuery($query);
-    if($successMessage)
-    {
-      if($res)
-        return $successMessage;
-      else
-        return $this->getError();
-    }
-    return $res;
-  }
+//   /**
+//    * Setzt den Query $query ab.
+//    *
+//    * Wenn die Variable $successMessage gefuellt ist, dann wird diese bei
+//    * erfolgreichem absetzen von $query zurueckgegeben, sonst die MySQL
+//    * Fehlermeldung
+//    *
+//    * Wenn die Variable $successMessage nicht gefuellt ist, verhaelt sich diese
+//    * Methode genauso wie setQuery()
+//    *
+//    * Beispiel:
+//    *
+//    * <code>
+//    * $sql = rex_sql::factory();
+//    * $message = $sql->statusQuery(
+//    *    'INSERT  INTO abc SET a="ab"',
+//    *    'Datensatz  erfolgreich eingefuegt');
+//    * </code>
+//    *
+//    *  anstatt von
+//    *
+//    * <code>
+//    * $sql = rex_sql::factory();
+//    * if($sql->setQuery('INSERT INTO abc SET a="ab"'))
+//    *   $message  = 'Datensatz erfolgreich eingefuegt');
+//    * else
+//    *   $message  = $sql- >getError();
+//    * </code>
+//    */
+//   public function statusQuery($query, $successMessage = null)
+//   {
+//     $res = $this->setQuery($query);
+//     if($successMessage)
+//     {
+//       if($res)
+//         return $successMessage;
+//       else
+//         return $this->getError();
+//     }
+//     return $res;
+//   }
 
-  public function preparedStatusQuery($query, $params, $successMessage = null)
-  {
-    $res = $this->setQuery($query, $params);
-    if($successMessage)
-    {
-      if($res)
-        return $successMessage;
-      else
-        return $this->getError();
-    }
-    return $res;
-  }
+//   public function preparedStatusQuery($query, $params, $successMessage = null)
+//   {
+//     $res = $this->setQuery($query, $params);
+//     if($successMessage)
+//     {
+//       if($res)
+//         return $successMessage;
+//       else
+//         return $this->getError();
+//     }
+//     return $res;
+//   }
 
   /**
    * Stellt alle Werte auf den Ursprungszustand zurueck
