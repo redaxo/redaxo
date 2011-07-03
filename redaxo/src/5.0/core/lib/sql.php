@@ -234,7 +234,7 @@ class rex_sql extends rex_factory implements Iterator
       $this->rows = 0;
     }
 
-    if ($this->hasError())
+    if ($this->getErrno() != 0)
     {
       throw new rex_sql_exception($this->getError());
     }
@@ -857,36 +857,6 @@ class rex_sql extends rex_factory implements Iterator
     // idx1 	Driver-specific error code.
     // idx2 	Driver-specific error message.
     return $errorInfos[2];
-  }
-
-  /**
-   * Prueft, ob ein Fehler aufgetreten ist
-   */
-  public function hasError()
-  {
-    return $this->getErrno() != 0;
-  }
-
-  /**
-   * Gibt die letzte Fehlermeldung aus
-   */
-  protected function printError($qry, $params)
-  {
-    echo '<hr />' . "\n";
-    echo 'Query: ' . nl2br(htmlspecialchars($qry)) . "<br />\n";
-
-    if(!empty($params))
-      echo 'Params: ' . htmlspecialchars(print_r($params, true)) . "<br />\n";
-
-    if (strlen($this->getRows()) > 0)
-    {
-      echo 'Affected Rows: ' . $this->getRows() . "<br />\n";
-    }
-    if (strlen($this->getError()) > 0)
-    {
-      echo 'Error Message: ' . htmlspecialchars($this->getError()) . "<br />\n";
-      echo 'Error Code: ' . $this->getErrno() . "<br />\n";
-    }
   }
 
   /**
