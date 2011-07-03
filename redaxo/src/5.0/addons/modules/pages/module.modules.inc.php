@@ -108,58 +108,59 @@ if ($function == 'add' or $function == 'edit')
   {
     $modultyp = rex_sql::factory();
 
-    if ($function == 'add')
-    {
-      $IMOD = rex_sql::factory();
-      $IMOD->setTable(rex::getTablePrefix().'module');
-      $IMOD->setValue('name',$mname);
-      $IMOD->setValue('input',$eingabe);
-      $IMOD->setValue('output',$ausgabe);
-      $IMOD->addGlobalCreateFields();
-
-      if($IMOD->insert())
-        $info = rex_i18n::msg('module_added');
-      else
-        $warning = $IMOD->getError();
-
-    } else {
-      $modultyp->setQuery('select * from '.rex::getTablePrefix().'module where id='.$modul_id);
-      if ($modultyp->getRows()==1)
+    try {
+      if ($function == 'add')
       {
-        $old_ausgabe = $modultyp->getValue('output');
-
-        // $modultyp->setQuery("UPDATE ".rex::getTablePrefix()."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
-
-        $UMOD = rex_sql::factory();
-        $UMOD->setTable(rex::getTablePrefix().'module');
-        $UMOD->setWhere('id='. $modul_id);
-        $UMOD->setValue('name',$mname);
-        $UMOD->setValue('input',$eingabe);
-        $UMOD->setValue('output',$ausgabe);
-        $UMOD->addGlobalUpdateFields();
-
-        if($UMOD->update())
+        $IMOD = rex_sql::factory();
+        $IMOD->setTable(rex::getTablePrefix().'module');
+        $IMOD->setValue('name',$mname);
+        $IMOD->setValue('input',$eingabe);
+        $IMOD->setValue('output',$ausgabe);
+        $IMOD->addGlobalCreateFields();
+  
+        $IMOD->insert();
+        $info = rex_i18n::msg('module_added');
+  
+      } else {
+        $modultyp->setQuery('select * from '.rex::getTablePrefix().'module where id='.$modul_id);
+        if ($modultyp->getRows()==1)
+        {
+          $old_ausgabe = $modultyp->getValue('output');
+  
+          // $modultyp->setQuery("UPDATE ".rex::getTablePrefix()."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
+  
+          $UMOD = rex_sql::factory();
+          $UMOD->setTable(rex::getTablePrefix().'module');
+          $UMOD->setWhere('id='. $modul_id);
+          $UMOD->setValue('name',$mname);
+          $UMOD->setValue('input',$eingabe);
+          $UMOD->setValue('output',$ausgabe);
+          $UMOD->addGlobalUpdateFields();
+  
+          $UMOD->update();
           $info = rex_i18n::msg('module_updated').' | '.rex_i18n::msg('articel_updated');
-        else
-          $warning = $UMOD->getError();
-
-        $new_ausgabe = $ausgabe;
-
-		if ($old_ausgabe != $new_ausgabe)
-		{
-          // article updaten - nur wenn ausgabe sich veraendert hat
-          $gc = rex_sql::factory();
-          $gc->setQuery("SELECT DISTINCT(".rex::getTablePrefix()."article.id) FROM ".rex::getTablePrefix()."article
-              LEFT JOIN ".rex::getTablePrefix()."article_slice ON ".rex::getTablePrefix()."article.id=".rex::getTablePrefix()."article_slice.article_id
-              WHERE ".rex::getTablePrefix()."article_slice.modultyp_id='$modul_id'");
-          for ($i=0; $i<$gc->getRows(); $i++)
-          {
-          	rex_article_cache::delete($gc->getValue(rex::getTablePrefix()."article.id"));
-            $gc->next();
+  
+          $new_ausgabe = $ausgabe;
+  
+      		if ($old_ausgabe != $new_ausgabe)
+      		{
+            // article updaten - nur wenn ausgabe sich veraendert hat
+            $gc = rex_sql::factory();
+            $gc->setQuery("SELECT DISTINCT(".rex::getTablePrefix()."article.id) FROM ".rex::getTablePrefix()."article
+                LEFT JOIN ".rex::getTablePrefix()."article_slice ON ".rex::getTablePrefix()."article.id=".rex::getTablePrefix()."article_slice.article_id
+                WHERE ".rex::getTablePrefix()."article_slice.modultyp_id='$modul_id'");
+            for ($i=0; $i<$gc->getRows(); $i++)
+            {
+            	rex_article_cache::delete($gc->getValue(rex::getTablePrefix()."article.id"));
+              $gc->next();
+            }
           }
         }
       }
+    } catch (rex_sql_exception $e) {
+      $warning = $e->getMessage();
     }
+    
 
     if ($goon != '')
     {

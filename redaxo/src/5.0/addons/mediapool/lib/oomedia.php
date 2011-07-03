@@ -745,7 +745,8 @@ class rex_ooMedia
       $OOMed = self::getMediaByFileName($filename);
       if($OOMed)
       {
-        return $OOMed->delete();
+        $OOMed->delete();
+        return true;
       }
     }else
     {
@@ -760,7 +761,7 @@ class rex_ooMedia
 
       rex_media_cache::delete($this->getFileName());
 
-      return $sql->getError();
+      return true;
     }
     return false;
   }

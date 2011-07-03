@@ -122,13 +122,12 @@ if ($function == "add" or $function == "edit")
       $TPL->setValue("attributes", $attributes);
       $TPL->addGlobalCreateFields();
 
-      if($TPL->insert())
-      {
+      try {
+        $TPL->insert();
         $template_id = $TPL->getLastId();
         $info = rex_i18n::msg("template_added");
-      }else
-      {
-        $warning = $TPL->getError();
+      } catch (rex_sql_exception $e) {
+        $warning = $e->getMessage();
       }
     }else
     {
@@ -140,10 +139,12 @@ if ($function == "add" or $function == "edit")
       $TPL->setWhere("id='$template_id'");
       $TPL->addGlobalUpdateFields();
 
-      if($TPL->update())
+      try {
+        $TPL->update();
         $info = rex_i18n::msg("template_updated");
-      else
-        $warning = $TPL->getError();
+      } catch (rex_sql_exception $e) {
+        $warning = $e->getMessage();
+      }
     }
 
     rex_dir::delete(rex_path::cache('templates'), false);

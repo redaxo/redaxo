@@ -115,11 +115,10 @@ function rex_a1_import_db($filename)
 
   $sql   = rex_sql::factory();
   foreach ($lines as $line) {
-    $sql->setQuery($line['query']);
-
-    if($sql->hasError())
-    {
-      $error .= "\n". $sql->getError();
+    try {
+      $sql->setQuery($line['query']);
+    } catch (rex_sql_exception $e) {
+        $error .= "\n". $e->getMessage();
     }
   }
 
@@ -159,13 +158,12 @@ function rex_a1_import_db($filename)
        PRIMARY KEY(user_id)
      ) ENGINE=MyISAM;';
     $db = rex_sql::factory();
-    $db->setQuery($create_user_table);
-    $error = $db->getError();
-    if($error != '')
-    {
+    try {
+      $db->setQuery($create_user_table);
+    } catch (rex_sql_exception $e) {
       // evtl vorhergehende meldungen löschen, damit nur der fehler angezeigt wird
       $msg = '';
-      $msg .= $error;
+      $msg .= $e->getMessage();
     }
   }
 
@@ -186,13 +184,12 @@ function rex_a1_import_db($filename)
        PRIMARY KEY(id)
      ) ENGINE=MyISAM;';
     $db = rex_sql::factory();
-    $db->setQuery($create_user_role_table);
-    $error = $db->getError();
-    if($error != '')
-    {
+    try {
+      $db->setQuery($create_user_role_table);
+    } catch (rex_sql_exception $e) {
       // evtl vorhergehende meldungen löschen, damit nur der fehler angezeigt wird
       $msg = '';
-      $msg .= $error;
+      $msg .= $e->getMessage();
     }
   }
 

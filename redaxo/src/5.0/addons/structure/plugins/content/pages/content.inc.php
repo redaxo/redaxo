@@ -264,18 +264,24 @@ if ($article->getRows() == 1)
               if ($function == 'edit')
               {
                 $newsql->addGlobalUpdateFields();
-                if ($newsql->update())
+                try {
+                  $newsql->update();
                   $info = $action_message . rex_i18n::msg('block_updated');
-                else
-                  $warning = $action_message . $newsql->getError();
+                } catch (rex_sql_exception $e)
+                {
+                  $warning = $action_message . $e->getMessage();
+                }
 
               }
               elseif ($function == 'add')
               {
                 $newsql->addGlobalUpdateFields();
                 $newsql->addGlobalCreateFields();
-                if ($newsql->insert())
-                {
+                
+                
+                try {
+                  $newsql->insert();
+                  
                   rex_organize_priorities(
                     rex::getTablePrefix() . 'article_slice',
                     'prior',
@@ -286,10 +292,9 @@ if ($article->getRows() == 1)
                   $info = $action_message . rex_i18n::msg('block_added');
                   $slice_id = $newsql->getLastId();
                   $function = "";
-                }
-                else
+                } catch (rex_sql_exception $e)
                 {
-                  $warning = $action_message . $newsql->getError();
+                  $warning = $action_message . $e->getMessage();
                 }
               }
             }
@@ -568,8 +573,9 @@ if ($article->getRows() == 1)
       $meta_sql->setValue('name', $meta_article_name);
       $meta_sql->addGlobalUpdateFields();
 
-      if($meta_sql->update())
-      {
+      try {
+        $meta_sql->update();
+      
         $article->setQuery("SELECT * FROM " . rex::getTablePrefix() . "article WHERE id='$article_id' AND clang='$clang'");
         $info = rex_i18n::msg("metadata_updated");
 
@@ -581,10 +587,9 @@ if ($article->getRows() == 1)
           'clang' => $clang,
           'name' => $meta_article_name,
         ));
-      }
-      else
+      } catch (rex_sql_exception $e)
       {
-        $warning = $meta_sql->getError();
+        $warning = $e->getMessage();
       }
     }
     // ------------------------------------------ END: SAVE METADATA
