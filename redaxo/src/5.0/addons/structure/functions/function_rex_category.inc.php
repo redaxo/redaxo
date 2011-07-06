@@ -19,27 +19,28 @@ $KAT->setQuery("SELECT * FROM ".rex::getTablePrefix()."article WHERE id=$categor
 
 if ($KAT->getRows()!=1 || !rex::getUser()->hasCategoryPerm($category_id))
 {
-  // kategorie existiert nicht
-  if($category_id != 0)
-  {
-    $category_id = 0;
-    $article_id = 0;
-  }
-}
-else
-{
-  // kategorie existiert
+	if($category_id != 0)
+	{
+		$category_id = 0;
+		$article_id = 0;
+	}
 
-  $ooCat = rex_ooCategory::getCategoryById($category_id, $clang);
-  foreach($ooCat->getParentTree() as $parent)
-  {
-    $catid = $parent->getId();
-    if (rex::getUser()->hasCategoryPerm($catid))
-    {
-      $catname = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
-      $KAToutARR[]['content'] = '<a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'">'. $catname .'</a>';
-    }
-  }
+}else
+{
+	if($ooCat = rex_ooCategory::getCategoryById($category_id, $clang))
+	{
+		$ooCat = rex_ooCategory::getCategoryById($category_id, $clang);
+		foreach($ooCat->getParentTree() as $parent)
+		{
+			$catid = $parent->getId();
+			if (rex::getUser()->hasCategoryPerm($catid))
+			{
+				$catname = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
+				$KAToutARR[]['content'] = '<a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'">'. $catname .'</a>';
+			}
+		}
+	}
+
 }
 
 $KATout = '
