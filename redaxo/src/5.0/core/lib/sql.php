@@ -1100,7 +1100,7 @@ class rex_sql extends rex_factory implements Iterator
   static public function showColumns($table, $DBID=1)
   {
     $sql = self::factory($DBID);
-    $sql->setQuery('SHOW COLUMNS FROM a `'. $table .'`');
+    $sql->setQuery('SHOW COLUMNS FROM `'. $table .'`');
 
     $columns = array();
     foreach($sql as $col)
