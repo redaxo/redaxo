@@ -83,7 +83,10 @@ $REX['EXTRAPERM'] = array();
 $REX['EXTRAPERM'][] = 'editContentOnly[]';
 
 // ----- SET CLANG
-rex_clang::setId(rex_request('clang','rex-clang-id', rex::getProperty('start_clang_id')));
+if(!rex::isSetup())
+{
+  rex_clang::setId(rex_request('clang','rex-clang-id', rex::getProperty('start_clang_id')));
+}
 
 if(rex_request('article_id', 'int') == 0)
   $REX['ARTICLE_ID'] = rex::getProperty('start_article_id');
