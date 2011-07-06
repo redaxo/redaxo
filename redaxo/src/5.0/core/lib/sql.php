@@ -863,25 +863,23 @@ class rex_sql extends rex_factory implements Iterator
    * Setzt eine Spalte auf den naechst moeglich auto_increment Wert
    * @param $field Name der Spalte
    */
-  public function setNewId($field)
+  public function setNewId($field, $start_id = 0)
   {
     // setNewId muss neues sql Objekt verwenden, da sonst bestehende informationen im Objekt ueberschrieben werden
     $sql = rex_sql::factory();
     // TODO use prepared statement
-    if($sql->setQuery('SELECT `' . $field . '` FROM `' . $this->table . '` ORDER BY `' . $field . '` DESC LIMIT 1'))
+    $sql->setQuery('SELECT `' . $field . '` FROM `' . $this->table . '` ORDER BY `' . $field . '` DESC LIMIT 1');
+    if ($sql->getRows() == 0) 
     {
-      if ($sql->getRows() == 0)
-        $id = 0;
-      else
-        $id = $sql->getValue($field);
-
-      $id++;
-      $this->setValue($field, $id);
-
-      return $id;
+      $id = $start_id;
+    }else 
+    {
+      $id = $sql->getValue($field);
     }
+    $id++;
+    $this->setValue($field, $id);
 
-    return false;
+    return $id;
   }
 
   /**

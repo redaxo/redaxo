@@ -55,6 +55,7 @@ class rex_article_service
     $message = rex_i18n::msg('article_added');
 
     $AART = rex_sql::factory();
+    unset($id);
     foreach(rex_clang::getAllIds() as $key)
     {
       // ------- Kategorienamen holen
