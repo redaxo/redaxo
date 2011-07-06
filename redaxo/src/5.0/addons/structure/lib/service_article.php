@@ -88,14 +88,12 @@ class rex_article_service
       $AART->addGlobalCreateFields();
       $AART->addGlobalUpdateFields();
 
-      if($AART->insert())
-      {
+      try {
+        $AART->insert();
         // ----- PRIOR
         self::newArtPrio($data['category_id'], $key, 0, $data['prior']);
-      }
-      else
-      {
-        throw new rex_api_exception($AART->getError());
+      } catch (rex_sql_exception $e) {
+        throw new rex_api_exception($e);
       }
 
       // ----- EXTENSION POINT
@@ -134,6 +132,8 @@ class rex_article_service
     {
       throw  new rex_api_exception('Expecting $data to be an array!');
     }
+    
+    self::reqKey($data, 'name');
 
     // Artikel mit alten Daten selektieren
     $thisArt = rex_sql::factory();
@@ -167,6 +167,15 @@ class rex_article_service
       }
     }
 
+    // complete remaining optional aprams
+    foreach(array('path', 'prior') as $optionalData)
+    {
+      if(!isset($data[$optionalData]))
+      {
+        $data[$optionalData] = $thisArt->getValue($optionalData);
+      }
+    }
+
     $EA = rex_sql::factory();
     $EA->setTable(rex::getTablePrefix()."article");
     $EA->setWhere("id='$article_id' and clang=$clang");
@@ -175,8 +184,8 @@ class rex_article_service
     $EA->setValue('prior', $data['prior']);
     $EA->addGlobalUpdateFields();
 
-    if($EA->update())
-    {
+    try {
+      $EA->update();
       $message = rex_i18n::msg('article_updated');
 
       // ----- PRIOR
@@ -185,24 +194,22 @@ class rex_article_service
 
       // ----- EXTENSION POINT
       $message = rex_extension::registerPoint('ART_UPDATED', $message,
-      array (
-        'id' => $article_id,
-				'article' => clone($EA),
-				'article_old' => clone($thisArt),
-        'status' => $thisArt->getValue('status'),
-        'name' => $data['name'],
-        'clang' => $clang,
-        're_id' => $data['category_id'],
-        'prior' => $data['prior'],
-        'path' => $data['path'],
-        'template_id' => $data['template_id'],
-        'data' => $data,
-      )
+        array (
+          'id' => $article_id,
+  				'article' => clone($EA),
+  				'article_old' => clone($thisArt),
+          'status' => $thisArt->getValue('status'),
+          'name' => $data['name'],
+          'clang' => $clang,
+          're_id' => $data['category_id'],
+          'prior' => $data['prior'],
+          'path' => $data['path'],
+          'template_id' => $data['template_id'],
+          'data' => $data,
+        )
       );
-    }
-    else
-    {
-      throw new rex_api_exception($EA->getError());
+    } catch (rex_sql_exception $e) {
+      throw new rex_api_exception($e);
     }
 
     return $message;
@@ -367,8 +374,9 @@ class rex_article_service
       $EA->setValue('status', $newstatus);
       $EA->addGlobalUpdateFields(rex::isBackend() ? null : 'frontend');
 
-      if($EA->update())
-      {
+      try {
+        $EA->update();
+      
         $message = rex_i18n::msg('article_status_updated');
         rex_article_cache::delete($article_id, $clang);
 
@@ -378,10 +386,8 @@ class rex_article_service
         'clang' => $clang,
         'status' => $newstatus
         ));
-      }
-      else
-      {
-        throw new rex_api_exception($EA->getError());
+      } catch (rex_sql_exception $e) {
+        throw new rex_api_exception($e);
       }
     }
     else

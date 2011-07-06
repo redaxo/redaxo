@@ -44,9 +44,9 @@ elseif($addonname != '')
 if ($subpage == 'help' && $addonname != '')
 {
   $helpfile    = $package->getBasePath('help.inc.php');
-  $version     = $package->getVersion($addonname);
-  $author      = $package->getAuthor($addonname);
-  $supportPage = $package->getSupportPage($addonname);
+  $version     = $package->getVersion();
+  $author      = $package->getAuthor();
+  $supportPage = $package->getSupportPage();
   if($pluginname != '')
   {
     $addonname   = $addonname .' / '. $pluginname;

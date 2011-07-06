@@ -39,6 +39,7 @@ media_manager_type_description = Beschreibung
 media_manager_type_functions = Funktionen
 media_manager_type_cache_delete = Cache löschen
 media_manager_type_system = System Bildtyp
+media_manager_type_delete = löschen
 
 media_manager_effect_list_header = Effekte des Bildtyps "{0}"
 media_manager_effect_edit_header = Bildtyp "{0}": Effekt bearbeiten 
@@ -93,3 +94,9 @@ media_manager_effect_mirror_background_b = Hintergrund B (0-255)
 media_manager_effect_workspace_pos = Position
 
 media_manager_effect_folder = Alternativen Ordner default: "media"
+
+media_manager_effect_mediapath = Medienordner
+
+media_manager_effect_header_download = Download
+media_manager_effect_header_cache = Cache-Control
+

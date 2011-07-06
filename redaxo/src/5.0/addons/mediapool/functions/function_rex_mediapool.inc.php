@@ -431,7 +431,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
   $s .=        $add_file .'
               <div class="rex-form-row">
                 <p class="rex-form-submit">
-                 <input class="rex-form-submit" type="submit" name="save" value="'.$button_title.'"'. rex::getAccesskey($button_title, 'save') .' />
+                 <input class="rex-form-submit" type="submit" id="media-form-button" name="save" value="'.$button_title.'"'. rex::getAccesskey($button_title, 'save') .' />
                  '. $add_submit .'
                 </p>
               </div>

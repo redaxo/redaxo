@@ -1,6 +1,6 @@
 <?php
 
-rex_extension::register('OUTPUT_FILTER', array('rex_extension_debug', 'printStats'));
+rex_extension::register('OUTPUT_FILTER', array('rex_extension_debug', 'doLog'));
 
 /**
  * Class to monitor extension points
@@ -22,13 +22,14 @@ class rex_extension_debug extends rex_extension
     return $res;
   }
 
-  static public function printStats($params)
+  static public function doLog($params)
   {
-    $debugout = '';
+    $firephp = FirePHP::getInstance(true);
+    $firephp->group(__CLASS__);
     foreach(self::$calls as $call)
     {
-      $debugout .= 'EP: '. $call[0]. ' ' .$call[1] . 'ms<br/>';
+      $firephp->log('EP: '. $call[0]. ' ' .$call[1] . 'ms');
     }
-    return rex_debug_util::injectHtml($debugout, $params['subject']);
+    $firephp->groupEnd();
   }
 }

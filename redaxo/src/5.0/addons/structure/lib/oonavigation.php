@@ -158,11 +158,11 @@ class rex_ooNavigation extends rex_factory
     $article_id = $REX["ARTICLE_ID"];
     if($OOArt = rex_ooArticle::getArticleById($article_id))
     {
-      $path = trim($OOArt->getValue("path"), '|');
+      $path = trim($OOArt->getPath(), '|');
 
       $this->path = array();
-      if($path != "")
-        $this->path = explode("|",$path);
+      if($path != '')
+        $this->path = explode('|',$path);
 
       $this->current_article_id = $article_id;
       $this->current_category_id = $OOArt->getCategoryId();
@@ -181,7 +181,7 @@ class rex_ooNavigation extends rex_factory
     else
       $nav_obj = rex_ooCategory::getChildrenById($category_id, $ignore_offlines);
 
-    $return = "";
+    $return = '';
 
     if(count($nav_obj)>0)
       $return .= '<ul class="rex-navi'. ($depth+1) .'">';

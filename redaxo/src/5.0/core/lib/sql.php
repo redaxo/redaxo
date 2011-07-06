@@ -8,7 +8,6 @@
 class rex_sql extends rex_factory implements Iterator
 {
   public
-    $debugsql, // debug schalter
     $counter; // pointer
 
   protected
@@ -30,7 +29,6 @@ class rex_sql extends rex_factory implements Iterator
 
   protected function __construct($DBID = 1)
   {
-    $this->debugsql = false;
     $this->flush();
     $this->selectDB($DBID);
   }
@@ -167,20 +165,6 @@ class rex_sql extends rex_factory implements Iterator
   }
 
   /**
-   * Setzt Debugmodus an/aus
-   *
-   * @param $debug Debug TRUE/FALSE
-   *
-   * @return rex_sql the current rex_sql object
-   */
-  public function setDebug($debug = TRUE)
-  {
-	  $this->debugsql = $debug;
-
-	  return $this;
-  }
-
-  /**
    * Prepares a PDOStatement
    *
    * @param string $qry A query string with placeholders
@@ -198,7 +182,7 @@ class rex_sql extends rex_factory implements Iterator
    *
    * @return boolean True on success, False on error
    */
-  public function execute(array $params)
+  public function execute($params = array())
   {
     return $this->stmt->execute($params);
   }
@@ -209,27 +193,36 @@ class rex_sql extends rex_factory implements Iterator
    * If parameters will be provided, a prepared statement will be executed.
    *
    * @param $query The sql-query
-   * @return boolean true on success, otherwise false
+   * @throws rex_sql_exception on errors
    */
   public function setQuery($qry, $params = array())
   {
-    if(!is_array($params))
-    {
-      throw new rex_exception('expecting $params to be an array, "'. gettype($params) .'" given!');
-    }
-
     // Alle Werte zuruecksetzen
     $this->flush();
     $this->query = $qry;
 
-    $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
-    if($this->stmt)
+    if(!empty($params))
     {
-      $this->execute($params);
+      if(!is_array($params))
+      {
+        throw new rex_sql_exception('expecting $params to be an array, "'. gettype($params) .'" given!');
+      }
+      $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
+      if($this->stmt)
+      {
+        if(!$this->execute($params))
+        {
+          throw new rex_sql_exception('Error occured while executing statement "'. $qry .'" using params '. json_encode($params) .'!');
+        }
+      }
+      else
+      {
+        throw new rex_sql_exception('Error occured while preparing statement "'. $qry .'"!');
+      }
     }
     else
     {
-      throw new rex_exception('Error occured while preparing statement "'. $qry .'"!');
+      $this->stmt = self::$pdo[$this->DBID]->query(trim($qry));
     }
 
     if($this->stmt !== false)
@@ -241,17 +234,10 @@ class rex_sql extends rex_factory implements Iterator
       $this->rows = 0;
     }
 
-    $hasError = $this->hasError();
-    if ($this->debugsql)
+    if ($this->getErrno() != 0)
     {
-      $this->printError($qry, $params);
+      throw new rex_sql_exception($this->getError());
     }
-    else if ($hasError)
-    {
-      throw new rex_exception($this->getError());
-    }
-
-    return !$hasError;
   }
 
   /**
@@ -344,12 +330,12 @@ class rex_sql extends rex_factory implements Iterator
   {
     if(is_array($where))
     {
-      $this->wherevar = "WHERE";
+      $this->wherevar = 'WHERE '. $this->buildWhereArg($where);
       $this->whereParams = $where;
     }
     else if(is_string($where) && is_array($whereParams))
     {
-      $this->wherevar = "WHERE $where";
+      $this->wherevar = 'WHERE '. $where;
       $this->whereParams = $whereParams;
     }
     else if(is_string($where))
@@ -358,16 +344,57 @@ class rex_sql extends rex_factory implements Iterator
       $loc = $trace[0];
       trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
 
-      $this->wherevar = "WHERE $where";
+      $this->wherevar = 'WHERE '. $where;
       $this->whereParams = array();
     }
     else
     {
-      throw new rex_exception('expecting $where to be an array, "'. gettype($where) .'" given!');
+      throw new rex_sql_exception('expecting $where to be an array, "'. gettype($where) .'" given!');
     }
 
     return $this;
   }
+  
+  /**
+   * Concats the given array to a sql condition using bound parameters.
+   * AND/OR opartors are alternated depending on $level
+   *
+   * @param array $arrFields
+   * @param int $level
+   */
+  private function buildWhereArg(array $arrFields, $level = 0)
+  {
+    $op = '';
+    if($level % 2 == 1)
+    {
+      $op = ' OR ';
+    }
+    else
+    {
+      $op = ' AND ';
+    }
+
+    $qry = '';
+    foreach($arrFields as $fld_name => $value)
+    {
+      $arg = '';
+      if(is_array($value))
+      {
+        $arg = '('. $this->buildWhereArg($value, $level+1) .')';
+      }
+      else
+      {
+        $arg = '`' .$fld_name . '` = :'. $fld_name;
+      }
+
+      if ($qry != '')
+      {
+        $qry .= $op;
+      }
+      $qry .= $arg;
+    }
+    return $qry;
+  }  
 
   /**
    * Gibt den Wert einer Spalte im ResultSet zurueck
@@ -378,7 +405,7 @@ class rex_sql extends rex_factory implements Iterator
   {
     if(empty($feldname))
     {
-      throw new rex_exception('parameter fieldname must not be empty!');
+      throw new rex_sql_exception('parameter fieldname must not be empty!');
     }
 
     // fast fail,... value already set manually?
@@ -535,61 +562,15 @@ class rex_sql extends rex_factory implements Iterator
     return $qry;
   }
 
-  protected function buildPreparedWhere()
+  public function getWhere()
   {
     // we have an custom where criteria, so we don't need to build one automatically
     if($this->wherevar != '')
     {
-      return '';
+      return $this->wherevar;
     }
-
-    $qry = '';
-    if(is_array($this->whereParams))
-    {
-      $qry = $this->buildWhereArg($this->whereParams);
-    }
-    return $qry;
-  }
-
-  /**
-   * Concats the given array to a sql condition.
-   * AND/OR opartors are alternated depending on $level
-   *
-   * @param array $arrFields
-   * @param int $level
-   */
-  private function buildWhereArg(array $arrFields, $level = 0)
-  {
-    $op = '';
-    if($level % 2 == 1)
-    {
-      $op = ' OR ';
-    }
-    else
-    {
-      $op = ' AND ';
-    }
-
-    $qry = '';
-    foreach($arrFields as $fld_name => $value)
-    {
-      $arg = '';
-      if(is_array($value))
-      {
-        $arg = '('. $this->buildWhereArg($value, $level+1) .')';
-      }
-      else
-      {
-        $arg = '`' .$fld_name . '` = :'. $fld_name;
-      }
-
-      if ($qry != '')
-      {
-        $qry .= $op;
-      }
-      $qry .= $arg;
-    }
-    return $qry;
+    
+    return '';
   }
 
   /**
@@ -602,7 +583,7 @@ class rex_sql extends rex_factory implements Iterator
   public function select($fields)
   {
     return $this->setQuery(
-    	'SELECT '. $fields .' FROM `' . $this->table . '` '. $this->wherevar .' '. $this->buildPreparedWhere(),
+    	'SELECT '. $fields .' FROM `' . $this->table . '` '. $this->getWhere(),
       $this->whereParams
     );
   }
@@ -615,12 +596,11 @@ class rex_sql extends rex_factory implements Iterator
    * @see #setValue()
    * @see #setWhere()
    */
-  public function update($successMessage = null)
+  public function update()
   {
-    return $this->preparedStatusQuery(
-    	'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->wherevar .' '. $this->buildPreparedWhere(),
-      array_merge($this->values, $this->whereParams),
-      $successMessage
+    return $this->setQuery(
+    	'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->getWhere(),
+      array_merge($this->values, $this->whereParams)
     );
   }
 
@@ -631,16 +611,15 @@ class rex_sql extends rex_factory implements Iterator
    * @see #setTable()
    * @see #setValue()
    */
-  public function insert($successMessage = null)
+  public function insert()
   {
     // hold a copies of the query fields for later debug out (the class property will be reverted in setQuery())
     $tableName = $this->table;
     $values = $this->values;
 
-    $res = $this->preparedStatusQuery(
+    $res = $this->setQuery(
     	'INSERT INTO `' . $this->table . '` SET ' . $this->buildPreparedValues(),
-      $this->values,
-      $successMessage
+      $this->values
     );
 
     // provide debug infos, if insert is considered successfull, but no rows were inserted.
@@ -661,12 +640,11 @@ class rex_sql extends rex_factory implements Iterator
    * @see #setValue()
    * @see #setWhere()
    */
-  public function replace($successMessage = null)
+  public function replace()
   {
-    return $this->preparedStatusQuery(
-    	'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->wherevar .' '. $this->buildPreparedWhere(),
-      array_merge($this->values, $this->whereParams),
-      $successMessage
+    return $this->setQuery(
+    	'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->getWhere(),
+      array_merge($this->values, $this->whereParams)
     );
   }
 
@@ -677,69 +655,68 @@ class rex_sql extends rex_factory implements Iterator
    * @see #setTable()
    * @see #setWhere()
    */
-  public function delete($successMessage = null)
+  public function delete()
   {
-    return $this->preparedStatusQuery(
-    	'DELETE FROM `' . $this->table . '` ' . $this->wherevar .' '. $this->buildPreparedWhere(),
-      $this->whereParams,
-      $successMessage
+    return $this->setQuery(
+    	'DELETE FROM `' . $this->table . '` '. $this->getWhere(),
+      $this->whereParams
     );
   }
 
-  /**
-   * Setzt den Query $query ab.
-   *
-   * Wenn die Variable $successMessage gefuellt ist, dann wird diese bei
-   * erfolgreichem absetzen von $query zurueckgegeben, sonst die MySQL
-   * Fehlermeldung
-   *
-   * Wenn die Variable $successMessage nicht gefuellt ist, verhaelt sich diese
-   * Methode genauso wie setQuery()
-   *
-   * Beispiel:
-   *
-   * <code>
-   * $sql = rex_sql::factory();
-   * $message = $sql->statusQuery(
-   *    'INSERT  INTO abc SET a="ab"',
-   *    'Datensatz  erfolgreich eingefuegt');
-   * </code>
-   *
-   *  anstatt von
-   *
-   * <code>
-   * $sql = rex_sql::factory();
-   * if($sql->setQuery('INSERT INTO abc SET a="ab"'))
-   *   $message  = 'Datensatz erfolgreich eingefuegt');
-   * else
-   *   $message  = $sql- >getError();
-   * </code>
-   */
-  public function statusQuery($query, $successMessage = null)
-  {
-    $res = $this->setQuery($query);
-    if($successMessage)
-    {
-      if($res)
-        return $successMessage;
-      else
-        return $this->getError();
-    }
-    return $res;
-  }
+//   /**
+//    * Setzt den Query $query ab.
+//    *
+//    * Wenn die Variable $successMessage gefuellt ist, dann wird diese bei
+//    * erfolgreichem absetzen von $query zurueckgegeben, sonst die MySQL
+//    * Fehlermeldung
+//    *
+//    * Wenn die Variable $successMessage nicht gefuellt ist, verhaelt sich diese
+//    * Methode genauso wie setQuery()
+//    *
+//    * Beispiel:
+//    *
+//    * <code>
+//    * $sql = rex_sql::factory();
+//    * $message = $sql->statusQuery(
+//    *    'INSERT  INTO abc SET a="ab"',
+//    *    'Datensatz  erfolgreich eingefuegt');
+//    * </code>
+//    *
+//    *  anstatt von
+//    *
+//    * <code>
+//    * $sql = rex_sql::factory();
+//    * if($sql->setQuery('INSERT INTO abc SET a="ab"'))
+//    *   $message  = 'Datensatz erfolgreich eingefuegt');
+//    * else
+//    *   $message  = $sql- >getError();
+//    * </code>
+//    */
+//   public function statusQuery($query, $successMessage = null)
+//   {
+//     $res = $this->setQuery($query);
+//     if($successMessage)
+//     {
+//       if($res)
+//         return $successMessage;
+//       else
+//         return $this->getError();
+//     }
+//     return $res;
+//   }
 
-  public function preparedStatusQuery($query, $params, $successMessage = null)
-  {
-    $res = $this->setQuery($query, $params);
-    if($successMessage)
-    {
-      if($res)
-        return $successMessage;
-      else
-        return $this->getError();
-    }
-    return $res;
-  }
+//   public function preparedStatusQuery($query, $params, $successMessage = null)
+//   {
+//     $res = $this->setQuery($query, $params);
+//     if($successMessage)
+//     {
+//       if($res)
+//         return $successMessage;
+//       else
+//         return $this->getError();
+//     }
+//     return $res;
+//   }
 
   /**
    * Stellt alle Werte auf den Ursprungszustand zurueck
@@ -848,7 +825,7 @@ class rex_sql extends rex_factory implements Iterator
   {
     if (empty($sql))
     {
-      throw new rex_exception('sql query must not be empty!');
+      throw new rex_sql_exception('sql query must not be empty!');
     }
 
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
@@ -880,36 +857,6 @@ class rex_sql extends rex_factory implements Iterator
     // idx1 	Driver-specific error code.
     // idx2 	Driver-specific error message.
     return $errorInfos[2];
-  }
-
-  /**
-   * Prueft, ob ein Fehler aufgetreten ist
-   */
-  public function hasError()
-  {
-    return $this->getErrno() != 0;
-  }
-
-  /**
-   * Gibt die letzte Fehlermeldung aus
-   */
-  protected function printError($qry, $params)
-  {
-    echo '<hr />' . "\n";
-    echo 'Query: ' . nl2br(htmlspecialchars($qry)) . "<br />\n";
-
-    if(!empty($params))
-      echo 'Params: ' . htmlspecialchars(print_r($params, true)) . "<br />\n";
-
-    if (strlen($this->getRows()) > 0)
-    {
-      echo 'Affected Rows: ' . $this->getRows() . "<br />\n";
-    }
-    if (strlen($this->getError()) > 0)
-    {
-      echo 'Error Message: ' . htmlspecialchars($this->getError()) . "<br />\n";
-      echo 'Error Code: ' . $this->getErrno() . "<br />\n";
-    }
   }
 
   /**
@@ -1155,7 +1102,7 @@ class rex_sql extends rex_factory implements Iterator
   static public function showColumns($table, $DBID=1)
   {
     $sql = self::factory($DBID);
-    $sql->setQuery('SHOW COLUMNS FROM `'. $table .'`');
+    $sql->setQuery('SHOW COLUMNS FROM a `'. $table .'`');
 
     $columns = array();
     foreach($sql as $col)

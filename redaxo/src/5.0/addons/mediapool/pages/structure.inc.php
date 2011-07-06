@@ -13,61 +13,55 @@ $media_method = rex_request('media_method', 'string');
 if ($PERMALL)
 {
   $edit_id = rex_request('edit_id', 'int');
-  if ($media_method == 'edit_file_cat')
-  {
-    $cat_name = rex_request('cat_name', 'string');
-    $db = rex_sql::factory();
-    $db->setTable(rex::getTablePrefix().'media_category');
-    $db->setWhere('id='.$edit_id);
-    $db->setValue('name',$cat_name);
-    $db->addGlobalUpdateFields();
-
-    if($db->update())
+  
+  try {
+    if ($media_method == 'edit_file_cat')
     {
+      $cat_name = rex_request('cat_name', 'string');
+      $db = rex_sql::factory();
+      $db->setTable(rex::getTablePrefix().'media_category');
+      $db->setWhere('id='.$edit_id);
+      $db->setValue('name',$cat_name);
+      $db->addGlobalUpdateFields();
+  
+      $db->update();
       $info = rex_i18n::msg('pool_kat_updated',$cat_name);
       rex_media_cache::deleteCategory($edit_id);
-    }
-    else
+  
+    } elseif ($media_method == 'delete_file_cat')
     {
-      $warning = $db->getError();
-    }
-
-  } elseif ($media_method == 'delete_file_cat')
-  {
-    $gf = rex_sql::factory();
-    $gf->setQuery('SELECT * FROM '.rex::getTablePrefix().'media WHERE category_id='.$edit_id);
-    $gd = rex_sql::factory();
-    $gd->setQuery('SELECT * FROM '.rex::getTablePrefix().'media_category WHERE re_id='.$edit_id);
-    if ($gf->getRows()==0 && $gd->getRows()==0)
+      $gf = rex_sql::factory();
+      $gf->setQuery('SELECT * FROM '.rex::getTablePrefix().'media WHERE category_id='.$edit_id);
+      $gd = rex_sql::factory();
+      $gd->setQuery('SELECT * FROM '.rex::getTablePrefix().'media_category WHERE re_id='.$edit_id);
+      if ($gf->getRows()==0 && $gd->getRows()==0)
+      {
+        $gf->setQuery('DELETE FROM '.rex::getTablePrefix().'media_category WHERE id='. $edit_id);
+        rex_media_cache::deleteCategory($edit_id);
+        rex_media_cache::deleteLists();
+        $info = rex_i18n::msg('pool_kat_deleted');
+      }else
+      {
+        $warning = rex_i18n::msg('pool_kat_not_deleted');
+      }
+    } elseif ($media_method == 'add_file_cat')
     {
-      $gf->setQuery('DELETE FROM '.rex::getTablePrefix().'media_category WHERE id='. $edit_id);
-      rex_media_cache::deleteCategory($edit_id);
-      rex_media_cache::deleteLists();
-      $info = rex_i18n::msg('pool_kat_deleted');
-    }else
-    {
-      $warning = rex_i18n::msg('pool_kat_not_deleted');
-    }
-  } elseif ($media_method == 'add_file_cat')
-  {
-    $db = rex_sql::factory();
-    $db->setTable(rex::getTablePrefix().'media_category');
-    $db->setValue('name',rex_request('catname', 'string'));
-    $db->setValue('re_id', rex_request('cat_id', 'int'));
-    $db->setValue('path', rex_request('catpath', 'string'));
-    $db->addGlobalCreateFields();
-    $db->addGlobalUpdateFields();
-
-    if($db->insert())
-    {
+      $db = rex_sql::factory();
+      $db->setTable(rex::getTablePrefix().'media_category');
+      $db->setValue('name',rex_request('catname', 'string'));
+      $db->setValue('re_id', rex_request('cat_id', 'int'));
+      $db->setValue('path', rex_request('catpath', 'string'));
+      $db->addGlobalCreateFields();
+      $db->addGlobalUpdateFields();
+  
+      $db->insert();
       $info = rex_i18n::msg('pool_kat_saved', rex_request('catname'));
       rex_media_cache::deleteCategoryList(rex_request('cat_id', 'int'));
     }
-    else
-    {
-      $warning = $db->getError();
-    }
+  } catch (rex_sql_exception $e) {
+    $warning = $e->getMessage();
   }
+  
 
   $link = 'index.php?page=mediapool'.$arg_url.'&amp;subpage=structure&amp;cat_id=';
 
@@ -81,7 +75,6 @@ if ($PERMALL)
   }else
   {
     $OOCats = $OOCat->getChildren();
-    // TODO getParentTree() verwenden
     $paths = explode("|",$OOCat->getPath());
 
     for ($i=1;$i<count($paths);$i++)

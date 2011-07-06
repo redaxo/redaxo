@@ -2,7 +2,14 @@
 
 class rex_mediaMetainfoHandler extends rex_metainfoHandler
 {
-  function rex_a62_media_is_in_use($params)
+  const PREFIX = 'med_';
+  
+  /**
+   * Extension to check whether the given media is still in use.
+   * 
+   * @param array $params EP Params
+   */
+  static public function isMediaInUse(array $params)
   {
     $warning = $params['subject'];
 
@@ -21,7 +28,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     for($i = 0; $i < $rows; $i++)
     {
       $name = $sql->getValue('name');
-      if (a62_meta_prefix($name) == 'med_')
+      if (a62_meta_prefix($name) == self::PREFIX)
         $key = 'media';
       else
         $key = 'articles';
@@ -96,13 +103,44 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
 
     return $warning;
   }
+  
+  protected function buildFilterCondition(array $params)
+  {
+    $restrictionsCondition = '';
+    
+    $catId = rex_session('media[rex_file_category]', 'int');
+    if(isset($params['activeItem']))
+    {
+      $catId = $params['activeItem']->getValue('category_id');
+    }
 
-/**
-   * Medien:
-   *
-   * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt und speichert diese
-   */
-  function _rex_a62_metainfo_med_handleSave($params, $sqlFields)
+    if($catId !== '')
+    {
+      $s = '';
+      if($catId != 0)
+      {
+        $OOCat = rex_ooMediaCategory::getCategoryById($catId);
+
+        // Alle Metafelder des Pfades sind erlaubt
+        foreach($OOCat->getPathAsArray() as $pathElement)
+        {
+          if($pathElement != '')
+          {
+            $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
+          }
+        }
+      }
+
+      // Auch die Kategorie selbst kann Metafelder haben
+      $s .= ' OR `p`.`restrictions` LIKE "%|'. $catId .'|%"';
+
+      $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
+    }
+    
+    return $restrictionsCondition;
+  }
+
+  protected function handleSave(array $params, rex_sql $sqlFields)
   {
     if(rex_request_method() != 'post' || !isset($params['media_id'])) return $params;
 
@@ -111,7 +149,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     $media->setTable(rex::getTablePrefix(). 'media');
     $media->setWhere('media_id=:mediaid', array('mediaid' => $params['media_id']));
 
-    parent::_rex_a62_metainfo_handleSave($params, $media, $sqlFields);
+    parent::fetchRequestValues($params, $media, $sqlFields);
 
     // do the save only when metafields are defined
     if($media->hasValues())
@@ -120,10 +158,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     return $params;
   }
 
-	/**
-   * Callback, dass ein Formular item formatiert
-   */
-  function rex_a62_metainfo_form_item($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
+  protected function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
   {
     $s = '';
 
@@ -147,10 +182,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     return $s;
   }
 
-  /**
-   * Erweitert das Meta-Formular um die neuen Meta-Felder
-   */
-  function rex_a62_metainfo_form($params)
+  public function extendForm(array $params)
   {
     // Nur beim EDIT gibts auch ein Medium zum bearbeiten
     if($params['extension_point'] == 'MEDIA_FORM_EDIT')
@@ -176,16 +208,16 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
       }
     }
 
-    return parent::_rex_a62_metainfo_form('med_', $params, array($this, '_rex_a62_metainfo_med_handleSave'));
+    return parent::renderFormAndSave(self::PREFIX, $params);
   }
 }
 
 $mediaHandler = new rex_mediaMetainfoHandler();
 
-rex_extension::register('MEDIA_FORM_EDIT', array($mediaHandler, 'rex_a62_metainfo_form'));
-rex_extension::register('MEDIA_FORM_ADD', array($mediaHandler, 'rex_a62_metainfo_form'));
+rex_extension::register('MEDIA_FORM_EDIT', array($mediaHandler, 'extendForm'));
+rex_extension::register('MEDIA_FORM_ADD', array($mediaHandler, 'extendForm'));
 
-rex_extension::register('MEDIA_ADDED', array($mediaHandler, 'rex_a62_metainfo_form'));
-rex_extension::register('MEDIA_UPDATED', array($mediaHandler, 'rex_a62_metainfo_form'));
+rex_extension::register('MEDIA_ADDED', array($mediaHandler, 'extendForm'));
+rex_extension::register('MEDIA_UPDATED', array($mediaHandler, 'extendForm'));
 
-rex_extension::register('OOMEDIA_IS_IN_USE', array($mediaHandler, 'rex_a62_media_is_in_use'));
+rex_extension::register('OOMEDIA_IS_IN_USE', array('rex_mediaMetainfoHandler', 'isMediaInUse'));

@@ -58,7 +58,7 @@ if (rex_post('upd_profile_button', 'string'))
   $updateuser = rex_sql::factory();
   $updateuser->setTable(rex::getTablePrefix().'user');
   $updateuser->setWhere('user_id='. $user_id);
-  $updateuser->setValue('name',$username);
+  $updateuser->setValue('aname',$username);
   $updateuser->setValue('description',$userdesc);
 
   // set be langauage
@@ -73,10 +73,12 @@ if (rex_post('upd_profile_button', 'string'))
 
   $updateuser->addGlobalUpdateFields();
 
-  if($updateuser->update())
+  try {
+    $updateuser->update();
     $info = rex_i18n::msg('user_data_updated');
-  else
-    $warning = $updateuser->getError();
+  } catch (rex_sql_exception $e) {
+    $warning = $e->getMessage();
+  }
 }
 
 
@@ -101,11 +103,12 @@ if (rex_post('upd_psw_button', 'string'))
     $updateuser->setValue('psw',$userpsw_new_1);
     $updateuser->addGlobalUpdateFields();
 
-    if($updateuser->update())
+    try {
+      $updateuser->update();
       $info = rex_i18n::msg('user_psw_updated');
-    else
-      $warning = $updateuser->getError();
-
+    } catch (rex_sql_exception $e) {
+      $warning = $e->getMessage();
+    }
   }else
   {
   	$warning = rex_i18n::msg('user_psw_error');

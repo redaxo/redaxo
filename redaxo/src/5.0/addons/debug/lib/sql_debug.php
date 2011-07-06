@@ -1,6 +1,6 @@
 <?php
 
-rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'printStats'));
+rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'doLog'));
 
 /**
  * Class to monitor sql queries
@@ -10,31 +10,50 @@ rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'printStats'));
 class rex_sql_debug extends rex_sql
 {
   private static
-    $count = 0,
     $queries = array();
 
-  public function execute(array $params)
+  public function setQuery($qry, $params = array())
   {
-    self::$count++;
+    try {
+      parent::setQuery($qry, $params);
+    } catch (rex_exception $e) {
+      $trace = debug_backtrace();
+      for( $i=0 ; $trace && $i<sizeof($trace) ; $i++ ) {
+          if (isset($trace[$i]['file']) && strpos($trace[$i]['file'], 'sql.php') === false) {
+              $file = $trace[$i]['file'];
+              $line = $trace[$i]['line'];
+              break;
+          }
+      }
+      $firephp = FirePHP::getInstance(true);
+      $firephp->error($e->getMessage() .' in ' . $file . ' on line '. $line);
+      throw $e; // re-throw exception after logging 
+    }
+  }
+  
+  public function execute($params = array())
+  {
     $qry = $this->stmt->queryString;
 
     $timer = new rex_timer();
     $res = parent::execute($params);
 
-    self::$queries[] = array($qry, $timer->getFormattedTime(rex_timer::MILLISEC));
+    self::$queries[] = array($qry . ' (affected '. $this->getRows() .' rows)', $timer->getFormattedTime(rex_timer::MILLISEC));
 
     return $res;
   }
 
-  static public function printStats($params)
+  static public function doLog($params)
   {
-    $debugout = '';
-
-    foreach(self::$queries as $qry)
+    if(!empty(self::$queries))
     {
-      $debugout .= 'Query: '. $qry[0]. ' ' .$qry[1] . 'ms<br/>';
+      $firephp = FirePHP::getInstance(true);
+      $firephp->group(__CLASS__);
+      foreach(self::$queries as $qry)
+      {
+        $firephp->log('Query: '. $qry[0]. ' ' .$qry[1] . 'ms');
+      }
+      $firephp->groupEnd();
     }
-
-    return rex_debug_util::injectHtml($debugout, $params['subject']);
   }
 }

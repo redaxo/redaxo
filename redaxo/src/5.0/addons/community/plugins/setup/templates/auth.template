@@ -1,14 +1,0 @@
-<?php// -------------------------------------------------------------- USER AUTHunset($REX['COM_USER']);$pagekey = 'comrex'; // Frontendkey, muss sich unterscheiden, damit frontend und backend sich nicht schneiden.$login_name = rex_request("login_name","string");$login_psw = rex_request("login_psw","string");$logout = rex_request("logout","int");$msg = 'Bitte einloggen';// ----- session startsession_start();if ((isset($_SESSION[$pagekey]['UID']) && $_SESSION[$pagekey]['UID'] != "") or $login_name != "" or $login_psw != ""){	$user_id = (int) $_SESSION[$pagekey]['UID'];	$GLOBALS["I18N"] = rex_create_lang("de");	$REX['COM_USER'] = new rex_login();	$REX['COM_USER']->setSqlDb(1);	$REX['COM_USER']->setSysID($pagekey);	$REX['COM_USER']->setSessiontime(3000);	$REX['COM_USER']->setLogin($login_name,$login_psw);	if ($logout == 1) { $REX['COM_USER']->setLogout(true); }	$REX['COM_USER']->setUserID("rex_com_user.id");	$REX['COM_USER']->setUserquery("select * from rex_com_user where id='USR_UID' and status>0");	$REX['COM_USER']->setLoginquery("select * from rex_com_user where login='USR_LOGIN' and password='USR_PSW' and status>0");		if ($REX['COM_USER']->checkLogin())	{		// ----- Login gelungen		if ($login_name != "")		{			// ----- Login gelungen und gerade erst eingeloggt			$msg = 'Sie haben sich eingeloggt!';			
-			/*			$COM_USER_SAVE = new rex_sql();			$COM_USER_SAVE->setTable('rex_com_user');			$COM_USER_SAVE->setValue('last_login_time',time());
-			$COM_USER_SAVE->setWhere('id='.$REX['COM_USER']->getValue('rex_com_user.id'));			$COM_USER_SAVE->update();			*/			$jump_aid = $REX['START_ARTICLE_ID'];		}	}else	{		// ----- Login failed		$msg = 'Login ist fehlgeschlagen.';		if ($logout == 1) 
-			$msg = 'Sie haben sich ausgeloggt';
-		
-		unset($REX['COM_USER']);		if ($logout == 1) 
-			$jump_aid = $REX['START_ARTICLE_ID'];	}}else{	// ----- nicht eingeloggt und kein login	$msg = 'Sie sind nicht eingeloggt.';	unset($REX['COM_USER']);}if (isset($jump_aid)){  header('Location:'.rex_getUrl($jump_aid));  exit;}
-
-
-/*
-
-	Fuer die Verwendung in Navigationen und Templates
-   	 0  Standard   	Zugriff fuer alle   	-1 	Zugriff fuer nicht eingeloggte User    	 1 	Zugriff fuer eingeloggte User    	 2 	Zugriff fuer eingeloggte Admins*/function rex_com_checkUserPerm($type){	global $REX;	if ($type == "") return true; // Zugriff fuer alle 	if ($type == "0") return true; // Zugriff fuer alle   	if (isset($REX['COM_USER']) && is_object($REX['COM_USER']))	{		if ($type == "1") return true; // Zugriff fuer eingeloggte User		if ($type == "2" && $REX['COM_USER']->getValue("admin")==1) return true;	}	if(!isset($REX['COM_USER']) || !is_object($REX['COM_USER']))	{		if ($type == "-1") return true; // Zugriff fuer nicht eingeloggte User 	} 	return false;}
-?>

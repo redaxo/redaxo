@@ -21,11 +21,10 @@ class rex_sql_dump
 
     foreach (self::readSqlDump($file) as $query)
     {
-      $sql->setQuery(self::prepareQuery($query));
-
-      if (($sqlerr = $sql->getError()) != '')
-      {
-        $error .= $sqlerr."\n<br />";
+      try {
+        $sql->setQuery(self::prepareQuery($query));
+      } catch (rex_sql_exception $e) {
+        $error .= $e->getMessage()."\n<br />";
       }
     }
 

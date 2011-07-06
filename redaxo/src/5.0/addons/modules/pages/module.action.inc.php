@@ -119,26 +119,26 @@ if ($function == "add" || $function == "edit")
     $faction->setValue('presavemode', $presavemode);
     $faction->setValue('postsavemode', $postsavemode);
 
-    if ($function == 'add')
-    {
-      $faction->addGlobalCreateFields();
-
-      if($faction->insert())
+    try {
+      if ($function == 'add')
+      {
+        $faction->addGlobalCreateFields();
+        
+        $faction->insert();
         $info = rex_i18n::msg('action_added');
+      }
       else
-        $warning = $faction->getError();
-    }
-    else
-    {
-      $faction->addGlobalUpdateFields();
-      $faction->setWhere('id=' . $action_id);
-
-      if($faction->update())
+      {
+        $faction->addGlobalUpdateFields();
+        $faction->setWhere('id=' . $action_id);
+  
+        $faction->update();
         $info = rex_i18n::msg('action_updated');
-      else
-        $warning = $faction->getError();
+      }
+    } catch (rex_sql_exception $e) {
+      $warning = $e->getMessage();
     }
-
+    
     if (isset ($goon) and $goon != '')
     {
       $save = 'nein';

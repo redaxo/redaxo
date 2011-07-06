@@ -222,7 +222,6 @@ class rex_article_cache
       for ($i = 0; $i < $GC->getRows(); $i ++)
       {
         $cacheArray[$i] = $GC->getValue("id");
-        //      $content .= "\$REX['RE_ID']['$re_id']['$i'] = \"".$GC->getValue("id")."\";\n";
         $GC->next();
       }
 
@@ -241,7 +240,6 @@ class rex_article_cache
       for ($i = 0; $i < $GC->getRows(); $i ++)
       {
         $cacheArray[$i] = $GC->getValue("id");
-        //      $content .= "\$REX['RE_CAT_ID']['$re_id']['$i'] = \"".$GC->getValue("id")."\";\n";
         $GC->next();
       }
 

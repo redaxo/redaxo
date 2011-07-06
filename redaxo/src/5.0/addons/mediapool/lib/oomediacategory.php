@@ -467,7 +467,7 @@ class rex_ooMediaCategory
     rex_media_cache::deleteCategory($this->getId());
     rex_media_cache::deleteList($this->getId());
 
-    return !$sql->hasError() || $sql->getRows() != 1;
+    return $sql->getRows() == 1;
   }
 
   /**

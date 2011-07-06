@@ -115,8 +115,9 @@ class rex_category_service
       $AART->addGlobalUpdateFields();
       $AART->addGlobalCreateFields();
 
-      if($AART->insert())
-      {
+      try {
+        $AART->insert();
+        
         // ----- PRIOR
         if(isset($data['catprior']))
         {
@@ -139,13 +140,10 @@ class rex_category_service
           'status' => $data['status'],
           'article' => clone($AART),
           'data' => $data,
-        )
-        );
-
-      }
-      else
-      {
-        throw new rex_api_exception($AART->getError());
+        ));
+        
+      } catch (rex_sql_exception $e) {
+        throw new rex_api_exception($e);
       }
     }
 
@@ -185,8 +183,9 @@ class rex_category_service
     $EKAT->setValue('catprior', $data['catprior']);
     $EKAT->addGlobalUpdateFields();
 
-    if($EKAT->update())
-    {
+    try {
+      $EKAT->update();
+      
       // --- Kategorie Kindelemente updaten
       if(isset($data['catname']))
       {
@@ -201,14 +200,8 @@ class rex_category_service
           $EART->setValue('catname', $data['catname']);
           $EART->addGlobalUpdateFields();
 
-          if($EART->update())
-          {
-            rex_article_cache::delete($ArtSql->getValue('id'), $clang);
-          }
-          else
-          {
-            throw new rex_api_exception($EART->getError());
-          }
+          $EART->update();
+          rex_article_cache::delete($ArtSql->getValue('id'), $clang);
 
           $ArtSql->next();
         }
@@ -233,27 +226,25 @@ class rex_category_service
       // ----- EXTENSION POINT
       // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
       $message = rex_extension::registerPoint('CAT_UPDATED', $message,
-      array (
-        'id' => $category_id,
-
-        'category' => clone($EKAT),
-        'category_old' => clone($thisCat),
-        'article' => clone($EKAT),
-
-        're_id' => $thisCat->getValue('re_id'),
-        'clang' => $clang,
-        'name' => $thisCat->getValue('catname'),
-        'prior' => $thisCat->getValue('catprior'),
-        'path' => $thisCat->getValue('path'),
-        'status' => $thisCat->getValue('status'),
-
-        'data' => $data,
-      )
+        array (
+          'id' => $category_id,
+  
+          'category' => clone($EKAT),
+          'category_old' => clone($thisCat),
+          'article' => clone($EKAT),
+  
+          're_id' => $thisCat->getValue('re_id'),
+          'clang' => $clang,
+          'name' => $thisCat->getValue('catname'),
+          'prior' => $thisCat->getValue('catprior'),
+          'path' => $thisCat->getValue('path'),
+          'status' => $thisCat->getValue('status'),
+  
+          'data' => $data,
+        )
       );
-    }
-    else
-    {
-      throw new rex_api_exception($EKAT->getError());
+    } catch (rex_sql_exception $e) {
+      throw new rex_api_exception($e);
     }
 
     return $message;
@@ -360,21 +351,20 @@ class rex_category_service
       $EKAT->setValue("status", $newstatus);
       $EKAT->addGlobalCreateFields();
 
-      if($EKAT->update())
-      {
+      try {
+        $EKAT->update();
+      
         $message = rex_i18n::msg('category_status_updated');
         rex_article_cache::delete($category_id, $clang);
 
         // ----- EXTENSION POINT
         $message = rex_extension::registerPoint('CAT_STATUS', $message, array (
-        'id' => $category_id,
-        'clang' => $clang,
-        'status' => $newstatus
+          'id' => $category_id,
+          'clang' => $clang,
+          'status' => $newstatus
         ));
-      }
-      else
-      {
-        throw new rex_api_exception($EKAT->getError());
+      } catch (rex_sql_exception $e) {
+        throw new rex_api_exception($e);
       }
     }
     else

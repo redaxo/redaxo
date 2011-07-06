@@ -35,11 +35,8 @@ function a62_add_field_type($label, $dbtype, $dblength)
   $sql->setValue('dbtype', $dbtype);
   $sql->setValue('dblength', $dblength);
 
-  if($sql->insert())
-  {
-    return $sql->getLastId();
-  }
-  return $sql->getError();
+  $sql->insert();
+  return $sql->getLastId();
 }
 
 /**
@@ -56,9 +53,7 @@ function a62_delete_field_type($field_type_id)
   $sql->setTable(rex::getTablePrefix(). '62_type');
   $sql->setWhere(array('id' => $field_type_id));
 
-  if(!$sql->delete())
-    return $sql->getError();
-
+  $sql->delete();
   return $sql->getRows() == 1;
 }
 
@@ -110,8 +105,7 @@ function a62_add_field($title, $name, $prior, $attributes, $type, $default, $par
   $sql->addGlobalUpdateFields();
   $sql->addGlobalCreateFields();
 
-  if(!$sql->insert())
-    return $sql->getError();
+  $sql->insert();
 
   // replace LIKE wildcards
   $prefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
@@ -161,8 +155,7 @@ function a62_delete_field($fieldIdOrName)
   $sql->setTable(rex::getTablePrefix(). '62_params');
   $sql->setWhere(array('field_id' => $field_id));
 
-  if(!$sql->delete())
-    return $sql->getError();
+  $sql->delete();
 
   $tableManager = new rex_a62_tableManager($metaTable);
   return $tableManager->deleteColumn($name);
