@@ -271,11 +271,11 @@ class rex_media_manager
 	/*
 	 * For ExtensionPoints.
 	 */
-	function mediaUpdated($params){
+	static function mediaUpdated($params){
 		rex_media_manager::deleteCache($params["filename"]);
 	}
 
-	function init()
+	static function init()
 	{
 		//--- handle image request
 		$rex_media_manager_file = rex_media_manager::getMediaFile();
