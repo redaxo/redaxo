@@ -238,6 +238,9 @@ class rex_sql extends rex_factory implements Iterator
     {
       throw new rex_sql_exception($this->getError());
     }
+
+    // Compat
+    return true;
   }
 
   /**
@@ -354,7 +357,7 @@ class rex_sql extends rex_factory implements Iterator
 
     return $this;
   }
-  
+
   /**
    * Concats the given array to a sql condition using bound parameters.
    * AND/OR opartors are alternated depending on $level
@@ -394,7 +397,7 @@ class rex_sql extends rex_factory implements Iterator
       $qry .= $arg;
     }
     return $qry;
-  }  
+  }
 
   /**
    * Gibt den Wert einer Spalte im ResultSet zurueck
@@ -569,7 +572,7 @@ class rex_sql extends rex_factory implements Iterator
     {
       return $this->wherevar;
     }
-    
+
     return '';
   }
 
@@ -869,10 +872,10 @@ class rex_sql extends rex_factory implements Iterator
     $sql = rex_sql::factory();
     // TODO use prepared statement
     $sql->setQuery('SELECT `' . $field . '` FROM `' . $this->table . '` ORDER BY `' . $field . '` DESC LIMIT 1');
-    if ($sql->getRows() == 0) 
+    if ($sql->getRows() == 0)
     {
       $id = $start_id;
-    }else 
+    }else
     {
       $id = $sql->getValue($field);
     }
