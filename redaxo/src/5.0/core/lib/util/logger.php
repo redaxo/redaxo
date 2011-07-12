@@ -99,7 +99,7 @@ abstract class rex_logger extends rex_factory
       echo $errorType .': '. $msg;
     }
 
-    self::log($errorType .'['. $errno .']: '. $msg);
+    self::log($errorType .'['. $errno .']: '. $msg, $errno);
 
     if(in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR)))
     {
@@ -112,7 +112,7 @@ abstract class rex_logger extends rex_factory
    *
    * @param String $message the message to log
    */
-  static public function log($message)
+  static public function log($message, $errno = E_USER_ERROR)
   {
     if(static::hasFactoryClass())
     {
