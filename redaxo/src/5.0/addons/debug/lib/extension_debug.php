@@ -41,8 +41,8 @@ class rex_extension_debug extends rex_extension
     foreach(self::$epCalls as $call)
     {
       
-      // when a extension takes longer than 250ms, send a warning
-      if(strtr($call[1],',','.') > 0.250)
+      // when a extension takes longer than 5ms, send a warning
+      if(strtr($call[1], ',', '.') > 5)
       {
         $detail = '';
         if(!empty($call[2]))
