@@ -10,14 +10,26 @@ rex_extension::register('OUTPUT_FILTER', array('rex_extension_debug', 'doLog'));
 class rex_extension_debug extends rex_extension
 {
   private static
-    $calls = array();
+    $extensionCalls = array(),
+    $epCalls = array();
 
+  protected static function invokeExtension($function, $params)
+  {
+    $timer = new rex_timer();
+    $result = parent::invokeExtension($function, $params);
+    
+    self::$extensionCalls[] = $timer->getFormattedTime(rex_timer::MILLISEC);
+    
+    return $result;
+  }
+  
   static public function registerPoint($extensionPoint, $subject = '', array $params = array (), $read_only = false)
   {
     $timer = new rex_timer();
     $res = parent::registerPoint($extensionPoint, $subject, $params, $read_only);
 
-    self::$calls[] = array($extensionPoint, $timer->getFormattedTime(rex_timer::MILLISEC));
+    self::$epCalls[] = array($extensionPoint, $timer->getFormattedTime(rex_timer::MILLISEC), self::$extensionCalls);
+    self::$extensionCalls = array();
 
     return $res;
   }
@@ -26,12 +38,19 @@ class rex_extension_debug extends rex_extension
   {
     $firephp = FirePHP::getInstance(true);
     $firephp->group(__CLASS__);
-    foreach(self::$calls as $call)
+    foreach(self::$epCalls as $call)
     {
+      
       // when a extension takes longer than 250ms, send a warning
       if(strtr($call[1],',','.') > 0.250)
       {
-        $firephp->warn('EP: '. $call[0]. ' ' .$call[1] . 'ms');
+        $detail = '';
+        if(!empty($call[2]))
+        {
+          $detail = json_encode($call[2]);
+        }
+        
+        $firephp->warn('EP: '. $call[0]. ' ' .$call[1] . 'ms '. $detail);
       }
       else
       {
