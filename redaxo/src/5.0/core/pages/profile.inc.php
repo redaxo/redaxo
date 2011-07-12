@@ -58,7 +58,7 @@ if (rex_post('upd_profile_button', 'string'))
   $updateuser = rex_sql::factory();
   $updateuser->setTable(rex::getTablePrefix().'user');
   $updateuser->setWhere('user_id='. $user_id);
-  $updateuser->setValue('aname',$username);
+  $updateuser->setValue('name',$username);
   $updateuser->setValue('description',$userdesc);
 
   // set be langauage
