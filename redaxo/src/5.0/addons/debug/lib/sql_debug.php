@@ -51,7 +51,15 @@ class rex_sql_debug extends rex_sql
       $firephp->group(__CLASS__);
       foreach(self::$queries as $qry)
       {
-        $firephp->log('Query: '. $qry[0]. ' ' .$qry[1] . 'ms');
+        // when a extension takes longer than 5ms, send a warning
+        if(strtr($qry[1], ',', '.') > 5)
+        {
+          $firephp->warn('Query: '. $qry[0]. ' ' .$qry[1] . 'ms');
+        }
+        else
+        {
+          $firephp->log('Query: '. $qry[0]. ' ' .$qry[1] . 'ms');
+        }
       }
       $firephp->groupEnd();
     }
