@@ -9,13 +9,17 @@
 
 if(function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
 {
-	function rex_magic_quotes_gpc_strip(&$value)
-	{
-		$value = is_array($value) ? array_map('rex_magic_quotes_gpc_strip', $value) : stripslashes($value);
-		return $value;
-	}
-	$_GET = rex_magic_quotes_gpc_strip($_GET);
-	$_POST = rex_magic_quotes_gpc_strip($_POST);
-	$_COOKIE = rex_magic_quotes_gpc_strip($_COOKIE);
-	$_REQUEST = rex_magic_quotes_gpc_strip($_REQUEST);
+	$process = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
+  while(list($key, $val) = each($process)) {
+    foreach ($val as $k => $v) {
+      unset($process[$key][$k]);
+      if (is_array($v)) {
+        $process[$key][stripslashes($k)] = $v;
+        $process[] = &$process[$key][stripslashes($k)];
+      } else {
+        $process[$key][stripslashes($k)] = stripslashes($v);
+      }
+    }
+  }
+  unset($process);
 }
