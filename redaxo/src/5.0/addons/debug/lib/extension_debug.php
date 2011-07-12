@@ -28,7 +28,15 @@ class rex_extension_debug extends rex_extension
     $firephp->group(__CLASS__);
     foreach(self::$calls as $call)
     {
-      $firephp->log('EP: '. $call[0]. ' ' .$call[1] . 'ms');
+      // when a extension takes longer than 250ms, send a warning
+      if(strtr($call[1],',','.') > 0.250)
+      {
+        $firephp->warn('EP: '. $call[0]. ' ' .$call[1] . 'ms');
+      }
+      else
+      {
+        $firephp->log('EP: '. $call[0]. ' ' .$call[1] . 'ms');
+      }
     }
     $firephp->groupEnd();
   }
