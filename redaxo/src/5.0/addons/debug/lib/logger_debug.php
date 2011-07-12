@@ -12,12 +12,30 @@ class rex_logger_debug extends rex_logger
   *
   * @param String $message the message to log
   */
-  static public function log($message)
+  static public function log($message, $errno)
   {
     if(!empty($message))
     {
       $firephp = FirePHP::getInstance(true);
-      $firephp->log($message);
+      
+      switch ($errno) {
+        case E_USER_NOTICE:
+        case E_NOTICE:
+          $firephp->log($message);
+          break;
+  
+        case E_USER_WARNING:
+        case E_WARNING:
+        case E_COMPILE_WARNING:
+          $firephp->warn($message);
+          break;
+  
+        default:
+          $firephp->error($message);
+          break;
+      }
     }
+    
+    parent::log($message, $errno);
   }  
 }
