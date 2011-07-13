@@ -32,8 +32,10 @@ class rex_extension_debug extends rex_extension
     $timer = new rex_timer();
     $res = parent::registerPoint($extensionPoint, $subject, $params, $read_only);
     $epDur = $timer->getFormattedTime(rex_timer::MILLISEC);
+    
+    $memory = rex_formatter :: format(memory_get_usage(true), 'filesize', array(3));
 
-    self::$epCalls[] = array($extensionPoint, $epDur, self::$extensionCalls, $absDur);
+    self::$epCalls[] = array($extensionPoint, $epDur, self::$extensionCalls, $absDur, $memory);
     self::$extensionCalls = array();
 
     return $res;
@@ -55,11 +57,11 @@ class rex_extension_debug extends rex_extension
           $detail = '; extensions '. json_encode($call[2]);
         }
         
-        $firephp->warn('EP: '. $call[0]. ' (started ' .$call[3] . 'ms, duration ' .$call[1] . 'ms)'. $detail);
+        $firephp->warn('EP: '. $call[0]. ' (started ' .$call[3] . 'ms, duration ' .$call[1] . 'ms; '. $call[4] .')'. $detail);
       }
       else
       {
-        $firephp->log('EP: '. $call[0]. ' (started ' .$call[3] . 'ms, duration ' .$call[1] . 'ms)');
+        $firephp->log('EP: '. $call[0]. ' (started ' .$call[3] . 'ms, duration ' .$call[1] . 'ms; '. $call[4] .')');
       }
     }
     $firephp->groupEnd();
