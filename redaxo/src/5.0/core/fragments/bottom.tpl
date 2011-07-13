@@ -9,7 +9,7 @@
     <div id="rex-footer">
       <div id="rex-navi-footer">
         <ul class="rex-navi"><li class="rex-navi-first"><a href="#rex-header">&#94;</a></li><li><a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">yakamara.de</a></li><li><a href="http://www.redaxo.org" onclick="window.open(this.href); return false;">redaxo.org</a></li><li><a href="http://www.redaxo.org/de/forum/" onclick="window.open(this.href); return false;">redaxo.org/de/forum/</a></li><?php if(rex::getUser()) echo '<li><a href="index.php?page=credits">'.$this->i18n('credits').'</a></li>'; ?></ul>
-        <p id="rex-scripttime"><!--DYN--><?php echo rex_formatter :: format(memory_get_peak_usage(), 'filesize', array(3)); ?> | <?php echo rex::getProperty('timer')->getFormattedTime() ?> sec | <?php echo rex_formatter :: format(time(), 'strftime', 'date'); ?><!--/DYN--></p>
+        <p id="rex-scripttime"><!--DYN--><?php echo rex_formatter :: format(memory_get_peak_usage(true), 'filesize', array(3)); ?> | <?php echo rex::getProperty('timer')->getFormattedTime() ?> sec | <?php echo rex_formatter :: format(time(), 'strftime', 'date'); ?><!--/DYN--></p>
       </div>
     </div>
 
