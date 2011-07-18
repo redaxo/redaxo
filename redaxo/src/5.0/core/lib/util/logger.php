@@ -92,7 +92,7 @@ abstract class rex_logger extends rex_factory
 
     $errorType = '<b>'. self::getErrorType($errno) .'</b>';
 
-    $msg = "$errstr in <b>$errfile</b> on line <b>$errline</b><br />\n";
+    $msg = "$errstr in <b>$errfile</b> on line <b>$errline</b><br />";
 
     // errors which should be reported regarding error_reporting() will be echo'ed to the end-user
     if ($printError && ini_get('display_errors') && (error_reporting() & $errno) == $errno) {
@@ -126,7 +126,7 @@ abstract class rex_logger extends rex_factory
 
     if(is_resource(self::$handle))
     {
-      fwrite(self::$handle, date('r') .'<br />'. $message);
+      fwrite(self::$handle, date('r') .'<br />'. $message. "\n");
     }
   }
 
