@@ -21,8 +21,8 @@ class rex_autoload
     $cacheChanged = false,
     $dirs         = array(),
     $files        = array(),
-    $classes      = array(),
-    $overriden    = array();
+    $classes      = array()/*,
+    $overriden    = array()*/;
 
   /**
    * Register rex_autoload in spl autoloader.
@@ -126,29 +126,29 @@ class rex_autoload
   /**
    * Reloads cache.
    */
-  static public function reload()
-  {
-    self::$classes = array();
-    self::$cacheLoaded = false;
+//   static public function reload()
+//   {
+//     self::$classes = array();
+//     self::$cacheLoaded = false;
 
-    foreach (self::$dirs as $dir)
-    {
-      self::addDirectory($dir);
-    }
+//     foreach (self::$dirs as $dir)
+//     {
+//       self::addDirectory($dir);
+//     }
 
-    foreach (self::$files as $file)
-    {
-      self::addFile($file);
-    }
+//     foreach (self::$files as $file)
+//     {
+//       self::addFile($file);
+//     }
 
-    foreach (self::$overriden as $class => $path)
-    {
-      self::$classes[$class] = $path;
-    }
+//     foreach (self::$overriden as $class => $path)
+//     {
+//       self::$classes[$class] = $path;
+//     }
 
-    self::$cacheLoaded = true;
-    self::$cacheChanged = true;
-  }
+//     self::$cacheLoaded = true;
+//     self::$cacheChanged = true;
+//   }
 
   /**
    * Removes the cache.
@@ -205,13 +205,13 @@ class rex_autoload
    * @param array   $files    An array of files
    * @param Boolean $register Whether to register those files as single entities (used when reloading)
    */
-  static public function addFiles(array $files, $register = true)
-  {
-    foreach ($files as $file)
-    {
-      self::addFile($file, $register);
-    }
-  }
+//   static public function addFiles(array $files, $register = true)
+//   {
+//     foreach ($files as $file)
+//     {
+//       self::addFile($file, $register);
+//     }
+//   }
 
   /**
    * Adds a file to the autoloading system.
@@ -253,32 +253,32 @@ class rex_autoload
     }
   }
 
-  /**
-   * Sets the path for a particular class.
-   *
-   * @param string $class A PHP class name
-   * @param string $path  An absolute path
-   */
-  static public function setClassPath($class, $path)
-  {
-    $class = strtolower($class);
+//   /**
+//    * Sets the path for a particular class.
+//    *
+//    * @param string $class A PHP class name
+//    * @param string $path  An absolute path
+//    */
+//   static public function setClassPath($class, $path)
+//   {
+//     $class = strtolower($class);
 
-    self::$overriden[$class] = $path;
+//     self::$overriden[$class] = $path;
 
-    self::$classes[$class] = $path;
-  }
+//     self::$classes[$class] = $path;
+//   }
 
-  /**
-   * Returns the path where a particular class can be found.
-   *
-   * @param string $class A PHP class name
-   *
-   * @return string|null An absolute path
-   */
-  static public function getClassPath($class)
-  {
-    $class = strtolower($class);
+//   /**
+//    * Returns the path where a particular class can be found.
+//    *
+//    * @param string $class A PHP class name
+//    *
+//    * @return string|null An absolute path
+//    */
+//   static public function getClassPath($class)
+//   {
+//     $class = strtolower($class);
 
-    return isset(self::$classes[$class]) ? self::$classes[$class] : null;
-  }
+//     return isset(self::$classes[$class]) ? self::$classes[$class] : null;
+//   }
 }
