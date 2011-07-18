@@ -4,9 +4,9 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
 {
   const PREFIX = 'cat_';
   
-  static public function renderToggleButton(array $params)
+  public function renderToggleButton(array $params)
   {
-  	$restrictionsCondition = self::buildFilterCondition($params);
+  	$restrictionsCondition = $this->buildFilterCondition($params);
 
   	$fields = parent::getSqlFields(self::PREFIX, $restrictionsCondition);
   	if ($fields->getRows() >= 1)
@@ -151,4 +151,4 @@ rex_extension::register('CAT_FORM_EDIT', array($catHandler, 'extendForm'));
 rex_extension::register('CAT_ADDED', array($catHandler, 'extendForm'));
 rex_extension::register('CAT_UPDATED', array($catHandler, 'extendForm'));
 
-rex_extension::register('CAT_FORM_BUTTONS', array('rex_categoryMetainfoHandler', 'renderToggleButton'));
+rex_extension::register('CAT_FORM_BUTTONS', array($catHandler, 'renderToggleButton'));
