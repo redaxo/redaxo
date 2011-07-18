@@ -83,6 +83,7 @@ class rex_config
       // re-set the data in the container
       self::$data[$namespace][$key] = $value;
       self::$changed = true;
+      self::generateCache();
     }
 
     return $existed;
