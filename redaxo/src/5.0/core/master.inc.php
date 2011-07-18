@@ -15,10 +15,10 @@ require_once rex_path::core('lib/autoload.php');
 rex_autoload::register();
 // add core base-classpath to autoloader
 rex_autoload::addDirectory(rex_path::core('lib/'));
+// start timer at the very beginning
+rex::setProperty('timer', new rex_timer);
 // register rex_logger
 rex_logger::register();
-// start timer
-rex::setProperty('timer', new rex_timer);
 // add backend flag to rex
 rex::setProperty('redaxo', $REX['REDAXO']);
 // reset $REX
