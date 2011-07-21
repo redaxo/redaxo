@@ -171,7 +171,11 @@ abstract class rex_logger extends rex_factory
       $error = error_get_last();
       if(is_array($error))
       {
-        self::logError($error['type'], $error['message'], $error['file'], $error['line'], null, false);
+      	try {
+      		self::logError($error['type'], $error['message'], $error['file'], $error['line'], null, false);
+      	}catch (Exception $e ) {
+      		// echo $e->getMessage();
+      	}
       }
     }
 
