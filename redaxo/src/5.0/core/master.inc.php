@@ -50,6 +50,10 @@ rex::setProperty('minorversion', 0);
 $config = rex_file::getConfig(rex_path::src('config.yml'));
 foreach($config as $key => $value)
 {
+  if(in_array($key, array('fileperm', 'dirperm')))
+  {
+    $value = octdec($value);
+  }
   rex::setProperty($key, $value);
 }
 
