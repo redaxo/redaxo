@@ -20,3 +20,11 @@ if (rex::isBackend())
 }
 
 rex_var::registerVar('rex_var_value');
+
+rex_extension::register('CLANG_DELETED',
+  function($params)
+  {
+    $del = rex_sql::factory();
+    $del->setQuery("delete from ". rex::getTablePrefix() ."article_slice where clang='". $params['id'] ."'");
+  }
+);
