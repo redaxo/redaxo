@@ -26,16 +26,16 @@ if(rex::isSetup())
 	exit();
 }
 
-$REX['ARTICLE'] = new rex_article;
-$REX['ARTICLE']->setCLang(rex_clang::getId());
+$article = new rex_article;
+$article->setCLang(rex_clang::getId());
 
 if(rex::isSetup())
 {
 	header('Location: redaxo/index.php');
 	exit();
-}elseif ($REX["ARTICLE"]->setArticleId(rex::getProperty('article_id')))
+}elseif ($article->setArticleId(rex::getProperty('article_id')))
 {
-	echo $REX["ARTICLE"]->getArticleTemplate();
+	echo $article->getArticleTemplate();
 }else
 {
 	echo 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="redaxo/index.php">redaxo</a>';
@@ -49,4 +49,4 @@ ob_end_clean();
 rex_api_function::handleCall();
 
 // ----- inhalt ausgeben
-rex_response::sendArticle($REX['ARTICLE'], $CONTENT, 'frontend');
+rex_response::sendArticle($article, $CONTENT, 'frontend');
