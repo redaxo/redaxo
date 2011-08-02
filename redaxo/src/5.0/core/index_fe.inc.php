@@ -29,11 +29,7 @@ if(rex::isSetup())
 $article = new rex_article;
 $article->setCLang(rex_clang::getId());
 
-if(rex::isSetup())
-{
-	header('Location: redaxo/index.php');
-	exit();
-}elseif ($article->setArticleId(rex::getProperty('article_id')))
+if ($article->setArticleId(rex::getProperty('article_id')))
 {
 	echo $article->getArticleTemplate();
 }else
