@@ -39,7 +39,6 @@ if(rex::isSetup())
 }else
 {
 	echo 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="redaxo/index.php">redaxo</a>';
-	$REX['STATS'] = 0;
 }
 
 // ----- caching end für output filter
