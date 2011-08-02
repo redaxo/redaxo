@@ -72,7 +72,7 @@ class rex_var_category extends rex_var
           $varname_art = '$__rex_art';
           $varname_cat = '$__rex_cat';
           $tpl = '<?php
-          '. $varname_art .' = rex_ooArticle::getArticleById($REX[\'ARTICLE_ID\'], "'. $clang .'");
+          '. $varname_art .' = rex_ooArticle::getArticleById(rex::getProperty(\'article_id\'), "'. $clang .'");
           '. $varname_cat .' = '. $varname_art .'->getCategory();
           if('. $varname_cat .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname_cat .'->getValue(\''. addslashes($field) .'\')') .');
           ?>';

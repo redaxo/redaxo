@@ -83,7 +83,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
   // Parameter aus der URL für das Script verarbeiten
   public function prepare()
   {
-    global $REX, $REXPATH;
+    global $REXPATH;
 
     $article_id = -1;
     $clang = rex_clang::getId();
@@ -209,7 +209,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
 	      {
 					// Damit auch die "index.php?article_id=xxx" Aufrufe funktionieren
 					if(rex_request('article_id', 'int', 0) > 0)
-						$article_id = $REX['ARTICLE_ID'];
+						$article_id = rex::getProperty('article_id');
 					else
 						$article_id = rex::getProperty('notfound_article_id');
 				}
@@ -222,8 +222,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
 
   private function setArticleId($art_id, $clang_id = -1)
   {
-    global $REX;
-    $REX['ARTICLE_ID'] = $art_id;
+    rex::setProperty('article_id', $art_id);
     if($clang_id > -1)
     	rex_clang::setId($clang_id);
   }

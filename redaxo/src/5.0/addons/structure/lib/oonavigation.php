@@ -153,9 +153,7 @@ class rex_ooNavigation extends rex_factory
 
   private function _setActivePath()
   {
-    global $REX;
-
-    $article_id = $REX["ARTICLE_ID"];
+    $article_id = rex::getProperty('article_id');
     if($OOArt = rex_ooArticle::getArticleById($article_id))
     {
       $path = trim($OOArt->getPath(), '|');

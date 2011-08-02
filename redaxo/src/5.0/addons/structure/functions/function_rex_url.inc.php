@@ -70,14 +70,12 @@ function rex_param_string($params, $divider = '&amp;')
  */
 function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
 {
-  global $REX;
-
   $id = (int) $_id;
   $clang = (int) $_clang;
 
   // ----- get id
   if ($id == 0)
-    $id = $REX["ARTICLE_ID"];
+    $id = rex::getProperty('article_id');
 
   // ----- get clang
   // Wenn eine rexExtension vorhanden ist, immer die clang mitgeben!

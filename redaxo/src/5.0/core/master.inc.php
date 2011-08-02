@@ -88,11 +88,6 @@ if(!rex::isSetup())
   rex_clang::setId(rex_request('clang','rex-clang-id', rex::getProperty('start_clang_id')));
 }
 
-if(rex_request('article_id', 'int') == 0)
-  $REX['ARTICLE_ID'] = rex::getProperty('start_article_id');
-else
-  $REX['ARTICLE_ID'] = rex_request('article_id','rex-article-id', rex::getProperty('notfound_article_id'));
-
 if(rex::isBackend())
 {
   require rex_path::core('index_be.inc.php');

@@ -66,7 +66,8 @@ $REX_LOGIN = rex::getProperty('login');
 /**
  * @deprecated 4.2
  */
-$article_id =& $REX['ARTICLE_ID'];
+// TODO uncomment this when $REX is completely removed from core
+//$REX->setGlobalVarAlias('ARTICLE_ID', 'article_id');
 
 /**
  * @deprecated 4.2

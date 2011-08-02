@@ -33,7 +33,7 @@ if(rex::isSetup())
 {
 	header('Location: redaxo/index.php');
 	exit();
-}elseif ($REX["ARTICLE"]->setArticleId($REX['ARTICLE_ID']))
+}elseif ($REX["ARTICLE"]->setArticleId(rex::getProperty('article_id')))
 {
 	echo $REX["ARTICLE"]->getArticleTemplate();
 }else

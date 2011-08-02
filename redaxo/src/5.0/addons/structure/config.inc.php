@@ -15,6 +15,11 @@ rex_var::registerVar('rex_var_category');
 
 require_once dirname(__FILE__). '/functions/function_rex_url.inc.php';
 
+if(rex_request('article_id', 'int') == 0)
+  rex::setProperty('article_id', rex::getProperty('start_article_id'));
+else
+  rex::setProperty('article_id', rex_request('article_id','rex-article-id', rex::getProperty('notfound_article_id')));
+
 rex_extension::register('CLANG_ADDED',
   function($params)
   {
