@@ -10,9 +10,6 @@
 ob_start();
 ob_implicit_flush(0);
 
-// ----- addon/normal page path
-$REX['PAGEPATH'] = '';
-
 // ----- pages, verfuegbare seiten
 // array(name,addon=1,htmlheader=1);
 $pages = array();
