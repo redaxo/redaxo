@@ -376,6 +376,10 @@ if ($checkmodus == 2 && $send == 1)
 
 	foreach($config as $key => $value)
 	{
+	  if(in_array($key, array('fileperm', 'dirperm')))
+	  {
+	    $value = octdec($value);
+	  }
 	  rex::setProperty($key, $value);
 	}
 
