@@ -40,13 +40,20 @@ foreach($body_attr as $k => $v){
 	$body .= '" ';
 }
 
+$activePageObj = $curPage;
+if($subpage = $curPage->getActiveSubPage())
+{
+  $activePageObj = $subpage;
+}
+$hasNavigation = $activePageObj->hasNavigation();
+
 $logout = '';
-if (rex::getUser() && !$REX["PAGE_NO_NAVI"])
+if (rex::getUser() && $hasNavigation)
 {
   $accesskey = 1;
   $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
   $logout = '<ul class="rex-logout"><li class="rex-first"><span>' . rex_i18n::msg('logged_in_as') . ' '. htmlspecialchars($user_name) .'</span></li><li><a href="index.php?page=profile">' . rex_i18n::msg('profile_title') . '</a></li><li><a href="index.php?rex_logout=1"'. rex::getAccesskey(rex_i18n::msg('logout'), 'logout') .'>' . rex_i18n::msg('logout') . '</a></li></ul>' . "\n";
-}else if(!$REX["PAGE_NO_NAVI"])
+}else if($hasNavigation)
 {
   $logout = '<p class="rex-logout">' . rex_i18n::msg('logged_out') . '</p>';
 }else
@@ -56,7 +63,7 @@ if (rex::getUser() && !$REX["PAGE_NO_NAVI"])
 
 
 $navigation = '';
-if (rex::getUser() && !$REX["PAGE_NO_NAVI"])
+if (rex::getUser() && $hasNavigation)
 {
 	$n = rex_be_navigation::factory();
 	foreach(rex::getUser()->pages as $p => $pageContainer)

@@ -282,7 +282,6 @@ if($subpage = $_pageObj->getActiveSubPage())
 {
   $_activePageObj = $subpage;
 }
-$REX['PAGE_NO_NAVI'] = !$_activePageObj->hasNavigation();
 
 
 // ----- EXTENSION POINT
