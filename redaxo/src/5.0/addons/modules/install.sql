@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%action` (
   `updatedate` int(11) NOT NULL,
   `revision` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%module` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%module` (
   `revision` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%module_action` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -37,4 +37,4 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%module_action` (
   `action_id` int(11) NOT NULL,
   `revision` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;

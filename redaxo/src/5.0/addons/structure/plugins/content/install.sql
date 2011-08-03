@@ -77,4 +77,4 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
   KEY `clang` (`clang`),
   KEY `article_id` (`article_id`),
   KEY `find_slices` (`clang`,`article_id`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;

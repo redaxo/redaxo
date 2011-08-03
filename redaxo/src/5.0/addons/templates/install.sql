@@ -11,4 +11,4 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%template` (
   `attributes` text NULL,
   `revision` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;

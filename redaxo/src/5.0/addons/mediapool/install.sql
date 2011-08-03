@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%media` (
   PRIMARY KEY (`media_id`),
   KEY `re_media_id` (`re_media_id`),
   KEY `category_id` (`category_id`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%media_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -33,4 +33,4 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%media_category` (
   `revision` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `re_id` (`re_id`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;

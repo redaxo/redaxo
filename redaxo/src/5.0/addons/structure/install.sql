@@ -22,4 +22,4 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article` (
   KEY `id` (`id`),
   KEY `clang` (`clang`),
   KEY `re_id` (`re_id`)
-) ENGINE=MyISAM ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
