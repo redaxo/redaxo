@@ -54,10 +54,10 @@ if ($article->getRows() == 1)
   if($template_attributes === null)
     $template_attributes = '';
 
-  $REX['CTYPE'] = rex_getAttributes('ctype', $template_attributes, array ()); // ctypes - aus dem template
+  $ctypes = rex_getAttributes('ctype', $template_attributes, array ()); // ctypes - aus dem template
 
   $ctype = rex_request('ctype', 'rex-ctype-id', 1);
-  if (!array_key_exists($ctype, $REX['CTYPE']))
+  if (!array_key_exists($ctype, $ctypes))
     $ctype = 1; // default = 1
 
   // ----- Artikel wurde gefunden - Kategorie holen
@@ -277,11 +277,11 @@ if ($article->getRows() == 1)
               {
                 $newsql->addGlobalUpdateFields();
                 $newsql->addGlobalCreateFields();
-                
-                
+
+
                 try {
                   $newsql->insert();
-                  
+
                   rex_organize_priorities(
                     rex::getTablePrefix() . 'article_slice',
                     'prior',
@@ -575,7 +575,7 @@ if ($article->getRows() == 1)
 
       try {
         $meta_sql->update();
-      
+
         $article->setQuery("SELECT * FROM " . rex::getTablePrefix() . "article WHERE id='$article_id' AND clang='$clang'");
         $info = rex_i18n::msg("metadata_updated");
 
@@ -595,7 +595,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ END: SAVE METADATA
 
     // ------------------------------------------ START: CONTENT HEAD MENUE
-    $num_ctypes = count($REX['CTYPE']);
+    $num_ctypes = count($ctypes);
 
     $ctype_menu = '';
     if ($num_ctypes > 0)
@@ -603,7 +603,7 @@ if ($article->getRows() == 1)
       $listElements = array();
 
       $i = 1;
-      foreach ($REX['CTYPE'] as $key => $val)
+      foreach ($ctypes as $key => $val)
       {
         $s = '';
         $class = '';
