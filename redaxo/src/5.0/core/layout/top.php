@@ -12,7 +12,8 @@ $page_title = rex::getProperty('servername');
 
 if(!isset($page_name))
 {
-  $curPage = $REX['PAGES'][rex::getProperty('page')]->getPage();
+  $pages = rex::getProperty('pages');
+  $curPage = $pages[rex::getProperty('page')]->getPage();
   $page_name = $curPage->getTitle();
 }
 

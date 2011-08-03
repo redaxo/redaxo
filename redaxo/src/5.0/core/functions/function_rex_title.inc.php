@@ -53,7 +53,8 @@ function rex_title($head, $subtitle = '')
 
   if(empty($subtitle))
   {
-    $subtitle = $REX['PAGES'][rex::getProperty('page')]->getPage()->getSubPages();
+    $pages = rex::getProperty('pages');
+    $subtitle = $pages[rex::getProperty('page')]->getPage()->getSubPages();
   }
 
   if(is_array($subtitle) && isset($subtitle[0]) && $subtitle[0] instanceof rex_be_page_container)

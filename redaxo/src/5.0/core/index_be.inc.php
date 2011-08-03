@@ -15,7 +15,7 @@ $REX['PAGEPATH'] = '';
 
 // ----- pages, verfuegbare seiten
 // array(name,addon=1,htmlheader=1);
-$REX['PAGES'] = array();
+$pages = array();
 $page = '';
 
 // ----------------- SETUP
@@ -28,7 +28,7 @@ if (rex::isSetup())
 
   rex_i18n::setLocale(rex::getProperty('lang'));
 
-  $REX['PAGES']['setup'] = rex_be_navigation::getSetupPage();
+  $pages['setup'] = rex_be_navigation::getSetupPage();
   $page = 'setup';
 
 }else
@@ -64,7 +64,7 @@ if (rex::isSetup())
     if(is_string($loginCheck))
       $rex_user_loginmessage = $loginCheck;
 
-    $REX['PAGES']['login'] = rex_be_navigation::getLoginPage();
+    $pages['login'] = rex_be_navigation::getLoginPage();
     $page = 'login';
     rex::setProperty('page', 'login');
   }
@@ -84,8 +84,10 @@ if (rex::isSetup())
 // ----- Prepare Core Pages
 if(rex::getUser())
 {
-  $REX['PAGES'] = rex_be_navigation::getLoggedInPages();
+  $pages = rex_be_navigation::getLoggedInPages();
 }
+
+rex::setProperty('pages', $pages);
 
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.inc.php');
@@ -131,7 +133,7 @@ if(rex::getUser())
         } else if (rex_be_page_main::isValid($s))
         {
           $p = $s->getPage();
-          $REX['PAGES'][$addonName.'_'.$p->getTitle()] = $s;
+          $pages[$addonName.'_'.$p->getTitle()] = $s;
         } else if (rex_be_page::isValid($s) && $addonPage)
         {
           $addonPage->addSubPage($s);
@@ -178,7 +180,7 @@ if(rex::getUser())
         else if(rex_be_page_main::isValid($s))
         {
           $p = $s->getPage();
-          $REX['PAGES'][$addonName.'_'.$pluginName.'_'.$p->getTitle()] = $s;
+          $pages[$addonName.'_'.$pluginName.'_'.$p->getTitle()] = $s;
         }
         else if(rex_be_page::isValid($s) && $addonPage)
         {
@@ -195,7 +197,7 @@ if(rex::getUser())
             $pagePath = rex_path::plugin($addonName, $pluginName, 'pages/index.inc.php');
             $pluginPage->getPage()->setPath($pagePath);
           }
-          $REX['PAGES'][$pluginName] = $pluginPage;
+          $pages[$pluginName] = $pluginPage;
         }
         else
         {
@@ -209,7 +211,7 @@ if(rex::getUser())
             {
               $mainPluginPage->_set($key, $value);
             }
-            $REX['PAGES'][$addonName.'_'.$pluginName] = $mainPluginPage;
+            $pages[$addonName.'_'.$pluginName] = $mainPluginPage;
           }
           // if no navigation attributes can be found, we add the pluginPage as subPage of the addon
           else if($addonPage)
@@ -223,7 +225,7 @@ if(rex::getUser())
     if(rex_be_page_main::isValid($addonPage))
     {
       // addonPage was defined as a main-page itself, so we only need to add it to REX
-      $REX['PAGES'][$addonName] = $addonPage;
+      $pages[$addonName] = $addonPage;
     }
     else
     {
@@ -238,7 +240,7 @@ if(rex::getUser())
         {
           $mainAddonPage->_set($key, $value);
         }
-        $REX['PAGES'][$addonName] = $mainAddonPage;
+        $pages[$addonName] = $mainAddonPage;
       }
     }
   }
@@ -247,23 +249,23 @@ if(rex::getUser())
 // Set Startpage
 if($user = rex::getUser())
 {
-  $user->pages = $REX['PAGES'];
+  $user->pages = $pages;
 
   // --- page herausfinden
   $page = trim(rex_request('page', 'string'));
 
   // --- page pruefen und benoetigte rechte checken
-  if(!isset($REX['PAGES'][$page]) ||
-    (($p=$REX['PAGES'][$page]->getPage()) && !$p->checkPermission($user)))
+  if(!isset($pages[$page]) ||
+    (($p=$pages[$page]->getPage()) && !$p->checkPermission($user)))
   {
     // --- neue page bestimmen und diese in neuem request dann verarbeiten
     $page = rex::getProperty('login')->getStartpage();
-    if(!isset($REX['PAGES'][$page]) ||
-      (($p=$REX['PAGES'][$page]->getPage()) && !$p->checkPermission($user)))
+    if(!isset($pages[$page]) ||
+      (($p=$pages[$page]->getPage()) && !$p->checkPermission($user)))
     {
       $page = rex::getProperty('start_page');
-      if(!isset($REX['PAGES'][$page]) ||
-        (($p=$REX['PAGES'][$page]->getPage()) && !$p->checkPermission($user)))
+      if(!isset($pages[$page]) ||
+        (($p=$pages[$page]->getPage()) && !$p->checkPermission($user)))
       {
         // --- fallback auf "profile"; diese page hat jeder user
         $page = 'profile';
@@ -276,7 +278,8 @@ if($user = rex::getUser())
 }
 
 rex::setProperty('page', $page);
-$_pageObj = $REX['PAGES'][$page]->getPage();
+rex::setProperty('pages', $pages);
+$_pageObj = $pages[$page]->getPage();
 $_activePageObj = $_pageObj;
 if($subpage = $_pageObj->getActiveSubPage())
 {
@@ -287,7 +290,7 @@ $REX['PAGE_NO_NAVI'] = !$_activePageObj->hasNavigation();
 
 // ----- EXTENSION POINT
 // page variable validated
-rex_extension::registerPoint( 'PAGE_CHECKED', $page, array('pages' => $REX['PAGES']));
+rex_extension::registerPoint( 'PAGE_CHECKED', $page, array('pages' => $pages));
 
 // trigger api functions
 rex_api_function::handleCall();
