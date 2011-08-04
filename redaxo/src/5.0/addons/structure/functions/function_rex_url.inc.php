@@ -99,13 +99,13 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
 
   if ($url == '')
   {
-    // ----- get rewrite function
-    if (rex::getProperty('mod_rewrite'))
-      $rewrite_fn = 'rex_apache_rewrite';
-    else
-      $rewrite_fn = 'rex_no_rewrite';
+    $_clang = '';
+    if (rex_clang::count() > 1)
+    {
+      $_clang .= $_divider.'clang='.$clang;
+    }
 
-    $url = call_user_func($rewrite_fn, $id, $name, $clang, $param_string, $_divider);
+    $url = rex_path::frontendController('?article_id='.$id .$_clang.$param_string);
   }
 
   return $url;
@@ -123,38 +123,4 @@ function rex_redirect($article_id, $clang = '', $params = array())
 
   header('Location: '. rex_getUrl($article_id, $clang, $params, $divider));
   exit();
-}
-
-// ----------------------------------------- Rewrite functions
-
-/**
- * Standard Rewriter, gibt normale Urls zurück im Format
- * index.php?article_id=$article_id[&clang=$clang&$params]
- */
-function rex_no_rewrite($id, $name, $clang, $param_string, $divider)
-{
-  $_clang = '';
-
-  if (rex_clang::count() > 1)
-  {
-    $_clang .= $divider.'clang='.$clang;
-  }
-
-  return rex_path::frontendController('?article_id='.$id .$_clang.$param_string);
-}
-
-/**
- * Standard Rewriter, gibt umschrieben Urls im Format
- *
- * <id>-<clang>-<name>.html[?<params>]
- */
-function rex_apache_rewrite($id, $name, $clang, $params, $divider)
-{
-  if ($params != '')
-  {
-    // strip first "&"
-    $params = '?'.substr($params, strpos($params, $divider) + strlen($divider));
-  }
-
-  return $id.'-'.$clang.'-'.$name.'.html'.$params;
 }

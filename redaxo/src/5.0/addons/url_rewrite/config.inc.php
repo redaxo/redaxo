@@ -7,11 +7,7 @@
  * @version svn:$Id$
  */
 
-if (rex::getProperty('mod_rewrite') !== false)
-{
+$rewriter = new rex_urlRewriter_fullnames();
+$rewriter->prepare();
 
-  $rewriter = new rex_urlRewriter_fullnames();
-  $rewriter->prepare();
-
-  rex_extension::register('URL_REWRITE', array ($rewriter, 'rewrite'));
-}
+rex_extension::register('URL_REWRITE', array ($rewriter, 'rewrite'));

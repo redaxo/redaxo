@@ -40,7 +40,6 @@ elseif ($func == 'updateinfos')
   $neu_error_emailaddress = str_replace("\'", "'", rex_post('neu_error_emailaddress', 'string'));
   $neu_SERVER             = str_replace("\'", "'", rex_post('neu_SERVER', 'string'));
   $neu_SERVERNAME         = str_replace("\'", "'", rex_post('neu_SERVERNAME', 'string'));
-  $neu_modrewrite         = rex_post('neu_modrewrite', 'string');
 
   $startArt = rex_ooArticle::getArticleById($neu_startartikel);
   $notFoundArt = rex_ooArticle::getArticleById($neu_notfoundartikel);
@@ -82,7 +81,6 @@ elseif ($func == 'updateinfos')
   $config['lang'] = $neu_lang;
   $config['server'] = $neu_SERVER;
   $config['servername'] = $neu_SERVERNAME;
-  $config['mod_rewrite'] = $neu_modrewrite;
 
   if($warning == '')
   {
@@ -91,7 +89,6 @@ elseif ($func == 'updateinfos')
       $info = rex_i18n::msg('info_updated');
 
       // Zuweisungen für Wiederanzeige
-      rex::setProperty('mod_rewrite', $neu_modrewrite === 'TRUE');
       rex::setProperty('error_email', $neu_error_emailaddress);
       rex::setProperty('server', $neu_SERVER);
       rex::setProperty('servername', $neu_SERVERNAME);
@@ -123,16 +120,6 @@ foreach (rex_i18n::getLocales() as $l)
 {
   $sel_lang->addOption($l, $l);
 }
-
-$sel_mod_rewrite = new rex_select();
-$sel_mod_rewrite->setSize(1);
-$sel_mod_rewrite->setStyle('class="rex-form-select"');
-$sel_mod_rewrite->setName('neu_modrewrite');
-$sel_mod_rewrite->setId('rex-form-mod-rewrite');
-$sel_mod_rewrite->setSelected(rex::getProperty('mod_rewrite') === false ? 'FALSE' : 'TRUE');
-
-$sel_mod_rewrite->addOption('TRUE', 'TRUE');
-$sel_mod_rewrite->addOption('FALSE', 'FALSE');
 
 if ($warning != '')
   echo rex_warning($warning);
@@ -286,13 +273,6 @@ $content_2 = '
 									<p class="rex-form-col-a rex-form-select">
 										<label for="rex-form-lang">$REX[\'LANG\']</label>
 										'. $sel_lang->get().'
-									</p>
-								</div>
-
-								<div class="rex-form-row">
-									<p class="rex-form-col-a rex-form-select">
-										<label for="rex-form-mod-rewrite">$REX[\'MOD_REWRITE\']</label>
-										'. $sel_mod_rewrite->get().'
 									</p>
 								</div>
 
