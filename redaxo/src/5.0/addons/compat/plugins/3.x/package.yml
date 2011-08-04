@@ -8,3 +8,5 @@ requires:
       plugins:
         4.x:
           min-version: '1.0'
+    structure:
+      min-version: '1.3'
