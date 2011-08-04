@@ -1217,7 +1217,7 @@ div.rex-spc-stn-cnt p input.rex-sbmt {
 }
 
 /* - Clang Edit Form */
-body#rex-page-specials input#clang_name {
+body#rex-page-system input#clang_name {
 	width: 97%;
 }
 

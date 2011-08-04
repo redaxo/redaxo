@@ -27,7 +27,7 @@ no_editing_rights = Keine Editiererlaubnis
 check_rights_in_directory  =  Bitte überprüfen Sie die Rechte im Ordner
 
 # redaxo/redaxo/index.php
-specials = System
+system = System
 user = Benutzer
 profile = Mein Profil
 logout = abmelden
@@ -53,20 +53,20 @@ logged_in_as  =  Angemeldet als
 form_field_first_prior = Am Anfang
 form_field_after_prior = Nach dem Feld "{0}"
 
-# redaxo\include\pages\special.inc.php
+# redaxo\include\pages\system.inc.php
 info_updated = Informationen wurden aktualisiert!
 delete_cache = Cache löschen
 delete_cache_description = Templates und Sprachdateien werden erstellt, Artikelcache wird gelöscht. Sobald ein Artikel im Frontend aufgerufen wird, wird der Cache des/der entsprechenden Artikels/Kategorie wieder erstellt.
 delete_cache_message = Cache wurde gelöscht
-specials_features = Features
-specials_settings = Einstellungen
+system_features = Features
+system_settings = Einstellungen
 settings_invalid_sitestart_article = Ungültige Startartikel Id!
 settings_invalid_notfound_article = Ungültige Not-Found-Artikel Id!
 settings_invalid_default_template = Ungültige Default-Template Id!
 general_info_header = Allgemeine Informationen:
 db1_can_only_be_changed_by_setup = Datenbank[1] kann nur über das Setup geändert werden.
-specials_others = Sonstiges
-specials_update = ändern
+system_others = Sonstiges
+system_update = ändern
 main_preferences = Einstellungen
 languages = Sprachen
 id_exists = ID existiert schon.

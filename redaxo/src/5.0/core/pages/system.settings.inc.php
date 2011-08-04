@@ -149,22 +149,22 @@ if (strlen($version)>21)
 	$version = substr($version,0,8)."..".substr($version,strlen($version)-13);
 
 
-$headline_1 = rex_i18n::msg("specials_features");
-$headline_2 = rex_i18n::msg("specials_settings");
+$headline_1 = rex_i18n::msg("system_features");
+$headline_2 = rex_i18n::msg("system_settings");
 
 $content_1 = '
 						<h4 class="rex-hl3">'.rex_i18n::msg("delete_cache").'</h4>
 						<p class="rex-tx1">'.rex_i18n::msg("delete_cache_description").'</p>
-						<p class="rex-button"><a class="rex-button" href="index.php?page=specials&amp;func=generate"><span><span>'.rex_i18n::msg("delete_cache").'</span></span></a></p>
+						<p class="rex-button"><a class="rex-button" href="index.php?page=system&amp;func=generate"><span><span>'.rex_i18n::msg("delete_cache").'</span></span></a></p>
 
 						<h4 class="rex-hl3">'.rex_i18n::msg("setup").'</h4>
 						<p class="rex-tx1">'.rex_i18n::msg("setup_text").'</p>
-						<p class="rex-button"><a class="rex-button" href="index.php?page=specials&amp;func=setup" onclick="return confirm(\''.rex_i18n::msg("setup").'?\');"><span><span>'.rex_i18n::msg("setup").'</span></span></a></p>
+						<p class="rex-button"><a class="rex-button" href="index.php?page=system&amp;func=setup" onclick="return confirm(\''.rex_i18n::msg("setup").'?\');"><span><span>'.rex_i18n::msg("setup").'</span></span></a></p>
 
             <h4 class="rex-hl3">'.rex_i18n::msg("version").'</h4>
             <p class="rex-tx1">
             REDAXO: '.rex::getVersion().'<br />
-            PHP: '.phpversion().' (<a href="index.php?page=specials&amp;subpage=phpinfo" onclick="newWindow(\'phpinfo\', this.href, 800,600,\',status=yes,resizable=yes\');return false;">php_info</a>)</p>
+            PHP: '.phpversion().' (<a href="index.php?page=system&amp;subpage=phpinfo" onclick="newWindow(\'phpinfo\', this.href, 800,600,\',status=yes,resizable=yes\');return false;">php_info</a>)</p>
 
             <h4 class="rex-hl3">'.rex_i18n::msg("database").'</h4>
             <p class="rex-tx1">MySQL: '.rex_sql::getServerVersion().'<br />'.rex_i18n::msg("name").': '.$dbconfig[1]['name'].'<br />'.rex_i18n::msg("host").': '.$dbconfig[1]['host'].'</p>';
@@ -242,7 +242,7 @@ $content_2 = '
 
 						<!--
 						<fieldset class="rex-form-col-1">
-							<legend>'.rex_i18n::msg("specials_others").'</legend>
+							<legend>'.rex_i18n::msg("system_others").'</legend>
 
 							<div class="rex-form-wrapper">
 						-->
@@ -298,7 +298,7 @@ $content_2 = '
 
 								<div class="rex-form-row">
 									<p class="rex-form-col-a rex-form-submit">
-										<input type="submit" class="rex-form-submit" name="sendit" value="'. rex_i18n::msg("specials_update").'" '. rex::getAccesskey(rex_i18n::msg('specials_update'), 'save').' />
+										<input type="submit" class="rex-form-submit" name="sendit" value="'. rex_i18n::msg("system_update").'" '. rex::getAccesskey(rex_i18n::msg('system_update'), 'save').' />
 									</p>
 								</div>
 
@@ -311,7 +311,7 @@ $content_2 = '
 
 <div class="rex-form" id="rex-form-system-setup">
 	<form action="index.php" method="post">
-  	<input type="hidden" name="page" value="specials" />
+  	<input type="hidden" name="page" value="system" />
   	<input type="hidden" name="func" value="updateinfos" />
 
 <?php

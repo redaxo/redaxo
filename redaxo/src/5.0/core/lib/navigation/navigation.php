@@ -206,37 +206,37 @@ class rex_be_navigation extends rex_factory
     $pages['addon'] = new rex_be_page_main('system', $addon);
     $pages['addon']->setPrio(60);
 
-    $settings = new rex_be_page(rex_i18n::msg('main_preferences'), array('page'=>'specials', 'subpage' => ''));
+    $settings = new rex_be_page(rex_i18n::msg('main_preferences'), array('page'=>'system', 'subpage' => ''));
     $settings->setIsCorePage(true);
     $settings->setRequiredPermissions('isAdmin');
-    $settings->setHref('index.php?page=specials&subpage=');
+    $settings->setHref('index.php?page=system&subpage=');
 
-    $languages = new rex_be_page(rex_i18n::msg('languages'), array('page'=>'specials', 'subpage' => 'lang'));
+    $languages = new rex_be_page(rex_i18n::msg('languages'), array('page'=>'system', 'subpage' => 'lang'));
     $languages->setIsCorePage(true);
     $languages->setRequiredPermissions('isAdmin');
-    $languages->setHref('index.php?page=specials&subpage=lang');
+    $languages->setHref('index.php?page=system&subpage=lang');
 
-    $syslog = new rex_be_page(rex_i18n::msg('syslog'), array('page'=>'specials', 'subpage' => 'log'));
+    $syslog = new rex_be_page(rex_i18n::msg('syslog'), array('page'=>'system', 'subpage' => 'log'));
     $syslog->setIsCorePage(true);
     $syslog->setRequiredPermissions('isAdmin');
-    $syslog->setHref('index.php?page=specials&subpage=log');
+    $syslog->setHref('index.php?page=system&subpage=log');
 
-    $phpinfo = new rex_be_page(rex_i18n::msg('phpinfo'), array('page'=>'specials', 'subpage' => 'phpinfo'));
+    $phpinfo = new rex_be_page(rex_i18n::msg('phpinfo'), array('page'=>'system', 'subpage' => 'phpinfo'));
     $phpinfo->setIsCorePage(true);
     $phpinfo->setRequiredPermissions('isAdmin');
     $phpinfo->setHidden(true);
     $phpinfo->setHasLayout(false);
-    $phpinfo->setHref('index.php?page=specials&subpage=phpinfo');
+    $phpinfo->setHref('index.php?page=system&subpage=phpinfo');
 
-    $mainSpecials = new rex_be_page(rex_i18n::msg('specials'), array('page'=>'specials'));
+    $mainSpecials = new rex_be_page(rex_i18n::msg('system'), array('page'=>'system'));
     $mainSpecials->setIsCorePage(true);
     $mainSpecials->setRequiredPermissions('isAdmin');
     $mainSpecials->addSubPage($settings);
     $mainSpecials->addSubPage($languages);
     $mainSpecials->addSubPage($syslog);
     $mainSpecials->addSubPage($phpinfo);
-    $pages['specials'] = new rex_be_page_main('system', $mainSpecials);
-    $pages['specials']->setPrio(70);
+    $pages['system'] = new rex_be_page_main('system', $mainSpecials);
+    $pages['system']->setPrio(70);
 
     $pages['addon'] = new rex_be_page_main('system', $addon);
     $pages['addon']->setPrio(60);

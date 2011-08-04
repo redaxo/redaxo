@@ -102,7 +102,7 @@ if ($func == 'addclang' || $func == 'editclang')
   echo '
         <fieldset>
           <legend>'.$legend.'</legend>
-          <input type="hidden" name="page" value="specials" />
+          <input type="hidden" name="page" value="system" />
           <input type="hidden" name="subpage" value="lang" />
           <input type="hidden" name="clang_id" value="'.$clang_id.'" />
       ';
@@ -120,7 +120,7 @@ echo '
       </colgroup>
       <thead>
         <tr>
-          <th class="rex-small"><a class="rex-i-element rex-i-clang-add" href="index.php?page=specials&amp;subpage=lang&amp;func=addclang#clang"'. rex::getAccesskey(rex_i18n::msg('clang_add'), 'add') .'><span class="rex-i-element-text">'.rex_i18n::msg('clang_add').'</span></a></th>
+          <th class="rex-small"><a class="rex-i-element rex-i-clang-add" href="index.php?page=system&amp;subpage=lang&amp;func=addclang#clang"'. rex::getAccesskey(rex_i18n::msg('clang_add'), 'add') .'><span class="rex-i-element-text">'.rex_i18n::msg('clang_add').'</span></a></th>
           <th class="rex-small">ID</th>
           <th>'.rex_i18n::msg('clang_name').'</th>
           <th>'.rex_i18n::msg('clang_function').'</th>
@@ -152,7 +152,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang)
   if($lang_id == 0)
    $delLink = '<span class="rex-strike">'. $delLink .'</span>';
   else
-    $delLink = '<a href="index.php?page=specials&amp;subpage=lang&amp;func=deleteclang&amp;clang_id='.$lang_id.'" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'. $delLink .'</a>';
+    $delLink = '<a href="index.php?page=system&amp;subpage=lang&amp;func=deleteclang&amp;clang_id='.$lang_id.'" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'. $delLink .'</a>';
 
   // Edit form
   if ($func == "editclang" && $clang_id == $lang_id)
@@ -168,7 +168,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang)
   }
   else
   {
-    $editLink = 'index.php?page=specials&amp;subpage=lang&amp;func=editclang&amp;clang_id='.$lang_id.'#clang';
+    $editLink = 'index.php?page=system&amp;subpage=lang&amp;func=editclang&amp;clang_id='.$lang_id.'#clang';
 
     echo '
           <tr>
