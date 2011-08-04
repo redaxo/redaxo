@@ -41,11 +41,10 @@ class rex_var_config extends rex_var
       $field       = $this->getArg('field', $args, '');
 
       $tpl = '';
-      $varname1 = '$REX[\''. addslashes($field) .'\']';
-      $varname2 = '$REX[\''. addslashes(strtoupper($field)) .'\']';
+      $field = addslashes($field);
+      $config = "rex::getProperty('$field', rex::getConfig('$field'))";
       $tpl = '<?php
-      if(isset('. $varname1 .')) echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname1) .');
-      elseif(isset('. $varname2 .')) echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname2) .');
+      echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $config) .');
       ?>';
 
       if($tpl != '')
