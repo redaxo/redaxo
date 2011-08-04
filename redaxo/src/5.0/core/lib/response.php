@@ -66,33 +66,20 @@ class rex_response
    * Sendet einen rex_article zum Client,
    * fügt ggf. HTTP1.1 cache headers hinzu
    *
-   * @param $REX_ARTICLE rex_article Den zu sendenen Artikel
    * @param $content string Inhalt des Artikels
    * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
    * (frontend/backend)
    * @param $sendcharset boolean TRUE, wenn der Charset mitgeschickt werden soll, sonst FALSE
    */
-  static public function sendArticle($REX_ARTICLE, $content, $environment, $sendcharset = FALSE)
+  static public function sendArticle($content, $environment, $sendcharset = FALSE, $lastModified = null, $etagAdd = '')
   {
     // ----- EXTENSION POINT
     $content = rex_extension::registerPoint( 'OUTPUT_FILTER', $content, array('environment' => $environment,'sendcharset' => $sendcharset));
 
     // dynamische teile sollen die md5 summe nicht beeinflussen
-    $etag = md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content));
+    $etag = md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content) . $etagAdd);
 
-    if($REX_ARTICLE)
-    {
-      $lastModified = $REX_ARTICLE->getValue('updatedate');
-      $etag .= $REX_ARTICLE->getValue('pid');
-
-      $art_id = $REX_ARTICLE->getArticleId();
-      if($art_id == rex::getProperty('notfound_article_id') &&
-         $art_id != rex::getProperty('start_article_id'))
-      {
-        header("HTTP/1.0 404 Not Found");
-      }
-    }
-    else
+    if($lastModified === null)
     {
       $lastModified = time();
     }

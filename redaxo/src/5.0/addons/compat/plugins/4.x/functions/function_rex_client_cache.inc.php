@@ -27,7 +27,7 @@ function rex_send_resource($content, $sendcharset = TRUE, $lastModified = null, 
  */
 function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = FALSE)
 {
-  rex_response::sendArticle($REX_ARTICLE, $content, $environment, $sendcharset);
+  rex_response::sendArticle($content, $environment, $sendcharset);
 }
 
 /**
