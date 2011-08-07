@@ -40,17 +40,18 @@ class rex_var_config extends rex_var
     	list ($param_str, $args)   = $match;
       $field       = $this->getArg('field', $args, '');
 
-      $tpl = '';
-      $field = addslashes($field);
-      $config = "rex::getProperty('$field', rex::getConfig('$field'))";
-      $tpl = '<?php
-      echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $config) .');
-      ?>';
+      $tpl = '<?php echo '. __CLASS__ ."::getConfig('". addslashes($field) ."', '". json_encode($args) ."'); ?>";
 
-      if($tpl != '')
-        $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
+      $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
     }
 
     return $content;
+  }
+
+  static public function getConfig($field, $args = '')
+  {
+    $config = rex::getProperty($field, rex::getConfig($field));
+    $config = self::handleGlobalVarParams('REX_CONFIG', json_decode($args, true), $config);
+    return htmlspecialchars($config);
   }
 }

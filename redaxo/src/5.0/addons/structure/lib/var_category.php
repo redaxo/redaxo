@@ -21,7 +21,7 @@ class rex_var_category extends rex_var
 
   public function getTemplate($content)
   {
-    return $this->matchCategory($content, true);
+    return $this->matchCategory($content);
   }
 
   public function getBEOutput(rex_sql $sql, $content)
@@ -46,7 +46,7 @@ class rex_var_category extends rex_var
   /**
    * Werte für die Ausgabe
    */
-  private function matchCategory($content, $replaceInTemplate = false)
+  private function matchCategory($content)
   {
   	$var = 'REX_CATEGORY';
     $matches = $this->getVarParams($content, $var);
@@ -55,46 +55,13 @@ class rex_var_category extends rex_var
     {
     	list ($param_str, $args)   = $match;
       $category_id = $this->getArg('id',    $args, 0);
-      // use ${xxx} notation so the var can be interpreted correctly when de-serialized
-      $clang       = $this->getArg('clang', $args, 'rex_clang::getId()');
+      $clang       = $this->getArg('clang', $args, 'null');
       $field       = $this->getArg('field', $args, '');
 
       $tpl = '';
-      if($category_id == 0)
+      if(rex_ooCategory::hasValue($field))
       {
-        // REX_CATEGORY[field=name] feld von aktueller kategorie verwenden
-      	if(rex_ooCategory::hasValue($field))
-        {
-          // bezeichner wählen, der keine variablen
-          // aus modulen/templates überschreibt
-          // beachte: root-artikel haben keine kategorie
-          // clang als string übergeben wg ${xxx} notation
-          $varname_art = '$__rex_art';
-          $varname_cat = '$__rex_cat';
-          $tpl = '<?php
-          '. $varname_art .' = rex_ooArticle::getArticleById(rex::getProperty(\'article_id\'), "'. $clang .'");
-          '. $varname_cat .' = '. $varname_art .'->getCategory();
-          if('. $varname_cat .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname_cat .'->getValue(\''. addslashes($field) .'\')') .');
-          ?>';
-        }
-      }
-      else if($category_id > 0)
-      {
-        // REX_CATEGORY[field=name id=5] feld von gegebene category_id verwenden
-      	if($field)
-        {
-          if(rex_ooCategory::hasValue($field))
-          {
-            // bezeichner wählen, der keine variablen
-	          // aus modulen/templates überschreibt
-            // clang als string übergeben wg ${xxx} notation
-            $varname = '$__rex_cat';
-	          $tpl = '<?php
-	          '. $varname .' = rex_ooCategory::getCategoryById('. $category_id .', "'. $clang .'");
-            if('. $varname .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .');
-	          ?>';
-          }
-        }
+        $tpl = '<?php echo '. __CLASS__ .'::getCategory('. $category_id .", '". addslashes($field) ."', ". $clang .", '". json_encode($args) ."'); ?>";
       }
 
       if($tpl != '')
@@ -102,5 +69,28 @@ class rex_var_category extends rex_var
     }
 
     return $content;
+  }
+
+  static public function getCategory($id, $field, $clang = null, $args = '')
+  {
+    if($clang === null)
+    {
+      $clang = rex_clang::getId();
+    }
+    if($id === 0)
+    {
+      $art = rex_ooArticle::getArticleById(rex::getProperty('article_id'), $clang);
+      $cat = $art->getCategory();
+    }
+    else if($id > 0)
+    {
+      $cat = rex_ooCategory::getCategoryById($id, $clang);
+    }
+
+    if($cat)
+    {
+      $cat = self::handleGlobalVarParams('REX_CATEGORY', json_decode($args, true), $cat->getValue($field));
+      return htmlspecialchars($cat);
+    }
   }
 }

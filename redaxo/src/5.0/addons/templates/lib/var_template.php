@@ -36,15 +36,23 @@ class rex_var_template extends rex_var
 
       if($template_id > 0)
       {
-        $varname = '$__rex_tpl'. $template_id;
-        $tpl = '<?php
-        '. $varname .' = new rex_template('. $template_id .');
-        require rex_stream::factory("template/'. $template_id .'", '. $this->handleGlobalVarParamsSerialized($var, $args, '$this->replaceCommonVars('. $varname .'->getTemplate(), '. $template_id .')') .');
-        ?>';
+        $tpl = '<?php require '. __CLASS__ .'::getTemplateStream('. $template_id .', $this, \''. json_encode($args) ."'); ?>";
 	      $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
       }
     }
 
     return $content;
+  }
+
+  static public function getTemplateStream($id, $article = null, $args = '')
+  {
+    $tmpl = new rex_template($id);
+    $tmpl = $tmpl->getTemplate();
+    if($article)
+    {
+      $tmpl = $article->replaceCommonVars($tmpl, $id);
+    }
+    $tmpl = self::handleGlobalVarParams('REX_TEMPLATE', json_decode($args, true), $tmpl);
+    return rex_stream::factory('template/'. $id, $tmpl);
   }
 }

@@ -286,24 +286,6 @@ abstract class rex_var
   }
 
   /**
-   * Handle all common var parameters at runtime.
-   * This method returns the php-code which handles the variable values.
-   *
-   * @param string $varname The name of the variable which param should be handled
-   * @param array $args The array of parameters for the widget
-   * @param string $value The value of the variable
-   *
-   * @return string The code which parses the variable value
-   */
-  static public function handleGlobalVarParamsSerialized($varname, array $args, $value)
-  {
-    $varname = str_replace("'", "\'", $varname);
-    $json = str_replace('"', '\"', json_encode($args));
-    //  use double-quotes inside json_decode so php-vars in the json string get evaluated by the interpreter
-    return 'rex_var::handleGlobalVarParams(\''. $varname .'\', json_decode("'. $json .'", true), '. $value .')';
-  }
-
-  /**
    * Search all occurences of the parameter $varname in $content and returns it parsed parameters.
    * The origin parameter-string and all parsed default parameters are contained per hit in the resulting array.
    *

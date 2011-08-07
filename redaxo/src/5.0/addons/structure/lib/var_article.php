@@ -64,62 +64,38 @@ class rex_var_article extends rex_var
     {
       list ($param_str, $args)  = $match;
       $article_id = $this->getArg('id',    $args, 0);
-      $clang      = $this->getArg('clang', $args, 'rex_clang::getId()');
+      $clang      = $this->getArg('clang', $args, 'null');
       $ctype      = $this->getArg('ctype', $args, -1);
       $field      = $this->getArg('field', $args, '');
 
       $tpl = '';
-      if($article_id == 0)
+      if($article_id > 0)
       {
-        // REX_ARTICLE[field=name] keine id -> feld von aktuellem artikel verwenden
-      	if($field)
-	      {
-	        if(rex_ooArticle::hasValue($field))
-	        {
-	          $tpl = '<?php echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, '$this->getValue(\''. addslashes($field) .'\')') .'); ?>';
-	        }
-	      }
-	      // REX_ARTICLE[] keine id -> aktuellen artikel verwenden
-	      else
-	      {
-	      	if($replaceInTemplate)
-	      	{
-	          // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
-	          // => endlossschleife
-	          $tpl = '<?php echo '. $this->handleGlobalVarParamsSerialized($var, $args, '$this->getArticle('. $ctype .')') .'; ?>';
-	      	}
-	      }
+        $article = $article_id;
       }
-      else if($article_id > 0)
+      else if($clang == 'null')
       {
-        // REX_ARTICLE[field=name id=5] feld von gegebene artikel id verwenden
-      	if($field)
+        $article = '$this->getValue(\'article_id\')';
+      }
+      else
+      {
+        $article = '$this';
+      }
+
+      if($field)
+      {
+        if(rex_ooArticle::hasValue($field))
         {
-          if(rex_ooArticle::hasValue($field))
-          {
-	        	// bezeichner wählen, der keine variablen
-	          // aus modulen/templates überschreibt
-            // clang als string übergeben wg ${xxx} notation
-            $varname = '$__rex_art';
-	          $tpl = '<?php
-	          '. $varname .' = rex_ooArticle::getArticleById('. $article_id .', "'. $clang .'");
-	          if('. $varname .') echo htmlspecialchars('. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getValue(\''. addslashes($field) .'\')') .');
-	          ?>';
-          }
+          $tpl = '<?php echo '. __CLASS__ .'::getArticleValue('. $article .", '". $field ."', ". $clang .", '". json_encode($args) ."'); ?>";
         }
-        // REX_ARTICLE[id=5] kompletten artikel mit gegebener artikel id einbinden
-        else
+      }
+      else
+      {
+        if($article != 0 || $replaceInTemplate)
         {
-	        // bezeichner wählen, der keine variablen
-	        // aus modulen/templates überschreibt
-          // clang als string übergeben wg ${xxx} notation
-          $varname = '$__rex_art';
-	        $tpl = '<?php
-	        '. $varname .' = new rex_article();
-	        '. $varname .'->setArticleId('. $article_id .');
-	        '. $varname .'->setClang("'. $clang .'");
-          echo '. $this->handleGlobalVarParamsSerialized($var, $args, $varname .'->getArticle('. $ctype .')') .';
-	        ?>';
+          // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
+          // => endlossschleife
+          $tpl = '<?php echo '. __CLASS__ .'::getArticle('. $article .', '. $ctype .', '. $clang .", '". json_encode($args) ."'); ?>";
         }
       }
 
@@ -128,5 +104,37 @@ class rex_var_article extends rex_var
     }
 
     return $content;
+  }
+
+  static public function getArticleValue($article, $field, $clang = null, $args = '')
+  {
+    if($clang === null)
+    {
+      $clang = rex_clang::getId();
+    }
+    if(!is_object($article))
+    {
+      $article = rex_ooArticle::getArticleById($article, $clang);
+    }
+
+    $value = $article->getValue($field);
+    $value = self::handleGlobalVarParams('REX_ARTICLE', json_decode($args, true), $value);
+    return htmlspecialchars($value);
+  }
+
+  static public function getArticle($article, $ctype = -1, $clang = null, $args = '')
+  {
+    if($clang === null)
+    {
+      $clang = rex_clang::getId();
+    }
+    if(!is_object($article))
+    {
+      $article = new rex_article($article, $clang);
+    }
+
+    $article = $article->getArticle($ctype);
+    $article = self::handleGlobalVarParams('REX_ARTICLE', json_decode($args, true), $article);
+    return $article;
   }
 }
