@@ -42,3 +42,13 @@ category_deleted  =  Kategorie wurde gelöscht!
 category_doesnt_exist  =  Kategorie existiert nicht!
 cant_delete_sitestartarticle = Der Webseiten-Startartikel kann nicht gelöscht werden!
 cant_delete_notfoundarticle = Der "Nicht-gefunden" Artikel kann nicht gelöscht werden!
+
+perm_options_article2category[] = Artikel in Kategorien umwandeln
+perm_options_article2startpage[] = Artikel in Startartikel umwandeln
+perm_options_copyArticle[] = Artikel kopieren
+perm_options_copyContent[] = Artikelinhalte kopieren
+perm_options_moveArticle[] = Artikel verschieben
+perm_options_moveCategory[] = Kategorien verschieben
+perm_options_publishArticle[] = Artikel veröffentlichen
+perm_options_publishCategory[] = Kategorien veröffentlichen
+perm_extras_editContentOnly[] = Es dürfen nur Inhalte gepflegt werden

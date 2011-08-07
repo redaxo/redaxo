@@ -72,19 +72,9 @@ $REX['PERM'] = array();
 $REX['EXTPERM'] = array();
 $REX['EXTPERM'][] = 'advancedMode[]';
 $REX['EXTPERM'][] = 'accesskeys[]';
-$REX['EXTPERM'][] = 'moveSlice[]';
-$REX['EXTPERM'][] = 'moveArticle[]';
-$REX['EXTPERM'][] = 'moveCategory[]';
-$REX['EXTPERM'][] = 'copyArticle[]';
-$REX['EXTPERM'][] = 'copyContent[]';
-$REX['EXTPERM'][] = 'publishArticle[]';
-$REX['EXTPERM'][] = 'publishCategory[]';
-$REX['EXTPERM'][] = 'article2startpage[]';
-$REX['EXTPERM'][] = 'article2category[]';
 
 // ----- extras
 $REX['EXTRAPERM'] = array();
-$REX['EXTRAPERM'][] = 'editContentOnly[]';
 
 // ----- SET CLANG
 if(!rex::isSetup())

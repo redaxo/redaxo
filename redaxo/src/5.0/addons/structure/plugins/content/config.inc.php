@@ -9,6 +9,8 @@
  * @version svn:$Id$
  */
 
+$REX['EXTPERM'][] = 'moveSlice[]';
+
 rex_var::registerVar('rex_var_value');
 
 if (rex::isBackend())

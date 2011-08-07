@@ -9,6 +9,16 @@
  * @version svn:$Id$
  */
 
+$REX['EXTPERM'][] = 'moveArticle[]';
+$REX['EXTPERM'][] = 'moveCategory[]';
+$REX['EXTPERM'][] = 'copyArticle[]';
+$REX['EXTPERM'][] = 'copyContent[]';
+$REX['EXTPERM'][] = 'publishArticle[]';
+$REX['EXTPERM'][] = 'publishCategory[]';
+$REX['EXTPERM'][] = 'article2startpage[]';
+$REX['EXTPERM'][] = 'article2category[]';
+$REX['EXTRAPERM'][] = 'editContentOnly[]';
+
 rex_var::registerVar('rex_var_globals');
 rex_var::registerVar('rex_var_article');
 rex_var::registerVar('rex_var_category');
