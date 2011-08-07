@@ -122,21 +122,21 @@ class rex_article_editor extends rex_article
             $obj->setACValues($artDataSql, $REX_ACTION);
           }
 
+          $moduleInput = $this->replaceVars($artDataSql, $moduleInput);
           $slice_content .= $this->editSlice($sliceId,$moduleInput,$sliceCtype, $moduleId);
-          $slice_content = $this->replaceVars($artDataSql, $slice_content);
         }
         else
         {
           // Modulinhalt ausgeben
+          $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
           $slice_content .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
-          $slice_content = $this->replaceVars($artDataSql, $slice_content);
         }
       }
       else
       {
         // ----- hat keine rechte an diesem modul, einfach ausgeben
+        $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
         $slice_content .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
-        $slice_content = $this->replaceVars($artDataSql, $slice_content);
       }
 
     }
