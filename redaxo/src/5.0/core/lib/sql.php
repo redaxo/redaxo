@@ -184,7 +184,9 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function execute($params = array())
   {
-    return $this->stmt->execute($params);
+    $success = $this->stmt->execute($params);
+    $this->rows = $this->stmt->rowCount();
+    return $success;
   }
 
   /**
