@@ -478,7 +478,10 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function getRow($fetch_type = PDO::FETCH_ASSOC)
   {
-    $this->lastRow = $this->stmt->fetch($fetch_type);
+    if(!$this->lastRow)
+    {
+      $this->lastRow = $this->stmt->fetch($fetch_type);
+    }
     return $this->lastRow;
   }
 
