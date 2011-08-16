@@ -12,6 +12,7 @@ class rex_sql extends rex_factory implements Iterator
 
   protected
     $values, // Werte von setValue
+    $rawValues, // Werte von setRawValue
     $fieldnames, // Spalten im ResultSet
     $rawFieldnames,
     $tablenames, // Tabelle im ResultSet
@@ -260,6 +261,20 @@ class rex_sql extends rex_factory implements Iterator
   }
 
   /**
+   * Sets the raw value of a column
+   *
+   * @param string $colName Name of the column
+   * @param string $value The raw value
+   * @return rex_sql the current rex_sql object
+   */
+  public function setRawValue($colName, $value)
+  {
+    $this->rawValues[$colName] = $value;
+
+    return $this;
+  }
+
+  /**
    * Set the value of a column
    *
    * @param $colName Name of the column
@@ -321,14 +336,14 @@ class rex_sql extends rex_factory implements Iterator
    * Setzt die WHERE Bedienung der Abfrage
    *
    * example 1:
-   *  	$sql->setWhere(array('id' => 3, 'field' => '')); // results in id = 3 AND field = ''
-   *  	$sql->setWhere(array(array('id' => 3, 'field' => ''))); // results in id = 3 OR field = ''
+   *    $sql->setWhere(array('id' => 3, 'field' => '')); // results in id = 3 AND field = ''
+   *    $sql->setWhere(array(array('id' => 3, 'field' => ''))); // results in id = 3 OR field = ''
    *
    * example 2:
-   *  	$sql->setWhere('myid = :id OR anotherfield = :field', array('id' => 3, 'field' => ''));
+   *    $sql->setWhere('myid = :id OR anotherfield = :field', array('id' => 3, 'field' => ''));
    *
    * example 3 (deprecated):
-   *  	$sql->setWhere('myid="35" OR abc="zdf"');
+   *    $sql->setWhere('myid="35" OR abc="zdf"');
    *
    * @return rex_sql the current rex_sql object
    */
@@ -415,8 +430,8 @@ class rex_sql extends rex_factory implements Iterator
     }
 
     // fast fail,... value already set manually?
-  	if(isset($this->values[$feldname]))
-  		return $this->values[$feldname];
+    if(isset($this->values[$feldname]))
+      return $this->values[$feldname];
 
     // check if there is an table alias defined
     // if not, try to guess the tablename
@@ -437,8 +452,8 @@ class rex_sql extends rex_factory implements Iterator
 
   protected function fetchValue($feldname)
   {
-  	if(isset($this->values[$feldname]))
-  		return $this->values[$feldname];
+    if(isset($this->values[$feldname]))
+      return $this->values[$feldname];
 
     if(empty($this->lastRow))
     {
@@ -561,6 +576,18 @@ class rex_sql extends rex_factory implements Iterator
         $qry .= '`'. $fld_name . '` = :'. $fld_name;
       }
     }
+    if(is_array($this->rawValues))
+    {
+      foreach($this->rawValues as $fld_name => $value)
+      {
+        if ($qry != '')
+        {
+          $qry .= ', ';
+        }
+
+        $qry .= '`'. $fld_name . '` = '. $value;
+      }
+    }
 
     if(trim($qry) == '')
     {
@@ -592,7 +619,7 @@ class rex_sql extends rex_factory implements Iterator
   public function select($fields)
   {
     return $this->setQuery(
-    	'SELECT '. $fields .' FROM `' . $this->table . '` '. $this->getWhere(),
+      'SELECT '. $fields .' FROM `' . $this->table . '` '. $this->getWhere(),
       $this->whereParams
     );
   }
@@ -608,7 +635,7 @@ class rex_sql extends rex_factory implements Iterator
   public function update()
   {
     return $this->setQuery(
-    	'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->getWhere(),
+      'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->getWhere(),
       array_merge($this->values, $this->whereParams)
     );
   }
@@ -627,7 +654,7 @@ class rex_sql extends rex_factory implements Iterator
     $values = $this->values;
 
     $res = $this->setQuery(
-    	'INSERT INTO `' . $this->table . '` SET ' . $this->buildPreparedValues(),
+      'INSERT INTO `' . $this->table . '` SET ' . $this->buildPreparedValues(),
       $this->values
     );
 
@@ -652,7 +679,7 @@ class rex_sql extends rex_factory implements Iterator
   public function replace()
   {
     return $this->setQuery(
-    	'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->getWhere(),
+      'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->getWhere(),
       array_merge($this->values, $this->whereParams)
     );
   }
@@ -667,7 +694,7 @@ class rex_sql extends rex_factory implements Iterator
   public function delete()
   {
     return $this->setQuery(
-    	'DELETE FROM `' . $this->table . '` '. $this->getWhere(),
+      'DELETE FROM `' . $this->table . '` '. $this->getWhere(),
       $this->whereParams
     );
   }
@@ -735,6 +762,7 @@ class rex_sql extends rex_factory implements Iterator
   private function flush()
   {
     $this->values = array ();
+    $this->rawValues = array();
     $this->whereParams = array ();
     $this->lastRow = array();
     $this->fieldnames = NULL;
@@ -758,6 +786,7 @@ class rex_sql extends rex_factory implements Iterator
   public function flushValues()
   {
     $this->values = array ();
+    $this->rawValues = array();
 
     return $this;
   }
@@ -780,7 +809,6 @@ class rex_sql extends rex_factory implements Iterator
     // re-execute the statement
     if($this->stmt && $this->counter != 0)
     {
-      //FIXME: missing parameters, throws a warning
       $this->execute();
       $this->counter = 0;
     }
@@ -863,9 +891,9 @@ class rex_sql extends rex_factory implements Iterator
   public function getError()
   {
     $errorInfos = self::$pdo[$this->DBID]->errorInfo();
-    // idx0 	SQLSTATE error code (a five characters alphanumeric identifier defined in the ANSI SQL standard).
-    // idx1 	Driver-specific error code.
-    // idx2 	Driver-specific error message.
+    // idx0   SQLSTATE error code (a five characters alphanumeric identifier defined in the ANSI SQL standard).
+    // idx1   Driver-specific error code.
+    // idx2   Driver-specific error message.
     return $errorInfos[2];
   }
 
@@ -948,7 +976,7 @@ class rex_sql extends rex_factory implements Iterator
    */
   static public function getInstance($DBID=1, $deprecatedSecondParam = null)
   {
-  	return static::factory($DBID);
+    return static::factory($DBID);
   }
 
   /**
@@ -1067,9 +1095,9 @@ class rex_sql extends rex_factory implements Iterator
     $qry = 'SHOW TABLES';
     if($tablePrefix != null)
     {
-		  // replace LIKE wildcards
+      // replace LIKE wildcards
       $tablePrefix = str_replace(array('_', '%'), array('\_', '\%'), $tablePrefix);
-    	$qry .= ' LIKE "'.$tablePrefix.'%"';
+      $qry .= ' LIKE "'.$tablePrefix.'%"';
     }
 
     $sql = self::factory($DBID);
@@ -1084,22 +1112,22 @@ class rex_sql extends rex_factory implements Iterator
    *
    * Beispiel fuer den Rueckgabewert:
    *
-	 * Array (
-	 * 	[0] => Array (
-	 * 		[name] => pid
-	 * 	  [type] => int(11)
-	 *    [null] => NO
-	 *    [key] => PRI
-	 *    [default] =>
-	 *    [extra] => auto_increment
+   * Array (
+   *  [0] => Array (
+   *    [name] => pid
+   *    [type] => int(11)
+   *    [null] => NO
+   *    [key] => PRI
+   *    [default] =>
+   *    [extra] => auto_increment
    *  )
    *  [1] => Array (
-   *  	[name] => id
-   *  	[type] => int(11)
-   *  	[null] => NO
-   *  	[key] => MUL
-   *  	[default] =>
-   *  	[extra] =>
+   *    [name] => id
+   *    [type] => int(11)
+   *    [null] => NO
+   *    [key] => MUL
+   *    [default] =>
+   *    [extra] =>
    *  )
    * )
    *
@@ -1156,7 +1184,7 @@ class rex_sql extends rex_factory implements Iterator
     return new $class($DBID);
   }
 
-	/**
+  /**
    * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
    * Datenbank an
    */
