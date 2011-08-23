@@ -809,6 +809,7 @@ class rex_sql extends rex_factory implements Iterator
     // re-execute the statement
     if($this->stmt && $this->counter != 0)
     {
+      //FIXME: missing parameters, throws a warning
       $this->execute();
       $this->counter = 0;
     }
