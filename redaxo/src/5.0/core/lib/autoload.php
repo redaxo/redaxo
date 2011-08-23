@@ -17,8 +17,8 @@ class rex_autoload
   static protected
     $registered = false,
     $cacheFile    = null,
-    $cacheLoaded  = false,
     $cacheChanged = false,
+    $reloaded     = false,
     $dirs         = array(),
     $files        = array(),
     $classes      = array()/*,
@@ -72,13 +72,18 @@ class rex_autoload
     $class = strtolower($class);
 
     // class already exists
-    if (class_exists($class, false) || interface_exists($class, false))
+    if(class_exists($class, false) || interface_exists($class, false))
     {
       return true;
     }
 
+    if(!isset(self::$classes[$class]) && !self::$reloaded)
+    {
+      self::reload();
+    }
+
     // we have a class path for the class, let's include it
-    if (isset(self::$classes[$class]))
+    if(isset(self::$classes[$class]))
     {
       require self::$classes[$class];
 
@@ -100,7 +105,6 @@ class rex_autoload
 
     list(self::$classes, self::$dirs, self::$files) = json_decode(file_get_contents(self::$cacheFile), true);
 
-    self::$cacheLoaded = true;
     self::$cacheChanged = false;
   }
 
@@ -126,29 +130,28 @@ class rex_autoload
   /**
    * Reloads cache.
    */
-//   static public function reload()
-//   {
-//     self::$classes = array();
-//     self::$cacheLoaded = false;
+  static public function reload()
+  {
+    self::$classes = array();
 
-//     foreach (self::$dirs as $dir)
-//     {
-//       self::addDirectory($dir);
-//     }
+    foreach (self::$dirs as $dir)
+    {
+      self::_addDirectory($dir);
+    }
 
-//     foreach (self::$files as $file)
-//     {
-//       self::addFile($file);
-//     }
+    foreach (self::$files as $file)
+    {
+      self::_addFile($file);
+    }
 
 //     foreach (self::$overriden as $class => $path)
 //     {
 //       self::$classes[$class] = $path;
 //     }
 
-//     self::$cacheLoaded = true;
-//     self::$cacheChanged = true;
-//   }
+    self::$cacheChanged = true;
+    self::$reloaded = true;
+  }
 
   /**
    * Removes the cache.
@@ -162,39 +165,33 @@ class rex_autoload
    * Adds a directory to the autoloading system if not yet present and give it the highest possible precedence.
    *
    * @param string $dir The directory to look for classes
-   * @param string $ext The extension to look for
    */
-  static public function addDirectory($classdir, $ext = '.php')
+  static public function addDirectory($dir)
   {
-    if ($dirs = glob($classdir .'*'. $ext, GLOB_NOSORT))
+    $classdir = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR;
+    if(!in_array($dir, self::$dirs))
     {
-      foreach ($dirs as $dir)
+      self::_addDirectory($dir);
+      self::$dirs[] = $dir;
+      self::$cacheChanged = true;
+    }
+  }
+
+  static private function _addDirectory($dir)
+  {
+    if($files = glob($dir .'*.php', GLOB_NOSORT))
+    {
+      foreach($files as $file)
       {
-        if (false !== $key = array_search($dir, self::$dirs))
-        {
-          unset(self::$dirs[$key]);
-          self::$dirs[] = $dir;
-
-          if (self::$cacheLoaded)
-          {
-            continue;
-          }
-        }
-        else
-        {
-          self::$dirs[] = $dir;
-        }
-
-        self::$cacheChanged = true;
-        self::addFile($dir, false);
+        self::_addFile($file);
       }
     }
 
-    if($subdirs = glob($classdir .'*', GLOB_ONLYDIR | GLOB_NOSORT))
+    if($subdirs = glob($dir .'*', GLOB_ONLYDIR | GLOB_NOSORT | GLOB_MARK))
     {
       // recursive over subdirectories
       foreach($subdirs as $subdir) {
-        self::addDirectory($subdir .DIRECTORY_SEPARATOR, $ext);
+        self::_addDirectory($subdir);
       }
     }
   }
@@ -217,37 +214,26 @@ class rex_autoload
    * Adds a file to the autoloading system.
    *
    * @param string  $file     A file path
-   * @param Boolean $register Whether to register those files as single entities (used when reloading)
    */
-  static public function addFile($file, $register = true)
+  static public function addFile($file)
   {
-    if (!is_file($file))
+    if(!in_array($file, self::$files))
+    {
+      self::_addFile($file);
+      self::$files[] = $file;
+      self::$cacheChanged = true;
+    }
+  }
+
+  static private function _addFile($file)
+  {
+    if(!is_file($file))
     {
       return;
     }
 
-    if (in_array($file, self::$files))
-    {
-      if (self::$cacheLoaded)
-      {
-        return;
-      }
-    }
-    else
-    {
-      if ($register)
-      {
-        self::$files[] = $file;
-      }
-    }
-
-    if ($register)
-    {
-      self::$cacheChanged = true;
-    }
-
     preg_match_all('~^\s*(?:abstract\s+|final\s+)?(?:class|interface)\s+(\w+)~mi', file_get_contents($file), $classes);
-    foreach ($classes[1] as $class)
+    foreach($classes[1] as $class)
     {
       self::$classes[strtolower($class)] = $file;
     }
