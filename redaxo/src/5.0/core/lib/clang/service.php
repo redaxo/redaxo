@@ -77,10 +77,10 @@ class rex_clang_service
 
     // ----- EXTENSION POINT
     rex_extension::registerPoint('CLANG_DELETED','',
-    array (
-      'id' => $clang,
-      'name' => $clangName,
-    )
+      array (
+        'id' => $clang,
+        'name' => $name
+      )
     );
 
     return TRUE;
