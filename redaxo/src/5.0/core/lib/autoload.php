@@ -168,7 +168,7 @@ class rex_autoload
    */
   static public function addDirectory($dir)
   {
-    $classdir = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR;
+    $dir = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR;
     if(!in_array($dir, self::$dirs))
     {
       self::_addDirectory($dir);
