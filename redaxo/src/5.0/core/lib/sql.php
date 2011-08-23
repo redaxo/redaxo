@@ -271,6 +271,7 @@ class rex_sql extends rex_factory implements Iterator
   public function setRawValue($colName, $value)
   {
     $this->rawValues[$colName] = $value;
+    unset($this->values[$colName]);
 
     return $this;
   }
@@ -285,6 +286,7 @@ class rex_sql extends rex_factory implements Iterator
   public function setValue($colName, $value)
   {
     $this->values[$colName] = $value;
+    unset($this->rawValues[$colName]);
 
     return $this;
   }
