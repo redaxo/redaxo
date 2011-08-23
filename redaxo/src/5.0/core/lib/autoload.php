@@ -122,7 +122,7 @@ class rex_autoload
       }
       else
       {
-        throw new Exception("Unable to write autoload cachefile '"+ self::$cacheFile +"'!");
+        throw new Exception("Unable to write autoload cachefile '". self::$cacheFile ."'!");
       }
     }
   }
