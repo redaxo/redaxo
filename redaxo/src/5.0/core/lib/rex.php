@@ -140,6 +140,17 @@ class rex
   }
 
   /**
+   * Adds the table prefix to the table name
+   *
+   * @param string $table Table name
+   * @return string
+   */
+  static public function getTable($table)
+  {
+    return self::getTablePrefix() . $table;
+  }
+
+  /**
    * Returns the temp prefix
    *
    * @return string
