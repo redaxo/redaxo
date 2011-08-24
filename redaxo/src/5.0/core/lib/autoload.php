@@ -77,17 +77,20 @@ class rex_autoload
       return true;
     }
 
-    if(!isset(self::$classes[$class]) && !self::$reloaded)
-    {
-      self::reload();
-    }
-
     // we have a class path for the class, let's include it
-    if(isset(self::$classes[$class]))
+    if(isset(self::$classes[$class]) && is_readable(self::$classes[$class]))
     {
       require self::$classes[$class];
+    }
 
+    if(class_exists($class, false) || interface_exists($class, false))
+    {
       return true;
+    }
+    elseif(!self::$reloaded)
+    {
+      self::reload();
+      return self::autoload($class);
     }
 
     return false;
