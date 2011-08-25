@@ -79,7 +79,7 @@ class rex_article extends rex_article_base
     global $REX;
     $value = $this->correctValue($value);
 
-    return $REX['ART'][$this->article_id][$value][$this->clang];
+    return rex_ooArticle::getArticleById($this->article_id, $this->clang)->getValue($value);
   }
 
   public function hasValue($value)
@@ -93,7 +93,7 @@ class rex_article extends rex_article_base
     global $REX;
     $value = $this->correctValue($value);
 
-    return isset($REX['ART'][$this->article_id][$value][$this->clang]);
+    return rex_ooArticle::getArticleById($this->article_id, $this->clang)->hasValue($value);
   }
 
   public function getArticle($curctype = -1)

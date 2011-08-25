@@ -128,14 +128,8 @@ abstract class rex_ooRedaxo
       $file = rex_path::cache('articles/'.  $startId .'.0.article');
       if(!rex::isBackend() && file_exists($file))
       {
-        // Im GetGenerated Modus, die Spaltennamen aus den generated Dateien holen
-        if(!isset($REX['ART'][$startId]))
-        {
-          $REX['ART'][$startId] = rex_file::getCache($file);
-        }
-
         // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
-        $genVars = self::convertGeneratedArray($REX['ART'][$startId],0);
+        $genVars = self::convertGeneratedArray(rex_file::getCache($file),0);
         unset($genVars['article_id']);
         unset($genVars['last_update_stamp']);
         foreach($genVars as $name => $value)
