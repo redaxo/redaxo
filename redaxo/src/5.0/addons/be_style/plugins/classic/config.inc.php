@@ -13,10 +13,6 @@
 
 $mypage = 'classic';
 
-$REX['ADDON']['version'][$mypage] = '1.3';
-$REX['ADDON']['author'][$mypage] = 'Umsetzung: Thomas Blum';
-$REX['ADDON']['supportpage'][$mypage] = 'www.redaxo.org/de/forum/';
-
 if(rex::isBackend())
 {
 
