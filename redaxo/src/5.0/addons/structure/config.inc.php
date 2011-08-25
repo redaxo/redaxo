@@ -9,15 +9,15 @@
  * @version svn:$Id$
  */
 
-rex_perm::register('moveArticle[]', rex_perm::OPTIONS);
-rex_perm::register('moveCategory[]', rex_perm::OPTIONS);
-rex_perm::register('copyArticle[]', rex_perm::OPTIONS);
-rex_perm::register('copyContent[]', rex_perm::OPTIONS);
-rex_perm::register('publishArticle[]', rex_perm::OPTIONS);
-rex_perm::register('publishCategory[]', rex_perm::OPTIONS);
-rex_perm::register('article2startpage[]', rex_perm::OPTIONS);
-rex_perm::register('article2category[]', rex_perm::OPTIONS);
-rex_perm::register('editContentOnly[]', rex_perm::EXTRAS);
+rex_perm::register('moveArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('moveCategory[]', null, rex_perm::OPTIONS);
+rex_perm::register('copyArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('copyContent[]', null, rex_perm::OPTIONS);
+rex_perm::register('publishArticle[]', null, rex_perm::OPTIONS);
+rex_perm::register('publishCategory[]', null, rex_perm::OPTIONS);
+rex_perm::register('article2startpage[]', null, rex_perm::OPTIONS);
+rex_perm::register('article2category[]', null, rex_perm::OPTIONS);
+rex_perm::register('editContentOnly[]', null, rex_perm::EXTRAS);
 
 rex_complex_perm::register('structure', 'rex_structure_perm');
 

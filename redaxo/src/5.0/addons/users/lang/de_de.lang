@@ -40,7 +40,3 @@ user_role_delete = Rolle löschen
 user_role_caption = Liste der angelegten Rollen
 user_role_summary = Auflistung aller angelegten Rollen
 user_no_role = keine Rolle
-
-# permissions
-perm_options_accesskeys[] = Tastenkürzel
-perm_options_advancedMode[] = Erweiterte Informationen anzeigen

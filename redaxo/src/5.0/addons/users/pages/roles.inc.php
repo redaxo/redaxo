@@ -62,12 +62,7 @@ else
     $select->setMultiple(true);
     $perms = rex_perm::getAll($permgroup);
     $select->setSize(min(10, max(3, count($perms))));
-    foreach($perms as $perm)
-    {
-      $key = 'perm_'. $permgroup .'_'. $perm;
-      $name = rex_i18n::hasMsg($key) ? rex_i18n::msg($key) : $perm;
-      $select->addOption($name, $perm);
-    }
+    $select->addArrayOptions($perms);
   }
 
   rex_extension::register('REX_FORM_INPUT_CLASS', function($params) {

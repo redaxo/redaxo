@@ -9,9 +9,10 @@ abstract class rex_perm
 
   static private $perms = array();
 
-  static public function register($perm, $group = self::GENERAL)
+  static public function register($perm, $name = null, $group = self::GENERAL)
   {
-    self::$perms[$group][] = $perm;
+    $name = $name ?: (rex_i18n::hasMsg($key = 'perm_'. $group .'_'. $perm) ? rex_i18n::msg($key) : $perm);
+    self::$perms[$group][$perm] = $name;
   }
 
   static public function getAll($group = self::GENERAL)

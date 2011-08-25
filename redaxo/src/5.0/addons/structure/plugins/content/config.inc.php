@@ -9,7 +9,7 @@
  * @version svn:$Id$
  */
 
-rex_perm::register('moveSlice[]', rex_perm::OPTIONS);
+rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
 
 rex_var::registerVar('rex_var_value');
 

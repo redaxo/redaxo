@@ -11,7 +11,7 @@
 
 $mypage = "version";
 
-rex_perm::register('version[only_working_version]', rex_perm::EXTRAS);
+rex_perm::register('version[only_working_version]', null, rex_perm::EXTRAS);
 // rex_perm::register('version[admin]', rex_perm::EXTRAS);
 
 // ***** an EPs andocken

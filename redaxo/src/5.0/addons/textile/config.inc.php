@@ -10,7 +10,7 @@
  */
 
 rex_perm::register('textile[]');
-rex_perm::register('textile[help]', rex_perm::OPTIONS);
+rex_perm::register('textile[help]', null, rex_perm::OPTIONS);
 
 require_once rex_path::addon('textile', 'functions/function_textile.inc.php');
 

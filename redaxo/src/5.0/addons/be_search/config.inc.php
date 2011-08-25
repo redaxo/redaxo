@@ -17,8 +17,8 @@ $mypage = 'be_search';
 // $this->setProperty('searchmode', 'global');
 $this->setProperty('searchmode', 'local');
 
-rex_perm::register('be_search[mediapool]', rex_perm::OPTIONS);
-rex_perm::register('be_search[structure]', rex_perm::OPTIONS);
+rex_perm::register('be_search[mediapool]', null, rex_perm::OPTIONS);
+rex_perm::register('be_search[structure]', null, rex_perm::OPTIONS);
 
 if (rex::isBackend())
 {
