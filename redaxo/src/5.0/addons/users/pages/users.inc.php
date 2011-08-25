@@ -129,9 +129,19 @@ $userperm_startpage = rex_request('userperm_startpage', 'string');
 
 
 // --------------------------------- FUNCTIONS
-$FUNC_UPDATE = rex_request("FUNC_UPDATE","string");
-$FUNC_APPLY = rex_request("FUNC_APPLY","string");
-$FUNC_DELETE = rex_request("FUNC_DELETE","string");
+$FUNC_UPDATE = '';
+$FUNC_APPLY = '';
+$FUNC_DELETE = '';
+if($user_id != 0 && (rex::getUser()->isAdmin() || !$sql->getValue('admin')))
+{
+  $FUNC_UPDATE = rex_request("FUNC_UPDATE","string");
+  $FUNC_APPLY = rex_request("FUNC_APPLY","string");
+  $FUNC_DELETE = rex_request("FUNC_DELETE","string");
+}
+else
+{
+  $user_id = 0;
+}
 $FUNC_ADD = rex_request("FUNC_ADD","string");
 $save = rex_request("save","int");
 $adminchecked = "";
@@ -463,15 +473,19 @@ if ($FUNC_ADD != "" || $user_id > 0)
 
 if (isset($SHOW) and $SHOW)
 {
-  $list = rex_list::factory('SELECT user_id, name, login, lasttrydate FROM '.rex::getTablePrefix().'user ORDER BY name');
+  $list = rex_list::factory('SELECT user_id, name, login, admin, lasttrydate FROM '.rex::getTablePrefix().'user ORDER BY name');
   $list->setCaption(rex_i18n::msg('user_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('user_summary'));
-  $list->addTableColumnGroup(array(40, '5%', '*', 153, 153, 153));
+  $list->addTableColumnGroup(array(40, '5%', '*', '*', 50, 153, 153));
 
   $tdIcon = '<span class="rex-i-element rex-i-user"><span class="rex-i-element-text">###name###</span></span>';
   $thIcon = '<a class="rex-i-element rex-i-user-add" href="'. $list->getUrl(array('FUNC_ADD' => '1')) .'"'. rex::getAccesskey(rex_i18n::msg('create_user'), 'add') .'><span class="rex-i-element-text">'. rex_i18n::msg('create_user') .'</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('user_id' => '###user_id###'));
+  $list->setColumnFormat($thIcon, 'custom', function($params) use($thIcon, $tdIcon) {
+    $list = $params["list"];
+    return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink($thIcon, $tdIcon) : $tdIcon;
+  });
 
   $list->setColumnLabel('user_id', 'ID');
   $list->setColumnLayout('user_id', array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
@@ -480,10 +494,18 @@ if (isset($SHOW) and $SHOW)
   $list->setColumnParams('name', array('user_id' => '###user_id###'));
   $list->setColumnFormat('name', 'custom', function ($params) {
     $list = $params["list"];
-    return $list->getColumnLink("name", htmlspecialchars($list->getValue("name") != "" ? $list->getValue("name") : $list->getValue("login")));
+    $name = htmlspecialchars($list->getValue("name") != "" ? $list->getValue("name") : $list->getValue("login"));
+    return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink("name", $name) : $name;
   });
 
+
+
   $list->setColumnLabel('login', rex_i18n::msg('login'));
+
+  $list->setColumnLabel('admin', rex_i18n::msg('admin'));
+  $list->setColumnFormat('admin', 'custom', function($params) {
+    return $params['subject'] ? rex_i18n::msg('yes') : rex_i18n::msg('no');
+  });
 
   $list->setColumnLabel('lasttrydate', rex_i18n::msg('last_login'));
   $list->setColumnFormat('lasttrydate', 'strftime', 'datetime');
@@ -493,7 +515,7 @@ if (isset($SHOW) and $SHOW)
   $list->setColumnParams('funcs', array('FUNC_DELETE' => '1', 'user_id' => '###user_id###'));
   $list->setColumnFormat('funcs', 'custom', function ($params) {
     $list = $params['list'];
-    if($list->getValue('user_id') == rex::getUser()->getValue('user_id'))
+    if($list->getValue('user_id') == rex::getUser()->getValue('user_id') || $list->getValue('admin') && !rex::getUser()->isAdmin())
     {
       return '<span class="rex-strike">'. rex_i18n::msg('user_delete') .'</span>';
     }
