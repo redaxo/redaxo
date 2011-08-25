@@ -27,6 +27,7 @@ if (rex::isSetup())
 
   $pages['setup'] = rex_be_navigation::getSetupPage();
   $page = 'setup';
+  rex::setProperty('page', 'setup');
 
 }else
 {
@@ -247,6 +248,8 @@ if(rex::getUser())
     }
   }
 }
+
+$page = rex::getProperty('page');
 
 // Set Startpage
 if($user = rex::getUser())
