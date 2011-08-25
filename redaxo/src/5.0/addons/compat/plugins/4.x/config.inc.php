@@ -6,8 +6,7 @@
 
 global $REX, $I18N;
 
-// TODO uncomment this when $REX is completely removed from core
-//$REX = new rex_compat_array;
+$REX = new rex_compat_array;
 
 $REX['INCLUDE_PATH'] = rex_path::version();
 $REX['FRONTEND_PATH'] = rex_path::frontend('', rex_path::ABSOLUTE);
@@ -16,9 +15,8 @@ $REX['FRONTEND_FILE'] = 'index.php';
 
 $REX['GG'] = !rex::isBackend();
 
-// TODO uncomment this when $REX is completely removed from core
-//$REX->setCallbackAlias('CUR_CLANG', 'rex_clang::getId', 'rex_clang::setId');
-//$REX->setCallbackAlias('CLANG', 'rex_clang::getAll', 'rex_clang::reset');
+$REX->setCallbackAlias('CUR_CLANG', 'rex_clang::getId', 'rex_clang::setId');
+$REX->setCallbackAlias('CLANG', 'rex_clang::getAll', 'rex_clang::reset');
 
 if(rex::isBackend())
 {
@@ -35,9 +33,8 @@ global $REX_USER, $REX_LOGIN, $article_id, $clang;
 $REX_USER = rex::getUser();
 $REX_LOGIN = rex::getProperty('login');
 
-// TODO uncomment this when $REX is completely removed from core
-//$REX->setGlobalVarAlias('ARTICLE_ID', 'article_id');
-//$REX->setGlobalVarAlias('CUR_CLANG', 'clang');
+$REX->setGlobalVarAlias('ARTICLE_ID', 'article_id');
+$REX->setGlobalVarAlias('CUR_CLANG', 'clang');
 
 
 require_once __DIR__ .'/functions/function_rex_client_cache.inc.php';
