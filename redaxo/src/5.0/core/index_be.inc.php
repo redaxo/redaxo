@@ -92,6 +92,8 @@ rex::setProperty('pages', $pages);
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.inc.php');
 
+$pages = rex::getProperty('pages');
+
 // ----- Prepare AddOn Pages
 if(rex::getUser())
 {
