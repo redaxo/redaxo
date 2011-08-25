@@ -18,6 +18,10 @@ $REX['GG'] = !rex::isBackend();
 $REX->setCallbackAlias('CUR_CLANG', 'rex_clang::getId', 'rex_clang::setId');
 $REX->setCallbackAlias('CLANG', 'rex_clang::getAll', 'rex_clang::reset');
 
+$REX['PERM'] = new rex_perm_compat(rex_perm::GENERAL);
+$REX['EXTPERM'] = new rex_perm_compat(rex_perm::OPTIONS);
+$REX['EXTRAPERM'] = new rex_perm_compat(rex_perm::EXTRAS);
+
 if(rex::isBackend())
 {
   $I18N = new i18n(rex::getProperty('lang'));
