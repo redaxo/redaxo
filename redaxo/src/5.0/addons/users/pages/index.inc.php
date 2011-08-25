@@ -8,6 +8,7 @@
 
 $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
+$id = rex_request('id', 'int');
 
 switch($subpage)
 {

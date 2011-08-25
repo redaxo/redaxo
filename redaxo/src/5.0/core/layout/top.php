@@ -66,7 +66,7 @@ $navigation = '';
 if (rex::getUser() && $hasNavigation)
 {
 	$n = rex_be_navigation::factory();
-	foreach(rex::getUser()->pages as $p => $pageContainer)
+	foreach(rex::getProperty('pages') as $p => $pageContainer)
   {
 		$p = strtolower($p);
     if(rex_be_page_main::isValid($pageContainer))

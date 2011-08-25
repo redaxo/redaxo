@@ -274,3 +274,7 @@ form_applied = Eingaben wurden übernommen!
 form_deleted = Eingaben wurden gelöscht!
 form_delete_error = Fehler beim löschen!
 form_resetted = Eingaben wurden verworfen!
+
+# clang
+all_clangs = Alle Sprachen
+clangs = Sprachen

@@ -350,8 +350,7 @@ function rex_article2startpage($neu_id){
     rex_article_cache::delete($gid);
   }
 
-  $users = rex_sql::factory();
-  $users->setQuery('UPDATE '. rex::getTablePrefix() .'user SET rights = REPLACE(rights, "#csw['. $alt_id .']#", "#csw['. $neu_id .']#")');
+  rex_complex_perm::replaceItem('structure', $alt_id, $neu_id);
 
   foreach(rex_clang::getAllIds() as $clang)
   {

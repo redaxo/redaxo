@@ -99,7 +99,7 @@ if ($subpage=='media' && rex_post('btn_delete', 'string'))
   if ($media)
   {
     $file_name = $media->getFileName();
-    if ($PERMALL || rex::getUser()->hasPerm('media['.$media->getCategoryId().']'))
+    if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId()))
     {
       $uses = $media->isInUse();
       if($uses === false)
@@ -141,7 +141,7 @@ if ($subpage=="media" && rex_post('btn_update', 'string')){
   $gf->setQuery("select * from ".rex::getTablePrefix()."media where media_id='$file_id'");
   if ($gf->getRows()==1)
   {
-    if ($PERMALL || (rex::getUser()->hasPerm('media['.$gf->getValue('category_id').']') && rex::getUser()->hasPerm('media['. $rex_file_category .']')))
+    if ($PERMALL || (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)))
     {
 
       $FILEINFOS = array();
@@ -488,7 +488,7 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
 			$media = rex_ooMedia::getMediaByFileName($file_name);
 			if ($media)
 			{
-			 if ($PERMALL || rex::getUser()->hasPerm('media['.$media->getCategoryId().']'))
+			 if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId()))
 			 {
 			   $uses = $media->isInUse();
 			   if($uses === false)

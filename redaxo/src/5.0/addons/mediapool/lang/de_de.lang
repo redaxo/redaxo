@@ -85,6 +85,9 @@ pool_max_uploadtime = Maximale Uploadzeit
 pool_upload_disabled = Deaktiviert!
 pool_upload = Dateiupload
 
+all_mediafolder = Alle Medienordner
+mediafolder = Medienordner
+
 var_media_open = Medium auswählen
 var_media_new = Neues Medium hinzufügen
 var_media_remove = Ausgewähltes Medium löschen

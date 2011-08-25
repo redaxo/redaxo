@@ -15,7 +15,7 @@ if (rex::isBackend())
 {
   $page = new rex_be_page_popup(rex_i18n::msg('linkmap'), '', array('page' => 'linkmap'));
   $page->setHidden(true);
-  $page->setRequiredPermissions('hasStructurePerm');
+  $page->setRequiredPermissions('structure/hasStructurePerm');
 
   $this->setProperty('page', new rex_be_page_main('system', $page));
 

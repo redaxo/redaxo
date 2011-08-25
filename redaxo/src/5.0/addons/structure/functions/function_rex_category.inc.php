@@ -17,7 +17,7 @@ $KAT = rex_sql::factory();
 // $KAT->debugsql = true;
 $KAT->setQuery("SELECT * FROM ".rex::getTablePrefix()."article WHERE id=$category_id AND startpage=1 AND clang=$clang");
 
-if ($KAT->getRows()!=1 || !rex::getUser()->hasCategoryPerm($category_id))
+if ($KAT->getRows()!=1 || !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
 {
   // kategorie existiert nicht
   if($category_id != 0)
@@ -34,7 +34,7 @@ else
   foreach($ooCat->getParentTree() as $parent)
   {
     $catid = $parent->getId();
-    if (rex::getUser()->hasCategoryPerm($catid))
+    if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($catid))
     {
       $catname = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
       $KAToutARR[]['content'] = '<a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'">'. $catname .'</a>';

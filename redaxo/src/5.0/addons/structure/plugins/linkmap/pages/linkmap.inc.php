@@ -116,7 +116,7 @@ rex_title('Linkmap', $navi_path);
 			<?php
 			$roots = rex_ooCategory::getRootCategories();
 
-			$mountpoints = rex::getUser()->getMountpoints();
+			$mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
 			if(count($mountpoints)>0)
 			{
 				$roots = array();

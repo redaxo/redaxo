@@ -43,6 +43,9 @@ category_doesnt_exist  =  Kategorie existiert nicht!
 cant_delete_sitestartarticle = Der Webseiten-Startartikel kann nicht gelöscht werden!
 cant_delete_notfoundarticle = Der "Nicht-gefunden" Artikel kann nicht gelöscht werden!
 
+all_categories = Alle Kategorien
+categories = Kategorien
+
 perm_options_article2category[] = Artikel in Kategorien umwandeln
 perm_options_article2startpage[] = Artikel in Startartikel umwandeln
 perm_options_copyArticle[] = Artikel kopieren

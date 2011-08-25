@@ -135,7 +135,7 @@ if ($article->getRows() == 1)
   );
 
   // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
-  if (!rex::getUser()->hasCategoryPerm($category_id))
+  if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
   {
     // ----- hat keine rechte an diesem artikel
     echo rex_warning(rex_i18n::msg('no_rights_to_edit'));
@@ -182,7 +182,7 @@ if ($article->getRows() == 1)
           $slice_id = '';
           $function = '';
 
-        }elseif (!(rex::getUser()->isAdmin() || rex::getUser()->hasPerm('module[' . $module_id . ']') || rex::getUser()->hasPerm('module[0]')))
+        }elseif (!(rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($module_id)))
         {
           // ----- RECHTE AM MODUL: NEIN
           $global_warning = rex_i18n::msg('no_rights_to_this_function');
@@ -366,7 +366,7 @@ if ($article->getRows() == 1)
           $module_id = (int) $CM->getValue(rex::getTablePrefix()."article_slice.modultyp_id");
 
           // ----- RECHTE AM MODUL ?
-          if (rex::getUser()->isAdmin() || rex::getUser()->hasPerm("module[$module_id]") || rex::getUser()->hasPerm("module[0]"))
+          if (rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($module_id))
           {
             // rechte sind vorhanden
             if ($function == "moveup" || $function == "movedown")
@@ -445,7 +445,7 @@ if ($article->getRows() == 1)
     if (rex_post('category2article', 'boolean'))
     {
       // article2category und category2article verwenden das gleiche Recht: article2category
-      if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('article2category[]') && rex::getUser()->hasCategoryPerm($article->getValue('re_id'))))
+      if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('article2category[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id'))))
       {
         if (rex_category2article($article_id))
         {
@@ -469,10 +469,10 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: COPY LANG CONTENT
     if (rex_post('copycontent', 'boolean'))
     {
-      $clang_perm = rex::getUser()->getClangPerm();
       $clang_a = rex_post('clang_a', 'rex-clang-id');
       $clang_b = rex_post('clang_b', 'rex-clang-id');
-      if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('copyContent[]') && count($clang_perm) > 0 && in_array($clang_a, $clang_perm) && in_array($clang_b, $clang_perm)))
+      $user = rex::getUser();
+      if ($user->isAdmin() || ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->hasPerm($clang_a) && $user->getComplexPerm('clang')->hasPerm($clang_b)))
       {
         if (rex_copyContent($article_id, $article_id, $clang_a, $clang_b, 0, $slice_revision))
           $info = rex_i18n::msg('content_contentcopy');
@@ -490,7 +490,7 @@ if ($article->getRows() == 1)
     if (rex_post('movearticle', 'boolean') && $category_id != $article_id)
     {
       $category_id_new = rex_post('category_id_new', 'rex-category-id');
-      if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveArticle[]') && rex::getUser()->hasCategoryPerm($category_id_new)))
+      if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)))
       {
         if (rex_moveArticle($article_id, $category_id, $category_id_new))
         {
@@ -515,7 +515,7 @@ if ($article->getRows() == 1)
     if (rex_post('copyarticle', 'boolean'))
     {
       $category_copy_id_new = rex_post('category_copy_id_new', 'rex-category-id');
-      if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('copyArticle[]') && rex::getUser()->hasCategoryPerm($category_copy_id_new)))
+      if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('copyArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_copy_id_new)))
       {
         if (($new_id = rex_copyArticle($article_id, $category_copy_id_new)) !== false)
         {
@@ -540,7 +540,7 @@ if ($article->getRows() == 1)
     if (rex_post('movecategory', 'boolean'))
     {
       $category_id_new = rex_post('category_id_new', 'rex-category-id');
-      if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->hasCategoryPerm($article->getValue('re_id')) && rex::getUser()->hasCategoryPerm($category_id_new)))
+      if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id')) && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)))
       {
         if ($category_id != $category_id_new && rex_moveCategory($category_id, $category_id_new))
         {
@@ -900,7 +900,7 @@ if ($article->getRows() == 1)
       // --------------------------------------------------- IN KATEGORIE UMWANDELN END
 
       // --------------------------------------------------- IN ARTIKEL UMWANDELN START
-      if ($isStartpage && (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('category2article[]') && rex::getUser()->hasCategoryPerm($article->getValue('re_id')))))
+      if ($isStartpage && (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('category2article[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id')))))
       {
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT pid FROM '. rex::getTablePrefix() .'article WHERE re_id='. $article_id .' LIMIT 1');
@@ -928,9 +928,10 @@ if ($article->getRows() == 1)
       // --------------------------------------------------- IN ARTIKEL UMWANDELN END
 
       // --------------------------------------------------- INHALTE KOPIEREN START
-      if ((rex::getUser()->isAdmin() || rex::getUser()->hasPerm('copyContent[]')) && count(rex::getUser()->getClangPerm()) > 1)
+      $user = rex::getUser();
+      if (($user->isAdmin() || $user->hasPerm('copyContent[]')) && $user->getComplexPerm('clang')->count() > 1)
       {
-        $clang_perm = rex::getUser()->getClangPerm();
+        $clang_perm = $user->getComplexPerm('clang')->getClangs();
 
         $lang_a = new rex_select;
         $lang_a->setStyle('class="rex-form-select"');
@@ -1059,7 +1060,7 @@ if ($article->getRows() == 1)
       // --------------------------------------------------- ARTIKEL KOPIEREN ENDE
 
       // --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START
-      if ($isStartpage && (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->hasCategoryPerm($article->getValue('re_id')))))
+      if ($isStartpage && (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id')))))
       {
         $move_a = new rex_category_select(false, false, true, !rex::getUser()->hasMountPoints());
         $move_a->setStyle('class="rex-form-select"');

@@ -543,7 +543,6 @@ if ($checkmodus == 3 && $send == 1)
 	$requiredTables = array (
 		rex::getTablePrefix() .'clang',
 		rex::getTablePrefix() .'user',
-		rex::getTablePrefix() .'user_role',
 		rex::getTablePrefix() .'config'
 	);
 
@@ -832,8 +831,8 @@ if ($checkmodus == 4 && $send == 1)
 				$user->setTable(rex::getTablePrefix().'user');
 				$user->setValue('name', 'Administrator');
 				$user->setValue('login', $redaxo_user_login);
-				$user->setValue('psw', $redaxo_user_pass);
-				$user->setValue('rights', '#admin[]#');
+				$user->setValue('password', $redaxo_user_pass);
+				$user->setValue('admin', 1);
 				$user->addGlobalCreateFields('setup');
 				$user->setValue('status', '1');
 				if (!$user->insert())

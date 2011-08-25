@@ -7,7 +7,7 @@ class rex_api_category_add extends rex_api_function
     $parentId = rex_request('parent-category-id', 'rex-category-id');
 
     /**
-     * @var rex_login_sql
+     * @var rex_user
      */
     $user = rex::getUser();
 
@@ -16,7 +16,7 @@ class rex_api_category_add extends rex_api_function
       throw new rex_api_exception('api call not allowed for user with "editContentOnly[]"-option!');
     }
 
-    if(!$user->hasCategoryPerm($parentId)) {
+    if(!$user->getComplexPerm('structure')->hasCategoryPerm($parentId)) {
       throw new rex_api_exception('user has no permission for this category!');
     }
 
@@ -37,12 +37,12 @@ class rex_api_category_edit extends rex_api_function
     $clangId = rex_request('clang', 'rex-clang-id');
 
     /**
-     * @var rex_login_sql
+     * @var rex_user
      */
     $user = rex::getUser();
 
     // check permissions
-    if(!$user->hasCategoryPerm($catId)) {
+    if(!$user->getComplexPerm('structure')->hasCategoryPerm($catId)) {
       throw new rex_api_exception('user has no permission for this category!');
     }
 
@@ -62,7 +62,7 @@ class rex_api_category_delete extends rex_api_function
     $catId   = rex_request('category-id', 'rex-category-id');
 
     /**
-     * @var rex_login_sql
+     * @var rex_user
      */
     $user = rex::getUser();
 
@@ -71,7 +71,7 @@ class rex_api_category_delete extends rex_api_function
       throw new rex_api_exception('api call not allowed for user with "editContentOnly[]"-option!');
     }
 
-    if(!$user->hasCategoryPerm($catId)) {
+    if(!$user->getComplexPerm('structure')->hasCategoryPerm($catId)) {
       throw new rex_api_exception('user has no permission for this category!');
     }
 
@@ -87,12 +87,12 @@ class rex_api_category_status extends rex_api_function
     $clangId = rex_request('clang', 'rex-clang-id');
 
     /**
-     * @var rex_login_sql
+     * @var rex_user
      */
     $user = rex::getUser();
 
     // check permissions
-    if($user->isAdmin() || $user->hasCategoryPerm($catId) && $user->hasPerm('publishArticle[]')) {
+    if($user->isAdmin() || $user->getComplexPerm('structure')->hasCategoryPerm($catId) && $user->hasPerm('publishArticle[]')) {
       return rex_category_service::categoryStatus($catId, $clangId);
     }
     else

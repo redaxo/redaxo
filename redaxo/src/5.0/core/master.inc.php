@@ -65,16 +65,10 @@ rex::setProperty('system_packages', array('structure', 'structure/content', 'str
 
 // ----------------- REX PERMS
 
-// ----- allgemein
-$REX['PERM'] = array();
+rex_perm::register('advancedMode[]', rex_perm::OPTIONS);
+rex_perm::register('accesskeys[]', rex_perm::OPTIONS);
 
-// ----- optionen
-$REX['EXTPERM'] = array();
-$REX['EXTPERM'][] = 'advancedMode[]';
-$REX['EXTPERM'][] = 'accesskeys[]';
-
-// ----- extras
-$REX['EXTRAPERM'] = array();
+rex_complex_perm::register('clang', 'rex_clang_perm');
 
 // ----- SET CLANG
 if(!rex::isSetup())

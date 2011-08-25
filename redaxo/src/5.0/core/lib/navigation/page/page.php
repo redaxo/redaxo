@@ -224,7 +224,7 @@ class rex_be_page implements rex_be_page_container
     return $this->requiredPermissions;
   }
 
-  public function checkPermission(rex_login_sql $rexUser)
+  public function checkPermission(rex_user $rexUser)
   {
     foreach($this->requiredPermissions as $perm)
     {

@@ -132,7 +132,7 @@ function rex_mediapool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediacat
     $mname .= ' ['. $mediacat->getId() .']';
 
   $mediacat_ids[] = $mediacat->getId();
-  if ($PERMALL || rex::getUser()->hasPerm('media['.$mediacat->getId().']'))
+  if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId()))
     $select->addOption($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
 
   $childs = $mediacat->getChildren();

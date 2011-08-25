@@ -485,9 +485,10 @@ abstract class rex_package_manager extends rex_factory
     $package = $this->package->getPackageId();
     if(!in_array($package, $order))
     {
-      if($this->package->getAddon()->getName() == 'compat')
+      $name = $this->package->getAddon()->getName();
+      if(in_array($name, array('users', 'compat')))
       {
-        for($i = 0; rex_package::get($order[$i])->getAddon()->getName() == 'compat'; ++$i);
+        for($i = 0; rex_package::get($order[$i])->getAddon()->getName() == $name; ++$i);
         array_splice($order, $i, 0, array($package));
       }
       else

@@ -9,15 +9,17 @@
  * @version svn:$Id$
  */
 
-$REX['EXTPERM'][] = 'moveArticle[]';
-$REX['EXTPERM'][] = 'moveCategory[]';
-$REX['EXTPERM'][] = 'copyArticle[]';
-$REX['EXTPERM'][] = 'copyContent[]';
-$REX['EXTPERM'][] = 'publishArticle[]';
-$REX['EXTPERM'][] = 'publishCategory[]';
-$REX['EXTPERM'][] = 'article2startpage[]';
-$REX['EXTPERM'][] = 'article2category[]';
-$REX['EXTRAPERM'][] = 'editContentOnly[]';
+rex_perm::register('moveArticle[]', rex_perm::OPTIONS);
+rex_perm::register('moveCategory[]', rex_perm::OPTIONS);
+rex_perm::register('copyArticle[]', rex_perm::OPTIONS);
+rex_perm::register('copyContent[]', rex_perm::OPTIONS);
+rex_perm::register('publishArticle[]', rex_perm::OPTIONS);
+rex_perm::register('publishCategory[]', rex_perm::OPTIONS);
+rex_perm::register('article2startpage[]', rex_perm::OPTIONS);
+rex_perm::register('article2category[]', rex_perm::OPTIONS);
+rex_perm::register('editContentOnly[]', rex_perm::EXTRAS);
+
+rex_complex_perm::register('structure', 'rex_structure_perm');
 
 rex_var::registerVar('rex_var_globals');
 rex_var::registerVar('rex_var_article');

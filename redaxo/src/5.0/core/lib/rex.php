@@ -163,7 +163,7 @@ class rex
   /**
    * Returns the current user
    *
-   * @return rex_login_sql
+   * @return rex_user
    */
   static public function getUser()
   {

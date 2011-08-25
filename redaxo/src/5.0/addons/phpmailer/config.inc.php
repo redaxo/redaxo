@@ -9,4 +9,4 @@
  * @version svn:$Id$
  */
 
-$REX['PERM'][] = 'phpmailer[]';
+rex_perm::register('phpmailer[]');

@@ -14,11 +14,11 @@ $mypage = 'be_search';
 // Suchmodus
 // global => Es werden immer alle Kategorien durchsucht
 // local => Es werden immer die aktuelle+Unterkategorien durchsucht
-// $REX['ADDON']['searchmode'][$mypage] = 'global';
+// $this->setProperty('searchmode', 'global');
 $this->setProperty('searchmode', 'local');
 
-$REX['EXTPERM'][] = 'be_search[mediapool]';
-$REX['EXTPERM'][] = 'be_search[structure]';
+rex_perm::register('be_search[mediapool]', rex_perm::OPTIONS);
+rex_perm::register('be_search[structure]', rex_perm::OPTIONS);
 
 if (rex::isBackend())
 {

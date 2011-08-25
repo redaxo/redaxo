@@ -9,14 +9,14 @@
  * @version svn:$Id$
  */
 
-$REX['EXTPERM'][] = 'moveSlice[]';
+rex_perm::register('moveSlice[]', rex_perm::OPTIONS);
 
 rex_var::registerVar('rex_var_value');
 
 if (rex::isBackend())
 {
   $page = new rex_be_page(rex_i18n::msg('content'), array('page' => 'linkmap'));
-  $page->setRequiredPermissions('hasStructurePerm');
+  $page->setRequiredPermissions('structure/hasStructurePerm');
   $page->setHidden(true);
   $this->setProperty('page', new rex_be_page_main('system', $page));
 

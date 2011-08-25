@@ -11,8 +11,8 @@
 
 $mypage = "version";
 
-$REX['EXTRAPERM'][] = 'version[only_working_version]';
-// $REX['EXTPERM'][] = 'version[admin]';
+rex_perm::register('version[only_working_version]', rex_perm::EXTRAS);
+// rex_perm::register('version[admin]', rex_perm::EXTRAS);
 
 // ***** an EPs andocken
 rex_extension::register('ART_INIT', 'rex_version_initArticle');

@@ -90,7 +90,6 @@ foreach(rex_i18n::getLocales() as $locale)
 {
 	rex_i18n::setLocale($locale,FALSE); // Locale nicht neu setzen
   $sel_be_sprache->addOption(rex_i18n::msg('lang'), $locale);
-  $langs[$locale] = rex_i18n::msg('lang');
 }
 rex_i18n::setLocale($saveLocale, false);
 $userperm_be_sprache = rex_request('userperm_be_sprache', 'string');
@@ -149,6 +148,9 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   $updateuser->setWhere('user_id='. $user_id);
   $updateuser->setValue('name',$username);
   $updateuser->setValue('role', $userrole);
+  $updateuser->setValue('admin', $useradmin == 1 ? 1 : 0);
+  $updateuser->setValue('language', $userperm_be_sprache);
+  $updateuser->setValue('startpage', $userperm_startpage);
   $updateuser->addGlobalUpdateFields();
   $updateuser->setValue('description',$userdesc);
   if ($loginReset == 1) $updateuser->setValue('login_tries','0');
@@ -159,37 +161,12 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   {
     // the service side encryption of pw is only required
     // when not already encrypted by client using javascript
-    if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0' && $userpsw != $sql->getValue(rex::getTablePrefix().'user.psw'))
+    if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0' && $userpsw != $sql->getValue(rex::getTablePrefix().'user.password'))
       $userpsw = call_user_func(rex::getProperty('pswfunc'),$userpsw);
 
-    $updateuser->setValue('psw',$userpsw);
+    $updateuser->setValue('password',$userpsw);
   }
 
-  $perm = '';
-  if ($useradmin == 1)
-    $perm .= '#admin[]';
-
-  // userperm_be_sprache
-	foreach($langs as $k => $v)
-	{
-		if($userperm_be_sprache == $k)
-		{
-		  $perm .= '#be_lang['.$userperm_be_sprache.']';
-		  break;
-		}
-	}
-
-	// userperm_startpage
-	foreach($startpages as $k => $v)
-	{
-	  if($userperm_startpage == $k)
-	  {
-	    $perm .= '#startpage['.$userperm_startpage.']';
-	    break;
-	  }
-	}
-
-  $updateuser->setValue('rights',$perm.'#');
   $updateuser->update();
 
   if(isset($FUNC_UPDATE) && $FUNC_UPDATE != '')
@@ -228,31 +205,17 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     // when not already encrypted by client using javascript
     if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0')
       $userpsw = call_user_func(rex::getProperty('pswfunc'),$userpsw);
-    $adduser->setValue('psw',$userpsw);
+    $adduser->setValue('password',$userpsw);
     $adduser->setValue('login',$userlogin);
     $adduser->setValue('description',$userdesc);
+    $adduser->setValue('admin', $useradmin == 1 ? 1 : 0);
+    $adduser->setValue('language', $userperm_be_sprache);
+    $adduser->setValue('startpage', $userperm_startpage);
     $adduser->setValue('role', $userrole);
     $adduser->addGlobalCreateFields();
     if (isset($userstatus) and $userstatus == 1) $adduser->setValue('status',1);
     else $adduser->setValue('status',0);
 
-    $perm = '';
-    if ($useradmin == 1) $perm .= '#'.'admin[]';
-
-    // userperm be sprache
-	  foreach($langs as $k => $v)
-	  {
-	    if($userperm_be_sprache == $k) $perm .= '#be_lang['.$userperm_be_sprache.']';
-	  }
-
-    // userperm startpage
-	  foreach($startpages as $k => $v)
-	  {
-	    if($userperm_startpage == $k) $perm .= '#startpage['.$userperm_startpage.']';
-	  }
-
-
-    $adduser->setValue('rights',$perm.'#');
     $adduser->insert();
     $user_id = 0;
     $FUNC_ADD = "";
@@ -311,13 +274,13 @@ if ($FUNC_ADD != "" || $user_id > 0)
 		$add_user_class = ' rex-form-read';
     $add_user_login = '<span class="rex-form-read" id="userlogin">'. htmlspecialchars($sql->getValue(rex::getTablePrefix().'user.login')) .'</span>';
 
-    $sql = new rex_login_sql;
+    $sql = rex_sql::factory();
     $sql->setQuery('select * from '. rex::getTablePrefix() .'user where user_id='. $user_id);
 
     if ($sql->getRows()==1)
     {
       // ----- EINLESEN DER PERMS
-      if ($sql->isAdmin()) $adminchecked = 'checked="checked"';
+      if ($sql->getValue('admin')) $adminchecked = 'checked="checked"';
       else $adminchecked = '';
 
       if ($sql->getValue(rex::getTablePrefix().'user.status') == 1) $statuschecked = 'checked="checked"';
@@ -326,20 +289,14 @@ if ($FUNC_ADD != "" || $user_id > 0)
       $userrole = $sql->getValue(rex::getTablePrefix().'user.role');
       $sel_role->setSelected($userrole);
 
-			foreach($langs as $k => $v)
-			{
-				if ($sql->hasPerm('be_lang['.$k.']')) $userperm_be_sprache = $k;
-			}
+			$userperm_be_sprache = $sql->getValue('language');
 			$sel_be_sprache->setSelected($userperm_be_sprache);
 
-			foreach($startpages as $k => $v)
-			{
-				if ($sql->hasPerm('startpage['.$k.']')) $userperm_startpage = $k;
-			}
+			$userperm_startpage = $sql->getValue('startpage');
 			$sel_startpage->setSelected($userperm_startpage);
 
 
-      $userpsw = $sql->getValue(rex::getTablePrefix().'user.psw');
+      $userpsw = $sql->getValue(rex::getTablePrefix().'user.password');
       $username = $sql->getValue(rex::getTablePrefix().'user.name');
       $userdesc = $sql->getValue(rex::getTablePrefix().'user.description');
 

@@ -2,7 +2,7 @@ name: 'translate:structure'
 version: '1.3'
 author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
-perm: hasStructurePerm
+perm: structure/hasStructurePerm
 navigation:
   block: system
   prio: 10

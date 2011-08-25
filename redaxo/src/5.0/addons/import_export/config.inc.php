@@ -4,8 +4,8 @@ $mypage = 'import_export';
 
 if(rex::isBackend() && is_object(rex::getUser()))
 {
-  $REX['PERM'][] = 'import_export[export]';
-  $REX['PERM'][] = 'import_export[import]';
+  rex_perm::register('import_export[export]');
+  rex_perm::register('import_export[import]');
 
   $pages = array();
 

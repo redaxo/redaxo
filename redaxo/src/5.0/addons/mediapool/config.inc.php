@@ -11,10 +11,12 @@
 
 $mypage = 'mediapool';
 
+rex_complex_perm::register('media', 'rex_media_perm');
+
 if(rex::isBackend())
 {
   $mpool = new rex_be_page_popup(rex_i18n::msg('mediapool'), 'openMediaPool(); return false;');
-  $mpool->setRequiredPermissions('hasMediaPerm');
+  $mpool->setRequiredPermissions('media/hasMediaPerm');
   $this->setProperty('page', $mpool);
 
   require_once dirname(__FILE__). '/functions/function_rex_mediapool.inc.php';

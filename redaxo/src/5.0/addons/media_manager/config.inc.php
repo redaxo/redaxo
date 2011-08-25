@@ -12,7 +12,7 @@
 
 $mypage = 'media_manager';
 
-$REX['PERM'][] = 'media_manager[]';
+rex_perm::register('media_manager[]');
 
 rex_extension::register('ADDONS_INCLUDED','rex_media_manager::init');
 

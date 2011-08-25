@@ -10,7 +10,7 @@
  * @version svn:$Id$
  */
 
-$REX['PERM'][] = 'be_dashboard[]';
+rex_perm::register('be_dashboard[]');
 
 // im backend und eingeloggt?
 if(rex::isBackend() && rex::getUser())

@@ -117,7 +117,7 @@ class rex_category_service
 
       try {
         $AART->insert();
-        
+
         // ----- PRIOR
         if(isset($data['catprior']))
         {
@@ -141,7 +141,7 @@ class rex_category_service
           'article' => clone($AART),
           'data' => $data,
         ));
-        
+
       } catch (rex_sql_exception $e) {
         throw new rex_api_exception($e);
       }
@@ -185,7 +185,7 @@ class rex_category_service
 
     try {
       $EKAT->update();
-      
+
       // --- Kategorie Kindelemente updaten
       if(isset($data['catname']))
       {
@@ -228,18 +228,18 @@ class rex_category_service
       $message = rex_extension::registerPoint('CAT_UPDATED', $message,
         array (
           'id' => $category_id,
-  
+
           'category' => clone($EKAT),
           'category_old' => clone($thisCat),
           'article' => clone($EKAT),
-  
+
           're_id' => $thisCat->getValue('re_id'),
           'clang' => $clang,
           'name' => $thisCat->getValue('catname'),
           'prior' => $thisCat->getValue('catprior'),
           'path' => $thisCat->getValue('path'),
           'status' => $thisCat->getValue('status'),
-  
+
           'data' => $data,
         )
       );
@@ -301,8 +301,7 @@ class rex_category_service
             ));
           }
 
-          $users = rex_sql::factory();
-          $users->setQuery('UPDATE '. rex::getTablePrefix() .'user SET rights = REPLACE(rights, "#csw['. $category_id .']#", "#")');
+          rex_complex_perm::removeItem('structure', $category_id);
 
         }else
         {
@@ -353,7 +352,7 @@ class rex_category_service
 
       try {
         $EKAT->update();
-      
+
         $message = rex_i18n::msg('category_status_updated');
         rex_article_cache::delete($category_id, $clang);
 

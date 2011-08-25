@@ -125,16 +125,30 @@ class rex_articles_component extends rex_dashboard_component
 
   public function checkPermission()
   {
-    return rex::getUser()->isAdmin() || rex::getUser()->hasStructurePerm();
+    return rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('structure')->hasStructurePerm();
   }
 
   protected function prepare()
   {
     $limit = A659_DEFAULT_LIMIT;
 
+    if(rex::getUser()->getComplexPerm('structure')->hasMountpoints())
+    {
+      $whereCond = '1=1';
+    }
+    else
+    {
+      $whereCond = '1=0';
+      $categoryPerms = rex::getUser()->getComplexPerm('structure')->getMountpoints();
+      foreach($categoryPerms as $catPerm)
+      {
+        $whereCond .= ' OR path LIKE "%|'. $catPerm .'|%"';
+      }
+    }
+
     $qry = 'SELECT id, re_id, clang, startpage, name, updateuser, updatedate
             FROM '. rex::getTablePrefix() .'article
-            WHERE '. rex::getUser()->getCategoryPermAsSql() .'
+            WHERE '. $whereCond .'
             GROUP BY id
             ORDER BY updatedate DESC
             LIMIT '. $limit;
@@ -177,7 +191,7 @@ class rex_media_component extends rex_dashboard_component
 
   public function checkPermission()
   {
-    return rex::getUser()->hasMediaPerm();
+    return rex::getUser()->getComplexPerm('media')->hasMediaPerm();
   }
 
   protected function prepare()

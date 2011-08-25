@@ -185,7 +185,7 @@ class rex_select
           {
             if(!isset($option[1]))
               $option[1] = $key;
-              
+
             $this->addOption($option[0], $option[1]);
           }
         }
@@ -206,6 +206,11 @@ class rex_select
 
       $this->addOption($value, $key);
   	}
+  }
+
+  public function countOptions()
+  {
+    return $this->options ? array_sum(array_map('count', $this->options)) : 0;
   }
 
   /**

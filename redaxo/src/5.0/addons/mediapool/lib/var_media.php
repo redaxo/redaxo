@@ -283,7 +283,7 @@ class rex_var_media extends rex_var
     $add_func     = '';
     $delete_func  = '';
     $view_func    = '';
-    if (rex::getUser()->hasMediaPerm())
+    if (rex::getUser()->getComplexPerm('media')->hasMediaPerm())
     {
       $open_class   = 'rex-icon-file-open';
       $add_class    = 'rex-icon-file-add';
@@ -365,7 +365,7 @@ class rex_var_media extends rex_var
     $add_func     = '';
     $delete_func  = '';
     $view_func    = '';
-    if (rex::getUser()->hasMediaPerm())
+    if (rex::getUser()->getComplexPerm('media')->hasMediaPerm())
     {
       $open_class   = 'rex-icon-file-open';
       $add_class    = 'rex-icon-file-add';

@@ -27,7 +27,7 @@ $warning = '';
 
 // --------------------------------------------- Mountpoints
 
-$mountpoints = rex::getUser()->getMountpoints();
+$mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
 if(count($mountpoints)==1 && $category_id == 0)
 {
   // Nur ein Mointpoint -> Sprung in die Kategory
@@ -35,7 +35,7 @@ if(count($mountpoints)==1 && $category_id == 0)
 }
 
 // --------------------------------------------- Rechte prŸfen
-$KATPERM = rex::getUser()->hasCategoryPerm($category_id);
+$KATPERM = rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id);
 
 require dirname(__FILE__) .'/../functions/function_rex_category.inc.php';
 
@@ -357,7 +357,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
     }
 
   }
-  elseif (/*rex::getUser()->hasPerm('csr['. $i_category_id .']') ||*/ rex::getUser()->hasPerm('csw['. $i_category_id .']'))
+  elseif (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($i_category_id))
   {
       // --------------------- KATEGORIE WITH READ
       $add_td = '';
@@ -415,7 +415,7 @@ echo '<div class="rex-block rex-structure-article">';
 
 // --------------------- READ TEMPLATES
 
-if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->hasMountpoints()))
+if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('structure')->hasMountpoints()))
 {
 
   $template_select = new rex_select;

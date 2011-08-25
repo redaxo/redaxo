@@ -68,13 +68,14 @@ if (rex::isSetup())
   else
   {
     // Userspezifische Sprache einstellen
-    $lang = $login->getLanguage();
-    if($lang != 'default' && $lang != rex::getProperty('lang'))
+    $user = $login->getUser();
+    $lang = $user->getLanguage();
+    if($lang && $lang != 'default' && $lang != rex::getProperty('lang'))
     {
       rex_i18n::setLocale($lang);
     }
 
-    rex::setProperty('user', $login->USER);
+    rex::setProperty('user', $user);
   }
 }
 
@@ -246,8 +247,6 @@ if(rex::getUser())
 // Set Startpage
 if($user = rex::getUser())
 {
-  $user->pages = $pages;
-
   // --- page herausfinden
   $page = trim(rex_request('page', 'string'));
 
@@ -256,7 +255,7 @@ if($user = rex::getUser())
     (($p=$pages[$page]->getPage()) && !$p->checkPermission($user)))
   {
     // --- neue page bestimmen und diese in neuem request dann verarbeiten
-    $page = rex::getProperty('login')->getStartpage();
+    $page = $user->getStartPage();
     if(!isset($pages[$page]) ||
       (($p=$pages[$page]->getPage()) && !$p->checkPermission($user)))
     {

@@ -7,15 +7,17 @@
 
 $info = '';
 $warning = '';
-$user_id = rex::getUser()->getValue('user_id');
+$user = rex::getUser();
+$user_id = $user->getValue('user_id');
 
 // Allgemeine Infos
 $userpsw       = rex_request('userpsw', 'string');
 $userpsw_new_1 = rex_request('userpsw_new_1', 'string');
 $userpsw_new_2 = rex_request('userpsw_new_2', 'string');
 
-$username = rex_request('username', 'string');
-$userdesc = rex_request('userdesc', 'string');
+$username = rex_request('username', 'string', $user->getName());
+$userdesc = rex_request('userdesc', 'string', $user->getValue('description'));
+$userlogin = $user->getUserLogin();
 
 // --------------------------------- Title
 
@@ -37,18 +39,10 @@ foreach(rex_i18n::getLocales() as $locale)
 {
 	rex_i18n::setLocale($locale,FALSE); // Locale nicht neu setzen
   $sel_be_sprache->addOption(rex_i18n::msg('lang'), $locale);
-  $langs[$locale] = rex_i18n::msg('lang');
 }
 rex_i18n::setLocale($saveLocale, false);
-$userperm_be_sprache = rex_request('userperm_be_sprache', 'string');
-$userperm_be_sprache_selected = '';
-foreach($langs as $k => $v)
-{
-	if (rex::getProperty('login')->USER->hasPerm('be_lang['.$k.']'))
-	{
-	  $userperm_be_sprache_selected = $k;
-	}
-}
+$userperm_be_sprache = rex_request('userperm_be_sprache', 'string', $user->getLanguage());
+$sel_be_sprache->setSelected($userperm_be_sprache);
 
 
 // --------------------------------- FUNCTIONS
@@ -57,19 +51,10 @@ if (rex_post('upd_profile_button', 'string'))
 {
   $updateuser = rex_sql::factory();
   $updateuser->setTable(rex::getTablePrefix().'user');
-  $updateuser->setWhere('user_id='. $user_id);
+  $updateuser->setWhere(array('user_id' => $user_id));
   $updateuser->setValue('name',$username);
   $updateuser->setValue('description',$userdesc);
-
-  // set be langauage
-  $userperm_be_sprache = rex_request("userperm_be_sprache","string");
-  if(!isset($langs[$userperm_be_sprache]))
-    $userperm_be_sprache = "default";
-  $userperm_be_sprache_selected = $userperm_be_sprache;
-
-  $rights = rex::getUser()->removePerm('be_lang');
-  $rights .= 'be_lang['.$userperm_be_sprache.']#';
-  $updateuser->setValue('rights',$rights);
+  $updateuser->setValue('language', $userperm_be_sprache);
 
   $updateuser->addGlobalUpdateFields();
 
@@ -93,14 +78,14 @@ if (rex_post('upd_psw_button', 'string'))
   if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0')
     $userpsw = call_user_func(rex::getProperty('pswfunc'),$userpsw);
 
-  if($userpsw != '' && rex::getUser()->getValue('psw') == $userpsw && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2)
+  if($userpsw != '' && $user->getValue('password') == $userpsw && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2)
   {
     // the service side encryption of pw is only required
     // when not already encrypted by client using javascript
     if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0')
       $userpsw_new_1 = call_user_func(rex::getProperty('pswfunc'),$userpsw_new_1);
 
-    $updateuser->setValue('psw',$userpsw_new_1);
+    $updateuser->setValue('password',$userpsw_new_1);
     $updateuser->addGlobalUpdateFields();
 
     try {
@@ -117,10 +102,6 @@ if (rex_post('upd_psw_button', 'string'))
 }
 
 
-$sel_be_sprache->setSelected($userperm_be_sprache_selected);
-
-
-
 // ---------------------------------- ERR MSG
 
 if ($info != '')
@@ -131,20 +112,7 @@ if ($warning != '')
 
 // --------------------------------- FORMS
 
-$sql = new rex_login_sql;
-$sql->setQuery('select * from '. rex::getTablePrefix() .'user where user_id='. $user_id);
-if ($sql->getRows()!=1)
-{
-  echo rex_warning('You have no permission to this area!');
-}
-else
-{
-  // $userpsw = $sql->getValue(rex::getTablePrefix().'user.psw');
-  $user_name = $sql->getValue(rex::getTablePrefix().'user.name');
-  $user_desc = $sql->getValue(rex::getTablePrefix().'user.description');
-  $user_login = $sql->getValue(rex::getTablePrefix().'user.login');
-
-  ?>
+?>
 
 
   <div class="rex-form" id="rex-form-profile">
@@ -158,7 +126,7 @@ else
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-read">
             <label for="userlogin"><?php echo htmlspecialchars(rex_i18n::msg('login_name')); ?></label>
-            <span class="rex-form-read" id="userlogin"><?php echo htmlspecialchars($user_login); ?></span>
+            <span class="rex-form-read" id="userlogin"><?php echo htmlspecialchars($userlogin); ?></span>
           </p>
 
           <p class="rex-form-col-b rex-form-select">
@@ -170,11 +138,11 @@ else
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-text">
             <label for="username"><?php echo rex_i18n::msg('name'); ?></label>
-            <input class="rex-form-text" type="text" id="username" name="username" value="<?php echo htmlspecialchars($user_name); ?>" />
+            <input class="rex-form-text" type="text" id="username" name="username" value="<?php echo htmlspecialchars($username); ?>" />
           </p>
           <p class="rex-form-col-b rex-form-text">
             <label for="userdesc"><?php echo rex_i18n::msg('description'); ?></label>
-            <input class="rex-form-text" type="text" id="userdesc" name="userdesc" value="<?php echo htmlspecialchars($user_desc); ?>" />
+            <input class="rex-form-text" type="text" id="userdesc" name="userdesc" value="<?php echo htmlspecialchars($userdesc); ?>" />
           </p>
         </div>
 
@@ -268,7 +236,3 @@ else
     });
      //-->
   </script>
-
-<?php
-}
-?>

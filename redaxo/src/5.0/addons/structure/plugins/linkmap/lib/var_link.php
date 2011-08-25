@@ -256,7 +256,7 @@ class rex_var_link extends rex_var
     $delete_class = 'rex-icon-file-delete rex-icon-file-delete-inactive';
     $open_func    = '';
     $delete_func  = '';
-    if (rex::getUser()->hasStructurePerm())
+    if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm())
     {
       $open_class   = 'rex-icon-file-open';
       $delete_class = 'rex-icon-file-delete';
@@ -311,7 +311,7 @@ class rex_var_link extends rex_var
     $delete_class = 'rex-icon-file-delete rex-icon-file-delete-inactive';
     $open_func    = '';
     $delete_func  = '';
-    if (rex::getUser()->hasStructurePerm())
+    if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm())
     {
       $open_class   = 'rex-icon-file-open';
       $delete_class = 'rex-icon-file-delete';
