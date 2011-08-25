@@ -61,8 +61,6 @@ class rex_fragment
    */
   public function parse($filename, $delete_whitespaces = true)
   {
-    global $REX;
-
     if(!is_string($filename))
     {
       throw new rex_exception(sprintf('Expecting $filename to be a string, %s given!', gettype($filename)));

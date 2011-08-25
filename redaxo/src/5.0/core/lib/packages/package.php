@@ -219,7 +219,6 @@ abstract class rex_package implements rex_package_interface
    */
   public function includeFile($file)
   {
-    global $REX;
     include $this->getBasePath($file);
   }
 }

@@ -93,8 +93,6 @@ class rex_clang_service
    */
   static public function generateCache()
   {
-    global $REX;
-
     $lg = rex_sql::factory();
     $lg->setQuery("select * from ".rex::getTablePrefix()."clang order by id");
 

@@ -30,8 +30,6 @@ class rex_var_config extends rex_var
    */
   private function matchConfig($content)
   {
-  	global $REX;
-
     $var = 'REX_CONFIG';
     $matches = $this->getVarParams($content, $var);
 

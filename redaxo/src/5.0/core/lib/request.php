@@ -213,8 +213,6 @@ class rex_request
    */
   static private function castVar($var, $vartype, $default, $mode)
   {
-    global $REX;
-
     if(!is_string($vartype))
     {
       throw new rex_exception('String expected for $vartype in castVar()!');

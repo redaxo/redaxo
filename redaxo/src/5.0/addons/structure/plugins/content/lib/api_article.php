@@ -76,7 +76,6 @@ class rex_article extends rex_article_base
       return parent::_getValue($value);
     }
 
-    global $REX;
     $value = $this->correctValue($value);
 
     return rex_ooArticle::getArticleById($this->article_id, $this->clang)->getValue($value);
@@ -90,7 +89,6 @@ class rex_article extends rex_article_base
       return parent::hasValue($value);
     }
 
-    global $REX;
     $value = $this->correctValue($value);
 
     return rex_ooArticle::getArticleById($this->article_id, $this->clang)->hasValue($value);

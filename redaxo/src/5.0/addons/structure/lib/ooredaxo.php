@@ -120,8 +120,6 @@ abstract class rex_ooRedaxo
 
     if (empty($vars))
     {
-      global $REX;
-
       $vars = array();
 
       $startId = rex::getProperty('start_article_id');
