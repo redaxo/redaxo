@@ -38,7 +38,7 @@ class rex_backend_login extends rex_login
         $sql->setQuery('SELECT user_id FROM '. rex::getTable('user') .' WHERE cookiekey = ? LIMIT 1', array($cookiekey));
         if($sql->getRows() == 1)
         {
-          $this->setSessionVar('UID', $fvs->getValue('user_id'));
+          $this->setSessionVar('UID', $sql->getValue('user_id'));
           setcookie('rex_user', $cookiekey, time() + 60*60*24*365);
         }
         else
