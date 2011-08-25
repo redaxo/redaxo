@@ -30,8 +30,9 @@ class rex_backend_login extends rex_login
   {
     $sql = rex_sql::factory();
     $userId = $this->getSessionVar('UID');
+    $cookiename = 'rex_user_'. sha1(rex::getProperty('instname'));
 
-    if($cookiekey = rex_cookie('rex_user', 'string'))
+    if($cookiekey = rex_cookie($cookiename, 'string'))
     {
       if(!$userId)
       {
@@ -39,11 +40,11 @@ class rex_backend_login extends rex_login
         if($sql->getRows() == 1)
         {
           $this->setSessionVar('UID', $sql->getValue('user_id'));
-          setcookie('rex_user', $cookiekey, time() + 60*60*24*365);
+          setcookie($cookiename, $cookiekey, time() + 60*60*24*365);
         }
         else
         {
-          setcookie('rex_user');
+          setcookie($cookiename);
         }
       }
       $this->setSessionVar('STAMP', time());
@@ -64,7 +65,7 @@ class rex_backend_login extends rex_login
           $cookiekey = $this->USER->getValue('cookiekey') ?: sha1($this->system_id . time() . $this->usr_login);
           $add = 'cookiekey = ?, ';
           $params[] = $cookiekey;
-          setcookie('rex_user', $cookiekey, time() + 60*60*24*365);
+          setcookie($cookiename, $cookiekey, time() + 60*60*24*365);
         }
         array_push($params, time(), session_id(), $this->usr_login);
         $sql->setQuery('UPDATE '.$this->tableName.' SET '. $add .'login_tries=0, lasttrydate=?, session_id=? WHERE login=? LIMIT 1', $params);
@@ -83,7 +84,7 @@ class rex_backend_login extends rex_login
     if ($this->isLoggedOut() && $userId != '')
     {
       $sql->setQuery('UPDATE '.$this->tableName.' SET session_id="", cookiekey="" WHERE user_id=? LIMIT 1', array($userId));
-      setcookie('rex_user');
+      setcookie($cookiename);
     }
 
     return $check;
