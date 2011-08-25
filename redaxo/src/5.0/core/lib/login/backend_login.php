@@ -2,7 +2,9 @@
 
 class rex_backend_login extends rex_login
 {
-  private $tableName;
+  private
+    $tableName,
+    $stayLoggedIn;
 
   public function __construct()
   {
@@ -19,11 +21,34 @@ class rex_backend_login extends rex_login
     $this->tableName = $tableName;
   }
 
+  public function setStayLoggedIn($stayLoggedIn = false)
+  {
+    $this->stayLoggedIn = $stayLoggedIn;
+  }
+
   public function checkLogin()
   {
-    $fvs = rex_sql::factory();
-    // $fvs->debugsql = true;
+    $sql = rex_sql::factory();
     $userId = $this->getSessionVar('UID');
+
+    if($cookiekey = rex_cookie('rex_user', 'string'))
+    {
+      if(!$userId)
+      {
+        $sql->setQuery('SELECT user_id FROM '. rex::getTable('user') .' WHERE cookiekey = ? LIMIT 1', array($cookiekey));
+        if($sql->getRows() == 1)
+        {
+          $this->setSessionVar('UID', $fvs->getValue('user_id'));
+          setcookie('rex_user', $cookiekey, time() + 60*60*24*365);
+        }
+        else
+        {
+          setcookie('rex_user');
+        }
+      }
+      $this->setSessionVar('STAMP', time());
+    }
+
     $check = parent::checkLogin();
 
     if($check)
@@ -32,7 +57,17 @@ class rex_backend_login extends rex_login
       if($this->usr_login != '')
       {
         $this->sessionFixation();
-        $fvs->setQuery('UPDATE '.$this->tableName.' SET login_tries=0, lasttrydate='.time().', session_id="'. session_id() .'" WHERE login="'. $this->usr_login .'" LIMIT 1');
+        $params = array();
+        $add = '';
+        if($this->stayLoggedIn)
+        {
+          $cookiekey = $this->USER->getValue('cookiekey') ?: sha1($this->system_id . time() . $this->usr_login);
+          $add = 'cookiekey = ?, ';
+          $params[] = $cookiekey;
+          setcookie('rex_user', $cookiekey, time() + 60*60*24*365);
+        }
+        array_push($params, time(), session_id(), $this->usr_login);
+        $sql->setQuery('UPDATE '.$this->tableName.' SET '. $add .'login_tries=0, lasttrydate=?, session_id=? WHERE login=? LIMIT 1', $params);
       }
       $this->USER = new rex_user($this->USER);
     }
@@ -41,13 +76,14 @@ class rex_backend_login extends rex_login
       // fehlversuch speichern | login_tries++
       if($this->usr_login != '')
       {
-        $fvs->setQuery('UPDATE '.$this->tableName.' SET login_tries=login_tries+1,session_id="",lasttrydate='.time().' WHERE login="'. $this->usr_login .'" LIMIT 1');
+        $sql->setQuery('UPDATE '.$this->tableName.' SET login_tries=login_tries+1,session_id="",cookiekey="",lasttrydate=? WHERE login=? LIMIT 1', array(time(), $this->usr_login));
       }
     }
 
     if ($this->isLoggedOut() && $userId != '')
     {
-      $fvs->setQuery('UPDATE '.$this->tableName.' SET session_id="" WHERE user_id="'. $userId .'" LIMIT 1');
+      $sql->setQuery('UPDATE '.$this->tableName.' SET session_id="", cookiekey="" WHERE user_id=? LIMIT 1', array($userId));
+      setcookie('rex_user');
     }
 
     return $check;

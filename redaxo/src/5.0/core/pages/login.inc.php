@@ -39,9 +39,9 @@ echo '
   <fieldset class="rex-form-col-1">
     <legend>Login</legend>
     <input type="hidden" name="javascript" value="0" id="javascript" />
-    
+
     <div class="rex-form-wrapper">
-    
+
     	<div class="rex-form-row">
 		    <p class="rex-form-col-a rex-form-text">
     			<label for="rex-form-login">'.rex_i18n::msg('login_name').':</label>
@@ -55,6 +55,12 @@ echo '
 	    		<input class="rex-form-submit" type="submit" value="'.rex_i18n::msg('login').'" />
 	    	</p>
 	    </div>
+    	<div class="rex-form-row">
+		    <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+      		<input class="rex-form-checkbox" type="checkbox" name="rex_user_stay_logged_in" id="1" />
+      		<label for="rex_user_stay_logged_in">'.rex_i18n::msg('stay_logged_in').'</label>
+	    	</p>
+	    </div>
 	  </div>
   </fieldset>
 </form>
@@ -63,7 +69,7 @@ echo '
    <!--
   jQuery(function($) {
     $("#rex-form-login").focus();
-    
+
     $("#loginformular")
       .submit(function(){
       	var pwInp = $("#REX_UPSW");
@@ -71,7 +77,7 @@ echo '
       		pwInp.val(Sha1.hash(pwInp.val()));
       	}
     });
-    
+
     $("#javascript").val("1");
     '. $js .'
   });
