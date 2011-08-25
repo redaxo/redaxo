@@ -438,11 +438,11 @@ class rex_article_base
   // ----- REX_VAR Ersetzungen
   protected function replaceObjectVars(rex_sql $sql,$content)
   {
-    global $REX;
-
     $tmp = '';
     $sliceId = $sql->getValue(rex::getTablePrefix().'article_slice.id');
     $flushValues = false;
+
+    $REX_ACTION = rex_plugin::get('structure', 'content')->getProperty('rex_action', array());
 
     foreach(rex_var::getVars() as $var)
     {
@@ -451,14 +451,14 @@ class rex_article_base
         if (($this->function == 'add' && $sliceId == null) ||
             ($this->function == 'edit' && $sliceId == $this->slice_id))
         {
-          if (isset($REX['ACTION']['SAVE']) && $REX['ACTION']['SAVE'] === false)
+          if (isset($REX_ACTION['SAVE']) && $REX_ACTION === false)
           {
             // Wenn der aktuelle Slice nicht gespeichert werden soll
             // (via Action wurde das Nicht-Speichern-Flag gesetzt)
             // Dann die Werte manuell aus dem Post übernehmen
             // und anschließend die Werte wieder zurücksetzen,
             // damit die nächsten Slices wieder die Werte aus der DB verwenden
-            $var->setACValues($sql,$REX['ACTION']);
+            $var->setACValues($sql, $REX_ACTION);
             $tmp = $var->getBEInput($sql,$content);
             $flushValues = true;
           }

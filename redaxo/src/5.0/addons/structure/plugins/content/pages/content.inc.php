@@ -206,7 +206,7 @@ if ($article->getRows() == 1)
           // ----- / PRE SAVE ACTION
 
           // Statusspeicherung für die rex_article Klasse
-          $REX['ACTION'] = $REX_ACTION;
+          rex_plugin::get('structure', 'content')->setProperty('rex_action', $REX_ACTION);
 
           // Werte werden aus den REX_ACTIONS übernommen wenn SAVE=true
           if (!$REX_ACTION['SAVE'])
