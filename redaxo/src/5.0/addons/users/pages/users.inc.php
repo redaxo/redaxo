@@ -158,7 +158,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   $updateuser->setWhere('user_id='. $user_id);
   $updateuser->setValue('name',$username);
   $updateuser->setValue('role', $userrole);
-  $updateuser->setValue('admin', $useradmin == 1 ? 1 : 0);
+  $updateuser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);
   $updateuser->setValue('language', $userperm_be_sprache);
   $updateuser->setValue('startpage', $userperm_startpage);
   $updateuser->addGlobalUpdateFields();
@@ -218,7 +218,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     $adduser->setValue('password',$userpsw);
     $adduser->setValue('login',$userlogin);
     $adduser->setValue('description',$userdesc);
-    $adduser->setValue('admin', $useradmin == 1 ? 1 : 0);
+    $adduser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);
     $adduser->setValue('language', $userperm_be_sprache);
     $adduser->setValue('startpage', $userperm_startpage);
     $adduser->setValue('role', $userrole);
@@ -310,6 +310,11 @@ if ($FUNC_ADD != "" || $user_id > 0)
       $username = $sql->getValue(rex::getTablePrefix().'user.name');
       $userdesc = $sql->getValue(rex::getTablePrefix().'user.description');
 
+      if(!rex::getUser()->isAdmin())
+      {
+        $add_admin_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="useradmin" name="useradmin" value="1" disabled="disabled" />';
+      }
+      else
       // Der Benutzer kann sich selbst die Rechte nicht entziehen
       if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix().'user.login') && $adminchecked != '')
       {
