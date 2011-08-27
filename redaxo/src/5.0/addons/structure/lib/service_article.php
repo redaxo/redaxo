@@ -351,7 +351,7 @@ class rex_article_service
    * @param int       $clang      Id der Sprache
    * @param int|null  $status     Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
    *
-   * @return string Der neue Status des Artikels
+   * @return int Der neue Status des Artikels
    */
   static public function articleStatus($article_id, $clang, $status = null)
   {

@@ -14,7 +14,7 @@ class rex_category_service
    * @param int   $category_id KategorieId in der die neue Kategorie erstellt werden soll
    * @param array $data        Array mit den Daten der Kategorie
    *
-   * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+   * @return string Eine Statusmeldung
    */
   static public function addCategory($category_id, $data)
   {
@@ -326,7 +326,7 @@ class rex_category_service
    * @param int       $clang         Id der Sprache
    * @param int|null  $status        Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
    *
-   * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+   * @return int Der neue Status der Kategorie
    */
   static public function categoryStatus($category_id, $clang, $status = null)
   {
