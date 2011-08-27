@@ -22,6 +22,8 @@ $REX['PERM'] = new rex_perm_compat(rex_perm::GENERAL);
 $REX['EXTPERM'] = new rex_perm_compat(rex_perm::OPTIONS);
 $REX['EXTRAPERM'] = new rex_perm_compat(rex_perm::EXTRAS);
 
+$REX['MOD_REWRITE'] = true;
+
 if(rex::isBackend())
 {
   $I18N = new i18n(rex::getProperty('lang'));
