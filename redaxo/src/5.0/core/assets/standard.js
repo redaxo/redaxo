@@ -119,7 +119,7 @@ function newWindow(name,link,width,height,type)
 }
 
 var winObj = new Array();
-if (opener != null)
+if (typeof opender != "undefined") 
 {
   if (typeof(opener.winObjCounter) == "number")
   {
