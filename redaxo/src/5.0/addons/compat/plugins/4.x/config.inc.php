@@ -8,7 +8,8 @@ global $REX, $I18N;
 
 $REX = new rex_compat_array;
 
-$REX['INCLUDE_PATH'] = rex_path::version();
+$REX['HTDOCS_PATH']   = rex_path::frontend();
+$REX['INCLUDE_PATH']  = rex_path::version();
 $REX['FRONTEND_PATH'] = rex_path::frontend('', rex_path::ABSOLUTE);
 $REX['MEDIAFOLDER']   = rex_path::media('', rex_path::ABSOLUTE);
 $REX['FRONTEND_FILE'] = 'index.php';
