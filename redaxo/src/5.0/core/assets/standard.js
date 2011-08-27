@@ -518,3 +518,37 @@ function getCookie(cookieName) {
 
 	return unescape(theCookie.substring(ind + cookieName.length + 1, ind1));
 }
+
+jQuery(document).ready(function($) {
+	$("a.rex-api-get").each(function() {
+		var self = $(this);
+		self.click(function(clickEvent) {
+			// check if a confirm dialog already prevented the submit
+			if(!clickEvent.isDefaultPrevented())
+			{
+				$.ajax({
+					async: false,
+					url: this.href,
+					dataType: 'json',
+					data: null,
+					success: function (data, textStatus, jqXHR) {
+						$("#rex-message-container").html(data.message || "");
+						
+						$.each(data.renderResults, function(i, resRow){
+							resRow.selector = resRow.selector == 'this' ? self : resRow.selector;
+							resRow.selectorContext = resRow.selectorContext == 'this' ? self : resRow.selectorContext;
+							
+							var ctx = resRow.selectorContext ? $(self).closest(resRow.selectorContext) : null;
+							var elem = resRow.selector ? $(resRow.selector, ctx) : ctx;
+							
+							elem.html(resRow.html);
+							elem.addClass(resRow.addClass);
+							elem.removeClass(resRow.removeClass);
+						});
+					}
+				});
+			}
+			return false;
+		});
+	});
+});

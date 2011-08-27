@@ -340,7 +340,7 @@ class rex_category_service
       // Status wurde nicht von außen vorgegeben,
       // => zyklisch auf den nächsten Weiterschalten
       if(!$status)
-      $newstatus = ($KAT->getValue('status') + 1) % count($catStatusTypes);
+      $newstatus = self::nextStatus($KAT->getValue('status'));
       else
       $newstatus = $status;
 
@@ -353,11 +353,10 @@ class rex_category_service
       try {
         $EKAT->update();
 
-        $message = rex_i18n::msg('category_status_updated');
         rex_article_cache::delete($category_id, $clang);
 
         // ----- EXTENSION POINT
-        $message = rex_extension::registerPoint('CAT_STATUS', $message, array (
+        rex_extension::registerPoint('CAT_STATUS', null, array (
           'id' => $category_id,
           'clang' => $clang,
           'status' => $newstatus
@@ -371,7 +370,7 @@ class rex_category_service
       throw new rex_api_exception(rex_i18n::msg("no_such_category"));
     }
 
-    return $message;
+    return $newstatus;
   }
 
   /**
@@ -398,7 +397,20 @@ class rex_category_service
     return $catStatusTypes;
   }
 
-
+  static public function nextStatus($currentStatus)
+  {
+    $catStatusTypes = self::statusTypes();
+    return ($currentStatus + 1) % count($catStatusTypes);
+  }
+  
+  static public function prevStatus($currentStatus)
+  {
+    $catStatusTypes = self::statusTypes();
+    if(($currentStatus - 1) < 0 ) return count($catStatusTypes) - 1;
+  
+    return ($currentStatus - 1) % count($catStatusTypes);
+  }
+  
 
 
   /**
