@@ -11,17 +11,11 @@ class rex_package_compat
 
   public function includeFile($file)
   {
-    foreach(array_keys($GLOBALS) as $global)
-    {
-      if($global != 'file')
-      {
-        global $$global;
-      }
-    }
+    extract($GLOBALS, EXTR_SKIP);
 
     include $this->package->getBasePath($file);
 
-    $GLOBALS += get_defined_vars();
+    $GLOBALS = array_merge($GLOBALS, get_defined_vars());
   }
 
   public function __call($method, $arguments)
