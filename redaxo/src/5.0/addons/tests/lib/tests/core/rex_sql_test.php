@@ -10,11 +10,11 @@ class rex_sql_test extends PHPUnit_TestCase
     $sql->setQuery('DROP TABLE IF EXISTS `'. self::TABLE .'`');
     $sql->setQuery('CREATE TABLE `'. self::TABLE .'` (
         `id` INT NOT NULL AUTO_INCREMENT ,
-        `str` VARCHAR( 255 ) NOT NULL ,
-        `int` INT NOT NULL ,
-        `date` DATE NOT NULL ,
-        `time` DATETIME NOT NULL ,
-        `text` TEXT NOT NULL ,
+        `col_str` VARCHAR( 255 ) NOT NULL ,
+        `col_int` INT NOT NULL ,
+        `col_date` DATE NOT NULL ,
+        `col_time` DATETIME NOT NULL ,
+        `col_text` TEXT NOT NULL ,
         PRIMARY KEY ( `id` )
         ) ENGINE = MYISAM ;');
   }
@@ -29,10 +29,65 @@ class rex_sql_test extends PHPUnit_TestCase
   {
     $sql = rex_sql::factory();
     $sql->setTable(self::TABLE);
-    $sql->setValue('str', 'abc');
-    $sql->setValue('int', 5);
+    $sql->setValue('col_str', 'abc');
+    $sql->setValue('col_int', 5);
     
     $sql->insert();
     $this->assertEquals(1, $sql->getRows());
+    // failing at the moment
+//     $this->assertEquals('abc', $sql->getValue('col_str'));
+//     $this->assertEquals(5, $sql->getValue('col_int'));
+  }
+  
+  public function testUpdateRow()
+  {
+    $sql = rex_sql::factory();
+    $sql->setTable(self::TABLE);
+    $sql->setValue('col_str', 'abc');
+    $sql->setValue('col_int', 5);
+    
+    $sql->update();
+    $this->assertEquals(1, $sql->getRows());
+    // failing at the moment
+//     $this->assertEquals('abc', $sql->getValue('col_str'));
+//     $this->assertEquals(5, $sql->getValue('col_int'));
+  }
+  
+  public function testDeleteRow()
+  {
+    $sql = rex_sql::factory();
+    $sql->setTable(self::TABLE);
+    $sql->setValue('col_str', 'abc');
+    $sql->setValue('col_int', 5);
+    
+    $sql->delete();
+    $this->assertEquals(1, $sql->getRows());
+    // failing at the moment
+//     $this->assertEquals('abc', $sql->getValue('col_str'));
+//     $this->assertEquals(5, $sql->getValue('col_int'));
+  }
+  
+  public function testPreparedSetQuery()
+  {
+    $this->testInsertRow();
+    
+    $sql = rex_sql::factory();
+    $sql->setQuery('SELECT * FROM '. self::TABLE .' WHERE col_str = ? and col_int = ?', array('abc', 5));
+    
+    $this->assertEquals(1, $sql->getRows());
+    
+    $this->testDeleteRow();
+  }
+  
+  public function testPreparedNamedSetQuery()
+  {
+    $this->testInsertRow();
+    
+    $sql = rex_sql::factory();
+    $sql->setQuery('SELECT * FROM '. self::TABLE .' WHERE col_str = :mystr and col_int = :myint', array('mystr' => 'abc', ':myint' => 5));
+    
+    $this->assertEquals(1, $sql->getRows());
+    
+    $this->testDeleteRow();
   }
 }
