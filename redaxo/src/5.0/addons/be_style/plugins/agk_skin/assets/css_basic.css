@@ -430,7 +430,7 @@ div.rex-toolbar div.rex-form {
 *******************************************************************************/
 div.rex-content-header, 
 div#rex-linkmap div.rex-area-col-b ul li a {
-	background-image: url(../media/document.gif);
+	background-image: url(document.gif);
 }
 div.rex-content-header {
 	background-position: 13px 50%;
@@ -440,23 +440,23 @@ div#rex-linkmap div.rex-area-col-b ul li a {
 }
 
 .rex-info {
-	background-image: url(../media/excla_mark_green.gif);
+	background-image: url(excla_mark_green.gif);
 	background-position: 0% 50%;
 }
 
 /*	File */
 div#rex-linkmap ul li.rex-children ul li,
 div#rex-linkmap ul li ul li.rex-children-last {
-	background-image: url(../media/file.gif);
+	background-image: url(file.gif);
 	background-position: -21px 0px;
 }
 div#rex-linkmap ul li ul li.rex-children-last {
-	background-image: url(../media/file_last_2.gif);
+	background-image: url(file_last_2.gif);
 }
 
 div#rex-linkmap, 
 div#rex-linkmap ul li ul {
-	background-image:url(../media/file_vert.gif);
+	background-image:url(file_vert.gif);
 	background-position: 49% 0px;
 	background-repeat: repeat-y;
 }
@@ -466,28 +466,28 @@ div#rex-linkmap ul li ul {
 
 /*	Folder */
 div#rex-linkmap ul li a {
-	background-image: url(../media/folder_off_empty.gif);
+	background-image: url(folder_off_empty.gif);
 }
 div#rex-linkmap ul li a.rex-linkmap-is-not-empty {
-	background-image: url(../media/folder_off.gif);
+	background-image: url(folder_off.gif);
 }
 div#rex-linkmap ul li.rex-active a.rex-active {
-	background-image: url(../media/folder_on_empty.gif);
+	background-image: url(folder_on_empty.gif);
 }
 div#rex-linkmap ul li.rex-active a.rex-linkmap-is-not-empty.rex-active {
-	background-image: url(../media/folder_on.gif);
+	background-image: url(folder_on.gif);
 }
 
 
 div#rex-linkmap div.rex-area-col-b ul li.rex-linkmap-startpage a {
-	background-image: url(../media/liste.gif);
+	background-image: url(liste.gif);
 }
 div#rex-title {
-	background-image: url(../media/logo.jpg);
+	background-image: url(logo.jpg);
 	background-position: 100% 50%;
 }
 .rex-warning {
-	background-image: url(../media/warning.gif);
+	background-image: url(warning.gif);
 	background-position: 0% 50%;
 }
 
@@ -495,7 +495,7 @@ div#rex-title {
 /*	Corner */
 body#rex-page-addon table.rex-table tr.rex-plugin td.rex-col-b, 
 body#rex-page-credits table.rex-table tr.rex-plugin td.rex-col-a {
-	background-image: url(../media/corner.gif);
+	background-image: url(corner.gif);
 	background-position: 7px 12px;
 	background-repeat: no-repeat;
 }
@@ -504,7 +504,7 @@ body#rex-page-credits table.rex-table tr.rex-plugin td.rex-col-a {
 /*	Pipe white */
 div#rex-navi-logout ul li, 
 div#rex-navi-main ul li {
-	background-image: url(../media/pipe_c1.gif);
+	background-image: url(pipe_c1.gif);
 	background-position: 0px 2px;
 }
 div#rex-navi-logout ul li.rex-navi-first, 
@@ -519,7 +519,7 @@ div#rex-navi-page ul li a,
 div#rex-clang ul li a,
 div.rex-content-header ul li a, 
 div#rex-navi-footer ul li {
-	background-image: url(../media/pipe_c2.gif);
+	background-image: url(pipe_c2.gif);
 	background-position: 0px 2px;
 }
 div#rex-navi-page ul li.rex-navi-first a, 
@@ -534,14 +534,14 @@ div#rex-navi-footer ul li.rex-navi-first {
 
 /*	Paginate */
 div.rex-navi-paginate ul li.rex-navi-paginate-prev a {
-	background-image: url(../media/back.gif);
+	background-image: url(back.gif);
 }
 div.rex-navi-paginate ul li.rex-navi-paginate-next a {
-	background-image: url(../media/forward.gif);
+	background-image: url(forward.gif);
 }
 div.rex-navi-paginate ul li.rex-navi-paginate-page a, 
 div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
-	background-image: url(../media/list_pages.gif);
+	background-image: url(list_pages.gif);
 	background-position: 100% -50px;
 }
 div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
@@ -552,143 +552,143 @@ div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
 
 /*	Button - Arrow Up */
 div.rex-navi-slice ul li a.rex-slice-move-up {
-	background-image: url(../media/file_up.gif);
+	background-image: url(file_up.gif);
 }
 
 /*	Button - Arrow Down */ 
 div.rex-navi-slice ul li a.rex-slice-move-down {
-	background-image: url(../media/file_down.gif);
+	background-image: url(file_down.gif);
 }
 
 
 
 
 .rex-i-action {
-	background-image: url(../media/action.gif);
+	background-image: url(action.gif);
 }
 .rex-i-action-add {
-	background-image: url(../media/action_plus.gif);
+	background-image: url(action_plus.gif);
 }
 .rex-i-addon {
-	background-image: url(../media/addon.gif);
+	background-image: url(addon.gif);
 }
 .rex-i-article {
-	background-image: url(../media/document.gif);
+	background-image: url(document.gif);
 }
 .rex-i-article-add {
-	background-image: url(../media/document_plus.gif);
+	background-image: url(document_plus.gif);
 }
 .rex-i-article-startpage {
-	background-image: url(../media/liste.gif);
+	background-image: url(liste.gif);
 }
 .rex-i-clang {
-	background-image: url(../media/flag.gif);
+	background-image: url(flag.gif);
 }
 .rex-i-clang-add {
-	background-image: url(../media/flag_plus.gif);
+	background-image: url(flag_plus.gif);
 }
 .rex-i-cronjob {
 	/*	TODO */
-	background-image: url(../media/cronjob.gif);
-	background-image: url(../media/document.gif);
+	background-image: url(cronjob.gif);
+	background-image: url(document.gif);
 }
 .rex-i-cronjob-add {
 	/*	TODO */
-	background-image: url(../media/cronjob_add.gif);
-	background-image: url(../media/document_plus.gif);
+	background-image: url(cronjob_add.gif);
+	background-image: url(document_plus.gif);
 }
 .rex-i-generic {
 	/*	TODO */
-	background-image: url(../media/generic.gif);
-	background-image: url(../media/document.gif);
+	background-image: url(generic.gif);
+	background-image: url(document.gif);
 }
 .rex-i-generic-add {
 	/*	TODO */
-	background-image: url(../media/generic_add.gif);
-	background-image: url(../media/file_add.gif);
+	background-image: url(generic_add.gif);
+	background-image: url(file_add.gif);
 }
 .rex-i-generic-delete {
 	/*	TODO */
-	background-image: url(../media/generic_delete.gif);
-	background-image: url(../media/file_del.gif);
+	background-image: url(generic_delete.gif);
+	background-image: url(file_del.gif);
 }
 .rex-i-generic-close {
 	/*	TODO */
-	background-image: url(../media/generic_close.gif);
-	background-image: url(../media/file_del.gif);
+	background-image: url(generic_close.gif);
+	background-image: url(file_del.gif);
 }
 .rex-i-generic-open {
 	/*	TODO */
-	background-image: url(../media/generic_open.gif);
-	background-image: url(../media/file_add.gif);
+	background-image: url(generic_open.gif);
+	background-image: url(file_add.gif);
 }
 .rex-i-media {
-	background-image: url(../media/file_view.gif);
+	background-image: url(file_view.gif);
 }
 .rex-i-metainfo {
-	background-image: url(../media/metainfo.gif);
+	background-image: url(metainfo.gif);
 }
 .rex-i-metainfo-add {
-	background-image: url(../media/metainfo_plus.gif);
+	background-image: url(metainfo_plus.gif);
 }
 .rex-i-module {
-	background-image: url(../media/modul.gif);
+	background-image: url(modul.gif);
 }
 .rex-i-module-add {
-	background-image: url(../media/modul_plus.gif);
+	background-image: url(modul_plus.gif);
 }
 .rex-i-refresh {
-	background-image: url(../media/refresh.gif);
+	background-image: url(refresh.gif);
 }
 .rex-i-refresh-ani {
-	background-image: url(../media/refresh_ani.gif);
+	background-image: url(refresh_ani.gif);
 }
 .rex-i-refresh-err {
   /*	TODO */
-  background-image: url(../media/refresh_err.gif);
-  background-image: url(../media/file_add.gif);
+  background-image: url(refresh_err.gif);
+  background-image: url(file_add.gif);
 }
 .rex-i-slice {
-	background-image: url(../media/slice.gif);
+	background-image: url(slice.gif);
 }
 .rex-i-template {
-	background-image: url(../media/template.gif);
+	background-image: url(template.gif);
 }
 .rex-i-template-add {
-	background-image: url(../media/template_plus.gif);
+	background-image: url(template_plus.gif);
 }
 .rex-i-togglesettings {
   /*TODO better image, backport to default skin */
-	background-image: url(../media/file_add.gif);
+	background-image: url(file_add.gif);
 }
 .rex-i-togglesettings-off {
   /*TODO better image, backport to default skin */
- 	background-image: url(../media/togglesettings_off.gif);
-  background-image: url(../media/file_del.gif);
+ 	background-image: url(togglesettings_off.gif);
+  background-image: url(file_del.gif);
 }
 .rex-i-toggleview {
   /*TODO better image, backport to default skin */
-	background-image: url(../media/file_add.gif);
+	background-image: url(file_add.gif);
 }
 .rex-i-toggleview-off {
   /*TODO backport to default skin */
- 	background-image: url(../media/toggleview_off.gif);
-	background-image: url(../media/file_del.gif);
+ 	background-image: url(toggleview_off.gif);
+	background-image: url(file_del.gif);
 }
 .rex-i-user {
-	background-image: url(../media/user.gif);
+	background-image: url(user.gif);
 }
 .rex-i-user-add {
-	background-image: url(../media/user_plus.gif);
+	background-image: url(user_plus.gif);
 }
 
 .rex-i-category, 
 .rex-i-mediapool-category {
-	background-image: url(../media/folder.gif);
+	background-image: url(folder.gif);
 }
 .rex-i-category-add, 
 .rex-i-mediapool-category-add {
-	background-image: url(../media/folder_plus.gif);
+	background-image: url(folder_plus.gif);
 }
 
 
