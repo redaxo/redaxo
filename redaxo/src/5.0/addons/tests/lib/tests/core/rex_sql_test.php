@@ -5,6 +5,8 @@ class rex_sql_test extends PHPUnit_TestCase
   
   public function setUp()
   {
+    parent::setUp();
+    
     $sql = rex_sql::factory();
     
     $sql->setQuery('DROP TABLE IF EXISTS `'. self::TABLE .'`');
@@ -21,6 +23,8 @@ class rex_sql_test extends PHPUnit_TestCase
   
   public function tearDown()
   {
+    parent::tearDown();
+    
     $sql = rex_sql::factory();
     $sql->setQuery('DROP TABLE `'. self::TABLE .'`');
   }
@@ -66,28 +70,5 @@ class rex_sql_test extends PHPUnit_TestCase
 //     $this->assertEquals('abc', $sql->getValue('col_str'));
 //     $this->assertEquals(5, $sql->getValue('col_int'));
   }
-  
-  public function testPreparedSetQuery()
-  {
-    $this->testInsertRow();
-    
-    $sql = rex_sql::factory();
-    $sql->setQuery('SELECT * FROM '. self::TABLE .' WHERE col_str = ? and col_int = ?', array('abc', 5));
-    
-    $this->assertEquals(1, $sql->getRows());
-    
-    $this->testDeleteRow();
-  }
-  
-  public function testPreparedNamedSetQuery()
-  {
-    $this->testInsertRow();
-    
-    $sql = rex_sql::factory();
-    $sql->setQuery('SELECT * FROM '. self::TABLE .' WHERE col_str = :mystr and col_int = :myint', array('mystr' => 'abc', ':myint' => 5));
-    
-    $this->assertEquals(1, $sql->getRows());
-    
-    $this->testDeleteRow();
-  }
 }
+

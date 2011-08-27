@@ -8,5 +8,6 @@ chdir($dir);
 
 $suite  = new PHPUnit_TestSuite();
 $suite->addTestSuite('rex_sql_test');
+$suite->addTestSuite('rex_sql_select_test');
 $result = PHPUnit::run($suite);
 print $result->toHTML();
