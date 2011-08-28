@@ -1,6 +1,6 @@
 <?php 
 
-class rex_sql_select_test extends PHPUnit_TestCase
+class rex_sql_select_test extends PHPUnit_Framework_TestCase
 {
   const TABLE = rex_sql_test::TABLE;
   
@@ -13,6 +13,7 @@ class rex_sql_select_test extends PHPUnit_TestCase
     $this->baseSuite = new rex_sql_test();
     $this->baseSuite->setUp();
     
+    // Insert a row for later selection tests
     $this->baseSuite->testInsertRow();
   }
   
@@ -20,6 +21,7 @@ class rex_sql_select_test extends PHPUnit_TestCase
   {
     parent::tearDown();
     
+    // Drops the table and all therefore all its rows
     $this->baseSuite->tearDown();
   } 
   

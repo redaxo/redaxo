@@ -1,13 +1,17 @@
 <?php
 
-$dir = getcwd();
-chdir(dirname(__FILE__). '/../vendor');
-require_once('PHPUnit.php');
+require_once('PHPUnit/Autoload.php');
 
-chdir($dir);
+$suite  = new PHPUnit_Framework_TestSuite();
+// disable backup of globals, since we have some rex_sql objectes referenced from variables in global space.
+// PDOStatements are not allowed to be serialized
+$suite->setBackupGlobals(false);
 
-$suite  = new PHPUnit_TestSuite();
 $suite->addTestSuite('rex_sql_test');
 $suite->addTestSuite('rex_sql_select_test');
-$result = PHPUnit::run($suite);
-print $result->toHTML();
+$result = $suite->run();
+$resultPrinter = new PHPUnit_TextUI_ResultPrinter();
+
+echo '<pre>';
+print $resultPrinter->printResult($result);
+echo '</pre>';

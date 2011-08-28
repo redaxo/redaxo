@@ -1,5 +1,5 @@
 <?php
-class rex_sql_test extends PHPUnit_TestCase
+class rex_sql_test extends PHPUnit_Framework_TestCase
 {
   const TABLE = 'rex_tests';
   
@@ -45,30 +45,29 @@ class rex_sql_test extends PHPUnit_TestCase
   
   public function testUpdateRow()
   {
+    // create a row we later update
+    $this->testInsertRow();
+    
     $sql = rex_sql::factory();
     $sql->setTable(self::TABLE);
-    $sql->setValue('col_str', 'abc');
-    $sql->setValue('col_int', 5);
+    $sql->setValue('col_str', 'def');
+    $sql->setWhere(array('col_int' => 5));
     
     $sql->update();
     $this->assertEquals(1, $sql->getRows());
-    // failing at the moment
-//     $this->assertEquals('abc', $sql->getValue('col_str'));
-//     $this->assertEquals(5, $sql->getValue('col_int'));
   }
   
   public function testDeleteRow()
   {
+    // create a row we later delete
+    $this->testInsertRow();
+    
     $sql = rex_sql::factory();
     $sql->setTable(self::TABLE);
-    $sql->setValue('col_str', 'abc');
-    $sql->setValue('col_int', 5);
+    $sql->setWhere(array('col_int' => 5));
     
     $sql->delete();
     $this->assertEquals(1, $sql->getRows());
-    // failing at the moment
-//     $this->assertEquals('abc', $sql->getValue('col_str'));
-//     $this->assertEquals(5, $sql->getValue('col_int'));
   }
 }
 
