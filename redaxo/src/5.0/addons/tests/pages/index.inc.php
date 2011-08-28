@@ -1,5 +1,9 @@
 <?php
 
+// load all required PEAR libs from vendor folder
+$path = dirname(__FILE__). '/../vendor/';
+set_include_path($path . PATH_SEPARATOR . get_include_path());
+
 require_once('PHPUnit/Autoload.php');
 
 $suite  = new PHPUnit_Framework_TestSuite();
