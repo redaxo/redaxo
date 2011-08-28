@@ -10,7 +10,7 @@ $suite->setBackupGlobals(false);
 $suite->addTestSuite('rex_sql_test');
 $suite->addTestSuite('rex_sql_select_test');
 $result = $suite->run();
-$resultPrinter = new PHPUnit_TextUI_ResultPrinter();
+$resultPrinter = new PHPUnit_TextUI_ResultPrinter(null, true  );
 
 echo '<pre>';
 print $resultPrinter->printResult($result);
