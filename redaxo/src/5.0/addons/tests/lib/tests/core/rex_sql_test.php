@@ -29,6 +29,20 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
     $sql->setQuery('DROP TABLE `'. self::TABLE .'`');
   }
   
+  public function testSetValue()
+  {
+    $sql = rex_sql::factory();
+    $sql->setTable(self::TABLE);
+    $sql->setValue('col_str', 'abc');
+    $sql->setValue('col_int', 5);
+    
+    $this->assertEquals(true, $sql->hasValue('col_str'));
+    $this->assertEquals(true, $sql->hasValue('col_int'));
+    
+    $this->assertEquals('abc', $sql->getValue('col_str'));
+    $this->assertEquals(5, $sql->getValue('col_int'));
+  }
+  
   public function testInsertRow()
   {
     $sql = rex_sql::factory();
@@ -43,7 +57,17 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
 //     $this->assertEquals(5, $sql->getValue('col_int'));
   }
   
-  public function testUpdateRow()
+  public function testInsertRawValue()
+  {
+    $sql = rex_sql::factory();
+    $sql->setTable(self::TABLE);
+    $sql->setRawValue('col_time', 'NOW()');
+    
+    $sql->insert();
+    $this->assertEquals(1, $sql->getRows());
+  }
+  
+  public function testUpdateRowByWhereArray()
   {
     // create a row we later update
     $this->testInsertRow();
@@ -52,6 +76,34 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
     $sql->setTable(self::TABLE);
     $sql->setValue('col_str', 'def');
     $sql->setWhere(array('col_int' => 5));
+    
+    $sql->update();
+    $this->assertEquals(1, $sql->getRows());
+  }
+  
+  public function testUpdateRowByNamedWhere()
+  {
+    // create a row we later update
+    $this->testInsertRow();
+    
+    $sql = rex_sql::factory();
+    $sql->setTable(self::TABLE);
+    $sql->setValue('col_str', 'def');
+    $sql->setWhere('col_int = :myint', array('myint' => 5));
+    
+    $sql->update();
+    $this->assertEquals(1, $sql->getRows());
+  }
+  
+  public function testUpdateRowByStringWhere()
+  {
+    // create a row we later update
+    $this->testInsertRow();
+    
+    $sql = rex_sql::factory();
+    $sql->setTable(self::TABLE);
+    $sql->setValue('col_str', 'def');
+    $sql->setWhere('col_int = "5"');
     
     $sql->update();
     $this->assertEquals(1, $sql->getRows());
