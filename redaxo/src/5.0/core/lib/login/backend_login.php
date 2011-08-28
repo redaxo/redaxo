@@ -44,7 +44,7 @@ class rex_backend_login extends rex_login
         }
         else
         {
-          setcookie($cookiename);
+          setcookie($cookiename, '', time() - 3600);
         }
       }
       $this->setSessionVar('STAMP', time());
@@ -84,7 +84,7 @@ class rex_backend_login extends rex_login
     if ($this->isLoggedOut() && $userId != '')
     {
       $sql->setQuery('UPDATE '.$this->tableName.' SET session_id="", cookiekey="" WHERE user_id=? LIMIT 1', array($userId));
-      setcookie($cookiename);
+      setcookie($cookiename, '', time() - 3600);
     }
 
     return $check;
