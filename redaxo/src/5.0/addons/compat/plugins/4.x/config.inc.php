@@ -8,7 +8,8 @@ global $REX, $I18N;
 
 $REX = new rex_compat_array;
 
-$REX['INCLUDE_PATH'] = rex_path::version();
+$REX['HTDOCS_PATH']   = rex_path::frontend();
+$REX['INCLUDE_PATH']  = rex_path::version();
 $REX['FRONTEND_PATH'] = rex_path::frontend('', rex_path::ABSOLUTE);
 $REX['MEDIAFOLDER']   = rex_path::media('', rex_path::ABSOLUTE);
 $REX['FRONTEND_FILE'] = 'index.php';
@@ -21,6 +22,8 @@ $REX->setCallbackAlias('CLANG', 'rex_clang::getAll', 'rex_clang::reset');
 $REX['PERM'] = new rex_perm_compat(rex_perm::GENERAL);
 $REX['EXTPERM'] = new rex_perm_compat(rex_perm::OPTIONS);
 $REX['EXTRAPERM'] = new rex_perm_compat(rex_perm::EXTRAS);
+
+$REX['MOD_REWRITE'] = true;
 
 if(rex::isBackend())
 {

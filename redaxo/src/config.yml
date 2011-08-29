@@ -1,5 +1,5 @@
-setup: true
-instname: rex20110507162412
+setup: false
+instname: rex20110827100044
 server: redaxo.org
 servername: REDAXO
 error_email: jan.kristinus@yakamara.de

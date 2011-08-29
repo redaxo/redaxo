@@ -29,39 +29,12 @@ abstract class rex_api_function extends rex_factory
    * @var boolean
    */
   protected $published = false;
-
+  
   /**
-   * Flag indicating if the api function was executed successfully
-   * @var boolean
+   * The result of the function call
+   * @var rex_api_result
    */
-  protected $succeeded = false;
-
-  /**
-   * Statusmessage (error/info)
-   * @var string
-   */
-  protected $message = '';
-
-
-  /**
-   * Returns end-user friendly statusmessage
-   *
-   * @return string a statusmessage
-   */
-  public function getMessage()
-  {
-    return $this->message;
-  }
-
-  /**
-   * Returns whether the api function was executed successfully
-   *
-   * @return boolean true on success, false on error
-   */
-  public function isSuccessfull()
-  {
-    return $this->succeeded;
-  }
+  protected $result = null;
 
   /**
    * This method have to be overriden by a subclass and does all logic which the api function represents.
@@ -71,7 +44,7 @@ abstract class rex_api_function extends rex_factory
    *
    * This function may also throw exceptions e.g. in case when permissions are missing or the provided parameters are invalid.
    *
-   * @return string A userfriendly message for the end-user or null.
+   * @return rex_api_result The result of the api-function
    */
   public abstract function execute();
 
@@ -132,7 +105,7 @@ abstract class rex_api_function extends rex_factory
 
     if($apiFunc != null)
     {
-      if($apiFunc->published === false)
+      if($apiFunc->published !== true)
       {
         if(rex::isBackend() !== true)
           throw new rex_api_exception('the api function '. get_class($apiFunc) .' is not published, therefore can only be called from the backend!');
@@ -142,25 +115,121 @@ abstract class rex_api_function extends rex_factory
       }
 
       try {
-
-        $message = $apiFunc->execute();
-        $apiFunc->message = $message;
-        $apiFunc->succeeded = true;
+        $result = $apiFunc->execute();
+        $apiFunc->result = $result;
       } catch (rex_api_exception $e)
       {
         $message = $e->getMessage();
-        $apiFunc->message = $message;
-        $apiFunc->succeeded = false;
+        $result = new rex_api_result(false, $message);
+        $apiFunc->result = $result;
       }
 
       // if we handle an ajax request, we direct the output to the browser and stop here
       $isAjaxRequest = rex_isXmlHttpRequest();
+      
       if($isAjaxRequest)
       {
-        echo $message;
+        while(ob_get_level()) ob_end_clean();
+        
+        echo $result->ajaxResult();
         exit();
       }
     }
+  }
+  
+  public static function getMessage()
+  {
+    $apiFunc = self::factory();
+    $message = '';
+    if($apiFunc)
+    {
+      $apiResult = $apiFunc->getResult();
+      $message = $apiResult->getFormattedMessage();
+    }
+    // return a placeholder which can later be used by ajax requests to display messages
+    return '<div id="rex-message-container">'. $message .'</div>';
+  }
+  
+  public function getResult()
+  {
+    return $this->result;
+  }
+}
+
+/**
+ * Class representing the result of a api function call.
+ * 
+ * @author staabm
+ * 
+ * @see rex_api_function
+ */
+class rex_api_result
+{
+  /**
+  * Flag indicating if the api function was executed successfully
+  * @var boolean
+  */
+  private $succeeded = false;
+  
+  private $message;
+  private $renderResults;
+  
+  public function __construct($succeeded, $message = null)
+  {
+    $this->succeeded = $succeeded;
+    $this->message = $message;
+  }
+  
+    
+  public function addRenderResult($selector, $html, $selectorContext = null, $addClass = null, $removeClass = null)
+  {
+    $renderResult = array('selector' => $selector, 'html' => $html);
+    
+    if($selectorContext) $renderResult['selectorContext'] = $selectorContext;
+    if($addClass) $renderResult['addClass'] = $addClass;
+    if($removeClass) $renderResult['removeClass'] = $removeClass;
+    
+    $this->renderResults[] = $renderResult;
+  }
+  
+  public function ajaxResult()
+  {
+    $ajaxResult = array();
+    $ajaxResult['renderResults'] = $this->renderResults;
+    $ajaxResult['message'] = $this->getFormattedMessage();
+    return json_encode($ajaxResult);
+  }
+  
+  public function getFormattedMessage()
+  {
+    if($this->isSuccessfull())
+    {
+      return rex_info($this->message);
+    }
+    else
+    {
+      return rex_warning($this->message);
+    }
+  }
+  
+  /**
+   * Returns end-user friendly statusmessage
+   *
+   * @return string a statusmessage
+   */
+  public function getMessage()
+  {
+    return $this->message;
+  }
+  
+  /**
+   * Returns whether the api function was executed successfully
+   *
+   * @return boolean true on success, false on error
+   */
+  public function isSuccessfull()
+  {
+    return $this->succeeded;
   }
 }
 

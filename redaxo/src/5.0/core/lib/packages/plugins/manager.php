@@ -48,7 +48,7 @@ class rex_plugin_manager extends rex_package_manager
         {
           foreach($requirements['addons'] as $addonName => $addonAttr)
           {
-            if($addonName == $this->addonName && isset($addonAttr['plugins']) && is_array($addonAttr['plugins']))
+            if($addonName == $this->package->getAddon()->getName() && isset($addonAttr['plugins']) && is_array($addonAttr['plugins']))
             {
               foreach($addonAttr['plugins'] as $depName => $depAttr)
               {

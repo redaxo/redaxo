@@ -7,7 +7,7 @@ class rex_article_service
    *
    * @param array $data Array mit den Daten des Artikels
    *
-   * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+   * @return string Eine Statusmeldung
    */
   static public function addArticle($data)
   {
@@ -123,7 +123,7 @@ class rex_article_service
    * @param int   $clang       Id der Sprache
    * @param array $data        Array mit den Daten des Artikels
    *
-   * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+   * @return string Eine Statusmeldung
    */
   static public function editArticle($article_id, $clang, $data)
   {
@@ -221,7 +221,7 @@ class rex_article_service
    *
    * @param int $article_id Id des Artikels die gelöscht werden soll
    *
-   * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+   * @return string Eine Statusmeldung
    */
   static public function deleteArticle($article_id)
   {
@@ -269,7 +269,7 @@ class rex_article_service
    *
    * @param $id ArtikelId des Artikels, der gelöscht werden soll
    *
-   * @return Erfolgsmeldung bzw. Fehlermeldung bei Fehlern.
+   * @return string Eine Statusmeldung
    */
   static public function _deleteArticle($id)
   {
@@ -351,12 +351,11 @@ class rex_article_service
    * @param int       $clang      Id der Sprache
    * @param int|null  $status     Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
    *
-   * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+   * @return int Der neue Status des Artikels
    */
   static public function articleStatus($article_id, $clang, $status = null)
   {
     $message = '';
-    $artStatusTypes = self::statusTypes();
 
     $GA = rex_sql::factory();
     $GA->setQuery("select * from ".rex::getTablePrefix()."article where id='$article_id' and clang=$clang");
@@ -365,7 +364,7 @@ class rex_article_service
       // Status wurde nicht von außen vorgegeben,
       // => zyklisch auf den nächsten Weiterschalten
       if(!$status)
-      $newstatus = ($GA->getValue('status') + 1) % count($artStatusTypes);
+      $newstatus = self::nextStatus($GA->getValue('status'));
       else
       $newstatus = $status;
 
@@ -378,11 +377,10 @@ class rex_article_service
       try {
         $EA->update();
       
-        $message = rex_i18n::msg('article_status_updated');
         rex_article_cache::delete($article_id, $clang);
 
         // ----- EXTENSION POINT
-        $message = rex_extension::registerPoint('ART_STATUS', $message, array (
+        rex_extension::registerPoint('ART_STATUS', null, array (
         'id' => $article_id,
         'clang' => $clang,
         'status' => $newstatus
@@ -396,7 +394,7 @@ class rex_article_service
       throw new rex_api_exception(rex_i18n::msg("no_such_category"));
     }
 
-    return $message;
+    return $newstatus;
   }
 
   /**
@@ -411,9 +409,9 @@ class rex_article_service
     if(!$artStatusTypes)
     {
       $artStatusTypes = array(
-      // Name, CSS-Class
-      array(rex_i18n::msg('status_offline'), 'rex-offline'),
-      array(rex_i18n::msg('status_online'), 'rex-online')
+        // Name, CSS-Class
+        array(rex_i18n::msg('status_offline'), 'rex-offline'),
+        array(rex_i18n::msg('status_online'), 'rex-online')
       );
 
       // ----- EXTENSION POINT
@@ -421,6 +419,20 @@ class rex_article_service
     }
 
     return $artStatusTypes;
+  }
+  
+  static public function nextStatus($currentStatus)
+  {
+    $artStatusTypes = self::statusTypes();
+    return ($currentStatus + 1) % count($artStatusTypes);
+  }
+
+  static public function prevStatus($currentStatus)
+  {
+    $artStatusTypes = self::statusTypes();
+    if(($currentStatus - 1) < 0 ) return count($artStatusTypes) - 1;
+    
+    return ($currentStatus - 1) % count($artStatusTypes);
   }
 
   /**

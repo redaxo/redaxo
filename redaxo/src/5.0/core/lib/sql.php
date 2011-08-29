@@ -8,6 +8,7 @@
 class rex_sql extends rex_factory implements Iterator
 {
   public
+    $debugsql, // debug schalter
     $counter; // pointer
 
   protected
@@ -30,6 +31,7 @@ class rex_sql extends rex_factory implements Iterator
 
   protected function __construct($DBID = 1)
   {
+    $this->debugsql = false;
     $this->flush();
     $this->selectDB($DBID);
   }
@@ -166,6 +168,20 @@ class rex_sql extends rex_factory implements Iterator
   }
 
   /**
+   * Setzt Debugmodus an/aus
+   *
+   * @param $debug Debug TRUE/FALSE
+   *
+   * @return rex_sql the current rex_sql object
+   */
+  public function setDebug($debug = TRUE)
+  {
+	  $this->debugsql = $debug;
+
+	  return $this;
+  }
+
+  /**
    * Prepares a PDOStatement
    *
    * @param string $qry A query string with placeholders
@@ -239,7 +255,12 @@ class rex_sql extends rex_factory implements Iterator
       $this->rows = 0;
     }
 
-    if ($this->getErrno() != 0)
+    $hasError = $this->hasError();
+    if ($this->debugsql)
+    {
+      $this->printError($qry, $params);
+    }
+    else if ($hasError)
     {
       throw new rex_sql_exception($this->getError());
     }
@@ -899,6 +920,36 @@ class rex_sql extends rex_factory implements Iterator
     // idx1   Driver-specific error code.
     // idx2   Driver-specific error message.
     return $errorInfos[2];
+  }
+
+  /**
+   * Prueft, ob ein Fehler aufgetreten ist
+   */
+  public function hasError()
+  {
+    return $this->getErrno() != 0;
+  }
+
+  /**
+   * Gibt die letzte Fehlermeldung aus
+   */
+  protected function printError($qry, $params)
+  {
+    echo '<hr />' . "\n";
+    echo 'Query: ' . nl2br(htmlspecialchars($qry)) . "<br />\n";
+
+    if(!empty($params))
+      echo 'Params: ' . htmlspecialchars(print_r($params, true)) . "<br />\n";
+
+    if (strlen($this->getRows()) > 0)
+    {
+      echo 'Affected Rows: ' . $this->getRows() . "<br />\n";
+    }
+    if (strlen($this->getError()) > 0)
+    {
+      echo 'Error Message: ' . htmlspecialchars($this->getError()) . "<br />\n";
+      echo 'Error Code: ' . $this->getErrno() . "<br />\n";
+    }
   }
 
   /**
