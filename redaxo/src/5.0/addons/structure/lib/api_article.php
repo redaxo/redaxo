@@ -87,7 +87,7 @@ class rex_api_article_delete extends rex_api_function
 
     $result = new rex_api_result(true, rex_article_service::deleteArticle($article_id));
     // delete row from DOM
-    $result->addRenderResult('', '', 'tr', true);
+    $result->addRenderResult('', '', 'tr', rex_api_result::MODE_REPLACE);
     return $result;
   }
 }
@@ -113,7 +113,7 @@ class rex_api_article_status extends rex_api_function
 
       $result = new rex_api_result(true, rex_i18n::msg('article_status_updated'));
       // replace link-text
-      $result->addRenderResult('this', $statusTypes[$newStatus][0], '', false, $statusTypes[$newStatus][1], $statusTypes[$oldStatus][1]);
+      $result->addRenderResult('this', $statusTypes[$newStatus][0], '', null, $statusTypes[$newStatus][1], $statusTypes[$oldStatus][1]);
       return $result;
     }
     else

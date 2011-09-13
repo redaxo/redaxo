@@ -84,15 +84,3 @@ if ($subpage == '')
   echo '</tbody>
   		</table>';
 }
-?>
-<script type="text/javascript">
-<!--
-
-function packageApi(link) {
-  jQuery('.rex-package-message').detach();
-  var tr = jQuery(link).parents('tr');
-  tr.before('<tr class="rex-package-message"><td></td><td colspan="5">...</td></tr>');
-}
-
-//-->
-</script>

@@ -19,11 +19,12 @@ class rex_api_package extends rex_api_function
     $success = $manager->$function();
     $message = $manager->getMessage();
     $result = new rex_api_result($success, $message);
+    $result->addRenderResult('.rex-package-message', '', null, rex_api_result::MODE_REPLACE);
     if($success === true)
     {
-      $result->addRenderResult('.rex-package-message', '<td class="rex-info"></td><td colspan="5"><b>'.$message.'</b></td>', null, false, 'rex-info', 'rex-warning');
+      $result->addRenderResult('', '<tr class="rex-package-message rex-info"><td class="rex-info"></td><td colspan="5"><b>'.$message.'</b></td></tr>', 'tr', rex_api_result::MODE_BEFORE);
       $replace = $function == 'delete' ? '' : self::getTableRow($package);
-      $result->addRenderResult('', $replace, 'tr', true);
+      $result->addRenderResult('', $replace, 'tr', rex_api_result::MODE_REPLACE);
       if($package instanceof rex_addon)
       {
         $hide = !$package->isActivated();
@@ -31,19 +32,19 @@ class rex_api_package extends rex_api_function
         {
           $class = '.rex-plugin-'. str_replace(array('.', '/'), '_', $plugin->getPackageId());
           $replace = $function == 'delete' ? '' : self::getTableRow($plugin, $hide);
-          $result->addRenderResult($class, $replace, null, true);
+          $result->addRenderResult($class, $replace, null, rex_api_result::MODE_REPLACE);
         }
       }
       else
       {
         $addon = $package->getAddon();
         $class = '.rex-addon-'. str_replace(array('.', '/'), '_', $addon->getPackageId());
-        $result->addRenderResult($class, self::getTableRow($addon), null, true);
+        $result->addRenderResult($class, self::getTableRow($addon), null, rex_api_result::MODE_REPLACE);
       }
     }
     else
     {
-      $result->addRenderResult('.rex-package-message', '<td class="rex-warning"></td><td colspan="5">'. $message .'</td>', null, false, 'rex-warning', 'rex-info');
+      $result->addRenderResult('', '<tr class="rex-package-message rex-warning"><td class="rex-warning"></td><td colspan="5">'. $message .'</td></tr>', 'tr', rex_api_result::MODE_BEFORE);
     }
     return $result;
   }
@@ -102,13 +103,13 @@ class rex_api_package extends rex_api_function
 
   static private function getLink(rex_package $package, $function, $confirm = false, $key = null)
   {
-    $onclick = 'packageApi(this)';
+    $onclick = '';
     if($confirm)
     {
       $type = $package instanceof rex_plugin ? 'plugin' : 'addon';
-      $onclick = 'if(confirm(\''.htmlspecialchars(rex_i18n::msg($type.'_'.$function.'_question', $package->getName())).'\')) '. $onclick .'; else return false;';
+      $onclick = ' onclick="return confirm(\''.htmlspecialchars(rex_i18n::msg($type.'_'.$function.'_question', $package->getName())).'\')"';
     }
     $text = rex_i18n::msg('addon_'.($key ?: $function));
-    return '<a class="rex-api-get" href="index.php?page=addon&amp;package='.$package->getPackageId().'&amp;rex-api-call=package&amp;function='.$function.'" onclick="'.$onclick.'">'.$text.'</a>';
+    return '<a class="rex-api-get" href="index.php?page=addon&amp;package='.$package->getPackageId().'&amp;rex-api-call=package&amp;function='.$function.'"'.$onclick.'>'.$text.'</a>';
   }
 }

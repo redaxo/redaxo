@@ -165,6 +165,12 @@ abstract class rex_api_function extends rex_factory
  */
 class rex_api_result
 {
+  const
+    MODE_INNER = 'inner',
+    MODE_REPLACE = 'replace',
+    MODE_BEFORE = 'before',
+    MODE_AFTER = 'after';
+
   /**
   * Flag indicating if the api function was executed successfully
   * @var boolean
@@ -181,12 +187,12 @@ class rex_api_result
   }
 
 
-  public function addRenderResult($selector, $html, $selectorContext = null, $replace = false, $addClass = null, $removeClass = null)
+  public function addRenderResult($selector, $html, $selectorContext = null, $mode = null, $addClass = null, $removeClass = null)
   {
     $renderResult = array('selector' => $selector, 'html' => $html);
 
     if($selectorContext) $renderResult['selectorContext'] = $selectorContext;
-    $renderResult['replace'] = $replace;
+    $renderResult['mode'] = $mode ?: self::MODE_INNER;
     if($addClass) $renderResult['addClass'] = $addClass;
     if($removeClass) $renderResult['removeClass'] = $removeClass;
 

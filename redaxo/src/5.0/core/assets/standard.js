@@ -540,12 +540,14 @@ jQuery(document).ready(function($) {
             var ctx = resRow.selectorContext ? $(self).closest(resRow.selectorContext) : null;
             var elem = resRow.selector ? $(resRow.selector, ctx) : ctx;
             
-            if(resRow.replace) {
-              elem.replaceWith(resRow.html);
-            } else {
-              elem.html(resRow.html);
-              elem.addClass(resRow.addClass);
-              elem.removeClass(resRow.removeClass);
+            switch(resRow.mode) {
+              case 'replace': elem.replaceWith(resRow.html); break;
+              case 'before':  elem.before(resRow.html); break;
+              case 'after':   elem.after(resRow.html); break;
+              default:
+                elem.html(resRow.html);
+                elem.addClass(resRow.addClass);
+                elem.removeClass(resRow.removeClass);
             }
           });
         }
