@@ -22,14 +22,16 @@ class rex_api_package extends rex_api_function
     if($success === true)
     {
       $result->addRenderResult('.rex-package-message', '<td class="rex-info"></td><td colspan="5"><b>'.$message.'</b></td>', null, false, 'rex-info', 'rex-warning');
-      $result->addRenderResult('', self::getTableRow($package), 'tr', true);
+      $replace = $function == 'delete' ? '' : self::getTableRow($package);
+      $result->addRenderResult('', $replace, 'tr', true);
       if($package instanceof rex_addon)
       {
         $hide = !$package->isActivated();
         foreach($package->getRegisteredPlugins() as $plugin)
         {
           $class = '.rex-plugin-'. str_replace(array('.', '/'), '_', $plugin->getPackageId());
-          $result->addRenderResult($class, self::getTableRow($plugin, $hide), null, true);
+          $replace = $function == 'delete' ? '' : self::getTableRow($plugin, $hide);
+          $result->addRenderResult($class, $replace, null, true);
         }
       }
       else
