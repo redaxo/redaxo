@@ -79,7 +79,7 @@ class rex_api_category_delete extends rex_api_function
 
     $result = new rex_api_result(true, rex_category_service::deleteCategory($catId));
     // delete row from DOM
-    $result->addRenderResult('', '', 'tr'); 
+    $result->addRenderResult('', '', 'tr', true);
     return $result;
   }
 }
@@ -101,10 +101,10 @@ class rex_api_category_status extends rex_api_function
       $newStatus = rex_category_service::categoryStatus($catId, $clangId);
       $oldStatus = rex_category_service::prevStatus($newStatus);
       $statusTypes = rex_category_service::statusTypes();
-      
+
       $result = new rex_api_result(true, rex_i18n::msg('category_status_updated'));
       // replace link-text
-      $result->addRenderResult('this', $statusTypes[$newStatus][0], '', $statusTypes[$newStatus][1], $statusTypes[$oldStatus][1]);
+      $result->addRenderResult('this', $statusTypes[$newStatus][0], '', false, $statusTypes[$newStatus][1], $statusTypes[$oldStatus][1]);
       return $result;
     }
     else

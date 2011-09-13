@@ -29,7 +29,7 @@ abstract class rex_api_function extends rex_factory
    * @var boolean
    */
   protected $published = false;
-  
+
   /**
    * The result of the function call
    * @var rex_api_result
@@ -100,7 +100,7 @@ abstract class rex_api_function extends rex_factory
     {
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }
-    
+
     $apiFunc = self::factory();
 
     if($apiFunc != null)
@@ -126,17 +126,17 @@ abstract class rex_api_function extends rex_factory
 
       // if we handle an ajax request, we direct the output to the browser and stop here
       $isAjaxRequest = rex_isXmlHttpRequest();
-      
+
       if($isAjaxRequest)
       {
         while(ob_get_level()) ob_end_clean();
-        
+
         echo $result->ajaxResult();
         exit();
       }
     }
   }
-  
+
   public static function getMessage()
   {
     $apiFunc = self::factory();
@@ -149,7 +149,7 @@ abstract class rex_api_function extends rex_factory
     // return a placeholder which can later be used by ajax requests to display messages
     return '<div id="rex-message-container">'. $message .'</div>';
   }
-  
+
   public function getResult()
   {
     return $this->result;
@@ -158,9 +158,9 @@ abstract class rex_api_function extends rex_factory
 
 /**
  * Class representing the result of a api function call.
- * 
+ *
  * @author staabm
- * 
+ *
  * @see rex_api_function
  */
 class rex_api_result
@@ -170,28 +170,29 @@ class rex_api_result
   * @var boolean
   */
   private $succeeded = false;
-  
+
   private $message;
   private $renderResults;
-  
+
   public function __construct($succeeded, $message = null)
   {
     $this->succeeded = $succeeded;
     $this->message = $message;
   }
-  
-    
-  public function addRenderResult($selector, $html, $selectorContext = null, $addClass = null, $removeClass = null)
+
+
+  public function addRenderResult($selector, $html, $selectorContext = null, $replace = false, $addClass = null, $removeClass = null)
   {
     $renderResult = array('selector' => $selector, 'html' => $html);
-    
+
     if($selectorContext) $renderResult['selectorContext'] = $selectorContext;
+    $renderResult['replace'] = $replace;
     if($addClass) $renderResult['addClass'] = $addClass;
     if($removeClass) $renderResult['removeClass'] = $removeClass;
-    
+
     $this->renderResults[] = $renderResult;
   }
-  
+
   public function ajaxResult()
   {
     $ajaxResult = array();
@@ -199,7 +200,7 @@ class rex_api_result
     $ajaxResult['message'] = $this->getFormattedMessage();
     return json_encode($ajaxResult);
   }
-  
+
   public function getFormattedMessage()
   {
     if($this->isSuccessfull())
@@ -211,7 +212,7 @@ class rex_api_result
       return rex_warning($this->message);
     }
   }
-  
+
   /**
    * Returns end-user friendly statusmessage
    *
@@ -221,7 +222,7 @@ class rex_api_result
   {
     return $this->message;
   }
-  
+
   /**
    * Returns whether the api function was executed successfully
    *
