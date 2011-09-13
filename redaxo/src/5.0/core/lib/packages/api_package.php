@@ -32,6 +32,12 @@ class rex_api_package extends rex_api_function
           $result->addRenderResult($class, self::getTableRow($plugin, $hide), null, true);
         }
       }
+      else
+      {
+        $addon = $package->getAddon();
+        $class = '.rex-addon-'. str_replace(array('.', '/'), '_', $addon->getPackageId());
+        $result->addRenderResult($class, self::getTableRow($addon), null, true);
+      }
     }
     else
     {
