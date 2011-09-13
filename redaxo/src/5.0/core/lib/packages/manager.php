@@ -311,7 +311,7 @@ abstract class rex_package_manager extends rex_factory
     // zuerst deinstallieren
     // bei erfolg, komplett löschen
     $state = TRUE;
-    $state = ($ignoreState || $state) && $this->uninstall();
+    $state = ($ignoreState || $state) && (!$this->package->isInstalled() || $this->uninstall());
     $state = ($ignoreState || $state) && rex_dir::delete($this->package->getBasePath());
     $state = ($ignoreState || $state) && rex_dir::delete($this->package->getDataPath());
     if(!$ignoreState)
