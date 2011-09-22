@@ -165,11 +165,25 @@ abstract class rex_api_function extends rex_factory
  */
 class rex_api_result
 {
-  const
-    MODE_INNER = 'inner',
-    MODE_REPLACE = 'replace',
-    MODE_BEFORE = 'before',
-    MODE_AFTER = 'after';
+  /**
+   * The inner html of the selected element will be replaced
+   */
+  const MODE_INNER = 'inner';
+
+  /**
+  * The selected element will be completely replaced
+  */
+  const MODE_REPLACE = 'replace';
+
+  /**
+  * The html will be inserted before the selected element
+  */
+  const MODE_BEFORE = 'before';
+
+  /**
+  * The html will be inserted after the selected element
+  */
+  const MODE_AFTER = 'after';
 
   /**
   * Flag indicating if the api function was executed successfully

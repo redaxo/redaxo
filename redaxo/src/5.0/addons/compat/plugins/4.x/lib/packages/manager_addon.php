@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Compat class for addon manager
+ *
+ * Realizes compatibility for $REX['ADDON'] and old "files" folders
+ *
+ * @author gharlan
+ */
 class rex_addon_manager_compat extends rex_addon_manager
 {
   public function install($installDump = TRUE)

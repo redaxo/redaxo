@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Compat class for the global $REX variable
+ *
+ * @author gharlan
+ */
 class rex_compat_array extends rex implements ArrayAccess, IteratorAggregate, Countable
 {
   private

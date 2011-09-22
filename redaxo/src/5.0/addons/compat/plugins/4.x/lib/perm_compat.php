@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Compat class for $REX['PERM'], $REX['EXTPERM'] and $REX['EXTRAPERM']
+ *
+ * To realize statements like <code>$REX['PERM'][] = 'myperm[]'</code> it is necessary that
+ * $REX['PERM'] returns a reference. But there isn't a public array of all permissions that
+ * could be returned by reference, so $REX['PERM'] is an object of this compat class.
+ *
+ * @author gharlan
+ */
 class rex_perm_compat implements ArrayAccess, IteratorAggregate, Countable
 {
   private $group;
