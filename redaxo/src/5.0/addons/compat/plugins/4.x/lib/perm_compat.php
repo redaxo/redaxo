@@ -1,6 +1,6 @@
 <?php
 
-class rex_perm_compat implements ArrayAccess
+class rex_perm_compat implements ArrayAccess, IteratorAggregate, Countable
 {
   private $group;
 
@@ -26,5 +26,15 @@ class rex_perm_compat implements ArrayAccess
 
   public function offsetUnset($key)
   {
+  }
+
+  public function getIterator()
+  {
+    return new ArrayIterator(array_keys(rex_perm::getAll($this->group)));
+  }
+
+  public function count()
+  {
+    return count(rex_perm::getAll($this->group));
   }
 }
