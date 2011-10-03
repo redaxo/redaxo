@@ -25,6 +25,32 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
     $this->baseSuite->tearDown();
   } 
   
+  public function testGetArray()
+  {
+    $sql = rex_sql::factory();
+    $array = $sql->getArray('SELECT * FROM '. self::TABLE .' WHERE col_int = 5');
+
+    $this->assertEquals(1, $sql->getRows());
+    $this->assertArrayHasKey(0, $array);
+    
+    $row1 = $array[0];
+    $this->assertEquals('abc', $row1['col_str']);
+    $this->assertEquals('5', $row1['col_int']);
+  }
+  
+  public function testGetDbArray()
+  {
+    $sql = rex_sql::factory();
+    $array = $sql->getDBArray('(DB1) SELECT * FROM '. self::TABLE .' WHERE col_int = 5');
+
+    $this->assertEquals(1, $sql->getRows());
+    $this->assertArrayHasKey(0, $array);
+    
+    $row1 = $array[0];
+    $this->assertEquals('abc', $row1['col_str']);
+    $this->assertEquals('5', $row1['col_int']);
+  }
+  
   public function testPreparedSetQuery()
   {
     $sql = rex_sql::factory();
