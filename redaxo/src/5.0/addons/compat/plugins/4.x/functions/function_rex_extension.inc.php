@@ -31,16 +31,6 @@ function rex_extension_is_registered($extensionPoint)
 }
 
 /**
- * @see rex_extension::getRegisteredExtensions()
- *
- * @deprecated 5.0
- */
-function rex_get_registered_extensions($extensionPoint)
-{
-  return rex_extension::getRegisteredExtensions($extensionPoint);
-}
-
-/**
  * @link http://www.php.net/manual/en/function.call-user-func.php
  * @link http://www.php.net/manual/en/function.call-user-func-array.php
  *
