@@ -1026,7 +1026,7 @@ if ($article->getRows() == 1)
       // -------------------------------------------------- ARTIKEL KOPIEREN START
       if (rex::getUser()->isAdmin() || rex::getUser()->hasPerm('copyArticle[]'))
       {
-        $move_a = new rex_category_select(false, false, true, !rex::getUser()->hasMountPoints());
+        $move_a = new rex_category_select(false, false, true, !rex::getUser()->getComplexPerm('structure')->hasMountPoints());
         $move_a->setStyle('class="rex-form-select"');
         $move_a->setName('category_copy_id_new');
         $move_a->setId('category_copy_id_new');
