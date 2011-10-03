@@ -561,6 +561,118 @@ class rex_article_service
   }
   
   /**
+  * Konvertiert einen Artikel zum Startartikel der eigenen Kategorie
+  *
+  * @param int $neu_id  Artikel ID des Artikels, der Startartikel werden soll
+  *
+  * @return boolean TRUE bei Erfolg, sonst FALSE
+  */
+  static public function article2startpage($neu_id)
+  {
+    $GAID = array();
+  
+    // neuen startartikel holen und schauen ob da
+    $neu = rex_sql::factory();
+    $neu->setQuery("select * from ".rex::getTablePrefix()."article where id=$neu_id and startpage=0 and clang=0");
+    if ($neu->getRows()!=1) return false;
+    $neu_path = $neu->getValue("path");
+    $neu_cat_id = $neu->getValue("re_id");
+  
+    // in oberster kategorie dann return
+    if ($neu_cat_id == 0) return false;
+  
+    // alten startartikel
+    $alt = rex_sql::factory();
+    $alt->setQuery("select * from ".rex::getTablePrefix()."article where id=$neu_cat_id and startpage=1 and clang=0");
+    if ($alt->getRows()!=1) return false;
+    $alt_path = $alt->getValue('path');
+    $alt_id = $alt->getValue('id');
+    $parent_id = $alt->getValue('re_id');
+  
+    // cat felder sammeln. +
+    $params = array('path','prior','catname','startpage','catprior','status');
+    $db_fields = rex_ooRedaxo::getClassVars();
+    foreach($db_fields as $field)
+    {
+      if(substr($field,0,4)=='cat_') $params[] = $field;
+    }
+  
+    // LANG SCHLEIFE
+    foreach(rex_clang::getAllIds() as $clang)
+    {
+      // alter startartikel
+      $alt->setQuery("select * from ".rex::getTablePrefix()."article where id=$neu_cat_id and startpage=1 and clang=$clang");
+  
+      // neuer startartikel
+      $neu->setQuery("select * from ".rex::getTablePrefix()."article where id=$neu_id and startpage=0 and clang=$clang");
+  
+      // alter startartikel updaten
+      $alt2 = rex_sql::factory();
+      $alt2->setTable(rex::getTablePrefix()."article");
+      $alt2->setWhere("id=$alt_id and clang=". $clang);
+      $alt2->setValue("re_id",$neu_id);
+  
+      // neuer startartikel updaten
+      $neu2 = rex_sql::factory();
+      $neu2->setTable(rex::getTablePrefix()."article");
+      $neu2->setWhere("id=$neu_id and clang=". $clang);
+      $neu2->setValue("re_id",$alt->getValue("re_id"));
+  
+      // austauschen der definierten paramater
+      foreach($params as $param)
+      {
+        $alt2->setValue($param,$neu->getValue($param));
+        $neu2->setValue($param,$alt->getValue($param));
+      }
+      $alt2->update();
+      $neu2->update();
+    }
+  
+    // alle artikel suchen nach |art_id| und pfade ersetzen
+    // alles artikel mit re_id alt_id suchen und ersetzen
+  
+    $articles = rex_sql::factory();
+    $ia = rex_sql::factory();
+    $articles->setQuery("select * from ".rex::getTablePrefix()."article where path like '%|$alt_id|%'");
+    for($i=0;$i<$articles->getRows();$i++)
+    {
+      $iid = $articles->getValue("id");
+      $ipath = str_replace("|$alt_id|","|$neu_id|",$articles->getValue("path"));
+  
+      $ia->setTable(rex::getTablePrefix()."article");
+      $ia->setWhere('id='.$iid);
+      $ia->setValue("path",$ipath);
+      if ($articles->getValue("re_id")==$alt_id) $ia->setValue("re_id",$neu_id);
+      $ia->update();
+      $GAID[$iid] = $iid;
+      $articles->next();
+    }
+  
+    $GAID[$neu_id] = $neu_id;
+    $GAID[$alt_id] = $alt_id;
+    $GAID[$parent_id] = $parent_id;
+  
+    foreach($GAID as $gid)
+    {
+      rex_article_cache::delete($gid);
+    }
+  
+    rex_complex_perm::replaceItem('structure', $alt_id, $neu_id);
+  
+    foreach(rex_clang::getAllIds() as $clang)
+    {
+      rex_extension::registerPoint('ART_TO_STARTPAGE', '', array (
+        'id' => $neu_id,
+        'id_old' => $alt_id,
+        'clang' => $clang,
+      ));
+    }
+  
+    return true;
+  }
+
+  
+  /**
    * Checks whether the required array key $keyName isset
    *
    * @param array $array The array

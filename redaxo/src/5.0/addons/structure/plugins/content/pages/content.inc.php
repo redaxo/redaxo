@@ -392,30 +392,6 @@ if ($article->getRows() == 1)
     }
     // ------------------------------------------ END: Slice move up/down
 
-    // ------------------------------------------ START: ARTICLE2STARTARTICLE
-    if (rex_post('article2startpage', 'boolean'))
-    {
-      if (rex::getUser()->isAdmin() || rex::getUser()->hasPerm('article2startpage[]'))
-      {
-        if (rex_article2startpage($article_id))
-        {
-          // ----- EXTENSION POINT
-          $info = rex_i18n::msg('content_tostartarticle_ok');
-          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
-          exit;
-        }
-        else
-        {
-          $warning = rex_i18n::msg('content_tostartarticle_failed');
-        }
-      }
-      else
-      {
-        $warning = rex_i18n::msg('no_rights_to_this_function');
-      }
-    }
-    // ------------------------------------------ END: ARTICLE2STARTARTICLE
-
     // ------------------------------------------ START: COPY LANG CONTENT
     if (rex_post('copycontent', 'boolean'))
     {
@@ -825,7 +801,7 @@ if ($article->getRows() == 1)
         else if ($isStartpage)
           $out .= ' rex-form-read"><span class="rex-form-read">'.rex_i18n::msg('content_isstartarticle').'</span>';
         else
-          $out .= ' rex-form-submit"><input class="rex-form-submit" type="submit" name="article2startpage" value="' . rex_i18n::msg('content_tostartarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_tostartarticle') . '?\');" />';
+          $out .= ' rex-form-submit"><input class="rex-form-submit" type="submit" name="article2startpage" value="' . rex_i18n::msg('content_tostartarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_tostartarticle') . '?\') && jQuery(\'#apiField\').val(\'article2startpage\');" />';
 
         $out .= '
                   </p>
