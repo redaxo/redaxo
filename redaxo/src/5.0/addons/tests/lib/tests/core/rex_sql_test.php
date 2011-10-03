@@ -49,18 +49,18 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
     $this->assertTrue(true !== rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], 'not-the-correct-password', $config['db'][1]['name']));
   }
   
-  public function testSetValue()
+  public function testSetGetValue()
   {
     $sql = rex_sql::factory();
     $sql->setTable(self::TABLE);
     $sql->setValue('col_str', 'abc');
     $sql->setValue('col_int', 5);
     
-    $this->assertTrue($sql->hasValue('col_str'));
-    $this->assertTrue($sql->hasValue('col_int'));
+    $this->assertTrue($sql->hasValue('col_str'), 'set value string exists');
+    $this->assertTrue($sql->hasValue('col_int'), 'set value int exists');
     
-    $this->assertEquals('abc', $sql->getValue('col_str'));
-    $this->assertEquals(5, $sql->getValue('col_int'));
+    $this->assertEquals('abc', $sql->getValue('col_str'), 'get a previous set string');
+    $this->assertEquals(5, $sql->getValue('col_int'), 'get a previous set int ');
   }
   
   public function testInsertRow()
