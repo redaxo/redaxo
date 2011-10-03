@@ -33,7 +33,7 @@ class rex_config
   private static $changedData = array();
 
   /**
-   * data which was deleted durint this request
+   * data which was deleted during this request
    * @var array
    */
   private static $deletedData = array();
