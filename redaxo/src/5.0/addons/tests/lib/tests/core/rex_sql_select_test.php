@@ -25,20 +25,6 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
     $this->baseSuite->tearDown();
   } 
   
-  public function testGetArrayAfterSetQuery()
-  {
-    $sql = rex_sql::factory();
-    $sql->setQuery('SELECT * FROM '. self::TABLE .' WHERE col_int = 5');
-    $array = $sql->getArray();
-
-    $this->assertEquals(1, $sql->getRows());
-    $this->assertArrayHasKey(0, $array);
-    
-    $row1 = $array[0];
-    $this->assertEquals('abc', $row1['col_str']);
-    $this->assertEquals('5', $row1['col_int']);
-  }
-  
   public function testGetArray()
   {
     $sql = rex_sql::factory();
@@ -65,6 +51,34 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
     $this->assertEquals('5', $row1['col_int']);
   }
   
+  public function testGetArrayAfterPreparedSetQuery()
+  {
+    $sql = rex_sql::factory();
+    $sql->setQuery('SELECT * FROM '. self::TABLE .' WHERE col_int = ?', array(5));
+    $array = $sql->getArray();
+
+    $this->assertEquals(1, $sql->getRows());
+    $this->assertArrayHasKey(0, $array);
+    
+    $row1 = $array[0];
+    $this->assertEquals('abc', $row1['col_str']);
+    $this->assertEquals('5', $row1['col_int']);
+  }
+  
+  public function testGetArrayAfterSetQuery()
+  {
+    $sql = rex_sql::factory();
+    $sql->setQuery('SELECT * FROM '. self::TABLE .' WHERE col_int = 5');
+    $array = $sql->getArray();
+
+    $this->assertEquals(1, $sql->getRows());
+    $this->assertArrayHasKey(0, $array);
+    
+    $row1 = $array[0];
+    $this->assertEquals('abc', $row1['col_str']);
+    $this->assertEquals('5', $row1['col_int']);
+  }
+
   public function testPreparedSetQuery()
   {
     $sql = rex_sql::factory();
