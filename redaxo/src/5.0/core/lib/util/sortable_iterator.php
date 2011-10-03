@@ -33,7 +33,8 @@ class rex_sortable_iterator implements IteratorAggregate
   public function getIterator()
   {
     $array = iterator_to_array($this->iterator);
-    switch($this->sort)
+    $sort = is_callable($this->sort) ? 'callback' : $this->sort;
+    switch($sort)
     {
       case self::VALUES:
         asort($array);
@@ -41,8 +42,11 @@ class rex_sortable_iterator implements IteratorAggregate
       case self::KEYS:
         ksort($array);
         break;
-      default:
+      case 'callback':
         uasort($array, $this->sort);
+        break;
+      default:
+        throw new rex_exception('Unknown sort mode!');
     }
     return new ArrayIterator($array);
   }
