@@ -12,6 +12,7 @@ $suite  = new PHPUnit_Framework_TestSuite();
 $suite->setBackupGlobals(false);
 
 $suite->addTestSuite('rex_func_other_test');
+$suite->addTestSuite('rex_path_test');
 $suite->addTestSuite('rex_config_test');
 $suite->addTestSuite('rex_sql_test');
 $suite->addTestSuite('rex_sql_select_test');
