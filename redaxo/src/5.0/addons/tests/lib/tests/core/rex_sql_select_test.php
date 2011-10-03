@@ -94,4 +94,14 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
   
     $this->assertEquals(1, $sql->getRows());
   }
+  
+  public function testPreparedSetQueryWithReset()
+  {
+    $sql = rex_sql::factory();
+    $sql->setQuery('SELECT * FROM '. self::TABLE .' WHERE col_str = ? and col_int = ?', array('abc', 5));
+    
+    $sql->reset();
+  
+    $this->assertEquals(1, $sql->getRows());
+  }
 }
