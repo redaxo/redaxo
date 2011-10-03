@@ -122,3 +122,28 @@ class rex_api_article_status extends rex_api_function
     }
   }
 }
+
+class rex_api_article2category extends rex_api_function
+{
+  public function execute()
+  {
+    $article_id  = rex_request('article_id',  'rex-article-id');
+
+    /**
+     * @var rex_user
+     */
+    $user = rex::getUser();
+
+    // check permissions
+    if($user->isAdmin() || $user->hasPerm('article2category[]')) {
+      rex_article_service::article2category($article_id);
+
+      $result = new rex_api_result(true, rex_i18n::msg('content_tocategory_ok'));
+      return $result;
+    }
+    else
+    {
+      throw new rex_api_exception('user has no permission for this article!');
+    }
+  }
+}

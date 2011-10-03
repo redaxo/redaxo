@@ -416,31 +416,6 @@ if ($article->getRows() == 1)
     }
     // ------------------------------------------ END: ARTICLE2STARTARTICLE
 
-    // ------------------------------------------ START: ARTICLE2CATEGORY
-    if (rex_post('article2category', 'boolean'))
-    {
-      // article2category und category2article verwenden das gleiche Recht: article2category
-      if (rex::getUser()->isAdmin() || rex::getUser()->hasPerm('article2category[]'))
-      {
-        if (rex_article2category($article_id))
-        {
-          // ----- EXTENSION POINT
-          $info = rex_i18n::msg('content_tocategory_ok');
-          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
-          exit;
-        }
-        else
-        {
-          $warning = rex_i18n::msg('content_tocategory_failed');
-        }
-      }
-      else
-      {
-        $warning = rex_i18n::msg('no_rights_to_this_function');
-      }
-    }
-    // ------------------------------------------ END: ARTICLE2CATEGORY
-
     // ------------------------------------------ START: CATEGORY2ARTICLE
     if (rex_post('category2article', 'boolean'))
     {
@@ -728,6 +703,9 @@ if ($article->getRows() == 1)
     }
     if ($mode != 'edit')
     {
+      // --------------------------------------------- API MESSAGES
+      echo rex_api_function::getMessage();
+      
       if($warning != '')
       {
         echo rex_warning($warning);
@@ -849,6 +827,7 @@ if ($article->getRows() == 1)
                 <input type="hidden" name="save" value="1" />
                 <input type="hidden" name="clang" value="' . $clang . '" />
                 <input type="hidden" name="ctype" value="' . $ctype . '" />
+                <input type="hidden" name="rex-api-call" id="apiField">
                 ';
 
 
@@ -871,7 +850,7 @@ if ($article->getRows() == 1)
         else if ($isStartpage)
           $out .= ' rex-form-read"><span class="rex-form-read">'.rex_i18n::msg('content_isstartarticle').'</span>';
         else
-          $out .= ' rex-form-submit"><input class="rex-form-submit" type="submit" name="article2startpage" value="' . rex_i18n::msg('content_tostartarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_tostartarticle') . '?\')" />';
+          $out .= ' rex-form-submit"><input class="rex-form-submit" type="submit" name="article2startpage" value="' . rex_i18n::msg('content_tostartarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_tostartarticle') . '?\');" />';
 
         $out .= '
                   </p>
@@ -891,7 +870,7 @@ if ($article->getRows() == 1)
 
                 <div class="rex-form-row">
                   <p class="rex-form-col-a rex-form-submit">
-                     <input class="rex-form-submit" type="submit" name="article2category" value="' . rex_i18n::msg('content_tocategory') . '" onclick="return confirm(\'' . rex_i18n::msg('content_tocategory') . '?\')" />
+                     <input class="rex-form-submit" type="submit" name="article2category" value="' . rex_i18n::msg('content_tocategory') . '" onclick="return confirm(\'' . rex_i18n::msg('content_tocategory') . '?\') && jQuery(\'#apiField\').val(\'article2category\');" />
                   </p>
                 </div>
               </div>
