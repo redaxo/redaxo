@@ -129,13 +129,16 @@ class rex_api_article2category extends rex_api_function
   {
     $article_id  = rex_request('article_id',  'rex-article-id');
 
+    $ooArticle = rex_ooArticle::getArticleById($article_id);
+    $category_id = $ooArticle->getCategoryId();
+    
     /**
      * @var rex_user
      */
     $user = rex::getUser();
 
     // check permissions
-    if($user->isAdmin() || $user->hasPerm('article2category[]')) {
+    if($user->isAdmin() || ($user->hasPerm('article2category[]')  && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))) {
       if(rex_article_service::article2category($article_id))
       {
         $result = new rex_api_result(true, rex_i18n::msg('content_tocategory_ok'));
