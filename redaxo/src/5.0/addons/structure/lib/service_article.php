@@ -525,7 +525,7 @@ class rex_article_service
     // Kategorie muss leer sein
     $sql->setQuery('SELECT pid FROM '. rex::getTablePrefix() .'article WHERE re_id='. $art_id .' LIMIT 1');
     if ($sql->getRows() != 0)
-    return false;
+      return false;
   
     // LANG SCHLEIFE
     foreach(rex_clang::getAllIds() as $clang)

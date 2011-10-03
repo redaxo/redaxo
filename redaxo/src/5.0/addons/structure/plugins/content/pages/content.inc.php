@@ -416,31 +416,6 @@ if ($article->getRows() == 1)
     }
     // ------------------------------------------ END: ARTICLE2STARTARTICLE
 
-    // ------------------------------------------ START: CATEGORY2ARTICLE
-    if (rex_post('category2article', 'boolean'))
-    {
-      // article2category und category2article verwenden das gleiche Recht: article2category
-      if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('article2category[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id'))))
-      {
-        if (rex_category2article($article_id))
-        {
-          // ----- EXTENSION POINT
-          $info = rex_i18n::msg('content_toarticle_ok');
-          header("Location:index.php?page=content&mode=meta&clang=$clang&ctype=$ctype&article_id=$article_id&info=".urlencode($info));
-          exit;
-        }
-        else
-        {
-          $warning = rex_i18n::msg('content_toarticle_failed');
-        }
-      }
-      else
-      {
-        $warning = rex_i18n::msg('no_rights_to_this_function');
-      }
-    }
-    // ------------------------------------------ END: CATEGORY2ARTICLE
-
     // ------------------------------------------ START: COPY LANG CONTENT
     if (rex_post('copycontent', 'boolean'))
     {
@@ -896,7 +871,7 @@ if ($article->getRows() == 1)
         if (!$emptyCategory)
           $out .= ' rex-form-read"><span class="rex-form-read">'.rex_i18n::msg('content_nottoarticle').'</span>';
         else
-          $out .= ' rex-form-submit"><input class="rex-form-submit" type="submit" name="category2article" value="' . rex_i18n::msg('content_toarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_toarticle') . '?\')" />';
+          $out .= ' rex-form-submit"><input class="rex-form-submit" type="submit" name="category2article" value="' . rex_i18n::msg('content_toarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_toarticle') . '?\') && jQuery(\'#apiField\').val(\'category2article\');" />';
 
         $out .= '
                   </p>
