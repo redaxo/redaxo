@@ -13,6 +13,8 @@
 
 class rex_var_config extends rex_var
 {
+  const VAR_NAME = 'REX_CONFIG';
+  
   // --------------------------------- Output
 
   public function getTemplate($content)
@@ -30,7 +32,7 @@ class rex_var_config extends rex_var
    */
   private function matchConfig($content)
   {
-    $var = 'REX_CONFIG';
+    $var = self::VAR_NAME;
     $matches = $this->getVarParams($content, $var);
 
     foreach ($matches as $match)
@@ -46,10 +48,17 @@ class rex_var_config extends rex_var
     return $content;
   }
 
+  /**
+   * Returns the property of the given config-field, parsed using the given rex-var arguments.
+   * 
+   * @param string $field The name of the config field
+   * @param string $args A JSON String representing the rex-var arguments
+   * @return string
+   */
   static public function getConfig($field, $args = '')
   {
     $config = rex::getProperty($field, rex::getConfig($field));
-    $config = self::handleGlobalVarParams('REX_CONFIG', json_decode($args, true), $config);
+    $config = self::handleGlobalVarParams(self::VAR_NAME, json_decode($args, true), $config);
     return htmlspecialchars($config);
   }
 }

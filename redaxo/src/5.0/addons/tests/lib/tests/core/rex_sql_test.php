@@ -36,8 +36,8 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
     $sql->setValue('col_str', 'abc');
     $sql->setValue('col_int', 5);
     
-    $this->assertEquals(true, $sql->hasValue('col_str'));
-    $this->assertEquals(true, $sql->hasValue('col_int'));
+    $this->assertTrue($sql->hasValue('col_str'));
+    $this->assertTrue($sql->hasValue('col_int'));
     
     $this->assertEquals('abc', $sql->getValue('col_str'));
     $this->assertEquals(5, $sql->getValue('col_int'));
