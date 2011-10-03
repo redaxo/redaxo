@@ -199,7 +199,7 @@ if (!($checkmodus > 0 && $checkmodus < 10))
   rex_dir::copy(rex_path::core('assets'), rex_path::assets('', rex_path::ABSOLUTE));
 
   // copy agk_skin files
-  rex_dir::copy(rex_path::plugin('be_style', 'agk_skin', 'assets'), rex_path::pluginAssets('be_style', 'agk_skin', rex_path::ABSOLUTE));
+  rex_dir::copy(rex_path::plugin('be_style', 'agk_skin', 'assets'), rex_path::pluginAssets('be_style', 'agk_skin', '', rex_path::ABSOLUTE));
 
 	$saveLocale = rex_i18n::getLocale();
   $langs = array();

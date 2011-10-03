@@ -101,11 +101,11 @@ div#rex-output .rex-message {
 	font-weight:bold;
 }
 div#rex-output .rex-warning {
-	background:#FAE9E5 url(../media/warning.gif) 0% 50% no-repeat;
+	background:#FAE9E5 url(warning.gif) 0% 50% no-repeat;
 	color:#EA1144;
 }
 div#rex-output .rex-info {
-	background:#D2EFD9 url(../media/excla_mark_green.gif) 0% 50% no-repeat;
+	background:#D2EFD9 url(excla_mark_green.gif) 0% 50% no-repeat;
 	color:#107C2C;
 }
 body#rex-page-mediapool div#rex-output .rex-message {
@@ -420,7 +420,7 @@ p.rex-cnt-col2 {
 div#rex-title {
 	margin-top:10px;
 	height:61px;
-	background:#f0efeb url(../media/logo.jpg) 100% 50% no-repeat;
+	background:#f0efeb url(logo.jpg) 100% 50% no-repeat;
 }
 
 html>body div#rex-title {
@@ -480,7 +480,7 @@ div.rex-cnt-hdr {
 div.rex-cnt-hdr {
 	float:left;
 	margin:0;
-	background-image:url(../media/document.gif);
+	background-image:url(document.gif);
 	background-position:7px 50%;
 	width:731px;
 }
@@ -1400,7 +1400,7 @@ div#rex-lmp {
 	clear:both;
 	width:100%;
 	background-color:#f0efeb;
-	background-image:url(../media/file_vert.gif);
+	background-image:url(file_vert.gif);
 	background-position:48% 0px;
 	background-repeat:repeat-y;
 }
@@ -1420,7 +1420,7 @@ div#rex-lmp ul {
 }
 div#rex-lmp ul li ul {
 	margin:0 0 0 0px;
-	background-image:url(../media/file_vert.gif);
+	background-image:url(file_vert.gif);
 	background-position:2px 0px;
 	background-repeat: repeat-y;
 }
@@ -1433,37 +1433,37 @@ div#rex-lmp ul li a {
 	display:block;
 	margin-bottom:4px;
 	padding:2px 0px 2px 35px;
-	background-image:url(../media/folder_off_empty.gif);
+	background-image:url(folder_off_empty.gif);
 	background-position:0px 0px;
 	background-repeat: no-repeat;
 }
 div#rex-lmp ul li a.rex-lmp-is-not-empty {
-	background-image:url(../media/folder_off.gif);
+	background-image:url(folder_off.gif);
 }
 div#rex-lmp ul li.rex-active a.rex-active {
-	background-image:url(../media/folder_on_empty.gif);
+	background-image:url(folder_on_empty.gif);
 }
 div#rex-lmp ul li.rex-active a.rex-lmp-is-not-empty.rex-active {
-	background-image:url(../media/folder_on.gif);
+	background-image:url(folder_on.gif);
 }
 div#rex-lmp ul li.rex-children ul li,
 div#rex-lmp ul li ul li.rex-children-last {
 	margin-left:23px;
 	padding-left:10px;
-	background-image:url(../media/file.gif);
+	background-image:url(file.gif);
 	background-position:-21px 0px;
 	background-repeat: no-repeat;
 }
 div#rex-lmp ul li ul li.rex-children-last {
-	background-image:url(../media/file_last_2.gif);
+	background-image:url(file_last_2.gif);
 }
 
 div#rex-lmp div.rex-lmp-arts ul li a {
 	padding-left:20px;
-	background-image:url(../media/document.gif);
+	background-image:url(document.gif);
 }
 div#rex-lmp div.rex-lmp-arts ul li.rex-lmp-startpage a {
-	background-image:url(../media/liste.gif);
+	background-image:url(liste.gif);
 }
 
 
@@ -1673,7 +1673,7 @@ div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page a,
 div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page a span, 
 div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page span {
 	display: block;
-	background-image: url(../media/list_pages.gif);
+	background-image: url(list_pages.gif);
 	background-position: 0px 10px;
 }
 div.rex-list-navi ul.rex-list-pgnt li.rex-list-pgnt-page a, 

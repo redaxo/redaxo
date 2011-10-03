@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Compat class for packages to simulate global varibale scope in included package files
+ *
+ * @author gharlan
+ */
 class rex_package_compat
 {
   private $package;

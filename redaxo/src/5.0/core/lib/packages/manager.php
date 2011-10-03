@@ -21,6 +21,8 @@ abstract class rex_package_manager extends rex_factory
 
   private $i18nPrefix;
 
+  private $message;
+
   /**
    * Constructor
    *
@@ -49,6 +51,16 @@ abstract class rex_package_manager extends rex_factory
     }
     $class = static::getFactoryClass();
     return new $class($package);
+  }
+
+  /**
+   * Returns the message
+   *
+   * @return string
+   */
+  public function getMessage()
+  {
+    return $this->message;
   }
 
   /**
@@ -125,7 +137,9 @@ abstract class rex_package_manager extends rex_factory
       $state = $this->I18N('no_install', $this->package->getName()) .'<br />'. $state;
     }
 
-    return $state;
+    $this->message = $state === true ? $this->I18N('installed', $this->package->getName()) : $state;
+
+    return $state === true;
   }
 
   /**
@@ -205,7 +219,9 @@ abstract class rex_package_manager extends rex_factory
       $this->saveConfig();
     }
 
-    return $state;
+    $this->message = $state === true ? $this->I18N('uninstalled', $this->package->getName()) : $state;
+
+    return $state === true;
   }
 
   /**
@@ -252,7 +268,9 @@ abstract class rex_package_manager extends rex_factory
       $state = $this->I18N('no_activation', $this->package->getName()) .'<br />'. $state;
     }
 
-    return $state;
+    $this->message = $state === true ? $this->I18N('activated', $this->package->getName()) : $state;
+
+    return $state === true;
   }
 
   /**
@@ -283,7 +301,9 @@ abstract class rex_package_manager extends rex_factory
       $state = $this->I18N('no_deactivation', $this->package->getName()) .'<br />'. $state;
     }
 
-    return $state;
+    $this->message = $state === true ? $this->I18N('deactivated', $this->package->getName()) : $state;
+
+    return $state === true;
   }
 
   /**
@@ -311,7 +331,7 @@ abstract class rex_package_manager extends rex_factory
     // zuerst deinstallieren
     // bei erfolg, komplett löschen
     $state = TRUE;
-    $state = ($ignoreState || $state) && $this->uninstall();
+    $state = ($ignoreState || $state) && (!$this->package->isInstalled() || $this->uninstall());
     $state = ($ignoreState || $state) && rex_dir::delete($this->package->getBasePath());
     $state = ($ignoreState || $state) && rex_dir::delete($this->package->getDataPath());
     if(!$ignoreState)
@@ -319,7 +339,9 @@ abstract class rex_package_manager extends rex_factory
       $this->saveConfig();
     }
 
-    return $ignoreState ? true : $state;
+    $this->message = $state === true ? $this->I18N('deleted', $this->package->getName()) : $state;
+
+    return $ignoreState ? true : $state === true;
   }
 
   /**

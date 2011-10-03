@@ -1,14 +1,39 @@
 <?php
 
+/**
+ * Class for user roles
+ *
+ * @author gharlan
+ */
 class rex_user_role implements rex_user_role_interface
 {
+  /**
+   * Permissions
+   *
+   * @var array
+   */
   private $perms = array();
 
+  /**
+   * Complex perm params
+   *
+   * @var array
+   */
   private $complexPermParams = array();
 
+  /**
+   * Cache for complex perm instances
+   *
+   * @var array
+   */
   private $complexPerms = array();
 
-  private function __construct($params)
+  /**
+   * Constructor
+   *
+   * @param array $params Params
+   */
+  private function __construct(array $params)
   {
     foreach(array(rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS) as $key)
     {
@@ -19,12 +44,18 @@ class rex_user_role implements rex_user_role_interface
     $this->complexPermParams = $params;
   }
 
+  /* (non-PHPdoc)
+   * @see rex_user_role_interface::hasPerm()
+   */
   public function hasPerm($perm)
   {
     return in_array($perm, $this->perms);
   }
 
-  public function getComplexPerm($user, $key)
+  /* (non-PHPdoc)
+  * @see rex_user_role_interface::getComplexPerm()
+  */
+  public function getComplexPerm(rex_user $user, $key)
   {
     if(isset($this->complexPerms[$key]))
     {
@@ -39,6 +70,9 @@ class rex_user_role implements rex_user_role_interface
     return $this->complexPerms[$key];
   }
 
+  /* (non-PHPdoc)
+   * @see rex_user_role_interface::get()
+   */
   static public function get($id)
   {
     $sql = rex_sql::factory();
@@ -47,7 +81,7 @@ class rex_user_role implements rex_user_role_interface
     {
       return null;
     }
-    return new self(json_decode($sql->getValue('perms'), true));;
+    return new self(json_decode($sql->getValue('perms'), true));
   }
 
   static public function removeOrReplaceItem($params)

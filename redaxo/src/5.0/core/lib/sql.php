@@ -530,6 +530,10 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function hasValue($feldname)
   {
+    // fast fail,... value already set manually?
+    if(isset($this->values[$feldname]))
+      return true;
+        
     if(strpos($feldname, '.') !== false)
     {
       $parts = explode('.', $feldname);

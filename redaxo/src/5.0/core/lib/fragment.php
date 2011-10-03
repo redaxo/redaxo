@@ -258,6 +258,17 @@ class rex_fragment
     return null;
   }
 
+  /**
+   * Magic method to check if a variable is set.
+   *
+   * @param string $name The name of the variable to check.
+   * @return boolean
+   */
+  public function __isset($name)
+  {
+    return array_key_exists($name, $this->vars);
+  }
+
   // /-------------------------- in-fragment helpers
 
   /**

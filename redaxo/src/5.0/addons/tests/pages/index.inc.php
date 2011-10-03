@@ -11,8 +11,13 @@ $suite  = new PHPUnit_Framework_TestSuite();
 // PDOStatements are not allowed to be serialized
 $suite->setBackupGlobals(false);
 
+$suite->addTestSuite('rex_func_other_test');
+$suite->addTestSuite('rex_config_test');
 $suite->addTestSuite('rex_sql_test');
 $suite->addTestSuite('rex_sql_select_test');
+$suite->addTestSuite('rex_stream_test');
+$suite->addTestSuite('rex_var_test');
+$suite->addTestSuite('rex_var_config_test');
 $result = $suite->run();
 $resultPrinter = new PHPUnit_TextUI_ResultPrinter(null, true  );
 
