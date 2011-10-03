@@ -29,6 +29,26 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
     $sql->setQuery('DROP TABLE `'. self::TABLE .'`');
   }
   
+  public function testFactory()
+  {
+    $sql = rex_sql::factory();
+    $this->assertNotNull($sql);
+  }
+  
+  public function testCheckConnection()
+  {
+    $configFile = rex_path::src('config.yml');
+  	$config = rex_file::getConfig($configFile);
+    $this->assertTrue(rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name']));
+  }
+  
+  public function testCheckConnection_Invalid()
+  {
+    $configFile = rex_path::src('config.yml');
+  	$config = rex_file::getConfig($configFile);
+    $this->assertTrue(true !== rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], 'not-the-correct-password', $config['db'][1]['name']));
+  }
+  
   public function testSetValue()
   {
     $sql = rex_sql::factory();

@@ -23,7 +23,8 @@ class rex_sql extends rex_factory implements Iterator
     $whereParams, // WHERE parameter array
     $rows, // anzahl der treffer
     $stmt, // ResultSet
-    $query,
+    $query, // Die Abfrage
+    $params, // Die Abfrage-Parameter
     $DBID; // ID der Verbindung
 
   private static
@@ -146,11 +147,12 @@ class rex_sql extends rex_factory implements Iterator
   /**
    * Setzt eine Abfrage (SQL) ab, wechselt die DBID falls vorhanden
    *
-   * @param $query Abfrage
-   * @return boolean True wenn die Abfrage erfolgreich war (keine DB-Errors
-   * auftreten), sonst false
+   * @param $query The sql-query
+   * @param $params An optional array of statement parameter
+   * 
+   * @throws rex_sql_exception on errors
    */
-  public function setDBQuery($qry)
+  public function setDBQuery($qry, $params = array())
   {
     // save origin connection-id
     $oldDBID = $this->DBID;
@@ -159,7 +161,7 @@ class rex_sql extends rex_factory implements Iterator
     if(($qryDBID = self::stripQueryDBID($qry)) !== false)
       $this->selectDB($qryDBID);
 
-    $result = $this->setQuery($qry);
+    $result = $this->setQuery($qry, $params);
 
     // restore connection-id
     $this->DBID = $oldDBID;
@@ -214,6 +216,8 @@ class rex_sql extends rex_factory implements Iterator
    * If parameters will be provided, a prepared statement will be executed.
    *
    * @param $query The sql-query
+   * @param $params An optional array of statement parameter
+   * 
    * @throws rex_sql_exception on errors
    */
   public function setQuery($qry, $params = array())
@@ -221,6 +225,7 @@ class rex_sql extends rex_factory implements Iterator
     // Alle Werte zuruecksetzen
     $this->flush();
     $this->query = $qry;
+    $this->params = $params;
 
     if(!empty($params))
     {
@@ -837,8 +842,7 @@ class rex_sql extends rex_factory implements Iterator
     // re-execute the statement
     if($this->stmt && $this->counter != 0)
     {
-      //FIXME: missing parameters, throws a warning
-      $this->execute();
+      $this->execute($this->params);
       $this->counter = 0;
     }
 
@@ -857,53 +861,51 @@ class rex_sql extends rex_factory implements Iterator
    * Laedt das komplette Resultset in ein Array und gibt dieses zurueck und
    * wechselt die DBID falls vorhanden
    *
-   * @param string $sql Abfrage
-   * @param string $fetch_type Default: PDO::FETCH_ASSOC
+   * @param $query The sql-query
+   * @param $params An optional array of statement parameter
+   * 
    * @return array
+   * 
+   * @throws rex_sql_exception on errors
    */
-  public function getDBArray($sql = NULL, $fetch_type = PDO::FETCH_ASSOC)
+  public function getDBArray($qry = null, $params = array())
   {
-    return $this->_getArray($sql ? $sql :  $this->query, $fetch_type, 'DBQuery');
+    if(!$qry)
+    {
+      $qry = $this->query;
+      $params = $this->params;
+    }
+    
+    self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
+    $this->setDBQuery($qry, $params); 
+    self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
+
+    return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
   /**
    * Laedt das komplette Resultset in ein Array und gibt dieses zurueck
    *
-   * @param string $sql Abfrage
-   * @param string $fetch_type Default: PDO::FETCH_ASSOC
+   * @param $query The sql-query
+   * @param $params An optional array of statement parameter
+   * 
    * @return array
+   * 
+   * @throws rex_sql_exception on errors
    */
-  public function getArray($sql = NULL, $fetch_type = PDO::FETCH_ASSOC)
+  public function getArray($qry = null, $params = array())
   {
-    return $this->_getArray($sql ? $sql :  $this->query, $fetch_type);
-  }
-
-  /**
-   * Hilfsfunktion
-   *
-   * @see getArray()
-   * @see getDBArray()
-   * @param string $sql Abfrage
-   * @param string $fetch_type PDO::FETCH_ASSOC
-   * @param string $qryType void oder DBQuery
-   * @return array
-   */
-  private function _getArray($sql, $fetch_type, $qryType = 'default')
-  {
-    if (empty($sql))
+    if(!$qry)
     {
-      throw new rex_sql_exception('sql query must not be empty!');
+      $qry = $this->query;
+      $params = $this->params;
     }
-
+    
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
-    switch($qryType)
-    {
-      case 'DBQuery': $this->setDBQuery($sql); break;
-      default       : $this->setQuery($sql);
-    }
+    $this->setQuery($qry, $params);
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
 
-    return $this->stmt->fetchAll($fetch_type);
+    return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
   /**
@@ -1036,19 +1038,6 @@ class rex_sql extends rex_factory implements Iterator
   static public function getInstance($DBID=1, $deprecatedSecondParam = null)
   {
     return static::factory($DBID);
-  }
-
-  /**
-   * Gibt den Speicher wieder frei
-   *
-   * @return rex_sql the current rex_sql object
-   */
-  public function freeResult()
-  {
-    if($this->stmt)
-      $this->stmt->closeCursor();
-
-    return $this;
   }
 
   /**
