@@ -70,7 +70,7 @@ abstract class rex_extension extends rex_factory
     }
     return $result;
   }
-  
+
   protected static function invokeExtension($function, $params)
   {
     return call_user_func($function, $params);
@@ -106,25 +106,5 @@ abstract class rex_extension extends rex_factory
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }
     return !empty (self::$extensions[$extensionPoint]);
-  }
-
-  /**
-   * Gibt ein Array mit Namen von Extensions zurück, die am angegebenen Extension Point definiert wurden
-   *
-   * @param $extensionPoint Name des ExtensionPoints
-   *
-   * @return array Ein array von registrierten Extensions
-   */
-  static public function getRegisteredExtensions($extensionPoint)
-  {
-    if(static::hasFactoryClass())
-    {
-      return static::callFactoryClass(__FUNCTION__, func_get_args());
-    }
-    if(static::isRegistered($extensionPoint))
-    {
-      return self::$extensions[$extensionPoint][0];
-    }
-    return array();
   }
 }
