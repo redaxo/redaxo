@@ -16,9 +16,11 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
   {
     $EP = 'TEST_IS_REGISTERED';
 
+    $this->assertFalse(rex_extension::isRegistered($EP), 'isRegistered() returns false for non-registered extension points');
+
     rex_extension::register($EP, function(){});
 
-    $this->assertTrue(rex_extension::isRegistered($EP));
+    $this->assertTrue(rex_extension::isRegistered($EP), 'isRegistered() returns true for registered extension points');
   }
 
   public function testRegisterPoint()
@@ -41,8 +43,8 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
 
     $result = rex_extension::registerPoint($EP, 'test');
 
-    $this->assertEquals($EP, $EPParam);
-    $this->assertEquals('test test2 test3', $result);
+    $this->assertEquals($EP, $EPParam, '$params["extension_point"] contains the extension point name');
+    $this->assertEquals('test test2 test3', $result, 'registerPoint() returns the returned value of last extension');
   }
 
   public function testRegisterPointReadOnly()
@@ -63,7 +65,7 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
     $subject = 'test';
     rex_extension::registerPoint($EP, $subject, array(), true);
 
-    $this->assertEquals($subject, $subjectActual);
+    $this->assertEquals($subject, $subjectActual, 'read-only extention points don\'t change subject param');
   }
 
   public function testRegisterPointWithParams()
@@ -79,6 +81,6 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
     $myparam = 'myparam';
     rex_extension::registerPoint($EP, null, array('myparam' => $myparam));
 
-    $this->assertEquals($myparam, $myparamActual);
+    $this->assertEquals($myparam, $myparamActual, 'additional params will be available in extentions');
   }
 }

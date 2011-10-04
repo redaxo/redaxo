@@ -9,37 +9,38 @@ class rex_file
    * Returns the content of a file
    *
    * @param string $file Path to the file
-   *
-   * @return string Content of the file
+   * @param mixed $default Default value
+   * @return mixed Content of the file or default value if the file isn't readable
    */
-  static public function get($file)
+  static public function get($file, $default = null)
   {
-    return is_readable($file) ? file_get_contents($file) : null;
+    return is_readable($file) ? file_get_contents($file) : $default;
   }
 
   /**
    * Returns the content of a config file
    *
    * @param string $file Path to the file
-   *
-   * @return mixed Content of the file
+   * @param mixed $default Default value
+   * @return mixed Content of the file or default value if the file isn't readable
    */
-  static public function getConfig($file)
+  static public function getConfig($file, $default = array())
   {
-    return sfYaml::load(self::get($file));
+    $content = self::get($file);
+    return $content === null ? $default : sfYaml::load($content);
   }
 
   /**
    * Returns the content of a cache file
    *
    * @param string $file Path to the file
-   * @param boolean $assoc When FALSE, returned objects wonÄt be converted in associative arrays
-   *
-   * @return mixed Content of the file
+   * @param mixed $default Default value
+   * @return mixed Content of the file or default value if the file isn't readable
    */
-  static public function getCache($file, $assoc = true)
+  static public function getCache($file, $default = array())
   {
-    return json_decode(self::get($file), $assoc);
+    $content = self::get($file);
+    return $content === null ? $default : json_decode($content, true);
   }
 
   /**
@@ -47,7 +48,6 @@ class rex_file
    *
    * @param string $file Path to the file
    * @param string $content Content for the file
-   *
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function put($file, $content)
@@ -69,7 +69,6 @@ class rex_file
    * @param string $file Path to the file
    * @param mixed $content Content for the file
    * @param integer $inline The level where you switch to inline YAML
-   *
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function putConfig($file, $content, $inline = 3)
@@ -82,7 +81,6 @@ class rex_file
    *
    * @param string $file Path to the file
    * @param mixed $content Content for the file
-   *
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function putCache($file, $content)
@@ -95,7 +93,6 @@ class rex_file
    *
    * @param string $srcfile Path of the source file
    * @param string $dstfile Path of the destination file or directory
-   *
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function copy($srcfile, $dstfile)
@@ -121,7 +118,6 @@ class rex_file
    * Deletes a file
    *
    * @param string $file Path of the file
-   *
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function delete($file)
@@ -137,7 +133,6 @@ class rex_file
    * Extracts the extension of the given filename
    *
    * @param string $filename Filename
-   *
    * @return string Extension of $filename
    */
   static public function extension($filename)
@@ -149,7 +144,6 @@ class rex_file
    * Formates the filesize of the given file into a userfriendly form
    *
    * @params string|int $fileOrSize Path to the file or filesize
-   *
    * @return string Formatted filesize
    */
   static public function formattedSize($fileOrSize, $format = array())
