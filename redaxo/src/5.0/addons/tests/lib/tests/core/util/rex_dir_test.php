@@ -24,16 +24,16 @@ class rex_dir_test extends PHPUnit_Framework_TestCase
   public function testCreate()
   {
     $path = $this->getPath('create');
-    $this->assertTrue(rex_dir::create($path));
-    $this->assertTrue(is_dir($path));
-    $this->assertTrue(rex_dir::create($path));
+    $this->assertTrue(rex_dir::create($path), 'create() returns true on success');
+    $this->assertTrue(is_dir($path), 'dir exists after create()');
+    $this->assertTrue(rex_dir::create($path), 'create() on existing dirs returns also true');
   }
 
   public function testCreateRecursive()
   {
     $path = $this->getPath('create_recursive/test/test');
-    $this->assertTrue(rex_dir::create($path));
-    $this->assertTrue(is_dir($path));
+    $this->assertTrue(rex_dir::create($path), 'create() returns true on success');
+    $this->assertTrue(is_dir($path), 'dir exists after create()');
   }
 
   public function testCopyToNewDir()
@@ -44,10 +44,10 @@ class rex_dir_test extends PHPUnit_Framework_TestCase
     rex_file::put($orig .'/file.txt', '');
     rex_file::put($orig .'/dir2/file.txt', '');
 
-    $this->assertTrue(rex_dir::copy($orig, $copy));
-    $this->assertTrue(is_dir($copy .'/dir1'));
-    $this->assertTrue(is_file($copy .'/file.txt'));
-    $this->assertTrue(is_file($copy .'/dir2/file.txt'));
+    $this->assertTrue(rex_dir::copy($orig, $copy), 'copy() returns true on success');
+    $this->assertTrue(is_dir($copy .'/dir1'), 'subdir exists after copy()');
+    $this->assertTrue(is_file($copy .'/file.txt'), 'file exists after copy()');
+    $this->assertTrue(is_file($copy .'/dir2/file.txt'), 'file in subdir exists after copy()');
   }
 
   public function testCopyToExistingDir()
@@ -76,15 +76,15 @@ class rex_dir_test extends PHPUnit_Framework_TestCase
     rex_file::put($copy .'/file3.txt', 'file3_new');
     rex_file::put($copy .'/dir3/file3.txt', 'file3_new');
 
-    $this->assertTrue(rex_dir::copy($orig, $copy));
-    $this->assertTrue(is_dir($copy .'/dir1'));
-    $this->assertTrue(is_dir($copy .'/dir2'));
-    $this->assertTrue(is_file($copy .'/file1.txt'));
-    $this->assertTrue(is_file($copy .'/dir3/file1.txt'));
-    $this->assertEquals('file2_new', rex_file::get($copy .'/file2.txt'));
-    $this->assertEquals('file2_new', rex_file::get($copy .'/dir3/file2.txt'));
-    $this->assertEquals('file3_new', rex_file::get($copy .'/file3.txt'));
-    $this->assertEquals('file3_new', rex_file::get($copy .'/dir3/file3.txt'));
+    $this->assertTrue(rex_dir::copy($orig, $copy), 'copy() returns true on success');
+    $this->assertTrue(is_dir($copy .'/dir1'), 'subdir of source dir exists in destination dir');
+    $this->assertTrue(is_dir($copy .'/dir2'), 'existsing subdir of destination dir still exists');
+    $this->assertTrue(is_file($copy .'/file1.txt'), 'file of source dir exists in destination dir');
+    $this->assertTrue(is_file($copy .'/dir3/file1.txt'), 'existing file of destination dir still exists');
+    $this->assertEquals('file2_new', rex_file::get($copy .'/file2.txt'), 'a file in destination dir will be replaced when the file in source dir is newer');
+    $this->assertEquals('file2_new', rex_file::get($copy .'/dir3/file2.txt'), 'a file in destination dir will be replaced when the file in source dir is newer');
+    $this->assertEquals('file3_new', rex_file::get($copy .'/file3.txt'), 'a file in destination dir won\'t be replaced when the file in source dir is older');
+    $this->assertEquals('file3_new', rex_file::get($copy .'/dir3/file3.txt'), 'a file in destination dir won\'t be replaced when the file in source dir is older');
   }
 
   public function testDeleteComplete()
@@ -93,9 +93,9 @@ class rex_dir_test extends PHPUnit_Framework_TestCase
     $file = $this->getPath('deleteComplete/subdir/file.txt');
     rex_file::put($file, '');
 
-    $this->assertTrue(is_file($file));
-    $this->assertTrue(rex_dir::delete($dir));
-    $this->assertFalse(is_dir($dir));
+    $this->assertTrue(is_file($file), 'file exists after put()');
+    $this->assertTrue(rex_dir::delete($dir), 'delete() returns true on success');
+    $this->assertFalse(is_dir($dir), 'dir does not exist after complete delete()');
   }
 
   public function testDeleteWithoutSelf()
@@ -104,11 +104,11 @@ class rex_dir_test extends PHPUnit_Framework_TestCase
     $file = $this->getPath('deleteCompleteWithoutSelf/subdir/file.txt');
     rex_file::put($file, '');
 
-    $this->assertTrue(is_file($file));
-    $this->assertTrue(rex_dir::delete($dir, false));
-    $this->assertFalse(is_file($file));
-    $this->assertFalse(is_dir($dir .'/subdir'));
-    $this->assertTrue(is_dir($dir));
+    $this->assertTrue(is_file($file), 'file exists after put()');
+    $this->assertTrue(rex_dir::delete($dir, false), 'delete() returns true on success');
+    $this->assertFalse(is_file($file), 'file does not exist after delete()');
+    $this->assertFalse(is_dir($dir .'/subdir'), 'subdir does not exist after delete()');
+    $this->assertTrue(is_dir($dir), 'main dir still exists after delete() without self');
   }
 
   public function testDeleteFilesNotRecursive()
@@ -119,11 +119,11 @@ class rex_dir_test extends PHPUnit_Framework_TestCase
     rex_file::put($file1, '');
     rex_file::put($file2, '');
 
-    $this->assertTrue(is_file($file1));
-    $this->assertTrue(is_file($file2));
-    $this->assertTrue(rex_dir::deleteFiles($dir, false));
-    $this->assertFalse(is_file($file1));
-    $this->assertTrue(is_file($file2));
+    $this->assertTrue(is_file($file1), 'file exists after put()');
+    $this->assertTrue(is_file($file2), 'file exists after put()');
+    $this->assertTrue(rex_dir::deleteFiles($dir, false), 'deleteFiles() returns true on success');
+    $this->assertFalse(is_file($file1), 'file in main dir does not exist after deleteFiles()');
+    $this->assertTrue(is_file($file2), 'file in subdir still exists after non-recursive deleteFiles()');
   }
 
   public function testDeleteFilesRecursive()
@@ -134,11 +134,11 @@ class rex_dir_test extends PHPUnit_Framework_TestCase
     rex_file::put($file1, '');
     rex_file::put($file2, '');
 
-    $this->assertTrue(is_file($file1));
-    $this->assertTrue(is_file($file2));
-    $this->assertTrue(rex_dir::deleteFiles($dir));
-    $this->assertFalse(is_file($file1));
-    $this->assertFalse(is_file($file2));
-    $this->assertTrue(is_dir($dir .'/subdir'));
+    $this->assertTrue(is_file($file1), 'file exists after put()');
+    $this->assertTrue(is_file($file2), 'file exists after put()');
+    $this->assertTrue(rex_dir::deleteFiles($dir), 'deleteFiles() returns true on success');
+    $this->assertFalse(is_file($file1), 'file in main dir does not exist after deleteFiles()');
+    $this->assertFalse(is_file($file2), 'file in subdir does not exist after recursive deleteFiles()');
+    $this->assertTrue(is_dir($dir .'/subdir'), 'subdir still exists after deleteFiles()');
   }
 }
