@@ -253,7 +253,7 @@ class rex_media_cache
    */
   static public function generateExtensionList($extension)
   {
-    $query = 'SELECT filename FROM ' . rex_ooMedia :: _getTableName() . ' WHERE SUBSTRING(filename,LOCATE( ".",filename)+1) = "' . $extension . '"';
+    $query = 'SELECT filename FROM ' . rex_ooMedia :: _getTableName() . ' WHERE LOWER(RIGHT(filename, LOCATE(".", REVERSE(filename))-1)) = "' . strtolower($extension) . '"';
     $sql = rex_sql::factory();
     $sql->setQuery($query);
 

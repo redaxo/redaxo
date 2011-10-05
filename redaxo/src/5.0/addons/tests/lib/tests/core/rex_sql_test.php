@@ -29,18 +29,38 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
     $sql->setQuery('DROP TABLE `'. self::TABLE .'`');
   }
   
-  public function testSetValue()
+  public function testFactory()
+  {
+    $sql = rex_sql::factory();
+    $this->assertNotNull($sql);
+  }
+  
+  public function testCheckConnection()
+  {
+    $configFile = rex_path::src('config.yml');
+  	$config = rex_file::getConfig($configFile);
+    $this->assertTrue(rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name']));
+  }
+  
+  public function testCheckConnection_Invalid()
+  {
+    $configFile = rex_path::src('config.yml');
+  	$config = rex_file::getConfig($configFile);
+    $this->assertTrue(true !== rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], 'not-the-correct-password', $config['db'][1]['name']));
+  }
+  
+  public function testSetGetValue()
   {
     $sql = rex_sql::factory();
     $sql->setTable(self::TABLE);
     $sql->setValue('col_str', 'abc');
     $sql->setValue('col_int', 5);
     
-    $this->assertTrue($sql->hasValue('col_str'));
-    $this->assertTrue($sql->hasValue('col_int'));
+    $this->assertTrue($sql->hasValue('col_str'), 'set value string exists');
+    $this->assertTrue($sql->hasValue('col_int'), 'set value int exists');
     
-    $this->assertEquals('abc', $sql->getValue('col_str'));
-    $this->assertEquals(5, $sql->getValue('col_int'));
+    $this->assertEquals('abc', $sql->getValue('col_str'), 'get a previous set string');
+    $this->assertEquals(5, $sql->getValue('col_int'), 'get a previous set int ');
   }
   
   public function testInsertRow()

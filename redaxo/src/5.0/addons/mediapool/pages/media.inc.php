@@ -640,7 +640,7 @@ if ($subpage == '')
     $types = array();
     foreach(explode(',',$args['types']) as $type)
     {
-      $types[] = 'SUBSTRING(f.filename,LOCATE(".",f.filename)+1)="'. htmlspecialchars($type) .'"';
+      $types[] = 'LOWER(RIGHT(f.filename, LOCATE(".", REVERSE(f.filename))-1))="'. strtolower(htmlspecialchars($type)) .'"';
     }
     $where .= ' AND ('. implode(' OR ', $types) .')';
   }
