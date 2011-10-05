@@ -41,7 +41,7 @@ class rex_dir
 
     self::create($dstdir);
 
-    foreach(self::recursiveIterator($srcdir) as $srcfile)
+    foreach(self::recursiveIterator($srcdir, rex_dir_recursive_iterator::SELF_FIRST) as $srcfile)
     {
       $dstfile = $dstdir . substr($srcfile->getRealPath(), strlen($srcdir));
       if($srcfile->isDir())
@@ -83,16 +83,17 @@ class rex_dir
   static public function deleteFiles($dir, $recursive = true)
   {
     $iterator = $recursive ? self::recursiveIterator($dir) : self::iterator($dir);
-    return self::deleteIterator($iterator->excludeDirs());
+    return self::deleteIterator($iterator, false);
   }
 
   /**
    * Deletes files and directories by a rex_dir_iterator
    *
    * @param Traversable $iterator Iterator, $iterator->current() must return a SplFileInfo-Object
+   * @param boolean $deleteDirs When FALSE, directories won't be deleted
    * @return boolean TRUE on success, FALSE on failure
    */
-  static public function deleteIterator(Traversable $iterator)
+  static public function deleteIterator(Traversable $iterator, $deleteDirs = true)
   {
     $state = true;
 
@@ -100,7 +101,7 @@ class rex_dir
     {
       if($file->isDir())
       {
-        $state = rmdir($file) && $state;
+        $state = (!$deleteDirs || rmdir($file)) && $state;
       }
       else
       {
