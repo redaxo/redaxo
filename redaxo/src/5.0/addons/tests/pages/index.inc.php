@@ -1,5 +1,7 @@
 <?php
 
+rex_title('TestResults');
+
 // load all required PEAR libs from vendor folder
 $path = dirname(__FILE__). '/../vendor/';
 set_include_path($path . PATH_SEPARATOR . get_include_path());
@@ -20,6 +22,11 @@ $suite->addTestSuite('rex_stream_test');
 $suite->addTestSuite('rex_var_test');
 $suite->addTestSuite('rex_var_config_test');
 $suite->addTestSuite('rex_extension_test');
+$suite->addTestSuite('rex_sortable_iterator_test');
+$suite->addTestSuite('rex_file_test');
+$suite->addTestSuite('rex_dir_test');
+$suite->addTestSuite('rex_dir_iterator_test');
+$suite->addTestSuite('rex_dir_recursive_iterator_test');
 $result = $suite->run();
 $resultPrinter = new PHPUnit_TextUI_ResultPrinter(null, true  );
 
