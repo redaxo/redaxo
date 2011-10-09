@@ -67,8 +67,9 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
   {
     $sql = rex_sql::factory();
     $sql->setTable(self::TABLE);
-    $sql->setValue('col_str', 'abc');
     $sql->setValue('col_int', 5);
+    $sql->setValue('col_str', 'abc');
+    $sql->setValue('col_text', 'mytext');
     
     $sql->insert();
     $this->assertEquals(1, $sql->getRows());

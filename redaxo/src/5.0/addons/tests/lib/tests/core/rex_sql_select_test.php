@@ -34,13 +34,13 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
     $sql = rex_sql::factory();
     $sql->setQuery('SELECT * FROM '. self::TABLE .' WHERE col_int = ?', array(5));
 
-    $this->assertEquals(6, count($sql->getRow()), 'getRow returns an array containing all columns of the ResultSet');
-    $this->assertEquals(3, $sql->getRows());
+    $this->assertEquals(6, count($sql->getRow()), 'getRow() returns an array containing all columns of the ResultSet');
+    $this->assertEquals(3, $sql->getRows(), 'getRows() returns the number of rows');
     
     foreach($sql as $row)
     {
-      $this->assertTrue($row->hasValue('col_str'));
-      $this->assertTrue($row->hasValue('col_int'));
+      $this->assertTrue($row->hasValue('col_str'), 'values exist in each row');
+      $this->assertTrue($row->hasValue('col_int'), 'values exist in each row');
       
       $this->assertEquals('abc', $row->getValue('col_str'), 'get a string');
       $this->assertEquals(5, $row->getValue('col_int'), 'get an int ');
@@ -69,7 +69,8 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
     $sql = rex_sql::factory();
     $array = $sql->getArray('SELECT * FROM '. self::TABLE .' WHERE col_int = 5');
 
-    $this->assertEquals(1, $sql->getRows());
+    $this->assertEquals(1, $sql->getRows(), 'getRows() returns the number of rows');
+    $this->assertEquals(1, count($array), 'the returned array contain the correct number of rows');
     $this->assertArrayHasKey(0, $array);
     
     $row1 = $array[0];
@@ -82,7 +83,8 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
     $sql = rex_sql::factory();
     $array = $sql->getDBArray('(DB1) SELECT * FROM '. self::TABLE .' WHERE col_int = 5');
 
-    $this->assertEquals(1, $sql->getRows());
+    $this->assertEquals(1, $sql->getRows(), 'getRows() returns the number of rows');
+    $this->assertEquals(1, count($array), 'the returned array contain the correct number of rows');
     $this->assertArrayHasKey(0, $array);
     
     $row1 = $array[0];
@@ -142,5 +144,29 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
     $row1 = $array[0];
     $this->assertEquals('abc', $row1['col_str']);
     $this->assertEquals('5', $row1['col_int']);
+  }
+  
+  public function testArrayFetchTypeNum()
+  {
+    $sql = rex_sql::factory();
+    $array = $sql->getArray('SELECT * FROM '. self::TABLE .' WHERE col_int = 5', array(), PDO::FETCH_NUM);
+    
+    $row1 = $array[0];
+    $this->assertEquals('abc', $row1[1]);
+    $this->assertEquals('5', $row1[2]);
+    $this->assertEquals('mytext', $row1[5]);
+    $this->assertEquals('mytext', $row1[5]);
+  }
+  
+  public function testDBArrayFetchTypeNum()
+  {
+    $sql = rex_sql::factory();
+    $array = $sql->getDBArray('SELECT * FROM '. self::TABLE .' WHERE col_int = 5', array(), PDO::FETCH_NUM);
+    
+    $row1 = $array[0];
+    $this->assertEquals('abc', $row1[1]);
+    $this->assertEquals('5', $row1[2]);
+    $this->assertEquals('mytext', $row1[5]);
+    $this->assertEquals('mytext', $row1[5]);
   }
 }
