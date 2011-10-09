@@ -159,6 +159,10 @@ $content_2 = '
 foreach(rex_system_setting::getAll() as $setting)
 {
   $field = $setting->getField();
+  if(!($field instanceof rex_form_element))
+  {
+    throw new rex_exception(get_class($setting) .'::getField() must return a rex_form_element!');
+  }
   $field->setAttribute('name', 'settings['. $setting->getKey() .']');
   $field->setValue(rex::getProperty($setting->getKey()));
   $content_2 .= $field->get();
