@@ -215,8 +215,8 @@ class rex_sql extends rex_factory implements Iterator
    *
    * If parameters will be provided, a prepared statement will be executed.
    *
-   * @param $query The sql-query
-   * @param $params An optional array of statement parameter
+   * @param $query string The sql-query
+   * @param $params array An optional array of statement parameter
    * 
    * @throws rex_sql_exception on errors
    */
@@ -886,8 +886,8 @@ class rex_sql extends rex_factory implements Iterator
   /**
    * Laedt das komplette Resultset in ein Array und gibt dieses zurueck
    *
-   * @param $query The sql-query
-   * @param $params An optional array of statement parameter
+   * @param $query string The sql-query
+   * @param $params array An optional array of statement parameter
    * 
    * @return array
    * 
@@ -895,17 +895,19 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function getArray($qry = null, $params = array())
   {
-    if(!$qry)
+    if($qry && $qry != $this->query)
     {
-      $qry = $this->query;
-      $params = $this->params;
+      $this->setQuery($qry, $params);
     }
-    
-    self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
-    $this->setQuery($qry, $params);
-    self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
 
-    return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+    // store old state
+    $fetchTableNames = self::$pdo[$this->DBID]->getAttribute(PDO::ATTR_FETCH_TABLE_NAMES);
+    self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
+    $array = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+    // restore
+    self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, $fetchTableNames);
+    
+    return $array;
   }
 
   /**
