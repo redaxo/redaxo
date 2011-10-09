@@ -53,7 +53,7 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
   public function testGetVariations()
   {
     $sql = rex_sql::factory();
-    $array = $sql->getArray('SELECT * FROM '. self::TABLE .' WHERE col_int = 5');
+    $sql->setQuery('SELECT * FROM '. self::TABLE .' WHERE col_int = 5');
 
     $this->assertEquals(1, $sql->getRows());
     
