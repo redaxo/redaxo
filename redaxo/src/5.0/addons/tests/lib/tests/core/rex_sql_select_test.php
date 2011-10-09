@@ -50,6 +50,20 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
     }
   }
   
+  public function testGetVariations()
+  {
+    $sql = rex_sql::factory();
+    $array = $sql->getArray('SELECT * FROM '. self::TABLE .' WHERE col_int = 5');
+
+    $this->assertEquals(1, $sql->getRows());
+    
+    $this->assertTrue($row->hasValue('col_str'), 'hasValue() checks field by name');
+    $this->assertTrue($row->hasValue(self::TABLE .'.col_str'), 'hasValue() checks field by table.fieldname');
+    
+    $this->assertEquals('abc', $row->getValue('col_str'), 'getValue() retrievs field by name');
+    $this->assertEquals('abc', $row->getValue(self::TABLE .'.col_str'), 'getValue() retrievs field by table.fieldname');
+  }
+  
   public function testGetArray()
   {
     $sql = rex_sql::factory();
