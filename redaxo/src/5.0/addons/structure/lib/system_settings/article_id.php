@@ -1,9 +1,19 @@
 <?php
 
+/**
+ * Class for the start_article_id and notfound_article_id settings
+ *
+ * @author gharlan
+ */
 class rex_system_setting_article_id extends rex_system_setting
 {
   private $key;
 
+  /**
+   * Constructor
+   *
+   * @param string $key Key
+   */
   public function __construct($key)
   {
     $this->key = $key;
