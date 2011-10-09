@@ -895,19 +895,17 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function getArray($qry = null, $params = array())
   {
-    if($qry && $qry != $this->query)
+    if(!$qry)
     {
-      $this->setQuery($qry, $params);
+      $qry = $this->query;
+      $params = $this->params;
     }
-
-    // store old state
-    $fetchTableNames = self::$pdo[$this->DBID]->getAttribute(PDO::ATTR_FETCH_TABLE_NAMES);
-    self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
-    $array = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
-    // restore
-    self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, $fetchTableNames);
     
-    return $array;
+    self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
+    $this->setQuery($qry, $params);
+    self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
+    
+    return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
   /**
