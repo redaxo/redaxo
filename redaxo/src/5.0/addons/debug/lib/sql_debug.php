@@ -12,7 +12,7 @@ class rex_sql_debug extends rex_sql
   private static
     $queries = array();
 
-  public function setQuery($qry, $params = array())
+  public function setQuery($qry, array $params = array())
   {
     try {
       parent::setQuery($qry, $params);
@@ -31,7 +31,7 @@ class rex_sql_debug extends rex_sql
     }
   }
   
-  public function execute($params = array())
+  public function execute(array $params = array())
   {
     $qry = $this->stmt->queryString;
 

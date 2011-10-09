@@ -219,7 +219,7 @@ class rex_select
   public function addSqlOptions($qry)
   {
     $sql = rex_sql::factory();
-    $this->addOptions($sql->getArray($qry, PDO::FETCH_NUM));
+    $this->addOptions($sql->getArray($qry, array(), PDO::FETCH_NUM));
   }
 
   /**
@@ -228,7 +228,7 @@ class rex_select
   public function addDBSqlOptions($qry)
   {
     $sql = rex_sql::factory();
-    $this->addOptions($sql->getDBArray($qry, PDO::FETCH_NUM));
+    $this->addOptions($sql->getDBArray($qry, array(), PDO::FETCH_NUM));
   }
 
   ############### show select

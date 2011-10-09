@@ -201,7 +201,7 @@ class rex_sql extends rex_factory implements Iterator
    *
    * @return boolean True on success, False on error
    */
-  public function execute($params = array())
+  public function execute(array $params = array())
   {
     $success = $this->stmt->execute($params);
     $this->rows = $this->stmt->rowCount();
@@ -220,7 +220,7 @@ class rex_sql extends rex_factory implements Iterator
    * 
    * @throws rex_sql_exception on errors
    */
-  public function setQuery($qry, $params = array())
+  public function setQuery($qry, array $params = array())
   {
     // Alle Werte zuruecksetzen
     $this->flush();
@@ -868,7 +868,7 @@ class rex_sql extends rex_factory implements Iterator
    * 
    * @throws rex_sql_exception on errors
    */
-  public function getDBArray($qry = null, $params = array())
+  public function getDBArray($qry = null, array $params = array(), $fetchType = PDO::FETCH_ASSOC)
   {
     if(!$qry)
     {
@@ -880,7 +880,7 @@ class rex_sql extends rex_factory implements Iterator
     $this->setDBQuery($qry, $params); 
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
 
-    return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $this->stmt->fetchAll($fetchType);
   }
 
   /**
@@ -893,7 +893,7 @@ class rex_sql extends rex_factory implements Iterator
    * 
    * @throws rex_sql_exception on errors
    */
-  public function getArray($qry = null, $params = array())
+  public function getArray($qry = null, array $params = array(), $fetchType = PDO::FETCH_ASSOC)
   {
     if(!$qry)
     {
@@ -905,7 +905,7 @@ class rex_sql extends rex_factory implements Iterator
     $this->setQuery($qry, $params);
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
     
-    return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $this->stmt->fetchAll($fetchType);
   }
 
   /**
