@@ -1,9 +1,0 @@
-version: '1.0'
-author: 'Markus Staab, Jan Kristinus'
-name: 'Image Manager'
-perm: image_manager[]
-supportpage: www.redaxo.org/de/forum/
-
-requires:
-  php-extensions:
-    - gd
