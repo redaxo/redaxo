@@ -24,27 +24,21 @@ class rex_system_setting_article_id extends rex_system_setting
     return $this->key;
   }
 
-  public function getClass()
-  {
-    return rex_plugin::get('structure', 'linkmap')->isAvailable() ? 'rex-form-widget' : 'rex-form-text';
-  }
-
-  public function getLabel()
-  {
-    return rex_i18n::msg('system_setting_'. $this->key);
-  }
-
   public function getField()
   {
     if(rex_plugin::get('structure', 'linkmap')->isAvailable())
     {
-      static $id = 1;
-      return rex_var_link::_getLinkButton($this->getName(), $id++, rex::getProperty($this->key));
+      $field = new rex_form_widget_linkmap_element();
+      $field->setAttribute('class', 'rex-form-widget');
     }
     else
     {
-      return '<input class="rex-form-text" type="text" id="'. $this->getId() .'" name="'. $this->getName() .'" value="'. htmlspecialchars(rex::getProperty($this->key)).'" />';
+      $field = new rex_form_element('input');
+      $field->setAttribute('type', 'text');
+      $field->setAttribute('class', 'rex-form-text');
     }
+    $field->setLabel(rex_i18n::msg('system_setting_'. $this->key));
+    return $field;
   }
 
   public function isValid($value)

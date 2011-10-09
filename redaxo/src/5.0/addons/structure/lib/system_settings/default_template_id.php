@@ -16,31 +16,21 @@ class rex_system_setting_default_template_id extends rex_system_setting
     return 'default_template_id';
   }
 
-  public function getClass()
-  {
-    return 'rex-form-select';
-  }
-
-  public function getLabel()
-  {
-    return rex_i18n::msg('system_setting_default_template_id');
-  }
-
   public function getField()
   {
-    $sel_template = new rex_select();
-    $sel_template->setStyle('class="rex-form-select"');
-    $sel_template->setName($this->getName());
-    $sel_template->setId($this->getId());
-    $sel_template->setSize(1);
-    $sel_template->setSelected(rex::getProperty('default_template_id'));
+    $field = new rex_form_select_element();
+    $field->setAttribute('class', 'rex-form-select');
+    $field->setLabel(rex_i18n::msg('system_setting_default_template_id'));
+    $select = $field->getSelect();
+    $select->setSize(1);
+    $select->setSelected(rex::getProperty('default_template_id'));
 
     $templates = rex_ooCategory::getTemplates(0);
     if (empty($templates))
-      $sel_template->addOption(rex_i18n::msg('option_no_template'), 0);
+      $select->addOption(rex_i18n::msg('option_no_template'), 0);
     else
-      $sel_template->addArrayOptions($templates);
-    return $sel_template->get();
+      $select->addArrayOptions($templates);
+    return $field;
   }
 
   public function isValid($value)

@@ -158,14 +158,10 @@ $content_2 = '
 
 foreach(rex_system_setting::getAll() as $setting)
 {
-  $content_2 .= '
-
-							<div class="rex-form-row">
-								<p class="rex-form-col-a '. $setting->getClass() .'">
-									<label for="'. $setting->getId() .'">'. $setting->getLabel() .'</label>
-									'. $setting->getField() .'
-								</p>
-							</div>';
+  $field = $setting->getField();
+  $field->setAttribute('name', 'settings['. $setting->getKey() .']');
+  $field->setValue(rex::getProperty($setting->getKey()));
+  $content_2 .= $field->get();
 }
 
 $content_2 .= '

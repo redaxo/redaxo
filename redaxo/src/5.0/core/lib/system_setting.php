@@ -22,43 +22,9 @@ abstract class rex_system_setting
   abstract public function getKey();
 
   /**
-   * Returns the id attribute
-   *
-   * @return string
-   */
-  public function getId()
-  {
-    return 'rex-form-'. str_replace('_', '-', $this->getKey());
-  }
-
-  /**
-   * Returns the name attribute
-   *
-   * @return string
-   */
-  final public function getName()
-  {
-    return 'settings['. $this->getKey() .']';
-  }
-
-  /**
-   * Returns the class attribute
-   *
-   * @return string
-   */
-  abstract public function getClass();
-
-  /**
-  * Returns the label
-  *
-  * @return string
-  */
-  abstract public function getLabel();
-
-  /**
   * Returns the field
   *
-  * @return string
+  * @return rex_form_element
   */
   abstract public function getField();
 
