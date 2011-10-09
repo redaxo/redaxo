@@ -72,7 +72,8 @@ class rex_autoload
     $class = strtolower($class);
 
     // class already exists
-    if(class_exists($class, false) || interface_exists($class, false))
+    if(class_exists($class, false) || interface_exists($class, false)
+       || function_exists('trait_exists') && trait_exists($class, false))
     {
       return true;
     }
@@ -83,7 +84,8 @@ class rex_autoload
       require self::$classes[$class];
     }
 
-    if(class_exists($class, false) || interface_exists($class, false))
+    if(class_exists($class, false) || interface_exists($class, false)
+       || function_exists('trait_exists') && trait_exists($class, false))
     {
       return true;
     }
