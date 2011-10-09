@@ -32,6 +32,13 @@ if(rex_request('article_id', 'int') == 0)
 else
   rex::setProperty('article_id', rex_request('article_id','rex-article-id', rex::getProperty('notfound_article_id')));
 
+if(rex::isBackend() && rex_request('page', 'string') == 'system')
+{
+  rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
+  rex_system_setting::register(new rex_system_setting_article_id('notfound_article_id'));
+  rex_system_setting::register(new rex_system_setting_default_template_id());
+}
+
 rex_extension::register('CLANG_ADDED',
   function($params)
   {
