@@ -1,0 +1,9 @@
+version: '1.0'
+author: Gregor Harlan
+supportpage: www.redaxo.org/de/forum
+
+name: Packages
+subpages:
+  - ['', Update]
+  - [add, Neue hinzufügen]
+  - [upload, Upload]

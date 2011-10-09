@@ -1,11 +1,11 @@
 version: '1.0'
-author: Jan Kristinus
+author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum
 
 name: 'translate:install_name'
 perm: admin[]
-pages:
-  - ['', 'translate:install_name']
+navigation:
+  block: system
 
 requires:
   redaxo:

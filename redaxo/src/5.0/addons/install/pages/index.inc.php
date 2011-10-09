@@ -1,34 +1,34 @@
 <?php
 
-/**
- * Install
- *
- * @author
- *
- * @package redaxo5
- * @version svn:$Id$
- */
-
 $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
+$subsubpage = rex_request('subsubpage', 'string');
 
-rex_title(rex_i18n::msg("install_name"),array());
+rex_title(rex_i18n::msg('install_name'));
 
-
-// addons
-// plugins
-// modules
-// templates
-// sprachpaket
-// update core
-
-
-switch($subpage)
+if($subpage && $this->getPlugin($subpage)->isAvailable())
 {
-  case 'addons':
-  default:
-  	$subpage = "addons";
-    break;
-}
+  $plugin = $this->getPlugin($subpage);
+  if($plugin->hasProperty('subpages'))
+  {
+    $subsubpages = '';
+    foreach($plugin->getProperty('subpages') as $i => $page)
+    {
+      $subsubpages .= sprintf(
+        '<li%s><a href="index.php?page=install&subpage=%s&subsubpage=%s"%s>%s</a></li>',
+        ($i == 0 ? ' class="rex-navi-first"' : ''),
+        $subpage,
+        $page[0],
+        ($page[0] == $subsubpage ? ' class="rex-active"' : ''),
+        $page[1]
+      );
+    }
+    echo rex_toolbar('<div class="rex-content-header-2"><ul>'.$subsubpages.'</ul></div>', 'rex-content-header');
+  }
 
-    require rex_path::addon($page, 'pages/'.$subpage.'.inc.php');
+  $plugin->includeFile('pages/index.inc.php');
+}
+else
+{
+  echo 'Installer Info';
+}
