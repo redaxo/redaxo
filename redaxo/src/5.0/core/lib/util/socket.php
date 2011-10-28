@@ -12,6 +12,7 @@ class rex_socket
   private $path;
   private $port;
   private $timeout;
+  private $headers = array();
   private $status;
   private $header;
   private $body;
@@ -55,6 +56,11 @@ class rex_socket
     return new self($host, $path, $port, $prefix, $timeout);
   }
 
+  public function addHeader($key, $value)
+  {
+    $this->headers[$key] = $value;
+  }
+
   public function doGet()
   {
     $this->doRequest('GET');
@@ -62,6 +68,11 @@ class rex_socket
 
   public function doPost($data = '')
   {
+    if(is_array($data))
+    {
+      $data = http_build_query($data);
+    }
+    $this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
     $this->doRequest('POST', $data);
   }
 
@@ -77,6 +88,11 @@ class rex_socket
     $eol = "\r\n";
     $out  = strtoupper($method) .' '. $this->path .' HTTP/1.1'. $eol;
     $out .= 'Host: '. $this->host . $eol;
+    $out .= 'Content-Length: '. strlen($data) . $eol;
+    foreach($this->headers as $key => $value)
+    {
+      $out .= $key .': '. $value . $eol;
+    }
     $out .= 'Connection: Close'. $eol . $eol;
 
     fwrite($fp, $out);
