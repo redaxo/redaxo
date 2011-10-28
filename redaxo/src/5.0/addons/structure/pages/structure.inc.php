@@ -34,7 +34,7 @@ if(count($mountpoints)==1 && $category_id == 0)
   $category_id = current($mountpoints);
 }
 
-// --------------------------------------------- Rechte prŸfen
+// --------------------------------------------- Rechte prüfen
 $KATPERM = rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id);
 
 require dirname(__FILE__) .'/../functions/function_rex_category.inc.php';
