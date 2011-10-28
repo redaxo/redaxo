@@ -32,11 +32,11 @@ if ($eventType == REX_A1_IMPORT_EVENT_PRE)
   $update->setQuery("ALTER TABLE ". rex::getTablePrefix() ."module DROP PRIMARY KEY, ADD PRIMARY KEY (`id`), ADD INDEX `category_id` (`category_id`);");
   $update->setQuery("ALTER TABLE ". rex::getTablePrefix() ."user ADD UNIQUE INDEX `login` (`login`(50));");
 
-  $update->setQuery("ALTER TABLE ". rex::getTablePrefix() ."62_type ADD UNIQUE INDEX `login` (`login`(50));");
-  $update->setQuery("UPDATE ". rex::getTablePrefix() ."62_type set dbtype='text', dblength='0' where label='". rex::getTablePrefix() ."MEDIALIST_BUTTON' or label='". rex::getTablePrefix() ."LINKLIST_BUTTON'");
+  $update->setQuery("ALTER TABLE ". rex::getTablePrefix() ."metainfo_type ADD UNIQUE INDEX `login` (`login`(50));");
+  $update->setQuery("UPDATE ". rex::getTablePrefix() ."metainfo_type set dbtype='text', dblength='0' where label='". rex::getTablePrefix() ."MEDIALIST_BUTTON' or label='". rex::getTablePrefix() ."LINKLIST_BUTTON'");
 
-  $update->setQuery("ALTER TABLE `". rex::getTablePrefix() ."62_params` CHANGE `validate` `validate` TEXT DEFAULT NULL");
-  $update->setQuery("ALTER TABLE `". rex::getTablePrefix() ."62_params` ADD `restrictions` TEXT NOT NULL AFTER `validate`");
+  $update->setQuery("ALTER TABLE `". rex::getTablePrefix() ."metainfo_params` CHANGE `validate` `validate` TEXT DEFAULT NULL");
+  $update->setQuery("ALTER TABLE `". rex::getTablePrefix() ."metainfo_params` ADD `restrictions` TEXT NOT NULL AFTER `validate`");
   // $update->setQuery("");
 
 }

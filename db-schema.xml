@@ -2,7 +2,7 @@
 <ddl version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="http://myobjects.cvs.sourceforge.net/viewvc/*checkout*/myobjects/myobjects/compiler/ddl.xsd?revision=HEAD">
   <database name="redaxo4_0">
-    <table name="rex_62_params" className="Rex_62_params">
+    <table name="rex_metainfo_params" className="Rex_metainfo_params">
       <field name="field_id" primaryKey="true"
         autoIncrement="true" required="true">
         <data>
@@ -48,7 +48,7 @@
         </data>
         <description><![CDATA[attributes]]></description>
       </field>
-      <field name="type" foreignKeyOf="rex_62_type:id">
+      <field name="type" foreignKeyOf="rex_metainfo_type:id">
         <data>
           <numeric unsigned="true" mysqltype="int"
             size="10">
@@ -125,7 +125,7 @@
         <description><![CDATA[updatedate]]></description>
       </field>
     </table>
-    <table name="rex_62_type" className="Rex_62_type">
+    <table name="rex_metainfo_type" className="Rex_metainfo_type">
       <field name="id" primaryKey="true" autoIncrement="true"
         required="true">
         <data>

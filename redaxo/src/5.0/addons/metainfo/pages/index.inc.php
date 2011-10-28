@@ -38,7 +38,7 @@ switch($subpage)
   }
 }
 
-$metaTable = a62_meta_table($prefix);
+$metaTable = rex_metainfo_meta_table($prefix);
 
 require $Basedir .'/field.inc.php';
 

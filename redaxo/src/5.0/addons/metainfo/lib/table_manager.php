@@ -9,7 +9,7 @@
  * @version svn:$Id$
  */
 
-class rex_a62_tableManager
+class rex_metainfo_tableManager
 {
   private
     $tableName,

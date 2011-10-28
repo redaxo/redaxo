@@ -6,7 +6,7 @@ class rex_form_restrictons_element extends rex_form_select_element
 
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
-  public function __construct($tag = '', rex_a62_tableExpander $table = null, array $attributes = array())
+  public function __construct($tag = '', rex_metainfo_tableExpander $table = null, array $attributes = array())
   {
     parent::__construct('', $table, $attributes);
 

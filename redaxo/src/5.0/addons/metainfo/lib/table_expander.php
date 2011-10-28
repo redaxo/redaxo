@@ -9,7 +9,7 @@
  * @version svn:$Id$
  */
 
-class rex_a62_tableExpander extends rex_form
+class rex_metainfo_tableExpander extends rex_form
 {
   private
     $metaPrefix,
@@ -18,7 +18,7 @@ class rex_a62_tableExpander extends rex_form
   public function __construct($metaPrefix, $metaTable, $tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     $this->metaPrefix = $metaPrefix;
-    $this->tableManager = new rex_a62_tableManager($metaTable);
+    $this->tableManager = new rex_metainfo_tableManager($metaTable);
 
     parent::__construct($tableName, $fieldset, $whereCondition, $method, $debug);
   }
@@ -27,7 +27,7 @@ class rex_a62_tableExpander extends rex_form
   {
     // ----- EXTENSION POINT
     // IDs aller Feldtypen bei denen das Parameter-Feld eingeblendet werden soll
-    $typeFields = rex_extension::registerPoint( 'A62_TYPE_FIELDS', array(REX_A62_FIELD_SELECT, REX_A62_FIELD_RADIO, REX_A62_FIELD_CHECKBOX, REX_A62_FIELD_REX_MEDIA_BUTTON, REX_A62_FIELD_REX_MEDIALIST_BUTTON, REX_A62_FIELD_REX_LINK_BUTTON, REX_A62_FIELD_REX_LINKLIST_BUTTON));
+    $typeFields = rex_extension::registerPoint( 'METAINFO_TYPE_FIELDS', array(REX_METAINFO_FIELD_SELECT, REX_METAINFO_FIELD_RADIO, REX_METAINFO_FIELD_CHECKBOX, REX_METAINFO_FIELD_REX_MEDIA_BUTTON, REX_METAINFO_FIELD_REX_MEDIALIST_BUTTON, REX_METAINFO_FIELD_REX_LINK_BUTTON, REX_METAINFO_FIELD_REX_LINKLIST_BUTTON));
 
     $field = $this->addReadOnlyField('prefix', $this->metaPrefix);
     $field->setLabel(rex_i18n::msg('minfo_field_label_prefix'));
@@ -63,7 +63,7 @@ class rex_a62_tableExpander extends rex_form
     $field->setNotice(rex_i18n::msg('minfo_field_notice_title'));
 
 	  $gq = rex_sql::factory();
-		$gq->setQuery('SELECT dbtype,id FROM '. rex::getTablePrefix() .'62_type');
+		$gq->setQuery('SELECT dbtype,id FROM '. rex::getTablePrefix() .'metainfo_type');
 		$textFields = array();
 		foreach($gq->getArray() as $f)
 		{
@@ -81,15 +81,15 @@ class rex_a62_tableExpander extends rex_form
 
     $changeTypeFieldId = $field->getAttribute('id');
 
-    $qry = 'SELECT label,id FROM '. rex::getTablePrefix() .'62_type';
+    $qry = 'SELECT label,id FROM '. rex::getTablePrefix() .'metainfo_type';
     $select->addSqlOptions($qry);
 
     $notices = '';
-    for($i = 1; $i < REX_A62_FIELD_COUNT; $i++)
+    for($i = 1; $i < REX_METAINFO_FIELD_COUNT; $i++)
     {
       if(rex_i18n::hasMsg('minfo_field_params_notice_'. $i))
       {
-        $notices .= '<span class="rex-form-notice" id="a62_field_params_notice_'. $i .'" style="display:none">'. rex_i18n::msg('minfo_field_params_notice_'. $i) .'</span>'. "\n";
+        $notices .= '<span class="rex-form-notice" id="metainfo_field_params_notice_'. $i .'" style="display:none">'. rex_i18n::msg('minfo_field_params_notice_'. $i) .'</span>'. "\n";
       }
     }
     $notices .= '
@@ -104,15 +104,15 @@ class rex_a62_tableExpander extends rex_form
 
     $field = $this->addTextAreaField('attributes');
     $field->setLabel(rex_i18n::msg('minfo_field_label_attributes'));
-    $notice = '<span class="rex-form-notice" id="a62_field_attributes_notice">'. rex_i18n::msg('minfo_field_attributes_notice') .'</span>'. "\n";
+    $notice = '<span class="rex-form-notice" id="rex_metainfo_field_attributes_notice">'. rex_i18n::msg('minfo_field_attributes_notice') .'</span>'. "\n";
     $field->setSuffix($notice);
 
     $field = $this->addTextAreaField('callback');
     $field->setLabel(rex_i18n::msg('minfo_field_label_callback'));
     $notice = '';
-    $notice .= '<span class="rex-form-notice" id="a62_field_callback_notice">'. rex_i18n::msg('minfo_field_label_notice') .'</span>'. "\n";
+    $notice .= '<span class="rex-form-notice" id="rex_metainfo_field_callback_notice">'. rex_i18n::msg('minfo_field_label_notice') .'</span>'. "\n";
     $notice .= '<label>'. rex_i18n::msg('minfo_field_label_callback_templates') .'</label>'. "\n";
-    $notice .= '<span class="rex-form-notice" id="a62_field_callback_template_notice"><a href="#">'. rex_i18n::msg('minfo_callback_lang_indep_field') .'</a></span>'. "\n";
+    $notice .= '<span class="rex-form-notice" id="rex_metainfo_field_callback_template_notice"><a href="#">'. rex_i18n::msg('minfo_callback_lang_indep_field') .'</a></span>'. "\n";
     $field->setSuffix($notice);
 
     $field = $this->addTextField('default');
@@ -251,7 +251,7 @@ class rex_a62_tableExpander extends rex_form
 
       $sql = rex_sql::factory();
       $sql->debugsql =& $this->debug;
-      $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `'. rex::getTablePrefix() .'62_type` WHERE id='. $fieldType);
+      $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `'. rex::getTablePrefix() .'metainfo_type` WHERE id='. $fieldType);
       $fieldDbType = $result[0]['dbtype'];
       $fieldDbLength = $result[0]['dblength'];
 

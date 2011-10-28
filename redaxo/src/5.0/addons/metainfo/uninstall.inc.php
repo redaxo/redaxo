@@ -14,4 +14,4 @@ $this->setProperty('install', false);
 $curDir = dirname(__FILE__);
 require_once ($curDir .'/extensions/extension_cleanup.inc.php');
 
-rex_a62_metainfo_cleanup(array('force' => true));
+rex_metainfo_metainfo_cleanup(array('force' => true));

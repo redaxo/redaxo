@@ -8,14 +8,14 @@
  * @version svn:$Id$
  */
 
-rex_extension::register('A1_BEFORE_DB_IMPORT', 'rex_a62_metainfo_cleanup');
+rex_extension::register('A1_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
 
 /**
  * Alle Metafelder löschen, nicht das nach einem Import in der Parameter Tabelle
  * noch Datensätze zu Feldern stehen, welche nicht als Spalten in der
  * rex_article angelegt wurden!
  */
-function rex_a62_metainfo_cleanup($params)
+function rex_metainfo_cleanup($params)
 {
 	// Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
 	if(isset($params['force']) && $params['force'] != true &&
@@ -27,7 +27,7 @@ function rex_a62_metainfo_cleanup($params)
 
   // check wheter tables exists
   $tables = rex_sql::showTables();
-  if(!isset($tables[rex::getTablePrefix() . '62_params']))
+  if(!isset($tables[rex::getTablePrefix() . 'metainfo_params']))
   {
     return false;
   }
@@ -37,14 +37,14 @@ function rex_a62_metainfo_cleanup($params)
   require_once dirname(__FILE__) .'/../lib/table_manager.php';
 
   $sql = rex_sql::factory();
-  $sql->setQuery('SELECT name FROM ' . rex::getTablePrefix() . '62_params');
+  $sql->setQuery('SELECT name FROM ' . rex::getTablePrefix() . 'metainfo_params');
 
   for ($i = 0; $i < $sql->getRows(); $i++)
   {
     if (substr($sql->getValue('name'), 0, 4) == 'med_')
-      $tableManager = new rex_a62_tableManager(rex::getTablePrefix() . 'media');
+      $tableManager = new rex_metainfo_tableManager(rex::getTablePrefix() . 'media');
     else
-      $tableManager = new rex_a62_tableManager(rex::getTablePrefix() . 'article');
+      $tableManager = new rex_metainfo_tableManager(rex::getTablePrefix() . 'article');
 
     $tableManager->deleteColumn($sql->getValue('name'));
 
@@ -57,7 +57,7 @@ function rex_a62_metainfo_cleanup($params)
   foreach($tablePrefixes as $table => $prefixes)
   {
     $table = rex::getTablePrefix() .$table;
-    $tableManager = new rex_a62_tableManager($table);
+    $tableManager = new rex_metainfo_tableManager($table);
 
     foreach(rex_sql::showColumns($table) as $column)
     {
@@ -70,5 +70,5 @@ function rex_a62_metainfo_cleanup($params)
   }
 
   $sql = rex_sql::factory();
-  $sql->setQuery('DELETE FROM '. rex::getTablePrefix() .'62_params');
+  $sql->setQuery('DELETE FROM '. rex::getTablePrefix() .'metainfo_params');
 }

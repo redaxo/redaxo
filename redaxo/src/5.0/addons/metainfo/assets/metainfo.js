@@ -15,7 +15,7 @@ function meta_checkConditionalFields(selectEl, activeIds, textIds) {
       toggleElement(visibleNotice, 'none');
     }
 
-    needle = new getObj('a62_field_params_notice_' + toggle);
+    needle = new getObj('rex_metainfo_field_params_notice_' + toggle);
     if (needle.obj) {
       toggleElement(needle.obj, '');
       visibleNotice = needle.obj;
@@ -36,9 +36,9 @@ function meta_checkConditionalFields(selectEl, activeIds, textIds) {
   
   jQuery(function($) {
     if (show == 1) {
-      $("#rex_62_params_Feld_bearbeiten_erstellen_default").parent().show();
+      $("#rex_metainfo_params_Feld_bearbeiten_erstellen_default").parent().show();
     }else {
-      $("#rex_62_params_Feld_bearbeiten_erstellen_default").parent().hide();
+      $("#rex_metainfo_params_Feld_bearbeiten_erstellen_default").parent().hide();
     } 
   });
   

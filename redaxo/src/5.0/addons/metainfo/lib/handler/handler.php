@@ -392,7 +392,7 @@ abstract class rex_metainfoHandler
         {
           // ----- EXTENSION POINT
           list($field, $tag, $tag_attr, $id, $label, $labelIt) =
-            rex_extension::registerPoint( 'A62_CUSTOM_FIELD',
+            rex_extension::registerPoint( 'METAINFO_CUSTOM_FIELD',
               array(
                 $field,
                 $tag,
@@ -455,7 +455,7 @@ abstract class rex_metainfoHandler
    * Retrieves the posted value for the given field and converts it into a saveable format.
    *
    * @param string $fieldName The name of the field
-   * @param int $fieldType One of the REX_A62_FIELD_* constants
+   * @param int $fieldType One of the REX_METAINFO_FIELD_* constants
    * @param string $fieldAttributes The attributes of the field
    */
   public function getSaveValue($fieldName, $fieldType, $fieldAttributes)
@@ -498,8 +498,8 @@ abstract class rex_metainfoHandler
       else
       {
         $postValue = isset($postValue[0]) ? $postValue[0] : '';
-        if($fieldType == REX_A62_FIELD_SELECT && strpos($fieldAttributes, 'multiple') !== false ||
-           $fieldType == REX_A62_FIELD_CHECKBOX)
+        if($fieldType == REX_METAINFO_FIELD_SELECT && strpos($fieldAttributes, 'multiple') !== false ||
+           $fieldType == REX_METAINFO_FIELD_CHECKBOX)
         {
           // Mehrwertiges Feld, aber nur ein Wert ausgewählt
           $saveValue = '|'. $postValue .'|';
@@ -530,8 +530,8 @@ abstract class rex_metainfoHandler
     $qry = 'SELECT
               *
             FROM
-              '. rex::getTablePrefix() .'62_params p,
-              '. rex::getTablePrefix() .'62_type t
+              '. rex::getTablePrefix() .'metainfo_params p,
+              '. rex::getTablePrefix() .'metainfo_type t
             WHERE
               `p`.`type` = `t`.`id` AND
               `p`.`name` LIKE "'. $prefix .'%"
