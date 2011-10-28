@@ -97,4 +97,12 @@ class rex_stream
   {
     return null;
   }
+
+  /**
+  * @link http://www.php.net/manual/en/streamwrapper.url-stat.php
+  */
+  public function url_stat()
+  {
+    return null;
+  }
 }
