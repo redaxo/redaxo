@@ -8,28 +8,25 @@ set_include_path($path . PATH_SEPARATOR . get_include_path());
 
 require_once('PHPUnit/Autoload.php');
 
+$testCollector = new PHPUnit_Runner_IncludePathTestCollector(
+  array(dirname(__FILE__). '/../lib/tests/*'), array('_test.php', '.phpt')
+);
+
+/*
+foreach($testCollector->collectTests() as $test){
+  var_dump($test->__toString());
+  echo '<br>';
+}
+*/
+
 $suite  = new PHPUnit_Framework_TestSuite();
 // disable backup of globals, since we have some rex_sql objectes referenced from variables in global space.
 // PDOStatements are not allowed to be serialized
 $suite->setBackupGlobals(false);
-
-$suite->addTestSuite('rex_func_other_test');
-$suite->addTestSuite('rex_path_test');
-$suite->addTestSuite('rex_config_test');
-$suite->addTestSuite('rex_sql_test');
-$suite->addTestSuite('rex_sql_select_test');
-$suite->addTestSuite('rex_stream_test');
-$suite->addTestSuite('rex_var_test');
-$suite->addTestSuite('rex_var_config_test');
-$suite->addTestSuite('rex_extension_test');
-$suite->addTestSuite('rex_sortable_iterator_test');
-$suite->addTestSuite('rex_file_test');
-$suite->addTestSuite('rex_dir_test');
-$suite->addTestSuite('rex_dir_iterator_test');
-$suite->addTestSuite('rex_dir_recursive_iterator_test');
+$suite->addTestFiles($testCollector->collectTests());
 $result = $suite->run();
-$resultPrinter = new PHPUnit_TextUI_ResultPrinter(null, true  );
 
+$resultPrinter = new PHPUnit_TextUI_ResultPrinter(null, true  );
 echo '<pre>';
 print $resultPrinter->printResult($result);
 echo '</pre>';
