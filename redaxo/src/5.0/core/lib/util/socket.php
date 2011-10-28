@@ -7,6 +7,7 @@
 */
 class rex_socket
 {
+  private $prefix;
   private $host;
   private $path;
   private $port;
@@ -15,8 +16,9 @@ class rex_socket
   private $header;
   private $body;
 
-  public function __construct($host, $path = '/', $port = 80, $timeout = 15)
+  public function __construct($host, $path = '/', $port = 80, $prefix = '', $timeout = 15)
   {
+    $this->prefix = $prefix;
     $this->host = $host;
     $this->path = $path;
     $this->port = $port;
@@ -35,6 +37,7 @@ class rex_socket
           . (isset($parts['query'])    ? '?'. $parts['query']    : '')
           . (isset($parts['fragment']) ? '#'. $parts['fragment'] : '');
     $port = 80;
+    $prefix = '';
     if(isset($parts['scheme']))
     {
       $supportedProtocols = array('http', 'https');
@@ -42,10 +45,14 @@ class rex_socket
       {
         throw new rex_exception('Unsupported protocol "'. $parts['scheme'] .'". Supported protocols are '. implode(', ', $supportedProtocols). '.');
       }
-      $port = $parts['scheme'] == 'https' ? 443 : $port;
+      if($parts['scheme'] == 'https')
+      {
+        $prefix = 'ssl://';
+        $port = 443;
+      }
     }
     $port = isset($parts['port']) ? $parts['port'] : $port;
-    return new self($host, $path, $port, $timeout);
+    return new self($host, $path, $port, $prefix, $timeout);
   }
 
   public function doGet()
@@ -60,7 +67,7 @@ class rex_socket
 
   public function doRequest($method, $data = '')
   {
-    if(!($fp = @fsockopen($this->host, $this->port, $errno, $errstr)))
+    if(!($fp = @fsockopen($this->prefix . $this->host, $this->port, $errno, $errstr)))
     {
       throw new rex_exception($errstr .' ('. $errno .')');
     }
