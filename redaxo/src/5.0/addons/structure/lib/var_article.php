@@ -75,7 +75,7 @@ class rex_var_article extends rex_var
       }
       else if($clang == 'null')
       {
-        $article = '$this->getValue(\'article_id\')';
+        $article = '$this->getValue(\'id\')';
       }
       else
       {
