@@ -795,10 +795,10 @@ if ($article->getRows() == 1)
                 <div class="rex-form-row">
                   <p class="rex-form-col-a';
 
-        if ($article->getValue('re_id')==0)
-          $out .= ' rex-form-read"><span class="rex-form-read">a'.rex_i18n::msg('content_nottostartarticle').'</span>';
+        if (!$isStartpage && $article->getValue('re_id')==0)
+          $out .= ' rex-form-read"><span class="rex-form-read">'.rex_i18n::msg('content_nottostartarticle').'</span>';
         else if ($isStartpage)
-          $out .= ' rex-form-read"><span class="rex-form-read">b'.rex_i18n::msg('content_isstartarticle').'</span>';
+          $out .= ' rex-form-read"><span class="rex-form-read">'.rex_i18n::msg('content_isstartarticle').'</span>';
         else
           $out .= ' rex-form-submit"><input class="rex-form-submit" type="submit" name="article2startpage" value="' . rex_i18n::msg('content_tostartarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_tostartarticle') . '?\') && jQuery(\'#apiField\').val(\'article2startpage\');" />';
 
