@@ -86,14 +86,21 @@ class rex_socket
     stream_set_timeout($fp, $this->timeout);
 
     $eol = "\r\n";
-    $out  = strtoupper($method) .' '. $this->path .' HTTP/1.1'. $eol;
-    $out .= 'Host: '. $this->host . $eol;
-    $out .= 'Content-Length: '. strlen($data) . $eol;
+    $headers = array();
+    $headers[] = strtoupper($method) .' '. $this->path .' HTTP/1.1';
+    $headers[] = 'Host: '. $this->host;
+    $headers[] = 'Content-Length: '. strlen($data);
     foreach($this->headers as $key => $value)
     {
-      $out .= $key .': '. $value . $eol;
+      $headers[] = $key .': '. $value;
     }
-    $out .= 'Connection: Close'. $eol . $eol;
+    $headers[] = 'Connection: Close';
+    $out = '';
+    foreach($headers as $header)
+    {
+      $out .= str_replace(array("\r", "\n"), '', $header) . $eol;
+    }
+    $out .= $eol . $data;
 
     fwrite($fp, $out);
 
