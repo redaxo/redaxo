@@ -17,7 +17,6 @@ require dirname(__FILE__) .'/../functions/function_rex_content.inc.php';
 
 unset ($REX_ACTION);
 
-$category_id = rex_request('category_id', 'rex-category-id');
 $article_id  = rex_request('article_id',  'rex-article-id');
 $clang       = rex_request('clang',       'rex-clang-id', rex::getProperty('start_clang_id'));
 $slice_id    = rex_request('slice_id',    'rex-slice-id', '');
@@ -796,10 +795,10 @@ if ($article->getRows() == 1)
                 <div class="rex-form-row">
                   <p class="rex-form-col-a';
 
-        if (!$isStartpage && $article->getValue('re_id')==0)
-          $out .= ' rex-form-read"><span class="rex-form-read">'.rex_i18n::msg('content_nottostartarticle').'</span>';
+        if ($article->getValue('re_id')==0)
+          $out .= ' rex-form-read"><span class="rex-form-read">a'.rex_i18n::msg('content_nottostartarticle').'</span>';
         else if ($isStartpage)
-          $out .= ' rex-form-read"><span class="rex-form-read">'.rex_i18n::msg('content_isstartarticle').'</span>';
+          $out .= ' rex-form-read"><span class="rex-form-read">b'.rex_i18n::msg('content_isstartarticle').'</span>';
         else
           $out .= ' rex-form-submit"><input class="rex-form-submit" type="submit" name="article2startpage" value="' . rex_i18n::msg('content_tostartarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_tostartarticle') . '?\') && jQuery(\'#apiField\').val(\'article2startpage\');" />';
 
