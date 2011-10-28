@@ -1,0 +1,20 @@
+install_packages_title = Packages
+install_packages_subpage_update = Update
+install_packages_subpage_add = Neue hinzufügen
+install_packages_subpage_upload = Upload
+
+install_packages_key = Key
+install_packages_name = Name
+install_packages_shortdescription = Kurzbeschreibung
+install_packages_description = Beschreibung
+install_packages_files = Dateien
+install_packages_version = Version
+install_packages_installed_version = Installierte Version
+install_packages_available_version = Verfügbare Version
+install_packages_download = Download
+install_packages_addons_found = {0} AddOns gefunden
+install_packages_available_updates = {0} Updates verfügbar
+
+install_packages_info_addon_downloaded = Das Addon wurde erfolgreich heruntergeladen und im Addonverzeichnis enpackt!
+install_packages_warning_zip_not_downloaded = Die Zip-Datei konnte nicht heruntergeladen werden!
+install_packages_warning_zip_wrong_format = Die Zip-Datei ist nicht im erforderlichen Format!

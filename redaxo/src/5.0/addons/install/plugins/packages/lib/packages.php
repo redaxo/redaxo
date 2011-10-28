@@ -26,13 +26,13 @@ class rex_install_packages
     $zip = rex_install_webservice::getZip($path);
     if(!$zip)
     {
-      return 'Die Zip-Datei konnte nicht heruntergeladen werden!';
+      return rex_i18n::msg('install_packages_warning_zip_not_downloaded');
     }
     $list = $zip->getList();
     $base = current($list);
     if($base['file_name'] != $addon.'/')
     {
-      return 'Die Zip-Datei ist nicht im erforderlichen Format!';
+      return rex_i18n::msg('install_packages_warning_zip_wrong_format');
     }
     $zip->unzipAll(rex_path::version('addons/'), $addon);
     rex_package_manager::synchronizeWithFileSystem();

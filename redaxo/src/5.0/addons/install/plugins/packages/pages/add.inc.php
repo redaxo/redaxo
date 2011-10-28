@@ -9,7 +9,7 @@ if($addonkey && $download && !rex_addon::exists($addonkey))
   if($result === true)
   {
     $addonkey = '';
-    echo rex_info('Das Addon wurde erfolgreich heruntergeladen und im Addonverzeichnis enpackt!');
+    echo rex_info(rex_i18n::msg('install_packages_info_addon_downloaded'));
     $refresh = true;
   }
   else
@@ -27,30 +27,30 @@ if($addonkey)
   	<h2 class="rex-hl2">'. $addon[0]['addon_name'] .'</h2>
   	<table class="rex-table">
   		<tr>
-  			<th>Key</th>
+  			<th>'. rex_i18n::msg('install_packages_key') .'</th>
   			<td>'. $addon[0]['addon_key'] .'</td>
   		</tr>
   		<tr>
-  			<th>Name</th>
+  			<th>'. rex_i18n::msg('install_packages_name') .'</th>
   			<td>'. $addon[0]['addon_name'] .'</td>
   		</tr>
   		<tr>
-  			<th>Kurzbeschreibung</th>
+  			<th>'. rex_i18n::msg('install_packages_shortdescription') .'</th>
   			<td>'. nl2br($addon[0]['addon_shortdescription']) .'</td>
   		</tr>
   		<tr>
-  			<th>Beschreibung</th>
+  			<th>'. rex_i18n::msg('install_packages_description') .'</th>
   			<td>'. nl2br($addon[0]['addon_description']) .'</td>
   		</tr>
   	</table>
   	<table class="rex-table">
   		<tr>
-  			<th colspan="4">Dateien</th>
+  			<th colspan="4">'. rex_i18n::msg('install_packages_files') .'</th>
   		</tr>
   		<tr>
-  			<th>Name</th>
-  			<th>Version</th>
-  			<th>Beschreibung</th>
+  			<th>'. rex_i18n::msg('install_packages_name') .'</th>
+  			<th>'. rex_i18n::msg('install_packages_version') .'</th>
+  			<th>'. rex_i18n::msg('install_packages_description') .'</th>
   			<th></th>
   		</tr>';
 
@@ -61,7 +61,7 @@ if($addonkey)
       	<td>'. $file['file_name'] .'</td>
       	<td>'. $file['file_version'] .'</td>
       	<td>'. $file['file_description'] .'</td>
-      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addonkey='. $addonkey .'&amp;download='. $file['file_path'] .'">Download</a></td>
+      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addonkey='. $addonkey .'&amp;download='. $file['file_path'] .'">'. rex_i18n::msg('install_packages_download') .'</a></td>
       </tr>';
   }
 
@@ -77,13 +77,13 @@ else
 
   echo '
   <div class="rex-area">
-  	<h2 class="rex-hl2">'. count($addons) .' AddOns gefunden</h2>
+  	<h2 class="rex-hl2">'. rex_i18n::msg('install_packages_addons_found', count($addons)) .'</h2>
   	<table class="rex-table">
   		<tr>
   			<th class="rex-icon"></th>
-  			<th>Key</th>
-  			<th>Name</th>
-  			<th>Kurzbeschreibung</th>
+  			<th>'. rex_i18n::msg('install_packages_key') .'</th>
+  			<th>'. rex_i18n::msg('install_packages_name') .'</th>
+  			<th>'. rex_i18n::msg('install_packages_shortdescription') .'</th>
   		</tr>';
 
   foreach($addons as $addon)

@@ -2,8 +2,8 @@ version: '1.0'
 author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum
 
-name: Packages
+name: translate:install_packages_title
 subpages:
-  - ['', Update]
-  - [add, Neue hinzufügen]
-  - [upload, Upload]
+  - ['', 'translate:install_packages_subpage_update']
+  - [add, 'translate:install_packages_subpage_add']
+  - [upload, 'translate:install_packages_subpage_upload']
