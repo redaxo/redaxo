@@ -13,24 +13,9 @@ $KAToutARR = array(); // Variable definiert und vorbelegt wenn nicht existent
 // link to root kategory
 $KAToutARR[]['content'] = '<a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'">Homepage</a>';
 
-$KAT = rex_sql::factory();
-// $KAT->debugsql = true;
-$KAT->setQuery("SELECT * FROM ".rex::getTablePrefix()."article WHERE id=$category_id AND startpage=1 AND clang=$clang");
-
-if ($KAT->getRows()!=1 || !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
+$ooCat = rex_ooCategory::getCategoryById($category_id, $clang);
+if($ooCat)
 {
-  // kategorie existiert nicht
-  if($category_id != 0)
-  {
-    $category_id = 0;
-    $article_id = 0;
-  }
-}
-else
-{
-  // kategorie existiert
-
-  $ooCat = rex_ooCategory::getCategoryById($category_id, $clang);
   foreach($ooCat->getParentTree() as $parent)
   {
     $catid = $parent->getId();

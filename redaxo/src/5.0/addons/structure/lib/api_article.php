@@ -122,3 +122,105 @@ class rex_api_article_status extends rex_api_function
     }
   }
 }
+
+class rex_api_article2category extends rex_api_function
+{
+  public function execute()
+  {
+    $article_id  = rex_request('article_id',  'rex-article-id');
+
+    $ooArticle = rex_ooArticle::getArticleById($article_id);
+    $category_id = $ooArticle->getCategoryId();
+    
+    /**
+     * @var rex_user
+     */
+    $user = rex::getUser();
+
+    // check permissions
+    if($user->isAdmin() || ($user->hasPerm('article2category[]')  && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))) {
+      if(rex_article_service::article2category($article_id))
+      {
+        $result = new rex_api_result(true, rex_i18n::msg('content_tocategory_ok'));
+      }
+      else
+      {
+        $result = new rex_api_result(false, rex_i18n::msg('content_tocategory_failed'));
+      }
+
+      return $result;
+    }
+    else
+    {
+      throw new rex_api_exception('user has no permission for this article!');
+    }
+  }
+}
+
+class rex_api_category2article extends rex_api_function
+{
+  public function execute()
+  {
+    $article_id  = rex_request('article_id',  'rex-article-id');
+    
+    $ooArticle = rex_ooArticle::getArticleById($article_id);
+    $category_id = $ooArticle->getCategoryId();
+
+    /**
+     * @var rex_user
+     */
+    $user = rex::getUser();
+
+    // article2category und category2article verwenden das gleiche Recht: article2category
+    if($user->isAdmin() || ($user->hasPerm('article2category[]')) && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+      if(rex_article_service::category2article($article_id))
+      {
+        $result = new rex_api_result(true, rex_i18n::msg('content_toarticle_ok'));
+      }
+      else
+      {
+        $result = new rex_api_result(false, rex_i18n::msg('content_toarticle_failed'));
+      }
+
+      return $result;
+    }
+    else
+    {
+      throw new rex_api_exception('user has no permission for this article!');
+    }
+  }
+}
+
+class rex_api_article2startpage extends rex_api_function
+{
+  public function execute()
+  {
+    $article_id  = rex_request('article_id',  'rex-article-id');
+    
+    $ooArticle = rex_ooArticle::getArticleById($article_id);
+    $category_id = $ooArticle->getCategoryId();
+
+    /**
+     * @var rex_user
+     */
+    $user = rex::getUser();
+
+    // article2category und category2article verwenden das gleiche Recht: article2category
+    if($user->isAdmin() || ($user->hasPerm('article2startpage[]')) && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+      if(rex_article_service::article2startpage($article_id))
+      {
+        $result = new rex_api_result(true, rex_i18n::msg('content_tostartarticle_ok'));
+      }
+      else
+      {
+        $result = new rex_api_result(false, rex_i18n::msg('content_tostartarticle_failed'));
+      }
+
+      return $result;
+    }
+    else
+    {
+      throw new rex_api_exception('user has no permission for this article!');
+    }
+  }
+}
