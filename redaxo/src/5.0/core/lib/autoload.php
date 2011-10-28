@@ -72,7 +72,8 @@ class rex_autoload
     $class = strtolower($class);
 
     // class already exists
-    if(class_exists($class, false) || interface_exists($class, false))
+    if(class_exists($class, false) || interface_exists($class, false)
+       || function_exists('trait_exists') && trait_exists($class, false))
     {
       return true;
     }
@@ -83,7 +84,8 @@ class rex_autoload
       require self::$classes[$class];
     }
 
-    if(class_exists($class, false) || interface_exists($class, false))
+    if(class_exists($class, false) || interface_exists($class, false)
+       || function_exists('trait_exists') && trait_exists($class, false))
     {
       return true;
     }
@@ -235,7 +237,7 @@ class rex_autoload
       return;
     }
 
-    preg_match_all('~^\s*(?:abstract\s+|final\s+)?(?:class|interface)\s+(\w+)~mi', file_get_contents($file), $classes);
+    preg_match_all('~^\s*(?:abstract\s+|final\s+)?(?:class|interface|trait)\s+(\w+)~mi', file_get_contents($file), $classes);
     foreach($classes[1] as $class)
     {
       self::$classes[strtolower($class)] = $file;
