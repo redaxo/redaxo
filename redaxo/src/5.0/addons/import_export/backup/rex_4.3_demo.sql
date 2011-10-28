@@ -2,8 +2,8 @@
 ## Prefix rex_
 ## charset utf-8
 
-DROP TABLE IF EXISTS `rex_62_params`;
-CREATE TABLE `rex_62_params` (
+DROP TABLE IF EXISTS `rex_metainfo_params`;
+CREATE TABLE `rex_metainfo_params` (
   `field_id` int(10) unsigned NOT NULL auto_increment,
   `title` varchar(255) default NULL,
   `name` varchar(255) default NULL,
@@ -22,9 +22,9 @@ CREATE TABLE `rex_62_params` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
-LOCK TABLES `rex_62_params` WRITE;
-/*!40000 ALTER TABLE `rex_62_params` DISABLE KEYS */;
-INSERT INTO `rex_62_params` VALUES 
+LOCK TABLES `rex_metainfo_params` WRITE;
+/*!40000 ALTER TABLE `rex_metainfo_params` DISABLE KEYS */;
+INSERT INTO `rex_metainfo_params` VALUES 
   (1,'translate:pool_file_description','med_description',1,'',2,'','','','','admin',1189343866,'admin',1189344596),
   (2,'translate:pool_file_copyright','med_copyright',2,'',1,'','','','','admin',1189343877,'admin',1189344617),
   (3,'translate:online_from','art_online_from',1,'',10,'','','','','admin',1189344934,'admin',1189344934),
@@ -35,11 +35,11 @@ INSERT INTO `rex_62_params` VALUES
   (8,'translate:teaser','art_teaser',5,'',5,'','','','','admin',1189345182,'admin',1189345182),
   (9,'translate:header_article_type','art_type_id',6,'size=1',3,'','Standard|Zugriff für alle','','','admin',1191963797,'admin',1191964038),
   (10,'Zugriffsrechte','',1,'',3,'','0:Alle|-1:Nur nicht Eingeloggte|1:Nur Eingeloggte|2:Nur Moderatoren und Admins|3:Nur Admins','','','admin',1237383022,'',0);
-/*!40000 ALTER TABLE `rex_62_params` ENABLE KEYS */;
+/*!40000 ALTER TABLE `rex_metainfo_params` ENABLE KEYS */;
 UNLOCK TABLES;
 
-DROP TABLE IF EXISTS `rex_62_type`;
-CREATE TABLE `rex_62_type` (
+DROP TABLE IF EXISTS `rex_metainfo_type`;
+CREATE TABLE `rex_metainfo_type` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `label` varchar(255) default NULL,
   `dbtype` varchar(255) NOT NULL,
@@ -47,9 +47,9 @@ CREATE TABLE `rex_62_type` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
-LOCK TABLES `rex_62_type` WRITE;
-/*!40000 ALTER TABLE `rex_62_type` DISABLE KEYS */;
-INSERT INTO `rex_62_type` VALUES 
+LOCK TABLES `rex_metainfo_type` WRITE;
+/*!40000 ALTER TABLE `rex_metainfo_type` DISABLE KEYS */;
+INSERT INTO `rex_metainfo_type` VALUES 
   (1,'text','varchar',255),
   (2,'textarea','text',0),
   (3,'select','varchar',255),
@@ -62,7 +62,7 @@ INSERT INTO `rex_62_type` VALUES
   (8,'REX_LINK_BUTTON','varchar',255),
   (9,'REX_LINKLIST_BUTTON','text',0),
   (12,'legend','varchar',255);
-/*!40000 ALTER TABLE `rex_62_type` ENABLE KEYS */;
+/*!40000 ALTER TABLE `rex_metainfo_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `rex_679_type_effects`;

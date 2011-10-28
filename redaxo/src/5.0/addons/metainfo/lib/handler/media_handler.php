@@ -14,7 +14,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     $warning = $params['subject'];
 
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT `name`, `type` FROM `'. rex::getTablePrefix() .'62_params` WHERE `type` IN(6,7)');
+    $sql->setQuery('SELECT `name`, `type` FROM `'. rex::getTablePrefix() .'metainfo_params` WHERE `type` IN(6,7)');
 
     $rows = $sql->getRows();
     if($rows == 0)
@@ -28,7 +28,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     for($i = 0; $i < $rows; $i++)
     {
       $name = $sql->getValue('name');
-      if (a62_meta_prefix($name) == self::PREFIX)
+      if (rex_metainfo_meta_prefix($name) == self::PREFIX)
         $key = 'media';
       else
         $key = 'articles';

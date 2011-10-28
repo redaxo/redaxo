@@ -13,7 +13,7 @@ $error = '';
 
 $curDir = dirname(__FILE__);
 require_once ($curDir .'/extensions/extension_cleanup.inc.php');
-rex_a62_metainfo_cleanup(array('force' => true));
+rex_metainfo_cleanup(array('force' => true));
 
 // uninstall ausführen, damit die db clean ist vorm neuen install
 $uninstall = $curDir.'/uninstall.sql';
