@@ -71,7 +71,7 @@ if (rex_post('upd_psw_button', 'string'))
 {
   $updateuser = rex_sql::factory();
   $updateuser->setTable(rex::getTablePrefix().'user');
-  $updateuser->setWhere('user_id='. $user_id);
+  $updateuser->setWhere(array('user_id' => $user_id));
 
   // the service side encryption of pw is only required
   // when not already encrypted by client using javascript
