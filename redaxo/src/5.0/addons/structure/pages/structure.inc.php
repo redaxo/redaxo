@@ -36,9 +36,57 @@ if(count($mountpoints)==1 && $category_id == 0)
 
 // --------------------------------------------- Rechte prüfen
 $KATPERM = rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id);
-
 require dirname(__FILE__) .'/../functions/function_rex_category.inc.php';
 
+$stop = false;
+if (rex_clang::count()>1) 
+{
+  if (!rex::getUser()->isAdmin() && !rex::getUser()->getComplexPerm('clang')->hasPerm($clang)) 
+  {
+    $stop = true;
+    foreach(rex_clang::getAll() as $key => $val)
+    {
+      if(rex::getUser()->getComplexPerm('clang')->hasPerm($key))
+      {
+        $clang = $key;
+        $stop = false;
+        break;
+      }
+    }
+    
+    if ($stop)
+    {
+      echo '
+    <!-- *** OUTPUT OF CLANG-VALIDATE - START *** -->
+          '. rex_warning('You have no permission to this area') .'
+    <!-- *** OUTPUT OF CLANG-VALIDATE - END *** -->
+      ';
+      exit;
+    }
+  }
+}else
+{
+  $clang = 0;
+}
+
+
+$context = new rex_context(array(
+  'page' => 'structure',
+  'category_id' => $category_id,
+  'article_id' => $article_id,
+  'clang' => $clang,
+  'ctype' => $ctype,
+));
+
+
+
+// --------------------- Extension Point
+echo rex_extension::registerPoint('PAGE_STRUCTURE_HEADER_PRE', '',
+  array(
+    'clang' => $clang,
+    'context' => $context
+  )
+);
 
 
 // --------------------------------------------- TITLE
@@ -52,13 +100,9 @@ require dirname(__FILE__) .'/../functions/function_rex_languages.inc.php';
 $catStatusTypes = rex_category_service::statusTypes();
 $artStatusTypes = rex_article_service::statusTypes();
 
-$context = new rex_context(array(
-  'page' => 'structure',
-  'category_id' => $category_id,
-  'article_id' => $article_id,
-  'clang' => $clang,
-  'ctype' => $ctype,
-));
+
+
+
 
 // --------------------------------------------- API MESSAGES
 echo rex_api_function::getMessage();
@@ -319,7 +363,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 
       if (!rex::getUser()->hasPerm('editContentOnly[]'))
       {
-        $category_delete = '<a href="'. $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_delete', 'catstart' => $catstart)) .'" class="rex-api-get" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('delete').'</a>';
+           $category_delete = '<a href="'. $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_delete', 'catstart' => $catstart)) .'" class="rex-api-get" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('delete').'</a>';
       }
       else
       {
