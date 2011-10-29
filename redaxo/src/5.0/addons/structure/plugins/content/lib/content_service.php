@@ -83,32 +83,6 @@ class rex_content_service
   }
   
   /**
-   * Verschiebt einen Slice nach oben
-   *
-   * @param int $slice_id Id des Slices
-   * @param int $clang    Id der Sprache
-   *
-   * @return string Eine Statusmeldung
-   */
-  static public function moveSliceUp($slice_id, $clang)
-  {
-    return self::moveSlice($slice_id, $clang, 'moveup');
-  }
-  
-  /**
-   * Verschiebt einen Slice nach unten
-   *
-   * @param int $slice_id Id des Slices
-   * @param int $clang    Id der Sprache
-   *
-   * @return string Eine Statusmeldung
-   */
-  static public function moveSliceDown($slice_id, $clang)
-  {
-    return self::moveSlice($slice_id, $clang, 'movedown');
-  }
-  
-  /**
    * Löscht einen Slice
    *
    * @param int    $slice_id  Id des Slices
