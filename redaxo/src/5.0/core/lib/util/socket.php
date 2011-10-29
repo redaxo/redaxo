@@ -129,6 +129,20 @@ class rex_socket
     {
       $this->status = intval($matches[1]);
     }
+    if(stripos($this->header, 'transfer-encoding: chunked') !== false)
+    {
+      $p = 0;
+      $chunkedBody = $this->body;
+      $this->body = '';
+      while ($p < strlen($chunkedBody)) {
+        $rawnum = substr($chunkedBody, $p, strpos(substr($chunkedBody, $p), $eol) + 2);
+        $num = hexdec(trim($rawnum));
+        $p += strlen($rawnum);
+        $chunk = substr($chunkedBody, $p, $num);
+        $this->body .= $chunk;
+        $p += strlen($chunk);
+      }
+    }
   }
 
   public function getStatus()
