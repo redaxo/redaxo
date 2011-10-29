@@ -117,7 +117,7 @@ abstract class rex_api_function extends rex_factory
       try {
         $result = $apiFunc->execute();
         $apiFunc->result = $result;
-      } catch (rex_api_exception $e)
+      } catch (Exception $e)
       {
         $message = $e->getMessage();
         $result = new rex_api_result(false, $message);
