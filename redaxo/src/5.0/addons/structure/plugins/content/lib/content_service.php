@@ -22,6 +22,9 @@ class rex_content_service
     $CM->setQuery("select * from " . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang=$clang");
     if ($CM->getRows() == 1)
     {
+      // origin value for later success-check
+      $oldPrior = $CM->getValue('prior');
+      
       // prepare sql for later saving
       $upd = rex_sql::factory();
       $upd->setTable(rex::getTablePrefix() . "article_slice");
@@ -50,11 +53,19 @@ class rex_content_service
         $upd->update();
   
         rex_organize_priorities(
-        rex::getTablePrefix() . 'article_slice',
+          rex::getTablePrefix() . 'article_slice',
           'prior',
           'article_id=' . $article_id . ' AND clang=' . $clang .' AND ctype='. $ctype .' AND revision='. $slice_revision,
           'prior, updatedate '. $updSort
         );
+        
+        // check if the slice moved at all (first cannot be moved up, last not down)
+        $CM->setQuery("select * from " . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang=$clang");
+        $newPrior = $CM->getValue('prior');
+        if($oldPrior == $newPrior)
+        {
+          throw new rex_api_exception(rex_i18n::msg('slice_moved_error'));
+        }
   
         rex_article_cache::deleteContent($article_id, $clang);
       }
