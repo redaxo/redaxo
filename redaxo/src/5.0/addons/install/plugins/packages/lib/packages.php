@@ -22,7 +22,7 @@ class rex_install_packages
             unset($addons[$key]['files'][$filekey]);
           }
         }
-        if(empty($addon['files']))
+        if(empty($addons[$key]['files']))
         {
           unset($addons[$key]);
         }
