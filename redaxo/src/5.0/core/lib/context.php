@@ -73,7 +73,7 @@ class rex_context implements rex_context_provider
    * Helper method to generate a url string from an array key-value pairs
    * @param array $array The array which contains the key-value pairs for convertion
    */
-  private function array2paramStr(array $array)
+  private static function array2paramStr(array $array)
   {
     $paramString = '';
     foreach($array as $name => $value)
