@@ -9,7 +9,7 @@
 // basic request vars
 $category_id = rex_request('category_id', 'rex-category-id');
 $article_id  = rex_request('article_id',  'rex-article-id');
-$clang       = rex_request('clang',       'rex-clang-id', rex::getProperty('start_article_id'));
+$clang       = rex_request('clang',       'rex-clang-id');
 $ctype       = rex_request('ctype',       'rex-ctype-id');
 
 // additional request vars

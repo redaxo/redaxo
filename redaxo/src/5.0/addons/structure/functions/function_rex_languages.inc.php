@@ -17,6 +17,32 @@ $stop = false;
 $languages = array();
 if ($num_clang>1)
 {
+
+  if (!rex::getUser()->isAdmin() && !rex::getUser()->getComplexPerm('clang')->hasPerm($clang)) 
+  {
+    $stop = true;
+    foreach(rex_clang::getAll() as $key => $val)
+    {
+      if(rex::getUser()->getComplexPerm('clang')->hasPerm($key))
+      {
+        $clang = $key;
+        $stop = false;
+        break;
+      }
+    }
+    
+    if ($stop)
+    {
+      echo '
+    <!-- *** OUTPUT OF CLANG-VALIDATE - START *** -->
+          '. rex_warning('You have no permission to this area') .'
+    <!-- *** OUTPUT OF CLANG-VALIDATE - END *** -->
+      ';
+      exit;
+    }
+  
+  }
+
   $i = 1;
   foreach(rex_clang::getAll() as $key => $val)
   {
@@ -29,15 +55,7 @@ if ($num_clang>1)
        $lang['class'] = 'rex-navi-first';
 
      $lang['url'] = '';
-     if (!rex::getUser()->isAdmin() && !rex::getUser()->hasPerm('clang[all]') && !rex::getUser()->hasPerm('clang['. $key .']'))
-     {
-       if ($clang == $key)
-       {
-         $stop = true;
-         break;
-      }
-     }
-     else
+     if (rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('clang')->hasPerm($key))
      {
        $class = '';
        if ($key==$clang) $class = 'rex-active';
@@ -54,19 +72,7 @@ else
   $clang = 0;
 }
 
-if ($stop)
-{
-  echo '
-<!-- *** OUTPUT OF CLANG-VALIDATE - START *** -->
-      '. rex_warning('You have no permission to this area') .'
-<!-- *** OUTPUT OF CLANG-VALIDATE - END *** -->
-';
-  exit;
-}
-else if ($num_clang>1)
-{
-  $langfragment = new rex_fragment();
-  $langfragment->setVar('languages', $languages, false);
-  echo $langfragment->parse('structure/languages');
-  unset($langfragment);
-}
+$langfragment = new rex_fragment();
+$langfragment->setVar('languages', $languages, false);
+echo $langfragment->parse('structure/languages');
+unset($langfragment);
