@@ -17,13 +17,13 @@ class rex_install_webservice
     {
       return $cache;
     }
-    $path = strpos($path, '?') === false ? rtrim($path, '/') .'/?' : $path .'&';
-    $path = self::PATH . $path .'v='. rex::getVersion();
+    $fullpath = strpos($path, '?') === false ? rtrim($path, '/') .'/?' : $path .'&';
+    $fullpath = self::PATH . $fullpath .'v='. rex::getVersion();
 
     $data = array();
     try
     {
-      $socket = new rex_socket(self::HOST, $path, self::PORT);
+      $socket = new rex_socket(self::HOST, $fullpath, self::PORT);
       $socket->doGet();
       if($socket->getStatus() == 200)
       {
