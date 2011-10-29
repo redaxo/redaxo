@@ -68,7 +68,7 @@ abstract class rex_package_manager extends rex_factory
    *
    * @param $installDump When TRUE, the sql dump will be importet
    *
-   * @return boolean|string TRUE on success, message on error
+   * @return boolean TRUE on success, FALSE on error
    */
   public function install($installDump = TRUE)
   {
@@ -152,7 +152,7 @@ abstract class rex_package_manager extends rex_factory
   /**
    * Uninstalls a package
    *
-   * @return boolean|string TRUE on success, message on error
+   * @return boolean TRUE on success, FALSE on error
    */
   public function uninstall()
   {
@@ -242,7 +242,7 @@ abstract class rex_package_manager extends rex_factory
   /**
    * Activates a package
    *
-   * @return boolean|string TRUE on success, message on error
+   * @return boolean TRUE on success, FALSE on error
    */
   public function activate()
   {
@@ -299,7 +299,7 @@ abstract class rex_package_manager extends rex_factory
   /**
    * Deactivates a package
    *
-   * @return boolean|string TRUE on success, message on error
+   * @return boolean TRUE on success, FALSE on error
    */
   public function deactivate()
   {
@@ -340,7 +340,7 @@ abstract class rex_package_manager extends rex_factory
   /**
    * Deletes a package
    *
-   * @return boolean|string TRUE on success, message on error
+   * @return boolean TRUE on success, FALSE on error
    */
   public function delete()
   {
@@ -352,7 +352,7 @@ abstract class rex_package_manager extends rex_factory
    *
    * @param boolean $ignoreState
    *
-   * @return boolean|string TRUE on success, message on error
+   * @return boolean TRUE on success, FALSE on error
    */
   protected function _delete($ignoreState = FALSE)
   {
