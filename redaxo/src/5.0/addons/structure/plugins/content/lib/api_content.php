@@ -89,6 +89,45 @@ class rex_api_content_copy_content extends rex_api_function
   }
 }
 
+class rex_api_content_move_article extends rex_api_function
+{
+  public function execute()
+  {
+    $article_id        = rex_request('article_id',  'rex-article-id');
+    $clang             = rex_request('clang',       'rex-clang-id');
+    $category_id_new   = rex_request('category_id_new', 'rex-category-id');
+    
+    $ooArt = rex_ooArticle::getArticleById($article_id, $clang);
+    if(!rex_ooArticle::isValid($ooArt))
+    {
+      throw new rex_api_exception('Unable to find article with id "'. $article_id .'" and clang "'. $clang .'"!');
+    }
+    $category_id = $ooArt->getCategoryId();
+    
+    if ($category_id != $article_id)
+    {
+      /**
+       * @var rex_user
+       */
+      $user = rex::getUser();
+      
+      if ($user->isAdmin() || ($user->hasPerm('moveArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($category_id_new)))
+      {
+        if (rex_content_service::moveArticle($article_id, $category_id, $category_id_new))
+        {
+          $result = new rex_api_result(true, rex_i18n::msg('content_articlemoved'));
+          return $result;
+        }
+      }
+      else
+      {
+        throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
+      }
+    }
+    throw new rex_api_exception(rex_i18n::msg('content_errormovearticle'));
+  }
+}
+
 /*
 TODO
 we have to figure out, how this could work when rex-actions are configured.

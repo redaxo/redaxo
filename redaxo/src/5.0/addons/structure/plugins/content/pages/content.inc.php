@@ -341,31 +341,6 @@ if ($article->getRows() == 1)
     }
     // ------------------------------------------ END: Slice add/edit/delete
 
-    // ------------------------------------------ START: MOVE ARTICLE
-    if (rex_post('movearticle', 'boolean') && $category_id != $article_id)
-    {
-      $category_id_new = rex_post('category_id_new', 'rex-category-id');
-      if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)))
-      {
-        if (rex_content_service::moveArticle($article_id, $category_id, $category_id_new))
-        {
-          $info = rex_i18n::msg('content_articlemoved');
-          ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $article_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
-          exit;
-        }
-        else
-        {
-          $warning = rex_i18n::msg('content_errormovearticle');
-        }
-      }
-      else
-      {
-        $warning = rex_i18n::msg('no_rights_to_this_function');
-      }
-    }
-    // ------------------------------------------ END: MOVE ARTICLE
-
     // ------------------------------------------ START: COPY ARTICLE
     if (rex_post('copyarticle', 'boolean'))
     {
@@ -872,7 +847,7 @@ if ($article->getRows() == 1)
 
                   <div class="rex-form-row">
                     <p class="rex-form-col-a rex-form-submit">
-                      <input class="rex-form-submit" type="submit" name="movearticle" value="' . rex_i18n::msg('content_submitmovearticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitmovearticle') . '?\')" />
+                      <input class="rex-form-submit" type="submit" name="movearticle" value="' . rex_i18n::msg('content_submitmovearticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitmovearticle') . '?\') && jQuery(\'#apiField\').val(\'content_move_article\');" />
                     </p>
                   </div>
 
