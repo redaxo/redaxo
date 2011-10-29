@@ -224,7 +224,6 @@ if ($article->getRows() == 1)
             // ----- SAVE/UPDATE SLICE
             if ($function == 'add' || $function == 'edit')
             {
-
               $newsql = rex_sql::factory();
               // $newsql->debugsql = true;
               $sliceTable = rex::getTablePrefix() . 'article_slice';
@@ -299,7 +298,7 @@ if ($article->getRows() == 1)
             else
             {
               // make delete
-              if(rex_deleteSlice($slice_id))
+              if(rex_content_service::deleteSlice($slice_id))
               {
                 $global_info = rex_i18n::msg('block_deleted');
               }
