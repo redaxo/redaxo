@@ -262,4 +262,10 @@ class rex_api_result
  *
  * @see rex_api_function
  */
-class rex_api_exception extends rex_exception{};
+class rex_api_exception extends rex_exception
+{
+  public function __construct($message, $code = E_USER_ERROR, Exception $previous = null)
+  {
+    parent::__construct($message, $code, $previous);
+  }
+}
