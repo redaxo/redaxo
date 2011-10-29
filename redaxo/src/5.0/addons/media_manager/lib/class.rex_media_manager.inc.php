@@ -151,7 +151,7 @@ class rex_media_manager
 		$counter = 0;
 		foreach($sql as $row)
 		{
-			$counter += rex_media_manager::deleteCache(null, $row->getValue('name'));
+			$counter += self::deleteCache(null, $row->getValue('name'));
 		}
 		return $counter;
 	}
@@ -222,9 +222,9 @@ class rex_media_manager
 	static public function getSupportedEffectNames()
 	{
 		$effectNames = array();
-		foreach(rex_media_manager::getSupportedEffects() as $effectClass => $effectFile)
+		foreach(self::getSupportedEffects() as $effectClass => $effectFile)
 		{
-			$effectNames[] = rex_media_manager::getEffectName($effectFile);
+			$effectNames[] = self::getEffectName($effectFile);
 		}
 		return $effectNames;
 	}
@@ -243,7 +243,7 @@ class rex_media_manager
 			{
 				foreach($files as $file)
 				{
-					$effects[rex_media_manager::getEffectClass($file)] = $file;
+					$effects[self::getEffectClass($file)] = $file;
 				}
 			}
 		}
@@ -272,14 +272,14 @@ class rex_media_manager
 	 * For ExtensionPoints.
 	 */
 	static function mediaUpdated($params){
-		rex_media_manager::deleteCache($params["filename"]);
+		self::deleteCache($params["filename"]);
 	}
 
 	static function init()
 	{
 		//--- handle image request
-		$rex_media_manager_file = rex_media_manager::getMediaFile();
-		$rex_media_manager_type = rex_media_manager::getMediaType();
+		$rex_media_manager_file = self::getMediaFile();
+		$rex_media_manager_type = self::getMediaType();
 
 		if($rex_media_manager_file != '' && $rex_media_manager_type != '')
 		{
