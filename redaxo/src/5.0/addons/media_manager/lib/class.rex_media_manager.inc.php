@@ -219,7 +219,7 @@ class rex_media_manager
 
 	}
 
-	public function getSupportedEffectNames()
+	static public function getSupportedEffectNames()
 	{
 		$effectNames = array();
 		foreach(rex_media_manager::getSupportedEffects() as $effectClass => $effectFile)
@@ -229,7 +229,7 @@ class rex_media_manager
 		return $effectNames;
 	}
 
-	function getSupportedEffects()
+	static function getSupportedEffects()
 	{
 		$dirs = array(
 		  dirname(__FILE__). '/../lib/effects/'
@@ -250,7 +250,7 @@ class rex_media_manager
 		return $effects;
 	}
 
-	function getEffectName($effectFile)
+	static function getEffectName($effectFile)
 	{
 		return str_replace(
 		array('class.rex_effect_', '.inc.php'),
@@ -259,7 +259,7 @@ class rex_media_manager
 		);
 	}
 
-	function getEffectClass($effectFile)
+	static function getEffectClass($effectFile)
 	{
 		return str_replace(
 		array('class.', '.inc.php'),
