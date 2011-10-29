@@ -61,7 +61,7 @@ class rex_structure_tree {
 
   public function getTree() 
   {
-    $roots = rex_ooCategory::getRootCategories();
+    $roots = rex_ooCategory::getRootCategories(FALSE,$this->clang);
   
     $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
     if(count($mountpoints)>0)
@@ -69,8 +69,8 @@ class rex_structure_tree {
       $roots = array();
       foreach($mountpoints as $mp)
       {
-        if(rex_ooCategory::getCategoryById($mp))
-          $roots[] = rex_ooCategory::getCategoryById($mp);
+        if(rex_ooCategory::getCategoryById($mp,$this->clang))
+          $roots[] = rex_ooCategory::getCategoryById($mp,$this->clang);
       }
     }
 
@@ -169,7 +169,8 @@ class rex_structure_tree {
             array(
               'category_id' => $article->getCategoryId(),
               'article_id' => $article->getId(),
-              'mode' => 'edit'
+              'mode' => 'edit',
+              'page' => 'content'
              )
            ) .'"';
         $label = $this->formatLabel($article);
