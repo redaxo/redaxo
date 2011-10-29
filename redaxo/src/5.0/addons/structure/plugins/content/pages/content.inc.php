@@ -277,7 +277,6 @@ if ($article->getRows() == 1)
                 $newsql->addGlobalUpdateFields();
                 $newsql->addGlobalCreateFields();
 
-
                 try {
                   $newsql->insert();
 
@@ -370,7 +369,7 @@ if ($article->getRows() == 1)
             // rechte sind vorhanden
             if ($function == "moveup" || $function == "movedown")
             {
-              list($success, $message) = rex_moveSlice($slice_id, $clang, $function);
+              list($success, $message) = rex_content_service::moveSlice($slice_id, $clang, $function);
 
               if($success)
                 $info = $message;
@@ -399,7 +398,7 @@ if ($article->getRows() == 1)
       $user = rex::getUser();
       if ($user->isAdmin() || ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->hasPerm($clang_a) && $user->getComplexPerm('clang')->hasPerm($clang_b)))
       {
-        if (rex_copyContent($article_id, $article_id, $clang_a, $clang_b, 0, $slice_revision))
+        if (rex_content_service::copyContent($article_id, $article_id, $clang_a, $clang_b, 0, $slice_revision))
           $info = rex_i18n::msg('content_contentcopy');
         else
           $warning = rex_i18n::msg('content_errorcopy');
@@ -417,7 +416,7 @@ if ($article->getRows() == 1)
       $category_id_new = rex_post('category_id_new', 'rex-category-id');
       if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)))
       {
-        if (rex_moveArticle($article_id, $category_id, $category_id_new))
+        if (rex_content_service::moveArticle($article_id, $category_id, $category_id_new))
         {
           $info = rex_i18n::msg('content_articlemoved');
           ob_end_clean();
@@ -442,7 +441,7 @@ if ($article->getRows() == 1)
       $category_copy_id_new = rex_post('category_copy_id_new', 'rex-category-id');
       if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('copyArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_copy_id_new)))
       {
-        if (($new_id = rex_copyArticle($article_id, $category_copy_id_new)) !== false)
+        if (($new_id = rex_content_service::copyArticle($article_id, $category_copy_id_new)) !== false)
         {
           $info = rex_i18n::msg('content_articlecopied');
           ob_end_clean();
@@ -467,7 +466,7 @@ if ($article->getRows() == 1)
       $category_id_new = rex_post('category_id_new', 'rex-category-id');
       if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id')) && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)))
       {
-        if ($category_id != $category_id_new && rex_moveCategory($category_id, $category_id_new))
+        if ($category_id != $category_id_new && rex_content_service::moveCategory($category_id, $category_id_new))
         {
           $info = rex_i18n::msg('category_moved');
           ob_end_clean();
