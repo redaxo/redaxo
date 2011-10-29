@@ -10,7 +10,7 @@
  */
 function rex_moveSliceUp($slice_id, $clang)
 {
-  return rex_content_service::moveSliceUp($slice_id, $clang);
+  return rex_moveSlice($slice_id, $clang, 'moveup');
 }
 
 /**
@@ -23,7 +23,7 @@ function rex_moveSliceUp($slice_id, $clang)
  */
 function rex_moveSliceDown($slice_id, $clang)
 {
-  return rex_content_service::moveSliceDown($slice_id, $clang);
+  return rex_moveSlice($slice_id, $clang, 'movedown');
 }
 
 /**
@@ -37,7 +37,15 @@ function rex_moveSliceDown($slice_id, $clang)
  */
 function rex_moveSlice($slice_id, $clang, $direction)
 {
-  return rex_content_service::moveSlice($slice_id, $clang, $direction);
+  $success = false;
+  try {
+    $message = rex_content_service::moveSlice($slice_id, $clang, $direction);
+    $success = true;
+  } catch (rex_api_exception $e)
+  {
+    $message = $e->getMessage();
+  }
+  return array($success, $message);
 }
 
 /**
