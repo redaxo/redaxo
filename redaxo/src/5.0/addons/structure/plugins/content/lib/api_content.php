@@ -56,3 +56,44 @@ class rex_api_content_move_slice extends rex_api_function
     return $result;
   }
 }
+
+/*
+TODO
+we have to figure out, how this could work when rex-actions are configured.
+untils this is solved, we cannot publish this api function!
+
+class rex_api_content_delete_slice extends rex_api_function
+{
+  public function execute()
+  {
+    $clang       = rex_request('clang',       'rex-clang-id');
+    $slice_id    = rex_request('slice_id',    'int');
+    
+    $CM = rex_sql::factory();
+    $CM->setQuery("SELECT * FROM " . rex::getTablePrefix() . "article_slice LEFT JOIN " . rex::getTablePrefix() . "module ON " . rex::getTablePrefix() . "article_slice.modultyp_id=" . rex::getTablePrefix() . "module.id WHERE " . rex::getTablePrefix() . "article_slice.id='$slice_id' AND clang=$clang");
+    if ($CM->getRows() != 1)
+    {
+      throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
+    }
+    $module_id = $CM->getValue("" . rex::getTablePrefix() . "article_slice.modultyp_id");
+    
+    $user = rex::getUser();
+    
+    if (!($user->isAdmin() || $user->getComplexPerm('modules')->hasPerm($module_id)))
+    {
+      throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
+    }    
+    
+    $success = false;
+    $message = rex_i18n::msg('block_not_deleted');
+    if(rex_content_service::deleteSlice($slice_id))
+    {
+      $message = rex_i18n::msg('block_deleted');
+      $success = true;
+    }
+    
+    $result = new rex_api_result($success, $message);
+    return $result;
+  }
+}
+*/
