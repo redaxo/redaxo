@@ -313,7 +313,9 @@ abstract class rex_package_manager extends rex_factory
    */
   public function delete()
   {
-    return $this->_delete();
+    $state = $this->_delete();
+    self::synchronizeWithFileSystem();
+    return $state;
   }
 
   /**
