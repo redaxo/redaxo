@@ -3,9 +3,10 @@
 class rex_install_webservice
 {
   const
-    HOST = 'www.redaxo.org',
+    HOST = 'meyerharlan.de',
     PORT = 80,
-    PATH = '/de/_system/_webservice/',
+    PATH = '/rex-webservice/',
+    FILES = '/rex-webservice/files/',
     REFRESH_CACHE = 600;
 
   static private $cache;
@@ -17,12 +18,12 @@ class rex_install_webservice
       return $cache;
     }
     $path = strpos($path, '?') === false ? rtrim($path, '/') .'/?' : $path .'&';
-    $path = self::PATH . $path .'v=4.3'; //rex::getVersion();
+    $path = self::PATH . $path .'v='. rex::getVersion();
 
     $data = array();
     try
     {
-      $socket = new rex_socket(self::HOST, $path);
+      $socket = new rex_socket(self::HOST, $path, self::PORT);
       $socket->doGet();
       if($socket->getStatus() == 200)
       {
@@ -35,23 +36,23 @@ class rex_install_webservice
     return $data;
   }
 
-  static public function getZip($path)
+  static public function getZip($filename)
   {
     try
     {
-      $socket = rex_socket::createByUrl($path);
+      $socket = new rex_socket(self::HOST, self::FILES . $filename, self::PORT);
       $socket->doGet();
       if($socket->getStatus() == 200)
       {
         $content = $socket->getBody();
-        $file = rex_path::addonData('install', 'temp/'. md5($path['path']).'.zip');
+        $file = rex_path::addonData('install', 'temp/'. md5($filename).'.zip');
         rex_file::put($file, $content);
         $zip = new dUnzip2($file);
         return $zip;
       }
     }
-    catch(rex_exception $e) {
-    }
+    catch(rex_exception $e) {}
+
     return null;
   }
 
