@@ -355,7 +355,6 @@ if($checkmodus == 2)
 
 if ($checkmodus == 2 && $send == 1)
 {
-	// Einfache quotes nicht escapen, da der String zwischen doppelten quotes stehen wird
 	$config['server']            = rex_post('serveraddress', 'string');
 	$config['servername']        = rex_post('serverbezeichnung', 'string');
 	$config['lang']              = $lang;
