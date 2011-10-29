@@ -341,26 +341,6 @@ if ($article->getRows() == 1)
     }
     // ------------------------------------------ END: Slice add/edit/delete
 
-    // ------------------------------------------ START: COPY LANG CONTENT
-    if (rex_post('copycontent', 'boolean'))
-    {
-      $clang_a = rex_post('clang_a', 'rex-clang-id');
-      $clang_b = rex_post('clang_b', 'rex-clang-id');
-      $user = rex::getUser();
-      if ($user->isAdmin() || ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->hasPerm($clang_a) && $user->getComplexPerm('clang')->hasPerm($clang_b)))
-      {
-        if (rex_content_service::copyContent($article_id, $article_id, $clang_a, $clang_b, 0, $slice_revision))
-          $info = rex_i18n::msg('content_contentcopy');
-        else
-          $warning = rex_i18n::msg('content_errorcopy');
-      }
-      else
-      {
-        $warning = rex_i18n::msg('no_rights_to_this_function');
-      }
-    }
-    // ------------------------------------------ END: COPY LANG CONTENT
-
     // ------------------------------------------ START: MOVE ARTICLE
     if (rex_post('movearticle', 'boolean') && $category_id != $article_id)
     {
@@ -663,6 +643,7 @@ if ($article->getRows() == 1)
 
                 <input type="hidden" name="page" value="content" />
                 <input type="hidden" name="article_id" value="' . $article_id . '" />
+                <input type="hidden" name="slice_revision" value="' . slice_revision . '" />
                 <input type="hidden" name="mode" value="meta" />
                 <input type="hidden" name="save" value="1" />
                 <input type="hidden" name="clang" value="' . $clang . '" />
@@ -854,7 +835,7 @@ if ($article->getRows() == 1)
                    </div>
                    <div class="rex-form-row">
                      <p class="rex-form-col-a rex-form-submit">
-                      <input class="rex-form-submit" type="submit" name="copycontent" value="' . rex_i18n::msg('content_submitcopycontent') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitcopycontent') . '?\')" />
+                      <input class="rex-form-submit" type="submit" value="' . rex_i18n::msg('content_submitcopycontent') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitcopycontent') . '?\') && jQuery(\'#apiField\').val(\'content_copy_content\');" />
                     </p>
                    </div>
                    <div class="rex-clearer"></div>
