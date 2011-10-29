@@ -277,7 +277,6 @@ if ($article->getRows() == 1)
                 $newsql->addGlobalUpdateFields();
                 $newsql->addGlobalCreateFields();
 
-
                 try {
                   $newsql->insert();
 
@@ -343,54 +342,6 @@ if ($article->getRows() == 1)
     }
     // ------------------------------------------ END: Slice add/edit/delete
 
-    // ------------------------------------------ START: Slice move up/down
-    if ($function == 'moveup' || $function == 'movedown')
-    {
-      if (rex::getUser()->hasPerm('moveSlice[]'))
-      {
-        // modul und rechte vorhanden ?
-
-        $CM = rex_sql::factory();
-        $CM->setQuery("select * from " . rex::getTablePrefix() . "article_slice left join " . rex::getTablePrefix() . "module on " . rex::getTablePrefix() . "article_slice.modultyp_id=" . rex::getTablePrefix() . "module.id where " . rex::getTablePrefix() . "article_slice.id='$slice_id' and clang=$clang");
-        if ($CM->getRows() != 1)
-        {
-          // ------------- START: MODUL IST NICHT VORHANDEN
-          $warning = rex_i18n::msg('module_not_found');
-          $slice_id = "";
-          $function = "";
-          // ------------- END: MODUL IST NICHT VORHANDEN
-        }
-        else
-        {
-          $module_id = (int) $CM->getValue(rex::getTablePrefix()."article_slice.modultyp_id");
-
-          // ----- RECHTE AM MODUL ?
-          if (rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($module_id))
-          {
-            // rechte sind vorhanden
-            if ($function == "moveup" || $function == "movedown")
-            {
-              list($success, $message) = rex_moveSlice($slice_id, $clang, $function);
-
-              if($success)
-                $info = $message;
-              else
-                $warning = $message;
-            }
-          }
-          else
-          {
-            $warning = rex_i18n::msg('no_rights_to_this_function');
-          }
-        }
-      }
-      else
-      {
-        $warning = rex_i18n::msg('no_rights_to_this_function');
-      }
-    }
-    // ------------------------------------------ END: Slice move up/down
-
     // ------------------------------------------ START: COPY LANG CONTENT
     if (rex_post('copycontent', 'boolean'))
     {
@@ -399,7 +350,7 @@ if ($article->getRows() == 1)
       $user = rex::getUser();
       if ($user->isAdmin() || ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->hasPerm($clang_a) && $user->getComplexPerm('clang')->hasPerm($clang_b)))
       {
-        if (rex_copyContent($article_id, $article_id, $clang_a, $clang_b, 0, $slice_revision))
+        if (rex_content_service::copyContent($article_id, $article_id, $clang_a, $clang_b, 0, $slice_revision))
           $info = rex_i18n::msg('content_contentcopy');
         else
           $warning = rex_i18n::msg('content_errorcopy');
@@ -417,7 +368,7 @@ if ($article->getRows() == 1)
       $category_id_new = rex_post('category_id_new', 'rex-category-id');
       if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)))
       {
-        if (rex_moveArticle($article_id, $category_id, $category_id_new))
+        if (rex_content_service::moveArticle($article_id, $category_id, $category_id_new))
         {
           $info = rex_i18n::msg('content_articlemoved');
           ob_end_clean();
@@ -442,7 +393,7 @@ if ($article->getRows() == 1)
       $category_copy_id_new = rex_post('category_copy_id_new', 'rex-category-id');
       if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('copyArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_copy_id_new)))
       {
-        if (($new_id = rex_copyArticle($article_id, $category_copy_id_new)) !== false)
+        if (($new_id = rex_content_service::copyArticle($article_id, $category_copy_id_new)) !== false)
         {
           $info = rex_i18n::msg('content_articlecopied');
           ob_end_clean();
@@ -467,7 +418,7 @@ if ($article->getRows() == 1)
       $category_id_new = rex_post('category_id_new', 'rex-category-id');
       if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id')) && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)))
       {
-        if ($category_id != $category_id_new && rex_moveCategory($category_id, $category_id_new))
+        if ($category_id != $category_id_new && rex_content_service::moveCategory($category_id, $category_id_new))
         {
           $info = rex_i18n::msg('category_moved');
           ob_end_clean();
@@ -651,8 +602,8 @@ if ($article->getRows() == 1)
     {
       echo rex_info($global_info);
     }
-    if ($mode != 'edit')
-    {
+//     if ($mode != 'edit')
+//     {
       // --------------------------------------------- API MESSAGES
       echo rex_api_function::getMessage();
       
@@ -664,7 +615,7 @@ if ($article->getRows() == 1)
       {
         echo rex_info($info);
       }
-    }
+//     }
 
     echo '
             <div class="rex-content-body">
