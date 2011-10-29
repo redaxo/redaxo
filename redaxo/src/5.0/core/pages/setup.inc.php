@@ -93,7 +93,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
       $state = $manager->uninstall();
 
       if($state !== true)
-    	  $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $state .'</li></ul></li>';
+    	  $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
     }
   }
   foreach(rex::getProperty('system_packages') as $packageRepresentation)
@@ -104,12 +104,17 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 
   	if($state === true && !$package->isInstalled())
   	  $state = $manager->install($installDump);
-
+  	
+    if($state !== true)
+  	  $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
+  	
   	if($state === true && !$package->isActivated())
+  	{
   	  $state = $manager->activate();
-
-  	if($state !== true)
-  	  $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $state .'</li></ul></li>';
+  	  
+      if($state !== true)
+    	  $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
+  	}
   }
 
 	if($addonErr != '')
