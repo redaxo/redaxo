@@ -173,8 +173,8 @@ class rex_article_editor extends rex_article
         $moveDown = rex_i18n::msg('move_slice_down');
         // upd stamp uebergeben, da sonst ein block nicht mehrfach hintereindander verschoben werden kann
         // (Links waeren sonst gleich und der Browser laesst das klicken auf den gleichen Link nicht zu)
-        $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=moveup') .'" title="'. $moveUp .'" class="rex-slice-move-up"><span>'. $moduleName .'</span></a>';
-        $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;function=movedown') .'" title="'. $moveDown .'" class="rex-slice-move-down"><span>'. $moduleName .'</span></a>';
+        $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;rex-api-call=content_move_slice&amp;direction=moveup') .'" title="'. $moveUp .'" class="rex-slice-move-up"><span>'. $moduleName .'</span></a>';
+        $listElements[] = '<a href="'. sprintf($sliceUrl, '&amp;upd='. time() .'&amp;rex-api-call=content_move_slice&amp;direction=movedown') .'" title="'. $moveDown .'" class="rex-slice-move-down"><span>'. $moduleName .'</span></a>';
       }
 
     }

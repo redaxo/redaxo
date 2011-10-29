@@ -9,16 +9,13 @@ class rex_content_service
    * @param int    $clang     Id der Sprache
    * @param string $direction Richtung in die verschoben werden soll
    *
-   * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+   * @return string Eine Statusmeldung
    */
   static public function moveSlice($slice_id, $clang, $direction)
   {
     // ctype beachten
     // verschieben / vertauschen
     // article regenerieren.
-  
-    $success = false;
-    $message = rex_i18n::msg('slice_moved_error');
   
     // check if slice id is valid
     $CM = rex_sql::factory();
@@ -60,17 +57,18 @@ class rex_content_service
         );
   
         rex_article_cache::deleteContent($article_id, $clang);
-  
-        $message = rex_i18n::msg('slice_moved');
-        $success = true;
       }
       else
       {
-        trigger_error('rex_moveSlice: Unsupported direction "'. $direction .'"!', E_USER_ERROR);
+        throw new rex_exception('rex_moveSlice: Unsupported direction "'. $direction .'"!', E_USER_ERROR);
       }
     }
+    else
+    {
+      throw new rex_api_exception(rex_i18n::msg('slice_moved_error'));
+    }
   
-    return array($success, $message);
+    return rex_i18n::msg('slice_moved');
   }
   
   /**
@@ -79,7 +77,7 @@ class rex_content_service
    * @param int $slice_id Id des Slices
    * @param int $clang    Id der Sprache
    *
-   * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+   * @return string Eine Statusmeldung
    */
   static public function moveSliceUp($slice_id, $clang)
   {
@@ -92,7 +90,7 @@ class rex_content_service
    * @param int $slice_id Id des Slices
    * @param int $clang    Id der Sprache
    *
-   * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+   * @return string Eine Statusmeldung
    */
   static public function moveSliceDown($slice_id, $clang)
   {

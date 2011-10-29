@@ -342,54 +342,6 @@ if ($article->getRows() == 1)
     }
     // ------------------------------------------ END: Slice add/edit/delete
 
-    // ------------------------------------------ START: Slice move up/down
-    if ($function == 'moveup' || $function == 'movedown')
-    {
-      if (rex::getUser()->hasPerm('moveSlice[]'))
-      {
-        // modul und rechte vorhanden ?
-
-        $CM = rex_sql::factory();
-        $CM->setQuery("select * from " . rex::getTablePrefix() . "article_slice left join " . rex::getTablePrefix() . "module on " . rex::getTablePrefix() . "article_slice.modultyp_id=" . rex::getTablePrefix() . "module.id where " . rex::getTablePrefix() . "article_slice.id='$slice_id' and clang=$clang");
-        if ($CM->getRows() != 1)
-        {
-          // ------------- START: MODUL IST NICHT VORHANDEN
-          $warning = rex_i18n::msg('module_not_found');
-          $slice_id = "";
-          $function = "";
-          // ------------- END: MODUL IST NICHT VORHANDEN
-        }
-        else
-        {
-          $module_id = (int) $CM->getValue(rex::getTablePrefix()."article_slice.modultyp_id");
-
-          // ----- RECHTE AM MODUL ?
-          if (rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($module_id))
-          {
-            // rechte sind vorhanden
-            if ($function == "moveup" || $function == "movedown")
-            {
-              list($success, $message) = rex_content_service::moveSlice($slice_id, $clang, $function);
-
-              if($success)
-                $info = $message;
-              else
-                $warning = $message;
-            }
-          }
-          else
-          {
-            $warning = rex_i18n::msg('no_rights_to_this_function');
-          }
-        }
-      }
-      else
-      {
-        $warning = rex_i18n::msg('no_rights_to_this_function');
-      }
-    }
-    // ------------------------------------------ END: Slice move up/down
-
     // ------------------------------------------ START: COPY LANG CONTENT
     if (rex_post('copycontent', 'boolean'))
     {
@@ -650,8 +602,8 @@ if ($article->getRows() == 1)
     {
       echo rex_info($global_info);
     }
-    if ($mode != 'edit')
-    {
+//     if ($mode != 'edit')
+//     {
       // --------------------------------------------- API MESSAGES
       echo rex_api_function::getMessage();
       
@@ -663,7 +615,7 @@ if ($article->getRows() == 1)
       {
         echo rex_info($info);
       }
-    }
+//     }
 
     echo '
             <div class="rex-content-body">
