@@ -90,7 +90,8 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
     {
       $package = rex_package::get($packageRepresentation);
       $manager = rex_package_manager::factory($package);
-      $state = $manager->uninstall();
+      $state = $manager->uninstall($installDump);
+      // echo "uninstall ". $packageRepresentation ."<br />";
 
       if($state !== true)
     	  $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
@@ -103,13 +104,17 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
   	$manager = rex_package_manager::factory($package);
 
   	if($state === true && !$package->isInstalled())
+  	{
+      // echo "install ". $packageRepresentation."<br />";
   	  $state = $manager->install($installDump);
+  	}
   	
     if($state !== true)
   	  $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
   	
   	if($state === true && !$package->isActivated())
   	{
+      // echo "activate ". $packageRepresentation."<br />";
   	  $state = $manager->activate();
   	  
       if($state !== true)

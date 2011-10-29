@@ -152,9 +152,11 @@ abstract class rex_package_manager extends rex_factory
   /**
    * Uninstalls a package
    *
+   * @param $installDump When TRUE, the sql dump will be importet
+   * 
    * @return boolean TRUE on success, FALSE on error
    */
-  public function uninstall()
+  public function uninstall($installDump = TRUE)
   {
     $state = TRUE;
 
@@ -189,7 +191,7 @@ abstract class rex_package_manager extends rex_factory
         }
       }
   
-      if($state === TRUE && is_readable($uninstall_sql))
+      if($state === TRUE && $installDump === TRUE && is_readable($uninstall_sql))
       {
         $state = rex_sql_dump::import($uninstall_sql);
   
