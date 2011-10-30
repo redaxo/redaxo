@@ -44,7 +44,7 @@ class rex_install_webservice
       $socket->doGet();
       if($socket->getStatus() == 200)
       {
-        $file = rex_path::addonData('install', 'temp/'. md5($filename) .'.'. rex_file::extension($filename));
+        $file = rex_path::cache('install/'. md5($filename) .'.'. rex_file::extension($filename));
         rex_file::put($file, '');
         $fp = fopen($file, 'w');
         $socket->writeBodyTo($fp);
