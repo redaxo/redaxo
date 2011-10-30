@@ -4,7 +4,7 @@ class rex_api_install_packages_download extends rex_api_function
 {
   public function execute()
   {
-    $addon = rex_request('addon', 'string');
+    $addon = rex_request('addonkey', 'string');
     if(rex_addon::exists($addon))
     {
       return null;
@@ -39,6 +39,7 @@ class rex_api_install_packages_download extends rex_api_function
     {
       $message = rex_i18n::msg('install_packages_info_addon_downloaded', $addon) . ' <a href="index.php?page=addon">'. rex_i18n::msg('install_packages_to_addon_page') .'</a>';
       $success = true;
+      unset($_REQUEST['addonkey']);
     }
     return new rex_api_result($success, $message);
   }
@@ -49,7 +50,7 @@ class rex_api_install_packages_update extends rex_api_function
   public function execute()
   {
     return null;
-    $addon = rex_request('addon', 'string');
+    $addon = rex_request('addonkey', 'string');
     if(!rex_adddon::exists($addon))
     {
       return null;
@@ -89,6 +90,7 @@ class rex_api_install_packages_update extends rex_api_function
     {
       $message = rex_i18n::msg('install_packages_info_addon_updated', $addon);
       $success = true;
+      unset($_REQUEST['addonkey']);
     }
     return new rex_api_result($success, $message);
   }

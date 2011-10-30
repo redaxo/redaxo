@@ -47,7 +47,7 @@ if($addonkey)
       	<td>'. $file['name'] .'</td>
       	<td>'. $file['version'] .'</td>
       	<td>'. $file['description'] .'</td>
-      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addon='. $addonkey .'&amp;rex-api-call=install_packages_update&amp;file='. $file['filename'] .'">'. rex_i18n::msg('install_packages_update') .'</a></td>
+      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_update&amp;file='. $file['filename'] .'">'. rex_i18n::msg('install_packages_update') .'</a></td>
       </tr>';
   }
 

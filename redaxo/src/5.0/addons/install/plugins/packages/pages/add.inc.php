@@ -3,20 +3,6 @@
 $addonkey = rex_request('addonkey', 'string');
 $download = rex_request('download', 'string');
 
-if(0 && $addonkey && $download && !rex_addon::exists($addonkey))
-{
-  $result = rex_install_packages::downloadAddon($addonkey, $download);
-  if($result === true)
-  {
-    $addonkey = '';
-    echo rex_info(rex_i18n::msg('install_packages_info_addon_downloaded', $addonkey) .' <a href="#">'. rex_i18n::msg('addon_install') .'</a>');
-  }
-  else
-  {
-    echo rex_warning($result);
-  }
-}
-
 echo rex_api_function::getMessage();
 
 $addons = rex_install_packages::getAddAddons();
@@ -64,7 +50,7 @@ if($addonkey)
       	<td>'. $file['name'] .'</td>
       	<td>'. $file['version'] .'</td>
       	<td>'. $file['description'] .'</td>
-      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addon='. $addonkey .'&amp;rex-api-call=install_packages_download&amp;file='. $file['filename'] .'">'. rex_i18n::msg('install_packages_download') .'</a></td>
+      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_download&amp;file='. $file['filename'] .'">'. rex_i18n::msg('install_packages_download') .'</a></td>
       </tr>';
   }
 
