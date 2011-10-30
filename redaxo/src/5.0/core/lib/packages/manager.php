@@ -391,7 +391,7 @@ abstract class rex_package_manager extends rex_factory
   /**
    * Checks whether the requirements are met.
    */
-  protected function checkRequirements()
+  public function checkRequirements()
   {
     $state = array();
     $requirements = $this->package->getProperty('requires', array());

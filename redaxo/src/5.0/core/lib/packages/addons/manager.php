@@ -15,7 +15,7 @@ class rex_addon_manager extends rex_package_manager
   /* (non-PHPdoc)
    * @see rex_package_manager::checkRequirements()
    */
-  protected function checkRequirements()
+  public function checkRequirements()
   {
     $state = parent::checkRequirements();
 
