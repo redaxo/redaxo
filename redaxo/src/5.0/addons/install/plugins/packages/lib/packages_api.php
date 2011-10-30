@@ -72,10 +72,10 @@ class rex_api_install_packages_update extends rex_api_install_packages_base
       }
     }
     $path = rex_path::addon($this->addonkey);
-    $temppathOld = rex_path::addon('_old_'. $this->addonkey);
-    rename($path, $temppathOld);
+    $archivePath = rex_path::pluginData('install', 'packages', $this->addonkey .'/'. str_replace(array('/', '\\'), '_', $this->addon->getVersion()) .'/');
+    rex_dir::create($archivePath);
+    rename($path, $archivePath);
     rename($temppath, $path);
-    rex_dir::delete($temppathOld);
   }
 
   public function __destruct()
