@@ -9,26 +9,25 @@ class rex_api_install_packages_download extends rex_api_function
     {
       return null;
     }
-    $file = rex_request('file', 'string');
-    $zip = rex_install_webservice::getZip($file);
     $message = '';
-    if(!$zip)
+    $archive = rex_install_webservice::getArchive(rex_request('file', 'string'));
+    if(!$archive)
     {
       $message = rex_i18n::msg('install_packages_warning_zip_not_found');
     }
     else
     {
-      $list = $zip->getList();
-      $base = current($list);
-      if($base['file_name'] != $addon.'/')
+      $path = "phar://$archive/$addon";
+      if(!file_exists($path))
       {
         $message = rex_i18n::msg('install_packages_warning_zip_wrong_format');
       }
       else
       {
-        $zip->unzipAll(rex_path::version('addons/'), $addon);
+        rex_dir::copy($path, rex_path::addon($addon));
         rex_package_manager::synchronizeWithFileSystem();
       }
+      rex_file::delete($archive);
     }
     if($message)
     {
@@ -61,25 +60,24 @@ class rex_api_install_packages_update extends rex_api_function
     {
       return null;
     }
-    $file = rex_request('file', 'string');
-    $zip = rex_install_webservice::getZip($file);
     $message = '';
-    if(!$zip)
+    $archive = rex_install_webservice::getArchive(rex_request('file', 'string'));
+    if(!$archive)
     {
       $message = rex_i18n::msg('install_packages_warning_zip_not_found');
     }
     else
     {
-      $list = $zip->getList();
-      $base = current($list);
-      if($base['file_name'] != $addon.'/')
+      $path = "phar://$archive/$addon";
+      if(!file_exists($path))
       {
         $message = rex_i18n::msg('install_packages_warning_zip_wrong_format');
       }
       else
       {
-        $zip->unzipAll(rex_path::version('addons/'), $addon);
+        //TODO
       }
+      rex_file::delete($archive);
     }
     if($message)
     {

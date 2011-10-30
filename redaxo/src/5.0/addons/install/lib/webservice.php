@@ -36,7 +36,7 @@ class rex_install_webservice
     return $data;
   }
 
-  static public function getZip($filename)
+  static public function getArchive($filename)
   {
     try
     {
@@ -44,13 +44,12 @@ class rex_install_webservice
       $socket->doGet();
       if($socket->getStatus() == 200)
       {
-        $file = rex_path::addonData('install', 'temp/'. md5($filename).'.zip');
+        $file = rex_path::addonData('install', 'temp/'. md5($filename) .'.'. rex_file::extension($filename));
         rex_file::put($file, '');
         $fp = fopen($file, 'w');
         $socket->writeBodyTo($fp);
         fclose($fp);
-        $zip = new dUnzip2($file);
-        return $zip;
+        return $file;
       }
     }
     catch(rex_exception $e) {}
