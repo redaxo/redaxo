@@ -77,6 +77,11 @@ class rex_api_install_packages_update extends rex_api_install_packages_base
     rename($temppath, $path);
     rex_dir::delete($temppathOld);
   }
+
+  public function __destruct()
+  {
+    rex_dir::delete(rex_path::addon('_new_'. $this->addonkey));
+  }
 }
 
 abstract class rex_api_install_packages_base extends rex_api_function
