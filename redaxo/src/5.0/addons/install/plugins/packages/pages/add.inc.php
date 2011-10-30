@@ -1,7 +1,6 @@
 <?php
 
 $addonkey = rex_request('addonkey', 'string');
-$download = rex_request('download', 'string');
 
 echo rex_api_function::getMessage();
 
