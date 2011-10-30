@@ -4,6 +4,6 @@ supportpage: www.redaxo.org/de/forum
 
 name: translate:install_packages_title
 subpages:
-  - ['', 'translate:install_packages_update']
-  - [add, 'translate:install_packages_add']
-  - [upload, 'translate:install_packages_upload']
+  - ['', 'translate:install_packages_subpage_update']
+  - [add, 'translate:install_packages_subpage_add']
+  - [upload, 'translate:install_packages_subpage_upload']
