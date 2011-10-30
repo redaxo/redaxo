@@ -13,6 +13,10 @@ class rex_socket
   private $port;
   private $timeout;
   private $headers = array();
+  private $fp;
+  private $chunked = false;
+  private $chunkPos = 0;
+  private $chunkLength = 0;
   private $status;
   private $header;
   private $body;
@@ -78,12 +82,12 @@ class rex_socket
 
   public function doRequest($method, $data = '')
   {
-    if(!($fp = @fsockopen($this->prefix . $this->host, $this->port, $errno, $errstr)))
+    if(!($this->fp = @fsockopen($this->prefix . $this->host, $this->port, $errno, $errstr)))
     {
       throw new rex_exception($errstr .' ('. $errno .')');
     }
 
-    stream_set_timeout($fp, $this->timeout);
+    stream_set_timeout($this->fp, $this->timeout);
 
     $eol = "\r\n";
     $headers = array();
@@ -102,47 +106,23 @@ class rex_socket
     }
     $out .= $eol . $data;
 
-    fwrite($fp, $out);
+    fwrite($this->fp, $out);
 
-    $meta = stream_get_meta_data($fp);
+    $meta = stream_get_meta_data($this->fp);
     if($meta['timed_out'])
     {
-      fclose($fp);
       throw new rex_exception('Timeout!');
     }
 
-    $this->header = '';
-    $this->body = '';
-    while(!feof($fp))
+    while(!feof($this->fp) && strpos($this->header, "\r\n\r\n") === false)
     {
-      $this->body .= fgets($fp);
-
-      if($this->header == '' && ($headEnd = strpos($this->body, $eol.$eol)) !== false)
-      {
-        $this->header = substr($this->body, 0, $headEnd); // extract http header
-        $this->body = substr($this->body, $headEnd+4); // trim buf to contain only http data
-      }
+      $this->header .= fgets($this->fp);
     }
-    fclose($fp);
-
-    if(preg_match('@^HTTP\/1\.1 ([0-9]{3})@', $this->header, $matches))
+    if(preg_match('@^HTTP/1\.1 ([0-9]{3})@', $this->getHeader(), $matches))
     {
       $this->status = intval($matches[1]);
     }
-    if(stripos($this->header, 'transfer-encoding: chunked') !== false)
-    {
-      $p = 0;
-      $chunkedBody = $this->body;
-      $this->body = '';
-      while ($p < strlen($chunkedBody)) {
-        $rawnum = substr($chunkedBody, $p, strpos(substr($chunkedBody, $p), $eol) + 2);
-        $num = hexdec(trim($rawnum));
-        $p += strlen($rawnum);
-        $chunk = substr($chunkedBody, $p, $num);
-        $this->body .= $chunk;
-        $p += strlen($chunk);
-      }
-    }
+    $this->chunked = stripos($this->header, 'transfer-encoding: chunked') !== false;
   }
 
   public function getStatus()
@@ -155,8 +135,64 @@ class rex_socket
     return $this->header;
   }
 
+  public function getBufferedBody($length = 1024)
+  {
+    if(feof($this->fp))
+    {
+      return false;
+    }
+    if($this->chunked)
+    {
+      if($this->chunkPos == 0)
+      {
+        $this->chunkLength = hexdec(fgets($this->fp));
+        if($this->chunkLength == 0)
+        {
+          return false;
+        }
+      }
+      $pos = ftell($this->fp);
+      $buf = fread($this->fp, min($length, $this->chunkLength - $this->chunkPos));
+      $this->chunkPos += ftell($this->fp) - $pos;
+      if($this->chunkPos >= $this->chunkLength)
+      {
+        fgets($this->fp);
+        $this->chunkPos = 0;
+        $this->chunkLength = 0;
+      }
+      return $buf;
+    }
+    else
+    {
+      return fread($this->fp, $length);
+    }
+  }
+
   public function getBody()
   {
+    if($this->body === null)
+    {
+      while(($buf = $this->getBufferedBody()) !== false)
+      {
+        $this->body .= $buf;
+      }
+    }
     return $this->body;
+  }
+
+  public function writeBodyTo($resource)
+  {
+    while(($buf = $this->getBufferedBody()) !== false)
+    {
+      fwrite($resource, $buf);
+    }
+  }
+
+  public function __destruct()
+  {
+    if(is_resource($this->fp))
+    {
+      fclose($this->fp);
+    }
   }
 }

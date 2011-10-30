@@ -44,9 +44,11 @@ class rex_install_webservice
       $socket->doGet();
       if($socket->getStatus() == 200)
       {
-        $content = $socket->getBody();
         $file = rex_path::addonData('install', 'temp/'. md5($filename).'.zip');
-        rex_file::put($file, $content);
+        rex_file::put($file, '');
+        $fp = fopen($file, 'w');
+        $socket->writeBodyTo($fp);
+        fclose($fp);
         $zip = new dUnzip2($file);
         return $zip;
       }
