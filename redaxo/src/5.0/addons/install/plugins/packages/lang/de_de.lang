@@ -21,3 +21,5 @@ install_packages_info_addon_updated = AddOn "{0}" wurde aktualisiert!
 install_packages_warning_not_updated = AddOn "{0}" konnte aus folgendem Grund nicht aktualisiert werden:
 install_packages_warning_zip_not_found = Die Zip-Datei ist nicht erreichbar!
 install_packages_warning_zip_wrong_format = Die Zip-Datei ist nicht im erforderlichen Format!
+
+install_packages_to_addon_page = Zur AddOn-Verwaltung

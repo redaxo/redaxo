@@ -37,8 +37,7 @@ class rex_api_install_packages_download extends rex_api_function
     }
     else
     {
-      $message = rex_i18n::msg('install_packages_info_addon_downloaded', $addon)
-               . ' <a class="rex-api-get" href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;package='. $addon .'&amp;rex-api-call=install_packages_function&amp;function=install">'. ucfirst(rex_i18n::msg('addon_install')) .'</a>';
+      $message = rex_i18n::msg('install_packages_info_addon_downloaded', $addon) . ' <a href="index.php?page=addon">'. rex_i18n::msg('install_packages_to_addon_page') .'</a>';
       $success = true;
     }
     return new rex_api_result($success, $message);
@@ -88,26 +87,8 @@ class rex_api_install_packages_update extends rex_api_function
     }
     else
     {
-      $message = rex_i18n::msg('install_packages_info_addon_updated', $addon)
-      . ' <a class="rex-api-get" href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;package='. $addon .'&amp;rex-api-call=install_packages_function&amp;function=install">'. ucfirst(rex_i18n::msg('addon_install')) .'</a>';
+      $message = rex_i18n::msg('install_packages_info_addon_updated', $addon);
       $success = true;
-    }
-    return new rex_api_result($success, $message);
-  }
-}
-
-class rex_api_install_packages_function extends rex_api_package
-{
-  public function execute()
-  {
-    $function = rex_request('function', 'string');
-    $package = rex_request('package', 'string');
-    $result = parent::execute();
-    $success = $result->isSuccessfull();
-    $message = $result->getMessage();
-    if($function == 'install' && $success)
-    {
-      $message .= ' <a class="rex-api-get" href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;package='. $package .'&amp;rex-api-call=install_packages_function&amp;function=activate">'. ucfirst(rex_i18n::msg('addon_activate')) .'</a>';
     }
     return new rex_api_result($success, $message);
   }
