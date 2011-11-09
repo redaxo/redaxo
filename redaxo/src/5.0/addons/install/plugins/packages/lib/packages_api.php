@@ -44,19 +44,54 @@ class rex_api_install_packages_update extends rex_api_install_packages_base
     {
       return $msg;
     }
-    if($this->addon->isActivated() && file_exists($temppath .'package.yml'))
+    if($this->addon->isActivated())
     {
-      $config = sfYaml::load($temppath .'package.yml');
-      if(isset($config['requires']))
+      if(file_exists($temppath .'package.yml'))
       {
-        $req = $this->addon->getProperty('requires');
-        $this->addon->setProperty('requires', $config['requires']);
-        $manager = rex_addon_manager::factory($this->addon);
-        if(($msg = $manager->checkRequirements()) !== true)
+        $config = sfYaml::load($temppath .'package.yml');
+        if(isset($config['requires']))
         {
-          $this->addon->setProperty('requires', $req);
-          return $msg;
+          $req = $this->addon->getProperty('requires');
+          $this->addon->setProperty('requires', $config['requires']);
+          $manager = rex_addon_manager::factory($this->addon);
+          if(($msg = $manager->checkRequirements()) !== true)
+          {
+            $this->addon->setProperty('requires', $req);
+            return $msg;
+          }
         }
+      }
+      $version = isset($config['version']) ? $config['version'] : rex_request('version', 'string');
+      $oldVersion = $this->addon->getVersion();
+      $this->addon->setProperty('version', $version);
+      $messages = array();
+      foreach(rex_addon::getAvailableAddons() as $addon)
+      {
+        if($addon != $this->addon)
+        {
+          $manager = rex_addon_manager::factory($addon);
+          if(($msg = $manager->checkPackageRequirement($this->addon->getPackageId())) !== true)
+          {
+            $messages[] = $addon->getPackageId() .': '. $msg;
+          }
+        }
+        foreach($addon->getAvailablePlugins() as $plugin)
+        {
+          $manager = rex_plugin_manager::factory($plugin);
+          if(($msg = $manager->checkPackageRequirement($this->addon->getPackageId())) !== true)
+          {
+            $messages[] = $plugin->getPackageId() .': '. $msg;
+          }
+        }
+      }
+      if(!empty($messages))
+      {
+        return implode('<br />', $messages);
+      }
+      $this->addon->setProperty('version', $oldVersion);
+      if($msg !== true)
+      {
+        return $msg;
       }
     }
     if($this->addon->isInstalled() && file_exists($temppath .'update.inc.php'))
