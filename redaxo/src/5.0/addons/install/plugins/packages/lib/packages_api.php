@@ -107,9 +107,13 @@ class rex_api_install_packages_update extends rex_api_install_packages_base
       }
     }
     $path = rex_path::addon($this->addonkey);
-    $archivePath = rex_path::pluginData('install', 'packages', $this->addonkey .'/'. str_replace(array('/', '\\'), '_', $this->addon->getVersion()) .'/');
+    $archivePath = rex_path::pluginData('install', 'packages', $this->addonkey .'/');
     rex_dir::create($archivePath);
-    rename($path, $archivePath);
+    $archiveFile = str_replace(array('/', '\\'), '_', $this->addon->getVersion('0')) .'.zip';
+    $archive = new PharData($archivePath . $archiveFile, 0, null, Phar::ZIP);
+    $archive->buildFromDirectory($path);
+    $archive->compressFiles(Phar::GZ);
+    rex_dir::delete($path);
     rename($temppath, $path);
   }
 
