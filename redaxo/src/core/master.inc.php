@@ -7,7 +7,7 @@
  */
 
 require_once dirname(__FILE__) .'/lib/path.php';
-rex_path::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], $REX['VERSION_FOLDER']);
+rex_path::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER']);
 
 require_once rex_path::core('lib/autoload.php');
 
@@ -47,7 +47,7 @@ rex::setProperty('version', 5);
 rex::setProperty('subversion', 0);
 rex::setProperty('minorversion', 0);
 
-$config = rex_file::getConfig(rex_path::src('config.yml'));
+$config = rex_file::getConfig(rex_path::data('config.yml'));
 foreach($config as $key => $value)
 {
   if(in_array($key, array('fileperm', 'dirperm')))

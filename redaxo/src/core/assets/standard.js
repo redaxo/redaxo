@@ -473,7 +473,7 @@ jQuery(function($){
     setCookie('htaccess_check', '1', time.toGMTString());
     checkHtaccess('cache', '_readme.txt');
     checkHtaccess('data', '_readme.txt');
-    checkHtaccess('src', 'config.yml');
+    checkHtaccess('src', 'core/master.inc.php');
   }
   
   function checkHtaccess(dir, file)

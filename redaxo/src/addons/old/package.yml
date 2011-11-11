@@ -1,0 +1,6 @@
+requires:
+  addons:
+    compat:
+      plugins:
+        4.x:
+          min-version: '1.0'
