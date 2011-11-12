@@ -15,6 +15,7 @@ Version 5.0 ()
     - Module
     - Linkmap
     - Medienpool
+    - Mootool
   * Addons koennen in der Verwaltung sortiert werden, um die Ladereihenfolge zu beeinflussen
   * Folder /files/addons ... auf /redaxo_media/ geaendert
 
