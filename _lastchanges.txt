@@ -10,8 +10,6 @@ angehandelt.
 Version 5.0 ()
 
   * Core Funktionalität in Addon ausgelagert:
-    - Struktur
-    - Templates
     - Module
     - Linkmap
     - Medienpool
