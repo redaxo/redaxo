@@ -1,3 +1,8 @@
+Hi Markus, dies ist nur ein Test....
+
+
+
+
 Bevor Sie REDAXO für Ihre eigenen Zwecke nutzen möchten, berücksichtigen Sie bitte 
 die folgenden lizenzrechtlichen Bestimmungen. Es handelt sich hierbei um eine 
 Open Source Lizenzvereinbarung, die als General Public License (GPL) in 
