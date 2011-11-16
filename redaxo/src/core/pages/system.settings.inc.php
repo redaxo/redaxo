@@ -13,7 +13,7 @@ if ($func == 'setup')
 {
   // REACTIVATE SETUP
 
-  $configFile = rex_path::src('config.yml');
+  $configFile = rex_path::data('config.yml');
   $config = rex_file::getConfig($configFile);
   $config['setup'] = true;
   // echo nl2br(htmlspecialchars($cont));
@@ -32,7 +32,7 @@ if ($func == 'setup')
 }
 elseif ($func == 'updateinfos')
 {
-  $configFile = rex_path::src('config.yml');
+  $configFile = rex_path::data('config.yml');
   $config = rex_file::getConfig($configFile);
 
   $settings = rex_post('settings', 'array', array());
@@ -95,7 +95,7 @@ $dbconfig = rex::getProperty('db');
 
 
 
-$version = rex_path::version();
+$version = rex_path::src();
 if (strlen($version)>21)
 	$version = substr($version,0,8)."..".substr($version,strlen($version)-13);
 
@@ -145,7 +145,7 @@ $content_2 = '
 							<div class="rex-form-row">
 								<p class="rex-form-col-a rex-form-read">
 									<label for="rex_src_path">Path</label>
-									<span class="rex-form-read" id="rex_src_path" title="'. rex_path::version() .'">&quot;'.$version.'&quot;</span>
+									<span class="rex-form-read" id="rex_src_path" title="'. rex_path::src() .'">&quot;'.$version.'&quot;</span>
 								</p>
 							</div>
 

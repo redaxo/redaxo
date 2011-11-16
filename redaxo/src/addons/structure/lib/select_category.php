@@ -6,6 +6,7 @@ class rex_category_select extends rex_select
   private $clang;
   private $check_perms;
   private $rootId;
+  private $loaded;
 
   public function __construct($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)
   {
@@ -14,6 +15,7 @@ class rex_category_select extends rex_select
     $this->check_perms = $check_perms;
     $this->add_homepage = $add_homepage;
     $this->rootId = null;
+    $this->loaded = false;
 
     parent::__construct();
   }
@@ -106,12 +108,10 @@ class rex_category_select extends rex_select
 
   public function get()
   {
-    static $loaded = false;
-
-    if(!$loaded)
+    if(!$this->loaded)
     {
       $this->addCatOptions();
-      $loaded = true;
+      $this->loaded = true;
     }
 
     return parent::get();
