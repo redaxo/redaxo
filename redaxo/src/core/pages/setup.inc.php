@@ -250,8 +250,7 @@ if ($checkmodus == '0.5')
 	echo rex_i18n::msg('setup_005_1', '<h3 class="rex-hl3">', '</h3>', ' class="rex-ul1"');
 	echo '<div class="rex-area-scroll">';
 
-	$Basedir = dirname(__FILE__);
-	$license_file = $Basedir.'/../../../../../_lizenz.txt';
+	$license_file = rex_path::base('_lizenz.txt');
 	$license = '<p class="rex-tx1">'.nl2br(rex_file::get($license_file)).'</p>';
 
 	echo $license;
