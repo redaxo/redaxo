@@ -446,6 +446,13 @@ if($checkmodus == 2)
 		echo rex_warning($err_msg);
 	}
 
+	$timezone_sel = new rex_select;
+	$timezone_sel->setId('timezone');
+	$timezone_sel->setName('timezone');
+	$timezone_sel->setSize(1);
+	$timezone_sel->addOptions(DateTimeZone::listIdentifiers(), true);
+	$timezone_sel->setSelected($config['timezone']);
+
 	echo '
           <legend>'.rex_i18n::msg("setup_0201").'</legend>
 
@@ -474,8 +481,7 @@ if($checkmodus == 2)
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="timezone">'.rex_i18n::msg("setup_timezone").'</label>
-                <input class="rex-form-text" type="text" id="timezone" name="timezone" value="'.$config['timezone'].'" />
-                <span class="rex-form-notice">see <a href="http://php.net/timezones">http://php.net/timezones</a></span>
+                '. $timezone_sel->get() .'
               </p>
             </div>
         </div>
