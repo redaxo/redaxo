@@ -17,15 +17,13 @@ class rex_path
   static private
     $relBase,
     $absBase,
-    $backend,
-    $version;
+    $backend;
 
-  static public function init($htdocs, $backend, $version)
+  static public function init($htdocs, $backend)
   {
     self::$relBase = $htdocs;
     self::$absBase = realpath($htdocs) .'/';
     self::$backend = $backend;
-    self::$version = $version;
   }
 
   /**
@@ -137,21 +135,11 @@ class rex_path
   }
 
   /**
-   * Returns the path to the active version folder.
-   *
-   * There might be several version folders, but only one active.
-   */
-  static public function version($file = '')
-  {
-    return self::src(self::$version .'/'. $file);
-  }
-
-  /**
    * Returns the path to the actual core
    */
   static public function core($file = '')
   {
-    return self::version('core/'. $file);
+    return self::src('core/'. $file);
   }
 
   /**
@@ -159,7 +147,7 @@ class rex_path
    */
   static public function addon($addon, $file = '')
   {
-    return self::version('addons/'. $addon .'/'. $file);
+    return self::src('addons/'. $addon .'/'. $file);
   }
 
   /**

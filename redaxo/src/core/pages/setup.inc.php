@@ -108,15 +108,15 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
       // echo "install ". $packageRepresentation."<br />";
   	  $state = $manager->install($installDump);
   	}
-  	
+
     if($state !== true)
   	  $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
-  	
+
   	if($state === true && !$package->isActivated())
   	{
       // echo "activate ". $packageRepresentation."<br />";
   	  $state = $manager->activate();
-  	  
+
       if($state !== true)
     	  $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
   	}
@@ -359,7 +359,7 @@ elseif ($MSG['err'] != "")
 
 if($checkmodus == 2)
 {
-  $configFile = rex_path::src('config.yml');
+  $configFile = rex_path::data('config.yml');
 	$config = rex_file::getConfig($configFile);
 }
 
@@ -954,7 +954,7 @@ if ($checkmodus == 4)
 
 if ($checkmodus == 5)
 {
-	$configFile = rex_path::src('config.yml');
+	$configFile = rex_path::data('config.yml');
 	$config = rex_file::getConfig($configFile);
 	$config['setup'] = false;
 
