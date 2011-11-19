@@ -66,11 +66,7 @@ class rex_dir
    */
   static public function delete($dir, $deleteSelf = true)
   {
-    if(!is_dir($dir) || self::deleteIterator(self::recursiveIterator($dir)) && (!$deleteSelf || rmdir($dir)))
-    {
-      return true;
-    }
-    return false;
+    return !is_dir($dir) || self::deleteIterator(self::recursiveIterator($dir)) && (!$deleteSelf || rmdir($dir));
   }
 
   /**
