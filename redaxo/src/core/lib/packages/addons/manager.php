@@ -51,30 +51,18 @@ class rex_addon_manager extends rex_package_manager
     foreach(rex_addon::getAvailableAddons() as $addonName => $addon)
     {
       $requirements = $addon->getProperty('requires', array());
-      if(isset($requirements['addons']) && is_array($requirements['addons']))
+      if(isset($requirements['addons'][$this->package->getName()]))
       {
-        foreach($requirements['addons'] as $depName => $depAttr)
-        {
-          if($depName == $this->package->getName())
-          {
-            $state[] = rex_i18n::msg($i18nPrefix .'addon', $addonName);
-          }
-        }
+        $state[] = rex_i18n::msg($i18nPrefix .'addon', $addonName);
       }
 
       // check if another Plugin which is installed, depends on the addon being un-installed
       foreach($addon->getAvailablePlugins() as $pluginName => $plugin)
       {
         $requirements = $plugin->getProperty('requires', array());
-        if(isset($requirements['addons']) && is_array($requirements['addons']))
+        if(isset($requirements['addons'][$this->package->getName()]))
         {
-          foreach($requirements['addons'] as $depName => $depAttr)
-          {
-            if($depName == $this->package->getName())
-            {
-              $state[] = rex_i18n::msg($i18nPrefix .'plugin', $addonName, $pluginName);
-            }
-          }
+          $state[] = rex_i18n::msg($i18nPrefix .'plugin', $addonName, $pluginName);
         }
       }
     }
