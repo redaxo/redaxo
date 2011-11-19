@@ -452,6 +452,8 @@ if($checkmodus == 2)
 	$timezone_sel->addOptions(DateTimeZone::listIdentifiers(), true);
 	$timezone_sel->setSelected($config['timezone']);
 
+	$db_create_checked = rex_post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
+
 	echo '
           <legend>'.rex_i18n::msg("setup_0201").'</legend>
 
@@ -520,7 +522,7 @@ if($checkmodus == 2)
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-checkbox">
                 <label for="redaxo_db_create">'.rex_i18n::msg("setup_create_db").'</label>
-                <input class="rex-form-checkbox" type="checkbox" id="redaxo_db_create" name="redaxo_db_create" value="1" />
+                <input class="rex-form-checkbox" type="checkbox" id="redaxo_db_create" name="redaxo_db_create" value="1"'. $db_create_checked .' />
               </p>
             </div>
           </div>
