@@ -16,10 +16,16 @@ class rex_dir
    */
   static public function create($dir, $recursive = true)
   {
-    if(is_dir($dir) || mkdir($dir, rex::getDirPerm(), $recursive))
-    {
-      chmod($dir, rex::getDirPerm());
+    if(is_dir($dir))
       return true;
+
+    $parent = dirname($dir);
+    if(!is_dir($parent) && (!$recursive || !self::create($parent)))
+      return false;
+
+    if(is_executable($parent) && mkdir($dir, rex::getDirPerm()))
+    {
+      return chmod($dir, rex::getDirPerm());
     }
 
     return false;
@@ -34,12 +40,15 @@ class rex_dir
    */
   static public function copy($srcdir, $dstdir)
   {
-    $state = TRUE;
-
     $srcdir = rtrim($srcdir, DIRECTORY_SEPARATOR);
     $dstdir = rtrim($dstdir, DIRECTORY_SEPARATOR);
 
-    self::create($dstdir);
+    if(!self::create($dstdir))
+    {
+      return false;
+    }
+
+    $state = TRUE;
 
     foreach(self::recursiveIterator($srcdir, rex_dir_recursive_iterator::SELF_FIRST) as $srcfile)
     {
