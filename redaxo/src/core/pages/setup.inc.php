@@ -762,14 +762,16 @@ if ($checkmodus == 3)
       <input class="rex-form-radio" type="radio" id="dbanlegen_2" name="dbanlegen" value="2"'.$dbchecked[2] .' />
       <label for="dbanlegen_2">'.rex_i18n::msg('setup_036').'</label>
     </p>
-  </div>
+  </div>';
 
+	/*
 	<div class="rex-form-row">
 		<p class="rex-form-col-a rex-form-radio rex-form-label-right">
       <input class="rex-form-radio" type="radio" id="dbanlegen_4" name="dbanlegen" value="4"'.$dbchecked[4] .' />
       <label for="dbanlegen_4">'.rex_i18n::msg('setup_038').'</label>
     </p>
   </div>';
+  */
 
 	if($exports_found)
 	{
