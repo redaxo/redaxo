@@ -1,3 +1,8 @@
 version: '1.3'
 author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
+
+requires:
+  addons:
+    modules:
+      min-version: '1.3'
