@@ -179,7 +179,7 @@ class rex_article_service
 
     $EA = rex_sql::factory();
     $EA->setTable(rex::getTablePrefix()."article");
-    $EA->setWhere("id='$article_id' and clang=$clang");
+    $EA->setWhere(array('id' => $article_id, 'clang'=> $clang));
     $EA->setValue('name', $data['name']);
     $EA->setValue('template_id', $data['template_id']);
     $EA->setValue('prior', $data['prior']);
@@ -370,7 +370,7 @@ class rex_article_service
 
       $EA = rex_sql::factory();
       $EA->setTable(rex::getTablePrefix()."article");
-      $EA->setWhere("id='$article_id' and clang=$clang");
+      $EA->setWhere(array('id' => $article_id, 'clang' => $clang));
       $EA->setValue('status', $newstatus);
       $EA->addGlobalUpdateFields(rex::isBackend() ? null : 'frontend');
 
@@ -488,7 +488,7 @@ class rex_article_service
   
       // artikel updaten
       $sql->setTable(rex::getTablePrefix()."article");
-      $sql->setWhere("id=$art_id and clang=". $clang);
+      $sql->setWhere(array('id' => $art_id, 'clang' => $clang));
       $sql->setValue('startpage', 1);
       $sql->setValue('catname', $sql->getValue('name'));
       $sql->setValue('catprior', 100);
@@ -538,7 +538,7 @@ class rex_article_service
   
       // artikel updaten
       $sql->setTable(rex::getTablePrefix()."article");
-      $sql->setWhere("id=$art_id and clang=". $clang);
+      $sql->setWhere(array('id' => $art_id, 'clang' => $clang));
       $sql->setValue('startpage', 0);
       $sql->setValue('prior', 100);
       $sql->update();
@@ -609,13 +609,13 @@ class rex_article_service
       // alter startartikel updaten
       $alt2 = rex_sql::factory();
       $alt2->setTable(rex::getTablePrefix()."article");
-      $alt2->setWhere("id=$alt_id and clang=". $clang);
+      $alt2->setWhere(array('id' => $alt_id, 'clang' => $clang));
       $alt2->setValue("re_id",$neu_id);
   
       // neuer startartikel updaten
       $neu2 = rex_sql::factory();
       $neu2->setTable(rex::getTablePrefix()."article");
-      $neu2->setWhere("id=$neu_id and clang=". $clang);
+      $neu2->setWhere(array('id' => $neu_id, 'clang' => $clang));
       $neu2->setValue("re_id",$alt->getValue("re_id"));
   
       // austauschen der definierten paramater
@@ -640,7 +640,7 @@ class rex_article_service
       $ipath = str_replace("|$alt_id|","|$neu_id|",$articles->getValue("path"));
   
       $ia->setTable(rex::getTablePrefix()."article");
-      $ia->setWhere('id='.$iid);
+      $ia->setWhere(array('id' => $iid));
       $ia->setValue("path",$ipath);
       if ($articles->getValue("re_id")==$alt_id) $ia->setValue("re_id",$neu_id);
       $ia->update();
