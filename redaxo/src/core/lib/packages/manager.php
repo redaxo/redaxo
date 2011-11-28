@@ -79,20 +79,20 @@ abstract class rex_package_manager extends rex_factory
     $install_sql  = $install_dir . self::INSTALL_SQL;
     $config_file  = $install_dir . self::CONFIG_FILE;
     $files_dir    = $install_dir . self::ASSETS_FOLDER;
-    
+
     try {
       // Pruefen des Addon Ornders auf Schreibrechte,
       // damit das Addon spaeter wieder geloescht werden kann
       $state = rex_is_writable($install_dir);
-  
+
       if ($state === TRUE)
       {
         // load package infos
         self::loadPackageInfos($this->package);
-  
+
         // check if requirements are met
         $state = $this->checkRequirements();
-        
+
         if($state === TRUE)
         {
           // check if install.inc.php exists
@@ -104,17 +104,17 @@ abstract class rex_package_manager extends rex_factory
           else
           {
             // no install file -> no error
-            $this->package->setProperty('install', 1);
+            $this->package->setProperty('install', true);
           }
-  
+
           if($state === TRUE && $installDump === TRUE && is_readable($install_sql))
           {
             $state = rex_sql_dump::import($install_sql);
-  
+
             if($state !== TRUE)
               $state = 'Error found in install.sql:<br />'. $state;
           }
-  
+
           // Installation ok
           if ($state === TRUE)
           {
@@ -122,7 +122,7 @@ abstract class rex_package_manager extends rex_factory
           }
         }
       }
-  
+
       // Dateien kopieren
       if($state === TRUE && is_dir($files_dir))
       {
@@ -140,7 +140,7 @@ abstract class rex_package_manager extends rex_factory
 
     if($state !== TRUE)
     {
-      $this->package->setProperty('install', 0);
+      $this->package->setProperty('install', false);
       $state = $this->I18N('no_install', $this->package->getName()) .'<br />'. $state;
     }
 
@@ -153,7 +153,7 @@ abstract class rex_package_manager extends rex_factory
    * Uninstalls a package
    *
    * @param $installDump When TRUE, the sql dump will be importet
-   * 
+   *
    * @return boolean TRUE on success, FALSE on error
    */
   public function uninstall($installDump = TRUE)
@@ -187,18 +187,18 @@ abstract class rex_package_manager extends rex_factory
         else
         {
           // no uninstall file -> no error
-          $this->package->setProperty('install', 0);
+          $this->package->setProperty('install', false);
         }
       }
-  
+
       if($state === TRUE && $installDump === TRUE && is_readable($uninstall_sql))
       {
         $state = rex_sql_dump::import($uninstall_sql);
-  
+
         if($state !== TRUE)
           $state = 'Error found in uninstall.sql:<br />'. $state;
       }
-  
+
       $mediaFolder = $this->package->getAssetsPath('', rex_path::ABSOLUTE);
       if($state === TRUE && is_dir($mediaFolder))
       {
@@ -207,26 +207,26 @@ abstract class rex_package_manager extends rex_factory
           $state = $this->I18N('install_cant_delete_files');
         }
       }
-  
+
       if($state === TRUE)
       {
         rex_config::removeNamespace($this->package->getPackageId());
       }
-  
+
     }
     // addon-code which will be included might throw exception
     catch (Exception $e)
     {
       $state = $e->getMessage();
     }
-    
+
     if($state !== TRUE)
     {
       // Fehler beim uninstall -> Addon bleibt installiert
-      $this->package->setProperty('install', 1);
+      $this->package->setProperty('install', true);
       if($isActivated)
       {
-        $this->package->setProperty('status', 1);
+        $this->package->setProperty('status', true);
       }
       $this->saveConfig();
       $state = $this->I18N('no_uninstall', $this->package->getName()) .'<br />'. $state;
@@ -235,7 +235,7 @@ abstract class rex_package_manager extends rex_factory
     {
       $this->saveConfig();
     }
-    
+
     $this->message = $state === TRUE ? $this->I18N('uninstalled', $this->package->getName()) : $state;
 
     return $state === TRUE;
@@ -254,12 +254,12 @@ abstract class rex_package_manager extends rex_factory
       {
         // load package infos
         self::loadPackageInfos($this->package);
-  
+
         $state = $this->checkRequirements();
-  
+
         if ($state === TRUE)
         {
-          $this->package->setProperty('status', 1);
+          $this->package->setProperty('status', true);
           if(!rex::isSetup())
           {
             if(is_readable($this->package->getBasePath(self::CONFIG_FILE)))
@@ -285,11 +285,11 @@ abstract class rex_package_manager extends rex_factory
     {
       $state = $e->getMessage();
     }
-      
+
     if($state !== TRUE)
     {
       // error while config generation, rollback addon status
-      $this->package->setProperty('status', 0);
+      $this->package->setProperty('status', false);
       $state = $this->I18N('no_activation', $this->package->getName()) .'<br />'. $state;
     }
 
@@ -308,19 +308,19 @@ abstract class rex_package_manager extends rex_factory
     try
     {
       $state = $this->checkDependencies();
-  
+
       if ($state === TRUE)
       {
-        $this->package->setProperty('status', 0);
+        $this->package->setProperty('status', false);
         $this->saveConfig();
       }
-  
+
       if($state === TRUE)
       {
         // reload autoload cache when addon is deactivated,
         // so the index doesn't contain outdated class definitions
         rex_autoload::removeCache();
-  
+
         $this->removeFromPackageOrder();
       }
       else
@@ -333,7 +333,7 @@ abstract class rex_package_manager extends rex_factory
     {
       $state = $e->getMessage();
     }
-      
+
     $this->message = $state === TRUE ? $this->I18N('deactivated', $this->package->getName()) : $state;
 
     return $state === TRUE;
@@ -362,7 +362,7 @@ abstract class rex_package_manager extends rex_factory
     {
       if(!$ignoreState && $this->package->isSystemPackage())
         return $this->I18N('systempackage_delete_not_allowed');
-  
+
       // zuerst deinstallieren
       // bei erfolg, komplett löschen
       $state = TRUE;
