@@ -13,28 +13,45 @@ class rex_addon_manager extends rex_package_manager
   }
 
   /* (non-PHPdoc)
-   * @see rex_package_manager::checkRequirements()
+   * @see rex_package_manager::activate()
    */
-  protected function checkRequirements()
+  public function activate()
   {
-    $state = parent::checkRequirements();
+    $state = parent::activate();
 
     if($state !== true)
       return $state;
 
-    foreach($this->package->getRegisteredPlugins() as $plugin)
+    $plugins = new SplObjectStorage();
+
+    foreach($this->package->getAvailablePlugins() as $plugin)
     {
-      // do not use isAvailable() here, because parent addon isn't activated
-      if($plugin->getProperty('status', false))
+      $plugins[$plugin] = rex_plugin_manager::factory($plugin);
+      rex_plugin_manager::loadPackageInfos($plugin);
+    }
+
+    $deactivate = array();
+    $finished = false;
+    while(!$finished && !empty($plugins))
+    {
+      $finished = true;
+      foreach($plugins as $plugin)
       {
-        $pluginManager = rex_plugin_manager::factory($plugin);
-        self::loadPackageInfos($plugin);
+        $pluginManager = $plugins[$plugin];
         $return = $pluginManager->checkRequirements();
         if(is_string($return) && !empty($return))
         {
-          $pluginManager->deactivate();
+          $plugin->setProperty('status', false);
+          $deactivate[] = $pluginManager;
+          $finished = false;
+          unset($plugins[$plugin]);
         }
       }
+    }
+
+    foreach(array_reverse($deactivate) as $pluginManager)
+    {
+      $pluginManager->deactivate();
     }
 
     return $state;
