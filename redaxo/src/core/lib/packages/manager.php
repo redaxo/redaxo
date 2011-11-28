@@ -444,15 +444,20 @@ abstract class rex_package_manager extends rex_factory
       }
     }
 
-    if(isset($requirements['php-extensions']) && is_array($requirements['php-extensions']))
+    if(isset($requirements['php']) && is_array($requirements['php']))
     {
-      foreach($requirements['php-extensions'] as $reqExt)
+      if(($msg = $this->checkRequirementVersion('php_', $requirements['php'], PHP_VERSION)) !== true)
       {
-        if(is_string($reqExt))
+        $state[] = $msg;
+      }
+      if(isset($requirements['php']['extensions']) && $requirements['php']['extensions'])
+      {
+        $extensions = (array) $requirements['php']['extensions'];
+        foreach($extensions as $reqExt)
         {
-          if(!extension_loaded($reqExt))
+          if(is_string($reqExt) && !extension_loaded($reqExt))
           {
-            $state[] = rex_i18n::msg('addon_requirement_error_php_extension', $reqExt);;
+            $state[] = rex_i18n::msg('addon_requirement_error_php_extension', $reqExt);
           }
         }
       }
