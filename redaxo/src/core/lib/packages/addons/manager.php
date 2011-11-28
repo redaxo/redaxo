@@ -50,6 +50,9 @@ class rex_addon_manager extends rex_package_manager
 
     foreach(rex_addon::getAvailableAddons() as $addonName => $addon)
     {
+      if($addon == $this->package)
+        continue;
+
       $requirements = $addon->getProperty('requires', array());
       if(isset($requirements['addons'][$this->package->getName()]))
       {
