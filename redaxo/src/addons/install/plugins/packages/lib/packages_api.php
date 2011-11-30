@@ -13,7 +13,10 @@ class rex_api_install_packages_download extends rex_api_install_packages_base
 
   protected function doAction()
   {
-    $this->extractArchiveTo(rex_path::addon($this->addonkey));
+    if(($msg = $this->extractArchiveTo(rex_path::addon($this->addonkey))) !== true)
+    {
+      return $msg;
+    }
     rex_package_manager::synchronizeWithFileSystem();
   }
 }
@@ -175,9 +178,9 @@ abstract class rex_api_install_packages_base extends rex_api_function
       {
         $message = rex_i18n::msg('install_packages_warning_zip_wrong_format');
       }
-      else
+      elseif(is_string($msg = $this->doAction()))
       {
-        $message = $this->doAction();
+        $message = $msg;
       }
       rex_file::delete($archivefile);
     }
