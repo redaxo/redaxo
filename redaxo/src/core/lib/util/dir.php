@@ -23,7 +23,7 @@ class rex_dir
     if(!is_dir($parent) && (!$recursive || !self::create($parent)))
       return false;
 
-    if(is_writable($parent) && is_executable($parent) && mkdir($dir, rex::getDirPerm()))
+    if(is_writable($parent) && file_exists($parent .'/.') && mkdir($dir, rex::getDirPerm()))
     {
       return chmod($dir, rex::getDirPerm());
     }

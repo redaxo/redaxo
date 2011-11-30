@@ -106,7 +106,7 @@ class rex_file
         $dstfile = rtrim($dstfile, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . basename($srcfile);
       }
 
-      if(is_executable(dirname($dstfile)) && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile))
+      if(file_exists(dirname($dstfile) .'/.') && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile))
       {
         touch($dstfile, filemtime($srcfile));
         chmod($dstfile, rex::getFilePerm());
