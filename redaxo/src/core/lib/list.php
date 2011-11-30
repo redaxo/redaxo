@@ -623,7 +623,7 @@ class rex_list extends rex_factory implements rex_url_provider
     {
       if(is_array($value))
       {
-      	foreach($value as $v)
+        foreach($value as $v)
       	{
           $paramString .= '&'. $name .'='. $v;
       	}
@@ -669,9 +669,9 @@ class rex_list extends rex_factory implements rex_url_provider
       $sortType = $this->getSortType();
 
       if(strpos(strtoupper($query), ' ORDER BY ') === false)
-        $query .= ' ORDER BY '. $sortColumn .' '. $sortType;
+        $query .= ' ORDER BY `'. $sortColumn .'` '. $sortType;
       else
-        $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY '. $sortColumn .' '. $sortType, $query);
+        $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY `'. $sortColumn .'` '. $sortType, $query);
     }
 
     if(strpos(strtoupper($query), ' LIMIT ') === false)
@@ -956,7 +956,7 @@ class rex_list extends rex_factory implements rex_url_provider
       if($this->hasColumnOption($columnName, REX_LIST_OPT_SORT))
       {
         $columnSortType = $columnName == $sortColumn && $sortType == 'desc' ? 'asc' : 'desc';
-        $columnHead = '<a href="'. $this->getUrl(array('start' => $this->getStartRow(),'sort' => $columnName, 'sorttype' => $columnSortType)) .'">'. $columnHead .'</a>';
+        $columnHead = '<a href="'. $this->getUrl(array('start' => $this->pager->getCursor(),'sort' => $columnName, 'sorttype' => $columnSortType)) .'">'. $columnHead .'</a>';
       }
 
       $layout = $this->getColumnLayout($columnName);

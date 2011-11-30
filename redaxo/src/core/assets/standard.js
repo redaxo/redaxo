@@ -472,7 +472,7 @@ jQuery(function($){
     time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
     setCookie('htaccess_check', '1', time.toGMTString());
     checkHtaccess('cache', '_readme.txt');
-    checkHtaccess('data', '_readme.txt');
+    checkHtaccess('data', 'config.yml');
     checkHtaccess('src', 'core/master.inc.php');
   }
   

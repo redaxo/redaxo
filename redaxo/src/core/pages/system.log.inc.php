@@ -37,8 +37,23 @@ if ($func == 'delLog')
 
   echo '<html><head></head><body>';
 
-  // use rex_response::sendFile() (would load entire file in the php-memory!) ?
-  readfile($logFile);
+  // log files tend to get very big over time. therefore we read only the last n lines
+  $n = 500;
+  $fp = fopen($logFile, 'r');
+  if($fp)
+  {
+    // go backwards from the end of the file
+    // a line in the logfile has round about 500 chars
+    fseek($fp, -1 * $n * 500, SEEK_END);
+    // find the next beginning of a line
+    fgets($fp);
+    // stream all remaining lines
+    while(($buf = fgets($fp)) !== false)
+    {
+      echo $buf;
+    }
+    fclose($fp);
+  }
 
   echo '
     <span id="endmarker" />

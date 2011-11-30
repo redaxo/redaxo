@@ -82,7 +82,7 @@ class rex_var_value extends rex_var
     return $content;
   }
 
-  public function getOutput(rex_sql $sql, $content, $nl2br = false)
+  private function getOutput(rex_sql $sql, $content, $nl2br = false)
   {
     $content = $this->matchValue($sql, $content, $nl2br);
     $content = $this->matchHtmlValue($sql, $content);

@@ -196,7 +196,7 @@ class rex_category_service
         for($i = 0; $i < $ArtSql->getRows(); $i++)
         {
           $EART->setTable(rex::getTablePrefix().'article');
-          $EART->setWhere('id='. $ArtSql->getValue('id') .' AND startpage=0 AND clang='.$clang);
+          $EART->setWhere(array( 'id' => $ArtSql->getValue('id'), 'startpage' => '0', 'clang' => $clang));
           $EART->setValue('catname', $data['catname']);
           $EART->addGlobalUpdateFields();
 
@@ -346,7 +346,7 @@ class rex_category_service
 
       $EKAT = rex_sql::factory();
       $EKAT->setTable(rex::getTablePrefix().'article');
-      $EKAT->setWhere("id='$category_id' and clang=$clang and startpage=1");
+      $EKAT->setWhere(array('id' => $category_id,  'clang' => $clang, 'startpage' => 1));
       $EKAT->setValue("status", $newstatus);
       $EKAT->addGlobalCreateFields();
 
