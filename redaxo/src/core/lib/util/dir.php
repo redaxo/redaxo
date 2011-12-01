@@ -23,6 +23,8 @@ class rex_dir
     if(!is_dir($parent) && (!$recursive || !self::create($parent)))
       return false;
 
+    // file_exists($parent .'/.') checks if the parent directory has the executable permission
+    // is_executable($directory) does not work on all systems
     if(is_writable($parent) && file_exists($parent .'/.') && mkdir($dir, rex::getDirPerm()))
     {
       return chmod($dir, rex::getDirPerm());

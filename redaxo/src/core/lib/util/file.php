@@ -106,6 +106,8 @@ class rex_file
         $dstfile = rtrim($dstfile, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . basename($srcfile);
       }
 
+      // file_exists(dirname($dstfile) .'/.') checks if the parent directory has the executable permission
+      // is_executable($directory) does not work on all systems
       if(file_exists(dirname($dstfile) .'/.') && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile))
       {
         touch($dstfile, filemtime($srcfile));

@@ -83,7 +83,6 @@ interface rex_package_interface
    *
    * @param string $key Key of the property
    * @param mixed $default Default value, will be returned if the property isn't set
-   *
    * @return mixed
    */
   public function getProperty($key, $default = null);
@@ -92,7 +91,6 @@ interface rex_package_interface
    * Returns if a property is set
    *
    * @param string $key Key of the property
-   *
    * @return boolean
    */
   public function hasProperty($key);
@@ -145,7 +143,6 @@ interface rex_package_interface
    * Returns the version
    *
    * @param mixed $default Default value, will be returned if the property isn't set
-   *
    * @return mixed
    */
   public function getVersion($default = null);
@@ -154,7 +151,6 @@ interface rex_package_interface
    * Returns the supportpage
    *
    * @param mixed $default Default value, will be returned if the property isn't set
-   *
    * @return mixed
    */
   public function getSupportPage($default = null);
@@ -165,4 +161,12 @@ interface rex_package_interface
    * @param string $file Filename
    */
   public function includeFile($file);
+
+  /**
+   * Adds the package prefix to the given key and returns the translation for it
+   *
+   * @param string $key Key
+   * @return string Translation for the key
+   */
+  public function i18n($key);
 }

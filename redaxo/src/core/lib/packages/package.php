@@ -221,4 +221,18 @@ abstract class rex_package implements rex_package_interface
   {
     include $this->getBasePath($file);
   }
+
+  /* (non-PHPdoc)
+   * @see rex_package_interface::i18n()
+   */
+  public function i18n($key)
+  {
+    $args = func_get_args();
+    $key = str_replace('/', '_', $this->getPackageId()) .'_'. $key;
+    if(rex_i18n::hasMsg($key))
+    {
+      $args[0] = $key;
+    }
+    return call_user_func_array('rex_i18n::msg', $args);
+  }
 }
