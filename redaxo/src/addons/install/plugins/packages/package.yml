@@ -7,3 +7,4 @@ subpages:
   - ['', 'translate:install_packages_subpage_update']
   - [add, 'translate:install_packages_subpage_add']
   - [upload, 'translate:install_packages_subpage_upload']
+  - [settings, 'translate:install_packages_subpage_settings']
