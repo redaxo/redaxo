@@ -29,7 +29,6 @@ install_packages_info_addon_downloaded = AddOn "{0}" wurde heruntergeladen!
 install_packages_warning_not_downloaded = AddOn "{0}" konnte aus folgendem Grund nicht heruntergeladen werden:
 install_packages_info_addon_updated = AddOn "{0}" wurde aktualisiert!
 install_packages_warning_not_updated = AddOn "{0}" konnte aus folgendem Grund nicht aktualisiert werden:
-install_packages_warning_zip_not_found = Die Zip-Datei ist nicht erreichbar!
 install_packages_warning_zip_wrong_format = Die Zip-Datei ist nicht im erforderlichen Format!
 install_packages_warning_zip_not_extracted = Die Zip-Datei konnte nicht in das AddOn-Verzeichnis entpackt werden!
 

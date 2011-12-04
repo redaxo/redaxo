@@ -14,12 +14,15 @@ abstract class rex_api_install_packages_base extends rex_api_function
     {
       return null;
     }
-    $archivefile = rex_install_webservice::getArchive(rex_request('file', 'string'));
-    if(!$archivefile)
+    try
     {
-      $message = rex_i18n::msg('install_packages_warning_zip_not_found');
+      $archivefile = rex_install_webservice::getArchive(rex_request('file', 'string'));
     }
-    else
+    catch(rex_exception $e)
+    {
+      $message = $e->getMessage();
+    }
+    if(!$message)
     {
       $this->archive = "phar://$archivefile/". $this->addonkey;
       if(!file_exists($this->archive))

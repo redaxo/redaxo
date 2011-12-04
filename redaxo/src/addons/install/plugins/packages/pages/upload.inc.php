@@ -1,8 +1,17 @@
 <?php
 
 $addonkey = rex_request('addonkey', 'string');
+$addons = array();
 
-$addons = rex_install_packages::getMyPackages();
+try
+{
+  $addons = rex_install_packages::getMyPackages();
+}
+catch(rex_exception $e)
+{
+  echo rex_warning($e->getMessage());
+  $addonkey = '';
+}
 
 if($addonkey)
 {

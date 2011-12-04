@@ -1,3 +1,7 @@
 # addon:install de_de
 
 install_name = Installer
+
+install_webservice_unreachable = Der Webservice ist zurzeit nicht erreibar!
+install_webservice_error = Der Webservice liefert folgende Fehlermeldung:
+install_archive_unreachable = Die Zip-Datei ist nicht erreibar!
