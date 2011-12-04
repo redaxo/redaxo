@@ -18,7 +18,7 @@ class rex_install_webservice
       return $cache;
     }
     $fullpath = strpos($path, '?') === false ? rtrim($path, '/') .'/?' : $path .'&';
-    $fullpath = self::PATH . $fullpath .'v='. rex::getProperty('version') .'.'. rex::getProperty('subversion');
+    $fullpath = self::PATH . $fullpath .'v='. rex::getVersion();
 
     $data = array();
     try
