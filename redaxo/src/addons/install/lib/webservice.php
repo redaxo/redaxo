@@ -64,9 +64,13 @@ class rex_install_webservice
   {
     if(self::$cache === null)
     {
-      self::$cache = (array) rex_file::getCache(rex_path::cache('install/webservice.cache'));
+      foreach((array) rex_file::getCache(rex_path::cache('install/webservice.cache')) as $p => $cache)
+      {
+        if($cache['stamp'] > time() - self::REFRESH_CACHE)
+          self::$cache[$p] = $cache;
+      }
     }
-    if(isset(self::$cache[$path]) && self::$cache[$path]['stamp'] > time() - self::REFRESH_CACHE)
+    if(isset(self::$cache[$path]))
     {
       return self::$cache[$path]['data'];
     }
