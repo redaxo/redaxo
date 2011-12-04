@@ -50,4 +50,49 @@ class rex_rex_test extends PHPUnit_Framework_TestCase
     $this->assertNull(rex::getProperty($key), 'getting non existing key returns null');
     $this->assertEquals(rex::getProperty($key, 'defVal'), 'defVal', 'getting non existing key returns a given default');
   }
+  
+  public function testIsSetup()
+  {
+    $this->assertFalse(rex::isSetup(), 'test run not within the setup');
+    // TODO find more appropriate tests
+  }
+  
+  public function testIsBackend()
+  {
+    $this->assertTrue(rex::isBackend(), 'test run in the backend');
+    // TODO find more appropriate tests
+  }
+  
+  public function testGetTablePrefix()
+  {
+    $this->assertEquals(rex::getTablePrefix(), 'rex_', 'table prefix defauts to rex_');
+  }
+  
+  public function testGetTable()
+  {
+    $this->assertEquals(rex::getTable('mytable'), 'rex_mytable', 'tablename gets properly prefixed');
+  }
+  
+  public function testGetTempPrefix()
+  {
+    $this->assertEquals(rex::getTempPrefix(), 'tmp_', 'temp prefix defaults to tmp_');
+  }
+  
+  public function testGetUser()
+  {
+    $this->assertNotNull(rex::getUser(), 'user is not null');
+    $this->assertInstanceOf('rex_user', rex::getUser(), 'returns a user of correct class');
+  }
+  
+  public function testGetVersion()
+  {
+    $this->assertTrue(rex::getVersion() != '', 'a version string is returned');
+    $vers = rex::getVersion();
+    $versParts = explode('.', $vers);
+    $this->assertTrue($versParts[0] == 5, 'the major version is 5');
+    
+    $vers = rex::getVersion('_');
+    $versParts = explode('_', $vers);
+    $this->assertTrue($versParts[0] == 5, 'the major version with different separator is 5');
+  }
 }
