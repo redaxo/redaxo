@@ -33,12 +33,10 @@ echo '
             </p>
           </div>
   				<div class="rex-form-row">
-             <p class="rex-form-col-a">
-         				<p class="rex-form-col-a rex-form-submit rex-form-submit-2">
-         					<input id="install-packages-settings-save" type="submit" name="settings[save]" class="rex-form-submit" value="'. rex_i18n::msg('form_save') .'" />
-								</p>
-        			</p>
-           </div>
+     				<p class="rex-form-col-a rex-form-submit rex-form-submit-2">
+     					<input id="install-packages-settings-save" type="submit" name="settings[save]" class="rex-form-submit" value="'. rex_i18n::msg('form_save') .'" />
+						</p>
+          </div>
   			</div>
   		</fieldset>
   	</form>

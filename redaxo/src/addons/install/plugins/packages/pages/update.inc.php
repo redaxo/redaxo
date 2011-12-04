@@ -36,7 +36,7 @@ if($addonkey)
   			<th colspan="4">'. $this->i18n('files') .'</th>
   		</tr>
   		<tr>
-  			<th>'. $this->i18n('name') .'</th>
+  			<th class="rex-icon"></th>
   			<th>'. $this->i18n('version') .'</th>
   			<th>'. $this->i18n('description') .'</th>
   			<th></th>
@@ -46,7 +46,7 @@ if($addonkey)
   {
     echo '
       <tr>
-      	<td>'. $file['name'] .'</td>
+        <td class="rex-icon"><span class="rex-i-element rex-i-generic"><span class="rex-i-element-in">'. $file['filename'] .'</span></span></td>
       	<td>'. $file['version'] .'</td>
       	<td>'. nl2br($file['description']) .'</td>
       	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_update&amp;file='. $file['filename'] .'&amp;version='. $file['version'] .'">'. $this->i18n('update') .'</a></td>
@@ -75,11 +75,11 @@ else
 
   foreach($addons as $key => $addon)
   {
-    $a = '<a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey='. $key .'">';
+    $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey='. $key .'">%s</a>';
     echo '
     	<tr>
-    		<td class="rex-icon">'. $a .'<span class="rex-i-element rex-i-addon"><span class="rex-i-element-in">'. $key .'</span></span></a></td>
-    		<td>'. $a . $key .'</a></td>
+    		<td class="rex-icon">'. sprintf($a, ' class="rex-i-element rex-i-addon"', '<span class="rex-i-element-text">'. $key .'</span>') .'</a></td>
+    		<td>'. sprintf($a, '', $key) .'</a></td>
     		<td>'. $addon['name'] .'</td>
     		<td>'. rex_addon::get($key)->getVersion() .'</td>
     		<td>'. implode(', ', $addon['available_versions']) .'</td>
