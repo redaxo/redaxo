@@ -1248,6 +1248,13 @@ class rex_sql extends rex_factory implements Iterator
         $login,
         $pw
       );
+      
+      // db connection was successfully established, but we were meant to create the db 
+      if($createDb)
+      {
+        // -> throw db already exists error
+        $err_msg = rex_i18n::msg('setup_022_1');
+      }
     }
     catch (PDOException $e)
     {
