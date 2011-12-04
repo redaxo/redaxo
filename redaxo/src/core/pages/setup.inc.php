@@ -251,7 +251,7 @@ if ($checkmodus == '0.5')
 	echo '<div class="rex-area-scroll">';
 
 	$Basedir = dirname(__FILE__);
-	$license_file = $Basedir.'/../../../../../_lizenz.txt';
+	$license_file = $Basedir.'/../../../../_license.txt';
 	$license = '<p class="rex-tx1">'.nl2br(rex_file::get($license_file)).'</p>';
 
 	echo $license;
