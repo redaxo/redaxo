@@ -98,7 +98,7 @@ class rex
   /**
    * Removes a property
    *
-   * @param unknown_type $key Key of the property
+   * @param string $key Key of the property
    */
   static public function removeProperty($key)
   {
