@@ -45,4 +45,15 @@ class rex_install_packages
     }
     return $addons;
   }
+
+  static public function getMyPackages()
+  {
+    $addons = rex_install_webservice::getJson('addons');
+    foreach($addons as $key => $addon)
+    {
+      if(!$addon['mine'] || !rex_addon::exists($key))
+        unset($addons[$key]);
+    }
+    return $addons;
+  }
 }

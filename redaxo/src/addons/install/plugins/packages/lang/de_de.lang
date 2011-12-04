@@ -16,6 +16,14 @@ install_packages_update = Update
 install_packages_download = Download
 install_packages_addons_found = {0} AddOns gefunden
 install_packages_available_updates = {0} Updates verfügbar
+install_packages_my_packages = Meine Packages
+install_packages_status = Status
+install_packages_online = online
+install_packages_offline = offline
+install_packages_file_add = Datei hinzufügen
+install_packages_file_edit = Datei aktualisieren
+install_packages_send = Senden
+install_packages_upload_file = Zip-Datei erstellen und hochladen
 
 install_packages_info_addon_downloaded = AddOn "{0}" wurde heruntergeladen!
 install_packages_warning_not_downloaded = AddOn "{0}" konnte aus folgendem Grund nicht heruntergeladen werden:
