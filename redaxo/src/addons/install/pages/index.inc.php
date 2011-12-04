@@ -4,7 +4,7 @@ $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 $subsubpage = rex_request('subsubpage', 'string');
 
-rex_title(rex_i18n::msg('install_name'));
+rex_title($this->i18n('name'));
 
 if($subpage && $this->getPlugin($subpage)->isAvailable())
 {

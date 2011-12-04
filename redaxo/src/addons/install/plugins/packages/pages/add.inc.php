@@ -15,30 +15,30 @@ if($addonkey)
   	<h2 class="rex-hl2">'. $addonkey .'</h2>
   	<table class="rex-table">
   		<tr>
-  			<th>'. rex_i18n::msg('install_packages_name') .'</th>
+  			<th>'. $this->i18n('name') .'</th>
   			<td>'. $addon['name'] .'</td>
   		</tr>
   		<tr>
-  			<th>'. rex_i18n::msg('install_packages_author') .'</th>
+  			<th>'. $this->i18n('author') .'</th>
   			<td>'. $addon['author'] .'</td>
   		</tr>
   		<tr>
-  			<th>'. rex_i18n::msg('install_packages_shortdescription') .'</th>
+  			<th>'. $this->i18n('shortdescription') .'</th>
   			<td>'. nl2br($addon['shortdescription']) .'</td>
   		</tr>
   		<tr>
-  			<th>'. rex_i18n::msg('install_packages_description') .'</th>
+  			<th>'. $this->i18n('description') .'</th>
   			<td>'. nl2br($addon['description']) .'</td>
   		</tr>
   	</table>
   	<table class="rex-table">
   		<tr>
-  			<th colspan="4">'. rex_i18n::msg('install_packages_files') .'</th>
+  			<th colspan="4">'. $this->i18n('files') .'</th>
   		</tr>
   		<tr>
-  			<th>'. rex_i18n::msg('install_packages_name') .'</th>
-  			<th>'. rex_i18n::msg('install_packages_version') .'</th>
-  			<th>'. rex_i18n::msg('install_packages_description') .'</th>
+  			<th>'. $this->i18n('name') .'</th>
+  			<th>'. $this->i18n('version') .'</th>
+  			<th>'. $this->i18n('description') .'</th>
   			<th></th>
   		</tr>';
 
@@ -49,7 +49,7 @@ if($addonkey)
       	<td>'. $file['name'] .'</td>
       	<td>'. $file['version'] .'</td>
       	<td>'. nl2br($file['description']) .'</td>
-      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_download&amp;file='. $file['filename'] .'">'. rex_i18n::msg('install_packages_download') .'</a></td>
+      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_download&amp;file='. $file['filename'] .'">'. $this->i18n('download') .'</a></td>
       </tr>';
   }
 
@@ -63,14 +63,14 @@ else
 
   echo '
   <div class="rex-area">
-  	<h2 class="rex-hl2">'. rex_i18n::msg('install_packages_addons_found', count($addons)) .'</h2>
+  	<h2 class="rex-hl2">'. $this->i18n('addons_found', count($addons)) .'</h2>
   	<table class="rex-table">
   		<tr>
   			<th class="rex-icon"></th>
-  			<th>'. rex_i18n::msg('install_packages_key') .'</th>
-  			<th>'. rex_i18n::msg('install_packages_name') .'</th>
-  			<th>'. rex_i18n::msg('install_packages_author') .'</th>
-  			<th>'. rex_i18n::msg('install_packages_shortdescription') .'</th>
+  			<th>'. $this->i18n('key') .'</th>
+  			<th>'. $this->i18n('name') .'</th>
+  			<th>'. $this->i18n('author') .'</th>
+  			<th>'. $this->i18n('shortdescription') .'</th>
   		</tr>';
 
   foreach($addons as $key => $addon)
