@@ -60,7 +60,7 @@ class rex_install_packages
   static private function getAddons()
   {
     $plugin = rex_plugin::get('install', 'packages');
-    $path = 'addons/';
+    $path = 'packages/get/';
     $login = $plugin->getConfig('api_login');
     if($login)
     {

@@ -3,10 +3,10 @@
 class rex_install_webservice
 {
   const
-    HOST = 'meyerharlan.de',
-    PORT = 80,
-    PATH = '/rex-webservice/',
-    FILES = '/rex-webservice/files/',
+    HOST = 'www.redaxo.org',
+    PORT = 443,
+    PREFIX = 'ssl://',
+    PATH = '/de/ws/',
     REFRESH_CACHE = 600;
 
   static private $cache;
@@ -18,12 +18,12 @@ class rex_install_webservice
       return $cache;
     }
     $fullpath = strpos($path, '?') === false ? rtrim($path, '/') .'/?' : $path .'&';
-    $fullpath = self::PATH . $fullpath .'v='. rex::getVersion();
+    $fullpath = self::PATH . $fullpath .'rex_version='. rex::getVersion();
 
     $data = null;
     try
     {
-      $socket = new rex_socket(self::HOST, $fullpath, self::PORT);
+      $socket = new rex_socket(self::HOST, $fullpath, self::PORT, self::PREFIX);
       $socket->doGet();
       if($socket->getStatus() == 200)
       {
@@ -39,14 +39,15 @@ class rex_install_webservice
     throw new rex_exception(rex_i18n::msg('install_webservice_unreachable'));
   }
 
-  static public function getArchive($filename)
+  static public function getArchive($url)
   {
     try
     {
-      $socket = new rex_socket(self::HOST, self::FILES . $filename, self::PORT);
+      $socket = rex_socket::createByUrl($url);
       $socket->doGet();
       if($socket->getStatus() == 200)
       {
+        $filename = basename($url);
         $file = rex_path::cache('install/'. md5($filename) .'.'. rex_file::extension($filename));
         rex_file::put($file, '');
         $fp = fopen($file, 'w');

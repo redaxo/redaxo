@@ -58,7 +58,7 @@ if($addonkey)
         <td class="rex-icon"><span class="rex-i-element rex-i-generic"><span class="rex-i-element-in">'. $file['filename'] .'</span></span></td>
       	<td>'. $file['version'] .'</td>
       	<td>'. nl2br($file['description']) .'</td>
-      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_update&amp;file='. $file['filename'] .'&amp;version='. $file['version'] .'">'. $this->i18n('update') .'</a></td>
+      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_update&amp;file='. $file['filepath'] .'&amp;version='. $file['version'] .'">'. $this->i18n('update') .'</a></td>
       </tr>';
   }
 
