@@ -399,7 +399,6 @@ if ($checkmodus == 2 && $send == 1)
     }
 	}
 
-
 	// -------------------------- DATENBANKZUGRIFF
 	if($err_msg == '')
 	{
