@@ -250,8 +250,7 @@ if ($checkmodus == '0.5')
 	echo rex_i18n::msg('setup_005_1', '<h3 class="rex-hl3">', '</h3>', ' class="rex-ul1"');
 	echo '<div class="rex-area-scroll">';
 
-	$Basedir = dirname(__FILE__);
-	$license_file = $Basedir.'/../../../../../_lizenz.txt';
+	$license_file = rex_path::base('_license.txt');
 	$license = '<p class="rex-tx1">'.nl2br(rex_file::get($license_file)).'</p>';
 
 	echo $license;
@@ -400,7 +399,6 @@ if ($checkmodus == 2 && $send == 1)
     }
 	}
 
-
 	// -------------------------- DATENBANKZUGRIFF
 	if($err_msg == '')
 	{
@@ -446,6 +444,15 @@ if($checkmodus == 2)
 		echo rex_warning($err_msg);
 	}
 
+	$timezone_sel = new rex_select;
+	$timezone_sel->setId('timezone');
+	$timezone_sel->setName('timezone');
+	$timezone_sel->setSize(1);
+	$timezone_sel->addOptions(DateTimeZone::listIdentifiers(), true);
+	$timezone_sel->setSelected($config['timezone']);
+
+	$db_create_checked = rex_post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
+
 	echo '
           <legend>'.rex_i18n::msg("setup_0201").'</legend>
 
@@ -474,8 +481,7 @@ if($checkmodus == 2)
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
                 <label for="timezone">'.rex_i18n::msg("setup_timezone").'</label>
-                <input class="rex-form-text" type="text" id="timezone" name="timezone" value="'.$config['timezone'].'" />
-                <span class="rex-form-notice">see <a href="http://php.net/timezones">http://php.net/timezones</a></span>
+                '. $timezone_sel->get() .'
               </p>
             </div>
         </div>
@@ -515,7 +521,7 @@ if($checkmodus == 2)
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-checkbox">
                 <label for="redaxo_db_create">'.rex_i18n::msg("setup_create_db").'</label>
-                <input class="rex-form-checkbox" type="checkbox" id="redaxo_db_create" name="redaxo_db_create" value="1" />
+                <input class="rex-form-checkbox" type="checkbox" id="redaxo_db_create" name="redaxo_db_create" value="1"'. $db_create_checked .' />
               </p>
             </div>
           </div>
@@ -757,14 +763,16 @@ if ($checkmodus == 3)
       <input class="rex-form-radio" type="radio" id="dbanlegen_2" name="dbanlegen" value="2"'.$dbchecked[2] .' />
       <label for="dbanlegen_2">'.rex_i18n::msg('setup_036').'</label>
     </p>
-  </div>
+  </div>';
 
+	/*
 	<div class="rex-form-row">
 		<p class="rex-form-col-a rex-form-radio rex-form-label-right">
       <input class="rex-form-radio" type="radio" id="dbanlegen_4" name="dbanlegen" value="4"'.$dbchecked[4] .' />
       <label for="dbanlegen_4">'.rex_i18n::msg('setup_038').'</label>
     </p>
   </div>';
+  */
 
 	if($exports_found)
 	{

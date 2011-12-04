@@ -27,6 +27,14 @@ class rex_path
   }
 
   /**
+   * Returns a base path
+   */
+  static public function base($file = '', $pathType = self::ABSOLUTE)
+  {
+    return $pathType == self::ABSOLUTE ? self::absBase($file) : self::relBase($file);
+  }
+
+  /**
    * Returns the path to the frontend
    */
   static public function frontend($file = '', $pathType = self::RELATIVE)
@@ -172,14 +180,6 @@ class rex_path
   static private function absBase($file = '')
   {
     return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, self::$absBase . $file);
-  }
-
-  /**
-   * Returns a base path
-   */
-  static private function base($file, $pathType = self::ABSOLUTE)
-  {
-    return $pathType == self::ABSOLUTE ? self::absBase($file) : self::relBase($file);
   }
 
   /**
