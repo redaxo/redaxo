@@ -161,6 +161,7 @@ abstract class rex_api_install_packages_base extends rex_api_function
 
   public function execute()
   {
+    $message = '';
     $this->addonkey = rex_request('addonkey', 'string');
     if(!$this->checkPreConditions())
     {
