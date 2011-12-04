@@ -326,8 +326,11 @@ function rex_organize_priorities($tableName, $priorColumnName, $whereCondition =
 
 function rex_version_compare($version1, $version2, $comparator = null)
 {
-  $version1 = preg_replace('/(\.0)*$/', '', $version1);
-  $version2 = preg_replace('/(\.0)*$/', '', $version2);
+  $version1 = preg_split('/[ .]+/', $version1);
+  $version2 = preg_split('/[ .]+/', $version2);
+  $max = max(count($version1), count($version2));
+  $version1 = implode('.', array_pad($version1, $max, '0'));
+  $version2 = implode('.', array_pad($version2, $max, '0'));
   return version_compare($version1, $version2, $comparator);
 }
 
