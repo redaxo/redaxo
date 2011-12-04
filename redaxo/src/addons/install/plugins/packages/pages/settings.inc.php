@@ -4,7 +4,7 @@ $settings = rex_post('settings', 'array', array());
 
 if(!empty($settings))
 {
-  $keys = array('username', 'apikey');
+  $keys = array('api_login', 'api_key');
   foreach($keys as $key)
   {
     if(isset($settings[$key]))
@@ -22,14 +22,14 @@ echo '
   			<div class="rex-form-wrapper">
   				<div class="rex-form-row">
             <p class="rex-form-col-a rex-form-text">
-            	<label for="install-packages-settings-username">'. $this->i18n('username') .'</label>
-          		<input id="install-packages-settings-username" class="rex-form-text" type="text" name="settings[username]" value="'. $this->getConfig('username') .'" />
+            	<label for="install-packages-settings-api-login">'. $this->i18n('username') .'</label>
+          		<input id="install-packages-settings-api-login" class="rex-form-text" type="text" name="settings[api_login]" value="'. $this->getConfig('api_login') .'" />
             </p>
           </div>
   				<div class="rex-form-row">
             <p class="rex-form-col-a rex-form-text">
-            	<label for="install-packages-settings-apikey">'. $this->i18n('apikey') .'</label>
-          		<input id="install-packages-settings-apikey" class="rex-form-text" type="text" name="settings[apikey]" value="'. $this->getConfig('apikey') .'" />
+            	<label for="install-packages-settings-api-key">'. $this->i18n('apikey') .'</label>
+          		<input id="install-packages-settings-api-key" class="rex-form-text" type="text" name="settings[api_key]" value="'. $this->getConfig('api_key') .'" />
             </p>
           </div>
   				<div class="rex-form-row">

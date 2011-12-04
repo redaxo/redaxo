@@ -4,7 +4,7 @@ class rex_install_packages
 {
   static public function getUpdateAddons()
   {
-    $addons = rex_install_webservice::getJson('addons');
+    $addons = self::getAddons();
 
     foreach($addons as $key => $addon)
     {
@@ -37,7 +37,7 @@ class rex_install_packages
 
   static public function getAddAddons()
   {
-    $addons = rex_install_webservice::getJson('addons');
+    $addons = self::getAddons();
     foreach($addons as $key => $addon)
     {
       if(rex_addon::exists($key))
@@ -48,12 +48,24 @@ class rex_install_packages
 
   static public function getMyPackages()
   {
-    $addons = rex_install_webservice::getJson('addons');
+    $addons = self::getAddons();
     foreach($addons as $key => $addon)
     {
       if(!$addon['mine'] || !rex_addon::exists($key))
         unset($addons[$key]);
     }
     return $addons;
+  }
+
+  static private function getAddons()
+  {
+    $plugin = rex_plugin::get('install', 'packages');
+    $path = 'addons/';
+    $login = $plugin->getConfig('api_login');
+    if($login)
+    {
+      $path .= '?api_login='. $login .'&api_key='. $plugin->getConfig('api_key');
+    }
+    return rex_install_webservice::getJson($path);
   }
 }
