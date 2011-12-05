@@ -366,21 +366,3 @@ function rex_highlight_file($filename, $return = false)
   }
   echo $s;
 }
-
-/**
- * Prueft, ob der aktuelle Benutzer im Backend eingeloggt ist.
- *
- * Diese Funktion kann auch aus dem Frontend heraus verwendet werden.
- */
-function rex_hasBackendSession()
-{
-  if(!isset($_SESSION))
-    return false;
-
-  $instname = rex::getProperty('instname');
-
-  if(!isset($_SESSION[$instname]))
-    return false;
-
-  return $_SESSION[$instname]['UID'] > 0;
-}
