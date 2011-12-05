@@ -279,7 +279,7 @@ class rex_list extends rex_factory implements rex_url_provider
     if($columnIndex < 0)
       $columnIndex = count($this->columnNames);
 
-    $this->columnNames = array_insert($this->columnNames, $columnIndex, array($columnHead));
+    array_splice($this->columnNames, $columnIndex, 0, array(array($columnHead)));
     $this->setColumnFormat($columnHead, $columnBody);
     $this->setColumnLayout($columnHead, $columnLayout);
   }

@@ -41,3 +41,12 @@ function rex_accesskey($title, $key)
 
   return ' title="'. $title .'"';
 }
+
+/**
+ * @deprecated 5.0
+ */
+function array_insert($array, $index, $value)
+{
+  // In PHP5 akzeptiert array_merge nur arrays. Deshalb hier $value als Array verpacken
+  return array_merge(array_slice($array, 0, $index), array($value), array_slice($array, $index));
+}
