@@ -5,7 +5,7 @@ function rex_linkmap_backlink($id, $name)
   return 'javascript:insertLink(\'redaxo://'.$id.'\',\''.addSlashes($name).'\');';
 }
 
-function rex_linkmap_format_label($OOobject)
+function rex_linkmap_format_label(rex_ooRedaxo $OOobject)
 {
   $label = $OOobject->getName();
 
@@ -21,7 +21,7 @@ function rex_linkmap_format_label($OOobject)
   return $label;
 }
 
-function rex_linkmap_format_li($OOobject, $current_category_id, rex_context $context, $liAttr = '', $linkAttr = '')
+function rex_linkmap_format_li(rex_ooRedaxo $OOobject, $current_category_id, rex_context $context, $liAttr = '', $linkAttr = '')
 {
   $liAttr .= $OOobject->getId() == $current_category_id ? ' id="rex-linkmap-active"' : '';
   $linkAttr .= ' class="'. ($OOobject->isOnline() ? 'rex-online' : 'rex-offine'). '"';
@@ -34,7 +34,7 @@ function rex_linkmap_format_li($OOobject, $current_category_id, rex_context $con
   return '<li'. $liAttr .'><a'. $linkAttr .'>'. htmlspecialchars($label) . '</a>';
 }
 
-function rex_linkmap_tree($tree, $category_id, $children, rex_context $context)
+function rex_linkmap_tree(array $tree, $category_id, array $children, rex_context $context)
 {
   $ul = '';
   if(is_array($children))
@@ -72,7 +72,6 @@ function rex_linkmap_tree($tree, $category_id, $children, rex_context $context)
 
       $li .= '      <li'.$liclasses.'>';
       $li .= '<a'.$linkclasses.' href="'. $context->getUrl(array('category_id' => $cat_id)).'">'.htmlspecialchars($label).'</a>';
-      //$li .= ' '. $liclasses . $linkclasses;
       $li .= $sub_li;
       $li .= '</li>'. "\n";
     }
