@@ -8,14 +8,17 @@
 
 class rex_structure_tree {
 
-  public
-    $clang,
+  private
     $tree_categories_open = array(),
     $tree_category_show = "",
+    $clang,
     $context;
 
-  public function __construct() {
+  public function __construct(rex_context $context) {
   
+    $this->context = $context;
+    $this->clang = $context->getParam('clang');
+    
     $this->tree_categories_open = rex_request::session("tree_categories_open","array");
     $category_toggle_id = rex_request("rex_tree_category_toggle","int",-1);
     if($category_toggle_id > 0) 
@@ -39,14 +42,6 @@ class rex_structure_tree {
       rex_request::setSession("tree_categories_open",$this->tree_categories_open);
     }
   
-  }
-
-  public function setContext($context) {
-    $this->context = $context;
-  }
-
-  public function setClang($clang) {
-    $this->clang = $clang;
   }
 
   public function getConfig($type)
@@ -197,8 +192,4 @@ class rex_structure_tree {
 
     return $label;
   }
-
-
 }
-
-?>

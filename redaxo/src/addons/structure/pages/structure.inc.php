@@ -83,7 +83,6 @@ $context = new rex_context(array(
 // --------------------- Extension Point
 echo rex_extension::registerPoint('PAGE_STRUCTURE_HEADER_PRE', '',
   array(
-    'clang' => $clang,
     'context' => $context
   )
 );
