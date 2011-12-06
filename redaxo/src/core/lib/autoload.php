@@ -20,9 +20,8 @@ class rex_autoload
     $cacheChanged = false,
     $reloaded     = false,
     $dirs         = array(),
-    $files        = array(),
-    $classes      = array()/*,
-    $overriden    = array()*/;
+    $addedDirs    = array(),
+    $classes      = array();
 
   /**
    * Register rex_autoload in spl autoloader.
@@ -101,16 +100,14 @@ class rex_autoload
   /**
    * Loads the cache.
    */
-  static public function loadCache()
+  static private function loadCache()
   {
     if (!self::$cacheFile || !is_readable(self::$cacheFile))
     {
       return;
     }
 
-    list(self::$classes, self::$dirs, self::$files) = json_decode(file_get_contents(self::$cacheFile), true);
-
-    self::$cacheChanged = false;
+    list(self::$classes, self::$dirs) = json_decode(file_get_contents(self::$cacheFile), true);
   }
 
   /**
@@ -122,7 +119,7 @@ class rex_autoload
     {
       if (is_writable(dirname(self::$cacheFile)))
       {
-        file_put_contents(self::$cacheFile, json_encode(array(self::$classes, self::$dirs, self::$files)));
+        file_put_contents(self::$cacheFile, json_encode(array(self::$classes, self::$dirs)));
         self::$cacheChanged = false;
       }
       else
@@ -138,21 +135,12 @@ class rex_autoload
   static public function reload()
   {
     self::$classes = array();
+    self::$dirs = array();
 
-    foreach (self::$dirs as $dir)
+    foreach (self::$addedDirs as $dir)
     {
       self::_addDirectory($dir);
     }
-
-    foreach (self::$files as $file)
-    {
-      self::_addFile($file);
-    }
-
-//     foreach (self::$overriden as $class => $path)
-//     {
-//       self::$classes[$class] = $path;
-//     }
 
     self::$cacheChanged = true;
     self::$reloaded = true;
@@ -174,6 +162,7 @@ class rex_autoload
   static public function addDirectory($dir)
   {
     $dir = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR;
+    self::$addedDirs[] = $dir;
     if(!in_array($dir, self::$dirs))
     {
       self::_addDirectory($dir);
@@ -188,49 +177,21 @@ class rex_autoload
     {
       foreach($files as $file)
       {
-        self::_addFile($file);
+        self::addFile($file);
       }
     }
 
     if($subdirs = glob($dir .'*', GLOB_ONLYDIR | GLOB_NOSORT | GLOB_MARK))
     {
       // recursive over subdirectories
-      foreach($subdirs as $subdir) {
+      foreach($subdirs as $subdir)
+      {
         self::_addDirectory($subdir);
       }
     }
   }
 
-  /**
-   * Adds files to the autoloading system.
-   *
-   * @param array   $files    An array of files
-   * @param Boolean $register Whether to register those files as single entities (used when reloading)
-   */
-//   static public function addFiles(array $files, $register = true)
-//   {
-//     foreach ($files as $file)
-//     {
-//       self::addFile($file, $register);
-//     }
-//   }
-
-  /**
-   * Adds a file to the autoloading system.
-   *
-   * @param string  $file     A file path
-   */
-  static public function addFile($file)
-  {
-    if(!in_array($file, self::$files))
-    {
-      self::_addFile($file);
-      self::$files[] = $file;
-      self::$cacheChanged = true;
-    }
-  }
-
-  static private function _addFile($file)
+  static private function addFile($file)
   {
     if(!is_file($file))
     {
@@ -243,33 +204,4 @@ class rex_autoload
       self::$classes[strtolower($class)] = $file;
     }
   }
-
-//   /**
-//    * Sets the path for a particular class.
-//    *
-//    * @param string $class A PHP class name
-//    * @param string $path  An absolute path
-//    */
-//   static public function setClassPath($class, $path)
-//   {
-//     $class = strtolower($class);
-
-//     self::$overriden[$class] = $path;
-
-//     self::$classes[$class] = $path;
-//   }
-
-//   /**
-//    * Returns the path where a particular class can be found.
-//    *
-//    * @param string $class A PHP class name
-//    *
-//    * @return string|null An absolute path
-//    */
-//   static public function getClassPath($class)
-//   {
-//     $class = strtolower($class);
-
-//     return isset(self::$classes[$class]) ? self::$classes[$class] : null;
-//   }
 }

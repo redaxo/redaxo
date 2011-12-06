@@ -9,5 +9,5 @@ pages:
   - ['settings', 'translate:media_manager_subpage_config']
   - ['clear_cache', 'translate:media_manager_subpage_clear_cache']
 requires:
-  php-extensions:
-    - gd
+  php:
+    extensions: [gd]

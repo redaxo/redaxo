@@ -956,7 +956,7 @@ class rex_list extends rex_factory implements rex_url_provider
       if($this->hasColumnOption($columnName, REX_LIST_OPT_SORT))
       {
         $columnSortType = $columnName == $sortColumn && $sortType == 'desc' ? 'asc' : 'desc';
-        $columnHead = '<a href="'. $this->getUrl(array('start' => $this->getStartRow(),'sort' => $columnName, 'sorttype' => $columnSortType)) .'">'. $columnHead .'</a>';
+        $columnHead = '<a href="'. $this->getUrl(array('start' => $this->pager->getCursor(),'sort' => $columnName, 'sorttype' => $columnSortType)) .'">'. $columnHead .'</a>';
       }
 
       $layout = $this->getColumnLayout($columnName);

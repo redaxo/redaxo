@@ -61,7 +61,7 @@ date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
 // ----------------- OTHER STUFF
 rex::setProperty('setup_packages', array('be_style', 'be_style/agk_skin'));
-rex::setProperty('system_packages', array('structure', 'structure/content', 'structure/linkmap', 'modules', 'templates', 'mediapool', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/agk_skin', 'media_manager', 'users'));
+rex::setProperty('system_packages', array('modules', 'templates', 'mediapool', 'structure', 'structure/content', 'structure/linkmap', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/agk_skin', 'media_manager', 'users'));
 
 // ----------------- REX PERMS
 

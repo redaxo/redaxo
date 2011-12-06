@@ -23,42 +23,21 @@ class rex_plugin_manager extends rex_package_manager
     foreach(rex_addon::getAvailableAddons() as $availAddonName => $addon)
     {
       $requirements = $addon->getProperty('requires', array());
-      if(isset($requirements['addons']) && is_array($requirements['addons']))
+      if(isset($requirements['addons'][$this->package->getAddon()->getName()]['plugins'][$this->package->getName()]))
       {
-        foreach($requirements['addons'] as $addonName => $addonAttr)
-        {
-          if($addonName == $this->package->getAddon()->getName() && isset($addonAttr['plugins']) && is_array($addonAttr['plugins']))
-          {
-            foreach($addonAttr['plugins'] as $depName => $depAttr)
-            {
-              if($depName == $this->package->getName())
-              {
-                $state[] = rex_i18n::msg($i18nPrefix .'addon', $availAddonName);
-              }
-            }
-          }
-        }
+        $state[] = rex_i18n::msg($i18nPrefix .'addon', $availAddonName);
       }
 
       // check if another Plugin which is installed, depends on the addon being un-installed
       foreach($addon->getAvailablePlugins() as $availPluginName => $plugin)
       {
+        if($plugin == $this->package)
+          continue;
+
         $requirements = $plugin->getProperty('requires', array());
-        if(isset($requirements['addons']) && is_array($requirements['addons']))
+        if(isset($requirements['addons'][$this->package->getAddon()->getName()]['plugins'][$this->package->getName()]))
         {
-          foreach($requirements['addons'] as $addonName => $addonAttr)
-          {
-            if($addonName == $this->package->getAddon()->getName() && isset($addonAttr['plugins']) && is_array($addonAttr['plugins']))
-            {
-              foreach($addonAttr['plugins'] as $depName => $depAttr)
-              {
-                if($depName == $this->package->getName())
-                {
-                  $state[] = rex_i18n::msg($i18nPrefix .'plugin', $availAddonName, $availPluginName);
-                }
-              }
-            }
-          }
+          $state[] = rex_i18n::msg($i18nPrefix .'plugin', $availAddonName, $availPluginName);
         }
       }
     }

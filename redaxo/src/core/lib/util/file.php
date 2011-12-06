@@ -52,12 +52,14 @@ class rex_file
    */
   static public function put($file, $content)
   {
-    rex_dir::create(dirname($file));
+    if(!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file))
+    {
+      return false;
+    }
 
     if(file_put_contents($file, $content) !== false)
     {
-      chmod($file, rex::getFilePerm());
-      return true;
+      return chmod($file, rex::getFilePerm());
     }
 
     return false;
@@ -104,7 +106,9 @@ class rex_file
         $dstfile = rtrim($dstfile, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . basename($srcfile);
       }
 
-      if(copy($srcfile, $dstfile))
+      // file_exists(dirname($dstfile) .'/.') checks if the parent directory has the executable permission
+      // is_executable($directory) does not work on all systems
+      if(file_exists(dirname($dstfile) .'/.') && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile))
       {
         touch($dstfile, filemtime($srcfile));
         chmod($dstfile, rex::getFilePerm());

@@ -32,10 +32,11 @@ Version 4.3.2 (2010-12-11)
   * Installation: die Datenbanktabellen werden mit dem entsprechenden Defaultcharset (utf8 oder latin1) installiert
   
   Bugfixes
+  * Medienpool: Es werden beim Aktualisieren nur noch die Extensions verglichen, nicht mehr der Mimetype
   * Medienpool: Fehler beim direkten Aufruf geändert. Es taucht kein "Hinzufügen/Übernehmen" mehr auf
   * Benutzer mit Mountpoints: fehlerhafter Pfad bei neuen Kategorien/Artikeln
   * Metadaten Strings / Textfelder - Bug bei Sonderzeichen "|"
-  * rex5_title(): fehlerhafte Verarbeitung von $subpages Attributen
+  * rex_title(): fehlerhafte Verarbeitung von $subpages Attributen
   * Umleitungsfehler bei Backend-Benutzer ohne Rechten
   * OOArticle::getPathAsArray() funktionierte nicht
   * Typeinschränkung bei REX_MEDIA_BUTTONs funktionierte nicht

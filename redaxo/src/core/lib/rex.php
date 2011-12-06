@@ -53,7 +53,10 @@ class rex
    *
    * @param string $key Key of the property
    * @param mixed $value Value for the property
-   * @return mixed
+   * 
+   * @return boolean TRUE when an existing value was overridden, otherwise FALSE
+   *
+   * @throws rex_exception on invalid parameters
    */
   static public function setProperty($key, $value)
   {
@@ -61,7 +64,9 @@ class rex
     {
       throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
     }
+    $exists = isset(self::$properties[$key]);
     self::$properties[$key] = $value;
+    return $exists;
   }
 
   /**
@@ -69,7 +74,10 @@ class rex
    *
    * @param string $key Key of the property
    * @param mixed $default Default value, will be returned if the property isn't set
-   * @return mixed
+   * 
+   * @return the value for $key or $default if $key cannot be found
+   *
+   * @throws rex_exception on invalid parameters
    */
   static public function getProperty($key, $default = null)
   {
@@ -88,7 +96,10 @@ class rex
    * Returns if a property is set
    *
    * @param string $key Key of the property
-   * @return boolean
+   * 
+   * @return boolean TRUE if the key is set, otherwise FALSE
+   *
+   * @throws rex_exception on invalid parameters
    */
   static public function hasProperty($key)
   {
@@ -98,7 +109,11 @@ class rex
   /**
    * Removes a property
    *
-   * @param unknown_type $key Key of the property
+   * @param string $key Key of the property
+   * 
+   * @return boolean TRUE if the value was found and removed, otherwise FALSE
+   *
+   * @throws rex_exception on invalid parameters
    */
   static public function removeProperty($key)
   {
@@ -106,7 +121,9 @@ class rex
     {
       throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
     }
+    $exists = isset(self::$properties[$key]);
     unset(self::$properties[$key]);
+    return $exists;
   }
 
   /**
