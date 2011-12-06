@@ -86,7 +86,7 @@ $category = rex_ooCategory::getCategoryById($category_id);
 $link = rex_linkmap_url(array('category_id' => 0), $GlobalParams);
 
 $navi_path .= '<li>'.rex_i18n::msg('path').' </li>';
-$navi_path .= '<li>: <a href="'.$link.'">Homepage</a> </li>';
+$navi_path .= '<li class="rex-navi-first">: <a href="'.$link.'">Homepage</a> </li>';
 
 $tree = array();
 
@@ -95,6 +95,7 @@ if ($category)
   foreach($category->getParentTree() as $cat)
   {
     $tree[] = $cat->getId();
+    
     $link = rex_linkmap_url(array('category_id' => $cat->getId()), $GlobalParams);
     $navi_path .= '<li> : <a href="'. $link .'">'.htmlspecialchars($cat->getName()).'</a></li>';
   }
