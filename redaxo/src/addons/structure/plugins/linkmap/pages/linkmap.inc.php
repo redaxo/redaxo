@@ -102,8 +102,6 @@ $navi_path .= '</ul>';
 //rex_title(rex::getProperty('servername'), 'Linkmap');
 rex_title('Linkmap', $navi_path);
 
-$structureTree = new rex_structure_tree($context);
-
 ?>
 
 <div id="rex-linkmap">
@@ -112,23 +110,8 @@ $structureTree = new rex_structure_tree($context);
 			<h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_categories'); ?></h3>
 			<div class="rex-area-content">
 			<?php
-
-			$mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
-			if(count($mountpoints)>0)
-			{
-				$roots = array();
-				foreach($mountpoints as $mp)
-				{
-					if(rex_ooCategory::getCategoryById($mp))
-						$roots[] = rex_ooCategory::getCategoryById($mp);
-				}
-			}
-			else
-			{
-  			$roots = rex_ooCategory::getRootCategories();
-			}
-
-			echo $structureTree->renderTree($roots, $tree);
+      $categoryTree = new rex_categoryTree($context);
+			echo $categoryTree->renderTree($category_id);
 			?>
 			</div>
 		</div>
@@ -136,27 +119,10 @@ $structureTree = new rex_structure_tree($context);
 		<div class="rex-area-col-b">
 			<h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_articles'); ?></h3>
 			<div class="rex-area-content">
-			<ul>
 			<?php
-			$articles = null;
-			if($isRoot && count($mountpoints)==0)
-				$articles = rex_ooArticle::getRootArticles();
-			else if($category)
-				$articles = $category->getArticles();
-
-			if ($articles)
-			{
-				foreach($articles as $article)
-				{
-					$liClass = $article->isStartpage() ? ' class="rex-linkmap-startpage"' : '';
-					$url = 'javascript:insertLink(\'redaxo://'.$article->getId().'\',\''.addslashes(htmlspecialchars($article->getName())).'\');';
-
-					echo rex_structure_tree::formatLi($article, $category_id, $context, $liClass, ' href="'. $url .'"');
-					echo '</li>'. "\n";
-				}
-			}
+      $articleList = new rex_articleList($context);
+      echo $articleList->renderList($category_id);
 			?>
-			</ul>
 			</div>
 		</div>
   </div>

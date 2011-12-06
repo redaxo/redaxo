@@ -1,6 +1,6 @@
 <?php
 
-class rex_structure_tree
+class rex_treeRenderer
 {
   private $context;
   
