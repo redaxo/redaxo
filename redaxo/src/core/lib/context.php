@@ -85,12 +85,24 @@ class rex_context implements rex_context_provider
     
     return self::array2inputStr($_params);
   }
+  
+  /**
+   * returns a rex_context instance containing all GET and POST parameters
+   * 
+   * @return rex_context
+   */
+  static public function restore()
+  {
+    // $_REQUEST contains some server specific globals, therefore we merge GET and POST manually
+    return new rex_context($_GET + $_POST);
+  }
 
   /**
    * Helper method to generate a url string from an array key-value pairs
+   * 
    * @param array $array The array which contains the key-value pairs for convertion
    */
-  private static function array2paramStr(array $array)
+  static private function array2paramStr(array $array)
   {
     $paramString = '';
     foreach($array as $name => $value)
@@ -113,9 +125,10 @@ class rex_context implements rex_context_provider
   
   /**
    * Helper method to generate a html string with hidden input fields from an array key-value pairs
+   * 
    * @param array $array The array which contains the key-value pairs for convertion
    */
-  private static function array2inputStr(array $array)
+  static private function array2inputStr(array $array)
   {
     $inputString = '';
     foreach($array as $name => $value)
