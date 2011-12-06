@@ -112,7 +112,6 @@ $structureTree = new rex_structure_tree($context);
 			<h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_categories'); ?></h3>
 			<div class="rex-area-content">
 			<?php
-			$roots = rex_ooCategory::getRootCategories();
 
 			$mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
 			if(count($mountpoints)>0)
@@ -123,7 +122,10 @@ $structureTree = new rex_structure_tree($context);
 					if(rex_ooCategory::getCategoryById($mp))
 						$roots[] = rex_ooCategory::getCategoryById($mp);
 				}
-
+			}
+			else
+			{
+  			$roots = rex_ooCategory::getRootCategories();
 			}
 
 			echo $structureTree->renderTree($roots, $tree);
