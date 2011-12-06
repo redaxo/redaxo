@@ -1,23 +1,5 @@
 <?php
 
-function rex_linkmap_url($local = array(),$globals = array())
-{
-  $url = '';
-  $first = true;
-  foreach(array_merge($globals, $local) as $key => $value)
-  {
-    $separator = '&amp;';
-    if($first)
-    {
-      $first = false;
-      $separator = '?';
-    }
-    $url .= $separator. $key .'='. $value;
-  }
-
-  return $url;
-}
-
 function rex_linkmap_backlink($id, $name)
 {
   return 'javascript:insertLink(\'redaxo://'.$id.'\',\''.addSlashes($name).'\');';
@@ -39,20 +21,20 @@ function rex_linkmap_format_label($OOobject)
   return $label;
 }
 
-function rex_linkmap_format_li($OOobject, $current_category_id, $GlobalParams, $liAttr = '', $linkAttr = '')
+function rex_linkmap_format_li($OOobject, $current_category_id, rex_context $context, $liAttr = '', $linkAttr = '')
 {
   $liAttr .= $OOobject->getId() == $current_category_id ? ' id="rex-linkmap-active"' : '';
   $linkAttr .= ' class="'. ($OOobject->isOnline() ? 'rex-online' : 'rex-offine'). '"';
 
   if(strpos($linkAttr, ' href=') === false)
-    $linkAttr .= ' href="'. rex_linkmap_url(array('category_id' => $OOobject->getId()), $GlobalParams) .'"';
+    $linkAttr .= ' href="'. $context->getUrl(array('category_id' => $OOobject->getId())) .'"';
 
   $label = rex_linkmap_format_label($OOobject);
 
   return '<li'. $liAttr .'><a'. $linkAttr .'>'. htmlspecialchars($label) . '</a>';
 }
 
-function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
+function rex_linkmap_tree($tree, $category_id, $children, rex_context $context)
 {
   $ul = '';
   if(is_array($children))
@@ -75,7 +57,7 @@ function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
       $linkclasses .= $cat->isOnline() ? 'rex-online ' : 'rex-offline ';
       if (is_array($tree) && in_array($cat_id,$tree))
       {
-        $sub_li = rex_linkmap_tree($tree, $cat_id, $cat_children, $GlobalParams);
+        $sub_li = rex_linkmap_tree($tree, $cat_id, $cat_children, $context);
         $liclasses .= 'rex-active ';
         $linkclasses .= 'rex-active ';
       }
@@ -89,7 +71,7 @@ function rex_linkmap_tree($tree, $category_id, $children, $GlobalParams)
       $label = rex_linkmap_format_label($cat);
 
       $li .= '      <li'.$liclasses.'>';
-      $li .= '<a'.$linkclasses.' href="'. rex_linkmap_url(array('category_id' => $cat_id), $GlobalParams).'">'.htmlspecialchars($label).'</a>';
+      $li .= '<a'.$linkclasses.' href="'. $context->getUrl(array('category_id' => $cat_id)).'">'.htmlspecialchars($label).'</a>';
       //$li .= ' '. $liclasses . $linkclasses;
       $li .= $sub_li;
       $li .= '</li>'. "\n";

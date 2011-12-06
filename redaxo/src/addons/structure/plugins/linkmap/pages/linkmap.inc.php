@@ -12,14 +12,14 @@ $category_id = rex_request('category_id', 'rex-category-id');
 $clang = rex_request('clang', 'rex-clang-id');
 
 
-$GlobalParams = array(
+$context = new rex_context(array(
   'page' => rex::getProperty('page'),
   'HTMLArea' => $HTMLArea,
   'opener_input_field' => $opener_input_field,
   'opener_input_field_name' => $opener_input_field_name,
   'category_id' =>$category_id,
   'clang' => $clang
-);
+));
 
 // ------- Build JS Functions
 
@@ -83,7 +83,7 @@ $navi_path = '<ul id="rex-navi-path">';
 
 $isRoot = $category_id === 0;
 $category = rex_ooCategory::getCategoryById($category_id);
-$link = rex_linkmap_url(array('category_id' => 0), $GlobalParams);
+$link = $context->getUrl(array('category_id' => 0));
 
 $navi_path .= '<li>'.rex_i18n::msg('path').' </li>';
 $navi_path .= '<li class="rex-navi-first">: <a href="'.$link.'">Homepage</a> </li>';
@@ -96,7 +96,7 @@ if ($category)
   {
     $tree[] = $cat->getId();
     
-    $link = rex_linkmap_url(array('category_id' => $cat->getId()), $GlobalParams);
+    $link = $context->getUrl(array('category_id' => $cat->getId()));
     $navi_path .= '<li> : <a href="'. $link .'">'.htmlspecialchars($cat->getName()).'</a></li>';
   }
 }
@@ -129,7 +129,7 @@ rex_title('Linkmap', $navi_path);
 
 			}
 
-			echo rex_linkmap_tree($tree, $category_id, $roots, $GlobalParams);
+			echo rex_linkmap_tree($tree, $category_id, $roots, $context);
 			?>
 			</div>
 		</div>
@@ -152,7 +152,7 @@ rex_title('Linkmap', $navi_path);
 					$liClass = $article->isStartpage() ? ' class="rex-linkmap-startpage"' : '';
 					$url = rex_linkmap_backlink($article->getId(), htmlspecialchars($article->getName()));
 
-					echo rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"');
+					echo rex_linkmap_format_li($article, $category_id, $context, $liClass, ' href="'. $url .'"');
 					echo '</li>'. "\n";
 				}
 			}
