@@ -104,10 +104,10 @@ $navi_path .= '</ul>';
 
 //rex_title(rex::getProperty('servername'), 'Linkmap');
 rex_title('Linkmap', $navi_path);
+
+$structureTree = new rex_structure_tree($context);
+
 ?>
-
-
-
 
 <div id="rex-linkmap">
 	<div class="rex-area-col-2">
@@ -129,7 +129,7 @@ rex_title('Linkmap', $navi_path);
 
 			}
 
-			echo rex_linkmap_tree($tree, $category_id, $roots, $context);
+			echo $structureTree->renderTree($roots, $tree);
 			?>
 			</div>
 		</div>
@@ -152,7 +152,7 @@ rex_title('Linkmap', $navi_path);
 					$liClass = $article->isStartpage() ? ' class="rex-linkmap-startpage"' : '';
 					$url = rex_linkmap_backlink($article->getId(), htmlspecialchars($article->getName()));
 
-					echo rex_linkmap_format_li($article, $category_id, $context, $liClass, ' href="'. $url .'"');
+					echo rex_structure_tree::formatLi($article, $category_id, $context, $liClass, ' href="'. $url .'"');
 					echo '</li>'. "\n";
 				}
 			}
