@@ -1,8 +1,5 @@
 <?php
 
-require dirname(__FILE__). '/../functions/function_rex_linkmap.inc.php';
-
-
 // ------- Default Values
 
 $HTMLArea = rex_request('HTMLArea', 'string');
@@ -150,7 +147,7 @@ $structureTree = new rex_structure_tree($context);
 				foreach($articles as $article)
 				{
 					$liClass = $article->isStartpage() ? ' class="rex-linkmap-startpage"' : '';
-					$url = rex_linkmap_backlink($article->getId(), htmlspecialchars($article->getName()));
+					$url = 'javascript:insertLink(\'redaxo://'.$article->getId().'\',\''.addslashes(htmlspecialchars($article->getName())).'\');';
 
 					echo rex_structure_tree::formatLi($article, $category_id, $context, $liClass, ' href="'. $url .'"');
 					echo '</li>'. "\n";
