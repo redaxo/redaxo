@@ -31,7 +31,9 @@ abstract class rex_linkmap_treeRenderer
       $roots = rex_ooCategory::getRootCategories();
     }
   
-    return $this->renderTree($roots, $tree);
+    $rendered = $this->renderTree($roots, $tree);
+    // add css class to root node
+    return '<ul class="rex-tree-root">'. substr($rendered, 4);
   }
   
   /**
@@ -69,12 +71,6 @@ abstract class rex_linkmap_treeRenderer
           $linkclasses .= 'rex-active ';
         }
   
-        if($liclasses != '')
-          $liclasses = ' class="'. rtrim($liclasses) .'"';
-  
-        if($linkclasses != '')
-          $linkclasses = ' class="'. rtrim($linkclasses) .'"';
-
         $li .= $this->treeItem($cat, $liclasses, $linkclasses, $sub_li);
       }
   

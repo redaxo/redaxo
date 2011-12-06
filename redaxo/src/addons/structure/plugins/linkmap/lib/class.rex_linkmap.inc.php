@@ -9,6 +9,12 @@ class rex_linkmap_categoryTree extends rex_linkmap_treeRenderer {
     
   protected function treeItem(rex_ooCategory $cat, $liClasses, $linkClasses, $subHtml) {
     
+    if($liClasses != '')
+      $liClasses = ' class="'. rtrim($liClasses) .'"';
+
+    if($linkClasses != '')
+      $linkClasses = ' class="'. rtrim($linkClasses) .'"';
+    
     $label = self::formatLabel($cat);
 
     $li = '';

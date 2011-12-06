@@ -41,18 +41,8 @@ if (rex::isBackend() && rex::getUser())
   {
     rex_extension::register('PAGE_STRUCTURE_HEADER_PRE', function($params){
       // check if a new category was folded
-      $category_id = rex_request('toggle_category_id', 'int', -1);
+      $category_id = rex_request('toggle_category_id', 'rex-category-id', -1);
       
-      // if not, let the structure as is, by providing a remembered id
-      if($category_id <= 0)
-      {
-        $category_id = rex_request::session('tree_category_id', 'int');
-      }
-      else
-      {
-        rex_request::setSession('tree_category_id', $category_id);
-      }
-
       $tree = '';
       $tree .= '<div id="rex-linkmap">'; // TODO adjust id
       $categoryTree = new rex_sitemap_categoryTree($params["context"]);
