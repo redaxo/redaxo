@@ -40,13 +40,25 @@ if (rex::isBackend() && rex::getUser())
   if(!rex::getUser()->hasPerm("structure_tree[off]"))
   {
     rex_extension::register('PAGE_STRUCTURE_HEADER_PRE', function($params){
-      $category_id = rex_request('toggle_category_id', 'int');
+      // check if a new category was folded
+      $category_id = rex_request('toggle_category_id', 'int', -1);
+      
+      // if not, let the structure as is, by providing a remembered id
+      if($category_id <= 0)
+      {
+        $category_id = rex_request::session('tree_category_id', 'int');
+      }
+      else
+      {
+        rex_request::setSession('tree_category_id', $category_id);
+      }
 
       $tree = '';
       $tree .= '<div id="rex-linkmap">'; // TODO adjust id
       $categoryTree = new rex_sitemap_categoryTree($params["context"]);
 			$tree .= $categoryTree->getTree($category_id);
-			
+
+			// TODO do articles really make sense in the sitemap?
       $articleList = new rex_sitemap_articleList($params["context"]);
       $tree .= $articleList->getList($category_id);
       $tree .= '</div>';
