@@ -40,7 +40,7 @@ if (rex::isBackend() && rex::getUser())
   if(!rex::getUser()->hasPerm("structure_tree[off]"))
   {
     rex_extension::register('PAGE_STRUCTURE_HEADER_PRE', function($params){
-      $category_id = $params["context"]->getParam('category_id');
+      $category_id = rex_request('toggle_category_id', 'int');
 
       $tree = '';
       $tree .= '<div id="rex-linkmap">'; // TODO adjust id
