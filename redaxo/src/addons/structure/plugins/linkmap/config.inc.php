@@ -44,11 +44,11 @@ if (rex::isBackend() && rex::getUser())
 
       $tree = '';
       $tree .= '<div id="rex-linkmap">'; // TODO adjust id
-      $categoryTree = new rex_categoryTree($params["context"]);
-			$tree .= $categoryTree->renderTree($category_id);
+      $categoryTree = new rex_sitemap_categoryTree($params["context"]);
+			$tree .= $categoryTree->getTree($category_id);
 			
-      $articleList = new rex_articleList($params["context"]);
-      $tree .= $articleList->renderList($category_id);
+      $articleList = new rex_sitemap_articleList($params["context"]);
+      $tree .= $articleList->getList($category_id);
       $tree .= '</div>';
       
       $params['subject'] = $tree;
