@@ -10,7 +10,6 @@ class rex_install_packages
     {
       if(rex_addon::exists($key) && isset($addon['files']))
       {
-        rex_addon_manager::loadPackageInfos(rex_addon::get($key));
         foreach($addon['files'] as $filekey => $file)
         {
           if(rex_version_compare($file['version'], rex_addon::get($key)->getVersion(), '>'))

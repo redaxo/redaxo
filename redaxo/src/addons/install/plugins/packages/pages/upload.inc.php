@@ -23,10 +23,7 @@ if($addonkey)
     $new = $file_id == 'new';
     $file = $new ? array('version' => '', 'description' => '', 'status' => 1) : $addon['files'][$file_id];
 
-    $rexAddon = rex_addon::get($addonkey);
-    if(!$rexAddon->isAvailable())
-      rex_addon_manager::loadPackageInfos($rexAddon);
-    $newVersion = $rexAddon->getVersion();
+    $newVersion = rex_addon::get($addonkey)->getVersion();
 
     echo '
   <div class="rex-form">

@@ -101,7 +101,6 @@ class rex_api_install_packages_update extends rex_api_install_packages_base
       return false;
     }
     $this->addon = rex_addon::get($this->addonkey);
-    rex_addon_manager::loadPackageInfos($this->addon);
     return rex_version_compare(rex_request('version', 'string'), $this->addon->getVersion(), '>');
   }
 
