@@ -13,34 +13,6 @@ class rex_addon_manager extends rex_package_manager
   }
 
   /* (non-PHPdoc)
-   * @see rex_package_manager::checkRequirements()
-   */
-  protected function checkRequirements()
-  {
-    $state = parent::checkRequirements();
-
-    if($state !== true)
-      return $state;
-
-    foreach($this->package->getRegisteredPlugins() as $plugin)
-    {
-      // do not use isAvailable() here, because parent addon isn't activated
-      if($plugin->getProperty('status', false))
-      {
-        $pluginManager = rex_plugin_manager::factory($plugin);
-        self::loadPackageInfos($plugin);
-        $return = $pluginManager->checkRequirements();
-        if(is_string($return) && !empty($return))
-        {
-          $pluginManager->deactivate();
-        }
-      }
-    }
-
-    return $state;
-  }
-
-  /* (non-PHPdoc)
    * @see rex_package_manager::checkDependencies()
    */
   protected function checkDependencies()
@@ -50,6 +22,9 @@ class rex_addon_manager extends rex_package_manager
 
     foreach(rex_addon::getAvailableAddons() as $addonName => $addon)
     {
+      if($addon == $this->package)
+        continue;
+
       $requirements = $addon->getProperty('requires', array());
       if(isset($requirements['addons'][$this->package->getName()]))
       {
@@ -77,10 +52,59 @@ class rex_addon_manager extends rex_package_manager
   {
     parent::addToPackageOrder();
 
+    $plugins = new SplObjectStorage;
+
+    // create the managers for all available plugins and load their infos
     foreach($this->package->getAvailablePlugins() as $plugin)
     {
-      $pluginManager = rex_plugin_manager::factory($plugin);
-      $pluginManager->addToPackageOrder();
+      $plugins[$plugin] = rex_plugin_manager::factory($plugin);
+      rex_plugin_manager::loadPackageInfos($plugin);
+    }
+
+    // mark all plugins whose requirements are not met
+    // to consider dependencies among each other, iterate over all plugins until no plugin was marked in a round
+    $deactivate = array();
+    $finished = false;
+    while(!$finished && count($plugins) > 0)
+    {
+      $finished = true;
+      foreach($plugins as $plugin)
+      {
+        $pluginManager = $plugins[$plugin];
+        $return = $pluginManager->checkRequirements();
+        if(is_string($return) && !empty($return))
+        {
+          $plugin->setProperty('status', false);
+          $deactivate[] = $pluginManager;
+          $finished = false;
+          unset($plugins[$plugin]);
+        }
+      }
+    }
+    // deactivate all marked plugins
+    foreach($deactivate as $pluginManager)
+    {
+      $pluginManager->deactivate();
+    }
+
+    // add all other plugins to package order
+    // (consider dependencies among each other, don't add in alphabetical order)
+    foreach($plugins as $plugin)
+    {
+      $plugin->setProperty('status', false);
+    }
+    while(count($plugins) > 0)
+    {
+      foreach($plugins as $plugin)
+      {
+        $pluginManager = $plugins[$plugin];
+        if($pluginManager->checkRequirements() === true)
+        {
+          $plugin->setProperty('status', true);
+          $pluginManager->addToPackageOrder();
+          unset($plugins[$plugin]);
+        }
+      }
     }
   }
 

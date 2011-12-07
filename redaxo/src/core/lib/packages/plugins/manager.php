@@ -31,6 +31,9 @@ class rex_plugin_manager extends rex_package_manager
       // check if another Plugin which is installed, depends on the addon being un-installed
       foreach($addon->getAvailablePlugins() as $availPluginName => $plugin)
       {
+        if($plugin == $this->package)
+          continue;
+
         $requirements = $plugin->getProperty('requires', array());
         if(isset($requirements['addons'][$this->package->getAddon()->getName()]['plugins'][$this->package->getName()]))
         {

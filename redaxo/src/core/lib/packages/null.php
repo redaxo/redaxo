@@ -179,4 +179,13 @@ abstract class rex_null_package extends rex_singleton implements rex_package_int
   public function includeFile($file)
   {
   }
+
+  /* (non-PHPdoc)
+  * @see rex_package_interface::i18n()
+  */
+  public function i18n($key)
+  {
+    $args = func_get_args();
+    return call_user_func_array('rex_i18n::msg', $args);
+  }
 }
