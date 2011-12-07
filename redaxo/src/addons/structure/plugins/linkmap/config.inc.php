@@ -44,13 +44,13 @@ if (rex::isBackend() && rex::getUser())
       $category_id = rex_request('toggle_category_id', 'rex-category-id', -1);
       
       $tree = '';
-      $tree .= '<div id="rex-linkmap">'; // TODO adjust id
+      $tree .= '<div id="rex-sitemap">';
+      // TODO remove container (just their to get some linkmap styles)
+      $tree .= '<div id="rex-linkmap">'; 
       $categoryTree = new rex_sitemap_categoryTree($params["context"]);
 			$tree .= $categoryTree->getTree($category_id);
 
-			// TODO do articles really make sense in the sitemap?
-      $articleList = new rex_sitemap_articleList($params["context"]);
-      $tree .= $articleList->getList($category_id);
+      $tree .= '</div>';
       $tree .= '</div>';
       
       $params['subject'] = $tree;

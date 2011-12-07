@@ -42,16 +42,3 @@ class rex_sitemap_categoryTree extends rex_linkmap_treeRenderer {
     return $li;
   }
 }
-
-class rex_sitemap_articleList extends rex_linkmap_articleListRenderer {
-  private $context;
-
-  public function __construct(rex_context $context) {
-    $this->context = $context;
-  }
-    
-  protected function listItem(rex_ooArticle $article, $category_id)
-  {
-    return 'TOODDOO';
-  }
-}
