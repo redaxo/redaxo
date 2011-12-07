@@ -6,7 +6,6 @@
 abstract class rex_package_manager extends rex_factory
 {
   const
-    PACKAGE_FILE = 'package.yml',
     CONFIG_FILE = 'config.inc.php',
     INSTALL_FILE = 'install.inc.php',
     INSTALL_SQL = 'install.sql',
@@ -87,9 +86,6 @@ abstract class rex_package_manager extends rex_factory
 
       if ($state === TRUE)
       {
-        // load package infos
-        self::loadPackageInfos($this->package);
-
         // check if requirements are met
         $state = $this->checkRequirements();
 
@@ -252,9 +248,6 @@ abstract class rex_package_manager extends rex_factory
     {
       if ($this->package->isInstalled())
       {
-        // load package infos
-        self::loadPackageInfos($this->package);
-
         $state = $this->checkRequirements();
 
         if ($state === TRUE)
@@ -613,28 +606,6 @@ abstract class rex_package_manager extends rex_factory
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }
     return $package->includeFile($file);
-  }
-
-  /**
-   * Loads the package infos
-   *
-   * @param rex_package $package Package
-   */
-  static public function loadPackageInfos(rex_package $package)
-  {
-    $package_file = $package->getBasePath(self::PACKAGE_FILE);
-
-    if(is_readable($package_file))
-    {
-      $ymlConfig = rex_file::getConfig($package_file);
-      if($ymlConfig)
-      {
-        foreach($ymlConfig as $confName => $confValue)
-        {
-          $package->setProperty($confName, rex_i18n::translateArray($confValue));
-        }
-      }
-    }
   }
 
   /**

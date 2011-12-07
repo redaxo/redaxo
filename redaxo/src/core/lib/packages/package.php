@@ -22,6 +22,13 @@ abstract class rex_package implements rex_package_interface
   private $properties = array();
 
   /**
+   * Flag whether the properties of package.yml are loaded
+   *
+   * @var boolean
+   */
+  private $propertiesLoaded = false;
+
+  /**
    * Constructor
    *
    * @param string $name Name
@@ -127,11 +134,7 @@ abstract class rex_package implements rex_package_interface
    */
   public function getProperty($key, $default = null)
   {
-    if(!is_string($key))
-    {
-      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
-    }
-    if(isset($this->properties[$key]))
+    if($this->hasProperty($key))
     {
       return $this->properties[$key];
     }
@@ -143,7 +146,15 @@ abstract class rex_package implements rex_package_interface
    */
   public function hasProperty($key)
   {
-    return is_string($key) && isset($this->properties[$key]);
+    if(!is_string($key))
+    {
+      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
+    }
+    if(!isset($this->properties[$key]) && !$this->propertiesLoaded)
+    {
+      $this->loadProperties();
+    }
+    return isset($this->properties[$key]);
   }
 
   /* (non-PHPdoc)
@@ -234,5 +245,19 @@ abstract class rex_package implements rex_package_interface
       $args[0] = $key;
     }
     return call_user_func_array('rex_i18n::msg', $args);
+  }
+
+  /**
+   * Loads the properties of package.yml
+   */
+  private function loadProperties()
+  {
+    $properties = rex_file::getConfig($this->getBasePath('package.yml'));
+    foreach($properties as $key => $value)
+    {
+      if(!isset($this->properties[$key]))
+        $this->properties[$key] = rex_i18n::translateArray($value);
+    }
+    $this->propertiesLoaded = true;
   }
 }
