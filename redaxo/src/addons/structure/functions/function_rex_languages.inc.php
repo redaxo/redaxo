@@ -34,9 +34,9 @@ if ($num_clang>1)
      $i++;
      $languages[] = $lang;
   }
+  
+  $langfragment = new rex_fragment();
+  $langfragment->setVar('languages', $languages, false);
+  echo $langfragment->parse('structure/languages');
+  unset($langfragment);
 }
-
-$langfragment = new rex_fragment();
-$langfragment->setVar('languages', $languages, false);
-echo $langfragment->parse('structure/languages');
-unset($langfragment);
