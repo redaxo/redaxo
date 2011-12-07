@@ -25,7 +25,7 @@ function rex_version_initArticle($params)
 	if(!isset($_SESSION))
 		session_start();
 
-	if (!rex_hasBackendSession())
+	if (!rex_backend_login::hasSession())
 	{
     echo 'no permission for the working version';
 		exit();

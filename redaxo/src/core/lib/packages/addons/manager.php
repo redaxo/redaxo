@@ -54,11 +54,10 @@ class rex_addon_manager extends rex_package_manager
 
     $plugins = new SplObjectStorage;
 
-    // create the managers for all available plugins and load their infos
+    // create the managers for all available plugins
     foreach($this->package->getAvailablePlugins() as $plugin)
     {
       $plugins[$plugin] = rex_plugin_manager::factory($plugin);
-      rex_plugin_manager::loadPackageInfos($plugin);
     }
 
     // mark all plugins whose requirements are not met

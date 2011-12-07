@@ -283,12 +283,13 @@ if ($checkmodus == 1)
 
 	// -------------------------- SCHREIBRECHTE
 	$WRITEABLES = array (
-		rex_path::core('master.inc.php'),
-		rex_path::cache(),
 		rex_path::media('', rex_path::ABSOLUTE),
 		rex_path::media('_readme.txt', rex_path::ABSOLUTE),
 		rex_path::assets('', rex_path::ABSOLUTE),
 		rex_path::assets('_readme.txt', rex_path::ABSOLUTE),
+		rex_path::cache(),
+		rex_path::data(),
+		rex_path::data('config.yml'),
 		getImportDir()
 	);
 

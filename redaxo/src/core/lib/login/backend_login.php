@@ -89,4 +89,14 @@ class rex_backend_login extends rex_login
 
     return $check;
   }
+
+  static public function hasSession()
+  {
+    if (session_id() == "")
+      session_start();
+
+    $instname = rex::getProperty('instname');
+
+    return isset($_SESSION[$instname]['UID']) && $_SESSION[$instname]['UID'] > 0;
+  }
 }

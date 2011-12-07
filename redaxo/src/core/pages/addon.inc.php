@@ -66,17 +66,11 @@ if ($subpage == '')
 
   foreach (rex_addon::getRegisteredAddons() as $addonName => $addon)
   {
-    // load package infos, especially for un-available addons
-    rex_addon_manager::loadPackageInfos($addon);
-
     echo rex_api_package::getTableRow($addon);
 
     $hide = !$addon->isActivated();
     foreach($addon->getRegisteredPlugins() as $pluginName => $plugin)
     {
-      // load package infos, especially for un-available plugin
-      rex_plugin_manager::loadPackageInfos($plugin);
-
       echo rex_api_package::getTableRow($plugin, $hide);
     }
   }

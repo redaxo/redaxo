@@ -111,12 +111,6 @@ function rex_setAttributes($name,$value,$content)
   return json_encode($prop);
 }
 
-function array_insert($array, $index, $value)
-{
-  // In PHP5 akzeptiert array_merge nur arrays. Deshalb hier $value als Array verpacken
-  return array_merge(array_slice($array, 0, $index), array($value), array_slice($array, $index));
-}
-
 function rex_message($message, $cssClass, $sorround_tag)
 {
   $return = '';
@@ -374,22 +368,4 @@ function rex_highlight_file($filename, $return = false)
     return $s;
   }
   echo $s;
-}
-
-/**
- * Prueft, ob der aktuelle Benutzer im Backend eingeloggt ist.
- *
- * Diese Funktion kann auch aus dem Frontend heraus verwendet werden.
- */
-function rex_hasBackendSession()
-{
-  if(!isset($_SESSION))
-    return false;
-
-  $instname = rex::getProperty('instname');
-
-  if(!isset($_SESSION[$instname]))
-    return false;
-
-  return $_SESSION[$instname]['UID'] > 0;
 }

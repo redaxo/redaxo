@@ -39,8 +39,6 @@ foreach($packageOrder as $packageId)
   {
     rex_i18n::addDirectory($folder .'lang');
   }
-  // load package infos
-  rex_package_manager::loadPackageInfos($package);
 }
 
 // now we actually include the addons logic
