@@ -43,7 +43,7 @@ function openREXLinklist(id, param)
     param = '';  
   }
 
-  for (ii = 0; ii < sourcelength; ii++) {
+  for (var ii = 0; ii < sourcelength; ii++) {
     if (source.options[ii].selected) {
       param = '&action=link_details&file_name='+ source.options[ii].value;
       break;
@@ -64,3 +64,18 @@ function moveREXLinklist(id, direction){
 function writeREXLinklist(id){
   writeREX(id, 'REX_LINKLIST_', 'REX_LINKLIST_SELECT_');
 }
+
+// ----------------- sitemap functions
+
+jQuery(function($){
+	// insert empty child list, so drag&drop works in every level (not only where we already childs exists)
+	$('#rex-sitemap li:not(:contains(ul))').each(function (){
+		$('<ul />').appendTo(this);
+	});
+	
+	// see http://a.shinynew.me/post/4641524290/jquery-ui-nested-sortables
+	$('#rex-sitemap ul').sortable({
+		connectWith: '#rex-sitemap ul',
+		placeholder: 'rex-tree-highlight'
+	});
+});
