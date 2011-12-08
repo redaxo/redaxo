@@ -40,7 +40,10 @@ class rex_install_webservice
         }
       }
     }
-    catch(rex_exception $e) {}
+    catch(rex_exception $e)
+    {
+      rex_logger::logException($e, false, false);
+    }
 
     if(!$error)
       $error = rex_i18n::msg('install_webservice_unreachable');
@@ -65,7 +68,10 @@ class rex_install_webservice
         return $file;
       }
     }
-    catch(rex_exception $e) {}
+    catch(rex_exception $e)
+    {
+      rex_logger::logException($e, false, false);
+    }
 
     throw new rex_exception(rex_i18n::msg('install_archive_unreachable'));
   }
