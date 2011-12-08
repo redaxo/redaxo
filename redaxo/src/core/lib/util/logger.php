@@ -51,10 +51,12 @@ abstract class rex_logger extends rex_factory
    * Logs the given Exception
    *
    * @param Exception $exception The Exception to log
+   * @param boolean $printError Flag to indicate whether the error should be printed, or not
+   * @param boolean $exit Flag to indicate whether the script should stop
    */
-  static public function logException(Exception $exception)
+  static public function logException(Exception $exception, $printError = true, $exit = true)
   {
-    self::logError($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
+    self::logError($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), null, $printError, $exit);
   }
 
   /**
@@ -66,8 +68,9 @@ abstract class rex_logger extends rex_factory
    * @param integer $errline The line of the file in which the error occured
    * @param array   $errcontext Array that points to the active symbol table at the point the error occurred.
    * @param boolean $printError Flag to indicate whether the error should be printed, or not
+   * @param boolean $exit Flag to indicate whether the script should stop
    */
-  static public function logError($errno, $errstr, $errfile, $errline, array $errcontext = null, $printError = true)
+  static public function logError($errno, $errstr, $errfile, $errline, array $errcontext = null, $printError = true, $exit = true)
   {
     if(!is_int($errno))
     {
@@ -101,7 +104,7 @@ abstract class rex_logger extends rex_factory
 
     self::log($errorType .'['. $errno .']: '. $msg, $errno);
 
-    if(in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR)))
+    if($exit && in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR)))
     {
       exit(1);
     }
