@@ -42,7 +42,7 @@ class rex_install_webservice
     }
     catch(rex_socket_exception $e)
     {
-      rex_logger::logException($e, false, false);
+      rex_logger::logException($e);
     }
 
     if(!$error)
@@ -70,7 +70,7 @@ class rex_install_webservice
     }
     catch(rex_socket_exception $e)
     {
-      rex_logger::logException($e, false, false);
+      rex_logger::logException($e);
     }
 
     throw new rex_functional_exception(rex_i18n::msg('install_archive_unreachable'));
