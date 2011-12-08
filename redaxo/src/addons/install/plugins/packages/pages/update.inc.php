@@ -9,7 +9,7 @@ try
 {
   $addons = rex_install_packages::getUpdateAddons();
 }
-catch(rex_exception $e)
+catch(rex_functional_exception $e)
 {
   echo rex_warning($e->getMessage());
   $addonkey = '';

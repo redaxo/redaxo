@@ -40,7 +40,7 @@ class rex_install_webservice
         }
       }
     }
-    catch(rex_exception $e)
+    catch(rex_socket_exception $e)
     {
       rex_logger::logException($e, false, false);
     }
@@ -48,7 +48,7 @@ class rex_install_webservice
     if(!$error)
       $error = rex_i18n::msg('install_webservice_unreachable');
 
-    throw new rex_exception($error);
+    throw new rex_functional_exception($error);
   }
 
   static public function getArchive($url)
@@ -68,12 +68,12 @@ class rex_install_webservice
         return $file;
       }
     }
-    catch(rex_exception $e)
+    catch(rex_socket_exception $e)
     {
       rex_logger::logException($e, false, false);
     }
 
-    throw new rex_exception(rex_i18n::msg('install_archive_unreachable'));
+    throw new rex_functional_exception(rex_i18n::msg('install_archive_unreachable'));
   }
 
   static private function getCache($path)
