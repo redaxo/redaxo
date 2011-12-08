@@ -35,7 +35,7 @@ class rex_socket
     $parts = parse_url($url);
     if(!isset($parts['host']))
     {
-      throw new rex_exception('It isn\'t possible to parse the URL "'. $url .'"!');
+      throw new rex_socket_exception('It isn\'t possible to parse the URL "'. $url .'"!');
     }
     $host = $parts['host'];
     $path = (isset($parts['path'])     ? $parts['path']          : '/')
@@ -48,7 +48,7 @@ class rex_socket
       $supportedProtocols = array('http', 'https');
       if(!in_array($parts['scheme'], $supportedProtocols))
       {
-        throw new rex_exception('Unsupported protocol "'. $parts['scheme'] .'". Supported protocols are '. implode(', ', $supportedProtocols). '.');
+        throw new rex_socket_exception('Unsupported protocol "'. $parts['scheme'] .'". Supported protocols are '. implode(', ', $supportedProtocols). '.');
       }
       if($parts['scheme'] == 'https')
       {
@@ -134,7 +134,7 @@ class rex_socket
     }
     if(!($this->fp = @fsockopen($this->prefix . $this->host, $this->port, $errno, $errstr)))
     {
-      throw new rex_exception($errstr .' ('. $errno .')');
+      throw new rex_socket_exception($errstr .' ('. $errno .')');
     }
 
     stream_set_timeout($this->fp, $this->timeout);
@@ -165,7 +165,7 @@ class rex_socket
     $meta = stream_get_meta_data($this->fp);
     if($meta['timed_out'])
     {
-      throw new rex_exception('Timeout!');
+      throw new rex_socket_exception('Timeout!');
     }
 
     while(!feof($this->fp) && strpos($this->header, "\r\n\r\n") === false)
@@ -250,3 +250,5 @@ class rex_socket
     }
   }
 }
+
+class rex_socket_exception extends rex_exception {}
