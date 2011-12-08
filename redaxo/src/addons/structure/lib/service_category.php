@@ -411,8 +411,17 @@ class rex_category_service
     return ($currentStatus - 1) % count($catStatusTypes);
   }
   
-
-
+  /**
+   * Kopiert eine Kategorie in eine andere
+   *
+   * @param int $from_cat_id KategorieId der Kategorie, die kopiert werden soll (Quelle)
+   * @param int $to_cat_id   KategorieId der Kategorie, IN die kopiert werden soll (Ziel)
+   */
+  static public function copyCategory($from_cat, $to_cat)
+  {
+    // TODO rex_copyCategory implementieren
+  }
+  
   /**
    * Berechnet die Prios der Kategorien in einer Kategorie neu
    *
@@ -444,6 +453,128 @@ class rex_category_service
     }
   }
 
+  
+  /**
+   * Verschieben einer Kategorie in eine andere
+   *
+   * @param int $from_cat_id KategorieId der Kategorie, die verschoben werden soll (Quelle)
+   * @param int $to_cat_id   KategorieId der Kategorie, IN die verschoben werden soll (Ziel)
+   *
+   * @return boolean TRUE bei Erfolg, sonst FALSE
+   */
+  static public function moveCategory($from_cat, $to_cat)
+  {
+    $from_cat = (int) $from_cat;
+    $to_cat = (int) $to_cat;
+  
+    if ($from_cat == $to_cat)
+    {
+      // kann nicht in gleiche kategroie kopiert werden
+      return false;
+    }
+    else
+    {
+      // kategorien vorhanden ?
+      // ist die zielkategorie im pfad der quellkategeorie ?
+      $fcat = rex_sql::factory();
+      $fcat->setQuery("select * from ".rex::getTablePrefix()."article where startpage=1 and id=$from_cat and clang=0");
+  
+      $tcat = rex_sql::factory();
+      $tcat->setQuery("select * from ".rex::getTablePrefix()."article where startpage=1 and id=$to_cat and clang=0");
+  
+      if ($fcat->getRows()!=1 or ($tcat->getRows()!=1 && $to_cat != 0))
+      {
+        // eine der kategorien existiert nicht
+        return false;
+      }
+      else
+      {
+        if ($to_cat>0)
+        {
+          $tcats = explode("|",$tcat->getValue("path"));
+          if (in_array($from_cat,$tcats))
+          {
+            // zielkategorie ist in quellkategorie -> nicht verschiebbar
+            return false;
+          }
+        }
+  
+        // ----- folgende cats regenerate
+        $RC = array();
+        $RC[$fcat->getValue("re_id")] = 1;
+        $RC[$from_cat] = 1;
+        $RC[$to_cat] = 1;
+  
+        if ($to_cat>0)
+        {
+          $to_path = $tcat->getValue("path").$to_cat."|";
+          $to_re_id = $tcat->getValue("re_id");
+        }
+        else
+        {
+          $to_path = "|";
+          $to_re_id = 0;
+        }
+  
+        $from_path = $fcat->getValue("path").$from_cat."|";
+  
+        $gcats = rex_sql::factory();
+        // $gcats->debugsql = 1;
+        $gcats->setQuery("select * from ".rex::getTablePrefix()."article where path like '".$from_path."%' and clang=0");
+  
+        $up = rex_sql::factory();
+        // $up->debugsql = 1;
+        for($i=0;$i<$gcats->getRows();$i++)
+        {
+          // make update
+          $new_path = $to_path.$from_cat."|".str_replace($from_path,"",$gcats->getValue("path"));
+          $icid = $gcats->getValue("id");
+          $irecid = $gcats->getValue("re_id");
+  
+          // path aendern und speichern
+          $up->setTable(rex::getTablePrefix()."article");
+          $up->setWhere("id=$icid");
+          $up->setValue("path",$new_path);
+          $up->update();
+  
+          // cat in gen eintragen
+          $RC[$icid] = 1;
+  
+          $gcats->next();
+        }
+  
+        // ----- clang holen, max catprio holen und entsprechen updaten
+        $gmax = rex_sql::factory();
+        $up = rex_sql::factory();
+        // $up->debugsql = 1;
+        foreach(rex_clang::getAllIds() as $clang)
+        {
+          $gmax->setQuery("select max(catprior) from ".rex::getTablePrefix()."article where re_id=$to_cat and clang=".$clang);
+          $catprior = (int) $gmax->getValue("max(catprior)");
+          $up->setTable(rex::getTablePrefix()."article");
+          $up->setWhere("id=$from_cat and clang=$clang ");
+          $up->setValue("path",$to_path);
+          $up->setValue("re_id",$to_cat);
+          $up->setValue("catprior",($catprior+1));
+          $up->update();
+        }
+  
+        // ----- generiere artikel neu - ohne neue inhaltsgenerierung
+        foreach($RC as $id => $key)
+        {
+          rex_article_cache::delete($id);
+        }
+  
+        foreach(rex_clang::getAllIds() as $clang)
+        {
+          self::newCatPrio($fcat->getValue("re_id"),$clang,0,1);
+        }
+      }
+    }
+  
+    return true;
+  }
+  
   /**
    * Checks whether the required array key $keyName isset
    *

@@ -68,7 +68,7 @@ function rex_deleteSlice($slice_id)
  */
 function rex_copyCategory($from_cat, $to_cat)
 {
-  return rex_content_service::copyCategory($from_cat, $to_cat);
+  return rex_category_service::copyCategory($from_cat, $to_cat);
 }
 
 /**
@@ -84,7 +84,7 @@ function rex_copyCategory($from_cat, $to_cat)
  */
 function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params = array ())
 {
-  return rex_content_service::copyMeta($from_id, $to_id, $from_clang, $to_clang, $params);
+  return rex_article_service::copyMeta($from_id, $to_id, $from_clang, $to_clang, $params);
 }
 
 /**
@@ -113,7 +113,7 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
  */
 function rex_copyArticle($id, $to_cat_id)
 {
-  return rex_content_service::copyArticle($id, $to_cat_id);
+  return rex_article_service::copyArticle($id, $to_cat_id);
 }
 
 /**
@@ -127,7 +127,7 @@ function rex_copyArticle($id, $to_cat_id)
  */
 function rex_moveArticle($id, $from_cat_id, $to_cat_id)
 {
-  return rex_content_service::moveArticle($id, $from_cat_id, $to_cat_id);
+  return rex_article_service::moveArticle($id, $from_cat_id, $to_cat_id);
 }
 
 /**
@@ -140,7 +140,7 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
  */
 function rex_moveCategory($from_cat, $to_cat)
 {
-  return rex_content_service::moveCategory($from_cat, $to_cat);  
+  return rex_category_service::moveCategory($from_cat, $to_cat);  
 }
 
 /**
@@ -153,5 +153,5 @@ function rex_moveCategory($from_cat, $to_cat)
  */
 function rex_generateArticleContent($article_id, $clang = null)
 {
-  return rex_content_service::moveCategory($from_cat, $to_cat);  
+  return rex_content_service::generateArticleContent($article_id, $clang);  
 }
