@@ -30,6 +30,8 @@ class rex_func_other_test extends PHPUnit_Framework_TestCase
     $this->assertTrue(rex_version_compare('1.0', '1.0', '='), '1.0 is equal to 1.0');
     $this->assertTrue(rex_version_compare('1', '1.0', '='), '1 is equal to 1.0');
     $this->assertTrue(rex_version_compare('1.0 a1', '1.0.a1', '='), '1.0 a1 is equal to 1.0.a1');
+    $this->assertTrue(rex_version_compare('1.0a1', '1.0.a1', '='), '1.0a1 is equal to 1.0.a1');
+    $this->assertTrue(rex_version_compare('1.0 alpha 1', '1.0.a1', '='), '1.0 alpha 1 is equal to 1.0.a1');
 
     $this->assertTrue(rex_version_compare('1', '2', '<'), '1 is less than 2');
     $this->assertTrue(rex_version_compare('1', '1.1', '<'), '1 is less than 1.1');
@@ -42,5 +44,10 @@ class rex_func_other_test extends PHPUnit_Framework_TestCase
     $this->assertTrue(rex_version_compare('1.a1', '1.b1', '<'), '1.a1 is less than 1.b1');
     $this->assertTrue(rex_version_compare('1.0.a1', '1', '<'), '1.0.a1 is less than 1');
     $this->assertTrue(rex_version_compare('1.0.a1', '1.0.0.0', '<'), '1.0.a1 is less than 1.0.0.0');
+    $this->assertTrue(rex_version_compare('1.0a1', '1.0', '<'), '1.0a1 is less than 1.0');
+    $this->assertTrue(rex_version_compare('1.0a1', '1.0.1', '<'), '1.0a1 is less than 1.0.1');
+    $this->assertTrue(rex_version_compare('1.0a1', '1.0a2', '<'), '1.0a1 is less than 1.0a2');
+    $this->assertTrue(rex_version_compare('1.0', '1.1a1', '<'), '1.0 is less than 1.1a1');
+    $this->assertTrue(rex_version_compare('1.0.1', '1.1a1', '<'), '1.0.1 is less than 1.1a1');
   }
 }
