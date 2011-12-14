@@ -149,7 +149,7 @@ class rex_sql extends rex_factory implements Iterator
    *
    * @param $query The sql-query
    * @param $params An optional array of statement parameter
-   * 
+   *
    * @throws rex_sql_exception on errors
    */
   public function setDBQuery($qry, $params = array())
@@ -217,7 +217,7 @@ class rex_sql extends rex_factory implements Iterator
    *
    * @param $query string The sql-query
    * @param $params array An optional array of statement parameter
-   * 
+   *
    * @throws rex_sql_exception on errors
    */
   public function setQuery($qry, array $params = array())
@@ -538,7 +538,7 @@ class rex_sql extends rex_factory implements Iterator
     // fast fail,... value already set manually?
     if(isset($this->values[$feldname]))
       return true;
-        
+
     if(strpos($feldname, '.') !== false)
     {
       $parts = explode('.', $feldname);
@@ -863,9 +863,9 @@ class rex_sql extends rex_factory implements Iterator
    *
    * @param $query The sql-query
    * @param $params An optional array of statement parameter
-   * 
+   *
    * @return array
-   * 
+   *
    * @throws rex_sql_exception on errors
    */
   public function getDBArray($qry = null, array $params = array(), $fetchType = PDO::FETCH_ASSOC)
@@ -875,9 +875,9 @@ class rex_sql extends rex_factory implements Iterator
       $qry = $this->query;
       $params = $this->params;
     }
-    
+
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
-    $this->setDBQuery($qry, $params); 
+    $this->setDBQuery($qry, $params);
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
 
     return $this->stmt->fetchAll($fetchType);
@@ -888,9 +888,9 @@ class rex_sql extends rex_factory implements Iterator
    *
    * @param $query string The sql-query
    * @param $params array An optional array of statement parameter
-   * 
+   *
    * @return array
-   * 
+   *
    * @throws rex_sql_exception on errors
    */
   public function getArray($qry = null, array $params = array(), $fetchType = PDO::FETCH_ASSOC)
@@ -900,11 +900,11 @@ class rex_sql extends rex_factory implements Iterator
       $qry = $this->query;
       $params = $this->params;
     }
-    
+
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
     $this->setQuery($qry, $params);
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
-    
+
     return $this->stmt->fetchAll($fetchType);
   }
 
@@ -1076,7 +1076,7 @@ class rex_sql extends rex_factory implements Iterator
   /**
    * @see http://www.php.net/manual/en/iterator.rewind.php
    */
-  function rewind()
+  public function rewind()
   {
     $this->reset();
   }
@@ -1084,7 +1084,7 @@ class rex_sql extends rex_factory implements Iterator
   /**
    * @see http://www.php.net/manual/en/iterator.current.php
    */
-  function current()
+  public function current()
   {
     return $this;
   }
@@ -1092,7 +1092,7 @@ class rex_sql extends rex_factory implements Iterator
   /**
    * @see http://www.php.net/manual/en/iterator.key.php
    */
-  function key()
+  public function key()
   {
     return $this->counter;
   }
@@ -1100,7 +1100,7 @@ class rex_sql extends rex_factory implements Iterator
   /**
    * @see http://www.php.net/manual/en/iterator.next.php
    */
-  function next()
+  public function next()
   {
     $this->counter++;
     $this->lastRow = $this->stmt->fetch();
@@ -1109,7 +1109,7 @@ class rex_sql extends rex_factory implements Iterator
   /**
    * @see http://www.php.net/manual/en/iterator.valid.php
    */
-  function valid()
+  public function valid()
   {
     return $this->hasNext();
   }
@@ -1248,8 +1248,8 @@ class rex_sql extends rex_factory implements Iterator
         $login,
         $pw
       );
-      
-      // db connection was successfully established, but we were meant to create the db 
+
+      // db connection was successfully established, but we were meant to create the db
       if($createDb)
       {
         // -> throw db already exists error
