@@ -140,3 +140,25 @@ function rex_title($head, $subtitle = '')
 {
   echo rex_view::title($head, $subtitle);
 }
+
+/**
+* Escaped einen String
+*
+* @param $string Zu escapender String
+*
+* @deprecated 5.0
+*/
+function rex_addslashes($string, $flag = '\\\'\"')
+{
+  if ($flag == '\\\'\"')
+  {
+    $string = str_replace('\\', '\\\\', $string);
+    $string = str_replace('\'', '\\\'', $string);
+    $string = str_replace('"', '\"', $string);
+  }elseif ($flag == '\\\'')
+  {
+    $string = str_replace('\\', '\\\\', $string);
+    $string = str_replace('\'', '\\\'', $string);
+  }
+  return $string;
+}
