@@ -32,9 +32,9 @@ if ($func == 'delete')
   if ($field_id != 0)
   {
     if (rex_metainfo_delete_field($field_id))
-      echo rex_info(rex_i18n::msg('minfo_field_successfull_deleted'));
+      echo rex_view::info(rex_i18n::msg('minfo_field_successfull_deleted'));
     else
-      echo rex_warning(rex_i18n::msg('minfo_field_error_deleted'));
+      echo rex_view::warning(rex_i18n::msg('minfo_field_error_deleted'));
   }
   $func = '';
 }

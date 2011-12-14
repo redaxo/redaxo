@@ -27,6 +27,6 @@ switch ($subpage)
 }
 
 
-rex_title($title);
+echo rex_view::title($title);
 
 require dirname(__FILE__).'/'. $file;

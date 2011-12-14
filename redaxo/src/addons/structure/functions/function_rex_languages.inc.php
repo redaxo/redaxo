@@ -35,7 +35,7 @@ if ($num_clang>1)
     {
       echo '
     <!-- *** OUTPUT OF CLANG-VALIDATE - START *** -->
-          '. rex_warning('You have no permission to this area') .'
+          '. rex_view::warning('You have no permission to this area') .'
     <!-- *** OUTPUT OF CLANG-VALIDATE - END *** -->
       ';
       exit;

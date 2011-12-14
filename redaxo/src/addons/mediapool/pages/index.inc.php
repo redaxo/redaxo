@@ -106,17 +106,17 @@ $subline = rex_extension::registerPoint('PAGE_MEDIAPOOL_MENU', $subline,
 );
 
 $title = rex_i18n::msg('pool_media');
-rex_title($title, $subline);
+echo rex_view::title($title, $subline);
 
 // -------------- Messages
 if ($info != '')
 {
-  echo rex_info($info);
+  echo rex_view::info($info);
   $info = '';
 }
 if ($warning != '')
 {
-  echo rex_warning($warning);
+  echo rex_view::warning($warning);
   $warning = '';
 }
 

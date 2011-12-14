@@ -1,7 +1,7 @@
 <?php
 
 $subpages = array();
-rex_title('layout', $subpages);
+echo rex_view::title('layout', $subpages);
 
 $pluginContent = rex_extension::registerPoint('LAYOUT_PAGE_CONTENT', '', array());
 

@@ -21,7 +21,7 @@ include_once rex_path::addon('import_export', 'functions/function_import_folder.
 
 $subpage = rex_request('subpage', 'string');
 
-rex_title(rex_i18n::msg("im_export_importexport"));
+echo rex_view::title(rex_i18n::msg("im_export_importexport"));
 
 if($subpage == "import" && (rex::getUser()->hasPerm('import_export[import]') || rex::getUser()->isAdmin()))
   require rex_path::addon('import_export', 'pages/import.inc.php');

@@ -13,7 +13,7 @@ $func = rex_request('func', 'string');
 // -------------- Header
 if($subpage != 'phpinfo')
 {
-  rex_title(rex_i18n::msg('system'));
+  echo rex_view::title(rex_i18n::msg('system'));
 }
 
 switch($subpage)

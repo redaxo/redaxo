@@ -5,7 +5,7 @@
  * @version svn:$Id$
  */
 
-rex_title(rex_i18n::msg('addon'), '');
+echo rex_view::title(rex_i18n::msg('addon'), '');
 
 // -------------- RequestVars
 $subpage = rex_request('subpage', 'string');

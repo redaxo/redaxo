@@ -76,7 +76,7 @@ foreach(array(1 =>rex_i18n::msg('phpmailer_high'),3 => rex_i18n::msg('phpmailer_
 
 
 if($message != '')
-  echo rex_info($message);
+  echo rex_view::info($message);
 
 ?>
 

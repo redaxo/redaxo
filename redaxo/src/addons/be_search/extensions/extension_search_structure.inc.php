@@ -158,7 +158,7 @@ function rex_be_search_structure($params)
     }
     else
     {
-      $message = rex_warning(rex_i18n::msg('be_search_no_results'));
+      $message = rex_view::warning(rex_i18n::msg('be_search_no_results'));
     }
   }
 

@@ -9,7 +9,7 @@
  * @version svn:$Id$
  */
 
-rex_title('Textile');
+echo rex_view::title('Textile');
 
 
 $mdl_help = '<?php rex_a79_help_overview(); ?>';
@@ -27,7 +27,7 @@ if(rex_addon::isAvailable("textile"))
 }
 else
 {
-  echo rex_warning(\'Dieses Modul ben&ouml;tigt das "textile" Addon!\');
+  echo rex_view::warning(\'Dieses Modul ben&ouml;tigt das "textile" Addon!\');
 }
 ?>';
 

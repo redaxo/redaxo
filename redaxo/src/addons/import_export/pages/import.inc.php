@@ -123,11 +123,11 @@ elseif ($function == "fileimport")
 }
 if ($info != '')
 {
-  echo rex_info($info);
+  echo rex_view::info($info);
 }
 if ($warning != '')
 {
-  echo rex_warning($warning);
+  echo rex_view::warning($warning);
 }
 
 ?>

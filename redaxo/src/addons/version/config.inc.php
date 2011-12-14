@@ -78,16 +78,16 @@ function rex_version_header($params)
 		case("copy_work_to_live"):
 		  if($working_version_empty)
 		  {
-		  	$return .= rex_warning(rex_i18n::msg("version_warning_working_version_to_live"));
+		  	$return .= rex_view::warning(rex_i18n::msg("version_warning_working_version_to_live"));
 		  }else if(!rex::getUser()->hasPerm('version[only_working_version]'))
 		  {
 				rex_article_revision::copyContent($params['article_id'],$params['clang'],rex_article_revision::WORK, rex_article_revision::LIVE);
-		  	$return .= rex_info(rex_i18n::msg("version_info_working_version_to_live"));
+		  	$return .= rex_view::info(rex_i18n::msg("version_info_working_version_to_live"));
 		  }
 		break;
 		case("copy_live_to_work"):
 			rex_article_revision::copyContent($params['article_id'],$params['clang'],rex_article_revision::LIVE, rex_article_revision::WORK);
-		  $return .= rex_info(rex_i18n::msg("version_info_live_version_to_working"));
+		  $return .= rex_view::info(rex_i18n::msg("version_info_live_version_to_working"));
 		break;
 	}
 

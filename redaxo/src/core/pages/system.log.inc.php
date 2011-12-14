@@ -65,10 +65,10 @@ if ($func == 'delLog')
 }
 
 if ($info != '')
-  echo rex_info($info);
+  echo rex_view::info($info);
 
 if ($warning != '')
-  echo rex_warning($warning);
+  echo rex_view::warning($warning);
 
 ?>
 <iframe src="index.php?page=<?php echo $page; ?>&amp;subpage=<?php echo $subpage; ?>&amp;func=readlog" class="rex-log" width="100%" height="500px">

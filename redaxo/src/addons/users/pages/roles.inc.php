@@ -4,7 +4,7 @@ if($func == 'delete')
 {
   $sql = rex_sql::factory();
   $sql->setQuery('DELETE FROM '. rex::getTable('user_role') .' WHERE id = ? LIMIT 1', array($id));
-  echo rex_info(rex_i18n::msg("user_role_deleted"));
+  echo rex_view::info(rex_i18n::msg("user_role_deleted"));
   $func = '';
 }
 

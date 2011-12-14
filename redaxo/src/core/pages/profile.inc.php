@@ -21,7 +21,7 @@ $userlogin = $user->getUserLogin();
 
 // --------------------------------- Title
 
-rex_title(rex_i18n::msg('profile_title'),'');
+echo rex_view::title(rex_i18n::msg('profile_title'),'');
 
 // --------------------------------- BE LANG
 
@@ -105,10 +105,10 @@ if (rex_post('upd_psw_button', 'string'))
 // ---------------------------------- ERR MSG
 
 if ($info != '')
-  echo rex_info($info);
+  echo rex_view::info($info);
 
 if ($warning != '')
-  echo rex_warning($warning);
+  echo rex_view::warning($warning);
 
 // --------------------------------- FORMS
 

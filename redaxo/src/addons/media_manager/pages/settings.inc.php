@@ -22,7 +22,7 @@ if ($func == 'update')
 
   rex_config::set('media_manager', 'jpg_quality', $jpg_quality);
 
-  echo rex_info(rex_i18n::msg('media_manager_config_saved'));
+  echo rex_view::info(rex_i18n::msg('media_manager_config_saved'));
 }
 
 echo '

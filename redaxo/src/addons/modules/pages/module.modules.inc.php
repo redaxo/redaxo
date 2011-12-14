@@ -195,13 +195,13 @@ if ($function == 'add' or $function == 'edit')
     if ($function != 'add') $btn_update = '<input type="submit" class="rex-form-submit rex-form-submit-2" name="goon" value="'.rex_i18n::msg("save_module_and_continue").'"'. rex::getAccesskey(rex_i18n::msg('save_module_and_continue'), 'apply') .' />';
 
     if ($info != '')
-      echo rex_info($info);
+      echo rex_view::info($info);
 
     if ($warning != '')
-      echo rex_warning($warning);
+      echo rex_view::warning($warning);
 
     if ($warning_block != '')
-      echo rex_warning_block($warning_block);
+      echo rex_view::warningBlock($warning_block);
 
     echo '
 			<div class="rex-form rex-form-module-editmode">
@@ -365,13 +365,13 @@ if ($function == 'add' or $function == 'edit')
 if ($OUT)
 {
   if ($info != '')
-    echo rex_info($info);
+    echo rex_view::info($info);
 
   if ($warning != '')
-    echo rex_warning($warning);
+    echo rex_view::warning($warning);
 
   if ($warning_block != '')
-    echo rex_warning_block($warning_block);
+    echo rex_view::warningBlock($warning_block);
 
   $list = rex_list::factory('SELECT id, name FROM '.rex::getTablePrefix().'module ORDER BY name');
   $list->setCaption(rex_i18n::msg('module_caption'));

@@ -342,13 +342,13 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
   if (isset($warning) and $warning != "")
   {
-    $s .= rex_warning($warning);
+    $s .= rex_view::warning($warning);
     $warning = "";
   }
 
   if (isset($info) and $info != "")
   {
-    $s .= rex_info($info);
+    $s .= rex_view::info($info);
     $info = "";
   }
 
