@@ -4,6 +4,8 @@ abstract class rex_api_install_packages_base extends rex_api_function
 {
   protected
     $addonkey,
+    $fileId,
+    $file,
     $archive;
 
   public function execute()
@@ -12,30 +14,35 @@ abstract class rex_api_install_packages_base extends rex_api_function
     {
       throw new rex_api_exception('You do not have the permission!');
     }
-    $message = '';
     $this->addonkey = rex_request('addonkey', 'string');
+    $function = static::GET_PACKAGES_FUNCTION;
+    $packages = rex_install_packages::$function();
+    $this->fileId = rex_request('file', 'int');
+    if(!isset($packages[$this->addonkey]['files'][$this->fileId]))
+    {
+      return null;
+    }
+    $this->file = $packages[$this->addonkey]['files'][$this->fileId];
     $this->checkPreConditions();
     try
     {
-      $archivefile = rex_install_webservice::getArchive(rex_request('file', 'string'));
+      $archivefile = rex_install_webservice::getArchive($this->file['filepath']);
     }
-    catch(rex_exception $e)
+    catch(rex_functional_exception $e)
     {
-      $message = $e->getMessage();
+      throw new rex_api_exception($e->getMessage());
     }
-    if(!$message)
+    $message = '';
+    $this->archive = "phar://$archivefile/". $this->addonkey;
+    if(!file_exists($this->archive))
     {
-      $this->archive = "phar://$archivefile/". $this->addonkey;
-      if(!file_exists($this->archive))
-      {
-        $message = rex_i18n::msg('install_packages_warning_zip_wrong_format');
-      }
-      elseif(is_string($msg = $this->doAction()))
-      {
-        $message = $msg;
-      }
-      rex_file::delete($archivefile);
+      $message = rex_i18n::msg('install_packages_warning_zip_wrong_format');
     }
+    elseif(is_string($msg = $this->doAction()))
+    {
+      $message = $msg;
+    }
+    rex_file::delete($archivefile);
     if($message)
     {
       $message = rex_i18n::msg('install_packages_warning_not_'. static::VERB, $this->addonkey) .'<br />'. $message;
@@ -69,6 +76,7 @@ abstract class rex_api_install_packages_base extends rex_api_function
 class rex_api_install_packages_download extends rex_api_install_packages_base
 {
   const
+    GET_PACKAGES_FUNCTION = 'getAddPackages',
     VERB = 'downloaded',
     SHOW_LINK = true;
 
@@ -87,12 +95,14 @@ class rex_api_install_packages_download extends rex_api_install_packages_base
       return $msg;
     }
     rex_package_manager::synchronizeWithFileSystem();
+    rex_install_packages::addedPackage($this->addonkey);
   }
 }
 
 class rex_api_install_packages_update extends rex_api_install_packages_base
 {
   const
+    GET_PACKAGES_FUNCTION = 'getUpdatePackages',
     VERB = 'updated',
     SHOW_LINK = false;
 
@@ -105,10 +115,9 @@ class rex_api_install_packages_update extends rex_api_install_packages_base
       throw new rex_api_exception(sprintf('AddOn "%s" does not exist!', $this->addonkey));
     }
     $this->addon = rex_addon::get($this->addonkey);
-    $version = rex_request('version', 'string');
-    if(!rex_version_compare($version, $this->addon->getVersion(), '>'))
+    if(!rex_version_compare($this->file['version'], $this->addon->getVersion(), '>'))
     {
-      throw new rex_api_exception(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $version));
+      throw new rex_api_exception(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $this->file['version']));
     }
   }
 
@@ -136,7 +145,7 @@ class rex_api_install_packages_update extends rex_api_install_packages_base
           }
         }
       }
-      $version = isset($config['version']) ? $config['version'] : rex_request('version', 'string');
+      $version = isset($config['version']) ? $config['version'] : $this->file['version'];
       $oldVersion = $this->addon->getVersion();
       $this->addon->setProperty('version', $version);
       $messages = array();
@@ -200,6 +209,7 @@ class rex_api_install_packages_update extends rex_api_install_packages_base
     {
       rex_dir::copy($origAssets, $assets);
     }
+    rex_install_packages::updatedPackage($this->addonkey, $this->fileId);
   }
 
   static private function copyDirToArchive($dir, $basename, PharData $archive)

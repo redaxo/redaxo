@@ -13,7 +13,7 @@ catch(rex_functional_exception $e)
   $addonkey = '';
 }
 
-if($addonkey)
+if($addonkey && isset($addons[$addonkey]))
 {
   $addon = $addons[$addonkey];
   $file_id = rex_request('file', 'string');
@@ -118,9 +118,9 @@ if($addonkey)
   			<th>'. $this->i18n('status') .'</th>
   		</tr>';
 
-    foreach($addon['files'] as $id => $file)
+    foreach($addon['files'] as $fileId => $file)
     {
-      $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey='. $addonkey .'&amp;file='. $id .'">%s</a>';
+      $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey='. $addonkey .'&amp;file='. $fileId .'">%s</a>';
       $status = $file['status'] ? 'online' : 'offline';
       echo '
       <tr>

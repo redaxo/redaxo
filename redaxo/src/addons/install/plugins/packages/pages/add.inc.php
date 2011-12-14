@@ -7,7 +7,7 @@ echo rex_api_function::getMessage();
 
 try
 {
-  $addons = rex_install_packages::getAddAddons();
+  $addons = rex_install_packages::getAddPackages();
 }
 catch(rex_functional_exception $e)
 {
@@ -15,7 +15,7 @@ catch(rex_functional_exception $e)
   $addonkey = '';
 }
 
-if($addonkey)
+if($addonkey && isset($addons[$addonkey]))
 {
   $addon = $addons[$addonkey];
 
@@ -51,14 +51,14 @@ if($addonkey)
   			<th></th>
   		</tr>';
 
-  foreach($addon['files'] as $file)
+  foreach($addon['files'] as $fileId => $file)
   {
     echo '
       <tr>
-        <td class="rex-icon"><span class="rex-i-element rex-i-generic"><span class="rex-i-element-in">'. $file['filename'] .'</span></span></td>
+        <td class="rex-icon"><span class="rex-i-element rex-i-generic"><span class="rex-i-element-in">'. $file['version'] .'</span></span></td>
       	<td>'. $file['version'] .'</td>
       	<td>'. nl2br($file['description']) .'</td>
-      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_download&amp;file='. $file['filepath'] .'">'. $this->i18n('download') .'</a></td>
+      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_download&amp;file='. $fileId .'">'. $this->i18n('download') .'</a></td>
       </tr>';
   }
 

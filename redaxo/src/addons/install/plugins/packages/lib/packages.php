@@ -2,61 +2,86 @@
 
 class rex_install_packages
 {
-  static public function getUpdateAddons()
-  {
-    $addons = self::getAddons();
+  static private
+    $updatePackages,
+    $addPackages,
+    $myPackages;
 
-    foreach($addons as $key => $addon)
+  static public function getUpdatePackages()
+  {
+    if(is_array(self::$updatePackages))
+      return self::$updatePackages;
+
+    self::$updatePackages = self::getPackages();
+
+    foreach(self::$updatePackages as $key => $addon)
     {
       if(rex_addon::exists($key) && isset($addon['files']))
       {
-        foreach($addon['files'] as $filekey => $file)
-        {
-          if(rex_version_compare($file['version'], rex_addon::get($key)->getVersion(), '>'))
-          {
-            $addons[$key]['available_versions'][] = $file['version'];
-          }
-          else
-          {
-            unset($addons[$key]['files'][$filekey]);
-          }
-        }
-        if(empty($addons[$key]['files']))
-        {
-          unset($addons[$key]);
-        }
+        self::unsetOlderVersions($key, rex_addon::get($key)->getVersion());
       }
       else
       {
-        unset($addons[$key]);
+        unset(self::$updatePackages[$key]);
       }
     }
-    return $addons;
+    return self::$updatePackages;
   }
 
-  static public function getAddAddons()
+  static public function updatedPackage($package, $fileId)
   {
-    $addons = self::getAddons();
-    foreach($addons as $key => $addon)
+    self::unsetOlderVersions($package, self::$updatePackages[$package]['files'][$fileId]['version']);
+  }
+
+  static private function unsetOlderVersions($package, $version)
+  {
+    foreach(self::$updatePackages[$package]['files'] as $fileId => $file)
+    {
+      if(rex_version_compare($file['version'], $version, '<='))
+      {
+        unset(self::$updatePackages[$package]['files'][$fileId]);
+      }
+    }
+    if(empty(self::$updatePackages[$package]['files']))
+    {
+      unset(self::$updatePackages[$package]);
+    }
+  }
+
+  static public function getAddPackages()
+  {
+    if(is_array(self::$addPackages))
+      return self::$addPackages;
+
+    self::$addPackages = self::getPackages();
+    foreach(self::$addPackages as $key => $addon)
     {
       if(rex_addon::exists($key))
-        unset($addons[$key]);
+        unset(self::$addPackages[$key]);
     }
-    return $addons;
+    return self::$addPackages;
+  }
+
+  static public function addedPackage($package)
+  {
+    unset(self::$addPackages[$package]);
   }
 
   static public function getMyPackages()
   {
-    $addons = self::getAddons();
-    foreach($addons as $key => $addon)
+    if(is_array(self::$myPackages))
+      return self::$myPackages;
+
+    self::$myPackages = self::getPackages();
+    foreach(self::$myPackages as $key => $addon)
     {
-      if(!$addon['mine'] || !rex_addon::exists($key))
-        unset($addons[$key]);
+      if(!self::$myPackages['mine'] || !rex_addon::exists($key))
+        unset(self::$myPackages[$key]);
     }
-    return $addons;
+    return self::$myPackages;
   }
 
-  static private function getAddons()
+  static private function getPackages()
   {
     $plugin = rex_plugin::get('install', 'packages');
     $path = 'packages/get/';

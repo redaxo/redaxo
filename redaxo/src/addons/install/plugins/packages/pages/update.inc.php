@@ -7,7 +7,7 @@ echo rex_api_function::getMessage();
 
 try
 {
-  $addons = rex_install_packages::getUpdateAddons();
+  $addons = rex_install_packages::getUpdatePackages();
 }
 catch(rex_functional_exception $e)
 {
@@ -15,7 +15,7 @@ catch(rex_functional_exception $e)
   $addonkey = '';
 }
 
-if($addonkey)
+if($addonkey && isset($addons[$addonkey]))
 {
   $addon = $addons[$addonkey];
 
@@ -51,14 +51,14 @@ if($addonkey)
   			<th></th>
   		</tr>';
 
-  foreach($addon['files'] as $file)
+  foreach($addon['files'] as $fileId => $file)
   {
     echo '
       <tr>
-        <td class="rex-icon"><span class="rex-i-element rex-i-generic"><span class="rex-i-element-in">'. $file['filename'] .'</span></span></td>
+        <td class="rex-icon"><span class="rex-i-element rex-i-generic"><span class="rex-i-element-in">'. $file['version'] .'</span></span></td>
       	<td>'. $file['version'] .'</td>
       	<td>'. nl2br($file['description']) .'</td>
-      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_update&amp;file='. $file['filepath'] .'&amp;version='. $file['version'] .'">'. $this->i18n('update') .'</a></td>
+      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_update&amp;file='. $fileId .'">'. $this->i18n('update') .'</a></td>
       </tr>';
   }
 
@@ -84,6 +84,11 @@ else
 
   foreach($addons as $key => $addon)
   {
+    $availableVersions = array();
+    foreach($addon['files'] as $file)
+    {
+      $availableVersions[] = $file['version'];
+    }
     $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey='. $key .'">%s</a>';
     echo '
     	<tr>
@@ -91,7 +96,7 @@ else
     		<td>'. sprintf($a, '', $key) .'</a></td>
     		<td>'. $addon['name'] .'</td>
     		<td>'. rex_addon::get($key)->getVersion() .'</td>
-    		<td>'. implode(', ', $addon['available_versions']) .'</td>
+    		<td>'. implode(', ', $availableVersions) .'</td>
     	</tr>';
   }
 
