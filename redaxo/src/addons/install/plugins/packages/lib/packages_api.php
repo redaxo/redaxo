@@ -8,12 +8,13 @@ abstract class rex_api_install_packages_base extends rex_api_function
 
   public function execute()
   {
+    if(!rex::getUser()->isAdmin())
+    {
+      throw new rex_api_exception('You do not have the permission!');
+    }
     $message = '';
     $this->addonkey = rex_request('addonkey', 'string');
-    if(!$this->checkPreConditions())
-    {
-      return null;
-    }
+    $this->checkPreConditions();
     try
     {
       $archivefile = rex_install_webservice::getArchive(rex_request('file', 'string'));
@@ -73,7 +74,10 @@ class rex_api_install_packages_download extends rex_api_install_packages_base
 
   protected function checkPreConditions()
   {
-    return !rex_addon::exists($this->addonkey);
+    if(rex_addon::exists($this->addonkey))
+    {
+      throw new rex_api_exception(sprintf('AddOn "%s" already exist!', $this->addonkey));
+    }
   }
 
   protected function doAction()
@@ -98,10 +102,14 @@ class rex_api_install_packages_update extends rex_api_install_packages_base
   {
     if(!rex_addon::exists($this->addonkey))
     {
-      return false;
+      throw new rex_api_exception(sprintf('AddOn "%s" does not exist!', $this->addonkey));
     }
     $this->addon = rex_addon::get($this->addonkey);
-    return rex_version_compare(rex_request('version', 'string'), $this->addon->getVersion(), '>');
+    $version = rex_request('version', 'string');
+    if(!rex_version_compare($version, $this->addon->getVersion(), '>'))
+    {
+      throw new rex_api_exception(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $version));
+    }
   }
 
   public function doAction()
