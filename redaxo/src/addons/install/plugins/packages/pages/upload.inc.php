@@ -9,7 +9,7 @@ try
 }
 catch(rex_functional_exception $e)
 {
-  echo rex_warning($e->getMessage());
+  echo rex_view::warning($e->getMessage());
   $addonkey = '';
 }
 

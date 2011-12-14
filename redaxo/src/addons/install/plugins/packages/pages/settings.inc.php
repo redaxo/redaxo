@@ -10,7 +10,7 @@ if(!empty($settings))
     if(isset($settings[$key]))
       $this->setConfig($key, $settings[$key]);
   }
-  echo rex_info($this->i18n('info_settings_saved'));
+  echo rex_view::info($this->i18n('info_settings_saved'));
 }
 
 echo '

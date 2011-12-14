@@ -4,7 +4,7 @@ $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 $subsubpage = rex_request('subsubpage', 'string');
 
-rex_title($this->i18n('name'));
+echo rex_view::title($this->i18n('name'));
 
 if($subpage && $this->getPlugin($subpage)->isAvailable())
 {
@@ -23,7 +23,7 @@ if($subpage && $this->getPlugin($subpage)->isAvailable())
         $page[1]
       );
     }
-    echo rex_toolbar('<div class="rex-content-header-2"><ul>'.$subsubpages.'</ul></div>', 'rex-content-header');
+    echo rex_view::toolbar('<div class="rex-content-header-2"><ul>'.$subsubpages.'</ul></div>', 'rex-content-header');
   }
 
   $plugin->includeFile('pages/index.inc.php');
