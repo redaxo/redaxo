@@ -1,4 +1,4 @@
-version: '1.0'
+version: '5.0 a1'
 author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum
 
@@ -6,7 +6,3 @@ name: 'translate:install_name'
 perm: admin[]
 navigation:
   block: system
-
-requires:
-  redaxo:
-    min-version: '5.0'
