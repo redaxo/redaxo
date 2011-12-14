@@ -34,7 +34,11 @@ abstract class rex_api_install_packages_base extends rex_api_function
     }
     $message = '';
     $this->archive = "phar://$archivefile/". $this->addonkey;
-    if(!file_exists($this->archive))
+    if($this->file['checksum'] != md5_file($archivefile))
+    {
+      $message = rex_i18n::msg('install_packages_warning_zip_wrong_checksum');
+    }
+    elseif(!file_exists($this->archive))
     {
       $message = rex_i18n::msg('install_packages_warning_zip_wrong_format');
     }
