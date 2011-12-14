@@ -1,4 +1,4 @@
-version: '1.0'
+version: '5.0 a1'
 author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum/
 
@@ -7,6 +7,6 @@ requires:
     compat:
       plugins:
         4.x:
-          min-version: '1.0'
+          min-version: '5.0 a1'
     structure:
-      min-version: '1.3'
+      min-version: '5.0 a1'

@@ -9,7 +9,7 @@
  * @version svn:$Id$
  */
 
-rex_title('Version AddOn');
+echo rex_view::title('Version AddOn');
 
 ?>
 <div class="rex-addon-output">

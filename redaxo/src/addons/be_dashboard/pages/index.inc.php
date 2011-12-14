@@ -10,7 +10,7 @@
  * @version svn:$Id$
  */
 
-rex_title(rex_i18n::msg('dashboard'), '');
+echo rex_view::title(rex_i18n::msg('dashboard'), '');
 
 $contentFound = false;
 
@@ -141,5 +141,5 @@ foreach($components as $format => $componentBlocks)
 
 if(!$contentFound)
 {
-  echo rex_warning(rex_i18n::msg('dashboard_no_content'));
+  echo rex_view::warning(rex_i18n::msg('dashboard_no_content'));
 }

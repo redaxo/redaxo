@@ -10,7 +10,7 @@
 $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
-//rex_title(rex_i18n::msg('specials'),$subline);
+//echo rex_view::title(rex_i18n::msg('specials'),$subline);
 
 switch($subpage)
 {

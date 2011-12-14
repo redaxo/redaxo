@@ -45,10 +45,10 @@ if($func == 'delete_cache' && $type_id > 0)
 
 //-------------- output messages
 if ($info != '')
-echo rex_info($info);
+echo rex_view::info($info);
 
 if ($warning != '')
-echo rex_warning($warning);
+echo rex_view::warning($warning);
 
 echo '<div class="rex-addon-output-v2">';
 if ($func == '')

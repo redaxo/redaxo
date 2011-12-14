@@ -1308,11 +1308,11 @@ class rex_form extends rex_factory
     $message = $this->getMessage();
     if($warning != '')
     {
-      $s .= '  '. rex_warning($warning). "\n";
+      $s .= '  '. rex_view::warning($warning). "\n";
     }
     else if($message != '')
     {
-      $s .= '  '. rex_info($message). "\n";
+      $s .= '  '. rex_view::info($message). "\n";
     }
 
     $s .= '<div id="'. $this->divId .'" class="rex-form">'. "\n";

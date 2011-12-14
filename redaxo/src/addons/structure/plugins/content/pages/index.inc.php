@@ -16,5 +16,5 @@ switch($subpage)
   default : $file = 'content.inc.php'; break;
 }
 
-//rex_title(rex_i18n::msg('specials'),$subline);
+//echo rex_view::title(rex_i18n::msg('specials'),$subline);
 require dirname(__FILE__).'/'. $file;

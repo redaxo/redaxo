@@ -225,10 +225,10 @@ if ($function == "add" || $function == "edit")
       $btn_update = '<input type="submit" class="rex-form-submit rex-form-submit-2" name="goon" value="' . rex_i18n::msg('save_action_and_continue') . '"'. rex::getAccesskey(rex_i18n::msg('save_action_and_continue'), 'apply') .' />';
 
     if ($info != '')
-      echo rex_info($info);
+      echo rex_view::info($info);
 
     if ($warning != '')
-      echo rex_warning($warning);
+      echo rex_view::warning($warning);
 
     echo '
       <div class="rex-form rex-action-editmode">
@@ -384,13 +384,13 @@ if ($function == "add" || $function == "edit")
 if ($OUT)
 {
   if ($info != '')
-    echo rex_info($info);
+    echo rex_view::info($info);
 
   if ($warning != '')
-    echo rex_warning($warning);
+    echo rex_view::warning($warning);
 
   if ($warning_blck != '')
-    echo rex_warning_block($warning_blck);
+    echo rex_view::warningBlock($warning_blck);
 
   // ausgabe actionsliste !
   echo '

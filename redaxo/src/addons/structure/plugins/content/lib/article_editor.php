@@ -61,11 +61,11 @@ class rex_article_editor extends rex_article
           $msg = '';
           if($this->warning != '')
           {
-            $msg .= rex_warning($this->warning);
+            $msg .= rex_view::warning($this->warning);
           }
           if($this->info != '')
           {
-            $msg .= rex_info($this->info);
+            $msg .= rex_view::info($this->info);
           }
           $slice_content .= $msg;
         }
@@ -348,7 +348,7 @@ class rex_article_editor extends rex_article
 
     if ($MOD->getRows() != 1)
     {
-      $slice_content = rex_warning(rex_i18n::msg('module_doesnt_exist'));
+      $slice_content = rex_view::warning(rex_i18n::msg('module_doesnt_exist'));
     }else
     {
       $initDataSql = rex_sql::factory();
@@ -376,11 +376,11 @@ class rex_article_editor extends rex_article
       $msg = '';
       if($this->warning != '')
       {
-        $msg .= rex_warning($this->warning);
+        $msg .= rex_view::warning($this->warning);
       }
       if($this->info != '')
       {
-        $msg .= rex_info($this->info);
+        $msg .= rex_view::info($this->info);
       }
 
       $slice_content = '

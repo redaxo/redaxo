@@ -67,7 +67,7 @@ foreach (rex_addon::getRegisteredAddons() as $addon)
 
 }
 
-rex_title(rex_i18n::msg("credits"), "");
+echo rex_view::title(rex_i18n::msg("credits"), "");
 
 echo '
 <div class="rex-area rex-mab-10">

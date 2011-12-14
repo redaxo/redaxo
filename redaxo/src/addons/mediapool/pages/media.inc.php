@@ -256,12 +256,12 @@ if ($subpage == "media")
 
     if ($warning != '')
     {
-      echo rex_warning($warning);
+      echo rex_view::warning($warning);
       $warning = '';
     }
     if ($info != '')
     {
-      echo rex_info($info);
+      echo rex_view::info($info);
       $info = '';
     }
 
@@ -545,27 +545,27 @@ if ($subpage == '')
   if(is_array($warning))
   {
     if(count($warning)>0)
-	    echo rex_warning_block(implode('<br />', $warning));
+	    echo rex_view::warningBlock(implode('<br />', $warning));
     $warning = '';
   }else if($warning != '')
   {
-    echo rex_warning($warning);
+    echo rex_view::warning($warning);
     $warning = '';
   }
 
   if(is_array($info))
   {
     if(count($info)>0)
-      echo rex_info_block(implode('<br />', $info));
+      echo rex_view::infoBlock(implode('<br />', $info));
     $info = '';
   }else if($info != '')
   {
-    echo rex_info($info);
+    echo rex_view::info($info);
     $info = '';
   }
 
   if(!empty($args['types']))
-    echo rex_info(rex_i18n::msg('pool_file_filter', $args['types']));
+    echo rex_view::info(rex_i18n::msg('pool_file_filter', $args['types']));
 
   //deletefilelist und cat change
   echo '<div class="rex-form" id="rex-form-mediapool-media">

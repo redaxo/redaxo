@@ -1,4 +1,4 @@
-setup: false
+setup: true
 instname: rex20110827100044
 server: redaxo.org
 servername: REDAXO

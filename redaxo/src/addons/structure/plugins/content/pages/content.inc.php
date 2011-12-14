@@ -101,7 +101,7 @@ if ($article->getRows() == 1)
   }
 
   // ----- Titel anzeigen
-  rex_title(rex_i18n::msg('content'), $KATout);
+  echo rex_view::title(rex_i18n::msg('content'), $KATout);
 
   // ----- Request Parameter
   $mode     = rex_request('mode', 'string');
@@ -137,7 +137,7 @@ if ($article->getRows() == 1)
   if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
   {
     // ----- hat keine rechte an diesem artikel
-    echo rex_warning(rex_i18n::msg('no_rights_to_edit'));
+    echo rex_view::warning(rex_i18n::msg('no_rights_to_edit'));
   }
   else
   {
@@ -596,11 +596,11 @@ if ($article->getRows() == 1)
     // ------------------------------------------ WARNING
     if($global_warning != '')
     {
-      echo rex_warning($global_warning);
+      echo rex_view::warning($global_warning);
     }
     if($global_info != '')
     {
-      echo rex_info($global_info);
+      echo rex_view::info($global_info);
     }
 //     if ($mode != 'edit')
 //     {
@@ -609,11 +609,11 @@ if ($article->getRows() == 1)
       
       if($warning != '')
       {
-        echo rex_warning($warning);
+        echo rex_view::warning($warning);
       }
       if($info != '')
       {
-        echo rex_info($info);
+        echo rex_view::info($info);
       }
 //     }
 

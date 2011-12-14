@@ -23,7 +23,7 @@ if ($subpage == 'clear_cache')
   $msg = rex_i18n::msg('media_manager_cache_files_removed', $c);
 }
 
-rex_title('Media Manager');
+echo rex_view::title('Media Manager');
 
 // Include Current Page
 switch($subpage)
@@ -36,7 +36,7 @@ switch($subpage)
   default:
   {
   	if ($msg != '')
-		  echo rex_info($msg);
+		  echo rex_view::info($msg);
 
 	  $subpage = 'overview';
   }

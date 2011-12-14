@@ -22,7 +22,7 @@ $subpages = array(
   array('example',rex_i18n::msg('phpmailer_example')),
 );
 
-rex_title(rex_i18n::msg('phpmailer_title'), $subpages);
+echo rex_view::title(rex_i18n::msg('phpmailer_title'), $subpages);
 
 switch($subpage)
 {

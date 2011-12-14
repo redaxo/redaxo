@@ -6,13 +6,13 @@
  * @version svn:$Id$
  */
 
-rex_title('Login');
+echo rex_view::title('Login');
 
 
 $js = '';
 if ($rex_user_loginmessage != '')
 {
-  echo rex_warning($rex_user_loginmessage)."\n";
+  echo rex_view::warning($rex_user_loginmessage)."\n";
   $js = '
     var time_el = $("div.rex-message p span strong");
     if(time_el.length == 1) {

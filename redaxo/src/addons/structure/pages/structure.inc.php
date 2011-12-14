@@ -43,7 +43,7 @@ require dirname(__FILE__) .'/../functions/function_rex_category.inc.php';
 
 // --------------------------------------------- TITLE
 
-rex_title(rex_i18n::msg('title_structure'), $KATout);
+echo rex_view::title(rex_i18n::msg('title_structure'), $KATout);
 
 $sprachen_add = '&amp;category_id='. $category_id;
 require dirname(__FILE__) .'/../functions/function_rex_languages.inc.php';

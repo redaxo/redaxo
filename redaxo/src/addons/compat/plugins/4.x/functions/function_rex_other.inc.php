@@ -60,3 +60,118 @@ function rex_hasBackendSession()
 {
   return rex_backend_login::hasSession();
 }
+
+/**
+* @see rex_view::info()
+*
+* @deprecated 5.0
+*/
+function rex_info($message, $cssClass = null, $sorround_tag = null)
+{
+  return rex_view::info($message, $cssClass, $sorround_tag);
+}
+
+/**
+ * @see rex_view::success()
+ *
+ * @deprecated 5.0
+ */
+function rex_success($message, $cssClass = null, $sorround_tag = null)
+{
+  return rex_view::success($message, $cssClass, $sorround_tag);
+}
+
+/**
+ * @see rex_view::warning()
+ *
+ * @deprecated 5.0
+ */
+function rex_warning($message, $cssClass = null, $sorround_tag = null)
+{
+  return rex_view::warning($message, $cssClass, $sorround_tag);
+}
+
+/**
+ * @see rex_view::infoBlock()
+ *
+ * @deprecated 5.0
+ */
+function rex_info_block($message, $cssClass = null, $sorround_tag = null)
+{
+  return rex_view::infoBlock($message, $cssClass, $sorround_tag);
+}
+
+/**
+ * @see rex_view::warningBlock()
+ *
+ * @deprecated 5.0
+ */
+function rex_warning_block($message, $cssClass = null, $sorround_tag = null)
+{
+  return rex_view::warningBlock($message, $cssClass, $sorround_tag);
+}
+
+/**
+ * @see rex_view::toolbar()
+ *
+ * @deprecated 5.0
+ */
+function rex_toolbar($content, $cssClass = null)
+{
+  return rex_view::toolbar($content, $cssClass);
+}
+
+/**
+ * @see rex_view::contentBlock()
+ *
+ * @deprecated 5.0
+ */
+function rex_content_block($content)
+{
+  return rex_view::contentBlock($content);
+}
+
+/**
+* @see rex_view::title()
+*
+* @deprecated 5.0
+*/
+function rex_title($head, $subtitle = '')
+{
+  echo rex_view::title($head, $subtitle);
+}
+
+/**
+* Escaped einen String
+*
+* @param $string Zu escapender String
+*
+* @deprecated 5.0
+*/
+function rex_addslashes($string, $flag = '\\\'\"')
+{
+  if ($flag == '\\\'\"')
+  {
+    $string = str_replace('\\', '\\\\', $string);
+    $string = str_replace('\'', '\\\'', $string);
+    $string = str_replace('"', '\"', $string);
+  }elseif ($flag == '\\\'')
+  {
+    $string = str_replace('\\', '\\\\', $string);
+    $string = str_replace('\'', '\\\'', $string);
+  }
+  return $string;
+}
+
+/**
+* @deprecated 5.0
+*/
+function rex_highlight_file($filename, $return = false)
+{
+  $s = '<p class="rex-code">'. highlight_file($filename, true) .'</p>';
+  if($return)
+  {
+    return $s;
+  }
+  echo $s;
+}

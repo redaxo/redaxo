@@ -47,16 +47,16 @@ if($func == 'delete' && $effect_id > 0)
 }
 
 if ($info != '')
-  echo rex_info($info);
+  echo rex_view::info($info);
 
 if ($warning != '')
-  echo rex_warning($warning);
+  echo rex_view::warning($warning);
 
 
 echo '<div class="rex-addon-output-v2">';
 if ($func == '' && $type_id > 0)
 {
-  echo rex_content_block(rex_i18n::msg('media_manager_effect_list_header', htmlspecialchars($typeName)));
+  echo rex_view::contentBlock(rex_i18n::msg('media_manager_effect_list_header', htmlspecialchars($typeName)));
 
   $query = 'SELECT * FROM '.rex::getTablePrefix().'media_manager_type_effects WHERE type_id='.$type_id .' ORDER BY prior';
 

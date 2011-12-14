@@ -111,94 +111,7 @@ function rex_setAttributes($name,$value,$content)
   return json_encode($prop);
 }
 
-function rex_message($message, $cssClass, $sorround_tag)
-{
-  $return = '';
 
-  $return = '<div class="rex-section"><div class="rex-message"><'. $sorround_tag .' class="'. $cssClass .'">';
-
-  if ($sorround_tag != 'p')
-    $return .= '<p>';
-
-  $return .= '<span>'. $message .'</span>';
-
-  if ($sorround_tag != 'p')
-    $return .= '</p>';
-
-  $return .= '</'. $sorround_tag .'></div></div>';
-
-  if ($sorround_tag != 'p')
-    $message = '<p>'.$message.'</p>';
-  /*
-  $fragment = new rex_fragment();
-  $fragment->setVar('class', $cssClass);
-  $fragment->setVar('message', $content, false);
-  $return = $fragment->parse('message');
-  */
-  return $return;
-}
-
-function rex_info($message, $cssClass = null, $sorround_tag = null)
-{
-  if(!$cssClass) $cssClass = 'rex-info';
-  if(!$sorround_tag) $sorround_tag = 'div';
-  return rex_message($message, $cssClass, $sorround_tag);
-}
-
-function rex_success($message, $cssClass = null, $sorround_tag = null)
-{
-  if(!$cssClass) $cssClass = 'rex-success';
-  if(!$sorround_tag) $sorround_tag = 'div';
-  return rex_message($message, $cssClass, $sorround_tag);
-}
-
-function rex_warning($message, $cssClass = null, $sorround_tag = null)
-{
-  if(!$cssClass) $cssClass = 'rex-warning';
-  if(!$sorround_tag) $sorround_tag = 'div';
-  return rex_message($message, $cssClass, $sorround_tag);
-}
-
-function rex_info_block($message, $cssClass = null, $sorround_tag = null)
-{
-  if(!$cssClass) $cssClass = 'rex-info-block';
-  if(!$sorround_tag) $sorround_tag = 'div';
-  return rex_message_block($message, $cssClass, $sorround_tag);
-}
-
-function rex_warning_block($message, $cssClass = null, $sorround_tag = null)
-{
-  if(!$cssClass) $cssClass = 'rex-warning-block';
-  if(!$sorround_tag) $sorround_tag = 'div';
-  return rex_message_block($message, $cssClass, $sorround_tag);
-}
-
-function rex_message_block($message, $cssClass, $sorround_tag)
-{
-  return '<div class="rex-message-block">
-            <'. $sorround_tag .' class="'. $cssClass .'">
-              <div class="rex-message-content">
-                '. $message .'
-              </div>
-            </'. $sorround_tag .'>
-          </div>';
-}
-
-function rex_toolbar($content, $cssClass = null)
-{
-  $return = '';
-  $fragment = new rex_fragment();
-  $fragment->setVar('class', $cssClass);
-  $fragment->setVar('content', $content, false);
-  $return = $fragment->parse('toolbar');
-
-  return $return;
-}
-
-function rex_content_block($content)
-{
-  return '<div class="rex-content-block"><div class="rex-content-block-content">'. $content .'</div></div>';
-}
 
 function rex_ini_get($val)
 {
@@ -329,41 +242,11 @@ function rex_version_compare($version1, $version2, $comparator = null)
   return version_compare($version1, $version2, $comparator);
 }
 
-/**
- * Escaped einen String
- *
- * @param $string Zu escapender String
- */
-function rex_addslashes($string, $flag = '\\\'\"')
-{
-  if ($flag == '\\\'\"')
-  {
-    $string = str_replace('\\', '\\\\', $string);
-    $string = str_replace('\'', '\\\'', $string);
-    $string = str_replace('"', '\"', $string);
-  }elseif ($flag == '\\\'')
-  {
-    $string = str_replace('\\', '\\\\', $string);
-    $string = str_replace('\'', '\\\'', $string);
-  }
-  return $string;
-}
-
 // ------------------------------------- Allgemeine PHP Functions
 
 function rex_highlight_string($string, $return = false)
 {
   $s = '<p class="rex-code">'. highlight_string($string, true) .'</p>';
-  if($return)
-  {
-    return $s;
-  }
-  echo $s;
-}
-
-function rex_highlight_file($filename, $return = false)
-{
-  $s = '<p class="rex-code">'. highlight_file($filename, true) .'</p>';
   if($return)
   {
     return $s;

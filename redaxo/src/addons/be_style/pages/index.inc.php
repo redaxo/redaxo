@@ -1,7 +1,7 @@
 <?php
 
 $subpages = array();
-rex_title("be_style", $subpages);
+echo rex_view::title("be_style", $subpages);
 
 $pluginContent = rex_extension::registerPoint('BE_STYLE_PAGE_CONTENT', '', array());
 

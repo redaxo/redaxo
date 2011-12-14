@@ -1,6 +1,6 @@
 <?php
 
-rex_title('TestResults');
+echo rex_view::title('TestResults');
 
 // load all required PEAR libs from vendor folder
 $path = dirname(__FILE__). '/../vendor/';

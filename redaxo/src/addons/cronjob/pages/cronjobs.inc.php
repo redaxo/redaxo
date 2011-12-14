@@ -16,9 +16,9 @@ if ($func == 'setstatus')
   $status = (rex_request('oldstatus', 'int') +1) % 2;
   $msg = $status == 1 ? 'cronjob_status_activate' : 'cronjob_status_deactivate';
   if ($manager->setStatus($oid, $status))
-    echo rex_info(rex_i18n::msg($msg .'_success', $name));
+    echo rex_view::info(rex_i18n::msg($msg .'_success', $name));
   else
-    echo rex_warning(rex_i18n::msg($msg .'_error', $name));
+    echo rex_view::warning(rex_i18n::msg($msg .'_error', $name));
   $func = '';
 }
 
@@ -27,9 +27,9 @@ if ($func == 'delete')
   $manager = rex_cronjob_manager_sql::factory();
   $name = $manager->getName($oid);
   if ($manager->delete($oid))
-    echo rex_info(rex_i18n::msg('cronjob_delete_success', $name));
+    echo rex_view::info(rex_i18n::msg('cronjob_delete_success', $name));
   else
-    echo rex_warning(rex_i18n::msg('cronjob_delete_error', $name));
+    echo rex_view::warning(rex_i18n::msg('cronjob_delete_error', $name));
   $func = '';
 }
 
@@ -42,9 +42,9 @@ if ($func == 'execute')
   if ($manager->hasMessage())
     $msg = '<br /><br />'. rex_i18n::msg('cronjob_log_message') .': <br />'. nl2br($manager->getMessage());
   if ($success)
-    echo rex_info(rex_i18n::msg('cronjob_execute_success', $name) . $msg);
+    echo rex_view::info(rex_i18n::msg('cronjob_execute_success', $name) . $msg);
   else
-    echo rex_warning(rex_i18n::msg('cronjob_execute_error', $name) . $msg);
+    echo rex_view::warning(rex_i18n::msg('cronjob_execute_error', $name) . $msg);
   $func = '';
 }
 

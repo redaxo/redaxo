@@ -1,17 +1,17 @@
-version: '1.3'
+version: '5.0 a1'
 author: 'Markus Staab'
 supportpage: www.redaxo.org/de/forum/
 
 requires:
   addons:
     structure:
-      min-version: '1.3'
+      min-version: '5.0 a1'
       plugins:
         content:
-          min-version: '1.3'
+          min-version: '5.0 a1'
     metainfo:
-      min-version: '1.3'
+      min-version: '5.0 a1'
     modules:
-      min-version: '1.3'
+      min-version: '5.0 a1'
     templates:
-      min-version: '1.3'
+      min-version: '5.0 a1'

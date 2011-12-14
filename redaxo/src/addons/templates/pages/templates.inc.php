@@ -6,7 +6,7 @@
  * @version svn:$Id$
  */
 
-rex_title(rex_i18n::msg('title_templates'), '');
+echo rex_view::title(rex_i18n::msg('title_templates'), '');
 
 $OUT = TRUE;
 
@@ -280,10 +280,10 @@ if ($function == "add" or $function == "edit")
     $tmpl_active_checked = $active == 1 ? ' checked="checked"' : '';
 
     if ($info != '')
-      echo rex_info($info);
+      echo rex_view::info($info);
 
     if ($warning != '')
-      echo rex_warning($warning);
+      echo rex_view::warning($warning);
 
     echo '
       <div class="rex-form rex-form-template-editmode">
@@ -411,10 +411,10 @@ if ($function == "add" or $function == "edit")
 if ($OUT)
 {
   if ($info != '')
-    echo rex_info($info);
+    echo rex_view::info($info);
 
   if ($warning != '')
-    echo rex_warning($warning);
+    echo rex_view::warning($warning);
 
   $list = rex_list::factory('SELECT id, name, active FROM '.rex::getTablePrefix().'template ORDER BY name');
   $list->setCaption(rex_i18n::msg('header_template_caption'));

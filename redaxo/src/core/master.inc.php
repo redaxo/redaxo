@@ -37,15 +37,10 @@ require_once rex_path::core('functions/function_rex_ajax.inc.php');
 require_once rex_path::core('functions/function_rex_other.inc.php');
 require_once rex_path::core('functions/function_rex_generate.inc.php');
 
-if(rex::isBackend())
-{
-  require_once rex_path::core('functions/function_rex_title.inc.php');
-}
-
 // ----------------- VERSION
 rex::setProperty('version', 5);
 rex::setProperty('subversion', 0);
-rex::setProperty('minorversion', 0);
+rex::setProperty('minorversion', 'a1');
 
 $config = rex_file::getConfig(rex_path::data('config.yml'));
 foreach($config as $key => $value)

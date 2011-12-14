@@ -228,11 +228,11 @@ class rex_api_result
   {
     if($this->isSuccessfull())
     {
-      return rex_info($this->message);
+      return rex_view::info($this->message);
     }
     else
     {
-      return rex_warning($this->message);
+      return rex_view::warning($this->message);
     }
   }
 

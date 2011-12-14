@@ -906,11 +906,11 @@ class rex_list extends rex_factory implements rex_url_provider
 
     if($warning != '')
     {
-      $s .= rex_warning($warning). "\n";
+      $s .= rex_view::warning($warning). "\n";
     }
     else if($message != '')
     {
-      $s .= rex_info($message). "\n";
+      $s .= rex_view::info($message). "\n";
     }
 
     if($header != '')

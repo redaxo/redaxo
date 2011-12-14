@@ -13,7 +13,7 @@
  */
 function rex_setup_title($title)
 {
-	rex_title($title);
+	echo rex_view::title($title);
 
 	echo '<div id="rex-setup" class="rex-area">';
 }
@@ -442,7 +442,7 @@ if($checkmodus == 2)
         <input type="hidden" name="lang" value="'.$lang.'" />';
 
 	if ($err_msg != '') {
-		echo rex_warning($err_msg);
+		echo rex_view::warning($err_msg);
 	}
 
 	$timezone_sel = new rex_select;
@@ -676,7 +676,7 @@ if ($checkmodus == 3)
       ';
 
 	if ($err_msg != '')
-	  echo rex_warning($err_msg.'<br />'.rex_i18n::msg('setup_033'));
+	  echo rex_view::warning($err_msg.'<br />'.rex_i18n::msg('setup_033'));
 
 	$dbchecked = array_fill(0, 6, '');
 	switch ($dbanlegen)
@@ -896,7 +896,7 @@ if ($checkmodus == 4)
       ';
 
 	if ($err_msg != "")
-	  echo rex_warning($err_msg);
+	  echo rex_view::warning($err_msg);
 
 	$redaxo_user_login = rex_post('redaxo_user_login', 'string');
 	$redaxo_user_pass  = rex_post('redaxo_user_pass', 'string');

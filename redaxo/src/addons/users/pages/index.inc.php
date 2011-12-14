@@ -15,6 +15,6 @@ if($subpage == 'roles' && rex::getUser()->isAdmin())
 else
   $file = 'users.inc.php';
 
-rex_title(rex_i18n::msg('user_management'));
+echo rex_view::title(rex_i18n::msg('user_management'));
 
 require dirname(__FILE__).'/'. $file;

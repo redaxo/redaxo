@@ -86,10 +86,10 @@ foreach (rex_i18n::getLocales() as $l)
 }
 
 if ($warning != '')
-  echo rex_warning($warning);
+  echo rex_view::warning($warning);
 
 if ($info != '')
-  echo rex_info($info);
+  echo rex_view::info($info);
 
 $dbconfig = rex::getProperty('db');
 
