@@ -1,4 +1,4 @@
-version: '1.3'
+version: '5.0 a1'
 author: 'Jan Kristinus, Markus Staab'
 name: 'translate:im_export_importexport'
 perm: import_export[export]

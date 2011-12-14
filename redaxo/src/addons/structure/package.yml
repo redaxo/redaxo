@@ -1,5 +1,5 @@
 name: 'translate:structure'
-version: '1.3'
+version: '5.0 a1'
 author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
 perm: structure/hasStructurePerm
@@ -10,4 +10,4 @@ navigation:
 requires:
   addons:
     templates:
-      min-version: '1.3'
+      min-version: '5.0 a1'

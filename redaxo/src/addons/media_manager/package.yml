@@ -1,4 +1,4 @@
-version: '1.0'
+version: '5.0 a1'
 author: 'Markus Staab, Jan Kristinus'
 name: 'Media Manager'
 perm: media_manager[]

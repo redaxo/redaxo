@@ -1,4 +1,4 @@
-version: '0.1'
+version: '5.0 a1'
 author: 'Design: Ralph Zumkeller; Umsetzung: Thomas Blum'
 supportpage: www.redaxo.org/de/forum/
 
@@ -7,4 +7,4 @@ requires:
     layout:
       plugins:
         base:
-          min-version: '0.1'
+          min-version: '5.0 a1'
