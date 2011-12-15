@@ -32,7 +32,7 @@ class rex_install_webservice
         {
           $error = rex_i18n::msg('install_webservice_error') .'<br />'. $data['error'];
         }
-        else
+        elseif(is_array($data))
         {
           self::setCache($path, $data);
           return $data;
