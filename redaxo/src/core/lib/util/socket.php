@@ -126,6 +126,11 @@ class rex_socket
     $this->doRequest('POST', $data);
   }
 
+  public function doDelete()
+  {
+    $this->doRequest('DELETE');
+  }
+
   public function doRequest($method, $data = '')
   {
     if(!is_string($data) && !is_callable($data))
