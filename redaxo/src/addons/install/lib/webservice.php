@@ -86,8 +86,8 @@ class rex_install_webservice
       $files = array();
       if($archive)
       {
-        $files[0]['path'] = $archive;
-        $files[0]['type'] = 'application/zip';
+        $files['archive']['path'] = $archive;
+        $files['archive']['type'] = 'application/zip';
       }
       $socket->doPost($data, $files);
       if($socket->getStatus() == 200)
