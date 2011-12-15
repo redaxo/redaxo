@@ -41,50 +41,58 @@ if($addonkey && isset($addons[$addonkey]))
     $redaxo_select->addOption('3.2.x', '3.2.x');
     $redaxo_select->setSelected($file['redaxo_versions']);
 
+    $uploadCheckboxDisabled = '';
+    $hiddenField = '';
+    if($new || !rex_addon::exists($addonkey))
+    {
+      $uploadCheckboxDisabled = ' disabled="disabled"';
+      $hiddenField = '<input type="hidden" name="upload[upload_file]" value="'. ((integer) $new) .'" />';
+    }
+
     echo '
   <div class="rex-form">
-  	<h2 class="rex-hl2">'. $addonkey .': '. $this->i18n($new ? 'file_add' : 'file_edit') .'</h2>
-  	<form action="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;rex-api-call=install_packages_upload&amp;addonkey='. $addonkey .'&amp;file='. $file_id .'" method="post">
-			<fieldset class="rex-form-col-1">
-				<div class="rex-form-wrapper">
-  				<div class="rex-form-row">
+    <h2 class="rex-hl2">'. $addonkey .': '. $this->i18n($new ? 'file_add' : 'file_edit') .'</h2>
+    <form action="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;rex-api-call=install_packages_upload&amp;addonkey='. $addonkey .'&amp;file='. $file_id .'" method="post">
+      <fieldset class="rex-form-col-1">
+        <div class="rex-form-wrapper">
+          <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-read">
-            	<label for="install-packages-upload-version">'. $this->i18n('version') .'</label>
-          		<span id="install-packages-upload-version" class="rex-form-read">'. ($new ? $newVersion : $file['version']) .'</span>
-          		<input type="hidden" name="upload[oldversion]" value="'. $file['version'] .'" />
+              <label for="install-packages-upload-version">'. $this->i18n('version') .'</label>
+              <span id="install-packages-upload-version" class="rex-form-read">'. ($new ? $newVersion : $file['version']) .'</span>
+              <input type="hidden" name="upload[oldversion]" value="'. $file['version'] .'" />
             </p>
           </div>
-  				<div class="rex-form-row">
+          <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
-            	<label for="install-packages-upload-redaxo">REDAXO</label>
-            	'. $redaxo_select->get() .'
+              <label for="install-packages-upload-redaxo">REDAXO</label>
+              '. $redaxo_select->get() .'
             </p>
           </div>
-  				<div class="rex-form-row">
+          <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-textarea">
-            	<label for="install-packages-upload-description">'. $this->i18n('description') .'</label>
-          		<textarea id="install-packages-upload-description" class="rex-form-textarea" name="upload[description]" cols="50" rows="15">'. $file['description'] .'</textarea>
+              <label for="install-packages-upload-description">'. $this->i18n('description') .'</label>
+              <textarea id="install-packages-upload-description" class="rex-form-textarea" name="upload[description]" cols="50" rows="15">'. $file['description'] .'</textarea>
             </p>
           </div>
-  				<div class="rex-form-row">
+          <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-          		<input id="install-packages-upload-status" type="checkbox" class="rex-form-checkbox" name="upload[status]" value="1" '. (!$new && $file['status'] ? 'checked="checked" ' : '') .'/>
-            	<label for="install-packages-upload-status">'. $this->i18n('online') .'</label>
+              <input id="install-packages-upload-status" type="checkbox" class="rex-form-checkbox" name="upload[status]" value="1" '. (!$new && $file['status'] ? 'checked="checked" ' : '') .'/>
+              <label for="install-packages-upload-status">'. $this->i18n('online') .'</label>
             </p>
           </div>
-  				<div class="rex-form-row">
+          <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-          		<input id="install-packages-upload-upload-file" type="checkbox" class="rex-form-checkbox" name="upload[upload_file]" value="1" '. ($new ? 'checked="checked" ' : '') . ($new || !rex_addon::exists($addonkey) ? 'disabled="disabled" ' : '') .'/>
-            	<label for="install-packages-upload-upload-file">'. $this->i18n('upload_file') .'</label>
+              <input id="install-packages-upload-upload-file" type="checkbox" class="rex-form-checkbox" name="upload[upload_file]" value="1" '. ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled .'/>
+              <label for="install-packages-upload-upload-file">'. $this->i18n('upload_file') .'</label>'. $hiddenField .'
             </p>
           </div>
-  				<div class="rex-form-row">
-     				<p class="rex-form-col-a rex-form-submit rex-form-submit-2">
-     					<input id="install-packages-upload-send" type="submit" name="upload[send]" class="rex-form-submit" value="'. $this->i18n('send') .'" />
-						</p>
+          <div class="rex-form-row">
+            <p class="rex-form-col-a rex-form-submit rex-form-submit-2">
+              <input id="install-packages-upload-send" type="submit" name="upload[send]" class="rex-form-submit" value="'. $this->i18n('send') .'" />
+            </p>
           </div>
-  			</div>
-  		</fieldset>
+        </div>
+      </fieldset>
   	</form>
   </div>';
 
