@@ -25,7 +25,7 @@ class rex_api_install_packages_upload extends rex_api_function
         rex_install_helper::copyDirToArchive(rex_path::addon($addonkey), $archive);
         $data['checksum'] = md5_file($archive);
       }
-      rex_install_webservice::post('packages/?package='.$addonkey.'&file_id='.rex_request('file', 'int', 0), $data, $archive);
+      rex_install_webservice::post(rex_install_packages::getPath('?package='.$addonkey.'&file_id='.rex_request('file', 'int', 0)), $data, $archive);
     }
     catch(rex_functional_exception $e)
     {

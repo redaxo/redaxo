@@ -76,7 +76,7 @@ class rex_install_packages
     return self::$myPackages;
   }
 
-  static private function getPackages($path = '')
+  static public function getPath($path = '')
   {
     $plugin = rex_plugin::get('install', 'packages');
     $login = $plugin->getConfig('api_login');
@@ -85,7 +85,11 @@ class rex_install_packages
       $path = $path ? $path .'&' : '?';
       $path .= 'api_login='. $login .'&api_key='. $plugin->getConfig('api_key');
     }
-    $path = 'packages/'. $path;
-    return rex_install_webservice::getJson($path);
+    return 'packages/'. $path;
+  }
+
+  static private function getPackages($path = '')
+  {
+    return rex_install_webservice::getJson(self::getPath($path));
   }
 }
