@@ -197,12 +197,12 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
     $path = rex_path::addon($this->addonkey);
     $archivePath = rex_path::pluginData('install', 'packages', $this->addonkey .'/');
     rex_dir::create($archivePath);
-    $archiveFile = str_replace(array('/', '\\'), '_', $this->addon->getVersion('0')) .'.zip';
-    rex_install_helper::copyDirToArchive($path, $archiveFile);
+    $archive = rex_path::pluginData('install', 'packages', 'developer/'. strtolower(preg_replace("/[^a-z0-9-_.]/i", "_", $this->addon->getVersion('0'))) .'.zip');
+    rex_install_helper::copyDirToArchive($path, $archive);
     $assets = $this->addon->getAssetsPath('', rex_path::ABSOLUTE);
     if(is_dir($assets))
     {
-      rex_install_helper::copyDirToArchive($assets, $archiveFile, 'assets');
+      rex_install_helper::copyDirToArchive($assets, $archive, 'assets');
     }
     rex_dir::delete($path);
     rename($temppath, $path);
