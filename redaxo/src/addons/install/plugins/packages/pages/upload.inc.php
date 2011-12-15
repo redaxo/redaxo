@@ -53,7 +53,7 @@ if($addonkey && isset($addons[$addonkey]))
           </div>
   				<div class="rex-form-row">
             <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-          		<input id="install-packages-upload-upload-file" type="checkbox" class="rex-form-checkbox" name="upload[upload_file]" value="1" '. ($new ? 'checked="checked" disabled="disabled"' : '') .'/>
+          		<input id="install-packages-upload-upload-file" type="checkbox" class="rex-form-checkbox" name="upload[upload_file]" value="1" '. ($new ? 'checked="checked" ' : '') . ($new || !rex_addon::exists($addonkey) ? 'disabled="disabled" ' : '') .'/>
             	<label for="install-packages-upload-upload-file">'. $this->i18n('upload_file') .'</label>
             </p>
           </div>
@@ -87,6 +87,9 @@ if($addonkey && isset($addons[$addonkey]))
   }
   else
   {
+    $icon = '';
+    if(rex_addon::exists($addonkey))
+      $icon = '<a class="rex-i-element rex-i-generic-add" href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey='. $addonkey .'&amp;file=new" title="'. $this->i18n('file_add') .'">'. $this->i18n('file_add') .'</a>';
 
     echo '
   <div class="rex-area">
@@ -114,7 +117,7 @@ if($addonkey && isset($addons[$addonkey]))
   			<th colspan="4">'. $this->i18n('files') .'</th>
   		</tr>
   		<tr>
-  		  <th class="rex-icon"><a class="rex-i-element rex-i-generic-add" href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey='. $addonkey .'&amp;file=new" title="'. $this->i18n('file_add') .'">'. $this->i18n('file_add') .'</a></th>
+  		  <th class="rex-icon">'. $icon .'</th>
   			<th>'. $this->i18n('version') .'</th>
   			<th>'. $this->i18n('description') .'</th>
   			<th>'. $this->i18n('status') .'</th>
