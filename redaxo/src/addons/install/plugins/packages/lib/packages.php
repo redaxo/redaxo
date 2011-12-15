@@ -72,24 +72,20 @@ class rex_install_packages
     if(is_array(self::$myPackages))
       return self::$myPackages;
 
-    self::$myPackages = self::getPackages();
-    foreach(self::$myPackages as $key => $addon)
-    {
-      if(!$addon['mine'] || !rex_addon::exists($key))
-        unset(self::$myPackages[$key]);
-    }
+    self::$myPackages = self::getPackages('?only_my=1');
     return self::$myPackages;
   }
 
-  static private function getPackages()
+  static private function getPackages($path = '')
   {
     $plugin = rex_plugin::get('install', 'packages');
-    $path = 'packages/';
     $login = $plugin->getConfig('api_login');
     if($login)
     {
-      $path .= '?api_login='. $login .'&api_key='. $plugin->getConfig('api_key');
+      $path = $path ? $path .'&' : '?';
+      $path .= 'api_login='. $login .'&api_key='. $plugin->getConfig('api_key');
     }
+    $path = 'packages/'. $path;
     return rex_install_webservice::getJson($path);
   }
 }
