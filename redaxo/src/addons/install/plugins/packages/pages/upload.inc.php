@@ -51,6 +51,7 @@ if($addonkey && isset($addons[$addonkey]))
             <p class="rex-form-col-a rex-form-read">
             	<label for="install-packages-upload-version">'. $this->i18n('version') .'</label>
           		<span id="install-packages-upload-version" class="rex-form-read">'. ($new ? $newVersion : $file['version']) .'</span>
+          		<input type="hidden" name="upload[oldversion]" value="'. $file['version'] .'" />
             </p>
           </div>
   				<div class="rex-form-row">

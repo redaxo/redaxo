@@ -12,13 +12,14 @@ class rex_api_install_packages_upload extends rex_api_function
     $upload = rex_request('upload', 'array');
     $data = array();
     $archive = null;
-    $data['version'] = rex_addon::get($addonkey)->getVersion();
+    $uploadFile = isset($upload['upload_file']) && $upload['upload_file'];
+    $data['version'] = $uploadFile ? rex_addon::get($addonkey)->getVersion() : $upload['oldversion'];
     $data['redaxo_versions'] = $upload['redaxo'];
     $data['description'] = $upload['description'];
     $data['status'] = (integer) isset($upload['status']) && $upload['status'];
     try
     {
-      if(isset($upload['upload_file']) && $upload['upload_file'])
+      if($uploadFile)
       {
         $archive = rex_path::cache('install/'. md5($addonkey . time()) .'.zip');
         rex_install_helper::copyDirToArchive(rex_path::addon($addonkey), $archive);
