@@ -13,7 +13,7 @@ class rex_api_install_packages_upload extends rex_api_function
     $data = array();
     $archive = null;
     $data['version'] = rex_addon::get($addonkey)->getVersion();
-    $data['redaxo_versions'] = array('5.0.x');
+    $data['redaxo_versions'] = $upload['redaxo'];
     $data['description'] = $upload['description'];
     $data['status'] = (integer) isset($upload['status']) && $upload['status'];
     try

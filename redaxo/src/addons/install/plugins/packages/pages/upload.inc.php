@@ -23,9 +23,23 @@ if($addonkey && isset($addons[$addonkey]))
   if($file_id)
   {
     $new = $file_id == 'new';
-    $file = $new ? array('version' => '', 'description' => '', 'status' => 1) : $addon['files'][$file_id];
+    $file = $new ? array('version' => '', 'description' => '', 'status' => 1, 'redaxo_versions' => array('5.0.x')) : $addon['files'][$file_id];
 
     $newVersion = rex_addon::get($addonkey)->getVersion();
+
+    $redaxo_select = new rex_select;
+    $redaxo_select->setName('upload[redaxo][]');
+    $redaxo_select->setId('install-packages-upload-redaxo');
+    $redaxo_select->setAttribute('class', 'rex-form-select');
+    $redaxo_select->setSize(4);
+    $redaxo_select->setMultiple(true);
+    $redaxo_select->addOption('5.0.x', '5.0.x');
+    $redaxo_select->addOption('4.3.x', '4.3.x');
+    $redaxo_select->addOption('4.2.x', '4.2.x');
+    $redaxo_select->addOption('4.1.x', '4.1.x');
+    $redaxo_select->addOption('4.0.x', '4.0.x');
+    $redaxo_select->addOption('3.2.x', '3.2.x');
+    $redaxo_select->setSelected($file['redaxo_versions']);
 
     echo '
   <div class="rex-form">
@@ -40,9 +54,15 @@ if($addonkey && isset($addons[$addonkey]))
             </p>
           </div>
   				<div class="rex-form-row">
+            <p class="rex-form-col-a rex-form-select">
+            	<label for="install-packages-upload-redaxo">REDAXO</label>
+            	'. $redaxo_select->get() .'
+            </p>
+          </div>
+  				<div class="rex-form-row">
             <p class="rex-form-col-a rex-form-textarea">
             	<label for="install-packages-upload-description">'. $this->i18n('description') .'</label>
-          		<textarea id="install-packages-upload-description" class="rex-form-textarea" name="upload[description]" cols="50" rows="6">'. $file['description'] .'</textarea>
+          		<textarea id="install-packages-upload-description" class="rex-form-textarea" name="upload[description]" cols="50" rows="15">'. $file['description'] .'</textarea>
             </p>
           </div>
   				<div class="rex-form-row">
@@ -114,11 +134,12 @@ if($addonkey && isset($addons[$addonkey]))
   	</table>
   	<table class="rex-table">
   		<tr>
-  			<th colspan="4">'. $this->i18n('files') .'</th>
+  			<th colspan="5">'. $this->i18n('files') .'</th>
   		</tr>
   		<tr>
   		  <th class="rex-icon">'. $icon .'</th>
   			<th>'. $this->i18n('version') .'</th>
+  			<th>REDAXO</th>
   			<th>'. $this->i18n('description') .'</th>
   			<th>'. $this->i18n('status') .'</th>
   		</tr>';
@@ -131,6 +152,7 @@ if($addonkey && isset($addons[$addonkey]))
       <tr>
         <td class="rex-icon">'. sprintf($a, ' class="rex-i-element rex-i-addon"', '<span class="rex-i-element-text">'. $file['version'] .'</span>') .'</td>
       	<td>'. sprintf($a, '', $file['version']) .'</a></td>
+      	<td>'. implode(', ', $file['redaxo_versions']) .'</td>
       	<td>'. nl2br($file['description']) .'</td>
       	<td><span class="rex-'. $status .'">'. $this->i18n($status) .'</span></td>
       </tr>';
