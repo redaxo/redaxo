@@ -59,7 +59,8 @@ class rex_file
 
     if(file_put_contents($file, $content) !== false)
     {
-      return chmod($file, rex::getFilePerm());
+      chmod($file, rex::getFilePerm());
+      return true;
     }
 
     return false;
