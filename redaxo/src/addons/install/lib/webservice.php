@@ -20,7 +20,6 @@ class rex_install_webservice
     $fullpath = strpos($path, '?') === false ? rtrim($path, '/') .'/?' : $path .'&';
     $fullpath = self::PATH . $fullpath .'rex_version='. rex::getVersion();
 
-    $data = null;
     $error = null;
     try
     {
@@ -74,6 +73,40 @@ class rex_install_webservice
     }
 
     throw new rex_functional_exception(rex_i18n::msg('install_archive_unreachable'));
+  }
+
+  static public function post($path, array $data, $archive = null)
+  {
+    $fullpath = self::PATH . $path;
+    $error = null;
+    try
+    {
+      $socket = new rex_socket(self::HOST, $fullpath, self::PORT, self::PREFIX);
+      $data = array('data' => $data);
+      $files = array();
+      if($archive)
+      {
+        $files[0]['path'] = $archive;
+        $files[0]['type'] = 'application/zip';
+      }
+      $socket->doPost($data, $files);
+      if($socket->getStatus() == 200)
+      {
+        $data = json_decode($socket->getBody(), true);
+        if(!isset($data['error']) || !is_string($data['error']))
+          return;
+        $error = rex_i18n::msg('install_webservice_error') .'<br />'. $data['error'];
+      }
+    }
+    catch(rex_socket_exception $e)
+    {
+      rex_logger::logException($e);
+    }
+
+    if(!$error)
+      $error = rex_i18n::msg('install_webservice_unreachable');
+
+    throw new rex_functional_exception($error);
   }
 
   static private function getCache($path)

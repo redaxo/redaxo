@@ -3,6 +3,8 @@
 $addonkey = rex_request('addonkey', 'string');
 $addons = array();
 
+echo rex_api_function::getMessage();
+
 try
 {
   $addons = rex_install_packages::getMyPackages();
@@ -28,7 +30,7 @@ if($addonkey && isset($addons[$addonkey]))
     echo '
   <div class="rex-form">
   	<h2 class="rex-hl2">'. $addonkey .': '. $this->i18n($new ? 'file_add' : 'file_edit') .'</h2>
-  	<form action="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey='. $addonkey .'&amp;file='. $file_id .'" method="post">
+  	<form action="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;rex-api-call=install_packages_upload&amp;addonkey='. $addonkey .'&amp;file='. $file_id .'" method="post">
 			<fieldset class="rex-form-col-1">
 				<div class="rex-form-wrapper">
   				<div class="rex-form-row">

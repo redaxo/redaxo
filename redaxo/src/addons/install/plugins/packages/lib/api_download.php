@@ -1,6 +1,6 @@
 <?php
 
-abstract class rex_api_install_packages_base extends rex_api_function
+abstract class rex_api_install_packages_download extends rex_api_function
 {
   protected
     $addonkey,
@@ -26,7 +26,7 @@ abstract class rex_api_install_packages_base extends rex_api_function
     $this->checkPreConditions();
     try
     {
-      $archivefile = rex_install_webservice::getArchive($this->file['filepath']);
+      $archivefile = rex_install_webservice::getArchive($this->file['path']);
     }
     catch(rex_functional_exception $e)
     {
@@ -77,7 +77,7 @@ abstract class rex_api_install_packages_base extends rex_api_function
   abstract protected function doAction();
 }
 
-class rex_api_install_packages_download extends rex_api_install_packages_base
+class rex_api_install_packages_add extends rex_api_install_packages_download
 {
   const
     GET_PACKAGES_FUNCTION = 'getAddPackages',
@@ -103,7 +103,7 @@ class rex_api_install_packages_download extends rex_api_install_packages_base
   }
 }
 
-class rex_api_install_packages_update extends rex_api_install_packages_base
+class rex_api_install_packages_update extends rex_api_install_packages_download
 {
   const
     GET_PACKAGES_FUNCTION = 'getUpdatePackages',
@@ -198,14 +198,12 @@ class rex_api_install_packages_update extends rex_api_install_packages_base
     $archivePath = rex_path::pluginData('install', 'packages', $this->addonkey .'/');
     rex_dir::create($archivePath);
     $archiveFile = str_replace(array('/', '\\'), '_', $this->addon->getVersion('0')) .'.zip';
-    $archive = new PharData($archivePath . $archiveFile, 0, null, Phar::ZIP);
-    self::copyDirToArchive($path, $this->addonkey, $archive);
+    rex_install_helper::copyDirToArchive($path, $archiveFile);
     $assets = $this->addon->getAssetsPath('', rex_path::ABSOLUTE);
     if(is_dir($assets))
     {
-      self::copyDirToArchive($assets, 'assets', $archive);
+      rex_install_helper::copyDirToArchive($assets, $archiveFile, 'assets');
     }
-    $archive->compressFiles(Phar::GZ);
     rex_dir::delete($path);
     rename($temppath, $path);
     $origAssets = $this->addon->getBasePath('assets');
@@ -214,23 +212,6 @@ class rex_api_install_packages_update extends rex_api_install_packages_base
       rex_dir::copy($origAssets, $assets);
     }
     rex_install_packages::updatedPackage($this->addonkey, $this->fileId);
-  }
-
-  static private function copyDirToArchive($dir, $basename, PharData $archive)
-  {
-    $archive->addEmptyDir($basename);
-    foreach(rex_dir::recursiveIterator($dir, rex_dir_recursive_iterator::SELF_FIRST) as $path => $file)
-    {
-      $path = $basename . DIRECTORY_SEPARATOR . str_replace($dir, '', $path);
-      if($file->isDir())
-      {
-        $archive->addEmptyDir($path);
-      }
-      else
-      {
-        $archive->addFile($file->getRealPath(), $path);
-      }
-    }
   }
 
   public function __destruct()

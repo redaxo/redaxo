@@ -75,7 +75,7 @@ class rex_install_packages
     self::$myPackages = self::getPackages();
     foreach(self::$myPackages as $key => $addon)
     {
-      if(!self::$myPackages['mine'] || !rex_addon::exists($key))
+      if(!$addon['mine'] || !rex_addon::exists($key))
         unset(self::$myPackages[$key]);
     }
     return self::$myPackages;
@@ -84,7 +84,7 @@ class rex_install_packages
   static private function getPackages()
   {
     $plugin = rex_plugin::get('install', 'packages');
-    $path = 'packages/get/';
+    $path = 'packages/';
     $login = $plugin->getConfig('api_login');
     if($login)
     {
