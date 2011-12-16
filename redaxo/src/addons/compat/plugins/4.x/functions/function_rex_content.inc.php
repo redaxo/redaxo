@@ -153,5 +153,5 @@ function rex_moveCategory($from_cat, $to_cat)
  */
 function rex_generateArticleContent($article_id, $clang = null)
 {
-  return rex_content_service::moveCategory($from_cat, $to_cat);  
+  return rex_content_service::generateArticleContent($article_id, $clang);
 }
