@@ -33,6 +33,7 @@ install_packages_warning_zip_wrong_checksum = Die Prüfsumme der heruntergeladen
 install_packages_warning_zip_wrong_format = Die Zip-Datei ist nicht im erforderlichen Format!
 install_packages_warning_zip_not_extracted = Die Zip-Datei konnte nicht in das AddOn-Verzeichnis entpackt werden!
 install_packages_info_addon_uploaded = AddOn "{0}" wurde hochgeladen!
+install_packages_info_addon_deleted = AddOn-Version von "{0}" wurde gelöscht!
 
 install_packages_myredaxo_account = myREDAXO-Account
 install_packages_username = Nutzername

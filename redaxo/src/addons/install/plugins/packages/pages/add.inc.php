@@ -55,7 +55,7 @@ if($addonkey && isset($addons[$addonkey]))
   {
     echo '
       <tr>
-        <td class="rex-icon"><span class="rex-i-element rex-i-generic"><span class="rex-i-element-in">'. $file['version'] .'</span></span></td>
+        <td class="rex-icon"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-in">'. $file['version'] .'</span></span></td>
       	<td>'. $file['version'] .'</td>
       	<td>'. nl2br($file['description']) .'</td>
       	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_add&amp;file='. $fileId .'">'. $this->i18n('download') .'</a></td>

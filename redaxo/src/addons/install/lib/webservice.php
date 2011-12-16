@@ -109,6 +109,33 @@ class rex_install_webservice
     throw new rex_functional_exception($error);
   }
 
+  static public function delete($path)
+  {
+    $fullpath = self::PATH . $path;
+    $error = null;
+    try
+    {
+      $socket = new rex_socket(self::HOST, $fullpath, self::PORT, self::PREFIX);
+      $socket->doDelete();
+      if($socket->getStatus() == 200)
+      {
+        $data = json_decode($socket->getBody(), true);
+        if(!isset($data['error']) || !is_string($data['error']))
+          return;
+        $error = rex_i18n::msg('install_webservice_error') .'<br />'. $data['error'];
+      }
+    }
+    catch(rex_socket_exception $e)
+    {
+      rex_logger::logException($e);
+    }
+
+    if(!$error)
+      $error = rex_i18n::msg('install_webservice_unreachable');
+
+    throw new rex_functional_exception($error);
+  }
+
   static public function deleteCache($pathBegin)
   {
     self::loadCache();

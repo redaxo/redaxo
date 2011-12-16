@@ -49,10 +49,12 @@ if($addonkey && isset($addons[$addonkey]))
       $hiddenField = '<input type="hidden" name="upload[upload_file]" value="'. ((integer) $new) .'" />';
     }
 
+    $path = 'index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;rex-api-call=install_packages_%s&amp;addonkey='. $addonkey .'&amp;file='. $file_id;
+
     echo '
   <div class="rex-form">
     <h2 class="rex-hl2">'. $addonkey .': '. $this->i18n($new ? 'file_add' : 'file_edit') .'</h2>
-    <form action="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;rex-api-call=install_packages_upload&amp;addonkey='. $addonkey .'&amp;file='. $file_id .'" method="post">
+    <form action="'. sprintf($path, 'upload') .'" method="post">
       <fieldset class="rex-form-col-1">
         <div class="rex-form-wrapper">
           <div class="rex-form-row">
@@ -89,6 +91,7 @@ if($addonkey && isset($addons[$addonkey]))
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-submit rex-form-submit-2">
               <input id="install-packages-upload-send" type="submit" name="upload[send]" class="rex-form-submit" value="'. $this->i18n('send') .'" />
+              <input id="install-packages-delete" type="button" class="rex-form-submit rex-form-submit-2" value="'. $this->i18n('delete') .'" onclick="if(confirm(\''. $this->i18n('delete') .' ?\')) location.href=\''. sprintf($path, 'delete') .'\';" />
             </p>
           </div>
         </div>
