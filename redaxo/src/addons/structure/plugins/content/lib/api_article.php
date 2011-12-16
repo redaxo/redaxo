@@ -116,7 +116,7 @@ class rex_article extends rex_article_base
       if(!file_exists($article_content_file))
       {
         include_once rex_path::plugin('structure', 'content', 'functions/function_rex_content.inc.php');
-        $generated = rex_generateArticleContent($this->article_id, $this->clang);
+        $generated = rex_content_service::generateArticleContent($this->article_id, $this->clang);
         if($generated !== true)
         {
           // fehlermeldung ausgeben
