@@ -455,7 +455,7 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
       $db = rex_sql::factory();
       // $db->debugsql = true;
       $db->setTable(rex::getTablePrefix().'media');
-      $db->setWhere('filename="'.$file_name.'"');
+      $db->setWhere(array('filename' => $file_name));
       $db->setValue('category_id',$rex_file_category);
       $db->addGlobalUpdateFields();
       if($db->update())

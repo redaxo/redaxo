@@ -412,7 +412,7 @@ class rex_ooMediaCategory
     if ($this->getId() !== null)
     {
       $sql->addGlobalUpdateFields();
-      $sql->setWhere('id=' . $this->getId() . ' LIMIT 1');
+      $sql->setWhere(array('id' => $this->getId()));
       $success = $sql->update();
       if ($success)
         rex_media_cache::deleteCategory($this->getId());

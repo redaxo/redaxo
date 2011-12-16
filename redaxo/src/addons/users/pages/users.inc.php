@@ -155,7 +155,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 
   $updateuser = rex_sql::factory();
   $updateuser->setTable(rex::getTablePrefix().'user');
-  $updateuser->setWhere('user_id='. $user_id);
+  $updateuser->setWhere(array('user_id' => $user_id));
   $updateuser->setValue('name',$username);
   $updateuser->setValue('role', $userrole);
   $updateuser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);

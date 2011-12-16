@@ -123,22 +123,22 @@ if ($function == "add" || $function == "edit")
       if ($function == 'add')
       {
         $faction->addGlobalCreateFields();
-        
+
         $faction->insert();
         $info = rex_i18n::msg('action_added');
       }
       else
       {
         $faction->addGlobalUpdateFields();
-        $faction->setWhere('id=' . $action_id);
-  
+        $faction->setWhere(array('id' => $action_id));
+
         $faction->update();
         $info = rex_i18n::msg('action_updated');
       }
     } catch (rex_sql_exception $e) {
       $warning = $e->getMessage();
     }
-    
+
     if (isset ($goon) and $goon != '')
     {
       $save = 'nein';

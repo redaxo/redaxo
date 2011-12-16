@@ -33,7 +33,7 @@ if($func == 'delete' && $effect_id > 0)
   $sql = rex_sql::factory();
 //  $sql->debugsql = true;
   $sql->setTable(rex::getTablePrefix().'media_manager_type_effects');
-  $sql->setWhere('id='. $effect_id . ' LIMIT 1');
+  $sql->setWhere(array('id' => $effect_id));
 
   if($sql->delete())
   {

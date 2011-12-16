@@ -136,7 +136,7 @@ if ($function == "add" or $function == "edit")
       $attributes = rex_setAttributes("categories", $categories, $attributes);
       $TPL->setValue("attributes", $attributes);
 
-      $TPL->setWhere("id='$template_id'");
+      $TPL->setWhere(array('id' => $template_id));
       $TPL->addGlobalUpdateFields();
 
       try {

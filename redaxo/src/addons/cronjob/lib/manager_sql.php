@@ -61,9 +61,9 @@ class rex_cronjob_manager_sql
     $this->sql->setQuery('
       SELECT  name
       FROM    '. REX_CRONJOB_TABLE .'
-      WHERE   id = '. $id .'
+      WHERE   id = ?
       LIMIT   1
-    ');
+    ', array($id));
     if($this->sql->getRows() == 1)
       return $this->sql->getValue('name');
     return null;
@@ -72,7 +72,7 @@ class rex_cronjob_manager_sql
   public function setStatus($id, $status)
   {
     $this->sql->setTable(REX_CRONJOB_TABLE);
-    $this->sql->setWhere('id = '. $id);
+    $this->sql->setWhere(array('id' => $id));
     $this->sql->setValue('status', $status);
     $this->sql->addGlobalUpdateFields();
     $success = $this->sql->update();
@@ -84,7 +84,7 @@ class rex_cronjob_manager_sql
   {
     $time = $time === null ? time() : $time;
     $this->sql->setTable(REX_CRONJOB_TABLE);
-    $this->sql->setWhere('id = '. $id);
+    $this->sql->setWhere(array('id' => $id));
     $this->sql->setValue('execution_start', $time);
     $success = $this->sql->update();
     return $success;
@@ -93,7 +93,7 @@ class rex_cronjob_manager_sql
   public function delete($id)
   {
     $this->sql->setTable(REX_CRONJOB_TABLE);
-    $this->sql->setWhere('id = '. $id);
+    $this->sql->setWhere(array('id' => $id));
     $success = $this->sql->delete();
     $this->saveNextTime();
     return $success;
@@ -107,12 +107,12 @@ class rex_cronjob_manager_sql
       SELECT    id, name, type, parameters, `interval`, execution_moment
       FROM      '. REX_CRONJOB_TABLE .'
       WHERE     status = 1
-        AND     execution_start < '. (time() - 2 * ini_get('max_execution_time')) .'
-        AND     environment LIKE "%|'. (int)rex::isBackend() .'|%"
-        AND     nexttime <= '. time() .'
+        AND     execution_start < ?
+        AND     environment LIKE ?
+        AND     nexttime <= ?
       ORDER BY  nexttime ASC, execution_moment DESC, name ASC
       LIMIT     1
-    ');
+    ', array(time() - 2 * ini_get('max_execution_time'), '%|'. (int)rex::isBackend() .'|%', time()));
     if ($sql->getRows() != 0)
     {
       ignore_user_abort(true);
@@ -161,9 +161,9 @@ class rex_cronjob_manager_sql
     $sql->setQuery('
       SELECT    id, name, type, parameters, `interval`
       FROM      '. REX_CRONJOB_TABLE .'
-      WHERE     id = '. $id .' AND environment LIKE "%|'. (int)rex::isBackend() .'|%"
+      WHERE     id = ? AND environment LIKE ?
       LIMIT     1
-    ');
+    ', array($id, '%|'. (int)rex::isBackend() .'|%'));
     if ($sql->getRows() != 1)
     {
       $this->getManager()->setMessage('Cronjob not found in database');
@@ -199,9 +199,9 @@ class rex_cronjob_manager_sql
     $add = $resetExecutionStart ? ', execution_start = 0' : '';
     $success = $this->sql->setQuery('
       UPDATE  '. REX_CRONJOB_TABLE .'
-      SET     nexttime = '. $nexttime . $add .'
-      WHERE   id = '. $id
-    );
+      SET     nexttime = ?
+      WHERE   id = ?
+    ', array($nexttime . $add, $id));
     $this->saveNextTime();
     return $success;
   }
