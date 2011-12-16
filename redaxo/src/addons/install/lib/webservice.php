@@ -109,21 +109,37 @@ class rex_install_webservice
     throw new rex_functional_exception($error);
   }
 
+  static public function deleteCache($pathBegin)
+  {
+    self::loadCache();
+    foreach(self::$cache as $path => $cache)
+    {
+      if(strpos($path, $pathBegin) === 0)
+        unset(self::$cache[$path]);
+    }
+    rex_file::putCache(rex_path::cache('install/webservice.cache'), self::$cache);
+  }
+
   static private function getCache($path)
   {
-    if(self::$cache === null)
-    {
-      foreach((array) rex_file::getCache(rex_path::cache('install/webservice.cache')) as $p => $cache)
-      {
-        if($cache['stamp'] > time() - self::REFRESH_CACHE)
-          self::$cache[$p] = $cache;
-      }
-    }
+    self::loadCache();
     if(isset(self::$cache[$path]))
     {
       return self::$cache[$path]['data'];
     }
     return null;
+  }
+
+  static private function loadCache()
+  {
+    if(self::$cache === null)
+    {
+      foreach((array) rex_file::getCache(rex_path::cache('install/webservice.cache')) as $path => $cache)
+      {
+        if($cache['stamp'] > time() - self::REFRESH_CACHE)
+          self::$cache[$path] = $cache;
+      }
+    }
   }
 
   static private function setCache($path, $data)

@@ -92,4 +92,12 @@ class rex_install_packages
   {
     return rex_install_webservice::getJson(self::getPath($path));
   }
+
+  static public function deleteCache()
+  {
+    self::$updatePackages = null;
+    self::$addPackages = null;
+    self::$myPackages = null;
+    rex_install_webservice::deleteCache('packages/');
+  }
 }

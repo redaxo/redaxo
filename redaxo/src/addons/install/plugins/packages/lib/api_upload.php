@@ -35,6 +35,7 @@ class rex_api_install_packages_upload extends rex_api_function
       rex_file::delete($archive);
     unset($_REQUEST['addonkey']);
     unset($_REQUEST['file']);
+    rex_install_packages::deleteCache();
     return new rex_api_result(true, rex_i18n::msg('install_packages_info_addon_uploaded', $addonkey));
   }
 }
