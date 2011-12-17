@@ -299,7 +299,7 @@ if ($article->getRows() == 1)
             else
             {
               // make delete
-              if(rex_deleteSlice($slice_id))
+              if(rex_content_service::deleteSlice($slice_id))
               {
                 $global_info = rex_i18n::msg('block_deleted');
               }
@@ -606,7 +606,7 @@ if ($article->getRows() == 1)
 //     {
       // --------------------------------------------- API MESSAGES
       echo rex_api_function::getMessage();
-      
+
       if($warning != '')
       {
         echo rex_view::warning($warning);
