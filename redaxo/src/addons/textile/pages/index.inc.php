@@ -12,7 +12,7 @@
 echo rex_view::title('Textile');
 
 
-$mdl_help = '<?php rex_a79_help_overview(); ?>';
+$mdl_help = '<?php rex_textile::showHelpOverview(); ?>';
 
 
 $mdl_ex ='<?php
@@ -22,7 +22,7 @@ if(rex_addon::get("textile")->isAvailable())
   {
     $textile = htmlspecialchars_decode(\'REX_VALUE[1]\');
     $textile = str_replace("<br />","",$textile);
-    echo rex_a79_textile($textile);
+    echo rex_textile::parse($textile);
   }
 }
 else
