@@ -58,6 +58,8 @@ $context = new rex_context(array(
   'article_id' => $article_id,
   'clang' => $clang,
   'ctype' => $ctype,
+  'artstart' => $artstart,
+  'catstart' => $catstart,
 ));
 
 // --------------------------------------------- API MESSAGES
