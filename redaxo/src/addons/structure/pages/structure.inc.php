@@ -103,11 +103,13 @@ $KAT = rex_sql::factory();
 if(count($mountpoints)>0 && $category_id == 0)
 {
   $re_id = implode(',', $mountpoints);
-  $KAT->setQuery('SELECT COUNT(*) as rowCount FROM '.rex::getTablePrefix().'article WHERE id IN ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catname');
+  $KAT->setQuery('SELECT COUNT(*) as rowCount, MAX(catprior) as maxCatPrior FROM '.rex::getTablePrefix().'article WHERE id IN ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catname');
 }else
 {
-  $KAT->setQuery('SELECT COUNT(*) as rowCount FROM '.rex::getTablePrefix().'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
+  $KAT->setQuery('SELECT COUNT(*) as rowCount, MAX(catprior) as maxCatPrior FROM '.rex::getTablePrefix().'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
 }
+
+$maxCatPrior = $KAT->getValue('maxCatPrior');
 
 // --------------------- ADD PAGINATION
 
@@ -226,7 +228,7 @@ if ($function == 'add_cat' && $KATPERM && !rex::getUser()->hasPerm('editContentO
           <td class="rex-icon"><span class="rex-i-element rex-i-category"><span class="rex-i-element-text">'. rex_i18n::msg('add_category') .'</span></span></td>
           '. $add_td .'
           <td><input class="rex-form-text" type="text" id="rex-form-field-name" name="category-name" />'. $meta_buttons .'</td>
-          <td><input class="rex-form-text" type="text" id="rex-form-field-prior" name="category-position" value="'.($KAT->getRows()+1).'" /></td>
+          <td><input class="rex-form-text" type="text" id="rex-form-field-prior" name="category-position" value="'.($maxCatPrior+1).'" /></td>
           <td colspan="3">'. $add_buttons .'</td>
         </tr>';
 
@@ -437,7 +439,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
   // ---------- COUNT DATA
   $sql = rex_sql::factory();
   // $sql->debugsql = true;
-  $sql->setQuery('SELECT COUNT(*) as artCount
+  $sql->setQuery('SELECT COUNT(*) as artCount, MAX(prior) as maxArtPrior
         FROM
           '.rex::getTablePrefix().'article
         WHERE
@@ -445,6 +447,8 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
           AND clang='. $clang .'
         ORDER BY
           prior, name');
+  
+  $maxArtPrior = $sql->getValue('maxArtPrior');
 
   // --------------------- ADD PAGINATION
 
@@ -550,7 +554,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
             <td class="rex-icon"><span class="rex-i-element rex-i-article"><span class="rex-i-element-text">'.rex_i18n::msg('article_add') .'</span></span></td>
             '. $add_td .'
             <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="article-name" /></td>
-            <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="article-position" value="'.($sql->getRows()+1).'" /></td>
+            <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="article-position" value="'.($maxArtPrior+1).'" /></td>
             <td>'. $template_select->get() .'</td>
             <td>'. rex_formatter :: format(time(), 'strftime', 'date') .'</td>
             <td colspan="3"><input type="submit" class="rex-form-submit" name="artadd_function" value="'.rex_i18n::msg('article_add') .'"'. rex::getAccesskey(rex_i18n::msg('article_add'), 'save') .' /></td>
