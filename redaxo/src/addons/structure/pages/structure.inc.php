@@ -453,12 +453,13 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
   // ---------- COUNT DATA
   $sql = rex_sql::factory();
   // $sql->debugsql = true;
-  $sql->setQuery('SELECT COUNT(*) as artCount, MAX(prior) as maxArtPrior
-        FROM
-          '.rex::getTablePrefix().'article
-        WHERE
-          ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1))
-          AND clang='. $clang);
+  $sql->setQuery(
+  	'SELECT COUNT(*) as artCount, MAX(prior) as maxArtPrior FROM '.rex::getTablePrefix().'article
+     WHERE
+       ((re_id=:categoryid AND startpage=0) OR (id=:categoryid AND startpage=1))
+       AND clang=:clang',
+    array(':categoryid' => $category_id, 'clang' => $clang)
+  );
   
   $maxArtPrior = $sql->getValue('maxArtPrior');
 
@@ -472,15 +473,17 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
   echo $artFragment->parse('pagination');
 
   // ---------- READ DATA
-  $sql->setQuery('SELECT *
-        FROM
-          '.rex::getTablePrefix().'article
-        WHERE
-          ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1))
-          AND clang='. $clang .'
-        ORDER BY
-          prior, name
-        LIMIT '. $artPager->getCursor() .','. $artPager->getRowsPerPage());
+  // named-parameters are not supported in LIMIT clause!
+  $sql->setQuery(
+  	'SELECT * FROM '.rex::getTable('article').'
+     WHERE
+       ((re_id=:categoryid AND startpage=0) OR (id=:categoryid AND startpage=1))
+       AND clang=:clang
+     ORDER BY
+       prior, name
+     LIMIT '. $artPager->getCursor() .','. $artPager->getRowsPerPage(), 
+    array(':categoryid' => $category_id, 'clang' => $clang)
+  );
 
 
   // ---------- INLINE THE EDIT/ADD FORM
