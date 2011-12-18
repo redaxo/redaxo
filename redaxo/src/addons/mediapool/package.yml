@@ -4,4 +4,4 @@ supportpage: www.redaxo.org/de/forum/
 navigation:
   block: system
   prio: 20
-blocked_extensions: ['.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp']
+blocked_extensions: ['.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp','.jsf','.bat','.sh','.cgi']
