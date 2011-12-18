@@ -713,7 +713,7 @@ if ($subpage == '')
       {
         $icon_class = 'rex-mime-'. $file_ext;
       }
-      $thumbnail = '<span class="'. $icon_class .'" title="'. $alt .'" />';
+      $thumbnail = '<span class="rex-mime '. $icon_class .'" title="'. $alt .'" />';
 
       if (rex_ooMedia::_isImage($file_name) && $thumbs)
       {
