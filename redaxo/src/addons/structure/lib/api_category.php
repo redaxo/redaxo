@@ -118,8 +118,11 @@ class rex_api_category_move extends rex_api_function
 {
   public function execute()
   {
+    // the category to move
     $catId      = rex_request('category-id', 'rex-category-id');
+    // the destination category in which the given category will be moved
     $newCatId   = rex_request('new-category-id', 'rex-category-id');
+    // a optional priority for the moved category 
     $newPrior   = rex_request('new-prior', 'int', 0);
 
     /**
@@ -127,20 +130,20 @@ class rex_api_category_move extends rex_api_function
      */
     $user = rex::getUser();
 
-      // check permissions
+    // check permissions
     if($user->hasPerm('editContentOnly[]')) {
       throw new rex_api_exception('api call not allowed for user with "editContentOnly[]"-option!');
     }
     
     // check permissions
     if($user->isAdmin() || $user->getComplexPerm('structure')->hasCategoryPerm($catId) && $user->getComplexPerm('structure')->hasCategoryPerm($newCatId)) {
-      $newStatus = rex_category_service::categoryStatus($catId, $clangId);
-      $oldStatus = rex_category_service::prevStatus($newStatus);
-      $statusTypes = rex_category_service::statusTypes();
+      rex_category_service::moveCategory($catId, $newCatId);
+      
+      // doesnt matter which clang id
+      $data['catprior'] = $newPrior;
+      rex_category_service::editCategory($catId, 0, $data);
 
       $result = new rex_api_result(true, rex_i18n::msg('category_status_updated'));
-      // replace link-text
-      $result->addRenderResult('this', $statusTypes[$newStatus][0], '', null, $statusTypes[$newStatus][1], $statusTypes[$oldStatus][1]);
       return $result;
     }
     else

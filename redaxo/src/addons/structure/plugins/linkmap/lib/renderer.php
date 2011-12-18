@@ -33,7 +33,7 @@ abstract class rex_linkmap_treeRenderer
   
     $rendered = $this->renderTree($roots, $tree);
     // add css class to root node
-    return '<ul class="rex-tree-root">'. substr($rendered, 4);
+    return '<ul class="rex-tree-root"'. substr($rendered, 3);
   }
   
   /**
@@ -77,7 +77,7 @@ abstract class rex_linkmap_treeRenderer
       if($ulclasses != '')
         $ulclasses = ' class="'. rtrim($ulclasses) .'"';
   
-      if ($li!='') $ul = '<ul'.$ulclasses.'>'."\n".$li.'</ul>'. "\n";
+      if ($li!='') $ul = '<ul'.$ulclasses.' cat-id="'. $children[0]->getParentId() .'">'."\n".$li.'</ul>'. "\n";
     }
     return $ul;
   }

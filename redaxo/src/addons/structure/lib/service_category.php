@@ -16,7 +16,7 @@ class rex_category_service
    *
    * @return string Eine Statusmeldung
    */
-  static public function addCategory($category_id, $data)
+  static public function addCategory($category_id, array $data)
   {
     $message = '';
 
@@ -159,7 +159,7 @@ class rex_category_service
    *
    * @return string Eine Statusmeldung
    */
-  static public function editCategory($category_id, $clang, $data)
+  static public function editCategory($category_id, $clang, array $data)
   {
     $message = '';
 
@@ -167,9 +167,6 @@ class rex_category_service
     {
       throw  new rex_api_exception('Expecting $data to be an array!');
     }
-
-    self::reqKey($data, 'catprior');
-    self::reqKey($data, 'catname');
 
     // --- Kategorie mit alten Daten selektieren
     $thisCat = rex_sql::factory();
@@ -179,8 +176,14 @@ class rex_category_service
     $EKAT = rex_sql::factory();
     $EKAT->setTable(rex::getTablePrefix()."article");
     $EKAT->setWhere(array('id' => $category_id, 'startpage' => 1,'clang'=>$clang));
-    $EKAT->setValue('catname', $data['catname']);
-    $EKAT->setValue('catprior', $data['catprior']);
+    
+    if(isset($data['catname'])) {
+      $EKAT->setValue('catname', $data['catname']);
+    }
+    if(isset($data['catprior'])) {
+      $EKAT->setValue('catprior', $data['catprior']);
+    }
+    
     $EKAT->addGlobalUpdateFields();
 
     try {
@@ -581,7 +584,7 @@ class rex_category_service
    * @param array $array The array
    * @param string $keyName The key
    */
-  static protected function reqKey($array, $keyName)
+  static protected function reqKey(array $array, $keyName)
   {
     if(!isset($array[$keyName]))
     {

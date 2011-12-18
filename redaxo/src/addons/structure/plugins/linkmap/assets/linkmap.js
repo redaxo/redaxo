@@ -70,12 +70,43 @@ function writeREXLinklist(id){
 jQuery(function($){
 	// insert empty child list, so drag&drop works in every level (not only where we already childs exists)
 	$('#rex-sitemap li:not(:contains(ul))').each(function (){
-		$('<ul />').appendTo(this);
+		$('<ul cat-id="'+ $(this).attr('parent-id') +'" />').appendTo(this);
 	});
 	
+	var triggered = false;
 	// see http://a.shinynew.me/post/4641524290/jquery-ui-nested-sortables
 	$('#rex-sitemap ul').sortable({
 		connectWith: '#rex-sitemap ul',
-		placeholder: 'rex-tree-highlight'
+		placeholder: 'rex-tree-highlight',
+		update: function(event, ui) {
+			// prevent double invocation
+			if(triggered) {
+				return;
+			}
+			triggered = true;
+				
+			var dragedItem = ui.item;
+			var draggedId = dragedItem.attr('cat-id');
+			var newCatId = dragedItem.closest('ul').attr('cat-id');
+
+			// update the prior to bring the cat into position
+			var prevPrior = dragedItem.prev('li').attr('prior');
+			var newPrior = prevPrior ? (parseInt(prevPrior, 10) + 1) : 0;
+			
+			$.ajax({
+		        async: false,
+		        dataType: 'json',
+				url : 'index.php',
+				data : {
+					'rex-api-call' : 'category-move',
+					'category-id' : draggedId,
+					'new-category-id' : newCatId,
+					'new-prior' : newPrior 
+				}
+			});
+		},
+		start: function(event, ui) {
+			triggered = false;
+		}
 	});
 });
