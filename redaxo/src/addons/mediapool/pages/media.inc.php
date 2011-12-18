@@ -192,16 +192,9 @@ if ($subpage == "media")
     $ffile_size = rex_file::formattedSize($ffile_size);
     $rex_file_category = $gf->getValue('category_id');
 
-    $encoded_fname = urlencode($fname);
-    $file_ext = substr(strrchr($fname, '.'),1);
-    $icon_src = 'media/mime-default.gif';
-    if (rex_ooMedia::isDocType($file_ext)) $icon_src = 'media/mime-'.$file_ext.'.gif';
-    {
-      $thumbnail = '<img src="'. $icon_src .'" alt="'. htmlspecialchars($ftitle) .'" title="'. htmlspecialchars($ftitle) .'" />';
-    }
 
-    $ffiletype_ii = rex_ooMedia::_isImage($fname);
-    if ($ffiletype_ii)
+    $isImage = rex_ooMedia::_isImage($fname);
+    if ($isImage)
     {
       $fwidth = $gf->getValue('width');
       $fheight = $gf->getValue('height');
@@ -218,7 +211,8 @@ if ($subpage == "media")
     $add_image = '';
     $add_ext_info = '';
     $style_width = '';
-    if ($ffiletype_ii)
+    $encoded_fname = urlencode($fname);
+    if ($isImage)
     {
       $add_ext_info = '
       <div class="rex-form-row">
@@ -230,10 +224,7 @@ if ($subpage == "media")
       $imgn = rex_path::media($fname) .'" width="'. $rfwidth;
       $img_max = rex_path::media($fname);
 
-      if (!file_exists(rex_path::media($fname, rex_path::ABSOLUTE)))
-      {
-        $imgn = 'media/mime-error.gif';
-      }else if ($thumbs)
+      if ($thumbs)
       {
         if ($image_manager)
         {
@@ -243,14 +234,28 @@ if ($subpage == "media")
         else if($image_resize && $rfwidth>199)
           $imgn = rex_path::frontendController('?rex_resize=200a__'. $encoded_fname);
       }
+      
+      if (!file_exists(rex_path::media($fname, rex_path::ABSOLUTE)))
+      {
+        $add_image = '
+        <div class="rex-mediapool-detail-image">
+            <p class="rex-me1">
+            	<span class="rex-mime rex-mime-error" />
+            </p>
+        </div>';
+      }
+      else
+      {
+        $add_image = '
+        <div class="rex-mediapool-detail-image">
+            <p class="rex-me1">
+              <a href="'. $img_max .'">
+                <img src="'. $imgn .'" alt="'. htmlspecialchars($ftitle) .'" title="'. htmlspecialchars($ftitle) .'" />
+              </a>
+            </p>
+        </div>';
+      }
 
-      $add_image = '<div class="rex-mediapool-detail-image">
-          <p class="rex-me1">
-            <a href="'. $img_max .'">
-              <img src="'. $imgn .'" alt="'. htmlspecialchars($ftitle) .'" title="'. htmlspecialchars($ftitle) .'" />
-            </a>
-          </p>
-          </div>';
      $style_width = ' style="width:64.9%; border-right: 1px solid #FFF;"';
     }
 
@@ -267,7 +272,7 @@ if ($subpage == "media")
 
     if($opener_input_field == 'TINYIMG')
     {
-      if ($ffiletype_ii)
+      if ($isImage)
       {
         $opener_link .= '<a href="javascript:insertImage(\''. $encoded_fname .'\',\''.$gf->getValue('title').'\');">'.rex_i18n::msg('pool_image_get').'</a> | ';
       }
@@ -698,17 +703,17 @@ if ($subpage == '')
     // wenn datei fehlt
     if (!file_exists(rex_path::media($file_name, rex_path::ABSOLUTE)))
     {
-      $thumbnail = '<img src="media/mime-error.gif" width="44" height="38" alt="file does not exist" />';
+      $thumbnail = '<span class="rex-mime rex-mime-error" title="file does not exist" />';
     }
     else
     {
       $file_ext = substr(strrchr($file_name,'.'),1);
-      $icon_src = 'media/mime-default.gif';
+      $icon_class = 'rex-mime-default';
       if (rex_ooMedia::isDocType($file_ext))
       {
-        $icon_src = 'media/mime-'. $file_ext .'.gif';
+        $icon_class = 'rex-mime-'. $file_ext;
       }
-      $thumbnail = '<img src="'. $icon_src .'" width="44" height="38" alt="'. $alt .'" title="'. $alt .'" />';
+      $thumbnail = '<span class="'. $icon_class .'" title="'. $alt .'" />';
 
       if (rex_ooMedia::_isImage($file_name) && $thumbs)
       {
