@@ -62,7 +62,7 @@ class rex_article extends rex_article_base
     if ($value == 'category_id')
     {
       if ($this->getValue('startpage')!=1) $value = 're_id';
-      else $value = 'article_id';
+      else $value = 'id';
     }
 
     return $value;
