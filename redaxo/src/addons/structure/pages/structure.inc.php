@@ -102,11 +102,17 @@ $KAT = rex_sql::factory();
 // $KAT->debugsql = true;
 if(count($mountpoints)>0 && $category_id == 0)
 {
-  $re_id = implode(',', $mountpoints);
-  $KAT->setQuery('SELECT COUNT(*) as rowCount, MAX(catprior) as maxCatPrior FROM '.rex::getTablePrefix().'article WHERE id IN ('.$re_id.') AND startpage=1 AND clang='. $clang);
+  $re_ids = implode(',', $mountpoints);
+  $KAT->setQuery(
+  	'SELECT COUNT(*) as rowCount, MAX(catprior) as maxCatPrior FROM '.rex::getTable('article').' WHERE id IN (:mntPoints) AND startpage=1 AND clang=:clang',
+    array(':mntPoints' => $re_ids, ':clang' => $clang)
+  );
 }else
 {
-  $KAT->setQuery('SELECT COUNT(*) as rowCount, MAX(catprior) as maxCatPrior FROM '.rex::getTablePrefix().'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang);
+  $KAT->setQuery(
+  	'SELECT COUNT(*) as rowCount, MAX(catprior) as maxCatPrior FROM '.rex::getTable('article').' WHERE re_id=:category AND startpage=1 AND clang=:clang',
+    array(':category' => $category_id, ':clang' => $clang)
+  );
 }
 
 $maxCatPrior = $KAT->getValue('maxCatPrior');
@@ -124,11 +130,19 @@ echo $catFragment->parse('pagination');
 
 if(count($mountpoints)>0 && $category_id == 0)
 {
-  $re_id = implode(',', $mountpoints);
-  $KAT->setQuery('SELECT * FROM '.rex::getTablePrefix().'article WHERE id IN ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catname LIMIT '. $catPager->getCursor(). ','. $catPager->getRowsPerPage());
+  // named-parameters are not supported in LIMIT clause!
+  $re_ids = implode(',', $mountpoints);
+  $KAT->setQuery(
+  	'SELECT * FROM '.rex::getTable('article').' WHERE id IN (:mntPoints) AND startpage=1 AND clang=:clang ORDER BY catname LIMIT '. $catPager->getCursor() .','. $catPager->getRowsPerPage(),
+    array(':mntPoints' => $re_ids, ':clang' => $clang)
+  );
 }else
 {
-  $KAT->setQuery('SELECT * FROM '.rex::getTablePrefix().'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior LIMIT '. $catPager->getCursor(). ','. $catPager->getRowsPerPage());
+  // named-parameters are not supported in LIMIT clause!
+  $KAT->setQuery(
+  	'SELECT * FROM '.rex::getTable('article').' WHERE re_id=:category AND startpage=1 AND clang=:clang ORDER BY catprior LIMIT '. $catPager->getCursor() .','. $catPager->getRowsPerPage(),
+    array(':category' => $category_id, ':clang' => $clang)
+  );
 }
 
 
