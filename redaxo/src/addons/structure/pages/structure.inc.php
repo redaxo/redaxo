@@ -103,10 +103,10 @@ $KAT = rex_sql::factory();
 if(count($mountpoints)>0 && $category_id == 0)
 {
   $re_id = implode(',', $mountpoints);
-  $KAT->setQuery('SELECT COUNT(*) as rowCount, MAX(catprior) as maxCatPrior FROM '.rex::getTablePrefix().'article WHERE id IN ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catname');
+  $KAT->setQuery('SELECT COUNT(*) as rowCount, MAX(catprior) as maxCatPrior FROM '.rex::getTablePrefix().'article WHERE id IN ('.$re_id.') AND startpage=1 AND clang='. $clang);
 }else
 {
-  $KAT->setQuery('SELECT COUNT(*) as rowCount, MAX(catprior) as maxCatPrior FROM '.rex::getTablePrefix().'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
+  $KAT->setQuery('SELECT COUNT(*) as rowCount, MAX(catprior) as maxCatPrior FROM '.rex::getTablePrefix().'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang);
 }
 
 $maxCatPrior = $KAT->getValue('maxCatPrior');
@@ -444,9 +444,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
           '.rex::getTablePrefix().'article
         WHERE
           ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1))
-          AND clang='. $clang .'
-        ORDER BY
-          prior, name');
+          AND clang='. $clang);
   
   $maxArtPrior = $sql->getValue('maxArtPrior');
 
