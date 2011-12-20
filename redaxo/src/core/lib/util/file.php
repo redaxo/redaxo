@@ -59,7 +59,7 @@ class rex_file
 
     if(file_put_contents($file, $content) !== false)
     {
-      chmod($file, rex::getFilePerm());
+      @chmod($file, rex::getFilePerm());
       return true;
     }
 
@@ -112,7 +112,7 @@ class rex_file
       if(file_exists(dirname($dstfile) .'/.') && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile))
       {
         touch($dstfile, filemtime($srcfile));
-        chmod($dstfile, rex::getFilePerm());
+        @chmod($dstfile, rex::getFilePerm());
         return true;
       }
     }

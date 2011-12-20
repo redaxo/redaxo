@@ -27,7 +27,7 @@ class rex_dir
     // is_executable($directory) does not work on all systems
     if(is_writable($parent) && file_exists($parent .'/.') && mkdir($dir, rex::getDirPerm()))
     {
-      chmod($dir, rex::getDirPerm());
+      @chmod($dir, rex::getDirPerm());
       return true;
     }
 
