@@ -95,11 +95,15 @@ abstract class rex_logger extends rex_factory
     $msg = "$errstr in <b>$errfile</b> on line <b>$errline</b><br />";
 
     // errors which should be reported regarding error_reporting() will be echo'ed to the end-user
-    if ($printError && ini_get('display_errors') && (error_reporting() & $errno) == $errno) {
+    if ($printError && ini_get('display_errors') && (error_reporting() & $errno) == $errno)
+    {
       echo $errorType .': '. $msg;
     }
 
-    self::log($errorType .'['. $errno .']: '. $msg, $errno);
+    if(error_reporting() != 0)
+    {
+      self::log($errorType .'['. $errno .']: '. $msg, $errno);
+    }
 
     if(in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR)))
     {
