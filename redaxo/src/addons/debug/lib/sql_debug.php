@@ -9,8 +9,10 @@ rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'doLog'));
  */
 class rex_sql_debug extends rex_sql
 {
-  private static
-    $queries = array();
+  private static $queries = array();
+  private static $errors  = 0;
+  private static $count   = 0;
+  private static $tbl   = array();
 
   public function setQuery($qry, array $params = array())
   {
@@ -39,7 +41,21 @@ class rex_sql_debug extends rex_sql
     $timer = new rex_timer();
     $res = parent::execute($params);
 
-    self::$queries[] = array($qry . ' (affected '. $this->getRows() .' rows)', $timer->getFormattedTime(rex_timer::MILLISEC));
+    
+    
+    $err = $errno = '';
+    if($this->hasError())
+    {
+      self::$errors++;
+      $err   = parent::getError();
+      $errno = parent::getErrno();
+    }
+    self::$queries[] = array('rows'=>$this->getRows(),
+                             'time'=>$timer->getFormattedTime(rex_timer::MILLISEC),
+                             'query'=>$qry,
+                             'error'=>$err,
+                             'errno'=>$errno);
+    self::$count++;
 
     return $res;
   }
@@ -49,20 +65,23 @@ class rex_sql_debug extends rex_sql
     if(!empty(self::$queries))
     {
       $firephp = FirePHP::getInstance(true);
-      $firephp->group(__CLASS__);
+      self::$tbl[] = array('#','rows','ms','query');
+      $i = 0;
       foreach(self::$queries as $qry)
       {
         // when a extension takes longer than 5ms, send a warning
-        if(strtr($qry[1], ',', '.') > 5)
+        if(strtr($qry['time'], ',', '.') > 5)
         {
-          $firephp->warn('Query: '. $qry[0]. ' ' .$qry[1] . 'ms');
+          self::$tbl[] = array($i,$qry['rows'],'! SLOW: '.$qry['time'],$qry['query']);
         }
         else
         {
-          $firephp->log('Query: '. $qry[0]. ' ' .$qry[1] . 'ms');
+          self::$tbl[] = array($i,$qry['rows'],$qry['time'],$qry['query']);
+          ;
         }
+        $i++;
       }
-      $firephp->groupEnd();
+      $firephp->table(__CLASS__.'('.self::$count.' queries, '.self::$errors.' errors)',self::$tbl);
     }
   }
 }
