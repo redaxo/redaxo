@@ -168,7 +168,7 @@ class rex_media {
 		if ($this->image['format'] == 'JPG' || $this->image['format'] == 'JPEG')
 		{
 			imagejpeg($this->image['src'], NULL, $this->image['quality']);
-		}elseif ($this->img['format'] == 'PNG')
+		}elseif ($this->image['format'] == 'PNG')
 		{
 			imagepng($this->image['src']);
 		}elseif ($this->image['format'] == 'GIF')
