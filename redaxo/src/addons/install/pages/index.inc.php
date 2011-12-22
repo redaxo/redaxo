@@ -4,6 +4,15 @@ $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 $subsubpage = rex_request('subsubpage', 'string');
 
+if(!$subpage || !$this->getPlugin($subpage)->isAvailable())
+{
+  foreach($this->getAvailablePlugins() as $plugin)
+  {
+    header('Location: index.php?page=install&subpage='. $plugin->getName());
+    exit;
+  }
+}
+
 echo rex_view::title($this->i18n('name'));
 
 if($subpage && $this->getPlugin($subpage)->isAvailable())
@@ -30,5 +39,5 @@ if($subpage && $this->getPlugin($subpage)->isAvailable())
 }
 else
 {
-  echo 'Installer Info';
+  echo rex_view::warning($this->i18n('no_plugins'));
 }
