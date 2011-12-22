@@ -5,7 +5,8 @@ class rex_mediacategory_select extends rex_select
 {
   private
     $check_perms,
-    $rootId;
+    $rootId,
+    $loaded = false;
 
   public function __construct($check_perms = true)
   {
@@ -84,12 +85,10 @@ class rex_mediacategory_select extends rex_select
 
   public function get()
   {
-    static $loaded = false;
-
-    if(!$loaded)
+    if(!$this->loaded)
     {
       $this->addCatOptions();
-      $loaded = true;
+      $this->loaded = true;
     }
 
     return parent::get();

@@ -14,7 +14,7 @@
  * @version svn:$Id$
  */
 
-	unset($rxa_tinymce);
+    global $rxa_tinymce;
 	$rxa_tinymce['name'] = 'tinymce';
 
 	$REX['PERM'][] = 'tiny_mce[]';
@@ -107,7 +107,7 @@ $REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
 			if (strstr($rxa_tinymce['get_inputfield'], 'REX_MEDIA_') or strstr($rxa_tinymce['get_inputfield'], 'LINK_'))
 			{
 				$_SESSION['a52_tinymce'] = false;
-			}		
+			}
 			if ((($rxa_tinymce['get_page'] == $rxa_tinymce['medienpool']) or ($rxa_tinymce['get_page'] == $rxa_tinymce['linkmap'])) and (($rxa_tinymce['get_tinymce'] == 'true') or (isset($_SESSION['a52_tinymce']) and $_SESSION['a52_tinymce'] == 'true')))
 			{
 				rex_register_extension('MEDIA_ADDED', 'a52_tinymce_mediaadded');

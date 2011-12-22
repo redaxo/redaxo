@@ -68,6 +68,9 @@ abstract class rex_logger extends rex_factory
   */
   static public function handleError($errno, $errstr, $errfile, $errline, array $errcontext = null)
   {
+    if(error_reporting() == 0)
+      return;
+
     self::logError($errno, $errstr, $errfile, $errline, $errcontext);
 
     if(ini_get('display_errors') && (error_reporting() & $errno) == $errno)

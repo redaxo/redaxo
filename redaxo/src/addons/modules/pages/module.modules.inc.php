@@ -45,7 +45,7 @@ elseif ($function_action == 'delete')
 {
   $action = rex_sql::factory();
   $action->setTable(rex::getTablePrefix().'module_action');
-  $action->setWhere('id='. $iaction_id . ' LIMIT 1');
+  $action->setWhere(array('id' => $iaction_id));
 
   if($action->delete())
   {
@@ -117,31 +117,31 @@ if ($function == 'add' or $function == 'edit')
         $IMOD->setValue('input',$eingabe);
         $IMOD->setValue('output',$ausgabe);
         $IMOD->addGlobalCreateFields();
-  
+
         $IMOD->insert();
         $info = rex_i18n::msg('module_added');
-  
+
       } else {
         $modultyp->setQuery('select * from '.rex::getTablePrefix().'module where id='.$modul_id);
         if ($modultyp->getRows()==1)
         {
           $old_ausgabe = $modultyp->getValue('output');
-  
+
           // $modultyp->setQuery("UPDATE ".rex::getTablePrefix()."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
-  
+
           $UMOD = rex_sql::factory();
           $UMOD->setTable(rex::getTablePrefix().'module');
-          $UMOD->setWhere('id='. $modul_id);
+          $UMOD->setWhere(array('id' => $modul_id));
           $UMOD->setValue('name',$mname);
           $UMOD->setValue('input',$eingabe);
           $UMOD->setValue('output',$ausgabe);
           $UMOD->addGlobalUpdateFields();
-  
+
           $UMOD->update();
           $info = rex_i18n::msg('module_updated').' | '.rex_i18n::msg('articel_updated');
-  
+
           $new_ausgabe = $ausgabe;
-  
+
       		if ($old_ausgabe != $new_ausgabe)
       		{
             // article updaten - nur wenn ausgabe sich veraendert hat
@@ -160,7 +160,7 @@ if ($function == 'add' or $function == 'edit')
     } catch (rex_sql_exception $e) {
       $warning = $e->getMessage();
     }
-    
+
 
     if ($goon != '')
     {

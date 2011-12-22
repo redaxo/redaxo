@@ -718,7 +718,7 @@ class rex_ooMedia
     if ($this->getId() !== null)
     {
       $sql->addGlobalUpdateFields();
-      $sql->setWhere('media_id='.$this->getId() . ' LIMIT 1');
+      $sql->setWhere(array('media_id' => $this->getId()));
       $success = $sql->update();
       if ($success)
         rex_media_cache::delete($this->getFileName());

@@ -9,9 +9,9 @@ global $REX, $I18N;
 $REX = new rex_compat_array;
 
 $REX['HTDOCS_PATH']   = rex_path::frontend();
-$REX['INCLUDE_PATH']  = rex_path::src();
-$REX['FRONTEND_PATH'] = rex_path::frontend('', rex_path::ABSOLUTE);
-$REX['MEDIAFOLDER']   = rex_path::media('', rex_path::ABSOLUTE);
+$REX['INCLUDE_PATH']  = rtrim(rex_path::src(), DIRECTORY_SEPARATOR);
+$REX['FRONTEND_PATH'] = rtrim(rex_path::frontend('', rex_path::ABSOLUTE), DIRECTORY_SEPARATOR);
+$REX['MEDIAFOLDER']   = rtrim(rex_path::media('', rex_path::ABSOLUTE), DIRECTORY_SEPARATOR);
 $REX['FRONTEND_FILE'] = 'index.php';
 
 $REX['GG'] = !rex::isBackend();

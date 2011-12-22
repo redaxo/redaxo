@@ -15,7 +15,7 @@ function rex_register_extension_point($extensionPoint, $subject = '', $params = 
  *
  * @deprecated 5.0
  */
-function rex_register_extensions($extensionPoint, $callable, $params = array())
+function rex_register_extension($extensionPoint, $callable, $params = array())
 {
   rex_extension::register($extensionPoint, $callable, $params);
 }

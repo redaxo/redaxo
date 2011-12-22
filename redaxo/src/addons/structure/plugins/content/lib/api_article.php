@@ -62,7 +62,7 @@ class rex_article extends rex_article_base
     if ($value == 'category_id')
     {
       if ($this->getValue('startpage')!=1) $value = 're_id';
-      else $value = 'article_id';
+      else $value = 'id';
     }
 
     return $value;
@@ -116,7 +116,7 @@ class rex_article extends rex_article_base
       if(!file_exists($article_content_file))
       {
         include_once rex_path::plugin('structure', 'content', 'functions/function_rex_content.inc.php');
-        $generated = rex_generateArticleContent($this->article_id, $this->clang);
+        $generated = rex_content_service::generateArticleContent($this->article_id, $this->clang);
         if($generated !== true)
         {
           // fehlermeldung ausgeben

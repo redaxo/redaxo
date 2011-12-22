@@ -13,21 +13,21 @@ $media_method = rex_request('media_method', 'string');
 if ($PERMALL)
 {
   $edit_id = rex_request('edit_id', 'int');
-  
+
   try {
     if ($media_method == 'edit_file_cat')
     {
       $cat_name = rex_request('cat_name', 'string');
       $db = rex_sql::factory();
       $db->setTable(rex::getTablePrefix().'media_category');
-      $db->setWhere('id='.$edit_id);
+      $db->setWhere(array('id' => $edit_id));
       $db->setValue('name',$cat_name);
       $db->addGlobalUpdateFields();
-  
+
       $db->update();
       $info = rex_i18n::msg('pool_kat_updated',$cat_name);
       rex_media_cache::deleteCategory($edit_id);
-  
+
     } elseif ($media_method == 'delete_file_cat')
     {
       $gf = rex_sql::factory();
@@ -53,7 +53,7 @@ if ($PERMALL)
       $db->setValue('path', rex_request('catpath', 'string'));
       $db->addGlobalCreateFields();
       $db->addGlobalUpdateFields();
-  
+
       $db->insert();
       $info = rex_i18n::msg('pool_kat_saved', rex_request('catname'));
       rex_media_cache::deleteCategoryList(rex_request('cat_id', 'int'));
@@ -61,7 +61,7 @@ if ($PERMALL)
   } catch (rex_sql_exception $e) {
     $warning = $e->getMessage();
   }
-  
+
 
   $link = 'index.php?page=mediapool'.$arg_url.'&amp;subpage=structure&amp;cat_id=';
 

@@ -21,7 +21,7 @@ if($func == 'delete' && $type_id > 0)
   $sql = rex_sql::factory();
   //  $sql->debugsql = true;
   $sql->setTable(rex::getTablePrefix().'media_manager_types');
-  $sql->setWhere('id='. $type_id . ' LIMIT 1');
+  $sql->setWhere(array('id' => $type_id));
 
   if($sql->delete())
   {

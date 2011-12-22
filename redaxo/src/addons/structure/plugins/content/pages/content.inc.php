@@ -232,7 +232,7 @@ if ($article->getRows() == 1)
 
               if ($function == 'edit')
               {
-                $newsql->setWhere('id=' . $slice_id);
+                $newsql->setWhere(array('id' => $slice_id));
               }
               elseif ($function == 'add')
               {
@@ -299,7 +299,7 @@ if ($article->getRows() == 1)
             else
             {
               // make delete
-              if(rex_deleteSlice($slice_id))
+              if(rex_content_service::deleteSlice($slice_id))
               {
                 $global_info = rex_i18n::msg('block_deleted');
               }
@@ -313,7 +313,7 @@ if ($article->getRows() == 1)
             // ----- artikel neu generieren
             $EA = rex_sql::factory();
             $EA->setTable(rex::getTablePrefix() . 'article');
-            $EA->setWhere('id='. $article_id .' AND clang='. $clang);
+            $EA->setWhere(array('id' => $article_id, 'clang' => $clang));
             $EA->addGlobalUpdateFields();
             $EA->update();
             rex_article_cache::delete($article_id, $clang);
@@ -445,7 +445,7 @@ if ($article->getRows() == 1)
       $meta_sql = rex_sql::factory();
       $meta_sql->setTable(rex::getTablePrefix() . "article");
       // $meta_sql->debugsql = 1;
-      $meta_sql->setWhere("id='$article_id' AND clang=$clang");
+      $meta_sql->setWhere(array('id' => $article_id, 'clang' => $clang));
       $meta_sql->setValue('name', $meta_article_name);
       $meta_sql->addGlobalUpdateFields();
 
@@ -606,7 +606,7 @@ if ($article->getRows() == 1)
 //     {
       // --------------------------------------------- API MESSAGES
       echo rex_api_function::getMessage();
-      
+
       if($warning != '')
       {
         echo rex_view::warning($warning);

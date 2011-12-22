@@ -1,12 +1,9 @@
 <?php
 
 /**
- * Verschiebt einen Slice nach oben
+ * @see rex_content_service::moveSlice()
  *
- * @param int $slice_id Id des Slices
- * @param int $clang    Id der Sprache
- *
- * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+ * @deprecated 5.0
  */
 function rex_moveSliceUp($slice_id, $clang)
 {
@@ -14,12 +11,9 @@ function rex_moveSliceUp($slice_id, $clang)
 }
 
 /**
- * Verschiebt einen Slice nach unten
+ * @see rex_content_service::moveSlice()
  *
- * @param int $slice_id Id des Slices
- * @param int $clang    Id der Sprache
- *
- * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+ * @deprecated 5.0
  */
 function rex_moveSliceDown($slice_id, $clang)
 {
@@ -27,13 +21,9 @@ function rex_moveSliceDown($slice_id, $clang)
 }
 
 /**
- * Verschiebt einen Slice
+ * @see rex_content_service::moveSlice()
  *
- * @param int    $slice_id  Id des Slices
- * @param int    $clang     Id der Sprache
- * @param string $direction Richtung in die verschoben werden soll
- *
- * @return array Ein Array welches den status sowie eine Fehlermeldung beinhaltet
+ * @deprecated 5.0
  */
 function rex_moveSlice($slice_id, $clang, $direction)
 {
@@ -49,11 +39,9 @@ function rex_moveSlice($slice_id, $clang, $direction)
 }
 
 /**
- * Löscht einen Slice
+ * @see rex_content_service::deleteSlice()
  *
- * @param int    $slice_id  Id des Slices
- *
- * @return boolean TRUE bei Erfolg, sonst FALSE
+ * @deprecated 5.0
  */
 function rex_deleteSlice($slice_id)
 {
@@ -61,10 +49,9 @@ function rex_deleteSlice($slice_id)
 }
 
 /**
- * Kopiert eine Kategorie in eine andere
+ * @see rex_content_service::copyCategory()
  *
- * @param int $from_cat_id KategorieId der Kategorie, die kopiert werden soll (Quelle)
- * @param int $to_cat_id   KategorieId der Kategorie, IN die kopiert werden soll (Ziel)
+ * @deprecated 5.0
  */
 function rex_copyCategory($from_cat, $to_cat)
 {
@@ -72,15 +59,9 @@ function rex_copyCategory($from_cat, $to_cat)
 }
 
 /**
- * Kopiert die Metadaten eines Artikels in einen anderen Artikel
+ * @see rex_content_service::copyMeta()
  *
- * @param int $from_id      ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
- * @param int $to_id        ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
- * @param int [$from_clang] ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
- * @param int [$to_clang]   ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
- * @param array [$params]     Array von Spaltennamen, welche kopiert werden sollen
- *
- * @return boolean TRUE bei Erfolg, sonst FALSE
+ * @deprecated 5.0
  */
 function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params = array ())
 {
@@ -88,15 +69,9 @@ function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params 
 }
 
 /**
- * Kopiert die Inhalte eines Artikels in einen anderen Artikel
+ * @see rex_content_service::copyContent()
  *
- * @param int $from_id           ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
- * @param int $to_id             ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
- * @param int [$from_clang]      ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
- * @param int [$to_clang]        ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
- * @param int [$from_re_sliceid] Id des Slices, bei dem begonnen werden soll
- *
- * @return boolean TRUE bei Erfolg, sonst FALSE
+ * @deprecated 5.0
  */
 function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from_re_sliceid = 0, $revision = 0)
 {
@@ -104,12 +79,9 @@ function rex_copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from
 }
 
 /**
- * Kopieren eines Artikels von einer Kategorie in eine andere
+ * @see rex_content_service::copyArticle()
  *
- * @param int $id          ArtikelId des zu kopierenden Artikels
- * @param int $to_cat_id   KategorieId in die der Artikel kopiert werden soll
- *
- * @return boolean FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
+ * @deprecated 5.0
  */
 function rex_copyArticle($id, $to_cat_id)
 {
@@ -117,13 +89,9 @@ function rex_copyArticle($id, $to_cat_id)
 }
 
 /**
- * Verschieben eines Artikels von einer Kategorie in eine Andere
+ * @see rex_content_service::moveArticle()
  *
- * @param int $id          ArtikelId des zu verschiebenden Artikels
- * @param int $from_cat_id KategorieId des Artikels, der Verschoben wird
- * @param int $to_cat_id   KategorieId in die der Artikel verschoben werden soll
- *
- * @return boolean TRUE bei Erfolg, sonst FALSE
+ * @deprecated 5.0
  */
 function rex_moveArticle($id, $from_cat_id, $to_cat_id)
 {
@@ -131,27 +99,21 @@ function rex_moveArticle($id, $from_cat_id, $to_cat_id)
 }
 
 /**
- * Verschieben einer Kategorie in eine andere
+ * @see rex_content_service::moveCategory()
  *
- * @param int $from_cat_id KategorieId der Kategorie, die verschoben werden soll (Quelle)
- * @param int $to_cat_id   KategorieId der Kategorie, IN die verschoben werden soll (Ziel)
- *
- * @return boolean TRUE bei Erfolg, sonst FALSE
+ * @deprecated 5.0
  */
 function rex_moveCategory($from_cat, $to_cat)
 {
-  return rex_content_service::moveCategory($from_cat, $to_cat);  
+  return rex_content_service::moveCategory($from_cat, $to_cat);
 }
 
 /**
- * Generiert den Artikel-Cache des Artikelinhalts.
+ * @see rex_content_service::generateArticleContent()
  *
- * @param $article_id Id des zu generierenden Artikels
- * @param [$clang ClangId des Artikels]
- *
- * @return TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
+ * @deprecated 5.0
  */
 function rex_generateArticleContent($article_id, $clang = null)
 {
-  return rex_content_service::moveCategory($from_cat, $to_cat);  
+  return rex_content_service::generateArticleContent($article_id, $clang);
 }

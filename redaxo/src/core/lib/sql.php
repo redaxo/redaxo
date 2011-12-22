@@ -37,7 +37,7 @@ class rex_sql extends rex_factory implements Iterator
     $this->selectDB($DBID);
   }
 
-  /**f
+  /**
    * Stellt die Verbindung zur Datenbank her
    */
   protected function selectDB($DBID)
@@ -83,7 +83,9 @@ class rex_sql extends rex_factory implements Iterator
 //      PDO::ATTR_EMULATE_PREPARES => true,
     );
 
-    return new PDO($dsn, $login, $password, $options);
+    $dbh = new PDO($dsn, $login, $password, $options);
+    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    return $dbh;
   }
 
   /**
@@ -192,22 +194,37 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function prepareQuery($qry)
   {
-    return ($this->stmt = self::$pdo[$this->DBID]->prepare($qry));
+    try {
+      $this->query = $qry;
+      $this->stmt = self::$pdo[$this->DBID]->prepare($qry);
+      return $this->stmt;
+    } catch (PDOException $e)
+    {
+      throw new rex_sql_exception('Error while preparing statement "'. $qry .'! '. $e->getMessage());
+    }
   }
 
   /**
    * Executes the prepared statement with the given input parameters
    * @param array $params Array of input parameters
-   *
-   * @return boolean True on success, False on error
    */
   public function execute(array $params = array())
   {
-    $success = $this->stmt->execute($params);
-    $this->rows = $this->stmt->rowCount();
-    $this->counter = 0;
-    $this->lastRow = array();
-    return $success;
+    if(!$this->stmt)
+    {
+      throw new rex_sql_exception('you need to prepare a query before calling execute()');
+    }
+    
+    try {
+      $this->flush();
+      $this->params = $params;
+      
+      $this->stmt->execute($params);
+      $this->rows = $this->stmt->rowCount();
+    } catch (PDOException $e)
+    {
+      throw new rex_sql_exception('Error while executing statement using params '. json_encode($params) .'! '. $e->getMessage());
+    }
   }
 
   /**
@@ -215,6 +232,11 @@ class rex_sql extends rex_factory implements Iterator
    *
    * If parameters will be provided, a prepared statement will be executed.
    *
+   * example 1:
+   *    $sql->setQuery('SELECT * FROM mytable where id=:id, 'array('id' => 3));
+   *    
+   * NOTE: named-parameters/?-placeholders are not supported in LIMIT clause!
+   *    
    * @param $query string The sql-query
    * @param $params array An optional array of statement parameter
    *
@@ -229,45 +251,23 @@ class rex_sql extends rex_factory implements Iterator
 
     if(!empty($params))
     {
-      if(!is_array($params))
-      {
-        throw new rex_sql_exception('expecting $params to be an array, "'. gettype($params) .'" given!');
-      }
-      $this->stmt = self::$pdo[$this->DBID]->prepare(trim($qry));
-      if($this->stmt)
-      {
-        if(!$this->execute($params))
-        {
-          throw new rex_sql_exception('Error occured while executing statement "'. $qry .'" using params '. json_encode($params) .'!');
-        }
-      }
-      else
-      {
-        throw new rex_sql_exception('Error occured while preparing statement "'. $qry .'"!');
-      }
+      $this->prepareQuery($qry);
+      $this->execute($params);
     }
     else
     {
-      $this->stmt = self::$pdo[$this->DBID]->query(trim($qry));
+      try {
+        $this->stmt = self::$pdo[$this->DBID]->query($qry);
+        $this->rows = $this->stmt->rowCount();
+      } catch (PDOException $e)
+      {
+        throw new rex_sql_exception('Error while executing statement "'. $qry .'! '. $e->getMessage());
+      }
     }
-
-    if($this->stmt !== false)
-    {
-      $this->rows = $this->stmt->rowCount();
-    }
-    else
-    {
-      $this->rows = 0;
-    }
-
-    $hasError = $this->hasError();
+    
     if ($this->debugsql)
     {
       $this->printError($qry, $params);
-    }
-    else if ($hasError)
-    {
-      throw new rex_sql_exception($this->getError());
     }
 
     // Compat
