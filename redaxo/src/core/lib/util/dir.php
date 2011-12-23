@@ -53,16 +53,16 @@ class rex_dir
 
     $state = TRUE;
 
-    foreach(self::recursiveIterator($srcdir, rex_dir_recursive_iterator::SELF_FIRST) as $srcfile)
+    foreach(self::recursiveIterator($srcdir, rex_dir_recursive_iterator::SELF_FIRST) as $srcfilepath => $srcfile)
     {
-      $dstfile = $dstdir . substr($srcfile->getRealPath(), strlen($srcdir));
+      $dstfile = $dstdir . substr($srcfilepath, strlen($srcdir));
       if($srcfile->isDir())
       {
         $state = self::create($dstfile) && $state;
       }
       elseif(!file_exists($dstfile) || $srcfile->getMTime() > filemtime($dstfile))
       {
-        $state = rex_file::copy($srcfile->getRealPath(), $dstfile) && $state;
+        $state = rex_file::copy($srcfilepath, $dstfile) && $state;
       }
     }
 

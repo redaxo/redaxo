@@ -23,8 +23,8 @@ abstract class rex_logger extends rex_factory
     self::$registered = true;
     self::$file = rex_path::cache('system.log');
 
-    set_error_handler(array(__CLASS__, 'logError'));
-    set_exception_handler(array(__CLASS__, 'logException'));
+    set_error_handler(array(__CLASS__, 'handleError'));
+    set_exception_handler(array(__CLASS__, 'handleException'));
     register_shutdown_function(array(__CLASS__, 'shutdown'));
 
     self::open();
@@ -48,6 +48,43 @@ abstract class rex_logger extends rex_factory
   }
 
   /**
+  * Handles the given Exception
+  *
+  * @param Exception $exception The Exception to handle
+  */
+  static public function handleException(Exception $exception)
+  {
+    self::handleError($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
+  }
+
+  /**
+  * Handles a error message
+  *
+  * @param integer $errno The error code to handle
+  * @param string  $errstr The error message
+  * @param string  $errfile The file in which the error occured
+  * @param integer $errline The line of the file in which the error occured
+  * @param array   $errcontext Array that points to the active symbol table at the point the error occurred.
+  */
+  static public function handleError($errno, $errstr, $errfile, $errline, array $errcontext = null)
+  {
+    if(error_reporting() == 0)
+      return;
+
+    self::logError($errno, $errstr, $errfile, $errline, $errcontext);
+
+    if(ini_get('display_errors') && (error_reporting() & $errno) == $errno)
+    {
+      echo '<b>'. self::getErrorType($errno) ."</b>: $errstr in <b>$errfile</b> on line <b>$errline</b><br />";
+    }
+
+    if(in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR)))
+    {
+      exit(1);
+    }
+  }
+
+  /**
    * Logs the given Exception
    *
    * @param Exception $exception The Exception to log
@@ -65,9 +102,8 @@ abstract class rex_logger extends rex_factory
    * @param string  $errfile The file in which the error occured
    * @param integer $errline The line of the file in which the error occured
    * @param array   $errcontext Array that points to the active symbol table at the point the error occurred.
-   * @param boolean $printError Flag to indicate whether the error should be printed, or not
    */
-  static public function logError($errno, $errstr, $errfile, $errline, array $errcontext = null, $printError = true)
+  static public function logError($errno, $errstr, $errfile, $errline, array $errcontext = null)
   {
     if(!is_int($errno))
     {
@@ -85,30 +121,8 @@ abstract class rex_logger extends rex_factory
     {
       throw new rex_exception('Expecting $errline to be integer, but '. gettype($errline) .' given!');
     }
-    if(!is_bool($printError))
-    {
-      throw new rex_exception('Expecting $printError to be boolean, but '. gettype($printError) .' given!');
-    }
 
-    $errorType = '<b>'. self::getErrorType($errno) .'</b>';
-
-    $msg = "$errstr in <b>$errfile</b> on line <b>$errline</b><br />";
-
-    // errors which should be reported regarding error_reporting() will be echo'ed to the end-user
-    if ($printError && ini_get('display_errors') && (error_reporting() & $errno) == $errno)
-    {
-      echo $errorType .': '. $msg;
-    }
-
-    if(error_reporting() != 0)
-    {
-      self::log($errorType .'['. $errno .']: '. $msg, $errno);
-    }
-
-    if(in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR)))
-    {
-      exit(1);
-    }
+    self::log('<b>'. self::getErrorType($errno) ."</b>[$errno]: $errstr in <b>$errfile</b> on line <b>$errline</b><br />", $errno);
   }
 
   /**
@@ -176,9 +190,9 @@ abstract class rex_logger extends rex_factory
       if(is_array($error))
       {
       	try {
-      		self::logError($error['type'], $error['message'], $error['file'], $error['line'], null, false);
+      		self::logError($error['type'], $error['message'], $error['file'], $error['line']);
       	}catch (Exception $e ) {
-      		// echo $e->getMessage();
+      	  self::logException($e);
       	}
       }
     }

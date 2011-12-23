@@ -40,7 +40,7 @@ require_once rex_path::core('functions/function_rex_generate.inc.php');
 // ----------------- VERSION
 rex::setProperty('version', 5);
 rex::setProperty('subversion', 0);
-rex::setProperty('minorversion', 'a1');
+rex::setProperty('minorversion', 'alpha2');
 
 $config = rex_file::getConfig(rex_path::data('config.yml'));
 foreach($config as $key => $value)
@@ -56,7 +56,7 @@ date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
 // ----------------- OTHER STUFF
 rex::setProperty('setup_packages', array('be_style', 'be_style/agk_skin'));
-rex::setProperty('system_packages', array('modules', 'templates', 'mediapool', 'structure', 'structure/content', 'structure/linkmap', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/agk_skin', 'media_manager', 'users'));
+rex::setProperty('system_packages', array('modules', 'templates', 'mediapool', 'structure', 'structure/content', 'structure/linkmap', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/agk_skin', 'media_manager', 'users', 'install', 'install/core', 'install/packages'));
 
 // ----------------- REX PERMS
 

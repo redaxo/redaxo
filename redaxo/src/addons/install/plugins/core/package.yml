@@ -1,0 +1,5 @@
+version: '5.0 alpha4'
+author: Gregor Harlan
+supportpage: www.redaxo.org/de/forum
+
+name: translate:install_core_title

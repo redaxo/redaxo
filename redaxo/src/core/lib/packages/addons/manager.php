@@ -15,7 +15,7 @@ class rex_addon_manager extends rex_package_manager
   /* (non-PHPdoc)
    * @see rex_package_manager::checkDependencies()
    */
-  protected function checkDependencies()
+  public function checkDependencies()
   {
     $i18nPrefix = 'addon_dependencies_error_';
     $state = array();

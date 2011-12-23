@@ -15,3 +15,8 @@ class rex_sql_exception extends rex_exception
     parent::__construct($message, E_USER_ERROR, $previous);
   }
 }
+
+/**
+ * Exception class for user-friendly error messages
+ */
+class rex_functional_exception extends rex_exception {}
