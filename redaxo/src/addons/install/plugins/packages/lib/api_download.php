@@ -172,14 +172,10 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
           }
         }
       }
+      $this->addon->setProperty('version', $oldVersion);
       if(!empty($messages))
       {
         return implode('<br />', $messages);
-      }
-      $this->addon->setProperty('version', $oldVersion);
-      if($msg !== true)
-      {
-        return $msg;
       }
     }
     if($this->addon->isInstalled() && file_exists($temppath .'update.inc.php'))
