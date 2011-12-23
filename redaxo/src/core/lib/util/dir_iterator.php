@@ -17,7 +17,13 @@ class rex_dir_iterator extends RecursiveFilterIterator
     $excludePrefixes = array(),
     $excludePrefixesRecursive = true,
     $excludeSuffixes = array(),
-    $excludeSuffixesRecursive = true;
+    $excludeSuffixesRecursive = true,
+    $excludeVersionControl = false,
+    $excludeTemporaryFiles = false;
+
+  static private
+    $versionControl = array('.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'),
+    $temporaryFiles = array('.DS_Store', 'Thumbs.db', 'desktop.ini');
 
   /**
    * Constructor
@@ -90,6 +96,30 @@ class rex_dir_iterator extends RecursiveFilterIterator
   }
 
   /**
+  * Excludes version control files and directories (like .svn and .git)
+  *
+  * @return rex_dir_iterator The current iterator
+  */
+  public function excludeVersionControl()
+  {
+    $this->excludeVersionControl = true;
+
+    return $this;
+  }
+
+  /**
+  * Excludes temporary files (like .DS_Store and Thumbs.db)
+  *
+  * @return rex_dir_iterator The current iterator
+  */
+  public function excludeTemporaryFiles()
+  {
+    $this->excludeTemporaryFiles = true;
+
+    return $this;
+  }
+
+  /**
    * Sorts the elements
    *
    * @param int|callable $sort Sort mode, see {@link rex_sortable_iterator::__construct()}
@@ -124,6 +154,8 @@ class rex_dir_iterator extends RecursiveFilterIterator
     {
       $iterator->excludeSuffixes($this->excludeSuffixes, true);
     }
+    $iterator->excludeVersionControl = $this->excludeVersionControl;
+    $iterator->excludeTemporaryFiles = $this->excludeTemporaryFiles;
 
     return $iterator;
   }
@@ -135,6 +167,7 @@ class rex_dir_iterator extends RecursiveFilterIterator
   {
     /* @var $current SplFileInfo */
     $current = parent::current();
+    $filename = $current->getFilename();
 
     if($current->isDir())
     {
@@ -142,7 +175,7 @@ class rex_dir_iterator extends RecursiveFilterIterator
       {
         return false;
       }
-      if(in_array($current->getFilename(), $this->excludeDirs))
+      if(in_array($filename, $this->excludeDirs))
       {
         return false;
       }
@@ -154,15 +187,25 @@ class rex_dir_iterator extends RecursiveFilterIterator
       {
         return false;
       }
-      if(in_array($current->getFilename(), $this->excludeFiles))
+      if(in_array($filename, $this->excludeFiles))
       {
         return false;
+      }
+      if($this->excludeTemporaryFiles)
+      {
+        foreach(self::$temporaryFiles as $temporaryFile)
+        {
+          if(stripos($filename, $temporaryFile) === 0)
+          {
+            return false;
+          }
+        }
       }
     }
 
     foreach($this->excludePrefixes as $prefix)
     {
-      if(strpos($current->getFilename(), $prefix) === 0)
+      if(strpos($filename, $prefix) === 0)
       {
         return false;
       }
@@ -170,9 +213,20 @@ class rex_dir_iterator extends RecursiveFilterIterator
 
     foreach($this->excludeSuffixes as $suffix)
     {
-      if(substr($current->getFilename(), strlen($current->getFilename()) - strlen($suffix)) == $suffix)
+      if(substr($filename, strlen($filename) - strlen($suffix)) == $suffix)
       {
         return false;
+      }
+    }
+
+    if($this->excludeVersionControl)
+    {
+      foreach(self::$versionControl as $versionControl)
+      {
+        if(stripos($filename, $versionControl) === 0)
+        {
+          return false;
+        }
       }
     }
 
