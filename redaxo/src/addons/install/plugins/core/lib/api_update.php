@@ -44,11 +44,35 @@ class rex_api_install_core_update extends rex_api_function
     {
       $message = $plugin->i18n('warning_zip_wrong_format');
     }
-    elseif(!rex_dir::copy($archive, $temppath))
+    else
+    {
+      $messages = array();
+      foreach(rex_addon::getAvailableAddons() as $package)
+      {
+        $manager = rex_addon_manager::factory($package);
+        if(($msg = $manager->checkRedaxoRequirement($version['version'])) !== true)
+        {
+          $messages[] = $package->getPackageId() .': '. $msg;
+        }
+        foreach($package->getAvailablePlugins() as $package)
+        {
+          $manager = rex_plugin_manager::factory($package);
+          if(($msg = $manager->checkRedaxoRequirement($version['version'])) !== true)
+          {
+            $messages[] = $package->getPackageId() .': '. $msg;
+          }
+        }
+      }
+      if(!empty($messages))
+      {
+        $message = implode('<br />', $messages);
+      }
+    }
+    if(!$message && !rex_dir::copy($archive, $temppath))
     {
       $message = $plugin->i18n('warning_zip_not_extracted');
     }
-    elseif(file_exists($temppath . 'update.inc.php'))
+    if(!$message && file_exists($temppath . 'update.inc.php'))
     {
       try
       {
@@ -87,4 +111,6 @@ class rex_api_install_core_update extends rex_api_function
     }
     return new rex_api_result($success, $message);
   }
+
+
 }

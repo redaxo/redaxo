@@ -430,13 +430,9 @@ abstract class rex_package_manager extends rex_factory
     $state = array();
     $requirements = $this->package->getProperty('requires', array());
 
-    if(isset($requirements['redaxo']) && is_array($requirements['redaxo']))
+    if(($msg = $this->checkRedaxoRequirement(rex::getVersion())) !== true)
     {
-      $rexVers = rex::getVersion();
-      if (($msg = $this->checkRequirementVersion('redaxo_', $requirements['redaxo'], $rexVers)) !== true)
-      {
-        return $msg;
-      }
+      return $msg;
     }
 
     if(isset($requirements['php']) && is_array($requirements['php']))
@@ -481,6 +477,21 @@ abstract class rex_package_manager extends rex_factory
     }
 
     return empty($state) ? TRUE : implode('<br />', $state);
+  }
+
+  /**
+  * Checks whether the redaxo requirement is met.
+  *
+  * @param string $redaxoVersion REDAXO version
+  */
+  public function checkRedaxoRequirement($redaxoVersion)
+  {
+    $requirements = $this->package->getProperty('requires', array());
+    if(isset($requirements['redaxo']) && is_array($requirements['redaxo']))
+    {
+      return $this->checkRequirementVersion('redaxo_', $requirements['redaxo'], $redaxoVersion);
+    }
+    return true;
   }
 
   /**
