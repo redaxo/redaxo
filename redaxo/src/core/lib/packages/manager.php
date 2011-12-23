@@ -339,7 +339,9 @@ abstract class rex_package_manager extends rex_factory
    */
   public function delete()
   {
-    return $this->_delete();
+    $state = $this->_delete();
+    self::synchronizeWithFileSystem();
+    return $state;
   }
 
   /**
@@ -423,18 +425,14 @@ abstract class rex_package_manager extends rex_factory
   /**
    * Checks whether the requirements are met.
    */
-  protected function checkRequirements()
+  public function checkRequirements()
   {
     $state = array();
     $requirements = $this->package->getProperty('requires', array());
 
-    if(isset($requirements['redaxo']) && is_array($requirements['redaxo']))
+    if(($msg = $this->checkRedaxoRequirement(rex::getVersion())) !== true)
     {
-      $rexVers = rex::getVersion();
-      if (($msg = $this->checkRequirementVersion('redaxo_', $requirements['redaxo'], $rexVers)) !== true)
-      {
-        return $msg;
-      }
+      return $msg;
     }
 
     if(isset($requirements['php']) && is_array($requirements['php']))
@@ -458,36 +456,20 @@ abstract class rex_package_manager extends rex_factory
 
     if(empty($state) && isset($requirements['addons']) && is_array($requirements['addons']))
     {
-      foreach($requirements['addons'] as $depName => $depAttr)
+      foreach($requirements['addons'] as $addonName => $addonAttr)
       {
-        // check if dependency exists
-        if(!rex_addon::exists($depName) || !rex_addon::get($depName)->isAvailable())
+        if(($msg = $this->checkPackageRequirement($addonName)) !== true)
         {
-          $state[] = rex_i18n::msg('addon_requirement_error_addon', $depName);
+          $state[] = $msg;
         }
-        else
+
+        if(isset($addonAttr['plugins']) && is_array($addonAttr['plugins']))
         {
-          $addon = rex_addon::get($depName);
-
-          if(($msg = $this->checkRequirementVersion('addon_', $depAttr, $addon->getVersion(), $depName)) !== true)
+          foreach($addonAttr['plugins'] as $pluginName => $pluginAttr)
           {
-            $state[] = $msg;
-          }
-
-          // check plugin requirements
-          if(isset($depAttr['plugins']) && is_array($depAttr['plugins']))
-          {
-            foreach($depAttr['plugins'] as $pluginName => $pluginAttr)
+            if(($msg = $this->checkPackageRequirement($addonName .'/'. $pluginName)) !== true)
             {
-              // check if dependency exists
-              if(!rex_plugin::exists($depName, $pluginName) || !rex_plugin::get($depName, $pluginName)->isAvailable())
-              {
-                $state[] = rex_i18n::msg('addon_requirement_error_plugin', $depName, $pluginName);
-              }
-              elseif(($msg = $this->checkRequirementVersion('plugin_', $pluginAttr, rex_plugin::get($depName, $pluginName)->getVersion(), $depName, $pluginName)) !== true)
-              {
-                $state[] = $msg;
-              }
+              $state[] = $msg;
             }
           }
         }
@@ -495,6 +477,44 @@ abstract class rex_package_manager extends rex_factory
     }
 
     return empty($state) ? TRUE : implode('<br />', $state);
+  }
+
+  /**
+  * Checks whether the redaxo requirement is met.
+  *
+  * @param string $redaxoVersion REDAXO version
+  */
+  public function checkRedaxoRequirement($redaxoVersion)
+  {
+    $requirements = $this->package->getProperty('requires', array());
+    if(isset($requirements['redaxo']) && is_array($requirements['redaxo']))
+    {
+      return $this->checkRequirementVersion('redaxo_', $requirements['redaxo'], $redaxoVersion);
+    }
+    return true;
+  }
+
+  /**
+  * Checks whether the package requirement is met.
+  *
+  * @param string $packageId Package ID
+  */
+  public function checkPackageRequirement($packageId)
+  {
+    $requirements = $this->package->getProperty('requires', array());
+    list($addonName, $pluginName) = array_pad(explode('/', $packageId), 2, null);
+    $type = $pluginName === null ? 'addon' : 'plugin';
+    if(!isset($requirements['addons'][$addonName]) || $type == 'plugin' && !isset($requirements['addons'][$addonName]['plugins'][$pluginName]))
+    {
+      return true;
+    }
+    $package = $type == 'plugin' ? rex_plugin::get($addonName, $pluginName) : rex_addon::get($addonName);
+    if(!$package->isAvailable())
+    {
+      return rex_i18n::msg('addon_requirement_error_'. $type, $addonName, $pluginName);
+    }
+    $attr = $type == 'plugin' ? $requirements['addons'][$addonName]['plugins'][$pluginName] : $requirements['addons'][$addonName];
+    return $this->checkRequirementVersion($type .'_', $attr, $package->getVersion(), $addonName, $pluginName);
   }
 
   /**
@@ -535,7 +555,7 @@ abstract class rex_package_manager extends rex_factory
   /**
    * Checks if another Addon which is activated, depends on the given addon
    */
-  protected abstract function checkDependencies();
+  public abstract function checkDependencies();
 
 	/**
    * Adds the package to the package order

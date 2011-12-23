@@ -144,7 +144,10 @@ abstract class rex_api_function extends rex_factory
     if($apiFunc)
     {
       $apiResult = $apiFunc->getResult();
-      $message = $apiResult->getFormattedMessage();
+      if($apiResult)
+      {
+        $message = $apiResult->getFormattedMessage();
+      }
     }
     // return a placeholder which can later be used by ajax requests to display messages
     return '<div id="rex-message-container">'. $message .'</div>';
