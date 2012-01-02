@@ -207,6 +207,7 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
     {
       rex_dir::copy($origAssets, $assets);
     }
+    $this->addon->setProperty('version', $this->file['version']);
     rex_install_packages::updatedPackage($this->addonkey, $this->fileId);
   }
 
