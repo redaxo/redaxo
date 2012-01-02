@@ -129,7 +129,7 @@ class rex_dir
    */
   static public function iterator($dir)
   {
-    return new rex_dir_iterator(new RecursiveDirectoryIterator($dir));
+    return new rex_dir_iterator(new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS));
   }
 
   /**
