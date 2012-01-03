@@ -428,7 +428,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
   {
     foreach($templates as $t_id => $t_name)
     {
-      $template_select->addOption(rex_i18n::translate($t_name, null, false), $t_id);
+      $template_select->addOption(rex_i18n::translate($t_name, false), $t_id);
       $TEMPLATE_NAME[$t_id] = rex_i18n::translate($t_name);
     }
   }else
@@ -460,7 +460,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
        AND clang=:clang',
     array(':categoryid' => $category_id, 'clang' => $clang)
   );
-  
+
   $maxArtPrior = $sql->getValue('maxArtPrior');
 
   // --------------------- ADD PAGINATION
@@ -481,7 +481,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
        AND clang=:clang
      ORDER BY
        prior, name
-     LIMIT '. $artPager->getCursor() .','. $artPager->getRowsPerPage(), 
+     LIMIT '. $artPager->getCursor() .','. $artPager->getRowsPerPage(),
     array(':categoryid' => $category_id, 'clang' => $clang)
   );
 

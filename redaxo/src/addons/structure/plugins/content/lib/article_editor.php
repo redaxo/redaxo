@@ -303,7 +303,7 @@ class rex_article_editor extends rex_article
           {
             if(rex_template::hasModule($this->template_attributes,$ct_id,$m['id']))
             {
-              $this->MODULESELECT[$ct_id]->addOption(rex_i18n::translate($m['name'],NULL,FALSE),$m['id']);
+              $this->MODULESELECT[$ct_id]->addOption(rex_i18n::translate($m['name'],FALSE),$m['id']);
             }
           }
         }

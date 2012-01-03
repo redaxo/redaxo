@@ -327,7 +327,7 @@ if ($function == 'add' or $function == 'edit')
 
         for ($i=0; $i<$gaa->getRows(); $i++)
         {
-          $gaa_sel->addOption(rex_i18n::translate($gaa->getValue('name'), null, false),$gaa->getValue('id'));
+          $gaa_sel->addOption(rex_i18n::translate($gaa->getValue('name'), false),$gaa->getValue('id'));
           $gaa->next();
         }
 
