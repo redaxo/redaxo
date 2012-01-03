@@ -82,7 +82,6 @@ class rex_install_webservice
     try
     {
       $socket = new rex_socket(self::HOST, $fullpath, self::PORT, self::PREFIX);
-      $data = array('data' => $data);
       $files = array();
       if($archive)
       {

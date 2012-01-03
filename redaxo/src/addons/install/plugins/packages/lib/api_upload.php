@@ -10,22 +10,22 @@ class rex_api_install_packages_upload extends rex_api_function
     }
     $addonkey = rex_request('addonkey', 'string');
     $upload = rex_request('upload', 'array');
-    $data = array();
+    $file = array();
     $archive = null;
     $uploadFile = isset($upload['upload_file']) && $upload['upload_file'];
-    $data['version'] = $uploadFile ? rex_addon::get($addonkey)->getVersion() : $upload['oldversion'];
-    $data['redaxo_versions'] = $upload['redaxo'];
-    $data['description'] = $upload['description'];
-    $data['status'] = (integer) isset($upload['status']) && $upload['status'];
+    $file['version'] = $uploadFile ? rex_addon::get($addonkey)->getVersion() : $upload['oldversion'];
+    $file['redaxo_versions'] = $upload['redaxo'];
+    $file['description'] = $upload['description'];
+    $file['status'] = (integer) isset($upload['status']) && $upload['status'];
     try
     {
       if($uploadFile)
       {
         $archive = rex_path::cache('install/'. md5($addonkey . time()) .'.zip');
         rex_install_helper::copyDirToArchive(rex_path::addon($addonkey), $archive);
-        $data['checksum'] = md5_file($archive);
+        $file['checksum'] = md5_file($archive);
       }
-      rex_install_webservice::post(rex_install_packages::getPath('?package='.$addonkey.'&file_id='.rex_request('file', 'int', 0)), $data, $archive);
+      rex_install_webservice::post(rex_install_packages::getPath('?package='.$addonkey.'&file_id='.rex_request('file', 'int', 0)), array('file' => $file), $archive);
     }
     catch(rex_functional_exception $e)
     {
