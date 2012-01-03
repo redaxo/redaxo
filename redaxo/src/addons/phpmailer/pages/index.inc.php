@@ -11,24 +11,17 @@
  */
 
 // Parameter
-$Basedir = dirname(__FILE__);
-
 $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
-$subpages = array(
-  array('',rex_i18n::msg('phpmailer_configuration')),
-  array('example',rex_i18n::msg('phpmailer_example')),
-);
-
-echo rex_view::title(rex_i18n::msg('phpmailer_title'), $subpages);
+echo rex_view::title($this->i18n('title'));
 
 switch($subpage)
 {
     case 'example':
-        require $Basedir .'/example.inc.php';
+        require __DIR__ .'/example.inc.php';
     break;
     default:
-        require $Basedir .'/settings.inc.php';
+        require __DIR__ .'/settings.inc.php';
 }

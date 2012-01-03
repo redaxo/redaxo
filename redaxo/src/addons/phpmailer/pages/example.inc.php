@@ -2,10 +2,10 @@
 
 /**
  * PHPMailer Addon
- *  
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- * 
- * 
+ *
+ *
  * @package redaxo5
  * @version svn:$Id$
  */
@@ -16,36 +16,34 @@ $mdl_ex =<<<EOD
 \$mail = new rex_mailer();
 \$sql = rex_sql::factory();
 
-\$query† =†"SELECT full_name, email,†photo†FROM employee†WHERE†id=\$id";
-\$sql->setQuery(\$query);
+\$query = "SELECT full_name, email, photo FROM employee WHERE id= ?";
+\$sql->setQuery(\$query, array(\$id));
 
-for(\$i = 0; \$i < \$sql->getRows(); \$i++)
+foreach(\$sql as \$row)
 {
     // HTML body
-    \$body  = "Hello <font size=\"4\">" . \$sql->getValue("full_name") . "</font>, <p>";
+    \$body  = "Hello <font size=\"4\">" . \$row->getValue("full_name") . "</font>, <p>";
     \$body .= "<i>Your</i> personal photograph to this message.<p>";
     \$body .= "Sincerely, <br />";
     \$body .= "phpmailer List manager";
 
     // Plain text body (for mail clients that cannot read HTML)
-    \$text_body  = "Hello " . \$sql->getValue("full_name") . ", \\n\\n";
+    \$text_body  = "Hello " . \$row->getValue("full_name") . ", \\n\\n";
     \$text_body .= "Your personal photograph to this message.\\n\\n";
     \$text_body .= "Sincerely, \\n";
     \$text_body .= "phpmailer List manager";
 
     \$mail->Body    = \$body;
     \$mail->AltBody = \$text_body;
-    \$mail->AddAddress(\$sql->getValue("email"), \$sql->getValue("full_name"));
+    \$mail->AddAddress(\$row->getValue("email"), \$row->getValue("full_name"));
     \$mail->AddStringAttachment(\$sql->getValue("photo"), "YourPhoto.jpg");
 
     if(!\$mail->Send())
-        echo "There has been a mail error sending to " . \$sql->getValue("email") . "<br>";
+        echo "There has been a mail error sending to " . \$row->getValue("email") . "<br>";
 
     // Clear all addresses and attachments for next loop
     \$mail->ClearAddresses();
     \$mail->ClearAttachments();
-    
-    \$sql->next();
 }
 
 ?>
@@ -54,7 +52,7 @@ EOD;
 
 ?>
 <div class="rex-addon-output">
-	<h2 class="rex-hl2"><?php echo rex_i18n::msg('phpmailer_example_headline'); ?></h2>
+	<h2 class="rex-hl2"><?php echo $this->i18n('example_headline'); ?></h2>
 	<div class="rex-addon-content">
 	  <?php rex_highlight_string($mdl_ex); ?>
 	</div>

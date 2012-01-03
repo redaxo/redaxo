@@ -14,18 +14,19 @@ class rex_mailer extends PHPMailer
 {
   public function __construct()
   {
-    $this->From             = rex_config::get('phpmailer', 'from');
-    $this->FromName         = rex_config::get('phpmailer', 'fromname');
-    $this->ConfirmReadingTo = rex_config::get('phpmailer', 'confirmto');
-    $this->Mailer           = rex_config::get('phpmailer', 'mailer');
-    $this->Host             = rex_config::get('phpmailer', 'host');
-    $this->CharSet          = rex_config::get('phpmailer', 'charset');
-    $this->WordWrap         = rex_config::get('phpmailer', 'wordwrap');
-    $this->Encoding         = rex_config::get('phpmailer', 'encoding');
-    $this->Priority         = rex_config::get('phpmailer', 'priority');
-    $this->SMTPAuth         = rex_config::get('phpmailer', 'smtpauth');
-    $this->Username         = rex_config::get('phpmailer', 'username');
-    $this->Password         = rex_config::get('phpmailer', 'password');
+    $addon = rex_addon::get('phpmailer');
+    $this->From             = $addon->getConfig('from');
+    $this->FromName         = $addon->getConfig('fromname');
+    $this->ConfirmReadingTo = $addon->getConfig('confirmto');
+    $this->Mailer           = $addon->getConfig('mailer');
+    $this->Host             = $addon->getConfig('host');
+    $this->CharSet          = $addon->getConfig('charset');
+    $this->WordWrap         = $addon->getConfig('wordwrap');
+    $this->Encoding         = $addon->getConfig('encoding');
+    $this->Priority         = $addon->getConfig('priority');
+    $this->SMTPAuth         = $addon->getConfig('smtpauth');
+    $this->Username         = $addon->getConfig('username');
+    $this->Password         = $addon->getConfig('password');
 
     $this->PluginDir = rex_path::addon('phpmailer', 'classes/');
   }

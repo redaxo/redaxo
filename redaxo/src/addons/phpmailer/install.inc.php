@@ -14,18 +14,18 @@ $error = '';
 
 if(!rex_config::has('phpmailer'))
 {
-  rex_config::set('phpmailer', 'from',     'from@example.com');
-  rex_config::set('phpmailer', 'fromname', 'Mailer');
-  rex_config::set('phpmailer', 'confirmto', '');
-  rex_config::set('phpmailer', 'mailer',   'sendmail');
-  rex_config::set('phpmailer', 'host',     'localhost');
-  rex_config::set('phpmailer', 'charset',  'utf-8');
-  rex_config::set('phpmailer', 'wordwrap', 120);
-  rex_config::set('phpmailer', 'encoding', '8bit');
-  rex_config::set('phpmailer', 'priority', 3);
-  rex_config::set('phpmailer', 'smtpauth', false);
-  rex_config::set('phpmailer', 'username', '');
-  rex_config::set('phpmailer', 'password', '');
+  $this->setConfig('from',     'from@example.com');
+  $this->setConfig('fromname', 'Mailer');
+  $this->setConfig('confirmto', '');
+  $this->setConfig('mailer',   'sendmail');
+  $this->setConfig('host',     'localhost');
+  $this->setConfig('charset',  'utf-8');
+  $this->setConfig('wordwrap', 120);
+  $this->setConfig('encoding', '8bit');
+  $this->setConfig('priority', 3);
+  $this->setConfig('smtpauth', false);
+  $this->setConfig('username', '');
+  $this->setConfig('password', '');
 }
 
 if ($error != '')

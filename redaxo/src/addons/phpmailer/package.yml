@@ -3,3 +3,7 @@ author: 'Markus Staab, Brent R. Matzelle'
 name: PHPMailer
 perm: phpmailer[]
 supportpage: www.redaxo.org/de/forum/
+
+pages:
+  - ['', 'translate:phpmailer_configuration']
+  - ['example', 'translate:phpmailer_example']
