@@ -10,3 +10,5 @@ navigation:
 requires:
   redaxo:
     min-version: '5.0.alpha2'
+  php:
+    extensions: [phar, zlib]
