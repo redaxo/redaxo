@@ -13,89 +13,31 @@ class rex_cronjob_urlrequest extends rex_cronjob
 {
   public function execute()
   {
-    $parts = parse_url($this->getParam('url'));
-    if (!is_array($parts) || !isset($parts['host']))
+    try
     {
-      $this->setMessage('Invalid URL');
-      return false;
-    }
-    if (!isset($parts['scheme']))
-      $parts['scheme'] = 'http';
-
-    $supportedProtocols = array('http', 'https');
-    if (!in_array($parts['scheme'], $supportedProtocols))
-    {
-      $this->setMessage('Unsupported protocol "'. $parts['scheme'] .'". Supported protocols are '. implode(', ', $supportedProtocols). '.');
-      return false;
-    }
-    if (!isset($parts['port']))
-    {
-      switch($parts['scheme'])
+      $socket = rex_socket::createByUrl($this->getParam('url'));
+      if($this->getParam('http-auth') == '|1|')
       {
-        case 'http' : $parts['port'] = 80;  break;
-        case 'https': $parts['port'] = 443; break;
-        default:
-          $this->setMessage('Unknown port');
-          return false;
+        $socket->addBasicAuthorization($this->getParam('user'), $this->getParam('password'));
       }
-    }
-    if (!isset($parts['path']))
-      $parts['path'] = '/';
-    if (isset($parts['query']))
-      $parts['path'] .= '?'. $parts['query'];
-    $sockhost = $parts['host'];
-    if ($parts['scheme'] == 'https')
-      $sockhost = 'ssl://'. $sockhost;
-
-    if ($fp = @fsockopen($sockhost, $parts['port'], $errno, $errstr))
-    {
-      $method = 'GET';
-      $out_add = '';
-      $data = '';
-      if ($this->getParam('http-auth') == '|1|')
+      if(($post = $this->getParam('post')) != '')
       {
-        $usr = $this->getParam('user');
-        $pwd = $this->getParam('password');
-        $out_add .= 'Authorization: Basic '. base64_encode($usr .':'. $pwd) ."\r\n";
+        $socket->doPost($post);
       }
-      if ($this->getParam('post') != '')
+      else
       {
-        $method = 'POST';
-        $data = $this->getParam('post');
-        $out_add .= "Content-Type: application/x-www-form-urlencoded;\r\n";
-        $out_add .= 'Content-Length: '. strlen($data) ."\r\n";
+        $socket->doGet();
       }
-      $out = $method .' '. $parts['path'] ." HTTP/1.1\r\n";
-      $out .= 'Host: '. $parts['host'] ."\r\n";
-      $out .= $out_add;
-      $out .= "Connection: Close\r\n\r\n";
-      $out .= $data;
-      $content = '';
-      fwrite($fp, $out);
-      while (!feof($fp)) {
-        $content .= fgets($fp);
-      }
-      fclose($fp);
-
-      if (stripos($content, 'HTTP/') !== 0)
-      {
-        $this->setMessage('Unknown response');
-        return false;
-      }
-
-      $lines = explode("\r\n", $content);
-      $parts = explode(' ', $lines[0], 3);
-      $parts[1] = (int) $parts[1];
-      $success = $parts[1] >= 200 && $parts[1] < 300;
-      $message = $parts[1] .' '. $parts[2];
-      if (in_array($parts[1], array(301, 302, 303, 307))
+      $statusCode = $socket->getStatus();
+      $success = $statusCode >= 200 && $statusCode < 300;
+      $message = $statusCode .' '. $socket->getStatusMessage();
+      if (in_array($statusCode, array(301, 302, 303, 307))
         && $this->getParam('redirect', true)
-        && preg_match('/Location: ([^\s]*)/', $content, $matches)
-        && isset($matches[1]))
+        && ($location = $socket->getHeader('Location')))
       {
         // maximal eine Umleitung zulassen
         $this->setParam('redirect', false);
-        $this->setParam('url', $matches[1]);
+        $this->setParam('url', $location);
         // rekursiv erneut ausfuehren
         $success = $this->execute();
         if ($this->hasMessage())
@@ -106,8 +48,11 @@ class rex_cronjob_urlrequest extends rex_cronjob
       $this->setMessage($message);
       return $success;
     }
-    $this->setMessage($errno .' '. $errstr);
-    return false;
+    catch(rex_exception $e)
+    {
+      $this->setMessage($e->getMessage());
+      return false;
+    }
   }
 
   public function getTypeName()

@@ -18,6 +18,7 @@ class rex_socket
   private $chunkPos = 0;
   private $chunkLength = 0;
   private $status;
+  private $statusMessage;
   private $header;
   private $body;
 
@@ -63,6 +64,11 @@ class rex_socket
   public function addHeader($key, $value)
   {
     $this->headers[$key] = $value;
+  }
+
+  public function addBasicAuthorization($user, $password)
+  {
+    $this->addHeader('Authorization', 'Basic '. base64_encode($user .':'. $password));
   }
 
   public function doGet()
@@ -166,6 +172,7 @@ class rex_socket
     {
       call_user_func($data, $this->fp);
     }
+    $this->headers = array();
 
     $meta = stream_get_meta_data($this->fp);
     if($meta['timed_out'])
@@ -177,9 +184,10 @@ class rex_socket
     {
       $this->header .= fgets($this->fp);
     }
-    if(preg_match('@^HTTP/1\.\d ([0-9]{3})@', $this->getHeader(), $matches))
+    if(preg_match('@^HTTP/1\.\d ([0-9]{3}) (\V*)@', $this->getHeader(), $matches))
     {
       $this->status = intval($matches[1]);
+      $this->statusMessage = $matches[2];
     }
     $this->chunked = stripos($this->header, 'transfer-encoding: chunked') !== false;
   }
@@ -189,9 +197,27 @@ class rex_socket
     return $this->status;
   }
 
-  public function getHeader()
+  public function getStatusMessage()
   {
-    return $this->header;
+    return $this->statusMessage;
+  }
+
+  public function getHeader($key = null, $default = null)
+  {
+    if($key === null)
+    {
+      return $this->header;
+    }
+    $key = strtolower($key);
+    if(isset($this->headers[$key]))
+    {
+      return $this->headers[$key];
+    }
+    if(preg_match('@^'. preg_quote($key, '@') .': (\V*)@im', $this->header, $matches))
+    {
+      return $this->headers[$key] = $matches[1];
+    }
+    return $this->headers[$key] = $default;
   }
 
   public function getBufferedBody($length = 1024)
