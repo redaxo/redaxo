@@ -63,7 +63,7 @@ interface rex_package_interface
   /**
    * @see rex_config::has()
    */
-  public function hasConfig($key);
+  public function hasConfig($key = null);
 
   /**
    * @see rex_config::remove()

@@ -12,7 +12,7 @@
 
 $error = '';
 
-if(!rex_config::has('phpmailer'))
+if(!$this->hasConfig())
 {
   $this->setConfig('from',     'from@example.com');
   $this->setConfig('fromname', 'Mailer');

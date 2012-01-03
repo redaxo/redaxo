@@ -104,7 +104,7 @@ abstract class rex_package implements rex_package_interface
   /* (non-PHPdoc)
    * @see rex_package_interface::hasConfig()
    */
-  public function hasConfig($key)
+  public function hasConfig($key = null)
   {
     return rex_config::has($this->getPackageId(), $key);
   }

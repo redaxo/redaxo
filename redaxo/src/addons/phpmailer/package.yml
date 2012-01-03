@@ -1,4 +1,4 @@
-version: '5.0 a1'
+version: '5.0 alpha2'
 author: 'Markus Staab, Brent R. Matzelle'
 name: PHPMailer
 perm: phpmailer[]
@@ -7,3 +7,7 @@ supportpage: www.redaxo.org/de/forum/
 pages:
   - ['', 'translate:phpmailer_configuration']
   - ['example', 'translate:phpmailer_example']
+
+requires:
+  redaxo:
+    min-version: '5.0.alpha3'

@@ -74,7 +74,7 @@ abstract class rex_null_package extends rex_singleton implements rex_package_int
   /* (non-PHPdoc)
    * @see rex_package_interface::hasConfig()
    */
-  public function hasConfig($key)
+  public function hasConfig($key = null)
   {
     return false;
   }
