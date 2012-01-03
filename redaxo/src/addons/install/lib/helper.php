@@ -5,9 +5,7 @@ class rex_install_helper
   static public function copyDirToArchive($dir, $archive, $basename = null)
   {
     $archive = new PharData($archive, 0, null, Phar::ZIP);
-    $iterator = rex_dir::recursiveIterator($dir);
-    $iterator->excludeVersionControl();
-    $iterator->excludeTemporaryFiles();
+    $iterator = rex_dir::recursiveIterator($dir)->excludeVersionControl()->excludeTemporaryFiles();
     if($basename)
     {
       $array = array();
