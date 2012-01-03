@@ -5,8 +5,8 @@ perm: phpmailer[]
 supportpage: www.redaxo.org/de/forum/
 
 pages:
-  - ['', 'translate:phpmailer_configuration']
-  - ['example', 'translate:phpmailer_example']
+  - ['', 'translate:configuration']
+  - ['example', 'translate:example']
 
 requires:
   redaxo:

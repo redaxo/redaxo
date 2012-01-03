@@ -256,7 +256,7 @@ abstract class rex_package implements rex_package_interface
     foreach($properties as $key => $value)
     {
       if(!isset($this->properties[$key]))
-        $this->properties[$key] = rex_i18n::translateArray($value);
+        $this->properties[$key] = rex_i18n::translateArray($value, true, array($this, 'i18n'));
     }
     $this->propertiesLoaded = true;
   }
