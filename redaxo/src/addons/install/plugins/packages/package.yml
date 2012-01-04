@@ -1,10 +1,10 @@
-version: '5.0 alpha4'
+version: '5.0 alpha6'
 author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum
 
-name: translate:install_packages_title
+name: translate:title
 subpages:
-  - ['', 'translate:install_packages_subpage_update']
-  - [add, 'translate:install_packages_subpage_add']
-  - [upload, 'translate:install_packages_subpage_upload']
-  - [settings, 'translate:install_packages_subpage_settings']
+  - ['', 'translate:subpage_update']
+  - [add, 'translate:subpage_add']
+  - [upload, 'translate:subpage_upload']
+  - [settings, 'translate:subpage_settings']

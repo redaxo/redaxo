@@ -1,9 +1,13 @@
-version: '5.0 a1'
+version: '5.0 alpha2'
 author: 'Gregor Harlan'
 supportpage: www.redaxo.org/de/forum/
 
-name: 'translate:cronjob_title'
+name: 'translate:title'
 perm: admin[]
 pages:
-  - ['', 'translate:cronjob_title']
-  - ['log', 'translate:cronjob_log']
+  - ['', 'translate:title']
+  - ['log', 'translate:log']
+
+requires:
+  redaxo:
+    min-version: '5.0.alpha3'

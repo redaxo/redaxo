@@ -11,16 +11,9 @@
 
 $error = '';
 
-$log_folder = rex_path::addonData('cronjob');
-
-rex_dir::create($log_folder);
-
-if(($state = rex_is_writable($log_folder)) !== true)
-  $error .= $state;
-
-if($error == '' && !rex_config::has('cronjob', 'nexttime'))
+if(!$this->hasConfig('nexttime'))
 {
-  rex_config::set('cronjob', 'nexttime', 0);
+  $this->setConfig('nexttime', 0);
 }
 
 if ($error != '')

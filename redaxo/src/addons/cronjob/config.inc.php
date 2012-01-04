@@ -9,8 +9,6 @@
  * @version svn:$Id$
  */
 
-$mypage = 'cronjob';
-
 if(rex::isBackend())
 {
   $EP = 'PAGE_CHECKED';
@@ -27,8 +25,8 @@ if(rex::isBackend())
   $EP = 'ADDONS_INCLUDED';
 }
 
-define('REX_CRONJOB_LOG_FOLDER', rex_path::addonData($mypage));
-define('REX_CRONJOB_TABLE'     , rex::getTablePrefix() .'cronjob');
+define('REX_CRONJOB_LOG_FOLDER', $this->getDataPath());
+define('REX_CRONJOB_TABLE'     , rex::getTable('cronjob'));
 
 rex_extension::register('ADDONS_INCLUDED',
   function($params)
@@ -43,7 +41,7 @@ rex_extension::register('ADDONS_INCLUDED',
   }
 );
 
-$nexttime = rex_config::get($mypage, 'nexttime');
+$nexttime = $this->getConfig('nexttime');
 
 if ($nexttime != 0 && time() >= $nexttime)
 {

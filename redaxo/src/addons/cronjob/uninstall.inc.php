@@ -11,7 +11,7 @@
 
 $error = '';
 
-rex_dir::delete(rex_path::addonData('cronjob'));
+rex_dir::delete($this->getDataPath());
 
 if ($error != '')
   $this->setProperty('installmsg', $error);

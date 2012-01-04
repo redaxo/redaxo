@@ -1,14 +1,14 @@
-version: '5.0 alpha5'
+version: '5.0 alpha6'
 author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum
 
-name: 'translate:install_name'
+name: 'translate:name'
 perm: admin[]
 navigation:
   block: system
   
 requires:
   redaxo:
-    min-version: '5.0.alpha2'
+    min-version: '5.0.alpha3'
   php:
     extensions: [phar, zlib]

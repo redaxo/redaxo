@@ -30,14 +30,14 @@ if(!isset($log['year']) || !$log['year'])
   $log['year'] = date('Y');
 if(!isset($log['month']) || !$log['month'])
   $log['month'] = date('m');
-  
+
 $array = rex_cronjob_log::getYearMonthArray();
 
 if (empty($array))
   echo '
     <div class="rex-toolbar">
       <div class="rex-toolbar-content">
-        <strong>'. rex_i18n::msg('cronjob_no_log_files') .'</strong>
+        <strong>'. $this->i18n('no_log_files') .'</strong>
         <div class="rex-clearer"></div>
       </div>
     </div>';
@@ -71,7 +71,7 @@ else
       }
     }
   }
-  
+
   echo '
     <div class="rex-toolbar rex-toolbar-has-form">
       <div class="rex-toolbar-content">
@@ -80,13 +80,13 @@ else
             <fieldset>
               <input type="hidden" name="page" value="cronjob" />
               <input type="hidden" name="subpage" value="log" />
-              <label for="log_year" style="font-weight: bold">'. rex_i18n::msg('cronjob_log_year') .':</label>
-              '. $year_sel->get() .' - 
-              <label for="log_month" style="font-weight: bold">'. rex_i18n::msg('cronjob_log_month') .':</label>
+              <label for="log_year" style="font-weight: bold">'. $this->i18n('log_year') .':</label>
+              '. $year_sel->get() .' -
+              <label for="log_month" style="font-weight: bold">'. $this->i18n('log_month') .':</label>
               '. $month_sel->get() .'
               <noscript>
                 <p style="display:inline;margin-left:5px">
-                  <input type="submit" class="rex-form-submit" value="'. rex_i18n::msg('cronjob_log_ok') .'" />
+                  <input type="submit" class="rex-form-submit" value="'. $this->i18n('log_ok') .'" />
                 <p>
               </noscript>
             </fieldset>
@@ -95,6 +95,6 @@ else
         <div class="rex-clearer"></div>
       </div>
     </div>';
-  
+
   echo rex_cronjob_log::getListOfMonth($log['month'], $log['year']);
 }
