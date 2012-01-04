@@ -9,7 +9,9 @@ install_webservice_error = Der Webservice liefert folgende Fehlermeldung:
 install_archive_unreachable = Die Zip-Datei ist nicht erreibar!
 
 install_settings = Einstellungen
-install_myredaxo_account = myREDAXO-Account
-install_api_login = Nutzername
-install_api_key = API-Key
+install_settings_general = Allgemein
+install_settings_backups = Backups erstellen
+install_settings_myredaxo_account = myREDAXO-Account
+install_settings_api_login = Nutzername
+install_settings_api_key = API-Key
 install_settings_saved = Einstellungen wurden gespeichert!

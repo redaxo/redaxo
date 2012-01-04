@@ -87,9 +87,12 @@ class rex_api_install_core_update extends rex_api_function
     if(!$message)
     {
       $path = rex_path::core();
-      rex_dir::create($plugin->getDataPath());
-      $archive = $plugin->getDataPath(strtolower(preg_replace("/[^a-z0-9-_.]/i", "_", rex::getVersion())) .'.zip');
-      rex_install_helper::copyDirToArchive($path, $archive);
+      if($plugin->getAddon()->getConfig('backups'))
+      {
+        rex_dir::create($plugin->getDataPath());
+        $archive = $plugin->getDataPath(strtolower(preg_replace("/[^a-z0-9-_.]/i", "_", rex::getVersion())) .'.zip');
+        rex_install_helper::copyDirToArchive($path, $archive);
+      }
       rex_dir::delete($path);
       rename($temppath, $path);
       if(is_dir(rex_path::core('assets')))
