@@ -7,4 +7,3 @@ subpages:
   - ['', 'translate:subpage_update']
   - [add, 'translate:subpage_add']
   - [upload, 'translate:subpage_upload']
-  - [settings, 'translate:subpage_settings']

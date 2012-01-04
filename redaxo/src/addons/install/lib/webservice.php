@@ -17,8 +17,8 @@ class rex_install_webservice
     {
       return $cache;
     }
-    $fullpath = strpos($path, '?') === false ? rtrim($path, '/') .'/?' : $path .'&';
-    $fullpath = self::PATH . $fullpath .'rex_version='. rex::getVersion();
+    $path = self::getPath($path);
+    $fullpath = self::PATH . $path;
 
     $error = null;
     try
@@ -77,7 +77,7 @@ class rex_install_webservice
 
   static public function post($path, array $data, $archive = null)
   {
-    $fullpath = self::PATH . $path;
+    $fullpath = self::PATH . self::getPath($path);
     $error = null;
     try
     {
@@ -110,7 +110,7 @@ class rex_install_webservice
 
   static public function delete($path)
   {
-    $fullpath = self::PATH . $path;
+    $fullpath = self::PATH . self::getPath($path);
     $error = null;
     try
     {
@@ -135,13 +135,32 @@ class rex_install_webservice
     throw new rex_functional_exception($error);
   }
 
-  static public function deleteCache($pathBegin)
+  static private function getPath($path)
+  {
+    $path = strpos($path, '?') === false ? rtrim($path, '/') .'/?' : $path .'&';
+    $path .= 'rex_version='. rex::getVersion();
+    $addon = rex_addon::get('install');
+    if($addon->getConfig('api_login'))
+    {
+      $path .= '&api_login='. $addon->getConfig('api_login') .'&api_key='. $addon->getConfig('api_key');
+    }
+    return $path;
+  }
+
+  static public function deleteCache($pathBegin = null)
   {
     self::loadCache();
-    foreach(self::$cache as $path => $cache)
+    if($pathBegin)
     {
-      if(strpos($path, $pathBegin) === 0)
-        unset(self::$cache[$path]);
+      foreach(self::$cache as $path => $cache)
+      {
+        if(strpos($path, $pathBegin) === 0)
+          unset(self::$cache[$path]);
+      }
+    }
+    else
+    {
+      self::$cache = array();
     }
     rex_file::putCache(rex_path::cache('install/webservice.cache'), self::$cache);
   }

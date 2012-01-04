@@ -6,6 +6,8 @@ name: 'translate:name'
 perm: admin[]
 navigation:
   block: system
+pages:
+  - [settings, 'translate:settings']
   
 requires:
   redaxo:

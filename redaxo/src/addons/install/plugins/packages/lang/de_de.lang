@@ -2,7 +2,6 @@ install_packages_title = Packages
 install_packages_subpage_update = Vorhandene aktualisieren
 install_packages_subpage_add = Neue hinzufügen
 install_packages_subpage_upload = Eigene hochladen
-install_packages_subpage_settings = Einstellungen
 install_packages_key = Key
 install_packages_name = Name
 install_packages_author = Autor
@@ -34,10 +33,5 @@ install_packages_warning_zip_wrong_format = Die Zip-Datei ist nicht im erforderl
 install_packages_warning_zip_not_extracted = Die Zip-Datei konnte nicht in das AddOn-Verzeichnis entpackt werden!
 install_packages_info_addon_uploaded = AddOn "{0}" wurde hochgeladen!
 install_packages_info_addon_deleted = AddOn-Version von "{0}" wurde gelöscht!
-
-install_packages_myredaxo_account = myREDAXO-Account
-install_packages_username = Nutzername
-install_packages_apikey = API-Key
-install_packages_info_settings_saved = Einstellungen wurden gespeichert!
 
 install_packages_to_addon_page = Zur AddOn-Verwaltung

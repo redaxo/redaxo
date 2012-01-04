@@ -78,13 +78,6 @@ class rex_install_packages
 
   static public function getPath($path = '')
   {
-    $plugin = rex_plugin::get('install', 'packages');
-    $login = $plugin->getConfig('api_login');
-    if($login)
-    {
-      $path = $path ? $path .'&' : '?';
-      $path .= 'api_login='. $login .'&api_key='. $plugin->getConfig('api_key');
-    }
     return 'packages/'. $path;
   }
 
