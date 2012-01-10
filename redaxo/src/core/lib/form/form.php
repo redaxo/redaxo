@@ -98,7 +98,7 @@ class rex_form extends rex_factory
    */
   public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
-    $class = self::getFactoryClass();
+    $class = static::getFactoryClass();
     return new $class($tableName, $fieldset, $whereCondition, $method, $debug);
   }
 
