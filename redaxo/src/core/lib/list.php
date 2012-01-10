@@ -145,7 +145,7 @@ class rex_list extends rex_factory implements rex_url_provider
 
   static public function factory($query, $rowsPerPage = 30, $listName = null, $debug = false)
   {
-    $class = self::getFactoryClass();
+    $class = static::getFactoryClass();
     return new $class($query, $rowsPerPage, $listName, $debug);
   }
 
