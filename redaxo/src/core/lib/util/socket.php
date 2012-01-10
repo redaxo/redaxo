@@ -94,7 +94,7 @@ class rex_socket
         $partLength = strlen(sprintf($dataFormat, '') . $eol);
         foreach($temp as $t)
         {
-          list($key, $value) = explode('=', urldecode($t));
+          list($key, $value) = array_map('urldecode', explode('=', $t, 2));
           $data[$key] = $value;
           $length += $partLength + strlen($key) + strlen($value);
         }
