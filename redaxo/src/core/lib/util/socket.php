@@ -123,7 +123,7 @@ class rex_socket
         fwrite($fp, $end);
       };
     }
-    else
+    elseif(!is_callable($data))
     {
       if(is_array($data))
         $data = http_build_query($data);
@@ -267,10 +267,12 @@ class rex_socket
 
   public function writeBodyTo($resource)
   {
-    while(($buf = $this->getBufferedBody()) !== false)
+    $success = true;
+    while($success && ($buf = $this->getBufferedBody()) !== false)
     {
-      fwrite($resource, $buf);
+      $success = (boolean) fwrite($resource, $buf);
     }
+    return $success;
   }
 
   public function __destruct()
