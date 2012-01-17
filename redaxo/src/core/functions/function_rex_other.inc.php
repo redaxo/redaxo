@@ -242,9 +242,15 @@ function rex_version_compare($version1, $version2, $comparator = null)
   return version_compare($version1, $version2, $comparator);
 }
 
+/**
+ * Returns the string size in bytes
+ *
+ * @param string $str String
+ * @return string Size in bytes
+ */
 function rex_str_size($str)
 {
-  return mb_strlen($str, 'ASCII');
+  return function_exists('mb_strlen') ? mb_strlen($str, 'ASCII') : strlen($str);
 }
 
 // ------------------------------------- Allgemeine PHP Functions
