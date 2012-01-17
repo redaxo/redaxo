@@ -368,7 +368,7 @@ if ($article->getRows() == 1)
       $category_id_new = rex_post('category_id_new', 'rex-category-id');
       if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)))
       {
-        if (rex_content_service::moveArticle($article_id, $category_id, $category_id_new))
+        if (rex_article_service::moveArticle($article_id, $category_id, $category_id_new))
         {
           $info = rex_i18n::msg('content_articlemoved');
           ob_end_clean();
@@ -393,7 +393,7 @@ if ($article->getRows() == 1)
       $category_copy_id_new = rex_post('category_copy_id_new', 'rex-category-id');
       if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('copyArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_copy_id_new)))
       {
-        if (($new_id = rex_content_service::copyArticle($article_id, $category_copy_id_new)) !== false)
+        if (($new_id = rex_article_service::copyArticle($article_id, $category_copy_id_new)) !== false)
         {
           $info = rex_i18n::msg('content_articlecopied');
           ob_end_clean();
@@ -418,7 +418,7 @@ if ($article->getRows() == 1)
       $category_id_new = rex_post('category_id_new', 'rex-category-id');
       if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id')) && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)))
       {
-        if ($category_id != $category_id_new && rex_content_service::moveCategory($category_id, $category_id_new))
+        if ($category_id != $category_id_new && rex_category_service::moveCategory($category_id, $category_id_new))
         {
           $info = rex_i18n::msg('category_moved');
           ob_end_clean();

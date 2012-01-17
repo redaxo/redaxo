@@ -1,8 +1,5 @@
 <?php
 
-require dirname(__FILE__). '/../functions/function_rex_linkmap.inc.php';
-
-
 // ------- Default Values
 
 $HTMLArea = rex_request('HTMLArea', 'string');
@@ -12,14 +9,14 @@ $category_id = rex_request('category_id', 'rex-category-id');
 $clang = rex_request('clang', 'rex-clang-id');
 
 
-$GlobalParams = array(
+$context = new rex_context(array(
   'page' => rex::getProperty('page'),
   'HTMLArea' => $HTMLArea,
   'opener_input_field' => $opener_input_field,
   'opener_input_field_name' => $opener_input_field_name,
   'category_id' =>$category_id,
   'clang' => $clang
-);
+));
 
 // ------- Build JS Functions
 
@@ -83,10 +80,10 @@ $navi_path = '<ul id="rex-navi-path">';
 
 $isRoot = $category_id === 0;
 $category = rex_ooCategory::getCategoryById($category_id);
-$link = rex_linkmap_url(array('category_id' => 0), $GlobalParams);
+$link = $context->getUrl(array('category_id' => 0));
 
 $navi_path .= '<li>'.rex_i18n::msg('path').' </li>';
-$navi_path .= '<li>: <a href="'.$link.'">Homepage</a> </li>';
+$navi_path .= '<li class="rex-navi-first">: <a href="'.$link.'">Homepage</a> </li>';
 
 $tree = array();
 
@@ -95,18 +92,17 @@ if ($category)
   foreach($category->getParentTree() as $cat)
   {
     $tree[] = $cat->getId();
-    $link = rex_linkmap_url(array('category_id' => $cat->getId()), $GlobalParams);
+    
+    $link = $context->getUrl(array('category_id' => $cat->getId()));
     $navi_path .= '<li> : <a href="'. $link .'">'.htmlspecialchars($cat->getName()).'</a></li>';
   }
 }
 $navi_path .= '</ul>';
 
-//echo rex_view::title(rex::getProperty('servername'), 'Linkmap');
-echo rex_view::title('Linkmap', $navi_path);
+//rex_title(rex::getProperty('servername'), 'Linkmap');
+rex_title('Linkmap', $navi_path);
+
 ?>
-
-
-
 
 <div id="rex-linkmap">
 	<div class="rex-area-col-2">
@@ -114,21 +110,8 @@ echo rex_view::title('Linkmap', $navi_path);
 			<h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_categories'); ?></h3>
 			<div class="rex-area-content">
 			<?php
-			$roots = rex_ooCategory::getRootCategories();
-
-			$mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
-			if(count($mountpoints)>0)
-			{
-				$roots = array();
-				foreach($mountpoints as $mp)
-				{
-					if(rex_ooCategory::getCategoryById($mp))
-						$roots[] = rex_ooCategory::getCategoryById($mp);
-				}
-
-			}
-
-			echo rex_linkmap_tree($tree, $category_id, $roots, $GlobalParams);
+      $categoryTree = new rex_linkmap_categoryTree($context);
+			echo $categoryTree->getTree($category_id);
 			?>
 			</div>
 		</div>
@@ -136,27 +119,10 @@ echo rex_view::title('Linkmap', $navi_path);
 		<div class="rex-area-col-b">
 			<h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_articles'); ?></h3>
 			<div class="rex-area-content">
-			<ul>
 			<?php
-			$articles = null;
-			if($isRoot && count($mountpoints)==0)
-				$articles = rex_ooArticle::getRootArticles();
-			else if($category)
-				$articles = $category->getArticles();
-
-			if ($articles)
-			{
-				foreach($articles as $article)
-				{
-					$liClass = $article->isStartpage() ? ' class="rex-linkmap-startpage"' : '';
-					$url = rex_linkmap_backlink($article->getId(), htmlspecialchars($article->getName()));
-
-					echo rex_linkmap_format_li($article, $category_id, $GlobalParams, $liClass, ' href="'. $url .'"');
-					echo '</li>'. "\n";
-				}
-			}
+      $articleList = new rex_linkmap_articleList($context);
+      echo $articleList->getList($category_id);
 			?>
-			</ul>
 			</div>
 		</div>
   </div>

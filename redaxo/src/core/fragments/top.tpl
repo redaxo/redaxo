@@ -6,6 +6,7 @@
   <meta http-equiv="Content-Language" content="<?php echo $this->i18n('htmllang'); ?>" />
   <!-- jQuery immer nach den Stylesheets! -->
   <script src="<?php echo rex_path::assets('jquery.min.js'); ?>" type="text/javascript"></script>
+  <script src="<?php echo rex_path::assets('jquery-ui-1.8.16.custom.min.js'); ?>" type="text/javascript"></script>
   <script src="<?php echo rex_path::assets('standard.js'); ?>" type="text/javascript"></script>
   <script src="<?php echo rex_path::assets('sha1.js'); ?>" type="text/javascript"></script>
   <script type="text/javascript">

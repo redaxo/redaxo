@@ -10,7 +10,7 @@ interface rex_url_provider
   /**
    * Returns a Url which contains the given parameters.
    *
-   * @param array $params A array containing key value pairs for the parameter and its value.
+   * @param array $params A scalar array containing key value pairs for the parameter and its value.
    *
    * @return string The generated Url
    */
@@ -42,6 +42,11 @@ class rex_context implements rex_context_provider
 {
   private $globalParams;
   
+  /**
+   * Constructs a rex_context with the given global parameters.
+   * 
+   * @param array $globalParams A array containing only scalar values for key/value
+   */
   public function __construct(array $globalParams = array())
   {
     $this->globalParams = $globalParams;
@@ -57,6 +62,18 @@ class rex_context implements rex_context_provider
     
     return str_replace('&', '&amp;', 'index.php?' .ltrim(self::array2paramStr($_params), '&'));
   }
+  
+  /**
+   * Returns the value associated with the given parameter $name.
+   * When no value is set, $default will be returned.
+   * 
+   * @param string $name
+   * @param string $default
+   */
+  public function getParam($name, $default = null)
+  {
+    return isset($this->globalParams[$name]) ? $this->globalParams[$name] : $default;
+  }
 
   /**
    * @see rex_context_provider::getHiddenInputFields()
@@ -68,19 +85,34 @@ class rex_context implements rex_context_provider
     
     return self::array2inputStr($_params);
   }
+  
+  /**
+   * returns a rex_context instance containing all GET and POST parameters
+   * 
+   * @return rex_context
+   */
+  static public function restore()
+  {
+    // $_REQUEST contains some server specific globals, therefore we merge GET and POST manually
+    return new rex_context($_GET + $_POST);
+  }
 
   /**
    * Helper method to generate a url string from an array key-value pairs
+   * 
    * @param array $array The array which contains the key-value pairs for convertion
    */
-  private static function array2paramStr(array $array)
+  static private function array2paramStr(array $array)
   {
     $paramString = '';
     foreach($array as $name => $value)
     {
       if(is_array($value))
       {
-        $paramString .= self::array2paramStr($value);
+        foreach($value as $valName => $valVal)
+        {
+          $paramString .= '&'. urlencode($name) .'['. $valName .']='. urlencode($valVal);
+        }
       }
       else
       {
@@ -93,16 +125,20 @@ class rex_context implements rex_context_provider
   
   /**
    * Helper method to generate a html string with hidden input fields from an array key-value pairs
+   * 
    * @param array $array The array which contains the key-value pairs for convertion
    */
-  private static function array2inputStr(array $array)
+  static private function array2inputStr(array $array)
   {
     $inputString = '';
     foreach($array as $name => $value)
     {
       if(is_array($value))
       {
-        $inputString .= self::array2paramStr($value);
+        foreach($value as $valName => $valVal)
+        {
+          $inputString .= '<input type="hidden" name="'. $name .'['. $valName .']" value="'. htmlspecialchars($valVal) .'" />';
+        }
       }
       else
       {

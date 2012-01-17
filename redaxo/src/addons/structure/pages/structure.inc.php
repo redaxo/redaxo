@@ -36,14 +36,61 @@ if(count($mountpoints)==1 && $category_id == 0)
 
 // --------------------------------------------- Rechte prüfen
 $KATPERM = rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id);
-
 require dirname(__FILE__) .'/../functions/function_rex_category.inc.php';
 
+$stop = false;
+if (rex_clang::count()>1)
+{
+  if (!rex::getUser()->isAdmin() && !rex::getUser()->getComplexPerm('clang')->hasPerm($clang))
+  {
+    $stop = true;
+    foreach(rex_clang::getAll() as $key => $val)
+    {
+      if(rex::getUser()->getComplexPerm('clang')->hasPerm($key))
+      {
+        $clang = $key;
+        $stop = false;
+        break;
+      }
+    }
+
+    if ($stop)
+    {
+      echo '
+    <!-- *** OUTPUT OF CLANG-VALIDATE - START *** -->
+          '. rex_view::warning('You have no permission to this area') .'
+    <!-- *** OUTPUT OF CLANG-VALIDATE - END *** -->
+      ';
+      exit;
+    }
+  }
+}else
+{
+  $clang = 0;
+}
+
+
+$context = new rex_context(array(
+  'page' => 'structure',
+  'category_id' => $category_id,
+  'article_id' => $article_id,
+  'clang' => $clang,
+  'ctype' => $ctype,
+));
+
+
+
+// --------------------- Extension Point
+echo rex_extension::registerPoint('PAGE_STRUCTURE_HEADER_PRE', '',
+  array(
+    'context' => $context
+  )
+);
 
 
 // --------------------------------------------- TITLE
 
-echo rex_view::title(rex_i18n::msg('title_structure'), $KATout);
+rex_view::title(rex_i18n::msg('title_structure'), $KATout);
 
 $sprachen_add = '&amp;category_id='. $category_id;
 require dirname(__FILE__) .'/../functions/function_rex_languages.inc.php';
@@ -52,15 +99,9 @@ require dirname(__FILE__) .'/../functions/function_rex_languages.inc.php';
 $catStatusTypes = rex_category_service::statusTypes();
 $artStatusTypes = rex_article_service::statusTypes();
 
-$context = new rex_context(array(
-  'page' => 'structure',
-  'category_id' => $category_id,
-  'article_id' => $article_id,
-  'clang' => $clang,
-  'ctype' => $ctype,
-  'artstart' => $artstart,
-  'catstart' => $catstart,
-));
+
+
+
 
 // --------------------------------------------- API MESSAGES
 echo rex_api_function::getMessage();
@@ -102,20 +143,12 @@ $KAT = rex_sql::factory();
 // $KAT->debugsql = true;
 if(count($mountpoints)>0 && $category_id == 0)
 {
-  $re_ids = implode(',', $mountpoints);
-  $KAT->setQuery(
-  	'SELECT COUNT(*) as rowCount, MAX(catprior) as maxCatPrior FROM '.rex::getTable('article').' WHERE id IN (:mntPoints) AND startpage=1 AND clang=:clang',
-    array(':mntPoints' => $re_ids, ':clang' => $clang)
-  );
+  $re_id = implode(',', $mountpoints);
+  $KAT->setQuery('SELECT COUNT(*) as rowCount FROM '.rex::getTablePrefix().'article WHERE id IN ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catname');
 }else
 {
-  $KAT->setQuery(
-  	'SELECT COUNT(*) as rowCount, MAX(catprior) as maxCatPrior FROM '.rex::getTable('article').' WHERE re_id=:category AND startpage=1 AND clang=:clang',
-    array(':category' => $category_id, ':clang' => $clang)
-  );
+  $KAT->setQuery('SELECT COUNT(*) as rowCount FROM '.rex::getTablePrefix().'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior');
 }
-
-$maxCatPrior = $KAT->getValue('maxCatPrior');
 
 // --------------------- ADD PAGINATION
 
@@ -130,19 +163,11 @@ echo $catFragment->parse('pagination');
 
 if(count($mountpoints)>0 && $category_id == 0)
 {
-  // named-parameters are not supported in LIMIT clause!
-  $re_ids = implode(',', $mountpoints);
-  $KAT->setQuery(
-  	'SELECT * FROM '.rex::getTable('article').' WHERE id IN (:mntPoints) AND startpage=1 AND clang=:clang ORDER BY catname LIMIT '. $catPager->getCursor() .','. $catPager->getRowsPerPage(),
-    array(':mntPoints' => $re_ids, ':clang' => $clang)
-  );
+  $re_id = implode(',', $mountpoints);
+  $KAT->setQuery('SELECT * FROM '.rex::getTablePrefix().'article WHERE id IN ('.$re_id.') AND startpage=1 AND clang='. $clang .' ORDER BY catname LIMIT '. $catPager->getCursor(). ','. $catPager->getRowsPerPage());
 }else
 {
-  // named-parameters are not supported in LIMIT clause!
-  $KAT->setQuery(
-  	'SELECT * FROM '.rex::getTable('article').' WHERE re_id=:category AND startpage=1 AND clang=:clang ORDER BY catprior LIMIT '. $catPager->getCursor() .','. $catPager->getRowsPerPage(),
-    array(':category' => $category_id, ':clang' => $clang)
-  );
+  $KAT->setQuery('SELECT * FROM '.rex::getTablePrefix().'article WHERE re_id='. $category_id .' AND startpage=1 AND clang='. $clang .' ORDER BY catprior LIMIT '. $catPager->getCursor(). ','. $catPager->getRowsPerPage());
 }
 
 
@@ -242,7 +267,7 @@ if ($function == 'add_cat' && $KATPERM && !rex::getUser()->hasPerm('editContentO
           <td class="rex-icon"><span class="rex-i-element rex-i-category"><span class="rex-i-element-text">'. rex_i18n::msg('add_category') .'</span></span></td>
           '. $add_td .'
           <td><input class="rex-form-text" type="text" id="rex-form-field-name" name="category-name" />'. $meta_buttons .'</td>
-          <td><input class="rex-form-text" type="text" id="rex-form-field-prior" name="category-position" value="'.($maxCatPrior+1).'" /></td>
+          <td><input class="rex-form-text" type="text" id="rex-form-field-prior" name="category-position" value="'.($KAT->getRows()+1).'" /></td>
           <td colspan="3">'. $add_buttons .'</td>
         </tr>';
 
@@ -337,7 +362,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 
       if (!rex::getUser()->hasPerm('editContentOnly[]'))
       {
-        $category_delete = '<a href="'. $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_delete', 'catstart' => $catstart)) .'" class="rex-api-get" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('delete').'</a>';
+           $category_delete = '<a href="'. $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_delete', 'catstart' => $catstart)) .'" class="rex-api-get" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('delete').'</a>';
       }
       else
       {
@@ -428,7 +453,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
   {
     foreach($templates as $t_id => $t_name)
     {
-      $template_select->addOption(rex_i18n::translate($t_name, false), $t_id);
+      $template_select->addOption(rex_i18n::translate($t_name, null, false), $t_id);
       $TEMPLATE_NAME[$t_id] = rex_i18n::translate($t_name);
     }
   }else
@@ -453,15 +478,14 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
   // ---------- COUNT DATA
   $sql = rex_sql::factory();
   // $sql->debugsql = true;
-  $sql->setQuery(
-  	'SELECT COUNT(*) as artCount, MAX(prior) as maxArtPrior FROM '.rex::getTablePrefix().'article
-     WHERE
-       ((re_id=:categoryid AND startpage=0) OR (id=:categoryid AND startpage=1))
-       AND clang=:clang',
-    array(':categoryid' => $category_id, 'clang' => $clang)
-  );
-
-  $maxArtPrior = $sql->getValue('maxArtPrior');
+  $sql->setQuery('SELECT COUNT(*) as artCount
+        FROM
+          '.rex::getTablePrefix().'article
+        WHERE
+          ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1))
+          AND clang='. $clang .'
+        ORDER BY
+          prior, name');
 
   // --------------------- ADD PAGINATION
 
@@ -473,17 +497,15 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
   echo $artFragment->parse('pagination');
 
   // ---------- READ DATA
-  // named-parameters are not supported in LIMIT clause!
-  $sql->setQuery(
-  	'SELECT * FROM '.rex::getTable('article').'
-     WHERE
-       ((re_id=:categoryid AND startpage=0) OR (id=:categoryid AND startpage=1))
-       AND clang=:clang
-     ORDER BY
-       prior, name
-     LIMIT '. $artPager->getCursor() .','. $artPager->getRowsPerPage(),
-    array(':categoryid' => $category_id, 'clang' => $clang)
-  );
+  $sql->setQuery('SELECT *
+        FROM
+          '.rex::getTablePrefix().'article
+        WHERE
+          ((re_id='. $category_id .' AND startpage=0) OR (id='. $category_id .' AND startpage=1))
+          AND clang='. $clang .'
+        ORDER BY
+          prior, name
+        LIMIT '. $artPager->getCursor() .','. $artPager->getRowsPerPage());
 
 
   // ---------- INLINE THE EDIT/ADD FORM
@@ -569,7 +591,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
             <td class="rex-icon"><span class="rex-i-element rex-i-article"><span class="rex-i-element-text">'.rex_i18n::msg('article_add') .'</span></span></td>
             '. $add_td .'
             <td><input type="text" class="rex-form-text" id="rex-form-field-name" name="article-name" /></td>
-            <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="article-position" value="'.($maxArtPrior+1).'" /></td>
+            <td><input type="text" class="rex-form-text" id="rex-form-field-prior" name="article-position" value="'.($sql->getRows()+1).'" /></td>
             <td>'. $template_select->get() .'</td>
             <td>'. rex_formatter :: format(time(), 'strftime', 'date') .'</td>
             <td colspan="3"><input type="submit" class="rex-form-submit" name="artadd_function" value="'.rex_i18n::msg('article_add') .'"'. rex::getAccesskey(rex_i18n::msg('article_add'), 'save') .' /></td>

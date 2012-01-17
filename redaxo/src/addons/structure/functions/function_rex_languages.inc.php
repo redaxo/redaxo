@@ -3,13 +3,7 @@
 /**
  * Dient zur Ausgabe des Sprachen-blocks
  * @package redaxo5
- * @version svn:$Id$
  */
-
-// rechte einbauen
-// admin[]
-// clang[xx], clang[0]
-// rex::getUser()->hasPerm("csw[0]")
 
 $num_clang = rex_clang::count();
 
@@ -17,32 +11,6 @@ $stop = false;
 $languages = array();
 if ($num_clang>1)
 {
-
-  if (!rex::getUser()->isAdmin() && !rex::getUser()->getComplexPerm('clang')->hasPerm($clang)) 
-  {
-    $stop = true;
-    foreach(rex_clang::getAll() as $key => $val)
-    {
-      if(rex::getUser()->getComplexPerm('clang')->hasPerm($key))
-      {
-        $clang = $key;
-        $stop = false;
-        break;
-      }
-    }
-    
-    if ($stop)
-    {
-      echo '
-    <!-- *** OUTPUT OF CLANG-VALIDATE - START *** -->
-          '. rex_view::warning('You have no permission to this area') .'
-    <!-- *** OUTPUT OF CLANG-VALIDATE - END *** -->
-      ';
-      exit;
-    }
-  
-  }
-
   $i = 1;
   foreach(rex_clang::getAll() as $key => $val)
   {
@@ -72,8 +40,3 @@ if ($num_clang>1)
   echo $langfragment->parse('structure/languages');
   unset($langfragment);
 }
-else
-{
-  $clang = 0;
-}
-

@@ -220,7 +220,7 @@ class rex_api_result
   {
     $ajaxResult = array();
     $ajaxResult['renderResults'] = $this->renderResults;
-    $ajaxResult['message'] = $this->getFormattedMessage();
+    $ajaxResult['message'] = $this->message != null ? $this->getFormattedMessage() : null;
     return json_encode($ajaxResult);
   }
 

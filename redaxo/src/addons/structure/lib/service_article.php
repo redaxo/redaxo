@@ -671,6 +671,239 @@ class rex_article_service
     return true;
   }
 
+  /**
+   * Kopiert die Metadaten eines Artikels in einen anderen Artikel
+   *
+   * @param int $from_id      ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
+   * @param int $to_id        ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
+   * @param int [$from_clang] ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
+   * @param int [$to_clang]   ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
+   * @param array [$params]     Array von Spaltennamen, welche kopiert werden sollen
+   *
+   * @return boolean TRUE bei Erfolg, sonst FALSE
+   */
+  static public function copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params = array ())
+  {
+    $from_clang = (int) $from_clang;
+    $to_clang = (int) $to_clang;
+    $from_id = (int) $from_id;
+    $to_id = (int) $to_id;
+    if (!is_array($params))
+    $params = array ();
+  
+    if ($from_id == $to_id && $from_clang == $to_clang)
+    return false;
+  
+    $gc = rex_sql::factory();
+    $gc->setQuery("select * from ".rex::getTablePrefix()."article where clang='$from_clang' and id='$from_id'");
+  
+    if ($gc->getRows() == 1)
+    {
+      $uc = rex_sql::factory();
+      // $uc->debugsql = 1;
+      $uc->setTable(rex::getTablePrefix()."article");
+      $uc->setWhere("clang='$to_clang' and id='$to_id'");
+      $uc->addGlobalUpdateFields();
+  
+      foreach ($params as $key => $value)
+      {
+        $uc->setValue($value, $gc->getValue($value));
+      }
+  
+      $uc->update();
+  
+      rex_article_cache::deleteMeta($to_id,$to_clang);
+      return true;
+    }
+    return false;
+  
+  }
+  
+  /**
+   * Kopieren eines Artikels von einer Kategorie in eine andere
+   *
+   * @param int $id          ArtikelId des zu kopierenden Artikels
+   * @param int $to_cat_id   KategorieId in die der Artikel kopiert werden soll
+   *
+   * @return boolean FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
+   */
+  static public function copyArticle($id, $to_cat_id)
+  {
+    $id = (int) $id;
+    $to_cat_id = (int) $to_cat_id;
+    $new_id = '';
+  
+    // Artikel in jeder Sprache kopieren
+    foreach(rex_clang::getAllIds() as $clang)
+    {
+      // validierung der id & from_cat_id
+      $from_sql = rex_sql::factory();
+      $qry = 'select * from '.rex::getTablePrefix().'article where clang="'.$clang.'" and id="'. $id .'"';
+      $from_sql->setQuery($qry);
+  
+      if ($from_sql->getRows() == 1)
+      {
+        // validierung der to_cat_id
+        $to_sql = rex_sql::factory();
+        $to_sql->setQuery('select * from '.rex::getTablePrefix().'article where clang="'.$clang.'" and startpage=1 and id="'. $to_cat_id .'"');
+  
+        if ($to_sql->getRows() == 1 || $to_cat_id == 0)
+        {
+          if ($to_sql->getRows() == 1)
+          {
+            $path = $to_sql->getValue('path').$to_sql->getValue('id').'|';
+            $catname = $to_sql->getValue('name');
+          }else
+          {
+            // In RootEbene
+            $path = '|';
+            $catname = $from_sql->getValue("name");
+          }
+  
+          $art_sql = rex_sql::factory();
+          $art_sql->setTable(rex::getTablePrefix().'article');
+          if ($new_id == "") $new_id = $art_sql->setNewId('id');
+          $art_sql->setValue('id', $new_id); // neuen auto_incrment erzwingen
+          $art_sql->setValue('re_id', $to_cat_id);
+          $art_sql->setValue('catname', $catname);
+          $art_sql->setValue('catprior', 0);
+          $art_sql->setValue('path', $path);
+          $art_sql->setValue('prior', 99999); // Artikel als letzten Artikel in die neue Kat einfügen
+          $art_sql->setValue('status', 0); // Kopierter Artikel offline setzen
+          $art_sql->setValue('startpage', 0);
+          $art_sql->addGlobalUpdateFields();
+          $art_sql->addGlobalCreateFields();
+  
+          // schon gesetzte Felder nicht wieder überschreiben
+          $dont_copy = array ('id', 'pid', 're_id', 'catname', 'catprior', 'path', 'prior', 'status', 'updatedate', 'updateuser', 'createdate', 'createuser', 'startpage');
+  
+          foreach (array_diff($from_sql->getFieldnames(), $dont_copy) as $fld_name)
+          {
+            $art_sql->setValue($fld_name, $from_sql->getValue($fld_name));
+          }
+  
+          $art_sql->setValue("clang", $clang);
+          $art_sql->insert();
+  
+          // TODO Doublecheck... is this really correct?
+          $revisions = rex_sql::factory();
+          $revisions->setQuery("select revision from ".rex::getTablePrefix()."article_slice where prior=1 AND ctype=1 AND article_id='$id' AND clang='$clang'");
+          foreach($revisions as $rev)
+          {
+            // FIXME this dependency is very ugly!
+            // ArticleSlices kopieren
+            rex_content_service::copyContent($id, $new_id, $clang, $clang, 0, $rev->getValue('revision'));
+          }
+  
+          // Prios neu berechnen
+          self::newArtPrio($to_cat_id, $clang, 1, 0);
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+    }
+  
+    // Caches des Artikels löschen, in allen Sprachen
+    rex_article_cache::delete($id);
+  
+    // Caches der Kategorien löschen, da sich derin befindliche Artikel geändert haben
+    rex_article_cache::delete($to_cat_id);
+  
+    return $new_id;
+  }
+  
+  /**
+   * Verschieben eines Artikels von einer Kategorie in eine Andere
+   *
+   * @param int $id          ArtikelId des zu verschiebenden Artikels
+   * @param int $from_cat_id KategorieId des Artikels, der Verschoben wird
+   * @param int $to_cat_id   KategorieId in die der Artikel verschoben werden soll
+   *
+   * @return boolean TRUE bei Erfolg, sonst FALSE
+   */
+  static public function moveArticle($id, $from_cat_id, $to_cat_id)
+  {
+    $id = (int) $id;
+    $to_cat_id = (int) $to_cat_id;
+    $from_cat_id = (int) $from_cat_id;
+  
+    if ($from_cat_id == $to_cat_id)
+    return false;
+  
+    // Artikel in jeder Sprache verschieben
+    foreach (rex_clang::getAllIds() as $clang)
+    {
+      // validierung der id & from_cat_id
+      $from_sql = rex_sql::factory();
+      $from_sql->setQuery('select * from '.rex::getTablePrefix().'article where clang="'. $clang .'" and startpage<>1 and id="'. $id .'" and re_id="'. $from_cat_id .'"');
+  
+      if ($from_sql->getRows() == 1)
+      {
+        // validierung der to_cat_id
+        $to_sql = rex_sql::factory();
+        $to_sql->setQuery('select * from '.rex::getTablePrefix().'article where clang="'. $clang .'" and startpage=1 and id="'. $to_cat_id .'"');
+  
+        if ($to_sql->getRows() == 1 || $to_cat_id == 0)
+        {
+          if ($to_sql->getRows() == 1)
+          {
+            $re_id = $to_sql->getValue('id');
+            $path = $to_sql->getValue('path').$to_sql->getValue('id').'|';
+            $catname = $to_sql->getValue('name');
+          }else
+          {
+            // In RootEbene
+            $re_id = 0;
+            $path = '|';
+            $catname = $from_sql->getValue('name');
+          }
+  
+          $art_sql = rex_sql::factory();
+          //$art_sql->debugsql = 1;
+  
+          $art_sql->setTable(rex::getTablePrefix().'article');
+          $art_sql->setValue('re_id', $re_id);
+          $art_sql->setValue('path', $path);
+          $art_sql->setValue('catname', $catname);
+          // Artikel als letzten Artikel in die neue Kat einfügen
+          $art_sql->setValue('prior', '99999');
+          // Kopierter Artikel offline setzen
+          $art_sql->setValue('status', '0');
+          $art_sql->addGlobalUpdateFields();
+  
+          $art_sql->setWhere('clang="'. $clang .'" and startpage<>1 and id="'. $id .'" and re_id="'. $from_cat_id .'"');
+          $art_sql->update();
+  
+          // Prios neu berechnen
+          self::newArtPrio($to_cat_id, $clang, 1, 0);
+          self::newArtPrio($from_cat_id, $clang, 1, 0);
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+    }
+  
+    // Caches des Artikels löschen, in allen Sprachen
+    rex_article_cache::delete($id);
+  
+    // Caches der Kategorien löschen, da sich derin befindliche Artikel geändert haben
+    rex_article_cache::delete($from_cat_id);
+    rex_article_cache::delete($to_cat_id);
+  
+    return true;
+  }
   
   /**
    * Checks whether the required array key $keyName isset
