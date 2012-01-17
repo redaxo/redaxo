@@ -92,7 +92,7 @@ if ($category)
   foreach($category->getParentTree() as $cat)
   {
     $tree[] = $cat->getId();
-    
+
     $link = $context->getUrl(array('category_id' => $cat->getId()));
     $navi_path .= '<li> : <a href="'. $link .'">'.htmlspecialchars($cat->getName()).'</a></li>';
   }
@@ -100,7 +100,7 @@ if ($category)
 $navi_path .= '</ul>';
 
 //rex_title(rex::getProperty('servername'), 'Linkmap');
-rex_title('Linkmap', $navi_path);
+echo rex_view::title('Linkmap', $navi_path);
 
 ?>
 
