@@ -2,6 +2,9 @@
 /.buildpath
 /.project
 /assets
+/files
 /media
 /redaxo/cache
 /redaxo/data/addons
+/redaxo/src/layout
+/redaxo/src/addons/compat/plugins/4.x/emptydir
