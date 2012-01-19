@@ -267,10 +267,24 @@ class rex_socket
 
   public function writeBodyTo($resource)
   {
+    $close = false;
+    if(is_string($resource) && rex_dir::create(dirname($resource)))
+    {
+      $resource = fopen($resource, 'wb');
+      $close = true;
+    }
+    if(!is_resource($resource))
+    {
+      return false;
+    }
     $success = true;
     while($success && ($buf = $this->getBufferedBody()) !== false)
     {
       $success = (boolean) fwrite($resource, $buf);
+    }
+    if($close)
+    {
+      fclose($resource);
     }
     return $success;
   }
