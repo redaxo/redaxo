@@ -3,6 +3,23 @@
 /**
 * Class for sockets
 *
+* Example:
+* <code>
+* <?php
+* try
+* {
+*   $socket = new rex_socket('www.example.com', '/path/index.php?param=1');
+*   $socket->doGet();
+*   if($socket->getStatus() == 200)
+*     $body = $socket->getBody();
+* }
+* catch(rex_socket_exception $e)
+* {
+* 	// error message: $e->getMessage()
+* }
+* ?>
+* </code>
+*
 * @author gharlan
 */
 class rex_socket
@@ -22,6 +39,17 @@ class rex_socket
   private $header;
   private $body;
 
+  /**
+   * Constructor
+   *
+   * @param string $host Host name
+   * @param string $path Path
+   * @param integer $port Port number
+   * @param string $prefix Prefix, e.g. "ssl://"
+   * @param integer $timeout Connection timeout in seconds
+   *
+   * @see rex_socket::createByUrl()
+   */
   public function __construct($host, $path = '/', $port = 80, $prefix = '', $timeout = 15)
   {
     $this->prefix = $prefix;
@@ -31,6 +59,16 @@ class rex_socket
     $this->timeout = $timeout;
   }
 
+  /**
+   * Creates a socket by a full URL
+   *
+   * @param string $url URL
+   * @param integer $timeout Connection timeout in seconds
+   * @throws rex_socket_exception
+   * @return rex_socket Socket instance
+   *
+   * @see rex_socket::__construct()
+   */
   static public function createByUrl($url, $timeout = 15)
   {
     $parts = parse_url($url);
@@ -61,21 +99,42 @@ class rex_socket
     return new self($host, $path, $port, $prefix, $timeout);
   }
 
+  /**
+   * Adds a header to the current request
+   *
+   * @param string $key
+   * @param string $value
+   */
   public function addHeader($key, $value)
   {
     $this->headers[$key] = $value;
   }
 
+  /**
+   * Adds the basic authorization header to the current request
+   *
+   * @param string $user
+   * @param string $password
+   */
   public function addBasicAuthorization($user, $password)
   {
     $this->addHeader('Authorization', 'Basic '. base64_encode($user .':'. $password));
   }
 
+  /**
+   * Makes a GET request
+   */
   public function doGet()
   {
     $this->doRequest('GET');
   }
 
+  /**
+   * Makes a POST request
+   *
+   * @param string|array|callable $data Body data as string or array (POST parameters) or a callback for writing the body
+   * @param array $files Files array, e.g. <code>array('myfile' => array('path' => $path, 'type' => 'image/png'))</code>
+   */
   public function doPost($data = '', array $files = array())
   {
     if(is_array($data) && !empty($files))
@@ -132,11 +191,22 @@ class rex_socket
     $this->doRequest('POST', $data);
   }
 
+  /**
+   * Makes a DELETE request
+   */
   public function doDelete()
   {
     $this->doRequest('DELETE');
   }
 
+  /**
+   * Makes a request
+   *
+   * @param string $method HTTP method, e.g. "GET"
+   * @param string|callable $data Body data as string or a callback for writing the body
+   * @throws rex_exception
+   * @throws rex_socket_exception
+   */
   public function doRequest($method, $data = '')
   {
     if(!is_string($data) && !is_callable($data))
@@ -192,16 +262,31 @@ class rex_socket
     $this->chunked = stripos($this->header, 'transfer-encoding: chunked') !== false;
   }
 
+  /**
+   * Returns the HTTP status code, e.g. 200
+   *
+   * @return integer
+   */
   public function getStatus()
   {
     return $this->status;
   }
 
+  /**
+   * Returns the HTTP status message, e.g. "OK"
+   */
   public function getStatusMessage()
   {
     return $this->statusMessage;
   }
 
+  /**
+   * Returns the header for the given key, or the entire header if no key is given
+   *
+   * @param string $key Header key
+   * @param string $default Default value (is returned if the header is not set)
+   * @return string
+   */
   public function getHeader($key = null, $default = null)
   {
     if($key === null)
@@ -220,6 +305,12 @@ class rex_socket
     return $this->headers[$key] = $default;
   }
 
+  /**
+   * Returns up to <code>$length</code> bytes from the body, or <code>false</code> if the end is reached
+   *
+   * @param integer $length Max number of bytes
+   * @return boolean|string
+   */
   public function getBufferedBody($length = 1024)
   {
     if(feof($this->fp))
@@ -253,6 +344,11 @@ class rex_socket
     }
   }
 
+  /**
+   * Returns the entire body
+   *
+   * @return string
+   */
   public function getBody()
   {
     if($this->body === null)
@@ -265,6 +361,12 @@ class rex_socket
     return $this->body;
   }
 
+  /**
+   * Writes the body to the given resource
+   *
+   * @param string|resource $resource File path or file pointer
+   * @return boolean <code>true</code> on success, <code>false</code> on failure
+   */
   public function writeBodyTo($resource)
   {
     $close = false;
@@ -289,6 +391,9 @@ class rex_socket
     return $success;
   }
 
+  /**
+   * Destructor, closes the socket resource
+   */
   public function __destruct()
   {
     if(is_resource($this->fp))
@@ -298,4 +403,9 @@ class rex_socket
   }
 }
 
+/**
+ * Socket exception
+ *
+ * @see rex_socket
+ */
 class rex_socket_exception extends rex_exception {}
