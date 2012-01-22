@@ -203,6 +203,8 @@ class rex_autoload
     $classTokens = array(T_CLASS, T_INTERFACE);
     if(defined('T_TRAIT'))
       $classTokens[] = T_TRAIT;
+    $ignoreTokens = array(T_WHITESPACE, T_COMMENT, T_DOC_COMMENT);
+    $namespaceTokens = array(T_WHITESPACE, T_COMMENT, T_DOC_COMMENT, T_NS_SEPARATOR, T_STRING);
     for($i = 0; $i < $count; ++$i)
     {
       if(is_array($tokens[$i]))
@@ -210,13 +212,16 @@ class rex_autoload
         if($tokens[$i][0] == T_NAMESPACE)
         {
           $namespace = '';
-          for(++$i; isset($tokens[$i][0]) && in_array($tokens[$i][0], array(T_WHITESPACE, T_NS_SEPARATOR, T_STRING)); ++$i)
-            $namespace .= $tokens[$i][0] == T_WHITESPACE ? '' : $tokens[$i][1];
+          for(++$i; isset($tokens[$i][0]) && in_array($tokens[$i][0], $namespaceTokens); ++$i)
+          {
+            if(!in_array($tokens[$i][0], $ignoreTokens))
+              $namespace .= $tokens[$i][1];
+          }
           $namespace .= empty($namespace) ? '' : '\\';
         }
         if(in_array($tokens[$i][0], $classTokens))
         {
-          $i += 2;
+          for(++$i; isset($tokens[$i][0]) && in_array($tokens[$i][0], $ignoreTokens); ++$i);
           if(isset($tokens[$i][0]) && $tokens[$i][0] == T_STRING)
           {
             $class = strtolower($namespace . $tokens[$i][1]);
