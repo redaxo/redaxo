@@ -1,7 +1,5 @@
 <?php
 
-$content = '';
-
 $settings = rex_post('settings', 'array', array());
 
 if(!empty($settings))
@@ -12,11 +10,11 @@ if(!empty($settings))
     if(isset($settings[$key]))
       $this->setConfig($key, $settings[$key]);
   }
-  $content .= rex_view::info($this->i18n('settings_saved'));
+  echo rex_view::info($this->i18n('settings_saved'));
   rex_install_webservice::deleteCache();
 }
 
-$content .= '
+echo '
   <div class="rex-form">
     <h2 class="rex-hl2">'. $this->i18n('settings') .'</h2>
     <form action="index.php?page=install&amp;subpage=settings" method="post">
@@ -56,7 +54,3 @@ $content .= '
       </fieldset>
     </form>
   </div>';
-  
-echo rex_view::contentBlock($content);
-
-

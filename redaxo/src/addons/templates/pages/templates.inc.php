@@ -158,6 +158,7 @@ if ($function == "add" or $function == "edit")
   }
 
   if (!isset ($save) or $save != "ja") {
+    echo '<a name="edit"></a>';
 
     // Ctype Handling
     $ctypes = rex_getAttributes("ctype", $attributes);
@@ -207,12 +208,9 @@ if ($function == "add" or $function == "edit")
 
     $ctypes_out = '';
     $i = 1;
-    $ctypes[] = ""; // Extra, fuer Neue Spalte
+    $ctypes[] = ""; // Extra, fŸr Neue Spalte
 
-    if (is_array($ctypes))
-    {
-      $formElements = array();
-      
+    if (is_array($ctypes)) {
       foreach ($ctypes as $id => $name)
       {
         $modul_select->setName('modules['.$i.'][]');
@@ -229,40 +227,28 @@ if ($function == "add" or $function == "edit")
             }
           }
         }
-        
-        
-        $n = array();
-        $n['label'] = '<label for="ctype'.$i.'">ID=' . $i . '</label>';
-        $n['field'] = '<input id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />';
-        $formElements[] = $n;
 
-        
-        $field = '';
-        $field .= '<input id="allmodules'.$i.'" type="checkbox" name="modules[' . $i . '][all]" ';
+        $ctypes_out .= '
+        <div class="rex-form-row">
+        <p class="rex-form-col-a rex-form-text">
+          <label for="ctype'.$i.'">ID=' . $i . '</label>
+          <input class="rex-form-text" id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />
+        </p>
+        <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+          <input class="rex-form-checkbox" id="allmodules'.$i.'" type="checkbox" name="modules[' . $i . '][all]" ';
         if(!isset($modules[$i]['all']) || $modules[$i]['all'] == 1)
-          $field .= ' checked="checked" ';
-        $field .= ' value="1" />';
-        
-        $n = array();
-        $n['reverse'] = true;
-        $n['label'] = '<label for="allmodules'.$i.'">'.rex_i18n::msg("modules_available_all").'</label>';
-        $n['field'] = $field;
-        $formElements[] = $n;
-        
-        $n = array();
-        $n['id']    = 'p_modules'.$i;
-        $n['label'] = '<label for="modules_'.$i.'_select">'.rex_i18n::msg("modules_available").'</label>';
-        $n['field'] = $modul_select->get();
-        $n['after'] = '<span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>';
-        $formElements[] = $n;
-        
-    
+          $ctypes_out .= ' checked="checked" ';
+        $ctypes_out .= ' value="1" />
+          <label for="allmodules'.$i.'">'.rex_i18n::msg("modules_available_all").'</label>
+        </p>
+        <p class="rex-form-col-a rex-form-select" id="p_modules'.$i.'">
+          <label for="modules_'.$i.'_select">'.rex_i18n::msg("modules_available").'</label>
+          '.$modul_select->get().'
+          <span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>
+        </p>
+        </div>';
         $i++;
       }
-        
-      $fragment = new rex_fragment();
-      $fragment->setVar('elements', $formElements, false);
-      $ctypes_out .= $fragment->parse('form');
     }
 
 
@@ -300,102 +286,91 @@ if ($function == "add" or $function == "edit")
       echo rex_view::warning($warning);
 
     echo '
-      <div class="rex-form" id="rex-form-template">
+      <div class="rex-form rex-form-template-editmode">
         <form action="index.php" method="post">
-          <fieldset>
+          <fieldset class="rex-form-col-1">
             <legend>' . $legend . '</legend>
-            
+
+            <div class="rex-form-wrapper">
               <input type="hidden" name="page" value="'. $page .'" />
               <input type="hidden" name="function" value="' . $function . '" />
               <input type="hidden" name="save" value="ja" />
-              <input type="hidden" name="template_id" value="' . $template_id . '" />';
-        
-      $formElements = array();
-      
-        $n = array();
-        $n['label'] = '<label for="ltemplatename">' . rex_i18n::msg("template_name") . '</label>';
-        $n['field'] = '<input type="text" id="ltemplatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />';
-        $formElements[] = $n;
-        
-        $n = array();
-        $n['reverse'] = true;
-        $n['label'] = '<label for="active">' . rex_i18n::msg("checkbox_template_active") . '<span>' . rex_i18n::msg("checkbox_template_active_info") . '</span></label>';
-        $n['field'] = '<input type="checkbox" id="active" name="active" value="1"' . $tmpl_active_checked . '/>';
-        $formElements[] = $n;
+              <input type="hidden" name="template_id" value="' . $template_id . '" />
 
-        $n = array();
-        $n['label'] = '<label for="content">' . rex_i18n::msg("header_template") . '</label>';
-        $n['field'] = '<textarea name="content" id="content" cols="50" rows="6">' . htmlspecialchars($content) . '</textarea>';
-        $formElements[] = $n;
-        
-      $fragment = new rex_fragment();
-      $fragment->setVar('elements', $formElements, false);
-      echo $fragment->parse('form');
-        
-    echo '
+              <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-text">
+                  <label for="ltemplatename">' . rex_i18n::msg("template_name") . '</label>
+                  <input class="rex-form-text" type="text" size="10" id="ltemplatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />
+                </p>
+              </div>
+
+              <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+                  <input class="rex-form-checkbox" type="checkbox" id="active" name="active" value="1"' . $tmpl_active_checked . '/>
+                  <label for="active">' . rex_i18n::msg("checkbox_template_active") . '<span>' . rex_i18n::msg("checkbox_template_active_info") . '</span></label>
+                </p>
+              </div>
+
+
+
+              <div class="rex-form-row">
+                <p class="rex-form-col-a rex-form-textarea">
+                  <label for="content">' . rex_i18n::msg("header_template") . '</label>
+                  <textarea class="rex-form-textarea" name="content" id="content" cols="50" rows="6">' . htmlspecialchars($content) . '</textarea>
+                </p>
+              </div>
+
+              <div class="rex-clearer"></div>
+            </div>
         </fieldset>
 
         <!-- DIV nötig fuer JQuery slideIn -->
         <div id="rex-form-template-ctype">
-        <fieldset>
+        <fieldset class="rex-form-col-1">
           <legend>'.rex_i18n::msg("content_types").' [ctypes]</legend>
+
+          <div class="rex-form-wrapper">
             ' . $ctypes_out . '
+          </div>
         </fieldset>
         </div>
 
 
          <div id="rex-form-template-categories">
-        	<fieldset>
-   			    <legend>'.rex_i18n::msg("template_categories").'</legend>';
-              
-              
-            $formElements = array();
-              
-              $field = '';
-              $field .= '<input id="allcategories" type="checkbox" name="categories[all]" ';
-              if(!isset($categories['all']) || $categories['all'] == 1)
-				        $field .= ' checked="checked" ';
-  		        $field .= ' value="1" />';
-              
-              $n = array();
-              $n['reverse'] = true;
-              $n['label'] = '<label for="allcategories">'.rex_i18n::msg("template_categories_all").'</label>';
-              $n['field'] = $field;
-              $formElements[] = $n;
-              
-              $n = array();
-              $n['id']    = 'p_categories';
-              $n['label'] = '<label for="categories_select">'.rex_i18n::msg("template_categories_custom").'</label>';
-              $n['field'] = $cat_select->get();
-              $n['after'] = '<span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>';
-              $formElements[] = $n;
-        
-            $fragment = new rex_fragment();
-            $fragment->setVar('elements', $formElements, false);
-            echo $fragment->parse('form');
-        
-    echo '
+        	<fieldset class="rex-form-col-1">
+   			    <legend>'.rex_i18n::msg("template_categories").'</legend>
+              <div class="rex-form-wrapper">
+
+              	<div class="rex-form-row">
+              	<p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+				          <input class="rex-form-checkbox" id="allcategories" type="checkbox" name="categories[all]" ';
+				        if(!isset($categories['all']) || $categories['all'] == 1)
+				          echo ' checked="checked" ';
+				        echo ' value="1" />
+				          <label for="allcategories">'.rex_i18n::msg("template_categories_all").'</label>
+				        </p>
+				        </div>
+
+              	<div class="rex-form-row" id="p_categories">
+		        		<p class="rex-form-col-a rex-form-select">
+				          <label for="categories_select">'.rex_i18n::msg("template_categories_custom").'</label>
+				          '.$cat_select->get().'
+				          <span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>
+				        </p>
+				      </div>
+            </div>
         	</fieldset>
 				</div>
 
-        <fieldset>';
-        
-          $formElements = array();
-          
-            $n = array();
-            $n['field'] = '<input type="submit" value="' . rex_i18n::msg("save_template_and_quit") . '"'. rex::getAccesskey(rex_i18n::msg('save_template_and_quit'), 'save') .' />';
-            $formElements[] = $n;
-            
-            $n = array();
-            $n['field'] = '<input type="submit" name="goon" value="' . rex_i18n::msg("save_template_and_continue") . '"'. rex::getAccesskey(rex_i18n::msg('save_template_and_continue'), 'apply') .' />';
-            $formElements[] = $n;
-            
-          $fragment = new rex_fragment();
-          $fragment->setVar('columns', 2, false);
-          $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form');
-        
-    echo '
+        <fieldset class="rex-form-col-1">
+          <div class="rex-form-wrapper">
+            <div class="rex-form-row">
+              <p class="rex-form-col-a rex-form-submit">
+                <input class="rex-form-submit" type="submit" value="' . rex_i18n::msg("save_template_and_quit") . '"'. rex::getAccesskey(rex_i18n::msg('save_template_and_quit'), 'save') .' />
+                <input class="rex-form-submit rex-form-submit-2" type="submit" name="goon" value="' . rex_i18n::msg("save_template_and_continue") . '"'. rex::getAccesskey(rex_i18n::msg('save_template_and_continue'), 'apply') .' />
+              </p>
+            </div>
+          </div>
         </fieldset>
 
         </form>
@@ -444,10 +419,10 @@ if ($OUT)
   $list = rex_list::factory('SELECT id, name, active FROM '.rex::getTablePrefix().'template ORDER BY name');
   $list->setCaption(rex_i18n::msg('header_template_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('header_template_summary'));
-  $list->addTableAttribute('id', 'rex-template');
+  $list->addTableColumnGroup(array(40, 40, '*', 153, 153));
 
-  $tdIcon = '<span class="rex-ic-template">###name###</span>';
-  $thIcon = '<a class="rex-ic-template rex-ic-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex::getAccesskey(rex_i18n::msg('create_template'), 'add') .'>'.rex_i18n::msg('create_template').'</a>';
+  $tdIcon = '<span class="rex-i-element rex-i-template"><span class="rex-i-element-text">###name###</span></span>';
+  $thIcon = '<a class="rex-i-element rex-i-template-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex::getAccesskey(rex_i18n::msg('create_template'), 'add') .'><span class="rex-i-element-text">'.rex_i18n::msg('create_template').'</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('function' => 'edit', 'template_id' => '###id###'));
 
@@ -455,18 +430,15 @@ if ($OUT)
   $list->setColumnLayout('id',  array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
 
   $list->setColumnLabel('name', rex_i18n::msg('header_template_description'));
-  $list->setColumnLayout('name',  array('<th class="rex-name">###VALUE###</th>','<td class="rex-name">###VALUE###</td>'));
   $list->setColumnParams('name', array('function' => 'edit', 'template_id' => '###id###'));
 
   $list->setColumnLabel('active', rex_i18n::msg('header_template_active'));
-  $list->setColumnLayout('active',  array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
   $list->setColumnFormat('active', 'custom', function($params) {
     $list = $params['list'];
     return $list->getValue('active') == 1 ? rex_i18n::msg('yes') : rex_i18n::msg('no');
   });
 
   $list->addColumn(rex_i18n::msg('header_template_functions'), rex_i18n::msg('delete_template'));
-  $list->setColumnLayout(rex_i18n::msg('header_template_functions'),  array('<th class="rex-function">###VALUE###</th>','<td class="rex-delete">###VALUE###</td>'));
   $list->setColumnParams(rex_i18n::msg('header_template_functions'), array('function' => 'delete', 'template_id' => '###id###'));
   $list->addLinkAttribute(rex_i18n::msg('header_template_functions'), 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
 

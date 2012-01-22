@@ -11,11 +11,7 @@ $KATout = ''; // Variable definiert und vorbelegt wenn nicht existent
 $KAToutARR = array(); // Variable definiert und vorbelegt wenn nicht existent
 
 // link to root kategory
-$navigation = array();
-$navigation[] = array(
-		'title' => rex_i18n::msg("homepage"),
-		'href' => 'index.php?page=structure&amp;category_id=0&amp;clang='. $clang
-	);
+$KAToutARR[]['content'] = '<a href="index.php?page=structure&amp;category_id=0&amp;clang='. $clang .'">Homepage</a>';
 
 $ooCat = rex_ooCategory::getCategoryById($category_id, $clang);
 if($ooCat)
@@ -25,25 +21,27 @@ if($ooCat)
     $catid = $parent->getId();
     if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($catid))
     {
-      $n = array();
-      $n["title"] = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
-      $n["href"] = 'index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang;
-      $navigation[] = $n;
+      $catname = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
+      $KAToutARR[]['content'] = '<a href="index.php?page=structure&amp;category_id='. $catid .'&amp;clang='. $clang .'">'. $catname .'</a>';
     }
   }
 }
 
-$blocks = array();
-$blocks[] = array(
-			"headline" => array("title" => rex_i18n::msg('path')), 
-			"navigation" => $navigation
-			);
+$KATout = '
+<!-- *** OUTPUT OF CATEGORY-TOOLBAR - START *** -->';
+
+/*	ul-Liste erstellen */
+$list = array();
+$list[1]['items'] = $KAToutARR;
+unset($KAToutARR);
+
+/*	dl-Liste erstellen  */
+$navi = array();
+$navi['items'][rex_i18n::msg('path')] = $list;
 
 $fragment = new rex_fragment();
-$fragment->setVar('type','path');
-$fragment->setVar('blocks', $blocks, false);
-$path = $fragment->parse('navigation');
-
+$fragment->setVar('list', $navi, false);
+$path = $fragment->parse('navi_path');
 unset($fragment);
 unset($navi);
 

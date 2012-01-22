@@ -34,7 +34,7 @@ mulselect module
 
 */
 
-$content = '';
+
 
 
 
@@ -62,6 +62,7 @@ $userstatus = rex_request('userstatus', 'int');
 
 // role
 $sel_role = new rex_select;
+$sel_role->setStyle('class="rex-form-select"');
 $sel_role->setSize(1);
 $sel_role->setName("userrole");
 $sel_role->setId("userrole");
@@ -78,6 +79,7 @@ $userrole = rex_request('userrole', 'string');
 
 // backend sprache
 $sel_be_sprache = new rex_select;
+$sel_be_sprache->setStyle('class="rex-form-select"');
 $sel_be_sprache->setSize(1);
 $sel_be_sprache->setName("userperm_be_sprache");
 $sel_be_sprache->setId("userperm-mylang");
@@ -95,6 +97,7 @@ $userperm_be_sprache = rex_request('userperm_be_sprache', 'string');
 
 // ----- welche startseite
 $sel_startpage = new rex_select;
+$sel_startpage->setStyle('class="rex-form-select"');
 $sel_startpage->setSize(1);
 $sel_startpage->setName("userperm_startpage");
 $sel_startpage->setId("userperm-startpage");
@@ -186,7 +189,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 
 } elseif ($FUNC_DELETE != '')
 {
-  // man kann sich selbst nicht loeschen..
+  // man kann sich selbst nicht l�schen..
   if (rex::getUser()->getValue("user_id") != $user_id)
   {
     $deleteuser = rex_sql::factory();
@@ -251,10 +254,10 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 // ---------------------------------- ERR MSG
 
 if ($info != '')
-  $content .= rex_view::info($info);
+  echo rex_view::info($info);
 
 if ($warning != '')
-  $content .= rex_view::warning($warning);
+  echo rex_view::warning($warning);
 
 // --------------------------------- FORMS
 
@@ -275,8 +278,8 @@ if ($FUNC_ADD != "" || $user_id > 0)
     $form_label = rex_i18n::msg('edit_user');
     $add_hidden = '<input type="hidden" name="user_id" value="'.$user_id.'" />';
     $add_submit = '<div class="rex-form-row">
-						<p class="rex-form-col-a"><input type="submit" name="FUNC_UPDATE" value="'.rex_i18n::msg('user_save').'" '. rex::getAccesskey(rex_i18n::msg('user_save'), 'save') .' /></p>
-						<p class="rex-form-col-b"><input type="submit" name="FUNC_APPLY" value="'.rex_i18n::msg('user_apply').'" '. rex::getAccesskey(rex_i18n::msg('user_apply'), 'apply') .' /></p>
+						<p class="rex-form-col-a"><input type="submit" class="rex-form-submit" name="FUNC_UPDATE" value="'.rex_i18n::msg('user_save').'" '. rex::getAccesskey(rex_i18n::msg('user_save'), 'save') .' /></p>
+						<p class="rex-form-col-b"><input type="submit" class="rex-form-submit" name="FUNC_APPLY" value="'.rex_i18n::msg('user_apply').'" '. rex::getAccesskey(rex_i18n::msg('user_apply'), 'apply') .' /></p>
 					</div>';
 		$add_user_class = ' rex-form-read';
     $add_user_login = '<span class="rex-form-read" id="userlogin">'. htmlspecialchars($sql->getValue(rex::getTablePrefix().'user.login')) .'</span>';
@@ -309,28 +312,30 @@ if ($FUNC_ADD != "" || $user_id > 0)
 
       if(!rex::getUser()->isAdmin())
       {
-        $add_admin_chkbox = '<input type="checkbox" id="useradmin" name="useradmin" value="1" disabled="disabled" />';
+        $add_admin_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="useradmin" name="useradmin" value="1" disabled="disabled" />';
       }
       else
       // Der Benutzer kann sich selbst die Rechte nicht entziehen
       if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix().'user.login') && $adminchecked != '')
       {
-        $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' disabled="disabled" />';
+        $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input class="rex-form-checkbox" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' disabled="disabled" />';
       }
       else
       {
-        $add_admin_chkbox = '<input type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
+        $add_admin_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
       }
 
       // Der Benutzer kann sich selbst den Status nicht entziehen
       if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix().'user.login') && $statuschecked != '')
       {
-        $add_status_chkbox = '<input type="hidden" name="userstatus" value="1" /><input type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' disabled="disabled" />';
+        $add_status_chkbox = '<input type="hidden" name="userstatus" value="1" /><input class="rex-form-checkbox" type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' disabled="disabled" />';
       }
       else
       {
-        $add_status_chkbox = '<input type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' />';
+        $add_status_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' />';
       }
+
+
 
       // Account gesperrt?
       if (rex::getProperty('maxlogins') < $sql->getValue("login_tries"))
@@ -347,8 +352,8 @@ if ($FUNC_ADD != "" || $user_id > 0)
       }
 
     }
-  
-  }else
+  }
+  else
   {
     // User Add
     $form_label = rex_i18n::msg('create_user');
@@ -364,12 +369,12 @@ if ($FUNC_ADD != "" || $user_id > 0)
     $add_user_login = '<input class="rex-form-text" type="text" id="userlogin" name="userlogin" value="'.htmlspecialchars($userlogin).'" />';
   }
 
-  $content .= '
+  echo '
   <div class="rex-form" id="rex-form-user-editmode">
   <form action="index.php" method="post" id="userform">
   	<input type="hidden" name="javascript" value="0" id="javascript" />
     <fieldset class="rex-form-col-2">
-      <h2>'.$form_label.'</h2>
+      <legend>'.$form_label.'</legend>
 
       <div class="rex-form-wrapper">
         <input type="hidden" name="page" value="users" />
@@ -460,8 +465,6 @@ if ($FUNC_ADD != "" || $user_id > 0)
 </script>
 ';
 
-  echo rex_view::contentBlock($content);
-
 }
 
 
@@ -525,11 +528,5 @@ if (isset($SHOW) and $SHOW)
   });
   $list->addLinkAttribute('funcs', 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
 
-  $content .= $list->get();
-  
-  echo rex_view::contentBlock($content,'','block');
-
+  $list->show();
 }
-
-
-

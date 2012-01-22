@@ -1,0 +1,275 @@
+/**
+ * CSS Datei des Backends
+ * @package redaxo4
+ * @version svn:$Id$
+ */
+
+div#rex-navi-logout ul, 
+div#rex-navi-main ul, 
+div#rex-navi-page ul, 
+div#rex-navi-path ul, 
+ul#rex-navi-path, 
+div#rex-clang ul,
+div.rex-content-header ul, 
+div#rex-linkmap ul, 
+div.rex-navi-slice ul, 
+div.rex-toolbar ul {
+	margin: 0;
+	list-style: none;
+}
+
+/*	Header / Footer ************************************************************
+*******************************************************************************/
+div#rex-navi-main {
+	float: left;
+	width: 100%;
+	height: 24px;
+	padding: 5px 0;
+}
+html>body div#rex-navi-main {
+	height: auto;
+	min-height: 24px;
+}
+div#rex-navi-footer p {
+	float: right;
+	margin: 0 5px;
+}
+
+div#rex-navi-main dl {
+	width: 70%;
+}
+div#rex-navi-main dd {
+	clear: both;
+	padding: 0 5px;
+}
+
+div#rex-navi-main ul li,
+div#rex-navi-main ul li a {
+	font-weight: bold;
+}
+div#rex-navi-main ul li {
+	display: block;
+	float: left;
+	padding: 0 5px;
+	white-space: nowrap;
+}
+div#rex-navi-main ul ul {
+  display: none;
+}
+div#rex-navi-main ul li.rex-navi-first {
+	padding-left: 0px;
+}
+div#rex-navi-footer ul {
+	float: left;
+	width: 70%;
+	margin: 0 5px;
+}
+div#rex-navi-footer ul li {
+	display: inline;
+}
+div#rex-navi-footer ul li a {
+	padding: 0 5px;
+}
+div#rex-navi-footer ul li.rex-navi-first a {
+	padding-left: 0;
+}
+
+/*	Navi Logout ****************************************************************
+*******************************************************************************/
+div#rex-navi-logout {
+	position: absolute;
+	right: 0;
+	top: 25px;
+}
+div#rex-navi-logout p.rex-logout {
+	padding-right: 5px;
+}
+div#rex-navi-logout ul li {
+	display: inline;
+	font-weight: bold;
+}
+div#rex-navi-logout ul li a, 
+div#rex-navi-logout ul li span {
+	padding: 0 5px;
+}
+div#rex-navi-logout ul li.rex-navi-first a, 
+div#rex-navi-logout ul li.rex-navi-first span {
+	padding-left: 0;
+}
+
+/*	Navi unter Titel ***********************************************************
+*******************************************************************************/
+div#rex-navi-page ul li, 
+#rex-title .rex-navi ul li {
+	display: inline;
+	font-weight: bold;
+}
+div#rex-navi-page ul li a, 
+#rex-title .rex-navi ul li a {
+	padding: 0 5px 0 6px;
+}
+div#rex-navi-page ul li.rex-navi-first a, 
+#rex-title .rex-navi ul li.rex-navi-first a {
+	padding-left: 0;
+}
+
+/* Navi unterhalb des Subpages (Addons) */
+div#rex-output div#rex-navi-page {
+	margin-top: -10px;
+	margin-bottom: 10px;
+}
+div#rex-output div#rex-navi-page ul {
+	padding-left: 5px;
+}
+
+.rex-title-row-sub dl dd ul {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+/*	Pfad ***********************************************************************
+*******************************************************************************/
+ul#rex-navi-path li {
+	display: inline;
+	font-weight: bold;
+}
+
+/*	Bspl.: Linkmap Path */
+div#rex-navi-path {
+	margin-bottom: 10px;
+	padding: 7px 5px;
+}
+div#rex-navi-path ul li {
+	display: inline;
+	font-weight: bold;
+}
+
+/*	Sprachen, Content (Editiermodus, Metadaten, Anzeigen) **********************
+*******************************************************************************/
+div.rex-content-header {
+	position: relative;
+	float: left;
+	width: 100%;
+}
+div#rex-clang {
+	margin-bottom: 10px;
+}
+div.rex-content-header-2 {
+	margin-left: 40px;
+	border-left-width: 1px;
+	border-left-style: solid;
+}
+
+div.rex-content-header ul {
+	padding-left: 5px;
+}
+div#rex-clang ul {
+}
+div.rex-content-header ul {
+	float: left;
+	margin-right: 50px;
+}
+div.rex-content-header ul.rex-navi-content {
+	float: right;
+	margin-right: 153px;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-left-width: 1px;
+	border-left-style: solid;
+}
+div#rex-clang ul li,
+div.rex-content-header ul li {
+	display: inline;
+	font-weight: bold;
+}
+div#rex-clang ul li a,
+div.rex-content-header ul li a {
+	padding: 0 5px;
+	font-weight: normal;
+}
+div#rex-clang ul li.rex-navi-first a,
+div.rex-content-header ul li.rex-navi-first a {
+	padding-left: 0;
+}
+
+
+
+/*	Paginate *******************************************************************
+*******************************************************************************/
+div.rex-navi-paginate ul li {
+	display: block;
+	float: left;
+	margin-right: 5px;
+}
+div.rex-navi-paginate ul li.rex-navi-paginate-message {
+	padding-top: 2px;
+}
+div.rex-navi-paginate ul li.rex-navi-paginate-prev a, 
+div.rex-navi-paginate ul li.rex-navi-paginate-next a, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a, 
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	display: block;
+}
+div.rex-navi-paginate ul li.rex-navi-paginate-prev a, 
+div.rex-navi-paginate ul li.rex-navi-paginate-next a {
+	width: 24px;
+	height: 13px;
+	text-indent: -1000em;
+}
+div.rex-navi-paginate ul li.rex-navi-paginate-page a span {
+	padding: 1px 4px 2px 4px;
+}
+
+
+/*	Slice **********************************************************************
+*******************************************************************************/
+div.rex-navi-slice ul li {
+	display: block;
+	float: left;
+	padding: 8px 0 7px 5px;
+}
+div.rex-navi-slice ul li.rex-navi-first {
+	padding-left: 10px;
+}
+div.rex-navi-slice ul li a, 
+div.rex-navi-slice ul li.rex-navi-onlyone {
+	padding-right: 5px;
+}
+div.rex-navi-slice ul li a.rex-slice-move-up, 
+div.rex-navi-slice ul li a.rex-slice-move-down {
+	display: block;
+	width: 16px;
+	height: 16px;
+}
+div.rex-navi-slice ul li a.rex-slice-move-up {
+	margin-right: 0px;
+}
+
+
+/*	Linkmap ********************************************************************
+*******************************************************************************/
+div#rex-linkmap ul {
+	margin: 0 5px 10px 0;
+}
+div#rex-linkmap ul li ul {
+	margin: 0;
+}
+div#rex-linkmap ul li ul.rex-children-one {
+	background: none;
+}
+div#rex-linkmap ul li {
+}
+div#rex-linkmap ul li a {
+	display: block;
+	margin-bottom: 4px;
+	padding: 4px 0px 4px 35px;
+}
+
+div#rex-linkmap ul li.rex-children ul li,
+div#rex-linkmap ul li ul li.rex-children-last {
+	margin-left: 23px;
+	padding-left: 10px;
+}
+div#rex-linkmap div.rex-area-col-b ul li a {
+	padding-left: 20px;
+}

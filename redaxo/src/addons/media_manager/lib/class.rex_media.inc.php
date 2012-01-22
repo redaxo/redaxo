@@ -132,7 +132,7 @@ class rex_media {
 			$src = file_get_contents($this->getMediapath());
 		}
 
-		$this->setHeader("Content-Length", strlen($src));
+		$this->setHeader("Content-Length", rex_str_size($src));
 		if(!array_key_exists('Content-Type',$this->getHeader()))
 		{
 			$finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -181,7 +181,7 @@ class rex_media {
     $src = ob_get_contents();
     ob_end_clean();
     return $src;
-		
+
 	}
 
 	public function getImage()

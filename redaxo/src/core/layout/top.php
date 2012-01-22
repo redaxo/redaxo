@@ -34,10 +34,10 @@ $body_attr = rex_extension::registerPoint('PAGE_BODY_ATTR', $body_attr );
 
 $body = "";
 foreach($body_attr as $k => $v){
-	$body .= " ".$k.'="';
+	$body .= $k.'="';
 	if(is_array($v))
 		$body .= implode(" ",$v);
-	$body .= '"';
+	$body .= '" ';
 }
 
 $activePageObj = $curPage;
@@ -91,49 +91,14 @@ if (rex::getUser() && $hasNavigation)
   }
 
   $n->setActiveElements();
-  $blocks = $n->getNavigation();
-  
-  $fragment = new rex_fragment();
-  // $fragment->setVar('headline', array("title" => $this->getHeadline($block)), false);
-  $fragment->setVar('type', 'main', false);
-  $fragment->setVar('blocks', $blocks, false);
-  $navigation = $fragment->parse('navigation');
-  
-  
+  $navigation = $n->getNavigation();
 }
-
-
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('pageTitle', $page_title);
 $fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', '' ), false);
 $fragment->setVar('bodyAttr', $body, false);
-echo $fragment->parse('backend_top');
-
-$fragment = new rex_fragment();
-// $fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', '' ), false);
-echo $fragment->parse('backend_header');
-
-$fragment = new rex_fragment();
 $fragment->setVar('logout', $logout, false);
-echo $fragment->parse('backend_meta');
-
-$fragment = new rex_fragment();
 $fragment->setVar('navigation', $navigation, false);
-echo $fragment->parse('backend_navigation');
-
-$sidebar = rex_extension::registerPoint('PAGE_SIDEBAR', '');
-if($sidebar != "") 
-{
-	$sidebarfragment = new rex_fragment();
-	$sidebarfragment->content = $sidebar;
-	echo $sidebarfragment->parse('backend_sidebar');
-	unset($sidebarfragment);
-}
-
+echo $fragment->parse('top');
 unset($fragment);
-
-?><section id="rex-page-main">
-
-

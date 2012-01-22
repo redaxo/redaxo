@@ -3,11 +3,10 @@
 /**
  * REDAXO Autoloader.
  *
- * This class was mainly copied from the Symfony Framework:
+ * This class was originally copied from the Symfony Framework:
  * Fabien Potencier <fabien.potencier@symfony-project.com>
  *
- * Adjusted in the following places
- * - file-cache uses json instead of a serialized php array to boost performance
+ * Adjusted in very many places
  *
  * @package redaxo5
  * @version svn:$Id$
@@ -198,10 +197,33 @@ class rex_autoload
       return;
     }
 
-    preg_match_all('~^\s*(?:abstract\s+|final\s+)?(?:class|interface|trait)\s+(\w+)~mi', file_get_contents($file), $classes);
-    foreach($classes[1] as $class)
+    $namespace = '';
+    $tokens = token_get_all(file_get_contents($file));
+    $count = count($tokens);
+    $classTokens = array(T_CLASS, T_INTERFACE);
+    if(defined('T_TRAIT'))
+      $classTokens[] = T_TRAIT;
+    for($i = 0; $i < $count; ++$i)
     {
-      self::$classes[strtolower($class)] = $file;
+      if(is_array($tokens[$i]))
+      {
+        if($tokens[$i][0] == T_NAMESPACE)
+        {
+          $namespace = '';
+          for(++$i; isset($tokens[$i][0]) && in_array($tokens[$i][0], array(T_WHITESPACE, T_NS_SEPARATOR, T_STRING)); ++$i)
+            $namespace .= $tokens[$i][0] == T_WHITESPACE ? '' : $tokens[$i][1];
+          $namespace .= empty($namespace) ? '' : '\\';
+        }
+        if(in_array($tokens[$i][0], $classTokens))
+        {
+          $i += 2;
+          if(isset($tokens[$i][0]) && $tokens[$i][0] == T_STRING)
+          {
+            $class = strtolower($namespace . $tokens[$i][1]);
+            self::$classes[$class] = $file;
+          }
+        }
+      }
     }
   }
 }

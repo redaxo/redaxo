@@ -192,7 +192,7 @@ if ($function == 'add' or $function == 'edit')
     }
 
     $btn_update = '';
-    if ($function != 'add') $btn_update = '<input type="submit" name="goon" value="'.rex_i18n::msg("save_module_and_continue").'"'. rex::getAccesskey(rex_i18n::msg('save_module_and_continue'), 'apply') .' />';
+    if ($function != 'add') $btn_update = '<input type="submit" class="rex-form-submit rex-form-submit-2" name="goon" value="'.rex_i18n::msg("save_module_and_continue").'"'. rex::getAccesskey(rex_i18n::msg('save_module_and_continue'), 'apply') .' />';
 
     if ($info != '')
       echo rex_view::info($info);
@@ -204,66 +204,49 @@ if ($function == 'add' or $function == 'edit')
       echo rex_view::warningBlock($warning_block);
 
     echo '
-			<div class="rex-form" id="rex-form-module">
+			<div class="rex-form rex-form-module-editmode">
       	<form action="index.php" method="post">
-        <fieldset>
+        <fieldset class="rex-form-col-1">
           <legend>'. $legend .'</legend>
+      	  <div class="rex-form-wrapper">
 						<input type="hidden" name="page" value="modules" />
 						<input type="hidden" name="function" value="'.$function.'" />
 						<input type="hidden" name="save" value="1" />
 						<input type="hidden" name="category_id" value="0" />
-						<input type="hidden" name="modul_id" value="'.$modul_id.'" />';
-						
-        
-          $formElements = array();
-          
-            $n = array();
-            $n['label'] = '<label for="mname">'.rex_i18n::msg("module_name").'</label>';
-            $n['field'] = '<input type="text" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />';
-            $formElements[] = $n;
-            
-            $n = array();
-            $n['label'] = '<label for="minput">'.rex_i18n::msg("input").'</label>';
-            $n['field'] = '<textarea cols="50" rows="6" name="eingabe" id="minput">'.htmlspecialchars($eingabe).'</textarea>';
-            $formElements[] = $n;
-            
-            $n = array();
-            $n['label'] = '<label for="moutput">'.rex_i18n::msg("output").'</label>';
-            $n['field'] = '<textarea  cols="50" rows="6" name="ausgabe" id="moutput">'.htmlspecialchars($ausgabe).'</textarea>';
-            $formElements[] = $n;
-            
-          $fragment = new rex_fragment();
-          $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form');
-          
+						<input type="hidden" name="modul_id" value="'.$modul_id.'" />
 
-    echo '
+						<div class="rex-form-row">
+    			  	<p class="rex-form-col-a rex-form-text">
+      					<label for="mname">'.rex_i18n::msg("module_name").'</label>
+	      				<input class="rex-form-text" type="text" size="10" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />
+  	  			  </p>
+    				</div>
+						<div class="rex-form-row">
+    				  <p class="rex-form-col-a rex-form-textarea">
+      					<label for="eingabe">'.rex_i18n::msg("input").'</label>
+      					<textarea class="rex-form-textarea" cols="50" rows="6" name="eingabe" id="eingabe">'.htmlspecialchars($eingabe).'</textarea>
+    				  </p>
+    				</div>
+						<div class="rex-form-row">
+    			  	<p class="rex-form-col-a rex-form-textarea">
+      					<label for="ausgabe">'.rex_i18n::msg("output").'</label>
+	      				<textarea class="rex-form-textarea" cols="50" rows="6" name="ausgabe" id="ausgabe">'.htmlspecialchars($ausgabe).'</textarea>
+  	  			  </p>
+    				</div>
+
+            <div class="rex-clearer"></div>
+    			</div>
         </fieldset>
 
-				<fieldset>';
-				
-        
-          $formElements = array();
-            
-          $fragment = new rex_fragment();
-          
-            $n = array();
-            $n['field'] = '<input type="submit" value="'.rex_i18n::msg("save_module_and_quit").'"'. rex::getAccesskey(rex_i18n::msg('save_module_and_quit'), 'save') .' />';
-            $formElements[] = $n;
-          
-            if ($btn_update != '')
-            {
-              $n = array();
-              $n['field'] = $btn_update;
-              $formElements[] = $n;
-              
-              $fragment->setVar('columns', 2, false);
-            } 
-            
-          $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form');
-          
-    echo '
+				<fieldset class="rex-form-col-1">
+      		<div class="rex-form-wrapper">
+						<div class="rex-form-row">
+    				  <p class="rex-form-col-a rex-form-submit">
+      					<input class="rex-form-submit" type="submit" value="'.rex_i18n::msg("save_module_and_quit").'"'. rex::getAccesskey(rex_i18n::msg('save_module_and_quit'), 'save') .' />
+        				'. $btn_update .'
+      				</p>
+    				</div>
+    		  </div>
         </fieldset>
     ';
 
@@ -280,9 +263,11 @@ if ($function == 'add' or $function == 'edit')
         $gma->setQuery("SELECT * FROM ".rex::getTablePrefix()."module_action, ".rex::getTablePrefix()."action WHERE ".rex::getTablePrefix()."module_action.action_id=".rex::getTablePrefix()."action.id and ".rex::getTablePrefix()."module_action.module_id='$modul_id'");
 
 				$add_header = '';
+				$add_col = '';
 				if (rex::getUser()->hasPerm('advancedMode[]'))
 				{
 					$add_header = '<th class="rex-small">'.rex_i18n::msg('header_id').'</th>';
+					$add_col = '<col width="40" />';
 				}
 
         $actions = '';
@@ -294,15 +279,15 @@ if ($function == 'add' or $function == 'edit')
           $action_name = rex_i18n::translate($gma->getValue('name'));
 
           $actions .= '<tr>
-          	<td class="rex-icon"><a class="rex-ic-action" href="'. $action_edit_url .'">' . htmlspecialchars($action_name) . '</a></td>';
+          	<td class="rex-icon"><a class="rex-i-element rex-i-action" href="'. $action_edit_url .'"><span class="rex-i-element-text">' . htmlspecialchars($action_name) . '</span></a></td>';
 
 					if (rex::getUser()->hasPerm('advancedMode[]'))
 					{
              $actions .= '<td class="rex-small">' . $gma->getValue("id") . '</td>';
           }
 
-          $actions .= '<td class="rex-name"><a href="'. $action_edit_url .'">'. $action_name .'</a></td>
-          	<td class="rex-delete"><a href="index.php?page=modules&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('action_delete').'</a></td>
+          $actions .= '<td><a href="'. $action_edit_url .'">'. $action_name .'</a></td>
+          	<td><a href="index.php?page=modules&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('action_delete').'</a></td>
           </tr>';
 
           $gma->next();
@@ -311,14 +296,20 @@ if ($function == 'add' or $function == 'edit')
         if($actions !='')
         {
           $actions = '
-  					<table id="rex-module-action" class="rex-table" summary="'.rex_i18n::msg('actions_added_summary').'">
+  					<table class="rex-table" summary="'.rex_i18n::msg('actions_added_summary').'">
   						<caption>'.rex_i18n::msg('actions_added_caption').'</caption>
+    					<colgroup>
+      				<col width="40" />
+      				'.$add_col.'
+      				<col width="*" />
+      				<col width="153" />
+    					</colgroup>
     					<thead>
       					<tr>
         					<th class="rex-icon">&nbsp;</th>
         					'.$add_header.'
-        					<th class="rex-name">' . rex_i18n::msg('action_name') . '</th>
-        					<th class="rex-function">' . rex_i18n::msg('action_functions') . '</th>
+        					<th>' . rex_i18n::msg('action_name') . '</th>
+        					<th>' . rex_i18n::msg('action_functions') . '</th>
       					</tr>
     					</thead>
     				<tbody>
@@ -332,6 +323,7 @@ if ($function == 'add' or $function == 'edit')
         $gaa_sel->setName('action_id');
         $gaa_sel->setId('action_id');
         $gaa_sel->setSize(1);
+        $gaa_sel->setStyle('class="rex-form-select"');
 
         for ($i=0; $i<$gaa->getRows(); $i++)
         {
@@ -341,26 +333,24 @@ if ($function == 'add' or $function == 'edit')
 
         echo
         $actions .'
-				<fieldset>
-          <legend>'.rex_i18n::msg('action_add').'</legend>';
-      		
-        
-          $formElements = array();
-            
-            $n = array();
-            $n['label'] = '<label for="action_id">'.rex_i18n::msg('action').'</label>';
-            $n['field'] = $gaa_sel->get();
-            $formElements[] = $n;
-            
-            $n = array();
-            $n['field'] = '<input type="submit" value="'.rex_i18n::msg('action_add').'" name="add_action" />';
-            $formElements[] = $n;
-            
-          $fragment = new rex_fragment();
-          $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form');
-          
-          echo '</fieldset>';
+				<fieldset class="rex-form-col-1">
+          <legend>'.rex_i18n::msg('action_add').'</legend>
+      		<div class="rex-form-wrapper">
+
+						<div class="rex-form-row">
+							<p class="rex-form-col-a rex-form-select">
+								<label for="action_id">'.rex_i18n::msg('action').'</label>
+								'.$gaa_sel->get().'
+					  	</p>
+					  </div>
+
+						<div class="rex-form-row">
+					  	<p class="rex-form-col-a rex-form-submit">
+								<input class="rex-form-submit" type="submit" value="'.rex_i18n::msg('action_add').'" name="add_action" />
+					  	</p>
+					  </div>
+				  </div>
+        </fieldset>';
       }
     }
 
@@ -386,10 +376,10 @@ if ($OUT)
   $list = rex_list::factory('SELECT id, name FROM '.rex::getTablePrefix().'module ORDER BY name');
   $list->setCaption(rex_i18n::msg('module_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('module_summary'));
-  $list->addTableAttribute('id', 'rex-module');
+  $list->addTableColumnGroup(array(40, 40, '*', 153));
 
-  $tdIcon = '<span class="rex-ic-module">###name###</span>';
-  $thIcon = '<a class="rex-ic-module rex-ic-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex::getAccesskey(rex_i18n::msg('create_module'), 'add') .'>'.rex_i18n::msg('create_module').'</a>';
+  $tdIcon = '<span class="rex-i-element rex-i-module"><span class="rex-i-element-text">###name###</span></span>';
+  $thIcon = '<a class="rex-i-element rex-i-module-add" href="'. $list->getUrl(array('function' => 'add')) .'"'. rex::getAccesskey(rex_i18n::msg('create_module'), 'add') .'><span class="rex-i-element-text">'.rex_i18n::msg('create_module').'</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('function' => 'edit', 'modul_id' => '###id###'));
 
@@ -397,11 +387,9 @@ if ($OUT)
   $list->setColumnLayout('id', array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
 
   $list->setColumnLabel('name', rex_i18n::msg('module_description'));
-  $list->setColumnLayout('name', array('<th class="rex-name">###VALUE###</th>','<td class="rex-name">###VALUE###</td>'));
   $list->setColumnParams('name', array('function' => 'edit', 'modul_id' => '###id###'));
 
   $list->addColumn(rex_i18n::msg('module_functions'), rex_i18n::msg('delete_module'));
-  $list->setColumnLayout(rex_i18n::msg('module_functions'),  array('<th class="rex-function">###VALUE###</th>','<td class="rex-delete">###VALUE###</td>'));
   $list->setColumnParams(rex_i18n::msg('module_functions'), array('function' => 'delete', 'modul_id' => '###id###'));
   $list->addLinkAttribute(rex_i18n::msg('module_functions'), 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
 

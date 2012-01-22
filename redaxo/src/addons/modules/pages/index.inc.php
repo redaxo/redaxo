@@ -26,6 +26,7 @@ switch ($subpage)
     }
 }
 
+
 echo rex_view::title($title);
-$content = rex_file::getOutput(dirname(__FILE__).'/'. $file);
-echo rex_view::contentBlock($content,'','block');
+
+require dirname(__FILE__).'/'. $file;

@@ -1,12 +1,10 @@
 <?php
 
-$content = '';
-
 if($func == 'delete')
 {
   $sql = rex_sql::factory();
   $sql->setQuery('DELETE FROM '. rex::getTable('user_role') .' WHERE id = ? LIMIT 1', array($id));
-  $content .= rex_view::info(rex_i18n::msg("user_role_deleted"));
+  echo rex_view::info(rex_i18n::msg("user_role_deleted"));
   $func = '';
 }
 
@@ -16,9 +14,10 @@ if($func == '')
   $list = rex_list::factory('SELECT id, name FROM '.rex::getTablePrefix().'user_role');
   $list->setCaption(rex_i18n::msg('user_role_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('user_role_summary'));
+  $list->addTableColumnGroup(array(40, '5%', '*', 153));
 
-  $tdIcon = '<span class="rex-ic-user">###name###</span>';
-  $thIcon = '<a class="rex-ic-user-add" href="'. $list->getUrl(array('func' => 'add', 'default_value' => 1)) .'"'. rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') .'>'. rex_i18n::msg('create_user_role') .'</a>';
+  $tdIcon = '<span class="rex-i-element rex-i-user"><span class="rex-i-element-text">###name###</span></span>';
+  $thIcon = '<a class="rex-i-element rex-i-user-add" href="'. $list->getUrl(array('func' => 'add', 'default_value' => 1)) .'"'. rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') .'><span class="rex-i-element-text">'. rex_i18n::msg('create_user_role') .'</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('func' => 'edit', 'id' => '###id###'));
 
@@ -26,20 +25,17 @@ if($func == '')
   $list->setColumnLayout('id', array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
 
   $list->setColumnLabel('name', rex_i18n::msg('name'));
-  $list->setColumnLayout('name', array('<th class="rex-name">###VALUE###</th>','<td class="rex-name">###VALUE###</td>'));
   $list->setColumnParams('name', array('func' => 'edit', 'id' => '###id###'));
 
   $list->addColumn('funcs', rex_i18n::msg('user_role_delete'));
   $list->setColumnLabel('funcs', rex_i18n::msg('user_functions'));
-  $list->setColumnLayout('funcs', array('<th class="rex-function">###VALUE###</th>','<td class="rex-function">###VALUE###</td>'));
   $list->setColumnParams('funcs', array('func' => 'delete', 'id' => '###id###'));
   $list->addLinkAttribute('funcs', 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
 
-  $content .= $list->get();
+  $list->show();
 
-  echo rex_view::contentBlock($content,'','block');
-
-}else
+}
+else
 {
   $label = $func == 'edit' ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
   $form = rex_form::factory(rex::getTablePrefix() .'user_role', $label, 'id = '. $id);
@@ -98,11 +94,11 @@ if($func == '')
     }
   }
 
-  $content .= $form->get();
+  $form->show();
 
   if($fieldIds)
   {
-    $content .= '
+    echo '
       <script type="text/javascript">
       <!--
 
@@ -128,9 +124,4 @@ if($func == '')
       //--></script>
     ';
   }
-  
-  echo rex_view::contentBlock($content);
-  
-  
-  
 }

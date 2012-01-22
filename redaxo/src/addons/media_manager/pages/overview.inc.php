@@ -1,13 +1,6 @@
-<?php
-
-$content = '<h2>Media Manager Addon (Version '.$this->getVersion().')</h2>';
-
-ob_start();
-require dirname(__FILE__). '/../help.inc.php';
-$content .= ob_get_contents();
-ob_end_clean();
-
-echo rex_view::contentBlock($content,'','tab');
-
-
-?>
+<div class="rex-addon-output">
+  <h2 class="rex-hl2">Media Manager Addon (Version <?php echo $this->getVersion() ?>)</h2>
+  <div class="rex-addon-content">
+    <?php require dirname(__FILE__). '/../help.inc.php'; ?>
+  </div>
+</div>

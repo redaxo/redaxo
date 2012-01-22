@@ -12,8 +12,6 @@ if(rex_ini_get('memory_limit') < 67108864)
   @ini_set('memory_limit', '64M');
 }
 
-$content = '';
-
 $info = '';
 $warning = '';
 
@@ -116,30 +114,31 @@ if ($function == 'export')
 
 if ($info != '')
 {
-  $content .= rex_view::info($info);
+  echo rex_view::info($info);
 }
 if ($warning != '')
 {
-  $content .= rex_view::warning($warning);
+  echo rex_view::warning($warning);
 }
 
+?>
 
-$content .= '
+<div class="rex-area">
 
-    <h3 class="rex-hl2">'.rex_i18n::msg('im_export_export').'</h3>
+    <h3 class="rex-hl2"><?php echo rex_i18n::msg('im_export_export'); ?></h3>
 
     <div class="rex-area-content">
-      <p class="rex-tx1">'.rex_i18n::msg('im_export_intro_export').'</p>
+      <p class="rex-tx1"><?php echo rex_i18n::msg('im_export_intro_export') ?></p>
 
       <div class="rex-form" id="rex-form-export">
       <form action="index.php" enctype="multipart/form-data" method="post" >
         <fieldset class="rex-form-col-1">
-          <legend>'.rex_i18n::msg('im_export_export').'</legend>
+          <legend><?php echo rex_i18n::msg('im_export_export'); ?></legend>
 
           <div class="rex-form-wrapper">
             <input type="hidden" name="page" value="import_export" />
-            <input type="hidden" name="function" value="export" />';
-
+            <input type="hidden" name="function" value="export" />
+<?php
 $checkedsql = '';
 $checkedfiles = '';
 
@@ -151,23 +150,22 @@ else
 {
   $checkedsql = ' checked="checked"';
 }
-
-$content .= '
+?>
             <div class="rex-form-row">
               <p class="rex-form-radio rex-form-label-right">
-                <input class="rex-form-radio" type="radio" id="exporttype_sql" name="exporttype" value="sql"'.$checkedsql.' />
-                <label for="exporttype_sql">'.rex_i18n::msg('im_export_database_export').'</label>
+                <input class="rex-form-radio" type="radio" id="exporttype_sql" name="exporttype" value="sql"<?php echo $checkedsql ?> />
+                <label for="exporttype_sql"><?php echo rex_i18n::msg('im_export_database_export'); ?></label>
               </p>
             </div>
             <div class="rex-form-row rex-form-element-v2">
               <p class="rex-form-radio rex-form-label-right">
-                <input class="rex-form-radio" type="radio" id="exporttype_files" name="exporttype" value="files"'.$checkedfiles.' />
-                <label for="exporttype_files">'.rex_i18n::msg('im_export_file_export').'</label>
+                <input class="rex-form-radio" type="radio" id="exporttype_files" name="exporttype" value="files"<?php echo $checkedfiles ?> />
+                <label for="exporttype_files"><?php echo rex_i18n::msg('im_export_file_export'); ?></label>
               </p>
 
               <div class="rex-form-checkboxes">
-                <div class="rex-form-checkboxes-wrapper">';
-
+                <div class="rex-form-checkboxes-wrapper">
+<?php
   $dir = rex_path::frontend('', rex_path::ABSOLUTE);
   $folders = readSubFolders($dir);
 
@@ -184,17 +182,17 @@ $content .= '
       $checked = ' checked="checked"';
     }
 
-    $content .= '<p class="rex-form-checkbox rex-form-label-right">
+    echo '<p class="rex-form-checkbox rex-form-label-right">
             <input class="rex-form-checkbox" type="checkbox" onchange="checkInput(\'exporttype_files\');" id="EXPDIR_'. $file .'" name="EXPDIR['. $file .']" value="true"'. $checked .' />
             <label for="EXPDIR_'. $file .'">'. $file .'</label>
           </p>
     ';
   }
-  
-$content .= '</div>
-  </div>
-</div>';
-
+?>
+    </div><!-- END rex-form-checkboxes-wrapper -->
+  </div><!-- END rex-form-checkboxes -->
+</div><!-- END rex-form-row -->
+<?php
 $checked0 = '';
 $checked1 = '';
 
@@ -206,36 +204,34 @@ else
 {
   $checked0 = ' checked="checked"';
 }
-
-$content .= '<div class="rex-form-row">
+?>
+            <div class="rex-form-row">
               <p class="rex-form-radio rex-form-label-right">
-                <input class="rex-form-radio" type="radio" id="exportdl_server" name="exportdl" value="0"'.$checked0.' />
-                <label for="exportdl_server">'.rex_i18n::msg('im_export_save_on_server').'</label>
+                <input class="rex-form-radio" type="radio" id="exportdl_server" name="exportdl" value="0"<?php echo $checked0; ?> />
+                <label for="exportdl_server"><?php echo rex_i18n::msg('im_export_save_on_server'); ?></label>
               </p>
             </div>
             <div class="rex-form-row">
               <p class="rex-form-radio rex-form-label-right">
-                <input class="rex-form-radio" type="radio" id="exportdl_download" name="exportdl" value="1"'.$checked1.' />
-                <label for="exportdl_download">'.rex_i18n::msg('im_export_download_as_file').'</label>
+                <input class="rex-form-radio" type="radio" id="exportdl_download" name="exportdl" value="1"<?php echo $checked1; ?> />
+                <label for="exportdl_download"><?php echo rex_i18n::msg('im_export_download_as_file'); ?></label>
               </p>
             </div>
             <div class="rex-form-row">
               <p class="rex-form-text">
-                <label for="exportfilename">'.rex_i18n::msg('im_export_filename').'</label>
-                <input class="rex-form-text" type="text" id="exportfilename" name="exportfilename" value="'.$exportfilename.'" />
+                <label for="exportfilename"><?php echo rex_i18n::msg('im_export_filename'); ?></label>
+                <input class="rex-form-text" type="text" id="exportfilename" name="exportfilename" value="<?php echo $exportfilename; ?>" />
               </p>
             </div>
             <div class="rex-form-row">
               <p class="rex-form-submit">
-                <input class="rex-form-submit" type="submit" value="'.rex_i18n::msg('im_export_db_export').'" />
+                <input class="rex-form-submit" type="submit" value="<?php echo rex_i18n::msg('im_export_db_export'); ?>" />
               </p>
             </div>
           </div>
         </fieldset>
       </form>
-      </div>';
-
-
-echo rex_view::contentBlock($content);
-
-
+      </div><!-- END rex-form -->
+    </div><!-- END rex-area-content -->
+  <div class="rex-clearer"></div>
+</div><!-- END rex-area -->

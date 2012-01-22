@@ -15,16 +15,14 @@ catch(rex_functional_exception $e)
   $addonkey = '';
 }
 
-$content = '';
-
 if($addonkey && isset($addons[$addonkey]))
 {
   $addon = $addons[$addonkey];
-  
-  $content .= '
-  	<h2>'. $addonkey .'</h2>
+
+  echo '
+  <div class="rex-area">
+  	<h2 class="rex-hl2">'. $addonkey .'</h2>
   	<table class="rex-table">
-      <tbody>
   		<tr>
   			<th>'. $this->i18n('name') .'</th>
   			<td>'. $addon['name'] .'</td>
@@ -41,51 +39,48 @@ if($addonkey && isset($addons[$addonkey]))
   			<th>'. $this->i18n('description') .'</th>
   			<td>'. nl2br($addon['description']) .'</td>
   		</tr>
-      </tbody>
   	</table>
-  	
-  	<h3>'. $this->i18n('files') .'</h3>
   	<table class="rex-table">
-      <thead>
+  		<tr>
+  			<th colspan="4">'. $this->i18n('files') .'</th>
+  		</tr>
   		<tr>
   			<th class="rex-icon"></th>
-  			<th class="rex-version">'. $this->i18n('version') .'</th>
-  			<th class="rex-description">'. $this->i18n('description') .'</th>
-  			<th class="rex-function"></th>
-  		</tr>
-      </thead>
-      <tbody>';
+  			<th>'. $this->i18n('version') .'</th>
+  			<th>'. $this->i18n('description') .'</th>
+  			<th></th>
+  		</tr>';
 
   foreach($addon['files'] as $fileId => $file)
   {
-    $content .= '
+    echo '
       <tr>
-        <td class="rex-icon"><span class="rex-ic-addon">'. $file['version'] .'</span></td>
-      	<td class="rex-version">'. $file['version'] .'</td>
-      	<td class="rex-description">'. nl2br($file['description']) .'</td>
-      	<td class="rex-update"><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_update&amp;file='. $fileId .'">'. $this->i18n('update') .'</a></td>
+        <td class="rex-icon"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-in">'. $file['version'] .'</span></span></td>
+      	<td>'. $file['version'] .'</td>
+      	<td>'. nl2br($file['description']) .'</td>
+      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_update&amp;file='. $fileId .'">'. $this->i18n('update') .'</a></td>
       </tr>';
   }
 
-  $content .= '</tbody></table>';
+  echo '
+  	</table>
+  </div>';
 
 }
 else
 {
-  $content .= '
-  	<h2>'. $this->i18n('available_updates', count($addons)) .'</h2>
 
+  echo '
+  <div class="rex-area">
+  	<h2 class="rex-hl2">'. $this->i18n('available_updates', count($addons)) .'</h2>
   	<table class="rex-table">
-      <thead>
   		<tr>
   			<th class="rex-icon"></th>
-  			<th class="key">'. $this->i18n('key') .'</th>
-  			<th class="name">'. $this->i18n('name') .'</th>
-  			<th class="version">'. $this->i18n('existing_version') .'</th>
-  			<th class="version">'. $this->i18n('available_versions') .'</th>
-  		</tr>
-      </thead>
-      <tbody>';
+  			<th>'. $this->i18n('key') .'</th>
+  			<th>'. $this->i18n('name') .'</th>
+  			<th>'. $this->i18n('existing_version') .'</th>
+  			<th>'. $this->i18n('available_versions') .'</th>
+  		</tr>';
 
   foreach($addons as $key => $addon)
   {
@@ -95,19 +90,19 @@ else
       $availableVersions[] = $file['version'];
     }
     $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey='. $key .'">%s</a>';
-    
-    $content .= '
+    echo '
     	<tr>
-    		<td class="rex-icon">'. sprintf($a, ' class="rex-ic-addon"', $key) .'</a></td>
-    		<td class="key">'. sprintf($a, '', $key) .'</a></td>
-    		<td class="name">'. $addon['name'] .'</td>
-    		<td class="version">'. rex_addon::get($key)->getVersion() .'</td>
-    		<td class="version">'. implode(', ', $availableVersions) .'</td>
+    		<td class="rex-icon">'. sprintf($a, ' class="rex-i-element rex-i-addon"', '<span class="rex-i-element-text">'. $key .'</span>') .'</a></td>
+    		<td>'. sprintf($a, '', $key) .'</a></td>
+    		<td>'. $addon['name'] .'</td>
+    		<td>'. rex_addon::get($key)->getVersion() .'</td>
+    		<td>'. implode(', ', $availableVersions) .'</td>
     	</tr>';
   }
 
-  $content .= '</tbody></table>';
-  
-}
+  echo '
+  	</table>
+  </div>
+  ';
 
-echo rex_view::contentBlock($content, '', 'block');
+}

@@ -27,18 +27,20 @@ class rex_view
   {
     $return = '';
 
-    $return = '<'. $sorround_tag .' class="rex-message '. $cssClass .'">';
+    $return = '<div class="rex-section"><div class="rex-message"><'. $sorround_tag .' class="'. $cssClass .'">';
 
     if ($sorround_tag != 'p')
       $return .= '<p>';
 
-    $return .= $message;
+    $return .= '<span>'. $message .'</span>';
 
     if ($sorround_tag != 'p')
       $return .= '</p>';
 
-    $return .= '</'. $sorround_tag .'>';
+    $return .= '</'. $sorround_tag .'></div></div>';
 
+    if ($sorround_tag != 'p')
+      $message = '<p>'.$message.'</p>';
     /*
     $fragment = new rex_fragment();
     $fragment->setVar('class', $cssClass);
@@ -84,43 +86,10 @@ class rex_view
     return $return;
   }
 
-  static public function contentBlock($content_1 = '', $content_2 = '', $type = '')
+  static public function contentBlock($content)
   {
-    $return = '';
-    
-    $class = '';
-    switch ($type)
-    {
-      case 'plain':
-        $class = ' rex-content-plain';
-        break;
-      case 'block':
-        $class = ' rex-content-block';
-        break;
-      default:
-        $class = ' rex-content-default';
-        break;
-    }
-    
-    $return .= '<section class="rex-content'.$class.'">';
-    if($content_2 != '')
-    {
-      $return .= '
-        <div class="rex-grid2col">
-          <div class="rex-column rex-first">'. $content_1 .'</div>
-          <div class="rex-column rex-last">'. $content_2 .'</div>
-        </div>';
-  
-    }else
-    {
-      $return .= $content_1;
-    }
-    $return .= '</section>';
-    
-    return $return;
+    return '<div class="rex-content-block"><div class="rex-content-block-content">'. $content .'</div></div>';
   }
-
-
 
   /**
   * Ausgabe des Seitentitels
@@ -183,33 +152,24 @@ class rex_view
         $nav->addPage($pageObj);
       }
       $nav->setActiveElements();
-      $blocks = $nav->getNavigation();
-      
-      $fragment = new rex_fragment();
-	  $fragment->setVar('type', 'tab', false);
-	  $fragment->setVar('blocks', $blocks, false);
-	  $subtitle = $fragment->parse('navigation');
-      
-    }else
+      $subtitle = $nav->getNavigation();
+    }
+    else
     {
       // REDAXO <= 4.2 compat
       $subtitle = self::getSubtitle($subtitle);
     }
 
-	$title = rex_extension::registerPoint('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page));
 
-  	$return = '<h1>'.$title.'</h1>'.$subtitle;
-
-    echo rex_extension::registerPoint('PAGE_TITLE_SHOWN', "",
-	    array(
-	      'category_id' => $category_id,
-	      'article_id' => $article_id,
-	      'page' => $page
-	    )
-	  );
-
-	return $return;
-
+    $fragment = new rex_fragment();
+    $fragment->setVar('category_id', $category_id, false);
+    $fragment->setVar('article_id', $article_id, false);
+    $fragment->setVar('page', $page, false);
+    $fragment->setVar('title', rex_extension::registerPoint('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page)), false);
+    $fragment->setVar('subtitle', $subtitle, false);
+    $title = $fragment->parse('title');
+    unset($fragment);
+    return $title;
   }
 
   /**

@@ -3,7 +3,6 @@ install_packages_subpage_update = Vorhandene aktualisieren
 install_packages_subpage_add = Neue hinzufügen
 install_packages_subpage_upload = Eigene hochladen
 install_packages_key = Key
-install_packages_information = Information
 install_packages_name = Name
 install_packages_author = Autor
 install_packages_shortdescription = Kurzbeschreibung
