@@ -6,6 +6,8 @@
  * @version svn:$Id$
  */
 
+$content = '';
+
 // -------------- Defaults
 $clang_id   = rex_request('clang_id', 'int');
 $clang_name = rex_request('clang_name', 'string');
@@ -85,13 +87,13 @@ if(empty($remaingClangs))
 }
 
 if ($info != '')
-  echo rex_view::info($info);
+  $content .= rex_view::info($info);
 
 if ($warning != '')
-  echo rex_view::warning($warning);
+  $content .= rex_view::warning($warning);
 
 
-echo '
+$content .= '
       <div class="rex-form" id="rex-form-system-language">
       <form action="index.php#clang" method="post">
 		';
@@ -99,7 +101,7 @@ echo '
 if ($func == 'addclang' || $func == 'editclang')
 {
   $legend = $func == 'addclang' ? rex_i18n::msg('clang_add') : rex_i18n::msg('clang_edit');
-  echo '
+  $content .= '
         <fieldset>
           <legend>'.$legend.'</legend>
           <input type="hidden" name="page" value="system" />
@@ -109,7 +111,7 @@ if ($func == 'addclang' || $func == 'editclang')
 }
 
 
-echo '
+$content .= '
     <table class="rex-table" summary="'.rex_i18n::msg('clang_summary').'">
       <caption>'.rex_i18n::msg('clang_caption').'</caption>
       <colgroup>
@@ -133,7 +135,7 @@ echo '
 if ($func == 'addclang')
 {
   //ggf wiederanzeige des add forms, falls ungueltige id uebermittelt
-  echo '
+  $content .= '
         <tr class="rex-table-row-activ">
           <td class="rex-small"><span class="rex-i-element rex-i-clang"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></span></td>
           <td class="rex-small">'.$sel->get().'</td>
@@ -157,7 +159,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang)
   // Edit form
   if ($func == "editclang" && $clang_id == $lang_id)
   {
-    echo '
+    $content .= '
           <tr class="rex-trow-actv">
             <td class="rex-small"><span class="rex-i-element rex-i-clang"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></span></td>
             '.$add_td.'
@@ -170,7 +172,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang)
   {
     $editLink = 'index.php?page=system&amp;subpage=lang&amp;func=editclang&amp;clang_id='.$lang_id.'#clang';
 
-    echo '
+    $content .= '
           <tr>
             <td class="rex-small"><a class="rex-i-element rex-i-clang" href="'. $editLink .'"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></a></td>
             '.$add_td.'
@@ -180,13 +182,13 @@ foreach (rex_clang::getAll() as $lang_id => $lang)
   }
 }
 
-echo '
+$content .= '
     </tbody>
   </table>';
 
 if ($func == 'addclang' || $func == 'editclang')
 {
-  echo '
+  $content .= '
           <script type="text/javascript">
             <!--
             jQuery(function($){
@@ -197,6 +199,11 @@ if ($func == 'addclang' || $func == 'editclang')
         </fieldset>';
 }
 
-echo '
+$content .= '
       </form>
       </div>';
+
+echo rex_view::contentBlock($content,'','block');
+
+
+

@@ -51,15 +51,15 @@ if ($subpage == '')
   rex_package_manager::synchronizeWithFileSystem();
 
   echo '
-      <table class="rex-table" summary="'.rex_i18n::msg("addon_summary").'">
+      <table class="rex-table" id="rex-table-addon" summary="'.rex_i18n::msg("addon_summary").'">
       <caption>'.rex_i18n::msg("addon_caption").'</caption>
   	  <thead>
         <tr>
-          <th class="rex-icon rex-col-a">&nbsp;</th>
-          <th class="rex-col-b">'.rex_i18n::msg("addon_hname").'</th>
-          <th class="rex-col-c">'.rex_i18n::msg("addon_hinstall").'</th>
-          <th class="rex-col-d">'.rex_i18n::msg("addon_hactive").'</th>
-          <th class="rex-col-e" colspan="2" rex-col-last>'.rex_i18n::msg("addon_hdelete").'</th>
+          <th class="rex-icon">&nbsp;</th>
+          <th class="rex-name">'.rex_i18n::msg("addon_hname").'</th>
+          <th class="rex-install">'.rex_i18n::msg("addon_hinstall").'</th>
+          <th class="rex-active">'.rex_i18n::msg("addon_hactive").'</th>
+          <th class="rex-function" colspan="2">'.rex_i18n::msg("addon_hdelete").'</th>
         </tr>
   	  </thead>
   	  <tbody>';

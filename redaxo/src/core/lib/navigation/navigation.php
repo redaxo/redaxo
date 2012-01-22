@@ -30,7 +30,8 @@ class rex_be_navigation extends rex_factory
 
   public function getNavigation()
   {
-    $s = '<dl class="rex-navi">';
+
+    $return = array();
     if(is_array($this->pages))
     {
 	    foreach($this->pages as $block => $blockPages)
@@ -56,23 +57,29 @@ class rex_be_navigation extends rex_factory
 	        );
         }
 
-	      $n = $this->_getNavigation($blockPages, 0, $block);
-     	  if($n != "")
+	    $n = $this->_getNavigation($blockPages, 0, $block);
+     	if(count($n)>0)
         {
-	        $headline = $this->getHeadline($block);
-	        $s .= '<dt>'. $headline .'</dt><dd>';
-	        $s .= $n;
-	        $s .= '</dd>' . "\n";
+        	$fragment = new rex_fragment();
+			$fragment->setVar('navigation', $n, false);
+
+			$return[] = array(
+				'navigation' => $n,
+				'headline' => array("title"=>$this->getHeadline($block))
+			);
+  	
         }
-	    }
+	  }
     }
-    $s .= '</dl>';
-    return $s;
+    return $return;
 
   }
 
   private function _getNavigation(array $blockPages, $level = 0, $block = '')
   {
+
+      $navigation = array();
+
       $level++;
       $id = '';
       if($block != '')
@@ -87,44 +94,47 @@ class rex_be_navigation extends rex_factory
 
         if(!$page->getHidden() && $page->checkPermission(rex::getUser()))
         {
-          if($first)
-          {
-            $first = FALSE;
-            $page->addItemClass('rex-navi-first');
-          }
-          $page->addLinkClass($page->getItemAttr('class'));
+          $n = array(); 
+          $n["linkClasses"] = array();
+          $n["itemClasses"] = array();
+          $n["linkAttr"] = array();
+          $n["itemAttr"] = array();
+
+          $n["itemClasses"][] = $page->getItemAttr('class');
+          $n["linkClasses"][] = $page->getItemAttr('class');
 
           $itemAttr = '';
           foreach($page->getItemAttr(null) as $name => $value)
           {
-            $itemAttr .= $name .'="'. trim($value) .'" ';
+          	$n["itemAttr"][$name] = trim($value);
           }
 
           $linkAttr = '';
           foreach($page->getLinkAttr(null) as $name => $value)
           {
-            $linkAttr .= $name .'="'. trim($value) .'" ';
+          	$n["linkAttr"][$name] = trim($value);
           }
 
-          $href = str_replace('&', '&amp;', $page->getHref());
-
-          $echo .= '<li '. $itemAttr .'><a '. $linkAttr . ' href="'. $href .'">'. $page->getTitle() .'</a>';
+		  $n["href"] = str_replace('&', '&amp;', $page->getHref());
+		  $n["title"] = $page->getTitle();
 
           $subpages = $page->getSubPages();
           if(is_array($subpages) && count($subpages) > 0)
           {
-            $echo .= $this->_getNavigation($subpages, $level);
+            $n["children"] = $this->_getNavigation($subpages, $level);
           }
-          $echo .= '</li>';
+
+          $navigation[] = $n;
+          
         }
       }
 
-      if($echo != "")
+      if(count($navigation)>0)
       {
-        $echo = '<ul'. $id . $class .'>'.$echo.'</ul>';
+        return $navigation; // $echo = '<ul'. $id . $class .'>'.$echo.'</ul>';
       }
 
-      return $echo;
+      return array();
   }
 
   public function setActiveElements()

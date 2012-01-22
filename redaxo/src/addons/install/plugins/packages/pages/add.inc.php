@@ -15,14 +15,18 @@ catch(rex_functional_exception $e)
   $addonkey = '';
 }
 
+
+$content = '';
 if($addonkey && isset($addons[$addonkey]))
 {
   $addon = $addons[$addonkey];
 
-  echo '
-  <div class="rex-area">
-  	<h2 class="rex-hl2">'. $addonkey .'</h2>
+  $content .= '
+  	<h2>'. $addonkey .'</h2>
+  	
+  	<h3>'. $this->i18n('information') .'</h3>
   	<table class="rex-table">
+    	<tbody>
   		<tr>
   			<th>'. $this->i18n('name') .'</th>
   			<td>'. $addon['name'] .'</td>
@@ -39,64 +43,67 @@ if($addonkey && isset($addons[$addonkey]))
   			<th>'. $this->i18n('description') .'</th>
   			<td>'. nl2br($addon['description']) .'</td>
   		</tr>
+    	</tbody>
   	</table>
+  	
+  	<h3>'. $this->i18n('files') .'</h3>
   	<table class="rex-table">
-  		<tr>
-  			<th colspan="4">'. $this->i18n('files') .'</th>
-  		</tr>
+    	<thead>
   		<tr>
   			<th class="rex-icon"></th>
-  			<th>'. $this->i18n('version') .'</th>
-  			<th>'. $this->i18n('description') .'</th>
-  			<th></th>
-  		</tr>';
+  			<th class="rex-version">'. $this->i18n('version') .'</th>
+  			<th class="rex-description">'. $this->i18n('description') .'</th>
+  			<th class="rex-function"></th>
+  		</tr>
+    	</thead>
+    	<tbody>';
 
   foreach($addon['files'] as $fileId => $file)
   {
-    echo '
+    $content .= '
       <tr>
-        <td class="rex-icon"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-in">'. $file['version'] .'</span></span></td>
-      	<td>'. $file['version'] .'</td>
-      	<td>'. nl2br($file['description']) .'</td>
-      	<td><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_add&amp;file='. $fileId .'">'. $this->i18n('download') .'</a></td>
+        <td class="rex-icon"><span class="rex-ic-addon">'. $file['version'] .'</span></td>
+      	<td class="rex-version">'. $file['version'] .'</td>
+      	<td class="rex-description">'. nl2br($file['description']) .'</td>
+      	<td class="rex-function"><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addonkey='. $addonkey .'&amp;rex-api-call=install_packages_add&amp;file='. $fileId .'">'. $this->i18n('download') .'</a></td>
       </tr>';
   }
 
-  echo '
-  	</table>
-  </div>';
+  $content .= '</tbody></table>';
 
 }
 else
 {
 
-  echo '
-  <div class="rex-area">
-  	<h2 class="rex-hl2">'. $this->i18n('addons_found', count($addons)) .'</h2>
+  $content .= '
+  	<h2>'. $this->i18n('addons_found', count($addons)) .'</h2>
   	<table class="rex-table">
+  	 <thead>
   		<tr>
   			<th class="rex-icon"></th>
-  			<th>'. $this->i18n('key') .'</th>
-  			<th>'. $this->i18n('name') .'</th>
-  			<th>'. $this->i18n('author') .'</th>
-  			<th>'. $this->i18n('shortdescription') .'</th>
-  		</tr>';
+  			<th class="rex-key">'. $this->i18n('key') .'</th>
+  			<th class="rex-name">'. $this->i18n('name') .'</th>
+  			<th class="rex-author">'. $this->i18n('author') .'</th>
+  			<th class="rex-description">'. $this->i18n('shortdescription') .'</th>
+  		</tr>
+  	 </thead>
+  	 <tbody>';
 
   foreach($addons as $key => $addon)
   {
     $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addonkey='. $key .'">%s</a>';
-    echo '
+    $content .= '
     	<tr>
-    		<td class="rex-icon">'. sprintf($a, ' class="rex-i-element rex-i-addon"', '<span class="rex-i-element-text">'. $key .'</span>') .'</a></td>
-    		<td>'. sprintf($a, '', $key) .'</a></td>
-    		<td>'. $addon['name'] .'</td>
-    		<td>'. $addon['author'] .'</td>
-    		<td>'. nl2br($addon['shortdescription']) .'</td>
+    		<td class="rex-icon">'. sprintf($a, ' class="rex-ic-addon"', $key) .'</a></td>
+    		<td class="rex-key">'. sprintf($a, '', $key) .'</a></td>
+    		<td class="rex-name">'. $addon['name'] .'</td>
+    		<td class="rex-author">'. $addon['author'] .'</td>
+    		<td class="rex-description">'. nl2br($addon['shortdescription']) .'</td>
     	</tr>';
   }
 
-  echo '
-  	</table>
-  </div>';
+  $content .= '</tbody></table>';
 
 }
+
+echo rex_view::contentBlock($content, '', 'block');

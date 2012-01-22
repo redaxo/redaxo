@@ -1,4 +1,4 @@
-<?php
+</section><?php
 
 /**
  * Layout Fuß des Backends
@@ -6,6 +6,12 @@
  * @version svn:$Id$
  */
 
+
+
+$footerfragment = new rex_fragment();
+echo $footerfragment->parse('backend_footer');
+unset($footerfragment);
+
 $bottomfragment = new rex_fragment();
-echo $bottomfragment->parse('bottom');
+echo $bottomfragment->parse('backend_bottom');
 unset($bottomfragment);

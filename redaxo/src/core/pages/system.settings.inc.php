@@ -8,6 +8,8 @@
 
 $info = '';
 $warning = '';
+$error = '';
+$success = '';
 
 if ($func == 'setup')
 {
@@ -28,7 +30,7 @@ if ($func == 'setup')
 }elseif ($func == 'generate')
 {
   // generate all articles,cats,templates,caches
-  $info = rex_generateAll();
+  $success = rex_generateAll();
 }
 elseif ($func == 'updateinfos')
 {
@@ -68,7 +70,7 @@ elseif ($func == 'updateinfos')
   {
     if(rex_file::putConfig($configFile, $config) > 0)
     {
-      $info = rex_i18n::msg('info_updated');
+      $success = rex_i18n::msg('info_updated');
     }
   }
 }
@@ -91,6 +93,12 @@ if ($warning != '')
 if ($info != '')
   echo rex_view::info($info);
 
+if ($error != '')
+  echo rex_view::error($error);
+
+if ($success != '')
+  echo rex_view::success($success);
+
 $dbconfig = rex::getProperty('db');
 
 
@@ -99,31 +107,28 @@ $version = rex_path::src();
 if (strlen($version)>21)
 	$version = substr($version,0,8)."..".substr($version,strlen($version)-13);
 
+$content_1 = '<h2>'.rex_i18n::msg("system_features").'</h2>
+						<h3>'.rex_i18n::msg("delete_cache").'</h3>
+						<p>'.rex_i18n::msg("delete_cache_description").'</p>
+						<p class="rex-button"><a class="rex-button" href="index.php?page=system&amp;func=generate">'.rex_i18n::msg("delete_cache").'</a></p>
 
-$headline_1 = rex_i18n::msg("system_features");
-$headline_2 = rex_i18n::msg("system_settings");
+						<h3>'.rex_i18n::msg("setup").'</h3>
+						<p>'.rex_i18n::msg("setup_text").'</p>
+						<p class="rex-button"><a class="rex-button" href="index.php?page=system&amp;func=setup" onclick="return confirm(\''.rex_i18n::msg("setup").'?\');">'.rex_i18n::msg("setup").'</a></p>
 
-$content_1 = '
-						<h4 class="rex-hl3">'.rex_i18n::msg("delete_cache").'</h4>
-						<p class="rex-tx1">'.rex_i18n::msg("delete_cache_description").'</p>
-						<p class="rex-button"><a class="rex-button" href="index.php?page=system&amp;func=generate"><span><span>'.rex_i18n::msg("delete_cache").'</span></span></a></p>
-
-						<h4 class="rex-hl3">'.rex_i18n::msg("setup").'</h4>
-						<p class="rex-tx1">'.rex_i18n::msg("setup_text").'</p>
-						<p class="rex-button"><a class="rex-button" href="index.php?page=system&amp;func=setup" onclick="return confirm(\''.rex_i18n::msg("setup").'?\');"><span><span>'.rex_i18n::msg("setup").'</span></span></a></p>
-
-            <h4 class="rex-hl3">'.rex_i18n::msg("version").'</h4>
-            <p class="rex-tx1">
+            <h3>'.rex_i18n::msg("version").'</h3>
+            <p>
             REDAXO: '.rex::getVersion().'<br />
             PHP: '.phpversion().' (<a href="index.php?page=system&amp;subpage=phpinfo" onclick="newWindow(\'phpinfo\', this.href, 800,600,\',status=yes,resizable=yes\');return false;">php_info</a>)</p>
 
-            <h4 class="rex-hl3">'.rex_i18n::msg("database").'</h4>
-            <p class="rex-tx1">MySQL: '.rex_sql::getServerVersion().'<br />'.rex_i18n::msg("name").': '.$dbconfig[1]['name'].'<br />'.rex_i18n::msg("host").': '.$dbconfig[1]['host'].'</p>';
+            <h3>'.rex_i18n::msg("database").'</h3>
+            <p>MySQL: '.rex_sql::getServerVersion().'<br />'.rex_i18n::msg("name").': '.$dbconfig[1]['name'].'<br />'.rex_i18n::msg("host").': '.$dbconfig[1]['host'].'</p>';
 
 
 $content_2 = '
+				<h2>'.rex_i18n::msg("system_settings").'</h2>
 						<fieldset class="rex-form-col-1">
-							<legend>'. rex_i18n::msg("general_info_header").'</legend>
+							<h3>'. rex_i18n::msg("general_info_header").'</h3>
 
 							<div class="rex-form-wrapper">
 
@@ -169,7 +174,6 @@ foreach(rex_system_setting::getAll() as $setting)
 }
 
 $content_2 .= '
-
 							<div class="rex-form-row">
 								<p class="rex-form-col-a rex-form-submit">
 									<input type="submit" class="rex-form-submit" name="sendit" value="'. rex_i18n::msg("system_update").'" '. rex::getAccesskey(rex_i18n::msg('system_update'), 'save').' />
@@ -178,21 +182,15 @@ $content_2 .= '
 
 						</fieldset>';
 
-?>
-
+$content_2 = '
 <div class="rex-form" id="rex-form-system-setup">
 	<form action="index.php" method="post">
   	<input type="hidden" name="page" value="system" />
-  	<input type="hidden" name="func" value="updateinfos" />
+  	<input type="hidden" name="func" value="updateinfos" />'.
+  	$content_2.
+  	'</form>
+</div>';
 
-<?php
-$fragment = new rex_fragment();
-$fragment->setVar('headline_1', $headline_1, false);
-$fragment->setVar('headline_2', $headline_2, false);
-$fragment->setVar('content_1', $content_1, false);
-$fragment->setVar('content_2', $content_2, false);
-echo $fragment->parse('section_grid2col');
-unset($fragment);
+echo rex_view::contentBlock($content_1,$content_2);
+
 ?>
-	</form>
-</div>
