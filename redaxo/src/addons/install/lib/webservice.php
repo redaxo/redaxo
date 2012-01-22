@@ -60,7 +60,10 @@ class rex_install_webservice
       {
         $filename = basename($url);
         $file = rex_path::cache('install/'. md5($filename) .'.'. rex_file::extension($filename));
-        $socket->writeBodyTo($file);
+        rex_file::put($file, '');
+        $fp = fopen($file, 'w');
+        $socket->writeBodyTo($fp);
+        fclose($fp);
         return $file;
       }
     }

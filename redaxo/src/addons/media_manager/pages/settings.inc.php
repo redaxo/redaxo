@@ -12,30 +12,30 @@
 
 // rex_request();
 
+$content = "";
+
 $func = rex_request('func', 'string');
 $jpg_quality = rex_request('jpg_quality', 'int');
 
 if ($func == 'update')
 {
-  if($jpg_quality > 100) $jpg_quality = 100;
-  else if ($jpg_quality < 0) $jpg_quality = 0;
+  if($jpg_quality > 100) 
+  	$jpg_quality = 100;
+  else if ($jpg_quality < 0) 
+  	$jpg_quality = 0;
 
   rex_config::set('media_manager', 'jpg_quality', $jpg_quality);
+  $content = rex_view::info(rex_i18n::msg('media_manager_config_saved'));
 
-  echo rex_view::info(rex_i18n::msg('media_manager_config_saved'));
 }
 
-echo '
-
-<div class="rex-addon-output">
-
-  <div class="rex-form">
-
-<h2 class="rex-hl2">'. rex_i18n::msg('imanager_subpage_config') .'</h2>
-
-<form action="index.php" method="post">
-
-		<fieldset class="rex-form-col-1">
+$content .= '
+<div class="rex-form">
+	
+	<h2>'. rex_i18n::msg('imanager_subpage_config') .'</h2>
+	
+	<form action="index.php" method="post">
+	<fieldset class="rex-form-col-1">
       <div class="rex-form-wrapper">
 			<input type="hidden" name="page" value="media_manager" />
 			<input type="hidden" name="subpage" value="settings" />
@@ -54,10 +54,9 @@ echo '
 				</p>
 			</div>
 		</div>
-			</fieldset>
-  </form>
-  </div>
+	</fieldset>
+	</form>
+</div>';
 
+echo rex_view::contentBlock($content);
 
-</div>
-  ';

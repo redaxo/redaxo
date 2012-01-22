@@ -4,25 +4,21 @@ class rex_install_helper
 {
   static public function copyDirToArchive($dir, $archive, $basename = null)
   {
-    $dir = rtrim($dir, '/\\');
-    $basename = $basename ?: basename($dir);
-    rex_dir::create(dirname($archive));
-    $phar = new PharData($archive, 0, null, Phar::ZIP);
-    $files = array();
-    $iterator = rex_dir::recursiveIterator($dir, rex_dir_recursive_iterator::LEAVES_ONLY);
-    $iterator->excludeVersionControl()->excludeTemporaryFiles();
-    foreach($iterator as $path => $file)
+    $archive = new PharData($archive, 0, null, Phar::ZIP);
+    $iterator = rex_dir::recursiveIterator($dir, rex_dir_recursive_iterator::LEAVES_ONLY)->excludeVersionControl()->excludeTemporaryFiles();
+    if($basename)
     {
-      $files[str_replace($dir, $basename, $path)] = $path;
-    }
-    $phar->buildFromIterator(new ArrayIterator($files));
-    $phar->compressFiles(Phar::GZ);
-    foreach($files as $path => $realpath)
-    {
-      if(filesize($realpath) == 0)
+      $array = array();
+      foreach($iterator as $path => $file)
       {
-        $phar[$path]->decompress();
+        $array[$basename .'/'. str_replace($dir, '', $path)] = $path;
       }
+      $archive->buildFromIterator(new ArrayIterator($array));
     }
+    else
+    {
+      $archive->buildFromIterator($iterator, dirname($dir));
+    }
+    $archive->compressFiles(Phar::GZ);
   }
 }

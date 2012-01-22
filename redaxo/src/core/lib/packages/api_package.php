@@ -92,12 +92,12 @@ class rex_api_package extends rex_api_function
     $class = str_replace(array('.', '/'), '_', $packageId);
     return '
         <tr class="rex-'.$type.' rex-'.$type.'-'.$class.'"'.$hide.'>
-          <td class="rex-icon rex-col-a"><span class="rex-i-element rex-i-'.$type.'"><span class="rex-i-element-in">'. $name .'</span></span></td>
-          <td class="rex-col-b">'.$name.' '. $package->getVersion() .' [<a href="index.php?page=addon&amp;subpage=help&amp;package='.$packageId.'">?</a>]</td>
-          <td class="rex-col-c">'.$install.'</td>
-          <td class="rex-col-d">'.$status.'</td>
-          <td class="rex-col-e">'.$uninstall.'</td>
-          <td class="rex-col-f rex-col-last">'.$delete.'</td>
+          <td class="rex-icon"><span class="rex-ic-'.$type.'">'. $name .'</span></td>
+          <td class="rex-name">'.$name.' '. $package->getVersion() .' [<a href="index.php?page=addon&amp;subpage=help&amp;package='.$packageId.'">?</a>]</td>
+          <td class="rex-install">'.$install.'</td>
+          <td class="rex-active">'.$status.'</td>
+          <td class="rex-uninstall">'.$uninstall.'</td>
+          <td class="rex-delete">'.$delete.'</td>
         </tr>'."\n   ";
   }
 

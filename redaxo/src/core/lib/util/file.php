@@ -155,4 +155,19 @@ class rex_file
   {
     return rex_formatter :: format(is_file($fileOrSize) ? filesize($fileOrSize) : $fileOrSize, 'filesize', $format);
   }
+  
+  /**
+   * Gets executed content of given file
+   *
+   * @param string $file Path of the file
+   * @return string executed Content
+   */
+  static public function getOutput($file)
+  {
+    ob_start();
+    require $file;
+    $content = ob_get_clean();
+    return $content;
+  }
+  
 }

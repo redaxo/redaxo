@@ -1,1 +1,0 @@
-REDAXO Base-Theme

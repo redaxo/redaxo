@@ -64,19 +64,27 @@ if ($func == 'delLog')
   exit();
 }
 
+$content = '';
+
 if ($info != '')
-  echo rex_view::info($info);
+  $content .= rex_view::info($info);
 
 if ($warning != '')
-  echo rex_view::warning($warning);
+  $content .= rex_view::warning($warning);
+
+$content .= '<iframe src="index.php?page='.$page.'&amp;subpage='.$subpage.'&amp;func=readlog" class="rex-log" width="100%" height="500px"></iframe>';
+
+$content .= '
+	<form action="index.php" method="post">
+	  <input type="hidden" name="page" value="'.$page.'" />
+	  <input type="hidden" name="subpage" value="'.$subpage.'" />
+	  <input type="hidden" name="func" value="delLog" />
+	  <input type="submit" name="del_btn" value="'.rex_i18n::msg('syslog_delete').'" onclick="return confirm(\''.rex_i18n::msg('delete').'?\')">
+	</form>
+	';
+
+echo rex_view::contentBlock($content,'','blank');
+
 
 ?>
-<iframe src="index.php?page=<?php echo $page; ?>&amp;subpage=<?php echo $subpage; ?>&amp;func=readlog" class="rex-log" width="100%" height="500px">
-</iframe>
 
-<form action="index.php" method="post">
-  <input type="hidden" name="page" value="<?php echo $page; ?>" />
-  <input type="hidden" name="subpage" value="<?php echo $subpage; ?>" />
-  <input type="hidden" name="func" value="delLog" />
-  <input type="submit" name="del_btn" value="<?php echo rex_i18n::msg('syslog_delete'); ?>" onclick="return confirm('<?php echo rex_i18n::msg('delete'); ?>?')">
-</form>
