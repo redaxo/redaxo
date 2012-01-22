@@ -1,5 +1,7 @@
 <?php
 
+$content = '';
+
 $versions = array();
 
 $apiFunc = rex_api_function::factory();
@@ -10,9 +12,9 @@ if($apiFunc && ($result = $apiFunc->getResult()) && $result->isSuccessfull())
 }
 
 if($info = rex_get('info', 'string'))
-  echo rex_view::info($info);
+  $content .= rex_view::info($info);
 else
-  echo rex_api_function::getMessage();
+  $content .= rex_api_function::getMessage();
 
 try
 {
@@ -20,10 +22,10 @@ try
 }
 catch(rex_functional_exception $e)
 {
-  echo rex_view::warning($e->getMessage());
+  $content .= rex_view::warning($e->getMessage());
 }
 
-echo '
+$content .= '
   <div class="rex-area">
   	<h2 class="rex-hl2">'. $this->i18n('available_updates', count($versions)) .'</h2>
   	<table class="rex-table">
@@ -37,7 +39,7 @@ echo '
 foreach($versions as $id => $version)
 {
   $a = '<a%s href="index.php?page=install&amp;subpage=core&amp;version_id='. $id .'">%s</a>';
-  echo '
+  $content .= '
     	<tr>
     		<td class="rex-icon"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text">'. $version['version'] .'</span></span></td>
     		<td>'. $version['version'] .'</td>
@@ -46,7 +48,10 @@ foreach($versions as $id => $version)
     	</tr>';
 }
 
-echo '
+$content .= '
   	</table>
   </div>
   ';
+
+echo rex_view::contentBlock($content,'','block');
+

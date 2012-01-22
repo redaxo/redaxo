@@ -15,6 +15,7 @@ catch(rex_functional_exception $e)
   $addonkey = '';
 }
 
+$content = '';
 if($addonkey && isset($addons[$addonkey]))
 {
   $addon = $addons[$addonkey];
@@ -51,50 +52,62 @@ if($addonkey && isset($addons[$addonkey]))
 
     $path = 'index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;rex-api-call=install_packages_%s&amp;addonkey='. $addonkey .'&amp;file='. $file_id;
 
-    echo '
+    $content .= '
+    <h2>'. $addonkey .': '. $this->i18n($new ? 'file_add' : 'file_edit') .'</h2>
   <div class="rex-form">
-    <h2 class="rex-hl2">'. $addonkey .': '. $this->i18n($new ? 'file_add' : 'file_edit') .'</h2>
     <form action="'. sprintf($path, 'upload') .'" method="post">
-      <fieldset class="rex-form-col-1">
-        <div class="rex-form-wrapper">
-          <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-read">
-              <label for="install-packages-upload-version">'. $this->i18n('version') .'</label>
-              <span id="install-packages-upload-version" class="rex-form-read">'. ($new ? $newVersion : $file['version']) .'</span>
-              <input type="hidden" name="upload[oldversion]" value="'. $file['version'] .'" />
-            </p>
-          </div>
-          <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-select">
-              <label for="install-packages-upload-redaxo">REDAXO</label>
-              '. $redaxo_select->get() .'
-            </p>
-          </div>
-          <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-textarea">
-              <label for="install-packages-upload-description">'. $this->i18n('description') .'</label>
-              <textarea id="install-packages-upload-description" class="rex-form-textarea" name="upload[description]" cols="50" rows="15">'. $file['description'] .'</textarea>
-            </p>
-          </div>
-          <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-              <input id="install-packages-upload-status" type="checkbox" class="rex-form-checkbox" name="upload[status]" value="1" '. (!$new && $file['status'] ? 'checked="checked" ' : '') .'/>
-              <label for="install-packages-upload-status">'. $this->i18n('online') .'</label>
-            </p>
-          </div>
-          <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-              <input id="install-packages-upload-upload-file" type="checkbox" class="rex-form-checkbox" name="upload[upload_file]" value="1" '. ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled .'/>
-              <label for="install-packages-upload-upload-file">'. $this->i18n('upload_file') .'</label>'. $hiddenField .'
-            </p>
-          </div>
-          <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-submit rex-form-submit-2">
-              <input id="install-packages-upload-send" type="submit" name="upload[send]" class="rex-form-submit" value="'. $this->i18n('send') .'" />
-              <input id="install-packages-delete" type="button" class="rex-form-submit rex-form-submit-2" value="'. $this->i18n('delete') .'" onclick="if(confirm(\''. $this->i18n('delete') .' ?\')) location.href=\''. sprintf($path, 'delete') .'\';" />
-            </p>
-          </div>
-        </div>
+      <fieldset>';
+      		
+        
+          $formElements = array();
+            
+            $n = array();
+            $n['label'] = '<label for="install-packages-upload-version">'. $this->i18n('version') .'</label>';
+            $n['field'] = '<span id="install-packages-upload-version" class="rex-form-read">'. ($new ? $newVersion : $file['version']) .'</span>
+                           <input type="hidden" name="upload[oldversion]" value="'. $file['version'] .'" />';
+            $formElements[] = $n;
+            
+            $n = array();
+            $n['label'] = '<label for="install-packages-upload-redaxo">REDAXO</label>';
+            $n['field'] = $redaxo_select->get();
+            $formElements[] = $n;
+            
+            $n = array();
+            $n['label'] = '<label for="install-packages-upload-description">'. $this->i18n('description') .'</label>';
+            $n['field'] = '<textarea id="install-packages-upload-description" name="upload[description]" cols="50" rows="15">'. $file['description'] .'</textarea>';
+            $formElements[] = $n;
+            
+            $n = array();
+            $n['reverse'] = true;
+            $n['label'] = '<label for="install-packages-upload-status">'. $this->i18n('online') .'</label>';
+            $n['field'] = '<input id="install-packages-upload-status" type="checkbox" name="upload[status]" value="1" '. (!$new && $file['status'] ? 'checked="checked" ' : '') .'/>';
+            $formElements[] = $n;
+            
+            $n = array();
+            $n['reverse'] = true;
+            $n['label'] = '<label for="install-packages-upload-upload-file">'. $this->i18n('upload_file') .'</label>'. $hiddenField .'';
+            $n['field'] = '<input id="install-packages-upload-upload-file" type="checkbox" name="upload[upload_file]" value="1" '. ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled .'/>';
+            $formElements[] = $n;
+            
+          $fragment = new rex_fragment();
+          $fragment->setVar('elements', $formElements, false);
+          $content .= $fragment->parse('form');
+            
+          $formElements = array();
+            $n = array();
+            $n['field'] = '<input id="install-packages-upload-send" type="submit" name="upload[send]" value="'. $this->i18n('send') .'" />';
+            $formElements[] = $n;
+            
+            $n = array();
+            $n['field'] = '<input id="install-packages-delete" type="button" value="'. $this->i18n('delete') .'" onclick="if(confirm(\''. $this->i18n('delete') .' ?\')) location.href=\''. sprintf($path, 'delete') .'\';" />';
+            $formElements[] = $n;
+            
+          $fragment = new rex_fragment();
+          $fragment->setVar('columns', 2, false);
+          $fragment->setVar('elements', $formElements, false);
+          $content .= $fragment->parse('form');
+
+  $content .= '
       </fieldset>
   	</form>
   </div>';
@@ -121,12 +134,14 @@ if($addonkey && isset($addons[$addonkey]))
   {
     $icon = '';
     if(rex_addon::exists($addonkey))
-      $icon = '<a class="rex-i-element rex-i-generic-add" href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey='. $addonkey .'&amp;file=new" title="'. $this->i18n('file_add') .'">'. $this->i18n('file_add') .'</a>';
+      $icon = '<a class="rex-ic-generic rex-ic-add" href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey='. $addonkey .'&amp;file=new" title="'. $this->i18n('file_add') .'">'. $this->i18n('file_add') .'</a>';
 
-    echo '
-  <div class="rex-area">
-  	<h2 class="rex-hl2">'. $addonkey .'</h2>
+    $content .= '
+  	<h2>'. $addonkey .'</h2>
+  	
+  	<h3>'. $this->i18n('information') .'</h3>
   	<table class="rex-table">
+      <tbody>
   		<tr>
   			<th>'. $this->i18n('name') .'</th>
   			<td>'. $addon['name'] .'</td>
@@ -143,36 +158,37 @@ if($addonkey && isset($addons[$addonkey]))
   			<th>'. $this->i18n('description') .'</th>
   			<td>'. nl2br($addon['description']) .'</td>
   		</tr>
+      </tbody>
   	</table>
+  	
+  	<h3>'. $this->i18n('files') .'</h3>
   	<table class="rex-table">
-  		<tr>
-  			<th colspan="5">'. $this->i18n('files') .'</th>
-  		</tr>
+  		<thead>
   		<tr>
   		  <th class="rex-icon">'. $icon .'</th>
-  			<th>'. $this->i18n('version') .'</th>
+  			<th class="rex-version">'. $this->i18n('version') .'</th>
   			<th>REDAXO</th>
-  			<th>'. $this->i18n('description') .'</th>
-  			<th>'. $this->i18n('status') .'</th>
-  		</tr>';
+  			<th class="rex-description">'. $this->i18n('description') .'</th>
+  			<th class="rex-function">'. $this->i18n('status') .'</th>
+  		</tr>
+  		</thead>
+      <tbody>';
 
     foreach($addon['files'] as $fileId => $file)
     {
       $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey='. $addonkey .'&amp;file='. $fileId .'">%s</a>';
       $status = $file['status'] ? 'online' : 'offline';
-      echo '
+      $content .= '
       <tr>
-        <td class="rex-icon">'. sprintf($a, ' class="rex-i-element rex-i-addon"', '<span class="rex-i-element-text">'. $file['version'] .'</span>') .'</td>
-      	<td>'. sprintf($a, '', $file['version']) .'</a></td>
-      	<td>'. implode(', ', $file['redaxo_versions']) .'</td>
-      	<td>'. nl2br($file['description']) .'</td>
-      	<td><span class="rex-'. $status .'">'. $this->i18n($status) .'</span></td>
+        <td class="rex-icon">'. sprintf($a, ' class="rex-ic-addon"', $file['version']) .'</td>
+      	<td class="rex-version">'. sprintf($a, '', $file['version']) .'</a></td>
+      	<td class="rex-version">'. implode(', ', $file['redaxo_versions']) .'</td>
+      	<td class="rex-description">'. nl2br($file['description']) .'</td>
+      	<td class="rex-status"><span class="rex-'. $status .'">'. $this->i18n($status) .'</span></td>
       </tr>';
     }
 
-    echo '
-  	</table>
-  </div>';
+    $content .= '</tbody></table>';
 
   }
 
@@ -180,33 +196,34 @@ if($addonkey && isset($addons[$addonkey]))
 else
 {
 
-  echo '
-  <div class="rex-area">
-  	<h2 class="rex-hl2">'. $this->i18n('my_packages') .'</h2>
+  $content .= '
+  	<h2>'. $this->i18n('my_packages') .'</h2>
   	<table class="rex-table">
+  	 <thead>
   		<tr>
   			<th class="rex-icon"></th>
-  			<th>'. $this->i18n('key') .'</th>
-  			<th>'. $this->i18n('name') .'</th>
-  			<th>'. $this->i18n('status') .'</th>
-  		</tr>';
+  			<th class="rex-key">'. $this->i18n('key') .'</th>
+  			<th class="rex-name">'. $this->i18n('name') .'</th>
+  			<th class="rex-function">'. $this->i18n('status') .'</th>
+  		</tr>
+  	 </thead>
+  	 <tbody>';
 
   foreach($addons as $key => $addon)
   {
     $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey='. $key .'">%s</a>';
     $status = $addon['status'] ? 'online' : 'offline';
-    echo '
+    $content .= '
     	<tr>
-    		<td class="rex-icon">'. sprintf($a, ' class="rex-i-element rex-i-addon"', '<span class="rex-i-element-text">'. $key .'</span>') .'</a></td>
-    		<td>'. sprintf($a, '', $key) .'</a></td>
-    		<td>'. $addon['name'] .'</td>
-      	<td><span class="rex-'. $status .'">'. $this->i18n($status) .'</span></td>
+    		<td class="rex-icon">'. sprintf($a, ' class="rex-ic-addon"', $key) .'</a></td>
+    		<td class="rex-key">'. sprintf($a, '', $key) .'</a></td>
+    		<td class="rex-name">'. $addon['name'] .'</td>
+      	<td class="rex-status"><span class="rex-'. $status .'">'. $this->i18n($status) .'</span></td>
     	</tr>';
   }
 
-  echo '
-  	</table>
-  </div>
-  ';
+  $content .= '</tbody></table>';
 
 }
+
+echo rex_view::contentBlock($content, '', 'block');

@@ -2,19 +2,19 @@
 
 <strong>Version 1.6 (2010-03-29)</strong>
   - Update TinyMCE auf Version 3.3.2
-  - Bugfix: Init-Script wird jetzt ï¿½ber die index.php ausgeliefert, tiny_mce_init.php entfï¿½llt da oft
+  - Bugfix: Init-Script wird jetzt über die index.php ausgeliefert, tiny_mce_init.php entfällt da oft
     Rechteprobleme auftraten
-  - Medienpool-Popup ï¿½berarbeitet, Datei ï¿½bernehmen funktioniert jetzt auch nach Uploads	
-  - Medienpool ï¿½bernimmt jetzt auch den Medien-Titel in das Tiny-Popup
-  - Bugfix: korrekter Pfad fï¿½r content.css, Anzeige Dateiname bei CSS-Editor
-  - Addon-Konfiguration angepasst, neuer Parameter fï¿½r individuelle Tiny Konfiguration
-    Optionen fï¿½r Smileys, Media und Syntaxhighlighter entfernt
+  - Medienpool-Popup überarbeitet, Datei übernehmen funktioniert jetzt auch nach Uploads	
+  - Medienpool übernimmt jetzt auch den Medien-Titel in das Tiny-Popup
+  - Bugfix: korrekter Pfad für content.css, Anzeige Dateiname bei CSS-Editor
+  - Addon-Konfiguration angepasst, neuer Parameter für individuelle Tiny Konfiguration
+    Optionen für Smileys, Media und Syntaxhighlighter entfernt
   - Smileys und Media in Standardbuttons aufgenommen
-  - Anpassung redaxo-Plugin fï¿½r Tiny  
+  - Anpassung redaxo-Plugin für Tiny  
   - Syntaxhighlighter entfernt  
   - JavaScript-Sourcen entfernt
   - abschliessende ?> entfernt  
-  - Anpassung fï¿½r REDAXO 4.1.x, 4.0.x, 3.2.3
+  - Anpassung für REDAXO 4.1.x, 4.0.x, 3.2.3
   
   TODO:
   * Security-Patch, siehe http://blog.webvariants.de/security-fix-fuer-redaxos-tinymce-addon  
@@ -25,7 +25,7 @@
   - Update TinyMCE auf Version 3.2.2.1
   - Anpassung an neues Backend-Style
   - Klasse pclzip entfernt, TinyMCE Source wird jetzt in das files-Verzeichnis kopoert, kein entpacken mehr notwendig
-  - .htaccess im Verzeichnis addons/tinymce/files/ hebt den Verzeichnisschutz auf fï¿½r REDAXO < 4.2
+  - .htaccess im Verzeichnis addons/tinymce/files/ hebt den Verzeichnisschutz auf für REDAXO < 4.2
   - Konfiguration des Addons, Aktivierung, Standardsprache, Theme + Skin usw.
   - Editiermoeglichkeit des Stylesheets fuer den WYSIWYG-Editor/Vorschau
   

@@ -1,4 +1,7 @@
 <?php
+
+$content = "";
+
 $Basedir = dirname(__FILE__);
 
 $type_id = rex_request('type_id','int');
@@ -8,8 +11,7 @@ $info = '';
 $warning = '';
 
 //-------------- delete cache on type_name change or type deletion
-if((rex_post('func') == 'edit' || $func == 'delete')
-&& $type_id > 0)
+if((rex_post('func') == 'edit' || $func == 'delete') && $type_id > 0)
 {
   $counter = rex_media_manager_deleteCacheByType($type_id);
   //  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
@@ -26,10 +28,9 @@ if($func == 'delete' && $type_id > 0)
   if($sql->delete())
   {
     $info = rex_i18n::msg('media_manager_type_deleted') ;
-  }
-  else
+  }else
   {
-    $warning = $sql->getErrro();
+    $warning = $sql->getError();
   }
   $func = '';
 }
@@ -39,18 +40,16 @@ if($func == 'delete_cache' && $type_id > 0)
 {
   $counter = rex_media_manager::deleteCacheByType($type_id);
   $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
-
   $func = '';
 }
 
 //-------------- output messages
 if ($info != '')
-echo rex_view::info($info);
+	$content .= rex_view::info($info);
 
 if ($warning != '')
-echo rex_view::warning($warning);
+	$content .= rex_view::warning($warning);
 
-echo '<div class="rex-addon-output-v2">';
 if ($func == '')
 {
   // Nach Status sortieren, damit Systemtypen immer zuletzt stehen
@@ -97,14 +96,14 @@ if ($func == '')
     return $list->getColumnLink('deleteType', rex_i18n::msg('media_manager_type_delete'));
   });
 
-  $list->show();
+  $content .= $list->get();
+  
 }elseif ($func == 'add' || $func == 'edit' && $type_id > 0)
 {
   if($func == 'edit')
   {
     $formLabel = rex_i18n::msg('media_manager_type_edit');
-  }
-  else if ($func == 'add')
+  }else if ($func == 'add')
   {
     $formLabel = rex_i18n::msg('media_manager_type_create');
   }
@@ -123,7 +122,6 @@ if ($func == '')
     return $controlFields;
   }
 
-
   rex_extension::register('REX_FORM_CONTROL_FIELDS', 'rex_media_manager_handle_form_control_fields');
   $form = rex_form::factory(rex::getTablePrefix().'media_manager_types',$formLabel,'id='.$type_id);
 
@@ -140,8 +138,12 @@ if ($func == '')
     $form->addParam('type_id', $type_id);
   }
 
-  $form->show();
+  $content .= $form->get();
 }
 
-echo '</div>';
+
+echo rex_view::contentBlock($content);
+
+
+
 ?>

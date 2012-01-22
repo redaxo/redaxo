@@ -1,5 +1,5 @@
 modules = Module
-module = Module
+module = Modul
 modules_not_found = Es wurden keine Module gefunden
 module_cannot_be_deleted = Modul '{0}' kann nicht gelöscht werden, da es noch von folgenden Artikeln genutzt wird:
 module_deleted = Modul wurde gelöscht!
