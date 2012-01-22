@@ -2,7 +2,7 @@
 
 class rex_install_helper
 {
-  static public function copyDirToArchive($dir, $archive, $basename = null)
+  static public function copyDirToArchive($dir, $archive, $basename = null, $excludeDirs = null)
   {
     $dir = rtrim($dir, '/\\');
     $basename = $basename ?: basename($dir);
@@ -11,6 +11,10 @@ class rex_install_helper
     $files = array();
     $iterator = rex_dir::recursiveIterator($dir, rex_dir_recursive_iterator::LEAVES_ONLY);
     $iterator->excludeVersionControl()->excludeTemporaryFiles();
+    if($excludeDirs)
+    {
+      $iterator->excludeDirs($excludeDirs, false);
+    }
     foreach($iterator as $path => $file)
     {
       $files[str_replace($dir, $basename, $path)] = $path;

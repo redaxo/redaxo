@@ -57,51 +57,60 @@ if($addonkey && isset($addons[$addonkey]))
   <div class="rex-form">
     <form action="'. sprintf($path, 'upload') .'" method="post">
       <fieldset>';
-      		
-        
+
+
           $formElements = array();
-            
+
             $n = array();
             $n['label'] = '<label for="install-packages-upload-version">'. $this->i18n('version') .'</label>';
             $n['field'] = '<span id="install-packages-upload-version" class="rex-form-read">'. ($new ? $newVersion : $file['version']) .'</span>
                            <input type="hidden" name="upload[oldversion]" value="'. $file['version'] .'" />';
             $formElements[] = $n;
-            
+
             $n = array();
             $n['label'] = '<label for="install-packages-upload-redaxo">REDAXO</label>';
             $n['field'] = $redaxo_select->get();
             $formElements[] = $n;
-            
+
             $n = array();
             $n['label'] = '<label for="install-packages-upload-description">'. $this->i18n('description') .'</label>';
             $n['field'] = '<textarea id="install-packages-upload-description" name="upload[description]" cols="50" rows="15">'. $file['description'] .'</textarea>';
             $formElements[] = $n;
-            
+
             $n = array();
             $n['reverse'] = true;
             $n['label'] = '<label for="install-packages-upload-status">'. $this->i18n('online') .'</label>';
             $n['field'] = '<input id="install-packages-upload-status" type="checkbox" name="upload[status]" value="1" '. (!$new && $file['status'] ? 'checked="checked" ' : '') .'/>';
             $formElements[] = $n;
-            
+
             $n = array();
             $n['reverse'] = true;
             $n['label'] = '<label for="install-packages-upload-upload-file">'. $this->i18n('upload_file') .'</label>'. $hiddenField .'';
             $n['field'] = '<input id="install-packages-upload-upload-file" type="checkbox" name="upload[upload_file]" value="1" '. ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled .'/>';
             $formElements[] = $n;
-            
+
+            if(rex_addon::get($addonkey)->isInstalled() && is_dir(rex_path::addonAssets($addonkey)))
+            {
+              $n = array();
+              $n['reverse'] = true;
+              $n['label'] = '<label for="install-packages-upload-replace-assets">'. $this->i18n('replace_assets') .'</label>'. $hiddenField .'';
+              $n['field'] = '<input id="install-packages-upload-replace-assets" type="checkbox" name="upload[replace_assets]" value="1" '. ($new ? '' : 'disabled="disabled" ') .'/>';
+              $formElements[] = $n;
+            }
+
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
           $content .= $fragment->parse('form');
-            
+
           $formElements = array();
             $n = array();
             $n['field'] = '<input id="install-packages-upload-send" type="submit" name="upload[send]" value="'. $this->i18n('send') .'" />';
             $formElements[] = $n;
-            
+
             $n = array();
             $n['field'] = '<input id="install-packages-delete" type="button" value="'. $this->i18n('delete') .'" onclick="if(confirm(\''. $this->i18n('delete') .' ?\')) location.href=\''. sprintf($path, 'delete') .'\';" />';
             $formElements[] = $n;
-            
+
           $fragment = new rex_fragment();
           $fragment->setVar('columns', 2, false);
           $fragment->setVar('elements', $formElements, false);
@@ -112,18 +121,24 @@ if($addonkey && isset($addons[$addonkey]))
   	</form>
   </div>';
 
-    if(!$new && $newVersion != $file['version'])
+    if(!$new)
     {
       echo '
   <script type="text/javascript"><!--
 
     jQuery(function($) {
-			$("#install-packages-upload-upload-file").change(function(){
-  			if($(this).is(":checked"))
-  				$("#install-packages-upload-version").html("<span class=\'rex-strike\'>'. $file['version'] .'</span> <strong>'. $newVersion .'</strong>");
-  			else
-  				$("#install-packages-upload-version").html("'. $file['version'] .'");
-  		});
+      $("#install-packages-upload-upload-file").change(function(){
+        if($(this).is(":checked"))
+        {
+          '. ($newVersion != $file['version'] ? '$("#install-packages-upload-version").html("<span class=\'rex-strike\'>'. $file['version'] .'</span> <strong>'. $newVersion .'</strong>");' : '') .'
+          $("#install-packages-upload-replace-assets").removeAttr("disabled");
+        }
+        else
+        {
+          $("#install-packages-upload-version").html("'. $file['version'] .'");
+          $("#install-packages-upload-replace-assets").attr("disabled", "disabled").removeAttr("checked");
+        }
+      });
     });
 
   //--></script>';
@@ -138,7 +153,7 @@ if($addonkey && isset($addons[$addonkey]))
 
     $content .= '
   	<h2>'. $addonkey .'</h2>
-  	
+
   	<h3>'. $this->i18n('information') .'</h3>
   	<table class="rex-table">
       <tbody>
@@ -160,7 +175,7 @@ if($addonkey && isset($addons[$addonkey]))
   		</tr>
       </tbody>
   	</table>
-  	
+
   	<h3>'. $this->i18n('files') .'</h3>
   	<table class="rex-table">
   		<thead>

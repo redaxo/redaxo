@@ -22,7 +22,11 @@ class rex_api_install_packages_upload extends rex_api_function
       if($uploadFile)
       {
         $archive = rex_path::cache('install/'. md5($addonkey . time()) .'.zip');
-        rex_install_helper::copyDirToArchive(rex_path::addon($addonkey), $archive);
+        $replaceAssets = isset($upload['replace_assets']) && $upload['replace_assets'];
+        $exclude = $replaceAssets ? array('assets') : null;
+        rex_install_helper::copyDirToArchive(rex_path::addon($addonkey), $archive, null, $exclude);
+        if($replaceAssets)
+          rex_install_helper::copyDirToArchive(rex_path::addonAssets($addonkey), $archive, $addonkey .'/assets');
         $file['checksum'] = md5_file($archive);
       }
       rex_install_webservice::post(rex_install_packages::getPath('?package='.$addonkey.'&file_id='.rex_request('file', 'int', 0)), array('file' => $file), $archive);
