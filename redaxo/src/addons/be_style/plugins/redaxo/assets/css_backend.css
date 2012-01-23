@@ -952,25 +952,69 @@ a {
 .rex-form select {
   width: 100%;
 }
+.rex-form .rex-form-notice {
+}
 
 .rex-form-data {
   overflow: hidden;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #fff;
+}
+.rex-form-data:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 .rex-form-data label {
   display: block;
   float: left;
-  width: 180px;
-  margin-right: 5px;
+  width: 156px;
+  padding: 0 12px;
+}
+.rex-form-data.rex-form-reverse label {
+  float: none;
+  width: auto;
+  padding: 0;
 }
 .rex-form-data input[type="text"], 
-.rex-form-data select {
+.rex-form-data input[type="password"],
+.rex-form-data select,
+.rex-form-data textarea {
   float: left;
-  width: 300px;
+  width: 400px;
 }
 .rex-form-data input[type="submit"] {
   margin-left: 180px;
 }
+.rex-column:not(.rex-first) .rex-form-data input[type="submit"] {
+  margin-left: 0;
+}
+.rex-form-data.rex-form-reverse input[type="checkbox"] {
+  float: left;
+  margin: 0 12px 0 154px;
+}
+.rex-form-data .rex-form-read {
+  clear: both;
+  display: block;
+  padding: 0 12px;
+}
+.rex-form-data .rex-form-notice {
+  clear: both;
+  display: block;
+  padding: 6px 0 0 180px;
+  font-size: 93%;
+  font-style: italic;
+}
+
+fieldset.rex-form-action {
+  background: #3C4F58;
+}
+fieldset.rex-form-action .rex-form-data {
+  margin-bottom: 0;
+  padding: 6px 0;
+}
+
+
 
 
 /* Slice */

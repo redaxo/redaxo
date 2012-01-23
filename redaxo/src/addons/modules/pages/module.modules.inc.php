@@ -207,7 +207,7 @@ if ($function == 'add' or $function == 'edit')
 			<div class="rex-form" id="rex-form-module">
       	<form action="index.php" method="post">
         <fieldset>
-          <legend>'. $legend .'</legend>
+          <h2>'. $legend .'</h2>
 						<input type="hidden" name="page" value="modules" />
 						<input type="hidden" name="function" value="'.$function.'" />
 						<input type="hidden" name="save" value="1" />
@@ -240,7 +240,7 @@ if ($function == 'add' or $function == 'edit')
     echo '
         </fieldset>
 
-				<fieldset>';
+				<fieldset class="rex-form-action">';
 				
         
           $formElements = array();

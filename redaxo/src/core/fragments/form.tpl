@@ -34,18 +34,20 @@ foreach($this->elements as $element)
   $before = isset($element['before']) ? $element['before'] : '';
   $after  = isset($element['after']) ? $element['after'] : '';
   
-  $out .= '<div class="rex-form-data"'.$id.'>';
   
   if (isset($element['reverse']) && $element['reverse'])
   {
+    $out .= '<div class="rex-form-data rex-form-reverse"'.$id.'>';
     $out .= $before.$field.$label.$after;
+    $out .= '</div>';
   }
   else
   {
+    $out .= '<div class="rex-form-data"'.$id.'>';
     $out .= $before.$label.$field.$after;  
+    $out .= '</div>';
   }
   
-  $out .= '</div>';
   
   
   if ($columns_flag)

@@ -231,7 +231,7 @@ if ($function == "add" || $function == "edit")
       <div class="rex-form" id="rex-form-action">
         <form action="index.php" method="post">
           <fieldset>
-            <legend>' . $legend . ' </legend>
+            <h2>' . $legend . ' </h2>
             
 	          	<input type="hidden" name="page" value="modules" />
   	        	<input type="hidden" name="subpage" value="actions" />
@@ -255,7 +255,7 @@ if ($function == "add" || $function == "edit")
           </fieldset>
 
           <fieldset>
-            <legend>Preview-Action ['. rex_i18n::msg('action_mode_preview') .']</legend>';
+            <h2>Preview-Action ['. rex_i18n::msg('action_mode_preview') .']</h2>';
            
         
           $formElements = array();
@@ -287,7 +287,7 @@ if ($function == "add" || $function == "edit")
 	        </fieldset>
 
           <fieldset>
-            <legend>Presave-Action ['. rex_i18n::msg('action_mode_presave') .']</legend>';
+            <h2>Presave-Action ['. rex_i18n::msg('action_mode_presave') .']</h2>';
            
         
           $formElements = array();
@@ -320,7 +320,7 @@ if ($function == "add" || $function == "edit")
 
 
           <fieldset>
-            <legend>Postsave-Action ['. rex_i18n::msg('action_mode_postsave') .']</legend>';
+            <h2>Postsave-Action ['. rex_i18n::msg('action_mode_postsave') .']</h2>';
            
         
           $formElements = array();
@@ -351,7 +351,7 @@ if ($function == "add" || $function == "edit")
     echo '
 			    </fieldset>
 
-          <fieldset>';
+          <fieldset class="rex-form-action">';
 				
         
           $formElements = array();

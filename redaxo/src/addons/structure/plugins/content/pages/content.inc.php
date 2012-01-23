@@ -650,6 +650,9 @@ if ($article->getRows() == 1)
         'article' => $article
       ));
                 
+      $content .= '
+             </fieldset>
+             <fieldset class="rex-form-action">';
                 $formElements = array();
                 
                 $n = array();
@@ -673,7 +676,7 @@ if ($article->getRows() == 1)
                   </form>
                 </div>';
 
-	  echo rex_view::contentBlock($content);
+	  echo rex_view::contentBlock($content, '', 'block');
 
     // ------------------------------------------ START: META FUNCS
     }elseif ($mode == 'metafuncs')
@@ -700,7 +703,7 @@ if ($article->getRows() == 1)
       {
         $out .= '
             <fieldset>
-              <legend class="rex-h2">' . rex_i18n::msg('content_startarticle') . '</legend>';
+              <h2>' . rex_i18n::msg('content_startarticle') . '</h2>';
     
                 $formElements = array();
                 
@@ -729,7 +732,7 @@ if ($article->getRows() == 1)
       {
         $out .= '
             <fieldset>
-              <legend class="rex-h2">' . rex_i18n::msg('content_category') . '</legend>';
+              <h2>' . rex_i18n::msg('content_category') . '</h2>';
               
     
                 $formElements = array();
@@ -756,7 +759,7 @@ if ($article->getRows() == 1)
 
         $out .= '
             <fieldset>
-              <legend class="rex-h2">' . rex_i18n::msg('content_article') . '</legend>';
+              <h2>' . rex_i18n::msg('content_article') . '</h2>';
               
     
                 $formElements = array();
@@ -807,7 +810,7 @@ if ($article->getRows() == 1)
 
         $out .= '
               <fieldset>
-                <legend class="rex-h2">' . rex_i18n::msg('content_submitcopycontent') . '</legend>';
+                <h2>' . rex_i18n::msg('content_submitcopycontent') . '</h2>';
    
                 $formElements = array();
                 
@@ -856,7 +859,7 @@ if ($article->getRows() == 1)
 
         $out .= '
               <fieldset>
-                <legend class="rex-h2">' . rex_i18n::msg('content_submitmovearticle') . '</legend>';
+                <h2>' . rex_i18n::msg('content_submitmovearticle') . '</h2>';
 
    
                 $formElements = array();
@@ -890,7 +893,7 @@ if ($article->getRows() == 1)
 
         $out .= '
               <fieldset>
-                <legend class="rex-h2">' . rex_i18n::msg('content_submitcopyarticle') . '</legend>';
+                <h2>' . rex_i18n::msg('content_submitcopyarticle') . '</h2>';
 
    
                 $formElements = array();
@@ -924,7 +927,7 @@ if ($article->getRows() == 1)
 
         $out .= '
               <fieldset>
-                <legend class="rex-h2">' . rex_i18n::msg('content_submitmovecategory') . '</legend>';
+                <h2>' . rex_i18n::msg('content_submitmovecategory') . '</h2>';
 
    
                 $formElements = array();
@@ -952,7 +955,7 @@ if ($article->getRows() == 1)
                   </form>
                 </div>';
 
-	  echo rex_view::contentBlock($content);
+	  echo rex_view::contentBlock($content, '', 'block');
 
     }
 

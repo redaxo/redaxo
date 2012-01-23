@@ -299,11 +299,15 @@ if ($function == "add" or $function == "edit")
     if ($warning != '')
       echo rex_view::warning($warning);
 
-    echo '
+
+
+    $content = '';
+
+    $content .= '
       <div class="rex-form" id="rex-form-template">
         <form action="index.php" method="post">
           <fieldset>
-            <legend>' . $legend . '</legend>
+            <h2>' . $legend . '</h2>
             
               <input type="hidden" name="page" value="'. $page .'" />
               <input type="hidden" name="function" value="' . $function . '" />
@@ -330,15 +334,15 @@ if ($function == "add" or $function == "edit")
         
       $fragment = new rex_fragment();
       $fragment->setVar('elements', $formElements, false);
-      echo $fragment->parse('form');
+      $content .= $fragment->parse('form');
         
-    echo '
+    $content .= '
         </fieldset>
 
         <!-- DIV nötig fuer JQuery slideIn -->
         <div id="rex-form-template-ctype">
         <fieldset>
-          <legend>'.rex_i18n::msg("content_types").' [ctypes]</legend>
+          <h2>'.rex_i18n::msg("content_types").' [ctypes]</h2>
             ' . $ctypes_out . '
         </fieldset>
         </div>
@@ -346,7 +350,7 @@ if ($function == "add" or $function == "edit")
 
          <div id="rex-form-template-categories">
         	<fieldset>
-   			    <legend>'.rex_i18n::msg("template_categories").'</legend>';
+   			    <h2>'.rex_i18n::msg("template_categories").'</h2>';
               
               
             $formElements = array();
@@ -372,13 +376,13 @@ if ($function == "add" or $function == "edit")
         
             $fragment = new rex_fragment();
             $fragment->setVar('elements', $formElements, false);
-            echo $fragment->parse('form');
+            $content .= $fragment->parse('form');
         
-    echo '
+    $content .= '
         	</fieldset>
 				</div>
 
-        <fieldset>';
+        <fieldset class="rex-form-action">';
         
           $formElements = array();
           
@@ -393,9 +397,9 @@ if ($function == "add" or $function == "edit")
           $fragment = new rex_fragment();
           $fragment->setVar('columns', 2, false);
           $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form');
+          $content .= $fragment->parse('form');
         
-    echo '
+    $content .= '
         </fieldset>
 
         </form>
@@ -428,6 +432,8 @@ if ($function == "add" or $function == "edit")
       });
 
       //--></script>';
+      
+	  echo rex_view::contentBlock($content, '', 'block');
 
     $OUT = false;
   }
