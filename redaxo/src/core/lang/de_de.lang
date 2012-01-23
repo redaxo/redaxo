@@ -88,6 +88,9 @@ syslog = Systemlog
 syslog_delete = Systemlog löschen
 syslog_deleted = Systemlog gelöscht
 syslog_delete_error = Fehler beim löschen des Systemlogs!
+server = Server
+servername = Servername
+error_email = Error E-Mail
 
 # redaxo\include\pages\medienpool.inc.php\setup.inc.php
 setup = Setup

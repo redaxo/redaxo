@@ -301,9 +301,9 @@ if ($function == "add" or $function == "edit")
 
 
 
-    $content = '';
+    $content_1 = '';
 
-    $content .= '
+    $content_1 .= '
       <div class="rex-form" id="rex-form-template">
         <form action="index.php" method="post">
           <fieldset>
@@ -334,9 +334,9 @@ if ($function == "add" or $function == "edit")
         
       $fragment = new rex_fragment();
       $fragment->setVar('elements', $formElements, false);
-      $content .= $fragment->parse('form');
+      $content_1 .= $fragment->parse('form');
         
-    $content .= '
+    $content_1 .= '
         </fieldset>
 
         <!-- DIV nötig fuer JQuery slideIn -->
@@ -376,9 +376,9 @@ if ($function == "add" or $function == "edit")
         
             $fragment = new rex_fragment();
             $fragment->setVar('elements', $formElements, false);
-            $content .= $fragment->parse('form');
+            $content_1 .= $fragment->parse('form');
         
-    $content .= '
+    $content_1 .= '
         	</fieldset>
 				</div>
 
@@ -397,9 +397,9 @@ if ($function == "add" or $function == "edit")
           $fragment = new rex_fragment();
           $fragment->setVar('columns', 2, false);
           $fragment->setVar('elements', $formElements, false);
-          $content .= $fragment->parse('form');
+          $content_1 .= $fragment->parse('form');
         
-    $content .= '
+    $content_1 .= '
         </fieldset>
 
         </form>
@@ -433,7 +433,7 @@ if ($function == "add" or $function == "edit")
 
       //--></script>';
       
-	  echo rex_view::contentBlock($content, '', 'block');
+	  echo rex_view::contentBlock($content_1, '', 'block');
 
     $OUT = false;
   }

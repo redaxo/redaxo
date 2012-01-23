@@ -311,7 +311,7 @@ if ($function == 'add' or $function == 'edit')
         if($actions !='')
         {
           $actions = '
-  					<table id="rex-module-action" class="rex-table" summary="'.rex_i18n::msg('actions_added_summary').'">
+  					<table id="rex-table-module-action" class="rex-table" summary="'.rex_i18n::msg('actions_added_summary').'">
   						<caption>'.rex_i18n::msg('actions_added_caption').'</caption>
     					<thead>
       					<tr>
@@ -342,7 +342,7 @@ if ($function == 'add' or $function == 'edit')
         echo
         $actions .'
 				<fieldset>
-          <legend>'.rex_i18n::msg('action_add').'</legend>';
+          <h2>'.rex_i18n::msg('action_add').'</h2>';
       		
         
           $formElements = array();
@@ -351,6 +351,15 @@ if ($function == 'add' or $function == 'edit')
             $n['label'] = '<label for="action_id">'.rex_i18n::msg('action').'</label>';
             $n['field'] = $gaa_sel->get();
             $formElements[] = $n;
+            
+          $fragment = new rex_fragment();
+          $fragment->setVar('elements', $formElements, false);
+          echo $fragment->parse('form');
+        
+        echo '</fieldset><fieldset class="rex-form-action">';
+      		
+        
+          $formElements = array();
             
             $n = array();
             $n['field'] = '<input type="submit" value="'.rex_i18n::msg('action_add').'" name="add_action" />';

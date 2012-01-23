@@ -1325,9 +1325,8 @@ class rex_form extends rex_factory
     $s .= '  <form action="index.php" method="'. $this->method .'">'. "\n";
     foreach($fieldsets as $fieldsetName => $fieldsetElements)
     {
-      $s .= '    <fieldset class="rex-form-col-1">'. "\n";
-      $s .= '      <legend>'. htmlspecialchars($fieldsetName) .'</legend>'. "\n";
-      $s .= '      <div class="rex-form-wrapper">'. "\n";
+      $s .= '    <fieldset">'. "\n";
+      $s .= '      <h2>'. htmlspecialchars($fieldsetName) .'</h2>'. "\n";
 
       // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfügen
       if($i == 0 && $addHeaders)
@@ -1360,7 +1359,6 @@ class rex_form extends rex_factory
         }
       }
 
-      $s .= '      </div>'. "\n";
       $s .= '    </fieldset>'. "\n";
 
       $i++;

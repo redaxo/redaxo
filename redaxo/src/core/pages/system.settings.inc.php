@@ -127,39 +127,35 @@ $content_1 = '<h2>'.rex_i18n::msg("system_features").'</h2>
 
 $content_2 = '
 				<h2>'.rex_i18n::msg("system_settings").'</h2>
-						<fieldset class="rex-form-col-1">
-							<h3>'. rex_i18n::msg("general_info_header").'</h3>
+						<fieldset>
+							<h3>'. rex_i18n::msg("general_info_header").'</h3>';
+        
+          $formElements = array();
+            
+            $n = array();
+            $n['label'] = '<label for="rex-form-server">'. rex_i18n::msg('server').'</label>';
+            $n['field'] = '<input type="text" id="rex-form-server" name="settings[server]" value="'. htmlspecialchars(rex::getProperty('server')).'" />';
+            $formElements[] = $n;
+            
+            $n = array();
+            $n['label'] = '<label for="rex-form-servername">'. rex_i18n::msg('servername').'</label>';
+            $n['field'] = '<input type="text" id="rex-form-servername" name="settings[servername]" value="'. htmlspecialchars(rex::getProperty('servername')).'" />';
+            $formElements[] = $n;
+            
+            $n = array();
+            $n['label'] = '<label for="rex_src_path">'. rex_i18n::msg('path').'</label>';
+            $n['field'] = '<span class="rex-form-read" id="rex_src_path" title="'. rex_path::src() .'">&quot;'.$version.'&quot;</span>';
+            $formElements[] = $n;
+            
+            $n = array();
+            $n['label'] = '<label for="rex-form-error-email">'. rex_i18n::msg('error_email').'</label>';
+            $n['field'] = '<input type="text" id="rex-form-error-email" name="settings[error_email]" value="'. htmlspecialchars(rex::getProperty('error_email')).'" />';
+            $formElements[] = $n;
+            
+          $fragment = new rex_fragment();
+          $fragment->setVar('elements', $formElements, false);
+          $content_2 .= $fragment->parse('form');
 
-							<div class="rex-form-wrapper">
-
-								<div class="rex-form-row">
-									<p class="rex-form-col-a rex-form-text">
-										<label for="rex-form-server">Server</label>
-										<input class="rex-form-text" type="text" id="rex-form-server" name="settings[server]" value="'. htmlspecialchars(rex::getProperty('server')).'" />
-									</p>
-								</div>
-
-								<div class="rex-form-row">
-									<p class="rex-form-col-a rex-form-text">
-										<label for="rex-form-servername">Servername</label>
-										<input class="rex-form-text" type="text" id="rex-form-servername" name="settings[servername]" value="'. htmlspecialchars(rex::getProperty('servername')).'" />
-									</p>
-								</div>
-							</div>
-
-							<div class="rex-form-row">
-								<p class="rex-form-col-a rex-form-read">
-									<label for="rex_src_path">Path</label>
-									<span class="rex-form-read" id="rex_src_path" title="'. rex_path::src() .'">&quot;'.$version.'&quot;</span>
-								</p>
-							</div>
-
-							<div class="rex-form-row">
-								<p class="rex-form-col-a rex-form-text">
-									<label for="rex-form-error-email">Error email</label>
-									<input class="rex-form-text" type="text" id="rex-form-error-email" name="settings[error_email]" value="'. htmlspecialchars(rex::getProperty('error_email')).'" />
-								</p>
-							</div>';
 
 foreach(rex_system_setting::getAll() as $setting)
 {
@@ -172,14 +168,17 @@ foreach(rex_system_setting::getAll() as $setting)
   $field->setValue(rex::getProperty($setting->getKey()));
   $content_2 .= $field->get();
 }
+          $formElements = array();
+            
+            $n = array();
+            $n['field'] = '<input type="submit" name="sendit" value="'. rex_i18n::msg("system_update").'" '. rex::getAccesskey(rex_i18n::msg('system_update'), 'save').' />';
+            $formElements[] = $n;
+            
+          $fragment = new rex_fragment();
+          $fragment->setVar('elements', $formElements, false);
+          $content_2 .= $fragment->parse('form');
 
 $content_2 .= '
-							<div class="rex-form-row">
-								<p class="rex-form-col-a rex-form-submit">
-									<input type="submit" class="rex-form-submit" name="sendit" value="'. rex_i18n::msg("system_update").'" '. rex::getAccesskey(rex_i18n::msg('system_update'), 'save').' />
-								</p>
-							</div>
-
 						</fieldset>';
 
 $content_2 = '
