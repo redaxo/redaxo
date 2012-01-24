@@ -412,7 +412,7 @@ a {
 .rex-navi-footer ul li {
   display: block;
   float: left;
-  padding: 10px 20px;
+  padding: 10px 28px;
   border-left: 1px solid #3c4f53;
 }
 .rex-navi-footer ul li:first-child {
@@ -432,6 +432,13 @@ a {
 }
 .rex-navi-footer ul li a:hover span:first-child {
   color: #24aac7;
+}
+.rex-navi-footer ul li a.logo {
+  display: block;
+  width: 70px;
+  height: 29px;
+  background-image: url(yakamara.png);
+  text-indent: -1000em;
 }
 
 
@@ -780,6 +787,19 @@ a {
 }
 
 
+/* Widget Navigation */
+.rex-navi-widget {
+  margin-left: 0;
+}
+.rex-navi-widget li {
+  display: block;
+  float: left;
+  margin-left: 2px;
+}
+.rex-navi-widget li:first-child {
+  margin-left: 0;
+}
+
 /********************************************************** Tables *************
 *******************************************************************************/
 .rex-table {
@@ -1062,6 +1082,42 @@ fieldset.rex-form-action .rex-form-data {
 }
 
 
+/********************************************************** Widgets ************
+*******************************************************************************/
+.rex-widget {
+  display: inline-block;
+  overflow: hidden;
+  padding: 6px;
+  background-color: #f2f5f6;
+  border: 1px solid #d0d8dc;
+}
+.rex-widget input[type="text"], 
+.rex-widget select {
+  float: left;
+  width: 200px;
+}
+.rex-widget .rex-navi-widget {
+  float: left;
+  margin-left: 10px;
+}
+.rex-widget-medialist .rex-navi-widget li, 
+.rex-widget-linklist .rex-navi-widget li {
+  float: none;
+  margin: 0 0 2px 0;
+}
+
+.rex-grid2col .rex-widget input[type="text"], 
+.rex-grid2col .rex-widget select {
+  width: 130px;
+}
+.rex-slice-add .rex-widget, 
+.rex-slice-edit .rex-widget {
+  background-color: #e6efc5;
+  border-color: #afbf25;
+}
+
+
+
 /********************************************************** Design *************
 *******************************************************************************/
 body {
@@ -1177,11 +1233,22 @@ a.rex-button {
   font-size: 93%;
 }
 .rex-ic-action, 
-.rex-ic-addon,  
+.rex-ic-addon, 
 .rex-ic-article-startpage, 
+.rex-ic-bottom, 
+.rex-ic-down, 
 .rex-ic-generic, 
+.rex-ic-link-delete, 
+.rex-ic-linkmap-open, 
+.rex-ic-media-add, 
+.rex-ic-media-delete, 
+.rex-ic-media-open, 
+.rex-ic-media-view, 
+.rex-ic-mediapool-open, 
 .rex-ic-module, 
-.rex-ic-template {
+.rex-ic-template, 
+.rex-ic-top, 
+.rex-ic-up {
   display: block;
   background: url(ic.png) 50% 50% no-repeat;
   text-indent: -1000em;

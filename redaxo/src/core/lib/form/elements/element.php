@@ -246,10 +246,7 @@ class rex_form_element
 
   protected function wrapContent($content)
   {
-    return
-       '<p class="rex-form-col-a '. $this->formatClass() .'">
-         '. $content .'
-        </p>'. "\n";
+    return $content;
   }
 
   protected function _get()
@@ -269,10 +266,13 @@ class rex_form_element
 
   public function get()
   {
+    $class = $this->formatClass();
+    $class = $class == '' ? '' : ' '.$class;
+    
     $s = '';
     $s .= $this->getHeader();
 
-    $s .= '<div class="rex-form-row">
+    $s .= '<div class="rex-form-data'.$class.'">
              '. $this->wrapContent($this->_get()) .'
            </div>'. "\n";
 
