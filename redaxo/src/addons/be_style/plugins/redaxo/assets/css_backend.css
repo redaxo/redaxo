@@ -227,6 +227,7 @@ a {
 **********************       START BACKEND DESIGN       ************************
 ********************************************************************************
 *******************************************************************************/
+
 a {
   text-decoration: none;
 }
@@ -250,6 +251,10 @@ a {
 
 /********************************************************** Grid ***************
 *******************************************************************************/
+body {
+  background: #384f5a url(bg.png);
+  font-family: "Lucida Grande";
+}
 #rex-page {
   min-width: 1000px;
   
@@ -318,7 +323,7 @@ a {
   clear: both;
   float: right;
   width: 770px;
-  margin-left: 230px;
+  margin: 0 0 50px 0;
   padding: 6px 0 8px 0;
   overflow: hidden;
   background-color: #25353b;
@@ -1025,6 +1030,10 @@ a {
   display: block;
   padding: 0 12px;
 }
+.rex-form-data label + .rex-form-read {
+  clear: none;
+  padding: 0;
+}
 .rex-form-data .rex-form-notice {
   clear: both;
   display: block;
@@ -1048,7 +1057,7 @@ fieldset.rex-form-action .rex-form-data {
 }
 /* grid2col */
 .rex-grid2col .rex-form-data label {
-  width: 100px;
+  width: 116px;
 }
 .rex-grid2col .rex-form-data input[type="text"], 
 .rex-grid2col .rex-form-data input[type="password"],
@@ -1057,15 +1066,18 @@ fieldset.rex-form-action .rex-form-data {
   width: 200px;
 }
 
+/* Profile */
+#rex-form-profile input[type="submit"], 
+#rex-form-profile-password input[type="submit"] {
+  margin-left: 140px;
+}
+
 /* System - Setting */
 #rex-form-system-setup .rex-form-data {
   border-bottom: 0;
 }
 #rex-form-system-setup label {
   padding-left: 0;
-}
-#rex-form-system-setup .rex-form-read {
-  clear: none;
 }
 
 /* Slice */
@@ -1120,10 +1132,6 @@ fieldset.rex-form-action .rex-form-data {
 
 /********************************************************** Design *************
 *******************************************************************************/
-body {
-  background: #384f5a url(bg.png);
-  font-family: "Lucida Grande";
-}
 
 
 
@@ -1150,7 +1158,10 @@ body {
   clear: both;
   border: 1px solid;
   color: #fff;
-  padding: 12px 12px 0 12px;
+  padding: 6px 12px 0 12px;
+}
+.rex-message p {
+  margin-bottom: 6px;
 }
 .rex-info {
   background-color: #4ea5cd;
@@ -1221,7 +1232,6 @@ legend {
 
 p {
   margin-bottom: 1em;
-  line-height: 135%;
 }
 
 /********************************************************** Icons / Links *****/
