@@ -250,7 +250,7 @@ function rex_version_compare($version1, $version2, $comparator = null)
  */
 function rex_str_size($str)
 {
-  return function_exists('mb_strlen') ? mb_strlen($str, 'ASCII') : strlen($str);
+  return function_exists('mb_strlen') ? mb_strlen($str, '8bit') : strlen($str);
 }
 
 // ------------------------------------- Allgemeine PHP Functions
