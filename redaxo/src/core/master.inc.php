@@ -6,6 +6,8 @@
  * @version svn:$Id$
  */
 
+mb_internal_encoding('UTF-8');
+
 require_once dirname(__FILE__) .'/lib/path.php';
 rex_path::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER']);
 
