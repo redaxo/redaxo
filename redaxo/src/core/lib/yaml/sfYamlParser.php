@@ -6,8 +6,6 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- * 
- * see http://www.symfony-project.org/reference/1_4/en/02-YAML for a spec
  */
 
 require_once(dirname(__FILE__).'/sfYamlInline.php');
@@ -80,7 +78,7 @@ class sfYamlParser
       }
 
       $isRef = $isInPlace = $isProcessed = false;
-      if (preg_match('#^\-((?P<leadspaces>\s+)(?P<value>.+?))?\s*$#u', $this->currentLine, $values))
+      if (preg_match('#^\-(\s+(?P<value>.+?))?\s*$#u', $this->currentLine, $values))
       {
         if (isset($values['value']) && preg_match('#^&(?P<ref>[^ ]+) *(?P<value>.*)#u', $values['value'], $matches))
         {
@@ -98,22 +96,9 @@ class sfYamlParser
         }
         else
         {
-          if (isset($values['leadspaces'])
-            && ' ' == $values['leadspaces']
-            && preg_match('#^(?P<key>'.sfYamlInline::REGEX_QUOTED_STRING.'|[^ \'"\{\[].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $values['value'], $matches))
+          if (preg_match('/^([^ ]+)\: +({.*?)$/u', $values['value'], $matches))
           {
-            // this is a compact notation element, add to next block and parse
-            $c = $this->getRealCurrentLineNb();
-            $parser = new sfYamlParser($c);
-            $parser->refs =& $this->refs;
-
-            $block = $values['value'];
-            if (!$this->isNextLineIndented())
-            {
-              $block .= "\n".$this->getNextEmbedBlock($this->getCurrentLineIndentation() + 2);
-            }
-
-            $data[] = $parser->parse($block);
+            $data[] = array($matches[1] => sfYamlInline::load($matches[2]));
           }
           else
           {
@@ -121,7 +106,7 @@ class sfYamlParser
           }
         }
       }
-      else if (preg_match('#^(?P<key>'.sfYamlInline::REGEX_QUOTED_STRING.'|[^ \'"\[\{].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $this->currentLine, $values))
+      else if (preg_match('#^(?P<key>'.sfYamlInline::REGEX_QUOTED_STRING.'|[^ \{\[].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $this->currentLine, $values))
       {
         $key = sfYamlInline::parseScalar($values['key']);
 
@@ -170,7 +155,7 @@ class sfYamlParser
             else
             {
               // Associative array, merge
-              $merged = array_merge($merge, $parsed);
+              $merged = array_merge($merged, $parsed);
             }
 
             $isProcessed = $merged;
@@ -304,26 +289,17 @@ class sfYamlParser
   /**
    * Returns the next embed block of YAML.
    *
-   * @param integer $indentation The indent level at which the block is to be read, or null for default
-   *
    * @return string A YAML string
    */
-  protected function getNextEmbedBlock($indentation = null)
+  protected function getNextEmbedBlock()
   {
     $this->moveToNextLine();
 
-    if (null === $indentation)
-    {
-      $newIndent = $this->getCurrentLineIndentation();
+    $newIndent = $this->getCurrentLineIndentation();
 
-      if (!$this->isCurrentLineEmpty() && 0 == $newIndent)
-      {
-        throw new InvalidArgumentException(sprintf('Indentation problem at line %d (%s)', $this->getRealCurrentLineNb() + 1, $this->currentLine));
-      }
-    }
-    else
+    if (!$this->isCurrentLineEmpty() && 0 == $newIndent)
     {
-      $newIndent = $indentation;
+      throw new InvalidArgumentException(sprintf('Indentation problem at line %d (%s)', $this->getRealCurrentLineNb() + 1, $this->currentLine));
     }
 
     $data = array(substr($this->currentLine, $newIndent));

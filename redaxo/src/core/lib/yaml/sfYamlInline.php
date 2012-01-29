@@ -6,8 +6,6 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- * 
- * see http://www.symfony-project.org/reference/1_4/en/02-YAML for a spec
  */
 
 require_once dirname(__FILE__).'/sfYaml.php';
