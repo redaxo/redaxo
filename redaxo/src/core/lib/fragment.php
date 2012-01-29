@@ -70,7 +70,7 @@ class rex_fragment
 
     foreach(self::$fragmentDirs as $fragDir)
     {
-      $fragment = $fragDir . $filename . '.tpl';
+      $fragment = $fragDir . $filename;
       if(is_readable($fragment))
       {
         ob_start();
@@ -91,7 +91,7 @@ class rex_fragment
       }
     }
 
-    throw new rex_exception(sprintf('Fragmentfile "%s.tpl" not found!', $filename));
+    throw new rex_exception(sprintf('Fragmentfile "%s" not found!', $filename));
   }
 
   /**

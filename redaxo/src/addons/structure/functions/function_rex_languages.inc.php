@@ -37,7 +37,7 @@ if ($num_clang>1)
   $langfragment = new rex_fragment();
   $langfragment->setVar('type','switch');
   $langfragment->setVar('blocks', array( array('headline' => array("title" => rex_i18n::msg('languages')), 'navigation' => $languages)), false);
-  echo $langfragment->parse('navigation');
+  echo $langfragment->parse('navigation.tpl');
   
   unset($langfragment);
 

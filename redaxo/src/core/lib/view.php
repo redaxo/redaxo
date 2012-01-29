@@ -43,7 +43,7 @@ class rex_view
     $fragment = new rex_fragment();
     $fragment->setVar('class', $cssClass);
     $fragment->setVar('message', $content, false);
-    $return = $fragment->parse('message');
+    $return = $fragment->parse('message.tpl');
     */
     return $return;
   }
@@ -79,7 +79,7 @@ class rex_view
     $fragment = new rex_fragment();
     $fragment->setVar('class', $cssClass);
     $fragment->setVar('content', $content, false);
-    $return = $fragment->parse('toolbar');
+    $return = $fragment->parse('toolbar.tpl');
 
     return $return;
   }
@@ -188,7 +188,7 @@ class rex_view
       $fragment = new rex_fragment();
 	  $fragment->setVar('type', 'tab', false);
 	  $fragment->setVar('blocks', $blocks, false);
-	  $subtitle = $fragment->parse('navigation');
+	  $subtitle = $fragment->parse('navigation.tpl');
       
     }else
     {

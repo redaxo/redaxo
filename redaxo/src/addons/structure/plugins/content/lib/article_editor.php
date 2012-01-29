@@ -234,7 +234,7 @@ class rex_article_editor extends rex_article
     $fragment = new rex_fragment();
     $fragment->setVar('type','slice');
     $fragment->setVar('blocks', $blocks, false);
-    return $fragment->parse('navigation');
+    return $fragment->parse('navigation.tpl');
 
   }
 
@@ -407,7 +407,7 @@ class rex_article_editor extends rex_article
       $fragment = new rex_fragment();
       $fragment->setVar('type','slice');
       $fragment->setVar('blocks', $blocks, false);
-      $slice_header = $fragment->parse('navigation');
+      $slice_header = $fragment->parse('navigation.tpl');
       
     
       $listElements = array();
@@ -426,7 +426,7 @@ class rex_article_editor extends rex_article
       $fragment = new rex_fragment();
       $fragment->setVar('type','action');
       $fragment->setVar('blocks', $blocks, false);
-      $slice_footer = $fragment->parse('navigation');
+      $slice_footer = $fragment->parse('navigation.tpl');
       
       
       
@@ -505,7 +505,7 @@ class rex_article_editor extends rex_article
     $fragment = new rex_fragment();
     $fragment->setVar('type','action');
     $fragment->setVar('blocks', $blocks, false);
-    $slice_footer = $fragment->parse('navigation');
+    $slice_footer = $fragment->parse('navigation.tpl');
     
     $slice_content = '
       <div class="rex-form">

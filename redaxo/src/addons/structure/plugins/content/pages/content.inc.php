@@ -89,7 +89,7 @@ if ($article->getRows() == 1)
 		$fragment = new rex_fragment();
 		$fragment->setVar('type','path');
 		$fragment->setVar('blocks', $blocks, false);
-		$KATout .= $fragment->parse('navigation');
+		$KATout .= $fragment->parse('navigation.tpl');
 		unset($fragment);
 
   }
@@ -565,7 +565,7 @@ if ($article->getRows() == 1)
 	$fragment = new rex_fragment();
 	$fragment->setVar('type','tab');
 	$fragment->setVar('blocks', $blocks, false);
-	echo $fragment->parse('navigation');
+	echo $fragment->parse('navigation.tpl');
 
 
     // ------------------------------------------ END: CONTENT HEAD MENUE
@@ -640,7 +640,7 @@ if ($article->getRows() == 1)
                 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('form');
+                $content .= $fragment->parse('form.tpl');
 
 
       // ----- EXTENSION POINT
@@ -661,7 +661,7 @@ if ($article->getRows() == 1)
                 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('form');
+                $content .= $fragment->parse('form.tpl');
 
       $content .= '
              </fieldset>';
@@ -718,7 +718,7 @@ if ($article->getRows() == 1)
                 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form');
+                $out .= $fragment->parse('form.tpl');
                 
 
 
@@ -743,7 +743,7 @@ if ($article->getRows() == 1)
                 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form');
+                $out .= $fragment->parse('form.tpl');
 
                 
         $out .= '</fieldset>';
@@ -773,7 +773,7 @@ if ($article->getRows() == 1)
                 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form');
+                $out .= $fragment->parse('form.tpl');
 
         $out .= '</fieldset>';
       }
@@ -827,7 +827,7 @@ if ($article->getRows() == 1)
                 $fragment = new rex_fragment();
                 $fragment->setVar('columns', 2, false);
                 $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form');
+                $out .= $fragment->parse('form.tpl');
    
    
                 $formElements = array();
@@ -838,7 +838,7 @@ if ($article->getRows() == 1)
                 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form');
+                $out .= $fragment->parse('form.tpl');
                 
                 
         $out .= '</fieldset>';
@@ -875,7 +875,7 @@ if ($article->getRows() == 1)
                 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form');
+                $out .= $fragment->parse('form.tpl');
          
         $out .= '</fieldset>';
 
@@ -909,7 +909,7 @@ if ($article->getRows() == 1)
                 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form');
+                $out .= $fragment->parse('form.tpl');
                 
         $out .= '</fieldset>';
 
@@ -943,7 +943,7 @@ if ($article->getRows() == 1)
                 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form');
+                $out .= $fragment->parse('form.tpl');
             
         $out .= '</fieldset>';
 

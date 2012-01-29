@@ -60,7 +60,7 @@ $content .= '
             
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
-          $content .= $fragment->parse('form');
+          $content .= $fragment->parse('form.tpl');
 
 $content .= '<fieldset><fieldset class="rex-form-action">';      
             
@@ -72,7 +72,7 @@ $content .= '<fieldset><fieldset class="rex-form-action">';
             
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
-          $content .= $fragment->parse('form');
+          $content .= $fragment->parse('form.tpl');
 $content .= '
   </fieldset>
 </form>

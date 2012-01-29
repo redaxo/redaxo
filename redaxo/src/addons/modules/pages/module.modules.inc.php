@@ -234,7 +234,7 @@ if ($function == 'add' or $function == 'edit')
             
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form');
+          echo $fragment->parse('form.tpl');
           
 
     echo '
@@ -261,7 +261,7 @@ if ($function == 'add' or $function == 'edit')
             } 
             
           $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form');
+          echo $fragment->parse('form.tpl');
           
     echo '
         </fieldset>
@@ -354,7 +354,7 @@ if ($function == 'add' or $function == 'edit')
             
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form');
+          echo $fragment->parse('form.tpl');
         
         echo '</fieldset><fieldset class="rex-form-action">';
       		
@@ -367,7 +367,7 @@ if ($function == 'add' or $function == 'edit')
             
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form');
+          echo $fragment->parse('form.tpl');
           
           echo '</fieldset>';
       }

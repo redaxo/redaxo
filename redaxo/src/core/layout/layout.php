@@ -5,7 +5,7 @@
   $params['key'] = 'test';
   $fragment = new rex_fragment();
   $fragment->decorate('layout', $params);
-  echo $fragment->parse('output');
+  echo $fragment->parse('output.tpl');
   unset($fragment);
 
   require rex_path::core('layout/bottom.php');

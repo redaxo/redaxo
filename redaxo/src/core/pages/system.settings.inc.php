@@ -154,7 +154,7 @@ $content_2 = '
             
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
-          $content_2 .= $fragment->parse('form');
+          $content_2 .= $fragment->parse('form.tpl');
 
 
 foreach(rex_system_setting::getAll() as $setting)
@@ -176,7 +176,7 @@ foreach(rex_system_setting::getAll() as $setting)
             
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
-          $content_2 .= $fragment->parse('form');
+          $content_2 .= $fragment->parse('form.tpl');
 
 $content_2 .= '
 						</fieldset>';

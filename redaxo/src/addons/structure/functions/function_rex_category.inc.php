@@ -42,7 +42,7 @@ $blocks[] = array(
 $fragment = new rex_fragment();
 $fragment->setVar('type','path');
 $fragment->setVar('blocks', $blocks, false);
-$path = $fragment->parse('navigation');
+$path = $fragment->parse('navigation.tpl');
 
 unset($fragment);
 unset($navi);
