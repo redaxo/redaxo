@@ -100,7 +100,7 @@ if ($category)
 $navi_path .= '</ul>';
 
 //rex_title(rex::getProperty('servername'), 'Linkmap');
-rex_title('Linkmap', $navi_path);
+rex_view::title('Linkmap', $navi_path);
 
 ?>
 
