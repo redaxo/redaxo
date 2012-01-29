@@ -93,9 +93,6 @@ if ($warning != '')
 if ($info != '')
   echo rex_view::info($info);
 
-if ($error != '')
-  echo rex_view::error($error);
-
 if ($success != '')
   echo rex_view::success($success);
 

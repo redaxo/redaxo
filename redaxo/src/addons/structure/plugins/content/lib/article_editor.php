@@ -61,7 +61,7 @@ class rex_article_editor extends rex_article
           $msg = '';
           if($this->warning != '')
           {
-            $msg .= rex_view::error($this->warning);
+            $msg .= rex_view::warning($this->warning);
           }
           if($this->info != '')
           {
@@ -362,7 +362,7 @@ class rex_article_editor extends rex_article
 
     if ($MOD->getRows() != 1)
     {
-      $slice_content = rex_view::error(rex_i18n::msg('module_doesnt_exist'));
+      $slice_content = rex_view::warning(rex_i18n::msg('module_doesnt_exist'));
     }else
     {
       $initDataSql = rex_sql::factory();
@@ -390,7 +390,7 @@ class rex_article_editor extends rex_article
       $msg = '';
       if($this->warning != '')
       {
-        $msg .= rex_view::error($this->warning);
+        $msg .= rex_view::warning($this->warning);
       }
       if($this->info != '')
       {

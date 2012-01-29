@@ -573,7 +573,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ WARNING
     if($global_warning != '')
     {
-      echo rex_view::error($global_warning);
+      echo rex_view::warning($global_warning);
     }
     if($global_info != '')
     {
@@ -585,7 +585,7 @@ if ($article->getRows() == 1)
 
     if($warning != '')
     {
-      echo rex_view::error($warning);
+      echo rex_view::warning($warning);
     }
     if($info != '')
     {
