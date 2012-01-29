@@ -12,12 +12,12 @@ class rex_response
    * Sendet eine Datei zum Client
    *
    * @param $file string Pfad zur Datei
-   * @param $contentType ContentType der Datei
-   * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
-   * (frontend/backend)
+   * @param $contentType HTTP ContentType der Datei
    */
-  static public function sendFile($file, $contentType, $environment = 'backend')
+  static public function sendFile($file, $contentType)
   {
+    $environment = rex::isBackend() ? 'backend' : 'frontend';
+    
     // Cachen für Dateien aktivieren
     $temp = rex::getProperty('use_last_modified');
     rex::setProperty('use_last_modified', true);
@@ -44,9 +44,13 @@ class rex_response
    *
    * @param $content string Inhalt der Ressource
    * @param $sendcharset boolean TRUE, wenn der Charset mitgeschickt werden soll, sonst FALSE
+   * @param $lastModified integer HTTP Last-Modified Timestamp
+   * @param $etag string Cachekey zur identifizierung des Caches
    */
   static public function sendResource($content, $sendcharset = TRUE, $lastModified = null, $etag = null)
   {
+    $environment = rex::isBackend() ? 'backend' : 'frontend';
+    
     if(!$etag)
     {
       $etag = md5($content);
@@ -56,10 +60,7 @@ class rex_response
       $lastModified = time();
     }
 
-    self::sendContent($content, $lastModified, $etag, rex::isBackend() ? 'backend' : 'frontend', $sendcharset);
-
-  //  self::sendContent($content, $lastModified, $etag, $environment, $sendcharset = FALSE)
-
+    self::sendContent($content, $lastModified, $etag, $environment, $sendcharset);
   }
 
   /**
@@ -67,12 +68,13 @@ class rex_response
    * fügt ggf. HTTP1.1 cache headers hinzu
    *
    * @param $content string Inhalt des Artikels
-   * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
-   * (frontend/backend)
-   * @param $sendcharset boolean TRUE, wenn der Charset mitgeschickt werden soll, sonst FALSE
+   * @param $lastModified integer HTTP Last-Modified Timestamp
    */
-  static public function sendArticle($content, $environment, $sendcharset = FALSE, $lastModified = null, $etagAdd = '')
+  static public function sendArticle($content, $lastModified = null, $etagAdd = '')
   {
+    $environment = rex::isBackend() ? 'backend' : 'frontend';
+    $sendcharset = TRUE;
+    
     // ----- EXTENSION POINT
     $content = rex_extension::registerPoint( 'OUTPUT_FILTER', $content, array('environment' => $environment,'sendcharset' => $sendcharset));
 
@@ -100,8 +102,8 @@ class rex_response
    * fügt ggf. HTTP1.1 cache headers hinzu
    *
    * @param $content string Inhalt des Artikels
-   * @param $lastModified integer Last-Modified Timestamp
-   * @param $cacheKey string Cachekey zur identifizierung des Caches
+   * @param $lastModified integer HTTP Last-Modified Timestamp
+   * @param $etag string HTTP Cachekey zur identifizierung des Caches
    * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
    * (frontend/backend)
    * @param $sendcharset boolean TRUE, wenn der Charset mitgeschickt werden soll, sonst FALSE
@@ -146,7 +148,7 @@ class rex_response
    *
    * XHTML 1.1: HTTP_IF_MODIFIED_SINCE feature
    *
-   * @param $lastModified integer Last-Modified Timestamp
+   * @param $lastModified integer HTTP Last-Modified Timestamp
    */
   static public function sendLastModified($lastModified = null)
   {
@@ -176,7 +178,7 @@ class rex_response
    *
    * XHTML 1.1: HTTP_IF_NONE_MATCH feature
    *
-   * @param $cacheKey string Cachekey zur identifizierung des Caches
+   * @param $cacheKey string HTTP Cachekey zur identifizierung des Caches
    */
   static public function sendEtag($cacheKey)
   {

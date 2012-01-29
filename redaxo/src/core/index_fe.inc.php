@@ -41,5 +41,5 @@ if(rex_extension::isRegistered('FE_OUTPUT'))
 else
 {
   // ----- inhalt ausgeben
-  rex_response::sendArticle($CONTENT, 'frontend');
+  rex_response::sendArticle($CONTENT);
 }

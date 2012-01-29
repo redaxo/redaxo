@@ -54,7 +54,7 @@ else
       }
 
       // ----- inhalt ausgeben
-      rex_response::sendArticle($content, 'frontend', true, $article->getValue('updatedate'), $article->getValue('pid'));
+      rex_response::sendArticle($content, $article->getValue('updatedate'), $article->getValue('pid'));
     }
   );
 }
