@@ -123,7 +123,7 @@ abstract class rex_ooRedaxo
       $vars = array();
 
       $startId = rex::getProperty('start_article_id');
-      $file = rex_path::cache('articles/'.  $startId .'.0.article');
+      $file = rex_path::addonCache('structure',  $startId .'.0.article');
       if(!rex::isBackend() && file_exists($file))
       {
         // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
@@ -207,7 +207,7 @@ abstract class rex_ooRedaxo
       return self::$instanceCache[$subclass][$id][$clang];
     }
 
-    $article_path = rex_path::cache('articles/'.$id.'.'.$clang.'.article');
+    $article_path = rex_path::addonCache('structure', $id.'.'.$clang.'.article');
     // generate cache if not exists
     if (!file_exists($article_path))
     {

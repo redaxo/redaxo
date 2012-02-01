@@ -71,7 +71,7 @@ class rex_ooMedia
    */
   static public function getMediaByExtension($extension)
   {
-    $extlist_path = rex_path::cache('media/'.$extension.'.mextlist');
+    $extlist_path = rex_path::addonCache('mediapool', $extension.'.mextlist');
     if (!file_exists($extlist_path))
 		{
     	rex_media_cache::generateExtensionList($extension);
@@ -101,7 +101,7 @@ class rex_ooMedia
     if ($name == '')
       return null;
 
-    $media_path = rex_path::cache('media/'.$name.'.media');
+    $media_path = rex_path::addonCache('mediapool', $name.'.media');
     if (!file_exists($media_path))
 		{
     	rex_media_cache::generate($name);

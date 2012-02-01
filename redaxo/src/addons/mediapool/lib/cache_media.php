@@ -11,7 +11,7 @@ class rex_media_cache
    */
   static public function delete($filename)
   {
-    rex_file::delete(rex_path::cache('media/'. $filename . '.media'));
+    rex_file::delete(rex_path::addonCache('mediapool', $filename . '.media'));
     self::deleteLists();
   }
 
@@ -24,7 +24,7 @@ class rex_media_cache
    */
   static public function deleteCategory($category_id)
   {
-    rex_file::delete(rex_path::cache('media/'. $category_id . '.mcat'));
+    rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mcat'));
     self::deleteCategoryLists();
   }
 
@@ -35,7 +35,7 @@ class rex_media_cache
    */
   static public function deleteLists()
   {
-    $cachePath = rex_path::cache('media/');
+    $cachePath = rex_path::addonCache('mediapool');
 
     $glob = glob($cachePath . '*.mlist');
     if(is_array($glob))
@@ -65,7 +65,7 @@ class rex_media_cache
    */
   static public function deleteList($category_id)
   {
-    rex_file::delete(rex_path::cache('media/'. $category_id . '.mlist'));
+    rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mlist'));
   }
 
   /**
@@ -75,7 +75,7 @@ class rex_media_cache
    */
   static public function deleteCategoryLists()
   {
-    $cachePath = rex_path::cache('media/');
+    $cachePath = rex_path::addonCache('mediapool');
 
     $glob = glob($cachePath . '*.mclist');
     if(is_array($glob))
@@ -96,7 +96,7 @@ class rex_media_cache
    */
   static public function deleteCategoryList($category_id)
   {
-    rex_file::delete(rex_path::cache('media/'. $category_id . '.mclist'));
+    rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mclist'));
   }
 
   /**
@@ -124,7 +124,7 @@ class rex_media_cache
       $cacheArray[$fieldName] = $sql->getValue($fieldName);
     }
 
-    $media_file = rex_path::cache('media/'. $filename .'.media');
+    $media_file = rex_path::addonCache('mediapool', $filename .'.media');
     if (rex_file::putCache($media_file, $cacheArray))
     {
       return true;
@@ -164,7 +164,7 @@ class rex_media_cache
       $cacheArray[$fieldName] = $sql->getValue($fieldName);
     }
 
-    $cat_file = rex_path::cache('media/'. $category_id .'.mcat');
+    $cat_file = rex_path::addonCache('mediapool', $category_id .'.mcat');
     if (rex_file::putCache($cat_file, $cacheArray))
     {
       return true;
@@ -199,7 +199,7 @@ class rex_media_cache
       $sql->next();
     }
 
-    $list_file = rex_path::cache('media/'. $category_id .'.mlist');
+    $list_file = rex_path::addonCache('mediapool', $category_id .'.mlist');
     if (rex_file::putCache($list_file, $cacheArray))
     {
       return true;
@@ -235,7 +235,7 @@ class rex_media_cache
       $sql->next();
     }
 
-    $list_file = rex_path::cache('media/'. $category_id .'.mclist');
+    $list_file = rex_path::addonCache('mediapool', $category_id .'.mclist');
     if (rex_file::putCache($list_file, $cacheArray))
     {
       return true;
@@ -264,7 +264,7 @@ class rex_media_cache
       $sql->next();
     }
 
-    $list_file = rex_path::cache('media/'. $extension .'.mextlist');
+    $list_file = rex_path::addonCache('mediapool', $extension .'.mextlist');
     if (rex_file::putCache($list_file, $cacheArray))
     {
       return true;

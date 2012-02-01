@@ -45,7 +45,7 @@ class rex_ooArticle extends rex_ooRedaxo
   {
     return parent :: getById($a_category_id, $clang);
   }
-  
+
   /**
    * Articles of categories, keyed by category_id
    * @var array[rex_ooArticle]
@@ -65,7 +65,7 @@ class rex_ooArticle extends rex_ooRedaxo
       $clang = rex_clang::getId();
     }
 
-    $articlelist = rex_path::cache('articles/'.$a_category_id.".".$clang.".alist");
+    $articlelist = rex_path::addonCache('structure', $a_category_id.".".$clang.".alist");
     if(!file_exists($articlelist))
     {
       rex_article_cache::generateLists($a_category_id, $clang);

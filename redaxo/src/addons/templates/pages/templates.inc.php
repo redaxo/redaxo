@@ -33,7 +33,7 @@ if ($function == "delete")
   }else
   {
     $del->setQuery("DELETE FROM " . rex::getTablePrefix() . "template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
-    rex_file::delete(rex_path::cache('templates/' . $template_id . '.template'));
+    rex_file::delete(rex_path::addonCache('templates', $template_id . '.template'));
     $info = rex_i18n::msg("template_deleted");
   }
 
@@ -147,7 +147,7 @@ if ($function == "add" or $function == "edit")
       }
     }
 
-    rex_dir::delete(rex_path::cache('templates'), false);
+    rex_dir::delete(rex_path::addonCache('templates'), false);
 
     if ($goon != "") {
       $function = "edit";
@@ -212,7 +212,7 @@ if ($function == "add" or $function == "edit")
     if (is_array($ctypes))
     {
       $formElements = array();
-      
+
       foreach ($ctypes as $id => $name)
       {
         $modul_select->setName('modules['.$i.'][]');
@@ -229,37 +229,37 @@ if ($function == "add" or $function == "edit")
             }
           }
         }
-        
-        
+
+
         $n = array();
         $n['label'] = '<label for="ctype'.$i.'">ID=' . $i . '</label>';
         $n['field'] = '<input id="ctype'.$i.'" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />';
         $formElements[] = $n;
 
-        
+
         $field = '';
         $field .= '<input id="allmodules'.$i.'" type="checkbox" name="modules[' . $i . '][all]" ';
         if(!isset($modules[$i]['all']) || $modules[$i]['all'] == 1)
           $field .= ' checked="checked" ';
         $field .= ' value="1" />';
-        
+
         $n = array();
         $n['reverse'] = true;
         $n['label'] = '<label for="allmodules'.$i.'">'.rex_i18n::msg("modules_available_all").'</label>';
         $n['field'] = $field;
         $formElements[] = $n;
-        
+
         $n = array();
         $n['id']    = 'p_modules'.$i;
         $n['label'] = '<label for="modules_'.$i.'_select">'.rex_i18n::msg("modules_available").'</label>';
         $n['field'] = $modul_select->get();
         $n['after'] = '<span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>';
         $formElements[] = $n;
-        
-    
+
+
         $i++;
       }
-        
+
       $fragment = new rex_fragment();
       $fragment->setVar('elements', $formElements, false);
       $ctypes_out .= $fragment->parse('form.tpl');
@@ -308,19 +308,19 @@ if ($function == "add" or $function == "edit")
         <form action="index.php" method="post">
           <fieldset>
             <h2>' . $legend . '</h2>
-            
+
               <input type="hidden" name="page" value="'. $page .'" />
               <input type="hidden" name="function" value="' . $function . '" />
               <input type="hidden" name="save" value="ja" />
               <input type="hidden" name="template_id" value="' . $template_id . '" />';
-        
+
       $formElements = array();
-      
+
         $n = array();
         $n['label'] = '<label for="ltemplatename">' . rex_i18n::msg("template_name") . '</label>';
         $n['field'] = '<input type="text" id="ltemplatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />';
         $formElements[] = $n;
-        
+
         $n = array();
         $n['reverse'] = true;
         $n['label'] = '<label for="active">' . rex_i18n::msg("checkbox_template_active") . '<span>' . rex_i18n::msg("checkbox_template_active_info") . '</span></label>';
@@ -331,11 +331,11 @@ if ($function == "add" or $function == "edit")
         $n['label'] = '<label for="content">' . rex_i18n::msg("header_template") . '</label>';
         $n['field'] = '<textarea name="content" id="content" cols="50" rows="6">' . htmlspecialchars($content) . '</textarea>';
         $formElements[] = $n;
-        
+
       $fragment = new rex_fragment();
       $fragment->setVar('elements', $formElements, false);
       $content_1 .= $fragment->parse('form.tpl');
-        
+
     $content_1 .= '
         </fieldset>
 
@@ -351,54 +351,54 @@ if ($function == "add" or $function == "edit")
          <div id="rex-form-template-categories">
         	<fieldset>
    			    <h2>'.rex_i18n::msg("template_categories").'</h2>';
-              
-              
+
+
             $formElements = array();
-              
+
               $field = '';
               $field .= '<input id="allcategories" type="checkbox" name="categories[all]" ';
               if(!isset($categories['all']) || $categories['all'] == 1)
 				        $field .= ' checked="checked" ';
   		        $field .= ' value="1" />';
-              
+
               $n = array();
               $n['reverse'] = true;
               $n['label'] = '<label for="allcategories">'.rex_i18n::msg("template_categories_all").'</label>';
               $n['field'] = $field;
               $formElements[] = $n;
-              
+
               $n = array();
               $n['id']    = 'p_categories';
               $n['label'] = '<label for="categories_select">'.rex_i18n::msg("template_categories_custom").'</label>';
               $n['field'] = $cat_select->get();
               $n['after'] = '<span class="rex-form-notice">'. rex_i18n::msg('ctrl') .'</span>';
               $formElements[] = $n;
-        
+
             $fragment = new rex_fragment();
             $fragment->setVar('elements', $formElements, false);
             $content_1 .= $fragment->parse('form.tpl');
-        
+
     $content_1 .= '
         	</fieldset>
 				</div>
 
         <fieldset class="rex-form-action">';
-        
+
           $formElements = array();
-          
+
             $n = array();
             $n['field'] = '<input type="submit" value="' . rex_i18n::msg("save_template_and_quit") . '"'. rex::getAccesskey(rex_i18n::msg('save_template_and_quit'), 'save') .' />';
             $formElements[] = $n;
-            
+
             $n = array();
             $n['field'] = '<input type="submit" name="goon" value="' . rex_i18n::msg("save_template_and_continue") . '"'. rex::getAccesskey(rex_i18n::msg('save_template_and_continue'), 'apply') .' />';
             $formElements[] = $n;
-            
+
           $fragment = new rex_fragment();
           $fragment->setVar('columns', 2, false);
           $fragment->setVar('elements', $formElements, false);
           $content_1 .= $fragment->parse('form.tpl');
-        
+
     $content_1 .= '
         </fieldset>
 
@@ -432,7 +432,7 @@ if ($function == "add" or $function == "edit")
       });
 
       //--></script>';
-      
+
 	  echo rex_view::contentBlock($content_1, '', 'block');
 
     $OUT = false;

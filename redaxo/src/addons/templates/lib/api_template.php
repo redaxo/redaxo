@@ -57,7 +57,7 @@ class rex_template
 
   static public function getTemplatesDir()
   {
-    return rex_path::cache('templates');
+    return rex_path::addonCache('templates');
   }
 
   public function getTemplate()

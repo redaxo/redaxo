@@ -112,7 +112,7 @@ class rex_article extends rex_article_base
       ob_start();
       ob_implicit_flush(0);
 
-      $article_content_file = rex_path::cache('articles/'.$this->article_id.'.'.$this->clang.'.content');
+      $article_content_file = rex_path::addonCache('structure', $this->article_id.'.'.$this->clang.'.content');
       if(!file_exists($article_content_file))
       {
         include_once rex_path::plugin('structure', 'content', 'functions/function_rex_content.inc.php');

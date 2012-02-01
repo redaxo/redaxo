@@ -21,7 +21,7 @@ class rex_api_install_packages_upload extends rex_api_function
     {
       if($uploadFile)
       {
-        $archive = rex_path::cache('install/'. md5($addonkey . time()) .'.zip');
+        $archive = rex_path::addonCache('install', md5($addonkey . time()) .'.zip');
         $replaceAssets = isset($upload['replace_assets']) && $upload['replace_assets'];
         $exclude = $replaceAssets ? array('assets') : null;
         rex_install_helper::copyDirToArchive(rex_path::addon($addonkey), $archive, null, $exclude);

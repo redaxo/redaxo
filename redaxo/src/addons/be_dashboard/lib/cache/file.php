@@ -38,7 +38,7 @@ class rex_file_cache extends rex_cache
 
     if (!$this->getOption('cache_dir'))
     {
-      $this->setOption('cache_dir', rex_path::cache('dashboard'));
+      $this->setOption('cache_dir', rex_path::addonCache('be_dashboard'));
     }
 
     $this->setcache_dir($this->getOption('cache_dir'));
