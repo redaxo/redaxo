@@ -646,8 +646,8 @@ class rex_sql extends rex_factory implements Iterator
    * Setzt eine Select-Anweisung auf die angegebene Tabelle
    * mit den WHERE Parametern ab
    *
-   * @see #setTable()
-   * @see #setWhere()
+   * @see setTable()
+   * @see setWhere()
    */
   public function select($fields = '*')
   {
@@ -661,9 +661,9 @@ class rex_sql extends rex_factory implements Iterator
    * Setzt eine Update-Anweisung auf die angegebene Tabelle
    * mit den angegebenen Werten und WHERE Parametern ab
    *
-   * @see #setTable()
-   * @see #setValue()
-   * @see #setWhere()
+   * @see setTable()
+   * @see setValue()
+   * @see setWhere()
    */
   public function update()
   {
@@ -677,8 +677,8 @@ class rex_sql extends rex_factory implements Iterator
    * Setzt eine Insert-Anweisung auf die angegebene Tabelle
    * mit den angegebenen Werten ab
    *
-   * @see #setTable()
-   * @see #setValue()
+   * @see setTable()
+   * @see setValue()
    */
   public function insert()
   {
@@ -705,9 +705,9 @@ class rex_sql extends rex_factory implements Iterator
    * Setzt eine Replace-Anweisung auf die angegebene Tabelle
    * mit den angegebenen Werten ab
    *
-   * @see #setTable()
-   * @see #setValue()
-   * @see #setWhere()
+   * @see setTable()
+   * @see setValue()
+   * @see setWhere()
    */
   public function replace()
   {
@@ -721,8 +721,8 @@ class rex_sql extends rex_factory implements Iterator
    * Setzt eine Delete-Anweisung auf die angegebene Tabelle
    * mit den angegebenen WHERE Parametern ab
    *
-   * @see #setTable()
-   * @see #setWhere()
+   * @see setTable()
+   * @see setWhere()
    */
   public function delete()
   {
@@ -813,7 +813,7 @@ class rex_sql extends rex_factory implements Iterator
   /**
    * Stellt alle Values, die mit setValue() gesetzt wurden, zurueck
    *
-   * @see #setValue(), #getValue()
+   * @see setValue(), #getValue()
    * @return rex_sql the current rex_sql object
    */
   public function flushValues()
