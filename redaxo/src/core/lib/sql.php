@@ -214,11 +214,11 @@ class rex_sql extends rex_factory implements Iterator
     {
       throw new rex_sql_exception('you need to prepare a query before calling execute()');
     }
-    
+
     try {
       $this->flush();
       $this->params = $params;
-      
+
       $this->stmt->execute($params);
       $this->rows = $this->stmt->rowCount();
     } catch (PDOException $e)
@@ -234,9 +234,9 @@ class rex_sql extends rex_factory implements Iterator
    *
    * example 1:
    *    $sql->setQuery('SELECT * FROM mytable where id=:id, 'array('id' => 3));
-   *    
+   *
    * NOTE: named-parameters/?-placeholders are not supported in LIMIT clause!
-   *    
+   *
    * @param $query string The sql-query
    * @param $params array An optional array of statement parameter
    *
@@ -264,7 +264,7 @@ class rex_sql extends rex_factory implements Iterator
         throw new rex_sql_exception('Error while executing statement "'. $qry .'! '. $e->getMessage());
       }
     }
-    
+
     if ($this->debugsql)
     {
       $this->printError($qry, $params);
@@ -649,7 +649,7 @@ class rex_sql extends rex_factory implements Iterator
    * @see #setTable()
    * @see #setWhere()
    */
-  public function select($fields)
+  public function select($fields = '*')
   {
     return $this->setQuery(
       'SELECT '. $fields .' FROM `' . $this->table . '` '. $this->getWhere(),
