@@ -383,6 +383,11 @@ if ($checkmodus == 2 && $send == 1)
     $err_msg = rex_i18n::msg('setup_invalid_timezone');
   }
 
+  if(empty($config['error_email']))
+  {
+    $err_msg = rex_i18n::msg('error_email_required');
+  }
+
   foreach($config as $key => $value)
   {
     if(in_array($key, array('fileperm', 'dirperm')))

@@ -66,6 +66,11 @@ elseif ($func == 'updateinfos')
     }
   }
 
+  if(empty($config['error_email']))
+  {
+    $warning = rex_i18n::msg('error_email_required');
+  }
+
   if($warning == '')
   {
     if(rex_file::putConfig($configFile, $config) > 0)

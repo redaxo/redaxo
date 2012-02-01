@@ -90,7 +90,8 @@ syslog_deleted = Systemlog gelöscht
 syslog_delete_error = Fehler beim löschen des Systemlogs!
 server = Server
 servername = Servername
-error_email = Error E-Mail
+error_email = Fehler E-Mail
+error_email_required = Es wird eine Fehler E-Mailadresse benötigt!
 
 # redaxo\include\pages\medienpool.inc.php\setup.inc.php
 setup = Setup

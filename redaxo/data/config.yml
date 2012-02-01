@@ -2,7 +2,7 @@ setup: true
 instname: rex20110827100044
 server: redaxo.org
 servername: REDAXO
-error_email: jan.kristinus@yakamara.de
+error_email: ''
 fileperm: '0664'
 dirperm: '0775'
 session_duration: 3000
