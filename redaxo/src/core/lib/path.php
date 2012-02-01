@@ -127,11 +127,27 @@ class rex_path
   }
 
   /**
-   * Returns the path to the cache folder
+   * Returns the path to the cache folder of the core
    */
   static public function cache($file = '')
   {
     return self::absBase(self::$backend .'/cache/'. $file);
+  }
+
+  /**
+   * Returns the path to the cache folder of the given addon.
+   */
+  static public function addonCache($addon, $file = '')
+  {
+    return self::cache('addons/'. $addon .'/'. $file);
+  }
+
+  /**
+   * Returns the path to the cache folder of the given plugin
+   */
+  static public function pluginCache($addon, $plugin, $file = '')
+  {
+    return self::addonCache($addon, 'plugins/'. $plugin .'/'. $file);
   }
 
   /**
