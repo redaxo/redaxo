@@ -11,7 +11,6 @@
  * @author <a href="http://www.GN2-Netwerk.de">www.GN2-Netwerk.de</a>
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 	// Tabelle bei REDAXO 3.2.x ausgeben

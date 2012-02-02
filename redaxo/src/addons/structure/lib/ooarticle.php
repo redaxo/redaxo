@@ -3,7 +3,6 @@
 /**
  * Object Oriented Framework: Bildet einen Artikel der Struktur ab
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_ooArticle extends rex_ooRedaxo

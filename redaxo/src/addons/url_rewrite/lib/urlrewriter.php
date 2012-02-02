@@ -4,7 +4,6 @@
  * URL-Rewrite Addon
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @package redaxo5.2
- * @version svn:$Id$
  */
 
 abstract class rex_urlRewriter

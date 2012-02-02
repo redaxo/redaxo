@@ -11,7 +11,6 @@
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 define('REX_CACHE_FILE_READ_DATA', 1);

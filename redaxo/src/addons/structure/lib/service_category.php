@@ -4,7 +4,6 @@
  * Funktionensammlung für die Strukturverwaltung
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 class rex_category_service
 {

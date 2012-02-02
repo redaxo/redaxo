@@ -6,7 +6,6 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 rex_var::registerVar('rex_var_template');

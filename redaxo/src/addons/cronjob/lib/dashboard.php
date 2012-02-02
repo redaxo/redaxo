@@ -9,7 +9,6 @@
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_cronjob_component extends rex_dashboard_component

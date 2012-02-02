@@ -9,7 +9,6 @@
  * Adjusted in very many places
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 class rex_autoload
 {

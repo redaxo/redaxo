@@ -10,7 +10,6 @@
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 ?>

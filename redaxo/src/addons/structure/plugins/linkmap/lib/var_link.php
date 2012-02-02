@@ -11,7 +11,6 @@
  *   - category  => Kategorie in die beim oeffnen der Linkmapw gesprungen werden soll
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_var_link extends rex_var

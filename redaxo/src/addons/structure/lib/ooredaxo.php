@@ -3,7 +3,6 @@
 /**
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten
  * @package redaxo5
- * @version svn:$Id$
  */
 
 abstract class rex_ooRedaxo

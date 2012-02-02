@@ -7,7 +7,6 @@
  * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 $mypage = 'media_manager';

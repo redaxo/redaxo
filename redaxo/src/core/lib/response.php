@@ -4,7 +4,6 @@
  * HTTP1.1 Client Cache Features
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 class rex_response
 {

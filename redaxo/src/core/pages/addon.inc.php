@@ -2,7 +2,6 @@
 /**
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 echo rex_view::title(rex_i18n::msg('addon'), '');

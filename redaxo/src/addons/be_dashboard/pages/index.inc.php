@@ -7,7 +7,6 @@
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 echo rex_view::title(rex_i18n::msg('dashboard'), '');

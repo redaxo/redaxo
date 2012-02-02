@@ -3,7 +3,6 @@
 /**
  * Verwaltung der Inhalte. EditierModul / Metadaten ...
  * @package redaxo5
- * @version svn:$Id$
  */
 
 /*

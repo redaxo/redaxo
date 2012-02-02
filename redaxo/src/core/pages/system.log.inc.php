@@ -3,7 +3,6 @@
 /**
  * Verwaltung der Content Sprachen
  * @package redaxo5
- * @version svn:$Id$
  */
 
 // -------------- Defaults

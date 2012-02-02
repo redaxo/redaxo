@@ -4,7 +4,6 @@
 /**
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 // Für größere Exports den Speicher für PHP erhöhen.

@@ -9,7 +9,6 @@
  * This framework can be used in Modules, Templates and PHP-Slices!
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_ooArticleSlice

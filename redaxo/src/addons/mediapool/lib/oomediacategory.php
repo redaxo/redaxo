@@ -4,7 +4,6 @@
 /**
  * Object Oriented Framework: Bildet eine Kategorie im Medienpool ab
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_ooMediaCategory

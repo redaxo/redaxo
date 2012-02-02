@@ -12,7 +12,6 @@
  * @author <a href="http://www.blumbeet.com">www.blumbeet.com</a>
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 $mypage = 'agk_skin';

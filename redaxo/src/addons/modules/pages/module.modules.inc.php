@@ -2,7 +2,6 @@
 /**
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 $OUT = TRUE;

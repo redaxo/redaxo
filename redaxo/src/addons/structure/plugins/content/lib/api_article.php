@@ -5,7 +5,6 @@
  * DB Anfragen werden vermieden, caching läuft über generated Dateien.
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_article extends rex_article_base

@@ -11,7 +11,6 @@
  * @author <a href="http://www.GN2-Netwerk.de">www.GN2-Netwerk.de</a>
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 	require $REX['INCLUDE_PATH'] . '/layout/top.php';

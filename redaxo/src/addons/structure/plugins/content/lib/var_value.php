@@ -10,7 +10,6 @@
  * REX_IS_VALUE
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_var_value extends rex_var

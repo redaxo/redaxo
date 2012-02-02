@@ -18,7 +18,6 @@
  *
  * Alle Variablen die mit REX_FILE beginnnen sind als deprecated anzusehen!
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_var_media extends rex_var

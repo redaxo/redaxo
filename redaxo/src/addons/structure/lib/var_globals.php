@@ -6,7 +6,6 @@
  * REX_CTYPE_ID
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_var_globals extends rex_var

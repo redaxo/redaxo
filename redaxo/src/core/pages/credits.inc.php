@@ -3,7 +3,6 @@
 /**
  * Creditsseite. Auflistung der Credits an die Entwickler von REDAXO und den AddOns.
  * @package redaxo5
- * @version svn:$Id$
  */
 
 $addons = array();

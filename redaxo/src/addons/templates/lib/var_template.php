@@ -4,7 +4,6 @@
  * REX_TEMPLATE[2]
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_var_template extends rex_var

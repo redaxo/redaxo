@@ -2,7 +2,6 @@
 
 /**
  * Klasse zur Verbindung und Interatkion mit der Datenbank
- * @version svn:$Id$
  */
 // see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
 class rex_sql extends rex_factory implements Iterator

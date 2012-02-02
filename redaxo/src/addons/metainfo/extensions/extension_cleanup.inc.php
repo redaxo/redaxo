@@ -5,7 +5,6 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 rex_extension::register('A1_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');

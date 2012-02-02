@@ -6,7 +6,6 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 function rex_be_search_structure($params)

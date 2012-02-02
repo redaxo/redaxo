@@ -3,7 +3,6 @@
 /**
  * Abstract baseclass for REX_VARS
  * @package redaxo5
- * @version svn:$Id$
  */
 abstract class rex_var
 {

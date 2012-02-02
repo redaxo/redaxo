@@ -3,7 +3,6 @@
 /**
  * Packages loading
  * @package redaxo5
- * @version svn:$Id$
  */
 
 if(rex::isSetup())

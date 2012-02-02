@@ -3,7 +3,6 @@
 /**
  * Klasse zum erstellen von Listen
  * @package redaxo5
- * @version svn:$Id$
  */
 
 define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);

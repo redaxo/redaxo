@@ -8,7 +8,6 @@
  *
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_var_config extends rex_var

@@ -3,7 +3,6 @@
 /**
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 $PREPOST[0] = 'PRE';

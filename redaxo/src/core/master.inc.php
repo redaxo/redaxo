@@ -3,7 +3,6 @@
 /**
  * Hauptkonfigurationsdatei
  * @package redaxo4
- * @version svn:$Id$
  */
 
 mb_internal_encoding('UTF-8');

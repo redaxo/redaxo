@@ -6,7 +6,6 @@
  * @author jan.kristinus@redaxo.de Jan Kristinus
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 echo rex_view::title('Version AddOn');

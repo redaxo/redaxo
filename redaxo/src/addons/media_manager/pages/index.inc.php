@@ -9,7 +9,6 @@
  * @author dh[at]daveholloway[dot]co[dot]uk Dave Holloway
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 $page = rex_request('page', 'string');

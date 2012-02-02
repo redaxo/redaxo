@@ -4,7 +4,6 @@
  * Class to execute a sql dump
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 class rex_sql_dump
 {

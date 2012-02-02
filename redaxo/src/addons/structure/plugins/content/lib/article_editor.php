@@ -4,7 +4,6 @@
  * Erweiterung eines Artikels um slicemanagement.
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_article_editor extends rex_article

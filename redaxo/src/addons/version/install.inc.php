@@ -6,7 +6,6 @@
  * @author jan@kristinus.de
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 $create_sql = rex_sql::factory();

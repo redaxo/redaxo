@@ -15,7 +15,6 @@ define('REX_CACHE_CLEAN_ALL', 2);
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 abstract class rex_cache

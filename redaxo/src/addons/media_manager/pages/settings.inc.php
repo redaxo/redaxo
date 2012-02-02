@@ -7,7 +7,6 @@
  * @author jan.kristinus[at]yakmara[dot]de Jan Kristinus
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 // rex_request();

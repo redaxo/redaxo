@@ -3,7 +3,6 @@
 /**
  * URL Funktionen
  * @package redaxo5
- * @version svn:$Id$
  */
 
 function rex_parse_article_name($name)

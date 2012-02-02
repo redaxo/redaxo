@@ -5,7 +5,6 @@
  * Alle benötigten Daten werden von der DB bezogen.
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_article_base

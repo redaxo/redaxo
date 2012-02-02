@@ -16,7 +16,6 @@
  *   - field     => Nur dieses Feld des Artikels ausgeben
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_var_article extends rex_var

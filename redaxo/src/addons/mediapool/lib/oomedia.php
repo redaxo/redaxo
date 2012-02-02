@@ -4,7 +4,6 @@
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_ooMedia

@@ -3,7 +3,6 @@
 /**
  * Layout Kopf des Backends
  * @package redaxo5
- * @version svn:$Id$
  */
 
 $popups_arr = array('linkmap', 'mediapool');

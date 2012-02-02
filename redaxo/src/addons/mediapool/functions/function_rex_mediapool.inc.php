@@ -4,7 +4,6 @@
  * Funktionensammlung für den Medienpool
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 /**

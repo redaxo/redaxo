@@ -6,7 +6,6 @@
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_cronjob_form extends rex_form

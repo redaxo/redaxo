@@ -6,7 +6,6 @@
  * @author redaxo
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 $error = '';

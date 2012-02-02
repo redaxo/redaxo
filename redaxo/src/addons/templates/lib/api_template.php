@@ -5,7 +5,6 @@
  * Zuständig für die Verarbeitung eines Templates
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_template

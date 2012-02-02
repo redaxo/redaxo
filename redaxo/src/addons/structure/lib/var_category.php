@@ -12,7 +12,6 @@
  *
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_var_category extends rex_var

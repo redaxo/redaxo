@@ -6,7 +6,6 @@
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 $page    = rex_request('page', 'string');

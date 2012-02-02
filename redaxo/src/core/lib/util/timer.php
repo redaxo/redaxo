@@ -6,7 +6,6 @@
  * @author gharlan
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 class rex_timer
 {

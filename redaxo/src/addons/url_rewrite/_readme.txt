@@ -2,7 +2,6 @@
  * URL-Rewrite Addon
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @package redaxo5.2
- * @version svn:$Id$
  */
 
 <a href="?page=addon&amp;spage=help&amp;addonname=url_rewrite&amp;mode=changelog">Changelog</a>

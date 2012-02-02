@@ -3,7 +3,6 @@
  * Getter functions for the superglobals
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 /**

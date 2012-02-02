@@ -3,7 +3,6 @@
 /**
  * Layout Fuß des Backends
  * @package redaxo5
- * @version svn:$Id$
  */
 
 

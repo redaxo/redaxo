@@ -3,7 +3,6 @@
 /**
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 // basic request vars

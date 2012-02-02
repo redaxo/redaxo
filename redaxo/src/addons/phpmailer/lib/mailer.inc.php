@@ -7,7 +7,6 @@
  *
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 class rex_mailer extends PHPMailer

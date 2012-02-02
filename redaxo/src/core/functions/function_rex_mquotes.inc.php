@@ -4,7 +4,6 @@
  * Function to compensate the deprecated magic_quotes_gpc setting
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 if(function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())

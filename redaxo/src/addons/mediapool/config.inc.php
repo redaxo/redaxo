@@ -6,7 +6,6 @@
  * @author jan[dot]kristinus[at]redaxo[dot]de Jan Kristinus
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 $mypage = 'mediapool';

@@ -7,7 +7,6 @@
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 function rex_a657_get_latest_version()

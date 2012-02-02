@@ -3,7 +3,6 @@
 /**
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 $subpage = rex_request('subpage', 'string');

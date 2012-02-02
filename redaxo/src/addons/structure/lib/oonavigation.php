@@ -4,7 +4,6 @@
  * Klasse zum Erstellen von Navigationen, v0.1
  *
  * @package redaxo5
- * @version svn:$Id$
  */
 
 /*
