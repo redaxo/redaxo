@@ -147,7 +147,7 @@ class rex_i18n
     {
       self::$locales = array();
 
-      foreach(rex_dir::iterator(self::$directories[0])->excludeDirs() as $file)
+      foreach(rex_dir::iterator(self::$directories[0])->ignoreDirs() as $file)
       {
         if (preg_match("/^(\w+)\.lang$/", $file->getFilename(), $matches))
         {
