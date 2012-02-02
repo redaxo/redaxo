@@ -139,11 +139,11 @@ $content .= '
     foreach($addons as $addon)
     {
       $content .= '
-      <tr class="rex-addon">
-        <td class="rex-name"><span class="'. $addon->class .'">'. $addon->name .'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='. $addon->name .'">?</a>]</td>
-        <td class="rex-version '. $addon->class .'">'. $addon->version .'</td>
-        <td class="rex-author '. $addon->class .'">'. $addon->author .'</td>
-        <td class="rex-support '. $addon->class .'">';
+      <tr class="rex-addon '. $addon->class .'">
+        <td class="rex-name">'. $addon->name .' <a href="index.php?page=addon&amp;subpage=help&amp;addonname='. $addon->name .'" title="'. rex_i18n::msg('credits_open_help_file') .' '. $addon->name .'">?</a></td>
+        <td class="rex-version">'. $addon->version .'</td>
+        <td class="rex-author">'. $addon->author .'</td>
+        <td class="rex-support">';
 
         if ($addon->supportpage)
         {
@@ -157,11 +157,11 @@ $content .= '
       foreach($addon->plugins as $plugin)
       {
         $content .= '
-        <tr class="rex-plugin">
-          <td class="rex-name"><span class="'. $plugin->class .'">'. $plugin->name .'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='. $addon->name .'&amp;pluginname='. $plugin->name .'">?</a>]</td>
-          <td class="rex-version '. $plugin->class .'">'. $plugin->version .'</td>
-          <td class="rex-author '. $plugin->class .'">'. $plugin->author .'</td>
-          <td class="rex-support '. $plugin->class .'">';
+        <tr class="rex-plugin '. $plugin->class .'">
+          <td class="rex-name">'. $plugin->name .' <a href="index.php?page=addon&amp;subpage=help&amp;addonname='. $addon->name .'&amp;pluginname='. $plugin->name .'" title="'. rex_i18n::msg('credits_open_help_file') .' '. $addon->name .'">?</a></td>
+          <td class="rex-version">'. $plugin->version .'</td>
+          <td class="rex-author">'. $plugin->author .'</td>
+          <td class="rex-support">';
 
           if ($plugin->supportpage)
           {
