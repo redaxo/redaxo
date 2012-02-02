@@ -709,7 +709,7 @@ abstract class rex_package_manager extends rex_factory
 
     if(is_dir($folder))
     {
-      foreach(rex_dir::iterator($folder)->ignoreFiles()->ignoreVersionControl() as $file)
+      foreach(rex_dir::iterator($folder)->ignoreFiles()->ignoreSystemStuff() as $file)
       {
         $packages[] = $file->getBasename();
       }

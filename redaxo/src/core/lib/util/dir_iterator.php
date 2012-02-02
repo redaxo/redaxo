@@ -18,12 +18,10 @@ class rex_dir_iterator extends RecursiveFilterIterator
     $ignorePrefixesRecursive = true,
     $ignoreSuffixes = array(),
     $ignoreSuffixesRecursive = true,
-    $ignoreVersionControl = false,
-    $ignoreTemporaryFiles = false;
+    $ignoreSystemStuff = false;
 
   static private
-    $versionControl = array('.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'),
-    $temporaryFiles = array('.DS_Store', 'Thumbs.db', 'desktop.ini');
+    $systemStuff = array('.DS_Store', 'Thumbs.db', 'desktop.ini', '.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg');
 
   /**
    * Constructor
@@ -96,25 +94,13 @@ class rex_dir_iterator extends RecursiveFilterIterator
   }
 
   /**
-  * Ignores version control files and directories (like .svn and .git)
+  * Ignores system stuff (like .DS_Store, .svn, .git etc.)
   *
   * @return rex_dir_iterator The current iterator
   */
-  public function ignoreVersionControl()
+  public function ignoreSystemStuff()
   {
-    $this->ignoreVersionControl = true;
-
-    return $this;
-  }
-
-  /**
-  * Ignores temporary files (like .DS_Store and Thumbs.db)
-  *
-  * @return rex_dir_iterator The current iterator
-  */
-  public function ignoreTemporaryFiles()
-  {
-    $this->ignoreTemporaryFiles = true;
+    $this->ignoreSystemStuff = true;
 
     return $this;
   }
@@ -154,8 +140,7 @@ class rex_dir_iterator extends RecursiveFilterIterator
     {
       $iterator->ignoreSuffixes($this->ignoreSuffixes, true);
     }
-    $iterator->ignoreVersionControl = $this->ignoreVersionControl;
-    $iterator->ignoreTemporaryFiles = $this->ignoreTemporaryFiles;
+    $iterator->ignoreSystemStuff = $this->ignoreSystemStuff;
 
     return $iterator;
   }
@@ -191,16 +176,6 @@ class rex_dir_iterator extends RecursiveFilterIterator
       {
         return false;
       }
-      if($this->ignoreTemporaryFiles)
-      {
-        foreach(self::$temporaryFiles as $temporaryFile)
-        {
-          if(stripos($filename, $temporaryFile) === 0)
-          {
-            return false;
-          }
-        }
-      }
     }
 
     foreach($this->ignorePrefixes as $prefix)
@@ -219,11 +194,11 @@ class rex_dir_iterator extends RecursiveFilterIterator
       }
     }
 
-    if($this->ignoreVersionControl)
+    if($this->ignoreSystemStuff)
     {
-      foreach(self::$versionControl as $versionControl)
+      foreach(self::$systemStuff as $systemStuff)
       {
-        if(stripos($filename, $versionControl) === 0)
+        if(stripos($filename, $systemStuff) === 0)
         {
           return false;
         }
