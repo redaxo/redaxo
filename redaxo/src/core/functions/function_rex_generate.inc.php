@@ -27,7 +27,7 @@ function rex_deleteAll()
   // unregister logger, so the logfile can also be deleted
   rex_logger::unregister();
 
-  rex_dir::deleteIterator(rex_dir::recursiveIterator(rex_path::cache())->excludeFiles(array('.htaccess', '_readme.txt'), false));
+  rex_dir::deleteIterator(rex_dir::recursiveIterator(rex_path::cache())->ignoreFiles(array('.htaccess', '_readme.txt'), false));
 
   rex_logger::register();
 

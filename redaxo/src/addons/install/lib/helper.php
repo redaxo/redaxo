@@ -9,11 +9,10 @@ class rex_install_helper
     rex_dir::create(dirname($archive));
     $phar = new PharData($archive, 0, null, Phar::ZIP);
     $files = array();
-    $iterator = rex_dir::recursiveIterator($dir, rex_dir_recursive_iterator::LEAVES_ONLY);
-    $iterator->excludeVersionControl()->excludeTemporaryFiles();
+    $iterator = rex_dir::recursiveIterator($dir, rex_dir_recursive_iterator::LEAVES_ONLY)->ignoreSystemStuff();
     if($excludeDirs)
     {
-      $iterator->excludeDirs($excludeDirs, false);
+      $iterator->ignoreDirs($excludeDirs, false);
     }
     foreach($iterator as $path => $file)
     {

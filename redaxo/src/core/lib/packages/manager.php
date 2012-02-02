@@ -653,7 +653,7 @@ abstract class rex_package_manager extends rex_factory
   static public function synchronizeWithFileSystem()
   {
     $config = rex::getConfig('package-config');
-    $addons = self::readPackageFolder(rex_path::addon('*'));
+    $addons = self::readPackageFolder(rex_path::src('addons'));
     $registeredAddons = array_keys(rex_addon::getRegisteredAddons());
     foreach(array_diff($registeredAddons, $addons) as $addonName)
     {
@@ -676,7 +676,7 @@ abstract class rex_package_manager extends rex_factory
         $config[$addonName]['status'] = $addon->isActivated();
         $registeredPlugins = array_keys($addon->getRegisteredPlugins());
       }
-      $plugins = self::readPackageFolder(rex_path::plugin($addonName, '*'));
+      $plugins = self::readPackageFolder(rex_path::addon($addonName, 'plugins'));
       foreach(array_diff($registeredPlugins, $plugins) as $pluginName)
       {
         $manager = rex_plugin_manager::factory(rex_plugin::get($addonName, $pluginName));
@@ -705,14 +705,13 @@ abstract class rex_package_manager extends rex_factory
    */
   static private function readPackageFolder($folder)
   {
-    $packages = array ();
+    $packages = array();
 
-    $files = glob(rtrim($folder, DIRECTORY_SEPARATOR), GLOB_NOSORT);
-    if(is_array($files))
+    if(is_dir($folder))
     {
-      foreach($files as $file)
+      foreach(rex_dir::iterator($folder)->ignoreFiles()->ignoreSystemStuff() as $file)
       {
-        $packages[] = basename($file);
+        $packages[] = $file->getBasename();
       }
     }
 

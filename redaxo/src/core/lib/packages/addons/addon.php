@@ -102,6 +102,20 @@ class rex_addon extends rex_package implements rex_addon_interface
   }
 
   /* (non-PHPdoc)
+   * @see rex_package_interface::i18n()
+   */
+  public function i18n($key)
+  {
+    $args = func_get_args();
+    $key = $this->getName() .'_'. $key;
+    if(rex_i18n::hasMsg($key))
+    {
+      $args[0] = $key;
+    }
+    return call_user_func_array('rex_i18n::msg', $args);
+  }
+
+  /* (non-PHPdoc)
    * @see rex_addon_interface::getPlugin()
    */
   public function getPlugin($plugin)

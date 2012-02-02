@@ -36,59 +36,59 @@ class rex_dir_iterator_test extends PHPUnit_Framework_TestCase
     $this->assertArrayHasKey($this->getPath('dir2'), $array, 'dir2 is in array');
   }
 
-  public function testExcludeAllDirs()
+  public function testIgnoreAllDirs()
   {
-    $iterator = rex_dir::iterator($this->getPath())->excludeDirs();
+    $iterator = rex_dir::iterator($this->getPath())->ignoreDirs();
     $array = iterator_to_array($iterator, true);
-    $this->assertEquals(2, count($array), 'excludeDirs() returns only files');
+    $this->assertEquals(2, count($array), 'ignoreDirs() returns only files');
     $this->assertArrayHasKey($this->getPath('file1.txt'), $array, 'file1 is in array');
     $this->assertArrayHasKey($this->getPath('file2.txt'), $array, 'file2 is in array');
   }
 
-  public function testExcludeSpecificDirs()
+  public function testIgnoreSpecificDirs()
   {
 
-    $iterator = rex_dir::iterator($this->getPath())->excludeDirs(array('dir1'));
+    $iterator = rex_dir::iterator($this->getPath())->ignoreDirs(array('dir1'));
     $array = iterator_to_array($iterator, true);
-    $this->assertEquals(3, count($array), 'excludeDir() with array excludes specific dirs');
+    $this->assertEquals(3, count($array), 'ignoreDir() with array ignores specific dirs');
     $this->assertArrayHasKey($this->getPath('file1.txt'), $array, 'file1 is in array');
     $this->assertArrayHasKey($this->getPath('file2.txt'), $array, 'file2 is in array');
     $this->assertArrayHasKey($this->getPath('dir2'), $array, 'dir2 is in array');
   }
 
-  public function testExcludeAllFiles()
+  public function testIgnoreAllFiles()
   {
-    $iterator = rex_dir::iterator($this->getPath())->excludeFiles();
+    $iterator = rex_dir::iterator($this->getPath())->ignoreFiles();
     $array = iterator_to_array($iterator, true);
-    $this->assertEquals(2, count($array), 'excludeFiles() returns only dirs');
+    $this->assertEquals(2, count($array), 'ignoreFiles() returns only dirs');
     $this->assertArrayHasKey($this->getPath('dir1'), $array, 'dir1 is in array');
     $this->assertArrayHasKey($this->getPath('dir2'), $array, 'dir2 is in array');
   }
 
-  public function testExcludeSpecificFiles()
+  public function testIgnoreSpecificFiles()
   {
-    $iterator = rex_dir::iterator($this->getPath())->excludeFiles(array('file1.txt'));
+    $iterator = rex_dir::iterator($this->getPath())->ignoreFiles(array('file1.txt'));
     $array = iterator_to_array($iterator, true);
-    $this->assertEquals(3, count($array), 'excludeFiles() with array excludes specific files');
+    $this->assertEquals(3, count($array), 'ignoreFiles() with array ignores specific files');
     $this->assertArrayHasKey($this->getPath('file2.txt'), $array, 'file2 is in array');
     $this->assertArrayHasKey($this->getPath('dir1'), $array, 'dir1 is in array');
     $this->assertArrayHasKey($this->getPath('dir2'), $array, 'dir2 is in array');
   }
 
-  public function testExcludePrefixes()
+  public function testIgnorePrefixes()
   {
-    $iterator = rex_dir::iterator($this->getPath())->excludePrefixes(array('file1', 'dir1'));
+    $iterator = rex_dir::iterator($this->getPath())->ignorePrefixes(array('file1', 'dir1'));
     $array = iterator_to_array($iterator, true);
-    $this->assertEquals(2, count($array), 'excludePrefixes() excludes files and dirs with the given prefixes');
+    $this->assertEquals(2, count($array), 'ignorePrefixes() ignores files and dirs with the given prefixes');
     $this->assertArrayHasKey($this->getPath('file2.txt'), $array, 'file2 is in array');
     $this->assertArrayHasKey($this->getPath('dir2'), $array, 'dir2 is in array');
   }
 
-  public function testExcludeSuffixes()
+  public function testIgnoreSuffixes()
   {
-    $iterator = rex_dir::iterator($this->getPath())->excludeSuffixes(array('1.txt', '1'));
+    $iterator = rex_dir::iterator($this->getPath())->ignoreSuffixes(array('1.txt', '1'));
     $array = iterator_to_array($iterator, true);
-    $this->assertEquals(2, count($array), 'excludeSuffixes excludes files and dirs with the given suffixes');
+    $this->assertEquals(2, count($array), 'ignoreSuffixes ignores files and dirs with the given suffixes');
     $this->assertArrayHasKey($this->getPath('file2.txt'), $array, 'file2 is in array');
     $this->assertArrayHasKey($this->getPath('dir2'), $array, 'dir2 is in array');
   }
