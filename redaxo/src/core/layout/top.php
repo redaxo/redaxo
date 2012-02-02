@@ -118,21 +118,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('logout', $logout, false);
 echo $fragment->parse('backend_meta.tpl');
 
-$fragment = new rex_fragment();
-$fragment->setVar('navigation', $navigation, false);
-echo $fragment->parse('backend_navigation.tpl');
-
-$sidebar = rex_extension::registerPoint('PAGE_SIDEBAR', '');
-if($sidebar != "") 
-{
-	$sidebarfragment = new rex_fragment();
-	$sidebarfragment->content = $sidebar;
-	echo $sidebarfragment->parse('backend_sidebar.tpl');
-	unset($sidebarfragment);
-}
-
-unset($fragment);
-
 ?><section id="rex-page-main">
 
 
