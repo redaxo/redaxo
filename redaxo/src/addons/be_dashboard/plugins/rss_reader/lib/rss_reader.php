@@ -35,7 +35,7 @@ class rex_rssReader extends SimplePie
 
     if($cache_location == null)
     {
-      $cache_location = rex_path::cache('dashboard/');
+      $cache_location = rex_path::addonCache('be_dashboard');
     }
 
     $this->set_feed_url($feed_url);

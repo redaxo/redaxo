@@ -16,7 +16,7 @@ class rex_content_service
     // ctype beachten
     // verschieben / vertauschen
     // article regenerieren.
-  
+
     // check if slice id is valid
     $CM = rex_sql::factory();
     $CM->setQuery("select * from " . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang=$clang");
@@ -24,19 +24,19 @@ class rex_content_service
     {
       // origin value for later success-check
       $oldPrior = $CM->getValue('prior');
-      
+
       // prepare sql for later saving
       $upd = rex_sql::factory();
       $upd->setTable(rex::getTablePrefix() . "article_slice");
       $upd->setWhere(array(
         'id' => $slice_id
       ));
-  
+
       // some vars for later use
       $article_id = $CM->getValue('article_id');
       $ctype = $CM->getValue('ctype');
       $slice_revision = $CM->getValue('revision');
-  
+
       if ($direction == "moveup" || $direction == "movedown")
       {
         if ($direction == "moveup")
@@ -51,14 +51,14 @@ class rex_content_service
         }
         $upd->addGlobalUpdateFields();
         $upd->update();
-  
+
         rex_organize_priorities(
           rex::getTablePrefix() . 'article_slice',
           'prior',
           'article_id=' . $article_id . ' AND clang=' . $clang .' AND ctype='. $ctype .' AND revision='. $slice_revision,
           'prior, updatedate '. $updSort
         );
-        
+
         // check if the slice moved at all (first cannot be moved up, last not down)
         $CM->setQuery("select * from " . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang=$clang");
         $newPrior = $CM->getValue('prior');
@@ -66,7 +66,7 @@ class rex_content_service
         {
           throw new rex_api_exception(rex_i18n::msg('slice_moved_error'));
         }
-  
+
         rex_article_cache::deleteContent($article_id, $clang);
       }
       else
@@ -78,10 +78,10 @@ class rex_content_service
     {
       throw new rex_api_exception(rex_i18n::msg('slice_moved_error'));
     }
-  
+
     return rex_i18n::msg('slice_moved');
   }
-  
+
   /**
    * Löscht einen Slice
    *
@@ -98,11 +98,11 @@ class rex_content_service
     {
       return false;
     }
-  
+
     // delete the slice
     $del = rex_sql::factory();
     $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'article_slice WHERE id=' . $slice_id);
-  
+
     // reorg remaining slices
     rex_organize_priorities(
     rex::getTablePrefix() . 'article_slice',
@@ -110,11 +110,11 @@ class rex_content_service
       'article_id=' . $curr->getValue('article_id') . ' AND clang=' . $curr->getValue('clang') .' AND ctype='. $curr->getValue('ctype') .' AND revision='. $curr->getValue('revision'),
       'prior'
     );
-  
+
     // check if delete was successfull
     return $curr->getRows() == 1;
   }
-  
+
   /**
    * Kopiert die Inhalte eines Artikels in einen anderen Artikel
    *
@@ -130,16 +130,16 @@ class rex_content_service
   {
     if ($from_id == $to_id && $from_clang == $to_clang)
     return false;
-  
+
     $gc = rex_sql::factory();
     $gc->setQuery("select * from ".rex::getTablePrefix()."article_slice where article_id='$from_id' and clang='$from_clang' and revision='$revision'");
-  
+
     if ($gc->getRows() > 0)
     {
       $ins = rex_sql::factory();
       $ins->setTable(rex::getTablePrefix()."article_slice");
       $ctypes = array();
-  
+
       $cols = rex_sql::factory();
       // $cols->debugsql = 1;
       $cols->setquery("SHOW COLUMNS FROM ".rex::getTablePrefix()."article_slice");
@@ -152,20 +152,20 @@ class rex_content_service
           elseif ($colname == "article_id") $value = $to_id;
           else
           $value = $slice->getValue($colname);
-  
+
           // collect all affected ctypes
           if ($colname == "ctype")
           $ctypes[$value] = $value;
-  
+
           if ($colname != "id")
           $ins->setValue($colname, $value);
         }
-  
+
         $ins->addGlobalUpdateFields();
         $ins->addGlobalCreateFields();
         $ins->insert();
       }
-  
+
       foreach($ctypes as $ctype)
       {
         // reorg slices
@@ -176,14 +176,14 @@ class rex_content_service
           'prior, updatedate'
         );
       }
-  
+
       rex_article_cache::deleteContent($to_id, $to_clang);
       return true;
     }
-  
+
     return false;
   }
-  
+
   /**
    * Generiert den Artikel-Cache des Artikelinhalts.
    *
@@ -198,16 +198,16 @@ class rex_content_service
     {
       if($clang !== null && $clang != $_clang)
       continue;
-  
+
       $CONT = new rex_article_base();
       $CONT->setCLang($_clang);
       $CONT->setEval(FALSE); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
       if (!$CONT->setArticleId($article_id)) return FALSE;
-  
+
       // --------------------------------------------------- Artikelcontent speichern
-      $article_content_file = rex_path::cache("articles/$article_id.$_clang.content");
+      $article_content_file = rex_path::addonCache('structure', "$article_id.$_clang.content");
       $article_content = $CONT->getArticle();
-  
+
       // ----- EXTENSION POINT
       $article_content = rex_extension::registerPoint('GENERATE_FILTER', $article_content,
       array (
@@ -216,13 +216,13 @@ class rex_content_service
           'article' => $CONT
       )
       );
-  
+
       if (rex_file::put($article_content_file, $article_content) === FALSE)
       {
-        return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::cache('articles/');
+        return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::addonCache('structure');
       }
     }
-  
+
     return TRUE;
-  }  
+  }
 }

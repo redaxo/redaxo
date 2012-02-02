@@ -59,7 +59,7 @@ class rex_install_webservice
       if($socket->getStatus() == 200)
       {
         $filename = basename($url);
-        $file = rex_path::cache('install/'. md5($filename) .'.'. rex_file::extension($filename));
+        $file = rex_path::addonCache('install', md5($filename) .'.'. rex_file::extension($filename));
         $socket->writeBodyTo($file);
         return $file;
       }
@@ -159,7 +159,7 @@ class rex_install_webservice
     {
       self::$cache = array();
     }
-    rex_file::putCache(rex_path::cache('install/webservice.cache'), self::$cache);
+    rex_file::putCache(rex_path::addonCache('install', 'webservice.cache'), self::$cache);
   }
 
   static private function getCache($path)
@@ -176,7 +176,7 @@ class rex_install_webservice
   {
     if(self::$cache === null)
     {
-      foreach((array) rex_file::getCache(rex_path::cache('install/webservice.cache')) as $path => $cache)
+      foreach((array) rex_file::getCache(rex_path::addonCache('install', 'webservice.cache')) as $path => $cache)
       {
         if($cache['stamp'] > time() - self::REFRESH_CACHE)
           self::$cache[$path] = $cache;
@@ -188,6 +188,6 @@ class rex_install_webservice
   {
     self::$cache[$path]['stamp'] = time();
     self::$cache[$path]['data'] = $data;
-    rex_file::putCache(rex_path::cache('install/webservice.cache'), self::$cache);
+    rex_file::putCache(rex_path::addonCache('install', 'webservice.cache'), self::$cache);
   }
 }
