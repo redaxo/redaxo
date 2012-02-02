@@ -13,8 +13,14 @@ foreach (rex_addon::getRegisteredAddons() as $addon)
   $author      = $addon->getAuthor();
   $supportPage = $addon->getSupportPage();
 
-  if ($isActive) $cl = 'rex-clr-grn';
-  else $cl = 'rex-clr-red';
+  if ($isActive)
+  {
+    $cl = 'rex-active';
+  }
+  else
+  {
+    $cl = 'rex-inactive';
+  }
 
   if ($version)   $version       = '['.$version.']';
   if ($author)    $author        = htmlspecialchars($author);
@@ -37,8 +43,14 @@ foreach (rex_addon::getRegisteredAddons() as $addon)
       $author      = $plugin->getAuthor();
       $supportPage = $plugin->getSupportPage();
 
-      if ($isActive) $cl = 'rex-clr-grn';
-      else $cl = 'rex-clr-red';
+      if ($isActive)
+      {
+        $cl = 'rex-active';
+      }
+      else
+      {
+        $cl = 'rex-inactive';
+      }
 
       if ($version)   $version       = '['.$version.']';
       if ($author)    $author        = htmlspecialchars($author);
@@ -68,50 +80,57 @@ foreach (rex_addon::getRegisteredAddons() as $addon)
 
 echo rex_view::title(rex_i18n::msg("credits"), "");
 
-echo '
-<div class="rex-area rex-mab-10">
-  <h3 class="rex-hl2">REDAXO '. rex::getVersion() .'</h3>
+$content_1 = '';
+$content_2 = '';
 
-  <div class="rex-area-content">
-
-  <p class="rex-tx1">
-    <b>Jan Kristinus</b>, jan.kristinus@redaxo.de<br />
-    Erfinder und Kernentwickler<br />
+$content_1 .= '
+  <h2>REDAXO</h2>
+  
+  <h3>Jan Kristinus <span>jan.kristinus@redaxo.org</span></h3>
+  <p>
+    '. rex_i18n::msg('credits_inventor') .' &amp '. rex_i18n::msg('credits_developer') .'<br />
     Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
   </p>
 
-  <p class="rex-tx1">
-    <b>Markus Staab</b>, markus.staab@redaxo.de<br />
-    Kernentwickler<br />
+  <h3>Markus Staab <span>markus.staab@redaxo.org</span></h3>
+  <p>'. rex_i18n::msg('credits_developer') .'<br />
     REDAXO, <a href="http://www.redaxo.org" onclick="window.open(this.href); return false;">www.redaxo.org</a>
   </p>
 
-  <p class="rex-tx1">
-    <b>Gregor Harlan</b>, gregor.harlan@redaxo.de<br />
-    Kernentwickler<br />
+  <h3>Gregor Harlan <span>gregor.harlan@redaxo.org</span></h3>
+  <p>'. rex_i18n::msg('credits_developer') .'<br />
     meyerharlan, <a href="http://meyerharlan.de" onclick="window.open(this.href); return false;">www.meyerharlan.de</a>
+  </p>';
+
+$content_2 .= '
+  <h2>'. rex::getVersion() .'</h2>
+
+  <h3>Ralph Zumkeller <span>info@redaxo.org</span></h3>
+  <p>'. rex_i18n::msg('credits_designer') .'<br />
+    Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
   </p>
 
-  <p class="rex-tx1">
-    <b>Thomas Blum</b>, thomas.blum@redaxo.de<br />
-    Layout/Design Entwickler<br />
+  <h3>Thomas Blum <span>thomas.blum@redaxo.org</span></h3>
+  <p>HTML/CSS<br />
     blumbeet - web.studio, <a href="http://www.blumbeet.com" onclick="window.open(this.href); return false;">www.blumbeet.com</a>
-  </p>
-  </div>
-</div>';
+  </p>';
 
 
-echo '
-<div class="rex-area">
+echo rex_view::contentBlock($content_1, $content_2);
 
-  <table class="rex-table"  summary="'. rex_i18n::msg("credits_summary") .'">
+
+$content = '';
+
+$content .= '
+
+  <table id="rex-table-credits-addons" class="rex-table" summary="'. rex_i18n::msg("credits_summary") .'">
     <caption>'. rex_i18n::msg("credits_caption") .'</caption>
     <thead>
     <tr>
-      <th>'. rex_i18n::msg("credits_name") .'</th>
-      <th>'. rex_i18n::msg("credits_version") .'</th>
-      <th>'. rex_i18n::msg("credits_author") .'</th>
-      <th>'. rex_i18n::msg("credits_supportpage") .'</th>
+      <th class="rex-name">'. rex_i18n::msg("credits_name") .'</th>
+      <th class="rex-version">'. rex_i18n::msg("credits_version") .'</th>
+      <th class="rex-author">'. rex_i18n::msg("credits_author") .'</th>
+      <th class="rex-support">'. rex_i18n::msg("credits_supportpage") .'</th>
     </tr>
     </thead>
 
@@ -119,41 +138,45 @@ echo '
 
     foreach($addons as $addon)
     {
-      echo '
+      $content .= '
       <tr class="rex-addon">
-        <td class="rex-col-a"><span class="'. $addon->class .'">'. $addon->name .'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='. $addon->name .'">?</a>]</td>
-        <td class="rex-col-b '. $addon->class .'">'. $addon->version .'</td>
-        <td class="rex-col-c '. $addon->class .'">'. $addon->author .'</td>
-        <td class="rex-col-d '. $addon->class .'">';
+        <td class="rex-name"><span class="'. $addon->class .'">'. $addon->name .'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='. $addon->name .'">?</a>]</td>
+        <td class="rex-version '. $addon->class .'">'. $addon->version .'</td>
+        <td class="rex-author '. $addon->class .'">'. $addon->author .'</td>
+        <td class="rex-support '. $addon->class .'">';
 
         if ($addon->supportpage)
         {
-          echo '<a href="http://'. $addon->supportpage .'" onclick="window.open(this.href); return false;">'. $addon->supportpage .'</a>';
+          $content .= '<a href="http://'. $addon->supportpage .'" onclick="window.open(this.href); return false;">'. $addon->supportpage .'</a>';
         }
 
-      echo '
+      $content .= '
         </td>
       </tr>';
 
       foreach($addon->plugins as $plugin)
       {
-        echo '
+        $content .= '
         <tr class="rex-plugin">
-          <td class="rex-col-a"><span class="'. $plugin->class .'">'. $plugin->name .'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='. $addon->name .'&amp;pluginname='. $plugin->name .'">?</a>]</td>
-          <td class="rex-col-b '. $plugin->class .'">'. $plugin->version .'</td>
-          <td class="rex-col-c '. $plugin->class .'">'. $plugin->author .'</td>
-          <td class="rex-col-d '. $plugin->class .'">';
+          <td class="rex-name"><span class="'. $plugin->class .'">'. $plugin->name .'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='. $addon->name .'&amp;pluginname='. $plugin->name .'">?</a>]</td>
+          <td class="rex-version '. $plugin->class .'">'. $plugin->version .'</td>
+          <td class="rex-author '. $plugin->class .'">'. $plugin->author .'</td>
+          <td class="rex-support '. $plugin->class .'">';
 
           if ($plugin->supportpage)
           {
-            echo '<a href="http://'. $plugin->supportpage .'" onclick="window.open(this.href); return false;">'. $plugin->supportpage .'</a>';
+            $content .= '<a href="http://'. $plugin->supportpage .'" onclick="window.open(this.href); return false;">'. $plugin->supportpage .'</a>';
           }
-        echo '
+          
+        $content .= '
           </td>
         </tr>';
       }
     }
-    echo '
+    $content .= '
     </tbody>
-  </table>
-</div>';
+  </table>';
+
+
+
+echo rex_view::contentBlock($content, '', 'block');

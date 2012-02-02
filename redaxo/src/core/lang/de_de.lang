@@ -247,6 +247,9 @@ credits_supportpage = Hilfe
 credits_addon_inactive = Addon inaktiv
 credits_caption = Liste der verwendeten AddOns/PlugIns
 credits_summary = Auflistung aller verwendeten AddOns/PlugIns
+credits_inventor = Erfinder
+credits_developer = Entwickler
+credits_designer = Grafiker
 
 # redaxo\include\pages\profile.inc.php
 profile_myprofile = Mein Benutzerprofil bearbeiten
