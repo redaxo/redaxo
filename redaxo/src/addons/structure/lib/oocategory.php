@@ -28,7 +28,7 @@ class rex_ooCategory extends rex_ooRedaxo
    * @var array[rex_ooArticle]
    */
   private static $childIds = array();
-  
+
   /**
    * CLASS Function:
    * Return all Children by id
@@ -47,7 +47,7 @@ class rex_ooCategory extends rex_ooRedaxo
       $clang = rex_clang::getId();
     }
 
-    $categorylist = rex_path::cache('articles/'.$cat_parent_id.".".$clang.".clist");
+    $categorylist = rex_path::addonCache('structure', $cat_parent_id.".".$clang.".clist");
 
     $catlist = array ();
 

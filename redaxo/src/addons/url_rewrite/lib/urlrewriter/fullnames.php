@@ -52,7 +52,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
   // Konstruktor
   public function __construct($use_levenshtein = false, $use_params_rewrite = false)
   {
-    $this->PATHLIST = rex_path::cache('pathlist.php');
+    $this->PATHLIST = rex_path::addonCache('url_rewrite', 'pathlist.php');
 
     $this->use_levenshtein = $use_levenshtein;
     $this->use_params_rewrite = $use_params_rewrite;

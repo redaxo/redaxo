@@ -169,7 +169,7 @@ class rex_media_manager
 		}
 
 		$folders = array();
-		$folders[] = rex_path::cache('media/');
+		$folders[] = rex_path::addonCache('media_manager');
 		$folders[] = rex_path::media();
 
 		$counter = 0;
@@ -195,7 +195,7 @@ class rex_media_manager
 	{
 		$headerCacheFilename = $this->getHeaderCacheFilename();
     $CacheFilename = $this->getCacheFilename();
-    
+
 		$header = array();
 		if($this->isCached())
 		{
@@ -284,7 +284,7 @@ class rex_media_manager
 		if($rex_media_manager_file != '' && $rex_media_manager_type != '')
 		{
 			$media_path    = rex_path::media($rex_media_manager_file);
-			$cache_path    = rex_path::cache('media/');
+			$cache_path    = rex_path::addonCache('media_manager');
 
 			$media         = new rex_media($media_path);
 			$media_manager = new rex_media_manager($media);

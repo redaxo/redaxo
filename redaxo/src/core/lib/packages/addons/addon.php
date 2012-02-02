@@ -94,6 +94,14 @@ class rex_addon extends rex_package implements rex_addon_interface
   }
 
   /* (non-PHPdoc)
+   * @see rex_package_interface::getCachePath()
+   */
+  public function getCachePath($file = '')
+  {
+    return rex_path::addonCache($this->getName(), $file);
+  }
+
+  /* (non-PHPdoc)
    * @see rex_addon_interface::getPlugin()
    */
   public function getPlugin($plugin)
