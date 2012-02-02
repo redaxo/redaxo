@@ -56,6 +56,14 @@ abstract class rex_null_package extends rex_singleton implements rex_package_int
   }
 
   /* (non-PHPdoc)
+   * @see rex_package_interface::getCachePath()
+   */
+  public function getCachePath($file = '')
+  {
+    return null;
+  }
+
+  /* (non-PHPdoc)
    * @see rex_package_interface::setConfig()
    */
   public function setConfig($key, $value)

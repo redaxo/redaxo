@@ -49,7 +49,7 @@ class rex_ooMediaCategory
     if (!is_numeric($id))
       return null;
 
-    $cat_path = rex_path::cache('media/'.$id.'.mcat');
+    $cat_path = rex_path::addonCache('mediapool', $id.'.mcat');
     if (!file_exists($cat_path))
 		{
     	rex_media_cache::generateCategory($id);
@@ -102,7 +102,7 @@ class rex_ooMediaCategory
 
     $catlist = array();
 
-    $catlist_path = rex_path::cache('media/'.$id.'.mclist');
+    $catlist_path = rex_path::addonCache('mediapool', $id.'.mclist');
     if (!file_exists($catlist_path))
 		{
     	rex_media_cache::generateCategoryList($id);
@@ -294,7 +294,7 @@ class rex_ooMediaCategory
       $this->_files = array();
       $id = $this->getId();
 
-      $list_path = rex_path::cache('media/'.$id.'.mlist');
+      $list_path = rex_path::addonCache('mediapool', $id.'.mlist');
       if (!file_exists($list_path))
   		{
       	rex_media_cache::generateList($id);

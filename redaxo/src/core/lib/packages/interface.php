@@ -51,6 +51,13 @@ interface rex_package_interface
   public function getDataPath($file = '');
 
   /**
+   * Returns the cache path
+   *
+   * @param string $file File
+   */
+  public function getCachePath($file = '');
+
+  /**
    * @see rex_config::set()
    */
   public function setConfig($key, $value);
