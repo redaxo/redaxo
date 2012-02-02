@@ -120,6 +120,21 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     return $this->getAddon()->isAvailable() && parent::isAvailable();
   }
 
+  /* (non-PHPdoc)
+   * @see rex_package_interface::i18n()
+   */
+  public function i18n($key)
+  {
+    $args = func_get_args();
+    $key = $this->getAddon()->getName() .'_'. $this->getName() .'_'. $key;
+    if(rex_i18n::hasMsg($key))
+    {
+      $args[0] = $key;
+      return call_user_func_array('rex_i18n::msg', $args);
+    }
+    return call_user_func_array(array($this->getAddon(), 'i18n'), $args);
+  }
+
   /**
    * Returns the registered plugins of the given addon
    *
