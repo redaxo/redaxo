@@ -283,10 +283,10 @@ body {
 }
 
 #rex-page-navigation {
-  clear: both;
   float: left;
   width: 229px;
-  min-height: 300px;
+  min-height: 300px;;
+  margin-left: -1311px;
 }
 #rex-page-navigation.rex-close {
   width: 24px;
@@ -297,10 +297,12 @@ body {
 
 
 #rex-page-main {
+  clear: both;
   float: left;
   width: 770px;
   padding: 20px;
   min-height: 500px;
+  margin-left: 541px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -311,6 +313,7 @@ body {
   float: left;
   width: 310px;
   min-height: 300px;
+  margin-left: -1081px !important;
 }
 .rex-page-sidebar.rex-close {
   width: 24px;
@@ -328,6 +331,7 @@ body {
   overflow: hidden;
   background-color: #25353b;
 }
+
 
 /*
 .rex-page-sidebar-open #rex-page {
@@ -1349,6 +1353,35 @@ a.rex-button {
 
 
 
+
+body.rex-fluid #rex-page {
+}
+body.rex-fluid #rex-page-meta {
+  margin-right: 1px;
+}
+body.rex-fluid #rex-page-navigation {
+    margin-left: -100%;
+}
+body.rex-fluid #rex-page-main {
+  float: left;
+  width: auto;
+  margin-right: 1px;
+}
+body.rex-fluid #rex-page-footer {
+  float: left;
+  width: 100%;
+  margin-left: 541px;
+  margin-right: 1px;
+}
+body.rex-fluid .rex-page-sidebar {
+  left: 230px;
+  float: left;
+  width: 310px;
+  margin-left: -100% !important;
+}
+
+/*
+
 @media all and (orientation:portrait) {
   body:after {
     content: 'portrait';
@@ -1359,7 +1392,62 @@ a.rex-button {
     content: 'landscape';
   }
 }
+@media (min-width: 450px) and (max-width: 1300px) {
+  
+}
+*/
 
+@media (max-width: 1350px) {
+  #rex-page {
+    width: 1000px;
+  }
+  #rex-page-navigation {
+    margin-left: 0;
+  }
+  #rex-page-main {
+    float: right;
+    margin-left: 0;
+  }
+  .rex-page-sidebar {
+    clear: left;
+    float: left;
+    width: 229px;
+    margin-left: 0 !important;
+  }
+  
+  
+  body.rex-fluid #rex-page {
+    width: auto;
+  }
+  body.rex-fluid #rex-page-meta {
+    margin-right: 1px;
+  }
+  body.rex-fluid #rex-page-navigation {
+    float: left;
+    margin-left: -100%;
+  }
+  body.rex-fluid #rex-page-main {
+    float: left;
+    width: auto;
+    margin-right: 230px;
+    margin-left: 230px;
+  }
+  body.rex-fluid #rex-page-footer {
+    float: left;
+    width: 100%;
+    margin-left: 230px;
+    margin-right: 0;
+  }
+  body.rex-fluid .rex-page-sidebar {
+    clear: none;
+    left: 0;
+    float: right;
+    width: 229px;
+    margin-left: -100% !important;
+    margin-right: 0;
+  }
+
+}
 
 /********************************************************** Special ************
 *******************************************************************************/
