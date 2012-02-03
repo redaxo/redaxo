@@ -481,7 +481,7 @@ if($checkmodus == 2)
 
             <div class="rex-form-row">
               <p class="rex-form-col-a rex-form-text">
-                <label for="error_email">'.rex_i18n::msg("setup_026").'</label>
+                <label for="error_email">'.rex_i18n::msg("error_email").'</label>
                 <input class="rex-form-text" type="text" id="error_email" name="error_email" value="'.$config['error_email'].'" />
               </p>
             </div>
