@@ -55,12 +55,12 @@ class rex_backend_login extends rex_login
     if($check)
     {
       // gelungenen versuch speichern | login_tries = 0
-      if($this->usr_login != '')
+      if($this->usr_login != '' || !$userId)
       {
         $this->sessionFixation();
         $params = array();
         $add = '';
-        if($this->stayLoggedIn)
+        if($this->stayLoggedIn || $cookiekey)
         {
           $cookiekey = $this->USER->getValue('cookiekey') ?: sha1($this->system_id . time() . $this->usr_login);
           $add = 'cookiekey = ?, ';
