@@ -38,37 +38,37 @@ $content .= '
   <fieldset>
     <h2>'.rex_i18n::msg('login_welcome').'</h2>
     <input type="hidden" name="javascript" value="0" id="javascript" />';
-        
+
           $formElements = array();
-            
+
             $n = array();
             $n['label'] = '<label for="rex-form-login-user">'.rex_i18n::msg('login_name').':</label>';
             $n['field'] = '<input type="text" value="'.htmlspecialchars($rex_user_login).'" id="rex-form-login-user" name="rex_user_login" />';
             $formElements[] = $n;
-            
+
             $n = array();
             $n['label'] = '<label for="REX_UPSW">'.rex_i18n::msg('password').':</label>';
             $n['field'] = '<input type="password" name="rex_user_psw" id="REX_UPSW" />';
             $formElements[] = $n;
-            
+
             $n = array();
             $n['reverse'] = true;
             $n['label'] = '<label for="rex_user_stay_logged_in">'.rex_i18n::msg('stay_logged_in').'</label>';
             $n['field'] = '<input class="rex-form-checkbox" type="checkbox" name="rex_user_stay_logged_in" id="1" />';
             $formElements[] = $n;
-            
+
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
           $content .= $fragment->parse('form.tpl');
 
-$content .= '<fieldset><fieldset class="rex-form-action">';      
-            
+$content .= '<fieldset><fieldset class="rex-form-action">';
+
           $formElements = array();
-          
+
             $n = array();
             $n['field'] = '<input class="rex-form-submit" type="submit" value="'.rex_i18n::msg('login').'" />';
             $formElements[] = $n;
-            
+
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
           $content .= $fragment->parse('form.tpl');
@@ -85,7 +85,7 @@ $content .= '
       .submit(function(){
       	var pwInp = $("#REX_UPSW");
       	if(pwInp.val() != "") {
-      		pwInp.val(Sha1.hash(pwInp.val()));
+      	  $("#loginformular").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
       	}
     });
 

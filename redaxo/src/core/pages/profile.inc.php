@@ -233,19 +233,19 @@ $content .= '
           var pwInp0 = $("#userpsw");
           if(pwInp0.val() != "")
           {
-            pwInp0.val(Sha1.hash(pwInp0.val()));
+            $("#pwformular").append(\'<input type="hidden" name="\'+pwInp0.attr("name")+\'" value="\'+Sha1.hash(pwInp0.val())+\'" />\');
           }
 
           var pwInp1 = $("#userpsw_new_1");
           if(pwInp1.val() != "")
           {
-            pwInp1.val(Sha1.hash(pwInp1.val()));
+            $("#pwformular").append(\'<input type="hidden" name="\'+pwInp1.attr("name")+\'" value="\'+Sha1.hash(pwInp1.val())+\'" />\');
           }
 
           var pwInp2 = $("#userpsw_new_2");
           if(pwInp2.val() != "")
           {
-            pwInp2.val(Sha1.hash(pwInp2.val()));
+            $("#pwformular").append(\'<input type="hidden" name="\'+pwInp2.attr("name")+\'" value="\'+Sha1.hash(pwInp2.val())+\'" />\');
           }
       });
 

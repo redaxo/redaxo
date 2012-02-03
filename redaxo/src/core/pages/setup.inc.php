@@ -954,7 +954,7 @@ if ($checkmodus == 4)
           var pwInp = $("#redaxo_user_pass");
           if(pwInp.val() != "")
           {
-            pwInp.val(Sha1.hash(pwInp.val()));
+            $("#createadminform").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
           }
       });
 
