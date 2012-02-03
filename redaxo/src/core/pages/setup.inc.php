@@ -367,7 +367,6 @@ if ($checkmodus == 2 && $send == 1)
   $config['server']            = rex_post('serveraddress', 'string');
   $config['servername']        = rex_post('serverbezeichnung', 'string');
   $config['lang']              = $lang;
-  $config['instname']          = 'rex'. date('YmdHis');
   $config['error_email']       = rex_post('error_email', 'string');
   $config['timezone']          = rex_post('timezone', 'string');
   $config['db'][1]['host']     = rex_post('mysql_host', 'string');
@@ -375,6 +374,10 @@ if ($checkmodus == 2 && $send == 1)
   $config['db'][1]['password'] = rex_post('redaxo_db_user_pass', 'string');
   $config['db'][1]['name']     = rex_post('dbname', 'string');
   $redaxo_db_create            = rex_post('redaxo_db_create', 'boolean');
+  if(empty($config['instname']))
+  {
+    $config['instname'] = 'rex'. date('YmdHis');
+  }
 
   // check if timezone is valid
   if(@date_default_timezone_set($config['timezone']) === false)
@@ -843,10 +846,8 @@ if ($checkmodus == 4 && $send == 1)
       }
       else
       {
-        // the service side encryption of pw is only required
-        // when not already encrypted by client using javascript
-        if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0')
-          $redaxo_user_pass = call_user_func(rex::getProperty('pswfunc'), $redaxo_user_pass);
+        $login = new rex_backend_login();
+        $redaxo_user_pass = $login->encryptPassword($redaxo_user_pass);
 
         $user = rex_sql::factory();
         // $user->debugsql = true;

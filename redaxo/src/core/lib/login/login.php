@@ -4,30 +4,25 @@ class rex_login
 {
   public
     $USER,
-    $message;
+    $message = '';
 
   protected
-    $DB,
+    $DB = 1,
     $session_duration,
     $login_query,
     $user_query,
-    $system_id,
+    $system_id = 'default',
+    $use_salt = false,
     $usr_login,
     $usr_psw,
-    $logout,
+    $logout = false,
     $uid,
     $passwordfunction,
-    $cache,
-    $login_status;
+    $cache = false,
+    $login_status = 0; // 0 = noch checken, 1 = ok, -1 = not ok
 
   public function __construct()
   {
-    $this->DB = 1;
-    $this->logout = false;
-    $this->message = "";
-    $this->system_id = "default";
-    $this->cache = false;
-    $this->login_status = 0; // 0 = noch checken, 1 = ok, -1 = not ok
     if (session_id() == "")
       session_start();
   }
@@ -56,6 +51,11 @@ class rex_login
   public function setSysID($system_id)
   {
     $this->system_id = $system_id;
+  }
+
+  public function useSalt($use_salt = true)
+  {
+    $this->use_salt = $use_salt;
   }
 
   /**
@@ -270,11 +270,13 @@ class rex_login
   /**
    * Verschlüsselt den übergebnen String, falls eine Password-Funktion gesetzt ist.
    */
-  protected function encryptPassword($psw)
+  public function encryptPassword($psw)
   {
-    if ($this->passwordfunction == "")
+    if(!is_callable($this->passwordfunction))
       return $psw;
 
+    if($this->use_salt)
+      $psw .= $this->system_id;
     return call_user_func($this->passwordfunction, $psw);
   }
 

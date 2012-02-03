@@ -165,10 +165,10 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 
   if($userpsw != '')
   {
-    // the service side encryption of pw is only required
-    // when not already encrypted by client using javascript
-    if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0' && $userpsw != $sql->getValue(rex::getTablePrefix().'user.password'))
-      $userpsw = call_user_func(rex::getProperty('pswfunc'),$userpsw);
+    if($userpsw != $sql->getValue(rex::getTablePrefix().'user.password'))
+    {
+      $userpsw = rex::getProperty('login')->encryptPassword($userpsw);
+    }
 
     $updateuser->setValue('password',$userpsw);
   }
@@ -207,11 +207,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     $adduser = rex_sql::factory();
     $adduser->setTable(rex::getTablePrefix().'user');
     $adduser->setValue('name',$username);
-    // the service side encryption of pw is only required
-    // when not already encrypted by client using javascript
-    if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0')
-      $userpsw = call_user_func(rex::getProperty('pswfunc'),$userpsw);
-    $adduser->setValue('password',$userpsw);
+    $adduser->setValue('password', rex::getProperty('login')->encryptPassword($userpsw));
     $adduser->setValue('login',$userlogin);
     $adduser->setValue('description',$userdesc);
     $adduser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);
@@ -346,7 +342,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
       }
 
     }
-  
+
   }else
   {
     // User Add
@@ -525,7 +521,7 @@ if (isset($SHOW) and $SHOW)
   $list->addLinkAttribute('funcs', 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
 
   $content .= $list->get();
-  
+
   echo rex_view::contentBlock($content,'','block');
 
 }

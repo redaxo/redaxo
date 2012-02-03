@@ -1,8 +1,8 @@
 setup: true
-instname: rex20110827100044
+instname: null
 server: redaxo.org
 servername: REDAXO
-error_email: ''
+error_email: null
 fileperm: '0664'
 dirperm: '0775'
 session_duration: 3000

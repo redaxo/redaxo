@@ -41,11 +41,6 @@ if (rex::isSetup())
   $rex_user_psw = rex_post('rex_user_psw', 'string');
   $rex_user_stay_logged_in = rex_post('rex_user_stay_logged_in', 'boolean', false);
 
-  // the service side encryption of pw is only required
-  // when not already encrypted by client using javascript
-  if (rex::getProperty('pswfunc') != '' && rex_post('javascript') == '0')
-    rex::getProperty('login')->setPasswordFunction(rex::getProperty('pswfunc'));
-
   if (rex_get('rex_logout', 'boolean'))
     $login->setLogout(true);
 
