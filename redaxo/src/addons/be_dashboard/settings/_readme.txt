@@ -1,1 +1,0 @@
-folder to store user depending dashboard component information

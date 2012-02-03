@@ -23,8 +23,10 @@ abstract class rex_dashboard_component_config
     static $counter = 0;
     $counter++;
 
+    $dir = rex_path::addonData('be_dashboard', 'settings');
+    rex_dir::create($dir);
     $options = array(
-      'cache_dir' => dirname(__FILE__). '/../settings',
+      'cache_dir' => $dir,
     );
 
     $this->id = $counter;
