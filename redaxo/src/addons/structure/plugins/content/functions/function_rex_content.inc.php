@@ -21,10 +21,10 @@ function rex_execPreViewAction($module_id, $function, $REX_ACTION)
     $iaction = $row->getValue('preview');
 
     // ****************** VARIABLEN ERSETZEN
-    foreach(rex_var::getVars() as $obj)
-    {
-      $iaction = $obj->getACOutput($REX_ACTION, $iaction);
-    }
+//     foreach(rex_var::getVars() as $obj)
+//     {
+//       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
+//     }
 
     require rex_stream::factory('action/'. $row->getValue('id') .'/preview', $iaction);
   }
@@ -55,10 +55,10 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
     $iaction = $row->getValue('presave');
 
     // *********************** WERTE ERSETZEN
-    foreach (rex_var::getVars() as $obj)
-    {
-      $iaction = $obj->getACOutput($REX_ACTION, $iaction);
-    }
+//     foreach (rex_var::getVars() as $obj)
+//     {
+//       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
+//     }
 
     require rex_stream::factory('action/'. $row->getValue('id') .'/presave', $iaction);
 
@@ -91,10 +91,10 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
     $iaction = $row->getValue('postsave');
 
     // ***************** WERTE ERSETZEN UND POSTACTION AUSFÜHREN
-    foreach (rex_var::getVars() as $obj)
-    {
-      $iaction = $obj->getACOutput($REX_ACTION, $iaction);
-    }
+//     foreach (rex_var::getVars() as $obj)
+//     {
+//       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
+//     }
 
     require rex_stream::factory('action/'. $row->getValue('id') .'/postsave', $iaction);
 

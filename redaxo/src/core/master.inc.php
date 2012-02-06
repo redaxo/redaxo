@@ -28,8 +28,6 @@ unset($REX);
 rex_i18n::addDirectory(rex_path::core('lang'));
 // add core base-fragmentpath to fragmentloader
 rex_fragment::addDirectory(rex_path::core('fragments/'));
-// register core REX_VARS
-rex_var::registerVar('rex_var_config');
 
 // ----------------- FUNCTIONS
 require_once rex_path::core('functions/function_rex_globals.inc.php');

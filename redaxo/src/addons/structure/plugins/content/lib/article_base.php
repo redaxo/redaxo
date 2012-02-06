@@ -443,49 +443,50 @@ class rex_article_base
 
     $REX_ACTION = rex_plugin::get('structure', 'content')->getProperty('rex_action', array());
 
-    foreach(rex_var::getVars() as $var)
-    {
-      if ($this->mode == 'edit')
-      {
-        if (($this->function == 'add' && $sliceId == null) ||
-            ($this->function == 'edit' && $sliceId == $this->slice_id))
-        {
-          if (isset($REX_ACTION['SAVE']) && $REX_ACTION === false)
-          {
-            // Wenn der aktuelle Slice nicht gespeichert werden soll
-            // (via Action wurde das Nicht-Speichern-Flag gesetzt)
-            // Dann die Werte manuell aus dem Post übernehmen
-            // und anschließend die Werte wieder zurücksetzen,
-            // damit die nächsten Slices wieder die Werte aus der DB verwenden
-            $var->setACValues($sql, $REX_ACTION);
-            $tmp = $var->getBEInput($sql,$content);
-            $flushValues = true;
-          }
-          else
-          {
-            // Slice normal parsen
-            $tmp = $var->getBEInput($sql,$content);
-            // Werte wieder zuruecksetzen, damit die naechsten Slices wieder
-            // die Werte aus der DB verwenden
-            $flushValues = true;
-          }
-        }else
-        {
-          $tmp = $var->getBEOutput($sql,$content);
-        }
-      }else
-      {
-        $tmp = $var->getFEOutput($sql,$content);
-      }
 
-      // Rückgabewert nur auswerten wenn auch einer vorhanden ist
-      // damit $content nicht verfälscht wird
-      // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
-      if($tmp !== null)
-      {
-        $content = $tmp;
-      }
-    }
+//     foreach(rex_var::getVars() as $var)
+//     {
+//       if ($this->mode == 'edit')
+//       {
+//         if (($this->function == 'add' && $sliceId == null) ||
+//             ($this->function == 'edit' && $sliceId == $this->slice_id))
+//         {
+//           if (isset($REX_ACTION['SAVE']) && $REX_ACTION === false)
+//           {
+//             // Wenn der aktuelle Slice nicht gespeichert werden soll
+//             // (via Action wurde das Nicht-Speichern-Flag gesetzt)
+//             // Dann die Werte manuell aus dem Post übernehmen
+//             // und anschließend die Werte wieder zurücksetzen,
+//             // damit die nächsten Slices wieder die Werte aus der DB verwenden
+//             $var->setACValues($sql, $REX_ACTION);
+//             $tmp = $var->getBEInput($sql,$content);
+//             $flushValues = true;
+//           }
+//           else
+//           {
+//             // Slice normal parsen
+//             $tmp = $var->getBEInput($sql,$content);
+//             // Werte wieder zuruecksetzen, damit die naechsten Slices wieder
+//             // die Werte aus der DB verwenden
+//             $flushValues = true;
+//           }
+//         }else
+//         {
+//           $tmp = $var->getBEOutput($sql,$content);
+//         }
+//       }else
+//       {
+//         $tmp = $var->getFEOutput($sql,$content);
+//       }
+
+//       // Rückgabewert nur auswerten wenn auch einer vorhanden ist
+//       // damit $content nicht verfälscht wird
+//       // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
+//       if($tmp !== null)
+//       {
+//         $content = $tmp;
+//       }
+//     }
 
     if ($flushValues)
       $sql->flushValues();

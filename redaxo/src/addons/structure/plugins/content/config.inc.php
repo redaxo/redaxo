@@ -10,8 +10,6 @@
 
 rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
 
-rex_var::registerVar('rex_var_value');
-
 if (rex::isBackend())
 {
   $page = new rex_be_page(rex_i18n::msg('content'), array('page' => 'linkmap'));

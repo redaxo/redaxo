@@ -30,8 +30,6 @@ if (rex::isBackend())
   }
 }
 
-rex_var::registerVar('rex_var_link');
-
 //---------------- tree
 if (rex::isBackend() && rex::getUser())
 {
@@ -39,7 +37,7 @@ if (rex::isBackend() && rex::getUser())
   if(!rex::getUser()->hasPerm("structure_tree[off]"))
   {
     rex_extension::register('PAGE_SIDEBAR', function($params){
-	    	
+
 	   	$category_id = rex_request('category_id', 'rex-category-id');
 		$article_id  = rex_request('article_id',  'rex-article-id');
 		$clang       = rex_request('clang',       'rex-clang-id');
@@ -57,17 +55,17 @@ if (rex::isBackend() && rex::getUser())
 
       // check if a new category was folded
       $category_id = rex_request('toggle_category_id', 'rex-category-id', -1);
-      
+
       $tree = '';
       $tree .= '<div id="rex-sitemap">';
       // TODO remove container (just their to get some linkmap styles)
-      $tree .= '<div id="rex-linkmap">'; 
+      $tree .= '<div id="rex-linkmap">';
       $categoryTree = new rex_sitemap_categoryTree($context);
 			$tree .= $categoryTree->getTree($category_id);
 
       $tree .= '</div>';
       $tree .= '</div>';
-      
+
       $params['subject'] = $tree;
 
       return $params['subject'];
