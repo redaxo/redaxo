@@ -21,14 +21,14 @@ class rex_var_category extends rex_var
    */
   protected function getOutput()
   {
-    $field = $this->getArg('field', 'string');
-    if(!rex_ooCategory::hasValue($field))
+    $field = $this->getArg('field');
+    if(!$field)
       return false;
 
-    $category_id = $this->getArg('id', 'int', '$this->getValue(\'category_id\')');
-    $clang = $this->getArg('clang', 'int', 'null');
+    $category_id = $this->getArg('id', '$this->getValue(\'category_id\')');
+    $clang = $this->getArg('clang', 'null');
 
-    return __CLASS__ .'::getCategoryValue('. $category_id .", '". addslashes($field) ."', ". $clang .')';
+    return __CLASS__ .'::getCategoryValue('. $category_id .', '. $field .', '. $clang .')';
   }
 
   static public function getCategoryValue($id, $field, $clang = null)

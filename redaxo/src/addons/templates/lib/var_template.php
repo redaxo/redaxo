@@ -10,7 +10,7 @@ class rex_var_template extends rex_var
 {
   protected function getOutput()
   {
-    $template_id = $this->getArg('id', 'int', 0, true);
+    $template_id = $this->getArg('id', 0, true);
 
     if($template_id > 0)
     {

@@ -14,8 +14,8 @@ class rex_var_config extends rex_var
 {
   protected function getOutput()
   {
-    $field = $this->getArg('field', 'string');
-    return __CLASS__ ."::getConfig('". addslashes($field) ."')";
+    $field = $this->getArg('field');
+    return __CLASS__ .'::getConfig('. $field .')';
   }
 
   /**

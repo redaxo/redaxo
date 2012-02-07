@@ -25,10 +25,10 @@ class rex_var_article extends rex_var
    */
   protected function getOutput()
   {
-    $id    = $this->getArg('id', 'int', 0, true);
-    $clang = $this->getArg('clang', 'int', 'null');
-    $ctype = $this->getArg('ctype', 'int', -1);
-    $field = $this->getArg('field', 'string');
+    $id    = $this->getArg('id', 0, true);
+    $clang = $this->getArg('clang', 'null');
+    $ctype = $this->getArg('ctype', -1);
+    $field = $this->getArg('field');
 
     $noId = $id == 0;
     if($noId)
@@ -38,23 +38,17 @@ class rex_var_article extends rex_var
 
     if($field)
     {
-      if(rex_ooArticle::hasValue($field))
-      {
-        return __CLASS__ .'::getArticleValue('. $id .", '". $field ."', ". $clang .')';
-      }
+      return __CLASS__ .'::getArticleValue('. $id .', '. $field .', '. $clang .')';
     }
-    else
+    elseif(!$noId || $this->getContext() != 'module')
     {
       // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
       // => endlossschleife
-      if(!$noId || $this->getContext() != 'module')
+      if($noId && $clang == 'null')
       {
-        if($noId && $clang == 'null')
-        {
-          return '$this->getArticle('. $ctype .')';
-        }
-        return __CLASS__ .'::getArticle('. $id .', '. $ctype .', '. $clang .')';
+        return '$this->getArticle('. $ctype .')';
       }
+      return __CLASS__ .'::getArticle('. $id .', '. $ctype .', '. $clang .')';
     }
 
     return false;

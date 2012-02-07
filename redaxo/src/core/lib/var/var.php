@@ -14,12 +14,12 @@ abstract class rex_var
     OUTPUT = 8;
 
   static private
-    $vars = array();
-
-  private
-    $args = array(),
+    $vars = array(),
     $env = null,
     $context = null;
+
+  private
+    $args = array();
 
   /**
    * @param string $var
@@ -32,15 +32,18 @@ abstract class rex_var
       $class = 'rex_var_'. strtolower(substr($var, 4));
       if(!is_subclass_of($class, __CLASS__))
         return false;
-      self::$vars[$var] = new $class;
+      self::$vars[$var] = $class;
     }
-    return self::$vars[$var];
+    $class = self::$vars[$var];
+    return new $class;
   }
 
   static public function parse($content, $env = null, $context = null)
   {
     if(($env & self::INPUT) != self::INPUT)
       $env = $env | self::OUTPUT;
+    self::$env = $env;
+    self::$context = $context;
 
     $tokens = token_get_all($content);
     $countTokens = count($tokens);
@@ -67,36 +70,40 @@ abstract class rex_var
             }
             --$i;
           }
-          $matches = array();
-          preg_match_all('/(REX_[A-Z]+)\[([^\[\]]*)\]/ms', $add, $matches, PREG_SET_ORDER);
-          foreach($matches as $match)
+          switch($token[0])
           {
-            $var = self::getVar($match[1]);
-            if($var === false)
-              continue;
-            switch($token[0])
-            {
-              case T_INLINE_HTML:
-                $format = '<?php echo %s; ?>';
-                break;
-              case T_CONSTANT_ENCAPSED_STRING:
-                $format = $token[1][0] == '"' ? '". %s ."' : "'. %s .'";
-                break;
-              case T_STRING:
-                $format = '%s';
-                break;
-            }
-            $var->env = $env;
-            $var->context = $context;
-            $var->setArgs($match[2]);
-            if(($replace = $var->getGlobalArgsOutput()) !== false)
-            {
-              $add = str_replace($match[0], sprintf($format, $replace), $add);
-            }
+            case T_INLINE_HTML:
+              $format = '<?php echo %s; ?>';
+              break;
+            case T_CONSTANT_ENCAPSED_STRING:
+              $format = $token[1][0] == '"' ? '". %s ."' : "'. %s .'";
+              break;
+            case T_STRING:
+              $format = '%s';
+              break;
           }
+          $add = self::replaceVars($add, $format);
         }
       }
       $content .= $add;
+    }
+    return $content;
+  }
+
+  static private function replaceVars($content, $format = '%s')
+  {
+    $matches = array();
+    preg_match_all('/(REX_[A-Z]+)\[((?:[^\[\]]|(?R))*)\]/ms', $content, $matches, PREG_SET_ORDER);
+    foreach($matches as $match)
+    {
+      $var = self::getVar($match[1]);
+      if($var === false)
+        continue;
+      $var->setArgs($match[2]);
+      if(($replace = $var->getGlobalArgsOutput()) !== false)
+      {
+        $content = str_replace($match[0], sprintf($format, $replace), $content);
+      }
     }
     return $content;
   }
@@ -111,27 +118,28 @@ abstract class rex_var
     return isset($this->args[$key]) || $defaultArg && isset($this->args[0]);
   }
 
-  protected function getArg($key, $type = null, $default = null, $defaultArg = false)
+  protected function getArg($key, $default = null, $defaultArg = false)
   {
     if(!$this->hasArg($key, $defaultArg))
       return $default;
     $arg = isset($this->args[$key]) ? $this->args[$key] : $this->args[0];
-    switch($type)
-    {
-      case 'int': $arg = (int) $arg; break;
-      case 'string': $arg = (string) $arg; break;
-    }
-    return $arg;
+    $begin = '<<<addslashes>>>';
+    $end = '<<</addslashes>>>';
+    $arg = $begin . self::replaceVars($arg, $end ."'. %s .'". $begin) . $end;
+    $arg = preg_replace_callback("@$begin(.*)$end@U", function($match) {
+      return addslashes($match[1]);
+    }, $arg);
+    return is_numeric($arg) ? $arg : "'$arg'";
   }
 
   protected function environmentIs($env)
   {
-    return ($this->env & $env) == $env;
+    return (self::$env & $env) == $env;
   }
 
   protected function getContext()
   {
-    return $this->context;
+    return self::$context;
   }
 
   abstract protected function getOutput();
@@ -145,7 +153,7 @@ abstract class rex_var
     {
       if($this->hasArg($key))
       {
-        $args[] = "'$key' => '". addslashes($this->getArg($key)) ."'";
+        $args[] = "'$key' => ". $this->getArg($key);
       }
     }
     if(!empty($args))
