@@ -60,7 +60,7 @@ abstract class rex_var
           if($token[0] == T_STRING && $i < $countTokens - 1)
           {
             while(isset($tokens[++$i])
-              && (is_string($tokens[$i]) && in_array($tokens[$i], array('=','[',']'))
+              && (is_string($tokens[$i]) && in_array($tokens[$i], array('=', '[', ']'))
                   || in_array($tokens[$i][0], array(T_WHITESPACE, T_STRING, T_CONSTANT_ENCAPSED_STRING))))
             {
               $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
@@ -111,11 +111,17 @@ abstract class rex_var
     return isset($this->args[$key]) || $defaultArg && isset($this->args[0]);
   }
 
-  protected function getArg($key, $default = null, $defaultArg = false)
+  protected function getArg($key, $type = null, $default = null, $defaultArg = false)
   {
-    return isset($this->args[$key])
-      ? $this->args[$key]
-      : ($defaultArg && isset($this->args[0]) ? $this->args[0] : $default);
+    if(!$this->hasArg($key, $defaultArg))
+      return $default;
+    $arg = isset($this->args[$key]) ? $this->args[$key] : $this->args[0];
+    switch($type)
+    {
+      case 'int': $arg = (int) $arg; break;
+      case 'string': $arg = (string) $arg; break;
+    }
+    return $arg;
   }
 
   protected function environmentIs($env)
