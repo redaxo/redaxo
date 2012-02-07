@@ -25,71 +25,58 @@ class rex_var_article extends rex_var
    */
   protected function getOutput()
   {
-    $article_id = $this->getArg('id', 'int', 0, true);
-    $clang      = $this->getArg('clang', 'int', 'null');
-    $ctype      = $this->getArg('ctype', 'int', -1);
-    $field      = $this->getArg('field', 'string');
+    $id    = $this->getArg('id', 'int', 0, true);
+    $clang = $this->getArg('clang', 'int', 'null');
+    $ctype = $this->getArg('ctype', 'int', -1);
+    $field = $this->getArg('field', 'string');
 
-    if($article_id > 0)
+    $noId = $id == 0;
+    if($noId)
     {
-      $article = $article_id;
-    }
-    elseif($clang == 'null')
-    {
-      $article = '$this->getValue(\'id\')';
-    }
-    else
-    {
-      $article = '$this';
+      $id = '$this->getValue(\'id\')';
     }
 
     if($field)
     {
       if(rex_ooArticle::hasValue($field))
       {
-        return __CLASS__ .'::getArticleValue('. $article .", '". $field ."', ". $clang .')';
+        return __CLASS__ .'::getArticleValue('. $id .", '". $field ."', ". $clang .')';
       }
     }
     else
     {
-      if($this->getContext() != 'module')
+      // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
+      // => endlossschleife
+      if(!$noId || $this->getContext() != 'module')
       {
-        // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
-        // => endlossschleife
-        return __CLASS__ .'::getArticle('. $article .', '. $ctype .', '. $clang .')';
+        if($noId && $clang == 'null')
+        {
+          return '$this->getArticle('. $ctype .')';
+        }
+        return __CLASS__ .'::getArticle('. $id .', '. $ctype .', '. $clang .')';
       }
     }
 
     return false;
   }
 
-  static public function getArticleValue($article, $field, $clang = null)
+  static public function getArticleValue($id, $field, $clang = null)
   {
     if($clang === null)
     {
       $clang = rex_clang::getId();
     }
-    if(!is_object($article))
-    {
-      $article = rex_ooArticle::getArticleById($article, $clang);
-    }
-
-    $value = $article->getValue($field);
-    return htmlspecialchars($value);
+    $article = rex_ooArticle::getArticleById($id, $clang);
+    return htmlspecialchars($article->getValue($field));
   }
 
-  static public function getArticle($article, $ctype = -1, $clang = null)
+  static public function getArticle($id, $ctype = -1, $clang = null)
   {
     if($clang === null)
     {
       $clang = rex_clang::getId();
     }
-    if(!is_object($article))
-    {
-      $article = new rex_article($article, $clang);
-    }
-
-    $article = $article->getArticle($ctype);
-    return $article;
+    $article = new rex_article($id, $clang);
+    return $article->getArticle($ctype);
   }
 }
