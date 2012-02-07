@@ -61,7 +61,7 @@ abstract class rex_var
           {
             while(isset($tokens[++$i])
               && (is_string($tokens[$i]) && in_array($tokens[$i], array('=', '[', ']'))
-                  || in_array($tokens[$i][0], array(T_WHITESPACE, T_STRING, T_CONSTANT_ENCAPSED_STRING))))
+                  || in_array($tokens[$i][0], array(T_WHITESPACE, T_STRING, T_CONSTANT_ENCAPSED_STRING, T_LNUMBER))))
             {
               $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
             }

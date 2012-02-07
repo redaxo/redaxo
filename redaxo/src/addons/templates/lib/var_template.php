@@ -8,50 +8,32 @@
 
 class rex_var_template extends rex_var
 {
-  // --------------------------------- Output
-
-  public function getBEOutput(rex_sql $sql, $content)
+  protected function getOutput()
   {
-    return $this->matchTemplate($content);
-  }
+    $template_id = $this->getArg('id', 'int', 0, true);
 
-  public function getTemplate($content)
-  {
-    return $this->matchTemplate($content);
-  }
-
-  /**
-   * Wert für die Ausgabe
-   */
-  private function matchTemplate($content)
-  {
-    $var = 'REX_TEMPLATE';
-    $matches = $this->getVarParams($content, $var);
-
-    foreach ($matches as $match)
+    if($template_id > 0)
     {
-      list ($param_str, $args) = $match;
-      $template_id = $this->getArg('id', $args, 0);
-
-      if($template_id > 0)
-      {
-        $tpl = '<?php require '. __CLASS__ .'::getTemplateStream('. $template_id .', $this, \''. json_encode($args) ."'); ?>";
-	      $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
-      }
+      return __CLASS__ .'::getTemplateOutput(require '. __CLASS__ .'::getTemplateStream('. $template_id .', $this))';
     }
 
-    return $content;
+    return false;
   }
 
   static public function getTemplateStream($id, $article = null, $args = '')
   {
+    ob_start();
     $tmpl = new rex_template($id);
     $tmpl = $tmpl->getTemplate();
     if($article)
     {
       $tmpl = $article->replaceCommonVars($tmpl, $id);
     }
-    $tmpl = self::handleGlobalVarParams('REX_TEMPLATE', json_decode($args, true), $tmpl);
     return rex_stream::factory('template/'. $id, $tmpl);
+  }
+
+  static public function getTemplateOutput()
+  {
+    return ob_get_clean();
   }
 }
