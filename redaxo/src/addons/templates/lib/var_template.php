@@ -20,7 +20,7 @@ class rex_var_template extends rex_var
     return false;
   }
 
-  static public function getTemplateStream($id, $article = null, $args = '')
+  static public function getTemplateStream($id, rex_article_base $article = null)
   {
     ob_start();
     $tmpl = new rex_template($id);
