@@ -148,18 +148,42 @@ abstract class rex_var
   {
     if(($content = $this->getOutput()) === false)
       return false;
-    $args = array();
-    foreach(array('callback', 'instead', 'ifempty', 'prefix', 'suffix') as $key)
+
+    if($this->hasArg('callback'))
     {
-      if($this->hasArg($key))
+      $args = array("'subject' => ". $content);
+      foreach(array('instead', 'ifempty', 'prefix', 'suffix') as $key)
       {
-        $args[] = "'$key' => ". $this->getArg($key);
+        if($this->hasArg($key))
+        {
+          $args[] = "'$key' => ". $this->getArg($key);
+        }
       }
-    }
-    if(!empty($args))
-    {
       $args = 'array('. implode(', ', $args) .')';
-      $content = 'rex_var::handleGlobalArgs('. $content .', '. $args .')';
+      return 'call_user_func('. $this->getArg('callback') .', '. $args .')';
+    }
+
+    $prefix = $this->hasArg('prefix') ? $this->getArg('prefix') .'. ' : '';
+    $suffix = $this->hasArg('suffix') ? ' .'. $this->getArg('suffix') : '';
+    $instead = $this->hasArg('instead');
+    $ifempty = $this->hasArg('ifempty');
+    if($prefix || $suffix || $instead || $ifempty)
+    {
+      if($instead)
+      {
+        $if = $content;
+        $then = $this->getArg('instead');
+      }
+      else
+      {
+        $if = '$c = '. $content;
+        $then = '$c';
+      }
+      if($ifempty)
+      {
+        return $prefix .'(('. $if .') ? '. $then .' : '. $this->getArg('ifempty') .')'. $suffix;
+      }
+      return '(('. $if .') ? '. $prefix . $then . $suffix ." : '')";
     }
     return $content;
   }
