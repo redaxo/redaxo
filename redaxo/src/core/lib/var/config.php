@@ -1,11 +1,13 @@
 <?php
 
 /**
- * REX_CONFIG[field=xzy]
+ * REX_CONFIG[key=xzy]
  *
- * Attribute:
- *   - field    => Feld, das ausgegeben werden soll
+ * Arguments:
+ *   - key
+ *   - namespace
  *
+ * @author gharlan
  *
  * @package redaxo5
  */
@@ -14,19 +16,10 @@ class rex_var_config extends rex_var
 {
   protected function getOutput()
   {
-    $field = $this->getArg('field');
-    return __CLASS__ .'::getConfig('. $field .')';
-  }
-
-  /**
-   * Returns the property of the given config-field
-   *
-   * @param string $field The name of the config field
-   * @return string
-   */
-  static public function getConfig($field)
-  {
-    $config = rex::getProperty($field, rex::getConfig($field));
-    return htmlspecialchars($config);
+    $key = $this->getArg('key', null, true);
+    if($key === null)
+      return false;
+    $namespace = $this->getArg('namespace', "'". rex::CONFIG_NAMESPACE ."'");
+    return 'htmlspecialchars(rex_config::get('. $namespace .', '. $key .'))';
   }
 }
