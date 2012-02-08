@@ -176,8 +176,8 @@ abstract class rex_var
       }
       else
       {
-        $if = '$c = '. $content;
-        $then = '$c';
+        $if = '$__rex_var_content = '. $content;
+        $then = '$__rex_var_content';
       }
       if($ifempty)
       {
