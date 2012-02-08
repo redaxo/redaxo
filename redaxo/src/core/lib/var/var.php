@@ -58,18 +58,9 @@ abstract class rex_var
       else
       {
         $add = $token[1];
-        if(in_array($token[0], array(T_INLINE_HTML, T_CONSTANT_ENCAPSED_STRING, T_STRING)))
+        if(in_array($token[0], array(T_INLINE_HTML, T_CONSTANT_ENCAPSED_STRING, T_STRING, T_START_HEREDOC)))
         {
-          if($token[0] == T_STRING && $i < $countTokens - 1)
-          {
-            while(isset($tokens[++$i])
-              && (is_string($tokens[$i]) && in_array($tokens[$i], array('=', '[', ']'))
-                  || in_array($tokens[$i][0], array(T_WHITESPACE, T_STRING, T_CONSTANT_ENCAPSED_STRING, T_LNUMBER))))
-            {
-              $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
-            }
-            --$i;
-          }
+          $useVariables = false;
           switch($token[0])
           {
             case T_INLINE_HTML:
@@ -79,10 +70,34 @@ abstract class rex_var
               $format = $token[1][0] == '"' ? '". %s ."' : "'. %s .'";
               break;
             case T_STRING:
+              while(isset($tokens[++$i])
+                  && (is_string($tokens[$i]) && in_array($tokens[$i], array('=', '[', ']'))
+                      || in_array($tokens[$i][0], array(T_WHITESPACE, T_STRING, T_CONSTANT_ENCAPSED_STRING, T_LNUMBER))))
+              {
+                $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
+              }
+              --$i;
               $format = '%s';
               break;
+            case T_START_HEREDOC:
+              while(isset($tokens[++$i]) && (is_string($tokens[$i]) || $tokens[$i][0] != T_END_HEREDOC))
+              {
+                $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
+              }
+              --$i;
+              if($token[1][3] == "'") // nowdoc
+              {
+                $identifier = substr(rtrim($token[1], "'\r\n"), 4);
+                $format = PHP_EOL . $identifier . PHP_EOL .". %s . <<<'$identifier'". PHP_EOL;
+              }
+              else // heredoc
+              {
+                $format = '{%s}';
+                $useVariables = true;
+              }
+              break;
           }
-          $add = self::replaceVars($add, $format);
+          $add = self::replaceVars($add, $format, $useVariables);
         }
       }
       $content .= $add;
@@ -90,20 +105,36 @@ abstract class rex_var
     return $content;
   }
 
-  static private function replaceVars($content, $format = '%s')
+  static private function replaceVars($content, $format = '%s', $useVariables = false)
   {
     $matches = array();
     preg_match_all('/(REX_[A-Z]+)\[((?:[^\[\]]|(?R))*)\]/ms', $content, $matches, PREG_SET_ORDER);
+    $variables = array();
+    $i = 0;
     foreach($matches as $match)
     {
       $var = self::getVar($match[1]);
       if($var === false)
         continue;
       $var->setArgs($match[2]);
-      if(($replace = $var->getGlobalArgsOutput()) !== false)
+      if(($output = $var->getGlobalArgsOutput()) !== false)
       {
+        if($useVariables)
+        {
+          $replace = '$__rex_var_content_'. $i;
+          $variables[] = $replace .' = '. $output;
+        }
+        else
+        {
+          $replace = $output;
+        }
         $content = str_replace($match[0], sprintf($format, $replace), $content);
+        ++$i;
       }
+    }
+    if($useVariables && !empty($variables))
+    {
+      $content = 'rex_var::nothing('. implode(', ', $variables) .') . '. $content;
     }
     return $content;
   }
@@ -220,5 +251,10 @@ abstract class rex_var
       $suffix = $args['suffix'];
 
     return $prefix . $value . $suffix;
+  }
+
+  static public function nothing()
+  {
+    return '';
   }
 }
