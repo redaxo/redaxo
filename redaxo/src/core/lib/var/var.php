@@ -158,7 +158,7 @@ abstract class rex_var
     $end = '<<</addslashes>>>';
     $arg = $begin . self::replaceVars($arg, $end ."'. %s .'". $begin) . $end;
     $arg = preg_replace_callback("@$begin(.*)$end@U", function($match) {
-      return addslashes($match[1]);
+      return addcslashes($match[1], "\'");
     }, $arg);
     return is_numeric($arg) ? $arg : "'$arg'";
   }
