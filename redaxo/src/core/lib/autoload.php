@@ -224,7 +224,10 @@ class rex_autoload
           if(isset($tokens[$i][0]) && $tokens[$i][0] == T_STRING)
           {
             $class = strtolower($namespace . $tokens[$i][1]);
-            self::$classes[$class] = $file;
+            if(!isset(self::$classes[$class]))
+            {
+              self::$classes[$class] = $file;
+            }
           }
         }
       }
