@@ -134,73 +134,6 @@ function rex_ini_get($val)
 }
 
 /**
- * Trennt einen String an Leerzeichen auf.
- * Dabei wird beachtet, dass Strings in " zusammengehören
- */
-function rex_split_string($string)
-{
-  $spacer = '@@@REX_SPACER@@@';
-  $result = array();
-
-  // TODO mehrfachspaces hintereinander durch einfachen ersetzen
-  $string = ' ' . trim($string) . ' ';
-
-  // Strings mit Quotes heraussuchen
-  $pattern = '!(["\'])(.*)\\1!U';
-  preg_match_all($pattern, $string, $matches);
-  $quoted = isset ($matches[2]) ? $matches[2] : array();
-
-  // Strings mit Quotes maskieren
-  $string = preg_replace($pattern, $spacer, $string);
-
-  // ----------- z.b. 4 "av c" 'de f' ghi
-  if (strpos($string, '=') === false)
-  {
-    $parts = explode(' ', $string);
-    foreach ($parts as $part)
-    {
-      if (empty ($part))
-        continue;
-
-      if ($part == $spacer)
-      {
-        $result[] = array_shift($quoted);
-      }
-      else
-      {
-        $result[] = $part;
-      }
-    }
-  }
-  // ------------ z.b. a=4 b="av c" y='de f' z=ghi
-  else
-  {
-    $parts = explode(' ', $string);
-    foreach ($parts as $part)
-    {
-      if(empty($part))
-        continue;
-
-      $variable = explode('=', $part);
-
-      if (empty ($variable[0]) || empty ($variable[1]))
-        continue;
-
-      $var_name = $variable[0];
-      $var_value = $variable[1];
-
-      if ($var_value == $spacer)
-      {
-        $var_value = array_shift($quoted);
-      }
-
-      $result[$var_name] = $var_value;
-    }
-  }
-  return $result;
-}
-
-/**
  * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
  * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte
  *
@@ -228,38 +161,4 @@ function rex_organize_priorities($tableName, $priorColumnName, $whereCondition =
     $qry .= ' ORDER BY '. $orderBy;
 
   $sql->setQuery($qry);
-}
-
-function rex_version_compare($version1, $version2, $comparator = null)
-{
-  $pattern = '/(?<=\d)(?=[a-z])|(?<=[a-z])(?=\d)|[ .-]+/i';
-  $version1 = preg_split($pattern, $version1);
-  $version2 = preg_split($pattern, $version2);
-  $max = max(count($version1), count($version2));
-  $version1 = implode('.', array_pad($version1, $max, '0'));
-  $version2 = implode('.', array_pad($version2, $max, '0'));
-  return version_compare($version1, $version2, $comparator);
-}
-
-/**
- * Returns the string size in bytes
- *
- * @param string $str String
- * @return string Size in bytes
- */
-function rex_str_size($str)
-{
-  return mb_strlen($str, '8bit');
-}
-
-// ------------------------------------- Allgemeine PHP Functions
-
-function rex_highlight_string($string, $return = false)
-{
-  $s = '<p class="rex-code">'. highlight_string($string, true) .'</p>';
-  if($return)
-  {
-    return $s;
-  }
-  echo $s;
 }

@@ -164,6 +164,33 @@ function rex_addslashes($string, $flag = '\\\'\"')
 }
 
 /**
+ * @see rex_string::split()
+ *
+ * @deprecated 5.0
+ */
+function rex_split_string($string)
+{
+  return rex_string::split($string);
+}
+
+/**
+ * @see rex_string::highlight()
+ *
+ * @deprecated 5.0
+ */
+function rex_highlight_string($string, $return = false)
+{
+  $s = rex_string::highlight($string);
+  if($return)
+  {
+    return $s;
+  }
+  echo $s;
+}
+
+/**
+ * @see rex_string::highlight()
+ *
 * @deprecated 5.0
 */
 function rex_highlight_file($filename, $return = false)

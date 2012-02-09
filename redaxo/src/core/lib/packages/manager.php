@@ -532,19 +532,19 @@ abstract class rex_package_manager extends rex_factory
     $state = TRUE;
 
     // check dependency exact-version
-    if(isset($attributes['version']) && rex_version_compare($version, $attributes['version'], '!='))
+    if(isset($attributes['version']) && rex_string::compareVersions($version, $attributes['version'], '!='))
     {
       $state = rex_i18n::msg($i18nPrefix . 'exact_version', $attributes['version'], $version, $addonName, $pluginName);
     }
     else
     {
       // check dependency min-version
-      if(isset($attributes['min-version']) && rex_version_compare($version, $attributes['min-version'], '<'))
+      if(isset($attributes['min-version']) && rex_string::compareVersions($version, $attributes['min-version'], '<'))
       {
         $state = rex_i18n::msg($i18nPrefix . 'min_version', $attributes['min-version'], $version, $addonName, $pluginName);
       }
       // check dependency max-version
-      else if(isset($attributes['max-version']) && rex_version_compare($version, $attributes['max-version'], '>'))
+      else if(isset($attributes['max-version']) && rex_string::compareVersions($version, $attributes['max-version'], '>'))
       {
         $state = rex_i18n::msg($i18nPrefix . 'max_version', $attributes['max-version'], $version, $addonName, $pluginName);
       }

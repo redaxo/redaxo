@@ -368,7 +368,7 @@ abstract class rex_var
    */
   protected function splitString($string)
   {
-    return rex_split_string($string);
+    return rex_string::split($string);
   }
 
   /**

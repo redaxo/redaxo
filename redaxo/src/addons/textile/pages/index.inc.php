@@ -37,7 +37,7 @@ else
 
 	<div class="rex-addon-content">
 		<p class="rex-tx1"><?php echo rex_i18n::msg('textile_module_intro_help'); ?></p>
-		<?php rex_highlight_string($mdl_help); ?>
+		<?php echo rex_string::highlight($mdl_help); ?>
 		<p class="rex-tx1"><?php echo rex_i18n::msg('textile_module_rights'); ?></p>
 	</div>
 </div>
@@ -49,7 +49,7 @@ else
 		<p class="rex-tx1"><?php echo rex_i18n::msg('textile_module_intro_moduleoutput'); ?></p>
 
 		<h3><?php echo rex_i18n::msg('textile_example_for'); ?> REX_VALUE[1]</h3>
-		<?php rex_highlight_string($mdl_ex); ?>
+		<?php echo rex_string::highlight($mdl_ex); ?>
 	</div>
 </div>
 

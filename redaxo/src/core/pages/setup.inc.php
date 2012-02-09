@@ -421,7 +421,7 @@ if ($checkmodus == 2 && $send == 1)
   if($err_msg == '')
   {
     $serverVersion = rex_sql::getServerVersion();
-    if (rex_version_compare($serverVersion, $min_mysql_version, '<') == 1)
+    if (rex_string::compareVersions($serverVersion, $min_mysql_version, '<') == 1)
     {
       $err_msg = rex_i18n::msg('setup_022_1', $serverVersion, $min_mysql_version);
     }

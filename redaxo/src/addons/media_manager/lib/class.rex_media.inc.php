@@ -132,7 +132,7 @@ class rex_media {
 			$src = file_get_contents($this->getMediapath());
 		}
 
-		$this->setHeader("Content-Length", rex_str_size($src));
+		$this->setHeader("Content-Length", rex_string::size($src));
 		if(!array_key_exists('Content-Type',$this->getHeader()))
 		{
 			$finfo = finfo_open(FILEINFO_MIME_TYPE);

@@ -35,7 +35,7 @@ abstract class rex_metainfoHandler
       $dblength      = $sqlFields->getValue('dblength');
       $restrictions  = $sqlFields->getValue('restrictions');
 
-      $attrArray = rex_split_string($attr);
+      $attrArray = rex_string::split($attr);
       if(isset($attrArray['perm']))
       {
         if(!rex::getUser()->hasPerm($attrArray['perm']))
@@ -291,7 +291,7 @@ abstract class rex_metainfoHandler
           $tag = 'div';
           $tag_attr = ' class="rex-form-widget"';
 
-          $paramArray = rex_split_string($params);
+          $paramArray = rex_string::split($params);
 
           $rexInput = rex_input::factory('mediabutton');
           $rexInput->addAttributes($attrArray);
@@ -317,7 +317,7 @@ abstract class rex_metainfoHandler
           $tag = 'div';
           $tag_attr = ' class="rex-form-widget"';
 
-          $paramArray = rex_split_string($params);
+          $paramArray = rex_string::split($params);
 
           $name .= '[]';
           $rexInput = rex_input::factory('medialistbutton');
@@ -344,7 +344,7 @@ abstract class rex_metainfoHandler
           $tag = 'div';
           $tag_attr = ' class="rex-form-widget"';
 
-          $paramArray = rex_split_string($params);
+          $paramArray = rex_string::split($params);
           $category = '';
           if(isset($paramArray['category']))
             $category = $paramArray['category'];
@@ -368,7 +368,7 @@ abstract class rex_metainfoHandler
           $tag = 'div';
           $tag_attr = ' class="rex-form-widget"';
 
-          $paramArray = rex_split_string($params);
+          $paramArray = rex_string::split($params);
           $category = '';
           if(isset($paramArray['category']))
             $category = $paramArray['category'];
@@ -431,7 +431,7 @@ abstract class rex_metainfoHandler
       $fieldAttributes = $sqlFields->getValue('attributes');
 
       // dont save restricted fields
-      $attrArray = rex_split_string($fieldAttributes);
+      $attrArray = rex_string::split($fieldAttributes);
       if(isset($attrArray['perm']))
       {
         if(!rex::getUser()->hasPerm($attrArray['perm']))

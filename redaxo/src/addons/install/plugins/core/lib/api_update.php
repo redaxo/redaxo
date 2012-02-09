@@ -21,7 +21,7 @@ class rex_api_install_core_update extends rex_api_function
       return null;
     }
     $version = $versions[$versionId];
-    if(!rex_version_compare($version['version'], rex::getVersion(), '>'))
+    if(!rex_string::compareVersions($version['version'], rex::getVersion(), '>'))
     {
       throw new rex_api_exception(sprintf('Existing version of Core (%s) is newer than %s', rex::getVersion(), $version['version']));
     }
