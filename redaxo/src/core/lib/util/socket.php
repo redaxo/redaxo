@@ -150,19 +150,19 @@ class rex_socket
         $length = 0;
         $temp = explode('&', http_build_query($data, '', '&'));
         $data = array();
-        $partLength = rex_str_size(sprintf($dataFormat, '') . $eol);
+        $partLength = rex_string::size(sprintf($dataFormat, '') . $eol);
         foreach($temp as $t)
         {
           list($key, $value) = array_map('urldecode', explode('=', $t, 2));
           $data[$key] = $value;
-          $length += $partLength + rex_str_size($key) + rex_str_size($value);
+          $length += $partLength + rex_string::size($key) + rex_string::size($value);
         }
-        $partLength = rex_str_size(sprintf($fileFormat, '', '', '') . $eol);
+        $partLength = rex_string::size(sprintf($fileFormat, '', '', '') . $eol);
         foreach($files as $key => $file)
         {
-          $length += $partLength + rex_str_size($key) + rex_str_size(basename($file['path'])) + rex_str_size($file['type']) + filesize($file['path']);
+          $length += $partLength + rex_string::size($key) + rex_string::size(basename($file['path'])) + rex_string::size($file['type']) + filesize($file['path']);
         }
-        $length += rex_str_size($end);
+        $length += rex_string::size($end);
         fwrite($fp, 'Content-Length: '. $length . $eol . $eol);
         foreach($data as $key => $value)
         {
@@ -235,7 +235,7 @@ class rex_socket
     }
     if(!is_callable($data))
     {
-      fwrite($this->fp, 'Content-Length: '. rex_str_size($data) . $eol);
+      fwrite($this->fp, 'Content-Length: '. rex_string::size($data) . $eol);
       fwrite($this->fp, $eol . $data);
     }
     else

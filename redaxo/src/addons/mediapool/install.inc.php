@@ -15,5 +15,5 @@ if ($error != '')
 else
 {
   $this->setProperty('install', true);
-  rex_generateAll();
+  rex_deleteCache();
 }

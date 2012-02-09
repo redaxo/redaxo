@@ -242,7 +242,7 @@ class rex_metainfo_tableExpander extends rex_form
     if(parent::save())
     {
       $this->organizePriorities($this->elementPostValue($this->getFieldsetName(), 'prior'), $fieldOldPrior);
-      rex_generateAll();
+      rex_deleteCache();
 
       $fieldName = $this->addPrefix($fieldName);
       $fieldType = $this->elementPostValue($this->getFieldsetName(), 'type');

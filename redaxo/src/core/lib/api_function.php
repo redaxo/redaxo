@@ -125,7 +125,7 @@ abstract class rex_api_function extends rex_factory
       }
 
       // if we handle an ajax request, we direct the output to the browser and stop here
-      $isAjaxRequest = rex_isXmlHttpRequest();
+      $isAjaxRequest = rex_request::isXmlHttpRequest();
 
       if($isAjaxRequest)
       {

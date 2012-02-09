@@ -1,6 +1,29 @@
 <?php
 
 /**
+ * @see rex_deleteCache()
+ *
+ * @deprecated 5.0
+ */
+function rex_generateAll()
+{
+  $MSG = rex_deleteCache();
+  // ----- EXTENSION POINT
+  $MSG = rex_extension::registerPoint('ALL_GENERATED', $MSG);
+  return $MSG;
+}
+
+/**
+ * @see rex_deleteCache()
+ *
+ * @deprecated 5.0
+ */
+function rex_deleteAll()
+{
+  rex_deleteCache();
+}
+
+/**
  * @deprecated 5.0
  */
 function rex_tabindex($html = true)
@@ -164,6 +187,33 @@ function rex_addslashes($string, $flag = '\\\'\"')
 }
 
 /**
+ * @see rex_string::split()
+ *
+ * @deprecated 5.0
+ */
+function rex_split_string($string)
+{
+  return rex_string::split($string);
+}
+
+/**
+ * @see rex_string::highlight()
+ *
+ * @deprecated 5.0
+ */
+function rex_highlight_string($string, $return = false)
+{
+  $s = rex_string::highlight($string);
+  if($return)
+  {
+    return $s;
+  }
+  echo $s;
+}
+
+/**
+ * @see rex_string::highlight()
+ *
 * @deprecated 5.0
 */
 function rex_highlight_file($filename, $return = false)
@@ -174,4 +224,14 @@ function rex_highlight_file($filename, $return = false)
     return $s;
   }
   echo $s;
+}
+
+/**
+ * @see rex_request::isXmlHttpRequest()
+ *
+ * @deprecated 5.0
+ */
+function rex_isXmlHttpRequest()
+{
+  return rex_request::isXmlHttpRequest();
 }

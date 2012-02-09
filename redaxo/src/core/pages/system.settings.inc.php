@@ -29,7 +29,7 @@ if ($func == 'setup')
 }elseif ($func == 'generate')
 {
   // generate all articles,cats,templates,caches
-  $success = rex_generateAll();
+  $success = rex_deleteCache();
 }
 elseif ($func == 'updateinfos')
 {

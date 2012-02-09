@@ -137,7 +137,7 @@ class rex_response
       self::sendChecksum(md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content)));
 
     // content length schicken, damit der browser einen ladebalken anzeigen kann
-    header('Content-Length: '. rex_str_size($content));
+    header('Content-Length: '. rex_string::size($content));
 
     echo $content;
   }

@@ -16,7 +16,7 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
       throw new rex_api_exception(sprintf('AddOn "%s" does not exist!', $this->addonkey));
     }
     $this->addon = rex_addon::get($this->addonkey);
-    if(!rex_version_compare($this->file['version'], $this->addon->getVersion(), '>'))
+    if(!rex_string::compareVersions($this->file['version'], $this->addon->getVersion(), '>'))
     {
       throw new rex_api_exception(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $this->file['version']));
     }

@@ -142,7 +142,7 @@ abstract class rex_var
 
   private function setArgs($arg_string)
   {
-    $this->args = rex_split_string($arg_string);
+    $this->args = rex_string::split($arg_string);
   }
 
   protected function hasArg($key, $defaultArg = false)

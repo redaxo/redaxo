@@ -37,7 +37,7 @@ class rex_install_packages
   {
     foreach(self::$updatePackages[$package]['files'] as $fileId => $file)
     {
-      if(empty($version) || empty($file['version']) || rex_version_compare($file['version'], $version, '<='))
+      if(empty($version) || empty($file['version']) || rex_string::compareVersions($file['version'], $version, '<='))
       {
         unset(self::$updatePackages[$package]['files'][$fileId]);
       }

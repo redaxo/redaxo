@@ -1,9 +1,27 @@
 <?php
 
 /**
- * Funktionen zur Ausgabe der Titel Leiste und Subnavigation
+ * Functions
  * @package redaxo5
  */
+
+/**
+ * Deletes the cache
+ */
+function rex_deleteCache()
+{
+  // unregister logger, so the logfile can also be deleted
+  rex_logger::unregister();
+
+  rex_dir::deleteIterator(rex_dir::recursiveIterator(rex_path::cache())->ignoreFiles(array('.htaccess', '_readme.txt'), false));
+
+  rex_logger::register();
+
+  rex_clang::reset();
+
+  // ----- EXTENSION POINT
+  return rex_extension::registerPoint('CACHE_DELETED', rex_i18n::msg('delete_cache_message'));
+}
 
 /**
  * Prüfen ob ein/e Datei/Ordner beschreibbar ist
@@ -134,44 +152,6 @@ function rex_ini_get($val)
 }
 
 /**
- * Trennt einen String an Leerzeichen auf.
- * Dabei wird beachtet, dass Strings in " zusammengehören
- */
-function rex_split_string($string)
-{
-  $result = array();
-  $spacer = '@@@REX_SPACER@@@';
-  $quoted = array();
-
-  $pattern = '@(["\'])((?:.*[^\\\\])?(?:\\\\\\\\)*)\\1@Us';
-  $callback = function($match) use($spacer, &$quoted)
-  {
-    $quoted[] = strtr($match[2], array('\\'.$match[1] => $match[1], '\\\\' => '\\'));
-    return $spacer;
-  };
-  $string = preg_replace_callback($pattern, $callback, trim($string));
-
-  $parts = preg_split('@\s+@', $string);
-  $i = 0;
-  foreach($parts as $part)
-  {
-    $part = explode('=', $part, 2);
-    if(isset($part[1]))
-    {
-      $value = $part[1] == $spacer ? $quoted[$i++] : $part[1];
-      $result[$part[0]] = $value;
-    }
-    else
-    {
-      $value = $part[0] == $spacer ? $quoted[$i++] : $part[0];
-      $result[] = $value;
-    }
-  }
-
-  return $result;
-}
-
-/**
  * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
  * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte
  *
@@ -199,38 +179,4 @@ function rex_organize_priorities($tableName, $priorColumnName, $whereCondition =
     $qry .= ' ORDER BY '. $orderBy;
 
   $sql->setQuery($qry);
-}
-
-function rex_version_compare($version1, $version2, $comparator = null)
-{
-  $pattern = '/(?<=\d)(?=[a-z])|(?<=[a-z])(?=\d)|[ .-]+/i';
-  $version1 = preg_split($pattern, $version1);
-  $version2 = preg_split($pattern, $version2);
-  $max = max(count($version1), count($version2));
-  $version1 = implode('.', array_pad($version1, $max, '0'));
-  $version2 = implode('.', array_pad($version2, $max, '0'));
-  return version_compare($version1, $version2, $comparator);
-}
-
-/**
- * Returns the string size in bytes
- *
- * @param string $str String
- * @return string Size in bytes
- */
-function rex_str_size($str)
-{
-  return mb_strlen($str, '8bit');
-}
-
-// ------------------------------------- Allgemeine PHP Functions
-
-function rex_highlight_string($string, $return = false)
-{
-  $s = '<p class="rex-code">'. highlight_string($string, true) .'</p>';
-  if($return)
-  {
-    return $s;
-  }
-  echo $s;
 }
