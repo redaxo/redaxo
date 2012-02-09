@@ -143,13 +143,13 @@ function rex_split_string($string)
   $spacer = '@@@REX_SPACER@@@';
   $quoted = array();
 
-  $pattern = '@(["\'])((?:.*[^\\\\]|)(?:\\\\\\\\)*)\\1@Us';
+  $pattern = '@(["\'])((?:.*[^\\\\])?(?:\\\\\\\\)*)\\1@Us';
   $callback = function($match) use($spacer, &$quoted)
   {
     $quoted[] = strtr($match[2], array('\\'.$match[1] => $match[1], '\\\\' => '\\'));
     return $spacer;
   };
-  $string = preg_replace_callback($pattern, $callback, $string);
+  $string = preg_replace_callback($pattern, $callback, trim($string));
 
   $parts = preg_split('@\s+@', $string);
   $i = 0;

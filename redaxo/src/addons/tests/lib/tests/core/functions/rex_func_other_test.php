@@ -22,6 +22,17 @@ class rex_func_other_test extends PHPUnit_Framework_TestCase
 
     $s1 = 'a=1 b=xyz c="hu hu" 123=\'he he\'';
     $this->assertEquals(array('a' => 1, 'b' => 'xyz', 'c' => 'hu hu', '123' => 'he he'), rex_split_string($s1), 'supports key value pairs');
+
+    $s1 = 'a="a \"b\" c" b=\'a \\\'b\\\'\' c="a\\\\"';
+    $this->assertEquals(array('a' => 'a "b" c', 'b' => "a 'b'", 'c' => "a\\"), rex_split_string($s1), 'supports escaped quotes');
+
+    $s1 = '
+      a=1
+      b="aa
+bb"
+      c="a"
+    ';
+    $this->assertEquals(array('a' => '1', 'b' => "aa\nbb", 'c' => 'a'), rex_split_string($s1), 'supports multilines');
   }
 
   public function testVersionCompare()
