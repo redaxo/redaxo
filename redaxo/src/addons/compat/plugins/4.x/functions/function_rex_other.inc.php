@@ -202,3 +202,13 @@ function rex_highlight_file($filename, $return = false)
   }
   echo $s;
 }
+
+/**
+ * @see rex_request::isXmlHttpRequest()
+ *
+ * @deprecated 5.0
+ */
+function rex_isXmlHttpRequest()
+{
+  return rex_request::isXmlHttpRequest();
+}
