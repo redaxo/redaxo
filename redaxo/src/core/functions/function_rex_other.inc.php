@@ -1,9 +1,27 @@
 <?php
 
 /**
- * Funktionen zur Ausgabe der Titel Leiste und Subnavigation
+ * Functions
  * @package redaxo5
  */
+
+/**
+ * Deletes the cache
+ */
+function rex_deleteCache()
+{
+  // unregister logger, so the logfile can also be deleted
+  rex_logger::unregister();
+
+  rex_dir::deleteIterator(rex_dir::recursiveIterator(rex_path::cache())->ignoreFiles(array('.htaccess', '_readme.txt'), false));
+
+  rex_logger::register();
+
+  rex_clang::reset();
+
+  // ----- EXTENSION POINT
+  return rex_extension::registerPoint('CACHE_DELETED', rex_i18n::msg('delete_cache_message'));
+}
 
 /**
  * Prüfen ob ein/e Datei/Ordner beschreibbar ist

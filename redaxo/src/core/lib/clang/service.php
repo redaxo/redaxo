@@ -21,7 +21,7 @@ class rex_clang_service
     $newLang->setValue('name', $name);
     $newLang->insert();
 
-    rex_generateAll();
+    rex_deleteCache();
 
     // ----- EXTENSION POINT
     rex_extension::registerPoint('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
@@ -48,7 +48,7 @@ class rex_clang_service
     $editLang->setValue('name', $name);
     $editLang->update();
 
-    rex_generateAll();
+    rex_deleteCache();
 
     // ----- EXTENSION POINT
     rex_extension::registerPoint('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));
@@ -73,7 +73,7 @@ class rex_clang_service
     $del = rex_sql::factory();
     $del->setQuery("delete from ".rex::getTablePrefix()."clang where id='$clang'");
 
-    rex_generateAll();
+    rex_deleteCache();
 
     // ----- EXTENSION POINT
     rex_extension::registerPoint('CLANG_DELETED','',

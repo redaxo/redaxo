@@ -1,6 +1,29 @@
 <?php
 
 /**
+ * @see rex_deleteCache()
+ *
+ * @deprecated 5.0
+ */
+function rex_generateAll()
+{
+  $MSG = rex_deleteCache();
+  // ----- EXTENSION POINT
+  $MSG = rex_extension::registerPoint('ALL_GENERATED', $MSG);
+  return $MSG;
+}
+
+/**
+ * @see rex_deleteCache()
+ *
+ * @deprecated 5.0
+ */
+function rex_deleteAll()
+{
+  rex_deleteCache();
+}
+
+/**
  * @deprecated 5.0
  */
 function rex_tabindex($html = true)

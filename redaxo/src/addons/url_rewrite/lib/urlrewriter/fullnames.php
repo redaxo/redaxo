@@ -69,7 +69,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
         'ART_ADDED',   'ART_UPDATED',   'ART_DELETED',
         'ART_TO_CAT',  'CAT_TO_ART',    'ART_TO_STARTPAGE',
         'CLANG_ADDED', 'CLANG_UPDATED', 'CLANG_DELETED',
-        'ALL_GENERATED', 'ART_META_UPDATED');
+        'CACHE_DELETED', 'ART_META_UPDATED');
 
       foreach($extensionPoints as $extensionPoint)
       {
@@ -313,7 +313,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
       case 'CLANG_UPDATED':
       case 'CLANG_DELETED':
       case 'ART_TO_STARTPAGE':
-      case 'ALL_GENERATED':
+      case 'CACHE_DELETED':
       default:
         $REXPATH = array();
         $where = '1=1';
