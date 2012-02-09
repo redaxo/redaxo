@@ -108,7 +108,7 @@ abstract class rex_var
   static private function replaceVars($content, $format = '%s', $useVariables = false)
   {
     $matches = array();
-    preg_match_all('/(REX_[A-Z]+)\[((?:[^\[\]]|(?R))*)\]/ms', $content, $matches, PREG_SET_ORDER);
+    preg_match_all('/(REX_[A-Z_]+)\[((?:[^\[\]]|(?R))*)\]/s', $content, $matches, PREG_SET_ORDER);
     $variables = array();
     $i = 0;
     foreach($matches as $match)
@@ -119,6 +119,7 @@ abstract class rex_var
       $var->setArgs($match[2]);
       if(($output = $var->getGlobalArgsOutput()) !== false)
       {
+        $output .= str_repeat("\n", max(0, substr_count($match[0], "\n") - substr_count($output, "\n") - substr_count($format, "\n")));
         if($useVariables)
         {
           $replace = '$__rex_var_content_'. $i;
@@ -157,7 +158,7 @@ abstract class rex_var
     $begin = '<<<addslashes>>>';
     $end = '<<</addslashes>>>';
     $arg = $begin . self::replaceVars($arg, $end ."'. %s .'". $begin) . $end;
-    $arg = preg_replace_callback("@$begin(.*)$end@U", function($match) {
+    $arg = preg_replace_callback("@$begin(.*)$end@Us", function($match) {
       return addcslashes($match[1], "\'");
     }, $arg);
     return is_numeric($arg) ? $arg : "'$arg'";

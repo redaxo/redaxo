@@ -139,64 +139,35 @@ function rex_ini_get($val)
  */
 function rex_split_string($string)
 {
-  $spacer = '@@@REX_SPACER@@@';
   $result = array();
+  $spacer = '@@@REX_SPACER@@@';
+  $quoted = array();
 
-  // TODO mehrfachspaces hintereinander durch einfachen ersetzen
-  $string = ' ' . trim($string) . ' ';
-
-  // Strings mit Quotes heraussuchen
-  $pattern = '!(["\'])(.*)\\1!U';
-  preg_match_all($pattern, $string, $matches);
-  $quoted = isset ($matches[2]) ? $matches[2] : array();
-
-  // Strings mit Quotes maskieren
-  $string = preg_replace($pattern, $spacer, $string);
-
-  // ----------- z.b. 4 "av c" 'de f' ghi
-  if (strpos($string, '=') === false)
+  $pattern = '@(["\'])(.*)\\1@Us';
+  $callback = function($match) use($spacer, &$quoted)
   {
-    $parts = explode(' ', $string);
-    foreach ($parts as $part)
-    {
-      if (empty ($part))
-        continue;
+    $quoted[] = $match[2];
+    return $spacer;
+  };
+  $string = preg_replace_callback($pattern, $callback, $string);
 
-      if ($part == $spacer)
-      {
-        $result[] = array_shift($quoted);
-      }
-      else
-      {
-        $result[] = $part;
-      }
+  $parts = preg_split('@\s+@', $string);
+  $i = 0;
+  foreach($parts as $part)
+  {
+    $part = explode('=', $part, 2);
+    if(isset($part[1]))
+    {
+      $value = $part[1] == $spacer ? $quoted[$i++] : $part[1];
+      $result[$part[0]] = $value;
+    }
+    else
+    {
+      $value = $part[0] == $spacer ? $quoted[$i++] : $part[0];
+      $result[] = $value;
     }
   }
-  // ------------ z.b. a=4 b="av c" y='de f' z=ghi
-  else
-  {
-    $parts = explode(' ', $string);
-    foreach ($parts as $part)
-    {
-      if(empty($part))
-        continue;
 
-      $variable = explode('=', $part);
-
-      if (empty ($variable[0]) || empty ($variable[1]))
-        continue;
-
-      $var_name = $variable[0];
-      $var_value = $variable[1];
-
-      if ($var_value == $spacer)
-      {
-        $var_value = array_shift($quoted);
-      }
-
-      $result[$var_name] = $var_value;
-    }
-  }
   return $result;
 }
 
