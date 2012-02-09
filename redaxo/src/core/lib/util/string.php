@@ -101,7 +101,7 @@ class rex_string
    *
    * @param string $version1 First version number
    * @param string $version1 Second version number
-   * @param string $operator Optional operator
+   * @param string $comparator Optional comparator
    * @return integer|boolean
    */
   static public function compareVersions($version1, $version2, $comparator = null)
