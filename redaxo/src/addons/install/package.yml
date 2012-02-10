@@ -6,6 +6,7 @@ name: 'translate:name'
 perm: admin[]
 navigation:
   block: system
+  prio: 80
 pages:
   - [settings, 'translate:settings']
   
