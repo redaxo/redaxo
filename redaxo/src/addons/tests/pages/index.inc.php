@@ -3,13 +3,13 @@
 echo rex_view::title('TestResults');
 
 // load all required PEAR libs from vendor folder
-$path = dirname(__FILE__). '/../vendor/';
+$path = __DIR__. '/../vendor/';
 set_include_path($path . PATH_SEPARATOR . get_include_path());
 
 require_once('PHPUnit/Autoload.php');
 
 $testCollector = new PHPUnit_Runner_IncludePathTestCollector(
-  array(dirname(__FILE__). '/../lib/tests/*'), array('_test.php', '.phpt')
+  array(__DIR__. '/../lib/tests/*'), array('_test.php', '.phpt')
 );
 
 /*
@@ -24,9 +24,14 @@ $suite  = new PHPUnit_Framework_TestSuite();
 // PDOStatements are not allowed to be serialized
 $suite->setBackupGlobals(false);
 $suite->addTestFiles($testCollector->collectTests());
+
+rex_logger::unregister();
+
 $result = $suite->run();
 
-$resultPrinter = new PHPUnit_TextUI_ResultPrinter(null, true  );
+$resultPrinter = new PHPUnit_TextUI_ResultPrinter(null, true);
 echo '<pre>';
 print $resultPrinter->printResult($result);
 echo '</pre>';
+
+rex_logger::register();
