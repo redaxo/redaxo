@@ -31,6 +31,11 @@ class rex_string
    */
   static public function split($string)
   {
+    $string = trim($string);
+    if(empty($string))
+    {
+      return array();
+    }
     $result = array();
     $spacer = '@@@REX_SPACER@@@';
     $quoted = array();
@@ -41,7 +46,7 @@ class rex_string
       $quoted[] = strtr($match[2], array('\\'.$match[1] => $match[1], '\\\\' => '\\'));
       return $spacer;
     };
-    $string = preg_replace_callback($pattern, $callback, trim($string));
+    $string = preg_replace_callback($pattern, $callback, $string);
 
     $parts = preg_split('@\s+@', $string);
     $i = 0;

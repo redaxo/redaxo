@@ -4,6 +4,10 @@ class rex_string_test extends PHPUnit_Framework_TestCase
 {
   public function testSplit()
   {
+    $s = '';
+    $a = array();
+    $this->assertEquals($a, rex_string::split($s), 'returns empty array for empty strings');
+
     $s = 'a b c';
     $a = array('a', 'b', 'c');
     $this->assertEquals($a, rex_string::split($s), 'splits string by space');
