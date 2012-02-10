@@ -21,23 +21,6 @@ abstract class rex_var
   private
     $args = array();
 
-  /**
-   * @param string $var
-   * @return self
-   */
-  static public function getVar($var)
-  {
-    if(!isset(self::$vars[$var]))
-    {
-      $class = 'rex_var_'. strtolower(substr($var, 4));
-      if(!is_subclass_of($class, __CLASS__))
-        return false;
-      self::$vars[$var] = $class;
-    }
-    $class = self::$vars[$var];
-    return new $class;
-  }
-
   static public function parse($content, $env = null, $context = null)
   {
     if(($env & self::INPUT) != self::INPUT)
@@ -61,6 +44,7 @@ abstract class rex_var
         if(in_array($token[0], array(T_INLINE_HTML, T_CONSTANT_ENCAPSED_STRING, T_STRING, T_START_HEREDOC)))
         {
           $useVariables = false;
+          $stripslashes = null;
           switch($token[0])
           {
             case T_INLINE_HTML:
@@ -68,6 +52,7 @@ abstract class rex_var
               break;
             case T_CONSTANT_ENCAPSED_STRING:
               $format = $token[1][0] == '"' ? '". %s ."' : "'. %s .'";
+              $stripslashes = $token[1][0];
               break;
             case T_STRING:
               while(isset($tokens[++$i])
@@ -97,7 +82,7 @@ abstract class rex_var
               }
               break;
           }
-          $add = self::replaceVars($add, $format, $useVariables);
+          $add = self::replaceVars($add, $format, $useVariables, $stripslashes);
         }
       }
       $content .= $add;
@@ -105,7 +90,24 @@ abstract class rex_var
     return $content;
   }
 
-  static private function replaceVars($content, $format = '%s', $useVariables = false)
+  /**
+   * @param string $var
+   * @return self
+   */
+  static private function getVar($var)
+  {
+    if(!isset(self::$vars[$var]))
+    {
+      $class = 'rex_var_'. strtolower(substr($var, 4));
+      if(!is_subclass_of($class, __CLASS__))
+        return false;
+      self::$vars[$var] = $class;
+    }
+    $class = self::$vars[$var];
+    return new $class;
+  }
+
+  static private function replaceVars($content, $format = '%s', $useVariables = false, $stripslashes = null)
   {
     $matches = array();
     preg_match_all('/(REX_[A-Z_]+)\[((?:[^\[\]]|\\\\[\[\]]|(?R))*)\]/s', $content, $matches, PREG_SET_ORDER);
@@ -116,6 +118,10 @@ abstract class rex_var
       $var = self::getVar($match[1]);
       if($var === false)
         continue;
+      if($stripslashes)
+      {
+        $match[2] = str_replace('\\'. $stripslashes, $stripslashes, $match[2]);
+      }
       $var->setArgs($match[2]);
       if(($output = $var->getGlobalArgsOutput()) !== false)
       {
