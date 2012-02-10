@@ -142,10 +142,10 @@ class rex_file
    */
   static public function extension($filename)
   {
-    return substr(strrchr($filename, "."), 1);
+    return substr(strrchr($filename, '.'), 1);
   }
 
-	/**
+  /**
    * Formates the filesize of the given file into a userfriendly form
    *
    * @params string|int $fileOrSize Path to the file or filesize
@@ -153,9 +153,9 @@ class rex_file
    */
   static public function formattedSize($fileOrSize, $format = array())
   {
-    return rex_formatter :: format(is_file($fileOrSize) ? filesize($fileOrSize) : $fileOrSize, 'filesize', $format);
+    return rex_formatter::format(is_file($fileOrSize) ? filesize($fileOrSize) : $fileOrSize, 'filesize', $format);
   }
-  
+
   /**
    * Gets executed content of given file
    *
@@ -166,8 +166,6 @@ class rex_file
   {
     ob_start();
     require $file;
-    $content = ob_get_clean();
-    return $content;
+    return ob_get_clean();
   }
-  
 }

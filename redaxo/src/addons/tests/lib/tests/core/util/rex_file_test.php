@@ -115,4 +115,11 @@ class rex_file_test extends PHPUnit_Framework_TestCase
     $this->assertEquals('txt', rex_file::extension('test.txt'), 'extension() returns file extension');
     $this->assertEquals('txt', rex_file::extension('test.file.txt'), 'extension() returns file extension');
   }
+
+  public function testGetOutput()
+  {
+    $file = $this->getPath('test.php');
+    rex_file::put($file, 'a<?php echo "b";');
+    $this->assertEquals('ab', rex_file::getOutput($file), 'getOutput() returns the executed content');
+  }
 }
