@@ -2,7 +2,7 @@
 /**
  * PHPUnit
  *
- * Copyright (c) 2002-2011, Sebastian Bergmann <sebastian@phpunit.de>.
+ * Copyright (c) 2001-2012, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,13 +37,11 @@
  * @package    PHPUnit
  * @subpackage Util_Skeleton
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2002-2011 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2001-2012 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.3.0
  */
-
-require_once 'Text/Template.php';
 
 /**
  * Generator for test class skeletons from classes.
@@ -51,9 +49,9 @@ require_once 'Text/Template.php';
  * @package    PHPUnit
  * @subpackage Util_Skeleton
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2002-2011 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2001-2012 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.5.15
+ * @version    Release: 3.6.10
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.3.0
  */
@@ -318,7 +316,9 @@ class PHPUnit_Util_Skeleton_Test extends PHPUnit_Util_Skeleton
 
                     $methodTemplate->setVar(
                       array(
-                        'methodName' => ucfirst($method->getName())
+                        'className'      => $this->inClassName['fullyQualifiedClassName'],
+                        'methodName'     => ucfirst($method->getName()),
+                        'origMethodName' => $method->getName()
                       )
                     );
 

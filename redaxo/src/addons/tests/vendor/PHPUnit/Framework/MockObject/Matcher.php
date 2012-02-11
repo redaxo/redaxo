@@ -2,7 +2,7 @@
 /**
  * PHPUnit
  *
- * Copyright (c) 2010-2011, Sebastian Bergmann <sb@sebastian-bergmann.de>.
+ * Copyright (c) 2010-2012, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,14 +36,14 @@
  *
  * @package    PHPUnit_MockObject
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
- * @copyright  2010-2011 Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @copyright  2010-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      File available since Release 1.0.0
  */
 
 /**
- * Main matcher which defines a full expectation using method, parameter and 
+ * Main matcher which defines a full expectation using method, parameter and
  * invocation matchers.
  * This matcher encapsulates all the other matchers and allows the builder to
  * set the specific matchers when the appropriate methods are called (once(),
@@ -53,9 +53,9 @@
  *
  * @package    PHPUnit_MockObject
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
- * @copyright  2010-2011 Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @copyright  2010-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 1.0.9
+ * @version    Release: 1.1.1
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Class available since Release 1.0.0
  */
@@ -183,7 +183,7 @@ class PHPUnit_Framework_MockObject_Matcher implements PHPUnit_Framework_MockObje
 
                 $this->methodNameMatcher->toString(),
                 $this->invocationMatcher->toString(),
-                $e->getDescription()
+                $e->getMessage()
               ),
               $e->getComparisonFailure()
             );
@@ -255,7 +255,7 @@ class PHPUnit_Framework_MockObject_Matcher implements PHPUnit_Framework_MockObje
 
                 $this->methodNameMatcher->toString(),
                 $this->invocationMatcher->toString(),
-                $e->getDescription()
+                $e->getMessage()
               ),
               $e->getComparisonFailure()
             );
@@ -282,8 +282,8 @@ class PHPUnit_Framework_MockObject_Matcher implements PHPUnit_Framework_MockObje
 
         try {
             $this->invocationMatcher->verify();
-
-            if ($this->parametersMatcher !== NULL) {
+            $invocationIsAny = get_class($this->invocationMatcher) === 'PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount';
+            if ($this->parametersMatcher !== NULL and !$invocationIsAny) {
                 $this->parametersMatcher->verify();
             }
         }
@@ -295,7 +295,7 @@ class PHPUnit_Framework_MockObject_Matcher implements PHPUnit_Framework_MockObje
 
                 $this->methodNameMatcher->toString(),
                 $this->invocationMatcher->toString(),
-                $e->getDescription()
+                $e->getMessage()
               )
             );
         }
