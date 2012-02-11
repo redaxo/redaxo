@@ -98,14 +98,14 @@ elseif ($function == "fileimport")
     if ($impname != "" || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
     {
       $return = rex_a1_import_files($file_temp);
-			if($return['state'])
-			{
-      	$info = $return['message'];
-			}
-			else
-			{
-				$warning = $return['message'];
-			}
+      if($return['state'])
+      {
+        $info = $return['message'];
+      }
+      else
+      {
+        $warning = $return['message'];
+      }
 
       // temp datei löschen
       if ($impname == "")
@@ -146,7 +146,7 @@ if ($warning != '')
 
             <div class="rex-form-wrapper">
               <input type="hidden" name="page" value="import_export" />
-  						<input type="hidden" name="subpage" value="import" />
+              <input type="hidden" name="subpage" value="import" />
               <input type="hidden" name="function" value="dbimport" />
 
               <div class="rex-form-row">

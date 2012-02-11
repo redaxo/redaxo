@@ -167,7 +167,7 @@ if ($function == "add" or $function == "edit")
       $modules = array();
 
     if(!is_array($categories))
-    	$categories = array();
+      $categories = array();
 
     // modules[ctype_id][module_id];
     // modules[ctype_id]['all'];
@@ -182,14 +182,14 @@ if ($function == "add" or $function == "edit")
       $modul_select->addOption($m["name"],$m["id"]);
 
     // Kategorien
-		$cat_select = new rex_category_select(false, false, false, false);
-		$cat_select->setMultiple(true);
-		$cat_select->setStyle('class="rex-form-select"');
-		$cat_select->setSize(10);
-		$cat_select->setName('categories[]');
-		$cat_select->setId('categories');
+    $cat_select = new rex_category_select(false, false, false, false);
+    $cat_select->setMultiple(true);
+    $cat_select->setStyle('class="rex-form-select"');
+    $cat_select->setSize(10);
+    $cat_select->setName('categories[]');
+    $cat_select->setId('categories');
 
-		if(count($categories)>0)
+    if(count($categories)>0)
     {
       foreach($categories as $c => $cc)
       {
@@ -348,8 +348,8 @@ if ($function == "add" or $function == "edit")
 
 
          <div id="rex-form-template-categories">
-        	<fieldset>
-   			    <h2>'.rex_i18n::msg("template_categories").'</h2>';
+          <fieldset>
+             <h2>'.rex_i18n::msg("template_categories").'</h2>';
 
 
             $formElements = array();
@@ -357,8 +357,8 @@ if ($function == "add" or $function == "edit")
               $field = '';
               $field .= '<input id="allcategories" type="checkbox" name="categories[all]" ';
               if(!isset($categories['all']) || $categories['all'] == 1)
-				        $field .= ' checked="checked" ';
-  		        $field .= ' value="1" />';
+                $field .= ' checked="checked" ';
+              $field .= ' value="1" />';
 
               $n = array();
               $n['reverse'] = true;
@@ -378,8 +378,8 @@ if ($function == "add" or $function == "edit")
             $content_1 .= $fragment->parse('form.tpl');
 
     $content_1 .= '
-        	</fieldset>
-				</div>
+          </fieldset>
+        </div>
 
         <fieldset class="rex-form-action">';
 
@@ -417,7 +417,7 @@ if ($function == "add" or $function == "edit")
         if($("#active").is(":not(:checked)")) {
           $("#rex-form-template-ctype").hide();
           $("#rex-form-template-categories").hide();
-  			}
+        }
 
         $("#allcategories").click(function() {
           $("#p_categories").slideToggle("slow");
@@ -425,14 +425,14 @@ if ($function == "add" or $function == "edit")
 
         if($("#allcategories").is(":checked")) {
           $("#p_categories").hide();
-  			}
+        }
 
 
       });
 
       //--></script>';
 
-	  echo rex_view::contentBlock($content_1, '', 'block');
+    echo rex_view::contentBlock($content_1, '', 'block');
 
     $OUT = false;
   }

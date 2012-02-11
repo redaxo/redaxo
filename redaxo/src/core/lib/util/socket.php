@@ -15,7 +15,7 @@
 * }
 * catch(rex_socket_exception $e)
 * {
-* 	// error message: $e->getMessage()
+*   // error message: $e->getMessage()
 * }
 * ?>
 * </code>

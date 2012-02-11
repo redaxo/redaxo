@@ -79,8 +79,8 @@ class rex_article_editor extends rex_article
       
       $slice_content .= '<section class="rex-slice'. $containerClass .'">';
       $slice_content .= '
-      		<header class="rex-slice-header">
-      		  '.$this->getSliceMenu($artDataSql) .'
+          <header class="rex-slice-header">
+            '.$this->getSliceMenu($artDataSql) .'
           </header>';
 
       // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
@@ -223,7 +223,7 @@ class rex_article_editor extends rex_article
         'perm' => (rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
       )
     );
-	
+  
     $blocks = array();
     $blocks[] = array(
           'headline' => array('title' => $moduleName), 
@@ -400,7 +400,7 @@ class rex_article_editor extends rex_article
       $blocks = array();
       $blocks[] = array(
           'headline' => array('title' => rex_i18n::msg("module") .': '. htmlspecialchars(rex_i18n::translate($MOD->getValue("name")))), 
-				  'navigation' => array()
+          'navigation' => array()
           );
       
       $fragment = new rex_fragment();
@@ -419,7 +419,7 @@ class rex_article_editor extends rex_article
       
       $blocks = array();
       $blocks[] = array(
-				  'navigation' => $listElements
+          'navigation' => $listElements
           );
       
       $fragment = new rex_fragment();

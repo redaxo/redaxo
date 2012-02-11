@@ -56,14 +56,14 @@ class rex_cronjob_phpcallback extends rex_cronjob
   }
 
   public function getParamFields()
-	{
-		return array(
-  		array(
+  {
+    return array(
+      array(
         'label' => rex_i18n::msg('cronjob_type_phpcallback'),
         'name'  => 'callback',
         'type'  => 'text',
         'notice' => rex_i18n::msg('cronjob_examples') .': foo(), foo(1, \'string\'), foo::bar()'
       )
     );
-	}
+  }
 }

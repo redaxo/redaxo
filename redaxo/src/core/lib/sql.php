@@ -179,9 +179,9 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function setDebug($debug = TRUE)
   {
-	  $this->debugsql = $debug;
+    $this->debugsql = $debug;
 
-	  return $this;
+    return $this;
   }
 
   /**

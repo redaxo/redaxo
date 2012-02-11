@@ -38,23 +38,23 @@ if ($opener_input_field != '' && $opener_input_field_name == '')
   $opener_input_field_name = $opener_input_field.'_NAME';
 }
 if($opener_input_field=="TINY"){
-	$func_body .= 'window.opener.insertLink(link,name);
-	               self.close();';
+  $func_body .= 'window.opener.insertLink(link,name);
+                 self.close();';
 }
 else if (substr($opener_input_field,0,13)=="REX_LINKLIST_")
 {
 $id = substr($opener_input_field,13,strlen($opener_input_field));
 $func_body .= 'var linklist = "REX_LINKLIST_SELECT_'. $id .'";
                var linkid = link.replace("redaxo://","");
-			   var source = opener.document.getElementById(linklist);
-			   var sourcelength = source.options.length;
+         var source = opener.document.getElementById(linklist);
+         var sourcelength = source.options.length;
 
                option = opener.document.createElement("OPTION");
                option.text = name;
                option.value = linkid;
 
-			   source.options.add(option, sourcelength);
-			   opener.writeREXLinklist('. $id .');';
+         source.options.add(option, sourcelength);
+         opener.writeREXLinklist('. $id .');';
 }
 else {
 $func_body .= 'var linkid = link.replace("redaxo://","");
@@ -105,25 +105,25 @@ rex_view::title('Linkmap', $navi_path);
 ?>
 
 <div id="rex-linkmap">
-	<div class="rex-area-col-2">
-		<div class="rex-area-col-a">
-			<h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_categories'); ?></h3>
-			<div class="rex-area-content">
-			<?php
+  <div class="rex-area-col-2">
+    <div class="rex-area-col-a">
+      <h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_categories'); ?></h3>
+      <div class="rex-area-content">
+      <?php
       $categoryTree = new rex_linkmap_categoryTree($context);
-			echo $categoryTree->getTree($category_id);
-			?>
-			</div>
-		</div>
+      echo $categoryTree->getTree($category_id);
+      ?>
+      </div>
+    </div>
 
-		<div class="rex-area-col-b">
-			<h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_articles'); ?></h3>
-			<div class="rex-area-content">
-			<?php
+    <div class="rex-area-col-b">
+      <h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_articles'); ?></h3>
+      <div class="rex-area-content">
+      <?php
       $articleList = new rex_linkmap_articleList($context);
       echo $articleList->getList($category_id);
-			?>
-			</div>
-		</div>
+      ?>
+      </div>
+    </div>
   </div>
 </div>

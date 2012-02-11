@@ -30,19 +30,19 @@ class rex_template
   {
     if($this->getId()<1) return FALSE;
 
-  	$file = $this->getFilePath($this->getId());
-  	if(!$file) return FALSE;
+    $file = $this->getFilePath($this->getId());
+    if(!$file) return FALSE;
 
-  	if(!file_exists($file))
-  	{
+    if(!file_exists($file))
+    {
       // Generated Datei erzeugen
-  		if(!$this->generate())
-  		{
-		    trigger_error('Unable to generate rexTemplate with id "'. $this->getId() . '"', E_USER_ERROR);
+      if(!$this->generate())
+      {
+        trigger_error('Unable to generate rexTemplate with id "'. $this->getId() . '"', E_USER_ERROR);
 
-		    return FALSE;
-  		}
-  	}
+        return FALSE;
+      }
+    }
 
     return $file;
   }
@@ -61,10 +61,10 @@ class rex_template
 
   public function getTemplate()
   {
-  	$file = $this->getFile();
-  	if(!$file) return FALSE;
+    $file = $this->getFile();
+    if(!$file) return FALSE;
 
-  	return rex_file::get($file);
+    return rex_file::get($file);
   }
 
   public function generate()
@@ -76,22 +76,22 @@ class rex_template
 
   public function deleteCache()
   {
-  	if($this->id<1) return FALSE;
+    if($this->id<1) return FALSE;
 
-		$file = $this->getFilePath($this->getId());
-		rex_file::delete($file);
+    $file = $this->getFilePath($this->getId());
+    rex_file::delete($file);
     return true;
   }
 
   static public function hasModule($template_attributes,$ctype,$module_id)
-	{
-		$template_modules = rex_getAttributes('modules', $template_attributes, array ());
-		if(!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1)
-			return TRUE;
+  {
+    $template_modules = rex_getAttributes('modules', $template_attributes, array ());
+    if(!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1)
+      return TRUE;
 
-		if(in_array($module_id,$template_modules[$ctype]))
-			return TRUE;
+    if(in_array($module_id,$template_modules[$ctype]))
+      return TRUE;
 
-	  return FALSE;
-	}
+    return FALSE;
+  }
 }

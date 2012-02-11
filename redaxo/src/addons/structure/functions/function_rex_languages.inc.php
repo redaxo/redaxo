@@ -17,18 +17,18 @@ if ($num_clang>1)
 
      if (rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('clang')->hasPerm($key))
      {
-     	$lang = array();
-		$lang['id'] = $key;
-		$lang['title'] = rex_i18n::translate($val);
-		
-		$lang['linkClasses'] = array();
-		if ($key==$clang) 
-			$lang['linkClasses'][] = 'rex-active';
-		
-		$lang['itemClasses'] = $lang['linkClasses'];
-		$lang['href'] = 'index.php?page='. rex::getProperty('page') .'&amp;clang='. $key . $sprachen_add .'&amp;ctype='. $ctype;
-		
-		$languages[] = $lang;
+       $lang = array();
+    $lang['id'] = $key;
+    $lang['title'] = rex_i18n::translate($val);
+    
+    $lang['linkClasses'] = array();
+    if ($key==$clang) 
+      $lang['linkClasses'][] = 'rex-active';
+    
+    $lang['itemClasses'] = $lang['linkClasses'];
+    $lang['href'] = 'index.php?page='. rex::getProperty('page') .'&amp;clang='. $key . $sprachen_add .'&amp;ctype='. $ctype;
+    
+    $languages[] = $lang;
 
      }
      $i++;

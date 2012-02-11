@@ -169,34 +169,34 @@ abstract class rex_package implements rex_package_interface
     unset($this->properties[$key]);
   }
 
-	/* (non-PHPdoc)
-	 * @see rex_package_interface::isAvailable()
-	 */
-	public function isAvailable()
+  /* (non-PHPdoc)
+   * @see rex_package_interface::isAvailable()
+   */
+  public function isAvailable()
   {
     return $this->isInstalled() && $this->isActivated();
   }
 
-	/* (non-PHPdoc)
-	 * @see rex_package_interface::isInstalled()
-	 */
-	public function isInstalled()
+  /* (non-PHPdoc)
+   * @see rex_package_interface::isInstalled()
+   */
+  public function isInstalled()
   {
     return (boolean) $this->getProperty('install', false);
   }
 
-	/* (non-PHPdoc)
-	 * @see rex_package_interface::isActivated()
-	 */
-	public function isActivated()
+  /* (non-PHPdoc)
+   * @see rex_package_interface::isActivated()
+   */
+  public function isActivated()
   {
     return (boolean) $this->getProperty('status', false);
   }
 
-	/* (non-PHPdoc)
-	 * @see rex_package_interface::isSystemPackage()
-	 */
-	public function isSystemPackage()
+  /* (non-PHPdoc)
+   * @see rex_package_interface::isSystemPackage()
+   */
+  public function isSystemPackage()
   {
     return in_array($this->getPackageId(), rex::getProperty('system_packages'));
   }

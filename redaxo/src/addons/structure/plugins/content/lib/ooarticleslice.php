@@ -39,7 +39,7 @@ class rex_ooArticleSlice
    * Constructor
    */
   protected function __construct(
-  	$id, $article_id, $clang, $ctype, $modultyp_id, $prior,
+    $id, $article_id, $clang, $ctype, $modultyp_id, $prior,
     $createdate,$updatedate,$createuser,$updateuser,$revision,
     $values, $files, $filelists, $links, $linklists, $php, $html)
   {
@@ -113,7 +113,7 @@ class rex_ooArticleSlice
       $clang = rex_clang::getId();
 
     return self::_getSliceWhere(
-   		'article_id='. $an_article_id .' AND clang='. $clang .' AND ctype='. $ctype .' AND prior=1 AND revision='.$revision
+       'article_id='. $an_article_id .' AND clang='. $clang .' AND ctype='. $ctype .' AND prior=1 AND revision='.$revision
     );
   }
 

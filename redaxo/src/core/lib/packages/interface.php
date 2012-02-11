@@ -7,7 +7,7 @@
  */
 interface rex_package_interface
 {
-	/**
+  /**
    * Returns the name of the package
    *
    * @return string Name
@@ -109,28 +109,28 @@ interface rex_package_interface
    */
   public function removeProperty($key);
 
-	/**
+  /**
    * Returns if the package is available (activated and installed)
    *
    * @return boolean
    */
   public function isAvailable();
 
-	/**
+  /**
    * Returns if the package is installed
    *
    * @return boolean
    */
   public function isInstalled();
 
-	/**
+  /**
    * Returns if the package is activated
    *
    * @return boolean
    */
   public function isActivated();
 
-	/**
+  /**
    * Returns if it is a system package
    *
    * @return boolean

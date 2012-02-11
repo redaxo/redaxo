@@ -36,7 +36,7 @@ class rex_var_config extends rex_var
 
     foreach ($matches as $match)
     {
-    	list ($param_str, $args)   = $match;
+      list ($param_str, $args)   = $match;
       $field       = $this->getArg('field', $args, '');
 
       $tpl = '<?php echo '. __CLASS__ ."::getConfig('". addslashes($field) ."', '". json_encode($args) ."'); ?>";

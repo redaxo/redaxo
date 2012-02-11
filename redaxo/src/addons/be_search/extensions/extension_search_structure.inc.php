@@ -62,7 +62,7 @@ function rex_be_search_structure($params)
   // auch gesucht wuerde
   if($be_search_article_name_post != '')
   {
-		// replace LIKE wildcards
+    // replace LIKE wildcards
     $be_search_article_name_like = str_replace(array('_', '%'), array('\_', '\%'), $be_search_article_name);
 
     $qry = '
@@ -188,22 +188,22 @@ function rex_be_search_structure($params)
         <input type="hidden" name="ctype" value="'. $ctype .'" />
         <input type="hidden" name="be_search_clang" value="'. $clang .'" />
 
-		    <div class="rex-fl-lft">
-	        <label for="rex-be_search-article-name">'. rex_i18n::msg('be_search_article_name') .'</label>
-    	    <input class="rex-form-text" type="text" name="be_search_article_name" id="rex-be_search-article-name" value="'. htmlspecialchars($be_search_article_name) .'" />
+        <div class="rex-fl-lft">
+          <label for="rex-be_search-article-name">'. rex_i18n::msg('be_search_article_name') .'</label>
+          <input class="rex-form-text" type="text" name="be_search_article_name" id="rex-be_search-article-name" value="'. htmlspecialchars($be_search_article_name) .'" />
 
-        	<label for="rex-be_search-article-id">'. rex_i18n::msg('be_search_article_id') .'</label>
-	        <input class="rex-form-text" type="text" name="be_search_article_id" id="rex-be_search-article-id" />
-    	    <input class="rex-form-submit" type="submit" name="be_search_start_search" value="'. rex_i18n::msg('be_search_start') .'" />
-		    </div>
+          <label for="rex-be_search-article-id">'. rex_i18n::msg('be_search_article_id') .'</label>
+          <input class="rex-form-text" type="text" name="be_search_article_id" id="rex-be_search-article-id" />
+          <input class="rex-form-submit" type="submit" name="be_search_start_search" value="'. rex_i18n::msg('be_search_start') .'" />
+        </div>
 
-    		<div class="rex-fl-rght">
-    			<label for="rex-be_search-category-id">'. rex_i18n::msg('be_search_quick_navi') .'</label>';
+        <div class="rex-fl-rght">
+          <label for="rex-be_search-category-id">'. rex_i18n::msg('be_search_quick_navi') .'</label>';
 
   $form .= $category_select->get() .'
-    			<noscript>
-    			  <input type="submit" name="be_search_start_jump" value="'. rex_i18n::msg('be_search_jump_to_category') .'" />
-    			</noscript>
+          <noscript>
+            <input type="submit" name="be_search_start_jump" value="'. rex_i18n::msg('be_search_jump_to_category') .'" />
+          </noscript>
         </div>
         </fieldset>
       </form>
@@ -214,7 +214,7 @@ function rex_be_search_structure($params)
    <div class="rex-toolbar-content">
      '. $form .'
      '. $search_result .'
-	 <div class="rex-clearer"></div>
+   <div class="rex-clearer"></div>
    </div>
    </div>';
 

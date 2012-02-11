@@ -6,32 +6,32 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
   
   public function renderToggleButton(array $params)
   {
-  	$restrictionsCondition = $this->buildFilterCondition($params);
+    $restrictionsCondition = $this->buildFilterCondition($params);
 
-  	$fields = parent::getSqlFields(self::PREFIX, $restrictionsCondition);
-  	if ($fields->getRows() >= 1)
+    $fields = parent::getSqlFields(self::PREFIX, $restrictionsCondition);
+    if ($fields->getRows() >= 1)
     {
-    	$return = '<p class="rex-button-add"><script type="text/javascript"><!--
+      $return = '<p class="rex-button-add"><script type="text/javascript"><!--
 
     function rex_metainfo_toggle()
     {
-    	jQuery("#rex-form-structure-category .rex-metainfo-cat").toggle();
-  		metacat = jQuery("#rex-i-meta-category");
-  		if(metacat.hasClass("rex-i-generic-open"))
-  		{
-  			metacat.removeClass("rex-i-generic-open");
-  			metacat.addClass("rex-i-generic-close");
-  		}
-  		else
-  		{
-  			metacat.removeClass("rex-i-generic-close");
-  			metacat.addClass("rex-i-generic-open");
-  		}
+      jQuery("#rex-form-structure-category .rex-metainfo-cat").toggle();
+      metacat = jQuery("#rex-i-meta-category");
+      if(metacat.hasClass("rex-i-generic-open"))
+      {
+        metacat.removeClass("rex-i-generic-open");
+        metacat.addClass("rex-i-generic-close");
+      }
+      else
+      {
+        metacat.removeClass("rex-i-generic-close");
+        metacat.addClass("rex-i-generic-open");
+      }
     }
 
     //--></script><a id="rex-i-meta-category" class="rex-i-generic-open" href="javascript:rex_metainfo_toggle();">'. rex_i18n::msg('minfo_edit_metadata') .'</a></p>';
 
-  	   return $params['subject'] . $return;
+       return $params['subject'] . $return;
     }
 
     return $params['subject'];
@@ -96,27 +96,27 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
     if ($labelIt)
     {
       $element = '
-    	   <'.$tag.$tag_attr.'>
-    	     <label for="'. $id .'">'. $label .'</label>
-    	     '.$field.'
-    	   </'.$tag.'>';
+         <'.$tag.$tag_attr.'>
+           <label for="'. $id .'">'. $label .'</label>
+           '.$field.'
+         </'.$tag.'>';
     }
 
     if ($typeLabel == 'legend')
     {
-    	$element = '<p class="rex-form-legend">'. $label .'</p>';
+      $element = '<p class="rex-form-legend">'. $label .'</p>';
       $class_td = ' class="rex-colored"';
       $class_tr .= ' rex-metainfo-cat-b';
     }
 
     $s = '
     <tr class="rex-table-row-activ rex-metainfo-cat'. $class_tr .'" style="display:none;">
-    	<td></td>
-    	'.$add_td.'
-    	<td colspan="5"'.$class_td.'>
-     	  <div class="rex-form-row">
-    	    '.$element.'
-    	  </div>
+      <td></td>
+      '.$add_td.'
+      <td colspan="5"'.$class_td.'>
+         <div class="rex-form-row">
+          '.$element.'
+        </div>
       </td>
     </tr>';
 

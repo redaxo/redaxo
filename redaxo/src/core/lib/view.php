@@ -186,9 +186,9 @@ class rex_view
       $blocks = $nav->getNavigation();
       
       $fragment = new rex_fragment();
-	  $fragment->setVar('type', 'tab', false);
-	  $fragment->setVar('blocks', $blocks, false);
-	  $subtitle = $fragment->parse('navigation.tpl');
+    $fragment->setVar('type', 'tab', false);
+    $fragment->setVar('blocks', $blocks, false);
+    $subtitle = $fragment->parse('navigation.tpl');
       
     }else
     {
@@ -196,19 +196,19 @@ class rex_view
       $subtitle = self::getSubtitle($subtitle);
     }
 
-	$title = rex_extension::registerPoint('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page));
+  $title = rex_extension::registerPoint('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page));
 
-  	$return = '<h1>'.$title.'</h1>'.$subtitle;
+    $return = '<h1>'.$title.'</h1>'.$subtitle;
 
     echo rex_extension::registerPoint('PAGE_TITLE_SHOWN', "",
-	    array(
-	      'category_id' => $category_id,
-	      'article_id' => $article_id,
-	      'page' => $page
-	    )
-	  );
+      array(
+        'category_id' => $category_id,
+        'article_id' => $article_id,
+        'page' => $page
+      )
+    );
 
-	return $return;
+  return $return;
 
   }
 

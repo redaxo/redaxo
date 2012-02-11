@@ -7,7 +7,7 @@
  */
 class OOPlugin
 {
-	/**
+  /**
    * @see rex_package::isAvailable()
    *
    * @deprecated 5.0
@@ -87,7 +87,7 @@ class OOPlugin
     return rex_plugin::get($addon, $plugin)->getProperty($property, $default);
   }
 
-	/**
+  /**
    * @see rex_addon::getAvailablePlugins()
    *
    * @deprecated 5.0

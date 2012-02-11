@@ -45,10 +45,10 @@ class rex_addon_manager extends rex_package_manager
     return empty($state) ? true : implode('<br />', $state);
   }
 
-	/* (non-PHPdoc)
-	 * @see rex_package_manager::addToPackageOrder()
-	 */
-	protected function addToPackageOrder()
+  /* (non-PHPdoc)
+   * @see rex_package_manager::addToPackageOrder()
+   */
+  protected function addToPackageOrder()
   {
     parent::addToPackageOrder();
 

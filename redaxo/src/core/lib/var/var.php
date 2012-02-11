@@ -152,7 +152,7 @@ abstract class rex_var
    */
   public function getTemplate($content)
   {
-  	return $content;
+    return $content;
   }
 
   /**
@@ -210,8 +210,8 @@ abstract class rex_var
     switch($name)
     {
       case '0'       : $name = 'id';
-    	case 'id'      :
-    	case 'prefix'  :
+      case 'id'      :
+      case 'prefix'  :
       case 'suffix'  :
       case 'ifempty' :
       case 'instead' :
@@ -276,7 +276,7 @@ abstract class rex_var
    * Search all occurences of the parameter $varname in $content and returns it parsed parameters.
    * The origin parameter-string and all parsed default parameters are contained per hit in the resulting array.
    *
-	 * @param string $content The string for searching
+   * @param string $content The string for searching
    * @param string $varname The name of the variable
    *
    * @return array A array containg all parameter-matches of the variable $varname in $content
@@ -289,14 +289,14 @@ abstract class rex_var
 
     foreach ($match as $param_str)
     {
-    	$args = array();
-    	$params = $this->splitString($param_str);
-    	foreach ($params as $name => $value)
-    	{
+      $args = array();
+      $params = $this->splitString($param_str);
+      foreach ($params as $name => $value)
+      {
         $args = $this->handleDefaultParam($varname, $args, $name, $value);
-    	}
+      }
 
-    	// the origin param_str is needed to str_replace the variable at parse-time
+      // the origin param_str is needed to str_replace the variable at parse-time
       $result[] = array (
         $param_str,
         $args
@@ -315,7 +315,7 @@ abstract class rex_var
    * Search all occurences of the variable $varname in $content and
    * returns the corresponding parameter string of each match.
    *
-	 * @param string $content The string for searching
+   * @param string $content The string for searching
    * @param string $varname The name of the variable
    *
    * @return array A array containg all matches of the variable $varname in $content
@@ -349,13 +349,13 @@ abstract class rex_var
    */
   protected function getArg($name, array &$args, $default = null)
   {
-  	if(isset($args[$name]))
-  	{
-  		return $args[$name];
-  	}
-  	// we write the default back into the array, to get the default also into the parameters for the later callback
-  	$args[$name] = $default;
-  	return $default;
+    if(isset($args[$name]))
+    {
+      return $args[$name];
+    }
+    // we write the default back into the array, to get the default also into the parameters for the later callback
+    $args[$name] = $default;
+    return $default;
   }
 
   /**

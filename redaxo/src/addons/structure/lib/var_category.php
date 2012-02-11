@@ -47,12 +47,12 @@ class rex_var_category extends rex_var
    */
   private function matchCategory($content)
   {
-  	$var = 'REX_CATEGORY';
+    $var = 'REX_CATEGORY';
     $matches = $this->getVarParams($content, $var);
 
     foreach ($matches as $match)
     {
-    	list ($param_str, $args)   = $match;
+      list ($param_str, $args)   = $match;
       $category_id = $this->getArg('id',    $args, 0);
       $clang       = $this->getArg('clang', $args, 'null');
       $field       = $this->getArg('field', $args, '');

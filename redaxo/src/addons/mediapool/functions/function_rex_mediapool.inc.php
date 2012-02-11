@@ -67,10 +67,10 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
   $gc = rex_sql::factory();
   $gc->setQuery('SELECT * FROM '.rex::getTablePrefix().'media_category WHERE id='. $rex_file_category);
-	if ($gc->getRows() != 1)
-	{
-  	$rex_file_category = 0;
-	}
+  if ($gc->getRows() != 1)
+  {
+    $rex_file_category = 0;
+  }
 
   $isFileUpload = isset($FILE['tmp_name']);
   if ($isFileUpload) $doSubindexing = TRUE;
@@ -199,8 +199,8 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
           copy($ffilename, rex_path::media($FILEINFOS["filename"], rex_path::ABSOLUTE)))
       {
         $RETURN["msg"] = rex_i18n::msg('pool_file_changed');
-				$FILEINFOS["filetype"] = $ffiletype;
-				$FILEINFOS["filesize"] = $ffilesize;
+        $FILEINFOS["filetype"] = $ffiletype;
+        $FILEINFOS["filesize"] = $ffilesize;
 
         $FILESQL->setValue('filetype',$FILEINFOS["filetype"]);
         // $FILESQL->setValue('originalname',$ffilename);
@@ -236,8 +236,8 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null){
     $RETURN["media_id"] = $FILEINFOS["file_id"];
   }
 
-	$FILESQL->addGlobalUpdateFields();
-	$FILESQL->update();
+  $FILESQL->addGlobalUpdateFields();
+  $FILESQL->update();
 
   rex_media_cache::delete($FILEINFOS["filename"]);
 
@@ -252,7 +252,7 @@ $RETURN['filename'] = $NFILENAME;
 $RETURN['old_filename'] = $FILENAME;
 */
 
-	return $RETURN;
+  return $RETURN;
 
 
 }
@@ -305,8 +305,8 @@ function rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize
 
   if(empty($filetype) && function_exists('finfo_open'))
   {
-	  $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
-	  $filetype = finfo_file($finfo, $abs_file);
+    $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+    $filetype = finfo_file($finfo, $abs_file);
   }
 
   $FILE = array();

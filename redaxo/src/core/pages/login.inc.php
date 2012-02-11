@@ -83,10 +83,10 @@ $content .= '
 
     $("#loginformular")
       .submit(function(){
-      	var pwInp = $("#REX_UPSW");
-      	if(pwInp.val() != "") {
-      	  $("#loginformular").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
-      	}
+        var pwInp = $("#REX_UPSW");
+        if(pwInp.val() != "") {
+          $("#loginformular").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
+        }
     });
 
     $("#javascript").val("1");

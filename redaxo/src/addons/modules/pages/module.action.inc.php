@@ -195,21 +195,21 @@ if ($function == "add" || $function == "edit")
     $sel_postsave_status->setName('postsavestatus[]');
     $sel_postsave_status->setId('postsavestatus');
 
-		$allPreviewChecked = $previewstatus == 3 ? ' checked="checked"' : '';
+    $allPreviewChecked = $previewstatus == 3 ? ' checked="checked"' : '';
     foreach (array (1,2,4) as $var)
     {
       if (($previewstatus & $var) == $var)
         $sel_preview_status->setSelected($var);
     }
 
-		$allPresaveChecked = $presavestatus == 7 ? ' checked="checked"' : '';
+    $allPresaveChecked = $presavestatus == 7 ? ' checked="checked"' : '';
     foreach (array (1,2,4) as $var)
     {
       if (($presavestatus & $var) == $var)
         $sel_presave_status->setSelected($var);
     }
 
-		$allPostsaveChecked = $postsavestatus == 7 ? ' checked="checked"' : '';
+    $allPostsaveChecked = $postsavestatus == 7 ? ' checked="checked"' : '';
     foreach (array (1,2,4) as $var)
     {
       if (($postsavestatus & $var) == $var)
@@ -232,11 +232,11 @@ if ($function == "add" || $function == "edit")
           <fieldset>
             <h2>' . $legend . ' </h2>
             
-	          	<input type="hidden" name="page" value="modules" />
-  	        	<input type="hidden" name="subpage" value="actions" />
-          		<input type="hidden" name="function" value="' . $function . '" />
-		          <input type="hidden" name="save" value="1" />
-    		      <input type="hidden" name="action_id" value="' . $action_id . '" />';
+              <input type="hidden" name="page" value="modules" />
+              <input type="hidden" name="subpage" value="actions" />
+              <input type="hidden" name="function" value="' . $function . '" />
+              <input type="hidden" name="save" value="1" />
+              <input type="hidden" name="action_id" value="' . $action_id . '" />';
 
         
           $formElements = array();
@@ -283,7 +283,7 @@ if ($function == "add" || $function == "edit")
           echo $fragment->parse('form.tpl'); 
 
     echo '
-	        </fieldset>
+          </fieldset>
 
           <fieldset>
             <h2>Presave-Action ['. rex_i18n::msg('action_mode_presave') .']</h2>';
@@ -348,10 +348,10 @@ if ($function == "add" || $function == "edit")
           echo $fragment->parse('form.tpl'); 
      
     echo '
-			    </fieldset>
+          </fieldset>
 
           <fieldset class="rex-form-action">';
-				
+        
         
           $formElements = array();
             

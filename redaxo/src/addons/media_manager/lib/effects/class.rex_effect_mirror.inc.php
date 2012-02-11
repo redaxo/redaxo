@@ -12,26 +12,26 @@ class rex_effect_mirror extends rex_effect_abstract
 <!--
 
 (function($) {
-	$(function() {
-		var $fx_mirror_select_trans = $("#image_manager_rex_effect_mirror_set_transparent_select");
-		var $fx_mirror_bg_r = $("#image_manager_rex_effect_mirror_bg_r_text").parent().parent();
-		var $fx_mirror_bg_g = $("#image_manager_rex_effect_mirror_bg_g_text").parent().parent();
-		var $fx_mirror_bg_b = $("#image_manager_rex_effect_mirror_bg_b_text").parent().parent();
+  $(function() {
+    var $fx_mirror_select_trans = $("#image_manager_rex_effect_mirror_set_transparent_select");
+    var $fx_mirror_bg_r = $("#image_manager_rex_effect_mirror_bg_r_text").parent().parent();
+    var $fx_mirror_bg_g = $("#image_manager_rex_effect_mirror_bg_g_text").parent().parent();
+    var $fx_mirror_bg_b = $("#image_manager_rex_effect_mirror_bg_b_text").parent().parent();
 
-		$fx_mirror_select_trans.change(function(){
-			if(jQuery(this).val() != "colored")
-			{
-				$fx_mirror_bg_r.hide();
-				$fx_mirror_bg_g.hide();
-				$fx_mirror_bg_b.hide();
-			}else
-			{
-				$fx_mirror_bg_r.show();
-				$fx_mirror_bg_g.show();
-				$fx_mirror_bg_b.show();
-			}
-		}).change();
-	});
+    $fx_mirror_select_trans.change(function(){
+      if(jQuery(this).val() != "colored")
+      {
+        $fx_mirror_bg_r.hide();
+        $fx_mirror_bg_g.hide();
+        $fx_mirror_bg_b.hide();
+      }else
+      {
+        $fx_mirror_bg_r.show();
+        $fx_mirror_bg_g.show();
+        $fx_mirror_bg_b.show();
+      }
+    }).change();
+  });
 })(jQuery);
 
 //--></script>';
@@ -97,33 +97,33 @@ class rex_effect_mirror extends rex_effect_abstract
   {
     return array(
     array(
-				'label'=>rex_i18n::msg('media_manager_effect_mirror_height'),		// Length in Pixel or Prozent
-				'name' => 'height',
-				'type' => 'int',
+        'label'=>rex_i18n::msg('media_manager_effect_mirror_height'),    // Length in Pixel or Prozent
+        'name' => 'height',
+        'type' => 'int',
     ),
     array(
-				'label'=>rex_i18n::msg('media_manager_effect_mirror_background_color'),
-				'name' => 'set_transparent',
-				'type' => 'select',
-				'options' => array('colored', 'transparent / png24'),
-				'default' => 'colored',
-				'suffix' => $this->script
+        'label'=>rex_i18n::msg('media_manager_effect_mirror_background_color'),
+        'name' => 'set_transparent',
+        'type' => 'select',
+        'options' => array('colored', 'transparent / png24'),
+        'default' => 'colored',
+        'suffix' => $this->script
     ),
 
     array(
-				'label'=>rex_i18n::msg('media_manager_effect_mirror_background_r'),
-				'name' => 'bg_r',
-				'type' => 'int',
+        'label'=>rex_i18n::msg('media_manager_effect_mirror_background_r'),
+        'name' => 'bg_r',
+        'type' => 'int',
     ),
     array(
-				'label'=>rex_i18n::msg('media_manager_effect_mirror_background_g'),
-				'name' => 'bg_g',
-				'type' => 'int',
+        'label'=>rex_i18n::msg('media_manager_effect_mirror_background_g'),
+        'name' => 'bg_g',
+        'type' => 'int',
     ),
     array(
-				'label'=>rex_i18n::msg('media_manager_effect_mirror_background_b'),
-				'name' => 'bg_b',
-				'type' => 'int',
+        'label'=>rex_i18n::msg('media_manager_effect_mirror_background_b'),
+        'name' => 'bg_b',
+        'type' => 'int',
     ),
     );
   }

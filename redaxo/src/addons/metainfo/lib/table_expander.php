@@ -61,16 +61,16 @@ class rex_metainfo_tableExpander extends rex_form
     $field->setLabel(rex_i18n::msg('minfo_field_label_title'));
     $field->setNotice(rex_i18n::msg('minfo_field_notice_title'));
 
-	  $gq = rex_sql::factory();
-		$gq->setQuery('SELECT dbtype,id FROM '. rex::getTablePrefix() .'metainfo_type');
-		$textFields = array();
-		foreach($gq->getArray() as $f)
-		{
-		  if($f["dbtype"] == "text")
-		  {
-		  $textFields[$f['id']] = $f['id'];
-		  }
-		}
+    $gq = rex_sql::factory();
+    $gq->setQuery('SELECT dbtype,id FROM '. rex::getTablePrefix() .'metainfo_type');
+    $textFields = array();
+    foreach($gq->getArray() as $f)
+    {
+      if($f["dbtype"] == "text")
+      {
+      $textFields[$f['id']] = $f['id'];
+      }
+    }
 
     $field = $this->addSelectField('type');
     $field->setLabel(rex_i18n::msg('minfo_field_label_type'));
@@ -133,7 +133,7 @@ class rex_metainfo_tableExpander extends rex_form
 
   protected function delete()
   {
-  	// Infos zuerst selektieren, da nach parent::delete() nicht mehr in der db
+    // Infos zuerst selektieren, da nach parent::delete() nicht mehr in der db
     $sql = rex_sql::factory();
     $sql->debugsql =& $this->debug;
     $sql->setTable($this->tableName);

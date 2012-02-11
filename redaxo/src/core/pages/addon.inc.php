@@ -25,8 +25,8 @@ if ($subpage == 'help')
   if($supportPage) $credits .= rex_i18n::msg("credits_supportpage") .': <span><a href="http://'.$supportPage.'" onclick="window.open(this.href); return false;">'. $supportPage .'</a></span><br />';
 
   echo '<div class="rex-area">
-  			<h3 class="rex-hl2">'.rex_i18n::msg("addon_help").' '.$name.'</h3>
-	  		<div class="rex-area-content">';
+        <h3 class="rex-hl2">'.rex_i18n::msg("addon_help").' '.$name.'</h3>
+        <div class="rex-area-content">';
   if (!is_file($package->getBasePath('help.inc.php')))
   {
     echo '<p>'. rex_i18n::msg("addon_no_help_file") .'</p>';
@@ -38,10 +38,10 @@ if ($subpage == 'help')
   echo '<br />
         <p id="rex-addon-credits">'. $credits .'</p>
         </div>
-  			<div class="rex-area-footer">
-  				<p><a href="javascript:history.back();">'.rex_i18n::msg("addon_back").'</a></p>
-  			</div>
-  		</div>';
+        <div class="rex-area-footer">
+          <p><a href="javascript:history.back();">'.rex_i18n::msg("addon_back").'</a></p>
+        </div>
+      </div>';
 }
 
 // ----------------- OUT
@@ -52,7 +52,7 @@ if ($subpage == '')
   echo '
       <table class="rex-table" id="rex-table-addon" summary="'.rex_i18n::msg("addon_summary").'">
       <caption>'.rex_i18n::msg("addon_caption").'</caption>
-  	  <thead>
+      <thead>
         <tr>
           <th class="rex-icon">&nbsp;</th>
           <th class="rex-name">'.rex_i18n::msg("addon_hname").'</th>
@@ -60,8 +60,8 @@ if ($subpage == '')
           <th class="rex-active">'.rex_i18n::msg("addon_hactive").'</th>
           <th class="rex-function" colspan="2">'.rex_i18n::msg("addon_hdelete").'</th>
         </tr>
-  	  </thead>
-  	  <tbody>';
+      </thead>
+      <tbody>';
 
   foreach (rex_addon::getRegisteredAddons() as $addonName => $addon)
   {
@@ -75,5 +75,5 @@ if ($subpage == '')
   }
 
   echo '</tbody>
-  		</table>';
+      </table>';
 }

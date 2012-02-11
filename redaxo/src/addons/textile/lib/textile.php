@@ -19,7 +19,7 @@ class rex_textile
     // check perms
     if(!rex::getUser()->hasPerm('textile[help]'))
     {
-    	return;
+      return;
     }
 
     $formats = self::getHelpOverviewFormats();
@@ -59,7 +59,7 @@ class rex_textile
 
           $code = '';
           if(isset($_format[1]))
-          	$code = $_format[1];
+            $code = $_format[1];
 
           if($code == '')
             $code = $desc;

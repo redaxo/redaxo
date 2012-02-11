@@ -816,22 +816,22 @@ class FirePHP {
                 case self::TRACE:
                     return $msg->trace($Object);
                 case self::EXCEPTION:
-                	return $this->plugin('engine')->handleException($Object, $msg);
+                  return $this->plugin('engine')->handleException($Object, $msg);
                 case self::TABLE:
                     if (isset($Object[0]) && !is_string($Object[0]) && $Label) {
                         $Object = array($Label, $Object);
                     }
                     return $msg->table($Object[0], array_slice($Object[1],1), $Object[1][0]);
                 case self::GROUP_START:
-                	$insightGroupStack[] = $msg->group(md5($Label))->open();
+                  $insightGroupStack[] = $msg->group(md5($Label))->open();
                     return $msg->log($Label);
                 case self::GROUP_END:
-                	if(count($insightGroupStack)==0) {
-                	    throw new Error('Too many groupEnd() as opposed to group() calls!');
-                	}
-                	$group = array_pop($insightGroupStack);
+                  if(count($insightGroupStack)==0) {
+                      throw new Error('Too many groupEnd() as opposed to group() calls!');
+                  }
+                  $group = array_pop($insightGroupStack);
                     return $group->close();
-	            default:
+              default:
                     return $msg->log($Object);
             }
         }

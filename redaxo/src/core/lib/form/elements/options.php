@@ -41,13 +41,13 @@ abstract class rex_form_options_element extends rex_form_element
 
   public function addArrayOptions(array $options, $use_keys = true)
   {
-  	foreach($options as $key => $value)
-  	{
+    foreach($options as $key => $value)
+    {
       if(!$use_keys)
         $key = $value;
 
       $this->addOption($value, $key);
-  	}
+    }
   }
 
   public function addSqlOptions($qry)

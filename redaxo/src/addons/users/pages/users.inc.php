@@ -85,7 +85,7 @@ $saveLocale = rex_i18n::getLocale();
 $langs = array();
 foreach(rex_i18n::getLocales() as $locale)
 {
-	rex_i18n::setLocale($locale,FALSE); // Locale nicht neu setzen
+  rex_i18n::setLocale($locale,FALSE); // Locale nicht neu setzen
   $sel_be_sprache->addOption(rex_i18n::msg('lang'), $locale);
 }
 rex_i18n::setLocale($saveLocale, false);
@@ -106,10 +106,10 @@ $startpages['profile'] = array(rex_i18n::msg('profile'),'');
 /*
 foreach($REX['ADDON']['status'] as $k => $v)
 {
-	if (isset($REX['ADDON']['perm'][$k]) && isset($REX['ADDON']['name'][$k]))
-	{
-		$startpages[$k] = array($REX['ADDON']['name'][$k],$REX['ADDON']['perm'][$k]);
-	}
+  if (isset($REX['ADDON']['perm'][$k]) && isset($REX['ADDON']['name'][$k]))
+  {
+    $startpages[$k] = array($REX['ADDON']['name'][$k],$REX['ADDON']['perm'][$k]);
+  }
 }
 */
 
@@ -230,11 +230,11 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
     // userrole
     $sel_role->setSelected($userrole);
 
-		// userperm_be_sprache
+    // userperm_be_sprache
     if ($userperm_be_sprache == '') $userperm_be_sprache = 'default';
     $sel_be_sprache->setSelected($userperm_be_sprache);
 
-		// userperm_startpage
+    // userperm_startpage
     if ($userperm_startpage == '') $userperm_startpage = 'default';
     $sel_startpage->setSelected($userperm_startpage);
 
@@ -270,10 +270,10 @@ if ($FUNC_ADD != "" || $user_id > 0)
     $form_label = rex_i18n::msg('edit_user');
     $add_hidden = '<input type="hidden" name="user_id" value="'.$user_id.'" />';
     $add_submit = '<div class="rex-form-row">
-						<p class="rex-form-col-a"><input type="submit" name="FUNC_UPDATE" value="'.rex_i18n::msg('user_save').'" '. rex::getAccesskey(rex_i18n::msg('user_save'), 'save') .' /></p>
-						<p class="rex-form-col-b"><input type="submit" name="FUNC_APPLY" value="'.rex_i18n::msg('user_apply').'" '. rex::getAccesskey(rex_i18n::msg('user_apply'), 'apply') .' /></p>
-					</div>';
-		$add_user_class = ' rex-form-read';
+            <p class="rex-form-col-a"><input type="submit" name="FUNC_UPDATE" value="'.rex_i18n::msg('user_save').'" '. rex::getAccesskey(rex_i18n::msg('user_save'), 'save') .' /></p>
+            <p class="rex-form-col-b"><input type="submit" name="FUNC_APPLY" value="'.rex_i18n::msg('user_apply').'" '. rex::getAccesskey(rex_i18n::msg('user_apply'), 'apply') .' /></p>
+          </div>';
+    $add_user_class = ' rex-form-read';
     $add_user_login = '<span class="rex-form-read" id="userlogin">'. htmlspecialchars($sql->getValue(rex::getTablePrefix().'user.login')) .'</span>';
 
     $sql = rex_sql::factory();
@@ -291,11 +291,11 @@ if ($FUNC_ADD != "" || $user_id > 0)
       $userrole = $sql->getValue(rex::getTablePrefix().'user.role');
       $sel_role->setSelected($userrole);
 
-			$userperm_be_sprache = $sql->getValue('language');
-			$sel_be_sprache->setSelected($userperm_be_sprache);
+      $userperm_be_sprache = $sql->getValue('language');
+      $sel_be_sprache->setSelected($userperm_be_sprache);
 
-			$userperm_startpage = $sql->getValue('startpage');
-			$sel_startpage->setSelected($userperm_startpage);
+      $userperm_startpage = $sql->getValue('startpage');
+      $sel_startpage->setSelected($userperm_startpage);
 
 
       $userpsw = $sql->getValue(rex::getTablePrefix().'user.password');
@@ -333,10 +333,10 @@ if ($FUNC_ADD != "" || $user_id > 0)
         $add_login_reset_chkbox = '
         <div class="rex-message">
         <p class="rex-warning rex-form-checkbox rex-form-label-right">
-        	<span>
-	          <input class="rex-form-checkbox" type="checkbox" name="logintriesreset" id="logintriesreset" value="1" />
-  	        <label for="logintriesreset">'. rex_i18n::msg("user_reset_tries",rex::getProperty('maxlogins')) .'</label>
-  	      </span>
+          <span>
+            <input class="rex-form-checkbox" type="checkbox" name="logintriesreset" id="logintriesreset" value="1" />
+            <label for="logintriesreset">'. rex_i18n::msg("user_reset_tries",rex::getProperty('maxlogins')) .'</label>
+          </span>
         </p>
         </div>';
       }
@@ -349,30 +349,30 @@ if ($FUNC_ADD != "" || $user_id > 0)
     $form_label = rex_i18n::msg('create_user');
     $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
     $add_submit = '<div class="rex-form-row">
-						<p class="rex-form-submit">
-						<input type="submit" class="rex-form-submit" name="function" value="'.rex_i18n::msg("add_user").'" '. rex::getAccesskey(rex_i18n::msg('add_user'), 'save') .' />
-						</p>
-					</div>';
+            <p class="rex-form-submit">
+            <input type="submit" class="rex-form-submit" name="function" value="'.rex_i18n::msg("add_user").'" '. rex::getAccesskey(rex_i18n::msg('add_user'), 'save') .' />
+            </p>
+          </div>';
     $add_admin_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="useradmin" name="useradmin" value="1" '.$adminchecked.' />';
     $add_status_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="userstatus" name="userstatus" value="1" '.$statuschecked.' />';
-		$add_user_class = ' rex-form-text';
+    $add_user_class = ' rex-form-text';
     $add_user_login = '<input class="rex-form-text" type="text" id="userlogin" name="userlogin" value="'.htmlspecialchars($userlogin).'" />';
   }
 
   $content .= '
   <div class="rex-form" id="rex-form-user-editmode">
   <form action="index.php" method="post" id="userform">
-  	<input type="hidden" name="javascript" value="0" id="javascript" />
+    <input type="hidden" name="javascript" value="0" id="javascript" />
     <fieldset class="rex-form-col-2">
       <h2>'.$form_label.'</h2>
 
       <div class="rex-form-wrapper">
         <input type="hidden" name="page" value="users" />
         <input type="hidden" name="subpage" value="" />
-      	<input type="hidden" name="save" value="1" />
-      	'. $add_hidden .'
+        <input type="hidden" name="save" value="1" />
+        '. $add_hidden .'
 
-      	'. $add_login_reset_chkbox .'
+        '. $add_login_reset_chkbox .'
 
         <div class="rex-form-row">
           <p class="rex-form-col-a'.$add_user_class.'">
@@ -384,7 +384,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
             <input type="password" id="userpsw" name="userpsw" autocomplete="off" />
             '. (rex::getProperty('pswfunc')!='' ? '<span class="rex-form-notice">'. rex_i18n::msg('psw_encrypted') .'</span>' : '') .'
           </p>
-		    </div>
+        </div>
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-text">
@@ -395,7 +395,7 @@ if ($FUNC_ADD != "" || $user_id > 0)
             <label for="userdesc">'.rex_i18n::msg('description').'</label>
             <input type="text" id="userdesc" name="userdesc" value="'.htmlspecialchars($userdesc).'" />
           </p>
-    		</div>
+        </div>
 
         <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
@@ -406,16 +406,16 @@ if ($FUNC_ADD != "" || $user_id > 0)
             '. $add_status_chkbox .'
             <label for="userstatus">'.rex_i18n::msg('user_status').'</label>
           </p>
-    		</div>
+        </div>
 
-    		<div class="rex-form-row">
+        <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
             <label for="userrole">'.rex_i18n::msg('user_role').'</label>
             '. $sel_role->get() .'
           </p>
-		    </div>
+        </div>
 
-		    <div class="rex-form-row">
+        <div class="rex-form-row">
           <p class="rex-form-col-a rex-form-select">
             <label for="userperm-startpage">'.rex_i18n::msg('startpage').'</label>
             '. $sel_startpage->get() .'
@@ -424,12 +424,12 @@ if ($FUNC_ADD != "" || $user_id > 0)
             <label for="userperm-mylang">'.rex_i18n::msg('backend_language').'</label>
             '.$sel_be_sprache->get().'
           </p>
-		    </div>
+        </div>
 
 
       '. $add_submit .'
 
-      	<div class="rex-clearer"></div>
+        <div class="rex-clearer"></div>
       </div>
     </fieldset>
   </form>
@@ -442,11 +442,11 @@ if ($FUNC_ADD != "" || $user_id > 0)
 
     $("#userform")
       .submit(function(){
-      	var pwInp = $("#userpsw");
-      	if(pwInp.val() != "")
-      	{
-        	pwInp.val(Sha1.hash(pwInp.val()));
-      	}
+        var pwInp = $("#userpsw");
+        if(pwInp.val() != "")
+        {
+          pwInp.val(Sha1.hash(pwInp.val()));
+        }
     });
 
     $("#javascript").val("1");

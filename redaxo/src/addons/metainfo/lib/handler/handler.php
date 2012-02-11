@@ -167,7 +167,7 @@ abstract class rex_metainfoHandler
           }
           if(!$oneValue)
           {
-          	$field .= '</div>';
+            $field .= '</div>';
           }
 
           break;
@@ -177,13 +177,13 @@ abstract class rex_metainfoHandler
           $tag_attr = ' class="rex-form-select"';
 
           $select = new rex_select();
-  				$select->setStyle('class="rex-form-select"');
+          $select->setStyle('class="rex-form-select"');
           $select->setName($name);
           $select->setId($id);
           // hier mit den "raw"-values arbeiten, da die rex_select klasse selbst escaped
           $select->setSelected($dbvalues);
 
-  				$multiple = FALSE;
+          $multiple = FALSE;
           foreach($attrArray as $attr_name => $attr_value)
           {
             if(empty($attr_name)) continue;
@@ -192,13 +192,13 @@ abstract class rex_metainfoHandler
 
             if($attr_name == 'multiple')
             {
-            	$multiple = TRUE;
+              $multiple = TRUE;
               $select->setName($name.'[]');
             }
           }
 
           if(!$multiple)
-          	$select->setSize(1);
+            $select->setSize(1);
 
           if(rex_sql::getQueryType($params) == 'SELECT')
           {

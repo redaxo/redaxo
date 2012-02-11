@@ -197,8 +197,8 @@ class rex_article_service
       $message = rex_extension::registerPoint('ART_UPDATED', $message,
         array (
           'id' => $article_id,
-  				'article' => clone($EA),
-  				'article_old' => clone($thisArt),
+          'article' => clone($EA),
+          'article_old' => clone($thisArt),
           'status' => $thisArt->getValue('status'),
           'name' => $data['name'],
           'clang' => $clang,

@@ -95,10 +95,10 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
     if(!rex::isBackend())
     {
       if(rex_request('article_id', 'int', 0) > 0)
-  		{
+      {
         $this->setArticleId(rex_request('article_id', 'int', rex::getProperty('start_article_id')));
         return true;
-  		}
+      }
 
       $script_path = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
 
@@ -145,7 +145,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
         }
       }
 
-			// aktuellen pfad mit pfadarray vergleichen
+      // aktuellen pfad mit pfadarray vergleichen
 
       foreach ($REXPATH as $key => $var)
       {
@@ -171,7 +171,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
         }
       }
 
- 			// Check levenshtein
+       // Check levenshtein
       if ($this->use_levenshtein && $article_id == -1)
       {
         foreach ($REXPATH as $key => $var)
@@ -190,27 +190,27 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
 
       }elseif($article_id == -1)
       {
-				// ----- EXTENSION POINT
-				$article_info = rex_extension::registerPoint('URL_REWRITE_ARTICLE_ID_NOT_FOUND', '' );
-				if (isset($article_info['article_id']) && $article_info['article_id'] > -1)
-				{
-					$article_id = $article_info['article_id'];
+        // ----- EXTENSION POINT
+        $article_info = rex_extension::registerPoint('URL_REWRITE_ARTICLE_ID_NOT_FOUND', '' );
+        if (isset($article_info['article_id']) && $article_info['article_id'] > -1)
+        {
+          $article_id = $article_info['article_id'];
 
-					if (isset($article_info['clang']) && $article_info['clang'] > -1)
-					{
-						$clang = $article_info['clang'];
-					}
-				}
+          if (isset($article_info['clang']) && $article_info['clang'] > -1)
+          {
+            $clang = $article_info['clang'];
+          }
+        }
 
-				// Nochmals abfragen wegen EP
-				if($article_id == -1)
-	      {
-					// Damit auch die "index.php?article_id=xxx" Aufrufe funktionieren
-					if(rex_request('article_id', 'int', 0) > 0)
-						$article_id = rex::getProperty('article_id');
-					else
-						$article_id = rex::getProperty('notfound_article_id');
-				}
+        // Nochmals abfragen wegen EP
+        if($article_id == -1)
+        {
+          // Damit auch die "index.php?article_id=xxx" Aufrufe funktionieren
+          if(rex_request('article_id', 'int', 0) > 0)
+            $article_id = rex::getProperty('article_id');
+          else
+            $article_id = rex::getProperty('notfound_article_id');
+        }
       }
 
       $this->setArticleId($article_id,$clang);
@@ -222,7 +222,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
   {
     rex::setProperty('article_id', $art_id);
     if($clang_id > -1)
-    	rex_clang::setId($clang_id);
+      rex_clang::setId($clang_id);
   }
 
   // Url neu schreiben
@@ -230,7 +230,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
   {
     // Url wurde von einer anderen Extension bereits gesetzt
     if($params['subject'] != '')
-  		return $params['subject'];
+      return $params['subject'];
 
     global $REX, $REXPATH;
 
@@ -317,7 +317,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
       default:
         $REXPATH = array();
         $where = '1=1';
-  			break;
+        break;
     }
 
     if($where != '')

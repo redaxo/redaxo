@@ -16,10 +16,10 @@ rex_extension::register('A1_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
  */
 function rex_metainfo_cleanup($params)
 {
-	// Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
-	if(isset($params['force']) && $params['force'] != true &&
+  // Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
+  if(isset($params['force']) && $params['force'] != true &&
      strpos($params['content'], 'CREATE TABLE `'. rex::getTablePrefix() .'article`') === false &&
-	   strpos($params['content'], 'CREATE TABLE '. rex::getTablePrefix() .'article') === false)
+     strpos($params['content'], 'CREATE TABLE '. rex::getTablePrefix() .'article') === false)
   {
     return;
   }

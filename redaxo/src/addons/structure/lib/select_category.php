@@ -119,7 +119,7 @@ class rex_category_select extends rex_select
 
   private function _outGroup($re_id, $level = 0)
   {
-		if ($level > 100)
+    if ($level > 100)
     {
       // nur mal so zu sicherheit .. man weiss nie ;)
       echo "select->_outGroup overflow ($groupname)";
@@ -138,7 +138,7 @@ class rex_category_select extends rex_select
           $ausgabe .= $this->_outOption($name, $value, $level);
       }elseif(($this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2])))
       {
-      	$level--;
+        $level--;
       }
 
       $subgroup = $this->_getGroup($id, true);

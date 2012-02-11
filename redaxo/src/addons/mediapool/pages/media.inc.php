@@ -55,7 +55,7 @@ $cat_out = '<div class="rex-form" id="rex-form-mediapool-selectcategory">
 
 if ($subpage=='media')
 {
-	$cat_out .= '<input class="rex-form-submit" type="submit" value="'. rex_i18n::msg('show') .'" />';
+  $cat_out .= '<input class="rex-form-submit" type="submit" value="'. rex_i18n::msg('show') .'" />';
 }
 
 $cat_out .= '
@@ -64,7 +64,7 @@ $cat_out .= '
 
 if ($subpage!='media')
 {
-	$cat_out .= '			<noscript>
+  $cat_out .= '      <noscript>
                       <div class="rex-form-row">
                         <p class="rex-form-submit">
                           <input class="rex-form-submit" type="submit" value="'. rex_i18n::msg('pool_search') .'" />
@@ -239,7 +239,7 @@ if ($subpage == "media")
         $add_image = '
         <div class="rex-mediapool-detail-image">
             <p class="rex-me1">
-            	<span class="rex-mime rex-mime-error" />
+              <span class="rex-mime rex-mime-error" />
             </p>
         </div>';
       }
@@ -332,7 +332,7 @@ if ($subpage == "media")
                     </p>
                   </div>
 
-              	<div class="rex-clearer"></div>';
+                <div class="rex-clearer"></div>';
 
   // ----- EXTENSION POINT
   echo rex_extension::registerPoint('MEDIA_FORM_EDIT', '', array ('file_id' => $file_id, 'media' => $gf));
@@ -374,7 +374,7 @@ if ($subpage == "media")
                     </p>
                   </div>
 
-              	<div class="rex-clearer"></div>
+                <div class="rex-clearer"></div>
               </div>
             </fieldset>
           </form>
@@ -434,7 +434,7 @@ if ($subpage == "media")
                 '. $add_image .'
 
 
-              	<div class="rex-clearer"></div>
+                <div class="rex-clearer"></div>
               </div>
             </div>';
     }
@@ -481,48 +481,48 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
 
 if($PERMALL && $media_method == 'delete_selectedmedia')
 {
-	$selectedmedia = rex_post("selectedmedia","array");
+  $selectedmedia = rex_post("selectedmedia","array");
   if(count($selectedmedia)!=0)
   {
-  	$warning = array();
-  	$info = array();
+    $warning = array();
+    $info = array();
 
     foreach($selectedmedia as $file_name)
     {
-			$media = rex_ooMedia::getMediaByFileName($file_name);
-			if ($media)
-			{
-			 if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId()))
-			 {
-			   $uses = $media->isInUse();
-			   if($uses === false)
-			   {
-			     if($media->delete() !== FALSE)
-			     {
-			       $info[] = rex_i18n::msg('pool_file_deleted');
-			     }else
-			     {
-			       $warning[] = rex_i18n::msg('pool_file_delete_error_1', $file_name);
-			     }
-			     $subpage = "";
-			   }else
-			   {
-			   	 $tmp = '<strong>'.rex_i18n::msg('pool_file_delete_error_1', $file_name).' '.
-			   	        rex_i18n::msg('pool_file_delete_error_2').'</strong><br />';
-			   	 foreach($uses as $use)
+      $media = rex_ooMedia::getMediaByFileName($file_name);
+      if ($media)
+      {
+       if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId()))
+       {
+         $uses = $media->isInUse();
+         if($uses === false)
+         {
+           if($media->delete() !== FALSE)
            {
-  			     $tmp .= '<br />'.$use;
-  			   }
-					 $warning[] = $tmp;
-			   }
-			 }else
-			 {
-			   $warning[] = rex_i18n::msg('no_permission');
-			 }
-			}else
-			{
-			 $warning[] = rex_i18n::msg('pool_file_not_found');
-			}
+             $info[] = rex_i18n::msg('pool_file_deleted');
+           }else
+           {
+             $warning[] = rex_i18n::msg('pool_file_delete_error_1', $file_name);
+           }
+           $subpage = "";
+         }else
+         {
+            $tmp = '<strong>'.rex_i18n::msg('pool_file_delete_error_1', $file_name).' '.
+                   rex_i18n::msg('pool_file_delete_error_2').'</strong><br />';
+            foreach($uses as $use)
+           {
+             $tmp .= '<br />'.$use;
+           }
+           $warning[] = $tmp;
+         }
+       }else
+       {
+         $warning[] = rex_i18n::msg('no_permission');
+       }
+      }else
+      {
+       $warning[] = rex_i18n::msg('pool_file_not_found');
+      }
     }
   }
   else
@@ -549,7 +549,7 @@ if ($subpage == '')
   if(is_array($warning))
   {
     if(count($warning)>0)
-	    echo rex_view::warningBlock(implode('<br />', $warning));
+      echo rex_view::warningBlock(implode('<br />', $warning));
     $warning = '';
   }else if($warning != '')
   {

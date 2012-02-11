@@ -7,7 +7,7 @@
  */
 class OOCategory extends rex_ooCategory
 {
-	/**
+  /**
    * @see rex_ooArticle::getValue()
    *
    * @deprecated 4.0 17.09.2007

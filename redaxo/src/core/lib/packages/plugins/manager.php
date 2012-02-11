@@ -2,7 +2,7 @@
 
 class rex_plugin_manager extends rex_package_manager
 {
-	/**
+  /**
    * Constructor
    *
    * @param rex_plugin $plugin Plugin

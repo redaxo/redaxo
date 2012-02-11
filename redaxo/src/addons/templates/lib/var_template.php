@@ -36,7 +36,7 @@ class rex_var_template extends rex_var
       if($template_id > 0)
       {
         $tpl = '<?php require '. __CLASS__ .'::getTemplateStream('. $template_id .', $this, \''. json_encode($args) ."'); ?>";
-	      $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
+        $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
       }
     }
 

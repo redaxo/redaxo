@@ -14,7 +14,7 @@ abstract class rex_singleton
    */
   static private $instances = array();
 
-	/**
+  /**
    * Returns the singleton instance
    *
    * @return rex_singleton

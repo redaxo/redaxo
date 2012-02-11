@@ -41,7 +41,7 @@ if ($add_clang_save)
       $info = rex_i18n::msg('clang_created');
       rex_clang_service::addCLang($clang_id, $clang_name);
       unset ($clang_id);
-   	  $func = '';
+       $func = '';
     }
     else
     {
@@ -95,7 +95,7 @@ if ($warning != '')
 $content .= '
       <div class="rex-form" id="rex-form-system-language">
       <form action="index.php#clang" method="post">
-		';
+    ';
 
 if ($func == 'addclang' || $func == 'editclang')
 {

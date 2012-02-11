@@ -120,7 +120,7 @@ class rex_addon extends rex_package implements rex_addon_interface
    */
   public function getPlugin($plugin)
   {
-  	if(!is_string($plugin))
+    if(!is_string($plugin))
     {
       throw new rex_exception('Expecting $plugin to be string, but '. gettype($plugin) .' given!');
     }

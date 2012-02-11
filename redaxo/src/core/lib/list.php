@@ -623,9 +623,9 @@ class rex_list extends rex_factory implements rex_url_provider
       if(is_array($value))
       {
         foreach($value as $v)
-      	{
+        {
           $paramString .= '&'. $name .'='. $v;
-      	}
+        }
       }else
       {
         $paramString .= '&'. $name .'='. $value;

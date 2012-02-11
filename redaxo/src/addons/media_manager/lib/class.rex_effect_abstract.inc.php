@@ -8,12 +8,12 @@ abstract class rex_effect_abstract
 
   public function setMedia(rex_media $media)
   {
-  	$this->media = $media;
+    $this->media = $media;
   }
 
   public function setParams(array $params)
   {
-  	$this->params = $params;
+    $this->params = $params;
   }
 
   abstract public function execute();

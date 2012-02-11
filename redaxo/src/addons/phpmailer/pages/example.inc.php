@@ -51,8 +51,8 @@ EOD;
 
 ?>
 <div class="rex-addon-output">
-	<h2 class="rex-hl2"><?php echo $this->i18n('example_headline'); ?></h2>
-	<div class="rex-addon-content">
-	  <?php echo rex_string::highlight($mdl_ex); ?>
-	</div>
+  <h2 class="rex-hl2"><?php echo $this->i18n('example_headline'); ?></h2>
+  <div class="rex-addon-content">
+    <?php echo rex_string::highlight($mdl_ex); ?>
+  </div>
 </div>

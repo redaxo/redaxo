@@ -32,9 +32,9 @@ class rex_form_widget_media_element extends rex_form_element
   {
     static $widget_counter = 1;
 
-		$html = rex_var_media::getMediaButton($widget_counter, $this->category_id, $this->args);
-		$html = str_replace('REX_MEDIA['. $widget_counter .']', $this->getValue(), $html);
-		$html = str_replace('MEDIA['. $widget_counter .']', $this->getAttribute('name'), $html);
+    $html = rex_var_media::getMediaButton($widget_counter, $this->category_id, $this->args);
+    $html = str_replace('REX_MEDIA['. $widget_counter .']', $this->getValue(), $html);
+    $html = str_replace('MEDIA['. $widget_counter .']', $this->getAttribute('name'), $html);
 
     $widget_counter++;
     return $html;

@@ -11,7 +11,7 @@ if(rex::isBackend() && is_object(rex::getUser()))
 
   if(rex::getUser()->hasPerm('import_export[import]') || rex::getUser()->isAdmin())
   {
-  	$pages[] = array ('import', rex_i18n::msg('im_export_import'));
+    $pages[] = array ('import', rex_i18n::msg('im_export_import'));
   }
   $pages[] = array ('', rex_i18n::msg('im_export_export'));
   $this->setProperty('pages', $pages);

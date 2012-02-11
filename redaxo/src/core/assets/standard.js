@@ -373,9 +373,9 @@ jQuery(function($){
     var url;
     var width = 0;
     if($(this).hasClass("rex-widget-preview-image-manager"))
-    	url = '../index.php?rex_img_type='+ img_type +'&rex_img_file='+ value;
+      url = '../index.php?rex_img_type='+ img_type +'&rex_img_file='+ value;
     else if($(this).hasClass("rex-widget-preview-image-resize"))
-    	url = '../index.php?rex_resize=246a__'+ value;
+      url = '../index.php?rex_resize=246a__'+ value;
     else
     {
       url = '../media/'+ value;
@@ -426,7 +426,7 @@ jQuery(function($){
 
   // ------------------ Accesskey Navigation
   var ENABLE_KEY_NAV = true;
-	
+  
   $(document).keypress(function(event) {
     if(!ENABLE_KEY_NAV) 
       return true;
@@ -479,11 +479,11 @@ jQuery(function($){
   function checkHtaccess(dir, file)
   {
     $.get(dir +'/'+ file, 
-	  function(data) {
-	    $('#rex-wrapper2').prepend('<div class="rex-message"><p class="rex-warning"><span>The folder redaxo/'+ dir +' is insecure. Please protect this folder.</span></p></div>');
-	    setCookie('htaccess_check', '');
-	  }
-	);
+    function(data) {
+      $('#rex-wrapper2').prepend('<div class="rex-message"><p class="rex-warning"><span>The folder redaxo/'+ dir +' is insecure. Please protect this folder.</span></p></div>');
+      setCookie('htaccess_check', '');
+    }
+  );
   }
 });
 
@@ -492,31 +492,31 @@ jQuery(function($){
 // necessary for be_dashboard
 
 function setCookie(name, value, expires, path, domain, secure) {
-	if (typeof expires != undefined && expires == "never") {
-		// never expire means expires in 3000 days
-		expires = new Date();
-		expires.setTime(expires.getTime() + (1000 * 60 * 60 * 24 * 3000));
-		expires = expires.toGMTString();
-	}
+  if (typeof expires != undefined && expires == "never") {
+    // never expire means expires in 3000 days
+    expires = new Date();
+    expires.setTime(expires.getTime() + (1000 * 60 * 60 * 24 * 3000));
+    expires = expires.toGMTString();
+  }
 
-	document.cookie = name + "=" + escape(value)
-			+ ((expires) ? "; expires=" + expires : "")
-			+ ((path) ? "; path=" + path : "")
-			+ ((domain) ? "; domain=" + domain : "")
-			+ ((secure) ? "; secure" : "");
+  document.cookie = name + "=" + escape(value)
+      + ((expires) ? "; expires=" + expires : "")
+      + ((path) ? "; path=" + path : "")
+      + ((domain) ? "; domain=" + domain : "")
+      + ((secure) ? "; secure" : "");
 }
 
 function getCookie(cookieName) {
-	var theCookie = "" + document.cookie;
-	var ind = theCookie.indexOf(cookieName);
-	if (ind == -1 || cookieName == "")
-		return "";
+  var theCookie = "" + document.cookie;
+  var ind = theCookie.indexOf(cookieName);
+  if (ind == -1 || cookieName == "")
+    return "";
 
-	var ind1 = theCookie.indexOf(';', ind);
-	if (ind1 == -1)
-		ind1 = theCookie.length;
+  var ind1 = theCookie.indexOf(';', ind);
+  if (ind1 == -1)
+    ind1 = theCookie.length;
 
-	return unescape(theCookie.substring(ind + cookieName.length + 1, ind1));
+  return unescape(theCookie.substring(ind + cookieName.length + 1, ind1));
 }
 
 jQuery(document).ready(function($) {

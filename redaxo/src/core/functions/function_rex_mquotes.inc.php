@@ -8,7 +8,7 @@
 
 if(function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
 {
-	$process = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
+  $process = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
   while(list($key, $val) = each($process)) {
     foreach ($val as $k => $v) {
       unset($process[$key][$k]);

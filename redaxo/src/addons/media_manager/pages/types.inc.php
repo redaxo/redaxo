@@ -45,10 +45,10 @@ if($func == 'delete_cache' && $type_id > 0)
 
 //-------------- output messages
 if ($info != '')
-	$content .= rex_view::info($info);
+  $content .= rex_view::info($info);
 
 if ($warning != '')
-	$content .= rex_view::warning($warning);
+  $content .= rex_view::warning($warning);
 
 if ($func == '')
 {

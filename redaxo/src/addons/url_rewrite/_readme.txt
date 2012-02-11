@@ -49,7 +49,7 @@ werden, wenn der Server <em>nicht</em> mit dem Modul "mod_rewrite" ausgestattet 
 
 - In der Datei "redaxo/include/addons/config.inc.php" die Zeile
   <em>require_once $UrlRewriteBasedir.'/classes/class.rewrite_simple.inc.php';</em>
-	Mit dem gew�nschen Rewriter ersetzen, <strong>z.B:</strong>
+  Mit dem gew�nschen Rewriter ersetzen, <strong>z.B:</strong>
   <em>require_once $UrlRewriteBasedir.'/classes/class.rewrite_fullname.inc.php';</em>
   
 - /.htaccess Datei anpassen (Beispielkonfigurationen befinden sich in dem jeweiligen Rewriter)

@@ -557,7 +557,7 @@ abstract class rex_package_manager extends rex_factory
    */
   public abstract function checkDependencies();
 
-	/**
+  /**
    * Adds the package to the package order
    */
   protected function addToPackageOrder()

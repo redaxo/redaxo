@@ -6,8 +6,8 @@ class rex_articleMetainfoHandler extends rex_metainfoHandler
   
   protected function handleSave(array $params, rex_sql $sqlFields)
   {
-  	// Nur speichern wenn auch das MetaForm ausgefüllt wurde
-  	// z.b. nicht speichern wenn über be_search select navigiert wurde
+    // Nur speichern wenn auch das MetaForm ausgefüllt wurde
+    // z.b. nicht speichern wenn über be_search select navigiert wurde
     if(rex_post('meta_article_name', 'string', null) === null) return $params;
   
     $article = rex_sql::factory();
@@ -67,10 +67,10 @@ class rex_articleMetainfoHandler extends rex_metainfoHandler
   
     if($tag != '')
       $s .='</'.$tag.'>'. "\n";
-  	
+    
     if($typeLabel != 'legend')
       $s .= '</div>';
-  	
+    
     return $s;
   }
   

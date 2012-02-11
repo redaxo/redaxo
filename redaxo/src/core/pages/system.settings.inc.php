@@ -192,5 +192,3 @@ $content_2 = '
 </div>';
 
 echo rex_view::contentBlock($content_1,$content_2);
-
-?>

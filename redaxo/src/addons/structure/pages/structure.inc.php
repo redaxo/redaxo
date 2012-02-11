@@ -191,7 +191,7 @@ if($function == 'add_cat' || $function == 'edit_cat')
     $params['edit_id'] = $edit_id;
   }
 
-	$echo .= $context->getHiddenInputFields($params);
+  $echo .= $context->getHiddenInputFields($params);
 }
 
 
@@ -239,9 +239,9 @@ if ($function == 'add_cat' && $KATPERM && !rex::getUser()->hasPerm('editContentO
 
   $meta_buttons = rex_extension::registerPoint('CAT_FORM_BUTTONS', "" );
   $add_buttons = '
-  	<input type="hidden" name="rex-api-call" value="category_add" />
-  	<input type="hidden" name="parent-category-id" value="'. $category_id .'" />
-  	<input type="submit" class="rex-form-submit" name="category-add-button" value="'. rex_i18n::msg('add_category') .'"'. rex::getAccesskey(rex_i18n::msg('add_category'), 'save') .' />';
+    <input type="hidden" name="rex-api-call" value="category_add" />
+    <input type="hidden" name="parent-category-id" value="'. $category_id .'" />
+    <input type="submit" class="rex-form-submit" name="category-add-button" value="'. rex_i18n::msg('add_category') .'"'. rex::getAccesskey(rex_i18n::msg('add_category'), 'save') .' />';
 
   $class = 'rex-table-row-active';
   if($meta_buttons != "")
@@ -307,8 +307,8 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
       ));
 
       $add_buttons = '
-    	<input type="hidden" name="rex-api-call" value="category_edit" />
-    	<input type="hidden" name="category-id" value="'. $edit_id .'" />
+      <input type="hidden" name="rex-api-call" value="category_edit" />
+      <input type="hidden" name="category-id" value="'. $edit_id .'" />
       <input type="submit" class="rex-form-submit" name="category-edit-button" value="'. rex_i18n::msg('save_category'). '"'. rex::getAccesskey(rex_i18n::msg('save_category'), 'save') .' />';
 
       $class = 'rex-table-row-active';
@@ -551,7 +551,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     }
 
     $add_td = '
-    	<input type="hidden" name="rex-api-call" value="article_add" />
+      <input type="hidden" name="rex-api-call" value="article_add" />
     ';
 
     if (rex::getUser()->hasPerm('advancedMode[]'))
@@ -584,7 +584,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     if ($function == 'edit_art' && $sql->getValue('id') == $article_id && $KATPERM)
     {
       $add_td = '
-      	<input type="hidden" name="rex-api-call" value="article_edit" />
+        <input type="hidden" name="rex-api-call" value="article_edit" />
       ';
 
       if (rex::getUser()->hasPerm('advancedMode[]'))

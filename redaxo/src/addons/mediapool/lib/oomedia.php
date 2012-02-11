@@ -72,9 +72,9 @@ class rex_ooMedia
   {
     $extlist_path = rex_path::addonCache('mediapool', $extension.'.mextlist');
     if (!file_exists($extlist_path))
-		{
-    	rex_media_cache::generateExtensionList($extension);
-		}
+    {
+      rex_media_cache::generateExtensionList($extension);
+    }
 
     $media = array();
 
@@ -102,9 +102,9 @@ class rex_ooMedia
 
     $media_path = rex_path::addonCache('mediapool', $name.'.media');
     if (!file_exists($media_path))
-		{
-    	rex_media_cache::generate($name);
-		}
+    {
+      rex_media_cache::generate($name);
+    }
 
     if (file_exists($media_path))
     {

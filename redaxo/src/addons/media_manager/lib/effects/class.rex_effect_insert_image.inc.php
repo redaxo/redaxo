@@ -7,12 +7,12 @@
 class rex_effect_insert_image extends rex_effect_abstract{
 
 
-	public function execute()
-	{
-	  
-	  $this->media->asImage();
-	  
-		// -------------------------------------- CONFIG
+  public function execute()
+  {
+    
+    $this->media->asImage();
+    
+    // -------------------------------------- CONFIG
     $brandimage = rex_path::media($this->params['brandimage'], rex_path::ABSOLUTE);
     if(!file_exists($brandimage) || !is_file($brandimage))
       return;
@@ -78,44 +78,44 @@ class rex_effect_insert_image extends rex_effect_abstract{
 
     $brand->destroy();
     $this->media->setImage($gdimage);
-	}
+  }
 
-	public function getParams()
-	{
-		return array(
-			array(
-				'label' => rex_i18n::msg('media_manager_effect_brand_image'),
-				'name' => 'brandimage',
-				'type'	=> 'media',
-				'default' => ''
-			),
-			array(
-				'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
-				'name' => 'hpos',
-				'type'	=> 'select',
-				'options'	=> array('left','center','right'),
-				'default' => 'left'
-			),
-			array(
-				'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
-				'name' => 'vpos',
-				'type'	=> 'select',
-				'options'	=> array('top','middle','bottom'),
-				'default' => 'top'
-			),
-			array(
-				'label' => rex_i18n::msg('media_manager_effect_brand_padding_x'),
-				'name' => 'padding_x',
-				'type'	=> 'int',
-				'default' => '-10'
-			),
-			array(
-				'label' => rex_i18n::msg('media_manager_effect_brand_padding_y'),
-				'name' => 'padding_y',
-				'type'	=> 'int',
-				'default' => '-10'
-			),
-		);
-	}
+  public function getParams()
+  {
+    return array(
+      array(
+        'label' => rex_i18n::msg('media_manager_effect_brand_image'),
+        'name' => 'brandimage',
+        'type'  => 'media',
+        'default' => ''
+      ),
+      array(
+        'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
+        'name' => 'hpos',
+        'type'  => 'select',
+        'options'  => array('left','center','right'),
+        'default' => 'left'
+      ),
+      array(
+        'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
+        'name' => 'vpos',
+        'type'  => 'select',
+        'options'  => array('top','middle','bottom'),
+        'default' => 'top'
+      ),
+      array(
+        'label' => rex_i18n::msg('media_manager_effect_brand_padding_x'),
+        'name' => 'padding_x',
+        'type'  => 'int',
+        'default' => '-10'
+      ),
+      array(
+        'label' => rex_i18n::msg('media_manager_effect_brand_padding_y'),
+        'name' => 'padding_y',
+        'type'  => 'int',
+        'default' => '-10'
+      ),
+    );
+  }
 
 }

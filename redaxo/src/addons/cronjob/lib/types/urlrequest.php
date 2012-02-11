@@ -60,9 +60,9 @@ class rex_cronjob_urlrequest extends rex_cronjob
   }
 
   public function getParamFields()
-	{
-		return array(
-  		array(
+  {
+    return array(
+      array(
         'label' => rex_i18n::msg('cronjob_type_urlrequest_url'),
         'name'  => 'url',
         'type'  => 'text',
@@ -91,5 +91,5 @@ class rex_cronjob_urlrequest extends rex_cronjob
         'visible_if' => array('http-auth' => 1)
       )
     );
-	}
+  }
 }

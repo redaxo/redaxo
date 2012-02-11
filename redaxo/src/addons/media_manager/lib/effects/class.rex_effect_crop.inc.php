@@ -136,15 +136,15 @@ class rex_effect_crop extends rex_effect_abstract
       array(
         'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
         'name' => 'hpos',
-        'type'	=> 'select',
-        'options'	=> array('left','center','right'),
+        'type'  => 'select',
+        'options'  => array('left','center','right'),
         'default' => 'center'
       ),
       array(
         'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
         'name' => 'vpos',
-        'type'	=> 'select',
-        'options'	=> array('top','middle','bottom'),
+        'type'  => 'select',
+        'options'  => array('top','middle','bottom'),
         'default' => 'middle'
       ),
     );

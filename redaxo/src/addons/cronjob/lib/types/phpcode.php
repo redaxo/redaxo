@@ -37,8 +37,8 @@ class rex_cronjob_phpcode extends rex_cronjob
 
   public function getParamFields()
   {
-  	return array(
-  	  array(
+    return array(
+      array(
         'label' => rex_i18n::msg('cronjob_type_phpcode'),
         'name'  => 'code',
         'type'  => 'textarea',

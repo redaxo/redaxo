@@ -64,8 +64,8 @@ class rex_be_navigation extends rex_factory
           $fragment->setVar('navigation', $n, false);
 
           $return[] = array(
-    				'navigation' => $n,
-    				'headline' => array("title"=>$this->getHeadline($block))
+            'navigation' => $n,
+            'headline' => array("title"=>$this->getHeadline($block))
           );
         }
       }

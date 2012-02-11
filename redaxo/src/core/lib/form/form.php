@@ -244,7 +244,7 @@ class rex_form extends rex_factory
   public function addTextField($name, $value = null, array $attributes = array())
   {
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-text';
+      $attributes['class'] = 'rex-form-text';
     $field = $this->addInputField('text', $name, $value, $attributes);
     return $field;
   }
@@ -259,7 +259,7 @@ class rex_form extends rex_factory
   {
     $attributes['readonly'] = 'readonly';
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-read';
+      $attributes['class'] = 'rex-form-read';
     $field = $this->addInputField('text', $name, $value, $attributes);
     return $field;
   }
@@ -275,7 +275,7 @@ class rex_form extends rex_factory
     $attributes['internal::fieldSeparateEnding'] = true;
     $attributes['internal::noNameAttribute'] = true;
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-read';
+      $attributes['class'] = 'rex-form-read';
     $field = $this->addField('span', $name, $value, $attributes, true);
     return $field;
   }
@@ -301,7 +301,7 @@ class rex_form extends rex_factory
   {
     $attributes['internal::fieldClass'] = 'rex_form_checkbox_element';
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-checkbox rex-form-label-right';
+      $attributes['class'] = 'rex-form-checkbox rex-form-label-right';
     $field = $this->addField('', $name, $value, $attributes);
     return $field;
   }
@@ -315,7 +315,7 @@ class rex_form extends rex_factory
   public function addRadioField($name, $value = null, array $attributes = array())
   {
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-radio';
+      $attributes['class'] = 'rex-form-radio';
     $attributes['internal::fieldClass'] = 'rex_form_radio_element';
     $field = $this->addField('radio', $name, $value, $attributes);
     return $field;
@@ -334,7 +334,7 @@ class rex_form extends rex_factory
     if(!isset($attributes['rows']))
       $attributes['rows'] = 6;
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-textarea';
+      $attributes['class'] = 'rex-form-textarea';
 
     $field = $this->addField('textarea', $name, $value, $attributes);
     return $field;
@@ -348,7 +348,7 @@ class rex_form extends rex_factory
   public function addSelectField($name, $value = null, array $attributes = array())
   {
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-select';
+      $attributes['class'] = 'rex-form-select';
     $attributes['internal::fieldClass'] = 'rex_form_select_element';
     $field = $this->addField('', $name, $value, $attributes, true);
     return $field;
@@ -362,7 +362,7 @@ class rex_form extends rex_factory
   public function addPrioField($name, $value = null, array $attributes = array())
   {
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-select';
+      $attributes['class'] = 'rex-form-select';
     $attributes['internal::fieldClass'] = 'rex_form_prio_element';
     $field = $this->addField('', $name, $value, $attributes, true);
     return $field;

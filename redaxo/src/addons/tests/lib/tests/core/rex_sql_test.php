@@ -38,14 +38,14 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
   public function testCheckConnection()
   {
     $configFile = rex_path::data('config.yml');
-  	$config = rex_file::getConfig($configFile);
+    $config = rex_file::getConfig($configFile);
     $this->assertTrue(rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name']));
   }
 
   public function testCheckConnection_Invalid()
   {
     $configFile = rex_path::data('config.yml');
-  	$config = rex_file::getConfig($configFile);
+    $config = rex_file::getConfig($configFile);
     $this->assertTrue(true !== rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], 'not-the-correct-password', $config['db'][1]['name']));
   }
 

@@ -74,13 +74,13 @@ if ($warning != '')
 $content .= '<iframe src="index.php?page='.$page.'&amp;subpage='.$subpage.'&amp;func=readlog" class="rex-log" width="100%" height="500px"></iframe>';
 
 $content .= '
-	<form action="index.php" method="post">
-	  <input type="hidden" name="page" value="'.$page.'" />
-	  <input type="hidden" name="subpage" value="'.$subpage.'" />
-	  <input type="hidden" name="func" value="delLog" />
-	  <input type="submit" name="del_btn" value="'.rex_i18n::msg('syslog_delete').'" onclick="return confirm(\''.rex_i18n::msg('delete').'?\')">
-	</form>
-	';
+  <form action="index.php" method="post">
+    <input type="hidden" name="page" value="'.$page.'" />
+    <input type="hidden" name="subpage" value="'.$subpage.'" />
+    <input type="hidden" name="func" value="delLog" />
+    <input type="submit" name="del_btn" value="'.rex_i18n::msg('syslog_delete').'" onclick="return confirm(\''.rex_i18n::msg('delete').'?\')">
+  </form>
+  ';
 
 echo rex_view::contentBlock($content,'','blank');
 

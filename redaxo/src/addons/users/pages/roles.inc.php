@@ -108,20 +108,20 @@ if($func == '')
 
       jQuery(function($) {
 
-      	function check_perm_field(field, duration) {
-      		var id = field.attr("id").substr(0, field.attr("id").length - 4);
-  				if(field.is(":checked"))
-  				  $("#"+id).parent().parent().hide(duration);
-  				else
-  				  $("#"+id).parent().parent().show(duration);
-      	}
-				$("input#'. implode('_all, input#', $fieldIds) .'_all").change(function(){
-					check_perm_field($(this), "slow");
-  			});
+        function check_perm_field(field, duration) {
+          var id = field.attr("id").substr(0, field.attr("id").length - 4);
+          if(field.is(":checked"))
+            $("#"+id).parent().parent().hide(duration);
+          else
+            $("#"+id).parent().parent().show(duration);
+        }
+        $("input#'. implode('_all, input#', $fieldIds) .'_all").change(function(){
+          check_perm_field($(this), "slow");
+        });
 
-  			$("input#'. implode('_all, input#', $fieldIds) .'_all").each(function(){
-  				check_perm_field($(this), 0);
-  			});
+        $("input#'. implode('_all, input#', $fieldIds) .'_all").each(function(){
+          check_perm_field($(this), 0);
+        });
 
       });
 

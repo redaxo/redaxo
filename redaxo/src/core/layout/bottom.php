@@ -8,10 +8,10 @@ echo $fragment->parse('backend_navigation.tpl');
 $sidebar = rex_extension::registerPoint('PAGE_SIDEBAR', '');
 if($sidebar != "") 
 {
-	$sidebarfragment = new rex_fragment();
-	$sidebarfragment->content = $sidebar;
-	echo $sidebarfragment->parse('backend_sidebar.tpl');
-	unset($sidebarfragment);
+  $sidebarfragment = new rex_fragment();
+  $sidebarfragment->content = $sidebar;
+  echo $sidebarfragment->parse('backend_sidebar.tpl');
+  unset($sidebarfragment);
 }
 
 unset($fragment);

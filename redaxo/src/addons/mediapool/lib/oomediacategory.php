@@ -51,9 +51,9 @@ class rex_ooMediaCategory
 
     $cat_path = rex_path::addonCache('mediapool', $id.'.mcat');
     if (!file_exists($cat_path))
-		{
-    	rex_media_cache::generateCategory($id);
-		}
+    {
+      rex_media_cache::generateCategory($id);
+    }
 
     if (file_exists($cat_path))
     {
@@ -104,9 +104,9 @@ class rex_ooMediaCategory
 
     $catlist_path = rex_path::addonCache('mediapool', $id.'.mclist');
     if (!file_exists($catlist_path))
-		{
-    	rex_media_cache::generateCategoryList($id);
-		}
+    {
+      rex_media_cache::generateCategoryList($id);
+    }
 
     if (file_exists($catlist_path))
     {
@@ -252,15 +252,15 @@ class rex_ooMediaCategory
    */
   public function inParentTree($anObj)
   {
-  	$tree = $this->getParentTree();
-  	foreach($tree as $treeObj)
-  	{
-  		if($treeObj == $anObj)
-  		{
-  			return true;
-  		}
-  	}
-  	return false;
+    $tree = $this->getParentTree();
+    foreach($tree as $treeObj)
+    {
+      if($treeObj == $anObj)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -296,9 +296,9 @@ class rex_ooMediaCategory
 
       $list_path = rex_path::addonCache('mediapool', $id.'.mlist');
       if (!file_exists($list_path))
-  		{
-      	rex_media_cache::generateList($id);
-  		}
+      {
+        rex_media_cache::generateList($id);
+      }
 
       if (file_exists($list_path))
       {

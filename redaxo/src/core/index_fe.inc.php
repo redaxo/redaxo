@@ -21,8 +21,8 @@ include_once rex_path::core('packages.inc.php');
 
 if(rex::isSetup())
 {
-	header('Location:redaxo/');
-	exit();
+  header('Location:redaxo/');
+  exit();
 }
 
 // ----- caching end für output filter

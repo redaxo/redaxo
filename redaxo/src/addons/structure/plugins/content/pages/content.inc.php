@@ -70,26 +70,26 @@ if ($article->getRows() == 1)
 
   if (rex::getProperty('page') == 'content' && $article_id > 0)
   {
-		$term = ($article->getValue('startpage') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
-    	$catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
-    	// TODO: if admin or recht advanced -> $KATout .= " [$article_id]";
+    $term = ($article->getValue('startpage') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
+      $catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
+      // TODO: if admin or recht advanced -> $KATout .= " [$article_id]";
 
-		$navigation = array();
-		$navigation[] = array(
-					"href" => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
-					"title" => $catname
-				);
-		$blocks = array();
-		$blocks[] = array(
-			"headline" => array ( "title" => $term),
-			"navigation" => $navigation
-			);
+    $navigation = array();
+    $navigation[] = array(
+          "href" => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
+          "title" => $catname
+        );
+    $blocks = array();
+    $blocks[] = array(
+      "headline" => array ( "title" => $term),
+      "navigation" => $navigation
+      );
 
-		$fragment = new rex_fragment();
-		$fragment->setVar('type','path');
-		$fragment->setVar('blocks', $blocks, false);
-		$KATout .= $fragment->parse('navigation.tpl');
-		unset($fragment);
+    $fragment = new rex_fragment();
+    $fragment->setVar('type','path');
+    $fragment->setVar('blocks', $blocks, false);
+    $KATout .= $fragment->parse('navigation.tpl');
+    unset($fragment);
 
   }
 
@@ -466,7 +466,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: CONTENT HEAD MENUE
     $num_ctypes = count($ctypes);
 
-	$listElements = array();
+  $listElements = array();
 
     $ctype_menu = '';
     if ($num_ctypes > 0)
@@ -475,15 +475,15 @@ if ($article->getRows() == 1)
       foreach ($ctypes as $key => $val)
       {
         
-   		$n = array();
-		$n["title"] = rex_i18n::translate($val);
-		$n["href"] = 'index.php?page=content&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
-		if ($key == $ctype && $mode == 'edit')
+       $n = array();
+    $n["title"] = rex_i18n::translate($val);
+    $n["href"] = 'index.php?page=content&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
+    if ($key == $ctype && $mode == 'edit')
         {
-			$n["linkClasses"] = array('rex-active');
-			$n["itemClasses"] = array('rex-active');
-	    }
-		$listElements[] = $n;
+      $n["linkClasses"] = array('rex-active');
+      $n["itemClasses"] = array('rex-active');
+      }
+    $listElements[] = $n;
         
       }
 
@@ -507,42 +507,42 @@ if ($article->getRows() == 1)
 
     // $listElements = array();
 
-	$n = array();
-	$n["title"] = rex_i18n::msg('show');
-	$n["href"] = rex_getUrl($article_id, $clang);
-	$n["itemClasses"] = array('rex-misc');
-	$n["linkAttr"] = array("onClick" => 'window.open(this.href); return false;');
-	$listElements[] = $n;
-	
-	$n = array();
-	$n["title"] = rex_i18n::msg('metafuncs');
-	$n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=metafuncs&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
-	$n["itemClasses"] = array('rex-misc');
+  $n = array();
+  $n["title"] = rex_i18n::msg('show');
+  $n["href"] = rex_getUrl($article_id, $clang);
+  $n["itemClasses"] = array('rex-misc');
+  $n["linkAttr"] = array("onClick" => 'window.open(this.href); return false;');
+  $listElements[] = $n;
+  
+  $n = array();
+  $n["title"] = rex_i18n::msg('metafuncs');
+  $n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=metafuncs&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
+  $n["itemClasses"] = array('rex-misc');
     if ($mode == 'metafuncs') {
-		$n["linkClasses"] = array('rex-active');
-		$n["itemClasses"] = array('rex-active','rex-misc');
+    $n["linkClasses"] = array('rex-active');
+    $n["itemClasses"] = array('rex-active','rex-misc');
     }
-	$listElements[] = $n;
+  $listElements[] = $n;
 
-	$n = array();
-	$n["title"] = rex_i18n::msg('metadata');
-	$n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
-	$n["itemClasses"] = array('rex-misc');
+  $n = array();
+  $n["title"] = rex_i18n::msg('metadata');
+  $n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
+  $n["itemClasses"] = array('rex-misc');
     if ($mode == 'meta') {
-		$n["linkClasses"] = array('rex-active');
-		$n["itemClasses"] = array('rex-active','rex-misc');
+    $n["linkClasses"] = array('rex-active');
+    $n["itemClasses"] = array('rex-active','rex-misc');
     }
-	$listElements[] = $n;
-	
-	$n = array();
-	$n["title"] = rex_i18n::msg('edit_mode');
-	$n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
-	$n["itemClasses"] = array('rex-misc');
+  $listElements[] = $n;
+  
+  $n = array();
+  $n["title"] = rex_i18n::msg('edit_mode');
+  $n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
+  $n["itemClasses"] = array('rex-misc');
     if ($mode != 'meta' && $mode != 'metafuncs') {
-		$n["linkClasses"] = array('rex-active');
-		$n["itemClasses"] = array('rex-active','rex-misc');
+    $n["linkClasses"] = array('rex-active');
+    $n["itemClasses"] = array('rex-active','rex-misc');
     }
-	$listElements[] = $n;
+  $listElements[] = $n;
 
     // ----- EXTENSION POINT
     $listElements = rex_extension::registerPoint('PAGE_CONTENT_MENU', $listElements,
@@ -554,17 +554,17 @@ if ($article->getRows() == 1)
         'slice_id' => $slice_id
       )
     );
-	
-	$blocks = array();
-	$blocks[] = array(
-				"headline" => array("title" => "meeeta"), 
-				"navigation" => $listElements
-				);
-	
-	$fragment = new rex_fragment();
-	$fragment->setVar('type','tab');
-	$fragment->setVar('blocks', $blocks, false);
-	echo $fragment->parse('navigation.tpl');
+  
+  $blocks = array();
+  $blocks[] = array(
+        "headline" => array("title" => "meeeta"), 
+        "navigation" => $listElements
+        );
+  
+  $fragment = new rex_fragment();
+  $fragment->setVar('type','tab');
+  $fragment->setVar('blocks', $blocks, false);
+  echo $fragment->parse('navigation.tpl');
 
 
     // ------------------------------------------ END: CONTENT HEAD MENUE
@@ -675,7 +675,7 @@ if ($article->getRows() == 1)
                   </form>
                 </div>';
 
-	  echo rex_view::contentBlock($content, '', 'block');
+    echo rex_view::contentBlock($content, '', 'block');
 
     // ------------------------------------------ START: META FUNCS
     }elseif ($mode == 'metafuncs')
@@ -954,7 +954,7 @@ if ($article->getRows() == 1)
                   </form>
                 </div>';
 
-	  echo rex_view::contentBlock($content, '', 'block');
+    echo rex_view::contentBlock($content, '', 'block');
 
     }
 

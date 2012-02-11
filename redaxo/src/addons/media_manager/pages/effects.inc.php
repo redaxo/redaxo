@@ -60,23 +60,23 @@ if ($func == '' && $type_id > 0)
 
   $query = 'SELECT * FROM '.rex::getTablePrefix().'media_manager_type_effects WHERE type_id='.$type_id .' ORDER BY prior';
 
-	$list = rex_list::factory($query);
+  $list = rex_list::factory($query);
   $list->setNoRowsMessage(htmlspecialchars(rex_i18n::msg('media_manager_effect_no_effects')));
   $list->setCaption(htmlspecialchars(rex_i18n::msg('media_manager_effect_caption', $typeName)));
   $list->addTableAttribute('summary', htmlspecialchars(rex_i18n::msg('media_manager_effect_summary', $typeName)));
   $list->addTableColumnGroup(array(40, '*', 40, 130, 130));
 
-	$list->removeColumn('id');
-	$list->removeColumn('type_id');
-	$list->removeColumn('parameters');
-	$list->removeColumn('updatedate');
-	$list->removeColumn('updateuser');
-	$list->removeColumn('createdate');
-	$list->removeColumn('createuser');
-	$list->setColumnLabel('effect',htmlspecialchars(rex_i18n::msg('media_manager_type_name')));
-	$list->setColumnLabel('prior',htmlspecialchars(rex_i18n::msg('media_manager_type_prior')));
+  $list->removeColumn('id');
+  $list->removeColumn('type_id');
+  $list->removeColumn('parameters');
+  $list->removeColumn('updatedate');
+  $list->removeColumn('updateuser');
+  $list->removeColumn('createdate');
+  $list->removeColumn('createuser');
+  $list->setColumnLabel('effect',htmlspecialchars(rex_i18n::msg('media_manager_type_name')));
+  $list->setColumnLabel('prior',htmlspecialchars(rex_i18n::msg('media_manager_type_prior')));
 
-	// icon column
+  // icon column
   $thIcon = '<a class="rex-i-element rex-i-generic-add" href="'. $list->getUrl(array('type_id' => $type_id, 'func' => 'add')) .'"><span class="rex-i-element-text">'. htmlspecialchars(rex_i18n::msg('media_manager_effect_create')) .'</span></a>';
   $tdIcon = '<span class="rex-i-element rex-i-generic"><span class="rex-i-element-text">###name###</span></span>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
@@ -92,7 +92,7 @@ if ($func == '' && $type_id > 0)
   $list->setColumnParams($delete, array('type_id' => $type_id, 'effect_id' => '###id###', 'func' => 'delete'));
   $list->addLinkAttribute($delete, 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
 
-	$list->show();
+  $list->show();
 }
 elseif ($func == 'add' && $type_id > 0 ||
         $func == 'edit' && $effect_id > 0 && $type_id > 0)
@@ -108,19 +108,19 @@ elseif ($func == 'add' && $type_id > 0 ||
     $formLabel = rex_i18n::msg('media_manager_effect_create_header', htmlspecialchars($typeName));
   }
 
-	$form = rex_form::factory(rex::getTablePrefix().'media_manager_type_effects',$formLabel,'id='.$effect_id);
+  $form = rex_form::factory(rex::getTablePrefix().'media_manager_type_effects',$formLabel,'id='.$effect_id);
 
-	// image_type_id for reference to save into the db
+  // image_type_id for reference to save into the db
   $form->addHiddenField('type_id', $type_id);
 
-	// effect name als SELECT
-	$field = $form->addSelectField('effect');
-	$field->setLabel(rex_i18n::msg('media_manager_effect_name'));
-	$select = $field->getSelect();
-	$select->addOptions($effectNames, true);
-	$select->setSize(1);
+  // effect name als SELECT
+  $field = $form->addSelectField('effect');
+  $field->setLabel(rex_i18n::msg('media_manager_effect_name'));
+  $select = $field->getSelect();
+  $select->addOptions($effectNames, true);
+  $select->setSize(1);
 
-	$script = '
+  $script = '
   <script type="text/javascript">
   <!--
 
@@ -144,9 +144,9 @@ elseif ($func == 'add' && $type_id > 0 ||
   $field->setWhereCondition('type_id = '. $type_id);
 
   // effect parameters
-	$fieldContainer = $form->addContainerField('parameters');
+  $fieldContainer = $form->addContainerField('parameters');
   $fieldContainer->setAttribute('style', 'display: none');
-	$fieldContainer->setSuffix($script);
+  $fieldContainer->setSuffix($script);
 
   $effects = rex_media_manager::getSupportedEffects();
 
@@ -218,12 +218,12 @@ elseif ($func == 'add' && $type_id > 0 ||
   }
 
   // parameters for url redirects
-	$form->addParam('type_id', $type_id);
-	if($func == 'edit')
-	{
-		$form->addParam('effect_id', $effect_id);
-	}
-	$form->show();
+  $form->addParam('type_id', $type_id);
+  if($func == 'edit')
+  {
+    $form->addParam('effect_id', $effect_id);
+  }
+  $form->show();
 }
 
 echo '</div>';

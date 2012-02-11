@@ -169,7 +169,7 @@ abstract class rex_logger extends rex_factory
   /**
    * Closes the logfile. The logfile is not be able to log further message after beeing closed.
    *
-	 * You dont need to close the logfile manually when it was registered during the request.
+   * You dont need to close the logfile manually when it was registered during the request.
    */
   static public function close()
   {
@@ -189,11 +189,11 @@ abstract class rex_logger extends rex_factory
       $error = error_get_last();
       if(is_array($error))
       {
-      	try {
-      		self::logError($error['type'], $error['message'], $error['file'], $error['line']);
-      	}catch (Exception $e ) {
-      	  self::logException($e);
-      	}
+        try {
+          self::logError($error['type'], $error['message'], $error['file'], $error['line']);
+        }catch (Exception $e ) {
+          self::logException($e);
+        }
       }
     }
 

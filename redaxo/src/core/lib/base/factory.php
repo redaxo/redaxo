@@ -14,7 +14,7 @@
  *
  *   static public function factory($param)
  *   {
- *   	 $class = self::getFactoryClass();
+ *      $class = self::getFactoryClass();
  *     return new $class($param);
  *   }
  * }
