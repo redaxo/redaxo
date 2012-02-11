@@ -6,7 +6,7 @@ $fragment->setVar('navigation', $navigation, false);
 echo $fragment->parse('backend_navigation.tpl');
 
 $sidebar = rex_extension::registerPoint('PAGE_SIDEBAR', '');
-if($sidebar != "") 
+if($sidebar != "")
 {
   $sidebarfragment = new rex_fragment();
   $sidebarfragment->content = $sidebar;
@@ -25,6 +25,7 @@ unset($fragment);
 
 
 $footerfragment = new rex_fragment();
+$footerfragment->setVar('time', rex::getProperty('timer')->getFormattedTime());
 echo $footerfragment->parse('backend_footer.tpl');
 unset($footerfragment);
 
