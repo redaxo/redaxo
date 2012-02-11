@@ -8,37 +8,30 @@ set_include_path($path . PATH_SEPARATOR . get_include_path());
 
 require_once('PHPUnit/Autoload.php');
 
-$filter = PHP_CodeCoverage_Filter::getInstance();
-$filter->addFileToBlacklist(__FILE__);
-foreach(debug_backtrace(false) as $t)
-{
-  $filter->addFileToBlacklist($t['file']);
-}
-
-$testCollector = new PHPUnit_Runner_IncludePathTestCollector(
-  array(__DIR__. '/../lib/tests/*'), array('_test.php', '.phpt')
-);
-
-/*
-foreach($testCollector->collectTests() as $test){
-  var_dump($test->__toString());
-  echo '<br>';
-}
-*/
+$tests = rex_dir::recursiveIterator($this->getBasePath('lib/tests'), rex_dir_recursive_iterator::LEAVES_ONLY)->ignoreSystemStuff();
 
 $suite  = new PHPUnit_Framework_TestSuite();
 // disable backup of globals, since we have some rex_sql objectes referenced from variables in global space.
 // PDOStatements are not allowed to be serialized
 $suite->setBackupGlobals(false);
-$suite->addTestFiles($testCollector->collectTests());
+$suite->addTestFiles($tests);
 
 rex_logger::unregister();
 
-$result = $suite->run();
-
-$resultPrinter = new PHPUnit_TextUI_ResultPrinter(null, true);
 echo '<pre>';
-$resultPrinter->printResult($result);
+
+ob_start();
+$runner = new PHPUnit_TextUI_TestRunner;
+$runner->doRun($suite); $line = __LINE__;
+$result = ob_get_clean();
+
+$search = __FILE__ .':'. $line . "\n";
+foreach(debug_backtrace(false) as $t)
+{
+  $search .= $t['file'] .':'. $t['line'] . "\n";
+}
+echo str_replace(array($search, rex_path::base()), '', $result);
+
 echo '</pre>';
 
 rex_logger::register();

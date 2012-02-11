@@ -2,7 +2,7 @@
 /**
  * PHPUnit
  *
- * Copyright (c) 2010-2011, Sebastian Bergmann <sb@sebastian-bergmann.de>.
+ * Copyright (c) 2010-2012, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,7 @@
  *
  * @package    PHPUnit_MockObject
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
- * @copyright  2010-2011 Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @copyright  2010-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      File available since Release 1.0.0
@@ -47,9 +47,9 @@
  *
  * @package    PHPUnit_MockObject
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
- * @copyright  2010-2011 Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @copyright  2010-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 1.0.9
+ * @version    Release: 1.1.1
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      Interface available since Release 1.0.0
  */
@@ -59,7 +59,7 @@ interface PHPUnit_Framework_MockObject_Builder_MethodNameMatch extends PHPUnit_F
      * Adds a new method name match and returns the parameter match object for
      * further matching possibilities.
      *
-     * @param  PHPUnit_Framework_Constraint $name 
+     * @param  PHPUnit_Framework_Constraint $name
      *         Constraint for matching method, if a string is passed it will use
      *         the PHPUnit_Framework_Constraint_IsEqual.
      * @return PHPUnit_Framework_MockObject_Builder_ParametersMatch

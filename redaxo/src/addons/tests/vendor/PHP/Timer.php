@@ -2,7 +2,7 @@
 /**
  * PHP_Timer
  *
- * Copyright (c) 2010, Sebastian Bergmann <sb@sebastian-bergmann.de>.
+ * Copyright (c) 2010-2011, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@
  * @package    PHP
  * @subpackage Timer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
- * @copyright  2010 Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @copyright  2010-2011 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link       http://github.com/sebastianbergmann/php-timer
  * @since      File available since Release 1.0.0
@@ -49,15 +49,23 @@
  * @package    PHP
  * @subpackage Timer
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
- * @copyright  2002-2010 Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @copyright  2010-2011 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 1.0.0
+ * @version    Release: 1.0.2
  * @link       http://github.com/sebastianbergmann/php-timer
  * @since      Class available since Release 1.0.0
  */
 class PHP_Timer
 {
+    /**
+     * @var array
+     */
     protected static $startTimes = array();
+
+    /**
+     * @var float
+     */
+    public static $requestTime;
 
     /**
      * Starts the timer.
@@ -120,7 +128,7 @@ class PHP_Timer
      */
     public static function timeSinceStartOfRequest()
     {
-        return self::secondsToTimeString(time() - $_SERVER['REQUEST_TIME']);
+        return self::secondsToTimeString(time() - self::$requestTime);
     }
 
     /**
@@ -136,4 +144,10 @@ class PHP_Timer
           memory_get_peak_usage(TRUE) / 1048576
         );
     }
+}
+
+if (isset($_SERVER['REQUEST_TIME'])) {
+    PHP_Timer::$requestTime = $_SERVER['REQUEST_TIME'];
+} else {
+    PHP_Timer::$requestTime = time();
 }

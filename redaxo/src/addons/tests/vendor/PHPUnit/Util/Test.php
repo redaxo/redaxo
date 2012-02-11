@@ -2,7 +2,7 @@
 /**
  * PHPUnit
  *
- * Copyright (c) 2002-2011, Sebastian Bergmann <sebastian@phpunit.de>.
+ * Copyright (c) 2001-2012, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@
  * @package    PHPUnit
  * @subpackage Util
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2002-2011 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2001-2012 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
@@ -49,9 +49,9 @@
  * @package    PHPUnit
  * @subpackage Util
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2002-2011 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2001-2012 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.5.15
+ * @version    Release: 3.6.10
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
@@ -59,6 +59,11 @@ class PHPUnit_Util_Test
 {
     const REGEX_DATA_PROVIDER      = '/@dataProvider\s+([a-zA-Z0-9._:-\\\\x7f-\xff]+)/';
     const REGEX_EXPECTED_EXCEPTION = '(@expectedException\s+([:.\w\\\\x7f-\xff]+)(?:[\t ]+(\S*))?(?:[\t ]+(\S*))?\s*$)m';
+    const REGEX_REQUIRES           = '/@requires\s+(?P<name>PHP(?:Unit)?)\s+(?P<value>[\d\.]+)[ \t]*\r?$/m';
+
+    const SMALL  = 0;
+    const MEDIUM = 1;
+    const LARGE  = 2;
 
     private static $annotationCache = array();
 
@@ -97,6 +102,29 @@ class PHPUnit_Util_Test
     }
 
     /**
+     * Returns the requirements for a test.
+     *
+     * @param  string $className
+     * @param  string $methodName
+     * @return array
+     * @since  Method available since Release 3.6.0
+     */
+    public static function getRequirements($className, $methodName)
+    {
+        $reflector  = new ReflectionMethod($className, $methodName);
+        $docComment = $reflector->getDocComment();
+        $requires   = array();
+
+        if ($count = preg_match_all(self::REGEX_REQUIRES, $docComment, $matches)) {
+            for ($i = 0; $i < $count; $i++) {
+                $requires[$matches['name'][$i]] = $matches['value'][$i];
+            }
+        }
+
+        return $requires;
+    }
+
+    /**
      * Returns the expected exception for a test.
      *
      * @param  string $className
@@ -115,7 +143,7 @@ class PHPUnit_Util_Test
             );
 
             $class   = $matches[1];
-            $code    = 0;
+            $code    = NULL;
             $message = '';
 
             if (isset($matches[2])) {
@@ -127,11 +155,19 @@ class PHPUnit_Util_Test
             }
 
             if (isset($matches[3])) {
-                $code = (int)$matches[3];
+                $code = $matches[3];
             }
 
             else if (isset($annotations['method']['expectedExceptionCode'])) {
-                $code = (int)$annotations['method']['expectedExceptionCode'][0];
+                $code = $annotations['method']['expectedExceptionCode'][0];
+            }
+
+            if (is_numeric($code)) {
+                $code = (int)$code;
+            }
+
+            else if (is_string($code) && defined($code)) {
+                $code = (int)constant($code);
             }
 
             return array(
@@ -243,6 +279,8 @@ class PHPUnit_Util_Test
     private static function parseAnnotations($docblock)
     {
         $annotations = array();
+        // Strip away the docblock header and footer to ease parsing of one line annotations
+        $docblock = substr($docblock, 3, -2);
 
         if (preg_match_all('/@(?P<name>[A-Za-z_-]+)(?:[ \t]+(?P<value>.*?))?[ \t]*\r?$/m', $docblock, $matches)) {
             $numMatches = count($matches[0]);
@@ -351,7 +389,57 @@ class PHPUnit_Util_Test
             $groups = array_merge($groups, $annotations['method']['group']);
         }
 
+        if (isset($annotations['class']['ticket'])) {
+            $groups = array_merge($groups, $annotations['class']['ticket']);
+        }
+
+        if (isset($annotations['method']['ticket'])) {
+            $groups = array_merge($groups, $annotations['method']['ticket']);
+        }
+
+        foreach (array('small', 'medium', 'large') as $size) {
+            if (isset($annotations['method'][$size])) {
+                $groups[] = $size;
+            }
+
+            else if (isset($annotations['class'][$size])) {
+                $groups[] = $size;
+            }
+        }
+
         return array_unique($groups);
+    }
+
+    /**
+     * Returns the size of the test.
+     *
+     * @param  string $className
+     * @param  string $methodName
+     * @return integer
+     * @since  Method available since Release 3.6.0
+     */
+    public static function getSize($className, $methodName)
+    {
+        $groups = array_flip(self::getGroups($className, $methodName));
+        $size   = self::SMALL;
+        $class  = new ReflectionClass($className);
+
+        if ((class_exists('PHPUnit_Extensions_Database_TestCase', FALSE) &&
+             $class->isSubclassOf('PHPUnit_Extensions_Database_TestCase')) ||
+            (class_exists('PHPUnit_Extensions_SeleniumTestCase', FALSE) &&
+             $class->isSubclassOf('PHPUnit_Extensions_SeleniumTestCase'))) {
+            $size = self::LARGE;
+        }
+
+        else if (isset($groups['medium'])) {
+            $size = self::MEDIUM;
+        }
+
+        else if (isset($groups['large'])) {
+            $size = self::LARGE;
+        }
+
+        return $size;
     }
 
     /**

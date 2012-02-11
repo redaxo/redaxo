@@ -2,7 +2,7 @@
 /**
  * PHPUnit
  *
- * Copyright (c) 2010-2011, Sebastian Bergmann <sb@sebastian-bergmann.de>.
+ * Copyright (c) 2010-2012, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@
  * @package    PHPUnit_MockObject
  * @author     Giorgio Sironi <piccoloprincipeazzurro@gmail.com>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
- * @copyright  2010-2011 Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @copyright  2010-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      File available since Release 1.0.0
@@ -49,7 +49,7 @@
  * @package    PHPUnit_MockObject
  * @author     Giorgio Sironi <piccoloprincipeazzurro@gmail.com>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
- * @copyright  2010-2011 Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @copyright  2010-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link       http://github.com/sebastianbergmann/phpunit-mock-objects
  * @since      File available since Release 1.0.0
@@ -144,10 +144,10 @@ class PHPUnit_Framework_MockObject_MockBuilder
     /**
      * Specifies the subset of methods to mock. Default is to mock all of them.
      *
-     * @param  array $methods
+     * @param  array|null $methods
      * @return PHPUnit_Framework_MockObject_MockBuilder
      */
-    public function setMethods(array $methods)
+    public function setMethods($methods)
     {
         $this->methods = $methods;
 
@@ -190,7 +190,7 @@ class PHPUnit_Framework_MockObject_MockBuilder
         $this->originalConstructor = FALSE;
 
         return $this;
-    } 
+    }
 
     /**
      * Suppresses the invocation of the original clone constructor.
@@ -202,7 +202,7 @@ class PHPUnit_Framework_MockObject_MockBuilder
         $this->originalClone = FALSE;
 
         return $this;
-    } 
+    }
 
     /**
      * Suppresses the use of class autoloading while creating the mock object.

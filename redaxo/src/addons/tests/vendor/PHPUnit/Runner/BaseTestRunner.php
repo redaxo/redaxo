@@ -2,7 +2,7 @@
 /**
  * PHPUnit
  *
- * Copyright (c) 2002-2011, Sebastian Bergmann <sebastian@phpunit.de>.
+ * Copyright (c) 2001-2012, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@
  * @package    PHPUnit
  * @subpackage Runner
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2002-2011 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2001-2012 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
@@ -49,9 +49,9 @@
  * @package    PHPUnit
  * @subpackage Runner
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2002-2011 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2001-2012 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.5.15
+ * @version    Release: 3.6.10
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
@@ -81,26 +81,26 @@ abstract class PHPUnit_Runner_BaseTestRunner
      *
      * @param  string  $suiteClassName
      * @param  string  $suiteClassFile
-     * @param  boolean $syntaxCheck
      * @return PHPUnit_Framework_Test
      */
-    public function getTest($suiteClassName, $suiteClassFile = '', $syntaxCheck = FALSE)
+    public function getTest($suiteClassName, $suiteClassFile = '')
     {
         if (is_dir($suiteClassName) &&
             !is_file($suiteClassName . '.php') && empty($suiteClassFile)) {
-            $testCollector = new PHPUnit_Runner_IncludePathTestCollector(
-              array($suiteClassName)
+            $facade = new File_Iterator_Facade;
+            $files  = $facade->getFilesAsArray(
+              $suiteClassName, array('Test.php', '.phpt')
             );
 
             $suite = new PHPUnit_Framework_TestSuite($suiteClassName);
-            $suite->addTestFiles($testCollector->collectTests(), $syntaxCheck);
+            $suite->addTestFiles($files);
 
             return $suite;
         }
 
         try {
             $testClass = $this->loadSuiteClass(
-              $suiteClassName, $suiteClassFile, $syntaxCheck
+              $suiteClassName, $suiteClassFile
             );
         }
 
@@ -158,15 +158,14 @@ abstract class PHPUnit_Runner_BaseTestRunner
      *
      * @param  string  $suiteClassName
      * @param  string  $suiteClassFile
-     * @param  boolean $syntaxCheck
      * @return ReflectionClass
      */
-    protected function loadSuiteClass($suiteClassName, $suiteClassFile = '', $syntaxCheck = FALSE)
+    protected function loadSuiteClass($suiteClassName, $suiteClassFile = '')
     {
         $loader = $this->getLoader();
 
         if ($loader instanceof PHPUnit_Runner_StandardTestSuiteLoader) {
-            return $loader->load($suiteClassName, $suiteClassFile, $syntaxCheck);
+            return $loader->load($suiteClassName, $suiteClassFile);
         } else {
             return $loader->load($suiteClassName, $suiteClassFile);
         }

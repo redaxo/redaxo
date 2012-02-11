@@ -2,7 +2,7 @@
 /**
  * PHPUnit
  *
- * Copyright (c) 2002-2011, Sebastian Bergmann <sebastian@phpunit.de>.
+ * Copyright (c) 2001-2012, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@
  * @package    PHPUnit
  * @subpackage Util
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2002-2011 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2001-2012 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
@@ -49,9 +49,9 @@
  * @package    PHPUnit
  * @subpackage Util
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2002-2011 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2001-2012 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.5.15
+ * @version    Release: 3.6.10
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -69,71 +69,9 @@ class PHPUnit_Util_XML
           '([\\x00-\\x04\\x0b\\x0c\\x0e-\\x1f\\x7f])e',
           'sprintf( "&#x%02x;", ord( "\\1" ) )',
           htmlspecialchars(
-            self::convertToUtf8($string), ENT_COMPAT, 'UTF-8'
+            PHPUnit_Util_String::convertToUtf8($string), ENT_COMPAT, 'UTF-8'
           )
         );
-    }
-
-    /**
-     * Converts a string to UTF-8 encoding.
-     *
-     * @param  string $string
-     * @return string
-     * @since  Method available since Release 3.2.19
-     */
-    protected static function convertToUtf8($string)
-    {
-        if (!self::isUtf8($string)) {
-            if (function_exists('mb_convert_encoding')) {
-                $string = mb_convert_encoding($string, 'UTF-8');
-            } else {
-                $string = utf8_encode($string);
-            }
-        }
-
-        return $string;
-    }
-
-    /**
-     * Checks a string for UTF-8 encoding.
-     *
-     * @param  string $string
-     * @return boolean
-     * @since  Method available since Release 3.3.0
-     */
-    protected static function isUtf8($string)
-    {
-        $length = strlen($string);
-
-        for ($i = 0; $i < $length; $i++) {
-            if (ord($string[$i]) < 0x80) {
-                $n = 0;
-            }
-
-            else if ((ord($string[$i]) & 0xE0) == 0xC0) {
-                $n = 1;
-            }
-
-            else if ((ord($string[$i]) & 0xF0) == 0xE0) {
-                $n = 2;
-            }
-
-            else if ((ord($string[$i]) & 0xF0) == 0xF0) {
-                $n = 3;
-            }
-
-            else {
-                return FALSE;
-            }
-
-            for ($j = 0; $j < $n; $j++) {
-                if ((++$i == $length) || ((ord($string[$i]) & 0xC0) != 0x80)) {
-                    return FALSE;
-                }
-            }
-        }
-
-        return TRUE;
     }
 
     /**

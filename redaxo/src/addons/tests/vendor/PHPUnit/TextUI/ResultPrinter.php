@@ -2,7 +2,7 @@
 /**
  * PHPUnit
  *
- * Copyright (c) 2002-2011, Sebastian Bergmann <sebastian@phpunit.de>.
+ * Copyright (c) 2001-2012, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,13 +37,11 @@
  * @package    PHPUnit
  * @subpackage TextUI
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2002-2011 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2001-2012 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-
-require_once 'PHP/Timer.php';
 
 /**
  * Prints the result of a TextUI TestRunner run.
@@ -51,9 +49,9 @@ require_once 'PHP/Timer.php';
  * @package    PHPUnit
  * @subpackage TextUI
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2002-2011 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright  2001-2012 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.5.15
+ * @version    Release: 3.6.10
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
@@ -273,8 +271,7 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
         $this->write(
           $defect->getExceptionAsString() . "\n" .
           PHPUnit_Util_Filter::getFilteredStacktrace(
-            $defect->thrownException(),
-            FALSE
+            $defect->thrownException()
           )
         );
     }
@@ -423,7 +420,7 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
         if (!$this->verbose &&
             $result->deprecatedFeaturesCount() > 0) {
             $message = sprintf(
-              "Warning: Deprecated PHPUnit features are being used %s times!\n".
+              "Warning: Deprecated PHPUnit features are being used %s times!\n" .
               "Use --verbose for more information.\n",
               $result->deprecatedFeaturesCount()
             );
@@ -475,7 +472,12 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->writeProgress('E');
+        if ($this->colors) {
+            $this->writeProgress("\x1b[31;1mE\x1b[0m");
+        } else {
+            $this->writeProgress('E');
+        }
+
         $this->lastTestFailed = TRUE;
     }
 
@@ -488,7 +490,12 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        $this->writeProgress('F');
+        if ($this->colors) {
+            $this->writeProgress("\x1b[41;37mF\x1b[0m");
+        } else {
+            $this->writeProgress('F');
+        }
+
         $this->lastTestFailed = TRUE;
     }
 
@@ -501,7 +508,12 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->writeProgress('I');
+        if ($this->colors) {
+            $this->writeProgress("\x1b[33;1mI\x1b[0m");
+        } else {
+            $this->writeProgress('I');
+        }
+
         $this->lastTestFailed = TRUE;
     }
 
@@ -515,7 +527,12 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->writeProgress('S');
+        if ($this->colors) {
+            $this->writeProgress("\x1b[36;1mS\x1b[0m");
+        } else {
+            $this->writeProgress('S');
+        }
+
         $this->lastTestFailed = TRUE;
     }
 
@@ -576,7 +593,17 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
             $this->numAssertions += $test->getNumAssertions();
         }
 
+        else if ($test instanceof PHPUnit_Extensions_PhptTestCase) {
+            $this->numAssertions++;
+        }
+
         $this->lastTestFailed = FALSE;
+
+        if ($test instanceof PHPUnit_Framework_TestCase) {
+            if (!$test->hasPerformedExpectationsOnOutput()) {
+                $this->write($test->getActualOutput());
+            }
+        }
     }
 
     /**
