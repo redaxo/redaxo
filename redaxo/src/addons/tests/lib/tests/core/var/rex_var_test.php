@@ -1,68 +1,131 @@
-<?php 
+<?php
 
-class rex_var_test extends PHPUnit_Framework_TestCase
+class rex_var_test_var extends rex_var
 {
-  public function setUp()
+  public function getOutput()
   {
-    parent::setUp();
+    return $this->getArg('content', "'default'", true);
   }
-  
-  public function tearDown()
+}
+
+class rex_var_test extends rex_var_base_test
+{
+  public function parseTokensProvider()
   {
-    parent::tearDown();
+    return array(
+      array('aREX_TEST_VAR[content=b]c', 'abc'),
+      array('a<?php echo \'bREX_TEST_VAR[content=c]d\'; ?>e', 'abcde'),
+      array('a<?php echo "bREX_TEST_VAR[content=c]d"; ?>e', 'abcde'),
+      array('a<?php echo REX_TEST_VAR[content=b]; ?>c', 'abc'),
+      array('a<?php echo <<<EOT
+bREX_TEST_VAR[content=c]d
+EOT;
+?>e', 'abcde'),
+      array('a<?php echo <<<\'EOT\'
+bREX_TEST_VAR[content=c]d
+EOT;
+?>e', 'abcde')
+    );
   }
-  
-  public function testGlobalVarParams_Instead()
+
+  /**
+   * @dataProvider parseTokensProvider
+   */
+  public function testParseTokens($content, $expectedOutput)
   {
-    $this->assertEquals('abc', rex_var::handleGlobalVarParams('myVar', array('instead' => 'abc'), 'myVal'), 'instead value used when a value present');
-    $this->assertEquals('', rex_var::handleGlobalVarParams('myVar', array('instead' => 'abc'), null), 'instead value not used when no value present');
+    $this->assertParseOutputEquals($expectedOutput, $content);
   }
-  
-  public function testGlobalVarParams_Ifempty()
+
+  public function parseArgsSyntaxProvider()
   {
-    $this->assertEquals('myVal', rex_var::handleGlobalVarParams('myVar', array('ifempty' => 'nothing'), 'myVal'), 'ifempty not used when a value present');
-    $this->assertEquals('nothing', rex_var::handleGlobalVarParams('myVar', array('ifempty' => 'nothing'), null), 'ifempty used when no value present');
-    $this->assertEquals('nothing', rex_var::handleGlobalVarParams('myVar', array('ifempty' => 'nothing'), ''), 'ifempty used on empty string');
+    return array(
+      array('REX_TEST_VAR[]', 'default'),
+      array('REX_TEST_VAR[""]', ''),
+      array('REX_TEST_VAR[ab]', 'ab'),
+      array('REX_TEST_VAR["ab c"]', 'ab c'),
+      array('REX_TEST_VAR[REX_TEST_VAR[ab]]', 'ab'),
+      array('REX_TEST_VAR[content=ab]', 'ab'),
+
+      array(<<<'EOT'
+REX_TEST_VAR[content="a 'b' \"c\" \ \\ \\\[d\]"]
+EOT
+        , 'a \'b\' "c" \ \ \[d]'),
+
+      array(<<<'EOT'
+REX_TEST_VAR[content="a REX_TEST_VAR[content=\"b 'c' \\\"d\\\" \ \\ \\\[e\]\"] f"]
+EOT
+        , 'a b \'c\' "d" \ \ \[e] f'),
+
+      array(<<<'EOT'
+REX_TEST_VAR[content="REX_TEST_VAR[content='\'a\' \"b\"']"]
+EOT
+        , '\'a\' "b"'),
+
+      array(<<<'EOT'
+<?php echo "REX_TEST_VAR[content=\"a 'b' \\\"c\\\" \ \\ \\\[d\]\"]";
+EOT
+        , 'a \'b\' "c" \ \ \[d]'),
+      array(<<<'EOT'
+<?php echo 'REX_TEST_VAR[content="a \'b\' \"c\" \ \\ \\\[d\]"]';
+EOT
+    	, 'a \'b\' "c" \ \ \[d]'),
+
+      array(<<<'EOT'
+<?php echo 'REX_TEST_VAR[content=\'REX_TEST_VAR[content="a \\\'b\\\' \"c\" \ \\ \\\[d\]"]\']';
+EOT
+        , 'a \'b\' "c" \ \ \[d]'),
+
+      array(<<<'EOT'
+REX_TEST_VAR[
+  content="ab
+cd ef"
+]
+EOT
+        , "ab\ncd ef")
+    );
   }
-  
-  public function testGlobalVarParams_Prefix()
+
+  /**
+   * @dataProvider parseArgsSyntaxProvider
+   */
+  public function testParseArgsSyntax($content, $expectedOutput)
   {
-    $this->assertEquals('AAmyVal', rex_var::handleGlobalVarParams('myVar', array('prefix' => 'AA'), 'myVal'), 'prefix will be appended in front');
-    $this->assertEquals('', rex_var::handleGlobalVarParams('myVar', array('prefix' => 'AA'), ''), 'empty string remain empty');
-    $this->assertEquals('', rex_var::handleGlobalVarParams('myVar', array('prefix' => 'AA'), null), 'null value remain empty');
+    $this->assertParseOutputEquals($expectedOutput, $content);
   }
-  
-  public function testGlobalVarParams_Suffix()
+
+  public function parseGlobalArgsProvider()
   {
-    $this->assertEquals('myValBB', rex_var::handleGlobalVarParams('myVar', array('suffix' => 'BB'), 'myVal'), 'suffix will be appended at the end');
-    $this->assertEquals('', rex_var::handleGlobalVarParams('myVar', array('suffix' => 'BB'), ''), 'empty string remain empty');
-    $this->assertEquals('', rex_var::handleGlobalVarParams('myVar', array('suffix' => 'BB'), null), 'null value remain empty');
+    return array(
+      array('REX_TEST_VAR[content=ab instead=cd]', 'cd'),
+      array('REX_TEST_VAR[content="" instead=cd]', ''),
+      array('REX_TEST_VAR[content=ab ifempty=cd]', 'ab'),
+      array('REX_TEST_VAR[content="" ifempty=cd]', 'cd'),
+      array('REX_TEST_VAR[content="" ifempty="REX_TEST_VAR[cd]"]', 'cd'),
+      array('REX_TEST_VAR[content=ab instead=cd ifempty=ef]', 'cd'),
+      array('REX_TEST_VAR[content="" instead=cd ifempty=ef]', 'ef'),
+      array('REX_TEST_VAR[content=cd prefix=ab]', 'abcd'),
+      array('REX_TEST_VAR[content="" prefix=ab]', ''),
+      array('REX_TEST_VAR[content=cd suffix=ef]', 'cdef'),
+      array('REX_TEST_VAR[content="" suffix=ef]', ''),
+      array('REX_TEST_VAR[content=cd prefix=ab suffix=ef]', 'abcdef'),
+      array('REX_TEST_VAR[content="" prefix=ab suffix=ef]', ''),
+      array('REX_TEST_VAR[content=cd prefix=ab suffix=ef instead=gh ifempty=ij]', 'abghef'),
+      array('REX_TEST_VAR[content="" prefix=ab suffix=ef instead=gh ifempty=ij]', 'abijef'),
+      array('REX_TEST_VAR[content=ab callback="rex_var_test::callback" suffix=cd]', 'subject:ab content:ab suffix:cd'),
+      array('REX_TEST_VAR[content="REX_TEST_VAR[ab]" callback="rex_var_test::callback" suffix=cd]', 'subject:ab content:ab suffix:cd')
+    );
   }
-  
-  public function testGlobalVarParams_PreSuffix()
+
+  static public function callback($params)
   {
-    $this->assertEquals('AAmyValBB', rex_var::handleGlobalVarParams('myVar', array('prefix' => 'AA', 'suffix' => 'BB'), 'myVal'), 'pre- and suffix will be appended');
-    $this->assertEquals('', rex_var::handleGlobalVarParams('myVar', array('prefix' => 'AA', 'suffix' => 'BB'), ''), 'empty string remain empty');
-    $this->assertEquals('', rex_var::handleGlobalVarParams('myVar', array('prefix' => 'AA', 'suffix' => 'BB'), null), 'null value remain empty');
+    return sprintf('subject:%s content:%s suffix:%s', $params['subject'], $params['content'], $params['suffix']);
   }
-  
-  public function testGlobalVarParams_Callback()
+
+  /**
+   * @dataProvider parseGlobalArgsProvider
+   */
+  public function testParseGlobalArgs($content, $expectedOutput)
   {
-    $triggered = false;
-    
-    $suite = $this;
-    rex_var::handleGlobalVarParams('myVar', 
-      array(
-        'callback' => function($params) use ($suite, &$triggered) {
-          $triggered = true;
-          $suite->assertEquals($params['subject'], 'myVal', 'var value will be given as subject');
-          $suite->assertTrue(isset($params['param1']), 'parameters will be passed');
-          $suite->assertEquals($params['param1'], 'BB', 'parameters has the correct value');
-        }, 
-        'param1' => 'BB'
-      ),
-      'myVal');
-        
-    $this->assertTrue($triggered, 'callbacks will be triggered');
+    $this->assertParseOutputEquals($expectedOutput, $content);
   }
 }

@@ -118,9 +118,10 @@ abstract class rex_var
       $var = self::getVar($match[1]);
       if($var === false)
         continue;
+      $match[2] = strtr($match[2], array('\[' => '@@@OPEN_BRACKET@@@', '\]' => '@@@CLOSE_BRACKET@@@'));
       if($stripslashes)
       {
-        $match[2] = str_replace('\\'. $stripslashes, $stripslashes, $match[2]);
+        $match[2] = str_replace(array('\\'. $stripslashes, '\\'. $stripslashes), $stripslashes, $match[2]);
       }
       $var->setArgs($match[2]);
       if(($output = $var->getGlobalArgsOutput()) !== false)
@@ -164,12 +165,12 @@ abstract class rex_var
     $begin = '<<<addslashes>>>';
     $end = '<<</addslashes>>>';
     $arg = $begin . self::replaceVars($arg, $end ."'. %s .'". $begin) . $end;
-    $replace = array('\[' => '[', '\]' => ']');
-    $callback = function($match) use($replace)
+    $callback = function($match)
     {
-      return addcslashes(strtr($match[1], $replace), "\'");
+      return addcslashes($match[1], "\'");
     };
     $arg = preg_replace_callback("@$begin(.*)$end@Us", $callback, $arg);
+    $arg = strtr($arg, array('@@@OPEN_BRACKET@@@' => '[', '@@@CLOSE_BRACKET@@@' => ']'));
     return is_numeric($arg) ? $arg : "'$arg'";
   }
 
@@ -193,12 +194,9 @@ abstract class rex_var
     if($this->hasArg('callback'))
     {
       $args = array("'subject' => ". $content);
-      foreach(array('instead', 'ifempty', 'prefix', 'suffix') as $key)
+      foreach($this->args as $key => $value)
       {
-        if($this->hasArg($key))
-        {
-          $args[] = "'$key' => ". $this->getArg($key);
-        }
+        $args[] = "'$key' => ". $this->getArg($key);
       }
       $args = 'array('. implode(', ', $args) .')';
       return 'call_user_func('. $this->getArg('callback') .', '. $args .')';
