@@ -8,6 +8,13 @@ set_include_path($path . PATH_SEPARATOR . get_include_path());
 
 require_once('PHPUnit/Autoload.php');
 
+$filter = PHP_CodeCoverage_Filter::getInstance();
+$filter->addFileToBlacklist(__FILE__);
+foreach(debug_backtrace(false) as $t)
+{
+  $filter->addFileToBlacklist($t['file']);
+}
+
 $testCollector = new PHPUnit_Runner_IncludePathTestCollector(
   array(__DIR__. '/../lib/tests/*'), array('_test.php', '.phpt')
 );
@@ -31,7 +38,7 @@ $result = $suite->run();
 
 $resultPrinter = new PHPUnit_TextUI_ResultPrinter(null, true);
 echo '<pre>';
-print $resultPrinter->printResult($result);
+$resultPrinter->printResult($result);
 echo '</pre>';
 
 rex_logger::register();
