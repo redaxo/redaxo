@@ -110,7 +110,7 @@ abstract class rex_var
   static private function replaceVars($content, $format = '%s', $useVariables = false, $stripslashes = null)
   {
     $matches = array();
-    preg_match_all('/(REX_[A-Z_]+)\[((?:[^\[\]]|\\\\[\[\]]|(?R))*)\]/s', $content, $matches, PREG_SET_ORDER);
+    preg_match_all('/(REX_[A-Z_]+)\[((?:[^\[\]]|\\\\[\[\]]|(?R))*)(?<!\\\\)\]/s', $content, $matches, PREG_SET_ORDER);
     $variables = array();
     $i = 0;
     foreach($matches as $match)
