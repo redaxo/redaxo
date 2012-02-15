@@ -16,7 +16,7 @@ class rex_response
   static public function sendFile($file, $contentType)
   {
     $environment = rex::isBackend() ? 'backend' : 'frontend';
-    
+
     // Cachen für Dateien aktivieren
     $temp = rex::getProperty('use_last_modified');
     rex::setProperty('use_last_modified', true);
@@ -49,7 +49,7 @@ class rex_response
   static public function sendResource($content, $sendcharset = TRUE, $lastModified = null, $etag = null)
   {
     $environment = rex::isBackend() ? 'backend' : 'frontend';
-    
+
     if(!$etag)
     {
       $etag = md5($content);
@@ -73,12 +73,12 @@ class rex_response
   {
     $environment = rex::isBackend() ? 'backend' : 'frontend';
     $sendcharset = TRUE;
-    
+
     // ----- EXTENSION POINT
     $content = rex_extension::registerPoint( 'OUTPUT_FILTER', $content, array('environment' => $environment,'sendcharset' => $sendcharset));
 
     // dynamische teile sollen die md5 summe nicht beeinflussen
-    $etag = md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content) . $etagAdd);
+    $etag = self::md5($content . $etagAdd);
 
     if($lastModified === null)
     {
@@ -134,7 +134,7 @@ class rex_response
     // ----- MD5 Checksum
     // dynamische teile sollen die md5 summe nicht beeinflussen
     if(rex::getProperty('use_md5') === 'true' || rex::getProperty('use_md5') == $environment)
-      self::sendChecksum(md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content)));
+      self::sendChecksum(self::md5($content));
 
     // content length schicken, damit der browser einen ladebalken anzeigen kann
     header('Content-Length: '. rex_string::size($content));
@@ -248,5 +248,10 @@ class rex_response
   static public function sendChecksum($md5)
   {
     header('Content-MD5: '. $md5);
+  }
+
+  static private function md5($content)
+  {
+    return md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@U', '', $content));
   }
 }
