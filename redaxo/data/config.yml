@@ -11,7 +11,6 @@ notfound_article_id: 1
 start_clang_id: 0
 default_template_id: 1
 lang: de_de
-mod_rewrite: false
 use_gzip: false
 use_etag: false
 use_last_modified: true
