@@ -13,14 +13,14 @@ if ($rex_user_loginmessage != '')
 {
   echo rex_view::warning($rex_user_loginmessage)."\n";
   $js = '
-    var time_el = $("div.rex-message p span strong");
+    var time_el = $("div.rex-message p strong");
     if(time_el.length == 1) {
       function disableLogin() {
         time_el.html((parseInt(time_el.html(), 10)-1) + "");
         if(parseInt(time_el.html(), 10) > 0) {
           setTimeout(disableLogin, 1000);
         } else {
-          $("div.rex-message p span").html("'. htmlspecialchars(rex_i18n::msg('login_welcome')) .'");
+          $("div.rex-message p").html("'. htmlspecialchars(rex_i18n::msg('login_welcome')) .'");
           $("#loginformular input:not(:hidden)").prop("disabled", "");
           $("#rex-form-login-user").focus();
         }
