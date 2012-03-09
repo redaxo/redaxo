@@ -284,7 +284,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
   {
     if (rex::getUser()->isAdmin() || $KATPERM && rex::getUser()->hasPerm('publishCategory[]'))
     {
-      $kat_status = '<a href="'. $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_status', 'catstart' => $catstart)) .'" class="pjax-main '. $status_class .'">'. $kat_status .'</a>';
+      $kat_status = '<a href="'. $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_status', 'catstart' => $catstart)) .'" class="'. $status_class .'">'. $kat_status .'</a>';
     }
     else
     {
@@ -347,7 +347,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 
       if (!rex::getUser()->hasPerm('editContentOnly[]'))
       {
-           $category_delete = '<a href="'. $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_delete', 'catstart' => $catstart)) .'" class="pjax-main" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('delete').'</a>';
+           $category_delete = '<a href="'. $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_delete', 'catstart' => $catstart)) .'" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('delete').'</a>';
       }
       else
       {
@@ -622,12 +622,12 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
       }else
       {
         if (rex::getUser()->isAdmin() || $KATPERM && rex::getUser()->hasPerm('publishArticle[]'))
-          $article_status = '<a href="'. $context->getUrl(array('article_id' => $sql->getValue('id'), 'rex-api-call' => 'article_status', 'artstart' => $artstart)) .'" class="pjax-main '. $article_class .'">'. $article_status .'</a>';
+          $article_status = '<a href="'. $context->getUrl(array('article_id' => $sql->getValue('id'), 'rex-api-call' => 'article_status', 'artstart' => $artstart)) .'" class="'. $article_class .'">'. $article_status .'</a>';
         else
           $article_status = '<span class="rex-strike '. $article_class .'">'. $article_status .'</span>';
 
         if (!rex::getUser()->hasPerm('editContentOnly[]'))
-          $article_delete = '<a href="'. $context->getUrl(array('article_id' => $sql->getValue('id'), 'rex-api-call' => 'article_delete', 'artstart' => $artstart)) .'" class="pjax-main" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('delete').'</a>';
+          $article_delete = '<a href="'. $context->getUrl(array('article_id' => $sql->getValue('id'), 'rex-api-call' => 'article_delete', 'artstart' => $artstart)) .'" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('delete').'</a>';
         else
           $article_delete = '<span class="rex-strike">'. rex_i18n::msg('delete') .'</span>';
 

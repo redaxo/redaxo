@@ -85,6 +85,6 @@ class rex_api_package extends rex_api_function
       $onclick = ' onclick="return confirm(\''.htmlspecialchars(rex_i18n::msg($type.'_'.$function.'_question', $package->getName())).'\')"';
     }
     $text = rex_i18n::msg('addon_'.($key ?: $function));
-    return '<a class="pjax-main" href="index.php?page=addon&amp;package='.$package->getPackageId().'&amp;rex-api-call=package&amp;function='.$function.'"'.$onclick.'>'.$text.'</a>';
+    return '<a href="index.php?page=addon&amp;package='.$package->getPackageId().'&amp;rex-api-call=package&amp;function='.$function.'"'.$onclick.'>'.$text.'</a>';
   }
 }
