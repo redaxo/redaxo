@@ -347,4 +347,14 @@ class rex_request
   {
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
   }
+  
+  /**
+   * Returns true if the request is a PJAX-Request
+   * 
+   * @see http://pjax.heroku.com/
+   */
+  static public function isPJAXRequest()
+  {
+    return isset($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] == 'true';
+  }
 }

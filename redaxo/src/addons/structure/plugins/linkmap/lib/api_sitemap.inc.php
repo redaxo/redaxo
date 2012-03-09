@@ -21,7 +21,6 @@ class rex_api_sitemap_tree extends rex_api_function
     $tree = $categoryTree->getTree($category_id);
     
     $result = new rex_api_result(true);
-    $result->addRenderResult('', $tree, 'ul.rex-tree-root', rex_api_result::MODE_REPLACE);
     return $result;
   }
 }

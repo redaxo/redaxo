@@ -19,36 +19,10 @@ class rex_api_package extends rex_api_function
     $success = $manager->$function();
     $message = $manager->getMessage();
     $result = new rex_api_result($success, $message);
-    $result->addRenderResult('.rex-package-message', '', null, rex_api_result::MODE_REPLACE);
-    if($success === true)
-    {
-      $result->addRenderResult('', '<tr class="rex-package-message rex-info"><td class="rex-info"></td><td colspan="5"><b>'.$message.'</b></td></tr>', 'tr', rex_api_result::MODE_BEFORE);
-      $replace = $function == 'delete' ? '' : self::getTableRow($package);
-      $result->addRenderResult('', $replace, 'tr', rex_api_result::MODE_REPLACE);
-      if($package instanceof rex_addon)
-      {
-        $hide = !$package->isActivated();
-        foreach($package->getRegisteredPlugins() as $plugin)
-        {
-          $class = '.rex-plugin-'. str_replace(array('.', '/'), '_', $plugin->getPackageId());
-          $replace = $function == 'delete' ? '' : self::getTableRow($plugin, $hide);
-          $result->addRenderResult($class, $replace, null, rex_api_result::MODE_REPLACE);
-        }
-      }
-      else
-      {
-        $addon = $package->getAddon();
-        $class = '.rex-addon-'. str_replace(array('.', '/'), '_', $addon->getPackageId());
-        $result->addRenderResult($class, self::getTableRow($addon), null, rex_api_result::MODE_REPLACE);
-      }
-    }
-    else
-    {
-      $result->addRenderResult('', '<tr class="rex-package-message rex-warning"><td class="rex-warning"></td><td colspan="5">'. $message .'</td></tr>', 'tr', rex_api_result::MODE_BEFORE);
-    }
     return $result;
   }
 
+  // TODO remove from this class since no longer available for the api itself
   static public function getTableRow(rex_package $package, $hide = false)
   {
     $packageId = $package->getPackageId();
@@ -101,6 +75,7 @@ class rex_api_package extends rex_api_function
         </tr>'."\n   ";
   }
 
+  // TODO remove from this class since no longer available for the api itself
   static private function getLink(rex_package $package, $function, $confirm = false, $key = null)
   {
     $onclick = '';
@@ -110,6 +85,6 @@ class rex_api_package extends rex_api_function
       $onclick = ' onclick="return confirm(\''.htmlspecialchars(rex_i18n::msg($type.'_'.$function.'_question', $package->getName())).'\')"';
     }
     $text = rex_i18n::msg('addon_'.($key ?: $function));
-    return '<a class="rex-api-get" href="index.php?page=addon&amp;package='.$package->getPackageId().'&amp;rex-api-call=package&amp;function='.$function.'"'.$onclick.'>'.$text.'</a>';
+    return '<a class="pjax-main" href="index.php?page=addon&amp;package='.$package->getPackageId().'&amp;rex-api-call=package&amp;function='.$function.'"'.$onclick.'>'.$text.'</a>';
   }
 }

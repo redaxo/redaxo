@@ -154,6 +154,9 @@ class rex_be_page implements rex_be_page_container
     return $this->subPages;
   }
 
+  /**
+   * @return rex_be_page
+   */
   public function getActiveSubPage()
   {
     foreach($this->getSubPages() as $subpage)
