@@ -29,4 +29,5 @@
 </head>
 <body<?php echo $this->bodyAttr; ?>>
 
+<div id="rex-ajax-loader">Loading...</div>
 <div id="rex-page">

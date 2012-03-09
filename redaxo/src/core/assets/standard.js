@@ -533,4 +533,8 @@ jQuery(document).ready(function($) {
 	$('#rex-page-main').live('pjax:error', function(e, xhr, err) {
 		$('#rex-message-container').text('Something went wrong: ' + err);
 	});
+	
+	$(document)
+    .on('pjax:start', function() { $('#rex-ajax-loader').show() })
+    .on('pjax:end',   function() { $('#rex-ajax-loader').hide() });	
 });
