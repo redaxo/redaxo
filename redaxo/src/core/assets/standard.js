@@ -520,7 +520,15 @@ function getCookie(cookieName) {
 }
 
 jQuery(document).ready(function($) {
-	$('.pjax-main').pjax('#rex-page-main');
+  // elements which will be PJAX-ed by default:
+  // general identifier for pjax-links
+	$('a.pjax-main').pjax('#rex-page-main');
+	// links from paginations within the main-container
+	$('#rex-page-main .rex-navi-pagination a').pjax('#rex-page-main');
+	// links from tabs within the main-container
+	$('#rex-page-main .rex-navi-tab a').pjax('#rex-page-main');
+	// links from lists within the main-container
+	$('#rex-page-main .rex-table a').pjax('#rex-page-main');
 	
 	$('#rex-page-main').live('pjax:error', function(e, xhr, err) {
 		$('#rex-message-container').text('Something went wrong: ' + err);
