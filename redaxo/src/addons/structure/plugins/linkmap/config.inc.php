@@ -40,20 +40,19 @@ if (rex::isBackend() && rex::getUser())
   {
     rex_extension::register('PAGE_SIDEBAR', function($params){
         
-       $category_id = rex_request('category_id', 'rex-category-id');
-    $article_id  = rex_request('article_id',  'rex-article-id');
-    $clang       = rex_request('clang',       'rex-clang-id');
-    $ctype       = rex_request('ctype',       'rex-ctype-id');
-
-    // TODO - CHECK PERM
-
+      $category_id = rex_request('category_id', 'rex-category-id');
+      $article_id  = rex_request('article_id',  'rex-article-id');
+      $clang       = rex_request('clang',       'rex-clang-id');
+      $ctype       = rex_request('ctype',       'rex-ctype-id');
+  
+      // TODO - CHECK PERM
       $context = new rex_context(array(
-      'page' => 'structure',
-      'category_id' => $category_id,
-      'article_id' => $article_id,
-      'clang' => $clang,
-      'ctype' => $ctype,
-    ));
+        'page' => 'structure',
+        'category_id' => $category_id,
+        'article_id' => $article_id,
+        'clang' => $clang,
+        'ctype' => $ctype,
+      ));
 
       // check if a new category was folded
       $category_id = rex_request('toggle_category_id', 'rex-category-id', -1);
