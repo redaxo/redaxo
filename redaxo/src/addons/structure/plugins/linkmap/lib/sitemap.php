@@ -22,7 +22,7 @@ class rex_sitemap_categoryTree extends rex_linkmap_treeRenderer {
   }
   
   protected function treeItem(rex_ooCategory $cat, $liClasses, $linkClasses, $subHtml) {
-    $linkClasses .= 'rex-api-get ';
+    $linkClasses .= 'pjax-main ';
     
     if($liClasses != '')
       $liClasses = ' class="'. rtrim($liClasses) .'"';

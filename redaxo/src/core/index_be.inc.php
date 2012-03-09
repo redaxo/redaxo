@@ -276,9 +276,11 @@ if($user = rex::getUser())
 
 rex::setProperty('page', $page);
 rex::setProperty('pages', $pages);
+
 $_pageObj = $pages[$page]->getPage();
 $_activePageObj = $_pageObj;
-if($subpage = $_pageObj->getActiveSubPage())
+$subpage = $_pageObj->getActiveSubPage();
+if($subpage != null)
 {
   $_activePageObj = $subpage;
 }
@@ -290,6 +292,11 @@ rex_extension::registerPoint( 'PAGE_CHECKED', $page, array('pages' => $pages));
 
 // trigger api functions
 rex_api_function::handleCall();
+
+if(rex_request::isPJAXRequest())
+{
+  $_activePageObj->setHasLayout(false);
+}
 
 if($_activePageObj->hasLayout())
 {

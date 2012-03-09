@@ -10,6 +10,7 @@
 
   <script src="<?php echo rex_path::assets('jquery.min.js'); ?>" type="text/javascript"></script>
   <script src="<?php echo rex_path::assets('jquery-ui.custom.min.js'); ?>" type="text/javascript"></script>
+  <script src="<?php echo rex_path::assets('jquery-pjax.min.js'); ?>" type="text/javascript"></script>
   <script src="<?php echo rex_path::assets('standard.js'); ?>" type="text/javascript"></script>
   <script src="<?php echo rex_path::assets('sha1.js'); ?>" type="text/javascript"></script>
   <script type="text/javascript">

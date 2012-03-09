@@ -39,7 +39,15 @@ else
 
       if ($article->setArticleId(rex::getProperty('article_id')))
       {
-         $content .= $article->getArticleTemplate();
+        
+        if(rex_request::isPJAXRequest())
+        {
+          $content .= $article->getArticle();
+        }
+        else
+        {
+          $content .= $article->getArticleTemplate();
+        }
       }
       else
       {

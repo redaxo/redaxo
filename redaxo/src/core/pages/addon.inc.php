@@ -65,11 +65,27 @@ if ($subpage == '')
 
   foreach (rex_addon::getRegisteredAddons() as $addonName => $addon)
   {
+    // --------------------------------------------- API MESSAGES
+    if($addon->getPackageId() == rex_get('package', 'string'))
+    {
+      echo '<tr class="rex-package-message rex-warning"><td class="rex-warning"></td><td colspan="5">';
+      echo rex_api_function::getMessage(false);
+      echo '</td></tr>';
+    }
+    
     echo rex_api_package::getTableRow($addon);
 
     $hide = !$addon->isActivated();
     foreach($addon->getRegisteredPlugins() as $pluginName => $plugin)
     {
+      // --------------------------------------------- API MESSAGES
+      if($addon->getPackageId() == rex_get('package', 'string'))
+      {
+        echo '<tr class="rex-package-message rex-warning"><td class="rex-warning"></td><td colspan="5">';
+        echo rex_api_function::getMessage(false);
+        echo '</td></tr>';
+      }
+      
       echo rex_api_package::getTableRow($plugin, $hide);
     }
   }

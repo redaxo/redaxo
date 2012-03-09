@@ -520,39 +520,9 @@ function getCookie(cookieName) {
 }
 
 jQuery(document).ready(function($) {
-  $("a.rex-api-get").live('click', function(clickEvent) {
-    var self = $(this);
-    // check if a confirm dialog already prevented the submit
-    if(!clickEvent.isDefaultPrevented())
-    {
-      $.ajax({
-        async: false,
-        url: this.href,
-        dataType: 'json',
-        data: null,
-        success: function (data, textStatus, jqXHR) {
-          $("#rex-message-container").html(data.message || "");
-          
-          $.each(data.renderResults, function(i, resRow){
-            resRow.selector = resRow.selector == 'this' ? self : resRow.selector;
-            resRow.selectorContext = resRow.selectorContext == 'this' ? self : resRow.selectorContext;
-
-            var ctx = resRow.selectorContext ? $(self).closest(resRow.selectorContext) : null;
-            var elem = resRow.selector ? $(resRow.selector, ctx) : ctx;
-            
-            switch(resRow.mode) {
-              case 'replace': elem.replaceWith(resRow.html); break;
-              case 'before':  elem.before(resRow.html); break;
-              case 'after':   elem.after(resRow.html); break;
-              default:
-                elem.html(resRow.html);
-                elem.addClass(resRow.addClass);
-                elem.removeClass(resRow.removeClass);
-            }
-          });
-        }
-      });
-    }
-    return false;
-  });
+	$('.pjax-main').pjax('#rex-page-main');
+	
+	$('#rex-page-main').live('pjax:error', function(e, xhr, err) {
+		$('#rex-message-container').text('Something went wrong: ' + err);
+	});
 });
