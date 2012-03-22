@@ -433,6 +433,16 @@ class rex_form extends rex_factory
   }
 
   /**
+   * Fuegt dem Formular beliebiges HTML zu.
+   * @param string $html HTML code
+   */
+  public function addRawField($html)
+  {
+    $field = $this->addElement(new rex_form_raw_element($html));
+    return $field;
+  }
+
+  /**
    * Fuegt dem Formular eine Fehlermeldung hinzu.
    */
   public function addErrorMessage($errorCode, $errorMessage)
