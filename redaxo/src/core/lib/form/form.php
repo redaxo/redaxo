@@ -776,6 +776,17 @@ class rex_form extends rex_factory
     return is_a($element, 'rex_form_control_element');
   }
 
+
+  /**
+   * @param rex_form_element $element
+   *
+   * @return boolean
+   */
+  protected function isRawElement(rex_form_element $element)
+  {
+    return is_a($element, 'rex_form_raw_element');
+  }
+
   /**
    * @return array
    */
@@ -869,6 +880,7 @@ class rex_form extends rex_factory
       foreach($fieldsetElementsArray as $key => $element)
       {
         if($this->isFooterElement($element)) continue;
+        if($this->isRawElement($element)) continue
 
         // PHP4 compat notation
         $fieldsetElements[$fieldsetName][] = $this->elements[$fieldsetName][$key];
