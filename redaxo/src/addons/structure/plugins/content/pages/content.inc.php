@@ -99,8 +99,8 @@ if ($article->getRows() == 1)
   // ----- Request Parameter
   $mode     = rex_request('mode', 'string');
   $function = rex_request('function', 'string');
-  $warning  = rex_request('warning', 'string');
-  $info     = rex_request('info', 'string');
+  $warning  = htmlspecialchars(rex_request('warning', 'string'));
+  $info     = htmlspecialchars(rex_request('info', 'string'));
 
   // ----- mode defs
   if ($mode != 'meta' && $mode != 'metafuncs')
@@ -471,10 +471,10 @@ if ($article->getRows() == 1)
     $ctype_menu = '';
     if ($num_ctypes > 0)
     {
-      
+
       foreach ($ctypes as $key => $val)
       {
-        
+
        $n = array();
     $n["title"] = rex_i18n::translate($val);
     $n["href"] = 'index.php?page=content&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
@@ -484,7 +484,7 @@ if ($article->getRows() == 1)
       $n["itemClasses"] = array('rex-active');
       }
     $listElements[] = $n;
-        
+
       }
 
       // ----- EXTENSION POINT
@@ -513,7 +513,7 @@ if ($article->getRows() == 1)
   $n["itemClasses"] = array('rex-misc');
   $n["linkAttr"] = array("onClick" => 'window.open(this.href); return false;');
   $listElements[] = $n;
-  
+
   $n = array();
   $n["title"] = rex_i18n::msg('metafuncs');
   $n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=metafuncs&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
@@ -533,7 +533,7 @@ if ($article->getRows() == 1)
     $n["itemClasses"] = array('rex-active','rex-misc');
     }
   $listElements[] = $n;
-  
+
   $n = array();
   $n["title"] = rex_i18n::msg('edit_mode');
   $n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
@@ -554,13 +554,13 @@ if ($article->getRows() == 1)
         'slice_id' => $slice_id
       )
     );
-  
+
   $blocks = array();
   $blocks[] = array(
-        "headline" => array("title" => "meeeta"), 
+        "headline" => array("title" => "meeeta"),
         "navigation" => $listElements
         );
-  
+
   $fragment = new rex_fragment();
   $fragment->setVar('type','tab');
   $fragment->setVar('blocks', $blocks, false);
@@ -609,9 +609,9 @@ if ($article->getRows() == 1)
       $CONT->setSliceRevision($slice_revision);
       $CONT->setFunction($function);
       $content .= $CONT->getArticle($ctype);
-      
-      echo rex_view::contentBlock($content,'','block');            
-    
+
+      echo rex_view::contentBlock($content,'','block');
+
     // ------------------------------------------ START: META VIEW
     }elseif ($mode == 'meta')
     {
@@ -629,14 +629,14 @@ if ($article->getRows() == 1)
                 <input type="hidden" name="clang" value="' . $clang . '" />
                 <input type="hidden" name="ctype" value="' . $ctype . '" />
                 ';
-                
+
                 $formElements = array();
-                
+
                 $n = array();
                 $n['label'] = '<label for="rex-form-meta-article-name">' . rex_i18n::msg("name_description") . '</label>';
                 $n['field'] = '<input type="text" id="rex-form-meta-article-name" name="meta_article_name" value="' . htmlspecialchars($article->getValue("name")) . '" />';
                 $formElements[] = $n;
-                
+
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
                 $content .= $fragment->parse('form.tpl');
@@ -648,16 +648,16 @@ if ($article->getRows() == 1)
         'clang' => $clang,
         'article' => $article
       ));
-                
+
       $content .= '
              </fieldset>
              <fieldset class="rex-form-action">';
                 $formElements = array();
-                
+
                 $n = array();
                 $n['field'] = '<input type="submit" name="savemeta" value="' . rex_i18n::msg("update_metadata") . '"'. rex::getAccesskey(rex_i18n::msg('update_metadata'), 'save') .' />';
                 $formElements[] = $n;
-                
+
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
                 $content .= $fragment->parse('form.tpl');
@@ -703,9 +703,9 @@ if ($article->getRows() == 1)
         $out .= '
             <fieldset>
               <h2>' . rex_i18n::msg('content_startarticle') . '</h2>';
-    
+
                 $formElements = array();
-                
+
                 $n = array();
                 if (!$isStartpage && $article->getValue('re_id')==0)
                   $n['field'] = '<span class="rex-form-read">'.rex_i18n::msg('content_nottostartarticle').'</span>';
@@ -714,16 +714,16 @@ if ($article->getRows() == 1)
                 else
                   $n['field'] = '<input type="submit" name="article2startpage" value="' . rex_i18n::msg('content_tostartarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_tostartarticle') . '?\') && jQuery(\'#apiField\').val(\'article2startpage\');" />';
                 $formElements[] = $n;
-                
+
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
                 $out .= $fragment->parse('form.tpl');
-                
+
 
 
         $out .= '</fieldset>';
       }
-      
+
       // --------------------------------------------------- ZUM STARTARTICLE MACHEN END
 
       // --------------------------------------------------- IN KATEGORIE UMWANDELN START
@@ -732,19 +732,19 @@ if ($article->getRows() == 1)
         $out .= '
             <fieldset>
               <h2>' . rex_i18n::msg('content_category') . '</h2>';
-              
-    
+
+
                 $formElements = array();
-                
+
                 $n = array();
                 $n['field'] = '<input type="submit" name="article2category" value="' . rex_i18n::msg('content_tocategory') . '" onclick="return confirm(\'' . rex_i18n::msg('content_tocategory') . '?\') && jQuery(\'#apiField\').val(\'article2category\');" />';
                 $formElements[] = $n;
-                
+
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
                 $out .= $fragment->parse('form.tpl');
 
-                
+
         $out .= '</fieldset>';
       }
       // --------------------------------------------------- IN KATEGORIE UMWANDELN END
@@ -759,17 +759,17 @@ if ($article->getRows() == 1)
         $out .= '
             <fieldset>
               <h2>' . rex_i18n::msg('content_article') . '</h2>';
-              
-    
+
+
                 $formElements = array();
-                
+
                 $n = array();
                 if (!$emptyCategory)
                   $n['field'] = '<span class="rex-form-read">'.rex_i18n::msg('content_nottoarticle').'</span>';
                 else
                   $n['field'] = '<input type="submit" name="category2article" value="' . rex_i18n::msg('content_toarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_toarticle') . '?\') && jQuery(\'#apiField\').val(\'category2article\');" />';
                 $formElements[] = $n;
-                
+
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
                 $out .= $fragment->parse('form.tpl');
@@ -810,36 +810,36 @@ if ($article->getRows() == 1)
         $out .= '
               <fieldset>
                 <h2>' . rex_i18n::msg('content_submitcopycontent') . '</h2>';
-   
+
                 $formElements = array();
-                
+
                 $n = array();
                 $n['label'] = '<label for="clang_a">' . rex_i18n::msg('content_contentoflang') . '</label>';
                 $n['field'] = $lang_a->get();
                 $formElements[] = $n;
-                
+
                 $n = array();
                 $n['label'] = '<label for="clang_b">' . rex_i18n::msg('content_to') . '</label>';
                 $n['field'] = $lang_b->get();
                 $formElements[] = $n;
-                
+
                 $fragment = new rex_fragment();
                 $fragment->setVar('columns', 2, false);
                 $fragment->setVar('elements', $formElements, false);
                 $out .= $fragment->parse('form.tpl');
-   
-   
+
+
                 $formElements = array();
-                
+
                 $n = array();
                 $n['field'] = '<input type="submit" name="copycontent" value="' . rex_i18n::msg('content_submitcopycontent') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitcopycontent') . '?\')" />';
                 $formElements[] = $n;
-                
+
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
                 $out .= $fragment->parse('form.tpl');
-                
-                
+
+
         $out .= '</fieldset>';
 
       }
@@ -860,22 +860,22 @@ if ($article->getRows() == 1)
               <fieldset>
                 <h2>' . rex_i18n::msg('content_submitmovearticle') . '</h2>';
 
-   
+
                 $formElements = array();
-                
+
                 $n = array();
                 $n['label'] = '<label for="category_id_new">' . rex_i18n::msg('move_article') . '</label>';
                 $n['field'] = $move_a->get();
                 $formElements[] = $n;
-                
+
                 $n = array();
                 $n['field'] = '<input type="submit" name="movearticle" value="' . rex_i18n::msg('content_submitmovearticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitmovearticle') . '?\')" />';
                 $formElements[] = $n;
-                
+
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
                 $out .= $fragment->parse('form.tpl');
-         
+
         $out .= '</fieldset>';
 
       }
@@ -894,22 +894,22 @@ if ($article->getRows() == 1)
               <fieldset>
                 <h2>' . rex_i18n::msg('content_submitcopyarticle') . '</h2>';
 
-   
+
                 $formElements = array();
-                
+
                 $n = array();
                 $n['label'] = '<label for="category_copy_id_new">' . rex_i18n::msg('copy_article') . '</label>';
                 $n['field'] = $move_a->get();
                 $formElements[] = $n;
-                
+
                 $n = array();
                 $n['field'] = '<input class="rex-form-submit" type="submit" name="copyarticle" value="' . rex_i18n::msg('content_submitcopyarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitcopyarticle') . '?\')" />';
                 $formElements[] = $n;
-                
+
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
                 $out .= $fragment->parse('form.tpl');
-                
+
         $out .= '</fieldset>';
 
       }
@@ -928,22 +928,22 @@ if ($article->getRows() == 1)
               <fieldset>
                 <h2>' . rex_i18n::msg('content_submitmovecategory') . '</h2>';
 
-   
+
                 $formElements = array();
-                
+
                 $n = array();
                 $n['label'] = '<label for="category_id_new">' . rex_i18n::msg('move_category') . '</label>';
                 $n['field'] = $move_a->get();
                 $formElements[] = $n;
-                
+
                 $n = array();
                 $n['field'] = '<input class="rex-form-submit" type="submit" name="movecategory" value="' . rex_i18n::msg('content_submitmovecategory') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitmovecategory') . '?\')" />';
                 $formElements[] = $n;
-                
+
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
                 $out .= $fragment->parse('form.tpl');
-            
+
         $out .= '</fieldset>';
 
       }

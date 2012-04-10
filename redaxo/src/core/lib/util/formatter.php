@@ -206,7 +206,7 @@ abstract class rex_formatter
       }
     }
     // Url formatierung
-    return '<a href="mailto:'.$value.$format['params'].'"'.$format['attr'].'>'.$value.'</a>';
+    return '<a href="mailto:'. htmlspecialchars($value.$format['params']) .'"'. $format['attr'] .'>'. htmlspecialchars($value) .'</a>';
   }
 
   static public function _formatUrl($value, $format)
@@ -240,7 +240,7 @@ abstract class rex_formatter
       $value = 'http://'.$value;
     }
 
-    return '<a href="'.$value.$format['params'].'"'.$format['attr'].'>'.$value.'</a>';
+    return '<a href="'. htmlspecialchars($value.$format['params']) .'"'. $format['attr'] .'>'. htmlspecialchars($value) .'</a>';
   }
 
   static public function _formatTruncate($value, $format)
