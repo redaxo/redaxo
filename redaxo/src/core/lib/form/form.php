@@ -433,6 +433,16 @@ class rex_form extends rex_factory
   }
 
   /**
+   * Fuegt dem Formular beliebiges HTML zu.
+   * @param string $html HTML code
+   */
+  public function addRawField($html)
+  {
+    $field = $this->addElement(new rex_form_raw_element($html));
+    return $field;
+  }
+
+  /**
    * Fuegt dem Formular eine Fehlermeldung hinzu.
    */
   public function addErrorMessage($errorCode, $errorMessage)
@@ -766,6 +776,17 @@ class rex_form extends rex_factory
     return is_a($element, 'rex_form_control_element');
   }
 
+
+  /**
+   * @param rex_form_element $element
+   *
+   * @return boolean
+   */
+  protected function isRawElement(rex_form_element $element)
+  {
+    return is_a($element, 'rex_form_raw_element');
+  }
+
   /**
    * @return array
    */
@@ -859,6 +880,7 @@ class rex_form extends rex_factory
       foreach($fieldsetElementsArray as $key => $element)
       {
         if($this->isFooterElement($element)) continue;
+        if($this->isRawElement($element)) continue
 
         // PHP4 compat notation
         $fieldsetElements[$fieldsetName][] = $this->elements[$fieldsetName][$key];
