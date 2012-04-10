@@ -10,34 +10,60 @@
 
 $error = '';
 
-$curDir = dirname(__FILE__);
-require_once ($curDir .'/extensions/extension_cleanup.inc.php');
-rex_metainfo_cleanup(array('force' => true));
-
-// uninstall ausführen, damit die db clean ist vorm neuen install
-$uninstall = $curDir.'/uninstall.sql';
-rex_sql_dump::import($uninstall);
-
-// check wheter the columns inside the core have already been installed
-$coreAlreadyUpdated = false;
-$articleColumns = rex_sql::showColumns(rex::getTablePrefix(). 'article');
-foreach($articleColumns as $column)
+$result = rex_sql_dump::import($this->getBasePath('_install.sql'));
+if($result !== true)
 {
-  if($column['name'] == 'art_online_from')
+  $error = $result;
+}
+else
+{
+  $tablePrefixes = array('article' => array('art_', 'cat_'), 'media' => array('med_'));
+  $columns = array('article' => array(), 'media' => array());
+  foreach($tablePrefixes as $table => $prefixes)
   {
-    $coreAlreadyUpdated = true;
-    break;
+    foreach(rex_sql::showColumns(rex::getTable($table)) as $column)
+    {
+      $column = $column['name'];
+      $prefix = substr($column, 0, 4);
+      if(in_array(substr($column, 0, 4), $prefixes))
+      {
+        $columns[$table][$column] = true;
+      }
+    }
+  }
+
+  $sql = rex_sql::factory();
+  $sql->setQuery('SELECT p.name, p.default, t.dbtype, t.dblength FROM '. rex::getTable('metainfo_params') .' p, '. rex::getTable('metainfo_type') .' t WHERE p.type = t.id');
+  $rows = $sql->getRows();
+  $managers = array(
+    'article' => new rex_metainfo_tableManager(rex::getTable('article')),
+    'media' => new rex_metainfo_tableManager(rex::getTable('media'))
+  );
+  for ($i = 0; $i < $sql->getRows(); $i++)
+  {
+    $column = $sql->getValue('name');
+    if (substr($column, 0, 4) == 'med_')
+      $table = 'media';
+    else
+      $table = 'article';
+
+    if(isset($columns[$table][$column]))
+      $managers[$table]->editColumn($column, $column, $sql->getValue('dbtype'), $sql->getValue('dblength'), $sql->getValue('default'));
+    else
+      $managers[$table]->addColumn($column, $sql->getValue('dbtype'), $sql->getValue('dblength'), $sql->getValue('default'));
+
+    unset($columns[$table][$column]);
+    $sql->next();
+  }
+
+  foreach($columns as $table => $tableColumns)
+  {
+    foreach($tableColumns as $column => $v)
+    {
+      $managers[$table]->deleteColumn($column);
+    }
   }
 }
-
-if(!$coreAlreadyUpdated)
-{
-  $coreinstall = $curDir.'/coreinstall.sql';
-  rex_sql_dump::import($coreinstall);
-}
-
-// TODO:
-// - Update von alten Version einfliessen lassen
 
 if ($error != '')
   $this->setProperty('installmsg', $error);
