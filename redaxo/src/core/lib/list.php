@@ -172,7 +172,7 @@ class rex_list extends rex_factory implements rex_url_provider
    */
   public function getMessage()
   {
-    return rex_request($this->getName().'_msg', 'string');
+    return htmlspecialchars(rex_request($this->getName().'_msg', 'string'));
   }
 
   /**
@@ -182,7 +182,7 @@ class rex_list extends rex_factory implements rex_url_provider
    */
   public function getWarning()
   {
-    return rex_request($this->getName().'_warning', 'string');
+    return htmlspecialchars(rex_request($this->getName().'_warning', 'string'));
   }
 
   /**
