@@ -611,7 +611,7 @@ if ($checkmodus == 3 && $send == 1)
   elseif ($dbanlegen == 2)
   {
     // ----- db schon vorhanden, nichts tun
-    $err_msg .= rex_setup_addons(true, false);
+    $err_msg .= rex_setup_addons(false, false);
   }
   elseif ($dbanlegen == 1)
   {
