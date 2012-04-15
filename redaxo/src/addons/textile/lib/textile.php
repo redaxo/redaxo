@@ -11,7 +11,12 @@ class rex_textile
 
   static private function getInstance()
   {
-    return self::$instance ?: self::$instance = new Textile;
+    if(!self::$instance)
+    {
+      self::$instance = new Textile;
+      self::$instance->url_schemes[] = 'redaxo';
+    }
+    return self::$instance;
   }
 
   static public function showHelpOverview()
