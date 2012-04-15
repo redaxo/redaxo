@@ -94,6 +94,7 @@ abstract class rex_package_manager extends rex_factory
           // check if install.inc.php exists
           if (is_readable($install_file))
           {
+            rex_autoload::addDirectory($this->package->getBasePath('lib'));
             static::includeFile($this->package, self::INSTALL_FILE);
             $state = $this->verifyInstallation();
           }
