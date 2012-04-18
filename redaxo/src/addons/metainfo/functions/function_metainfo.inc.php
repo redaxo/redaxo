@@ -109,7 +109,7 @@ function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $defa
   // replace LIKE wildcards
   $prefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
 
-  rex_organize_priorities(rex::getTablePrefix(). 'metainfo_params', 'prior', 'name LIKE "'. $prefix .'%"', 'prior, updatedate', 'field_id');
+  rex_sql_util::organizePriorities(rex::getTablePrefix(). 'metainfo_params', 'prior', 'name LIKE "'. $prefix .'%"', 'prior, updatedate', 'field_id');
 
   $tableManager = new rex_metainfo_tableManager($metaTable);
   return $tableManager->addColumn($name, $fieldDbType, $fieldDbLength, $default);

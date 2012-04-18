@@ -52,8 +52,8 @@ class rex_content_service
         $upd->addGlobalUpdateFields();
         $upd->update();
 
-        rex_organize_priorities(
-          rex::getTablePrefix() . 'article_slice',
+        rex_sql_util::organizePriorities(
+          rex::getTable('article_slice'),
           'prior',
           'article_id=' . $article_id . ' AND clang=' . $clang .' AND ctype='. $ctype .' AND revision='. $slice_revision,
           'prior, updatedate '. $updSort
@@ -104,8 +104,8 @@ class rex_content_service
     $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'article_slice WHERE id=' . $slice_id);
 
     // reorg remaining slices
-    rex_organize_priorities(
-    rex::getTablePrefix() . 'article_slice',
+    rex_sql_util::organizePriorities(
+      rex::getTable('article_slice'),
       'prior',
       'article_id=' . $curr->getValue('article_id') . ' AND clang=' . $curr->getValue('clang') .' AND ctype='. $curr->getValue('ctype') .' AND revision='. $curr->getValue('revision'),
       'prior'
@@ -169,8 +169,8 @@ class rex_content_service
       foreach($ctypes as $ctype)
       {
         // reorg slices
-        rex_organize_priorities(
-        rex::getTablePrefix() . 'article_slice',
+        rex_sql_util::organizePriorities(
+          rex::getTable('article_slice'),
           'prior',
           'article_id=' . $to_id . ' AND clang=' . $to_clang .' AND ctype='. $ctype .' AND revision='. $revision,
           'prior, updatedate'

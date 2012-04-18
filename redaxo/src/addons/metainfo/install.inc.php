@@ -10,7 +10,7 @@
 
 $error = '';
 
-$result = rex_sql_dump::import($this->getBasePath('_install.sql'));
+$result = rex_sql_util::importDump($this->getBasePath('_install.sql'));
 if($result !== true)
 {
   $error = $result;

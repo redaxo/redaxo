@@ -175,14 +175,14 @@ class rex_category_service
     $EKAT = rex_sql::factory();
     $EKAT->setTable(rex::getTablePrefix()."article");
     $EKAT->setWhere(array('id' => $category_id, 'startpage' => 1,'clang'=>$clang));
-    
+
     if(isset($data['catname'])) {
       $EKAT->setValue('catname', $data['catname']);
     }
     if(isset($data['catprior'])) {
       $EKAT->setValue('catprior', $data['catprior']);
     }
-    
+
     $EKAT->addGlobalUpdateFields();
 
     try {
@@ -404,15 +404,15 @@ class rex_category_service
     $catStatusTypes = self::statusTypes();
     return ($currentStatus + 1) % count($catStatusTypes);
   }
-  
+
   static public function prevStatus($currentStatus)
   {
     $catStatusTypes = self::statusTypes();
     if(($currentStatus - 1) < 0 ) return count($catStatusTypes) - 1;
-  
+
     return ($currentStatus - 1) % count($catStatusTypes);
   }
-  
+
   /**
    * Kopiert eine Kategorie in eine andere
    *
@@ -423,7 +423,7 @@ class rex_category_service
   {
     // TODO rex_copyCategory implementieren
   }
-  
+
   /**
    * Berechnet die Prios der Kategorien in einer Kategorie neu
    *
@@ -439,23 +439,23 @@ class rex_category_service
     if ($new_prio != $old_prio)
     {
       if ($new_prio < $old_prio)
-      $addsql = "desc";
+        $addsql = "desc";
       else
-      $addsql = "asc";
+        $addsql = "asc";
 
-      rex_organize_priorities(
-      rex::getTablePrefix().'article',
-      'catprior',
-      'clang='. $clang .' AND re_id='. $re_id .' AND startpage=1',
-      'catprior,updatedate '. $addsql,
-      'pid'
+      rex_sql_util::organizePriorities(
+        rex::getTable('article'),
+        'catprior',
+        'clang='. $clang .' AND re_id='. $re_id .' AND startpage=1',
+        'catprior,updatedate '. $addsql,
+        'pid'
       );
 
       rex_article_cache::deleteLists($re_id, $clang);
     }
   }
 
-  
+
   /**
    * Verschieben einer Kategorie in eine andere
    *
@@ -468,7 +468,7 @@ class rex_category_service
   {
     $from_cat = (int) $from_cat;
     $to_cat = (int) $to_cat;
-  
+
     if ($from_cat == $to_cat)
     {
       // kann nicht in gleiche kategroie kopiert werden
@@ -480,10 +480,10 @@ class rex_category_service
       // ist die zielkategorie im pfad der quellkategeorie ?
       $fcat = rex_sql::factory();
       $fcat->setQuery("select * from ".rex::getTablePrefix()."article where startpage=1 and id=$from_cat and clang=0");
-  
+
       $tcat = rex_sql::factory();
       $tcat->setQuery("select * from ".rex::getTablePrefix()."article where startpage=1 and id=$to_cat and clang=0");
-  
+
       if ($fcat->getRows()!=1 or ($tcat->getRows()!=1 && $to_cat != 0))
       {
         // eine der kategorien existiert nicht
@@ -500,13 +500,13 @@ class rex_category_service
             return false;
           }
         }
-  
+
         // ----- folgende cats regenerate
         $RC = array();
         $RC[$fcat->getValue("re_id")] = 1;
         $RC[$from_cat] = 1;
         $RC[$to_cat] = 1;
-  
+
         if ($to_cat>0)
         {
           $to_path = $tcat->getValue("path").$to_cat."|";
@@ -517,13 +517,13 @@ class rex_category_service
           $to_path = "|";
           $to_re_id = 0;
         }
-  
+
         $from_path = $fcat->getValue("path").$from_cat."|";
-  
+
         $gcats = rex_sql::factory();
         // $gcats->debugsql = 1;
         $gcats->setQuery("select * from ".rex::getTablePrefix()."article where path like '".$from_path."%' and clang=0");
-  
+
         $up = rex_sql::factory();
         // $up->debugsql = 1;
         for($i=0;$i<$gcats->getRows();$i++)
@@ -532,19 +532,19 @@ class rex_category_service
           $new_path = $to_path.$from_cat."|".str_replace($from_path,"",$gcats->getValue("path"));
           $icid = $gcats->getValue("id");
           $irecid = $gcats->getValue("re_id");
-  
+
           // path aendern und speichern
           $up->setTable(rex::getTablePrefix()."article");
           $up->setWhere("id=$icid");
           $up->setValue("path",$new_path);
           $up->update();
-  
+
           // cat in gen eintragen
           $RC[$icid] = 1;
-  
+
           $gcats->next();
         }
-  
+
         // ----- clang holen, max catprio holen und entsprechen updaten
         $gmax = rex_sql::factory();
         $up = rex_sql::factory();
@@ -560,23 +560,23 @@ class rex_category_service
           $up->setValue("catprior",($catprior+1));
           $up->update();
         }
-  
+
         // ----- generiere artikel neu - ohne neue inhaltsgenerierung
         foreach($RC as $id => $key)
         {
           rex_article_cache::delete($id);
         }
-  
+
         foreach(rex_clang::getAllIds() as $clang)
         {
           self::newCatPrio($fcat->getValue("re_id"),$clang,0,1);
         }
       }
     }
-  
+
     return true;
   }
-  
+
   /**
    * Checks whether the required array key $keyName isset
    *

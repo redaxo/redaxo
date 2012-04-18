@@ -83,7 +83,7 @@ class rex_form_prio_element extends rex_form_select_element
     {
       $name = $this->getFieldName();
 
-      rex_organize_priorities(
+      rex_sql_util::organizePriorities(
         $this->table->getTableName(),
         $name,
         $this->whereCondition,

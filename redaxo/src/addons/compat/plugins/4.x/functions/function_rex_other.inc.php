@@ -235,3 +235,13 @@ function rex_isXmlHttpRequest()
 {
   return rex_request::isXmlHttpRequest();
 }
+
+/**
+* @see rex_sql_util::organizePriorities()
+*
+* @deprecated 5.0
+*/
+function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id', $startBy = 1)
+{
+  rex_sql_util::organizePriorities($tableName, $priorColumnName, $whereCondition, $orderBy, $id_field, $startBy);
+}

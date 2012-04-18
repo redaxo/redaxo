@@ -303,7 +303,7 @@ class rex_metainfo_tableExpander extends rex_form
     // replace LIKE wildcards
     $metaPrefix = str_replace(array('_', '%'), array('\_', '\%'), $this->metaPrefix);
 
-    rex_organize_priorities(
+    rex_sql_util::organizePriorities(
       $this->tableName,
       'prior',
       'name LIKE "'. $metaPrefix .'%"',

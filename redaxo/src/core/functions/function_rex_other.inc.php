@@ -150,33 +150,3 @@ function rex_ini_get($val)
 
   return $val;
 }
-
-/**
- * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
- * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte
- *
- * @param $tableName String Name der Datenbanktabelle
- * @param $priorColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
- * @param $whereCondition Where-Bedingung zur Einschränkung des ResultSets
- * @param $orderBy Sortierung des ResultSets
- * @param $id_field Name des Primaerschluessels der Tabelle
- * @param $startBy Startpriorität
- */
-function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id', $startBy = 1)
-{
-  // Datenbankvariable initialisieren
-  $qry = 'SET @count='. ($startBy - 1);
-  $sql = rex_sql::factory();
-  $sql->setQuery($qry);
-
-  // Spalte updaten
-  $qry = 'UPDATE '. $tableName .' SET '. $priorColumnName .' = ( SELECT @count := @count +1 )';
-
-  if($whereCondition != '')
-    $qry .= ' WHERE '. $whereCondition;
-
-  if($orderBy != '')
-    $qry .= ' ORDER BY '. $orderBy;
-
-  $sql->setQuery($qry);
-}

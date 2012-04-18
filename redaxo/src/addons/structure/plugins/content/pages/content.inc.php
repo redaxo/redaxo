@@ -273,8 +273,8 @@ if ($article->getRows() == 1)
                 try {
                   $newsql->insert();
 
-                  rex_organize_priorities(
-                    rex::getTablePrefix() . 'article_slice',
+                  rex_sql_util::organizePriorities(
+                    rex::getTable('article_slice'),
                     'prior',
                     'article_id=' . $article_id . ' AND clang=' . $clang .' AND ctype='. $ctype .' AND revision='. $slice_revision,
                     'prior, updatedate DESC'

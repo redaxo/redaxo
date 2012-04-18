@@ -111,7 +111,7 @@ function rex_a1_import_db($filename)
 
   // Datei aufteilen
   $lines = array();
-  rex_sql_dump::splitSqlFile($lines, $conts, 0);
+  rex_sql_util::splitSqlFile($lines, $conts, 0);
 
   $sql   = rex_sql::factory();
   foreach ($lines as $line) {

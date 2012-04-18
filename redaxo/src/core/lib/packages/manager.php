@@ -106,7 +106,7 @@ abstract class rex_package_manager extends rex_factory
 
           if($state === TRUE && $installDump === TRUE && is_readable($install_sql))
           {
-            $state = rex_sql_dump::import($install_sql);
+            $state = rex_sql_util::importDump($install_sql);
 
             if($state !== TRUE)
               $state = 'Error found in install.sql:<br />'. $state;
@@ -190,7 +190,7 @@ abstract class rex_package_manager extends rex_factory
 
       if($state === TRUE && $installDump === TRUE && is_readable($uninstall_sql))
       {
-        $state = rex_sql_dump::import($uninstall_sql);
+        $state = rex_sql_util::importDump($uninstall_sql);
 
         if($state !== TRUE)
           $state = 'Error found in uninstall.sql:<br />'. $state;
