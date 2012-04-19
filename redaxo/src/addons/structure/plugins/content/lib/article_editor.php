@@ -76,7 +76,7 @@ class rex_article_editor extends rex_article
       {
         $containerClass = ' rex-slice-edit';
       }
-      
+
       $slice_content .= '<section class="rex-slice'. $containerClass .'">';
       $slice_content .= '
           <header class="rex-slice-header">
@@ -159,7 +159,7 @@ class rex_article_editor extends rex_article
 
     $sliceUrl = 'index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $sliceId .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $sliceId;
     $listElements = array();
-    
+
     if((rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
       && rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId))
     {
@@ -179,7 +179,7 @@ class rex_article_editor extends rex_article
       $n['linkClasses'] = array('rex-slice-delete');
       $n['linkAttr'] = array('onclick' => 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
       $listElements[] = $n;
-      
+
 
       if (rex::getUser()->hasPerm('moveSlice[]'))
       {
@@ -223,13 +223,13 @@ class rex_article_editor extends rex_article
         'perm' => (rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
       )
     );
-  
+
     $blocks = array();
     $blocks[] = array(
-          'headline' => array('title' => $moduleName), 
+          'headline' => array('title' => $moduleName),
           'navigation' => $listElements
           );
-    
+
     $fragment = new rex_fragment();
     $fragment->setVar('type','slice');
     $fragment->setVar('blocks', $blocks, false);
@@ -294,7 +294,7 @@ class rex_article_editor extends rex_article
       $MODULE = rex_sql::factory();
       $modules = $MODULE->getArray('select * from '.rex::getTablePrefix().'module order by name');
 
-      $template_ctypes = rex_getAttributes('ctype', $this->template_attributes, array ());
+      $template_ctypes = isset($this->template_attributes['ctype']) ? $this->template_attributes['ctype'] : array();
       // wenn keine ctyes definiert sind, gibt es immer den CTYPE=1
       if(count($template_ctypes) == 0)
       {
@@ -395,53 +395,53 @@ class rex_article_editor extends rex_article
       {
         $msg .= rex_view::success($this->info);
       }
-      
-      
+
+
       $blocks = array();
       $blocks[] = array(
-          'headline' => array('title' => rex_i18n::msg("module") .': '. htmlspecialchars(rex_i18n::translate($MOD->getValue("name")))), 
+          'headline' => array('title' => rex_i18n::msg("module") .': '. htmlspecialchars(rex_i18n::translate($MOD->getValue("name")))),
           'navigation' => array()
           );
-      
+
       $fragment = new rex_fragment();
       $fragment->setVar('type','slice');
       $fragment->setVar('blocks', $blocks, false);
       $slice_header = $fragment->parse('navigation.tpl');
-      
-    
+
+
       $listElements = array();
-    
+
       $n = array();
       $n['title'] = '<input class="rex-form-submit" type="submit" name="btn_save" value="'. rex_i18n::msg('add_block') .'"'. rex::getAccesskey(rex_i18n::msg('add_block'), 'save') .' />';
       $n['itemClasses'] = array('rex-slice-save');
       $listElements[] = $n;
-      
-      
+
+
       $blocks = array();
       $blocks[] = array(
           'navigation' => $listElements
           );
-      
+
       $fragment = new rex_fragment();
       $fragment->setVar('type','action');
       $fragment->setVar('blocks', $blocks, false);
       $slice_footer = $fragment->parse('navigation.tpl');
-      
-      
-      
+
+
+
       $slice_content = '
         '. $msg .'
         <section class="rex-slice rex-slice-add">
-                
+
           <div class="rex-form">
           <form action="index.php#slice'. $sliceId .'" method="post" id="REX_FORM" enctype="multipart/form-data">
-          
+
           <header class="rex-slice-header">
-            '. $slice_header.' 
+            '. $slice_header.'
           </header>
-          
+
           <section class="rex-slice-content">
-          
+
             <fieldset class="rex-form-col-1">
               <legend><span>'. rex_i18n::msg('add_block').'</span></legend>
               <input type="hidden" name="article_id" value="'. $this->article_id .'" />
@@ -453,17 +453,17 @@ class rex_article_editor extends rex_article
               <input type="hidden" name="save" value="1" />
               <input type="hidden" name="clang" value="'. $this->clang .'" />
               <input type="hidden" name="ctype" value="'.$this->ctype .'" />
-  
+
               <div class="rex-form-datas">
                 '. $moduleInput .'
               </div>
             </fieldset>
           </section>
-          
+
           <footer class="rex-slice-footer">
             '.$slice_footer.'
           </footer>
-          
+
           </form>
           </div>
         </section>
@@ -485,27 +485,27 @@ class rex_article_editor extends rex_article
   {
 
     $listElements = array();
-  
+
     $n = array();
     $n['title'] = '<input class="rex-form-submit" type="submit" value="'.rex_i18n::msg('save_block').'" name="btn_save" '. rex::getAccesskey(rex_i18n::msg('save_block'), 'save') .' />';
     $n['itemClasses'] = array('rex-slice-save');
     $listElements[] = $n;
-  
+
     $n = array();
     $n['title'] = '<input class="rex-form-submit rex-form-submit-2" type="submit" value="'.rex_i18n::msg('update_block').'" name="btn_update" '. rex::getAccesskey(rex_i18n::msg('update_block'), 'apply') .' />';
     $n['itemClasses'] = array('rex-slice-save');
     $listElements[] = $n;
-        
+
     $blocks = array();
     $blocks[] = array(
         'navigation' => $listElements
         );
-    
+
     $fragment = new rex_fragment();
     $fragment->setVar('type','action');
     $fragment->setVar('blocks', $blocks, false);
     $slice_footer = $fragment->parse('navigation.tpl');
-    
+
     $slice_content = '
       <div class="rex-form">
       <form enctype="multipart/form-data" action="index.php#slice'.$RE_CONTS.'" method="post" id="REX_FORM">
@@ -523,17 +523,17 @@ class rex_article_editor extends rex_article
             <input type="hidden" name="save" value="1" />
             <input type="hidden" name="update" value="0" />
             <input type="hidden" name="clang" value="'.$this->clang.'" />
-  
+
             <div class="rex-form-datas">
               '. $this->getStreamOutput('module/'. $RE_MODUL_ID.'/input', $RE_MODUL_IN) .'
             </div>
           </fieldset>
         </section>
-            
+
         <footer class="rex-slice-footer">
           '.$slice_footer.'
         </footer>
-        
+
       </form>
       </div>
       <script type="text/javascript">

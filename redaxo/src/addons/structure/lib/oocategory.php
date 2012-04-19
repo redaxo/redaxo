@@ -307,7 +307,8 @@ class rex_ooCategory extends rex_ooRedaxo
       // Alle globalen Templates
       foreach($t_sql as $row)
       {
-        $categories = rex_getAttributes('categories', $row->getValue('attributes'));
+        $attributes = $row->getArrayValue('attributes');
+        $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
         if (!is_array($categories) || $categories['all'] == 1)
           $templates[$row->getValue('id')] = $row->getValue('name');
       }
@@ -319,7 +320,8 @@ class rex_ooCategory extends rex_ooRedaxo
         $path[] = $category_id;
         foreach($t_sql as $row)
         {
-          $categories = rex_getAttributes('categories', $row->getValue('attributes'));
+          $attributes = $row->getArrayValue('attributes');
+          $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
           // template ist nicht kategoriespezifisch -> includen
           if(!is_array($categories) || $categories['all'] == 1)
           {

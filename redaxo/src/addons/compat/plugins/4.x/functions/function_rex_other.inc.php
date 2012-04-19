@@ -245,3 +245,27 @@ function rex_organize_priorities($tableName, $priorColumnName, $whereCondition =
 {
   rex_sql_util::organizePriorities($tableName, $priorColumnName, $whereCondition, $orderBy, $id_field, $startBy);
 }
+
+/**
+ * @see rex_sql::getArrayValue()
+ *
+ * @deprecated 5.0
+ */
+function rex_getAttributes($name,$content,$default = null)
+{
+  $prop = unserialize($content, true);
+  if (isset($prop[$name])) return $prop[$name];
+  return $default;
+}
+
+/**
+ * @see rex_sql::setArrayValue()
+ *
+ * @deprecated 5.0
+ */
+function rex_setAttributes($name,$value,$content)
+{
+  $prop = unserialize($content);
+  $prop[$name] = $value;
+  return serialize($prop);
+}

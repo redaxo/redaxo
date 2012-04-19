@@ -304,8 +304,8 @@ class rex_sql extends rex_factory implements Iterator
   /**
    * Set the value of a column
    *
-   * @param $colName Name of the column
-   * @param $value The value
+   * @param string $colName Name of the column
+   * @param mixed $value The value
    * @return rex_sql the current rex_sql object
    */
   public function setValue($colName, $value)
@@ -314,6 +314,18 @@ class rex_sql extends rex_factory implements Iterator
     unset($this->rawValues[$colName]);
 
     return $this;
+  }
+
+  /**
+  * Set the array value of a column (json encoded)
+  *
+  * @param string $colName Name of the column
+  * @param array $value The value
+  * @return rex_sql the current rex_sql object
+  */
+  public function setArrayValue($colName, array $value)
+  {
+    return $this->setValue($colName, json_encode($value));
   }
 
   /**
@@ -446,36 +458,48 @@ class rex_sql extends rex_factory implements Iterator
   }
 
   /**
-   * Gibt den Wert einer Spalte im ResultSet zurueck
-   * @param $value Name der Spalte
-   * @param [$row] Zeile aus dem ResultSet
+   * Returns the value of a column
+   *
+   * @param string $colName Name of the column
+   * @return mixed
    */
-  public function getValue($feldname)
+  public function getValue($colName)
   {
-    if(empty($feldname))
+    if(empty($colName))
     {
       throw new rex_sql_exception('parameter fieldname must not be empty!');
     }
 
     // fast fail,... value already set manually?
-    if(isset($this->values[$feldname]))
-      return $this->values[$feldname];
+    if(isset($this->values[$colName]))
+      return $this->values[$colName];
 
     // check if there is an table alias defined
     // if not, try to guess the tablename
-    if(strpos($feldname, '.') === false)
+    if(strpos($colName, '.') === false)
     {
       $tables = $this->getTablenames();
       foreach($tables as $table)
       {
-        if(in_array($table .'.'. $feldname, $this->rawFieldnames))
+        if(in_array($table .'.'. $colName, $this->rawFieldnames))
         {
-          return $this->fetchValue($table .'.'. $feldname);
+          return $this->fetchValue($table .'.'. $colName);
         }
       }
     }
 
     return $this->fetchValue($feldname);
+  }
+
+  /**
+  * Returns the array value of a (json encoded) column
+  *
+  * @param string $colName Name of the column
+  * @return array
+  */
+  public function getArrayValue($colName)
+  {
+    return json_decode($this->getValue($colName), true);
   }
 
   protected function fetchValue($feldname)

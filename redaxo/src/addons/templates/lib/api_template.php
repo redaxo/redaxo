@@ -83,13 +83,13 @@ class rex_template
     return true;
   }
 
-  static public function hasModule($template_attributes,$ctype,$module_id)
+  static public function hasModule(array $template_attributes,$ctype,$module_id)
   {
-    $template_modules = rex_getAttributes('modules', $template_attributes, array ());
+    $template_modules = isset($template_attributes['modules']) ? $template_attributes['modules'] : array();
     if(!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1)
       return TRUE;
 
-    if(in_array($module_id,$template_modules[$ctype]))
+    if(is_array($template_modules[$ctype]) && in_array($module_id,$template_modules[$ctype]))
       return TRUE;
 
     return FALSE;

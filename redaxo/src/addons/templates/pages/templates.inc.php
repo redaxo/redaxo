@@ -48,7 +48,7 @@ if ($function == "delete")
     $templatename = $hole->getValue("name");
     $content = $hole->getValue("content");
     $active = $hole->getValue("active");
-    $attributes = $hole->getValue("attributes");
+    $attributes = $hole->getArrayValue('attributes');
 
   }else
   {
@@ -61,7 +61,7 @@ if ($function == "delete")
   $content = '';
   $active = '';
   $template_id = '';
-  $attributes = '';
+  $attributes = array();
   $legend = rex_i18n::msg("create_template");
 
 }
@@ -113,12 +113,13 @@ if ($function == "add" or $function == "edit")
     $TPL->setValue("content", $content);
     $TPL->addGlobalCreateFields();
 
+    $attributes['ctype'] = $ctypes;
+    $attributes['modules'] = $modules;
+    $attributes['categories'] = $categories;
+    $TPL->setArrayValue('attributes', $attributes);
+
     if ($function == "add")
     {
-      $attributes = rex_setAttributes("ctype", $ctypes, "");
-      $attributes = rex_setAttributes("modules", $modules, $attributes);
-      $attributes = rex_setAttributes("categories", $categories, $attributes);
-      $TPL->setValue("attributes", $attributes);
       $TPL->addGlobalCreateFields();
 
       try {
@@ -130,11 +131,6 @@ if ($function == "add" or $function == "edit")
       }
     }else
     {
-      $attributes = rex_setAttributes("ctype", $ctypes, $attributes);
-      $attributes = rex_setAttributes("modules", $modules, $attributes);
-      $attributes = rex_setAttributes("categories", $categories, $attributes);
-      $TPL->setValue("attributes", $attributes);
-
       $TPL->setWhere(array('id' => $template_id));
       $TPL->addGlobalUpdateFields();
 
@@ -159,9 +155,9 @@ if ($function == "add" or $function == "edit")
   if (!isset ($save) or $save != "ja") {
 
     // Ctype Handling
-    $ctypes = rex_getAttributes("ctype", $attributes);
-    $modules = rex_getAttributes("modules", $attributes);
-    $categories = rex_getAttributes("categories", $attributes);
+    $ctypes = isset($attributes['ctype']) ? $attributes['ctype'] : array();
+    $modules = isset($attributes['modules']) ? $attributes['modules'] : array();
+    $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
 
     if(!is_array($modules))
       $modules = array();

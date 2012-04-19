@@ -48,13 +48,13 @@ $article->setQuery("
 if ($article->getRows() == 1)
 {
   // ----- ctype holen
-  $template_attributes = $article->getValue('template_attributes');
+  $template_attributes = $article->getArrayValue('template_attributes');
 
   // Für Artikel ohne Template
   if($template_attributes === null)
     $template_attributes = '';
 
-  $ctypes = rex_getAttributes('ctype', $template_attributes, array ()); // ctypes - aus dem template
+  $ctypes = isset($template_attributes['ctype']) ? $template_attributes['ctype'] : array(); // ctypes - aus dem template
 
   $ctype = rex_request('ctype', 'rex-ctype-id', 1);
   if (!array_key_exists($ctype, $ctypes))
