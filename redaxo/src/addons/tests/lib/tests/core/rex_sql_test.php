@@ -63,6 +63,19 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
     $this->assertEquals(5, $sql->getValue('col_int'), 'get a previous set int ');
   }
 
+  public function testSetGetArrayValue()
+  {
+    $sql = rex_sql::factory();
+    $sql->setArrayValue('col_empty_array', array());
+    $sql->setArrayValue('col_array', array(1, 2, 3));
+
+    $this->assertTrue($sql->hasValue('col_empty_array'), 'set value exists');
+    $this->assertTrue($sql->hasValue('col_array'), 'set value exists');
+
+    $this->assertEquals(array(), $sql->getArrayValue('col_empty_array'), 'get a previous set empty array');
+    $this->assertEquals(array(1, 2, 3), $sql->getArrayValue('col_array'), 'get a previous set array');
+  }
+
   public function testInsertRow()
   {
     $sql = rex_sql::factory();
