@@ -488,7 +488,7 @@ class rex_sql extends rex_factory implements Iterator
       }
     }
 
-    return $this->fetchValue($feldname);
+    return $this->fetchValue($colName);
   }
 
   /**
