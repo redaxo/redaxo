@@ -62,7 +62,7 @@ class rex_path
    */
   static public function backendController($params = '')
   {
-    return self::relBase(self::$backend .'index.php'. $params);
+    return self::relBase(self::$backend .'/index.php'. $params);
   }
 
   /**
