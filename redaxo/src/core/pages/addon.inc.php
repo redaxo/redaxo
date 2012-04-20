@@ -79,7 +79,7 @@ if ($subpage == '')
     foreach($addon->getRegisteredPlugins() as $pluginName => $plugin)
     {
       // --------------------------------------------- API MESSAGES
-      if($addon->getPackageId() == rex_get('package', 'string'))
+      if($plugin->getPackageId() == rex_get('package', 'string'))
       {
         echo '<tr class="rex-package-message rex-warning"><td class="rex-warning"></td><td colspan="5">';
         echo rex_api_function::getMessage(false);
