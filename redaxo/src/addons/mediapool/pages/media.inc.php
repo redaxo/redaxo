@@ -370,7 +370,7 @@ if ($subpage == "media")
                   <div class="rex-form-row">
                     <p class="rex-form-submit">
                       <input type="submit" class="rex-form-submit" value="'. rex_i18n::msg('pool_file_update') .'" name="btn_update"'. rex::getAccesskey(rex_i18n::msg('pool_file_update'), 'save') .' />
-                      <input type="submit" class="rex-form-submit rex-form-submit-2" value="'. rex_i18n::msg('pool_file_delete') .'" name="btn_delete"'. rex::getAccesskey(rex_i18n::msg('pool_file_delete'), 'delete') .' onclick="return confirm(\''.rex_i18n::msg('delete').' ?\');" />
+                      <input type="submit" class="rex-form-submit rex-form-submit-2" value="'. rex_i18n::msg('pool_file_delete') .'" name="btn_delete"'. rex::getAccesskey(rex_i18n::msg('pool_file_delete'), 'delete') .' data-confirm="'.rex_i18n::msg('delete').' ?" />
                     </p>
                   </div>
 

@@ -466,7 +466,7 @@ if ($OUT)
               <td class="preview">' . implode('/', $previewmode) . '</td>
               <td class="presave">' . implode('/', $presavemode) . '</td>
               <td class="postsave">' . implode('/', $postsavemode) . '</td>
-              <td class="delete"><a href="index.php?page=modules&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=delete" onclick="return confirm(\'' . rex_i18n::msg('action_delete') . ' ?\')">' . rex_i18n::msg("action_delete") . '</a></td>
+              <td class="delete"><a href="index.php?page=modules&amp;subpage=actions&amp;action_id=' . $sql->getValue("id") . '&amp;function=delete" data-confirm="' . rex_i18n::msg('action_delete') . ' ?">' . rex_i18n::msg("action_delete") . '</a></td>
             </tr>
           ';
 

@@ -469,7 +469,7 @@ if ($OUT)
   $list->addColumn(rex_i18n::msg('header_template_functions'), rex_i18n::msg('delete_template'));
   $list->setColumnLayout(rex_i18n::msg('header_template_functions'),  array('<th class="rex-function">###VALUE###</th>','<td class="rex-delete">###VALUE###</td>'));
   $list->setColumnParams(rex_i18n::msg('header_template_functions'), array('function' => 'delete', 'template_id' => '###id###'));
-  $list->addLinkAttribute(rex_i18n::msg('header_template_functions'), 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
+  $list->addLinkAttribute(rex_i18n::msg('header_template_functions'), 'data-confirm', rex_i18n::msg('delete').' ?');
 
   $list->setNoRowsMessage(rex_i18n::msg('templates_not_found'));
 

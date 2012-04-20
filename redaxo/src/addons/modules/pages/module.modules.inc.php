@@ -301,7 +301,7 @@ if ($function == 'add' or $function == 'edit')
           }
 
           $actions .= '<td class="rex-name"><a href="'. $action_edit_url .'">'. $action_name .'</a></td>
-            <td class="rex-delete"><a href="index.php?page=modules&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'.rex_i18n::msg('action_delete').'</a></td>
+            <td class="rex-delete"><a href="index.php?page=modules&amp;modul_id='.$modul_id.'&amp;function_action=delete&amp;function=edit&amp;iaction_id='.$iaction_id.'" data-confirm="'.rex_i18n::msg('delete').' ?">'.rex_i18n::msg('action_delete').'</a></td>
           </tr>';
 
           $gma->next();
@@ -411,7 +411,7 @@ if ($OUT)
   $list->addColumn(rex_i18n::msg('module_functions'), rex_i18n::msg('delete_module'));
   $list->setColumnLayout(rex_i18n::msg('module_functions'),  array('<th class="rex-function">###VALUE###</th>','<td class="rex-delete">###VALUE###</td>'));
   $list->setColumnParams(rex_i18n::msg('module_functions'), array('function' => 'delete', 'modul_id' => '###id###'));
-  $list->addLinkAttribute(rex_i18n::msg('module_functions'), 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
+  $list->addLinkAttribute(rex_i18n::msg('module_functions'), 'data-confirm', rex_i18n::msg('delete').' ?');
 
   $list->setNoRowsMessage(rex_i18n::msg('modules_not_found'));
 

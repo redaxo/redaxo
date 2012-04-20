@@ -81,12 +81,12 @@ if ($func == '')
 
   $list->addColumn('deleteCache', rex_i18n::msg('media_manager_type_cache_delete'), -1, array('','<td>###VALUE###</td>'));
   $list->setColumnParams('deleteCache', array('type_id' => '###id###', 'func' => 'delete_cache'));
-  $list->addLinkAttribute('deleteCache', 'onclick', 'return confirm(\''.rex_i18n::msg('media_manager_type_cache_delete').' ?\')');
+  $list->addLinkAttribute('deleteCache', 'data-confirm', rex_i18n::msg('media_manager_type_cache_delete').' ?');
 
   // remove delete link on internal types (status == 1)
   $list->addColumn('deleteType', '', -1, array('','<td>###VALUE###</td>'));
   $list->setColumnParams('deleteType', array('type_id' => '###id###', 'func' => 'delete'));
-  $list->addLinkAttribute('deleteType', 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
+  $list->addLinkAttribute('deleteType', 'data-confirm', rex_i18n::msg('delete').' ?');
   $list->setColumnFormat('deleteType', 'custom', function ($params) {
     $list = $params["list"];
     if($list->getValue("status") == 1)

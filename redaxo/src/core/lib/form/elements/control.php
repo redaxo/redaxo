@@ -52,7 +52,7 @@ class rex_form_control_element extends rex_form_element
         $this->deleteElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
 
       if(!$this->deleteElement->hasAttribute('onclick'))
-        $this->deleteElement->setAttribute('onclick', 'return confirm(\''. rex_i18n::msg('form_delete') .'?\');');
+        $this->deleteElement->setAttribute('data-confirm', rex_i18n::msg('form_delete') .'?');
 
       $class = $this->deleteElement->formatClass();
 
@@ -65,7 +65,7 @@ class rex_form_control_element extends rex_form_element
         $this->resetElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
 
       if(!$this->resetElement->hasAttribute('onclick'))
-        $this->resetElement->setAttribute('onclick', 'return confirm(\''. rex_i18n::msg('form_reset') .'?\');');
+        $this->resetElement->setAttribute('data-confirm', rex_i18n::msg('form_reset') .'?');
 
       $class = $this->resetElement->formatClass();
 

@@ -712,7 +712,7 @@ if ($article->getRows() == 1)
                 else if ($isStartpage)
                   $n['field'] = '<span class="rex-form-read">'.rex_i18n::msg('content_isstartarticle').'</span>';
                 else
-                  $n['field'] = '<input type="submit" name="article2startpage" value="' . rex_i18n::msg('content_tostartarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_tostartarticle') . '?\') && jQuery(\'#apiField\').val(\'article2startpage\');" />';
+                  $n['field'] = '<input type="submit" name="article2startpage" value="' . rex_i18n::msg('content_tostartarticle') . '" data-confirm="' . rex_i18n::msg('content_tostartarticle') . '?" onclick="jQuery(\'#apiField\').val(\'article2startpage\');" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -737,7 +737,7 @@ if ($article->getRows() == 1)
                 $formElements = array();
 
                 $n = array();
-                $n['field'] = '<input type="submit" name="article2category" value="' . rex_i18n::msg('content_tocategory') . '" onclick="return confirm(\'' . rex_i18n::msg('content_tocategory') . '?\') && jQuery(\'#apiField\').val(\'article2category\');" />';
+                $n['field'] = '<input type="submit" name="article2category" value="' . rex_i18n::msg('content_tocategory') . '" data-confirm="' . rex_i18n::msg('content_tocategory') . '?" onclick="jQuery(\'#apiField\').val(\'article2category\');" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -767,7 +767,7 @@ if ($article->getRows() == 1)
                 if (!$emptyCategory)
                   $n['field'] = '<span class="rex-form-read">'.rex_i18n::msg('content_nottoarticle').'</span>';
                 else
-                  $n['field'] = '<input type="submit" name="category2article" value="' . rex_i18n::msg('content_toarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_toarticle') . '?\') && jQuery(\'#apiField\').val(\'category2article\');" />';
+                  $n['field'] = '<input type="submit" name="category2article" value="' . rex_i18n::msg('content_toarticle') . '" data-confirm="' . rex_i18n::msg('content_toarticle') . '?" onclick="jQuery(\'#apiField\').val(\'category2article\');" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -832,7 +832,7 @@ if ($article->getRows() == 1)
                 $formElements = array();
 
                 $n = array();
-                $n['field'] = '<input type="submit" name="copycontent" value="' . rex_i18n::msg('content_submitcopycontent') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitcopycontent') . '?\')" />';
+                $n['field'] = '<input type="submit" name="copycontent" value="' . rex_i18n::msg('content_submitcopycontent') . '" data-confirm="' . rex_i18n::msg('content_submitcopycontent') . '?" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -869,7 +869,7 @@ if ($article->getRows() == 1)
                 $formElements[] = $n;
 
                 $n = array();
-                $n['field'] = '<input type="submit" name="movearticle" value="' . rex_i18n::msg('content_submitmovearticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitmovearticle') . '?\')" />';
+                $n['field'] = '<input type="submit" name="movearticle" value="' . rex_i18n::msg('content_submitmovearticle') . '" data-confirm="' . rex_i18n::msg('content_submitmovearticle') . '?" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -903,7 +903,7 @@ if ($article->getRows() == 1)
                 $formElements[] = $n;
 
                 $n = array();
-                $n['field'] = '<input class="rex-form-submit" type="submit" name="copyarticle" value="' . rex_i18n::msg('content_submitcopyarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitcopyarticle') . '?\')" />';
+                $n['field'] = '<input class="rex-form-submit" type="submit" name="copyarticle" value="' . rex_i18n::msg('content_submitcopyarticle') . '" data-confirm="' . rex_i18n::msg('content_submitcopyarticle') . '?" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -937,7 +937,7 @@ if ($article->getRows() == 1)
                 $formElements[] = $n;
 
                 $n = array();
-                $n['field'] = '<input class="rex-form-submit" type="submit" name="movecategory" value="' . rex_i18n::msg('content_submitmovecategory') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitmovecategory') . '?\')" />';
+                $n['field'] = '<input class="rex-form-submit" type="submit" name="movecategory" value="' . rex_i18n::msg('content_submitmovecategory') . '" data-confirm="' . rex_i18n::msg('content_submitmovecategory') . '?" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();

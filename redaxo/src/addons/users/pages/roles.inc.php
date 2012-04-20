@@ -33,7 +33,7 @@ if($func == '')
   $list->setColumnLabel('funcs', rex_i18n::msg('user_functions'));
   $list->setColumnLayout('funcs', array('<th class="rex-function">###VALUE###</th>','<td class="rex-function">###VALUE###</td>'));
   $list->setColumnParams('funcs', array('func' => 'delete', 'id' => '###id###'));
-  $list->addLinkAttribute('funcs', 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
+  $list->addLinkAttribute('funcs', 'data-confirm', rex_i18n::msg('delete').' ?');
 
   $content .= $list->get();
 

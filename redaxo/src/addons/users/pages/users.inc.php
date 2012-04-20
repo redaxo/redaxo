@@ -518,7 +518,7 @@ if (isset($SHOW) and $SHOW)
     }
     return $list->getColumnLink('funcs', rex_i18n::msg('user_delete'));
   });
-  $list->addLinkAttribute('funcs', 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
+  $list->addLinkAttribute('funcs', 'data-confirm', rex_i18n::msg('delete').' ?');
 
   $content .= $list->get();
 

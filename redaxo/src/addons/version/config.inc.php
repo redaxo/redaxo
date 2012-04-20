@@ -146,7 +146,7 @@ function rex_version_header($params)
       $return .= '<li><a href="'.rex_getUrl($params['article_id'],$params['clang'],array("rex_version"=>1)).'" target="_blank">'.rex_i18n::msg("version_preview").'</a></li>';
     }else
     {
-      $return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work" onclick="return confirm(\''.rex_i18n::msg('version_confirm_copy_live_to_workingversion').'\');">'.rex_i18n::msg('version_copy_live_to_workingversion').'</a></li>';
+      $return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work" data-confirm="'.rex_i18n::msg('version_confirm_copy_live_to_workingversion').'">'.rex_i18n::msg('version_copy_live_to_workingversion').'</a></li>';
     }
   }
   $return .= '</ul>';

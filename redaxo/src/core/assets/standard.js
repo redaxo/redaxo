@@ -520,6 +520,19 @@ function getCookie(cookieName) {
 }
 
 jQuery(document).ready(function($) {
+  confDialog = function(event) {
+    if(!confirm($(this).attr('data-confirm')))
+    {
+      event.stopImmediatePropagation();
+      return false;
+    }
+  };
+  
+  // confirm dialog behavior for links and buttons
+  $(document).on('click', 'a[data-confirm], button[data-confirm], input[data-confirm]', confDialog);
+  // confirm dialog behavior for links and buttons
+  $(document).on('submit', 'form[data-confirm]', confDialog);
+  
   // elements which will be PJAX-ed by default:
   // general identifier for pjax-links
 	$('a.pjax-main').pjax('#rex-page-main');
@@ -527,14 +540,17 @@ jQuery(document).ready(function($) {
 	$('#rex-page-main .rex-navi-pagination a').pjax('#rex-page-main');
 	// links from tabs within the main-container
 	$('#rex-page-main .rex-navi-tab a').pjax('#rex-page-main');
+	// links from path-toolbar within the main-container
+	$('#rex-page-main .rex-navi-path a').pjax('#rex-page-main');
 	// links from lists within the main-container
 	$('#rex-page-main .rex-table a').pjax('#rex-page-main');
 	
-	$('#rex-page-main').live('pjax:error', function(e, xhr, err) {
+	
+	$(document).on('pjax:error', function(e, xhr, err) {
 		$('#rex-message-container').text('Something went wrong: ' + err);
 	});
 	
 	$(document)
-    .on('pjax:start', function() { $('#rex-ajax-loader').show() })
-    .on('pjax:end',   function() { $('#rex-ajax-loader').hide() });	
+    .on('pjax:start', function() { $('#rex-ajax-loader').show(); })
+    .on('pjax:end',   function() { $('#rex-ajax-loader').hide(); });	
 });

@@ -153,7 +153,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang)
   if($lang_id == 0)
    $delLink = '<span class="rex-strike">'. $delLink .'</span>';
   else
-    $delLink = '<a href="index.php?page=system&amp;subpage=lang&amp;func=deleteclang&amp;clang_id='.$lang_id.'" onclick="return confirm(\''.rex_i18n::msg('delete').' ?\')">'. $delLink .'</a>';
+    $delLink = '<a href="index.php?page=system&amp;subpage=lang&amp;func=deleteclang&amp;clang_id='.$lang_id.'" data-confirm="'.rex_i18n::msg('delete').' ?">'. $delLink .'</a>';
 
   // Edit form
   if ($func == "editclang" && $clang_id == $lang_id)

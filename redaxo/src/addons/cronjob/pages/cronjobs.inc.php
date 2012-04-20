@@ -125,7 +125,7 @@ if ($func == '')
 
   $list->addColumn('delete', $this->i18n('delete'), -1, array('', '<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnParams('delete', array('func' => 'delete', 'oid' => '###id###'));
-  $list->addLinkAttribute('delete', 'onclick', "return confirm('". $this->i18n('really_delete') ."');");
+  $list->addLinkAttribute('delete', 'data-confirm', $this->i18n('really_delete'));
 
   $list->addColumn('execute', $this->i18n('execute'), -1, array('', '<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnParams('execute', array('func' => 'execute', 'oid' => '###id###'));

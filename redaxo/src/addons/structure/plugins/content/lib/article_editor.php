@@ -177,7 +177,7 @@ class rex_article_editor extends rex_article
       $n['href'] = sprintf($sliceUrl, '&amp;function=delete&amp;save=1');
       $n['itemClasses'] = array('rex-slice-delete');
       $n['linkClasses'] = array('rex-slice-delete');
-      $n['linkAttr'] = array('onclick' => 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
+      $n['linkAttr'] = array('data-confirm' => rex_i18n::msg('delete').' ?');
       $listElements[] = $n;
 
 

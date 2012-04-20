@@ -62,7 +62,7 @@ if ($func == '')
   
   $list->addColumn('delete',rex_i18n::msg('delete'),-1,array('<th>'.rex_i18n::msg('minfo_field_label_function').'</th>','<td>###VALUE###</td>'));
   $list->setColumnParams('delete', array('func' => 'delete', 'field_id' => '###field_id###'));
-  $list->addLinkAttribute('delete','onclick',"return confirm('".rex_i18n::msg('delete')." ?');");
+  $list->addLinkAttribute('delete', 'data-confirm', rex_i18n::msg('delete').' ?');
 
   $list->setNoRowsMessage(rex_i18n::msg('minfo_metainfos_not_found'));
 

@@ -138,7 +138,7 @@ if ($warning != '')
       <p class="rex-tx1"><?php echo rex_i18n::msg('im_export_intro_import') ?></p>
 
       <div class="rex-form" id="rex-form-import-data">
-        <form action="index.php" enctype="multipart/form-data" method="post" onsubmit="return confirm('<?php echo rex_i18n::msg('im_export_proceed_db_import') ?>')">
+        <form action="index.php" enctype="multipart/form-data" method="post" data-confirm="<?php echo rex_i18n::msg('im_export_proceed_db_import') ?>">
 
           <fieldset class="rex-form-col-1">
 
@@ -194,8 +194,8 @@ if ($warning != '')
             <td>'. $file .'</td>
             <td>'.$filesize.'</td>
             <td>'. $filec .'</td>
-            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=dbimport&amp;impname='. $file .'" title="'. rex_i18n::msg('im_export_import_file') .'" onclick="return confirm(\''. rex_i18n::msg('im_export_proceed_db_import') .'\')">'. rex_i18n::msg('im_export_import') .'</a></td>
-            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=delete&amp;impname='. $file .'" title="'. rex_i18n::msg('im_export_delete_file') .'" onclick="return confirm(\''. rex_i18n::msg('im_export_delete') .' ?\')">'. rex_i18n::msg('im_export_delete') .'</a></td>
+            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=dbimport&amp;impname='. $file .'" title="'. rex_i18n::msg('im_export_import_file') .'" data-confirm="'. rex_i18n::msg('im_export_proceed_db_import') .'">'. rex_i18n::msg('im_export_import') .'</a></td>
+            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=delete&amp;impname='. $file .'" title="'. rex_i18n::msg('im_export_delete_file') .'" data-confirm="'. rex_i18n::msg('im_export_delete') .' ?">'. rex_i18n::msg('im_export_delete') .'</a></td>
           </tr>
   ';
   }
@@ -205,7 +205,7 @@ if ($warning != '')
 
       <!-- FILE IMPORT -->
       <div class="rex-form" id="rex-form-import-files">
-        <form action="index.php" enctype="multipart/form-data" method="post" onsubmit="return confirm('<?php echo rex_i18n::msg('im_export_proceed_file_import') ?>')" >
+        <form action="index.php" enctype="multipart/form-data" method="post" data-confirm="<?php echo rex_i18n::msg('im_export_proceed_file_import') ?>" >
           <fieldset class="rex-form-col-1">
             <legend><?php echo rex_i18n::msg('im_export_files'); ?></legend>
 
@@ -259,8 +259,8 @@ if ($warning != '')
             <td>'. $file .'</td>
             <td>'.$filesize.'</td>
             <td>'. $filec .'</td>
-            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=fileimport&amp;impname='. $file .'" title="'. rex_i18n::msg('im_export_import_file') .'" onclick="return confirm(\''. rex_i18n::msg('im_export_proceed_file_import') .'\')">'. rex_i18n::msg('im_export_import') .'</a></td>
-            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=delete&amp;impname='. $file .'" title="'. rex_i18n::msg('im_export_delete_file') .'" onclick="return confirm(\''. rex_i18n::msg('im_export_delete') .' ?\')">'. rex_i18n::msg('im_export_delete') .'</a></td>
+            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=fileimport&amp;impname='. $file .'" title="'. rex_i18n::msg('im_export_import_file') .'" data-confirm="'. rex_i18n::msg('im_export_proceed_file_import') .'">'. rex_i18n::msg('im_export_import') .'</a></td>
+            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=delete&amp;impname='. $file .'" title="'. rex_i18n::msg('im_export_delete_file') .'" data-confirm="'. rex_i18n::msg('im_export_delete') .' ?">'. rex_i18n::msg('im_export_delete') .'</a></td>
           </tr>';
   }
 ?>

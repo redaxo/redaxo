@@ -90,7 +90,7 @@ if ($func == '' && $type_id > 0)
   $delete = 'deleteCol';
   $list->addColumn($delete, rex_i18n::msg('media_manager_effect_delete'), -1, array('','<td>###VALUE###</td>'));
   $list->setColumnParams($delete, array('type_id' => $type_id, 'effect_id' => '###id###', 'func' => 'delete'));
-  $list->addLinkAttribute($delete, 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
+  $list->addLinkAttribute($delete, 'data-confirm', rex_i18n::msg('delete').' ?');
 
   $list->show();
 }

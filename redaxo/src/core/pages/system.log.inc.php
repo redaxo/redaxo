@@ -78,7 +78,7 @@ $content .= '
     <input type="hidden" name="page" value="'.$page.'" />
     <input type="hidden" name="subpage" value="'.$subpage.'" />
     <input type="hidden" name="func" value="delLog" />
-    <input type="submit" name="del_btn" value="'.rex_i18n::msg('syslog_delete').'" onclick="return confirm(\''.rex_i18n::msg('delete').'?\')">
+    <input type="submit" name="del_btn" value="'.rex_i18n::msg('syslog_delete').'" data-confirm="'.rex_i18n::msg('delete').'?">
   </form>
   ';
 

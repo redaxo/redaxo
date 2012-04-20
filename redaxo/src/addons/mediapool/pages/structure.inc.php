@@ -189,7 +189,7 @@ if ($PERMALL)
               <td class="rex-small">'. $iid .'</td>
               <td><a href="'. $link . $iid .'">'. htmlspecialchars($OOCat->getName()) .'</a></td>
               <td><a href="'. $link . $cat_id .'&amp;media_method=update_file_cat&amp;edit_id='. $iid .'">'. rex_i18n::msg('pool_kat_edit').'</a></td>
-              <td><a href="'. $link . $cat_id .'&amp;media_method=delete_file_cat&amp;edit_id='. $iid .'" onclick="return confirm(\''. rex_i18n::msg('delete').' ?\')">'. rex_i18n::msg('pool_kat_delete') .'</a></td>
+              <td><a href="'. $link . $cat_id .'&amp;media_method=delete_file_cat&amp;edit_id='. $iid .'" data-confirm="'. rex_i18n::msg('delete').' ?">'. rex_i18n::msg('pool_kat_delete') .'</a></td>
             </tr>';
     }
   }

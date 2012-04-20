@@ -82,7 +82,7 @@ class rex_api_package extends rex_api_function
     if($confirm)
     {
       $type = $package instanceof rex_plugin ? 'plugin' : 'addon';
-      $onclick = ' onclick="return confirm(\''.htmlspecialchars(rex_i18n::msg($type.'_'.$function.'_question', $package->getName())).'\')"';
+      $onclick = ' data-confirm="'.htmlspecialchars(rex_i18n::msg($type.'_'.$function.'_question', $package->getName())).'"';
     }
     $text = rex_i18n::msg('addon_'.($key ?: $function));
     return '<a href="index.php?page=addon&amp;package='.$package->getPackageId().'&amp;rex-api-call=package&amp;function='.$function.'"'.$onclick.'>'.$text.'</a>';
