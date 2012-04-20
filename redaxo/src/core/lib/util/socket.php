@@ -30,14 +30,6 @@ class rex_socket
   private $port;
   private $timeout;
   private $headers = array();
-  private $fp;
-  private $chunked = false;
-  private $chunkPos = 0;
-  private $chunkLength = 0;
-  private $status;
-  private $statusMessage;
-  private $header;
-  private $body;
 
   /**
    * Constructor
@@ -123,10 +115,12 @@ class rex_socket
 
   /**
    * Makes a GET request
+   *
+   * @return rex_socket_response Response
    */
   public function doGet()
   {
-    $this->doRequest('GET');
+    return $this->doRequest('GET');
   }
 
   /**
@@ -134,6 +128,7 @@ class rex_socket
    *
    * @param string|array|callable $data Body data as string or array (POST parameters) or a callback for writing the body
    * @param array $files Files array, e.g. <code>array('myfile' => array('path' => $path, 'type' => 'image/png'))</code>
+   * @return rex_socket_response Response
    */
   public function doPost($data = '', array $files = array())
   {
@@ -188,15 +183,17 @@ class rex_socket
         $data = http_build_query($data);
       $this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
     }
-    $this->doRequest('POST', $data);
+    return $this->doRequest('POST', $data);
   }
 
   /**
    * Makes a DELETE request
+   *
+   * @return rex_socket_response Response
    */
   public function doDelete()
   {
-    $this->doRequest('DELETE');
+    return $this->doRequest('DELETE');
   }
 
   /**
@@ -204,6 +201,7 @@ class rex_socket
    *
    * @param string $method HTTP method, e.g. "GET"
    * @param string|callable $data Body data as string or a callback for writing the body
+   * @return rex_socket_response Response
    * @throws rex_exception
    * @throws rex_socket_exception
    */
@@ -213,12 +211,12 @@ class rex_socket
     {
       throw new rex_exception(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
     }
-    if(!($this->fp = @fsockopen($this->prefix . $this->host, $this->port, $errno, $errstr)))
+    if(!($fp = @fsockopen($this->prefix . $this->host, $this->port, $errno, $errstr)))
     {
       throw new rex_socket_exception($errstr .' ('. $errno .')');
     }
 
-    stream_set_timeout($this->fp, $this->timeout);
+    stream_set_timeout($fp, $this->timeout);
 
     $eol = "\r\n";
     $headers = array();
@@ -231,175 +229,26 @@ class rex_socket
     }
     foreach($headers as $header)
     {
-      fwrite($this->fp, str_replace(array("\r", "\n"), '', $header) . $eol);
+      fwrite($fp, str_replace(array("\r", "\n"), '', $header) . $eol);
     }
     if(!is_callable($data))
     {
-      fwrite($this->fp, 'Content-Length: '. rex_string::size($data) . $eol);
-      fwrite($this->fp, $eol . $data);
+      fwrite($fp, 'Content-Length: '. rex_string::size($data) . $eol);
+      fwrite($fp, $eol . $data);
     }
     else
     {
-      call_user_func($data, $this->fp);
+      call_user_func($data, $fp);
     }
     $this->headers = array();
 
-    $meta = stream_get_meta_data($this->fp);
+    $meta = stream_get_meta_data($fp);
     if($meta['timed_out'])
     {
       throw new rex_socket_exception('Timeout!');
     }
 
-    while(!feof($this->fp) && strpos($this->header, "\r\n\r\n") === false)
-    {
-      $this->header .= fgets($this->fp);
-    }
-    if(preg_match('@^HTTP/1\.\d ([0-9]{3}) (\V*)@', $this->getHeader(), $matches))
-    {
-      $this->status = intval($matches[1]);
-      $this->statusMessage = $matches[2];
-    }
-    $this->chunked = stripos($this->header, 'transfer-encoding: chunked') !== false;
-  }
-
-  /**
-   * Returns the HTTP status code, e.g. 200
-   *
-   * @return integer
-   */
-  public function getStatus()
-  {
-    return $this->status;
-  }
-
-  /**
-   * Returns the HTTP status message, e.g. "OK"
-   */
-  public function getStatusMessage()
-  {
-    return $this->statusMessage;
-  }
-
-  /**
-   * Returns the header for the given key, or the entire header if no key is given
-   *
-   * @param string $key Header key
-   * @param string $default Default value (is returned if the header is not set)
-   * @return string
-   */
-  public function getHeader($key = null, $default = null)
-  {
-    if($key === null)
-    {
-      return $this->header;
-    }
-    $key = strtolower($key);
-    if(isset($this->headers[$key]))
-    {
-      return $this->headers[$key];
-    }
-    if(preg_match('@^'. preg_quote($key, '@') .': (\V*)@im', $this->header, $matches))
-    {
-      return $this->headers[$key] = $matches[1];
-    }
-    return $this->headers[$key] = $default;
-  }
-
-  /**
-   * Returns up to <code>$length</code> bytes from the body, or <code>false</code> if the end is reached
-   *
-   * @param integer $length Max number of bytes
-   * @return boolean|string
-   */
-  public function getBufferedBody($length = 1024)
-  {
-    if(feof($this->fp))
-    {
-      return false;
-    }
-    if($this->chunked)
-    {
-      if($this->chunkPos == 0)
-      {
-        $this->chunkLength = hexdec(fgets($this->fp));
-        if($this->chunkLength == 0)
-        {
-          return false;
-        }
-      }
-      $pos = ftell($this->fp);
-      $buf = fread($this->fp, min($length, $this->chunkLength - $this->chunkPos));
-      $this->chunkPos += ftell($this->fp) - $pos;
-      if($this->chunkPos >= $this->chunkLength)
-      {
-        fgets($this->fp);
-        $this->chunkPos = 0;
-        $this->chunkLength = 0;
-      }
-      return $buf;
-    }
-    else
-    {
-      return fread($this->fp, $length);
-    }
-  }
-
-  /**
-   * Returns the entire body
-   *
-   * @return string
-   */
-  public function getBody()
-  {
-    if($this->body === null)
-    {
-      while(($buf = $this->getBufferedBody()) !== false)
-      {
-        $this->body .= $buf;
-      }
-    }
-    return $this->body;
-  }
-
-  /**
-   * Writes the body to the given resource
-   *
-   * @param string|resource $resource File path or file pointer
-   * @return boolean <code>true</code> on success, <code>false</code> on failure
-   */
-  public function writeBodyTo($resource)
-  {
-    $close = false;
-    if(is_string($resource) && rex_dir::create(dirname($resource)))
-    {
-      $resource = fopen($resource, 'wb');
-      $close = true;
-    }
-    if(!is_resource($resource))
-    {
-      return false;
-    }
-    $success = true;
-    while($success && ($buf = $this->getBufferedBody()) !== false)
-    {
-      $success = (boolean) fwrite($resource, $buf);
-    }
-    if($close)
-    {
-      fclose($resource);
-    }
-    return $success;
-  }
-
-  /**
-   * Destructor, closes the socket resource
-   */
-  public function __destruct()
-  {
-    if(is_resource($this->fp))
-    {
-      fclose($this->fp);
-    }
+    return new rex_socket_response($fp);
   }
 }
 
