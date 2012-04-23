@@ -123,7 +123,7 @@ class rex_socket_response
   */
   public function isInvalid()
   {
-    return $this->statusCode < 100 && $this->statusCode >= 600;
+    return $this->statusCode < 100 || $this->statusCode >= 600;
   }
 
   /**
