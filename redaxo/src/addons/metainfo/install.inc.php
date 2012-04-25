@@ -55,14 +55,6 @@ else
     unset($columns[$table][$column]);
     $sql->next();
   }
-
-  foreach($columns as $table => $tableColumns)
-  {
-    foreach($tableColumns as $column => $v)
-    {
-      $managers[$table]->deleteColumn($column);
-    }
-  }
 }
 
 if ($error != '')
