@@ -53,10 +53,6 @@ foreach($config as $key => $value)
 
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
-// ----------------- OTHER STUFF
-rex::setProperty('setup_packages', array('be_style', 'be_style/redaxo'));
-rex::setProperty('system_packages', array('modules', 'templates', 'mediapool', 'structure', 'structure/content', 'structure/linkmap', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/redaxo', 'media_manager', 'users', 'install', 'install/core', 'install/packages'));
-
 // ----------------- REX PERMS
 
 rex_perm::register('advancedMode[]', rex_i18n::msg('perm_options_advancedMode[]'), rex_perm::OPTIONS);

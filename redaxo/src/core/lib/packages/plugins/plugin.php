@@ -121,6 +121,14 @@ class rex_plugin extends rex_package implements rex_plugin_interface
   }
 
   /* (non-PHPdoc)
+   * @see rex_package_interface::isSystemPackage()
+   */
+  public function isSystemPackage()
+  {
+    return in_array($this->getName(), (array) $this->addon->getProperty('system_plugins', array()));
+  }
+
+  /* (non-PHPdoc)
    * @see rex_package_interface::i18n()
    */
   public function i18n($key)

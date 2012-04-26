@@ -8,7 +8,16 @@
 if(rex::isSetup())
 {
   rex_addon::initialize(false);
-  $packageOrder = rex::getProperty('setup_packages');
+  $setupAddons = rex::getProperty('setup_addons');
+  foreach($setupAddons as $addonName)
+  {
+    $addon = rex_addon::get($addonName);
+    $packageOrder[] = $addon->getPackageId();
+    foreach($addon->getSystemPlugins() as $plugin)
+    {
+      $packageOrder[] = $plugin->getPackageId();
+    }
+  }
 }
 else
 {

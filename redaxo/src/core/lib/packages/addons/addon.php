@@ -102,6 +102,14 @@ class rex_addon extends rex_package implements rex_addon_interface
   }
 
   /* (non-PHPdoc)
+   * @see rex_package_interface::isSystemPackage()
+   */
+  public function isSystemPackage()
+  {
+    return in_array($this->getPackageId(), rex::getProperty('system_addons'));
+  }
+
+  /* (non-PHPdoc)
    * @see rex_package_interface::i18n()
    */
   public function i18n($key)
@@ -163,6 +171,20 @@ class rex_addon extends rex_package implements rex_addon_interface
     return self::filterPackages($this->plugins, 'isAvailable');
   }
 
+  /* (non-PHPdoc)
+   * @see rex_addon_interface::getSystemPlugins()
+   */
+  public function getSystemPlugins()
+  {
+    $plugins = array();
+    foreach((array) $this->getProperty('system_plugins', array()) as $plugin)
+    {
+      if($this->pluginExists($plugin))
+        $plugins[] = $this->getPlugin($plugin);
+    }
+    return $plugins;
+  }
+
   /**
    * Returns the registered addons
    *
@@ -205,17 +227,9 @@ class rex_addon extends rex_package implements rex_addon_interface
     else
     {
       $config = array();
-      foreach(rex::getProperty('setup_packages') as $packageId)
+      foreach(rex::getProperty('setup_addons') as $addon)
       {
-        $package = explode('/', $packageId);
-        if(isset($package[1]))
-        {
-          $config[$package[0]]['plugins'][$package[1]]['install'] = false;
-        }
-        else
-        {
-          $config[$package[0]]['install'] = false;
-        }
+        $config[$addon]['install'] = false;
       }
     }
     $addons = self::$addons;
@@ -226,6 +240,13 @@ class rex_addon extends rex_package implements rex_addon_interface
       $addon->setProperty('install', isset($addonConfig['install']) ? $addonConfig['install'] : false);
       $addon->setProperty('status', isset($addonConfig['status']) ? $addonConfig['status'] : false);
       self::$addons[$addonName] = $addon;
+      if(!$dbExists && is_array($plugins = $addon->getProperty('system_plugins')))
+      {
+        foreach($plugins as $plugin)
+        {
+          $config[$addonName]['plugins'][$plugin]['install'] = false;
+        }
+      }
       if(isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins']))
       {
         $plugins = $addon->plugins;

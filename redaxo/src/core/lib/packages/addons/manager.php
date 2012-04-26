@@ -13,6 +13,29 @@ class rex_addon_manager extends rex_package_manager
   }
 
   /* (non-PHPdoc)
+   * @see rex_package_manager::install()
+   */
+  public function install($installDump = TRUE)
+  {
+    $installed = $this->package->isInstalled();
+    $return = parent::install($installDump);
+
+    if(!$installed && $return === true)
+    {
+      foreach($this->package->getSystemPlugins() as $plugin)
+      {
+        $manager = rex_plugin_manager::factory($plugin);
+        if($manager->install() === true)
+        {
+          $manager->activate();
+        }
+      }
+    }
+
+    return $return;
+  }
+
+  /* (non-PHPdoc)
    * @see rex_package_manager::checkDependencies()
    */
   public function checkDependencies()

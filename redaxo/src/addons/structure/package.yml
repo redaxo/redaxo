@@ -7,6 +7,8 @@ navigation:
   block: system
   prio: 10
 
+system_plugins: [content, linkmap]
+
 requires:
   addons:
     templates:

@@ -85,7 +85,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
 
   if($uninstallBefore)
   {
-    foreach(array_reverse(rex::getProperty('system_packages')) as $packageRepresentation)
+    foreach(array_reverse(rex::getProperty('system_addons')) as $packageRepresentation)
     {
       $package = rex_package::get($packageRepresentation);
       $manager = rex_package_manager::factory($package);
@@ -96,7 +96,7 @@ function rex_setup_addons($uninstallBefore = false, $installDump = true)
         $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
     }
   }
-  foreach(rex::getProperty('system_packages') as $packageRepresentation)
+  foreach(rex::getProperty('system_addons') as $packageRepresentation)
   {
     $state = true;
     $package = rex_package::get($packageRepresentation);
@@ -292,7 +292,7 @@ if ($checkmodus == 1)
     getImportDir()
   );
 
-  foreach(rex::getProperty('system_packages') as $system_addon)
+  foreach(rex::getProperty('system_addons') as $system_addon)
   {
     if(strpos($system_addon, '/') === false)
       $WRITEABLES[] = rex_path::addon($system_addon);

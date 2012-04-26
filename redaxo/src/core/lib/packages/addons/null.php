@@ -46,4 +46,12 @@ class rex_null_addon extends rex_null_package implements rex_addon_interface
   {
     return array();
   }
+
+  /* (non-PHPdoc)
+  * @see rex_addon_interface::getSystemPlugins()
+  */
+  public function getSystemPlugins()
+  {
+    return array();
+  }
 }
