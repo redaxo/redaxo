@@ -167,6 +167,7 @@ setup_create_db = Datenbank anlegen?
 
 # redaxo\include\pages\addon.inc.php
 addon = AddOn
+addons = AddOns
 addon_help = Hilfe für
 addon_no_help_file = Keine Hilfedatei gefunden
 addon_back = zurück

@@ -210,7 +210,7 @@ class rex_be_navigation extends rex_factory
     $credits->setIsCorePage(true);
     $pages['credits'] = $credits;
 
-    $addon = new rex_be_page(rex_i18n::msg('addon'), array('page'=>'addon'));
+    $addon = new rex_be_page(rex_i18n::msg('addons'), array('page'=>'addon'));
     $addon->setIsCorePage(true);
     $addon->setRequiredPermissions('isAdmin');
     $pages['addon'] = new rex_be_page_main('system', $addon);

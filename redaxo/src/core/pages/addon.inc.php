@@ -4,7 +4,7 @@
  * @package redaxo5
  */
 
-echo rex_view::title(rex_i18n::msg('addon'), '');
+echo rex_view::title(rex_i18n::msg('addons'), '');
 
 // -------------- RequestVars
 $subpage = rex_request('subpage', 'string');
@@ -72,7 +72,7 @@ if ($subpage == '')
       echo rex_api_function::getMessage(false);
       echo '</td></tr>';
     }
-    
+
     echo rex_api_package::getTableRow($addon);
 
     $hide = !$addon->isActivated();
@@ -85,7 +85,7 @@ if ($subpage == '')
         echo rex_api_function::getMessage(false);
         echo '</td></tr>';
       }
-      
+
       echo rex_api_package::getTableRow($plugin, $hide);
     }
   }
