@@ -40,7 +40,7 @@ rex_extension::register('ADDONS_INCLUDED',
   }
 );
 
-$nexttime = $this->getConfig('nexttime');
+$nexttime = $this->getConfig('nexttime', 0);
 
 if ($nexttime != 0 && time() >= $nexttime)
 {
