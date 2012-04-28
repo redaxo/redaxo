@@ -8,11 +8,4 @@
  * @package redaxo5
  */
 
-$error = '';
-
 rex_dir::delete($this->getDataPath());
-
-if ($error != '')
-  $this->setProperty('installmsg', $error);
-else
-  $this->setProperty('install', false);

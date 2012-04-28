@@ -9,8 +9,6 @@
  * @package redaxo5
  */
 
-$error = '';
-
 if(!$this->hasConfig())
 {
   $this->setConfig('from',     'from@example.com');
@@ -26,8 +24,3 @@ if(!$this->hasConfig())
   $this->setConfig('username', '');
   $this->setConfig('password', '');
 }
-
-if ($error != '')
-  $this->setProperty('installmsg', $error);
-else
-  $this->setProperty('install', true);

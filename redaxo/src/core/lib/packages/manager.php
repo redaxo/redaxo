@@ -79,60 +79,64 @@ abstract class rex_package_manager extends rex_factory
     $config_file  = $install_dir . self::CONFIG_FILE;
     $files_dir    = $install_dir . self::ASSETS_FOLDER;
 
-    try {
-      // Pruefen des Addon Ornders auf Schreibrechte,
-      // damit das Addon spaeter wieder geloescht werden kann
-      $state = rex_is_writable($install_dir);
+    // Pruefen des Addon Ornders auf Schreibrechte,
+    // damit das Addon spaeter wieder geloescht werden kann
+    $state = rex_is_writable($install_dir);
 
-      if ($state === TRUE)
-      {
-        // check if requirements are met
-        $state = $this->checkRequirements();
+    // check if requirements are met
+    $state = $state && $this->checkRequirements();
 
-        if($state === TRUE)
-        {
-          // check if install.inc.php exists
-          if (is_readable($install_file))
-          {
-            rex_autoload::addDirectory($this->package->getBasePath('lib'));
-            static::includeFile($this->package, self::INSTALL_FILE);
-            $state = $this->verifyInstallation();
-          }
-          else
-          {
-            // no install file -> no error
-            $this->package->setProperty('install', true);
-          }
+    $this->package->setProperty('install', true);
 
-          if($state === TRUE && $installDump === TRUE && is_readable($install_sql))
-          {
-            $state = rex_sql_util::importDump($install_sql);
-
-            if($state !== TRUE)
-              $state = 'Error found in install.sql:<br />'. $state;
-          }
-
-          // Installation ok
-          if ($state === TRUE)
-          {
-            $this->saveConfig();
-          }
-        }
-      }
-
-      // Dateien kopieren
-      if($state === TRUE && is_dir($files_dir))
-      {
-        if(!rex_dir::copy($files_dir, $this->package->getAssetsPath('', rex_path::ABSOLUTE)))
-        {
-          $state = $this->I18N('install_cant_copy_files');
-        }
-      }
-    // addon-code which will be included might throw exception
-    }
-    catch (Exception $e)
+    // check if install.inc.php exists
+    if($state === TRUE && is_readable($install_file))
     {
-      $state = $e->getMessage();
+      rex_autoload::addDirectory($this->package->getBasePath('lib'));
+      try
+      {
+        static::includeFile($this->package, self::INSTALL_FILE);
+        // Wurde das "install" Flag gesetzt?
+        // Fehlermeldung ausgegeben? Wenn ja, Abbruch
+        if(($instmsg = $this->package->getProperty('installmsg', '')) != '')
+        {
+          $state = $instmsg;
+        }
+        elseif(!$this->package->isInstalled())
+        {
+          $state = $this->I18N('no_reason');
+        }
+      }
+      catch(rex_functional_exception $e)
+      {
+        $state = $e->getMessage();
+      }
+      catch(rex_sql_exception $e)
+      {
+        $state = 'SQL error: '. $e->getMessage();
+      }
+    }
+
+    if($state === TRUE && $installDump === TRUE && is_readable($install_sql))
+    {
+      $state = rex_sql_util::importDump($install_sql);
+
+      if($state !== TRUE)
+        $state = 'Error found in install.sql:<br />'. $state;
+    }
+
+    // Installation ok
+    if($state === TRUE)
+    {
+      $this->saveConfig();
+    }
+
+    // Dateien kopieren
+    if($state === TRUE && is_dir($files_dir))
+    {
+      if(!rex_dir::copy($files_dir, $this->package->getAssetsPath('', rex_path::ABSOLUTE)))
+      {
+        $state = $this->I18N('install_cant_copy_files');
+      }
     }
 
     if($state !== TRUE)
@@ -162,7 +166,7 @@ abstract class rex_package_manager extends rex_factory
     $uninstall_sql  = $install_dir . self::UNINSTALL_SQL;
 
     $isActivated = $this->package->isActivated();
-    if ($isActivated)
+    if($isActivated)
     {
       $state = $this->deactivate();
       if ($state !== true)
@@ -171,50 +175,56 @@ abstract class rex_package_manager extends rex_factory
       }
     }
 
-    try {
-      // start un-installation
-      if($state === TRUE)
-      {
-        // check if uninstall.inc.php exists
-        if (is_readable($uninstall_file))
-        {
-          static::includeFile($this->package, self::UNINSTALL_FILE);
-          $state = $this->verifyUninstallation();
-        }
-        else
-        {
-          // no uninstall file -> no error
-          $this->package->setProperty('install', false);
-        }
-      }
+    // start un-installation
+    $this->package->setProperty('install', false);
 
-      if($state === TRUE && $installDump === TRUE && is_readable($uninstall_sql))
-      {
-        $state = rex_sql_util::importDump($uninstall_sql);
-
-        if($state !== TRUE)
-          $state = 'Error found in uninstall.sql:<br />'. $state;
-      }
-
-      $mediaFolder = $this->package->getAssetsPath('', rex_path::ABSOLUTE);
-      if($state === TRUE && is_dir($mediaFolder))
-      {
-        if(!rex_dir::delete($mediaFolder))
-        {
-          $state = $this->I18N('install_cant_delete_files');
-        }
-      }
-
-      if($state === TRUE)
-      {
-        rex_config::removeNamespace($this->package->getPackageId());
-      }
-
-    }
-    // addon-code which will be included might throw exception
-    catch (Exception $e)
+    // check if uninstall.inc.php exists
+    if($state === TRUE && is_readable($uninstall_file))
     {
-      $state = $e->getMessage();
+      try
+      {
+        static::includeFile($this->package, self::UNINSTALL_FILE);
+        // Wurde das "install" Flag gesetzt?
+        // Fehlermeldung ausgegeben? Wenn ja, Abbruch
+        if(($instmsg = $this->package->getProperty('installmsg', '')) != '')
+        {
+          $state = $instmsg;
+        }
+        elseif($this->package->isInstalled())
+        {
+          $state = $this->I18N('no_reason');
+        }
+      }
+      catch(rex_functional_exception $e)
+      {
+        $state = $e->getMessage();
+      }
+      catch(rex_sql_exception $e)
+      {
+        $state = 'SQL error: '. $e->getMessage();
+      }
+    }
+
+    if($state === TRUE && $installDump === TRUE && is_readable($uninstall_sql))
+    {
+      $state = rex_sql_util::importDump($uninstall_sql);
+
+      if($state !== TRUE)
+        $state = 'Error found in uninstall.sql:<br />'. $state;
+    }
+
+    $mediaFolder = $this->package->getAssetsPath('', rex_path::ABSOLUTE);
+    if($state === TRUE && is_dir($mediaFolder))
+    {
+      if(!rex_dir::delete($mediaFolder))
+      {
+        $state = $this->I18N('install_cant_delete_files');
+      }
+    }
+
+    if($state === TRUE)
+    {
+      rex_config::removeNamespace($this->package->getPackageId());
     }
 
     if($state !== TRUE)
@@ -379,48 +389,6 @@ abstract class rex_package_manager extends rex_factory
     $this->message = $state === TRUE ? $this->I18N('deleted', $this->package->getName()) : $state;
 
     return $ignoreState ? TRUE : $state === TRUE;
-  }
-
-  /**
-   * Verifies if the installation of the given Addon was successfull.
-   */
-  private function verifyInstallation()
-  {
-    $state = TRUE;
-
-    // Wurde das "install" Flag gesetzt?
-    // Fehlermeldung ausgegeben? Wenn ja, Abbruch
-    if(($instmsg = $this->package->getProperty('installmsg', '')) != '')
-    {
-      $state = $instmsg;
-    }
-    elseif(!$this->package->isInstalled())
-    {
-      $state = $this->I18N('no_reason');
-    }
-
-    return $state;
-  }
-
-  /**
-   * Verifies if the un-installation of the given Addon was successfull.
-   */
-  private function verifyUninstallation()
-  {
-    $state = TRUE;
-
-    // Wurde das "install" Flag gesetzt?
-    // Fehlermeldung ausgegeben? Wenn ja, Abbruch
-    if(($instmsg = $this->package->getProperty('installmsg', '')) != '')
-    {
-      $state = $instmsg;
-    }
-    elseif($this->package->isInstalled())
-    {
-      $state = $this->I18N('no_reason');
-    }
-
-    return $state;
   }
 
   /**

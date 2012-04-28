@@ -40,12 +40,23 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
     // ---- include update.inc.php
     if($this->addon->isInstalled() && file_exists($temppath .'update.inc.php'))
     {
-      rex_addon_manager::includeFile($this->addon, '../_new_'. $this->addonkey .'/update.inc.php');
+      try
+      {
+        rex_addon_manager::includeFile($this->addon, '../_new_'. $this->addonkey .'/update.inc.php');
+      }
+      catch(rex_functional_exception $e)
+      {
+        return $e->getMessage();
+      }
+      catch(rex_sql_exception $e)
+      {
+        return 'SQL error: '. $e->getMessage();
+      }
       if(($msg = $this->addon->getProperty('updatemsg', '')) != '')
       {
         return $msg;
       }
-      if(!$this->addon->getProperty('update'))
+      if(!$this->addon->getProperty('update', true))
       {
         return rex_i18n::msg('addon_no_reason');
       }

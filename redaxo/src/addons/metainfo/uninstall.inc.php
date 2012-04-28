@@ -8,8 +8,6 @@
  * @package redaxo5
  */
 
-$this->setProperty('install', false);
-
 $curDir = dirname(__FILE__);
 require_once ($curDir .'/extensions/extension_cleanup.inc.php');
 

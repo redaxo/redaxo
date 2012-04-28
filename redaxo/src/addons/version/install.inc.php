@@ -14,5 +14,3 @@ $create_sql->setQuery('UPDATE '.rex::getTablePrefix().'article set revision=0 wh
 
 // $create_sql->setQuery("ALTER TABLE `rex_template` ADD `revision` INT NOT NULL DEFAULT '0'");
 // $create_sql->setQuery("ALTER TABLE `rex_template` CHANGE `revision` `revision` INT( 11 ) NOT NULL DEFAULT '0'");
-
-$this->setProperty('install', true);
