@@ -283,7 +283,7 @@ abstract class rex_metainfoHandler
           // tabindex entfernen, macht bei einer legend wenig sinn
           $attr = preg_replace('@tabindex="[^"]*"@', '', $attr);
 
-          $field = '</div></fieldset><fieldset class="rex-form-col-1"><legend id="'. $id .'"'. $attr .'">'. $label .'</legend><div class="rex-form-wrapper">';
+          $field = '</div></fieldset><fieldset class="rex-form-col-1"><legend id="'. $id .'"'. $attr .'>'. $label .'</legend><div class="rex-form-wrapper">';
           break;
         }
         case 'REX_MEDIA_BUTTON':
