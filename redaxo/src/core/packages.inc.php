@@ -5,9 +5,10 @@
  * @package redaxo5
  */
 
-if(rex::isSetup())
+rex_addon::initialize(!rex::isSetup());
+
+if(rex::isSetup() || rex::isSafeMode())
 {
-  rex_addon::initialize(false);
   foreach(rex_addon::getSetupAddons() as $addon)
   {
     $packageOrder[] = $addon->getPackageId();
@@ -19,7 +20,6 @@ if(rex::isSetup())
 }
 else
 {
-  rex_addon::initialize();
   $packageOrder = rex::getConfig('package-order', array());
 }
 

@@ -74,6 +74,19 @@ if (rex::isSetup())
 
     rex::setProperty('user', $user);
   }
+
+  // Safe Mode
+  if(($safeMode = rex_get('safemode', 'boolean', null)) !== null)
+  {
+    if($safeMode)
+    {
+      rex_set_session('safemode', true);
+    }
+    else
+    {
+      rex_unset_session('safemode');
+    }
+  }
 }
 
 // ----- Prepare Core Pages
@@ -92,7 +105,8 @@ $pages = rex::getProperty('pages');
 // ----- Prepare AddOn Pages
 if(rex::getUser())
 {
-  foreach(rex_addon::getAvailableAddons() as $addonName => $addon)
+  $addons = rex::isSafeMode() ? rex_addon::getSetupAddons() : rex_addon::getAvailableAddons();
+  foreach($addons as $addonName => $addon)
   {
     $page  = $addon->getProperty('page', null);
     $title = $addon->getProperty('name', '');
@@ -139,7 +153,8 @@ if(rex::getUser())
     }
 
     // handle plugins
-    foreach($addon->getAvailablePlugins() as $pluginName => $plugin)
+    $plugins = rex::isSafeMode() ? $addon->getSystemPlugins() : $addon->getAvailablePlugins();
+    foreach($plugins as $pluginName => $plugin)
     {
       $page  = $plugin->getProperty('page', null);
 
