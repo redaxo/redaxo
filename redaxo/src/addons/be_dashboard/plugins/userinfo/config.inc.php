@@ -31,7 +31,7 @@ if(rex::isBackend() && rex::getUser())
 
     foreach($components as $compClass)
     {
-      rex_register_extension (
+      rex_extension::register(
         'DASHBOARD_COMPONENT',
         array(new $compClass(), 'registerAsExtension')
       );

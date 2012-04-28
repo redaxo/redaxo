@@ -14,7 +14,7 @@ if(rex::isBackend())
 
   if(rex::getUser() && rex_request('page', 'string') == 'be_dashboard')
   {
-    rex_register_extension (
+    rex_extension::register(
       'DASHBOARD_COMPONENT',
       array(new rex_cronjob_component(), 'registerAsExtension')
     );
