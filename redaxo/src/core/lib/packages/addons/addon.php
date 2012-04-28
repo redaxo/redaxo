@@ -180,7 +180,9 @@ class rex_addon extends rex_package implements rex_addon_interface
     foreach((array) $this->getProperty('system_plugins', array()) as $plugin)
     {
       if($this->pluginExists($plugin))
-        $plugins[] = $this->getPlugin($plugin);
+      {
+        $plugins[$plugin] = $this->getPlugin($plugin);
+      }
     }
     return $plugins;
   }
@@ -213,6 +215,42 @@ class rex_addon extends rex_package implements rex_addon_interface
   static public function getAvailableAddons()
   {
     return self::filterPackages(self::$addons, 'isAvailable');
+  }
+
+  /**
+  * Returns the setup addons
+  *
+  * @return array[rex_addon]
+  */
+  static public function getSetupAddons()
+  {
+    $addons = array();
+    foreach((array) rex::getProperty('setup_addons', array()) as $addon)
+    {
+      if(rex_addon::exists($addon))
+      {
+        $addons[$addon] = self::get($addon);
+      }
+    }
+    return $addons;
+  }
+
+  /**
+   * Returns the system addons
+   *
+   * @return array[rex_addon]
+   */
+  static public function getSystemAddons()
+  {
+    $addons = array();
+    foreach((array) rex::getProperty('system_addons', array()) as $addon)
+    {
+      if(rex_addon::exists($addon))
+      {
+        $addons[$addon] = self::get($addon);
+      }
+    }
+    return $addons;
   }
 
   /**
