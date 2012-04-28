@@ -54,7 +54,8 @@ abstract class rex_logger extends rex_factory
   */
   static public function handleException(Exception $exception)
   {
-    self::handleError($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
+    $message = sprintf("Uncaught exception '%s' with message '%s'", get_class($exception), $exception->getMessage());
+    self::handleError(E_ERROR, $message, $exception->getFile(), $exception->getLine());
   }
 
   /**
@@ -91,7 +92,8 @@ abstract class rex_logger extends rex_factory
    */
   static public function logException(Exception $exception)
   {
-    self::logError($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
+    $message = sprintf("Uncaught exception '%s' with message '%s'", get_class($exception), $exception->getMessage());
+    self::logError(E_ERROR, $message, $exception->getFile(), $exception->getLine());
   }
 
   /**
