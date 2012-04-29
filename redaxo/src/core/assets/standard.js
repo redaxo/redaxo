@@ -556,6 +556,26 @@ jQuery(document).ready(function($) {
 	});
 	
 	$(document)
+  	.on('pjax:success', function(e, data, status, xhr, options) {
+  	  var paramUrl = options.url.split('?'), page, subpage;
+  	  
+	    $.each(paramUrl[1].split('&'), function(_, value) {
+	      var parts = value.split('=');
+	      if(parts[0] == 'page')
+	        page = parts[1];
+	      else if(parts[0] == 'subpage')
+	        subpage = parts[1];
+	    });
+	    
+  	  $('.rex-navi-main .rex-active').removeClass('rex-active'); 
+
+  	  // activate main-page
+  	  $('#rex-navi-page-' + page).addClass('rex-active'); 
+  	  $('#rex-navi-page-' + page + ' > a').addClass('rex-active'); 
+  	  // activate sub-page
+  	  $('#rex-navi-page-' + page + ' li > a[href$=\'subpage='+ subpage +'\']').addClass('rex-active')
+  	    .parent('li').addClass('rex-active'); 
+  	})
     .on('pjax:start', function() { $('#rex-ajax-loader').show(); })
     .on('pjax:end',   function() { $('#rex-ajax-loader').hide(); });	
 });
