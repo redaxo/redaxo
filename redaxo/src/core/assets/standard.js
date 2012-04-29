@@ -530,7 +530,7 @@ jQuery(document).ready(function($) {
   
   // confirm dialog behavior for links and buttons
   $(document).on('click', 'a[data-confirm], button[data-confirm], input[data-confirm]', confDialog);
-  // confirm dialog behavior for links and buttons
+  // confirm dialog behavior for forms
   $(document).on('submit', 'form[data-confirm]', confDialog);
   
   // elements which will be PJAX-ed by default:
