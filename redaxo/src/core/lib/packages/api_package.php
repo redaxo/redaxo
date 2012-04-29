@@ -28,15 +28,15 @@ class rex_api_package extends rex_api_function
     $packageId = $package->getPackageId();
     $type = $package instanceof rex_plugin ? 'plugin' : 'addon';
 
-    $delete = $package->isSystemPackage() ? rex_i18n::msg($type.'_system'.$type) : self::getLink($package, 'delete', true);
+    $delete = $package->isSystemPackage() ? htmlspecialchars(rex_i18n::msg($type.'_system'.$type)) : self::getLink($package, 'delete', true);
 
     if ($package->isInstalled())
     {
-      $install = rex_i18n::msg("addon_yes").' - '. self::getLink($package, 'install', false, 'reinstall');
+      $install = htmlspecialchars(rex_i18n::msg("addon_yes")).' - '. self::getLink($package, 'install', false, 'reinstall');
       if($type == 'addon' && count($package->getInstalledPlugins()) > 0)
       {
-        $uninstall = rex_i18n::msg("plugin_plugins_installed");
-        $delete = rex_i18n::msg("plugin_plugins_installed");
+        $uninstall = htmlspecialchars(rex_i18n::msg("plugin_plugins_installed"));
+        $delete = htmlspecialchars(rex_i18n::msg("plugin_plugins_installed"));
       }
       else
       {
@@ -45,21 +45,21 @@ class rex_api_package extends rex_api_function
     }
     else
     {
-      $install = rex_i18n::msg("addon_no").' - '.self::getLink($package, 'install');
-      $uninstall = rex_i18n::msg("addon_notinstalled");
+      $install = htmlspecialchars(rex_i18n::msg("addon_no")).' - '.self::getLink($package, 'install');
+      $uninstall = htmlspecialchars(rex_i18n::msg("addon_notinstalled"));
     }
 
     if($package->isActivated())
     {
-      $status = rex_i18n::msg("addon_yes").' - '.self::getLink($package, 'deactivate');
+      $status = htmlspecialchars(rex_i18n::msg("addon_yes")).' - '.self::getLink($package, 'deactivate');
     }
     elseif($package->isInstalled())
     {
-      $status = rex_i18n::msg("addon_no").' - '.self::getLink($package, 'activate');
+      $status = htmlspecialchars(rex_i18n::msg("addon_no")).' - '.self::getLink($package, 'activate');
     }
     else
     {
-      $status = rex_i18n::msg("addon_notinstalled");
+      $status = htmlspecialchars(rex_i18n::msg("addon_notinstalled"));
     }
     $hide = $hide ? ' style="display:none"' : '';
     $name = htmlspecialchars($package->getName());
