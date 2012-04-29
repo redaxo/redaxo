@@ -520,6 +520,10 @@ function getCookie(cookieName) {
 }
 
 jQuery(document).ready(function($) {
+  
+  // prevent pjax from jumping to top, see github#60
+  $.pjax.defaults.scrollTo = false;
+  
   confDialog = function(event) {
     if(!confirm($(this).attr('data-confirm')))
     {
