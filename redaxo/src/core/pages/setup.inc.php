@@ -59,24 +59,6 @@ function rex_setup_import($import_sql, $import_archiv = null)
   return $err_msg;
 }
 
-function rex_setup_is_writable($items)
-{
-  $res = array();
-
-  foreach($items as $item)
-  {
-    $is_writable = _rex_is_writable($item);
-
-    // 0 => kein Fehler
-    if($is_writable != 0)
-    {
-      $res[$is_writable][] = $item;
-    }
-  }
-
-  return $res;
-}
-
 // -------------------------- System AddOns prüfen
 function rex_setup_addons($uninstallBefore = false, $installDump = true)
 {
@@ -294,19 +276,42 @@ if ($checkmodus == 1)
 
   foreach(rex::getProperty('system_addons') as $system_addon)
   {
-    if(strpos($system_addon, '/') === false)
-      $WRITEABLES[] = rex_path::addon($system_addon);
+    $WRITEABLES[] = rex_path::addon($system_addon);
   }
 
-  $res = rex_setup_is_writable($WRITEABLES);
+  $res = array();
+  foreach($WRITEABLES as $item)
+  {
+    // Fehler unterdrücken, falls keine Berechtigung
+    if(@is_dir($item))
+    {
+      if(!@is_writable($item . '/.'))
+      {
+        $res['setup_012'][] = $item;
+      }
+    }
+    // Fehler unterdrücken, falls keine Berechtigung
+    elseif(@is_file($item))
+    {
+      if(!@is_writable($item))
+      {
+        $res['setup_014'][] = $item;
+      }
+    }
+    else
+    {
+      $res['setup_015'][] = $item;
+    }
+  }
+
   if(count($res) > 0)
   {
     $MSG['err'] .= '<li>';
-    foreach($res as $type => $messages)
+    foreach($res as $key => $messages)
     {
       if(count($messages) > 0)
       {
-        $MSG['err'] .= '<h3 class="rex-hl3">'. _rex_is_writable_info($type) .'</h3>';
+        $MSG['err'] .= '<h3 class="rex-hl3">'.rex_i18n::msg($key, '<span class="rex-error">', '</span>') .'</h3>';
         $MSG['err'] .= '<ul>';
         foreach($messages as $message)
         {

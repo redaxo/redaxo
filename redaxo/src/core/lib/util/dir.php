@@ -35,6 +35,18 @@ class rex_dir
   }
 
   /**
+   * Returns wether the directory is writable
+   *
+   * @param string $dir Path of the directory
+   * @return boolean
+   */
+  static public function isWritable($dir)
+  {
+    $dir = rtrim($dir, DIRECTORY_SEPARATOR);
+    return @is_dir($dir) && @is_writable($dir .DIRECTORY_SEPARATOR .'.');
+  }
+
+  /**
    * Copies a directory
    *
    * @param string $srcdir Path of the source directory
