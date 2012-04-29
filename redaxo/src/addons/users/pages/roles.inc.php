@@ -111,9 +111,9 @@ if($func == '')
         function check_perm_field(field, duration) {
           var id = field.attr("id").substr(0, field.attr("id").length - 4);
           if(field.is(":checked"))
-            $("#"+id).parent().parent().hide(duration);
+            $("#"+id).parent().hide(duration);
           else
-            $("#"+id).parent().parent().show(duration);
+            $("#"+id).parent().show(duration);
         }
         $("input#'. implode('_all, input#', $fieldIds) .'_all").change(function(){
           check_perm_field($(this), "slow");
