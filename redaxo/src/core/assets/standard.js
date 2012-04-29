@@ -523,6 +523,7 @@ jQuery(document).ready(function($) {
   
   // prevent pjax from jumping to top, see github#60
   $.pjax.defaults.scrollTo = false;
+  $.pjax.defaults.timeout = 5000;
   
   confDialog = function(event) {
     if(!confirm($(this).attr('data-confirm')))
