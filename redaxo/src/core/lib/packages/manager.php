@@ -81,10 +81,16 @@ abstract class rex_package_manager extends rex_factory
 
     // Pruefen des Addon Ornders auf Schreibrechte,
     // damit das Addon spaeter wieder geloescht werden kann
-    $state = rex_is_writable($install_dir);
+    if(!rex_dir::isWritable($install_dir))
+    {
+      $state = $this->I18N('dir_not_writable', $install_dir);
+    }
 
     // check if requirements are met
-    $state = $state && $this->checkRequirements();
+    if($state === TRUE)
+    {
+      $state = $this->checkRequirements();
+    }
 
     $this->package->setProperty('install', true);
 
