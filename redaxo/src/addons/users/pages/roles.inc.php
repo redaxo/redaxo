@@ -115,11 +115,11 @@ if($func == '')
           else
             $("#"+id).parent().show(duration);
         }
-        $("input#'. implode('_all, input#', $fieldIds) .'_all").change(function(){
+        $("#'. implode('_all, #', $fieldIds) .'_all").change(function(){
           check_perm_field($(this), "slow");
         });
 
-        $("input#'. implode('_all, input#', $fieldIds) .'_all").each(function(){
+        $("#'. implode('_all, #', $fieldIds) .'_all").each(function(){
           check_perm_field($(this), 0);
         });
 
