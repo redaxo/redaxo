@@ -1149,8 +1149,8 @@ class rex_sql extends rex_factory implements Iterator
   static public function showCreateTable($table, $DBID=1)
   {
     $sql = self::factory($DBID);
-    $array = $sql->getArray('SHOW CREATE TABLE `'.$table.'`');
-    return $array['Create Table'];
+    $sql->setQuery('SHOW CREATE TABLE `'. $table .'`');
+    return $sql->getValue('Create Table');
   }
 
   /**

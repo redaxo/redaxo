@@ -321,7 +321,7 @@ function rex_a1_export_db($filename)
 
       $fields = $sql->getArray('SHOW FIELDS FROM `'.$table.'`');
 
-      foreach ($fields as $field)
+      foreach ($fields as &$field)
       {
         if(preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $field['Type']))
         {
@@ -344,8 +344,7 @@ function rex_a1_export_db($filename)
 
       do
       {
-        $sql->freeResult();
-        $sql->setQuery('SELECT * FROM `'.$table.'` LIMIT '.$start.','.$max);
+        $array = $sql->getArray('SELECT * FROM `'.$table.'` LIMIT '.$start.','.$max, array(), PDO::FETCH_NUM);
         $count = $sql->getRows();
 
         if($count > 0 && $start == 0)
@@ -361,7 +360,7 @@ function rex_a1_export_db($filename)
         $start += $max;
         $values = array();
 
-        foreach($sql->getArray() as $row)
+        foreach($array as $row)
         {
           $record = array();
 
