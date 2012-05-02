@@ -19,6 +19,12 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
   {
     $this->media->asImage();
 
+    // do not sharpen gifs, results in black image
+    if(strtolower($this->media->image['format']) == 'gif')
+    {
+      return;
+    }
+
     // Attempt to calibrate the parameters to Photoshop:
     if ($this->params['amount'] > 500)
     {
@@ -113,7 +119,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract{
           }
         }
       }
-    
+
     }else{
       for ($x = 0; $x < $w; $x++)    { // each row
         for ($y = 0; $y < $h; $y++)    { // each pixel
