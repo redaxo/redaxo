@@ -6,21 +6,23 @@
  */
 
 // basic request vars
-$category_id = rex_request('category_id', 'rex-category-id');
-$article_id  = rex_request('article_id',  'rex-article-id');
-$clang       = rex_request('clang',       'rex-clang-id');
-$ctype       = rex_request('ctype',       'rex-ctype-id');
+$category_id = rex_request('category_id', 'int');
+$article_id  = rex_request('article_id',  'int');
+$clang       = rex_request('clang',       'int');
+$ctype       = rex_request('ctype',       'int');
 
 // additional request vars
 $artstart    = rex_request('artstart',    'int');
 $catstart    = rex_request('catstart',    'int');
-$edit_id     = rex_request('edit_id',     'rex-category-id');
+$edit_id     = rex_request('edit_id',     'int');
 $function    = rex_request('function',    'string');
 
 $info = '';
 $warning = '';
 
-
+$category_id = rex_ooCategory::isValid(rex_ooCategory::getCategoryById($category_id)) ? $category_id : 0;
+$article_id = rex_ooArticle::isValid(rex_ooArticle::getArticleById($article_id)) ? $article_id : 0;
+$clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
 
 
 

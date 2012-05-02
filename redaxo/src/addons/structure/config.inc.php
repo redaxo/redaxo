@@ -29,7 +29,11 @@ require_once dirname(__FILE__). '/functions/function_rex_url.inc.php';
 if(rex_request('article_id', 'int') == 0)
   rex::setProperty('article_id', rex::getProperty('start_article_id'));
 else
-  rex::setProperty('article_id', rex_request('article_id','rex-article-id', rex::getProperty('notfound_article_id')));
+{
+  $article_id = rex_request('article_id', 'int');
+  $article_id = rex_ooArticle::isValid(rex_ooArticle::getArticleById($article_id)) ? $article_id : rex::getProperty('notfound_article_id');
+  rex::setProperty('article_id', $article_id);
+}
 
 if(rex::isBackend() && rex_request('page', 'string') == 'system')
 {

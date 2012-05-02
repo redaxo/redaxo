@@ -11,7 +11,7 @@ $OUT = TRUE;
 
 $page         = rex_request('page', 'string');
 $function     = rex_request('function', 'string');
-$template_id  = rex_request('template_id', 'rex-template-id');
+$template_id  = rex_request('template_id', 'int');
 $save         = rex_request('save','string');
 $goon         = rex_request('goon', 'string');
 

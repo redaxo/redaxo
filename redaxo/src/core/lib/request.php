@@ -191,19 +191,6 @@ class rex_request
    *  - array[<type>], e.g. array[int]
    *  - '' (don't cast)
    *
-   * Possible REDAXO types:
-   *  - rex-article-id
-   *  - rex-category-id
-   *  - rex-clang-id
-   *  - rex-template-id
-   *  - rex-ctype-id
-   *  - rex-slice-id
-   *  - rex-module-id
-   *  - rex-action-id
-   *  - rex-media-id
-   *  - rex-mediacategory-id
-   *  - rex-user-id
-   *
    * @param mixed $var Variable to cast
    * @param string $vartype Variable type
    * @param mixed $default Default value
@@ -220,43 +207,6 @@ class rex_request
 
     switch($vartype)
     {
-      // ---------------- REDAXO types
-      case 'rex-article-id':
-        $var = (int) $var;
-        if($mode == 'found')
-        {
-          if(!rex_ooArticle::isValid(rex_ooArticle::getArticleById($var)))
-            $var = (int) $default;
-        }
-        break;
-      case 'rex-category-id':
-        $var = (int) $var;
-        if($mode == 'found')
-        {
-          if(!rex_ooCategory::isValid(rex_ooCategory::getCategoryById($var)))
-            $var = (int) $default;
-        }
-        break;
-      case 'rex-clang-id':
-        $var = (int) $var;
-        if($mode == 'found')
-        {
-          if(!rex_clang::exists($var))
-            $var = (int) $default;
-        }
-        break;
-      case 'rex-template-id':
-      case 'rex-ctype-id':
-      case 'rex-slice-id':
-      case 'rex-module-id':
-      case 'rex-action-id':
-      case 'rex-media-id':
-      case 'rex-mediacategory-id':
-      case 'rex-user-id':
-        // erstmal keine weitere validierung
-        $var = (int) $var;
-        break;
-
       // ---------------- PHP types
       case 'bool'   :
       case 'boolean':
@@ -347,10 +297,10 @@ class rex_request
   {
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
   }
-  
+
   /**
    * Returns true if the request is a PJAX-Request
-   * 
+   *
    * @see http://pjax.heroku.com/
    */
   static public function isPJAXRequest()

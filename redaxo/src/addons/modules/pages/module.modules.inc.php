@@ -9,8 +9,8 @@ $OUT = TRUE;
 $function        = rex_request('function', 'string');
 $function_action = rex_request('function_action', 'string');
 $save            = rex_request('save','string');
-$modul_id        = rex_request('modul_id', 'rex-module-id');
-$action_id       = rex_request('action_id', 'rex-action-id');
+$modul_id        = rex_request('modul_id', 'int');
+$action_id       = rex_request('action_id', 'int');
 $iaction_id      = rex_request('iaction_id','int'); // id der module-action relation
 $mname           = rex_request('mname','string');
 $eingabe         = rex_request('eingabe','string');
@@ -212,56 +212,56 @@ if ($function == 'add' or $function == 'edit')
             <input type="hidden" name="save" value="1" />
             <input type="hidden" name="category_id" value="0" />
             <input type="hidden" name="modul_id" value="'.$modul_id.'" />';
-            
-        
+
+
           $formElements = array();
-          
+
             $n = array();
             $n['label'] = '<label for="mname">'.rex_i18n::msg("module_name").'</label>';
             $n['field'] = '<input type="text" id="mname" name="mname" value="'.htmlspecialchars($mname).'" />';
             $formElements[] = $n;
-            
+
             $n = array();
             $n['label'] = '<label for="minput">'.rex_i18n::msg("input").'</label>';
             $n['field'] = '<textarea cols="50" rows="6" name="eingabe" id="minput">'.htmlspecialchars($eingabe).'</textarea>';
             $formElements[] = $n;
-            
+
             $n = array();
             $n['label'] = '<label for="moutput">'.rex_i18n::msg("output").'</label>';
             $n['field'] = '<textarea  cols="50" rows="6" name="ausgabe" id="moutput">'.htmlspecialchars($ausgabe).'</textarea>';
             $formElements[] = $n;
-            
+
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
           echo $fragment->parse('form.tpl');
-          
+
 
     echo '
         </fieldset>
 
         <fieldset class="rex-form-action">';
-        
-        
+
+
           $formElements = array();
-            
+
           $fragment = new rex_fragment();
-          
+
             $n = array();
             $n['field'] = '<input type="submit" value="'.rex_i18n::msg("save_module_and_quit").'"'. rex::getAccesskey(rex_i18n::msg('save_module_and_quit'), 'save') .' />';
             $formElements[] = $n;
-          
+
             if ($btn_update != '')
             {
               $n = array();
               $n['field'] = $btn_update;
               $formElements[] = $n;
-              
+
               $fragment->setVar('columns', 2, false);
-            } 
-            
+            }
+
           $fragment->setVar('elements', $formElements, false);
           echo $fragment->parse('form.tpl');
-          
+
     echo '
         </fieldset>
     ';
@@ -342,32 +342,32 @@ if ($function == 'add' or $function == 'edit')
         $actions .'
         <fieldset>
           <h2>'.rex_i18n::msg('action_add').'</h2>';
-          
-        
+
+
           $formElements = array();
-            
+
             $n = array();
             $n['label'] = '<label for="action_id">'.rex_i18n::msg('action').'</label>';
             $n['field'] = $gaa_sel->get();
             $formElements[] = $n;
-            
+
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
           echo $fragment->parse('form.tpl');
-        
+
         echo '</fieldset><fieldset class="rex-form-action">';
-          
-        
+
+
           $formElements = array();
-            
+
             $n = array();
             $n['field'] = '<input type="submit" value="'.rex_i18n::msg('action_add').'" name="add_action" />';
             $formElements[] = $n;
-            
+
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
           echo $fragment->parse('form.tpl');
-          
+
           echo '</fieldset>';
       }
     }

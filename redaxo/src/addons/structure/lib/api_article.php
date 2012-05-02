@@ -4,7 +4,7 @@ class rex_api_article_add extends rex_api_function
 {
   public function execute()
   {
-    $category_id = rex_request('category_id', 'rex-category-id');
+    $category_id = rex_request('category_id', 'int');
 
     /**
      * @var rex_user
@@ -23,7 +23,7 @@ class rex_api_article_add extends rex_api_function
     $data = array();
     $data['name']        = rex_post('article-name', 'string');
     $data['prior']       = rex_post('article-position', 'int');
-    $data['template_id'] = rex_post('template_id', 'rex-template-id');
+    $data['template_id'] = rex_post('template_id', 'int');
     $data['category_id'] = $category_id;
 
     $result = new rex_api_result(true, rex_article_service::addArticle($data));
@@ -35,9 +35,9 @@ class rex_api_article_edit extends rex_api_function
 {
   public function execute()
   {
-    $category_id = rex_request('category_id', 'rex-category-id');
-    $article_id  = rex_request('article_id',  'rex-article-id');
-    $clang       = rex_request('clang',       'rex-clang-id');
+    $category_id = rex_request('category_id', 'int');
+    $article_id  = rex_request('article_id',  'int');
+    $clang       = rex_request('clang',       'int');
 
     /**
      * @var rex_user
@@ -57,7 +57,7 @@ class rex_api_article_edit extends rex_api_function
     $data = array();
     $data['prior']       = rex_post('article-position', 'int');
     $data['name']        = rex_post('article-name', 'string');
-    $data['template_id'] = rex_post('template_id', 'rex-template-id');
+    $data['template_id'] = rex_post('template_id', 'int');
 
     $result = new rex_api_result(true, rex_article_service::editArticle($article_id, $clang, $data));
     return $result;
@@ -68,8 +68,8 @@ class rex_api_article_delete extends rex_api_function
 {
   public function execute()
   {
-    $category_id = rex_request('category_id', 'rex-category-id');
-    $article_id  = rex_request('article_id',  'rex-article-id');
+    $category_id = rex_request('category_id', 'int');
+    $article_id  = rex_request('article_id',  'int');
 
     /**
      * @var rex_user
@@ -94,9 +94,9 @@ class rex_api_article_status extends rex_api_function
 {
   public function execute()
   {
-    $catId       = rex_request('category-id', 'rex-category-id');
-    $article_id  = rex_request('article_id',  'rex-article-id');
-    $clang       = rex_request('clang',       'rex-clang-id');
+    $catId       = rex_request('category-id', 'int');
+    $article_id  = rex_request('article_id',  'int');
+    $clang       = rex_request('clang',       'int');
 
     /**
      * @var rex_user
@@ -123,11 +123,11 @@ class rex_api_article2category extends rex_api_function
 {
   public function execute()
   {
-    $article_id  = rex_request('article_id',  'rex-article-id');
+    $article_id  = rex_request('article_id',  'int');
 
     $ooArticle = rex_ooArticle::getArticleById($article_id);
     $category_id = $ooArticle->getCategoryId();
-    
+
     /**
      * @var rex_user
      */
@@ -157,8 +157,8 @@ class rex_api_category2article extends rex_api_function
 {
   public function execute()
   {
-    $article_id  = rex_request('article_id',  'rex-article-id');
-    
+    $article_id  = rex_request('article_id',  'int');
+
     $ooArticle = rex_ooArticle::getArticleById($article_id);
     $category_id = $ooArticle->getCategoryId();
 
@@ -191,8 +191,8 @@ class rex_api_article2startpage extends rex_api_function
 {
   public function execute()
   {
-    $article_id  = rex_request('article_id',  'rex-article-id');
-    
+    $article_id  = rex_request('article_id',  'int');
+
     $ooArticle = rex_ooArticle::getArticleById($article_id);
     $category_id = $ooArticle->getCategoryId();
 

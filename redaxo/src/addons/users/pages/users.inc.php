@@ -39,7 +39,7 @@ $content = '';
 
 
 
-$user_id = rex_request('user_id', 'rex-user-id');
+$user_id = rex_request('user_id', 'int');
 $info = '';
 $warning = '';
 

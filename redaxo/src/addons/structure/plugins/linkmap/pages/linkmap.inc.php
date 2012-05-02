@@ -5,8 +5,10 @@
 $HTMLArea = rex_request('HTMLArea', 'string');
 $opener_input_field = rex_request('opener_input_field', 'string');
 $opener_input_field_name = rex_request('opener_input_field_name', 'string');
-$category_id = rex_request('category_id', 'rex-category-id');
-$clang = rex_request('clang', 'rex-clang-id');
+$category_id = rex_request('category_id', 'int');
+$category_id = rex_ooCategory::isValid(rex_ooCategory::getCategoryById($category_id)) ? $category_id : 0;
+$clang = rex_request('clang', 'int');
+$clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
 
 
 $context = new rex_context(array(
@@ -92,7 +94,7 @@ if ($category)
   foreach($category->getParentTree() as $cat)
   {
     $tree[] = $cat->getId();
-    
+
     $link = $context->getUrl(array('category_id' => $cat->getId()));
     $navi_path .= '<li> : <a href="'. $link .'">'.htmlspecialchars($cat->getName()).'</a></li>';
   }

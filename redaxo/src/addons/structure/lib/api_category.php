@@ -4,7 +4,7 @@ class rex_api_category_add extends rex_api_function
 {
   public function execute()
   {
-    $parentId = rex_request('parent-category-id', 'rex-category-id');
+    $parentId = rex_request('parent-category-id', 'int');
 
     /**
      * @var rex_user
@@ -34,8 +34,8 @@ class rex_api_category_edit extends rex_api_function
 {
   public function execute()
   {
-    $catId   = rex_request('category-id', 'rex-category-id');
-    $clangId = rex_request('clang', 'rex-clang-id');
+    $catId   = rex_request('category-id', 'int');
+    $clangId = rex_request('clang', 'int');
 
     /**
      * @var rex_user
@@ -61,7 +61,7 @@ class rex_api_category_delete extends rex_api_function
 {
   public function execute()
   {
-    $catId   = rex_request('category-id', 'rex-category-id');
+    $catId   = rex_request('category-id', 'int');
 
     /**
      * @var rex_user
@@ -86,8 +86,8 @@ class rex_api_category_status extends rex_api_function
 {
   public function execute()
   {
-    $catId   = rex_request('category-id', 'rex-category-id');
-    $clangId = rex_request('clang', 'rex-clang-id');
+    $catId   = rex_request('category-id', 'int');
+    $clangId = rex_request('clang', 'int');
 
     /**
      * @var rex_user
@@ -115,10 +115,10 @@ class rex_api_category_move extends rex_api_function
   public function execute()
   {
     // the category to move
-    $catId      = rex_request('category-id', 'rex-category-id');
+    $catId      = rex_request('category-id', 'int');
     // the destination category in which the given category will be moved
-    $newCatId   = rex_request('new-category-id', 'rex-category-id');
-    // a optional priority for the moved category 
+    $newCatId   = rex_request('new-category-id', 'int');
+    // a optional priority for the moved category
     $newPrior   = rex_request('new-prior', 'int', 0);
 
     /**
@@ -130,11 +130,11 @@ class rex_api_category_move extends rex_api_function
     if($user->hasPerm('editContentOnly[]')) {
       throw new rex_api_exception('api call not allowed for user with "editContentOnly[]"-option!');
     }
-    
+
     // check permissions
     if($user->isAdmin() || $user->getComplexPerm('structure')->hasCategoryPerm($catId) && $user->getComplexPerm('structure')->hasCategoryPerm($newCatId)) {
       rex_category_service::moveCategory($catId, $newCatId);
-      
+
       // doesnt matter which clang id
       $data['catprior'] = $newPrior;
       rex_category_service::editCategory($catId, 0, $data);
