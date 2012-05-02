@@ -5,6 +5,11 @@
  * @package redaxo4
  */
 
+if(version_compare(PHP_VERSION, '5.3.0') < 0)
+{
+  exit('PHP version >=5.3 needed!');
+}
+
 mb_internal_encoding('UTF-8');
 
 require_once dirname(__FILE__) .'/lib/path.php';
