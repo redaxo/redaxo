@@ -45,8 +45,6 @@ abstract class rex_formatter
    *    + array( 'length' => <String-Laenge>, 'etc' => <ETC Zeichen>, 'break_words' => <true/false>,
    * - nl2br
    *    + siehe www.php.net/nl2br
-   * - rexmedia
-   *    + formatiert ein Medium via rex_ooMedia
    * - custom
    *    + formatiert den Wert anhand einer Benutzer definierten Callback Funktion
    * - filesize
@@ -93,16 +91,6 @@ abstract class rex_formatter
     elseif ($format_type == 'nl2br')
     {
       $value = rex_formatter::_formatNl2br($value, $format);
-    }
-    // REDAXO Medienpool files darstellen
-    elseif ($format_type == 'rexmedia' && $value != '')
-    {
-      $value = rex_formatter::_formatRexMedia($value, $format);
-    }
-    // Artikel Id-Clang Id mit rex_getUrl() darstellen
-    elseif ($format_type == 'rexurl' && $value != '')
-    {
-      $value = rex_formatter::_formatRexUrl($value, $format);
     }
     // Benutzerdefinierte Callback-Funktion
     elseif ($format_type == 'custom')
@@ -324,84 +312,6 @@ abstract class rex_formatter
 
     return rex_formatter::_formatNumber($value, $format).' '.$units[$unit_index];
   }
-
-  static public function _formatRexMedia($value, $format)
-  {
-    if (!is_array($format))
-    {
-      $format = array ();
-    }
-
-    $params = $format['params'];
-
-    // Resize aktivieren, falls nicht anders übergeben
-    if (empty ($params['resize']))
-    {
-      $params['resize'] = true;
-    }
-
-    $media = rex_ooMedia :: getMediaByName($value);
-    // Bilder als Thumbnail
-    if ($media->isImage())
-    {
-      $value = $media->toImage($params);
-    }
-    // Sonstige mit Mime-Icons
-    else
-    {
-      $value = $media->toIcon();
-    }
-
-    return $value;
-  }
-
-  static public function _formatRexUrl($value, $format)
-  {
-    if(empty($value))
-      return '';
-
-    if (!is_array($format))
-      $format = array ();
-
-    // format in dem die werte gespeichert sind
-    if (empty ($format['format']))
-    {
-      // default: <article-id>-<clang-id>
-      $format['format'] = '%i-%i';
-    }
-
-    $hits = sscanf($value, $format['format'], $value, $format['clang']);
-    if($hits == 1)
-    {
-      // clang
-      if (empty ($format['clang']))
-      {
-        $format['clang'] = '';
-      }
-    }
-
-    // Linkparameter (z.b. subject=Hallo Sir)
-    if (empty ($format['params']))
-    {
-      $format['params'] = '';
-    }
-    else
-    {
-      if (strstr($format['params'], '?') != $format['params'])
-      {
-        $format['params'] = '?'.$format['params'];
-      }
-    }
-
-    // divider
-    if (empty ($format['divider']))
-    {
-      $format['divider'] = '&amp;';
-    }
-
-    return '<a href="'.rex_getUrl($value, $format['clang'], $format['params'], $format['divider']).'"'.$format['attr'].'>'.$value.'</a>';
-  }
-
 
   /**
    * Returns the truncated $string
