@@ -376,6 +376,10 @@ class rex_form extends rex_factory
    */
   public function addMediaField($name, $value = null, array $attributes = array())
   {
+    if(!rex_addon::get('mediapool')->isAvailable())
+    {
+      throw new rex_exception(__METHOD__ .'() needs "mediapool" addon!');
+    }
     $attributes['internal::fieldClass'] = 'rex_form_widget_media_element';
     $field = $this->addField('', $name, $value, $attributes, true);
     return $field;
@@ -389,6 +393,10 @@ class rex_form extends rex_factory
    */
   public function addMedialistField($name, $value = null, array $attributes = array())
   {
+    if(!rex_addon::get('mediapool')->isAvailable())
+    {
+      throw new rex_exception(__METHOD__ .'() needs "mediapool" addon!');
+    }
     $attributes['internal::fieldClass'] = 'rex_form_widget_medialist_element';
     $field = $this->addField('', $name, $value, $attributes, true);
     return $field;
@@ -402,6 +410,10 @@ class rex_form extends rex_factory
    */
   public function addLinkmapField($name, $value = null, array $attributes = array())
   {
+    if(!rex_plugin::get('structure', 'linkmap')->isAvailable())
+    {
+      throw new rex_exception(__METHOD__ .'() needs "structure/linkmap" plugin!');
+    }
     $attributes['internal::fieldClass'] = 'rex_form_widget_linkmap_element';
     $field = $this->addField('', $name, $value, $attributes, true);
     return $field;
@@ -415,6 +427,10 @@ class rex_form extends rex_factory
    */
   public function addLinklistField($name, $value = null, array $attributes = array())
   {
+    if(!rex_plugin::get('structure', 'linkmap')->isAvailable())
+    {
+      throw new rex_exception(__METHOD__ .'() needs "structure/linkmap" plugin!');
+    }
     $attributes['internal::fieldClass'] = 'rex_form_widget_linklist_element';
     $field = $this->addField('', $name, $value, $attributes, true);
     return $field;
