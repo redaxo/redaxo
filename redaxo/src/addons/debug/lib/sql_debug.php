@@ -12,7 +12,7 @@ class rex_sql_debug extends rex_sql
   private static $queries = array();
   private static $errors  = 0;
   private static $count   = 0;
-  private static $tbl   = array();
+  private static $tbl     = array();
 
   public function setQuery($qry, array $params = array())
   {
@@ -29,20 +29,18 @@ class rex_sql_debug extends rex_sql
       }
       $firephp = FirePHP::getInstance(true);
       $firephp->error($e->getMessage() .' in ' . $file . ' on line '. $line);
-      throw $e; // re-throw exception after logging 
+      throw $e; // re-throw exception after logging
     }
     return $ret;
   }
-  
+
   public function execute(array $params = array())
   {
-    $qry = $this->stmt->queryString;
+    $qry   = $this->stmt->queryString;
 
     $timer = new rex_timer();
-    $res = parent::execute($params);
+    $res   = parent::execute($params);
 
-    
-    
     $err = $errno = '';
     if($this->hasError())
     {
@@ -50,11 +48,14 @@ class rex_sql_debug extends rex_sql
       $err   = parent::getError();
       $errno = parent::getErrno();
     }
-    self::$queries[] = array('rows'=>$this->getRows(),
-                             'time'=>$timer->getFormattedTime(rex_timer::MILLISEC),
-                             'query'=>$qry,
-                             'error'=>$err,
-                             'errno'=>$errno);
+
+    self::$queries[] = array(
+      'rows'  =>$this->getRows(),
+      'time'  =>$timer->getFormattedTime(rex_timer::MILLISEC),
+      'query' =>$qry,
+      'error' =>$err,
+      'errno' =>$errno
+      );
     self::$count++;
 
     return $res;
@@ -67,6 +68,7 @@ class rex_sql_debug extends rex_sql
       $firephp = FirePHP::getInstance(true);
       self::$tbl[] = array('#','rows','ms','query');
       $i = 0;
+
       foreach(self::$queries as $qry)
       {
         // when a extension takes longer than 5ms, send a warning
@@ -77,11 +79,11 @@ class rex_sql_debug extends rex_sql
         else
         {
           self::$tbl[] = array($i,$qry['rows'],$qry['time'],$qry['query']);
-          ;
         }
         $i++;
       }
-      $firephp->table(__CLASS__.'('.self::$count.' queries, '.self::$errors.' errors)',self::$tbl);
+
+      $firephp->table(__CLASS__.' ('.self::$count.' queries, '.self::$errors.' errors)',self::$tbl);
     }
   }
 }
