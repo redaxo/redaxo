@@ -11,8 +11,6 @@ class rex_sql_debug extends rex_sql
 {
   private static $queries = array();
   private static $errors  = 0;
-  private static $count   = 0;
-  private static $tbl     = array();
 
   public function setQuery($qry, array $params = array())
   {
@@ -34,6 +32,7 @@ class rex_sql_debug extends rex_sql
     return $ret;
   }
 
+  // TODO queries using setQuery() are not logged yet!
   public function execute(array $params = array())
   {
     $qry   = $this->stmt->queryString;
@@ -56,7 +55,6 @@ class rex_sql_debug extends rex_sql
       'error' =>$err,
       'errno' =>$errno
       );
-    self::$count++;
 
     return $res;
   }
@@ -65,8 +63,8 @@ class rex_sql_debug extends rex_sql
   {
     if(!empty(self::$queries))
     {
-      $firephp = FirePHP::getInstance(true);
-      self::$tbl[] = array('#','rows','ms','query');
+      $tbl = array();
+      $tbl[] = array('#','rows','ms','query');
       $i = 0;
 
       foreach(self::$queries as $qry)
@@ -74,16 +72,17 @@ class rex_sql_debug extends rex_sql
         // when a extension takes longer than 5ms, send a warning
         if(strtr($qry['time'], ',', '.') > 5)
         {
-          self::$tbl[] = array($i,$qry['rows'],'! SLOW: '.$qry['time'],$qry['query']);
+          $tbl[] = array($i,$qry['rows'],'! SLOW: '.$qry['time'],$qry['query']);
         }
         else
         {
-          self::$tbl[] = array($i,$qry['rows'],$qry['time'],$qry['query']);
+          $tbl[] = array($i,$qry['rows'],$qry['time'],$qry['query']);
         }
         $i++;
       }
 
-      $firephp->table(__CLASS__.' ('.self::$count.' queries, '.self::$errors.' errors)',self::$tbl);
+      $firephp = FirePHP::getInstance(true);
+      $firephp->table(__CLASS__.' ('.count(self::$queries).' queries, '.self::$errors.' errors)', $tbl);
     }
   }
 }
