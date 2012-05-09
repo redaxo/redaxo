@@ -2,4 +2,4 @@ REDAXO CMS, "Einfach, flexibel, sinnvoll!"
 
 http://www.redaxo.org/
 
-"!https://secure.travis-ci.org/redaxo/redaxo.png!":http://travis-ci.org/redaxo/redaxo
+[![Build Status](https://secure.travis-ci.org/redaxo/redaxo.png)](http://travis-ci.org/redaxo/redaxo)
