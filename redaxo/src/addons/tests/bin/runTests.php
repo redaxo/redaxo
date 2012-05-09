@@ -1,9 +1,17 @@
 #!/usr/bin/php
 <?php
 
-if (PHP_SAPI !== 'cli') return 1;
+if (PHP_SAPI !== 'cli') 
+{
+  echo "error: this script may only be run from CLI";
+  return 1;
+}
 
-if(!chdir('redaxo')) return 2;
+if(!chdir('redaxo')) 
+{
+  echo "error: start this script from a redaxo projects' root folder";
+  return 2;
+}
 
 // ---- bootstrap REX
 
@@ -17,35 +25,13 @@ include 'src/core/master.inc.php';
 // bootstrap addons
 include_once rex_path::core('packages.inc.php');
 
-
-// load all required PEAR libs from vendor folder
-$path = __DIR__. '/../vendor/';
-set_include_path($path . PATH_SEPARATOR . get_include_path());
-
-require_once('PHPUnit/Autoload.php');
-
+// run the tests
 $tests = rex_dir::recursiveIterator(dirname(__FILE__).'/../lib/tests', rex_dir_recursive_iterator::LEAVES_ONLY)->ignoreSystemStuff();
 
-$suite  = new PHPUnit_Framework_TestSuite();
-// disable backup of globals, since we have some rex_sql objectes referenced from variables in global space.
-// PDOStatements are not allowed to be serialized
-$suite->setBackupGlobals(false);
-$suite->addTestFiles($tests);
+$runner = new rex_test_runner();
+$runner->setUp();
+$result = $runner->run($tests);
 
-rex_logger::unregister();
-
-ob_start();
-$runner = new PHPUnit_TextUI_TestRunner;
-$runner->doRun($suite); $line = __LINE__;
-$result = ob_get_clean();
-
-$search = __FILE__ .':'. $line . "\n";
-foreach(debug_backtrace(false) as $t)
-{
-  $search .= $t['file'] .':'. $t['line'] . "\n";
-}
-echo str_replace(array($search, rex_path::base()), '', $result);
-
-rex_logger::register();
+echo $result;
 
 exit(strpos($result, 'FAILURES!') === false ? 0 : 99);
