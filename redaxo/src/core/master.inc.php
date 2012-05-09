@@ -70,12 +70,3 @@ if(!rex::isSetup())
 {
   rex_clang::setId(rex_request('clang', 'int', rex::getProperty('start_clang_id')));
 }
-
-if(rex::isBackend())
-{
-  require rex_path::core('index_be.inc.php');
-}
-else
-{
-  require rex_path::core('index_fe.inc.php');
-}
