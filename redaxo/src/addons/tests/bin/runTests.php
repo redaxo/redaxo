@@ -29,6 +29,12 @@ $REX['BACKEND_FOLDER'] = 'redaxo';
 
 // bootstrap core
 include 'src/core/master.inc.php';
+
+// TODO DO INTIAL SETUP!
+// disable setup so autoloading of addons classes will work
+$wasSetup = rex::getProperty('setup');
+rex::setProperty('setup', false);
+
 // bootstrap addons
 include_once rex_path::core('packages.inc.php');
 
@@ -40,5 +46,7 @@ $runner->setUp();
 $result = $runner->run($tests);
 
 echo $result;
+
+rex::setProperty('setup', $wasSetup);
 
 exit(strpos($result, 'FAILURES!') === false ? 0 : 99);
