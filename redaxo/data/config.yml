@@ -23,6 +23,7 @@ start_page: structure
 timezone: Europe/Berlin
 setup_addons:
   - be_style
+  - import_export
 system_addons:
   - modules
   - templates
