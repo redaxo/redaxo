@@ -126,6 +126,12 @@ abstract class rex_api_function extends rex_factory
     }
   }
 
+  public static function hasMessage()
+  {
+    $apiFunc = self::factory();
+    return (boolean) $apiFunc->getResult();
+  }
+
   public static function getMessage($formatted = true)
   {
     $apiFunc = self::factory();
