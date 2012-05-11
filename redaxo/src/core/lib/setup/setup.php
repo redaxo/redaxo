@@ -4,12 +4,12 @@ class rex_setup
 {
   const MIN_PHP_VERSION = '5.3.0';
   const MIN_MYSQL_VERSION = '5.0';
-  
+
   private static $MIN_PHP_EXTENSIONS = array('session', 'pdo', 'pcre');
-  
+
   /**
    * very basic setup steps, so everything is in place for our browser-based setup wizard.
-   * 
+   *
    * @param string $skinAddon
    * @param string $skinPlugin
    */
@@ -17,42 +17,42 @@ class rex_setup
   {
     // initial purge all generated files
     rex_deleteCache();
-    
+
     // copy alle media files of the current rex-version into redaxo_media
     rex_dir::copy(rex_path::core('assets'), rex_path::assets('', rex_path::ABSOLUTE));
-    
+
     // copy skins files/assets
     rex_dir::copy(rex_path::plugin($skinAddon, $skinPlugin, 'assets'), rex_path::pluginAssets($skinAddon, $skinPlugin, '', rex_path::ABSOLUTE));
   }
-  
+
   /**
    * checks environment related conditions
-   * 
+   *
    * @return array An array of error messages
    */
   public static function checkEnvironment()
   {
     $errors = array();
-    
+
     // -------------------------- VERSIONSCHECK
     if (version_compare(phpversion(), self::MIN_PHP_VERSION, '<') == 1)
     {
       $errors[] = rex_i18n::msg('setup_010', phpversion(), self::MIN_PHP_VERSION);
     }
-    
+
     // -------------------------- EXTENSION CHECK
     foreach(self::$MIN_PHP_EXTENSIONS as $extension)
     {
       if(!extension_loaded($extension))
         $errors[] = rex_i18n::msg('setup_010_1', $extension);
     }
-    
+
     return $errors;
   }
-  
+
   /**
    * checks permissions of all required filesystem resources
-   * 
+   *
    * @return array An array of error messages
    */
   public static function checkFilesystem()
@@ -68,12 +68,12 @@ class rex_setup
         rex_path::data('config.yml'),
         getImportDir()
     );
-    
+
     foreach(rex::getProperty('system_addons') as $system_addon)
     {
       $WRITEABLES[] = rex_path::addon($system_addon);
     }
-    
+
     $res = array();
     foreach($WRITEABLES as $item)
     {
@@ -98,15 +98,15 @@ class rex_setup
         $res['setup_015'][] = $item;
       }
     }
-    
+
     return $res;
   }
-  
+
   /**
    * Checks the version of the connected database server.
-   * 
+   *
    * @param $config array of databaes configs
-   * @param $createDb boolean Should the database be created, if it not exists. 
+   * @param $createDb boolean Should the database be created, if it not exists.
    */
   public static function checkDb($config, $createDb)
   {
@@ -115,7 +115,7 @@ class rex_setup
     {
       return $err;
     }
-    
+
     $serverVersion = rex_sql::getServerVersion();
     if (rex_string::compareVersions($serverVersion, self::MIN_MYSQL_VERSION, '<') == 1)
     {
