@@ -1,5 +1,10 @@
 <?php
 
+$export_addon_dir = rex_path::addon('import_export');
+require_once $export_addon_dir.'/functions/function_folder.inc.php';
+require_once $export_addon_dir.'/functions/function_import_folder.inc.php';
+require_once $export_addon_dir.'/functions/function_import_export.inc.php';
+
 class rex_setup_importer
 {
   public static function updateFromPrevious()
@@ -121,11 +126,9 @@ class rex_setup_importer
   
   private static function rex_setup_import($import_sql, $import_archiv = null)
   {
-    global $export_addon_dir;
-  
     $err_msg = '';
   
-    if (!is_dir($export_addon_dir))
+    if (!is_dir(rex_path::addon('import_export')))
     {
       $err_msg .= rex_i18n::msg('setup_03703').'<br />';
     }
