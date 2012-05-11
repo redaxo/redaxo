@@ -118,7 +118,7 @@ if ($subpage == '')
 
     // --------------------------------------------- API MESSAGES
     $message = '';
-    if($package->getPackageId() == rex_get('package', 'string'))
+    if($package->getPackageId() == rex_get('package', 'string') && rex_api_function::hasMessage())
     {
       $message = '
           <tr class="rex-package-message rex-warning">

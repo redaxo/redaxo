@@ -11,28 +11,28 @@ class rex_setup_importer
   {
     // ----- vorhandenen seite updaten
     $err_msg = '';
-    
+
     $import_sql = rex_path::core('install/update4_x_to_5_0.sql');
     if($err_msg == '')
       $err_msg .= self::rex_setup_import($import_sql);
-    
+
     // Aktuelle Daten updaten wenn utf8, da falsch in v4.2.1 abgelegt wurde.
     /*if (rex_lang_is_utf8())
      {
     rex_setup_setUtf8();
     }*/
-    
+
     if($err_msg == '')
       $err_msg .= self::rex_setup_addons();
-    
+
     return $err_msg;
   }
-  
+
   public static function loadExistingImport($import_name)
   {
     // ----- vorhandenen Export importieren
     $err_msg = '';
-    
+
     if($import_name == '')
     {
       $err_msg .= '<p>'.rex_i18n::msg('setup_03701').'</p>';
@@ -41,7 +41,7 @@ class rex_setup_importer
     {
       $import_sql = getImportDir().'/'.$import_name.'.sql';
       $import_archiv = getImportDir().'/'.$import_name.'.tar.gz';
-    
+
       // Nur hier zuerst die Addons installieren
       // Da sonst Daten aus dem eingespielten Export
       // Überschrieben würden
@@ -50,54 +50,54 @@ class rex_setup_importer
       if($err_msg == '')
         $err_msg .= self::rex_setup_import($import_sql, $import_archiv);
     }
-    
-    return $err_msg;    
+
+    return $err_msg;
   }
-  
+
   public static function databaseAlreadyExists()
   {
     // ----- db schon vorhanden, nichts tun
     return self::rex_setup_addons(false, false);
   }
-  
+
   public static function overrideExisting()
   {
     // ----- volle Datenbank, alte DB löschen / drop
     $err_msg = '';
-    
+
     $import_sql = rex_path::core('install/redaxo5_0.sql');
-    
+
     $db = rex_sql::factory();
     foreach(self::getRequiredTables() as $table)
       $db->setQuery('DROP TABLE IF EXISTS `'. $table .'`');
-    
+
     if($err_msg == '')
       $err_msg .= self::rex_setup_import($import_sql);
-    
+
     if($err_msg == '')
       $err_msg .= self::rex_setup_addons(true);
 
     return $err_msg;
   }
-  
+
   public static function prepareEmptyDb()
   {
     // ----- leere Datenbank neu einrichten
     $err_msg = '';
     $import_sql = rex_path::core('install/redaxo5_0.sql');
-    
+
     if($err_msg == '')
       $err_msg .= self::rex_setup_import($import_sql);
-    
+
     $err_msg .= self::rex_setup_addons();
-    
+
     return $err_msg;
   }
-  
+
   public static function verifyDbSchema()
   {
     $err_msg = '';
-    
+
     // Prüfen, welche Tabellen bereits vorhanden sind
     $existingTables = array();
     foreach(rex_sql::showTables() as $tblname)
@@ -107,14 +107,14 @@ class rex_setup_importer
         $existingTables[] = $tblname;
       }
     }
-    
+
     foreach(array_diff(self::getRequiredTables(), $existingTables) as $missingTable)
     {
       $err_msg .= rex_i18n::msg('setup_031', $missingTable)."<br />";
     }
     return $err_msg;
   }
-  
+
   private static function getRequiredTables()
   {
     return array (
@@ -123,11 +123,11 @@ class rex_setup_importer
         rex::getTablePrefix() .'config'
     );
   }
-  
+
   private static function rex_setup_import($import_sql, $import_archiv = null)
   {
     $err_msg = '';
-  
+
     if (!is_dir(rex_path::addon('import_export')))
     {
       $err_msg .= rex_i18n::msg('setup_03703').'<br />';
@@ -137,14 +137,14 @@ class rex_setup_importer
       if (file_exists($import_sql) && ($import_archiv === null || $import_archiv !== null && file_exists($import_archiv)))
       {
         rex_i18n::addDirectory(rex_path::addon('import_export', 'lang/'));
-  
+
         // DB Import
         $state_db = rex_a1_import_db($import_sql);
         if ($state_db['state'] === false)
         {
           $err_msg .= nl2br($state_db['message']) .'<br />';
         }
-  
+
         // Archiv optional importieren
         if ($state_db['state'] === true && $import_archiv !== null)
         {
@@ -160,16 +160,16 @@ class rex_setup_importer
         $err_msg .= rex_i18n::msg('setup_03702').'<br />';
       }
     }
-  
+
     return $err_msg;
   }
-  
+
   // -------------------------- System AddOns prüfen
   private static function rex_setup_addons($uninstallBefore = false, $installDump = true)
   {
     $addonErr = '';
     rex_package_manager::synchronizeWithFileSystem();
-  
+
     if($uninstallBefore)
     {
       foreach(array_reverse(rex::getProperty('system_addons')) as $packageRepresentation)
@@ -178,7 +178,7 @@ class rex_setup_importer
         $manager = rex_package_manager::factory($package);
         $state = $manager->uninstall($installDump);
         // echo "uninstall ". $packageRepresentation ."<br />";
-  
+
         if($state !== true)
           $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
       }
@@ -188,26 +188,26 @@ class rex_setup_importer
       $state = true;
       $package = rex_package::get($packageRepresentation);
       $manager = rex_package_manager::factory($package);
-  
+
       if($state === true && !$package->isInstalled())
       {
         // echo "install ". $packageRepresentation."<br />";
         $state = $manager->install($installDump);
       }
-  
+
       if($state !== true)
         $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
-  
+
       if($state === true && !$package->isActivated())
       {
         // echo "activate ". $packageRepresentation."<br />";
         $state = $manager->activate();
-  
+
         if($state !== true)
           $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
       }
     }
-  
+
     if($addonErr != '')
     {
       $addonErr = '<ul class="rex-ul1">
@@ -217,10 +217,10 @@ class rex_setup_importer
       </li>
       </ul>';
     }
-  
+
     return $addonErr;
   }
-  
+
   /*function rex_setup_setUtf8()
    {
   global $REX;
