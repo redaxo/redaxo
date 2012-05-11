@@ -5,7 +5,7 @@
  *
  * @author Markus Staab
  */
-abstract class rex_extension extends rex_factory
+abstract class rex_extension extends rex_factory_base
 {
   /**
    * Array aller ExtensionsPoints und deren Extensions
