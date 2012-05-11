@@ -5,19 +5,19 @@
  *
  * @author gharlan
  */
-abstract class rex_singleton
+abstract class rex_singleton_base
 {
   /**
    * Singleton instances
    *
-   * @var array[rex_singleton];
+   * @var array[rex_singleton_base];
    */
   static private $instances = array();
 
   /**
    * Returns the singleton instance
    *
-   * @return rex_singleton
+   * @return rex_singleton_base
    */
   static public function getInstance()
   {
