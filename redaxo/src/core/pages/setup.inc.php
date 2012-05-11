@@ -211,7 +211,7 @@ if ($checkmodus == 2 && $send == 1)
   if($err_msg == '')
   {
     $err = rex_setup::checkDb($config, $redaxo_db_create);
-    if($err !== true)
+    if($err != '')
     {
       $err_msg = $err;
     }

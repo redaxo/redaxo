@@ -107,8 +107,6 @@ class rex_setup
    * 
    * @param $config array of databaes configs
    * @param $createDb boolean Should the database be created, if it not exists. 
-   * 
-   * @return True, when everthing went fine. An error Message otherwise.
    */
   public static function checkDb($config, $createDb)
   {
@@ -123,6 +121,6 @@ class rex_setup
     {
       return rex_i18n::msg('setup_022_1', $serverVersion, self::MIN_MYSQL_VERSION);
     }
-    return true;
+    return '';
   }
 }
