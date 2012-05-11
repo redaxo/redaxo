@@ -201,7 +201,7 @@ if ($checkmodus == 2 && $send == 1)
 
   if($err_msg == '')
   {
-    if(!rex_file::putConfig($configFile, $config, 3))
+    if(!rex_file::putConfig($configFile, $config))
     {
       $err_msg = rex_i18n::msg('setup_020', '<b>', '</b>');
     }
@@ -361,7 +361,7 @@ if ($checkmodus == 3 && $send == 1)
   elseif ($dbanlegen == 3)
   {
     $import_name = rex_post('import_name', 'string');
-    
+
     $err_msg .= rex_setup_importer::loadExistingImport($import_name);
   }
   elseif ($dbanlegen == 2)
@@ -422,6 +422,10 @@ if ($checkmodus == 3)
     default :
       $dbchecked[0] = ' checked="checked"';
   }
+
+  $export_addon_dir = rex_path::addon('import_export');
+  require_once $export_addon_dir.'/functions/function_folder.inc.php';
+  require_once $export_addon_dir.'/functions/function_import_folder.inc.php';
 
   // Vorhandene Exporte auslesen
   $sel_export = new rex_select();
@@ -697,7 +701,7 @@ if ($checkmodus == 5)
   $config = rex_file::getConfig($configFile);
   $config['setup'] = false;
 
-  if(rex_file::putConfig($configFile, $config, 3))
+  if(rex_file::putConfig($configFile, $config))
   {
     $errmsg = "";
   }

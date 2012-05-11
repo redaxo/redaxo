@@ -36,19 +36,19 @@ if(rex::isSetup())
   // read initial config
   $configFile = rex_path::data('config.yml');
   $config = rex_file::getConfig($configFile);
-  
+
   // init db
   echo rex_setup::checkDb($config, false);
   echo rex_setup_importer::prepareEmptyDb();
   echo rex_setup_importer::verifyDbSchema();
-  
+
   // install tests addon
   $manager = rex_package_manager::factory(rex_package::get('tests'));
   $manager->install();
   $manager->activate();
 
   $config['setup'] = false;
-  if(rex_file::putConfig($configFile, $config, 3))
+  if(rex_file::putConfig($configFile, $config))
   {
     echo "instance setup successfull";
     exit (0);
