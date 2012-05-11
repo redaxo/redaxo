@@ -1,9 +1,10 @@
 <?php
 
-class testFactory extends rex_factory{
+class testFactory extends rex_factory_base
+{
   static public function factory()
   {
-    // just return the class which was determined using rex_factory.
+    // just return the class which was determined using rex_factory_base.
     // this doesn't make sense in real use-cases but eases testing
     return self::getFactoryClass();
   }
@@ -21,19 +22,20 @@ class testFactory extends rex_factory{
     return 'static-base';
   }
 }
-class testAlternativeFactory extends testFactory{
+class testAlternativeFactory extends testFactory
+{
   public function doSomething()
   {
     return 'overridden';
   }
-  
+
   static public function staticCall()
   {
     return 'static-overridden';
   }
 }
 
-class rex_factory_test extends PHPUnit_Framework_TestCase
+class rex_factory_base_test extends PHPUnit_Framework_TestCase
 {
   public function testFactoryCreation()
   {
@@ -44,7 +46,7 @@ class rex_factory_test extends PHPUnit_Framework_TestCase
     $obj = new $clazz();
     $this->assertEquals('base', $obj->doSomething(), 'call method of the original impl');
     $this->assertEquals('static-base', testFactory::staticCall(), 'static method of original impl');
-    
+
     testFactory::setFactoryClass('testAlternativeFactory');
     $this->assertTrue(testFactory::hasFactoryClass(), 'factory class was set');
     $this->assertEquals('testAlternativeFactory', testFactory::getFactoryClass(), 'factory class will be returned');

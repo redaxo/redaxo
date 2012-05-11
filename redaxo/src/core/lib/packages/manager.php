@@ -3,7 +3,7 @@
 /**
  * Manager class for packages
  */
-abstract class rex_package_manager extends rex_factory
+abstract class rex_package_manager extends rex_factory_base
 {
   const
     CONFIG_FILE = 'config.inc.php',

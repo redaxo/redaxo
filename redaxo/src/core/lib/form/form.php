@@ -16,7 +16,7 @@ define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
  *
  * Nachdem alle Felder eingefuegt wurden, muss das Fomular mit get() oder show() ausgegeben werden.
  */
-class rex_form extends rex_factory
+class rex_form extends rex_factory_base
 {
   protected
     $name,

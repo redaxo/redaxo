@@ -5,7 +5,7 @@
  *
  * Example child class:
  * <code>
- * class example extends rex_factory
+ * class example extends rex_factory_base
  * {
  *   private function __construct($param)
  *   {
@@ -22,7 +22,7 @@
  *
  * @author gharlan
  */
-abstract class rex_factory
+abstract class rex_factory_base
 {
   /**
    * @var array

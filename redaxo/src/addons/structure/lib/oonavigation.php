@@ -31,7 +31,7 @@
  * $nav->showBreadcrumb(true);
  */
 
-class rex_ooNavigation extends rex_factory
+class rex_ooNavigation extends rex_factory_base
 {
   private
   $depth, // Wieviele Ebene tief, ab der Startebene

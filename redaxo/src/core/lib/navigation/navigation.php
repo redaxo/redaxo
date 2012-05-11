@@ -1,6 +1,6 @@
 <?php
 
-class rex_be_navigation extends rex_factory
+class rex_be_navigation extends rex_factory_base
 {
   private
   $headlines = array(),
