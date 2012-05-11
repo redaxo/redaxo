@@ -1,8 +1,5 @@
 <?php
 
-$export_addon_dir = rex_path::addon('import_export');
-require_once $export_addon_dir.'/functions/function_folder.inc.php';
-
 class rex_setup
 {
   const MIN_PHP_VERSION = '5.3.0';
@@ -60,6 +57,10 @@ class rex_setup
    */
   public static function checkFilesystem()
   {
+    $export_addon_dir = rex_path::addon('import_export');
+    require_once $export_addon_dir.'/functions/function_folder.inc.php';
+    require_once $export_addon_dir.'/functions/function_import_folder.inc.php';
+
     // -------------------------- SCHREIBRECHTE
     $WRITEABLES = array (
         rex_path::media('', rex_path::ABSOLUTE),
