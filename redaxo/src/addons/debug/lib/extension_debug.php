@@ -3,24 +3,27 @@
 rex_extension::register('OUTPUT_FILTER', array('rex_extension_debug', 'doLog'));
 
 /**
- * Class to monitor extension points
+ * Class to monitor extension points via FirePHP
  *
  * @author staabm
  */
 class rex_extension_debug extends rex_extension
 {
-  private static
-    $log            = array();
+  private static $log = array();
 
-  protected static function invokeExtension($function, $params)
+
+  /**
+  * Extends rex_extension::register() with FirePHP logging
+  */
+  static public function register($extensionPoint, $callable, array $params = array())
   {
     $timer  = new rex_timer();
-    $result = parent::invokeExtension($function, $params);
+    $result = parent::register($extensionPoint, $callable, $params);
 
     self::$log[] = array(
                          'type'     =>'EXT',
-                         'ep'       =>$params['extension_point'],
-                         'callable' =>$function,
+                         'ep'       =>$extensionPoint,
+                         'callable' =>$callable,
                          'params'   =>$params,
                          'result'   =>$result,
                          'timer'    =>$timer->getFormattedTime(rex_timer::MILLISEC),
@@ -29,6 +32,10 @@ class rex_extension_debug extends rex_extension
     return $result;
   }
 
+
+  /**
+  * Extends rex_extension::registerPoint() with FirePHP logging
+  */
   static public function registerPoint($extensionPoint, $subject = '', array $params = array (), $read_only = false)
   {
     $coreTimer = rex::getProperty('timer');
@@ -58,36 +65,93 @@ class rex_extension_debug extends rex_extension
     return $res;
   }
 
+
+  /**
+   * process log & send as FirePHP table
+   * @param array $params EP Params
+   * @return void
+   */
   static public function doLog($params)
   {
     $firephp = FirePHP::getInstance(true);
 
-    $counter        = array('ep'=>0,'ext'=>0,'timing_err'=>0);
     $registered_eps = $log_table = array();
-    $log_table[]    = array('#','Type','Timing','ExtensionPoint','Callable','Started','Duration','Memory','subject','params','result','read_only');
+    $counter        = array(
+                            'ep'       =>0,
+                            'ext'      =>0,
+                            'late_ext' => array(),
+                            );
+    $log_table[]    = array(
+                            '#',
+                            'Type',
+                            'Timing',
+                            'ExtensionPoint',
+                            'Callable',
+                            'Started',
+                            'Duration',
+                            'Memory',
+                            'subject',
+                            'params',
+                            'result',
+                            'read_only'
+                            );
 
-    foreach(self::$log as $k=>$v)
+    foreach(self::$log as $count=>$entry)
     {
-      $i = $k+1;
-      switch($v['type'])
+      $i = $count+1;
+      switch($entry['type'])
       {
         case'EP':
           $counter['ep']++;
-          $registered_eps[] = $v['ep'];
-          $log_table[] = array($i,$v['type'],'–'     ,$v['ep']        ,'–'       ,$v['started'],$v['duration'],$v['memory'],$v['subject'],$v['params'],$v['result'],$v['read_only']);
+          $registered_eps[] = $entry['ep'];
+          $log_table[] = array(
+                               $i,                  // #
+                               $entry['type'],      // Type
+                               '–',                 // Timing
+                               $entry['ep'],        // ExtensionPoint
+                               '–',                 // Callable
+                               $entry['started'],   // Started
+                               $entry['duration'],  // Duration
+                               $entry['memory'],    // Memory
+                               $entry['subject'],   // subject
+                               $entry['params'],    // params
+                               $entry['result'],    // result
+                               $entry['read_only']  // read_only
+                               );
           break;
 
         case'EXT':
           $counter['ext']++;
           $timing = 'ok';
-          if(in_array($v['ep'],$registered_eps)) {
+
+          if(in_array($entry['ep'],$registered_eps))
+          {
             $timing = 'late';
-            $counter['timing_err']++;
+            $counter['late_ext'][$entry['callable']] = $entry['ep'];
+            $firephp->error('EP Timing: Extension "'.$entry['callable'].'" registered after ExtensionPoint "'.$entry['ep'].'" !');
           }
-          $log_table[] = array($i,$v['type'],$timing ,$v['ep']        ,$v['callable'],'–'      ,'–'       ,'–'     ,'–'      ,$v['params'],$v['result'],'–');
+
+          $log_table[] = array(
+                               $i,                 // #
+                               $entry['type'],     // Type
+                               $timing,            // Timing
+                               $entry['ep'],       // ExtensionPoint
+                               $entry['callable'], // Callable
+                               '–',                // Started
+                               '–',                // Duration
+                               '–',                // Memory
+                               '–',                // subject
+                               $entry['params'],   // params
+                               $entry['result'],   // result
+                               '–'                 // read_only
+                               );
           break;
+
+        default:
+          // can't actually happen..
       }
     }
-    $firephp->table('EP LOG ( EPs: '.$counter['ep'].', Extensions: '.$counter['ext'].', Late Extensions: '.$counter['timing_err'].' )',$log_table);
+
+    $firephp->table('EP LOG ( EPs: '.$counter['ep'].', Extensions: '.$counter['ext'].' )',$log_table);
   }
 }
