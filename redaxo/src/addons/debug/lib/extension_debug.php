@@ -11,31 +11,30 @@ class rex_extension_debug extends rex_extension
 {
   private static $log = array();
 
-
   /**
-  * Extends rex_extension::register() with FirePHP logging
-  */
+   * Extends rex_extension::register() with FirePHP logging
+   */
   static public function register($extensionPoint, $callable, array $params = array())
   {
     $timer  = new rex_timer();
     $result = parent::register($extensionPoint, $callable, $params);
 
     self::$log[] = array(
-      'type'     =>'EXT',
-      'ep'       =>$extensionPoint,
-      'callable' =>$callable,
-      'params'   =>$params,
-      'result'   =>$result,
-      'timer'    =>$timer->getFormattedTime(rex_timer::MILLISEC),
-      );
+      'type'     => 'EXT',
+      'ep'       => $extensionPoint,
+      'callable' => $callable,
+      'params'   => $params,
+      'result'   => $result,
+      'timer'    => $timer->getFormattedTime(rex_timer::MILLISEC),
+    );
 
     return $result;
   }
 
 
   /**
-  * Extends rex_extension::registerPoint() with FirePHP logging
-  */
+   * Extends rex_extension::registerPoint() with FirePHP logging
+   */
   static public function registerPoint($extensionPoint, $subject = '', array $params = array (), $read_only = false)
   {
     $coreTimer = rex::getProperty('timer');
@@ -49,18 +48,18 @@ class rex_extension_debug extends rex_extension
     $memory = rex_formatter :: format(memory_get_usage(true), 'bytes', array(3));
 
     self::$log[] = array(
-      'type'      =>'EP',
-      'ep'        =>$extensionPoint,
-      'started'   =>$absDur,
-      'duration'  =>$epDur,
-      'memory'    =>$memory,
-      'subject'   =>$subject,
-      'params'    =>$params,
-      'read_only' =>$read_only,
-      'result'    =>$res,
-      'timer'     =>$epDur,
-      'memory'    =>$memory
-      );
+      'type'      => 'EP',
+      'ep'        => $extensionPoint,
+      'started'   => $absDur,
+      'duration'  => $epDur,
+      'memory'    => $memory,
+      'subject'   => $subject,
+      'params'    => $params,
+      'read_only' => $read_only,
+      'result'    => $res,
+      'timer'     => $epDur,
+      'memory'    => $memory
+    );
 
     return $res;
   }
@@ -77,9 +76,9 @@ class rex_extension_debug extends rex_extension
 
     $registered_eps = $log_table = array();
     $counter        = array(
-      'ep'       =>0,
-      'ext'      =>0,
-      );
+      'ep'       => 0,
+      'ext'      => 0,
+    );
     $log_table[]    = array(
       '#',
       'Type',
@@ -93,7 +92,7 @@ class rex_extension_debug extends rex_extension
       'params',
       'result',
       'read_only'
-      );
+    );
 
     foreach(self::$log as $count=>$entry)
     {
@@ -116,7 +115,7 @@ class rex_extension_debug extends rex_extension
             $entry['params'],    // params
             $entry['result'],    // result
             $entry['read_only']  // read_only
-            );
+          );
           break;
 
         case'EXT':
@@ -142,11 +141,11 @@ class rex_extension_debug extends rex_extension
             $entry['params'],   // params
             $entry['result'],   // result
             '–'                 // read_only
-            );
+          );
           break;
 
         default:
-          // can't actually happen..
+          throw new rex_exception('unexpexted type '. $entry['type']);
       }
     }
 
