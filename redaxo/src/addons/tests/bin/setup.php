@@ -43,7 +43,7 @@ if(rex::isSetup())
   echo rex_setup_importer::verifyDbSchema();
 
   // install tests addon
-  $manager = rex_package_manager::factory(rex_package::get('tests'));
+  $manager = rex_addon_manager::factory(rex_addon::get('tests'));
   $manager->install();
   $manager->activate();
 
