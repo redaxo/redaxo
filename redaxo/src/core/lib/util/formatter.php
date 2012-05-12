@@ -47,7 +47,7 @@ abstract class rex_formatter
    *    + siehe www.php.net/nl2br
    * - custom
    *    + formatiert den Wert anhand einer Benutzer definierten Callback Funktion
-   * - filesize
+   * - bytes
    *    + formatiert einen Zahlenwert und gibt ihn als Bytegröße aus
    */
   static public function format($value, $format_type, $format)
@@ -97,15 +97,15 @@ abstract class rex_formatter
     {
       $value = rex_formatter::_formatCustom($value, $format);
     }
-    elseif ($format_type == 'filesize')
+    elseif ($format_type == 'bytes')
     {
-      $value = rex_formatter::_formatFilesize($value, $format);
+      $value = rex_formatter::_formatBytes($value, $format);
     }
 
     return $value;
   }
 
-  static public function _formatSprintf($value, $format)
+  static private function _formatSprintf($value, $format)
   {
     if ($format == '')
     {
@@ -114,7 +114,7 @@ abstract class rex_formatter
     return sprintf($format, $value);
   }
 
-  static public function _formatDate($value, $format)
+  static private function _formatDate($value, $format)
   {
     if ($format == '')
     {
@@ -124,7 +124,7 @@ abstract class rex_formatter
     return date($format, $value);
   }
 
-  static public function _formatStrftime($value, $format)
+  static private function _formatStrftime($value, $format)
   {
     if (empty ($value))
     {
@@ -144,7 +144,7 @@ abstract class rex_formatter
     return strftime($format, $value);
   }
 
-  static public function _formatNumber($value, $format)
+  static private function _formatNumber($value, $format)
   {
     if (!is_array($format))
     {
@@ -169,7 +169,7 @@ abstract class rex_formatter
     return number_format($value, $format[0], $format[1], $format[2]);
   }
 
-  static public function _formatEmail($value, $format)
+  static private function _formatEmail($value, $format)
   {
     if (!is_array($format))
     {
@@ -197,7 +197,7 @@ abstract class rex_formatter
     return '<a href="mailto:'. htmlspecialchars($value.$format['params']) .'"'. $format['attr'] .'>'. htmlspecialchars($value) .'</a>';
   }
 
-  static public function _formatUrl($value, $format)
+  static private function _formatUrl($value, $format)
   {
     if(empty($value))
       return '';
@@ -231,7 +231,7 @@ abstract class rex_formatter
     return '<a href="'. htmlspecialchars($value.$format['params']) .'"'. $format['attr'] .'>'. htmlspecialchars($value) .'</a>';
   }
 
-  static public function _formatTruncate($value, $format)
+  static private function _formatTruncate($value, $format)
   {
     if (!is_array($format))
       $format = array ();
@@ -251,12 +251,12 @@ abstract class rex_formatter
     return self::truncate($value, $format['length'], $format['etc'], $format['break_words']);
   }
 
-  static public function _formatNl2br($value, $format)
+  static private function _formatNl2br($value, $format)
   {
     return nl2br($value);
   }
 
-  static public function _formatCustom($value, $format)
+  static private function _formatCustom($value, $format)
   {
     if(!is_callable($format))
     {
@@ -283,7 +283,7 @@ abstract class rex_formatter
     return call_user_func($format, $value);
   }
 
-  static public function _formatFilesize($value, $format)
+  static private function _formatBytes($value, $format)
   {
     $units = array('B','KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB');
     $unit_index = 0;
