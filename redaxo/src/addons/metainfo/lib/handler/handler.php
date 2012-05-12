@@ -458,7 +458,7 @@ abstract class rex_metainfoHandler
    * @param int $fieldType One of the REX_METAINFO_FIELD_* constants
    * @param string $fieldAttributes The attributes of the field
    */
-  public function getSaveValue($fieldName, $fieldType, $fieldAttributes)
+  static public function getSaveValue($fieldName, $fieldType, $fieldAttributes)
   {
     if(rex_request_method() != 'post') return null;
 
@@ -571,7 +571,7 @@ abstract class rex_metainfoHandler
 
     return self::renderMetaFields($sqlFields, $params);
   }
-  
+
   protected function fireCallbacks(rex_sql $sqlFields)
   {
     foreach($sqlFields as $row)
@@ -585,7 +585,7 @@ abstract class rex_metainfoHandler
           $fieldName = $field->getValue('name');
           $fieldType = $field->getValue('type');
           $fieldAttributes = $field->getValue('attributes');
-          $fieldValue = getSaveValue($fieldName, $fieldType, $fieldAttributes);
+          $fieldValue = self::getSaveValue($fieldName, $fieldType, $fieldAttributes);
 
           require rex_stream::factory('metainfo/'. $field->getValue('field_id') .'/callback', $field->getValue('callback'));
         };
@@ -594,17 +594,17 @@ abstract class rex_metainfoHandler
       }
     }
   }
-  
+
   /**
    * Build a SQL Filter String which fits for the current context params
-   * 
+   *
    * @param array $params EP Params
    */
   protected abstract function buildFilterCondition(array $params);
 
   /**
    * Renders a field of the metaform. The rendered html will be returned.
-   * 
+   *
    * @param string $field The html-source of the field itself
    * @param string $tag The html-tag for the elements container, e.g. "p"
    * @param string $tag_attr Attributes for the elements container, e.g. " class='rex-widget'"
@@ -612,7 +612,7 @@ abstract class rex_metainfoHandler
    * @param string $label The textlabel of the field
    * @param boolean $labelIt True when an additional label needs to be rendered, otherweise False
    * @param string $inputType The input type, e.g. "checkbox", "radio",...
-   * 
+   *
    * @return string The rendered html
    */
   protected abstract function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $inputType);
@@ -620,14 +620,14 @@ abstract class rex_metainfoHandler
   /**
    * Retrieves the activeItem from the current context.
    * Afterwards the actual metaForm extension will be rendered.
-   * 
+   *
    * @param array $params EP Params
    */
   public abstract function extendForm(array $params);
-  
+
   /**
    * Retrieves the POST values from the metaform, fill it into a rex_sql object and save it to a database table
-   * 
+   *
    * @param array $params
    * @param rex_sql $sqlFields
    */
