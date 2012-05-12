@@ -73,7 +73,7 @@ class rex_be_controller
     return $pages;
   }
 
-  public static function appendAddonPages(array $pages)
+  static public function appendAddonPages(array $pages)
   {
     $addons = rex::isSafeMode() ? rex_addon::getSetupAddons() : rex_addon::getAvailableAddons();
     foreach($addons as $addonName => $addon)
@@ -230,7 +230,7 @@ class rex_be_controller
     return $pages;
   }
 
-  public static function checkPage($page, array $pages, rex_user $user)
+  static public function checkPage($page, array $pages, rex_user $user)
   {
     // --- page pruefen und benoetigte rechte checken
     if(!isset($pages[$page]) ||
@@ -253,5 +253,61 @@ class rex_be_controller
     }
 
     return $page;
+  }
+
+  static public function includePage(rex_be_page $_activePageObj, rex_be_page $_pageObj, $page)
+  {
+    if(rex_request::isPJAXRequest())
+    {
+      $_activePageObj->setHasLayout(false);
+    }
+
+    if($_activePageObj->hasLayout())
+    {
+      require rex_path::core('layout/top.php');
+    }
+
+    $path = '';
+    if($_activePageObj->hasPath())
+    {
+      $path = $_activePageObj->getPath();
+    }
+    elseif($_pageObj->hasPath())
+    {
+      $path = $_pageObj->getPath();
+    }
+
+    if($path != '')
+    {
+      // If page has a new/overwritten path
+      if(preg_match('@'. preg_quote(rex_path::src('addons/'), '@') .'([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@', $path, $matches))
+      {
+        $package = rex_addon::get($matches[1]);
+        if(isset($matches[2]))
+        {
+          $package = $package->getPlugin($matches[2]);
+        }
+        rex_package_manager::includeFile($package, str_replace($package->getBasePath(), '', $path));
+      }
+      else
+      {
+        require $path;
+      }
+    }
+    else if($_pageObj->isCorePage())
+    {
+      // Core Page
+      require rex_path::core('pages/'. $page .'.inc.php');
+    }
+    else
+    {
+      // Addon Page
+      rex_addon_manager::includeFile(rex_addon::get($page), 'pages/index.inc.php');
+    }
+
+    if($_activePageObj->hasLayout())
+    {
+      require rex_path::core('layout/bottom.php');
+    }
   }
 }

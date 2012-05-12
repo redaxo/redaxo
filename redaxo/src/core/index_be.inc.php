@@ -128,6 +128,13 @@ if($user = rex::getUser())
 rex::setProperty('page', $page);
 rex::setProperty('pages', $pages);
 
+// ----- EXTENSION POINT
+// page variable validated
+rex_extension::registerPoint( 'PAGE_CHECKED', $page, array('pages' => $pages));
+
+// trigger api functions
+rex_api_function::handleCall();
+
 $_pageObj = $pages[$page]->getPage();
 $_activePageObj = $_pageObj;
 $subpage = $_pageObj->getActiveSubPage();
@@ -136,65 +143,8 @@ if($subpage != null)
   $_activePageObj = $subpage;
 }
 
-
-// ----- EXTENSION POINT
-// page variable validated
-rex_extension::registerPoint( 'PAGE_CHECKED', $page, array('pages' => $pages));
-
-// trigger api functions
-rex_api_function::handleCall();
-
-if(rex_request::isPJAXRequest())
-{
-  $_activePageObj->setHasLayout(false);
-}
-
-if($_activePageObj->hasLayout())
-{
-  require rex_path::core('layout/top.php');
-}
-
-$path = '';
-if($_activePageObj->hasPath())
-{
-  $path = $_activePageObj->getPath();
-}
-elseif($_pageObj->hasPath())
-{
-  $path = $_pageObj->getPath();
-}
-if($path != '')
-{
-  // If page has a new/overwritten path
-  if(preg_match('@'. preg_quote(rex_path::src('addons/'), '@') .'([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@', $path, $matches))
-  {
-    $package = rex_addon::get($matches[1]);
-    if(isset($matches[2]))
-    {
-      $package = $package->getPlugin($matches[2]);
-    }
-    rex_package_manager::includeFile($package, str_replace($package->getBasePath(), '', $path));
-  }
-  else
-  {
-    require $path;
-  }
-}
-else if($_pageObj->isCorePage())
-{
-  // Core Page
-  require rex_path::core('pages/'. $page .'.inc.php');
-}
-else
-{
-  // Addon Page
-  rex_addon_manager::includeFile(rex_addon::get($page), 'pages/index.inc.php');
-}
-
-if($_activePageObj->hasLayout())
-{
-  require rex_path::core('layout/bottom.php');
-}
+// include the requested backend page
+rex_be_controller::includePage($_activePageObj, $_pageObj, $page);
 
 // ----- caching end für output filter
 $CONTENT = ob_get_contents();
