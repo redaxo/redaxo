@@ -7,6 +7,10 @@
 
 echo rex_view::title('Login');
 
+global $rex_user_loginmessage;
+
+$rex_user_login = rex_post('rex_user_login', 'string');
+
 
 $js = '';
 if ($rex_user_loginmessage != '')
