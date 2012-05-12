@@ -27,7 +27,7 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
   public function testFormatStrftime()
   {
     $oldLocale = rex_i18n::getLocale();
-    rex_i18n::setLocale('de_DE');
+    rex_i18n::setLocale('de_de');
 
     $value = 1336811080;
     $format_type = 'strftime';
