@@ -1281,7 +1281,17 @@ class rex_sql extends rex_factory_base implements Iterator
     }
     catch (PDOException $e)
     {
-      if(strpos($e->getMessage(), 'SQLSTATE[42000]') !== false)
+      // see mysql error codes at http://dev.mysql.com/doc/refman/5.1/de/error-messages-server.html
+
+      // ER_BAD_HOST
+      if(strpos($e->getMessage(), 'SQLSTATE[HY000] [2002]') !== false )
+      {
+        // unable to connect to db server
+        $err_msg = rex_i18n::msg('setup_021');
+      }
+      // ER_BAD_DB_ERROR
+      else if(strpos($e->getMessage(), 'SQLSTATE[HY000] [1049]') !== false ||
+          strpos($e->getMessage(), 'SQLSTATE[42000]') !== false)
       {
         if($createDb)
         {
@@ -1311,7 +1321,9 @@ class rex_sql extends rex_factory_base implements Iterator
           $err_msg = rex_i18n::msg('setup_022');
         }
       }
-      else if(strpos($e->getMessage(), 'SQLSTATE[28000]') !== false)
+      // ER_ACCESS_DENIED_ERROR
+      else if(strpos($e->getMessage(), 'SQLSTATE[HY000] [1045]') !== false ||
+          strpos($e->getMessage(), 'SQLSTATE[28000]') !== false)
       {
         // unable to connect
         $err_msg = rex_i18n::msg('setup_021');

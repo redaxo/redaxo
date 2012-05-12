@@ -16,7 +16,7 @@ while($part !== null && $part != 'redaxo');
 
 if(!chdir(implode(DIRECTORY_SEPARATOR, $path). '/redaxo'))
 {
-  echo "error: start this script from a redaxo projects' root folder";
+  echo "error: start this script within a redaxo projects folder";
   return 2;
 }
 

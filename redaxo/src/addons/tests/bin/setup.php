@@ -16,7 +16,7 @@ while($part !== null && $part != 'redaxo');
 
 if(!chdir(implode(DIRECTORY_SEPARATOR, $path). '/redaxo'))
 {
-  echo "error: start this script from a redaxo projects' root folder";
+  echo "error: start this script within a redaxo projects folder";
   return 2;
 }
 
@@ -33,22 +33,36 @@ require 'src/core/master.inc.php';
 // run setup, if instance not already prepared
 if(rex::isSetup())
 {
+  $err = '';
+
   // read initial config
   $configFile = rex_path::data('config.yml');
   $config = rex_file::getConfig($configFile);
-  
+
   // init db
-  echo rex_setup::checkDb($config, false);
-  echo rex_setup_importer::prepareEmptyDb();
-  echo rex_setup_importer::verifyDbSchema();
-  
+  $err .= rex_setup::checkDb($config, false);
+  $err .= rex_setup_importer::prepareEmptyDb();
+  $err .= rex_setup_importer::verifyDbSchema();
+
+  if($err != '')
+  {
+    echo $err;
+    exit (10);
+  }
+
   // install tests addon
-  $manager = rex_package_manager::factory(rex_package::get('tests'));
-  $manager->install();
-  $manager->activate();
+  $manager = rex_addon_manager::factory(rex_addon::get('tests'));
+  $manager->install() || $err .= $manager->getMessage();
+  $manager->activate() || $err .= $manager->getMessage();
+
+  if($err != '')
+  {
+    echo $err;
+    exit (20);
+  }
 
   $config['setup'] = false;
-  if(rex_file::putConfig($configFile, $config, 3))
+  if(rex_file::putConfig($configFile, $config))
   {
     echo "instance setup successfull";
     exit (0);
