@@ -80,67 +80,52 @@ class rex_extension_debug extends rex_extension
       'ext'      => 0,
     );
     $log_table[]    = array(
-      '#',
       'Type',
-      'Timing',
       'ExtensionPoint',
       'Callable',
-      'Started',
-      'Duration',
+      'Start / Dur.',
       'Memory',
       'subject',
       'params',
       'result',
-      'read_only'
     );
 
     foreach(self::$log as $count=>$entry)
     {
-      $i = $count+1;
       switch($entry['type'])
       {
         case'EP':
           $counter['ep']++;
           $registered_eps[] = $entry['ep'];
           $log_table[] = array(
-            $i,                  // #
             $entry['type'],      // Type
-            '–',                 // Timing
-            $entry['ep'],        // ExtensionPoint
+            $entry['ep'] . ($entry['read_only'] ? ' (readonly)' : ''),        // ExtensionPoint / readonly
             '–',                 // Callable
-            $entry['started'],   // Started
-            $entry['duration'],  // Duration
+            $entry['started'] .'/ '. $entry['duration']. 'ms',   // Start / Dur.
             $entry['memory'],    // Memory
             $entry['subject'],   // subject
             $entry['params'],    // params
             $entry['result'],    // result
-            $entry['read_only']  // read_only
           );
           break;
 
         case'EXT':
           $counter['ext']++;
-          $timing = 'ok';
 
           if(in_array($entry['ep'],$registered_eps))
           {
-            $timing = 'late';
             $firephp->error('EP Timing: Extension "'.$entry['callable'].'" registered after ExtensionPoint "'.$entry['ep'].'" !');
           }
 
           $log_table[] = array(
-            $i,                 // #
             $entry['type'],     // Type
-            $timing,            // Timing
-            $entry['ep'],       // ExtensionPoint
+            $entry['ep'],       // ExtensionPoint / readonly
             $entry['callable'], // Callable
-            '–',                // Started
-            '–',                // Duration
+            '–',                // Start / Dur.
             '–',                // Memory
             '–',                // subject
             $entry['params'],   // params
             $entry['result'],   // result
-            '–'                 // read_only
           );
           break;
 
