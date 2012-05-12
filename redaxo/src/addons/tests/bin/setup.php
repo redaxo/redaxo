@@ -33,19 +33,33 @@ require 'src/core/master.inc.php';
 // run setup, if instance not already prepared
 if(rex::isSetup())
 {
+  $err = '';
+
   // read initial config
   $configFile = rex_path::data('config.yml');
   $config = rex_file::getConfig($configFile);
 
   // init db
-  echo rex_setup::checkDb($config, false);
-  echo rex_setup_importer::prepareEmptyDb();
-  echo rex_setup_importer::verifyDbSchema();
+  $err .= rex_setup::checkDb($config, false);
+  $err .= rex_setup_importer::prepareEmptyDb();
+  $err .= rex_setup_importer::verifyDbSchema();
+
+  if($err != '')
+  {
+    echo $err;
+    exit (10);
+  }
 
   // install tests addon
   $manager = rex_addon_manager::factory(rex_addon::get('tests'));
-  $manager->install();
-  $manager->activate();
+  $manager->install() || $err .= $manager->getMessage();
+  $manager->activate() || $err .= $manager->getMessage();
+
+  if($err != '')
+  {
+    echo $err;
+    exit (20);
+  }
 
   $config['setup'] = false;
   if(rex_file::putConfig($configFile, $config))
