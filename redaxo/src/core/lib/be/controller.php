@@ -2,7 +2,78 @@
 
 class rex_be_controller
 {
-  public static function appendAddonPages($pages)
+  static public function getSetupPage()
+  {
+    $page = new rex_be_page(rex_i18n::msg('setup'));
+    $page->setIsCorePage(true);
+    return $page;
+  }
+
+  static public function getLoginPage()
+  {
+    $page = new rex_be_page('login');
+    $page->setIsCorePage(true);
+    $page->setHasNavigation(false);
+    return $page;
+  }
+
+  static public function getLoggedInPages()
+  {
+    $pages = array();
+
+    $profile = new rex_be_page(rex_i18n::msg('profile'));
+    $profile->setIsCorePage(true);
+    $pages['profile'] = $profile;
+
+    $credits = new rex_be_page(rex_i18n::msg('credits'));
+    $credits->setIsCorePage(true);
+    $pages['credits'] = $credits;
+
+    $addon = new rex_be_page(rex_i18n::msg('addons'), array('page'=>'addon'));
+    $addon->setIsCorePage(true);
+    $addon->setRequiredPermissions('isAdmin');
+    $pages['addon'] = new rex_be_page_main('system', $addon);
+    $pages['addon']->setPrio(60);
+
+    $settings = new rex_be_page(rex_i18n::msg('main_preferences'), array('page'=>'system', 'subpage' => ''));
+    $settings->setIsCorePage(true);
+    $settings->setRequiredPermissions('isAdmin');
+    $settings->setHref('index.php?page=system&subpage=');
+
+    $languages = new rex_be_page(rex_i18n::msg('languages'), array('page'=>'system', 'subpage' => 'lang'));
+    $languages->setIsCorePage(true);
+    $languages->setRequiredPermissions('isAdmin');
+    $languages->setHref('index.php?page=system&subpage=lang');
+
+    $syslog = new rex_be_page(rex_i18n::msg('syslog'), array('page'=>'system', 'subpage' => 'log'));
+    $syslog->setIsCorePage(true);
+    $syslog->setRequiredPermissions('isAdmin');
+    $syslog->setHref('index.php?page=system&subpage=log');
+
+    $phpinfo = new rex_be_page(rex_i18n::msg('phpinfo'), array('page'=>'system', 'subpage' => 'phpinfo'));
+    $phpinfo->setIsCorePage(true);
+    $phpinfo->setRequiredPermissions('isAdmin');
+    $phpinfo->setHidden(true);
+    $phpinfo->setHasLayout(false);
+    $phpinfo->setHref('index.php?page=system&subpage=phpinfo');
+
+    $mainSpecials = new rex_be_page(rex_i18n::msg('system'), array('page'=>'system'));
+    $mainSpecials->setIsCorePage(true);
+    $mainSpecials->setRequiredPermissions('isAdmin');
+    $mainSpecials->addSubPage($settings);
+    $mainSpecials->addSubPage($languages);
+    $mainSpecials->addSubPage($syslog);
+    $mainSpecials->addSubPage($phpinfo);
+    $pages['system'] = new rex_be_page_main('system', $mainSpecials);
+    $pages['system']->setPrio(70);
+
+    $pages['addon'] = new rex_be_page_main('system', $addon);
+    $pages['addon']->setPrio(60);
+
+    return $pages;
+  }
+
+  public static function appendAddonPages(array $pages)
   {
     $addons = rex::isSafeMode() ? rex_addon::getSetupAddons() : rex_addon::getAvailableAddons();
     foreach($addons as $addonName => $addon)
@@ -157,5 +228,30 @@ class rex_be_controller
     }
 
     return $pages;
+  }
+
+  public static function checkPage($page, array $pages, rex_user $user)
+  {
+    // --- page pruefen und benoetigte rechte checken
+    if(!isset($pages[$page]) ||
+        (($p=$pages[$page]->getPage()) && !$p->checkPermission($user)))
+    {
+      // --- fallback zur user startpage -> rechte checken
+      $page = $user->getStartPage();
+      if(!isset($pages[$page]) ||
+          (($p=$pages[$page]->getPage()) && !$p->checkPermission($user)))
+      {
+        // --- fallback zur system startpage -> rechte checken
+        $page = rex::getProperty('start_page');
+        if(!isset($pages[$page]) ||
+            (($p=$pages[$page]->getPage()) && !$p->checkPermission($user)))
+        {
+          // --- user hat keine rechte innerhalb der fallback-kette
+          return null;
+        }
+      }
+    }
+
+    return $page;
   }
 }

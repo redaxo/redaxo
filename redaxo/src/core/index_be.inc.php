@@ -24,7 +24,7 @@ if (rex::isSetup())
 
   rex_i18n::setLocale(rex::getProperty('lang'));
 
-  $pages['setup'] = rex_be_navigation::getSetupPage();
+  $pages['setup'] = rex_be_controller::getSetupPage();
   $page = 'setup';
   rex::setProperty('page', 'setup');
 
@@ -58,7 +58,7 @@ if (rex::isSetup())
     if(is_string($loginCheck))
       $rex_user_loginmessage = $loginCheck;
 
-    $pages['login'] = rex_be_navigation::getLoginPage();
+    $pages['login'] = rex_be_controller::getLoginPage();
     $page = 'login';
     rex::setProperty('page', 'login');
   }
@@ -92,7 +92,7 @@ if (rex::isSetup())
 // ----- Prepare Core Pages
 if(rex::getUser())
 {
-  $pages = rex_be_navigation::getLoggedInPages();
+  $pages = rex_be_controller::getLoggedInPages();
 }
 
 rex::setProperty('pages', $pages);
@@ -114,27 +114,13 @@ $page = rex::getProperty('page');
 if($user = rex::getUser())
 {
   // --- page herausfinden
-  $page = trim(rex_request('page', 'string'));
+  $reqPage = trim(rex_request('page', 'string'));
 
   // --- page pruefen und benoetigte rechte checken
-  if(!isset($pages[$page]) ||
-    (($p=$pages[$page]->getPage()) && !$p->checkPermission($user)))
+  if(!($page = rex_be_controller::checkPage($reqPage, $pages, $user)))
   {
-    // --- neue page bestimmen und diese in neuem request dann verarbeiten
-    $page = $user->getStartPage();
-    if(!isset($pages[$page]) ||
-      (($p=$pages[$page]->getPage()) && !$p->checkPermission($user)))
-    {
-      $page = rex::getProperty('start_page');
-      if(!isset($pages[$page]) ||
-        (($p=$pages[$page]->getPage()) && !$p->checkPermission($user)))
-      {
-        // --- fallback auf "profile"; diese page hat jeder user
-        $page = 'profile';
-      }
-    }
-
-    header('Location: index.php?page='. $page);
+    // --- fallback auf "profile"; diese page hat jeder user
+    header('Location: index.php?page=profile');
     exit();
   }
 }
