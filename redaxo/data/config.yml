@@ -1,8 +1,8 @@
-setup: true
-instname: null
+setup: false
+instname: rex20120512152729
 server: redaxo.org
 servername: REDAXO
-error_email: null
+error_email: markus.staab@redaxo.de
 fileperm: '0664'
 dirperm: '0775'
 session_duration: 3000
