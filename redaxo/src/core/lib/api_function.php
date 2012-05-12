@@ -17,7 +17,7 @@
  *
  * @author staabm
  */
-abstract class rex_api_function extends rex_factory
+abstract class rex_api_function extends rex_factory_base
 {
   protected function __construct()
   {

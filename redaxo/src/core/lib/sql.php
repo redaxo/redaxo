@@ -4,7 +4,7 @@
  * Klasse zur Verbindung und Interatkion mit der Datenbank
  */
 // see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
-class rex_sql extends rex_factory implements Iterator
+class rex_sql extends rex_factory_base implements Iterator
 {
   public
     $debugsql, // debug schalter

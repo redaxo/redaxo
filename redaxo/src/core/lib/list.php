@@ -48,7 +48,7 @@ $list->setColumnFormat('id',                                     // field name
                        );
 */
 
-class rex_list extends rex_factory implements rex_url_provider
+class rex_list extends rex_factory_base implements rex_url_provider
 {
   private $query;
   private $sql;

@@ -9,6 +9,7 @@ rex_addon::initialize(!rex::isSetup());
 
 if(rex::isSetup() || rex::isSafeMode())
 {
+  $packageOrder = array();
   foreach(rex_addon::getSetupAddons() as $addon)
   {
     $packageOrder[] = $addon->getPackageId();

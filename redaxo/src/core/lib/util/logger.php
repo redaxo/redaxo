@@ -5,7 +5,7 @@
  *
  * @author staabm
  */
-abstract class rex_logger extends rex_factory
+abstract class rex_logger extends rex_factory_base
 {
   private static
     $file,
