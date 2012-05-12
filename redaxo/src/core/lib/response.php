@@ -149,7 +149,7 @@ class rex_response
    *
    * @param $lastModified integer HTTP Last-Modified Timestamp
    */
-  static public function sendLastModified($lastModified = null)
+  static protected function sendLastModified($lastModified = null)
   {
     if(!$lastModified)
       $lastModified = time();
@@ -179,7 +179,7 @@ class rex_response
    *
    * @param $cacheKey string HTTP Cachekey zur identifizierung des Caches
    */
-  static public function sendEtag($cacheKey)
+  static protected function sendEtag($cacheKey)
   {
     // Laut HTTP Spec muss der Etag in " sein
     $cacheKey = '"'. $cacheKey .'"';
@@ -207,7 +207,7 @@ class rex_response
    *
    * @param $content string Inhalt des Artikels
    */
-  static public function sendGzip($content)
+  static protected function sendGzip($content)
   {
     $enc = '';
     $encodings = array();
@@ -245,7 +245,7 @@ class rex_response
    *
    * @param $md5 string MD5 Summe des Inhalts
    */
-  static public function sendChecksum($md5)
+  static protected function sendChecksum($md5)
   {
     header('Content-MD5: '. $md5);
   }
