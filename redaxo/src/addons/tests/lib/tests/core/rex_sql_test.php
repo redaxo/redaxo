@@ -46,28 +46,28 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
   {
     $configFile = rex_path::data('config.yml');
     $config = rex_file::getConfig($configFile);
-    $this->assertFalse(rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], 'fu-password', $config['db'][1]['name']));
+    $this->assertTrue(true !== rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], 'fu-password', $config['db'][1]['name']));
   }
 
   public function testCheckConnection_InvalidHost()
   {
     $configFile = rex_path::data('config.yml');
     $config = rex_file::getConfig($configFile);
-    $this->assertFalse(rex_sql::checkDbConnection('fu-host', $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name']));
+    $this->assertTrue(true !== rex_sql::checkDbConnection('fu-host', $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name']));
   }
 
   public function testCheckConnection_InvalidLogin()
   {
     $configFile = rex_path::data('config.yml');
     $config = rex_file::getConfig($configFile);
-    $this->assertFalse(rex_sql::checkDbConnection($config['db'][1]['host'], 'fu-login', $config['db'][1]['password'], $config['db'][1]['name']));
+    $this->assertTrue(true !== rex_sql::checkDbConnection($config['db'][1]['host'], 'fu-login', $config['db'][1]['password'], $config['db'][1]['name']));
   }
 
   public function testCheckConnection_InvalidDatabase()
   {
     $configFile = rex_path::data('config.yml');
     $config = rex_file::getConfig($configFile);
-    $this->assertFalse(rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], 'fu-database'));
+    $this->assertTrue(true !== rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], 'fu-database'));
   }
 
   public function testSetGetValue()
