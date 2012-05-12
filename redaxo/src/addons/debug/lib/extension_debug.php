@@ -24,8 +24,8 @@ class rex_extension_debug extends rex_extension
                          'type'     =>'EXT',
                          'ep'       =>$params['extension_point'],
                          'callable' =>$function,
-                         '$params'  =>$params,
-                         '$result'  =>$result,
+                         'params'   =>$params,
+                         'result'   =>$result,
                          'timer'    =>$timer->getFormattedTime(rex_timer::MILLISEC),
                          );
 
@@ -47,14 +47,17 @@ class rex_extension_debug extends rex_extension
     self::$epCalls[] = array($extensionPoint, $epDur, self::$extensionCalls, $absDur, $memory);
     self::$extensionCalls = array();
     self::$log[] = array(
-                         'type'       =>'EP',
-                         'ep'         =>$extensionPoint,
-                         '$subject'   =>$subject,
-                         '$params'    =>$params,
-                         '$read_only' =>$read_only,
-                         '$result'    =>$res,
-                         'timer'      =>$epDur,
-                         'memory'     =>$memory,
+                         'type'      =>'EP',
+                         'ep'        =>$extensionPoint,
+                         'started'   =>$absDur,
+                         'duration'  =>$epDur,
+                         'memory'    =>$memory,
+                         'subject'   =>$subject,
+                         'params'    =>$params,
+                         'read_only' =>$read_only,
+                         'result'    =>$res,
+                         'timer'     =>$epDur,
+                         'memory'    =>$memory
                          );
 
     return $res;
@@ -93,7 +96,7 @@ class rex_extension_debug extends rex_extension
 
     // EP LOG ALTERNATE STYLE ALA FIREPHP ADDON..
     $registered_eps = $log_table = array();
-    $log_table[]    = array('#','Type','Timing','ExtensionPoint','Callable','$subject','$params','$result','$read_only');
+    $log_table[]    = array('#','Type','Timing','ExtensionPoint','Callable','Started','Duration','Memory','subject','params','result','read_only');
     foreach(self::$log as $k=>$v)
     {
       $i = $k+1;
@@ -101,12 +104,14 @@ class rex_extension_debug extends rex_extension
       {
         case'EP':
           $registered_eps[] = $v['ep'];
-          $log_table[] = array($i,$v['type'],'–',$v['ep'],'–',$v['$subject'],$v['$params'],$v['$result'],$v['$read_only']);
+                            //'#','Type'    ,'Timing','ExtensionPoint','Callable','Started'    ,'Duration'    ,'Memory'    ,'subject'    ,'params'    ,'result'    ,'read_only'
+          $log_table[] = array($i,$v['type'],'–'     ,$v['ep']        ,'–'       ,$v['started'],$v['duration'],$v['memory'],$v['subject'],$v['params'],$v['result'],$v['read_only']);
           break;
 
         case'EXT':
           $timing = in_array($v['ep'],$registered_eps) ? 'late' : 'ok';
-          $log_table[] = array($i,$v['type'],$timing,$v['ep'],$v['callable'],'–',$v['$params'],$v['$result'],'–');
+                            //'#','Type'    ,'Timing','ExtensionPoint','Callable'    ,'Started','Duration','Memory','subject','params'    ,'result'    ,'read_only'
+          $log_table[] = array($i,$v['type'],$timing ,$v['ep']        ,$v['callable'],'–'      ,'–'       ,'–'     ,'–'      ,$v['params'],$v['result'],'–');
           break;
       }
     }
