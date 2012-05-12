@@ -2,7 +2,7 @@
 
 class rex_be_controller
 {
-  public static function appendAddonPage($pages)
+  public static function appendAddonPages($pages)
   {
     $addons = rex::isSafeMode() ? rex_addon::getSetupAddons() : rex_addon::getAvailableAddons();
     foreach($addons as $addonName => $addon)

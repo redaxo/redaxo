@@ -105,7 +105,7 @@ $pages = rex::getProperty('pages');
 // ----- Prepare AddOn Pages
 if(rex::getUser())
 {
-  $pages = rex_be_controller::appendAddonPage($pages);
+  $pages = rex_be_controller::appendAddonPages($pages);
 }
 
 $page = rex::getProperty('page');
