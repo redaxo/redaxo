@@ -26,7 +26,8 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
 
   public function testFormatStrftime()
   {
-    $may = strpos(rex_i18n::getLocale(), 'de') !== false ? 'Mai': 'May';
+    $oldLocale = rex_i18n::getLocale();
+    rex_i18n::setLocale('en_gb');
 
     $value = 1336811080;
     $format_type = 'strftime';
@@ -38,13 +39,15 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
 
     $format = 'date';
     $this->assertEquals(
-        '12. '. $may .'. 2012',
+        '2012-May-12',
         rex_formatter::format($value, $format_type, $format));
 
     $format = 'datetime';
     $this->assertEquals(
-        '12. '. $may .'. 2012 - 10:24h',
+        '2012-May-12 10:24',
         rex_formatter::format($value, $format_type, $format));
+
+    rex_i18n::setLocale($oldLocale);
   }
 
   public function testFormatNumber()
