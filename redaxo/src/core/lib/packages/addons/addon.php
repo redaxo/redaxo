@@ -70,6 +70,14 @@ class rex_addon extends rex_package implements rex_addon_interface
   }
 
   /* (non-PHPdoc)
+   * @see rex_package_interface::getType()
+   */
+  public function getType()
+  {
+    return 'addon';
+  }
+
+  /* (non-PHPdoc)
    * @see rex_package_interface::getBasePath()
    */
   public function getBasePath($file = '')

@@ -68,8 +68,7 @@ if ($subpage == '')
     $onclick = '';
     if($confirm)
     {
-      $type = $package instanceof rex_plugin ? 'plugin' : 'addon';
-      $onclick = ' data-confirm="'.htmlspecialchars(rex_i18n::msg($type.'_'.$function.'_question', $package->getName())).'"';
+      $onclick = ' data-confirm="'.htmlspecialchars(rex_i18n::msg($package->getType() . '_' . $function . '_question', $package->getName())) . '"';
     }
     $text = rex_i18n::msg('addon_'.($key ?: $function));
     return '<a href="index.php?page=addon&amp;package='.$package->getPackageId().'&amp;rex-api-call=package&amp;function='.$function.'"'.$onclick.'>'.$text.'</a>';
@@ -78,9 +77,9 @@ if ($subpage == '')
   $getTableRow = function(rex_package $package) use($getLink)
   {
     $packageId = $package->getPackageId();
-    $type = $package instanceof rex_plugin ? 'plugin' : 'addon';
+    $type = $package->getType();
 
-    $delete = $package->isSystemPackage() ? htmlspecialchars(rex_i18n::msg($type.'_system'.$type)) : $getLink($package, 'delete', true);
+    $delete = $package->isSystemPackage() ? htmlspecialchars(rex_i18n::msg($type . '_system' . $type)) : $getLink($package, 'delete', true);
 
     if ($package->isInstalled())
     {

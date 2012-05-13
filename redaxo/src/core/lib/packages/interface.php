@@ -29,6 +29,13 @@ interface rex_package_interface
   public function getPackageId();
 
   /**
+   * Returns the package type as string
+   *
+   * @return string
+   */
+  public function getType();
+
+  /**
    * Returns the base path
    *
    * @param string $file File
