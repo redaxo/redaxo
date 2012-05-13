@@ -34,7 +34,8 @@ require 'src/core/master.inc.php';
 include_once rex_path::core('packages.inc.php');
 
 // run the tests
-$tests = rex_dir::recursiveIterator(dirname(__FILE__).'/../lib/tests', rex_dir_recursive_iterator::LEAVES_ONLY)->ignoreSystemStuff();
+rex_autoload::addDirectory(dirname(__FILE__).'/../tests');
+$tests = rex_dir::recursiveIterator(dirname(__FILE__).'/../tests', rex_dir_recursive_iterator::LEAVES_ONLY)->ignoreSystemStuff();
 
 $runner = new rex_test_runner();
 $runner->setUp();
