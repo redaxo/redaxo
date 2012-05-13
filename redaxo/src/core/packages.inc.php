@@ -10,13 +10,9 @@ rex_addon::initialize(!rex::isSetup());
 if(rex::isSetup() || rex::isSafeMode())
 {
   $packageOrder = array();
-  foreach(rex_addon::getSetupAddons() as $addon)
+  foreach(rex_package::getSetupPackages() as $package)
   {
-    $packageOrder[] = $addon->getPackageId();
-    foreach($addon->getSystemPlugins() as $plugin)
-    {
-      $packageOrder[] = $plugin->getPackageId();
-    }
+    $packageOrder[] = $package->getPackageId();
   }
 }
 else
