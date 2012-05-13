@@ -21,6 +21,7 @@ class rex_type
   *  - 'array'
   *  - 'array[<type>]', e.g. 'array[int]'
   *  - '' (don't cast)
+  *  - a callable
   *  - array(
   *      array(<key>, <vartype>, <default>),
   *      array(<key>, <vartype>, <default>),
@@ -36,6 +37,7 @@ class rex_type
   {
     if (is_string($vartype))
     {
+      $casted = true;
       switch ($vartype)
       {
         // ---------------- PHP types
@@ -99,10 +101,18 @@ class rex_type
           }
           else
           {
-            // Evtl Typo im vartype, deshalb hier fehlermeldung!
-            throw new rex_exception('Unexpected vartype "' . $vartype . '" in cast()!');
+            $casted = false;
           }
       }
+      if ($casted)
+      {
+        return $var;
+      }
+    }
+
+    if (is_callable($vartype))
+    {
+      $var = call_user_func($vartype, $var);
     }
     elseif (is_array($vartype))
     {
@@ -128,6 +138,10 @@ class rex_type
           $var[$key] = $cast[2];
         }
       }
+    }
+    elseif (is_string($vartype))
+    {
+      throw new rex_exception('Unexpected vartype "' . $vartype . '" in cast()!');
     }
     else
     {
