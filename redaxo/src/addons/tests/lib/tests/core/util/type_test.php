@@ -9,7 +9,7 @@ class rex_type_test extends PHPUnit_Framework_TestCase
       return $var . 'b';
     };
 
-    $arrayVar = array('key1' => 1, 'key2' => '2', 'key4' => 'a');
+    $arrayVar = array('key1' => 1, 'key2' => '2', 'key4' => 'a', 'key5' => 0);
     $arrayCasts = array(
       array('key1', 'string', 0),
       array('key2', 'int', 1),

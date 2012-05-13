@@ -139,7 +139,7 @@ class rex_type
           $newVar[$key] = $cast[2];
         }
       }
-      $var = $newVar + $var;
+      $var = $newVar;
     }
     elseif (is_string($vartype))
     {
