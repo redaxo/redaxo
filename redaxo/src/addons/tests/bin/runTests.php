@@ -33,13 +33,9 @@ require 'src/core/master.inc.php';
 // bootstrap addons
 include_once rex_path::core('packages.inc.php');
 
-// run the tests
-rex_autoload::addDirectory(dirname(__FILE__).'/../tests');
-$tests = rex_dir::recursiveIterator(dirname(__FILE__).'/../tests', rex_dir_recursive_iterator::LEAVES_ONLY)->ignoreSystemStuff();
-
 $runner = new rex_test_runner();
 $runner->setUp();
-$result = $runner->run($tests);
+$result = $runner->run(new rex_test_locator());
 
 echo $result;
 

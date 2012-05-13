@@ -11,13 +11,13 @@ class rex_test_runner
     require_once('PHPUnit/Autoload.php');
   }
 
-  public function run($tests)
+  public function run(rex_test_locator $locator)
   {
     $suite  = new PHPUnit_Framework_TestSuite();
     // disable backup of globals, since we have some rex_sql objectes referenced from variables in global space.
     // PDOStatements are not allowed to be serialized
     $suite->setBackupGlobals(false);
-    $suite->addTestFiles($tests);
+    $suite->addTestFiles($locator->getIterator());
 
     rex_logger::unregister();
 
