@@ -18,11 +18,22 @@ class rex_sql_debug extends rex_sql
    */
   public function setQuery($qry, array $params = array())
   {
-    $ret   = parent::setQuery($qry, $params);
-    $timer = new rex_timer();
-    $trace = self::examine_trace(debug_backtrace());
+    try {
+      $ret   = parent::setQuery($qry, $params);
+      $timer = new rex_timer();
+      $trace = self::examine_trace(debug_backtrace());
+      $error = '';
+    } catch (Exception $e) {
+      $timer = new rex_timer();
+      $trace = self::examine_trace(debug_backtrace());
+      $error = $e->getMessage();
+      $ret   = false;
+      self::$errors++;
 
-    self::add_to_log($timer,$qry,$trace);
+      FB::error('SQL Error: '.$error.' – see SQL Log for details');
+    }
+
+    self::add_to_log($timer,$qry,$trace,$error);
 
     return $ret;
   }
@@ -35,11 +46,22 @@ class rex_sql_debug extends rex_sql
   {
     $qry   = $this->stmt->queryString;
 
-    $timer = new rex_timer();
-    $res   = parent::execute($params);
-    $trace = self::examine_trace(debug_backtrace());
+    try {
+      $timer = new rex_timer();
+      $res   = parent::execute($params);
+      $trace = self::examine_trace(debug_backtrace());
+      $error = '';
+    } catch (Exception $e) {
+      $timer = new rex_timer();
+      $trace = self::examine_trace(debug_backtrace());
+      $error = $e->getMessage();
+      $res   = null;
+      self::$errors++;
 
-    self::add_to_log($timer,$qry,$trace);
+      FB::error('SQL Error: '.$error.' – see SQL Log for details');
+    }
+
+    self::add_to_log($timer,$qry,$trace,$error);
 
     return $res;
   }
@@ -55,28 +77,26 @@ class rex_sql_debug extends rex_sql
     if(!empty(self::$log))
     {
       $tbl = array();
-      $tbl[] = array('#','rows','ms','query','file','line');
+      $tbl[] = array(
+        '#',
+        'rows',
+        'ms',
+        'query',
+        'file',
+        'line',
+        'error'
+        );
 
       foreach(self::$log as $i => $qry)
       {
         // when a extension takes longer than 5ms, send a warning
         $late_notice = strtr($qry['time'], ',', '.') > 5 ? '! SLOW: ' : '' ;
 
-        $tbl[] = array($i+1,$qry['rows'],$late_notice.$qry['time'],$qry['query'],$qry['file'],$qry['line']);
+        $tbl[] = array($i+1,$qry['rows'],$late_notice.$qry['time'],$qry['query'],$qry['file'],$qry['line'],$qry['error']);
       }
 
-      // INIT FIREPHP
-      $options = array(
-        'maxObjectDepth'      => rex_config::get('debug','firephp_maxdepth'), // default: 5
-        'maxArrayDepth'       => rex_config::get('debug','firephp_maxdepth'), // default: 5
-        'maxDepth'            => rex_config::get('debug','firephp_maxdepth'), // default: 10
-        'useNativeJsonEncode' => true,                                        // default: true
-        'includeLineNumbers'  => true,                                        // default: true
-        );
       $firephp = FirePHP::getInstance(true);
-      $firephp->setOptions($options);
-
-      $firephp->table('SQL Log ('.count(self::$log).' queries, '.self::$errors.' errors)', $tbl);
+      $firephp->table('SQL Log ( Queries: '.count(self::$log).', Errors: '.self::$errors.' )', $tbl);
     }
   }
 
@@ -88,7 +108,7 @@ class rex_sql_debug extends rex_sql
    * @param  array ($trace) backtrace
    * @return void
    **/
-  public function add_to_log($timer,$qry,$trace)
+  public function add_to_log($timer,$qry,$trace,$error)
   {
     self::$log[] = array(
       'rows'  =>$this->getRows(),
@@ -96,6 +116,7 @@ class rex_sql_debug extends rex_sql
       'query' =>$qry,
       'file'  =>str_replace(rex_path::base(),'../',$trace['file']),
       'line'  =>$trace['line'],
+      'error' =>$error,
       );
   }
 
@@ -112,7 +133,7 @@ class rex_sql_debug extends rex_sql
     }
 
     for( $i=0 ; $trace && $i<sizeof($trace) ; $i++ ) {
-        if (isset($trace[$i]['file']) && strpos($trace[$i]['file'], 'sql.php') === false) {
+        if (isset($trace[$i]['file']) && strpos($trace[$i]['file'], 'sql.php') === false && strpos($trace[$i]['file'], 'sql_debug.php') === false) {
             $file = $trace[$i]['file'];
             $line = $trace[$i]['line'];
             break;
