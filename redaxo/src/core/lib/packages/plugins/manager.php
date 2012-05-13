@@ -22,7 +22,7 @@ class rex_plugin_manager extends rex_package_manager
 
     foreach(rex_package::getAvailablePackages() as $package)
     {
-      if($plugin === $this->package)
+      if($package === $this->package)
         continue;
 
       $requirements = $package->getProperty('requires', array());
