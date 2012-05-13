@@ -9,8 +9,8 @@ rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'doLog'));
  */
 class rex_sql_debug extends rex_sql
 {
-  private static $queries = array();
-  private static $errors  = 0;
+  private static $log    = array();
+  private static $errors = 0;
 
 
   /**
@@ -52,28 +52,31 @@ class rex_sql_debug extends rex_sql
    **/
   static public function doLog($params)
   {
-    if(!empty(self::$queries))
+    if(!empty(self::$log))
     {
       $tbl = array();
       $tbl[] = array('#','rows','ms','query','file','line');
-      $i = 1;
 
-      foreach(self::$queries as $qry)
+      foreach(self::$log as $i => $qry)
       {
         // when a extension takes longer than 5ms, send a warning
-        if(strtr($qry['time'], ',', '.') > 5)
-        {
-          $tbl[] = array($i,$qry['rows'],'! SLOW: '.$qry['time'],$qry['query'],$qry['file'],$qry['line']);
-        }
-        else
-        {
-          $tbl[] = array($i,$qry['rows'],$qry['time'],$qry['query'],$qry['file'],$qry['line']);
-        }
-        $i++;
+        $late_notice = strtr($qry['time'], ',', '.') > 5 ? '! SLOW: ' : '' ;
+
+        $tbl[] = array($i+1,$qry['rows'],$late_notice.$qry['time'],$qry['query'],$qry['file'],$qry['line']);
       }
 
+      // INIT FIREPHP
+      $options = array(
+        'maxObjectDepth'      => rex_config::get('debug','firephp_maxdepth'), // default: 5
+        'maxArrayDepth'       => rex_config::get('debug','firephp_maxdepth'), // default: 5
+        'maxDepth'            => rex_config::get('debug','firephp_maxdepth'), // default: 10
+        'useNativeJsonEncode' => true,                                        // default: true
+        'includeLineNumbers'  => true,                                        // default: true
+        );
       $firephp = FirePHP::getInstance(true);
-      $firephp->table(__CLASS__.' ('.count(self::$queries).' queries, '.self::$errors.' errors)', $tbl);
+      $firephp->setOptions($options);
+
+      $firephp->table('SQL Log ('.count(self::$log).' queries, '.self::$errors.' errors)', $tbl);
     }
   }
 
@@ -87,7 +90,7 @@ class rex_sql_debug extends rex_sql
    **/
   public function add_to_log($timer,$qry,$trace)
   {
-    self::$queries[] = array(
+    self::$log[] = array(
       'rows'  =>$this->getRows(),
       'time'  =>$timer->getFormattedTime(rex_timer::MILLISEC),
       'query' =>$qry,
