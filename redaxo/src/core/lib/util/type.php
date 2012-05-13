@@ -117,6 +117,7 @@ class rex_type
     elseif (is_array($vartype))
     {
       $var = self::cast($var, 'array');
+      $newVar = array();
       foreach ($vartype as $cast)
       {
         if (!is_array($cast) || !isset($cast[0]))
@@ -127,17 +128,18 @@ class rex_type
         $innerVartype = isset($cast[1]) ? $cast[1] : '';
         if (array_key_exists($key, $var))
         {
-          $var[$key] = self::cast($var[$key], $innerVartype);
+          $newVar[$key] = self::cast($var[$key], $innerVartype);
         }
         elseif (!isset($cast[2]))
         {
-          $var[$key] = self::cast('', $innerVartype);
+          $newVar[$key] = self::cast('', $innerVartype);
         }
         else
         {
-          $var[$key] = $cast[2];
+          $newVar[$key] = $cast[2];
         }
       }
+      $var = $newVar + $var;
     }
     elseif (is_string($vartype))
     {
