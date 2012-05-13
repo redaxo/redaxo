@@ -11,6 +11,7 @@ if(!empty($settings))
   $casts = array(
     array('sql_log'         ,'int',0),
     array('ep_log'          ,'int',0),
+    array('api_log'         ,'int',0),
     array('firephp_maxdepth','int',7)
     );
 
@@ -59,6 +60,13 @@ $content .= '
             <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
               <input id="debug-ep-log" type="checkbox" class="rex-form-checkbox" name="settings[ep_log]" value="1" '. ($this->getConfig('ep_log') ? 'checked="checked" ' : '') .'/>
               <label for="debug-ep-log">'. $this->i18n('debug_logs_ep') .'</label>
+            </p>
+          </div><!-- /.rex-form-row -->
+
+          <div class="rex-form-row">
+            <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
+              <input id="debug-api-log" type="checkbox" class="rex-form-checkbox" name="settings[api_log]" value="1" '. ($this->getConfig('api_log') ? 'checked="checked" ' : '') .'/>
+              <label for="debug-api-log">'. $this->i18n('debug_logs_api') .'</label>
             </p>
           </div><!-- /.rex-form-row -->
 
