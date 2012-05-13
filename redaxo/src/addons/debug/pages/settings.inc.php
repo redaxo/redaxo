@@ -29,7 +29,8 @@ if(!empty($settings))
 $tmp = new rex_select();
 $tmp->setSize(1);
 $tmp->setName('settings[firephp_maxdepth]');
-for ($i=1; $i<20; $i++) {
+for ($i=2; $i<15; $i++) // minimum level = 2, else logs won't show
+{
   $tmp->addOption($i.' Level',$i);
 }
 $selected = $this->getConfig('firephp_maxdepth')==''
