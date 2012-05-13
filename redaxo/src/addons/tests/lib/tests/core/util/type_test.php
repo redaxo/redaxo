@@ -19,6 +19,7 @@ class rex_type_test extends PHPUnit_Framework_TestCase
     $arrayExpected = array('key1' => '1', 'key2' => 2, 'key3' => -1, 'key4' => 'ab');
 
     return array(
+      array('a', '', 'a'),
       array(1, 'string', '1'),
       array(1, 'bool', true),
       array('', 'array', array()),
@@ -40,5 +41,27 @@ class rex_type_test extends PHPUnit_Framework_TestCase
   public function testCast($var, $vartype, $expectedResult)
   {
     $this->assertSame($expectedResult, rex_type::cast($var, $vartype));
+  }
+
+  public function castWrongVartypeProvider()
+  {
+    return array(
+      array('wrongVartype'),
+      array(1),
+      array(false),
+      array('array['),
+      array('array[abc]'),
+      array(array(1)),
+      array(new stdClass)
+    );
+  }
+
+  /**
+  * @dataProvider castWrongVartypeProvider
+  */
+  public function testCastWrongVartype($vartype)
+  {
+    $this->setExpectedException('rex_exception');
+    rex_type::cast(1, $vartype);
   }
 }

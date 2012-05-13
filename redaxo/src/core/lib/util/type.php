@@ -89,7 +89,7 @@ class rex_type
               {
                 try
                 {
-                  $var[$key] = self::cast($value, $matches[1], '');
+                  $var[$key] = self::cast($value, $matches[1]);
                 }
                 catch (rex_exception $e)
                 {
@@ -97,6 +97,10 @@ class rex_type
                   throw new rex_exception('Unexpected vartype "' . $vartype . '" in cast()!');
                 }
               }
+            }
+            else
+            {
+              throw new rex_exception('Unexpected vartype "' . $vartype . '" in cast()!');
             }
           }
           else
