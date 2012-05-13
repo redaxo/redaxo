@@ -74,12 +74,12 @@ class rex_request
   {
     if(isset($_SESSION[$varname][rex::getProperty('instname')]))
     {
-      return self::castVar($_SESSION[$varname][rex::getProperty('instname')], $vartype, $default, 'found');
+      return self::castVar($_SESSION[$varname][rex::getProperty('instname')], $vartype, $default);
     }
 
     if($default === '')
     {
-      return self::castVar($default, $vartype, $default, 'default');
+      return self::castVar($default, $vartype, $default);
     }
     return $default;
   }
@@ -166,12 +166,12 @@ class rex_request
 
     if(array_key_exists($needle, $haystack))
     {
-      return self::castVar($haystack[$needle], $vartype, $default, 'found');
+      return self::castVar($haystack[$needle], $vartype, $default);
     }
 
     if($default === '')
     {
-      return self::castVar($default, $vartype, $default, 'default');
+      return self::castVar($default, $vartype, $default);
     }
     return $default;
   }
@@ -194,11 +194,10 @@ class rex_request
    * @param mixed $var Variable to cast
    * @param string $vartype Variable type
    * @param mixed $default Default value
-   * @param string $mode Mode
    *
    * @return mixed Castet value
    */
-  static private function castVar($var, $vartype, $default, $mode)
+  static private function castVar($var, $vartype, $default)
   {
     if(!is_string($vartype))
     {
@@ -255,7 +254,7 @@ class rex_request
             foreach($var as $key => $value)
             {
               try {
-                $var[$key] = self::castVar($value, $matches[1], '', 'found');
+                $var[$key] = self::castVar($value, $matches[1], '');
               } catch (rex_exception $e) {
                 // Evtl Typo im vartype, mit urspr. typ als fehler melden
                 throw new rex_exception('Unexpected vartype "'. $vartype .'" in castVar()!');
