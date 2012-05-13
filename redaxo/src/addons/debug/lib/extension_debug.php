@@ -73,6 +73,12 @@ class rex_extension_debug extends rex_extension
   static public function doLog($params)
   {
     $firephp = FirePHP::getInstance(true);
+    #$firephp->setOptions(array(
+    #  'maxObjectDepth' => $this->getConfig('firephp_maxdepth'),
+    #  'maxArrayDepth'  => $this->getConfig('firephp_maxdepth'),
+    #  'maxDepth'       => $this->getConfig('firephp_maxdepth'),
+    #  )
+    #);
 
     $registered_eps = $log_table = array();
     $counter        = array(

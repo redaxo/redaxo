@@ -1,0 +1,15 @@
+# addon:debug de_de
+
+debug_name = Debug
+
+debug_settings = Einstellungen
+debug_settings_general = Allgemein
+debug_settings_saved = Einstellungen wurden gespeichert!
+
+debug_logs = Logs
+debug_logs_activate = Logs aktivieren
+debug_logs_sql = SQL Log
+debug_logs_ep = EP Log
+
+debug_firephp_settings = FirePHP Einstellungen
+debug_firephp_maxdepth = Max. Logtiefe
