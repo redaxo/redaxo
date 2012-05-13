@@ -2,15 +2,17 @@
 
 $content = '';
 
-$settings = rex_post('settings', 'array', array());
+$settings = rex_post('settings', array(
+  array('backups', 'bool', false),
+  array('api_login', 'string'),
+  array('api_key', 'string')
+), null);
 
-if(!empty($settings))
+if (is_array($settings))
 {
-  $keys = array('backups', 'api_login', 'api_key');
-  foreach($keys as $key)
+  foreach($settings as $key => $value)
   {
-    if(isset($settings[$key]))
-      $this->setConfig($key, $settings[$key]);
+    $this->setConfig($key, $value);
   }
   $content .= rex_view::info($this->i18n('settings_saved'));
   rex_install_webservice::deleteCache();
@@ -25,7 +27,6 @@ $content .= '
         <div class="rex-form-wrapper">
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-              <input type="hidden" name="settings[backups]" value="0" />
               <input id="install-settings-backups" type="checkbox" class="rex-form-checkbox" name="settings[backups]" value="1" '. ($this->getConfig('backups') ? 'checked="checked" ' : '') .'/>
               <label for="install-settings-backups">'. $this->i18n('settings_backups') .'</label>
             </p>
@@ -56,7 +57,7 @@ $content .= '
       </fieldset>
     </form>
   </div>';
-  
+
 echo rex_view::contentBlock($content);
 
 

@@ -74,12 +74,12 @@ class rex_request
   {
     if(isset($_SESSION[$varname][rex::getProperty('instname')]))
     {
-      return self::castVar($_SESSION[$varname][rex::getProperty('instname')], $vartype, $default);
+      return rex_type::cast($_SESSION[$varname][rex::getProperty('instname')], $vartype);
     }
 
     if($default === '')
     {
-      return self::castVar($default, $vartype, $default);
+      return rex_type::cast($default, $vartype);
     }
     return $default;
   }
@@ -166,110 +166,14 @@ class rex_request
 
     if(array_key_exists($needle, $haystack))
     {
-      return self::castVar($haystack[$needle], $vartype, $default);
+      return rex_type::cast($haystack[$needle], $vartype);
     }
 
     if($default === '')
     {
-      return self::castVar($default, $vartype, $default);
+      return rex_type::cast($default, $vartype);
     }
     return $default;
-  }
-
-  /**
-   * Casts the variable $var to $vartype
-   *
-   * Possible PHP types:
-   *  - bool (or boolean)
-   *  - int (or integer)
-   *  - double
-   *  - string
-   *  - float
-   *  - real
-   *  - object
-   *  - array
-   *  - array[<type>], e.g. array[int]
-   *  - '' (don't cast)
-   *
-   * @param mixed $var Variable to cast
-   * @param string $vartype Variable type
-   * @param mixed $default Default value
-   *
-   * @return mixed Castet value
-   */
-  static private function castVar($var, $vartype, $default)
-  {
-    if(!is_string($vartype))
-    {
-      throw new rex_exception('String expected for $vartype in castVar()!');
-    }
-
-    switch($vartype)
-    {
-      // ---------------- PHP types
-      case 'bool'   :
-      case 'boolean':
-        $var = (boolean) $var;
-        break;
-      case 'int'    :
-      case 'integer':
-        $var = (int)     $var;
-        break;
-      case 'double' :
-        $var = (double)  $var;
-        break;
-      case 'float'  :
-      case 'real'   :
-        $var = (float)   $var;
-        break;
-      case 'string' :
-        $var = (string)  $var;
-        break;
-      case 'object' :
-        $var = (object)  $var;
-        break;
-      case 'array'  :
-        if(empty($var))
-          $var = array();
-        else
-          $var = (array) $var;
-        break;
-
-      // kein Cast, nichts tun
-      case ''       : break;
-
-      default:
-        // check for array with generic type
-        if(strpos($vartype, 'array[') === 0)
-        {
-          if(empty($var))
-            $var = array();
-          else
-            $var = (array) $var;
-
-          // check if every element in the array is from the generic type
-          $matches = array();
-          if(preg_match('@array\[([^\]]*)\]@', $vartype, $matches))
-          {
-            foreach($var as $key => $value)
-            {
-              try {
-                $var[$key] = self::castVar($value, $matches[1], '');
-              } catch (rex_exception $e) {
-                // Evtl Typo im vartype, mit urspr. typ als fehler melden
-                throw new rex_exception('Unexpected vartype "'. $vartype .'" in castVar()!');
-              }
-            }
-          }
-        }
-        else
-        {
-          // Evtl Typo im vartype, deshalb hier fehlermeldung!
-          throw new rex_exception('Unexpected vartype "'. $vartype .'" in castVar()!');
-        }
-    }
-
-    return $var;
   }
 
   /**
