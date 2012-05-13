@@ -6,5 +6,5 @@ $runner = new rex_test_runner();
 $runner->setUp();
 
 echo '<pre>';
-echo $runner->run(new rex_test_locator());
+echo $runner->run(rex_test_locator::defaultLocator());
 echo '</pre>';

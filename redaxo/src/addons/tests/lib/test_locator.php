@@ -9,19 +9,9 @@ class rex_test_locator implements IteratorAggregate
   public function __construct()
   {
     $this->testFoldersIterator = new AppendIterator();
-
-    $this->addTestFolder( rex_path::core( self::TESTS_FOLDER ));
-    foreach( rex_addon::getAvailableAddons() as $addon )
-    {
-      $this->addTestFolder( $addon->getBasePath( self::TESTS_FOLDER ));
-      foreach( $addon->getAvailablePlugins() as $plugin )
-      {
-        $this->addTestFolder( $plugin->getBasePath( self::TESTS_FOLDER ));
-      }
-    }
   }
 
-  private function addTestFolder($folder)
+  public function addTestFolder($folder)
   {
     if (is_dir($folder))
     {
@@ -36,5 +26,21 @@ class rex_test_locator implements IteratorAggregate
   public function getIterator()
   {
     return $this->testFoldersIterator;
+  }
+
+  static public function defaultLocator()
+  {
+    $locator = new rex_test_locator();
+
+    $locator->addTestFolder( rex_path::core( self::TESTS_FOLDER ));
+    foreach( rex_addon::getAvailableAddons() as $addon )
+    {
+      $locator->addTestFolder( $addon->getBasePath( self::TESTS_FOLDER ));
+      foreach( $addon->getAvailablePlugins() as $plugin )
+      {
+        $locator->addTestFolder( $plugin->getBasePath( self::TESTS_FOLDER ));
+      }
+    }
+    return $locator;
   }
 }
