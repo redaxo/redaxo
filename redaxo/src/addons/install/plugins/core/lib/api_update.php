@@ -47,20 +47,12 @@ class rex_api_install_core_update extends rex_api_function
     else
     {
       $messages = array();
-      foreach(rex_addon::getAvailableAddons() as $package)
+      foreach(rex_package::getAvailablePackages() as $package)
       {
-        $manager = rex_addon_manager::factory($package);
+        $manager = rex_package_manager::factory($package);
         if(($msg = $manager->checkRedaxoRequirement($version['version'])) !== true)
         {
           $messages[] = $package->getPackageId() .': '. $msg;
-        }
-        foreach($package->getAvailablePlugins() as $package)
-        {
-          $manager = rex_plugin_manager::factory($package);
-          if(($msg = $manager->checkRedaxoRequirement($version['version'])) !== true)
-          {
-            $messages[] = $package->getPackageId() .': '. $msg;
-          }
         }
       }
       if(!empty($messages))

@@ -32,14 +32,10 @@ class rex_test_locator implements IteratorAggregate
   {
     $locator = new rex_test_locator();
 
-    $locator->addTestFolder( rex_path::core( self::TESTS_FOLDER ));
-    foreach( rex_addon::getAvailableAddons() as $addon )
+    $locator->addTestFolder(rex_path::core(self::TESTS_FOLDER));
+    foreach(rex_package::getAvailablePackages() as $package)
     {
-      $locator->addTestFolder( $addon->getBasePath( self::TESTS_FOLDER ));
-      foreach( $addon->getAvailablePlugins() as $plugin )
-      {
-        $locator->addTestFolder( $plugin->getBasePath( self::TESTS_FOLDER ));
-      }
+      $locator->addTestFolder($package->getBasePath(self::TESTS_FOLDER));
     }
     return $locator;
   }

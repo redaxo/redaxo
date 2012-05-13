@@ -238,4 +238,77 @@ abstract class rex_package implements rex_package_interface
     }
     $this->propertiesLoaded = true;
   }
+
+  /**
+   * Returns the registered packages
+   *
+   * @return array[rex_package]
+   */
+  static public function getRegisteredPackages()
+  {
+    return self::getPackages('Registered');
+  }
+
+  /**
+   * Returns the installed packages
+   *
+   * @return array[rex_package]
+   */
+  static public function getInstalledPackages()
+  {
+    return self::getPackages('Installed');
+  }
+
+  /**
+   * Returns the available packages
+   *
+   * @return array[rex_package]
+   */
+  static public function getAvailablePackages()
+  {
+    return self::getPackages('Available');
+  }
+
+  /**
+   * Returns the setup packages
+   *
+   * @return array[rex_package]
+   */
+  static public function getSetupPackages()
+  {
+    return self::getPackages('Setup', 'System');
+  }
+
+  /**
+   * Returns the system packages
+   *
+   * @return array[rex_package]
+   */
+  static public function getSystemPackages()
+  {
+    return self::getPackages('System');
+  }
+
+  /**
+   * Returns the packages by the given method
+   *
+   * @param string $method Method
+   * @param string $pluginMethod Optional other method for plugins
+   * @return array[rex_package]
+   */
+  static private function getPackages($method, $pluginMethod = null)
+  {
+    $packages = array();
+    $addonMethod = 'get' . $method . 'Addons';
+    $pluginMethod = 'get' . ($pluginMethod ?: $method) . 'Plugins';
+    foreach (rex_addon::$addonMethod() as $addon)
+    {
+      $packages[$addon->getPackageId()] = $addon;
+      foreach ($addon->$pluginMethod() as $plugin)
+      {
+        $packages[$plugin->getPackageId()] = $plugin;
+      }
+    }
+    return $packages;
+  }
 }

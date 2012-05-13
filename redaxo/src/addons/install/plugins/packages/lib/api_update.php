@@ -157,14 +157,14 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
           $messages[] = $plugin->getPackageId() .': '. $msg;
         }
       }
-      foreach(rex_addon::getAvailableAddons() as $addon)
+      foreach(rex_package::getAvailablePackages() as $package)
       {
-        if($addon == $this->addon)
+        if($package->getAddon() === $this->addon)
           continue;
-        $manager = rex_addon_manager::factory($addon);
+        $manager = rex_package_manager::factory($package);
         if(($msg = $manager->checkPackageRequirement($this->addon->getPackageId())) !== true)
         {
-          $messages[] = $addon->getPackageId() .': '. $msg;
+          $messages[] = $package->getPackageId() .': '. $msg;
         }
         else
         {
@@ -172,25 +172,7 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
           {
             if(($msg = $manager->checkPackageRequirement($reqPlugin->getPackageId())) !== true)
             {
-              $messages[] = $addon->getPackageId() .': '. $msg;
-            }
-          }
-        }
-        foreach($addon->getAvailablePlugins() as $plugin)
-        {
-          $manager = rex_plugin_manager::factory($plugin);
-          if(($msg = $manager->checkPackageRequirement($this->addon->getPackageId())) !== true)
-          {
-            $messages[] = $plugin->getPackageId() .': '. $msg;
-          }
-          else
-          {
-            foreach($versions as $reqPlugin)
-            {
-              if(($msg = $manager->checkPackageRequirement($reqPlugin->getPackageId())) !== true)
-              {
-                $messages[] = $plugin->getPackageId() .': '. $msg;
-              }
+              $messages[] = $package->getPackageId() .': '. $msg;
             }
           }
         }
