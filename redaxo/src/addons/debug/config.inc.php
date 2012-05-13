@@ -23,11 +23,11 @@ if(isset($user) && is_a($user,'rex_user'))
   {
     // FIREPHP SETTINGS
     $options = array(
-      'maxObjectDepth'      => rex_config::get('debug','firephp_maxdepth'), // default: 5
-      'maxArrayDepth'       => rex_config::get('debug','firephp_maxdepth'), // default: 5
-      'maxDepth'            => rex_config::get('debug','firephp_maxdepth'), // default: 10
-      'useNativeJsonEncode' => true,                                        // default: true
-      'includeLineNumbers'  => true,                                        // default: true
+      'maxObjectDepth'      => $this->getConfig('firephp_maxdepth'), // default: 5
+      'maxArrayDepth'       => $this->getConfig('firephp_maxdepth'), // default: 5
+      'maxDepth'            => $this->getConfig('firephp_maxdepth'), // default: 10
+      'useNativeJsonEncode' => true,                                 // default: true
+      'includeLineNumbers'  => true,                                 // default: true
       );                                                                        #FB::log($options,__CLASS__.'::'.__FUNCTION__.' $options');
 
     // INIT FIREPHP
@@ -57,27 +57,3 @@ else
   $firephp = FirePHP::getInstance(true);
   $firephp->setEnabled(false);
 }
-
-
-// ERROR TESTS
-////////////////////////////////////////////////////////////////////////////////
-
-// LATE EXTENSION
-#$blubb = rex_extension::registerPoint('FOO_BAR');
-#function bar($params)
-#{
-#  return 'boom';
-#}
-#rex_extension::register('FOO_BAR','bar');
-
-// BROKEN SQL SETQUER
-#$db = rex_sql::factory();
-#$db->setQuery('setQuery BOOM!');
-
-// BROKEN EXECUTE SQL
-#$db = rex_sql::factory();
-#$db->setTable('Tisch');
-#$db->setValue('Feld','Wert');
-#$db->setWhere(' hier und dort..');
-#$db->addGlobalUpdateFields();
-#$db->update();

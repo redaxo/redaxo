@@ -30,9 +30,7 @@ for ($i=2; $i<15; $i++) // minimum level = 2, else logs won't show
 {
   $tmp->addOption($i.' Level',$i);
 }
-$selected = $this->getConfig('firephp_maxdepth')==''
-          ? 5
-          : $this->getConfig('firephp_maxdepth');
+$selected = $this->getConfig('firephp_maxdepth',5);
 $tmp->setSelected($selected);
 $maxdepth_select = $tmp->get();
 
@@ -44,27 +42,27 @@ $content .= '
     <form action="index.php?page=debug&amp;subpage=settings" method="post">
 
       <fieldset class="rex-form-col-1">
-        <legend class="rex-hl2">'. $this->i18n('debug_logs_activate') .'</legend>
+        <legend class="rex-hl2">'. $this->i18n('logs_activate') .'</legend>
         <div class="rex-form-wrapper">
 
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
               <input id="debug-sql-log" type="checkbox" class="rex-form-checkbox" name="settings[sql_log]" value="1" '. ($this->getConfig('sql_log') ? 'checked="checked" ' : '') .'/>
-              <label for="debug-sql-log">'. $this->i18n('debug_logs_sql') .'</label>
+              <label for="debug-sql-log">'. $this->i18n('logs_sql') .'</label>
             </p>
           </div><!-- /.rex-form-row -->
 
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
               <input id="debug-ep-log" type="checkbox" class="rex-form-checkbox" name="settings[ep_log]" value="1" '. ($this->getConfig('ep_log') ? 'checked="checked" ' : '') .'/>
-              <label for="debug-ep-log">'. $this->i18n('debug_logs_ep') .'</label>
+              <label for="debug-ep-log">'. $this->i18n('logs_ep') .'</label>
             </p>
           </div><!-- /.rex-form-row -->
 
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
               <input id="debug-api-log" type="checkbox" class="rex-form-checkbox" name="settings[api_log]" value="1" '. ($this->getConfig('api_log') ? 'checked="checked" ' : '') .'/>
-              <label for="debug-api-log">'. $this->i18n('debug_logs_api') .'</label>
+              <label for="debug-api-log">'. $this->i18n('logs_api') .'</label>
             </p>
           </div><!-- /.rex-form-row -->
 
@@ -73,12 +71,12 @@ $content .= '
 
 
       <fieldset class="rex-form-col-1">
-        <legend>'. $this->i18n('debug_firephp_settings') .'</legend>
+        <legend>'. $this->i18n('firephp_settings') .'</legend>
         <div class="rex-form-wrapper">
 
           <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
-              <label for="debug-firephp-maxdepth">'. $this->i18n('debug_firephp_maxdepth') .'</label>
+              <label for="debug-firephp-maxdepth">'. $this->i18n('firephp_maxdepth') .'</label>
               '.$maxdepth_select.'
             </p>
           </div><!-- /.rex-form-row -->
@@ -97,5 +95,3 @@ $content .= '
   </div>';
 
 echo rex_view::contentBlock($content);
-
-

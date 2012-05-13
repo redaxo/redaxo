@@ -10,8 +10,6 @@ navigation:
 pages:
   - ['', 'translate:settings']
 
-system_plugins: [core, packages]
-
 requires:
   redaxo:
     min-version: '5.0.alpha3'
