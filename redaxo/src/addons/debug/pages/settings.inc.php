@@ -8,7 +8,7 @@ $settings = rex_post('settings', array(
     array('sql_log'         ,'int',0),
     array('ep_log'          ,'int',0),
     array('api_log'         ,'int',0),
-    array('firephp_maxdepth','int',7)
+    array('firephp_maxdepth','int',5)
 ), null);
 
 if (is_array($settings))
@@ -31,7 +31,7 @@ for ($i=2; $i<15; $i++) // minimum level = 2, else logs won't show
   $tmp->addOption($i.' Level',$i);
 }
 $selected = $this->getConfig('firephp_maxdepth')==''
-          ? 7
+          ? 5
           : $this->getConfig('firephp_maxdepth');
 $tmp->setSelected($selected);
 $maxdepth_select = $tmp->get();
