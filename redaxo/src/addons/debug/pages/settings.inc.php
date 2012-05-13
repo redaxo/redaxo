@@ -4,22 +4,19 @@ $content = '';
 
 // CAST FORM PARAMS
 ////////////////////////////////////////////////////////////////////////////////
-$settings = rex_post('settings', 'array', array());
-
-if(!empty($settings))
-{
-  $casts = array(
+$settings = rex_post('settings', array(
     array('sql_log'         ,'int',0),
     array('ep_log'          ,'int',0),
     array('api_log'         ,'int',0),
     array('firephp_maxdepth','int',7)
-    );
+), null);
 
-  foreach(rex_request::castArray($settings,$casts) as $key => $val)
+if (is_array($settings))
+{
+  foreach($settings as $key => $value)
   {
-    $this->setConfig($key, $val);
+    $this->setConfig($key, $value);
   }
-
   $content .= rex_view::info($this->i18n('settings_saved'));
 }
 
