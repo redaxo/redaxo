@@ -25,7 +25,7 @@ class rex_extension_debug extends rex_extension
       'callable' => $callable,
       'params'   => $params,
       'result'   => $result,
-      'timer'    => $timer->getFormattedTime(rex_timer::MILLISEC),
+      'timer'    => $timer->getFormattedDelta(),
     );
 
     return $result;
@@ -38,12 +38,12 @@ class rex_extension_debug extends rex_extension
   static public function registerPoint($extensionPoint, $subject = '', array $params = array (), $read_only = false)
   {
     $coreTimer = rex::getProperty('timer');
-    $absDur    = $coreTimer->getFormattedTime(rex_timer::MILLISEC);
+    $absDur    = $coreTimer->getFormattedDelta();
 
     // start timer for this extensionPoint
     $timer  = new rex_timer();
     $res    = parent::registerPoint($extensionPoint, $subject, $params, $read_only);
-    $epDur  = $timer->getFormattedTime(rex_timer::MILLISEC);
+    $epDur  = $timer->getFormattedDelta();
 
     $memory = rex_formatter :: format(memory_get_usage(true), 'bytes', array(3));
 

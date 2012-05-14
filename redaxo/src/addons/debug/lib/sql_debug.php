@@ -50,7 +50,7 @@ class rex_sql_debug extends rex_sql
 
     self::$queries[] = array(
       'rows'  =>$this->getRows(),
-      'time'  =>$timer->getFormattedTime(rex_timer::MILLISEC),
+      'time'  =>$timer->getFormattedDelta(),
       'query' =>$qry,
       'error' =>$err,
       'errno' =>$errno

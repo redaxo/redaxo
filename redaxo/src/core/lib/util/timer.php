@@ -35,11 +35,13 @@ class rex_timer
   /**
    * Returns the time difference
    *
-   * @return float Time difference in seconds
+   * @param int $precision Factor which will be multiplied, for convertion into different units (e.g. 1000 for milli,...)
+   *
+   * @return float Time difference
    */
-  public function getTime()
+  public function getDelta($precision = self::MILLISEC)
   {
-    return microtime(true) - $this->start;
+    return (microtime(true) - $this->start) * $precision;
   }
 
   /**
@@ -50,9 +52,9 @@ class rex_timer
    *
    * @return string Formatted time difference
    */
-  public function getFormattedTime($precision = self::SEC, $decimals = 3)
+  public function getFormattedDelta($precision = self::MILLISEC, $decimals = 3)
   {
-    $time = $this->getTime() * $precision;
+    $time = $this->getDelta($precision);
     return rex_formatter::format($time, 'number', array($decimals));
   }
 }

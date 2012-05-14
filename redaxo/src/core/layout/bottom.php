@@ -25,7 +25,7 @@ unset($fragment);
 
 
 $footerfragment = new rex_fragment();
-$footerfragment->setVar('time', rex::getProperty('timer')->getFormattedTime());
+$footerfragment->setVar('time', rex::getProperty('timer')->getFormattedDelta(rex_timer::SEC));
 echo $footerfragment->parse('backend_footer.tpl');
 unset($footerfragment);
 
