@@ -25,6 +25,7 @@ install_packages_file_edit = Datei aktualisieren
 install_packages_send = Senden
 install_packages_upload_file = Zip-Datei erstellen und hochladen
 install_packages_replace_assets = Assets aus dem Root-Assets-Ordner nehmen
+install_packages_ignore_tests = Ordner "tests" ignorieren
 
 install_packages_info_addon_downloaded = AddOn "{0}" wurde heruntergeladen!
 install_packages_warning_not_downloaded = AddOn "{0}" konnte aus folgendem Grund nicht heruntergeladen werden:

@@ -85,7 +85,7 @@ if($addonkey && isset($addons[$addonkey]))
 
             $n = array();
             $n['reverse'] = true;
-            $n['label'] = '<label for="install-packages-upload-upload-file">'. $this->i18n('upload_file') .'</label>'. $hiddenField .'';
+            $n['label'] = '<label for="install-packages-upload-upload-file">'. $this->i18n('upload_file') .'</label>'. $hiddenField;
             $n['field'] = '<input id="install-packages-upload-upload-file" type="checkbox" name="upload[upload_file]" value="1" '. ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled .'/>';
             $formElements[] = $n;
 
@@ -93,8 +93,17 @@ if($addonkey && isset($addons[$addonkey]))
             {
               $n = array();
               $n['reverse'] = true;
-              $n['label'] = '<label for="install-packages-upload-replace-assets">'. $this->i18n('replace_assets') .'</label>'. $hiddenField .'';
+              $n['label'] = '<label for="install-packages-upload-replace-assets">'. $this->i18n('replace_assets') .'</label>';
               $n['field'] = '<input id="install-packages-upload-replace-assets" type="checkbox" name="upload[replace_assets]" value="1" '. ($new ? '' : 'disabled="disabled" ') .'/>';
+              $formElements[] = $n;
+            }
+
+            if (is_dir(rex_path::addon($addonkey, 'tests')))
+            {
+              $n = array();
+              $n['reverse'] = true;
+              $n['label'] = '<label for="install-packages-upload-ignore-tests">'. $this->i18n('ignore_tests') .'</label>';
+              $n['field'] = '<input id="install-packages-upload-ignore-tests" type="checkbox" name="upload[ignore_tests]" value="1" checked="checked"'. ($new ? '' : 'disabled="disabled" ') .'/>';
               $formElements[] = $n;
             }
 
@@ -131,12 +140,12 @@ if($addonkey && isset($addons[$addonkey]))
         if($(this).is(":checked"))
         {
           '. ($newVersion != $file['version'] ? '$("#install-packages-upload-version").html("<span class=\'rex-strike\'>'. $file['version'] .'</span> <strong>'. $newVersion .'</strong>");' : '') .'
-          $("#install-packages-upload-replace-assets").removeAttr("disabled");
+          $("#install-packages-upload-replace-assets, #install-packages-upload-ignore-tests").removeAttr("disabled");
         }
         else
         {
           $("#install-packages-upload-version").html("'. $file['version'] .'");
-          $("#install-packages-upload-replace-assets").attr("disabled", "disabled").removeAttr("checked");
+          $("#install-packages-upload-replace-assets, #install-packages-upload-ignore-tests").attr("disabled", "disabled");
         }
       });
     });
