@@ -6,17 +6,9 @@ class rex_api_article_add extends rex_api_function
   {
     $category_id = rex_request('category_id', 'int');
 
-    /**
-     * @var rex_user
-     */
-    $user = rex::getUser();
-
     // check permissions
-    if($user->hasPerm('editContentOnly[]')) {
-      throw new rex_api_exception('api call not allowed for user with "editContentOnly[]"-option!');
-    }
-
-    if(!$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+    if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
+    {
       throw new rex_api_exception('user has no permission for this category!');
     }
 
@@ -39,17 +31,9 @@ class rex_api_article_edit extends rex_api_function
     $article_id  = rex_request('article_id',  'int');
     $clang       = rex_request('clang',       'int');
 
-    /**
-     * @var rex_user
-     */
-    $user = rex::getUser();
-
     // check permissions
-    if($user->hasPerm('editContentOnly[]')) {
-      throw new rex_api_exception('api call not allowed for user with "editContentOnly[]"-option!');
-    }
-
-    if(!$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+    if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
+    {
       throw new rex_api_exception('user has no permission for this category!');
     }
 
@@ -71,17 +55,9 @@ class rex_api_article_delete extends rex_api_function
     $category_id = rex_request('category_id', 'int');
     $article_id  = rex_request('article_id',  'int');
 
-    /**
-     * @var rex_user
-     */
-    $user = rex::getUser();
-
     // check permissions
-    if($user->hasPerm('editContentOnly[]')) {
-      throw new rex_api_exception('api call not allowed for user with "editContentOnly[]"-option!');
-    }
-
-    if(!$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+    if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
+    {
       throw new rex_api_exception('user has no permission for this category!');
     }
 
