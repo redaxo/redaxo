@@ -184,8 +184,19 @@ class rex_addon extends rex_package implements rex_addon_interface
    */
   public function getSystemPlugins()
   {
+    if (rex::isSetup() || rex::isSafeMode())
+    {
+      // in setup and safemode this method is called before the package .lang files are added to rex_i18n
+      // so don't use getProperty(), to avoid loading all properties without translations
+      $properties = rex_file::getConfig($this->getBasePath('package.yml'));
+      $systemPlugins = isset($properties['system_plugins']) ? (array) $properties['system_plugins'] : array();
+    }
+    else
+    {
+      $systemPlugins = (array) $this->getProperty('system_plugins', array());
+    }
     $plugins = array();
-    foreach((array) $this->getProperty('system_plugins', array()) as $plugin)
+    foreach($systemPlugins as $plugin)
     {
       if($this->pluginExists($plugin))
       {
