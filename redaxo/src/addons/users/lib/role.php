@@ -81,7 +81,7 @@ class rex_user_role implements rex_user_role_interface
     {
       return null;
     }
-    return new self(json_decode($sql->getValue('perms'), true));
+    return new self($sql->getArrayValue('perms'));
   }
 
   static public function removeOrReplaceItem($params)

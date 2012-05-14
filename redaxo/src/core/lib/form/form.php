@@ -896,7 +896,7 @@ class rex_form extends rex_factory_base
       foreach($fieldsetElementsArray as $key => $element)
       {
         if($this->isFooterElement($element)) continue;
-        if($this->isRawElement($element)) continue
+        if($this->isRawElement($element)) continue;
 
         // PHP4 compat notation
         $fieldsetElements[$fieldsetName][] = $this->elements[$fieldsetName][$key];
