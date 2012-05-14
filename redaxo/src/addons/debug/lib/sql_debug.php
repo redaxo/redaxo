@@ -22,11 +22,11 @@ class rex_sql_debug extends rex_sql
     try {
       $timer     = new rex_timer();
       $ret       = parent::setQuery($qry, $params);
-      $exec_time = $timer->getFormattedTime(rex_timer::MILLISEC);
+      $exec_time = $timer->getFormattedDelta(rex_timer::MILLISEC);
       $trace     = self::examine_trace(debug_backtrace());
       $error     = '';
     } catch (Exception $e) {
-      $exec_time = $timer->getFormattedTime(rex_timer::MILLISEC);
+      $exec_time = $timer->getFormattedDelta(rex_timer::MILLISEC);
       $trace     = self::examine_trace(debug_backtrace());
       $error     = $e->getMessage();
       $ret       = false;
@@ -52,11 +52,11 @@ class rex_sql_debug extends rex_sql
     try {
       $timer     = new rex_timer();
       $res       = parent::execute($params);
-      $exec_time = $timer->getFormattedTime(rex_timer::MILLISEC);
+      $exec_time = $timer->getFormattedDelta(rex_timer::MILLISEC);
       $trace     = self::examine_trace(debug_backtrace());
       $error     = '';
     } catch (Exception $e) {
-      $exec_time = $timer->getFormattedTime(rex_timer::MILLISEC);
+      $exec_time = $timer->getFormattedDelta(rex_timer::MILLISEC);
       $trace     = self::examine_trace(debug_backtrace());
       $error     = $e->getMessage();
       $res       = null;
