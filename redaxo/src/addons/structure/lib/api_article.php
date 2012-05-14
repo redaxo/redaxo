@@ -104,7 +104,8 @@ class rex_api_article_status extends rex_api_function
     $user = rex::getUser();
 
     // check permissions
-    if($user->isAdmin() || $user->getComplexPerm('structure')->hasCategoryPerm($catId) && $user->hasPerm('publishArticle[]')) {
+    if($user->getComplexPerm('structure')->hasCategoryPerm($catId) && $user->hasPerm('publishArticle[]'))
+    {
       $newStatus = rex_article_service::articleStatus($article_id, $clang);
       $oldStatus = rex_article_service::prevStatus($newStatus);
       $statusTypes = rex_article_service::statusTypes();
@@ -134,7 +135,8 @@ class rex_api_article2category extends rex_api_function
     $user = rex::getUser();
 
     // check permissions
-    if($user->isAdmin() || ($user->hasPerm('article2category[]')  && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))) {
+    if ($user->hasPerm('article2category[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
+    {
       if(rex_article_service::article2category($article_id))
       {
         $result = new rex_api_result(true, rex_i18n::msg('content_tocategory_ok'));
@@ -168,7 +170,8 @@ class rex_api_category2article extends rex_api_function
     $user = rex::getUser();
 
     // article2category und category2article verwenden das gleiche Recht: article2category
-    if($user->isAdmin() || ($user->hasPerm('article2category[]')) && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+    if($user->hasPerm('article2category[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
+    {
       if(rex_article_service::category2article($article_id))
       {
         $result = new rex_api_result(true, rex_i18n::msg('content_toarticle_ok'));
@@ -202,7 +205,8 @@ class rex_api_article2startpage extends rex_api_function
     $user = rex::getUser();
 
     // article2category und category2article verwenden das gleiche Recht: article2category
-    if($user->isAdmin() || ($user->hasPerm('article2startpage[]')) && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+    if($user->hasPerm('article2startpage[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id))
+    {
       if(rex_article_service::article2startpage($article_id))
       {
         $result = new rex_api_result(true, rex_i18n::msg('content_tostartarticle_ok'));

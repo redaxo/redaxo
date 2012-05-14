@@ -42,7 +42,7 @@ require dirname(__FILE__) .'/../functions/function_rex_category.inc.php';
 $stop = false;
 if (rex_clang::count()>1)
 {
-  if (!rex::getUser()->isAdmin() && !rex::getUser()->getComplexPerm('clang')->hasPerm($clang))
+  if (!rex::getUser()->getComplexPerm('clang')->hasPerm($clang))
   {
     $stop = true;
     foreach(rex_clang::getAll() as $key => $val)
@@ -284,7 +284,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 
   if ($KATPERM)
   {
-    if (rex::getUser()->isAdmin() || $KATPERM && rex::getUser()->hasPerm('publishCategory[]'))
+    if ($KATPERM && rex::getUser()->hasPerm('publishCategory[]'))
     {
       $kat_status = '<a href="'. $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_status', 'catstart' => $catstart)) .'" class="'. $status_class .'">'. $kat_status .'</a>';
     }
@@ -623,7 +623,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                       <td class="rex-status"><span class="rex-strike '. $article_class .'">'. $article_status .'</span></td>';
       }else
       {
-        if (rex::getUser()->isAdmin() || $KATPERM && rex::getUser()->hasPerm('publishArticle[]'))
+        if ($KATPERM && rex::getUser()->hasPerm('publishArticle[]'))
           $article_status = '<a href="'. $context->getUrl(array('article_id' => $sql->getValue('id'), 'rex-api-call' => 'article_status', 'artstart' => $artstart)) .'" class="'. $article_class .'">'. $article_status .'</a>';
         else
           $article_status = '<span class="rex-strike '. $article_class .'">'. $article_status .'</span>';

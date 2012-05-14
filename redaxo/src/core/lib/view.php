@@ -247,7 +247,7 @@ class rex_view
         if ($perm != '')
         {
           // Hat der User das Recht für die aktuelle Subpage?
-          if (!rex::getUser()->isAdmin() && !rex::getUser()->hasPerm($perm))
+          if (!rex::getUser()->hasPerm($perm))
           {
             // Wenn der User kein Recht hat, und diese Seite öffnen will -> Fehler
             if ($cur_subpage == $link)

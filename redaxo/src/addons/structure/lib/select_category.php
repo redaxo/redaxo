@@ -57,7 +57,7 @@ class rex_category_select extends rex_select
     }
     else
     {
-      if(!$this->check_perms || rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('structure')->hasPerm(0))
+      if(!$this->check_perms || rex::getUser()->getComplexPerm('structure')->hasCategoryPerm(0))
       {
         if($rootCats = rex_ooCategory :: getRootCategories($this->ignore_offlines, $this->clang))
         {

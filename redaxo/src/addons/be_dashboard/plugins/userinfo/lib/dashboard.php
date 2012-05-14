@@ -124,7 +124,7 @@ class rex_articles_component extends rex_dashboard_component
 
   public function checkPermission()
   {
-    return rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('structure')->hasStructurePerm();
+    return rex::getUser()->getComplexPerm('structure')->hasStructurePerm();
   }
 
   protected function prepare()
