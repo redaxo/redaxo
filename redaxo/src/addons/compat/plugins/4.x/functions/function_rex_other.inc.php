@@ -59,7 +59,7 @@ function rex_install_dump($file, $debug = false)
  */
 function rex_accesskey($title, $key)
 {
-  if(rex::getUser()->hasPerm('accesskeys[]'))
+  if (rex::getProperty('use_accesskeys'))
     return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
 
   return ' title="'. $title .'"';

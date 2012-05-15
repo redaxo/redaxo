@@ -209,7 +209,7 @@ class rex
   }
 
   /**
-   * Returns the title tag and if the user has the perm "accesskeys[]" also the accesskey tag
+   * Returns the title tag and if the property "use_accesskeys" is true, the accesskey tag
    *
    * @param string $title Title
    * @param string $key Key for the accesskey
@@ -217,7 +217,7 @@ class rex
    */
   static public function getAccesskey($title, $key)
   {
-    if(self::getUser()->hasPerm('accesskeys[]'))
+    if (self::getProperty('use_accesskeys'))
     {
       $accesskeys = (array) self::getProperty('accesskeys', array());
       if(isset($accesskeys[$key]))
