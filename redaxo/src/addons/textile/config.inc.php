@@ -8,7 +8,6 @@
  * @package redaxo5
  */
 
-rex_perm::register('textile[]');
 rex_perm::register('textile[help]', null, rex_perm::OPTIONS);
 
 if (rex::isBackend())
