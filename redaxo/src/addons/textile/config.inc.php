@@ -8,8 +8,6 @@
  * @package redaxo5
  */
 
-rex_perm::register('textile[help]', null, rex_perm::OPTIONS);
-
 if (rex::isBackend())
 {
   rex_extension::register('PAGE_HEADER', function($params) {

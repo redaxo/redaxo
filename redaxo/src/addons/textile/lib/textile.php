@@ -21,12 +21,6 @@ class rex_textile
 
   static public function showHelpOverview()
   {
-    // check perms
-    if(!rex::getUser()->hasPerm('textile[help]'))
-    {
-      return;
-    }
-
     $formats = self::getHelpOverviewFormats();
 
     echo '<div class="a79_help_overview">
