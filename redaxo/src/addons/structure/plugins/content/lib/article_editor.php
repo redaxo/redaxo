@@ -53,7 +53,7 @@ class rex_article_editor extends rex_article
       }
 
       // ----- Display message at current slice
-      //if(rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
+      //if(rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
       {
         if($this->function != 'add' && $this->slice_id == $sliceId)
         {
@@ -84,7 +84,7 @@ class rex_article_editor extends rex_article
           </header>';
 
       // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
-      if(rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
+      if(rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
       {
         if($this->function=="edit" && $this->slice_id == $sliceId)
         {
@@ -160,7 +160,7 @@ class rex_article_editor extends rex_article
     $sliceUrl = 'index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $sliceId .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $sliceId;
     $listElements = array();
 
-    if((rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
+    if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)
       && rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId))
     {
       // edit
@@ -220,7 +220,7 @@ class rex_article_editor extends rex_article
         'ctype' => $sliceCtype,
         'module_id' => $moduleId,
         'slice_id' => $sliceId,
-        'perm' => (rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
+        'perm' => rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)
       )
     );
 
@@ -312,7 +312,7 @@ class rex_article_editor extends rex_article
         $this->MODULESELECT[$ct_id]->addOption('----------------------------  '.rex_i18n::msg('add_block'),'');
         foreach($modules as $m)
         {
-          if (rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($m['id']))
+          if (rex::getUser()->getComplexPerm('modules')->hasPerm($m['id']))
           {
             if(rex_template::hasModule($this->template_attributes,$ct_id,$m['id']))
             {

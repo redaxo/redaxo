@@ -10,8 +10,7 @@
 
 $mypage = "version";
 
-rex_perm::register('version[only_working_version]', null, rex_perm::EXTRAS);
-// rex_perm::register('version[admin]', rex_perm::EXTRAS);
+rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
 
 // ***** an EPs andocken
 rex_extension::register('ART_INIT', 'rex_version_initArticle');
@@ -78,7 +77,8 @@ function rex_version_header($params)
       if($working_version_empty)
       {
         $return .= rex_view::warning(rex_i18n::msg("version_warning_working_version_to_live"));
-      }else if(!rex::getUser()->hasPerm('version[only_working_version]'))
+      }
+      else if (rex::getUser()->hasPerm('version[live_version]'))
       {
         rex_article_revision::copyContent($params['article_id'],$params['clang'],rex_article_revision::WORK, rex_article_revision::LIVE);
         $return .= rex_view::info(rex_i18n::msg("version_info_working_version_to_live"));
@@ -90,7 +90,7 @@ function rex_version_header($params)
     break;
   }
 
-  if(rex::getUser()->hasPerm('version[only_working_version]'))
+  if (!rex::getUser()->hasPerm('version[live_version]'))
   {
     $rex_version_article[$params['article_id']] = 1;
     unset($revisions[0]);
@@ -122,7 +122,7 @@ function rex_version_header($params)
   $s->setSize('1');
   $s->setAttribute('onchange', 'this.form.submit();');
 
-  if(rex::getUser()->hasPerm('version[only_working_version]'))
+  if (!rex::getUser()->hasPerm('version[live_version]'))
   {
     $s->setDisabled();
   }
@@ -130,14 +130,15 @@ function rex_version_header($params)
   $return .= '<ul class="rex-display-inline">';
   $return .= '<li class="rex-navi-first"><label for="rex-select-version-id">'.rex_i18n::msg('version').':</label> '.$s->get().'</li>';
 
-  if(rex::getUser()->hasPerm('version[only_working_version]'))
+  if (!rex::getUser()->hasPerm('version[live_version]'))
   {
     if($rex_version_article[$params['article_id']]>0)
     {
       $return .= '<li><a href="'.$link.'&rex_version_func=copy_live_to_work">'.rex_i18n::msg('version_copy_from_liveversion').'</a></li>';
       $return .= '<li><a href="'.rex_getUrl($params['article_id'],$params['clang'],array("rex_version"=>1)).'" target="_blank">'.rex_i18n::msg("version_preview").'</a></li>';
     }
-  }else
+  }
+  else
   {
     if($rex_version_article[$params['article_id']]>0)
     {

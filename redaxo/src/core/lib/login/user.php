@@ -122,6 +122,10 @@ class rex_user
    */
   public function hasPerm($perm)
   {
+    if ($this->isAdmin())
+    {
+      return true;
+    }
     $result = false;
     if(strpos($perm, '/') !== false)
     {

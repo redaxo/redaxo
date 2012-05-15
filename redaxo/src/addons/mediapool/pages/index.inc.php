@@ -76,7 +76,7 @@ rex_set_session('media[rex_file_category]', $rex_file_category);
 
 // -------------- PERMS
 $PERMALL = false;
-if (rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('media')->hasCategoryPerm(0)) $PERMALL = true;
+if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm(0)) $PERMALL = true;
 
 // -------------- Header
 $subline = array(

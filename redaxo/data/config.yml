@@ -51,6 +51,7 @@ db:
     password: ''
     name: ''
     persistent: false
+use_accesskeys: true
 accesskeys:
   save: s
   apply: x

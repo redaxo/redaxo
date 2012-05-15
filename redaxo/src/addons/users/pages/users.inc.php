@@ -440,6 +440,13 @@ if ($FUNC_ADD != "" || $user_id > 0)
         }
     });
 
+    $("#useradmin").change(function() {
+   	  if ($(this).is(":checked"))
+   	    $("#userrole").attr("disabled", "disabled");
+   	  else
+   	    $("#userrole").removeAttr("disabled");
+	}).change();
+
     $("#javascript").val("1");
   });
    //-->

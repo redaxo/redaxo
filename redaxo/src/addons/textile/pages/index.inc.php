@@ -38,7 +38,6 @@ else
   <div class="rex-addon-content">
     <p class="rex-tx1"><?php echo rex_i18n::msg('textile_module_intro_help'); ?></p>
     <?php echo rex_string::highlight($mdl_help); ?>
-    <p class="rex-tx1"><?php echo rex_i18n::msg('textile_module_rights'); ?></p>
   </div>
 </div>
 
