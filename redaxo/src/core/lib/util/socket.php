@@ -28,7 +28,7 @@ class rex_socket
   private $host;
   private $path;
   private $port;
-  private $timeout;
+  private $timeout = 15;
   private $headers = array();
 
   /**
@@ -38,30 +38,27 @@ class rex_socket
    * @param string $path Path
    * @param integer $port Port number
    * @param string $transport Transport, e.g. "ssl"
-   * @param integer $timeout Connection timeout in seconds
    *
    * @see rex_socket::createByUrl()
    */
-  public function __construct($host, $path = '/', $port = 80, $transport = '', $timeout = 15)
+  public function __construct($host, $path = '/', $port = 80, $transport = '')
   {
     $this->transport = $transport;
     $this->host = $host;
     $this->path = $path;
     $this->port = $port;
-    $this->timeout = $timeout;
   }
 
   /**
    * Creates a socket by a full URL
    *
    * @param string $url URL
-   * @param integer $timeout Connection timeout in seconds
    * @throws rex_socket_exception
    * @return rex_socket Socket instance
    *
    * @see rex_socket::__construct()
    */
-  static public function createByUrl($url, $timeout = 15)
+  static public function createByUrl($url)
   {
     $parts = parse_url($url);
     if(!isset($parts['host']))
@@ -88,7 +85,7 @@ class rex_socket
       }
     }
     $port = isset($parts['port']) ? $parts['port'] : $port;
-    return new self($host, $path, $port, $transport, $timeout);
+    return new self($host, $path, $port, $transport);
   }
 
   /**
@@ -111,6 +108,16 @@ class rex_socket
   public function addBasicAuthorization($user, $password)
   {
     $this->addHeader('Authorization', 'Basic '. base64_encode($user .':'. $password));
+  }
+
+  /**
+   * Sets the timeout for the connection
+   *
+   * @param int $timeout Timeout
+   */
+  public function setTimeout($timeout)
+  {
+    $this->timeout = $timeout;
   }
 
   /**
