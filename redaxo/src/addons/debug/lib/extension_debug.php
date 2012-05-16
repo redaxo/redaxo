@@ -114,7 +114,7 @@ class rex_extension_debug extends rex_extension
 
           if(in_array($entry['ep'],$registered_eps))
           {
-            $firephp->error('EP Timing: Extension "'.$entry['callable'].'" registered after ExtensionPoint "'.$entry['ep'].'" !');
+            $firephp->error('EP Timing: Extension "'.$entry['callable'].'" registered after ExtensionPoint "'.$entry['ep'].'" – see EP Log for details');
           }
 
           $log_table[] = array(
