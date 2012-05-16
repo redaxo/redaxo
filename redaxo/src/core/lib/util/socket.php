@@ -24,7 +24,7 @@
 */
 class rex_socket
 {
-  private $prefix;
+  private $transport;
   private $host;
   private $path;
   private $port;
@@ -37,14 +37,14 @@ class rex_socket
    * @param string $host Host name
    * @param string $path Path
    * @param integer $port Port number
-   * @param string $prefix Prefix, e.g. "ssl://"
+   * @param string $transport Transport, e.g. "ssl"
    * @param integer $timeout Connection timeout in seconds
    *
    * @see rex_socket::createByUrl()
    */
-  public function __construct($host, $path = '/', $port = 80, $prefix = '', $timeout = 15)
+  public function __construct($host, $path = '/', $port = 80, $transport = '', $timeout = 15)
   {
-    $this->prefix = $prefix;
+    $this->transport = $transport;
     $this->host = $host;
     $this->path = $path;
     $this->port = $port;
@@ -73,7 +73,7 @@ class rex_socket
           . (isset($parts['query'])    ? '?'. $parts['query']    : '')
           . (isset($parts['fragment']) ? '#'. $parts['fragment'] : '');
     $port = 80;
-    $prefix = '';
+    $transport = '';
     if(isset($parts['scheme']))
     {
       $supportedProtocols = array('http', 'https');
@@ -83,12 +83,12 @@ class rex_socket
       }
       if($parts['scheme'] == 'https')
       {
-        $prefix = 'ssl://';
+        $transport = 'ssl';
         $port = 443;
       }
     }
     $port = isset($parts['port']) ? $parts['port'] : $port;
-    return new self($host, $path, $port, $prefix, $timeout);
+    return new self($host, $path, $port, $transport, $timeout);
   }
 
   /**
@@ -211,7 +211,9 @@ class rex_socket
     {
       throw new rex_exception(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
     }
-    if(!($fp = @fsockopen($this->prefix . $this->host, $this->port, $errno, $errstr)))
+
+    $host = ($this->transport ? $this->transport . '://' : '') . $this->host;
+    if(!($fp = @fsockopen($host, $this->port, $errno, $errstr)))
     {
       throw new rex_socket_exception($errstr .' ('. $errno .')');
     }
