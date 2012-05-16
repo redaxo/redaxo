@@ -3,6 +3,8 @@
 /**
  * Abstract class for complex permissions
  *
+ * All permission check methods ("hasPerm()" etc.) in child classes should return "true" for admins
+ *
  * @author gharlan
  */
 abstract class rex_complex_perm

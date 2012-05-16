@@ -42,7 +42,7 @@ require dirname(__FILE__) .'/../functions/function_rex_category.inc.php';
 $stop = false;
 if (rex_clang::count()>1)
 {
-  if (!rex::getUser()->isAdmin() && !rex::getUser()->getComplexPerm('clang')->hasPerm($clang))
+  if (!rex::getUser()->getComplexPerm('clang')->hasPerm($clang))
   {
     $stop = true;
     foreach(rex_clang::getAll() as $key => $val)
@@ -114,7 +114,7 @@ if($category)
   $cat_name = $category->getName();
 
 $add_category = '';
-if ($KATPERM && !rex::getUser()->hasPerm('editContentOnly[]'))
+if ($KATPERM)
 {
   $add_category = '<a class="rex-ic-category rex-ic-add" href="'. $context->getUrl(array('function' => 'add_cat')) .'"'. rex::getAccesskey(rex_i18n::msg('add_category'), 'add') .'>'.rex_i18n::msg("add_category").'</a>';
 }
@@ -231,7 +231,7 @@ if ($category_id != 0 && ($category = rex_ooCategory::getCategoryById($category_
 
 // --------------------- KATEGORIE ADD FORM
 
-if ($function == 'add_cat' && $KATPERM && !rex::getUser()->hasPerm('editContentOnly[]'))
+if ($function == 'add_cat' && $KATPERM)
 {
   $add_td = '';
   if (rex::getUser()->hasPerm('advancedMode[]'))
@@ -284,7 +284,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
 
   if ($KATPERM)
   {
-    if (rex::getUser()->isAdmin() || $KATPERM && rex::getUser()->hasPerm('publishCategory[]'))
+    if ($KATPERM && rex::getUser()->hasPerm('publishCategory[]'))
     {
       $kat_status = '<a href="'. $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_status', 'catstart' => $catstart)) .'" class="'. $status_class .'">'. $kat_status .'</a>';
     }
@@ -347,14 +347,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++)
         $add_td = '<td class="rex-small">'. $i_category_id .'</td>';
       }
 
-      if (!rex::getUser()->hasPerm('editContentOnly[]'))
-      {
-           $category_delete = '<a href="'. $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_delete', 'catstart' => $catstart)) .'" data-confirm="'.rex_i18n::msg('delete').' ?">'.rex_i18n::msg('delete').'</a>';
-      }
-      else
-      {
-        $category_delete = '<span class="rex-strike">'. rex_i18n::msg('delete') .'</span>';
-      }
+      $category_delete = '<a href="'. $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_delete', 'catstart' => $catstart)) .'" data-confirm="'.rex_i18n::msg('delete').' ?">'.rex_i18n::msg('delete').'</a>';
 
       $echo .= '
         <tr>
@@ -447,7 +440,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
 
   // --------------------- ARTIKEL LIST
   $art_add_link = '';
-  if ($KATPERM && !rex::getUser()->hasPerm('editContentOnly[]'))
+  if ($KATPERM)
     $art_add_link = '<a class="rex-ic-article rex-ic-add" href="'. $context->getUrl(array('function' => 'add_art')) .'"'. rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2') .'>'. rex_i18n::msg('article_add') .'</a>';
 
   $add_head = '';
@@ -536,7 +529,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
   }
 
   // --------------------- ARTIKEL ADD FORM
-  if ($function == 'add_art' && $KATPERM && !rex::getUser()->hasPerm('editContentOnly[]'))
+  if ($function == 'add_art' && $KATPERM)
   {
     $defaultTemplateId = rex::getProperty('default_template_id');
     if($defaultTemplateId > 0 && isset($TEMPLATE_NAME[$defaultTemplateId]))
@@ -623,15 +616,12 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                       <td class="rex-status"><span class="rex-strike '. $article_class .'">'. $article_status .'</span></td>';
       }else
       {
-        if (rex::getUser()->isAdmin() || $KATPERM && rex::getUser()->hasPerm('publishArticle[]'))
+        if ($KATPERM && rex::getUser()->hasPerm('publishArticle[]'))
           $article_status = '<a href="'. $context->getUrl(array('article_id' => $sql->getValue('id'), 'rex-api-call' => 'article_status', 'artstart' => $artstart)) .'" class="'. $article_class .'">'. $article_status .'</a>';
         else
           $article_status = '<span class="rex-strike '. $article_class .'">'. $article_status .'</span>';
 
-        if (!rex::getUser()->hasPerm('editContentOnly[]'))
-          $article_delete = '<a href="'. $context->getUrl(array('article_id' => $sql->getValue('id'), 'rex-api-call' => 'article_delete', 'artstart' => $artstart)) .'" data-confirm="'.rex_i18n::msg('delete').' ?">'.rex_i18n::msg('delete').'</a>';
-        else
-          $article_delete = '<span class="rex-strike">'. rex_i18n::msg('delete') .'</span>';
+        $article_delete = '<a href="'. $context->getUrl(array('article_id' => $sql->getValue('id'), 'rex-api-call' => 'article_delete', 'artstart' => $artstart)) .'" data-confirm="'.rex_i18n::msg('delete').' ?">'.rex_i18n::msg('delete').'</a>';
 
         $add_extra = '<td class="rex-delete">'. $article_delete .'</td>
                       <td class="rex-status">'. $article_status .'</td>';

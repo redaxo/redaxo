@@ -293,5 +293,4 @@ all_clangs = Alle Sprachen
 clangs = Sprachen
 
 # permissions
-perm_options_accesskeys[] = Tastenkürzel
 perm_options_advancedMode[] = Erweiterte Informationen anzeigen

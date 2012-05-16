@@ -6,17 +6,8 @@ class rex_api_category_add extends rex_api_function
   {
     $parentId = rex_request('parent-category-id', 'int');
 
-    /**
-     * @var rex_user
-     */
-    $user = rex::getUser();
-
     // check permissions
-    if($user->hasPerm('editContentOnly[]')) {
-      throw new rex_api_exception('api call not allowed for user with "editContentOnly[]"-option!');
-    }
-
-    if(!$user->getComplexPerm('structure')->hasCategoryPerm($parentId)) {
+    if(!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($parentId)) {
       throw new rex_api_exception('user has no permission for this category!');
     }
 
@@ -43,7 +34,8 @@ class rex_api_category_edit extends rex_api_function
     $user = rex::getUser();
 
     // check permissions
-    if(!$user->getComplexPerm('structure')->hasCategoryPerm($catId)) {
+    if (!$user->getComplexPerm('structure')->hasCategoryPerm($catId))
+    {
       throw new rex_api_exception('user has no permission for this category!');
     }
 
@@ -63,17 +55,9 @@ class rex_api_category_delete extends rex_api_function
   {
     $catId   = rex_request('category-id', 'int');
 
-    /**
-     * @var rex_user
-     */
-    $user = rex::getUser();
-
     // check permissions
-    if($user->hasPerm('editContentOnly[]')) {
-      throw new rex_api_exception('api call not allowed for user with "editContentOnly[]"-option!');
-    }
-
-    if(!$user->getComplexPerm('structure')->hasCategoryPerm($catId)) {
+    if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($catId))
+    {
       throw new rex_api_exception('user has no permission for this category!');
     }
 
@@ -95,7 +79,8 @@ class rex_api_category_status extends rex_api_function
     $user = rex::getUser();
 
     // check permissions
-    if($user->isAdmin() || $user->getComplexPerm('structure')->hasCategoryPerm($catId) && $user->hasPerm('publishArticle[]')) {
+    if($user->getComplexPerm('structure')->hasCategoryPerm($catId) && $user->hasPerm('publishArticle[]'))
+    {
       $newStatus = rex_category_service::categoryStatus($catId, $clangId);
       $oldStatus = rex_category_service::prevStatus($newStatus);
       $statusTypes = rex_category_service::statusTypes();
@@ -127,12 +112,8 @@ class rex_api_category_move extends rex_api_function
     $user = rex::getUser();
 
     // check permissions
-    if($user->hasPerm('editContentOnly[]')) {
-      throw new rex_api_exception('api call not allowed for user with "editContentOnly[]"-option!');
-    }
-
-    // check permissions
-    if($user->isAdmin() || $user->getComplexPerm('structure')->hasCategoryPerm($catId) && $user->getComplexPerm('structure')->hasCategoryPerm($newCatId)) {
+    if($user->getComplexPerm('structure')->hasCategoryPerm($catId) && $user->getComplexPerm('structure')->hasCategoryPerm($newCatId))
+    {
       rex_category_service::moveCategory($catId, $newCatId);
 
       // doesnt matter which clang id
