@@ -11,22 +11,35 @@
 echo rex_view::title('Textile');
 
 
-$mdl_help = '<?php rex_textile::showHelpOverview(); ?>';
+$mdl_input = '<?php
+if (rex_addon::get(\'textile\')->isAvailable())
+{
+  echo \'<textarea name="VALUE[1]" rows="10">REX_VALUE[1]</textarea><br /><br />\';
+  echo \'<a href="#" onclick="jQuery(\'#rex-textile-help\').toggle(\'fast\');">Zeige/verberge Textile Hilfe</a><br />\';
+  echo \'<div id="rex-textile-help" style="display:none">\';
+  rex_textile::showHelpOverview();
+  echo \'</div>\';
+}
+else
+{
+  echo rex_view::warning(\'Dieses Modul benötigt das "textile" Addon!\');
+}
+?>';
 
 
-$mdl_ex ='<?php
-if(rex_addon::get("textile")->isAvailable())
+$mdl_output = '<?php
+if (rex_addon::get(\'textile\')->isAvailable())
 {
   if(REX_IS_VALUE[1])
   {
     $textile = htmlspecialchars_decode(\'REX_VALUE[1]\');
-    $textile = str_replace("<br />","",$textile);
+    $textile = str_replace(\'<br />\', \'\', $textile);
     echo rex_textile::parse($textile);
   }
 }
 else
 {
-  echo rex_view::warning(\'Dieses Modul ben&ouml;tigt das "textile" Addon!\');
+  echo rex_view::warning(\'Dieses Modul benötigt das "textile" Addon!\');
 }
 ?>';
 
@@ -36,8 +49,7 @@ else
   <h2 class="rex-hl2"><?php echo rex_i18n::msg('textile_code_for_module_input'); ?></h2>
 
   <div class="rex-addon-content">
-    <p class="rex-tx1"><?php echo rex_i18n::msg('textile_module_intro_help'); ?></p>
-    <?php echo rex_string::highlight($mdl_help); ?>
+    <?php echo rex_string::highlight($mdl_input); ?>
   </div>
 </div>
 
@@ -45,10 +57,7 @@ else
   <h2 class="rex-hl2"><?php echo rex_i18n::msg('textile_code_for_module_output'); ?></h2>
 
   <div class="rex-addon-content">
-    <p class="rex-tx1"><?php echo rex_i18n::msg('textile_module_intro_moduleoutput'); ?></p>
-
-    <h3><?php echo rex_i18n::msg('textile_example_for'); ?> REX_VALUE[1]</h3>
-    <?php echo rex_string::highlight($mdl_ex); ?>
+    <?php echo rex_string::highlight($mdl_output); ?>
   </div>
 </div>
 

@@ -1,9 +1,7 @@
 textile_example_for = Beispiel für
 
-textile_code_for_module_input = Code für Moduleingabe
-textile_code_for_module_output = Code für Modulausgabe
-textile_module_intro_moduleoutput = Einfach mit folgendem Code in die <b>Ausgabe eines beliebigen Moduls</b> einbinden
-textile_module_intro_help = Um eine Tabelle mit einer Anleitung und Hinweisen in ein Modul einzubinden, einfach folgenden Funktionsaufruf in die <b>Eingabe des Moduls</b> einfügen:<br />
+textile_code_for_module_input = Beispiel-Code für Moduleingabe
+textile_code_for_module_output = Beispiel-Code für Modulausgabe
 
 textile_instructions = Anleitung/Hinweise
 
