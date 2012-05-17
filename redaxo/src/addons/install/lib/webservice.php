@@ -5,7 +5,7 @@ class rex_install_webservice
   const
     HOST = 'www.redaxo.org',
     PORT = 443,
-    TRANSPORT = 'ssl',
+    SSL = true,
     PATH = '/de/ws/',
     REFRESH_CACHE = 600;
 
@@ -23,7 +23,7 @@ class rex_install_webservice
     $error = null;
     try
     {
-      $socket = new rex_socket(self::HOST, self::PORT, self::TRANSPORT);
+      $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
       $socket->setPath($fullpath);
       $response = $socket->doGet();
       if($response->isOk())
@@ -55,7 +55,7 @@ class rex_install_webservice
   {
     try
     {
-      $socket = rex_socket::createByUrl($url);
+      $socket = rex_socket::factoryUrl($url);
       $response = $socket->doGet();
       if($response->isOk())
       {
@@ -79,7 +79,7 @@ class rex_install_webservice
     $error = null;
     try
     {
-      $socket = new rex_socket(self::HOST, self::PORT, self::TRANSPORT);
+      $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
       $socket->setPath($fullpath);
       $files = array();
       if($archive)
@@ -113,7 +113,7 @@ class rex_install_webservice
     $error = null;
     try
     {
-      $socket = new rex_socket(self::HOST, self::PORT, self::TRANSPORT);
+      $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
       $socket->setPath($fullpath);
       $response = $socket->doDelete();
       if($response->isOk())

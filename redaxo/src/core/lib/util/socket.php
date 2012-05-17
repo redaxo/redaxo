@@ -8,7 +8,8 @@
 * <?php
 * try
 * {
-*   $socket = new rex_socket('www.example.com', '/path/index.php?param=1');
+*   $socket = rex_socket::factory('www.example.com');
+*   $socket->setPath('/path/index.php?param=1');
 *   $socket->doGet();
 *   if($socket->getStatus() == 200)
 *     $body = $socket->getBody();
@@ -24,27 +25,49 @@
 */
 class rex_socket
 {
-  private $transport;
-  private $host;
-  private $path = '/';
-  private $port;
-  private $timeout = 15;
-  private $headers = array();
+  protected
+    $host,
+    $port,
+    $ssl,
+    $path = '/',
+    $timeout = 15,
+    $headers = array();
 
   /**
    * Constructor
    *
    * @param string $host Host name
    * @param integer $port Port number
-   * @param string $transport Transport, e.g. "ssl"
-   *
-   * @see rex_socket::createByUrl()
+   * @param boolean $ssl SSL flag
    */
-  public function __construct($host, $port = 80, $transport = '')
+  protected function __construct($host, $port = 80, $ssl = false)
   {
-    $this->transport = $transport;
     $this->host = $host;
     $this->port = $port;
+    $this->ssl = $ssl;
+
+    $this->addHeader('Host', $this->host);
+    $this->addHeader('Connection', 'Close');
+  }
+
+  /**
+   * Factory method
+   *
+   * @param string $host Host name
+   * @param integer $port Port number
+   * @param boolean $ssl SSL flag
+   * @return rex_socket Socket instance
+   *
+   * @see rex_socket::factoryUrl()
+   */
+  static public function factory($host, $port = 80, $ssl = false)
+  {
+    if (get_called_class() === __CLASS__ && ($proxy = rex::getProperty('socket_proxy')))
+    {
+      return rex_socket_proxy::factoryUrl($proxy)->setDestination($host, $port, $ssl);
+    }
+
+    return new static($host, $port, $ssl);
   }
 
   /**
@@ -54,39 +77,13 @@ class rex_socket
    * @throws rex_socket_exception
    * @return rex_socket Socket instance
    *
-   * @see rex_socket::__construct()
+   * @see rex_socket::factory()
    */
-  static public function createByUrl($url)
+  static public function factoryUrl($url)
   {
-    $parts = parse_url($url);
-    if(!isset($parts['host']))
-    {
-      throw new rex_socket_exception('It isn\'t possible to parse the URL "'. $url .'"!');
-    }
-    $host = $parts['host'];
-    $path = (isset($parts['path'])     ? $parts['path']          : '/')
-          . (isset($parts['query'])    ? '?'. $parts['query']    : '')
-          . (isset($parts['fragment']) ? '#'. $parts['fragment'] : '');
-    $port = 80;
-    $transport = '';
-    if(isset($parts['scheme']))
-    {
-      $supportedProtocols = array('http', 'https');
-      if(!in_array($parts['scheme'], $supportedProtocols))
-      {
-        throw new rex_socket_exception('Unsupported protocol "'. $parts['scheme'] .'". Supported protocols are '. implode(', ', $supportedProtocols). '.');
-      }
-      if($parts['scheme'] == 'https')
-      {
-        $transport = 'ssl';
-        $port = 443;
-      }
-    }
-    $port = isset($parts['port']) ? $parts['port'] : $port;
+    $parts = self::parseUrl($url);
 
-    $socket = new self($host, $port, $transport);
-    $socket->setPath($path);
-    return $socket;
+    return static::factory($parts['host'], $parts['port'], $parts['ssl'])->setPath($parts['path']);
   }
 
   /**
@@ -242,7 +239,7 @@ class rex_socket
       throw new rex_exception(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
     }
 
-    $host = ($this->transport ? $this->transport . '://' : '') . $this->host;
+    $host = ($this->ssl ? 'ssl://' : '') . $this->host;
     if(!($fp = @fsockopen($host, $this->port, $errno, $errstr)))
     {
       throw new rex_socket_exception($errstr .' ('. $errno .')');
@@ -252,9 +249,7 @@ class rex_socket
 
     $eol = "\r\n";
     $headers = array();
-    $headers[] = strtoupper($method) .' '. $this->path .' HTTP/1.1';
-    $headers[] = 'Host: '. $this->host;
-    $headers[] = 'Connection: Close';
+    $headers[] = strtoupper($method) .' '. $this->getPath() .' HTTP/1.1';
     foreach($this->headers as $key => $value)
     {
       $headers[] = $key .': '. $value;
@@ -281,6 +276,59 @@ class rex_socket
     }
 
     return new rex_socket_response($fp);
+  }
+
+  /**
+   * Returns the path for the request
+   *
+   * @return string Path
+   */
+  protected function getPath()
+  {
+    return $this->path;
+  }
+
+  /**
+   * Parses a full URL and returns an array with the keys "host", "port", "transport" and "path"
+   *
+   * @param string $url Full URL
+   * @return array URL parts
+   */
+  static protected function parseUrl($url)
+  {
+    $parts = parse_url($url);
+    if(!isset($parts['host']))
+    {
+      throw new rex_socket_exception('It isn\'t possible to parse the URL "'. $url .'"!');
+    }
+
+    $port = 80;
+    $ssl = false;
+    if(isset($parts['scheme']))
+    {
+      $supportedProtocols = array('http', 'https');
+      if(!in_array($parts['scheme'], $supportedProtocols))
+      {
+        throw new rex_socket_exception('Unsupported protocol "'. $parts['scheme'] .'". Supported protocols are '. implode(', ', $supportedProtocols). '.');
+      }
+      if($parts['scheme'] == 'https')
+      {
+        $ssl = true;
+        $port = 443;
+      }
+    }
+    $port = isset($parts['port']) ? (int) $parts['port'] : $port;
+
+    $path = (isset($parts['path'])     ? $parts['path']          : '/')
+          . (isset($parts['query'])    ? '?'. $parts['query']    : '')
+          . (isset($parts['fragment']) ? '#'. $parts['fragment'] : '');
+
+    return array(
+      'host' => $parts['host'],
+      'port' => $port,
+      'ssl' => $ssl,
+      'path' => $path
+    );
   }
 }
 

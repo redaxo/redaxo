@@ -14,7 +14,7 @@ class rex_cronjob_urlrequest extends rex_cronjob
   {
     try
     {
-      $socket = rex_socket::createByUrl($this->getParam('url'));
+      $socket = rex_socket::factoryUrl($this->getParam('url'));
       if($this->getParam('http-auth') == '|1|')
       {
         $socket->addBasicAuthorization($this->getParam('user'), $this->getParam('password'));
