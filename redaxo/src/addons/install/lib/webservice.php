@@ -23,7 +23,8 @@ class rex_install_webservice
     $error = null;
     try
     {
-      $socket = new rex_socket(self::HOST, $fullpath, self::PORT, self::TRANSPORT);
+      $socket = new rex_socket(self::HOST, self::PORT, self::TRANSPORT);
+      $socket->setPath($fullpath);
       $response = $socket->doGet();
       if($response->isOk())
       {
@@ -78,7 +79,8 @@ class rex_install_webservice
     $error = null;
     try
     {
-      $socket = new rex_socket(self::HOST, $fullpath, self::PORT, self::TRANSPORT);
+      $socket = new rex_socket(self::HOST, self::PORT, self::TRANSPORT);
+      $socket->setPath($fullpath);
       $files = array();
       if($archive)
       {
@@ -111,7 +113,8 @@ class rex_install_webservice
     $error = null;
     try
     {
-      $socket = new rex_socket(self::HOST, $fullpath, self::PORT, self::TRANSPORT);
+      $socket = new rex_socket(self::HOST, self::PORT, self::TRANSPORT);
+      $socket->setPath($fullpath);
       $response = $socket->doDelete();
       if($response->isOk())
       {

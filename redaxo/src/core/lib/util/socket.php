@@ -26,7 +26,7 @@ class rex_socket
 {
   private $transport;
   private $host;
-  private $path;
+  private $path = '/';
   private $port;
   private $timeout = 15;
   private $headers = array();
@@ -35,17 +35,15 @@ class rex_socket
    * Constructor
    *
    * @param string $host Host name
-   * @param string $path Path
    * @param integer $port Port number
    * @param string $transport Transport, e.g. "ssl"
    *
    * @see rex_socket::createByUrl()
    */
-  public function __construct($host, $path = '/', $port = 80, $transport = '')
+  public function __construct($host, $port = 80, $transport = '')
   {
     $this->transport = $transport;
     $this->host = $host;
-    $this->path = $path;
     $this->port = $port;
   }
 
@@ -85,7 +83,23 @@ class rex_socket
       }
     }
     $port = isset($parts['port']) ? $parts['port'] : $port;
-    return new self($host, $path, $port, $transport);
+
+    $socket = new self($host, $port, $transport);
+    $socket->setPath($path);
+    return $socket;
+  }
+
+  /**
+   * Sets the path
+   *
+   * @param string $path
+   * @return self Current socket
+   */
+  public function setPath($path)
+  {
+    $this->path = $path;
+
+    return $this;
   }
 
   /**
