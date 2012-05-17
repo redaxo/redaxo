@@ -93,10 +93,13 @@ class rex_socket
    *
    * @param string $key
    * @param string $value
+   * @return self Current socket
    */
   public function addHeader($key, $value)
   {
     $this->headers[$key] = $value;
+
+    return $this;
   }
 
   /**
@@ -104,20 +107,26 @@ class rex_socket
    *
    * @param string $user
    * @param string $password
+   * @return self Current socket
    */
   public function addBasicAuthorization($user, $password)
   {
     $this->addHeader('Authorization', 'Basic '. base64_encode($user .':'. $password));
+
+    return $this;
   }
 
   /**
    * Sets the timeout for the connection
    *
    * @param int $timeout Timeout
+   * @return self Current socket
    */
   public function setTimeout($timeout)
   {
     $this->timeout = $timeout;
+
+    return $this;
   }
 
   /**
