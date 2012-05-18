@@ -13,22 +13,6 @@ class rex_socket_proxy extends rex_socket
     $destinationSsl;
 
   /**
-   * Constructor
-   *
-   * @param string $host Proxy host name
-   * @param integer $port Proxy port number
-   * @param boolean $ssl Proxy SSL flag
-   */
-  protected function __construct($host, $port = 80, $ssl = false)
-  {
-    parent::__construct($host, $port, $ssl);
-
-    unset($this->headers['Host']);
-    unset($this->headers['Connection']);
-    $this->addHeader('Proxy-Connection', 'Close');
-  }
-
-  /**
    * Sets the destination
    *
    * @param string $host Host name
@@ -61,10 +45,30 @@ class rex_socket_proxy extends rex_socket
   }
 
   /* (non-PHPdoc)
-   * @see rex_socket::getPath()
+   * @see rex_socket::openConnection()
    */
-  protected function getPath()
+  protected function openConnection()
   {
-    return ($this->ssl ? 'https' : 'http') . '://' . $this->destinationHost . ':' . $this->destinationPort . $this->path;
+    parent::openConnection();
+
+    if ($this->destinationSsl)
+    {
+      $headers = array(
+        'Host' => $this->destinationHost . ':' . $this->destinationPort,
+        'Proxy-Connection' => 'Keep-Alive'
+      );
+      $response = $this->writeRequest('CONNECT', $this->destinationHost . ':' . $this->destinationPort, $headers);
+      if (!$response->isOk())
+      {
+        throw new rex_socket_exception(sprintf('Couldn\'t connect to proxy server, server responds with "%s %s"'), $response->getStatusCode(), $response->getStatusMessage());
+      }
+      stream_socket_enable_crypto($this->fp, true, STREAM_CRYPTO_METHOD_SSLv3_CLIENT);
+    }
+    else
+    {
+      unset($this->headers['Connection']);
+      $this->addHeader('Proxy-Connection', 'Close');
+      $this->path = ($this->destinationSsl ? 'https' : 'http') . '://' . $this->destinationHost . ':' . $this->destinationPort . $this->path;
+    }
   }
 }

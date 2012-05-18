@@ -236,15 +236,4 @@ class rex_socket_response
     }
     return $success;
   }
-
-  /**
-   * Destructor, closes the socket resource
-   */
-  public function __destruct()
-  {
-    if(is_resource($this->fp))
-    {
-      fclose($this->fp);
-    }
-  }
 }

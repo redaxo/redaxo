@@ -31,7 +31,9 @@ class rex_socket
     $ssl,
     $path = '/',
     $timeout = 15,
-    $headers = array();
+    $headers = array(),
+    $fp,
+    $response;
 
   /**
    * Constructor
@@ -144,6 +146,7 @@ class rex_socket
    * Makes a GET request
    *
    * @return rex_socket_response Response
+   * @throws rex_socket_exception
    */
   public function doGet()
   {
@@ -156,6 +159,7 @@ class rex_socket
    * @param string|array|callable $data Body data as string or array (POST parameters) or a callback for writing the body
    * @param array $files Files array, e.g. <code>array('myfile' => array('path' => $path, 'type' => 'image/png'))</code>
    * @return rex_socket_response Response
+   * @throws rex_socket_exception
    */
   public function doPost($data = '', array $files = array())
   {
@@ -217,6 +221,7 @@ class rex_socket
    * Makes a DELETE request
    *
    * @return rex_socket_response Response
+   * @throws rex_socket_exception
    */
   public function doDelete()
   {
@@ -239,53 +244,69 @@ class rex_socket
       throw new rex_exception(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
     }
 
+    $this->openConnection();
+    return $this->writeRequest($method, $this->path, $this->headers, $data);
+  }
+
+  /**
+   * Opens the socket connection
+   *
+   * @throws rex_socket_exception
+   */
+  protected function openConnection()
+  {
     $host = ($this->ssl ? 'ssl://' : '') . $this->host;
-    if(!($fp = @fsockopen($host, $this->port, $errno, $errstr)))
+    if(!($this->fp = @fsockopen($host, $this->port, $errno, $errstr)))
     {
       throw new rex_socket_exception($errstr .' ('. $errno .')');
     }
 
-    stream_set_timeout($fp, $this->timeout);
+    stream_set_timeout($this->fp, $this->timeout);
+  }
+
+  /**
+   * Writes a request to the opened connection
+   *
+   * @param string $method HTTP method, e.g. "GET"
+   * @param string $path Path
+   * @param array $headers Headers
+   * @param string|callable $data Body data as string or a callback for writing the body
+   * @throws rex_socket_exception
+   * @return rex_socket_response Response
+   */
+  protected function writeRequest($method, $path, $headers = array(), $data = '')
+  {
+    $this->response = null;
 
     $eol = "\r\n";
-    $headers = array();
-    $headers[] = strtoupper($method) .' '. $this->getPath() .' HTTP/1.1';
-    foreach($this->headers as $key => $value)
+    $headerStrings = array();
+    $headerStrings[] = strtoupper($method) .' '. $path .' HTTP/1.1';
+    foreach($headers as $key => $value)
     {
-      $headers[] = $key .': '. $value;
+      $headerStrings[] = $key .': '. $value;
     }
-    foreach($headers as $header)
+    foreach($headerStrings as $header)
     {
-      fwrite($fp, str_replace(array("\r", "\n"), '', $header) . $eol);
+      echo $header .'<br>';
+      fwrite($this->fp, str_replace(array("\r", "\n"), '', $header) . $eol);
     }
     if(!is_callable($data))
     {
-      fwrite($fp, 'Content-Length: '. rex_string::size($data) . $eol);
-      fwrite($fp, $eol . $data);
+      fwrite($this->fp, 'Content-Length: '. rex_string::size($data) . $eol);
+      fwrite($this->fp, $eol . $data);
     }
     else
     {
-      call_user_func($data, $fp);
+      call_user_func($data, $this->fp);
     }
-    $this->headers = array();
 
-    $meta = stream_get_meta_data($fp);
+    $meta = stream_get_meta_data($this->fp);
     if($meta['timed_out'])
     {
       throw new rex_socket_exception('Timeout!');
     }
 
-    return new rex_socket_response($fp);
-  }
-
-  /**
-   * Returns the path for the request
-   *
-   * @return string Path
-   */
-  protected function getPath()
-  {
-    return $this->path;
+    return new rex_socket_response($this->fp);
   }
 
   /**
