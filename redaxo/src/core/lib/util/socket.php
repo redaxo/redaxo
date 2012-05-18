@@ -287,7 +287,6 @@ class rex_socket
     }
     foreach($headerStrings as $header)
     {
-      echo $header .'<br>';
       fwrite($this->fp, str_replace(array("\r", "\n"), '', $header) . $eol);
     }
     if(!is_callable($data))
