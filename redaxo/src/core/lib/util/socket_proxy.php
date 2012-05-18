@@ -68,7 +68,7 @@ class rex_socket_proxy extends rex_socket
     {
       unset($this->headers['Connection']);
       $this->addHeader('Proxy-Connection', 'Close');
-      $this->path = ($this->destinationSsl ? 'https' : 'http') . '://' . $this->destinationHost . ':' . $this->destinationPort . $this->path;
+      $this->path = 'http://' . $this->destinationHost . ':' . $this->destinationPort . $this->path;
     }
   }
 }
