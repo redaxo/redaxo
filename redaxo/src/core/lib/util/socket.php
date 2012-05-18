@@ -32,7 +32,7 @@ class rex_socket
     $path = '/',
     $timeout = 15,
     $headers = array(),
-    $fp,
+    $stream,
     $response;
 
   /**
@@ -165,11 +165,11 @@ class rex_socket
   {
     if(is_array($data) && !empty($files))
     {
-      $data = function($fp) use ($data, $files)
+      $data = function($stream) use ($data, $files)
       {
         $boundary = '----------6n2Yd9bk2liD6piRHb5xF6';
         $eol = "\r\n";
-        fwrite($fp, 'Content-Type: multipart/form-data; boundary='. $boundary . $eol);
+        fwrite($stream, 'Content-Type: multipart/form-data; boundary='. $boundary . $eol);
         $dataFormat = '--'. $boundary . $eol . 'Content-Disposition: form-data; name="%s"'. $eol . $eol;
         $fileFormat = '--'. $boundary . $eol . 'Content-Disposition: form-data; name="%s"; filename="%s"'. $eol .'Content-Type: %s'. $eol . $eol;
         $end = '--'. $boundary .'--'. $eol;
@@ -189,23 +189,23 @@ class rex_socket
           $length += $partLength + rex_string::size($key) + rex_string::size(basename($file['path'])) + rex_string::size($file['type']) + filesize($file['path']);
         }
         $length += rex_string::size($end);
-        fwrite($fp, 'Content-Length: '. $length . $eol . $eol);
+        fwrite($stream, 'Content-Length: '. $length . $eol . $eol);
         foreach($data as $key => $value)
         {
-          fwrite($fp, sprintf($dataFormat, $key) . $value . $eol);
+          fwrite($stream, sprintf($dataFormat, $key) . $value . $eol);
         }
         foreach($files as $key => $file)
         {
-          fwrite($fp, sprintf($fileFormat, $key, basename($file['path']), $file['type']));
+          fwrite($stream, sprintf($fileFormat, $key, basename($file['path']), $file['type']));
           $file = fopen($file['path'], 'rb');
           while(!feof($file))
           {
-            fwrite($fp, fread($file, 1024));
+            fwrite($stream, fread($file, 1024));
           }
           fclose($file);
-          fwrite($fp, $eol);
+          fwrite($stream, $eol);
         }
-        fwrite($fp, $end);
+        fwrite($stream, $end);
       };
     }
     elseif(!is_callable($data))
@@ -256,12 +256,12 @@ class rex_socket
   protected function openConnection()
   {
     $host = ($this->ssl ? 'ssl://' : '') . $this->host;
-    if(!($this->fp = @fsockopen($host, $this->port, $errno, $errstr)))
+    if(!($this->stream = @fsockopen($host, $this->port, $errno, $errstr)))
     {
       throw new rex_socket_exception($errstr .' ('. $errno .')');
     }
 
-    stream_set_timeout($this->fp, $this->timeout);
+    stream_set_timeout($this->stream, $this->timeout);
   }
 
   /**
@@ -287,25 +287,25 @@ class rex_socket
     }
     foreach($headerStrings as $header)
     {
-      fwrite($this->fp, str_replace(array("\r", "\n"), '', $header) . $eol);
+      fwrite($this->stream, str_replace(array("\r", "\n"), '', $header) . $eol);
     }
     if(!is_callable($data))
     {
-      fwrite($this->fp, 'Content-Length: '. rex_string::size($data) . $eol);
-      fwrite($this->fp, $eol . $data);
+      fwrite($this->stream, 'Content-Length: '. rex_string::size($data) . $eol);
+      fwrite($this->stream, $eol . $data);
     }
     else
     {
-      call_user_func($data, $this->fp);
+      call_user_func($data, $this->stream);
     }
 
-    $meta = stream_get_meta_data($this->fp);
+    $meta = stream_get_meta_data($this->stream);
     if($meta['timed_out'])
     {
       throw new rex_socket_exception('Timeout!');
     }
 
-    return new rex_socket_response($this->fp);
+    return new rex_socket_response($this->stream);
   }
 
   /**
