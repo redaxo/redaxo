@@ -1,3 +1,15 @@
-version: '5.0 a1'
+version: '5.0 b1'
 author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
+
+name: 'Debug'
+perm: admin[]
+navigation:
+  block: system
+  prio: 90
+pages:
+  - ['', 'translate:settings']
+
+requires:
+  redaxo:
+    min-version: '5.0.alpha3'
