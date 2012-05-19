@@ -8,10 +8,11 @@
 class rex_response
 {
   const
-  HTTP_OK = "200 Ok",
-  HTTP_NOT_FOUND = "404 Not Found",
-  HTTP_FORBIDDEN = "403 Forbidden",
-  HTTP_UNAUTHORIZED = "401 Unauthorized";
+  HTTP_OK = '200 Ok',
+  HTTP_NOT_FOUND = '404 Not Found',
+  HTTP_FORBIDDEN = '403 Forbidden',
+  HTTP_UNAUTHORIZED = '401 Unauthorized',
+  HTTP_INTERNAL_ERROR = '500 Internal Server Error';
 
   private static $httpStatus = self::HTTP_OK;
 
@@ -22,6 +23,33 @@ class rex_response
     }
 
     self::$httpStatus = $httpStatus;
+  }
+
+  static public function handleException(Exception $exc)
+  {
+    if(self::$httpStatus == self::HTTP_OK)
+    {
+      self::setStatus(self::HTTP_INTERNAL_ERROR);
+    }
+
+    if(($user = rex::getUser()) && $user->isAdmin())
+    {
+      // TODO add a beautiful error page with usefull debugging info
+      $buf = '';
+      $buf .= '<pre>';
+      $buf .= 'Exception thrown in '. $exc->getFile() .' on line '. $exc->getLine()."\n\n";
+      $buf .= '<b>'. $exc->getMessage()."</b>\n";
+      $buf .= $exc->getTraceAsString();
+      $buf .= '</pre>';
+
+      self::send($buf);
+    }
+    else
+    {
+      // TODO small error page, without debug infos
+      self::send('Oooops, an internal error occured!');
+      exit();
+    }
   }
 
   static public function sendRedirect($url)
@@ -137,12 +165,6 @@ class rex_response
    */
   static public function sendContent($content, $lastModified, $etag, $environment, $sendcharset = FALSE)
   {
-    // Cachen erlauben, nach revalidierung
-    // see http://xhtmlforum.de/35221-php-session-etag-header.html#post257967
-    session_cache_limiter('none');
-    header('HTTP/1.1 '. self::$httpStatus);
-    header('Cache-Control: must-revalidate, proxy-revalidate, private');
-
     if($sendcharset)
     {
       header('Content-Type: text/html; charset=utf-8');
@@ -167,6 +189,17 @@ class rex_response
       if(rex::getProperty('use_md5') === 'true' || rex::getProperty('use_md5') == $environment)
         self::sendChecksum(self::md5($content));
     }
+
+    self::send($content);
+  }
+
+  static protected function send($content)
+  {
+    // Cachen erlauben, nach revalidierung
+    // see http://xhtmlforum.de/35221-php-session-etag-header.html#post257967
+    session_cache_limiter('none');
+    header('HTTP/1.1 '. self::$httpStatus);
+    header('Cache-Control: must-revalidate, proxy-revalidate, private');
 
     // content length schicken, damit der browser einen ladebalken anzeigen kann
     header('Content-Length: '. rex_string::size($content));

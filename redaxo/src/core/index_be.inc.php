@@ -99,58 +99,65 @@ if(rex::getUser())
 
 rex::setProperty('pages', $pages);
 
-// ----- INCLUDE ADDONS
-include_once rex_path::core('packages.inc.php');
-
-$pages = rex::getProperty('pages');
-
-// ----- Prepare AddOn Pages
-if(rex::getUser())
+try
 {
-  $pages = rex_be_controller::appendAddonPages($pages);
-}
+  // ----- INCLUDE ADDONS
+  include_once rex_path::core('packages.inc.php');
 
-$page = rex::getProperty('page');
+  $pages = rex::getProperty('pages');
 
-// Set Startpage
-if($user = rex::getUser())
-{
-  // --- page herausfinden
-  $reqPage = trim(rex_request('page', 'string'));
-
-  // --- page pruefen und benoetigte rechte checken
-  if(!($page = rex_be_controller::checkPage($reqPage, $pages, $user)))
+  // ----- Prepare AddOn Pages
+  if(rex::getUser())
   {
-    // --- fallback auf "profile"; diese page hat jeder user
-    rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
-    rex_response::sendRedirect('index.php?page=profile');
+    $pages = rex_be_controller::appendAddonPages($pages);
   }
+
+  $page = rex::getProperty('page');
+
+  // Set Startpage
+  if($user = rex::getUser())
+  {
+    // --- page herausfinden
+    $reqPage = trim(rex_request('page', 'string'));
+
+    // --- page pruefen und benoetigte rechte checken
+    if(!($page = rex_be_controller::checkPage($reqPage, $pages, $user)))
+    {
+      // --- fallback auf "profile"; diese page hat jeder user
+      rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
+      rex_response::sendRedirect('index.php?page=profile');
+    }
+  }
+
+  rex::setProperty('page', $page);
+  rex::setProperty('pages', $pages);
+
+  // ----- EXTENSION POINT
+  // page variable validated
+  rex_extension::registerPoint( 'PAGE_CHECKED', $page, array('pages' => $pages));
+
+  // trigger api functions
+  rex_api_function::handleCall();
+
+  $_pageObj = $pages[$page]->getPage();
+  $_activePageObj = $_pageObj;
+  $subpage = $_pageObj->getActiveSubPage();
+  if($subpage != null)
+  {
+    $_activePageObj = $subpage;
+  }
+
+  // include the requested backend page
+  rex_be_controller::includePage($_activePageObj, $_pageObj, $page);
+
+  // ----- caching end für output filter
+  $CONTENT = ob_get_contents();
+  ob_end_clean();
+
+  // ----- inhalt ausgeben
+  rex_response::sendArticle($CONTENT);
 }
-
-rex::setProperty('page', $page);
-rex::setProperty('pages', $pages);
-
-// ----- EXTENSION POINT
-// page variable validated
-rex_extension::registerPoint( 'PAGE_CHECKED', $page, array('pages' => $pages));
-
-// trigger api functions
-rex_api_function::handleCall();
-
-$_pageObj = $pages[$page]->getPage();
-$_activePageObj = $_pageObj;
-$subpage = $_pageObj->getActiveSubPage();
-if($subpage != null)
+catch (Exception $exc)
 {
-  $_activePageObj = $subpage;
+  rex_response::handleException($exc);
 }
-
-// include the requested backend page
-rex_be_controller::includePage($_activePageObj, $_pageObj, $page);
-
-// ----- caching end für output filter
-$CONTENT = ob_get_contents();
-ob_end_clean();
-
-// ----- inhalt ausgeben
-rex_response::sendArticle($CONTENT);
