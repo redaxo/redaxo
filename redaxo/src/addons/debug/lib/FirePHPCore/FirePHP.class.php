@@ -234,7 +234,7 @@ class FirePHP {
      * 
      * @var boolean
      */
-    protected $enabled = true;
+    protected $enabled = false;
 
     /**
      * The insight console to log to if applicable

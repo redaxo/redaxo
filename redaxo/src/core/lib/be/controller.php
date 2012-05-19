@@ -89,7 +89,7 @@ class rex_be_controller
       {
         $addonPage = $page;
       }
-      else if($perm == '' || rex::getUser()->hasPerm($perm) || rex::getUser()->isAdmin())
+      elseif ($perm == '' || rex::getUser()->hasPerm($perm))
       {
         if ($title != '')
         {
@@ -105,7 +105,7 @@ class rex_be_controller
         {
           if (is_array($s))
           {
-            if (!isset($s[2]) || rex::getUser()->hasPerm($s[2]) || rex::getUser()->isAdmin())
+            if (!isset($s[2]) || rex::getUser()->hasPerm($s[2]))
             {
               $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
               $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);
@@ -138,7 +138,7 @@ class rex_be_controller
         {
           $pluginPage = $page;
         }
-        else if ($perm == '' || rex::getUser()->hasPerm($perm) || rex::getUser()->isAdmin())
+        else if ($perm == '' || rex::getUser()->hasPerm($perm))
         {
           if($title != '')
           {
@@ -152,7 +152,7 @@ class rex_be_controller
         {
           if(is_array($s) && $addonPage)
           {
-            if (!isset($s[2]) || rex::getUser()->hasPerm($s[2]) || rex::getUser()->isAdmin())
+            if (!isset($s[2]) || rex::getUser()->hasPerm($s[2]))
             {
               $subPage = new rex_be_page($s[1], array('page' => $addonName, 'subpage' => $s[0]));
               $subPage->setHref('index.php?page='.$addonName.'&subpage='.$s[0]);

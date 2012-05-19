@@ -13,7 +13,7 @@ $warning = '';
 //-------------- delete cache on type_name change or type deletion
 if((rex_post('func') == 'edit' || $func == 'delete') && $type_id > 0)
 {
-  $counter = rex_media_manager_deleteCacheByType($type_id);
+  $counter = rex_media_manager::deleteCacheByType($type_id);
   //  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
 }
 
@@ -97,7 +97,7 @@ if ($func == '')
   });
 
   $content .= $list->get();
-  
+
 }elseif ($func == 'add' || $func == 'edit' && $type_id > 0)
 {
   if($func == 'edit')

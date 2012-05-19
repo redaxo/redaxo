@@ -42,7 +42,7 @@ class rex_api_content_move_slice extends rex_api_function
       $module_id = (int) $CM->getValue(rex::getTablePrefix()."article_slice.modultyp_id");
 
       // ----- RECHTE AM MODUL ?
-      if ($user->isAdmin() || $user->getComplexPerm('modules')->hasPerm($module_id))
+      if ($user->getComplexPerm('modules')->hasPerm($module_id))
       {
         $message = rex_content_service::moveSlice($slice_id, $clang, $direction);
       }

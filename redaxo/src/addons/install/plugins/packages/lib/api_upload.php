@@ -9,33 +9,49 @@ class rex_api_install_packages_upload extends rex_api_function
       throw new rex_api_exception('You do not have the permission!');
     }
     $addonkey = rex_request('addonkey', 'string');
-    $upload = rex_request('upload', 'array');
+    $upload = rex_request('upload', array(
+      array('upload_file', 'bool'),
+      array('oldversion', 'string'),
+      array('redaxo', 'array[string]'),
+      array('description', 'string'),
+      array('status', 'int'),
+      array('replace_assets', 'bool'),
+      array('ignore_tests', 'bool')
+    ));
     $file = array();
     $archive = null;
-    $uploadFile = isset($upload['upload_file']) && $upload['upload_file'];
-    $file['version'] = $uploadFile ? rex_addon::get($addonkey)->getVersion() : $upload['oldversion'];
+    $file['version'] = $upload['upload_file'] ? rex_addon::get($addonkey)->getVersion() : $upload['oldversion'];
     $file['redaxo_versions'] = $upload['redaxo'];
     $file['description'] = $upload['description'];
-    $file['status'] = (integer) isset($upload['status']) && $upload['status'];
+    $file['status'] = $upload['status'];
     try
     {
-      if($uploadFile)
+      if ($upload['upload_file'])
       {
         $archive = rex_path::addonCache('install', md5($addonkey . time()) .'.zip');
-        $replaceAssets = isset($upload['replace_assets']) && $upload['replace_assets'];
-        $exclude = $replaceAssets ? array('assets') : null;
+        $exclude = array();
+        if ($upload['replace_assets'])
+        {
+          $exclude[] = 'assets';
+        }
+        if ($upload['ignore_tests'])
+        {
+          $exclude[] = 'tests';
+        }
         rex_install_helper::copyDirToArchive(rex_path::addon($addonkey), $archive, null, $exclude);
-        if($replaceAssets)
+        if ($upload['replace_assets'])
+        {
           rex_install_helper::copyDirToArchive(rex_path::addonAssets($addonkey), $archive, $addonkey .'/assets');
+        }
         $file['checksum'] = md5_file($archive);
       }
       rex_install_webservice::post(rex_install_packages::getPath('?package='.$addonkey.'&file_id='.rex_request('file', 'int', 0)), array('file' => $file), $archive);
     }
-    catch(rex_functional_exception $e)
+    catch (rex_functional_exception $e)
     {
       throw new rex_api_exception($e->getMessage());
     }
-    if($archive)
+    if ($archive)
       rex_file::delete($archive);
     unset($_REQUEST['addonkey']);
     unset($_REQUEST['file']);

@@ -99,23 +99,14 @@ $sel_startpage->setName("userperm_startpage");
 $sel_startpage->setId("userperm-startpage");
 $sel_startpage->addOption("default","");
 
-$startpages = array();
-$startpages['structure'] = array(rex_i18n::msg('structure'),'');
-$startpages['profile'] = array(rex_i18n::msg('profile'),'');
-// TODO set startpages
-/*
-foreach($REX['ADDON']['status'] as $k => $v)
+foreach (rex::getProperty('pages') as $page => $pageObj)
 {
-  if (isset($REX['ADDON']['perm'][$k]) && isset($REX['ADDON']['name'][$k]))
+  /* @var $pageObj rex_be_page */
+  $pageObj = $pageObj->getPage();
+  if ($pageObj->hasNavigation() && !$pageObj->getHidden())
   {
-    $startpages[$k] = array($REX['ADDON']['name'][$k],$REX['ADDON']['perm'][$k]);
+    $sel_startpage->addOption($pageObj->getPage()->getTitle(), $page);
   }
-}
-*/
-
-foreach($startpages as $k => $v)
-{
-  $sel_startpage->addOption($v[0],$k);
 }
 $userperm_startpage = rex_request('userperm_startpage', 'string');
 
@@ -448,6 +439,13 @@ if ($FUNC_ADD != "" || $user_id > 0)
           pwInp.val(Sha1.hash(pwInp.val()));
         }
     });
+
+    $("#useradmin").change(function() {
+   	  if ($(this).is(":checked"))
+   	    $("#userrole").attr("disabled", "disabled");
+   	  else
+   	    $("#userrole").removeAttr("disabled");
+	}).change();
 
     $("#javascript").val("1");
   });
