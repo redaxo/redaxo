@@ -309,7 +309,7 @@ class rex_socket
   }
 
   /**
-   * Parses a full URL and returns an array with the keys "host", "port", "transport" and "path"
+   * Parses a full URL and returns an array with the keys "host", "port", "ssl" and "path"
    *
    * @param string $url Full URL
    * @return array URL parts
