@@ -549,13 +549,18 @@ jQuery(document).ready(function($) {
 	$('#rex-page-main .rex-navi-path a').pjax('#rex-page-main');
 	// links from lists within the main-container
 	$('#rex-page-main .rex-table a').pjax('#rex-page-main');
-	
-	
-	$(document).on('pjax:error', function(e, xhr, err) {
-		$('#rex-message-container').text('Something went wrong: ' + err);
-	});
-	
-	$(document)
+
+	// add pjax error handling
+  $(document)
+    .on('pjax:error', function(e, xhr, err) {
+      // user not authorized -> redirect to login page
+      if (xhr.status === 401)
+      {
+         window.location = 'index.php?page=login';
+         return false;
+      }
+      $('#rex-message-container').text('Something went wrong: ' + err);
+    })
   	.on('pjax:success', function(e, data, status, xhr, options) {
   	  var paramUrl = options.url.split('?'), page, subpage;
   	  

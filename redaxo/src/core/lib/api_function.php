@@ -108,10 +108,16 @@ abstract class rex_api_function extends rex_factory_base
       if($apiFunc->published !== true)
       {
         if(rex::isBackend() !== true)
+        {
+          rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
           throw new rex_api_exception('the api function '. get_class($apiFunc) .' is not published, therefore can only be called from the backend!');
+        }
 
         if(!rex::getUser())
+        {
+          rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
           throw new rex_api_exception('missing backend session to call api function '. get_class($apiFunc) .'!');
+        }
       }
 
       try {
