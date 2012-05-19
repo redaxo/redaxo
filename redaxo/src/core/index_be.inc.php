@@ -51,6 +51,8 @@ if (rex::isSetup())
   $rex_user_loginmessage = "";
   if ($loginCheck !== true)
   {
+    rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
+
     // login failed
     $rex_user_loginmessage = $login->message;
 
@@ -120,8 +122,8 @@ if($user = rex::getUser())
   if(!($page = rex_be_controller::checkPage($reqPage, $pages, $user)))
   {
     // --- fallback auf "profile"; diese page hat jeder user
-    header('Location: index.php?page=profile');
-    exit();
+    rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
+    rex_response::sendRedirect('index.php?page=profile');
   }
 }
 

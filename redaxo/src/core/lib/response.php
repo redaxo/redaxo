@@ -7,6 +7,34 @@
  */
 class rex_response
 {
+  const
+  HTTP_OK = "200 Ok",
+  HTTP_NOT_FOUND = "404 Not Found",
+  HTTP_FORBIDDEN = "403 Forbidden",
+  HTTP_UNAUTHORIZED = "401 Unauthorized";
+
+  private static $httpStatus = self::HTTP_OK;
+
+  static public function setStatus($httpStatus)
+  {
+    if(strpos($httpStatus, "\n") !== false){
+      throw new rex_exception('Illegal http-status "'. $httpStatus .'", contains newlines');
+    }
+
+    self::$httpStatus = $httpStatus;
+  }
+
+  static public function sendRedirect($url)
+  {
+    if(strpos($url, "\n") !== false){
+      throw new rex_exception('Illegal redirect url "'. $url .'", contains newlines');
+    }
+
+    header('HTTP/1.1 '. self::$httpStatus);
+    header('Location: '. $url);
+    exit();
+  }
+
   /**
    * Sendet eine Datei zum Client
    *
@@ -112,6 +140,7 @@ class rex_response
     // Cachen erlauben, nach revalidierung
     // see http://xhtmlforum.de/35221-php-session-etag-header.html#post257967
     session_cache_limiter('none');
+    header('HTTP/1.1 '. self::$httpStatus);
     header('Cache-Control: must-revalidate, proxy-revalidate, private');
 
     if($sendcharset)
@@ -119,22 +148,25 @@ class rex_response
       header('Content-Type: text/html; charset=utf-8');
     }
 
-    // ----- Last-Modified
-    if(rex::getProperty('use_last_modified') === 'true' || rex::getProperty('use_last_modified') == $environment)
-      self::sendLastModified($lastModified);
+    if(self::$httpStatus == self::HTTP_OK)
+    {
+      // ----- Last-Modified
+      if(rex::getProperty('use_last_modified') === 'true' || rex::getProperty('use_last_modified') == $environment)
+        self::sendLastModified($lastModified);
 
-    // ----- ETAG
-    if(rex::getProperty('use_etag') === 'true' || rex::getProperty('use_etag') == $environment)
-      self::sendEtag($etag);
+      // ----- ETAG
+      if(rex::getProperty('use_etag') === 'true' || rex::getProperty('use_etag') == $environment)
+        self::sendEtag($etag);
 
-    // ----- GZIP
-    if(rex::getProperty('use_gzip') === 'true' || rex::getProperty('use_gzip') == $environment)
-      $content = self::sendGzip($content);
+      // ----- GZIP
+      if(rex::getProperty('use_gzip') === 'true' || rex::getProperty('use_gzip') == $environment)
+        $content = self::sendGzip($content);
 
-    // ----- MD5 Checksum
-    // dynamische teile sollen die md5 summe nicht beeinflussen
-    if(rex::getProperty('use_md5') === 'true' || rex::getProperty('use_md5') == $environment)
-      self::sendChecksum(self::md5($content));
+      // ----- MD5 Checksum
+      // dynamische teile sollen die md5 summe nicht beeinflussen
+      if(rex::getProperty('use_md5') === 'true' || rex::getProperty('use_md5') == $environment)
+        self::sendChecksum(self::md5($content));
+    }
 
     // content length schicken, damit der browser einen ladebalken anzeigen kann
     header('Content-Length: '. rex_string::size($content));

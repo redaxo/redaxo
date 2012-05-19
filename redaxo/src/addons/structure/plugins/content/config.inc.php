@@ -39,7 +39,6 @@ else
 
       if ($article->setArticleId(rex::getProperty('article_id')))
       {
-        
         if(rex_request::isPJAXRequest())
         {
           $content .= $article->getArticle();
@@ -57,7 +56,7 @@ else
       $art_id = $article->getArticleId();
       if($art_id == rex::getProperty('notfound_article_id') && $art_id != rex::getProperty('start_article_id'))
       {
-        header("HTTP/1.0 404 Not Found");
+        rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
       }
 
       // ----- inhalt ausgeben

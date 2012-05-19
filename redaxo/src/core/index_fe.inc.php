@@ -19,10 +19,10 @@ ob_implicit_flush(0);
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.inc.php');
 
+
 if(rex::isSetup())
 {
-  header('Location:redaxo/');
-  exit();
+  rex_response::sendRedirect('redaxo/');
 }
 
 // ----- caching end für output filter
