@@ -13,7 +13,7 @@ class rex_socket_response
   private $chunkLength = 0;
   private $statusCode;
   private $statusMessage;
-  private $header;
+  private $header = '';
   private $headers = array();
   private $body;
 
@@ -36,7 +36,8 @@ class rex_socket_response
     {
       $this->header .= fgets($this->stream);
     }
-    if(preg_match('@^HTTP/1\.\d ([0-9]{3}) (\V*)@', $this->getHeader(), $matches))
+    $this->header = rtrim($this->header);
+    if (preg_match('@^HTTP/1\.\d ([0-9]+) (\V+)@', $this->header, $matches))
     {
       $this->statusCode = intval($matches[1]);
       $this->statusMessage = $matches[2];

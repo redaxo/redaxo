@@ -274,7 +274,7 @@ class rex_socket
    * @throws rex_socket_exception
    * @return rex_socket_response Response
    */
-  protected function writeRequest($method, $path, $headers = array(), $data = '')
+  protected function writeRequest($method, $path, array $headers = array(), $data = '')
   {
     $this->response = null;
 
@@ -300,7 +300,7 @@ class rex_socket
     }
 
     $meta = stream_get_meta_data($this->stream);
-    if($meta['timed_out'])
+    if(isset($meta['timed_out']) && $meta['timed_out'])
     {
       throw new rex_socket_exception('Timeout!');
     }
@@ -317,21 +317,25 @@ class rex_socket
   static protected function parseUrl($url)
   {
     $parts = parse_url($url);
-    if(!isset($parts['host']))
+    if ($parts !== false && !isset($parts['host']) && strpos($url, 'http') !== 0)
+    {
+      $parts = parse_url('http://' . $url);
+    }
+    if ($parts === false || !isset($parts['host']))
     {
       throw new rex_socket_exception('It isn\'t possible to parse the URL "'. $url .'"!');
     }
 
     $port = 80;
     $ssl = false;
-    if(isset($parts['scheme']))
+    if (isset($parts['scheme']))
     {
       $supportedProtocols = array('http', 'https');
-      if(!in_array($parts['scheme'], $supportedProtocols))
+      if (!in_array($parts['scheme'], $supportedProtocols))
       {
         throw new rex_socket_exception('Unsupported protocol "'. $parts['scheme'] .'". Supported protocols are '. implode(', ', $supportedProtocols). '.');
       }
-      if($parts['scheme'] == 'https')
+      if ($parts['scheme'] == 'https')
       {
         $ssl = true;
         $port = 443;
