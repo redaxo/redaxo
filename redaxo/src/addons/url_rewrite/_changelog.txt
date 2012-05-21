@@ -4,13 +4,13 @@
 <strong>1.1.4 - 11.04.2009</strong>
 
 Bugfixes (jan)
- 
+
 
 <strong>1.1.3 - 18.02.2009</strong>
 
 WICHTIG: Nur mit REDAXO 4.2 kompatibel!
 
-- Pathlist generation optimiert (nur noch differenziell wenn möglich)
+- Pathlist generation optimiert (nur noch differenziell wenn mÃ¶glich)
 - Anderes Url-Format (GN2)
 - Bugfixes
 
@@ -25,11 +25,11 @@ WICHTIG: Nur mit REDAXO 4.2 kompatibel!
 
 <strong>1.1 - 21.10.2007</strong>
 
-- Anpassungen für REDAXO4.0
+- Anpassungen fÃ¼r REDAXO4.0
 
 <strong>1.0 - 18.09.2007</strong>
 - rewriteFullnames: (vscope)
- + Parameter werden SuMa freundlich angehängt
+ + Parameter werden SuMa freundlich angehÃ¤ngt
 
 <strong>RC4 - 16.05.2006</strong>
 
@@ -41,18 +41,18 @@ WICHTIG: Nur mit REDAXO 4.2 kompatibel!
 - rewriteFullnames:
  + bugfixes
  + auf EP-Handling umstegestellt
-- .htaccess Beispieldaten in den Rewritern ergänzt
+- .htaccess Beispieldaten in den Rewritern ergÃ¤nzt
 - fileheader
 - Readme handling umgestellt
 
 <strong>RC2 - 12.12.2005</strong>
 
-- Rewriter hinzugefügt: class.rewrite_fullnames.inc.php (vscope)
+- Rewriter hinzugefÃ¼gt: class.rewrite_fullnames.inc.php (vscope)
 - Auf rexExtension umgestellt
-- Rewriter hinzugefügt: class.rewrite_mod_rewrite.inc.php
-- Dateiendung von rex.html auf redaxo.htm geändert
-- Rewriter hinzugefügt: class.rewrite_simple.inc.php
-  
+- Rewriter hinzugefÃ¼gt: class.rewrite_mod_rewrite.inc.php
+- Dateiendung von rex.html auf redaxo.htm geÃ¤ndert
+- Rewriter hinzugefÃ¼gt: class.rewrite_simple.inc.php
+
 <strong>RC1 - 15.10.2005</strong>
 
-- Dateiendung von .redaxo auf rex.html geändert (Suchmaschinenindizierung)
+- Dateiendung von .redaxo auf rex.html geÃ¤ndert (Suchmaschinenindizierung)

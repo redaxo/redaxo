@@ -10,7 +10,7 @@
 
 Dieses Addon erm�glicht es eigene URL Rewrites zu erstellen.
 
-Diese k�nnen via Server ausgewertet (apache mod_rewrite) 
+Diese k�nnen via Server ausgewertet (apache mod_rewrite)
 oder auch selbst via PHP interpretiert werden.
 
 D.h. Es kann auch ein Rewriting der URL durchgef�hrt werden,
@@ -23,11 +23,11 @@ ohne das der Server etwaige Module daf�r bereitstellen muss.
 
 <strong>Konfiguration:</strong>
 
-Die verschiedenen Rewriter Klassen funktionieren nur mit 
-bestimmten Serverkonfigurationen. Um z.b. den Rewriter 
+Die verschiedenen Rewriter Klassen funktionieren nur mit
+bestimmten Serverkonfigurationen. Um z.b. den Rewriter
 <em>class.rewrite_fullnames</em> oder <em>class.rewrite_mod_rewrite</em>
-verwenden zu k�nnen, muss der Apache Server mit 
-dem Modul "mod_rewrite" konfiguriert werden. Wenn Sie dazu 
+verwenden zu k�nnen, muss der Apache Server mit
+dem Modul "mod_rewrite" konfiguriert werden. Wenn Sie dazu
 Fragen haben, sollten sie sich mit Ihrem Provider in verbindung setzen.
 
 Die Standard Rewriter Klasse <em>class.rewrite_simple</em> sollte nur eingesetzt
@@ -51,7 +51,7 @@ werden, wenn der Server <em>nicht</em> mit dem Modul "mod_rewrite" ausgestattet 
   <em>require_once $UrlRewriteBasedir.'/classes/class.rewrite_simple.inc.php';</em>
   Mit dem gew�nschen Rewriter ersetzen, <strong>z.B:</strong>
   <em>require_once $UrlRewriteBasedir.'/classes/class.rewrite_fullname.inc.php';</em>
-  
+
 - /.htaccess Datei anpassen (Beispielkonfigurationen befinden sich in dem jeweiligen Rewriter)
 
 - Unter "Specials" mit "Regeneriere Artikel &amp; Cache" den Artikel Cache regenerieren
@@ -69,7 +69,7 @@ werden, wenn der Server <em>nicht</em> mit dem Modul "mod_rewrite" ausgestattet 
 <strong>Credits:</strong>
 
 Vielen dank an alle die Bugs gemeldet oder Verbesserungsvorschl�ge gegeben haben.
-    
+
 <strong>Besonderen Dank geht an:</strong>
 
 <a href="http://www.vscope.at">vscope - http://www.vscope.at</a>
