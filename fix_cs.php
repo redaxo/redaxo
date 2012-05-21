@@ -10,7 +10,7 @@ if (PHP_SAPI !== 'cli')
 echo PHP_EOL, '== REDAXO CODING STANDARDS FIXER ==', PHP_EOL, PHP_EOL;
 
 $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__DIR__));
-$textExtensions = array('php', 'js', 'yml', 'tpl', 'css', 'textile', 'sql');
+$textExtensions = array('php', 'js', 'yml', 'tpl', 'css', 'textile', 'sql', 'txt');
 $countFixed = 0;
 foreach ($iterator as $path => $file)
 {
