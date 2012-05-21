@@ -69,6 +69,105 @@ if (isset($argv[2]))
   }
 }
 
+class rex_coding_standards_fixer
+{
+  protected
+    $content,
+    $fixable = array(),
+    $nonFixable = array();
+
+  public function __construct($content)
+  {
+    $this->content = $content;
+    $this->fix();
+  }
+
+  public function hasChanged()
+  {
+    return !empty($this->fixable) || !empty($this->nonFixable);
+  }
+
+  public function getFixable()
+  {
+    return $this->fixable;
+  }
+
+  public function getNonFixable()
+  {
+    return $this->nonFixable;
+  }
+
+  public function getResult()
+  {
+    return $this->content;
+  }
+
+  protected function addFixable($fixable)
+  {
+    $this->fixable[] = $fixable;
+  }
+
+  protected function addNonFixable($nonFixable)
+  {
+    $this->nonFixable[] = $nonFixable;
+  }
+
+  protected function fix()
+  {
+    if (($encoding = mb_detect_encoding($this->content, 'UTF-8,ISO-8859-1,WINDOWS-1252')) != 'UTF-8')
+    {
+      if ($encoding === false)
+      {
+        $encoding = mb_detect_encoding($this->content);
+      }
+      if ($encoding !== false)
+      {
+        $this->content = iconv($encoding, 'UTF-8', $this->content);
+        $this->addFixable('fix encoding from ' . $encoding . ' to UTF-8');
+      }
+      else
+      {
+        $this->addNonFixable('couldn\'t detect encoding, change it to UTF-8');
+      }
+    }
+    elseif (strpos($this->content, "\xEF\xBB\xBF") === 0)
+    {
+      $this->content = substr($this->content, 3);
+      $this->addFixable('remove BOM (Byte Order Mark)');
+    }
+
+    if (strpos($this->content, "\r") !== false)
+    {
+      $this->content = str_replace(array("\r\n", "\r"), "\n", $this->content);
+      $this->addFixable('fix line endings to LF');
+    }
+
+    if (strpos($this->content, "\t") !== false)
+    {
+      $this->content = str_replace("\t", '  ', $this->content);
+      $this->addFixable('convert tabs to spaces');
+    }
+
+    if (preg_match('/ $/m', $this->content))
+    {
+      $this->content = preg_replace('/ +$/m', '', $this->content);
+      $this->addFixable('remove trailing whitespace');
+    }
+
+    if (strlen($this->content) && substr($this->content, -1) != "\n")
+    {
+      $this->content .= "\n";
+      $this->addFixable('add newline at end of file');
+    }
+
+    if (preg_match("/\n{2,}$/", $this->content))
+    {
+      $this->content = rtrim($this->content, "\n") . "\n";
+      $this->addFixable('remove multiple newlines at end of file');
+    }
+  }
+}
+
 $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
 $textExtensions = array('php', 'js', 'yml', 'tpl', 'css', 'textile', 'sql', 'txt');
 $countFiles = 0;
@@ -83,76 +182,16 @@ foreach ($iterator as $path => $file)
   }
 
   $countFiles++;
-  $content = file_get_contents($path);
-  $fixable = array();
-  $nonFixable = array();
-
-  if (($encoding = mb_detect_encoding($content, 'UTF-8,ISO-8859-1,WINDOWS-1252')) != 'UTF-8')
-  {
-    if ($encoding === false)
-    {
-      $encoding = mb_detect_encoding($content);
-    }
-    if ($encoding !== false)
-    {
-      $content = iconv($encoding, 'UTF-8', $content);
-      $fixable[] = 'fix encoding from ' . $encoding . ' to UTF-8';
-    }
-    else
-    {
-      $nonFixable[] = 'couldn\'t detect encoding, change it to UTF-8';
-    }
-  }
-  elseif (strpos($content, "\xEF\xBB\xBF") === 0)
-  {
-    $content = substr($content, 3);
-    $fixable[] = 'remove BOM (Byte Order Mark)';
-  }
-
-  if (strpos($content, "\r") !== false)
-  {
-    $content = str_replace(array("\r\n", "\r"), "\n", $content);
-    $fixable[] = 'fix line endings to LF';
-  }
-
-  if (strpos($content, "\t") !== false)
-  {
-    $content = str_replace("\t", '  ', $content);
-    $fixable[] = 'convert tabs to spaces';
-  }
-
-  if (preg_match('/ $/m', $content))
-  {
-    $content = preg_replace('/ +$/m', '', $content);
-    $fixable[] = 'remove trailing whitespace';
-  }
-
-  if (strlen($content) && substr($content, -1) != "\n")
-  {
-    $content .= "\n";
-    $fixable[] = 'add newline at end of file';
-  }
-
-  if (preg_match("/\n{2,}$/", $content))
-  {
-    $content = rtrim($content, "\n") . "\n";
-    $fixable[] = 'remove multiple newlines at end of file';
-  }
-
-  if ($file->getExtension() == 'php')
-  {
-    // TODO check php syntax
-  }
-
-  if (!empty($fixable) || !empty($nonFixable))
+  $fixer = new rex_coding_standards_fixer(file_get_contents($path));
+  if ($fixer->hasChanged())
   {
     echo $iterator->getInnerIterator()->getSubPathName(), ':', PHP_EOL;
-    if (!empty($fixable))
+    if ($fixable = $fixer->getFixable())
     {
       echo '  > ', implode(PHP_EOL . '  > ', $fixable), PHP_EOL;
       $countFixable++;
     }
-    if (!empty($nonFixable))
+    if ($nonFixable = $fixer->getNonFixable())
     {
       echo '  ! ', implode(PHP_EOL . '  ! ', $nonFixable), PHP_EOL;
       $countNonFixable++;
@@ -161,7 +200,7 @@ foreach ($iterator as $path => $file)
 
     if ($fix)
     {
-      file_put_contents($path, $content);
+      file_put_contents($path, $fixer->getResult());
     }
   }
 }
