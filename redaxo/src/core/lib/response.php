@@ -32,7 +32,7 @@ class rex_response
       self::setStatus(self::HTTP_INTERNAL_ERROR);
     }
 
-    if(rex_backend_login::createUser() && rex::getUser()->isAdmin())
+    if(($user = rex_backend_login::createUser()) && $user->isAdmin())
     {
       // TODO add a beautiful error page with usefull debugging info
       $buf = '';
