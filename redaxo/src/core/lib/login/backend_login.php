@@ -110,4 +110,29 @@ class rex_backend_login extends rex_login
 
     return isset($_SESSION[$instname]['UID']) && $_SESSION[$instname]['UID'] > 0;
   }
+
+  /**
+   * Creates the user object if it does not already exist
+   *
+   * @return boolean
+   */
+  static public function createUser()
+  {
+    if (!self::hasSession())
+    {
+      return false;
+    }
+    if (rex::getUser())
+    {
+      return true;
+    }
+
+    $login = new self;
+    if ($login->checkLogin())
+    {
+      rex::setProperty('user', $login->getUser());
+      return true;
+    }
+    return false;
+  }
 }
