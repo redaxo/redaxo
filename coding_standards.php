@@ -42,8 +42,15 @@ foreach ($iterator as $path => $file)
 
   if (($encoding = mb_detect_encoding($content, 'UTF-8,ISO-8859-1,WINDOWS-1252')) != 'UTF-8')
   {
-    $content = iconv($encoding, 'UTF-8', $content);
-    $fixable[] = 'fix encoding to UTF-8';
+    if ($encoding !== false)
+    {
+      $content = iconv($encoding, 'UTF-8', $content);
+      $fixable[] = 'fix encoding to UTF-8';
+    }
+    else
+    {
+      $nonFixable[] = 'couldn\'t detect encoding, change it to UTF-8';
+    }
   }
   elseif (strpos($content, "\xEF\xBB\xBF") === 0)
   {
