@@ -268,7 +268,7 @@ class rex_form_element
   {
     $class = $this->formatClass();
     $class = $class == '' ? '' : ' '.$class;
-    
+
     $s = '';
     $s .= $this->getHeader();
 

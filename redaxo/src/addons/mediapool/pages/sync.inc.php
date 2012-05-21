@@ -112,7 +112,7 @@ if($PERMALL)
         </fieldset>
       </form>
     </div>
-  
+
   <script type="text/javascript">
     jQuery(document).ready(function($){
       $("input[name=\'sync_files[]\']").change(function() {

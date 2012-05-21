@@ -54,4 +54,3 @@ $content .= '
   ';
 
 echo rex_view::contentBlock($content,'','block');
-

@@ -13,7 +13,7 @@
 class rex_var_config extends rex_var
 {
   const VAR_NAME = 'REX_CONFIG';
-  
+
   // --------------------------------- Output
 
   public function getTemplate($content)
@@ -49,7 +49,7 @@ class rex_var_config extends rex_var
 
   /**
    * Returns the property of the given config-field, parsed using the given rex-var arguments.
-   * 
+   *
    * @param string $field The name of the config field
    * @param string $args A JSON String representing the rex-var arguments
    * @return string

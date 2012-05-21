@@ -3,7 +3,7 @@
 class rex_categoryMetainfoHandler extends rex_metainfoHandler
 {
   const PREFIX = 'cat_';
-  
+
   public function renderToggleButton(array $params)
   {
     $restrictionsCondition = $this->buildFilterCondition($params);
@@ -35,8 +35,8 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
     }
 
     return $params['subject'];
-  }  
-  
+  }
+
   public function handleSave(array $params, rex_sql $sqlFields)
   {
     if(rex_request_method() != 'post') return $params;

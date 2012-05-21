@@ -381,7 +381,7 @@ class rex_var_media extends rex_var
         <li><a href="#" class="rex-ic-down" onclick="moveREXMedialist(' . $id . ',\'down\');return false;" title="'. rex_i18n::msg('var_medialist_move_down') .'">'. rex_i18n::msg('var_medialist_move_down') .'</a></li>
         <li><a href="#" class="rex-ic-bottom" onclick="moveREXMedialist(' . $id . ',\'bottom\');return false;" title="'. rex_i18n::msg('var_medialist_move_bottom') .'">'. rex_i18n::msg('var_medialist_move_bottom') .'</a></li>
       </ul>
-      <ul class="rex-navi-widget">      
+      <ul class="rex-navi-widget">
         <li><a href="#" class="'. $open_class .'" onclick="'. $open_func .'return false;" title="'. rex_i18n::msg('var_media_open') .'">'. rex_i18n::msg('var_media_open') .'</a></li>
         <li><a href="#" class="'. $add_class .'" onclick="'. $add_func .'return false;" title="'. rex_i18n::msg('var_media_new') .'">'. rex_i18n::msg('var_media_new') .'</a></li>
         <li><a href="#" class="'. $delete_class .'" onclick="'. $delete_func .'return false;" title="'. rex_i18n::msg('var_media_remove') .'">'. rex_i18n::msg('var_media_remove') .'</a></li>
@@ -390,7 +390,7 @@ class rex_var_media extends rex_var
       <div class="rex-media-preview"></div>
     </div>
     ';
-    
+
     return $media;
   }
 

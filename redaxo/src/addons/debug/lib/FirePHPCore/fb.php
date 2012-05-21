@@ -6,11 +6,11 @@
 
 /**
  * ***** BEGIN LICENSE BLOCK *****
- *  
+ *
  * [MIT License](http://www.opensource.org/licenses/mit-license.php)
- * 
+ *
  * Copyright (c) 2007+ [Christoph Dorn](http://www.christophdorn.com/)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -28,9 +28,9 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * 
+ *
  * ***** END LICENSE BLOCK *****
- * 
+ *
  * @copyright   Copyright (C) 2007+ Christoph Dorn
  * @author      Christoph Dorn <christoph@christophdorn.com>
  * @license     [MIT License](http://www.opensource.org/licenses/mit-license.php)
@@ -45,7 +45,7 @@ if (!class_exists('FirePHP', false)) {
  * Sends the given data to the FirePHP Firefox Extension.
  * The data can be displayed in the Firebug Console or in the
  * "Server" request tab.
- * 
+ *
  * @see http://www.firephp.org/Wiki/Reference/Fb
  * @param mixed $Object
  * @return true
@@ -54,7 +54,7 @@ if (!class_exists('FirePHP', false)) {
 function fb()
 {
     $instance = FirePHP::getInstance(true);
-  
+
     $args = func_get_args();
     return call_user_func_array(array($instance, 'fb'), $args);
 }
@@ -64,7 +64,7 @@ class FB
 {
     /**
      * Set an Insight console to direct all logging calls to
-     * 
+     *
      * @param object $console The console object to log to
      * @return void
      */
@@ -75,7 +75,7 @@ class FB
 
     /**
      * Enable and disable logging to Firebug
-     * 
+     *
      * @see FirePHP->setEnabled()
      * @param boolean $enabled TRUE to enable, FALSE to disable
      * @return void
@@ -84,10 +84,10 @@ class FB
     {
         FirePHP::getInstance(true)->setEnabled($enabled);
     }
-  
+
     /**
      * Check if logging is enabled
-     * 
+     *
      * @see FirePHP->getEnabled()
      * @return boolean TRUE if enabled
      */
@@ -95,12 +95,12 @@ class FB
     {
         return FirePHP::getInstance(true)->getEnabled();
     }
-  
+
     /**
      * Specify a filter to be used when encoding an object
-     * 
+     *
      * Filters are used to exclude object members.
-     * 
+     *
      * @see FirePHP->setObjectFilter()
      * @param string $class The class name of the object
      * @param array $filter An array or members to exclude
@@ -110,10 +110,10 @@ class FB
     {
       FirePHP::getInstance(true)->setObjectFilter($class, $filter);
     }
-  
+
     /**
      * Set some options for the library
-     * 
+     *
      * @see FirePHP->setOptions()
      * @param array $options The options to be set
      * @return void
@@ -125,7 +125,7 @@ class FB
 
     /**
      * Get options for the library
-     * 
+     *
      * @see FirePHP->getOptions()
      * @return array The options
      */
@@ -136,7 +136,7 @@ class FB
 
     /**
      * Log object to firebug
-     * 
+     *
      * @see http://www.firephp.org/Wiki/Reference/Fb
      * @param mixed $object
      * @return true
@@ -150,7 +150,7 @@ class FB
 
     /**
      * Start a group for following messages
-     * 
+     *
      * Options:
      *   Collapsed: [true|false]
      *   Color:     [#RRGGBB|ColorName]

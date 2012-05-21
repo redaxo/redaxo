@@ -26,4 +26,3 @@ Zum einbinden eines Mediums muss dazu der Mediatyp in der Url notiert werden.
 <p>
   index.php?rex_media_type=ImgTypeName&amp;rex_media_file=ImageFileName
 </p>
-

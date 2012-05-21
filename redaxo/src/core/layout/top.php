@@ -91,14 +91,14 @@ if (rex::getUser() && $hasNavigation)
 
   $n->setActiveElements();
   $blocks = $n->getNavigation();
-  
+
   $fragment = new rex_fragment();
   // $fragment->setVar('headline', array("title" => $this->getHeadline($block)), false);
   $fragment->setVar('type', 'main', false);
   $fragment->setVar('blocks', $blocks, false);
   $navigation = $fragment->parse('navigation.tpl');
-  
-  
+
+
 }
 
 
@@ -119,5 +119,3 @@ $fragment->setVar('logout', $logout, false);
 echo $fragment->parse('backend_meta.tpl');
 
 ?><section id="rex-page-main">
-
-

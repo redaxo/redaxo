@@ -17,25 +17,25 @@ class rex_logger_debug extends rex_logger
     if(!empty($message))
     {
       $firephp = FirePHP::getInstance(true);
-      
+
       switch ($errno) {
         case E_USER_NOTICE:
         case E_NOTICE:
           $firephp->log($message);
           break;
-  
+
         case E_USER_WARNING:
         case E_WARNING:
         case E_COMPILE_WARNING:
           $firephp->warn($message);
           break;
-  
+
         default:
           $firephp->error($message);
           break;
       }
     }
-    
+
     parent::log($message, $errno);
-  }  
+  }
 }

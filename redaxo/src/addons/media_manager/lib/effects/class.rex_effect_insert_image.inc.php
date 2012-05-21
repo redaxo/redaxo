@@ -9,9 +9,9 @@ class rex_effect_insert_image extends rex_effect_abstract{
 
   public function execute()
   {
-    
+
     $this->media->asImage();
-    
+
     // -------------------------------------- CONFIG
     $brandimage = rex_path::media($this->params['brandimage'], rex_path::ABSOLUTE);
     if(!file_exists($brandimage) || !is_file($brandimage))

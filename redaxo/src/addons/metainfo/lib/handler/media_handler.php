@@ -3,10 +3,10 @@
 class rex_mediaMetainfoHandler extends rex_metainfoHandler
 {
   const PREFIX = 'med_';
-  
+
   /**
    * Extension to check whether the given media is still in use.
-   * 
+   *
    * @param array $params EP Params
    */
   static public function isMediaInUse(array $params)
@@ -103,11 +103,11 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
 
     return $warning;
   }
-  
+
   protected function buildFilterCondition(array $params)
   {
     $restrictionsCondition = '';
-    
+
     $catId = rex_session('media[rex_file_category]', 'int');
     if(isset($params['activeItem']))
     {
@@ -136,7 +136,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
 
       $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
     }
-    
+
     return $restrictionsCondition;
   }
 

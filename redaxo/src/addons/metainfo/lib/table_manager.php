@@ -66,11 +66,11 @@ class rex_metainfo_tableManager
 
     return $this->setQuery($qry);
   }
-  
+
   public function hasColumn($name)
   {
     $columns = rex_sql::showColumns($this->getTableName(), $this->DBID);
-    
+
     foreach($columns as $column)
     {
       if($column['name'] == $name)

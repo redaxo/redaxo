@@ -128,9 +128,9 @@ if($func == '')
       //--></script>
     ';
   }
-  
+
   echo rex_view::contentBlock($content);
-  
-  
-  
+
+
+
 }

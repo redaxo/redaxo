@@ -20,7 +20,7 @@ $content = '';
 if($addonkey && isset($addons[$addonkey]))
 {
   $addon = $addons[$addonkey];
-  
+
   $content .= '
     <h2>'. $addonkey .'</h2>
     <table class="rex-table">
@@ -43,7 +43,7 @@ if($addonkey && isset($addons[$addonkey]))
       </tr>
       </tbody>
     </table>
-    
+
     <h3>'. $this->i18n('files') .'</h3>
     <table class="rex-table">
       <thead>
@@ -95,7 +95,7 @@ else
       $availableVersions[] = $file['version'];
     }
     $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey='. $key .'">%s</a>';
-    
+
     $content .= '
       <tr>
         <td class="rex-icon">'. sprintf($a, ' class="rex-ic-addon"', $key) .'</a></td>
@@ -107,7 +107,7 @@ else
   }
 
   $content .= '</tbody></table>';
-  
+
 }
 
 echo rex_view::contentBlock($content, '', 'block');

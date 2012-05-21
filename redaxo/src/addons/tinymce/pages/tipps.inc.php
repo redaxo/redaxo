@@ -27,81 +27,81 @@ src="redaxo/include/addons/tinymce/tinymce/jscripts/tiny_mce/plugins/media/js/em
 
 $tinymce_tipp4 = '';
 
-	// Tabelle bei REDAXO 3.2.x ausgeben
-	if ($rxa_tinymce['rexversion'] == '32')
-	{
-		echo '<table border="0" cellpadding="5" cellspacing="1" width="770">';
-		echo '<tr>';
-		echo '<td class="grey">';
-	}
+  // Tabelle bei REDAXO 3.2.x ausgeben
+  if ($rxa_tinymce['rexversion'] == '32')
+  {
+    echo '<table border="0" cellpadding="5" cellspacing="1" width="770">';
+    echo '<tr>';
+    echo '<td class="grey">';
+  }
 ?>
 
 <div class="rex-addon-output">
 
-	<h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_tipps_class'); ?></h2>
-	<div class="rex-addon-content">
+  <h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_tipps_class'); ?></h2>
+  <div class="rex-addon-content">
 
 <?php
-	echo '<p class="form-text">';
-	echo $I18N_A52->msg('tipps_class_01');
-	echo $I18N_A52->msg('tipps_class_02');
-	echo $I18N_A52->msg('tipps_class_03');
-	echo '</p>';
-	rex_highlight_string($tinymce_tipp1);
-	echo '<p class="form-text">';
-	echo $I18N_A52->msg('tipps_class_04');
-	echo $I18N_A52->msg('tipps_class_05');
-	echo $I18N_A52->msg('tipps_class_06');
-	echo $I18N_A52->msg('tipps_class_07');
-	echo '</p>';
+  echo '<p class="form-text">';
+  echo $I18N_A52->msg('tipps_class_01');
+  echo $I18N_A52->msg('tipps_class_02');
+  echo $I18N_A52->msg('tipps_class_03');
+  echo '</p>';
+  rex_highlight_string($tinymce_tipp1);
+  echo '<p class="form-text">';
+  echo $I18N_A52->msg('tipps_class_04');
+  echo $I18N_A52->msg('tipps_class_05');
+  echo $I18N_A52->msg('tipps_class_06');
+  echo $I18N_A52->msg('tipps_class_07');
+  echo '</p>';
 ?>
-	</div>
+  </div>
 
 </div>
 
 <div class="rex-addon-output">
 
-	<h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_tipps_media'); ?></h2>
-	<div class="rex-addon-content">
+  <h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_tipps_media'); ?></h2>
+  <div class="rex-addon-content">
 <?php
-	echo '<p class="form-text">';
-	echo $I18N_A52->msg('tipps_media_01');
-	echo $I18N_A52->msg('tipps_media_02');
-	echo $I18N_A52->msg('tipps_media_03');
-	echo '</p>';
-	rex_highlight_string($tinymce_tipp2);
-	echo '<p class="form-text">';
-	echo $I18N_A52->msg('tipps_media_04');
-	echo '</p>';
-	rex_highlight_string($tinymce_tipp3);
+  echo '<p class="form-text">';
+  echo $I18N_A52->msg('tipps_media_01');
+  echo $I18N_A52->msg('tipps_media_02');
+  echo $I18N_A52->msg('tipps_media_03');
+  echo '</p>';
+  rex_highlight_string($tinymce_tipp2);
+  echo '<p class="form-text">';
+  echo $I18N_A52->msg('tipps_media_04');
+  echo '</p>';
+  rex_highlight_string($tinymce_tipp3);
 ?>
-	</div>
+  </div>
 
 </div>
 
 <!--
 <div class="rex-addon-output">
 
-	<h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_tipps_syntax'); ?></h2>
-	<div class="rex-addon-content">
+  <h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_tipps_syntax'); ?></h2>
+  <div class="rex-addon-content">
 <?php
-	echo '<p class="form-text">';
-	echo $I18N_A52->msg('tipps_syntax_01');
-	echo $I18N_A52->msg('tipps_syntax_02');
-	echo $I18N_A52->msg('tipps_syntax_03');
-	echo '</p>';
-	//rex_highlight_string($tinymce_tipp4);
+  echo '<p class="form-text">';
+  echo $I18N_A52->msg('tipps_syntax_01');
+  echo $I18N_A52->msg('tipps_syntax_02');
+  echo $I18N_A52->msg('tipps_syntax_03');
+  echo '</p>';
+  //rex_highlight_string($tinymce_tipp4);
 ?>
-	</div>
+  </div>
 
 </div>
 -->
 
 <?php
-	// Tabelle bei REDAXO 3.2.x ausgeben
-	if ($rxa_tinymce['rexversion'] == '32')
-	{
-		echo '</td>';
-		echo '</tr>';
-		echo '</table>';
-	}
+  // Tabelle bei REDAXO 3.2.x ausgeben
+  if ($rxa_tinymce['rexversion'] == '32')
+  {
+    echo '</td>';
+    echo '</tr>';
+    echo '</table>';
+  }

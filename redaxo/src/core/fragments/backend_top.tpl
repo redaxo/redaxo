@@ -2,7 +2,7 @@
 <html lang="<?php echo $this->i18n('htmllang'); ?>">
 <head>
   <meta charset="utf-8">
-  
+
   <title><?php echo $this->pageTitle ?></title>
   <meta http-equiv="Content-Language" content="<?php echo $this->i18n('htmllang'); ?>" />
 
@@ -25,7 +25,7 @@
   </script>
 
   <?php echo $this->pageHeader ?>
-  
+
 </head>
 <body<?php echo $this->bodyAttr; ?>>
 

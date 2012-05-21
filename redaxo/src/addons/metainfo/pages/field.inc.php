@@ -43,7 +43,7 @@ if ($func == '')
 {
   // replace LIKE wildcards
   $likePrefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
-  
+
   $list = rex_list::factory('SELECT field_id, name FROM '. rex::getTablePrefix() .'metainfo_params WHERE `name` LIKE "'. $likePrefix .'%" ORDER BY prior');
 
   $list->setCaption(rex_i18n::msg('minfo_field_list_caption'));
@@ -59,7 +59,7 @@ if ($func == '')
 
   $list->setColumnLabel('name', rex_i18n::msg('minfo_field_label_name'));
   $list->setColumnParams('name', array('func' => 'edit', 'field_id' => '###field_id###'));
-  
+
   $list->addColumn('delete',rex_i18n::msg('delete'),-1,array('<th>'.rex_i18n::msg('minfo_field_label_function').'</th>','<td>###VALUE###</td>'));
   $list->setColumnParams('delete', array('func' => 'delete', 'field_id' => '###field_id###'));
   $list->addLinkAttribute('delete', 'data-confirm', rex_i18n::msg('delete').' ?');

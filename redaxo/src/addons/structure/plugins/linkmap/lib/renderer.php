@@ -5,7 +5,7 @@ abstract class rex_linkmap_treeRenderer
   public function getTree($category_id) {
     $tree = array();
     $category = rex_ooCategory::getCategoryById($category_id);
-  
+
     if ($category)
     {
       foreach($category->getParentTree() as $cat)
@@ -13,7 +13,7 @@ abstract class rex_linkmap_treeRenderer
         $tree[] = $cat->getId();
       }
     }
-  
+
     $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
     if(count($mountpoints)>0)
     {
@@ -30,15 +30,15 @@ abstract class rex_linkmap_treeRenderer
     {
       $roots = rex_ooCategory::getRootCategories();
     }
-  
+
     $rendered = $this->renderTree($roots, $tree);
     // add css class to root node
     return '<ul class="rex-tree-root"'. substr($rendered, 3);
   }
-  
+
   /**
    * Returns the markup of a tree structure, with $children as root categories and respecing $activeTreeIds as the active path.
-   * 
+   *
    * @param array $children A array of rex_ooCategory objects representing the top level objects
    * @param array $tree A array of ids representing the active path
    * @return string the rendered markup
@@ -61,7 +61,7 @@ abstract class rex_linkmap_treeRenderer
           $liclasses .= 'rex-children ';
           $linkclasses .= 'rex-linkmap-is-not-empty ';
         }
-  
+
         if (next($children)== null ) $liclasses .= 'rex-children-last ';
         $linkclasses .= $cat->isOnline() ? 'rex-online ' : 'rex-offline ';
         if (is_array($activeTreeIds) && in_array($cat_id,$activeTreeIds))
@@ -70,46 +70,46 @@ abstract class rex_linkmap_treeRenderer
           $liclasses .= 'rex-active ';
           $linkclasses .= 'rex-active ';
         }
-  
+
         $li .= $this->treeItem($cat, $liclasses, $linkclasses, $sub_li);
       }
-  
+
       if($ulclasses != '')
         $ulclasses = ' class="'. rtrim($ulclasses) .'"';
-  
+
       if ($li!='') $ul = '<ul'.$ulclasses.' cat-id="'. $children[0]->getParentId() .'">'."\n".$li.'</ul>'. "\n";
     }
     return $ul;
   }
-  
+
   protected abstract function treeItem(rex_ooCategory $cat, $liClasses, $linkClasses, $subHtml);
-  
+
   static public function formatLabel(rex_ooRedaxo $OOobject)
   {
     $label = $OOobject->getName();
-  
+
     if(trim($label) == '')
     $label = '&nbsp;';
-  
+
     if (rex::getUser()->hasPerm('advancedMode[]'))
     $label .= ' ['. $OOobject->getId() .']';
-  
+
     if(rex_ooArticle::isValid($OOobject) && !$OOobject->hasTemplate())
     $label .= ' ['.rex_i18n::msg('lmap_has_no_template').']';
-  
+
     return $label;
   }
-  
+
   static public function formatLi(rex_ooRedaxo $OOobject, $current_category_id, rex_context $context, $liAttr = '', $linkAttr = '')
   {
     $liAttr .= $OOobject->getId() == $current_category_id ? ' id="rex-linkmap-active"' : '';
     $linkAttr .= ' class="'. ($OOobject->isOnline() ? 'rex-online' : 'rex-offine'). '"';
-  
+
     if(strpos($linkAttr, ' href=') === false)
     $linkAttr .= ' href="'. $context->getUrl(array('category_id' => $OOobject->getId())) .'"';
-  
+
     $label = self::formatLabel($OOobject);
-  
+
     return '<li'. $liAttr .'><a'. $linkAttr .'>'. htmlspecialchars($label) . '</a>';
   }
 }
@@ -120,7 +120,7 @@ abstract class rex_linkmap_articleListRenderer {
   {
     $isRoot = $category_id === 0;
     $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
-    
+
     if($isRoot && count($mountpoints)==0)
     {
       $articles = rex_ooArticle::getRootArticles();

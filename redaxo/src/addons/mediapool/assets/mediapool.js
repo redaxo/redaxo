@@ -1,4 +1,4 @@
-/* 
+/*
  REDAXO Mediapool JavaScript library
  */
 
@@ -20,7 +20,7 @@ function setAllCheckBoxes(FieldName, mthis)
       objCheckBoxes[i].checked = CheckValue;
 }
 
-function newPoolWindow(link) 
+function newPoolWindow(link)
 {
     newWindow( 'rexmediapopup'+(winObjCounter+1), link, 800,600,',status=yes,resizable=yes');
 }
@@ -29,7 +29,7 @@ function openMediaDetails(id, file_id, file_category_id)
 {
   if (typeof(id) == 'undefined')
   {
-    id = '';  
+    id = '';
   }
   newPoolWindow('index.php?page=mediapool&subpage=media&opener_input_field='+ id + '&file_id=' + file_id + '&file_category_id=' + file_category_id);
 }
@@ -38,7 +38,7 @@ function openMediaPool(id)
 {
   if (typeof(id) == 'undefined')
   {
-    id = '';  
+    id = '';
   }
   newPoolWindow('index.php?page=mediapool&opener_input_field='+ id);
 }
@@ -48,7 +48,7 @@ function openREXMedia(id,param)
   var mediaid = 'REX_MEDIA_'+id;
   if (typeof(param) == 'undefined')
   {
-    param = '';  
+    param = '';
   }
   newPoolWindow('index.php?page=mediapool' + param + '&opener_input_field=' + mediaid);
 }
@@ -59,7 +59,7 @@ function viewREXMedia(id,param)
   var value = document.getElementById(mediaid).value;
   if ( typeof(param) == 'undefined')
   {
-    param = '';  
+    param = '';
   }
   if (value != '') {
     param = param + '&subpage=media&file_name='+ value;
@@ -77,7 +77,7 @@ function addREXMedia(id,params)
 {
   if (typeof(params) == 'undefined')
   {
-    params = '';  
+    params = '';
   }
   newPoolWindow('index.php?page=mediapool&subpage=upload&opener_input_field=REX_MEDIA_'+id+params);
 }
@@ -127,7 +127,7 @@ function addREXMedialist(id,params)
 {
   if (typeof(params) == 'undefined')
   {
-    params = '';  
+    params = '';
   }
   newPoolWindow('index.php?page=mediapool&subpage=upload&opener_input_field=REX_MEDIALIST_'+id+params);
 }
@@ -154,16 +154,16 @@ function writeREXMedialist(id){
  *    original img    <img src='my_pic.jpg' />
  *    new img         <img class='img-ondemand' longdesc='my_pic.jpg' src='' />
  *
- * Copyright (c) 2009 Martin Borthiry : martin.borthiry@gmail.com 
+ * Copyright (c) 2009 Martin Borthiry : martin.borthiry@gmail.com
  * Dual licensed under the MIT and GPL licenses.
  *
  * Date: 2009-09-21
  * Revision: 2
  */
 
-(function($){  
+(function($){
 
-    // global variables    
+    // global variables
     var $w = $(window);
     var imgToLoad = 1;
     var className = 'img-ondemand';
@@ -175,31 +175,31 @@ function writeREXMedialist(id){
         if (imgToLoad){
              //calc current scroll position
             var scrollPos = $w.height() +$w.scrollTop();
-            
+
             // get imgs not loaded
             $('img.'+className).each(function(){
                 var $img = $(this);
-                // filter imgs over scroll limit             
+                // filter imgs over scroll limit
                 if($img.offset().top < scrollPos+offset){
                     $img.attr('src',$img.attr('longdesc')).removeClass(className);
                 }
             });
             // flag on bottom
-            imgToLoad = $('img.'+className).length;     
-               
-        }  
+            imgToLoad = $('img.'+className).length;
+
+        }
 
     }
 
-    // load on start all imgs over scroll limit   
+    // load on start all imgs over scroll limit
     $(function(){
-        imgOndemand();          
+        imgOndemand();
     });
 
     //bind scroll event (if you need you can add window resize event)
-    $w.scroll(function(){ 
+    $w.scroll(function(){
         imgOndemand();
     });
-          
+
 
 })(jQuery);
