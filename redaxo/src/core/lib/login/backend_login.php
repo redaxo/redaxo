@@ -114,25 +114,30 @@ class rex_backend_login extends rex_login
   /**
    * Creates the user object if it does not already exist
    *
-   * @return boolean
+   * Helpful if you want to check permissions of the backend user in frontend.
+   * If you only want to know if there is any backend session, use {@link rex_backend_login::hasSession()}.
+   *
+   * @return rex_user
    */
   static public function createUser()
   {
     if (!self::hasSession())
     {
-      return false;
+      return null;
     }
-    if (rex::getUser())
+    if ($user = rex::getUser())
     {
-      return true;
+      return $user;
     }
 
     $login = new self;
+    rex::setProperty('login', $login);
     if ($login->checkLogin())
     {
-      rex::setProperty('user', $login->getUser());
-      return true;
+      $user = $login->getUser();
+      rex::setProperty('user', $user);
+      return $user;
     }
-    return false;
+    return null;
   }
 }
