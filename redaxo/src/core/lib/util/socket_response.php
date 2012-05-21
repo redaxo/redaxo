@@ -7,30 +7,37 @@
  */
 class rex_socket_response
 {
-  private $fp;
+  private $stream;
   private $chunked = false;
   private $chunkPos = 0;
   private $chunkLength = 0;
   private $statusCode;
   private $statusMessage;
-  private $header;
+  private $header = '';
   private $headers = array();
   private $body;
 
-  public function __construct($resource)
+  /**
+   * Constructor
+   *
+   * @param resource $stream Socket stream
+   * @throws rex_exception
+   */
+  public function __construct($stream)
   {
-    if(!is_resource($resource))
+    if(!is_resource($stream))
     {
       throw new rex_exception(sprintf('Expecting $resource to be a resource, but %s given!', gettype($resource)));
     }
 
-    $this->fp = $resource;
+    $this->stream = $stream;
 
-    while(!feof($this->fp) && strpos($this->header, "\r\n\r\n") === false)
+    while(!feof($this->stream) && strpos($this->header, "\r\n\r\n") === false)
     {
-      $this->header .= fgets($this->fp);
+      $this->header .= fgets($this->stream);
     }
-    if(preg_match('@^HTTP/1\.\d ([0-9]{3}) (\V*)@', $this->getHeader(), $matches))
+    $this->header = rtrim($this->header);
+    if (preg_match('@^HTTP/1\.\d ([0-9]+) (\V+)@', $this->header, $matches))
     {
       $this->statusCode = intval($matches[1]);
       $this->statusMessage = $matches[2];
@@ -159,7 +166,7 @@ class rex_socket_response
    */
   public function getBufferedBody($length = 1024)
   {
-    if(feof($this->fp))
+    if(feof($this->stream))
     {
       return false;
     }
@@ -167,18 +174,18 @@ class rex_socket_response
     {
       if($this->chunkPos == 0)
       {
-        $this->chunkLength = hexdec(fgets($this->fp));
+        $this->chunkLength = hexdec(fgets($this->stream));
         if($this->chunkLength == 0)
         {
           return false;
         }
       }
-      $pos = ftell($this->fp);
-      $buf = fread($this->fp, min($length, $this->chunkLength - $this->chunkPos));
-      $this->chunkPos += ftell($this->fp) - $pos;
+      $pos = ftell($this->stream);
+      $buf = fread($this->stream, min($length, $this->chunkLength - $this->chunkPos));
+      $this->chunkPos += ftell($this->stream) - $pos;
       if($this->chunkPos >= $this->chunkLength)
       {
-        fgets($this->fp);
+        fgets($this->stream);
         $this->chunkPos = 0;
         $this->chunkLength = 0;
       }
@@ -186,7 +193,7 @@ class rex_socket_response
     }
     else
     {
-      return fread($this->fp, $length);
+      return fread($this->stream, $length);
     }
   }
 
@@ -235,16 +242,5 @@ class rex_socket_response
       fclose($resource);
     }
     return $success;
-  }
-
-  /**
-   * Destructor, closes the socket resource
-   */
-  public function __destruct()
-  {
-    if(is_resource($this->fp))
-    {
-      fclose($this->fp);
-    }
   }
 }
