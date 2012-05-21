@@ -62,6 +62,7 @@ if (isset($argv[2]))
 
 $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
 $textExtensions = array('php', 'js', 'yml', 'tpl', 'css', 'textile', 'sql', 'txt');
+$countFiles = 0;
 $countFixable = 0;
 $countNonFixable = 0;
 foreach ($iterator as $path => $file)
@@ -72,6 +73,7 @@ foreach ($iterator as $path => $file)
     continue;
   }
 
+  $countFiles++;
   $content = file_get_contents($path);
   $fixable = array();
   $nonFixable = array();
@@ -155,19 +157,20 @@ foreach ($iterator as $path => $file)
   }
 }
 
-echo 'FINISHED';
+echo 'FINISHED:', PHP_EOL;
+echo ' - checked ', $countFiles, ' files', PHP_EOL;
 if ($countFixable)
 {
-  echo ', ', ($fix ? 'fixed' : 'found fixable'), ' problems in ', $countFixable, ' files';
+  echo ' - ', ($fix ? 'fixed' : 'found fixable'), ' problems in ', $countFixable, ' files', PHP_EOL;
 }
 if ($countNonFixable)
 {
-  echo ', found non-fixable problems in ', $countNonFixable, ' files';
+  echo ' - found non-fixable problems in ', $countNonFixable, ' files', PHP_EOL;
 }
 if(!$countFixable && !$countNonFixable)
 {
-  echo ', no problems';
+  echo ' - no problems', PHP_EOL;
 }
-echo '.', PHP_EOL, PHP_EOL;
+echo PHP_EOL;
 
 exit ($countNonFixable + ($fix ? 0 : $countFixable));
