@@ -21,10 +21,46 @@ if (!in_array($mode, array('fix', 'check')))
   echo 'ERROR: Wrong mode argument "', $mode, '"! Possible modes are "check" and "fix".', PHP_EOL, PHP_EOL;
   exit(1);
 }
-
 $fix = $mode == 'fix';
 
-$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__DIR__));
+$dir = __DIR__;
+if (isset($argv[2]))
+{
+  if ($argv[2] == 'package')
+  {
+    if (!isset($argv[3]))
+    {
+      echo 'ERROR: Missing package id!', PHP_EOL, PHP_EOL;
+      exit(1);
+    }
+    $package = $argv[3];
+    if (strpos($package, '/') === false)
+    {
+      $dir .= '/redaxo/src/addons/' . $package;
+    }
+    else
+    {
+      list($addon, $plugin) = explode('/', $package, 2);
+      $dir .= '/redaxo/src/addons/' . $addon . '/plugins/' . $plugin;
+    }
+    if (!is_dir($dir))
+    {
+      echo 'ERROR: Package "', $package, '" does not exist!', PHP_EOL, PHP_EOL;
+      exit(1);
+    }
+  }
+  else
+  {
+    $dir .= '/' . $argv[2];
+    if (!is_dir($dir))
+    {
+      echo 'ERROR: Directory "', $argv[2], '" does not exist!', PHP_EOL, PHP_EOL;
+      exit(1);
+    }
+  }
+}
+
+$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
 $textExtensions = array('php', 'js', 'yml', 'tpl', 'css', 'textile', 'sql', 'txt');
 $countFixable = 0;
 $countNonFixable = 0;
