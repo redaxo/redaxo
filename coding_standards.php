@@ -78,10 +78,14 @@ foreach ($iterator as $path => $file)
 
   if (($encoding = mb_detect_encoding($content, 'UTF-8,ISO-8859-1,WINDOWS-1252')) != 'UTF-8')
   {
+    if ($encoding === false)
+    {
+      $encoding = mb_detect_encoding($content);
+    }
     if ($encoding !== false)
     {
       $content = iconv($encoding, 'UTF-8', $content);
-      $fixable[] = 'fix encoding to UTF-8';
+      $fixable[] = 'fix encoding from ' . $encoding . ' to UTF-8';
     }
     else
     {
