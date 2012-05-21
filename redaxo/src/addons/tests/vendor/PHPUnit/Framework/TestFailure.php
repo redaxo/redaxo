@@ -114,23 +114,28 @@ class PHPUnit_Framework_TestFailure
      */
     public static function exceptionToString(Exception $e)
     {
-        if ($e instanceof PHPUnit_Framework_SelfDescribing) {
+        if ($e instanceof PHPUnit_Framework_SelfDescribing)
+        {
             $buffer = $e->toString();
 
-            if ($e instanceof PHPUnit_Framework_ExpectationFailedException && $e->getComparisonFailure()) {
+            if ($e instanceof PHPUnit_Framework_ExpectationFailedException && $e->getComparisonFailure())
+            {
                 $buffer = $buffer . "\n" . $e->getComparisonFailure()->getDiff();
             }
 
-            if (!empty($buffer)) {
+            if (!empty($buffer))
+            {
                 $buffer = trim($buffer) . "\n";
             }
         }
 
-        else if ($e instanceof PHPUnit_Framework_Error) {
+        elseif ($e instanceof PHPUnit_Framework_Error)
+        {
             $buffer = $e->getMessage() . "\n";
         }
 
-        else {
+        else
+        {
             $buffer = get_class($e) . ': ' . $e->getMessage() . "\n";
         }
 

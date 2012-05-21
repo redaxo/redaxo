@@ -77,7 +77,8 @@ if (!function_exists('a52_tinymce_opf'))
 
     $content = $params['subject'];
 
-    if ( !strstr($content, '</head>')) {
+    if ( !strstr($content, '</head>'))
+    {
       return $content;
     }
 

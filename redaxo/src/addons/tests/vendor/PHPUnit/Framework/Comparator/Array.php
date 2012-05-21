@@ -86,7 +86,8 @@ class PHPUnit_Framework_Comparator_Array extends PHPUnit_Framework_Comparator
      */
     public function assertEquals($expected, $actual, $delta = 0, $canonicalize = FALSE, $ignoreCase = FALSE, array &$processed = array())
     {
-        if ($canonicalize) {
+        if ($canonicalize)
+        {
             sort($expected);
             sort($actual);
         }
@@ -95,10 +96,12 @@ class PHPUnit_Framework_Comparator_Array extends PHPUnit_Framework_Comparator
         $expString = $actString = "Array (\n";
         $equal = TRUE;
 
-        foreach ($expected as $key => $value) {
+        foreach ($expected as $key => $value)
+        {
             unset($remaining[$key]);
 
-            if (!array_key_exists($key, $actual)) {
+            if (!array_key_exists($key, $actual))
+            {
                 $expString .= sprintf(
                   "    %s => %s\n",
 
@@ -109,7 +112,8 @@ class PHPUnit_Framework_Comparator_Array extends PHPUnit_Framework_Comparator
                 continue;
             }
 
-            try {
+            try
+            {
                 $this->factory->getComparatorFor($value, $actual[$key])->assertEquals($value, $actual[$key], $delta, $canonicalize, $ignoreCase, $processed);
                 $expString .= sprintf(
                   "    %s => %s\n",
@@ -125,7 +129,8 @@ class PHPUnit_Framework_Comparator_Array extends PHPUnit_Framework_Comparator
                 );
             }
 
-            catch (PHPUnit_Framework_ComparisonFailure $e) {
+            catch (PHPUnit_Framework_ComparisonFailure $e)
+            {
                 $expString .= sprintf(
                   "    %s => %s\n",
 
@@ -146,7 +151,8 @@ class PHPUnit_Framework_Comparator_Array extends PHPUnit_Framework_Comparator
             }
         }
 
-        foreach ($remaining as $key => $value) {
+        foreach ($remaining as $key => $value)
+        {
             $actString .= sprintf(
               "    %s => %s\n",
 
@@ -159,7 +165,8 @@ class PHPUnit_Framework_Comparator_Array extends PHPUnit_Framework_Comparator
         $expString .= ')';
         $actString .= ')';
 
-        if (!$equal) {
+        if (!$equal)
+        {
             throw new PHPUnit_Framework_ComparisonFailure(
               $expected,
               $actual,

@@ -10,7 +10,7 @@
 
 $mypage = 'metainfo';
 
-if(!defined('REX_METAINFO_FIELD_TEXT'))
+if (!defined('REX_METAINFO_FIELD_TEXT'))
 {
   // Feldtypen
   define('REX_METAINFO_FIELD_TEXT',                 1);

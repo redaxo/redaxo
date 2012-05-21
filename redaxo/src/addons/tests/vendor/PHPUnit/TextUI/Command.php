@@ -141,16 +141,20 @@ class PHPUnit_TextUI_Command
         $runner = $this->createRunner();
 
         if (is_object($this->arguments['test']) &&
-            $this->arguments['test'] instanceof PHPUnit_Framework_Test) {
+            $this->arguments['test'] instanceof PHPUnit_Framework_Test)
+            {
             $suite = $this->arguments['test'];
-        } else {
+        }
+        else
+        {
             $suite = $runner->getTest(
               $this->arguments['test'],
               $this->arguments['testFile']
             );
         }
 
-        if (count($suite) == 0) {
+        if (count($suite) == 0)
+        {
             $skeleton = new PHPUnit_Util_Skeleton_Test(
               $suite->getName(),
               $this->arguments['testFile']
@@ -158,7 +162,8 @@ class PHPUnit_TextUI_Command
 
             $result = $skeleton->generate(TRUE);
 
-            if (!$result['incomplete']) {
+            if (!$result['incomplete'])
+            {
                 eval(str_replace(array('<?php', '?>'), '', $result['code']));
                 $suite = new PHPUnit_Framework_TestSuite(
                   $this->arguments['test'] . 'Test'
@@ -166,7 +171,8 @@ class PHPUnit_TextUI_Command
             }
         }
 
-        if ($this->arguments['listGroups']) {
+        if ($this->arguments['listGroups'])
+        {
             PHPUnit_TextUI_TestRunner::printVersionString();
 
             print "Available test group(s):\n";
@@ -174,13 +180,17 @@ class PHPUnit_TextUI_Command
             $groups = $suite->getGroups();
             sort($groups);
 
-            foreach ($groups as $group) {
+            foreach ($groups as $group)
+            {
                 print " - $group\n";
             }
 
-            if ($exit) {
+            if ($exit)
+            {
                 exit(PHPUnit_TextUI_TestRunner::SUCCESS_EXIT);
-            } else {
+            }
+            else
+            {
                 return PHPUnit_TextUI_TestRunner::SUCCESS_EXIT;
             }
         }
@@ -188,27 +198,34 @@ class PHPUnit_TextUI_Command
         unset($this->arguments['test']);
         unset($this->arguments['testFile']);
 
-        try {
+        try
+        {
             $result = $runner->doRun($suite, $this->arguments);
         }
 
-        catch (PHPUnit_Framework_Exception $e) {
+        catch (PHPUnit_Framework_Exception $e)
+        {
             print $e->getMessage() . "\n";
         }
 
         $ret = PHPUnit_TextUI_TestRunner::FAILURE_EXIT;
 
-        if (isset($result) && $result->wasSuccessful()) {
+        if (isset($result) && $result->wasSuccessful())
+        {
             $ret = PHPUnit_TextUI_TestRunner::SUCCESS_EXIT;
         }
 
-        else if (!isset($result) || $result->errorCount() > 0) {
+        elseif (!isset($result) || $result->errorCount() > 0)
+        {
             $ret = PHPUnit_TextUI_TestRunner::EXCEPTION_EXIT;
         }
 
-        if ($exit) {
+        if ($exit)
+        {
             exit($ret);
-        } else {
+        }
+        else
+        {
             return $ret;
         }
     }
@@ -251,7 +268,8 @@ class PHPUnit_TextUI_Command
      */
     protected function handleArguments(array $argv)
     {
-        try {
+        try
+        {
             $this->options = PHPUnit_Util_Getopt::getopt(
               $argv,
               'd:c:hv',
@@ -259,27 +277,33 @@ class PHPUnit_TextUI_Command
             );
         }
 
-        catch (RuntimeException $e) {
+        catch (RuntimeException $e)
+        {
             PHPUnit_TextUI_TestRunner::showError($e->getMessage());
         }
 
         $skeletonClass = FALSE;
         $skeletonTest  = FALSE;
 
-        foreach ($this->options[0] as $option) {
-            switch ($option[0]) {
-                case '--colors': {
+        foreach ($this->options[0] as $option)
+        {
+            switch ($option[0])
+            {
+                case '--colors':
+                {
                     $this->arguments['colors'] = TRUE;
                 }
                 break;
 
-                case '--bootstrap': {
+                case '--bootstrap':
+                {
                     $this->arguments['bootstrap'] = $option[1];
                 }
                 break;
 
                 case 'c':
-                case '--configuration': {
+                case '--configuration':
+                {
                     $this->arguments['configuration'] = $option[1];
                 }
                 break;
@@ -287,8 +311,10 @@ class PHPUnit_TextUI_Command
                 case '--coverage-clover':
                 case '--coverage-html':
                 case '--coverage-php':
-                case '--coverage-text': {
-                    if (!extension_loaded('tokenizer')) {
+                case '--coverage-text':
+                {
+                    if (!extension_loaded('tokenizer'))
+                    {
                         $this->showExtensionNotLoadedMessage(
                           'tokenizer', 'No code coverage will be generated.'
                         );
@@ -296,7 +322,8 @@ class PHPUnit_TextUI_Command
                         continue;
                     }
 
-                    if (!extension_loaded('xdebug')) {
+                    if (!extension_loaded('xdebug'))
+                    {
                         $this->showExtensionNotLoadedMessage(
                           'Xdebug', 'No code coverage will be generated.'
                         );
@@ -304,24 +331,30 @@ class PHPUnit_TextUI_Command
                         continue;
                     }
 
-                    switch ($option[0]) {
-                        case '--coverage-clover': {
+                    switch ($option[0])
+                    {
+                        case '--coverage-clover':
+                        {
                             $this->arguments['coverageClover'] = $option[1];
                         }
                         break;
 
-                        case '--coverage-html': {
+                        case '--coverage-html':
+                        {
                             $this->arguments['reportDirectory'] = $option[1];
                         }
                         break;
 
-                        case '--coverage-php': {
+                        case '--coverage-php':
+                        {
                             $this->arguments['coveragePHP'] = $option[1];
                         }
                         break;
 
-                        case '--coverage-text': {
-                            if ($option[1] === NULL) {
+                        case '--coverage-text':
+                        {
+                            if ($option[1] === NULL)
+                            {
                                 $option[1] = 'php://stdout';
                             }
 
@@ -333,94 +366,114 @@ class PHPUnit_TextUI_Command
                 }
                 break;
 
-                case 'd': {
+                case 'd':
+                {
                     $ini = explode('=', $option[1]);
 
-                    if (isset($ini[0])) {
-                        if (isset($ini[1])) {
+                    if (isset($ini[0]))
+                    {
+                        if (isset($ini[1]))
+                        {
                             ini_set($ini[0], $ini[1]);
-                        } else {
+                        }
+                        else
+                        {
                             ini_set($ini[0], TRUE);
                         }
                     }
                 }
                 break;
 
-                case '--debug': {
+                case '--debug':
+                {
                     $this->arguments['debug'] = TRUE;
                 }
                 break;
 
                 case 'h':
-                case '--help': {
+                case '--help':
+                {
                     $this->showHelp();
                     exit(PHPUnit_TextUI_TestRunner::SUCCESS_EXIT);
                 }
                 break;
 
-                case '--filter': {
+                case '--filter':
+                {
                     $this->arguments['filter'] = $option[1];
                 }
                 break;
 
-                case '--group': {
+                case '--group':
+                {
                     $this->arguments['groups'] = explode(',', $option[1]);
                 }
                 break;
 
-                case '--exclude-group': {
+                case '--exclude-group':
+                {
                     $this->arguments['excludeGroups'] = explode(
                       ',', $option[1]
                     );
                 }
                 break;
 
-                case '--include-path': {
+                case '--include-path':
+                {
                     $includePath = $option[1];
                 }
                 break;
 
-                case '--list-groups': {
+                case '--list-groups':
+                {
                     $this->arguments['listGroups'] = TRUE;
                 }
                 break;
 
-                case '--printer': {
+                case '--printer':
+                {
                     $this->arguments['printer'] = $option[1];
                 }
                 break;
 
-                case '--loader': {
+                case '--loader':
+                {
                     $this->arguments['loader'] = $option[1];
                 }
                 break;
 
-                case '--log-json': {
+                case '--log-json':
+                {
                     $this->arguments['jsonLogfile'] = $option[1];
                 }
                 break;
 
-                case '--log-junit': {
+                case '--log-junit':
+                {
                     $this->arguments['junitLogfile'] = $option[1];
                 }
                 break;
 
-                case '--log-tap': {
+                case '--log-tap':
+                {
                     $this->arguments['tapLogfile'] = $option[1];
                 }
                 break;
 
-                case '--process-isolation': {
+                case '--process-isolation':
+                {
                     $this->arguments['processIsolation'] = TRUE;
                 }
                 break;
 
-                case '--repeat': {
+                case '--repeat':
+                {
                     $this->arguments['repeat'] = (int)$option[1];
                 }
                 break;
 
-                case '--stderr': {
+                case '--stderr':
+                {
                     $this->arguments['printer'] = new PHPUnit_TextUI_ResultPrinter(
                       'php://stderr',
                       isset($this->arguments['verbose']) ? $this->arguments['verbose'] : FALSE
@@ -428,102 +481,122 @@ class PHPUnit_TextUI_Command
                 }
                 break;
 
-                case '--stop-on-error': {
+                case '--stop-on-error':
+                {
                     $this->arguments['stopOnError'] = TRUE;
                 }
                 break;
 
-                case '--stop-on-failure': {
+                case '--stop-on-failure':
+                {
                     $this->arguments['stopOnFailure'] = TRUE;
                 }
                 break;
 
-                case '--stop-on-incomplete': {
+                case '--stop-on-incomplete':
+                {
                     $this->arguments['stopOnIncomplete'] = TRUE;
                 }
                 break;
 
-                case '--stop-on-skipped': {
+                case '--stop-on-skipped':
+                {
                     $this->arguments['stopOnSkipped'] = TRUE;
                 }
                 break;
 
-                case '--skeleton-test': {
+                case '--skeleton-test':
+                {
                     $skeletonTest  = TRUE;
                     $skeletonClass = FALSE;
                 }
                 break;
 
-                case '--skeleton-class': {
+                case '--skeleton-class':
+                {
                     $skeletonClass = TRUE;
                     $skeletonTest  = FALSE;
                 }
                 break;
 
-                case '--tap': {
+                case '--tap':
+                {
                     $this->arguments['printer'] = new PHPUnit_Util_Log_TAP;
                 }
                 break;
 
-                case '--testdox': {
+                case '--testdox':
+                {
                     $this->arguments['printer'] = new PHPUnit_Util_TestDox_ResultPrinter_Text;
                 }
                 break;
 
-                case '--testdox-html': {
+                case '--testdox-html':
+                {
                     $this->arguments['testdoxHTMLFile'] = $option[1];
                 }
                 break;
 
-                case '--testdox-text': {
+                case '--testdox-text':
+                {
                     $this->arguments['testdoxTextFile'] = $option[1];
                 }
                 break;
 
-                case '--no-configuration': {
+                case '--no-configuration':
+                {
                     $this->arguments['useDefaultConfiguration'] = FALSE;
                 }
                 break;
 
-                case '--no-globals-backup': {
+                case '--no-globals-backup':
+                {
                     $this->arguments['backupGlobals'] = FALSE;
                 }
                 break;
 
-                case '--static-backup': {
+                case '--static-backup':
+                {
                     $this->arguments['backupStaticAttributes'] = TRUE;
                 }
                 break;
 
                 case 'v':
-                case '--verbose': {
+                case '--verbose':
+                {
                     $this->arguments['verbose'] = TRUE;
                 }
                 break;
 
-                case '--version': {
+                case '--version':
+                {
                     PHPUnit_TextUI_TestRunner::printVersionString();
                     exit(PHPUnit_TextUI_TestRunner::SUCCESS_EXIT);
                 }
                 break;
 
-                case '--strict': {
+                case '--strict':
+                {
                     $this->arguments['strict'] = TRUE;
                 }
                 break;
 
-                default: {
+                default:
+                {
                     $optionName = str_replace('--', '', $option[0]);
 
-                    if (isset($this->longOptions[$optionName])) {
+                    if (isset($this->longOptions[$optionName]))
+                    {
                         $handler = $this->longOptions[$optionName];
                     }
 
-                    else if (isset($this->longOptions[$optionName . '='])) {
+                    elseif (isset($this->longOptions[$optionName . '=']))
+                    {
                         $handler = $this->longOptions[$optionName . '='];
                     }
 
-                    if (isset($handler) && is_callable(array($this, $handler))) {
+                    if (isset($handler) && is_callable(array($this, $handler)))
+                    {
                         $this->$handler($option[1]);
                     }
                 }
@@ -532,82 +605,102 @@ class PHPUnit_TextUI_Command
 
         $this->handleCustomTestSuite();
 
-        if (!isset($this->arguments['test'])) {
-            if (isset($this->options[1][0])) {
+        if (!isset($this->arguments['test']))
+        {
+            if (isset($this->options[1][0]))
+            {
                 $this->arguments['test'] = $this->options[1][0];
             }
 
-            if (isset($this->options[1][1])) {
+            if (isset($this->options[1][1]))
+            {
                 $this->arguments['testFile'] = $this->options[1][1];
-            } else {
+            }
+            else
+            {
                 $this->arguments['testFile'] = '';
             }
 
             if (isset($this->arguments['test']) &&
                 is_file($this->arguments['test']) &&
-                substr($this->arguments['test'], -5, 5) != '.phpt') {
+                substr($this->arguments['test'], -5, 5) != '.phpt')
+                {
                 $this->arguments['testFile'] = realpath($this->arguments['test']);
                 $this->arguments['test']     = substr($this->arguments['test'], 0, strrpos($this->arguments['test'], '.'));
             }
         }
 
-        if (isset($includePath)) {
+        if (isset($includePath))
+        {
             ini_set(
               'include_path',
               $includePath . PATH_SEPARATOR . ini_get('include_path')
             );
         }
 
-        if (isset($this->arguments['bootstrap'])) {
+        if (isset($this->arguments['bootstrap']))
+        {
             $this->handleBootstrap($this->arguments['bootstrap']);
         }
 
         if (isset($this->arguments['printer']) &&
-            is_string($this->arguments['printer'])) {
+            is_string($this->arguments['printer']))
+            {
             $this->arguments['printer'] = $this->handlePrinter($this->arguments['printer']);
         }
 
-        if ($this->arguments['loader'] !== NULL) {
+        if ($this->arguments['loader'] !== NULL)
+        {
             $this->arguments['loader'] = $this->handleLoader($this->arguments['loader']);
         }
 
         if (isset($this->arguments['configuration']) &&
-            is_dir($this->arguments['configuration'])) {
+            is_dir($this->arguments['configuration']))
+            {
             $configurationFile = $this->arguments['configuration'] .
                                  '/phpunit.xml';
 
-            if (file_exists($configurationFile)) {
+            if (file_exists($configurationFile))
+            {
                 $this->arguments['configuration'] = realpath(
                   $configurationFile
                 );
             }
 
-            else if (file_exists($configurationFile . '.dist')) {
+            elseif (file_exists($configurationFile . '.dist'))
+            {
                 $this->arguments['configuration'] = realpath(
                   $configurationFile . '.dist'
                 );
             }
         }
 
-        else if (!isset($this->arguments['configuration']) &&
-                 $this->arguments['useDefaultConfiguration']) {
-            if (file_exists('phpunit.xml')) {
+        elseif (!isset($this->arguments['configuration']) &&
+                 $this->arguments['useDefaultConfiguration'])
+                 {
+            if (file_exists('phpunit.xml'))
+            {
                 $this->arguments['configuration'] = realpath('phpunit.xml');
-            } else if (file_exists('phpunit.xml.dist')) {
+            }
+            elseif (file_exists('phpunit.xml.dist'))
+            {
                 $this->arguments['configuration'] = realpath(
                   'phpunit.xml.dist'
                 );
             }
         }
 
-        if (isset($this->arguments['configuration'])) {
-            try {
+        if (isset($this->arguments['configuration']))
+        {
+            try
+            {
                 $configuration = PHPUnit_Util_Configuration::getInstance(
                   $this->arguments['configuration']
                 );
             }
 
-            catch (Exception $e) {
+            catch (Exception $e)
+            {
                 print $e->getMessage() . "\n";
                 exit(PHPUnit_TextUI_TestRunner::FAILURE_EXIT);
             }
@@ -616,14 +709,19 @@ class PHPUnit_TextUI_Command
 
             $configuration->handlePHPConfiguration();
 
-            if (!isset($this->arguments['bootstrap']) && isset($phpunit['bootstrap'])) {
+            if (!isset($this->arguments['bootstrap']) && isset($phpunit['bootstrap']))
+            {
                 $this->handleBootstrap($phpunit['bootstrap']);
             }
 
-            if (isset($phpunit['printerClass'])) {
-                if (isset($phpunit['printerFile'])) {
+            if (isset($phpunit['printerClass']))
+            {
+                if (isset($phpunit['printerFile']))
+                {
                     $file = $phpunit['printerFile'];
-                } else {
+                }
+                else
+                {
                     $file = '';
                 }
 
@@ -632,10 +730,14 @@ class PHPUnit_TextUI_Command
                 );
             }
 
-            if (isset($phpunit['testSuiteLoaderClass'])) {
-                if (isset($phpunit['testSuiteLoaderFile'])) {
+            if (isset($phpunit['testSuiteLoaderClass']))
+            {
+                if (isset($phpunit['testSuiteLoaderFile']))
+                {
                     $file = $phpunit['testSuiteLoaderFile'];
-                } else {
+                }
+                else
+                {
                     $file = '';
                 }
 
@@ -646,14 +748,17 @@ class PHPUnit_TextUI_Command
 
             $logging = $configuration->getLoggingConfiguration();
 
-            if (isset($logging['coverage-html']) || isset($logging['coverage-clover']) || isset($logging['coverage-text']) ) {
-                if (!extension_loaded('tokenizer')) {
+            if (isset($logging['coverage-html']) || isset($logging['coverage-clover']) || isset($logging['coverage-text']) )
+            {
+                if (!extension_loaded('tokenizer'))
+                {
                     $this->showExtensionNotLoadedMessage(
                       'tokenizer', 'No code coverage will be generated.'
                     );
                 }
 
-                else if (!extension_loaded('Xdebug')) {
+                elseif (!extension_loaded('Xdebug'))
+                {
                     $this->showExtensionNotLoadedMessage(
                       'Xdebug', 'No code coverage will be generated.'
                     );
@@ -663,20 +768,24 @@ class PHPUnit_TextUI_Command
             $browsers = $configuration->getSeleniumBrowserConfiguration();
 
             if (!empty($browsers) &&
-                class_exists('PHPUnit_Extensions_SeleniumTestCase')) {
+                class_exists('PHPUnit_Extensions_SeleniumTestCase'))
+                {
                 PHPUnit_Extensions_SeleniumTestCase::$browsers = $browsers;
             }
 
-            if (!isset($this->arguments['test'])) {
+            if (!isset($this->arguments['test']))
+            {
                 $testSuite = $configuration->getTestSuiteConfiguration();
 
-                if ($testSuite !== NULL) {
+                if ($testSuite !== NULL)
+                {
                     $this->arguments['test'] = $testSuite;
                 }
             }
         }
 
-        if (isset($this->arguments['test']) && is_string($this->arguments['test']) && substr($this->arguments['test'], -5, 5) == '.phpt') {
+        if (isset($this->arguments['test']) && is_string($this->arguments['test']) && substr($this->arguments['test'], -5, 5) == '.phpt')
+        {
             $test = new PHPUnit_Extensions_PhptTestCase($this->arguments['test']);
 
             $this->arguments['test'] = new PHPUnit_Framework_TestSuite;
@@ -684,13 +793,16 @@ class PHPUnit_TextUI_Command
         }
 
         if (!isset($this->arguments['test']) ||
-            (isset($this->arguments['testDatabaseLogRevision']) && !isset($this->arguments['testDatabaseDSN']))) {
+            (isset($this->arguments['testDatabaseLogRevision']) && !isset($this->arguments['testDatabaseDSN'])))
+            {
             $this->showHelp();
             exit(PHPUnit_TextUI_TestRunner::EXCEPTION_EXIT);
         }
 
-        if ($skeletonClass || $skeletonTest) {
-            if (isset($this->arguments['test']) && $this->arguments['test'] !== FALSE) {
+        if ($skeletonClass || $skeletonTest)
+        {
+            if (isset($this->arguments['test']) && $this->arguments['test'] !== FALSE)
+            {
                 PHPUnit_TextUI_TestRunner::printVersionString();
 
                 print <<<EOT
@@ -722,18 +834,24 @@ Sorry for any inconvenience caused by this change.
 
 
 EOT;
-                if ($skeletonClass) {
+                if ($skeletonClass)
+                {
                     $class = 'PHPUnit_Util_Skeleton_Class';
-                } else {
+                }
+                else
+                {
                     $class = 'PHPUnit_Util_Skeleton_Test';
                 }
 
-                try {
+                try
+                {
                     $args      = array();
                     $reflector = new ReflectionClass($class);
 
-                    for ($i = 0; $i <= 3; $i++) {
-                        if (isset($this->options[1][$i])) {
+                    for ($i = 0; $i <= 3; $i++)
+                    {
+                        if (isset($this->options[1][$i]))
+                        {
                             $args[] = $this->options[1][$i];
                         }
                     }
@@ -742,7 +860,8 @@ EOT;
                     $skeleton->write();
                 }
 
-                catch (Exception $e) {
+                catch (Exception $e)
+                {
                     print $e->getMessage() . "\n";
                     exit(PHPUnit_TextUI_TestRunner::FAILURE_EXIT);
                 }
@@ -754,7 +873,9 @@ EOT;
                 );
 
                 exit(PHPUnit_TextUI_TestRunner::SUCCESS_EXIT);
-            } else {
+            }
+            else
+            {
                 $this->showHelp();
                 exit(PHPUnit_TextUI_TestRunner::EXCEPTION_EXIT);
             }
@@ -770,8 +891,10 @@ EOT;
      */
     protected function handleLoader($loaderClass, $loaderFile = '')
     {
-        if (!class_exists($loaderClass, FALSE)) {
-            if ($loaderFile == '') {
+        if (!class_exists($loaderClass, FALSE))
+        {
+            if ($loaderFile == '')
+            {
                 $loaderFile = PHPUnit_Util_Filesystem::classNameToFilename(
                   $loaderClass
                 );
@@ -781,21 +904,25 @@ EOT;
               $loaderFile
             );
 
-            if ($loaderFile !== FALSE) {
+            if ($loaderFile !== FALSE)
+            {
                 require $loaderFile;
             }
         }
 
-        if (class_exists($loaderClass, FALSE)) {
+        if (class_exists($loaderClass, FALSE))
+        {
             $class = new ReflectionClass($loaderClass);
 
             if ($class->implementsInterface('PHPUnit_Runner_TestSuiteLoader') &&
-                $class->isInstantiable()) {
+                $class->isInstantiable())
+                {
                 $loader = $class->newInstance();
             }
         }
 
-        if (!isset($loader)) {
+        if (!isset($loader))
+        {
             PHPUnit_TextUI_TestRunner::showError(
               sprintf(
                 'Could not use "%s" as loader.',
@@ -817,8 +944,10 @@ EOT;
      */
     protected function handlePrinter($printerClass, $printerFile = '')
     {
-        if (!class_exists($printerClass, FALSE)) {
-            if ($printerFile == '') {
+        if (!class_exists($printerClass, FALSE))
+        {
+            if ($printerFile == '')
+            {
                 $printerFile = PHPUnit_Util_Filesystem::classNameToFilename(
                   $printerClass
                 );
@@ -828,22 +957,26 @@ EOT;
               $printerFile
             );
 
-            if ($printerFile !== FALSE) {
+            if ($printerFile !== FALSE)
+            {
                 require $printerFile;
             }
         }
 
-        if (class_exists($printerClass, FALSE)) {
+        if (class_exists($printerClass, FALSE))
+        {
             $class = new ReflectionClass($printerClass);
 
             if ($class->implementsInterface('PHPUnit_Framework_TestListener') &&
                 $class->isSubclassOf('PHPUnit_Util_Printer') &&
-                $class->isInstantiable()) {
+                $class->isInstantiable())
+                {
                 $printer = $class->newInstance();
             }
         }
 
-        if (!isset($printer)) {
+        if (!isset($printer))
+        {
             PHPUnit_TextUI_TestRunner::showError(
               sprintf(
                 'Could not use "%s" as printer.',
@@ -863,11 +996,13 @@ EOT;
      */
     protected function handleBootstrap($filename)
     {
-        try {
+        try
+        {
             PHPUnit_Util_Fileloader::checkAndLoad($filename);
         }
 
-        catch (RuntimeException $e) {
+        catch (RuntimeException $e)
+        {
             PHPUnit_TextUI_TestRunner::showError($e->getMessage());
         }
     }
@@ -878,11 +1013,13 @@ EOT;
      */
     protected function showExtensionNotLoadedMessage($extension, $message = '')
     {
-        if (isset($this->missingExtensions[$extension])) {
+        if (isset($this->missingExtensions[$extension]))
+        {
             return;
         }
 
-        if (!empty($message)) {
+        if (!empty($message))
+        {
             $message = ' ' . $message;
         }
 
@@ -905,9 +1042,12 @@ EOT;
         PHPUnit_TextUI_TestRunner::printVersionString();
         print $message . "\n";
 
-        if ($exit) {
+        if ($exit)
+        {
             exit(PHPUnit_TextUI_TestRunner::EXCEPTION_EXIT);
-        } else {
+        }
+        else
+        {
             print "\n";
         }
     }

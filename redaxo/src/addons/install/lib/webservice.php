@@ -13,7 +13,7 @@ class rex_install_webservice
 
   static public function getJson($path)
   {
-    if(is_array($cache = self::getCache($path)))
+    if (is_array($cache = self::getCache($path)))
     {
       return $cache;
     }
@@ -25,26 +25,26 @@ class rex_install_webservice
     {
       $socket = new rex_socket(self::HOST, $fullpath, self::PORT, self::PREFIX);
       $response = $socket->doGet();
-      if($response->isOk())
+      if ($response->isOk())
       {
         $data = json_decode($response->getBody(), true);
-        if(isset($data['error']) && is_string($data['error']))
+        if (isset($data['error']) && is_string($data['error']))
         {
           $error = rex_i18n::msg('install_webservice_error') .'<br />'. $data['error'];
         }
-        elseif(is_array($data))
+        elseif (is_array($data))
         {
           self::setCache($path, $data);
           return $data;
         }
       }
     }
-    catch(rex_socket_exception $e)
+    catch (rex_socket_exception $e)
     {
       rex_logger::logException($e);
     }
 
-    if(!$error)
+    if (!$error)
       $error = rex_i18n::msg('install_webservice_unreachable');
 
     throw new rex_functional_exception($error);
@@ -56,7 +56,7 @@ class rex_install_webservice
     {
       $socket = rex_socket::createByUrl($url);
       $response = $socket->doGet();
-      if($response->isOk())
+      if ($response->isOk())
       {
         $filename = basename($url);
         $file = rex_path::addonCache('install', md5($filename) .'.'. rex_file::extension($filename));
@@ -64,7 +64,7 @@ class rex_install_webservice
         return $file;
       }
     }
-    catch(rex_socket_exception $e)
+    catch (rex_socket_exception $e)
     {
       rex_logger::logException($e);
     }
@@ -80,26 +80,26 @@ class rex_install_webservice
     {
       $socket = new rex_socket(self::HOST, $fullpath, self::PORT, self::PREFIX);
       $files = array();
-      if($archive)
+      if ($archive)
       {
         $files['archive']['path'] = $archive;
         $files['archive']['type'] = 'application/zip';
       }
       $response = $socket->doPost($data, $files);
-      if($response->isOk())
+      if ($response->isOk())
       {
         $data = json_decode($response->getBody(), true);
-        if(!isset($data['error']) || !is_string($data['error']))
+        if (!isset($data['error']) || !is_string($data['error']))
           return;
         $error = rex_i18n::msg('install_webservice_error') .'<br />'. $data['error'];
       }
     }
-    catch(rex_socket_exception $e)
+    catch (rex_socket_exception $e)
     {
       rex_logger::logException($e);
     }
 
-    if(!$error)
+    if (!$error)
       $error = rex_i18n::msg('install_webservice_unreachable');
 
     throw new rex_functional_exception($error);
@@ -113,20 +113,20 @@ class rex_install_webservice
     {
       $socket = new rex_socket(self::HOST, $fullpath, self::PORT, self::PREFIX);
       $response = $socket->doDelete();
-      if($response->isOk())
+      if ($response->isOk())
       {
         $data = json_decode($response->getBody(), true);
-        if(!isset($data['error']) || !is_string($data['error']))
+        if (!isset($data['error']) || !is_string($data['error']))
           return;
         $error = rex_i18n::msg('install_webservice_error') .'<br />'. $data['error'];
       }
     }
-    catch(rex_socket_exception $e)
+    catch (rex_socket_exception $e)
     {
       rex_logger::logException($e);
     }
 
-    if(!$error)
+    if (!$error)
       $error = rex_i18n::msg('install_webservice_unreachable');
 
     throw new rex_functional_exception($error);
@@ -137,7 +137,7 @@ class rex_install_webservice
     $path = strpos($path, '?') === false ? rtrim($path, '/') .'/?' : $path .'&';
     $path .= 'rex_version='. rex::getVersion();
     $addon = rex_addon::get('install');
-    if($addon->getConfig('api_login'))
+    if ($addon->getConfig('api_login'))
     {
       $path .= '&api_login='. $addon->getConfig('api_login') .'&api_key='. $addon->getConfig('api_key');
     }
@@ -147,11 +147,11 @@ class rex_install_webservice
   static public function deleteCache($pathBegin = null)
   {
     self::loadCache();
-    if($pathBegin)
+    if ($pathBegin)
     {
-      foreach(self::$cache as $path => $cache)
+      foreach (self::$cache as $path => $cache)
       {
-        if(strpos($path, $pathBegin) === 0)
+        if (strpos($path, $pathBegin) === 0)
           unset(self::$cache[$path]);
       }
     }
@@ -165,7 +165,7 @@ class rex_install_webservice
   static private function getCache($path)
   {
     self::loadCache();
-    if(isset(self::$cache[$path]))
+    if (isset(self::$cache[$path]))
     {
       return self::$cache[$path]['data'];
     }
@@ -174,11 +174,11 @@ class rex_install_webservice
 
   static private function loadCache()
   {
-    if(self::$cache === null)
+    if (self::$cache === null)
     {
-      foreach((array) rex_file::getCache(rex_path::addonCache('install', 'webservice.cache')) as $path => $cache)
+      foreach ((array) rex_file::getCache(rex_path::addonCache('install', 'webservice.cache')) as $path => $cache)
       {
-        if($cache['stamp'] > time() - self::REFRESH_CACHE)
+        if ($cache['stamp'] > time() - self::REFRESH_CACHE)
           self::$cache[$path] = $cache;
       }
     }

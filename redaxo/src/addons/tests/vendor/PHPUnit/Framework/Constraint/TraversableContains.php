@@ -77,7 +77,8 @@ class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework
      */
     public function __construct($value, $checkForObjectIdentity = TRUE)
     {
-        if (!is_bool($checkForObjectIdentity)) {
+        if (!is_bool($checkForObjectIdentity))
+        {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'boolean');
         }
 
@@ -94,22 +95,30 @@ class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework
      */
     protected function matches($other)
     {
-        if ($other instanceof SplObjectStorage) {
+        if ($other instanceof SplObjectStorage)
+        {
             return $other->contains($this->value);
         }
 
-        if (is_object($this->value)) {
-            foreach ($other as $element) {
+        if (is_object($this->value))
+        {
+            foreach ($other as $element)
+            {
                 if (($this->checkForObjectIdentity &&
                      $element === $this->value) ||
                     (!$this->checkForObjectIdentity &&
-                     $element == $this->value)) {
+                     $element == $this->value))
+                     {
                     return TRUE;
                 }
             }
-        } else {
-            foreach ($other as $element) {
-                if ($element == $this->value) {
+        }
+        else
+        {
+            foreach ($other as $element)
+            {
+                if ($element == $this->value)
+                {
                     return TRUE;
                 }
             }
@@ -125,9 +134,12 @@ class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework
      */
     public function toString()
     {
-        if (is_string($this->value) && strpos($this->value, "\n") !== FALSE) {
+        if (is_string($this->value) && strpos($this->value, "\n") !== FALSE)
+        {
             return 'contains "' . $this->value . '"';
-        } else {
+        }
+        else
+        {
             return 'contains ' . PHPUnit_Util_Type::export($this->value);
         }
     }

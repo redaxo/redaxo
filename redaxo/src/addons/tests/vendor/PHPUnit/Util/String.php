@@ -65,10 +65,14 @@ class PHPUnit_Util_String
      */
     public static function convertToUtf8($string)
     {
-        if (!self::isUtf8($string)) {
-            if (function_exists('mb_convert_encoding')) {
+        if (!self::isUtf8($string))
+        {
+            if (function_exists('mb_convert_encoding'))
+            {
                 $string = mb_convert_encoding($string, 'UTF-8');
-            } else {
+            }
+            else
+            {
                 $string = utf8_encode($string);
             }
         }
@@ -86,29 +90,37 @@ class PHPUnit_Util_String
     {
         $length = strlen($string);
 
-        for ($i = 0; $i < $length; $i++) {
-            if (ord($string[$i]) < 0x80) {
+        for ($i = 0; $i < $length; $i++)
+        {
+            if (ord($string[$i]) < 0x80)
+            {
                 $n = 0;
             }
 
-            else if ((ord($string[$i]) & 0xE0) == 0xC0) {
+            elseif ((ord($string[$i]) & 0xE0) == 0xC0)
+            {
                 $n = 1;
             }
 
-            else if ((ord($string[$i]) & 0xF0) == 0xE0) {
+            elseif ((ord($string[$i]) & 0xF0) == 0xE0)
+            {
                 $n = 2;
             }
 
-            else if ((ord($string[$i]) & 0xF0) == 0xF0) {
+            elseif ((ord($string[$i]) & 0xF0) == 0xF0)
+            {
                 $n = 3;
             }
 
-            else {
+            else
+            {
                 return FALSE;
             }
 
-            for ($j = 0; $j < $n; $j++) {
-                if ((++$i == $length) || ((ord($string[$i]) & 0xC0) != 0x80)) {
+            for ($j = 0; $j < $n; $j++)
+            {
+                if ((++$i == $length) || ((ord($string[$i]) & 0xC0) != 0x80))
+                {
                     return FALSE;
                 }
             }

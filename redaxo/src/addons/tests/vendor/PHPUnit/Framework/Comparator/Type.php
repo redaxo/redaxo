@@ -86,7 +86,8 @@ class PHPUnit_Framework_Comparator_Type extends PHPUnit_Framework_Comparator
      */
     public function assertEquals($expected, $actual, $delta = 0, $canonicalize = FALSE, $ignoreCase = FALSE)
     {
-        if (gettype($expected) != gettype($actual)) {
+        if (gettype($expected) != gettype($actual))
+        {
             throw new PHPUnit_Framework_ComparisonFailure(
               $expected,
               $actual,

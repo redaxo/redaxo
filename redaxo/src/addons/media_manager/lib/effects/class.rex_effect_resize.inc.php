@@ -49,46 +49,48 @@ class rex_effect_resize extends rex_effect_abstract
     $w = $this->media->getWidth();
     $h = $this->media->getHeight();
 
-    if(!isset($this->params['style']) || !in_array($this->params['style'],$this->options))
+    if (!isset($this->params['style']) || !in_array($this->params['style'],$this->options))
     {
       $this->params['style'] = 'maximum';
     }
 
     // relatives resizen
-    if(substr(trim($this->params['width']), -1) === '%')
+    if (substr(trim($this->params['width']), -1) === '%')
     {
       $this->params['width'] = round($w * (rtrim($this->params['width'], '%') / 100));
     }
-    if(substr(trim($this->params['height']), -1) === '%')
+    if (substr(trim($this->params['height']), -1) === '%')
     {
       $this->params['height'] = round($h * (rtrim($this->params['height'], '%') / 100));
     }
 
-    if($this->params['style'] == 'maximum')
+    if ($this->params['style'] == 'maximum')
     {
       $this->resizeMax($w, $h);
-    }else if($this->params['style'] == 'minimum')
+    }
+    elseif ($this->params['style'] == 'minimum')
     {
       $this->resizeMin($w, $h);
-    }else
+    }
+    else
     {
       // warp => nichts tun
     }
 
     // ----- not enlarge image
-    if($w <= $this->params['width'] && $h <= $this->params['height'] && $this->params['allow_enlarge'] == "not_enlarge")
+    if ($w <= $this->params['width'] && $h <= $this->params['height'] && $this->params['allow_enlarge'] == "not_enlarge")
     {
       $this->params['width'] = $w;
       $this->params['height'] = $h;
       return;
     }
 
-    if(!isset($this->params["width"]))
+    if (!isset($this->params["width"]))
     {
       $this->params["width"] = $w;
     }
 
-    if(!isset($this->params["height"]))
+    if (!isset($this->params["height"]))
     {
       $this->params["height"] = $h;
     }
@@ -96,12 +98,13 @@ class rex_effect_resize extends rex_effect_abstract
     if (function_exists('ImageCreateTrueColor'))
     {
       $des = @ImageCreateTrueColor($this->params['width'], $this->params['height']);
-    }else
+    }
+    else
     {
       $des = @ImageCreate($this->params['width'], $this->params['height']);
     }
 
-    if(!$des)
+    if (!$des)
     {
       return;
     }
@@ -127,16 +130,19 @@ class rex_effect_resize extends rex_effect_abstract
       {
         // --- width
         $this->params['height'] = ceil ($this->params['width'] / $w * $h);
-      }else
+      }
+      else
       {
         // --- height
         $this->params['width']  = ceil ($this->params['height'] / $h * $w);
       }
-    }elseif (!empty($this->params['height']))
+    }
+    elseif (!empty($this->params['height']))
     {
       $img_factor  = $h / $this->params['height'];
       $this->params['width'] = ceil ($w / $img_factor);
-    }elseif (!empty($this->params['width']))
+    }
+    elseif (!empty($this->params['width']))
     {
       $img_factor  = $w / $this->params['width'];
       $this->params['height'] = ceil ($h / $img_factor);
@@ -154,16 +160,19 @@ class rex_effect_resize extends rex_effect_abstract
       {
         // --- width
         $this->params['height'] = ceil ($this->params['width'] / $w * $h);
-      }else
+      }
+      else
       {
         // --- height
         $this->params['width']  = ceil ($this->params['height'] / $h * $w);
       }
-    }elseif (!empty($this->params['height']))
+    }
+    elseif (!empty($this->params['height']))
     {
       $img_factor  = $h / $this->params['height'];
       $this->params['width'] = ceil ($w / $img_factor);
-    }elseif (!empty($this->params['width']))
+    }
+    elseif (!empty($this->params['width']))
     {
       $img_factor  = $w / $this->params['width'];
       $this->params['height'] = ceil ($h / $img_factor);
@@ -177,12 +186,13 @@ class rex_effect_resize extends rex_effect_abstract
     {
       imagealphablending($des, false);
       imagesavealpha($des, true);
-    }else if ($this->media->getFormat() == 'GIF')
+    }
+    elseif ($this->media->getFormat() == 'GIF')
     {
       $gdimage = $this->media->getImage();
       $colorTransparent = imagecolortransparent($gdimage);
       imagepalettecopy($gdimage, $des);
-      if($colorTransparent>0)
+      if ($colorTransparent>0)
       {
         imagefill($des, 0, 0, $colorTransparent);
         imagecolortransparent($des, $colorTransparent);

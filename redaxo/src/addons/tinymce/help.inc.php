@@ -16,7 +16,7 @@
 
 <?php
   $filename = dirname( __FILE__) . '/lang/help.' . $REX['LANG'] . '.lang';
-  if(is_readable($filename))
+  if (is_readable($filename))
   {
     if (strstr($REX['LANG'], 'utf8'))
     {
@@ -33,7 +33,7 @@
 
 <?php
   $filename = dirname( __FILE__) . '/_changelog.txt';
-  if(is_readable($filename))
+  if (is_readable($filename))
   {
     if (strstr($REX['LANG'], 'utf8'))
     {

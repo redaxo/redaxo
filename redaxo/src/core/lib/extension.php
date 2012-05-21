@@ -13,7 +13,8 @@ abstract class rex_extension extends rex_factory_base
    */
   static private $extensions = array();
 
-  private function __construct(){
+  private function __construct()
+  {
     // subclassing not allowed
   }
 
@@ -28,7 +29,7 @@ abstract class rex_extension extends rex_factory_base
    */
   static public function registerPoint($extensionPoint, $subject = '', array $params = array (), $read_only = false)
   {
-    if(static::hasFactoryClass())
+    if (static::hasFactoryClass())
     {
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }
@@ -60,7 +61,7 @@ abstract class rex_extension extends rex_factory_base
           // Rückgabewert nur auswerten wenn auch einer vorhanden ist
           // damit $params['subject'] nicht verfälscht wird
           // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
-          if($temp !== null)
+          if ($temp !== null)
           {
             $result = $temp;
             $params['subject'] = $result;
@@ -85,7 +86,7 @@ abstract class rex_extension extends rex_factory_base
    */
   static public function register($extensionPoint, $callable, array $params = array())
   {
-    if(static::hasFactoryClass())
+    if (static::hasFactoryClass())
     {
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }
@@ -101,7 +102,7 @@ abstract class rex_extension extends rex_factory_base
    */
   static public function isRegistered($extensionPoint)
   {
-    if(static::hasFactoryClass())
+    if (static::hasFactoryClass())
     {
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }

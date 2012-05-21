@@ -10,7 +10,7 @@ function rex_parse_article_name($name)
   static $firstCall = true;
   static $search, $replace;
 
-  if($firstCall)
+  if ($firstCall)
   {
     // Sprachspezifische Sonderzeichen Filtern
     $search = explode('|', rex_i18n::msg('special_chars'));
@@ -116,7 +116,7 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
 function rex_redirect($article_id, $clang = '', $params = array())
 {
   // Alle OBs schließen
-  while(@ob_end_clean());
+  while (@ob_end_clean());
 
   $divider = '&';
 

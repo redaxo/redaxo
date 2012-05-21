@@ -88,17 +88,20 @@ class PHPUnit_Framework_Comparator_Numeric extends PHPUnit_Framework_Comparator_
      */
     public function assertEquals($expected, $actual, $delta = 0, $canonicalize = FALSE, $ignoreCase = FALSE)
     {
-        if (is_infinite($actual) && is_infinite($expected)) {
+        if (is_infinite($actual) && is_infinite($expected))
+        {
             return;
         }
 
-        if (is_nan($actual) && is_nan($expected)) {
+        if (is_nan($actual) && is_nan($expected))
+        {
             return;
         }
 
         if ((is_infinite($actual) XOR is_infinite($expected)) ||
             (is_nan($actual) XOR is_nan($expected)) ||
-            abs($actual - $expected) > $delta) {
+            abs($actual - $expected) > $delta)
+            {
             throw new PHPUnit_Framework_ComparisonFailure(
               $expected,
               $actual,

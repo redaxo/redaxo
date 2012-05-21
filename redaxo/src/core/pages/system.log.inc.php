@@ -18,7 +18,7 @@ if ($func == 'delLog')
   // so we can safely delete the file
   rex_logger::unregister();
 
-  if(rex_file::delete($logFile))
+  if (rex_file::delete($logFile))
   {
     $info = rex_i18n::msg('syslog_deleted');
   }
@@ -29,17 +29,18 @@ if ($func == 'delLog')
 
   rex_logger::register();
 
-} else if ($func == 'readlog')
+}
+elseif ($func == 'readlog')
 {
   // clear output-buffer
-  while(ob_get_level()) ob_end_clean();
+  while (ob_get_level()) ob_end_clean();
 
   echo '<html><head></head><body>';
 
   // log files tend to get very big over time. therefore we read only the last n lines
   $n = 500;
   $fp = fopen($logFile, 'r');
-  if($fp)
+  if ($fp)
   {
     // go backwards from the end of the file
     // a line in the logfile has round about 500 chars
@@ -47,7 +48,7 @@ if ($func == 'delLog')
     // find the next beginning of a line
     fgets($fp);
     // stream all remaining lines
-    while(($buf = fgets($fp)) !== false)
+    while (($buf = fgets($fp)) !== false)
     {
       echo $buf;
     }
@@ -83,6 +84,3 @@ $content .= '
   ';
 
 echo rex_view::contentBlock($content,'','blank');
-
-
-?>

@@ -64,16 +64,21 @@ class File_Iterator_Factory
      */
     public function getFileIterator($paths, $suffixes = '', $prefixes = '', array $exclude = array())
     {
-        if (is_string($paths)) {
+        if (is_string($paths))
+        {
             $paths = array($paths);
         }
 
         $_paths = array();
 
-        foreach ($paths as $path) {
-            if ($locals = glob($path, GLOB_ONLYDIR)) {
+        foreach ($paths as $path)
+        {
+            if ($locals = glob($path, GLOB_ONLYDIR))
+            {
                 $_paths = array_merge($_paths, $locals);
-            } else {
+            }
+            else
+            {
                 $_paths[] = $path;
             }
         }
@@ -81,26 +86,36 @@ class File_Iterator_Factory
         $paths = $_paths;
         unset($_paths);
 
-        if (is_string($prefixes)) {
-            if ($prefixes != '') {
+        if (is_string($prefixes))
+        {
+            if ($prefixes != '')
+            {
                 $prefixes = array($prefixes);
-            } else {
+            }
+            else
+            {
                 $prefixes = array();
             }
         }
 
-        if (is_string($suffixes)) {
-            if ($suffixes != '') {
+        if (is_string($suffixes))
+        {
+            if ($suffixes != '')
+            {
                 $suffixes = array($suffixes);
-            } else {
+            }
+            else
+            {
                 $suffixes = array();
             }
         }
 
         $iterator = new AppendIterator;
 
-        foreach ($paths as $path) {
-            if (is_dir($path)) {
+        foreach ($paths as $path)
+        {
+            if (is_dir($path))
+            {
                 $iterator->append(
                   new File_Iterator(
                     new RecursiveIteratorIterator(

@@ -132,11 +132,13 @@ abstract class PHPUnit_Util_Skeleton
      */
     public function write($file = '')
     {
-        if ($file == '') {
+        if ($file == '')
+        {
             $file = $this->outSourceFile;
         }
 
-        if ($fp = fopen($file, 'wt')) {
+        if ($fp = fopen($file, 'wt'))
+        {
             fwrite($fp, $this->generate());
             fclose($fp);
         }

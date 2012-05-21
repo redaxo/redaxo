@@ -85,7 +85,8 @@ class PHPUnit_Util_ErrorHandler
      */
     public static function handleError($errno, $errstr, $errfile, $errline)
     {
-        if (!($errno & error_reporting())) {
+        if (!($errno & error_reporting()))
+        {
             return FALSE;
         }
 
@@ -94,37 +95,46 @@ class PHPUnit_Util_ErrorHandler
         $trace = debug_backtrace(FALSE);
         array_shift($trace);
 
-        foreach ($trace as $frame) {
-            if ($frame['function'] == '__toString') {
+        foreach ($trace as $frame)
+        {
+            if ($frame['function'] == '__toString')
+            {
                 return FALSE;
             }
         }
 
-        if ($errno == E_NOTICE || $errno == E_USER_NOTICE || $errno == E_STRICT) {
-            if (PHPUnit_Framework_Error_Notice::$enabled !== TRUE) {
+        if ($errno == E_NOTICE || $errno == E_USER_NOTICE || $errno == E_STRICT)
+        {
+            if (PHPUnit_Framework_Error_Notice::$enabled !== TRUE)
+            {
                 return FALSE;
             }
 
             $exception = 'PHPUnit_Framework_Error_Notice';
         }
 
-        else if ($errno == E_WARNING || $errno == E_USER_WARNING) {
-            if (PHPUnit_Framework_Error_Warning::$enabled !== TRUE) {
+        elseif ($errno == E_WARNING || $errno == E_USER_WARNING)
+        {
+            if (PHPUnit_Framework_Error_Warning::$enabled !== TRUE)
+            {
                 return FALSE;
             }
 
             $exception = 'PHPUnit_Framework_Error_Warning';
         }
 
-        else if (version_compare(PHP_VERSION, '5.3', '>=') && ($errno == E_DEPRECATED || $errno == E_USER_DEPRECATED)) {
-            if (PHPUnit_Framework_Error_Deprecated::$enabled !== TRUE) {
+        elseif (version_compare(PHP_VERSION, '5.3', '>=') && ($errno == E_DEPRECATED || $errno == E_USER_DEPRECATED))
+        {
+            if (PHPUnit_Framework_Error_Deprecated::$enabled !== TRUE)
+            {
                 return FALSE;
             }
 
             $exception = 'PHPUnit_Framework_Error_Deprecated';
         }
 
-        else {
+        else
+        {
             $exception = 'PHPUnit_Framework_Error';
         }
 

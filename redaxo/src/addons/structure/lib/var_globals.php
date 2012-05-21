@@ -53,18 +53,20 @@ class rex_var_globals extends rex_var
   private function getEventData($REX_ACTION)
   {
     // SLICE ID im Update Mode setzen
-    if($this->isEditEvent())
+    if ($this->isEditEvent())
     {
       $REX_ACTION['EVENT'] = 'EDIT';
       $REX_ACTION['SLICE_ID'] = rex_request('slice_id', 'int');
     }
     // SLICE ID im Delete Mode setzen
+
     elseif ($this->isDeleteEvent())
     {
       $REX_ACTION['EVENT'] = 'DELETE';
       $REX_ACTION['SLICE_ID'] = rex_request('slice_id', 'int');
     }
     // Im Add Mode 0 setze wg auto-increment
+
     else
     {
       $REX_ACTION['EVENT'] = 'ADD';

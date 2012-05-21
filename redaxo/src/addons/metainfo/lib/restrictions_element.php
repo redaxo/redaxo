@@ -15,11 +15,11 @@ class rex_form_restrictons_element extends rex_form_select_element
     $this->chkbox_element->setAttribute('id', 'enable_restrictions_chkbx');
     $this->chkbox_element->addOption(rex_i18n::msg('minfo_field_label_no_restrictions'), '');
 
-    if($table->getPrefix() == rex_articleMetainfoHandler::PREFIX || $table->getPrefix() == rex_categoryMetainfoHandler::PREFIX)
+    if ($table->getPrefix() == rex_articleMetainfoHandler::PREFIX || $table->getPrefix() == rex_categoryMetainfoHandler::PREFIX)
     {
       $restrictionsSelect = new rex_category_select(false, false, true, false);
     }
-    else if($table->getPrefix() == rex_mediaMetainfoHandler::PREFIX)
+    elseif ($table->getPrefix() == rex_mediaMetainfoHandler::PREFIX)
     {
       $restrictionsSelect = new rex_mediacategory_select();
     }

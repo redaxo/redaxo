@@ -93,7 +93,8 @@ class PHPUnit_Framework_Constraint_Exception extends PHPUnit_Framework_Constrain
      */
     protected function failureDescription($other)
     {
-        if ($other !== NULL) {
+        if ($other !== NULL)
+        {
             return sprintf(
               'exception of type "%s" matches expected exception "%s"',
 

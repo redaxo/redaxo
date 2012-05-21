@@ -43,7 +43,8 @@
  * @since      File available since Release 3.0.0
  */
 
-if (!class_exists('sfYamlDumper', FALSE)) {
+if (!class_exists('sfYamlDumper', FALSE))
+{
     require_once 'SymfonyComponents/YAML/sfYamlDumper.php';
 }
 
@@ -122,10 +123,12 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
           'severity' => 'fail'
         );
 
-        if ($e instanceof PHPUnit_Framework_ExpectationFailedException) {
+        if ($e instanceof PHPUnit_Framework_ExpectationFailedException)
+        {
             $cf = $e->getComparisonFailure();
 
-            if ($cf !== NULL) {
+            if ($cf !== NULL)
+            {
                 $diagnostic['data'] = array(
                   'got'      => $cf->getActual(),
                   'expected' => $cf->getExpected()
@@ -196,7 +199,8 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
     {
         $this->testSuiteLevel--;
 
-        if ($this->testSuiteLevel == 0) {
+        if ($this->testSuiteLevel == 0)
+        {
             $this->write(sprintf("1..%d\n", $this->testNumber));
         }
     }
@@ -220,7 +224,8 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if ($this->testSuccessful === TRUE) {
+        if ($this->testSuccessful === TRUE)
+        {
             $this->write(
               sprintf(
                 "ok %d - %s\n",

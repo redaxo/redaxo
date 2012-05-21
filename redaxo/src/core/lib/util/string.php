@@ -65,12 +65,13 @@ class rex_string
       }
     }
     // ------------ z.b. a=4 b="av c" y='de f' z=ghi
+
     else
     {
       $parts = explode(' ', $string);
       foreach ($parts as $part)
       {
-        if(empty($part))
+        if (empty($part))
           continue;
 
         $variable = explode('=', $part);

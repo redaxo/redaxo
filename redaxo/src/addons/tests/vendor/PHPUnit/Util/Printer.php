@@ -87,19 +87,26 @@ class PHPUnit_Util_Printer
      */
     public function __construct($out = NULL)
     {
-        if ($out !== NULL) {
-            if (is_string($out)) {
-                if (strpos($out, 'socket://') === 0) {
+        if ($out !== NULL)
+        {
+            if (is_string($out))
+            {
+                if (strpos($out, 'socket://') === 0)
+                {
                     $out = explode(':', str_replace('socket://', '', $out));
 
-                    if (sizeof($out) != 2) {
+                    if (sizeof($out) != 2)
+                    {
                         throw new InvalidArgumentException;
                     }
 
                     $this->out = fsockopen($out[0], $out[1]);
-                } else {
+                }
+                else
+                {
                     if (strpos($out, 'php://') === FALSE &&
-                        !is_dir(dirname($out))) {
+                        !is_dir(dirname($out)))
+                        {
                         mkdir(dirname($out), 0777, TRUE);
                     }
 
@@ -107,7 +114,9 @@ class PHPUnit_Util_Printer
                 }
 
                 $this->outTarget = $out;
-            } else {
+            }
+            else
+            {
                 $this->out = $out;
             }
         }
@@ -118,7 +127,8 @@ class PHPUnit_Util_Printer
      */
     public function flush()
     {
-        if ($this->out && strncmp($this->outTarget, 'php://', 6) !== 0) {
+        if ($this->out && strncmp($this->outTarget, 'php://', 6) !== 0)
+        {
             fclose($this->out);
         }
 
@@ -126,7 +136,8 @@ class PHPUnit_Util_Printer
             $this->outTarget !== NULL &&
             strpos($this->outTarget, 'php://') !== 0 &&
             strpos($this->outTarget, 'socket://') !== 0 &&
-            extension_loaded('tidy')) {
+            extension_loaded('tidy'))
+            {
             file_put_contents(
               $this->outTarget,
               tidy_repair_file(
@@ -147,9 +158,12 @@ class PHPUnit_Util_Printer
      */
     public function incrementalFlush()
     {
-        if ($this->out) {
+        if ($this->out)
+        {
             fflush($this->out);
-        } else {
+        }
+        else
+        {
             flush();
         }
     }
@@ -159,20 +173,26 @@ class PHPUnit_Util_Printer
      */
     public function write($buffer)
     {
-        if ($this->out) {
+        if ($this->out)
+        {
             fwrite($this->out, $buffer);
 
-            if ($this->autoFlush) {
+            if ($this->autoFlush)
+            {
                 $this->incrementalFlush();
             }
-        } else {
-            if (PHP_SAPI != 'cli') {
+        }
+        else
+        {
+            if (PHP_SAPI != 'cli')
+            {
                 $buffer = htmlspecialchars($buffer);
             }
 
             print $buffer;
 
-            if ($this->autoFlush) {
+            if ($this->autoFlush)
+            {
                 $this->incrementalFlush();
             }
         }
@@ -200,9 +220,12 @@ class PHPUnit_Util_Printer
      */
     public function setAutoFlush($autoFlush)
     {
-        if (is_bool($autoFlush)) {
+        if (is_bool($autoFlush))
+        {
             $this->autoFlush = $autoFlush;
-        } else {
+        }
+        else
+        {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'boolean');
         }
     }

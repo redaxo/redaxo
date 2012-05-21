@@ -106,19 +106,23 @@ class PHPUnit_Framework_Constraint_IsEqual extends PHPUnit_Framework_Constraint
      */
     public function __construct($value, $delta = 0, $maxDepth = 10, $canonicalize = FALSE, $ignoreCase = FALSE)
     {
-        if (!is_numeric($delta)) {
+        if (!is_numeric($delta))
+        {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'numeric');
         }
 
-        if (!is_int($maxDepth)) {
+        if (!is_int($maxDepth))
+        {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(3, 'integer');
         }
 
-        if (!is_bool($canonicalize)) {
+        if (!is_bool($canonicalize))
+        {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(4, 'boolean');
         }
 
-        if (!is_bool($ignoreCase)) {
+        if (!is_bool($ignoreCase))
+        {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(5, 'boolean');
         }
 
@@ -149,7 +153,8 @@ class PHPUnit_Framework_Constraint_IsEqual extends PHPUnit_Framework_Constraint
     {
         $comparatorFactory = PHPUnit_Framework_ComparatorFactory::getDefaultInstance();
 
-        try {
+        try
+        {
             $comparator = $comparatorFactory->getComparatorFor(
               $other, $this->value
             );
@@ -163,8 +168,10 @@ class PHPUnit_Framework_Constraint_IsEqual extends PHPUnit_Framework_Constraint
             );
         }
 
-        catch (PHPUnit_Framework_ComparisonFailure $f) {
-            if ($returnResult) {
+        catch (PHPUnit_Framework_ComparisonFailure $f)
+        {
+            if ($returnResult)
+            {
                 return FALSE;
             }
 
@@ -186,18 +193,25 @@ class PHPUnit_Framework_Constraint_IsEqual extends PHPUnit_Framework_Constraint
     {
         $delta = '';
 
-        if (is_string($this->value)) {
-            if (strpos($this->value, "\n") !== FALSE) {
+        if (is_string($this->value))
+        {
+            if (strpos($this->value, "\n") !== FALSE)
+            {
                 return 'is equal to <text>';
-            } else {
+            }
+            else
+            {
                 return sprintf(
                   'is equal to <string:%s>',
 
                   $this->value
                 );
             }
-        } else {
-            if ($this->delta != 0) {
+        }
+        else
+        {
+            if ($this->delta != 0)
+            {
                 $delta = sprintf(
                   ' with delta <%F>',
 

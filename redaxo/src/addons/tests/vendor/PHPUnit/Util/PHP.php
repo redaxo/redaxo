@@ -92,42 +92,58 @@ abstract class PHPUnit_Util_PHP
      */
     protected function getPhpBinary()
     {
-        if ($this->phpBinary === NULL) {
-            if (defined("PHP_BINARY")) {
+        if ($this->phpBinary === NULL)
+        {
+            if (defined("PHP_BINARY"))
+            {
                 $this->phpBinary = PHP_BINARY;
-            } else if (PHP_SAPI == 'cli' && isset($_SERVER['_'])) {
-                if (strpos($_SERVER['_'], 'phpunit') !== FALSE) {
+            }
+            elseif (PHP_SAPI == 'cli' && isset($_SERVER['_']))
+            {
+                if (strpos($_SERVER['_'], 'phpunit') !== FALSE)
+                {
                     $file = file($_SERVER['_']);
 
-                    if (strpos($file[0], ' ') !== FALSE) {
+                    if (strpos($file[0], ' ') !== FALSE)
+                    {
                         $tmp = explode(' ', $file[0]);
                         $this->phpBinary = trim($tmp[1]);
-                    } else {
+                    }
+                    else
+                    {
                         $this->phpBinary = ltrim(trim($file[0]), '#!');
                     }
-                } else if (strpos(basename($_SERVER['_']), 'php') !== FALSE) {
+                }
+                elseif (strpos(basename($_SERVER['_']), 'php') !== FALSE)
+                {
                     $this->phpBinary = $_SERVER['_'];
                 }
             }
 
-            if ($this->phpBinary === NULL) {
+            if ($this->phpBinary === NULL)
+            {
                 $possibleBinaryLocations = array(
                     PHP_BINDIR . '/php',
                     PHP_BINDIR . '/php-cli.exe',
                     PHP_BINDIR . '/php.exe',
                     '/usr/bin/php',
                 );
-                foreach ($possibleBinaryLocations as $binary) {
-                    if (is_readable($binary)) {
+                foreach ($possibleBinaryLocations as $binary)
+                {
+                    if (is_readable($binary))
+                    {
                         $this->phpBinary = $binary;
                         break;
                     }
                 }
             }
 
-            if (!is_readable($this->phpBinary)) {
+            if (!is_readable($this->phpBinary))
+            {
                 $this->phpBinary = 'php';
-            } else {
+            }
+            else
+            {
                 $this->phpBinary = escapeshellcmd($this->phpBinary);
             }
         }
@@ -141,7 +157,8 @@ abstract class PHPUnit_Util_PHP
      */
     public static function factory()
     {
-        if (DIRECTORY_SEPARATOR == '\\') {
+        if (DIRECTORY_SEPARATOR == '\\')
+        {
             return new PHPUnit_Util_PHP_Windows;
         }
 
@@ -169,13 +186,15 @@ abstract class PHPUnit_Util_PHP
           $pipes
         );
 
-        if (!is_resource($process)) {
+        if (!is_resource($process))
+        {
             throw new PHPUnit_Framework_Exception(
               'Unable to create process for process isolation.'
             );
         }
 
-        if ($result !== NULL) {
+        if ($result !== NULL)
+        {
             $result->startTest($test);
         }
 
@@ -191,9 +210,12 @@ abstract class PHPUnit_Util_PHP
         proc_close($process);
         $this->cleanup();
 
-        if ($result !== NULL) {
+        if ($result !== NULL)
+        {
             $this->processChildResult($test, $result, $stdout, $stderr);
-        } else {
+        }
+        else
+        {
             return array('stdout' => $stdout, 'stderr' => $stderr);
         }
     }
@@ -223,17 +245,22 @@ abstract class PHPUnit_Util_PHP
      */
     protected function processChildResult(PHPUnit_Framework_Test $test, PHPUnit_Framework_TestResult $result, $stdout, $stderr)
     {
-        if (!empty($stderr)) {
+        if (!empty($stderr))
+        {
             $time = 0;
             $result->addError(
               $test,
               new RuntimeException(trim($stderr)), $time
             );
-        } else {
+        }
+        else
+        {
             $childResult = @unserialize($stdout);
 
-            if ($childResult !== FALSE) {
-                if (!empty($childResult['output'])) {
+            if ($childResult !== FALSE)
+            {
+                if (!empty($childResult['output']))
+                {
                     print $childResult['output'];
                 }
 
@@ -242,7 +269,8 @@ abstract class PHPUnit_Util_PHP
 
                 $childResult = $childResult['result'];
 
-                if ($result->getCollectCodeCoverageInformation()) {
+                if ($result->getCollectCodeCoverageInformation())
+                {
                     $result->getCodeCoverage()->merge(
                       $childResult->getCodeCoverage()
                     );
@@ -254,30 +282,36 @@ abstract class PHPUnit_Util_PHP
                 $errors         = $childResult->errors();
                 $failures       = $childResult->failures();
 
-                if (!empty($notImplemented)) {
+                if (!empty($notImplemented))
+                {
                     $result->addError(
                       $test, $this->getException($notImplemented[0]), $time
                     );
                 }
 
-                else if (!empty($skipped)) {
+                elseif (!empty($skipped))
+                {
                     $result->addError(
                       $test, $this->getException($skipped[0]), $time
                     );
                 }
 
-                else if (!empty($errors)) {
+                elseif (!empty($errors))
+                {
                     $result->addError(
                       $test, $this->getException($errors[0]), $time
                     );
                 }
 
-                else if (!empty($failures)) {
+                elseif (!empty($failures))
+                {
                     $result->addFailure(
                       $test, $this->getException($failures[0]), $time
                     );
                 }
-            } else {
+            }
+            else
+            {
                 $time = 0;
 
                 $result->addError(
@@ -300,9 +334,11 @@ abstract class PHPUnit_Util_PHP
     {
         $exception = $error->thrownException();
 
-        if ($exception instanceof __PHP_Incomplete_Class) {
+        if ($exception instanceof __PHP_Incomplete_Class)
+        {
             $exceptionArray = array();
-            foreach ((array)$exception as $key => $value) {
+            foreach ((array)$exception as $key => $value)
+            {
                 $key = substr($key, strrpos($key, "\0") + 1);
                 $exceptionArray[$key] = $value;
             }

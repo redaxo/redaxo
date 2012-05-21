@@ -88,14 +88,19 @@ class File_Iterator extends FilterIterator
     {
         $exclude = array_filter(array_map('realpath', $exclude));
 
-        if ($basepath !== NULL) {
+        if ($basepath !== NULL)
+        {
             $basepath = realpath($basepath);
         }
 
-        if ($basepath === FALSE) {
+        if ($basepath === FALSE)
+        {
             $basepath = NULL;
-        } else {
-            foreach ($exclude as &$_exclude) {
+        }
+        else
+        {
+            foreach ($exclude as &$_exclude)
+            {
                 $_exclude = str_replace($basepath, '', $_exclude);
             }
         }
@@ -117,12 +122,14 @@ class File_Iterator extends FilterIterator
         $filename = $current->getFilename();
         $realpath = $current->getRealPath();
 
-        if ($this->basepath !== NULL) {
+        if ($this->basepath !== NULL)
+        {
             $realpath = str_replace($this->basepath, '', $realpath);
         }
 
         // Filter files in hidden directories.
-        if (preg_match('=/\.[^/]*/=', $realpath)) {
+        if (preg_match('=/\.[^/]*/=', $realpath))
+        {
             return FALSE;
         }
 
@@ -138,8 +145,10 @@ class File_Iterator extends FilterIterator
      */
     protected function acceptPath($path)
     {
-        foreach ($this->exclude as $exclude) {
-            if (strpos($path, $exclude) === 0) {
+        foreach ($this->exclude as $exclude)
+        {
+            if (strpos($path, $exclude) === 0)
+            {
                 return FALSE;
             }
         }
@@ -176,16 +185,19 @@ class File_Iterator extends FilterIterator
      */
     protected function acceptSubString($filename, array $subStrings, $type)
     {
-        if (empty($subStrings)) {
+        if (empty($subStrings))
+        {
             return TRUE;
         }
 
         $matched = FALSE;
 
-        foreach ($subStrings as $string) {
+        foreach ($subStrings as $string)
+        {
             if (($type == self::PREFIX && strpos($filename, $string) === 0) ||
                 ($type == self::SUFFIX &&
-                 substr($filename, -1 * strlen($string)) == $string)) {
+                 substr($filename, -1 * strlen($string)) == $string))
+                 {
                 $matched = TRUE;
                 break;
             }

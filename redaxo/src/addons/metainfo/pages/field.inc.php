@@ -9,13 +9,13 @@
 
 //------------------------------> Parameter
 
-if(empty($prefix))
+if (empty($prefix))
 {
   trigger_error('Fehler: Prefix nicht definiert!', E_USER_ERROR);
   exit();
 }
 
-if(empty($metaTable))
+if (empty($metaTable))
 {
   trigger_error('Fehler: metaTable nicht definiert!', E_USER_ERROR);
   exit();
@@ -69,11 +69,12 @@ if ($func == '')
   $list->show();
 }
 //------------------------------> Formular
+
 elseif ($func == 'edit' || $func == 'add')
 {
   $form = new rex_metainfo_tableExpander($prefix, $metaTable, rex::getTablePrefix() .'metainfo_params', rex_i18n::msg('minfo_field_fieldset'),'field_id='. $field_id);
 
-  if($func == 'edit')
+  if ($func == 'edit')
     $form->addParam('field_id', $field_id);
 
   $form->show();

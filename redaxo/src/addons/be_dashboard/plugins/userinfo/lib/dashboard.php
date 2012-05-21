@@ -131,7 +131,7 @@ class rex_articles_component extends rex_dashboard_component
   {
     $limit = A659_DEFAULT_LIMIT;
 
-    if(rex::getUser()->getComplexPerm('structure')->hasMountpoints())
+    if (rex::getUser()->getComplexPerm('structure')->hasMountpoints())
     {
       $whereCond = '1=1';
     }
@@ -139,7 +139,7 @@ class rex_articles_component extends rex_dashboard_component
     {
       $whereCond = '1=0';
       $categoryPerms = rex::getUser()->getComplexPerm('structure')->getMountpoints();
-      foreach($categoryPerms as $catPerm)
+      foreach ($categoryPerms as $catPerm)
       {
         $whereCond .= ' OR path LIKE "%|'. $catPerm .'|%"';
       }

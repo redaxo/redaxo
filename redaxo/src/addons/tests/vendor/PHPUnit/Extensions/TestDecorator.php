@@ -140,7 +140,8 @@ class PHPUnit_Extensions_TestDecorator extends PHPUnit_Framework_Assert implemen
      */
     public function run(PHPUnit_Framework_TestResult $result = NULL)
     {
-        if ($result === NULL) {
+        if ($result === NULL)
+        {
             $result = $this->createResult();
         }
 

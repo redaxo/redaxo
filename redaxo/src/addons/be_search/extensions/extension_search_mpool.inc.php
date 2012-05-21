@@ -10,12 +10,12 @@
 
 function rex_be_search_mpool($params)
 {
-  if(!rex::getUser()->hasPerm('be_search[mediapool]'))
+  if (!rex::getUser()->hasPerm('be_search[mediapool]'))
   {
     return $params['subject'];
   }
 
-  if(rex_request('subpage', 'string') != '') return $params['subject'];
+  if (rex_request('subpage', 'string') != '') return $params['subject'];
   $media_name = rex_request('be_media_name', 'string');
 
   $subject = $params['subject'];
@@ -37,13 +37,13 @@ function rex_be_search_mpool($params)
 
 function rex_be_search_mpool_query($params)
 {
-  if(!rex::getUser()->hasPerm('be_search[mediapool]'))
+  if (!rex::getUser()->hasPerm('be_search[mediapool]'))
   {
     return $params['subject'];
   }
 
   $media_name = rex_request('be_search_media_name', 'string');
-  if($media_name == '') return $params['subject'];
+  if ($media_name == '') return $params['subject'];
 
   $qry = $params['subject'];
   $category_id = $params['category_id'];
@@ -51,12 +51,12 @@ function rex_be_search_mpool_query($params)
   // replace LIKE wildcards
   $media_name = str_replace(array('_', '%'), array('\_', '\%'), $media_name);
   $where = " f.category_id = c.id AND (f.filename LIKE '%". $media_name ."%' OR f.title LIKE '%". $media_name ."%')";
-  switch(rex_addon::get('be_search')->getProperty('searchmode', 'local'))
+  switch (rex_addon::get('be_search')->getProperty('searchmode', 'local'))
   {
     case 'local':
     {
       // Suche auf aktuellen Kontext eingrenzen
-      if($category_id != 0)
+      if ($category_id != 0)
         $where .=" AND (c.path LIKE '%|". $params['category_id'] ."|%' OR c.id=". $params['category_id'] .") ";
       else
         $qry = str_replace('f.category_id=0', '1=1', $qry);

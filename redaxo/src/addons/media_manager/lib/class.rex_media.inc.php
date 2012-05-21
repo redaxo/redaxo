@@ -1,6 +1,7 @@
 <?php
 
-class rex_media {
+class rex_media
+{
 
   private
 
@@ -49,7 +50,7 @@ class rex_media {
   public function asImage()
   {
 
-    if($this->asImage)
+    if ($this->asImage)
     {
       return;
     }
@@ -66,19 +67,23 @@ class rex_media {
       $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 80);
       $this->image['src'] = @imagecreatefromjpeg($this->getMediapath());
 
-    }elseif ($this->image['format'] == 'PNG')
+    }
+    elseif ($this->image['format'] == 'PNG')
     {
       $this->image['src'] = @imagecreatefrompng($this->getMediapath());
 
-    }elseif ($this->image['format'] == 'GIF')
+    }
+    elseif ($this->image['format'] == 'GIF')
     {
       $this->image['src'] = @imagecreatefromgif($this->getMediapath());
 
-    }elseif ($this->image['format'] == 'WBMP')
+    }
+    elseif ($this->image['format'] == 'WBMP')
     {
       $this->image['src'] = @imagecreatefromwbmp($this->getMediapath());
 
-    }else
+    }
+    else
     {
       $this->image['src'] = @imagecreatefrompng($this->getMediapath());
       $this->image['format'] == 'PNG';
@@ -89,7 +94,8 @@ class rex_media {
       $this->setMediapath(rex_path::addon("media_manager","media/warning.jpg"));
       $this->asImage();
 
-    }else
+    }
+    else
     {
       $this->refreshImageDimensions();
 
@@ -125,34 +131,37 @@ class rex_media {
 
   public function sendMedia($sourceCacheFilename,$headerCacheFilename, $save = FALSE)
   {
-    if($this->asImage)
+    if ($this->asImage)
     {
       $src = $this->getImageSource();
-    }else{
+    }
+    else
+    {
       $src = file_get_contents($this->getMediapath());
     }
 
     $this->setHeader("Content-Length", rex_string::size($src));
-    if(!array_key_exists('Content-Type',$this->getHeader()))
+    if (!array_key_exists('Content-Type',$this->getHeader()))
     {
       $finfo = finfo_open(FILEINFO_MIME_TYPE);
       $content_type = finfo_file($finfo, $this->getMediapath());
-      if($content_type != "")
+      if ($content_type != "")
       {
         $this->setHeader("Content-Type", $content_type);
       }
     }
-    if(!array_key_exists('Content-Disposition',$this->getHeader())) {
+    if (!array_key_exists('Content-Disposition',$this->getHeader()))
+    {
       $this->setHeader("Content-Disposition","inline; filename=\"".$this->getMediaFilename()."\";");
     }
 
     ob_end_clean();
-    foreach($this->header as $t => $c)
+    foreach ($this->header as $t => $c)
     {
       header($t.': '.$c);
     }
     echo $src;
-    if($save)
+    if ($save)
     {
       file_put_contents($headerCacheFilename,serialize($this->header));
       @chmod($headerCacheFilename, rex::getFilePerm());
@@ -168,13 +177,16 @@ class rex_media {
     if ($this->image['format'] == 'JPG' || $this->image['format'] == 'JPEG')
     {
       imagejpeg($this->image['src'], NULL, $this->image['quality']);
-    }elseif ($this->image['format'] == 'PNG')
+    }
+    elseif ($this->image['format'] == 'PNG')
     {
       imagepng($this->image['src']);
-    }elseif ($this->image['format'] == 'GIF')
+    }
+    elseif ($this->image['format'] == 'GIF')
     {
       imagegif($this->image['src']);
-    }elseif ($this->image['format'] == 'WBMP')
+    }
+    elseif ($this->image['format'] == 'WBMP')
     {
       imagewbmp($this->image['src']);
     }

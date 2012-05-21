@@ -53,7 +53,8 @@ function phpunit_autoload($class = NULL)
     static $classes = NULL;
     static $path    = NULL;
 
-    if ($classes === NULL) {
+    if ($classes === NULL)
+    {
         $classes = array(
           'phpunit_extensions_grouptestsuite' => '/Extensions/GroupTestSuite.php',
           'phpunit_extensions_outputtestcase' => '/Extensions/OutputTestCase.php',
@@ -180,15 +181,18 @@ function phpunit_autoload($class = NULL)
         $path = dirname(__FILE__);
     }
 
-    if ($class === NULL) {
+    if ($class === NULL)
+    {
         $result = array(__FILE__);
 
         if (isset($_SERVER['_']) &&
-            strpos($_SERVER['_'], 'phpunit') !== FALSE) {
+            strpos($_SERVER['_'], 'phpunit') !== FALSE)
+            {
             $result[] = $_SERVER['_'];
         }
 
-        foreach ($classes as $file) {
+        foreach ($classes as $file)
+        {
             $result[] = $path . $file;
         }
 
@@ -197,7 +201,8 @@ function phpunit_autoload($class = NULL)
 
     $cn = strtolower($class);
 
-    if (isset($classes[$cn])) {
+    if (isset($classes[$cn]))
+    {
         $file = $path . $classes[$cn];
 
         require $file;
@@ -206,18 +211,22 @@ function phpunit_autoload($class = NULL)
 
 spl_autoload_register('phpunit_autoload');
 
-if (PHPUnit_Util_Filesystem::fileExistsInIncludePath('PHP/Invoker/Autoload.php')) {
+if (PHPUnit_Util_Filesystem::fileExistsInIncludePath('PHP/Invoker/Autoload.php'))
+{
     require_once 'PHP/Invoker/Autoload.php';
 }
 
-if (PHPUnit_Util_Filesystem::fileExistsInIncludePath('PHPUnit/Extensions/Database/Autoload.php')) {
+if (PHPUnit_Util_Filesystem::fileExistsInIncludePath('PHPUnit/Extensions/Database/Autoload.php'))
+{
     require_once 'PHPUnit/Extensions/Database/Autoload.php';
 }
 
-if (PHPUnit_Util_Filesystem::fileExistsInIncludePath('PHPUnit/Extensions/SeleniumTestCase/Autoload.php')) {
+if (PHPUnit_Util_Filesystem::fileExistsInIncludePath('PHPUnit/Extensions/SeleniumTestCase/Autoload.php'))
+{
     require_once 'PHPUnit/Extensions/SeleniumTestCase/Autoload.php';
 }
 
-if (PHPUnit_Util_Filesystem::fileExistsInIncludePath('PHPUnit/Extensions/Story/Autoload.php')) {
+if (PHPUnit_Util_Filesystem::fileExistsInIncludePath('PHPUnit/Extensions/Story/Autoload.php'))
+{
     require_once 'PHPUnit/Extensions/Story/Autoload.php';
 }

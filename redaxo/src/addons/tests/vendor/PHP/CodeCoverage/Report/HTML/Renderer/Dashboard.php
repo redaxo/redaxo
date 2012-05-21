@@ -64,7 +64,8 @@ class PHP_CodeCoverage_Report_HTML_Renderer_Dashboard extends PHP_CodeCoverage_R
      */
     public function render(PHP_CodeCoverage_Report_Node_Directory $node, $file, $title = NULL)
     {
-        if ($title === NULL) {
+        if ($title === NULL)
+        {
             $title = $node->getName();
         }
 
@@ -98,7 +99,8 @@ class PHP_CodeCoverage_Report_HTML_Renderer_Dashboard extends PHP_CodeCoverage_R
     {
         $data = array();
 
-        foreach ($classes as $name => $class) {
+        foreach ($classes as $name => $class)
+        {
             $data[] = array(
               $class['coverage'],
               $class['ccn'],
@@ -136,16 +138,20 @@ class PHP_CodeCoverage_Report_HTML_Renderer_Dashboard extends PHP_CodeCoverage_R
           '100%'    => 0
         );
 
-        foreach ($classes as $class) {
-            if ($class['coverage'] == 0) {
+        foreach ($classes as $class)
+        {
+            if ($class['coverage'] == 0)
+            {
                 $data['0%']++;
             }
 
-            else if ($class['coverage'] == 100) {
+            elseif ($class['coverage'] == 100)
+            {
                 $data['100%']++;
             }
 
-            else {
+            else
+            {
                 $key = floor($class['coverage']/10)*10;
                 $key = $key . '-' . ($key + 10) . '%';
                 $data[$key]++;
@@ -166,12 +172,18 @@ class PHP_CodeCoverage_Report_HTML_Renderer_Dashboard extends PHP_CodeCoverage_R
     {
         $methods = array();
 
-        foreach ($classes as $className => $class) {
-            foreach ($class['methods'] as $methodName => $method) {
-                if ($method['coverage'] < 100) {
-                    if ($className != '*') {
+        foreach ($classes as $className => $class)
+        {
+            foreach ($class['methods'] as $methodName => $method)
+            {
+                if ($method['coverage'] < 100)
+                {
+                    if ($className != '*')
+                    {
                         $key = $className . '::' . $methodName;
-                    } else {
+                    }
+                    else
+                    {
                         $key = $methodName;
                     }
 
@@ -185,7 +197,8 @@ class PHP_CodeCoverage_Report_HTML_Renderer_Dashboard extends PHP_CodeCoverage_R
         $methods = array_slice($methods, 0, min($max, count($methods)));
         $buffer  = '';
 
-        foreach ($methods as $name => $coverage) {
+        foreach ($methods as $name => $coverage)
+        {
             list($class, $method) = explode('::', $name);
 
             $buffer .= sprintf(
@@ -210,9 +223,11 @@ class PHP_CodeCoverage_Report_HTML_Renderer_Dashboard extends PHP_CodeCoverage_R
     {
         $risks = array();
 
-        foreach ($classes as $className => $class) {
+        foreach ($classes as $className => $class)
+        {
             if ($class['coverage'] < 100 &&
-                $class['ccn'] > count($class['methods'])) {
+                $class['ccn'] > count($class['methods']))
+                {
                 $risks[$className] = $class['crap'];
             }
         }
@@ -222,7 +237,8 @@ class PHP_CodeCoverage_Report_HTML_Renderer_Dashboard extends PHP_CodeCoverage_R
         $buffer = '';
         $risks  = array_slice($risks, 0, min($max, count($risks)));
 
-        foreach ($risks as $name => $crap) {
+        foreach ($risks as $name => $crap)
+        {
             $buffer .= sprintf(
               '              <li><a href="%s">%s</a> (%d)</li>' . "\n",
               $classes[$name]['link'],

@@ -43,11 +43,13 @@
  * @since      File available since Release 1.1.0
  */
 
-if (!defined('T_NAMESPACE')) {
+if (!defined('T_NAMESPACE'))
+{
     define('T_NAMESPACE', 1000);
 }
 
-if (!defined('T_TRAIT')) {
+if (!defined('T_TRAIT'))
+{
     define('T_TRAIT', 1001);
 }
 
@@ -109,13 +111,17 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
      */
     public function render(PHP_CodeCoverage_Report_Node_File $node, $file, $title = NULL)
     {
-        if ($title === NULL) {
+        if ($title === NULL)
+        {
             $title = $node->getName();
         }
 
-        if ($this->yui) {
+        if ($this->yui)
+        {
             $template = new Text_Template($this->templatePath . 'file.html');
-        } else {
+        }
+        else
+        {
             $template = new Text_Template(
               $this->templatePath . 'file_no_yui.html'
             );
@@ -191,18 +197,22 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
      */
     protected function renderTraitOrClassItems(array $items, Text_Template $template, Text_Template $methodItemTemplate)
     {
-        if (empty($items)) {
+        if (empty($items))
+        {
             return '';
         }
 
         $buffer = '';
 
-        foreach ($items as $name => $item) {
+        foreach ($items as $name => $item)
+        {
             $numMethods       = count($item['methods']);
             $numTestedMethods = 0;
 
-            foreach ($item['methods'] as $method) {
-                if ($method['executedLines'] == $method['executableLines']) {
+            foreach ($item['methods'] as $method)
+            {
+                if ($method['executedLines'] == $method['executableLines'])
+                {
                     $numTestedMethods++;
                 }
             }
@@ -252,7 +262,8 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
               )
             );
 
-            foreach ($item['methods'] as $method) {
+            foreach ($item['methods'] as $method)
+            {
                 $buffer .= $this->renderFunctionOrMethodItem(
                   $methodItemTemplate, $method, '&nbsp;'
                 );
@@ -269,13 +280,15 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
      */
     protected function renderFunctionItems(array $functions, Text_Template $template)
     {
-        if (empty($functions)) {
+        if (empty($functions))
+        {
             return '';
         }
 
         $buffer = '';
 
-        foreach ($functions as $function) {
+        foreach ($functions as $function)
+        {
             $buffer .= $this->renderFunctionOrMethodItem(
               $template, $function
             );
@@ -336,7 +349,8 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
      */
     protected function renderSource(PHP_CodeCoverage_Report_Node_File $node)
     {
-        if ($this->yui) {
+        if ($this->yui)
+        {
             $yuiTemplate = new Text_Template(
               $this->templatePath . 'yui_item.js'
             );
@@ -350,55 +364,68 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
         $yuiPanelJS               = '';
         $i                        = 1;
 
-        foreach ($codeLines as $line) {
+        foreach ($codeLines as $line)
+        {
             $css = '';
 
-            if (!isset($ignoredLines[$i]) && isset($coverageData[$i])) {
+            if (!isset($ignoredLines[$i]) && isset($coverageData[$i]))
+            {
                 $count    = '';
                 $numTests = count($coverageData[$i]);
 
-                if ($coverageData[$i] === NULL) {
+                if ($coverageData[$i] === NULL)
+                {
                     $color = 'lineDeadCode';
                     $count = '        ';
                 }
 
-                else if ($numTests == 0) {
+                elseif ($numTests == 0)
+                {
                     $color = 'lineNoCov';
                     $count = sprintf('%8d', 0);
                 }
 
-                else {
+                else
+                {
                     $color = 'lineCov';
                     $count = sprintf('%8d', $numTests);
 
-                    if ($this->yui) {
+                    if ($this->yui)
+                    {
                         $buffer  = '';
                         $testCSS = '';
 
-                        foreach ($coverageData[$i] as $test) {
-                            switch ($testData[$test]) {
-                                case 0: {
+                        foreach ($coverageData[$i] as $test)
+                        {
+                            switch ($testData[$test])
+                            {
+                                case 0:
+                                {
                                     $testCSS = ' class=\"testPassed\"';
                                 }
                                 break;
 
                                 case 1:
-                                case 2: {
+                                case 2:
+                                {
                                     $testCSS = ' class=\"testIncomplete\"';
                                 }
                                 break;
 
-                                case 3: {
+                                case 3:
+                                {
                                     $testCSS = ' class=\"testFailure\"';
                                 }
                                 break;
 
-                                case 4: {
+                                case 4:
+                                {
                                     $testCSS = ' class=\"testError\"';
                                 }
                                 break;
 
-                                default: {
+                                default:
+                                {
                                     $testCSS = '';
                                 }
                             }
@@ -411,9 +438,12 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
                             );
                         }
 
-                        if ($numTests > 1) {
+                        if ($numTests > 1)
+                        {
                             $header = $numTests . ' tests cover';
-                        } else {
+                        }
+                        else
+                        {
                             $header = '1 test covers';
                         }
 
@@ -442,7 +472,8 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
 
             $_fillup = array_shift($fillup);
 
-            if ($_fillup > 0) {
+            if ($_fillup > 0)
+            {
                 $line .= str_repeat(' ', $_fillup);
             }
 
@@ -477,7 +508,8 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
         $fillup = array();
         $result = array();
 
-        if (count($lines) == 0) {
+        if (count($lines) == 0)
+        {
             return $result;
         }
 
@@ -485,11 +517,13 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
         $linesLength = array_map('strlen', $lines);
         $width       = max($linesLength);
 
-        foreach ($linesLength as $line => $length) {
+        foreach ($linesLength as $line => $length)
+        {
             $fillup[$line] = $width - $length;
         }
 
-        if (!$this->highlight) {
+        if (!$this->highlight)
+        {
             unset($lines[count($lines)-1]);
             return array($lines, $fillup);
         }
@@ -499,9 +533,12 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
         $i          = 0;
         $result[$i] = '';
 
-        foreach ($tokens as $j => $token) {
-            if (is_string($token)) {
-                if ($token === '"' && $tokens[$j - 1] !== '\\') {
+        foreach ($tokens as $j => $token)
+        {
+            if (is_string($token))
+            {
+                if ($token === '"' && $tokens[$j - 1] !== '\\')
+                {
                     $result[$i] .= sprintf(
                       '<span class="string">%s</span>',
 
@@ -509,7 +546,9 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
                     );
 
                     $stringFlag = !$stringFlag;
-                } else {
+                }
+                else
+                {
                     $result[$i] .= sprintf(
                       '<span class="keyword">%s</span>',
 
@@ -528,26 +567,37 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
               htmlspecialchars($value)
             );
 
-            if ($value === "\n") {
+            if ($value === "\n")
+            {
                 $result[++$i] = '';
-            } else {
+            }
+            else
+            {
                 $lines = explode("\n", $value);
 
-                foreach ($lines as $jj => $line) {
+                foreach ($lines as $jj => $line)
+                {
                     $line = trim($line);
 
-                    if ($line !== '') {
-                        if ($stringFlag) {
+                    if ($line !== '')
+                    {
+                        if ($stringFlag)
+                        {
                             $colour = 'string';
-                        } else {
-                            switch ($token) {
-                                case T_INLINE_HTML: {
+                        }
+                        else
+                        {
+                            switch ($token)
+                            {
+                                case T_INLINE_HTML:
+                                {
                                     $colour = 'html';
                                 }
                                 break;
 
                                 case T_COMMENT:
-                                case T_DOC_COMMENT: {
+                                case T_DOC_COMMENT:
+                                {
                                     $colour = 'comment';
                                 }
                                 break;
@@ -601,12 +651,14 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
                                 case T_UNSET:
                                 case T_USE:
                                 case T_VAR:
-                                case T_WHILE: {
+                                case T_WHILE:
+                                {
                                     $colour = 'keyword';
                                 }
                                 break;
 
-                                default: {
+                                default:
+                                {
                                     $colour = 'default';
                                 }
                             }
@@ -620,7 +672,8 @@ class PHP_CodeCoverage_Report_HTML_Renderer_File extends PHP_CodeCoverage_Report
                         );
                     }
 
-                    if (isset($lines[$jj + 1])) {
+                    if (isset($lines[$jj + 1]))
+                    {
                         $result[++$i] = '';
                     }
                 }

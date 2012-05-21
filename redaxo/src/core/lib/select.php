@@ -31,7 +31,7 @@ class rex_select
 
   public function delAttribute($name)
   {
-    if($this->hasAttribute($name))
+    if ($this->hasAttribute($name))
     {
       unset($this->attributes[$name]);
       return true;
@@ -46,7 +46,7 @@ class rex_select
 
   public function getAttribute($name, $default = '')
   {
-    if($this->hasAttribute($name))
+    if ($this->hasAttribute($name))
     {
       return $this->attributes[$name];
     }
@@ -56,7 +56,7 @@ class rex_select
   ############### multiple felder ?
   public function setMultiple($multiple = true)
   {
-    if($multiple)
+    if ($multiple)
       $this->setAttribute('multiple', 'multiple');
     else
       $this->delAttribute('multiple');
@@ -65,7 +65,7 @@ class rex_select
   ############### disabled ?
   public function setDisabled($disabled = true)
   {
-    if($disabled)
+    if ($disabled)
       $this->setAttribute('disabled', 'disabled');
     else
       $this->delAttribute('disabled');
@@ -96,7 +96,7 @@ class rex_select
   {
     if (strpos($style, 'class=') !== false)
     {
-      if(preg_match('/class=["\']?([^"\']*)["\']?/i', $style, $matches))
+      if (preg_match('/class=["\']?([^"\']*)["\']?/i', $style, $matches))
       {
         $this->setAttribute('class', $matches[1]);
       }
@@ -116,9 +116,9 @@ class rex_select
   ################ selected feld - option value uebergeben
   public function setSelected($selected)
   {
-    if(is_array($selected))
+    if (is_array($selected))
     {
-      foreach($selected as $sectvalue)
+      foreach ($selected as $sectvalue)
       {
         $this->setSelected($sectvalue);
       }
@@ -156,7 +156,7 @@ class rex_select
    */
   public function addOptions($options, $useOnlyValues = false)
   {
-    if(is_array($options) && count($options)>0)
+    if (is_array($options) && count($options)>0)
     {
       // Hier vorher auf is_array abfragen, da bei Strings auch die Syntax mit [] funktioniert
       // $ab = "hallo"; $ab[2] -> "l"
@@ -170,20 +170,20 @@ class rex_select
         if ($grouped)
         {
           $this->addOption($option[0], $option[1], $option[2], $option[3], $attributes);
-          if(isset($option[4]) && $option[4])
+          if (isset($option[4]) && $option[4])
           {
             $this->setSelected($option[1]);
           }
         }
         else
         {
-          if($useOnlyValues)
+          if ($useOnlyValues)
           {
             $this->addOption($option[0], $option[0]);
           }
           else
           {
-            if(!isset($option[1]))
+            if (!isset($option[1]))
               $option[1] = $key;
 
             $this->addOption($option[0], $option[1]);
@@ -199,9 +199,9 @@ class rex_select
    */
   public function addArrayOptions(array $options, $use_keys = true)
   {
-    foreach($options as $key => $value)
+    foreach ($options as $key => $value)
     {
-      if(!$use_keys)
+      if (!$use_keys)
         $key = $value;
 
       $this->addOption($value, $key);
@@ -235,7 +235,7 @@ class rex_select
   public function get()
   {
     $attr = '';
-    foreach($this->attributes as $name => $value)
+    foreach ($this->attributes as $name => $value)
     {
       $attr .= ' '. $name .'="'. $value .'"';
     }
@@ -300,7 +300,7 @@ class rex_select
       $attributes['selected'] = 'selected';
 
     $attr = '';
-    foreach($attributes as $n => $v)
+    foreach ($attributes as $n => $v)
     {
       $attr .= ' '. $n .'="'. $v .'"';
     }

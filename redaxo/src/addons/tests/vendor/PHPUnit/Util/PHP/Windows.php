@@ -69,7 +69,8 @@ class PHPUnit_Util_PHP_Windows extends PHPUnit_Util_PHP
     protected function process($pipe, $job)
     {
         if (!($this->tempFile = tempnam(sys_get_temp_dir(), 'PHPUnit')) ||
-            file_put_contents($this->tempFile, $job) === FALSE) {
+            file_put_contents($this->tempFile, $job) === FALSE)
+            {
             throw new PHPUnit_Framework_Exception(
               'Unable to write temporary files for process isolation.'
             );

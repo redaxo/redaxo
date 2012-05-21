@@ -27,10 +27,10 @@ class rex_i18n
 
     self::loadAll();
 
-    if($phpSetLocale)
+    if ($phpSetLocale)
     {
       $locales = array();
-      foreach(explode(',', trim(self::msg('setlocale'))) as $locale)
+      foreach (explode(',', trim(self::msg('setlocale'))) as $locale)
       {
         $locales[] = $locale .'.UTF-8';
         $locales[] = $locale .'.UTF8';
@@ -38,7 +38,7 @@ class rex_i18n
         $locales[] = $locale .'.utf8';
       }
 
-      foreach(explode(',', trim(self::msg('setlocale'))) as $locale)
+      foreach (explode(',', trim(self::msg('setlocale'))) as $locale)
         $locales[] = $locale;
 
       setlocale(LC_ALL, $locales);
@@ -66,7 +66,7 @@ class rex_i18n
   {
     self::$directories[] = rtrim($dir, DIRECTORY_SEPARATOR);
 
-    if(self::$loaded)
+    if (self::$loaded)
     {
       self::loadFile($dir .DIRECTORY_SEPARATOR. self::$locale .'.lang');
     }
@@ -81,7 +81,7 @@ class rex_i18n
    */
   static public function msg($key)
   {
-    if(!self::$loaded)
+    if (!self::$loaded)
     {
       self::loadAll();
     }
@@ -99,10 +99,10 @@ class rex_i18n
     $replacements = array ();
 
     $argNum = func_num_args();
-    if($argNum > 1)
+    if ($argNum > 1)
     {
       $args = func_get_args();
-      for($i = 1; $i < $argNum; $i++)
+      for ($i = 1; $i < $argNum; $i++)
       {
         // zero indexed
         $patterns[] = '/\{'. ($i-1) .'\}/';
@@ -147,7 +147,7 @@ class rex_i18n
     {
       self::$locales = array();
 
-      foreach(rex_dir::iterator(self::$directories[0])->ignoreDirs() as $file)
+      foreach (rex_dir::iterator(self::$directories[0])->ignoreDirs() as $file)
       {
         if (preg_match("/^(\w+)\.lang$/", $file->getFilename(), $matches))
         {
@@ -170,19 +170,19 @@ class rex_i18n
    */
   static public function translate($text, $use_htmlspecialchars = true, $i18nFunction = 'self::msg')
   {
-    if(!is_string($text))
+    if (!is_string($text))
     {
       throw new InvalidArgumentException('Expecting $text to be a String, "'. gettype($text) .'" given!');
     }
 
     $tranKey = 'translate:';
     $transKeyLen = strlen($tranKey);
-    if(substr($text, 0, $transKeyLen) == $tranKey)
+    if (substr($text, 0, $transKeyLen) == $tranKey)
     {
       $text = call_user_func($i18nFunction, substr($text, $transKeyLen));
     }
 
-    if($use_htmlspecialchars)
+    if ($use_htmlspecialchars)
       return htmlspecialchars($text);
 
     return $text;
@@ -197,19 +197,19 @@ class rex_i18n
    */
   static public function translateArray($array, $use_htmlspecialchars = true, $i18nFunction = 'self::msg')
   {
-    if(is_array($array))
+    if (is_array($array))
     {
-      foreach($array as $key => $value)
+      foreach ($array as $key => $value)
       {
         $array[$key] = self::translateArray($value, $use_htmlspecialchars, $i18nFunction);
       }
       return $array;
     }
-    else if (is_string($array))
+    elseif (is_string($array))
     {
       return self::translate($array, $use_htmlspecialchars, $i18nFunction);
     }
-    else if (is_scalar($array))
+    elseif (is_scalar($array))
     {
       return $array;
     }
@@ -231,7 +231,7 @@ class rex_i18n
     if (is_readable($file))
     {
       $handle = fopen($file, "r");
-      if($handle)
+      if ($handle)
       {
         while (!feof($handle))
         {
@@ -255,11 +255,11 @@ class rex_i18n
   static private function loadAll()
   {
     self::$msg = array();
-    if(!self::$locale)
+    if (!self::$locale)
     {
       self::$locale = rex::getProperty('lang');
     }
-    foreach(self::$directories as $dir)
+    foreach (self::$directories as $dir)
     {
       self::loadFile($dir .DIRECTORY_SEPARATOR. self::$locale .'.lang');
     }

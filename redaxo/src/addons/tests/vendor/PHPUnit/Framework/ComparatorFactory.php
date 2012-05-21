@@ -92,7 +92,8 @@ class PHPUnit_Framework_ComparatorFactory
      */
     public static function getDefaultInstance()
     {
-        if (self::$defaultInstance === NULL) {
+        if (self::$defaultInstance === NULL)
+        {
             self::$defaultInstance = new PHPUnit_Framework_ComparatorFactory;
         }
 
@@ -108,8 +109,10 @@ class PHPUnit_Framework_ComparatorFactory
      */
     public function getComparatorFor($expected, $actual)
     {
-        foreach ($this->comparators as $comparator) {
-            if ($comparator->accepts($expected, $actual)) {
+        foreach ($this->comparators as $comparator)
+        {
+            if ($comparator->accepts($expected, $actual))
+            {
                 return $comparator;
             }
         }
@@ -147,8 +150,10 @@ class PHPUnit_Framework_ComparatorFactory
      */
     public function unregister(PHPUnit_Framework_Comparator $comparator)
     {
-        foreach ($this->comparators as $key => $_comparator) {
-            if ($comparator === $_comparator) {
+        foreach ($this->comparators as $key => $_comparator)
+        {
+            if ($comparator === $_comparator)
+            {
                 unset($this->comparators[$key]);
             }
         }

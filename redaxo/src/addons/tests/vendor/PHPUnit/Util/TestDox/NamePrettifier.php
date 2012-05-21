@@ -83,12 +83,14 @@ class PHPUnit_Util_TestDox_NamePrettifier
         $title = $name;
 
         if ($this->suffix !== NULL &&
-            $this->suffix == substr($name, -1 * strlen($this->suffix))) {
+            $this->suffix == substr($name, -1 * strlen($this->suffix)))
+            {
             $title = substr($title, 0, strripos($title, $this->suffix));
         }
 
         if ($this->prefix !== NULL &&
-            $this->prefix == substr($name, 0, strlen($this->prefix))) {
+            $this->prefix == substr($name, 0, strlen($this->prefix)))
+            {
             $title = substr($title, strlen($this->prefix));
         }
 
@@ -105,47 +107,61 @@ class PHPUnit_Util_TestDox_NamePrettifier
     {
         $buffer = '';
 
-        if (!is_string($name) || strlen($name) == 0) {
+        if (!is_string($name) || strlen($name) == 0)
+        {
             return $buffer;
         }
 
         $string = preg_replace('#\d+$#', '', $name, -1, $count);
 
-        if (in_array($string, $this->strings)) {
+        if (in_array($string, $this->strings))
+        {
             $name = $string;
-        } else if ($count == 0) {
+        }
+        elseif ($count == 0)
+        {
             $this->strings[] = $string;
         }
 
-        if (strpos($name, '_') !== FALSE) {
+        if (strpos($name, '_') !== FALSE)
+        {
             return str_replace('_', ' ', $name);
         }
 
         $max = strlen($name);
 
-        if (substr($name, 0, 4) == 'test') {
+        if (substr($name, 0, 4) == 'test')
+        {
             $offset = 4;
-        } else {
+        }
+        else
+        {
             $offset  = 0;
             $name[0] = strtoupper($name[0]);
         }
 
         $wasNumeric = FALSE;
 
-        for ($i = $offset; $i < $max; $i++) {
+        for ($i = $offset; $i < $max; $i++)
+        {
             if ($i > $offset &&
                 ord($name[$i]) >= 65 &&
-                ord($name[$i]) <= 90) {
+                ord($name[$i]) <= 90)
+                {
                 $buffer .= ' ' . strtolower($name[$i]);
-            } else {
+            }
+            else
+            {
                 $isNumeric = is_numeric($name[$i]);
 
-                if (!$wasNumeric && $isNumeric) {
+                if (!$wasNumeric && $isNumeric)
+                {
                     $buffer    .= ' ';
                     $wasNumeric = TRUE;
                 }
 
-                if ($wasNumeric && !$isNumeric) {
+                if ($wasNumeric && !$isNumeric)
+                {
                     $wasNumeric = FALSE;
                 }
 

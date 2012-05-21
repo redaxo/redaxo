@@ -19,7 +19,7 @@ class rex_category_service
   {
     $message = '';
 
-    if(!is_array($data))
+    if (!is_array($data))
     {
       throw  new rex_api_exception('Expecting $data to be an array!');
     }
@@ -42,7 +42,7 @@ class rex_category_service
 
     // parent may be null, when adding in the root cat
     $parent = rex_ooCategory::getCategoryById($category_id);
-    if($parent)
+    if ($parent)
     {
       $path = $parent->getPath();
       $path .= $parent->getId(). '|';
@@ -52,17 +52,17 @@ class rex_category_service
       $path = '|';
     }
 
-    if($data['catprior'] <= 0)
+    if ($data['catprior'] <= 0)
     {
       $data['catprior'] = 1;
     }
 
-    if(!isset($data['name']))
+    if (!isset($data['name']))
     {
       $data['name'] = $data['catname'];
     }
 
-    if(!isset($data['status']))
+    if (!isset($data['status']))
     {
       $data['status'] = 0;
     }
@@ -71,20 +71,20 @@ class rex_category_service
     $templates = rex_ooCategory::getTemplates($category_id);
     // Kategorie in allen Sprachen anlegen
     $AART = rex_sql::factory();
-    foreach(rex_clang::getAllIds() as $key)
+    foreach (rex_clang::getAllIds() as $key)
     {
       $template_id = rex::getProperty('default_template_id');
-      if(isset ($startpageTemplates[$key]) && $startpageTemplates[$key] != '')
+      if (isset ($startpageTemplates[$key]) && $startpageTemplates[$key] != '')
       {
         $template_id = $startpageTemplates[$key];
       }
 
       // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
       // oder leer setzen.
-      if(!isset($templates[$template_id]))
+      if (!isset($templates[$template_id]))
       {
         $template_id = 0;
-        if(count($templates)>0)
+        if (count($templates)>0)
         {
           $template_id = key($templates);
         }
@@ -114,11 +114,12 @@ class rex_category_service
       $AART->addGlobalUpdateFields();
       $AART->addGlobalCreateFields();
 
-      try {
+      try
+      {
         $AART->insert();
 
         // ----- PRIOR
-        if(isset($data['catprior']))
+        if (isset($data['catprior']))
         {
           self::newCatPrio($category_id, $key, 0, $data['catprior']);
         }
@@ -141,7 +142,9 @@ class rex_category_service
           'data' => $data,
         ));
 
-      } catch (rex_sql_exception $e) {
+      }
+      catch (rex_sql_exception $e)
+      {
         throw new rex_api_exception($e);
       }
     }
@@ -162,7 +165,7 @@ class rex_category_service
   {
     $message = '';
 
-    if(!is_array($data))
+    if (!is_array($data))
     {
       throw  new rex_api_exception('Expecting $data to be an array!');
     }
@@ -176,26 +179,29 @@ class rex_category_service
     $EKAT->setTable(rex::getTablePrefix()."article");
     $EKAT->setWhere(array('id' => $category_id, 'startpage' => 1,'clang'=>$clang));
 
-    if(isset($data['catname'])) {
+    if (isset($data['catname']))
+    {
       $EKAT->setValue('catname', $data['catname']);
     }
-    if(isset($data['catprior'])) {
+    if (isset($data['catprior']))
+    {
       $EKAT->setValue('catprior', $data['catprior']);
     }
 
     $EKAT->addGlobalUpdateFields();
 
-    try {
+    try
+    {
       $EKAT->update();
 
       // --- Kategorie Kindelemente updaten
-      if(isset($data['catname']))
+      if (isset($data['catname']))
       {
         $ArtSql = rex_sql::factory();
         $ArtSql->setQuery('SELECT id FROM '.rex::getTablePrefix().'article WHERE re_id='.$category_id .' AND startpage=0 AND clang='.$clang);
 
         $EART = rex_sql::factory();
-        for($i = 0; $i < $ArtSql->getRows(); $i++)
+        for ($i = 0; $i < $ArtSql->getRows(); $i++)
         {
           $EART->setTable(rex::getTablePrefix().'article');
           $EART->setWhere(array( 'id' => $ArtSql->getValue('id'), 'startpage' => '0', 'clang' => $clang));
@@ -210,12 +216,12 @@ class rex_category_service
       }
 
       // ----- PRIOR
-      if(isset($data['catprior']))
+      if (isset($data['catprior']))
       {
         $re_id = $thisCat->getValue('re_id');
         $old_prio = $thisCat->getValue('catprior');
 
-        if($data['catprior'] <= 0)
+        if ($data['catprior'] <= 0)
         $data['catprior'] = 1;
 
         self::newCatPrio($re_id, $clang, $data['catprior'], $old_prio);
@@ -245,7 +251,9 @@ class rex_category_service
           'data' => $data,
         )
       );
-    } catch (rex_sql_exception $e) {
+    }
+    catch (rex_sql_exception $e)
+    {
       throw new rex_api_exception($e);
     }
 
@@ -284,7 +292,7 @@ class rex_category_service
           $re_id = $thisCat->getValue('re_id');
           $message = rex_article_service::_deleteArticle($category_id);
 
-          foreach($thisCat as $row)
+          foreach ($thisCat as $row)
           {
             $_clang = $row->getValue('clang');
 
@@ -305,15 +313,18 @@ class rex_category_service
 
           rex_complex_perm::removeItem('structure', $category_id);
 
-        }else
+        }
+        else
         {
           throw new rex_api_exception(rex_i18n::msg('category_could_not_be_deleted').' '.rex_i18n::msg('category_still_contains_articles'));
         }
-      }else
+      }
+      else
       {
         throw new rex_api_exception(rex_i18n::msg('category_could_not_be_deleted').' '.rex_i18n::msg('category_still_contains_subcategories'));
       }
-    }else
+    }
+    else
     {
       throw new rex_api_exception(rex_i18n::msg('category_could_not_be_deleted'));
     }
@@ -341,7 +352,7 @@ class rex_category_service
     {
       // Status wurde nicht von außen vorgegeben,
       // => zyklisch auf den nächsten Weiterschalten
-      if(!$status)
+      if (!$status)
       $newstatus = self::nextStatus($KAT->getValue('status'));
       else
       $newstatus = $status;
@@ -352,7 +363,8 @@ class rex_category_service
       $EKAT->setValue("status", $newstatus);
       $EKAT->addGlobalCreateFields();
 
-      try {
+      try
+      {
         $EKAT->update();
 
         rex_article_cache::delete($category_id, $clang);
@@ -363,7 +375,9 @@ class rex_category_service
           'clang' => $clang,
           'status' => $newstatus
         ));
-      } catch (rex_sql_exception $e) {
+      }
+      catch (rex_sql_exception $e)
+      {
         throw new rex_api_exception($e);
       }
     }
@@ -384,7 +398,7 @@ class rex_category_service
   {
     static $catStatusTypes;
 
-    if(!$catStatusTypes)
+    if (!$catStatusTypes)
     {
       $catStatusTypes = array(
       // Name, CSS-Class
@@ -408,7 +422,7 @@ class rex_category_service
   static public function prevStatus($currentStatus)
   {
     $catStatusTypes = self::statusTypes();
-    if(($currentStatus - 1) < 0 ) return count($catStatusTypes) - 1;
+    if (($currentStatus - 1) < 0 ) return count($catStatusTypes) - 1;
 
     return ($currentStatus - 1) % count($catStatusTypes);
   }
@@ -526,7 +540,7 @@ class rex_category_service
 
         $up = rex_sql::factory();
         // $up->debugsql = 1;
-        for($i=0;$i<$gcats->getRows();$i++)
+        for ($i=0;$i<$gcats->getRows();$i++)
         {
           // make update
           $new_path = $to_path.$from_cat."|".str_replace($from_path,"",$gcats->getValue("path"));
@@ -549,7 +563,7 @@ class rex_category_service
         $gmax = rex_sql::factory();
         $up = rex_sql::factory();
         // $up->debugsql = 1;
-        foreach(rex_clang::getAllIds() as $clang)
+        foreach (rex_clang::getAllIds() as $clang)
         {
           $gmax->setQuery("select max(catprior) from ".rex::getTablePrefix()."article where re_id=$to_cat and clang=".$clang);
           $catprior = (int) $gmax->getValue("max(catprior)");
@@ -562,12 +576,12 @@ class rex_category_service
         }
 
         // ----- generiere artikel neu - ohne neue inhaltsgenerierung
-        foreach($RC as $id => $key)
+        foreach ($RC as $id => $key)
         {
           rex_article_cache::delete($id);
         }
 
-        foreach(rex_clang::getAllIds() as $clang)
+        foreach (rex_clang::getAllIds() as $clang)
         {
           self::newCatPrio($fcat->getValue("re_id"),$clang,0,1);
         }
@@ -585,7 +599,7 @@ class rex_category_service
    */
   static protected function reqKey(array $array, $keyName)
   {
-    if(!isset($array[$keyName]))
+    if (!isset($array[$keyName]))
     {
       throw new rex_api_exception('Missing required parameter "'. $keyName .'"!');
     }

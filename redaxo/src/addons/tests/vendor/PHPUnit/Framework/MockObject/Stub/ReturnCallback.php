@@ -69,11 +69,15 @@ class PHPUnit_Framework_MockObject_Stub_ReturnCallback implements PHPUnit_Framew
 
     public function toString()
     {
-        if (is_array($this->callback)) {
-            if (is_object($this->callback[0])) {
+        if (is_array($this->callback))
+        {
+            if (is_object($this->callback[0]))
+            {
                 $class = get_class($this->callback[0]);
                 $type  = '->';
-            } else {
+            }
+            else
+            {
                 $class = $this->callback[0];
                 $type  = '::';
             }
@@ -86,7 +90,9 @@ class PHPUnit_Framework_MockObject_Stub_ReturnCallback implements PHPUnit_Framew
               $type,
               $this->callback[1]
             );
-        } else {
+        }
+        else
+        {
             return 'return result of user defined callback ' . $this->callback .
                    ' with the passed arguments';
         }

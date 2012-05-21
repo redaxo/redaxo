@@ -47,7 +47,8 @@ function php_tokenstream_autoload($class = NULL)
     static $classes = NULL;
     static $path = NULL;;
 
-    if ($classes === NULL) {
+    if ($classes === NULL)
+    {
         $classes = array(
           'php_token' => '/Token.php',
           'php_token_abstract' => '/Token.php',
@@ -212,10 +213,12 @@ function php_tokenstream_autoload($class = NULL)
         $path = dirname(dirname(dirname(__FILE__)));
     }
 
-    if ($class === NULL) {
+    if ($class === NULL)
+    {
         $result = array(__FILE__);
 
-        foreach ($classes as $file) {
+        foreach ($classes as $file)
+        {
             $result[] = $path . $file;
         }
 
@@ -224,7 +227,8 @@ function php_tokenstream_autoload($class = NULL)
 
     $cn = strtolower($class);
 
-    if (isset($classes[$cn])) {
+    if (isset($classes[$cn]))
+    {
         require $path . $classes[$cn];
     }
 }

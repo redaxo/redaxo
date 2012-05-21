@@ -86,7 +86,8 @@ abstract class PHPUnit_Runner_BaseTestRunner
     public function getTest($suiteClassName, $suiteClassFile = '')
     {
         if (is_dir($suiteClassName) &&
-            !is_file($suiteClassName . '.php') && empty($suiteClassFile)) {
+            !is_file($suiteClassName . '.php') && empty($suiteClassFile))
+            {
             $facade = new File_Iterator_Facade;
             $files  = $facade->getFilesAsArray(
               $suiteClassName, array('Test.php', '.phpt')
@@ -98,21 +99,25 @@ abstract class PHPUnit_Runner_BaseTestRunner
             return $suite;
         }
 
-        try {
+        try
+        {
             $testClass = $this->loadSuiteClass(
               $suiteClassName, $suiteClassFile
             );
         }
 
-        catch (Exception $e) {
+        catch (Exception $e)
+        {
             $this->runFailed($e->getMessage());
             return NULL;
         }
 
-        try {
+        try
+        {
             $suiteMethod = $testClass->getMethod(self::SUITE_METHODNAME);
 
-            if (!$suiteMethod->isStatic()) {
+            if (!$suiteMethod->isStatic())
+            {
                 $this->runFailed(
                   'suite() method must be static.'
                 );
@@ -120,11 +125,13 @@ abstract class PHPUnit_Runner_BaseTestRunner
                 return NULL;
             }
 
-            try {
+            try
+            {
                 $test = $suiteMethod->invoke(NULL, $testClass->getName());
             }
 
-            catch (ReflectionException $e) {
+            catch (ReflectionException $e)
+            {
                 $this->runFailed(
                   sprintf(
                     "Failed to invoke suite() method.\n%s",
@@ -137,12 +144,15 @@ abstract class PHPUnit_Runner_BaseTestRunner
             }
         }
 
-        catch (ReflectionException $e) {
-            try {
+        catch (ReflectionException $e)
+        {
+            try
+            {
                 $test = new PHPUnit_Framework_TestSuite($testClass);
             }
 
-            catch (InvalidArgumentException $e) {
+            catch (InvalidArgumentException $e)
+            {
                 $test = new PHPUnit_Framework_TestSuite;
                 $test->setName($suiteClassName);
             }
@@ -164,9 +174,12 @@ abstract class PHPUnit_Runner_BaseTestRunner
     {
         $loader = $this->getLoader();
 
-        if ($loader instanceof PHPUnit_Runner_StandardTestSuiteLoader) {
+        if ($loader instanceof PHPUnit_Runner_StandardTestSuiteLoader)
+        {
             return $loader->load($suiteClassName, $suiteClassFile);
-        } else {
+        }
+        else
+        {
             return $loader->load($suiteClassName, $suiteClassFile);
         }
     }

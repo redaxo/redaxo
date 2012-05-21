@@ -14,11 +14,12 @@ class rex_logger_debug extends rex_logger
   */
   static public function log($message, $errno = E_USER_ERROR)
   {
-    if(!empty($message))
+    if (!empty($message))
     {
       $firephp = FirePHP::getInstance(true);
 
-      switch ($errno) {
+      switch ($errno)
+      {
         case E_USER_NOTICE:
         case E_NOTICE:
           $firephp->log($message);

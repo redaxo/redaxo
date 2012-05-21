@@ -43,7 +43,8 @@
  * @since      File available since Release 3.1.4
  */
 
-if (PHPUnit_Util_Filesystem::fileExistsInIncludePath('PEAR/RunTest.php')) {
+if (PHPUnit_Util_Filesystem::fileExistsInIncludePath('PEAR/RunTest.php'))
+{
     $currentErrorReporting = error_reporting(E_ERROR | E_WARNING | E_PARSE);
     require_once 'PEAR/RunTest.php';
     error_reporting($currentErrorReporting);
@@ -85,11 +86,13 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
      */
     public function __construct($filename, array $options = array())
     {
-        if (!is_string($filename)) {
+        if (!is_string($filename))
+        {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_file($filename)) {
+        if (!is_file($filename))
+        {
             throw new PHPUnit_Framework_Exception(
               sprintf(
                 'File "%s" does not exist.',
@@ -121,41 +124,53 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
      */
     public function run(PHPUnit_Framework_TestResult $result = NULL, array $options = array())
     {
-        if (!class_exists('PEAR_RunTest', FALSE)) {
+        if (!class_exists('PEAR_RunTest', FALSE))
+        {
             throw new PHPUnit_Framework_Exception('Class PEAR_RunTest not found.');
         }
 
         if (isset($GLOBALS['_PEAR_destructor_object_list']) &&
             is_array($GLOBALS['_PEAR_destructor_object_list']) &&
-            !empty($GLOBALS['_PEAR_destructor_object_list'])) {
+            !empty($GLOBALS['_PEAR_destructor_object_list']))
+            {
             $pearDestructorObjectListCount = count($GLOBALS['_PEAR_destructor_object_list']);
-        } else {
+        }
+        else
+        {
             $pearDestructorObjectListCount = 0;
         }
 
-        if ($result === NULL) {
+        if ($result === NULL)
+        {
             $result = new PHPUnit_Framework_TestResult;
         }
 
         $coverage = $result->getCollectCodeCoverageInformation();
         $options  = array_merge($options, $this->options);
 
-        if (!isset($options['include_path'])) {
+        if (!isset($options['include_path']))
+        {
             $options['include_path'] = get_include_path();
         }
 
-        if ($coverage) {
+        if ($coverage)
+        {
             $options['coverage'] = TRUE;
-        } else {
+        }
+        else
+        {
             $options['coverage'] = FALSE;
         }
 
         $currentErrorReporting = error_reporting(E_ERROR | E_WARNING | E_PARSE);
         $runner                = new PEAR_RunTest(new PHPUnit_Extensions_PhptTestCase_Logger, $options);
 
-        if ($coverage) {
+        if ($coverage)
+        {
             $runner->xdebug_loaded = TRUE;
-        } else {
+        }
+        else
+        {
             $runner->xdebug_loaded = FALSE;
         }
 
@@ -189,7 +204,8 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
                           '.phpt', '.php', $base
                         );
 
-        if (is_object($buffer) && $buffer instanceof PEAR_Error) {
+        if (is_object($buffer) && $buffer instanceof PEAR_Error)
+        {
             $result->addError(
               $this,
               new RuntimeException($buffer->getMessage()),
@@ -197,11 +213,13 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
             );
         }
 
-        else if ($buffer == 'SKIPPED') {
+        elseif ($buffer == 'SKIPPED')
+        {
             $result->addFailure($this, new PHPUnit_Framework_SkippedTestError, 0);
         }
 
-        else if ($buffer != 'PASSED') {
+        elseif ($buffer != 'PASSED')
+        {
             $expContent = file_get_contents($expFile);
             $outContent = file_get_contents($outFile);
 
@@ -217,13 +235,16 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
             );
         }
 
-        foreach (array($diffFile, $expFile, $logFile, $phpFile, $outFile) as $file) {
-            if (file_exists($file)) {
+        foreach (array($diffFile, $expFile, $logFile, $phpFile, $outFile) as $file)
+        {
+            if (file_exists($file))
+            {
                 unlink($file);
             }
         }
 
-        if ($coverage && file_exists($coverageFile)) {
+        if ($coverage && file_exists($coverageFile))
+        {
             eval('$coverageData = ' . file_get_contents($coverageFile) . ';');
             unset($coverageData[$phpFile]);
 
@@ -235,12 +256,16 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
 
         // Do not invoke PEAR's destructor mechanism for PHP 4
         // as it raises an E_STRICT.
-        if ($pearDestructorObjectListCount == 0) {
+        if ($pearDestructorObjectListCount == 0)
+        {
             unset($GLOBALS['_PEAR_destructor_object_list']);
-        } else {
+        }
+        else
+        {
             $count = count($GLOBALS['_PEAR_destructor_object_list']) - $pearDestructorObjectListCount;
 
-            for ($i = 0; $i < $count; $i++) {
+            for ($i = 0; $i < $count; $i++)
+            {
                 array_pop($GLOBALS['_PEAR_destructor_object_list']);
             }
         }

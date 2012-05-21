@@ -42,11 +42,13 @@
  * @since      File available since Release 1.1.0
  */
 
-function phpunit_mockobject_autoload($class = NULL) {
+function phpunit_mockobject_autoload($class = NULL)
+{
     static $classes = NULL;
     static $path = NULL;
 
-    if ($classes === NULL) {
+    if ($classes === NULL)
+    {
         $classes = array(
           'phpunit_framework_mockobject_builder_identity' => '/Framework/MockObject/Builder/Identity.php',
           'phpunit_framework_mockobject_builder_invocationmocker' => '/Framework/MockObject/Builder/InvocationMocker.php',
@@ -89,10 +91,12 @@ function phpunit_mockobject_autoload($class = NULL) {
         $path = dirname(dirname(dirname(__FILE__)));
     }
 
-    if ($class === NULL) {
+    if ($class === NULL)
+    {
         $result = array(__FILE__);
 
-        foreach ($classes as $file) {
+        foreach ($classes as $file)
+        {
             $result[] = $path . $file;
         }
 
@@ -101,7 +105,8 @@ function phpunit_mockobject_autoload($class = NULL) {
 
     $cn = strtolower($class);
 
-    if (isset($classes[$cn])) {
+    if (isset($classes[$cn]))
+    {
         $file = $path . $classes[$cn];
 
         require $file;

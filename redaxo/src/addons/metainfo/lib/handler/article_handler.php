@@ -8,7 +8,7 @@ class rex_articleMetainfoHandler extends rex_metainfoHandler
   {
     // Nur speichern wenn auch das MetaForm ausgefüllt wurde
     // z.b. nicht speichern wenn über be_search select navigiert wurde
-    if(rex_post('meta_article_name', 'string', null) === null) return $params;
+    if (rex_post('meta_article_name', 'string', null) === null) return $params;
 
     $article = rex_sql::factory();
     // $article->debugsql = true;
@@ -18,7 +18,7 @@ class rex_articleMetainfoHandler extends rex_metainfoHandler
     parent::fetchRequestValues($params, $article, $sqlFields);
 
     // do the save only when metafields are defined
-    if($article->hasValues())
+    if ($article->hasValues())
       $article->update();
 
     // Artikel nochmal mit den zusätzlichen Werten neu generieren
@@ -31,15 +31,15 @@ class rex_articleMetainfoHandler extends rex_metainfoHandler
   {
     $restrictionsCondition = '';
 
-    if(!empty($params['id']))
+    if (!empty($params['id']))
     {
       $s = '';
       $OOArt = rex_ooArticle::getArticleById($params['id'], $params['clang']);
 
       // Alle Metafelder des Pfades sind erlaubt
-      foreach($OOArt->getPathAsArray() as $pathElement)
+      foreach ($OOArt->getPathAsArray() as $pathElement)
       {
-        if($pathElement != '')
+        if ($pathElement != '')
         {
           $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
         }
@@ -54,21 +54,21 @@ class rex_articleMetainfoHandler extends rex_metainfoHandler
   function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
   {
     $s = '';
-    if($typeLabel != 'legend')
+    if ($typeLabel != 'legend')
       $s .= '<div class="rex-form-row">';
 
-    if($tag != '')
+    if ($tag != '')
       $s .= '<'. $tag . $tag_attr  .'>'. "\n";
 
-    if($labelIt)
+    if ($labelIt)
       $s .= '<label for="'. $id .'">'. $label .'</label>'. "\n";
 
     $s .= $field. "\n";
 
-    if($tag != '')
+    if ($tag != '')
       $s .='</'.$tag.'>'. "\n";
 
-    if($typeLabel != 'legend')
+    if ($typeLabel != 'legend')
       $s .= '</div>';
 
     return $s;

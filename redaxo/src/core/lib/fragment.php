@@ -39,12 +39,12 @@ class rex_fragment
    */
   public function setVar($name, $value, $escape = true)
   {
-    if(is_null($name))
+    if (is_null($name))
     {
       throw new rex_exception(sprintf('Expecting $name to be not null!'));
     }
 
-    if($escape)
+    if ($escape)
     {
       $this->vars[$name] = $this->escape($value);
     }
@@ -61,17 +61,17 @@ class rex_fragment
    */
   public function parse($filename, $delete_whitespaces = true)
   {
-    if(!is_string($filename))
+    if (!is_string($filename))
     {
       throw new rex_exception(sprintf('Expecting $filename to be a string, %s given!', gettype($filename)));
     }
 
     $this->filename = $filename;
 
-    foreach(self::$fragmentDirs as $fragDir)
+    foreach (self::$fragmentDirs as $fragDir)
     {
       $fragment = $fragDir . $filename;
-      if(is_readable($fragment))
+      if (is_readable($fragment))
       {
         ob_start();
         if ($delete_whitespaces)
@@ -81,7 +81,7 @@ class rex_fragment
 
         $content =  ob_get_clean();
 
-        if($this->decorator)
+        if ($this->decorator)
         {
           $this->decorator->setVar('rexDecoratedContent', $content, false);
           $content = $this->decorator->parse($this->decorator->filename);
@@ -118,30 +118,30 @@ class rex_fragment
     if (is_array($val))
     {
       // iterate over the whole array
-      foreach($val as $k => $v)
+      foreach ($val as $k => $v)
       {
         $val[$k] = $this->escape($v);
       }
       return $val;
     }
-    else if (is_object($val))
+    elseif (is_object($val))
     {
       // iterate over all public properties
-      foreach(get_object_vars($val) as $k => $v)
+      foreach (get_object_vars($val) as $k => $v)
       {
         $val->$k = $this->escape($v);
       }
       return $val;
     }
-    else if (is_string($val))
+    elseif (is_string($val))
     {
       return htmlspecialchars($val);
     }
-    else if (is_scalar($val))
+    elseif (is_scalar($val))
     {
       return $val;
     }
-    else if (is_null($val))
+    elseif (is_null($val))
     {
       return $val;
     }
@@ -172,7 +172,7 @@ class rex_fragment
    */
   protected function i18n($key)
   {
-    if(!is_string($key))
+    if (!is_string($key))
     {
       throw new rex_exception(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
     }
@@ -180,7 +180,7 @@ class rex_fragment
     // use the magic call only when more than one parameter is passed along,
     // to get best performance
     $argNum = func_num_args();
-    if($argNum > 1)
+    if ($argNum > 1)
     {
       // pass along all given parameters
       $args = func_get_args();
@@ -197,7 +197,7 @@ class rex_fragment
    */
   protected function config($key)
   {
-    if(!is_string($key))
+    if (!is_string($key))
     {
       throw new rex_exception(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
     }
@@ -210,30 +210,30 @@ class rex_fragment
    */
   protected function url(array $params = array())
   {
-    if(!is_array($params))
+    if (!is_array($params))
     {
       throw new rex_exception(sprintf('Expecting $params to be a array, %s given!', gettype($filename)));
     }
 
-    if(!isset($params['page']))
+    if (!isset($params['page']))
     {
       $page = rex_request('page');
-      if($page != null)
+      if ($page != null)
       {
         $params['page'] = $page;
       }
     }
-    if(!isset($params['subpage']))
+    if (!isset($params['subpage']))
     {
       $subpage = rex_request('subpage');
-      if($subpage != null)
+      if ($subpage != null)
       {
         $params['subpage'] = $subpage;
       }
     }
 
     $url = 'index.php?';
-    foreach($params as $key => $value)
+    foreach ($params as $key => $value)
     {
       $url .= $key .'='. urlencode($value) .'&';
     }
@@ -248,7 +248,7 @@ class rex_fragment
    */
   public function __get($name)
   {
-    if(array_key_exists($name, $this->vars))
+    if (array_key_exists($name, $this->vars))
     {
       return $this->vars[$name];
     }

@@ -154,10 +154,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function count()
     {
-        if ($this->numFiles == -1) {
+        if ($this->numFiles == -1)
+        {
             $this->numFiles = 0;
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $this->numFiles += count($child);
             }
         }
@@ -256,10 +258,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getClasses()
     {
-        if ($this->classes === NULL) {
+        if ($this->classes === NULL)
+        {
             $this->classes = array();
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $this->classes = array_merge(
                   $this->classes, $child->getClasses()
                 );
@@ -276,10 +280,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getTraits()
     {
-        if ($this->traits === NULL) {
+        if ($this->traits === NULL)
+        {
             $this->traits = array();
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $this->traits = array_merge(
                   $this->traits, $child->getTraits()
                 );
@@ -296,10 +302,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getFunctions()
     {
-        if ($this->functions === NULL) {
+        if ($this->functions === NULL)
+        {
             $this->functions = array();
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $this->functions = array_merge(
                   $this->functions, $child->getFunctions()
                 );
@@ -316,10 +324,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getLinesOfCode()
     {
-        if ($this->linesOfCode === NULL) {
+        if ($this->linesOfCode === NULL)
+        {
             $this->linesOfCode = array('loc' => 0, 'cloc' => 0, 'ncloc' => 0);
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $linesOfCode = $child->getLinesOfCode();
 
                 $this->linesOfCode['loc']   += $linesOfCode['loc'];
@@ -338,10 +348,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getNumExecutableLines()
     {
-        if ($this->numExecutableLines == -1) {
+        if ($this->numExecutableLines == -1)
+        {
             $this->numExecutableLines = 0;
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $this->numExecutableLines += $child->getNumExecutableLines();
             }
         }
@@ -356,10 +368,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getNumExecutedLines()
     {
-        if ($this->numExecutedLines == -1) {
+        if ($this->numExecutedLines == -1)
+        {
             $this->numExecutedLines = 0;
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $this->numExecutedLines += $child->getNumExecutedLines();
             }
         }
@@ -374,10 +388,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getNumClasses()
     {
-        if ($this->numClasses == -1) {
+        if ($this->numClasses == -1)
+        {
             $this->numClasses = 0;
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $this->numClasses += $child->getNumClasses();
             }
         }
@@ -392,10 +408,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getNumTestedClasses()
     {
-        if ($this->numTestedClasses == -1) {
+        if ($this->numTestedClasses == -1)
+        {
             $this->numTestedClasses = 0;
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $this->numTestedClasses += $child->getNumTestedClasses();
             }
         }
@@ -410,10 +428,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getNumTraits()
     {
-        if ($this->numTraits == -1) {
+        if ($this->numTraits == -1)
+        {
             $this->numTraits = 0;
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $this->numTraits += $child->getNumTraits();
             }
         }
@@ -428,10 +448,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getNumTestedTraits()
     {
-        if ($this->numTestedTraits == -1) {
+        if ($this->numTestedTraits == -1)
+        {
             $this->numTestedTraits = 0;
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $this->numTestedTraits += $child->getNumTestedTraits();
             }
         }
@@ -446,10 +468,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getNumMethods()
     {
-        if ($this->numMethods == -1) {
+        if ($this->numMethods == -1)
+        {
             $this->numMethods = 0;
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $this->numMethods += $child->getNumMethods();
             }
         }
@@ -464,10 +488,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getNumTestedMethods()
     {
-        if ($this->numTestedMethods == -1) {
+        if ($this->numTestedMethods == -1)
+        {
             $this->numTestedMethods = 0;
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $this->numTestedMethods += $child->getNumTestedMethods();
             }
         }
@@ -482,10 +508,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getNumFunctions()
     {
-        if ($this->numFunctions == -1) {
+        if ($this->numFunctions == -1)
+        {
             $this->numFunctions = 0;
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $this->numFunctions += $child->getNumFunctions();
             }
         }
@@ -500,10 +528,12 @@ class PHP_CodeCoverage_Report_Node_Directory extends PHP_CodeCoverage_Report_Nod
      */
     public function getNumTestedFunctions()
     {
-        if ($this->numTestedFunctions == -1) {
+        if ($this->numTestedFunctions == -1)
+        {
             $this->numTestedFunctions = 0;
 
-            foreach ($this->children as $child) {
+            foreach ($this->children as $child)
+            {
                 $this->numTestedFunctions += $child->getNumTestedFunctions();
             }
         }

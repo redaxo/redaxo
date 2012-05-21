@@ -20,11 +20,11 @@ class rex_input_select extends rex_input
 
   public function setAttribute($name, $value)
   {
-    if($name == 'name')
+    if ($name == 'name')
     {
       $this->select->setName($value);
     }
-    else if($name == 'id')
+    elseif ($name == 'id')
     {
       $this->select->setId($value);
     }

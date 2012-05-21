@@ -8,7 +8,7 @@
 /*
 // TODOS:
 // - alles vereinfachen
-// - <? ?> $ Problematik bei REX_ACTION
+// - <?php ?> $ Problematik bei REX_ACTION
 */
 
 $content = '';
@@ -54,7 +54,7 @@ if ($article->getRows() == 1)
   $template_attributes = $article->getArrayValue('template_attributes');
 
   // Für Artikel ohne Template
-  if($template_attributes === null)
+  if ($template_attributes === null)
     $template_attributes = '';
 
   $ctypes = isset($template_attributes['ctype']) ? $template_attributes['ctype'] : array(); // ctypes - aus dem template
@@ -151,7 +151,8 @@ if ($article->getRows() == 1)
         $CM->setQuery("SELECT * FROM " . rex::getTablePrefix() . "article_slice LEFT JOIN " . rex::getTablePrefix() . "module ON " . rex::getTablePrefix() . "article_slice.modultyp_id=" . rex::getTablePrefix() . "module.id WHERE " . rex::getTablePrefix() . "article_slice.id='$slice_id' AND clang=$clang");
         if ($CM->getRows() == 1)
           $module_id = $CM->getValue("" . rex::getTablePrefix() . "article_slice.modultyp_id");
-      }else
+      }
+      else
       {
         // add
         $module_id = rex_post('module_id', 'int');
@@ -171,7 +172,7 @@ if ($article->getRows() == 1)
         // ------------- MODUL IST VORHANDEN
 
         // ----- RECHTE AM MODUL ?
-        if($function != 'delete' && !rex_template::hasModule($template_attributes,$ctype,$module_id))
+        if ($function != 'delete' && !rex_template::hasModule($template_attributes,$ctype,$module_id))
         {
           $global_warning = rex_i18n::msg('no_rights_to_this_function');
           $slice_id = '';
@@ -184,7 +185,8 @@ if ($article->getRows() == 1)
           $global_warning = rex_i18n::msg('no_rights_to_this_function');
           $slice_id = '';
           $function = '';
-        }else
+        }
+        else
         {
           // ----- RECHTE AM MODUL: JA
 
@@ -236,7 +238,7 @@ if ($article->getRows() == 1)
                 // determine prior value to get the new slice into the right order
                 $prevSlice = rex_sql::factory();
                 // $prevSlice->debugsql = true;
-                if($slice_id == -1) // -1 is used when adding after the last article-slice
+                if ($slice_id == -1) // -1 is used when adding after the last article-slice
                   $prevSlice->setQuery('SELECT IFNULL(MAX(prior),0)+1 as prior FROM '. $sliceTable . ' WHERE article_id='. $article_id . ' AND clang='. $clang .' AND ctype='. $ctype . ' AND revision='. $slice_revision);
                 else
                   $prevSlice->setQuery('SELECT * FROM '. $sliceTable . ' WHERE id='. $slice_id);
@@ -260,10 +262,12 @@ if ($article->getRows() == 1)
               if ($function == 'edit')
               {
                 $newsql->addGlobalUpdateFields();
-                try {
+                try
+                {
                   $newsql->update();
                   $info = $action_message . rex_i18n::msg('block_updated');
-                } catch (rex_sql_exception $e)
+                }
+                catch (rex_sql_exception $e)
                 {
                   $warning = $action_message . $e->getMessage();
                 }
@@ -274,7 +278,8 @@ if ($article->getRows() == 1)
                 $newsql->addGlobalUpdateFields();
                 $newsql->addGlobalCreateFields();
 
-                try {
+                try
+                {
                   $newsql->insert();
 
                   rex_sql_util::organizePriorities(
@@ -287,7 +292,8 @@ if ($article->getRows() == 1)
                   $info = $action_message . rex_i18n::msg('block_added');
                   $slice_id = $newsql->getLastId();
                   $function = "";
-                } catch (rex_sql_exception $e)
+                }
+                catch (rex_sql_exception $e)
                 {
                   $warning = $action_message . $e->getMessage();
                 }
@@ -296,7 +302,7 @@ if ($article->getRows() == 1)
             else
             {
               // make delete
-              if(rex_content_service::deleteSlice($slice_id))
+              if (rex_content_service::deleteSlice($slice_id))
               {
                 $global_info = rex_i18n::msg('block_deleted');
               }
@@ -446,7 +452,8 @@ if ($article->getRows() == 1)
       $meta_sql->setValue('name', $meta_article_name);
       $meta_sql->addGlobalUpdateFields();
 
-      try {
+      try
+      {
         $meta_sql->update();
 
         $article->setQuery("SELECT * FROM " . rex::getTablePrefix() . "article WHERE id='$article_id' AND clang='$clang'");
@@ -460,7 +467,8 @@ if ($article->getRows() == 1)
           'clang' => $clang,
           'name' => $meta_article_name,
         ));
-      } catch (rex_sql_exception $e)
+      }
+      catch (rex_sql_exception $e)
       {
         $warning = $e->getMessage();
       }
@@ -522,7 +530,8 @@ if ($article->getRows() == 1)
   $n["title"] = rex_i18n::msg('metafuncs');
   $n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=metafuncs&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
   $n["itemClasses"] = array('rex-misc');
-    if ($mode == 'metafuncs') {
+    if ($mode == 'metafuncs')
+    {
     $n["linkClasses"] = array('rex-active');
     $n["itemClasses"] = array('rex-active','rex-misc');
     }
@@ -532,7 +541,8 @@ if ($article->getRows() == 1)
   $n["title"] = rex_i18n::msg('metadata');
   $n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
   $n["itemClasses"] = array('rex-misc');
-    if ($mode == 'meta') {
+    if ($mode == 'meta')
+    {
     $n["linkClasses"] = array('rex-active');
     $n["itemClasses"] = array('rex-active','rex-misc');
     }
@@ -542,7 +552,8 @@ if ($article->getRows() == 1)
   $n["title"] = rex_i18n::msg('edit_mode');
   $n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
   $n["itemClasses"] = array('rex-misc');
-    if ($mode != 'meta' && $mode != 'metafuncs') {
+    if ($mode != 'meta' && $mode != 'metafuncs')
+    {
     $n["linkClasses"] = array('rex-active');
     $n["itemClasses"] = array('rex-active','rex-misc');
     }
@@ -574,11 +585,11 @@ if ($article->getRows() == 1)
     // ------------------------------------------ END: CONTENT HEAD MENUE
 
     // ------------------------------------------ WARNING
-    if($global_warning != '')
+    if ($global_warning != '')
     {
       echo rex_view::warning($global_warning);
     }
-    if($global_info != '')
+    if ($global_info != '')
     {
       echo rex_view::success($global_info);
     }
@@ -586,11 +597,11 @@ if ($article->getRows() == 1)
     // --------------------------------------------- API MESSAGES
     echo rex_api_function::getMessage();
 
-    if($warning != '')
+    if ($warning != '')
     {
       echo rex_view::warning($warning);
     }
-    if($info != '')
+    if ($info != '')
     {
       echo rex_view::success($info);
     }
@@ -617,7 +628,8 @@ if ($article->getRows() == 1)
       echo rex_view::contentBlock($content,'','block');
 
     // ------------------------------------------ START: META VIEW
-    }elseif ($mode == 'meta')
+    }
+    elseif ($mode == 'meta')
     {
 
       $content .= '
@@ -682,7 +694,8 @@ if ($article->getRows() == 1)
     echo rex_view::contentBlock($content, '', 'block');
 
     // ------------------------------------------ START: META FUNCS
-    }elseif ($mode == 'metafuncs')
+    }
+    elseif ($mode == 'metafuncs')
     {
 
       $content .= '
@@ -713,7 +726,7 @@ if ($article->getRows() == 1)
                 $n = array();
                 if (!$isStartpage && $article->getValue('re_id')==0)
                   $n['field'] = '<span class="rex-form-read">'.rex_i18n::msg('content_nottostartarticle').'</span>';
-                else if ($isStartpage)
+                elseif ($isStartpage)
                   $n['field'] = '<span class="rex-form-read">'.rex_i18n::msg('content_isstartarticle').'</span>';
                 else
                   $n['field'] = '<input type="submit" name="article2startpage" value="' . rex_i18n::msg('content_tostartarticle') . '" data-confirm="' . rex_i18n::msg('content_tostartarticle') . '?" onclick="jQuery(\'#apiField\').val(\'article2startpage\');" />';

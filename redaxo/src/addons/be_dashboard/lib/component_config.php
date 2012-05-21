@@ -100,13 +100,13 @@ abstract class rex_dashboard_component_config
    */
   public function get()
   {
-    if($this->changed())
+    if ($this->changed())
     {
       $this->persist();
     }
 
     $content = $this->getForm();
-    if($content != '')
+    if ($content != '')
     {
       $btnName = $this->getInputName('save_btn');
 

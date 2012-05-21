@@ -3896,7 +3896,7 @@ class SimplePie_Enclosure
     else
     {
       $options = explode(',', $options);
-      foreach($options as $option)
+      foreach ($options as $option)
       {
         $opt = explode(':', $option, 2);
         if (isset($opt[0], $opt[1]))
@@ -6857,7 +6857,7 @@ class SimplePie_Item
 
             foreach ((array) $this->get_item_tags(SIMPLEPIE_NAMESPACE_MEDIARSS, 'group') as $group)
       {
-        if(isset($group['child']) && isset($group['child'][SIMPLEPIE_NAMESPACE_MEDIARSS]['content']))
+        if (isset($group['child']) && isset($group['child'][SIMPLEPIE_NAMESPACE_MEDIARSS]['content']))
         {
                     foreach ((array) $group['child'][SIMPLEPIE_NAMESPACE_MEDIARSS]['content'] as $content)
           {
@@ -8179,7 +8179,8 @@ class SimplePie_Locator
     {
       return array_values($feeds);
     }
-    else {
+    else
+    {
       return null;
     }
   }
@@ -10223,19 +10224,19 @@ class SimplePie_Misc
     {
       return false;
     }
-    else if ($codepoint <= 0x7f)
+    elseif ($codepoint <= 0x7f)
     {
       return chr($codepoint);
     }
-    else if ($codepoint <= 0x7ff)
+    elseif ($codepoint <= 0x7ff)
     {
       return chr(0xc0 | ($codepoint >> 6)) . chr(0x80 | ($codepoint & 0x3f));
     }
-    else if ($codepoint <= 0xffff)
+    elseif ($codepoint <= 0xffff)
     {
       return chr(0xe0 | ($codepoint >> 12)) . chr(0x80 | (($codepoint >> 6) & 0x3f)) . chr(0x80 | ($codepoint & 0x3f));
     }
-    else if ($codepoint <= 0x10ffff)
+    elseif ($codepoint <= 0x10ffff)
     {
       return chr(0xf0 | ($codepoint >> 18)) . chr(0x80 | (($codepoint >> 12) & 0x3f)) . chr(0x80 | (($codepoint >> 6) & 0x3f)) . chr(0x80 | ($codepoint & 0x3f));
     }
@@ -10464,12 +10465,12 @@ class SimplePie_Net_IPv6
       {
         $uip = '0:0:0:0:0:0:0:0';
       }
-            else if ($c1 === -1)
+            elseif ($c1 === -1)
       {
         $fill = str_repeat('0:', 7 - $c2);
         $uip =  str_replace('::', $fill, $uip);
       }
-            else if ($c2 === -1)
+            elseif ($c2 === -1)
       {
         $fill = str_repeat(':0', 7 - $c1);
         $uip =  str_replace('::', $fill, $uip);

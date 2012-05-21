@@ -38,7 +38,7 @@ class rex_media_cache
     $cachePath = rex_path::addonCache('mediapool');
 
     $glob = glob($cachePath . '*.mlist');
-    if(is_array($glob))
+    if (is_array($glob))
     {
       foreach ($glob as $file)
       {
@@ -47,7 +47,7 @@ class rex_media_cache
     }
 
     $glob = glob($cachePath . '*.mextlist');
-    if(is_array($glob))
+    if (is_array($glob))
     {
       foreach ($glob as $file)
       {
@@ -78,7 +78,7 @@ class rex_media_cache
     $cachePath = rex_path::addonCache('mediapool');
 
     $glob = glob($cachePath . '*.mclist');
-    if(is_array($glob))
+    if (is_array($glob))
     {
       foreach ($glob as $file)
       {
@@ -119,7 +119,7 @@ class rex_media_cache
     }
 
     $cacheArray = array();
-    foreach($sql->getFieldNames() as $fieldName)
+    foreach ($sql->getFieldNames() as $fieldName)
     {
       $cacheArray[$fieldName] = $sql->getValue($fieldName);
     }
@@ -143,7 +143,7 @@ class rex_media_cache
   static public function generateCategory($category_id)
   {
     // sanity check
-    if($category_id<0)
+    if ($category_id<0)
     {
       return false;
     }
@@ -159,7 +159,7 @@ class rex_media_cache
     }
 
     $cacheArray = array();
-    foreach($sql->getFieldNames() as $fieldName)
+    foreach ($sql->getFieldNames() as $fieldName)
     {
       $cacheArray[$fieldName] = $sql->getValue($fieldName);
     }
@@ -183,7 +183,7 @@ class rex_media_cache
   static public function generateList($category_id)
   {
     // sanity check
-    if($category_id<0)
+    if ($category_id<0)
     {
       return false;
     }
@@ -218,7 +218,7 @@ class rex_media_cache
   static public function generateCategoryList($category_id)
   {
     // sanity check
-    if($category_id<0)
+    if ($category_id<0)
     {
       return false;
     }

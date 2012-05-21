@@ -75,7 +75,8 @@ class PHP_CodeCoverage_Report_Clover
         $xmlProject = $xmlDocument->createElement('project');
         $xmlProject->setAttribute('timestamp', (int)$_SERVER['REQUEST_TIME']);
 
-        if (is_string($name)) {
+        if (is_string($name))
+        {
             $xmlProject->setAttribute('name', $name);
         }
 
@@ -85,10 +86,12 @@ class PHP_CodeCoverage_Report_Clover
         $report   = $coverage->getReport();
         unset($coverage);
 
-        foreach ($report as $item) {
+        foreach ($report as $item)
+        {
             $namespace = 'global';
 
-            if (!$item instanceof PHP_CodeCoverage_Report_Node_File) {
+            if (!$item instanceof PHP_CodeCoverage_Report_Node_File)
+            {
                 continue;
             }
 
@@ -100,54 +103,67 @@ class PHP_CodeCoverage_Report_Clover
             $lines        = array();
             $ignoredLines = $item->getIgnoredLines();
 
-            foreach ($classes as $className => $class) {
+            foreach ($classes as $className => $class)
+            {
                 $classStatements        = 0;
                 $coveredClassStatements = 0;
                 $coveredMethods         = 0;
 
-                foreach ($class['methods'] as $methodName => $method) {
+                foreach ($class['methods'] as $methodName => $method)
+                {
                     $methodCount        = 0;
                     $methodLines        = 0;
                     $methodLinesCovered = 0;
 
                     for ($i  = $method['startLine'];
                          $i <= $method['endLine'];
-                         $i++) {
-                        if (isset($ignoredLines[$i])) {
+                         $i++)
+                         {
+                        if (isset($ignoredLines[$i]))
+                        {
                             continue;
                         }
 
                         $add   = TRUE;
                         $count = 0;
 
-                        if (isset($coverage[$i])) {
-                            if ($coverage[$i] !== NULL) {
+                        if (isset($coverage[$i]))
+                        {
+                            if ($coverage[$i] !== NULL)
+                            {
                                 $classStatements++;
                                 $methodLines++;
-                            } else {
+                            }
+                            else
+                            {
                                 $add = FALSE;
                             }
 
                             $count = count($coverage[$i]);
 
-                            if ($count > 0) {
+                            if ($count > 0)
+                            {
                                 $coveredClassStatements++;
                                 $methodLinesCovered++;
                             }
-                        } else {
+                        }
+                        else
+                        {
                             $add = FALSE;
                         }
 
                         $methodCount = max($methodCount, $count);
 
-                        if ($add) {
+                        if ($add)
+                        {
                             $lines[$i] = array(
                               'count' => $count, 'type'  => 'stmt'
                             );
                         }
                     }
 
-                    if ($methodCount > 0) {
+                    if ($methodCount > 0)
+                    {
                         $coveredMethods++;
                     }
 
@@ -165,7 +181,8 @@ class PHP_CodeCoverage_Report_Clover
                     );
                 }
 
-                if (!empty($class['package']['namespace'])) {
+                if (!empty($class['package']['namespace']))
+                {
                     $namespace = $class['package']['namespace'];
                 }
 
@@ -173,25 +190,29 @@ class PHP_CodeCoverage_Report_Clover
                 $xmlClass->setAttribute('name', $className);
                 $xmlClass->setAttribute('namespace', $namespace);
 
-                if (!empty($class['package']['fullPackage'])) {
+                if (!empty($class['package']['fullPackage']))
+                {
                     $xmlClass->setAttribute(
                       'fullPackage', $class['package']['fullPackage']
                     );
                 }
 
-                if (!empty($class['package']['category'])) {
+                if (!empty($class['package']['category']))
+                {
                     $xmlClass->setAttribute(
                       'category', $class['package']['category']
                     );
                 }
 
-                if (!empty($class['package']['package'])) {
+                if (!empty($class['package']['package']))
+                {
                     $xmlClass->setAttribute(
                       'package', $class['package']['package']
                     );
                 }
 
-                if (!empty($class['package']['subpackage'])) {
+                if (!empty($class['package']['subpackage']))
+                {
                     $xmlClass->setAttribute(
                       'subpackage', $class['package']['subpackage']
                     );
@@ -222,10 +243,12 @@ class PHP_CodeCoverage_Report_Clover
                 $xmlClass->appendChild($xmlMetrics);
             }
 
-            foreach ($coverage as $line => $data) {
+            foreach ($coverage as $line => $data)
+            {
                 if ($data === NULL ||
                     isset($lines[$line]) ||
-                    isset($ignoredLines[$line])) {
+                    isset($ignoredLines[$line]))
+                    {
                     continue;
                 }
 
@@ -236,8 +259,10 @@ class PHP_CodeCoverage_Report_Clover
 
             ksort($lines);
 
-            foreach ($lines as $line => $data) {
-                if (isset($ignoredLines[$line])) {
+            foreach ($lines as $line => $data)
+            {
+                if (isset($ignoredLines[$line]))
+                {
                     continue;
                 }
 
@@ -245,11 +270,13 @@ class PHP_CodeCoverage_Report_Clover
                 $xmlLine->setAttribute('num', $line);
                 $xmlLine->setAttribute('type', $data['type']);
 
-                if (isset($data['name'])) {
+                if (isset($data['name']))
+                {
                     $xmlLine->setAttribute('name', $data['name']);
                 }
 
-                if (isset($data['crap'])) {
+                if (isset($data['crap']))
+                {
                     $xmlLine->setAttribute('crap', $data['crap']);
                 }
 
@@ -289,10 +316,14 @@ class PHP_CodeCoverage_Report_Clover
             );
             $xmlFile->appendChild($xmlMetrics);
 
-            if ($namespace == 'global') {
+            if ($namespace == 'global')
+            {
                 $xmlProject->appendChild($xmlFile);
-            } else {
-                if (!isset($packages[$namespace])) {
+            }
+            else
+            {
+                if (!isset($packages[$namespace]))
+                {
                     $packages[$namespace] = $xmlDocument->createElement(
                       'package'
                     );
@@ -340,13 +371,17 @@ class PHP_CodeCoverage_Report_Clover
         );
         $xmlProject->appendChild($xmlMetrics);
 
-        if ($target !== NULL) {
-            if (!is_dir(dirname($target))) {
+        if ($target !== NULL)
+        {
+            if (!is_dir(dirname($target)))
+            {
                 mkdir(dirname($target), 0777, TRUE);
             }
 
             return $xmlDocument->save($target);
-        } else {
+        }
+        else
+        {
             return $xmlDocument->saveXML();
         }
     }

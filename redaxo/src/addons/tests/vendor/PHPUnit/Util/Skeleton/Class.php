@@ -68,11 +68,13 @@ class PHPUnit_Util_Skeleton_Class extends PHPUnit_Util_Skeleton
      */
     public function __construct($inClassName, $inSourceFile = '', $outClassName = '', $outSourceFile = '')
     {
-        if (empty($inSourceFile)) {
+        if (empty($inSourceFile))
+        {
             $inSourceFile = $inClassName . '.php';
         }
 
-        if (!is_file($inSourceFile)) {
+        if (!is_file($inSourceFile))
+        {
             throw new PHPUnit_Framework_Exception(
               sprintf(
                 '"%s" could not be opened.',
@@ -82,11 +84,13 @@ class PHPUnit_Util_Skeleton_Class extends PHPUnit_Util_Skeleton
             );
         }
 
-        if (empty($outClassName)) {
+        if (empty($outClassName))
+        {
             $outClassName = substr($inClassName, 0, strlen($inClassName) - 4);
         }
 
-        if (empty($outSourceFile)) {
+        if (empty($outSourceFile))
+        {
             $outSourceFile = dirname($inSourceFile) . DIRECTORY_SEPARATOR .
                              $outClassName . '.php';
         }
@@ -105,7 +109,8 @@ class PHPUnit_Util_Skeleton_Class extends PHPUnit_Util_Skeleton
     {
         $methods = '';
 
-        foreach ($this->findTestedMethods() as $method) {
+        foreach ($this->findTestedMethods() as $method)
+        {
             $methodTemplate = new Text_Template(
               sprintf(
                 '%s%sTemplate%sMethod.tpl',
@@ -163,8 +168,10 @@ class PHPUnit_Util_Skeleton_Class extends PHPUnit_Util_Skeleton
         $testMethods    = $classes[$this->inClassName['fullyQualifiedClassName']]['methods'];
         unset($classes);
 
-        foreach ($testMethods as $name => $testMethod) {
-            if (strtolower($name) == 'setup') {
+        foreach ($testMethods as $name => $testMethod)
+        {
+            if (strtolower($name) == 'setup')
+            {
                 $setUpVariables = $this->findVariablesThatReferenceClass(
                   $testMethod['tokens']
                 );
@@ -173,10 +180,12 @@ class PHPUnit_Util_Skeleton_Class extends PHPUnit_Util_Skeleton
             }
         }
 
-        foreach ($testMethods as $name => $testMethod) {
+        foreach ($testMethods as $name => $testMethod)
+        {
             $argVariables = array();
 
-            if (strtolower($name) == 'setup') {
+            if (strtolower($name) == 'setup')
+            {
                 continue;
             }
 
@@ -184,18 +193,23 @@ class PHPUnit_Util_Skeleton_Class extends PHPUnit_Util_Skeleton
             $end   = strlen($testMethod['signature']) - $start - 1;
             $args  = substr($testMethod['signature'], $start, $end);
 
-            foreach (explode(',', $args) as $arg) {
+            foreach (explode(',', $args) as $arg)
+            {
                 $arg = explode(' ', trim($arg));
 
-                if (count($arg) == 2) {
+                if (count($arg) == 2)
+                {
                     $type = $arg[0];
                     $var  = $arg[1];
-                } else {
+                }
+                else
+                {
                     $type = NULL;
                     $var  = $arg[0];
                 }
 
-                if ($type == $this->outClassName['fullyQualifiedClassName']) {
+                if ($type == $this->outClassName['fullyQualifiedClassName'])
+                {
                     $argVariables[] = $var;
                 }
             }
@@ -208,7 +222,8 @@ class PHPUnit_Util_Skeleton_Class extends PHPUnit_Util_Skeleton
               )
             );
 
-            foreach ($testMethod['tokens'] as $i => $token) {
+            foreach ($testMethod['tokens'] as $i => $token)
+            {
                 // Class::method()
                 if (is_array($token) && $token[0] == T_DOUBLE_COLON &&
                     is_array($testMethod['tokens'][$i-1]) &&
@@ -216,27 +231,32 @@ class PHPUnit_Util_Skeleton_Class extends PHPUnit_Util_Skeleton
                     $testMethod['tokens'][$i-1][1] == $this->outClassName['fullyQualifiedClassName'] &&
                     is_array($testMethod['tokens'][$i+1]) &&
                     $testMethod['tokens'][$i+1][0] == T_STRING &&
-                    $testMethod['tokens'][$i+2] == '(') {
+                    $testMethod['tokens'][$i+2] == '(')
+                    {
                     $testedMethods[] = $testMethod['tokens'][$i+1][1];
                 }
 
                 // $this->object->method()
-                else if (is_array($token) && $token[0] == T_OBJECT_OPERATOR &&
+
+                elseif (is_array($token) && $token[0] == T_OBJECT_OPERATOR &&
                     in_array($this->findVariableName($testMethod['tokens'], $i), $variables) &&
                     is_array($testMethod['tokens'][$i+2]) &&
                     $testMethod['tokens'][$i+2][0] == T_OBJECT_OPERATOR &&
                     is_array($testMethod['tokens'][$i+3]) &&
                     $testMethod['tokens'][$i+3][0] == T_STRING &&
-                    $testMethod['tokens'][$i+4] == '(') {
+                    $testMethod['tokens'][$i+4] == '(')
+                    {
                     $testedMethods[] = $testMethod['tokens'][$i+3][1];
                 }
 
                 // $object->method()
-                else if (is_array($token) && $token[0] == T_OBJECT_OPERATOR &&
+
+                elseif (is_array($token) && $token[0] == T_OBJECT_OPERATOR &&
                     in_array($this->findVariableName($testMethod['tokens'], $i), $variables) &&
                     is_array($testMethod['tokens'][$i+1]) &&
                     $testMethod['tokens'][$i+1][0] == T_STRING &&
-                    $testMethod['tokens'][$i+2] == '(') {
+                    $testMethod['tokens'][$i+2] == '(')
+                    {
                     $testedMethods[] = $testMethod['tokens'][$i+1][1];
                 }
             }
@@ -260,9 +280,12 @@ class PHPUnit_Util_Skeleton_Class extends PHPUnit_Util_Skeleton
         $inNew     = FALSE;
         $variables = array();
 
-        foreach ($tokens as $i => $token) {
-            if (is_string($token)) {
-                if (trim($token) == ';') {
+        foreach ($tokens as $i => $token)
+        {
+            if (is_string($token))
+            {
+                if (trim($token) == ';')
+                {
                     $inNew = FALSE;
                 }
 
@@ -271,15 +294,20 @@ class PHPUnit_Util_Skeleton_Class extends PHPUnit_Util_Skeleton
 
             list ($token, $value) = $token;
 
-            switch ($token) {
-                case T_NEW: {
+            switch ($token)
+            {
+                case T_NEW:
+                {
                     $inNew = TRUE;
                 }
                 break;
 
-                case T_STRING: {
-                    if ($inNew) {
-                        if ($value == $this->outClassName['fullyQualifiedClassName']) {
+                case T_STRING:
+                {
+                    if ($inNew)
+                    {
+                        if ($value == $this->outClassName['fullyQualifiedClassName'])
+                        {
                             $variables[] = $this->findVariableName(
                               $tokens, $i
                             );
@@ -305,14 +333,17 @@ class PHPUnit_Util_Skeleton_Class extends PHPUnit_Util_Skeleton
      */
     protected function findVariableName(array $tokens, $start)
     {
-        for ($i = $start - 1; $i >= 0; $i--) {
-            if (is_array($tokens[$i]) && $tokens[$i][0] == T_VARIABLE) {
+        for ($i = $start - 1; $i >= 0; $i--)
+        {
+            if (is_array($tokens[$i]) && $tokens[$i][0] == T_VARIABLE)
+            {
                 $variable = $tokens[$i][1];
 
                 if (is_array($tokens[$i+1]) &&
                     $tokens[$i+1][0] == T_OBJECT_OPERATOR &&
                     $tokens[$i+2] != '(' &&
-                    $tokens[$i+3] != '(') {
+                    $tokens[$i+3] != '(')
+                    {
                     $variable .= '->' . $tokens[$i+2][1];
                 }
 

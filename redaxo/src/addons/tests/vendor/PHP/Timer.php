@@ -102,16 +102,21 @@ class PHP_Timer
                    );
         $seconds = sprintf('%02d', $time - 60 * 60 * $hours - 60 * $minutes);
 
-        if ($hours == 0 && $minutes == 0) {
+        if ($hours == 0 && $minutes == 0)
+        {
             $seconds = sprintf('%1d', $seconds);
 
             $buffer .= $seconds . ' second';
 
-            if ($seconds != '1') {
+            if ($seconds != '1')
+            {
                 $buffer .= 's';
             }
-        } else {
-            if ($hours > 0) {
+        }
+        else
+        {
+            if ($hours > 0)
+            {
                 $buffer = $hours . ':';
             }
 
@@ -146,8 +151,11 @@ class PHP_Timer
     }
 }
 
-if (isset($_SERVER['REQUEST_TIME'])) {
+if (isset($_SERVER['REQUEST_TIME']))
+{
     PHP_Timer::$requestTime = $_SERVER['REQUEST_TIME'];
-} else {
+}
+else
+{
     PHP_Timer::$requestTime = time();
 }

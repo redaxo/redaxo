@@ -126,21 +126,30 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
     {
         parent::__construct($out);
 
-        if (is_bool($verbose)) {
+        if (is_bool($verbose))
+        {
             $this->verbose = $verbose;
-        } else {
+        }
+        else
+        {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'boolean');
         }
 
-        if (is_bool($colors)) {
+        if (is_bool($colors))
+        {
             $this->colors = $colors;
-        } else {
+        }
+        else
+        {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(3, 'boolean');
         }
 
-        if (is_bool($debug)) {
+        if (is_bool($debug))
+        {
             $this->debug = $debug;
-        } else {
+        }
+        else
+        {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(4, 'boolean');
         }
     }
@@ -152,39 +161,50 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
     {
         $this->printHeader();
 
-        if ($result->errorCount() > 0) {
+        if ($result->errorCount() > 0)
+        {
             $this->printErrors($result);
         }
 
-        if ($result->failureCount() > 0) {
-            if ($result->errorCount() > 0) {
+        if ($result->failureCount() > 0)
+        {
+            if ($result->errorCount() > 0)
+            {
                 print "\n--\n\n";
             }
 
             $this->printFailures($result);
         }
 
-        if ($this->verbose) {
-            if ($result->deprecatedFeaturesCount() > 0) {
-                if ($result->failureCount() > 0) {
+        if ($this->verbose)
+        {
+            if ($result->deprecatedFeaturesCount() > 0)
+            {
+                if ($result->failureCount() > 0)
+                {
                     print "\n--\n\nDeprecated PHPUnit features are being used";
                 }
 
-                foreach ($result->deprecatedFeatures() as $deprecatedFeature) {
+                foreach ($result->deprecatedFeatures() as $deprecatedFeature)
+                {
                     $this->write($deprecatedFeature . "\n\n");
                 }
             }
 
-            if ($result->notImplementedCount() > 0) {
-                if ($result->failureCount() > 0) {
+            if ($result->notImplementedCount() > 0)
+            {
+                if ($result->failureCount() > 0)
+                {
                     print "\n--\n\n";
                 }
 
                 $this->printIncompletes($result);
             }
 
-            if ($result->skippedCount() > 0) {
-                if ($result->notImplementedCount() > 0) {
+            if ($result->skippedCount() > 0)
+            {
+                if ($result->notImplementedCount() > 0)
+                {
                     print "\n--\n\n";
                 }
 
@@ -204,7 +224,8 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
     {
         static $called = FALSE;
 
-        if ($count == 0) {
+        if ($count == 0)
+        {
             return;
         }
 
@@ -222,7 +243,8 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
 
         $i = 1;
 
-        foreach ($defects as $defect) {
+        foreach ($defects as $defect)
+        {
             $this->printDefect($defect, $i++);
         }
 
@@ -247,9 +269,12 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
     {
         $failedTest = $defect->failedTest();
 
-        if ($failedTest instanceof PHPUnit_Framework_SelfDescribing) {
+        if ($failedTest instanceof PHPUnit_Framework_SelfDescribing)
+        {
             $testName = $failedTest->toString();
-        } else {
+        }
+        else
+        {
             $testName = get_class($failedTest);
         }
 
@@ -333,8 +358,10 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
     {
         if ($result->wasSuccessful() &&
             $result->allCompletlyImplemented() &&
-            $result->noneSkipped()) {
-            if ($this->colors) {
+            $result->noneSkipped())
+            {
+            if ($this->colors)
+            {
                 $this->write("\x1b[30;42m\x1b[2K");
             }
 
@@ -349,20 +376,25 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
               )
             );
 
-            if ($this->colors) {
+            if ($this->colors)
+            {
                 $this->write("\x1b[0m\x1b[2K");
             }
         }
 
-        else if ((!$result->allCompletlyImplemented() ||
+        elseif ((!$result->allCompletlyImplemented() ||
                   !$result->noneSkipped()) &&
-                 $result->wasSuccessful()) {
-            if ($this->colors) {
+                 $result->wasSuccessful())
+                 {
+            if ($this->colors)
+            {
                 $this->write(
                   "\x1b[30;43m\x1b[2KOK, but incomplete or skipped tests!\n" .
                   "\x1b[0m\x1b[30;43m\x1b[2K"
                 );
-            } else {
+            }
+            else
+            {
                 $this->write("OK, but incomplete or skipped tests!\n");
             }
 
@@ -381,19 +413,24 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
               )
             );
 
-            if ($this->colors) {
+            if ($this->colors)
+            {
                 $this->write("\x1b[0m\x1b[2K");
             }
         }
 
-        else {
+        else
+        {
             $this->write("\n");
 
-            if ($this->colors) {
+            if ($this->colors)
+            {
                 $this->write(
                   "\x1b[37;41m\x1b[2KFAILURES!\n\x1b[0m\x1b[37;41m\x1b[2K"
                 );
-            } else {
+            }
+            else
+            {
                 $this->write("FAILURES!\n");
             }
 
@@ -412,20 +449,23 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
               )
             );
 
-            if ($this->colors) {
+            if ($this->colors)
+            {
                 $this->write("\x1b[0m\x1b[2K");
             }
         }
 
         if (!$this->verbose &&
-            $result->deprecatedFeaturesCount() > 0) {
+            $result->deprecatedFeaturesCount() > 0)
+            {
             $message = sprintf(
               "Warning: Deprecated PHPUnit features are being used %s times!\n" .
               "Use --verbose for more information.\n",
               $result->deprecatedFeaturesCount()
             );
 
-            if ($this->colors) {
+            if ($this->colors)
+            {
                 $message = "\x1b[37;41m\x1b[2K" . $message .
                            "\x1b[0m";
             }
@@ -444,7 +484,8 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
     {
         $string = '';
 
-        if ($count > 0) {
+        if ($count > 0)
+        {
             $string = sprintf(
               ', %s: %d',
 
@@ -472,9 +513,12 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if ($this->colors) {
+        if ($this->colors)
+        {
             $this->writeProgress("\x1b[31;1mE\x1b[0m");
-        } else {
+        }
+        else
+        {
             $this->writeProgress('E');
         }
 
@@ -490,9 +534,12 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        if ($this->colors) {
+        if ($this->colors)
+        {
             $this->writeProgress("\x1b[41;37mF\x1b[0m");
-        } else {
+        }
+        else
+        {
             $this->writeProgress('F');
         }
 
@@ -508,9 +555,12 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if ($this->colors) {
+        if ($this->colors)
+        {
             $this->writeProgress("\x1b[33;1mI\x1b[0m");
-        } else {
+        }
+        else
+        {
             $this->writeProgress('I');
         }
 
@@ -527,9 +577,12 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if ($this->colors) {
+        if ($this->colors)
+        {
             $this->writeProgress("\x1b[36;1mS\x1b[0m");
-        } else {
+        }
+        else
+        {
             $this->writeProgress('S');
         }
 
@@ -544,7 +597,8 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        if ($this->numTests == -1) {
+        if ($this->numTests == -1)
+        {
             $this->numTests      = count($suite);
             $this->numTestsWidth = strlen((string)$this->numTests);
             $this->maxColumn     = 69 - (2 * $this->numTestsWidth);
@@ -568,7 +622,8 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        if ($this->debug) {
+        if ($this->debug)
+        {
             $this->write(
               sprintf(
                 "\nStarting test '%s'.\n", PHPUnit_Util_Test::describe($test)
@@ -585,22 +640,27 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if (!$this->lastTestFailed) {
+        if (!$this->lastTestFailed)
+        {
             $this->writeProgress('.');
         }
 
-        if ($test instanceof PHPUnit_Framework_TestCase) {
+        if ($test instanceof PHPUnit_Framework_TestCase)
+        {
             $this->numAssertions += $test->getNumAssertions();
         }
 
-        else if ($test instanceof PHPUnit_Extensions_PhptTestCase) {
+        elseif ($test instanceof PHPUnit_Extensions_PhptTestCase)
+        {
             $this->numAssertions++;
         }
 
         $this->lastTestFailed = FALSE;
 
-        if ($test instanceof PHPUnit_Framework_TestCase) {
-            if (!$test->hasPerformedExpectationsOnOutput()) {
+        if ($test instanceof PHPUnit_Framework_TestCase)
+        {
+            if (!$test->hasPerformedExpectationsOnOutput())
+            {
                 $this->write($test->getActualOutput());
             }
         }
@@ -615,7 +675,8 @@ class PHPUnit_TextUI_ResultPrinter extends PHPUnit_Util_Printer implements PHPUn
         $this->column++;
         $this->numTestsRun++;
 
-        if ($this->column == $this->maxColumn) {
+        if ($this->column == $this->maxColumn)
+        {
             $this->write(
               sprintf(
                 ' %' . $this->numTestsWidth . 'd / %' .

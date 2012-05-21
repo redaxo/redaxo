@@ -60,47 +60,56 @@ class PHPUnit_Util_Getopt
 {
     public static function getopt(array $args, $short_options, $long_options = NULL)
     {
-        if (empty($args)) {
+        if (empty($args))
+        {
             return array(array(), array());
         }
 
         $opts     = array();
         $non_opts = array();
 
-        if ($long_options) {
+        if ($long_options)
+        {
             sort($long_options);
         }
 
-        if (isset($args[0][0]) && $args[0][0] != '-') {
+        if (isset($args[0][0]) && $args[0][0] != '-')
+        {
             array_shift($args);
         }
 
         reset($args);
         array_map('trim', $args);
 
-        while (list($i, $arg) = each($args)) {
-            if ($arg == '') {
+        while (list($i, $arg) = each($args))
+        {
+            if ($arg == '')
+            {
                 continue;
             }
 
-            if ($arg == '--') {
+            if ($arg == '--')
+            {
                 $non_opts = array_merge($non_opts, array_slice($args, $i + 1));
                 break;
             }
 
             if ($arg[0] != '-' ||
-                (strlen($arg) > 1 && $arg[1] == '-' && !$long_options)) {
+                (strlen($arg) > 1 && $arg[1] == '-' && !$long_options))
+                {
                 $non_opts = array_merge($non_opts, array_slice($args, $i));
                 break;
             }
 
-            elseif (strlen($arg) > 1 && $arg[1] == '-') {
+            elseif (strlen($arg) > 1 && $arg[1] == '-')
+            {
                 self::parseLongOption(
                   substr($arg, 2), $long_options, $opts, $args
                 );
             }
 
-            else {
+            else
+            {
                 self::parseShortOption(
                   substr($arg, 1), $short_options, $opts, $args
                 );
@@ -114,33 +123,43 @@ class PHPUnit_Util_Getopt
     {
         $argLen = strlen($arg);
 
-        for ($i = 0; $i < $argLen; $i++) {
+        for ($i = 0; $i < $argLen; $i++)
+        {
             $opt     = $arg[$i];
             $opt_arg = NULL;
 
             if (($spec = strstr($short_options, $opt)) === FALSE ||
-                $arg[$i] == ':') {
+                $arg[$i] == ':')
+                {
                 throw new PHPUnit_Framework_Exception(
                   "unrecognized option -- $opt"
                 );
             }
 
-            if (strlen($spec) > 1 && $spec[1] == ':') {
-                if (strlen($spec) > 2 && $spec[2] == ':') {
-                    if ($i + 1 < $argLen) {
+            if (strlen($spec) > 1 && $spec[1] == ':')
+            {
+                if (strlen($spec) > 2 && $spec[2] == ':')
+                {
+                    if ($i + 1 < $argLen)
+                    {
                         $opts[] = array($opt, substr($arg, $i + 1));
                         break;
                     }
-                } else {
-                    if ($i + 1 < $argLen) {
+                }
+                else
+                {
+                    if ($i + 1 < $argLen)
+                    {
                         $opts[] = array($opt, substr($arg, $i + 1));
                         break;
                     }
 
-                    else if (list(, $opt_arg) = each($args)) {
+                    elseif (list(, $opt_arg) = each($args))
+                    {
                     }
 
-                    else {
+                    else
+                    {
                         throw new PHPUnit_Framework_Exception(
                           "option requires an argument -- $opt"
                         );
@@ -159,33 +178,40 @@ class PHPUnit_Util_Getopt
         $opt     = $list[0];
         $opt_arg = NULL;
 
-        if (count($list) > 1) {
+        if (count($list) > 1)
+        {
             $opt_arg = $list[1];
         }
 
         $opt_len = strlen($opt);
 
-        for ($i = 0; $i < $count; $i++) {
+        for ($i = 0; $i < $count; $i++)
+        {
             $long_opt  = $long_options[$i];
             $opt_start = substr($long_opt, 0, $opt_len);
 
-            if ($opt_start != $opt) {
+            if ($opt_start != $opt)
+            {
                 continue;
             }
 
             $opt_rest = substr($long_opt, $opt_len);
 
             if ($opt_rest != '' && $opt[0] != '=' && $i + 1 < $count &&
-                $opt == substr($long_options[$i+1], 0, $opt_len)) {
+                $opt == substr($long_options[$i+1], 0, $opt_len))
+                {
                 throw new PHPUnit_Framework_Exception(
                   "option --$opt is ambiguous"
                 );
             }
 
-            if (substr($long_opt, -1) == '=') {
-                if (substr($long_opt, -2) != '==') {
+            if (substr($long_opt, -1) == '=')
+            {
+                if (substr($long_opt, -2) != '==')
+                {
                     if (!strlen($opt_arg) &&
-                        !(list(, $opt_arg) = each($args))) {
+                        !(list(, $opt_arg) = each($args)))
+                        {
                         throw new PHPUnit_Framework_Exception(
                           "option --$opt requires an argument"
                         );
@@ -193,7 +219,8 @@ class PHPUnit_Util_Getopt
                 }
             }
 
-            else if ($opt_arg) {
+            elseif ($opt_arg)
+            {
                 throw new PHPUnit_Framework_Exception(
                   "option --$opt doesn't allow an argument"
                 );

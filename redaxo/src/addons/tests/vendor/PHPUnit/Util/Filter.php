@@ -66,45 +66,60 @@ class PHPUnit_Util_Filter
      */
     public static function getFilteredStacktrace(Exception $e, $asString = TRUE)
     {
-        if (!defined('PHPUNIT_TESTSUITE')) {
+        if (!defined('PHPUNIT_TESTSUITE'))
+        {
             $blacklist = PHPUnit_Util_GlobalState::phpunitFiles();
-        } else {
+        }
+        else
+        {
             $blacklist = array();
         }
 
-        if ($asString === TRUE) {
+        if ($asString === TRUE)
+        {
             $filteredStacktrace = '';
-        } else {
+        }
+        else
+        {
             $filteredStacktrace = array();
         }
 
-        if ($e instanceof PHPUnit_Framework_SyntheticError) {
+        if ($e instanceof PHPUnit_Framework_SyntheticError)
+        {
             $eTrace = $e->getSyntheticTrace();
             $eFile  = $e->getSyntheticFile();
             $eLine  = $e->getSyntheticLine();
-        } else {
+        }
+        else
+        {
             $eTrace = $e->getTrace();
             $eFile  = $e->getFile();
             $eLine  = $e->getLine();
         }
 
-        if (!self::frameExists($eTrace, $eFile, $eLine)) {
+        if (!self::frameExists($eTrace, $eFile, $eLine))
+        {
             array_unshift(
               $eTrace, array('file' => $eFile, 'line' => $eLine)
             );
         }
 
-        foreach ($eTrace as $frame) {
+        foreach ($eTrace as $frame)
+        {
             if (isset($frame['file']) && is_file($frame['file']) &&
-                !isset($blacklist[$frame['file']])) {
-                if ($asString === TRUE) {
+                !isset($blacklist[$frame['file']]))
+                {
+                if ($asString === TRUE)
+                {
                     $filteredStacktrace .= sprintf(
                       "%s:%s\n",
 
                       $frame['file'],
                       isset($frame['line']) ? $frame['line'] : '?'
                     );
-                } else {
+                }
+                else
+                {
                     $filteredStacktrace[] = $frame;
                 }
             }
@@ -122,9 +137,11 @@ class PHPUnit_Util_Filter
      */
     public static function frameExists(array $trace, $file, $line)
     {
-        foreach ($trace as $frame) {
+        foreach ($trace as $frame)
+        {
             if (isset($frame['file']) && $frame['file'] == $file &&
-                isset($frame['line']) && $frame['line'] == $line) {
+                isset($frame['line']) && $frame['line'] == $line)
+                {
                 return TRUE;
             }
         }

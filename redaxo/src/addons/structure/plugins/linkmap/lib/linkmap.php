@@ -1,18 +1,21 @@
 <?php
 
-class rex_linkmap_categoryTree extends rex_linkmap_treeRenderer {
+class rex_linkmap_categoryTree extends rex_linkmap_treeRenderer
+{
   private $context;
 
-  public function __construct(rex_context $context) {
+  public function __construct(rex_context $context)
+  {
     $this->context = $context;
   }
 
-  protected function treeItem(rex_ooCategory $cat, $liClasses, $linkClasses, $subHtml) {
+  protected function treeItem(rex_ooCategory $cat, $liClasses, $linkClasses, $subHtml)
+  {
 
-    if($liClasses != '')
+    if ($liClasses != '')
       $liClasses = ' class="'. rtrim($liClasses) .'"';
 
-    if($linkClasses != '')
+    if ($linkClasses != '')
       $linkClasses = ' class="'. rtrim($linkClasses) .'"';
 
     $label = self::formatLabel($cat);
@@ -27,10 +30,12 @@ class rex_linkmap_categoryTree extends rex_linkmap_treeRenderer {
   }
 }
 
-class rex_linkmap_articleList extends rex_linkmap_articleListRenderer {
+class rex_linkmap_articleList extends rex_linkmap_articleListRenderer
+{
   private $context;
 
-  public function __construct(rex_context $context) {
+  public function __construct(rex_context $context)
+  {
     $this->context = $context;
   }
 

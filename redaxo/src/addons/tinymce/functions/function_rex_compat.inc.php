@@ -58,19 +58,19 @@ if (!function_exists('_rex_array_key_cast'))
 {
   function _rex_array_key_cast($haystack, $needle, $vartype, $default = '')
   {
-    if(!is_array($haystack))
+    if (!is_array($haystack))
     {
       trigger_error('Array expected for $haystack in _rex_array_key_cast()!', E_USER_ERROR);
       exit();
     }
 
-    if(!is_scalar($needle))
+    if (!is_scalar($needle))
     {
       trigger_error('Scalar expected for $needle in _rex_array_key_cast()!', E_USER_ERROR);
       exit();
     }
 
-    if(array_key_exists($needle, $haystack))
+    if (array_key_exists($needle, $haystack))
     {
     $var = $haystack[$needle];
       return _rex_cast_var($var, $vartype);
@@ -87,14 +87,14 @@ if (!function_exists('_rex_cast_var'))
 {
   function _rex_cast_var($var, $vartype)
   {
-    if(!is_string($vartype))
+    if (!is_string($vartype))
     {
       trigger_error('String expected for $vartype in _rex_cast_var()!', E_USER_ERROR);
       exit();
     }
 
     // Variable Casten
-    switch($vartype)
+    switch ($vartype)
     {
       case 'bool'   :
       case 'boolean': $var = (boolean) $var; break;
@@ -151,7 +151,7 @@ if (!function_exists('rex_replace_dynamic_contents'))
 {
   function rex_replace_dynamic_contents($path, $content)
   {
-    if($fcontent = rex_get_file_contents($path))
+    if ($fcontent = rex_get_file_contents($path))
     {
       $content = "// --- DYN\n". trim($content) ."\n// --- /DYN";
       $fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $content, $fcontent);
@@ -169,7 +169,7 @@ if (!function_exists('rex_highlight_string'))
   function rex_highlight_string($string, $return = false)
   {
     $s = '<p class="rex-code">'. highlight_string($string, true) .'</p>';
-    if($return)
+    if ($return)
     {
     return $s;
     }
@@ -189,15 +189,15 @@ if (!function_exists('rex_copyDir'))
     $debug = FALSE;
     $state = TRUE;
 
-    if(!is_dir($dstdir))
+    if (!is_dir($dstdir))
     {
     $dir = '';
-    foreach(explode(DIRECTORY_SEPARATOR, $dstdir) as $dirPart)
+    foreach (explode(DIRECTORY_SEPARATOR, $dstdir) as $dirPart)
     {
       $dir .= $dirPart . DIRECTORY_SEPARATOR;
-      if(strpos($startdir,$dir) !== 0 && !is_dir($dir))
+      if (strpos($startdir,$dir) !== 0 && !is_dir($dir))
       {
-      if($debug)
+      if ($debug)
         echo "Create dir '$dir'<br />\n";
 
       mkdir($dir);
@@ -206,42 +206,42 @@ if (!function_exists('rex_copyDir'))
     }
     }
 
-    if($curdir = opendir($srcdir))
+    if ($curdir = opendir($srcdir))
     {
-    while($file = readdir($curdir))
+    while ($file = readdir($curdir))
     {
-      if($file != '.' && $file != '..' && $file != '.svn')
+      if ($file != '.' && $file != '..' && $file != '.svn')
       {
       $srcfile = $srcdir . DIRECTORY_SEPARATOR . $file;
       $dstfile = $dstdir . DIRECTORY_SEPARATOR . $file;
-      if(is_file($srcfile))
+      if (is_file($srcfile))
       {
         $isNewer = TRUE;
-        if(is_file($dstfile))
+        if (is_file($dstfile))
         {
         $isNewer = (filemtime($srcfile) - filemtime($dstfile)) > 0;
         }
 
-        if($isNewer)
+        if ($isNewer)
         {
-        if($debug)
+        if ($debug)
           echo "Copying '$srcfile' to '$dstfile'...";
-        if(copy($srcfile, $dstfile))
+        if (copy($srcfile, $dstfile))
         {
           touch($dstfile, filemtime($srcfile));
           chmod($dstfile, $REX['FILEPERM']);
-          if($debug)
+          if ($debug)
           echo "OK<br />\n";
         }
         else
         {
-          if($debug)
+          if ($debug)
            echo "Error: File '$srcfile' could not be copied!<br />\n";
           return FALSE;
         }
         }
       }
-      else if(is_dir($srcfile))
+      elseif (is_dir($srcfile))
       {
         $state = rex_copyDir($srcfile, $dstfile, $startdir) && $state;
       }
@@ -273,7 +273,7 @@ if (!function_exists('rex_deleteDir'))
       $handle = opendir($file);
       if (!$handle)
       {
-      if($debug)
+      if ($debug)
         echo "Unable to open dir '$file'<br />\n";
 
       return FALSE;
@@ -305,7 +305,7 @@ if (!function_exists('rex_deleteDir'))
       // Fehler unterdr�cken, falls keine Berechtigung
       if (!@ rmdir($file))
       {
-        if($debug)
+        if ($debug)
         echo "Unable to delete folder '$file'<br />\n";
 
         return FALSE;
@@ -318,7 +318,7 @@ if (!function_exists('rex_deleteDir'))
       // Fehler unterdr�cken, falls keine Berechtigung
       if (!@ unlink($file))
       {
-      if($debug)
+      if ($debug)
         echo "Unable to delete file '$file'<br />\n";
 
       return FALSE;
@@ -327,7 +327,7 @@ if (!function_exists('rex_deleteDir'))
     }
     else
     {
-    if($debug)
+    if ($debug)
       echo "file '$file'not found!<br />\n";
     // Datei/Ordner existiert nicht
     return FALSE;

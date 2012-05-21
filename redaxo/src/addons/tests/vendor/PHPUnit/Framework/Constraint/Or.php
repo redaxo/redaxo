@@ -71,8 +71,10 @@ class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint
     {
         $this->constraints = array();
 
-        foreach ($constraints as $key => $constraint) {
-            if (!($constraint instanceof PHPUnit_Framework_Constraint)) {
+        foreach ($constraints as $key => $constraint)
+        {
+            if (!($constraint instanceof PHPUnit_Framework_Constraint))
+            {
                 $constraint = new PHPUnit_Framework_Constraint_IsEqual(
                   $constraint
                 );
@@ -103,18 +105,22 @@ class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint
         $success = FALSE;
         $constraint = NULL;
 
-        foreach ($this->constraints as $constraint) {
-            if ($constraint->evaluate($other, $description, TRUE)) {
+        foreach ($this->constraints as $constraint)
+        {
+            if ($constraint->evaluate($other, $description, TRUE))
+            {
                 $success = TRUE;
                 break;
             }
         }
 
-        if ($returnResult) {
+        if ($returnResult)
+        {
             return $success;
         }
 
-        if (!$success) {
+        if (!$success)
+        {
             $this->fail($other, $description);
         }
     }
@@ -128,8 +134,10 @@ class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint
     {
         $text = '';
 
-        foreach ($this->constraints as $key => $constraint) {
-            if ($key > 0) {
+        foreach ($this->constraints as $key => $constraint)
+        {
+            if ($key > 0)
+            {
                 $text .= ' or ';
             }
 
@@ -149,7 +157,8 @@ class PHPUnit_Framework_Constraint_Or extends PHPUnit_Framework_Constraint
     {
         $count = 0;
 
-        foreach ($this->constraints as $constraint) {
+        foreach ($this->constraints as $constraint)
+        {
             $count += count($constraint);
         }
 

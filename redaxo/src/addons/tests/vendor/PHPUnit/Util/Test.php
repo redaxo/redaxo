@@ -78,24 +78,33 @@ class PHPUnit_Util_Test
      */
     public static function describe(PHPUnit_Framework_Test $test, $asString = TRUE)
     {
-        if ($asString) {
-            if ($test instanceof PHPUnit_Framework_SelfDescribing) {
+        if ($asString)
+        {
+            if ($test instanceof PHPUnit_Framework_SelfDescribing)
+            {
                 return $test->toString();
-            } else {
+            }
+            else
+            {
                 return get_class($test);
             }
-        } else {
-            if ($test instanceof PHPUnit_Framework_TestCase) {
+        }
+        else
+        {
+            if ($test instanceof PHPUnit_Framework_TestCase)
+            {
                 return array(
                   get_class($test), $test->getName()
                 );
             }
 
-            else if ($test instanceof PHPUnit_Framework_SelfDescribing) {
+            elseif ($test instanceof PHPUnit_Framework_SelfDescribing)
+            {
                 return array('', $test->toString());
             }
 
-            else {
+            else
+            {
                 return array('', get_class($test));
             }
         }
@@ -115,8 +124,10 @@ class PHPUnit_Util_Test
         $docComment = $reflector->getDocComment();
         $requires   = array();
 
-        if ($count = preg_match_all(self::REGEX_REQUIRES, $docComment, $matches)) {
-            for ($i = 0; $i < $count; $i++) {
+        if ($count = preg_match_all(self::REGEX_REQUIRES, $docComment, $matches))
+        {
+            for ($i = 0; $i < $count; $i++)
+            {
                 $requires[$matches['name'][$i]] = $matches['value'][$i];
             }
         }
@@ -137,7 +148,8 @@ class PHPUnit_Util_Test
         $reflector  = new ReflectionMethod($className, $methodName);
         $docComment = $reflector->getDocComment();
 
-        if (preg_match(self::REGEX_EXPECTED_EXCEPTION, $docComment, $matches)) {
+        if (preg_match(self::REGEX_EXPECTED_EXCEPTION, $docComment, $matches))
+        {
             $annotations = self::parseTestMethodAnnotations(
               $className, $methodName
             );
@@ -146,27 +158,33 @@ class PHPUnit_Util_Test
             $code    = NULL;
             $message = '';
 
-            if (isset($matches[2])) {
+            if (isset($matches[2]))
+            {
                 $message = trim($matches[2]);
             }
 
-            else if (isset($annotations['method']['expectedExceptionMessage'])) {
+            elseif (isset($annotations['method']['expectedExceptionMessage']))
+            {
                 $message = $annotations['method']['expectedExceptionMessage'][0];
             }
 
-            if (isset($matches[3])) {
+            if (isset($matches[3]))
+            {
                 $code = $matches[3];
             }
 
-            else if (isset($annotations['method']['expectedExceptionCode'])) {
+            elseif (isset($annotations['method']['expectedExceptionCode']))
+            {
                 $code = $annotations['method']['expectedExceptionCode'][0];
             }
 
-            if (is_numeric($code)) {
+            if (is_numeric($code))
+            {
                 $code = (int)$code;
             }
 
-            else if (is_string($code) && defined($code)) {
+            elseif (is_string($code) && defined($code))
+            {
                 $code = (int)constant($code);
             }
 
@@ -195,20 +213,27 @@ class PHPUnit_Util_Test
         $docComment = $reflector->getDocComment();
         $data       = NULL;
 
-        if (preg_match(self::REGEX_DATA_PROVIDER, $docComment, $matches)) {
+        if (preg_match(self::REGEX_DATA_PROVIDER, $docComment, $matches))
+        {
             $dataProviderMethodNameNamespace = explode('\\', $matches[1]);
             $leaf                            = explode('::', array_pop($dataProviderMethodNameNamespace));
             $dataProviderMethodName          = array_pop($leaf);
 
-            if (!empty($dataProviderMethodNameNamespace)) {
+            if (!empty($dataProviderMethodNameNamespace))
+            {
                 $dataProviderMethodNameNamespace = join('\\', $dataProviderMethodNameNamespace) . '\\';
-            } else {
+            }
+            else
+            {
                 $dataProviderMethodNameNamespace = '';
             }
 
-            if (!empty($leaf)) {
+            if (!empty($leaf))
+            {
                 $dataProviderClassName = $dataProviderMethodNameNamespace . array_pop($leaf);
-            } else {
+            }
+            else
+            {
                 $dataProviderClassName = $className;
             }
 
@@ -217,22 +242,31 @@ class PHPUnit_Util_Test
               $dataProviderMethodName
             );
 
-            if ($dataProviderMethod->isStatic()) {
+            if ($dataProviderMethod->isStatic())
+            {
                 $object = NULL;
-            } else {
+            }
+            else
+            {
                 $object = $dataProviderClass->newInstance();
             }
 
-            if ($dataProviderMethod->getNumberOfParameters() == 0) {
+            if ($dataProviderMethod->getNumberOfParameters() == 0)
+            {
                 $data = $dataProviderMethod->invoke($object);
-            } else {
+            }
+            else
+            {
                 $data = $dataProviderMethod->invoke($object, $methodName);
             }
         }
 
-        if ($data !== NULL) {
-            foreach ($data as $key => $value) {
-                if (!is_array($value)) {
+        if ($data !== NULL)
+        {
+            foreach ($data as $key => $value)
+            {
+                if (!is_array($value))
+                {
                     throw new InvalidArgumentException(
                       sprintf(
                         'Data set %s is invalid.',
@@ -255,12 +289,14 @@ class PHPUnit_Util_Test
      */
     public static function parseTestMethodAnnotations($className, $methodName = '')
     {
-        if (!isset(self::$annotationCache[$className])) {
+        if (!isset(self::$annotationCache[$className]))
+        {
             $class = new ReflectionClass($className);
             self::$annotationCache[$className] = self::parseAnnotations($class->getDocComment());
         }
 
-        if (!empty($methodName) && !isset(self::$annotationCache[$className . '::' . $methodName])) {
+        if (!empty($methodName) && !isset(self::$annotationCache[$className . '::' . $methodName]))
+        {
             $method = new ReflectionMethod($className, $methodName);
             self::$annotationCache[$className . '::' . $methodName] = self::parseAnnotations($method->getDocComment());
         }
@@ -282,10 +318,12 @@ class PHPUnit_Util_Test
         // Strip away the docblock header and footer to ease parsing of one line annotations
         $docblock = substr($docblock, 3, -2);
 
-        if (preg_match_all('/@(?P<name>[A-Za-z_-]+)(?:[ \t]+(?P<value>.*?))?[ \t]*\r?$/m', $docblock, $matches)) {
+        if (preg_match_all('/@(?P<name>[A-Za-z_-]+)(?:[ \t]+(?P<value>.*?))?[ \t]*\r?$/m', $docblock, $matches))
+        {
             $numMatches = count($matches[0]);
 
-            for ($i = 0; $i < $numMatches; ++$i) {
+            for ($i = 0; $i < $numMatches; ++$i)
+            {
                 $annotations[$matches['name'][$i]][] = $matches['value'][$i];
             }
         }
@@ -329,11 +367,13 @@ class PHPUnit_Util_Test
 
         $dependencies = array();
 
-        if (isset($annotations['class']['depends'])) {
+        if (isset($annotations['class']['depends']))
+        {
             $dependencies = $annotations['class']['depends'];
         }
 
-        if (isset($annotations['method']['depends'])) {
+        if (isset($annotations['method']['depends']))
+        {
             $dependencies = array_merge(
               $dependencies, $annotations['method']['depends']
             );
@@ -373,36 +413,45 @@ class PHPUnit_Util_Test
 
         $groups = array();
 
-        if (isset($annotations['method']['author'])) {
+        if (isset($annotations['method']['author']))
+        {
             $groups = $annotations['method']['author'];
         }
 
-        else if (isset($annotations['class']['author'])) {
+        elseif (isset($annotations['class']['author']))
+        {
             $groups = $annotations['class']['author'];
         }
 
-        if (isset($annotations['class']['group'])) {
+        if (isset($annotations['class']['group']))
+        {
             $groups = array_merge($groups, $annotations['class']['group']);
         }
 
-        if (isset($annotations['method']['group'])) {
+        if (isset($annotations['method']['group']))
+        {
             $groups = array_merge($groups, $annotations['method']['group']);
         }
 
-        if (isset($annotations['class']['ticket'])) {
+        if (isset($annotations['class']['ticket']))
+        {
             $groups = array_merge($groups, $annotations['class']['ticket']);
         }
 
-        if (isset($annotations['method']['ticket'])) {
+        if (isset($annotations['method']['ticket']))
+        {
             $groups = array_merge($groups, $annotations['method']['ticket']);
         }
 
-        foreach (array('small', 'medium', 'large') as $size) {
-            if (isset($annotations['method'][$size])) {
+        foreach (array('small', 'medium', 'large') as $size)
+        {
+            if (isset($annotations['method'][$size]))
+            {
                 $groups[] = $size;
             }
 
-            else if (isset($annotations['class'][$size])) {
+            elseif (isset($annotations['class'][$size]))
+            {
                 $groups[] = $size;
             }
         }
@@ -427,15 +476,18 @@ class PHPUnit_Util_Test
         if ((class_exists('PHPUnit_Extensions_Database_TestCase', FALSE) &&
              $class->isSubclassOf('PHPUnit_Extensions_Database_TestCase')) ||
             (class_exists('PHPUnit_Extensions_SeleniumTestCase', FALSE) &&
-             $class->isSubclassOf('PHPUnit_Extensions_SeleniumTestCase'))) {
+             $class->isSubclassOf('PHPUnit_Extensions_SeleniumTestCase')))
+             {
             $size = self::LARGE;
         }
 
-        else if (isset($groups['medium'])) {
+        elseif (isset($groups['medium']))
+        {
             $size = self::MEDIUM;
         }
 
-        else if (isset($groups['large'])) {
+        elseif (isset($groups['large']))
+        {
             $size = self::LARGE;
         }
 
@@ -458,11 +510,13 @@ class PHPUnit_Util_Test
 
         $tickets = array();
 
-        if (isset($annotations['class']['ticket'])) {
+        if (isset($annotations['class']['ticket']))
+        {
             $tickets = $annotations['class']['ticket'];
         }
 
-        if (isset($annotations['method']['ticket'])) {
+        if (isset($annotations['method']['ticket']))
+        {
             $tickets = array_merge($tickets, $annotations['method']['ticket']);
         }
 
@@ -499,9 +553,12 @@ class PHPUnit_Util_Test
         );
 
         if (isset($annotations['class']['runTestsInSeparateProcesses']) ||
-            isset($annotations['method']['runInSeparateProcess'])) {
+            isset($annotations['method']['runInSeparateProcess']))
+            {
             return TRUE;
-        } else {
+        }
+        else
+        {
             return FALSE;
         }
     }
@@ -536,22 +593,28 @@ class PHPUnit_Util_Test
 
         $result = NULL;
 
-        if (isset($annotations['class'][$settingName])) {
-            if ($annotations['class'][$settingName][0] == 'enabled') {
+        if (isset($annotations['class'][$settingName]))
+        {
+            if ($annotations['class'][$settingName][0] == 'enabled')
+            {
                 $result = TRUE;
             }
 
-            else if ($annotations['class'][$settingName][0] == 'disabled') {
+            elseif ($annotations['class'][$settingName][0] == 'disabled')
+            {
                 $result = FALSE;
             }
         }
 
-        if (isset($annotations['method'][$settingName])) {
-            if ($annotations['method'][$settingName][0] == 'enabled') {
+        if (isset($annotations['method'][$settingName]))
+        {
+            if ($annotations['method'][$settingName][0] == 'enabled')
+            {
                 $result = TRUE;
             }
 
-            else if ($annotations['method'][$settingName][0] == 'disabled') {
+            elseif ($annotations['method'][$settingName][0] == 'disabled')
+            {
                 $result = FALSE;
             }
         }

@@ -133,14 +133,16 @@ class PHPUnit_Framework_MockObject_Builder_InvocationMocker implements PHPUnit_F
     {
         $args = func_get_args();
 
-        if ($this->matcher->methodNameMatcher === NULL) {
+        if ($this->matcher->methodNameMatcher === NULL)
+        {
             throw new PHPUnit_Framework_Exception(
               'Method name matcher is not defined, cannot define parameter ' .
               ' matcher without one'
             );
         }
 
-        if ($this->matcher->parametersMatcher !== NULL) {
+        if ($this->matcher->parametersMatcher !== NULL)
+        {
             throw new PHPUnit_Framework_Exception(
               'Parameter matcher is already defined, cannot redefine'
             );
@@ -156,14 +158,16 @@ class PHPUnit_Framework_MockObject_Builder_InvocationMocker implements PHPUnit_F
      */
     public function withAnyParameters()
     {
-        if ($this->matcher->methodNameMatcher === NULL) {
+        if ($this->matcher->methodNameMatcher === NULL)
+        {
             throw new PHPUnit_Framework_Exception(
               'Method name matcher is not defined, cannot define parameter ' .
               'matcher without one'
             );
         }
 
-        if ($this->matcher->parametersMatcher !== NULL) {
+        if ($this->matcher->parametersMatcher !== NULL)
+        {
             throw new PHPUnit_Framework_Exception(
               'Parameter matcher is already defined, cannot redefine'
             );
@@ -180,7 +184,8 @@ class PHPUnit_Framework_MockObject_Builder_InvocationMocker implements PHPUnit_F
      */
     public function method($constraint)
     {
-        if ($this->matcher->methodNameMatcher !== NULL) {
+        if ($this->matcher->methodNameMatcher !== NULL)
+        {
             throw new PHPUnit_Framework_Exception(
               'Method name matcher is already defined, cannot redefine'
             );

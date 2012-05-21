@@ -73,30 +73,38 @@ class PHPUnit_Util_Skeleton_Test extends PHPUnit_Util_Skeleton
      */
     public function __construct($inClassName, $inSourceFile = '', $outClassName = '', $outSourceFile = '')
     {
-        if (class_exists($inClassName)) {
+        if (class_exists($inClassName))
+        {
             $reflector    = new ReflectionClass($inClassName);
             $inSourceFile = $reflector->getFileName();
 
-            if ($inSourceFile === FALSE) {
+            if ($inSourceFile === FALSE)
+            {
                 $inSourceFile = '<internal>';
             }
 
             unset($reflector);
-        } else {
-            if (empty($inSourceFile)) {
+        }
+        else
+        {
+            if (empty($inSourceFile))
+            {
                 $possibleFilenames = array(
                   $inClassName . '.php',
                   PHPUnit_Util_Filesystem::classNameToFilename($inClassName)
                 );
 
-                foreach ($possibleFilenames as $possibleFilename) {
-                    if (is_file($possibleFilename)) {
+                foreach ($possibleFilenames as $possibleFilename)
+                {
+                    if (is_file($possibleFilename))
+                    {
                         $inSourceFile = $possibleFilename;
                     }
                 }
             }
 
-            if (empty($inSourceFile)) {
+            if (empty($inSourceFile))
+            {
                 throw new PHPUnit_Framework_Exception(
                   sprintf(
                     'Neither "%s" nor "%s" could be opened.',
@@ -106,7 +114,8 @@ class PHPUnit_Util_Skeleton_Test extends PHPUnit_Util_Skeleton
                 );
             }
 
-            if (!is_file($inSourceFile)) {
+            if (!is_file($inSourceFile))
+            {
                 throw new PHPUnit_Framework_Exception(
                   sprintf(
                     '"%s" could not be opened.',
@@ -119,7 +128,8 @@ class PHPUnit_Util_Skeleton_Test extends PHPUnit_Util_Skeleton
             $inSourceFile = realpath($inSourceFile);
             include_once $inSourceFile;
 
-            if (!class_exists($inClassName)) {
+            if (!class_exists($inClassName))
+            {
                 throw new PHPUnit_Framework_Exception(
                   sprintf(
                     'Could not find class "%s" in "%s".',
@@ -131,11 +141,13 @@ class PHPUnit_Util_Skeleton_Test extends PHPUnit_Util_Skeleton
             }
         }
 
-        if (empty($outClassName)) {
+        if (empty($outClassName))
+        {
             $outClassName = $inClassName . 'Test';
         }
 
-        if (empty($outSourceFile)) {
+        if (empty($outSourceFile))
+        {
             $outSourceFile = dirname($inSourceFile) . DIRECTORY_SEPARATOR . $outClassName . '.php';
         }
 
@@ -158,63 +170,79 @@ class PHPUnit_Util_Skeleton_Test extends PHPUnit_Util_Skeleton
         $methods           = '';
         $incompleteMethods = '';
 
-        foreach ($class->getMethods() as $method) {
+        foreach ($class->getMethods() as $method)
+        {
             if (!$method->isConstructor() &&
                 !$method->isAbstract() &&
                  $method->isPublic() &&
-                 $method->getDeclaringClass()->getName() == $this->inClassName['fullyQualifiedClassName']) {
+                 $method->getDeclaringClass()->getName() == $this->inClassName['fullyQualifiedClassName'])
+                 {
                 $assertAnnotationFound = FALSE;
 
-                if (preg_match_all('/@assert(.*)$/Um', $method->getDocComment(), $annotations)) {
-                    foreach ($annotations[1] as $annotation) {
-                        if (preg_match('/\((.*)\)\s+([^\s]*)\s+(.*)/', $annotation, $matches)) {
-                            switch ($matches[2]) {
-                                case '==': {
+                if (preg_match_all('/@assert(.*)$/Um', $method->getDocComment(), $annotations))
+                {
+                    foreach ($annotations[1] as $annotation)
+                    {
+                        if (preg_match('/\((.*)\)\s+([^\s]*)\s+(.*)/', $annotation, $matches))
+                        {
+                            switch ($matches[2])
+                            {
+                                case '==':
+                                {
                                     $assertion = 'Equals';
                                 }
                                 break;
 
-                                case '!=': {
+                                case '!=':
+                                {
                                     $assertion = 'NotEquals';
                                 }
                                 break;
 
-                                case '===': {
+                                case '===':
+                                {
                                     $assertion = 'Same';
                                 }
                                 break;
 
-                                case '!==': {
+                                case '!==':
+                                {
                                     $assertion = 'NotSame';
                                 }
                                 break;
 
-                                case '>': {
+                                case '>':
+                                {
                                     $assertion = 'GreaterThan';
                                 }
                                 break;
 
-                                case '>=': {
+                                case '>=':
+                                {
                                     $assertion = 'GreaterThanOrEqual';
                                 }
                                 break;
 
-                                case '<': {
+                                case '<':
+                                {
                                     $assertion = 'LessThan';
                                 }
                                 break;
 
-                                case '<=': {
+                                case '<=':
+                                {
                                     $assertion = 'LessThanOrEqual';
                                 }
                                 break;
 
-                                case 'throws': {
+                                case 'throws':
+                                {
                                     $assertion = 'exception';
                                 }
                                 break;
 
-                                default: {
+                                default:
+                                {
                                     throw new PHPUnit_Framework_Exception(
                                       sprintf(
                                         'Token "%s" could not be parsed in @assert annotation.',
@@ -224,39 +252,46 @@ class PHPUnit_Util_Skeleton_Test extends PHPUnit_Util_Skeleton
                                 }
                             }
 
-                            if ($assertion == 'exception') {
+                            if ($assertion == 'exception')
+                            {
                                 $template = 'TestMethodException';
                             }
 
-                            else if ($assertion == 'Equals' &&
-                                     strtolower($matches[3]) == 'true') {
+                            elseif ($assertion == 'Equals' &&
+                                     strtolower($matches[3]) == 'true')
+                                     {
                                 $assertion = 'True';
                                 $template  = 'TestMethodBool';
                             }
 
-                            else if ($assertion == 'NotEquals' &&
-                                     strtolower($matches[3]) == 'true') {
+                            elseif ($assertion == 'NotEquals' &&
+                                     strtolower($matches[3]) == 'true')
+                                     {
                                 $assertion = 'False';
                                 $template  = 'TestMethodBool';
                             }
 
-                            else if ($assertion == 'Equals' &&
-                                     strtolower($matches[3]) == 'false') {
+                            elseif ($assertion == 'Equals' &&
+                                     strtolower($matches[3]) == 'false')
+                                     {
                                 $assertion = 'False';
                                 $template  = 'TestMethodBool';
                             }
 
-                            else if ($assertion == 'NotEquals' &&
-                                     strtolower($matches[3]) == 'false') {
+                            elseif ($assertion == 'NotEquals' &&
+                                     strtolower($matches[3]) == 'false')
+                                     {
                                 $assertion = 'True';
                                 $template  = 'TestMethodBool';
                             }
 
-                            else {
+                            else
+                            {
                                 $template = 'TestMethod';
                             }
 
-                            if ($method->isStatic()) {
+                            if ($method->isStatic())
+                            {
                                 $template .= 'Static';
                             }
 
@@ -274,13 +309,17 @@ class PHPUnit_Util_Skeleton_Test extends PHPUnit_Util_Skeleton
                             $origMethodName = $method->getName();
                             $methodName     = ucfirst($origMethodName);
 
-                            if (isset($this->methodNameCounter[$methodName])) {
+                            if (isset($this->methodNameCounter[$methodName]))
+                            {
                                 $this->methodNameCounter[$methodName]++;
-                            } else {
+                            }
+                            else
+                            {
                                 $this->methodNameCounter[$methodName] = 1;
                             }
 
-                            if ($this->methodNameCounter[$methodName] > 1) {
+                            if ($this->methodNameCounter[$methodName] > 1)
+                            {
                                 $methodName .= $this->methodNameCounter[$methodName];
                             }
 
@@ -303,7 +342,8 @@ class PHPUnit_Util_Skeleton_Test extends PHPUnit_Util_Skeleton
                     }
                 }
 
-                if (!$assertAnnotationFound) {
+                if (!$assertAnnotationFound)
+                {
                     $methodTemplate = new Text_Template(
                       sprintf(
                         '%s%sTemplate%sIncompleteTestMethod.tpl',
@@ -337,20 +377,26 @@ class PHPUnit_Util_Skeleton_Test extends PHPUnit_Util_Skeleton
           )
         );
 
-        if ($this->inSourceFile != '<internal>') {
+        if ($this->inSourceFile != '<internal>')
+        {
             $requireClassFile = sprintf(
               "\n\nrequire_once '%s';",
 
               $this->inSourceFile
             );
-        } else {
+        }
+        else
+        {
             $requireClassFile = '';
         }
 
-        if ($this->outClassName['namespace'] != '') {
+        if ($this->outClassName['namespace'] != '')
+        {
             $namespace = "\nnamespace " .
                          $this->outClassName['namespace'] . ";\n";
-        } else {
+        }
+        else
+        {
             $namespace = '';
         }
 
@@ -367,9 +413,12 @@ class PHPUnit_Util_Skeleton_Test extends PHPUnit_Util_Skeleton
           )
         );
 
-        if (!$verbose) {
+        if (!$verbose)
+        {
             return $classTemplate->render();
-        } else {
+        }
+        else
+        {
             return array(
               'code'       => $classTemplate->render(),
               'incomplete' => empty($methods)

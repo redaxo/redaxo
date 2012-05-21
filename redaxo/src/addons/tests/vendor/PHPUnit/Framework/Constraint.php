@@ -80,15 +80,18 @@ abstract class PHPUnit_Framework_Constraint implements Countable, PHPUnit_Framew
     {
         $success = FALSE;
 
-        if ($this->matches($other)) {
+        if ($this->matches($other))
+        {
             $success = TRUE;
         }
 
-        if ($returnResult) {
+        if ($returnResult)
+        {
             return $success;
         }
 
-        if (!$success) {
+        if (!$success)
+        {
             $this->fail($other, $description);
         }
     }
@@ -134,11 +137,13 @@ abstract class PHPUnit_Framework_Constraint implements Countable, PHPUnit_Framew
         );
 
         $additionalFailureDescription = $this->additionalFailureDescription($other);
-        if ($additionalFailureDescription) {
+        if ($additionalFailureDescription)
+        {
             $failureDescription .= "\n" . $additionalFailureDescription;
         }
 
-        if (!empty($description)) {
+        if (!empty($description))
+        {
             $failureDescription = $description . "\n" . $failureDescription;
         }
 

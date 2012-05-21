@@ -29,14 +29,14 @@ class rex_input_date extends rex_input
 
   public function setValue($value)
   {
-    if(!is_array($value))
+    if (!is_array($value))
     {
       trigger_error('Expecting $value to be an array!', E_USER_ERROR);
     }
 
-    foreach(array('year', 'month', 'day') as $reqIndex)
+    foreach (array('year', 'month', 'day') as $reqIndex)
     {
-      if(!isset($value[$reqIndex]))
+      if (!isset($value[$reqIndex]))
       {
         trigger_error('Missing index "'. $reqIndex .'" in $value!', E_USER_ERROR);
       }
@@ -51,13 +51,13 @@ class rex_input_date extends rex_input
 
   public function setAttribute($name, $value)
   {
-    if($name == 'name')
+    if ($name == 'name')
     {
       $this->yearSelect->setName($value.'[year]');
       $this->monthSelect->setName($value.'[month]');
       $this->daySelect->setName($value.'[day]');
     }
-    else if($name == 'id')
+    elseif ($name == 'id')
     {
       $this->yearSelect->setId($value.'_year');
       $this->monthSelect->setId($value.'_month');

@@ -9,19 +9,19 @@ try
 {
   $addons = rex_install_packages::getMyPackages();
 }
-catch(rex_functional_exception $e)
+catch (rex_functional_exception $e)
 {
   echo rex_view::warning($e->getMessage());
   $addonkey = '';
 }
 
 $content = '';
-if($addonkey && isset($addons[$addonkey]))
+if ($addonkey && isset($addons[$addonkey]))
 {
   $addon = $addons[$addonkey];
   $file_id = rex_request('file', 'string');
 
-  if($file_id)
+  if ($file_id)
   {
     $new = $file_id == 'new';
     $file = $new ? array('version' => '', 'description' => '', 'status' => 1, 'redaxo_versions' => array('5.0.x')) : $addon['files'][$file_id];
@@ -44,7 +44,7 @@ if($addonkey && isset($addons[$addonkey]))
 
     $uploadCheckboxDisabled = '';
     $hiddenField = '';
-    if($new || !rex_addon::exists($addonkey))
+    if ($new || !rex_addon::exists($addonkey))
     {
       $uploadCheckboxDisabled = ' disabled="disabled"';
       $hiddenField = '<input type="hidden" name="upload[upload_file]" value="'. ((integer) $new) .'" />';
@@ -89,7 +89,7 @@ if($addonkey && isset($addons[$addonkey]))
             $n['field'] = '<input id="install-packages-upload-upload-file" type="checkbox" name="upload[upload_file]" value="1" '. ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled .'/>';
             $formElements[] = $n;
 
-            if(rex_addon::get($addonkey)->isInstalled() && is_dir(rex_path::addonAssets($addonkey)))
+            if (rex_addon::get($addonkey)->isInstalled() && is_dir(rex_path::addonAssets($addonkey)))
             {
               $n = array();
               $n['reverse'] = true;
@@ -130,7 +130,7 @@ if($addonkey && isset($addons[$addonkey]))
     </form>
   </div>';
 
-    if(!$new)
+    if (!$new)
     {
       echo '
   <script type="text/javascript"><!--
@@ -157,7 +157,7 @@ if($addonkey && isset($addons[$addonkey]))
   else
   {
     $icon = '';
-    if(rex_addon::exists($addonkey))
+    if (rex_addon::exists($addonkey))
       $icon = '<a class="rex-ic-generic rex-ic-add" href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey='. $addonkey .'&amp;file=new" title="'. $this->i18n('file_add') .'">'. $this->i18n('file_add') .'</a>';
 
     $content .= '
@@ -198,7 +198,7 @@ if($addonkey && isset($addons[$addonkey]))
       </thead>
       <tbody>';
 
-    foreach($addon['files'] as $fileId => $file)
+    foreach ($addon['files'] as $fileId => $file)
     {
       $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey='. $addonkey .'&amp;file='. $fileId .'">%s</a>';
       $status = $file['status'] ? 'online' : 'offline';
@@ -233,7 +233,7 @@ else
      </thead>
      <tbody>';
 
-  foreach($addons as $key => $addon)
+  foreach ($addons as $key => $addon)
   {
     $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey='. $key .'">%s</a>';
     $status = $addon['status'] ? 'online' : 'offline';

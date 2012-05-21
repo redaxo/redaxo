@@ -21,13 +21,13 @@ class rex_article_revision
 
     $cols = rex_sql::factory();
     $cols->setquery("SHOW COLUMNS FROM ".rex::getTablePrefix()."article_slice");
-    foreach($gc as $slice)
+    foreach ($gc as $slice)
     {
       $ins = rex_sql::factory();
       // $ins->debugsql = 1;
       $ins->setTable(rex::getTablePrefix()."article_slice");
 
-      foreach($cols as $col)
+      foreach ($cols as $col)
       {
         $colname = $col->getValue("Field");
         $ins->setValue($colname, $slice->getValue($colname));

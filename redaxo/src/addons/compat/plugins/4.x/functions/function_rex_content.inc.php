@@ -28,10 +28,12 @@ function rex_moveSliceDown($slice_id, $clang)
 function rex_moveSlice($slice_id, $clang, $direction)
 {
   $success = false;
-  try {
+  try
+  {
     $message = rex_content_service::moveSlice($slice_id, $clang, $direction);
     $success = true;
-  } catch (rex_api_exception $e)
+  }
+  catch (rex_api_exception $e)
   {
     $message = $e->getMessage();
   }

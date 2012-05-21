@@ -30,7 +30,7 @@ if ($add_action != "")
   $action->setValue('module_id', $modul_id);
   $action->setValue('action_id', $action_id);
 
-  if($action->insert())
+  if ($action->insert())
   {
     $info = rex_i18n::msg('action_taken');
     $goon = '1';
@@ -46,7 +46,7 @@ elseif ($function_action == 'delete')
   $action->setTable(rex::getTablePrefix().'module_action');
   $action->setWhere(array('id' => $iaction_id));
 
-  if($action->delete())
+  if ($action->delete())
   {
      $info = rex_i18n::msg('action_deleted_from_modul') ;
   }
@@ -79,20 +79,21 @@ if ($function == 'delete')
       $OOArt = rex_ooArticle::getArticleById($aid, $clang_id);
 
       $label = $OOArt->getName() .' ['. $aid .']';
-      if(rex_clang::count() > 1)
+      if (rex_clang::count() > 1)
         $label = '('. rex_i18n::translate(rex_clang::getName($clang_id)) .') '. $label;
 
       $module_in_use_message .= '<li><a href="index.php?page=content&amp;article_id='. $aid .'&clang='. $clang_id .'&ctype='. $ctype .'">'. htmlspecialchars($label) .'</a></li>';
       $del->next();
     }
 
-    if($module_in_use_message != '')
+    if ($module_in_use_message != '')
     {
       $warning_block = '<ul>' . $module_in_use_message . '</ul>';
     }
 
     $warning = rex_i18n::msg("module_cannot_be_deleted",$modulname);
-  } else
+  }
+  else
   {
     $del->setQuery("DELETE FROM ".rex::getTablePrefix()."module WHERE id='$modul_id'");
     $del->setQuery("DELETE FROM ".rex::getTablePrefix()."module_action WHERE module_id='$modul_id'");
@@ -107,7 +108,8 @@ if ($function == 'add' or $function == 'edit')
   {
     $modultyp = rex_sql::factory();
 
-    try {
+    try
+    {
       if ($function == 'add')
       {
         $IMOD = rex_sql::factory();
@@ -120,7 +122,9 @@ if ($function == 'add' or $function == 'edit')
         $IMOD->insert();
         $info = rex_i18n::msg('module_added');
 
-      } else {
+      }
+      else
+      {
         $modultyp->setQuery('select * from '.rex::getTablePrefix().'module where id='.$modul_id);
         if ($modultyp->getRows()==1)
         {
@@ -156,7 +160,9 @@ if ($function == 'add' or $function == 'edit')
           }
         }
       }
-    } catch (rex_sql_exception $e) {
+    }
+    catch (rex_sql_exception $e)
+    {
       $warning = $e->getMessage();
     }
 
@@ -164,7 +170,8 @@ if ($function == 'add' or $function == 'edit')
     if ($goon != '')
     {
       $save = '0';
-    } else
+    }
+    else
     {
       $function = '';
     }
@@ -307,7 +314,7 @@ if ($function == 'add' or $function == 'edit')
           $gma->next();
         }
 
-        if($actions !='')
+        if ($actions !='')
         {
           $actions = '
             <table id="rex-table-module-action" class="rex-table" summary="'.rex_i18n::msg('actions_added_summary').'">

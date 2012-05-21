@@ -33,7 +33,7 @@ abstract class rex_input
    */
   public function setAttribute($name, $value)
   {
-    if($name == 'value')
+    if ($name == 'value')
     {
       $this->value = $value;
     }
@@ -48,11 +48,11 @@ abstract class rex_input
    */
   public function getAttribute($name, $default = null)
   {
-    if($name == 'value')
+    if ($name == 'value')
     {
       return $this->getValue();
     }
-    elseif(isset($this->attributes[$name]))
+    elseif (isset($this->attributes[$name]))
     {
       return $this->attributes[$name];
     }
@@ -73,7 +73,7 @@ abstract class rex_input
    */
   public function addAttributes($attributes)
   {
-    foreach($attributes as $name => $value)
+    foreach ($attributes as $name => $value)
     {
       $this->setAttribute($name, $value);
     }
@@ -87,7 +87,7 @@ abstract class rex_input
   {
     $this->attributes = array();
 
-    foreach($attributes as $name => $value)
+    foreach ($attributes as $name => $value)
     {
       $this->setAttribute($name, $value);
     }
@@ -107,7 +107,7 @@ abstract class rex_input
   public function getAttributeString()
   {
     $attr = '';
-    foreach($this->attributes as $attributeName => $attributeValue)
+    foreach ($this->attributes as $attributeName => $attributeValue)
     {
       $attr .= ' '. $attributeName .'="'. $attributeValue .'"';
     }
@@ -126,7 +126,7 @@ abstract class rex_input
   static public function factory($inputType)
   {
 
-    switch($inputType)
+    switch ($inputType)
     {
       case 'text':
       case 'textarea':

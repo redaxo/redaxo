@@ -41,11 +41,13 @@
  * @since     File available since Release 1.3.0
  */
 
-function file_iterator_autoload($class = NULL) {
+function file_iterator_autoload($class = NULL)
+{
     static $classes = NULL;
     static $path = NULL;
 
-    if ($classes === NULL) {
+    if ($classes === NULL)
+    {
         $classes = array(
           'file_iterator' => '/Iterator.php',
           'file_iterator_facade' => '/Iterator/Facade.php',
@@ -55,10 +57,12 @@ function file_iterator_autoload($class = NULL) {
         $path = dirname(dirname(__FILE__));
     }
 
-    if ($class === NULL) {
+    if ($class === NULL)
+    {
         $result = array(__FILE__);
 
-        foreach ($classes as $file) {
+        foreach ($classes as $file)
+        {
             $result[] = $path . $file;
         }
 
@@ -67,7 +71,8 @@ function file_iterator_autoload($class = NULL) {
 
     $cn = strtolower($class);
 
-    if (isset($classes[$cn])) {
+    if (isset($classes[$cn]))
+    {
         require $path . $classes[$cn];
     }
 }

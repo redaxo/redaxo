@@ -71,7 +71,8 @@ class PHPUnit_Extensions_GroupTestSuite extends PHPUnit_Framework_TestSuite
         $groupSuites = array();
         $name        = $suite->getName();
 
-        foreach ($groups as $group) {
+        foreach ($groups as $group)
+        {
             $groupSuites[$group] = new PHPUnit_Framework_TestSuite($name . ' - ' . $group);
             $this->addTest($groupSuites[$group]);
         }
@@ -81,15 +82,20 @@ class PHPUnit_Extensions_GroupTestSuite extends PHPUnit_Framework_TestSuite
           RecursiveIteratorIterator::LEAVES_ONLY
         );
 
-        foreach ($tests as $test) {
-            if ($test instanceof PHPUnit_Framework_TestCase) {
+        foreach ($tests as $test)
+        {
+            if ($test instanceof PHPUnit_Framework_TestCase)
+            {
                 $testGroups = PHPUnit_Util_Test::getGroups(
                   get_class($test), $test->getName(FALSE)
                 );
 
-                foreach ($groups as $group) {
-                    foreach ($testGroups as $testGroup) {
-                        if ($group == $testGroup) {
+                foreach ($groups as $group)
+                {
+                    foreach ($testGroups as $testGroup)
+                    {
+                        if ($group == $testGroup)
+                        {
                             $groupSuites[$group]->addTest($test);
                         }
                     }
