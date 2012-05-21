@@ -79,7 +79,11 @@ class rex_coding_standards_fixer
   public function __construct($content)
   {
     $this->content = $content;
+
     $this->fix();
+
+    $this->fixable = array_unique($this->fixable);
+    $this->nonFixable = array_unique($this->nonFixable);
   }
 
   public function hasChanged()
@@ -168,6 +172,183 @@ class rex_coding_standards_fixer
   }
 }
 
+class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
+{
+  protected
+    $tokens,
+    $index,
+    $previous,
+    $indentation = '';
+
+  protected function fix()
+  {
+    parent::fix();
+
+    $this->content = preg_replace('/<\?(?=\s)/', '<?php', $this->content, -1, $count);
+    if ($count)
+    {
+      $this->addFixable('replace php short open tags "<?" by "<?php"');
+    }
+
+    $this->content = preg_replace("/\n* *\?>$/", '', $this->content, -1, $count);
+    if ($count)
+    {
+      $this->addFixable('remove php closing tag "?>" at end of file');
+    }
+
+    $this->tokens = token_get_all($this->content);
+    $this->content = '';
+    $count = count($this->tokens);
+    for ($this->index = 0; $this->index < $count; $this->index++)
+    {
+      $this->fixToken(new rex_php_token($this->tokens[$this->index]));
+    }
+    $this->content = preg_replace('/ +$/m', '', $this->content);
+  }
+
+  protected function addToken(rex_php_token $token)
+  {
+    $this->previous = $token;
+    $this->content .= $token->text;
+  }
+
+  protected function previousToken()
+  {
+    return $this->previous;
+  }
+
+  protected function nextToken()
+  {
+    $this->index++;
+    if (isset($this->tokens[$this->index]))
+    {
+      return new rex_php_token($this->tokens[$this->index]);
+    }
+    return null;
+  }
+
+  protected function decrementTokenIndex()
+  {
+    $this->index--;
+  }
+
+  protected function fixToken(rex_php_token $token)
+  {
+    switch ($token->type)
+    {
+      case T_IF:
+      case T_FOR:
+      case T_FOREACH:
+      case T_WHILE:
+      case T_SWITCH:
+      case T_CASE:
+        $this->addToken($token);
+        $this->checkSpaceAfterControlKeyword();
+        break;
+
+      case T_ELSE:
+        $next = $this->nextToken();
+        if ($next->type === T_WHITESPACE)
+        {
+          $nextNext = $this->nextToken();
+          if ($nextNext->type === T_IF)
+          {
+            $this->addFixable('replace "else if" by "elseif"');
+            $this->fixToken(new rex_php_token(T_ELSEIF, 'elseif'));
+            break;
+          }
+          $this->decrementTokenIndex();
+        }
+        $this->decrementTokenIndex();
+        $this->checkNewlineBefore();
+        $this->addToken($token);
+        break;
+
+      case T_ELSEIF:
+      case T_CATCH:
+        $this->checkNewlineBefore();
+        $this->addToken($token);
+        $this->checkSpaceAfterControlKeyword();
+        break;
+
+      case T_WHITESPACE:
+        if (($pos = strrpos($token->text, "\n")) !== false || substr($this->previousToken()->text, -1) === "\n")
+        {
+          $pos = $pos === false ? 0 : ($pos + 1);
+          $this->indentation = substr($token->text, $pos);
+        }
+        $this->addToken($token);
+        break;
+
+      case rex_php_token::SIMPLE:
+        if ($token->text === '{')
+        {
+          $previous = $this->previousToken();
+          if ($previous->type !== T_WHITESPACE || strpos($previous->text, "\n") === false)
+          {
+            $this->addToken(new rex_php_token(T_WHITESPACE, "\n" . $this->indentation));
+            $this->addFixable('add newline before "{"');
+          }
+        }
+        $this->addToken($token);
+        break;
+
+      default:
+        $this->addToken($token);
+    }
+  }
+
+  private function checkSpaceAfterControlKeyword()
+  {
+    $next = $this->nextToken();
+    if ($next->type !== T_WHITESPACE)
+    {
+      $this->addToken(new rex_php_token(T_WHITESPACE, ' '));
+      $this->addFixable('add space after control keyword ("if", "for" etc.)');
+    }
+    $this->decrementTokenIndex();
+  }
+
+  private function checkNewlineBefore()
+  {
+    $previous = $this->previousToken();
+    if ($previous->type !== T_WHITESPACE || strpos($previous->text, "\n") === false)
+    {
+      $this->addToken(new rex_php_token(T_WHITESPACE, "\n" . $this->indentation));
+      $this->addFixable('add newline before "else", "elseif" and "catch"');
+    }
+  }
+}
+
+class rex_php_token
+{
+  const
+    SIMPLE = -1;
+
+  public
+    $type,
+    $text;
+
+  public function __construct($token, $text = null)
+  {
+    if ($text)
+    {
+      $this->type = $token;
+      $this->text = $text;
+    }
+    elseif (is_string($token))
+    {
+      $this->type = self::SIMPLE;
+      $this->text = $token;
+    }
+    else
+    {
+      $this->type = $token[0];
+      $this->text = $token[1];
+    }
+  }
+}
+
 $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
 $textExtensions = array('php', 'js', 'yml', 'tpl', 'css', 'textile', 'sql', 'txt');
 $countFiles = 0;
@@ -182,7 +363,14 @@ foreach ($iterator as $path => $file)
   }
 
   $countFiles++;
-  $fixer = new rex_coding_standards_fixer(file_get_contents($path));
+  if($file->getExtension() == 'php')
+  {
+    $fixer = new rex_coding_standards_fixer_php(file_get_contents($path));
+  }
+  else
+  {
+    $fixer = new rex_coding_standards_fixer(file_get_contents($path));
+  }
   if ($fixer->hasChanged())
   {
     echo $iterator->getInnerIterator()->getSubPathName(), ':', PHP_EOL;
