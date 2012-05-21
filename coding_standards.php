@@ -26,7 +26,16 @@ $fix = $mode == 'fix';
 $dir = __DIR__;
 if (isset($argv[2]))
 {
-  if ($argv[2] == 'package')
+  if ($argv[2] == 'core')
+  {
+    $dir .= '/redaxo/src/core';
+    if (!is_dir($dir))
+    {
+      echo 'ERROR: Core directory does not exist!', PHP_EOL, PHP_EOL;
+      exit(1);
+    }
+  }
+  elseif ($argv[2] == 'package')
   {
     if (!isset($argv[3]))
     {
