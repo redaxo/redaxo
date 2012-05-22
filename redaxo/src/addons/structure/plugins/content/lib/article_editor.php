@@ -23,7 +23,7 @@ class rex_article_editor extends rex_article
   {
     global $REX;
 
-    if ($this->mode != 'edit')
+    if($this->mode != 'edit')
     {
       // ----- wenn mode nicht edit
       $slice_content = parent::outputSlice(
@@ -42,7 +42,7 @@ class rex_article_editor extends rex_article
       $moduleName   = htmlspecialchars($artDataSql->getValue(rex::getTablePrefix().'module.name'));
 
       // ----- add select box einbauen
-      if ($this->function=="add" && $this->slice_id == $sliceId)
+      if($this->function=="add" && $this->slice_id == $sliceId)
       {
         $slice_content = $this->addSlice($sliceId, $moduleIdToAdd);
       }
@@ -54,16 +54,15 @@ class rex_article_editor extends rex_article
 
       // ----- Display message at current slice
       //if(rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
-
       {
-        if ($this->function != 'add' && $this->slice_id == $sliceId)
+        if($this->function != 'add' && $this->slice_id == $sliceId)
         {
           $msg = '';
-          if ($this->warning != '')
+          if($this->warning != '')
           {
             $msg .= rex_view::warning($this->warning);
           }
-          if ($this->info != '')
+          if($this->info != '')
           {
             $msg .= rex_view::success($this->info);
           }
@@ -73,7 +72,7 @@ class rex_article_editor extends rex_article
 
       // ----- Slicemenue
       $containerClass = '';
-      if ($this->function=="edit" && $this->slice_id == $sliceId)
+      if($this->function=="edit" && $this->slice_id == $sliceId)
       {
         $containerClass = ' rex-slice-edit';
       }
@@ -85,9 +84,9 @@ class rex_article_editor extends rex_article
           </header>';
 
       // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
-      if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
+      if(rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
       {
-        if ($this->function=="edit" && $this->slice_id == $sliceId)
+        if($this->function=="edit" && $this->slice_id == $sliceId)
         {
           // **************** Aktueller Slice
 
@@ -95,7 +94,7 @@ class rex_article_editor extends rex_article
 
           // nach klick auf den übernehmen button,
           // die POST werte übernehmen
-          if (rex_request_method() == 'post' && rex_var::isEditEvent())
+          if(rex_request_method() == 'post' && rex_var::isEditEvent())
           {
             foreach (rex_var::getVars() as $obj)
             {
@@ -104,7 +103,6 @@ class rex_article_editor extends rex_article
           }
           // Sonst die Werte aus der DB holen
           // (1. Aufruf via Editieren Link)
-
           else
           {
             foreach (rex_var::getVars() as $obj)
@@ -118,7 +116,7 @@ class rex_article_editor extends rex_article
           // ----- / PRE VIEW ACTION
 
           // ****************** Action Werte in SQL-Objekt uebernehmen
-          foreach (rex_var::getVars() as $obj)
+          foreach(rex_var::getVars() as $obj)
           {
             $obj->setACValues($artDataSql, $REX_ACTION);
           }
@@ -291,20 +289,20 @@ class rex_article_editor extends rex_article
   protected function preArticle($articleContent, $module_id)
   {
     // ---------- moduleselect: nur module nehmen auf die der user rechte hat
-    if ($this->mode=='edit')
+    if($this->mode=='edit')
     {
       $MODULE = rex_sql::factory();
       $modules = $MODULE->getArray('select * from '.rex::getTablePrefix().'module order by name');
 
       $template_ctypes = isset($this->template_attributes['ctype']) ? $this->template_attributes['ctype'] : array();
       // wenn keine ctyes definiert sind, gibt es immer den CTYPE=1
-      if (count($template_ctypes) == 0)
+      if(count($template_ctypes) == 0)
       {
         $template_ctypes = array(1 => 'default');
       }
 
       $this->MODULESELECT = array();
-      foreach ($template_ctypes as $ct_id => $ct_name)
+      foreach($template_ctypes as $ct_id => $ct_name)
       {
         $this->MODULESELECT[$ct_id] = new rex_select;
         $this->MODULESELECT[$ct_id]->setName('module_id');
@@ -312,11 +310,11 @@ class rex_article_editor extends rex_article
         $this->MODULESELECT[$ct_id]->setStyle('class="rex-form-select"');
         $this->MODULESELECT[$ct_id]->setAttribute('onchange', 'this.form.submit();');
         $this->MODULESELECT[$ct_id]->addOption('----------------------------  '.rex_i18n::msg('add_block'),'');
-        foreach ($modules as $m)
+        foreach($modules as $m)
         {
           if (rex::getUser()->getComplexPerm('modules')->hasPerm($m['id']))
           {
-            if (rex_template::hasModule($this->template_attributes,$ct_id,$m['id']))
+            if(rex_template::hasModule($this->template_attributes,$ct_id,$m['id']))
             {
               $this->MODULESELECT[$ct_id]->addOption(rex_i18n::translate($m['name'],FALSE),$m['id']);
             }
@@ -340,11 +338,10 @@ class rex_article_editor extends rex_article
     // ----- add module im edit mode
     if ($this->mode == "edit")
     {
-      if ($this->function=="add" && $this->slice_id == $LCTSL_ID)
+      if($this->function=="add" && $this->slice_id == $LCTSL_ID)
       {
         $slice_content = $this->addSlice($LCTSL_ID,$moduleIdToAdd);
-      }
-      else
+      }else
       {
         // ----- BLOCKAUSWAHL - SELECT
         $slice_content = $this->getModuleSelect($LCTSL_ID);
@@ -365,8 +362,7 @@ class rex_article_editor extends rex_article
     if ($MOD->getRows() != 1)
     {
       $slice_content = rex_view::warning(rex_i18n::msg('module_doesnt_exist'));
-    }
-    else
+    }else
     {
       $initDataSql = rex_sql::factory();
 
@@ -381,7 +377,7 @@ class rex_article_editor extends rex_article
       // ----- / PRE VIEW ACTION
 
       // ****************** Action Werte in Sql-Objekt uebernehmen
-      foreach (rex_var::getVars() as $obj)
+      foreach(rex_var::getVars() as $obj)
       {
         $obj->setACValues($initDataSql, $REX_ACTION);
       }
@@ -391,11 +387,11 @@ class rex_article_editor extends rex_article
       $moduleInput = $this->getStreamOutput('module/'. $moduleIdToAdd .'/input', $moduleInput);
 
       $msg = '';
-      if ($this->warning != '')
+      if($this->warning != '')
       {
         $msg .= rex_view::warning($this->warning);
       }
-      if ($this->info != '')
+      if($this->info != '')
       {
         $msg .= rex_view::success($this->info);
       }

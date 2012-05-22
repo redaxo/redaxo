@@ -14,19 +14,19 @@
  */
 function rex_metainfo_add_field_type($label, $dbtype, $dblength)
 {
-  if (!is_string($label) || empty($label))
+  if(!is_string($label) || empty($label))
     return rex_i18n::msg('minfo_field_error_invalid_name');
 
-  if (!is_string($dbtype) || empty($dbtype))
+  if(!is_string($dbtype) || empty($dbtype))
     return rex_i18n::msg('minfo_field_error_invalid_type');
 
-  if (!is_int($dblength) || empty($dblength))
+  if(!is_int($dblength) || empty($dblength))
     return rex_i18n::msg('minfo_field_error_invalid_length');
 
   $qry = 'SELECT * FROM '. rex::getTablePrefix(). 'metainfo_type WHERE label=:label LIMIT 1';
   $sql = rex_sql::factory();
   $sql->setQuery($qry, array(':label' => $label));
-  if ($sql->getRows() != 0)
+  if($sql->getRows() != 0)
     return rex_i18n::msg('minfo_field_error_unique_type');
 
   $sql->setTable(rex::getTablePrefix(). 'metainfo_type');
@@ -45,7 +45,7 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
  */
 function rex_metainfo_delete_field_type($field_type_id)
 {
-  if (!is_int($field_type_id) || empty($field_type_id))
+  if(!is_int($field_type_id) || empty($field_type_id))
     return rex_i18n::msg('minfo_field_error_invalid_typeid');
 
   $sql = rex_sql::factory();
@@ -65,7 +65,7 @@ function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $defa
   $metaTable = rex_metainfo_meta_table($prefix);
 
   // Prefix korrekt?
-  if (!$metaTable)
+  if(!$metaTable)
     return rex_i18n::msg('minfo_field_error_invalid_prefix');
 
   // TypeId korrekt?
@@ -73,7 +73,7 @@ function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $defa
   $sql = rex_sql::factory();
   $typeInfos = $sql->getArray($qry);
 
-  if ($sql->getRows() != 1)
+  if($sql->getRows() != 1)
     return rex_i18n::msg('minfo_field_error_invalid_type');
 
   $fieldDbType = $typeInfos[0]['dbtype'];
@@ -81,14 +81,14 @@ function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $defa
 
   // Spalte existiert schon?
   $sql->setQuery('SELECT * FROM '. $metaTable . ' LIMIT 1');
-  if (in_array($name, $sql->getFieldnames()))
+  if(in_array($name, $sql->getFieldnames()))
     return rex_i18n::msg('minfo_field_error_unique_name');
 
   // Spalte extiert laut metainfo_params?
   $qry = 'SELECT * FROM '. rex::getTablePrefix(). 'metainfo_params WHERE name=:name LIMIT 1';
   $sql = rex_sql::factory();
   $sql->setQuery($qry, array(':name' => $name));
-  if ($sql->getRows() != 0)
+  if($sql->getRows() != 0)
     return rex_i18n::msg('minfo_field_error_unique_name');
 
   $sql->setTable(rex::getTablePrefix(). 'metainfo_params');
@@ -118,14 +118,13 @@ function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $defa
 function rex_metainfo_delete_field($fieldIdOrName)
 {
   // Löschen anhand der FieldId
-  if (is_int($fieldIdOrName))
+  if(is_int($fieldIdOrName))
   {
     $fieldQry = 'SELECT * FROM '. rex::getTablePrefix(). 'metainfo_params WHERE field_id=:idOrName LIMIT 2';
     $invalidField = rex_i18n::msg('minfo_field_error_invalid_fieldid');
   }
   // Löschen anhand des Feldnames
-
-  elseif (is_string($fieldIdOrName))
+  else if(is_string($fieldIdOrName))
   {
     $fieldQry = 'SELECT * FROM '. rex::getTablePrefix(). 'metainfo_params WHERE name=:idOrName LIMIT 2';
     $invalidField = rex_i18n::msg('minfo_field_error_invalid_name');
@@ -138,7 +137,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
   $sql = rex_sql::factory();
   $sql->setQuery($fieldQry, array(':idOrName' => $fieldIdOrName));
 
-  if ($sql->getRows() != 1)
+  if($sql->getRows() != 1)
     return $invalidField;
 
   $name = $sql->getValue('name');
@@ -149,7 +148,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
 
   // Spalte existiert?
   $sql->setQuery('SELECT * FROM '. $metaTable . ' LIMIT 1');
-  if (!in_array($name, $sql->getFieldnames()))
+  if(!in_array($name, $sql->getFieldnames()))
     return rex_i18n::msg('minfo_field_error_invalid_name');
 
   $sql->setTable(rex::getTablePrefix(). 'metainfo_params');
@@ -166,9 +165,9 @@ function rex_metainfo_delete_field($fieldIdOrName)
  */
 function rex_metainfo_meta_prefix($name)
 {
-  if (!is_string($name)) return false;
+  if(!is_string($name)) return false;
 
-  if (($pos = strpos($name, '_')) !== false)
+  if(($pos = strpos($name, '_')) !== false)
     return substr(strtolower($name), 0, $pos+1);
 
   return false;
@@ -181,7 +180,7 @@ function rex_metainfo_meta_table($prefix)
 {
   $metaTables = rex_addon::get('metainfo')->getProperty('metaTables', array());
 
-  if (isset($metaTables[$prefix]))
+  if(isset($metaTables[$prefix]))
     return $metaTables[$prefix];
 
   return false;
@@ -199,10 +198,9 @@ function rex_metainfo_extensions_handler($params)
   $mypage = 'metainfo';
 
   // additional javascripts
-  if ($page == 'metainfo' || ($page == 'content' && $mode == 'meta'))
+  if($page == 'metainfo' || ($page == 'content' && $mode == 'meta'))
   {
-    rex_extension::register('PAGE_HEADER', function($params) use ($mypage)
-    {
+    rex_extension::register('PAGE_HEADER', function($params) use ($mypage) {
       return $params['subject'] ."\n".'  <script src="'. rex_path::addonAssets($mypage, 'metainfo.js') .'" type="text/javascript"></script>';
     });
   }

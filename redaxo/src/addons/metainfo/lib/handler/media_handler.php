@@ -17,7 +17,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     $sql->setQuery('SELECT `name`, `type` FROM `'. rex::getTablePrefix() .'metainfo_params` WHERE `type` IN(6,7)');
 
     $rows = $sql->getRows();
-    if ($rows == 0)
+    if($rows == 0)
       return $warning;
 
     $where = array(
@@ -25,7 +25,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
       'media' => array()
     );
     $filename = addslashes($params['filename']);
-    for ($i = 0; $i < $rows; $i++)
+    for($i = 0; $i < $rows; $i++)
     {
       $name = $sql->getValue('name');
       if (rex_metainfo_meta_prefix($name) == self::PREFIX)
@@ -56,7 +56,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
       $sql->setQuery('SELECT id, clang, re_id, name, catname, startpage FROM '. rex::getTablePrefix() .'article WHERE '. implode(' OR ', $where['articles']));
       if ($sql->getRows() > 0)
       {
-        foreach ($sql->getArray() as $art_arr)
+        foreach($sql->getArray() as $art_arr)
         {
           $aid = $art_arr['id'];
           $clang = $art_arr['clang'];
@@ -87,7 +87,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
       $sql->setQuery('SELECT media_id, filename, category_id FROM '. rex::getTablePrefix() .'media WHERE '. implode(' OR ', $where['media']));
       if ($sql->getRows() > 0)
       {
-        foreach ($sql->getArray() as $med_arr)
+        foreach($sql->getArray() as $med_arr)
         {
           $id = $med_arr['media_id'];
           $filename = $med_arr['filename'];
@@ -109,22 +109,22 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     $restrictionsCondition = '';
 
     $catId = rex_session('media[rex_file_category]', 'int');
-    if (isset($params['activeItem']))
+    if(isset($params['activeItem']))
     {
       $catId = $params['activeItem']->getValue('category_id');
     }
 
-    if ($catId !== '')
+    if($catId !== '')
     {
       $s = '';
-      if ($catId != 0)
+      if($catId != 0)
       {
         $OOCat = rex_ooMediaCategory::getCategoryById($catId);
 
         // Alle Metafelder des Pfades sind erlaubt
-        foreach ($OOCat->getPathAsArray() as $pathElement)
+        foreach($OOCat->getPathAsArray() as $pathElement)
         {
-          if ($pathElement != '')
+          if($pathElement != '')
           {
             $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
           }
@@ -142,7 +142,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
 
   protected function handleSave(array $params, rex_sql $sqlFields)
   {
-    if (rex_request_method() != 'post' || !isset($params['media_id'])) return $params;
+    if(rex_request_method() != 'post' || !isset($params['media_id'])) return $params;
 
     $media = rex_sql::factory();
   //  $media->debugsql = true;
@@ -152,7 +152,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     parent::fetchRequestValues($params, $media, $sqlFields);
 
     // do the save only when metafields are defined
-    if ($media->hasValues())
+    if($media->hasValues())
       $media->update();
 
     return $params;
@@ -162,21 +162,21 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
   {
     $s = '';
 
-    if ($typeLabel != 'legend')
+    if($typeLabel != 'legend')
       $s .= '<div class="rex-form-row">';
 
-    if ($tag != '')
+    if($tag != '')
       $s .= '<'. $tag . $tag_attr  .'>'. "\n";
 
-    if ($labelIt)
+    if($labelIt)
       $s .= '<label for="'. $id .'">'. $label .'</label>'. "\n";
 
     $s .= $field. "\n";
 
-    if ($tag != '')
+    if($tag != '')
       $s .='</'.$tag.'>'. "\n";
 
-    if ($typeLabel != 'legend')
+    if($typeLabel != 'legend')
       $s .= '</div>';
 
     return $s;
@@ -185,19 +185,19 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
   public function extendForm(array $params)
   {
     // Nur beim EDIT gibts auch ein Medium zum bearbeiten
-    if ($params['extension_point'] == 'MEDIA_FORM_EDIT')
+    if($params['extension_point'] == 'MEDIA_FORM_EDIT')
     {
       $params['activeItem'] = $params['media'];
       unset($params['media']);
       // Hier die category_id setzen, damit keine Warnung entsteht (REX_LINK_BUTTON)
       // $params['activeItem']->setValue('category_id', 0);
     }
-    elseif ($params['extension_point'] == 'MEDIA_ADDED')
+    else if($params['extension_point'] == 'MEDIA_ADDED')
     {
       $sql = rex_sql::factory();
       $qry = 'SELECT media_id FROM '. rex::getTablePrefix() .'media WHERE filename="'. $params['filename'] .'"';
       $sql->setQuery($qry);
-      if ($sql->getRows() == 1)
+      if($sql->getRows() == 1)
       {
         $params['media_id'] = $sql->getValue('media_id');
       }

@@ -86,8 +86,7 @@ class PHPUnit_Framework_Comparator_Resource extends PHPUnit_Framework_Comparator
      */
     public function assertEquals($expected, $actual, $delta = 0, $canonicalize = FALSE, $ignoreCase = FALSE)
     {
-        if ($actual != $expected)
-        {
+        if ($actual != $expected) {
             throw new PHPUnit_Framework_ComparisonFailure(
               $expected,
               $actual,

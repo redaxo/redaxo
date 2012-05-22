@@ -73,8 +73,7 @@ class rexTinyMCEEditor
     {
       $splitURL = explode('files/', dirname($_SERVER['REQUEST_URI']));
       $this->address = 'http';
-      if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') // evtl. HTTPS-Verbindung
-
+      if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') // evtl. HTTPS-Verbindung
       {
         $this->address .= 's';
       }
@@ -84,7 +83,6 @@ class rexTinyMCEEditor
     // evtl. Standard-Buttons vorbelegen
     $plugins = $this->default_plugins;
     if ($REX['ADDON'][$rxa_tinymce['name']]['inlinepopups'] == 'on') // Inline-Popups ausgew�hlt
-
     {
       $plugins .= ',inlinepopups';
     }

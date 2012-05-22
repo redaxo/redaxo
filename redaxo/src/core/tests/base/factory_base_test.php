@@ -15,7 +15,7 @@ class testFactory extends rex_factory_base
 
   static public function staticCall()
   {
-    if (static::hasFactoryClass())
+    if(static::hasFactoryClass())
     {
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }

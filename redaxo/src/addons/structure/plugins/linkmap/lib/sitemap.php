@@ -1,18 +1,16 @@
 <?php
 
-class rex_sitemap_categoryTree extends rex_linkmap_treeRenderer
-{
+class rex_sitemap_categoryTree extends rex_linkmap_treeRenderer {
   private $context;
 
-  public function __construct(rex_context $context)
-  {
+  public function __construct(rex_context $context) {
     $this->context = $context;
   }
 
   public function getTree($category_id)
   {
     // if not, let the structure as is, by providing a remembered id
-    if ($category_id <= 0)
+    if($category_id <= 0)
     {
       $category_id = rex_request::session('tree_category_id', 'int');
     }
@@ -23,14 +21,13 @@ class rex_sitemap_categoryTree extends rex_linkmap_treeRenderer
     return parent::getTree($category_id);
   }
 
-  protected function treeItem(rex_ooCategory $cat, $liClasses, $linkClasses, $subHtml)
-  {
+  protected function treeItem(rex_ooCategory $cat, $liClasses, $linkClasses, $subHtml) {
     $linkClasses .= '';
 
-    if ($liClasses != '')
+    if($liClasses != '')
       $liClasses = ' class="'. rtrim($liClasses) .'"';
 
-    if ($linkClasses != '')
+    if($linkClasses != '')
       $linkClasses = ' class="'. rtrim($linkClasses) .'"';
 
     $label = self::formatLabel($cat);

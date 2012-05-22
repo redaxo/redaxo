@@ -115,13 +115,11 @@ class PHP_CodeCoverage
      */
     public function __construct(PHP_CodeCoverage_Driver $driver = NULL, PHP_CodeCoverage_Filter $filter = NULL)
     {
-        if ($driver === NULL)
-        {
+        if ($driver === NULL) {
             $driver = new PHP_CodeCoverage_Driver_Xdebug;
         }
 
-        if ($filter === NULL)
-        {
+        if ($filter === NULL) {
             $filter = new PHP_CodeCoverage_Filter;
         }
 
@@ -171,15 +169,13 @@ class PHP_CodeCoverage
      */
     public function getData()
     {
-        if ($this->processUncoveredFilesFromWhitelist)
-        {
+        if ($this->processUncoveredFilesFromWhitelist) {
             $this->processUncoveredFilesFromWhitelist();
         }
 
         // We need to apply the blacklist filter a second time
         // when no whitelist is used.
-        if (!$this->filter->hasWhitelist())
-        {
+        if (!$this->filter->hasWhitelist()) {
             $this->applyListsFilter($this->data);
         }
 
@@ -206,13 +202,11 @@ class PHP_CodeCoverage
      */
     public function start($id, $clear = FALSE)
     {
-        if (!is_bool($clear))
-        {
+        if (!is_bool($clear)) {
             throw new InvalidArgumentException;
         }
 
-        if ($clear)
-        {
+        if ($clear) {
             $this->clear();
         }
 
@@ -230,8 +224,7 @@ class PHP_CodeCoverage
      */
     public function stop($append = TRUE)
     {
-        if (!is_bool($append))
-        {
+        if (!is_bool($append)) {
             throw new InvalidArgumentException;
         }
 
@@ -252,60 +245,49 @@ class PHP_CodeCoverage
      */
     public function append(array $data, $id = NULL, $append = TRUE)
     {
-        if ($id === NULL)
-        {
+        if ($id === NULL) {
             $id = $this->currentId;
         }
 
-        if ($id === NULL)
-        {
+        if ($id === NULL) {
             throw new InvalidArgumentException;
         }
 
         $this->applyListsFilter($data);
         $this->initializeFilesThatAreSeenTheFirstTime($data);
 
-        if (!$append)
-        {
+        if (!$append) {
             return;
         }
 
-        if ($id != 'UNCOVERED_FILES_FROM_WHITELIST')
-        {
+        if ($id != 'UNCOVERED_FILES_FROM_WHITELIST') {
             $this->applyCoversAnnotationFilter($data, $id);
         }
 
-        if (empty($data))
-        {
+        if (empty($data)) {
             return;
         }
 
         $status = NULL;
 
-        if ($id instanceof PHPUnit_Framework_TestCase)
-        {
+        if ($id instanceof PHPUnit_Framework_TestCase) {
             $status = $id->getStatus();
             $id     = get_class($id) . '::' . $id->getName();
         }
 
-        elseif ($id instanceof PHPUnit_Extensions_PhptTestCase)
-        {
+        else if ($id instanceof PHPUnit_Extensions_PhptTestCase) {
             $id = $id->getName();
         }
 
         $this->tests[$id] = $status;
 
-        foreach ($data as $file => $lines)
-        {
-            if (!$this->filter->isFile($file))
-            {
+        foreach ($data as $file => $lines) {
+            if (!$this->filter->isFile($file)) {
                 continue;
             }
 
-            foreach ($lines as $k => $v)
-            {
-                if ($v == 1)
-                {
+            foreach ($lines as $k => $v) {
+                if ($v == 1) {
                     $this->data[$file][$k][] = $id;
                 }
             }
@@ -319,28 +301,20 @@ class PHP_CodeCoverage
      */
     public function merge(PHP_CodeCoverage $that)
     {
-        foreach ($that->data as $file => $lines)
-        {
-            if (!isset($this->data[$file]))
-            {
-                if (!$this->filter->isFiltered($file))
-                {
+        foreach ($that->data as $file => $lines) {
+            if (!isset($this->data[$file])) {
+                if (!$this->filter->isFiltered($file)) {
                     $this->data[$file] = $lines;
                 }
 
                 continue;
             }
 
-            foreach ($lines as $line => $data)
-            {
-                if ($data !== NULL)
-                {
-                    if (!isset($this->data[$file][$line]))
-                    {
+            foreach ($lines as $line => $data) {
+                if ($data !== NULL) {
+                    if (!isset($this->data[$file][$line])) {
                         $this->data[$file][$line] = $data;
-                    }
-                    else
-                    {
+                    } else {
                         $this->data[$file][$line] = array_unique(
                           array_merge($this->data[$file][$line], $data)
                         );
@@ -359,8 +333,7 @@ class PHP_CodeCoverage
      */
     public function setCacheTokens($flag)
     {
-        if (!is_bool($flag))
-        {
+        if (!is_bool($flag)) {
             throw new InvalidArgumentException;
         }
 
@@ -383,8 +356,7 @@ class PHP_CodeCoverage
      */
     public function setForceCoversAnnotation($flag)
     {
-        if (!is_bool($flag))
-        {
+        if (!is_bool($flag)) {
             throw new InvalidArgumentException;
         }
 
@@ -397,8 +369,7 @@ class PHP_CodeCoverage
      */
     public function setMapTestClassNameToCoveredClassName($flag)
     {
-        if (!is_bool($flag))
-        {
+        if (!is_bool($flag)) {
             throw new InvalidArgumentException;
         }
 
@@ -411,8 +382,7 @@ class PHP_CodeCoverage
      */
     public function setProcessUncoveredFilesFromWhitelist($flag)
     {
-        if (!is_bool($flag))
-        {
+        if (!is_bool($flag)) {
             throw new InvalidArgumentException;
         }
 
@@ -427,20 +397,17 @@ class PHP_CodeCoverage
      */
     protected function applyCoversAnnotationFilter(&$data, $id)
     {
-        if ($id instanceof PHPUnit_Framework_TestCase)
-        {
+        if ($id instanceof PHPUnit_Framework_TestCase) {
             $testClassName    = get_class($id);
             $linesToBeCovered = PHP_CodeCoverage_Util::getLinesToBeCovered(
               $testClassName, $id->getName()
             );
 
             if ($this->mapTestClassNameToCoveredClassName &&
-                empty($linesToBeCovered))
-                {
+                empty($linesToBeCovered)) {
                 $testedClass = substr($testClassName, 0, -4);
 
-                if (class_exists($testedClass))
-                {
+                if (class_exists($testedClass)) {
                     $class = new ReflectionClass($testedClass);
 
                     $linesToBeCovered = array(
@@ -450,26 +417,21 @@ class PHP_CodeCoverage
                     );
                 }
             }
-        }
-        else
-        {
+        } else {
             $linesToBeCovered = array();
         }
 
-        if (!empty($linesToBeCovered))
-        {
+        if (!empty($linesToBeCovered)) {
             $data = array_intersect_key($data, $linesToBeCovered);
 
-            foreach (array_keys($data) as $filename)
-            {
+            foreach (array_keys($data) as $filename) {
                 $data[$filename] = array_intersect_key(
                   $data[$filename], array_flip($linesToBeCovered[$filename])
                 );
             }
         }
 
-        elseif ($this->forceCoversAnnotation)
-        {
+        else if ($this->forceCoversAnnotation) {
             $data = array();
         }
     }
@@ -481,10 +443,8 @@ class PHP_CodeCoverage
      */
     protected function applyListsFilter(&$data)
     {
-        foreach (array_keys($data) as $filename)
-        {
-            if ($this->filter->isFiltered($filename))
-            {
+        foreach (array_keys($data) as $filename) {
+            if ($this->filter->isFiltered($filename)) {
                 unset($data[$filename]);
             }
         }
@@ -495,14 +455,11 @@ class PHP_CodeCoverage
      */
     protected function initializeFilesThatAreSeenTheFirstTime($data)
     {
-        foreach ($data as $file => $lines)
-        {
-            if ($this->filter->isFile($file) && !isset($this->data[$file]))
-            {
+        foreach ($data as $file => $lines) {
+            if ($this->filter->isFile($file) && !isset($this->data[$file])) {
                 $this->data[$file] = array();
 
-                foreach ($lines as $k => $v)
-                {
+                foreach ($lines as $k => $v) {
                     $this->data[$file][$k] = $v == -2 ? NULL : array();
                 }
             }
@@ -519,14 +476,10 @@ class PHP_CodeCoverage
           $this->filter->getWhitelist(), array_keys($this->data)
         );
 
-        foreach ($uncoveredFiles as $uncoveredFile)
-        {
-            if ($this->cacheTokens)
-            {
+        foreach ($uncoveredFiles as $uncoveredFile) {
+            if ($this->cacheTokens) {
                 $tokens = PHP_Token_Stream_CachingFactory::get($uncoveredFile);
-            }
-            else
-            {
+            } else {
                 $tokens = new PHP_Token_Stream($uncoveredFile);
             }
 
@@ -535,30 +488,24 @@ class PHP_CodeCoverage
             $functions  = $tokens->getFunctions();
             unset($tokens);
 
-            foreach (array_keys($classes) as $class)
-            {
-                if (class_exists($class, FALSE))
-                {
+            foreach (array_keys($classes) as $class) {
+                if (class_exists($class, FALSE)) {
                     continue 2;
                 }
             }
 
             unset($classes);
 
-            foreach (array_keys($interfaces) as $interface)
-            {
-                if (interface_exists($interface, FALSE))
-                {
+            foreach (array_keys($interfaces) as $interface) {
+                if (interface_exists($interface, FALSE)) {
                     continue 2;
                 }
             }
 
             unset($interfaces);
 
-            foreach (array_keys($functions) as $function)
-            {
-                if (function_exists($function))
-                {
+            foreach (array_keys($functions) as $function) {
+                if (function_exists($function)) {
                     continue 2;
                 }
             }
@@ -569,15 +516,11 @@ class PHP_CodeCoverage
             include_once $uncoveredFile;
             $coverage = $this->driver->stop();
 
-            foreach ($coverage as $file => $fileCoverage)
-            {
+            foreach ($coverage as $file => $fileCoverage) {
                 if (!isset($data[$file]) &&
-                    in_array($file, $uncoveredFiles))
-                    {
-                    foreach (array_keys($fileCoverage) as $key)
-                    {
-                        if ($fileCoverage[$key] == 1)
-                        {
+                    in_array($file, $uncoveredFiles)) {
+                    foreach (array_keys($fileCoverage) as $key) {
+                        if ($fileCoverage[$key] == 1) {
                             $fileCoverage[$key] = -1;
                         }
                     }

@@ -220,7 +220,6 @@ class rex_path
       if ($dir == '..')
         array_pop($stack);
       // Normaler Ordner
-
       else
         array_push($stack, $dir);
     }

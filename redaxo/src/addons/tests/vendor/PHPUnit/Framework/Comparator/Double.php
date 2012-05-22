@@ -93,8 +93,7 @@ class PHPUnit_Framework_Comparator_Double extends PHPUnit_Framework_Comparator_N
      */
     public function assertEquals($expected, $actual, $delta = 0, $canonicalize = FALSE, $ignoreCase = FALSE)
     {
-        if ($delta == 0)
-        {
+        if ($delta == 0) {
             $delta = self::EPSILON;
         }
 

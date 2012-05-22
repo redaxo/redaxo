@@ -57,7 +57,7 @@
     <input type="hidden" name="subpage" value="css" />
     <input type="hidden" name="func" value="update" />
 <?php
-  if (is_readable($filename))
+  if(is_readable($filename))
   {
     $csstext = htmlspecialchars(file_get_contents($filename));
   }

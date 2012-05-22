@@ -96,22 +96,18 @@ class PHPUnit_Framework_Comparator_Scalar extends PHPUnit_Framework_Comparator
 
         // always compare as strings to avoid strange behaviour
         // otherwise 0 == 'Foobar'
-        if (is_string($expected) || is_string($actual))
-        {
+        if (is_string($expected) || is_string($actual)) {
             $expectedToCompare = (string)$expectedToCompare;
             $actualToCompare = (string)$actualToCompare;
 
-            if ($ignoreCase)
-            {
+            if ($ignoreCase) {
                 $expectedToCompare = strtolower($expectedToCompare);
                 $actualToCompare = strtolower($actualToCompare);
             }
         }
 
-        if ($expectedToCompare != $actualToCompare)
-        {
-            if (is_string($expected) && is_string($actual))
-            {
+        if ($expectedToCompare != $actualToCompare) {
+            if (is_string($expected) && is_string($actual)) {
                 throw new PHPUnit_Framework_ComparisonFailure(
                   $expected,
                   $actual,

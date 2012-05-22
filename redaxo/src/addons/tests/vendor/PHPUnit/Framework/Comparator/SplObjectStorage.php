@@ -86,10 +86,8 @@ class PHPUnit_Framework_Comparator_SplObjectStorage extends PHPUnit_Framework_Co
      */
     public function assertEquals($expected, $actual, $delta = 0, $canonicalize = FALSE, $ignoreCase = FALSE)
     {
-        foreach ($actual as $object)
-        {
-            if (!$expected->contains($object))
-            {
+        foreach ($actual as $object) {
+            if (!$expected->contains($object)) {
                 throw new PHPUnit_Framework_ComparisonFailure(
                   $expected,
                   $actual,
@@ -101,10 +99,8 @@ class PHPUnit_Framework_Comparator_SplObjectStorage extends PHPUnit_Framework_Co
             }
         }
 
-        foreach ($expected as $object)
-        {
-            if (!$actual->contains($object))
-            {
+        foreach ($expected as $object) {
+            if (!$actual->contains($object)) {
                 throw new PHPUnit_Framework_ComparisonFailure(
                   $expected,
                   $actual,

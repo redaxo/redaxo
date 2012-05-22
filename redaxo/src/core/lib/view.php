@@ -4,22 +4,22 @@ class rex_view
 {
   static public function info($message, $cssClass = null, $sorround_tag = null)
   {
-    if (!$cssClass) $cssClass = 'rex-info';
-    if (!$sorround_tag) $sorround_tag = 'div';
+    if(!$cssClass) $cssClass = 'rex-info';
+    if(!$sorround_tag) $sorround_tag = 'div';
     return self::message($message, $cssClass, $sorround_tag);
   }
 
   static public function success($message, $cssClass = null, $sorround_tag = null)
   {
-    if (!$cssClass) $cssClass = 'rex-success';
-    if (!$sorround_tag) $sorround_tag = 'div';
+    if(!$cssClass) $cssClass = 'rex-success';
+    if(!$sorround_tag) $sorround_tag = 'div';
     return self::message($message, $cssClass, $sorround_tag);
   }
 
   static public function warning($message, $cssClass = null, $sorround_tag = null)
   {
-    if (!$cssClass) $cssClass = 'rex-warning';
-    if (!$sorround_tag) $sorround_tag = 'div';
+    if(!$cssClass) $cssClass = 'rex-warning';
+    if(!$sorround_tag) $sorround_tag = 'div';
     return self::message($message, $cssClass, $sorround_tag);
   }
 
@@ -50,15 +50,15 @@ class rex_view
 
   static public function infoBlock($message, $cssClass = null, $sorround_tag = null)
   {
-    if (!$cssClass) $cssClass = 'rex-info-block';
-    if (!$sorround_tag) $sorround_tag = 'div';
+    if(!$cssClass) $cssClass = 'rex-info-block';
+    if(!$sorround_tag) $sorround_tag = 'div';
     return self::messageBlock($message, $cssClass, $sorround_tag);
   }
 
   static public function warningBlock($message, $cssClass = null, $sorround_tag = null)
   {
-    if (!$cssClass) $cssClass = 'rex-warning-block';
-    if (!$sorround_tag) $sorround_tag = 'div';
+    if(!$cssClass) $cssClass = 'rex-warning-block';
+    if(!$sorround_tag) $sorround_tag = 'div';
     return self::messageBlock($message, $cssClass, $sorround_tag);
   }
 
@@ -103,7 +103,7 @@ class rex_view
     }
 
     $return .= '<section class="rex-content'.$class.'">';
-    if ($content_2 != '')
+    if($content_2 != '')
     {
       $return .= '
         <div class="rex-grid2col">
@@ -111,8 +111,7 @@ class rex_view
           <div class="rex-column rex-last">'. $content_2 .'</div>
         </div>';
 
-    }
-    else
+    }else
     {
       $return .= $content_1;
     }
@@ -169,17 +168,17 @@ class rex_view
   {
     global $article_id, $category_id, $page;
 
-    if (empty($subtitle))
+    if(empty($subtitle))
     {
       $pages = rex::getProperty('pages');
       $subtitle = $pages[rex::getProperty('page')]->getPage()->getSubPages();
     }
 
-    if (is_array($subtitle) && isset($subtitle[0]) && $subtitle[0] instanceof rex_be_page_container)
+    if(is_array($subtitle) && isset($subtitle[0]) && $subtitle[0] instanceof rex_be_page_container)
     {
       $nav = rex_be_navigation::factory();
       $nav->setHeadline('default', rex_i18n::msg('subnavigation', $head));
-      foreach ($subtitle as $pageObj)
+      foreach($subtitle as $pageObj)
       {
         $nav->addPage($pageObj);
       }
@@ -191,8 +190,7 @@ class rex_view
       $fragment->setVar('blocks', $blocks, false);
       $subtitle = $fragment->parse('navigation.tpl');
 
-    }
-    else
+    }else
     {
       // REDAXO <= 4.2 compat
       $subtitle = self::getSubtitle($subtitle);
@@ -257,7 +255,6 @@ class rex_view
               exit ('You have no permission to this area!');
             }
             // Den Punkt aus der Navi entfernen
-
             else
             {
               continue;
@@ -276,11 +273,11 @@ class rex_view
         // restliche attribute direkt in den link-tag schreiben
         $attr = '';
         $add_class = '';
-        if (!empty($subpage[4]) && is_array($subpage[4]))
+        if(!empty($subpage[4]) && is_array($subpage[4]))
         {
-          foreach ($subpage[4] as $attr_name => $attr_value)
+          foreach($subpage[4] as $attr_name => $attr_value)
           {
-            if ($active && $attr_name == 'class')
+            if($active && $attr_name == 'class')
             {
               $add_class = ' '.$attr_value;
               break;
@@ -310,13 +307,13 @@ class rex_view
       }
 
 
-      if (!empty($subtitle))
+      if(!empty($subtitle))
       {
         $items = '';
         $i = 1;
-        foreach ($subtitle as $part)
+        foreach($subtitle as $part)
         {
-          if ($i == 1)
+          if($i == 1)
           $items .= '<li class="rex-navi-first">'. $part .'</li>';
           else
           $items .= '<li>'. $part .'</li>';

@@ -47,13 +47,13 @@ abstract class rex_package implements rex_package_interface
    */
   static public function get($packageId)
   {
-    if (!is_string($packageId))
+    if(!is_string($packageId))
     {
       throw new rex_exception('Expecting $packageId to be string, but '. gettype($packageId) .' given!');
     }
     $package = explode('/', $packageId);
     $addon = rex_addon::get($package[0]);
-    if (isset($package[1]))
+    if(isset($package[1]))
     {
       return $addon->getPlugin($package[1]);
     }
@@ -70,7 +70,7 @@ abstract class rex_package implements rex_package_interface
   static public function exists($packageId)
   {
     $package = explode('/', $packageId);
-    if (isset($package[1]))
+    if(isset($package[1]))
     {
       return rex_plugin::exists($package[0], $package[1]);
     }
@@ -122,7 +122,7 @@ abstract class rex_package implements rex_package_interface
    */
   public function setProperty($key, $value)
   {
-    if (!is_string($key))
+    if(!is_string($key))
     {
       throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
     }
@@ -134,7 +134,7 @@ abstract class rex_package implements rex_package_interface
    */
   public function getProperty($key, $default = null)
   {
-    if ($this->hasProperty($key))
+    if($this->hasProperty($key))
     {
       return $this->properties[$key];
     }
@@ -146,11 +146,11 @@ abstract class rex_package implements rex_package_interface
    */
   public function hasProperty($key)
   {
-    if (!is_string($key))
+    if(!is_string($key))
     {
       throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
     }
-    if (!isset($this->properties[$key]) && !$this->propertiesLoaded)
+    if(!isset($this->properties[$key]) && !$this->propertiesLoaded)
     {
       $this->loadProperties();
     }
@@ -162,7 +162,7 @@ abstract class rex_package implements rex_package_interface
    */
   public function removeProperty($key)
   {
-    if (!is_string($key))
+    if(!is_string($key))
     {
       throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
     }
@@ -231,9 +231,9 @@ abstract class rex_package implements rex_package_interface
   private function loadProperties()
   {
     $properties = rex_file::getConfig($this->getBasePath('package.yml'));
-    foreach ($properties as $key => $value)
+    foreach($properties as $key => $value)
     {
-      if (!isset($this->properties[$key]))
+      if(!isset($this->properties[$key]))
         $this->properties[$key] = rex_i18n::translateArray($value, true, array($this, 'i18n'));
     }
     $this->propertiesLoaded = true;

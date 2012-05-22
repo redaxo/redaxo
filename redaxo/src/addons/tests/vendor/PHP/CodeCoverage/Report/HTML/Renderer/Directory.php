@@ -64,8 +64,7 @@ class PHP_CodeCoverage_Report_HTML_Renderer_Directory extends PHP_CodeCoverage_R
      */
     public function render(PHP_CodeCoverage_Report_Node_Directory $node, $file, $title = NULL)
     {
-        if ($title === NULL)
-        {
+        if ($title === NULL) {
             $title = $node->getName();
         }
 
@@ -75,13 +74,11 @@ class PHP_CodeCoverage_Report_HTML_Renderer_Directory extends PHP_CodeCoverage_R
 
         $items = $this->renderItem($node, TRUE);
 
-        foreach ($node->getDirectories() as $item)
-        {
+        foreach ($node->getDirectories() as $item) {
             $items .= $this->renderItem($item);
         }
 
-        foreach ($node->getFiles() as $item)
-        {
+        foreach ($node->getFiles() as $item) {
             $items .= $this->renderItem($item);
         }
 
@@ -117,26 +114,20 @@ class PHP_CodeCoverage_Report_HTML_Renderer_Directory extends PHP_CodeCoverage_R
           'testedClassesPercentAsString' => $item->getTestedClassesPercent()
         );
 
-        if ($total)
-        {
+        if ($total) {
             $data['itemClass'] = 'coverDirectory';
             $data['name']      = 'Total';
-        }
-        else
-        {
+        } else {
             $data['name'] = sprintf(
               '<a href="%s.html">%s</a>',
               $item->getId(),
               $item->getName()
             );
 
-            if ($item instanceof PHP_CodeCoverage_Report_Node_Directory)
-            {
+            if ($item instanceof PHP_CodeCoverage_Report_Node_Directory) {
                 $data['icon']      = '<img alt="directory" src="directory.png"/> ';
                 $data['itemClass'] = 'coverDirectory';
-            }
-            else
-            {
+            } else {
                 $data['icon']      = '<img alt="file" src="file.png"/> ';
                 $data['itemClass'] = 'coverFile';
             }

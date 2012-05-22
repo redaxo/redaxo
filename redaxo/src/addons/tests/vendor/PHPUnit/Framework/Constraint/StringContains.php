@@ -94,12 +94,9 @@ class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Cons
      */
     protected function matches($other)
     {
-        if ($this->ignoreCase)
-        {
+        if ($this->ignoreCase) {
             return stripos($other, $this->string) !== FALSE;
-        }
-        else
-        {
+        } else {
             return strpos($other, $this->string) !== FALSE;
         }
     }
@@ -111,12 +108,9 @@ class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Cons
      */
     public function toString()
     {
-        if ($this->ignoreCase)
-        {
+        if ($this->ignoreCase) {
             $string = strtolower($this->string);
-        }
-        else
-        {
+        } else {
             $string = $this->string;
         }
 

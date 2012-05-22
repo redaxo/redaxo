@@ -8,7 +8,7 @@
  * @package redaxo5
  */
 
-if ($this->hasConfig('jpg_quality'))
+if($this->hasConfig('jpg_quality'))
 {
   $this->setConfig('jpg_quality', 85);
 }

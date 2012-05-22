@@ -19,5 +19,4 @@ class rex_sql_exception extends rex_exception
 /**
  * Exception class for user-friendly error messages
  */
-class rex_functional_exception extends rex_exception
-{}
+class rex_functional_exception extends rex_exception {}

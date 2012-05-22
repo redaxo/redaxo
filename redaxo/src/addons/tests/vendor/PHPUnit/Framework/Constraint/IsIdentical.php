@@ -104,28 +104,23 @@ class PHPUnit_Framework_Constraint_IsIdentical extends PHPUnit_Framework_Constra
     public function evaluate($other, $description = '', $returnResult = FALSE)
     {
         if (is_double($this->value) && is_double($other) &&
-            !is_infinite($this->value) && !is_infinite($other))
-            {
+            !is_infinite($this->value) && !is_infinite($other)) {
             $success = abs($this->value - $other) < self::EPSILON;
         }
 
-        else
-        {
+        else {
             $success = $this->value === $other;
         }
 
-        if ($returnResult)
-        {
+        if ($returnResult) {
             return $success;
         }
 
-        if (!$success)
-        {
+        if (!$success) {
             $f = NULL;
 
             // if both values are strings, make sure a diff is generated
-            if (is_string($this->value) && is_string($other))
-            {
+            if (is_string($this->value) && is_string($other)) {
                 $f = new PHPUnit_Framework_ComparisonFailure(
                   $this->value,
                   $other,
@@ -149,13 +144,11 @@ class PHPUnit_Framework_Constraint_IsIdentical extends PHPUnit_Framework_Constra
      */
     protected function failureDescription($other)
     {
-        if (is_object($this->value) && is_object($other))
-        {
+        if (is_object($this->value) && is_object($other)) {
             return 'two variables reference the same object';
         }
 
-        if (is_string($this->value) && is_string($other))
-        {
+        if (is_string($this->value) && is_string($other)) {
             return 'two strings are identical';
         }
 
@@ -169,13 +162,10 @@ class PHPUnit_Framework_Constraint_IsIdentical extends PHPUnit_Framework_Constra
      */
     public function toString()
     {
-        if (is_object($this->value))
-        {
+        if (is_object($this->value)) {
             return 'is identical to an object of class "' .
                    get_class($this->value) . '"';
-        }
-        else
-        {
+        } else {
             return 'is identical to ' .
                    PHPUnit_Util_Type::export($this->value);
         }

@@ -38,8 +38,7 @@
   // Include der angeforderten Seite
   $subpage = rex_request('subpage', 'string');
 
-  switch ($subpage)
-  {
+  switch($subpage) {
     case 'settings':
       include (dirname( __FILE__).'/settings.inc.php');
     break;

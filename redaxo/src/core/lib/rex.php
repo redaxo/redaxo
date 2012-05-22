@@ -60,7 +60,7 @@ class rex
    */
   static public function setProperty($key, $value)
   {
-    if (!is_string($key))
+    if(!is_string($key))
     {
       throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
     }
@@ -81,11 +81,11 @@ class rex
    */
   static public function getProperty($key, $default = null)
   {
-    if (!is_string($key))
+    if(!is_string($key))
     {
       throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
     }
-    if (isset(self::$properties[$key]))
+    if(isset(self::$properties[$key]))
     {
       return self::$properties[$key];
     }
@@ -117,7 +117,7 @@ class rex
    */
   static public function removeProperty($key)
   {
-    if (!is_string($key))
+    if(!is_string($key))
     {
       throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
     }
@@ -220,7 +220,7 @@ class rex
     if (self::getProperty('use_accesskeys'))
     {
       $accesskeys = (array) self::getProperty('accesskeys', array());
-      if (isset($accesskeys[$key]))
+      if(isset($accesskeys[$key]))
         return ' accesskey="'. $accesskeys[$key] .'" title="'. $title .' ['. $accesskeys[$key] .']"';
     }
 

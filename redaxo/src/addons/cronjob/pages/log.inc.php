@@ -25,9 +25,9 @@ $month_sel->setAttribute('onchange', 'this.form.submit();');
 $month_sel->setStyle('width: 100px');
 
 $log = rex_request('log', 'array', array());
-if (!isset($log['year']) || !$log['year'])
+if(!isset($log['year']) || !$log['year'])
   $log['year'] = date('Y');
-if (!isset($log['month']) || !$log['month'])
+if(!isset($log['month']) || !$log['month'])
   $log['month'] = date('m');
 
 $array = rex_cronjob_log::getYearMonthArray();
@@ -45,7 +45,7 @@ else
   $countYears = count($array);
   $i = 0;
   $yearSelected = false;
-  foreach ($array as $year => $months)
+  foreach($array as $year => $months)
   {
     $i++;
     $year_sel->addOption($year, $year);
@@ -57,7 +57,7 @@ else
       $countMonths = count($months);
       $j = 0;
       $monthSelected = false;
-      foreach ($months as $month)
+      foreach($months as $month)
       {
         $j++;
         $month_sel->addOption(strftime('%B',mktime(0,0,0,$month,2)), $month);

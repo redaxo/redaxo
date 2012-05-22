@@ -91,7 +91,7 @@ class rex_file_cache extends rex_cache
    */
   public function remove($key)
   {
-    if (file_exists($this->getFilePath($key)))
+    if(file_exists($this->getFilePath($key)))
       return unlink($this->getFilePath($key));
     return true;
   }
@@ -128,7 +128,7 @@ class rex_file_cache extends rex_cache
       }
       else
       {
-        if (file_exists($path))
+        if(file_exists($path))
           unlink($path);
       }
     }

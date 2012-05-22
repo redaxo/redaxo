@@ -114,26 +114,21 @@ class PHPUnit_Util_Type
      */
     protected static function recursiveExport($value, $indentation, &$processedObjects = array())
     {
-        if ($value === NULL)
-        {
+        if ($value === NULL) {
             return 'null';
         }
 
-        if ($value === TRUE)
-        {
+        if ($value === TRUE) {
             return 'true';
         }
 
-        if ($value === FALSE)
-        {
+        if ($value === FALSE) {
             return 'false';
         }
 
-        if (is_string($value))
-        {
+        if (is_string($value)) {
             // Match for most non printable chars somewhat taking multibyte chars into account
-            if (preg_match('/[^\x09-\x0d\x20-\xff]/', $value))
-            {
+            if (preg_match('/[^\x09-\x0d\x20-\xff]/', $value)) {
                 return 'Binary String: 0x' . bin2hex($value);
             }
 
@@ -144,10 +139,8 @@ class PHPUnit_Util_Type
 
         $origValue = $value;
 
-        if (is_object($value))
-        {
-            if (in_array($value, $processedObjects, TRUE))
-            {
+        if (is_object($value)) {
+            if (in_array($value, $processedObjects, TRUE)) {
                 return sprintf(
                   '%s Object (*RECURSION*)',
 
@@ -161,8 +154,7 @@ class PHPUnit_Util_Type
             $value = self::toArray($value);
         }
 
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             $whitespace = str_repeat('    ', $indentation);
 
             // There seems to be no other way to check arrays for recursion
@@ -173,33 +165,27 @@ class PHPUnit_Util_Type
             // Convert to valid array keys
             // Numeric integer strings are automatically converted to integers
             // by PHP
-            foreach ($recursiveKeys as $key => $recursiveKey)
-            {
-                if ((string)(integer)$recursiveKey === $recursiveKey)
-                {
+            foreach ($recursiveKeys as $key => $recursiveKey) {
+                if ((string)(integer)$recursiveKey === $recursiveKey) {
                     $recursiveKeys[$key] = (integer)$recursiveKey;
                 }
             }
 
             $content = '';
 
-            foreach ($value as $key => $val)
-            {
-                if (in_array($key, $recursiveKeys, TRUE))
-                {
+            foreach ($value as $key => $val) {
+                if (in_array($key, $recursiveKeys, TRUE)) {
                     $val = 'Array (*RECURSION*)';
                 }
 
-                else
-                {
+                else {
                     $val = self::recursiveExport($val, $indentation+1, $processedObjects);
                 }
 
                 $content .=  $whitespace . '    ' . self::export($key) . ' => ' . $val . "\n";
             }
 
-            if (strlen($content) > 0)
-            {
+            if (strlen($content) > 0) {
                 $content = "\n" . $content . $whitespace;
             }
 
@@ -211,8 +197,7 @@ class PHPUnit_Util_Type
             );
         }
 
-        if (is_double($value) && (double)(integer)$value === $value)
-        {
+        if (is_double($value) && (double)(integer)$value === $value) {
             return $value . '.0';
         }
 
@@ -236,20 +221,17 @@ class PHPUnit_Util_Type
      */
     public static function shortenedExport($value)
     {
-        if (is_string($value))
-        {
+        if (is_string($value)) {
             return self::shortenedString($value);
         }
 
         $origValue = $value;
 
-        if (is_object($value))
-        {
+        if (is_object($value)) {
             $value = self::toArray($value);
         }
 
-        if (is_array($value))
-        {
+        if (is_array($value)) {
             return sprintf(
               "%s (%s)",
 
@@ -272,8 +254,7 @@ class PHPUnit_Util_Type
     {
         $string = self::export($string);
 
-        if (strlen($string) > $maxLength)
-        {
+        if (strlen($string) > $maxLength) {
             $string = substr($string, 0, $maxLength - 10) . '...' . substr($string, -7);
         }
 
@@ -292,16 +273,14 @@ class PHPUnit_Util_Type
     {
         $array = array();
 
-        foreach ((array)$object as $key => $value)
-        {
+        foreach ((array)$object as $key => $value) {
             // properties are transformed to keys in the following way:
 
             // private   $property => "\0Classname\0property"
             // protected $property => "\0*\0property"
             // public    $property => "property"
 
-            if (preg_match('/^\0.+\0(.+)$/', $key, $matches))
-            {
+            if (preg_match('/^\0.+\0(.+)$/', $key, $matches)) {
                 $key = $matches[1];
             }
 
@@ -311,10 +290,8 @@ class PHPUnit_Util_Type
         // Some internal classes like SplObjectStorage don't work with the
         // above (fast) mechanism nor with reflection
         // Format the output similarly to print_r() in this case
-        if ($object instanceof SplObjectStorage)
-        {
-            foreach ($object as $key => $value)
-            {
+        if ($object instanceof SplObjectStorage) {
+            foreach ($object as $key => $value) {
                 $array[spl_object_hash($value)] = array(
                     'obj' => $value,
                     'inf' => $object->getInfo(),

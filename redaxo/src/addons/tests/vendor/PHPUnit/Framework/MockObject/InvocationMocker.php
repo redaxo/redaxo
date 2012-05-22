@@ -82,15 +82,12 @@ class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework
      */
     public function hasMatchers()
     {
-        if (empty($this->matchers))
-        {
+        if (empty($this->matchers)) {
             return FALSE;
         }
 
-        foreach ($this->matchers as $matcher)
-        {
-            if (!$matcher instanceof PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount)
-            {
+        foreach ($this->matchers as $matcher) {
+            if (!$matcher instanceof PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount) {
                 return TRUE;
             }
         }
@@ -104,8 +101,7 @@ class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework
      */
     public function lookupId($id)
     {
-        if (isset($this->builderMap[$id]))
-        {
+        if (isset($this->builderMap[$id])) {
             return $this->builderMap[$id];
         }
 
@@ -119,8 +115,7 @@ class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework
      */
     public function registerId($id, PHPUnit_Framework_MockObject_Builder_Match $builder)
     {
-        if (isset($this->builderMap[$id]))
-        {
+        if (isset($this->builderMap[$id])) {
             throw new PHPUnit_Framework_Exception(
               'Match builder with id <' . $id . '> is already registered.'
             );
@@ -149,39 +144,30 @@ class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework
         $exception      = NULL;
         $hasReturnValue = FALSE;
 
-        if (strtolower($invocation->methodName) == '__tostring')
-        {
+        if (strtolower($invocation->methodName) == '__tostring') {
             $returnValue = '';
-        }
-        else
-        {
+        } else {
             $returnValue = NULL;
         }
 
-        foreach ($this->matchers as $match)
-        {
-            try
-            {
-                if ($match->matches($invocation))
-                {
+        foreach ($this->matchers as $match) {
+            try {
+                if ($match->matches($invocation)) {
                     $value = $match->invoked($invocation);
 
-                    if (!$hasReturnValue)
-                    {
+                    if (!$hasReturnValue) {
                         $returnValue    = $value;
                         $hasReturnValue = TRUE;
                     }
                 }
             }
 
-            catch (Exception $e)
-            {
+            catch (Exception $e) {
                 $exception = $e;
             }
         }
 
-        if ($exception !== NULL)
-        {
+        if ($exception !== NULL) {
             throw $exception;
         }
 
@@ -194,10 +180,8 @@ class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework
      */
     public function matches(PHPUnit_Framework_MockObject_Invocation $invocation)
     {
-        foreach ($this->matchers as $matcher)
-        {
-            if (!$matcher->matches($invocation))
-            {
+        foreach($this->matchers as $matcher) {
+            if (!$matcher->matches($invocation)) {
                 return FALSE;
             }
         }
@@ -210,8 +194,7 @@ class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework
      */
     public function verify()
     {
-        foreach ($this->matchers as $matcher)
-        {
+        foreach($this->matchers as $matcher) {
             $matcher->verify();
         }
     }

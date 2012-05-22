@@ -21,7 +21,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
 
   function __construct($id, array $cache_options = array())
   {
-    if (!isset($cache_options['lifetime']))
+    if(!isset($cache_options['lifetime']))
     {
       // default cache lifetime in seconds
       $cache_options['lifetime'] = 60;
@@ -82,7 +82,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
   public function setFormat($format)
   {
     $formats = array('full', 'half');
-    if (!in_array($format, $formats))
+    if(!in_array($format, $formats))
     {
       trigger_error('Unexpected format "'. $format .'"!', E_USER_ERROR);
     }
@@ -112,11 +112,11 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
     $this->prepare();
     $content = $this->content;
 
-    if ($content)
+    if($content)
     {
       $title = htmlspecialchars($this->title);
 
-      if ($this->titleUrl != '')
+      if($this->titleUrl != '')
       {
         $title = '<a href="'. $this->titleUrl .'">'. $title .'</a>';
       }

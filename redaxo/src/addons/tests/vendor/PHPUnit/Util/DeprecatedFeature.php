@@ -88,12 +88,10 @@ class PHPUnit_Util_DeprecatedFeature
     {
         $string = '';
 
-        if (isset($this->traceInfo['file']))
-        {
+        if (isset($this->traceInfo['file'])) {
             $string .= $this->traceInfo['file'];
 
-            if (isset($this->traceInfo['line']))
-            {
+            if (isset($this->traceInfo['line'])) {
                 $string .= ':' . $this->traceInfo['line'] . ' - ';
             }
         }

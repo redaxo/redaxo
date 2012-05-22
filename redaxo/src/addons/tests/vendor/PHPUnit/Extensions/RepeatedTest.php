@@ -96,12 +96,9 @@ class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
         parent::__construct($test);
 
         if (is_integer($timesRepeat) &&
-            $timesRepeat >= 0)
-            {
+            $timesRepeat >= 0) {
             $this->timesRepeat = $timesRepeat;
-        }
-        else
-        {
+        } else {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(
               2, 'positive integer'
             );
@@ -134,17 +131,14 @@ class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
      */
     public function run(PHPUnit_Framework_TestResult $result = NULL)
     {
-        if ($result === NULL)
-        {
+        if ($result === NULL) {
             $result = $this->createResult();
         }
 
         //@codingStandardsIgnoreStart
-        for ($i = 0; $i < $this->timesRepeat && !$result->shouldStop(); $i++)
-        {
+        for ($i = 0; $i < $this->timesRepeat && !$result->shouldStop(); $i++) {
             //@codingStandardsIgnoreEnd
-            if ($this->test instanceof PHPUnit_Framework_TestSuite)
-            {
+            if ($this->test instanceof PHPUnit_Framework_TestSuite) {
                 $this->test->run(
                   $result,
                   $this->filter,
@@ -152,9 +146,7 @@ class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
                   $this->excludeGroups,
                   $this->processIsolation
                 );
-            }
-            else
-            {
+            } else {
                 $this->test->run($result);
             }
         }

@@ -34,7 +34,7 @@ class rex_sortable_iterator implements IteratorAggregate
   {
     $array = iterator_to_array($this->iterator);
     $sort = is_callable($this->sort) ? 'callback' : $this->sort;
-    switch ($sort)
+    switch($sort)
     {
       case self::VALUES:
         asort($array);

@@ -24,8 +24,7 @@ class rex_tar extends tar
   }
 
   // Open a TAR file
-  public function openTAR($filename)
-  {
+  public function openTAR($filename) {
     // call constructor to omit warnings instead of unset vars..
 
     $this->__construct();
@@ -36,7 +35,7 @@ class rex_tar extends tar
     unset($this->directories);
 
     // If the tar file doesn't exist...
-    if (!file_exists($filename))
+    if(!file_exists($filename))
       return false;
 
     $this->filename = $filename;
@@ -48,14 +47,13 @@ class rex_tar extends tar
   }
 
   // Add a file to the tar archive
-  public function addFile($filename)
-  {
+  public function addFile($filename) {
     // Make sure the file we are adding exists!
-    if (!file_exists($filename))
+    if(!file_exists($filename))
       return false;
 
     // Make sure there are no other files in the archive that have this same filename
-    if ($this->containsFile($filename))
+    if($this->containsFile($filename))
       return false;
 
     // Get file information
@@ -87,9 +85,8 @@ class rex_tar extends tar
   }
 
   // Add a directory to this tar archive
-  public function addDirectory($dirname)
-  {
-    if (!file_exists($dirname))
+  public function addDirectory($dirname) {
+    if(!file_exists($dirname))
       return false;
 
     // Get directory information
@@ -111,10 +108,9 @@ class rex_tar extends tar
 
   // Read a non gzipped tar file in for processing
   // PRIVATE ACCESS FUNCTION
-  protected function __readTar($filename='')
-  {
+  protected function __readTar($filename='') {
     // Set the filename to load
-    if (!$filename)
+    if(!$filename)
       $filename = $this->filename;
 
     // Read in the TAR file
@@ -124,9 +120,8 @@ class rex_tar extends tar
     // STM: hier mit get_file_contents ist viel schneller
     $this->tar_file = rex_file::get($filename);
 
-    if ($this->tar_file[0] == chr(31) && $this->tar_file[1] == chr(139) && $this->tar_file[2] == chr(8))
-    {
-      if (!function_exists("gzinflate"))
+    if($this->tar_file[0] == chr(31) && $this->tar_file[1] == chr(139) && $this->tar_file[2] == chr(8)) {
+      if(!function_exists("gzinflate"))
         return false;
 
       $this->isGzipped = TRUE;
@@ -141,23 +136,19 @@ class rex_tar extends tar
   }
 
   // Saves tar archive to a different file than the current file
-  public function toTar($filename,$useGzip)
-  {
+  public function toTar($filename,$useGzip) {
 
     // Encode processed files into TAR file format
     $this->__generateTar();
 
     // GZ Compress the data if we need to
-    if ($useGzip)
-    {
+    if($useGzip) {
       // Make sure we have gzip support
-      if (!function_exists("gzencode"))
+      if(!function_exists("gzencode"))
         return false;
 
       $file = gzencode($this->tar_file);
-    }
-    else
-    {
+    } else {
       $file = $this->tar_file;
     }
 
@@ -167,7 +158,7 @@ class rex_tar extends tar
 //    fclose($fp);
 
     // kein Filename gegeben => Inhalt zurueckgeben
-    if (!$filename)
+    if(!$filename)
       return $file;
 
     // STM: hier mit put_file_contents ist viel schneller
@@ -176,18 +167,15 @@ class rex_tar extends tar
 
   // Generates a TAR file from the processed data
   // PRIVATE ACCESS FUNCTION
-  protected function __generateTAR()
-  {
+  protected function __generateTAR() {
     // Clear any data currently in $this->tar_file
 //    unset($this->tar_file);
     // STM: Warnung gefixed
     $this->tar_file = '';
 
     // Generate Records for each directory, if we have directories
-    if ($this->numDirectories > 0)
-    {
-      foreach ($this->directories as $key => $information)
-      {
+    if($this->numDirectories > 0) {
+      foreach($this->directories as $key => $information) {
 //        unset($header);
         // STM: Warnung gefixed
         $header = '';
@@ -214,8 +202,7 @@ class rex_tar extends tar
 
         // Compute header checksum
         $checksum = str_pad(decoct($this->__computeUnsignedChecksum($header)),6,"0",STR_PAD_LEFT);
-        for ($i=0; $i<6; $i++)
-        {
+        for($i=0; $i<6; $i++) {
           $header[(148 + $i)] = substr($checksum,$i,1);
         }
         $header[154] = chr(0);
@@ -227,10 +214,8 @@ class rex_tar extends tar
     }
 
     // Generate Records for each file, if we have files (We should...)
-    if ($this->numFiles > 0)
-    {
-      foreach ($this->files as $key => $information)
-      {
+    if($this->numFiles > 0) {
+      foreach($this->files as $key => $information) {
 //        unset($header);
         // STM: Warnung gefixed
         $header = '';
@@ -257,8 +242,7 @@ class rex_tar extends tar
 
         // Compute header checksum
         $checksum = str_pad(decoct($this->__computeUnsignedChecksum($header)),6,"0",STR_PAD_LEFT);
-        for ($i=0; $i<6; $i++)
-        {
+        for($i=0; $i<6; $i++) {
           $header[(148 + $i)] = substr($checksum,$i,1);
         }
         $header[154] = chr(0);
@@ -281,7 +265,7 @@ class rex_tar extends tar
   public function extractTar()
   {
     // kills: Warnung verhindern
-    if (is_array($this->files))
+    if(is_array($this->files))
     {
       foreach ($this->files as $item)
       {

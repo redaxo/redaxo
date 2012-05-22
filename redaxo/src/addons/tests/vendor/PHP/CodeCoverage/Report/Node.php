@@ -90,8 +90,7 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
      */
     public function __construct($name, PHP_CodeCoverage_Report_Node $parent = NULL)
     {
-        if (substr($name, -1) == '/')
-        {
+        if (substr($name, -1) == '/') {
             $name = substr($name, 0, -1);
         }
 
@@ -112,24 +111,17 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
      */
     public function getId()
     {
-        if ($this->id === NULL)
-        {
+        if ($this->id === NULL) {
             $parent = $this->getParent();
 
-            if ($parent === NULL)
-            {
+            if ($parent === NULL) {
                 $this->id = 'index';
-            }
-            else
-            {
+            } else {
                 $parentId = $parent->getId();
 
-                if ($parentId == 'index')
-                {
+                if ($parentId == 'index') {
                     $this->id = $this->name;
-                }
-                else
-                {
+                } else {
                     $this->id = $parentId . '_' . $this->name;
                 }
             }
@@ -143,14 +135,10 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
      */
     public function getPath()
     {
-        if ($this->path === NULL)
-        {
-            if ($this->parent === NULL)
-            {
+        if ($this->path === NULL) {
+            if ($this->parent === NULL) {
                 $this->path = $this->name;
-            }
-            else
-            {
+            } else {
                 $this->path = $this->parent->getPath() . '/' . $this->name;
             }
         }
@@ -163,14 +151,10 @@ abstract class PHP_CodeCoverage_Report_Node implements Countable
      */
     public function getPathAsArray()
     {
-        if ($this->pathArray === NULL)
-        {
-            if ($this->parent === NULL)
-            {
+        if ($this->pathArray === NULL) {
+            if ($this->parent === NULL) {
                 $this->pathArray = array();
-            }
-            else
-            {
+            } else {
                 $this->pathArray = $this->parent->getPathAsArray();
             }
 

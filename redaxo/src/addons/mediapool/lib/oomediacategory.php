@@ -97,7 +97,7 @@ class rex_ooMediaCategory
   {
     $id = (int) $id;
 
-    if (!is_int($id))
+    if(!is_int($id))
       return array();
 
     $catlist = array();
@@ -114,7 +114,7 @@ class rex_ooMediaCategory
 
       if (is_array($cache))
       {
-        foreach ($cache as $cat_id)
+        foreach($cache as $cat_id)
           $catlist[] = self :: getCategoryById($cat_id);
       }
     }
@@ -161,9 +161,9 @@ class rex_ooMediaCategory
   public function getPathAsArray()
   {
     $p = explode('|',$this->_path);
-    foreach ($p as $k => $v)
+    foreach($p as $k => $v)
     {
-      if ($v == '')
+      if($v == '')
         unset($p[$k]);
       else
         $p[$k] = (int) $v;
@@ -229,14 +229,14 @@ class rex_ooMediaCategory
   public function getParentTree()
   {
     $tree = array();
-    if ($this->_path)
+    if($this->_path)
     {
       $explode = explode('|', $this->_path);
-      if (is_array($explode))
+      if(is_array($explode))
       {
-        foreach ($explode as $var)
+        foreach($explode as $var)
         {
-          if ($var != '')
+          if($var != '')
           {
             $tree[] = self :: getCategoryById($var);
           }
@@ -253,9 +253,9 @@ class rex_ooMediaCategory
   public function inParentTree($anObj)
   {
     $tree = $this->getParentTree();
-    foreach ($tree as $treeObj)
+    foreach($tree as $treeObj)
     {
-      if ($treeObj == $anObj)
+      if($treeObj == $anObj)
       {
         return true;
       }
@@ -304,9 +304,9 @@ class rex_ooMediaCategory
       {
         $cache = rex_file::getCache($list_path);
 
-        if (is_array($cache))
+        if(is_array($cache))
         {
-          foreach ($cache as $filename)
+          foreach($cache as $filename)
             $this->_files[] = rex_ooMedia :: getMediaByFileName($filename);
         }
       }
@@ -434,7 +434,7 @@ class rex_ooMediaCategory
   public function delete($recurse = false)
   {
     // Rekursiv l�schen?
-    if (!$recurse && $this->hasChildren())
+    if(!$recurse && $this->hasChildren())
     {
       return false;
     }
@@ -444,7 +444,7 @@ class rex_ooMediaCategory
       $childs = $this->getChildren();
       foreach ($childs as $child)
       {
-        if (!$child->delete($recurse)) return false;
+        if(!$child->delete($recurse)) return false;
       }
     }
 
@@ -454,7 +454,7 @@ class rex_ooMediaCategory
       $files = $this->getMedia();
       foreach ($files as $file)
       {
-        if (!$file->delete()) return false;
+        if(!$file->delete()) return false;
       }
     }
 

@@ -69,8 +69,7 @@ class PHPUnit_Framework_MockObject_Stub_ConsecutiveCalls implements PHPUnit_Fram
     {
         $this->value = array_shift($this->stack);
 
-        if ($this->value instanceof PHPUnit_Framework_MockObject_Stub)
-        {
+        if ($this->value instanceof PHPUnit_Framework_MockObject_Stub) {
             $this->value = $this->value->invoke($invocation);
         }
 

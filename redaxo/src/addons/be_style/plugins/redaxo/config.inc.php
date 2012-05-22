@@ -16,7 +16,7 @@
 
 $mypage = 'redaxo';
 
-if (rex::isBackend())
+if(rex::isBackend())
 {
 
   rex_extension::register('PAGE_HEADER', function ($params) use ($mypage)

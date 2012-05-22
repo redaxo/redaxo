@@ -16,7 +16,7 @@ $func = rex_request('func', 'string');
 
 echo rex_view::title($this->i18n('title'));
 
-switch ($subpage)
+switch($subpage)
 {
     case 'example':
         require __DIR__ .'/example.inc.php';

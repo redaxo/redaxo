@@ -24,15 +24,15 @@ class rex_rss_reader_component extends rex_dashboard_component
   protected function prepare()
   {
     $content = '';
-    foreach ($this->config->getFeedUrls() as $feedUrl)
+    foreach($this->config->getFeedUrls() as $feedUrl)
     {
-      if ($feedUrl != '')
+      if($feedUrl != '')
       {
         $content .= rex_a656_rss_teaser($feedUrl);
       }
     }
 
-    if ($content == '')
+    if($content == '')
     {
       $content .= rex_i18n::msg('rss_reader_component_noconfig');
       $content .= ' ';

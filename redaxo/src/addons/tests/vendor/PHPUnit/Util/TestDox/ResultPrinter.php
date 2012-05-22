@@ -146,8 +146,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if ($test instanceof $this->testTypeOfInterest)
-        {
+        if ($test instanceof $this->testTypeOfInterest) {
             $this->testStatus = PHPUnit_Runner_BaseTestRunner::STATUS_ERROR;
             $this->failed++;
         }
@@ -162,8 +161,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        if ($test instanceof $this->testTypeOfInterest)
-        {
+        if ($test instanceof $this->testTypeOfInterest) {
             $this->testStatus = PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE;
             $this->failed++;
         }
@@ -178,8 +176,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if ($test instanceof $this->testTypeOfInterest)
-        {
+        if ($test instanceof $this->testTypeOfInterest) {
             $this->testStatus = PHPUnit_Runner_BaseTestRunner::STATUS_INCOMPLETE;
             $this->incomplete++;
         }
@@ -195,8 +192,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if ($test instanceof $this->testTypeOfInterest)
-        {
+        if ($test instanceof $this->testTypeOfInterest) {
             $this->testStatus = PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED;
             $this->skipped++;
         }
@@ -229,14 +225,11 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        if ($test instanceof $this->testTypeOfInterest)
-        {
+        if ($test instanceof $this->testTypeOfInterest) {
             $class = get_class($test);
 
-            if ($this->testClass != $class)
-            {
-                if ($this->testClass != '')
-                {
+            if ($this->testClass != $class) {
+                if ($this->testClass != '') {
                     $this->doEndClass();
                 }
 
@@ -250,19 +243,16 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
             $prettified = FALSE;
 
             if ($test instanceof PHPUnit_Framework_TestCase &&
-               !$test instanceof PHPUnit_Framework_Warning)
-               {
+               !$test instanceof PHPUnit_Framework_Warning) {
                 $annotations = $test->getAnnotations();
 
-                if (isset($annotations['method']['testdox'][0]))
-                {
+                if (isset($annotations['method']['testdox'][0])) {
                     $this->currentTestMethodPrettified = $annotations['method']['testdox'][0];
                     $prettified                        = TRUE;
                 }
             }
 
-            if (!$prettified)
-            {
+            if (!$prettified) {
                 $this->currentTestMethodPrettified = $this->prettifier->prettifyTestMethod($test->getName(FALSE));
             }
 
@@ -278,29 +268,19 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if ($test instanceof $this->testTypeOfInterest)
-        {
-            if (!isset($this->tests[$this->currentTestMethodPrettified]))
-            {
-                if ($this->testStatus == PHPUnit_Runner_BaseTestRunner::STATUS_PASSED)
-                {
+        if ($test instanceof $this->testTypeOfInterest) {
+            if (!isset($this->tests[$this->currentTestMethodPrettified])) {
+                if ($this->testStatus == PHPUnit_Runner_BaseTestRunner::STATUS_PASSED) {
                     $this->tests[$this->currentTestMethodPrettified]['success'] = 1;
                     $this->tests[$this->currentTestMethodPrettified]['failure'] = 0;
-                }
-                else
-                {
+                } else {
                     $this->tests[$this->currentTestMethodPrettified]['success'] = 0;
                     $this->tests[$this->currentTestMethodPrettified]['failure'] = 1;
                 }
-            }
-            else
-            {
-                if ($this->testStatus == PHPUnit_Runner_BaseTestRunner::STATUS_PASSED)
-                {
+            } else {
+                if ($this->testStatus == PHPUnit_Runner_BaseTestRunner::STATUS_PASSED) {
                     $this->tests[$this->currentTestMethodPrettified]['success']++;
-                }
-                else
-                {
+                } else {
                     $this->tests[$this->currentTestMethodPrettified]['failure']++;
                 }
             }
@@ -315,8 +295,7 @@ abstract class PHPUnit_Util_TestDox_ResultPrinter extends PHPUnit_Util_Printer i
      */
     protected function doEndClass()
     {
-        foreach ($this->tests as $name => $data)
-        {
+        foreach ($this->tests as $name => $data) {
             $this->onTest($name, $data['failure'] == 0);
         }
 

@@ -82,9 +82,9 @@ class rex_ooMedia
     {
       $cache = rex_file::getCache($extlist_path);
 
-      if (is_array($cache))
+      if(is_array($cache))
       {
-        foreach ($cache as $filename)
+        foreach($cache as $filename)
           $media[] = self :: getMediaByFileName($filename);
       }
     }
@@ -120,9 +120,9 @@ class rex_ooMedia
       );
 
       $media = new rex_ooMedia();
-      foreach ($cache as $key => $value)
+      foreach($cache as $key => $value)
       {
-        if (in_array($key, array_keys($aliasMap)))
+        if(in_array($key, array_keys($aliasMap)))
           $var_name = '_'. $aliasMap[$key];
         else
           $var_name = '_'. $key;
@@ -360,7 +360,7 @@ class rex_ooMedia
    */
   public function toImage(array $params = array ())
   {
-    if (!is_array($params))
+    if(!is_array($params))
     {
       $params = array();
     }
@@ -485,17 +485,17 @@ class rex_ooMedia
     $ext = $this->getExtension();
     $icon = $this->getIcon();
 
-    if (!isset($iconAttributes['alt']))
+    if(!isset($iconAttributes['alt']))
     {
       $iconAttributes['alt'] = '&quot;'. $ext .'&quot;-Symbol';
     }
 
-    if (!isset($iconAttributes['title']))
+    if(!isset($iconAttributes['title']))
     {
       $iconAttributes['title'] = $iconAttributes['alt'];
     }
 
-    if (!isset($iconAttributes['style']))
+    if(!isset($iconAttributes['style']))
     {
       $iconAttributes['style'] = 'width: 44px; height: 38px';
     }
@@ -590,10 +590,10 @@ class rex_ooMedia
 
     $warning = array();
     $res = $sql->getArray($query);
-    if ($sql->getRows() > 0)
+    if($sql->getRows() > 0)
     {
       $warning[0] = rex_i18n::msg('pool_file_in_use_articles').'<br /><ul>';
-      foreach ($res as $art_arr)
+      foreach($res as $art_arr)
       {
         $aid = $art_arr['article_id'];
         $clang = $art_arr['clang'];
@@ -680,7 +680,7 @@ class rex_ooMedia
     // Dateityp für den kein Icon vorhanden ist
     if (!file_exists($icon))
     {
-      if ($useDefaultIcon)
+      if($useDefaultIcon)
         $icon = $folder.'mime-default.gif';
       else
         $icon = $folder.'mime-error.gif';
@@ -739,22 +739,21 @@ class rex_ooMedia
    */
   public function delete($filename = null)
   {
-    if ($filename != null)
+    if($filename != null)
     {
       $OOMed = self::getMediaByFileName($filename);
-      if ($OOMed)
+      if($OOMed)
       {
         $OOMed->delete();
         return true;
       }
-    }
-    else
+    }else
     {
       $qry = 'DELETE FROM '.$this->_getTableName().' WHERE media_id = '.$this->getId().' LIMIT 1';
       $sql = rex_sql::factory();
       $sql->setQuery($qry);
 
-      if ($this->fileExists())
+      if($this->fileExists())
       {
         rex_file::delete(rex_path::media($this->getFileName(), rex_path::ABSOLUTE));
       }
@@ -768,7 +767,7 @@ class rex_ooMedia
 
   public function fileExists($filename = null)
   {
-    if ($filename === null)
+    if($filename === null)
     {
       $filename = $this->getFileName();
     }
@@ -871,7 +870,7 @@ class rex_ooMedia
 
     // damit alte rex_article felder wie copyright, description
     // noch funktionieren
-    if ($this->hasValue($value))
+    if($this->hasValue($value))
     {
       return $this->$value;
     }

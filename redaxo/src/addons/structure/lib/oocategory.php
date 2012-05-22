@@ -39,7 +39,7 @@ class rex_ooCategory extends rex_ooRedaxo
   {
     $cat_parent_id = (int) $cat_parent_id;
 
-    if ($cat_parent_id < 0)
+    if($cat_parent_id < 0)
       return array();
 
     if ($clang === FALSE)
@@ -302,29 +302,28 @@ class rex_ooCategory extends rex_ooRedaxo
     $t_sql = rex_sql::factory();
     $t_sql->setQuery('select id,name,attributes from '.rex::getTablePrefix().'template where active='. $ignore_inactive .' order by name');
 
-    if ($category_id < 1)
+    if($category_id < 1)
     {
       // Alle globalen Templates
-      foreach ($t_sql as $row)
+      foreach($t_sql as $row)
       {
         $attributes = $row->getArrayValue('attributes');
         $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
         if (!is_array($categories) || $categories['all'] == 1)
           $templates[$row->getValue('id')] = $row->getValue('name');
       }
-    }
-    else
+    }else
     {
-      if ($c = self::getCategoryById($category_id))
+      if($c = self::getCategoryById($category_id))
       {
         $path = $c->getPathAsArray();
         $path[] = $category_id;
-        foreach ($t_sql as $row)
+        foreach($t_sql as $row)
         {
           $attributes = $row->getArrayValue('attributes');
           $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
           // template ist nicht kategoriespezifisch -> includen
-          if (!is_array($categories) || $categories['all'] == 1)
+          if(!is_array($categories) || $categories['all'] == 1)
           {
             $templates[$row->getValue('id')] = $row->getValue('name');
           }
@@ -332,9 +331,9 @@ class rex_ooCategory extends rex_ooRedaxo
           {
             // template ist auf kategorien beschraenkt..
             // nachschauen ob eine davon im pfad der aktuellen kategorie liegt
-            foreach ($path as $p)
+            foreach($path as $p)
             {
-              if (in_array($p,$categories))
+              if(in_array($p,$categories))
               {
                 $templates[$row->getValue('id')] = $row->getValue('name');
                 break;

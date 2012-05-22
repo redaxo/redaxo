@@ -14,7 +14,7 @@ function rex_a657_get_latest_version()
   $updateUrl = 'http://www.redaxo.org/de/latestversion';
 
   $latestVersion = rex_a657_open_http_socket($updateUrl, $errno, $errstr, 15);
-  if ($latestVersion !== false)
+  if($latestVersion !== false)
   {
     return preg_replace('/[^0-9\.]/', '', $latestVersion);
   }
@@ -25,15 +25,15 @@ function rex_a657_get_latest_version()
 function rex_a657_check_version()
 {
   $latestVersion = rex_a657_get_latest_version();
-  if (!$latestVersion) return false;
+  if(!$latestVersion) return false;
 
   $rexVersion = rex::getVersion();
-  if (version_compare($rexVersion, $latestVersion, '>'))
+  if(version_compare($rexVersion, $latestVersion, '>'))
   {
     // Dev version
     $notice = rex_view::warning(rex_i18n::msg('vchecker_dev_version', $rexVersion));
   }
-  elseif (version_compare($rexVersion, $latestVersion, '<'))
+  else if (version_compare($rexVersion, $latestVersion, '<'))
   {
     // update required
     $notice = rex_view::warning(rex_i18n::msg('vchecker_old_version', $rexVersion, $latestVersion));
@@ -70,8 +70,7 @@ function rex_a657_open_http_socket($url, &$errno, &$errstr, $timeout)
 
     // check write timeout
     $info = stream_get_meta_data($fp);
-    if ($info['timed_out'])
-    {
+    if ($info['timed_out']) {
        return false;
     }
 
@@ -80,7 +79,7 @@ function rex_a657_open_http_socket($url, &$errno, &$errstr, $timeout)
     {
       $buf .= fgets($fp, 512);
 
-      if ($httpHead == '' && ($headEnd = strpos($buf, "\r\n\r\n")) !== false)
+      if($httpHead == '' && ($headEnd = strpos($buf, "\r\n\r\n")) !== false)
       {
         $httpHead = substr($buf, 0, $headEnd); // extract http header
         $buf = substr($buf, $headEnd+4); // trim buf to contain only http data
@@ -89,27 +88,27 @@ function rex_a657_open_http_socket($url, &$errno, &$errstr, $timeout)
     fclose($fp);
 
     $chunked = false;
-    foreach (explode("\r\n", $httpHead) as $headPart)
+    foreach(explode("\r\n", $httpHead) as $headPart)
     {
       $headPart = strtolower($headPart);
-      if (strpos($headPart, 'http') !== false)
+      if(strpos($headPart, 'http') !== false)
       {
         $mainHeader = explode(' ', $headPart);
 
-        if ($mainHeader[1] !== '200')
+        if($mainHeader[1] !== '200')
         {
           $errno  = $mainHeader[1];
           $errstr = $mainHeader[2];
           return false;
         }
       }
-      elseif (strpos($headPart, 'transfer-encoding: chunked') !== false)
+      else if(strpos($headPart, 'transfer-encoding: chunked') !== false)
       {
         $chunked = true;
       }
     }
 
-    if ($chunked)
+    if($chunked)
     {
       $buf = unchunkHttp11($buf);
     }
@@ -122,12 +121,10 @@ function rex_a657_open_http_socket($url, &$errno, &$errstr, $timeout)
   return $buf;
 }
 
-function unchunkHttp11($data)
-{
+function unchunkHttp11($data) {
     $fp = 0;
     $outData = '';
-    while ($fp < strlen($data))
-    {
+    while ($fp < strlen($data)) {
         $rawnum = substr($data, $fp, strpos(substr($data, $fp), "\r\n") + 2);
         $num = hexdec(trim($rawnum));
         $fp += strlen($rawnum);

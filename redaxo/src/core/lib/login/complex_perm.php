@@ -73,7 +73,7 @@ abstract class rex_complex_perm
    */
   static public function register($key, $class)
   {
-    if (!is_subclass_of($class, __CLASS__))
+    if(!is_subclass_of($class, __CLASS__))
     {
       throw new rex_exception(sprintf('$class must be a subclass of %s!', __CLASS__));
     }
@@ -99,7 +99,7 @@ abstract class rex_complex_perm
    */
   static public function get(rex_user $user, $key, $perms = array())
   {
-    if (!isset(self::$classes[$key]))
+    if(!isset(self::$classes[$key]))
     {
       return null;
     }

@@ -34,7 +34,7 @@ abstract class rex_cronjob
 
   public function getParam($key, $default = null)
   {
-    if (isset($this->params[$key]))
+    if(isset($this->params[$key]))
       return $this->params[$key];
 
     return $default;

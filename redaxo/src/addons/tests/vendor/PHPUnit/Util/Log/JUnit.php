@@ -149,8 +149,7 @@ class PHPUnit_Util_Log_JUnit extends PHPUnit_Util_Printer implements PHPUnit_Fra
      */
     public function flush()
     {
-        if ($this->writeDocument === TRUE)
-        {
+        if ($this->writeDocument === TRUE) {
             $this->write($this->getXML());
         }
 
@@ -166,14 +165,10 @@ class PHPUnit_Util_Log_JUnit extends PHPUnit_Util_Printer implements PHPUnit_Fra
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if ($this->currentTestCase !== NULL)
-        {
-            if ($test instanceof PHPUnit_Framework_SelfDescribing)
-            {
+        if ($this->currentTestCase !== NULL) {
+            if ($test instanceof PHPUnit_Framework_SelfDescribing) {
                 $buffer = $test->toString() . "\n";
-            }
-            else
-            {
+            } else {
                 $buffer = '';
             }
 
@@ -202,16 +197,11 @@ class PHPUnit_Util_Log_JUnit extends PHPUnit_Util_Printer implements PHPUnit_Fra
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        if ($this->currentTestCase !== NULL)
-        {
-            if (!$test instanceof PHPUnit_Framework_Warning)
-            {
-                if ($test instanceof PHPUnit_Framework_SelfDescribing)
-                {
+        if ($this->currentTestCase !== NULL) {
+            if (!$test instanceof PHPUnit_Framework_Warning) {
+                if ($test instanceof PHPUnit_Framework_SelfDescribing) {
                     $buffer = $test->toString() . "\n";
-                }
-                else
-                {
+                } else {
                     $buffer = '';
                 }
 
@@ -241,8 +231,7 @@ class PHPUnit_Util_Log_JUnit extends PHPUnit_Util_Printer implements PHPUnit_Fra
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if ($this->logIncompleteSkipped && $this->currentTestCase !== NULL)
-        {
+        if ($this->logIncompleteSkipped && $this->currentTestCase !== NULL) {
             $error = $this->document->createElement(
               'error',
               PHPUnit_Util_XML::prepareString(
@@ -256,9 +245,7 @@ class PHPUnit_Util_Log_JUnit extends PHPUnit_Util_Printer implements PHPUnit_Fra
             $this->currentTestCase->appendChild($error);
 
             $this->testSuiteErrors[$this->testSuiteLevel]++;
-        }
-        else
-        {
+        } else {
             $this->attachCurrentTestCase = FALSE;
         }
     }
@@ -273,8 +260,7 @@ class PHPUnit_Util_Log_JUnit extends PHPUnit_Util_Printer implements PHPUnit_Fra
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if ($this->logIncompleteSkipped && $this->currentTestCase !== NULL)
-        {
+        if ($this->logIncompleteSkipped && $this->currentTestCase !== NULL) {
             $error = $this->document->createElement(
               'error',
               PHPUnit_Util_XML::prepareString(
@@ -288,9 +274,7 @@ class PHPUnit_Util_Log_JUnit extends PHPUnit_Util_Printer implements PHPUnit_Fra
             $this->currentTestCase->appendChild($error);
 
             $this->testSuiteErrors[$this->testSuiteLevel]++;
-        }
-        else
-        {
+        } else {
             $this->attachCurrentTestCase = FALSE;
         }
     }
@@ -306,10 +290,8 @@ class PHPUnit_Util_Log_JUnit extends PHPUnit_Util_Printer implements PHPUnit_Fra
         $testSuite = $this->document->createElement('testsuite');
         $testSuite->setAttribute('name', $suite->getName());
 
-        if (class_exists($suite->getName(), FALSE))
-        {
-            try
-            {
+        if (class_exists($suite->getName(), FALSE)) {
+            try {
                 $class = new ReflectionClass($suite->getName());
 
                 $testSuite->setAttribute('file', $class->getFileName());
@@ -318,53 +300,44 @@ class PHPUnit_Util_Log_JUnit extends PHPUnit_Util_Printer implements PHPUnit_Fra
                   $suite->getName(), $class->getDocComment()
                 );
 
-                if (!empty($packageInformation['namespace']))
-                {
+                if (!empty($packageInformation['namespace'])) {
                     $testSuite->setAttribute(
                       'namespace', $packageInformation['namespace']
                     );
                 }
 
-                if (!empty($packageInformation['fullPackage']))
-                {
+                if (!empty($packageInformation['fullPackage'])) {
                     $testSuite->setAttribute(
                       'fullPackage', $packageInformation['fullPackage']
                     );
                 }
 
-                if (!empty($packageInformation['category']))
-                {
+                if (!empty($packageInformation['category'])) {
                     $testSuite->setAttribute(
                       'category', $packageInformation['category']
                     );
                 }
 
-                if (!empty($packageInformation['package']))
-                {
+                if (!empty($packageInformation['package'])) {
                     $testSuite->setAttribute(
                       'package', $packageInformation['package']
                     );
                 }
 
-                if (!empty($packageInformation['subpackage']))
-                {
+                if (!empty($packageInformation['subpackage'])) {
                     $testSuite->setAttribute(
                       'subpackage', $packageInformation['subpackage']
                     );
                 }
             }
 
-            catch (ReflectionException $e)
-            {
+            catch (ReflectionException $e) {
             }
         }
 
-        if ($this->testSuiteLevel > 0)
-        {
+        if ($this->testSuiteLevel > 0) {
             $this->testSuites[$this->testSuiteLevel]->appendChild($testSuite);
-        }
-        else
-        {
+        } else {
             $this->root->appendChild($testSuite);
         }
 
@@ -405,8 +378,7 @@ class PHPUnit_Util_Log_JUnit extends PHPUnit_Util_Printer implements PHPUnit_Fra
           'time', sprintf('%F', $this->testSuiteTimes[$this->testSuiteLevel])
         );
 
-        if ($this->testSuiteLevel > 1)
-        {
+        if ($this->testSuiteLevel > 1) {
             $this->testSuiteTests[$this->testSuiteLevel - 1]      += $this->testSuiteTests[$this->testSuiteLevel];
             $this->testSuiteAssertions[$this->testSuiteLevel - 1] += $this->testSuiteAssertions[$this->testSuiteLevel];
             $this->testSuiteErrors[$this->testSuiteLevel - 1]     += $this->testSuiteErrors[$this->testSuiteLevel];
@@ -424,18 +396,15 @@ class PHPUnit_Util_Log_JUnit extends PHPUnit_Util_Printer implements PHPUnit_Fra
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        if (!$test instanceof PHPUnit_Framework_Warning)
-        {
+        if (!$test instanceof PHPUnit_Framework_Warning) {
             $testCase = $this->document->createElement('testcase');
             $testCase->setAttribute('name', $test->getName());
 
-            if ($test instanceof PHPUnit_Framework_TestCase)
-            {
+            if ($test instanceof PHPUnit_Framework_TestCase) {
                 $class      = new ReflectionClass($test);
                 $methodName = $test->getName();
 
-                if ($class->hasMethod($methodName))
-                {
+                if ($class->hasMethod($methodName)) {
                     $method = $class->getMethod($test->getName());
 
                     $testCase->setAttribute('class', $class->getName());
@@ -456,12 +425,9 @@ class PHPUnit_Util_Log_JUnit extends PHPUnit_Util_Printer implements PHPUnit_Fra
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if (!$test instanceof PHPUnit_Framework_Warning)
-        {
-            if ($this->attachCurrentTestCase)
-            {
-                if ($test instanceof PHPUnit_Framework_TestCase)
-                {
+        if (!$test instanceof PHPUnit_Framework_Warning) {
+            if ($this->attachCurrentTestCase) {
+                if ($test instanceof PHPUnit_Framework_TestCase) {
                     $numAssertions = $test->getNumAssertions();
                     $this->testSuiteAssertions[$this->testSuiteLevel] += $numAssertions;
 
@@ -510,8 +476,7 @@ class PHPUnit_Util_Log_JUnit extends PHPUnit_Util_Printer implements PHPUnit_Fra
      */
     public function setWriteDocument($flag)
     {
-        if (is_bool($flag))
-        {
+        if (is_bool($flag)) {
             $this->writeDocument = $flag;
         }
     }

@@ -10,19 +10,19 @@ class rex_install_helper
     $phar = new PharData($archive, 0, null, Phar::ZIP);
     $files = array();
     $iterator = rex_dir::recursiveIterator($dir, rex_dir_recursive_iterator::LEAVES_ONLY)->ignoreSystemStuff();
-    if ($excludeDirs)
+    if($excludeDirs)
     {
       $iterator->ignoreDirs($excludeDirs, false);
     }
-    foreach ($iterator as $path => $file)
+    foreach($iterator as $path => $file)
     {
       $files[str_replace($dir, $basename, $path)] = $path;
     }
     $phar->buildFromIterator(new ArrayIterator($files));
     $phar->compressFiles(Phar::GZ);
-    foreach ($files as $path => $realpath)
+    foreach($files as $path => $realpath)
     {
-      if (filesize($realpath) == 0)
+      if(filesize($realpath) == 0)
       {
         $phar[$path]->decompress();
       }

@@ -170,17 +170,13 @@ class PHP_CodeCoverage_Report_HTML
 
         $directory->render($report, $target . 'index.html', $this->title);
 
-        foreach ($report as $node)
-        {
+        foreach ($report as $node) {
             $id = $node->getId();
 
-            if ($node instanceof PHP_CodeCoverage_Report_Node_Directory)
-            {
+            if ($node instanceof PHP_CodeCoverage_Report_Node_Directory) {
                 $dashboard->render($node, $target . $id . '.dashboard.html');
                 $directory->render($node, $target . $id . '.html');
-            }
-            else
-            {
+            } else {
                 $file->render($node, $target . $id . '.html');
             }
         }
@@ -206,8 +202,7 @@ class PHP_CodeCoverage_Report_HTML
           'yahoo-dom-event.js'
         );
 
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             copy($this->templatePath . $file, $target . $file);
         }
     }

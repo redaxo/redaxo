@@ -18,8 +18,7 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
 
     $this->assertFalse(rex_extension::isRegistered($EP), 'isRegistered() returns false for non-registered extension points');
 
-    rex_extension::register($EP, function()
-    {});
+    rex_extension::register($EP, function(){});
 
     $this->assertTrue(rex_extension::isRegistered($EP), 'isRegistered() returns true for registered extension points');
   }
@@ -35,8 +34,7 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
       return $params['subject'] .' test2';
     });
 
-    rex_extension::register($EP, function($params)
-    {});
+    rex_extension::register($EP, function($params) {});
 
     rex_extension::register($EP, function($params)
     {

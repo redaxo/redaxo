@@ -65,20 +65,20 @@ class rex_ooArticle extends rex_ooRedaxo
     }
 
     $articlelist = rex_path::addonCache('structure', $a_category_id.".".$clang.".alist");
-    if (!file_exists($articlelist))
+    if(!file_exists($articlelist))
     {
       rex_article_cache::generateLists($a_category_id, $clang);
     }
 
     $artlist = array ();
-    if (file_exists($articlelist))
+    if(file_exists($articlelist))
     {
-      if (!isset(self::$articleIds[$a_category_id]))
+      if(!isset(self::$articleIds[$a_category_id]))
       {
         self::$articleIds[$a_category_id] = rex_file::getCache($articlelist);
       }
 
-      if (self::$articleIds[$a_category_id])
+      if(self::$articleIds[$a_category_id])
       {
         foreach (self::$articleIds[$a_category_id] as $var)
         {
@@ -158,7 +158,7 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   public function getPath()
   {
-    if ($this->isStartArticle())
+    if($this->isStartArticle())
     {
       return $this->_path.$this->_id .'|';
     }
@@ -184,7 +184,7 @@ class rex_ooArticle extends rex_ooRedaxo
   public function getValue($value)
   {
     // alias für re_id -> category_id
-    if (in_array($value, array('re_id', '_re_id', 'category_id', '_category_id')))
+    if(in_array($value, array('re_id', '_re_id', 'category_id', '_category_id')))
     {
       // für die CatId hier den Getter verwenden,
       // da dort je nach ArtikelTyp unterscheidungen getroffen werden müssen

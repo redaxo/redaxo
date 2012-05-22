@@ -77,27 +77,22 @@ class PHPUnit_Util_DeprecatedFeature_Logger implements PHPUnit_Framework_TestLis
      */
     public static function log($message, $backtraceDepth = 2)
     {
-        if ($backtraceDepth !== FALSE)
-        {
+        if ($backtraceDepth !== FALSE) {
             $trace = debug_backtrace(FALSE);
 
-            if (is_int($backtraceDepth))
-            {
+            if (is_int($backtraceDepth)) {
                 $traceItem = $trace[$backtraceDepth];
             }
 
-            if (!isset($traceItem['file']))
-            {
+            if (!isset($traceItem['file'])) {
                 $reflectionClass   = new ReflectionClass($traceItem['class']);
                 $traceItem['file'] = $reflectionClass->getFileName();
             }
 
             if (!isset($traceItem['line']) &&
                  isset($traceItem['class']) &&
-                 isset($traceItem['function']))
-                 {
-                if (!isset($reflectionClass))
-                {
+                 isset($traceItem['function'])) {
+                if (!isset($reflectionClass)) {
                     $reflectionClass = new ReflectionClass($traceItem['class']);
                 }
 
@@ -111,13 +106,10 @@ class PHPUnit_Util_DeprecatedFeature_Logger implements PHPUnit_Framework_TestLis
           $message, $traceItem
         );
 
-        if (self::$currentTest instanceof PHPUnit_Framework_TestCase)
-        {
+        if (self::$currentTest instanceof PHPUnit_Framework_TestCase) {
             $result = self::$currentTest->getTestResultObject();
             $result->addDeprecatedFeature($deprecatedFeature);
-        }
-        else
-        {
+        } else {
             file_put_contents('php://stderr', $deprecatedFeature);
         }
     }

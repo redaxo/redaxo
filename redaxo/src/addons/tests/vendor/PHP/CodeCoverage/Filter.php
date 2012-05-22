@@ -91,10 +91,8 @@ class PHP_CodeCoverage_Filter
           'text_template_autoload'
         );
 
-        foreach ($functions as $function)
-        {
-            if (function_exists($function))
-            {
+        foreach ($functions as $function) {
+            if (function_exists($function)) {
                 $this->addFilesToBlacklist($function());
             }
         }
@@ -103,8 +101,7 @@ class PHP_CodeCoverage_Filter
           'SymfonyComponents/YAML/sfYaml.php'
         );
 
-        if ($file)
-        {
+        if ($file) {
             $this->addFileToBlacklist($file);
         }
 
@@ -112,8 +109,7 @@ class PHP_CodeCoverage_Filter
           'SymfonyComponents/YAML/sfYamlDumper.php'
         );
 
-        if ($file)
-        {
+        if ($file) {
             $this->addFileToBlacklist($file);
         }
     }
@@ -132,8 +128,7 @@ class PHP_CodeCoverage_Filter
           $directory, $suffix, $prefix
         );
 
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             $this->addFileToBlacklist($file);
         }
     }
@@ -155,8 +150,7 @@ class PHP_CodeCoverage_Filter
      */
     public function addFilesToBlacklist(array $files)
     {
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             $this->addFileToBlacklist($file);
         }
     }
@@ -175,8 +169,7 @@ class PHP_CodeCoverage_Filter
           $directory, $suffix, $prefix
         );
 
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             $this->removeFileFromBlacklist($file);
         }
     }
@@ -190,8 +183,7 @@ class PHP_CodeCoverage_Filter
     {
         $filename = realpath($filename);
 
-        if (isset($this->blacklistedFiles[$filename]))
-        {
+        if (isset($this->blacklistedFiles[$filename])) {
             unset($this->blacklistedFiles[$filename]);
         }
     }
@@ -210,8 +202,7 @@ class PHP_CodeCoverage_Filter
           $directory, $suffix, $prefix
         );
 
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             $this->addFileToWhitelist($file, FALSE);
         }
     }
@@ -236,8 +227,7 @@ class PHP_CodeCoverage_Filter
      */
     public function addFilesToWhitelist(array $files)
     {
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             $this->addFileToWhitelist($file);
         }
     }
@@ -256,8 +246,7 @@ class PHP_CodeCoverage_Filter
           $directory, $suffix, $prefix
         );
 
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             $this->removeFileFromWhitelist($file);
         }
     }
@@ -271,8 +260,7 @@ class PHP_CodeCoverage_Filter
     {
         $filename = realpath($filename);
 
-        if (isset($this->whitelistedFiles[$filename]))
-        {
+        if (isset($this->whitelistedFiles[$filename])) {
             unset($this->whitelistedFiles[$filename]);
         }
     }
@@ -288,8 +276,7 @@ class PHP_CodeCoverage_Filter
             strpos($filename, 'eval()\'d code') !== FALSE ||
             strpos($filename, 'runtime-created function') !== FALSE ||
             strpos($filename, 'assert code') !== FALSE ||
-            strpos($filename, 'regexp code') !== FALSE)
-            {
+            strpos($filename, 'regexp code') !== FALSE) {
             return FALSE;
         }
 
@@ -309,15 +296,13 @@ class PHP_CodeCoverage_Filter
      */
     public function isFiltered($filename, $ignoreWhitelist = FALSE)
     {
-        if (!is_bool($ignoreWhitelist))
-        {
+        if (!is_bool($ignoreWhitelist)) {
             throw new InvalidArgumentException;
         }
 
         $filename = realpath($filename);
 
-        if (!$ignoreWhitelist && !empty($this->whitelistedFiles))
-        {
+        if (!$ignoreWhitelist && !empty($this->whitelistedFiles)) {
             return !isset($this->whitelistedFiles[$filename]);
         }
 

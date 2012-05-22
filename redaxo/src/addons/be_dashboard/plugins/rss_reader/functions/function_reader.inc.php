@@ -20,8 +20,7 @@ function rex_a656_rss_teaser($feedUrl, $numItems = 5)
            <h3>'. htmlspecialchars($title) .'</h3>
            <ul>';
 
-  foreach ($feed->get_items(0, $numItems) as $item)
-  {
+  foreach ($feed->get_items(0, $numItems) as $item) {
     $s .= '
         <li>
             <a href="'. $item->get_permalink() .'" onclick="window.open(this.href); return false;">
@@ -43,17 +42,17 @@ function rex_a656_convert($string, $sourceEncoding)
 {
   static $transTables = array();
 
-  if (!isset($transTables[$sourceEncoding]))
+  if(!isset($transTables[$sourceEncoding]))
   {
     // trans-table damit unabhaengig von feed/backend encoding sonderzeichen richtig dargestellt werden
     $allEntities = get_html_translation_table(HTML_ENTITIES, ENT_NOQUOTES);
     $specialEntities = get_html_translation_table(HTML_SPECIALCHARS, ENT_NOQUOTES);
     $noTags = array_diff($allEntities, $specialEntities);
 
-    if ($sourceEncoding == 'UTF-8')
+    if($sourceEncoding == 'UTF-8')
     {
       //konvertiere trans-table nach utf8
-      foreach ($noTags as $charkey => $char)
+      foreach($noTags as $charkey => $char)
       {
         // jedes zeichen nach utf8 kodieren
         $noTags[utf8_encode($charkey)]= utf8_encode($char);

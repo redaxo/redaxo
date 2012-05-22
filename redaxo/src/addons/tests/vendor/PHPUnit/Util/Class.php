@@ -43,8 +43,7 @@
  * @since      File available since Release 3.1.0
  */
 
-if (!defined('T_NAMESPACE'))
-{
+if (!defined('T_NAMESPACE')) {
     define('T_NAMESPACE', 377);
 }
 
@@ -95,45 +94,32 @@ class PHPUnit_Util_Class
      */
     public static function getHierarchy($className, $asReflectionObjects = FALSE)
     {
-        if ($asReflectionObjects)
-        {
+        if ($asReflectionObjects) {
             $classes = array(new ReflectionClass($className));
-        }
-        else
-        {
+        } else {
             $classes = array($className);
         }
 
         $done = FALSE;
 
-        while (!$done)
-        {
-            if ($asReflectionObjects)
-            {
+        while (!$done) {
+            if ($asReflectionObjects) {
                 $class = new ReflectionClass(
                   $classes[count($classes)-1]->getName()
                 );
-            }
-            else
-            {
+            } else {
                 $class = new ReflectionClass($classes[count($classes)-1]);
             }
 
             $parent = $class->getParentClass();
 
-            if ($parent !== FALSE)
-            {
-                if ($asReflectionObjects)
-                {
+            if ($parent !== FALSE) {
+                if ($asReflectionObjects) {
                     $classes[] = $parent;
-                }
-                else
-                {
+                } else {
                     $classes[] = $parent->getName();
                 }
-            }
-            else
-            {
+            } else {
                 $done = TRUE;
             }
         }
@@ -153,12 +139,10 @@ class PHPUnit_Util_Class
     {
         $parameters = array();
 
-        foreach ($method->getParameters() as $i => $parameter)
-        {
+        foreach ($method->getParameters() as $i => $parameter) {
             $name = '$' . $parameter->getName();
 
-            if ($name === '$')
-            {
+            if ($name === '$') {
                 $name .= 'arg' . $i;
             }
 
@@ -166,42 +150,32 @@ class PHPUnit_Util_Class
             $reference = '';
             $typeHint  = '';
 
-            if (!$forCall)
-            {
-                if ($parameter->isArray())
-                {
+            if (!$forCall) {
+                if ($parameter->isArray()) {
                     $typeHint = 'array ';
-                }
-                else
-                {
-                    try
-                    {
+                } else {
+                    try {
                         $class = $parameter->getClass();
                     }
 
-                    catch (ReflectionException $e)
-                    {
+                    catch (ReflectionException $e) {
                         $class = FALSE;
                     }
 
-                    if ($class)
-                    {
+                    if ($class) {
                         $typeHint = $class->getName() . ' ';
                     }
                 }
 
-                if ($parameter->isDefaultValueAvailable())
-                {
+                if ($parameter->isDefaultValueAvailable()) {
                     $value   = $parameter->getDefaultValue();
                     $default = ' = ' . var_export($value, TRUE);
                 }
-                elseif ($parameter->isOptional())
-                {
+                else if ($parameter->isOptional()) {
                     $default = ' = null';
                 }
 
-                if ($parameter->isPassedByReference())
-                {
+                if ($parameter->isPassedByReference()) {
                     $reference = '&';
                 }
             }
@@ -229,32 +203,27 @@ class PHPUnit_Util_Class
           'subpackage'  => ''
         );
 
-        if (strpos($className, '\\') !== FALSE)
-        {
+        if (strpos($className, '\\') !== FALSE) {
             $result['namespace'] = self::arrayToName(
               explode('\\', $className)
             );
         }
 
-        if (preg_match('/@category[\s]+([\.\w]+)/', $docComment, $matches))
-        {
+        if (preg_match('/@category[\s]+([\.\w]+)/', $docComment, $matches)) {
             $result['category'] = $matches[1];
         }
 
-        if (preg_match('/@package[\s]+([\.\w]+)/', $docComment, $matches))
-        {
+        if (preg_match('/@package[\s]+([\.\w]+)/', $docComment, $matches)) {
             $result['package']     = $matches[1];
             $result['fullPackage'] = $matches[1];
         }
 
-        if (preg_match('/@subpackage[\s]+([\.\w]+)/', $docComment, $matches))
-        {
+        if (preg_match('/@subpackage[\s]+([\.\w]+)/', $docComment, $matches)) {
             $result['subpackage']   = $matches[1];
             $result['fullPackage'] .= '.' . $matches[1];
         }
 
-        if (empty($result['fullPackage']))
-        {
+        if (empty($result['fullPackage'])) {
             $result['fullPackage'] = self::arrayToName(
               explode('_', str_replace('\\', '_', $className)), '.'
             );
@@ -275,29 +244,24 @@ class PHPUnit_Util_Class
      */
     public static function getStaticAttribute($className, $attributeName)
     {
-        if (!is_string($className))
-        {
+        if (!is_string($className)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!class_exists($className))
-        {
+        if (!class_exists($className)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'class name');
         }
 
-        if (!is_string($attributeName))
-        {
+        if (!is_string($attributeName)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
 
         $class = new ReflectionClass($className);
 
-        while ($class)
-        {
+        while ($class) {
             $attributes = $class->getStaticProperties();
 
-            if (array_key_exists($attributeName, $attributes))
-            {
+            if (array_key_exists($attributeName, $attributes)) {
                 return $attributes[$attributeName];
             }
 
@@ -325,60 +289,45 @@ class PHPUnit_Util_Class
      */
     public static function getObjectAttribute($object, $attributeName)
     {
-        if (!is_object($object))
-        {
+        if (!is_object($object)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'object');
         }
 
-        if (!is_string($attributeName))
-        {
+        if (!is_string($attributeName)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
 
-        try
-        {
+        try {
             $attribute = new ReflectionProperty($object, $attributeName);
         }
 
-        catch (ReflectionException $e)
-        {
+        catch (ReflectionException $e) {
             $reflector = new ReflectionObject($object);
 
-            while ($reflector = $reflector->getParentClass())
-            {
-                try
-                {
+            while ($reflector = $reflector->getParentClass()) {
+                try {
                     $attribute = $reflector->getProperty($attributeName);
                     break;
                 }
 
-                catch (ReflectionException $e)
-                {
+                catch(ReflectionException $e) {
                 }
             }
         }
 
-        if (isset($attribute))
-        {
-            if ($attribute == NULL || $attribute->isPublic())
-            {
+        if (isset($attribute)) {
+            if ($attribute == NULL || $attribute->isPublic()) {
                 return $object->$attributeName;
-            }
-            else
-            {
+            } else {
                 $array         = (array)$object;
                 $protectedName = "\0*\0" . $attributeName;
 
-                if (array_key_exists($protectedName, $array))
-                {
+                if (array_key_exists($protectedName, $array)) {
                     return $array[$protectedName];
-                }
-                else
-                {
+                } else {
                     $classes = self::getHierarchy(get_class($object));
 
-                    foreach ($classes as $class)
-                    {
+                    foreach ($classes as $class) {
                         $privateName = sprintf(
                           "\0%s\0%s",
 
@@ -386,8 +335,7 @@ class PHPUnit_Util_Class
                           $attributeName
                         );
 
-                        if (array_key_exists($privateName, $array))
-                        {
+                        if (array_key_exists($privateName, $array)) {
                             return $array[$privateName];
                         }
                     }
@@ -419,8 +367,7 @@ class PHPUnit_Util_Class
           'fullyQualifiedClassName' => $className
         );
 
-        if (strpos($className, '\\') !== FALSE)
-        {
+        if (strpos($className, '\\') !== FALSE) {
             $tmp                 = explode('\\', $className);
             $result['className'] = $tmp[count($tmp)-1];
             $result['namespace'] = self::arrayToName($tmp);
@@ -441,8 +388,7 @@ class PHPUnit_Util_Class
     {
         $result = '';
 
-        if (count($parts) > 1)
-        {
+        if (count($parts) > 1) {
             array_pop($parts);
 
             $result = join($join, $parts);

@@ -66,8 +66,7 @@ class File_Iterator_Facade
      */
     public function getFilesAsArray($paths, $suffixes = '', $prefixes = '', array $exclude = array(), $commonPath = FALSE)
     {
-        if (is_string($paths))
-        {
+        if (is_string($paths)) {
             $paths = array($paths);
         }
 
@@ -78,20 +77,16 @@ class File_Iterator_Facade
 
         $files = array();
 
-        foreach ($iterator as $file)
-        {
+        foreach ($iterator as $file) {
             $file = $file->getRealPath();
 
-            if ($file)
-            {
+            if ($file) {
                 $files[] = $file;
             }
         }
 
-        foreach ($paths as $path)
-        {
-            if (is_file($path))
-            {
+        foreach ($paths as $path) {
+            if (is_file($path)) {
                 $files[] = realpath($path);
             }
         }
@@ -99,15 +94,12 @@ class File_Iterator_Facade
         $files = array_unique($files);
         sort($files);
 
-        if ($commonPath)
-        {
+        if ($commonPath) {
             return array(
               'commonPath' => $this->getCommonPath($files),
               'files'      => $files
             );
-        }
-        else
-        {
+        } else {
             return $files;
         }
     }
@@ -122,24 +114,20 @@ class File_Iterator_Facade
     {
         $count = count($files);
 
-        if ($count == 0)
-        {
+        if ($count == 0) {
             return '';
         }
 
-        if ($count == 1)
-        {
+        if ($count == 1) {
             return dirname($files[0]) . DIRECTORY_SEPARATOR;
         }
 
         $_files = array();
 
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             $_files[] = $_fileParts = explode(DIRECTORY_SEPARATOR, $file);
 
-            if (empty($_fileParts[0]))
-            {
+            if (empty($_fileParts[0])) {
                 $_fileParts[0] = DIRECTORY_SEPARATOR;
             }
         }
@@ -149,23 +137,18 @@ class File_Iterator_Facade
         $j      = 0;
         $count--;
 
-        while (!$done)
-        {
-            for ($i = 0; $i < $count; $i++)
-            {
-                if ($_files[$i][$j] != $_files[$i+1][$j])
-                {
+        while (!$done) {
+            for ($i = 0; $i < $count; $i++) {
+                if ($_files[$i][$j] != $_files[$i+1][$j]) {
                     $done = TRUE;
                     break;
                 }
             }
 
-            if (!$done)
-            {
+            if (!$done) {
                 $common .= $_files[0][$j];
 
-                if ($j > 0)
-                {
+                if ($j > 0) {
                     $common .= DIRECTORY_SEPARATOR;
                 }
             }

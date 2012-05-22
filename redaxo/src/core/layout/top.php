@@ -9,7 +9,7 @@ $popups_arr = array('linkmap', 'mediapool');
 
 $page_title = rex::getProperty('servername');
 
-if (!isset($page_name))
+if(!isset($page_name))
 {
   $pages = rex::getProperty('pages');
   $curPage = $pages[rex::getProperty('page')]->getPage();
@@ -32,16 +32,15 @@ $body_attr["onunload"] = array('closeAll();');
 $body_attr = rex_extension::registerPoint('PAGE_BODY_ATTR', $body_attr );
 
 $body = "";
-foreach ($body_attr as $k => $v)
-{
+foreach($body_attr as $k => $v){
   $body .= " ".$k.'="';
-  if (is_array($v))
+  if(is_array($v))
     $body .= implode(" ",$v);
   $body .= '"';
 }
 
 $activePageObj = $curPage;
-if ($subpage = $curPage->getActiveSubPage())
+if($subpage = $curPage->getActiveSubPage())
 {
   $activePageObj = $subpage;
 }
@@ -53,12 +52,10 @@ if (rex::getUser() && $hasNavigation)
   $accesskey = 1;
   $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
   $logout = '<ul class="rex-logout"><li class="rex-first"><span>' . rex_i18n::msg('logged_in_as') . ' '. htmlspecialchars($user_name) .'</span></li><li><a href="index.php?page=profile">' . rex_i18n::msg('profile_title') . '</a></li><li><a href="index.php?rex_logout=1"'. rex::getAccesskey(rex_i18n::msg('logout'), 'logout') .'>' . rex_i18n::msg('logout') . '</a></li></ul>' . "\n";
-}
-elseif ($hasNavigation)
+}else if($hasNavigation)
 {
   $logout = '<p class="rex-logout">' . rex_i18n::msg('logged_out') . '</p>';
-}
-else
+}else
 {
   $logout = '<p class="rex-logout">&nbsp;</p>';
 }
@@ -68,18 +65,18 @@ $navigation = '';
 if (rex::getUser() && $hasNavigation)
 {
   $n = rex_be_navigation::factory();
-  foreach (rex::getProperty('pages') as $p => $pageContainer)
+  foreach(rex::getProperty('pages') as $p => $pageContainer)
   {
     $p = strtolower($p);
-    if (rex_be_page_main::isValid($pageContainer))
+    if(rex_be_page_main::isValid($pageContainer))
     {
       $pageObj = $pageContainer->getPage();
       $pageObj->setItemAttr('id', 'rex-navi-page-'.strtolower(preg_replace('/[^a-zA-Z0-9\-_]*/', '', $p)));
 
-      if (!$pageContainer->getBlock())
+      if(!$pageContainer->getBlock())
         $pageContainer->setBlock('addons');
 
-      if (!$pageObj->getHref())
+      if(!$pageObj->getHref())
         $pageObj->setHref('index.php?page='.$p);
       /*
        if(isset ($REX['ACKEY']['ADDON'][$page]))

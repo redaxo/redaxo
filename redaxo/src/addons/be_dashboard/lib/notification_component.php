@@ -25,11 +25,11 @@ class rex_notification_component extends rex_dashboard_component
     $dashboard_notifications = rex_extension::registerPoint('DASHBOARD_NOTIFICATION', $dashboard_notifications);
 
     $content = '';
-    if (count($dashboard_notifications) > 0)
+    if(count($dashboard_notifications) > 0)
     {
-      foreach ($dashboard_notifications as $notification)
+      foreach($dashboard_notifications as $notification)
       {
-        if (rex_dashboard_notification::isValid($notification) && $notification->checkPermission())
+        if(rex_dashboard_notification::isValid($notification) && $notification->checkPermission())
         {
           $content .= $notification->_get();
         }

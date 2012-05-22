@@ -142,18 +142,15 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        if (!$test instanceof PHPUnit_Framework_Warning)
-        {
-            if ($this->ran)
-            {
+        if (!$test instanceof PHPUnit_Framework_Warning) {
+            if ($this->ran) {
                 return;
             }
 
             $name    = $test->getName(FALSE);
             $tickets = PHPUnit_Util_Test::getTickets(get_class($test), $name);
 
-            foreach ($tickets as $ticket)
-            {
+            foreach ($tickets as $ticket) {
                 $this->ticketCounts[$ticket][$name] = 1;
             }
 
@@ -169,10 +166,8 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if (!$test instanceof PHPUnit_Framework_Warning)
-        {
-            if ($test->getStatus() == PHPUnit_Runner_BaseTestRunner::STATUS_PASSED)
-            {
+        if (!$test instanceof PHPUnit_Framework_Warning) {
+            if ($test->getStatus() == PHPUnit_Runner_BaseTestRunner::STATUS_PASSED) {
                 $ifStatus   = array('assigned', 'new', 'reopened');
                 $newStatus  = 'closed';
                 $message    = 'Automatically closed by PHPUnit (test passed).';
@@ -180,8 +175,7 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
                 $cumulative = TRUE;
             }
 
-            elseif ($test->getStatus() == PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE)
-            {
+            else if ($test->getStatus() == PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE) {
                 $ifStatus   = array('closed');
                 $newStatus  = 'reopened';
                 $message    = 'Automatically reopened by PHPUnit (test failed).';
@@ -189,47 +183,37 @@ abstract class PHPUnit_Extensions_TicketListener implements PHPUnit_Framework_Te
                 $cumulative = FALSE;
             }
 
-            else
-            {
+            else {
                 return;
             }
 
             $name    = $test->getName(FALSE);
             $tickets = PHPUnit_Util_Test::getTickets(get_class($test), $name);
 
-            foreach ($tickets as $ticket)
-            {
+            foreach ($tickets as $ticket) {
                 // Remove this test from the totals (if it passed).
-                if ($test->getStatus() == PHPUnit_Runner_BaseTestRunner::STATUS_PASSED)
-                {
+                if ($test->getStatus() == PHPUnit_Runner_BaseTestRunner::STATUS_PASSED) {
                     unset($this->ticketCounts[$ticket][$name]);
                 }
 
                 // Only close tickets if ALL referenced cases pass
                 // but reopen tickets if a single test fails.
-                if ($cumulative)
-                {
+                if ($cumulative) {
                     // Determine number of to-pass tests:
-                    if (count($this->ticketCounts[$ticket]) > 0)
-                    {
+                    if (count($this->ticketCounts[$ticket]) > 0) {
                         // There exist remaining test cases with this reference.
                         $adjustTicket = FALSE;
-                    }
-                    else
-                    {
+                    } else {
                         // No remaining tickets, go ahead and adjust.
                         $adjustTicket = TRUE;
                     }
-                }
-                else
-                {
+                } else {
                     $adjustTicket = TRUE;
                 }
 
                 $ticketInfo = $this->getTicketInfo($ticket);
 
-                if ($adjustTicket && in_array($ticketInfo['status'], $ifStatus))
-                {
+                if ($adjustTicket && in_array($ticketInfo['status'], $ifStatus)) {
                     $this->updateTicket($ticket, $newStatus, $message, $resolution);
                 }
             }

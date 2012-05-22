@@ -5,7 +5,7 @@
  * @package redaxo4
  */
 
-if (version_compare(PHP_VERSION, '5.3.0') < 0)
+if(version_compare(PHP_VERSION, '5.3.0') < 0)
 {
   exit('PHP version >=5.3 needed!');
 }
@@ -47,9 +47,9 @@ rex::setProperty('subversion', 0);
 rex::setProperty('minorversion', 'alpha3');
 
 $config = rex_file::getConfig(rex_path::data('config.yml'));
-foreach ($config as $key => $value)
+foreach($config as $key => $value)
 {
-  if (in_array($key, array('fileperm', 'dirperm')))
+  if(in_array($key, array('fileperm', 'dirperm')))
   {
     $value = octdec($value);
   }
@@ -65,7 +65,7 @@ rex_perm::register('advancedMode[]', rex_i18n::msg('perm_options_advancedMode[]'
 rex_complex_perm::register('clang', 'rex_clang_perm');
 
 // ----- SET CLANG
-if (!rex::isSetup())
+if(!rex::isSetup())
 {
   rex_clang::setId(rex_request('clang', 'int', rex::getProperty('start_clang_id')));
 }

@@ -33,7 +33,7 @@ class rex_rssReader extends SimplePie
   {
     parent::__construct();
 
-    if ($cache_location == null)
+    if($cache_location == null)
     {
       $cache_location = rex_path::addonCache('be_dashboard');
     }

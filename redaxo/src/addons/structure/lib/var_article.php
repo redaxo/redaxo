@@ -34,7 +34,7 @@ class rex_var_article extends rex_var
 
   static public function handleDefaultParam($varname, array $args, $name, $value)
   {
-    switch ($name)
+    switch($name)
     {
       case '1' :
       case 'clang' :
@@ -68,11 +68,11 @@ class rex_var_article extends rex_var
       $field      = $this->getArg('field', $args, '');
 
       $tpl = '';
-      if ($article_id > 0)
+      if($article_id > 0)
       {
         $article = $article_id;
       }
-      elseif ($clang == 'null')
+      else if($clang == 'null')
       {
         $article = '$this->getValue(\'id\')';
       }
@@ -81,16 +81,16 @@ class rex_var_article extends rex_var
         $article = '$this';
       }
 
-      if ($field)
+      if($field)
       {
-        if (rex_ooArticle::hasValue($field))
+        if(rex_ooArticle::hasValue($field))
         {
           $tpl = '<?php echo '. __CLASS__ .'::getArticleValue('. $article .", '". $field ."', ". $clang .", '". json_encode($args) ."'); ?>";
         }
       }
       else
       {
-        if ($article != 0 || $replaceInTemplate)
+        if($article != 0 || $replaceInTemplate)
         {
           // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
           // => endlossschleife
@@ -98,7 +98,7 @@ class rex_var_article extends rex_var
         }
       }
 
-      if ($tpl != '')
+      if($tpl != '')
         $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
     }
 
@@ -107,11 +107,11 @@ class rex_var_article extends rex_var
 
   static public function getArticleValue($article, $field, $clang = null, $args = '')
   {
-    if ($clang === null)
+    if($clang === null)
     {
       $clang = rex_clang::getId();
     }
-    if (!is_object($article))
+    if(!is_object($article))
     {
       $article = rex_ooArticle::getArticleById($article, $clang);
     }
@@ -123,11 +123,11 @@ class rex_var_article extends rex_var
 
   static public function getArticle($article, $ctype = -1, $clang = null, $args = '')
   {
-    if ($clang === null)
+    if($clang === null)
     {
       $clang = rex_clang::getId();
     }
-    if (!is_object($article))
+    if(!is_object($article))
     {
       $article = new rex_article($article, $clang);
     }

@@ -86,8 +86,7 @@ class PHPUnit_Framework_Comparator_Object extends PHPUnit_Framework_Comparator_A
      */
     public function assertEquals($expected, $actual, $delta = 0, $canonicalize = FALSE, $ignoreCase = FALSE, array &$processed = array())
     {
-        if (get_class($actual) !== get_class($expected))
-        {
+        if (get_class($actual) !== get_class($expected)) {
             throw new PHPUnit_Framework_ComparisonFailure(
               $expected,
               $actual,
@@ -105,8 +104,7 @@ class PHPUnit_Framework_Comparator_Object extends PHPUnit_Framework_Comparator_A
 
         // don't compare twice to allow for cyclic dependencies
         if (in_array(array($actual, $expected), $processed, TRUE) ||
-            in_array(array($expected, $actual), $processed, TRUE))
-            {
+            in_array(array($expected, $actual), $processed, TRUE)) {
             return;
         }
 
@@ -115,15 +113,12 @@ class PHPUnit_Framework_Comparator_Object extends PHPUnit_Framework_Comparator_A
         // don't compare objects if they are identical
         // this helps to avoid the error "maximum function nesting level reached"
         // CAUTION: this conditional clause is not tested
-        if ($actual !== $expected)
-        {
-            try
-            {
+        if ($actual !== $expected) {
+            try {
                 parent::assertEquals($this->toArray($expected), $this->toArray($actual), $delta, $canonicalize, $ignoreCase, $processed);
             }
 
-            catch (PHPUnit_Framework_ComparisonFailure $e)
-            {
+            catch (PHPUnit_Framework_ComparisonFailure $e) {
                 throw new PHPUnit_Framework_ComparisonFailure(
                   $expected,
                   $actual,

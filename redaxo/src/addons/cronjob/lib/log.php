@@ -15,9 +15,9 @@ class rex_cronjob_log
     $folder = REX_CRONJOB_LOG_FOLDER;
     $years = array ();
 
-    if (is_dir($folder))
+    if(is_dir($folder))
     {
-      foreach (rex_dir::iterator($folder)->ignoreFiles()->ignorePrefixes('.')->sort() as $file)
+      foreach(rex_dir::iterator($folder)->ignoreFiles()->ignorePrefixes('.')->sort() as $file)
       {
         $years[] = $file->getFilename();
       }
@@ -30,7 +30,7 @@ class rex_cronjob_log
   {
     $folder = REX_CRONJOB_LOG_FOLDER;
     $months = array();
-    foreach (glob($folder . $year .'/'. $year .'-*.log') as $file)
+    foreach(glob($folder . $year .'/'. $year .'-*.log') as $file)
     {
       $month = substr($file, -6, 2);
       $months[] = $month;
@@ -41,7 +41,7 @@ class rex_cronjob_log
   static public function getYearMonthArray()
   {
     $array = array();
-    foreach (self::getYears() as $year)
+    foreach(self::getYears() as $year)
     {
       $months = self::getMonths($year);
       if (!empty($months))
@@ -69,15 +69,15 @@ class rex_cronjob_log
   {
     $array = array_reverse(self::getYearMonthArray(),true);
     $messages = array();
-    foreach ($array as $year => $months)
+    foreach($array as $year => $months)
     {
       $months = array_reverse($months,true);
-      foreach ($months as $month)
+      foreach($months as $month)
       {
         $lines = explode("\n", trim(self::getLogOfMonth($month, $year)));
 
         $end = min($limit - count($messages), count($lines));
-        for ($i = 0; $i < $end; $i++)
+        for($i = 0; $i < $end; $i++)
           $messages[] = $lines[$i];
 
         if (count($messages) >= $limit)
@@ -163,7 +163,7 @@ class rex_cronjob_log
     }
     else
     {
-      foreach ($lines as $line)
+      foreach($lines as $line)
       {
         $data = explode(' | ', $line, 5);
         for ($i = 0; $i < 5; $i++)

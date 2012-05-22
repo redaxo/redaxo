@@ -52,7 +52,7 @@ if (!function_exists('readFilteredFolder'))
 
       foreach ($folder as $file)
       {
-         if (substr($file, strlen($file) - strlen($fileprefix)) == $fileprefix)
+         if(substr($file, strlen($file) - strlen($fileprefix)) == $fileprefix)
          {
             $filtered[] = $file;
          }

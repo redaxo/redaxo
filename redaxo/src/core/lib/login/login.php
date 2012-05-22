@@ -154,7 +154,7 @@ class rex_login
       // checkLogin schonmal ausgeführt ? gecachte ausgabe erlaubt ?
       if ($this->cache)
       {
-        if ($this->login_status > 0)
+        if($this->login_status > 0)
           return true;
         elseif ($this->login_status < 0)
           return false;
@@ -253,7 +253,7 @@ class rex_login
    */
   public function getValue($value, $default = NULL)
   {
-    if ($this->USER)
+    if($this->USER)
       return $this->USER->getValue($value);
 
     return $default;
@@ -272,10 +272,10 @@ class rex_login
    */
   public function encryptPassword($psw)
   {
-    if (!is_callable($this->passwordfunction))
+    if(!is_callable($this->passwordfunction))
       return $psw;
 
-    if ($this->use_salt)
+    if($this->use_salt)
       $psw .= $this->system_id;
     return call_user_func($this->passwordfunction, $psw);
   }

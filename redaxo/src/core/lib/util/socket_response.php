@@ -19,18 +19,18 @@ class rex_socket_response
 
   public function __construct($resource)
   {
-    if (!is_resource($resource))
+    if(!is_resource($resource))
     {
       throw new rex_exception(sprintf('Expecting $resource to be a resource, but %s given!', gettype($resource)));
     }
 
     $this->fp = $resource;
 
-    while (!feof($this->fp) && strpos($this->header, "\r\n\r\n") === false)
+    while(!feof($this->fp) && strpos($this->header, "\r\n\r\n") === false)
     {
       $this->header .= fgets($this->fp);
     }
-    if (preg_match('@^HTTP/1\.\d ([0-9]{3}) (\V*)@', $this->getHeader(), $matches))
+    if(preg_match('@^HTTP/1\.\d ([0-9]{3}) (\V*)@', $this->getHeader(), $matches))
     {
       $this->statusCode = intval($matches[1]);
       $this->statusMessage = $matches[2];
@@ -135,16 +135,16 @@ class rex_socket_response
    */
   public function getHeader($key = null, $default = null)
   {
-    if ($key === null)
+    if($key === null)
     {
       return $this->header;
     }
     $key = strtolower($key);
-    if (isset($this->headers[$key]))
+    if(isset($this->headers[$key]))
     {
       return $this->headers[$key];
     }
-    if (preg_match('@^'. preg_quote($key, '@') .': (\V*)@im', $this->header, $matches))
+    if(preg_match('@^'. preg_quote($key, '@') .': (\V*)@im', $this->header, $matches))
     {
       return $this->headers[$key] = $matches[1];
     }
@@ -159,16 +159,16 @@ class rex_socket_response
    */
   public function getBufferedBody($length = 1024)
   {
-    if (feof($this->fp))
+    if(feof($this->fp))
     {
       return false;
     }
-    if ($this->chunked)
+    if($this->chunked)
     {
-      if ($this->chunkPos == 0)
+      if($this->chunkPos == 0)
       {
         $this->chunkLength = hexdec(fgets($this->fp));
-        if ($this->chunkLength == 0)
+        if($this->chunkLength == 0)
         {
           return false;
         }
@@ -176,7 +176,7 @@ class rex_socket_response
       $pos = ftell($this->fp);
       $buf = fread($this->fp, min($length, $this->chunkLength - $this->chunkPos));
       $this->chunkPos += ftell($this->fp) - $pos;
-      if ($this->chunkPos >= $this->chunkLength)
+      if($this->chunkPos >= $this->chunkLength)
       {
         fgets($this->fp);
         $this->chunkPos = 0;
@@ -197,9 +197,9 @@ class rex_socket_response
    */
   public function getBody()
   {
-    if ($this->body === null)
+    if($this->body === null)
     {
-      while (($buf = $this->getBufferedBody()) !== false)
+      while(($buf = $this->getBufferedBody()) !== false)
       {
         $this->body .= $buf;
       }
@@ -216,21 +216,21 @@ class rex_socket_response
   public function writeBodyTo($resource)
   {
     $close = false;
-    if (is_string($resource) && rex_dir::create(dirname($resource)))
+    if(is_string($resource) && rex_dir::create(dirname($resource)))
     {
       $resource = fopen($resource, 'wb');
       $close = true;
     }
-    if (!is_resource($resource))
+    if(!is_resource($resource))
     {
       return false;
     }
     $success = true;
-    while ($success && ($buf = $this->getBufferedBody()) !== false)
+    while($success && ($buf = $this->getBufferedBody()) !== false)
     {
       $success = (boolean) fwrite($resource, $buf);
     }
-    if ($close)
+    if($close)
     {
       fclose($resource);
     }
@@ -242,7 +242,7 @@ class rex_socket_response
    */
   public function __destruct()
   {
-    if (is_resource($this->fp))
+    if(is_resource($this->fp))
     {
       fclose($this->fp);
     }

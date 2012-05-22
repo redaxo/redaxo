@@ -88,18 +88,15 @@ class Text_Template
     {
         $distFile = $file . '.dist';
 
-        if (file_exists($file))
-        {
+        if (file_exists($file)) {
             $this->template = file_get_contents($file);
         }
 
-        elseif (file_exists($distFile))
-        {
+        else if (file_exists($distFile)) {
             $this->template = file_get_contents($distFile);
         }
 
-        else
-        {
+        else {
             throw new InvalidArgumentException(
               'Template file could not be loaded.'
             );
@@ -114,12 +111,9 @@ class Text_Template
      */
     public function setVar(array $values, $merge = TRUE)
     {
-        if (!$merge || empty($this->values))
-        {
+        if (!$merge || empty($this->values)) {
             $this->values = $values;
-        }
-        else
-        {
+        } else {
             $this->values = array_merge($this->values, $values);
         }
     }
@@ -133,8 +127,7 @@ class Text_Template
     {
         $keys = array();
 
-        foreach ($this->values as $key => $value)
-        {
+        foreach ($this->values as $key => $value) {
             $keys[] = '{' . $key . '}';
         }
 
@@ -150,13 +143,10 @@ class Text_Template
     {
         $fp = @fopen($target, 'wt');
 
-        if ($fp)
-        {
+        if ($fp) {
             fwrite($fp, $this->render());
             fclose($fp);
-        }
-        else
-        {
+        } else {
             throw new RuntimeException('Could not write to ' . $target . '.');
         }
     }

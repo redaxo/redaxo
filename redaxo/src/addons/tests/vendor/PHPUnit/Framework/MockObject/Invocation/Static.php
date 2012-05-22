@@ -106,10 +106,8 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
         $this->methodName = $methodName;
         $this->parameters = $parameters;
 
-        foreach ($this->parameters as $key => $value)
-        {
-            if (is_object($value))
-            {
+        foreach ($this->parameters as $key => $value) {
+            if (is_object($value)) {
                 $this->parameters[$key] = $this->cloneObject($value);
             }
         }
@@ -147,53 +145,41 @@ class PHPUnit_Framework_MockObject_Invocation_Static implements PHPUnit_Framewor
         // Check the blacklist before asking PHP reflection to work around
         // https://bugs.php.net/bug.php?id=53967
         if ($object->isInternal() &&
-            isset(self::$uncloneableExtensions[$object->getExtensionName()]))
-            {
+            isset(self::$uncloneableExtensions[$object->getExtensionName()])) {
             $cloneable = FALSE;
         }
 
-        if ($cloneable === NULL)
-        {
-            foreach (self::$uncloneableClasses as $class)
-            {
-                if ($original instanceof $class)
-                {
+        if ($cloneable === NULL) {
+            foreach (self::$uncloneableClasses as $class) {
+                if ($original instanceof $class) {
                     $cloneable = FALSE;
                     break;
                 }
             }
         }
 
-        if ($cloneable === NULL && method_exists($object, 'isCloneable'))
-        {
+        if ($cloneable === NULL && method_exists($object, 'isCloneable')) {
             $cloneable = $object->isCloneable();
         }
 
-        if ($cloneable === NULL && $object->hasMethod('__clone'))
-        {
+        if ($cloneable === NULL && $object->hasMethod('__clone')) {
             $method    = $object->getMethod('__clone');
             $cloneable = $method->isPublic();
         }
 
-        if ($cloneable === NULL)
-        {
+        if ($cloneable === NULL) {
             $cloneable = TRUE;
         }
 
-        if ($cloneable)
-        {
-            try
-            {
+        if ($cloneable) {
+            try {
                 return clone $original;
             }
 
-            catch (Exception $e)
-            {
+            catch (Exception $e) {
                 return $original;
             }
-        }
-        else
-        {
+        } else {
             return $original;
         }
     }

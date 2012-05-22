@@ -64,8 +64,7 @@ class PHP_Token_Stream_CachingFactory
      */
     public static function get($filename)
     {
-        if (!isset(self::$cache[$filename]))
-        {
+        if (!isset(self::$cache[$filename])) {
             self::$cache[$filename] = new PHP_Token_Stream($filename);
         }
 
@@ -77,12 +76,9 @@ class PHP_Token_Stream_CachingFactory
      */
     public static function clear($filename = NULL)
     {
-        if (is_string($filename))
-        {
+        if (is_string($filename)) {
             unset(self::$cache[$filename]);
-        }
-        else
-        {
+        } else {
             self::$cache = array();
         }
     }

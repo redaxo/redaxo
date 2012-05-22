@@ -86,8 +86,7 @@ class PHPUnit_Framework_Comparator_DOMDocument extends PHPUnit_Framework_Compara
      */
     public function assertEquals($expected, $actual, $delta = 0, $canonicalize = FALSE, $ignoreCase = FALSE)
     {
-        if ($expected->C14N() !== $actual->C14N())
-        {
+        if ($expected->C14N() !== $actual->C14N()) {
             throw new PHPUnit_Framework_ComparisonFailure(
               $expected,
               $actual,

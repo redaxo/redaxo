@@ -12,7 +12,7 @@ class rex_clang_service
    */
   static public function addCLang($id, $name)
   {
-    if (rex_clang::exists($id))
+    if(rex_clang::exists($id))
       return FALSE;
 
     $newLang = rex_sql::factory();
@@ -39,7 +39,7 @@ class rex_clang_service
    */
   static public function editCLang($id, $name)
   {
-    if (!rex_clang::exists($id))
+    if(!rex_clang::exists($id))
       return false;
 
     $editLang = rex_sql::factory();
@@ -97,13 +97,13 @@ class rex_clang_service
     $lg->setQuery("select * from ".rex::getTablePrefix()."clang order by id");
 
     $clangs = array();
-    foreach ($lg as $lang)
+    foreach($lg as $lang)
     {
       $clangs[$lang->getValue("id")] = $lang->getValue("name");
     }
 
     $file = rex_path::cache('clang.cache');
-    if (rex_file::putCache($file, $clangs) === FALSE)
+    if(rex_file::putCache($file, $clangs) === FALSE)
     {
       return 'Datei "'.$file.'" hat keine Schreibrechte';
     }

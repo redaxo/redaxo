@@ -10,7 +10,7 @@ class rex_api_content_move_slice extends rex_api_function
     $direction   = rex_request('direction',   'string');
 
     $ooArt = rex_ooArticle::getArticleById($article_id, $clang);
-    if (!rex_ooArticle::isValid($ooArt))
+    if(!rex_ooArticle::isValid($ooArt))
     {
       throw new rex_api_exception('Unable to find article with id "'. $article_id .'" and clang "'. $clang .'"!');
     }
@@ -22,13 +22,11 @@ class rex_api_content_move_slice extends rex_api_function
     $user = rex::getUser();
 
     // check permissions
-    if (!$user->hasPerm('moveSlice[]'))
-    {
+    if(!$user->hasPerm('moveSlice[]')) {
       throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
     }
 
-    if (!$user->getComplexPerm('structure')->hasCategoryPerm($category_id))
-    {
+    if(!$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
       throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
     }
 

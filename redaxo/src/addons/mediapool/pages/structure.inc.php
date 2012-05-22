@@ -13,8 +13,7 @@ if ($PERMALL)
 {
   $edit_id = rex_request('edit_id', 'int');
 
-  try
-  {
+  try {
     if ($media_method == 'edit_file_cat')
     {
       $cat_name = rex_request('cat_name', 'string');
@@ -28,8 +27,7 @@ if ($PERMALL)
       $info = rex_i18n::msg('pool_kat_updated',$cat_name);
       rex_media_cache::deleteCategory($edit_id);
 
-    }
-    elseif ($media_method == 'delete_file_cat')
+    } elseif ($media_method == 'delete_file_cat')
     {
       $gf = rex_sql::factory();
       $gf->setQuery('SELECT * FROM '.rex::getTablePrefix().'media WHERE category_id='.$edit_id);
@@ -41,13 +39,11 @@ if ($PERMALL)
         rex_media_cache::deleteCategory($edit_id);
         rex_media_cache::deleteLists();
         $info = rex_i18n::msg('pool_kat_deleted');
-      }
-      else
+      }else
       {
         $warning = rex_i18n::msg('pool_kat_not_deleted');
       }
-    }
-    elseif ($media_method == 'add_file_cat')
+    } elseif ($media_method == 'add_file_cat')
     {
       $db = rex_sql::factory();
       $db->setTable(rex::getTablePrefix().'media_category');
@@ -61,9 +57,7 @@ if ($PERMALL)
       $info = rex_i18n::msg('pool_kat_saved', rex_request('catname'));
       rex_media_cache::deleteCategoryList(rex_request('cat_id', 'int'));
     }
-  }
-  catch (rex_sql_exception $e)
-  {
+  } catch (rex_sql_exception $e) {
     $warning = $e->getMessage();
   }
 
@@ -77,8 +71,7 @@ if ($PERMALL)
     $OOCats = rex_ooMediaCategory::getRootCategories();
     $cat_id = 0;
     $catpath = "|";
-  }
-  else
+  }else
   {
     $OOCats = $OOCat->getChildren();
     $paths = explode("|",$OOCat->getPath());
@@ -168,8 +161,7 @@ if ($PERMALL)
     ';
   }
 
-  foreach ( $OOCats as $OOCat)
-  {
+  foreach( $OOCats as $OOCat) {
 
     $iid = $OOCat->getId();
     $iname = $OOCat->getName();
@@ -190,8 +182,7 @@ if ($PERMALL)
           </td>
         </tr>
       ';
-    }
-    else
+    }else
     {
       echo '<tr>
               <td class="rex-icon"><a class="rex-i-element rex-i-mediapool-category" href="'. $link . $iid .'"><span class="rex-i-element-text">'.htmlspecialchars($OOCat->getName()).'</span></a></td>

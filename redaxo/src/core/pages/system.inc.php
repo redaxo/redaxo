@@ -10,12 +10,12 @@ $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
 // -------------- Header
-if ($subpage != 'phpinfo')
+if($subpage != 'phpinfo')
 {
   echo rex_view::title(rex_i18n::msg('system'));
 }
 
-switch ($subpage)
+switch($subpage)
 {
   case 'lang': $file = 'system.clangs.inc.php'; break;
   case 'log': $file = 'system.log.inc.php'; break;

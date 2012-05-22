@@ -20,13 +20,13 @@ class rex_plugin_manager extends rex_package_manager
     $i18nPrefix = 'addon_dependencies_error_';
     $state = array();
 
-    foreach (rex_package::getAvailablePackages() as $package)
+    foreach(rex_package::getAvailablePackages() as $package)
     {
-      if ($package === $this->package)
+      if($package === $this->package)
         continue;
 
       $requirements = $package->getProperty('requires', array());
-      if (isset($requirements['addons'][$this->package->getAddon()->getName()]['plugins'][$this->package->getName()]))
+      if(isset($requirements['addons'][$this->package->getAddon()->getName()]['plugins'][$this->package->getName()]))
       {
         $state[] = rex_i18n::msg($i18nPrefix . $package->getType(), $package->getAddon()->getName(), $package->getName());
       }

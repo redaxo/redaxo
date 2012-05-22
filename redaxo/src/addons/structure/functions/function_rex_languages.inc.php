@@ -12,7 +12,7 @@ $languages = array();
 if ($num_clang>1)
 {
   $i = 1;
-  foreach (rex_clang::getAll() as $key => $val)
+  foreach(rex_clang::getAll() as $key => $val)
   {
 
      if (rex::getUser()->getComplexPerm('clang')->hasPerm($key))

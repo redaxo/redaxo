@@ -24,13 +24,13 @@ class rex_form_radio_element extends rex_form_options_element
     $id = $this->getAttribute('id');
 
     $attr = '';
-    foreach ($this->getAttributes() as $attributeName => $attributeValue)
+    foreach($this->getAttributes() as $attributeName => $attributeValue)
     {
-      if ($attributeName == 'id') continue;
+      if($attributeName == 'id') continue;
       $attr .= ' '. $attributeName .'="'. $attributeValue .'"';
     }
 
-    foreach ($options as $opt_name => $opt_value)
+    foreach($options as $opt_name => $opt_value)
     {
       $checked = $opt_value == $value ? ' checked="checked"' : '';
       $opt_id = $id .'_'. $this->_normalizeId($opt_value);

@@ -198,8 +198,7 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if ($this->currentTestPass)
-        {
+        if ($this->currentTestPass) {
             $this->writeCase('pass', $time, array(), '', $test);
         }
     }
@@ -213,8 +212,7 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
     protected function writeCase($status, $time, array $trace = array(), $message = '', $test = NULL)
     {
         $output = '';
-        if ($test !== NULL && $test->hasOutput())
-        {
+        if ($test !== NULL && $test->hasOutput()) {
             $output = $test->getActualOutput();
         }
         $this->write(

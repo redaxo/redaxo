@@ -92,13 +92,10 @@ class PHPUnit_Util_TestDox_ResultPrinter_HTML extends PHPUnit_Util_TestDox_Resul
      */
     protected function onTest($name, $success = TRUE)
     {
-        if (!$success)
-        {
+        if (!$success) {
             $strikeOpen  = '<strike>';
             $strikeClose = '</strike>';
-        }
-        else
-        {
+        } else {
             $strikeOpen  = '';
             $strikeClose = '';
         }

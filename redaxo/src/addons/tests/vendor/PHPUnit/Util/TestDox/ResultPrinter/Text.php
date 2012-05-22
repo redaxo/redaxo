@@ -75,12 +75,9 @@ class PHPUnit_Util_TestDox_ResultPrinter_Text extends PHPUnit_Util_TestDox_Resul
      */
     protected function onTest($name, $success = TRUE)
     {
-        if ($success)
-        {
+        if ($success) {
             $this->write(' [x] ');
-        }
-        else
-        {
+        } else {
             $this->write(' [ ] ');
         }
 

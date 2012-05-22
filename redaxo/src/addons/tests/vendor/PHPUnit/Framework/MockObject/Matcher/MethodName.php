@@ -70,10 +70,8 @@ class PHPUnit_Framework_MockObject_Matcher_MethodName extends PHPUnit_Framework_
      */
     public function __construct($constraint)
     {
-        if (!$constraint instanceof PHPUnit_Framework_Constraint)
-        {
-            if (!is_string($constraint))
-            {
+        if (!$constraint instanceof PHPUnit_Framework_Constraint) {
+            if (!is_string($constraint)) {
                 throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
             }
 

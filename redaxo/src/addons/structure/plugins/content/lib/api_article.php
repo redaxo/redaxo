@@ -28,7 +28,7 @@ class rex_article extends rex_article_base
   public function setArticleId($article_id)
   {
     // bc
-    if ($this->viasql)
+    if($this->viasql)
     {
       return parent::setArticleId($article_id);
     }
@@ -37,7 +37,7 @@ class rex_article extends rex_article_base
     $this->article_id = $article_id;
 
     $rex_ooArticle = rex_ooArticle::getArticleById($article_id, $this->clang);
-    if (rex_ooArticle::isValid($rex_ooArticle))
+    if(rex_ooArticle::isValid($rex_ooArticle))
     {
       $this->category_id = $rex_ooArticle->getCategoryId();
       $this->template_id = $rex_ooArticle->getTemplateId();
@@ -53,7 +53,7 @@ class rex_article extends rex_article_base
   protected function correctValue($value)
   {
     // bc
-    if ($this->viasql)
+    if($this->viasql)
     {
       return parent::correctValue($value);
     }
@@ -70,7 +70,7 @@ class rex_article extends rex_article_base
   protected function _getValue($value)
   {
     // bc
-    if ($this->viasql)
+    if($this->viasql)
     {
       return parent::_getValue($value);
     }
@@ -83,7 +83,7 @@ class rex_article extends rex_article_base
   public function hasValue($value)
   {
     // bc
-    if ($this->viasql)
+    if($this->viasql)
     {
       return parent::hasValue($value);
     }
@@ -96,7 +96,7 @@ class rex_article extends rex_article_base
   public function getArticle($curctype = -1)
   {
     // bc
-    if ($this->viasql)
+    if($this->viasql)
     {
       return parent::getArticle($curctype);
     }
@@ -112,18 +112,18 @@ class rex_article extends rex_article_base
       ob_implicit_flush(0);
 
       $article_content_file = rex_path::addonCache('structure', $this->article_id.'.'.$this->clang.'.content');
-      if (!file_exists($article_content_file))
+      if(!file_exists($article_content_file))
       {
         include_once rex_path::plugin('structure', 'content', 'functions/function_rex_content.inc.php');
         $generated = rex_content_service::generateArticleContent($this->article_id, $this->clang);
-        if ($generated !== true)
+        if($generated !== true)
         {
           // fehlermeldung ausgeben
           echo $generated;
         }
       }
 
-      if (file_exists($article_content_file))
+      if(file_exists($article_content_file))
       {
         require $article_content_file;
       }

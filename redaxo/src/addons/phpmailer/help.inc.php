@@ -21,7 +21,7 @@ PHPMailer Addon
 
 <?php
   $file = dirname( __FILE__) .'/_changelog.txt';
-  if (is_readable($file))
+  if(is_readable($file))
     echo str_replace( '+', '&nbsp;&nbsp;+', nl2br(file_get_contents($file)));
 ?>
 </p>

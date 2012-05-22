@@ -44,7 +44,7 @@ class rex_content_service
           $upd->setValue('prior', $CM->getValue('prior')-1);
           $updSort = 'DESC';
         }
-        elseif ($direction == "movedown")
+        else if ($direction == "movedown")
         {
           $upd->setValue('prior', $CM->getValue('prior')+1);
           $updSort = 'ASC';
@@ -62,7 +62,7 @@ class rex_content_service
         // check if the slice moved at all (first cannot be moved up, last not down)
         $CM->setQuery("select * from " . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang=$clang");
         $newPrior = $CM->getValue('prior');
-        if ($oldPrior == $newPrior)
+        if($oldPrior == $newPrior)
         {
           throw new rex_api_exception(rex_i18n::msg('slice_moved_error'));
         }
@@ -94,7 +94,7 @@ class rex_content_service
     // check if slice id is valid
     $curr = rex_sql::factory();
     $curr->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice WHERE id=' . $slice_id);
-    if ($curr->getRows() != 1)
+    if($curr->getRows() != 1)
     {
       return false;
     }
@@ -143,9 +143,9 @@ class rex_content_service
       $cols = rex_sql::factory();
       // $cols->debugsql = 1;
       $cols->setquery("SHOW COLUMNS FROM ".rex::getTablePrefix()."article_slice");
-      foreach ($gc as $slice)
+      foreach($gc as $slice)
       {
-        foreach ($cols as $col)
+        foreach($cols as $col)
         {
           $colname = $col->getValue("Field");
           if ($colname == "clang") $value = $to_clang;
@@ -166,7 +166,7 @@ class rex_content_service
         $ins->insert();
       }
 
-      foreach ($ctypes as $ctype)
+      foreach($ctypes as $ctype)
       {
         // reorg slices
         rex_sql_util::organizePriorities(
@@ -194,9 +194,9 @@ class rex_content_service
    */
   static public function generateArticleContent($article_id, $clang = null)
   {
-    foreach (rex_clang::getAllIds() as $_clang)
+    foreach(rex_clang::getAllIds() as $_clang)
     {
-      if ($clang !== null && $clang != $_clang)
+      if($clang !== null && $clang != $_clang)
       continue;
 
       $CONT = new rex_article_base();

@@ -74,10 +74,8 @@ class PHPUnit_Framework_MockObject_Matcher_Parameters extends PHPUnit_Framework_
      */
     public function __construct(array $parameters)
     {
-        foreach ($parameters as $parameter)
-        {
-            if (!($parameter instanceof PHPUnit_Framework_Constraint))
-            {
+        foreach($parameters as $parameter) {
+            if (!($parameter instanceof PHPUnit_Framework_Constraint)) {
                 $parameter = new PHPUnit_Framework_Constraint_IsEqual(
                   $parameter
                 );
@@ -94,10 +92,8 @@ class PHPUnit_Framework_MockObject_Matcher_Parameters extends PHPUnit_Framework_
     {
         $text = 'with parameter';
 
-        foreach ($this->parameters as $index => $parameter)
-        {
-            if ($index > 0)
-            {
+        foreach($this->parameters as $index => $parameter) {
+            if ($index > 0) {
                 $text .= ' and';
             }
 
@@ -132,15 +128,13 @@ class PHPUnit_Framework_MockObject_Matcher_Parameters extends PHPUnit_Framework_
      */
     public function verify()
     {
-        if ($this->invocation === NULL)
-        {
+        if ($this->invocation === NULL) {
             throw new PHPUnit_Framework_ExpectationFailedException(
               'Mocked method does not exist.'
             );
         }
 
-        if (count($this->invocation->parameters) < count($this->parameters))
-        {
+        if (count($this->invocation->parameters) < count($this->parameters)) {
             throw new PHPUnit_Framework_ExpectationFailedException(
               sprintf(
                 'Parameter count for invocation %s is too low.',
@@ -150,8 +144,7 @@ class PHPUnit_Framework_MockObject_Matcher_Parameters extends PHPUnit_Framework_
             );
         }
 
-        foreach ($this->parameters as $i => $parameter)
-        {
+        foreach ($this->parameters as $i => $parameter) {
             $parameter->evaluate(
               $this->invocation->parameters[$i],
               sprintf(

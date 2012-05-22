@@ -63,7 +63,7 @@ class rex_cronjob_manager_sql
       WHERE   id = ?
       LIMIT   1
     ', array($id));
-    if ($this->sql->getRows() == 1)
+    if($this->sql->getRows() == 1)
       return $this->sql->getValue('name');
     return null;
   }
@@ -212,7 +212,7 @@ class rex_cronjob_manager_sql
       FROM    '. REX_CRONJOB_TABLE .'
       WHERE   status = 1
     ');
-    if ($this->sql->getRows() == 1)
+    if($this->sql->getRows() == 1)
       return $this->sql->getValue('nexttime');
     return null;
   }
@@ -238,7 +238,7 @@ class rex_cronjob_manager_sql
     if (is_array($interval) && isset($interval[0]) && isset($interval[1]))
     {
       $date = getdate();
-      switch ($interval[1])
+      switch($interval[1])
       {
         case 'i': return mktime($date['hours'], $date['minutes'] + $interval[0], 0);
         case 'h': return mktime($date['hours'] + $interval[0], 0, 0);

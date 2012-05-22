@@ -30,11 +30,11 @@ class rex_addon extends rex_package implements rex_addon_interface
    */
   static public function get($addon)
   {
-    if (!is_string($addon))
+    if(!is_string($addon))
     {
       throw new rex_exception('Expecting $addon to be string, but '. gettype($addon) .' given!');
     }
-    if (!isset(self::$addons[$addon]))
+    if(!isset(self::$addons[$addon]))
     {
       return rex_null_addon::getInstance();
     }
@@ -124,7 +124,7 @@ class rex_addon extends rex_package implements rex_addon_interface
   {
     $args = func_get_args();
     $key = $this->getName() .'_'. $key;
-    if (rex_i18n::hasMsg($key))
+    if(rex_i18n::hasMsg($key))
     {
       $args[0] = $key;
     }
@@ -136,11 +136,11 @@ class rex_addon extends rex_package implements rex_addon_interface
    */
   public function getPlugin($plugin)
   {
-    if (!is_string($plugin))
+    if(!is_string($plugin))
     {
       throw new rex_exception('Expecting $plugin to be string, but '. gettype($plugin) .' given!');
     }
-    if (!isset($this->plugins[$plugin]))
+    if(!isset($this->plugins[$plugin]))
     {
       return rex_null_plugin::getInstance();
     }
@@ -196,9 +196,9 @@ class rex_addon extends rex_package implements rex_addon_interface
       $systemPlugins = (array) $this->getProperty('system_plugins', array());
     }
     $plugins = array();
-    foreach ($systemPlugins as $plugin)
+    foreach($systemPlugins as $plugin)
     {
-      if ($this->pluginExists($plugin))
+      if($this->pluginExists($plugin))
       {
         $plugins[$plugin] = $this->getPlugin($plugin);
       }
@@ -244,9 +244,9 @@ class rex_addon extends rex_package implements rex_addon_interface
   static public function getSetupAddons()
   {
     $addons = array();
-    foreach ((array) rex::getProperty('setup_addons', array()) as $addon)
+    foreach((array) rex::getProperty('setup_addons', array()) as $addon)
     {
-      if (rex_addon::exists($addon))
+      if(rex_addon::exists($addon))
       {
         $addons[$addon] = self::get($addon);
       }
@@ -262,9 +262,9 @@ class rex_addon extends rex_package implements rex_addon_interface
   static public function getSystemAddons()
   {
     $addons = array();
-    foreach ((array) rex::getProperty('system_addons', array()) as $addon)
+    foreach((array) rex::getProperty('system_addons', array()) as $addon)
     {
-      if (rex_addon::exists($addon))
+      if(rex_addon::exists($addon))
       {
         $addons[$addon] = self::get($addon);
       }
@@ -277,38 +277,38 @@ class rex_addon extends rex_package implements rex_addon_interface
    */
   static public function initialize($dbExists = true)
   {
-    if ($dbExists)
+    if($dbExists)
     {
       $config = rex::getConfig('package-config', array());
     }
     else
     {
       $config = array();
-      foreach (rex::getProperty('setup_addons') as $addon)
+      foreach(rex::getProperty('setup_addons') as $addon)
       {
         $config[$addon]['install'] = false;
       }
     }
     $addons = self::$addons;
     self::$addons = array();
-    foreach ($config as $addonName => $addonConfig)
+    foreach($config as $addonName => $addonConfig)
     {
       $addon = isset($addons[$addonName]) ? $addons[$addonName] : new rex_addon($addonName);
       $addon->setProperty('install', isset($addonConfig['install']) ? $addonConfig['install'] : false);
       $addon->setProperty('status', isset($addonConfig['status']) ? $addonConfig['status'] : false);
       self::$addons[$addonName] = $addon;
-      if (!$dbExists && is_array($plugins = $addon->getProperty('system_plugins')))
+      if(!$dbExists && is_array($plugins = $addon->getProperty('system_plugins')))
       {
-        foreach ($plugins as $plugin)
+        foreach($plugins as $plugin)
         {
           $config[$addonName]['plugins'][$plugin]['install'] = false;
         }
       }
-      if (isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins']))
+      if(isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins']))
       {
         $plugins = $addon->plugins;
         $addon->plugins = array();
-        foreach ($config[$addonName]['plugins'] as $pluginName => $pluginConfig)
+        foreach($config[$addonName]['plugins'] as $pluginName => $pluginConfig)
         {
           $plugin = isset($plugins[$pluginName]) ? $plugins[$pluginName] : new rex_plugin($pluginName, $addon);
           $plugin->setProperty('install', isset($pluginConfig['install']) ? $pluginConfig['install'] : false);

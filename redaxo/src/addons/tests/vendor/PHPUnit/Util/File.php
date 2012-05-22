@@ -43,8 +43,7 @@
  * @since      File available since Release 3.4.0
  */
 
-if (!defined('T_NAMESPACE'))
-{
+if (!defined('T_NAMESPACE')) {
     define('T_NAMESPACE', 377);
 }
 
@@ -75,8 +74,7 @@ class PHPUnit_Util_File
      */
     public static function getClassesInFile($filename)
     {
-        if (!isset(self::$cache[$filename]))
-        {
+        if (!isset(self::$cache[$filename])) {
             self::$cache[$filename] = self::parseFile($filename);
         }
 
@@ -109,34 +107,24 @@ class PHPUnit_Util_File
         $currentSignature           = FALSE;
         $currentSignatureStartToken = FALSE;
 
-        for ($i = 0; $i < $numTokens; $i++)
-        {
-            if ($currentFunction !== FALSE)
-            {
+        for ($i = 0; $i < $numTokens; $i++) {
+            if ($currentFunction !== FALSE) {
                 $currentFunctionTokens[] = $tokens[$i];
             }
 
-            if (is_string($tokens[$i]))
-            {
-                if ($tokens[$i] == '{')
-                {
-                    if ($currentBlock == T_CLASS)
-                    {
+            if (is_string($tokens[$i])) {
+                if ($tokens[$i] == '{') {
+                    if ($currentBlock == T_CLASS) {
                         $block = $currentClass;
                     }
 
-                    elseif ($currentBlock == T_FUNCTION)
-                    {
+                    else if ($currentBlock == T_FUNCTION) {
                         $currentSignature = '';
 
-                        for ($j = $currentSignatureStartToken; $j < $i; $j++)
-                        {
-                            if (is_string($tokens[$j]))
-                            {
+                        for ($j = $currentSignatureStartToken; $j < $i; $j++) {
+                            if (is_string($tokens[$j])) {
                                 $currentSignature .= $tokens[$j];
-                            }
-                            else
-                            {
+                            } else {
                                 $currentSignature .= $tokens[$j][1];
                             }
                         }
@@ -147,8 +135,7 @@ class PHPUnit_Util_File
                         $currentSignatureStartToken = FALSE;
                     }
 
-                    else
-                    {
+                    else {
                         $block = FALSE;
                     }
 
@@ -157,21 +144,15 @@ class PHPUnit_Util_File
                     $currentBlock = FALSE;
                 }
 
-                elseif ($tokens[$i] == '}')
-                {
+                else if ($tokens[$i] == '}') {
                     $block = array_pop($blocks);
 
-                    if ($block !== FALSE && $block !== NULL)
-                    {
-                        if ($block == $currentFunction)
-                        {
-                            if ($currentDocComment !== FALSE)
-                            {
+                    if ($block !== FALSE && $block !== NULL) {
+                        if ($block == $currentFunction) {
+                            if ($currentDocComment !== FALSE) {
                                 $docComment        = $currentDocComment;
                                 $currentDocComment = FALSE;
-                            }
-                            else
-                            {
+                            } else {
                                 $docComment = '';
                             }
 
@@ -183,8 +164,7 @@ class PHPUnit_Util_File
                               'tokens'     => $currentFunctionTokens
                             );
 
-                            if ($currentClass !== FALSE)
-                            {
+                            if ($currentClass !== FALSE) {
                                 $result[$currentClass]['methods'][$currentFunction] = $tmp;
                             }
 
@@ -194,8 +174,7 @@ class PHPUnit_Util_File
                             $currentSignature         = FALSE;
                         }
 
-                        elseif ($block == $currentClass)
-                        {
+                        else if ($block == $currentClass) {
                             $result[$currentClass]['endLine'] = $line;
 
                             $currentClass          = FALSE;
@@ -207,67 +186,51 @@ class PHPUnit_Util_File
                 continue;
             }
 
-            switch ($tokens[$i][0])
-            {
-                case T_HALT_COMPILER:
-                {
+            switch ($tokens[$i][0]) {
+                case T_HALT_COMPILER: {
                     return;
                 }
                 break;
 
-                case T_NAMESPACE:
-                {
+                case T_NAMESPACE: {
                     $currentNamespace = $tokens[$i+2][1];
 
-                    for ($j = $i+3; $j < $numTokens; $j += 2)
-                    {
-                        if ($tokens[$j][0] == T_NS_SEPARATOR)
-                        {
+                    for ($j = $i+3; $j < $numTokens; $j += 2) {
+                        if ($tokens[$j][0] == T_NS_SEPARATOR) {
                             $currentNamespace .= '\\' . $tokens[$j+1][1];
-                        }
-                        else
-                        {
+                        } else {
                             break;
                         }
                     }
                 }
                 break;
 
-                case T_CURLY_OPEN:
-                {
+                case T_CURLY_OPEN: {
                     $currentBlock = T_CURLY_OPEN;
                     array_push($blocks, $currentBlock);
                 }
                 break;
 
-                case T_DOLLAR_OPEN_CURLY_BRACES:
-                {
+                case T_DOLLAR_OPEN_CURLY_BRACES: {
                     $currentBlock = T_DOLLAR_OPEN_CURLY_BRACES;
                     array_push($blocks, $currentBlock);
                 }
                 break;
 
-                case T_CLASS:
-                {
+                case T_CLASS: {
                     $currentBlock = T_CLASS;
 
-                    if ($currentNamespace === FALSE)
-                    {
+                    if ($currentNamespace === FALSE) {
                         $currentClass = $tokens[$i+2][1];
-                    }
-                    else
-                    {
+                    } else {
                         $currentClass = $currentNamespace . '\\' .
                                         $tokens[$i+2][1];
                     }
 
-                    if ($currentDocComment !== FALSE)
-                    {
+                    if ($currentDocComment !== FALSE) {
                         $docComment        = $currentDocComment;
                         $currentDocComment = FALSE;
-                    }
-                    else
-                    {
+                    } else {
                         $docComment = '';
                     }
 
@@ -279,15 +242,13 @@ class PHPUnit_Util_File
                 }
                 break;
 
-                case T_FUNCTION:
-                {
+                case T_FUNCTION: {
                     if (!((is_array($tokens[$i+2]) &&
                           $tokens[$i+2][0] == T_STRING) ||
                          (is_string($tokens[$i+2]) &&
                           $tokens[$i+2] == '&' &&
                           is_array($tokens[$i+3]) &&
-                          $tokens[$i+3][0] == T_STRING)))
-                          {
+                          $tokens[$i+3][0] == T_STRING))) {
                         continue;
                     }
 
@@ -297,54 +258,44 @@ class PHPUnit_Util_File
                     $done                       = FALSE;
                     $currentSignatureStartToken = $i - 1;
 
-                    do
-                    {
-                        switch ($tokens[$currentSignatureStartToken][0])
-                        {
+                    do {
+                        switch ($tokens[$currentSignatureStartToken][0]) {
                             case T_ABSTRACT:
                             case T_FINAL:
                             case T_PRIVATE:
                             case T_PUBLIC:
                             case T_PROTECTED:
                             case T_STATIC:
-                            case T_WHITESPACE:
-                            {
+                            case T_WHITESPACE: {
                                 $currentSignatureStartToken--;
                             }
                             break;
 
-                            default:
-                            {
+                            default: {
                                 $currentSignatureStartToken++;
                                 $done = TRUE;
                             }
                         }
                     } while (!$done);
 
-                    if (isset($tokens[$i+2][1]))
-                    {
+                    if (isset($tokens[$i+2][1])) {
                         $functionName = $tokens[$i+2][1];
                     }
 
-                    elseif (isset($tokens[$i+3][1]))
-                    {
+                    else if (isset($tokens[$i+3][1])) {
                         $functionName = $tokens[$i+3][1];
                     }
 
-                    if ($currentNamespace === FALSE)
-                    {
+                    if ($currentNamespace === FALSE) {
                         $currentFunction = $functionName;
-                    }
-                    else
-                    {
+                    } else {
                         $currentFunction = $currentNamespace . '\\' .
                                            $functionName;
                     }
                 }
                 break;
 
-                case T_DOC_COMMENT:
-                {
+                case T_DOC_COMMENT: {
                     $currentDocComment = $tokens[$i][1];
                 }
                 break;

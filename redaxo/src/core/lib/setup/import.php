@@ -13,7 +13,7 @@ class rex_setup_importer
     $err_msg = '';
 
     $import_sql = rex_path::core('install/update4_x_to_5_0.sql');
-    if ($err_msg == '')
+    if($err_msg == '')
       $err_msg .= self::rex_setup_import($import_sql);
 
     // Aktuelle Daten updaten wenn utf8, da falsch in v4.2.1 abgelegt wurde.
@@ -22,7 +22,7 @@ class rex_setup_importer
     rex_setup_setUtf8();
     }*/
 
-    if ($err_msg == '')
+    if($err_msg == '')
       $err_msg .= self::rex_setup_addons();
 
     return $err_msg;
@@ -33,7 +33,7 @@ class rex_setup_importer
     // ----- vorhandenen Export importieren
     $err_msg = '';
 
-    if ($import_name == '')
+    if($import_name == '')
     {
       $err_msg .= '<p>'.rex_i18n::msg('setup_03701').'</p>';
     }
@@ -45,9 +45,9 @@ class rex_setup_importer
       // Nur hier zuerst die Addons installieren
       // Da sonst Daten aus dem eingespielten Export
       // Überschrieben würden
-      if ($err_msg == '')
+      if($err_msg == '')
         $err_msg .= self::rex_setup_addons(true, false);
-      if ($err_msg == '')
+      if($err_msg == '')
         $err_msg .= self::rex_setup_import($import_sql, $import_archiv);
     }
 
@@ -68,13 +68,13 @@ class rex_setup_importer
     $import_sql = rex_path::core('install/redaxo5_0.sql');
 
     $db = rex_sql::factory();
-    foreach (self::getRequiredTables() as $table)
+    foreach(self::getRequiredTables() as $table)
       $db->setQuery('DROP TABLE IF EXISTS `'. $table .'`');
 
-    if ($err_msg == '')
+    if($err_msg == '')
       $err_msg .= self::rex_setup_import($import_sql);
 
-    if ($err_msg == '')
+    if($err_msg == '')
       $err_msg .= self::rex_setup_addons(true);
 
     return $err_msg;
@@ -86,7 +86,7 @@ class rex_setup_importer
     $err_msg = '';
     $import_sql = rex_path::core('install/redaxo5_0.sql');
 
-    if ($err_msg == '')
+    if($err_msg == '')
       $err_msg .= self::rex_setup_import($import_sql);
 
     $err_msg .= self::rex_setup_addons();
@@ -100,7 +100,7 @@ class rex_setup_importer
 
     // Prüfen, welche Tabellen bereits vorhanden sind
     $existingTables = array();
-    foreach (rex_sql::showTables() as $tblname)
+    foreach(rex_sql::showTables() as $tblname)
     {
       if (substr($tblname, 0, strlen(rex::getTablePrefix())) == rex::getTablePrefix())
       {
@@ -108,7 +108,7 @@ class rex_setup_importer
       }
     }
 
-    foreach (array_diff(self::getRequiredTables(), $existingTables) as $missingTable)
+    foreach(array_diff(self::getRequiredTables(), $existingTables) as $missingTable)
     {
       $err_msg .= rex_i18n::msg('setup_031', $missingTable)."<br />";
     }
@@ -170,45 +170,45 @@ class rex_setup_importer
     $addonErr = '';
     rex_package_manager::synchronizeWithFileSystem();
 
-    if ($uninstallBefore)
+    if($uninstallBefore)
     {
-      foreach (array_reverse(rex::getProperty('system_addons')) as $packageRepresentation)
+      foreach(array_reverse(rex::getProperty('system_addons')) as $packageRepresentation)
       {
         $package = rex_package::get($packageRepresentation);
         $manager = rex_package_manager::factory($package);
         $state = $manager->uninstall($installDump);
         // echo "uninstall ". $packageRepresentation ."<br />";
 
-        if ($state !== true)
+        if($state !== true)
           $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
       }
     }
-    foreach (rex::getProperty('system_addons') as $packageRepresentation)
+    foreach(rex::getProperty('system_addons') as $packageRepresentation)
     {
       $state = true;
       $package = rex_package::get($packageRepresentation);
       $manager = rex_package_manager::factory($package);
 
-      if ($state === true && !$package->isInstalled())
+      if($state === true && !$package->isInstalled())
       {
         // echo "install ". $packageRepresentation."<br />";
         $state = $manager->install($installDump);
       }
 
-      if ($state !== true)
+      if($state !== true)
         $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
 
-      if ($state === true && !$package->isActivated())
+      if($state === true && !$package->isActivated())
       {
         // echo "activate ". $packageRepresentation."<br />";
         $state = $manager->activate();
 
-        if ($state !== true)
+        if($state !== true)
           $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
       }
     }
 
-    if ($addonErr != '')
+    if($addonErr != '')
     {
       $addonErr = '<ul class="rex-ul1">
       <li>

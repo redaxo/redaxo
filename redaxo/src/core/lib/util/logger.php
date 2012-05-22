@@ -17,7 +17,7 @@ abstract class rex_logger extends rex_factory_base
    */
   static public function register()
   {
-    if (self::$registered)
+    if(self::$registered)
       return;
 
     self::$registered = true;
@@ -35,7 +35,7 @@ abstract class rex_logger extends rex_factory_base
    */
   static public function unregister()
   {
-    if (!self::$registered)
+    if(!self::$registered)
       return;
 
     self::$registered = false;
@@ -69,17 +69,17 @@ abstract class rex_logger extends rex_factory_base
   */
   static public function handleError($errno, $errstr, $errfile, $errline, array $errcontext = null)
   {
-    if (error_reporting() == 0)
+    if(error_reporting() == 0)
       return;
 
     self::logError($errno, $errstr, $errfile, $errline, $errcontext);
 
-    if (ini_get('display_errors') && (error_reporting() & $errno) == $errno)
+    if(ini_get('display_errors') && (error_reporting() & $errno) == $errno)
     {
       echo '<b>'. self::getErrorType($errno) ."</b>: $errstr in <b>$errfile</b> on line <b>$errline</b><br />";
     }
 
-    if (in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR)))
+    if(in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR)))
     {
       exit(1);
     }
@@ -107,19 +107,19 @@ abstract class rex_logger extends rex_factory_base
    */
   static public function logError($errno, $errstr, $errfile, $errline, array $errcontext = null)
   {
-    if (!is_int($errno))
+    if(!is_int($errno))
     {
       throw new rex_exception('Expecting $errno to be integer, but '. gettype($errno) .' given!');
     }
-    if (!is_string($errstr))
+    if(!is_string($errstr))
     {
       throw new rex_exception('Expecting $errstr to be string, but '. gettype($errstr) .' given!');
     }
-    if (!is_string($errfile))
+    if(!is_string($errfile))
     {
       throw new rex_exception('Expecting $errfile to be string, but '. gettype($errfile) .' given!');
     }
-    if (!is_int($errline))
+    if(!is_int($errline))
     {
       throw new rex_exception('Expecting $errline to be integer, but '. gettype($errline) .' given!');
     }
@@ -134,17 +134,17 @@ abstract class rex_logger extends rex_factory_base
    */
   static public function log($message, $errno = E_USER_ERROR)
   {
-    if (static::hasFactoryClass())
+    if(static::hasFactoryClass())
     {
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }
 
-    if (!is_string($message))
+    if(!is_string($message))
     {
       throw new rex_exception('Expecting $message to be string, but '. gettype($message) .' given!');
     }
 
-    if (is_resource(self::$handle))
+    if(is_resource(self::$handle))
     {
       fwrite(self::$handle, date('r') .'<br />'. $message. "\n");
     }
@@ -156,12 +156,12 @@ abstract class rex_logger extends rex_factory_base
   static public function open()
   {
     // check if already opened
-    if (!self::$handle)
+    if(!self::$handle)
     {
       self::$handle = fopen(self::$file, 'ab');
     }
 
-    if (!self::$handle)
+    if(!self::$handle)
     {
       echo 'Error while creating logfile '. self::$file;
       exit();
@@ -175,7 +175,7 @@ abstract class rex_logger extends rex_factory_base
    */
   static public function close()
   {
-    if (is_resource(self::$handle))
+    if(is_resource(self::$handle))
     {
       fclose(self::$handle);
     }
@@ -186,17 +186,14 @@ abstract class rex_logger extends rex_factory_base
    */
   static public function shutdown()
   {
-    if (self::$registered)
+    if(self::$registered)
     {
       $error = error_get_last();
-      if (is_array($error))
+      if(is_array($error))
       {
-        try
-        {
+        try {
           self::logError($error['type'], $error['message'], $error['file'], $error['line']);
-        }
-        catch (Exception $e )
-        {
+        }catch (Exception $e ) {
           self::logException($e);
         }
       }
@@ -212,8 +209,7 @@ abstract class rex_logger extends rex_factory_base
    */
   static private function getErrorType($errno)
   {
-    switch ($errno)
-    {
+    switch ($errno) {
       case E_USER_ERROR:
       case E_ERROR:
       case E_COMPILE_ERROR:

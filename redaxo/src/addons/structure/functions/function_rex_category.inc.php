@@ -17,9 +17,9 @@ $navigation[] = array(
   );
 
 $ooCat = rex_ooCategory::getCategoryById($category_id, $clang);
-if ($ooCat)
+if($ooCat)
 {
-  foreach ($ooCat->getParentTree() as $parent)
+  foreach($ooCat->getParentTree() as $parent)
   {
     $catid = $parent->getId();
     if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($catid))

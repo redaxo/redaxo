@@ -43,26 +43,26 @@ abstract class rex_dashboard_component_base
 
   public function get()
   {
-    if ($this->checkPermission())
+    if($this->checkPermission())
     {
       $callable = array($this, '_get');
       $cachekey = $this->funcCache->computeCacheKey($callable, array(rex::getUser()->getUserLogin()));
       $cacheBackend = $this->funcCache->getCache();
 
       $configForm = '';
-      if ($this->config)
+      if($this->config)
       {
         $configForm = $this->config ? $this->config->get() : '';
 
         // config changed -> remove cache to reflect changes
-        if ($this->config->changed())
+        if($this->config->changed())
         {
           $cacheBackend->remove($cachekey);
         }
       }
 
       // refresh clicked in actionbar
-      if (rex_get('refresh', 'string') == $this->getId())
+      if(rex_get('refresh', 'string') == $this->getId())
       {
         $cacheBackend->remove($cachekey);
       }
@@ -72,14 +72,14 @@ abstract class rex_dashboard_component_base
 
       // wenn gecachter inhalt leer ist, vom cache entfernen und nochmals checken
       // damit leere komponenten sofort angezeigt werden, wenn neue inhalte verfuegbar sind
-      if ($content == '')
+      if($content == '')
       {
         $cacheBackend->remove($cachekey);
         $content = $this->funcCache->call($callable, array(rex::getUser()->getUserLogin()));
       }
 
       $cachestamp = $cacheBackend->getLastModified($cachekey);
-      if (!$cachestamp) $cachestamp = time(); // falls kein gueltiger cache vorhanden
+      if(!$cachestamp) $cachestamp = time(); // falls kein gueltiger cache vorhanden
       $cachetime = rex_formatter::format($cachestamp, 'strftime', 'datetime');
 
       $content = strtr($content, array('%%actionbar%%' => $this->getActionBar()));
@@ -87,10 +87,10 @@ abstract class rex_dashboard_component_base
       $content = strtr($content, array('%%config%%' => $configForm));
 
       // refresh clicked in actionbar
-      if (rex_get('ajax-get', 'string') == $this->getId())
+      if(rex_get('ajax-get', 'string') == $this->getId())
       {
         // clear output-buffer
-        while (@ob_end_clean());
+        while(@ob_end_clean());
 
         rex_response::sendResource($content);
         exit();
@@ -111,7 +111,7 @@ abstract class rex_dashboard_component_base
     $actions = array();
     $actions[] = array('name' => 'refresh', 'class' => 'rex-i-refresh');
 
-    if ($this->config)
+    if($this->config)
       $actions[] = array('name' => 'toggleSettings', 'class' => 'rex-i-togglesettings');
 
     $actions[] = array('name' => 'toggleView', 'class' => 'rex-i-toggleview-off');
@@ -127,7 +127,7 @@ abstract class rex_dashboard_component_base
     $content = '';
 
     $content .= '<ul class="rex-dashboard-component-navi">';
-    foreach ($this->getActions() as $action)
+    foreach($this->getActions() as $action)
     {
       $laction = strtolower($action['name']);
       $class = $action['class'];

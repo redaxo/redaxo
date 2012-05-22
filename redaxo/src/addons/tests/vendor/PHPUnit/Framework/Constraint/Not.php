@@ -70,8 +70,7 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
      */
     public function __construct($constraint)
     {
-        if (!($constraint instanceof PHPUnit_Framework_Constraint))
-        {
+        if (!($constraint instanceof PHPUnit_Framework_Constraint)) {
             $constraint = new PHPUnit_Framework_Constraint_IsEqual($constraint);
         }
 
@@ -133,13 +132,11 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
     {
         $success = !$this->constraint->evaluate($other, $description, TRUE);
 
-        if ($returnResult)
-        {
+        if ($returnResult) {
             return $success;
         }
 
-        if (!$success)
-        {
+        if (!$success) {
             $this->fail($other, $description);
         }
     }
@@ -155,18 +152,15 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
      */
     protected function failureDescription($other)
     {
-        switch (get_class($this->constraint))
-        {
+        switch (get_class($this->constraint)) {
             case 'PHPUnit_Framework_Constraint_And':
             case 'PHPUnit_Framework_Constraint_Not':
-            case 'PHPUnit_Framework_Constraint_Or':
-            {
+            case 'PHPUnit_Framework_Constraint_Or': {
                 return 'not( ' . $this->constraint->failureDescription($other) . ' )';
             }
             break;
 
-            default:
-            {
+            default: {
                 return self::negate(
                   $this->constraint->failureDescription($other)
                 );
@@ -181,18 +175,15 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
      */
     public function toString()
     {
-        switch (get_class($this->constraint))
-        {
+        switch (get_class($this->constraint)) {
             case 'PHPUnit_Framework_Constraint_And':
             case 'PHPUnit_Framework_Constraint_Not':
-            case 'PHPUnit_Framework_Constraint_Or':
-            {
+            case 'PHPUnit_Framework_Constraint_Or': {
                 return 'not( ' . $this->constraint->toString() . ' )';
             }
             break;
 
-            default:
-            {
+            default: {
                 return self::negate(
                   $this->constraint->toString()
                 );

@@ -66,12 +66,9 @@ class PHP_CodeCoverage_Report_PHP
     {
         $coverage = serialize($coverage);
 
-        if ($target !== NULL)
-        {
+        if ($target !== NULL) {
             return file_put_contents($target, $coverage);
-        }
-        else
-        {
+        } else {
             return $coverage;
         }
     }

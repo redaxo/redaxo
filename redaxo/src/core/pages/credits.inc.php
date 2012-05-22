@@ -34,9 +34,9 @@ foreach (rex_addon::getRegisteredAddons() as $addon)
   $rex_ooAddon->class = $cl;
 
   $plugins = array();
-  if ($isActive)
+  if($isActive)
   {
-    foreach ($addon->getAvailablePlugins() as $plugin)
+    foreach($addon->getAvailablePlugins() as $plugin)
     {
       $isActive    = $plugin->isActivated();
       $version     = $plugin->getVersion();
@@ -136,7 +136,7 @@ $content .= '
 
     <tbody>';
 
-    foreach ($addons as $addon)
+    foreach($addons as $addon)
     {
       $content .= '
       <tr class="rex-addon '. $addon->class .'">
@@ -154,7 +154,7 @@ $content .= '
         </td>
       </tr>';
 
-      foreach ($addon->plugins as $plugin)
+      foreach($addon->plugins as $plugin)
       {
         $content .= '
         <tr class="rex-plugin '. $plugin->class .'">

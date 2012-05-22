@@ -19,7 +19,7 @@ class rex_event_select extends rex_select
 
     $this->setMultiple(1);
 
-    foreach ($options as $key => $value)
+    foreach($options as $key => $value)
       $this->addOption($value, $key);
 
     $this->setSize(count($options));
@@ -118,8 +118,7 @@ if ($function == "add" || $function == "edit")
     $faction->setValue('presavemode', $presavemode);
     $faction->setValue('postsavemode', $postsavemode);
 
-    try
-    {
+    try {
       if ($function == 'add')
       {
         $faction->addGlobalCreateFields();
@@ -135,9 +134,7 @@ if ($function == "add" || $function == "edit")
         $faction->update();
         $info = rex_i18n::msg('action_updated');
       }
-    }
-    catch (rex_sql_exception $e)
-    {
+    } catch (rex_sql_exception $e) {
       $warning = $e->getMessage();
     }
 
@@ -439,7 +436,7 @@ if ($OUT)
   $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'action ORDER BY name');
   $rows = $sql->getRows();
 
-  if ($rows > 0)
+  if($rows > 0)
   {
     echo '<tbody>'."\n";
 

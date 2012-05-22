@@ -39,7 +39,7 @@ else
 
       if ($article->setArticleId(rex::getProperty('article_id')))
       {
-        if (rex_request::isPJAXRequest())
+        if(rex_request::isPJAXRequest())
         {
           $content .= $article->getArticle();
         }
@@ -54,7 +54,7 @@ else
       }
 
       $art_id = $article->getArticleId();
-      if ($art_id == rex::getProperty('notfound_article_id') && $art_id != rex::getProperty('start_article_id'))
+      if($art_id == rex::getProperty('notfound_article_id') && $art_id != rex::getProperty('start_article_id'))
       {
         rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
       }

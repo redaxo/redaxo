@@ -91,24 +91,20 @@ class PHPUnit_Util_Filesystem
      */
     public static function fileExistsInIncludePath($file)
     {
-        if (function_exists('stream_resolve_include_path'))
-        {
+        if (function_exists('stream_resolve_include_path')) {
             return stream_resolve_include_path($file);
         }
 
-        if (file_exists($file))
-        {
+        if (file_exists($file)) {
             return realpath($file);
         }
 
         $paths = explode(PATH_SEPARATOR, get_include_path());
 
-        foreach ($paths as $path)
-        {
+        foreach ($paths as $path) {
             $fullpath = $path . DIRECTORY_SEPARATOR . $file;
 
-            if (file_exists($fullpath))
-            {
+            if (file_exists($fullpath)) {
                 return realpath($fullpath);
             }
         }

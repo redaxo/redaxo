@@ -76,8 +76,7 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedAtLeastOnce extends PHPUnit_Fr
     {
         $count = $this->getInvocationCount();
 
-        if ($count < 1)
-        {
+        if ($count < 1) {
             throw new PHPUnit_Framework_ExpectationFailedException(
               'Expected invocation at least once but it never occured.'
             );

@@ -90,8 +90,7 @@ abstract class PHPUnit_Framework_Constraint_Composite extends PHPUnit_Framework_
      */
     public function evaluate($other, $description = '', $returnResult = FALSE)
     {
-        try
-        {
+        try {
             return $this->innerConstraint->evaluate(
               $other,
               $description,
@@ -99,8 +98,7 @@ abstract class PHPUnit_Framework_Constraint_Composite extends PHPUnit_Framework_
             );
         }
 
-        catch (PHPUnit_Framework_ExpectationFailedException $e)
-        {
+        catch (PHPUnit_Framework_ExpectationFailedException $e) {
             $this->fail($other, $description);
         }
     }

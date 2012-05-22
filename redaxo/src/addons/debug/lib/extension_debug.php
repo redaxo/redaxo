@@ -90,11 +90,11 @@ class rex_extension_debug extends rex_extension
       'result',
     );
 
-    foreach (self::$log as $count=>$entry)
+    foreach(self::$log as $count=>$entry)
     {
-      switch ($entry['type'])
+      switch($entry['type'])
       {
-        case 'EP':
+        case'EP':
           $counter['ep']++;
           $registered_eps[] = $entry['ep'];
           $log_table[] = array(
@@ -109,10 +109,10 @@ class rex_extension_debug extends rex_extension
           );
           break;
 
-        case 'EXT':
+        case'EXT':
           $counter['ext']++;
 
-          if (in_array($entry['ep'],$registered_eps))
+          if(in_array($entry['ep'],$registered_eps))
           {
             $firephp->error('EP Timing: Extension "'.$entry['callable'].'" registered after ExtensionPoint "'.$entry['ep'].'" !');
           }

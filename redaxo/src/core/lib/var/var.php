@@ -15,7 +15,7 @@ abstract class rex_var
    */
   static public function registerVar($var)
   {
-    if (!is_subclass_of($var, __CLASS__))
+    if(!is_subclass_of($var, __CLASS__))
     {
       throw new rex_exception('$var must be a subclass of '. __CLASS__);
     }
@@ -28,9 +28,9 @@ abstract class rex_var
    */
   static public function getVars()
   {
-    foreach (self::$vars as $key => $var)
+    foreach(self::$vars as $key => $var)
     {
-      if (!is_object($var))
+      if(!is_object($var))
         self::$vars[$key] = new $var;
     }
 
@@ -207,7 +207,7 @@ abstract class rex_var
    */
   static public function handleDefaultParam($varname, array $args, $name, $value)
   {
-    switch ($name)
+    switch($name)
     {
       case '0'       : $name = 'id';
       case 'id'      :
@@ -248,7 +248,7 @@ abstract class rex_var
    */
   static public function handleGlobalVarParams($varname, array $args, $value)
   {
-    if (isset($args['callback']))
+    if(isset($args['callback']))
     {
       $args['subject'] = $value;
       return call_user_func($args['callback'], $args);
@@ -257,16 +257,16 @@ abstract class rex_var
     $prefix = '';
     $suffix = '';
 
-    if (isset($args['instead']) && $value != '')
+    if(isset($args['instead']) && $value != '')
       $value = $args['instead'];
 
-    if (isset($args['ifempty']) && $value == '')
+    if(isset($args['ifempty']) && $value == '')
       $value = $args['ifempty'];
 
-    if ($value != '' && isset($args['prefix']))
+    if($value != '' && isset($args['prefix']))
       $prefix = $args['prefix'];
 
-    if ($value != '' && isset($args['suffix']))
+    if($value != '' && isset($args['suffix']))
       $suffix = $args['suffix'];
 
     return $prefix . $value . $suffix;
@@ -349,7 +349,7 @@ abstract class rex_var
    */
   protected function getArg($name, array &$args, $default = null)
   {
-    if (isset($args[$name]))
+    if(isset($args[$name]))
     {
       return $args[$name];
     }

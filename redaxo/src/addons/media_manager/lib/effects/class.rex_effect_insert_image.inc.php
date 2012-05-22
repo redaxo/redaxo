@@ -4,8 +4,7 @@
  * Branded ein Bild mit einem Wasserzeichen
  */
 
-class rex_effect_insert_image extends rex_effect_abstract
-{
+class rex_effect_insert_image extends rex_effect_abstract{
 
 
   public function execute()
@@ -15,26 +14,26 @@ class rex_effect_insert_image extends rex_effect_abstract
 
     // -------------------------------------- CONFIG
     $brandimage = rex_path::media($this->params['brandimage'], rex_path::ABSOLUTE);
-    if (!file_exists($brandimage) || !is_file($brandimage))
+    if(!file_exists($brandimage) || !is_file($brandimage))
       return;
 
     // Abstand vom Rand
     $padding_x = -10;
-    if (isset($this->params['padding_x']))
+    if(isset($this->params['padding_x']))
       $padding_x = (int) $this->params['padding_x'];
 
     $padding_y = -10;
-    if (isset($this->params['padding_y']))
+    if(isset($this->params['padding_y']))
       $padding_y = (int) $this->params['padding_y'];
 
     // horizontale ausrichtung: left/center/right
     $hpos = 'right';
-    if (isset($this->params['hpos']))
+    if(isset($this->params['hpos']))
       $hpos = (string) $this->params['hpos'];
 
     // vertikale ausrichtung:   top/center/bottom
     $vpos = 'bottom';
-    if (isset($this->params['vpos']))
+    if(isset($this->params['vpos']))
       $vpos = (string) $this->params['vpos'];
 
     // -------------------------------------- /CONFIG
@@ -48,7 +47,7 @@ class rex_effect_insert_image extends rex_effect_abstract
     $brand_width  = $brand->getWidth();
     $brand_height = $brand->getHeight();
 
-    switch ($hpos)
+    switch($hpos)
     {
       case 'left':
         $dstX = 0;
@@ -61,7 +60,7 @@ class rex_effect_insert_image extends rex_effect_abstract
         $dstX = $image_width - $brand_width;
     }
 
-    switch ($vpos)
+    switch($vpos)
     {
       case 'top':
         $dstY = 0;

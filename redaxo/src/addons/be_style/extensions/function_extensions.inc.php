@@ -8,7 +8,7 @@
  */
 function rex_be_add_page($params)
 {
-  if (rex_extension::isRegistered('BE_STYLE_PAGE_CONTENT'))
+  if(rex_extension::isRegistered('BE_STYLE_PAGE_CONTENT'))
   {
     rex_addon::get('be_style')->setProperty('name', 'Backend Style');
   }

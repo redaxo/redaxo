@@ -72,8 +72,7 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertArrayHasKey($key, array $array, $message = '')
     {
-        if (!(is_integer($key) || is_string($key)))
-        {
+        if (!(is_integer($key) || is_string($key))) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(
               1, 'integer or string'
             );
@@ -94,8 +93,7 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertArrayNotHasKey($key, array $array, $message = '')
     {
-        if (!(is_integer($key) || is_string($key)))
-        {
+        if (!(is_integer($key) || is_string($key))) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(
               1, 'integer or string'
             );
@@ -121,22 +119,19 @@ abstract class PHPUnit_Framework_Assert
     public static function assertContains($needle, $haystack, $message = '', $ignoreCase = FALSE, $checkForObjectIdentity = TRUE)
     {
         if (is_array($haystack) ||
-            is_object($haystack) && $haystack instanceof Traversable)
-            {
+            is_object($haystack) && $haystack instanceof Traversable) {
             $constraint = new PHPUnit_Framework_Constraint_TraversableContains(
               $needle, $checkForObjectIdentity
             );
         }
 
-        elseif (is_string($haystack))
-        {
+        else if (is_string($haystack)) {
             $constraint = new PHPUnit_Framework_Constraint_StringContains(
               $needle, $ignoreCase
             );
         }
 
-        else
-        {
+        else {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(
               2, 'array, iterator or string'
             );
@@ -181,8 +176,7 @@ abstract class PHPUnit_Framework_Assert
     public static function assertNotContains($needle, $haystack, $message = '', $ignoreCase = FALSE, $checkForObjectIdentity = TRUE)
     {
         if (is_array($haystack) ||
-            is_object($haystack) && $haystack instanceof Traversable)
-            {
+            is_object($haystack) && $haystack instanceof Traversable) {
             $constraint = new PHPUnit_Framework_Constraint_Not(
               new PHPUnit_Framework_Constraint_TraversableContains(
                 $needle, $checkForObjectIdentity
@@ -190,8 +184,7 @@ abstract class PHPUnit_Framework_Assert
             );
         }
 
-        elseif (is_string($haystack))
-        {
+        else if (is_string($haystack)) {
             $constraint = new PHPUnit_Framework_Constraint_Not(
               new PHPUnit_Framework_Constraint_StringContains(
                 $needle, $ignoreCase
@@ -199,8 +192,7 @@ abstract class PHPUnit_Framework_Assert
             );
         }
 
-        else
-        {
+        else {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(
               2, 'array, iterator or string'
             );
@@ -244,15 +236,13 @@ abstract class PHPUnit_Framework_Assert
     public static function assertContainsOnly($type, $haystack, $isNativeType = NULL, $message = '')
     {
         if (!(is_array($haystack) ||
-            is_object($haystack) && $haystack instanceof Traversable))
-            {
+            is_object($haystack) && $haystack instanceof Traversable)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(
               2, 'array or iterator'
             );
         }
 
-        if ($isNativeType == NULL)
-        {
+        if ($isNativeType == NULL) {
             $isNativeType = PHPUnit_Util_Type::isType($type);
         }
 
@@ -298,15 +288,13 @@ abstract class PHPUnit_Framework_Assert
     public static function assertNotContainsOnly($type, $haystack, $isNativeType = NULL, $message = '')
     {
         if (!(is_array($haystack) ||
-            is_object($haystack) && $haystack instanceof Traversable))
-            {
+            is_object($haystack) && $haystack instanceof Traversable)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(
               2, 'array or iterator'
             );
         }
 
-        if ($isNativeType == NULL)
-        {
+        if ($isNativeType == NULL) {
             $isNativeType = PHPUnit_Util_Type::isType($type);
         }
 
@@ -352,15 +340,13 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertCount($expectedCount, $haystack, $message = '')
     {
-        if (!is_int($expectedCount))
-        {
+        if (!is_int($expectedCount)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'integer');
         }
 
         if (!$haystack instanceof Countable &&
             !$haystack instanceof Iterator &&
-            !is_array($haystack))
-            {
+            !is_array($haystack)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'countable');
         }
 
@@ -399,15 +385,13 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertNotCount($expectedCount, $haystack, $message = '')
     {
-        if (!is_int($expectedCount))
-        {
+        if (!is_int($expectedCount)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'integer');
         }
 
         if (!$haystack instanceof Countable &&
             !$haystack instanceof Iterator &&
-            !is_array($haystack))
-            {
+            !is_array($haystack)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'countable');
         }
 
@@ -829,8 +813,7 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertFileExists($filename, $message = '')
     {
-        if (!is_string($filename))
-        {
+        if (!is_string($filename)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
@@ -848,8 +831,7 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertFileNotExists($filename, $message = '')
     {
-        if (!is_string($filename))
-        {
+        if (!is_string($filename)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
@@ -916,13 +898,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertClassHasAttribute($attributeName, $className, $message = '')
     {
-        if (!is_string($attributeName))
-        {
+        if (!is_string($attributeName)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_string($className) || !class_exists($className, FALSE))
-        {
+        if (!is_string($className) || !class_exists($className, FALSE)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'class name');
         }
 
@@ -943,13 +923,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertClassNotHasAttribute($attributeName, $className, $message = '')
     {
-        if (!is_string($attributeName))
-        {
+        if (!is_string($attributeName)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_string($className) || !class_exists($className, FALSE))
-        {
+        if (!is_string($className) || !class_exists($className, FALSE)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'class name');
         }
 
@@ -970,13 +948,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertClassHasStaticAttribute($attributeName, $className, $message = '')
     {
-        if (!is_string($attributeName))
-        {
+        if (!is_string($attributeName)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_string($className) || !class_exists($className, FALSE))
-        {
+        if (!is_string($className) || !class_exists($className, FALSE)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'class name');
         }
 
@@ -997,13 +973,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertClassNotHasStaticAttribute($attributeName, $className, $message = '')
     {
-        if (!is_string($attributeName))
-        {
+        if (!is_string($attributeName)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_string($className) || !class_exists($className, FALSE))
-        {
+        if (!is_string($className) || !class_exists($className, FALSE)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'class name');
         }
 
@@ -1026,13 +1000,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertObjectHasAttribute($attributeName, $object, $message = '')
     {
-        if (!is_string($attributeName))
-        {
+        if (!is_string($attributeName)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_object($object))
-        {
+        if (!is_object($object)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'object');
         }
 
@@ -1053,13 +1025,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertObjectNotHasAttribute($attributeName, $object, $message = '')
     {
-        if (!is_string($attributeName))
-        {
+        if (!is_string($attributeName)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_object($object))
-        {
+        if (!is_object($object)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'object');
         }
 
@@ -1081,12 +1051,9 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertSame($expected, $actual, $message = '')
     {
-        if (is_bool($expected) && is_bool($actual))
-        {
+        if (is_bool($expected) && is_bool($actual)) {
             self::assertEquals($expected, $actual, $message);
-        }
-        else
-        {
+        } else {
             $constraint = new PHPUnit_Framework_Constraint_IsIdentical(
               $expected
             );
@@ -1124,12 +1091,9 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertNotSame($expected, $actual, $message = '')
     {
-        if (is_bool($expected) && is_bool($actual))
-        {
+        if (is_bool($expected) && is_bool($actual)) {
             self::assertNotEquals($expected, $actual, $message);
-        }
-        else
-        {
+        } else {
             $constraint = new PHPUnit_Framework_Constraint_Not(
               new PHPUnit_Framework_Constraint_IsIdentical($expected)
             );
@@ -1166,24 +1130,19 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertInstanceOf($expected, $actual, $message = '')
     {
-        if (is_string($expected))
-        {
-            if (class_exists($expected) || interface_exists($expected))
-            {
+        if (is_string($expected)) {
+            if (class_exists($expected) || interface_exists($expected)) {
                 $constraint = new PHPUnit_Framework_Constraint_IsInstanceOf(
                   $expected
                 );
             }
 
-            else
-            {
+            else {
                 throw PHPUnit_Util_InvalidArgumentHelper::factory(
                   1, 'class or interface name'
                 );
             }
-        }
-        else
-        {
+        } else {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
@@ -1218,24 +1177,19 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertNotInstanceOf($expected, $actual, $message = '')
     {
-        if (is_string($expected))
-        {
-            if (class_exists($expected) || interface_exists($expected))
-            {
+        if (is_string($expected)) {
+            if (class_exists($expected) || interface_exists($expected)) {
                 $constraint = new PHPUnit_Framework_Constraint_Not(
                   new PHPUnit_Framework_Constraint_IsInstanceOf($expected)
                 );
             }
 
-            else
-            {
+            else {
                 throw PHPUnit_Util_InvalidArgumentHelper::factory(
                   1, 'class or interface name'
                 );
             }
-        }
-        else
-        {
+        } else {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
@@ -1270,14 +1224,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertInternalType($expected, $actual, $message = '')
     {
-        if (is_string($expected))
-        {
+        if (is_string($expected)) {
             $constraint = new PHPUnit_Framework_Constraint_IsType(
               $expected
             );
-        }
-        else
-        {
+        } else {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
@@ -1312,14 +1263,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertNotInternalType($expected, $actual, $message = '')
     {
-        if (is_string($expected))
-        {
+        if (is_string($expected)) {
             $constraint = new PHPUnit_Framework_Constraint_Not(
               new PHPUnit_Framework_Constraint_IsType($expected)
             );
-        }
-        else
-        {
+        } else {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
@@ -1353,13 +1301,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertRegExp($pattern, $string, $message = '')
     {
-        if (!is_string($pattern))
-        {
+        if (!is_string($pattern)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_string($string))
-        {
+        if (!is_string($string)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
 
@@ -1378,13 +1324,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertNotRegExp($pattern, $string, $message = '')
     {
-        if (!is_string($pattern))
-        {
+        if (!is_string($pattern)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_string($string))
-        {
+        if (!is_string($string)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
 
@@ -1407,15 +1351,13 @@ abstract class PHPUnit_Framework_Assert
     {
         if (!$expected instanceof Countable &&
             !$expected instanceof Iterator &&
-            !is_array($expected))
-            {
+            !is_array($expected)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'countable');
         }
 
         if (!$actual instanceof Countable &&
             !$actual instanceof Iterator &&
-            !is_array($actual))
-            {
+            !is_array($actual)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'countable');
         }
 
@@ -1438,15 +1380,13 @@ abstract class PHPUnit_Framework_Assert
     {
         if (!$expected instanceof Countable &&
             !$expected instanceof Iterator &&
-            !is_array($expected))
-            {
+            !is_array($expected)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'countable');
         }
 
         if (!$actual instanceof Countable &&
             !$actual instanceof Iterator &&
-            !is_array($actual))
-            {
+            !is_array($actual)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'countable');
         }
 
@@ -1467,13 +1407,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertStringMatchesFormat($format, $string, $message = '')
     {
-        if (!is_string($format))
-        {
+        if (!is_string($format)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_string($string))
-        {
+        if (!is_string($string)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
 
@@ -1492,13 +1430,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertStringNotMatchesFormat($format, $string, $message = '')
     {
-        if (!is_string($format))
-        {
+        if (!is_string($format)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_string($string))
-        {
+        if (!is_string($string)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
 
@@ -1521,8 +1457,7 @@ abstract class PHPUnit_Framework_Assert
     {
         self::assertFileExists($formatFile, $message);
 
-        if (!is_string($string))
-        {
+        if (!is_string($string)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
 
@@ -1545,8 +1480,7 @@ abstract class PHPUnit_Framework_Assert
     {
         self::assertFileExists($formatFile, $message);
 
-        if (!is_string($string))
-        {
+        if (!is_string($string)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
 
@@ -1569,13 +1503,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertStringStartsWith($prefix, $string, $message = '')
     {
-        if (!is_string($prefix))
-        {
+        if (!is_string($prefix)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_string($string))
-        {
+        if (!is_string($string)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
 
@@ -1596,13 +1528,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertStringStartsNotWith($prefix, $string, $message = '')
     {
-        if (!is_string($prefix))
-        {
+        if (!is_string($prefix)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_string($string))
-        {
+        if (!is_string($string)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
 
@@ -1623,13 +1553,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertStringEndsWith($suffix, $string, $message = '')
     {
-        if (!is_string($suffix))
-        {
+        if (!is_string($suffix)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_string($string))
-        {
+        if (!is_string($string)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
 
@@ -1648,13 +1576,11 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function assertStringEndsNotWith($suffix, $string, $message = '')
     {
-        if (!is_string($suffix))
-        {
+        if (!is_string($suffix)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
         }
 
-        if (!is_string($string))
-        {
+        if (!is_string($string)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
 
@@ -1819,8 +1745,7 @@ abstract class PHPUnit_Framework_Assert
           $message
         );
 
-        if ($checkAttributes)
-        {
+        if ($checkAttributes) {
             self::assertEquals(
               $expectedElement->attributes->length,
               $actualElement->attributes->length,
@@ -1832,15 +1757,13 @@ abstract class PHPUnit_Framework_Assert
               )
             );
 
-            for ($i = 0 ; $i < $expectedElement->attributes->length; $i++)
-            {
+            for ($i = 0 ; $i < $expectedElement->attributes->length; $i++) {
                 $expectedAttribute = $expectedElement->attributes->item($i);
                 $actualAttribute   = $actualElement->attributes->getNamedItem(
                   $expectedAttribute->name
                 );
 
-                if (!$actualAttribute)
-                {
+                if (!$actualAttribute) {
                     self::fail(
                       sprintf(
                         '%s%sCould not find attribute "%s" on node "%s"',
@@ -1868,8 +1791,7 @@ abstract class PHPUnit_Framework_Assert
           )
         );
 
-        for ($i = 0; $i < $expectedElement->childNodes->length; $i++)
-        {
+        for ($i = 0; $i < $expectedElement->childNodes->length; $i++) {
             self::assertEqualXMLStructure(
               $expectedElement->childNodes->item($i),
               $actualElement->childNodes->item($i),
@@ -1952,58 +1874,44 @@ abstract class PHPUnit_Framework_Assert
         );
 
         // assert specific number of elements
-        if (is_numeric($count))
-        {
+        if (is_numeric($count)) {
             $counted = $tags ? count($tags) : 0;
             self::assertEquals($count, $counted, $message);
         }
 
         // assert any elements exist if true, assert no elements exist if false
-
-        elseif (is_bool($count))
-        {
+        else if (is_bool($count)) {
             $any = count($tags) > 0 && $tags[0] instanceof DOMNode;
 
-            if ($count)
-            {
+            if ($count) {
                 self::assertTrue($any, $message);
-            }
-            else
-            {
+            } else {
                 self::assertFalse($any, $message);
             }
         }
 
         // check for range number of elements
-
-        elseif (is_array($count) &&
+        else if (is_array($count) &&
                 (isset($count['>']) || isset($count['<']) ||
-                isset($count['>=']) || isset($count['<='])))
-                {
+                isset($count['>=']) || isset($count['<=']))) {
             $counted = $tags ? count($tags) : 0;
 
-            if (isset($count['>']))
-            {
+            if (isset($count['>'])) {
                 self::assertTrue($counted > $count['>'], $message);
             }
 
-            if (isset($count['>=']))
-            {
+            if (isset($count['>='])) {
                 self::assertTrue($counted >= $count['>='], $message);
             }
 
-            if (isset($count['<']))
-            {
+            if (isset($count['<'])) {
                 self::assertTrue($counted < $count['<'], $message);
             }
 
-            if (isset($count['<=']))
-            {
+            if (isset($count['<='])) {
                 self::assertTrue($counted <= $count['<='], $message);
             }
-        }
-        else
-        {
+        } else {
             throw new InvalidArgumentException();
         }
     }
@@ -2633,15 +2541,12 @@ abstract class PHPUnit_Framework_Assert
      */
     public static function readAttribute($classOrObject, $attributeName)
     {
-        if (!is_string($attributeName))
-        {
+        if (!is_string($attributeName)) {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
         }
 
-        if (is_string($classOrObject))
-        {
-            if (!class_exists($classOrObject))
-            {
+        if (is_string($classOrObject)) {
+            if (!class_exists($classOrObject)) {
                 throw PHPUnit_Util_InvalidArgumentHelper::factory(
                   1, 'class name'
                 );
@@ -2653,16 +2558,14 @@ abstract class PHPUnit_Framework_Assert
             );
         }
 
-        elseif (is_object($classOrObject))
-        {
+        else if (is_object($classOrObject)) {
             return PHPUnit_Util_Class::getObjectAttribute(
               $classOrObject,
               $attributeName
             );
         }
 
-        else
-        {
+        else {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(
               1, 'class name or object'
             );

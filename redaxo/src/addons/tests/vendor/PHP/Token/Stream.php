@@ -139,8 +139,7 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
      */
     public function __construct($sourceCode)
     {
-        if (is_file($sourceCode))
-        {
+        if (is_file($sourceCode)) {
             $this->filename = $sourceCode;
             $sourceCode     = file_get_contents($sourceCode);
         }
@@ -163,8 +162,7 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
     {
         $buffer = '';
 
-        foreach ($this as $token)
-        {
+        foreach ($this as $token) {
             $buffer .= $token;
         }
 
@@ -192,18 +190,14 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
         $tokens    = token_get_all($sourceCode);
         $numTokens = count($tokens);
 
-        for ($i = 0; $i < $numTokens; ++$i)
-        {
+        for ($i = 0; $i < $numTokens; ++$i) {
             $token = $tokens[$i];
             unset($tokens[$i]);
 
-            if (is_array($token))
-            {
+            if (is_array($token)) {
                 $text       = $token[1];
                 $tokenClass = 'PHP_Token_' . substr(token_name($token[0]), 2);
-            }
-            else
-            {
+            } else {
                 $text       = $token;
                 $tokenClass = self::$customTokens[$token];
             }
@@ -212,14 +206,12 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
             $lines          = substr_count($text, "\n");
             $line          += $lines;
 
-            if ($tokenClass == 'PHP_Token_HALT_COMPILER')
-            {
+            if ($tokenClass == 'PHP_Token_HALT_COMPILER') {
                 break;
             }
 
-            elseif ($tokenClass == 'PHP_Token_COMMENT' ||
-                $tokenClass == 'PHP_Token_DOC_COMMENT')
-                {
+            else if ($tokenClass == 'PHP_Token_COMMENT' ||
+                $tokenClass == 'PHP_Token_DOC_COMMENT') {
                 $this->linesOfCode['cloc'] += $lines + 1;
             }
         }
@@ -250,8 +242,7 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
      */
     public function getClasses()
     {
-        if ($this->classes !== NULL)
-        {
+        if ($this->classes !== NULL) {
             return $this->classes;
         }
 
@@ -265,8 +256,7 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
      */
     public function getFunctions()
     {
-        if ($this->functions !== NULL)
-        {
+        if ($this->functions !== NULL) {
             return $this->functions;
         }
 
@@ -280,8 +270,7 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
      */
     public function getInterfaces()
     {
-        if ($this->interfaces !== NULL)
-        {
+        if ($this->interfaces !== NULL) {
             return $this->interfaces;
         }
 
@@ -296,8 +285,7 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
      */
     public function getTraits()
     {
-        if ($this->traits !== NULL)
-        {
+        if ($this->traits !== NULL) {
             return $this->traits;
         }
 
@@ -324,8 +312,7 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
      */
     public function getIncludes($categorize = FALSE, $category = NULL)
     {
-        if ($this->includes === NULL)
-        {
+        if ($this->includes === NULL) {
             $this->includes = array(
               'require_once' => array(),
               'require'      => array(),
@@ -333,15 +320,12 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
               'include'      => array()
             );
 
-            foreach ($this->tokens as $token)
-            {
-                switch (get_class($token))
-                {
+            foreach ($this->tokens as $token) {
+                switch (get_class($token)) {
                     case 'PHP_Token_REQUIRE_ONCE':
                     case 'PHP_Token_REQUIRE':
                     case 'PHP_Token_INCLUDE_ONCE':
-                    case 'PHP_Token_INCLUDE':
-                    {
+                    case 'PHP_Token_INCLUDE': {
                         $this->includes[$token->getType()][] = $token->getName();
                     }
                     break;
@@ -349,22 +333,18 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
             }
         }
 
-        if (isset($this->includes[$category]))
-        {
+        if (isset($this->includes[$category])) {
             $includes = $this->includes[$category];
         }
 
-        elseif ($categorize === FALSE)
-        {
+        else if ($categorize === FALSE) {
             $includes = array_merge(
               $this->includes['require_once'],
               $this->includes['require'],
               $this->includes['include_once'],
               $this->includes['include']
             );
-        }
-        else
-        {
+        } else {
             $includes = $this->includes;
         }
 
@@ -384,18 +364,14 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
         $interface        = FALSE;
         $interfaceEndLine = FALSE;
 
-        foreach ($this->tokens as $token)
-        {
-            switch (get_class($token))
-            {
-                case 'PHP_Token_HALT_COMPILER':
-                {
+        foreach ($this->tokens as $token) {
+            switch (get_class($token)) {
+                case 'PHP_Token_HALT_COMPILER': {
                     return;
                 }
                 break;
 
-                case 'PHP_Token_INTERFACE':
-                {
+                case 'PHP_Token_INTERFACE': {
                     $interface        = $token->getName();
                     $interfaceEndLine = $token->getEndLine();
 
@@ -413,8 +389,7 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
                 break;
 
                 case 'PHP_Token_CLASS':
-                case 'PHP_Token_TRAIT':
-                {
+                case 'PHP_Token_TRAIT': {
                     $tmp = array(
                       'methods'   => array(),
                       'parent'    => $token->getParent(),
@@ -427,14 +402,11 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
                       'file'      => $this->filename
                     );
 
-                    if ($token instanceof PHP_Token_CLASS)
-                    {
+                    if ($token instanceof PHP_Token_CLASS) {
                         $class                 = $token->getName();
                         $classEndLine          = $token->getEndLine();
                         $this->classes[$class] = $tmp;
-                    }
-                    else
-                    {
+                    } else {
                         $trait                = $token->getName();
                         $traitEndLine         = $token->getEndLine();
                         $this->traits[$trait] = $tmp;
@@ -442,8 +414,7 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
                 }
                 break;
 
-                case 'PHP_Token_FUNCTION':
-                {
+                case 'PHP_Token_FUNCTION': {
                     $name = $token->getName();
                     $tmp  = array(
                       'docblock'  => $token->getDocblock(),
@@ -458,47 +429,39 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
 
                     if ($class === FALSE &&
                         $trait === FALSE &&
-                        $interface === FALSE)
-                        {
+                        $interface === FALSE) {
                         $this->functions[$name] = $tmp;
                     }
 
-                    elseif ($class !== FALSE)
-                    {
+                    else if ($class !== FALSE) {
                         $this->classes[$class]['methods'][$name] = $tmp;
                     }
 
-                    elseif ($trait !== FALSE)
-                    {
+                    else if ($trait !== FALSE) {
                         $this->traits[$trait]['methods'][$name] = $tmp;
                     }
 
-                    else
-                    {
+                    else {
                         $this->interfaces[$interface]['methods'][$name] = $tmp;
                     }
                 }
                 break;
 
-                case 'PHP_Token_CLOSE_CURLY':
-                {
+                case 'PHP_Token_CLOSE_CURLY': {
                     if ($classEndLine !== FALSE &&
-                        $classEndLine == $token->getLine())
-                        {
+                        $classEndLine == $token->getLine()) {
                         $class        = FALSE;
                         $classEndLine = FALSE;
                     }
 
-                    elseif ($traitEndLine !== FALSE &&
-                        $traitEndLine == $token->getLine())
-                        {
+                    else if ($traitEndLine !== FALSE &&
+                        $traitEndLine == $token->getLine()) {
                         $trait        = FALSE;
                         $traitEndLine = FALSE;
                     }
 
-                    elseif ($interfaceEndLine !== FALSE &&
-                        $interfaceEndLine == $token->getLine())
-                        {
+                    else if ($interfaceEndLine !== FALSE &&
+                        $interfaceEndLine == $token->getLine()) {
                         $interface        = FALSE;
                         $interfaceEndLine = FALSE;
                     }
@@ -598,8 +561,7 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
     {
         $this->position = $position;
 
-        if (!$this->valid())
-        {
+        if (!$this->valid()) {
             throw new OutOfBoundsException('Invalid seek position');
         }
     }

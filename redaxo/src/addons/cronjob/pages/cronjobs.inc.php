@@ -141,9 +141,7 @@ if ($func == '')
 
   $list->show();
 
-}
-elseif ($func == 'edit' || $func == 'add')
-{
+} elseif ($func == 'edit' || $func == 'add') {
 
   $fieldset = $func == 'edit' ? $this->i18n('edit') : $this->i18n('add');
 
@@ -166,7 +164,7 @@ elseif ($func == 'edit' || $func == 'add')
   $typeFieldId = $field->getAttribute('id');
   $types = rex_cronjob_manager::getTypes();
   $cronjobs = array();
-  foreach ($types as $class)
+  foreach($types as $class)
   {
     $cronjob = rex_cronjob::factory($class);
     if (rex_cronjob::isValid($cronjob))
@@ -246,14 +244,11 @@ elseif ($func == 'edit' || $func == 'add')
 
     $params = $cronjob->getParamFields();
 
-    if (!is_array($params) || empty($params))
-    {
+    if (!is_array($params) || empty($params)) {
       $field = $fieldContainer->addGroupedField($group, 'readonly', 'noparams', $this->i18n('type_no_parameters'));
       $field->setLabel('&nbsp;');
-    }
-    else
-    {
-      foreach ($params as $param)
+    } else {
+      foreach($params as $param)
       {
         $type = $param['type'];
         $name = $group .'_'. $param['name'];
@@ -261,7 +256,7 @@ elseif ($func == 'edit' || $func == 'add')
         $value = isset($param['default']) ? $param['default'] : null;
         $value = isset($param['value']) ? $param['value'] : $value;
         $attributes = isset($param['attributes']) ? $param['attributes'] : array();
-        switch ($param['type'])
+        switch($param['type'])
         {
           case 'text' :
           case 'textarea' :
@@ -301,7 +296,7 @@ elseif ($func == 'edit' || $func == 'add')
         }
         if (isset($param['visible_if']) && is_array($param['visible_if']))
         {
-          foreach ($param['visible_if'] as $key => $value)
+          foreach($param['visible_if'] as $key => $value)
           {
             $key = $group .'_'. $key;
             if (!isset($visible[$key]))
@@ -315,16 +310,16 @@ elseif ($func == 'edit' || $func == 'add')
     }
   }
   $visible_js = '';
-  if (!empty($visible))
+  if(!empty($visible))
   {
-    foreach ($fieldContainer->getFields() as $group => $fieldElements)
+    foreach($fieldContainer->getFields() as $group => $fieldElements)
     {
-      foreach ($fieldElements as $field)
+      foreach($fieldElements as $field)
       {
         $name = $field->getFieldName();
-        if (isset($visible[$name]))
+        if(isset($visible[$name]))
         {
-          foreach ($visible[$name] as $value => $fieldIds)
+          foreach($visible[$name] as $value => $fieldIds)
           {
             $visible_js .= '
             var first = 1;

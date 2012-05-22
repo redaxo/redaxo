@@ -25,7 +25,7 @@ if ($subpage == 'clear_cache')
 echo rex_view::title('Media Manager');
 
 // Include Current Page
-switch ($subpage)
+switch($subpage)
 {
   case 'types' :
   case 'effects' :

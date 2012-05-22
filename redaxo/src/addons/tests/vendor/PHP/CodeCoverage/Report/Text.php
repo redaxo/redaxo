@@ -105,8 +105,7 @@ class PHP_CodeCoverage_Report_Text
           'eol'     => ''
         );
 
-        if ($showColors)
-        {
+        if ($showColors) {
             $colors['classes'] = $this->getCoverageColor(
                                    $report->getNumTestedClasses(),
                                    $report->getNumClasses()
@@ -127,8 +126,7 @@ class PHP_CodeCoverage_Report_Text
         $output .= PHP_EOL . PHP_EOL .
                    $colors['header'] . 'Code Coverage Report ';
 
-        if ($this->title)
-        {
+        if ($this->title) {
             $output .= 'for "' . $this->title . '"';
         }
 
@@ -146,10 +144,8 @@ class PHP_CodeCoverage_Report_Text
 
         $classCoverage = array();
 
-        foreach ($report as $item)
-        {
-            if (!$item instanceof PHP_CodeCoverage_Report_Node_File)
-            {
+        foreach ($report as $item) {
+            if (!$item instanceof PHP_CodeCoverage_Report_Node_File) {
                 continue;
             }
 
@@ -158,84 +154,68 @@ class PHP_CodeCoverage_Report_Text
             $lines        = array();
             $ignoredLines = $item->getIgnoredLines();
 
-            foreach ($classes as $className => $class)
-            {
+            foreach ($classes as $className => $class) {
                 $classStatements        = 0;
                 $coveredClassStatements = 0;
                 $coveredMethods         = 0;
 
-                foreach ($class['methods'] as $methodName => $method)
-                {
+                foreach ($class['methods'] as $methodName => $method) {
                     $methodCount        = 0;
                     $methodLines        = 0;
                     $methodLinesCovered = 0;
 
                     for ($i  = $method['startLine'];
                          $i <= $method['endLine'];
-                         $i++)
-                         {
-                        if (isset($ignoredLines[$i]))
-                        {
+                         $i++) {
+                        if (isset($ignoredLines[$i])) {
                             continue;
                         }
 
                         $add   = TRUE;
                         $count = 0;
 
-                        if (isset($coverage[$i]))
-                        {
-                            if ($coverage[$i] !== NULL)
-                            {
+                        if (isset($coverage[$i])) {
+                            if ($coverage[$i] !== NULL) {
                                 $classStatements++;
                                 $methodLines++;
-                            }
-                            else
-                            {
+                            } else {
                                 $add = FALSE;
                             }
 
                             $count = count($coverage[$i]);
 
-                            if ($count > 0)
-                            {
+                            if ($count > 0) {
                                 $coveredClassStatements++;
                                 $methodLinesCovered++;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             $add = FALSE;
                         }
 
                         $methodCount = max($methodCount, $count);
 
-                        if ($add)
-                        {
+                        if ($add) {
                             $lines[$i] = array(
                               'count' => $count, 'type'  => 'stmt'
                             );
                         }
                     }
 
-                    if ($methodCount > 0)
-                    {
+                    if ($methodCount > 0) {
                         $coveredMethods++;
                     }
 
                 }
 
-                if (!empty($class['package']['namespace']))
-                {
+                if (!empty($class['package']['namespace'])) {
                     $namespace = '\\' . $class['package']['namespace'] . '::';
                 }
 
-                elseif (!empty($class['package']['fullPackage']))
-                {
+                else if (!empty($class['package']['fullPackage'])) {
                     $namespace = '@' . $class['package']['fullPackage'] . '::';
                 }
 
-                else
-                {
+                else {
                     $namespace = '';
                 }
 
@@ -256,14 +236,11 @@ class PHP_CodeCoverage_Report_Text
         $linesColor  = '';
         $resetColor  = '';
 
-        foreach ($classCoverage as $fullQualifiedPath => $classInfo)
-        {
+        foreach ($classCoverage as $fullQualifiedPath => $classInfo) {
             if ($classInfo['statementsCovered'] != 0 ||
-                $this->showUncoveredFiles)
-                {
+                $this->showUncoveredFiles) {
 
-                if ($showColors)
-                {
+                if ($showColors) {
                     $methodColor = $this->getCoverageColor($classInfo['methodsCovered'], $classInfo['methodCount']);
                     $linesColor  = $this->getCoverageColor($classInfo['statementsCovered'], $classInfo['statementCount']);
                     $resetColor  = $colors['reset'];
@@ -285,13 +262,11 @@ class PHP_CodeCoverage_Report_Text
           $numberOfCoveredElements, $totalNumberOfElements
         );
 
-        if ($coverage > $this->highLowerBound)
-        {
+        if ($coverage > $this->highLowerBound) {
             return $this->colors['green'];
         }
 
-        elseif ($coverage > $this->lowUpperBound)
-        {
+        else if ($coverage > $this->lowUpperBound) {
             return $this->colors['yellow'];
         }
 

@@ -76,12 +76,9 @@ class PHPUnit_Framework_Constraint_TraversableContainsOnly extends PHPUnit_Frame
      */
     public function __construct($type, $isNativeType = TRUE)
     {
-        if ($isNativeType)
-        {
+        if ($isNativeType) {
             $this->constraint = new PHPUnit_Framework_Constraint_IsType($type);
-        }
-        else
-        {
+        } else {
             $this->constraint = new PHPUnit_Framework_Constraint_IsInstanceOf(
               $type
             );
@@ -111,22 +108,18 @@ class PHPUnit_Framework_Constraint_TraversableContainsOnly extends PHPUnit_Frame
         $success = TRUE;
         $constraint = NULL;
 
-        foreach ($other as $item)
-        {
-            if (!$this->constraint->evaluate($item, '', TRUE))
-            {
+        foreach ($other as $item) {
+            if (!$this->constraint->evaluate($item, '', TRUE)) {
                 $success = FALSE;
                 break;
             }
         }
 
-        if ($returnResult)
-        {
+        if ($returnResult) {
             return $success;
         }
 
-        if (!$success)
-        {
+        if (!$success) {
             $this->fail($other, $description);
         }
     }

@@ -27,7 +27,7 @@ class rex_test_runner
     $result = ob_get_clean();
 
     $search = __FILE__ .':'. $line . "\n";
-    foreach (debug_backtrace(false) as $t)
+    foreach(debug_backtrace(false) as $t)
     {
       $search .= $t['file'] .':'. $t['line'] . "\n";
     }

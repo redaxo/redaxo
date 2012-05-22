@@ -113,21 +113,18 @@ abstract class PHP_CodeCoverage_Report_HTML_Renderer
      */
     protected function getColorLevel($percent)
     {
-        if ($percent < $this->lowUpperBound)
-        {
+        if ($percent < $this->lowUpperBound) {
             $color = 'scarlet_red';
             $level = 'Lo';
         }
 
-        elseif ($percent >= $this->lowUpperBound &&
-                 $percent <  $this->highLowerBound)
-                 {
+        else if ($percent >= $this->lowUpperBound &&
+                 $percent <  $this->highLowerBound) {
             $color = 'butter';
             $level = 'Med';
         }
 
-        else
-        {
+        else {
             $color = 'chameleon';
             $level = 'Hi';
         }
@@ -142,33 +139,27 @@ abstract class PHP_CodeCoverage_Report_HTML_Renderer
      */
     protected function renderItemTemplate(Text_Template $template, array $data)
     {
-        if (isset($data['numClasses']) && $data['numClasses'] > 0)
-        {
+        if (isset($data['numClasses']) && $data['numClasses'] > 0) {
             list($classesColor, $classesLevel) = $this->getColorLevel(
               $data['testedClassesPercent']
             );
 
             $classesNumber = $data['numTestedClasses'] . ' / ' .
                              $data['numClasses'];
-        }
-        else
-        {
+        } else {
             $classesColor  = 'snow';
             $classesLevel  = 'None';
             $classesNumber = '&nbsp;';
         }
 
-        if ($data['numMethods'] > 0)
-        {
+        if ($data['numMethods'] > 0) {
             list($methodsColor, $methodsLevel) = $this->getColorLevel(
               $data['testedMethodsPercent']
             );
 
             $methodsNumber = $data['numTestedMethods'] . ' / ' .
                              $data['numMethods'];
-        }
-        else
-        {
+        } else {
             $methodsColor  = 'snow';
             $methodsLevel  = 'None';
             $methodsNumber = '&nbsp;';
@@ -218,12 +209,10 @@ abstract class PHP_CodeCoverage_Report_HTML_Renderer
     {
         $link = '';
 
-        if ($node !== NULL)
-        {
+        if ($node !== NULL) {
             $path = $node->getPathAsArray();
 
-            foreach ($path as $step)
-            {
+            foreach ($path as $step) {
                 $link .= sprintf(
                   '%s<a href="%s.html">%s</a>',
                   !empty($link) ? '/' : '',

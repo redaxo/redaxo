@@ -9,13 +9,12 @@ if (PHP_SAPI !== 'cli')
 
 // bring the file into context, no matter from which dir it was executed
 $path = explode(DIRECTORY_SEPARATOR, __DIR__);
-do
-{
+do {
   $part = array_pop($path);
 }
-while ($part !== null && $part != 'redaxo');
+while($part !== null && $part != 'redaxo');
 
-if (!chdir(implode(DIRECTORY_SEPARATOR, $path). '/redaxo'))
+if(!chdir(implode(DIRECTORY_SEPARATOR, $path). '/redaxo'))
 {
   echo "error: start this script within a redaxo projects folder";
   return 2;

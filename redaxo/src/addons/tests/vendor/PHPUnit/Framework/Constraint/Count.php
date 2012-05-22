@@ -90,13 +90,11 @@ class PHPUnit_Framework_Constraint_Count extends PHPUnit_Framework_Constraint
      */
     protected function getCountOf($other)
     {
-        if ($other instanceof Countable || is_array($other))
-        {
+        if ($other instanceof Countable || is_array($other)) {
             return count($other);
         }
 
-        elseif ($other instanceof Iterator)
-        {
+        else if ($other instanceof Iterator) {
             return iterator_count($other);
         }
     }
