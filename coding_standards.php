@@ -418,6 +418,7 @@ class rex_php_token
   }
 }
 
+$hideProcess = in_array('--hide-process', $argv);
 $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
 $textExtensions = array('php', 'js', 'yml', 'tpl', 'css', 'textile', 'sql', 'txt');
 $countFiles = 0;
@@ -434,7 +435,10 @@ foreach ($iterator as $path => $file)
     continue;
   }
 
-  echo $checkString = 'check ' . $subPath . " ...";
+  if (!$hideProcess)
+  {
+    echo $checkString = 'check ' . $subPath . " ...";
+  }
 
   $countFiles++;
   if($file->getExtension() == 'php')
@@ -446,10 +450,13 @@ foreach ($iterator as $path => $file)
     $fixer = new rex_coding_standards_fixer(file_get_contents($path));
   }
 
-  $length = mb_strlen($checkString);
-  echo $back = str_pad('', $length, "\010");
-  echo str_pad('', $length, ' ');
-  echo $back;
+  if (!$hideProcess)
+  {
+    $length = mb_strlen($checkString);
+    echo $back = str_pad('', $length, "\010");
+    echo str_pad('', $length, ' ');
+    echo $back;
+  }
 
   if ($fixer->hasChanged())
   {
