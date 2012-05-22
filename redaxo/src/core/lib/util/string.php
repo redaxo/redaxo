@@ -70,7 +70,7 @@ class rex_string
       $parts = explode(' ', $string);
       foreach ($parts as $part)
       {
-        if(empty($part))
+        if (empty($part))
           continue;
 
         $variable = explode('=', $part);

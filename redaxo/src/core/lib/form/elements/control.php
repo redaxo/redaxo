@@ -26,9 +26,9 @@ class rex_form_control_element extends rex_form_element
 
     $class = '';
 
-    if($this->saveElement)
+    if ($this->saveElement)
     {
-      if(!$this->saveElement->hasAttribute('class'))
+      if (!$this->saveElement->hasAttribute('class'))
         $this->saveElement->setAttribute('class', 'rex-form-submit');
 
       $class = $this->saveElement->formatClass();
@@ -36,9 +36,9 @@ class rex_form_control_element extends rex_form_element
       $s .= $this->saveElement->formatElement();
     }
 
-    if($this->applyElement)
+    if ($this->applyElement)
     {
-      if(!$this->applyElement->hasAttribute('class'))
+      if (!$this->applyElement->hasAttribute('class'))
         $this->applyElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
 
       $class = $this->applyElement->formatClass();
@@ -46,12 +46,12 @@ class rex_form_control_element extends rex_form_element
       $s .= $this->applyElement->formatElement();
     }
 
-    if($this->deleteElement)
+    if ($this->deleteElement)
     {
-      if(!$this->deleteElement->hasAttribute('class'))
+      if (!$this->deleteElement->hasAttribute('class'))
         $this->deleteElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
 
-      if(!$this->deleteElement->hasAttribute('onclick'))
+      if (!$this->deleteElement->hasAttribute('onclick'))
         $this->deleteElement->setAttribute('data-confirm', rex_i18n::msg('form_delete') .'?');
 
       $class = $this->deleteElement->formatClass();
@@ -59,12 +59,12 @@ class rex_form_control_element extends rex_form_element
       $s .= $this->deleteElement->formatElement();
     }
 
-    if($this->resetElement)
+    if ($this->resetElement)
     {
-      if(!$this->resetElement->hasAttribute('class'))
+      if (!$this->resetElement->hasAttribute('class'))
         $this->resetElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
 
-      if(!$this->resetElement->hasAttribute('onclick'))
+      if (!$this->resetElement->hasAttribute('onclick'))
         $this->resetElement->setAttribute('data-confirm', rex_i18n::msg('form_reset') .'?');
 
       $class = $this->resetElement->formatClass();
@@ -72,9 +72,9 @@ class rex_form_control_element extends rex_form_element
       $s .= $this->resetElement->formatElement();
     }
 
-    if($this->abortElement)
+    if ($this->abortElement)
     {
-      if(!$this->abortElement->hasAttribute('class'))
+      if (!$this->abortElement->hasAttribute('class'))
         $this->abortElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
 
       $class = $this->abortElement->formatClass();

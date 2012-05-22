@@ -98,7 +98,7 @@ elseif ($function == "fileimport")
     if ($impname != "" || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
     {
       $return = rex_a1_import_files($file_temp);
-      if($return['state'])
+      if ($return['state'])
       {
         $info = $return['message'];
       }

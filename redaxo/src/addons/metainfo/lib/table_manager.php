@@ -30,13 +30,13 @@ class rex_metainfo_tableManager
     $qry = 'ALTER TABLE `'. $this->getTableName() .'` ADD ';
     $qry .= '`'. $name .'` '. $type;
 
-    if($length != 0)
+    if ($length != 0)
        $qry .= '('. $length .')';
 
-    if($default !== null)
+    if ($default !== null)
       $qry .= ' DEFAULT \''. str_replace("'", "\'", $default) .'\'';
 
-    if($nullable !== true)
+    if ($nullable !== true)
       $qry .= ' NOT NULL';
 
     return $this->setQuery($qry);
@@ -47,13 +47,13 @@ class rex_metainfo_tableManager
     $qry = 'ALTER TABLE `'. $this->getTableName() .'` CHANGE ';
     $qry .= '`'. $oldname .'` `'. $name .'` '. $type;
 
-    if($length != 0)
+    if ($length != 0)
        $qry .= '('. $length .')';
 
-    if($default !== null)
+    if ($default !== null)
       $qry .= ' DEFAULT \''. str_replace("'", "\'", $default) .'\'';
 
-    if($nullable !== true)
+    if ($nullable !== true)
       $qry .= ' NOT NULL';
 
     return $this->setQuery($qry);
@@ -71,9 +71,9 @@ class rex_metainfo_tableManager
   {
     $columns = rex_sql::showColumns($this->getTableName(), $this->DBID);
 
-    foreach($columns as $column)
+    foreach ($columns as $column)
     {
-      if($column['name'] == $name)
+      if ($column['name'] == $name)
       {
         return true;
       }

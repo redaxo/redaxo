@@ -23,14 +23,14 @@ class rex_input_time extends rex_input
 
   public function setValue($value)
   {
-    if(!is_array($value))
+    if (!is_array($value))
     {
       trigger_error('Expecting $value to be an array!', E_USER_ERROR);
     }
 
-    foreach(array('hour', 'minute') as $reqIndex)
+    foreach (array('hour', 'minute') as $reqIndex)
     {
-      if(!isset($value[$reqIndex]))
+      if (!isset($value[$reqIndex]))
       {
         trigger_error('Missing index "'. $reqIndex .'" in $value!', E_USER_ERROR);
       }
@@ -44,12 +44,12 @@ class rex_input_time extends rex_input
 
   public function setAttribute($name, $value)
   {
-    if($name == 'name')
+    if ($name == 'name')
     {
       $this->hourSelect->setName($value.'[hour]');
       $this->minuteSelect->setName($value.'[minute]');
     }
-    else if($name == 'id')
+    elseif ($name == 'id')
     {
       $this->hourSelect->setId($value.'_hour');
       $this->minuteSelect->setId($value.'_minute');

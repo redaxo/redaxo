@@ -26,7 +26,7 @@ class rex_system_setting_article_id extends rex_system_setting
 
   public function getField()
   {
-    if(rex_plugin::get('structure', 'linkmap')->isAvailable())
+    if (rex_plugin::get('structure', 'linkmap')->isAvailable())
     {
       $field = new rex_form_widget_linkmap_element();
       $field->setAttribute('class', 'rex-form-widget');
@@ -44,7 +44,7 @@ class rex_system_setting_article_id extends rex_system_setting
   public function isValid($value)
   {
     $article = rex_ooArticle::getArticleById($value);
-    if(!rex_ooArticle::isValid($article))
+    if (!rex_ooArticle::isValid($article))
     {
       return rex_i18n::msg('system_setting_'. $this->key .'_invalid');
     }

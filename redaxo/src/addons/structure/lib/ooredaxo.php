@@ -36,7 +36,7 @@ abstract class rex_ooRedaxo
     {
       foreach (self :: getClassVars() as $var)
       {
-        if(isset($params[$var]))
+        if (isset($params[$var]))
         {
           $class_var = '_'.$var;
           $this->$class_var = $params[$var];
@@ -66,10 +66,10 @@ abstract class rex_ooRedaxo
     // damit alte rex_article felder wie teaser, online_from etc
     // noch funktionieren
     // gleicher BC code nochmals in article::getValue
-    foreach(array('_', 'art_', 'cat_') as $prefix)
+    foreach (array('_', 'art_', 'cat_') as $prefix)
     {
       $val = $prefix . $value;
-      if(isset($this->$val))
+      if (isset($this->$val))
       {
         return $this->$val;
       }
@@ -86,7 +86,7 @@ abstract class rex_ooRedaxo
   {
     static $values = null;
 
-    if(!$values)
+    if (!$values)
     {
       $values = self :: getClassVars();
     }
@@ -96,7 +96,7 @@ abstract class rex_ooRedaxo
       return true;
     }
 
-    foreach($prefixes as $prefix)
+    foreach ($prefixes as $prefix)
     {
       if (in_array($prefix . $value, $values))
       {
@@ -123,13 +123,13 @@ abstract class rex_ooRedaxo
 
       $startId = rex::getProperty('start_article_id');
       $file = rex_path::addonCache('structure',  $startId .'.0.article');
-      if(!rex::isBackend() && file_exists($file))
+      if (!rex::isBackend() && file_exists($file))
       {
         // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
         $genVars = self::convertGeneratedArray(rex_file::getCache($file),0);
         unset($genVars['article_id']);
         unset($genVars['last_update_stamp']);
-        foreach($genVars as $name => $value)
+        foreach ($genVars as $name => $value)
         {
           $vars[] = $name;
         }
@@ -139,7 +139,7 @@ abstract class rex_ooRedaxo
         // Im Backend die Spalten aus der DB auslesen / via EP holen
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM '. rex::getTablePrefix() .'article LIMIT 0');
-        foreach($sql->getFieldnames() as $field)
+        foreach ($sql->getFieldnames() as $field)
         {
           $vars[] = $field;
         }
@@ -187,7 +187,7 @@ abstract class rex_ooRedaxo
   {
     $id = (int) $id;
 
-    if($id <= 0)
+    if ($id <= 0)
     {
       return NULL;
     }
@@ -201,7 +201,7 @@ abstract class rex_ooRedaxo
     $subclass = get_called_class();
 
     // check if the class was already stored in the instanceCache
-    if(isset(self::$instanceCache[$subclass][$id][$clang]))
+    if (isset(self::$instanceCache[$subclass][$id][$clang]))
     {
       return self::$instanceCache[$subclass][$id][$clang];
     }
@@ -469,7 +469,7 @@ abstract class rex_ooRedaxo
 
     if ($this->_path)
     {
-      if($this->isStartArticle())
+      if ($this->isStartArticle())
       $explode = explode('|', $this->_path.$this->_id.'|');
       else
       $explode = explode('|', $this->_path);
@@ -498,9 +498,9 @@ abstract class rex_ooRedaxo
   public function inParentTree($anObj)
   {
     $tree = $this->getParentTree();
-    foreach($tree as $treeObj)
+    foreach ($tree as $treeObj)
     {
-      if($treeObj == $anObj)
+      if ($treeObj == $anObj)
       {
         return true;
       }

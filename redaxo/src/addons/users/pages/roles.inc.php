@@ -2,7 +2,7 @@
 
 $content = '';
 
-if($func == 'delete')
+if ($func == 'delete')
 {
   $sql = rex_sql::factory();
   $sql->setQuery('DELETE FROM '. rex::getTable('user_role') .' WHERE id = ? LIMIT 1', array($id));
@@ -10,7 +10,7 @@ if($func == 'delete')
   $func = '';
 }
 
-if($func == '')
+if ($func == '')
 {
 
   $list = rex_list::factory('SELECT id, name FROM '.rex::getTablePrefix().'user_role');
@@ -39,7 +39,8 @@ if($func == '')
 
   echo rex_view::contentBlock($content,'','block');
 
-}else
+}
+else
 {
   $label = $func == 'edit' ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
   $form = rex_form::factory(rex::getTablePrefix() .'user_role', $label, 'id = '. $id);
@@ -58,7 +59,7 @@ if($func == '')
   $group = 'all';
   $fieldContainer->setActive($group);
 
-  foreach(array(rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS) as $permgroup)
+  foreach (array(rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS) as $permgroup)
   {
     $field = $fieldContainer->addGroupedField($group, 'select', $permgroup);
     $field->setLabel(rex_i18n::msg('user_'. $permgroup));
@@ -69,29 +70,30 @@ if($func == '')
     $select->addArrayOptions($perms);
   }
 
-  rex_extension::register('REX_FORM_INPUT_CLASS', function($params) {
+  rex_extension::register('REX_FORM_INPUT_CLASS', function($params)
+  {
     return $params['inputType'] == 'perm_select' ? 'rex_form_perm_select_element' : null;
   });
 
   $fieldIds = array();
-  foreach(rex_complex_perm::getAll() as $key => $class)
+  foreach (rex_complex_perm::getAll() as $key => $class)
   {
     $params = $class::getFieldParams();
-    if(!empty($params))
+    if (!empty($params))
     {
       $field = $fieldContainer->addGroupedField($group, 'perm_select', $key);
       $field->setLabel($params['label']);
       $field->setCheckboxLabel($params['all_label']);
       $fieldIds[] = $field->getAttribute('id');
-      if(rex_request('default_value', 'boolean'))
+      if (rex_request('default_value', 'boolean'))
         $field->setValue(rex_complex_perm::ALL);
-      if(isset($params['select']))
+      if (isset($params['select']))
         $field->setSelect($params['select']);
       $select = $field->getSelect();
       $select->setMultiple(true);
-      if(isset($params['options']))
+      if (isset($params['options']))
         $select->addArrayOptions($params['options']);
-      if(isset($params['sql_options']))
+      if (isset($params['sql_options']))
         $select->addSqlOptions($params['sql_options']);
       $select->get();
       $select->setSize(min(10, max(3, $select->countOptions())));
@@ -100,7 +102,7 @@ if($func == '')
 
   $content .= $form->get();
 
-  if($fieldIds)
+  if ($fieldIds)
   {
     $content .= '
       <script type="text/javascript">

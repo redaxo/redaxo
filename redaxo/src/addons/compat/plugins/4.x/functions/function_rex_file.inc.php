@@ -28,7 +28,7 @@ function rex_get_file_contents($path)
  */
 function rex_replace_dynamic_contents($path, $content)
 {
-  if($fcontent = rex_file::get($path))
+  if ($fcontent = rex_file::get($path))
   {
     $content = "// --- DYN\n". trim($content) ."\n// --- /DYN";
     $fcontent = preg_replace("@(\/\/.---.DYN.*\/\/.---.\/DYN)@s", $content, $fcontent);
@@ -45,7 +45,7 @@ function rex_replace_dynamic_contents($path, $content)
  */
 function rex_deleteDir($file, $delete_folders = FALSE)
 {
-  if($deleteFolders)
+  if ($deleteFolders)
     return rex_dir::delete($file);
   else
     return rex_dir::deleteFiles($file);
@@ -106,7 +106,7 @@ function _rex_is_writable_info($is_writable, $item = '')
 {
   $state = true;
   $key = '';
-  switch($is_writable)
+  switch ($is_writable)
   {
     case 1:
       {
@@ -125,10 +125,10 @@ function _rex_is_writable_info($is_writable, $item = '')
       }
   }
 
-  if($key != '')
+  if ($key != '')
   {
     $file = '';
-    if($item != '')
+    if ($item != '')
     $file = '<b>'. $item .'</b>';
 
     $state = rex_i18n::msg($key, '<span class="rex-error">', '</span>', rex_path::absolute($file));

@@ -35,7 +35,7 @@ class rex_urlRewriter_simple extends rex_urlRewriter
   public function rewrite(array $params)
   {
     // Url wurde von einer anderen Extension bereits gesetzt
-    if($params['subject'] != '')
+    if ($params['subject'] != '')
     {
       return $params['subject'];
     }

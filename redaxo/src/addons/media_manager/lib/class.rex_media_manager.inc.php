@@ -18,18 +18,18 @@ class rex_media_manager
     $this->type = $type;
 
     $set = array();
-    if(!$this->isCached($type))
+    if (!$this->isCached($type))
     {
       $set = $this->effectsFromType($type);
       $set = rex_extension::registerPoint('MEDIA_MANAGER_FILTERSET',$set,array('rex_media_type'=>$type));
 
-      if(count($set) == 0)
+      if (count($set) == 0)
       {
         return $this->media;
       }
 
       // execute effects on image
-      foreach($set as $effect_params)
+      foreach ($set as $effect_params)
       {
         $effect_class = 'rex_effect_'.$effect_params['effect'];
         $effect = new $effect_class;
@@ -54,16 +54,16 @@ class rex_media_manager
     $sql->setQuery($qry);
 
     $effects = array();
-    foreach($sql as $row)
+    foreach ($sql as $row)
     {
       $effname = $row->getValue('effect');
       $params = json_decode($row->getValue('parameters'), true);
       $effparams = array();
 
       // extract parameter out of array
-      if(isset($params['rex_effect_'. $effname]))
+      if (isset($params['rex_effect_'. $effname]))
       {
-        foreach($params['rex_effect_'. $effname] as $name => $value)
+        foreach ($params['rex_effect_'. $effname] as $name => $value)
         {
           $effparams[str_replace('rex_effect_'. $effname .'_', '', $name)] = $value;
           unset($effparams[$name]);
@@ -115,7 +115,8 @@ class rex_media_manager
       if (file_exists($mediapath))
       {
         $filetime = filectime($mediapath);
-      }else
+      }
+      else
       {
         $media->sendError('Missing original file for cache-validation!');
         exit();
@@ -149,7 +150,7 @@ class rex_media_manager
     //  $sql->debugsql = true;
     $sql->setQuery($qry);
     $counter = 0;
-    foreach($sql as $row)
+    foreach ($sql as $row)
     {
       $counter += self::deleteCache(null, $row->getValue('name'));
     }
@@ -158,12 +159,12 @@ class rex_media_manager
 
   static public function deleteCache($filename = null, $cacheParams = null)
   {
-    if(!$filename)
+    if (!$filename)
     {
       $filename = '*';
     }
 
-    if(!$cacheParams)
+    if (!$cacheParams)
     {
       $cacheParams = '*';
     }
@@ -173,14 +174,14 @@ class rex_media_manager
     $folders[] = rex_path::media();
 
     $counter = 0;
-    foreach($folders as $folder)
+    foreach ($folders as $folder)
     {
       $glob = glob($folder .'media_manager__'. $cacheParams . '_'. $filename);
-      if($glob)
+      if ($glob)
       {
         foreach ($glob as $file)
         {
-          if(rex_file::delete($file))
+          if (rex_file::delete($file))
           {
             $counter++;
           }
@@ -197,21 +198,25 @@ class rex_media_manager
     $CacheFilename = $this->getCacheFilename();
 
     $header = array();
-    if($this->isCached())
+    if ($this->isCached())
     {
       $header = unserialize(file_get_contents($headerCacheFilename));
-      foreach($header as $t => $c)
+      foreach ($header as $t => $c)
       {
         header($t.': '.$c);
       }
       readfile($CacheFilename);
 
-    }else
+    }
+    else
     {
-      if($this->use_cache) {
+      if ($this->use_cache)
+      {
         $this->media->sendMedia($CacheFilename, $headerCacheFilename, 1);
 
-      } else {
+      }
+      else
+      {
         $this->media->sendMedia($CacheFilename, $headerCacheFilename, 0);
       }
     }
@@ -222,7 +227,7 @@ class rex_media_manager
   static public function getSupportedEffectNames()
   {
     $effectNames = array();
-    foreach(self::getSupportedEffects() as $effectClass => $effectFile)
+    foreach (self::getSupportedEffects() as $effectClass => $effectFile)
     {
       $effectNames[] = self::getEffectName($effectFile);
     }
@@ -236,12 +241,12 @@ class rex_media_manager
     );
 
     $effects = array();
-    foreach($dirs as $dir)
+    foreach ($dirs as $dir)
     {
       $files = glob($dir . 'class.rex_effect_*.inc.php');
-      if($files)
+      if ($files)
       {
-        foreach($files as $file)
+        foreach ($files as $file)
         {
           $effects[self::getEffectClass($file)] = $file;
         }
@@ -271,7 +276,8 @@ class rex_media_manager
   /*
    * For ExtensionPoints.
    */
-  static function mediaUpdated($params){
+  static function mediaUpdated($params)
+  {
     self::deleteCache($params["filename"]);
   }
 
@@ -281,7 +287,7 @@ class rex_media_manager
     $rex_media_manager_file = self::getMediaFile();
     $rex_media_manager_type = self::getMediaType();
 
-    if($rex_media_manager_file != '' && $rex_media_manager_type != '')
+    if ($rex_media_manager_file != '' && $rex_media_manager_type != '')
     {
       $media_path    = rex_path::media($rex_media_manager_file);
       $cache_path    = rex_path::addonCache('media_manager');

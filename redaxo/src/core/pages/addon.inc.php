@@ -20,9 +20,9 @@ if ($subpage == 'help')
 
   $credits = '';
   $credits .= rex_i18n::msg("credits_name") .': <span>'. htmlspecialchars($name) .'</span><br />';
-  if($version) $credits .= rex_i18n::msg("credits_version") .': <span>'. $version .'</span><br />';
-  if($author) $credits .= rex_i18n::msg("credits_author") .': <span>'. htmlspecialchars($author) .'</span><br />';
-  if($supportPage) $credits .= rex_i18n::msg("credits_supportpage") .': <span><a href="http://'.$supportPage.'" onclick="window.open(this.href); return false;">'. $supportPage .'</a></span><br />';
+  if ($version) $credits .= rex_i18n::msg("credits_version") .': <span>'. $version .'</span><br />';
+  if ($author) $credits .= rex_i18n::msg("credits_author") .': <span>'. htmlspecialchars($author) .'</span><br />';
+  if ($supportPage) $credits .= rex_i18n::msg("credits_supportpage") .': <span><a href="http://'.$supportPage.'" onclick="window.open(this.href); return false;">'. $supportPage .'</a></span><br />';
 
   echo '<div class="rex-area">
         <h3 class="rex-hl2">'.rex_i18n::msg("addon_help").' '.$name.'</h3>
@@ -66,7 +66,7 @@ if ($subpage == '')
   $getLink = function(rex_package $package, $function, $confirm = false, $key = null)
   {
     $onclick = '';
-    if($confirm)
+    if ($confirm)
     {
       $onclick = ' data-confirm="'.htmlspecialchars(rex_i18n::msg($package->getType() . '_' . $function . '_question', $package->getName())) . '"';
     }
@@ -84,7 +84,7 @@ if ($subpage == '')
     if ($package->isInstalled())
     {
       $install = htmlspecialchars(rex_i18n::msg("addon_yes")).' - '. $getLink($package, 'install', false, 'reinstall');
-      if($type == 'addon' && count($package->getInstalledPlugins()) > 0)
+      if ($type == 'addon' && count($package->getInstalledPlugins()) > 0)
       {
         $uninstall = htmlspecialchars(rex_i18n::msg("plugin_plugins_installed"));
         $delete = htmlspecialchars(rex_i18n::msg("plugin_plugins_installed"));
@@ -100,11 +100,11 @@ if ($subpage == '')
       $uninstall = htmlspecialchars(rex_i18n::msg("addon_notinstalled"));
     }
 
-    if($package->isActivated())
+    if ($package->isActivated())
     {
       $status = htmlspecialchars(rex_i18n::msg("addon_yes")).' - '.$getLink($package, 'deactivate');
     }
-    elseif($package->isInstalled())
+    elseif ($package->isInstalled())
     {
       $status = htmlspecialchars(rex_i18n::msg("addon_no")).' - '.$getLink($package, 'activate');
     }
@@ -117,7 +117,7 @@ if ($subpage == '')
 
     // --------------------------------------------- API MESSAGES
     $message = '';
-    if($package->getPackageId() == rex_get('package', 'string') && rex_api_function::hasMessage())
+    if ($package->getPackageId() == rex_get('package', 'string') && rex_api_function::hasMessage())
     {
       $message = '
           <tr class="rex-package-message rex-warning">
@@ -139,13 +139,13 @@ if ($subpage == '')
           </tr>'."\n   ";
   };
 
-  foreach(rex_addon::getRegisteredAddons() as $addonName => $addon)
+  foreach (rex_addon::getRegisteredAddons() as $addonName => $addon)
   {
     echo $getTableRow($addon);
 
-    if($addon->isActivated())
+    if ($addon->isActivated())
     {
-      foreach($addon->getRegisteredPlugins() as $pluginName => $plugin)
+      foreach ($addon->getRegisteredPlugins() as $pluginName => $plugin)
       {
         echo $getTableRow($plugin);
       }

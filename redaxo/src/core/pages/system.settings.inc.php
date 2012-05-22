@@ -26,7 +26,8 @@ if ($func == 'setup')
   {
     $warning = rex_i18n::msg('setup_error2');
   }
-}elseif ($func == 'generate')
+}
+elseif ($func == 'generate')
 {
   // generate all articles,cats,templates,caches
   $success = rex_deleteCache();
@@ -38,22 +39,22 @@ elseif ($func == 'updateinfos')
 
   $settings = rex_post('settings', 'array', array());
 
-  foreach(array('server', 'servername', 'error_email', 'lang') as $key)
+  foreach (array('server', 'servername', 'error_email', 'lang') as $key)
   {
-    if(isset($settings[$key]))
+    if (isset($settings[$key]))
     {
       $config[$key] = $settings[$key];
       rex::setProperty($key, $settings[$key]);
     }
   }
 
-  foreach(rex_system_setting::getAll() as $setting)
+  foreach (rex_system_setting::getAll() as $setting)
   {
     $key = $setting->getKey();
-    if(isset($settings[$key]))
+    if (isset($settings[$key]))
     {
       $value = $setting->cast($settings[$key]);
-      if(($error = $setting->isValid($value)) !== true)
+      if (($error = $setting->isValid($value)) !== true)
       {
         $warning .= $error .'<br />';
       }
@@ -65,14 +66,14 @@ elseif ($func == 'updateinfos')
     }
   }
 
-  if(empty($config['error_email']))
+  if (empty($config['error_email']))
   {
     $warning = rex_i18n::msg('error_email_required');
   }
 
-  if($warning == '')
+  if ($warning == '')
   {
-    if(rex_file::putConfig($configFile, $config) > 0)
+    if (rex_file::putConfig($configFile, $config) > 0)
     {
       $success = rex_i18n::msg('info_updated');
     }
@@ -158,10 +159,10 @@ $content_2 = '
           $content_2 .= $fragment->parse('form.tpl');
 
 
-foreach(rex_system_setting::getAll() as $setting)
+foreach (rex_system_setting::getAll() as $setting)
 {
   $field = $setting->getField();
-  if(!($field instanceof rex_form_element))
+  if (!($field instanceof rex_form_element))
   {
     throw new rex_exception(get_class($setting) .'::getField() must return a rex_form_element!');
   }

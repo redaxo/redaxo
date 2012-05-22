@@ -29,33 +29,37 @@ if ($function == "delete")
   {
     $warning = rex_i18n::msg("cant_delete_template_because_its_in_use", 'ID = '.$template_id);
 
-  }else
+  }
+  else
   {
     $del->setQuery("DELETE FROM " . rex::getTablePrefix() . "template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
     rex_file::delete(rex_path::addonCache('templates', $template_id . '.template'));
     $info = rex_i18n::msg("template_deleted");
   }
 
-}elseif ($function == "edit")
+}
+elseif ($function == "edit")
 {
 
   $legend = rex_i18n::msg("edit_template") . ' [ID=' . $template_id . ']';
 
   $hole = rex_sql::factory();
   $hole->setQuery("SELECT * FROM " . rex::getTablePrefix() . "template WHERE id = '$template_id'");
-  if($hole->getRows() == 1)
+  if ($hole->getRows() == 1)
   {
     $templatename = $hole->getValue("name");
     $content = $hole->getValue("content");
     $active = $hole->getValue("active");
     $attributes = $hole->getArrayValue('attributes');
 
-  }else
+  }
+  else
   {
     $function = '';
   }
 
-}else
+}
+else
 {
   $templatename = '';
   $content = '';
@@ -86,21 +90,21 @@ if ($function == "add" or $function == "edit")
 
     $categories = rex_post("categories", "array");
     // leerer eintrag = 0
-    if(count($categories) == 0 || !isset($categories["all"]) || $categories["all"] != 1)
+    if (count($categories) == 0 || !isset($categories["all"]) || $categories["all"] != 1)
     {
       $categories["all"] = 0;
     }
 
     $modules = rex_post("modules", "array");
     // leerer eintrag = 0
-    if(count($modules) == 0)
+    if (count($modules) == 0)
     {
       $modules[1]["all"] = 0;
     }
 
-    foreach($modules as $k => $module)
+    foreach ($modules as $k => $module)
     {
-      if(!isset($module["all"]) ||$module["all"] != 1)
+      if (!isset($module["all"]) ||$module["all"] != 1)
       {
         $modules[$k]["all"] = 0;
       }
@@ -122,47 +126,58 @@ if ($function == "add" or $function == "edit")
     {
       $TPL->addGlobalCreateFields();
 
-      try {
+      try
+      {
         $TPL->insert();
         $template_id = $TPL->getLastId();
         $info = rex_i18n::msg("template_added");
-      } catch (rex_sql_exception $e) {
+      }
+      catch (rex_sql_exception $e)
+      {
         $warning = $e->getMessage();
       }
-    }else
+    }
+    else
     {
       $TPL->setWhere(array('id' => $template_id));
       $TPL->addGlobalUpdateFields();
 
-      try {
+      try
+      {
         $TPL->update();
         $info = rex_i18n::msg("template_updated");
-      } catch (rex_sql_exception $e) {
+      }
+      catch (rex_sql_exception $e)
+      {
         $warning = $e->getMessage();
       }
     }
 
     rex_dir::delete(rex_path::addonCache('templates'), false);
 
-    if ($goon != "") {
+    if ($goon != "")
+    {
       $function = "edit";
       $save = "nein";
-    } else {
+    }
+    else
+    {
       $function = "";
     }
   }
 
-  if (!isset ($save) or $save != "ja") {
+  if (!isset ($save) or $save != "ja")
+  {
 
     // Ctype Handling
     $ctypes = isset($attributes['ctype']) ? $attributes['ctype'] : array();
     $modules = isset($attributes['modules']) ? $attributes['modules'] : array();
     $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
 
-    if(!is_array($modules))
+    if (!is_array($modules))
       $modules = array();
 
-    if(!is_array($categories))
+    if (!is_array($categories))
       $categories = array();
 
     // modules[ctype_id][module_id];
@@ -174,7 +189,7 @@ if ($function == "add" or $function == "edit")
     $modul_select->setStyle('class="rex-form-select"');
     $modul_select->setSize(10);
     $m_sql = rex_sql::factory();
-    foreach($m_sql->getArray('SELECT id, name FROM '.rex::getTablePrefix().'module ORDER BY name') as $m)
+    foreach ($m_sql->getArray('SELECT id, name FROM '.rex::getTablePrefix().'module ORDER BY name') as $m)
       $modul_select->addOption($m["name"],$m["id"]);
 
     // Kategorien
@@ -185,12 +200,12 @@ if ($function == "add" or $function == "edit")
     $cat_select->setName('categories[]');
     $cat_select->setId('categories');
 
-    if(count($categories)>0)
+    if (count($categories)>0)
     {
-      foreach($categories as $c => $cc)
+      foreach ($categories as $c => $cc)
       {
         // typsicherer vergleich, weil (0 != "all") => false
-        if($c !== "all")
+        if ($c !== "all")
         {
           $cat_select->setSelected($cc);
         }
@@ -213,12 +228,12 @@ if ($function == "add" or $function == "edit")
         $modul_select->setName('modules['.$i.'][]');
         $modul_select->setId('modules_'.$i.'_select');
         $modul_select->resetSelected();
-        if(isset($modules[$i]) && count($modules[$i])>0)
+        if (isset($modules[$i]) && count($modules[$i])>0)
         {
-          foreach($modules[$i] as $j => $jj)
+          foreach ($modules[$i] as $j => $jj)
           {
             // typsicherer vergleich, weil (0 != "all") => false
-            if($j !== 'all')
+            if ($j !== 'all')
             {
               $modul_select->setSelected($jj);
             }
@@ -234,7 +249,7 @@ if ($function == "add" or $function == "edit")
 
         $field = '';
         $field .= '<input id="allmodules'.$i.'" type="checkbox" name="modules[' . $i . '][all]" ';
-        if(!isset($modules[$i]['all']) || $modules[$i]['all'] == 1)
+        if (!isset($modules[$i]['all']) || $modules[$i]['all'] == 1)
           $field .= ' checked="checked" ';
         $field .= ' value="1" />';
 
@@ -267,7 +282,7 @@ if ($function == "add" or $function == "edit")
       jQuery(function($) {
     ';
 
-    for($j=1;$j<=$i;$j++)
+    for ($j=1;$j<=$i;$j++)
     {
       $ctypes_out .= '
 
@@ -352,7 +367,7 @@ if ($function == "add" or $function == "edit")
 
               $field = '';
               $field .= '<input id="allcategories" type="checkbox" name="categories[all]" ';
-              if(!isset($categories['all']) || $categories['all'] == 1)
+              if (!isset($categories['all']) || $categories['all'] == 1)
                 $field .= ' checked="checked" ';
               $field .= ' value="1" />';
 
@@ -461,7 +476,8 @@ if ($OUT)
 
   $list->setColumnLabel('active', rex_i18n::msg('header_template_active'));
   $list->setColumnLayout('active',  array('<th class="rex-small">###VALUE###</th>','<td class="rex-small">###VALUE###</td>'));
-  $list->setColumnFormat('active', 'custom', function($params) {
+  $list->setColumnFormat('active', 'custom', function($params)
+  {
     $list = $params['list'];
     return $list->getValue('active') == 1 ? rex_i18n::msg('yes') : rex_i18n::msg('no');
   });

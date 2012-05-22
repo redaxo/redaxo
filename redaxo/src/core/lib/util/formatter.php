@@ -199,7 +199,7 @@ abstract class rex_formatter
 
   static private function _formatUrl($value, $format)
   {
-    if(empty($value))
+    if (empty($value))
       return '';
 
     if (!is_array($format))
@@ -258,16 +258,16 @@ abstract class rex_formatter
 
   static private function _formatCustom($value, $format)
   {
-    if(!is_callable($format))
+    if (!is_callable($format))
     {
-      if(!is_callable($format[0]))
+      if (!is_callable($format[0]))
       {
         trigger_error('Unable to find callable '. $format[0] .' for custom format!');
       }
 
       $params = array();
       $params['subject'] = $value;
-      if(is_array($format[1]))
+      if (is_array($format[1]))
       {
         $params = array_merge($format[1], $params);
       }
@@ -287,18 +287,18 @@ abstract class rex_formatter
   {
     $units = array('B','KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB');
     $unit_index = 0;
-    while(($value / 1024) >= 1)
+    while (($value / 1024) >= 1)
     {
       $value /= 1024;
       $unit_index++;
     }
 
-    if(isset($format[0]))
+    if (isset($format[0]))
     {
       $z = intval($value * pow(10, $precision = intval($format[0])));
-      for($i = 0; $i < intval($precision); $i++)
+      for ($i = 0; $i < intval($precision); $i++)
       {
-        if(($z % 10) == 0)
+        if (($z % 10) == 0)
         {
           $format[0] = intval($format[0]) - 1;
           $z = intval($z / 10);

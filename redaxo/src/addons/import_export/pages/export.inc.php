@@ -6,7 +6,7 @@
  */
 
 // Für größere Exports den Speicher für PHP erhöhen.
-if(rex_ini_get('memory_limit') < 67108864)
+if (rex_ini_get('memory_limit') < 67108864)
 {
   @ini_set('memory_limit', '64M');
 }

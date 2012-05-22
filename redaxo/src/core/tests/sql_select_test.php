@@ -37,7 +37,7 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
     $this->assertEquals(6, count($sql->getRow()), 'getRow() returns an array containing all columns of the ResultSet');
     $this->assertEquals(3, $sql->getRows(), 'getRows() returns the number of rows');
 
-    foreach($sql as $row)
+    foreach ($sql as $row)
     {
       $this->assertTrue($row->hasValue('col_str'), 'values exist in each row');
       $this->assertTrue($row->hasValue('col_int'), 'values exist in each row');

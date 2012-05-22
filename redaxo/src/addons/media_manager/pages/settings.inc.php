@@ -18,9 +18,9 @@ $jpg_quality = rex_request('jpg_quality', 'int');
 
 if ($func == 'update')
 {
-  if($jpg_quality > 100)
+  if ($jpg_quality > 100)
     $jpg_quality = 100;
-  else if ($jpg_quality < 0)
+  elseif ($jpg_quality < 0)
     $jpg_quality = 0;
 
   rex_config::set('media_manager', 'jpg_quality', $jpg_quality);

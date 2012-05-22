@@ -28,7 +28,7 @@ class rex_version_checker_notification extends rex_dashboard_notification
   {
     $versionCheck = rex_a657_check_version();
 
-    if($versionCheck)
+    if ($versionCheck)
     {
       $this->setMessage($versionCheck);
     }

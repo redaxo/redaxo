@@ -188,7 +188,7 @@ class sfYamlInline
           $output = rtrim(substr($output, 0, $strpos));
         }
       }
-      else if (preg_match('/^(.+?)('.implode('|', $delimiters).')/', substr($scalar, $i), $match))
+      elseif (preg_match('/^(.+?)('.implode('|', $delimiters).')/', substr($scalar, $i), $match))
       {
         $output = $match[1];
         $i += strlen($output);

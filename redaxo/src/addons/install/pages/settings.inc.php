@@ -10,7 +10,7 @@ $settings = rex_post('settings', array(
 
 if (is_array($settings))
 {
-  foreach($settings as $key => $value)
+  foreach ($settings as $key => $value)
   {
     $this->setConfig($key, $value);
   }

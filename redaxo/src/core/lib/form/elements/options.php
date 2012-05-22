@@ -19,18 +19,18 @@ abstract class rex_form_options_element extends rex_form_element
 
   public function addOptions(array $options, $useOnlyValues = false)
   {
-    if(count($options)>0)
+    if (count($options)>0)
     {
       foreach ($options as $key => $option)
       {
         $option = (array) $option;
-        if($useOnlyValues)
+        if ($useOnlyValues)
         {
           $this->addOption($option[0], $option[0]);
         }
         else
         {
-          if(!isset($option[1]))
+          if (!isset($option[1]))
             $option[1] = $key;
 
           $this->addOption($option[0], $option[1]);
@@ -41,9 +41,9 @@ abstract class rex_form_options_element extends rex_form_element
 
   public function addArrayOptions(array $options, $use_keys = true)
   {
-    foreach($options as $key => $value)
+    foreach ($options as $key => $value)
     {
-      if(!$use_keys)
+      if (!$use_keys)
         $key = $value;
 
       $this->addOption($value, $key);

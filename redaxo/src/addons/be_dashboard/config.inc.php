@@ -12,9 +12,9 @@
 rex_perm::register('be_dashboard[]');
 
 // im backend und eingeloggt?
-if(rex::isBackend() && rex::getUser())
+if (rex::isBackend() && rex::getUser())
 {
-  if(rex_request('page', 'string') == 'be_dashboard')
+  if (rex_request('page', 'string') == 'be_dashboard')
   {
     require_once dirname(__FILE__) .'/functions/function_dashboard.inc.php';
     rex_extension::register('PAGE_HEADER', 'rex_a655_add_assets');

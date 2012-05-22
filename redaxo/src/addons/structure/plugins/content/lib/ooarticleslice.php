@@ -91,10 +91,10 @@ class rex_ooArticleSlice
     if ($clang === false)
       $clang = rex_clang::getId();
 
-    foreach(range(1,20) as $ctype)
+    foreach (range(1,20) as $ctype)
     {
       $slice = self::getFirstSliceForCtype($ctype, $an_article_id, $clang, $revision);
-      if($slice !== null)
+      if ($slice !== null)
       {
         return $slice;
       }
@@ -184,10 +184,10 @@ class rex_ooArticleSlice
 
   static protected function _getSliceWhere($where, $table = null, $fields = null, $default = null)
   {
-    if(!$table)
+    if (!$table)
       $table = rex::getTablePrefix().'article_slice';
 
-    if(!$fields)
+    if (!$fields)
       $fields = '*';
 
     $sql = rex_sql::factory();
@@ -211,7 +211,8 @@ class rex_ooArticleSlice
         array($sql->getValue('link1'), $sql->getValue('link2'), $sql->getValue('link3'), $sql->getValue('link4'), $sql->getValue('link5'), $sql->getValue('link6'), $sql->getValue('link7'), $sql->getValue('link8'), $sql->getValue('link9'), $sql->getValue('link10')),
         array($sql->getValue('linklist1'), $sql->getValue('linklist2'), $sql->getValue('linklist3'), $sql->getValue('linklist4'), $sql->getValue('linklist5'), $sql->getValue('linklist6'), $sql->getValue('linklist7'), $sql->getValue('linklist8'), $sql->getValue('linklist9'), $sql->getValue('linklist10')),
         $sql->getValue('php'), $sql->getValue('html'));
-    } else if($rows > 1)
+    }
+    elseif ($rows > 1)
     {
       $slices = array ();
       for ($i = 0; $i < $rows; $i++)
@@ -271,11 +272,11 @@ class rex_ooArticleSlice
 
   public function getValue($index)
   {
-    if(is_int($index))
+    if (is_int($index))
       return $this->_values[$index-1];
 
     $attrName = '_'. $index;
-    if(isset($this->$attrName))
+    if (isset($this->$attrName))
       return $this->$attrName;
 
     return null;

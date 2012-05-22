@@ -12,11 +12,11 @@
 $mypage = 'userinfo';
 
 // im backend und eingeloggt?
-if(rex::isBackend() && rex::getUser())
+if (rex::isBackend() && rex::getUser())
 {
-  if(rex_request('page', 'string') == 'be_dashboard')
+  if (rex_request('page', 'string') == 'be_dashboard')
   {
-    if(!defined('A659_DEFAULT_LIMIT'))
+    if (!defined('A659_DEFAULT_LIMIT'))
     {
       define('A659_DEFAULT_LIMIT', 7);
     }
@@ -29,7 +29,7 @@ if(rex::isBackend() && rex::getUser())
       'rex_stats_component',
     );
 
-    foreach($components as $compClass)
+    foreach ($components as $compClass)
     {
       rex_extension::register(
         'DASHBOARD_COMPONENT',

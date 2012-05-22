@@ -43,7 +43,7 @@ function rex_a1_import_db($filename)
   // Versionsstempel prüfen
   // ## Redaxo Database Dump Version x.x
   $version = strpos($conts, '## Redaxo Database Dump Version '.rex::getProperty('version'));
-  if($version === false)
+  if ($version === false)
   {
     $return['message'] = rex_i18n::msg('im_export_no_valid_import_file').'. [## Redaxo Database Dump Version '.rex::getProperty('version').'] is missing';
     return $return;
@@ -53,7 +53,7 @@ function rex_a1_import_db($filename)
 
   // Prefix prüfen
   // ## Prefix xxx_
-  if(preg_match('/^## Prefix ([a-zA-Z0-9\_]*)/', $conts, $matches) && isset($matches[1]))
+  if (preg_match('/^## Prefix ([a-zA-Z0-9\_]*)/', $conts, $matches) && isset($matches[1]))
   {
     // prefix entfernen
     $prefix = $matches[1];
@@ -69,7 +69,7 @@ function rex_a1_import_db($filename)
 
   // Charset prüfen
   // ## charset xxx_
-  if(preg_match('/^## charset ([a-zA-Z0-9\_\-]*)/', $conts, $matches) && isset($matches[1]))
+  if (preg_match('/^## charset ([a-zA-Z0-9\_\-]*)/', $conts, $matches) && isset($matches[1]))
   {
     // charset entfernen
     $charset = $matches[1];
@@ -77,7 +77,7 @@ function rex_a1_import_db($filename)
 
     // $rexCharset = rex_i18n::msg('htmlcharset');
     $rexCharset = 'utf-8';
-    if($rexCharset != $charset)
+    if ($rexCharset != $charset)
     {
       $return['message'] = rex_i18n::msg('im_export_no_valid_charset').'. '.$rexCharset.' != '.$charset;
       return $return;
@@ -87,7 +87,7 @@ function rex_a1_import_db($filename)
 
 
   // Prefix im export mit dem der installation angleichen
-  if(rex::getTablePrefix() != $prefix)
+  if (rex::getTablePrefix() != $prefix)
   {
     // Hier case-insensitiv ersetzen, damit alle möglich Schreibweisen (TABLE TablE, tAblE,..) ersetzt werden
     // Dies ist wichtig, da auch SQLs innerhalb von Ein/Ausgabe der Module vom rex-admin verwendet werden
@@ -114,15 +114,19 @@ function rex_a1_import_db($filename)
   rex_sql_util::splitSqlFile($lines, $conts, 0);
 
   $sql   = rex_sql::factory();
-  foreach ($lines as $line) {
-    try {
+  foreach ($lines as $line)
+  {
+    try
+    {
       $sql->setQuery($line['query']);
-    } catch (rex_sql_exception $e) {
+    }
+    catch (rex_sql_exception $e)
+    {
         $error .= "\n". $e->getMessage();
     }
   }
 
-  if($error != '')
+  if ($error != '')
   {
     $return['message'] = trim($error);
     return $return;
@@ -158,9 +162,12 @@ function rex_a1_import_db($filename)
        PRIMARY KEY(user_id)
      ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;';
     $db = rex_sql::factory();
-    try {
+    try
+    {
       $db->setQuery($create_user_table);
-    } catch (rex_sql_exception $e) {
+    }
+    catch (rex_sql_exception $e)
+    {
       // evtl vorhergehende meldungen löschen, damit nur der fehler angezeigt wird
       $msg = '';
       $msg .= $e->getMessage();
@@ -184,9 +191,12 @@ function rex_a1_import_db($filename)
        PRIMARY KEY(id)
      ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;';
     $db = rex_sql::factory();
-    try {
+    try
+    {
       $db->setQuery($create_user_role_table);
-    } catch (rex_sql_exception $e) {
+    }
+    catch (rex_sql_exception $e)
+    {
       // evtl vorhergehende meldungen löschen, damit nur der fehler angezeigt wird
       $msg = '';
       $msg .= $e->getMessage();
@@ -194,7 +204,7 @@ function rex_a1_import_db($filename)
   }
 
   // generated neu erstellen, wenn kein Fehler aufgetreten ist
-  if($error == '')
+  if ($error == '')
   {
     // ----- EXTENSION POINT
     $msg = rex_extension::registerPoint('A1_AFTER_DB_IMPORT', $msg,
@@ -255,7 +265,7 @@ function rex_a1_import_files($filename)
     if (count($tar->message) > 0)
     {
       $msg .= rex_i18n::msg('im_export_create_dirs_manually').'<br />';
-      foreach($tar->message as $_message)
+      foreach ($tar->message as $_message)
       {
         $msg .= rex_path::absolute($_message).'<br />';
       }
@@ -323,7 +333,7 @@ function rex_a1_export_db($filename)
 
       foreach ($fields as &$field)
       {
-        if(preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $field['Type']))
+        if (preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $field['Type']))
         {
           $field = 'int';
         }
@@ -347,7 +357,7 @@ function rex_a1_export_db($filename)
         $array = $sql->getArray('SELECT * FROM `'.$table.'` LIMIT '.$start.','.$max, array(), PDO::FETCH_NUM);
         $count = $sql->getRows();
 
-        if($count > 0 && $start == 0)
+        if ($count > 0 && $start == 0)
         {
           fwrite($fp, $nl.'LOCK TABLES `'.$table.'` WRITE;');
           fwrite($fp, $nl.'/*!40000 ALTER TABLE `'.$table.'` DISABLE KEYS */;');
@@ -360,7 +370,7 @@ function rex_a1_export_db($filename)
         $start += $max;
         $values = array();
 
-        foreach($array as $row)
+        foreach ($array as $row)
         {
           $record = array();
 
@@ -469,13 +479,13 @@ function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
     // - svn infos
     // - tmp prefix Dateien
 
-    if($file == '.' || $file == '..' || $file == '.svn')
+    if ($file == '.' || $file == '..' || $file == '.svn')
       continue;
 
-    if(substr($file, 0, strlen(rex::getTempPrefix())) == rex::getTempPrefix())
+    if (substr($file, 0, strlen(rex::getTempPrefix())) == rex::getTempPrefix())
       continue;
 
-    if($isMediafolder && $file == 'addons')
+    if ($isMediafolder && $file == 'addons')
       continue;
 
     if (is_dir($path.$dir."/".$file))
@@ -492,7 +502,7 @@ function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
 
 function rex_a1_import_skript($filename, $importType, $eventType)
 {
-  if(file_exists($filename))
+  if (file_exists($filename))
   {
     require($filename);
   }

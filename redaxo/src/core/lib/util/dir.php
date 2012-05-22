@@ -16,16 +16,16 @@ class rex_dir
    */
   static public function create($dir, $recursive = true)
   {
-    if(is_dir($dir))
+    if (is_dir($dir))
       return true;
 
     $parent = dirname($dir);
-    if(!is_dir($parent) && (!$recursive || !self::create($parent)))
+    if (!is_dir($parent) && (!$recursive || !self::create($parent)))
       return false;
 
     // file_exists($parent .'/.') checks if the parent directory has the executable permission
     // is_executable($directory) does not work on all systems
-    if(is_writable($parent) && file_exists($parent .'/.') && mkdir($dir, rex::getDirPerm()))
+    if (is_writable($parent) && file_exists($parent .'/.') && mkdir($dir, rex::getDirPerm()))
     {
       @chmod($dir, rex::getDirPerm());
       return true;
@@ -58,21 +58,21 @@ class rex_dir
     $srcdir = rtrim($srcdir, DIRECTORY_SEPARATOR);
     $dstdir = rtrim($dstdir, DIRECTORY_SEPARATOR);
 
-    if(!self::create($dstdir))
+    if (!self::create($dstdir))
     {
       return false;
     }
 
     $state = TRUE;
 
-    foreach(self::recursiveIterator($srcdir, rex_dir_recursive_iterator::SELF_FIRST) as $srcfilepath => $srcfile)
+    foreach (self::recursiveIterator($srcdir, rex_dir_recursive_iterator::SELF_FIRST) as $srcfilepath => $srcfile)
     {
       $dstfile = $dstdir . substr($srcfilepath, strlen($srcdir));
-      if($srcfile->isDir())
+      if ($srcfile->isDir())
       {
         $state = self::create($dstfile) && $state;
       }
-      elseif(!file_exists($dstfile) || $srcfile->getMTime() > filemtime($dstfile))
+      elseif (!file_exists($dstfile) || $srcfile->getMTime() > filemtime($dstfile))
       {
         $state = rex_file::copy($srcfilepath, $dstfile) && $state;
       }
@@ -117,9 +117,9 @@ class rex_dir
   {
     $state = true;
 
-    foreach($iterator as $file)
+    foreach ($iterator as $file)
     {
-      if($file->isDir())
+      if ($file->isDir())
       {
         $state = (!$deleteDirs || rmdir($file)) && $state;
       }

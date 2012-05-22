@@ -35,7 +35,7 @@ class rex_user_role implements rex_user_role_interface
    */
   private function __construct(array $params)
   {
-    foreach(array(rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS) as $key)
+    foreach (array(rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS) as $key)
     {
       $perms = $params[$key] ? explode('|', trim($params[$key], '|')) : array();
       $this->perms = array_merge($this->perms, $perms);
@@ -57,12 +57,12 @@ class rex_user_role implements rex_user_role_interface
   */
   public function getComplexPerm(rex_user $user, $key)
   {
-    if(isset($this->complexPerms[$key]))
+    if (isset($this->complexPerms[$key]))
     {
       return $this->complexPerms[$key];
     }
     $perms = array();
-    if(isset($this->complexPermParams[$key]))
+    if (isset($this->complexPermParams[$key]))
     {
       $perms = $this->complexPermParams[$key] == rex_complex_perm::ALL ? rex_complex_perm::ALL : explode('|', trim($this->complexPermParams[$key], '|'));
     }
@@ -77,7 +77,7 @@ class rex_user_role implements rex_user_role_interface
   {
     $sql = rex_sql::factory();
     $sql->setQuery('SELECT perms FROM '. rex::getTablePrefix() .'user_role WHERE id = ?', array($id));
-    if($sql->getRows() == 0)
+    if ($sql->getRows() == 0)
     {
       return null;
     }
@@ -93,10 +93,10 @@ class rex_user_role implements rex_user_role_interface
     $sql->setQuery('SELECT id, perms FROM '. rex::getTable('user_role'));
     $update = rex_sql::factory();
     $update->prepareQuery('UPDATE '. rex::getTable('user_role') .' SET perms = ? WHERE id = ?');
-    foreach($sql as $row)
+    foreach ($sql as $row)
     {
       $perms = json_decode($row->getValue('perms'), true);
-      if(isset($perms[$key]) && strpos($perms[$key], $item) !== false)
+      if (isset($perms[$key]) && strpos($perms[$key], $item) !== false)
       {
         $perms[$key] = str_replace($item, $new, $perms[$key]);
         $update->execute(array(json_encode($perms), $row->getValue('id')));

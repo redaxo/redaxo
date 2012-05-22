@@ -99,10 +99,10 @@ function rex_mediapool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids,
 {
   global $REX;
 
-  if(empty($mediacat)) return;
+  if (empty($mediacat)) return;
 
   $mname = $mediacat->getName();
-  if(rex::getUser()->hasPerm('advancedMode[]'))
+  if (rex::getUser()->hasPerm('advancedMode[]'))
     $mname .= ' ['. $mediacat->getId() .']';
 
   $mediacat_ids[] = $mediacat->getId();
@@ -110,7 +110,8 @@ function rex_mediapool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids,
   $childs = $mediacat->getChildren();
   if (is_array($childs))
   {
-    foreach ( $childs as $child) {
+    foreach ( $childs as $child)
+    {
       rex_mediapool_addMediacatOptions( $select, $child, $mediacat_ids, $mname);
     }
   }
@@ -125,10 +126,10 @@ function rex_mediapool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediacat
 {
   global $PERMALL, $REX;
 
-  if(empty($mediacat)) return;
+  if (empty($mediacat)) return;
 
   $mname = $mediacat->getName();
-  if(rex::getUser()->hasPerm('advancedMode[]'))
+  if (rex::getUser()->hasPerm('advancedMode[]'))
     $mname .= ' ['. $mediacat->getId() .']';
 
   $mediacat_ids[] = $mediacat->getId();
@@ -138,7 +139,8 @@ function rex_mediapool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediacat
   $childs = $mediacat->getChildren();
   if (is_array($childs))
   {
-    foreach ( $childs as $child) {
+    foreach ( $childs as $child)
+    {
       rex_mediapool_addMediacatOptionsWPerm( $select, $child, $mediacat_ids, $mname);
     }
   }

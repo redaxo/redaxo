@@ -35,7 +35,7 @@ if (!($checkmodus > 0 && $checkmodus < 10))
 
   $saveLocale = rex_i18n::getLocale();
   $langs = array();
-  foreach(rex_i18n::getLocales() as $locale)
+  foreach (rex_i18n::getLocales() as $locale)
   {
     rex_i18n::setLocale($locale,FALSE); // Locale nicht neu setzen
     $label = rex_i18n::msg('lang');
@@ -91,7 +91,7 @@ if ($checkmodus == '0.5')
 if ($checkmodus == 1)
 {
   // -------------------------- ENV CHECK
-  foreach(rex_setup::checkEnvironment() as $error)
+  foreach (rex_setup::checkEnvironment() as $error)
   {
     $MSG['err'] .= $error;
   }
@@ -99,16 +99,16 @@ if ($checkmodus == 1)
   // -------------------------- SCHREIBRECHTE
   $res = rex_setup::checkFilesystem();
 
-  if(count($res) > 0)
+  if (count($res) > 0)
   {
     $MSG['err'] .= '<li>';
-    foreach($res as $key => $messages)
+    foreach ($res as $key => $messages)
     {
-      if(count($messages) > 0)
+      if (count($messages) > 0)
       {
         $MSG['err'] .= '<h3 class="rex-hl3">'.rex_i18n::msg($key, '<span class="rex-error">', '</span>') .'</h3>';
         $MSG['err'] .= '<ul>';
-        foreach($messages as $message)
+        foreach ($messages as $message)
         {
           $MSG['err'] .= '<li>'. $message .'</li>';
         }
@@ -156,7 +156,7 @@ elseif ($MSG['err'] != "")
 
 // ---------------------------------- MODUS 2 | master.inc.php - Datenbankcheck
 
-if($checkmodus == 2)
+if ($checkmodus == 2)
 {
   $configFile = rex_path::data('config.yml');
   $config = rex_file::getConfig($configFile);
@@ -174,58 +174,58 @@ if ($checkmodus == 2 && $send == 1)
   $config['db'][1]['password'] = rex_post('redaxo_db_user_pass', 'string');
   $config['db'][1]['name']     = rex_post('dbname', 'string');
   $redaxo_db_create            = rex_post('redaxo_db_create', 'boolean');
-  if(empty($config['instname']))
+  if (empty($config['instname']))
   {
     $config['instname'] = 'rex'. date('YmdHis');
   }
 
   // check if timezone is valid
-  if(@date_default_timezone_set($config['timezone']) === false)
+  if (@date_default_timezone_set($config['timezone']) === false)
   {
     $err_msg = rex_i18n::msg('setup_invalid_timezone');
   }
 
-  if(empty($config['error_email']))
+  if (empty($config['error_email']))
   {
     $err_msg = rex_i18n::msg('error_email_required');
   }
 
-  foreach($config as $key => $value)
+  foreach ($config as $key => $value)
   {
-    if(in_array($key, array('fileperm', 'dirperm')))
+    if (in_array($key, array('fileperm', 'dirperm')))
     {
       $value = octdec($value);
     }
     rex::setProperty($key, $value);
   }
 
-  if($err_msg == '')
+  if ($err_msg == '')
   {
-    if(!rex_file::putConfig($configFile, $config))
+    if (!rex_file::putConfig($configFile, $config))
     {
       $err_msg = rex_i18n::msg('setup_020', '<b>', '</b>');
     }
   }
 
   // -------------------------- DATENBANKZUGRIFF CHECK
-  if($err_msg == '')
+  if ($err_msg == '')
   {
     $err = rex_setup::checkDb($config, $redaxo_db_create);
-    if($err != '')
+    if ($err != '')
     {
       $err_msg = $err;
     }
   }
 
   // everything went fine, advance to the next setup step
-  if($err_msg == '')
+  if ($err_msg == '')
   {
     $checkmodus = 3;
     $send = "";
   }
 }
 
-if($checkmodus == 2)
+if ($checkmodus == 2)
 {
   rex_setup_title(rex_i18n::msg('setup_step2'));
 
@@ -238,7 +238,8 @@ if($checkmodus == 2)
         <input type="hidden" name="send" value="1" />
         <input type="hidden" name="lang" value="'.$lang.'" />';
 
-  if ($err_msg != '') {
+  if ($err_msg != '')
+  {
     echo rex_view::warning($err_msg);
   }
 
@@ -377,7 +378,7 @@ if ($checkmodus == 3 && $send == 1)
     $err_msg .=rex_setup_importer::prepareEmptyDb();
   }
 
-  if($err_msg == "" && $dbanlegen !== '')
+  if ($err_msg == "" && $dbanlegen !== '')
   {
     $err_msg .= rex_setup_importer::verifyDbSchema();
   }
@@ -511,7 +512,7 @@ if ($checkmodus == 3)
   </div>';
   */
 
-  if($exports_found)
+  if ($exports_found)
   {
     echo '
   <div class="rex-form-row">
@@ -559,7 +560,7 @@ if ($checkmodus == 4 && $send == 1)
     if ($redaxo_user_pass == '')
     {
       // Falls auch kein Login eingegeben wurde, die Fehlermeldungen mit " " trennen
-      if($err_msg != '') $err_msg .= ' ';
+      if ($err_msg != '') $err_msg .= ' ';
 
       $err_msg .= rex_i18n::msg('setup_041');
     }
@@ -649,7 +650,7 @@ if ($checkmodus == 4)
       </p>
     </div>';
 
-  if($user_sql->getRows() > 0)
+  if ($user_sql->getRows() > 0)
   {
     echo '
     <div class="rex-form-row">
@@ -701,7 +702,7 @@ if ($checkmodus == 5)
   $config = rex_file::getConfig($configFile);
   $config['setup'] = false;
 
-  if(rex_file::putConfig($configFile, $config))
+  if (rex_file::putConfig($configFile, $config))
   {
     $errmsg = "";
   }

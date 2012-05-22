@@ -40,5 +40,3 @@ if ($eventType == REX_A1_IMPORT_EVENT_PRE)
   // $update->setQuery("");
 
 }
-
-?>

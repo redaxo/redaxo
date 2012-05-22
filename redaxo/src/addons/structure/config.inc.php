@@ -25,7 +25,7 @@ rex_var::registerVar('rex_var_category');
 
 require_once dirname(__FILE__). '/functions/function_rex_url.inc.php';
 
-if(rex_request('article_id', 'int') == 0)
+if (rex_request('article_id', 'int') == 0)
   rex::setProperty('article_id', rex::getProperty('start_article_id'));
 else
 {
@@ -34,7 +34,7 @@ else
   rex::setProperty('article_id', $article_id);
 }
 
-if(rex::isBackend() && rex_request('page', 'string') == 'system')
+if (rex::isBackend() && rex_request('page', 'string') == 'system')
 {
   rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
   rex_system_setting::register(new rex_system_setting_article_id('notfound_article_id'));
@@ -50,11 +50,11 @@ rex_extension::register('CLANG_ADDED',
 
     $newLang = rex_sql::factory();
     // $newLang->debugsql = 1;
-    foreach($firstLang as $firstLangArt)
+    foreach ($firstLang as $firstLangArt)
     {
       $newLang->setTable(rex::getTablePrefix()."article");
 
-      foreach($fields as $key => $value)
+      foreach ($fields as $key => $value)
       {
         if ($value == 'pid')
           echo ''; // nix passiert

@@ -9,7 +9,7 @@ $func = rex_request('func','string');
 // ---- validate type_id
 $sql = rex_sql::factory();
 $sql->setQuery('SELECT * FROM '. rex::getTablePrefix().'media_manager_types WHERE id='. $type_id);
-if($sql->getRows() != 1)
+if ($sql->getRows() != 1)
 {
   unset($type_id);
 }
@@ -20,7 +20,7 @@ $info = '';
 $warning = '';
 
 //-------------- delete cache on effect changes or deletion
-if((rex_post('func') != '' || $func == 'delete')
+if ((rex_post('func') != '' || $func == 'delete')
    && $type_id > 0)
 {
   $counter = rex_media_manager::deleteCacheByType($type_id);
@@ -28,14 +28,14 @@ if((rex_post('func') != '' || $func == 'delete')
 }
 
 //-------------- delete effect
-if($func == 'delete' && $effect_id > 0)
+if ($func == 'delete' && $effect_id > 0)
 {
   $sql = rex_sql::factory();
 //  $sql->debugsql = true;
   $sql->setTable(rex::getTablePrefix().'media_manager_type_effects');
   $sql->setWhere(array('id' => $effect_id));
 
-  if($sql->delete())
+  if ($sql->delete())
   {
      $info = rex_i18n::msg('media_manager_effect_deleted') ;
   }
@@ -99,11 +99,11 @@ elseif ($func == 'add' && $type_id > 0 ||
 {
   $effectNames = rex_media_manager::getSupportedEffectNames();
 
-  if($func == 'edit')
+  if ($func == 'edit')
   {
     $formLabel = rex_i18n::msg('media_manager_effect_edit_header', htmlspecialchars($typeName));
   }
-  else if ($func == 'add')
+  elseif ($func == 'add')
   {
     $formLabel = rex_i18n::msg('media_manager_effect_create_header', htmlspecialchars($typeName));
   }
@@ -150,16 +150,16 @@ elseif ($func == 'add' && $type_id > 0 ||
 
   $effects = rex_media_manager::getSupportedEffects();
 
-  foreach($effects as $effectClass => $effectFile)
+  foreach ($effects as $effectClass => $effectFile)
   {
     require_once($effectFile);
     $effectObj = new $effectClass();
     $effectParams = $effectObj->getParams();
     $group = $effectClass;
 
-    if(empty($effectParams)) continue;
+    if (empty($effectParams)) continue;
 
-    foreach($effectParams as $param)
+    foreach ($effectParams as $param)
     {
       $name = $effectClass.'_'.$param['name'];
       $value = isset($param['default']) ? $param['default'] : null;
@@ -167,7 +167,7 @@ elseif ($func == 'add' && $type_id > 0 ||
       if (isset($param['attributes']))
         $attributes = $param['attributes'];
 
-      switch($param['type'])
+      switch ($param['type'])
       {
         case 'int' :
         case 'float' :
@@ -177,9 +177,9 @@ elseif ($func == 'add' && $type_id > 0 ||
             $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
             $field->setAttribute('id',"image_manager $name $type");
-            if(!empty($param['notice'])) $field->setNotice($param['notice']);
-            if(!empty($param['prefix'])) $field->setPrefix($param['prefix']);
-            if(!empty($param['suffix'])) $field->setSuffix($param['suffix']);
+            if (!empty($param['notice'])) $field->setNotice($param['notice']);
+            if (!empty($param['prefix'])) $field->setPrefix($param['prefix']);
+            if (!empty($param['suffix'])) $field->setSuffix($param['suffix']);
             break;
           }
         case 'select' :
@@ -188,9 +188,9 @@ elseif ($func == 'add' && $type_id > 0 ||
             $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
             $field->setAttribute('id',"image_manager $name $type");
-            if(!empty($param['notice'])) $field->setNotice($param['notice']);
-            if(!empty($param['prefix'])) $field->setPrefix($param['prefix']);
-            if(!empty($param['suffix'])) $field->setSuffix($param['suffix']);
+            if (!empty($param['notice'])) $field->setNotice($param['notice']);
+            if (!empty($param['prefix'])) $field->setPrefix($param['prefix']);
+            if (!empty($param['suffix'])) $field->setSuffix($param['suffix']);
 
             $select = $field->getSelect();
             if (!isset($attributes['multiple']))
@@ -204,9 +204,9 @@ elseif ($func == 'add' && $type_id > 0 ||
             $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
             $field->setAttribute('id',"image_manager $name $type");
-            if(!empty($param['notice'])) $field->setNotice($param['notice']);
-            if(!empty($param['prefix'])) $field->setPrefix($param['prefix']);
-            if(!empty($param['suffix'])) $field->setSuffix($param['suffix']);
+            if (!empty($param['notice'])) $field->setNotice($param['notice']);
+            if (!empty($param['prefix'])) $field->setPrefix($param['prefix']);
+            if (!empty($param['suffix'])) $field->setSuffix($param['suffix']);
             break;
           }
         default:
@@ -219,7 +219,7 @@ elseif ($func == 'add' && $type_id > 0 ||
 
   // parameters for url redirects
   $form->addParam('type_id', $type_id);
-  if($func == 'edit')
+  if ($func == 'edit')
   {
     $form->addParam('effect_id', $effect_id);
   }
@@ -227,4 +227,3 @@ elseif ($func == 'add' && $type_id > 0 ||
 }
 
 echo '</div>';
-?>

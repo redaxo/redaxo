@@ -19,9 +19,10 @@ if (rex::isBackend())
 
   $this->setProperty('page', new rex_be_page_main('system', $page));
 
-  if(rex::getUser())
+  if (rex::getUser())
   {
-    rex_extension::register('PAGE_HEADER', function($params){
+    rex_extension::register('PAGE_HEADER', function($params)
+    {
       $params['subject'] .= "\n  ".
         '<script type="text/javascript" src="'. rex_path::pluginAssets('structure', 'linkmap', 'linkmap.js') .'"></script>';
 
@@ -35,7 +36,8 @@ rex_var::registerVar('rex_var_link');
 //---------------- tree
 if (rex::isBackend() && rex::getUser())
 {
-  rex_extension::register('PAGE_SIDEBAR', function($params){
+  rex_extension::register('PAGE_SIDEBAR', function($params)
+  {
 
     $category_id = rex_request('category_id', 'int');
     $article_id  = rex_request('article_id',  'int');

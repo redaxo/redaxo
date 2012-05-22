@@ -28,12 +28,14 @@ class rex_effect_flip extends rex_effect_abstract
     $output = imagecreatetruecolor ( $width, $height );
 
     // --------------- Flip X
-    if($this->params['flip'] == "X")
+    if ($this->params['flip'] == "X")
     {
       $y = 0;
       $x = 1;
-      while ( $x <= $width ) {
-        for ( $i = 0; $i < $height; $i++ ) {
+      while ( $x <= $width )
+      {
+        for ( $i = 0; $i < $height; $i++ )
+        {
           imagesetpixel ( $output, $x, $i, imagecolorat ( $gdimage, ( $width - $x ), ( $i ) ) );
         }
         $x++;
@@ -42,12 +44,14 @@ class rex_effect_flip extends rex_effect_abstract
     }
 
     // --------------- Flip Y
-    if($this->params['flip'] == "Y")
+    if ($this->params['flip'] == "Y")
     {
       $y = 1;
       $x = 0;
-      while ( $y < $height ) {
-        for ( $i = 0; $i < $width; $i++ ) {
+      while ( $y < $height )
+      {
+        for ( $i = 0; $i < $width; $i++ )
+        {
           imagesetpixel ( $output, $i, $y, imagecolorat ( $gdimage, ( $i ), ( $height - $y ) ) );
         }
         $y++;

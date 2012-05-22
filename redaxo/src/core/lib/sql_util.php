@@ -28,10 +28,10 @@ class rex_sql_util
     // Spalte updaten
     $qry = 'UPDATE '. $tableName .' SET '. $priorColumnName .' = ( SELECT @count := @count +1 )';
 
-    if($whereCondition != '')
+    if ($whereCondition != '')
     $qry .= ' WHERE '. $whereCondition;
 
-    if($orderBy != '')
+    if ($orderBy != '')
     $qry .= ' ORDER BY '. $orderBy;
 
     $sql->setQuery($qry);
@@ -50,9 +50,12 @@ class rex_sql_util
 
     foreach (self::readSqlDump($file) as $query)
     {
-      try {
+      try
+      {
         $sql->setQuery(self::prepareQuery($query));
-      } catch (rex_sql_exception $e) {
+      }
+      catch (rex_sql_exception $e)
+      {
         $error .= $e->getMessage()."\n<br />";
       }
     }
@@ -63,7 +66,7 @@ class rex_sql_util
   static private function prepareQuery($qry)
   {
     // rex::getUser() gibts im Setup nicht
-    if(rex::getUser())
+    if (rex::getUser())
       $qry = str_replace('%USER%', rex::getUser()->getValue('login'), $qry);
 
     $qry = str_replace('%TIME%', time(), $qry);
@@ -148,8 +151,7 @@ class rex_sql_util
           }
           // Backquotes or no backslashes before quotes: it's indeed the
           // end of the string -> exit the loop
-          else
-            if ($string_start == '`' || $sql[$i -1] != '\\')
+          elseif ($string_start == '`' || $sql[$i -1] != '\\')
             {
               $string_start = '';
               $in_string = FALSE;
@@ -184,8 +186,7 @@ class rex_sql_util
       } // end if (in string)
 
       // lets skip comments (/*, -- and #)
-      else
-        if (($char == '-' && $sql_len > $i +2 && $sql[$i +1] == '-' && $sql[$i +2] <= ' ') || $char == '#' || ($char == '/' && $sql_len > $i +1 && $sql[$i +1] == '*'))
+      elseif (($char == '-' && $sql_len > $i +2 && $sql[$i +1] == '-' && $sql[$i +2] <= ' ') || $char == '#' || ($char == '/' && $sql_len > $i +1 && $sql[$i +1] == '*'))
         {
           $i = strpos($sql, $char == '/' ? '*/' : "\n", $i);
           // didn't we hit end of string?
@@ -198,8 +199,7 @@ class rex_sql_util
         }
 
       // We are not in a string, first check for delimiter...
-      else
-        if ($char == ';')
+      elseif ($char == ';')
         {
           // if delimiter found, add the parsed part to the returned array
           $ret[] = array ('query' => substr($sql, 0, $i), 'empty' => $nothing);
@@ -218,8 +218,7 @@ class rex_sql_util
         } // end else if (is delimiter)
 
       // ... then check for start of a string,...
-      else
-        if (($char == '"') || ($char == '\'') || ($char == '`'))
+      elseif (($char == '"') || ($char == '\'') || ($char == '`'))
         {
           $in_string = TRUE;
           $nothing = FALSE;

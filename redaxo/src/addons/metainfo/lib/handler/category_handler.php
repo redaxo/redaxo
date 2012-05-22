@@ -39,7 +39,7 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
 
   public function handleSave(array $params, rex_sql $sqlFields)
   {
-    if(rex_request_method() != 'post') return $params;
+    if (rex_request_method() != 'post') return $params;
 
     $article = rex_sql::factory();
     // $article->debugsql = true;
@@ -49,7 +49,7 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
     parent::fetchRequestValues($params, $article, $sqlFields);
 
     // do the save only when metafields are defined
-    if($article->hasValues())
+    if ($article->hasValues())
       $article->update();
 
     // Artikel nochmal mit den zusätzlichen Werten neu generieren
@@ -62,14 +62,14 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
   {
     $s = '';
 
-    if(!empty($params['id']))
+    if (!empty($params['id']))
     {
       $OOCat = rex_ooCategory::getCategoryById($params['id'], $params['clang']);
 
       // Alle Metafelder des Pfades sind erlaubt
-      foreach($OOCat->getPathAsArray() as $pathElement)
+      foreach ($OOCat->getPathAsArray() as $pathElement)
       {
-        if($pathElement != '')
+        if ($pathElement != '')
         {
           $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
         }
@@ -125,7 +125,7 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
 
   public function extendForm(array $params)
   {
-    if(isset($params['category']))
+    if (isset($params['category']))
     {
       $params['activeItem'] = $params['category'];
 
@@ -136,7 +136,7 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
     $result = parent::renderFormAndSave(self::PREFIX, $params);
 
     // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zur�ckgeben
-    if($params['extension_point'] == 'CAT_UPDATED' || $params['extension_point'] == 'CAT_ADDED')
+    if ($params['extension_point'] == 'CAT_UPDATED' || $params['extension_point'] == 'CAT_ADDED')
       return $params['subject'];
     else
       return $params['subject'] . $result;

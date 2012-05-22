@@ -35,7 +35,7 @@
   echo '<p>';
   echo $I18N_A52->msg('title_input');
   $filename = dirname( __FILE__) . '/../examples/simple-input.txt';
-  if(is_readable($filename))
+  if (is_readable($filename))
   {
     echo '<textarea class="tinymce-code-small" onfocus="this.select();" style="width:98%;height:125px;">';
     if (strstr($REX['LANG'],'utf8'))
@@ -52,7 +52,7 @@
   echo '<p>';
   echo $I18N_A52->msg('title_output');
   $filename = dirname( __FILE__) . '/../examples/output.txt';
-  if(is_readable($filename))
+  if (is_readable($filename))
   {
     echo '<textarea class="tinymce-code-small" onfocus="this.select();" style="width:98%;height:125px;">';
     if (strstr($REX['LANG'],'utf8'))
@@ -82,7 +82,7 @@
   echo '<p>';
   echo $I18N_A52->msg('title_input');
   $filename = dirname( __FILE__) . '/../examples/extended-input.txt';
-  if(is_readable($filename))
+  if (is_readable($filename))
   {
     echo '<textarea class="tinymce-code-big" onfocus="this.select();" style="width:98%;height:300px;">';
     if (strstr($REX['LANG'],'utf8'))

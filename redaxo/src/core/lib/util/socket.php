@@ -64,7 +64,7 @@ class rex_socket
   static public function createByUrl($url, $timeout = 15)
   {
     $parts = parse_url($url);
-    if(!isset($parts['host']))
+    if (!isset($parts['host']))
     {
       throw new rex_socket_exception('It isn\'t possible to parse the URL "'. $url .'"!');
     }
@@ -74,14 +74,14 @@ class rex_socket
           . (isset($parts['fragment']) ? '#'. $parts['fragment'] : '');
     $port = 80;
     $prefix = '';
-    if(isset($parts['scheme']))
+    if (isset($parts['scheme']))
     {
       $supportedProtocols = array('http', 'https');
-      if(!in_array($parts['scheme'], $supportedProtocols))
+      if (!in_array($parts['scheme'], $supportedProtocols))
       {
         throw new rex_socket_exception('Unsupported protocol "'. $parts['scheme'] .'". Supported protocols are '. implode(', ', $supportedProtocols). '.');
       }
-      if($parts['scheme'] == 'https')
+      if ($parts['scheme'] == 'https')
       {
         $prefix = 'ssl://';
         $port = 443;
@@ -132,7 +132,7 @@ class rex_socket
    */
   public function doPost($data = '', array $files = array())
   {
-    if(is_array($data) && !empty($files))
+    if (is_array($data) && !empty($files))
     {
       $data = function($fp) use ($data, $files)
       {
@@ -146,28 +146,28 @@ class rex_socket
         $temp = explode('&', http_build_query($data, '', '&'));
         $data = array();
         $partLength = rex_string::size(sprintf($dataFormat, '') . $eol);
-        foreach($temp as $t)
+        foreach ($temp as $t)
         {
           list($key, $value) = array_map('urldecode', explode('=', $t, 2));
           $data[$key] = $value;
           $length += $partLength + rex_string::size($key) + rex_string::size($value);
         }
         $partLength = rex_string::size(sprintf($fileFormat, '', '', '') . $eol);
-        foreach($files as $key => $file)
+        foreach ($files as $key => $file)
         {
           $length += $partLength + rex_string::size($key) + rex_string::size(basename($file['path'])) + rex_string::size($file['type']) + filesize($file['path']);
         }
         $length += rex_string::size($end);
         fwrite($fp, 'Content-Length: '. $length . $eol . $eol);
-        foreach($data as $key => $value)
+        foreach ($data as $key => $value)
         {
           fwrite($fp, sprintf($dataFormat, $key) . $value . $eol);
         }
-        foreach($files as $key => $file)
+        foreach ($files as $key => $file)
         {
           fwrite($fp, sprintf($fileFormat, $key, basename($file['path']), $file['type']));
           $file = fopen($file['path'], 'rb');
-          while(!feof($file))
+          while (!feof($file))
           {
             fwrite($fp, fread($file, 1024));
           }
@@ -177,9 +177,9 @@ class rex_socket
         fwrite($fp, $end);
       };
     }
-    elseif(!is_callable($data))
+    elseif (!is_callable($data))
     {
-      if(is_array($data))
+      if (is_array($data))
         $data = http_build_query($data);
       $this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
     }
@@ -207,11 +207,11 @@ class rex_socket
    */
   public function doRequest($method, $data = '')
   {
-    if(!is_string($data) && !is_callable($data))
+    if (!is_string($data) && !is_callable($data))
     {
       throw new rex_exception(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
     }
-    if(!($fp = @fsockopen($this->prefix . $this->host, $this->port, $errno, $errstr)))
+    if (!($fp = @fsockopen($this->prefix . $this->host, $this->port, $errno, $errstr)))
     {
       throw new rex_socket_exception($errstr .' ('. $errno .')');
     }
@@ -223,15 +223,15 @@ class rex_socket
     $headers[] = strtoupper($method) .' '. $this->path .' HTTP/1.1';
     $headers[] = 'Host: '. $this->host;
     $headers[] = 'Connection: Close';
-    foreach($this->headers as $key => $value)
+    foreach ($this->headers as $key => $value)
     {
       $headers[] = $key .': '. $value;
     }
-    foreach($headers as $header)
+    foreach ($headers as $header)
     {
       fwrite($fp, str_replace(array("\r", "\n"), '', $header) . $eol);
     }
-    if(!is_callable($data))
+    if (!is_callable($data))
     {
       fwrite($fp, 'Content-Length: '. rex_string::size($data) . $eol);
       fwrite($fp, $eol . $data);
@@ -243,7 +243,7 @@ class rex_socket
     $this->headers = array();
 
     $meta = stream_get_meta_data($fp);
-    if($meta['timed_out'])
+    if ($meta['timed_out'])
     {
       throw new rex_socket_exception('Timeout!');
     }

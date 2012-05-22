@@ -15,7 +15,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
-class rex_effect_filter_blur extends rex_effect_abstract{
+class rex_effect_filter_blur extends rex_effect_abstract
+{
 
   public function execute()
   {
@@ -67,9 +68,11 @@ class rex_effect_filter_blur extends rex_effect_abstract{
     // Calculate the difference between the blurred pixels and the original
     // and set the pixels
     for ($x = 0; $x < $w; $x++)
-    { // each row
+    {
+      // each row
       for ($y = 0; $y < $h; $y++)
-      { // each pixel
+      {
+        // each pixel
         $rgbOrig = ImageColorAt($imgCanvas2, $x, $y);
         $rOrig = (($rgbOrig >> 16) & 0xFF);
         $gOrig = (($rgbOrig >> 8) & 0xFF);

@@ -89,7 +89,7 @@ class rex_var_media extends rex_var
 
   static public function handleDefaultParam($varname, array $args, $name, $value)
   {
-    switch($name)
+    switch ($name)
     {
       case '0' :
         $args['id'] = (int) $value;
@@ -162,7 +162,7 @@ class rex_var_media extends rex_var
         if ($id < 11 && $id > 0)
         {
           $category = '';
-          if(isset($args['category']))
+          if (isset($args['category']))
           {
             $category = $args['category'];
             unset($args['category']);
@@ -198,10 +198,10 @@ class rex_var_media extends rex_var
         if ($id > 0 && $id < 11)
         {
           // Mimetype ausgeben
-          if(isset($args['mimetype']))
+          if (isset($args['mimetype']))
           {
             $OOM = rex_ooMedia::getMediaByName($this->getValue($sql, 'file' . $id));
-            if($OOM)
+            if ($OOM)
             {
               $replace = $OOM->getType();
             }
@@ -259,18 +259,18 @@ class rex_var_media extends rex_var
       $open_params .= '&amp;rex_file_category=' . $category;
     }
 
-    foreach($args as $aname => $avalue)
+    foreach ($args as $aname => $avalue)
     {
       $open_params .= '&amp;args['. urlencode($aname) .']='. urlencode($avalue);
     }
 
     $wdgtClass = ' rex-widget-media';
-    if(isset($args['preview']) && $args['preview'])
+    if (isset($args['preview']) && $args['preview'])
     {
       $wdgtClass .= ' rex-widget-preview';
-      if(rex_addon::get('image_manager')->isAvailable())
+      if (rex_addon::get('image_manager')->isAvailable())
         $wdgtClass .= ' rex-widget-preview-image-manager';
-      else if(rex_addon::get('image_resize')->isAvailable())
+      elseif (rex_addon::get('image_resize')->isAvailable())
         $wdgtClass .= ' rex-widget-preview-image-resize';
     }
 
@@ -321,18 +321,18 @@ class rex_var_media extends rex_var
       $open_params .= '&amp;rex_file_category=' . $category;
     }
 
-    foreach($args as $aname => $avalue)
+    foreach ($args as $aname => $avalue)
     {
       $open_params .= '&amp;args['. $aname .']='. urlencode($avalue);
     }
 
     $wdgtClass = ' rex-widget-medialist';
-    if(isset($args['preview']) && $args['preview'])
+    if (isset($args['preview']) && $args['preview'])
     {
       $wdgtClass .= ' rex-widget-preview';
-      if(rex_addon::get('image_manager')->isAvailable())
+      if (rex_addon::get('image_manager')->isAvailable())
         $wdgtClass .= ' rex-widget-preview-image-manager';
-      else if(rex_addon::get('image_resize')->isAvailable())
+      elseif (rex_addon::get('image_resize')->isAvailable())
         $wdgtClass .= ' rex-widget-preview-image-resize';
     }
 

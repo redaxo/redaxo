@@ -6,7 +6,7 @@ $fragment->setVar('navigation', $navigation, false);
 echo $fragment->parse('backend_navigation.tpl');
 
 $sidebar = rex_extension::registerPoint('PAGE_SIDEBAR', '');
-if($sidebar != "")
+if ($sidebar != "")
 {
   $sidebarfragment = new rex_fragment();
   $sidebarfragment->content = $sidebar;

@@ -34,16 +34,16 @@ class rex_stream
    */
   static public function factory($path, $content)
   {
-    if(!is_string($path) || empty($path))
+    if (!is_string($path) || empty($path))
     {
       throw new rex_exception('Expecting $path to be a string and not empty!');
     }
-    if(!is_string($content))
+    if (!is_string($content))
     {
       throw new rex_exception('Expecting $content to be a string!');
     }
 
-    if(!self::$registered)
+    if (!self::$registered)
     {
       stream_wrapper_register('rex', __CLASS__);
       self::$registered = true;
@@ -60,7 +60,7 @@ class rex_stream
    */
   public function stream_open($path, $mode, $options, &$opened_path)
   {
-    if(!isset(self::$nextContent[$path]) || !is_string(self::$nextContent[$path]))
+    if (!isset(self::$nextContent[$path]) || !is_string(self::$nextContent[$path]))
     {
       return false;
     }

@@ -9,7 +9,7 @@ try
 {
   $addons = rex_install_packages::getUpdatePackages();
 }
-catch(rex_functional_exception $e)
+catch (rex_functional_exception $e)
 {
   echo rex_view::warning($e->getMessage());
   $addonkey = '';
@@ -17,7 +17,7 @@ catch(rex_functional_exception $e)
 
 $content = '';
 
-if($addonkey && isset($addons[$addonkey]))
+if ($addonkey && isset($addons[$addonkey]))
 {
   $addon = $addons[$addonkey];
 
@@ -56,7 +56,7 @@ if($addonkey && isset($addons[$addonkey]))
       </thead>
       <tbody>';
 
-  foreach($addon['files'] as $fileId => $file)
+  foreach ($addon['files'] as $fileId => $file)
   {
     $content .= '
       <tr>
@@ -87,10 +87,10 @@ else
       </thead>
       <tbody>';
 
-  foreach($addons as $key => $addon)
+  foreach ($addons as $key => $addon)
   {
     $availableVersions = array();
-    foreach($addon['files'] as $file)
+    foreach ($addon['files'] as $file)
     {
       $availableVersions[] = $file['version'];
     }

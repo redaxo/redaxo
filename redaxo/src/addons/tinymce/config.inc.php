@@ -94,7 +94,7 @@ $REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
     }
 
     // TinyMCE ins Backend integrieren, nur in ausgew�hlten Seiten laut Konfiguration
-    if(($rxa_tinymce['get_page'] <> '') and in_array($rxa_tinymce['get_page'], $rxa_tinymce['includepages']) and ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on'))
+    if (($rxa_tinymce['get_page'] <> '') and in_array($rxa_tinymce['get_page'], $rxa_tinymce['includepages']) and ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on'))
     {
       rex_register_extension('OUTPUT_FILTER', 'a52_tinymce_opf');
     }

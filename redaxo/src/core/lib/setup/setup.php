@@ -41,9 +41,9 @@ class rex_setup
     }
 
     // -------------------------- EXTENSION CHECK
-    foreach(self::$MIN_PHP_EXTENSIONS as $extension)
+    foreach (self::$MIN_PHP_EXTENSIONS as $extension)
     {
-      if(!extension_loaded($extension))
+      if (!extension_loaded($extension))
         $errors[] = rex_i18n::msg('setup_010_1', $extension);
     }
 
@@ -73,26 +73,26 @@ class rex_setup
         getImportDir()
     );
 
-    foreach(rex::getProperty('system_addons') as $system_addon)
+    foreach (rex::getProperty('system_addons') as $system_addon)
     {
       $WRITEABLES[] = rex_path::addon($system_addon);
     }
 
     $res = array();
-    foreach($WRITEABLES as $item)
+    foreach ($WRITEABLES as $item)
     {
       // Fehler unterdrücken, falls keine Berechtigung
-      if(@is_dir($item))
+      if (@is_dir($item))
       {
-        if(!@is_writable($item . '/.'))
+        if (!@is_writable($item . '/.'))
         {
           $res['setup_012'][] = $item;
         }
       }
       // Fehler unterdrücken, falls keine Berechtigung
-      elseif(@is_file($item))
+      elseif (@is_file($item))
       {
-        if(!@is_writable($item))
+        if (!@is_writable($item))
         {
           $res['setup_014'][] = $item;
         }
@@ -115,7 +115,7 @@ class rex_setup
   public static function checkDb($config, $createDb)
   {
     $err = rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $createDb);
-    if($err !== true)
+    if ($err !== true)
     {
       return $err;
     }

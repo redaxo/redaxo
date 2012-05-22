@@ -79,7 +79,7 @@ class rex_var_link extends rex_var
 
   static public function handleDefaultParam($varname, array $args, $name, $value)
   {
-    switch($name)
+    switch ($name)
     {
       case '0' :
         $args['id'] = (int) $value;
@@ -99,7 +99,7 @@ class rex_var_link extends rex_var
   {
     $def_category = '';
     $article_id = rex_request('article_id', 'int');
-    if($article_id != 0)
+    if ($article_id != 0)
     {
       $art = rex_ooArticle::getArticleById($article_id);
       $def_category = $art->getCategoryId();
@@ -293,7 +293,7 @@ class rex_var_link extends rex_var
       {
         if ($link != '')
         {
-          if($article = rex_ooArticle::getArticleById($link))
+          if ($article = rex_ooArticle::getArticleById($link))
             $options .= '<option value="' . $link . '">' . htmlspecialchars($article->getName()) . '</option>';
         }
       }

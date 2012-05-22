@@ -101,40 +101,45 @@ if ($subpage=='media' && rex_post('btn_delete', 'string'))
     if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId()))
     {
       $uses = $media->isInUse();
-      if($uses === false)
+      if ($uses === false)
       {
-        if($media->delete() !== FALSE)
+        if ($media->delete() !== FALSE)
         {
           $info = rex_i18n::msg('pool_file_deleted');
-        }else
+        }
+        else
         {
           $warning = rex_i18n::msg('pool_file_delete_error_1', $file_name);
         }
         $subpage = "";
-      }else
+      }
+      else
       {
         $warning = array();
         $warning[] = '<strong>'.rex_i18n::msg('pool_file_delete_error_1', $file_name).' '.
                      rex_i18n::msg('pool_file_delete_error_2').'</strong><br />';
-        foreach($uses as $use)
+        foreach ($uses as $use)
         {
           $warning[] = $use;
         }
         $subpage = '';
 
       }
-    }else
+    }
+    else
     {
       $warning = rex_i18n::msg('no_permission');
     }
-  }else
+  }
+  else
   {
     $warning = rex_i18n::msg('pool_file_not_found');
     $subpage = "";
   }
 }
 
-if ($subpage=="media" && rex_post('btn_update', 'string')){
+if ($subpage=="media" && rex_post('btn_update', 'string'))
+{
 
   $gf = rex_sql::factory();
   $gf->setQuery("select * from ".rex::getTablePrefix()."media where media_id='$file_id'");
@@ -152,21 +157,24 @@ if ($subpage=="media" && rex_post('btn_update', 'string')){
 
       $return = rex_mediapool_updateMedia($_FILES['file_new'],$FILEINFOS,rex::getUser()->getValue("login"));
 
-      if($return["ok"] == 1)
+      if ($return["ok"] == 1)
       {
         $info = $return['msg'];
         // ----- EXTENSION POINT
          // rex_extension::registerPoint('MEDIA_UPDATED','',array('id' => $file_id, 'type' => $FILEINFOS["filetype"], 'filename' => $FILEINFOS["filename"] ));
          rex_extension::registerPoint('MEDIA_UPDATED','', $return);
-      }else
+      }
+      else
       {
         $warning = $return['msg'];
       }
-    }else
+    }
+    else
     {
       $warning = rex_i18n::msg('no_permission');
     }
-  }else
+  }
+  else
   {
     $warning = rex_i18n::msg('pool_file_not_found');
     $subpage = "";
@@ -197,7 +205,7 @@ if ($subpage == "media")
     {
       $fwidth = $gf->getValue('width');
       $fheight = $gf->getValue('height');
-      if($size = @getimagesize(rex_path::media($fname)))
+      if ($size = @getimagesize(rex_path::media($fname)))
       {
         $fwidth = $size[0];
         $fheight = $size[1];
@@ -230,7 +238,7 @@ if ($subpage == "media")
           $imgn = rex_path::frontendController('?rex_img_type=rex_mediapool_detail&amp;rex_img_file='. $encoded_fname);
           $img_max = rex_path::frontendController('?rex_img_type=rex_mediapool_maximized&amp;rex_img_file='. $encoded_fname);
         }
-        else if($image_resize && $rfwidth>199)
+        elseif ($image_resize && $rfwidth>199)
           $imgn = rex_path::frontendController('?rex_resize=200a__'. $encoded_fname);
       }
 
@@ -269,18 +277,18 @@ if ($subpage == "media")
       $info = '';
     }
 
-    if($opener_input_field == 'TINYIMG')
+    if ($opener_input_field == 'TINYIMG')
     {
       if ($isImage)
       {
         $opener_link .= '<a href="javascript:insertImage(\''. $encoded_fname .'\',\''.$gf->getValue('title').'\');">'.rex_i18n::msg('pool_image_get').'</a> | ';
       }
     }
-    elseif($opener_input_field == 'TINY')
+    elseif ($opener_input_field == 'TINY')
     {
       $opener_link .= '<a href="javascript:insertLink(\''.$encoded_fname.'\');">'.rex_i18n::msg('pool_link_get').'</a>';
     }
-    elseif($opener_input_field != '')
+    elseif ($opener_input_field != '')
     {
       $opener_link = '<a href="javascript:selectMedia(\''.$encoded_fname.'\', \''.addslashes(htmlspecialchars($gf->getValue('title'))).'\');">'.rex_i18n::msg('pool_file_get').'</a>';
       if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
@@ -289,7 +297,7 @@ if ($subpage == "media")
       }
     }
 
-    if($opener_link != '')
+    if ($opener_link != '')
     {
       $opener_link = ' | '. $opener_link;
     }
@@ -388,7 +396,7 @@ if ($subpage == "media")
       $Cat = rex_ooMediaCategory::getCategoryById($rex_file_category);
       if ($Cat) $catname = $Cat->getName();
 
-      if(rex::getUser()->hasPerm('advancedMode[]'))
+      if (rex::getUser()->hasPerm('advancedMode[]'))
       {
         $ftitle .= ' ['. $file_id .']';
         $catname .= ' ['. $rex_file_category .']';
@@ -449,12 +457,14 @@ if ($subpage == "media")
 
 // *************************************** EXTRA FUNCTIONS
 
-if($PERMALL && $media_method == 'updatecat_selectedmedia')
+if ($PERMALL && $media_method == 'updatecat_selectedmedia')
 {
   $selectedmedia = rex_post('selectedmedia','array');
-  if(isset($selectedmedia[0]) && $selectedmedia[0]!=''){
+  if (isset($selectedmedia[0]) && $selectedmedia[0]!='')
+  {
 
-    foreach($selectedmedia as $file_name){
+    foreach ($selectedmedia as $file_name)
+    {
 
       $db = rex_sql::factory();
       // $db->debugsql = true;
@@ -462,7 +472,7 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
       $db->setWhere(array('filename' => $file_name));
       $db->setValue('category_id',$rex_file_category);
       $db->addGlobalUpdateFields();
-      if($db->update())
+      if ($db->update())
       {
         $info = rex_i18n::msg('pool_selectedmedia_moved');
         rex_media_cache::delete($file_name);
@@ -479,15 +489,15 @@ if($PERMALL && $media_method == 'updatecat_selectedmedia')
   }
 }
 
-if($PERMALL && $media_method == 'delete_selectedmedia')
+if ($PERMALL && $media_method == 'delete_selectedmedia')
 {
   $selectedmedia = rex_post("selectedmedia","array");
-  if(count($selectedmedia)!=0)
+  if (count($selectedmedia)!=0)
   {
     $warning = array();
     $info = array();
 
-    foreach($selectedmedia as $file_name)
+    foreach ($selectedmedia as $file_name)
     {
       $media = rex_ooMedia::getMediaByFileName($file_name);
       if ($media)
@@ -495,31 +505,35 @@ if($PERMALL && $media_method == 'delete_selectedmedia')
        if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId()))
        {
          $uses = $media->isInUse();
-         if($uses === false)
+         if ($uses === false)
          {
-           if($media->delete() !== FALSE)
+           if ($media->delete() !== FALSE)
            {
              $info[] = rex_i18n::msg('pool_file_deleted');
-           }else
+           }
+           else
            {
              $warning[] = rex_i18n::msg('pool_file_delete_error_1', $file_name);
            }
            $subpage = "";
-         }else
+         }
+         else
          {
             $tmp = '<strong>'.rex_i18n::msg('pool_file_delete_error_1', $file_name).' '.
                    rex_i18n::msg('pool_file_delete_error_2').'</strong><br />';
-            foreach($uses as $use)
+            foreach ($uses as $use)
            {
              $tmp .= '<br />'.$use;
            }
            $warning[] = $tmp;
          }
-       }else
+       }
+       else
        {
          $warning[] = rex_i18n::msg('no_permission');
        }
-      }else
+      }
+      else
       {
        $warning[] = rex_i18n::msg('pool_file_not_found');
       }
@@ -546,29 +560,31 @@ if ($subpage == '')
 
   echo $cat_out;
 
-  if(is_array($warning))
+  if (is_array($warning))
   {
-    if(count($warning)>0)
+    if (count($warning)>0)
       echo rex_view::warningBlock(implode('<br />', $warning));
     $warning = '';
-  }else if($warning != '')
+  }
+  elseif ($warning != '')
   {
     echo rex_view::warning($warning);
     $warning = '';
   }
 
-  if(is_array($info))
+  if (is_array($info))
   {
-    if(count($info)>0)
+    if (count($info)>0)
       echo rex_view::infoBlock(implode('<br />', $info));
     $info = '';
-  }else if($info != '')
+  }
+  elseif ($info != '')
   {
     echo rex_view::info($info);
     $info = '';
   }
 
-  if(!empty($args['types']))
+  if (!empty($args['types']))
     echo rex_view::info(rex_i18n::msg('pool_file_filter', $args['types']));
 
   //deletefilelist und cat change
@@ -602,7 +618,7 @@ if ($subpage == '')
 
 
   // ----- move, delete and get selected items
-  if($PERMALL)
+  if ($PERMALL)
   {
     $add_input = '';
     $filecat = rex_sql::factory();
@@ -639,10 +655,10 @@ if ($subpage == '')
 
 
   $where = 'f.category_id='.$rex_file_category;
-  if(isset($args['types']))
+  if (isset($args['types']))
   {
     $types = array();
-    foreach(explode(',',$args['types']) as $type)
+    foreach (explode(',',$args['types']) as $type)
     {
       $types[] = 'LOWER(RIGHT(f.filename, LOCATE(".", REVERSE(f.filename))-1))="'. strtolower(htmlspecialchars($type)) .'"';
     }
@@ -677,9 +693,9 @@ if ($subpage == '')
 
     // Eine titel Spalte schätzen
     $alt = '';
-    foreach(array('title') as $col)
+    foreach (array('title') as $col)
     {
-      if($files->hasValue($col) && $files->getValue($col) != '')
+      if ($files->hasValue($col) && $files->getValue($col) != '')
       {
         $alt = htmlspecialchars($files->getValue($col));
         break;
@@ -688,15 +704,15 @@ if ($subpage == '')
 
     // Eine beschreibende Spalte schätzen
     $desc = '';
-    foreach(array('med_description') as $col)
+    foreach (array('med_description') as $col)
     {
-      if($files->hasValue($col) && $files->getValue($col) != '')
+      if ($files->hasValue($col) && $files->getValue($col) != '')
       {
         $desc = htmlspecialchars($files->getValue($col));
         break;
       }
     }
-    if($desc != '')
+    if ($desc != '')
       $desc .= '<br />';
 
     // wenn datei fehlt
@@ -720,7 +736,8 @@ if ($subpage == '')
         if ($image_manager)
         {
           $thumbnail = '<img src="'. rex_path::frontendController('?rex_img_type=rex_mediapool_preview&amp;rex_img_file='.$encoded_file_name) .'" alt="'. $alt .'" title="'. $alt .'" />';
-        }else if($image_resize)
+        }
+        elseif ($image_resize)
         {
           $thumbnail = '<img src="'. rex_path::frontendController('?rex_resize=80a__'.$encoded_file_name) .'" alt="'. $alt .'" title="'. $alt .'" />';
         }
@@ -732,7 +749,7 @@ if ($subpage == '')
     $file_size = rex_file::formattedSize($size);
 
     if ($file_title == '') $file_title = '['.rex_i18n::msg('pool_file_notitle').']';
-    if(rex::getUser()->hasPerm('advancedMode[]')) $file_title .= ' ['. $file_id .']';
+    if (rex::getUser()->hasPerm('advancedMode[]')) $file_title .= ' ['. $file_id .']';
 
     // ----- opener
     $opener_link = '';
@@ -743,9 +760,12 @@ if ($subpage == '')
         $opener_link .= "<a href=\"javascript:insertImage('$file_name','".$files->getValue("title")."')\">".rex_i18n::msg('pool_image_get')."</a><br>";
       }
 
-    } elseif ($opener_input_field == 'TINY'){
+    }
+    elseif ($opener_input_field == 'TINY')
+    {
         $opener_link .= "<a href=\"javascript:insertLink('".$file_name."');\">".rex_i18n::msg('pool_link_get')."</a>";
-    } elseif ($opener_input_field != '')
+    }
+    elseif ($opener_input_field != '')
     {
       $opener_link = "<a href=\"javascript:selectMedia('".$file_name."', '".addslashes(htmlspecialchars($files->getValue('title')))."');\">".rex_i18n::msg('pool_file_get')."</a>";
       if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")

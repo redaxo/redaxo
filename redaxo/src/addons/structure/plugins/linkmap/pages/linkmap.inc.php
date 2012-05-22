@@ -39,11 +39,12 @@ if ($opener_input_field != '' && $opener_input_field_name == '')
 {
   $opener_input_field_name = $opener_input_field.'_NAME';
 }
-if($opener_input_field=="TINY"){
+if ($opener_input_field=="TINY")
+{
   $func_body .= 'window.opener.insertLink(link,name);
                  self.close();';
 }
-else if (substr($opener_input_field,0,13)=="REX_LINKLIST_")
+elseif (substr($opener_input_field,0,13)=="REX_LINKLIST_")
 {
 $id = substr($opener_input_field,13,strlen($opener_input_field));
 $func_body .= 'var linklist = "REX_LINKLIST_SELECT_'. $id .'";
@@ -58,7 +59,8 @@ $func_body .= 'var linklist = "REX_LINKLIST_SELECT_'. $id .'";
          source.options.add(option, sourcelength);
          opener.writeREXLinklist('. $id .');';
 }
-else {
+else
+{
 $func_body .= 'var linkid = link.replace("redaxo://","");
                window.opener.document.getElementById("'. $opener_input_field .'").value = linkid;
                window.opener.document.getElementById("'. $opener_input_field_name .'").value = name;
@@ -91,7 +93,7 @@ $tree = array();
 
 if ($category)
 {
-  foreach($category->getParentTree() as $cat)
+  foreach ($category->getParentTree() as $cat)
   {
     $tree[] = $cat->getId();
 

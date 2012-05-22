@@ -49,7 +49,7 @@ class rex_article_base
 
     $this->debug = FALSE;
 
-    if($clang !== null)
+    if ($clang !== null)
       $this->setCLang($clang);
     else
       $this->setClang(rex_clang::getId());
@@ -69,10 +69,10 @@ class rex_article_base
 
   protected function getSqlInstance()
   {
-    if(!is_object($this->ARTICLE))
+    if (!is_object($this->ARTICLE))
     {
       $this->ARTICLE = rex_sql::factory();
-      if($this->debug)
+      if ($this->debug)
         $this->ARTICLE->debugsql = 1;
     }
     return $this->ARTICLE;
@@ -163,7 +163,7 @@ class rex_article_base
       else $value = 'id';
     }
     // über SQL muss article_id -> id heissen
-    else if ($value == 'article_id')
+    elseif ($value == 'article_id')
     {
       $value = 'id';
     }
@@ -183,10 +183,10 @@ class rex_article_base
     // damit alte rex_article felder wie teaser, online_from etc
     // noch funktionieren
     // gleicher BC code nochmals in rex_ooRedaxo::getValue
-    foreach(array('', 'art_', 'cat_') as $prefix)
+    foreach (array('', 'art_', 'cat_') as $prefix)
     {
       $val = $prefix . $value;
-      if($this->hasValue($val))
+      if ($this->hasValue($val))
       {
         return $this->_getValue($val);
       }
@@ -249,12 +249,14 @@ class rex_article_base
     }
 
     $articleLimit = '';
-    if($this->article_id != 0) {
+    if ($this->article_id != 0)
+    {
       $articleLimit = ' AND '. rex::getTablePrefix()."article_slice.article_id=".$this->article_id;
     }
 
     $sliceLimit = '';
-    if ($this->getSlice != 0) {
+    if ($this->getSlice != 0)
+    {
       $sliceLimit = " AND ".rex::getTablePrefix()."article_slice.id = '" . ((int) $this->getSlice) . "' ";
     }
 
@@ -278,7 +280,7 @@ class rex_article_base
               ORDER BY ".rex::getTablePrefix()."article_slice.prior";
 
     $artDataSql = rex_sql::factory();
-    if($this->debug)
+    if ($this->debug)
       $artDataSql->debugsql = 1;
 
     $artDataSql->setQuery($sql);
@@ -292,7 +294,7 @@ class rex_article_base
     $prevCtype = null;
     $artDataSql->reset();
     $rows = $artDataSql->getRows();
-    for($i = 0; $i < $rows; ++$i)
+    for ($i = 0; $i < $rows; ++$i)
     {
       $sliceId       = $artDataSql->getValue(rex::getTablePrefix().'article_slice.id');
       $sliceCtypeId  = $artDataSql->getValue(rex::getTablePrefix().'article_slice.ctype');
@@ -443,7 +445,7 @@ class rex_article_base
 
     $REX_ACTION = rex_plugin::get('structure', 'content')->getProperty('rex_action', array());
 
-    foreach(rex_var::getVars() as $var)
+    foreach (rex_var::getVars() as $var)
     {
       if ($this->mode == 'edit')
       {
@@ -469,11 +471,13 @@ class rex_article_base
             // die Werte aus der DB verwenden
             $flushValues = true;
           }
-        }else
+        }
+        else
         {
           $tmp = $var->getBEOutput($sql,$content);
         }
-      }else
+      }
+      else
       {
         $tmp = $var->getFEOutput($sql,$content);
       }
@@ -481,7 +485,7 @@ class rex_article_base
       // Rückgabewert nur auswerten wenn auch einer vorhanden ist
       // damit $content nicht verfälscht wird
       // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
-      if($tmp !== null)
+      if ($tmp !== null)
       {
         $content = $tmp;
       }
@@ -500,13 +504,14 @@ class rex_article_base
     static $user_login = null;
 
     // UserId gibts nur im Backend
-    if($user_id === null)
+    if ($user_id === null)
     {
-      if(rex::getUser())
+      if (rex::getUser())
       {
         $user_id = rex::getUser()->getValue('user_id');
         $user_login = rex::getUser()->getValue('login');
-      }else
+      }
+      else
       {
         $user_id = '';
         $user_login = '';
@@ -546,9 +551,9 @@ class rex_article_base
 
     // -- preg match redaxo://[ARTICLEID]-[CLANG] --
     preg_match_all('@redaxo://([0-9]*)\-([0-9]*)(.){1}/?@im',$content,$matches,PREG_SET_ORDER);
-    foreach($matches as $match)
+    foreach ($matches as $match)
     {
-      if(empty($match)) continue;
+      if (empty($match)) continue;
 
       $url = rex_getURL($match[1], $match[2]);
       $content = str_replace($match[0],$url.$match[3],$content);
@@ -556,9 +561,9 @@ class rex_article_base
 
     // -- preg match redaxo://[ARTICLEID] --
     preg_match_all('@redaxo://([0-9]*)(.){1}/?@im',$content,$matches,PREG_SET_ORDER);
-    foreach($matches as $match)
+    foreach ($matches as $match)
     {
-      if(empty($match)) continue;
+      if (empty($match)) continue;
 
       $url = rex_getURL($match[1], $this->clang);
       $content = str_replace($match[0],$url.$match[2],$content);
