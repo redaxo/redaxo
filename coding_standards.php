@@ -7,7 +7,7 @@ if (PHP_SAPI !== 'cli')
   exit(1);
 }
 
-echo PHP_EOL, '== REDAXO CODING STANDARDS CHECK ==', PHP_EOL, PHP_EOL;
+echo PHP_EOL, "\033[1;37m\033[45m", 'REDAXO CODING STANDARDS CHECK', "\033[0m", PHP_EOL, PHP_EOL;
 
 if (!isset($argv[1]))
 {
@@ -473,20 +473,21 @@ foreach ($iterator as $path => $file)
   }
 }
 
-echo 'FINISHED:', PHP_EOL;
-echo ' - checked ', $countFiles, ' files', PHP_EOL;
+$color = ($countNonFixable + ($fix ? 0 : $countFixable)) ? 41 : 42;
+echo "\033[1;37m\033[", $color ,"m", 'FINISHED';
+echo ', checked ', $countFiles, ' files';
 if ($countFixable)
 {
-  echo ' - ', ($fix ? 'fixed' : 'found fixable'), ' problems in ', $countFixable, ' files', PHP_EOL;
+  echo ', ', ($fix ? 'fixed' : 'found fixable'), ' problems in ', $countFixable, ' files';
 }
 if ($countNonFixable)
 {
-  echo ' - found non-fixable problems in ', $countNonFixable, ' files', PHP_EOL;
+  echo ', found non-fixable problems in ', $countNonFixable, ' files';
 }
 if(!$countFixable && !$countNonFixable)
 {
-  echo ' - no problems', PHP_EOL;
+  echo ', no problems';
 }
-echo PHP_EOL;
+echo ".\033[0m", PHP_EOL, PHP_EOL;
 
 exit ($countNonFixable + ($fix ? 0 : $countFixable));
