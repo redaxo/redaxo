@@ -428,8 +428,7 @@ foreach ($iterator as $path => $file)
 {
   /* @var $file SplFileInfo */
   $subPath = $iterator->getInnerIterator()->getSubPathName();
-  if ($path == __FILE__
-    || !in_array($file->getExtension(), $textExtensions)
+  if (!in_array($file->getExtension(), $textExtensions)
     || strpos('/' . $subPath, '/vendor/') !== false)
   {
     continue;
