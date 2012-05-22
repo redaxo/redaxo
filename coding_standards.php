@@ -243,7 +243,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
       case T_SWITCH:
       case T_CASE:
         $this->addToken($token);
-        $this->checkSpaceAfterControlKeyword();
+        $this->checkSpaceBehind();
         break;
 
       case T_ELSE:
@@ -268,14 +268,34 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
       case T_CATCH:
         $this->checkNewlineBefore();
         $this->addToken($token);
-        $this->checkSpaceAfterControlKeyword();
+        $this->checkSpaceBehind();
         break;
 
       case T_WHITESPACE:
-        if (($pos = strrpos($token->text, "\n")) !== false || substr($this->previousToken()->text, -1) === "\n")
+        if (($pos = strrpos($token->text, "\n")) !== false)
         {
-          $pos = $pos === false ? 0 : ($pos + 1);
-          $this->indentation = substr($token->text, $pos);
+          $this->indentation = substr($token->text, $pos + 1);
+        }
+        $this->addToken($token);
+        break;
+
+      case T_COMMENT:
+        if (substr($token->text, -1) === "\n")
+        {
+          $token->text = substr($token->text, 0, -1);
+          $this->addToken($token);
+          $next = $this->nextToken();
+          if ($next && $next->type === T_WHITESPACE)
+          {
+            $next->text = "\n" . $next->text;
+            $this->fixToken($next);
+          }
+          else
+          {
+            $this->addToken(new rex_php_token(T_WHITESPACE, "\n"));
+            $this->decrementTokenIndex();
+          }
+          break;
         }
         $this->addToken($token);
         break;
@@ -283,12 +303,41 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
       case rex_php_token::SIMPLE:
         if ($token->text === '{')
         {
-          $previous = $this->previousToken();
-          if ($previous->type !== T_WHITESPACE || strpos($previous->text, "\n") === false)
+          $next = $this->nextToken();
+          if ($next->type === rex_php_token::SIMPLE && $next->text === '}')
           {
-            $this->addToken(new rex_php_token(T_WHITESPACE, "\n" . $this->indentation));
-            $this->addFixable('add newline before "{"');
+            $this->addToken($token);
+            $this->addToken($next);
+            break;
           }
+          elseif ($next->type === T_WHITESPACE && preg_match('/^ +$/D', $next->text))
+          {
+            $nextNext = $this->nextToken();
+            if ($nextNext->type === rex_php_token::SIMPLE && $nextNext->text === '}')
+            {
+              $this->addToken($token);
+              $this->addToken($next);
+              $this->addToken($nextNext);
+              break;
+            }
+            $this->decrementTokenIndex();
+          }
+          $this->checkNewlineBefore();
+          $this->addToken($token);
+          $this->decrementTokenIndex();
+          $this->skipSpacesAndComments();
+          $next = $this->nextToken();
+          $this->decrementTokenIndex();
+          if (!$this->isNewline($next))
+          {
+            $this->addFixable('add newline after opening brace');
+            $this->fixToken(new rex_php_token(T_WHITESPACE, "\n" . $this->indentation . '  '));
+          }
+          break;
+        }
+        elseif ($token->text === '}')
+        {
+          $this->checkNewlineBefore(true);
         }
         $this->addToken($token);
         break;
@@ -298,25 +347,45 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
     }
   }
 
-  private function checkSpaceAfterControlKeyword()
+  private function skipSpacesAndComments()
+  {
+    $next = $this->nextToken();
+    while (($next->type === T_WHITESPACE || $next->type === T_COMMENT) && strpos($next->text, "\n") === false)
+    {
+      $this->addToken($next);
+      $next = $this->nextToken();
+    }
+    $this->decrementTokenIndex();
+  }
+
+  private function checkSpaceBehind()
   {
     $next = $this->nextToken();
     if ($next->type !== T_WHITESPACE)
     {
       $this->addToken(new rex_php_token(T_WHITESPACE, ' '));
-      $this->addFixable('add space after control keyword ("if", "for" etc.)');
+      $this->addFixable('add space after control keywords ("if", "for" etc.)');
     }
     $this->decrementTokenIndex();
   }
 
-  private function checkNewlineBefore()
+  private function checkNewlineBefore($indentationBack = false)
   {
     $previous = $this->previousToken();
-    if ($previous->type !== T_WHITESPACE || strpos($previous->text, "\n") === false)
+    if (!$this->isNewline($previous))
     {
+      if ($indentationBack)
+      {
+        $this->indentation = substr($this->indentation, 0, -2);
+      }
       $this->addToken(new rex_php_token(T_WHITESPACE, "\n" . $this->indentation));
-      $this->addFixable('add newline before "else", "elseif" and "catch"');
+      $this->addFixable('add newline before braces and control keywords ("if", "for" etc.)');
     }
+  }
+
+  private function isNewline(rex_php_token $token)
+  {
+    return $token->type === T_WHITESPACE && strpos($token->text, "\n") !== false;
   }
 }
 
