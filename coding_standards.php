@@ -480,8 +480,8 @@ foreach ($iterator as $path => $file)
   }
 }
 
-$color = ($countNonFixable + ($fix ? 0 : $countFixable)) ? 41 : 42;
-echo "\033[1;37m\033[", $color ,"m", 'FINISHED';
+echo ($countNonFixable + ($fix ? 0 : $countFixable)) ? "\033[1;37;41m" : "\033[1;30;42m";
+echo 'FINISHED';
 echo ', checked ', $countFiles, ' files';
 if ($countFixable)
 {
