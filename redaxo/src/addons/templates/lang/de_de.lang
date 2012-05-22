@@ -24,4 +24,4 @@ delete_template = Template löschen
 header_template_caption = Liste der verfügbaren Templates
 header_template_summary = Auflistung aller Templates
 modules_available = Nur folgende Module sind verfügbar
-modules_available_all = Alle Module verfügbar 
+modules_available_all = Alle Module verfügbar

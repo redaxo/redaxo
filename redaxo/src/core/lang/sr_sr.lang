@@ -107,7 +107,7 @@ slice_moved = deo stranice je pomeren
 slice_moved_error = deo stranice ne može biti pomeren
 content_contentcopy = Sadžaj stranice prekopiran.
 content_errorcopy = Ne možete kopirati sadžaj u isti jezik.
-content_copy = 
+content_copy =
 content_contentoflang = Kopiraj sadržaj jezika
 content_to = do
 content_submitcopycontent = Kopiraj
@@ -359,7 +359,7 @@ pool_created = Erstellt am
 
 # redaxo/include/pages
 setup = Podešavanje
-setup_text = Ovde možes da restartuješ podešavanja. 
+setup_text = Ovde možes da restartuješ podešavanja.
 setup_error1 = Podešavanja aktivirana. Klikni ovde &gt;<a href=index.php>here</a>&lt; da bi pokrenuo ponovnu instalaciju.
 setup_error2 = No permission to 'master.inc.php'. Please edit the file manually and fill in this \"\$REX[SETUP] = true;\"
 setup_005 = <b>Welcome to the SETUP for REDAXO.</b><br><br>What the setup is doing:<br><br>- Checking the file permissions<br>- Checking Databaselogin and write the login in die master.inc.php<br>- Install Tables.<br>- Create adminaccount
@@ -368,7 +368,7 @@ setup_step1 = SETUP: STEP 1 of 5
 setup_010 = Sorry but your version of PHP is too old (less than 4.1.0), please update to a newer version
 setup_012 = <font class=error>Error</font> | The directory <b>{0}</b> is not writeable or executable!
 setup_014 = <font class=error>Error</font> | The file <b>{0}</b> is not writeble!
-setup_015 = <font class=error>Error</font> | The file or directory <b>{0}</b> does not exist, please create it. 
+setup_015 = <font class=error>Error</font> | The file or directory <b>{0}</b> does not exist, please create it.
 setup_016 = <b>Checking PHP Version and filesystem permissions</b><br><br><font class=ok>ok</font> | PHP Version<br><font class=ok>ok</font> | File Permissions
 setup_017 = Go on to step 2
 setup_018 = Please correct these problems and repeat the setup.
@@ -414,7 +414,7 @@ setup_049 = Go on to step 5
 setup_step5 = SETUP: STEP 5 of 5
 setup_050 = 'master.inc.php' could not be overwritten. Please edit the file manually via FTP.
 setup_051 = Congratulations, you have successfully installed REDAXO! <br><br>Please read this:<br><br><b>1. Login with your account <a href=index.php>login</a><br>2. Import a demo: Go to 'Import/Export' and choose a database to import AND a filepakage to import.</b><br><br><br>Enjoy REDAXO and have fun<br><br>Your REDAXO Team <br><br>
-database_imported = database imported. 
+database_imported = database imported.
 entry_count = {0} eintries
 
 # redaxo\include\pages\addon.inc.php

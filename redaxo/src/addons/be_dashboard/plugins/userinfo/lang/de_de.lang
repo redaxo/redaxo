@@ -1,5 +1,5 @@
 # addon: userinfo de_de
-userinfo_component_userinfo = {0}, am {1} 
+userinfo_component_userinfo = {0}, am {1}
 userinfo_component_stats_title = Seitenstatistik
 
 userinfo_component_stats_actions = Aktionen

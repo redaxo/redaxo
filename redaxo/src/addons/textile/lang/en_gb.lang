@@ -6,7 +6,7 @@ textile_module_intro_moduleoutput = Please use the following sourcecode for a mo
 textile_module_intro_help = Please use the following function call to see all informations/instructions in the <b>input module</b><br />
 textile_module_rights = <b>Please note:</b><br />The instruction will only be shown when the option <strong>textile[help]</strong> is selected in the userprofile.
 
-textile_instructions = Instructions 
+textile_instructions = Instructions
 
 textile_input = Input
 textile_preview = Preview
@@ -33,7 +33,7 @@ textile_link_attr_title = Link with title-Attribute: "Image(click for zoom)"
 textile_link_attr_rel = Link with rel-Attribute: "Image{shadowbox}"
 textile_link_attr_title_rel = Link with title and rel-Attribute: "Image(click for shadowbox){shadowbox}"
 textile_link_anchor = Define anchor
-textile_link_anchor_text = To contact 
+textile_link_anchor_text = To contact
 
 textile_footnotes = Footnotes
 textile_footnote_text = AJAX

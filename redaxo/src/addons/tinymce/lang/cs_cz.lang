@@ -1,65 +1,65 @@
 title = TinyMCE - JavaScript WYSIWYG Editor
 
-menu_module = Pøíklad modulu
+menu_module = PÃ¸Ã­klad modulu
 menu_settings = Konfigurace
 menu_css = CSS Editovat
 menu_tipps = Tipy a triky
 menu_information = ?
 
-title_simple_sample = Jednoduchı modul vstupu a vıstupu
-txt_simple_sample = Textové pole mù¾e bıt pøemìnìno ve WYSIWYG-Editoru zadáním atributu <strong>class="tinyMCEEditor"</strong>.<br />Více textovıch polí pro vstup modulù je mo¾nı. Velikost  WYSIWYG-Editoru je urèena velikostí textového pole. Zobrazení tlaèítek bude automaticky pøevzato z <a href="index.php?page=tinymce&amp;subpage=settings">Addon-Konfigurace</a>.
-title_extended_sample = Roz¹íøenı vstup modulu
-txt_extended_sample = Existuje té¾ mo¾nost vytvoøit WYSIWYG-Editor pøes PHP tøídu <strong>rexTinyMCEEditor</strong>.<br />To umo¾òuje pøevzít konfiguraci pro TinyMCE. Tøída vytvoøí  Init-Javascript se standartními hodnotami, které mohou bıt pøes vlastní parametry roz¹íøeny nebo zmìnìny.<br /><br /><a href="index.php?tinymceinit=true" onclick="window.open(this.href); return false;">ukázat standartní konfiguraci</a><br /><br /><a href="http://wiki.moxiecode.com/index.php/TinyMCE:Configuration" onclick="window.open(this.href); return false;">Dokumentace TinyMCE-Konfigurace</a><br /><br />Zde jsou jako pøíklad znázornìny <strong>v¹echny</strong> mo¾nosti parametrù pro vstupní modul.<br /> Variable <strong>content</strong> musí mít pøidìlen obsah REDAXO-Variable (<strong>$tiny->content = $wysiwigvalue;</strong>)<br /><strong>Id</strong> .Promìnné musí mít pøidìleno èíslo REDAXO promìnné (napø. u REX_VALUE[2]: <strong>$tiny->id = 2;</strong>)<br /><br />Dal¹í informace na <a href="index.php?page=tinymce&amp;subpage=tipps">Tipy a triky &raquo;</a>
+title_simple_sample = JednoduchÃ½ modul vstupu a vÃ½stupu
+txt_simple_sample = TextovÃ© pole mÃ¹Â¾e bÃ½t pÃ¸emÃ¬nÃ¬no ve WYSIWYG-Editoru zadÃ¡nÃ­m atributu <strong>class="tinyMCEEditor"</strong>.<br />VÃ­ce textovÃ½ch polÃ­ pro vstup modulÃ¹ je moÂ¾nÃ½. Velikost  WYSIWYG-Editoru je urÃ¨ena velikostÃ­ textovÃ©ho pole. ZobrazenÃ­ tlaÃ¨Ã­tek bude automaticky pÃ¸evzato z <a href="index.php?page=tinymce&amp;subpage=settings">Addon-Konfigurace</a>.
+title_extended_sample = RozÂ¹Ã­Ã¸enÃ½ vstup modulu
+txt_extended_sample = Existuje tÃ©Â¾ moÂ¾nost vytvoÃ¸it WYSIWYG-Editor pÃ¸es PHP tÃ¸Ã­du <strong>rexTinyMCEEditor</strong>.<br />To umoÂ¾Ã²uje pÃ¸evzÃ­t konfiguraci pro TinyMCE. TÃ¸Ã­da vytvoÃ¸Ã­  Init-Javascript se standartnÃ­mi hodnotami, kterÃ© mohou bÃ½t pÃ¸es vlastnÃ­ parametry rozÂ¹Ã­Ã¸eny nebo zmÃ¬nÃ¬ny.<br /><br /><a href="index.php?tinymceinit=true" onclick="window.open(this.href); return false;">ukÃ¡zat standartnÃ­ konfiguraci</a><br /><br /><a href="http://wiki.moxiecode.com/index.php/TinyMCE:Configuration" onclick="window.open(this.href); return false;">Dokumentace TinyMCE-Konfigurace</a><br /><br />Zde jsou jako pÃ¸Ã­klad znÃ¡zornÃ¬ny <strong>vÂ¹echny</strong> moÂ¾nosti parametrÃ¹ pro vstupnÃ­ modul.<br /> Variable <strong>content</strong> musÃ­ mÃ­t pÃ¸idÃ¬len obsah REDAXO-Variable (<strong>$tiny->content = $wysiwigvalue;</strong>)<br /><strong>Id</strong> .PromÃ¬nnÃ© musÃ­ mÃ­t pÃ¸idÃ¬leno Ã¨Ã­slo REDAXO promÃ¬nnÃ© (napÃ¸. u REX_VALUE[2]: <strong>$tiny->id = 2;</strong>)<br /><br />DalÂ¹Ã­ informace na <a href="index.php?page=tinymce&amp;subpage=tipps">Tipy a triky &raquo;</a>
 title_input = <strong>Modul INPUT</strong><br /><br />
-title_output = <strong>Modul OUTPUT (pro v¹echny)</strong><br /><br />
+title_output = <strong>Modul OUTPUT (pro vÂ¹echny)</strong><br /><br />
 
 title_active = TinyMCE aktivovat/deaktivovat
-tinymce_active = TinyMCE aktivován
+tinymce_active = TinyMCE aktivovÃ¡n
 
-title_language = Zvolit standartní jazyk
-tinymce_langs = Aktivní jazyky: {0}
+title_language = Zvolit standartnÃ­ jazyk
+tinymce_langs = AktivnÃ­ jazyky: {0}
 
-title_pages = Vybrat stránky do kterıch má bıt integrován TinyMCE-Editor 
-tinymce_pages = Seznam oddìlen èárkami<br />Pøíklad: zadat <em>tinymce</em> v pøípadì ¾e Backend-URL zní napø. index.php?page=<em>tinymce</em> 
+title_pages = Vybrat strÃ¡nky do kterÃ½ch mÃ¡ bÃ½t integrovÃ¡n TinyMCE-Editor
+tinymce_pages = Seznam oddÃ¬len Ã¨Ã¡rkami<br />PÃ¸Ã­klad: zadat <em>tinymce</em> v pÃ¸Ã­padÃ¬ Â¾e Backend-URL znÃ­ napÃ¸. index.php?page=<em>tinymce</em>
 title_foreground = Zvolit barvy textu
-tinymce_foreground = Seznam oddìlen èárkami<br />zde zadat hex hodnoty barev bez # napø.: CC0000,009900,000099<br />První barva bude ulo¾ena jako standartní.
+tinymce_foreground = Seznam oddÃ¬len Ã¨Ã¡rkami<br />zde zadat hex hodnoty barev bez # napÃ¸.: CC0000,009900,000099<br />PrvnÃ­ barva bude uloÂ¾ena jako standartnÃ­.
 
 title_background = Zvolit barvy podkladu
-tinymce_background = Seznam oddìlen èárkami<br />zde zadat hex hodnoty barev bez # napø.: CC0000,009900,000099<br />První barva bude ulo¾ena jako standartní.
+tinymce_background = Seznam oddÃ¬len Ã¨Ã¡rkami<br />zde zadat hex hodnoty barev bez # napÃ¸.: CC0000,009900,000099<br />PrvnÃ­ barva bude uloÂ¾ena jako standartnÃ­.
 
-title_validxhtml = Validovanı XHTML-Code 
-tinymce_validxhtml = Validovanı XHTML-Code (evtl. problémy s vıkonem)
+title_validxhtml = ValidovanÃ½ XHTML-Code
+tinymce_validxhtml = ValidovanÃ½ XHTML-Code (evtl. problÃ©my s vÃ½konem)
 
 title_inlinepopups = Use inline-popups
 tinymce_inlinepopups = (Lightbox-Style)
 
 title_theme = Vybrat motiv
-theme_simple = Jednoduchı
-theme_default = Standartní
-theme_advanced = Roz¹íøenı
+theme_simple = JednoduchÃ½
+theme_default = StandartnÃ­
+theme_advanced = RozÂ¹Ã­Ã¸enÃ½
 
-title_skin = Vybrat Skin 
-skin_standard = Standartní
+title_skin = Vybrat Skin
+skin_standard = StandartnÃ­
 skin_o2k7 = o2k7
-skin_o2k7_silver = o2k7 Støíbrnı
-skin_o2k7_black = o2k7 Èernı
+skin_o2k7_silver = o2k7 StÃ¸Ã­brnÃ½
+skin_o2k7_black = o2k7 ÃˆernÃ½
 
 title_ext_config = Zus&auml;tzliche TinyMCE Konfiguration
 ext_config = Konfiguration (JavaScript)
 
-button_save_settings = Ulo¾it konfiguraci
-msg_settings_saved = Konfigurace ulo¾ena
+button_save_settings = UloÂ¾it konfiguraci
+msg_settings_saved = Konfigurace uloÂ¾ena
 msg_settings_error = Fehler beim speichern der Konfiguration!
 
-title_css_wysiwyg = CSS pro WYSIWYG-Editor a Ukázku
+title_css_wysiwyg = CSS pro WYSIWYG-Editor a UkÃ¡zku
 tynymce_css_wysiwyg = ...
-button_save_css = CSS ulo¾it
-msg_css_saved = CSS-soubor ulo¾en, eventuelnì musí bıt smazán Browser-Cache.
-msg_css_error = Chyba pøi ukládání CSS souboru.
+button_save_css = CSS uloÂ¾it
+msg_css_saved = CSS-soubor uloÂ¾en, eventuelnÃ¬ musÃ­ bÃ½t smazÃ¡n Browser-Cache.
+msg_css_error = Chyba pÃ¸i uklÃ¡dÃ¡nÃ­ CSS souboru.
 
 title_tipps_tricks = Tipy a triky
 
 title_tinymcelinks = TinyMCE Links
 title_changelog = Changelog
 
-info_htaccess = Pozor! Není mo¾nı pøístup na po¾adované podadresáøe plug-inu!<br /><br />Prosíme zkontrolujte následující soubory:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{0}<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{1}<br /><br />Oba tyto soubory po¾adují soubor .htaccess. Buï není soubor k dipozici, soubory pro bezpeènost obsahu se na va¹em serveru nejmenují .htaccess a nebo jsou ¹patnì nastavena práva.<br /><br />U verze REDAXO Version 3.2.x prosíme vlo¾te do souboru redaxo/include/.htaccess následující: AuthName "Zugriff auf IncludeDateien" (Úvozovky!)
+info_htaccess = Pozor! NenÃ­ moÂ¾nÃ½ pÃ¸Ã­stup na poÂ¾adovanÃ© podadresÃ¡Ã¸e plug-inu!<br /><br />ProsÃ­me zkontrolujte nÃ¡sledujÃ­cÃ­ soubory:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{0}<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{1}<br /><br />Oba tyto soubory poÂ¾adujÃ­ soubor .htaccess. BuÃ¯ nenÃ­ soubor k dipozici, soubory pro bezpeÃ¨nost obsahu se na vaÂ¹em serveru nejmenujÃ­ .htaccess a nebo jsou Â¹patnÃ¬ nastavena prÃ¡va.<br /><br />U verze REDAXO Version 3.2.x prosÃ­me vloÂ¾te do souboru redaxo/include/.htaccess nÃ¡sledujÃ­cÃ­: AuthName "Zugriff auf IncludeDateien" (Ãšvozovky!)
