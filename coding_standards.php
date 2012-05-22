@@ -426,7 +426,7 @@ class rex_php_token
 
 $hideProcess = in_array('--hide-process', $argv);
 $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
-$textExtensions = array('php', 'js', 'yml', 'tpl', 'css', 'textile', 'sql', 'txt');
+$textExtensions = array('css', 'htaccess', 'html', 'js', 'json', 'lang', 'php', 'sql', 'textile', 'tpl', 'txt', 'yml');
 $countFiles = 0;
 $countFixable = 0;
 $countNonFixable = 0;
