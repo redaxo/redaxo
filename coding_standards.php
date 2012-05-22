@@ -37,7 +37,7 @@ if (isset($argv[2]) && $argv[2][0] !== '-')
   }
   elseif ($argv[2] == 'package')
   {
-    if (!isset($argv[3]) || $argv[3][0] !== '-')
+    if (!isset($argv[3]) || $argv[3][0] === '-')
     {
       echo 'ERROR: Missing package id!', PHP_EOL, PHP_EOL;
       exit(1);
