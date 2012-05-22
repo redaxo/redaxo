@@ -357,7 +357,10 @@ $countNonFixable = 0;
 foreach ($iterator as $path => $file)
 {
   /* @var $file SplFileInfo */
-  if (!in_array($file->getExtension(), $textExtensions) || $path == __FILE__)
+  $subPath = $iterator->getInnerIterator()->getSubPathName();
+  if ($path == __FILE__
+    || !in_array($file->getExtension(), $textExtensions)
+    || strpos($subPath, '/vendor/') !== false)
   {
     continue;
   }
@@ -373,7 +376,7 @@ foreach ($iterator as $path => $file)
   }
   if ($fixer->hasChanged())
   {
-    echo $iterator->getInnerIterator()->getSubPathName(), ':', PHP_EOL;
+    echo $subPath, ':', PHP_EOL;
     if ($fixable = $fixer->getFixable())
     {
       echo '  > ', implode(PHP_EOL . '  > ', $fixable), PHP_EOL;
