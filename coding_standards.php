@@ -24,7 +24,7 @@ if (!in_array($mode, array('fix', 'check')))
 $fix = $mode == 'fix';
 
 $dir = __DIR__;
-if (isset($argv[2]))
+if (isset($argv[2]) && $argv[2][0] !== '-')
 {
   if ($argv[2] == 'core')
   {
@@ -37,7 +37,7 @@ if (isset($argv[2]))
   }
   elseif ($argv[2] == 'package')
   {
-    if (!isset($argv[3]))
+    if (!isset($argv[3]) || $argv[3][0] !== '-')
     {
       echo 'ERROR: Missing package id!', PHP_EOL, PHP_EOL;
       exit(1);
