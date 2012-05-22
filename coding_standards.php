@@ -430,7 +430,7 @@ foreach ($iterator as $path => $file)
   $subPath = $iterator->getInnerIterator()->getSubPathName();
   if ($path == __FILE__
     || !in_array($file->getExtension(), $textExtensions)
-    || strpos($subPath, '/vendor/') !== false)
+    || strpos('/' . $subPath, '/vendor/') !== false)
   {
     continue;
   }
