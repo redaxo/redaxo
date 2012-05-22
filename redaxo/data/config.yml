@@ -21,6 +21,7 @@ maxlogins: 50
 maxclangs: 15
 start_page: structure
 timezone: Europe/Berlin
+socket_proxy: null
 setup_addons:
   - be_style
   - import_export
