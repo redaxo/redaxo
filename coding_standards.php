@@ -440,7 +440,7 @@ foreach ($iterator as $path => $file)
   }
 
   $countFiles++;
-  if($file->getExtension() == 'php')
+  if ($file->getExtension() == 'php')
   {
     $fixer = new rex_coding_standards_fixer_php(file_get_contents($path));
   }
@@ -490,7 +490,7 @@ if ($countNonFixable)
 {
   echo ', found non-fixable problems in ', $countNonFixable, ' files';
 }
-if(!$countFixable && !$countNonFixable)
+if (!$countFixable && !$countNonFixable)
 {
   echo ', no problems';
 }
