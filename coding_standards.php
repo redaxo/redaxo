@@ -7,6 +7,7 @@ if (PHP_SAPI !== 'cli')
   exit(1);
 }
 
+// https://github.com/symfony/symfony/blob/f53297681a7149f2a809da12ea3a8b8cfd4d3025/src/Symfony/Component/Console/Output/StreamOutput.php#L103-112
 $hasColorSupport = DIRECTORY_SEPARATOR == '\\' ? getenv('ANSICON') !== false : function_exists('posix_isatty') && @posix_isatty(STDOUT);
 
 echo PHP_EOL;
