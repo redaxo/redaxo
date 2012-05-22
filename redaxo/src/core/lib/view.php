@@ -27,7 +27,7 @@ class rex_view
   {
     $return = '';
 
-    $return = '<'. $sorround_tag .' class="rex-message '. $cssClass .'">';
+    $return = '<' . $sorround_tag . ' class="rex-message ' . $cssClass . '">';
 
     if ($sorround_tag != 'p')
       $return .= '<p>';
@@ -37,7 +37,7 @@ class rex_view
     if ($sorround_tag != 'p')
       $return .= '</p>';
 
-    $return .= '</'. $sorround_tag .'>';
+    $return .= '</' . $sorround_tag . '>';
 
     /*
     $fragment = new rex_fragment();
@@ -65,11 +65,11 @@ class rex_view
   static private function messageBlock($message, $cssClass, $sorround_tag)
   {
     return '<div class="rex-message-block">
-              <'. $sorround_tag .' class="'. $cssClass .'">
+              <' . $sorround_tag . ' class="' . $cssClass . '">
                 <div class="rex-message-content">
-                  '. $message .'
+                  ' . $message . '
                 </div>
-              </'. $sorround_tag .'>
+              </' . $sorround_tag . '>
             </div>';
   }
 
@@ -102,13 +102,13 @@ class rex_view
         break;
     }
 
-    $return .= '<section class="rex-content'.$class.'">';
+    $return .= '<section class="rex-content' . $class . '">';
     if ($content_2 != '')
     {
       $return .= '
         <div class="rex-grid2col">
-          <div class="rex-column rex-first">'. $content_1 .'</div>
-          <div class="rex-column rex-last">'. $content_2 .'</div>
+          <div class="rex-column rex-first">' . $content_1 . '</div>
+          <div class="rex-column rex-last">' . $content_2 . '</div>
         </div>';
 
     }
@@ -200,9 +200,9 @@ class rex_view
 
     $title = rex_extension::registerPoint('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page));
 
-    $return = '<h1>'.$title.'</h1>'.$subtitle;
+    $return = '<h1>' . $title . '</h1>' . $subtitle;
 
-    echo rex_extension::registerPoint('PAGE_TITLE_SHOWN', "",
+    echo rex_extension::registerPoint('PAGE_TITLE_SHOWN', '',
       array(
         'category_id' => $category_id,
         'article_id' => $article_id,
@@ -281,10 +281,10 @@ class rex_view
           {
             if ($active && $attr_name == 'class')
             {
-              $add_class = ' '.$attr_value;
+              $add_class = ' ' . $attr_value;
               break;
             }
-            $attr .= ' '.$attr_name .'="'. $attr_value .'"';
+            $attr .= ' ' . $attr_name . '="' . $attr_value . '"';
           }
         }
 
@@ -293,17 +293,17 @@ class rex_view
         {
           // $format = '%s';
           // $subtitle[] = sprintf($format, $label);
-          $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s class="rex-active%s">%s</a>';
+          $format = '<a href="?page=' . $cur_page . '&amp;subpage=%s%s"%s class="rex-active%s">%s</a>';
           $subtitle[] = sprintf($format, $link, $params, $attr, $add_class, $label);
         }
         elseif ($link == '')
         {
-          $format = '<a href="?page='. $cur_page .'%s"%s>%s</a>';
+          $format = '<a href="?page=' . $cur_page . '%s"%s>%s</a>';
           $subtitle[] = sprintf($format, $params, $attr, $label);
         }
         else
         {
-          $format = '<a href="?page='. $cur_page .'&amp;subpage=%s%s"%s>%s</a>';
+          $format = '<a href="?page=' . $cur_page . '&amp;subpage=%s%s"%s>%s</a>';
           $subtitle[] = sprintf($format, $link, $params, $attr, $label);
         }
       }
@@ -316,9 +316,9 @@ class rex_view
         foreach ($subtitle as $part)
         {
           if ($i == 1)
-          $items .= '<li class="rex-navi-first">'. $part .'</li>';
+          $items .= '<li class="rex-navi-first">' . $part . '</li>';
           else
-          $items .= '<li>'. $part .'</li>';
+          $items .= '<li>' . $part . '</li>';
 
           $i++;
         }
@@ -326,7 +326,7 @@ class rex_view
         $subtitle_str = '
         <div id="rex-navi-page">
         <ul class="rex-navi">
-          '. $items .'
+          ' . $items . '
         </ul>
         </div>
         ';

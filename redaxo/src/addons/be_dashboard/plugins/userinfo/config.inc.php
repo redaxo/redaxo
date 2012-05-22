@@ -21,7 +21,7 @@ if (rex::isBackend() && rex::getUser())
       define('A659_DEFAULT_LIMIT', 7);
     }
 
-    require_once dirname(__FILE__) .'/functions/function_userinfo.inc.php';
+    require_once dirname(__FILE__) . '/functions/function_userinfo.inc.php';
 
     $components = array(
       'rex_articles_component',

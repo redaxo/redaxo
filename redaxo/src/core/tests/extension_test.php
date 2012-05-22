@@ -31,14 +31,14 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
     rex_extension::register($EP, function($params) use (&$EPParam)
     {
       $EPParam = $params['extension_point'];
-      return $params['subject'] .' test2';
+      return $params['subject'] . ' test2';
     });
 
     rex_extension::register($EP, function($params) {});
 
     rex_extension::register($EP, function($params)
     {
-      return $params['subject'] .' test3';
+      return $params['subject'] . ' test3';
     });
 
     $result = rex_extension::registerPoint($EP, 'test');

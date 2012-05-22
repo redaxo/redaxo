@@ -151,7 +151,7 @@ class rex_socket_response
     {
       return $this->headers[$key];
     }
-    if (preg_match('@^'. preg_quote($key, '@') .': (\V*)@im', $this->header, $matches))
+    if (preg_match('@^' . preg_quote($key, '@') . ': (\V*)@im', $this->header, $matches))
     {
       return $this->headers[$key] = $matches[1];
     }

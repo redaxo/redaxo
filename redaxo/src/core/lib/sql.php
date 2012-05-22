@@ -67,14 +67,14 @@ class rex_sql extends rex_factory_base implements Iterator
     }
     catch (PDOException $e)
     {
-      echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . rex::getProperty('error_email') . ">" . rex::getProperty('error_email') . "</a>\n | Thank you!\n</font>";
+      echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . rex::getProperty('error_email') . '>' . rex::getProperty('error_email') . "</a>\n | Thank you!\n</font>";
       exit;
     }
   }
 
   static protected function createConnection($host, $database, $login, $password, $persistent = false)
   {
-    $dsn = 'mysql:host='. $host .';dbname='. $database;
+    $dsn = 'mysql:host=' . $host . ';dbname=' . $database;
     $options = array(
       PDO::ATTR_PERSISTENT => (boolean) $persistent,
       PDO::ATTR_FETCH_TABLE_NAMES => true,
@@ -177,7 +177,7 @@ class rex_sql extends rex_factory_base implements Iterator
    *
    * @return rex_sql the current rex_sql object
    */
-  public function setDebug($debug = TRUE)
+  public function setDebug($debug = true)
   {
     $this->debugsql = $debug;
 
@@ -201,7 +201,7 @@ class rex_sql extends rex_factory_base implements Iterator
     }
     catch (PDOException $e)
     {
-      throw new rex_sql_exception('Error while preparing statement "'. $qry .'! '. $e->getMessage());
+      throw new rex_sql_exception('Error while preparing statement "' . $qry . '! ' . $e->getMessage());
     }
   }
 
@@ -226,7 +226,7 @@ class rex_sql extends rex_factory_base implements Iterator
     }
     catch (PDOException $e)
     {
-      throw new rex_sql_exception('Error while executing statement using params '. json_encode($params) .'! '. $e->getMessage());
+      throw new rex_sql_exception('Error while executing statement using params ' . json_encode($params) . '! ' . $e->getMessage());
     }
   }
 
@@ -266,7 +266,7 @@ class rex_sql extends rex_factory_base implements Iterator
       }
       catch (PDOException $e)
       {
-        throw new rex_sql_exception('Error while executing statement "'. $qry .'! '. $e->getMessage());
+        throw new rex_sql_exception('Error while executing statement "' . $qry . '! ' . $e->getMessage());
       }
     }
 
@@ -368,9 +368,9 @@ class rex_sql extends rex_factory_base implements Iterator
    */
   protected function isValueOf($feld, $prop)
   {
-    if ($prop == "")
+    if ($prop == '')
     {
-      return TRUE;
+      return true;
     }
     else
     {
@@ -393,16 +393,16 @@ class rex_sql extends rex_factory_base implements Iterator
    *
    * @return rex_sql the current rex_sql object
    */
-  public function setWhere($where, $whereParams = NULL)
+  public function setWhere($where, $whereParams = null)
   {
     if (is_array($where))
     {
-      $this->wherevar = 'WHERE '. $this->buildWhereArg($where);
+      $this->wherevar = 'WHERE ' . $this->buildWhereArg($where);
       $this->whereParams = $where;
     }
     elseif (is_string($where) && is_array($whereParams))
     {
-      $this->wherevar = 'WHERE '. $where;
+      $this->wherevar = 'WHERE ' . $where;
       $this->whereParams = $whereParams;
     }
     elseif (is_string($where))
@@ -411,12 +411,12 @@ class rex_sql extends rex_factory_base implements Iterator
       $loc = $trace[0];
 //       trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
 
-      $this->wherevar = 'WHERE '. $where;
+      $this->wherevar = 'WHERE ' . $where;
       $this->whereParams = array();
     }
     else
     {
-      throw new rex_sql_exception('expecting $where to be an array, "'. gettype($where) .'" given!');
+      throw new rex_sql_exception('expecting $where to be an array, "' . gettype($where) . '" given!');
     }
 
     return $this;
@@ -447,11 +447,11 @@ class rex_sql extends rex_factory_base implements Iterator
       $arg = '';
       if (is_array($value))
       {
-        $arg = '('. $this->buildWhereArg($value, $level+1) .')';
+        $arg = '(' . $this->buildWhereArg($value, $level+1) . ')';
       }
       else
       {
-        $arg = '`' .$fld_name . '` = :'. $fld_name;
+        $arg = '`' . $fld_name . '` = :' . $fld_name;
       }
 
       if ($qry != '')
@@ -487,9 +487,9 @@ class rex_sql extends rex_factory_base implements Iterator
       $tables = $this->getTablenames();
       foreach ($tables as $table)
       {
-        if (in_array($table .'.'. $colName, $this->rawFieldnames))
+        if (in_array($table . '.' . $colName, $this->rawFieldnames))
         {
-          return $this->fetchValue($table .'.'. $colName);
+          return $this->fetchValue($table . '.' . $colName);
         }
       }
     }
@@ -537,7 +537,7 @@ class rex_sql extends rex_factory_base implements Iterator
       {
         $trace = debug_backtrace();
         $loc = $trace[1];
-        echo '<b>Warning</b>:  rex_sql->getValue('. $feldname .'): Initial error found in file <b>'. $loc['file'] .'</b> on line <b>'. $loc['line'] .'</b><br />';
+        echo '<b>Warning</b>:  rex_sql->getValue(' . $feldname . '): Initial error found in file <b>' . $loc['file'] . '</b> on line <b>' . $loc['line'] . '</b><br />';
         exit();
       }
     }
@@ -635,7 +635,7 @@ class rex_sql extends rex_factory_base implements Iterator
           $qry .= ', ';
         }
 
-        $qry .= '`'. $fld_name . '` = :'. $fld_name;
+        $qry .= '`' . $fld_name . '` = :' . $fld_name;
       }
     }
     if (is_array($this->rawValues))
@@ -647,7 +647,7 @@ class rex_sql extends rex_factory_base implements Iterator
           $qry .= ', ';
         }
 
-        $qry .= '`'. $fld_name . '` = '. $value;
+        $qry .= '`' . $fld_name . '` = ' . $value;
       }
     }
 
@@ -681,7 +681,7 @@ class rex_sql extends rex_factory_base implements Iterator
   public function select($fields = '*')
   {
     return $this->setQuery(
-      'SELECT '. $fields .' FROM `' . $this->table . '` '. $this->getWhere(),
+      'SELECT ' . $fields . ' FROM `' . $this->table . '` ' . $this->getWhere(),
       $this->whereParams
     );
   }
@@ -697,7 +697,7 @@ class rex_sql extends rex_factory_base implements Iterator
   public function update()
   {
     return $this->setQuery(
-      'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->getWhere(),
+      'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
       array_merge($this->values, $this->whereParams)
     );
   }
@@ -724,7 +724,7 @@ class rex_sql extends rex_factory_base implements Iterator
     // this happens when you violate against a NOTNULL constraint
     if ($res && $this->getRows() == 0)
     {
-      trigger_error('Error while inserting into table "'. $tableName .'" with values '. print_r($values, true) .'! Check your null/not-null constraints!', E_USER_ERROR);
+      trigger_error('Error while inserting into table "' . $tableName . '" with values ' . print_r($values, true) . '! Check your null/not-null constraints!', E_USER_ERROR);
     }
 
     return $res;
@@ -741,7 +741,7 @@ class rex_sql extends rex_factory_base implements Iterator
   public function replace()
   {
     return $this->setQuery(
-      'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() .' '. $this->getWhere(),
+      'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
       array_merge($this->values, $this->whereParams)
     );
   }
@@ -756,7 +756,7 @@ class rex_sql extends rex_factory_base implements Iterator
   public function delete()
   {
     return $this->setQuery(
-      'DELETE FROM `' . $this->table . '` '. $this->getWhere(),
+      'DELETE FROM `' . $this->table . '` ' . $this->getWhere(),
       $this->whereParams
     );
   }
@@ -827,9 +827,9 @@ class rex_sql extends rex_factory_base implements Iterator
     $this->rawValues = array();
     $this->whereParams = array ();
     $this->lastRow = array();
-    $this->fieldnames = NULL;
-    $this->rawFieldnames = NULL;
-    $this->tablenames = NULL;
+    $this->fieldnames = null;
+    $this->rawFieldnames = null;
+    $this->tablenames = null;
 
     $this->table = '';
     $this->wherevar = '';
@@ -1028,7 +1028,7 @@ class rex_sql extends rex_factory_base implements Iterator
 
   private function fetchMeta()
   {
-    if ($this->fieldnames === NULL)
+    if ($this->fieldnames === null)
     {
       $this->rawFieldnames = array();
       $this->fieldnames = array();
@@ -1039,7 +1039,7 @@ class rex_sql extends rex_factory_base implements Iterator
         $metadata = $this->stmt->getColumnMeta($i);
 
         // strip table-name from column
-        $this->fieldnames[] = substr($metadata['name'], strlen($metadata['table'].'.'));
+        $this->fieldnames[] = substr($metadata['name'], strlen($metadata['table'] . '.'));
         $this->rawFieldnames[] = $metadata['name'];
 
         if (!in_array($metadata['table'], $this->tablenames))
@@ -1065,7 +1065,7 @@ class rex_sql extends rex_factory_base implements Iterator
    *
    * @deprecated since 4.3.0
    */
-  static public function getInstance($DBID=1, $deprecatedSecondParam = null)
+  static public function getInstance($DBID = 1, $deprecatedSecondParam = null)
   {
     return static::factory($DBID);
   }
@@ -1153,10 +1153,10 @@ class rex_sql extends rex_factory_base implements Iterator
    * @param $DBID int Id der Datenbankverbindung
    * @return string CREATE TABLE Sql-Statement zu erstsellung der Tabelle
    */
-  static public function showCreateTable($table, $DBID=1)
+  static public function showCreateTable($table, $DBID = 1)
   {
     $sql = self::factory($DBID);
-    $sql->setQuery('SHOW CREATE TABLE `'. $table .'`');
+    $sql->setQuery('SHOW CREATE TABLE `' . $table . '`');
     return $sql->getValue('Create Table');
   }
 
@@ -1168,14 +1168,14 @@ class rex_sql extends rex_factory_base implements Iterator
    * @param $tablePrefix string Zu suchender Tabellennamen-Prefix
    * @return array Ein Array von Tabellennamen
    */
-  static public function showTables($DBID=1, $tablePrefix=null)
+  static public function showTables($DBID = 1, $tablePrefix = null)
   {
     $qry = 'SHOW TABLES';
     if ($tablePrefix != null)
     {
       // replace LIKE wildcards
       $tablePrefix = str_replace(array('_', '%'), array('\_', '\%'), $tablePrefix);
-      $qry .= ' LIKE "'.$tablePrefix.'%"';
+      $qry .= ' LIKE "' . $tablePrefix . '%"';
     }
 
     $sql = self::factory($DBID);
@@ -1213,10 +1213,10 @@ class rex_sql extends rex_factory_base implements Iterator
    * @param $DBID int Id der Datenbankverbindung
    * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
    */
-  static public function showColumns($table, $DBID=1)
+  static public function showColumns($table, $DBID = 1)
   {
     $sql = self::factory($DBID);
-    $sql->setQuery('SHOW COLUMNS FROM `'. $table .'`');
+    $sql->setQuery('SHOW COLUMNS FROM `' . $table . '`');
 
     $columns = array();
     foreach ($sql as $col)
@@ -1256,7 +1256,7 @@ class rex_sql extends rex_factory_base implements Iterator
    * @param integer $DBID
    * @return rex_sql Returns a rex_sql instance
    */
-  static public function factory($DBID=1)
+  static public function factory($DBID = 1)
   {
     $class = self::getFactoryClass();
     return new $class($DBID);
@@ -1311,7 +1311,7 @@ class rex_sql extends rex_factory_base implements Iterator
               $login,
               $pw
             );
-            if ($conn->exec('CREATE DATABASE '. $dbname) !== 1)
+            if ($conn->exec('CREATE DATABASE ' . $dbname) !== 1)
             {
               // unable to create db
               $err_msg = rex_i18n::msg('setup_021');

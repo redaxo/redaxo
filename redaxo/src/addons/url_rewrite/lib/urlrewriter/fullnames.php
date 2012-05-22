@@ -112,7 +112,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
       if ($path
       {
         0
-      }=='/')
+      } == '/')
         $path = substr($path, 1);
 
       // Parameter zählen nicht zum Pfad -> abschneiden
@@ -132,14 +132,14 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
       // konvertiert params zu GET/REQUEST Variablen
       if ($this->use_params_rewrite)
       {
-        if (strstr($path,'/+/'))
+        if (strstr($path, '/+/'))
         {
-          $tmp = explode('/+/',$path);
-          $path = $tmp[0].'/';
-          $vars = explode('/',$tmp[1]);
-          for ($c=0;$c<count($vars);$c+=2)
+          $tmp = explode('/+/', $path);
+          $path = $tmp[0] . '/';
+          $vars = explode('/', $tmp[1]);
+          for ($c = 0; $c < count($vars); $c += 2)
           {
-            if ($vars[$c]!='')
+            if ($vars[$c] != '')
             {
               $_GET[$vars[$c]] = $vars[$c+1];
               $_REQUEST[$vars[$c]] = $vars[$c+1];
@@ -167,7 +167,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
       {
         foreach (rex_clang::getAll() as $key => $var)
         {
-          if ($var.'/' == $path || $var == $path)
+          if ($var . '/' == $path || $var == $path)
           {
             $clang = $key;
           }
@@ -181,7 +181,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
         {
           foreach ($var as $k => $v)
           {
-            $levenshtein[levenshtein($path, $v)] = $key.'#'.$k;
+            $levenshtein[levenshtein($path, $v)] = $key . '#' . $k;
           }
         }
 
@@ -217,7 +217,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
         }
       }
 
-      $this->setArticleId($article_id,$clang);
+      $this->setArticleId($article_id, $clang);
     }
   }
 
@@ -247,23 +247,23 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
     // params umformatieren neue Syntax suchmaschienen freundlich
     if ($this->use_params_rewrite)
     {
-      $urlparams = str_replace($divider,'/',$urlparams);
-      $urlparams = str_replace('=','/',$urlparams);
-      $urlparams = $urlparams == '' ? '' : '/'.'+'.$urlparams.'/';
+      $urlparams = str_replace($divider, '/', $urlparams);
+      $urlparams = str_replace('=', '/', $urlparams);
+      $urlparams = $urlparams == '' ? '' : '/' . '+' . $urlparams . '/';
     }
     else
     {
-      $urlparams = $urlparams == '' ? '' : '?'.$urlparams;
+      $urlparams = $urlparams == '' ? '' : '?' . $urlparams;
     }
 
-    $urlparams = str_replace('/amp;','/',$urlparams);
-    $url = $REXPATH[$id][$clang].$urlparams;
+    $urlparams = str_replace('/amp;', '/', $urlparams);
+    $url = $REXPATH[$id][$clang] . $urlparams;
 
     $baseDir = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
     // ANDERE DIR_SEP ALS "/" ERSETZEN (WIN BACKSLASHES)
     $baseDir = str_replace(DIRECTORY_SEPARATOR, '/', $baseDir);
-    if (substr($baseDir, -1) !="/" )
-      $baseDir .= "/";
+    if (substr($baseDir, -1) != '/' )
+      $baseDir .= '/';
 
     if (rex::isBackend())
     {
@@ -272,7 +272,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
 
     // immer absolute Urls erzeugen, da relative mit rex_redirect() nicht funktionieren
     // da dieser den <base href="" /> nicht kennt.
-    return $baseDir .$url;
+    return $baseDir . $url;
   }
 
 
@@ -311,7 +311,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
       case 'ART_TO_CAT':
       case 'CAT_TO_ART':
       case 'ART_META_UPDATED':
-        $where = '(id='. $params['id'] .' AND clang='. $params['clang'] .') OR (path LIKE "%|'. $params['id'] .'|%" AND clang='. $params['clang'] .')';
+        $where = '(id=' . $params['id'] . ' AND clang=' . $params['clang'] . ') OR (path LIKE "%|' . $params['id'] . '|%" AND clang=' . $params['clang'] . ')';
         break;
       // ------- alles aktualisieren
       case 'CLANG_ADDED':
@@ -329,7 +329,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
     {
       $db = rex_sql::factory();
       // $db->debugsql=true;
-      $db->setQuery('SELECT id,clang,path,startpage FROM '. rex::getTablePrefix() .'article WHERE '. $where.' and revision=0');
+      $db->setQuery('SELECT id,clang,path,startpage FROM ' . rex::getTablePrefix() . 'article WHERE ' . $where . ' and revision=0');
 
       foreach ($db as $art)
       {
@@ -337,7 +337,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
         $pathname = '';
         if (rex_clang::count() > 1)
         {
-          $pathname = rex_clang::getName($clang).'/';
+          $pathname = rex_clang::getName($clang) . '/';
         }
 
         // pfad über kategorien bauen
@@ -369,12 +369,12 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
         unset($ooa); // speicher freigeben
         $pathname = self::appendToPath($pathname, $name);
 
-        $pathname = substr($pathname,0,strlen($pathname)-1).'.html';
+        $pathname = substr($pathname, 0, strlen($pathname)-1) . '.html';
         $REXPATH[$art->getValue('id')][$art->getValue('clang')] = $pathname;
       }
     }
 
-    rex_file::put($this->PATHLIST, "<?php\n\$REXPATH = ". var_export($REXPATH, true) .";\n");
+    rex_file::put($this->PATHLIST, "<?php\n\$REXPATH = " . var_export($REXPATH, true) . ";\n");
   }
 
   static private function appendToPath($path, $name)
@@ -382,7 +382,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
     if ($name != '')
     {
       $name = strtolower(rex_parse_article_name($name));
-      $path .= $name.'/';
+      $path .= $name . '/';
     }
     return $path;
   }

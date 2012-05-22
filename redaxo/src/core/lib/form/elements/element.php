@@ -125,12 +125,12 @@ class rex_form_element
 
   static public function _normalizeId($id)
   {
-    return preg_replace('/[^a-zA-Z\-0-9_]/i','_', $id);
+    return preg_replace('/[^a-zA-Z\-0-9_]/i', '_', $id);
   }
 
   static public function _normalizeName($name)
   {
-    return preg_replace('/[^\[\]a-zA-Z\-0-9_]/i','_', $name);
+    return preg_replace('/[^\[\]a-zA-Z\-0-9_]/i', '_', $name);
   }
 
   public function setAttribute($name, $value)
@@ -207,7 +207,7 @@ class rex_form_element
 
     if ($label != '')
     {
-      $s .= '          <label for="'. $this->getAttribute('id') .'">'. $label .'</label>'. "\n";
+      $s .= '          <label for="' . $this->getAttribute('id') . '">' . $label . '</label>' . "\n";
     }
 
     return $s;
@@ -220,17 +220,17 @@ class rex_form_element
 
     foreach ($this->getAttributes() as $attributeName => $attributeValue)
     {
-      $attr .= ' '. $attributeName .'="'. $attributeValue .'"';
+      $attr .= ' ' . $attributeName . '="' . $attributeValue . '"';
     }
 
     if ($this->hasSeparateEnding())
     {
-      return '          <'. $this->getTag(). $attr .'>'. $value .'</'. $this->getTag() .'>'. "\n";
+      return '          <' . $this->getTag() . $attr . '>' . $value . '</' . $this->getTag() . '>' . "\n";
     }
     else
     {
-      $attr .= ' value="'. $value .'"';
-      return '          <'. $this->getTag(). $attr .' />'. "\n";
+      $attr .= ' value="' . $value . '"';
+      return '          <' . $this->getTag() . $attr . ' />' . "\n";
     }
   }
 
@@ -239,7 +239,7 @@ class rex_form_element
     $notice = $this->getNotice();
     if ($notice != '')
     {
-      return '<span class="rex-form-notice" id="'. $this->getAttribute('id') .'_notice">'. $notice .'</span>';
+      return '<span class="rex-form-notice" id="' . $this->getAttribute('id') . '_notice">' . $notice . '</span>';
     }
     return '';
   }
@@ -267,14 +267,14 @@ class rex_form_element
   public function get()
   {
     $class = $this->formatClass();
-    $class = $class == '' ? '' : ' '.$class;
+    $class = $class == '' ? '' : ' ' . $class;
 
     $s = '';
     $s .= $this->getHeader();
 
-    $s .= '<div class="rex-form-data'.$class.'">
-             '. $this->wrapContent($this->_get()) .'
-           </div>'. "\n";
+    $s .= '<div class="rex-form-data' . $class . '">
+             ' . $this->wrapContent($this->_get()) . '
+           </div>' . "\n";
 
     $s .= $this->getFooter();
     return $s;

@@ -20,7 +20,7 @@ class rex_response
   {
     if (strpos($httpStatus, "\n") !== false)
     {
-      throw new rex_exception('Illegal http-status "'. $httpStatus .'", contains newlines');
+      throw new rex_exception('Illegal http-status "' . $httpStatus . '", contains newlines');
     }
 
     self::$httpStatus = $httpStatus;
@@ -38,8 +38,8 @@ class rex_response
       // TODO add a beautiful error page with usefull debugging info
       $buf = '';
       $buf .= '<pre>';
-      $buf .= 'Exception thrown in '. $exc->getFile() .' on line '. $exc->getLine()."\n\n";
-      $buf .= '<b>'. $exc->getMessage()."</b>\n";
+      $buf .= 'Exception thrown in ' . $exc->getFile() . ' on line ' . $exc->getLine() . "\n\n";
+      $buf .= '<b>' . $exc->getMessage() . "</b>\n";
       $buf .= $exc->getTraceAsString();
       $buf .= '</pre>';
 
@@ -57,11 +57,11 @@ class rex_response
   {
     if (strpos($url, "\n") !== false)
     {
-      throw new rex_exception('Illegal redirect url "'. $url .'", contains newlines');
+      throw new rex_exception('Illegal redirect url "' . $url . '", contains newlines');
     }
 
-    header('HTTP/1.1 '. self::$httpStatus);
-    header('Location: '. $url);
+    header('HTTP/1.1 ' . self::$httpStatus);
+    header('Location: ' . $url);
     exit();
   }
 
@@ -79,8 +79,8 @@ class rex_response
     $temp = rex::getProperty('use_last_modified');
     rex::setProperty('use_last_modified', true);
 
-    header('Content-Type: '. $contentType);
-    header('Content-Disposition: inline; filename="'.basename($file).'"');
+    header('Content-Type: ' . $contentType);
+    header('Content-Disposition: inline; filename="' . basename($file) . '"');
 
     $content = rex_file::get($file);
     $cacheKey = md5($content . $file . $contentType . $environment);
@@ -104,7 +104,7 @@ class rex_response
    * @param $lastModified integer HTTP Last-Modified Timestamp
    * @param $etag string Cachekey zur identifizierung des Caches
    */
-  static public function sendResource($content, $sendcharset = TRUE, $lastModified = null, $etag = null)
+  static public function sendResource($content, $sendcharset = true, $lastModified = null, $etag = null)
   {
     $environment = rex::isBackend() ? 'backend' : 'frontend';
 
@@ -130,10 +130,10 @@ class rex_response
   static public function sendArticle($content, $lastModified = null, $etagAdd = '')
   {
     $environment = rex::isBackend() ? 'backend' : 'frontend';
-    $sendcharset = TRUE;
+    $sendcharset = true;
 
     // ----- EXTENSION POINT
-    $content = rex_extension::registerPoint( 'OUTPUT_FILTER', $content, array('environment' => $environment,'sendcharset' => $sendcharset));
+    $content = rex_extension::registerPoint( 'OUTPUT_FILTER', $content, array('environment' => $environment, 'sendcharset' => $sendcharset));
 
     // dynamische teile sollen die md5 summe nicht beeinflussen
     $etag = self::md5($content . $etagAdd);
@@ -165,7 +165,7 @@ class rex_response
    * (frontend/backend)
    * @param $sendcharset boolean TRUE, wenn der Charset mitgeschickt werden soll, sonst FALSE
    */
-  static public function sendContent($content, $lastModified, $etag, $environment, $sendcharset = FALSE)
+  static public function sendContent($content, $lastModified, $etag, $environment, $sendcharset = false)
   {
     if ($sendcharset)
     {
@@ -200,11 +200,11 @@ class rex_response
     // Cachen erlauben, nach revalidierung
     // see http://xhtmlforum.de/35221-php-session-etag-header.html#post257967
     session_cache_limiter('none');
-    header('HTTP/1.1 '. self::$httpStatus);
+    header('HTTP/1.1 ' . self::$httpStatus);
     header('Cache-Control: must-revalidate, proxy-revalidate, private');
 
     // content length schicken, damit der browser einen ladebalken anzeigen kann
-    header('Content-Length: '. rex_string::size($content));
+    header('Content-Length: ' . rex_string::size($content));
 
     echo $content;
   }
@@ -249,10 +249,10 @@ class rex_response
   static protected function sendEtag($cacheKey)
   {
     // Laut HTTP Spec muss der Etag in " sein
-    $cacheKey = '"'. $cacheKey .'"';
+    $cacheKey = '"' . $cacheKey . '"';
 
     // Sende CacheKey als ETag
-    header('ETag: '. $cacheKey);
+    header('ETag: ' . $cacheKey);
 
     // CacheKey gefunden
     // => den Browser anweisen, den Cache zu verwenden
@@ -298,7 +298,7 @@ class rex_response
 
     if ($supportsGzip)
     {
-      header('Content-Encoding: '. $enc);
+      header('Content-Encoding: ' . $enc);
       $content = gzencode($content, 9, FORCE_GZIP);
     }
 
@@ -315,7 +315,7 @@ class rex_response
    */
   static protected function sendChecksum($md5)
   {
-    header('Content-MD5: '. $md5);
+    header('Content-MD5: ' . $md5);
   }
 
   static private function md5($content)

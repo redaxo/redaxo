@@ -25,7 +25,7 @@ class rex_form_restrictons_element extends rex_form_select_element
     }
     else
     {
-      trigger_error('Unexpected TablePrefix "'. $table->getPrefix() .'"!', E_USER_ERROR);
+      trigger_error('Unexpected TablePrefix "' . $table->getPrefix() . '"!', E_USER_ERROR);
       exit();
     }
 
@@ -36,7 +36,7 @@ class rex_form_restrictons_element extends rex_form_select_element
 
   public function get()
   {
-    $slctDivId = $this->getAttribute('id'). '_div';
+    $slctDivId = $this->getAttribute('id') . '_div';
 
     // Wert aus dem select in die checkbox übernehmen
     $this->chkbox_element->setValue($this->getValue());
@@ -50,17 +50,17 @@ class rex_form_restrictons_element extends rex_form_select_element
     jQuery(function($) {
 
       $("#enable_restrictions_chkbx").click(function() {
-        $("#'. $slctDivId .'").slideToggle("slow");
+        $("#' . $slctDivId . '").slideToggle("slow");
         if($(this).is(":checked"))
         {
-          $("option:selected", "#'. $slctDivId .'").each(function () {
+          $("option:selected", "#' . $slctDivId . '").each(function () {
             $(this).removeAttr("selected");
           });
         }
       });
 
       if($("#enable_restrictions_chkbx").is(":checked")) {
-        $("#'. $slctDivId .'").hide();
+        $("#' . $slctDivId . '").hide();
       }
     });
 
@@ -70,7 +70,7 @@ class rex_form_restrictons_element extends rex_form_select_element
     $html .= $this->chkbox_element->get();
 
     $element = parent :: get();
-    $html .= str_replace('class="rex-form-row"', 'id="'.$slctDivId.'" class="rex-form-row"', $element);
+    $html .= str_replace('class="rex-form-row"', 'id="' . $slctDivId . '" class="rex-form-row"', $element);
 
     return $html;
   }

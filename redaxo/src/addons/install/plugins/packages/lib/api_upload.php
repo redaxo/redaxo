@@ -28,7 +28,7 @@ class rex_api_install_packages_upload extends rex_api_function
     {
       if ($upload['upload_file'])
       {
-        $archive = rex_path::addonCache('install', md5($addonkey . time()) .'.zip');
+        $archive = rex_path::addonCache('install', md5($addonkey . time()) . '.zip');
         $exclude = array();
         if ($upload['replace_assets'])
         {
@@ -41,11 +41,11 @@ class rex_api_install_packages_upload extends rex_api_function
         rex_install_helper::copyDirToArchive(rex_path::addon($addonkey), $archive, null, $exclude);
         if ($upload['replace_assets'])
         {
-          rex_install_helper::copyDirToArchive(rex_path::addonAssets($addonkey), $archive, $addonkey .'/assets');
+          rex_install_helper::copyDirToArchive(rex_path::addonAssets($addonkey), $archive, $addonkey . '/assets');
         }
         $file['checksum'] = md5_file($archive);
       }
-      rex_install_webservice::post(rex_install_packages::getPath('?package='.$addonkey.'&file_id='.rex_request('file', 'int', 0)), array('file' => $file), $archive);
+      rex_install_webservice::post(rex_install_packages::getPath('?package=' . $addonkey . '&file_id=' . rex_request('file', 'int', 0)), array('file' => $file), $archive);
     }
     catch (rex_functional_exception $e)
     {

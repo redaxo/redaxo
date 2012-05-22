@@ -19,7 +19,7 @@ abstract class rex_form_options_element extends rex_form_element
 
   public function addOptions(array $options, $useOnlyValues = false)
   {
-    if (count($options)>0)
+    if (count($options) > 0)
     {
       foreach ($options as $key => $option)
       {

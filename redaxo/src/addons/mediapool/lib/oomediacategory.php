@@ -9,29 +9,29 @@
 class rex_ooMediaCategory
 {
   // id
-  private $_id = "";
+  private $_id = '';
   // re_id
-  private $_parent_id = "";
+  private $_parent_id = '';
 
   // name
-  private $_name = "";
+  private $_name = '';
   // path
-  private $_path = "";
+  private $_path = '';
 
   // createdate
-  private $_createdate = "";
+  private $_createdate = '';
   // updatedate
-  private $_updatedate = "";
+  private $_updatedate = '';
 
   // createuser
-  private $_createuser = "";
+  private $_createuser = '';
   // updateuser
-  private $_updateuser = "";
+  private $_updateuser = '';
 
   // child categories
-  private $_children = "";
+  private $_children = '';
   // files (media)
-  private $_files = "";
+  private $_files = '';
 
   /**
   * @access protected
@@ -49,7 +49,7 @@ class rex_ooMediaCategory
     if (!is_numeric($id))
       return null;
 
-    $cat_path = rex_path::addonCache('mediapool', $id.'.mcat');
+    $cat_path = rex_path::addonCache('mediapool', $id . '.mcat');
     if (!file_exists($cat_path))
     {
       rex_media_cache::generateCategory($id);
@@ -102,7 +102,7 @@ class rex_ooMediaCategory
 
     $catlist = array();
 
-    $catlist_path = rex_path::addonCache('mediapool', $id.'.mclist');
+    $catlist_path = rex_path::addonCache('mediapool', $id . '.mclist');
     if (!file_exists($catlist_path))
     {
       rex_media_cache::generateCategoryList($id);
@@ -160,7 +160,7 @@ class rex_ooMediaCategory
    */
   public function getPathAsArray()
   {
-    $p = explode('|',$this->_path);
+    $p = explode('|', $this->_path);
     foreach ($p as $k => $v)
     {
       if ($v == '')
@@ -294,7 +294,7 @@ class rex_ooMediaCategory
       $this->_files = array();
       $id = $this->getId();
 
-      $list_path = rex_path::addonCache('mediapool', $id.'.mlist');
+      $list_path = rex_path::addonCache('mediapool', $id . '.mlist');
       if (!file_exists($list_path))
       {
         rex_media_cache::generateList($id);

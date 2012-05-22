@@ -9,13 +9,13 @@
 */
 class rex_plugin_manager_compat extends rex_plugin_manager
 {
-  public function install($installDump = TRUE)
+  public function install($installDump = true)
   {
     $state = parent::install($installDump);
 
     // Dateien kopieren
     $files_dir = $this->package->getBasePath('files');
-    if ($state === TRUE && is_dir($files_dir))
+    if ($state === true && is_dir($files_dir))
     {
       if (!rex_dir::copy($files_dir, $this->package->getAssetsPath('', rex_path::ABSOLUTE)))
       {

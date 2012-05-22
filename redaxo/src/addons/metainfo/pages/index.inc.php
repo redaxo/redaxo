@@ -39,6 +39,6 @@ switch ($subpage)
 
 $metaTable = rex_metainfo_meta_table($prefix);
 
-require $Basedir .'/field.inc.php';
+require $Basedir . '/field.inc.php';
 
 echo '</div>';

@@ -62,7 +62,7 @@ class rex
   {
     if (!is_string($key))
     {
-      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
+      throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
     }
     $exists = isset(self::$properties[$key]);
     self::$properties[$key] = $value;
@@ -83,7 +83,7 @@ class rex
   {
     if (!is_string($key))
     {
-      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
+      throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
     }
     if (isset(self::$properties[$key]))
     {
@@ -119,7 +119,7 @@ class rex
   {
     if (!is_string($key))
     {
-      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
+      throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
     }
     $exists = isset(self::$properties[$key]);
     unset(self::$properties[$key]);
@@ -221,10 +221,10 @@ class rex
     {
       $accesskeys = (array) self::getProperty('accesskeys', array());
       if (isset($accesskeys[$key]))
-        return ' accesskey="'. $accesskeys[$key] .'" title="'. $title .' ['. $accesskeys[$key] .']"';
+        return ' accesskey="' . $accesskeys[$key] . '" title="' . $title . ' [' . $accesskeys[$key] . ']"';
     }
 
-    return ' title="'. $title .'"';
+    return ' title="' . $title . '"';
   }
 
   /**

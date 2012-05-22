@@ -23,7 +23,7 @@ rex_var::registerVar('rex_var_globals');
 rex_var::registerVar('rex_var_article');
 rex_var::registerVar('rex_var_category');
 
-require_once dirname(__FILE__). '/functions/function_rex_url.inc.php';
+require_once dirname(__FILE__) . '/functions/function_rex_url.inc.php';
 
 if (rex_request('article_id', 'int') == 0)
   rex::setProperty('article_id', rex::getProperty('start_article_id'));
@@ -45,14 +45,14 @@ rex_extension::register('CLANG_ADDED',
   function($params)
   {
     $firstLang = rex_sql::factory();
-    $firstLang->setQuery("select * from ". rex::getTablePrefix() ."article where clang='0'");
+    $firstLang->setQuery('select * from ' . rex::getTablePrefix() . "article where clang='0'");
     $fields = $firstLang->getFieldnames();
 
     $newLang = rex_sql::factory();
     // $newLang->debugsql = 1;
     foreach ($firstLang as $firstLangArt)
     {
-      $newLang->setTable(rex::getTablePrefix()."article");
+      $newLang->setTable(rex::getTablePrefix() . 'article');
 
       foreach ($fields as $key => $value)
       {
@@ -75,6 +75,6 @@ rex_extension::register('CLANG_DELETED',
   function($params)
   {
     $del = rex_sql::factory();
-    $del->setQuery("delete from ". rex::getTablePrefix() ."article where clang='". $params['id'] ."'");
+    $del->setQuery('delete from ' . rex::getTablePrefix() . "article where clang='" . $params['id'] . "'");
   }
 );

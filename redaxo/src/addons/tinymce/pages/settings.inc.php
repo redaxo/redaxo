@@ -58,7 +58,7 @@ $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'inlinepopups\'] = \'' . $rxa_tinymce['
 $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'theme\'] = \'' . $rxa_tinymce['get_theme'] . '\';
 $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'skin\'] = \'' . $rxa_tinymce['get_skin'] . '\';
 $REX[\'ADDON\'][$rxa_tinymce[\'name\']][\'extconfig\'] = "
-'. trim($rxa_tinymce['get_extconfig']) . '";
+' . trim($rxa_tinymce['get_extconfig']) . '";
     ';
 
     $filename = $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/config.inc.php';

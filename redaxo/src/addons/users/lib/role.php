@@ -76,7 +76,7 @@ class rex_user_role implements rex_user_role_interface
   static public function get($id)
   {
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT perms FROM '. rex::getTablePrefix() .'user_role WHERE id = ?', array($id));
+    $sql->setQuery('SELECT perms FROM ' . rex::getTablePrefix() . 'user_role WHERE id = ?', array($id));
     if ($sql->getRows() == 0)
     {
       return null;
@@ -87,12 +87,12 @@ class rex_user_role implements rex_user_role_interface
   static public function removeOrReplaceItem($params)
   {
     $key = $params['key'];
-    $item = '|'. $params['item'] .'|';
-    $new = isset($params['new']) ? '|'. $params['new'] .'|' : '|';
+    $item = '|' . $params['item'] . '|';
+    $new = isset($params['new']) ? '|' . $params['new'] . '|' : '|';
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT id, perms FROM '. rex::getTable('user_role'));
+    $sql->setQuery('SELECT id, perms FROM ' . rex::getTable('user_role'));
     $update = rex_sql::factory();
-    $update->prepareQuery('UPDATE '. rex::getTable('user_role') .' SET perms = ? WHERE id = ?');
+    $update->prepareQuery('UPDATE ' . rex::getTable('user_role') . ' SET perms = ? WHERE id = ?');
     foreach ($sql as $row)
     {
       $perms = json_decode($row->getValue('perms'), true);

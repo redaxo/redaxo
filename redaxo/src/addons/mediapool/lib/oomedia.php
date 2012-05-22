@@ -9,43 +9,43 @@
 class rex_ooMedia
 {
   // id
-  private $_id = "";
+  private $_id = '';
   // parent (FOR FUTURE USE!)
-  private $_parent_id = "";
+  private $_parent_id = '';
   // categoryid
-  private $_cat_id = "";
+  private $_cat_id = '';
 
   // categoryname
-  private $_cat_name = "";
+  private $_cat_name = '';
   // rex_ooMediacategory
-  private $_cat = "";
+  private $_cat = '';
 
   // filename
-  private $_name = "";
+  private $_name = '';
   // originalname
-  private $_orgname = "";
+  private $_orgname = '';
   // filetype
-  private $_type = "";
+  private $_type = '';
   // filesize
-  private $_size = "";
+  private $_size = '';
 
   // filewidth
-  private $_width = "";
+  private $_width = '';
   // fileheight
-  private $_height = "";
+  private $_height = '';
 
   // filetitle
-  private $_title = "";
+  private $_title = '';
 
   // updatedate
-  private $_updatedate = "";
+  private $_updatedate = '';
   // createdate
-  private $_createdate = "";
+  private $_createdate = '';
 
   // updateuser
-  private $_updateuser = "";
+  private $_updateuser = '';
   // createuser
-  private $_createuser = "";
+  private $_createuser = '';
 
   /**
    * @access protected
@@ -70,7 +70,7 @@ class rex_ooMedia
    */
   static public function getMediaByExtension($extension)
   {
-    $extlist_path = rex_path::addonCache('mediapool', $extension.'.mextlist');
+    $extlist_path = rex_path::addonCache('mediapool', $extension . '.mextlist');
     if (!file_exists($extlist_path))
     {
       rex_media_cache::generateExtensionList($extension);
@@ -100,7 +100,7 @@ class rex_ooMedia
     if ($name == '')
       return null;
 
-    $media_path = rex_path::addonCache('mediapool', $name.'.media');
+    $media_path = rex_path::addonCache('mediapool', $name . '.media');
     if (!file_exists($media_path))
     {
       rex_media_cache::generate($name);
@@ -123,9 +123,9 @@ class rex_ooMedia
       foreach ($cache as $key => $value)
       {
         if (in_array($key, array_keys($aliasMap)))
-          $var_name = '_'. $aliasMap[$key];
+          $var_name = '_' . $aliasMap[$key];
         else
-          $var_name = '_'. $key;
+          $var_name = '_' . $key;
 
         $media->$var_name = $value;
       }
@@ -135,7 +135,7 @@ class rex_ooMedia
       return $media;
     }
 
-    return NULL;
+    return null;
   }
 
   /**
@@ -252,7 +252,7 @@ class rex_ooMedia
    */
   public function getFullPath()
   {
-    return $this->getPath().'/'.$this->getFileName();
+    return $this->getPath() . '/' . $this->getFileName();
   }
 
   /**
@@ -430,7 +430,7 @@ class rex_ooMedia
       // Bild resizen?
       if ($resize)
       {
-        $file = rex_path::frontendController('?rex_resize='.$resizeParam.$resizeMode.'__'.$this->getFileName());
+        $file = rex_path::frontendController('?rex_resize=' . $resizeParam . $resizeMode . '__' . $this->getFileName());
       }
       else
       {
@@ -463,7 +463,7 @@ class rex_ooMedia
     $additional = '';
     foreach ($params as $name => $value)
     {
-      $additional .= ' '.$name.'="'.$value.'"';
+      $additional .= ' ' . $name . '="' . $value . '"';
     }
 
     return sprintf('<img src="%s"%s />', $file, $additional);
@@ -487,7 +487,7 @@ class rex_ooMedia
 
     if (!isset($iconAttributes['alt']))
     {
-      $iconAttributes['alt'] = '&quot;'. $ext .'&quot;-Symbol';
+      $iconAttributes['alt'] = '&quot;' . $ext . '&quot;-Symbol';
     }
 
     if (!isset($iconAttributes['title']))
@@ -503,10 +503,10 @@ class rex_ooMedia
     $attrs = '';
     foreach ($iconAttributes as $attrName => $attrValue)
     {
-      $attrs .= ' '.$attrName.'="'.$attrValue.'"';
+      $attrs .= ' ' . $attrName . '="' . $attrValue . '"';
     }
 
-    return '<img src="'.$icon.'"'.$attrs.' />';
+    return '<img src="' . $icon . '"' . $attrs . ' />';
   }
 
   /**
@@ -562,22 +562,22 @@ class rex_ooMedia
     $values = array();
     for ($i = 1; $i < 21; $i++)
     {
-      $values[] = 'value'.$i.' LIKE "%'.$likeFilename.'%"';
+      $values[] = 'value' . $i . ' LIKE "%' . $likeFilename . '%"';
     }
 
     $files = array();
     $filelists = array();
     for ($i = 1; $i < 11; $i++)
     {
-      $files[] = 'file'.$i.'="'.$filename.'"';
-      $filelists[] = '(filelist'.$i.' = "'.$filename.'" OR filelist'.$i.' LIKE "'.$likeFilename.',%" OR filelist'.$i.' LIKE "%,'.$likeFilename.',%" OR filelist'.$i.' LIKE "%,'.$likeFilename.'" ) ';
+      $files[] = 'file' . $i . '="' . $filename . '"';
+      $filelists[] = '(filelist' . $i . ' = "' . $filename . '" OR filelist' . $i . ' LIKE "' . $likeFilename . ',%" OR filelist' . $i . ' LIKE "%,' . $likeFilename . ',%" OR filelist' . $i . ' LIKE "%,' . $likeFilename . '" ) ';
     }
 
     $where = '';
-    $where .= implode(' OR ', $files).' OR ';
-    $where .= implode(' OR ', $filelists) .' OR ';
+    $where .= implode(' OR ', $files) . ' OR ';
+    $where .= implode(' OR ', $filelists) . ' OR ';
     $where .= implode(' OR ', $values);
-    $query = 'SELECT DISTINCT article_id, clang FROM '.rex::getTablePrefix().'article_slice WHERE '. $where;
+    $query = 'SELECT DISTINCT article_id, clang FROM ' . rex::getTablePrefix() . 'article_slice WHERE ' . $where;
 
     // deprecated since REX 4.3
     // ----- EXTENSION POINT
@@ -592,14 +592,14 @@ class rex_ooMedia
     $res = $sql->getArray($query);
     if ($sql->getRows() > 0)
     {
-      $warning[0] = rex_i18n::msg('pool_file_in_use_articles').'<br /><ul>';
+      $warning[0] = rex_i18n::msg('pool_file_in_use_articles') . '<br /><ul>';
       foreach ($res as $art_arr)
       {
         $aid = $art_arr['article_id'];
         $clang = $art_arr['clang'];
         $ooa = rex_ooArticle::getArticleById($aid, $clang);
         $name = $ooa->getName();
-        $warning[0] .='<li><a href="javascript:openPage(\'index.php?page=content&amp;article_id='. $aid .'&amp;mode=edit&amp;clang='. $clang .'\')">'. $name .'</a></li>';
+        $warning[0] .= '<li><a href="javascript:openPage(\'index.php?page=content&amp;article_id=' . $aid . '&amp;mode=edit&amp;clang=' . $clang . '\')">' . $name . '</a></li>';
       }
       $warning[0] .= '</ul>';
     }
@@ -646,7 +646,7 @@ class rex_ooMedia
         }
       default :
         {
-          return 'No html-equivalent available for type "'.$filetype.'"';
+          return 'No html-equivalent available for type "' . $filetype . '"';
         }
     }
   }
@@ -656,7 +656,7 @@ class rex_ooMedia
    */
   public function toString()
   {
-    return 'rex_ooMedia, "'.$this->getId().'", "'.$this->getFileName().'"'."<br/>\n";
+    return 'rex_ooMedia, "' . $this->getId() . '", "' . $this->getFileName() . '"' . "<br/>\n";
   }
 
   // new functions by vscope
@@ -675,15 +675,15 @@ class rex_ooMedia
   {
     $ext = $this->getExtension();
     $folder = rex_path::pluginAssets('be_style', 'base_old', '');
-    $icon = $folder .'mime-'.$ext.'.gif';
+    $icon = $folder . 'mime-' . $ext . '.gif';
 
     // Dateityp für den kein Icon vorhanden ist
     if (!file_exists($icon))
     {
       if ($useDefaultIcon)
-        $icon = $folder.'mime-default.gif';
+        $icon = $folder . 'mime-default.gif';
       else
-        $icon = $folder.'mime-error.gif';
+        $icon = $folder . 'mime-error.gif';
     }
     return $icon;
   }
@@ -693,7 +693,7 @@ class rex_ooMedia
    */
   static public function _getTableName()
   {
-    return rex::getTablePrefix().'media';
+    return rex::getTablePrefix() . 'media';
   }
 
   /**
@@ -750,7 +750,7 @@ class rex_ooMedia
     }
     else
     {
-      $qry = 'DELETE FROM '.$this->_getTableName().' WHERE media_id = '.$this->getId().' LIMIT 1';
+      $qry = 'DELETE FROM ' . $this->_getTableName() . ' WHERE media_id = ' . $this->getId() . ' LIMIT 1';
       $sql = rex_sql::factory();
       $sql->setQuery($qry);
 
@@ -851,7 +851,7 @@ class rex_ooMedia
   {
     if (substr($value, 0, 1) != '_')
     {
-      $value = "_".$value;
+      $value = '_' . $value;
     }
     return isset($this->$value);
   }
@@ -860,7 +860,7 @@ class rex_ooMedia
   {
     if (substr($value, 0, 1) != '_')
     {
-      $value = "_".$value;
+      $value = '_' . $value;
     }
 
     // Extra-Abfrage, da die Variable _cat_name erst in getCategoryName() gesetzt wird
@@ -875,9 +875,9 @@ class rex_ooMedia
     {
       return $this->$value;
     }
-    elseif ($this->hasValue('med'. $value))
+    elseif ($this->hasValue('med' . $value))
     {
-      return $this->getValue('med'. $value);
+      return $this->getValue('med' . $value);
     }
   }
 
@@ -889,17 +889,17 @@ class rex_ooMedia
   static public function getMediaById($id)
   {
     $id = (int) $id;
-    if ($id==0)
+    if ($id == 0)
       return null;
 
     $sql = rex_sql::factory();
     // $sql->debugsql = true;
-    $sql->setQuery('SELECT filename FROM ' . self :: _getTableName() . ' WHERE media_id='.$id);
+    $sql->setQuery('SELECT filename FROM ' . self :: _getTableName() . ' WHERE media_id=' . $id);
     if ($sql->getRows() == 1)
     {
       return self :: getMediaByFileName($sql->getValue('filename'));
     }
 
-    return NULL;
+    return null;
   }
 }

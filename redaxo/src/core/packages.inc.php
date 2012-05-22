@@ -24,19 +24,19 @@ foreach ($packageOrder as $packageId)
   $folder = $package->getBasePath();
 
   // add package path for fragment loading
-  if (is_readable($folder .'fragments'))
+  if (is_readable($folder . 'fragments'))
   {
-    rex_fragment::addDirectory($folder .'fragments'.DIRECTORY_SEPARATOR);
+    rex_fragment::addDirectory($folder . 'fragments' . DIRECTORY_SEPARATOR);
   }
   // add addon path for class-loading
-  if (is_readable($folder .'lib'))
+  if (is_readable($folder . 'lib'))
   {
-    rex_autoload::addDirectory($folder .'lib'.DIRECTORY_SEPARATOR);
+    rex_autoload::addDirectory($folder . 'lib' . DIRECTORY_SEPARATOR);
   }
   // add addon path for i18n
-  if (is_readable($folder .'lang'))
+  if (is_readable($folder . 'lang'))
   {
-    rex_i18n::addDirectory($folder .'lang');
+    rex_i18n::addDirectory($folder . 'lang');
   }
 }
 
@@ -47,7 +47,7 @@ foreach ($packageOrder as $packageId)
   $folder = $package->getBasePath();
 
   // include the addon itself
-  if (is_readable($folder .'config.inc.php'))
+  if (is_readable($folder . 'config.inc.php'))
   {
     rex_package_manager::includeFile($package, rex_package_manager::CONFIG_FILE);
   }

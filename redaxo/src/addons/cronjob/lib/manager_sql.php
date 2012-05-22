@@ -59,7 +59,7 @@ class rex_cronjob_manager_sql
   {
     $this->sql->setQuery('
       SELECT  name
-      FROM    '. REX_CRONJOB_TABLE .'
+      FROM    ' . REX_CRONJOB_TABLE . '
       WHERE   id = ?
       LIMIT   1
     ', array($id));
@@ -104,14 +104,14 @@ class rex_cronjob_manager_sql
     // $sql->setDebug();
     $sql->setQuery('
       SELECT    id, name, type, parameters, `interval`, execution_moment
-      FROM      '. REX_CRONJOB_TABLE .'
+      FROM      ' . REX_CRONJOB_TABLE . '
       WHERE     status = 1
         AND     execution_start < ?
         AND     environment LIKE ?
         AND     nexttime <= ?
       ORDER BY  nexttime ASC, execution_moment DESC, name ASC
       LIMIT     1
-    ', array(time() - 2 * ini_get('max_execution_time'), '%|'. (int)rex::isBackend() .'|%', time()));
+    ', array(time() - 2 * ini_get('max_execution_time'), '%|' . (int)rex::isBackend() . '|%', time()));
     if ($sql->getRows() != 0)
     {
       ignore_user_abort(true);
@@ -159,10 +159,10 @@ class rex_cronjob_manager_sql
     $sql = rex_sql::factory();
     $sql->setQuery('
       SELECT    id, name, type, parameters, `interval`
-      FROM      '. REX_CRONJOB_TABLE .'
+      FROM      ' . REX_CRONJOB_TABLE . '
       WHERE     id = ? AND environment LIKE ?
       LIMIT     1
-    ', array($id, '%|'. (int)rex::isBackend() .'|%'));
+    ', array($id, '%|' . (int)rex::isBackend() . '|%'));
     if ($sql->getRows() != 1)
     {
       $this->getManager()->setMessage('Cronjob not found in database');
@@ -197,7 +197,7 @@ class rex_cronjob_manager_sql
     $nexttime = $this->_calculateNextTime($interval);
     $add = $resetExecutionStart ? ', execution_start = 0' : '';
     $success = $this->sql->setQuery('
-      UPDATE  '. REX_CRONJOB_TABLE .'
+      UPDATE  ' . REX_CRONJOB_TABLE . '
       SET     nexttime = ?
       WHERE   id = ?
     ', array($nexttime . $add, $id));
@@ -209,7 +209,7 @@ class rex_cronjob_manager_sql
   {
     $this->sql->setQuery('
       SELECT  MIN(nexttime) AS nexttime
-      FROM    '. REX_CRONJOB_TABLE .'
+      FROM    ' . REX_CRONJOB_TABLE . '
       WHERE   status = 1
     ');
     if ($this->sql->getRows() == 1)

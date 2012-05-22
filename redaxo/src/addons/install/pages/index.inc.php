@@ -8,7 +8,7 @@ if ($subpage != 'settings' && !$this->getPlugin($subpage)->isAvailable())
 {
   foreach ($this->getAvailablePlugins() as $plugin)
   {
-    header('Location: index.php?page=install&subpage='. $plugin->getName());
+    header('Location: index.php?page=install&subpage=' . $plugin->getName());
     exit;
   }
 }
@@ -29,7 +29,7 @@ elseif ($this->getPlugin($subpage)->isAvailable())
     {
       $n = array();
       $n['title'] = $page[1];
-      $n['href'] = 'index.php?page=install&subpage='.$subpage.'&subsubpage='.$page[0];
+      $n['href'] = 'index.php?page=install&subpage=' . $subpage . '&subsubpage=' . $page[0];
       if ($page[0] == $subsubpage)
       {
         $n['itemClasses'] = array('rex-active');

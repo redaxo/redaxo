@@ -78,7 +78,7 @@ class rex_install_packages
 
   static public function getPath($path = '')
   {
-    return 'packages/'. $path;
+    return 'packages/' . $path;
   }
 
   static private function getPackages($path = '')

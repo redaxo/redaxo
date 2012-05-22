@@ -50,9 +50,9 @@ class rex_cronjob_manager
     if (!$success)
     {
       if (is_object($cronjob))
-        $message = 'Invalid cronjob class "'. get_class($cronjob) .'"';
+        $message = 'Invalid cronjob class "' . get_class($cronjob) . '"';
       else
-        $message = 'Class "'. $cronjob .'" not found';
+        $message = 'Class "' . $cronjob . '" not found';
     }
     else
     {
@@ -63,7 +63,7 @@ class rex_cronjob_manager
       if (is_array($params))
       {
         foreach ($params as $key => $value)
-          $cronjob->setParam(str_replace($type.'_', '', $key), $value);
+          $cronjob->setParam(str_replace($type . '_', '', $key), $value);
       }
       $success = $cronjob->execute();
       $message = $cronjob->getMessage();

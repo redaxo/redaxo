@@ -6,7 +6,7 @@ class rex_form_perm_select_element extends rex_form_select_element
 
   public function getSaveValue()
   {
-    if (strpos($this->getValue(), '|'. rex_complex_perm::ALL .'|') !== false)
+    if (strpos($this->getValue(), '|' . rex_complex_perm::ALL . '|') !== false)
     {
       return rex_complex_perm::ALL;
     }
@@ -25,7 +25,7 @@ class rex_form_perm_select_element extends rex_form_select_element
     $field->setAttribute('id', $this->getAttribute('id'));
     if ($this->getValue() == rex_complex_perm::ALL)
     {
-      $field->setValue('|'. rex_complex_perm::ALL .'|');
+      $field->setValue('|' . rex_complex_perm::ALL . '|');
     }
     $field->addOption($this->checkboxLabel, rex_complex_perm::ALL);
     $this->setAttribute('class', 'rex-form-select');

@@ -135,19 +135,19 @@ class SimplePie_Cache_DB
 
       if (isset($data->data['child'][SIMPLEPIE_NAMESPACE_ATOM_10]['feed'][0]))
       {
-        $channel =& $data->data['child'][SIMPLEPIE_NAMESPACE_ATOM_10]['feed'][0];
+        $channel = & $data->data['child'][SIMPLEPIE_NAMESPACE_ATOM_10]['feed'][0];
       }
       elseif (isset($data->data['child'][SIMPLEPIE_NAMESPACE_ATOM_03]['feed'][0]))
       {
-        $channel =& $data->data['child'][SIMPLEPIE_NAMESPACE_ATOM_03]['feed'][0];
+        $channel = & $data->data['child'][SIMPLEPIE_NAMESPACE_ATOM_03]['feed'][0];
       }
       elseif (isset($data->data['child'][SIMPLEPIE_NAMESPACE_RDF]['RDF'][0]))
       {
-        $channel =& $data->data['child'][SIMPLEPIE_NAMESPACE_RDF]['RDF'][0];
+        $channel = & $data->data['child'][SIMPLEPIE_NAMESPACE_RDF]['RDF'][0];
       }
       elseif (isset($data->data['child'][SIMPLEPIE_NAMESPACE_RSS_20]['rss'][0]['child'][SIMPLEPIE_NAMESPACE_RSS_20]['channel'][0]))
       {
-        $channel =& $data->data['child'][SIMPLEPIE_NAMESPACE_RSS_20]['rss'][0]['child'][SIMPLEPIE_NAMESPACE_RSS_20]['channel'][0];
+        $channel = & $data->data['child'][SIMPLEPIE_NAMESPACE_RSS_20]['rss'][0]['child'][SIMPLEPIE_NAMESPACE_RSS_20]['channel'][0];
       }
       else
       {
@@ -449,19 +449,19 @@ class SimplePie_Cache_MySQL extends SimplePie_Cache_DB
       {
         if (isset($data['child'][SIMPLEPIE_NAMESPACE_ATOM_10]['feed'][0]))
         {
-          $feed =& $data['child'][SIMPLEPIE_NAMESPACE_ATOM_10]['feed'][0];
+          $feed = & $data['child'][SIMPLEPIE_NAMESPACE_ATOM_10]['feed'][0];
         }
         elseif (isset($data['child'][SIMPLEPIE_NAMESPACE_ATOM_03]['feed'][0]))
         {
-          $feed =& $data['child'][SIMPLEPIE_NAMESPACE_ATOM_03]['feed'][0];
+          $feed = & $data['child'][SIMPLEPIE_NAMESPACE_ATOM_03]['feed'][0];
         }
         elseif (isset($data['child'][SIMPLEPIE_NAMESPACE_RDF]['RDF'][0]))
         {
-          $feed =& $data['child'][SIMPLEPIE_NAMESPACE_RDF]['RDF'][0];
+          $feed = & $data['child'][SIMPLEPIE_NAMESPACE_RDF]['RDF'][0];
         }
         elseif (isset($data['child'][SIMPLEPIE_NAMESPACE_RSS_20]['rss'][0]))
         {
-          $feed =& $data['child'][SIMPLEPIE_NAMESPACE_RSS_20]['rss'][0];
+          $feed = & $data['child'][SIMPLEPIE_NAMESPACE_RSS_20]['rss'][0];
         }
         else
         {
@@ -1421,7 +1421,7 @@ class SimplePie_Core
     if (is_a($file, 'SimplePie_File'))
     {
       $this->feed_url = $file->url;
-      $this->file =& $file;
+      $this->file = & $file;
       return true;
     }
     return false;
@@ -1875,7 +1875,7 @@ class SimplePie_Core
                   $headers['if-none-match'] = '"' . $this->data['headers']['etag'] . '"';
                 }
 
-                $file = new $this->file_class($this->feed_url, $this->timeout/10, 5, $headers, $this->useragent, $this->force_fsockopen);
+                $file = new $this->file_class($this->feed_url, $this->timeout / 10, 5, $headers, $this->useragent, $this->force_fsockopen);
 
                 if ($file->success)
                 {
@@ -1910,7 +1910,7 @@ class SimplePie_Core
         {
           if (is_a($this->file, 'SimplePie_File') && $this->file->url === $this->feed_url)
           {
-            $file =& $this->file;
+            $file = & $this->file;
           }
           else
           {
@@ -1952,7 +1952,7 @@ class SimplePie_Core
             }
             else
             {
-              $this->error = "A feed could not be found at $this->feed_url. A feed with an invalid mime type may fall victim to this error, or " . SIMPLEPIE_NAME . " was unable to auto-discover it.. Use force_feed() if you are certain this URL is a real feed.";
+              $this->error = "A feed could not be found at $this->feed_url. A feed with an invalid mime type may fall victim to this error, or " . SIMPLEPIE_NAME . ' was unable to auto-discover it.. Use force_feed() if you are certain this URL is a real feed.';
               SimplePie_Misc::error($this->error, E_USER_NOTICE, __FILE__, __LINE__);
               return false;
             }
@@ -2665,16 +2665,16 @@ class SimplePie_Core
           if (isset($this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key]))
           {
             $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] = array_merge($this->data['links'][$key], $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key]);
-            $this->data['links'][$key] =& $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key];
+            $this->data['links'][$key] = & $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key];
           }
           else
           {
-            $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] =& $this->data['links'][$key];
+            $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] = & $this->data['links'][$key];
           }
         }
         elseif (substr($key, 0, 41) === SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY)
         {
-          $this->data['links'][substr($key, 41)] =& $this->data['links'][$key];
+          $this->data['links'][substr($key, 41)] = & $this->data['links'][$key];
         }
         $this->data['links'][$key] = array_unique($this->data['links'][$key]);
       }
@@ -3800,7 +3800,7 @@ class SimplePie_Enclosure
     $length = $this->get_length();
     if ($length !== null)
     {
-      return round($length/1048576, 2);
+      return round($length / 1048576, 2);
     }
     else
     {
@@ -3869,7 +3869,7 @@ class SimplePie_Enclosure
     }
   }
 
-  public function native_embed($options='')
+  public function native_embed($options = '')
   {
     return $this->embed($options, true);
   }
@@ -3963,11 +3963,11 @@ class SimplePie_Enclosure
         }
         elseif ($widescreen)
         {
-          $width = round((intval($height)/9)*16);
+          $width = round((intval($height) / 9) * 16);
         }
         else
         {
-          $width = round((intval($height)/3)*4);
+          $width = round((intval($height) / 3) * 4);
         }
       }
       else
@@ -3997,11 +3997,11 @@ class SimplePie_Enclosure
         }
         elseif ($widescreen)
         {
-          $height = round((intval($width)/16)*9);
+          $height = round((intval($width) / 16) * 9);
         }
         else
         {
-          $height = round((intval($width)/4)*3);
+          $height = round((intval($width) / 4) * 3);
         }
       }
       else
@@ -4064,11 +4064,11 @@ class SimplePie_Enclosure
       $height += 20;
       if ($native)
       {
-        $embed .= "<embed src=\"$mediaplayer\" pluginspage=\"http://adobe.com/go/getflashplayer\" type=\"application/x-shockwave-flash\" quality=\"high\" width=\"$width\" height=\"$height\" wmode=\"transparent\" flashvars=\"file=" . rawurlencode($this->get_link().'?file_extension=.'.$this->get_extension()) . "&autostart=false&repeat=$loop&showdigits=true&showfsbutton=false\"></embed>";
+        $embed .= "<embed src=\"$mediaplayer\" pluginspage=\"http://adobe.com/go/getflashplayer\" type=\"application/x-shockwave-flash\" quality=\"high\" width=\"$width\" height=\"$height\" wmode=\"transparent\" flashvars=\"file=" . rawurlencode($this->get_link() . '?file_extension=.' . $this->get_extension()) . "&autostart=false&repeat=$loop&showdigits=true&showfsbutton=false\"></embed>";
       }
       else
       {
-        $embed .= "<script type='text/javascript'>embed_flv('$width', '$height', '" . rawurlencode($this->get_link().'?file_extension=.'.$this->get_extension()) . "', '$placeholder', '$loop', '$mediaplayer');</script>";
+        $embed .= "<script type='text/javascript'>embed_flv('$width', '$height', '" . rawurlencode($this->get_link() . '?file_extension=.' . $this->get_extension()) . "', '$placeholder', '$loop', '$mediaplayer');</script>";
       }
     }
 
@@ -4117,7 +4117,7 @@ class SimplePie_Enclosure
       return 'odeo';
     }
 
-        $types_flash = array('application/x-shockwave-flash', 'application/futuresplash');     $types_fmedia = array('video/flv', 'video/x-flv','flv-application/octet-stream');     $types_quicktime = array('audio/3gpp', 'audio/3gpp2', 'audio/aac', 'audio/x-aac', 'audio/aiff', 'audio/x-aiff', 'audio/mid', 'audio/midi', 'audio/x-midi', 'audio/mp4', 'audio/m4a', 'audio/x-m4a', 'audio/wav', 'audio/x-wav', 'video/3gpp', 'video/3gpp2', 'video/m4v', 'video/x-m4v', 'video/mp4', 'video/mpeg', 'video/x-mpeg', 'video/quicktime', 'video/sd-video');     $types_wmedia = array('application/asx', 'application/x-mplayer2', 'audio/x-ms-wma', 'audio/x-ms-wax', 'video/x-ms-asf-plugin', 'video/x-ms-asf', 'video/x-ms-wm', 'video/x-ms-wmv', 'video/x-ms-wvx');     $types_mp3 = array('audio/mp3', 'audio/x-mp3', 'audio/mpeg', 'audio/x-mpeg');
+        $types_flash = array('application/x-shockwave-flash', 'application/futuresplash');     $types_fmedia = array('video/flv', 'video/x-flv', 'flv-application/octet-stream');     $types_quicktime = array('audio/3gpp', 'audio/3gpp2', 'audio/aac', 'audio/x-aac', 'audio/aiff', 'audio/x-aiff', 'audio/mid', 'audio/midi', 'audio/x-midi', 'audio/mp4', 'audio/m4a', 'audio/x-m4a', 'audio/wav', 'audio/x-wav', 'video/3gpp', 'video/3gpp2', 'video/m4v', 'video/x-m4v', 'video/mp4', 'video/mpeg', 'video/x-mpeg', 'video/quicktime', 'video/sd-video');     $types_wmedia = array('application/asx', 'application/x-mplayer2', 'audio/x-ms-wma', 'audio/x-ms-wax', 'video/x-ms-asf-plugin', 'video/x-ms-asf', 'video/x-ms-wm', 'video/x-ms-wmv', 'video/x-ms-wvx');     $types_mp3 = array('audio/mp3', 'audio/x-mp3', 'audio/mpeg', 'audio/x-mpeg');
     if ($this->get_type() !== null)
     {
       $type = strtolower($this->type);
@@ -4425,7 +4425,7 @@ class SimplePie_File
 
           if (isset($url_parts['user']) && isset($url_parts['pass']))
           {
-            $out .= "Authorization: Basic " . base64_encode("$url_parts[user]:$url_parts[pass]") . "\r\n";
+            $out .= 'Authorization: Basic ' . base64_encode("$url_parts[user]:$url_parts[pass]") . "\r\n";
           }
           foreach ($headers as $key => $value)
           {
@@ -5257,7 +5257,7 @@ class SimplePie_IRI
       }
             else
       {
-        $replacement = sprintf("%%%02X", ord($string[$position]));
+        $replacement = sprintf('%%%02X', ord($string[$position]));
         $string = str_replace($string[$position], $replacement, $string);
         $strlen = strlen($string);
       }
@@ -6193,16 +6193,16 @@ class SimplePie_Item
           if (isset($this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key]))
           {
             $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] = array_merge($this->data['links'][$key], $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key]);
-            $this->data['links'][$key] =& $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key];
+            $this->data['links'][$key] = & $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key];
           }
           else
           {
-            $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] =& $this->data['links'][$key];
+            $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] = & $this->data['links'][$key];
           }
         }
         elseif (substr($key, 0, 41) === SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY)
         {
-          $this->data['links'][substr($key, 41)] =& $this->data['links'][$key];
+          $this->data['links'][substr($key, 41)] = & $this->data['links'][$key];
         }
         $this->data['links'][$key] = array_unique($this->data['links'][$key]);
       }
@@ -6543,7 +6543,7 @@ class SimplePie_Item
           {
             $algo = 'md5';
           }
-          $hashes_parent[] = $algo.':'.$value;
+          $hashes_parent[] = $algo . ':' . $value;
         }
       }
       elseif ($hashes_iterator = $parent->get_channel_tags(SIMPLEPIE_NAMESPACE_MEDIARSS, 'hash'))
@@ -6564,7 +6564,7 @@ class SimplePie_Item
           {
             $algo = 'md5';
           }
-          $hashes_parent[] = $algo.':'.$value;
+          $hashes_parent[] = $algo . ':' . $value;
         }
       }
       if (is_array($hashes_parent))
@@ -7218,7 +7218,7 @@ class SimplePie_Item
                   {
                     $algo = 'md5';
                   }
-                  $hashes[] = $algo.':'.$value;
+                  $hashes[] = $algo . ':' . $value;
                 }
                 if (is_array($hashes))
                 {
@@ -7243,7 +7243,7 @@ class SimplePie_Item
                   {
                     $algo = 'md5';
                   }
-                  $hashes[] = $algo.':'.$value;
+                  $hashes[] = $algo . ':' . $value;
                 }
                 if (is_array($hashes))
                 {
@@ -7719,7 +7719,7 @@ class SimplePie_Item
                 {
                   $algo = 'md5';
                 }
-                $hashes[] = $algo.':'.$value;
+                $hashes[] = $algo . ':' . $value;
               }
               if (is_array($hashes))
               {
@@ -8039,7 +8039,7 @@ class SimplePie_Locator
 
   public function __construct(&$file, $timeout = 10, $useragent = null, $file_class = 'SimplePie_File', $max_checked_feeds = 10, $content_type_sniffer_class = 'SimplePie_Content_Type_Sniffer')
   {
-    $this->file =& $file;
+    $this->file = & $file;
     $this->file_class = $file_class;
     $this->useragent = $useragent;
     $this->timeout = $timeout;
@@ -8293,7 +8293,7 @@ class SimplePie_Misc
     $remainder = $seconds % 3600;
     if ($hours > 0)
     {
-      $time .= $hours.':';
+      $time .= $hours . ':';
     }
 
     $minutes = floor($remainder / 60);
@@ -8307,7 +8307,7 @@ class SimplePie_Misc
       $seconds = '0' . $seconds;
     }
 
-    $time .= $minutes.':';
+    $time .= $minutes . ':';
     $time .= $seconds;
 
     return $time;
@@ -11571,8 +11571,8 @@ class SimplePie_Parser
     }
     else
     {
-      $this->datas[] =& $this->data;
-      $this->data =& $this->data['child'][end($this->namespace)][end($this->element)][];
+      $this->datas[] = & $this->data;
+      $this->data = & $this->data['child'][end($this->namespace)][end($this->element)][];
       $this->data = array('data' => '', 'attribs' => $attribs, 'xml_base' => end($this->xml_base), 'xml_base_explicit' => end($this->xml_base_explicit), 'xml_lang' => end($this->xml_lang));
       if ((end($this->namespace) === SIMPLEPIE_NAMESPACE_ATOM_03 && in_array(end($this->element), array('title', 'tagline', 'copyright', 'info', 'summary', 'content')) && isset($attribs['']['mode']) && $attribs['']['mode'] === 'xml')
       || (end($this->namespace) === SIMPLEPIE_NAMESPACE_ATOM_10 && in_array(end($this->element), array('rights', 'subtitle', 'summary', 'info', 'title', 'content')) && isset($attribs['']['type']) && $attribs['']['type'] === 'xhtml'))
@@ -11606,7 +11606,7 @@ class SimplePie_Parser
     }
     if ($this->current_xhtml_construct === -1)
     {
-      $this->data =& $this->datas[count($this->datas) - 1];
+      $this->data = & $this->datas[count($this->datas) - 1];
       array_pop($this->datas);
     }
 
@@ -12469,16 +12469,16 @@ class SimplePie_Source
           if (isset($this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key]))
           {
             $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] = array_merge($this->data['links'][$key], $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key]);
-            $this->data['links'][$key] =& $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key];
+            $this->data['links'][$key] = & $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key];
           }
           else
           {
-            $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] =& $this->data['links'][$key];
+            $this->data['links'][SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY . $key] = & $this->data['links'][$key];
           }
         }
         elseif (substr($key, 0, 41) === SIMPLEPIE_IANA_LINK_RELATIONS_REGISTRY)
         {
-          $this->data['links'][substr($key, 41)] =& $this->data['links'][$key];
+          $this->data['links'][substr($key, 41)] = & $this->data['links'][$key];
         }
         $this->data['links'][$key] = array_unique($this->data['links'][$key]);
       }

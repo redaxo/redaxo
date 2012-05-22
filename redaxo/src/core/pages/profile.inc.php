@@ -20,7 +20,7 @@ $userlogin = $user->getUserLogin();
 
 // --------------------------------- Title
 
-echo rex_view::title(rex_i18n::msg('profile_title'),'');
+echo rex_view::title(rex_i18n::msg('profile_title'), '');
 
 // --------------------------------- BE LANG
 
@@ -28,15 +28,15 @@ echo rex_view::title(rex_i18n::msg('profile_title'),'');
 $sel_be_sprache = new rex_select;
 $sel_be_sprache->setStyle('class="rex-form-select"');
 $sel_be_sprache->setSize(1);
-$sel_be_sprache->setName("userperm_be_sprache");
-$sel_be_sprache->setId("userperm-mylang");
-$sel_be_sprache->addOption("default","");
+$sel_be_sprache->setName('userperm_be_sprache');
+$sel_be_sprache->setId('userperm-mylang');
+$sel_be_sprache->addOption('default', '');
 
 $saveLocale = rex_i18n::getLocale();
 $langs = array();
 foreach (rex_i18n::getLocales() as $locale)
 {
-  rex_i18n::setLocale($locale,FALSE); // Locale nicht neu setzen
+  rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
   $sel_be_sprache->addOption(rex_i18n::msg('lang'), $locale);
 }
 rex_i18n::setLocale($saveLocale, false);
@@ -49,10 +49,10 @@ $sel_be_sprache->setSelected($userperm_be_sprache);
 if (rex_post('upd_profile_button', 'string'))
 {
   $updateuser = rex_sql::factory();
-  $updateuser->setTable(rex::getTablePrefix().'user');
+  $updateuser->setTable(rex::getTablePrefix() . 'user');
   $updateuser->setWhere(array('user_id' => $user_id));
-  $updateuser->setValue('name',$username);
-  $updateuser->setValue('description',$userdesc);
+  $updateuser->setValue('name', $username);
+  $updateuser->setValue('description', $userdesc);
   $updateuser->setValue('language', $userperm_be_sprache);
 
   $updateuser->addGlobalUpdateFields();
@@ -72,7 +72,7 @@ if (rex_post('upd_profile_button', 'string'))
 if (rex_post('upd_psw_button', 'string'))
 {
   $updateuser = rex_sql::factory();
-  $updateuser->setTable(rex::getTablePrefix().'user');
+  $updateuser->setTable(rex::getTablePrefix() . 'user');
   $updateuser->setWhere(array('user_id' => $user_id));
 
   $userpsw = rex::getProperty('login')->encryptPassword($userpsw);
@@ -81,7 +81,7 @@ if (rex_post('upd_psw_button', 'string'))
   {
     $userpsw_new_1 = rex::getProperty('login')->encryptPassword($userpsw_new_1);
 
-    $updateuser->setValue('password',$userpsw_new_1);
+    $updateuser->setValue('password', $userpsw_new_1);
     $updateuser->addGlobalUpdateFields();
 
     try
@@ -118,7 +118,7 @@ $content .= '
 <div id="rex-form-profile" class="rex-form">
   <form action="index.php" method="post">
     <fieldset>
-      <h2>'.rex_i18n::msg('profile_myprofile').'</h2>
+      <h2>' . rex_i18n::msg('profile_myprofile') . '</h2>
 
         <input type="hidden" name="page" value="profile" />';
 
@@ -126,23 +126,23 @@ $content .= '
           $formElements = array();
 
             $n = array();
-            $n['label'] = '<label for="userlogin">'.htmlspecialchars(rex_i18n::msg('login_name')).'</label>';
-            $n['field'] = '<span class="rex-form-read" id="userlogin">'.htmlspecialchars($userlogin).'</span>';
+            $n['label'] = '<label for="userlogin">' . htmlspecialchars(rex_i18n::msg('login_name')) . '</label>';
+            $n['field'] = '<span class="rex-form-read" id="userlogin">' . htmlspecialchars($userlogin) . '</span>';
             $formElements[] = $n;
 
             $n = array();
-            $n['label'] = '<label for="userperm-mylang">'.rex_i18n::msg('backend_language').'</label>';
+            $n['label'] = '<label for="userperm-mylang">' . rex_i18n::msg('backend_language') . '</label>';
             $n['field'] = $sel_be_sprache->get();
             $formElements[] = $n;
 
             $n = array();
-            $n['label'] = '<label for="username">'.rex_i18n::msg('name').'</label>';
-            $n['field'] = '<input type="text" id="username" name="username" value="'.htmlspecialchars($username).'" />';
+            $n['label'] = '<label for="username">' . rex_i18n::msg('name') . '</label>';
+            $n['field'] = '<input type="text" id="username" name="username" value="' . htmlspecialchars($username) . '" />';
             $formElements[] = $n;
 
             $n = array();
-            $n['label'] = '<label for="userdesc">'.rex_i18n::msg('description').'</label>';
-            $n['field'] = '<input type="text" id="userdesc" name="userdesc" value="'.htmlspecialchars($userdesc).'" />';
+            $n['label'] = '<label for="userdesc">' . rex_i18n::msg('description') . '</label>';
+            $n['field'] = '<input type="text" id="userdesc" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />';
             $formElements[] = $n;
 
           $fragment = new rex_fragment();
@@ -158,7 +158,7 @@ $content .= '
           $formElements = array();
 
             $n = array();
-            $n['field'] = '<input type="submit" name="upd_profile_button" value="'.rex_i18n::msg('profile_save').'" '.rex::getAccesskey(rex_i18n::msg('profile_save'), 'save').' />';
+            $n['field'] = '<input type="submit" name="upd_profile_button" value="' . rex_i18n::msg('profile_save') . '" ' . rex::getAccesskey(rex_i18n::msg('profile_save'), 'save') . ' />';
             $formElements[] = $n;
 
           $fragment = new rex_fragment();
@@ -169,7 +169,7 @@ $content .= '
     </fieldset>
   </form>
   </div>';
-echo rex_view::contentBlock($content,'','block');
+echo rex_view::contentBlock($content, '', 'block');
 
 
 
@@ -179,7 +179,7 @@ $content .= '
   <form action="index.php" method="post" id="pwformular">
     <input type="hidden" name="javascript" value="0" id="javascript" />
     <fieldset>
-      <h2>'.rex_i18n::msg('profile_changepsw').'</h2>
+      <h2>' . rex_i18n::msg('profile_changepsw') . '</h2>
 
       <input type="hidden" name="page" value="profile" />';
 
@@ -187,7 +187,7 @@ $content .= '
           $formElements = array();
 
             $n = array();
-            $n['label'] = '<label for="userpsw">'.rex_i18n::msg('old_password').'</label>';
+            $n['label'] = '<label for="userpsw">' . rex_i18n::msg('old_password') . '</label>';
             $n['field'] = '<input type="password" id="userpsw" name="userpsw" autocomplete="off" />';
             $formElements[] = $n;
 
@@ -196,12 +196,12 @@ $content .= '
             $formElements[] = $n;
 
             $n = array();
-            $n['label'] = '<label for="userpsw">'.rex_i18n::msg('new_password').'</label>';
+            $n['label'] = '<label for="userpsw">' . rex_i18n::msg('new_password') . '</label>';
             $n['field'] = '<input class="rex-form-text" type="password" id="userpsw_new_1" name="userpsw_new_1" autocomplete="off" />';
             $formElements[] = $n;
 
             $n = array();
-            $n['label'] = '<label for="userpsw">'.rex_i18n::msg('new_password_repeat').'</label>';
+            $n['label'] = '<label for="userpsw">' . rex_i18n::msg('new_password_repeat') . '</label>';
             $n['field'] = '<input class="rex-form-text" type="password" id="userpsw_new_2" name="userpsw_new_2" autocomplete="off" />';
             $formElements[] = $n;
 
@@ -218,7 +218,7 @@ $content .= '
           $formElements = array();
 
             $n = array();
-            $n['field'] = '<input class="rex-form-submit" type="submit" name="upd_psw_button" value="'.rex_i18n::msg('profile_save_psw').'" '.rex::getAccesskey(rex_i18n::msg('profile_save_psw'), 'save').' />';
+            $n['field'] = '<input class="rex-form-submit" type="submit" name="upd_psw_button" value="' . rex_i18n::msg('profile_save_psw') . '" ' . rex::getAccesskey(rex_i18n::msg('profile_save_psw'), 'save') . ' />';
             $formElements[] = $n;
 
           $fragment = new rex_fragment();
@@ -260,4 +260,4 @@ $content .= '
     });
      //-->
   </script>';
-echo rex_view::contentBlock($content,'','block');
+echo rex_view::contentBlock($content, '', 'block');

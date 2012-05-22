@@ -34,7 +34,7 @@ class rex_version_checker_notification extends rex_dashboard_notification
     }
     else
     {
-      $this->setMessage(rex_view::warning('Version-Checker: '. rex_i18n::msg('vchecker_connection_error')));
+      $this->setMessage(rex_view::warning('Version-Checker: ' . rex_i18n::msg('vchecker_connection_error')));
     }
   }
 }

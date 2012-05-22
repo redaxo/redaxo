@@ -123,6 +123,6 @@ class rex_string
    */
   static public function highlight($string)
   {
-    return '<p class="rex-code">'. highlight_string($string, true) .'</p>';
+    return '<p class="rex-code">' . highlight_string($string, true) . '</p>';
   }
 }

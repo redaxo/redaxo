@@ -11,17 +11,17 @@ class rex_cronjob_export extends rex_cronjob
     include_once rex_path::addon('import_export', 'functions/function_import_folder.inc.php');
 
     $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
-    $filename = str_replace("%HTTP_HOST", $_SERVER['HTTP_HOST'], $filename);
-    $filename = str_replace("%REX_VERSION", rex::getVersion(''), $filename);
+    $filename = str_replace('%HTTP_HOST', $_SERVER['HTTP_HOST'], $filename);
+    $filename = str_replace('%REX_VERSION', rex::getVersion(''), $filename);
     $filename = strftime($filename);
     $file = $filename;
-    $dir = getImportDir() .'/';
+    $dir = getImportDir() . '/';
     $ext = '.sql';
     if (file_exists($dir . $file . $ext))
     {
       $i = 1;
-      while (file_exists($dir . $file .'_'. $i . $ext)) $i++;
-      $file = $file .'_'. $i;
+      while (file_exists($dir . $file . '_' . $i . $ext)) $i++;
+      $file = $file . '_' . $i;
     }
 
     if (rex_a1_export_db($dir . $file . $ext))
@@ -32,7 +32,7 @@ class rex_cronjob_export extends rex_cronjob
       {
         if (!rex_addon::get('phpmailer')->isAvailable())
         {
-          $this->setMessage($message .', mail not sent (addon "phpmailer" isn\'t activated)');
+          $this->setMessage($message . ', mail not sent (addon "phpmailer" isn\'t activated)');
           return false;
         }
         $mail = new rex_mailer;
@@ -42,10 +42,10 @@ class rex_cronjob_export extends rex_cronjob
         $mail->AddAttachment($dir . $file . $ext, $filename . $ext);
         if ($mail->Send())
         {
-          $this->setMessage($message .', mail sent');
+          $this->setMessage($message . ', mail sent');
           return true;
         }
-        $this->setMessage($message .', mail not sent');
+        $this->setMessage($message . ', mail not sent');
         return false;
       }
 

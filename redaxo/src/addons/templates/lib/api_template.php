@@ -28,19 +28,19 @@ class rex_template
 
   public function getFile()
   {
-    if ($this->getId()<1) return FALSE;
+    if ($this->getId() < 1) return false;
 
     $file = $this->getFilePath($this->getId());
-    if (!$file) return FALSE;
+    if (!$file) return false;
 
     if (!file_exists($file))
     {
       // Generated Datei erzeugen
       if (!$this->generate())
       {
-        trigger_error('Unable to generate rexTemplate with id "'. $this->getId() . '"', E_USER_ERROR);
+        trigger_error('Unable to generate rexTemplate with id "' . $this->getId() . '"', E_USER_ERROR);
 
-        return FALSE;
+        return false;
       }
     }
 
@@ -49,9 +49,9 @@ class rex_template
 
   static public function getFilePath($template_id)
   {
-    if ($template_id<1) return FALSE;
+    if ($template_id < 1) return false;
 
-    return self::getTemplatesDir() .'/' . $template_id . '.template';
+    return self::getTemplatesDir() . '/' . $template_id . '.template';
   }
 
   static public function getTemplatesDir()
@@ -62,36 +62,36 @@ class rex_template
   public function getTemplate()
   {
     $file = $this->getFile();
-    if (!$file) return FALSE;
+    if (!$file) return false;
 
     return rex_file::get($file);
   }
 
   public function generate()
   {
-    if ($this->getId()<1) return FALSE;
+    if ($this->getId() < 1) return false;
 
     return rex_generateTemplate($this->getId());
   }
 
   public function deleteCache()
   {
-    if ($this->id<1) return FALSE;
+    if ($this->id < 1) return false;
 
     $file = $this->getFilePath($this->getId());
     rex_file::delete($file);
     return true;
   }
 
-  static public function hasModule(array $template_attributes,$ctype,$module_id)
+  static public function hasModule(array $template_attributes, $ctype, $module_id)
   {
     $template_modules = isset($template_attributes['modules']) ? $template_attributes['modules'] : array();
     if (!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1)
-      return TRUE;
+      return true;
 
-    if (is_array($template_modules[$ctype]) && in_array($module_id,$template_modules[$ctype]))
-      return TRUE;
+    if (is_array($template_modules[$ctype]) && in_array($module_id, $template_modules[$ctype]))
+      return true;
 
-    return FALSE;
+    return false;
   }
 }

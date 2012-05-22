@@ -254,7 +254,7 @@ if (!function_exists('a52_tinymce_opf_media_linkmap'))
       {
         $scriptoutput .= $n . '<script type="text/javascript">';
         $scriptoutput .= $n . '//<![CDATA[';
-        $scriptoutput .= $n . '  selectMedia("'.$_SESSION['a52_media_added_filename'].'", "'.$_SESSION['a52_media_added_title'].'")';
+        $scriptoutput .= $n . '  selectMedia("' . $_SESSION['a52_media_added_filename'] . '", "' . $_SESSION['a52_media_added_title'] . '")';
         $scriptoutput .= $n . '//]]>';
         $scriptoutput .= $n . '</script>';
         unset($_SESSION['a52_saveand-exit']);
@@ -279,22 +279,22 @@ if (!function_exists('a52_tinymce_opf_media_linkmap'))
       if ($rxa_tinymce['rexversion'] == 32)
       {
         $search[0] = '</head>';
-        $replace[0] = $n.$output.$n.$n.$search[0];
+        $replace[0] = $n . $output . $n . $n . $search[0];
         $search[1] = '<input type=hidden name=page value=' . $rxa_tinymce['medienpool'] . '>';
-        $replace[1] = $search[1].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
+        $replace[1] = $search[1] . $n . '<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
         $search[2] = 'page=' . $rxa_tinymce['medienpool'];
         $replace[2] = 'page=' . $rxa_tinymce['medienpool'] . '&amp;tinymce=true';
         $search[3] = '"saveandexit"';
         $replace[3] = '"saveand-exit"';
         $search[4] = '<input type="hidden" name="page" value="' . $rxa_tinymce['medienpool'] . '">';
-        $replace[4] = $search[4].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
+        $replace[4] = $search[4] . $n . '<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
       }
       if ($rxa_tinymce['rexversion'] == 40)
       {
         $search[0] = '<div id="rex-title">';
-        $replace[0] = $n.$output.$n.$n.$search[0];
+        $replace[0] = $n . $output . $n . $n . $search[0];
         $search[1] = '<input type="hidden" name="page" value="' . $rxa_tinymce['medienpool'] . '" />';
-        $replace[1] = $search[1].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
+        $replace[1] = $search[1] . $n . '<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
         $search[2] = 'page=' . $rxa_tinymce['medienpool'];
         $replace[2] = 'page=' . $rxa_tinymce['medienpool'] . '&amp;tinymce=true';
         $search[3] = '"saveandexit"';
@@ -303,9 +303,9 @@ if (!function_exists('a52_tinymce_opf_media_linkmap'))
       if ($rxa_tinymce['rexversion'] == 41)
       {
         $search[0] = '<div id="rex-title">';
-        $replace[0] = $n.$output.$n.$n.$search[0];
+        $replace[0] = $n . $output . $n . $n . $search[0];
         $search[1] = '<input type="hidden" name="page" value="' . $rxa_tinymce['medienpool'] . '" />';
-        $replace[1] = $search[1].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
+        $replace[1] = $search[1] . $n . '<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
         $search[2] = 'page=' . $rxa_tinymce['medienpool'];
         $replace[2] = 'page=' . $rxa_tinymce['medienpool'] . '&amp;tinymce=true';
         $search[3] = '"saveandexit"';
@@ -314,17 +314,17 @@ if (!function_exists('a52_tinymce_opf_media_linkmap'))
       if ($rxa_tinymce['rexversion'] >= 42)
       {
         $search[0] = '<div class="rex-form" id="rex-form-mediapool-selectcategory">';
-        $replace[0] = $n.$output.$n.$n.$search[0];
+        $replace[0] = $n . $output . $n . $n . $search[0];
         $search[1] = '<input type="hidden" name="page" value="' . $rxa_tinymce['medienpool'] . '" />';
-        $replace[1] = $search[1].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
+        $replace[1] = $search[1] . $n . '<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
         $search[2] = 'page=' . $rxa_tinymce['medienpool'];
         $replace[2] = 'page=' . $rxa_tinymce['medienpool'] . '&amp;tinymce=true';
         $search[3] = '"saveandexit"';
         $replace[3] = '"saveand-exit"';
         $search[4] = '<div class="rex-form" id="rex-form-mediapool-other">';
-        $replace[4] = $n.$output.$n.$n.$search[4];
+        $replace[4] = $n . $output . $n . $n . $search[4];
         $search[5] = '<div id="rex-navi-path">';
-        $replace[5] = $n.$output.$n.$n.$search[5];
+        $replace[5] = $n . $output . $n . $n . $search[5];
       }
       $content = str_replace($search, $replace, $content);
     }
@@ -334,26 +334,26 @@ if (!function_exists('a52_tinymce_opf_media_linkmap'))
         if ($rxa_tinymce['rexversion'] == 32)
       {
         $search[0] = '</body>';
-        $replace[0] = $n.$output.$n.$n.$search[0];
+        $replace[0] = $n . $output . $n . $n . $search[0];
       }
       if ($rxa_tinymce['rexversion'] == 40)
       {
         $search[0] = '<div class="rex-lmp-pth">';
-        $replace[0] = $n.$output.$n.$n.$search[0];
+        $replace[0] = $n . $output . $n . $n . $search[0];
         $search[1] = 'page=linkmap';
         $replace[1] = 'page=linkmap&amp;tinymce=true';
       }
       if ($rxa_tinymce['rexversion'] == 41)
       {
         $search[0] = '<div class="rex-lmp-pth">';
-        $replace[0] = $n.$output.$n.$n.$search[0];
+        $replace[0] = $n . $output . $n . $n . $search[0];
         $search[1] = 'page=linkmap';
         $replace[1] = 'page=linkmap&amp;tinymce=true';
       }
       if ($rxa_tinymce['rexversion'] >= 42)
       {
         $search[0] = '<div id="rex-title">';
-        $replace[0] = $n.$output.$n.$n.$search[0];
+        $replace[0] = $n . $output . $n . $n . $search[0];
         $search[1] = 'page=linkmap';
         $replace[1] = 'page=linkmap&amp;tinymce=true';
       }

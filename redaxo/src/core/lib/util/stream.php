@@ -49,7 +49,7 @@ class rex_stream
       self::$registered = true;
     }
 
-    $path = 'rex://'. $path;
+    $path = 'rex://' . $path;
     self::$nextContent[$path] = $content;
 
     return $path;

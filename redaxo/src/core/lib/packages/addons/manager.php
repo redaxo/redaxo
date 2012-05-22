@@ -15,7 +15,7 @@ class rex_addon_manager extends rex_package_manager
   /* (non-PHPdoc)
    * @see rex_package_manager::install()
    */
-  public function install($installDump = TRUE)
+  public function install($installDump = true)
   {
     $installed = $this->package->isInstalled();
     $return = parent::install($installDump);

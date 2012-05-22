@@ -156,7 +156,7 @@ class rex_select
    */
   public function addOptions($options, $useOnlyValues = false)
   {
-    if (is_array($options) && count($options)>0)
+    if (is_array($options) && count($options) > 0)
     {
       // Hier vorher auf is_array abfragen, da bei Strings auch die Syntax mit [] funktioniert
       // $ab = "hallo"; $ab[2] -> "l"
@@ -237,16 +237,16 @@ class rex_select
     $attr = '';
     foreach ($this->attributes as $name => $value)
     {
-      $attr .= ' '. $name .'="'. $value .'"';
+      $attr .= ' ' . $name . '="' . $value . '"';
     }
 
     $ausgabe = "\n";
-    $ausgabe .= '<select'.$attr.'>'."\n";
+    $ausgabe .= '<select' . $attr . '>' . "\n";
 
     if (is_array($this->options))
       $ausgabe .= $this->_outGroup(0);
 
-    $ausgabe .= '</select>'. "\n";
+    $ausgabe .= '</select>' . "\n";
     return $ausgabe;
   }
 
@@ -296,16 +296,16 @@ class rex_select
     if ($level > 0)
       $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
 
-    if ($this->option_selected !== null && in_array($value, $this->option_selected, TRUE))
+    if ($this->option_selected !== null && in_array($value, $this->option_selected, true))
       $attributes['selected'] = 'selected';
 
     $attr = '';
     foreach ($attributes as $n => $v)
     {
-      $attr .= ' '. $n .'="'. $v .'"';
+      $attr .= ' ' . $n . '="' . $v . '"';
     }
 
-    return '    <option value="'.$value.'"'.$attr.'>'.$bsps.$name.'</option>'."\n";
+    return '    <option value="' . $value . '"' . $attr . '>' . $bsps . $name . '</option>' . "\n";
   }
 
   private function _getGroup($re_id, $ignore_main_group = false)

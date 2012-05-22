@@ -12,7 +12,7 @@ if (version_compare(PHP_VERSION, '5.3.0') < 0)
 
 mb_internal_encoding('UTF-8');
 
-require_once dirname(__FILE__) .'/lib/path.php';
+require_once dirname(__FILE__) . '/lib/path.php';
 rex_path::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER']);
 
 require_once rex_path::core('lib/autoload.php');

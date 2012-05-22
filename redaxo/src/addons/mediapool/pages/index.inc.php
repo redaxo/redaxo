@@ -25,18 +25,18 @@ $arg_url = '';
 $arg_fields = '';
 foreach ($args as $arg_name => $arg_value)
 {
-  $arg_url .= '&amp;args['. urlencode($arg_name) .']='. urlencode($arg_value);
-  $arg_fields .= '<input type="hidden" name="args['. $arg_name .']" value="'. htmlspecialchars($arg_value) .'" />'. "\n";
+  $arg_url .= '&amp;args[' . urlencode($arg_name) . ']=' . urlencode($arg_value);
+  $arg_fields .= '<input type="hidden" name="args[' . $arg_name . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";
 }
 
 // ----- opener_input_field setzen
 $opener_link = rex_request('opener_link', 'string');
 $opener_input_field = rex_request('opener_input_field', 'string', '');
 
-if ($opener_input_field != "")
+if ($opener_input_field != '')
 {
-  $arg_url .= '&amp;opener_input_field='.urlencode($opener_input_field);
-  $arg_fields .= '<input type="hidden" name="opener_input_field" value="'. htmlspecialchars($opener_input_field) .'" />'. "\n";
+  $arg_url .= '&amp;opener_input_field=' . urlencode($opener_input_field);
+  $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . htmlspecialchars($opener_input_field) . '" />' . "\n";
 }
 
 // -------------- CatId in Session speichern
@@ -44,14 +44,14 @@ $file_id = rex_request('file_id', 'int');
 $file_name = rex_request('file_name', 'string');
 $rex_file_category = rex_request('rex_file_category', 'int', -1);
 
-if ($file_name != "")
+if ($file_name != '')
 {
   $sql = rex_sql::factory();
-  $sql->setQuery("select * from ".rex::getTablePrefix()."media where filename='$file_name'");
-  if ($sql->getRows()==1)
+  $sql->setQuery('select * from ' . rex::getTablePrefix() . "media where filename='$file_name'");
+  if ($sql->getRows() == 1)
   {
-    $file_id = $sql->getValue("file_id");
-    $rex_file_category = $sql->getValue("category_id");
+    $file_id = $sql->getValue('file_id');
+    $rex_file_category = $sql->getValue('category_id');
   }
 }
 
@@ -62,7 +62,7 @@ if ($rex_file_category == -1)
 
 
 $gc = rex_sql::factory();
-$gc->setQuery('SELECT * FROM '.rex::getTablePrefix().'media_category WHERE id='. $rex_file_category);
+$gc->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE id=' . $rex_file_category);
 if ($gc->getRows() != 1)
 {
   $rex_file_category = 0;
@@ -130,7 +130,7 @@ function selectMedia(filename, alt)
   <?php
   if ($opener_input_field != '')
   {
-    echo 'opener.document.getElementById("'.$opener_input_field.'").value = filename;';
+    echo 'opener.document.getElementById("' . $opener_input_field . '").value = filename;';
   }
   ?>
   self.close();
@@ -139,10 +139,10 @@ function selectMedia(filename, alt)
 function selectMedialist(filename)
 {
   <?php
-    if (substr($opener_input_field,0,14) == 'REX_MEDIALIST_')
+    if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_')
     {
-      $id = substr($opener_input_field,14,strlen($opener_input_field));
-      echo 'var medialist = "REX_MEDIALIST_SELECT_'. $id .'";
+      $id = substr($opener_input_field, 14, strlen($opener_input_field));
+      echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
 
             var source = opener.document.getElementById(medialist);
             var sourcelength = source.options.length;
@@ -152,7 +152,7 @@ function selectMedialist(filename)
             option.value = filename;
 
             source.options.add(option, sourcelength);
-            opener.writeREXMedialist('. $id .');';
+            opener.writeREXMedialist(' . $id . ');';
 
     }
   ?>
@@ -161,10 +161,10 @@ function selectMedialist(filename)
 function selectMediaListArray(files)
 {
   <?php
-    if (substr($opener_input_field,0,14) == 'REX_MEDIALIST_')
+    if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_')
     {
-      $id = substr($opener_input_field,14,strlen($opener_input_field));
-      echo 'var medialist = "REX_MEDIALIST_SELECT_'. $id .'";
+      $id = substr($opener_input_field, 14, strlen($opener_input_field));
+      echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
 
             var source = opener.document.getElementById(medialist);
             var sourcelength = source.options.length;
@@ -184,7 +184,7 @@ function selectMediaListArray(files)
               }
             }
 
-            opener.writeREXMedialist('. $id .');';
+            opener.writeREXMedialist(' . $id . ');';
 
     }
   ?>
@@ -221,4 +221,4 @@ switch ($subpage)
   default          : $file = 'media.inc.php'; break;
 }
 
-require dirname(__FILE__).'/'.$file;
+require dirname(__FILE__) . '/' . $file;

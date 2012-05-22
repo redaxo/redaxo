@@ -25,7 +25,7 @@ class rex_urlRewriter_mod_rewrite extends rex_urlRewriter
       return $params['subject'];
     }
 
-    $params['params'] = $params['params'] == '' ? '' : '?'. $params['params'];
-    return $params['id'].'-'.$params['clang'].'-'.$params['name'].'.htm'.$params['params'];
+    $params['params'] = $params['params'] == '' ? '' : '?' . $params['params'];
+    return $params['id'] . '-' . $params['clang'] . '-' . $params['name'] . '.htm' . $params['params'];
   }
 }

@@ -12,8 +12,8 @@ if (rex::isBackend())
 {
   rex_extension::register('PAGE_HEADER', function($params)
   {
-    $params['subject'] .= "\n  ".
-      '<link rel="stylesheet" type="text/css" href="'. rex_path::addonAssets('textile', 'textile.css') .'" />';
+    $params['subject'] .= "\n  " .
+      '<link rel="stylesheet" type="text/css" href="' . rex_path::addonAssets('textile', 'textile.css') . '" />';
 
     return $params['subject'];
   });

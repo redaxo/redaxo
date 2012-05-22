@@ -9,9 +9,9 @@ class rex_effect_mediapath extends rex_effect_abstract
 
   public function execute()
   {
-    if ($this->params['mediapath'] != "")
+    if ($this->params['mediapath'] != '')
     {
-      $media_path = rex_path::frontend($this->params['mediapath'],rex_path::ABSOLUTE)."/".rex_media_manager::getMediaFile();
+      $media_path = rex_path::frontend($this->params['mediapath'], rex_path::ABSOLUTE) . '/' . rex_media_manager::getMediaFile();
       $this->media->setMediapath($media_path);
 
     }
@@ -21,7 +21,7 @@ class rex_effect_mediapath extends rex_effect_abstract
   {
     return array(
       array(
-        'label'=>rex_i18n::msg('media_manager_effect_mediapath'),
+        'label' => rex_i18n::msg('media_manager_effect_mediapath'),
         'name' => 'mediapath',
         'type' => 'string',
       ),

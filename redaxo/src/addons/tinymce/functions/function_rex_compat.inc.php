@@ -110,7 +110,7 @@ if (!function_exists('_rex_cast_var'))
       case ''       : break;
 
       // Evtl Typo im vartype, deshalb hier fehlermeldung!
-      default: trigger_error('Unexpected vartype "'. $vartype .'" in _rex_cast_var()!', E_USER_ERROR); exit();
+      default: trigger_error('Unexpected vartype "' . $vartype . '" in _rex_cast_var()!', E_USER_ERROR); exit();
     }
 
     return $var;
@@ -153,7 +153,7 @@ if (!function_exists('rex_replace_dynamic_contents'))
   {
     if ($fcontent = rex_get_file_contents($path))
     {
-      $content = "// --- DYN\n". trim($content) ."\n// --- /DYN";
+      $content = "// --- DYN\n" . trim($content) . "\n// --- /DYN";
       $fcontent = ereg_replace("(\/\/.---.DYN.*\/\/.---.\/DYN)", $content, $fcontent);
       return rex_put_file_contents($path, $fcontent);
     }
@@ -168,7 +168,7 @@ if (!function_exists('rex_highlight_string'))
 {
   function rex_highlight_string($string, $return = false)
   {
-    $s = '<p class="rex-code">'. highlight_string($string, true) .'</p>';
+    $s = '<p class="rex-code">' . highlight_string($string, true) . '</p>';
     if ($return)
     {
     return $s;
@@ -182,12 +182,12 @@ if (!function_exists('rex_highlight_string'))
  */
 if (!function_exists('rex_copyDir'))
 {
-  function rex_copyDir($srcdir, $dstdir, $startdir = "")
+  function rex_copyDir($srcdir, $dstdir, $startdir = '')
   {
     global $REX;
 
-    $debug = FALSE;
-    $state = TRUE;
+    $debug = false;
+    $state = true;
 
     if (!is_dir($dstdir))
     {
@@ -195,7 +195,7 @@ if (!function_exists('rex_copyDir'))
     foreach (explode(DIRECTORY_SEPARATOR, $dstdir) as $dirPart)
     {
       $dir .= $dirPart . DIRECTORY_SEPARATOR;
-      if (strpos($startdir,$dir) !== 0 && !is_dir($dir))
+      if (strpos($startdir, $dir) !== 0 && !is_dir($dir))
       {
       if ($debug)
         echo "Create dir '$dir'<br />\n";
@@ -216,7 +216,7 @@ if (!function_exists('rex_copyDir'))
       $dstfile = $dstdir . DIRECTORY_SEPARATOR . $file;
       if (is_file($srcfile))
       {
-        $isNewer = TRUE;
+        $isNewer = true;
         if (is_file($dstfile))
         {
         $isNewer = (filemtime($srcfile) - filemtime($dstfile)) > 0;
@@ -237,7 +237,7 @@ if (!function_exists('rex_copyDir'))
         {
           if ($debug)
            echo "Error: File '$srcfile' could not be copied!<br />\n";
-          return FALSE;
+          return false;
         }
         }
       }
@@ -258,10 +258,10 @@ if (!function_exists('rex_copyDir'))
  */
 if (!function_exists('rex_deleteDir'))
 {
-  function rex_deleteDir($file, $delete_folders = FALSE)
+  function rex_deleteDir($file, $delete_folders = false)
   {
-    $debug = FALSE;
-    $state = TRUE;
+    $debug = false;
+    $state = true;
 
     $file = rtrim($file, DIRECTORY_SEPARATOR);
 
@@ -276,7 +276,7 @@ if (!function_exists('rex_deleteDir'))
       if ($debug)
         echo "Unable to open dir '$file'<br />\n";
 
-      return FALSE;
+      return false;
       }
 
       while ($filename = readdir($handle))
@@ -286,16 +286,16 @@ if (!function_exists('rex_deleteDir'))
         continue;
       }
 
-      if (!rex_deleteDir($file.DIRECTORY_SEPARATOR.$filename, $delete_folders))
+      if (!rex_deleteDir($file . DIRECTORY_SEPARATOR . $filename, $delete_folders))
       {
-        $state = FALSE;
+        $state = false;
       }
       }
       closedir($handle);
 
-      if ($state !== TRUE)
+      if ($state !== true)
       {
-      return FALSE;
+      return false;
       }
 
 
@@ -308,7 +308,7 @@ if (!function_exists('rex_deleteDir'))
         if ($debug)
         echo "Unable to delete folder '$file'<br />\n";
 
-        return FALSE;
+        return false;
       }
       }
     }
@@ -321,7 +321,7 @@ if (!function_exists('rex_deleteDir'))
       if ($debug)
         echo "Unable to delete file '$file'<br />\n";
 
-      return FALSE;
+      return false;
       }
     }
     }
@@ -330,10 +330,10 @@ if (!function_exists('rex_deleteDir'))
     if ($debug)
       echo "file '$file'not found!<br />\n";
     // Datei/Ordner existiert nicht
-    return FALSE;
+    return false;
     }
 
-    return TRUE;
+    return true;
   }
 } // end function_exists
 

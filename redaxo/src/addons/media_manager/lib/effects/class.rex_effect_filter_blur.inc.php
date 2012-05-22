@@ -21,15 +21,15 @@ class rex_effect_filter_blur extends rex_effect_abstract
   public function execute()
   {
     // Attempt to calibrate the parameters to Photoshop:
-    if ($this->params["amount"] > 500)
-      $this->params["amount"] = 500;
-    $this->params["amount"] = $this->params["amount"] * 0.016;
-    if ($this->params["radius"] > 50)
-      $this->params["radius"] = 50;
-    $this->params["radius"] = $this->params["radius"] * 2;
-    if ($this->params["threshold"] > 255) $this->params["threshold"] = 255;
-    $this->params["radius"] = abs(round($this->params["radius"])); // Only integers make sense.
-    if ($this->params["radius"] == 0)
+    if ($this->params['amount'] > 500)
+      $this->params['amount'] = 500;
+    $this->params['amount'] = $this->params['amount'] * 0.016;
+    if ($this->params['radius'] > 50)
+      $this->params['radius'] = 50;
+    $this->params['radius'] = $this->params['radius'] * 2;
+    if ($this->params['threshold'] > 255) $this->params['threshold'] = 255;
+    $this->params['radius'] = abs(round($this->params['radius'])); // Only integers make sense.
+    if ($this->params['radius'] == 0)
     {
       return;
     }
@@ -51,7 +51,7 @@ class rex_effect_filter_blur extends rex_effect_abstract
 
     // Move copies of the image around one pixel at the time and merge them with weight
     // according to the matrix. The same matrix is simply repeated for higher radii.
-    for ($i = 0; $i < $this->params["radius"]; $i++)
+    for ($i = 0; $i < $this->params['radius']; $i++)
     {
       imagecopy($imgBlur, $imgCanvas, 0, 0, 1, 1, $w -1, $h -1); // up left
       imagecopymerge($imgBlur, $imgCanvas, 1, 1, 0, 0, $w, $h, 50); // down right
@@ -84,9 +84,9 @@ class rex_effect_filter_blur extends rex_effect_abstract
 
         // When the masked pixels differ less from the original
         // than the threshold specifies, they are set to their original value.
-        $rNew = (abs($rOrig - $rBlur) >= $this->params["threshold"]) ? max(0, min(255, ($this->params["amount"] * ($rOrig - $rBlur)) + $rOrig)) : $rOrig;
-        $gNew = (abs($gOrig - $gBlur) >= $this->params["threshold"]) ? max(0, min(255, ($this->params["amount"] * ($gOrig - $gBlur)) + $gOrig)) : $gOrig;
-        $bNew = (abs($bOrig - $bBlur) >= $this->params["threshold"]) ? max(0, min(255, ($this->params["amount"] * ($bOrig - $bBlur)) + $bOrig)) : $bOrig;
+        $rNew = (abs($rOrig - $rBlur) >= $this->params['threshold']) ? max(0, min(255, ($this->params['amount'] * ($rOrig - $rBlur)) + $rOrig)) : $rOrig;
+        $gNew = (abs($gOrig - $gBlur) >= $this->params['threshold']) ? max(0, min(255, ($this->params['amount'] * ($gOrig - $gBlur)) + $gOrig)) : $gOrig;
+        $bNew = (abs($bOrig - $bBlur) >= $this->params['threshold']) ? max(0, min(255, ($this->params['amount'] * ($bOrig - $bBlur)) + $bOrig)) : $bOrig;
 
         if (($rOrig != $rNew) || ($gOrig != $gNew) || ($bOrig != $bNew))
         {

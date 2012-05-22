@@ -35,7 +35,7 @@ class rex_var_value extends rex_var
   {
     for ($i = 1; $i < 21; $i++)
     {
-      $REX_ACTION['VALUE'][$i] = $this->getValue($sql, 'value'. $i);
+      $REX_ACTION['VALUE'][$i] = $this->getValue($sql, 'value' . $i);
     }
     $REX_ACTION['PHP'] = $this->getValue($sql, 'php');
     $REX_ACTION['HTML'] = $this->getValue($sql, 'html');
@@ -70,7 +70,7 @@ class rex_var_value extends rex_var
   public function getBEInput(rex_sql $sql, $content)
   {
     $content = $this->getOutput($sql, $content);
-    $content = str_replace('REX_PHP', htmlspecialchars($this->getValue($sql, 'php'),ENT_QUOTES), $content);
+    $content = str_replace('REX_PHP', htmlspecialchars($this->getValue($sql, 'php'), ENT_QUOTES), $content);
     return $content;
   }
 
@@ -115,7 +115,7 @@ class rex_var_value extends rex_var
         {
           if ($escape)
           {
-            $replace = htmlspecialchars($replace,ENT_QUOTES);
+            $replace = htmlspecialchars($replace, ENT_QUOTES);
           }
 
           if ($nl2br)

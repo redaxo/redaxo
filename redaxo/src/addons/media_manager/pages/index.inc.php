@@ -41,4 +41,4 @@ switch ($subpage)
   }
 }
 
-require dirname(__FILE__) .'/'.$subpage.'.inc.php';
+require dirname(__FILE__) . '/' . $subpage . '.inc.php';

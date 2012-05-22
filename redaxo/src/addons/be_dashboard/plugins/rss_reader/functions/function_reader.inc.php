@@ -17,16 +17,16 @@ function rex_a656_rss_teaser($feedUrl, $numItems = 5)
 
   $s = '';
   $s .= '<div class="rex-rss-feed">
-           <h3>'. htmlspecialchars($title) .'</h3>
+           <h3>' . htmlspecialchars($title) . '</h3>
            <ul>';
 
   foreach ($feed->get_items(0, $numItems) as $item)
   {
     $s .= '
         <li>
-            <a href="'. $item->get_permalink() .'" onclick="window.open(this.href); return false;">
-              <span>'. rex_a656_convert($item->get_date('d.m.Y H:i'), $encoding) .'</span>
-              '. rex_a656_convert($item->get_title(), $encoding) .
+            <a href="' . $item->get_permalink() . '" onclick="window.open(this.href); return false;">
+              <span>' . rex_a656_convert($item->get_date('d.m.Y H:i'), $encoding) . '</span>
+              ' . rex_a656_convert($item->get_title(), $encoding) .
             '</a>
         </li>';
   }
@@ -56,7 +56,7 @@ function rex_a656_convert($string, $sourceEncoding)
       foreach ($noTags as $charkey => $char)
       {
         // jedes zeichen nach utf8 kodieren
-        $noTags[utf8_encode($charkey)]= utf8_encode($char);
+        $noTags[utf8_encode($charkey)] = utf8_encode($char);
         // uebrig gebliebenes iso zeichen entfernen
         unset($noTags[$charkey]);
       }

@@ -48,20 +48,20 @@ class rex_form_prio_element extends rex_form_select_element
   {
     $name = $this->getFieldName();
 
-    $qry = 'SELECT '. $this->labelField .','. $name .' FROM '. $this->table->getTableName() . ' WHERE 1=1';
+    $qry = 'SELECT ' . $this->labelField . ',' . $name . ' FROM ' . $this->table->getTableName() . ' WHERE 1=1';
     if ($this->whereCondition != '')
     {
-      $qry .= ' AND ('. $this->whereCondition .')';
+      $qry .= ' AND (' . $this->whereCondition . ')';
     }
 
     // Im Edit Mode das Feld selbst nicht als Position einfügen
     if ($this->table->isEditMode())
     {
       $sql = $this->table->getSql();
-      $qry .= ' AND ('. $name .'!='. $this->getValue() .')';
+      $qry .= ' AND (' . $name . '!=' . $this->getValue() . ')';
     }
 
-    $qry .=' ORDER BY '. $name;
+    $qry .= ' ORDER BY ' . $name;
     $sql = rex_sql::factory();
     $sql->setQuery($qry);
 
@@ -87,7 +87,7 @@ class rex_form_prio_element extends rex_form_select_element
         $this->table->getTableName(),
         $name,
         $this->whereCondition,
-        $name.', updatedate desc',
+        $name . ', updatedate desc',
         $this->primaryKey
       );
     }

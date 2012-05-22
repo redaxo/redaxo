@@ -60,7 +60,7 @@ class rex_var_category extends rex_var
       $tpl = '';
       if (rex_ooCategory::hasValue($field))
       {
-        $tpl = '<?php echo '. __CLASS__ .'::getCategory('. $category_id .", '". addslashes($field) ."', ". $clang .", '". json_encode($args) ."'); ?>";
+        $tpl = '<?php echo ' . __CLASS__ . '::getCategory(' . $category_id . ", '" . addslashes($field) . "', " . $clang . ", '" . json_encode($args) . "'); ?>";
       }
 
       if ($tpl != '')

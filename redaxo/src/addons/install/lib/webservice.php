@@ -31,7 +31,7 @@ class rex_install_webservice
         $data = json_decode($response->getBody(), true);
         if (isset($data['error']) && is_string($data['error']))
         {
-          $error = rex_i18n::msg('install_webservice_error') .'<br />'. $data['error'];
+          $error = rex_i18n::msg('install_webservice_error') . '<br />' . $data['error'];
         }
         elseif (is_array($data))
         {
@@ -60,7 +60,7 @@ class rex_install_webservice
       if ($response->isOk())
       {
         $filename = basename($url);
-        $file = rex_path::addonCache('install', md5($filename) .'.'. rex_file::extension($filename));
+        $file = rex_path::addonCache('install', md5($filename) . '.' . rex_file::extension($filename));
         $response->writeBodyTo($file);
         return $file;
       }
@@ -93,7 +93,7 @@ class rex_install_webservice
         $data = json_decode($response->getBody(), true);
         if (!isset($data['error']) || !is_string($data['error']))
           return;
-        $error = rex_i18n::msg('install_webservice_error') .'<br />'. $data['error'];
+        $error = rex_i18n::msg('install_webservice_error') . '<br />' . $data['error'];
       }
     }
     catch (rex_socket_exception $e)
@@ -121,7 +121,7 @@ class rex_install_webservice
         $data = json_decode($response->getBody(), true);
         if (!isset($data['error']) || !is_string($data['error']))
           return;
-        $error = rex_i18n::msg('install_webservice_error') .'<br />'. $data['error'];
+        $error = rex_i18n::msg('install_webservice_error') . '<br />' . $data['error'];
       }
     }
     catch (rex_socket_exception $e)
@@ -137,12 +137,12 @@ class rex_install_webservice
 
   static private function getPath($path)
   {
-    $path = strpos($path, '?') === false ? rtrim($path, '/') .'/?' : $path .'&';
-    $path .= 'rex_version='. rex::getVersion();
+    $path = strpos($path, '?') === false ? rtrim($path, '/') . '/?' : $path . '&';
+    $path .= 'rex_version=' . rex::getVersion();
     $addon = rex_addon::get('install');
     if ($addon->getConfig('api_login'))
     {
-      $path .= '&api_login='. $addon->getConfig('api_login') .'&api_key='. $addon->getConfig('api_key');
+      $path .= '&api_login=' . $addon->getConfig('api_login') . '&api_key=' . $addon->getConfig('api_key');
     }
     return $path;
   }

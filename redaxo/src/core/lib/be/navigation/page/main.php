@@ -11,7 +11,7 @@ class rex_be_page_main implements rex_be_page_container
   {
     if (!is_string($block))
     {
-      throw new rex_exception('Expecting $block to be a string, '. gettype($block) .'given!');
+      throw new rex_exception('Expecting $block to be a string, ' . gettype($block) . 'given!');
     }
 
     $this->block = $block;
@@ -49,7 +49,7 @@ class rex_be_page_main implements rex_be_page_container
       return;
 
     // check current object for a possible setter
-    $setter = array($this, 'set'. ucfirst($key));
+    $setter = array($this, 'set' . ucfirst($key));
     if (is_callable($setter))
     {
       call_user_func($setter, $value);
@@ -57,7 +57,7 @@ class rex_be_page_main implements rex_be_page_container
     else
     {
       // no setter found, delegate to page object
-      $setter = array($this->page, 'set'. ucfirst($key));
+      $setter = array($this->page, 'set' . ucfirst($key));
       if (is_callable($setter))
       {
         call_user_func($setter, $value);

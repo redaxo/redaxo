@@ -94,6 +94,6 @@ class rex_function_cache
    */
   public function computeCacheKey($callable, array $arguments = array())
   {
-    return md5(serialize($callable).serialize($arguments));
+    return md5(serialize($callable) . serialize($arguments));
   }
 }

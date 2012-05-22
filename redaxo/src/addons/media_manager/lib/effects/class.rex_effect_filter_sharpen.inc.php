@@ -92,7 +92,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
       }
     }
 
-    if ($this->params['threshold']>0)
+    if ($this->params['threshold'] > 0)
     {
 
       // Calculate the difference between the blurred pixels and the original
@@ -156,33 +156,33 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
           $bBlur = ($rgbBlur & 0xFF);
 
           $rNew = ($this->params['amount'] * ($rOrig - $rBlur)) + $rOrig;
-          if ($rNew>255)
+          if ($rNew > 255)
           {
-            $rNew=255;
+            $rNew = 255;
           }
-          elseif ($rNew<0)
+          elseif ($rNew < 0)
           {
-            $rNew=0;
+            $rNew = 0;
           }
           $gNew = ($this->params['amount'] * ($gOrig - $gBlur)) + $gOrig;
-          if ($gNew>255)
+          if ($gNew > 255)
           {
-            $gNew=255;
+            $gNew = 255;
           }
-          elseif ($gNew<0)
+          elseif ($gNew < 0)
           {
-            $gNew=0;
+            $gNew = 0;
           }
           $bNew = ($this->params['amount'] * ($bOrig - $bBlur)) + $bOrig;
-          if ($bNew>255)
+          if ($bNew > 255)
           {
-            $bNew=255;
+            $bNew = 255;
           }
-          elseif ($bNew<0)
+          elseif ($bNew < 0)
           {
-            $bNew=0;
+            $bNew = 0;
           }
-          $rgbNew = ($rNew << 16) + ($gNew <<8) + $bNew;
+          $rgbNew = ($rNew << 16) + ($gNew << 8) + $bNew;
           ImageSetPixel($gdimage, $x, $y, $rgbNew);
         }
       }

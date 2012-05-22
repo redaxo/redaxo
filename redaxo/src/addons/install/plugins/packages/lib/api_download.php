@@ -33,7 +33,7 @@ abstract class rex_api_install_packages_download extends rex_api_function
       throw new rex_api_exception($e->getMessage());
     }
     $message = '';
-    $this->archive = "phar://$archivefile/". $this->addonkey;
+    $this->archive = "phar://$archivefile/" . $this->addonkey;
     if ($this->file['checksum'] != md5_file($archivefile))
     {
       $message = rex_i18n::msg('install_packages_warning_zip_wrong_checksum');
@@ -49,13 +49,13 @@ abstract class rex_api_install_packages_download extends rex_api_function
     rex_file::delete($archivefile);
     if ($message)
     {
-      $message = rex_i18n::msg('install_packages_warning_not_'. static::VERB, $this->addonkey) .'<br />'. $message;
+      $message = rex_i18n::msg('install_packages_warning_not_' . static::VERB, $this->addonkey) . '<br />' . $message;
       $success = false;
     }
     else
     {
-      $message = rex_i18n::msg('install_packages_info_addon_'. static::VERB, $this->addonkey)
-               . (static::SHOW_LINK ? ' <a href="index.php?page=addon">'. rex_i18n::msg('install_packages_to_addon_page') .'</a>' : '');
+      $message = rex_i18n::msg('install_packages_info_addon_' . static::VERB, $this->addonkey)
+               . (static::SHOW_LINK ? ' <a href="index.php?page=addon">' . rex_i18n::msg('install_packages_to_addon_page') . '</a>' : '');
       $success = true;
       unset($_REQUEST['addonkey']);
     }

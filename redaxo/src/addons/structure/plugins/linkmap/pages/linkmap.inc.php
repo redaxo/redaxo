@@ -16,7 +16,7 @@ $context = new rex_context(array(
   'HTMLArea' => $HTMLArea,
   'opener_input_field' => $opener_input_field,
   'opener_input_field_name' => $opener_input_field_name,
-  'category_id' =>$category_id,
+  'category_id' => $category_id,
   'clang' => $clang
 ));
 
@@ -31,23 +31,23 @@ if ($HTMLArea != '')
   }
   else
   {
-    $func_body = 'window.opener.'.$HTMLArea.'.surroundHTML("<a href="+link+">","</a>");';
+    $func_body = 'window.opener.' . $HTMLArea . '.surroundHTML("<a href="+link+">","</a>");';
   }
 }
 
 if ($opener_input_field != '' && $opener_input_field_name == '')
 {
-  $opener_input_field_name = $opener_input_field.'_NAME';
+  $opener_input_field_name = $opener_input_field . '_NAME';
 }
-if ($opener_input_field=="TINY")
+if ($opener_input_field == 'TINY')
 {
   $func_body .= 'window.opener.insertLink(link,name);
                  self.close();';
 }
-elseif (substr($opener_input_field,0,13)=="REX_LINKLIST_")
+elseif (substr($opener_input_field, 0, 13) == 'REX_LINKLIST_')
 {
-$id = substr($opener_input_field,13,strlen($opener_input_field));
-$func_body .= 'var linklist = "REX_LINKLIST_SELECT_'. $id .'";
+$id = substr($opener_input_field, 13, strlen($opener_input_field));
+$func_body .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
                var linkid = link.replace("redaxo://","");
          var source = opener.document.getElementById(linklist);
          var sourcelength = source.options.length;
@@ -57,13 +57,13 @@ $func_body .= 'var linklist = "REX_LINKLIST_SELECT_'. $id .'";
                option.value = linkid;
 
          source.options.add(option, sourcelength);
-         opener.writeREXLinklist('. $id .');';
+         opener.writeREXLinklist(' . $id . ');';
 }
 else
 {
 $func_body .= 'var linkid = link.replace("redaxo://","");
-               window.opener.document.getElementById("'. $opener_input_field .'").value = linkid;
-               window.opener.document.getElementById("'. $opener_input_field_name .'").value = name;
+               window.opener.document.getElementById("' . $opener_input_field . '").value = linkid;
+               window.opener.document.getElementById("' . $opener_input_field_name . '").value = name;
                self.close();';
 }
 
@@ -73,7 +73,7 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
 ?>
 <script type="text/javascript">
   function insertLink(link,name){
-    <?php echo $func_body. "\n" ?>
+    <?php echo $func_body . "\n" ?>
   }
 </script>
 
@@ -86,8 +86,8 @@ $isRoot = $category_id === 0;
 $category = rex_ooCategory::getCategoryById($category_id);
 $link = $context->getUrl(array('category_id' => 0));
 
-$navi_path .= '<li>'.rex_i18n::msg('path').' </li>';
-$navi_path .= '<li class="rex-navi-first">: <a href="'.$link.'">Homepage</a> </li>';
+$navi_path .= '<li>' . rex_i18n::msg('path') . ' </li>';
+$navi_path .= '<li class="rex-navi-first">: <a href="' . $link . '">Homepage</a> </li>';
 
 $tree = array();
 
@@ -98,7 +98,7 @@ if ($category)
     $tree[] = $cat->getId();
 
     $link = $context->getUrl(array('category_id' => $cat->getId()));
-    $navi_path .= '<li> : <a href="'. $link .'">'.htmlspecialchars($cat->getName()).'</a></li>';
+    $navi_path .= '<li> : <a href="' . $link . '">' . htmlspecialchars($cat->getName()) . '</a></li>';
   }
 }
 $navi_path .= '</ul>';

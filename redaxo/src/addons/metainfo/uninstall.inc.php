@@ -9,6 +9,6 @@
  */
 
 $curDir = dirname(__FILE__);
-require_once ($curDir .'/extensions/extension_cleanup.inc.php');
+require_once ($curDir . '/extensions/extension_cleanup.inc.php');
 
 rex_metainfo_cleanup(array('force' => true));

@@ -103,7 +103,7 @@ abstract class rex_dashboard_component_base
 
   protected function getId()
   {
-    return 'rex-component-'. $this->id;
+    return 'rex-component-' . $this->id;
   }
 
   protected function getActions()
@@ -131,20 +131,20 @@ abstract class rex_dashboard_component_base
     {
       $laction = strtolower($action['name']);
       $class = $action['class'];
-      $id = $this->getId(). '-'. $laction;
-      $onclick = 'component'. ucfirst($action['name']) .'(\''. $this->getId() .'\'); return false;';
-      $title = rex_i18n::msg('dashboard_component_action_'. $laction);
+      $id = $this->getId() . '-' . $laction;
+      $onclick = 'component' . ucfirst($action['name']) . '(\'' . $this->getId() . '\'); return false;';
+      $title = rex_i18n::msg('dashboard_component_action_' . $laction);
 
       $content .= '<li>';
-      $content .= '<a class="'.$class.'" href="#" onclick="'.$onclick.'" id="'.$id.'" title="'.$title.'">';
-      $content .= '<span>'.$title.'</span>';
+      $content .= '<a class="' . $class . '" href="#" onclick="' . $onclick . '" id="' . $id . '" title="' . $title . '">';
+      $content .= '<span>' . $title . '</span>';
       $content .= '</a>';
       $content .= '</li>';
     }
     $content .= '</ul>';
 
     $content = '<div class="rex-dashboard-action-bar">
-                    '. $content .'
+                    ' . $content . '
                 </div>';
 
     return $content;

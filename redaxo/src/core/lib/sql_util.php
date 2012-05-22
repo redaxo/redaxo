@@ -18,21 +18,21 @@ class rex_sql_util
   * @param $id_field Name des Primaerschluessels der Tabelle
   * @param $startBy Startpriorität
   */
-  static public function organizePriorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id', $startBy = 1)
+  static public function organizePriorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field = 'id', $startBy = 1)
   {
     // Datenbankvariable initialisieren
-    $qry = 'SET @count='. ($startBy - 1);
+    $qry = 'SET @count=' . ($startBy - 1);
     $sql = rex_sql::factory();
     $sql->setQuery($qry);
 
     // Spalte updaten
-    $qry = 'UPDATE '. $tableName .' SET '. $priorColumnName .' = ( SELECT @count := @count +1 )';
+    $qry = 'UPDATE ' . $tableName . ' SET ' . $priorColumnName . ' = ( SELECT @count := @count +1 )';
 
     if ($whereCondition != '')
-    $qry .= ' WHERE '. $whereCondition;
+    $qry .= ' WHERE ' . $whereCondition;
 
     if ($orderBy != '')
-    $qry .= ' ORDER BY '. $orderBy;
+    $qry .= ' ORDER BY ' . $orderBy;
 
     $sql->setQuery($qry);
   }
@@ -56,7 +56,7 @@ class rex_sql_util
       }
       catch (rex_sql_exception $e)
       {
-        $error .= $e->getMessage()."\n<br />";
+        $error .= $e->getMessage() . "\n<br />";
       }
     }
 
@@ -127,8 +127,8 @@ class rex_sql_util
     $sql_len = strlen($sql);
     $char = '';
     $string_start = '';
-    $in_string = FALSE;
-    $nothing = TRUE;
+    $in_string = false;
+    $nothing = true;
     $time0 = time();
 
     for ($i = 0; $i < $sql_len; ++ $i)
@@ -139,7 +139,7 @@ class rex_sql_util
       // backquotes that can't be escaped
       if ($in_string)
       {
-        for (;;)
+        for (; ; )
         {
           $i = strpos($sql, $string_start, $i);
           // No end of string found -> add the current substring to the
@@ -147,14 +147,14 @@ class rex_sql_util
           if (!$i)
           {
             $ret[] = $sql;
-            return TRUE;
+            return true;
           }
           // Backquotes or no backslashes before quotes: it's indeed the
           // end of the string -> exit the loop
           elseif ($string_start == '`' || $sql[$i -1] != '\\')
             {
               $string_start = '';
-              $in_string = FALSE;
+              $in_string = false;
               break;
             }
           // one or more Backslashes before the presumed end of string...
@@ -162,7 +162,7 @@ class rex_sql_util
           {
             // ... first checks for escaped backslashes
             $j = 2;
-            $escaped_backslash = FALSE;
+            $escaped_backslash = false;
             while ($i - $j > 0 && $sql[$i - $j] == '\\')
             {
               $escaped_backslash = !$escaped_backslash;
@@ -173,7 +173,7 @@ class rex_sql_util
             if ($escaped_backslash)
             {
               $string_start = '';
-              $in_string = FALSE;
+              $in_string = false;
               break;
             }
             // ... else loop
@@ -190,7 +190,7 @@ class rex_sql_util
         {
           $i = strpos($sql, $char == '/' ? '*/' : "\n", $i);
           // didn't we hit end of string?
-          if ($i === FALSE)
+          if ($i === false)
           {
             break;
           }
@@ -203,7 +203,7 @@ class rex_sql_util
         {
           // if delimiter found, add the parsed part to the returned array
           $ret[] = array ('query' => substr($sql, 0, $i), 'empty' => $nothing);
-          $nothing = TRUE;
+          $nothing = true;
           $sql = ltrim(substr($sql, min($i +1, $sql_len)));
           $sql_len = strlen($sql);
           if ($sql_len)
@@ -213,21 +213,21 @@ class rex_sql_util
           else
           {
             // The submited statement(s) end(s) here
-            return TRUE;
+            return true;
           }
         } // end else if (is delimiter)
 
       // ... then check for start of a string,...
       elseif (($char == '"') || ($char == '\'') || ($char == '`'))
         {
-          $in_string = TRUE;
-          $nothing = FALSE;
+          $in_string = true;
+          $nothing = false;
           $string_start = $char;
         } // end else if (is start of string)
 
       elseif ($nothing)
       {
-        $nothing = FALSE;
+        $nothing = false;
       }
 
       // loic1: send a fake header each 30 sec. to bypass browser timeout
@@ -245,6 +245,6 @@ class rex_sql_util
       $ret[] = array ('query' => $sql, 'empty' => $nothing);
     }
 
-    return TRUE;
+    return true;
   } // end of the 'PMA_splitSqlFile()' function
 }

@@ -32,10 +32,10 @@ class rex_i18n
       $locales = array();
       foreach (explode(',', trim(self::msg('setlocale'))) as $locale)
       {
-        $locales[] = $locale .'.UTF-8';
-        $locales[] = $locale .'.UTF8';
-        $locales[] = $locale .'.utf-8';
-        $locales[] = $locale .'.utf8';
+        $locales[] = $locale . '.UTF-8';
+        $locales[] = $locale . '.UTF8';
+        $locales[] = $locale . '.utf-8';
+        $locales[] = $locale . '.utf8';
       }
 
       foreach (explode(',', trim(self::msg('setlocale'))) as $locale)
@@ -68,7 +68,7 @@ class rex_i18n
 
     if (self::$loaded)
     {
-      self::loadFile($dir .DIRECTORY_SEPARATOR. self::$locale .'.lang');
+      self::loadFile($dir . DIRECTORY_SEPARATOR . self::$locale . '.lang');
     }
   }
 
@@ -105,7 +105,7 @@ class rex_i18n
       for ($i = 1; $i < $argNum; $i++)
       {
         // zero indexed
-        $patterns[] = '/\{'. ($i-1) .'\}/';
+        $patterns[] = '/\{' . ($i-1) . '\}/';
         $replacements[] = $args[$i];
       }
     }
@@ -172,7 +172,7 @@ class rex_i18n
   {
     if (!is_string($text))
     {
-      throw new InvalidArgumentException('Expecting $text to be a String, "'. gettype($text) .'" given!');
+      throw new InvalidArgumentException('Expecting $text to be a String, "' . gettype($text) . '" given!');
     }
 
     $tranKey = 'translate:';
@@ -215,7 +215,7 @@ class rex_i18n
     }
     else
     {
-      throw new InvalidArgumentException('Expecting $text to be a String or Array of Scalar, "'. gettype($array) .'" given!');
+      throw new InvalidArgumentException('Expecting $text to be a String or Array of Scalar, "' . gettype($array) . '" given!');
     }
   }
 
@@ -230,7 +230,7 @@ class rex_i18n
   {
     if (is_readable($file))
     {
-      $handle = fopen($file, "r");
+      $handle = fopen($file, 'r');
       if ($handle)
       {
         while (!feof($handle))
@@ -242,11 +242,11 @@ class rex_i18n
           }
         }
         fclose($handle);
-        return TRUE;
+        return true;
       }
     }
 
-    return FALSE;
+    return false;
   }
 
   /**
@@ -261,7 +261,7 @@ class rex_i18n
     }
     foreach (self::$directories as $dir)
     {
-      self::loadFile($dir .DIRECTORY_SEPARATOR. self::$locale .'.lang');
+      self::loadFile($dir . DIRECTORY_SEPARATOR . self::$locale . '.lang');
     }
     self::$loaded = true;
   }

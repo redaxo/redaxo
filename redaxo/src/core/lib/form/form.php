@@ -56,9 +56,9 @@ class rex_form extends rex_factory_base
     $this->setMessage('');
 
     $this->sql = rex_sql::factory();
-    $this->debug =& $debug;
-    $this->sql->debugsql =& $this->debug;
-    $this->sql->setQuery('SELECT * FROM '. $tableName .' WHERE '. $this->whereCondition .' LIMIT 2');
+    $this->debug = & $debug;
+    $this->sql->debugsql = & $this->debug;
+    $this->sql->setQuery('SELECT * FROM ' . $tableName . ' WHERE ' . $this->whereCondition . ' LIMIT 2');
 
     // --------- validate where-condition and determine editMode
     $numRows = $this->sql->getRows();
@@ -117,7 +117,7 @@ class rex_form extends rex_factory_base
     $controlFields['save'] = rex_i18n::msg('form_save');
     $controlFields['apply']  = $func == 'edit' ? rex_i18n::msg('form_apply') : '';
     $controlFields['delete'] = $func == 'edit' ? rex_i18n::msg('form_delete') : '';
-    $controlFields['reset'] = '';//rex_i18n::msg('form_reset');
+    $controlFields['reset'] = ''; //rex_i18n::msg('form_reset');
     $controlFields['abort'] = rex_i18n::msg('form_abort');
 
     // ----- EXTENSION POINT
@@ -164,10 +164,10 @@ class rex_form extends rex_factory_base
     $paramString = '';
     foreach ($params as $name => $value)
     {
-      $paramString .= $name .'='. $value .'&';
+      $paramString .= $name . '=' . $value . '&';
     }
 
-    $url = 'index.php?'. $paramString;
+    $url = 'index.php?' . $paramString;
     if ($escape)
     {
       $url = str_replace('&', '&amp;', $url);
@@ -378,7 +378,7 @@ class rex_form extends rex_factory_base
   {
     if (!rex_addon::get('mediapool')->isAvailable())
     {
-      throw new rex_exception(__METHOD__ .'() needs "mediapool" addon!');
+      throw new rex_exception(__METHOD__ . '() needs "mediapool" addon!');
     }
     $attributes['internal::fieldClass'] = 'rex_form_widget_media_element';
     $field = $this->addField('', $name, $value, $attributes, true);
@@ -395,7 +395,7 @@ class rex_form extends rex_factory_base
   {
     if (!rex_addon::get('mediapool')->isAvailable())
     {
-      throw new rex_exception(__METHOD__ .'() needs "mediapool" addon!');
+      throw new rex_exception(__METHOD__ . '() needs "mediapool" addon!');
     }
     $attributes['internal::fieldClass'] = 'rex_form_widget_medialist_element';
     $field = $this->addField('', $name, $value, $attributes, true);
@@ -412,7 +412,7 @@ class rex_form extends rex_factory_base
   {
     if (!rex_plugin::get('structure', 'linkmap')->isAvailable())
     {
-      throw new rex_exception(__METHOD__ .'() needs "structure/linkmap" plugin!');
+      throw new rex_exception(__METHOD__ . '() needs "structure/linkmap" plugin!');
     }
     $attributes['internal::fieldClass'] = 'rex_form_widget_linkmap_element';
     $field = $this->addField('', $name, $value, $attributes, true);
@@ -429,7 +429,7 @@ class rex_form extends rex_factory_base
   {
     if (!rex_plugin::get('structure', 'linkmap')->isAvailable())
     {
-      throw new rex_exception(__METHOD__ .'() needs "structure/linkmap" plugin!');
+      throw new rex_exception(__METHOD__ . '() needs "structure/linkmap" plugin!');
     }
     $attributes['internal::fieldClass'] = 'rex_form_widget_linklist_element';
     $field = $this->addField('', $name, $value, $attributes, true);
@@ -543,7 +543,7 @@ class rex_form extends rex_factory_base
    */
   protected function createElement($tag, $name, $value, array $attributes = array())
   {
-    $id = $this->tableName.'_'.$this->fieldset.'_'.$name;
+    $id = $this->tableName . '_' . $this->fieldset . '_' . $name;
 
     // Evtl postwerte wieder übernehmen (auch externe Werte überschreiben)
     $postValue = $this->elementPostValue($this->getFieldsetName(), $name);
@@ -572,11 +572,11 @@ class rex_form extends rex_factory_base
     $fieldName = $name;
     if ($attributes['internal::useArraySyntax'] === true)
     {
-      $name = $this->fieldset . '['. $name .']';
+      $name = $this->fieldset . '[' . $name . ']';
     }
     elseif ($attributes['internal::useArraySyntax'] === false)
     {
-      $name = $this->fieldset . '_'. $name;
+      $name = $this->fieldset . '_' . $name;
     }
     unset($attributes['internal::useArraySyntax']);
 
@@ -676,7 +676,7 @@ class rex_form extends rex_factory_base
       case 'readonlytext' :
       case 'text'      :
       case 'textarea'  : $className = 'rex_form_element'; break;
-      default          : throw new rex_exception("Unexpected inputType '". $inputType ."'!");
+      default          : throw new rex_exception("Unexpected inputType '" . $inputType . "'!");
     }
     return $className;
   }
@@ -734,7 +734,7 @@ class rex_form extends rex_factory_base
       case 'text'      :
         return array(
           'type' => $inputType,
-          'class' => 'rex-form-'.$inputType
+          'class' => 'rex-form-' . $inputType
         );
       case 'textarea'  :
         return array(
@@ -932,8 +932,8 @@ class rex_form extends rex_factory_base
    */
   protected function getElement($fieldsetName, $elementName)
   {
-    $normalizedName = rex_form_element::_normalizeName($fieldsetName.'['. $elementName .']');
-    $result = $this->_getElement($fieldsetName,$normalizedName);
+    $normalizedName = rex_form_element::_normalizeName($fieldsetName . '[' . $elementName . ']');
+    $result = $this->_getElement($fieldsetName, $normalizedName);
     return $result;
   }
 
@@ -985,10 +985,10 @@ class rex_form extends rex_factory_base
    */
   public function getWarning()
   {
-    $warning = rex_request($this->getName().'_warning', 'string');
+    $warning = rex_request($this->getName() . '_warning', 'string');
     if ($this->warning != '')
     {
-      $warning .= "\n". $this->warning;
+      $warning .= "\n" . $this->warning;
     }
     return $warning;
   }
@@ -1003,10 +1003,10 @@ class rex_form extends rex_factory_base
    */
   public function getMessage()
   {
-    $message = rex_request($this->getName().'_msg', 'string');
+    $message = rex_request($this->getName() . '_msg', 'string');
     if ($this->message != '')
     {
-      $message .= "\n". $this->message;
+      $message .= "\n" . $this->message;
     }
     return $message;
   }
@@ -1167,7 +1167,7 @@ class rex_form extends rex_factory_base
   protected function save()
   {
     $sql = rex_sql::factory();
-    $sql->debugsql =& $this->debug;
+    $sql->debugsql = & $this->debug;
     $sql->setTable($this->tableName);
 
     foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements)
@@ -1216,7 +1216,7 @@ class rex_form extends rex_factory_base
   protected function delete()
   {
     $deleteSql = rex_sql::factory();
-    $deleteSql->debugsql =& $this->debug;
+    $deleteSql->debugsql = & $this->debug;
     $deleteSql->setTable($this->tableName);
     $deleteSql->setWhere($this->whereCondition);
 
@@ -1236,28 +1236,28 @@ class rex_form extends rex_factory_base
     if ($listMessage != '')
     {
       $listName = rex_request('list', 'string');
-      $params[$listName.'_msg'] = $listMessage;
+      $params[$listName . '_msg'] = $listMessage;
     }
 
     if ($listWarning != '')
     {
       $listName = rex_request('list', 'string');
-      $params[$listName.'_warning'] = $listWarning;
+      $params[$listName . '_warning'] = $listWarning;
     }
 
     $paramString = '';
     foreach ($params as $name => $value)
     {
-      $paramString = $name .'='. $value .'&';
+      $paramString = $name . '=' . $value . '&';
     }
 
     if ($this->debug)
     {
-      echo 'redirect to: '. $this->applyUrl . $paramString;
+      echo 'redirect to: ' . $this->applyUrl . $paramString;
       exit();
     }
 
-    header('Location: '. $this->applyUrl . $paramString);
+    header('Location: ' . $this->applyUrl . $paramString);
     exit();
   }
 
@@ -1345,25 +1345,25 @@ class rex_form extends rex_factory_base
     $message = $this->getMessage();
     if ($warning != '')
     {
-      $s .= '  '. rex_view::warning($warning). "\n";
+      $s .= '  ' . rex_view::warning($warning) . "\n";
     }
     elseif ($message != '')
     {
-      $s .= '  '. rex_view::info($message). "\n";
+      $s .= '  ' . rex_view::info($message) . "\n";
     }
 
-    $s .= '<div id="'. $this->divId .'" class="rex-form">'. "\n";
+    $s .= '<div id="' . $this->divId . '" class="rex-form">' . "\n";
 
     $i = 0;
     $addHeaders = true;
     $fieldsets = $this->getFieldsetElements();
     $last = count($fieldsets);
 
-    $s .= '  <form action="index.php" method="'. $this->method .'">'. "\n";
+    $s .= '  <form action="index.php" method="' . $this->method . '">' . "\n";
     foreach ($fieldsets as $fieldsetName => $fieldsetElements)
     {
-      $s .= '    <fieldset">'. "\n";
-      $s .= '      <h2>'. htmlspecialchars($fieldsetName) .'</h2>'. "\n";
+      $s .= '    <fieldset">' . "\n";
+      $s .= '      <h2>' . htmlspecialchars($fieldsetName) . '</h2>' . "\n";
 
       // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfügen
       if ($i == 0 && $addHeaders)
@@ -1396,13 +1396,13 @@ class rex_form extends rex_factory_base
         }
       }
 
-      $s .= '    </fieldset>'. "\n";
+      $s .= '    </fieldset>' . "\n";
 
       $i++;
     }
 
-    $s .= '  </form>'. "\n";
-    $s .= '</div>'. "\n";
+    $s .= '  </form>' . "\n";
+    $s .= '</div>' . "\n";
 
     return $s;
   }

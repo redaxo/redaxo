@@ -32,7 +32,7 @@ class rex_addon extends rex_package implements rex_addon_interface
   {
     if (!is_string($addon))
     {
-      throw new rex_exception('Expecting $addon to be string, but '. gettype($addon) .' given!');
+      throw new rex_exception('Expecting $addon to be string, but ' . gettype($addon) . ' given!');
     }
     if (!isset(self::$addons[$addon]))
     {
@@ -123,7 +123,7 @@ class rex_addon extends rex_package implements rex_addon_interface
   public function i18n($key)
   {
     $args = func_get_args();
-    $key = $this->getName() .'_'. $key;
+    $key = $this->getName() . '_' . $key;
     if (rex_i18n::hasMsg($key))
     {
       $args[0] = $key;
@@ -138,7 +138,7 @@ class rex_addon extends rex_package implements rex_addon_interface
   {
     if (!is_string($plugin))
     {
-      throw new rex_exception('Expecting $plugin to be string, but '. gettype($plugin) .' given!');
+      throw new rex_exception('Expecting $plugin to be string, but ' . gettype($plugin) . ' given!');
     }
     if (!isset($this->plugins[$plugin]))
     {

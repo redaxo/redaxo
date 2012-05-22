@@ -109,7 +109,7 @@ class rex_file
 
       // file_exists(dirname($dstfile) .'/.') checks if the parent directory has the executable permission
       // is_executable($directory) does not work on all systems
-      if (file_exists(dirname($dstfile) .'/.') && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile))
+      if (file_exists(dirname($dstfile) . '/.') && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile))
       {
         touch($dstfile, filemtime($srcfile));
         @chmod($dstfile, rex::getFilePerm());

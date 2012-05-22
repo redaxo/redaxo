@@ -13,7 +13,7 @@ class rex_form_radio_element extends rex_form_options_element
   protected function formatLabel()
   {
     // Da Jedes Feld schon ein Label hat, hier nur eine "Ueberschrift" anbringen
-    return '<span>'. $this->getLabel() .'</span>';
+    return '<span>' . $this->getLabel() . '</span>';
   }
 
   public function formatElement()
@@ -27,16 +27,16 @@ class rex_form_radio_element extends rex_form_options_element
     foreach ($this->getAttributes() as $attributeName => $attributeValue)
     {
       if ($attributeName == 'id') continue;
-      $attr .= ' '. $attributeName .'="'. $attributeValue .'"';
+      $attr .= ' ' . $attributeName . '="' . $attributeValue . '"';
     }
 
     foreach ($options as $opt_name => $opt_value)
     {
       $checked = $opt_value == $value ? ' checked="checked"' : '';
-      $opt_id = $id .'_'. $this->_normalizeId($opt_value);
-      $opt_attr = $attr . ' id="'. $opt_id .'"';
-      $s .= '<input type="radio" value="'. htmlspecialchars($opt_value) .'"'. $opt_attr . $checked.' />
-             <label for="'. $opt_id .'">'. $opt_name .'</label>';
+      $opt_id = $id . '_' . $this->_normalizeId($opt_value);
+      $opt_attr = $attr . ' id="' . $opt_id . '"';
+      $s .= '<input type="radio" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />
+             <label for="' . $opt_id . '">' . $opt_name . '</label>';
     }
     return $s;
   }

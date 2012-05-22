@@ -58,8 +58,8 @@ class rex_setup
   public static function checkFilesystem()
   {
     $export_addon_dir = rex_path::addon('import_export');
-    require_once $export_addon_dir.'/functions/function_folder.inc.php';
-    require_once $export_addon_dir.'/functions/function_import_folder.inc.php';
+    require_once $export_addon_dir . '/functions/function_folder.inc.php';
+    require_once $export_addon_dir . '/functions/function_import_folder.inc.php';
 
     // -------------------------- SCHREIBRECHTE
     $WRITEABLES = array (

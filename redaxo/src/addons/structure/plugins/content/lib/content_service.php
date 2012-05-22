@@ -19,7 +19,7 @@ class rex_content_service
 
     // check if slice id is valid
     $CM = rex_sql::factory();
-    $CM->setQuery("select * from " . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang=$clang");
+    $CM->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang=$clang");
     if ($CM->getRows() == 1)
     {
       // origin value for later success-check
@@ -27,7 +27,7 @@ class rex_content_service
 
       // prepare sql for later saving
       $upd = rex_sql::factory();
-      $upd->setTable(rex::getTablePrefix() . "article_slice");
+      $upd->setTable(rex::getTablePrefix() . 'article_slice');
       $upd->setWhere(array(
         'id' => $slice_id
       ));
@@ -37,14 +37,14 @@ class rex_content_service
       $ctype = $CM->getValue('ctype');
       $slice_revision = $CM->getValue('revision');
 
-      if ($direction == "moveup" || $direction == "movedown")
+      if ($direction == 'moveup' || $direction == 'movedown')
       {
-        if ($direction == "moveup")
+        if ($direction == 'moveup')
         {
           $upd->setValue('prior', $CM->getValue('prior')-1);
           $updSort = 'DESC';
         }
-        elseif ($direction == "movedown")
+        elseif ($direction == 'movedown')
         {
           $upd->setValue('prior', $CM->getValue('prior')+1);
           $updSort = 'ASC';
@@ -55,12 +55,12 @@ class rex_content_service
         rex_sql_util::organizePriorities(
           rex::getTable('article_slice'),
           'prior',
-          'article_id=' . $article_id . ' AND clang=' . $clang .' AND ctype='. $ctype .' AND revision='. $slice_revision,
-          'prior, updatedate '. $updSort
+          'article_id=' . $article_id . ' AND clang=' . $clang . ' AND ctype=' . $ctype . ' AND revision=' . $slice_revision,
+          'prior, updatedate ' . $updSort
         );
 
         // check if the slice moved at all (first cannot be moved up, last not down)
-        $CM->setQuery("select * from " . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang=$clang");
+        $CM->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang=$clang");
         $newPrior = $CM->getValue('prior');
         if ($oldPrior == $newPrior)
         {
@@ -71,7 +71,7 @@ class rex_content_service
       }
       else
       {
-        throw new rex_exception('rex_moveSlice: Unsupported direction "'. $direction .'"!', E_USER_ERROR);
+        throw new rex_exception('rex_moveSlice: Unsupported direction "' . $direction . '"!', E_USER_ERROR);
       }
     }
     else
@@ -107,7 +107,7 @@ class rex_content_service
     rex_sql_util::organizePriorities(
       rex::getTable('article_slice'),
       'prior',
-      'article_id=' . $curr->getValue('article_id') . ' AND clang=' . $curr->getValue('clang') .' AND ctype='. $curr->getValue('ctype') .' AND revision='. $curr->getValue('revision'),
+      'article_id=' . $curr->getValue('article_id') . ' AND clang=' . $curr->getValue('clang') . ' AND ctype=' . $curr->getValue('ctype') . ' AND revision=' . $curr->getValue('revision'),
       'prior'
     );
 
@@ -132,32 +132,32 @@ class rex_content_service
     return false;
 
     $gc = rex_sql::factory();
-    $gc->setQuery("select * from ".rex::getTablePrefix()."article_slice where article_id='$from_id' and clang='$from_clang' and revision='$revision'");
+    $gc->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where article_id='$from_id' and clang='$from_clang' and revision='$revision'");
 
     if ($gc->getRows() > 0)
     {
       $ins = rex_sql::factory();
-      $ins->setTable(rex::getTablePrefix()."article_slice");
+      $ins->setTable(rex::getTablePrefix() . 'article_slice');
       $ctypes = array();
 
       $cols = rex_sql::factory();
       // $cols->debugsql = 1;
-      $cols->setquery("SHOW COLUMNS FROM ".rex::getTablePrefix()."article_slice");
+      $cols->setquery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
       foreach ($gc as $slice)
       {
         foreach ($cols as $col)
         {
-          $colname = $col->getValue("Field");
-          if ($colname == "clang") $value = $to_clang;
-          elseif ($colname == "article_id") $value = $to_id;
+          $colname = $col->getValue('Field');
+          if ($colname == 'clang') $value = $to_clang;
+          elseif ($colname == 'article_id') $value = $to_id;
           else
           $value = $slice->getValue($colname);
 
           // collect all affected ctypes
-          if ($colname == "ctype")
+          if ($colname == 'ctype')
           $ctypes[$value] = $value;
 
-          if ($colname != "id")
+          if ($colname != 'id')
           $ins->setValue($colname, $value);
         }
 
@@ -172,7 +172,7 @@ class rex_content_service
         rex_sql_util::organizePriorities(
           rex::getTable('article_slice'),
           'prior',
-          'article_id=' . $to_id . ' AND clang=' . $to_clang .' AND ctype='. $ctype .' AND revision='. $revision,
+          'article_id=' . $to_id . ' AND clang=' . $to_clang . ' AND ctype=' . $ctype . ' AND revision=' . $revision,
           'prior, updatedate'
         );
       }
@@ -201,8 +201,8 @@ class rex_content_service
 
       $CONT = new rex_article_base();
       $CONT->setCLang($_clang);
-      $CONT->setEval(FALSE); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
-      if (!$CONT->setArticleId($article_id)) return FALSE;
+      $CONT->setEval(false); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
+      if (!$CONT->setArticleId($article_id)) return false;
 
       // --------------------------------------------------- Artikelcontent speichern
       $article_content_file = rex_path::addonCache('structure', "$article_id.$_clang.content");
@@ -217,12 +217,12 @@ class rex_content_service
       )
       );
 
-      if (rex_file::put($article_content_file, $article_content) === FALSE)
+      if (rex_file::put($article_content_file, $article_content) === false)
       {
-        return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::addonCache('structure');
+        return rex_i18n::msg('article_could_not_be_generated') . ' ' . rex_i18n::msg('check_rights_in_directory') . rex_path::addonCache('structure');
       }
     }
 
-    return TRUE;
+    return true;
   }
 }

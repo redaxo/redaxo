@@ -68,7 +68,7 @@ abstract class rex_api_function extends rex_factory_base
 
     if ($api)
     {
-      $apiClass = 'rex_api_'. $api;
+      $apiClass = 'rex_api_' . $api;
       if (class_exists($apiClass))
       {
         $apiImpl = new $apiClass();
@@ -84,7 +84,7 @@ abstract class rex_api_function extends rex_factory_base
       }
       else
       {
-          throw new rex_exception('$apiClass "'. $apiClass .'" not found!');
+          throw new rex_exception('$apiClass "' . $apiClass . '" not found!');
       }
     }
 
@@ -110,13 +110,13 @@ abstract class rex_api_function extends rex_factory_base
         if (rex::isBackend() !== true)
         {
           rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
-          throw new rex_api_exception('the api function '. get_class($apiFunc) .' is not published, therefore can only be called from the backend!');
+          throw new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!');
         }
 
         if (!rex::getUser())
         {
           rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
-          throw new rex_api_exception('missing backend session to call api function '. get_class($apiFunc) .'!');
+          throw new rex_api_exception('missing backend session to call api function ' . get_class($apiFunc) . '!');
         }
       }
 
@@ -160,7 +160,7 @@ abstract class rex_api_function extends rex_factory_base
       }
     }
     // return a placeholder which can later be used by ajax requests to display messages
-    return '<div id="rex-message-container">'. $message .'</div>';
+    return '<div id="rex-message-container">' . $message . '</div>';
   }
 
   /**

@@ -22,12 +22,12 @@ class rex_be_page implements rex_be_page_container
   {
     if (!is_string($title))
     {
-      throw new rex_exception('Expecting $title to be a string, '. gettype($title) .' given!');
+      throw new rex_exception('Expecting $title to be a string, ' . gettype($title) . ' given!');
     }
 
     if (!is_bool($hidden))
     {
-      throw new rex_exception('Expecting $hidden to be a boolean, '. gettype($hidden) .'given!');
+      throw new rex_exception('Expecting $hidden to be a boolean, ' . gettype($hidden) . 'given!');
     }
 
     $this->title = $title;
@@ -62,11 +62,11 @@ class rex_be_page implements rex_be_page_container
   {
     if (!is_string($name))
     {
-      throw new rex_exception('Expecting $name to be a string, '. gettype($name) .'given!');
+      throw new rex_exception('Expecting $name to be a string, ' . gettype($name) . 'given!');
     }
     if (!is_scalar($value))
     {
-      throw new rex_exception('Expecting $value to be a scalar, '. gettype($value) .'given!');
+      throw new rex_exception('Expecting $value to be a scalar, ' . gettype($value) . 'given!');
     }
     $this->itemAttr[$name] = $value;
   }
@@ -75,9 +75,9 @@ class rex_be_page implements rex_be_page_container
   {
     if (!is_string($class))
     {
-      throw new rex_exception('Expecting $class to be a string, '. gettype($class) .'given!');
+      throw new rex_exception('Expecting $class to be a string, ' . gettype($class) . 'given!');
     }
-    $this->setItemAttr('class', ltrim($this->getItemAttr('class').' '. $class));
+    $this->setItemAttr('class', ltrim($this->getItemAttr('class') . ' ' . $class));
   }
 
   public function getLinkAttr($name, $default = '')
@@ -95,18 +95,18 @@ class rex_be_page implements rex_be_page_container
   {
     if (!is_string($name))
     {
-      throw new rex_exception('Expecting $name to be a string, '. gettype($name) .'given!');
+      throw new rex_exception('Expecting $name to be a string, ' . gettype($name) . 'given!');
     }
     if (!is_scalar($value))
     {
-      throw new rex_exception('Expecting $value to be a scalar, '. gettype($value) .'given!');
+      throw new rex_exception('Expecting $value to be a scalar, ' . gettype($value) . 'given!');
     }
     $this->linkAttr[$name] = $value;
   }
 
   public function addLinkClass($class)
   {
-    $this->setLinkAttr('class', ltrim($this->getLinkAttr('class').' '. $class));
+    $this->setLinkAttr('class', ltrim($this->getLinkAttr('class') . ' ' . $class));
   }
 
   public function setHref($href)

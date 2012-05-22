@@ -12,8 +12,8 @@ class rex_articleMetainfoHandler extends rex_metainfoHandler
 
     $article = rex_sql::factory();
     // $article->debugsql = true;
-    $article->setTable(rex::getTablePrefix(). 'article');
-    $article->setWhere('id=:id AND clang=:clang', array('id'=> $params['id'], 'clang' => $params['clang']));
+    $article->setTable(rex::getTablePrefix() . 'article');
+    $article->setWhere('id=:id AND clang=:clang', array('id' => $params['id'], 'clang' => $params['clang']));
 
     parent::fetchRequestValues($params, $article, $sqlFields);
 
@@ -41,11 +41,11 @@ class rex_articleMetainfoHandler extends rex_metainfoHandler
       {
         if ($pathElement != '')
         {
-          $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
+          $s .= ' OR `p`.`restrictions` LIKE "%|' . $pathElement . '|%"';
         }
       }
 
-      $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
+      $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL ' . $s . ')';
     }
 
     return $restrictionsCondition;
@@ -58,15 +58,15 @@ class rex_articleMetainfoHandler extends rex_metainfoHandler
       $s .= '<div class="rex-form-row">';
 
     if ($tag != '')
-      $s .= '<'. $tag . $tag_attr  .'>'. "\n";
+      $s .= '<' . $tag . $tag_attr  . '>' . "\n";
 
     if ($labelIt)
-      $s .= '<label for="'. $id .'">'. $label .'</label>'. "\n";
+      $s .= '<label for="' . $id . '">' . $label . '</label>' . "\n";
 
-    $s .= $field. "\n";
+    $s .= $field . "\n";
 
     if ($tag != '')
-      $s .='</'.$tag.'>'. "\n";
+      $s .= '</' . $tag . '>' . "\n";
 
     if ($typeLabel != 'legend')
       $s .= '</div>';

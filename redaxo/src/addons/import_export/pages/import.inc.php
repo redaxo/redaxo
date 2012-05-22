@@ -20,82 +20,82 @@ $EXPDIR         = rex_post('EXPDIR', 'array');
 
 if ($impname != '')
 {
-  $impname = str_replace("/", "", $impname);
+  $impname = str_replace('/', '', $impname);
 
-  if ($function == "dbimport" && substr($impname, -4, 4) != ".sql")
-    $impname = "";
-  elseif ($function == "fileimport" && substr($impname, -7, 7) != ".tar.gz")
-    $impname = "";
+  if ($function == 'dbimport' && substr($impname, -4, 4) != '.sql')
+    $impname = '';
+  elseif ($function == 'fileimport' && substr($impname, -7, 7) != '.tar.gz')
+    $impname = '';
 }
 
 if ($exportfilename == '')
-  $exportfilename = 'rex_'.rex::getProperty('version').'_'.date("Ymd");
+  $exportfilename = 'rex_' . rex::getProperty('version') . '_' . date('Ymd');
 
-if ($function == "delete")
+if ($function == 'delete')
 {
   // ------------------------------ FUNC DELETE
-  if (rex_file::delete(getImportDir().'/'.$impname));
-  $info = rex_i18n::msg("im_export_file_deleted");
+  if (rex_file::delete(getImportDir() . '/' . $impname));
+  $info = rex_i18n::msg('im_export_file_deleted');
 }
-elseif ($function == "dbimport")
+elseif ($function == 'dbimport')
 {
   // ------------------------------ FUNC DBIMPORT
 
   // noch checken das nicht alle tabellen geloescht werden
   // install/temp.sql aendern
-  if (isset ($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == "")
+  if (isset ($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == '')
   {
-    $warning = rex_i18n::msg("im_export_no_import_file_chosen_or_wrong_version")."<br>";
+    $warning = rex_i18n::msg('im_export_no_import_file_chosen_or_wrong_version') . '<br>';
   }
   else
   {
-    if ($impname != "")
+    if ($impname != '')
     {
-      $file_temp = getImportDir().'/'.$impname;
+      $file_temp = getImportDir() . '/' . $impname;
     }
     else
     {
-      $file_temp = getImportDir().'/temp.sql';
+      $file_temp = getImportDir() . '/temp.sql';
     }
 
-    if ($impname != "" || @ move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
+    if ($impname != '' || @ move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
     {
       $state = rex_a1_import_db($file_temp);
       $info = $state['message'];
 
       // temp datei löschen
-      if ($impname == "")
+      if ($impname == '')
       {
         rex_file::delete($file_temp);
       }
     }
     else
     {
-      $warning = rex_i18n::msg("im_export_file_could_not_be_uploaded")." ".rex_i18n::msg("im_export_you_have_no_write_permission_in", "addons/import_export/files/")." <br>";
+      $warning = rex_i18n::msg('im_export_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('im_export_you_have_no_write_permission_in', 'addons/import_export/files/') . ' <br>';
     }
   }
 
 }
-elseif ($function == "fileimport")
+elseif ($function == 'fileimport')
 {
   // ------------------------------ FUNC FILEIMPORT
 
-  if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == "")
+  if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == '')
   {
-    $warning = rex_i18n::msg("im_export_no_import_file_chosen")."<br/>";
+    $warning = rex_i18n::msg('im_export_no_import_file_chosen') . '<br/>';
   }
   else
   {
-    if ($impname == "")
+    if ($impname == '')
     {
-      $file_temp = getImportDir().'/temp.tar.gz';
+      $file_temp = getImportDir() . '/temp.tar.gz';
     }
     else
     {
-      $file_temp = getImportDir().'/'.$impname;
+      $file_temp = getImportDir() . '/' . $impname;
     }
 
-    if ($impname != "" || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
+    if ($impname != '' || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
     {
       $return = rex_a1_import_files($file_temp);
       if ($return['state'])
@@ -108,14 +108,14 @@ elseif ($function == "fileimport")
       }
 
       // temp datei löschen
-      if ($impname == "")
+      if ($impname == '')
       {
         rex_file::delete($file_temp);
       }
     }
     else
     {
-      $warning = rex_i18n::msg("im_export_file_could_not_be_uploaded")." ".rex_i18n::msg("im_export_you_have_no_write_permission_in", "addons/import_export/files/")." <br>";
+      $warning = rex_i18n::msg('im_export_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('im_export_you_have_no_write_permission_in', 'addons/import_export/files/') . ' <br>';
     }
   }
 
@@ -186,16 +186,16 @@ if ($warning != '')
 
   foreach ($folder as $file)
   {
-    $filepath = $dir.'/'.$file;
+    $filepath = $dir . '/' . $file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
     $filesize = rex_file::formattedSize($filepath);
 
     echo '<tr>
-            <td>'. $file .'</td>
-            <td>'.$filesize.'</td>
-            <td>'. $filec .'</td>
-            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=dbimport&amp;impname='. $file .'" title="'. rex_i18n::msg('im_export_import_file') .'" data-confirm="'. rex_i18n::msg('im_export_proceed_db_import') .'">'. rex_i18n::msg('im_export_import') .'</a></td>
-            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=delete&amp;impname='. $file .'" title="'. rex_i18n::msg('im_export_delete_file') .'" data-confirm="'. rex_i18n::msg('im_export_delete') .' ?">'. rex_i18n::msg('im_export_delete') .'</a></td>
+            <td>' . $file . '</td>
+            <td>' . $filesize . '</td>
+            <td>' . $filec . '</td>
+            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=dbimport&amp;impname=' . $file . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_db_import') . '">' . rex_i18n::msg('im_export_import') . '</a></td>
+            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=delete&amp;impname=' . $file . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?">' . rex_i18n::msg('im_export_delete') . '</a></td>
           </tr>
   ';
   }
@@ -251,16 +251,16 @@ if ($warning != '')
 
   foreach ($folder as $file)
   {
-    $filepath = $dir.'/'.$file;
+    $filepath = $dir . '/' . $file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
     $filesize = rex_file::formattedSize($filepath);
 
     echo '<tr>
-            <td>'. $file .'</td>
-            <td>'.$filesize.'</td>
-            <td>'. $filec .'</td>
-            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=fileimport&amp;impname='. $file .'" title="'. rex_i18n::msg('im_export_import_file') .'" data-confirm="'. rex_i18n::msg('im_export_proceed_file_import') .'">'. rex_i18n::msg('im_export_import') .'</a></td>
-            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=delete&amp;impname='. $file .'" title="'. rex_i18n::msg('im_export_delete_file') .'" data-confirm="'. rex_i18n::msg('im_export_delete') .' ?">'. rex_i18n::msg('im_export_delete') .'</a></td>
+            <td>' . $file . '</td>
+            <td>' . $filesize . '</td>
+            <td>' . $filec . '</td>
+            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=fileimport&amp;impname=' . $file . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_file_import') . '">' . rex_i18n::msg('im_export_import') . '</a></td>
+            <td><a href="index.php?page=import_export&amp;subpage=import&amp;function=delete&amp;impname=' . $file . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?">' . rex_i18n::msg('im_export_delete') . '</a></td>
           </tr>';
   }
 ?>

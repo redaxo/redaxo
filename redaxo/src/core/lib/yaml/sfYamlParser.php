@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once(dirname(__FILE__).'/sfYamlInline.php');
+require_once(dirname(__FILE__) . '/sfYamlInline.php');
 
 if (!defined('PREG_BAD_UTF8_OFFSET_ERROR'))
 {
@@ -91,7 +91,7 @@ class sfYamlParser
         {
           $c = $this->getRealCurrentLineNb() + 1;
           $parser = new sfYamlParser($c);
-          $parser->refs =& $this->refs;
+          $parser->refs = & $this->refs;
           $data[] = $parser->parse($this->getNextEmbedBlock());
         }
         else
@@ -106,7 +106,7 @@ class sfYamlParser
           }
         }
       }
-      elseif (preg_match('#^(?P<key>'.sfYamlInline::REGEX_QUOTED_STRING.'|[^ \{\[].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $this->currentLine, $values))
+      elseif (preg_match('#^(?P<key>' . sfYamlInline::REGEX_QUOTED_STRING . '|[^ \{\[].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $this->currentLine, $values))
       {
         $key = sfYamlInline::parseScalar($values['key']);
 
@@ -132,13 +132,13 @@ class sfYamlParser
             }
             $c = $this->getRealCurrentLineNb() + 1;
             $parser = new sfYamlParser($c);
-            $parser->refs =& $this->refs;
+            $parser->refs = & $this->refs;
             $parsed = $parser->parse($value);
 
             $merged = array();
             if (!is_array($parsed))
             {
-              throw new InvalidArgumentException(sprintf("YAML merge keys used with a scalar value instead of an array at line %s (%s)", $this->getRealCurrentLineNb() + 1, $this->currentLine));
+              throw new InvalidArgumentException(sprintf('YAML merge keys used with a scalar value instead of an array at line %s (%s)', $this->getRealCurrentLineNb() + 1, $this->currentLine));
             }
             elseif (isset($parsed[0]))
             {
@@ -147,7 +147,7 @@ class sfYamlParser
               {
                 if (!is_array($parsedItem))
                 {
-                  throw new InvalidArgumentException(sprintf("Merge items must be arrays at line %s (%s).", $this->getRealCurrentLineNb() + 1, $parsedItem));
+                  throw new InvalidArgumentException(sprintf('Merge items must be arrays at line %s (%s).', $this->getRealCurrentLineNb() + 1, $parsedItem));
                 }
                 $merged = array_merge($parsedItem, $merged);
               }
@@ -184,7 +184,7 @@ class sfYamlParser
           {
             $c = $this->getRealCurrentLineNb() + 1;
             $parser = new sfYamlParser($c);
-            $parser->refs =& $this->refs;
+            $parser->refs = & $this->refs;
             $data[$key] = $parser->parse($this->getNextEmbedBlock());
           }
         }
@@ -432,7 +432,7 @@ class sfYamlParser
       return '';
     }
 
-    if (!preg_match('#^(?P<indent>'.($indentation ? str_repeat(' ', $indentation) : ' +').')(?P<text>.*)$#u', $this->currentLine, $matches))
+    if (!preg_match('#^(?P<indent>' . ($indentation ? str_repeat(' ', $indentation) : ' +') . ')(?P<text>.*)$#u', $this->currentLine, $matches))
     {
       $this->moveToPreviousLine();
 
@@ -442,24 +442,24 @@ class sfYamlParser
     $textIndent = $matches['indent'];
     $previousIndent = 0;
 
-    $text .= $matches['text'].$separator;
+    $text .= $matches['text'] . $separator;
     while ($this->currentLineNb + 1 < count($this->lines))
     {
       $this->moveToNextLine();
 
-      if (preg_match('#^(?P<indent> {'.strlen($textIndent).',})(?P<text>.+)$#u', $this->currentLine, $matches))
+      if (preg_match('#^(?P<indent> {' . strlen($textIndent) . ',})(?P<text>.+)$#u', $this->currentLine, $matches))
       {
         if (' ' == $separator && $previousIndent != $matches['indent'])
         {
-          $text = substr($text, 0, -1)."\n";
+          $text = substr($text, 0, -1) . "\n";
         }
         $previousIndent = $matches['indent'];
 
-        $text .= str_repeat(' ', $diff = strlen($matches['indent']) - strlen($textIndent)).$matches['text'].($diff ? "\n" : $separator);
+        $text .= str_repeat(' ', $diff = strlen($matches['indent']) - strlen($textIndent)) . $matches['text'] . ($diff ? "\n" : $separator);
       }
       elseif (preg_match('#^(?P<text> *)$#', $this->currentLine, $matches))
       {
-        $text .= preg_replace('#^ {1,'.strlen($textIndent).'}#', '', $matches['text'])."\n";
+        $text .= preg_replace('#^ {1,' . strlen($textIndent) . '}#', '', $matches['text']) . "\n";
       }
       else
       {

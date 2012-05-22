@@ -235,7 +235,7 @@ class rex_fragment
     $url = 'index.php?';
     foreach ($params as $key => $value)
     {
-      $url .= $key .'='. urlencode($value) .'&';
+      $url .= $key . '=' . urlencode($value) . '&';
     }
     return substr($url, 0, -1);
   }

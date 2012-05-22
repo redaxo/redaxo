@@ -105,7 +105,7 @@ class rex_stats_component extends rex_dashboard_component
           <col width="30%" />
         </colgroup>
         <tbody>
-          '.$content.'
+          ' . $content . '
         </tbody>
       </table>'
     );
@@ -141,16 +141,16 @@ class rex_articles_component extends rex_dashboard_component
       $categoryPerms = rex::getUser()->getComplexPerm('structure')->getMountpoints();
       foreach ($categoryPerms as $catPerm)
       {
-        $whereCond .= ' OR path LIKE "%|'. $catPerm .'|%"';
+        $whereCond .= ' OR path LIKE "%|' . $catPerm . '|%"';
       }
     }
 
     $qry = 'SELECT id, re_id, clang, startpage, name, updateuser, updatedate
-            FROM '. rex::getTablePrefix() .'article
-            WHERE '. $whereCond .'
+            FROM ' . rex::getTablePrefix() . 'article
+            WHERE ' . $whereCond . '
             GROUP BY id
             ORDER BY updatedate DESC
-            LIMIT '. $limit;
+            LIMIT ' . $limit;
     $list = rex_list::factory($qry);
     $list->setCaption(rex_i18n::msg('userinfo_component_articles_caption'));
     $list->addTableAttribute('summary', rex_i18n::msg('userinfo_component_articles_summary'));
@@ -164,7 +164,7 @@ class rex_articles_component extends rex_dashboard_component
 
     $thIcon = '';
     $tdIcon = '<span class="rex-i-element rex-i-article"><span class="rex-i-element-text">###name###</span></span>';
-    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
     $list->setColumnParams($thIcon, $editParams);
 
     $list->setColumnLabel('name', rex_i18n::msg('header_article_name'));
@@ -197,7 +197,7 @@ class rex_media_component extends rex_dashboard_component
   {
     $limit = A659_DEFAULT_LIMIT;
 
-    $list = rex_list::factory('SELECT category_id, media_id, filename, updateuser, updatedate FROM '. rex::getTablePrefix() .'media ORDER BY updatedate DESC LIMIT '.$limit);
+    $list = rex_list::factory('SELECT category_id, media_id, filename, updateuser, updatedate FROM ' . rex::getTablePrefix() . 'media ORDER BY updatedate DESC LIMIT ' . $limit);
     $list->setCaption(rex_i18n::msg('pool_file_caption'));
     $list->addTableAttribute('summary', rex_i18n::msg('pool_file_summary'));
     $list->addTableColumnGroup(array(40, '*', 120, 150));
@@ -208,7 +208,7 @@ class rex_media_component extends rex_dashboard_component
 
     $thIcon = '';
     $tdIcon = '<span class="rex-i-element rex-i-media"><span class="rex-i-element-text">###filename###</span></span>';
-    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>','<td class="rex-icon">###VALUE###</td>'));
+    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
     $list->setColumnParams($thIcon, $editParams);
     $list->addLinkAttribute($thIcon, 'onclick', 'newPoolWindow(this.href); return false;');
 

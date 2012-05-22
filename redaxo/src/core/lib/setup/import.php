@@ -1,9 +1,9 @@
 <?php
 
 $export_addon_dir = rex_path::addon('import_export');
-require_once $export_addon_dir.'/functions/function_folder.inc.php';
-require_once $export_addon_dir.'/functions/function_import_folder.inc.php';
-require_once $export_addon_dir.'/functions/function_import_export.inc.php';
+require_once $export_addon_dir . '/functions/function_folder.inc.php';
+require_once $export_addon_dir . '/functions/function_import_folder.inc.php';
+require_once $export_addon_dir . '/functions/function_import_export.inc.php';
 
 class rex_setup_importer
 {
@@ -35,12 +35,12 @@ class rex_setup_importer
 
     if ($import_name == '')
     {
-      $err_msg .= '<p>'.rex_i18n::msg('setup_03701').'</p>';
+      $err_msg .= '<p>' . rex_i18n::msg('setup_03701') . '</p>';
     }
     else
     {
-      $import_sql = getImportDir().'/'.$import_name.'.sql';
-      $import_archiv = getImportDir().'/'.$import_name.'.tar.gz';
+      $import_sql = getImportDir() . '/' . $import_name . '.sql';
+      $import_archiv = getImportDir() . '/' . $import_name . '.tar.gz';
 
       // Nur hier zuerst die Addons installieren
       // Da sonst Daten aus dem eingespielten Export
@@ -69,7 +69,7 @@ class rex_setup_importer
 
     $db = rex_sql::factory();
     foreach (self::getRequiredTables() as $table)
-      $db->setQuery('DROP TABLE IF EXISTS `'. $table .'`');
+      $db->setQuery('DROP TABLE IF EXISTS `' . $table . '`');
 
     if ($err_msg == '')
       $err_msg .= self::rex_setup_import($import_sql);
@@ -110,7 +110,7 @@ class rex_setup_importer
 
     foreach (array_diff(self::getRequiredTables(), $existingTables) as $missingTable)
     {
-      $err_msg .= rex_i18n::msg('setup_031', $missingTable)."<br />";
+      $err_msg .= rex_i18n::msg('setup_031', $missingTable) . '<br />';
     }
     return $err_msg;
   }
@@ -118,9 +118,9 @@ class rex_setup_importer
   private static function getRequiredTables()
   {
     return array (
-        rex::getTablePrefix() .'clang',
-        rex::getTablePrefix() .'user',
-        rex::getTablePrefix() .'config'
+        rex::getTablePrefix() . 'clang',
+        rex::getTablePrefix() . 'user',
+        rex::getTablePrefix() . 'config'
     );
   }
 
@@ -130,7 +130,7 @@ class rex_setup_importer
 
     if (!is_dir(rex_path::addon('import_export')))
     {
-      $err_msg .= rex_i18n::msg('setup_03703').'<br />';
+      $err_msg .= rex_i18n::msg('setup_03703') . '<br />';
     }
     else
     {
@@ -142,7 +142,7 @@ class rex_setup_importer
         $state_db = rex_a1_import_db($import_sql);
         if ($state_db['state'] === false)
         {
-          $err_msg .= nl2br($state_db['message']) .'<br />';
+          $err_msg .= nl2br($state_db['message']) . '<br />';
         }
 
         // Archiv optional importieren
@@ -151,13 +151,13 @@ class rex_setup_importer
           $state_archiv = rex_a1_import_files($import_archiv);
           if ($state_archiv['state'] === false)
           {
-            $err_msg .= $state_archiv['message'].'<br />';
+            $err_msg .= $state_archiv['message'] . '<br />';
           }
         }
       }
       else
       {
-        $err_msg .= rex_i18n::msg('setup_03702').'<br />';
+        $err_msg .= rex_i18n::msg('setup_03702') . '<br />';
       }
     }
 
@@ -180,7 +180,7 @@ class rex_setup_importer
         // echo "uninstall ". $packageRepresentation ."<br />";
 
         if ($state !== true)
-          $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
+          $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
       }
     }
     foreach (rex::getProperty('system_addons') as $packageRepresentation)
@@ -196,7 +196,7 @@ class rex_setup_importer
       }
 
       if ($state !== true)
-        $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
+        $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
 
       if ($state === true && !$package->isActivated())
       {
@@ -204,7 +204,7 @@ class rex_setup_importer
         $state = $manager->activate();
 
         if ($state !== true)
-          $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
+          $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
       }
     }
 
@@ -212,8 +212,8 @@ class rex_setup_importer
     {
       $addonErr = '<ul class="rex-ul1">
       <li>
-      <h3 class="rex-hl3">'. rex_i18n::msg('setup_011', '<span class="rex-error">', '</span>') .'</h3>
-      <ul>'. $addonErr .'</ul>
+      <h3 class="rex-hl3">' . rex_i18n::msg('setup_011', '<span class="rex-error">', '</span>') . '</h3>
+      <ul>' . $addonErr . '</ul>
       </li>
       </ul>';
     }

@@ -25,7 +25,7 @@ class rex_dir
 
     // file_exists($parent .'/.') checks if the parent directory has the executable permission
     // is_executable($directory) does not work on all systems
-    if (is_writable($parent) && file_exists($parent .'/.') && mkdir($dir, rex::getDirPerm()))
+    if (is_writable($parent) && file_exists($parent . '/.') && mkdir($dir, rex::getDirPerm()))
     {
       @chmod($dir, rex::getDirPerm());
       return true;
@@ -43,7 +43,7 @@ class rex_dir
   static public function isWritable($dir)
   {
     $dir = rtrim($dir, DIRECTORY_SEPARATOR);
-    return @is_dir($dir) && @is_writable($dir .DIRECTORY_SEPARATOR .'.');
+    return @is_dir($dir) && @is_writable($dir . DIRECTORY_SEPARATOR . '.');
   }
 
   /**
@@ -63,7 +63,7 @@ class rex_dir
       return false;
     }
 
-    $state = TRUE;
+    $state = true;
 
     foreach (self::recursiveIterator($srcdir, rex_dir_recursive_iterator::SELF_FIRST) as $srcfilepath => $srcfile)
     {

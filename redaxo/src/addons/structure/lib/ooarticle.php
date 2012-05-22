@@ -7,7 +7,7 @@
 
 class rex_ooArticle extends rex_ooRedaxo
 {
-  public function __construct($params = FALSE, $clang = FALSE)
+  public function __construct($params = false, $clang = false)
   {
     parent :: __construct($params, $clang);
   }
@@ -18,7 +18,7 @@ class rex_ooArticle extends rex_ooRedaxo
    *
    * @return rex_ooArticle
    */
-  static public function getArticleById($article_id, $clang = FALSE)
+  static public function getArticleById($article_id, $clang = false)
   {
     return parent :: getById($article_id, $clang);
   }
@@ -29,7 +29,7 @@ class rex_ooArticle extends rex_ooRedaxo
    *
    * @return rex_ooArticle
    */
-  static public function getSiteStartArticle($clang = FALSE)
+  static public function getSiteStartArticle($clang = false)
   {
     return parent :: getById(rex::getProperty('start_article_id'), $clang);
   }
@@ -40,7 +40,7 @@ class rex_ooArticle extends rex_ooRedaxo
    *
    * @return rex_ooArticle
    */
-  static public function getCategoryStartArticle($a_category_id, $clang = FALSE)
+  static public function getCategoryStartArticle($a_category_id, $clang = false)
   {
     return parent :: getById($a_category_id, $clang);
   }
@@ -57,14 +57,14 @@ class rex_ooArticle extends rex_ooRedaxo
    *
    * @return array[rex_ooArticle]
    */
-  static public function getArticlesOfCategory($a_category_id, $ignore_offlines = FALSE, $clang = FALSE)
+  static public function getArticlesOfCategory($a_category_id, $ignore_offlines = false, $clang = false)
   {
-    if ($clang === FALSE)
+    if ($clang === false)
     {
       $clang = rex_clang::getId();
     }
 
-    $articlelist = rex_path::addonCache('structure', $a_category_id.".".$clang.".alist");
+    $articlelist = rex_path::addonCache('structure', $a_category_id . '.' . $clang . '.alist');
     if (!file_exists($articlelist))
     {
       rex_article_cache::generateLists($a_category_id, $clang);
@@ -107,7 +107,7 @@ class rex_ooArticle extends rex_ooRedaxo
    *
    * @return array[rex_ooArticle]
    */
-  static public function getRootArticles($ignore_offlines = FALSE, $clang = FALSE)
+  static public function getRootArticles($ignore_offlines = false, $clang = false)
   {
     return self :: getArticlesOfCategory(0, $ignore_offlines, $clang);
   }
@@ -142,7 +142,7 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   public function getParent($clang = false)
   {
-    if ($clang === FALSE)
+    if ($clang === false)
     {
       $clang = rex_clang::getId();
     }
@@ -160,7 +160,7 @@ class rex_ooArticle extends rex_ooRedaxo
   {
     if ($this->isStartArticle())
     {
-      return $this->_path.$this->_id .'|';
+      return $this->_path . $this->_id . '|';
     }
 
     return $this->_path;

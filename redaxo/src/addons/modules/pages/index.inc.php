@@ -13,7 +13,7 @@ switch ($subpage)
 {
   case 'actions' :
     {
-      $title = rex_i18n::msg('modules').': '.rex_i18n::msg('actions');
+      $title = rex_i18n::msg('modules') . ': ' . rex_i18n::msg('actions');
       $file = 'module.action.inc.php';
       break;
     }
@@ -26,5 +26,5 @@ switch ($subpage)
 }
 
 echo rex_view::title($title);
-$content = rex_file::getOutput(dirname(__FILE__).'/'. $file);
-echo rex_view::contentBlock($content,'','block');
+$content = rex_file::getOutput(dirname(__FILE__) . '/' . $file);
+echo rex_view::contentBlock($content, '', 'block');

@@ -190,11 +190,11 @@ abstract class rex_formatter
     {
       if (strstr($format['params'], '?') != $format['params'])
       {
-        $format['params'] = '?'.$format['params'];
+        $format['params'] = '?' . $format['params'];
       }
     }
     // Url formatierung
-    return '<a href="mailto:'. htmlspecialchars($value.$format['params']) .'"'. $format['attr'] .'>'. htmlspecialchars($value) .'</a>';
+    return '<a href="mailto:' . htmlspecialchars($value . $format['params']) . '"' . $format['attr'] . '>' . htmlspecialchars($value) . '</a>';
   }
 
   static private function _formatUrl($value, $format)
@@ -219,16 +219,16 @@ abstract class rex_formatter
     {
       if (strstr($format['params'], '?') != $format['params'])
       {
-        $format['params'] = '?'.$format['params'];
+        $format['params'] = '?' . $format['params'];
       }
     }
     // Protokoll
     if (!preg_match('@((ht|f)tps?|telnet|redaxo)://@', $value))
     {
-      $value = 'http://'.$value;
+      $value = 'http://' . $value;
     }
 
-    return '<a href="'. htmlspecialchars($value.$format['params']) .'"'. $format['attr'] .'>'. htmlspecialchars($value) .'</a>';
+    return '<a href="' . htmlspecialchars($value . $format['params']) . '"' . $format['attr'] . '>' . htmlspecialchars($value) . '</a>';
   }
 
   static private function _formatTruncate($value, $format)
@@ -262,7 +262,7 @@ abstract class rex_formatter
     {
       if (!is_callable($format[0]))
       {
-        trigger_error('Unable to find callable '. $format[0] .' for custom format!');
+        trigger_error('Unable to find callable ' . $format[0] . ' for custom format!');
       }
 
       $params = array();
@@ -285,7 +285,7 @@ abstract class rex_formatter
 
   static private function _formatBytes($value, $format)
   {
-    $units = array('B','KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB');
+    $units = array('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
     $unit_index = 0;
     while (($value / 1024) >= 1)
     {
@@ -310,7 +310,7 @@ abstract class rex_formatter
       }
     }
 
-    return rex_formatter::_formatNumber($value, $format).' '.$units[$unit_index];
+    return rex_formatter::_formatNumber($value, $format) . ' ' . $units[$unit_index];
   }
 
   /**
@@ -330,7 +330,7 @@ abstract class rex_formatter
       if (!$break_words)
         $string = preg_replace('/\s+?(\S+)?$/', '', substr($string, 0, $length +1));
 
-      return substr($string, 0, $length).$etc;
+      return substr($string, 0, $length) . $etc;
     }
     else
       return $string;

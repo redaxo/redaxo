@@ -17,7 +17,7 @@ class rex_cronjob_optimize_tables extends rex_cronjob
     {
       $sql = rex_sql::factory();
       // $sql->debugsql = true;
-      return $sql->setQuery('OPTIMIZE TABLE '. implode(', ', $tables));
+      return $sql->setQuery('OPTIMIZE TABLE ' . implode(', ', $tables));
     }
     return false;
   }

@@ -18,7 +18,7 @@ if (rex::isBackend())
   $mpool->setRequiredPermissions('media/hasMediaPerm');
   $this->setProperty('page', $mpool);
 
-  require_once dirname(__FILE__). '/functions/function_rex_mediapool.inc.php';
+  require_once dirname(__FILE__) . '/functions/function_rex_mediapool.inc.php';
   // im backend und eingeloggt?
   if (rex::getUser())
   {

@@ -16,4 +16,4 @@ switch ($subpage)
 }
 
 //echo rex_view::title(rex_i18n::msg('specials'),$subline);
-require dirname(__FILE__).'/'. $file;
+require dirname(__FILE__) . '/' . $file;

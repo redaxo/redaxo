@@ -52,7 +52,7 @@ class rex_api_install_core_update extends rex_api_function
         $manager = rex_package_manager::factory($package);
         if (($msg = $manager->checkRedaxoRequirement($version['version'])) !== true)
         {
-          $messages[] = $package->getPackageId() .': '. $msg;
+          $messages[] = $package->getPackageId() . ': ' . $msg;
         }
       }
       if (!empty($messages))
@@ -76,7 +76,7 @@ class rex_api_install_core_update extends rex_api_function
       }
       catch (rex_sql_exception $e)
       {
-        $message = 'SQL error: '. $e->getMessage();
+        $message = 'SQL error: ' . $e->getMessage();
       }
     }
     rex_file::delete($archivefile);
@@ -86,7 +86,7 @@ class rex_api_install_core_update extends rex_api_function
       if ($plugin->getAddon()->getConfig('backups'))
       {
         rex_dir::create($plugin->getDataPath());
-        $archive = $plugin->getDataPath(strtolower(preg_replace("/[^a-z0-9-_.]/i", "_", rex::getVersion())) .'.zip');
+        $archive = $plugin->getDataPath(strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', rex::getVersion())) . '.zip');
         rex_install_helper::copyDirToArchive($path, $archive);
       }
       rex_dir::delete($path);
@@ -99,7 +99,7 @@ class rex_api_install_core_update extends rex_api_function
     rex_dir::delete($temppath);
     if ($message)
     {
-      $message = $plugin->i18n('warning_not_updated') .'<br />'. $message;
+      $message = $plugin->i18n('warning_not_updated') . '<br />' . $message;
       $success = false;
     }
     else

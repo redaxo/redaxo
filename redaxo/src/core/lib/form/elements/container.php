@@ -90,13 +90,13 @@ class rex_form_container_element extends rex_form_element
     {
       if (in_array($attributeName, $attributeFilter)) continue;
 
-      $attr .= ' '. $attributeName .'="'. $attributeValue .'"';
+      $attr .= ' ' . $attributeName . '="' . $attributeValue . '"';
     }
 
     $format = '';
     foreach ($this->fields as $group => $groupFields)
     {
-      $format .= '<div id="rex-'. $group .'"'. $attr .'>';
+      $format .= '<div id="rex-' . $group . '"' . $attr . '>';
       foreach ($groupFields as $field)
       {
           $format .= $field->get();

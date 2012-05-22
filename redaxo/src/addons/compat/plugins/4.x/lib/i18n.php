@@ -12,7 +12,7 @@ class i18n extends rex_i18n
    *
    * @deprecated 5.0
    */
-  public function __construct($locale = "de_de", $searchpath = null, $setLocale = false)
+  public function __construct($locale = 'de_de', $searchpath = null, $setLocale = false)
   {
     global $REX;
 

@@ -14,7 +14,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     $warning = $params['subject'];
 
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT `name`, `type` FROM `'. rex::getTablePrefix() .'metainfo_params` WHERE `type` IN(6,7)');
+    $sql->setQuery('SELECT `name`, `type` FROM `' . rex::getTablePrefix() . 'metainfo_params` WHERE `type` IN(6,7)');
 
     $rows = $sql->getRows();
     if ($rows == 0)
@@ -35,16 +35,16 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
       switch ($sql->getValue('type'))
       {
         case '6':
-          $where[$key][] = $name .'="'. $filename .'"';
+          $where[$key][] = $name . '="' . $filename . '"';
           break;
         case '7':
           // replace LIKE wildcards
           $likeFilename = str_replace(array('_', '%'), array('\_', '\%'), $filename);
 
-          $where[$key][] = '('. $name .' = "'. $filename .'" OR '. $name .' LIKE "%,'. $likeFilename .'" OR '. $name .' LIKE "%,'. $likeFilename .',%" OR '. $name .' LIKE "'. $likeFilename .',%")';
+          $where[$key][] = '(' . $name . ' = "' . $filename . '" OR ' . $name . ' LIKE "%,' . $likeFilename . '" OR ' . $name . ' LIKE "%,' . $likeFilename . ',%" OR ' . $name . ' LIKE "' . $likeFilename . ',%")';
           break;
         default :
-          trigger_error ('Unexpected fieldtype "'. $sql->getValue('type') .'"!', E_USER_ERROR);
+          trigger_error ('Unexpected fieldtype "' . $sql->getValue('type') . '"!', E_USER_ERROR);
       }
       $sql->next();
     }
@@ -53,7 +53,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     $categories = '';
     if (!empty($where['articles']))
     {
-      $sql->setQuery('SELECT id, clang, re_id, name, catname, startpage FROM '. rex::getTablePrefix() .'article WHERE '. implode(' OR ', $where['articles']));
+      $sql->setQuery('SELECT id, clang, re_id, name, catname, startpage FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['articles']));
       if ($sql->getRows() > 0)
       {
         foreach ($sql->getArray() as $art_arr)
@@ -64,27 +64,27 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
           $name = $art_arr['startpage'] ? $art_arr['catname'] : $art_arr['name'];
           if ($art_arr['startpage'])
           {
-            $categories .= '<li><a href="javascript:openPage(\'index.php?page=structure&amp;edit_id='. $aid .'&amp;function=edit_cat&amp;category_id='.$re_id.'&amp;clang='. $clang .'\')">'. $art_arr['catname'] .'</a></li>';
+            $categories .= '<li><a href="javascript:openPage(\'index.php?page=structure&amp;edit_id=' . $aid . '&amp;function=edit_cat&amp;category_id=' . $re_id . '&amp;clang=' . $clang . '\')">' . $art_arr['catname'] . '</a></li>';
           }
           else
           {
-            $articles .= '<li><a href="javascript:openPage(\'index.php?page=content&amp;article_id='. $aid .'&amp;mode=meta&amp;clang='. $clang .'\')">'. $art_arr['name'] .'</a></li>';
+            $articles .= '<li><a href="javascript:openPage(\'index.php?page=content&amp;article_id=' . $aid . '&amp;mode=meta&amp;clang=' . $clang . '\')">' . $art_arr['name'] . '</a></li>';
           }
         }
         if ($articles != '')
         {
-          $warning[] = rex_i18n::msg('minfo_media_in_use_art').'<br /><ul>'.$articles.'</ul>';
+          $warning[] = rex_i18n::msg('minfo_media_in_use_art') . '<br /><ul>' . $articles . '</ul>';
         }
         if ($categories != '')
         {
-          $warning[] = rex_i18n::msg('minfo_media_in_use_cat').'<br /><ul>'.$categories.'</ul>';
+          $warning[] = rex_i18n::msg('minfo_media_in_use_cat') . '<br /><ul>' . $categories . '</ul>';
         }
       }
     }
     $media = '';
     if (!empty($where['media']))
     {
-      $sql->setQuery('SELECT media_id, filename, category_id FROM '. rex::getTablePrefix() .'media WHERE '. implode(' OR ', $where['media']));
+      $sql->setQuery('SELECT media_id, filename, category_id FROM ' . rex::getTablePrefix() . 'media WHERE ' . implode(' OR ', $where['media']));
       if ($sql->getRows() > 0)
       {
         foreach ($sql->getArray() as $med_arr)
@@ -92,11 +92,11 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
           $id = $med_arr['media_id'];
           $filename = $med_arr['filename'];
           $cat_id = $med_arr['category_id'];
-          $media .= '<li><a href="index.php?page=mediapool&amp;subpage=detail&amp;file_id='. $id .'&amp;rex_file_category='.$cat_id.'">'. $filename .'</a></li>';
+          $media .= '<li><a href="index.php?page=mediapool&amp;subpage=detail&amp;file_id=' . $id . '&amp;rex_file_category=' . $cat_id . '">' . $filename . '</a></li>';
         }
         if ($media != '')
         {
-          $warning[] = rex_i18n::msg('minfo_media_in_use_med').'<br /><ul>'.$media.'</ul>';
+          $warning[] = rex_i18n::msg('minfo_media_in_use_med') . '<br /><ul>' . $media . '</ul>';
         }
       }
     }
@@ -126,15 +126,15 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
         {
           if ($pathElement != '')
           {
-            $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
+            $s .= ' OR `p`.`restrictions` LIKE "%|' . $pathElement . '|%"';
           }
         }
       }
 
       // Auch die Kategorie selbst kann Metafelder haben
-      $s .= ' OR `p`.`restrictions` LIKE "%|'. $catId .'|%"';
+      $s .= ' OR `p`.`restrictions` LIKE "%|' . $catId . '|%"';
 
-      $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
+      $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL ' . $s . ')';
     }
 
     return $restrictionsCondition;
@@ -146,7 +146,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
 
     $media = rex_sql::factory();
   //  $media->debugsql = true;
-    $media->setTable(rex::getTablePrefix(). 'media');
+    $media->setTable(rex::getTablePrefix() . 'media');
     $media->setWhere('media_id=:mediaid', array('mediaid' => $params['media_id']));
 
     parent::fetchRequestValues($params, $media, $sqlFields);
@@ -166,15 +166,15 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
       $s .= '<div class="rex-form-row">';
 
     if ($tag != '')
-      $s .= '<'. $tag . $tag_attr  .'>'. "\n";
+      $s .= '<' . $tag . $tag_attr  . '>' . "\n";
 
     if ($labelIt)
-      $s .= '<label for="'. $id .'">'. $label .'</label>'. "\n";
+      $s .= '<label for="' . $id . '">' . $label . '</label>' . "\n";
 
-    $s .= $field. "\n";
+    $s .= $field . "\n";
 
     if ($tag != '')
-      $s .='</'.$tag.'>'. "\n";
+      $s .= '</' . $tag . '>' . "\n";
 
     if ($typeLabel != 'legend')
       $s .= '</div>';
@@ -195,7 +195,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
     elseif ($params['extension_point'] == 'MEDIA_ADDED')
     {
       $sql = rex_sql::factory();
-      $qry = 'SELECT media_id FROM '. rex::getTablePrefix() .'media WHERE filename="'. $params['filename'] .'"';
+      $qry = 'SELECT media_id FROM ' . rex::getTablePrefix() . 'media WHERE filename="' . $params['filename'] . '"';
       $sql->setQuery($qry);
       if ($sql->getRows() == 1)
       {

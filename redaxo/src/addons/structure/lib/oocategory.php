@@ -42,12 +42,12 @@ class rex_ooCategory extends rex_ooRedaxo
     if ($cat_parent_id < 0)
       return array();
 
-    if ($clang === FALSE)
+    if ($clang === false)
     {
       $clang = rex_clang::getId();
     }
 
-    $categorylist = rex_path::addonCache('structure', $cat_parent_id.".".$clang.".clist");
+    $categorylist = rex_path::addonCache('structure', $cat_parent_id . '.' . $clang . '.clist');
 
     $catlist = array ();
 
@@ -109,7 +109,7 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   static public function getRootCategories($ignore_offlines = false, $clang = false)
   {
-    if ($clang === FALSE)
+    if ($clang === false)
     {
       $clang = rex_clang::getId();
     }
@@ -130,7 +130,7 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   public function getChildren($ignore_offlines = false, $clang = false)
   {
-    if ($clang === FALSE)
+    if ($clang === false)
     {
       $clang = rex_clang::getId();
     }
@@ -146,7 +146,7 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   public function getParent($clang = false)
   {
-    if ($clang === FALSE)
+    if ($clang === false)
     {
       $clang = rex_clang::getId();
     }
@@ -300,7 +300,7 @@ class rex_ooCategory extends rex_ooRedaxo
 
     $templates = array();
     $t_sql = rex_sql::factory();
-    $t_sql->setQuery('select id,name,attributes from '.rex::getTablePrefix().'template where active='. $ignore_inactive .' order by name');
+    $t_sql->setQuery('select id,name,attributes from ' . rex::getTablePrefix() . 'template where active=' . $ignore_inactive . ' order by name');
 
     if ($category_id < 1)
     {
@@ -334,7 +334,7 @@ class rex_ooCategory extends rex_ooRedaxo
             // nachschauen ob eine davon im pfad der aktuellen kategorie liegt
             foreach ($path as $p)
             {
-              if (in_array($p,$categories))
+              if (in_array($p, $categories))
               {
                 $templates[$row->getValue('id')] = $row->getValue('name');
                 break;

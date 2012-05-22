@@ -109,7 +109,7 @@ abstract class rex_input
     $attr = '';
     foreach ($this->attributes as $attributeName => $attributeValue)
     {
-      $attr .= ' '. $attributeName .'="'. $attributeValue .'"';
+      $attr .= ' ' . $attributeName . '="' . $attributeValue . '"';
     }
     return $attr;
   }
@@ -143,7 +143,7 @@ abstract class rex_input
       case 'linkbutton':
       case 'linklistbutton':
       {
-        $class = 'rex_input_'. $inputType;
+        $class = 'rex_input_' . $inputType;
         return new $class();
       }
     }

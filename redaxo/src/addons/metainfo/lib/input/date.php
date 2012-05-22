@@ -12,17 +12,17 @@ class rex_input_date extends rex_input
     parent::__construct();
 
     $this->yearSelect = new rex_select();
-    $this->yearSelect->addOptions(range(2005,date('Y')+10), true);
+    $this->yearSelect->addOptions(range(2005, date('Y')+10), true);
     $this->yearSelect->setAttribute('class', 'rex-form-select-year');
     $this->yearSelect->setSize(1);
 
     $this->monthSelect = new rex_select();
-    $this->monthSelect->addOptions(range(1,12), true);
+    $this->monthSelect->addOptions(range(1, 12), true);
     $this->monthSelect->setAttribute('class', 'rex-form-select-date');
     $this->monthSelect->setSize(1);
 
     $this->daySelect = new rex_select();
-    $this->daySelect->addOptions(range(1,31), true);
+    $this->daySelect->addOptions(range(1, 31), true);
     $this->daySelect->setAttribute('class', 'rex-form-select-date');
     $this->daySelect->setSize(1);
   }
@@ -38,7 +38,7 @@ class rex_input_date extends rex_input
     {
       if (!isset($value[$reqIndex]))
       {
-        trigger_error('Missing index "'. $reqIndex .'" in $value!', E_USER_ERROR);
+        trigger_error('Missing index "' . $reqIndex . '" in $value!', E_USER_ERROR);
       }
     }
 
@@ -53,14 +53,14 @@ class rex_input_date extends rex_input
   {
     if ($name == 'name')
     {
-      $this->yearSelect->setName($value.'[year]');
-      $this->monthSelect->setName($value.'[month]');
-      $this->daySelect->setName($value.'[day]');
+      $this->yearSelect->setName($value . '[year]');
+      $this->monthSelect->setName($value . '[month]');
+      $this->daySelect->setName($value . '[day]');
     }
     elseif ($name == 'id')
     {
-      $this->yearSelect->setId($value.'_year');
-      $this->monthSelect->setId($value.'_month');
+      $this->yearSelect->setId($value . '_year');
+      $this->monthSelect->setId($value . '_month');
       $this->daySelect->setId($value);
     }
     else

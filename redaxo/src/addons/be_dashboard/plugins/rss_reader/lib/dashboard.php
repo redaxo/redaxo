@@ -36,7 +36,7 @@ class rex_rss_reader_component extends rex_dashboard_component
     {
       $content .= rex_i18n::msg('rss_reader_component_noconfig');
       $content .= ' ';
-      $content .= '<a href="#" onclick="componentToggleSettings(\''. $this->getId() .'\'); return false;">';
+      $content .= '<a href="#" onclick="componentToggleSettings(\'' . $this->getId() . '\'); return false;">';
       $content .= rex_i18n::msg('rss_reader_component_opensettings');
       $content .= '</a>';
     }
@@ -73,7 +73,7 @@ class rex_rss_reader_component_config extends rex_dashboard_component_config
   protected function getForm()
   {
     $name = $this->getInputName('feedUrls');
-    return '<textarea cols="80" rows="4" name="'. $name .'">'. implode("\n", $this->getFeedUrls()) .'</textarea>';
+    return '<textarea cols="80" rows="4" name="' . $name . '">' . implode("\n", $this->getFeedUrls()) . '</textarea>';
   }
 
 }

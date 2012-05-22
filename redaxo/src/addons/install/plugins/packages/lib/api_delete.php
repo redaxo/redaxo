@@ -11,7 +11,7 @@ class rex_api_install_packages_delete extends rex_api_function
     $addonkey = rex_request('addonkey', 'string');
     try
     {
-      rex_install_webservice::delete(rex_install_packages::getPath('?package='.$addonkey.'&file_id='.rex_request('file', 'int', 0)));
+      rex_install_webservice::delete(rex_install_packages::getPath('?package=' . $addonkey . '&file_id=' . rex_request('file', 'int', 0)));
     }
     catch (rex_functional_exception $e)
     {

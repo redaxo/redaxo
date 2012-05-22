@@ -17,13 +17,13 @@ if ($media_method == 'add_file')
         $rex_file_category = 0;
 
       // function in function.rex_mediapool.inc.php
-      $return = rex_mediapool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,rex::getUser()->getValue("login"));
+      $return = rex_mediapool_saveMedia($_FILES['file_new'], $rex_file_category, $FILEINFOS, rex::getUser()->getValue('login'));
       $info = $return['msg'];
-      $subpage = "";
+      $subpage = '';
 
       // ----- EXTENSION POINT
       if ($return['ok'] == 1)
-        rex_extension::registerPoint('MEDIA_ADDED','',$return);
+        rex_extension::registerPoint('MEDIA_ADDED', '', $return);
 
       if (rex_post('saveandexit', 'boolean') && $return['ok'] == 1)
       {
@@ -40,30 +40,30 @@ if ($media_method == 'add_file')
         }
         elseif ($opener_input_field == 'TINY')
         {
-            $js = "insertLink('".$file_name."');";
+            $js = "insertLink('" . $file_name . "');";
         }
         elseif ($opener_input_field != '')
         {
-          if (substr($opener_input_field,0,14)=="REX_MEDIALIST_")
+          if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_')
           {
-            $js = "selectMedialist('".$file_name."');";
-            $js .= 'location.href = "index.php?page=mediapool&info='.urlencode(rex_i18n::msg('pool_file_added')).'&opener_input_field='.$opener_input_field.'";';
+            $js = "selectMedialist('" . $file_name . "');";
+            $js .= 'location.href = "index.php?page=mediapool&info=' . urlencode(rex_i18n::msg('pool_file_added')) . '&opener_input_field=' . $opener_input_field . '";';
           }
           else
           {
-            $js = "selectMedia('".$file_name."');";
+            $js = "selectMedia('" . $file_name . "');";
           }
         }
 
         echo "<script language=javascript>\n";
         echo $js;
         // echo "\nself.close();\n";
-        echo "</script>";
+        echo '</script>';
         exit;
       }
       elseif ($return['ok'] == 1)
       {
-        header('Location:index.php?page=mediapool&info='.urlencode(rex_i18n::msg('pool_file_added')).'&opener_input_field='.$opener_input_field);
+        header('Location:index.php?page=mediapool&info=' . urlencode(rex_i18n::msg('pool_file_added')) . '&opener_input_field=' . $opener_input_field);
         exit;
       }
       else

@@ -14,7 +14,7 @@ class OOMedia extends rex_ooMedia
    */
   static public function _getExtension($filename)
   {
-    return substr(strrchr($filename, "."), 1);
+    return substr(strrchr($filename, '.'), 1);
   }
 
   /**

@@ -37,7 +37,7 @@
       }
       if (!rex_copyDir($source_dir, $dest_dir , $start_dir))
       {
-        $REX['ADDON']['installmsg'][$rxa_tinymce['name']] = 'Verzeichnis '.$source_dir.' konnte nicht nach '.$dest_dir.' kopiert werden!';
+        $REX['ADDON']['installmsg'][$rxa_tinymce['name']] = 'Verzeichnis ' . $source_dir . ' konnte nicht nach ' . $dest_dir . ' kopiert werden!';
         $REX['ADDON']['install'][$rxa_tinymce['name']] = 0;
       }
     }

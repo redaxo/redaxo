@@ -29,7 +29,7 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
       }
     }
 
-    //--></script><a id="rex-i-meta-category" class="rex-i-generic-open" href="javascript:rex_metainfo_toggle();">'. rex_i18n::msg('minfo_edit_metadata') .'</a></p>';
+    //--></script><a id="rex-i-meta-category" class="rex-i-generic-open" href="javascript:rex_metainfo_toggle();">' . rex_i18n::msg('minfo_edit_metadata') . '</a></p>';
 
        return $params['subject'] . $return;
     }
@@ -43,8 +43,8 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
 
     $article = rex_sql::factory();
     // $article->debugsql = true;
-    $article->setTable(rex::getTablePrefix(). 'article');
-    $article->setWhere('id=:id AND clang=:clang', array('id'=> $params['id'], 'clang' => $params['clang']));
+    $article->setTable(rex::getTablePrefix() . 'article');
+    $article->setWhere('id=:id AND clang=:clang', array('id' => $params['id'], 'clang' => $params['clang']));
 
     parent::fetchRequestValues($params, $article, $sqlFields);
 
@@ -71,15 +71,15 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
       {
         if ($pathElement != '')
         {
-          $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
+          $s .= ' OR `p`.`restrictions` LIKE "%|' . $pathElement . '|%"';
         }
       }
 
       // Auch die Kategorie selbst kann Metafelder haben
-      $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
+      $s .= ' OR `p`.`restrictions` LIKE "%|' . $params['id'] . '|%"';
     }
 
-    $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
+    $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL ' . $s . ')';
 
     return $restrictionsCondition;
   }
@@ -96,26 +96,26 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
     if ($labelIt)
     {
       $element = '
-         <'.$tag.$tag_attr.'>
-           <label for="'. $id .'">'. $label .'</label>
-           '.$field.'
-         </'.$tag.'>';
+         <' . $tag . $tag_attr . '>
+           <label for="' . $id . '">' . $label . '</label>
+           ' . $field . '
+         </' . $tag . '>';
     }
 
     if ($typeLabel == 'legend')
     {
-      $element = '<p class="rex-form-legend">'. $label .'</p>';
+      $element = '<p class="rex-form-legend">' . $label . '</p>';
       $class_td = ' class="rex-colored"';
       $class_tr .= ' rex-metainfo-cat-b';
     }
 
     $s = '
-    <tr class="rex-table-row-activ rex-metainfo-cat'. $class_tr .'" style="display:none;">
+    <tr class="rex-table-row-activ rex-metainfo-cat' . $class_tr . '" style="display:none;">
       <td></td>
-      '.$add_td.'
-      <td colspan="5"'.$class_td.'>
+      ' . $add_td . '
+      <td colspan="5"' . $class_td . '>
          <div class="rex-form-row">
-          '.$element.'
+          ' . $element . '
         </div>
       </td>
     </tr>';

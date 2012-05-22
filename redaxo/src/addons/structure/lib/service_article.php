@@ -32,7 +32,7 @@ class rex_article_service
     if ($parent)
     {
       $path = $parent->getPath();
-      $path .= $parent->getId(). '|';
+      $path .= $parent->getId() . '|';
     }
     else
     {
@@ -46,7 +46,7 @@ class rex_article_service
     if (!isset($templates[$data['template_id']]))
     {
       $data['template_id'] = 0;
-      if (count($templates)>0)
+      if (count($templates) > 0)
       {
         $data['template_id'] = key($templates);
       }
@@ -67,7 +67,7 @@ class rex_article_service
         $categoryName = $category->getName();
       }
 
-      $AART->setTable(rex::getTablePrefix().'article');
+      $AART->setTable(rex::getTablePrefix() . 'article');
       if (!isset ($id) || !$id)
       {
         $id = $AART->setNewId('id');
@@ -141,11 +141,11 @@ class rex_article_service
 
     // Artikel mit alten Daten selektieren
     $thisArt = rex_sql::factory();
-    $thisArt->setQuery('select * from '.rex::getTablePrefix().'article where id='.$article_id.' and clang='. $clang);
+    $thisArt->setQuery('select * from ' . rex::getTablePrefix() . 'article where id=' . $article_id . ' and clang=' . $clang);
 
     if ($thisArt->getRows() != 1)
     {
-      throw new rex_api_exception('Unable to find article with id "'. $article_id .'" and clang "'. $clang .'"!');
+      throw new rex_api_exception('Unable to find article with id "' . $article_id . '" and clang "' . $clang . '"!');
     }
 
     $ooArt = rex_ooArticle::getArticleById($article_id, $clang);
@@ -157,7 +157,7 @@ class rex_article_service
     if (!isset($templates[$data['template_id']]))
     {
       $data['template_id'] = 0;
-      if (count($templates)>0)
+      if (count($templates) > 0)
       {
         $data['template_id'] = key($templates);
       }
@@ -181,8 +181,8 @@ class rex_article_service
     }
 
     $EA = rex_sql::factory();
-    $EA->setTable(rex::getTablePrefix()."article");
-    $EA->setWhere(array('id' => $article_id, 'clang'=> $clang));
+    $EA->setTable(rex::getTablePrefix() . 'article');
+    $EA->setWhere(array('id' => $article_id, 'clang' => $clang));
     $EA->setValue('name', $data['name']);
     $EA->setValue('template_id', $data['template_id']);
     $EA->setValue('prior', $data['prior']);
@@ -232,25 +232,25 @@ class rex_article_service
   static public function deleteArticle($article_id)
   {
     $Art = rex_sql::factory();
-    $Art->setQuery('select * from '.rex::getTablePrefix().'article where id='.$article_id.' and startpage=0');
+    $Art->setQuery('select * from ' . rex::getTablePrefix() . 'article where id=' . $article_id . ' and startpage=0');
 
     $message = '';
     if ($Art->getRows() > 0)
     {
       $message = self::_deleteArticle($article_id);
-      $re_id = $Art->getValue("re_id");
+      $re_id = $Art->getValue('re_id');
 
       foreach (rex_clang::getAllIds() as $clang)
       {
         // ----- PRIOR
-        self::newArtPrio($Art->getValue("re_id"), $clang, 0, 1);
+        self::newArtPrio($Art->getValue('re_id'), $clang, 0, 1);
 
         // ----- EXTENSION POINT
         $message = rex_extension::registerPoint('ART_DELETED', $message,
         array (
-          "id"          => $article_id,
-          "clang"       => $clang,
-          "re_id"       => $re_id,
+          'id'          => $article_id,
+          'clang'       => $clang,
+          're_id'       => $re_id,
           'name'        => $Art->getValue('name'),
           'status'      => $Art->getValue('status'),
           'prior'       => $Art->getValue('prior'),
@@ -302,15 +302,15 @@ class rex_article_service
     }
 
     $ART = rex_sql::factory();
-    $ART->setQuery('select * from '.rex::getTablePrefix().'article where id='.$id.' and clang=0');
+    $ART->setQuery('select * from ' . rex::getTablePrefix() . 'article where id=' . $id . ' and clang=0');
 
     $message = '';
     if ($ART->getRows() > 0)
     {
       $re_id = $ART->getValue('re_id');
       $message = rex_extension::registerPoint('ART_PRE_DELETED', $message, array (
-                    "id"          => $id,
-                    "re_id"       => $re_id,
+                    'id'          => $id,
+                    're_id'       => $re_id,
                     'name'        => $ART->getValue('name'),
                     'status'      => $ART->getValue('status'),
                     'prior'       => $ART->getValue('prior'),
@@ -323,7 +323,7 @@ class rex_article_service
       {
         $message = rex_i18n::msg('category_deleted');
         $SART = rex_sql::factory();
-        $SART->setQuery('select * from '.rex::getTablePrefix().'article where re_id='.$id.' and clang=0');
+        $SART->setQuery('select * from ' . rex::getTablePrefix() . 'article where re_id=' . $id . ' and clang=0');
         for ($i = 0; $i < $SART->getRows(); $i ++)
         {
           self::_deleteArticle($id);
@@ -336,8 +336,8 @@ class rex_article_service
       }
 
       rex_article_cache::delete($id);
-      $ART->setQuery('delete from '.rex::getTablePrefix().'article where id='.$id);
-      $ART->setQuery('delete from '.rex::getTablePrefix().'article_slice where article_id='.$id);
+      $ART->setQuery('delete from ' . rex::getTablePrefix() . 'article where id=' . $id);
+      $ART->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=' . $id);
 
       // --------------------------------------------------- Listen generieren
       rex_article_cache::generateLists($re_id);
@@ -365,7 +365,7 @@ class rex_article_service
     $message = '';
 
     $GA = rex_sql::factory();
-    $GA->setQuery("select * from ".rex::getTablePrefix()."article where id='$article_id' and clang=$clang");
+    $GA->setQuery('select * from ' . rex::getTablePrefix() . "article where id='$article_id' and clang=$clang");
     if ($GA->getRows() == 1)
     {
       // Status wurde nicht von außen vorgegeben,
@@ -376,7 +376,7 @@ class rex_article_service
       $newstatus = $status;
 
       $EA = rex_sql::factory();
-      $EA->setTable(rex::getTablePrefix()."article");
+      $EA->setTable(rex::getTablePrefix() . 'article');
       $EA->setWhere(array('id' => $article_id, 'clang' => $clang));
       $EA->setValue('status', $newstatus);
       $EA->addGlobalUpdateFields(rex::isBackend() ? null : 'frontend');
@@ -401,7 +401,7 @@ class rex_article_service
     }
     else
     {
-      throw new rex_api_exception(rex_i18n::msg("no_such_category"));
+      throw new rex_api_exception(rex_i18n::msg('no_such_category'));
     }
 
     return $newstatus;
@@ -460,15 +460,15 @@ class rex_article_service
     if ($new_prio != $old_prio)
     {
       if ($new_prio < $old_prio)
-        $addsql = "desc";
+        $addsql = 'desc';
       else
-        $addsql = "asc";
+        $addsql = 'asc';
 
       rex_sql_util::organizePriorities(
         rex::getTable('article'),
         'prior',
-        'clang='. $clang .' AND ((startpage<>1 AND re_id='. $re_id .') OR (startpage=1 AND id='. $re_id .'))',
-        'prior,updatedate '. $addsql,
+        'clang=' . $clang . ' AND ((startpage<>1 AND re_id=' . $re_id . ') OR (startpage=1 AND id=' . $re_id . '))',
+        'prior,updatedate ' . $addsql,
         'pid'
       );
 
@@ -491,13 +491,13 @@ class rex_article_service
     foreach (rex_clang::getAllIds() as $clang)
     {
       // artikel
-      $sql->setQuery('select re_id, name from '.rex::getTablePrefix()."article where id=$art_id and startpage=0 and clang=$clang");
+      $sql->setQuery('select re_id, name from ' . rex::getTablePrefix() . "article where id=$art_id and startpage=0 and clang=$clang");
 
       if (!isset($re_id))
         $re_id = $sql->getValue('re_id');
 
       // artikel updaten
-      $sql->setTable(rex::getTablePrefix()."article");
+      $sql->setTable(rex::getTablePrefix() . 'article');
       $sql->setWhere(array('id' => $art_id, 'clang' => $clang));
       $sql->setValue('startpage', 1);
       $sql->setValue('catname', $sql->getValue('name'));
@@ -533,7 +533,7 @@ class rex_article_service
     $sql = rex_sql::factory();
 
     // Kategorie muss leer sein
-    $sql->setQuery('SELECT pid FROM '. rex::getTablePrefix() .'article WHERE re_id='. $art_id .' LIMIT 1');
+    $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE re_id=' . $art_id . ' LIMIT 1');
     if ($sql->getRows() != 0)
       return false;
 
@@ -541,13 +541,13 @@ class rex_article_service
     foreach (rex_clang::getAllIds() as $clang)
     {
       // artikel
-      $sql->setQuery('select re_id, name from '.rex::getTablePrefix()."article where id=$art_id and startpage=1 and clang=$clang");
+      $sql->setQuery('select re_id, name from ' . rex::getTablePrefix() . "article where id=$art_id and startpage=1 and clang=$clang");
 
       if (!isset($re_id))
       $re_id = $sql->getValue('re_id');
 
       // artikel updaten
-      $sql->setTable(rex::getTablePrefix()."article");
+      $sql->setTable(rex::getTablePrefix() . 'article');
       $sql->setWhere(array('id' => $art_id, 'clang' => $clang));
       $sql->setValue('startpage', 0);
       $sql->setValue('prior', 100);
@@ -583,56 +583,56 @@ class rex_article_service
 
     // neuen startartikel holen und schauen ob da
     $neu = rex_sql::factory();
-    $neu->setQuery("select * from ".rex::getTablePrefix()."article where id=$neu_id and startpage=0 and clang=0");
-    if ($neu->getRows()!=1) return false;
-    $neu_path = $neu->getValue("path");
-    $neu_cat_id = $neu->getValue("re_id");
+    $neu->setQuery('select * from ' . rex::getTablePrefix() . "article where id=$neu_id and startpage=0 and clang=0");
+    if ($neu->getRows() != 1) return false;
+    $neu_path = $neu->getValue('path');
+    $neu_cat_id = $neu->getValue('re_id');
 
     // in oberster kategorie dann return
     if ($neu_cat_id == 0) return false;
 
     // alten startartikel
     $alt = rex_sql::factory();
-    $alt->setQuery("select * from ".rex::getTablePrefix()."article where id=$neu_cat_id and startpage=1 and clang=0");
-    if ($alt->getRows()!=1) return false;
+    $alt->setQuery('select * from ' . rex::getTablePrefix() . "article where id=$neu_cat_id and startpage=1 and clang=0");
+    if ($alt->getRows() != 1) return false;
     $alt_path = $alt->getValue('path');
     $alt_id = $alt->getValue('id');
     $parent_id = $alt->getValue('re_id');
 
     // cat felder sammeln. +
-    $params = array('path','prior','catname','startpage','catprior','status');
+    $params = array('path', 'prior', 'catname', 'startpage', 'catprior', 'status');
     $db_fields = rex_ooRedaxo::getClassVars();
     foreach ($db_fields as $field)
     {
-      if (substr($field,0,4)=='cat_') $params[] = $field;
+      if (substr($field, 0, 4) == 'cat_') $params[] = $field;
     }
 
     // LANG SCHLEIFE
     foreach (rex_clang::getAllIds() as $clang)
     {
       // alter startartikel
-      $alt->setQuery("select * from ".rex::getTablePrefix()."article where id=$neu_cat_id and startpage=1 and clang=$clang");
+      $alt->setQuery('select * from ' . rex::getTablePrefix() . "article where id=$neu_cat_id and startpage=1 and clang=$clang");
 
       // neuer startartikel
-      $neu->setQuery("select * from ".rex::getTablePrefix()."article where id=$neu_id and startpage=0 and clang=$clang");
+      $neu->setQuery('select * from ' . rex::getTablePrefix() . "article where id=$neu_id and startpage=0 and clang=$clang");
 
       // alter startartikel updaten
       $alt2 = rex_sql::factory();
-      $alt2->setTable(rex::getTablePrefix()."article");
+      $alt2->setTable(rex::getTablePrefix() . 'article');
       $alt2->setWhere(array('id' => $alt_id, 'clang' => $clang));
-      $alt2->setValue("re_id",$neu_id);
+      $alt2->setValue('re_id', $neu_id);
 
       // neuer startartikel updaten
       $neu2 = rex_sql::factory();
-      $neu2->setTable(rex::getTablePrefix()."article");
+      $neu2->setTable(rex::getTablePrefix() . 'article');
       $neu2->setWhere(array('id' => $neu_id, 'clang' => $clang));
-      $neu2->setValue("re_id",$alt->getValue("re_id"));
+      $neu2->setValue('re_id', $alt->getValue('re_id'));
 
       // austauschen der definierten paramater
       foreach ($params as $param)
       {
-        $alt2->setValue($param,$neu->getValue($param));
-        $neu2->setValue($param,$alt->getValue($param));
+        $alt2->setValue($param, $neu->getValue($param));
+        $neu2->setValue($param, $alt->getValue($param));
       }
       $alt2->update();
       $neu2->update();
@@ -643,16 +643,16 @@ class rex_article_service
 
     $articles = rex_sql::factory();
     $ia = rex_sql::factory();
-    $articles->setQuery("select * from ".rex::getTablePrefix()."article where path like '%|$alt_id|%'");
-    for ($i=0;$i<$articles->getRows();$i++)
+    $articles->setQuery('select * from ' . rex::getTablePrefix() . "article where path like '%|$alt_id|%'");
+    for ($i = 0; $i < $articles->getRows(); $i++)
     {
-      $iid = $articles->getValue("id");
-      $ipath = str_replace("|$alt_id|","|$neu_id|",$articles->getValue("path"));
+      $iid = $articles->getValue('id');
+      $ipath = str_replace("|$alt_id|", "|$neu_id|", $articles->getValue('path'));
 
-      $ia->setTable(rex::getTablePrefix()."article");
+      $ia->setTable(rex::getTablePrefix() . 'article');
       $ia->setWhere(array('id' => $iid));
-      $ia->setValue("path",$ipath);
-      if ($articles->getValue("re_id")==$alt_id) $ia->setValue("re_id",$neu_id);
+      $ia->setValue('path', $ipath);
+      if ($articles->getValue('re_id') == $alt_id) $ia->setValue('re_id', $neu_id);
       $ia->update();
       $GAID[$iid] = $iid;
       $articles->next();
@@ -705,13 +705,13 @@ class rex_article_service
     return false;
 
     $gc = rex_sql::factory();
-    $gc->setQuery("select * from ".rex::getTablePrefix()."article where clang='$from_clang' and id='$from_id'");
+    $gc->setQuery('select * from ' . rex::getTablePrefix() . "article where clang='$from_clang' and id='$from_id'");
 
     if ($gc->getRows() == 1)
     {
       $uc = rex_sql::factory();
       // $uc->debugsql = 1;
-      $uc->setTable(rex::getTablePrefix()."article");
+      $uc->setTable(rex::getTablePrefix() . 'article');
       $uc->setWhere("clang='$to_clang' and id='$to_id'");
       $uc->addGlobalUpdateFields();
 
@@ -722,7 +722,7 @@ class rex_article_service
 
       $uc->update();
 
-      rex_article_cache::deleteMeta($to_id,$to_clang);
+      rex_article_cache::deleteMeta($to_id, $to_clang);
       return true;
     }
     return false;
@@ -748,32 +748,32 @@ class rex_article_service
     {
       // validierung der id & from_cat_id
       $from_sql = rex_sql::factory();
-      $qry = 'select * from '.rex::getTablePrefix().'article where clang="'.$clang.'" and id="'. $id .'"';
+      $qry = 'select * from ' . rex::getTablePrefix() . 'article where clang="' . $clang . '" and id="' . $id . '"';
       $from_sql->setQuery($qry);
 
       if ($from_sql->getRows() == 1)
       {
         // validierung der to_cat_id
         $to_sql = rex_sql::factory();
-        $to_sql->setQuery('select * from '.rex::getTablePrefix().'article where clang="'.$clang.'" and startpage=1 and id="'. $to_cat_id .'"');
+        $to_sql->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang="' . $clang . '" and startpage=1 and id="' . $to_cat_id . '"');
 
         if ($to_sql->getRows() == 1 || $to_cat_id == 0)
         {
           if ($to_sql->getRows() == 1)
           {
-            $path = $to_sql->getValue('path').$to_sql->getValue('id').'|';
+            $path = $to_sql->getValue('path') . $to_sql->getValue('id') . '|';
             $catname = $to_sql->getValue('name');
           }
           else
           {
             // In RootEbene
             $path = '|';
-            $catname = $from_sql->getValue("name");
+            $catname = $from_sql->getValue('name');
           }
 
           $art_sql = rex_sql::factory();
-          $art_sql->setTable(rex::getTablePrefix().'article');
-          if ($new_id == "") $new_id = $art_sql->setNewId('id');
+          $art_sql->setTable(rex::getTablePrefix() . 'article');
+          if ($new_id == '') $new_id = $art_sql->setNewId('id');
           $art_sql->setValue('id', $new_id); // neuen auto_incrment erzwingen
           $art_sql->setValue('re_id', $to_cat_id);
           $art_sql->setValue('catname', $catname);
@@ -793,12 +793,12 @@ class rex_article_service
             $art_sql->setValue($fld_name, $from_sql->getValue($fld_name));
           }
 
-          $art_sql->setValue("clang", $clang);
+          $art_sql->setValue('clang', $clang);
           $art_sql->insert();
 
           // TODO Doublecheck... is this really correct?
           $revisions = rex_sql::factory();
-          $revisions->setQuery("select revision from ".rex::getTablePrefix()."article_slice where prior=1 AND ctype=1 AND article_id='$id' AND clang='$clang'");
+          $revisions->setQuery('select revision from ' . rex::getTablePrefix() . "article_slice where prior=1 AND ctype=1 AND article_id='$id' AND clang='$clang'");
           foreach ($revisions as $rev)
           {
             // FIXME this dependency is very ugly!
@@ -852,20 +852,20 @@ class rex_article_service
     {
       // validierung der id & from_cat_id
       $from_sql = rex_sql::factory();
-      $from_sql->setQuery('select * from '.rex::getTablePrefix().'article where clang="'. $clang .'" and startpage<>1 and id="'. $id .'" and re_id="'. $from_cat_id .'"');
+      $from_sql->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang="' . $clang . '" and startpage<>1 and id="' . $id . '" and re_id="' . $from_cat_id . '"');
 
       if ($from_sql->getRows() == 1)
       {
         // validierung der to_cat_id
         $to_sql = rex_sql::factory();
-        $to_sql->setQuery('select * from '.rex::getTablePrefix().'article where clang="'. $clang .'" and startpage=1 and id="'. $to_cat_id .'"');
+        $to_sql->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang="' . $clang . '" and startpage=1 and id="' . $to_cat_id . '"');
 
         if ($to_sql->getRows() == 1 || $to_cat_id == 0)
         {
           if ($to_sql->getRows() == 1)
           {
             $re_id = $to_sql->getValue('id');
-            $path = $to_sql->getValue('path').$to_sql->getValue('id').'|';
+            $path = $to_sql->getValue('path') . $to_sql->getValue('id') . '|';
             $catname = $to_sql->getValue('name');
           }
           else
@@ -879,7 +879,7 @@ class rex_article_service
           $art_sql = rex_sql::factory();
           //$art_sql->debugsql = 1;
 
-          $art_sql->setTable(rex::getTablePrefix().'article');
+          $art_sql->setTable(rex::getTablePrefix() . 'article');
           $art_sql->setValue('re_id', $re_id);
           $art_sql->setValue('path', $path);
           $art_sql->setValue('catname', $catname);
@@ -889,7 +889,7 @@ class rex_article_service
           $art_sql->setValue('status', '0');
           $art_sql->addGlobalUpdateFields();
 
-          $art_sql->setWhere('clang="'. $clang .'" and startpage<>1 and id="'. $id .'" and re_id="'. $from_cat_id .'"');
+          $art_sql->setWhere('clang="' . $clang . '" and startpage<>1 and id="' . $id . '" and re_id="' . $from_cat_id . '"');
           $art_sql->update();
 
           // Prios neu berechnen
@@ -927,7 +927,7 @@ class rex_article_service
   {
     if (!isset($array[$keyName]))
     {
-      throw new rex_api_exception('Missing required parameter "'. $keyName .'"!');
+      throw new rex_api_exception('Missing required parameter "' . $keyName . '"!');
     }
   }
 }

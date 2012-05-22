@@ -39,7 +39,7 @@ class rex_var_config extends rex_var
       list ($param_str, $args)   = $match;
       $field       = $this->getArg('field', $args, '');
 
-      $tpl = '<?php echo '. __CLASS__ ."::getConfig('". addslashes($field) ."', '". json_encode($args) ."'); ?>";
+      $tpl = '<?php echo ' . __CLASS__ . "::getConfig('" . addslashes($field) . "', '" . json_encode($args) . "'); ?>";
 
       $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
     }

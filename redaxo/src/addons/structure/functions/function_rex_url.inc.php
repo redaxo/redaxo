@@ -21,11 +21,11 @@ function rex_parse_article_name($name)
 
   return
     // + durch - ersetzen
-    str_replace('+','-',
+    str_replace('+', '-',
         // ggf uebrige zeichen url-codieren
         urlencode(
           // mehrfach hintereinander auftretende spaces auf eines reduzieren
-          preg_replace('/ {2,}/',' ',
+          preg_replace('/ {2,}/', ' ',
             // alle sonderzeichen raus
             preg_replace('/[^a-zA-Z_\-0-9 ]/', '',
               // sprachspezifische zeichen umschreiben
@@ -47,7 +47,7 @@ function rex_param_string($params, $divider = '&amp;')
   {
     foreach ($params as $key => $value)
     {
-      $param_string .= $divider.urlencode($key).'='.urlencode($value);
+      $param_string .= $divider . urlencode($key) . '=' . urlencode($value);
     }
   }
   elseif ($params != '')
@@ -101,10 +101,10 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
     $_clang = '';
     if (rex_clang::count() > 1)
     {
-      $_clang .= $_divider.'clang='.$clang;
+      $_clang .= $_divider . 'clang=' . $clang;
     }
 
-    $url = rex_path::frontendController('?article_id='.$id .$_clang.$param_string);
+    $url = rex_path::frontendController('?article_id=' . $id . $_clang . $param_string);
   }
 
   return $url;
@@ -120,6 +120,6 @@ function rex_redirect($article_id, $clang = '', $params = array())
 
   $divider = '&';
 
-  header('Location: '. rex_getUrl($article_id, $clang, $params, $divider));
+  header('Location: ' . rex_getUrl($article_id, $clang, $params, $divider));
   exit();
 }

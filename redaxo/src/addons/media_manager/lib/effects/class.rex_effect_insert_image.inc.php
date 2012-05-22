@@ -94,14 +94,14 @@ class rex_effect_insert_image extends rex_effect_abstract
         'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
         'name' => 'hpos',
         'type'  => 'select',
-        'options'  => array('left','center','right'),
+        'options'  => array('left', 'center', 'right'),
         'default' => 'left'
       ),
       array(
         'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
         'name' => 'vpos',
         'type'  => 'select',
-        'options'  => array('top','middle','bottom'),
+        'options'  => array('top', 'middle', 'bottom'),
         'default' => 'top'
       ),
       array(

@@ -35,7 +35,7 @@ class rex_var_template extends rex_var
 
       if ($template_id > 0)
       {
-        $tpl = '<?php require '. __CLASS__ .'::getTemplateStream('. $template_id .', $this, \''. json_encode($args) ."'); ?>";
+        $tpl = '<?php require ' . __CLASS__ . '::getTemplateStream(' . $template_id . ', $this, \'' . json_encode($args) . "'); ?>";
         $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
       }
     }
@@ -52,6 +52,6 @@ class rex_var_template extends rex_var
       $tmpl = $article->replaceCommonVars($tmpl, $id);
     }
     $tmpl = self::handleGlobalVarParams('REX_TEMPLATE', json_decode($args, true), $tmpl);
-    return rex_stream::factory('template/'. $id, $tmpl);
+    return rex_stream::factory('template/' . $id, $tmpl);
   }
 }

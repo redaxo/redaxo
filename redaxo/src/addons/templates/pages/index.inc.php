@@ -16,4 +16,4 @@ switch ($subpage)
   default : $file = 'templates.inc.php'; break;
 }
 
-require dirname(__FILE__).'/'. $file;
+require dirname(__FILE__) . '/' . $file;

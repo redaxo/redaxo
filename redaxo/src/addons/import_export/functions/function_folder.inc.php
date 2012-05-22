@@ -14,7 +14,7 @@ if (!function_exists('readFolder'))
    {
       if (!is_dir($dir))
       {
-         trigger_error('Folder "'.$dir.'" is not available or not a directory');
+         trigger_error('Folder "' . $dir . '" is not available or not a directory');
          return false;
       }
       $hdl = opendir($dir);
@@ -83,7 +83,7 @@ if (!function_exists('readFolderFiles'))
 
       foreach ($folder as $file)
       {
-         if (is_file($dir.'/'.$file))
+         if (is_file($dir . '/' . $file))
          {
             $files[] = $file;
          }
@@ -119,7 +119,7 @@ if (!function_exists('readSubFolders'))
          {
             continue;
          }
-         if (is_dir($dir.'/'.$file))
+         if (is_dir($dir . '/' . $file))
          {
             $folders[] = $file;
          }

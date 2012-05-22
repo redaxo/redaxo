@@ -69,7 +69,7 @@ class rex_mediacategory_select extends rex_select
       $mname = $mediacat->getName();
 
       if (rex::getUser()->hasPerm('advancedMode[]'))
-        $mname .= ' ['. $mid .']';
+        $mname .= ' [' . $mid . ']';
 
       $this->addOption($mname, $mid, $mid, $mediacat->getParentId());
       $childs = $mediacat->getChildren();

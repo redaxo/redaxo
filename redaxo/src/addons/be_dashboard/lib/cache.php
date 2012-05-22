@@ -168,11 +168,11 @@ abstract class rex_cache
   {
     $regexp = str_replace(
       array('\\*\\*', '\\*'),
-      array('.+?',    '[^'.preg_quote(REX_CACHE_SEPARATOR, '#').']+'),
+      array('.+?',    '[^' . preg_quote(REX_CACHE_SEPARATOR, '#') . ']+'),
       preg_quote($pattern, '#')
     );
 
-    return '#^'.$regexp.'$#';
+    return '#^' . $regexp . '$#';
   }
 
   /**

@@ -23,7 +23,7 @@ class rex_login
 
   public function __construct()
   {
-    if (session_id() == "")
+    if (session_id() == '')
       session_start();
   }
 
@@ -182,7 +182,7 @@ class rex_login
         }
         else
         {
-          $this->message = rex_i18n::msg('login_error', '<strong>'. rex::getProperty('relogindelay') .'</strong>');
+          $this->message = rex_i18n::msg('login_error', '<strong>' . rex::getProperty('relogindelay') . '</strong>');
           $this->setSessionVar('UID', '');
         }
       }
@@ -251,7 +251,7 @@ class rex_login
   /**
    * Gibt einen Benutzer-Spezifischen Wert zurück
    */
-  public function getValue($value, $default = NULL)
+  public function getValue($value, $default = null)
   {
     if ($this->USER)
       return $this->USER->getValue($value);

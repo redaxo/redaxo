@@ -38,7 +38,7 @@ abstract class rex_ooRedaxo
       {
         if (isset($params[$var]))
         {
-          $class_var = '_'.$var;
+          $class_var = '_' . $var;
           $this->$class_var = $params[$var];
         }
       }
@@ -122,11 +122,11 @@ abstract class rex_ooRedaxo
       $vars = array();
 
       $startId = rex::getProperty('start_article_id');
-      $file = rex_path::addonCache('structure',  $startId .'.0.article');
+      $file = rex_path::addonCache('structure',  $startId . '.0.article');
       if (!rex::isBackend() && file_exists($file))
       {
         // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
-        $genVars = self::convertGeneratedArray(rex_file::getCache($file),0);
+        $genVars = self::convertGeneratedArray(rex_file::getCache($file), 0);
         unset($genVars['article_id']);
         unset($genVars['last_update_stamp']);
         foreach ($genVars as $name => $value)
@@ -138,7 +138,7 @@ abstract class rex_ooRedaxo
       {
         // Im Backend die Spalten aus der DB auslesen / via EP holen
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM '. rex::getTablePrefix() .'article LIMIT 0');
+        $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article LIMIT 0');
         foreach ($sql->getFieldnames() as $field)
         {
           $vars[] = $field;
@@ -189,10 +189,10 @@ abstract class rex_ooRedaxo
 
     if ($id <= 0)
     {
-      return NULL;
+      return null;
     }
 
-    if ($clang === FALSE)
+    if ($clang === false)
     {
       $clang = rex_clang::getId();
     }
@@ -206,7 +206,7 @@ abstract class rex_ooRedaxo
       return self::$instanceCache[$subclass][$id][$clang];
     }
 
-    $article_path = rex_path::addonCache('structure', $id.'.'.$clang.'.article');
+    $article_path = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
     // generate cache if not exists
     if (!file_exists($article_path))
     {
@@ -227,7 +227,7 @@ abstract class rex_ooRedaxo
       return $impl;
     }
 
-    return NULL;
+    return null;
   }
 
   /**
@@ -426,11 +426,11 @@ abstract class rex_ooRedaxo
   public function toLink($params = '', $attributes = null, $sorround_tag = null, $sorround_attributes = null)
   {
     $name = htmlspecialchars($this->getName());
-    $link = '<a href="'.$this->getUrl($params).'"'.$this->_toAttributeString($attributes).' title="'.$name.'">'.$name.'</a>';
+    $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . $name . '">' . $name . '</a>';
 
     if ($sorround_tag !== null && is_string($sorround_tag))
     {
-      $link = '<'.$sorround_tag.$this->_toAttributeString($sorround_attributes).'>'.$link.'</'.$sorround_tag.'>';
+      $link = '<' . $sorround_tag . $this->_toAttributeString($sorround_attributes) . '>' . $link . '</' . $sorround_tag . '>';
     }
 
     return $link;
@@ -449,7 +449,7 @@ abstract class rex_ooRedaxo
     {
       foreach ($attributes as $name => $value)
       {
-        $attr .= ' '.$name.'="'.$value.'"';
+        $attr .= ' ' . $name . '="' . $value . '"';
       }
     }
 
@@ -470,7 +470,7 @@ abstract class rex_ooRedaxo
     if ($this->_path)
     {
       if ($this->isStartArticle())
-      $explode = explode('|', $this->_path.$this->_id.'|');
+      $explode = explode('|', $this->_path . $this->_id . '|');
       else
       $explode = explode('|', $this->_path);
 
@@ -562,7 +562,7 @@ abstract class rex_ooRedaxo
    */
   public function toString()
   {
-    return $this->_id.', '.$this->_name.', '. ($this->isOnline() ? 'online' : 'offline');
+    return $this->_id . ', ' . $this->_name . ', ' . ($this->isOnline() ? 'online' : 'offline');
   }
 
   /**

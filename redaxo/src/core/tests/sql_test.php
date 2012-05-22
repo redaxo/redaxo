@@ -9,8 +9,8 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
 
     $sql = rex_sql::factory();
 
-    $sql->setQuery('DROP TABLE IF EXISTS `'. self::TABLE .'`');
-    $sql->setQuery('CREATE TABLE `'. self::TABLE .'` (
+    $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE . '`');
+    $sql->setQuery('CREATE TABLE `' . self::TABLE . '` (
         `id` INT NOT NULL AUTO_INCREMENT ,
         `col_str` VARCHAR( 255 ) NOT NULL ,
         `col_int` INT NOT NULL ,
@@ -26,7 +26,7 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
     parent::tearDown();
 
     $sql = rex_sql::factory();
-    $sql->setQuery('DROP TABLE `'. self::TABLE .'`');
+    $sql->setQuery('DROP TABLE `' . self::TABLE . '`');
   }
 
   public function testFactory()

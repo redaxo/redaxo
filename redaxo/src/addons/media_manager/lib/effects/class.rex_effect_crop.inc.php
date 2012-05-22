@@ -35,29 +35,29 @@ class rex_effect_crop extends rex_effect_abstract
     if (empty($this->params['offset_width'])) $this->params['offset_width'] = 0;
     if (empty($this->params['offset_height'])) $this->params['offset_height'] = 0;
 
-    switch ($this->params["vpos"])
+    switch ($this->params['vpos'])
     {
-      case ("top"):
+      case ('top'):
         $offset_height += $this->params['offset_height'];
         break;
-      case ("bottom"):
+      case ('bottom'):
         $offset_height = (int) (($h - $this->params['height'])) + $this->params['offset_height'];
         break;
-      case ("middle"):
+      case ('middle'):
       default: // center
         $offset_height = (int) (($h - $this->params['height']) / 2) + $this->params['offset_height'];
         break;
     }
 
-    switch ($this->params["hpos"])
+    switch ($this->params['hpos'])
     {
-      case ("left"):
+      case ('left'):
         $offset_width += $this->params['offset_width'];
         break;
-      case ("right"):
+      case ('right'):
         $offset_width   = (int) ($w - $this->params['width']) + $this->params['offset_width'];
         break;
-      case ("center"):
+      case ('center'):
       default: // center
         $offset_width   = (int) (($w - $this->params['width']) / 2) + $this->params['offset_width'];
         break;
@@ -82,7 +82,7 @@ class rex_effect_crop extends rex_effect_abstract
     $this->keepTransparent($des);
     imagecopyresampled($des, $gdimage, 0, 0, $offset_width, $offset_height, $this->params['width'], $this->params['height'], $this->params['width'], $this->params['height']);
 
-    $this->media->setImage($des);;
+    $this->media->setImage($des); ;
     $this->media->refreshImageDimensions();
 
   }
@@ -101,7 +101,7 @@ class rex_effect_crop extends rex_effect_abstract
       $gdimage = $image->getImage();
       $colorTransparent = imagecolortransparent($gdimage);
       imagepalettecopy($gdimage, $des);
-      if ($colorTransparent>0)
+      if ($colorTransparent > 0)
       {
         imagefill($des, 0, 0, $colorTransparent);
         imagecolortransparent($des, $colorTransparent);
@@ -116,22 +116,22 @@ class rex_effect_crop extends rex_effect_abstract
   {
     return array(
       array(
-        'label'=>rex_i18n::msg('media_manager_effect_crop_width'),
+        'label' => rex_i18n::msg('media_manager_effect_crop_width'),
         'name' => 'width',
         'type' => 'int'
       ),
       array(
-        'label'=>rex_i18n::msg('media_manager_effect_crop_height'),
+        'label' => rex_i18n::msg('media_manager_effect_crop_height'),
         'name' => 'height',
         'type' => 'int'
       ),
       array(
-        'label'=>rex_i18n::msg('media_manager_effect_crop_offset_width'),
+        'label' => rex_i18n::msg('media_manager_effect_crop_offset_width'),
         'name' => 'offset_width',
         'type' => 'int'
       ),
       array(
-        'label'=>rex_i18n::msg('media_manager_effect_crop_offset_height'),
+        'label' => rex_i18n::msg('media_manager_effect_crop_offset_height'),
         'name' => 'offset_height',
         'type' => 'int'
       ),
@@ -139,14 +139,14 @@ class rex_effect_crop extends rex_effect_abstract
         'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
         'name' => 'hpos',
         'type'  => 'select',
-        'options'  => array('left','center','right'),
+        'options'  => array('left', 'center', 'right'),
         'default' => 'center'
       ),
       array(
         'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
         'name' => 'vpos',
         'type'  => 'select',
-        'options'  => array('top','middle','bottom'),
+        'options'  => array('top', 'middle', 'bottom'),
         'default' => 'middle'
       ),
     );

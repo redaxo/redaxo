@@ -23,7 +23,7 @@ if (rex::isBackend())
     function($params)
     {
       $del = rex_sql::factory();
-      $del->setQuery("delete from ". rex::getTablePrefix() ."article_slice where clang='". $params['id'] ."'");
+      $del->setQuery('delete from ' . rex::getTablePrefix() . "article_slice where clang='" . $params['id'] . "'");
     }
   );
 }

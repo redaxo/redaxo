@@ -14,7 +14,7 @@ function rex_execPreViewAction($module_id, $function, $REX_ACTION)
   $modebit = rex_getActionModeBit($function);
 
   $ga = rex_sql::factory();
-  $ga->setQuery('SELECT a.id, preview FROM '.rex::getTablePrefix().'module_action ma,'. rex::getTablePrefix(). 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id='. $module_id .' AND ((a.previewmode & '. $modebit .') = '. $modebit .')');
+  $ga->setQuery('SELECT a.id, preview FROM ' . rex::getTablePrefix() . 'module_action ma,' . rex::getTablePrefix() . 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.previewmode & ' . $modebit . ') = ' . $modebit . ')');
 
   foreach ($ga as $row)
   {
@@ -26,7 +26,7 @@ function rex_execPreViewAction($module_id, $function, $REX_ACTION)
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    require rex_stream::factory('action/'. $row->getValue('id') .'/preview', $iaction);
+    require rex_stream::factory('action/' . $row->getValue('id') . '/preview', $iaction);
   }
 
   return $REX_ACTION;
@@ -60,7 +60,7 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    require rex_stream::factory('action/'. $row->getValue('id') .'/presave', $iaction);
+    require rex_stream::factory('action/' . $row->getValue('id') . '/presave', $iaction);
 
     if ($REX_ACTION['MSG'] != '')
     $messages[] = $REX_ACTION['MSG'];
@@ -96,7 +96,7 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
-    require rex_stream::factory('action/'. $row->getValue('id') .'/postsave', $iaction);
+    require rex_stream::factory('action/' . $row->getValue('id') . '/postsave', $iaction);
 
     if ($REX_ACTION['MSG'] != '')
     $messages[] = $REX_ACTION['MSG'];

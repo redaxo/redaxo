@@ -55,16 +55,16 @@ class rex_effect_header extends rex_effect_abstract
   public function execute()
   {
 
-    if ($this->params["cache"] == "no_cache")
+    if ($this->params['cache'] == 'no_cache')
     {
-      $this->media->setHeader("Cache-Control","no-cache, must-revalidate");
-      $this->media->setHeader("Cache-Control","private");
-      $this->media->setHeader("Expires","Sat, 26 Jul 1997 05:00:00 GMT"); // in the past
+      $this->media->setHeader('Cache-Control', 'no-cache, must-revalidate');
+      $this->media->setHeader('Cache-Control', 'private');
+      $this->media->setHeader('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT'); // in the past
     }
 
-    if ($this->params["download"] == "download")
+    if ($this->params['download'] == 'download')
     {
-      $this->media->setHeader("Content-Disposition","attachment; filename=\"".basename($this->media->getMediaFilename())."\";");
+      $this->media->setHeader('Content-Disposition', "attachment; filename=\"" . basename($this->media->getMediaFilename()) . "\";");
     }
 
     /*
@@ -84,11 +84,11 @@ class rex_effect_header extends rex_effect_abstract
         'label' => rex_i18n::msg('media_manager_effect_header_download'),
         'name' => 'download',
         'type'  => 'select',
-        'options'  => array('open_media','download'),
+        'options'  => array('open_media', 'download'),
         'default' => 'open_media'
         ),
         array(
-        'label'=>rex_i18n::msg('media_manager_effect_header_cache'),
+        'label' => rex_i18n::msg('media_manager_effect_header_cache'),
         'name' => 'cache',
         'type' => 'select',
         'options' => array('no_cache', 'cache'),

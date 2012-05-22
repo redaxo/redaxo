@@ -17,7 +17,7 @@ abstract class rex_var
   {
     if (!is_subclass_of($var, __CLASS__))
     {
-      throw new rex_exception('$var must be a subclass of '. __CLASS__);
+      throw new rex_exception('$var must be a subclass of ' . __CLASS__);
     }
 
     self::$vars[] = $var;

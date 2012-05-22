@@ -38,7 +38,7 @@
   if (is_readable($filename))
   {
     echo '<textarea class="tinymce-code-small" onfocus="this.select();" style="width:98%;height:125px;">';
-    if (strstr($REX['LANG'],'utf8'))
+    if (strstr($REX['LANG'], 'utf8'))
     {
       echo utf8_encode(htmlspecialchars(file_get_contents($filename)));
     }
@@ -55,7 +55,7 @@
   if (is_readable($filename))
   {
     echo '<textarea class="tinymce-code-small" onfocus="this.select();" style="width:98%;height:125px;">';
-    if (strstr($REX['LANG'],'utf8'))
+    if (strstr($REX['LANG'], 'utf8'))
     {
       echo utf8_encode(htmlspecialchars(file_get_contents($filename)));
     }
@@ -85,7 +85,7 @@
   if (is_readable($filename))
   {
     echo '<textarea class="tinymce-code-big" onfocus="this.select();" style="width:98%;height:300px;">';
-    if (strstr($REX['LANG'],'utf8'))
+    if (strstr($REX['LANG'], 'utf8'))
     {
       echo utf8_encode(htmlspecialchars(file_get_contents($filename)));
     }

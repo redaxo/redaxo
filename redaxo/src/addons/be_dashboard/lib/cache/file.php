@@ -103,13 +103,13 @@ class rex_file_cache extends rex_cache
   {
     if (false !== strpos($pattern, '**'))
     {
-      $pattern = str_replace(REX_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $pattern).REX_CACHE_FILE_EXTENSION;
+      $pattern = str_replace(REX_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $pattern) . REX_CACHE_FILE_EXTENSION;
 
       $regexp = self::patternToRegexp($pattern);
       $paths = array();
       foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->getOption('cache_dir'))) as $path)
       {
-        if (preg_match($regexp, str_replace($this->getOption('cache_dir').DIRECTORY_SEPARATOR, '', $path)))
+        if (preg_match($regexp, str_replace($this->getOption('cache_dir') . DIRECTORY_SEPARATOR, '', $path)))
         {
           $paths[] = $path;
         }
@@ -117,7 +117,7 @@ class rex_file_cache extends rex_cache
     }
     else
     {
-      $paths = glob($this->getOption('cache_dir').DIRECTORY_SEPARATOR.str_replace(REX_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $pattern).REX_CACHE_FILE_EXTENSION);
+      $paths = glob($this->getOption('cache_dir') . DIRECTORY_SEPARATOR . str_replace(REX_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $pattern) . REX_CACHE_FILE_EXTENSION);
     }
 
     foreach ($paths as $path)
@@ -210,7 +210,7 @@ class rex_file_cache extends rex_cache
    */
   protected function getFilePath($key)
   {
-    return $this->getOption('cache_dir').DIRECTORY_SEPARATOR.str_replace(REX_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $key).REX_CACHE_FILE_EXTENSION;
+    return $this->getOption('cache_dir') . DIRECTORY_SEPARATOR . str_replace(REX_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $key) . REX_CACHE_FILE_EXTENSION;
   }
 
   /**

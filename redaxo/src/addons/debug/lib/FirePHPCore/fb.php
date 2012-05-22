@@ -160,7 +160,7 @@ class FB
      * @param array $options OPTIONAL Instructions on how to log the group
      * @return true
      */
-    public static function group($name, $options=null)
+    public static function group($name, $options = null)
     {
         return FirePHP::getInstance(true)->group($name, $options);
     }
@@ -185,7 +185,7 @@ class FB
      * @return true
      * @throws Exception
      */
-    public static function log($object, $label=null)
+    public static function log($object, $label = null)
     {
         return self::send($object, $label, FirePHP::LOG);
     }
@@ -199,7 +199,7 @@ class FB
      * @return true
      * @throws Exception
      */
-    public static function info($object, $label=null)
+    public static function info($object, $label = null)
     {
         return self::send($object, $label, FirePHP::INFO);
     }
@@ -213,7 +213,7 @@ class FB
      * @return true
      * @throws Exception
      */
-    public static function warn($object, $label=null)
+    public static function warn($object, $label = null)
     {
         return self::send($object, $label, FirePHP::WARN);
     }
@@ -227,7 +227,7 @@ class FB
      * @return true
      * @throws Exception
      */
-    public static function error($object, $label=null)
+    public static function error($object, $label = null)
     {
         return self::send($object, $label, FirePHP::ERROR);
     }

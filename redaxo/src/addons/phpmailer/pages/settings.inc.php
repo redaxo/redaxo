@@ -48,7 +48,7 @@ $sel_mailer->setName('mailer');
 $sel_mailer->setSize(1);
 $sel_mailer->setSelected($mailer);
 foreach (array('mail', 'sendmail', 'smtp') as $type)
-  $sel_mailer->addOption($type,$type);
+  $sel_mailer->addOption($type, $type);
 
 $sel_smtpauth = new rex_select();
 $sel_smtpauth->setId('smtpauth');
@@ -56,7 +56,7 @@ $sel_smtpauth->setName('smtpauth');
 $sel_smtpauth->setSize(1);
 $sel_smtpauth->setSelected($smtpauth);
 foreach (array(0 => 'false', 1 => 'true') as $i => $type)
-$sel_smtpauth->addOption($type,$i);
+$sel_smtpauth->addOption($type, $i);
 
 $sel_encoding = new rex_select();
 $sel_encoding->setId('encoding');
@@ -64,15 +64,15 @@ $sel_encoding->setName('encoding');
 $sel_encoding->setSize(1);
 $sel_encoding->setSelected($encoding);
 foreach (array('7bit', '8bit', 'binary', 'base64', 'quoted-printable') as $enc)
-  $sel_encoding->addOption($enc,$enc);
+  $sel_encoding->addOption($enc, $enc);
 
 $sel_priority = new rex_select();
 $sel_priority->setid('priority');
 $sel_priority->setName('priority');
 $sel_priority->setSize(1);
 $sel_priority->setSelected($priority);
-foreach (array(1 =>$this->i18n('high'),3 => $this->i18n('normal'),5 => $this->i18n('low')) as $no => $name)
-  $sel_priority->addOption($name,$no);
+foreach (array(1 => $this->i18n('high'), 3 => $this->i18n('normal'), 5 => $this->i18n('low')) as $no => $name)
+  $sel_priority->addOption($name, $no);
 
 
 if ($message != '')

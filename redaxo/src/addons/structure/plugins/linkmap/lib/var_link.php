@@ -36,8 +36,8 @@ class rex_var_link extends rex_var
   {
     for ($i = 1; $i < 11; $i++)
     {
-      $REX_ACTION['LINK'][$i] = $this->getValue($sql, 'link'. $i);
-      $REX_ACTION['LINKLIST'][$i] = $this->getValue($sql, 'linklist'. $i);
+      $REX_ACTION['LINK'][$i] = $this->getValue($sql, 'link' . $i);
+      $REX_ACTION['LINKLIST'][$i] = $this->getValue($sql, 'linklist' . $i);
     }
 
     return $REX_ACTION;
@@ -47,8 +47,8 @@ class rex_var_link extends rex_var
   {
     for ($i = 1; $i < 11; $i++)
     {
-      $this->setValue($sql, 'link'. $i, $REX_ACTION['LINK'][$i]);
-      $this->setValue($sql, 'linklist'. $i, $REX_ACTION['LINKLIST'][$i]);
+      $this->setValue($sql, 'link' . $i, $REX_ACTION['LINK'][$i]);
+      $this->setValue($sql, 'linklist' . $i, $REX_ACTION['LINKLIST'][$i]);
     }
   }
 
@@ -167,7 +167,7 @@ class rex_var_link extends rex_var
       if ($id > 0 && $id < 11)
       {
         $replace = '';
-        if ($this->getValue($sql, 'link' . $id) != "")
+        if ($this->getValue($sql, 'link' . $id) != '')
           $replace = rex_getUrl($this->getValue($sql, 'link' . $id));
 
         $replace = $this->handleGlobalVarParams($var, $args, $replace);
@@ -228,7 +228,7 @@ class rex_var_link extends rex_var
   static public function _getLinkButton($name, $linkId, $article_id, $category = '')
   {
     $field = rex_var_link::getLinkButton($linkId, $article_id, $category);
-    return str_replace('LINK['. $linkId .']', $name, $field);
+    return str_replace('LINK[' . $linkId . ']', $name, $field);
   }
 
   /**
@@ -264,12 +264,12 @@ class rex_var_link extends rex_var
     }
 
     $media = '
-  <div id="rex-widget-linkmap-'.$id.'" class="rex-widget rex-widget-link">
-    <input type="hidden" name="LINK[' . $id . ']" id="LINK_' . $id . '" value="'. $article_id .'" />
+  <div id="rex-widget-linkmap-' . $id . '" class="rex-widget rex-widget-link">
+    <input type="hidden" name="LINK[' . $id . ']" id="LINK_' . $id . '" value="' . $article_id . '" />
     <input type="text" size="30" name="LINK_NAME[' . $id . ']" value="' . htmlspecialchars($art_name) . '" id="LINK_' . $id . '_NAME" readonly="readonly" />
     <ul class="rex-navi-widget">
-      <li><a href="#" class="'. $open_class .'" onclick="'. $open_func .'return false;" title="'. rex_i18n::msg('var_link_open') .'">'. rex_i18n::msg('var_link_open') .'</a></li>
-       <li><a href="#" class="'. $delete_class .'" onclick="'. $delete_func .'return false;" title="'. rex_i18n::msg('var_link_delete') .'">'. rex_i18n::msg('var_link_delete') .'</a></li>
+      <li><a href="#" class="' . $open_class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '">' . rex_i18n::msg('var_link_open') . '</a></li>
+       <li><a href="#" class="' . $delete_class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '">' . rex_i18n::msg('var_link_delete') . '</a></li>
      </ul>
    </div>';
 
@@ -312,20 +312,20 @@ class rex_var_link extends rex_var
     }
 
     $link = '
-    <div id="rex-widget-linklist-'.$id.'" class="rex-widget rex-widget-linklist">
-      <input type="hidden" name="LINKLIST['. $id .']" id="REX_LINKLIST_'. $id .'" value="'. $value .'" />
+    <div id="rex-widget-linklist-' . $id . '" class="rex-widget rex-widget-linklist">
+      <input type="hidden" name="LINKLIST[' . $id . ']" id="REX_LINKLIST_' . $id . '" value="' . $value . '" />
       <select name="LINKLIST_SELECT[' . $id . ']" id="REX_LINKLIST_SELECT_' . $id . '" size="8">
           ' . $options . '
       </select>
       <ul class="rex-navi-widget">
-        <li><a href="#" class="rex-ic-top" onclick="moveREXLinklist(' . $id . ',\'top\');return false;" title="'. rex_i18n::msg('var_linklist_move_top') .'">'. rex_i18n::msg('var_linklist_move_top') .'</a></li>
-        <li><a href="#" class="rex-ic-up" onclick="moveREXLinklist(' . $id . ',\'up\');return false;" title="'. rex_i18n::msg('var_linklist_move_up') .'">'. rex_i18n::msg('var_linklist_move_up') .'</a></li>
-        <li><a href="#" class="rex-ic-down" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="'. rex_i18n::msg('var_linklist_move_down') .'">'. rex_i18n::msg('var_linklist_move_down') .'</a></li>
-        <li><a href="#" class="rex-ic-bottom" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="'. rex_i18n::msg('var_linklist_move_bottom') .'">'. rex_i18n::msg('var_linklist_move_bottom') .'</a></li>
+        <li><a href="#" class="rex-ic-top" onclick="moveREXLinklist(' . $id . ',\'top\');return false;" title="' . rex_i18n::msg('var_linklist_move_top') . '">' . rex_i18n::msg('var_linklist_move_top') . '</a></li>
+        <li><a href="#" class="rex-ic-up" onclick="moveREXLinklist(' . $id . ',\'up\');return false;" title="' . rex_i18n::msg('var_linklist_move_up') . '">' . rex_i18n::msg('var_linklist_move_up') . '</a></li>
+        <li><a href="#" class="rex-ic-down" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="' . rex_i18n::msg('var_linklist_move_down') . '">' . rex_i18n::msg('var_linklist_move_down') . '</a></li>
+        <li><a href="#" class="rex-ic-bottom" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_linklist_move_bottom') . '">' . rex_i18n::msg('var_linklist_move_bottom') . '</a></li>
       </ul>
       <ul class="rex-navi-widget">
-        <li><a href="#" class="'. $open_class .'" onclick="'. $open_func .'return false;" title="'. rex_i18n::msg('var_link_open') .'">'. rex_i18n::msg('var_link_open') .'</a></li>
-        <li><a href="#" class="'. $delete_class .'" onclick="'. $delete_func .'return false;" title="'. rex_i18n::msg('var_link_delete') .'">'. rex_i18n::msg('var_link_delete') .'</a></li>
+        <li><a href="#" class="' . $open_class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '">' . rex_i18n::msg('var_link_open') . '</a></li>
+        <li><a href="#" class="' . $delete_class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '">' . rex_i18n::msg('var_link_delete') . '</a></li>
       </ul>
     </div>';
 

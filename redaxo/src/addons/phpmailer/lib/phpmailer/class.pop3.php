@@ -442,7 +442,7 @@ class POP3
   private function catchWarning ($errno, $errstr, $errfile, $errline)
   {
     $this->error[] = array(
-      'error' => "Connecting to the POP3 server raised a PHP warning: ",
+      'error' => 'Connecting to the POP3 server raised a PHP warning: ',
       'errno' => $errno,
       'errstr' => $errstr
     );

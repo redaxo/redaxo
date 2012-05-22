@@ -18,8 +18,8 @@ function rex_metainfo_cleanup($params)
 {
   // Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
   if (isset($params['force']) && $params['force'] != true &&
-     strpos($params['content'], 'CREATE TABLE `'. rex::getTablePrefix() .'article`') === false &&
-     strpos($params['content'], 'CREATE TABLE '. rex::getTablePrefix() .'article') === false)
+     strpos($params['content'], 'CREATE TABLE `' . rex::getTablePrefix() . 'article`') === false &&
+     strpos($params['content'], 'CREATE TABLE ' . rex::getTablePrefix() . 'article') === false)
   {
     return;
   }
@@ -33,7 +33,7 @@ function rex_metainfo_cleanup($params)
 
   // since this extension may be used also when the addon is not yet installed,
   // require needed classes manually
-  require_once dirname(__FILE__) .'/../lib/table_manager.php';
+  require_once dirname(__FILE__) . '/../lib/table_manager.php';
 
   $sql = rex_sql::factory();
   $sql->setQuery('SELECT name FROM ' . rex::getTablePrefix() . 'metainfo_params');
@@ -55,7 +55,7 @@ function rex_metainfo_cleanup($params)
   $tablePrefixes = array('article' => array('art_', 'cat_'), 'media' => array('med_'));
   foreach ($tablePrefixes as $table => $prefixes)
   {
-    $table = rex::getTablePrefix() .$table;
+    $table = rex::getTablePrefix() . $table;
     $tableManager = new rex_metainfo_tableManager($table);
 
     foreach (rex_sql::showColumns($table) as $column)
@@ -69,5 +69,5 @@ function rex_metainfo_cleanup($params)
   }
 
   $sql = rex_sql::factory();
-  $sql->setQuery('DELETE FROM '. rex::getTablePrefix() .'metainfo_params');
+  $sql->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'metainfo_params');
 }

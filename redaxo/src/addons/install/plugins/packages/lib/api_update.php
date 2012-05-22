@@ -25,7 +25,7 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
   public function doAction()
   {
     $path = rex_path::addon($this->addonkey);
-    $temppath = rex_path::addon('_new_'. $this->addonkey);
+    $temppath = rex_path::addon('_new_' . $this->addonkey);
 
     if (($msg = $this->extractArchiveTo($temppath)) !== true)
     {
@@ -38,11 +38,11 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
     }
 
     // ---- include update.inc.php
-    if ($this->addon->isInstalled() && file_exists($temppath .'update.inc.php'))
+    if ($this->addon->isInstalled() && file_exists($temppath . 'update.inc.php'))
     {
       try
       {
-        rex_addon_manager::includeFile($this->addon, '../_new_'. $this->addonkey .'/update.inc.php');
+        rex_addon_manager::includeFile($this->addon, '../_new_' . $this->addonkey . '/update.inc.php');
       }
       catch (rex_functional_exception $e)
       {
@@ -50,7 +50,7 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
       }
       catch (rex_sql_exception $e)
       {
-        return 'SQL error: '. $e->getMessage();
+        return 'SQL error: ' . $e->getMessage();
       }
       if (($msg = $this->addon->getProperty('updatemsg', '')) != '')
       {
@@ -66,9 +66,9 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
     $assets = $this->addon->getAssetsPath('', rex_path::ABSOLUTE);
     if (rex_addon::get('install')->getConfig('backups'))
     {
-      $archivePath = rex_path::pluginData('install', 'packages', $this->addonkey .'/');
+      $archivePath = rex_path::pluginData('install', 'packages', $this->addonkey . '/');
       rex_dir::create($archivePath);
-      $archive = $archivePath . strtolower(preg_replace("/[^a-z0-9-_.]/i", "_", $this->addon->getVersion('0'))) .'.zip';
+      $archive = $archivePath . strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', $this->addon->getVersion('0'))) . '.zip';
       rex_install_helper::copyDirToArchive($path, $archive);
       if (is_dir($assets))
       {
@@ -79,14 +79,14 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
     // ---- copy plugins to new addon dir
     foreach ($this->addon->getRegisteredPlugins() as $plugin)
     {
-      $pluginPath = $temppath .'/plugins/'. $plugin->getName();
+      $pluginPath = $temppath . '/plugins/' . $plugin->getName();
       if (!is_dir($pluginPath))
       {
         rex_dir::copy($plugin->getBasePath(), $pluginPath);
       }
-      elseif ($plugin->isInstalled() && is_dir($pluginPath .'/assets'))
+      elseif ($plugin->isInstalled() && is_dir($pluginPath . '/assets'))
       {
-        rex_dir::copy($pluginPath .'/assets', $plugin->getAssetsPath('', rex_path::ABSOLUTE));
+        rex_dir::copy($pluginPath . '/assets', $plugin->getAssetsPath('', rex_path::ABSOLUTE));
       }
     }
 
@@ -107,14 +107,14 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
 
   private function checkRequirements()
   {
-    $temppath = rex_path::addon('_new_'. $this->addonkey);
+    $temppath = rex_path::addon('_new_' . $this->addonkey);
 
     // ---- update "version" and "requires" properties
     $versions = new SplObjectStorage;
     $requirements = new SplObjectStorage;
-    if (file_exists($temppath .'package.yml'))
+    if (file_exists($temppath . 'package.yml'))
     {
-      $config = rex_file::getConfig($temppath .'package.yml');
+      $config = rex_file::getConfig($temppath . 'package.yml');
       if (isset($config['requires']))
       {
         $requirements[$this->addon] = $this->addon->getProperty('requires');
@@ -126,9 +126,9 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
     $availablePlugins = $this->addon->getAvailablePlugins();
     foreach ($availablePlugins as $plugin)
     {
-      if (is_dir($temppath .'/plugins/'. $plugin->getName()))
+      if (is_dir($temppath . '/plugins/' . $plugin->getName()))
       {
-        $config = rex_file::getConfig($temppath .'/plugins/'. $plugin->getName() .'/package.yml');
+        $config = rex_file::getConfig($temppath . '/plugins/' . $plugin->getName() . '/package.yml');
         if (isset($config['requires']))
         {
           $requirements[$plugin] = $plugin->getProperty('requires');
@@ -154,7 +154,7 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
         $msg = rex_plugin_manager::factory($plugin)->checkRequirements();
         if ($msg !== true)
         {
-          $messages[] = $plugin->getPackageId() .': '. $msg;
+          $messages[] = $plugin->getPackageId() . ': ' . $msg;
         }
       }
       foreach (rex_package::getAvailablePackages() as $package)
@@ -164,7 +164,7 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
         $manager = rex_package_manager::factory($package);
         if (($msg = $manager->checkPackageRequirement($this->addon->getPackageId())) !== true)
         {
-          $messages[] = $package->getPackageId() .': '. $msg;
+          $messages[] = $package->getPackageId() . ': ' . $msg;
         }
         else
         {
@@ -172,7 +172,7 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
           {
             if (($msg = $manager->checkPackageRequirement($reqPlugin->getPackageId())) !== true)
             {
-              $messages[] = $package->getPackageId() .': '. $msg;
+              $messages[] = $package->getPackageId() . ': ' . $msg;
             }
           }
         }
@@ -196,6 +196,6 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
 
   public function __destruct()
   {
-    rex_dir::delete(rex_path::addon('_new_'. $this->addonkey));
+    rex_dir::delete(rex_path::addon('_new_' . $this->addonkey));
   }
 }

@@ -19,8 +19,8 @@ echo rex_view::title($this->i18n('title'));
 switch ($subpage)
 {
     case 'example':
-        require __DIR__ .'/example.inc.php';
+        require __DIR__ . '/example.inc.php';
     break;
     default:
-        require __DIR__ .'/settings.inc.php';
+        require __DIR__ . '/settings.inc.php';
 }

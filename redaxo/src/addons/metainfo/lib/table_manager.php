@@ -14,7 +14,7 @@ class rex_metainfo_tableManager
     $tableName,
     $DBID;
 
-  public function __construct($tableName, $DBID =1)
+  public function __construct($tableName, $DBID = 1)
   {
     $this->tableName = $tableName;
     $this->DBID = $DBID;
@@ -27,14 +27,14 @@ class rex_metainfo_tableManager
 
   public function addColumn($name, $type, $length, $default = null, $nullable = true)
   {
-    $qry = 'ALTER TABLE `'. $this->getTableName() .'` ADD ';
-    $qry .= '`'. $name .'` '. $type;
+    $qry = 'ALTER TABLE `' . $this->getTableName() . '` ADD ';
+    $qry .= '`' . $name . '` ' . $type;
 
     if ($length != 0)
-       $qry .= '('. $length .')';
+       $qry .= '(' . $length . ')';
 
     if ($default !== null)
-      $qry .= ' DEFAULT \''. str_replace("'", "\'", $default) .'\'';
+      $qry .= ' DEFAULT \'' . str_replace("'", "\'", $default) . '\'';
 
     if ($nullable !== true)
       $qry .= ' NOT NULL';
@@ -44,14 +44,14 @@ class rex_metainfo_tableManager
 
   public function editColumn($oldname, $name, $type, $length, $default = null, $nullable = true)
   {
-    $qry = 'ALTER TABLE `'. $this->getTableName() .'` CHANGE ';
-    $qry .= '`'. $oldname .'` `'. $name .'` '. $type;
+    $qry = 'ALTER TABLE `' . $this->getTableName() . '` CHANGE ';
+    $qry .= '`' . $oldname . '` `' . $name . '` ' . $type;
 
     if ($length != 0)
-       $qry .= '('. $length .')';
+       $qry .= '(' . $length . ')';
 
     if ($default !== null)
-      $qry .= ' DEFAULT \''. str_replace("'", "\'", $default) .'\'';
+      $qry .= ' DEFAULT \'' . str_replace("'", "\'", $default) . '\'';
 
     if ($nullable !== true)
       $qry .= ' NOT NULL';
@@ -61,8 +61,8 @@ class rex_metainfo_tableManager
 
   public function deleteColumn($name)
   {
-    $qry = 'ALTER TABLE `'. $this->getTableName() .'` DROP ';
-    $qry .= '`'. $name .'`';
+    $qry = 'ALTER TABLE `' . $this->getTableName() . '` DROP ';
+    $qry .= '`' . $name . '`';
 
     return $this->setQuery($qry);
   }

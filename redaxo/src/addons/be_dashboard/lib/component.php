@@ -84,7 +84,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
     $formats = array('full', 'half');
     if (!in_array($format, $formats))
     {
-      trigger_error('Unexpected format "'. $format .'"!', E_USER_ERROR);
+      trigger_error('Unexpected format "' . $format . '"!', E_USER_ERROR);
     }
     $this->format = $format;
   }
@@ -118,24 +118,24 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
 
       if ($this->titleUrl != '')
       {
-        $title = '<a href="'. $this->titleUrl .'">'. $title .'</a>';
+        $title = '<a href="' . $this->titleUrl . '">' . $title . '</a>';
       }
 
-      return '<div class="rex-dashboard-component" id="'. $this->getId() .'">
-                <h3 class="rex-hl2">'. $title .'</h3>
+      return '<div class="rex-dashboard-component" id="' . $this->getId() . '">
+                <h3 class="rex-hl2">' . $title . '</h3>
                 %%actionbar%%
                 %%config%%
                 <div class="rex-dashboard-component-content">
-                  '. $content .'
+                  ' . $content . '
                 </div>
                 <div class="rex-dashboard-component-footer">
                   <p>
-                    '. rex_i18n::msg('dashboard_component_lastupdate') .'
+                    ' . rex_i18n::msg('dashboard_component_lastupdate') . '
                     %%cachetime%%
                   </p>
                 </div>
               </div>
-              <script type="text/javascript">componentInit("'. $this->getId() .'")</script>';
+              <script type="text/javascript">componentInit("' . $this->getId() . '")</script>';
     }
 
     return '';

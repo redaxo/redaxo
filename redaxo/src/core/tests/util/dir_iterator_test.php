@@ -22,7 +22,7 @@ class rex_dir_iterator_test extends PHPUnit_Framework_TestCase
 
   public function getPath($file = '')
   {
-    return rex_path::addonData('tests', 'rex_dir_iterator_test/'. $file);
+    return rex_path::addonData('tests', 'rex_dir_iterator_test/' . $file);
   }
 
   public function testDefault()

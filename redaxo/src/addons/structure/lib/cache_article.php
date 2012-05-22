@@ -56,7 +56,7 @@ class rex_article_cache
       if ($clang !== null && $clang != $_clang)
       continue;
 
-      rex_file::delete($cachePath . $id .'.'. $_clang .'.article');
+      rex_file::delete($cachePath . $id . '.' . $_clang . '.article');
     }
 
     return true;
@@ -86,7 +86,7 @@ class rex_article_cache
       if ($clang !== null && $clang != $_clang)
       continue;
 
-      rex_file::delete($cachePath . $id .'.'. $_clang .'.content');
+      rex_file::delete($cachePath . $id . '.' . $_clang . '.content');
     }
 
     return true;
@@ -116,8 +116,8 @@ class rex_article_cache
       if ($clang !== null && $clang != $_clang)
       continue;
 
-      rex_file::delete($cachePath . $id .'.'. $_clang .'.alist');
-      rex_file::delete($cachePath . $id .'.'. $_clang .'.clist');
+      rex_file::delete($cachePath . $id . '.' . $_clang . '.alist');
+      rex_file::delete($cachePath . $id . '.' . $_clang . '.clist');
     }
 
     return true;
@@ -140,10 +140,10 @@ class rex_article_cache
       return false;
     }
 
-    $qry = 'SELECT * FROM '. rex::getTablePrefix() .'article WHERE id='. (int) $article_id;
-    if ($clang !== NULL)
+    $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id=' . (int) $article_id;
+    if ($clang !== null)
     {
-      $qry .= ' AND clang='. (int) $clang;
+      $qry .= ' AND clang=' . (int) $clang;
     }
 
     $sql = rex_sql::factory();
@@ -174,13 +174,13 @@ class rex_article_cache
       }
 
       $article_file = rex_path::addonCache('structure', "$article_id.$_clang.article");
-      if (rex_file::putCache($article_file, $cacheArray) === FALSE)
+      if (rex_file::putCache($article_file, $cacheArray) === false)
       {
-        return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::addonCache('structure');
+        return rex_i18n::msg('article_could_not_be_generated') . ' ' . rex_i18n::msg('check_rights_in_directory') . rex_path::addonCache('structure');
       }
     }
 
-    return TRUE;
+    return true;
   }
 
   /**
@@ -216,40 +216,40 @@ class rex_article_cache
 
       $GC = rex_sql::factory();
       // $GC->debugsql = 1;
-      $GC->setQuery("select * from ".rex::getTablePrefix()."article where (re_id=$re_id and clang=$_clang and startpage=0) OR (id=$re_id and clang=$_clang and startpage=1) order by prior,name");
+      $GC->setQuery('select * from ' . rex::getTablePrefix() . "article where (re_id=$re_id and clang=$_clang and startpage=0) OR (id=$re_id and clang=$_clang and startpage=1) order by prior,name");
 
       $cacheArray = array();
       for ($i = 0; $i < $GC->getRows(); $i ++)
       {
-        $cacheArray[$i] = $GC->getValue("id");
+        $cacheArray[$i] = $GC->getValue('id');
         $GC->next();
       }
 
       $article_list_file = rex_path::addonCache('structure', "$re_id.$_clang.alist");
-      if (rex_file::putCache($article_list_file, $cacheArray) === FALSE)
+      if (rex_file::putCache($article_list_file, $cacheArray) === false)
       {
-        return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::addonCache('structure');
+        return rex_i18n::msg('article_could_not_be_generated') . ' ' . rex_i18n::msg('check_rights_in_directory') . rex_path::addonCache('structure');
       }
 
       // --------------------------------------- CAT LIST
 
       $GC = rex_sql::factory();
-      $GC->setQuery("select * from ".rex::getTablePrefix()."article where re_id=$re_id and clang=$_clang and startpage=1 order by catprior,name");
+      $GC->setQuery('select * from ' . rex::getTablePrefix() . "article where re_id=$re_id and clang=$_clang and startpage=1 order by catprior,name");
 
       $cacheArray = array();
       for ($i = 0; $i < $GC->getRows(); $i ++)
       {
-        $cacheArray[$i] = $GC->getValue("id");
+        $cacheArray[$i] = $GC->getValue('id');
         $GC->next();
       }
 
       $article_categories_file = rex_path::addonCache('structure', "$re_id.$_clang.clist");
-      if (rex_file::putCache($article_categories_file, $cacheArray) === FALSE)
+      if (rex_file::putCache($article_categories_file, $cacheArray) === false)
       {
-        return rex_i18n::msg('article_could_not_be_generated')." ".rex_i18n::msg('check_rights_in_directory').rex_path::addonCache('structure');
+        return rex_i18n::msg('article_could_not_be_generated') . ' ' . rex_i18n::msg('check_rights_in_directory') . rex_path::addonCache('structure');
       }
     }
 
-    return TRUE;
+    return true;
   }
 }

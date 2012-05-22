@@ -76,7 +76,7 @@ abstract class rex_logger extends rex_factory_base
 
     if (ini_get('display_errors') && (error_reporting() & $errno) == $errno)
     {
-      echo '<b>'. self::getErrorType($errno) ."</b>: $errstr in <b>$errfile</b> on line <b>$errline</b><br />";
+      echo '<b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b><br />";
     }
 
     if (in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR)))
@@ -109,22 +109,22 @@ abstract class rex_logger extends rex_factory_base
   {
     if (!is_int($errno))
     {
-      throw new rex_exception('Expecting $errno to be integer, but '. gettype($errno) .' given!');
+      throw new rex_exception('Expecting $errno to be integer, but ' . gettype($errno) . ' given!');
     }
     if (!is_string($errstr))
     {
-      throw new rex_exception('Expecting $errstr to be string, but '. gettype($errstr) .' given!');
+      throw new rex_exception('Expecting $errstr to be string, but ' . gettype($errstr) . ' given!');
     }
     if (!is_string($errfile))
     {
-      throw new rex_exception('Expecting $errfile to be string, but '. gettype($errfile) .' given!');
+      throw new rex_exception('Expecting $errfile to be string, but ' . gettype($errfile) . ' given!');
     }
     if (!is_int($errline))
     {
-      throw new rex_exception('Expecting $errline to be integer, but '. gettype($errline) .' given!');
+      throw new rex_exception('Expecting $errline to be integer, but ' . gettype($errline) . ' given!');
     }
 
-    self::log('<b>'. self::getErrorType($errno) ."</b>[$errno]: $errstr in <b>$errfile</b> on line <b>$errline</b><br />", $errno);
+    self::log('<b>' . self::getErrorType($errno) . "</b>[$errno]: $errstr in <b>$errfile</b> on line <b>$errline</b><br />", $errno);
   }
 
   /**
@@ -141,12 +141,12 @@ abstract class rex_logger extends rex_factory_base
 
     if (!is_string($message))
     {
-      throw new rex_exception('Expecting $message to be string, but '. gettype($message) .' given!');
+      throw new rex_exception('Expecting $message to be string, but ' . gettype($message) . ' given!');
     }
 
     if (is_resource(self::$handle))
     {
-      fwrite(self::$handle, date('r') .'<br />'. $message. "\n");
+      fwrite(self::$handle, date('r') . '<br />' . $message . "\n");
     }
   }
 
@@ -163,7 +163,7 @@ abstract class rex_logger extends rex_factory_base
 
     if (!self::$handle)
     {
-      echo 'Error while creating logfile '. self::$file;
+      echo 'Error while creating logfile ' . self::$file;
       exit();
     }
   }

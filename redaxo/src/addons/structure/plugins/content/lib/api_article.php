@@ -14,14 +14,14 @@ class rex_article extends rex_article_base
 
   public function __construct($article_id = null, $clang = null)
   {
-    $this->viasql = FALSE;
+    $this->viasql = false;
     parent::__construct($article_id, $clang);
   }
 
   // bc
-  public function getContentAsQuery($viasql = TRUE)
+  public function getContentAsQuery($viasql = true)
   {
-    if ($viasql !== TRUE) $viasql = FALSE;
+    if ($viasql !== true) $viasql = false;
     $this->viasql = $viasql;
   }
 
@@ -41,13 +41,13 @@ class rex_article extends rex_article_base
     {
       $this->category_id = $rex_ooArticle->getCategoryId();
       $this->template_id = $rex_ooArticle->getTemplateId();
-      return TRUE;
+      return true;
     }
 
     $this->article_id = 0;
     $this->template_id = 0;
     $this->category_id = 0;
-    return FALSE;
+    return false;
   }
 
   protected function correctValue($value)
@@ -60,7 +60,7 @@ class rex_article extends rex_article_base
 
     if ($value == 'category_id')
     {
-      if ($this->getValue('startpage')!=1) $value = 're_id';
+      if ($this->getValue('startpage') != 1) $value = 're_id';
       else $value = 'id';
     }
 
@@ -111,7 +111,7 @@ class rex_article extends rex_article_base
       ob_start();
       ob_implicit_flush(0);
 
-      $article_content_file = rex_path::addonCache('structure', $this->article_id.'.'.$this->clang.'.content');
+      $article_content_file = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
       if (!file_exists($article_content_file))
       {
         include_once rex_path::plugin('structure', 'content', 'functions/function_rex_content.inc.php');

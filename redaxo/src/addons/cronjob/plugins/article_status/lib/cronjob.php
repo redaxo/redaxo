@@ -22,20 +22,20 @@ class rex_cronjob_article_status extends rex_cronjob
     // $sql->debugsql = true;
     $sql->setQuery('
       SELECT  name
-      FROM    '. rex::getTablePrefix() .'metainfo_params
-      WHERE   name="'. $from['field'] .'" OR name="'. $to['field'] .'"
+      FROM    ' . rex::getTablePrefix() . 'metainfo_params
+      WHERE   name="' . $from['field'] . '" OR name="' . $to['field'] . '"
     ');
     $rows = $sql->getRows();
     if ($rows < 2)
     {
       if ($rows == 0)
       {
-        $msg = 'Metainfo fields "'. $from['field'] .'" and "'. $to['field'] .'" not found';
+        $msg = 'Metainfo fields "' . $from['field'] . '" and "' . $to['field'] . '" not found';
       }
       else
       {
         $field = $sql->getValue('name') == $from['field'] ? $to['field'] : $from['field'];
-        $msg = 'Metainfo field "'. $field .'" not found';
+        $msg = 'Metainfo field "' . $field . '" not found';
       }
       $this->setMessage($msg);
       return false;
@@ -44,17 +44,17 @@ class rex_cronjob_article_status extends rex_cronjob
     $time = time();
     $sql->setQuery('
       SELECT  id, clang, status
-      FROM    '. rex::getTablePrefix() .'article
+      FROM    ' . rex::getTablePrefix() . 'article
       WHERE
-        (     '. $from['field'] .' > 0
-        AND   '. $from['field'] .' < '. $time .'
-        AND   status IN ('. implode(',', $from['before']) .')
-        AND   ('. $to['field'] .' > '. $time .' OR '. $to['field'] .' = 0 OR '. $to['field'] .' = "")
+        (     ' . $from['field'] . ' > 0
+        AND   ' . $from['field'] . ' < ' . $time . '
+        AND   status IN (' . implode(',', $from['before']) . ')
+        AND   (' . $to['field'] . ' > ' . $time . ' OR ' . $to['field'] . ' = 0 OR ' . $to['field'] . ' = "")
         )
       OR
-        (     '. $to['field'] .' > 0
-        AND   '. $to['field'] .' < '. $time .'
-        AND   status IN ('. implode(',', $to['before']) .')
+        (     ' . $to['field'] . ' > 0
+        AND   ' . $to['field'] . ' < ' . $time . '
+        AND   status IN (' . implode(',', $to['before']) . ')
         )
     ');
     $rows = $sql->getRows();
@@ -71,7 +71,7 @@ class rex_cronjob_article_status extends rex_cronjob
       rex_article_service::articleStatus($sql->getValue('id'), $sql->getValue('clang'), $status);
       $sql->next();
     }
-    $this->setMessage('Updated articles: '. $rows);
+    $this->setMessage('Updated articles: ' . $rows);
     return true;
   }
 

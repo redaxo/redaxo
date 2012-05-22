@@ -85,7 +85,7 @@ class rex_var_article extends rex_var
       {
         if (rex_ooArticle::hasValue($field))
         {
-          $tpl = '<?php echo '. __CLASS__ .'::getArticleValue('. $article .", '". $field ."', ". $clang .", '". json_encode($args) ."'); ?>";
+          $tpl = '<?php echo ' . __CLASS__ . '::getArticleValue(' . $article . ", '" . $field . "', " . $clang . ", '" . json_encode($args) . "'); ?>";
         }
       }
       else
@@ -94,7 +94,7 @@ class rex_var_article extends rex_var
         {
           // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
           // => endlossschleife
-          $tpl = '<?php echo '. __CLASS__ .'::getArticle('. $article .', '. $ctype .', '. $clang .", '". json_encode($args) ."'); ?>";
+          $tpl = '<?php echo ' . __CLASS__ . '::getArticle(' . $article . ', ' . $ctype . ', ' . $clang . ", '" . json_encode($args) . "'); ?>";
         }
       }
 

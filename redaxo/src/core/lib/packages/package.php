@@ -49,7 +49,7 @@ abstract class rex_package implements rex_package_interface
   {
     if (!is_string($packageId))
     {
-      throw new rex_exception('Expecting $packageId to be string, but '. gettype($packageId) .' given!');
+      throw new rex_exception('Expecting $packageId to be string, but ' . gettype($packageId) . ' given!');
     }
     $package = explode('/', $packageId);
     $addon = rex_addon::get($package[0]);
@@ -124,7 +124,7 @@ abstract class rex_package implements rex_package_interface
   {
     if (!is_string($key))
     {
-      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
+      throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
     }
     $this->properties[$key] = $value;
   }
@@ -148,7 +148,7 @@ abstract class rex_package implements rex_package_interface
   {
     if (!is_string($key))
     {
-      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
+      throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
     }
     if (!isset($this->properties[$key]) && !$this->propertiesLoaded)
     {
@@ -164,7 +164,7 @@ abstract class rex_package implements rex_package_interface
   {
     if (!is_string($key))
     {
-      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
+      throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
     }
     unset($this->properties[$key]);
   }

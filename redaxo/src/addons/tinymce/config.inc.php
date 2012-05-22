@@ -43,8 +43,8 @@ $REX['ADDON'][$rxa_tinymce['name']]['validxhtml'] = 'on';
 $REX['ADDON'][$rxa_tinymce['name']]['inlinepopups'] = '';
 $REX['ADDON'][$rxa_tinymce['name']]['theme'] = 'default';
 $REX['ADDON'][$rxa_tinymce['name']]['skin'] = 'default';
-$REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
-";
+$REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = '
+';
 // --- /DYN
 // -----------------------------------------------------------------------------
 

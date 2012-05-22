@@ -124,7 +124,7 @@ class rex_socket
    */
   public function addBasicAuthorization($user, $password)
   {
-    $this->addHeader('Authorization', 'Basic '. base64_encode($user .':'. $password));
+    $this->addHeader('Authorization', 'Basic ' . base64_encode($user . ':' . $password));
 
     return $this;
   }
@@ -169,10 +169,10 @@ class rex_socket
       {
         $boundary = '----------6n2Yd9bk2liD6piRHb5xF6';
         $eol = "\r\n";
-        fwrite($stream, 'Content-Type: multipart/form-data; boundary='. $boundary . $eol);
-        $dataFormat = '--'. $boundary . $eol . 'Content-Disposition: form-data; name="%s"'. $eol . $eol;
-        $fileFormat = '--'. $boundary . $eol . 'Content-Disposition: form-data; name="%s"; filename="%s"'. $eol .'Content-Type: %s'. $eol . $eol;
-        $end = '--'. $boundary .'--'. $eol;
+        fwrite($stream, 'Content-Type: multipart/form-data; boundary=' . $boundary . $eol);
+        $dataFormat = '--' . $boundary . $eol . 'Content-Disposition: form-data; name="%s"' . $eol . $eol;
+        $fileFormat = '--' . $boundary . $eol . 'Content-Disposition: form-data; name="%s"; filename="%s"' . $eol . 'Content-Type: %s' . $eol . $eol;
+        $end = '--' . $boundary . '--' . $eol;
         $length = 0;
         $temp = explode('&', http_build_query($data, '', '&'));
         $data = array();
@@ -189,7 +189,7 @@ class rex_socket
           $length += $partLength + rex_string::size($key) + rex_string::size(basename($file['path'])) + rex_string::size($file['type']) + filesize($file['path']);
         }
         $length += rex_string::size($end);
-        fwrite($stream, 'Content-Length: '. $length . $eol . $eol);
+        fwrite($stream, 'Content-Length: ' . $length . $eol . $eol);
         foreach ($data as $key => $value)
         {
           fwrite($stream, sprintf($dataFormat, $key) . $value . $eol);
@@ -258,7 +258,7 @@ class rex_socket
     $host = ($this->ssl ? 'ssl://' : '') . $this->host;
     if (!($this->stream = @fsockopen($host, $this->port, $errno, $errstr)))
     {
-      throw new rex_socket_exception($errstr .' ('. $errno .')');
+      throw new rex_socket_exception($errstr . ' (' . $errno . ')');
     }
 
     stream_set_timeout($this->stream, $this->timeout);
@@ -280,10 +280,10 @@ class rex_socket
 
     $eol = "\r\n";
     $headerStrings = array();
-    $headerStrings[] = strtoupper($method) .' '. $path .' HTTP/1.1';
+    $headerStrings[] = strtoupper($method) . ' ' . $path . ' HTTP/1.1';
     foreach ($headers as $key => $value)
     {
-      $headerStrings[] = $key .': '. $value;
+      $headerStrings[] = $key . ': ' . $value;
     }
     foreach ($headerStrings as $header)
     {
@@ -291,7 +291,7 @@ class rex_socket
     }
     if (!is_callable($data))
     {
-      fwrite($this->stream, 'Content-Length: '. rex_string::size($data) . $eol);
+      fwrite($this->stream, 'Content-Length: ' . rex_string::size($data) . $eol);
       fwrite($this->stream, $eol . $data);
     }
     else
@@ -323,7 +323,7 @@ class rex_socket
     }
     if ($parts === false || !isset($parts['host']))
     {
-      throw new rex_socket_exception('It isn\'t possible to parse the URL "'. $url .'"!');
+      throw new rex_socket_exception('It isn\'t possible to parse the URL "' . $url . '"!');
     }
 
     $port = 80;
@@ -333,7 +333,7 @@ class rex_socket
       $supportedProtocols = array('http', 'https');
       if (!in_array($parts['scheme'], $supportedProtocols))
       {
-        throw new rex_socket_exception('Unsupported protocol "'. $parts['scheme'] .'". Supported protocols are '. implode(', ', $supportedProtocols). '.');
+        throw new rex_socket_exception('Unsupported protocol "' . $parts['scheme'] . '". Supported protocols are ' . implode(', ', $supportedProtocols) . '.');
       }
       if ($parts['scheme'] == 'https')
       {
@@ -344,8 +344,8 @@ class rex_socket
     $port = isset($parts['port']) ? (int) $parts['port'] : $port;
 
     $path = (isset($parts['path'])     ? $parts['path']          : '/')
-          . (isset($parts['query'])    ? '?'. $parts['query']    : '')
-          . (isset($parts['fragment']) ? '#'. $parts['fragment'] : '');
+          . (isset($parts['query'])    ? '?' . $parts['query']    : '')
+          . (isset($parts['fragment']) ? '#' . $parts['fragment'] : '');
 
     return array(
       'host' => $parts['host'],

@@ -83,13 +83,13 @@ class rex_category_select extends rex_select
   protected function addCatOption(rex_ooCategory $cat, $group = null)
   {
     if (!$this->check_perms ||
-        $this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getId(),FALSE))
+        $this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getId(), false))
     {
       $cid = $cat->getId();
       $cname = $cat->getName();
 
       if (rex::getUser()->hasPerm('advancedMode[]'))
-        $cname .= ' ['. $cid .']';
+        $cname .= ' [' . $cid . ']';
 
       if ($group === null)
         $group = $cat->getParentId();
@@ -133,7 +133,7 @@ class rex_category_select extends rex_select
       $name = $option[0];
       $value = $option[1];
       $id = $option[2];
-      if ($id==0 || !$this->check_perms || ($this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2])))
+      if ($id == 0 || !$this->check_perms || ($this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2])))
       {
           $ausgabe .= $this->_outOption($name, $value, $level);
       }

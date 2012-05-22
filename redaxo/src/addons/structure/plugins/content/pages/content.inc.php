@@ -13,7 +13,7 @@
 
 $content = '';
 
-require dirname(__FILE__) .'/../functions/function_rex_content.inc.php';
+require dirname(__FILE__) . '/../functions/function_rex_content.inc.php';
 
 
 unset ($REX_ACTION);
@@ -36,12 +36,12 @@ $info = '';
 $global_info = '';
 
 $article = rex_sql::factory();
-$article->setQuery("
+$article->setQuery('
     SELECT
       article.*, template.attributes as template_attributes
     FROM
-      " . rex::getTablePrefix() . "article as article
-    LEFT JOIN " . rex::getTablePrefix() . "template as template
+      ' . rex::getTablePrefix() . 'article as article
+    LEFT JOIN ' . rex::getTablePrefix() . "template as template
       ON template.id=article.template_id
     WHERE
       article.id='$article_id'
@@ -79,17 +79,17 @@ if ($article->getRows() == 1)
 
     $navigation = array();
     $navigation[] = array(
-          "href" => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
-          "title" => $catname
+          'href' => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
+          'title' => $catname
         );
     $blocks = array();
     $blocks[] = array(
-      "headline" => array ( "title" => $term),
-      "navigation" => $navigation
+      'headline' => array ( 'title' => $term),
+      'navigation' => $navigation
       );
 
     $fragment = new rex_fragment();
-    $fragment->setVar('type','path');
+    $fragment->setVar('type', 'path');
     $fragment->setVar('blocks', $blocks, false);
     $KATout .= $fragment->parse('navigation.tpl');
     unset($fragment);
@@ -110,7 +110,7 @@ if ($article->getRows() == 1)
     $mode = 'edit';
 
   // ----- Sprachenblock
-  $sprachen_add = '&amp;mode='. $mode .'&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
+  $sprachen_add = '&amp;mode=' . $mode . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
   require rex_path::addon('structure', 'functions/function_rex_languages.inc.php');
 
   // ----- EXTENSION POINT
@@ -148,15 +148,15 @@ if ($article->getRows() == 1)
       if ($function == 'edit' || $function == 'delete')
       {
         // edit/ delete
-        $CM->setQuery("SELECT * FROM " . rex::getTablePrefix() . "article_slice LEFT JOIN " . rex::getTablePrefix() . "module ON " . rex::getTablePrefix() . "article_slice.modultyp_id=" . rex::getTablePrefix() . "module.id WHERE " . rex::getTablePrefix() . "article_slice.id='$slice_id' AND clang=$clang");
+        $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.modultyp_id=' . rex::getTablePrefix() . 'module.id WHERE ' . rex::getTablePrefix() . "article_slice.id='$slice_id' AND clang=$clang");
         if ($CM->getRows() == 1)
-          $module_id = $CM->getValue("" . rex::getTablePrefix() . "article_slice.modultyp_id");
+          $module_id = $CM->getValue('' . rex::getTablePrefix() . 'article_slice.modultyp_id');
       }
       else
       {
         // add
         $module_id = rex_post('module_id', 'int');
-        $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id='.$module_id);
+        $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=' . $module_id);
       }
 
       if ($CM->getRows() != 1)
@@ -172,7 +172,7 @@ if ($article->getRows() == 1)
         // ------------- MODUL IST VORHANDEN
 
         // ----- RECHTE AM MODUL ?
-        if ($function != 'delete' && !rex_template::hasModule($template_attributes,$ctype,$module_id))
+        if ($function != 'delete' && !rex_template::hasModule($template_attributes, $ctype, $module_id))
         {
           $global_warning = rex_i18n::msg('no_rights_to_this_function');
           $slice_id = '';
@@ -239,9 +239,9 @@ if ($article->getRows() == 1)
                 $prevSlice = rex_sql::factory();
                 // $prevSlice->debugsql = true;
                 if ($slice_id == -1) // -1 is used when adding after the last article-slice
-                  $prevSlice->setQuery('SELECT IFNULL(MAX(prior),0)+1 as prior FROM '. $sliceTable . ' WHERE article_id='. $article_id . ' AND clang='. $clang .' AND ctype='. $ctype . ' AND revision='. $slice_revision);
+                  $prevSlice->setQuery('SELECT IFNULL(MAX(prior),0)+1 as prior FROM ' . $sliceTable . ' WHERE article_id=' . $article_id . ' AND clang=' . $clang . ' AND ctype=' . $ctype . ' AND revision=' . $slice_revision);
                 else
-                  $prevSlice->setQuery('SELECT * FROM '. $sliceTable . ' WHERE id='. $slice_id);
+                  $prevSlice->setQuery('SELECT * FROM ' . $sliceTable . ' WHERE id=' . $slice_id);
 
                 $prior = $prevSlice->getValue('prior');
 
@@ -285,13 +285,13 @@ if ($article->getRows() == 1)
                   rex_sql_util::organizePriorities(
                     rex::getTable('article_slice'),
                     'prior',
-                    'article_id=' . $article_id . ' AND clang=' . $clang .' AND ctype='. $ctype .' AND revision='. $slice_revision,
+                    'article_id=' . $article_id . ' AND clang=' . $clang . ' AND ctype=' . $ctype . ' AND revision=' . $slice_revision,
                     'prior, updatedate DESC'
                   );
 
                   $info = $action_message . rex_i18n::msg('block_added');
                   $slice_id = $newsql->getLastId();
-                  $function = "";
+                  $function = '';
                 }
                 catch (rex_sql_exception $e)
                 {
@@ -446,7 +446,7 @@ if ($article->getRows() == 1)
       $meta_article_name = rex_post('meta_article_name', 'string');
 
       $meta_sql = rex_sql::factory();
-      $meta_sql->setTable(rex::getTablePrefix() . "article");
+      $meta_sql->setTable(rex::getTablePrefix() . 'article');
       // $meta_sql->debugsql = 1;
       $meta_sql->setWhere(array('id' => $article_id, 'clang' => $clang));
       $meta_sql->setValue('name', $meta_article_name);
@@ -456,8 +456,8 @@ if ($article->getRows() == 1)
       {
         $meta_sql->update();
 
-        $article->setQuery("SELECT * FROM " . rex::getTablePrefix() . "article WHERE id='$article_id' AND clang='$clang'");
-        $info = rex_i18n::msg("metadata_updated");
+        $article->setQuery('SELECT * FROM ' . rex::getTablePrefix() . "article WHERE id='$article_id' AND clang='$clang'");
+        $info = rex_i18n::msg('metadata_updated');
 
         rex_article_cache::delete($article_id, $clang);
 
@@ -488,12 +488,12 @@ if ($article->getRows() == 1)
       {
 
        $n = array();
-    $n["title"] = rex_i18n::translate($val);
-    $n["href"] = 'index.php?page=content&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
+    $n['title'] = rex_i18n::translate($val);
+    $n['href'] = 'index.php?page=content&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
     if ($key == $ctype && $mode == 'edit')
         {
-      $n["linkClasses"] = array('rex-active');
-      $n["itemClasses"] = array('rex-active');
+      $n['linkClasses'] = array('rex-active');
+      $n['itemClasses'] = array('rex-active');
       }
     $listElements[] = $n;
 
@@ -520,42 +520,42 @@ if ($article->getRows() == 1)
     // $listElements = array();
 
   $n = array();
-  $n["title"] = rex_i18n::msg('show');
-  $n["href"] = rex_getUrl($article_id, $clang);
-  $n["itemClasses"] = array('rex-misc');
-  $n["linkAttr"] = array("onClick" => 'window.open(this.href); return false;');
+  $n['title'] = rex_i18n::msg('show');
+  $n['href'] = rex_getUrl($article_id, $clang);
+  $n['itemClasses'] = array('rex-misc');
+  $n['linkAttr'] = array('onClick' => 'window.open(this.href); return false;');
   $listElements[] = $n;
 
   $n = array();
-  $n["title"] = rex_i18n::msg('metafuncs');
-  $n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=metafuncs&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
-  $n["itemClasses"] = array('rex-misc');
+  $n['title'] = rex_i18n::msg('metafuncs');
+  $n['href'] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=metafuncs&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
+  $n['itemClasses'] = array('rex-misc');
     if ($mode == 'metafuncs')
     {
-    $n["linkClasses"] = array('rex-active');
-    $n["itemClasses"] = array('rex-active','rex-misc');
+    $n['linkClasses'] = array('rex-active');
+    $n['itemClasses'] = array('rex-active', 'rex-misc');
     }
   $listElements[] = $n;
 
   $n = array();
-  $n["title"] = rex_i18n::msg('metadata');
-  $n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
-  $n["itemClasses"] = array('rex-misc');
+  $n['title'] = rex_i18n::msg('metadata');
+  $n['href'] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
+  $n['itemClasses'] = array('rex-misc');
     if ($mode == 'meta')
     {
-    $n["linkClasses"] = array('rex-active');
-    $n["itemClasses"] = array('rex-active','rex-misc');
+    $n['linkClasses'] = array('rex-active');
+    $n['itemClasses'] = array('rex-active', 'rex-misc');
     }
   $listElements[] = $n;
 
   $n = array();
-  $n["title"] = rex_i18n::msg('edit_mode');
-  $n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
-  $n["itemClasses"] = array('rex-misc');
+  $n['title'] = rex_i18n::msg('edit_mode');
+  $n['href'] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
+  $n['itemClasses'] = array('rex-misc');
     if ($mode != 'meta' && $mode != 'metafuncs')
     {
-    $n["linkClasses"] = array('rex-active');
-    $n["itemClasses"] = array('rex-active','rex-misc');
+    $n['linkClasses'] = array('rex-active');
+    $n['itemClasses'] = array('rex-active', 'rex-misc');
     }
   $listElements[] = $n;
 
@@ -572,12 +572,12 @@ if ($article->getRows() == 1)
 
   $blocks = array();
   $blocks[] = array(
-        "headline" => array("title" => "meeeta"),
-        "navigation" => $listElements
+        'headline' => array('title' => 'meeeta'),
+        'navigation' => $listElements
         );
 
   $fragment = new rex_fragment();
-  $fragment->setVar('type','tab');
+  $fragment->setVar('type', 'tab');
   $fragment->setVar('blocks', $blocks, false);
   echo $fragment->parse('navigation.tpl');
 
@@ -620,12 +620,12 @@ if ($article->getRows() == 1)
       $CONT->setSliceId($slice_id);
       $CONT->setMode($mode);
       $CONT->setCLang($clang);
-      $CONT->setEval(TRUE);
+      $CONT->setEval(true);
       $CONT->setSliceRevision($slice_revision);
       $CONT->setFunction($function);
       $content .= $CONT->getArticle($ctype);
 
-      echo rex_view::contentBlock($content,'','block');
+      echo rex_view::contentBlock($content, '', 'block');
 
     // ------------------------------------------ START: META VIEW
     }
@@ -649,8 +649,8 @@ if ($article->getRows() == 1)
                 $formElements = array();
 
                 $n = array();
-                $n['label'] = '<label for="rex-form-meta-article-name">' . rex_i18n::msg("name_description") . '</label>';
-                $n['field'] = '<input type="text" id="rex-form-meta-article-name" name="meta_article_name" value="' . htmlspecialchars($article->getValue("name")) . '" />';
+                $n['label'] = '<label for="rex-form-meta-article-name">' . rex_i18n::msg('name_description') . '</label>';
+                $n['field'] = '<input type="text" id="rex-form-meta-article-name" name="meta_article_name" value="' . htmlspecialchars($article->getValue('name')) . '" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -671,7 +671,7 @@ if ($article->getRows() == 1)
                 $formElements = array();
 
                 $n = array();
-                $n['field'] = '<input type="submit" name="savemeta" value="' . rex_i18n::msg("update_metadata") . '"'. rex::getAccesskey(rex_i18n::msg('update_metadata'), 'save') .' />';
+                $n['field'] = '<input type="submit" name="savemeta" value="' . rex_i18n::msg('update_metadata') . '"' . rex::getAccesskey(rex_i18n::msg('update_metadata'), 'save') . ' />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -724,10 +724,10 @@ if ($article->getRows() == 1)
                 $formElements = array();
 
                 $n = array();
-                if (!$isStartpage && $article->getValue('re_id')==0)
-                  $n['field'] = '<span class="rex-form-read">'.rex_i18n::msg('content_nottostartarticle').'</span>';
+                if (!$isStartpage && $article->getValue('re_id') == 0)
+                  $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_nottostartarticle') . '</span>';
                 elseif ($isStartpage)
-                  $n['field'] = '<span class="rex-form-read">'.rex_i18n::msg('content_isstartarticle').'</span>';
+                  $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_isstartarticle') . '</span>';
                 else
                   $n['field'] = '<input type="submit" name="article2startpage" value="' . rex_i18n::msg('content_tostartarticle') . '" data-confirm="' . rex_i18n::msg('content_tostartarticle') . '?" onclick="jQuery(\'#apiField\').val(\'article2startpage\');" />';
                 $formElements[] = $n;
@@ -770,7 +770,7 @@ if ($article->getRows() == 1)
       if ($isStartpage && rex::getUser()->hasPerm('category2article[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id')))
       {
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT pid FROM '. rex::getTablePrefix() .'article WHERE re_id='. $article_id .' LIMIT 1');
+        $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE re_id=' . $article_id . ' LIMIT 1');
         $emptyCategory = $sql->getRows() == 0;
 
         $out .= '
@@ -782,7 +782,7 @@ if ($article->getRows() == 1)
 
                 $n = array();
                 if (!$emptyCategory)
-                  $n['field'] = '<span class="rex-form-read">'.rex_i18n::msg('content_nottoarticle').'</span>';
+                  $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_nottoarticle') . '</span>';
                 else
                   $n['field'] = '<input type="submit" name="category2article" value="' . rex_i18n::msg('content_toarticle') . '" data-confirm="' . rex_i18n::msg('content_toarticle') . '?" onclick="jQuery(\'#apiField\').val(\'category2article\');" />';
                 $formElements[] = $n;

@@ -73,7 +73,7 @@ class rexTinyMCEEditor
     {
       $splitURL = explode('files/', dirname($_SERVER['REQUEST_URI']));
       $this->address = 'http';
-      if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') // evtl. HTTPS-Verbindung
+      if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') // evtl. HTTPS-Verbindung
       {
         $this->address .= 's';
       }
@@ -104,7 +104,7 @@ class rexTinyMCEEditor
 
     // Skin aus Konfiguration
     $va = explode('_', $REX['ADDON'][$rxa_tinymce['name']]['skin']);
-    if (count($va)>=1)
+    if (count($va) >= 1)
     {
       if (isset($va[1]) and ($va[1] <> ''))
       {
@@ -130,7 +130,7 @@ class rexTinyMCEEditor
     if (count($va) > 0)
     {
       $default_foreground = $va[0];
-      if (($default_foreground <> '') and !strstr($default_foreground,'#'))
+      if (($default_foreground <> '') and !strstr($default_foreground, '#'))
         $default_foreground = '#' . $default_foreground;
       $foreground = implode(',', $va);
     }
@@ -140,7 +140,7 @@ class rexTinyMCEEditor
     if (count($va) > 0)
     {
       $default_background = $va[0];
-      if (($default_background <> '') and !strstr($default_background,'#'))
+      if (($default_background <> '') and !strstr($default_background, '#'))
         $default_background = '#' . $default_background;
       $background = implode(',', $va);
     }
@@ -153,7 +153,7 @@ class rexTinyMCEEditor
 
     // extendet_valid_elements-Parameter falls kein XHTML ausgew�hlt wurde
     // wird fuer das IMG-Tag benoetigt
-$extended_valid_elements =<<<EOD
+$extended_valid_elements = <<<EOD
 extended_valid_elements : ""
 +"img[align<bottom?left?middle?right?top|alt|border|class|dir<ltr?rtl|height"
   +"|hspace|id|ismap|lang|longdesc|name|onclick|ondblclick|onkeydown"
@@ -162,7 +162,7 @@ extended_valid_elements : ""
 EOD;
 
     // valid_elements-Parameter f�r validen XHTML-Code
-$valid_elements =<<<EOD
+$valid_elements = <<<EOD
 valid_elements : ""
 +"a[accesskey|charset|class|coords|dir<ltr?rtl|href|hreflang|id|lang|name"
   +"|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup"
@@ -510,7 +510,7 @@ EOD;
     $configout .= $n . '  skin_variant : \'' . $skin_variant . '\',';
 
     // individuelle Konfiguration
-    if (trim($REX['ADDON'][$rxa_tinymce['name']]['extconfig'])<>'')
+    if (trim($REX['ADDON'][$rxa_tinymce['name']]['extconfig']) <> '')
     {
       $configout .= $n . stripslashes($REX['ADDON'][$rxa_tinymce['name']]['extconfig']) . $n;
     }

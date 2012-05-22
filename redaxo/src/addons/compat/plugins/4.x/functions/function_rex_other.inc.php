@@ -37,7 +37,7 @@ function rex_tabindex($html = true)
 
   if ($html === true)
   {
-    return ' tabindex="'. ++$REX['TABINDEX'] .'"';
+    return ' tabindex="' . ++$REX['TABINDEX'] . '"';
   }
   return ++$REX['TABINDEX'];
 }
@@ -60,9 +60,9 @@ function rex_install_dump($file, $debug = false)
 function rex_accesskey($title, $key)
 {
   if (rex::getProperty('use_accesskeys'))
-    return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
+    return ' accesskey="' . $key . '" title="' . $title . ' [' . $key . ']"';
 
-  return ' title="'. $title .'"';
+  return ' title="' . $title . '"';
 }
 
 /**
@@ -219,7 +219,7 @@ function rex_highlight_string($string, $return = false)
 */
 function rex_highlight_file($filename, $return = false)
 {
-  $s = '<p class="rex-code">'. highlight_file($filename, true) .'</p>';
+  $s = '<p class="rex-code">' . highlight_file($filename, true) . '</p>';
   if ($return)
   {
     return $s;
@@ -242,7 +242,7 @@ function rex_isXmlHttpRequest()
 *
 * @deprecated 5.0
 */
-function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id', $startBy = 1)
+function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field = 'id', $startBy = 1)
 {
   rex_sql_util::organizePriorities($tableName, $priorColumnName, $whereCondition, $orderBy, $id_field, $startBy);
 }
@@ -252,7 +252,7 @@ function rex_organize_priorities($tableName, $priorColumnName, $whereCondition =
  *
  * @deprecated 5.0
  */
-function rex_getAttributes($name,$content,$default = null)
+function rex_getAttributes($name, $content, $default = null)
 {
   $prop = unserialize($content, true);
   if (isset($prop[$name])) return $prop[$name];
@@ -264,7 +264,7 @@ function rex_getAttributes($name,$content,$default = null)
  *
  * @deprecated 5.0
  */
-function rex_setAttributes($name,$value,$content)
+function rex_setAttributes($name, $value, $content)
 {
   $prop = unserialize($content);
   $prop[$name] = $value;

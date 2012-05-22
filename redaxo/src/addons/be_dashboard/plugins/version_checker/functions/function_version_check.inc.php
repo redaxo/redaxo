@@ -61,9 +61,9 @@ function rex_a657_open_http_socket($url, &$errno, &$errstr, $timeout)
     // allow write/read timeouts
     stream_set_timeout($fp, $timeout);
 
-    $out  = "";
-    $out .= "GET ". $path ." HTTP/1.1\r\n";
-    $out .= "Host: ". $parts['host'] ."\r\n";
+    $out  = '';
+    $out .= 'GET ' . $path . " HTTP/1.1\r\n";
+    $out .= 'Host: ' . $parts['host'] . "\r\n";
     $out .= "Connection: Close\r\n\r\n";
 
     fwrite($fp, $out);

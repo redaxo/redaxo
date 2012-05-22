@@ -16,4 +16,4 @@ switch ($subpage)
   default : $file = 'structure.inc.php'; break;
 }
 
-require dirname(__FILE__).'/'. $file;
+require dirname(__FILE__) . '/' . $file;

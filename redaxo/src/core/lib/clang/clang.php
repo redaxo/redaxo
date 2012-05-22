@@ -21,7 +21,7 @@ class rex_clang
   {
     if (!self::exists($id))
     {
-      throw new rex_exception('Clang id "'. $id .'" doesn\'t exists');
+      throw new rex_exception('Clang id "' . $id . '" doesn\'t exists');
     }
     self::$current = $id;
   }
@@ -62,7 +62,7 @@ class rex_clang
     }
     if (!self::exists($id))
     {
-      throw new rex_exception('Clang id "'. $id .'" doesn\'t exists');
+      throw new rex_exception('Clang id "' . $id . '" doesn\'t exists');
     }
     return self::$clangs[$id];
   }

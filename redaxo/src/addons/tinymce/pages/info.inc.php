@@ -49,7 +49,7 @@
   <h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_changelog'); ?></h2>
   <div class="rex-addon-content">
 <?php
-  $file = dirname( __FILE__) .'/../_changelog.txt';
+  $file = dirname( __FILE__) . '/../_changelog.txt';
   if (is_readable($file))
   {
     if (strstr($REX['LANG'], 'utf8'))

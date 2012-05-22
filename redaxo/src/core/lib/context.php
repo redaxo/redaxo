@@ -60,7 +60,7 @@ class rex_context implements rex_context_provider
     // combine global params with local
     $_params = array_merge($this->globalParams, $params);
 
-    return str_replace('&', '&amp;', 'index.php?' .ltrim(self::array2paramStr($_params), '&'));
+    return str_replace('&', '&amp;', 'index.php?' . ltrim(self::array2paramStr($_params), '&'));
   }
 
   /**
@@ -111,12 +111,12 @@ class rex_context implements rex_context_provider
       {
         foreach ($value as $valName => $valVal)
         {
-          $paramString .= '&'. urlencode($name) .'['. $valName .']='. urlencode($valVal);
+          $paramString .= '&' . urlencode($name) . '[' . $valName . ']=' . urlencode($valVal);
         }
       }
       else
       {
-        $paramString .= '&'. urlencode($name) .'='. urlencode($value);
+        $paramString .= '&' . urlencode($name) . '=' . urlencode($value);
       }
     }
 
@@ -137,12 +137,12 @@ class rex_context implements rex_context_provider
       {
         foreach ($value as $valName => $valVal)
         {
-          $inputString .= '<input type="hidden" name="'. $name .'['. $valName .']" value="'. htmlspecialchars($valVal) .'" />';
+          $inputString .= '<input type="hidden" name="' . $name . '[' . $valName . ']" value="' . htmlspecialchars($valVal) . '" />';
         }
       }
       else
       {
-        $inputString .= '<input type="hidden" name="'. $name .'" value="'. htmlspecialchars($value) .'" />';
+        $inputString .= '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value) . '" />';
       }
     }
 

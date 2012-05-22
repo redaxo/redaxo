@@ -122,7 +122,7 @@ class rex_autoload
       }
       else
       {
-        throw new Exception("Unable to write autoload cachefile '". self::$cacheFile ."'!");
+        throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
       }
     }
   }
@@ -171,7 +171,7 @@ class rex_autoload
 
   static private function _addDirectory($dir)
   {
-    if ($files = glob($dir .'*.php', GLOB_NOSORT))
+    if ($files = glob($dir . '*.php', GLOB_NOSORT))
     {
       foreach ($files as $file)
       {
@@ -179,7 +179,7 @@ class rex_autoload
       }
     }
 
-    if ($subdirs = glob($dir .'*', GLOB_ONLYDIR | GLOB_NOSORT | GLOB_MARK))
+    if ($subdirs = glob($dir . '*', GLOB_ONLYDIR | GLOB_NOSORT | GLOB_MARK))
     {
       // recursive over subdirectories
       foreach ($subdirs as $subdir)

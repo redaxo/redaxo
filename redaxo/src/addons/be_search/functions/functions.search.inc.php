@@ -8,7 +8,7 @@
 function rex_be_search_highlight_hit($string, $needle)
 {
   return preg_replace(
-    '/(.*)('. preg_quote($needle, '/') .')(.*)/i',
+    '/(.*)(' . preg_quote($needle, '/') . ')(.*)/i',
     '\\1<span class="be_search-search-hit">\\2</span>\\3',
     $string
   );

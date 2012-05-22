@@ -36,7 +36,7 @@ if (empty($array))
   echo '
     <div class="rex-toolbar">
       <div class="rex-toolbar-content">
-        <strong>'. $this->i18n('no_log_files') .'</strong>
+        <strong>' . $this->i18n('no_log_files') . '</strong>
         <div class="rex-clearer"></div>
       </div>
     </div>';
@@ -60,7 +60,7 @@ else
       foreach ($months as $month)
       {
         $j++;
-        $month_sel->addOption(strftime('%B',mktime(0,0,0,$month,2)), $month);
+        $month_sel->addOption(strftime('%B', mktime(0, 0, 0, $month, 2)), $month);
         if ($month == $log['month'] || (!$monthSelected && $j == $countMonths))
         {
           $month_sel->setSelected($month);
@@ -79,13 +79,13 @@ else
             <fieldset>
               <input type="hidden" name="page" value="cronjob" />
               <input type="hidden" name="subpage" value="log" />
-              <label for="log_year" style="font-weight: bold">'. $this->i18n('log_year') .':</label>
-              '. $year_sel->get() .' -
-              <label for="log_month" style="font-weight: bold">'. $this->i18n('log_month') .':</label>
-              '. $month_sel->get() .'
+              <label for="log_year" style="font-weight: bold">' . $this->i18n('log_year') . ':</label>
+              ' . $year_sel->get() . ' -
+              <label for="log_month" style="font-weight: bold">' . $this->i18n('log_month') . ':</label>
+              ' . $month_sel->get() . '
               <noscript>
                 <p style="display:inline;margin-left:5px">
-                  <input type="submit" class="rex-form-submit" value="'. $this->i18n('log_ok') .'" />
+                  <input type="submit" class="rex-form-submit" value="' . $this->i18n('log_ok') . '" />
                 <p>
               </noscript>
             </fieldset>

@@ -56,7 +56,7 @@ elseif ($func == 'updateinfos')
       $value = $setting->cast($settings[$key]);
       if (($error = $setting->isValid($value)) !== true)
       {
-        $warning .= $error .'<br />';
+        $warning .= $error . '<br />';
       }
       else
       {
@@ -106,52 +106,52 @@ $dbconfig = rex::getProperty('db');
 
 
 $version = rex_path::src();
-if (strlen($version)>21)
-  $version = substr($version,0,8)."..".substr($version,strlen($version)-13);
+if (strlen($version) > 21)
+  $version = substr($version, 0, 8) . '..' . substr($version, strlen($version)-13);
 
-$content_1 = '<h2>'.rex_i18n::msg("system_features").'</h2>
-            <h3>'.rex_i18n::msg("delete_cache").'</h3>
-            <p>'.rex_i18n::msg("delete_cache_description").'</p>
-            <p class="rex-button"><a class="rex-button" href="index.php?page=system&amp;func=generate">'.rex_i18n::msg("delete_cache").'</a></p>
+$content_1 = '<h2>' . rex_i18n::msg('system_features') . '</h2>
+            <h3>' . rex_i18n::msg('delete_cache') . '</h3>
+            <p>' . rex_i18n::msg('delete_cache_description') . '</p>
+            <p class="rex-button"><a class="rex-button" href="index.php?page=system&amp;func=generate">' . rex_i18n::msg('delete_cache') . '</a></p>
 
-            <h3>'.rex_i18n::msg("setup").'</h3>
-            <p>'.rex_i18n::msg("setup_text").'</p>
-            <p class="rex-button"><a class="rex-button" href="index.php?page=system&amp;func=setup" data-confirm="'.rex_i18n::msg("setup").'?">'.rex_i18n::msg("setup").'</a></p>
+            <h3>' . rex_i18n::msg('setup') . '</h3>
+            <p>' . rex_i18n::msg('setup_text') . '</p>
+            <p class="rex-button"><a class="rex-button" href="index.php?page=system&amp;func=setup" data-confirm="' . rex_i18n::msg('setup') . '?">' . rex_i18n::msg('setup') . '</a></p>
 
-            <h3>'.rex_i18n::msg("version").'</h3>
+            <h3>' . rex_i18n::msg('version') . '</h3>
             <p>
-            REDAXO: '.rex::getVersion().'<br />
-            PHP: '.phpversion().' (<a href="index.php?page=system&amp;subpage=phpinfo" onclick="newWindow(\'phpinfo\', this.href, 800,600,\',status=yes,resizable=yes\');return false;">php_info</a>)</p>
+            REDAXO: ' . rex::getVersion() . '<br />
+            PHP: ' . phpversion() . ' (<a href="index.php?page=system&amp;subpage=phpinfo" onclick="newWindow(\'phpinfo\', this.href, 800,600,\',status=yes,resizable=yes\');return false;">php_info</a>)</p>
 
-            <h3>'.rex_i18n::msg("database").'</h3>
-            <p>MySQL: '.rex_sql::getServerVersion().'<br />'.rex_i18n::msg("name").': '.$dbconfig[1]['name'].'<br />'.rex_i18n::msg("host").': '.$dbconfig[1]['host'].'</p>';
+            <h3>' . rex_i18n::msg('database') . '</h3>
+            <p>MySQL: ' . rex_sql::getServerVersion() . '<br />' . rex_i18n::msg('name') . ': ' . $dbconfig[1]['name'] . '<br />' . rex_i18n::msg('host') . ': ' . $dbconfig[1]['host'] . '</p>';
 
 
 $content_2 = '
-        <h2>'.rex_i18n::msg("system_settings").'</h2>
+        <h2>' . rex_i18n::msg('system_settings') . '</h2>
             <fieldset>
-              <h3>'. rex_i18n::msg("general_info_header").'</h3>';
+              <h3>' . rex_i18n::msg('general_info_header') . '</h3>';
 
           $formElements = array();
 
             $n = array();
-            $n['label'] = '<label for="rex-form-server">'. rex_i18n::msg('server').'</label>';
-            $n['field'] = '<input type="text" id="rex-form-server" name="settings[server]" value="'. htmlspecialchars(rex::getProperty('server')).'" />';
+            $n['label'] = '<label for="rex-form-server">' . rex_i18n::msg('server') . '</label>';
+            $n['field'] = '<input type="text" id="rex-form-server" name="settings[server]" value="' . htmlspecialchars(rex::getProperty('server')) . '" />';
             $formElements[] = $n;
 
             $n = array();
-            $n['label'] = '<label for="rex-form-servername">'. rex_i18n::msg('servername').'</label>';
-            $n['field'] = '<input type="text" id="rex-form-servername" name="settings[servername]" value="'. htmlspecialchars(rex::getProperty('servername')).'" />';
+            $n['label'] = '<label for="rex-form-servername">' . rex_i18n::msg('servername') . '</label>';
+            $n['field'] = '<input type="text" id="rex-form-servername" name="settings[servername]" value="' . htmlspecialchars(rex::getProperty('servername')) . '" />';
             $formElements[] = $n;
 
             $n = array();
-            $n['label'] = '<label for="rex_src_path">'. rex_i18n::msg('path').'</label>';
-            $n['field'] = '<span class="rex-form-read" id="rex_src_path" title="'. rex_path::src() .'">&quot;'.$version.'&quot;</span>';
+            $n['label'] = '<label for="rex_src_path">' . rex_i18n::msg('path') . '</label>';
+            $n['field'] = '<span class="rex-form-read" id="rex_src_path" title="' . rex_path::src() . '">&quot;' . $version . '&quot;</span>';
             $formElements[] = $n;
 
             $n = array();
-            $n['label'] = '<label for="rex-form-error-email">'. rex_i18n::msg('error_email').'</label>';
-            $n['field'] = '<input type="text" id="rex-form-error-email" name="settings[error_email]" value="'. htmlspecialchars(rex::getProperty('error_email')).'" />';
+            $n['label'] = '<label for="rex-form-error-email">' . rex_i18n::msg('error_email') . '</label>';
+            $n['field'] = '<input type="text" id="rex-form-error-email" name="settings[error_email]" value="' . htmlspecialchars(rex::getProperty('error_email')) . '" />';
             $formElements[] = $n;
 
           $fragment = new rex_fragment();
@@ -164,16 +164,16 @@ foreach (rex_system_setting::getAll() as $setting)
   $field = $setting->getField();
   if (!($field instanceof rex_form_element))
   {
-    throw new rex_exception(get_class($setting) .'::getField() must return a rex_form_element!');
+    throw new rex_exception(get_class($setting) . '::getField() must return a rex_form_element!');
   }
-  $field->setAttribute('name', 'settings['. $setting->getKey() .']');
+  $field->setAttribute('name', 'settings[' . $setting->getKey() . ']');
   $field->setValue(rex::getProperty($setting->getKey()));
   $content_2 .= $field->get();
 }
           $formElements = array();
 
             $n = array();
-            $n['field'] = '<input type="submit" name="sendit" value="'. rex_i18n::msg("system_update").'" '. rex::getAccesskey(rex_i18n::msg('system_update'), 'save').' />';
+            $n['field'] = '<input type="submit" name="sendit" value="' . rex_i18n::msg('system_update') . '" ' . rex::getAccesskey(rex_i18n::msg('system_update'), 'save') . ' />';
             $formElements[] = $n;
 
           $fragment = new rex_fragment();
@@ -187,9 +187,9 @@ $content_2 = '
 <div class="rex-form" id="rex-form-system-setup">
   <form action="index.php" method="post">
     <input type="hidden" name="page" value="system" />
-    <input type="hidden" name="func" value="updateinfos" />'.
-    $content_2.
+    <input type="hidden" name="func" value="updateinfos" />' .
+    $content_2 .
     '</form>
 </div>';
 
-echo rex_view::contentBlock($content_1,$content_2);
+echo rex_view::contentBlock($content_1, $content_2);

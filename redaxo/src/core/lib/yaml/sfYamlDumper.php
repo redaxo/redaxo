@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-require_once(dirname(__FILE__).'/sfYamlInline.php');
+require_once(dirname(__FILE__) . '/sfYamlInline.php');
 
 /**
  * sfYamlDumper dumps PHP variables to YAML strings.
@@ -36,7 +36,7 @@ class sfYamlDumper
 
     if ($inline <= 0 || !is_array($input) || empty($input))
     {
-      $output .= $prefix.sfYamlInline::dump($input);
+      $output .= $prefix . sfYamlInline::dump($input);
     }
     else
     {
@@ -48,10 +48,10 @@ class sfYamlDumper
 
         $output .= sprintf('%s%s%s%s',
           $prefix,
-          $isAHash ? sfYamlInline::dump($key).':' : '-',
+          $isAHash ? sfYamlInline::dump($key) . ':' : '-',
           $willBeInlined ? ' ' : "\n",
           $this->dump($value, $inline - 1, $willBeInlined ? 0 : $indent + 2)
-        ).($willBeInlined ? "\n" : '');
+        ) . ($willBeInlined ? "\n" : '');
       }
     }
 

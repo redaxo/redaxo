@@ -49,7 +49,7 @@ else
   $login->setStayLoggedIn($rex_user_stay_logged_in);
   $loginCheck = $login->checkLogin();
 
-  $rex_user_loginmessage = "";
+  $rex_user_loginmessage = '';
   if ($loginCheck !== true)
   {
     rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);

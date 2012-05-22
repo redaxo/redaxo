@@ -29,7 +29,7 @@ class rex_cronjob_urlrequest extends rex_cronjob
       }
       $statusCode = $response->getStatusCode();
       $success = $response->isSuccessful();
-      $message = $statusCode .' '. $response->getStatusMessage();
+      $message = $statusCode . ' ' . $response->getStatusMessage();
       if (in_array($statusCode, array(301, 302, 303, 307))
         && $this->getParam('redirect', true)
         && ($location = $response->getHeader('Location')))
@@ -40,7 +40,7 @@ class rex_cronjob_urlrequest extends rex_cronjob
         // rekursiv erneut ausfuehren
         $success = $this->execute();
         if ($this->hasMessage())
-          $message .= ' -> '. $this->getMessage();
+          $message .= ' -> ' . $this->getMessage();
         else
           $message .= ' -> Unknown error';
       }

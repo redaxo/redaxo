@@ -134,8 +134,8 @@ abstract class rex_metainfoHandler
           {
             $labelIt = false;
             $tag = 'div';
-            $tag_attr = ' class="rex-form-col-a rex-form-'.$class_p.'"';
-            $field .= '<p class="rex-form-label">'. $label .'</p><div class="rex-form-'.$class_p.'-wrapper">';
+            $tag_attr = ' class="rex-form-col-a rex-form-' . $class_p . '"';
+            $field .= '<p class="rex-form-label">' . $label . '</p><div class="rex-form-' . $class_p . '-wrapper">';
           }
 
           foreach ($values as $key => $value)
@@ -153,15 +153,15 @@ abstract class rex_metainfoHandler
 
             if ($oneValue)
             {
-              $tag_attr = ' class="rex-form-col-a rex-form-'. $class_s .'"';
-              $field .= '<input class="rex-form-'.$class_s.'" type="'. $typeLabel .'" name="'. $name .'" value="'. htmlspecialchars($key) .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
+              $tag_attr = ' class="rex-form-col-a rex-form-' . $class_s . '"';
+              $field .= '<input class="rex-form-' . $class_s . '" type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" id="' . $id . '" ' . $attr . $selected . ' />' . "\n";
             }
             else
             {
-              $field .= '<p class="rex-form-'. $class_s .' rex-form-label-right">'."\n";
-              $field .= '<input class="rex-form-'. $class_s .'" type="'. $typeLabel .'" name="'. $name .'" value="'. htmlspecialchars($key) .'" id="'. $id .'" '. $attr . $selected .' />'."\n";
-              $field .= '<label for="'. $id .'">'. htmlspecialchars($value) .'</label>';
-              $field .= '</p>'."\n";
+              $field .= '<p class="rex-form-' . $class_s . ' rex-form-label-right">' . "\n";
+              $field .= '<input class="rex-form-' . $class_s . '" type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" id="' . $id . '" ' . $attr . $selected . ' />' . "\n";
+              $field .= '<label for="' . $id . '">' . htmlspecialchars($value) . '</label>';
+              $field .= '</p>' . "\n";
             }
 
           }
@@ -183,7 +183,7 @@ abstract class rex_metainfoHandler
           // hier mit den "raw"-values arbeiten, da die rex_select klasse selbst escaped
           $select->setSelected($dbvalues);
 
-          $multiple = FALSE;
+          $multiple = false;
           foreach ($attrArray as $attr_name => $attr_value)
           {
             if (empty($attr_name)) continue;
@@ -192,8 +192,8 @@ abstract class rex_metainfoHandler
 
             if ($attr_name == 'multiple')
             {
-              $multiple = TRUE;
-              $select->setName($name.'[]');
+              $multiple = true;
+              $select->setName($name . '[]');
             }
           }
 
@@ -257,7 +257,7 @@ abstract class rex_metainfoHandler
           $field = $rexInput->getHtml();
 
           $checked = $active ? ' checked="checked"' : '';
-          $field .= '<input class="rex-form-select-checkbox rex-metainfo-checkbox" type="checkbox" name="'. $name .'[active]" value="1"'. $checked .' />';
+          $field .= '<input class="rex-form-select-checkbox rex-metainfo-checkbox" type="checkbox" name="' . $name . '[active]" value="1"' . $checked . ' />';
           break;
         }
         case 'textarea':
@@ -283,7 +283,7 @@ abstract class rex_metainfoHandler
           // tabindex entfernen, macht bei einer legend wenig sinn
           $attr = preg_replace('@tabindex="[^"]*"@', '', $attr);
 
-          $field = '</div></fieldset><fieldset class="rex-form-col-1"><legend id="'. $id .'"'. $attr .'>'. $label .'</legend><div class="rex-form-wrapper">';
+          $field = '</div></fieldset><fieldset class="rex-form-col-1"><legend id="' . $id . '"' . $attr . '>' . $label . '</legend><div class="rex-form-wrapper">';
           break;
         }
         case 'REX_MEDIA_BUTTON':
@@ -381,7 +381,7 @@ abstract class rex_metainfoHandler
           $rexInput->setButtonId($llist_id);
           $rexInput->setCategoryId($category);
           $rexInput->setAttribute('name', $name);
-          $rexInput->setValue(implode(',',$dbvalues));
+          $rexInput->setValue(implode(',', $dbvalues));
           $id = $rexInput->getAttribute('id');
           $field = $rexInput->getHtml();
 
@@ -424,7 +424,7 @@ abstract class rex_metainfoHandler
   {
     if (rex_request_method() != 'post') return;
 
-    for ($i = 0;$i < $sqlFields->getRows(); $i++, $sqlFields->next())
+    for ($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next())
     {
       $fieldName = $sqlFields->getValue('name');
       $fieldType = $sqlFields->getValue('type');
@@ -468,7 +468,7 @@ abstract class rex_metainfoHandler
     if (isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute']))
     {
       if (isset($postValue['active']))
-        $saveValue = mktime((int)$postValue['hour'],(int)$postValue['minute'],0,(int)$postValue['month'],(int)$postValue['day'],(int)$postValue['year']);
+        $saveValue = mktime((int)$postValue['hour'], (int)$postValue['minute'], 0, (int)$postValue['month'], (int)$postValue['day'], (int)$postValue['year']);
       else
         $saveValue = 0;
     }
@@ -476,7 +476,7 @@ abstract class rex_metainfoHandler
     elseif (isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']))
     {
       if (isset($postValue['active']))
-        $saveValue = mktime(0,0,0,(int)$postValue['month'],(int)$postValue['day'],(int)$postValue['year']);
+        $saveValue = mktime(0, 0, 0, (int)$postValue['month'], (int)$postValue['day'], (int)$postValue['year']);
       else
         $saveValue = 0;
     }
@@ -484,7 +484,7 @@ abstract class rex_metainfoHandler
     elseif (isset($postValue['hour']) && isset($postValue['minute']))
     {
       if (isset($postValue['active']))
-        $saveValue = mktime((int)$postValue['hour'],(int)$postValue['minute'],0,0,0,0);
+        $saveValue = mktime((int)$postValue['hour'], (int)$postValue['minute'], 0, 0, 0, 0);
       else
         $saveValue = 0;
     }
@@ -493,7 +493,7 @@ abstract class rex_metainfoHandler
       if (count($postValue) > 1)
       {
         // Mehrwertige Felder
-        $saveValue = '|'. implode('|', $postValue) .'|';
+        $saveValue = '|' . implode('|', $postValue) . '|';
       }
       else
       {
@@ -502,7 +502,7 @@ abstract class rex_metainfoHandler
            $fieldType == REX_METAINFO_FIELD_CHECKBOX)
         {
           // Mehrwertiges Feld, aber nur ein Wert ausgewählt
-          $saveValue = '|'. $postValue .'|';
+          $saveValue = '|' . $postValue . '|';
         }
         else
         {
@@ -530,12 +530,12 @@ abstract class rex_metainfoHandler
     $qry = 'SELECT
               *
             FROM
-              '. rex::getTablePrefix() .'metainfo_params p,
-              '. rex::getTablePrefix() .'metainfo_type t
+              ' . rex::getTablePrefix() . 'metainfo_params p,
+              ' . rex::getTablePrefix() . 'metainfo_type t
             WHERE
               `p`.`type` = `t`.`id` AND
-              `p`.`name` LIKE "'. $prefix .'%"
-              '. $filterCondition .'
+              `p`.`name` LIKE "' . $prefix . '%"
+              ' . $filterCondition . '
               ORDER BY
               prior';
 
@@ -587,7 +587,7 @@ abstract class rex_metainfoHandler
           $fieldAttributes = $field->getValue('attributes');
           $fieldValue = self::getSaveValue($fieldName, $fieldType, $fieldAttributes);
 
-          require rex_stream::factory('metainfo/'. $field->getValue('field_id') .'/callback', $field->getValue('callback'));
+          require rex_stream::factory('metainfo/' . $field->getValue('field_id') . '/callback', $field->getValue('callback'));
         };
         // pass a clone to the custom handler, so the callback will not change our var
         $sandboxFunc(clone $row);

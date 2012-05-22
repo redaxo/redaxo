@@ -16,7 +16,7 @@ if (rex::isBackend() && rex::getUser())
 {
   if (rex_request('page', 'string') == 'be_dashboard')
   {
-    require_once dirname(__FILE__) .'/functions/function_reader.inc.php';
+    require_once dirname(__FILE__) . '/functions/function_reader.inc.php';
 
     rex_extension::register(
       'DASHBOARD_COMPONENT',

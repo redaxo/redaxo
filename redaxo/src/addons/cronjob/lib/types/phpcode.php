@@ -22,7 +22,7 @@ class rex_cronjob_phpcode extends rex_cronjob
     if ($output)
     {
       $output = str_replace(array("\r\n\r\n", "\n\n"), "\n", trim(strip_tags($output)));
-      $output = preg_replace('@in '. preg_quote(__FILE__, '@') ."\([0-9]*\) : eval\(\)'d code @", '', $output);
+      $output = preg_replace('@in ' . preg_quote(__FILE__, '@') . "\([0-9]*\) : eval\(\)'d code @", '', $output);
       $this->setMessage($output);
     }
     if ($return !== false)

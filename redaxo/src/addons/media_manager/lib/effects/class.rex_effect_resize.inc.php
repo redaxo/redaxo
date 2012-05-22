@@ -13,7 +13,7 @@ class rex_effect_resize extends rex_effect_abstract
   public function __construct()
   {
 
-    $this->options = array('maximum','minimum','exact');
+    $this->options = array('maximum', 'minimum', 'exact');
 
     $this->script = '
 <script type="text/javascript">
@@ -49,7 +49,7 @@ class rex_effect_resize extends rex_effect_abstract
     $w = $this->media->getWidth();
     $h = $this->media->getHeight();
 
-    if (!isset($this->params['style']) || !in_array($this->params['style'],$this->options))
+    if (!isset($this->params['style']) || !in_array($this->params['style'], $this->options))
     {
       $this->params['style'] = 'maximum';
     }
@@ -78,21 +78,21 @@ class rex_effect_resize extends rex_effect_abstract
     }
 
     // ----- not enlarge image
-    if ($w <= $this->params['width'] && $h <= $this->params['height'] && $this->params['allow_enlarge'] == "not_enlarge")
+    if ($w <= $this->params['width'] && $h <= $this->params['height'] && $this->params['allow_enlarge'] == 'not_enlarge')
     {
       $this->params['width'] = $w;
       $this->params['height'] = $h;
       return;
     }
 
-    if (!isset($this->params["width"]))
+    if (!isset($this->params['width']))
     {
-      $this->params["width"] = $w;
+      $this->params['width'] = $w;
     }
 
-    if (!isset($this->params["height"]))
+    if (!isset($this->params['height']))
     {
-      $this->params["height"] = $h;
+      $this->params['height'] = $h;
     }
 
     if (function_exists('ImageCreateTrueColor'))
@@ -192,7 +192,7 @@ class rex_effect_resize extends rex_effect_abstract
       $gdimage = $this->media->getImage();
       $colorTransparent = imagecolortransparent($gdimage);
       imagepalettecopy($gdimage, $des);
-      if ($colorTransparent>0)
+      if ($colorTransparent > 0)
       {
         imagefill($des, 0, 0, $colorTransparent);
         imagecolortransparent($des, $colorTransparent);
@@ -204,12 +204,12 @@ class rex_effect_resize extends rex_effect_abstract
   {
     return array(
       array(
-        'label'=>rex_i18n::msg('media_manager_effect_resize_width'),
+        'label' => rex_i18n::msg('media_manager_effect_resize_width'),
         'name' => 'width',
         'type' => 'int',
       ),
       array(
-        'label'=>rex_i18n::msg('media_manager_effect_resize_height'),
+        'label' => rex_i18n::msg('media_manager_effect_resize_height'),
         'name' => 'height',
         'type' => 'int'
       ),
@@ -222,7 +222,7 @@ class rex_effect_resize extends rex_effect_abstract
         'suffix' => $this->script
       ),
       array(
-        'label'=>rex_i18n::msg('media_manager_effect_resize_imgtosmall'),
+        'label' => rex_i18n::msg('media_manager_effect_resize_imgtosmall'),
         'name' => 'allow_enlarge',
         'type' => 'select',
         'options' => array('enlarge', 'not_enlarge'),

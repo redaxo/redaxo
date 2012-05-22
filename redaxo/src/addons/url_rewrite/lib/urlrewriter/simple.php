@@ -40,6 +40,6 @@ class rex_urlRewriter_simple extends rex_urlRewriter
       return $params['subject'];
     }
 
-    return '?/'.$params['id'].'-'.$params['clang'].'-'.$params['name'].'.htm'.$params['params'];
+    return '?/' . $params['id'] . '-' . $params['clang'] . '-' . $params['name'] . '.htm' . $params['params'];
   }
 }

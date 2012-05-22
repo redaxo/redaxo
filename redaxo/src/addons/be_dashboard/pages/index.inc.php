@@ -21,7 +21,7 @@ if ($content != '')
 
   echo '<div class="rex-dashboard-section rex-dashboard-1col rex-dashboard-notifications">
           <div class="rex-dashboard-column rex-dashboard-column-first">
-            '.$content.'
+            ' . $content . '
           </div>
         </div>';
 }
@@ -70,7 +70,7 @@ foreach ($components as $format => $componentBlocks)
 
       if ($block != '')
       {
-          echo '<h2 class="rex-dashboard-hl1">'. $block .'</h2>';
+          echo '<h2 class="rex-dashboard-hl1">' . $block . '</h2>';
       }
 
       foreach ($componentBlock as $component)
@@ -95,7 +95,7 @@ foreach ($components as $format => $componentBlocks)
 
       if ($block != '')
       {
-          echo '<h2 class="rex-dashboard-hl1">'. $block .'</h2>';
+          echo '<h2 class="rex-dashboard-hl1">' . $block . '</h2>';
       }
 
       // show first column
