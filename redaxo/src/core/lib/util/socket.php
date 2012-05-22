@@ -163,7 +163,7 @@ class rex_socket
    */
   public function doPost($data = '', array $files = array())
   {
-    if(is_array($data) && !empty($files))
+    if (is_array($data) && !empty($files))
     {
       $data = function($stream) use ($data, $files)
       {
@@ -177,28 +177,28 @@ class rex_socket
         $temp = explode('&', http_build_query($data, '', '&'));
         $data = array();
         $partLength = rex_string::size(sprintf($dataFormat, '') . $eol);
-        foreach($temp as $t)
+        foreach ($temp as $t)
         {
           list($key, $value) = array_map('urldecode', explode('=', $t, 2));
           $data[$key] = $value;
           $length += $partLength + rex_string::size($key) + rex_string::size($value);
         }
         $partLength = rex_string::size(sprintf($fileFormat, '', '', '') . $eol);
-        foreach($files as $key => $file)
+        foreach ($files as $key => $file)
         {
           $length += $partLength + rex_string::size($key) + rex_string::size(basename($file['path'])) + rex_string::size($file['type']) + filesize($file['path']);
         }
         $length += rex_string::size($end);
         fwrite($stream, 'Content-Length: '. $length . $eol . $eol);
-        foreach($data as $key => $value)
+        foreach ($data as $key => $value)
         {
           fwrite($stream, sprintf($dataFormat, $key) . $value . $eol);
         }
-        foreach($files as $key => $file)
+        foreach ($files as $key => $file)
         {
           fwrite($stream, sprintf($fileFormat, $key, basename($file['path']), $file['type']));
           $file = fopen($file['path'], 'rb');
-          while(!feof($file))
+          while (!feof($file))
           {
             fwrite($stream, fread($file, 1024));
           }
@@ -208,9 +208,9 @@ class rex_socket
         fwrite($stream, $end);
       };
     }
-    elseif(!is_callable($data))
+    elseif (!is_callable($data))
     {
-      if(is_array($data))
+      if (is_array($data))
         $data = http_build_query($data);
       $this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
     }
@@ -239,7 +239,7 @@ class rex_socket
    */
   public function doRequest($method, $data = '')
   {
-    if(!is_string($data) && !is_callable($data))
+    if (!is_string($data) && !is_callable($data))
     {
       throw new rex_exception(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
     }
@@ -256,7 +256,7 @@ class rex_socket
   protected function openConnection()
   {
     $host = ($this->ssl ? 'ssl://' : '') . $this->host;
-    if(!($this->stream = @fsockopen($host, $this->port, $errno, $errstr)))
+    if (!($this->stream = @fsockopen($host, $this->port, $errno, $errstr)))
     {
       throw new rex_socket_exception($errstr .' ('. $errno .')');
     }
@@ -281,15 +281,15 @@ class rex_socket
     $eol = "\r\n";
     $headerStrings = array();
     $headerStrings[] = strtoupper($method) .' '. $path .' HTTP/1.1';
-    foreach($headers as $key => $value)
+    foreach ($headers as $key => $value)
     {
       $headerStrings[] = $key .': '. $value;
     }
-    foreach($headerStrings as $header)
+    foreach ($headerStrings as $header)
     {
       fwrite($this->stream, str_replace(array("\r", "\n"), '', $header) . $eol);
     }
-    if(!is_callable($data))
+    if (!is_callable($data))
     {
       fwrite($this->stream, 'Content-Length: '. rex_string::size($data) . $eol);
       fwrite($this->stream, $eol . $data);
@@ -300,7 +300,7 @@ class rex_socket
     }
 
     $meta = stream_get_meta_data($this->stream);
-    if(isset($meta['timed_out']) && $meta['timed_out'])
+    if (isset($meta['timed_out']) && $meta['timed_out'])
     {
       throw new rex_socket_exception('Timeout!');
     }
