@@ -36,7 +36,7 @@ include_once rex_path::core('packages.inc.php');
 
 $runner = new rex_test_runner();
 $runner->setUp();
-$result = $runner->run(rex_test_locator::defaultLocator());
+$result = $runner->run(rex_test_locator::defaultLocator(), array('colors' => true));
 
 echo $result;
 
