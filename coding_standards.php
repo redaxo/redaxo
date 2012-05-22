@@ -7,7 +7,13 @@ if (PHP_SAPI !== 'cli')
   exit(1);
 }
 
-echo PHP_EOL, "\033[1;37m\033[45m", 'REDAXO CODING STANDARDS CHECK', "\033[0m", PHP_EOL, PHP_EOL;
+$hasColorSupport = DIRECTORY_SEPARATOR == '\\' ? getenv('ANSICON') !== false : function_exists('posix_isatty') && @posix_isatty(STDOUT);
+
+echo PHP_EOL;
+echo $hasColorSupport ? "\033[1;37m\033[45m" : '';
+echo 'REDAXO CODING STANDARDS CHECK';
+echo $hasColorSupport ? "\033[0m" : '';
+echo PHP_EOL, PHP_EOL;
 
 if (!isset($argv[1]))
 {
@@ -479,7 +485,10 @@ foreach ($iterator as $path => $file)
   }
 }
 
-echo ($countNonFixable + ($fix ? 0 : $countFixable)) ? "\033[1;37;41m" : "\033[1;30;42m";
+if ($hasColorSupport)
+{
+  echo ($countNonFixable + ($fix ? 0 : $countFixable)) ? "\033[1;37;41m" : "\033[1;30;42m";
+}
 echo 'FINISHED';
 echo ', checked ', $countFiles, ' files';
 if ($countFixable)
@@ -494,6 +503,7 @@ if (!$countFixable && !$countNonFixable)
 {
   echo ', no problems';
 }
-echo ".\033[0m", PHP_EOL, PHP_EOL;
+echo $hasColorSupport ? ".\033[0m" : '';
+echo PHP_EOL, PHP_EOL;
 
 exit ($countNonFixable + ($fix ? 0 : $countFixable));
