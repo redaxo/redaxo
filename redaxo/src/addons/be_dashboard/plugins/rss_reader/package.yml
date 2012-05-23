@@ -5,3 +5,7 @@ supportpage: www.redaxo.org/de/forum/
 requires:
   php:
     extensions: [xml]
+
+autoload:
+  classes:
+    - vendor
