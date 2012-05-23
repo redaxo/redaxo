@@ -20,7 +20,7 @@ class rex_finder implements IteratorAggregate
     $this->baseDir = $baseDir;
 
     $this->recursive = false;
-    $this->recursiveMode = null;
+    $this->recursiveMode = RecursiveIteratorIterator::CHILD_FIRST;
   }
 
   /**
@@ -46,13 +46,29 @@ class rex_finder implements IteratorAggregate
    *
    * @return self
    */
-  public function recursive($recursive = true, $recursiveMode = RecursiveIteratorIterator::CHILD_FIRST)
+  public function recursive($recursive = true)
   {
     $this->recursive = $recursive;
-    $this->recursiveMode = $recursiveMode;
 
     return $this;
   }
+
+  /**
+   * @return self
+   */
+  public function selfFirst()
+  {
+    $this->recursiveMode = RecursiveIteratorIterator::SELF_FIRST;
+  }
+
+  /**
+   * @return self
+   */
+  public function childFirst()
+  {
+    $this->recursiveMode = RecursiveIteratorIterator::CHILD_FIRST;
+  }
+
 
   /**
    * @param string $glob
