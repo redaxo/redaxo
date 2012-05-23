@@ -572,10 +572,7 @@ foreach ($iterator as $path => $file)
 
   if (!$hideProcess)
   {
-    $length = mb_strlen($checkString);
-    echo $back = str_pad('', $length, "\010");
-    echo str_pad('', $length, ' ');
-    echo $back;
+    echo str_repeat("\010 \010", mb_strlen($checkString));
   }
 
   if ($fixer->hasChanged())
