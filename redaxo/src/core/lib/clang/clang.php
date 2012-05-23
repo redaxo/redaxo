@@ -14,11 +14,20 @@ class rex_clang
 
   private
     $id,
+    $code,
     $name;
 
-  private function __construct($id, $name)
+  /**
+   * Constructor
+   *
+   * @param integer $id Clang id
+   * @param string $code Clang code
+   * @param string $name Clang name
+   */
+  private function __construct($id, $code, $name)
   {
     $this->id = $id;
+    $this->code = $code;
     $this->name = $name;
   }
 
@@ -94,6 +103,16 @@ class rex_clang
   }
 
   /**
+   * Returns the lang code
+   *
+   * @return string
+   */
+  public function getCode()
+  {
+    return $this->code;
+  }
+
+  /**
    * Returns the name
    *
    * @return string
@@ -155,7 +174,7 @@ class rex_clang
     {
       foreach(rex_file::getCache($file) as $id => $clang)
       {
-        self::$clangs[$id] = new self($id, $clang['name']);
+        self::$clangs[$id] = new self($id, $clang['code'], $clang['name']);
       }
     }
     self::$cacheLoaded = true;

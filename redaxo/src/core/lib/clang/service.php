@@ -6,11 +6,12 @@ class rex_clang_service
    * Erstellt eine Clang
    *
    * @param $id   Id der Clang
+   * @param $code Clang Code
    * @param $name Name der Clang
    *
    * @return TRUE bei Erfolg, sonst FALSE
    */
-  static public function addCLang($id, $name)
+  static public function addCLang($id, $code, $name)
   {
     if(rex_clang::exists($id))
       return FALSE;
@@ -18,6 +19,7 @@ class rex_clang_service
     $newLang = rex_sql::factory();
     $newLang->setTable(rex::getTablePrefix()."clang");
     $newLang->setValue('id', $id);
+    $newLang->setValue('code', $code);
     $newLang->setValue('name', $name);
     $newLang->insert();
 
@@ -33,11 +35,12 @@ class rex_clang_service
    * Ändert eine Clang
    *
    * @param $id   Id der Clang
+   * @param $code Clang Code
    * @param $name Name der Clang
    *
    * @return TRUE bei Erfolg, sonst FALSE
    */
-  static public function editCLang($id, $name)
+  static public function editCLang($id, $code, $name)
   {
     if(!rex_clang::exists($id))
       return false;
@@ -45,6 +48,7 @@ class rex_clang_service
     $editLang = rex_sql::factory();
     $editLang->setTable(rex::getTablePrefix()."clang");
     $editLang->setValue('id', $id);
+    $editLang->setValue('code', $code);
     $editLang->setValue('name', $name);
     $editLang->update();
 

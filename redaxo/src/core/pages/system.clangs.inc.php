@@ -9,6 +9,7 @@ $content = '';
 
 // -------------- Defaults
 $clang_id   = rex_request('clang_id', 'int');
+$clang_code = rex_request('clang_code', 'string');
 $clang_name = rex_request('clang_name', 'string');
 $func       = rex_request('func', 'string');
 
@@ -32,16 +33,26 @@ if ($func == 'deleteclang' && $clang_id != "")
 }
 
 // ----- add clang
-if ($add_clang_save)
+if ($add_clang_save || $edit_clang_save)
 {
-  if ($clang_name != '' && $clang_id > 0)
+  if ($clang_code == '')
+  {
+    $warning = rex_i18n::msg('enter_code');
+    $func = $add_clang_save ? 'addclang' : 'editclang';
+  }
+  elseif ($clang_name == '')
+  {
+    $warning = rex_i18n::msg('enter_name');
+    $func = $add_clang_save ? 'addclang' : 'editclang';
+  }
+  elseif ($add_clang_save)
   {
     if (!rex_clang::exists($clang_id))
     {
       $info = rex_i18n::msg('clang_created');
-      rex_clang_service::addCLang($clang_id, $clang_name);
+      rex_clang_service::addCLang($clang_id, $clang_code, $clang_name);
       unset ($clang_id);
-       $func = '';
+      $func = '';
     }
     else
     {
@@ -51,19 +62,13 @@ if ($add_clang_save)
   }
   else
   {
-    $warning = rex_i18n::msg('enter_name');
-    $func = 'addclang';
-  }
-
-}
-elseif ($edit_clang_save)
-{
-  if (rex_clang::exists($clang_id))
-  {
-    rex_clang_service::editCLang($clang_id, $clang_name);
-    $info = rex_i18n::msg('clang_edited');
-    $func = '';
-    unset ($clang_id);
+    if (rex_clang::exists($clang_id))
+    {
+      rex_clang_service::editCLang($clang_id, $clang_code, $clang_name);
+      $info = rex_i18n::msg('clang_edited');
+      $func = '';
+      unset ($clang_id);
+    }
   }
 }
 
@@ -116,6 +121,7 @@ $content .= '
       <colgroup>
         <col width="40" />
         <col width="40" />
+        <col width="40" />
         <col width="*" />
         <col width="153" />
       </colgroup>
@@ -123,6 +129,7 @@ $content .= '
         <tr>
           <th class="rex-small"><a class="rex-i-element rex-i-clang-add" href="index.php?page=system&amp;subpage=lang&amp;func=addclang#clang"'. rex::getAccesskey(rex_i18n::msg('clang_add'), 'add') .'><span class="rex-i-element-text">'.rex_i18n::msg('clang_add').'</span></a></th>
           <th class="rex-small">ID</th>
+          <th>'.rex_i18n::msg('clang_code').'</th>
           <th>'.rex_i18n::msg('clang_name').'</th>
           <th>'.rex_i18n::msg('clang_function').'</th>
         </tr>
@@ -138,6 +145,7 @@ if ($func == 'addclang')
         <tr class="rex-table-row-activ">
           <td class="rex-small"><span class="rex-i-element rex-i-clang"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></span></td>
           <td class="rex-small">'.$sel->get().'</td>
+          <td><input class="rex-form-text" type="text" id="rex-form-clang-code" name="clang_code" value="'.htmlspecialchars($clang_code).'" /></td>
           <td><input class="rex-form-text" type="text" id="rex-form-clang-name" name="clang_name" value="'.htmlspecialchars($clang_name).'" /></td>
           <td><input class="rex-form-submit" type="submit" name="add_clang_save" value="'.rex_i18n::msg('clang_add').'"'. rex::getAccesskey(rex_i18n::msg('clang_add'), 'save') .' /></td>
         </tr>
@@ -162,6 +170,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang)
           <tr class="rex-trow-actv">
             <td class="rex-small"><span class="rex-i-element rex-i-clang"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></span></td>
             '.$add_td.'
+            <td><input class="rex-form-text" type="text" id="rex-form-clang-code" name="clang_code" value="'.htmlspecialchars($lang->getCode()).'" /></td>
             <td><input class="rex-form-text" type="text" id="rex-form-clang-name" name="clang_name" value="'.htmlspecialchars($lang->getName()).'" /></td>
             <td><input class="rex-form-submit" type="submit" name="edit_clang_save" value="'.rex_i18n::msg('clang_update').'"'. rex::getAccesskey(rex_i18n::msg('clang_update'), 'save') .' /></td>
           </tr>';
@@ -175,6 +184,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang)
           <tr>
             <td class="rex-small"><a class="rex-i-element rex-i-clang" href="'. $editLink .'"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></a></td>
             '.$add_td.'
+            <td>'.htmlspecialchars($lang->getCode()).'</td>
             <td><a href="'. $editLink .'">'.htmlspecialchars($lang->getName()).'</a></td>
             <td>'. $delLink .'</td>
           </tr>';
