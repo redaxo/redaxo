@@ -8,4 +8,4 @@ requires:
 
 autoload:
   classes:
-    - vendor
+    - vendor/

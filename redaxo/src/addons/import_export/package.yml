@@ -6,4 +6,4 @@ supportpage: www.redaxo.org/de/forum/
 
 autoload:
   classes:
-    - vendor
+    - vendor/
