@@ -80,7 +80,7 @@ if ($function == 'delete')
 
       $label = $OOArt->getName() .' ['. $aid .']';
       if(rex_clang::count() > 1)
-        $label = '('. rex_i18n::translate(rex_clang::getName($clang_id)) .') '. $label;
+        $label = '('. rex_i18n::translate(rex_clang::get($clang_id)->getName()) .') '. $label;
 
       $module_in_use_message .= '<li><a href="index.php?page=content&amp;article_id='. $aid .'&clang='. $clang_id .'&ctype='. $ctype .'">'. htmlspecialchars($label) .'</a></li>';
       $del->next();

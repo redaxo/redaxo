@@ -84,7 +84,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
     global $REXPATH;
 
     $article_id = -1;
-    $clang = rex_clang::getId();
+    $clang = rex_clang::getCurrentId();
 
     if(!file_exists($this->PATHLIST))
        $this->generatePathnames(array());
@@ -164,7 +164,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
       {
         foreach (rex_clang::getAll() as $key => $var)
         {
-          if ($var.'/' == $path || $var == $path)
+          if ($var->getName().'/' == $path || $var->getName() == $path)
           {
             $clang = $key;
           }
@@ -222,7 +222,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
   {
     rex::setProperty('article_id', $art_id);
     if($clang_id > -1)
-      rex_clang::setId($clang_id);
+      rex_clang::setCurrentId($clang_id);
   }
 
   // Url neu schreiben
@@ -332,7 +332,7 @@ class rex_urlRewriter_fullnames extends rex_urlRewriter
         $pathname = '';
         if (rex_clang::count() > 1)
         {
-          $pathname = rex_clang::getName($clang).'/';
+          $pathname = rex_clang::get($clang)->getName().'/';
         }
 
         // pfad über kategorien bauen

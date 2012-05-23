@@ -247,7 +247,7 @@ class rex_var_link extends rex_var
       $category = $art->getCategoryId();
     }
 
-    $open_params = '&clang=' . rex_clang::getId();
+    $open_params = '&clang=' . rex_clang::getCurrentId();
     if ($category != '')
       $open_params .= '&category_id=' . $category;
 
@@ -281,7 +281,7 @@ class rex_var_link extends rex_var
    */
   static public function getLinklistButton($id, $value, $category = '')
   {
-    $open_params = '&clang=' . rex_clang::getId();
+    $open_params = '&clang=' . rex_clang::getCurrentId();
     if ($category != '')
       $open_params .= '&category_id=' . $category;
 

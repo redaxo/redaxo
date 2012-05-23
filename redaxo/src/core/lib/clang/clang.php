@@ -10,30 +10,16 @@ class rex_clang
   static private
     $cacheLoaded = false,
     $clangs = array(),
-    $current = 0;
+    $currentId = 0;
 
-  /**
-   * Sets the current clang id
-   *
-   * @param integer $id Clang id
-   */
-  static public function setId($id)
-  {
-    if(!self::exists($id))
-    {
-      throw new rex_exception('Clang id "'. $id .'" doesn\'t exists');
-    }
-    self::$current = $id;
-  }
+  private
+    $id,
+    $name;
 
-  /**
-   * Returns the current clang id
-   *
-   * @return integer Current clang id
-   */
-  static public function getId()
+  private function __construct($id, $name)
   {
-    return self::$current;
+    $this->id = $id;
+    $this->name = $name;
   }
 
   /**
@@ -49,22 +35,72 @@ class rex_clang
   }
 
   /**
-   * Returns the name for the current clang or the given id
+   * Returns the clang object for the given id
    *
    * @param integer $id Clang id
-   * @return string Clang name
+   * @return self
    */
-  static public function getName($id = null)
+  static public function get($id)
   {
-    if($id === null)
+    if (self::exists($id))
     {
-      $id = self::getId();
+      return self::$clangs[$id];
     }
+    return null;
+  }
+
+  /**
+   * Returns the current clang object
+   *
+   * @return self
+   */
+  static public function getCurrent()
+  {
+    return self::get(self::getCurrentId());
+  }
+
+  /**
+   * Returns the current clang id
+   *
+   * @return integer Current clang id
+   */
+  static public function getCurrentId()
+  {
+    return self::$currentId;
+  }
+
+  /**
+   * Sets the current clang id
+   *
+   * @param integer $id Clang id
+   */
+  static public function setCurrentId($id)
+  {
     if(!self::exists($id))
     {
-      throw new rex_exception('Clang id "'. $id .'" doesn\'t exists');
+      throw new rex_exception('Clang id "'. $id .'" doesn\'t exist');
     }
-    return self::$clangs[$id];
+    self::$currentId = $id;
+  }
+
+  /**
+   * Returns the id
+   *
+   * @return integer
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  /**
+   * Returns the name
+   *
+   * @return string
+   */
+  public function getName()
+  {
+    return $this->name;
   }
 
   /**
@@ -90,9 +126,9 @@ class rex_clang
   }
 
   /**
-   * Returns an associative array (id => name) of all clangs
+   * Returns an array of all clangs
    *
-   * @return array
+   * @return array[self]
    */
   static public function getAll()
   {
@@ -117,7 +153,10 @@ class rex_clang
     }
     if(file_exists($file))
     {
-      self::$clangs = rex_file::getCache($file);
+      foreach(rex_file::getCache($file) as $id => $clang)
+      {
+        self::$clangs[$id] = new self($id, $clang['name']);
+      }
     }
     self::$cacheLoaded = true;
   }

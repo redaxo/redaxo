@@ -16,8 +16,15 @@ $REX['FRONTEND_FILE'] = 'index.php';
 
 $REX['GG'] = !rex::isBackend();
 
-$REX->setCallbackAlias('CUR_CLANG', 'rex_clang::getId', 'rex_clang::setId');
-$REX->setCallbackAlias('CLANG', 'rex_clang::getAll', 'rex_clang::reset');
+$REX->setCallbackAlias('CUR_CLANG', 'rex_clang::getCurrentId', 'rex_clang::setCurrentId');
+$clangGetAll = function()
+{
+  return array_map(function(rex_clang $clang)
+  {
+    return $clang->getName();
+  }, rex_clang::getAll());
+};
+$REX->setCallbackAlias('CLANG', $clangGetAll, 'rex_clang::reset');
 
 $REX['PERM'] = new rex_perm_compat(rex_perm::GENERAL);
 $REX['EXTPERM'] = new rex_perm_compat(rex_perm::OPTIONS);

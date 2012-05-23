@@ -24,7 +24,7 @@ class rex_clang_service
     rex_deleteCache();
 
     // ----- EXTENSION POINT
-    rex_extension::registerPoint('CLANG_ADDED','',array ('id' => $id, 'name' => $name));
+    rex_extension::registerPoint('CLANG_ADDED', '', array('clang' => rex_clang::get($id)));
 
     return TRUE;
   }
@@ -51,7 +51,7 @@ class rex_clang_service
     rex_deleteCache();
 
     // ----- EXTENSION POINT
-    rex_extension::registerPoint('CLANG_UPDATED','',array ('id' => $id, 'name' => $name));
+    rex_extension::registerPoint('CLANG_UPDATED', '', array('clang' => rex_clang::get($id)));
 
     return TRUE;
   }
@@ -63,25 +63,20 @@ class rex_clang_service
    *
    * @return TRUE bei Erfolg, sonst FALSE
    */
-  static public function deleteCLang($clang)
+  static public function deleteCLang($id)
   {
-    if ($clang == 0 || !rex_clang::exists($clang))
+    if ($id == 0 || !rex_clang::exists($id))
       return FALSE;
 
-    $name = rex_clang::getName($clang);
+    $clang = rex_clang::get($id);
 
     $del = rex_sql::factory();
-    $del->setQuery("delete from ".rex::getTablePrefix()."clang where id='$clang'");
+    $del->setQuery("delete from ".rex::getTablePrefix()."clang where id='$id'");
 
     rex_deleteCache();
 
     // ----- EXTENSION POINT
-    rex_extension::registerPoint('CLANG_DELETED','',
-      array (
-        'id' => $clang,
-        'name' => $name
-      )
-    );
+    rex_extension::registerPoint('CLANG_DELETED', '', array('clang' => $clang));
 
     return TRUE;
   }
@@ -99,7 +94,11 @@ class rex_clang_service
     $clangs = array();
     foreach($lg as $lang)
     {
-      $clangs[$lang->getValue("id")] = $lang->getValue("name");
+      $id = $lang->getValue('id');
+      foreach($lg->getFieldnames() as $field)
+      {
+        $clangs[$id][$field] = $lang->getValue($field);
+      }
     }
 
     $file = rex_path::cache('clang.cache');

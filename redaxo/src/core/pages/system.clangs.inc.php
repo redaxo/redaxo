@@ -162,7 +162,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang)
           <tr class="rex-trow-actv">
             <td class="rex-small"><span class="rex-i-element rex-i-clang"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></span></td>
             '.$add_td.'
-            <td><input class="rex-form-text" type="text" id="rex-form-clang-name" name="clang_name" value="'.htmlspecialchars($lang).'" /></td>
+            <td><input class="rex-form-text" type="text" id="rex-form-clang-name" name="clang_name" value="'.htmlspecialchars($lang->getName()).'" /></td>
             <td><input class="rex-form-submit" type="submit" name="edit_clang_save" value="'.rex_i18n::msg('clang_update').'"'. rex::getAccesskey(rex_i18n::msg('clang_update'), 'save') .' /></td>
           </tr>';
 
@@ -175,7 +175,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang)
           <tr>
             <td class="rex-small"><a class="rex-i-element rex-i-clang" href="'. $editLink .'"><span class="rex-i-element-text">'.htmlspecialchars($clang_name).'</span></a></td>
             '.$add_td.'
-            <td><a href="'. $editLink .'">'.htmlspecialchars($lang).'</a></td>
+            <td><a href="'. $editLink .'">'.htmlspecialchars($lang->getName()).'</a></td>
             <td>'. $delLink .'</td>
           </tr>';
   }

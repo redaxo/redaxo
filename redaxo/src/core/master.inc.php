@@ -68,5 +68,5 @@ rex_complex_perm::register('clang', 'rex_clang_perm');
 // ----- SET CLANG
 if(!rex::isSetup())
 {
-  rex_clang::setId(rex_request('clang', 'int', rex::getProperty('start_clang_id')));
+  rex_clang::setCurrentId(rex_request('clang', 'int', rex::getProperty('start_clang_id')));
 }
