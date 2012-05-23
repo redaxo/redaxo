@@ -5,8 +5,12 @@ class rex_finder implements IteratorAggregate
   private $baseDir;
   private $recursive;
 
-  private $filters = array();
-  private $ignores = array();
+  private $filterFiles = array();
+  private $filterDirs = array();
+
+  private $ignoreFiles = array();
+  private $ignoreDirs = array();
+
   private $ignoreSystemStuff = true;
 
   private function __construct($baseDir)
@@ -49,9 +53,9 @@ class rex_finder implements IteratorAggregate
    *
    * @return self
    */
-  public function filter($glob)
+  public function filterFiles($glob)
   {
-    $this->filters[] = $glob;
+    $this->filterFiles[] = $glob;
 
     return $this;
   }
@@ -61,9 +65,33 @@ class rex_finder implements IteratorAggregate
    *
    * @return self
    */
-  public function ignore($glob)
+  public function filterDirs($glob)
   {
-    $this->ignores[] = $glob;
+    $this->filterDirs[] = $glob;
+
+    return $this;
+  }
+
+  /**
+   * @param string $glob
+   *
+   * @return self
+   */
+  public function ignoreFiles($glob)
+  {
+    $this->ignoreFiles[] = $glob;
+
+    return $this;
+  }
+
+  /**
+   * @param string $glob
+   *
+   * @return self
+   */
+  public function ignoreDirs($glob)
+  {
+    $this->ignoreDirs[] = $glob;
 
     return $this;
   }
@@ -87,8 +115,10 @@ class rex_finder implements IteratorAggregate
 
     $iterator = new rex_finder_filter( new RecursiveDirectoryIterator( $this->baseDir, FilesystemIterator::CURRENT_AS_FILEINFO & FilesystemIterator::SKIP_DOTS));
     $iterator->debug = $i == 3;
-    $iterator->filters = $this->filters;
-    $iterator->ignores = $this->ignores;
+    $iterator->filterDirs = $this->filterDirs;
+    $iterator->filterFiles = $this->filterFiles;
+    $iterator->ignoreDirs = $this->ignoreDirs;
+    $iterator->ignoreFiles = $this->ignoreFiles;
     $iterator->ignoreSystemStuff = $this->ignoreSystemStuff;
 
     if ($this->recursive)
@@ -105,8 +135,11 @@ class rex_finder_filter extends RecursiveFilterIterator
 {
   public $debug = false;
 
-  public $filters = array();
-  public $ignores = array();
+  public $filterFiles = array();
+  public $filterDirs = array();
+
+  public $ignoreFiles = array();
+  public $ignoreDirs = array();
 
   public $ignoreSystemStuff = true;
 
@@ -143,10 +176,9 @@ class rex_finder_filter extends RecursiveFilterIterator
 //       return true;
 //     }
 
-    if($current->isDir()) return true;
-
     // check the whitelist
-    foreach($this->filters as $filter)
+    $filters = $current->isDir() ? $this->filterDirs : $this->filterFiles;
+    foreach($filters as $filter)
     {
       if(fnmatch($filter, $filename))
       {
@@ -169,7 +201,8 @@ class rex_finder_filter extends RecursiveFilterIterator
     }
 
     // check the blacklist
-    foreach($this->ignores as $ignore)
+    $ignores = $current->isDir() ? $this->ignoreDirs : $this->ignoreFiles;
+    foreach($ignores as $ignore)
     {
       if(fnmatch($ignore, $filename))
       {
@@ -178,26 +211,9 @@ class rex_finder_filter extends RecursiveFilterIterator
       }
     }
 
-    $this->debug && var_dump(empty($this->filters) ? "accepted" : "declined");
-    return empty($this->filters);
-  }
 
-  /* (non-PHPdoc)
-   * @see RecursiveFilterIterator::getChildren()
-   */
-  public function getChildren()
-  {
-//     if(!$this->recursive)
-//     {
-//       echo "noot recursive";
-//       return new RecursiveFilterIterator(new RecursiveArrayIterator(array()));
-//     }
-
-//     /* @var $iterator self */
-    $this->debug && var_dump("getchildren");
-
-    $iterator = parent::getChildren();
-//     echo "reeturn children ". count($iterator);
-    return $iterator;
+    // in case ignores are present, everything despite the ignores is accepted, otherwise declined.
+    $this->debug && var_dump(empty($this->ignoreDirs) && empty($this->ignoreFiles) ? "accepted" : "declined");
+    return empty($this->ignoreDirs) && empty($this->ignoreFiles);
   }
 }
