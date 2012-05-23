@@ -3,7 +3,9 @@
 class rex_finder implements IteratorAggregate
 {
   private $baseDir;
+
   private $recursive;
+  private $recursiveMode;
 
   private $filterFiles = array();
   private $filterDirs = array();
@@ -16,6 +18,9 @@ class rex_finder implements IteratorAggregate
   private function __construct($baseDir)
   {
     $this->baseDir = $baseDir;
+
+    $this->recursive = false;
+    $this->recursiveMode = null;
   }
 
   /**
@@ -41,9 +46,10 @@ class rex_finder implements IteratorAggregate
    *
    * @return self
    */
-  public function recursive($recursive = true)
+  public function recursive($recursive = true, $recursiveMode = RecursiveIteratorIterator::CHILD_FIRST)
   {
     $this->recursive = $recursive;
+    $this->recursiveMode = $recursiveMode;
 
     return $this;
   }
@@ -123,7 +129,7 @@ class rex_finder implements IteratorAggregate
 
     if ($this->recursive)
     {
-      $iterator = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST);
+      $iterator = new RecursiveIteratorIterator($iterator, $this->recursiveMode);
     }
 
     return $iterator;
