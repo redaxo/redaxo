@@ -59,6 +59,8 @@ class rex_finder implements IteratorAggregate
   public function selfFirst()
   {
     $this->recursiveMode = RecursiveIteratorIterator::SELF_FIRST;
+
+    return $this;
   }
 
   /**
@@ -67,6 +69,8 @@ class rex_finder implements IteratorAggregate
   public function childFirst()
   {
     $this->recursiveMode = RecursiveIteratorIterator::CHILD_FIRST;
+
+    return $this;
   }
 
 
@@ -237,5 +241,18 @@ class rex_finder_filter extends RecursiveFilterIterator
     // in case ignores are present, everything despite the ignores is accepted, otherwise declined.
     $this->debug && var_dump(empty($this->ignoreDirs) && empty($this->ignoreFiles) ? "accepted" : "declined");
     return empty($this->ignoreDirs) && empty($this->ignoreFiles);
+  }
+
+  public function getChildren()
+  {
+    /* @var $current SplFileInfo */
+    $current = parent::current();
+
+    $filename = $current->getFilename();
+
+    $this->debug && var_dump($filename ." getchildren");
+
+    $iterator = parent::getChildren();
+    return $iterator;
   }
 }
