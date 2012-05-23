@@ -548,7 +548,8 @@ foreach ($iterator as $path => $file)
 {
   /* @var $file SplFileInfo */
   $subPath = $iterator->getInnerIterator()->getSubPathName();
-  if (!in_array($file->getExtension(), $textExtensions)
+  $fileExt = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
+  if (!in_array($fileExt, $textExtensions)
     || strpos('/' . $subPath, '/vendor/') !== false)
   {
     continue;
@@ -560,7 +561,7 @@ foreach ($iterator as $path => $file)
   }
 
   $countFiles++;
-  if ($file->getExtension() == 'php')
+  if ($fileExt == 'php')
   {
     $fixer = new rex_coding_standards_fixer_php(file_get_contents($path));
   }
