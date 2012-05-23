@@ -19,20 +19,20 @@ class rex_finder implements IteratorAggregate
   }
 
   /**
-   * Use this factory method to allow notations like rex_finder::create()->recursive()->filter().. because new rex_finder()->myMethod is only allowed in PHP5.4+
+   * Use this factory method to allow notations like rex_finder::get()->recursive()->filterFiles().. because new rex_finder()->myMethod is only allowed in PHP5.4+
    *
    * @param string $baseDir
    *
    * @return self
    */
-  static public function create($baseDir)
+  static public function get($baseDir)
   {
     if(!is_dir($baseDir))
     {
       throw new rex_exception('folder "'. $baseDir .'" not found!');
     }
 
-    $finder = new rex_finder($baseDir);
+    $finder = new self($baseDir);
     return $finder;
   }
 
