@@ -56,7 +56,7 @@ class rex_finder implements IteratorAggregate
   /**
    * @return self
    */
-  public function foldersFirst()
+  public function selfFirst()
   {
     $this->recursiveMode = RecursiveIteratorIterator::SELF_FIRST;
 
@@ -66,7 +66,7 @@ class rex_finder implements IteratorAggregate
   /**
    * @return self
    */
-  public function filesFirst()
+  public function childFirst()
   {
     $this->recursiveMode = RecursiveIteratorIterator::CHILD_FIRST;
 
