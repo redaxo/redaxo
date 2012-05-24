@@ -16,19 +16,25 @@ echo 'REDAXO CODING STANDARDS CHECK';
 echo $hasColorSupport ? "\033[0m" : '';
 echo PHP_EOL, PHP_EOL;
 
-if (!isset($argv[1]))
+if (!isset($argv[1]) || !in_array($argv[1], array('fix', 'check')))
 {
-  echo 'ERROR: Missing mode argument! Possible modes are "check" and "fix".', PHP_EOL, PHP_EOL;
+  echo 'Usage:
+  php ', $argv[0], ' <mode> [options]
+  php ', $argv[0], ' <mode> <path> [options]
+  php ', $argv[0], ' <mode> core [options]
+  php ', $argv[0], ' <mode> package <package> [options]
+
+  <mode>     "check" or "fix"
+  <path>     path to a subdirectory
+  <package>  package id ("addonname" or "addonname/pluginname")
+
+  options:
+    --hide-process: Don\'t show current checking file path', PHP_EOL, PHP_EOL;
+
   exit(1);
 }
 
-$mode = $argv[1];
-if (!in_array($mode, array('fix', 'check')))
-{
-  echo 'ERROR: Wrong mode argument "', $mode, '"! Possible modes are "check" and "fix".', PHP_EOL, PHP_EOL;
-  exit(1);
-}
-$fix = $mode == 'fix';
+$fix = $argv[1] == 'fix';
 
 $dir = __DIR__;
 if (isset($argv[2]) && $argv[2][0] !== '-')
