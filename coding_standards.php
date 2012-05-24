@@ -563,7 +563,12 @@ foreach ($iterator as $path => $file)
 
   if (!$hideProcess)
   {
-    echo $checkString = 'check ' . $subPath . ' ...';
+    $checkString = $subPath;
+    if (mb_strlen($checkString) > 60)
+    {
+      $checkString = substr($checkString, 0, 20) . '...' . substr($checkString, -37);
+    }
+    echo $checkString = 'check ' . $checkString . ' ...';
   }
 
   $countFiles++;
@@ -603,25 +608,24 @@ foreach ($iterator as $path => $file)
   }
 }
 
+echo '-----------------------------------', PHP_EOL;
+echo 'checked ', $countFiles, ' files', PHP_EOL;
+if ($countFixable)
+{
+  echo '', ($fix ? 'fixed' : 'found fixable'), ' problems in ', $countFixable, ' files', PHP_EOL;
+}
+if ($countNonFixable)
+{
+  echo 'found non-fixable problems in ', $countNonFixable, ' files', PHP_EOL;
+}
+
+echo PHP_EOL;
 if ($hasColorSupport)
 {
   echo ($countNonFixable + ($fix ? 0 : $countFixable)) ? "\033[1;37;41m" : "\033[1;30;42m";
 }
-echo 'FINISHED';
-echo ', checked ', $countFiles, ' files';
-if ($countFixable)
-{
-  echo ', ', ($fix ? 'fixed' : 'found fixable'), ' problems in ', $countFixable, ' files';
-}
-if ($countNonFixable)
-{
-  echo ', found non-fixable problems in ', $countNonFixable, ' files';
-}
-if (!$countFixable && !$countNonFixable)
-{
-  echo ', no problems';
-}
-echo $hasColorSupport ? ".\033[0m" : '';
+echo 'FINISHED, ', !$countFixable && !$countNonFixable ? 'no problems' : 'found problems';
+echo $hasColorSupport ? "\033[0m" : '';
 echo PHP_EOL, PHP_EOL;
 
 exit ($countNonFixable + ($fix ? 0 : $countFixable));
