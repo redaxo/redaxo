@@ -19,7 +19,7 @@ class rex_test_runner
     $suite->setBackupGlobals(false);
     $suite->addTestFiles($locator->getIterator());
 
-    rex_logger::unregister();
+    rex_error_handler::unregister();
 
     ob_start();
     $runner = new PHPUnit_TextUI_TestRunner;
@@ -33,7 +33,7 @@ class rex_test_runner
     }
     $result = str_replace(array($search, rex_path::base()), '', $result);
 
-    rex_logger::register();
+    rex_error_handler::register();
 
     return $result;
   }

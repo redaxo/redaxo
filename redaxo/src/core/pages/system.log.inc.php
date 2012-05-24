@@ -16,7 +16,7 @@ if ($func == 'delLog')
 {
   // close logger, to free remaining file-handles to syslog
   // so we can safely delete the file
-  rex_logger::unregister();
+  rex_logger::close();
 
   if(rex_file::delete($logFile))
   {
@@ -26,8 +26,6 @@ if ($func == 'delLog')
   {
     $warning = rex_i18n::msg('syslog_delete_error');
   }
-
-  rex_logger::register();
 
 } else if ($func == 'readlog')
 {

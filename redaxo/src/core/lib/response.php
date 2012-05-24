@@ -25,33 +25,6 @@ class rex_response
     self::$httpStatus = $httpStatus;
   }
 
-  static public function handleException(Exception $exc)
-  {
-    if(self::$httpStatus == self::HTTP_OK)
-    {
-      self::setStatus(self::HTTP_INTERNAL_ERROR);
-    }
-
-    if(($user = rex_backend_login::createUser()) && $user->isAdmin())
-    {
-      // TODO add a beautiful error page with usefull debugging info
-      $buf = '';
-      $buf .= '<pre>';
-      $buf .= 'Exception thrown in '. $exc->getFile() .' on line '. $exc->getLine()."\n\n";
-      $buf .= '<b>'. $exc->getMessage()."</b>\n";
-      $buf .= $exc->getTraceAsString();
-      $buf .= '</pre>';
-
-      self::send($buf);
-    }
-    else
-    {
-      // TODO small error page, without debug infos
-      self::send('Oooops, an internal error occured!');
-      exit();
-    }
-  }
-
   static public function sendRedirect($url)
   {
     if(strpos($url, "\n") !== false){
@@ -193,7 +166,7 @@ class rex_response
     self::send($content);
   }
 
-  static protected function send($content)
+  static public function send($content)
   {
     // Cachen erlauben, nach revalidierung
     // see http://xhtmlforum.de/35221-php-session-etag-header.html#post257967
