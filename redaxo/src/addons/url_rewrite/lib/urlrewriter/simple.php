@@ -12,7 +12,7 @@
  *   .htaccess file in das root verzeichnis:
  *     RewriteEngine Off
  */
-class rex_urlRewriter_simple extends rex_urlRewriter
+class rex_url_rewriter_simple extends rex_url_rewriter
 {
 
   // Parameter aus der URL für das Script verarbeiten

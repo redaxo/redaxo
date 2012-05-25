@@ -1,14 +1,14 @@
 <?php
 
-class testSingleton extends rex_singleton_base
+class rex_test_singleton extends rex_singleton_base
 {}
 
 class rex_singleton_base_test extends PHPUnit_Framework_TestCase
 {
   public function testGetInstance()
   {
-    $this->assertInstanceOf('testSingleton', testSingleton::getInstance(), 'instance of the correct class is returned');
-    $this->assertEquals('testSingleton', get_class(testSingleton::getInstance()), 'excact class is returned');
-    $this->assertTrue(testSingleton::getInstance() === testSingleton::getInstance(), 'the very same instance is returned on every invocation');
+    $this->assertInstanceOf('rex_test_singleton', rex_test_singleton::getInstance(), 'instance of the correct class is returned');
+    $this->assertEquals('rex_test_singleton', get_class(rex_test_singleton::getInstance()), 'excact class is returned');
+    $this->assertTrue(rex_test_singleton::getInstance() === rex_test_singleton::getInstance(), 'the very same instance is returned on every invocation');
   }
 }

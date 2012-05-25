@@ -1,6 +1,6 @@
 <?php
 
-abstract class rex_metainfoHandler
+abstract class rex_metainfo_handler
 {
   /**
    * Erstellt den nötigen HTML Code um ein Formular zu erweitern

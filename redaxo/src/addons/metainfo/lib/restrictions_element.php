@@ -6,7 +6,7 @@ class rex_form_restrictons_element extends rex_form_select_element
 
   // 1. Parameter nicht genutzt, muss aber hier stehen,
   // wg einheitlicher Konstrukturparameter
-  public function __construct($tag = '', rex_metainfo_tableExpander $table = null, array $attributes = array())
+  public function __construct($tag = '', rex_metainfo_table_expander $table = null, array $attributes = array())
   {
     parent::__construct('', $table, $attributes);
 
@@ -15,17 +15,17 @@ class rex_form_restrictons_element extends rex_form_select_element
     $this->chkbox_element->setAttribute('id', 'enable_restrictions_chkbx');
     $this->chkbox_element->addOption(rex_i18n::msg('minfo_field_label_no_restrictions'), '');
 
-    if ($table->getPrefix() == rex_articleMetainfoHandler::PREFIX || $table->getPrefix() == rex_categoryMetainfoHandler::PREFIX)
+    if($table->getPrefix() == rex_metainfo_article_handler::PREFIX || $table->getPrefix() == rex_metainfo_category_handler::PREFIX)
     {
       $restrictionsSelect = new rex_category_select(false, false, true, false);
     }
-    elseif ($table->getPrefix() == rex_mediaMetainfoHandler::PREFIX)
+    else if($table->getPrefix() == rex_metainfo_media_handler::PREFIX)
     {
       $restrictionsSelect = new rex_mediacategory_select();
     }
     else
     {
-      trigger_error('Unexpected TablePrefix "' . $table->getPrefix() . '"!', E_USER_ERROR);
+      trigger_error('Unexpected TablePrefix "'. $table->getPrefix() .'"!', E_USER_ERROR);
       exit();
     }
 
@@ -36,7 +36,7 @@ class rex_form_restrictons_element extends rex_form_select_element
 
   public function get()
   {
-    $slctDivId = $this->getAttribute('id') . '_div';
+    $slctDivId = $this->getAttribute('id'). '_div';
 
     // Wert aus dem select in die checkbox übernehmen
     $this->chkbox_element->setValue($this->getValue());
@@ -50,17 +50,17 @@ class rex_form_restrictons_element extends rex_form_select_element
     jQuery(function($) {
 
       $("#enable_restrictions_chkbx").click(function() {
-        $("#' . $slctDivId . '").slideToggle("slow");
+        $("#'. $slctDivId .'").slideToggle("slow");
         if($(this).is(":checked"))
         {
-          $("option:selected", "#' . $slctDivId . '").each(function () {
+          $("option:selected", "#'. $slctDivId .'").each(function () {
             $(this).removeAttr("selected");
           });
         }
       });
 
       if($("#enable_restrictions_chkbx").is(":checked")) {
-        $("#' . $slctDivId . '").hide();
+        $("#'. $slctDivId .'").hide();
       }
     });
 
@@ -70,7 +70,7 @@ class rex_form_restrictons_element extends rex_form_select_element
     $html .= $this->chkbox_element->get();
 
     $element = parent :: get();
-    $html .= str_replace('class="rex-form-row"', 'id="' . $slctDivId . '" class="rex-form-row"', $element);
+    $html .= str_replace('class="rex-form-row"', 'id="'.$slctDivId.'" class="rex-form-row"', $element);
 
     return $html;
   }

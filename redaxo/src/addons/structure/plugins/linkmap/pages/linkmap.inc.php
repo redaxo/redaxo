@@ -114,7 +114,7 @@ rex_view::title('Linkmap', $navi_path);
       <h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_categories'); ?></h3>
       <div class="rex-area-content">
       <?php
-      $categoryTree = new rex_linkmap_categoryTree($context);
+      $categoryTree = new rex_linkmap_category_tree($context);
       echo $categoryTree->getTree($category_id);
       ?>
       </div>
@@ -124,7 +124,7 @@ rex_view::title('Linkmap', $navi_path);
       <h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_articles'); ?></h3>
       <div class="rex-area-content">
       <?php
-      $articleList = new rex_linkmap_articleList($context);
+      $articleList = new rex_linkmap_article_list($context);
       echo $articleList->getList($category_id);
       ?>
       </div>

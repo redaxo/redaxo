@@ -8,7 +8,7 @@
  * @package redaxo5
  */
 
-class rex_metainfo_tableManager
+class rex_metainfo_table_manager
 {
   private
     $tableName,

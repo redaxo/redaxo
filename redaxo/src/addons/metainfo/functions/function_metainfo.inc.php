@@ -111,7 +111,7 @@ function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $defa
 
   rex_sql_util::organizePriorities(rex::getTablePrefix() . 'metainfo_params', 'prior', 'name LIKE "' . $prefix . '%"', 'prior, updatedate', 'field_id');
 
-  $tableManager = new rex_metainfo_tableManager($metaTable);
+  $tableManager = new rex_metainfo_table_manager($metaTable);
   return $tableManager->addColumn($name, $fieldDbType, $fieldDbLength, $default);
 }
 
@@ -156,7 +156,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
 
   $sql->delete();
 
-  $tableManager = new rex_metainfo_tableManager($metaTable);
+  $tableManager = new rex_metainfo_table_manager($metaTable);
   return $tableManager->deleteColumn($name);
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-class rex_articleMetainfoHandler extends rex_metainfoHandler
+class rex_metainfo_article_handler extends rex_metainfo_handler
 {
   const PREFIX = 'art_';
 
@@ -86,6 +86,6 @@ class rex_articleMetainfoHandler extends rex_metainfoHandler
   }
 }
 
-$artHandler = new rex_articleMetainfoHandler();
+$artHandler = new rex_metainfo_article_handler();
 
 rex_extension::register('ART_META_FORM', array($artHandler, 'extendForm'));
