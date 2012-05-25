@@ -54,7 +54,7 @@ class rex_effect_insert_image extends rex_effect_abstract
         $dstX = 0;
         break;
       case 'center':
-        $dstX = (int)(($image_width - $brand_width) / 2);
+        $dstX = (int) (($image_width - $brand_width) / 2);
         break;
       case 'right':
       default:
@@ -67,7 +67,7 @@ class rex_effect_insert_image extends rex_effect_abstract
         $dstY = 0;
         break;
       case 'middle':
-        $dstY = (int)(($image_height - $brand_height) / 2);
+        $dstY = (int) (($image_height - $brand_height) / 2);
         break;
       case 'bottom':
       default:

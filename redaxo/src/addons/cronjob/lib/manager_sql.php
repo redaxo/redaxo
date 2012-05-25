@@ -111,7 +111,7 @@ class rex_cronjob_manager_sql
         AND     nexttime <= ?
       ORDER BY  nexttime ASC, execution_moment DESC, name ASC
       LIMIT     1
-    ', array(time() - 2 * ini_get('max_execution_time'), '%|' . (int)rex::isBackend() . '|%', time()));
+    ', array(time() - 2 * ini_get('max_execution_time'), '%|' . (int) rex::isBackend() . '|%', time()));
     if ($sql->getRows() != 0)
     {
       ignore_user_abort(true);
@@ -162,7 +162,7 @@ class rex_cronjob_manager_sql
       FROM      ' . REX_CRONJOB_TABLE . '
       WHERE     id = ? AND environment LIKE ?
       LIMIT     1
-    ', array($id, '%|' . (int)rex::isBackend() . '|%'));
+    ', array($id, '%|' . (int) rex::isBackend() . '|%'));
     if ($sql->getRows() != 1)
     {
       $this->getManager()->setMessage('Cronjob not found in database');

@@ -9,7 +9,7 @@ abstract class rex_error_handler
    */
   static public function register()
   {
-    if(self::$registered)
+    if (self::$registered)
       return;
 
     self::$registered = true;
@@ -24,7 +24,7 @@ abstract class rex_error_handler
    */
   static public function unregister()
   {
-    if(!self::$registered)
+    if (!self::$registered)
       return;
 
     self::$registered = false;
@@ -48,13 +48,13 @@ abstract class rex_error_handler
       ob_end_clean();
     }
 
-    if(($user = rex_backend_login::createUser()) && $user->isAdmin())
+    if (($user = rex_backend_login::createUser()) && $user->isAdmin())
     {
       // TODO add a beautiful error page with usefull debugging info
       $buf = '';
       $buf .= '<pre>';
-      $buf .= 'Exception thrown in '. $exception->getFile() .' on line '. $exception->getLine()."\n\n";
-      $buf .= '<b>'. get_class($exception) . ': ' . $exception->getMessage()."</b>\n\n";
+      $buf .= 'Exception thrown in ' . $exception->getFile() . ' on line ' . $exception->getLine() . "\n\n";
+      $buf .= '<b>' . get_class($exception) . ': ' . $exception->getMessage() . "</b>\n\n";
       $buf .= $exception->getTraceAsString();
       $buf .= '</pre>';
     }
@@ -87,7 +87,7 @@ abstract class rex_error_handler
     {
       if (ini_get('display_errors') && (error_reporting() & $errno) == $errno)
       {
-        echo '<b>'. self::getErrorType($errno) ."</b>: $errstr in <b>$errfile</b> on line <b>$errline</b><br />";
+        echo '<b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b><br />";
       }
       if (error_reporting() == 0)
       {

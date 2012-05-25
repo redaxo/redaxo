@@ -468,7 +468,7 @@ abstract class rex_metainfo_handler
     if (isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute']))
     {
       if (isset($postValue['active']))
-        $saveValue = mktime((int)$postValue['hour'], (int)$postValue['minute'], 0, (int)$postValue['month'], (int)$postValue['day'], (int)$postValue['year']);
+        $saveValue = mktime((int) $postValue['hour'], (int) $postValue['minute'], 0, (int) $postValue['month'], (int) $postValue['day'], (int) $postValue['year']);
       else
         $saveValue = 0;
     }
@@ -476,7 +476,7 @@ abstract class rex_metainfo_handler
     elseif (isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']))
     {
       if (isset($postValue['active']))
-        $saveValue = mktime(0, 0, 0, (int)$postValue['month'], (int)$postValue['day'], (int)$postValue['year']);
+        $saveValue = mktime(0, 0, 0, (int) $postValue['month'], (int) $postValue['day'], (int) $postValue['year']);
       else
         $saveValue = 0;
     }
@@ -484,7 +484,7 @@ abstract class rex_metainfo_handler
     elseif (isset($postValue['hour']) && isset($postValue['minute']))
     {
       if (isset($postValue['active']))
-        $saveValue = mktime((int)$postValue['hour'], (int)$postValue['minute'], 0, 0, 0, 0);
+        $saveValue = mktime((int) $postValue['hour'], (int) $postValue['minute'], 0, 0, 0, 0);
       else
         $saveValue = 0;
     }

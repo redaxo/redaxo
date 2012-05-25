@@ -5,7 +5,7 @@
  * @package redaxo5
  */
 
-if(rex::isSetup())
+if (rex::isSetup())
 {
   rex_response::sendRedirect('redaxo/');
 }
@@ -29,7 +29,7 @@ ob_end_clean();
 // trigger api functions
 rex_api_function::handleCall();
 
-if(rex_extension::isRegistered('FE_OUTPUT'))
+if (rex_extension::isRegistered('FE_OUTPUT'))
 {
   // ----- EXTENSION POINT
   rex_extension::registerPoint('FE_OUTPUT', $CONTENT);
