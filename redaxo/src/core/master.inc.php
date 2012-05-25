@@ -20,11 +20,12 @@ require_once rex_path::core('lib/autoload.php');
 // register core-classes  as php-handlers
 rex_autoload::register();
 // add core base-classpath to autoloader
-rex_autoload::addDirectory(rex_path::core('lib/'));
+rex_autoload::addDirectory(rex_path::core('lib'));
+rex_autoload::addDirectory(rex_path::core('vendor'));
 // start timer at the very beginning
 rex::setProperty('timer', new rex_timer);
-// register rex_logger
-rex_logger::register();
+// register rex_error_handler
+rex_error_handler::register();
 // add backend flag to rex
 rex::setProperty('redaxo', $REX['REDAXO']);
 // reset $REX

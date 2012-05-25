@@ -18,50 +18,21 @@ class rex_response
 
   static public function setStatus($httpStatus)
   {
-    if (strpos($httpStatus, "\n") !== false)
-    {
-      throw new rex_exception('Illegal http-status "' . $httpStatus . '", contains newlines');
+    if(strpos($httpStatus, "\n") !== false){
+      throw new rex_exception('Illegal http-status "'. $httpStatus .'", contains newlines');
     }
 
     self::$httpStatus = $httpStatus;
   }
 
-  static public function handleException(Exception $exc)
-  {
-    if (self::$httpStatus == self::HTTP_OK)
-    {
-      self::setStatus(self::HTTP_INTERNAL_ERROR);
-    }
-
-    if (($user = rex_backend_login::createUser()) && $user->isAdmin())
-    {
-      // TODO add a beautiful error page with usefull debugging info
-      $buf = '';
-      $buf .= '<pre>';
-      $buf .= 'Exception thrown in ' . $exc->getFile() . ' on line ' . $exc->getLine() . "\n\n";
-      $buf .= '<b>' . $exc->getMessage() . "</b>\n";
-      $buf .= $exc->getTraceAsString();
-      $buf .= '</pre>';
-
-      self::send($buf);
-    }
-    else
-    {
-      // TODO small error page, without debug infos
-      self::send('Oooops, an internal error occured!');
-      exit();
-    }
-  }
-
   static public function sendRedirect($url)
   {
-    if (strpos($url, "\n") !== false)
-    {
-      throw new rex_exception('Illegal redirect url "' . $url . '", contains newlines');
+    if(strpos($url, "\n") !== false){
+      throw new rex_exception('Illegal redirect url "'. $url .'", contains newlines');
     }
 
-    header('HTTP/1.1 ' . self::$httpStatus);
-    header('Location: ' . $url);
+    header('HTTP/1.1 '. self::$httpStatus);
+    header('Location: '. $url);
     exit();
   }
 
@@ -79,8 +50,8 @@ class rex_response
     $temp = rex::getProperty('use_last_modified');
     rex::setProperty('use_last_modified', true);
 
-    header('Content-Type: ' . $contentType);
-    header('Content-Disposition: inline; filename="' . basename($file) . '"');
+    header('Content-Type: '. $contentType);
+    header('Content-Disposition: inline; filename="'.basename($file).'"');
 
     $content = rex_file::get($file);
     $cacheKey = md5($content . $file . $contentType . $environment);
@@ -104,15 +75,15 @@ class rex_response
    * @param $lastModified integer HTTP Last-Modified Timestamp
    * @param $etag string Cachekey zur identifizierung des Caches
    */
-  static public function sendResource($content, $sendcharset = true, $lastModified = null, $etag = null)
+  static public function sendResource($content, $sendcharset = TRUE, $lastModified = null, $etag = null)
   {
     $environment = rex::isBackend() ? 'backend' : 'frontend';
 
-    if (!$etag)
+    if(!$etag)
     {
       $etag = md5($content);
     }
-    if (!$lastModified)
+    if(!$lastModified)
     {
       $lastModified = time();
     }
@@ -130,15 +101,15 @@ class rex_response
   static public function sendArticle($content, $lastModified = null, $etagAdd = '')
   {
     $environment = rex::isBackend() ? 'backend' : 'frontend';
-    $sendcharset = true;
+    $sendcharset = TRUE;
 
     // ----- EXTENSION POINT
-    $content = rex_extension::registerPoint( 'OUTPUT_FILTER', $content, array('environment' => $environment, 'sendcharset' => $sendcharset));
+    $content = rex_extension::registerPoint( 'OUTPUT_FILTER', $content, array('environment' => $environment,'sendcharset' => $sendcharset));
 
     // dynamische teile sollen die md5 summe nicht beeinflussen
     $etag = self::md5($content . $etagAdd);
 
-    if ($lastModified === null)
+    if($lastModified === null)
     {
       $lastModified = time();
     }
@@ -165,46 +136,46 @@ class rex_response
    * (frontend/backend)
    * @param $sendcharset boolean TRUE, wenn der Charset mitgeschickt werden soll, sonst FALSE
    */
-  static public function sendContent($content, $lastModified, $etag, $environment, $sendcharset = false)
+  static public function sendContent($content, $lastModified, $etag, $environment, $sendcharset = FALSE)
   {
-    if ($sendcharset)
+    if($sendcharset)
     {
       header('Content-Type: text/html; charset=utf-8');
     }
 
-    if (self::$httpStatus == self::HTTP_OK)
+    if(self::$httpStatus == self::HTTP_OK)
     {
       // ----- Last-Modified
-      if (rex::getProperty('use_last_modified') === 'true' || rex::getProperty('use_last_modified') == $environment)
+      if(rex::getProperty('use_last_modified') === 'true' || rex::getProperty('use_last_modified') == $environment)
         self::sendLastModified($lastModified);
 
       // ----- ETAG
-      if (rex::getProperty('use_etag') === 'true' || rex::getProperty('use_etag') == $environment)
+      if(rex::getProperty('use_etag') === 'true' || rex::getProperty('use_etag') == $environment)
         self::sendEtag($etag);
 
       // ----- GZIP
-      if (rex::getProperty('use_gzip') === 'true' || rex::getProperty('use_gzip') == $environment)
+      if(rex::getProperty('use_gzip') === 'true' || rex::getProperty('use_gzip') == $environment)
         $content = self::sendGzip($content);
 
       // ----- MD5 Checksum
       // dynamische teile sollen die md5 summe nicht beeinflussen
-      if (rex::getProperty('use_md5') === 'true' || rex::getProperty('use_md5') == $environment)
+      if(rex::getProperty('use_md5') === 'true' || rex::getProperty('use_md5') == $environment)
         self::sendChecksum(self::md5($content));
     }
 
     self::send($content);
   }
 
-  static protected function send($content)
+  static public function send($content)
   {
     // Cachen erlauben, nach revalidierung
     // see http://xhtmlforum.de/35221-php-session-etag-header.html#post257967
     session_cache_limiter('none');
-    header('HTTP/1.1 ' . self::$httpStatus);
+    header('HTTP/1.1 '. self::$httpStatus);
     header('Cache-Control: must-revalidate, proxy-revalidate, private');
 
     // content length schicken, damit der browser einen ladebalken anzeigen kann
-    header('Content-Length: ' . rex_string::size($content));
+    header('Content-Length: '. rex_string::size($content));
 
     echo $content;
   }
@@ -218,7 +189,7 @@ class rex_response
    */
   static protected function sendLastModified($lastModified = null)
   {
-    if (!$lastModified)
+    if(!$lastModified)
       $lastModified = time();
 
     $lastModified = date('r', (float) $lastModified);
@@ -228,10 +199,10 @@ class rex_response
 
     // Last-Modified Timestamp gefunden
     // => den Browser anweisen, den Cache zu verwenden
-    if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $lastModified)
+    if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $lastModified)
     {
-      if (ob_get_length() > 0)
-        while (@ob_end_clean());
+      if(ob_get_length() > 0)
+        while(@ob_end_clean());
 
       header('HTTP/1.1 304 Not Modified');
       exit();
@@ -249,17 +220,17 @@ class rex_response
   static protected function sendEtag($cacheKey)
   {
     // Laut HTTP Spec muss der Etag in " sein
-    $cacheKey = '"' . $cacheKey . '"';
+    $cacheKey = '"'. $cacheKey .'"';
 
     // Sende CacheKey als ETag
-    header('ETag: ' . $cacheKey);
+    header('ETag: '. $cacheKey);
 
     // CacheKey gefunden
     // => den Browser anweisen, den Cache zu verwenden
-    if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] == $cacheKey)
+    if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] == $cacheKey)
     {
-      if (ob_get_length() > 0)
-        while (@ob_end_clean());
+      if(ob_get_length() > 0)
+        while(@ob_end_clean());
 
       header('HTTP/1.1 304 Not Modified');
       exit();
@@ -284,8 +255,7 @@ class rex_response
     if (isset($_SERVER['HTTP_ACCEPT_ENCODING']))
     {
       $encodings = explode(',', strtolower(preg_replace('/\s+/', '', $_SERVER['HTTP_ACCEPT_ENCODING'])));
-    }
-    else
+    }else
     {
       $encodings = array();
     }
@@ -296,9 +266,9 @@ class rex_response
       $supportsGzip = true;
     }
 
-    if ($supportsGzip)
+    if($supportsGzip)
     {
-      header('Content-Encoding: ' . $enc);
+      header('Content-Encoding: '. $enc);
       $content = gzencode($content, 9, FORCE_GZIP);
     }
 
@@ -315,7 +285,7 @@ class rex_response
    */
   static protected function sendChecksum($md5)
   {
-    header('Content-MD5: ' . $md5);
+    header('Content-MD5: '. $md5);
   }
 
   static private function md5($content)
