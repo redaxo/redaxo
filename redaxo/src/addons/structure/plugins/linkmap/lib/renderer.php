@@ -1,6 +1,6 @@
 <?php
 
-abstract class rex_linkmap_treeRenderer
+abstract class rex_linkmap_tree_renderer
 {
   public function getTree($category_id) {
     $tree = array();
@@ -115,7 +115,7 @@ abstract class rex_linkmap_treeRenderer
 }
 
 
-abstract class rex_linkmap_articleListRenderer {
+abstract class rex_linkmap_article_list_renderer {
   public function getList($category_id)
   {
     $isRoot = $category_id === 0;

@@ -41,9 +41,9 @@ function rex_metainfo_cleanup($params)
   for ($i = 0; $i < $sql->getRows(); $i++)
   {
     if (substr($sql->getValue('name'), 0, 4) == 'med_')
-      $tableManager = new rex_metainfo_tableManager(rex::getTablePrefix() . 'media');
+      $tableManager = new rex_metainfo_table_manager(rex::getTablePrefix() . 'media');
     else
-      $tableManager = new rex_metainfo_tableManager(rex::getTablePrefix() . 'article');
+      $tableManager = new rex_metainfo_table_manager(rex::getTablePrefix() . 'article');
 
     $tableManager->deleteColumn($sql->getValue('name'));
 
@@ -56,7 +56,7 @@ function rex_metainfo_cleanup($params)
   foreach($tablePrefixes as $table => $prefixes)
   {
     $table = rex::getTablePrefix() .$table;
-    $tableManager = new rex_metainfo_tableManager($table);
+    $tableManager = new rex_metainfo_table_manager($table);
 
     foreach(rex_sql::showColumns($table) as $column)
     {

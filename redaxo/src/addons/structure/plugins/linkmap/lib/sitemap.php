@@ -1,6 +1,6 @@
 <?php
 
-class rex_sitemap_categoryTree extends rex_linkmap_treeRenderer {
+class rex_sitemap_category_tree extends rex_linkmap_tree_renderer {
   private $context;
 
   public function __construct(rex_context $context) {

@@ -8,7 +8,7 @@
  * @package redaxo5
  */
 
-class rex_metainfo_tableExpander extends rex_form
+class rex_metainfo_table_expander extends rex_form
 {
   private
     $metaPrefix,
@@ -17,7 +17,7 @@ class rex_metainfo_tableExpander extends rex_form
   public function __construct($metaPrefix, $metaTable, $tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     $this->metaPrefix = $metaPrefix;
-    $this->tableManager = new rex_metainfo_tableManager($metaTable);
+    $this->tableManager = new rex_metainfo_table_manager($metaTable);
 
     parent::__construct($tableName, $fieldset, $whereCondition, $method, $debug);
   }

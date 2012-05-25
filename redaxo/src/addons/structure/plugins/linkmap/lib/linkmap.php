@@ -1,6 +1,6 @@
 <?php
 
-class rex_linkmap_categoryTree extends rex_linkmap_treeRenderer {
+class rex_linkmap_category_tree extends rex_linkmap_tree_renderer {
   private $context;
 
   public function __construct(rex_context $context) {
@@ -27,7 +27,7 @@ class rex_linkmap_categoryTree extends rex_linkmap_treeRenderer {
   }
 }
 
-class rex_linkmap_articleList extends rex_linkmap_articleListRenderer {
+class rex_linkmap_article_list extends rex_linkmap_article_list_renderer {
   private $context;
 
   public function __construct(rex_context $context) {
@@ -38,6 +38,6 @@ class rex_linkmap_articleList extends rex_linkmap_articleListRenderer {
   {
     $liClass = $article->isStartpage() ? ' class="rex-linkmap-startpage"' : '';
     $url     = 'javascript:insertLink(\'redaxo://'.$article->getId().'\',\''.addslashes(htmlspecialchars($article->getName())).'\');';
-    return rex_linkmap_treeRenderer::formatLi($article, $category_id, $this->context, $liClass, ' href="'. $url .'"'). '</li>'. "\n";
+    return rex_linkmap_tree_renderer::formatLi($article, $category_id, $this->context, $liClass, ' href="'. $url .'"'). '</li>'. "\n";
   }
 }
