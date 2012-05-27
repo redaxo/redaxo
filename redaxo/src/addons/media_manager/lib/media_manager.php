@@ -232,13 +232,13 @@ class rex_media_manager
   static function getSupportedEffects()
   {
     $dirs = array(
-      dirname(__FILE__). '/../lib/effects/'
+      __DIR__ . '/effects/'
     );
 
     $effects = array();
     foreach($dirs as $dir)
     {
-      $files = glob($dir . 'class.rex_effect_*.inc.php');
+      $files = glob($dir . 'effect_*.php');
       if($files)
       {
         foreach($files as $file)
@@ -253,7 +253,7 @@ class rex_media_manager
   static function getEffectName($effectFile)
   {
     return str_replace(
-    array('class.rex_effect_', '.inc.php'),
+      array('effect_', '.php'),
       '',
       basename($effectFile)
     );
@@ -261,8 +261,8 @@ class rex_media_manager
 
   static function getEffectClass($effectFile)
   {
-    return str_replace(
-    array('class.', '.inc.php'),
+    return 'rex_' . str_replace(
+      '.php',
       '',
       basename($effectFile)
     );
