@@ -9,12 +9,12 @@ class rex_clang_service
    * @param $code Clang Code
    * @param $name Name der Clang
    *
-   * @return TRUE bei Erfolg, sonst FALSE
+   * @throws rex_exception
    */
   static public function addCLang($id, $code, $name)
   {
     if(rex_clang::exists($id))
-      return FALSE;
+      throw new rex_exception('clang with id "' . $id . '" already exists');
 
     $newLang = rex_sql::factory();
     $newLang->setTable(rex::getTablePrefix()."clang");
@@ -32,8 +32,6 @@ class rex_clang_service
       'name'  => $clang->getName(),
       'clang' => $clang
     ));
-
-    return TRUE;
   }
 
   /**
@@ -43,12 +41,12 @@ class rex_clang_service
    * @param $code Clang Code
    * @param $name Name der Clang
    *
-   * @return TRUE bei Erfolg, sonst FALSE
+   * @throws rex_exception
    */
   static public function editCLang($id, $code, $name)
   {
     if(!rex_clang::exists($id))
-      return false;
+      throw new rex_exception('clang with id "' . $id . '" does not exist');
 
     $editLang = rex_sql::factory();
     $editLang->setTable(rex::getTablePrefix()."clang");
@@ -75,12 +73,15 @@ class rex_clang_service
    *
    * @param $id Zu löschende ClangId
    *
-   * @return TRUE bei Erfolg, sonst FALSE
+   * @throws rex_exception
    */
   static public function deleteCLang($id)
   {
-    if ($id == 0 || !rex_clang::exists($id))
-      return FALSE;
+    if ($id == 0)
+      throw new rex_exception('clang with id "0" can not be deleted');
+
+    if (!rex_clang::exists($id))
+      throw new rex_exception('clang with id "' . $id . '" does not exist');
 
     $clang = rex_clang::get($id);
 
@@ -95,14 +96,12 @@ class rex_clang_service
       'name'  => $clang->getName(),
       'clang' => $clang
     ));
-
-    return TRUE;
   }
 
   /**
    * Schreibt Spracheigenschaften in die Datei include/clang.inc.php
    *
-   * @return TRUE bei Erfolg, sonst eine Fehlermeldung
+   * @throws rex_exception
    */
   static public function generateCache()
   {
@@ -122,8 +121,7 @@ class rex_clang_service
     $file = rex_path::cache('clang.cache');
     if(rex_file::putCache($file, $clangs) === FALSE)
     {
-      return 'Datei "'.$file.'" hat keine Schreibrechte';
+      throw new rex_exception('Clang cache file could not be generated');
     }
-    return TRUE;
   }
 }
