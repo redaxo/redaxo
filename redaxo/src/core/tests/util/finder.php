@@ -102,7 +102,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $finder = rex_finder::factory($this->getPath())->recursive()->filterDirs('dir3');
     $array = iterator_to_array($finder, true);
 
-    $this->assertEquals(7, count($finder), 'recursive iterator returns all elements of all levels filtered by filepattern, leave folders untouched');
+    $this->assertEquals(7, count($finder), 'recursive iterator returns all elements of all levels filtered by dirpattern');
 
     $this->assertContainsPath($array, 'file1.txt');
     $this->assertContainsPath($array, 'file2.txt');
@@ -118,7 +118,24 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $finder = rex_finder::factory($this->getPath())->recursive()->ignoreDirs('dir3');
     $array = iterator_to_array($finder, true);
 
-    $this->assertEquals(8, count($finder), 'recursive iterator returns all elements of all levels but ignores a filepattern, leave folders untouched');
+    $this->assertEquals(8, count($finder), 'recursive iterator returns all elements of all levels but ignores a dirpattern');
+
+    $this->assertContainsPath($array, 'file1.txt');
+    $this->assertContainsPath($array, 'file2.txt');
+    $this->assertContainsPath($array, 'dir1');
+    $this->assertContainsPath($array, 'dir1/dir');
+    $this->assertContainsPath($array, 'dir1/file3.txt');
+    $this->assertContainsPath($array, 'dir2');
+    $this->assertContainsPath($array, 'dir2/file4.yml');
+    $this->assertContainsPath($array, 'dir2/dir3/file5.xxx');
+
+  }
+  public function testFilterFilesIgnoreDirs()
+  {
+    $finder = rex_finder::factory($this->getPath())->recursive()->ignoreFiles('xxx')->ignoreDirs('*3');
+    $array = iterator_to_array($finder, true);
+
+    $this->assertEquals(8, count($finder), 'recursive iterator returns all elements of all levels but ignores a filepattern and dirs');
 
     $this->assertContainsPath($array, 'file1.txt');
     $this->assertContainsPath($array, 'file2.txt');
