@@ -107,7 +107,7 @@ abstract class rex_api_function extends rex_factory_base
     {
       if($apiFunc->published !== true)
       {
-        if(true || rex::isBackend() !== true)
+        if(rex::isBackend() !== true)
         {
           throw new rex_http_exception(
               new rex_api_exception('the api function '. get_class($apiFunc) .' is not published, therefore can only be called from the backend!'),
