@@ -50,7 +50,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $finder = rex_finder::factory($this->getPath())->recursive();
     $array = iterator_to_array($finder, true);
 
-    $this->assertEquals(10, count($finder), 'recursive iterator returns all elements of all levels');
+    $this->assertEquals(10, count($finder), 'finder returns all elements of all levels');
 
     $this->assertContainsPath($array, 'file1.txt');
     $this->assertContainsPath($array, 'file2.txt');
@@ -69,7 +69,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $finder = rex_finder::factory($this->getPath())->recursive()->filterFiles('*.txt');
     $array = iterator_to_array($finder, true);
 
-    $this->assertEquals(8, count($finder), 'recursive iterator returns all elements of all levels filtered by filepattern, leave folders untouched');
+    $this->assertEquals(8, count($finder), 'finder returns all elements of all levels filtered by filepattern, leave folders untouched');
 
     $this->assertContainsPath($array, 'file1.txt');
     $this->assertContainsPath($array, 'file2.txt');
@@ -86,7 +86,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $finder = rex_finder::factory($this->getPath())->recursive()->ignoreFiles('*.txt');
     $array = iterator_to_array($finder, true);
 
-    $this->assertEquals(7, count($finder), 'recursive iterator returns all elements of all levels but ignores a filepattern, leave folders untouched');
+    $this->assertEquals(7, count($finder), 'finder returns all elements of all levels but ignores a filepattern, leave folders untouched');
 
     $this->assertContainsPath($array, 'dir1');
     $this->assertContainsPath($array, 'dir1/dir');
@@ -102,7 +102,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $finder = rex_finder::factory($this->getPath())->recursive()->filterDirs('dir3');
     $array = iterator_to_array($finder, true);
 
-    $this->assertEquals(7, count($finder), 'recursive iterator returns all elements of all levels filtered by dirpattern');
+    $this->assertEquals(7, count($finder), 'finder returns all elements of all levels filtered by dirpattern');
 
     $this->assertContainsPath($array, 'file1.txt');
     $this->assertContainsPath($array, 'file2.txt');
@@ -118,7 +118,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $finder = rex_finder::factory($this->getPath())->recursive()->ignoreDirs('dir3');
     $array = iterator_to_array($finder, true);
 
-    $this->assertEquals(8, count($finder), 'recursive iterator returns all elements of all levels but ignores a dirpattern');
+    $this->assertEquals(8, count($finder), 'finder returns all elements of all levels but ignores a dirpattern');
 
     $this->assertContainsPath($array, 'file1.txt');
     $this->assertContainsPath($array, 'file2.txt');
@@ -135,7 +135,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $finder = rex_finder::factory($this->getPath())->recursive()->ignoreFiles('xxx')->ignoreDirs('*3');
     $array = iterator_to_array($finder, true);
 
-    $this->assertEquals(8, count($finder), 'recursive iterator returns all elements of all levels but ignores a filepattern and dirs');
+    $this->assertEquals(8, count($finder), 'finder returns all elements of all levels but ignores a filepattern and dirs');
 
     $this->assertContainsPath($array, 'file1.txt');
     $this->assertContainsPath($array, 'file2.txt');
@@ -146,5 +146,25 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $this->assertContainsPath($array, 'dir2/file4.yml');
     $this->assertContainsPath($array, 'dir2/dir3/file5.xxx');
   }
-}
 
+  public function testSort()
+  {
+    $finder = rex_finder::factory($this->getPath())->recursive()->sort(rex_finder_sorter::SORT_BY_TYPE);
+    $array = iterator_to_array($finder, true);
+
+    $this->assertEquals(10, count($finder), 'finder returns elements ordered by type');
+
+    $i = 0;
+    foreach($array as $splInfo) {
+      if ($i < 5) {
+        $this->assertTrue($splInfo->isDir());
+      }
+      else
+      {
+        $this->assertTrue($splInfo->isFile());
+      }
+
+      $i++;
+    }
+  }
+}

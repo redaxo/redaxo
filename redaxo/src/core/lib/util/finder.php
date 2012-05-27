@@ -7,6 +7,8 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
   private $recursive;
   private $recursiveMode;
 
+  private $sort;
+
   private $filterFiles = array();
   private $filterDirs = array();
 
@@ -21,6 +23,8 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
 
     $this->recursive = false;
     $this->recursiveMode = RecursiveIteratorIterator::SELF_FIRST;
+
+    $this->sort = false;
   }
 
   /**
@@ -134,6 +138,17 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
     return $this;
   }
 
+  /**
+   * sort the result
+   *
+   * @param integer|callback $sort     The sort type (rex_finder_sorter::SORT_BY_NAME, rex_finder_sorter::SORT_BY_TYPE, ... or a PHP callback)
+   */
+  public function sort($sort) {
+    $this->sort = $sort;
+
+    return $this;
+  }
+
   public function getIterator()
   {
     $iterator = new RecursiveDirectoryIterator( $this->baseDir, FilesystemIterator::CURRENT_AS_FILEINFO & FilesystemIterator::SKIP_DOTS);
@@ -141,12 +156,18 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
     {
       $iterator = new RecursiveIteratorIterator($iterator, $this->recursiveMode);
     }
+
     $iterator = new rex_finder_filter( $iterator );
     $iterator->filterDirs = $this->filterDirs;
     $iterator->filterFiles = $this->filterFiles;
     $iterator->ignoreDirs = $this->ignoreDirs;
     $iterator->ignoreFiles = $this->ignoreFiles;
     $iterator->ignoreSystemStuff = $this->ignoreSystemStuff;
+
+    if($this->sort)
+    {
+      $iterator = new rex_finder_sorter($iterator, $this->sort);
+    }
 
     return $iterator;
   }
@@ -215,5 +236,68 @@ class rex_finder_filter extends FilterIterator
 
     // in case ignores are present, everything despite the ignores is accepted, otherwise declined.
     return $matched;
+  }
+}
+
+// private utility class, taken from the symfony project
+class rex_finder_sorter implements IteratorAggregate {
+  const SORT_BY_NAME = 1;
+  const SORT_BY_TYPE = 2;
+  const SORT_BY_ACCESSED_TIME = 3;
+  const SORT_BY_CHANGED_TIME = 4;
+  const SORT_BY_MODIFIED_TIME = 5;
+
+  private $iterator;
+  private $sort;
+
+  /**
+   * Constructor.
+   *
+   * @param Traversable     $iterator The Iterator to filter
+   * @param integer|callback $sort     The sort type (SORT_BY_NAME, SORT_BY_TYPE, or a PHP callback)
+   */
+  public function __construct(Traversable $iterator, $sort)
+  {
+    $this->iterator = $iterator;
+
+    if (self::SORT_BY_NAME === $sort) {
+      $this->sort = function ($a, $b) {
+        return strcmp($a->getRealpath(), $b->getRealpath());
+      };
+    } elseif (self::SORT_BY_TYPE === $sort) {
+      $this->sort = function ($a, $b) {
+        if ($a->isDir() && $b->isFile()) {
+          return -1;
+        } elseif ($a->isFile() && $b->isDir()) {
+          return 1;
+        }
+
+        return strcmp($a->getRealpath(), $b->getRealpath());
+      };
+    } elseif (self::SORT_BY_ACCESSED_TIME === $sort) {
+      $this->sort = function ($a, $b) {
+        return ($a->getATime() > $b->getATime());
+      };
+    } elseif (self::SORT_BY_CHANGED_TIME === $sort) {
+      $this->sort = function ($a, $b) {
+        return ($a->getCTime() > $b->getCTime());
+      };
+    } elseif (self::SORT_BY_MODIFIED_TIME === $sort) {
+      $this->sort = function ($a, $b) {
+        return ($a->getMTime() > $b->getMTime());
+      };
+    } elseif (is_callable($sort)) {
+      $this->sort = $sort;
+    } else {
+      throw new rex_exception('The SortableIterator takes a PHP callback or a valid built-in sort algorithm as an argument.');
+    }
+  }
+
+  public function getIterator()
+  {
+    $array = iterator_to_array($this->iterator, true);
+    uasort($array, $this->sort);
+
+    return new \ArrayIterator($array);
   }
 }
