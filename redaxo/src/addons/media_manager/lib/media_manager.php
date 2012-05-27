@@ -13,7 +13,7 @@ class rex_media_manager
     $this->useCache(TRUE);
   }
 
-  function applyEffects($type)
+  protected function applyEffects($type)
   {
     $this->type = $type;
 
@@ -95,7 +95,7 @@ class rex_media_manager
 
   }
 
-  function useCache($t = TRUE)
+  protected function useCache($t = TRUE)
   {
     $this->use_cache = $t;
   }
@@ -229,7 +229,7 @@ class rex_media_manager
     return $effectNames;
   }
 
-  static function getSupportedEffects()
+  static public function getSupportedEffects()
   {
     $dirs = array(
       __DIR__ . '/effects/'
@@ -250,7 +250,7 @@ class rex_media_manager
     return $effects;
   }
 
-  static function getEffectName($effectFile)
+  static private function getEffectName($effectFile)
   {
     return str_replace(
       array('effect_', '.php'),
@@ -259,7 +259,7 @@ class rex_media_manager
     );
   }
 
-  static function getEffectClass($effectFile)
+  static private function getEffectClass($effectFile)
   {
     return 'rex_' . str_replace(
       '.php',
@@ -271,11 +271,11 @@ class rex_media_manager
   /*
    * For ExtensionPoints.
    */
-  static function mediaUpdated($params){
+  static public function mediaUpdated($params){
     self::deleteCache($params["filename"]);
   }
 
-  static function init()
+  static public function init()
   {
     //--- handle image request
     $rex_media_manager_file = self::getMediaFile();
@@ -297,14 +297,14 @@ class rex_media_manager
     }
   }
 
-  static function getMediaFile()
+  static public function getMediaFile()
   {
     $rex_media_file = rex_get('rex_media_file', 'string');
     $rex_media_file = basename($rex_media_file);
     return $rex_media_file;
   }
 
-  static function getMediaType()
+  static public function getMediaType()
   {
     return rex_get('rex_media_type', 'string');
   }
