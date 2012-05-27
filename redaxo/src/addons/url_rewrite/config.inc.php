@@ -6,7 +6,7 @@
  * @package redaxo5.2
  */
 
-$rewriter = new rex_urlRewriter_fullnames();
+$rewriter = new rex_url_rewriter_fullnames();
 $rewriter->prepare();
 
 rex_extension::register('URL_REWRITE', array ($rewriter, 'rewrite'));

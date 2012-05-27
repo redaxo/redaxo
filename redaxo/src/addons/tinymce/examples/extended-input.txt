@@ -32,9 +32,9 @@ EOD;
   // Standardkonfiguration  e r w e i t e r t  werden
   // Hier als Beispiel erweitert um die Plugins syntaxhighlighter, table, template
 $mytinyconfig =<<<EOD
-	plugins : 'advhr,advimage,advlink,contextmenu,emotions,fullscreen,inlinepopups,media,paste,preview,redaxo,safari,visualchars,table,template',
-	skin : 'o2k7',
-	skin_variant : 'silver'
+  plugins : 'advhr,advimage,advlink,contextmenu,emotions,fullscreen,inlinepopups,media,paste,preview,redaxo,safari,visualchars,table,template',
+  skin : 'o2k7',
+  skin_variant : 'silver'
 EOD;
 
   // eigene Konfiguration uebernehmen

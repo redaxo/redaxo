@@ -23,7 +23,7 @@ if($addonkey && isset($addons[$addonkey]))
 
   $content .= '
     <h2>'. $addonkey .'</h2>
-    
+
     <h3>'. $this->i18n('information') .'</h3>
     <table class="rex-table">
       <tbody>
@@ -45,7 +45,7 @@ if($addonkey && isset($addons[$addonkey]))
       </tr>
       </tbody>
     </table>
-    
+
     <h3>'. $this->i18n('files') .'</h3>
     <table class="rex-table">
       <thead>

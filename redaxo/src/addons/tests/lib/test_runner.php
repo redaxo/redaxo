@@ -11,7 +11,7 @@ class rex_test_runner
     require_once('PHPUnit/Autoload.php');
   }
 
-  public function run(rex_test_locator $locator)
+  public function run(rex_test_locator $locator, array $arguments = array())
   {
     $suite  = new PHPUnit_Framework_TestSuite();
     // disable backup of globals, since we have some rex_sql objectes referenced from variables in global space.
@@ -19,11 +19,11 @@ class rex_test_runner
     $suite->setBackupGlobals(false);
     $suite->addTestFiles($locator->getIterator());
 
-    rex_logger::unregister();
+    rex_error_handler::unregister();
 
     ob_start();
     $runner = new PHPUnit_TextUI_TestRunner;
-    $runner->doRun($suite); $line = __LINE__;
+    $runner->doRun($suite, $arguments); $line = __LINE__;
     $result = ob_get_clean();
 
     $search = __FILE__ .':'. $line . "\n";
@@ -33,7 +33,7 @@ class rex_test_runner
     }
     $result = str_replace(array($search, rex_path::base()), '', $result);
 
-    rex_logger::register();
+    rex_error_handler::register();
 
     return $result;
   }

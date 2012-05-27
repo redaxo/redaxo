@@ -6,7 +6,7 @@
  * @package redaxo5.2
  */
 
-abstract class rex_urlRewriter
+abstract class rex_url_rewriter
 {
   // Konstruktor
   public function __construct()

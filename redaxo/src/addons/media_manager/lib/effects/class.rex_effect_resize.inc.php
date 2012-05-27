@@ -44,11 +44,11 @@ class rex_effect_resize extends rex_effect_abstract
   {
 
     $this->media->asImage();
-    
+
     $gdimage = $this->media->getImage();
     $w = $this->media->getWidth();
     $h = $this->media->getHeight();
-    
+
     if(!isset($this->params['style']) || !in_array($this->params['style'],$this->options))
     {
       $this->params['style'] = 'maximum';
@@ -105,7 +105,7 @@ class rex_effect_resize extends rex_effect_abstract
     {
       return;
     }
-    
+
     // Transparenz erhalten
     $this->keepTransparent($des);
     imagecopyresampled($des, $gdimage, 0, 0, 0, 0, $this->params['width'], $this->params['height'], $w, $h);
@@ -113,7 +113,7 @@ class rex_effect_resize extends rex_effect_abstract
     $this->media->setImage($des);
     $this->media->refreshImageDimensions();
 
-    
+
   }
 
   private function resizeMax($w, $h)

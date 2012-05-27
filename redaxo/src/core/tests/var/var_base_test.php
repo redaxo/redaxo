@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 abstract class rex_var_base_test extends PHPUnit_Framework_TestCase
 {
@@ -6,7 +6,7 @@ abstract class rex_var_base_test extends PHPUnit_Framework_TestCase
   {
     parent::setUp();
   }
-  
+
   public function tearDown()
   {
     parent::tearDown();

@@ -1,12 +1,12 @@
 <?php
 
-class rex_mediaMetainfoHandler extends rex_metainfoHandler
+class rex_metainfo_media_handler extends rex_metainfo_handler
 {
   const PREFIX = 'med_';
-  
+
   /**
    * Extension to check whether the given media is still in use.
-   * 
+   *
    * @param array $params EP Params
    */
   static public function isMediaInUse(array $params)
@@ -103,11 +103,11 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
 
     return $warning;
   }
-  
+
   protected function buildFilterCondition(array $params)
   {
     $restrictionsCondition = '';
-    
+
     $catId = rex_session('media[rex_file_category]', 'int');
     if(isset($params['activeItem']))
     {
@@ -136,7 +136,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
 
       $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
     }
-    
+
     return $restrictionsCondition;
   }
 
@@ -212,7 +212,7 @@ class rex_mediaMetainfoHandler extends rex_metainfoHandler
   }
 }
 
-$mediaHandler = new rex_mediaMetainfoHandler();
+$mediaHandler = new rex_metainfo_media_handler();
 
 rex_extension::register('MEDIA_FORM_EDIT', array($mediaHandler, 'extendForm'));
 rex_extension::register('MEDIA_FORM_ADD', array($mediaHandler, 'extendForm'));
@@ -220,4 +220,4 @@ rex_extension::register('MEDIA_FORM_ADD', array($mediaHandler, 'extendForm'));
 rex_extension::register('MEDIA_ADDED', array($mediaHandler, 'extendForm'));
 rex_extension::register('MEDIA_UPDATED', array($mediaHandler, 'extendForm'));
 
-rex_extension::register('OOMEDIA_IS_IN_USE', array('rex_mediaMetainfoHandler', 'isMediaInUse'));
+rex_extension::register('OOMEDIA_IS_IN_USE', array('rex_metainfo_media_handler', 'isMediaInUse'));

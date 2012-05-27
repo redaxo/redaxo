@@ -14,7 +14,7 @@
  *     # RewriteBase /
  *     RewriteRule ^([0-9]*)-([0-9]*)- index.php?article_id=$1&clang=$2&%{QUERY_STRING}
  */
-class rex_urlRewriter_mod_rewrite extends rex_urlRewriter
+class rex_url_rewriter_mod_rewrite extends rex_url_rewriter
 {
   // Url neu schreiben
   public function rewrite(array $params)

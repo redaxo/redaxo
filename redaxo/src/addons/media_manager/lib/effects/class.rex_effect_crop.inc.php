@@ -11,9 +11,9 @@ class rex_effect_crop extends rex_effect_abstract
 
   public function execute()
   {
-    
+
     $this->media->asImage();
-    
+
     $gdimage = $this->media->getImage();
     $w = $this->media->getWidth();
     $h = $this->media->getHeight();

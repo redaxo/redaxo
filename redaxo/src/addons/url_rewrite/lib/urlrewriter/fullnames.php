@@ -41,7 +41,7 @@
  * @author <a href="http://www.gn2-netwerk.de/">GN2 Netwerk</a>
  */
 
-class rex_urlRewriter_fullnames extends rex_urlRewriter
+class rex_url_rewriter_fullnames extends rex_url_rewriter
 {
   private
     $PATHLIST,

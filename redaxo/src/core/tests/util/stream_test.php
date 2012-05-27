@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class rex_stream_test extends PHPUnit_Framework_TestCase
 {
@@ -6,12 +6,12 @@ class rex_stream_test extends PHPUnit_Framework_TestCase
   {
     parent::setUp();
   }
-  
+
   public function tearDown()
   {
     parent::tearDown();
-  } 
-  
+  }
+
   public function testStreamInclude()
   {
     $content = 'MY_TEST';
@@ -19,7 +19,7 @@ class rex_stream_test extends PHPUnit_Framework_TestCase
     ob_start();
     require $streamUrl;
     $result = ob_get_clean();
-  
+
     $this->assertEquals($result, $content);
   }
 }

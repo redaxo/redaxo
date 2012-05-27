@@ -233,7 +233,7 @@ if ($subpage == "media")
         else if($image_resize && $rfwidth>199)
           $imgn = rex_path::frontendController('?rex_resize=200a__'. $encoded_fname);
       }
-      
+
       if (!file_exists(rex_path::media($fname, rex_path::ABSOLUTE)))
       {
         $add_image = '

@@ -18,9 +18,9 @@ $jpg_quality = rex_request('jpg_quality', 'int');
 
 if ($func == 'update')
 {
-  if($jpg_quality > 100) 
+  if($jpg_quality > 100)
     $jpg_quality = 100;
-  else if ($jpg_quality < 0) 
+  else if ($jpg_quality < 0)
     $jpg_quality = 0;
 
   rex_config::set('media_manager', 'jpg_quality', $jpg_quality);
@@ -30,9 +30,9 @@ if ($func == 'update')
 
 $content .= '
 <div class="rex-form">
-  
+
   <h2>'. rex_i18n::msg('imanager_subpage_config') .'</h2>
-  
+
   <form action="index.php" method="post">
   <fieldset class="rex-form-col-1">
       <div class="rex-form-wrapper">
@@ -58,4 +58,3 @@ $content .= '
 </div>';
 
 echo rex_view::contentBlock($content);
-

@@ -3,7 +3,7 @@
 /**
  * The rex_pager-class implements all the logic
  * which is necessary to implement some sort of pagination.
- * 
+ *
  * @author staabm
  */
 class rex_pager
@@ -11,10 +11,10 @@ class rex_pager
   private $rowCount;
   private $rowsPerPage;
   private $cursorName;
-  
+
   /**
    * Constructs a rex_pager
-   *  
+   *
    * @param int $rowCount The number of all rows to paginate
    * @param int $rowsPerPage The number of rows which should be displayed on one page
    * @param string $cursorName The name of the parameter used for pagination
@@ -25,7 +25,7 @@ class rex_pager
     $this->rowsPerPage = $rowsPerPage;
     $this->cursorName = $cursorName;
   }
-  
+
   /**
    * Returns the number of rows for pagination
    * @return int The number of rows
@@ -34,7 +34,7 @@ class rex_pager
   {
     return $this->rowCount;
   }
-  
+
   /**
    * Returns the number of pages
    * which result from the given number of rows and the rows per page.
@@ -44,7 +44,7 @@ class rex_pager
   {
     return $this->getLastPage() + 1;
   }
-  
+
   /**
    * Returns the number of rows which will be displayed on a page
    * @return int The rows displayed on a page
@@ -53,13 +53,13 @@ class rex_pager
   {
     return $this->rowsPerPage;
   }
-  
+
   /**
    * Returns the current pagination position.
-   * 
+   *
    * When the parameter pageNo is given, the cursor for the given page is returned.
-   * When no parameter is given, the cursor for active page is returned. 
-   * 
+   * When no parameter is given, the cursor for active page is returned.
+   *
    * @param int $pageNo
    */
   public function getCursor($pageNo = null)
@@ -78,10 +78,10 @@ class rex_pager
       $cursor = 0;
     else if($cursor > $this->rowCount)
       $cursor = (int) ($this->rowCount / $this->rowsPerPage) * $this->rowsPerPage;
-    
+
     return $cursor;
   }
-  
+
   /**
    * Returns the name of the parameter which is used for pagination
    * @return string The name of the cursor
@@ -90,7 +90,7 @@ class rex_pager
   {
     return $this->cursorName;
   }
-  
+
   /**
    * Returns the first page for pagination
    * @return int The first page number
@@ -99,7 +99,7 @@ class rex_pager
   {
     return 0;
   }
-  
+
   /**
    * Returns the previous page in respect to the current page
    * @return int The previous page number
@@ -113,7 +113,7 @@ class rex_pager
     }
     return $prevPage;
   }
-  
+
   /**
    * Returns the number of the current page
    * @return int The current page number
@@ -121,15 +121,15 @@ class rex_pager
   public function getCurrentPage()
   {
     $cursor = rex_request($this->cursorName, 'int', null);
-    
+
     if(is_null($cursor))
     {
       return $this->getFirstPage();
     }
-    
+
     return (int) ($cursor / $this->rowsPerPage);
   }
-  
+
   /**
    * Returns the number of the next page in respect to the current page
    * @return int The next page number
@@ -143,7 +143,7 @@ class rex_pager
     }
     return $nextPage;
   }
-  
+
   /**
    * Return the page number of the last page
    * @return int the last page number
@@ -152,7 +152,7 @@ class rex_pager
   {
     return ceil($this->rowCount / $this->rowsPerPage);
   }
-  
+
   /**
    * Checks wheter the given page number is the active/current page
    * @param boolean True when the given pageNo is the current page, otherwise False

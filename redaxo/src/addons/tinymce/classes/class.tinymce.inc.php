@@ -16,143 +16,143 @@
 class rexTinyMCEEditor
 {
 
-	var $default_buttons1 = 'bold,italic,underline,strikethrough,sub,sup,|,forecolor,backcolor,styleselect,formatselect,|,charmap,cleanup,removeformat,|,preview,code,fullscreen';
-	var $default_buttons2 = 'cut,copy,paste,pastetext,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,link,unlink,redaxoMedia,redaxoEmail,anchor,|,advhr,image,emotions,media';
-	var $default_buttons3 = 'undo,redo,|,tablecontrols,visualaid';
-	var $default_plugins  = 'advhr,advimage,advlink,contextmenu,fullscreen,paste,preview,redaxo,safari,visualchars';
+  var $default_buttons1 = 'bold,italic,underline,strikethrough,sub,sup,|,forecolor,backcolor,styleselect,formatselect,|,charmap,cleanup,removeformat,|,preview,code,fullscreen';
+  var $default_buttons2 = 'cut,copy,paste,pastetext,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,link,unlink,redaxoMedia,redaxoEmail,anchor,|,advhr,image,emotions,media';
+  var $default_buttons3 = 'undo,redo,|,tablecontrols,visualaid';
+  var $default_plugins  = 'advhr,advimage,advlink,contextmenu,fullscreen,paste,preview,redaxo,safari,visualchars';
 
-	var $id = '';
-	var $content;
-	var $buttons1 = false;
-	var $buttons2 = false;
-	var $buttons3 = false;
-	var $buttons4 = '';
-	var $configuration = '';
-	var $width = 555;
-	var $height = 250;
-	var $address = '';
-	var $validxhtml = true;
+  var $id = '';
+  var $content;
+  var $buttons1 = false;
+  var $buttons2 = false;
+  var $buttons3 = false;
+  var $buttons4 = '';
+  var $configuration = '';
+  var $width = 555;
+  var $height = 250;
+  var $address = '';
+  var $validxhtml = true;
 
-	function get()
-	{
-		ob_start();
-		$this->show();
-		$content = ob_get_contents();
-		ob_end_clean();
-		return $content;
-	}
+  function get()
+  {
+    ob_start();
+    $this->show();
+    $content = ob_get_contents();
+    ob_end_clean();
+    return $content;
+  }
 
-	function show()
-	{
-		global $REX;
-		global $rxa_tinymce;
-		$n = "\n";
+  function show()
+  {
+    global $REX;
+    global $rxa_tinymce;
+    $n = "\n";
 
-		if ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on')
-		{
-			echo $n . '<script type="text/javascript">';
-			echo $n . '//<![CDATA[';
-			echo $n . $this->getConfiguration();
-			echo $n . 'tinyMCE.init(tinyMCEInitArray' . $this->id . ');';
-			echo $n . '//]]>';
-			echo $n . '</script>';
-		}
-		echo $n . '<textarea name="VALUE[' . $this->id . ']" id="tinyMCEValue' . $this->id . '" style="width:' . $this->width . 'px;height:' . $this->height . 'px;" cols="50" rows="10">';
-		echo $n . $this->content;
-		echo $n . '</textarea>' . $n;
-	}
+    if ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on')
+    {
+      echo $n . '<script type="text/javascript">';
+      echo $n . '//<![CDATA[';
+      echo $n . $this->getConfiguration();
+      echo $n . 'tinyMCE.init(tinyMCEInitArray' . $this->id . ');';
+      echo $n . '//]]>';
+      echo $n . '</script>';
+    }
+    echo $n . '<textarea name="VALUE[' . $this->id . ']" id="tinyMCEValue' . $this->id . '" style="width:' . $this->width . 'px;height:' . $this->height . 'px;" cols="50" rows="10">';
+    echo $n . $this->content;
+    echo $n . '</textarea>' . $n;
+  }
 
-	function getConfiguration()
-	{
-		global $REX;
-		global $rxa_tinymce;
-		$n = "\n";
+  function getConfiguration()
+  {
+    global $REX;
+    global $rxa_tinymce;
+    $n = "\n";
 
-		// Basis-Adresse
-		if ($this->address == '')
-		{
-			$splitURL = explode('files/', dirname($_SERVER['REQUEST_URI']));
-			$this->address = 'http';
-			if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') // evtl. HTTPS-Verbindung
-			{
-				$this->address .= 's';
-			}
-			$this->address .= '://' . $_SERVER['HTTP_HOST'] . ((substr($splitURL[0], -7) == '/redaxo') ? substr($splitURL[0], 0, strlen($splitURL[0])-6) : $splitURL[0]);
-		}
+    // Basis-Adresse
+    if ($this->address == '')
+    {
+      $splitURL = explode('files/', dirname($_SERVER['REQUEST_URI']));
+      $this->address = 'http';
+      if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on') // evtl. HTTPS-Verbindung
+      {
+        $this->address .= 's';
+      }
+      $this->address .= '://' . $_SERVER['HTTP_HOST'] . ((substr($splitURL[0], -7) == '/redaxo') ? substr($splitURL[0], 0, strlen($splitURL[0])-6) : $splitURL[0]);
+    }
 
-		// evtl. Standard-Buttons vorbelegen
-		$plugins = $this->default_plugins;
-		if ($REX['ADDON'][$rxa_tinymce['name']]['inlinepopups'] == 'on') // Inline-Popups ausgew�hlt
-		{
-			$plugins .= ',inlinepopups';
-		}
-		
-		if ($this->buttons1 === false)
-		{
-			$this->buttons1 = $this->default_buttons1;
-		}
-		if (($this->buttons2 === false) and ($REX['ADDON'][$rxa_tinymce['name']]['theme'] <> 'simple'))
-		{
-			$this->buttons2 = $this->default_buttons2;
-			//$plugins .= ',emotions,media';
-		}
-		if (($this->buttons3 === false) and ($REX['ADDON'][$rxa_tinymce['name']]['theme'] == 'advanced'))
-		{
-			$this->buttons3 = $this->default_buttons3;
-			$plugins .= ',table';
-		}
+    // evtl. Standard-Buttons vorbelegen
+    $plugins = $this->default_plugins;
+    if ($REX['ADDON'][$rxa_tinymce['name']]['inlinepopups'] == 'on') // Inline-Popups ausgew�hlt
+    {
+      $plugins .= ',inlinepopups';
+    }
 
-		// Skin aus Konfiguration
-		$va = explode('_', $REX['ADDON'][$rxa_tinymce['name']]['skin']);
-		if (count($va)>=1)
-		{
-			if (isset($va[1]) and ($va[1] <> ''))
-			{
-				$skin = $va[0];
-				$skin_variant = $va[1];
-			}
-			else
-			{
-				$skin = $va[0];
-				$skin_variant = '';
-			}
-		}
-		else
-		{
-			$skin = '';
-			$skin_variant = '';
-		}
+    if ($this->buttons1 === false)
+    {
+      $this->buttons1 = $this->default_buttons1;
+    }
+    if (($this->buttons2 === false) and ($REX['ADDON'][$rxa_tinymce['name']]['theme'] <> 'simple'))
+    {
+      $this->buttons2 = $this->default_buttons2;
+      //$plugins .= ',emotions,media';
+    }
+    if (($this->buttons3 === false) and ($REX['ADDON'][$rxa_tinymce['name']]['theme'] == 'advanced'))
+    {
+      $this->buttons3 = $this->default_buttons3;
+      $plugins .= ',table';
+    }
 
-		// Farben aus der Konfiguration
-		$default_foreground = '';
-		$foreground = '';
-		$va = explode(',', trim(str_replace(' ', '', strtoupper($REX['ADDON'][$rxa_tinymce['name']]['foreground']))));
-		if (count($va) > 0)
-		{
-			$default_foreground = $va[0];
-			if (($default_foreground <> '') and !strstr($default_foreground,'#'))
-				$default_foreground = '#' . $default_foreground;
-			$foreground = implode(',', $va);
-		}
-		$default_background = '';
-		$background = '';
-		$va = explode(',', trim(str_replace(' ', '', strtoupper($REX['ADDON'][$rxa_tinymce['name']]['background']))));
-		if (count($va) > 0)
-		{
-			$default_background = $va[0];
-			if (($default_background <> '') and !strstr($default_background,'#'))
-				$default_background = '#' . $default_background;
-			$background = implode(',', $va);
-		}
+    // Skin aus Konfiguration
+    $va = explode('_', $REX['ADDON'][$rxa_tinymce['name']]['skin']);
+    if (count($va)>=1)
+    {
+      if (isset($va[1]) and ($va[1] <> ''))
+      {
+        $skin = $va[0];
+        $skin_variant = $va[1];
+      }
+      else
+      {
+        $skin = $va[0];
+        $skin_variant = '';
+      }
+    }
+    else
+    {
+      $skin = '';
+      $skin_variant = '';
+    }
 
-		// Valider XHTML-Code aus der Konfiguration
-		if ($REX['ADDON'][$rxa_tinymce['name']]['validxhtml'] <> 'on')
-		{
-			$this->validxhtml = false;
-		}
+    // Farben aus der Konfiguration
+    $default_foreground = '';
+    $foreground = '';
+    $va = explode(',', trim(str_replace(' ', '', strtoupper($REX['ADDON'][$rxa_tinymce['name']]['foreground']))));
+    if (count($va) > 0)
+    {
+      $default_foreground = $va[0];
+      if (($default_foreground <> '') and !strstr($default_foreground,'#'))
+        $default_foreground = '#' . $default_foreground;
+      $foreground = implode(',', $va);
+    }
+    $default_background = '';
+    $background = '';
+    $va = explode(',', trim(str_replace(' ', '', strtoupper($REX['ADDON'][$rxa_tinymce['name']]['background']))));
+    if (count($va) > 0)
+    {
+      $default_background = $va[0];
+      if (($default_background <> '') and !strstr($default_background,'#'))
+        $default_background = '#' . $default_background;
+      $background = implode(',', $va);
+    }
 
-		// extendet_valid_elements-Parameter falls kein XHTML ausgew�hlt wurde
-		// wird fuer das IMG-Tag benoetigt
+    // Valider XHTML-Code aus der Konfiguration
+    if ($REX['ADDON'][$rxa_tinymce['name']]['validxhtml'] <> 'on')
+    {
+      $this->validxhtml = false;
+    }
+
+    // extendet_valid_elements-Parameter falls kein XHTML ausgew�hlt wurde
+    // wird fuer das IMG-Tag benoetigt
 $extended_valid_elements =<<<EOD
 extended_valid_elements : ""
 +"img[align<bottom?left?middle?right?top|alt|border|class|dir<ltr?rtl|height"
@@ -161,7 +161,7 @@ extended_valid_elements : ""
   +"|onmouseup|src|style|title|usemap|vspace|width],",
 EOD;
 
-		// valid_elements-Parameter f�r validen XHTML-Code
+    // valid_elements-Parameter f�r validen XHTML-Code
 $valid_elements =<<<EOD
 valid_elements : ""
 +"a[accesskey|charset|class|coords|dir<ltr?rtl|href|hreflang|id|lang|name"
@@ -420,115 +420,115 @@ valid_elements : ""
   +"|title]",
 EOD;
 
-		$configout = '';
+    $configout = '';
 
-		$configout .= 'tinyMCEInitArray' . $this->id . ' = {';
+    $configout .= 'tinyMCEInitArray' . $this->id . ' = {';
 
-		$configout .= $n . '  language: \'' . $REX['ADDON'][$rxa_tinymce['name']]['lang'] . '\',';
+    $configout .= $n . '  language: \'' . $REX['ADDON'][$rxa_tinymce['name']]['lang'] . '\',';
 
-		if ($this->id <> '')
-		{
-			$configout .= $n . '  mode : \'exact\',';
-			$configout .= $n . '  elements : \'tinyMCEValue' . $this->id . '\',';
-		}
-		else
-		{
-			$configout .= $n . '  mode : \'specific_textareas\',';
-			$configout .= $n . '  editor_selector : \'tinyMCEEditor\',';
-		}
+    if ($this->id <> '')
+    {
+      $configout .= $n . '  mode : \'exact\',';
+      $configout .= $n . '  elements : \'tinyMCEValue' . $this->id . '\',';
+    }
+    else
+    {
+      $configout .= $n . '  mode : \'specific_textareas\',';
+      $configout .= $n . '  editor_selector : \'tinyMCEEditor\',';
+    }
 
-		$configout .= $n . '  document_base_url : \'' . $this->address . '\',';
+    $configout .= $n . '  document_base_url : \'' . $this->address . '\',';
 
-		$configout .= $n . '  relative_urls : true,';
+    $configout .= $n . '  relative_urls : true,';
 
-		$configout .= $n . '  file_browser_callback : \'rexCustomFileBrowser\',';
-//		$configout .= $n . '  urlconverter_callback : \'rexCustomURLConverter\',';
+    $configout .= $n . '  file_browser_callback : \'rexCustomFileBrowser\',';
+//    $configout .= $n . '  urlconverter_callback : \'rexCustomURLConverter\',';
 
-		$configout .= $n . '  theme : \'advanced\',';
-		$configout .= $n . '  theme_advanced_toolbar_location : \'top\',';
-		$configout .= $n . '  theme_advanced_toolbar_align : \'left\',';
-		$configout .= $n . '  theme_advanced_statusbar_location : \'bottom\',';
-		$configout .= $n . '  theme_advanced_resizing : true,';
+    $configout .= $n . '  theme : \'advanced\',';
+    $configout .= $n . '  theme_advanced_toolbar_location : \'top\',';
+    $configout .= $n . '  theme_advanced_toolbar_align : \'left\',';
+    $configout .= $n . '  theme_advanced_statusbar_location : \'bottom\',';
+    $configout .= $n . '  theme_advanced_resizing : true,';
 
-		$configout .= $n . '  theme_advanced_buttons1 : \'' . $this->buttons1 . '\',';
-		$configout .= $n . '  theme_advanced_buttons2 : \'' . $this->buttons2 . '\',';
-		$configout .= $n . '  theme_advanced_buttons3 : \'' . $this->buttons3 . '\',';
-		$configout .= $n . '  theme_advanced_buttons4 : \'' . $this->buttons4 . '\',';
+    $configout .= $n . '  theme_advanced_buttons1 : \'' . $this->buttons1 . '\',';
+    $configout .= $n . '  theme_advanced_buttons2 : \'' . $this->buttons2 . '\',';
+    $configout .= $n . '  theme_advanced_buttons3 : \'' . $this->buttons3 . '\',';
+    $configout .= $n . '  theme_advanced_buttons4 : \'' . $this->buttons4 . '\',';
 
-		if ($foreground <> '')
-		{
-			$configout .= $n . '  theme_advanced_text_colors : \'' . $foreground . '\',';
-		}
-		if ($default_foreground <> '')
-		{
-			$configout .= $n . '  theme_advanced_default_foreground_color : \'' . $default_foreground . '\',';
-		}
-		if ($background <> '')
-		{
-			$configout .= $n . '  theme_advanced_background_colors : \'' . $background . '\',';
-		}
-		if ($default_background <> '')
-		{
-			$configout .= $n . '  theme_advanced_default_background_color : \'' . $default_background . '\',';
-		}
+    if ($foreground <> '')
+    {
+      $configout .= $n . '  theme_advanced_text_colors : \'' . $foreground . '\',';
+    }
+    if ($default_foreground <> '')
+    {
+      $configout .= $n . '  theme_advanced_default_foreground_color : \'' . $default_foreground . '\',';
+    }
+    if ($background <> '')
+    {
+      $configout .= $n . '  theme_advanced_background_colors : \'' . $background . '\',';
+    }
+    if ($default_background <> '')
+    {
+      $configout .= $n . '  theme_advanced_default_background_color : \'' . $default_background . '\',';
+    }
 
-		$configout .= $n . '  theme_advanced_source_editor_width : 760,';
-		$configout .= $n . '  theme_advanced_source_editor_height : 500,';
+    $configout .= $n . '  theme_advanced_source_editor_width : 760,';
+    $configout .= $n . '  theme_advanced_source_editor_height : 500,';
 
-		$configout .= $n . '  plugins : \'' . $plugins . '\',';
+    $configout .= $n . '  plugins : \'' . $plugins . '\',';
 
-		$splitURL = explode('files/', dirname($_SERVER['REQUEST_URI']));
-		$configout .= $n . '  content_css : \'' . str_replace('redaxo', '', $splitURL[0]) . 'files/addons/' . $rxa_tinymce['name'] . '/content.css\',';
+    $splitURL = explode('files/', dirname($_SERVER['REQUEST_URI']));
+    $configout .= $n . '  content_css : \'' . str_replace('redaxo', '', $splitURL[0]) . 'files/addons/' . $rxa_tinymce['name'] . '/content.css\',';
 
-		if ($this->validxhtml == true or $this->validxhtml == 1)
-		{
-			$configout .= $n . $valid_elements;
-		}
-		else
-		{
-			$configout .= $n . $extended_valid_elements;
-		}
+    if ($this->validxhtml == true or $this->validxhtml == 1)
+    {
+      $configout .= $n . $valid_elements;
+    }
+    else
+    {
+      $configout .= $n . $extended_valid_elements;
+    }
 
-		$configout .= $n . '  plugin_preview_width : 760,';
-		$configout .= $n . '  plugin_preview_height : 500,';
+    $configout .= $n . '  plugin_preview_width : 760,';
+    $configout .= $n . '  plugin_preview_height : 500,';
 
-		$configout .= $n . '  template_popup_width : 760,';
-		$configout .= $n . '  template_popup_height : 500,';
+    $configout .= $n . '  template_popup_width : 760,';
+    $configout .= $n . '  template_popup_height : 500,';
 
-		$configout .= $n . '  media_use_script : true,';
+    $configout .= $n . '  media_use_script : true,';
 
-		$configout .= $n . '  accessibility_warnings : false,';
-		$configout .= $n . '  apply_source_formatting : true,';
-		$configout .= $n . '  cleanup : true,';
-		$configout .= $n . '  fix_list_elements : true,';
-		$configout .= $n . '  fix_nesting : true,';
+    $configout .= $n . '  accessibility_warnings : false,';
+    $configout .= $n . '  apply_source_formatting : true,';
+    $configout .= $n . '  cleanup : true,';
+    $configout .= $n . '  fix_list_elements : true,';
+    $configout .= $n . '  fix_nesting : true,';
 
-		// inlinepopups: window, modal
-		$configout .= $n . '  dialog_type : \'modal\',';
+    // inlinepopups: window, modal
+    $configout .= $n . '  dialog_type : \'modal\',';
 
-		$configout .= $n . '  skin : \'' . $skin . '\',';
-		$configout .= $n . '  skin_variant : \'' . $skin_variant . '\',';
+    $configout .= $n . '  skin : \'' . $skin . '\',';
+    $configout .= $n . '  skin_variant : \'' . $skin_variant . '\',';
 
-		// individuelle Konfiguration
-		if (trim($REX['ADDON'][$rxa_tinymce['name']]['extconfig'])<>'')
-		{
-			$configout .= $n . stripslashes($REX['ADDON'][$rxa_tinymce['name']]['extconfig']) . $n;
-		}	
-		
-		// Evtl. wurde der Klasse eine zus�tzliche Konfiguration mitgegeben
-		$configout .= $n . $this->configuration;
+    // individuelle Konfiguration
+    if (trim($REX['ADDON'][$rxa_tinymce['name']]['extconfig'])<>'')
+    {
+      $configout .= $n . stripslashes($REX['ADDON'][$rxa_tinymce['name']]['extconfig']) . $n;
+    }
 
-		// evtl. vorhandenes letztes Kommma entfernen
-		$configout = trim($configout);
-		if ($configout[strlen($configout)-1] == ',')
-		{
-			$configout[strlen($configout)-1] = ' ';
-		}
+    // Evtl. wurde der Klasse eine zus�tzliche Konfiguration mitgegeben
+    $configout .= $n . $this->configuration;
 
-		// abschliessende Klammer
-		$configout .= $n . '}';
+    // evtl. vorhandenes letztes Kommma entfernen
+    $configout = trim($configout);
+    if ($configout[strlen($configout)-1] == ',')
+    {
+      $configout[strlen($configout)-1] = ' ';
+    }
 
-		return $configout;
-	}
+    // abschliessende Klammer
+    $configout .= $n . '}';
+
+    return $configout;
+  }
 
 } // End class rexTinyMCEEditor

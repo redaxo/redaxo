@@ -1,8 +1,8 @@
-/* 
+/*
  REDAXO JavaScript library
- @package redaxo4 
+ @package redaxo4
  @version svn:$Id$
- */ 
+ */
 
 // -------------------------------------------------------------------------------------------------------------------
 
@@ -134,12 +134,12 @@ if (opener != null)
 
 // -------------------------------------------------------------------------------------------------------------------
 
-function newPoolWindow(link) 
+function newPoolWindow(link)
 {
     newWindow( 'rexmediapopup'+(winObjCounter+1), link, 800,600,',status=yes,resizable=yes');
 }
 
-function newLinkMapWindow(link) 
+function newLinkMapWindow(link)
 {
     newWindow( 'linkmappopup', link, 800,600,',status=yes,resizable=yes');
 }
@@ -148,7 +148,7 @@ function openMediaDetails(id, file_id, file_category_id)
 {
   if (typeof(id) == 'undefined')
   {
-    id = '';  
+    id = '';
   }
   newPoolWindow('index.php?page=mediapool&subpage=detail&opener_input_field='+ id + '&file_id=' + file_id + '&file_category_id=' + file_category_id);
 }
@@ -157,7 +157,7 @@ function openMediaPool(id)
 {
   if (typeof(id) == 'undefined')
   {
-    id = '';  
+    id = '';
   }
   newPoolWindow('index.php?page=mediapool&opener_input_field='+ id);
 }
@@ -167,7 +167,7 @@ function openREXMedia(id,param)
   var mediaid = 'REX_MEDIA_'+id;
   if (typeof(param) == 'undefined')
   {
-    param = '';  
+    param = '';
   }
   newPoolWindow('index.php?page=mediapool' + param + '&opener_input_field=' + mediaid);
 }
@@ -178,7 +178,7 @@ function viewREXMedia(id,param)
   var value = document.getElementById(mediaid).value;
   if ( typeof(param) == 'undefined')
   {
-    param = '';  
+    param = '';
   }
   if (value != '') {
     param = param + '&subpage=detail&file_name='+ value;
@@ -196,7 +196,7 @@ function addREXMedia(id,params)
 {
   if (typeof(params) == 'undefined')
   {
-    params = '';  
+    params = '';
   }
   newPoolWindow('index.php?page=mediapool&action=media_upload&subpage=add_file&opener_input_field=REX_MEDIA_'+id+params);
 }
@@ -205,11 +205,11 @@ function openLinkMap(id, param)
 {
   if (typeof(id) == 'undefined')
   {
-    id = '';  
+    id = '';
   }
   if (typeof(param) == 'undefined')
   {
-    param = '';  
+    param = '';
   }
   newLinkMapWindow('index.php?page=linkmap&opener_input_field=' + id + param);
 }
@@ -292,7 +292,7 @@ function addREXMedialist(id,params)
 {
   if (typeof(params) == 'undefined')
   {
-    params = '';  
+    params = '';
   }
   newPoolWindow('index.php?page=mediapool&action=media_upload&subpage=add_file&opener_input_field=REX_MEDIALIST_'+id+params);
 }
@@ -316,10 +316,10 @@ function openREXLinklist(id, param)
   var needle = new getObj(linkselect);
   var source = needle.obj;
   var sourcelength = source.options.length;
-  
+
   if ( typeof(param) == 'undefined')
   {
-    param = '';  
+    param = '';
   }
 
   for (ii = 0; ii < sourcelength; ii++) {
@@ -328,7 +328,7 @@ function openREXLinklist(id, param)
       break;
     }
   }
-  
+
   newLinkMapWindow('index.php?page=linkmap&opener_input_field='+linklist+param);
 }
 
@@ -396,8 +396,8 @@ function moveREX(id, i_list, i_select, direction)
   for (ii = 0; ii < sourcelength; ii++) {
 
     elements[ii] = new Array();
-    elements[ii]['value'] = source.options[ii].value; 
-    elements[ii]['title'] = source.options[ii].text; 
+    elements[ii]['value'] = source.options[ii].value;
+    elements[ii]['title'] = source.options[ii].text;
     was_selected[ii] = false;
 
   }
@@ -416,7 +416,7 @@ function moveREX(id, i_list, i_select, direction)
       }
     }
   }
-  
+
   if (direction == 'up') {
     for (ii = 0; ii < sourcelength; ii++) {
       was_moved[ii] = false;
@@ -446,7 +446,7 @@ function moveREX(id, i_list, i_select, direction)
       }
     }
   }
-  
+
   if (direction == 'bottom') {
     inserted = 0;
     for (ii = sourcelength-1; ii >= 0; ii--) {
@@ -455,7 +455,7 @@ function moveREX(id, i_list, i_select, direction)
         if (to > sourcelength) {
           to = sourcelength;
         }
-    
+
         elements = moveItem(elements, ii, to);
         was_selected[to] = true;
         inserted++;
@@ -493,7 +493,7 @@ function moveItem(arr, from, to)
   {
     return arr;
   }
-  
+
   tmp = arr[from];
   if (from > to)
   {
@@ -518,7 +518,7 @@ function checkInput(id)
     var input = result.obj;
     if(input != null)
     {
-      input.checked = 'checked'; 
+      input.checked = 'checked';
     }
   }
 }
@@ -532,7 +532,7 @@ function uncheckInput(id)
     var input = result.obj;
     if(input != null)
     {
-      input.checked = ''; 
+      input.checked = '';
     }
   }
 }
@@ -542,7 +542,7 @@ function uncheckInput(id)
 function toggleElement(id,display)
 {
    var needle;
-   
+
    if(typeof(id) != 'object')
    {
      needle = new getObj(id);
@@ -551,12 +551,12 @@ function toggleElement(id,display)
    {
      needle = id;
    }
-   
+
    if (typeof(display) == 'undefined')
    {
      display = needle.style.display == '' ? 'none' : '';
    }
-   
+
    needle.style.display = display;
    return display;
 }
@@ -564,7 +564,7 @@ function toggleElement(id,display)
 
 jQuery(function($){
 
-  
+
   // ------------------ Preview fuer REX_MEDIA_BUTTONS, REX_MEDIALIST_BUTTONS
   function rexShowMediaPreview() {
     var value, img_type;
@@ -579,20 +579,20 @@ jQuery(function($){
     }
 
     var div = $(".rex-media-preview", this);
-    
+
     var url;
     var width = 0;
     if($(this).hasClass("rex-widget-preview-image-manager"))
-    	url = '../index.php?rex_img_type='+ img_type +'&rex_img_file='+ value;
+      url = '../index.php?rex_img_type='+ img_type +'&rex_img_file='+ value;
     else if($(this).hasClass("rex-widget-preview-image-resize"))
-    	url = '../index.php?rex_resize=246a__'+ value;
+      url = '../index.php?rex_resize=246a__'+ value;
     else
     {
       url = '../files/'+ value;
       width = 246;
     }
-    
-    if(value && value.length != 0 && 
+
+    if(value && value.length != 0 &&
       (
         value.substr(-3) == "png" ||
         value.substr(-3) == "gif" ||
@@ -611,7 +611,7 @@ jQuery(function($){
       img.attr('src', url);
       if (width != 0)
         img.attr('width', width);
-      
+
       div.slideDown("fast");
     }
     else
@@ -620,10 +620,10 @@ jQuery(function($){
     }
   };
 
-  // Medialist preview neu anzeigen, beim wechsel der auswahl  
+  // Medialist preview neu anzeigen, beim wechsel der auswahl
   $(".rex-widget-medialist.rex-widget-preview")
     .click(rexShowMediaPreview);
-    
+
   $(".rex-widget-media.rex-widget-preview, .rex-widget-medialist.rex-widget-preview")
     .bind("mousemove", rexShowMediaPreview)
     .bind("mouseleave", function() {
@@ -636,14 +636,14 @@ jQuery(function($){
 
   // ------------------ Accesskey Navigation
   var ENABLE_KEY_NAV = true;
-	
+
   $(document).keypress(function(event) {
-    if(!ENABLE_KEY_NAV) 
+    if(!ENABLE_KEY_NAV)
       return true;
-    
+
      var key = String.fromCharCode(event.which);
      var haystack = $("input[accesskey="+ key +"]");
-     
+
      if(haystack.size() > 0)
      {
        $(haystack.get(0)).click();
@@ -652,7 +652,7 @@ jQuery(function($){
      else
      {
        haystack = $("a[accesskey="+ key +"]");
-       
+
        if(haystack.size() > 0)
        {
          var hit = $(haystack.get(0));
@@ -660,12 +660,12 @@ jQuery(function($){
            hit.click();
          else if(hit.attr("href") != undefined && hit.attr("href") != "#")
            document.location = hit.attr("href");
-           
+
          return false;
        }
      }
   });
-  
+
   $(function() {
     $("input,button,textarea,select,option")
       .focus(function(event) {
@@ -673,7 +673,7 @@ jQuery(function($){
       })
       .blur(function(event) {
         ENABLE_KEY_NAV = true;
-      });    
+      });
   });
 
 });

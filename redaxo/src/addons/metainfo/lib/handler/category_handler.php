@@ -1,9 +1,9 @@
 <?php
 
-class rex_categoryMetainfoHandler extends rex_metainfoHandler
+class rex_metainfo_category_handler extends rex_metainfo_handler
 {
   const PREFIX = 'cat_';
-  
+
   public function renderToggleButton(array $params)
   {
     $restrictionsCondition = $this->buildFilterCondition($params);
@@ -35,8 +35,8 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
     }
 
     return $params['subject'];
-  }  
-  
+  }
+
   public function handleSave(array $params, rex_sql $sqlFields)
   {
     if(rex_request_method() != 'post') return $params;
@@ -143,7 +143,7 @@ class rex_categoryMetainfoHandler extends rex_metainfoHandler
   }
 }
 
-$catHandler = new rex_categoryMetainfoHandler();
+$catHandler = new rex_metainfo_category_handler();
 
 rex_extension::register('CAT_FORM_ADD', array($catHandler, 'extendForm'));
 rex_extension::register('CAT_FORM_EDIT', array($catHandler, 'extendForm'));

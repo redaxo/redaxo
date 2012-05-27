@@ -177,4 +177,3 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
     $this->assertEquals(1, $sql->getRows());
   }
 }
-

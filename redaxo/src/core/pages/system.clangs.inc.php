@@ -203,6 +203,3 @@ $content .= '
       </div>';
 
 echo rex_view::contentBlock($content,'','block');
-
-
-

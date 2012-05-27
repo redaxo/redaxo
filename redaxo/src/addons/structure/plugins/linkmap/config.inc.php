@@ -63,7 +63,7 @@ if (rex::isBackend() && rex::getUser())
     $tree .= '<div id="rex-sitemap">';
     // TODO remove container (just their to get some linkmap styles)
     $tree .= '<div id="rex-linkmap">';
-    $categoryTree = new rex_sitemap_categoryTree($context);
+    $categoryTree = new rex_sitemap_category_tree($context);
     $tree .= $categoryTree->getTree($category_id);
 
     $tree .= '</div>';

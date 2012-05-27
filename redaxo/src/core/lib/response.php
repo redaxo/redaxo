@@ -25,7 +25,7 @@ class rex_response
     self::$httpStatus = $httpStatus;
   }
 
-  static public function handleException(Exception $exc)
+  static public function sendRedirect($url)
   {
     if ($exc instanceof rex_http_exception) {
       self::setStatus($exc->getHttpCode());
@@ -207,7 +207,7 @@ class rex_response
     self::send($content);
   }
 
-  static protected function send($content)
+  static public function send($content)
   {
     // Cachen erlauben, nach revalidierung
     // see http://xhtmlforum.de/35221-php-session-etag-header.html#post257967

@@ -699,4 +699,3 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
 
 
 echo rex_view::contentBlock($echo, '', 'plain');
-

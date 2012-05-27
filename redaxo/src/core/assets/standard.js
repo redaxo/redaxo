@@ -1,6 +1,6 @@
-/* 
+/*
  REDAXO JavaScript library
- */ 
+ */
 
 // -------------------------------------------------------------------------------------------------------------------
 
@@ -119,7 +119,7 @@ function newWindow(name,link,width,height,type)
 }
 
 var winObj = new Array();
-if (typeof opender != "undefined") 
+if (typeof opender != "undefined")
 {
   if (typeof(opener.winObjCounter) == "number")
   {
@@ -188,8 +188,8 @@ function moveREX(id, i_list, i_select, direction)
   for (ii = 0; ii < sourcelength; ii++) {
 
     elements[ii] = new Array();
-    elements[ii]['value'] = source.options[ii].value; 
-    elements[ii]['title'] = source.options[ii].text; 
+    elements[ii]['value'] = source.options[ii].value;
+    elements[ii]['title'] = source.options[ii].text;
     was_selected[ii] = false;
 
   }
@@ -208,7 +208,7 @@ function moveREX(id, i_list, i_select, direction)
       }
     }
   }
-  
+
   if (direction == 'up') {
     for (ii = 0; ii < sourcelength; ii++) {
       was_moved[ii] = false;
@@ -238,7 +238,7 @@ function moveREX(id, i_list, i_select, direction)
       }
     }
   }
-  
+
   if (direction == 'bottom') {
     inserted = 0;
     for (ii = sourcelength-1; ii >= 0; ii--) {
@@ -247,7 +247,7 @@ function moveREX(id, i_list, i_select, direction)
         if (to > sourcelength) {
           to = sourcelength;
         }
-    
+
         elements = moveItem(elements, ii, to);
         was_selected[to] = true;
         inserted++;
@@ -285,7 +285,7 @@ function moveItem(arr, from, to)
   {
     return arr;
   }
-  
+
   tmp = arr[from];
   if (from > to)
   {
@@ -310,7 +310,7 @@ function checkInput(id)
     var input = result.obj;
     if(input != null)
     {
-      input.checked = 'checked'; 
+      input.checked = 'checked';
     }
   }
 }
@@ -324,7 +324,7 @@ function uncheckInput(id)
     var input = result.obj;
     if(input != null)
     {
-      input.checked = ''; 
+      input.checked = '';
     }
   }
 }
@@ -334,7 +334,7 @@ function uncheckInput(id)
 function toggleElement(id,display)
 {
    var needle;
-   
+
    if(typeof(id) != 'object')
    {
      needle = new getObj(id);
@@ -343,12 +343,12 @@ function toggleElement(id,display)
    {
      needle = id;
    }
-   
+
    if (typeof(display) == 'undefined')
    {
      display = needle.style.display == '' ? 'none' : '';
    }
-   
+
    needle.style.display = display;
    return display;
 }
@@ -369,7 +369,7 @@ jQuery(function($){
     }
 
     var div = $(".rex-media-preview", this);
-    
+
     var url;
     var width = 0;
     if($(this).hasClass("rex-widget-preview-image-manager"))
@@ -381,8 +381,8 @@ jQuery(function($){
       url = '../media/'+ value;
       width = 246;
     }
-    
-    if(value && value.length != 0 && 
+
+    if(value && value.length != 0 &&
       (
         value.substr(-3) == "png" ||
         value.substr(-3) == "gif" ||
@@ -401,7 +401,7 @@ jQuery(function($){
       img.attr('src', url);
       if (width != 0)
         img.attr('width', width);
-      
+
       div.slideDown("fast");
     }
     else
@@ -410,10 +410,10 @@ jQuery(function($){
     }
   };
 
-  // Medialist preview neu anzeigen, beim wechsel der auswahl  
+  // Medialist preview neu anzeigen, beim wechsel der auswahl
   $(".rex-widget-medialist.rex-widget-preview")
     .click(rexShowMediaPreview);
-    
+
   $(".rex-widget-media.rex-widget-preview, .rex-widget-medialist.rex-widget-preview")
     .bind("mousemove", rexShowMediaPreview)
     .bind("mouseleave", function() {
@@ -426,14 +426,14 @@ jQuery(function($){
 
   // ------------------ Accesskey Navigation
   var ENABLE_KEY_NAV = true;
-  
+
   $(document).keypress(function(event) {
-    if(!ENABLE_KEY_NAV) 
+    if(!ENABLE_KEY_NAV)
       return true;
-    
+
      var key = String.fromCharCode(event.which);
      var haystack = $("a[accesskey='"+ key +"']");
-     
+
      if(haystack.size() > 0)
      {
        $(haystack.get(0)).click();
@@ -442,7 +442,7 @@ jQuery(function($){
      else
      {
        haystack = $("a[accesskey='"+ key +"']");
-       
+
        if(haystack.size() > 0)
        {
          var hit = $(haystack.get(0));
@@ -450,12 +450,12 @@ jQuery(function($){
            hit.click();
          else if(hit.attr("href") != undefined && hit.attr("href") != "#")
            document.location = hit.attr("href");
-           
+
          return false;
        }
      }
   });
-  
+
   $(function() {
     $("input,button,textarea,select,option")
       .focus(function(event) {
@@ -463,9 +463,9 @@ jQuery(function($){
       })
       .blur(function(event) {
         ENABLE_KEY_NAV = true;
-      });    
+      });
   });
-  
+
   if ($('#rex-page-login').length == 0 && getCookie('htaccess_check') == '')
   {
     time = new Date();
@@ -475,10 +475,10 @@ jQuery(function($){
     checkHtaccess('data', 'config.yml');
     checkHtaccess('src', 'core/master.inc.php');
   }
-  
+
   function checkHtaccess(dir, file)
   {
-    $.get(dir +'/'+ file, 
+    $.get(dir +'/'+ file,
     function(data) {
       $('#rex-wrapper2').prepend('<div class="rex-message"><p class="rex-warning"><span>The folder redaxo/'+ dir +' is insecure. Please protect this folder.</span></p></div>');
       setCookie('htaccess_check', '');
@@ -520,11 +520,11 @@ function getCookie(cookieName) {
 }
 
 jQuery(document).ready(function($) {
-  
+
   // prevent pjax from jumping to top, see github#60
   $.pjax.defaults.scrollTo = false;
   $.pjax.defaults.timeout = 5000;
-  
+
   confDialog = function(event) {
     if(!confirm($(this).attr('data-confirm')))
     {
@@ -532,25 +532,25 @@ jQuery(document).ready(function($) {
       return false;
     }
   };
-  
+
   // confirm dialog behavior for links and buttons
   $(document).on('click', 'a[data-confirm], button[data-confirm], input[data-confirm]', confDialog);
   // confirm dialog behavior for forms
   $(document).on('submit', 'form[data-confirm]', confDialog);
-  
+
   // elements which will be PJAX-ed by default:
   // general identifier for pjax-links
-	$('a.pjax-main').pjax('#rex-page-main');
-	// links from paginations within the main-container
-	$('#rex-page-main .rex-navi-pagination a').pjax('#rex-page-main');
-	// links from tabs within the main-container
-	$('#rex-page-main .rex-navi-tab a').pjax('#rex-page-main');
-	// links from path-toolbar within the main-container
-	$('#rex-page-main .rex-navi-path a').pjax('#rex-page-main');
-	// links from lists within the main-container
-	$('#rex-page-main .rex-table a').pjax('#rex-page-main');
+  $('a.pjax-main').pjax('#rex-page-main');
+  // links from paginations within the main-container
+  $('#rex-page-main .rex-navi-pagination a').pjax('#rex-page-main');
+  // links from tabs within the main-container
+  $('#rex-page-main .rex-navi-tab a').pjax('#rex-page-main');
+  // links from path-toolbar within the main-container
+  $('#rex-page-main .rex-navi-path a').pjax('#rex-page-main');
+  // links from lists within the main-container
+  $('#rex-page-main .rex-table a').pjax('#rex-page-main');
 
-	// add pjax error handling
+  // add pjax error handling
   $(document)
     .on('pjax:error', function(e, xhr, err) {
       // user not authorized -> redirect to login page
@@ -561,26 +561,26 @@ jQuery(document).ready(function($) {
       }
       $('#rex-message-container').text('Something went wrong: ' + err);
     })
-  	.on('pjax:success', function(e, data, status, xhr, options) {
-  	  var paramUrl = options.url.split('?'), page, subpage;
-  	  
-	    $.each(paramUrl[1].split('&'), function(_, value) {
-	      var parts = value.split('=');
-	      if(parts[0] == 'page')
-	        page = parts[1];
-	      else if(parts[0] == 'subpage')
-	        subpage = parts[1];
-	    });
-	    
-  	  $('.rex-navi-main .rex-active').removeClass('rex-active'); 
+    .on('pjax:success', function(e, data, status, xhr, options) {
+      var paramUrl = options.url.split('?'), page, subpage;
 
-  	  // activate main-page
-  	  $('#rex-navi-page-' + page).addClass('rex-active'); 
-  	  $('#rex-navi-page-' + page + ' > a').addClass('rex-active'); 
-  	  // activate sub-page
-  	  $('#rex-navi-page-' + page + ' li > a[href$=\'subpage='+ subpage +'\']').addClass('rex-active')
-  	    .parent('li').addClass('rex-active'); 
-  	})
+      $.each(paramUrl[1].split('&'), function(_, value) {
+        var parts = value.split('=');
+        if(parts[0] == 'page')
+          page = parts[1];
+        else if(parts[0] == 'subpage')
+          subpage = parts[1];
+      });
+
+      $('.rex-navi-main .rex-active').removeClass('rex-active');
+
+      // activate main-page
+      $('#rex-navi-page-' + page).addClass('rex-active');
+      $('#rex-navi-page-' + page + ' > a').addClass('rex-active');
+      // activate sub-page
+      $('#rex-navi-page-' + page + ' li > a[href$=\'subpage='+ subpage +'\']').addClass('rex-active')
+        .parent('li').addClass('rex-active');
+    })
     .on('pjax:start', function() { $('#rex-ajax-loader').show(); })
-    .on('pjax:end',   function() { $('#rex-ajax-loader').hide(); });	
+    .on('pjax:end',   function() { $('#rex-ajax-loader').hide(); });
 });

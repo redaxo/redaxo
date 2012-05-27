@@ -2,9 +2,9 @@
 
 /**
  * User management
- *  
- * @author 
- * 
+ *
+ * @author
+ *
  * @package redaxo5
  */
 

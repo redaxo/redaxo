@@ -33,9 +33,12 @@ require 'src/core/master.inc.php';
 // bootstrap addons
 include_once rex_path::core('packages.inc.php');
 
+// https://github.com/symfony/symfony/blob/f53297681a7149f2a809da12ea3a8b8cfd4d3025/src/Symfony/Component/Console/Output/StreamOutput.php#L103-112
+$hasColorSupport = DIRECTORY_SEPARATOR == '\\' ? getenv('ANSICON') !== false : function_exists('posix_isatty') && @posix_isatty(STDOUT);
+
 $runner = new rex_test_runner();
 $runner->setUp();
-$result = $runner->run(rex_test_locator::defaultLocator());
+$result = $runner->run(rex_test_locator::defaultLocator(), array('colors' => $hasColorSupport));
 
 echo $result;
 

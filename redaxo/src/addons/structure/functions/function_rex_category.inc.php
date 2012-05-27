@@ -34,7 +34,7 @@ if($ooCat)
 
 $blocks = array();
 $blocks[] = array(
-      "headline" => array("title" => rex_i18n::msg('path')), 
+      "headline" => array("title" => rex_i18n::msg('path')),
       "navigation" => $navigation
       );
 

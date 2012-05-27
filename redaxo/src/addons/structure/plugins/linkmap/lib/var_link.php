@@ -323,7 +323,7 @@ class rex_var_link extends rex_var
         <li><a href="#" class="rex-ic-down" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="'. rex_i18n::msg('var_linklist_move_down') .'">'. rex_i18n::msg('var_linklist_move_down') .'</a></li>
         <li><a href="#" class="rex-ic-bottom" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="'. rex_i18n::msg('var_linklist_move_bottom') .'">'. rex_i18n::msg('var_linklist_move_bottom') .'</a></li>
       </ul>
-      <ul class="rex-navi-widget">      
+      <ul class="rex-navi-widget">
         <li><a href="#" class="'. $open_class .'" onclick="'. $open_func .'return false;" title="'. rex_i18n::msg('var_link_open') .'">'. rex_i18n::msg('var_link_open') .'</a></li>
         <li><a href="#" class="'. $delete_class .'" onclick="'. $delete_func .'return false;" title="'. rex_i18n::msg('var_link_delete') .'">'. rex_i18n::msg('var_link_delete') .'</a></li>
       </ul>

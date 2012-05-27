@@ -34,7 +34,7 @@ class rex_effect_filter_blur extends rex_effect_abstract{
     }
 
     $this->media->asImage();
-    
+
     $gdimage = $this->media->getImage();
     $w = $this->media->getWidth();
     $h = $this->media->getHeight();

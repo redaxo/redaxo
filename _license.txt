@@ -1,4 +1,4 @@
-Folgenden Informationen dürfen beim Einsatz von REDAXO im Impressum oder auf 
+Folgenden Informationen dürfen beim Einsatz von REDAXO im Impressum oder auf
 der Kontaktseite aufgenommen werden.
 
 If you use REDAXO you may add these informations in your imprint or contact page
@@ -73,5 +73,3 @@ Moxiecode
 copyright Copyright © 2004, Moxiecode Systems AB, All rights reserved.
 License: LGPL, see LICENSE
 mehr zu dieser Lizenz unter http://tinymce.moxiecode.com/
-
-

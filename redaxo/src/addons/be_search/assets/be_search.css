@@ -1,46 +1,45 @@
 div#rex-be_search-searchbar form label {
-	font-weight: bold;
+  font-weight: bold;
 }
 div#rex-be_search-searchbar form input.rex-sbmt {
-	line-height: 1em;
+  line-height: 1em;
 }
 div#rex-be_search-searchbar form input#rex-be_search-article-name {
-	width: 120px;
-	margin-right: 5px;
+  width: 120px;
+  margin-right: 5px;
 }
 div#rex-be_search-searchbar form input#rex-be_search-article-id {
-	width: 30px;
-	margin-right: 5px;
+  width: 30px;
+  margin-right: 5px;
 }
 div#rex-be_search-searchbar form select#rex-be_search-category-id {
-	width: 180px;
+  width: 180px;
 }
 
 
 div.rex-form fieldset.rex-form-col-2 div.rex-form-row p#be_search-media-search label {
-	width: 140px;
+  width: 140px;
 }
 div.rex-form fieldset.rex-form-col-2 div.rex-form-row p input#be_search-media-name {
-	width: 120px;
+  width: 120px;
 }
 
 
 
 
 div#rex-be_search-searchbar ul.be_search-search-result {
-	padding: 10px 0 0 0;
+  padding: 10px 0 0 0;
 }
 
 div#rex-be_search-searchbar ul.be_search-search-result li {
-	display: block;
-	padding-bottom: 3px;
+  display: block;
+  padding-bottom: 3px;
 }
 div#rex-be_search-searchbar ul.be_search-search-result li ul.be_search-search-hit li {
-	display: inline;
-	padding-bottom: 0px;
+  display: inline;
+  padding-bottom: 0px;
 }
 
 div#rex-be_search-searchbar span.be_search-search-hit {
-	font-weight: bold;
+  font-weight: bold;
 }
-

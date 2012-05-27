@@ -189,7 +189,7 @@ $content .= '
           </p>
     ';
   }
-  
+
 $content .= '</div>
   </div>
 </div>';
@@ -236,5 +236,3 @@ $content .= '<div class="rex-form-row">
 
 
 echo rex_view::contentBlock($content);
-
-
