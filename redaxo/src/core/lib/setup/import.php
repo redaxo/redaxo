@@ -7,7 +7,7 @@ require_once $export_addon_dir . '/functions/function_import_export.inc.php';
 
 class rex_setup_importer
 {
-  public static function updateFromPrevious()
+  static public function updateFromPrevious()
   {
     // ----- vorhandenen seite updaten
     $err_msg = '';
@@ -28,7 +28,7 @@ class rex_setup_importer
     return $err_msg;
   }
 
-  public static function loadExistingImport($import_name)
+  static public function loadExistingImport($import_name)
   {
     // ----- vorhandenen Export importieren
     $err_msg = '';

@@ -14,7 +14,7 @@ class rex_response
   HTTP_UNAUTHORIZED = '401 Unauthorized',
   HTTP_INTERNAL_ERROR = '500 Internal Server Error';
 
-  private static $httpStatus = self::HTTP_OK;
+  static private $httpStatus = self::HTTP_OK;
 
   static public function setStatus($httpStatus)
   {

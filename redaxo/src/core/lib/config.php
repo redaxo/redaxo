@@ -12,31 +12,31 @@ class rex_config
    * Flag to indicate if the config was initialized
    * @var boolean
    */
-  private static $initialized = false;
+  static private $initialized = false;
 
   /**
    * Flag which indicates if database needs an update, because settings have changed.
    * @var boolean
    */
-  private static $changed = false;
+  static private $changed = false;
 
   /**
    * data read from database
    * @var array
    */
-  private static $data = array();
+  static private $data = array();
 
   /**
    * data which is modified during this request
    * @var array
    */
-  private static $changedData = array();
+  static private $changedData = array();
 
   /**
    * data which was deleted during this request
    * @var array
    */
-  private static $deletedData = array();
+  static private $deletedData = array();
 
   /**
    * Method which saves an arbitary value associated to the given key.
@@ -52,7 +52,7 @@ class rex_config
    *
    * @throws rex_exception on invalid parameters
    */
-  public static function set($namespace, $key, $value)
+  static public function set($namespace, $key, $value)
   {
     self::init();
 

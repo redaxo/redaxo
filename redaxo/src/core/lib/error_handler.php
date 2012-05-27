@@ -2,7 +2,7 @@
 
 abstract class rex_error_handler
 {
-  private static $registered;
+  static private $registered;
 
   /**
    * Registers the class as php-error/exception handler

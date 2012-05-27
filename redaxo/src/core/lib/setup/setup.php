@@ -5,7 +5,7 @@ class rex_setup
   const MIN_PHP_VERSION = '5.3.0';
   const MIN_MYSQL_VERSION = '5.0';
 
-  private static $MIN_PHP_EXTENSIONS = array('session', 'pdo', 'pcre');
+  static private $MIN_PHP_EXTENSIONS = array('session', 'pdo', 'pcre');
 
   /**
    * very basic setup steps, so everything is in place for our browser-based setup wizard.
@@ -13,7 +13,7 @@ class rex_setup
    * @param string $skinAddon
    * @param string $skinPlugin
    */
-  public static function init($skinAddon = 'be_style', $skinPlugin = 'redaxo')
+  static public function init($skinAddon = 'be_style', $skinPlugin = 'redaxo')
   {
     // initial purge all generated files
     rex_deleteCache();
@@ -30,7 +30,7 @@ class rex_setup
    *
    * @return array An array of error messages
    */
-  public static function checkEnvironment()
+  static public function checkEnvironment()
   {
     $errors = array();
 
