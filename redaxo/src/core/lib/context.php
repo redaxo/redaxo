@@ -14,7 +14,7 @@ interface rex_url_provider
    *
    * @return string The generated Url
    */
-  function getUrl(array $params = array());
+  public function getUrl(array $params = array());
 }
 
 /**

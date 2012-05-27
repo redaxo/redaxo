@@ -13,7 +13,7 @@ class rex_media_manager
     $this->useCache(true);
   }
 
-  function applyEffects($type)
+  protected function applyEffects($type)
   {
     $this->type = $type;
 
@@ -89,7 +89,7 @@ class rex_media_manager
 
   }
 
-  function useCache($t = true)
+  protected function useCache($t = true)
   {
     $this->use_cache = $t;
   }
@@ -208,15 +208,15 @@ class rex_media_manager
     return $effectNames;
   }
 
-  static function getSupportedEffects()
+  static public function getSupportedEffects()
   {
     $dirs = array(
-      dirname(__FILE__) . '/../lib/effects/'
+      __DIR__ . '/effects/'
     );
 
     $effects = array();
     foreach ($dirs as $dir) {
-      $files = glob($dir . 'class.rex_effect_*.inc.php');
+      $files = glob($dir . 'effect_*.php');
       if ($files) {
         foreach ($files as $file) {
           $effects[self::getEffectClass($file)] = $file;
@@ -226,19 +226,19 @@ class rex_media_manager
     return $effects;
   }
 
-  static function getEffectName($effectFile)
+  static private function getEffectName($effectFile)
   {
     return str_replace(
-    array('class.rex_effect_', '.inc.php'),
+      array('effect_', '.php'),
       '',
       basename($effectFile)
     );
   }
 
-  static function getEffectClass($effectFile)
+  static private function getEffectClass($effectFile)
   {
-    return str_replace(
-    array('class.', '.inc.php'),
+    return 'rex_' . str_replace(
+      '.php',
       '',
       basename($effectFile)
     );
@@ -247,12 +247,12 @@ class rex_media_manager
   /*
    * For ExtensionPoints.
    */
-  static function mediaUpdated($params)
+  static public function mediaUpdated($params)
   {
     self::deleteCache($params['filename']);
   }
 
-  static function init()
+  static public function init()
   {
     //--- handle image request
     $rex_media_manager_file = self::getMediaFile();
@@ -273,14 +273,14 @@ class rex_media_manager
     }
   }
 
-  static function getMediaFile()
+  static public function getMediaFile()
   {
     $rex_media_file = rex_get('rex_media_file', 'string');
     $rex_media_file = basename($rex_media_file);
     return $rex_media_file;
   }
 
-  static function getMediaType()
+  static public function getMediaType()
   {
     return rex_get('rex_media_type', 'string');
   }
