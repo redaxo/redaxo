@@ -1,6 +1,6 @@
 <?php
 
-class rex_finder implements IteratorAggregate
+class rex_finder implements IteratorAggregate, Countable
 {
   private $baseDir;
 
@@ -20,7 +20,7 @@ class rex_finder implements IteratorAggregate
     $this->baseDir = $baseDir;
 
     $this->recursive = false;
-    $this->recursiveMode = RecursiveIteratorIterator::CHILD_FIRST;
+    $this->recursiveMode = RecursiveIteratorIterator::SELF_FIRST;
   }
 
   /**
@@ -136,31 +136,29 @@ class rex_finder implements IteratorAggregate
 
   public function getIterator()
   {
-    static $i = 0;
-    $i++;
-
-    $iterator = new rex_finder_filter( new RecursiveDirectoryIterator( $this->baseDir, FilesystemIterator::CURRENT_AS_FILEINFO & FilesystemIterator::SKIP_DOTS));
-    $iterator->debug = $i == 3;
+    $iterator = new RecursiveDirectoryIterator( $this->baseDir, FilesystemIterator::CURRENT_AS_FILEINFO & FilesystemIterator::SKIP_DOTS);
+    if ($this->recursive)
+    {
+      $iterator = new RecursiveIteratorIterator($iterator, $this->recursiveMode);
+    }
+    $iterator = new rex_finder_filter( $iterator );
     $iterator->filterDirs = $this->filterDirs;
     $iterator->filterFiles = $this->filterFiles;
     $iterator->ignoreDirs = $this->ignoreDirs;
     $iterator->ignoreFiles = $this->ignoreFiles;
     $iterator->ignoreSystemStuff = $this->ignoreSystemStuff;
 
-    if ($this->recursive)
-    {
-      $iterator = new RecursiveIteratorIterator($iterator, $this->recursiveMode);
-    }
-
     return $iterator;
+  }
+
+  public function count () {
+    return iterator_count($this->getIterator());
   }
 }
 
 // private utility class
-class rex_finder_filter extends RecursiveFilterIterator
+class rex_finder_filter extends FilterIterator
 {
-  public $debug = false;
-
   public $filterFiles = array();
   public $filterDirs = array();
 
@@ -172,46 +170,11 @@ class rex_finder_filter extends RecursiveFilterIterator
   static private
     $systemStuff = array('.DS_Store', 'Thumbs.db', 'desktop.ini', '.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg');
 
-//   public function filter($glob)
-//   {
-//     $this->filters[] = $glob;
-//   }
-
-//   public function ignore($glob)
-//   {
-//     $this->ignores[] = $glob;
-//   }
-
-//   public function ignoreSystemStuff($ignore)
-//   {
-//     $this->ignoreSystemStuff = $ignore;
-//   }
-
   public function accept()
   {
     /* @var $current SplFileInfo */
     $current = parent::current();
-
     $filename = $current->getFilename();
-    if($this->debug) echo $filename." ";
-
-
-//     if($this->recursive && $this->hasChildren())
-//     {
-//       $this->debug && var_dump("recursive-match");
-//       return true;
-//     }
-
-    // check the whitelist
-    $filters = $current->isDir() ? $this->filterDirs : $this->filterFiles;
-    foreach($filters as $filter)
-    {
-      if(fnmatch($filter, $filename))
-      {
-        $this->debug && var_dump("matched");
-        return true;
-      }
-    }
 
     // check for system ignore
     if($this->ignoreSystemStuff)
@@ -220,7 +183,6 @@ class rex_finder_filter extends RecursiveFilterIterator
       {
         if(stripos($filename, $systemStuff) === 0)
         {
-          $this->debug && var_dump("sysstuff");
           return false;
         }
       }
@@ -232,27 +194,26 @@ class rex_finder_filter extends RecursiveFilterIterator
     {
       if(fnmatch($ignore, $filename))
       {
-        $this->debug && var_dump("ignored");
         return false;
       }
     }
 
+    $matched = true;
+    // check the whitelist
+    $filters = $current->isDir() ? $this->filterDirs : $this->filterFiles;
+    if($filters)
+    {
+      $matched = false;
+      foreach($filters as $filter)
+      {
+        if(fnmatch($filter, $filename))
+        {
+          return true;
+        }
+      }
+    }
 
     // in case ignores are present, everything despite the ignores is accepted, otherwise declined.
-    $this->debug && var_dump(empty($this->ignoreDirs) && empty($this->ignoreFiles) ? "accepted" : "declined");
-    return empty($this->ignoreDirs) && empty($this->ignoreFiles);
-  }
-
-  public function getChildren()
-  {
-    /* @var $current SplFileInfo */
-    $current = parent::current();
-
-    $filename = $current->getFilename();
-
-    $this->debug && var_dump($filename ." getchildren");
-
-    $iterator = parent::getChildren();
-    return $iterator;
+    return $matched;
   }
 }
