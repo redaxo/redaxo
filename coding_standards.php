@@ -1,8 +1,7 @@
 #!/usr/bin/php
 <?php
 
-if (PHP_SAPI !== 'cli')
-{
+if (PHP_SAPI !== 'cli') {
   echo 'error: this script may only be run from CLI', PHP_EOL;
   exit(1);
 }
@@ -16,8 +15,7 @@ echo 'REDAXO CODING STANDARDS CHECK';
 echo $hasColorSupport ? "\033[0m" : '';
 echo PHP_EOL, PHP_EOL;
 
-if (!isset($argv[1]) || !in_array($argv[1], array('fix', 'check')))
-{
+if (!isset($argv[1]) || !in_array($argv[1], array('fix', 'check'))) {
   echo 'Usage:
   php ', $argv[0], ' <mode> [options]
   php ', $argv[0], ' <mode> <path> [options]
@@ -37,45 +35,32 @@ if (!isset($argv[1]) || !in_array($argv[1], array('fix', 'check')))
 $fix = $argv[1] == 'fix';
 
 $dir = __DIR__;
-if (isset($argv[2]) && $argv[2][0] !== '-')
-{
-  if ($argv[2] == 'core')
-  {
+if (isset($argv[2]) && $argv[2][0] !== '-') {
+  if ($argv[2] == 'core') {
     $dir .= '/redaxo/src/core';
-    if (!is_dir($dir))
-    {
+    if (!is_dir($dir)) {
       echo 'ERROR: Core directory does not exist!', PHP_EOL, PHP_EOL;
       exit(1);
     }
-  }
-  elseif ($argv[2] == 'package')
-  {
-    if (!isset($argv[3]) || $argv[3][0] === '-')
-    {
+  } elseif ($argv[2] == 'package') {
+    if (!isset($argv[3]) || $argv[3][0] === '-') {
       echo 'ERROR: Missing package id!', PHP_EOL, PHP_EOL;
       exit(1);
     }
     $package = $argv[3];
-    if (strpos($package, '/') === false)
-    {
+    if (strpos($package, '/') === false) {
       $dir .= '/redaxo/src/addons/' . $package;
-    }
-    else
-    {
+    } else {
       list($addon, $plugin) = explode('/', $package, 2);
       $dir .= '/redaxo/src/addons/' . $addon . '/plugins/' . $plugin;
     }
-    if (!is_dir($dir))
-    {
+    if (!is_dir($dir)) {
       echo 'ERROR: Package "', $package, '" does not exist!', PHP_EOL, PHP_EOL;
       exit(1);
     }
-  }
-  else
-  {
+  } else {
     $dir .= '/' . $argv[2];
-    if (!is_dir($dir))
-    {
+    if (!is_dir($dir)) {
       echo 'ERROR: Directory "', $argv[2], '" does not exist!', PHP_EOL, PHP_EOL;
       exit(1);
     }
@@ -128,54 +113,42 @@ class rex_coding_standards_fixer
 
   protected function fix()
   {
-    if (($encoding = mb_detect_encoding($this->content, 'UTF-8,ISO-8859-1,WINDOWS-1252')) != 'UTF-8')
-    {
-      if ($encoding === false)
-      {
+    if (($encoding = mb_detect_encoding($this->content, 'UTF-8,ISO-8859-1,WINDOWS-1252')) != 'UTF-8') {
+      if ($encoding === false) {
         $encoding = mb_detect_encoding($this->content);
       }
-      if ($encoding !== false)
-      {
+      if ($encoding !== false) {
         $this->content = iconv($encoding, 'UTF-8', $this->content);
         $this->addFixable('fix encoding from ' . $encoding . ' to UTF-8');
-      }
-      else
-      {
+      } else {
         $this->addNonFixable('couldn\'t detect encoding, change it to UTF-8');
       }
-    }
-    elseif (strpos($this->content, "\xEF\xBB\xBF") === 0)
-    {
+    } elseif (strpos($this->content, "\xEF\xBB\xBF") === 0) {
       $this->content = substr($this->content, 3);
       $this->addFixable('remove BOM (Byte Order Mark)');
     }
 
-    if (strpos($this->content, "\r") !== false)
-    {
+    if (strpos($this->content, "\r") !== false) {
       $this->content = str_replace(array("\r\n", "\r"), "\n", $this->content);
       $this->addFixable('fix line endings to LF');
     }
 
-    if (strpos($this->content, "\t") !== false)
-    {
+    if (strpos($this->content, "\t") !== false) {
       $this->content = str_replace("\t", '  ', $this->content);
       $this->addFixable('convert tabs to spaces');
     }
 
-    if (preg_match('/ $/m', $this->content))
-    {
+    if (preg_match('/ $/m', $this->content)) {
       $this->content = preg_replace('/ +$/m', '', $this->content);
       $this->addFixable('remove trailing whitespace');
     }
 
-    if (strlen($this->content) && substr($this->content, -1) != "\n")
-    {
+    if (strlen($this->content) && substr($this->content, -1) != "\n") {
       $this->content .= "\n";
       $this->addFixable('add newline at end of file');
     }
 
-    if (preg_match("/\n{2,}$/", $this->content))
-    {
+    if (preg_match("/\n{2,}$/", $this->content)) {
       $this->content = rtrim($this->content, "\n") . "\n";
       $this->addFixable('remove multiple newlines at end of file');
     }
@@ -187,6 +160,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
   const
     MSG_LOWERCASE_CONTROL_KEYWORD = 'replace control keywords by their lowercase variants',
     MSG_SPACE_AFTER_CONTROL_KEYWORD = 'add space after control keywords ("if", "for" etc.)',
+    MSG_SPACE_BEFORE_CONTROL_KEYWORD = 'add space before "else", "catch" and "use"',
     MSG_SPACES_AROUND_BINARY_OPERATOR = 'add spaces around binary operators ("=", "+", "&&" etc.)';
 
   protected
@@ -194,7 +168,11 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
     $tokens,
     $index,
     $previous,
+    $previousNonWhitespace,
     $indentation = '',
+    $class,
+    $method,
+    $function = 0,
     $isTernary = 0;
 
   public function __construct($content, $checkNamingConventions = true)
@@ -208,22 +186,19 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
     parent::fix();
 
     $this->content = preg_replace('/<\?(?=\s)/', '<?php', $this->content, -1, $count);
-    if ($count)
-    {
+    if ($count) {
       $this->addFixable('replace php short open tags "<?" by "<?php"');
     }
 
     $this->content = preg_replace("/\n* *\?>$/", '', $this->content, -1, $count);
-    if ($count)
-    {
+    if ($count) {
       $this->addFixable('remove php closing tag "?>" at end of file');
     }
 
     $this->tokens = token_get_all($this->content);
     $this->content = '';
     $count = count($this->tokens);
-    for ($this->index = 0; $this->index < $count; $this->index++)
-    {
+    for ($this->index = 0; $this->index < $count; $this->index++) {
       $this->fixToken(new rex_php_token($this->tokens[$this->index]));
     }
     $this->content = preg_replace('/ +$/m', '', $this->content);
@@ -232,19 +207,21 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
   protected function addToken(rex_php_token $token)
   {
     $this->previous = $token;
+    if (!in_array($token->type, array(T_WHITESPACE, T_COMMENT, T_DOC_COMMENT), true)) {
+      $this->previousNonWhitespace = $token;
+    }
     $this->content .= $token->text;
   }
 
-  protected function previousToken()
+  protected function previousToken($nonWhitespace = false)
   {
-    return $this->previous;
+    return $nonWhitespace ? $this->previousNonWhitespace : $this->previous;
   }
 
   protected function nextToken()
   {
     $this->index++;
-    if (isset($this->tokens[$this->index]))
-    {
+    if (isset($this->tokens[$this->index])) {
       return new rex_php_token($this->tokens[$this->index]);
     }
     return null;
@@ -257,84 +234,23 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
 
   protected function fixToken(rex_php_token $token)
   {
-    switch ($token->type)
-    {
-      case T_STRING:
-        if (in_array(strtolower($token->text), array('true', 'false', 'null')))
-        {
-          $this->checkLowercase($token, 'replace boolean/null constants by their lowercase variants ("true", "false" and "null")');
-        }
-        $this->addToken($token);
-        break;
-
-      case T_CONSTANT_ENCAPSED_STRING:
-        if (preg_match('/^"([^${\'\\\\]*)"$/', $token->text, $match))
-        {
-          $token->text = "'" . $match[1] . "'";
-          $this->addFixable('replace double quotes around simple strings by single quotes');
-        }
-        $this->addToken($token);
-        break;
-
-      case T_IF:
-      case T_FOR:
-      case T_FOREACH:
-      case T_WHILE:
-      case T_SWITCH:
-      case T_CASE:
-        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
-        $this->addToken($token);
-        $this->checkSpaceBehind(self::MSG_SPACE_AFTER_CONTROL_KEYWORD);
-        break;
-
-      case T_ELSE:
-        $next = $this->nextToken();
-        if ($next->type === T_WHITESPACE)
-        {
-          $nextNext = $this->nextToken();
-          if ($nextNext->type === T_IF)
-          {
-            $this->addFixable('replace "else if" by "elseif"');
-            $this->fixToken(new rex_php_token(T_ELSEIF, 'elseif'));
-            break;
-          }
-          $this->decrementTokenIndex();
-        }
-        $this->decrementTokenIndex();
-        $this->checkNewlineBefore();
-        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
-        $this->addToken($token);
-        break;
-
-      case T_ELSEIF:
-      case T_CATCH:
-        $this->checkNewlineBefore();
-        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
-        $this->addToken($token);
-        $this->checkSpaceBehind(self::MSG_SPACE_AFTER_CONTROL_KEYWORD);
-        break;
-
+    switch ($token->type) {
       case T_WHITESPACE:
-        if (($pos = strrpos($token->text, "\n")) !== false)
-        {
+        if (($pos = strrpos($token->text, "\n")) !== false) {
           $this->indentation = substr($token->text, $pos + 1);
         }
         $this->addToken($token);
         break;
 
       case T_COMMENT:
-        if (substr($token->text, -1) === "\n")
-        {
+        if (substr($token->text, -1) === "\n") {
           $token->text = substr($token->text, 0, -1);
           $this->addToken($token);
           $next = $this->nextToken();
-          if ($next && $next->type === T_WHITESPACE)
-          {
+          if ($next && $next->type === T_WHITESPACE) {
             $next->text = "\n" . $next->text;
             $this->fixToken($next);
-          }
-          else
-          {
+          } else {
             $this->addToken(new rex_php_token(T_WHITESPACE, "\n"));
             $this->decrementTokenIndex();
           }
@@ -343,112 +259,22 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
         $this->addToken($token);
         break;
 
-      case T_ABSTRACT:
-      case T_ARRAY:
-      case T_AS:
-      case T_BREAK:
-      case T_CALLABLE:
-      case T_CLONE:
-      case T_CONTINUE:
-      case T_DECLARE:
-      case T_DEFAULT:
-      case T_DO:
-      case T_ECHO:
-      case T_EMPTY:
-      case T_ENDDECLARE:
-      case T_ENDFOR:
-      case T_ENDFOREACH:
-      case T_ENDIF:
-      case T_ENDSWITCH:
-      case T_ENDWHILE:
-      case T_EVAL:
-      case T_EXIT:
-      case T_EXTENDS:
-      case T_FINAL:
-      case T_FUNCTION:
-      case T_GLOBAL:
-      case T_GOTO:
-      case T_IMPLEMENTS:
-      case T_INCLUDE:
-      case T_INCLUDE_ONCE:
-      case T_INSTANCEOF:
-      case T_INSTEADOF:
-      case T_ISSET:
-      case T_LIST:
-      case T_NAMESPACE:
-      case T_NEW:
-      case T_PRINT:
-      case T_PRIVATE:
-      case T_PUBLIC:
-      case T_PROTECTED:
-      case T_REQUIRE:
-      case T_REQUIRE_ONCE:
-      case T_RETURN:
-      case T_STATIC:
-      case T_THROW:
-      case T_TRY:
-      case T_UNSET:
-      case T_USE:
-        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
-        $this->addToken($token);
-        break;
-
-      case T_CLASS:
-      case T_INTERFACE:
-      case T_TRAIT:
-        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
-        $this->addToken($token);
-
-        if ($this->checkNamingConventions)
-        {
-          $this->skipWhitespace();
-          $next = $this->nextToken();
-          if ($next->type === T_STRING)
-          {
-            if (strpos($next->text, 'rex_') !== 0 && $next->text !== 'rex')
-            {
-              $this->addNonFixable('use "rex_" prefix for class/interface names');
-            }
-            if (strtolower($next->text) !== $next->text)
-            {
-              $this->addNonFixable('use only lowercase and underscores in class/interface names');
-            }
-          }
-          $this->decrementTokenIndex();
+      case T_CONSTANT_ENCAPSED_STRING:
+        if (preg_match('/^"([^${\'\\\\]*)"$/', $token->text, $match)) {
+          $token->text = "'" . $match[1] . "'";
+          $this->addFixable('replace double quotes around simple strings by single quotes');
         }
+        $this->addToken($token);
         break;
 
-      case T_CONST:
-        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
-        $this->addToken($token);
-        if ($this->checkNamingConventions)
-        {
-          $semicolon = new rex_php_token(rex_php_token::SIMPLE, ';');
-          $comma = new rex_php_token(rex_php_token::SIMPLE, ',');
-          do
-          {
-            $this->skipWhitespace();
-            $next = $this->nextToken();
-            if ($next->type === T_STRING && strtoupper($next->text) !== $next->text)
-            {
-              $this->addNonFixable('use only uppercase and underscores for constants');
-              $this->fixToken($next);
-              break;
-            }
-            $this->fixToken($next);
-            while (!in_array($next = $this->nextToken(), array($comma, $semicolon)))
-            {
-              $this->fixToken($next);
-            }
-            $this->fixToken($next);
-          }
-          while ($next != $semicolon);
+      case T_STRING:
+        if (in_array(strtolower($token->text), array('true', 'false', 'null'))) {
+          $this->checkLowercase($token, 'replace boolean/null constants by their lowercase variants ("true", "false" and "null")');
+        } elseif ($this->class && !$this->function && $token->text === $this->class) {
+          $token->text = 'self';
+          $this->addFixable('replace full class names by "self" in static/constructor calls');
         }
-        break;
-
-      case T_VAR:
         $this->addToken($token);
-        $this->addNonFixable('replace old "var $property;" syntax by using visibilities');
         break;
 
       case T_CLASS_C:
@@ -472,8 +298,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
       case T_UNSET_CAST:
         $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
         $trim = '(' . trim($token->text, '() ') . ')';
-        if ($trim !== $token->text)
-        {
+        if ($trim !== $token->text) {
           $token->text = $trim;
           $this->addFixable('remove spaces within type casts');
         }
@@ -517,17 +342,225 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
         $this->checkSpaceBehind(self::MSG_SPACES_AROUND_BINARY_OPERATOR);
         break;
 
+      case T_ABSTRACT:
+      case T_ARRAY:
+      case T_AS:
+      case T_CALLABLE:
+      case T_DECLARE:
+      case T_DEFAULT:
+      case T_EMPTY:
+      case T_ENDDECLARE:
+      case T_ENDFOR:
+      case T_ENDFOREACH:
+      case T_ENDIF:
+      case T_ENDSWITCH:
+      case T_ENDWHILE:
+      case T_EVAL:
+      case T_EXIT:
+      case T_EXTENDS:
+      case T_FINAL:
+      case T_GLOBAL:
+      case T_GOTO:
+      case T_IMPLEMENTS:
+      case T_INSTANCEOF:
+      case T_INSTEADOF:
+      case T_ISSET:
+      case T_LIST:
+      case T_NAMESPACE:
+      case T_NEW:
+      case T_PRIVATE:
+      case T_PUBLIC:
+      case T_PROTECTED:
+      case T_STATIC:
+      case T_UNSET:
+      case T_USE:
+        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
+        $this->addToken($token);
+        break;
+
+      case T_DO:
+      case T_TRY:
+        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
+        $this->addToken($token);
+        $this->checkBraceInSameLine();
+        break;
+
+      case T_BREAK:
+      case T_CONTINUE:
+      case T_ECHO:
+      case T_INCLUDE:
+      case T_INCLUDE_ONCE:
+      case T_PRINT:
+      case T_REQUIRE:
+      case T_REQUIRE_ONCE:
+      case T_RETURN:
+      case T_THROW:
+        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
+        $this->addToken($token);
+        $this->checkSpaceBehind(self::MSG_SPACE_AFTER_CONTROL_KEYWORD);
+        $this->checkNoParanthesis(';');
+        break;
+
+      case T_CLONE:
+        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
+        $this->addToken($token);
+        $this->checkSpaceBehind(self::MSG_SPACE_AFTER_CONTROL_KEYWORD);
+        $this->checkNoParanthesis(array(';', ','));
+        break;
+
+      case T_CATCH:
+      case T_ELSEIF:
+        $this->checkNoNewlineBefore();
+      case T_IF:
+      case T_FOR:
+      case T_FOREACH:
+      case T_WHILE:
+      case T_SWITCH:
+        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
+        $this->addToken($token);
+        $this->checkSpaceBehind(self::MSG_SPACE_AFTER_CONTROL_KEYWORD);
+        $this->searchFor('(', ')');
+        $this->checkBraceInSameLine();
+        break;
+
+      case T_CASE:
+        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
+        $this->addToken($token);
+        $this->checkSpaceBehind(self::MSG_SPACE_AFTER_CONTROL_KEYWORD);
+        $this->checkNoParanthesis(':');
+        break;
+
+      case T_ELSE:
+        $next = $this->nextToken();
+        if ($next->type === T_WHITESPACE) {
+          $nextNext = $this->nextToken();
+          if ($nextNext->type === T_IF) {
+            $this->addFixable('replace "else if" by "elseif"');
+            $this->fixToken(new rex_php_token(T_ELSEIF, 'elseif'));
+            break;
+          }
+          $this->decrementTokenIndex();
+        }
+        $this->decrementTokenIndex();
+        $this->checkNoNewlineBefore();
+        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
+        $this->addToken($token);
+        $this->checkBraceInSameLine();
+        break;
+
+      case T_FUNCTION:
+        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
+        $this->addToken($token);
+        $this->checkSpaceBehind(self::MSG_SPACE_AFTER_CONTROL_KEYWORD);
+        $this->skipWhitespace();
+        $next = $this->nextToken();
+        if ($next->type === T_STRING) {
+          if ($this->class && !$this->method) {
+            $this->method = $next->text;
+            if ($this->checkNamingConventions && !preg_match('/^_{0,2}[a-z0-9]*$/i', $this->method)) {
+              $msg = $this->method === $this->class ? 'use __construct() for constructor method' : 'use camelCase for method names, no underscores';
+              $this->addNonFixable($msg);
+            }
+            $this->addToken($next);
+            $this->searchFor('{', '}');
+            $this->method = null;
+          } else {
+            $this->function = true;
+            $this->addToken($next);
+            $this->searchFor('{', '}');
+            $this->function = false;
+          }
+          break;
+        } elseif ($next->type === rex_php_token::SIMPLE && $next->text === '(') {
+          $this->decrementTokenIndex();
+          $this->searchFor('(', ')');
+          $next = $this->nextToken();
+          $nextNext = $this->nextToken();
+          if ($next->type === T_USE) {
+            $this->decrementTokenIndex();
+            $nextNext = $next;
+            $next = new rex_php_token(T_WHITESPACE, ' ');
+            $this->addFixable(self::MSG_SPACE_BEFORE_CONTROL_KEYWORD);
+          }
+          if ($next->type === T_WHITESPACE && $nextNext->type === T_USE) {
+            $this->fixToken($next);
+            $this->fixToken($nextNext);
+            $this->checkSpaceBehind(self::MSG_SPACE_AFTER_CONTROL_KEYWORD);
+            $this->searchFor('(', ')');
+          } else {
+            $this->decrementTokenIndex();
+            $this->decrementTokenIndex();
+          }
+          $this->checkBraceInSameLine();
+          $this->function++;
+          $this->searchFor('{', '}', false);
+          $this->function--;
+          break;
+        }
+        $this->decrementTokenIndex();
+        break;
+
+      case T_CLASS:
+      case T_INTERFACE:
+      case T_TRAIT:
+        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
+        $this->addToken($token);
+        $this->skipWhitespace();
+        $next = $this->nextToken();
+        if ($next->type === T_STRING) {
+          if ($this->checkNamingConventions) {
+            if (strpos($next->text, 'rex_') !== 0 && $next->text !== 'rex') {
+              $this->addNonFixable('use "rex_" prefix for class/interface names');
+            }
+            if (strtolower($next->text) !== $next->text) {
+              $this->addNonFixable('use only lowercase and underscores in class/interface names');
+            }
+          }
+          $this->addToken($next);
+          $this->class = $next->text;
+          $this->searchFor('{', '}');
+          $this->class = null;
+          break;
+        }
+        $this->decrementTokenIndex();
+        break;
+
+      case T_CONST:
+        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
+        $this->addToken($token);
+        if ($this->checkNamingConventions) {
+          $semicolon = new rex_php_token(rex_php_token::SIMPLE, ';');
+          $comma = new rex_php_token(rex_php_token::SIMPLE, ',');
+          do {
+            $this->skipWhitespace();
+            $next = $this->nextToken();
+            if ($next->type === T_STRING && strtoupper($next->text) !== $next->text) {
+              $this->addNonFixable('use only uppercase and underscores for constants');
+              $this->fixToken($next);
+              break;
+            }
+            $this->fixToken($next);
+            while (!in_array($next = $this->nextToken(), array($comma, $semicolon))) {
+              $this->fixToken($next);
+            }
+            $this->fixToken($next);
+          }
+          while ($next != $semicolon);
+        }
+        break;
+
+      case T_VAR:
+        $this->addToken($token);
+        $this->addNonFixable('replace old "var $property;" syntax by using visibilities');
+        break;
+
       case rex_php_token::SIMPLE:
-        switch ($token->text)
-        {
+        switch ($token->text) {
           case '?':
             $next = $this->nextToken();
-            if ($next->type === rex_php_token::SIMPLE && $next->text === ':')
-            {
+            if ($next->type === rex_php_token::SIMPLE && $next->text === ':') {
               $token->text .= ':';
-            }
-            else
-            {
+            } else {
               $this->decrementTokenIndex();
               $this->isTernary++;
             }
@@ -537,8 +570,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
             return;
 
           case ':':
-            if ($this->isTernary)
-            {
+            if ($this->isTernary) {
               $this->isTernary--;
               $this->checkSpaceBefore(self::MSG_SPACES_AROUND_BINARY_OPERATOR);
               $this->addToken($token);
@@ -557,10 +589,23 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
           case '>':
           case '|':
           case '^':
-          // todo: check around +, -, & (problem: they can also be unary operators)
             $this->checkSpaceBefore(self::MSG_SPACES_AROUND_BINARY_OPERATOR);
             $this->addToken($token);
             $this->checkSpaceBehind(self::MSG_SPACES_AROUND_BINARY_OPERATOR);
+            return;
+
+          case '+':
+          case '-':
+          case '&':
+            $previous = $this->previousToken(true);
+            if ($previous->type === rex_php_token::SIMPLE && in_array($previous->text, array(')', ']'))
+              || in_array($previous->type, array(T_VARIABLE, T_DNUMBER, T_LNUMBER))) {
+              $this->checkSpaceBefore(self::MSG_SPACES_AROUND_BINARY_OPERATOR);
+              $this->addToken($token);
+              $this->checkSpaceBehind(self::MSG_SPACES_AROUND_BINARY_OPERATOR);
+              return;
+            }
+            $this->addToken($token);
             return;
 
           case ',':
@@ -571,39 +616,31 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
 
           case '{':
             $next = $this->nextToken();
-            if ($next->type === rex_php_token::SIMPLE && $next->text === '}')
-            {
+            if ($next->type === rex_php_token::SIMPLE && $next->text === '}') {
               $this->addToken($token);
-              $this->addToken($next);
+              $this->decrementTokenIndex();
               return;
-            }
-            elseif ($next->type === T_WHITESPACE && preg_match('/^ +$/D', $next->text))
-            {
+            } elseif ($next->type === T_WHITESPACE && preg_match('/^ +$/D', $next->text)) {
               $nextNext = $this->nextToken();
-              if ($nextNext->type === rex_php_token::SIMPLE && $nextNext->text === '}')
-              {
+              if ($nextNext->type === rex_php_token::SIMPLE && $nextNext->text === '}') {
                 $this->addToken($token);
-                $this->addToken($next);
-                $this->addToken($nextNext);
+                $this->decrementTokenIndex();
+                $this->decrementTokenIndex();
                 return;
               }
               $this->decrementTokenIndex();
             }
-            $this->checkNewlineBefore();
+            $this->checkNewlineBefore('add newline before opening braces of classes/methods');
             $this->addToken($token);
             $this->decrementTokenIndex();
-            $this->skipWhitespace(false);
-            $next = $this->nextToken();
-            $this->decrementTokenIndex();
-            if (!$this->isNewline($next))
-            {
-              $this->addFixable('add newline after opening brace');
-              $this->fixToken(new rex_php_token(T_WHITESPACE, "\n" . $this->indentation . '  '));
-            }
+            $this->checkNewlineBehind();
             return;
 
           case '}':
-            $this->checkNewlineBefore(true);
+            $previous = $this->previousToken(true);
+            if ($previous->type !== rex_php_token::SIMPLE || $previous->text !== '{') {
+              $this->checkNewlineBefore('add newline before closing braces', true);
+            }
             $this->addToken($token);
             return;
 
@@ -620,10 +657,84 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
   private function skipWhitespace($skipNewlines = true)
   {
     $next = $this->nextToken();
-    while (($next->type === T_WHITESPACE || $next->type === T_COMMENT) && ($skipNewlines || strpos($next->text, "\n") === false))
-    {
+    while (($next->type === T_WHITESPACE || $next->type === T_COMMENT) && ($skipNewlines || strpos($next->text, "\n") === false)) {
       $this->addToken($next);
       $next = $this->nextToken();
+    }
+    $this->decrementTokenIndex();
+  }
+
+  private function searchFor($start, $end, $inclusive = true)
+  {
+    $this->skipWhitespace();
+    $count = $inclusive ? 0 : 1;
+    do {
+      $next = $this->nextToken();
+      if ($next->type === rex_php_token::SIMPLE) {
+        if ($next->text === $start) {
+          $count++;
+        } elseif ($next->text === $end) {
+          $count--;
+        }
+      }
+      if ($count || $inclusive) {
+        $this->fixToken($next);
+      }
+    }
+    while ($count);
+    if (!$inclusive) {
+      $this->decrementTokenIndex();
+    }
+  }
+
+  private function checkNoParanthesis($end)
+  {
+    $this->skipWhitespace();
+    $next = $this->nextToken();
+    if ($next->type === rex_php_token::SIMPLE && $next->text === '(') {
+      $content = $this->content;
+      $this->content = '';
+      $this->searchFor('(', ')', false);
+      $this->nextToken();
+      $next = $this->nextToken();
+      if ($next->type === rex_php_token::SIMPLE && in_array($next->text, (array) $end, true)) {
+        $this->addFixable('remove parantheses around argument of "echo", "include" etc.');
+        $this->content = $content . $this->content;
+      } else {
+        $this->content = $content . '(' . $this->content . ')';
+      }
+    }
+    $this->decrementTokenIndex();
+  }
+
+  private function checkBraceInSameLine()
+  {
+    $next = $this->nextToken();
+    if ($next->type === rex_php_token::SIMPLE && $next->text === '{') {
+      $this->addToken(new rex_php_token(T_WHITESPACE, ' '));
+      $this->addFixable('add space before opening brace');
+      $this->addToken($next);
+      $this->checkNewlineBehind();
+      return;
+    } elseif ($this->isNewline($next)) {
+      $nextNext = $this->nextToken();
+      if ($nextNext->type === rex_php_token::SIMPLE && $nextNext->text === '{') {
+        $next->text = ' ';
+        $this->addToken($next);
+        $this->addFixable('remove newline before opening brace of "if", "for", "while" etc.');
+        $this->addToken($nextNext);
+        $this->checkNewlineBehind();
+        return;
+      }
+      $this->decrementTokenIndex();;
+    } elseif ($next->type === T_WHITESPACE) {
+      $this->addToken($next);
+      $nextNext = $this->nextToken();
+      if ($nextNext->type === rex_php_token::SIMPLE && $nextNext->text === '{') {
+        $this->addToken($nextNext);
+        $this->checkNewlineBehind();
+        return;
+      }
     }
     $this->decrementTokenIndex();
   }
@@ -631,8 +742,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
   private function checkLowercase(rex_php_token $token, $msg)
   {
     $lowercaseText = strtolower($token->text);
-    if ($lowercaseText !== $token->text)
-    {
+    if ($lowercaseText !== $token->text) {
       $token->text = $lowercaseText;
       $this->addFixable($msg);
     }
@@ -641,8 +751,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
   private function checkUppercase(rex_php_token $token, $msg)
   {
     $uppercaseText = strtoupper($token->text);
-    if ($uppercaseText !== $token->text)
-    {
+    if ($uppercaseText !== $token->text) {
       $token->text = $uppercaseText;
       $this->addFixable($msg);
     }
@@ -650,8 +759,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
 
   private function checkSpaceBefore($msg)
   {
-    if ($this->previousToken()->type !== T_WHITESPACE)
-    {
+    if ($this->previousToken()->type !== T_WHITESPACE) {
       $this->addToken(new rex_php_token(T_WHITESPACE, ' '));
       $this->addFixable($msg);
     }
@@ -660,26 +768,44 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
   private function checkSpaceBehind($msg)
   {
     $next = $this->nextToken();
-    if ($next->type !== T_WHITESPACE)
-    {
+    if ($next->type !== T_WHITESPACE && !($next->type === rex_php_token::SIMPLE && $next->text === ';')) {
       $this->addToken(new rex_php_token(T_WHITESPACE, ' '));
       $this->addFixable($msg);
     }
     $this->decrementTokenIndex();
   }
 
-  private function checkNewlineBefore($indentationBack = false)
+  private function checkNewlineBefore($msg, $indentationBack = false)
   {
     $previous = $this->previousToken();
-    if (!$this->isNewline($previous))
-    {
-      if ($indentationBack)
-      {
+    if (!$this->isNewline($previous)) {
+      if ($indentationBack) {
         $this->indentation = substr($this->indentation, 0, -2);
       }
       $this->addToken(new rex_php_token(T_WHITESPACE, "\n" . $this->indentation));
-      $this->addFixable('add newline before braces and control keywords ("if", "for" etc.)');
+      $this->addFixable($msg);
     }
+  }
+
+  private function checkNewlineBehind()
+  {
+    $this->skipWhitespace(false);
+    $next = $this->nextToken();
+    $this->decrementTokenIndex();
+    if (!$this->isNewline($next)) {
+      $this->addFixable('add newline after opening brace');
+      $this->fixToken(new rex_php_token(T_WHITESPACE, "\n" . $this->indentation . '  '));
+    }
+  }
+
+  private function checkNoNewlineBefore()
+  {
+    $this->content = preg_replace("/\}\n *$/", '} ', $this->content, -1, $count);
+    if ($count) {
+      $this->addFixable('remove newline before "else", "elseif" and "catch"');
+      return;
+    }
+    $this->checkSpaceBefore(self::MSG_SPACE_BEFORE_CONTROL_KEYWORD);
   }
 
   private function isNewline(rex_php_token $token)
@@ -705,18 +831,13 @@ class rex_php_token
 
   public function __construct($token, $text = null)
   {
-    if ($text)
-    {
+    if ($text) {
       $this->type = $token;
       $this->text = $text;
-    }
-    elseif (is_string($token))
-    {
+    } elseif (is_string($token)) {
       $this->type = self::SIMPLE;
       $this->text = $token;
-    }
-    else
-    {
+    } else {
       $this->type = $token[0];
       $this->text = $token[1];
     }
@@ -729,60 +850,50 @@ $textExtensions = array('css', 'htaccess', 'html', 'js', 'json', 'lang', 'php', 
 $countFiles = 0;
 $countFixable = 0;
 $countNonFixable = 0;
-foreach ($iterator as $path => $file)
-{
+foreach ($iterator as $path => $file) {
   /* @var $file SplFileInfo */
   $subPath = $iterator->getInnerIterator()->getSubPathName();
   $fileExt = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
   if (!in_array($fileExt, $textExtensions)
-    || strpos(DIRECTORY_SEPARATOR . $subPath, DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR) !== false)
-  {
+    || strpos(DIRECTORY_SEPARATOR . $subPath, DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR) !== false
+    || strpos($path, DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . 'tinymce' . DIRECTORY_SEPARATOR) !== false
+    || strpos($subPath, 'test_coding_standards') === 0) {
     continue;
   }
 
-  if (!$hideProcess)
-  {
+  if (!$hideProcess) {
     $checkString = $subPath;
-    if (mb_strlen($checkString) > 60)
-    {
-      $checkString = substr($checkString, 0, 20) . '...' . substr($checkString, -37);
+    if (mb_strlen($checkString) > 60) {
+      $checkString = mb_substr($checkString, 0, 20) . '...' . mb_substr($checkString, -37);
     }
     echo $checkString = 'check ' . $checkString . ' ...';
   }
 
   $countFiles++;
-  if ($fileExt == 'php')
-  {
+  if ($fileExt == 'php') {
     $checkNamingConventions = strpos($path, DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . 'compat' . DIRECTORY_SEPARATOR) === false;
     $fixer = new rex_coding_standards_fixer_php(file_get_contents($path), $checkNamingConventions);
-  }
-  else
-  {
+  } else {
     $fixer = new rex_coding_standards_fixer(file_get_contents($path));
   }
 
-  if (!$hideProcess)
-  {
+  if (!$hideProcess) {
     echo str_repeat("\010 \010", mb_strlen($checkString));
   }
 
-  if ($fixer->hasChanged())
-  {
+  if ($fixer->hasChanged()) {
     echo $subPath, ':', PHP_EOL;
-    if ($fixable = $fixer->getFixable())
-    {
+    if ($fixable = $fixer->getFixable()) {
       echo '  > ', implode(PHP_EOL . '  > ', $fixable), PHP_EOL;
       $countFixable++;
     }
-    if ($nonFixable = $fixer->getNonFixable())
-    {
+    if ($nonFixable = $fixer->getNonFixable()) {
       echo '  ! ', implode(PHP_EOL . '  ! ', $nonFixable), PHP_EOL;
       $countNonFixable++;
     }
     echo PHP_EOL;
 
-    if ($fix)
-    {
+    if ($fix) {
       file_put_contents($path, $fixer->getResult());
     }
   }
@@ -790,18 +901,15 @@ foreach ($iterator as $path => $file)
 
 echo '-----------------------------------', PHP_EOL;
 echo 'checked ', $countFiles, ' files', PHP_EOL;
-if ($countFixable)
-{
+if ($countFixable) {
   echo '', ($fix ? 'fixed' : 'found fixable'), ' problems in ', $countFixable, ' files', PHP_EOL;
 }
-if ($countNonFixable)
-{
+if ($countNonFixable) {
   echo 'found non-fixable problems in ', $countNonFixable, ' files', PHP_EOL;
 }
 
 echo PHP_EOL;
-if ($hasColorSupport)
-{
+if ($hasColorSupport) {
   echo ($countNonFixable + ($fix ? 0 : $countFixable)) ? "\033[1;37;41m" : "\033[1;30;42m";
 }
 echo 'FINISHED, ', !$countFixable && !$countNonFixable ? 'no problems' : 'found problems';
