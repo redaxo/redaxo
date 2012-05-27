@@ -34,7 +34,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
 
   public function testDefault()
   {
-    $finder = rex_finder::get($this->getPath());
+    $finder = rex_finder::factory($this->getPath());
     $array = iterator_to_array($finder, true);
     $this->assertEquals(5, count($finder), 'default iterator returns all elements of first level');
 
@@ -47,7 +47,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
 
   public function testRecursive()
   {
-    $finder = rex_finder::get($this->getPath())->recursive();
+    $finder = rex_finder::factory($this->getPath())->recursive();
     $array = iterator_to_array($finder, true);
 
     $this->assertEquals(10, count($finder), 'recursive iterator returns all elements of all levels');
@@ -66,7 +66,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
 
   public function testFilterTxt()
   {
-    $finder = rex_finder::get($this->getPath())->recursive()->filterFiles('*.txt');
+    $finder = rex_finder::factory($this->getPath())->recursive()->filterFiles('*.txt');
     $array = iterator_to_array($finder, true);
 
     $this->assertEquals(8, count($finder), 'recursive iterator returns all elements of all levels filtered by filepattern, leave folders untouched');
@@ -83,7 +83,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
 
   public function testIgnoreTxt()
   {
-    $finder = rex_finder::get($this->getPath())->recursive()->ignoreFiles('*.txt');
+    $finder = rex_finder::factory($this->getPath())->recursive()->ignoreFiles('*.txt');
     $array = iterator_to_array($finder, true);
 
     $this->assertEquals(7, count($finder), 'recursive iterator returns all elements of all levels but ignores a filepattern, leave folders untouched');

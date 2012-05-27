@@ -1,6 +1,6 @@
 <?php
 
-class rex_finder implements IteratorAggregate, Countable
+class rex_finder extends rex_factory_base implements IteratorAggregate, Countable
 {
   private $baseDir;
 
@@ -24,21 +24,21 @@ class rex_finder implements IteratorAggregate, Countable
   }
 
   /**
-   * Use this factory method to allow notations like rex_finder::get()->recursive()->filterFiles().. because new rex_finder()->myMethod is only allowed in PHP5.4+
+   * Use this factory method to allow notations like rex_finder::factory('/my-path/...')->recursive()->filterFiles().. because new rex_finder()->myMethod is only allowed in PHP5.4+
    *
    * @param string $baseDir
    *
    * @return self
    */
-  static public function get($baseDir)
+  static public function factory($baseDir)
   {
     if(!is_dir($baseDir))
     {
       throw new rex_exception('folder "'. $baseDir .'" not found!');
     }
 
-    $finder = new self($baseDir);
-    return $finder;
+    $class = static::getFactoryClass();
+    return new $class($baseDir);
   }
 
   /**
