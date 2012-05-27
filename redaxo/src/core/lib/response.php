@@ -27,6 +27,10 @@ class rex_response
 
   static public function handleException(Exception $exc)
   {
+    if ($exc instanceof rex_http_exception) {
+      self::setStatus($exc->getHttpCode());
+    }
+
     if(self::$httpStatus == self::HTTP_OK)
     {
       self::setStatus(self::HTTP_INTERNAL_ERROR);
@@ -37,8 +41,18 @@ class rex_response
       // TODO add a beautiful error page with usefull debugging info
       $buf = '';
       $buf .= '<pre>';
-      $buf .= 'Exception thrown in '. $exc->getFile() .' on line '. $exc->getLine()."\n\n";
-      $buf .= '<b>'. $exc->getMessage()."</b>\n";
+      $buf .= get_class($exc) .' thrown in '. $exc->getFile() .' on line '. $exc->getLine()."\n";
+      if ($exc->getMessage()) $buf .= '<b>'. $exc->getMessage()."</b>\n";
+
+      $prev = $exc->getPrevious();
+      do {
+        $buf .= "\n";
+        $buf .= 'caused by '. get_class($prev) .' in '. $prev->getFile() .' on line '. $prev->getLine()."\n";
+        if($prev->getMessage()) $buf .= '<b>'. $prev->getMessage()."</b>\n";
+      }
+      while ($prev = $prev->getPrevious()) ;
+
+      $buf .= "\n";
       $buf .= $exc->getTraceAsString();
       $buf .= '</pre>';
 
