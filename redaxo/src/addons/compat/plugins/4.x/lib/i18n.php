@@ -17,8 +17,7 @@ class i18n extends rex_i18n
     global $REX;
 
     parent::setLocale($locale, $setLocale);
-    if ($searchpath !== null)
-    {
+    if ($searchpath !== null) {
       parent::addDirectory($searchpath);
     }
 

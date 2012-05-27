@@ -91,11 +91,9 @@ class rex_ooArticleSlice
     if ($clang === false)
       $clang = rex_clang::getId();
 
-    foreach (range(1, 20) as $ctype)
-    {
+    foreach (range(1, 20) as $ctype) {
       $slice = self::getFirstSliceForCtype($ctype, $an_article_id, $clang, $revision);
-      if ($slice !== null)
-      {
+      if ($slice !== null) {
         return $slice;
       }
     }
@@ -200,8 +198,7 @@ class rex_ooArticleSlice
 
     $sql->setQuery($query);
     $rows = $sql->getRows();
-    if ($rows == 1)
-    {
+    if ($rows == 1) {
       return new rex_ooArticleSlice(
         $sql->getValue('id'), $sql->getValue('article_id'), $sql->getValue('clang'), $sql->getValue('ctype'), $sql->getValue('modultyp_id'), $sql->getValue('prior'),
         $sql->getValue('createdate'), $sql->getValue('updatedate'), $sql->getValue('createuser'), $sql->getValue('updateuser'), $sql->getValue('revision'),
@@ -211,12 +208,9 @@ class rex_ooArticleSlice
         array($sql->getValue('link1'), $sql->getValue('link2'), $sql->getValue('link3'), $sql->getValue('link4'), $sql->getValue('link5'), $sql->getValue('link6'), $sql->getValue('link7'), $sql->getValue('link8'), $sql->getValue('link9'), $sql->getValue('link10')),
         array($sql->getValue('linklist1'), $sql->getValue('linklist2'), $sql->getValue('linklist3'), $sql->getValue('linklist4'), $sql->getValue('linklist5'), $sql->getValue('linklist6'), $sql->getValue('linklist7'), $sql->getValue('linklist8'), $sql->getValue('linklist9'), $sql->getValue('linklist10')),
         $sql->getValue('php'), $sql->getValue('html'));
-    }
-    elseif ($rows > 1)
-    {
+    } elseif ($rows > 1) {
       $slices = array ();
-      for ($i = 0; $i < $rows; $i++)
-      {
+      for ($i = 0; $i < $rows; $i++) {
         $slices[] = new rex_ooArticleSlice(
         $sql->getValue('id'), $sql->getValue('article_id'), $sql->getValue('clang'), $sql->getValue('ctype'), $sql->getValue('modultyp_id'), $sql->getValue('prior'),
         $sql->getValue('createdate'), $sql->getValue('updatedate'), $sql->getValue('createuser'), $sql->getValue('updateuser'), $sql->getValue('revision'),
@@ -273,7 +267,7 @@ class rex_ooArticleSlice
   public function getValue($index)
   {
     if (is_int($index))
-      return $this->_values[$index-1];
+      return $this->_values[$index - 1];
 
     $attrName = '_' . $index;
     if (isset($this->$attrName))
@@ -284,7 +278,7 @@ class rex_ooArticleSlice
 
   public function getLink($index)
   {
-    return $this->_links[$index-1];
+    return $this->_links[$index - 1];
   }
 
   public function getLinkUrl($index)
@@ -294,12 +288,12 @@ class rex_ooArticleSlice
 
   public function getLinkList($index)
   {
-    return $this->_linklists[$index-1];
+    return $this->_linklists[$index - 1];
   }
 
   public function getMedia($index)
   {
-    return $this->_files[$index-1];
+    return $this->_files[$index - 1];
   }
 
   public function getMediaUrl($index)
@@ -309,7 +303,7 @@ class rex_ooArticleSlice
 
   public function getMediaList($index)
   {
-    return $this->_filelists[$index-1];
+    return $this->_filelists[$index - 1];
   }
 
   public function getHtml()
@@ -328,7 +322,7 @@ class rex_ooArticleSlice
    */
   public function getFile($index)
   {
-    return $this->_files[$index-1];
+    return $this->_files[$index - 1];
   }
 
   /**
@@ -346,7 +340,7 @@ class rex_ooArticleSlice
    */
   public function getFileList($index)
   {
-    return $this->_filelists[$index-1];
+    return $this->_filelists[$index - 1];
   }
 
   /**

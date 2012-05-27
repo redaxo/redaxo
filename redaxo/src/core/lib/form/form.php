@@ -62,18 +62,13 @@ class rex_form extends rex_factory_base
 
     // --------- validate where-condition and determine editMode
     $numRows = $this->sql->getRows();
-    if ($numRows == 0)
-    {
+    if ($numRows == 0) {
       // Kein Datensatz gefunden => Mode: Add
       $this->setEditMode(false);
-    }
-    elseif ($numRows == 1)
-    {
+    } elseif ($numRows == 1) {
       // Ein Datensatz gefunden => Mode: Edit
       $this->setEditMode(true);
-    }
-    else
-    {
+    } else {
       trigger_error('rex_form: Die gegebene Where-Bedingung führt nicht zu einem eindeutigen Datensatz!', E_USER_ERROR);
     }
 
@@ -124,10 +119,8 @@ class rex_form extends rex_factory_base
     $controlFields = rex_extension::registerPoint('REX_FORM_CONTROL_FIElDS', $controlFields, array('form' => $this));
 
     $controlElements = array();
-    foreach ($controlFields as $name => $label)
-    {
-      if ($label)
-      {
+    foreach ($controlFields as $name => $label) {
+      if ($label) {
         $controlElements[$name] = $this->addInputField(
           'submit',
           $name,
@@ -135,9 +128,7 @@ class rex_form extends rex_factory_base
           array('internal::useArraySyntax' => false),
           false
         );
-      }
-      else
-      {
+      } else {
         $controlElements[$name] = null;
       }
     }
@@ -162,14 +153,12 @@ class rex_form extends rex_factory_base
     $params['form'] = $this->getName();
 
     $paramString = '';
-    foreach ($params as $name => $value)
-    {
+    foreach ($params as $name => $value) {
       $paramString .= $name . '=' . $value . '&';
     }
 
     $url = 'index.php?' . $paramString;
-    if ($escape)
-    {
+    if ($escape) {
       $url = str_replace('&', '&amp;', $url);
     }
 
@@ -198,8 +187,7 @@ class rex_form extends rex_factory_base
   {
     $element = $this->createElement($tag, $name, $value, $attributes);
 
-    if ($addElement)
-    {
+    if ($addElement) {
       $this->addElement($element);
       return $element;
     }
@@ -376,8 +364,7 @@ class rex_form extends rex_factory_base
    */
   public function addMediaField($name, $value = null, array $attributes = array())
   {
-    if (!rex_addon::get('mediapool')->isAvailable())
-    {
+    if (!rex_addon::get('mediapool')->isAvailable()) {
       throw new rex_exception(__METHOD__ . '() needs "mediapool" addon!');
     }
     $attributes['internal::fieldClass'] = 'rex_form_widget_media_element';
@@ -393,8 +380,7 @@ class rex_form extends rex_factory_base
    */
   public function addMedialistField($name, $value = null, array $attributes = array())
   {
-    if (!rex_addon::get('mediapool')->isAvailable())
-    {
+    if (!rex_addon::get('mediapool')->isAvailable()) {
       throw new rex_exception(__METHOD__ . '() needs "mediapool" addon!');
     }
     $attributes['internal::fieldClass'] = 'rex_form_widget_medialist_element';
@@ -410,8 +396,7 @@ class rex_form extends rex_factory_base
    */
   public function addLinkmapField($name, $value = null, array $attributes = array())
   {
-    if (!rex_plugin::get('structure', 'linkmap')->isAvailable())
-    {
+    if (!rex_plugin::get('structure', 'linkmap')->isAvailable()) {
       throw new rex_exception(__METHOD__ . '() needs "structure/linkmap" plugin!');
     }
     $attributes['internal::fieldClass'] = 'rex_form_widget_linkmap_element';
@@ -427,8 +412,7 @@ class rex_form extends rex_factory_base
    */
   public function addLinklistField($name, $value = null, array $attributes = array())
   {
-    if (!rex_plugin::get('structure', 'linkmap')->isAvailable())
-    {
+    if (!rex_plugin::get('structure', 'linkmap')->isAvailable()) {
       throw new rex_exception(__METHOD__ . '() needs "structure/linkmap" plugin!');
     }
     $attributes['internal::fieldClass'] = 'rex_form_widget_linklist_element';
@@ -501,8 +485,7 @@ class rex_form extends rex_factory_base
    */
   public function getParam($name, $default = null)
   {
-    if (isset($this->params[$name]))
-    {
+    if (isset($this->params[$name])) {
       return $this->params[$name];
     }
     return $default;
@@ -547,56 +530,46 @@ class rex_form extends rex_factory_base
 
     // Evtl postwerte wieder übernehmen (auch externe Werte überschreiben)
     $postValue = $this->elementPostValue($this->getFieldsetName(), $name);
-    if ($postValue !== null)
-    {
+    if ($postValue !== null) {
       $value = $postValue;
     }
 
     // Wert aus der DB nehmen, falls keiner extern und keiner im POST angegeben
-    if ($value === null && $this->sql->getRows() == 1 && $this->sql->hasValue($name))
-    {
+    if ($value === null && $this->sql->getRows() == 1 && $this->sql->hasValue($name)) {
       $value = $this->sql->getValue($name);
     }
 
-    if (is_array($value))
-    {
+    if (is_array($value)) {
       $value = '|' . implode('|', $value) . '|';
     }
 
-    if (!isset($attributes['internal::useArraySyntax']))
-    {
+    if (!isset($attributes['internal::useArraySyntax'])) {
       $attributes['internal::useArraySyntax'] = true;
     }
 
     // Eigentlichen Feldnamen nochmals speichern
     $fieldName = $name;
-    if ($attributes['internal::useArraySyntax'] === true)
-    {
+    if ($attributes['internal::useArraySyntax'] === true) {
       $name = $this->fieldset . '[' . $name . ']';
-    }
-    elseif ($attributes['internal::useArraySyntax'] === false)
-    {
+    } elseif ($attributes['internal::useArraySyntax'] === false) {
       $name = $this->fieldset . '_' . $name;
     }
     unset($attributes['internal::useArraySyntax']);
 
     $class = 'rex_form_element';
-    if (isset($attributes['internal::fieldClass']))
-    {
+    if (isset($attributes['internal::fieldClass'])) {
       $class = $attributes['internal::fieldClass'];
       unset($attributes['internal::fieldClass']);
     }
 
     $separateEnding = false;
-    if (isset($attributes['internal::fieldSeparateEnding']))
-    {
+    if (isset($attributes['internal::fieldSeparateEnding'])) {
       $separateEnding = $attributes['internal::fieldSeparateEnding'];
       unset($attributes['internal::fieldSeparateEnding']);
     }
 
     $internal_attr = array('name' => $name);
-    if (isset($attributes['internal::noNameAttribute']))
-    {
+    if (isset($attributes['internal::noNameAttribute'])) {
       $internal_attr = array();
       unset($attributes['internal::noNameAttribute']);
     }
@@ -656,13 +629,11 @@ class rex_form extends rex_factory_base
     // ----- EXTENSION POINT
     $className = rex_extension::registerPoint('REX_FORM_INPUT_CLASS', '', array('inputType' => $inputType));
 
-    if ($className)
-    {
+    if ($className) {
       return $className;
     }
 
-    switch ($inputType)
-    {
+    switch ($inputType) {
       case 'control'   : $className = 'rex_form_control_element'; break;
       case 'checkbox'  : $className = 'rex_form_checkbox_element'; break;
       case 'radio'     : $className = 'rex_form_radio_element'; break;
@@ -691,13 +662,11 @@ class rex_form extends rex_factory_base
     // ----- EXTENSION POINT
     $inputTag = rex_extension::registerPoint('REX_FORM_INPUT_TAG', '', array('inputType' => $inputType));
 
-    if ($inputTag)
-    {
+    if ($inputTag) {
       return $inputTag;
     }
 
-    switch ($inputType)
-    {
+    switch ($inputType) {
       case 'checkbox'  :
       case 'hidden'    :
       case 'radio'     :
@@ -721,13 +690,11 @@ class rex_form extends rex_factory_base
     // ----- EXTENSION POINT
     $inputAttr = rex_extension::registerPoint('REX_FORM_INPUT_ATTRIBUTES', array(), array('inputType' => $inputType));
 
-    if ($inputAttr)
-    {
+    if ($inputAttr) {
       return $inputAttr;
     }
 
-    switch ($inputType)
-    {
+    switch ($inputType) {
       case 'checkbox'  :
       case 'hidden'    :
       case 'radio'     :
@@ -809,12 +776,9 @@ class rex_form extends rex_factory_base
   protected function getHeaderElements()
   {
     $headerElements = array();
-    foreach ($this->elements as $fieldsetName => $fieldsetElementsArray)
-    {
-      foreach ($fieldsetElementsArray as $element)
-      {
-        if ($this->isHeaderElement($element))
-        {
+    foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
+      foreach ($fieldsetElementsArray as $element) {
+        if ($this->isHeaderElement($element)) {
           $headerElements[] = $element;
         }
       }
@@ -828,12 +792,9 @@ class rex_form extends rex_factory_base
   protected function getFooterElements()
   {
     $footerElements = array();
-    foreach ($this->elements as $fieldsetName => $fieldsetElementsArray)
-    {
-      foreach ($fieldsetElementsArray as $element)
-      {
-        if ($this->isFooterElement($element))
-        {
+    foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
+      foreach ($fieldsetElementsArray as $element) {
+        if ($this->isFooterElement($element)) {
           $footerElements[] = $element;
         }
       }
@@ -855,8 +816,7 @@ class rex_form extends rex_factory_base
   protected function getFieldsets()
   {
     $fieldsets = array();
-    foreach ($this->elements as $fieldsetName => $fieldsetElementsArray)
-    {
+    foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
       $fieldsets[] = $fieldsetName;
     }
     return $fieldsets;
@@ -868,12 +828,10 @@ class rex_form extends rex_factory_base
   protected function getFieldsetElements()
   {
     $fieldsetElements = array();
-    foreach ($this->elements as $fieldsetName => $fieldsetElementsArray)
-    {
+    foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
       $fieldsetElements[$fieldsetName] = array();
 
-      foreach ($fieldsetElementsArray as $element)
-      {
+      foreach ($fieldsetElementsArray as $element) {
         if ($this->isHeaderElement($element)) continue;
         if ($this->isFooterElement($element)) continue;
 
@@ -889,12 +847,10 @@ class rex_form extends rex_factory_base
   protected function getSaveElements()
   {
     $fieldsetElements = array();
-    foreach ($this->elements as $fieldsetName => $fieldsetElementsArray)
-    {
+    foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
       $fieldsetElements[$fieldsetName] = array();
 
-      foreach ($fieldsetElementsArray as $key => $element)
-      {
+      foreach ($fieldsetElementsArray as $key => $element) {
         if ($this->isFooterElement($element)) continue;
         if ($this->isRawElement($element)) continue;
 
@@ -910,12 +866,9 @@ class rex_form extends rex_factory_base
    */
   protected function getControlElement()
   {
-    foreach ($this->elements as $fieldsetName => $fieldsetElementsArray)
-    {
-      foreach ($fieldsetElementsArray as $element)
-      {
-        if ($this->isControlElement($element))
-        {
+    foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
+      foreach ($fieldsetElementsArray as $element) {
+        if ($this->isControlElement($element)) {
           return $element;
         }
       }
@@ -945,12 +898,9 @@ class rex_form extends rex_factory_base
    */
   private function _getElement($fieldsetName, $elementName)
   {
-    if (is_array($this->elements[$fieldsetName]))
-    {
-      for ($i = 0; $i < count($this->elements[$fieldsetName]); $i++)
-      {
-        if ($this->elements[$fieldsetName][$i]->getAttribute('name') == $elementName)
-        {
+    if (is_array($this->elements[$fieldsetName])) {
+      for ($i = 0; $i < count($this->elements[$fieldsetName]); $i++) {
+        if ($this->elements[$fieldsetName][$i]->getAttribute('name') == $elementName) {
           return $this->elements[$fieldsetName][$i];
         }
       }
@@ -986,8 +936,7 @@ class rex_form extends rex_factory_base
   public function getWarning()
   {
     $warning = rex_request($this->getName() . '_warning', 'string');
-    if ($this->warning != '')
-    {
+    if ($this->warning != '') {
       $warning .= "\n" . $this->warning;
     }
     return $warning;
@@ -1004,8 +953,7 @@ class rex_form extends rex_factory_base
   public function getMessage()
   {
     $message = rex_request($this->getName() . '_msg', 'string');
-    if ($this->message != '')
-    {
+    if ($this->message != '') {
       $message .= "\n" . $this->message;
     }
     return $message;
@@ -1027,8 +975,7 @@ class rex_form extends rex_factory_base
   {
     static $setOnce = false;
 
-    if (!$setOnce)
-    {
+    if (!$setOnce) {
       $fieldnames = $this->sql->getFieldnames();
 
       if (in_array('updateuser', $fieldnames))
@@ -1037,8 +984,7 @@ class rex_form extends rex_factory_base
       if (in_array('updatedate', $fieldnames))
         $saveSql->setValue('updatedate', time());
 
-      if (!$this->isEditMode())
-      {
+      if (!$this->isEditMode()) {
         if (in_array('createuser', $fieldnames))
           $saveSql->setValue('createuser', rex::getUser()->getValue('login'));
 
@@ -1107,13 +1053,10 @@ class rex_form extends rex_factory_base
   protected function processPostValues()
   {
     $saveElements = $this->getSaveElements();
-    foreach ($saveElements as $fieldsetName => $fieldsetElements)
-    {
-      foreach ($fieldsetElements as $key => $element)
-      {
+    foreach ($saveElements as $fieldsetName => $fieldsetElements) {
+      foreach ($fieldsetElements as $key => $element) {
         // read-only-fields nicht speichern
-        if (strpos($element->getAttribute('class'), 'rex-form-read') !== false)
-        {
+        if (strpos($element->getAttribute('class'), 'rex-form-read') !== false) {
           continue;
         }
 
@@ -1170,13 +1113,10 @@ class rex_form extends rex_factory_base
     $sql->debugsql = & $this->debug;
     $sql->setTable($this->tableName);
 
-    foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements)
-    {
-      foreach ($fieldsetElements as $element)
-      {
+    foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
+      foreach ($fieldsetElements as $element) {
         // read-only-fields nicht speichern
-        if (strpos($element->getAttribute('class'), 'rex-form-read') !== false)
-        {
+        if (strpos($element->getAttribute('class'), 'rex-form-read') !== false) {
           continue;
         }
 
@@ -1190,13 +1130,10 @@ class rex_form extends rex_factory_base
       }
     }
 
-    if ($this->isEditMode())
-    {
+    if ($this->isEditMode()) {
       $sql->setWhere($this->whereCondition);
       $saved = $sql->update();
-    }
-    else
-    {
+    } else {
       $saved = $sql->insert();
     }
 
@@ -1233,26 +1170,22 @@ class rex_form extends rex_factory_base
 
   protected function redirect($listMessage = '', $listWarning = '', array $params = array())
   {
-    if ($listMessage != '')
-    {
+    if ($listMessage != '') {
       $listName = rex_request('list', 'string');
       $params[$listName . '_msg'] = $listMessage;
     }
 
-    if ($listWarning != '')
-    {
+    if ($listWarning != '') {
       $listName = rex_request('list', 'string');
       $params[$listName . '_warning'] = $listWarning;
     }
 
     $paramString = '';
-    foreach ($params as $name => $value)
-    {
+    foreach ($params as $name => $value) {
       $paramString = $name . '=' . $value . '&';
     }
 
-    if ($this->debug)
-    {
+    if ($this->debug) {
       echo 'redirect to: ' . $this->applyUrl . $paramString;
       exit();
     }
@@ -1270,10 +1203,8 @@ class rex_form extends rex_factory_base
 
     $this->setApplyUrl($this->getUrl(array('func' => ''), false));
 
-    if (($controlElement = $this->getControlElement()) !== null)
-    {
-      if ($controlElement->saved())
-      {
+    if (($controlElement = $this->getControlElement()) !== null) {
+      if ($controlElement->saved()) {
         $this->processPostValues();
 
         // speichern und umleiten
@@ -1289,9 +1220,7 @@ class rex_form extends rex_factory_base
         else
            // Allgemeine Fehlermeldung
         $this->setWarning(rex_i18n::msg('form_save_error'));
-      }
-      elseif ($controlElement->applied())
-      {
+      } elseif ($controlElement->applied()) {
         $this->processPostValues();
 
         // speichern und wiederanzeigen
@@ -1307,9 +1236,7 @@ class rex_form extends rex_factory_base
         else
            // Allgemeine Fehlermeldung
           $this->setWarning(rex_i18n::msg('form_save_error'));
-      }
-      elseif ($controlElement->deleted())
-      {
+      } elseif ($controlElement->deleted()) {
         // speichern und wiederanzeigen
         // Nachricht in der Liste anzeigen
         if (($result = $this->delete()) === true)
@@ -1318,15 +1245,11 @@ class rex_form extends rex_factory_base
           $this->setWarning($result);
         else
           $this->setWarning(rex_i18n::msg('form_delete_error'));
-      }
-      elseif ($controlElement->resetted())
-      {
+      } elseif ($controlElement->resetted()) {
         // verwerfen und wiederanzeigen
         // Nachricht im Formular anzeigen
         $this->setMessage(rex_i18n::msg('form_resetted'));
-      }
-      elseif ($controlElement->aborted())
-      {
+      } elseif ($controlElement->aborted()) {
         // verwerfen und umleiten
         // Nachricht in der Liste anzeigen
         $this->redirect(rex_i18n::msg('form_resetted'));
@@ -1334,8 +1257,7 @@ class rex_form extends rex_factory_base
     }
 
     // Parameter dem Formular hinzufügen
-    foreach ($this->getParams() as $name => $value)
-    {
+    foreach ($this->getParams() as $name => $value) {
       $this->addHiddenField($name, $value, array('internal::useArraySyntax' => 'none'));
     }
 
@@ -1343,12 +1265,9 @@ class rex_form extends rex_factory_base
 
     $warning = $this->getWarning();
     $message = $this->getMessage();
-    if ($warning != '')
-    {
+    if ($warning != '') {
       $s .= '  ' . rex_view::warning($warning) . "\n";
-    }
-    elseif ($message != '')
-    {
+    } elseif ($message != '') {
       $s .= '  ' . rex_view::info($message) . "\n";
     }
 
@@ -1360,16 +1279,13 @@ class rex_form extends rex_factory_base
     $last = count($fieldsets);
 
     $s .= '  <form action="index.php" method="' . $this->method . '">' . "\n";
-    foreach ($fieldsets as $fieldsetName => $fieldsetElements)
-    {
+    foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
       $s .= '    <fieldset">' . "\n";
       $s .= '      <h2>' . htmlspecialchars($fieldsetName) . '</h2>' . "\n";
 
       // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfügen
-      if ($i == 0 && $addHeaders)
-      {
-        foreach ($this->getHeaderElements() as $element)
-        {
+      if ($i == 0 && $addHeaders) {
+        foreach ($this->getHeaderElements() as $element) {
           // Callback
           $element->setValue($this->preView($fieldsetName, $element->getFieldName(), $element->getValue()));
           // HeaderElemente immer ohne <p>
@@ -1378,18 +1294,15 @@ class rex_form extends rex_factory_base
         $addHeaders = false;
       }
 
-      foreach ($fieldsetElements as $element)
-      {
+      foreach ($fieldsetElements as $element) {
         // Callback
         $element->setValue($this->preView($fieldsetName, $element->getFieldName(), $element->getValue()));
         $s .= $element->get();
       }
 
       // Die FooterElemente nur innerhalb des letzten Fieldsets
-      if (($i + 1) == $last)
-      {
-        foreach ($this->getFooterElements() as $element)
-        {
+      if (($i + 1) == $last) {
+        foreach ($this->getFooterElements() as $element) {
           // Callback
           $element->setValue($this->preView($fieldsetName, $element->getFieldName(), $element->getValue()));
           $s .= $element->get();

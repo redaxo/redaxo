@@ -144,8 +144,7 @@ abstract class rex_cache
   public function getMany($keys)
   {
     $data = array();
-    foreach ($keys as $key)
-    {
+    foreach ($keys as $key) {
       $data[$key] = $this->get($key);
     }
 

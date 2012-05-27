@@ -2,8 +2,7 @@
 
 include $this->getBasePath('symlinks.inc.php');
 
-foreach (array_reverse($symlinks) as $link => $target)
-{
+foreach (array_reverse($symlinks) as $link => $target) {
   if (is_link($link))
     unlink($link);
 }

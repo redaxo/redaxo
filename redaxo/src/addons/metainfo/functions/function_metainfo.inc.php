@@ -118,19 +118,15 @@ function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $defa
 function rex_metainfo_delete_field($fieldIdOrName)
 {
   // Löschen anhand der FieldId
-  if (is_int($fieldIdOrName))
-  {
+  if (is_int($fieldIdOrName)) {
     $fieldQry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_params WHERE field_id=:idOrName LIMIT 2';
     $invalidField = rex_i18n::msg('minfo_field_error_invalid_fieldid');
   }
   // Löschen anhand des Feldnames
-  elseif (is_string($fieldIdOrName))
-  {
+  elseif (is_string($fieldIdOrName)) {
     $fieldQry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_params WHERE name=:idOrName LIMIT 2';
     $invalidField = rex_i18n::msg('minfo_field_error_invalid_name');
-  }
-  else
-  {
+  } else {
     trigger_error('MetaInfos: Unexpected type for $fieldIdOrName!', E_USER_ERROR);
   }
   // Feld existiert?
@@ -168,7 +164,7 @@ function rex_metainfo_meta_prefix($name)
   if (!is_string($name)) return false;
 
   if (($pos = strpos($name, '_')) !== false)
-    return substr(strtolower($name), 0, $pos+1);
+    return substr(strtolower($name), 0, $pos + 1);
 
   return false;
 }
@@ -198,30 +194,21 @@ function rex_metainfo_extensions_handler($params)
   $mypage = 'metainfo';
 
   // additional javascripts
-  if ($page == 'metainfo' || ($page == 'content' && $mode == 'meta'))
-  {
-    rex_extension::register('PAGE_HEADER', function($params) use ($mypage)
-    {
+  if ($page == 'metainfo' || ($page == 'content' && $mode == 'meta')) {
+    rex_extension::register('PAGE_HEADER', function ($params) use ($mypage) {
       return $params['subject'] . "\n" . '  <script src="' . rex_path::addonAssets($mypage, 'metainfo.js') . '" type="text/javascript"></script>';
     });
   }
 
   // include extensions
   $curDir = dirname(__FILE__) . '/..';
-  if ($page == 'content' && $mode == 'meta')
-  {
-    require_once ($curDir . '/lib/handler/article_handler.php');
-  }
-  elseif ($page == 'structure')
-  {
-    require_once ($curDir . '/lib/handler/category_handler.php');
-  }
-  elseif ($page == 'mediapool')
-  {
-    require_once ($curDir . '/lib/handler/media_handler.php');
-  }
-  elseif ($page == 'import_export')
-  {
-    require_once ($curDir . '/extensions/extension_cleanup.inc.php');
+  if ($page == 'content' && $mode == 'meta') {
+    require_once $curDir . '/lib/handler/article_handler.php';
+  } elseif ($page == 'structure') {
+    require_once $curDir . '/lib/handler/category_handler.php';
+  } elseif ($page == 'mediapool') {
+    require_once $curDir . '/lib/handler/media_handler.php';
+  } elseif ($page == 'import_export') {
+    require_once $curDir . '/extensions/extension_cleanup.inc.php';
   }
 }

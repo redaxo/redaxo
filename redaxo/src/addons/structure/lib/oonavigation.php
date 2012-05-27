@@ -97,34 +97,27 @@ class rex_ooNavigation extends rex_factory_base
     $i = 1;
     $lis = '';
 
-    if ($startPageLabel)
-    {
+    if ($startPageLabel) {
       $lis .= '<li class="rex-lvl' . $i . '"><a href="' . rex_getUrl(rex::getProperty('start_article_id')) . '">' . htmlspecialchars($startPageLabel) . '</a></li>';
       $i++;
 
       // StartArticle nicht doppelt anzeigen
-      if (isset($path[0]) && $path[0] == rex::getProperty('start_article_id'))
-      {
+      if (isset($path[0]) && $path[0] == rex::getProperty('start_article_id')) {
         unset($path[0]);
       }
     }
 
-    foreach ($path as $pathItem)
-    {
+    foreach ($path as $pathItem) {
       $cat = rex_ooCategory::getCategoryById($pathItem);
       $lis .= '<li class="rex-lvl' . $i . '"><a href="' . $cat->getUrl() . '">' . htmlspecialchars($cat->getName()) . '</a></li>';
       $i++;
     }
 
-    if ($includeCurrent)
-    {
+    if ($includeCurrent) {
       if ($art = rex_ooArticle::getArticleById($this->current_article_id))
-        if (!$art->isStartpage())
-        {
+        if (!$art->isStartpage()) {
           $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($art->getName()) . '</li>';
-        }
-        else
-        {
+        } else {
           $cat = rex_ooCategory::getCategoryById($this->current_article_id);
           $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($cat->getName()) . '</li>';
         }
@@ -154,8 +147,7 @@ class rex_ooNavigation extends rex_factory_base
   private function _setActivePath()
   {
     $article_id = rex::getProperty('article_id');
-    if ($OOArt = rex_ooArticle::getArticleById($article_id))
-    {
+    if ($OOArt = rex_ooArticle::getArticleById($article_id)) {
       $path = trim($OOArt->getPath(), '|');
 
       $this->path = array();
@@ -182,26 +174,20 @@ class rex_ooNavigation extends rex_factory_base
     $return = '';
 
     if (count($nav_obj) > 0)
-      $return .= '<ul class="rex-navi' . ($depth+1) . '">';
+      $return .= '<ul class="rex-navi' . ($depth + 1) . '">';
 
-    foreach ($nav_obj as $nav)
-    {
+    foreach ($nav_obj as $nav) {
       $liClass = '';
       $linkClass = '';
 
       // classes abhaengig vom pfad
-      if ($nav->getId() == $this->current_category_id)
-      {
+      if ($nav->getId() == $this->current_category_id) {
         $liClass .= ' rex-current';
         $linkClass .= ' rex-current';
-      }
-      elseif (in_array($nav->getId(), $this->path))
-      {
+      } elseif (in_array($nav->getId(), $this->path)) {
         $liClass .= ' rex-active';
         $linkClass .= ' rex-active';
-      }
-      else
-      {
+      } else {
         $liClass .= ' rex-normal';
       }
 
@@ -223,8 +209,7 @@ class rex_ooNavigation extends rex_factory_base
       if (($this->open ||
         $nav->getId() == $this->current_category_id ||
         in_array($nav->getId(), $this->path))
-        && ($this->depth > $depth || $this->depth < 0))
-      {
+        && ($this->depth > $depth || $this->depth < 0)) {
         $return .= $this->_getNavigation($nav->getId(), $ignore_offlines);
       }
       $depth--;

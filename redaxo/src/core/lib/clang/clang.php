@@ -19,8 +19,7 @@ class rex_clang
    */
   static public function setId($id)
   {
-    if (!self::exists($id))
-    {
+    if (!self::exists($id)) {
       throw new rex_exception('Clang id "' . $id . '" doesn\'t exists');
     }
     self::$current = $id;
@@ -56,12 +55,10 @@ class rex_clang
    */
   static public function getName($id = null)
   {
-    if ($id === null)
-    {
+    if ($id === null) {
       $id = self::getId();
     }
-    if (!self::exists($id))
-    {
+    if (!self::exists($id)) {
       throw new rex_exception('Clang id "' . $id . '" doesn\'t exists');
     }
     return self::$clangs[$id];
@@ -105,18 +102,15 @@ class rex_clang
    */
   static private function checkCache()
   {
-    if (self::$cacheLoaded)
-    {
+    if (self::$cacheLoaded) {
       return;
     }
 
     $file = rex_path::cache('clang.cache');
-    if (!file_exists($file))
-    {
+    if (!file_exists($file)) {
       rex_clang_service::generateCache();
     }
-    if (file_exists($file))
-    {
+    if (file_exists($file)) {
       self::$clangs = rex_file::getCache($file);
     }
     self::$cacheLoaded = true;

@@ -10,71 +10,53 @@ $warning = '';
 $error = '';
 $success = '';
 
-if ($func == 'setup')
-{
+if ($func == 'setup') {
   // REACTIVATE SETUP
 
   $configFile = rex_path::data('config.yml');
   $config = rex_file::getConfig($configFile);
   $config['setup'] = true;
   // echo nl2br(htmlspecialchars($cont));
-  if (rex_file::putConfig($configFile, $config) !== false)
-  {
+  if (rex_file::putConfig($configFile, $config) !== false) {
     $info = rex_i18n::msg('setup_error1', '<a href="index.php">', '</a>');
-  }
-  else
-  {
+  } else {
     $warning = rex_i18n::msg('setup_error2');
   }
-}
-elseif ($func == 'generate')
-{
+} elseif ($func == 'generate') {
   // generate all articles,cats,templates,caches
   $success = rex_deleteCache();
-}
-elseif ($func == 'updateinfos')
-{
+} elseif ($func == 'updateinfos') {
   $configFile = rex_path::data('config.yml');
   $config = rex_file::getConfig($configFile);
 
   $settings = rex_post('settings', 'array', array());
 
-  foreach (array('server', 'servername', 'error_email', 'lang') as $key)
-  {
-    if (isset($settings[$key]))
-    {
+  foreach (array('server', 'servername', 'error_email', 'lang') as $key) {
+    if (isset($settings[$key])) {
       $config[$key] = $settings[$key];
       rex::setProperty($key, $settings[$key]);
     }
   }
 
-  foreach (rex_system_setting::getAll() as $setting)
-  {
+  foreach (rex_system_setting::getAll() as $setting) {
     $key = $setting->getKey();
-    if (isset($settings[$key]))
-    {
+    if (isset($settings[$key])) {
       $value = $setting->cast($settings[$key]);
-      if (($error = $setting->isValid($value)) !== true)
-      {
+      if (($error = $setting->isValid($value)) !== true) {
         $warning .= $error . '<br />';
-      }
-      else
-      {
+      } else {
         $config[$key] = $value;
         rex::setProperty($key, $value);
       }
     }
   }
 
-  if (empty($config['error_email']))
-  {
+  if (empty($config['error_email'])) {
     $warning = rex_i18n::msg('error_email_required');
   }
 
-  if ($warning == '')
-  {
-    if (rex_file::putConfig($configFile, $config) > 0)
-    {
+  if ($warning == '') {
+    if (rex_file::putConfig($configFile, $config) > 0) {
       $success = rex_i18n::msg('info_updated');
     }
   }
@@ -87,8 +69,7 @@ $sel_lang->setId('rex-form-lang');
 $sel_lang->setSize(1);
 $sel_lang->setSelected(rex::getProperty('lang'));
 
-foreach (rex_i18n::getLocales() as $l)
-{
+foreach (rex_i18n::getLocales() as $l) {
   $sel_lang->addOption($l, $l);
 }
 
@@ -107,7 +88,7 @@ $dbconfig = rex::getProperty('db');
 
 $version = rex_path::src();
 if (strlen($version) > 21)
-  $version = substr($version, 0, 8) . '..' . substr($version, strlen($version)-13);
+  $version = substr($version, 0, 8) . '..' . substr($version, strlen($version) - 13);
 
 $content_1 = '<h2>' . rex_i18n::msg('system_features') . '</h2>
             <h3>' . rex_i18n::msg('delete_cache') . '</h3>
@@ -159,11 +140,9 @@ $content_2 = '
           $content_2 .= $fragment->parse('form.tpl');
 
 
-foreach (rex_system_setting::getAll() as $setting)
-{
+foreach (rex_system_setting::getAll() as $setting) {
   $field = $setting->getField();
-  if (!($field instanceof rex_form_element))
-  {
+  if (!($field instanceof rex_form_element)) {
     throw new rex_exception(get_class($setting) . '::getField() must return a rex_form_element!');
   }
   $field->setAttribute('name', 'settings[' . $setting->getKey() . ']');

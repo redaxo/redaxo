@@ -12,24 +12,18 @@ $warning = '';
 $info = '';
 
 $logFile = rex_path::cache('system.log');
-if ($func == 'delLog')
-{
+if ($func == 'delLog') {
   // close logger, to free remaining file-handles to syslog
   // so we can safely delete the file
   rex_logger::close();
 
-  if (rex_file::delete($logFile))
-  {
+  if (rex_file::delete($logFile)) {
     $info = rex_i18n::msg('syslog_deleted');
-  }
-  else
-  {
+  } else {
     $warning = rex_i18n::msg('syslog_delete_error');
   }
 
-}
-elseif ($func == 'readlog')
-{
+} elseif ($func == 'readlog') {
   // clear output-buffer
   while (ob_get_level()) ob_end_clean();
 
@@ -38,16 +32,14 @@ elseif ($func == 'readlog')
   // log files tend to get very big over time. therefore we read only the last n lines
   $n = 500;
   $fp = fopen($logFile, 'r');
-  if ($fp)
-  {
+  if ($fp) {
     // go backwards from the end of the file
     // a line in the logfile has round about 500 chars
     fseek($fp, -1 * $n * 500, SEEK_END);
     // find the next beginning of a line
     fgets($fp);
     // stream all remaining lines
-    while (($buf = fgets($fp)) !== false)
-    {
+    while (($buf = fgets($fp)) !== false) {
       echo $buf;
     }
     fclose($fp);

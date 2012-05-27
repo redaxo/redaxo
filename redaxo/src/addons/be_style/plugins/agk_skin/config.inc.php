@@ -16,11 +16,9 @@
 
 $mypage = 'agk_skin';
 
-if (rex::isBackend())
-{
+if (rex::isBackend()) {
 
-  rex_extension::register('PAGE_HEADER', function ($params) use ($mypage)
-  {
+  rex_extension::register('PAGE_HEADER', function ($params) use ($mypage) {
     $params['subject'] .= '
     <link rel="stylesheet" href="' . rex_path::pluginAssets('be_style', $mypage, 'css_import.css') . '" type="text/css" media="screen, projection, print" />
     <!--[if lte IE 7]>
@@ -34,8 +32,7 @@ if (rex::isBackend())
     return $params['subject'];
   });
 
-  rex_extension::register('PAGE_BODY_ATTR', function ($params)
-  {
+  rex_extension::register('PAGE_BODY_ATTR', function ($params) {
     $params['subject']['class'][] = 'be-style-agk-skin';
     return $params['subject'];
   });

@@ -47,16 +47,12 @@ class rex_function_cache
     $key = $this->computeCacheKey($callable, $arguments);
 
     $serialized = $this->cache->get($key);
-    if ($serialized !== null)
-    {
+    if ($serialized !== null) {
       $data = unserialize($serialized);
-    }
-    else
-    {
+    } else {
       $data = array();
 
-      if (!is_callable($callable))
-      {
+      if (!is_callable($callable)) {
         trigger_error('The first argument to call() must be a valid callable.', E_USER_ERROR);
       }
 

@@ -7,8 +7,7 @@
  */
 
 if ( !isset( $mode)) $mode = '';
-switch ( $mode)
-{
+switch ( $mode) {
    case 'changelog': $file = '_changelog.txt'; break;
    default: $file = '_readme.txt';
 }

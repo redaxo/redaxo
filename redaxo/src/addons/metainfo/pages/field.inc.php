@@ -9,14 +9,12 @@
 
 //------------------------------> Parameter
 
-if (empty($prefix))
-{
+if (empty($prefix)) {
   trigger_error('Fehler: Prefix nicht definiert!', E_USER_ERROR);
   exit();
 }
 
-if (empty($metaTable))
-{
+if (empty($metaTable)) {
   trigger_error('Fehler: metaTable nicht definiert!', E_USER_ERROR);
   exit();
 }
@@ -25,11 +23,9 @@ $Basedir = dirname(__FILE__);
 $field_id = rex_request('field_id', 'int');
 
 //------------------------------> Feld loeschen
-if ($func == 'delete')
-{
+if ($func == 'delete') {
   $field_id = rex_request('field_id', 'int', 0);
-  if ($field_id != 0)
-  {
+  if ($field_id != 0) {
     if (rex_metainfo_delete_field($field_id))
       echo rex_view::info(rex_i18n::msg('minfo_field_successfull_deleted'));
     else
@@ -39,8 +35,7 @@ if ($func == 'delete')
 }
 
 //------------------------------> Eintragsliste
-if ($func == '')
-{
+if ($func == '') {
   // replace LIKE wildcards
   $likePrefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
 
@@ -69,8 +64,7 @@ if ($func == '')
   $list->show();
 }
 //------------------------------> Formular
-elseif ($func == 'edit' || $func == 'add')
-{
+elseif ($func == 'edit' || $func == 'add') {
   $form = new rex_metainfo_table_expander($prefix, $metaTable, rex::getTablePrefix() . 'metainfo_params', rex_i18n::msg('minfo_field_fieldset'), 'field_id=' . $field_id);
 
   if ($func == 'edit')

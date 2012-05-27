@@ -31,8 +31,7 @@ class rex_select
 
   public function delAttribute($name)
   {
-    if ($this->hasAttribute($name))
-    {
+    if ($this->hasAttribute($name)) {
       unset($this->attributes[$name]);
       return true;
     }
@@ -46,8 +45,7 @@ class rex_select
 
   public function getAttribute($name, $default = '')
   {
-    if ($this->hasAttribute($name))
-    {
+    if ($this->hasAttribute($name)) {
       return $this->attributes[$name];
     }
     return $default;
@@ -94,15 +92,11 @@ class rex_select
   */
   public function setStyle($style)
   {
-    if (strpos($style, 'class=') !== false)
-    {
-      if (preg_match('/class=["\']?([^"\']*)["\']?/i', $style, $matches))
-      {
+    if (strpos($style, 'class=') !== false) {
+      if (preg_match('/class=["\']?([^"\']*)["\']?/i', $style, $matches)) {
         $this->setAttribute('class', $matches[1]);
       }
-    }
-    else
-    {
+    } else {
       $this->setAttribute('style', $style);
     }
   }
@@ -116,15 +110,11 @@ class rex_select
   ################ selected feld - option value uebergeben
   public function setSelected($selected)
   {
-    if (is_array($selected))
-    {
-      foreach ($selected as $sectvalue)
-      {
+    if (is_array($selected)) {
+      foreach ($selected as $sectvalue) {
         $this->setSelected($sectvalue);
       }
-    }
-    else
-    {
+    } else {
       $this->option_selected[] = htmlspecialchars($selected);
     }
   }
@@ -156,33 +146,24 @@ class rex_select
    */
   public function addOptions($options, $useOnlyValues = false)
   {
-    if (is_array($options) && count($options) > 0)
-    {
+    if (is_array($options) && count($options) > 0) {
       // Hier vorher auf is_array abfragen, da bei Strings auch die Syntax mit [] funktioniert
       // $ab = "hallo"; $ab[2] -> "l"
       $grouped = isset($options[0]) && is_array($options[0]) && isset ($options[0][2]) && isset ($options[0][3]);
-      foreach ($options as $key => $option)
-      {
+      foreach ($options as $key => $option) {
         $option = (array) $option;
         $attributes = array();
         if (isset($option[5]) && is_array($option[5]))
           $attributes = $option[5];
-        if ($grouped)
-        {
+        if ($grouped) {
           $this->addOption($option[0], $option[1], $option[2], $option[3], $attributes);
-          if (isset($option[4]) && $option[4])
-          {
+          if (isset($option[4]) && $option[4]) {
             $this->setSelected($option[1]);
           }
-        }
-        else
-        {
-          if ($useOnlyValues)
-          {
+        } else {
+          if ($useOnlyValues) {
             $this->addOption($option[0], $option[0]);
-          }
-          else
-          {
+          } else {
             if (!isset($option[1]))
               $option[1] = $key;
 
@@ -199,8 +180,7 @@ class rex_select
    */
   public function addArrayOptions(array $options, $use_keys = true)
   {
-    foreach ($options as $key => $value)
-    {
+    foreach ($options as $key => $value) {
       if (!$use_keys)
         $key = $value;
 
@@ -235,8 +215,7 @@ class rex_select
   public function get()
   {
     $attr = '';
-    foreach ($this->attributes as $name => $value)
-    {
+    foreach ($this->attributes as $name => $value) {
       $attr .= ' ' . $name . '="' . $value . '"';
     }
 
@@ -259,8 +238,7 @@ class rex_select
   private function _outGroup($re_id, $level = 0)
   {
 
-    if ($level > 100)
-    {
+    if ($level > 100) {
       // nur mal so zu sicherheit .. man weiss nie ;)
       echo "select->_outGroup overflow ($groupname)";
       exit;
@@ -268,8 +246,7 @@ class rex_select
 
     $ausgabe = '';
     $group = $this->_getGroup($re_id);
-    foreach ($group as $option)
-    {
+    foreach ($group as $option) {
       $name = $option[0];
       $value = $option[1];
       $id = $option[2];
@@ -279,9 +256,8 @@ class rex_select
       $ausgabe .= $this->_outOption($name, $value, $level, $attributes);
 
       $subgroup = $this->_getGroup($id, true);
-      if ($subgroup !== false)
-      {
-        $ausgabe .= $this->_outGroup($id, $level +1);
+      if ($subgroup !== false) {
+        $ausgabe .= $this->_outGroup($id, $level + 1);
       }
     }
     return $ausgabe;
@@ -300,8 +276,7 @@ class rex_select
       $attributes['selected'] = 'selected';
 
     $attr = '';
-    foreach ($attributes as $n => $v)
-    {
+    foreach ($attributes as $n => $v) {
       $attr .= ' ' . $n . '="' . $v . '"';
     }
 
@@ -311,15 +286,12 @@ class rex_select
   private function _getGroup($re_id, $ignore_main_group = false)
   {
 
-    if ($ignore_main_group && $re_id == 0)
-    {
+    if ($ignore_main_group && $re_id == 0) {
       return false;
     }
 
-    foreach ($this->options as $gname => $group)
-    {
-      if ($gname == $re_id)
-      {
+    foreach ($this->options as $gname => $group) {
+      if ($gname == $re_id) {
         return $group;
       }
     }

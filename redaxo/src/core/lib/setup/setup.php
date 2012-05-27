@@ -35,14 +35,12 @@ class rex_setup
     $errors = array();
 
     // -------------------------- VERSIONSCHECK
-    if (version_compare(phpversion(), self::MIN_PHP_VERSION, '<') == 1)
-    {
+    if (version_compare(phpversion(), self::MIN_PHP_VERSION, '<') == 1) {
       $errors[] = rex_i18n::msg('setup_010', phpversion(), self::MIN_PHP_VERSION);
     }
 
     // -------------------------- EXTENSION CHECK
-    foreach (self::$MIN_PHP_EXTENSIONS as $extension)
-    {
+    foreach (self::$MIN_PHP_EXTENSIONS as $extension) {
       if (!extension_loaded($extension))
         $errors[] = rex_i18n::msg('setup_010_1', $extension);
     }
@@ -73,32 +71,24 @@ class rex_setup
         getImportDir()
     );
 
-    foreach (rex::getProperty('system_addons') as $system_addon)
-    {
+    foreach (rex::getProperty('system_addons') as $system_addon) {
       $WRITEABLES[] = rex_path::addon($system_addon);
     }
 
     $res = array();
-    foreach ($WRITEABLES as $item)
-    {
+    foreach ($WRITEABLES as $item) {
       // Fehler unterdrücken, falls keine Berechtigung
-      if (@is_dir($item))
-      {
-        if (!@is_writable($item . '/.'))
-        {
+      if (@is_dir($item)) {
+        if (!@is_writable($item . '/.')) {
           $res['setup_012'][] = $item;
         }
       }
       // Fehler unterdrücken, falls keine Berechtigung
-      elseif (@is_file($item))
-      {
-        if (!@is_writable($item))
-        {
+      elseif (@is_file($item)) {
+        if (!@is_writable($item)) {
           $res['setup_014'][] = $item;
         }
-      }
-      else
-      {
+      } else {
         $res['setup_015'][] = $item;
       }
     }
@@ -115,14 +105,12 @@ class rex_setup
   public static function checkDb($config, $createDb)
   {
     $err = rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $createDb);
-    if ($err !== true)
-    {
+    if ($err !== true) {
       return $err;
     }
 
     $serverVersion = rex_sql::getServerVersion();
-    if (rex_string::compareVersions($serverVersion, self::MIN_MYSQL_VERSION, '<') == 1)
-    {
+    if (rex_string::compareVersions($serverVersion, self::MIN_MYSQL_VERSION, '<') == 1) {
       return rex_i18n::msg('setup_022_1', $serverVersion, self::MIN_MYSQL_VERSION);
     }
     return '';

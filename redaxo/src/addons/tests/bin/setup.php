@@ -1,22 +1,19 @@
 #!/usr/bin/php
 <?php
 
-if (PHP_SAPI !== 'cli')
-{
+if (PHP_SAPI !== 'cli') {
   echo 'error: this script may only be run from CLI';
   return 1;
 }
 
 // bring the file into context, no matter from which dir it was executed
 $path = explode(DIRECTORY_SEPARATOR, __DIR__);
-do
-{
+do {
   $part = array_pop($path);
 }
 while ($part !== null && $part != 'redaxo');
 
-if (!chdir(implode(DIRECTORY_SEPARATOR, $path) . '/redaxo'))
-{
+if (!chdir(implode(DIRECTORY_SEPARATOR, $path) . '/redaxo')) {
   echo 'error: start this script within a redaxo projects folder';
   return 2;
 }
@@ -32,8 +29,7 @@ $REX['BACKEND_FOLDER'] = 'redaxo';
 require 'src/core/master.inc.php';
 
 // run setup, if instance not already prepared
-if (rex::isSetup())
-{
+if (rex::isSetup()) {
   $err = '';
 
   // read initial config
@@ -45,8 +41,7 @@ if (rex::isSetup())
   $err .= rex_setup_importer::prepareEmptyDb();
   $err .= rex_setup_importer::verifyDbSchema();
 
-  if ($err != '')
-  {
+  if ($err != '') {
     echo $err;
     exit (10);
   }
@@ -56,23 +51,19 @@ if (rex::isSetup())
   $manager->install() || $err .= $manager->getMessage();
   $manager->activate() || $err .= $manager->getMessage();
 
-  if ($err != '')
-  {
+  if ($err != '') {
     echo $err;
     exit (20);
   }
 
   $config['setup'] = false;
-  if (rex_file::putConfig($configFile, $config))
-  {
+  if (rex_file::putConfig($configFile, $config)) {
     echo 'instance setup successfull';
     exit (0);
   }
   echo 'instance setup failure';
   exit (1);
-}
-else
-{
+} else {
   echo 'instance setup not necessary';
   exit (0);
 }

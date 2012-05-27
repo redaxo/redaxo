@@ -71,10 +71,8 @@ class rex_metainfo_table_manager
   {
     $columns = rex_sql::showColumns($this->getTableName(), $this->DBID);
 
-    foreach ($columns as $column)
-    {
-      if ($column['name'] == $name)
-      {
+    foreach ($columns as $column) {
+      if ($column['name'] == $name) {
         return true;
       }
     }

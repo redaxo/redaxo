@@ -23,15 +23,13 @@ function rex_version_initArticle($params)
   if (!isset($_SESSION))
     session_start();
 
-  if (!rex_backend_login::hasSession())
-  {
+  if (!rex_backend_login::hasSession()) {
     echo 'no permission for the working version';
     exit();
   }
 
   $params['article']->setSliceRevision($version);
-  if (is_a($params['article'], 'rex_article'))
-  {
+  if (is_a($params['article'], 'rex_article')) {
     $params['article']->getContentAsQuery();
   }
   $params['article']->setEval(true);
@@ -59,41 +57,31 @@ function rex_version_header($params)
 
   $version_id = rex_request('rex_set_version', 'int', '-1');
 
-  if ($version_id === 0)
-  {
+  if ($version_id === 0) {
       $rex_version_article[$params['article_id']] = 0;
-  }
-  elseif ($version_id == 1)
-  {
+  } elseif ($version_id == 1) {
       $rex_version_article[$params['article_id']] = 1;
-  }
-  elseif (!isset($rex_version_article[$params['article_id']]))
-  {
+  } elseif (!isset($rex_version_article[$params['article_id']])) {
       $rex_version_article[$params['article_id']] = 1;
   }
 
   $func = rex_request('rex_version_func', 'string');
-  switch ($func)
-  {
-    case ('copy_work_to_live'):
-      if ($working_version_empty)
-      {
+  switch ($func) {
+    case 'copy_work_to_live':
+      if ($working_version_empty) {
         $return .= rex_view::warning(rex_i18n::msg('version_warning_working_version_to_live'));
-      }
-      elseif (rex::getUser()->hasPerm('version[live_version]'))
-      {
+      } elseif (rex::getUser()->hasPerm('version[live_version]')) {
         rex_article_revision::copyContent($params['article_id'], $params['clang'], rex_article_revision::WORK, rex_article_revision::LIVE);
         $return .= rex_view::info(rex_i18n::msg('version_info_working_version_to_live'));
       }
     break;
-    case ('copy_live_to_work'):
+    case 'copy_live_to_work':
       rex_article_revision::copyContent($params['article_id'], $params['clang'], rex_article_revision::LIVE, rex_article_revision::WORK);
       $return .= rex_view::info(rex_i18n::msg('version_info_live_version_to_working'));
     break;
   }
 
-  if (!rex::getUser()->hasPerm('version[live_version]'))
-  {
+  if (!rex::getUser()->hasPerm('version[live_version]')) {
     $rex_version_article[$params['article_id']] = 1;
     unset($revisions[0]);
   }
@@ -124,32 +112,24 @@ function rex_version_header($params)
   $s->setSize('1');
   $s->setAttribute('onchange', 'this.form.submit();');
 
-  if (!rex::getUser()->hasPerm('version[live_version]'))
-  {
+  if (!rex::getUser()->hasPerm('version[live_version]')) {
     $s->setDisabled();
   }
 
   $return .= '<ul class="rex-display-inline">';
   $return .= '<li class="rex-navi-first"><label for="rex-select-version-id">' . rex_i18n::msg('version') . ':</label> ' . $s->get() . '</li>';
 
-  if (!rex::getUser()->hasPerm('version[live_version]'))
-  {
-    if ($rex_version_article[$params['article_id']] > 0)
-    {
+  if (!rex::getUser()->hasPerm('version[live_version]')) {
+    if ($rex_version_article[$params['article_id']] > 0) {
       $return .= '<li><a href="' . $link . '&rex_version_func=copy_live_to_work">' . rex_i18n::msg('version_copy_from_liveversion') . '</a></li>';
       $return .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], array('rex_version' => 1)) . '" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
     }
-  }
-  else
-  {
-    if ($rex_version_article[$params['article_id']] > 0)
-    {
+  } else {
+    if ($rex_version_article[$params['article_id']] > 0) {
       if (!$working_version_empty)
         $return .= '<li><a href="' . $link . '&rex_version_func=copy_work_to_live">' . rex_i18n::msg('version_working_to_live') . '</a></li>';
       $return .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], array('rex_version' => 1)) . '" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
-    }
-    else
-    {
+    } else {
       $return .= '<li><a href="' . $link . '&rex_version_func=copy_live_to_work" data-confirm="' . rex_i18n::msg('version_confirm_copy_live_to_workingversion') . '">' . rex_i18n::msg('version_copy_live_to_workingversion') . '</a></li>';
     }
   }

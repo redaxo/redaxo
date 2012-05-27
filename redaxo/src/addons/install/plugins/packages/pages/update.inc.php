@@ -5,20 +5,16 @@ $addons = array();
 
 echo rex_api_function::getMessage();
 
-try
-{
+try {
   $addons = rex_install_packages::getUpdatePackages();
-}
-catch (rex_functional_exception $e)
-{
+} catch (rex_functional_exception $e) {
   echo rex_view::warning($e->getMessage());
   $addonkey = '';
 }
 
 $content = '';
 
-if ($addonkey && isset($addons[$addonkey]))
-{
+if ($addonkey && isset($addons[$addonkey])) {
   $addon = $addons[$addonkey];
 
   $content .= '
@@ -56,8 +52,7 @@ if ($addonkey && isset($addons[$addonkey]))
       </thead>
       <tbody>';
 
-  foreach ($addon['files'] as $fileId => $file)
-  {
+  foreach ($addon['files'] as $fileId => $file) {
     $content .= '
       <tr>
         <td class="rex-icon"><span class="rex-ic-addon">' . $file['version'] . '</span></td>
@@ -69,9 +64,7 @@ if ($addonkey && isset($addons[$addonkey]))
 
   $content .= '</tbody></table>';
 
-}
-else
-{
+} else {
   $content .= '
     <h2>' . $this->i18n('available_updates', count($addons)) . '</h2>
 
@@ -87,11 +80,9 @@ else
       </thead>
       <tbody>';
 
-  foreach ($addons as $key => $addon)
-  {
+  foreach ($addons as $key => $addon) {
     $availableVersions = array();
-    foreach ($addon['files'] as $file)
-    {
+    foreach ($addon['files'] as $file) {
       $availableVersions[] = $file['version'];
     }
     $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey=' . $key . '">%s</a>';

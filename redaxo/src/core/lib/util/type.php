@@ -35,11 +35,9 @@ class rex_type
   */
   static public function cast($var, $vartype)
   {
-    if (is_string($vartype))
-    {
+    if (is_string($vartype)) {
       $casted = true;
-      switch ($vartype)
-      {
+      switch ($vartype) {
         // ---------------- PHP types
         case 'bool'   :
         case 'boolean':
@@ -74,8 +72,7 @@ class rex_type
 
         default:
           // check for array with generic type
-          if (strpos($vartype, 'array[') === 0)
-          {
+          if (strpos($vartype, 'array[') === 0) {
             if (empty($var))
               $var = array();
             else
@@ -83,74 +80,50 @@ class rex_type
 
             // check if every element in the array is from the generic type
             $matches = array();
-            if (preg_match('@array\[([^\]]*)\]@', $vartype, $matches))
-            {
-              foreach ($var as $key => $value)
-              {
-                try
-                {
+            if (preg_match('@array\[([^\]]*)\]@', $vartype, $matches)) {
+              foreach ($var as $key => $value) {
+                try {
                   $var[$key] = self::cast($value, $matches[1]);
-                }
-                catch (rex_exception $e)
-                {
+                } catch (rex_exception $e) {
                   // Evtl Typo im vartype, mit urspr. typ als fehler melden
                   throw new rex_exception('Unexpected vartype "' . $vartype . '" in cast()!');
                 }
               }
-            }
-            else
-            {
+            } else {
               throw new rex_exception('Unexpected vartype "' . $vartype . '" in cast()!');
             }
-          }
-          else
-          {
+          } else {
             $casted = false;
           }
       }
-      if ($casted)
-      {
+      if ($casted) {
         return $var;
       }
     }
 
-    if (is_callable($vartype))
-    {
+    if (is_callable($vartype)) {
       $var = call_user_func($vartype, $var);
-    }
-    elseif (is_array($vartype))
-    {
+    } elseif (is_array($vartype)) {
       $var = self::cast($var, 'array');
       $newVar = array();
-      foreach ($vartype as $cast)
-      {
-        if (!is_array($cast) || !isset($cast[0]))
-        {
+      foreach ($vartype as $cast) {
+        if (!is_array($cast) || !isset($cast[0])) {
           throw new rex_exception('Unexpected vartype in cast()!');
         }
         $key = $cast[0];
         $innerVartype = isset($cast[1]) ? $cast[1] : '';
-        if (array_key_exists($key, $var))
-        {
+        if (array_key_exists($key, $var)) {
           $newVar[$key] = self::cast($var[$key], $innerVartype);
-        }
-        elseif (!isset($cast[2]))
-        {
+        } elseif (!isset($cast[2])) {
           $newVar[$key] = self::cast('', $innerVartype);
-        }
-        else
-        {
+        } else {
           $newVar[$key] = $cast[2];
         }
       }
       $var = $newVar;
-    }
-    elseif (is_string($vartype))
-    {
+    } elseif (is_string($vartype)) {
       throw new rex_exception('Unexpected vartype "' . $vartype . '" in cast()!');
-    }
-    else
-    {
+    } else {
       throw new rex_exception('Unexpected vartype in cast()!');
     }
 

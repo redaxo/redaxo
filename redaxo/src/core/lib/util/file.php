@@ -52,13 +52,11 @@ class rex_file
    */
   static public function put($file, $content)
   {
-    if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file))
-    {
+    if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file)) {
       return false;
     }
 
-    if (file_put_contents($file, $content) !== false)
-    {
+    if (file_put_contents($file, $content) !== false) {
       @chmod($file, rex::getFilePerm());
       return true;
     }
@@ -100,17 +98,14 @@ class rex_file
    */
   static public function copy($srcfile, $dstfile)
   {
-    if (is_file($srcfile))
-    {
-      if (is_dir($dstfile))
-      {
+    if (is_file($srcfile)) {
+      if (is_dir($dstfile)) {
         $dstfile = rtrim($dstfile, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . basename($srcfile);
       }
 
       // file_exists(dirname($dstfile) .'/.') checks if the parent directory has the executable permission
       // is_executable($directory) does not work on all systems
-      if (file_exists(dirname($dstfile) . '/.') && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile))
-      {
+      if (file_exists(dirname($dstfile) . '/.') && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
         touch($dstfile, filemtime($srcfile));
         @chmod($dstfile, rex::getFilePerm());
         return true;
@@ -127,8 +122,7 @@ class rex_file
    */
   static public function delete($file)
   {
-    if (file_exists($file))
-    {
+    if (file_exists($file)) {
       return unlink($file);
     }
     return true;

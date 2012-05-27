@@ -147,13 +147,11 @@ class rex_login
 
     $ok = false;
 
-    if (!$this->logout)
-    {
+    if (!$this->logout) {
       // LoginStatus: 0 = noch checken, 1 = ok, -1 = not ok
 
       // checkLogin schonmal ausgeführt ? gecachte ausgabe erlaubt ?
-      if ($this->cache)
-      {
+      if ($this->cache) {
         if ($this->login_status > 0)
           return true;
         elseif ($this->login_status < 0)
@@ -161,8 +159,7 @@ class rex_login
       }
 
 
-      if ($this->usr_login != '')
-      {
+      if ($this->usr_login != '') {
         // wenn login daten eingegeben dann checken
         // auf error seite verweisen und message schreiben
 
@@ -174,62 +171,44 @@ class rex_login
         );
 
         $this->USER->setQuery($this->login_query, $params);
-        if ($this->USER->getRows() == 1)
-        {
+        if ($this->USER->getRows() == 1) {
           $ok = true;
           $this->setSessionVar('UID', $this->USER->getValue($this->uid));
           $this->sessionFixation();
-        }
-        else
-        {
+        } else {
           $this->message = rex_i18n::msg('login_error', '<strong>' . rex::getProperty('relogindelay') . '</strong>');
           $this->setSessionVar('UID', '');
         }
-      }
-      elseif ($this->getSessionVar('UID') != '')
-      {
+      } elseif ($this->getSessionVar('UID') != '') {
         // wenn kein login und kein logout dann nach sessiontime checken
         // message schreiben und falls falsch auf error verweisen
 
         $this->USER = rex_sql::factory($this->DB);
 
         $this->USER->setQuery($this->user_query, array(':id' => $this->getSessionVar('UID')));
-        if ($this->USER->getRows() == 1)
-        {
-          if (($this->getSessionVar('STAMP') + $this->session_duration) > time())
-          {
+        if ($this->USER->getRows() == 1) {
+          if (($this->getSessionVar('STAMP') + $this->session_duration) > time()) {
             $ok = true;
             $this->setSessionVar('UID', $this->USER->getValue($this->uid));
-          }
-          else
-          {
+          } else {
             $this->message = rex_i18n::msg('login_session_expired');
           }
-        }
-        else
-        {
+        } else {
           $this->message = rex_i18n::msg('login_user_not_found');
         }
-      }
-      else
-      {
+      } else {
         $this->message = rex_i18n::msg('login_welcome');
         $ok = false;
       }
-    }
-    else
-    {
+    } else {
       $this->message = rex_i18n::msg('login_logged_out');
       $this->setSessionVar('UID', '');
     }
 
-    if ($ok)
-    {
+    if ($ok) {
       // wenn alles ok dann REX[UID][system_id] schreiben
       $this->setSessionVar('STAMP', time());
-    }
-    else
-    {
+    } else {
       // wenn nicht, dann UID loeschen und error seite
       $this->setSessionVar('STAMP', '');
       $this->setSessionVar('UID', '');

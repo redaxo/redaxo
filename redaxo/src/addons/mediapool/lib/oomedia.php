@@ -71,19 +71,16 @@ class rex_ooMedia
   static public function getMediaByExtension($extension)
   {
     $extlist_path = rex_path::addonCache('mediapool', $extension . '.mextlist');
-    if (!file_exists($extlist_path))
-    {
+    if (!file_exists($extlist_path)) {
       rex_media_cache::generateExtensionList($extension);
     }
 
     $media = array();
 
-    if (file_exists($extlist_path))
-    {
+    if (file_exists($extlist_path)) {
       $cache = rex_file::getCache($extlist_path);
 
-      if (is_array($cache))
-      {
+      if (is_array($cache)) {
         foreach ($cache as $filename)
           $media[] = self :: getMediaByFileName($filename);
       }
@@ -101,13 +98,11 @@ class rex_ooMedia
       return null;
 
     $media_path = rex_path::addonCache('mediapool', $name . '.media');
-    if (!file_exists($media_path))
-    {
+    if (!file_exists($media_path)) {
       rex_media_cache::generate($name);
     }
 
-    if (file_exists($media_path))
-    {
+    if (file_exists($media_path)) {
       $cache = rex_file::getCache($media_path);
       $aliasMap = array(
         'media_id' => 'id',
@@ -120,8 +115,7 @@ class rex_ooMedia
       );
 
       $media = new rex_ooMedia();
-      foreach ($cache as $key => $value)
-      {
+      foreach ($cache as $key => $value) {
         if (in_array($key, array_keys($aliasMap)))
           $var_name = '_' . $aliasMap[$key];
         else
@@ -151,8 +145,7 @@ class rex_ooMedia
    */
   public function getCategory()
   {
-    if ($this->_cat === null)
-    {
+    if ($this->_cat === null) {
       $this->_cat = rex_ooMediaCategory :: getCategoryById($this->getCategoryId());
     }
     return $this->_cat;
@@ -163,8 +156,7 @@ class rex_ooMedia
    */
   public function getCategoryName()
   {
-    if ($this->_cat_name === null)
-    {
+    if ($this->_cat_name === null) {
       $this->_cat_name = '';
       $category = $this->getCategory();
       if (is_object($category))
@@ -308,10 +300,8 @@ class rex_ooMedia
    */
   static public function _getDate($date, $format = null)
   {
-    if ($format !== null)
-    {
-      if ($format == '')
-      {
+    if ($format !== null) {
+      if ($format == '') {
         // TODO Im Frontend gibts kein I18N
         //$format = rex_i18n::msg('dateformat');
         $format = '%a %d. %B %Y';
@@ -360,59 +350,45 @@ class rex_ooMedia
    */
   public function toImage(array $params = array ())
   {
-    if (!is_array($params))
-    {
+    if (!is_array($params)) {
       $params = array();
     }
 
     // Ist das Media ein Bild?
-    if (!$this->isImage())
-    {
+    if (!$this->isImage()) {
       $file = rex_path::pluginAssets('be_style', 'base_old', 'file_dummy.gif');
 
       // Verwenden einer statischen variable, damit getimagesize nur einmal aufgerufen
       // werden muss, da es sehr lange dauert
       static $dummyFileSize;
 
-      if (empty ($dummyFileSize))
-      {
+      if (empty ($dummyFileSize)) {
         $dummyFileSize = getimagesize($file);
       }
       $params['width'] = $dummyFileSize[0];
       $params['height'] = $dummyFileSize[1];
-    }
-    else
-    {
+    } else {
       $resize = false;
 
       // ResizeModus festlegen
-      if (isset ($params['resize']) && $params['resize'])
-      {
+      if (isset ($params['resize']) && $params['resize']) {
         unset ($params['resize']);
         // Resize Addon installiert?
-        if (rex_addon::get('image_resize')->isAvailable())
-        {
+        if (rex_addon::get('image_resize')->isAvailable()) {
           $resize = true;
-          if (isset ($params['width']))
-          {
+          if (isset ($params['width'])) {
             $resizeMode = 'w';
             $resizeParam = $params['width'];
             unset ($params['width']);
-          }
-          elseif (isset ($params['height']))
-          {
+          } elseif (isset ($params['height'])) {
             $resizeMode = 'h';
             $resizeParam = $params['height'];
             unset ($params['height']);
-          }
-          elseif (isset ($params['crop']))
-          {
+          } elseif (isset ($params['crop'])) {
             $resizeMode = 'c';
             $resizeParam = $params['crop'];
             unset ($params['crop']);
-          }
-          else
-          {
+          } else {
             $resizeMode = 'a';
             $resizeParam = 100;
           }
@@ -428,12 +404,9 @@ class rex_ooMedia
       }
 
       // Bild resizen?
-      if ($resize)
-      {
+      if ($resize) {
         $file = rex_path::frontendController('?rex_resize=' . $resizeParam . $resizeMode . '__' . $this->getFileName());
-      }
-      else
-      {
+      } else {
         // Bild 1:1 anzeigen
         $file = rex_path::media($this->getFileName());
       }
@@ -442,27 +415,22 @@ class rex_ooMedia
     $title = $this->getTitle();
 
     // Alternativtext hinzuf�gen
-    if (!isset($params['alt']))
-    {
-      if ($title != '')
-      {
+    if (!isset($params['alt'])) {
+      if ($title != '') {
         $params['alt'] = htmlspecialchars($title);
       }
     }
 
     // Titel hinzuf�gen
-    if (!isset($params['title']))
-    {
-      if ($title != '')
-      {
+    if (!isset($params['title'])) {
+      if ($title != '') {
         $params['title'] = htmlspecialchars($title);
       }
     }
 
     // Evtl. Zusatzatrribute anf�gen
     $additional = '';
-    foreach ($params as $name => $value)
-    {
+    foreach ($params as $name => $value) {
       $additional .= ' ' . $name . '="' . $value . '"';
     }
 
@@ -485,24 +453,20 @@ class rex_ooMedia
     $ext = $this->getExtension();
     $icon = $this->getIcon();
 
-    if (!isset($iconAttributes['alt']))
-    {
+    if (!isset($iconAttributes['alt'])) {
       $iconAttributes['alt'] = '&quot;' . $ext . '&quot;-Symbol';
     }
 
-    if (!isset($iconAttributes['title']))
-    {
+    if (!isset($iconAttributes['title'])) {
       $iconAttributes['title'] = $iconAttributes['alt'];
     }
 
-    if (!isset($iconAttributes['style']))
-    {
+    if (!isset($iconAttributes['style'])) {
       $iconAttributes['style'] = 'width: 44px; height: 38px';
     }
 
     $attrs = '';
-    foreach ($iconAttributes as $attrName => $attrValue)
-    {
+    foreach ($iconAttributes as $attrName => $attrValue) {
       $attrs .= ' ' . $attrName . '="' . $attrValue . '"';
     }
 
@@ -534,8 +498,7 @@ class rex_ooMedia
   {
     static $imageExtensions;
 
-    if (!isset ($imageExtensions))
-    {
+    if (!isset ($imageExtensions)) {
       $imageExtensions = array (
         'gif',
         'jpeg',
@@ -560,15 +523,13 @@ class rex_ooMedia
 
 
     $values = array();
-    for ($i = 1; $i < 21; $i++)
-    {
+    for ($i = 1; $i < 21; $i++) {
       $values[] = 'value' . $i . ' LIKE "%' . $likeFilename . '%"';
     }
 
     $files = array();
     $filelists = array();
-    for ($i = 1; $i < 11; $i++)
-    {
+    for ($i = 1; $i < 11; $i++) {
       $files[] = 'file' . $i . '="' . $filename . '"';
       $filelists[] = '(filelist' . $i . ' = "' . $filename . '" OR filelist' . $i . ' LIKE "' . $likeFilename . ',%" OR filelist' . $i . ' LIKE "%,' . $likeFilename . ',%" OR filelist' . $i . ' LIKE "%,' . $likeFilename . '" ) ';
     }
@@ -590,11 +551,9 @@ class rex_ooMedia
 
     $warning = array();
     $res = $sql->getArray($query);
-    if ($sql->getRows() > 0)
-    {
+    if ($sql->getRows() > 0) {
       $warning[0] = rex_i18n::msg('pool_file_in_use_articles') . '<br /><ul>';
-      foreach ($res as $art_arr)
-      {
+      foreach ($res as $art_arr) {
         $aid = $art_arr['article_id'];
         $clang = $art_arr['clang'];
         $ooa = rex_ooArticle::getArticleById($aid, $clang);
@@ -626,8 +585,7 @@ class rex_ooMedia
     $file = $this->getFullPath();
     $filetype = $this->getExtension();
 
-    switch ($filetype)
-    {
+    switch ($filetype) {
       case 'jpg' :
       case 'jpeg' :
       case 'png' :
@@ -678,8 +636,7 @@ class rex_ooMedia
     $icon = $folder . 'mime-' . $ext . '.gif';
 
     // Dateityp für den kein Icon vorhanden ist
-    if (!file_exists($icon))
-    {
+    if (!file_exists($icon)) {
       if ($useDefaultIcon)
         $icon = $folder . 'mime-default.gif';
       else
@@ -714,17 +671,14 @@ class rex_ooMedia
     $sql->setValue('height', $this->getHeight());
     $sql->setValue('title', $this->getTitle());
 
-    if ($this->getId() !== null)
-    {
+    if ($this->getId() !== null) {
       $sql->addGlobalUpdateFields();
       $sql->setWhere(array('media_id' => $this->getId()));
       $success = $sql->update();
       if ($success)
         rex_media_cache::delete($this->getFileName());
       return $success;
-    }
-    else
-    {
+    } else {
       $sql->addGlobalCreateFields();
       $success = $sql->insert();
       if ($success)
@@ -739,23 +693,18 @@ class rex_ooMedia
    */
   public function delete($filename = null)
   {
-    if ($filename != null)
-    {
+    if ($filename != null) {
       $OOMed = self::getMediaByFileName($filename);
-      if ($OOMed)
-      {
+      if ($OOMed) {
         $OOMed->delete();
         return true;
       }
-    }
-    else
-    {
+    } else {
       $qry = 'DELETE FROM ' . $this->_getTableName() . ' WHERE media_id = ' . $this->getId() . ' LIMIT 1';
       $sql = rex_sql::factory();
       $sql->setQuery($qry);
 
-      if ($this->fileExists())
-      {
+      if ($this->fileExists()) {
         rex_file::delete(rex_path::media($this->getFileName(), rex_path::ABSOLUTE));
       }
 
@@ -768,8 +717,7 @@ class rex_ooMedia
 
   public function fileExists($filename = null)
   {
-    if ($filename === null)
-    {
+    if ($filename === null) {
       $filename = $this->getFileName();
     }
 
@@ -849,8 +797,7 @@ class rex_ooMedia
 
   public function hasValue($value)
   {
-    if (substr($value, 0, 1) != '_')
-    {
+    if (substr($value, 0, 1) != '_') {
       $value = '_' . $value;
     }
     return isset($this->$value);
@@ -858,25 +805,20 @@ class rex_ooMedia
 
   public function getValue($value)
   {
-    if (substr($value, 0, 1) != '_')
-    {
+    if (substr($value, 0, 1) != '_') {
       $value = '_' . $value;
     }
 
     // Extra-Abfrage, da die Variable _cat_name erst in getCategoryName() gesetzt wird
-    if ($value == '_cat_name')
-    {
+    if ($value == '_cat_name') {
       return $this->getCategoryName();
     }
 
     // damit alte rex_article felder wie copyright, description
     // noch funktionieren
-    if ($this->hasValue($value))
-    {
+    if ($this->hasValue($value)) {
       return $this->$value;
-    }
-    elseif ($this->hasValue('med' . $value))
-    {
+    } elseif ($this->hasValue('med' . $value)) {
       return $this->getValue('med' . $value);
     }
   }
@@ -895,8 +837,7 @@ class rex_ooMedia
     $sql = rex_sql::factory();
     // $sql->debugsql = true;
     $sql->setQuery('SELECT filename FROM ' . self :: _getTableName() . ' WHERE media_id=' . $id);
-    if ($sql->getRows() == 1)
-    {
+    if ($sql->getRows() == 1) {
       return self :: getMediaByFileName($sql->getValue('filename'));
     }
 

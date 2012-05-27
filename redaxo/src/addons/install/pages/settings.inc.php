@@ -8,10 +8,8 @@ $settings = rex_post('settings', array(
   array('api_key', 'string')
 ), null);
 
-if (is_array($settings))
-{
-  foreach ($settings as $key => $value)
-  {
+if (is_array($settings)) {
+  foreach ($settings as $key => $value) {
     $this->setConfig($key, $value);
   }
   $content .= rex_view::info($this->i18n('settings_saved'));

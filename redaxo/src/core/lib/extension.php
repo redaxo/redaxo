@@ -29,8 +29,7 @@ abstract class rex_extension extends rex_factory_base
    */
   static public function registerPoint($extensionPoint, $subject = '', array $params = array (), $read_only = false)
   {
-    if (static::hasFactoryClass())
-    {
+    if (static::hasFactoryClass()) {
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }
 
@@ -39,30 +38,23 @@ abstract class rex_extension extends rex_factory_base
     // Name des EP als Parameter mit übergeben
     $params['extension_point'] = $extensionPoint;
 
-    if (isset (self::$extensions[$extensionPoint]) && is_array(self::$extensions[$extensionPoint]))
-    {
+    if (isset (self::$extensions[$extensionPoint]) && is_array(self::$extensions[$extensionPoint])) {
       $params['subject'] = $subject;
-      if ($read_only)
-      {
-        foreach (self::$extensions[$extensionPoint] as $ext)
-        {
+      if ($read_only) {
+        foreach (self::$extensions[$extensionPoint] as $ext) {
           $func = $ext[0];
           $local_params = array_merge($params, $ext[1]);
           static::invokeExtension($func, $local_params);
         }
-      }
-      else
-      {
-        foreach (self::$extensions[$extensionPoint] as $ext)
-        {
+      } else {
+        foreach (self::$extensions[$extensionPoint] as $ext) {
           $func = $ext[0];
           $local_params = array_merge($params, $ext[1]);
           $temp = static::invokeExtension($func, $local_params);
           // Rückgabewert nur auswerten wenn auch einer vorhanden ist
           // damit $params['subject'] nicht verfälscht wird
           // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
-          if ($temp !== null)
-          {
+          if ($temp !== null) {
             $result = $temp;
             $params['subject'] = $result;
           }
@@ -86,8 +78,7 @@ abstract class rex_extension extends rex_factory_base
    */
   static public function register($extensionPoint, $callable, array $params = array())
   {
-    if (static::hasFactoryClass())
-    {
+    if (static::hasFactoryClass()) {
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }
     self::$extensions[$extensionPoint][] = array($callable, $params);
@@ -102,8 +93,7 @@ abstract class rex_extension extends rex_factory_base
    */
   static public function isRegistered($extensionPoint)
   {
-    if (static::hasFactoryClass())
-    {
+    if (static::hasFactoryClass()) {
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }
     return !empty (self::$extensions[$extensionPoint]);

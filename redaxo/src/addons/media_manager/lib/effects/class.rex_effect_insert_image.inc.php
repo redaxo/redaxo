@@ -48,8 +48,7 @@ class rex_effect_insert_image extends rex_effect_abstract
     $brand_width  = $brand->getWidth();
     $brand_height = $brand->getHeight();
 
-    switch ($hpos)
-    {
+    switch ($hpos) {
       case 'left':
         $dstX = 0;
         break;
@@ -61,8 +60,7 @@ class rex_effect_insert_image extends rex_effect_abstract
         $dstX = $image_width - $brand_width;
     }
 
-    switch ($vpos)
-    {
+    switch ($vpos) {
       case 'top':
         $dstY = 0;
         break;

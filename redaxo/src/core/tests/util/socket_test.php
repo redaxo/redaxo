@@ -48,8 +48,7 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
    */
   public function testWriteRequest($socket)
   {
-    if (version_compare(PHP_VERSION, '5.3.2') < 0)
-    {
+    if (version_compare(PHP_VERSION, '5.3.2') < 0) {
       $this->markTestSkipped('Needs PHP >= 5.3.2!');
     }
 
@@ -99,8 +98,7 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
    */
   public function testParseUrl($url, $expectedHost, $expectedPort, $expectedSsl, $expectedPath)
   {
-    if (version_compare(PHP_VERSION, '5.3.2') < 0)
-    {
+    if (version_compare(PHP_VERSION, '5.3.2') < 0) {
       $this->markTestSkipped('Needs PHP >= 5.3.2!');
     }
 
@@ -130,8 +128,7 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
    */
   public function testParseUrlException($url)
   {
-    if (version_compare(PHP_VERSION, '5.3.2') < 0)
-    {
+    if (version_compare(PHP_VERSION, '5.3.2') < 0) {
       $this->markTestSkipped('Needs PHP >= 5.3.2!');
     }
 

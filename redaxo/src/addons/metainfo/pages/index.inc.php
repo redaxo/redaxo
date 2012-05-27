@@ -19,8 +19,7 @@ echo rex_view::title('Metainformationen erweitern');
 echo '<div class="rex-addon-output-v2">';
 
 // Include Current Page
-switch ($subpage)
-{
+switch ($subpage) {
   case 'media' :
   {
     $prefix = 'med_';

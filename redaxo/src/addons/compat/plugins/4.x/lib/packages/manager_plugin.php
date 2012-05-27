@@ -15,10 +15,8 @@ class rex_plugin_manager_compat extends rex_plugin_manager
 
     // Dateien kopieren
     $files_dir = $this->package->getBasePath('files');
-    if ($state === true && is_dir($files_dir))
-    {
-      if (!rex_dir::copy($files_dir, $this->package->getAssetsPath('', rex_path::ABSOLUTE)))
-      {
+    if ($state === true && is_dir($files_dir)) {
+      if (!rex_dir::copy($files_dir, $this->package->getAssetsPath('', rex_path::ABSOLUTE))) {
         $state = $this->I18N('install_cant_copy_files');
       }
     }
@@ -31,8 +29,7 @@ class rex_plugin_manager_compat extends rex_plugin_manager
     global $REX, $ADDONsic;
 
     $transform = false;
-    if (in_array($file, array('config.inc.php', 'install.inc.php', 'uninstall.inc.php')))
-    {
+    if (in_array($file, array('config.inc.php', 'install.inc.php', 'uninstall.inc.php'))) {
       $ADDONsic = isset($REX['ADDON']) ? $REX['ADDON'] : array();
       $REX['ADDON'] = array();
       $transform = true;
@@ -42,23 +39,16 @@ class rex_plugin_manager_compat extends rex_plugin_manager
     $compatPackage->includeFile($file);
 
     $addonName = $package->getAddon()->getName();
-    if ($transform)
-    {
+    if ($transform) {
       $array = isset($REX['ADDON']) ? $REX['ADDON'] : array();
       $REX['ADDON'] = $ADDONsic;
-    }
-    else
-    {
+    } else {
       $array = isset($REX['ADDON']['plugins'][$addonName]) ? $REX['ADDON']['plugins'][$addonName] : array();
     }
-    if (isset($array) && is_array($array))
-    {
-      foreach ($array as $property => $propertyArray)
-      {
-        foreach ($propertyArray as $pluginName => $value)
-        {
-          if ($pluginName == $package->getName())
-          {
+    if (isset($array) && is_array($array)) {
+      foreach ($array as $property => $propertyArray) {
+        foreach ($propertyArray as $pluginName => $value) {
+          if ($pluginName == $package->getName()) {
             $package->setProperty($property, $value);
             $REX['ADDON']['plugins'][$addonName][$property][$pluginName] = $value;
           }

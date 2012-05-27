@@ -33,12 +33,9 @@ class rex_setup_importer
     // ----- vorhandenen Export importieren
     $err_msg = '';
 
-    if ($import_name == '')
-    {
+    if ($import_name == '') {
       $err_msg .= '<p>' . rex_i18n::msg('setup_03701') . '</p>';
-    }
-    else
-    {
+    } else {
       $import_sql = getImportDir() . '/' . $import_name . '.sql';
       $import_archiv = getImportDir() . '/' . $import_name . '.tar.gz';
 
@@ -100,16 +97,13 @@ class rex_setup_importer
 
     // Prüfen, welche Tabellen bereits vorhanden sind
     $existingTables = array();
-    foreach (rex_sql::showTables() as $tblname)
-    {
-      if (substr($tblname, 0, strlen(rex::getTablePrefix())) == rex::getTablePrefix())
-      {
+    foreach (rex_sql::showTables() as $tblname) {
+      if (substr($tblname, 0, strlen(rex::getTablePrefix())) == rex::getTablePrefix()) {
         $existingTables[] = $tblname;
       }
     }
 
-    foreach (array_diff(self::getRequiredTables(), $existingTables) as $missingTable)
-    {
+    foreach (array_diff(self::getRequiredTables(), $existingTables) as $missingTable) {
       $err_msg .= rex_i18n::msg('setup_031', $missingTable) . '<br />';
     }
     return $err_msg;
@@ -128,35 +122,26 @@ class rex_setup_importer
   {
     $err_msg = '';
 
-    if (!is_dir(rex_path::addon('import_export')))
-    {
+    if (!is_dir(rex_path::addon('import_export'))) {
       $err_msg .= rex_i18n::msg('setup_03703') . '<br />';
-    }
-    else
-    {
-      if (file_exists($import_sql) && ($import_archiv === null || $import_archiv !== null && file_exists($import_archiv)))
-      {
+    } else {
+      if (file_exists($import_sql) && ($import_archiv === null || $import_archiv !== null && file_exists($import_archiv))) {
         rex_i18n::addDirectory(rex_path::addon('import_export', 'lang/'));
 
         // DB Import
         $state_db = rex_a1_import_db($import_sql);
-        if ($state_db['state'] === false)
-        {
+        if ($state_db['state'] === false) {
           $err_msg .= nl2br($state_db['message']) . '<br />';
         }
 
         // Archiv optional importieren
-        if ($state_db['state'] === true && $import_archiv !== null)
-        {
+        if ($state_db['state'] === true && $import_archiv !== null) {
           $state_archiv = rex_a1_import_files($import_archiv);
-          if ($state_archiv['state'] === false)
-          {
+          if ($state_archiv['state'] === false) {
             $err_msg .= $state_archiv['message'] . '<br />';
           }
         }
-      }
-      else
-      {
+      } else {
         $err_msg .= rex_i18n::msg('setup_03702') . '<br />';
       }
     }
@@ -170,10 +155,8 @@ class rex_setup_importer
     $addonErr = '';
     rex_package_manager::synchronizeWithFileSystem();
 
-    if ($uninstallBefore)
-    {
-      foreach (array_reverse(rex::getProperty('system_addons')) as $packageRepresentation)
-      {
+    if ($uninstallBefore) {
+      foreach (array_reverse(rex::getProperty('system_addons')) as $packageRepresentation) {
         $package = rex_package::get($packageRepresentation);
         $manager = rex_package_manager::factory($package);
         $state = $manager->uninstall($installDump);
@@ -183,14 +166,12 @@ class rex_setup_importer
           $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
       }
     }
-    foreach (rex::getProperty('system_addons') as $packageRepresentation)
-    {
+    foreach (rex::getProperty('system_addons') as $packageRepresentation) {
       $state = true;
       $package = rex_package::get($packageRepresentation);
       $manager = rex_package_manager::factory($package);
 
-      if ($state === true && !$package->isInstalled())
-      {
+      if ($state === true && !$package->isInstalled()) {
         // echo "install ". $packageRepresentation."<br />";
         $state = $manager->install($installDump);
       }
@@ -198,8 +179,7 @@ class rex_setup_importer
       if ($state !== true)
         $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
 
-      if ($state === true && !$package->isActivated())
-      {
+      if ($state === true && !$package->isActivated()) {
         // echo "activate ". $packageRepresentation."<br />";
         $state = $manager->activate();
 
@@ -208,8 +188,7 @@ class rex_setup_importer
       }
     }
 
-    if ($addonErr != '')
-    {
+    if ($addonErr != '') {
       $addonErr = '<ul class="rex-ul1">
       <li>
       <h3 class="rex-hl3">' . rex_i18n::msg('setup_011', '<span class="rex-error">', '</span>') . '</h3>

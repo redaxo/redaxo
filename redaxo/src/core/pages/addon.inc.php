@@ -10,8 +10,7 @@ echo rex_view::title(rex_i18n::msg('addons'), '');
 $subpage = rex_request('subpage', 'string');
 
 // ----------------- HELPPAGE
-if ($subpage == 'help')
-{
+if ($subpage == 'help') {
   $package     = rex_package::get(rex_request('package', 'string'));
   $name        = $package->getPackageId();
   $version     = $package->getVersion();
@@ -27,12 +26,9 @@ if ($subpage == 'help')
   echo '<div class="rex-area">
         <h3 class="rex-hl2">' . rex_i18n::msg('addon_help') . ' ' . $name . '</h3>
         <div class="rex-area-content">';
-  if (!is_file($package->getBasePath('help.inc.php')))
-  {
+  if (!is_file($package->getBasePath('help.inc.php'))) {
     echo '<p>' . rex_i18n::msg('addon_no_help_file') . '</p>';
-  }
-  else
-  {
+  } else {
     rex_package_manager::includeFile($package, 'help.inc.php');
   }
   echo '<br />
@@ -45,8 +41,7 @@ if ($subpage == 'help')
 }
 
 // ----------------- OUT
-if ($subpage == '')
-{
+if ($subpage == '') {
   rex_package_manager::synchronizeWithFileSystem();
 
   echo '
@@ -63,53 +58,39 @@ if ($subpage == '')
       </thead>
       <tbody>';
 
-  $getLink = function(rex_package $package, $function, $confirm = false, $key = null)
-  {
+  $getLink = function (rex_package $package, $function, $confirm = false, $key = null) {
     $onclick = '';
-    if ($confirm)
-    {
+    if ($confirm) {
       $onclick = ' data-confirm="' . htmlspecialchars(rex_i18n::msg($package->getType() . '_' . $function . '_question', $package->getName())) . '"';
     }
     $text = rex_i18n::msg('addon_' . ($key ?: $function));
     return '<a href="index.php?page=addon&amp;package=' . $package->getPackageId() . '&amp;rex-api-call=package&amp;function=' . $function . '"' . $onclick . '>' . $text . '</a>';
   };
 
-  $getTableRow = function(rex_package $package) use($getLink)
-  {
+  $getTableRow = function (rex_package $package) use ($getLink) {
     $packageId = $package->getPackageId();
     $type = $package->getType();
 
     $delete = $package->isSystemPackage() ? htmlspecialchars(rex_i18n::msg($type . '_system' . $type)) : $getLink($package, 'delete', true);
 
-    if ($package->isInstalled())
-    {
+    if ($package->isInstalled()) {
       $install = htmlspecialchars(rex_i18n::msg('addon_yes')) . ' - ' . $getLink($package, 'install', false, 'reinstall');
-      if ($type == 'addon' && count($package->getInstalledPlugins()) > 0)
-      {
+      if ($type == 'addon' && count($package->getInstalledPlugins()) > 0) {
         $uninstall = htmlspecialchars(rex_i18n::msg('plugin_plugins_installed'));
         $delete = htmlspecialchars(rex_i18n::msg('plugin_plugins_installed'));
-      }
-      else
-      {
+      } else {
         $uninstall = $getLink($package, 'uninstall', true);
       }
-    }
-    else
-    {
+    } else {
       $install = htmlspecialchars(rex_i18n::msg('addon_no')) . ' - ' . $getLink($package, 'install');
       $uninstall = htmlspecialchars(rex_i18n::msg('addon_notinstalled'));
     }
 
-    if ($package->isActivated())
-    {
+    if ($package->isActivated()) {
       $status = htmlspecialchars(rex_i18n::msg('addon_yes')) . ' - ' . $getLink($package, 'deactivate');
-    }
-    elseif ($package->isInstalled())
-    {
+    } elseif ($package->isInstalled()) {
       $status = htmlspecialchars(rex_i18n::msg('addon_no')) . ' - ' . $getLink($package, 'activate');
-    }
-    else
-    {
+    } else {
       $status = htmlspecialchars(rex_i18n::msg('addon_notinstalled'));
     }
     $name = htmlspecialchars($package->getName());
@@ -117,8 +98,7 @@ if ($subpage == '')
 
     // --------------------------------------------- API MESSAGES
     $message = '';
-    if ($package->getPackageId() == rex_get('package', 'string') && rex_api_function::hasMessage())
-    {
+    if ($package->getPackageId() == rex_get('package', 'string') && rex_api_function::hasMessage()) {
       $message = '
           <tr class="rex-package-message rex-warning">
             <td class="rex-warning"></td>
@@ -139,14 +119,11 @@ if ($subpage == '')
           </tr>' . "\n   ";
   };
 
-  foreach (rex_addon::getRegisteredAddons() as $addonName => $addon)
-  {
+  foreach (rex_addon::getRegisteredAddons() as $addonName => $addon) {
     echo $getTableRow($addon);
 
-    if ($addon->isActivated())
-    {
-      foreach ($addon->getRegisteredPlugins() as $pluginName => $plugin)
-      {
+    if ($addon->isActivated()) {
+      foreach ($addon->getRegisteredPlugins() as $pluginName => $plugin) {
         echo $getTableRow($plugin);
       }
     }

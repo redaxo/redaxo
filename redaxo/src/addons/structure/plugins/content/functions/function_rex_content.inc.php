@@ -16,13 +16,11 @@ function rex_execPreViewAction($module_id, $function, $REX_ACTION)
   $ga = rex_sql::factory();
   $ga->setQuery('SELECT a.id, preview FROM ' . rex::getTablePrefix() . 'module_action ma,' . rex::getTablePrefix() . 'action a WHERE preview != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.previewmode & ' . $modebit . ') = ' . $modebit . ')');
 
-  foreach ($ga as $row)
-  {
+  foreach ($ga as $row) {
     $iaction = $row->getValue('preview');
 
     // ****************** VARIABLEN ERSETZEN
-    foreach (rex_var::getVars() as $obj)
-    {
+    foreach (rex_var::getVars() as $obj) {
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
@@ -49,14 +47,12 @@ function rex_execPreSaveAction($module_id, $function, $REX_ACTION)
   $ga = rex_sql::factory();
   $ga->setQuery('SELECT a.id, presave FROM ' . rex::getTablePrefix() . 'module_action ma,' . rex::getTablePrefix() . 'action a WHERE presave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.presavemode & ' . $modebit . ') = ' . $modebit . ')');
 
-  foreach ($ga as $row)
-  {
+  foreach ($ga as $row) {
     $REX_ACTION['MSG'] = '';
     $iaction = $row->getValue('presave');
 
     // *********************** WERTE ERSETZEN
-    foreach (rex_var::getVars() as $obj)
-    {
+    foreach (rex_var::getVars() as $obj) {
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 
@@ -85,14 +81,12 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
   $ga = rex_sql::factory();
   $ga->setQuery('SELECT a.id, postsave FROM ' . rex::getTablePrefix() . 'module_action ma,' . rex::getTablePrefix() . 'action a WHERE postsave != "" AND ma.action_id=a.id AND module_id=' . $module_id . ' AND ((a.postsavemode & ' . $modebit . ') = ' . $modebit . ')');
 
-  foreach ($ga as $row)
-  {
+  foreach ($ga as $row) {
     $REX_ACTION['MSG'] = '';
     $iaction = $row->getValue('postsave');
 
     // ***************** WERTE ERSETZEN UND POSTACTION AUSFÜHREN
-    foreach (rex_var::getVars() as $obj)
-    {
+    foreach (rex_var::getVars() as $obj) {
       $iaction = $obj->getACOutput($REX_ACTION, $iaction);
     }
 

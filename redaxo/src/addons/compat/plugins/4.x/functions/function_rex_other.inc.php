@@ -30,13 +30,11 @@ function rex_tabindex($html = true)
 {
   global $REX;
 
-  if (empty($REX['TABINDEX']))
-  {
+  if (empty($REX['TABINDEX'])) {
     $REX['TABINDEX'] = 0;
   }
 
-  if ($html === true)
-  {
+  if ($html === true) {
     return ' tabindex="' . ++$REX['TABINDEX'] . '"';
   }
   return ++$REX['TABINDEX'];
@@ -173,14 +171,11 @@ function rex_title($head, $subtitle = '')
 */
 function rex_addslashes($string, $flag = '\\\'\"')
 {
-  if ($flag == '\\\'\"')
-  {
+  if ($flag == '\\\'\"') {
     $string = str_replace('\\', '\\\\', $string);
     $string = str_replace('\'', '\\\'', $string);
     $string = str_replace('"', '\"', $string);
-  }
-  elseif ($flag == '\\\'')
-  {
+  } elseif ($flag == '\\\'') {
     $string = str_replace('\\', '\\\\', $string);
     $string = str_replace('\'', '\\\'', $string);
   }
@@ -205,8 +200,7 @@ function rex_split_string($string)
 function rex_highlight_string($string, $return = false)
 {
   $s = rex_string::highlight($string);
-  if ($return)
-  {
+  if ($return) {
     return $s;
   }
   echo $s;
@@ -220,8 +214,7 @@ function rex_highlight_string($string, $return = false)
 function rex_highlight_file($filename, $return = false)
 {
   $s = '<p class="rex-code">' . highlight_file($filename, true) . '</p>';
-  if ($return)
-  {
+  if ($return) {
     return $s;
   }
   echo $s;

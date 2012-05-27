@@ -43,8 +43,7 @@ $user_id = rex_request('user_id', 'int');
 $info = '';
 $warning = '';
 
-if ($user_id != 0)
-{
+if ($user_id != 0) {
   $sql = rex_sql::factory();
   $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'user WHERE user_id = ' . $user_id . ' LIMIT 2');
   if ($sql->getRows() != 1) $user_id = 0;
@@ -68,8 +67,7 @@ $sel_role->addOption(rex_i18n::msg('user_no_role'), 0);
 $roles = array();
 $sql_role = rex_sql::factory();
 $sql_role->setQuery('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role');
-foreach ($sql_role as $role)
-{
+foreach ($sql_role as $role) {
   $roles[$role->getValue('id')] = $role->getValue('name');
   $sel_role->addOption($role->getValue('name'), $role->getValue('id'));
 }
@@ -83,8 +81,7 @@ $sel_be_sprache->setId('userperm-mylang');
 $sel_be_sprache->addOption('default', '');
 $saveLocale = rex_i18n::getLocale();
 $langs = array();
-foreach (rex_i18n::getLocales() as $locale)
-{
+foreach (rex_i18n::getLocales() as $locale) {
   rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
   $sel_be_sprache->addOption(rex_i18n::msg('lang'), $locale);
 }
@@ -99,12 +96,10 @@ $sel_startpage->setName('userperm_startpage');
 $sel_startpage->setId('userperm-startpage');
 $sel_startpage->addOption('default', '');
 
-foreach (rex::getProperty('pages') as $page => $pageObj)
-{
+foreach (rex::getProperty('pages') as $page => $pageObj) {
   /* @var $pageObj rex_be_page */
   $pageObj = $pageObj->getPage();
-  if ($pageObj->hasNavigation() && !$pageObj->getHidden())
-  {
+  if ($pageObj->hasNavigation() && !$pageObj->getHidden()) {
     $sel_startpage->addOption($pageObj->getPage()->getTitle(), $page);
   }
 }
@@ -119,14 +114,11 @@ $userperm_startpage = rex_request('userperm_startpage', 'string');
 $FUNC_UPDATE = '';
 $FUNC_APPLY = '';
 $FUNC_DELETE = '';
-if ($user_id != 0 && (rex::getUser()->isAdmin() || !$sql->getValue('admin')))
-{
+if ($user_id != 0 && (rex::getUser()->isAdmin() || !$sql->getValue('admin'))) {
   $FUNC_UPDATE = rex_request('FUNC_UPDATE', 'string');
   $FUNC_APPLY = rex_request('FUNC_APPLY', 'string');
   $FUNC_DELETE = rex_request('FUNC_DELETE', 'string');
-}
-else
-{
+} else {
   $user_id = 0;
 }
 $FUNC_ADD = rex_request('FUNC_ADD', 'string');
@@ -135,8 +127,7 @@ $adminchecked = '';
 
 
 
-if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
-{
+if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
   $loginReset = rex_request('logintriesreset', 'int');
   $userstatus = rex_request('userstatus', 'int');
 
@@ -154,10 +145,8 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
   if ($userstatus == 1) $updateuser->setValue('status', 1);
   else $updateuser->setValue('status', 0);
 
-  if ($userpsw != '')
-  {
-    if ($userpsw != $sql->getValue(rex::getTablePrefix() . 'user.password'))
-    {
+  if ($userpsw != '') {
+    if ($userpsw != $sql->getValue(rex::getTablePrefix() . 'user.password')) {
       $userpsw = rex::getProperty('login')->encryptPassword($userpsw);
     }
 
@@ -166,38 +155,29 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '')
 
   $updateuser->update();
 
-  if (isset($FUNC_UPDATE) && $FUNC_UPDATE != '')
-  {
+  if (isset($FUNC_UPDATE) && $FUNC_UPDATE != '') {
     $user_id = 0;
     $FUNC_UPDATE = '';
   }
 
   $info = rex_i18n::msg('user_data_updated');
 
-}
-elseif ($FUNC_DELETE != '')
-{
+} elseif ($FUNC_DELETE != '') {
   // man kann sich selbst nicht loeschen..
-  if (rex::getUser()->getValue('user_id') != $user_id)
-  {
+  if (rex::getUser()->getValue('user_id') != $user_id) {
     $deleteuser = rex_sql::factory();
     $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE user_id = '$user_id' LIMIT 1");
     $info = rex_i18n::msg('user_deleted');
     $user_id = 0;
-  }
-  else
-  {
+  } else {
     $warning = rex_i18n::msg('user_notdeleteself');
   }
 
-}
-elseif ($FUNC_ADD != '' and $save == 1)
-{
+} elseif ($FUNC_ADD != '' and $save == 1) {
   $adduser = rex_sql::factory();
   $adduser->setQuery('SELECT * FROM ' . rex::getTablePrefix() . "user WHERE login = '$userlogin'");
 
-  if ($adduser->getRows() == 0 and $userlogin != '')
-  {
+  if ($adduser->getRows() == 0 and $userlogin != '') {
     $adduser = rex_sql::factory();
     $adduser->setTable(rex::getTablePrefix() . 'user');
     $adduser->setValue('name', $username);
@@ -216,9 +196,7 @@ elseif ($FUNC_ADD != '' and $save == 1)
     $user_id = 0;
     $FUNC_ADD = '';
     $info = rex_i18n::msg('user_added');
-  }
-  else
-  {
+  } else {
 
     if ($useradmin == 1) $adminchecked = 'checked="checked"';
 
@@ -250,16 +228,14 @@ if ($warning != '')
 
 $SHOW = true;
 
-if ($FUNC_ADD != '' || $user_id > 0)
-{
+if ($FUNC_ADD != '' || $user_id > 0) {
   $SHOW = false;
 
   if ($FUNC_ADD != '') $statuschecked = 'checked="checked"';
 
   $add_login_reset_chkbox = '';
 
-  if ($user_id > 0)
-  {
+  if ($user_id > 0) {
     // User Edit
 
     $form_label = rex_i18n::msg('edit_user');
@@ -274,8 +250,7 @@ if ($FUNC_ADD != '' || $user_id > 0)
     $sql = rex_sql::factory();
     $sql->setQuery('select * from ' . rex::getTablePrefix() . 'user where user_id=' . $user_id);
 
-    if ($sql->getRows() == 1)
-    {
+    if ($sql->getRows() == 1) {
       // ----- EINLESEN DER PERMS
       if ($sql->getValue('admin')) $adminchecked = 'checked="checked"';
       else $adminchecked = '';
@@ -297,34 +272,25 @@ if ($FUNC_ADD != '' || $user_id > 0)
       $username = $sql->getValue(rex::getTablePrefix() . 'user.name');
       $userdesc = $sql->getValue(rex::getTablePrefix() . 'user.description');
 
-      if (!rex::getUser()->isAdmin())
-      {
+      if (!rex::getUser()->isAdmin()) {
         $add_admin_chkbox = '<input type="checkbox" id="useradmin" name="useradmin" value="1" disabled="disabled" />';
-      }
-      else
+      } else
       // Der Benutzer kann sich selbst die Rechte nicht entziehen
-      if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login') && $adminchecked != '')
-      {
+      if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login') && $adminchecked != '') {
         $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input type="checkbox" id="useradmin" name="useradmin" value="1" ' . $adminchecked . ' disabled="disabled" />';
-      }
-      else
-      {
+      } else {
         $add_admin_chkbox = '<input type="checkbox" id="useradmin" name="useradmin" value="1" ' . $adminchecked . ' />';
       }
 
       // Der Benutzer kann sich selbst den Status nicht entziehen
-      if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login') && $statuschecked != '')
-      {
+      if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login') && $statuschecked != '') {
         $add_status_chkbox = '<input type="hidden" name="userstatus" value="1" /><input type="checkbox" id="userstatus" name="userstatus" value="1" ' . $statuschecked . ' disabled="disabled" />';
-      }
-      else
-      {
+      } else {
         $add_status_chkbox = '<input type="checkbox" id="userstatus" name="userstatus" value="1" ' . $statuschecked . ' />';
       }
 
       // Account gesperrt?
-      if (rex::getProperty('maxlogins') < $sql->getValue('login_tries'))
-      {
+      if (rex::getProperty('maxlogins') < $sql->getValue('login_tries')) {
         $add_login_reset_chkbox = '
         <div class="rex-message">
         <p class="rex-warning rex-form-checkbox rex-form-label-right">
@@ -338,9 +304,7 @@ if ($FUNC_ADD != '' || $user_id > 0)
 
     }
 
-  }
-  else
-  {
+  } else {
     // User Add
     $form_label = rex_i18n::msg('create_user');
     $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
@@ -471,8 +435,7 @@ if ($FUNC_ADD != '' || $user_id > 0)
 
 // ---------------------------------- Userliste
 
-if (isset($SHOW) and $SHOW)
-{
+if (isset($SHOW) and $SHOW) {
   $list = rex_list::factory('SELECT user_id, name, login, admin, lasttrydate FROM ' . rex::getTablePrefix() . 'user ORDER BY name');
   $list->setCaption(rex_i18n::msg('user_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('user_summary'));
@@ -482,8 +445,7 @@ if (isset($SHOW) and $SHOW)
   $thIcon = '<a class="rex-i-element rex-i-user-add" href="' . $list->getUrl(array('FUNC_ADD' => '1')) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . '><span class="rex-i-element-text">' . rex_i18n::msg('create_user') . '</span></a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('user_id' => '###user_id###'));
-  $list->setColumnFormat($thIcon, 'custom', function($params) use($thIcon, $tdIcon)
-  {
+  $list->setColumnFormat($thIcon, 'custom', function ($params) use ($thIcon, $tdIcon) {
     $list = $params['list'];
     return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink($thIcon, $tdIcon) : $tdIcon;
   });
@@ -493,8 +455,7 @@ if (isset($SHOW) and $SHOW)
 
   $list->setColumnLabel('name', rex_i18n::msg('name'));
   $list->setColumnParams('name', array('user_id' => '###user_id###'));
-  $list->setColumnFormat('name', 'custom', function ($params)
-  {
+  $list->setColumnFormat('name', 'custom', function ($params) {
     $list = $params['list'];
     $name = htmlspecialchars($list->getValue('name') != '' ? $list->getValue('name') : $list->getValue('login'));
     return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink('name', $name) : $name;
@@ -505,8 +466,7 @@ if (isset($SHOW) and $SHOW)
   $list->setColumnLabel('login', rex_i18n::msg('login'));
 
   $list->setColumnLabel('admin', rex_i18n::msg('admin'));
-  $list->setColumnFormat('admin', 'custom', function($params)
-  {
+  $list->setColumnFormat('admin', 'custom', function ($params) {
     return $params['subject'] ? rex_i18n::msg('yes') : rex_i18n::msg('no');
   });
 
@@ -516,11 +476,9 @@ if (isset($SHOW) and $SHOW)
   $list->addColumn('funcs', rex_i18n::msg('user_delete'));
   $list->setColumnLabel('funcs', rex_i18n::msg('user_functions'));
   $list->setColumnParams('funcs', array('FUNC_DELETE' => '1', 'user_id' => '###user_id###'));
-  $list->setColumnFormat('funcs', 'custom', function ($params)
-  {
+  $list->setColumnFormat('funcs', 'custom', function ($params) {
     $list = $params['list'];
-    if ($list->getValue('user_id') == rex::getUser()->getValue('user_id') || $list->getValue('admin') && !rex::getUser()->isAdmin())
-    {
+    if ($list->getValue('user_id') == rex::getUser()->getValue('user_id') || $list->getValue('admin') && !rex::getUser()->isAdmin()) {
       return '<span class="rex-strike">' . rex_i18n::msg('user_delete') . '</span>';
     }
     return $list->getColumnLink('funcs', rex_i18n::msg('user_delete'));

@@ -9,8 +9,7 @@
 $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
-switch ($subpage)
-{
+switch ($subpage) {
   case 'actions' :
     {
       $title = rex_i18n::msg('modules') . ': ' . rex_i18n::msg('actions');

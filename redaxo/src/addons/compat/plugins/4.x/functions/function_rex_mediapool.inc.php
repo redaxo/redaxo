@@ -108,10 +108,8 @@ function rex_mediapool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids,
   $mediacat_ids[] = $mediacat->getId();
   $select->addOption($mname, $mediacat->getId(), $mediacat->getId(), $mediacat->getParentId());
   $childs = $mediacat->getChildren();
-  if (is_array($childs))
-  {
-    foreach ( $childs as $child)
-    {
+  if (is_array($childs)) {
+    foreach ( $childs as $child) {
       rex_mediapool_addMediacatOptions( $select, $child, $mediacat_ids, $mname);
     }
   }
@@ -137,10 +135,8 @@ function rex_mediapool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediacat
     $select->addOption($mname, $mediacat->getId(), $mediacat->getId(), $mediacat->getParentId());
 
   $childs = $mediacat->getChildren();
-  if (is_array($childs))
-  {
-    foreach ( $childs as $child)
-    {
+  if (is_array($childs)) {
+    foreach ( $childs as $child) {
       rex_mediapool_addMediacatOptionsWPerm( $select, $child, $mediacat_ids, $mname);
     }
   }

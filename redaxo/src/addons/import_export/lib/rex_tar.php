@@ -124,8 +124,7 @@ class rex_tar extends tar
     // STM: hier mit get_file_contents ist viel schneller
     $this->tar_file = rex_file::get($filename);
 
-    if ($this->tar_file[0] == chr(31) && $this->tar_file[1] == chr(139) && $this->tar_file[2] == chr(8))
-    {
+    if ($this->tar_file[0] == chr(31) && $this->tar_file[1] == chr(139) && $this->tar_file[2] == chr(8)) {
       if (!function_exists('gzinflate'))
         return false;
 
@@ -148,16 +147,13 @@ class rex_tar extends tar
     $this->__generateTar();
 
     // GZ Compress the data if we need to
-    if ($useGzip)
-    {
+    if ($useGzip) {
       // Make sure we have gzip support
       if (!function_exists('gzencode'))
         return false;
 
       $file = gzencode($this->tar_file);
-    }
-    else
-    {
+    } else {
       $file = $this->tar_file;
     }
 
@@ -184,10 +180,8 @@ class rex_tar extends tar
     $this->tar_file = '';
 
     // Generate Records for each directory, if we have directories
-    if ($this->numDirectories > 0)
-    {
-      foreach ($this->directories as $key => $information)
-      {
+    if ($this->numDirectories > 0) {
+      foreach ($this->directories as $key => $information) {
 //        unset($header);
         // STM: Warnung gefixed
         $header = '';
@@ -214,8 +208,7 @@ class rex_tar extends tar
 
         // Compute header checksum
         $checksum = str_pad(decoct($this->__computeUnsignedChecksum($header)), 6, '0', STR_PAD_LEFT);
-        for ($i = 0; $i < 6; $i++)
-        {
+        for ($i = 0; $i < 6; $i++) {
           $header[(148 + $i)] = substr($checksum, $i, 1);
         }
         $header[154] = chr(0);
@@ -227,10 +220,8 @@ class rex_tar extends tar
     }
 
     // Generate Records for each file, if we have files (We should...)
-    if ($this->numFiles > 0)
-    {
-      foreach ($this->files as $key => $information)
-      {
+    if ($this->numFiles > 0) {
+      foreach ($this->files as $key => $information) {
 //        unset($header);
         // STM: Warnung gefixed
         $header = '';
@@ -257,8 +248,7 @@ class rex_tar extends tar
 
         // Compute header checksum
         $checksum = str_pad(decoct($this->__computeUnsignedChecksum($header)), 6, '0', STR_PAD_LEFT);
-        for ($i = 0; $i < 6; $i++)
-        {
+        for ($i = 0; $i < 6; $i++) {
           $header[(148 + $i)] = substr($checksum, $i, 1);
         }
         $header[154] = chr(0);
@@ -281,25 +271,17 @@ class rex_tar extends tar
   public function extractTar()
   {
     // kills: Warnung verhindern
-    if (is_array($this->files))
-    {
-      foreach ($this->files as $item)
-      {
+    if (is_array($this->files)) {
+      foreach ($this->files as $item) {
         // jan: wenn probleme mit der ordnergenerierung -> ordner manuell einstellen
 
-        if (!file_exists(dirname($item['name'])))
-        {
+        if (!file_exists(dirname($item['name']))) {
           $this->message[] = dirname($item['name']);
-        }
-        else
-        {
-          if ($h = @ fopen($item['name'], 'w+'))
-          {
+        } else {
+          if ($h = @ fopen($item['name'], 'w+')) {
             fwrite($h, $item['file'], $item['size']);
             fclose($h);
-          }
-          else
-          {
+          } else {
             $this->message[] = dirname($item['name']);
             return false;
           }

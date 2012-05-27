@@ -11,17 +11,14 @@
 
 $error = '';
 
-if ($error == '')
-{
+if ($error == '') {
   require_once dirname(__FILE__) . '/functions/function_version_check.inc.php';
 
   $url = 'http://www.redaxo.org';
-  if (!rex_a657_open_http_socket($url, $errno, $errstr, 5))
-  {
+  if (!rex_a657_open_http_socket($url, $errno, $errstr, 5)) {
     $error .= 'The server was unable to connect to "' . $url . '".';
     $error .= 'Make sure the server has access to the internet.';
-    if ($error != '' || $errstr != '')
-    {
+    if ($error != '' || $errstr != '') {
       $error .= '(error ' . $errno . '; ' . $errstr . ')';
     }
   }

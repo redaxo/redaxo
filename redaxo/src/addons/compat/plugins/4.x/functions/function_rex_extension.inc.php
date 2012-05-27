@@ -38,8 +38,7 @@ function rex_extension_is_registered($extensionPoint)
  */
 function rex_call_func($function, $params, $parseParamsAsArray = true)
 {
-  if ($parseParamsAsArray === true)
-  {
+  if ($parseParamsAsArray === true) {
     return call_user_func($function, $params);
   }
   return call_user_func_array($function, $params);

@@ -17,13 +17,10 @@ $navigation[] = array(
   );
 
 $ooCat = rex_ooCategory::getCategoryById($category_id, $clang);
-if ($ooCat)
-{
-  foreach ($ooCat->getParentTree() as $parent)
-  {
+if ($ooCat) {
+  foreach ($ooCat->getParentTree() as $parent) {
     $catid = $parent->getId();
-    if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($catid))
-    {
+    if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($catid)) {
       $n = array();
       $n['title'] = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
       $n['href'] = 'index.php?page=structure&amp;category_id=' . $catid . '&amp;clang=' . $clang;

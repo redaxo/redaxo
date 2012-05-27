@@ -21,8 +21,7 @@ class rex_var_link extends rex_var
   {
     $values     = rex_request('LINK', 'array');
     $listvalues = rex_request('LINKLIST', 'array');
-    for ($i = 1; $i < 11; $i++)
-    {
+    for ($i = 1; $i < 11; $i++) {
       $link     = isset($values[$i]) ? $values[$i] : '';
       $linklist = isset($listvalues[$i]) ? $listvalues[$i] : '';
 
@@ -34,8 +33,7 @@ class rex_var_link extends rex_var
 
   public function getACDatabaseValues(array $REX_ACTION, rex_sql $sql)
   {
-    for ($i = 1; $i < 11; $i++)
-    {
+    for ($i = 1; $i < 11; $i++) {
       $REX_ACTION['LINK'][$i] = $this->getValue($sql, 'link' . $i);
       $REX_ACTION['LINKLIST'][$i] = $this->getValue($sql, 'linklist' . $i);
     }
@@ -45,8 +43,7 @@ class rex_var_link extends rex_var
 
   public function setACValues(rex_sql $sql, array $REX_ACTION)
   {
-    for ($i = 1; $i < 11; $i++)
-    {
+    for ($i = 1; $i < 11; $i++) {
       $this->setValue($sql, 'link' . $i, $REX_ACTION['LINK'][$i]);
       $this->setValue($sql, 'linklist' . $i, $REX_ACTION['LINKLIST'][$i]);
     }
@@ -79,8 +76,7 @@ class rex_var_link extends rex_var
 
   static public function handleDefaultParam($varname, array $args, $name, $value)
   {
-    switch ($name)
-    {
+    switch ($name) {
       case '0' :
         $args['id'] = (int) $value;
         break;
@@ -99,21 +95,18 @@ class rex_var_link extends rex_var
   {
     $def_category = '';
     $article_id = rex_request('article_id', 'int');
-    if ($article_id != 0)
-    {
+    if ($article_id != 0) {
       $art = rex_ooArticle::getArticleById($article_id);
       $def_category = $art->getCategoryId();
     }
 
     $var = 'REX_LINK_BUTTON';
     $matches = $this->getVarParams($content, $var);
-    foreach ($matches as $match)
-    {
+    foreach ($matches as $match) {
       list ($param_str, $args) = $match;
       $id = $this->getArg('id', $args, 0);
 
-      if ($id < 11 && $id > 0)
-      {
+      if ($id < 11 && $id > 0) {
         // Wenn vom Programmierer keine Kategorie vorgegeben wurde,
         // die Linkmap mit der aktuellen Kategorie öffnen
         $category = $this->getArg('category', $args, $def_category);
@@ -134,13 +127,11 @@ class rex_var_link extends rex_var
   {
     $var = 'REX_LINKLIST_BUTTON';
     $matches = $this->getVarParams($content, $var);
-    foreach ($matches as $match)
-    {
+    foreach ($matches as $match) {
       list ($param_str, $args) = $match;
       $id = $this->getArg('id', $args, 0);
 
-      if ($id < 11 && $id > 0)
-      {
+      if ($id < 11 && $id > 0) {
         $category = $this->getArg('category', $args, 0);
 
         $replace = $this->getLinklistButton($id, $this->getValue($sql, 'linklist' . $id), $category);
@@ -159,13 +150,11 @@ class rex_var_link extends rex_var
   {
     $var = 'REX_LINK';
     $matches = $this->getVarParams($content, $var);
-    foreach ($matches as $match)
-    {
+    foreach ($matches as $match) {
       list ($param_str, $args) = $match;
       $id = $this->getArg('id', $args, 0);
 
-      if ($id > 0 && $id < 11)
-      {
+      if ($id > 0 && $id < 11) {
         $replace = '';
         if ($this->getValue($sql, 'link' . $id) != '')
           $replace = rex_getUrl($this->getValue($sql, 'link' . $id));
@@ -185,13 +174,11 @@ class rex_var_link extends rex_var
   {
     $var = 'REX_LINK_ID';
     $matches = $this->getVarParams($content, $var);
-    foreach ($matches as $match)
-    {
+    foreach ($matches as $match) {
       list ($param_str, $args) = $match;
       $id = $this->getArg('id', $args, 0);
 
-      if ($id > 0 && $id < 11)
-      {
+      if ($id > 0 && $id < 11) {
         $replace = $this->getValue($sql, 'link' . $id);
         $replace = (int) $this->handleGlobalVarParams($var, $args, $replace);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
@@ -208,13 +195,11 @@ class rex_var_link extends rex_var
   {
     $var = 'REX_LINKLIST';
     $matches = $this->getVarParams($content, $var);
-    foreach ($matches as $match)
-    {
+    foreach ($matches as $match) {
       list ($param_str, $args) = $match;
       $id = $this->getArg('id', $args, 0);
 
-      if ($id > 0 && $id < 11)
-      {
+      if ($id > 0 && $id < 11) {
         $replace = $this->getValue($sql, 'linklist' . $id);
         $replace = $this->handleGlobalVarParams($var, $args, $replace);
         $content = str_replace($var . '[' . $param_str . ']', $replace, $content);
@@ -241,8 +226,7 @@ class rex_var_link extends rex_var
     $art = rex_ooArticle :: getArticleById($article_id);
 
     // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim öffnen der Linkmap dessen Kategorie anzeigen
-    if (rex_ooArticle :: isValid($art))
-    {
+    if (rex_ooArticle :: isValid($art)) {
       $art_name = $art->getName();
       $category = $art->getCategoryId();
     }
@@ -255,8 +239,7 @@ class rex_var_link extends rex_var
     $delete_class = 'rex-ic-link-delete rex-inactive';
     $open_func    = '';
     $delete_func  = '';
-    if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm())
-    {
+    if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm()) {
       $open_class   = 'rex-ic-linkmap-open';
       $delete_class = 'rex-ic-link-delete';
       $open_func    = 'openLinkMap(\'LINK_' . $id . '\', \'' . $open_params . '\');';
@@ -287,12 +270,9 @@ class rex_var_link extends rex_var
 
     $options = '';
     $linklistarray = explode(',', $value);
-    if (is_array($linklistarray))
-    {
-      foreach ($linklistarray as $link)
-      {
-        if ($link != '')
-        {
+    if (is_array($linklistarray)) {
+      foreach ($linklistarray as $link) {
+        if ($link != '') {
           if ($article = rex_ooArticle::getArticleById($link))
             $options .= '<option value="' . $link . '">' . htmlspecialchars($article->getName()) . '</option>';
         }
@@ -303,8 +283,7 @@ class rex_var_link extends rex_var
     $delete_class = 'rex-ic-link-delete rex-inactive';
     $open_func    = '';
     $delete_func  = '';
-    if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm())
-    {
+    if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm()) {
       $open_class   = 'rex-ic-linkmap-open';
       $delete_class = 'rex-ic-link-delete';
       $open_func    = 'openREXLinklist(' . $id . ', \'' . $open_params . '\');';

@@ -9,8 +9,7 @@
  * @package redaxo5
  */
 
-if (!$this->hasConfig())
-{
+if (!$this->hasConfig()) {
   $this->setConfig('from',     'from@example.com');
   $this->setConfig('fromname', 'Mailer');
   $this->setConfig('confirmto', '');

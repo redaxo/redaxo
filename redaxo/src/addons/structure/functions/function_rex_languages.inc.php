@@ -9,14 +9,11 @@ $num_clang = rex_clang::count();
 
 $stop = false;
 $languages = array();
-if ($num_clang > 1)
-{
+if ($num_clang > 1) {
   $i = 1;
-  foreach (rex_clang::getAll() as $key => $val)
-  {
+  foreach (rex_clang::getAll() as $key => $val) {
 
-     if (rex::getUser()->getComplexPerm('clang')->hasPerm($key))
-     {
+     if (rex::getUser()->getComplexPerm('clang')->hasPerm($key)) {
        $lang = array();
     $lang['id'] = $key;
     $lang['title'] = rex_i18n::translate($val);

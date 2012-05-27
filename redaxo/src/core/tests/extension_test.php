@@ -18,7 +18,8 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
 
     $this->assertFalse(rex_extension::isRegistered($EP), 'isRegistered() returns false for non-registered extension points');
 
-    rex_extension::register($EP, function(){});
+    rex_extension::register($EP, function () {
+      });
 
     $this->assertTrue(rex_extension::isRegistered($EP), 'isRegistered() returns true for registered extension points');
   }
@@ -28,16 +29,15 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
     $EP = 'TEST_EP';
 
     $EPParam = null;
-    rex_extension::register($EP, function($params) use (&$EPParam)
-    {
+    rex_extension::register($EP, function ($params) use (&$EPParam) {
       $EPParam = $params['extension_point'];
       return $params['subject'] . ' test2';
     });
 
-    rex_extension::register($EP, function($params) {});
+    rex_extension::register($EP, function ($params) {
+      });
 
-    rex_extension::register($EP, function($params)
-    {
+    rex_extension::register($EP, function ($params) {
       return $params['subject'] . ' test3';
     });
 
@@ -51,14 +51,12 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
   {
     $EP = 'TEST_EP_READ_ONLY';
 
-    rex_extension::register($EP, function($params)
-    {
+    rex_extension::register($EP, function ($params) {
       return 'test2';
     });
 
     $subjectActual = null;
-    rex_extension::register($EP, function($params) use (&$subjectActual)
-    {
+    rex_extension::register($EP, function ($params) use (&$subjectActual) {
       $subjectActual = $params['subject'];
     });
 
@@ -73,8 +71,7 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
     $EP = 'TEST_EP_WITH_PARAMS';
 
     $myparamActual = null;
-    rex_extension::register($EP, function($params) use (&$myparamActual)
-    {
+    rex_extension::register($EP, function ($params) use (&$myparamActual) {
       $myparamActual = $params['myparam'];
     });
 

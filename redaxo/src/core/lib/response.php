@@ -18,8 +18,7 @@ class rex_response
 
   static public function setStatus($httpStatus)
   {
-    if (strpos($httpStatus, "\n") !== false)
-    {
+    if (strpos($httpStatus, "\n") !== false) {
       throw new rex_exception('Illegal http-status "' . $httpStatus . '", contains newlines');
     }
 
@@ -28,8 +27,7 @@ class rex_response
 
   static public function sendRedirect($url)
   {
-    if (strpos($url, "\n") !== false)
-    {
+    if (strpos($url, "\n") !== false) {
       throw new rex_exception('Illegal redirect url "' . $url . '", contains newlines');
     }
 
@@ -81,12 +79,10 @@ class rex_response
   {
     $environment = rex::isBackend() ? 'backend' : 'frontend';
 
-    if (!$etag)
-    {
+    if (!$etag) {
       $etag = md5($content);
     }
-    if (!$lastModified)
-    {
+    if (!$lastModified) {
       $lastModified = time();
     }
 
@@ -111,8 +107,7 @@ class rex_response
     // dynamische teile sollen die md5 summe nicht beeinflussen
     $etag = self::md5($content . $etagAdd);
 
-    if ($lastModified === null)
-    {
+    if ($lastModified === null) {
       $lastModified = time();
     }
 
@@ -140,13 +135,11 @@ class rex_response
    */
   static public function sendContent($content, $lastModified, $etag, $environment, $sendcharset = false)
   {
-    if ($sendcharset)
-    {
+    if ($sendcharset) {
       header('Content-Type: text/html; charset=utf-8');
     }
 
-    if (self::$httpStatus == self::HTTP_OK)
-    {
+    if (self::$httpStatus == self::HTTP_OK) {
       // ----- Last-Modified
       if (rex::getProperty('use_last_modified') === 'true' || rex::getProperty('use_last_modified') == $environment)
         self::sendLastModified($lastModified);
@@ -201,8 +194,7 @@ class rex_response
 
     // Last-Modified Timestamp gefunden
     // => den Browser anweisen, den Cache zu verwenden
-    if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $lastModified)
-    {
+    if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $lastModified) {
       if (ob_get_length() > 0)
         while (@ob_end_clean());
 
@@ -229,8 +221,7 @@ class rex_response
 
     // CacheKey gefunden
     // => den Browser anweisen, den Cache zu verwenden
-    if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] == $cacheKey)
-    {
+    if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] == $cacheKey) {
       if (ob_get_length() > 0)
         while (@ob_end_clean());
 
@@ -254,23 +245,18 @@ class rex_response
     $supportsGzip = false;
 
     // Check if it supports gzip
-    if (isset($_SERVER['HTTP_ACCEPT_ENCODING']))
-    {
+    if (isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
       $encodings = explode(',', strtolower(preg_replace('/\s+/', '', $_SERVER['HTTP_ACCEPT_ENCODING'])));
-    }
-    else
-    {
+    } else {
       $encodings = array();
     }
 
-    if ((in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression'))
-    {
+    if ((in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression')) {
       $enc = in_array('x-gzip', $encodings) ? 'x-gzip' : 'gzip';
       $supportsGzip = true;
     }
 
-    if ($supportsGzip)
-    {
+    if ($supportsGzip) {
       header('Content-Encoding: ' . $enc);
       $content = gzencode($content, 9, FORCE_GZIP);
     }

@@ -5,20 +5,16 @@ $addons = array();
 
 echo rex_api_function::getMessage();
 
-try
-{
+try {
   $addons = rex_install_packages::getAddPackages();
-}
-catch (rex_functional_exception $e)
-{
+} catch (rex_functional_exception $e) {
   echo rex_view::warning($e->getMessage());
   $addonkey = '';
 }
 
 
 $content = '';
-if ($addonkey && isset($addons[$addonkey]))
-{
+if ($addonkey && isset($addons[$addonkey])) {
   $addon = $addons[$addonkey];
 
   $content .= '
@@ -58,8 +54,7 @@ if ($addonkey && isset($addons[$addonkey]))
       </thead>
       <tbody>';
 
-  foreach ($addon['files'] as $fileId => $file)
-  {
+  foreach ($addon['files'] as $fileId => $file) {
     $content .= '
       <tr>
         <td class="rex-icon"><span class="rex-ic-addon">' . $file['version'] . '</span></td>
@@ -71,9 +66,7 @@ if ($addonkey && isset($addons[$addonkey]))
 
   $content .= '</tbody></table>';
 
-}
-else
-{
+} else {
 
   $content .= '
     <h2>' . $this->i18n('addons_found', count($addons)) . '</h2>
@@ -89,8 +82,7 @@ else
      </thead>
      <tbody>';
 
-  foreach ($addons as $key => $addon)
-  {
+  foreach ($addons as $key => $addon) {
     $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=add&amp;addonkey=' . $key . '">%s</a>';
     $content .= '
       <tr>

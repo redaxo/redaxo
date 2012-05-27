@@ -18,8 +18,7 @@ $EXPDIR         = rex_post('EXPDIR', 'array');
 
 @set_time_limit(0);
 
-if ($impname != '')
-{
+if ($impname != '') {
   $impname = str_replace('/', '', $impname);
 
   if ($function == 'dbimport' && substr($impname, -4, 4) != '.sql')
@@ -31,101 +30,71 @@ if ($impname != '')
 if ($exportfilename == '')
   $exportfilename = 'rex_' . rex::getProperty('version') . '_' . date('Ymd');
 
-if ($function == 'delete')
-{
+if ($function == 'delete') {
   // ------------------------------ FUNC DELETE
   if (rex_file::delete(getImportDir() . '/' . $impname));
   $info = rex_i18n::msg('im_export_file_deleted');
-}
-elseif ($function == 'dbimport')
-{
+} elseif ($function == 'dbimport') {
   // ------------------------------ FUNC DBIMPORT
 
   // noch checken das nicht alle tabellen geloescht werden
   // install/temp.sql aendern
-  if (isset ($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == '')
-  {
+  if (isset ($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == '') {
     $warning = rex_i18n::msg('im_export_no_import_file_chosen_or_wrong_version') . '<br>';
-  }
-  else
-  {
-    if ($impname != '')
-    {
+  } else {
+    if ($impname != '') {
       $file_temp = getImportDir() . '/' . $impname;
-    }
-    else
-    {
+    } else {
       $file_temp = getImportDir() . '/temp.sql';
     }
 
-    if ($impname != '' || @ move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
-    {
+    if ($impname != '' || @ move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp)) {
       $state = rex_a1_import_db($file_temp);
       $info = $state['message'];
 
       // temp datei löschen
-      if ($impname == '')
-      {
+      if ($impname == '') {
         rex_file::delete($file_temp);
       }
-    }
-    else
-    {
+    } else {
       $warning = rex_i18n::msg('im_export_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('im_export_you_have_no_write_permission_in', 'addons/import_export/files/') . ' <br>';
     }
   }
 
-}
-elseif ($function == 'fileimport')
-{
+} elseif ($function == 'fileimport') {
   // ------------------------------ FUNC FILEIMPORT
 
-  if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == '')
-  {
+  if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == '') {
     $warning = rex_i18n::msg('im_export_no_import_file_chosen') . '<br/>';
-  }
-  else
-  {
-    if ($impname == '')
-    {
+  } else {
+    if ($impname == '') {
       $file_temp = getImportDir() . '/temp.tar.gz';
-    }
-    else
-    {
+    } else {
       $file_temp = getImportDir() . '/' . $impname;
     }
 
-    if ($impname != '' || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp))
-    {
+    if ($impname != '' || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp)) {
       $return = rex_a1_import_files($file_temp);
-      if ($return['state'])
-      {
+      if ($return['state']) {
         $info = $return['message'];
-      }
-      else
-      {
+      } else {
         $warning = $return['message'];
       }
 
       // temp datei löschen
-      if ($impname == '')
-      {
+      if ($impname == '') {
         rex_file::delete($file_temp);
       }
-    }
-    else
-    {
+    } else {
       $warning = rex_i18n::msg('im_export_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('im_export_you_have_no_write_permission_in', 'addons/import_export/files/') . ' <br>';
     }
   }
 
 }
-if ($info != '')
-{
+if ($info != '') {
   echo rex_view::info($info);
 }
-if ($warning != '')
-{
+if ($warning != '') {
   echo rex_view::warning($warning);
 }
 
@@ -184,8 +153,7 @@ if ($warning != '')
   $dir = getImportDir();
   $folder = readImportFolder('.sql');
 
-  foreach ($folder as $file)
-  {
+  foreach ($folder as $file) {
     $filepath = $dir . '/' . $file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
     $filesize = rex_file::formattedSize($filepath);
@@ -249,8 +217,7 @@ if ($warning != '')
   $dir = getImportDir();
   $folder = readImportFolder('.tar.gz');
 
-  foreach ($folder as $file)
-  {
+  foreach ($folder as $file) {
     $filepath = $dir . '/' . $file;
     $filec = date('d.m.Y H:i', filemtime($filepath));
     $filesize = rex_file::formattedSize($filepath);

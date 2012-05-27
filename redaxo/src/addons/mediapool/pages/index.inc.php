@@ -23,8 +23,7 @@ $args         = rex_request('args', 'array');
 // -------------- Additional Args
 $arg_url = '';
 $arg_fields = '';
-foreach ($args as $arg_name => $arg_value)
-{
+foreach ($args as $arg_name => $arg_value) {
   $arg_url .= '&amp;args[' . urlencode($arg_name) . ']=' . urlencode($arg_value);
   $arg_fields .= '<input type="hidden" name="args[' . $arg_name . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";
 }
@@ -33,8 +32,7 @@ foreach ($args as $arg_name => $arg_value)
 $opener_link = rex_request('opener_link', 'string');
 $opener_input_field = rex_request('opener_input_field', 'string', '');
 
-if ($opener_input_field != '')
-{
+if ($opener_input_field != '') {
   $arg_url .= '&amp;opener_input_field=' . urlencode($opener_input_field);
   $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . htmlspecialchars($opener_input_field) . '" />' . "\n";
 }
@@ -44,32 +42,26 @@ $file_id = rex_request('file_id', 'int');
 $file_name = rex_request('file_name', 'string');
 $rex_file_category = rex_request('rex_file_category', 'int', -1);
 
-if ($file_name != '')
-{
+if ($file_name != '') {
   $sql = rex_sql::factory();
   $sql->setQuery('select * from ' . rex::getTablePrefix() . "media where filename='$file_name'");
-  if ($sql->getRows() == 1)
-  {
+  if ($sql->getRows() == 1) {
     $file_id = $sql->getValue('file_id');
     $rex_file_category = $sql->getValue('category_id');
   }
 }
 
-if ($rex_file_category == -1)
-{
+if ($rex_file_category == -1) {
   $rex_file_category = rex_session('media[rex_file_category]', 'int');
 }
 
 
 $gc = rex_sql::factory();
 $gc->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE id=' . $rex_file_category);
-if ($gc->getRows() != 1)
-{
+if ($gc->getRows() != 1) {
   $rex_file_category = 0;
   $rex_file_category_name = rex_i18n::msg('pool_kats_no');
-}
-else
-{
+} else {
   $rex_file_category_name = $gc->getValue('name');
 }
 
@@ -85,15 +77,13 @@ $subline = array(
   array('upload', rex_i18n::msg('pool_file_insert')),
 );
 
-if ($PERMALL)
-{
+if ($PERMALL) {
   $subline[] = array('structure', rex_i18n::msg('pool_cat_list'));
   $subline[] = array('sync', rex_i18n::msg('pool_sync_files'));
 }
 
 // Arg Url an Menulinks anhaengen
-foreach ($subline as $key => $item)
-{
+foreach ($subline as $key => $item) {
   $subline[$key][2] = '';
   $subline[$key][3] = $arg_url;
 }
@@ -109,13 +99,11 @@ $title = rex_i18n::msg('pool_media');
 echo rex_view::title($title, $subline);
 
 // -------------- Messages
-if ($info != '')
-{
+if ($info != '') {
   echo rex_view::info($info);
   $info = '';
 }
-if ($warning != '')
-{
+if ($warning != '') {
   echo rex_view::warning($warning);
   $warning = '';
 }
@@ -128,8 +116,7 @@ if ($warning != '')
 function selectMedia(filename, alt)
 {
   <?php
-  if ($opener_input_field != '')
-  {
+  if ($opener_input_field != '') {
     echo 'opener.document.getElementById("' . $opener_input_field . '").value = filename;';
   }
   ?>
@@ -139,8 +126,7 @@ function selectMedia(filename, alt)
 function selectMedialist(filename)
 {
   <?php
-    if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_')
-    {
+    if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
       $id = substr($opener_input_field, 14, strlen($opener_input_field));
       echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
 
@@ -161,8 +147,7 @@ function selectMedialist(filename)
 function selectMediaListArray(files)
 {
   <?php
-    if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_')
-    {
+    if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
       $id = substr($opener_input_field, 14, strlen($opener_input_field));
       echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
 
@@ -213,8 +198,7 @@ function openPage(src)
 <?php
 
 // -------------- Include Page
-switch ($subpage)
-{
+switch ($subpage) {
   case 'upload'    : $file = 'upload.inc.php'; break;
   case 'structure' : $file = 'structure.inc.php'; break;
   case 'sync'      : $file = 'sync.inc.php'; break;

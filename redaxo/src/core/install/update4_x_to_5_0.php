@@ -3,8 +3,7 @@
 // TODO Adjust statements to final r5 db structure
 
 
-if ($eventType == REX_A1_IMPORT_EVENT_PRE)
-{
+if ($eventType == REX_A1_IMPORT_EVENT_PRE) {
 
   $update = rex_sql::factory();
   // $update->setDebug();

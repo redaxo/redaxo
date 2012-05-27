@@ -8,11 +8,10 @@
  * @package redaxo5
  */
 
-if ($func == 'setstatus')
-{
+if ($func == 'setstatus') {
   $manager = rex_cronjob_manager_sql::factory();
   $name = $manager->getName($oid);
-  $status = (rex_request('oldstatus', 'int') +1) % 2;
+  $status = (rex_request('oldstatus', 'int') + 1) % 2;
   $msg = $status == 1 ? 'status_activate' : 'status_deactivate';
   if ($manager->setStatus($oid, $status))
     echo rex_view::info($this->i18n($msg . '_success', $name));
@@ -21,8 +20,7 @@ if ($func == 'setstatus')
   $func = '';
 }
 
-if ($func == 'delete')
-{
+if ($func == 'delete') {
   $manager = rex_cronjob_manager_sql::factory();
   $name = $manager->getName($oid);
   if ($manager->delete($oid))
@@ -32,8 +30,7 @@ if ($func == 'delete')
   $func = '';
 }
 
-if ($func == 'execute')
-{
+if ($func == 'execute') {
   $manager = rex_cronjob_manager_sql::factory();
   $name = $manager->getName($oid);
   $success = $manager->tryExecute($oid);
@@ -47,8 +44,7 @@ if ($func == 'execute')
   $func = '';
 }
 
-if ($func == '')
-{
+if ($func == '') {
 
   $query = 'SELECT id, name, type, `interval`, environment, execution_moment, status FROM ' . REX_CRONJOB_TABLE . ' ORDER BY name';
 
@@ -72,8 +68,7 @@ if ($func == '')
 
   $list->setColumnLabel('interval', $this->i18n('interval'));
   $list->setColumnFormat('interval', 'custom',
-    function ($params)
-    {
+    function ($params) {
       $value = explode('|', $params['list']->getValue('interval'));
       $str = $value[1] . ' ';
       $array = array('i' => 'minutes', 'h' => 'hour', 'd' => 'day', 'w' => 'week', 'm' => 'month', 'y' => 'year');
@@ -84,8 +79,7 @@ if ($func == '')
 
   $list->setColumnLabel('environment', $this->i18n('environment'));
   $list->setColumnFormat('environment', 'custom',
-    function ($params)
-    {
+    function ($params) {
       $value = $params['list']->getValue('environment');
       $env = array();
       if (strpos($value, '|0|') !== false)
@@ -98,8 +92,7 @@ if ($func == '')
 
   $list->setColumnLabel('execution_moment', $this->i18n('execution'));
   $list->setColumnFormat('execution_moment', 'custom',
-    function ($params)
-    {
+    function ($params) {
       if ($params['list']->getValue('execution_moment'))
         return rex_i18n::msg('cronjob_execution_beginning');
       return rex_i18n::msg('cronjob_execution_ending');
@@ -110,8 +103,7 @@ if ($func == '')
   $list->setColumnParams('status', array('func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###'));
   $list->setColumnLayout('status', array('<th colspan="3">###VALUE###</th>', '<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnFormat('status', 'custom',
-    function ($params)
-    {
+    function ($params) {
       $list = $params['list'];
       if (!class_exists($list->getValue('type')))
         $str = rex_i18n::msg('cronjob_status_invalid');
@@ -130,8 +122,7 @@ if ($func == '')
   $list->addColumn('execute', $this->i18n('execute'), -1, array('', '<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnParams('execute', array('func' => 'execute', 'oid' => '###id###'));
   $list->setColumnFormat('execute', 'custom',
-    function ($params)
-    {
+    function ($params) {
       $list = $params['list'];
       if (strpos($list->getValue('environment'), '|1|') !== false && class_exists($list->getValue('type')))
         return $list->getColumnLink('execute', rex_i18n::msg('cronjob_execute'));
@@ -141,9 +132,7 @@ if ($func == '')
 
   $list->show();
 
-}
-elseif ($func == 'edit' || $func == 'add')
-{
+} elseif ($func == 'edit' || $func == 'add') {
 
   $fieldset = $func == 'edit' ? $this->i18n('edit') : $this->i18n('add');
 
@@ -166,11 +155,9 @@ elseif ($func == 'edit' || $func == 'add')
   $typeFieldId = $field->getAttribute('id');
   $types = rex_cronjob_manager::getTypes();
   $cronjobs = array();
-  foreach ($types as $class)
-  {
+  foreach ($types as $class) {
     $cronjob = rex_cronjob::factory($class);
-    if (rex_cronjob::isValid($cronjob))
-    {
+    if (rex_cronjob::isValid($cronjob)) {
       $cronjobs[$class] = $cronjob;
       $select->addOption($cronjob->getTypeName(), $class);
     }
@@ -179,8 +166,7 @@ elseif ($func == 'edit' || $func == 'add')
     $select->setSelected('rex_cronjob_phpcode');
   $activeType = $field->getValue();
 
-  if ($func != 'add' && !in_array($activeType, $types))
-  {
+  if ($func != 'add' && !in_array($activeType, $types)) {
     if (!$activeType && !$field->getValue())
       $warning = $this->i18n('not_found');
     else
@@ -230,8 +216,7 @@ elseif ($func == 'edit' || $func == 'add')
 
   $env_js = '';
   $visible = array();
-  foreach ($cronjobs as $group => $cronjob)
-  {
+  foreach ($cronjobs as $group => $cronjob) {
     $disabled = array();
     $envs = (array) $cronjob->getEnvironments();
     if (!in_array('frontend', $envs))
@@ -246,23 +231,18 @@ elseif ($func == 'edit' || $func == 'add')
 
     $params = $cronjob->getParamFields();
 
-    if (!is_array($params) || empty($params))
-    {
+    if (!is_array($params) || empty($params)) {
       $field = $fieldContainer->addGroupedField($group, 'readonly', 'noparams', $this->i18n('type_no_parameters'));
       $field->setLabel('&nbsp;');
-    }
-    else
-    {
-      foreach ($params as $param)
-      {
+    } else {
+      foreach ($params as $param) {
         $type = $param['type'];
         $name = $group . '_' . $param['name'];
         $label = !empty($param['label']) ? $param['label'] : '&nbsp;';
         $value = isset($param['default']) ? $param['default'] : null;
         $value = isset($param['value']) ? $param['value'] : $value;
         $attributes = isset($param['attributes']) ? $param['attributes'] : array();
-        switch ($param['type'])
-        {
+        switch ($param['type']) {
           case 'text' :
           case 'textarea' :
           case 'media' :
@@ -299,10 +279,8 @@ elseif ($func == 'edit' || $func == 'add')
             }
           default:var_dump($param);
         }
-        if (isset($param['visible_if']) && is_array($param['visible_if']))
-        {
-          foreach ($param['visible_if'] as $key => $value)
-          {
+        if (isset($param['visible_if']) && is_array($param['visible_if'])) {
+          foreach ($param['visible_if'] as $key => $value) {
             $key = $group . '_' . $key;
             if (!isset($visible[$key]))
               $visible[$key] = array();
@@ -315,17 +293,12 @@ elseif ($func == 'edit' || $func == 'add')
     }
   }
   $visible_js = '';
-  if (!empty($visible))
-  {
-    foreach ($fieldContainer->getFields() as $group => $fieldElements)
-    {
-      foreach ($fieldElements as $field)
-      {
+  if (!empty($visible)) {
+    foreach ($fieldContainer->getFields() as $group => $fieldElements) {
+      foreach ($fieldElements as $field) {
         $name = $field->getFieldName();
-        if (isset($visible[$name]))
-        {
-          foreach ($visible[$name] as $value => $fieldIds)
-          {
+        if (isset($visible[$name])) {
+          foreach ($visible[$name] as $value => $fieldIds) {
             $visible_js .= '
             var first = 1;
             $("#' . $field->getAttribute('id') . '_' . $value . '").change(function(){

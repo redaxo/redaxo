@@ -105,17 +105,12 @@ class rex_context implements rex_context_provider
   static private function array2paramStr(array $array)
   {
     $paramString = '';
-    foreach ($array as $name => $value)
-    {
-      if (is_array($value))
-      {
-        foreach ($value as $valName => $valVal)
-        {
+    foreach ($array as $name => $value) {
+      if (is_array($value)) {
+        foreach ($value as $valName => $valVal) {
           $paramString .= '&' . urlencode($name) . '[' . $valName . ']=' . urlencode($valVal);
         }
-      }
-      else
-      {
+      } else {
         $paramString .= '&' . urlencode($name) . '=' . urlencode($value);
       }
     }
@@ -131,17 +126,12 @@ class rex_context implements rex_context_provider
   static private function array2inputStr(array $array)
   {
     $inputString = '';
-    foreach ($array as $name => $value)
-    {
-      if (is_array($value))
-      {
-        foreach ($value as $valName => $valVal)
-        {
+    foreach ($array as $name => $value) {
+      if (is_array($value)) {
+        foreach ($value as $valName => $valVal) {
           $inputString .= '<input type="hidden" name="' . $name . '[' . $valName . ']" value="' . htmlspecialchars($valVal) . '" />';
         }
-      }
-      else
-      {
+      } else {
         $inputString .= '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value) . '" />';
       }
     }

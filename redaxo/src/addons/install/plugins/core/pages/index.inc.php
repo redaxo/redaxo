@@ -5,8 +5,7 @@ $content = '';
 $versions = array();
 
 $apiFunc = rex_api_function::factory();
-if ($apiFunc && ($result = $apiFunc->getResult()) && $result->isSuccessfull())
-{
+if ($apiFunc && ($result = $apiFunc->getResult()) && $result->isSuccessfull()) {
   header('Location: index.php?page=install&subpage=core&info=' . urlencode($result->getMessage()));
   exit;
 }
@@ -16,12 +15,9 @@ if ($info = rex_get('info', 'string'))
 else
   $content .= rex_api_function::getMessage();
 
-try
-{
+try {
   $versions = rex_api_install_core_update::getVersions();
-}
-catch (rex_functional_exception $e)
-{
+} catch (rex_functional_exception $e) {
   $content .= rex_view::warning($e->getMessage());
 }
 
@@ -36,8 +32,7 @@ $content .= '
         <th></th>
       </tr>';
 
-foreach ($versions as $id => $version)
-{
+foreach ($versions as $id => $version) {
   $a = '<a%s href="index.php?page=install&amp;subpage=core&amp;version_id=' . $id . '">%s</a>';
   $content .= '
       <tr>

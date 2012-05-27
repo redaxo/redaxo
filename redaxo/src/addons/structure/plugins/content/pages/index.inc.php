@@ -10,8 +10,7 @@ $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 
 
-switch ($subpage)
-{
+switch ($subpage) {
   default : $file = 'content.inc.php'; break;
 }
 

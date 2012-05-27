@@ -10,8 +10,7 @@ function rex_parse_article_name($name)
   static $firstCall = true;
   static $search, $replace;
 
-  if ($firstCall)
-  {
+  if ($firstCall) {
     // Sprachspezifische Sonderzeichen Filtern
     $search = explode('|', rex_i18n::msg('special_chars'));
     $replace = explode('|', rex_i18n::msg('special_chars_rewrite'));
@@ -43,15 +42,11 @@ function rex_param_string($params, $divider = '&amp;')
 {
   $param_string = '';
 
-  if (is_array($params))
-  {
-    foreach ($params as $key => $value)
-    {
+  if (is_array($params)) {
+    foreach ($params as $key => $value) {
       $param_string .= $divider . urlencode($key) . '=' . urlencode($value);
     }
-  }
-  elseif ($params != '')
-  {
+  } elseif ($params != '') {
     $param_string = $params;
   }
 
@@ -86,8 +81,7 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
   $param_string = rex_param_string($_params, $_divider);
 
   $name = 'NoName';
-  if ($id != 0)
-  {
+  if ($id != 0) {
     $ooa = rex_ooArticle :: getArticleById($id, $clang);
     if ($ooa)
       $name = rex_parse_article_name($ooa->getName());
@@ -96,11 +90,9 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
   // ----- EXTENSION POINT
   $url = rex_extension::registerPoint('URL_REWRITE', '', array ('id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string, 'divider' => $_divider));
 
-  if ($url == '')
-  {
+  if ($url == '') {
     $_clang = '';
-    if (rex_clang::count() > 1)
-    {
+    if (rex_clang::count() > 1) {
       $_clang .= $_divider . 'clang=' . $clang;
     }
 

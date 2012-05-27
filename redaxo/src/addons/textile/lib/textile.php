@@ -11,8 +11,7 @@ class rex_textile
 
   static private function getInstance()
   {
-    if (!self::$instance)
-    {
+    if (!self::$instance) {
       self::$instance = new Textile;
       self::$instance->url_schemes[] = 'redaxo';
     }
@@ -31,8 +30,7 @@ class rex_textile
                 <col width="50%" />
               </colgroup>
           ';
-    foreach ($formats as $format)
-    {
+    foreach ($formats as $format) {
       $label = $format[0];
       $id = preg_replace('/[^a-zA-z0-9]/', '', htmlentities($label));
 
@@ -50,10 +48,8 @@ class rex_textile
                 </tr>
              ';
 
-      foreach ($format[1] as $perm => $formats)
-      {
-        foreach ($formats as $_format)
-        {
+      foreach ($format[1] as $perm => $formats) {
+        foreach ($formats as $_format) {
           $desc = $_format[0];
 
           $code = '';

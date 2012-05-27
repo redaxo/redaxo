@@ -39,8 +39,7 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
     $this->assertSame($statusCode == 200, $response->isOk(), 'isOk()');
 
     $methods = array('isInformational', 'isSuccessful', 'isRedirection', 'isClientError', 'isServerError', 'isInvalid');
-    foreach ($methods as $method)
-    {
+    foreach ($methods as $method) {
       $this->assertSame($positiveMethod == $method, $response->$method(), $method . '()');
     }
   }

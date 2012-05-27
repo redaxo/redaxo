@@ -34,8 +34,7 @@ class rex_var_config extends rex_var
     $var = self::VAR_NAME;
     $matches = $this->getVarParams($content, $var);
 
-    foreach ($matches as $match)
-    {
+    foreach ($matches as $match) {
       list ($param_str, $args)   = $match;
       $field       = $this->getArg('field', $args, '');
 

@@ -21,28 +21,23 @@ class rex_form_select_element extends rex_form_element
     $multipleSelect = false;
 
     // Hier die Attribute des Elements an den Select weitergeben, damit diese angezeigt werden
-    foreach ($this->getAttributes() as $attributeName => $attributeValue)
-    {
+    foreach ($this->getAttributes() as $attributeName => $attributeValue) {
       $this->select->setAttribute($attributeName, $attributeValue);
     }
 
     if ($this->select->hasAttribute('multiple'))
       $multipleSelect = true;
 
-    if ($multipleSelect)
-    {
+    if ($multipleSelect) {
         $this->setAttribute('name', $this->getAttribute('name') . '[]');
 
         $selectedOptions = explode($this->separator, trim($this->getValue(), $this->separator));
-        if (is_array($selectedOptions) && $selectedOptions[0] != '')
-        {
-          foreach ($selectedOptions as $selectedOption)
-          {
+        if (is_array($selectedOptions) && $selectedOptions[0] != '') {
+          foreach ($selectedOptions as $selectedOption) {
            $this->select->setSelected($selectedOption);
           }
         }
-    }
-    else
+    } else
       $this->select->setSelected($this->getValue());
 
     $this->select->setName($this->getAttribute('name'));
@@ -65,8 +60,7 @@ class rex_form_select_element extends rex_form_element
   public function setSelect(rex_select $selectObj)
   {
     $this->select = $selectObj;
-    if ($selectObj->hasAttribute('multiple'))
-    {
+    if ($selectObj->hasAttribute('multiple')) {
       $this->setAttribute('multiple', $selectObj->getAttribute('multiple'));
     }
   }

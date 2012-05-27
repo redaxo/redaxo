@@ -26,8 +26,7 @@ class rex_form_control_element extends rex_form_element
 
     $class = '';
 
-    if ($this->saveElement)
-    {
+    if ($this->saveElement) {
       if (!$this->saveElement->hasAttribute('class'))
         $this->saveElement->setAttribute('class', 'rex-form-submit');
 
@@ -36,8 +35,7 @@ class rex_form_control_element extends rex_form_element
       $s .= $this->saveElement->formatElement();
     }
 
-    if ($this->applyElement)
-    {
+    if ($this->applyElement) {
       if (!$this->applyElement->hasAttribute('class'))
         $this->applyElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
 
@@ -46,8 +44,7 @@ class rex_form_control_element extends rex_form_element
       $s .= $this->applyElement->formatElement();
     }
 
-    if ($this->deleteElement)
-    {
+    if ($this->deleteElement) {
       if (!$this->deleteElement->hasAttribute('class'))
         $this->deleteElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
 
@@ -59,8 +56,7 @@ class rex_form_control_element extends rex_form_element
       $s .= $this->deleteElement->formatElement();
     }
 
-    if ($this->resetElement)
-    {
+    if ($this->resetElement) {
       if (!$this->resetElement->hasAttribute('class'))
         $this->resetElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
 
@@ -72,8 +68,7 @@ class rex_form_control_element extends rex_form_element
       $s .= $this->resetElement->formatElement();
     }
 
-    if ($this->abortElement)
-    {
+    if ($this->abortElement) {
       if (!$this->abortElement->hasAttribute('class'))
         $this->abortElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
 
@@ -82,10 +77,8 @@ class rex_form_control_element extends rex_form_element
       $s .= $this->abortElement->formatElement();
     }
 
-    if ($s != '')
-    {
-      if ($class != '')
-      {
+    if ($s != '') {
+      if ($class != '') {
         $class = ' ' . $class;
       }
       $s = '<p class="rex-form-col-a' . $class . '">' . $s . '</p>';

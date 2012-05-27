@@ -40,29 +40,24 @@ if (empty($array))
         <div class="rex-clearer"></div>
       </div>
     </div>';
-else
-{
+else {
   $countYears = count($array);
   $i = 0;
   $yearSelected = false;
-  foreach ($array as $year => $months)
-  {
+  foreach ($array as $year => $months) {
     $i++;
     $year_sel->addOption($year, $year);
-    if ($year == $log['year'] || (!$yearSelected && $i == $countYears))
-    {
+    if ($year == $log['year'] || (!$yearSelected && $i == $countYears)) {
       $year_sel->setSelected($year);
       $log['year'] = $year;
       $yearSelected = true;
       $countMonths = count($months);
       $j = 0;
       $monthSelected = false;
-      foreach ($months as $month)
-      {
+      foreach ($months as $month) {
         $j++;
         $month_sel->addOption(strftime('%B', mktime(0, 0, 0, $month, 2)), $month);
-        if ($month == $log['month'] || (!$monthSelected && $j == $countMonths))
-        {
+        if ($month == $log['month'] || (!$monthSelected && $j == $countMonths)) {
           $month_sel->setSelected($month);
           $log['month'] = $month;
           $monthSelected = true;

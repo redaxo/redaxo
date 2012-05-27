@@ -46,30 +46,23 @@ class rex_string
     $string = preg_replace($pattern, $spacer, $string);
 
     // ----------- z.b. 4 "av c" 'de f' ghi
-    if (strpos($string, '=') === false)
-    {
+    if (strpos($string, '=') === false) {
       $parts = explode(' ', $string);
-      foreach ($parts as $part)
-      {
+      foreach ($parts as $part) {
         if (empty ($part))
           continue;
 
-        if ($part == $spacer)
-        {
+        if ($part == $spacer) {
           $result[] = array_shift($quoted);
-        }
-        else
-        {
+        } else {
           $result[] = $part;
         }
       }
     }
     // ------------ z.b. a=4 b="av c" y='de f' z=ghi
-    else
-    {
+    else {
       $parts = explode(' ', $string);
-      foreach ($parts as $part)
-      {
+      foreach ($parts as $part) {
         if (empty($part))
           continue;
 
@@ -81,8 +74,7 @@ class rex_string
         $var_name = $variable[0];
         $var_value = $variable[1];
 
-        if ($var_value == $spacer)
-        {
+        if ($var_value == $spacer) {
           $var_value = array_shift($quoted);
         }
 

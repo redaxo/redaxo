@@ -28,13 +28,11 @@ class rex_var_template extends rex_var
     $var = 'REX_TEMPLATE';
     $matches = $this->getVarParams($content, $var);
 
-    foreach ($matches as $match)
-    {
+    foreach ($matches as $match) {
       list ($param_str, $args) = $match;
       $template_id = $this->getArg('id', $args, 0);
 
-      if ($template_id > 0)
-      {
+      if ($template_id > 0) {
         $tpl = '<?php require ' . __CLASS__ . '::getTemplateStream(' . $template_id . ', $this, \'' . json_encode($args) . "'); ?>";
         $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
       }
@@ -47,8 +45,7 @@ class rex_var_template extends rex_var
   {
     $tmpl = new rex_template($id);
     $tmpl = $tmpl->getTemplate();
-    if ($article)
-    {
+    if ($article) {
       $tmpl = $article->replaceCommonVars($tmpl, $id);
     }
     $tmpl = self::handleGlobalVarParams('REX_TEMPLATE', json_decode($args, true), $tmpl);

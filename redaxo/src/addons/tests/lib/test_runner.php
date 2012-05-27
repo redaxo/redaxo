@@ -8,7 +8,7 @@ class rex_test_runner
     $path = __DIR__ . '/../vendor/';
     set_include_path($path . PATH_SEPARATOR . get_include_path());
 
-    require_once('PHPUnit/Autoload.php');
+    require_once 'PHPUnit/Autoload.php';
   }
 
   public function run(rex_test_locator $locator, array $arguments = array())
@@ -27,8 +27,7 @@ class rex_test_runner
     $result = ob_get_clean();
 
     $search = __FILE__ . ':' . $line . "\n";
-    foreach (debug_backtrace(false) as $t)
-    {
+    foreach (debug_backtrace(false) as $t) {
       $search .= $t['file'] . ':' . $t['line'] . "\n";
     }
     $result = str_replace(array($search, rex_path::base()), '', $result);

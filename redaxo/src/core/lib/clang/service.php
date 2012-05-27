@@ -97,14 +97,12 @@ class rex_clang_service
     $lg->setQuery('select * from ' . rex::getTablePrefix() . 'clang order by id');
 
     $clangs = array();
-    foreach ($lg as $lang)
-    {
+    foreach ($lg as $lang) {
       $clangs[$lang->getValue('id')] = $lang->getValue('name');
     }
 
     $file = rex_path::cache('clang.cache');
-    if (rex_file::putCache($file, $clangs) === false)
-    {
+    if (rex_file::putCache($file, $clangs) === false) {
       return 'Datei "' . $file . '" hat keine Schreibrechte';
     }
     return true;

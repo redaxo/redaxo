@@ -26,14 +26,10 @@ class rex_cronjob_article_status extends rex_cronjob
       WHERE   name="' . $from['field'] . '" OR name="' . $to['field'] . '"
     ');
     $rows = $sql->getRows();
-    if ($rows < 2)
-    {
-      if ($rows == 0)
-      {
+    if ($rows < 2) {
+      if ($rows == 0) {
         $msg = 'Metainfo fields "' . $from['field'] . '" and "' . $to['field'] . '" not found';
-      }
-      else
-      {
+      } else {
         $field = $sql->getValue('name') == $from['field'] ? $to['field'] : $from['field'];
         $msg = 'Metainfo field "' . $field . '" not found';
       }
@@ -61,8 +57,7 @@ class rex_cronjob_article_status extends rex_cronjob
 
     include_once rex_path::addon('structure', 'functions/function_rex_structure.inc.php');
 
-    for ($i = 0; $i < $rows; $i++)
-    {
+    for ($i = 0; $i < $rows; $i++) {
       if (in_array($sql->getValue('status'), $from['before']))
         $status = $from['after'];
       else

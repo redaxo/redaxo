@@ -210,8 +210,7 @@ class rex_path
 
     // pfadtrenner vereinheitlichen
     $relPath = str_replace('\\', '/', $relPath);
-    foreach (explode('/', $relPath) as $dir)
-    {
+    foreach (explode('/', $relPath) as $dir) {
       // Aktuelles Verzeichnis, oder Ordner ohne Namen
       if ($dir == '.' || $dir == '')
         continue;

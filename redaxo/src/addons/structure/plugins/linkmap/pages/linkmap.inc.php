@@ -23,29 +23,21 @@ $context = new rex_context(array(
 // ------- Build JS Functions
 
 $func_body = '';
-if ($HTMLArea != '')
-{
-  if ($HTMLArea == 'TINY')
-  {
+if ($HTMLArea != '') {
+  if ($HTMLArea == 'TINY') {
     $func_body = 'window.opener.tinyMCE.insertLink(link);';
-  }
-  else
-  {
+  } else {
     $func_body = 'window.opener.' . $HTMLArea . '.surroundHTML("<a href="+link+">","</a>");';
   }
 }
 
-if ($opener_input_field != '' && $opener_input_field_name == '')
-{
+if ($opener_input_field != '' && $opener_input_field_name == '') {
   $opener_input_field_name = $opener_input_field . '_NAME';
 }
-if ($opener_input_field == 'TINY')
-{
+if ($opener_input_field == 'TINY') {
   $func_body .= 'window.opener.insertLink(link,name);
                  self.close();';
-}
-elseif (substr($opener_input_field, 0, 13) == 'REX_LINKLIST_')
-{
+} elseif (substr($opener_input_field, 0, 13) == 'REX_LINKLIST_') {
 $id = substr($opener_input_field, 13, strlen($opener_input_field));
 $func_body .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
                var linkid = link.replace("redaxo://","");
@@ -58,9 +50,7 @@ $func_body .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
 
          source.options.add(option, sourcelength);
          opener.writeREXLinklist(' . $id . ');';
-}
-else
-{
+} else {
 $func_body .= 'var linkid = link.replace("redaxo://","");
                window.opener.document.getElementById("' . $opener_input_field . '").value = linkid;
                window.opener.document.getElementById("' . $opener_input_field_name . '").value = name;
@@ -91,10 +81,8 @@ $navi_path .= '<li class="rex-navi-first">: <a href="' . $link . '">Homepage</a>
 
 $tree = array();
 
-if ($category)
-{
-  foreach ($category->getParentTree() as $cat)
-  {
+if ($category) {
+  foreach ($category->getParentTree() as $cat) {
     $tree[] = $cat->getId();
 
     $link = $context->getUrl(array('category_id' => $cat->getId()));

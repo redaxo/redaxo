@@ -10,8 +10,7 @@
 
 $mypage = 'metainfo';
 
-if (!defined('REX_METAINFO_FIELD_TEXT'))
-{
+if (!defined('REX_METAINFO_FIELD_TEXT')) {
   // Feldtypen
   define('REX_METAINFO_FIELD_TEXT',                 1);
   define('REX_METAINFO_FIELD_TEXTAREA',             2);
@@ -36,8 +35,7 @@ $this->setProperty('metaTables', array(
   'med_' => rex::getTablePrefix() . 'media',
 ));
 
-if (rex::isBackend())
-{
+if (rex::isBackend()) {
   $curDir = dirname(__FILE__);
   require_once $curDir . '/functions/function_metainfo.inc.php';
 

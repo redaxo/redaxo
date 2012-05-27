@@ -72,13 +72,11 @@ class rex_request
    */
   static public function session($varname, $vartype = '', $default = '')
   {
-    if (isset($_SESSION[$varname][rex::getProperty('instname')]))
-    {
+    if (isset($_SESSION[$varname][rex::getProperty('instname')])) {
       return rex_type::cast($_SESSION[$varname][rex::getProperty('instname')], $vartype);
     }
 
-    if ($default === '')
-    {
+    if ($default === '') {
       return rex_type::cast($default, $vartype);
     }
     return $default;
@@ -159,18 +157,15 @@ class rex_request
    */
   static private function arrayKeyCast(array $haystack, $needle, $vartype, $default = '')
   {
-    if (!is_scalar($needle))
-    {
+    if (!is_scalar($needle)) {
       throw new rex_exception('Scalar expected for $needle in arrayKeyCast()!');
     }
 
-    if (array_key_exists($needle, $haystack))
-    {
+    if (array_key_exists($needle, $haystack)) {
       return rex_type::cast($haystack[$needle], $vartype);
     }
 
-    if ($default === '')
-    {
+    if ($default === '') {
       return rex_type::cast($default, $vartype);
     }
     return $default;

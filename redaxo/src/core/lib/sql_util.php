@@ -48,14 +48,10 @@ class rex_sql_util
     $sql->debugsql = $debug;
     $error = '';
 
-    foreach (self::readSqlDump($file) as $query)
-    {
-      try
-      {
+    foreach (self::readSqlDump($file) as $query) {
+      try {
         $sql->setQuery(self::prepareQuery($query));
-      }
-      catch (rex_sql_exception $e)
-      {
+      } catch (rex_sql_exception $e) {
         $error .= $e->getMessage() . "\n<br />";
       }
     }
@@ -83,17 +79,14 @@ class rex_sql_util
    */
   static private function readSqlDump($file)
   {
-    if (is_file($file) && is_readable($file))
-    {
+    if (is_file($file) && is_readable($file)) {
       $ret = array ();
       $sqlsplit = '';
       $fileContent = file_get_contents($file);
       self::splitSqlFile($sqlsplit, $fileContent, '');
 
-      if (is_array($sqlsplit))
-      {
-        foreach ($sqlsplit as $qry)
-        {
+      if (is_array($sqlsplit)) {
+        foreach ($sqlsplit as $qry) {
           $ret[] = $qry['query'];
         }
       }
@@ -131,54 +124,45 @@ class rex_sql_util
     $nothing = true;
     $time0 = time();
 
-    for ($i = 0; $i < $sql_len; ++ $i)
-    {
+    for ($i = 0; $i < $sql_len; ++ $i) {
       $char = $sql[$i];
 
       // We are in a string, check for not escaped end of strings except for
       // backquotes that can't be escaped
-      if ($in_string)
-      {
-        for (; ; )
-        {
+      if ($in_string) {
+        for (; ; ) {
           $i = strpos($sql, $string_start, $i);
           // No end of string found -> add the current substring to the
           // returned array
-          if (!$i)
-          {
+          if (!$i) {
             $ret[] = $sql;
             return true;
           }
           // Backquotes or no backslashes before quotes: it's indeed the
           // end of the string -> exit the loop
-          elseif ($string_start == '`' || $sql[$i -1] != '\\')
-            {
+          elseif ($string_start == '`' || $sql[$i - 1] != '\\') {
               $string_start = '';
               $in_string = false;
               break;
             }
           // one or more Backslashes before the presumed end of string...
-          else
-          {
+          else {
             // ... first checks for escaped backslashes
             $j = 2;
             $escaped_backslash = false;
-            while ($i - $j > 0 && $sql[$i - $j] == '\\')
-            {
+            while ($i - $j > 0 && $sql[$i - $j] == '\\') {
               $escaped_backslash = !$escaped_backslash;
               $j ++;
             }
             // ... if escaped backslashes: it's really the end of the
             // string -> exit the loop
-            if ($escaped_backslash)
-            {
+            if ($escaped_backslash) {
               $string_start = '';
               $in_string = false;
               break;
             }
             // ... else loop
-            else
-            {
+            else {
               $i ++;
             }
           } // end if...elseif...else
@@ -186,12 +170,10 @@ class rex_sql_util
       } // end if (in string)
 
       // lets skip comments (/*, -- and #)
-      elseif (($char == '-' && $sql_len > $i +2 && $sql[$i +1] == '-' && $sql[$i +2] <= ' ') || $char == '#' || ($char == '/' && $sql_len > $i +1 && $sql[$i +1] == '*'))
-        {
+      elseif (($char == '-' && $sql_len > $i + 2 && $sql[$i + 1] == '-' && $sql[$i + 2] <= ' ') || $char == '#' || ($char == '/' && $sql_len > $i + 1 && $sql[$i + 1] == '*')) {
           $i = strpos($sql, $char == '/' ? '*/' : "\n", $i);
           // didn't we hit end of string?
-          if ($i === false)
-          {
+          if ($i === false) {
             break;
           }
           if ($char == '/')
@@ -199,49 +181,41 @@ class rex_sql_util
         }
 
       // We are not in a string, first check for delimiter...
-      elseif ($char == ';')
-        {
+      elseif ($char == ';') {
           // if delimiter found, add the parsed part to the returned array
           $ret[] = array ('query' => substr($sql, 0, $i), 'empty' => $nothing);
           $nothing = true;
-          $sql = ltrim(substr($sql, min($i +1, $sql_len)));
+          $sql = ltrim(substr($sql, min($i + 1, $sql_len)));
           $sql_len = strlen($sql);
-          if ($sql_len)
-          {
+          if ($sql_len) {
             $i = -1;
-          }
-          else
-          {
+          } else {
             // The submited statement(s) end(s) here
             return true;
           }
         } // end else if (is delimiter)
 
       // ... then check for start of a string,...
-      elseif (($char == '"') || ($char == '\'') || ($char == '`'))
-        {
+      elseif (($char == '"') || ($char == '\'') || ($char == '`')) {
           $in_string = true;
           $nothing = false;
           $string_start = $char;
         } // end else if (is start of string)
 
-      elseif ($nothing)
-      {
+      elseif ($nothing) {
         $nothing = false;
       }
 
       // loic1: send a fake header each 30 sec. to bypass browser timeout
       $time1 = time();
-      if ($time1 >= $time0 +30)
-      {
+      if ($time1 >= $time0 + 30) {
         $time0 = $time1;
         header('X-pmaPing: Pong');
       } // end if
     } // end for
 
     // add any rest to the returned array
-    if (!empty ($sql) && preg_match('@[^[:space:]]+@', $sql))
-    {
+    if (!empty ($sql) && preg_match('@[^[:space:]]+@', $sql)) {
       $ret[] = array ('query' => $sql, 'empty' => $nothing);
     }
 

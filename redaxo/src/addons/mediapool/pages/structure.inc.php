@@ -9,14 +9,11 @@
 
 $media_method = rex_request('media_method', 'string');
 
-if ($PERMALL)
-{
+if ($PERMALL) {
   $edit_id = rex_request('edit_id', 'int');
 
-  try
-  {
-    if ($media_method == 'edit_file_cat')
-    {
+  try {
+    if ($media_method == 'edit_file_cat') {
       $cat_name = rex_request('cat_name', 'string');
       $db = rex_sql::factory();
       $db->setTable(rex::getTablePrefix() . 'media_category');
@@ -28,27 +25,20 @@ if ($PERMALL)
       $info = rex_i18n::msg('pool_kat_updated', $cat_name);
       rex_media_cache::deleteCategory($edit_id);
 
-    }
-    elseif ($media_method == 'delete_file_cat')
-    {
+    } elseif ($media_method == 'delete_file_cat') {
       $gf = rex_sql::factory();
       $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE category_id=' . $edit_id);
       $gd = rex_sql::factory();
       $gd->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE re_id=' . $edit_id);
-      if ($gf->getRows() == 0 && $gd->getRows() == 0)
-      {
+      if ($gf->getRows() == 0 && $gd->getRows() == 0) {
         $gf->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'media_category WHERE id=' . $edit_id);
         rex_media_cache::deleteCategory($edit_id);
         rex_media_cache::deleteLists();
         $info = rex_i18n::msg('pool_kat_deleted');
-      }
-      else
-      {
+      } else {
         $warning = rex_i18n::msg('pool_kat_not_deleted');
       }
-    }
-    elseif ($media_method == 'add_file_cat')
-    {
+    } elseif ($media_method == 'add_file_cat') {
       $db = rex_sql::factory();
       $db->setTable(rex::getTablePrefix() . 'media_category');
       $db->setValue('name', rex_request('catname', 'string'));
@@ -61,9 +51,7 @@ if ($PERMALL)
       $info = rex_i18n::msg('pool_kat_saved', rex_request('catname'));
       rex_media_cache::deleteCategoryList(rex_request('cat_id', 'int'));
     }
-  }
-  catch (rex_sql_exception $e)
-  {
+  } catch (rex_sql_exception $e) {
     $warning = $e->getMessage();
   }
 
@@ -72,22 +60,17 @@ if ($PERMALL)
 
   $textpath = '<li> : <a href="' . $link . '0">Start</a></li>';
   $cat_id = rex_request('cat_id', 'int');
-  if ($cat_id == 0 || !($OOCat = rex_ooMediaCategory::getCategoryById($cat_id)))
-  {
+  if ($cat_id == 0 || !($OOCat = rex_ooMediaCategory::getCategoryById($cat_id))) {
     $OOCats = rex_ooMediaCategory::getRootCategories();
     $cat_id = 0;
     $catpath = '|';
-  }
-  else
-  {
+  } else {
     $OOCats = $OOCat->getChildren();
     $paths = explode('|', $OOCat->getPath());
 
-    for ($i = 1; $i < count($paths); $i++)
-    {
+    for ($i = 1; $i < count($paths); $i++) {
       $iid = current($paths);
-      if ($iid != '')
-      {
+      if ($iid != '') {
         $icat = rex_ooMediaCategory::getCategoryById($iid);
         $textpath .= '<li> : <a href="' . $link . $iid . '">' . $icat->getName() . '</a></li>';
       }
@@ -99,19 +82,16 @@ if ($PERMALL)
 
   echo '<div id="rex-navi-path"><ul><li>' . rex_i18n::msg('pool_kat_path') . '</li> ' . $textpath . '</ul></div>';
 
-  if ($warning != '')
-  {
+  if ($warning != '') {
     echo rex_view::warning($warning);
     $warning = '';
   }
-  if ($info != '')
-  {
+  if ($info != '') {
     echo rex_view::info($info);
     $info = '';
   }
 
-  if ($media_method == 'add_cat' || $media_method == 'update_file_cat')
-  {
+  if ($media_method == 'add_cat' || $media_method == 'update_file_cat') {
     $add_mode = $media_method == 'add_cat';
     $legend = $add_mode ? rex_i18n::msg('pool_kat_create_label') : rex_i18n::msg('pool_kat_edit');
     $method = $add_mode ? 'add_file_cat' : 'edit_file_cat';
@@ -151,8 +131,7 @@ if ($PERMALL)
           </thead>
           <tbody>';
 
-  if ($media_method == 'add_cat')
-  {
+  if ($media_method == 'add_cat') {
     echo '
       <tr class="rex-table-row-activ">
         <td class="rex-icon"><span class="rex-i-element rex-i-mediapool-category"><span class="rex-i-element-text">' . rex_i18n::msg('pool_kat_create') . '</span></span></td>
@@ -168,14 +147,12 @@ if ($PERMALL)
     ';
   }
 
-  foreach ( $OOCats as $OOCat)
-  {
+  foreach ( $OOCats as $OOCat) {
 
     $iid = $OOCat->getId();
     $iname = $OOCat->getName();
 
-    if ($media_method == 'update_file_cat' && $edit_id == $iid)
-    {
+    if ($media_method == 'update_file_cat' && $edit_id == $iid) {
       echo '
         <input type="hidden" name="edit_id" value="' . $edit_id . '" />
         <tr class="rex-table-row-activ">
@@ -190,9 +167,7 @@ if ($PERMALL)
           </td>
         </tr>
       ';
-    }
-    else
-    {
+    } else {
       echo '<tr>
               <td class="rex-icon"><a class="rex-i-element rex-i-mediapool-category" href="' . $link . $iid . '"><span class="rex-i-element-text">' . htmlspecialchars($OOCat->getName()) . '</span></a></td>
               <td class="rex-small">' . $iid . '</td>
@@ -206,8 +181,7 @@ if ($PERMALL)
       </tbody>
     </table>';
 
-  if ($media_method == 'add_cat' || $media_method == 'update_file_cat')
-  {
+  if ($media_method == 'add_cat' || $media_method == 'update_file_cat') {
     echo '
         </div>
       </fieldset>

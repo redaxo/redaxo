@@ -31,16 +31,13 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
   {
     $restrictionsCondition = '';
 
-    if (!empty($params['id']))
-    {
+    if (!empty($params['id'])) {
       $s = '';
       $OOArt = rex_ooArticle::getArticleById($params['id'], $params['clang']);
 
       // Alle Metafelder des Pfades sind erlaubt
-      foreach ($OOArt->getPathAsArray() as $pathElement)
-      {
-        if ($pathElement != '')
-        {
+      foreach ($OOArt->getPathAsArray() as $pathElement) {
+        if ($pathElement != '') {
           $s .= ' OR `p`.`restrictions` LIKE "%|' . $pathElement . '|%"';
         }
       }

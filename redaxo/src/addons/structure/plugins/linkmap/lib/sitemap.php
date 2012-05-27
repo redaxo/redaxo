@@ -12,12 +12,9 @@ class rex_sitemap_category_tree extends rex_linkmap_tree_renderer
   public function getTree($category_id)
   {
     // if not, let the structure as is, by providing a remembered id
-    if ($category_id <= 0)
-    {
+    if ($category_id <= 0) {
       $category_id = rex_request::session('tree_category_id', 'int');
-    }
-    else
-    {
+    } else {
       rex_request::setSession('tree_category_id', $category_id);
     }
     return parent::getTree($category_id);

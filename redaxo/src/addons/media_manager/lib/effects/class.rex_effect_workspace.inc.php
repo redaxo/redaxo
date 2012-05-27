@@ -60,56 +60,46 @@ class rex_effect_workspace extends rex_effect_abstract
     $h = $this->media->getHeight();
 
     $this->params['width'] = (int) $this->params['width'];
-    if ($this->params['width'] < 0)
-    {
+    if ($this->params['width'] < 0) {
       $this->params['width'] = $w;
     }
 
     $this->params['height'] = (int) $this->params['height'];
-    if ($this->params['width'] < 0)
-    {
+    if ($this->params['width'] < 0) {
       $this->params['height'] = $h;
     }
 
     $this->params['bg_r'] = (int) $this->params['bg_r'];
-    if (!isset($this->params['bg_r']) || $this->params['bg_r'] > 255 || $this->params['bg_r'] < 0 )
-    {
+    if (!isset($this->params['bg_r']) || $this->params['bg_r'] > 255 || $this->params['bg_r'] < 0 ) {
       $this->params['bg_r'] = 255;
     }
 
     $this->params['bg_g'] = (int) $this->params['bg_g'];
-    if (!isset($this->params['bg_g']) || $this->params['bg_g'] > 255 || $this->params['bg_g'] < 0 )
-    {
+    if (!isset($this->params['bg_g']) || $this->params['bg_g'] > 255 || $this->params['bg_g'] < 0 ) {
       $this->params['bg_g'] = 255;
     }
 
     $this->params['bg_b'] = (int) $this->params['bg_b'];
-    if (!isset($this->params['bg_b']) || $this->params['bg_b'] > 255 || $this->params['bg_b'] < 0 )
-    {
+    if (!isset($this->params['bg_b']) || $this->params['bg_b'] > 255 || $this->params['bg_b'] < 0 ) {
       $this->params['bg_b'] = 255;
     }
 
     $trans = false;
-    if ($this->params['set_transparent'] != 'colored')
-    {
-      if ($this->media->getFormat() != 'GIF' && $this->media->getFormat() != 'PNG')
-      {
+    if ($this->params['set_transparent'] != 'colored') {
+      if ($this->media->getFormat() != 'GIF' && $this->media->getFormat() != 'PNG') {
         $this->media->setFormat('PNG');
       }
       $trans = true;
     }
 
     $workspace = imagecreatetruecolor($this->params['width'], $this->params['height']);
-    if ($trans)
-    {
+    if ($trans) {
       imagealphablending($workspace, false);
       $transparent = imagecolorallocatealpha($workspace, 0, 0, 0, 127);
       imagefill($workspace, 0, 0, $transparent);
       imagesavealpha($workspace, true);
       imagealphablending($workspace, true);
-    }
-    else
-    {
+    } else {
       imagefill($workspace, 0, 0, imagecolorallocate($workspace, $this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']));
     }
 
@@ -120,27 +110,25 @@ class rex_effect_workspace extends rex_effect_abstract
     $src_x = 0;
     $src_y = 0;
 
-    switch ($this->params['vpos'])
-    {
-      case ('top'):
+    switch ($this->params['vpos']) {
+      case 'top':
         break;
-      case ('bottom'):
+      case 'bottom':
         $dst_y = (int) $this->params['height'] - $h;
         break;
-      case ('middle'):
+      case 'middle':
       default: // center
         $dst_y = (int) ($this->params['height'] / 2) - ($h / 2);
         break;
     }
 
-    switch ($this->params['hpos'])
-    {
-      case ('left'):
+    switch ($this->params['hpos']) {
+      case 'left':
         break;
-      case ('right'):
+      case 'right':
         $dst_x = (int) $this->params['width'] - $w;
         break;
-      case ('center'):
+      case 'center':
       default: // center
         $dst_x = (int) ($this->params['width'] / 2) - ($w / 2);
         break;
@@ -163,18 +151,14 @@ class rex_effect_workspace extends rex_effect_abstract
   private function keepTransparent($des)
   {
     $image = $this->media;
-    if ($image->getFormat() == 'PNG')
-    {
+    if ($image->getFormat() == 'PNG') {
       imagealphablending($des, false);
       imagesavealpha($des, true);
-    }
-    elseif ($image->getFormat() == 'GIF')
-    {
+    } elseif ($image->getFormat() == 'GIF') {
       $gdimage = $image->getImage();
       $colorTransparent = imagecolortransparent($gdimage);
       imagepalettecopy($gdimage, $des);
-      if ($colorTransparent > 0)
-      {
+      if ($colorTransparent > 0) {
         imagefill($des, 0, 0, $colorTransparent);
         imagecolortransparent($des, $colorTransparent);
       }

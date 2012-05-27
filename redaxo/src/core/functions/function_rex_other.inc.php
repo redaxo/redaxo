@@ -24,19 +24,15 @@ function rex_deleteCache()
 function rex_ini_get($val)
 {
   $val = trim(ini_get($val));
-  if ($val != '')
-  {
+  if ($val != '') {
     $last = strtolower($val
     {
-      strlen($val)-1
+      strlen($val) - 1
     });
-  }
-  else
-  {
+  } else {
     $last = '';
   }
-  switch ($last)
-  {
+  switch ($last) {
       // The 'G' modifier is available since PHP 5.1.0
       case 'g':
           $val *= 1024;

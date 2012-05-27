@@ -15,8 +15,7 @@ abstract class rex_var
    */
   static public function registerVar($var)
   {
-    if (!is_subclass_of($var, __CLASS__))
-    {
+    if (!is_subclass_of($var, __CLASS__)) {
       throw new rex_exception('$var must be a subclass of ' . __CLASS__);
     }
 
@@ -28,8 +27,7 @@ abstract class rex_var
    */
   static public function getVars()
   {
-    foreach (self::$vars as $key => $var)
-    {
+    foreach (self::$vars as $key => $var) {
       if (!is_object($var))
         self::$vars[$key] = new $var;
     }
@@ -207,8 +205,7 @@ abstract class rex_var
    */
   static public function handleDefaultParam($varname, array $args, $name, $value)
   {
-    switch ($name)
-    {
+    switch ($name) {
       case '0'       : $name = 'id';
       case 'id'      :
       case 'prefix'  :
@@ -248,8 +245,7 @@ abstract class rex_var
    */
   static public function handleGlobalVarParams($varname, array $args, $value)
   {
-    if (isset($args['callback']))
-    {
+    if (isset($args['callback'])) {
       $args['subject'] = $value;
       return call_user_func($args['callback'], $args);
     }
@@ -287,12 +283,10 @@ abstract class rex_var
 
     $match = $this->matchVar($content, $varname);
 
-    foreach ($match as $param_str)
-    {
+    foreach ($match as $param_str) {
       $args = array();
       $params = $this->splitString($param_str);
-      foreach ($params as $name => $value)
-      {
+      foreach ($params as $name => $value) {
         $args = $this->handleDefaultParam($varname, $args, $name, $value);
       }
 
@@ -324,10 +318,8 @@ abstract class rex_var
   {
     $result = array ();
 
-    if (preg_match_all('/' . preg_quote($varname, '/') . '\[([^\]]*)\]/ms', $content, $matches))
-    {
-      foreach ($matches[1] as $match)
-      {
+    if (preg_match_all('/' . preg_quote($varname, '/') . '\[([^\]]*)\]/ms', $content, $matches)) {
+      foreach ($matches[1] as $match) {
         $result[] = $match;
       }
     }
@@ -349,8 +341,7 @@ abstract class rex_var
    */
   protected function getArg($name, array &$args, $default = null)
   {
-    if (isset($args[$name]))
-    {
+    if (isset($args[$name])) {
       return $args[$name];
     }
     // we write the default back into the array, to get the default also into the parameters for the later callback

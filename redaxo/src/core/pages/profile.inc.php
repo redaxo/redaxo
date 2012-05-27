@@ -34,8 +34,7 @@ $sel_be_sprache->addOption('default', '');
 
 $saveLocale = rex_i18n::getLocale();
 $langs = array();
-foreach (rex_i18n::getLocales() as $locale)
-{
+foreach (rex_i18n::getLocales() as $locale) {
   rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
   $sel_be_sprache->addOption(rex_i18n::msg('lang'), $locale);
 }
@@ -46,8 +45,7 @@ $sel_be_sprache->setSelected($userperm_be_sprache);
 
 // --------------------------------- FUNCTIONS
 
-if (rex_post('upd_profile_button', 'string'))
-{
+if (rex_post('upd_profile_button', 'string')) {
   $updateuser = rex_sql::factory();
   $updateuser->setTable(rex::getTablePrefix() . 'user');
   $updateuser->setWhere(array('user_id' => $user_id));
@@ -57,45 +55,35 @@ if (rex_post('upd_profile_button', 'string'))
 
   $updateuser->addGlobalUpdateFields();
 
-  try
-  {
+  try {
     $updateuser->update();
     $info = rex_i18n::msg('user_data_updated');
-  }
-  catch (rex_sql_exception $e)
-  {
+  } catch (rex_sql_exception $e) {
     $warning = $e->getMessage();
   }
 }
 
 
-if (rex_post('upd_psw_button', 'string'))
-{
+if (rex_post('upd_psw_button', 'string')) {
   $updateuser = rex_sql::factory();
   $updateuser->setTable(rex::getTablePrefix() . 'user');
   $updateuser->setWhere(array('user_id' => $user_id));
 
   $userpsw = rex::getProperty('login')->encryptPassword($userpsw);
 
-  if ($userpsw != '' && $user->getValue('password') == $userpsw && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2)
-  {
+  if ($userpsw != '' && $user->getValue('password') == $userpsw && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2) {
     $userpsw_new_1 = rex::getProperty('login')->encryptPassword($userpsw_new_1);
 
     $updateuser->setValue('password', $userpsw_new_1);
     $updateuser->addGlobalUpdateFields();
 
-    try
-    {
+    try {
       $updateuser->update();
       $info = rex_i18n::msg('user_psw_updated');
-    }
-    catch (rex_sql_exception $e)
-    {
+    } catch (rex_sql_exception $e) {
       $warning = $e->getMessage();
     }
-  }
-  else
-  {
+  } else {
     $warning = rex_i18n::msg('user_psw_error');
   }
 

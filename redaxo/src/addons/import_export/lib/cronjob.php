@@ -17,21 +17,17 @@ class rex_cronjob_export extends rex_cronjob
     $file = $filename;
     $dir = getImportDir() . '/';
     $ext = '.sql';
-    if (file_exists($dir . $file . $ext))
-    {
+    if (file_exists($dir . $file . $ext)) {
       $i = 1;
       while (file_exists($dir . $file . '_' . $i . $ext)) $i++;
       $file = $file . '_' . $i;
     }
 
-    if (rex_a1_export_db($dir . $file . $ext))
-    {
+    if (rex_a1_export_db($dir . $file . $ext)) {
       $message = $file . $ext . ' created';
 
-      if ($this->sendmail)
-      {
-        if (!rex_addon::get('phpmailer')->isAvailable())
-        {
+      if ($this->sendmail) {
+        if (!rex_addon::get('phpmailer')->isAvailable()) {
           $this->setMessage($message . ', mail not sent (addon "phpmailer" isn\'t activated)');
           return false;
         }
@@ -40,8 +36,7 @@ class rex_cronjob_export extends rex_cronjob
         $mail->Subject = rex_i18n::msg('im_export_mail_subject');
         $mail->Body = rex_i18n::msg('im_export_mail_body', rex::getProperty('servername'));
         $mail->AddAttachment($dir . $file . $ext, $filename . $ext);
-        if ($mail->Send())
-        {
+        if ($mail->Send()) {
           $this->setMessage($message . ', mail sent');
           return true;
         }
@@ -77,17 +72,14 @@ class rex_cronjob_export extends rex_cronjob
         'options' => array(1 => rex_i18n::msg('im_export_send_mail'))
       )
     );
-    if (rex_addon::get('phpmailer')->isAvailable())
-    {
+    if (rex_addon::get('phpmailer')->isAvailable()) {
       $fields[] = array(
         'label' => rex_i18n::msg('im_export_mailaddress'),
         'name'  => 'mailaddress',
         'type'  => 'text',
         'visible_if' => array('sendmail' => 1)
       );
-    }
-    else
-    {
+    } else {
       $fields[1]['notice'] = rex_i18n::msg('im_export_send_mail_notice');
       $fields[1]['attributes'] = array('disabled' => 'disabled');
     }

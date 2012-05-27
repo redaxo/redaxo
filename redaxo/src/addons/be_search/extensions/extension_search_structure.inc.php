@@ -10,8 +10,7 @@
 
 function rex_be_search_structure($params)
 {
-  if (!rex::getUser()->hasPerm('be_search[structure]'))
-  {
+  if (!rex::getUser()->hasPerm('be_search[structure]')) {
     return $params['subject'];
   }
 
@@ -37,19 +36,16 @@ function rex_be_search_structure($params)
   $mode                   = rex_request('mode', 'string');
 
   // ------------ Suche via ArtikelId
-  if ($be_search_article_id != 0)
-  {
+  if ($be_search_article_id != 0) {
     $OOArt = rex_ooArticle::getArticleById($be_search_article_id, $be_search_clang);
-    if (rex_ooArticle::isValid($OOArt))
-    {
+    if (rex_ooArticle::isValid($OOArt)) {
       header('Location:' . sprintf($editUrl, $be_search_article_id, $be_search_clang, urlencode($be_search_article_name)));
       exit();
     }
   }
 
   // Auswahl eines normalen Artikels => category holen
-  if ($article_id != 0)
-  {
+  if ($article_id != 0) {
     $OOArt = rex_ooArticle::getArticleById($article_id, $clang);
     // Falls Artikel gerade geloescht wird, gibts keinen rex_ooArticle
     if ($OOArt)
@@ -60,8 +56,7 @@ function rex_be_search_structure($params)
   // hier nur den post artikel namen abfragen,
   // da sonst bei vorherigen headerweiterleitungen
   // auch gesucht wuerde
-  if ($be_search_article_name_post != '')
-  {
+  if ($be_search_article_name_post != '') {
     // replace LIKE wildcards
     $be_search_article_name_like = str_replace(array('_', '%'), array('\_', '\%'), $be_search_article_name);
 
@@ -75,8 +70,7 @@ function rex_be_search_structure($params)
         catname LIKE "%' . $be_search_article_name_like . '%"
       )';
 
-    switch (rex_addon::get('be_search')->getProperty('searchmode', 'local'))
-    {
+    switch (rex_addon::get('be_search')->getProperty('searchmode', 'local')) {
       case 'local':
       {
         // Suche auf aktuellen Kontext eingrenzen
@@ -91,42 +85,35 @@ function rex_be_search_structure($params)
     $foundRows = $search->getRows();
 
     // Suche ergab nur einen Treffer => Direkt auf den Treffer weiterleiten
-    if ($foundRows == 1)
-    {
+    if ($foundRows == 1) {
       $OOArt = rex_ooArticle::getArticleById($search->getValue('id'), $be_search_clang);
-      if (rex::getUser()->hasCategoryPerm($OOArt->getCategoryId()))
-      {
+      if (rex::getUser()->hasCategoryPerm($OOArt->getCategoryId())) {
         header('Location:' . sprintf($editUrl, $search->getValue('id'), $be_search_clang, urlencode($be_search_article_name)));
         exit();
       }
     }
     // Mehrere Suchtreffer, Liste anzeigen
-    elseif ($foundRows > 0)
-    {
+    elseif ($foundRows > 0) {
       $needle = htmlspecialchars($be_search_article_name);
       $search_result .= '<ul class="be_search-search-result">';
-      for ($i = 0; $i < $foundRows; $i++)
-      {
+      for ($i = 0; $i < $foundRows; $i++) {
         $OOArt = rex_ooArticle::getArticleById($search->getValue('id'), $be_search_clang);
         $label = $OOArt->getName();
 
-        if (rex::getUser()->hasCategoryPerm($OOArt->getCategoryId()))
-        {
+        if (rex::getUser()->hasCategoryPerm($OOArt->getCategoryId())) {
           if (rex::getUser()->hasPerm('advancedMode[]'))
             $label .= ' [' . $search->getValue('id') . ']';
 
           $s = '';
           $first = true;
-          foreach ($OOArt->getParentTree() as $treeItem)
-          {
+          foreach ($OOArt->getParentTree() as $treeItem) {
             $treeLabel = $treeItem->getName();
 
             if (rex::getUser()->hasPerm('advancedMode[]'))
               $treeLabel .= ' [' . $treeItem->getId() . ']';
 
             $prefix = ': ';
-            if ($first)
-            {
+            if ($first) {
               $prefix = '';
               $first = false;
             }
@@ -138,8 +125,7 @@ function rex_be_search_structure($params)
           }
 
           $prefix = ': ';
-          if ($first)
-          {
+          if ($first) {
             $prefix = '';
             $first = false;
           }
@@ -154,17 +140,14 @@ function rex_be_search_structure($params)
         $search->next();
       }
       $search_result .= '</ul>';
-    }
-    else
-    {
+    } else {
       $message = rex_view::warning(rex_i18n::msg('be_search_no_results'));
     }
   }
 
   $select_name = 'category_id';
   $add_homepage = true;
-  if ($mode == 'edit' || $mode == 'meta')
-  {
+  if ($mode == 'edit' || $mode == 'meta') {
     $select_name = 'article_id';
     $add_homepage = false;
   }

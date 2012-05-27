@@ -59,39 +59,29 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   static public function getArticlesOfCategory($a_category_id, $ignore_offlines = false, $clang = false)
   {
-    if ($clang === false)
-    {
+    if ($clang === false) {
       $clang = rex_clang::getId();
     }
 
     $articlelist = rex_path::addonCache('structure', $a_category_id . '.' . $clang . '.alist');
-    if (!file_exists($articlelist))
-    {
+    if (!file_exists($articlelist)) {
       rex_article_cache::generateLists($a_category_id, $clang);
     }
 
     $artlist = array ();
-    if (file_exists($articlelist))
-    {
-      if (!isset(self::$articleIds[$a_category_id]))
-      {
+    if (file_exists($articlelist)) {
+      if (!isset(self::$articleIds[$a_category_id])) {
         self::$articleIds[$a_category_id] = rex_file::getCache($articlelist);
       }
 
-      if (self::$articleIds[$a_category_id])
-      {
-        foreach (self::$articleIds[$a_category_id] as $var)
-        {
+      if (self::$articleIds[$a_category_id]) {
+        foreach (self::$articleIds[$a_category_id] as $var) {
           $article = self :: getArticleById($var, $clang);
-          if ($ignore_offlines)
-          {
-            if ($article->isOnline())
-            {
+          if ($ignore_offlines) {
+            if ($article->isOnline()) {
               $artlist[] = $article;
             }
-          }
-          else
-          {
+          } else {
             $artlist[] = $article;
           }
         }
@@ -142,8 +132,7 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   public function getParent($clang = false)
   {
-    if ($clang === false)
-    {
+    if ($clang === false) {
       $clang = rex_clang::getId();
     }
 
@@ -158,8 +147,7 @@ class rex_ooArticle extends rex_ooRedaxo
    */
   public function getPath()
   {
-    if ($this->isStartArticle())
-    {
+    if ($this->isStartArticle()) {
       return $this->_path . $this->_id . '|';
     }
 
@@ -184,8 +172,7 @@ class rex_ooArticle extends rex_ooRedaxo
   public function getValue($value)
   {
     // alias für re_id -> category_id
-    if (in_array($value, array('re_id', '_re_id', 'category_id', '_category_id')))
-    {
+    if (in_array($value, array('re_id', '_re_id', 'category_id', '_category_id'))) {
       // für die CatId hier den Getter verwenden,
       // da dort je nach ArtikelTyp unterscheidungen getroffen werden müssen
       return $this->getCategoryId();

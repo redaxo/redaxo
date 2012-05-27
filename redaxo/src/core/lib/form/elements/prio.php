@@ -49,14 +49,12 @@ class rex_form_prio_element extends rex_form_select_element
     $name = $this->getFieldName();
 
     $qry = 'SELECT ' . $this->labelField . ',' . $name . ' FROM ' . $this->table->getTableName() . ' WHERE 1=1';
-    if ($this->whereCondition != '')
-    {
+    if ($this->whereCondition != '') {
       $qry .= ' AND (' . $this->whereCondition . ')';
     }
 
     // Im Edit Mode das Feld selbst nicht als Position einfügen
-    if ($this->table->isEditMode())
-    {
+    if ($this->table->isEditMode()) {
       $sql = $this->table->getSql();
       $qry .= ' AND (' . $name . '!=' . $this->getValue() . ')';
     }
@@ -66,11 +64,10 @@ class rex_form_prio_element extends rex_form_select_element
     $sql->setQuery($qry);
 
     $this->select->addOption(rex_i18n::msg($this->firstOptionMsg), 1);
-    foreach ($sql as $opt)
-    {
+    foreach ($sql as $opt) {
       $this->select->addOption(
         rex_i18n::msg($this->optionMsg, $opt->getValue($this->labelField)),
-        $opt->getValue($name)+1
+        $opt->getValue($name) + 1
       );
     }
 
@@ -79,8 +76,7 @@ class rex_form_prio_element extends rex_form_select_element
 
   public function organizePriorities($params)
   {
-    if ($this->table->equals($params['form']))
-    {
+    if ($this->table->equals($params['form'])) {
       $name = $this->getFieldName();
 
       rex_sql_util::organizePriorities(

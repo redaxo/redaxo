@@ -37,8 +37,7 @@ $info = '';
 $warning = '';
 $warning_blck = '';
 
-if ($function == 'delete')
-{
+if ($function == 'delete') {
   $del = rex_sql::factory();
 //  $del->debugsql = true;
   $qry = 'SELECT
@@ -54,32 +53,26 @@ if ($function == 'delete')
             ma.action_id = a.id AND
             ma.action_id=' . $action_id;
   $del->setQuery($qry); // module mit dieser aktion vorhanden ?
-  if ($del->getRows() > 0)
-  {
+  if ($del->getRows() > 0) {
     $action_in_use_msg = '';
     $action_name = htmlspecialchars($del->getValue('a.name'));
-    for ($i = 0; $i < $del->getRows(); $i++)
-    {
+    for ($i = 0; $i < $del->getRows(); $i++) {
       $action_in_use_msg .= '<li><a href="index.php?page=modules&amp;function=edit&amp;modul_id=' . $del->getValue('ma.module_id') . '">' . htmlspecialchars($del->getValue('m.name')) . ' [' . $del->getValue('ma.module_id') . ']</a></li>';
       $del->next();
     }
 
-    if ($action_in_use_msg != '')
-    {
+    if ($action_in_use_msg != '') {
       $warning_blck = '<ul>' . $action_in_use_msg . '</ul>';
     }
 
     $warning = rex_i18n::msg('action_cannot_be_deleted', $action_name);
-  }
-  else
-  {
+  } else {
     $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . "action WHERE id='$action_id' LIMIT 1");
     $info = rex_i18n::msg('action_deleted');
   }
 }
 
-if ($function == 'add' || $function == 'edit')
-{
+if ($function == 'add' || $function == 'edit') {
   $name           = rex_post('name', 'string');
   $previewaction  = rex_post('previewaction', 'string');
   $presaveaction  = rex_post('presaveaction', 'string');
@@ -89,8 +82,7 @@ if ($function == 'add' || $function == 'edit')
   $presavestatus  = 255;
   $postsavestatus = 255;
 
-  if ($save == '1')
-  {
+  if ($save == '1') {
     $faction = rex_sql::factory();
 
     $previewstatus  = rex_post('previewstatus', 'array');
@@ -118,43 +110,32 @@ if ($function == 'add' || $function == 'edit')
     $faction->setValue('presavemode', $presavemode);
     $faction->setValue('postsavemode', $postsavemode);
 
-    try
-    {
-      if ($function == 'add')
-      {
+    try {
+      if ($function == 'add') {
         $faction->addGlobalCreateFields();
 
         $faction->insert();
         $info = rex_i18n::msg('action_added');
-      }
-      else
-      {
+      } else {
         $faction->addGlobalUpdateFields();
         $faction->setWhere(array('id' => $action_id));
 
         $faction->update();
         $info = rex_i18n::msg('action_updated');
       }
-    }
-    catch (rex_sql_exception $e)
-    {
+    } catch (rex_sql_exception $e) {
       $warning = $e->getMessage();
     }
 
-    if (isset ($goon) and $goon != '')
-    {
+    if (isset ($goon) and $goon != '') {
       $save = 'nein';
-    }
-    else
-    {
+    } else {
       $function = '';
     }
   }
 
-  if ($save != '1')
-  {
-    if ($function == 'edit')
-    {
+  if ($save != '1') {
+    if ($function == 'edit') {
       $legend = rex_i18n::msg('action_edit') . ' [ID=' . $action_id . ']';
 
       $action = rex_sql::factory();
@@ -167,9 +148,7 @@ if ($function == 'add' || $function == 'edit')
       $previewstatus  = $action->getValue('previewmode');
       $presavestatus  = $action->getValue('presavemode');
       $postsavestatus = $action->getValue('postsavemode');
-    }
-    else
-    {
+    } else {
       $legend = rex_i18n::msg('action_create');
     }
 
@@ -199,22 +178,19 @@ if ($function == 'add' || $function == 'edit')
     $sel_postsave_status->setId('postsavestatus');
 
     $allPreviewChecked = $previewstatus == 3 ? ' checked="checked"' : '';
-    foreach (array (1, 2, 4) as $var)
-    {
+    foreach (array (1, 2, 4) as $var) {
       if (($previewstatus & $var) == $var)
         $sel_preview_status->setSelected($var);
     }
 
     $allPresaveChecked = $presavestatus == 7 ? ' checked="checked"' : '';
-    foreach (array (1, 2, 4) as $var)
-    {
+    foreach (array (1, 2, 4) as $var) {
       if (($presavestatus & $var) == $var)
         $sel_presave_status->setSelected($var);
     }
 
     $allPostsaveChecked = $postsavestatus == 7 ? ' checked="checked"' : '';
-    foreach (array (1, 2, 4) as $var)
-    {
+    foreach (array (1, 2, 4) as $var) {
       if (($postsavestatus & $var) == $var)
         $sel_postsave_status->setSelected($var);
     }
@@ -364,8 +340,7 @@ if ($function == 'add' || $function == 'edit')
             $n['field'] = '<input type="submit" value="' . rex_i18n::msg('save_action_and_quit') . '"' . rex::getAccesskey(rex_i18n::msg('save_action_and_quit'), 'save') . ' />';
             $formElements[] = $n;
 
-            if ($btn_update != '')
-            {
+            if ($btn_update != '') {
               $n = array();
               $n['field'] = $btn_update;
               $formElements[] = $n;
@@ -407,8 +382,7 @@ if ($function == 'add' || $function == 'edit')
   }
 }
 
-if ($OUT)
-{
+if ($OUT) {
   if ($info != '')
     echo rex_view::info($info);
 
@@ -439,12 +413,10 @@ if ($OUT)
   $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'action ORDER BY name');
   $rows = $sql->getRows();
 
-  if ($rows > 0)
-  {
+  if ($rows > 0) {
     echo '<tbody>' . "\n";
 
-    for ($i = 0; $i < $rows; $i++)
-    {
+    for ($i = 0; $i < $rows; $i++) {
       $previewmode = array ();
       $presavemode = array ();
       $postsavemode = array ();

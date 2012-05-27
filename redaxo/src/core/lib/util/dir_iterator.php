@@ -124,20 +124,16 @@ class rex_dir_iterator extends RecursiveFilterIterator
     /* @var $iterator self */
     $iterator = parent::getChildren();
 
-    if ($this->ignoreDirsRecursive)
-    {
+    if ($this->ignoreDirsRecursive) {
       $iterator->ignoreDirs($this->ignoreDirs, true);
     }
-    if ($this->ignoreFilesRecursive)
-    {
+    if ($this->ignoreFilesRecursive) {
       $iterator->ignoreFiles($this->ignoreFiles, true);
     }
-    if ($this->ignorePrefixesRecursive)
-    {
+    if ($this->ignorePrefixesRecursive) {
       $iterator->ignorePrefixes($this->ignorePrefixes, true);
     }
-    if ($this->ignoreSuffixesRecursive)
-    {
+    if ($this->ignoreSuffixesRecursive) {
       $iterator->ignoreSuffixes($this->ignoreSuffixes, true);
     }
     $iterator->ignoreSystemStuff = $this->ignoreSystemStuff;
@@ -154,52 +150,39 @@ class rex_dir_iterator extends RecursiveFilterIterator
     $current = parent::current();
     $filename = $current->getFilename();
 
-    if ($current->isDir())
-    {
-      if ($this->ignoreDirs == self::ALL)
-      {
+    if ($current->isDir()) {
+      if ($this->ignoreDirs == self::ALL) {
         return false;
       }
-      if (in_array($filename, $this->ignoreDirs))
-      {
+      if (in_array($filename, $this->ignoreDirs)) {
         return false;
       }
     }
 
-    if ($current->isFile())
-    {
-      if ($this->ignoreFiles == self::ALL)
-      {
+    if ($current->isFile()) {
+      if ($this->ignoreFiles == self::ALL) {
         return false;
       }
-      if (in_array($filename, $this->ignoreFiles))
-      {
+      if (in_array($filename, $this->ignoreFiles)) {
         return false;
       }
     }
 
-    foreach ($this->ignorePrefixes as $prefix)
-    {
-      if (strpos($filename, $prefix) === 0)
-      {
+    foreach ($this->ignorePrefixes as $prefix) {
+      if (strpos($filename, $prefix) === 0) {
         return false;
       }
     }
 
-    foreach ($this->ignoreSuffixes as $suffix)
-    {
-      if (substr($filename, strlen($filename) - strlen($suffix)) == $suffix)
-      {
+    foreach ($this->ignoreSuffixes as $suffix) {
+      if (substr($filename, strlen($filename) - strlen($suffix)) == $suffix) {
         return false;
       }
     }
 
-    if ($this->ignoreSystemStuff)
-    {
-      foreach (self::$systemStuff as $systemStuff)
-      {
-        if (stripos($filename, $systemStuff) === 0)
-        {
+    if ($this->ignoreSystemStuff) {
+      foreach (self::$systemStuff as $systemStuff) {
+        if (stripos($filename, $systemStuff) === 0) {
           return false;
         }
       }

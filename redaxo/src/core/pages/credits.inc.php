@@ -6,19 +6,15 @@
  */
 
 $addons = array();
-foreach (rex_addon::getRegisteredAddons() as $addon)
-{
+foreach (rex_addon::getRegisteredAddons() as $addon) {
   $isActive    = $addon->isActivated();
   $version     = $addon->getVersion();
   $author      = $addon->getAuthor();
   $supportPage = $addon->getSupportPage();
 
-  if ($isActive)
-  {
+  if ($isActive) {
     $cl = 'rex-active';
-  }
-  else
-  {
+  } else {
     $cl = 'rex-inactive';
   }
 
@@ -34,21 +30,16 @@ foreach (rex_addon::getRegisteredAddons() as $addon)
   $rex_ooAddon->class = $cl;
 
   $plugins = array();
-  if ($isActive)
-  {
-    foreach ($addon->getAvailablePlugins() as $plugin)
-    {
+  if ($isActive) {
+    foreach ($addon->getAvailablePlugins() as $plugin) {
       $isActive    = $plugin->isActivated();
       $version     = $plugin->getVersion();
       $author      = $plugin->getAuthor();
       $supportPage = $plugin->getSupportPage();
 
-      if ($isActive)
-      {
+      if ($isActive) {
         $cl = 'rex-active';
-      }
-      else
-      {
+      } else {
         $cl = 'rex-inactive';
       }
 
@@ -136,8 +127,7 @@ $content .= '
 
     <tbody>';
 
-    foreach ($addons as $addon)
-    {
+    foreach ($addons as $addon) {
       $content .= '
       <tr class="rex-addon ' . $addon->class . '">
         <td class="rex-name">' . $addon->name . ' <a href="index.php?page=addon&amp;subpage=help&amp;addonname=' . $addon->name . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $addon->name . '">?</a></td>
@@ -145,8 +135,7 @@ $content .= '
         <td class="rex-author">' . $addon->author . '</td>
         <td class="rex-support">';
 
-        if ($addon->supportpage)
-        {
+        if ($addon->supportpage) {
           $content .= '<a href="http://' . $addon->supportpage . '" onclick="window.open(this.href); return false;">' . $addon->supportpage . '</a>';
         }
 
@@ -154,8 +143,7 @@ $content .= '
         </td>
       </tr>';
 
-      foreach ($addon->plugins as $plugin)
-      {
+      foreach ($addon->plugins as $plugin) {
         $content .= '
         <tr class="rex-plugin ' . $plugin->class . '">
           <td class="rex-name">' . $plugin->name . ' <a href="index.php?page=addon&amp;subpage=help&amp;addonname=' . $addon->name . '&amp;pluginname=' . $plugin->name . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $addon->name . '">?</a></td>
@@ -163,8 +151,7 @@ $content .= '
           <td class="rex-author">' . $plugin->author . '</td>
           <td class="rex-support">';
 
-          if ($plugin->supportpage)
-          {
+          if ($plugin->supportpage) {
             $content .= '<a href="http://' . $plugin->supportpage . '" onclick="window.open(this.href); return false;">' . $plugin->supportpage . '</a>';
           }
 

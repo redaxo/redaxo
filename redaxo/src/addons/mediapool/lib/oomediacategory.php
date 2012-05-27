@@ -50,16 +50,14 @@ class rex_ooMediaCategory
       return null;
 
     $cat_path = rex_path::addonCache('mediapool', $id . '.mcat');
-    if (!file_exists($cat_path))
-    {
+    if (!file_exists($cat_path)) {
       rex_media_cache::generateCategory($id);
     }
 
-    if (file_exists($cat_path))
-    {
+    if (file_exists($cat_path)) {
       $cache = rex_file::getCache($cat_path);
 
-      $cat = new rex_ooMediaCategory();
+      $cat = new self();
 
       $cat->_id = $cache['id'];
       $cat->_parent_id = $cache['re_id'];
@@ -103,17 +101,14 @@ class rex_ooMediaCategory
     $catlist = array();
 
     $catlist_path = rex_path::addonCache('mediapool', $id . '.mclist');
-    if (!file_exists($catlist_path))
-    {
+    if (!file_exists($catlist_path)) {
       rex_media_cache::generateCategoryList($id);
     }
 
-    if (file_exists($catlist_path))
-    {
+    if (file_exists($catlist_path)) {
       $cache = rex_file::getCache($catlist_path);
 
-      if (is_array($cache))
-      {
+      if (is_array($cache)) {
         foreach ($cache as $cat_id)
           $catlist[] = self :: getCategoryById($cat_id);
       }
@@ -161,8 +156,7 @@ class rex_ooMediaCategory
   public function getPathAsArray()
   {
     $p = explode('|', $this->_path);
-    foreach ($p as $k => $v)
-    {
+    foreach ($p as $k => $v) {
       if ($v == '')
         unset($p[$k]);
       else
@@ -229,15 +223,11 @@ class rex_ooMediaCategory
   public function getParentTree()
   {
     $tree = array();
-    if ($this->_path)
-    {
+    if ($this->_path) {
       $explode = explode('|', $this->_path);
-      if (is_array($explode))
-      {
-        foreach ($explode as $var)
-        {
-          if ($var != '')
-          {
+      if (is_array($explode)) {
+        foreach ($explode as $var) {
+          if ($var != '') {
             $tree[] = self :: getCategoryById($var);
           }
         }
@@ -253,10 +243,8 @@ class rex_ooMediaCategory
   public function inParentTree($anObj)
   {
     $tree = $this->getParentTree();
-    foreach ($tree as $treeObj)
-    {
-      if ($treeObj == $anObj)
-      {
+    foreach ($tree as $treeObj) {
+      if ($treeObj == $anObj) {
         return true;
       }
     }
@@ -268,8 +256,7 @@ class rex_ooMediaCategory
    */
   public function getChildren()
   {
-    if ($this->_children === null)
-    {
+    if ($this->_children === null) {
       $this->_children = self :: getChildrenById($this->getId());
     }
 
@@ -289,23 +276,19 @@ class rex_ooMediaCategory
    */
   public function getMedia()
   {
-    if ($this->_files === null)
-    {
+    if ($this->_files === null) {
       $this->_files = array();
       $id = $this->getId();
 
       $list_path = rex_path::addonCache('mediapool', $id . '.mlist');
-      if (!file_exists($list_path))
-      {
+      if (!file_exists($list_path)) {
         rex_media_cache::generateList($id);
       }
 
-      if (file_exists($list_path))
-      {
+      if (file_exists($list_path)) {
         $cache = rex_file::getCache($list_path);
 
-        if (is_array($cache))
-        {
+        if (is_array($cache)) {
           foreach ($cache as $filename)
             $this->_files[] = rex_ooMedia :: getMediaByFileName($filename);
         }
@@ -344,12 +327,9 @@ class rex_ooMediaCategory
    */
   public function isParent($mediaCat)
   {
-    if (is_int($mediaCat))
-    {
+    if (is_int($mediaCat)) {
       return $mediaCat == $this->getParentId();
-    }
-    elseif (self :: isValid($mediaCat))
-    {
+    } elseif (self :: isValid($mediaCat)) {
       return $this->getParentId() == $mediaCat->getId();
     }
     return null;
@@ -408,17 +388,14 @@ class rex_ooMediaCategory
     $sql->setValue('path', $this->getPath());
     $sql->setValue('hide', $this->isHidden());
 
-    if ($this->getId() !== null)
-    {
+    if ($this->getId() !== null) {
       $sql->addGlobalUpdateFields();
       $sql->setWhere(array('id' => $this->getId()));
       $success = $sql->update();
       if ($success)
         rex_media_cache::deleteCategory($this->getId());
       return $success;
-    }
-    else
-    {
+    } else {
       $sql->addGlobalCreateFields();
       $success = $sql->insert();
       if ($success)
@@ -434,26 +411,21 @@ class rex_ooMediaCategory
   public function delete($recurse = false)
   {
     // Rekursiv l�schen?
-    if (!$recurse && $this->hasChildren())
-    {
+    if (!$recurse && $this->hasChildren()) {
       return false;
     }
 
-    if ($recurse)
-    {
+    if ($recurse) {
       $childs = $this->getChildren();
-      foreach ($childs as $child)
-      {
+      foreach ($childs as $child) {
         if (!$child->delete($recurse)) return false;
       }
     }
 
     // Alle Dateien l�schen
-    if ($this->hasMedia())
-    {
+    if ($this->hasMedia()) {
       $files = $this->getMedia();
-      foreach ($files as $file)
-      {
+      foreach ($files as $file) {
         if (!$file->delete()) return false;
       }
     }

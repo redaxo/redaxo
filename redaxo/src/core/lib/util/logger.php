@@ -16,12 +16,9 @@ abstract class rex_logger extends rex_factory_base
    */
   static public function logException(Exception $exception)
   {
-    if ($exception instanceof ErrorException)
-    {
+    if ($exception instanceof ErrorException) {
       self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
-    }
-    else
-    {
+    } else {
       self::log('<b>' . get_class($exception) . '</b>: ' . $exception->getMessage() . ' in <b>' . $exception->getFile() . '</b> on line <b>' . $exception->getLine() . '</b><br />', E_USER_ERROR);
     }
   }
@@ -36,20 +33,16 @@ abstract class rex_logger extends rex_factory_base
    */
   static public function logError($errno, $errstr, $errfile, $errline)
   {
-    if (!is_int($errno))
-    {
+    if (!is_int($errno)) {
       throw new rex_exception('Expecting $errno to be integer, but ' . gettype($errno) . ' given!');
     }
-    if (!is_string($errstr))
-    {
+    if (!is_string($errstr)) {
       throw new rex_exception('Expecting $errstr to be string, but ' . gettype($errstr) . ' given!');
     }
-    if (!is_string($errfile))
-    {
+    if (!is_string($errfile)) {
       throw new rex_exception('Expecting $errfile to be string, but ' . gettype($errfile) . ' given!');
     }
-    if (!is_int($errline))
-    {
+    if (!is_int($errline)) {
       throw new rex_exception('Expecting $errline to be integer, but ' . gettype($errline) . ' given!');
     }
 
@@ -63,19 +56,16 @@ abstract class rex_logger extends rex_factory_base
    */
   static public function log($message, $errno = E_USER_ERROR)
   {
-    if (static::hasFactoryClass())
-    {
+    if (static::hasFactoryClass()) {
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }
 
-    if (!is_string($message))
-    {
+    if (!is_string($message)) {
       throw new rex_exception('Expecting $message to be string, but ' . gettype($message) . ' given!');
     }
 
     self::open();
-    if (is_resource(self::$handle))
-    {
+    if (is_resource(self::$handle)) {
       fwrite(self::$handle, date('r') . '<br />' . $message . "\n");
     }
   }
@@ -86,13 +76,11 @@ abstract class rex_logger extends rex_factory_base
   static public function open()
   {
     // check if already opened
-    if (!self::$handle)
-    {
+    if (!self::$handle) {
       self::$handle = fopen(rex_path::cache('system.log'), 'ab');
     }
 
-    if (!self::$handle)
-    {
+    if (!self::$handle) {
       echo 'Error while creating logfile ' . self::$file;
       exit();
     }
@@ -105,8 +93,7 @@ abstract class rex_logger extends rex_factory_base
    */
   static public function close()
   {
-    if (is_resource(self::$handle))
-    {
+    if (is_resource(self::$handle)) {
       fclose(self::$handle);
     }
   }

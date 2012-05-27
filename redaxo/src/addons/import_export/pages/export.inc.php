@@ -6,8 +6,7 @@
  */
 
 // Für größere Exports den Speicher für PHP erhöhen.
-if (rex_ini_get('memory_limit') < 67108864)
-{
+if (rex_ini_get('memory_limit') < 67108864) {
   @ini_set('memory_limit', '64M');
 }
 
@@ -24,8 +23,7 @@ $exporttype     = rex_post('exporttype', 'string');
 $exportdl       = rex_post('exportdl', 'boolean');
 $EXPDIR         = rex_post('EXPDIR', 'array');
 
-if ($impname != '')
-{
+if ($impname != '') {
   $impname = str_replace('/', '', $impname);
 
   if ($function == 'dbimport' && substr($impname, -4, 4) != '.sql')
@@ -37,62 +35,49 @@ if ($impname != '')
 if ($exportfilename == '')
   $exportfilename = strtolower($_SERVER['HTTP_HOST']) . '_rex' . rex::getVersion('') . '_' . date('Ymd');
 
-if ($function == 'export')
-{
+if ($function == 'export') {
   // ------------------------------ FUNC EXPORT
 
   $exportfilename = strtolower($exportfilename);
   $filename       = preg_replace('@[^\.a-z0-9_\-]@', '', $exportfilename);
 
-  if ($filename != $exportfilename)
-  {
+  if ($filename != $exportfilename) {
     $info = rex_i18n::msg('im_export_filename_updated');
     $exportfilename = $filename;
-  }
-  else
-  {
+  } else {
     $content     = '';
     $hasContent  = false;
     $header      = '';
     $ext         = $exporttype == 'sql' ? '.sql' : '.tar.gz';
     $export_path = getImportDir() . '/';
 
-    if (file_exists($export_path . $filename . $ext))
-    {
+    if (file_exists($export_path . $filename . $ext)) {
       $i = 1;
       while (file_exists($export_path . $filename . '_' . $i . $ext)) $i++;
       $filename = $filename . '_' . $i;
     }
 
-    if ($exporttype == 'sql')
-    {
+    if ($exporttype == 'sql') {
       // ------------------------------ FUNC EXPORT SQL
       $header = 'plain/text';
 
       $hasContent = rex_a1_export_db($export_path . $filename . $ext);
       // ------------------------------ /FUNC EXPORT SQL
-    }
-    elseif ($exporttype == 'files')
-    {
+    } elseif ($exporttype == 'files') {
       // ------------------------------ FUNC EXPORT FILES
       $header = 'tar/gzip';
 
-      if (empty($EXPDIR))
-      {
+      if (empty($EXPDIR)) {
         $warning = rex_i18n::msg('im_export_please_choose_folder');
-      }
-      else
-      {
+      } else {
         $content    = rex_a1_export_files($EXPDIR);
         $hasContent = rex_file::put($export_path . $filename . $ext, $content);
       }
       // ------------------------------ /FUNC EXPORT FILES
     }
 
-    if ($hasContent)
-    {
-      if ($exportdl)
-      {
+    if ($hasContent) {
+      if ($exportdl) {
         while (ob_get_level()) ob_end_clean();
         $filename = $filename . $ext;
         header("Content-type: $header");
@@ -100,25 +85,19 @@ if ($function == 'export')
         readfile($export_path . $filename);
         rex_file::delete($export_path . $filename);
         exit;
-      }
-      else
-      {
+      } else {
         $info = rex_i18n::msg('im_export_file_generated_in') . ' ' . strtr($filename . $ext, '\\', '/');
       }
-    }
-    else
-    {
+    } else {
       $warning = rex_i18n::msg('im_export_file_could_not_be_generated') . ' ' . rex_i18n::msg('im_export_check_rights_in_directory') . ' ' . $export_path;
     }
   }
 }
 
-if ($info != '')
-{
+if ($info != '') {
   $content .= rex_view::info($info);
 }
-if ($warning != '')
-{
+if ($warning != '') {
   $content .= rex_view::warning($warning);
 }
 
@@ -142,12 +121,9 @@ $content .= '
 $checkedsql = '';
 $checkedfiles = '';
 
-if ($exporttype == 'files')
-{
+if ($exporttype == 'files') {
   $checkedfiles = ' checked="checked"';
-}
-else
-{
+} else {
   $checkedsql = ' checked="checked"';
 }
 
@@ -170,16 +146,13 @@ $content .= '
   $dir = rex_path::frontend('', rex_path::ABSOLUTE);
   $folders = readSubFolders($dir);
 
-  foreach ($folders as $file)
-  {
-    if ($file == 'redaxo')
-    {
+  foreach ($folders as $file) {
+    if ($file == 'redaxo') {
       continue;
     }
 
     $checked = '';
-    if (array_key_exists($file, $EXPDIR) !== false)
-    {
+    if (array_key_exists($file, $EXPDIR) !== false) {
       $checked = ' checked="checked"';
     }
 
@@ -197,12 +170,9 @@ $content .= '</div>
 $checked0 = '';
 $checked1 = '';
 
-if ($exportdl)
-{
+if ($exportdl) {
   $checked1 = ' checked="checked"';
-}
-else
-{
+} else {
   $checked0 = ' checked="checked"';
 }
 

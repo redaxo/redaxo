@@ -15,10 +15,8 @@ class rex_cronjob_log
     $folder = REX_CRONJOB_LOG_FOLDER;
     $years = array ();
 
-    if (is_dir($folder))
-    {
-      foreach (rex_dir::iterator($folder)->ignoreFiles()->ignorePrefixes('.')->sort() as $file)
-      {
+    if (is_dir($folder)) {
+      foreach (rex_dir::iterator($folder)->ignoreFiles()->ignorePrefixes('.')->sort() as $file) {
         $years[] = $file->getFilename();
       }
     }
@@ -30,8 +28,7 @@ class rex_cronjob_log
   {
     $folder = REX_CRONJOB_LOG_FOLDER;
     $months = array();
-    foreach (glob($folder . $year . '/' . $year . '-*.log') as $file)
-    {
+    foreach (glob($folder . $year . '/' . $year . '-*.log') as $file) {
       $month = substr($file, -6, 2);
       $months[] = $month;
     }
@@ -41,8 +38,7 @@ class rex_cronjob_log
   static public function getYearMonthArray()
   {
     $array = array();
-    foreach (self::getYears() as $year)
-    {
+    foreach (self::getYears() as $year) {
       $months = self::getMonths($year);
       if (!empty($months))
         $array[$year] = $months;
@@ -69,11 +65,9 @@ class rex_cronjob_log
   {
     $array = array_reverse(self::getYearMonthArray(), true);
     $messages = array();
-    foreach ($array as $year => $months)
-    {
+    foreach ($array as $year => $months) {
       $months = array_reverse($months, true);
-      foreach ($months as $month)
-      {
+      foreach ($months as $month) {
         $lines = explode("\n", trim(self::getLogOfMonth($month, $year)));
 
         $end = min($limit - count($messages), count($lines));
@@ -115,8 +109,7 @@ class rex_cronjob_log
       $newline .= ' | ' . str_replace(array("\r\n", "\n"), ' | ', trim(strip_tags($message)));
 
     $dir = REX_CRONJOB_LOG_FOLDER . $year;
-    if (!is_dir($dir))
-    {
+    if (!is_dir($dir)) {
       rex_dir::create($dir);
     }
 
@@ -156,30 +149,22 @@ class rex_cronjob_log
           </tr>
         </thead>
         <tbody>';
-    if (!is_array($lines) || count($lines) == 0)
-    {
+    if (!is_array($lines) || count($lines) == 0) {
       $list .= '
           <tr><td colspan="4">' . rex_i18n::msg('cronjob_log_no_data') . '</td></tr>';
-    }
-    else
-    {
-      foreach ($lines as $line)
-      {
+    } else {
+      foreach ($lines as $line) {
         $data = explode(' | ', $line, 5);
-        for ($i = 0; $i < 5; $i++)
-        {
+        for ($i = 0; $i < 5; $i++) {
           if (!isset($data[$i]))
             $data[$i] = '';
         }
         $data[0] = rex_formatter :: format(strtotime($data[0]), 'strftime', 'datetime');
         $class = trim($data[1]) == 'ERROR' ? 'rex-warning' : 'rex-info';
         $data[4] = str_replace(' | ', '<br />', htmlspecialchars($data[4]));
-        if ($data[2] == '--')
-        {
+        if ($data[2] == '--') {
           $icon = '<span class="rex-i-element rex-i-cronjob" title="' . rex_i18n::msg('cronjob_not_editable') . '"><span class="rex-i-element-text">' . rex_i18n::msg('cronjob_not_editable') . '</span></span>';
-        }
-        else
-        {
+        } else {
           $icon = '<a href="index.php?page=cronjob&amp;list=cronjobs&amp;func=edit&amp;oid=' . trim($data[2]) . '" title="' . rex_i18n::msg('cronjob_edit') . '"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">' . rex_i18n::msg('cronjob_edit') . '</span></span></a>';
         }
 

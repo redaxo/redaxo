@@ -9,8 +9,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
     $restrictionsCondition = $this->buildFilterCondition($params);
 
     $fields = parent::getSqlFields(self::PREFIX, $restrictionsCondition);
-    if ($fields->getRows() >= 1)
-    {
+    if ($fields->getRows() >= 1) {
       $return = '<p class="rex-button-add"><script type="text/javascript"><!--
 
     function rex_metainfo_toggle()
@@ -62,15 +61,12 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
   {
     $s = '';
 
-    if (!empty($params['id']))
-    {
+    if (!empty($params['id'])) {
       $OOCat = rex_ooCategory::getCategoryById($params['id'], $params['clang']);
 
       // Alle Metafelder des Pfades sind erlaubt
-      foreach ($OOCat->getPathAsArray() as $pathElement)
-      {
-        if ($pathElement != '')
-        {
+      foreach ($OOCat->getPathAsArray() as $pathElement) {
+        if ($pathElement != '') {
           $s .= ' OR `p`.`restrictions` LIKE "%|' . $pathElement . '|%"';
         }
       }
@@ -93,8 +89,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
       $add_td = '<td></td>';
 
     $element = $field;
-    if ($labelIt)
-    {
+    if ($labelIt) {
       $element = '
          <' . $tag . $tag_attr . '>
            <label for="' . $id . '">' . $label . '</label>
@@ -102,8 +97,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
          </' . $tag . '>';
     }
 
-    if ($typeLabel == 'legend')
-    {
+    if ($typeLabel == 'legend') {
       $element = '<p class="rex-form-legend">' . $label . '</p>';
       $class_td = ' class="rex-colored"';
       $class_tr .= ' rex-metainfo-cat-b';
@@ -125,8 +119,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
   public function extendForm(array $params)
   {
-    if (isset($params['category']))
-    {
+    if (isset($params['category'])) {
       $params['activeItem'] = $params['category'];
 
       // Hier die category_id setzen, damit beim klick auf den REX_LINK_BUTTON der Medienpool in der aktuellen Kategorie startet

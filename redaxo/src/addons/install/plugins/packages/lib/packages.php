@@ -14,14 +14,10 @@ class rex_install_packages
 
     self::$updatePackages = self::getPackages();
 
-    foreach (self::$updatePackages as $key => $addon)
-    {
-      if (rex_addon::exists($key) && isset($addon['files']))
-      {
+    foreach (self::$updatePackages as $key => $addon) {
+      if (rex_addon::exists($key) && isset($addon['files'])) {
         self::unsetOlderVersions($key, rex_addon::get($key)->getVersion());
-      }
-      else
-      {
+      } else {
         unset(self::$updatePackages[$key]);
       }
     }
@@ -35,15 +31,12 @@ class rex_install_packages
 
   static private function unsetOlderVersions($package, $version)
   {
-    foreach (self::$updatePackages[$package]['files'] as $fileId => $file)
-    {
-      if (empty($version) || empty($file['version']) || rex_string::compareVersions($file['version'], $version, '<='))
-      {
+    foreach (self::$updatePackages[$package]['files'] as $fileId => $file) {
+      if (empty($version) || empty($file['version']) || rex_string::compareVersions($file['version'], $version, '<=')) {
         unset(self::$updatePackages[$package]['files'][$fileId]);
       }
     }
-    if (empty(self::$updatePackages[$package]['files']))
-    {
+    if (empty(self::$updatePackages[$package]['files'])) {
       unset(self::$updatePackages[$package]);
     }
   }
@@ -54,8 +47,7 @@ class rex_install_packages
       return self::$addPackages;
 
     self::$addPackages = self::getPackages();
-    foreach (self::$addPackages as $key => $addon)
-    {
+    foreach (self::$addPackages as $key => $addon) {
       if (rex_addon::exists($key))
         unset(self::$addPackages[$key]);
     }

@@ -24,8 +24,7 @@ $priority = rex_post('priority', 'int', $testMailer->Priority);
 
 $message = '';
 
-if (rex_post('btn_save', 'string') != '')
-{
+if (rex_post('btn_save', 'string') != '') {
   $this->setConfig('from',     $from);
   $this->setConfig('fromname', $fromname);
   $this->setConfig('confirmto', $confirmto);

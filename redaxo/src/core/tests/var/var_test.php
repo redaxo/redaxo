@@ -53,8 +53,7 @@ class rex_var_test extends PHPUnit_Framework_TestCase
     $suite = $this;
     rex_var::handleGlobalVarParams('myVar',
       array(
-        'callback' => function($params) use ($suite, &$triggered)
-        {
+        'callback' => function ($params) use ($suite, &$triggered) {
           $triggered = true;
           $suite->assertEquals($params['subject'], 'myVal', 'var value will be given as subject');
           $suite->assertTrue(isset($params['param1']), 'parameters will be passed');

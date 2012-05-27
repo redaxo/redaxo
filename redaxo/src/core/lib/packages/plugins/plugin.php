@@ -36,16 +36,13 @@ class rex_plugin extends rex_package implements rex_plugin_interface
    */
   static public function get($addon, $plugin = null)
   {
-    if ($plugin === null)
-    {
+    if ($plugin === null) {
       throw new InvalidArgumentException('Missing Argument 2 for ' . __CLASS__ . '::' . __METHOD__ . '()');
     }
-    if (!is_string($addon))
-    {
+    if (!is_string($addon)) {
       throw new rex_exception('Expecting $addon to be string, but ' . gettype($addon) . ' given!');
     }
-    if (!is_string($plugin))
-    {
+    if (!is_string($plugin)) {
       throw new rex_exception('Expecting $plugin to be string, but ' . gettype($plugin) . ' given!');
     }
     return rex_addon::get($addon)->getPlugin($plugin);
@@ -143,8 +140,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
   {
     $args = func_get_args();
     $key = $this->getAddon()->getName() . '_' . $this->getName() . '_' . $key;
-    if (rex_i18n::hasMsg($key))
-    {
+    if (rex_i18n::hasMsg($key)) {
       $args[0] = $key;
       return call_user_func_array('rex_i18n::msg', $args);
     }

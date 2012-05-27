@@ -69,8 +69,7 @@ class rex_article_base
 
   protected function getSqlInstance()
   {
-    if (!is_object($this->ARTICLE))
-    {
+    if (!is_object($this->ARTICLE)) {
       $this->ARTICLE = rex_sql::factory();
       if ($this->debug)
         $this->ARTICLE->debugsql = 1;
@@ -116,8 +115,7 @@ class rex_article_base
     $sql = $this->getSqlInstance();
     $sql->setQuery($qry);
 
-    if ($sql->getRows() == 1)
-    {
+    if ($sql->getRows() == 1) {
       $this->template_id = $this->getValue('template_id');
       $this->category_id = $this->getValue('category_id');
       return true;
@@ -157,14 +155,12 @@ class rex_article_base
 
   protected function correctValue($value)
   {
-    if ($value == 'category_id')
-    {
+    if ($value == 'category_id') {
       if ($this->getValue('startpage') != 1) $value = 're_id';
       else $value = 'id';
     }
     // über SQL muss article_id -> id heissen
-    elseif ($value == 'article_id')
-    {
+    elseif ($value == 'article_id') {
       $value = 'id';
     }
 
@@ -183,11 +179,9 @@ class rex_article_base
     // damit alte rex_article felder wie teaser, online_from etc
     // noch funktionieren
     // gleicher BC code nochmals in rex_ooRedaxo::getValue
-    foreach (array('', 'art_', 'cat_') as $prefix)
-    {
+    foreach (array('', 'art_', 'cat_') as $prefix) {
       $val = $prefix . $value;
-      if ($this->hasValue($val))
-      {
+      if ($this->hasValue($val)) {
         return $this->_getValue($val);
       }
     }
@@ -243,20 +237,17 @@ class rex_article_base
 
     $this->ctype = $curctype;
 
-    if ($this->article_id == 0 && $this->getSlice == 0)
-    {
+    if ($this->article_id == 0 && $this->getSlice == 0) {
       return rex_i18n::msg('no_article_available');
     }
 
     $articleLimit = '';
-    if ($this->article_id != 0)
-    {
+    if ($this->article_id != 0) {
       $articleLimit = ' AND ' . rex::getTablePrefix() . 'article_slice.article_id=' . $this->article_id;
     }
 
     $sliceLimit = '';
-    if ($this->getSlice != 0)
-    {
+    if ($this->getSlice != 0) {
       $sliceLimit = ' AND ' . rex::getTablePrefix() . "article_slice.id = '" . ((int) $this->getSlice) . "' ";
     }
 
@@ -294,8 +285,7 @@ class rex_article_base
     $prevCtype = null;
     $artDataSql->reset();
     $rows = $artDataSql->getRows();
-    for ($i = 0; $i < $rows; ++$i)
-    {
+    for ($i = 0; $i < $rows; ++$i) {
       $sliceId       = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
       $sliceCtypeId  = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype');
       $sliceModuleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
@@ -327,14 +317,12 @@ class rex_article_base
       );
 
       // ---------- slice in ausgabe speichern wenn ctype richtig
-      if ($this->ctype == -1 || $this->ctype == $sliceCtypeId)
-      {
+      if ($this->ctype == -1 || $this->ctype == $sliceCtypeId) {
         $articleContent .= $slice_content;
       }
 
       // ----- zwischenstand: ctype .. wenn ctype neu dann if
-      if ($this->mode != 'edit' && !$this->eval && isset($prevCtype) && $sliceCtypeId != $prevCtype)
-      {
+      if ($this->mode != 'edit' && !$this->eval && isset($prevCtype) && $sliceCtypeId != $prevCtype) {
         $articleContent .= "\n } if(\$this->ctype == '" . $sliceCtypeId . "' || \$this->ctype == '-1'){ \n";
       }
 
@@ -389,8 +377,7 @@ class rex_article_base
     // global $REX hier wichtig, damit in den Artikeln die Variable vorhanden ist!
     global $REX;
 
-    if ($this->template_id != 0 && $this->article_id != 0)
-    {
+    if ($this->template_id != 0 && $this->article_id != 0) {
       ob_start();
       ob_implicit_flush(0);
 
@@ -401,9 +388,7 @@ class rex_article_base
 
       $CONTENT = ob_get_contents();
       ob_end_clean();
-    }
-    else
-    {
+    } else {
       $CONTENT = 'no template';
     }
 
@@ -414,8 +399,7 @@ class rex_article_base
   {
     global $REX;
 
-    if (!$this->eval)
-    {
+    if (!$this->eval) {
       return "require rex_stream::factory('$path', \n<<<'STREAM_CONTENT'\n" . $content . "\nSTREAM_CONTENT\n);\n";
     }
 
@@ -445,15 +429,11 @@ class rex_article_base
 
     $REX_ACTION = rex_plugin::get('structure', 'content')->getProperty('rex_action', array());
 
-    foreach (rex_var::getVars() as $var)
-    {
-      if ($this->mode == 'edit')
-      {
+    foreach (rex_var::getVars() as $var) {
+      if ($this->mode == 'edit') {
         if (($this->function == 'add' && $sliceId == null) ||
-            ($this->function == 'edit' && $sliceId == $this->slice_id))
-        {
-          if (isset($REX_ACTION['SAVE']) && $REX_ACTION === false)
-          {
+            ($this->function == 'edit' && $sliceId == $this->slice_id)) {
+          if (isset($REX_ACTION['SAVE']) && $REX_ACTION === false) {
             // Wenn der aktuelle Slice nicht gespeichert werden soll
             // (via Action wurde das Nicht-Speichern-Flag gesetzt)
             // Dann die Werte manuell aus dem Post übernehmen
@@ -462,31 +442,24 @@ class rex_article_base
             $var->setACValues($sql, $REX_ACTION);
             $tmp = $var->getBEInput($sql, $content);
             $flushValues = true;
-          }
-          else
-          {
+          } else {
             // Slice normal parsen
             $tmp = $var->getBEInput($sql, $content);
             // Werte wieder zuruecksetzen, damit die naechsten Slices wieder
             // die Werte aus der DB verwenden
             $flushValues = true;
           }
-        }
-        else
-        {
+        } else {
           $tmp = $var->getBEOutput($sql, $content);
         }
-      }
-      else
-      {
+      } else {
         $tmp = $var->getFEOutput($sql, $content);
       }
 
       // Rückgabewert nur auswerten wenn auch einer vorhanden ist
       // damit $content nicht verfälscht wird
       // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
-      if ($tmp !== null)
-      {
+      if ($tmp !== null) {
         $content = $tmp;
       }
     }
@@ -504,15 +477,11 @@ class rex_article_base
     static $user_login = null;
 
     // UserId gibts nur im Backend
-    if ($user_id === null)
-    {
-      if (rex::getUser())
-      {
+    if ($user_id === null) {
+      if (rex::getUser()) {
         $user_id = rex::getUser()->getValue('user_id');
         $user_login = rex::getUser()->getValue('login');
-      }
-      else
-      {
+      } else {
         $user_id = '';
         $user_login = '';
       }
@@ -551,8 +520,7 @@ class rex_article_base
 
     // -- preg match redaxo://[ARTICLEID]-[CLANG] --
     preg_match_all('@redaxo://([0-9]*)\-([0-9]*)(.){1}/?@im', $content, $matches, PREG_SET_ORDER);
-    foreach ($matches as $match)
-    {
+    foreach ($matches as $match) {
       if (empty($match)) continue;
 
       $url = rex_getURL($match[1], $match[2]);
@@ -561,8 +529,7 @@ class rex_article_base
 
     // -- preg match redaxo://[ARTICLEID] --
     preg_match_all('@redaxo://([0-9]*)(.){1}/?@im', $content, $matches, PREG_SET_ORDER);
-    foreach ($matches as $match)
-    {
+    foreach ($matches as $match) {
       if (empty($match)) continue;
 
       $url = rex_getURL($match[1], $this->clang);

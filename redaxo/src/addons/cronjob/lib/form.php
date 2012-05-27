@@ -29,8 +29,7 @@ class rex_cronjob_form extends rex_form
   protected function validate()
   {
     $el = $this->getElement($this->mainFieldset, 'name');
-    if ($el->getValue() == '')
-    {
+    if ($el->getValue() == '') {
       return rex_i18n::msg('cronjob_error_no_name');
     }
     return true;

@@ -43,13 +43,11 @@ abstract class rex_error_handler
   {
     rex_logger::logException($exception);
 
-    while (ob_get_level())
-    {
+    while (ob_get_level()) {
       ob_end_clean();
     }
 
-    if (($user = rex_backend_login::createUser()) && $user->isAdmin())
-    {
+    if (($user = rex_backend_login::createUser()) && $user->isAdmin()) {
       // TODO add a beautiful error page with usefull debugging info
       $buf = '';
       $buf .= '<pre>';
@@ -57,9 +55,7 @@ abstract class rex_error_handler
       $buf .= '<b>' . get_class($exception) . ': ' . $exception->getMessage() . "</b>\n\n";
       $buf .= $exception->getTraceAsString();
       $buf .= '</pre>';
-    }
-    else
-    {
+    } else {
       // TODO small error page, without debug infos
       $buf = 'Oooops, an internal error occured!';
     }
@@ -79,18 +75,13 @@ abstract class rex_error_handler
    */
   static public function handleError($errno, $errstr, $errfile, $errline)
   {
-    if (in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE)))
-    {
+    if (in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE))) {
       throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-    }
-    else
-    {
-      if (ini_get('display_errors') && (error_reporting() & $errno) == $errno)
-      {
+    } else {
+      if (ini_get('display_errors') && (error_reporting() & $errno) == $errno) {
         echo '<b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b><br />";
       }
-      if (error_reporting() == 0)
-      {
+      if (error_reporting() == 0) {
         rex_logger::logError($errno, $errstr, $errfile, $errline);
       }
     }
@@ -101,11 +92,9 @@ abstract class rex_error_handler
    */
   static public function shutdown()
   {
-    if (self::$registered)
-    {
+    if (self::$registered) {
       $error = error_get_last();
-      if (is_array($error))
-      {
+      if (is_array($error)) {
         self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
       }
     }
@@ -118,8 +107,7 @@ abstract class rex_error_handler
    */
   static public function getErrorType($errno)
   {
-    switch ($errno)
-    {
+    switch ($errno) {
       case E_USER_ERROR:
       case E_ERROR:
       case E_COMPILE_ERROR:

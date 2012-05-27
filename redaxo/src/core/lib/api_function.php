@@ -66,24 +66,17 @@ abstract class rex_api_function extends rex_factory_base
 
     $api = rex_request('rex-api-call', 'string');
 
-    if ($api)
-    {
+    if ($api) {
       $apiClass = 'rex_api_' . $api;
-      if (class_exists($apiClass))
-      {
+      if (class_exists($apiClass)) {
         $apiImpl = new $apiClass();
-        if ($apiImpl instanceof rex_api_function)
-        {
+        if ($apiImpl instanceof rex_api_function) {
           self::$instance = $apiImpl;
           return $apiImpl;
-        }
-        else
-        {
+        } else {
           throw new rex_exception('$apiClass is expected to define a subclass of rex_api_function!');
         }
-      }
-      else
-      {
+      } else {
           throw new rex_exception('$apiClass "' . $apiClass . '" not found!');
       }
     }
@@ -96,37 +89,29 @@ abstract class rex_api_function extends rex_factory_base
    */
   static public function handleCall()
   {
-    if (static::hasFactoryClass())
-    {
+    if (static::hasFactoryClass()) {
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }
 
     $apiFunc = self::factory();
 
-    if ($apiFunc != null)
-    {
-      if ($apiFunc->published !== true)
-      {
-        if (rex::isBackend() !== true)
-        {
+    if ($apiFunc != null) {
+      if ($apiFunc->published !== true) {
+        if (rex::isBackend() !== true) {
           rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
           throw new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!');
         }
 
-        if (!rex::getUser())
-        {
+        if (!rex::getUser()) {
           rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
           throw new rex_api_exception('missing backend session to call api function ' . get_class($apiFunc) . '!');
         }
       }
 
-      try
-      {
+      try {
         $result = $apiFunc->execute();
         $apiFunc->result = $result;
-      }
-      catch (rex_api_exception $e)
-      {
+      } catch (rex_api_exception $e) {
         $message = $e->getMessage();
         $result = new rex_api_result(false, $message);
         $apiFunc->result = $result;
@@ -144,17 +129,12 @@ abstract class rex_api_function extends rex_factory_base
   {
     $apiFunc = self::factory();
     $message = '';
-    if ($apiFunc)
-    {
+    if ($apiFunc) {
       $apiResult = $apiFunc->getResult();
-      if ($apiResult)
-      {
-        if ($formatted)
-        {
+      if ($apiResult) {
+        if ($formatted) {
           $message = $apiResult->getFormattedMessage();
-        }
-        else
-        {
+        } else {
           $message = $apiResult->getMessage();
         }
       }
@@ -197,12 +177,9 @@ class rex_api_result
 
   public function getFormattedMessage()
   {
-    if ($this->isSuccessfull())
-    {
+    if ($this->isSuccessfull()) {
       return rex_view::info($this->message);
-    }
-    else
-    {
+    } else {
       return rex_view::warning($this->message);
     }
   }

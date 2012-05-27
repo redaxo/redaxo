@@ -2,16 +2,14 @@
 
 $content = '';
 
-if ($func == 'delete')
-{
+if ($func == 'delete') {
   $sql = rex_sql::factory();
   $sql->setQuery('DELETE FROM ' . rex::getTable('user_role') . ' WHERE id = ? LIMIT 1', array($id));
   $content .= rex_view::info(rex_i18n::msg('user_role_deleted'));
   $func = '';
 }
 
-if ($func == '')
-{
+if ($func == '') {
 
   $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role');
   $list->setCaption(rex_i18n::msg('user_role_caption'));
@@ -39,9 +37,7 @@ if ($func == '')
 
   echo rex_view::contentBlock($content, '', 'block');
 
-}
-else
-{
+} else {
   $label = $func == 'edit' ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
   $form = rex_form::factory(rex::getTablePrefix() . 'user_role', $label, 'id = ' . $id);
   $form->addParam('id', $id);
@@ -59,8 +55,7 @@ else
   $group = 'all';
   $fieldContainer->setActive($group);
 
-  foreach (array(rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS) as $permgroup)
-  {
+  foreach (array(rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS) as $permgroup) {
     $field = $fieldContainer->addGroupedField($group, 'select', $permgroup);
     $field->setLabel(rex_i18n::msg('user_' . $permgroup));
     $select = $field->getSelect();
@@ -70,17 +65,14 @@ else
     $select->addArrayOptions($perms);
   }
 
-  rex_extension::register('REX_FORM_INPUT_CLASS', function($params)
-  {
+  rex_extension::register('REX_FORM_INPUT_CLASS', function ($params) {
     return $params['inputType'] == 'perm_select' ? 'rex_form_perm_select_element' : null;
   });
 
   $fieldIds = array();
-  foreach (rex_complex_perm::getAll() as $key => $class)
-  {
+  foreach (rex_complex_perm::getAll() as $key => $class) {
     $params = $class::getFieldParams();
-    if (!empty($params))
-    {
+    if (!empty($params)) {
       $field = $fieldContainer->addGroupedField($group, 'perm_select', $key);
       $field->setLabel($params['label']);
       $field->setCheckboxLabel($params['all_label']);
@@ -102,8 +94,7 @@ else
 
   $content .= $form->get();
 
-  if ($fieldIds)
-  {
+  if ($fieldIds) {
     $content .= '
       <script type="text/javascript">
       <!--
