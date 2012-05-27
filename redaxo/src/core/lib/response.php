@@ -16,7 +16,7 @@ class rex_response
 
   private static $httpStatus = self::HTTP_OK;
 
-  static public function setStatus($httpStatus)
+  static protected function setStatus($httpStatus)
   {
     if(strpos($httpStatus, "\n") !== false){
       throw new rex_exception('Illegal http-status "'. $httpStatus .'", contains newlines');
