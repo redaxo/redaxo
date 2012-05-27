@@ -170,12 +170,13 @@ class rex_clang
     {
       rex_clang_service::generateCache();
     }
-    if(file_exists($file))
+    if(!file_exists($file))
     {
-      foreach(rex_file::getCache($file) as $id => $clang)
-      {
-        self::$clangs[$id] = new self($id, $clang['code'], $clang['name']);
-      }
+      throw new rex_exception('Clang cache file could not be generated');
+    }
+    foreach(rex_file::getCache($file) as $id => $clang)
+    {
+      self::$clangs[$id] = new self($id, $clang['code'], $clang['name']);
     }
     self::$cacheLoaded = true;
   }
