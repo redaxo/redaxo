@@ -64,7 +64,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $this->assertContainsPath($array, 'dir3');
   }
 
-  public function testFilterTxt()
+  public function testFilterTxtFiles()
   {
     $finder = rex_finder::factory($this->getPath())->recursive()->filterFiles('*.txt');
     $array = iterator_to_array($finder, true);
@@ -81,7 +81,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $this->assertContainsPath($array, 'dir3');
   }
 
-  public function testIgnoreTxt()
+  public function testIgnoreTxtFiles()
   {
     $finder = rex_finder::factory($this->getPath())->recursive()->ignoreFiles('*.txt');
     $array = iterator_to_array($finder, true);
@@ -95,6 +95,39 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $this->assertContainsPath($array, 'dir2/file4.yml');
     $this->assertContainsPath($array, 'dir2/dir3/file5.xxx');
     $this->assertContainsPath($array, 'dir3');
+  }
+
+  public function testFilterDirs()
+  {
+    $finder = rex_finder::factory($this->getPath())->recursive()->filterDirs('dir3');
+    $array = iterator_to_array($finder, true);
+
+    $this->assertEquals(7, count($finder), 'recursive iterator returns all elements of all levels filtered by filepattern, leave folders untouched');
+
+    $this->assertContainsPath($array, 'file1.txt');
+    $this->assertContainsPath($array, 'file2.txt');
+    $this->assertContainsPath($array, 'dir1/file3.txt');
+    $this->assertContainsPath($array, 'dir2/dir3');
+    $this->assertContainsPath($array, 'dir2/file4.yml');
+    $this->assertContainsPath($array, 'dir2/dir3/file5.xxx');
+    $this->assertContainsPath($array, 'dir3');
+  }
+
+  public function testIgnoreDirs()
+  {
+    $finder = rex_finder::factory($this->getPath())->recursive()->ignoreDirs('dir3');
+    $array = iterator_to_array($finder, true);
+
+    $this->assertEquals(8, count($finder), 'recursive iterator returns all elements of all levels but ignores a filepattern, leave folders untouched');
+
+    $this->assertContainsPath($array, 'file1.txt');
+    $this->assertContainsPath($array, 'file2.txt');
+    $this->assertContainsPath($array, 'dir1');
+    $this->assertContainsPath($array, 'dir1/dir');
+    $this->assertContainsPath($array, 'dir1/file3.txt');
+    $this->assertContainsPath($array, 'dir2');
+    $this->assertContainsPath($array, 'dir2/file4.yml');
+    $this->assertContainsPath($array, 'dir2/dir3/file5.xxx');
   }
 
 //   public function testIgnoreAllDirs()
