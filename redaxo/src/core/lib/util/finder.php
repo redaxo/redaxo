@@ -2,21 +2,68 @@
 
 class rex_finder extends rex_factory_base implements IteratorAggregate, Countable
 {
+  /**
+   * path to the actual dir
+   *
+   * @var string
+   */
   private $baseDir;
 
+  /**
+   * Flag, whether $baseDir should be scanned recursively
+   *
+   * @var boolean
+   */
   private $recursive;
+  /**
+   * One of the RecursiveIteratorIterator::* constants
+   *
+   * @var int
+   */
   private $recursiveMode;
 
+  /**
+   * @var integer|callable rex_finder_sorter sorttypes
+   */
   private $sort;
 
+  /**
+   * glob filters for files
+   *
+   * @var array
+   */
   private $filterFiles = array();
+  /**
+   * glob filters for directories
+   *
+   * @var array
+   */
   private $filterDirs = array();
 
+  /**
+   * glob based ignore list for files
+   *
+   * @var array
+   */
   private $ignoreFiles = array();
+  /**
+   * glob based ignore list for directories
+   *
+   * @var array
+   */
   private $ignoreDirs = array();
 
+  /**
+   * Flag, wheter system stuff should be ignored
+   * @var boolean
+   */
   private $ignoreSystemStuff = true;
 
+  /**
+   * Contructor
+   *
+   * @param string $baseDir
+   */
   private function __construct($baseDir)
   {
     $this->baseDir = $baseDir;
@@ -30,7 +77,7 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
   /**
    * Use this factory method to allow notations like rex_finder::factory('/my-path/...')->recursive()->filterFiles().. because new rex_finder()->myMethod is only allowed in PHP5.4+
    *
-   * @param string $baseDir
+   * @param string $baseDir Path to a directory
    *
    * @return self
    */
@@ -46,6 +93,8 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
   }
 
   /**
+   * Activate/Deactivate recursive directory scanning
+   *
    * @param boolean $recursive
    *
    * @return self
@@ -58,6 +107,8 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
   }
 
   /**
+   * Fetch directory contents before recurse its subdirectories.
+   *
    * @return self
    */
   public function selfFirst()
@@ -68,6 +119,8 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
   }
 
   /**
+   * Fetch child directories before their parent directory.
+   *
    * @return self
    */
   public function childFirst()
@@ -79,6 +132,8 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
 
 
   /**
+   * Find only files which match the given glob pattern
+   *
    * @param string $glob
    *
    * @return self
@@ -91,6 +146,8 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
   }
 
   /**
+   * Find only directories which match the given glob pattern
+   *
    * @param string $glob
    *
    * @return self
@@ -103,6 +160,8 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
   }
 
   /**
+   * Ignore all files which match the given glob pattern
+   *
    * @param string $glob
    *
    * @return self
@@ -115,6 +174,8 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
   }
 
   /**
+   * Ignore all directories which match the given glob pattern
+   *
    * @param string $glob
    *
    * @return self
@@ -127,6 +188,8 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
   }
 
   /**
+   * Activate/Deactivate if system/dot/vcs-metadata files should be ignored
+   *
    * @param boolean $ignore
    *
    * @return self
@@ -139,9 +202,9 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
   }
 
   /**
-   * sort the result
+   * Sort the result
    *
-   * @param integer|callback $sort     The sort type (rex_finder_sorter::SORT_BY_NAME, rex_finder_sorter::SORT_BY_TYPE, ... or a PHP callback)
+   * @param integer|callable $sort The sort type (rex_finder_sorter::SORT_BY_NAME, rex_finder_sorter::SORT_BY_TYPE, ... or a PHP callback)
    */
   public function sort($sort) {
     $this->sort = $sort;
