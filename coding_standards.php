@@ -159,9 +159,11 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
 {
   const
     MSG_LOWERCASE_CONTROL_KEYWORD = 'replace control keywords by their lowercase variants',
-    MSG_SPACE_AFTER_CONTROL_KEYWORD = 'add space after control keywords ("if", "for" etc.)',
+    MSG_SPACE_BEHIND_CONTROL_KEYWORD = 'add space after control keywords ("if", "for" etc.)',
     MSG_SPACE_BEFORE_CONTROL_KEYWORD = 'add space before "else", "catch" and "use"',
-    MSG_SPACES_AROUND_BINARY_OPERATOR = 'add spaces around binary operators ("=", "+", "&&" etc.)';
+    MSG_SPACES_AROUND_BINARY_OPERATOR = 'add spaces around binary operators ("=", "+", "&&" etc.)',
+    MSG_VISIBILITY = 'add visibility to methods/properties',
+    MSG_ATTRIBUTES_ORDER = 'reorder function/property attributes (final, abstract, static, visibility)';
 
   protected
     $checkNamingConventions,
@@ -397,14 +399,14 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
       case T_THROW:
         $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
         $this->addToken($token);
-        $this->checkSpaceBehind(self::MSG_SPACE_AFTER_CONTROL_KEYWORD);
+        $this->checkSpaceBehind(self::MSG_SPACE_BEHIND_CONTROL_KEYWORD);
         $this->checkNoParanthesis(';');
         break;
 
       case T_CLONE:
         $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
         $this->addToken($token);
-        $this->checkSpaceBehind(self::MSG_SPACE_AFTER_CONTROL_KEYWORD);
+        $this->checkSpaceBehind(self::MSG_SPACE_BEHIND_CONTROL_KEYWORD);
         $this->checkNoParanthesis(array(';', ','));
         break;
 
@@ -418,7 +420,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
       case T_SWITCH:
         $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
         $this->addToken($token);
-        $this->checkSpaceBehind(self::MSG_SPACE_AFTER_CONTROL_KEYWORD);
+        $this->checkSpaceBehind(self::MSG_SPACE_BEHIND_CONTROL_KEYWORD);
         $this->searchFor('(', ')');
         $this->checkBraceInSameLine();
         break;
@@ -426,7 +428,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
       case T_CASE:
         $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
         $this->addToken($token);
-        $this->checkSpaceBehind(self::MSG_SPACE_AFTER_CONTROL_KEYWORD);
+        $this->checkSpaceBehind(self::MSG_SPACE_BEHIND_CONTROL_KEYWORD);
         $this->checkNoParanthesis(':');
         break;
 
@@ -451,24 +453,39 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
       case T_FUNCTION:
         $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
         $this->addToken($token);
-        $this->checkSpaceBehind(self::MSG_SPACE_AFTER_CONTROL_KEYWORD);
+        $this->checkSpaceBehind(self::MSG_SPACE_BEHIND_CONTROL_KEYWORD);
         $this->skipWhitespace();
         $next = $this->nextToken();
         if ($next->type === T_STRING) {
           if ($this->class && !$this->method) {
+            if (preg_match('/(?:(?<finalabstract>final |abstract )|(?<static>static )|(?<visibility>private |protected |public ))*function $/', $this->content, $match)) {
+              if (!isset($match['visibility'])) {
+                $this->addNonFixable(self::MSG_VISIBILITY);
+              } else {
+                $content = (isset($match['finalabstract']) ? $match['finalabstract'] : '')
+                  . (isset($match['static']) ? $match['static'] : '')
+                  . $match['visibility'] . 'function ';
+                if ($content !== $match[0]) {
+                  $this->content = substr_replace($this->content, $content, -strlen($content));
+                  $this->addFixable(self::MSG_ATTRIBUTES_ORDER);
+                }
+              }
+            }
             $this->method = $next->text;
             if ($this->checkNamingConventions && !preg_match('/^_{0,2}[a-z0-9]*$/i', $this->method)) {
               $msg = $this->method === $this->class ? 'use __construct() for constructor method' : 'use camelCase for method names, no underscores';
               $this->addNonFixable($msg);
             }
             $this->addToken($next);
+            $this->checkNoSpaceBehind();
             $this->searchFor('{', '}');
             $this->method = null;
           } else {
-            $this->function = true;
+            $this->function++;
             $this->addToken($next);
+            $this->checkNoSpaceBehind();
             $this->searchFor('{', '}');
-            $this->function = false;
+            $this->function--;
           }
           break;
         } elseif ($next->type === rex_php_token::SIMPLE && $next->text === '(') {
@@ -485,7 +502,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
           if ($next->type === T_WHITESPACE && $nextNext->type === T_USE) {
             $this->fixToken($next);
             $this->fixToken($nextNext);
-            $this->checkSpaceBehind(self::MSG_SPACE_AFTER_CONTROL_KEYWORD);
+            $this->checkSpaceBehind(self::MSG_SPACE_BEHIND_CONTROL_KEYWORD);
             $this->searchFor('(', ')');
           } else {
             $this->decrementTokenIndex();
@@ -498,6 +515,23 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
           break;
         }
         $this->decrementTokenIndex();
+        break;
+
+      case T_VARIABLE:
+        if ($this->class && !$this->method) {
+          if (preg_match('/(?:(?<static> static)|(?<visibility> private| protected| public))*(?<space>\s*)$/', $this->content, $match)) {
+            if (!isset($match['visibility'])) {
+              $this->addNonFixable(self::MSG_VISIBILITY);
+            } else {
+              $content = (isset($match['static']) ? $match['static'] : '') . $match['visibility'] . $match['space'];
+              if ($content !== $match[0]) {
+                $this->content = substr_replace($this->content, $content, -strlen($content));
+                $this->addFixable(self::MSG_ATTRIBUTES_ORDER);
+              }
+            }
+          }
+        }
+        $this->addToken($token);
         break;
 
       case T_CLASS:
@@ -771,6 +805,16 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
     if ($next->type !== T_WHITESPACE && !($next->type === rex_php_token::SIMPLE && $next->text === ';')) {
       $this->addToken(new rex_php_token(T_WHITESPACE, ' '));
       $this->addFixable($msg);
+    }
+    $this->decrementTokenIndex();
+  }
+
+  private function checkNoSpaceBehind()
+  {
+    $next = $this->nextToken();
+    if ($next->type === T_WHITESPACE) {
+      $this->addFixable('remove space behind function names');
+      return;
     }
     $this->decrementTokenIndex();
   }
