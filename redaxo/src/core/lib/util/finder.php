@@ -23,6 +23,19 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
   private $recursiveMode;
 
   /**
+   * Flag, wheter only files should be matched
+   *
+   * @var boolean
+   */
+  private $filesOnly;
+  /**
+   * Flag, wheter only directories should be matched
+   *
+   * @var boolean
+   */
+  private $dirsOnly;
+
+  /**
    * @var integer|callable rex_finder_sorter sorttypes
    */
   private $sort;
@@ -130,6 +143,29 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
     return $this;
   }
 
+  /**
+   * Fetch only files, but no directories.
+   *
+   * @return self
+   */
+  public function filesOnly($filesOnly = true)
+  {
+    $this->filesOnly = $filesOnly;
+
+    return $this;
+  }
+  /**
+   * Fetch only directories, but no directories.
+   *
+   * @return self
+   */
+  public function dirsOnly($dirsOnly = true)
+  {
+    $this->dirsOnly = $dirsOnly;
+
+    return $this;
+  }
+
 
   /**
    * Find only files which match the given glob pattern
@@ -221,6 +257,8 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
     }
 
     $iterator = new rex_finder_filter( $iterator );
+    $iterator->filesOnly = $this->filesOnly;
+    $iterator->dirsOnly = $this->dirsOnly;
     $iterator->filterDirs = $this->filterDirs;
     $iterator->filterFiles = $this->filterFiles;
     $iterator->ignoreDirs = $this->ignoreDirs;
@@ -243,6 +281,9 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
 // private utility class
 class rex_finder_filter extends FilterIterator
 {
+  public $dirsOnly = false;
+  public $filesOnly = false;
+
   public $filterFiles = array();
   public $filterDirs = array();
 
@@ -281,6 +322,10 @@ class rex_finder_filter extends FilterIterator
         return false;
       }
     }
+
+    // check fast filters
+    if ($this->filesOnly && !$current->isFile()) return false;
+    if ($this->dirsOnly && !$current->isDir()) return false;
 
     $matched = true;
     // check the whitelist

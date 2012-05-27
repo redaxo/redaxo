@@ -36,7 +36,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
   {
     $finder = rex_finder::factory($this->getPath());
     $array = iterator_to_array($finder, true);
-    $this->assertEquals(5, count($finder), 'default iterator returns all elements of first level');
+    $this->assertEquals(5, count($finder), 'default finder returns all elements of first level');
 
     $this->assertContainsPath($array, 'file1.txt');
     $this->assertContainsPath($array, 'file2.txt');
@@ -166,5 +166,56 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
 
       $i++;
     }
+  }
+
+  public function testFilesOnly()
+  {
+    $finder = rex_finder::factory($this->getPath())->filesOnly();
+    $array = iterator_to_array($finder, true);
+
+    $this->assertEquals(2, count($finder), 'finder returns only files');
+
+    $this->assertContainsPath($array, 'file1.txt');
+    $this->assertContainsPath($array, 'file2.txt');
+  }
+
+  public function testFilesOnlyRecursive()
+  {
+    $finder = rex_finder::factory($this->getPath())->recursive()->filesOnly();
+    $array = iterator_to_array($finder, true);
+
+    $this->assertEquals(5, count($finder), 'finder returns only files, recursively');
+
+    $this->assertContainsPath($array, 'file1.txt');
+    $this->assertContainsPath($array, 'file2.txt');
+    $this->assertContainsPath($array, 'dir1/file3.txt');
+    $this->assertContainsPath($array, 'dir2/file4.yml');
+    $this->assertContainsPath($array, 'dir2/dir3/file5.xxx');
+  }
+
+  public function testDirsOnly()
+  {
+    $finder = rex_finder::factory($this->getPath())->dirsOnly();
+    $array = iterator_to_array($finder, true);
+
+    $this->assertEquals(3, count($finder), 'finder returns only dirs of a folder');
+
+    $this->assertContainsPath($array, 'dir1');
+    $this->assertContainsPath($array, 'dir2');
+    $this->assertContainsPath($array, 'dir3');
+  }
+
+  public function testDirsOnlyRecursive()
+  {
+    $finder = rex_finder::factory($this->getPath())->recursive()->dirsOnly();
+    $array = iterator_to_array($finder, true);
+
+    $this->assertEquals(5, count($finder), 'finder returns only dirs, recursively');
+
+    $this->assertContainsPath($array, 'dir1');
+    $this->assertContainsPath($array, 'dir1/dir');
+    $this->assertContainsPath($array, 'dir2');
+    $this->assertContainsPath($array, 'dir2/dir3');
+    $this->assertContainsPath($array, 'dir3');
   }
 }
