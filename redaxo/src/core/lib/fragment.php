@@ -25,7 +25,7 @@ class rex_fragment
    *
    * @param array $params A array of key-value pairs to pass as local parameters
    */
-  public function rex_fragment(array $vars = array())
+  public function __construct(array $vars = array())
   {
     $this->vars = $vars;
   }
