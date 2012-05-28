@@ -99,8 +99,8 @@ function rex_is_writable($item)
 }
 
 /**
-* @deprecated 5.0
-*/
+ * @deprecated 5.0
+ */
 function _rex_is_writable_info($is_writable, $item = '')
 {
   $state = true;
@@ -135,8 +135,8 @@ function _rex_is_writable_info($is_writable, $item = '')
 }
 
 /**
-* @deprecated 5.0
-*/
+ * @deprecated 5.0
+ */
 function _rex_is_writable($item)
 {
   // Fehler unterdrücken, falls keine Berechtigung

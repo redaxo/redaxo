@@ -83,10 +83,10 @@ function rex_hasBackendSession()
 }
 
 /**
-* @see rex_view::info()
-*
-* @deprecated 5.0
-*/
+ * @see rex_view::info()
+ *
+ * @deprecated 5.0
+ */
 function rex_info($message, $cssClass = null, $sorround_tag = null)
 {
   return rex_view::info($message, $cssClass, $sorround_tag);
@@ -153,22 +153,22 @@ function rex_content_block($content)
 }
 
 /**
-* @see rex_view::title()
-*
-* @deprecated 5.0
-*/
+ * @see rex_view::title()
+ *
+ * @deprecated 5.0
+ */
 function rex_title($head, $subtitle = '')
 {
   echo rex_view::title($head, $subtitle);
 }
 
 /**
-* Escaped einen String
-*
-* @param $string Zu escapender String
-*
-* @deprecated 5.0
-*/
+ * Escaped einen String
+ *
+ * @param $string Zu escapender String
+ *
+ * @deprecated 5.0
+ */
 function rex_addslashes($string, $flag = '\\\'\"')
 {
   if ($flag == '\\\'\"') {
@@ -209,8 +209,8 @@ function rex_highlight_string($string, $return = false)
 /**
  * @see rex_string::highlight()
  *
-* @deprecated 5.0
-*/
+ * @deprecated 5.0
+ */
 function rex_highlight_file($filename, $return = false)
 {
   $s = '<p class="rex-code">' . highlight_file($filename, true) . '</p>';
@@ -231,10 +231,10 @@ function rex_isXmlHttpRequest()
 }
 
 /**
-* @see rex_sql_util::organizePriorities()
-*
-* @deprecated 5.0
-*/
+ * @see rex_sql_util::organizePriorities()
+ *
+ * @deprecated 5.0
+ */
 function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field = 'id', $startBy = 1)
 {
   rex_sql_util::organizePriorities($tableName, $priorColumnName, $whereCondition, $orderBy, $id_field, $startBy);

@@ -35,8 +35,8 @@ abstract class rex_complex_perm
   /**
    * Constructor
    *
-   * @param rex_user $user User instance
-   * @param mixed $perms Permissions
+   * @param rex_user $user  User instance
+   * @param mixed    $perms Permissions
    */
   protected function __construct(rex_user $user, $perms)
   {
@@ -67,7 +67,7 @@ abstract class rex_complex_perm
   /**
    * Registers a new complex perm class
    *
-   * @param string $key Key for the complex perm
+   * @param string       $key   Key for the complex perm
    * @param unknown_type $class Class name
    * @throws rex_exception
    */
@@ -80,9 +80,9 @@ abstract class rex_complex_perm
   }
 
   /**
-    * Returns all complex perm classes
-    *
-    * @return array Class names
+   * Returns all complex perm classes
+   *
+   * @return array Class names
    */
   static public function getAll()
   {
@@ -92,9 +92,9 @@ abstract class rex_complex_perm
   /**
    * Returns the complex perm
    *
-   * @param rex_user $user User instance
-   * @param string $key Complex perm key
-   * @param mixed $perms Permissions
+   * @param rex_user $user  User instance
+   * @param string   $key   Complex perm key
+   * @param mixed    $perms Permissions
    */
   static public function get(rex_user $user, $key, $perms = array())
   {
@@ -108,7 +108,7 @@ abstract class rex_complex_perm
   /**
    * Should be called if an item is removed
    *
-   * @param string $key Key
+   * @param string $key  Key
    * @param string $item Item
    */
   static public function removeItem($key, $item)
@@ -119,12 +119,12 @@ abstract class rex_complex_perm
 
 
   /**
-  * Should be called if an item is replaced
-  *
-  * @param string $key Key
-  * @param string $item Old item
-  * @param string $new New item
-  */
+   * Should be called if an item is replaced
+   *
+   * @param string $key  Key
+   * @param string $item Old item
+   * @param string $new  New item
+   */
   static public function replaceItem($key, $item, $new)
   {
     rex_extension::registerPoint('COMPLEX_PERM_REPLACE_ITEM', '', array('key' => $key, 'item' => $item, 'new' => $new), true);

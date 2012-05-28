@@ -215,8 +215,8 @@ class rex_article_editor extends rex_article
   /**
    * Wraps the output of a module
    *
-   * @param integer $moduleId The id of the module
-   * @param string $moduleOutput The output of the module
+   * @param integer $moduleId     The id of the module
+   * @param string  $moduleOutput The output of the module
    */
   private function getWrappedModuleOutput($moduleId, $moduleOutput)
   {

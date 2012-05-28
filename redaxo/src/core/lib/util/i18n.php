@@ -15,7 +15,7 @@ class rex_i18n
   /**
    * Switches the current locale
    *
-   * @param string $locale The new locale
+   * @param string  $locale       The new locale
    * @param boolean $phpSetLocale When TRUE, php function setlocale() will be called
    *
    * @return string The last locale
@@ -119,7 +119,7 @@ class rex_i18n
   /**
    * Adds a new translation to the catalogue
    *
-   * @param string $key Key
+   * @param string $key     Key
    * @param string $message Message for the key
    */
   static public function addMsg($key, $msg)
@@ -150,9 +150,9 @@ class rex_i18n
   /**
    * Translates the $text, if it begins with 'translate:', else it returns $text
    *
-   * @param string $text The text for translation.
-   * @param boolean $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
-   * @param callable $i18nFunction Function that returns the translation for the i18n key
+   * @param string   $text                 The text for translation.
+   * @param boolean  $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
+   * @param callable $i18nFunction         Function that returns the translation for the i18n key
    *
    * @return string Translated text
    */
@@ -177,9 +177,9 @@ class rex_i18n
   /**
    * Translates all array elements
    *
-   * @param array $text The Array of Strings for translation.
-   * @param boolean $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
-   * @param callable $i18nFunction Function that returns the translation for the i18n key
+   * @param array    $text                 The Array of Strings for translation.
+   * @param boolean  $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
+   * @param callable $i18nFunction         Function that returns the translation for the i18n key
    */
   static public function translateArray($array, $use_htmlspecialchars = true, $i18nFunction = 'self::msg')
   {

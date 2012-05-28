@@ -56,8 +56,8 @@ class rex_type_test extends PHPUnit_Framework_TestCase
   }
 
   /**
-  * @dataProvider castWrongVartypeProvider
-  */
+   * @dataProvider castWrongVartypeProvider
+   */
   public function testCastWrongVartype($vartype)
   {
     $this->setExpectedException('rex_exception');

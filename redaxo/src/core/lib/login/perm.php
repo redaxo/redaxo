@@ -22,8 +22,8 @@ abstract class rex_perm
   /**
    * Registers a new permission
    *
-   * @param string $perm Perm key
-   * @param string $name Perm name
+   * @param string $perm  Perm key
+   * @param string $name  Perm name
    * @param string $group Perm group, possible values are rex_perm::GENERAL, rex_perm::OPTIONS and rex_perm::EXTRAS
    */
   static public function register($perm, $name = null, $group = self::GENERAL)

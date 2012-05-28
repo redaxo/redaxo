@@ -278,7 +278,7 @@ class rex_sql extends rex_factory_base implements Iterator
    * Sets the raw value of a column
    *
    * @param string $colName Name of the column
-   * @param string $value The raw value
+   * @param string $value   The raw value
    * @return rex_sql the current rex_sql object
    */
   public function setRawValue($colName, $value)
@@ -293,7 +293,7 @@ class rex_sql extends rex_factory_base implements Iterator
    * Set the value of a column
    *
    * @param string $colName Name of the column
-   * @param mixed $value The value
+   * @param mixed  $value   The value
    * @return rex_sql the current rex_sql object
    */
   public function setValue($colName, $value)
@@ -305,12 +305,12 @@ class rex_sql extends rex_factory_base implements Iterator
   }
 
   /**
-  * Set the array value of a column (json encoded)
-  *
-  * @param string $colName Name of the column
-  * @param array $value The value
-  * @return rex_sql the current rex_sql object
-  */
+   * Set the array value of a column (json encoded)
+   *
+   * @param string $colName Name of the column
+   * @param array  $value   The value
+   * @return rex_sql the current rex_sql object
+   */
   public function setArrayValue($colName, array $value)
   {
     return $this->setValue($colName, json_encode($value));
@@ -398,7 +398,7 @@ class rex_sql extends rex_factory_base implements Iterator
    * AND/OR opartors are alternated depending on $level
    *
    * @param array $arrFields
-   * @param int $level
+   * @param int   $level
    */
   private function buildWhereArg(array $arrFields, $level = 0)
   {
@@ -457,11 +457,11 @@ class rex_sql extends rex_factory_base implements Iterator
   }
 
   /**
-  * Returns the array value of a (json encoded) column
-  *
-  * @param string $colName Name of the column
-  * @return array
-  */
+   * Returns the array value of a (json encoded) column
+   *
+   * @param string $colName Name of the column
+   * @return array
+   */
   public function getArrayValue($colName)
   {
     return json_decode($this->getValue($colName), true);

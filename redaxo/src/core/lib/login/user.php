@@ -60,10 +60,10 @@ class rex_user
   }
 
   /**
-  * Returns the name
-  *
-  * @return string Name
-  */
+   * Returns the name
+   *
+   * @return string Name
+   */
   public function getName()
   {
     return $this->sql->getValue('name');
@@ -90,20 +90,20 @@ class rex_user
   }
 
   /**
-  * Returns the start page
-  *
-  * @return string Start page
-  */
+   * Returns the start page
+   *
+   * @return string Start page
+   */
   public function getStartPage()
   {
     return $this->sql->getValue('startpage');
   }
 
   /**
-  * Returns if the user has a role
-  *
-  * @return boolean
-  */
+   * Returns if the user has a role
+   *
+   * @return boolean
+   */
   public function hasRole()
   {
     if (self::$roleClass && !is_object($this->role) && ($role = $this->sql->getValue('role'))) {
@@ -140,11 +140,11 @@ class rex_user
   }
 
   /**
-  * Returns the complex perm for the user
-  *
-  *  @param string $key Complex perm key
-  * @return rex_complex_perm Complex perm
-  */
+   * Returns the complex perm for the user
+   *
+   * @param string $key Complex perm key
+   * @return rex_complex_perm Complex perm
+   */
   public function getComplexPerm($key)
   {
     if ($this->hasRole()) {

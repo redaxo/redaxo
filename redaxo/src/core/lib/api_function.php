@@ -162,9 +162,9 @@ abstract class rex_api_function extends rex_factory_base
 class rex_api_result
 {
   /**
-  * Flag indicating if the api function was executed successfully
-  * @var boolean
-  */
+   * Flag indicating if the api function was executed successfully
+   * @var boolean
+   */
   private $succeeded = false;
 
   private $message;

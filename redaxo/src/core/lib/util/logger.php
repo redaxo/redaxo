@@ -26,8 +26,8 @@ abstract class rex_logger extends rex_factory_base
   /**
    * Logs a error message
    *
-   * @param integer $errno The error code to log
-   * @param string  $errstr The error message
+   * @param integer $errno   The error code to log
+   * @param string  $errstr  The error message
    * @param string  $errfile The file in which the error occured
    * @param integer $errline The line of the file in which the error occured
    */

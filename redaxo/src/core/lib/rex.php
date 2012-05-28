@@ -51,8 +51,8 @@ class rex
   /**
    * Sets a property
    *
-   * @param string $key Key of the property
-   * @param mixed $value Value for the property
+   * @param string $key   Key of the property
+   * @param mixed  $value Value for the property
    *
    * @return boolean TRUE when an existing value was overridden, otherwise FALSE
    *
@@ -71,8 +71,8 @@ class rex
   /**
    * Returns a property
    *
-   * @param string $key Key of the property
-   * @param mixed $default Default value, will be returned if the property isn't set
+   * @param string $key     Key of the property
+   * @param mixed  $default Default value, will be returned if the property isn't set
    *
    * @return the value for $key or $default if $key cannot be found
    *
@@ -208,7 +208,7 @@ class rex
    * Returns the title tag and if the property "use_accesskeys" is true, the accesskey tag
    *
    * @param string $title Title
-   * @param string $key Key for the accesskey
+   * @param string $key   Key for the accesskey
    * @return string
    */
   static public function getAccesskey($title, $key)

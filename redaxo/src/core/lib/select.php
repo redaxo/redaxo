@@ -82,14 +82,14 @@ class rex_select
   }
 
   /**
-  * select style
-  * Es ist moeglich sowohl eine Styleklasse als auch einen Style zu uebergeben.
-  *
-  * Aufrufbeispiel:
-  * $sel_media->setStyle('class="inp100"');
-  * und/oder
-  * $sel_media->setStyle("width:150px;");
-  */
+   * select style
+   * Es ist moeglich sowohl eine Styleklasse als auch einen Style zu uebergeben.
+   *
+   * Aufrufbeispiel:
+   * $sel_media->setStyle('class="inp100"');
+   * und/oder
+   * $sel_media->setStyle("width:150px;");
+   */
   public function setStyle($style)
   {
     if (strpos($style, 'class=') !== false) {

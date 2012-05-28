@@ -45,8 +45,8 @@ class rex_config
    * The set-methode returns TRUE when an existing value was overridden, otherwise FALSE is returned.
    *
    * @param string $namespace A namespace e.g. an addon name
-   * @param string $key The associated key
-   * @param mixed $value The value to save
+   * @param string $key       The associated key
+   * @param mixed  $value     The value to save
    *
    * @return boolean TRUE when an existing value was overridden, otherwise FALSE
    *
@@ -92,8 +92,8 @@ class rex_config
    * If no value can be found for the given key/namespace combination $default is returned.
    *
    * @param string $namespace A namespace e.g. an addon name
-   * @param string $key The associated key
-   * @param mixed $default Default return value if no associated-value can be found
+   * @param string $key       The associated key
+   * @param mixed  $default   Default return value if no associated-value can be found
    *
    * @return the value for $key or $default if $key cannot be found in the given $namespace
    *
@@ -120,7 +120,7 @@ class rex_config
    * Returns if the given key is set.
    *
    * @param string $namespace A namespace e.g. an addon name
-   * @param string $key The associated key
+   * @param string $key       The associated key
    *
    * @return boolean TRUE if the key is set, otherwise FALSE
    *
@@ -150,7 +150,7 @@ class rex_config
    * The key might also be associated to a given namespace.
    *
    * @param string $namespace A namespace e.g. an addon name
-   * @param string $key The associated key
+   * @param string $key       The associated key
    *
    * @return boolean TRUE if the value was found and removed, otherwise FALSE
    *

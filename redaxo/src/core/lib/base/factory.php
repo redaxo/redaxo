@@ -71,8 +71,8 @@ abstract class rex_factory_base
   /**
    * Calls the factory class with the given method and arguments
    *
-   * @param string $method Method name
-   * @param array $arguments Array of arguments
+   * @param string $method    Method name
+   * @param array  $arguments Array of arguments
    * @return mixed Result of the callback
    */
   static protected function callFactoryClass($method, array $arguments)

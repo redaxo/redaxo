@@ -55,7 +55,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
  * @param $rex_file_category
  * @param $FILEINFOS
  * @param $userlogin
-*/
+ */
 function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin = null, $doSubindexing = true)
 {
 
@@ -157,7 +157,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
  * @param $rex_file_category
  * @param $FILEINFOS
  * @param $userlogin
-*/
+ */
 function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 {
 

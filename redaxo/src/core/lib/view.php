@@ -120,47 +120,47 @@ class rex_view
 
 
   /**
-  * Ausgabe des Seitentitels
-  *
-  *
-  * Beispiel für einen Seitentitel
-  *
-  * <code>
-  * $subpages = array(
-  *  array( ''      , 'Index'),
-  *  array( 'lang'  , 'Sprachen'),
-  *  array( 'groups', 'Gruppen')
-  * );
-  *
-  * echo rex_view::title( 'Headline', $subpages)
-  * </code>
-  *
-  *
-  * Beispiel für einen Seitentitel mit Rechteprüfung
-  *
-  * <code>
-  * $subpages = array(
-  *  array( ''      , 'Index'   , 'index_perm'),
-  *  array( 'lang'  , 'Sprachen', 'lang_perm'),
-  *  array( 'groups', 'Gruppen' , 'group_perm')
-  * );
-  *
-  * echo rex_view::title( 'Headline', $subpages)
-  * </code>
-  *
-  *
-  * Beispiel für einen Seitentitel eigenen Parametern
-  *
-  * <code>
-  * $subpages = array(
-  *  array( ''      , 'Index'   , '', array('a' => 'b')),
-  *  array( 'lang'  , 'Sprachen', '', 'a=z&x=12'),
-  *  array( 'groups', 'Gruppen' , '', array('clang' => rex_clang::getId()))
-  * );
-  *
-  * echo rex_view::title( 'Headline', $subpages)
-  * </code>
-  */
+   * Ausgabe des Seitentitels
+   *
+   *
+   * Beispiel für einen Seitentitel
+   *
+   * <code>
+   * $subpages = array(
+   *  array( ''      , 'Index'),
+   *  array( 'lang'  , 'Sprachen'),
+   *  array( 'groups', 'Gruppen')
+   * );
+   *
+   * echo rex_view::title( 'Headline', $subpages)
+   * </code>
+   *
+   *
+   * Beispiel für einen Seitentitel mit Rechteprüfung
+   *
+   * <code>
+   * $subpages = array(
+   *  array( ''      , 'Index'   , 'index_perm'),
+   *  array( 'lang'  , 'Sprachen', 'lang_perm'),
+   *  array( 'groups', 'Gruppen' , 'group_perm')
+   * );
+   *
+   * echo rex_view::title( 'Headline', $subpages)
+   * </code>
+   *
+   *
+   * Beispiel für einen Seitentitel eigenen Parametern
+   *
+   * <code>
+   * $subpages = array(
+   *  array( ''      , 'Index'   , '', array('a' => 'b')),
+   *  array( 'lang'  , 'Sprachen', '', 'a=z&x=12'),
+   *  array( 'groups', 'Gruppen' , '', array('clang' => rex_clang::getId()))
+   * );
+   *
+   * echo rex_view::title( 'Headline', $subpages)
+   * </code>
+   */
   static public function title($head, $subtitle = '')
   {
     global $article_id, $category_id, $page;

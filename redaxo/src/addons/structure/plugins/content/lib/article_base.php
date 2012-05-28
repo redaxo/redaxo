@@ -196,7 +196,7 @@ class rex_article_base
   /**
    * Outputs a slice
    *
-   * @param rex_sql $artDataSql A rex_sql instance containing all slice and module data
+   * @param rex_sql $artDataSql    A rex_sql instance containing all slice and module data
    * @param integer $moduleIdToAdd The id of the module, which was selected using the ModuleSelect
    */
   protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
@@ -350,8 +350,8 @@ class rex_article_base
   /**
    * Method which gets called, before the slices of the article are processed
    *
-   * @param string $articleContent The content of the article
-   * @param integer $module_id A module id
+   * @param string  $articleContent The content of the article
+   * @param integer $module_id      A module id
    */
   protected function preArticle($articleContent, $module_id)
   {
@@ -362,8 +362,8 @@ class rex_article_base
   /**
    * Method which gets called, after all slices have been processed
    *
-   * @param string $articleContent The content of the article
-   * @param integer $module_id A module id
+   * @param string  $articleContent The content of the article
+   * @param integer $module_id      A module id
    */
   protected function postArticle($articleContent, $module_id)
   {

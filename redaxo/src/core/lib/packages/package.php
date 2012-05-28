@@ -283,7 +283,7 @@ abstract class rex_package implements rex_package_interface
   /**
    * Returns the packages by the given method
    *
-   * @param string $method Method
+   * @param string $method       Method
    * @param string $pluginMethod Optional other method for plugins
    * @return array[rex_package]
    */

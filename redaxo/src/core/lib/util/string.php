@@ -91,8 +91,8 @@ class rex_string
    *
    * @link http://www.php.net/manual/en/function.version-compare.php
    *
-   * @param string $version1 First version number
-   * @param string $version1 Second version number
+   * @param string $version1   First version number
+   * @param string $version1   Second version number
    * @param string $comparator Optional comparator
    * @return integer|boolean
    */

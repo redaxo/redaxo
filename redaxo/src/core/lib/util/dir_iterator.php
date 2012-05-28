@@ -36,8 +36,8 @@ class rex_dir_iterator extends RecursiveFilterIterator
   /**
    * Ignores directories
    *
-   * @param string|array $dirnames Directory name or an array of directory names
-   * @param boolean $recursive When FALSE the dirnames won't be checked in child directories
+   * @param string|array $dirnames  Directory name or an array of directory names
+   * @param boolean      $recursive When FALSE the dirnames won't be checked in child directories
    * @return rex_dir_iterator The current iterator
    */
   public function ignoreDirs($dirnames = self::ALL, $recursive = true)
@@ -52,7 +52,7 @@ class rex_dir_iterator extends RecursiveFilterIterator
    * Ignores files
    *
    * @param string|array $filenames Filename or an array of filenames
-   * @param boolean $recursive When FALSE the filenames won't be checked in child directories
+   * @param boolean      $recursive When FALSE the filenames won't be checked in child directories
    * @return rex_dir_iterator The current iterator
    */
   public function ignoreFiles($filenames = self::ALL, $recursive = true)
@@ -66,8 +66,8 @@ class rex_dir_iterator extends RecursiveFilterIterator
   /**
    * Ignores directories and files by prefixes
    *
-   * @param string|array $prefixes A prefix or an array of prefixes
-   * @param boolean $recursive When FALSE the prefixes won't be checked in child directories
+   * @param string|array $prefixes  A prefix or an array of prefixes
+   * @param boolean      $recursive When FALSE the prefixes won't be checked in child directories
    * @return rex_dir_iterator The current iterator
    */
   public function ignorePrefixes($prefixes, $recursive = true)
@@ -81,8 +81,8 @@ class rex_dir_iterator extends RecursiveFilterIterator
   /**
    * Ignores directories and files by suffixes
    *
-   * @param string|array $suffixes A suffix or an array of suffixes
-   * @param boolean $recursive When FALSE the suffixes won't be checked in child directories
+   * @param string|array $suffixes  A suffix or an array of suffixes
+   * @param boolean      $recursive When FALSE the suffixes won't be checked in child directories
    * @return rex_dir_iterator The current iterator
    */
   public function ignoreSuffixes($suffixes, $recursive = true)
@@ -94,10 +94,10 @@ class rex_dir_iterator extends RecursiveFilterIterator
   }
 
   /**
-  * Ignores system stuff (like .DS_Store, .svn, .git etc.)
-  *
-  * @return rex_dir_iterator The current iterator
-  */
+   * Ignores system stuff (like .DS_Store, .svn, .git etc.)
+   *
+   * @return rex_dir_iterator The current iterator
+   */
   public function ignoreSystemStuff()
   {
     $this->ignoreSystemStuff = true;

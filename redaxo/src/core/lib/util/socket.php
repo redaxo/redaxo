@@ -1,28 +1,28 @@
 <?php
 
 /**
-* Class for sockets
-*
-* Example:
-* <code>
-* <?php
-* try
-* {
-*   $socket = rex_socket::factory('www.example.com');
-*   $socket->setPath('/path/index.php?param=1');
-*   $socket->doGet();
-*   if($socket->getStatus() == 200)
-*     $body = $socket->getBody();
-* }
-* catch(rex_socket_exception $e)
-* {
-*   // error message: $e->getMessage()
-* }
-* ?>
-* </code>
-*
-* @author gharlan
-*/
+ * Class for sockets
+ *
+ * Example:
+ * <code>
+ * <?php
+ * try
+ * {
+ *   $socket = rex_socket::factory('www.example.com');
+ *   $socket->setPath('/path/index.php?param=1');
+ *   $socket->doGet();
+ *   if($socket->getStatus() == 200)
+ *     $body = $socket->getBody();
+ * }
+ * catch(rex_socket_exception $e)
+ * {
+ *   // error message: $e->getMessage()
+ * }
+ * ?>
+ * </code>
+ *
+ * @author gharlan
+ */
 class rex_socket
 {
   protected
@@ -38,9 +38,9 @@ class rex_socket
   /**
    * Constructor
    *
-   * @param string $host Host name
+   * @param string  $host Host name
    * @param integer $port Port number
-   * @param boolean $ssl SSL flag
+   * @param boolean $ssl  SSL flag
    */
   protected function __construct($host, $port = 80, $ssl = false)
   {
@@ -55,9 +55,9 @@ class rex_socket
   /**
    * Factory method
    *
-   * @param string $host Host name
+   * @param string  $host Host name
    * @param integer $port Port number
-   * @param boolean $ssl SSL flag
+   * @param boolean $ssl  SSL flag
    * @return rex_socket Socket instance
    *
    * @see rex_socket::factoryUrl()
@@ -155,8 +155,8 @@ class rex_socket
   /**
    * Makes a POST request
    *
-   * @param string|array|callable $data Body data as string or array (POST parameters) or a callback for writing the body
-   * @param array $files Files array, e.g. <code>array('myfile' => array('path' => $path, 'type' => 'image/png'))</code>
+   * @param string|array|callable $data  Body data as string or array (POST parameters) or a callback for writing the body
+   * @param array                 $files Files array, e.g. <code>array('myfile' => array('path' => $path, 'type' => 'image/png'))</code>
    * @return rex_socket_response Response
    * @throws rex_socket_exception
    */
@@ -221,8 +221,8 @@ class rex_socket
   /**
    * Makes a request
    *
-   * @param string $method HTTP method, e.g. "GET"
-   * @param string|callable $data Body data as string or a callback for writing the body
+   * @param string          $method HTTP method, e.g. "GET"
+   * @param string|callable $data   Body data as string or a callback for writing the body
    * @return rex_socket_response Response
    * @throws rex_exception
    * @throws rex_socket_exception
@@ -255,10 +255,10 @@ class rex_socket
   /**
    * Writes a request to the opened connection
    *
-   * @param string $method HTTP method, e.g. "GET"
-   * @param string $path Path
-   * @param array $headers Headers
-   * @param string|callable $data Body data as string or a callback for writing the body
+   * @param string          $method  HTTP method, e.g. "GET"
+   * @param string          $path    Path
+   * @param array           $headers Headers
+   * @param string|callable $data    Body data as string or a callback for writing the body
    * @throws rex_socket_exception
    * @return rex_socket_response Response
    */

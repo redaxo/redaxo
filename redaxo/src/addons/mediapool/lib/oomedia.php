@@ -321,7 +321,7 @@ class rex_ooMedia
 
   /**
    * @access public
-    * @see #_getDate
+   * @see #_getDate
    */
   public function getUpdateDate($format = null)
   {
@@ -338,7 +338,7 @@ class rex_ooMedia
 
   /**
    * @access public
-    * @see #_getDate
+   * @see #_getDate
    */
   public function getCreateDate($format = null)
   {
@@ -619,7 +619,7 @@ class rex_ooMedia
 
   // new functions by vscope
   /**
-    * @access public
+   * @access public
    */
   public function getExtension()
   {

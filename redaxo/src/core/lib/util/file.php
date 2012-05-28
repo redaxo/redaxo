@@ -8,8 +8,8 @@ class rex_file
   /**
    * Returns the content of a file
    *
-   * @param string $file Path to the file
-   * @param mixed $default Default value
+   * @param string $file    Path to the file
+   * @param mixed  $default Default value
    * @return mixed Content of the file or default value if the file isn't readable
    */
   static public function get($file, $default = null)
@@ -20,8 +20,8 @@ class rex_file
   /**
    * Returns the content of a config file
    *
-   * @param string $file Path to the file
-   * @param mixed $default Default value
+   * @param string $file    Path to the file
+   * @param mixed  $default Default value
    * @return mixed Content of the file or default value if the file isn't readable
    */
   static public function getConfig($file, $default = array())
@@ -33,8 +33,8 @@ class rex_file
   /**
    * Returns the content of a cache file
    *
-   * @param string $file Path to the file
-   * @param mixed $default Default value
+   * @param string $file    Path to the file
+   * @param mixed  $default Default value
    * @return mixed Content of the file or default value if the file isn't readable
    */
   static public function getCache($file, $default = array())
@@ -46,7 +46,7 @@ class rex_file
   /**
    * Puts content in a file
    *
-   * @param string $file Path to the file
+   * @param string $file    Path to the file
    * @param string $content Content for the file
    * @return boolean TRUE on success, FALSE on failure
    */
@@ -67,9 +67,9 @@ class rex_file
   /**
    * Puts content in a config file
    *
-   * @param string $file Path to the file
-   * @param mixed $content Content for the file
-   * @param integer $inline The level where you switch to inline YAML
+   * @param string  $file    Path to the file
+   * @param mixed   $content Content for the file
+   * @param integer $inline  The level where you switch to inline YAML
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function putConfig($file, $content, $inline = 3)
@@ -80,8 +80,8 @@ class rex_file
   /**
    * Puts content in a cache file
    *
-   * @param string $file Path to the file
-   * @param mixed $content Content for the file
+   * @param string $file    Path to the file
+   * @param mixed  $content Content for the file
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function putCache($file, $content)

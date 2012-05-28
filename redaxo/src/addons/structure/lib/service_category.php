@@ -296,9 +296,9 @@ class rex_category_service
   /**
    * Ändert den Status der Kategorie
    *
-   * @param int       $category_id   Id der Kategorie die gelöscht werden soll
-   * @param int       $clang         Id der Sprache
-   * @param int|null  $status        Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
+   * @param int      $category_id Id der Kategorie die gelöscht werden soll
+   * @param int      $clang       Id der Sprache
+   * @param int|null $status      Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
    *
    * @return int Der neue Status der Kategorie
    */
@@ -532,7 +532,7 @@ class rex_category_service
   /**
    * Checks whether the required array key $keyName isset
    *
-   * @param array $array The array
+   * @param array  $array   The array
    * @param string $keyName The key
    */
   static protected function reqKey(array $array, $keyName)

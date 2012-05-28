@@ -17,7 +17,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
   /**
    * Constructor
    *
-   * @param string $name Name
+   * @param string    $name  Name
    * @param rex_addon $addon Parent addon
    */
   public function __construct($name, rex_addon $addon)
@@ -29,7 +29,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
   /**
    * Returns the plugin by the given name
    *
-   * @param string $addon Name of the addon
+   * @param string $addon  Name of the addon
    * @param string $plugin Name of the plugin
    *
    * @return rex_plugin
@@ -51,7 +51,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
   /**
    * Returns if the plugin exists
    *
-   * @param string $addon Name of the addon
+   * @param string $addon  Name of the addon
    * @param string $plugin Name of the plugin
    *
    * @return boolean

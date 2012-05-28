@@ -50,7 +50,7 @@ class rex_var_config extends rex_var
    * Returns the property of the given config-field, parsed using the given rex-var arguments.
    *
    * @param string $field The name of the config field
-   * @param string $args A JSON String representing the rex-var arguments
+   * @param string $args  A JSON String representing the rex-var arguments
    * @return string
    */
   static public function getConfig($field, $args = '')

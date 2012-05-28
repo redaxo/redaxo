@@ -25,8 +25,8 @@ abstract class rex_package_manager extends rex_factory_base
   /**
    * Constructor
    *
-   * @param rex_package $package Package
-   * @param string $i18nPrefix Prefix for i18n
+   * @param rex_package $package    Package
+   * @param string      $i18nPrefix Prefix for i18n
    */
   protected function __construct(rex_package $package, $i18nPrefix)
   {
@@ -388,10 +388,10 @@ abstract class rex_package_manager extends rex_factory_base
   }
 
   /**
-  * Checks whether the redaxo requirement is met.
-  *
-  * @param string $redaxoVersion REDAXO version
-  */
+   * Checks whether the redaxo requirement is met.
+   *
+   * @param string $redaxoVersion REDAXO version
+   */
   public function checkRedaxoRequirement($redaxoVersion)
   {
     $requirements = $this->package->getProperty('requires', array());
@@ -402,10 +402,10 @@ abstract class rex_package_manager extends rex_factory_base
   }
 
   /**
-  * Checks whether the package requirement is met.
-  *
-  * @param string $packageId Package ID
-  */
+   * Checks whether the package requirement is met.
+   *
+   * @param string $packageId Package ID
+   */
   public function checkPackageRequirement($packageId)
   {
     $requirements = $this->package->getProperty('requires', array());
@@ -426,9 +426,9 @@ abstract class rex_package_manager extends rex_factory_base
    * Checks the version of the requirement.
    *
    * @param string $i18nPrefix Prefix for I18N
-   * @param array $attributes Requirement attributes (version, min-version, max-version)
-   * @param string $version Active version of requirement
-   * @param string $addonName Name of the required addon, only necessary if requirement is a addon/plugin
+   * @param array  $attributes Requirement attributes (version, min-version, max-version)
+   * @param string $version    Active version of requirement
+   * @param string $addonName  Name of the required addon, only necessary if requirement is a addon/plugin
    * @param string $pluginName Name of the required plugin, only necessary if requirement is a plugin
    */
   private function checkRequirementVersion($i18nPrefix, array $attributes, $version, $addonName = null, $pluginName = null)
@@ -507,7 +507,7 @@ abstract class rex_package_manager extends rex_factory_base
    * Includes a file inside the package context
    *
    * @param rex_package $package Package
-   * @param string $file
+   * @param string      $file
    */
   static public function includeFile(rex_package $package, $file)
   {

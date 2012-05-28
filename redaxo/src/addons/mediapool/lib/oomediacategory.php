@@ -34,8 +34,8 @@ class rex_ooMediaCategory
   private $_files = '';
 
   /**
-  * @access protected
-  */
+   * @access protected
+   */
   protected function __construct()
   {
   }

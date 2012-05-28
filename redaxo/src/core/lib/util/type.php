@@ -8,31 +8,31 @@
 class rex_type
 {
   /**
-  * Casts the variable $var to $vartype
-  *
-  * Possible types:
-  *  - 'bool' (or 'boolean')
-  *  - 'int' (or 'integer')
-  *  - 'double'
-  *  - 'string'
-  *  - 'float'
-  *  - 'real'
-  *  - 'object'
-  *  - 'array'
-  *  - 'array[<type>]', e.g. 'array[int]'
-  *  - '' (don't cast)
-  *  - a callable
-  *  - array(
-  *      array(<key>, <vartype>, <default>),
-  *      array(<key>, <vartype>, <default>),
-  *      ...
-  *    )
-  *
-  * @param mixed $var Variable to cast
-  * @param mixed $vartype Variable type
-  *
-  * @return mixed Castet value
-  */
+   * Casts the variable $var to $vartype
+   *
+   * Possible types:
+   *  - 'bool' (or 'boolean')
+   *  - 'int' (or 'integer')
+   *  - 'double'
+   *  - 'string'
+   *  - 'float'
+   *  - 'real'
+   *  - 'object'
+   *  - 'array'
+   *  - 'array[<type>]', e.g. 'array[int]'
+   *  - '' (don't cast)
+   *  - a callable
+   *  - array(
+   *      array(<key>, <vartype>, <default>),
+   *      array(<key>, <vartype>, <default>),
+   *      ...
+   *    )
+   *
+   * @param mixed $var     Variable to cast
+   * @param mixed $vartype Variable type
+   *
+   * @return mixed Castet value
+   */
   static public function cast($var, $vartype)
   {
     if (is_string($vartype)) {

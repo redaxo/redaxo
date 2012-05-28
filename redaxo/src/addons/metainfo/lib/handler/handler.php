@@ -420,8 +420,8 @@ abstract class rex_metainfo_handler
   /**
    * Retrieves the posted value for the given field and converts it into a saveable format.
    *
-   * @param string $fieldName The name of the field
-   * @param int $fieldType One of the REX_METAINFO_FIELD_* constants
+   * @param string $fieldName       The name of the field
+   * @param int    $fieldType       One of the REX_METAINFO_FIELD_* constants
    * @param string $fieldAttributes The attributes of the field
    */
   static public function getSaveValue($fieldName, $fieldType, $fieldAttributes)
@@ -473,7 +473,7 @@ abstract class rex_metainfo_handler
   /**
    * Ermittelt die metainfo felder mit dem Prefix $prefix limitiert auf die Kategorien $restrictions
    *
-   * @param string $prefix Feldprefix
+   * @param string $prefix          Feldprefix
    * @param string $filterCondition SQL Where-Bedingung zum einschränken der Metafelder
    * @return rex_sql Metainfofelder
    */
@@ -556,13 +556,13 @@ abstract class rex_metainfo_handler
   /**
    * Renders a field of the metaform. The rendered html will be returned.
    *
-   * @param string $field The html-source of the field itself
-   * @param string $tag The html-tag for the elements container, e.g. "p"
-   * @param string $tag_attr Attributes for the elements container, e.g. " class='rex-widget'"
-   * @param string $id The id of the field, used for current label or field-specific javascripts
-   * @param string $label The textlabel of the field
-   * @param boolean $labelIt True when an additional label needs to be rendered, otherweise False
-   * @param string $inputType The input type, e.g. "checkbox", "radio",...
+   * @param string  $field     The html-source of the field itself
+   * @param string  $tag       The html-tag for the elements container, e.g. "p"
+   * @param string  $tag_attr  Attributes for the elements container, e.g. " class='rex-widget'"
+   * @param string  $id        The id of the field, used for current label or field-specific javascripts
+   * @param string  $label     The textlabel of the field
+   * @param boolean $labelIt   True when an additional label needs to be rendered, otherweise False
+   * @param string  $inputType The input type, e.g. "checkbox", "radio",...
    *
    * @return string The rendered html
    */
@@ -579,7 +579,7 @@ abstract class rex_metainfo_handler
   /**
    * Retrieves the POST values from the metaform, fill it into a rex_sql object and save it to a database table
    *
-   * @param array $params
+   * @param array   $params
    * @param rex_sql $sqlFields
    */
   abstract protected function handleSave(array $params, rex_sql $sqlFields);

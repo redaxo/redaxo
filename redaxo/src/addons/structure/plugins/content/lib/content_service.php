@@ -75,7 +75,7 @@ class rex_content_service
   /**
    * Löscht einen Slice
    *
-   * @param int    $slice_id  Id des Slices
+   * @param int $slice_id Id des Slices
    *
    * @return boolean TRUE bei Erfolg, sonst FALSE
    */
@@ -107,8 +107,8 @@ class rex_content_service
   /**
    * Kopiert die Inhalte eines Artikels in einen anderen Artikel
    *
-   * @param int $from_id           ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
-   * @param int $to_id             ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
+   * @param int $from_id ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
+   * @param int $to_id   ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
    * @param int [$from_clang]      ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
    * @param int [$to_clang]        ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
    * @param int [$from_re_sliceid] Id des Slices, bei dem begonnen werden soll

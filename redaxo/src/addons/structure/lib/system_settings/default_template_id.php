@@ -1,10 +1,10 @@
 <?php
 
 /**
-* Class for the default_template_id setting
-*
-* @author gharlan
-*/
+ * Class for the default_template_id setting
+ *
+ * @author gharlan
+ */
 class rex_system_setting_default_template_id extends rex_system_setting
 {
   public function __construct()

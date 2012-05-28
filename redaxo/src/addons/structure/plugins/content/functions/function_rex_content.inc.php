@@ -101,7 +101,7 @@ function rex_execPostSaveAction($module_id, $function, $REX_ACTION)
 /**
  * Übersetzt den Modus in das dazugehörige Bitwort
  *
- * @param string $function   Funktion/Modus der Aktion
+ * @param string $function Funktion/Modus der Aktion
  *
  * @return int Ein Bitwort
  */

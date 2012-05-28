@@ -10,7 +10,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -24,7 +24,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -38,7 +38,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -52,7 +52,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -66,7 +66,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -86,7 +86,7 @@ class rex_request
    * Sets a session variable
    *
    * @param string $varname Variable name
-   * @param mixed $value Value
+   * @param mixed  $value   Value
    */
   static public function setSession($varname, $value)
   {
@@ -108,7 +108,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -122,7 +122,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -136,7 +136,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -148,10 +148,10 @@ class rex_request
   /**
    * Searches the value $needle in array $haystack and returns the casted value
    *
-   * @param array $haystack Array
-   * @param scalar $needle Value to search
-   * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param array  $haystack Array
+   * @param scalar $needle   Value to search
+   * @param string $vartype  Variable type
+   * @param mixed  $default  Default value
    *
    * @return mixed
    */

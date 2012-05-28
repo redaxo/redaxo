@@ -15,9 +15,9 @@ class rex_pager
   /**
    * Constructs a rex_pager
    *
-   * @param int $rowCount The number of all rows to paginate
-   * @param int $rowsPerPage The number of rows which should be displayed on one page
-   * @param string $cursorName The name of the parameter used for pagination
+   * @param int    $rowCount    The number of all rows to paginate
+   * @param int    $rowsPerPage The number of rows which should be displayed on one page
+   * @param string $cursorName  The name of the parameter used for pagination
    */
   public function __construct($rowCount, $rowsPerPage = 30, $cursorName = 'start')
   {

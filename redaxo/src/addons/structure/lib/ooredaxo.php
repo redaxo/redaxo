@@ -73,7 +73,7 @@ abstract class rex_ooRedaxo
 
   /**
    * @param string $value
-   * @param array $prefixes
+   * @param array  $prefixes
    * @return boolean
    */
   static protected function _hasValue($value, array $prefixes = array())
@@ -160,7 +160,7 @@ abstract class rex_ooRedaxo
    * Return an rex_ooRedaxo object based on an id.
    * The instance will be cached in an instance-pool and therefore re-used by a later call.
    *
-   * @param int $id the article id
+   * @param int $id    the article id
    * @param int $clang the clang id
    * @throws rex_exception
    *
@@ -515,7 +515,7 @@ abstract class rex_ooRedaxo
    *  Accessor Method:
    *  returns  true if this Article is the not found article
    *
-   *  @return boolean
+   * @return boolean
    */
   public function isNotFoundArticle()
   {

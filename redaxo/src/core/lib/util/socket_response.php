@@ -43,10 +43,10 @@ class rex_socket_response
   }
 
   /**
-  * Returns the HTTP status code, e.g. 200
-  *
-  * @return integer
-  */
+   * Returns the HTTP status code, e.g. 200
+   *
+   * @return integer
+   */
   public function getStatusCode()
   {
     return $this->statusCode;
@@ -71,60 +71,60 @@ class rex_socket_response
   }
 
   /**
-  * Returns wether the status class is "Informational"
-  *
-  * @return boolean
-  */
+   * Returns wether the status class is "Informational"
+   *
+   * @return boolean
+   */
   public function isInformational()
   {
     return $this->statusCode >= 100 && $this->statusCode < 200;
   }
 
   /**
-  * Returns wether the status class is "Success"
-  *
-  * @return boolean
-  */
+   * Returns wether the status class is "Success"
+   *
+   * @return boolean
+   */
   public function isSuccessful()
   {
     return $this->statusCode >= 200 && $this->statusCode < 300;
   }
 
   /**
-  * Returns wether the status class is "Redirection"
-  *
-  * @return boolean
-  */
+   * Returns wether the status class is "Redirection"
+   *
+   * @return boolean
+   */
   public function isRedirection()
   {
     return $this->statusCode >= 300 && $this->statusCode < 400;
   }
 
   /**
-  * Returns wether the status class is "Client Error"
-  *
-  * @return boolean
-  */
+   * Returns wether the status class is "Client Error"
+   *
+   * @return boolean
+   */
   public function isClientError()
   {
     return $this->statusCode >= 400 && $this->statusCode < 500;
   }
 
   /**
-  * Returns wether the status class is "Server Error"
-  *
-  * @return boolean
-  */
+   * Returns wether the status class is "Server Error"
+   *
+   * @return boolean
+   */
   public function isServerError()
   {
     return $this->statusCode >= 500 && $this->statusCode < 600;
   }
 
   /**
-  * Returns wether the status is invalid
-  *
-  * @return boolean
-  */
+   * Returns wether the status is invalid
+   *
+   * @return boolean
+   */
   public function isInvalid()
   {
     return $this->statusCode < 100 || $this->statusCode >= 600;
@@ -133,7 +133,7 @@ class rex_socket_response
   /**
    * Returns the header for the given key, or the entire header if no key is given
    *
-   * @param string $key Header key
+   * @param string $key     Header key
    * @param string $default Default value (is returned if the header is not set)
    * @return string
    */

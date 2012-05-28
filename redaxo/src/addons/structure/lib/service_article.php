@@ -107,9 +107,9 @@ class rex_article_service
   /**
    * Bearbeitet einen Artikel
    *
-   * @param int   $article_id  Id des Artikels der verändert werden soll
-   * @param int   $clang       Id der Sprache
-   * @param array $data        Array mit den Daten des Artikels
+   * @param int   $article_id Id des Artikels der verändert werden soll
+   * @param int   $clang      Id der Sprache
+   * @param array $data       Array mit den Daten des Artikels
    *
    * @return string Eine Statusmeldung
    */
@@ -315,9 +315,9 @@ class rex_article_service
   /**
    * Ändert den Status des Artikels
    *
-   * @param int       $article_id Id des Artikels die gelöscht werden soll
-   * @param int       $clang      Id der Sprache
-   * @param int|null  $status     Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
+   * @param int      $article_id Id des Artikels die gelöscht werden soll
+   * @param int      $clang      Id der Sprache
+   * @param int|null $status     Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
    *
    * @return int Der neue Status des Artikels
    */
@@ -432,7 +432,7 @@ class rex_article_service
   /**
    * Konvertiert einen Artikel in eine Kategorie
    *
-   * @param int $art_id  Artikel ID des Artikels, der in eine Kategorie umgewandelt werden soll
+   * @param int $art_id Artikel ID des Artikels, der in eine Kategorie umgewandelt werden soll
    *
    * @return boolean TRUE bei Erfolg, sonst FALSE
    */
@@ -473,12 +473,12 @@ class rex_article_service
   }
 
   /**
-  * Konvertiert eine Kategorie in einen Artikel
-  *
-  * @param int $art_id  Artikel ID der Kategorie, die in einen Artikel umgewandelt werden soll
-  *
-  * @return boolean TRUE bei Erfolg, sonst FALSE
-  */
+   * Konvertiert eine Kategorie in einen Artikel
+   *
+   * @param int $art_id Artikel ID der Kategorie, die in einen Artikel umgewandelt werden soll
+   *
+   * @return boolean TRUE bei Erfolg, sonst FALSE
+   */
   static public function category2article($art_id)
   {
     $sql = rex_sql::factory();
@@ -520,12 +520,12 @@ class rex_article_service
   }
 
   /**
-  * Konvertiert einen Artikel zum Startartikel der eigenen Kategorie
-  *
-  * @param int $neu_id  Artikel ID des Artikels, der Startartikel werden soll
-  *
-  * @return boolean TRUE bei Erfolg, sonst FALSE
-  */
+   * Konvertiert einen Artikel zum Startartikel der eigenen Kategorie
+   *
+   * @param int $neu_id Artikel ID des Artikels, der Startartikel werden soll
+   *
+   * @return boolean TRUE bei Erfolg, sonst FALSE
+   */
   static public function article2startpage($neu_id)
   {
     $GAID = array();
@@ -627,8 +627,8 @@ class rex_article_service
   /**
    * Kopiert die Metadaten eines Artikels in einen anderen Artikel
    *
-   * @param int $from_id      ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
-   * @param int $to_id        ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
+   * @param int $from_id ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
+   * @param int $to_id   ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
    * @param int [$from_clang] ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
    * @param int [$to_clang]   ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
    * @param array [$params]     Array von Spaltennamen, welche kopiert werden sollen
@@ -673,8 +673,8 @@ class rex_article_service
   /**
    * Kopieren eines Artikels von einer Kategorie in eine andere
    *
-   * @param int $id          ArtikelId des zu kopierenden Artikels
-   * @param int $to_cat_id   KategorieId in die der Artikel kopiert werden soll
+   * @param int $id        ArtikelId des zu kopierenden Artikels
+   * @param int $to_cat_id KategorieId in die der Artikel kopiert werden soll
    *
    * @return boolean FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
    */
@@ -839,7 +839,7 @@ class rex_article_service
   /**
    * Checks whether the required array key $keyName isset
    *
-   * @param array $array The array
+   * @param array  $array   The array
    * @param string $keyName The key
    */
   static protected function reqKey($array, $keyName)

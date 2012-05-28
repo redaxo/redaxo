@@ -8,16 +8,16 @@
 class rex_sql_util
 {
   /**
-  * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
-  * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte
-  *
-  * @param $tableName String Name der Datenbanktabelle
-  * @param $priorColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
-  * @param $whereCondition Where-Bedingung zur Einschränkung des ResultSets
-  * @param $orderBy Sortierung des ResultSets
-  * @param $id_field Name des Primaerschluessels der Tabelle
-  * @param $startBy Startpriorität
-  */
+   * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
+   * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte
+   *
+   * @param $tableName String Name der Datenbanktabelle
+   * @param $priorColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
+   * @param $whereCondition Where-Bedingung zur Einschränkung des ResultSets
+   * @param $orderBy Sortierung des ResultSets
+   * @param $id_field Name des Primaerschluessels der Tabelle
+   * @param $startBy Startpriorität
+   */
   static public function organizePriorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field = 'id', $startBy = 1)
   {
     // Datenbankvariable initialisieren

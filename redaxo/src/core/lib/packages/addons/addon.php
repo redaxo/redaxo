@@ -227,10 +227,10 @@ class rex_addon extends rex_package implements rex_addon_interface
   }
 
   /**
-  * Returns the setup addons
-  *
-  * @return array[rex_addon]
-  */
+   * Returns the setup addons
+   *
+   * @return array[rex_addon]
+   */
   static public function getSetupAddons()
   {
     $addons = array();
@@ -299,8 +299,8 @@ class rex_addon extends rex_package implements rex_addon_interface
   /**
    * Filters packages by the given method
    *
-   * @param array $packages Array of packages
-   * @param string $method A rex_package method
+   * @param array  $packages Array of packages
+   * @param string $method   A rex_package method
    *
    * @return array[rex_package]
    */

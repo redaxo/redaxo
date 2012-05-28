@@ -42,8 +42,8 @@ abstract class rex_var
    *
    * Fill the rex_sql object with userinput from REX_ACTION
    *
-   * @param rex_sql $sql A datacontainer of the current slice (to be filled)
-   * @param array $REX_ACTION Array of userinput
+   * @param rex_sql $sql        A datacontainer of the current slice (to be filled)
+   * @param array   $REX_ACTION Array of userinput
    */
   public function setACValues(rex_sql $sql, array $REX_ACTION)
   {
@@ -69,8 +69,8 @@ abstract class rex_var
    *
    * Fill the REX_ACTION array with initial values from the datacontainer
    *
-   * @param array $REX_ACTION The array to fill
-   * @param rex_sql $sql The datacontainer with database values
+   * @param array   $REX_ACTION The array to fill
+   * @param rex_sql $sql        The datacontainer with database values
    *
    * @return array The filled REX_ACTION array
    */
@@ -84,8 +84,8 @@ abstract class rex_var
    *
    * Replaces all occurences of the REX-Var with values given in the REX_ACTION array
    *
-   * @param array $REX_ACTION The array of slice-data
-   * @param string $content The string for searching.
+   * @param array  $REX_ACTION The array of slice-data
+   * @param string $content    The string for searching.
    *
    * @return string The string in which all occurences have been replaced
    */
@@ -102,8 +102,8 @@ abstract class rex_var
    * Replaces all occurences of the REX-Var with values given in the rex_sql container.
    * The content need to be prepared for <b>output</b> in the <b>frontend</b>.
    *
-   * @param rex_sql $sql The datacontainer with database values
-   * @param string $content The string for searching.
+   * @param rex_sql $sql     The datacontainer with database values
+   * @param string  $content The string for searching.
    *
    * @return string The string in which all occurences have been replaced
    */
@@ -116,8 +116,8 @@ abstract class rex_var
    * Replaces all occurences of the REX-Var with values given in the rex_sql container.
    * The content need to be prepared for <b>output</b> in the <b>backend</b>.
    *
-   * @param rex_sql $sql The datacontainer with database values
-   * @param string $content The string for searching.
+   * @param rex_sql $sql     The datacontainer with database values
+   * @param string  $content The string for searching.
    *
    * @return string The string in which all occurences have been replaced
    */
@@ -130,8 +130,8 @@ abstract class rex_var
    * Replaces all occurences of the REX-Var with values given in the rex_sql container.
    * The content need to be prepared for <b>input</b> in the <b>backend</b>.
    *
-   * @param rex_sql $sql The datacontainer with database values
-   * @param string $content The string for searching.
+   * @param rex_sql $sql     The datacontainer with database values
+   * @param string  $content The string for searching.
    *
    * @return string The string in which all occurences have been replaced
    */
@@ -170,8 +170,8 @@ abstract class rex_var
   /**
    * Gets the article-slice property which name equals to $value.
    *
-   * @param rex_sql $sql The slice datacontainer
-   * @param string $value The name of the property to search for
+   * @param rex_sql $sql   The slice datacontainer
+   * @param string  $value The name of the property to search for
    *
    * @return string The value of the property, or <code>false</code> when the property cannot be found!
    */
@@ -183,9 +183,9 @@ abstract class rex_var
   /**
    * Sets the article-slice property $fieldname with the given $value.
    *
-   * @param rex_sql $sql The article-slice datacontainer
-   * @param string $fieldname The name of the property to set
-   * @param string $value The value to set
+   * @param rex_sql $sql       The article-slice datacontainer
+   * @param string  $fieldname The name of the property to set
+   * @param string  $value     The value to set
    */
   protected function setValue(rex_sql $sql, $fieldname, $value)
   {
@@ -197,9 +197,9 @@ abstract class rex_var
    * The parameter $name will be extracted out of $args and set to $value.
    *
    * @param string $varname The name of the variable which param should be handled
-   * @param array $args The array of parameters which are already known for the variable $varname
-   * @param string $name The name of the parameter to extract
-   * @param string $value The value to set for the parameter
+   * @param array  $args    The array of parameters which are already known for the variable $varname
+   * @param string $name    The name of the parameter to extract
+   * @param string $value   The value to set for the parameter
    *
    * @return array The adjusted array of parameters
    */
@@ -223,8 +223,8 @@ abstract class rex_var
   /**
    * Handle all common widget parameters.
    *
-   * @param string $varname The name of the variable which param should be handled
-   * @param array $args The array of parameters for the widget
+   * @param string $varname      The name of the variable which param should be handled
+   * @param array  $args         The array of parameters for the widget
    * @param string $widgetSource The html source of the widget
    *
    * @return string The parsed html source
@@ -238,8 +238,8 @@ abstract class rex_var
    * Handle all common var parameters.
    *
    * @param string $varname The name of the variable which param should be handled
-   * @param array $args The array of parameters for the widget
-   * @param string $value The value of the variable
+   * @param array  $args    The array of parameters for the widget
+   * @param string $value   The value of the variable
    *
    * @return string The parsed variable value
    */
@@ -334,7 +334,7 @@ abstract class rex_var
    * The default value will also be written into the array $args.
    *
    * @param string $name
-   * @param array $args
+   * @param array  $args
    * @param string $default
    *
    * @return string the value of the arg, or $default if the arg cannot be found
