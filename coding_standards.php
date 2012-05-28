@@ -162,6 +162,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
     MSG_SPACE_BEHIND_CONTROL_KEYWORD = 'add space after control keywords ("if", "for" etc.)',
     MSG_SPACE_BEFORE_CONTROL_KEYWORD = 'add space before "else", "catch" and "use"',
     MSG_SPACES_AROUND_BINARY_OPERATOR = 'add spaces around binary operators ("=", "+", "&&" etc.)',
+    MSG_NEWLINE_BEFORE_OPENING_BRACE = 'add newline before opening braces of classes/methods',
     MSG_VISIBILITY = 'add visibility to methods/properties',
     MSG_ATTRIBUTES_ORDER = 'reorder function/property attributes (final, abstract, static, visibility)';
 
@@ -478,12 +479,17 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
             }
             $this->addToken($next);
             $this->checkNoSpaceBehind();
-            $this->searchFor('{', '}');
+            if ($this->searchFor(array('{', ';')) === '{') {
+              $this->checkNewlineBefore(self::MSG_NEWLINE_BEFORE_OPENING_BRACE);
+              $this->searchFor('{', '}');
+            }
             $this->method = null;
           } else {
             $this->function++;
             $this->addToken($next);
             $this->checkNoSpaceBehind();
+            $this->searchFor('{');
+            $this->checkNewlineBefore(self::MSG_NEWLINE_BEFORE_OPENING_BRACE);
             $this->searchFor('{', '}');
             $this->function--;
           }
@@ -510,7 +516,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
           }
           $this->checkBraceInSameLine();
           $this->function++;
-          $this->searchFor('{', '}', false);
+          $this->searchFor('{', '}');
           $this->function--;
           break;
         }
@@ -552,6 +558,26 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
           }
           $this->addToken($next);
           $this->class = $next->text;
+          $this->searchFor('{');
+          $open = $this->nextToken();
+          $next = $this->nextToken();
+          if ($next->type === rex_php_token::SIMPLE && $next->text === '}') {
+            $this->addToken($open);
+            $this->addToken($next);
+            return;
+          } elseif ($next->type === T_WHITESPACE && preg_match('/^ +$/D', $next->text)) {
+            $nextNext = $this->nextToken();
+            if ($nextNext->type === rex_php_token::SIMPLE && $nextNext->text === '}') {
+              $this->addToken($open);
+              $this->addToken($next);
+              $this->addToken($nextNext);
+              return;
+            }
+            $this->decrementTokenIndex();
+          }
+          $this->decrementTokenIndex();
+          $this->decrementTokenIndex();
+          $this->checkNewlineBefore(self::MSG_NEWLINE_BEFORE_OPENING_BRACE);
           $this->searchFor('{', '}');
           $this->class = null;
           break;
@@ -649,25 +675,8 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
             return;
 
           case '{':
-            $next = $this->nextToken();
-            if ($next->type === rex_php_token::SIMPLE && $next->text === '}') {
-              $this->addToken($token);
-              $this->decrementTokenIndex();
-              return;
-            } elseif ($next->type === T_WHITESPACE && preg_match('/^ +$/D', $next->text)) {
-              $nextNext = $this->nextToken();
-              if ($nextNext->type === rex_php_token::SIMPLE && $nextNext->text === '}') {
-                $this->addToken($token);
-                $this->decrementTokenIndex();
-                $this->decrementTokenIndex();
-                return;
-              }
-              $this->decrementTokenIndex();
-            }
-            $this->checkNewlineBefore('add newline before opening braces of classes/methods');
             $this->addToken($token);
-            $this->decrementTokenIndex();
-            $this->checkNewlineBehind();
+            $this->checkNewlineBehind('add newline after opening brace');
             return;
 
           case '}':
@@ -698,8 +707,18 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
     $this->decrementTokenIndex();
   }
 
-  private function searchFor($start, $end, $inclusive = true)
+  private function searchFor($start, $end = null, $inclusive = true)
   {
+    if ($end === null) {
+      $next = $this->nextToken();
+      $search = (array) $start;
+      while ($next->type !== rex_php_token::SIMPLE || !in_array($next->text, $search, true)) {
+        $this->fixToken($next);
+        $next = $this->nextToken();
+      }
+      $this->decrementTokenIndex();
+      return $next->text;
+    }
     $this->skipWhitespace();
     $count = $inclusive ? 0 : 1;
     do {
@@ -747,27 +766,14 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
     if ($next->type === rex_php_token::SIMPLE && $next->text === '{') {
       $this->addToken(new rex_php_token(T_WHITESPACE, ' '));
       $this->addFixable('add space before opening brace');
-      $this->addToken($next);
-      $this->checkNewlineBehind();
-      return;
     } elseif ($this->isNewline($next)) {
       $nextNext = $this->nextToken();
       if ($nextNext->type === rex_php_token::SIMPLE && $nextNext->text === '{') {
         $next->text = ' ';
         $this->addToken($next);
         $this->addFixable('remove newline before opening brace of "if", "for", "while" etc.');
-        $this->addToken($nextNext);
-        $this->checkNewlineBehind();
-        return;
-      }
-      $this->decrementTokenIndex();;
-    } elseif ($next->type === T_WHITESPACE) {
-      $this->addToken($next);
-      $nextNext = $this->nextToken();
-      if ($nextNext->type === rex_php_token::SIMPLE && $nextNext->text === '{') {
-        $this->addToken($nextNext);
-        $this->checkNewlineBehind();
-        return;
+      } else {
+        $this->decrementTokenIndex();
       }
     }
     $this->decrementTokenIndex();
@@ -831,13 +837,13 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
     }
   }
 
-  private function checkNewlineBehind()
+  private function checkNewlineBehind($msg)
   {
     $this->skipWhitespace(false);
     $next = $this->nextToken();
     $this->decrementTokenIndex();
     if (!$this->isNewline($next)) {
-      $this->addFixable('add newline after opening brace');
+      $this->addFixable($msg);
       $this->fixToken(new rex_php_token(T_WHITESPACE, "\n" . $this->indentation . '  '));
     }
   }
