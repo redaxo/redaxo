@@ -40,7 +40,7 @@ class rex_file_cache extends rex_cache
       $this->setOption('cache_dir', rex_path::addonCache('be_dashboard'));
     }
 
-    $this->setcache_dir($this->getOption('cache_dir'));
+    $this->setCacheDir($this->getOption('cache_dir'));
   }
 
   /**
@@ -316,7 +316,7 @@ class rex_file_cache extends rex_cache
    *
    * @param string $cache_dir The directory where to put the cache files
    */
-  protected function setcache_dir($cache_dir)
+  protected function setCacheDir($cache_dir)
   {
     // remove last DIRECTORY_SEPARATOR
     if (DIRECTORY_SEPARATOR == substr($cache_dir, -1))
