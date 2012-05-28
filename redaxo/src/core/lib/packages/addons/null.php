@@ -8,6 +8,14 @@
 class rex_null_addon extends rex_null_package implements rex_addon_interface
 {
   /* (non-PHPdoc)
+   * @see rex_package_interface::getType()
+   */
+  public function getType()
+  {
+    return 'addon';
+  }
+
+  /* (non-PHPdoc)
    * @see rex_addon_interface::getPlugin()
    */
   public function getPlugin($plugin)
@@ -43,6 +51,14 @@ class rex_null_addon extends rex_null_package implements rex_addon_interface
    * @see rex_addon_interface::getAvailablePlugins()
    */
   public function getAvailablePlugins()
+  {
+    return array();
+  }
+
+  /* (non-PHPdoc)
+  * @see rex_addon_interface::getSystemPlugins()
+  */
+  public function getSystemPlugins()
   {
     return array();
   }

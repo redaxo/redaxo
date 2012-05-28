@@ -7,6 +7,35 @@
  */
 class rex_response
 {
+  const
+  HTTP_OK = '200 Ok',
+  HTTP_NOT_FOUND = '404 Not Found',
+  HTTP_FORBIDDEN = '403 Forbidden',
+  HTTP_UNAUTHORIZED = '401 Unauthorized',
+  HTTP_INTERNAL_ERROR = '500 Internal Server Error';
+
+  private static $httpStatus = self::HTTP_OK;
+
+  static public function setStatus($httpStatus)
+  {
+    if(strpos($httpStatus, "\n") !== false){
+      throw new rex_exception('Illegal http-status "'. $httpStatus .'", contains newlines');
+    }
+
+    self::$httpStatus = $httpStatus;
+  }
+
+  static public function sendRedirect($url)
+  {
+    if(strpos($url, "\n") !== false){
+      throw new rex_exception('Illegal redirect url "'. $url .'", contains newlines');
+    }
+
+    header('HTTP/1.1 '. self::$httpStatus);
+    header('Location: '. $url);
+    exit();
+  }
+
   /**
    * Sendet eine Datei zum Client
    *
@@ -16,7 +45,7 @@ class rex_response
   static public function sendFile($file, $contentType)
   {
     $environment = rex::isBackend() ? 'backend' : 'frontend';
-    
+
     // Cachen für Dateien aktivieren
     $temp = rex::getProperty('use_last_modified');
     rex::setProperty('use_last_modified', true);
@@ -49,7 +78,7 @@ class rex_response
   static public function sendResource($content, $sendcharset = TRUE, $lastModified = null, $etag = null)
   {
     $environment = rex::isBackend() ? 'backend' : 'frontend';
-    
+
     if(!$etag)
     {
       $etag = md5($content);
@@ -73,12 +102,12 @@ class rex_response
   {
     $environment = rex::isBackend() ? 'backend' : 'frontend';
     $sendcharset = TRUE;
-    
+
     // ----- EXTENSION POINT
     $content = rex_extension::registerPoint( 'OUTPUT_FILTER', $content, array('environment' => $environment,'sendcharset' => $sendcharset));
 
     // dynamische teile sollen die md5 summe nicht beeinflussen
-    $etag = md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content) . $etagAdd);
+    $etag = self::md5($content . $etagAdd);
 
     if($lastModified === null)
     {
@@ -109,32 +138,41 @@ class rex_response
    */
   static public function sendContent($content, $lastModified, $etag, $environment, $sendcharset = FALSE)
   {
-    // Cachen erlauben, nach revalidierung
-    // see http://xhtmlforum.de/35221-php-session-etag-header.html#post257967
-    session_cache_limiter('none');
-    header('Cache-Control: must-revalidate, proxy-revalidate, private');
-
     if($sendcharset)
     {
       header('Content-Type: text/html; charset=utf-8');
     }
 
-    // ----- Last-Modified
-    if(rex::getProperty('use_last_modified') === 'true' || rex::getProperty('use_last_modified') == $environment)
-      self::sendLastModified($lastModified);
+    if(self::$httpStatus == self::HTTP_OK)
+    {
+      // ----- Last-Modified
+      if(rex::getProperty('use_last_modified') === 'true' || rex::getProperty('use_last_modified') == $environment)
+        self::sendLastModified($lastModified);
 
-    // ----- ETAG
-    if(rex::getProperty('use_etag') === 'true' || rex::getProperty('use_etag') == $environment)
-      self::sendEtag($etag);
+      // ----- ETAG
+      if(rex::getProperty('use_etag') === 'true' || rex::getProperty('use_etag') == $environment)
+        self::sendEtag($etag);
 
-    // ----- GZIP
-    if(rex::getProperty('use_gzip') === 'true' || rex::getProperty('use_gzip') == $environment)
-      $content = self::sendGzip($content);
+      // ----- GZIP
+      if(rex::getProperty('use_gzip') === 'true' || rex::getProperty('use_gzip') == $environment)
+        $content = self::sendGzip($content);
 
-    // ----- MD5 Checksum
-    // dynamische teile sollen die md5 summe nicht beeinflussen
-    if(rex::getProperty('use_md5') === 'true' || rex::getProperty('use_md5') == $environment)
-      self::sendChecksum(md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@','', $content)));
+      // ----- MD5 Checksum
+      // dynamische teile sollen die md5 summe nicht beeinflussen
+      if(rex::getProperty('use_md5') === 'true' || rex::getProperty('use_md5') == $environment)
+        self::sendChecksum(self::md5($content));
+    }
+
+    self::send($content);
+  }
+
+  static public function send($content)
+  {
+    // Cachen erlauben, nach revalidierung
+    // see http://xhtmlforum.de/35221-php-session-etag-header.html#post257967
+    session_cache_limiter('none');
+    header('HTTP/1.1 '. self::$httpStatus);
+    header('Cache-Control: must-revalidate, proxy-revalidate, private');
 
     // content length schicken, damit der browser einen ladebalken anzeigen kann
     header('Content-Length: '. rex_string::size($content));
@@ -149,7 +187,7 @@ class rex_response
    *
    * @param $lastModified integer HTTP Last-Modified Timestamp
    */
-  static public function sendLastModified($lastModified = null)
+  static protected function sendLastModified($lastModified = null)
   {
     if(!$lastModified)
       $lastModified = time();
@@ -179,7 +217,7 @@ class rex_response
    *
    * @param $cacheKey string HTTP Cachekey zur identifizierung des Caches
    */
-  static public function sendEtag($cacheKey)
+  static protected function sendEtag($cacheKey)
   {
     // Laut HTTP Spec muss der Etag in " sein
     $cacheKey = '"'. $cacheKey .'"';
@@ -207,7 +245,7 @@ class rex_response
    *
    * @param $content string Inhalt des Artikels
    */
-  static public function sendGzip($content)
+  static protected function sendGzip($content)
   {
     $enc = '';
     $encodings = array();
@@ -245,8 +283,13 @@ class rex_response
    *
    * @param $md5 string MD5 Summe des Inhalts
    */
-  static public function sendChecksum($md5)
+  static protected function sendChecksum($md5)
   {
     header('Content-MD5: '. $md5);
+  }
+
+  static private function md5($content)
+  {
+    return md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@U', '', $content));
   }
 }

@@ -18,23 +18,23 @@
  */
 if (!function_exists('a52_readFolder'))
 {
-	function a52_readFolder($dir)
-	{
-		if (!is_dir($dir))
-		{
-			trigger_error('Folder "' . $dir . '" is not available or not a directory');
-			return false;
-		}
+  function a52_readFolder($dir)
+  {
+    if (!is_dir($dir))
+    {
+      trigger_error('Folder "' . $dir . '" is not available or not a directory');
+      return false;
+    }
 
-		$hdl = opendir($dir);
-		$folder = array ();
-		while (false !== ($file = readdir($hdl)))
-		{
-			$folder[] = $file;
-		}
+    $hdl = opendir($dir);
+    $folder = array ();
+    while (false !== ($file = readdir($hdl)))
+    {
+      $folder[] = $file;
+    }
 
-		return $folder;
-	}
+    return $folder;
+  }
 } // End function_exists
 
 /**
@@ -42,26 +42,26 @@ if (!function_exists('a52_readFolder'))
  */
 if (!function_exists('a52_readFolderFiles'))
 {
-	function a52_readFolderFiles($dir)
-	{
-		$folder = a52_readFolder($dir);
-		$files = array ();
+  function a52_readFolderFiles($dir)
+  {
+    $folder = a52_readFolder($dir);
+    $files = array ();
 
-		if (!$folder)
-		{
-			return false;
-		}
+    if (!$folder)
+    {
+      return false;
+    }
 
-		foreach ($folder as $file)
-		{
-			if (is_file($dir . '/' . $file))
-			{
-				$files[] = $file;
-			}
-		}
+    foreach ($folder as $file)
+    {
+      if (is_file($dir . '/' . $file))
+      {
+        $files[] = $file;
+      }
+    }
 
-		return $files;
-	}
+    return $files;
+  }
 } // End function_exists
 
 /**
@@ -69,49 +69,49 @@ if (!function_exists('a52_readFolderFiles'))
  */
 if (!function_exists('a52_tinymce_opf'))
 {
-	function a52_tinymce_opf($params)
-	{
-		global $REX;
-		global $rxa_tinymce;
-		global $clang;
+  function a52_tinymce_opf($params)
+  {
+    global $REX;
+    global $rxa_tinymce;
+    global $clang;
 
-		$content = $params['subject'];
-			
-		if ( !strstr($content, '</head>')) {
-			return $content;
-		}
+    $content = $params['subject'];
 
-		// Ausgabe f�r das Backend aufbereiten
-		$n = "\n";
-		$t = '  ';
-		$cssLink = $n . $t . '<!-- Addon TinyMCE -->';
+    if ( !strstr($content, '</head>')) {
+      return $content;
+    }
 
-		// Selectbox Fix f�r IE6
-		$cssLink .= $n . $t . '<!--[if lte IE 6]>';
-		$script = $rxa_tinymce['fe_path'] . '/selectfix/select_fix.js';
-		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
-		$script = $rxa_tinymce['fe_path'] . '/selectfix/select_fix.css';
-		$cssLink .= $n . $t . '<link rel="stylesheet" type="text/css" href="' . $script . '">';
-		$cssLink .= $n . $t . '<![endif]-->';
+    // Ausgabe f�r das Backend aufbereiten
+    $n = "\n";
+    $t = '  ';
+    $cssLink = $n . $t . '<!-- Addon TinyMCE -->';
 
-		// TinyMCE-HauptScript
-		$script = $rxa_tinymce['fe_path'] . '/tiny_mce/tiny_mce.js';
-		$script = str_replace('\\', '/', $script);
-		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
+    // Selectbox Fix f�r IE6
+    $cssLink .= $n . $t . '<!--[if lte IE 6]>';
+    $script = $rxa_tinymce['fe_path'] . '/selectfix/select_fix.js';
+    $cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
+    $script = $rxa_tinymce['fe_path'] . '/selectfix/select_fix.css';
+    $cssLink .= $n . $t . '<link rel="stylesheet" type="text/css" href="' . $script . '">';
+    $cssLink .= $n . $t . '<![endif]-->';
 
-		// Script f�r Media
-		$script = $rxa_tinymce['fe_path'] . '/tiny_mce/plugins/media/js/rexembed.js';
-		$script = str_replace('\\', '/', $script);
-		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
+    // TinyMCE-HauptScript
+    $script = $rxa_tinymce['fe_path'] . '/tiny_mce/tiny_mce.js';
+    $script = str_replace('\\', '/', $script);
+    $cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
 
-		// TinyMCE-InitScript
-		$script = $REX['HTDOCS_PATH'] . 'redaxo/index.php?tinymceinit=true';
-		$script = str_replace('\\', '/', $script);
-		$cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '" id="TinyMCEInit"></script>' . $n . $n;
+    // Script f�r Media
+    $script = $rxa_tinymce['fe_path'] . '/tiny_mce/plugins/media/js/rexembed.js';
+    $script = str_replace('\\', '/', $script);
+    $cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '"></script>';
 
-		$content = str_replace('</head>', $cssLink . '</head>', $content);
-		return $content;
-	}
+    // TinyMCE-InitScript
+    $script = $REX['HTDOCS_PATH'] . 'redaxo/index.php?tinymceinit=true';
+    $script = str_replace('\\', '/', $script);
+    $cssLink .= $n . $t . '<script type="text/javascript" src="' . $script . '" id="TinyMCEInit"></script>' . $n . $n;
+
+    $content = str_replace('</head>', $cssLink . '</head>', $content);
+    return $content;
+  }
 } // End function_exists
 
 /**
@@ -119,86 +119,86 @@ if (!function_exists('a52_tinymce_opf'))
  */
 if (!function_exists('a52_tinymce_output_init'))
 {
-	function a52_tinymce_output_init()
-	{
-		global $REX;
-		global $rxa_tinymce;
-		$clang = 0;
+  function a52_tinymce_output_init()
+  {
+    global $REX;
+    global $rxa_tinymce;
+    $clang = 0;
 
-		header('Content-type: application/javascript');
+    header('Content-type: application/javascript');
 
-		if (isset($_GET['clang']) and trim($_GET['clang']) <> '' and strlen($_GET['clang']) == 1)
-			$clang = $_GET['clang'];
-			
+    if (isset($_GET['clang']) and trim($_GET['clang']) <> '' and strlen($_GET['clang']) == 1)
+      $clang = $_GET['clang'];
+
 ?>
 
 /**
  * Callback-Funktion f�r das oeffnen der Linkmap bzw. Medienpool
- */ 
+ */
 function rexCustomFileBrowser(field_name, url, type, win)
 {
-	//alert("Field_Name: " + field_name + "\nURL: " + url + "\nType: " + type + "\nWin: " + win); // debug/testing
-	var cmsURL = window.location.toString();
-	var urlbase = cmsURL.split("index.php");
+  //alert("Field_Name: " + field_name + "\nURL: " + url + "\nType: " + type + "\nWin: " + win); // debug/testing
+  var cmsURL = window.location.toString();
+  var urlbase = cmsURL.split("index.php");
 
-	if (type == 'image' || type == 'media')
-	{
-		nameurl = url.replace('files/', '');
-		if (nameurl != '') {
-			nameurl = "&subpage=detail&file_name="+nameurl;
-		}
-		cmsURL = "index.php?page=<?php echo $rxa_tinymce['medienpool']; ?>&tinymce=true&opener_input_field="+field_name+"&clang="+<?php echo $clang; ?>+nameurl;
-		popupTitle = 'Medienpool';
-	}
-	if (type == 'file')
-	{
-		idurl = url.replace('redaxo://', '');
-		if (idurl != '') {
-			idurl = "&category_id="+idurl;
-		}
-		cmsURL = "index.php?page=<?php echo $rxa_tinymce['linkmap']; ?>&tinymce=true&opener_input_field="+field_name+"&clang="+<?php echo $clang; ?>+idurl;
-		popupTitle = 'Linkmap';
-	}
-	cmsURL = urlbase[0] + cmsURL;
+  if (type == 'image' || type == 'media')
+  {
+    nameurl = url.replace('files/', '');
+    if (nameurl != '') {
+      nameurl = "&subpage=detail&file_name="+nameurl;
+    }
+    cmsURL = "index.php?page=<?php echo $rxa_tinymce['medienpool']; ?>&tinymce=true&opener_input_field="+field_name+"&clang="+<?php echo $clang; ?>+nameurl;
+    popupTitle = 'Medienpool';
+  }
+  if (type == 'file')
+  {
+    idurl = url.replace('redaxo://', '');
+    if (idurl != '') {
+      idurl = "&category_id="+idurl;
+    }
+    cmsURL = "index.php?page=<?php echo $rxa_tinymce['linkmap']; ?>&tinymce=true&opener_input_field="+field_name+"&clang="+<?php echo $clang; ?>+idurl;
+    popupTitle = 'Linkmap';
+  }
+  cmsURL = urlbase[0] + cmsURL;
 
-	tinyMCE.activeEditor.windowManager.open({
-		file : cmsURL,
-		title : popupTitle,
-		width : 760,  // Your dimensions may differ - toy around with them!
-		height : 600,
-		resizable : "yes",
-		scrollbars : "yes",
-		inline : "yes",  // This parameter only has an effect if you use the inlinepopups plugin!
-		close_previous : "no"
-	}, {
-		window : win,
-		typeid : type,
-		input : field_name
-	});
+  tinyMCE.activeEditor.windowManager.open({
+    file : cmsURL,
+    title : popupTitle,
+    width : 760,  // Your dimensions may differ - toy around with them!
+    height : 600,
+    resizable : "yes",
+    scrollbars : "yes",
+    inline : "yes",  // This parameter only has an effect if you use the inlinepopups plugin!
+    close_previous : "no"
+  }, {
+    window : win,
+    typeid : type,
+    input : field_name
+  });
 
-	return false;
+  return false;
 }
 
 /**
  * Standard TinyMCE-Konfiguration und tinyMCE.init()
- */ 
-<?php			
+ */
+<?php
 /*
 // wird evtl. noch mal ben�tigt
 function rexCustomURLConverter(url, node, on_save) {
-	if (url.substr(0,6) == 'files/')
-	{
-		url = '../' + url;
-	}
-	// Return new URL
-	return url;
+  if (url.substr(0,6) == 'files/')
+  {
+    url = '../' + url;
+  }
+  // Return new URL
+  return url;
 }
-*/		
+*/
 
-		$tiny = new rexTinyMCEEditor();
-		echo $tiny->getConfiguration();
-		echo "\n\n" . 'tinyMCE.init(tinyMCEInitArray);' . "\n";
-	}
+    $tiny = new rexTinyMCEEditor();
+    echo $tiny->getConfiguration();
+    echo "\n\n" . 'tinyMCE.init(tinyMCEInitArray);' . "\n";
+  }
 } // End function_exists
 
 /**
@@ -206,23 +206,23 @@ function rexCustomURLConverter(url, node, on_save) {
  */
 if (!function_exists('a52_tinymce_mediaadded'))
 {
-	function a52_tinymce_mediaadded($params)
-	{
-		global $REX;
+  function a52_tinymce_mediaadded($params)
+  {
+    global $REX;
 
-		// Status Tinymce, Hinzuf�gen und Hinzuf�gen+�bernehmen
-		$_SESSION['a52_tinymce'] = 'true';
-		$_SESSION['a52_save'] = '';
-		if (isset($_POST['save'])) 
-			$_SESSION['a52_save'] = $_POST['save'];
-		$_SESSION['a52_saveand-exit'] = '';
-		if (isset($_POST['saveand-exit'])) 
-			$_SESSION['a52_saveand-exit'] = $_POST['saveand-exit'];
+    // Status Tinymce, Hinzuf�gen und Hinzuf�gen+�bernehmen
+    $_SESSION['a52_tinymce'] = 'true';
+    $_SESSION['a52_save'] = '';
+    if (isset($_POST['save']))
+      $_SESSION['a52_save'] = $_POST['save'];
+    $_SESSION['a52_saveand-exit'] = '';
+    if (isset($_POST['saveand-exit']))
+      $_SESSION['a52_saveand-exit'] = $_POST['saveand-exit'];
 
-		// Dateinamen f�r Outputfilter merken!
-		$_SESSION['a52_media_added_filename'] = $params['filename'];
-		$_SESSION['a52_media_added_title'] = $params['title'];
-	}
+    // Dateinamen f�r Outputfilter merken!
+    $_SESSION['a52_media_added_filename'] = $params['filename'];
+    $_SESSION['a52_media_added_title'] = $params['title'];
+  }
 } // End function_exists
 
 /**
@@ -230,135 +230,135 @@ if (!function_exists('a52_tinymce_mediaadded'))
  */
 if (!function_exists('a52_tinymce_opf_media_linkmap'))
 {
-	function a52_tinymce_opf_media_linkmap($params)
-	{
-		global $REX;
-		global $rxa_tinymce;
-		$n = "\n";
+  function a52_tinymce_opf_media_linkmap($params)
+  {
+    global $REX;
+    global $rxa_tinymce;
+    $n = "\n";
 
-		$page = rex_request('page', 'string');
-		$tinymce = rex_request('tinymce', 'string');
+    $page = rex_request('page', 'string');
+    $tinymce = rex_request('tinymce', 'string');
 
-		$content = $params['subject'];
+    $content = $params['subject'];
 
-		// JavaScript f�r TinyMCE-Popups
-		$scriptoutput = $n . '<script type="text/javascript" src="' . $rxa_tinymce['fe_path'] . '/tiny_mce/tiny_mce_popup.js"></script>';
+    // JavaScript f�r TinyMCE-Popups
+    $scriptoutput = $n . '<script type="text/javascript" src="' . $rxa_tinymce['fe_path'] . '/tiny_mce/tiny_mce_popup.js"></script>';
 
-		// JavaScript f�r Medienpool
-		if ($page == $rxa_tinymce['medienpool'])
-		{
-			$scriptoutput .= $n . '<script type="text/javascript" src="' . $rxa_tinymce['fe_path'] . '/mediapool.js"></script>';
-			// Medium hinzuf�gen und �bernehmen, Fenster schliessen
-			if (isset($_SESSION['a52_saveand-exit']) and ($_SESSION['a52_saveand-exit'] <> '')) 
-			{
-				$scriptoutput .= $n . '<script type="text/javascript">';
-				$scriptoutput .= $n . '//<![CDATA[';
-				$scriptoutput .= $n . '	selectMedia("'.$_SESSION['a52_media_added_filename'].'", "'.$_SESSION['a52_media_added_title'].'")';
-				$scriptoutput .= $n . '//]]>';
-				$scriptoutput .= $n . '</script>';
-				unset($_SESSION['a52_saveand-exit']);
-				unset($_SESSION['a52_media_added_filename']);
-				unset($_SESSION['a52_media_added_title']);
-			}
-		}
+    // JavaScript f�r Medienpool
+    if ($page == $rxa_tinymce['medienpool'])
+    {
+      $scriptoutput .= $n . '<script type="text/javascript" src="' . $rxa_tinymce['fe_path'] . '/mediapool.js"></script>';
+      // Medium hinzuf�gen und �bernehmen, Fenster schliessen
+      if (isset($_SESSION['a52_saveand-exit']) and ($_SESSION['a52_saveand-exit'] <> ''))
+      {
+        $scriptoutput .= $n . '<script type="text/javascript">';
+        $scriptoutput .= $n . '//<![CDATA[';
+        $scriptoutput .= $n . '  selectMedia("'.$_SESSION['a52_media_added_filename'].'", "'.$_SESSION['a52_media_added_title'].'")';
+        $scriptoutput .= $n . '//]]>';
+        $scriptoutput .= $n . '</script>';
+        unset($_SESSION['a52_saveand-exit']);
+        unset($_SESSION['a52_media_added_filename']);
+        unset($_SESSION['a52_media_added_title']);
+      }
+    }
 
-		// JavaScript f�r Linkmap
-		if ($page == $rxa_tinymce['linkmap'])
-		{
-			$scriptoutput .= $n . '<script type="text/javascript" src="' . $rxa_tinymce['fe_path'] . '/linkmap.js"></script>';
-		}
+    // JavaScript f�r Linkmap
+    if ($page == $rxa_tinymce['linkmap'])
+    {
+      $scriptoutput .= $n . '<script type="text/javascript" src="' . $rxa_tinymce['fe_path'] . '/linkmap.js"></script>';
+    }
 
-		$output = $n . '<!-- Addon TinyMCE - ' . $page . ' -->' . $scriptoutput;
+    $output = $n . '<!-- Addon TinyMCE - ' . $page . ' -->' . $scriptoutput;
 
-		$search = array();
-		$replace = array();
+    $search = array();
+    $replace = array();
 
-		if ($page == $rxa_tinymce['medienpool'])
-		{
-			if ($rxa_tinymce['rexversion'] == 32)
-			{
-				$search[0] = '</head>';
-				$replace[0] = $n.$output.$n.$n.$search[0];
-				$search[1] = '<input type=hidden name=page value=' . $rxa_tinymce['medienpool'] . '>';
-				$replace[1] = $search[1].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
-				$search[2] = 'page=' . $rxa_tinymce['medienpool'];
-				$replace[2] = 'page=' . $rxa_tinymce['medienpool'] . '&amp;tinymce=true';
-				$search[3] = '"saveandexit"';
-				$replace[3] = '"saveand-exit"';
-				$search[4] = '<input type="hidden" name="page" value="' . $rxa_tinymce['medienpool'] . '">';
-				$replace[4] = $search[4].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
-			}
-			if ($rxa_tinymce['rexversion'] == 40)
-			{
-				$search[0] = '<div id="rex-title">';
-				$replace[0] = $n.$output.$n.$n.$search[0];
-				$search[1] = '<input type="hidden" name="page" value="' . $rxa_tinymce['medienpool'] . '" />';
-				$replace[1] = $search[1].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
-				$search[2] = 'page=' . $rxa_tinymce['medienpool'];
-				$replace[2] = 'page=' . $rxa_tinymce['medienpool'] . '&amp;tinymce=true';
-				$search[3] = '"saveandexit"';
-				$replace[3] = '"saveand-exit"';
-			}
-			if ($rxa_tinymce['rexversion'] == 41)
-			{
-				$search[0] = '<div id="rex-title">';
-				$replace[0] = $n.$output.$n.$n.$search[0];
-				$search[1] = '<input type="hidden" name="page" value="' . $rxa_tinymce['medienpool'] . '" />';
-				$replace[1] = $search[1].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
-				$search[2] = 'page=' . $rxa_tinymce['medienpool'];
-				$replace[2] = 'page=' . $rxa_tinymce['medienpool'] . '&amp;tinymce=true';
-				$search[3] = '"saveandexit"';
-				$replace[3] = '"saveand-exit"';
-			}
-			if ($rxa_tinymce['rexversion'] >= 42)
-			{
-				$search[0] = '<div class="rex-form" id="rex-form-mediapool-selectcategory">';
-				$replace[0] = $n.$output.$n.$n.$search[0];
-				$search[1] = '<input type="hidden" name="page" value="' . $rxa_tinymce['medienpool'] . '" />';
-				$replace[1] = $search[1].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
-				$search[2] = 'page=' . $rxa_tinymce['medienpool'];
-				$replace[2] = 'page=' . $rxa_tinymce['medienpool'] . '&amp;tinymce=true';
-				$search[3] = '"saveandexit"';
-				$replace[3] = '"saveand-exit"';
-				$search[4] = '<div class="rex-form" id="rex-form-mediapool-other">';
-				$replace[4] = $n.$output.$n.$n.$search[4];
-				$search[5] = '<div id="rex-navi-path">';
-				$replace[5] = $n.$output.$n.$n.$search[5];
-			}
-			$content = str_replace($search, $replace, $content);
-		}
+    if ($page == $rxa_tinymce['medienpool'])
+    {
+      if ($rxa_tinymce['rexversion'] == 32)
+      {
+        $search[0] = '</head>';
+        $replace[0] = $n.$output.$n.$n.$search[0];
+        $search[1] = '<input type=hidden name=page value=' . $rxa_tinymce['medienpool'] . '>';
+        $replace[1] = $search[1].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
+        $search[2] = 'page=' . $rxa_tinymce['medienpool'];
+        $replace[2] = 'page=' . $rxa_tinymce['medienpool'] . '&amp;tinymce=true';
+        $search[3] = '"saveandexit"';
+        $replace[3] = '"saveand-exit"';
+        $search[4] = '<input type="hidden" name="page" value="' . $rxa_tinymce['medienpool'] . '">';
+        $replace[4] = $search[4].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
+      }
+      if ($rxa_tinymce['rexversion'] == 40)
+      {
+        $search[0] = '<div id="rex-title">';
+        $replace[0] = $n.$output.$n.$n.$search[0];
+        $search[1] = '<input type="hidden" name="page" value="' . $rxa_tinymce['medienpool'] . '" />';
+        $replace[1] = $search[1].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
+        $search[2] = 'page=' . $rxa_tinymce['medienpool'];
+        $replace[2] = 'page=' . $rxa_tinymce['medienpool'] . '&amp;tinymce=true';
+        $search[3] = '"saveandexit"';
+        $replace[3] = '"saveand-exit"';
+      }
+      if ($rxa_tinymce['rexversion'] == 41)
+      {
+        $search[0] = '<div id="rex-title">';
+        $replace[0] = $n.$output.$n.$n.$search[0];
+        $search[1] = '<input type="hidden" name="page" value="' . $rxa_tinymce['medienpool'] . '" />';
+        $replace[1] = $search[1].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
+        $search[2] = 'page=' . $rxa_tinymce['medienpool'];
+        $replace[2] = 'page=' . $rxa_tinymce['medienpool'] . '&amp;tinymce=true';
+        $search[3] = '"saveandexit"';
+        $replace[3] = '"saveand-exit"';
+      }
+      if ($rxa_tinymce['rexversion'] >= 42)
+      {
+        $search[0] = '<div class="rex-form" id="rex-form-mediapool-selectcategory">';
+        $replace[0] = $n.$output.$n.$n.$search[0];
+        $search[1] = '<input type="hidden" name="page" value="' . $rxa_tinymce['medienpool'] . '" />';
+        $replace[1] = $search[1].$n.'<input type="hidden" name="tinymce" value="true" /> <!-- inserted by TinyMCE -->';
+        $search[2] = 'page=' . $rxa_tinymce['medienpool'];
+        $replace[2] = 'page=' . $rxa_tinymce['medienpool'] . '&amp;tinymce=true';
+        $search[3] = '"saveandexit"';
+        $replace[3] = '"saveand-exit"';
+        $search[4] = '<div class="rex-form" id="rex-form-mediapool-other">';
+        $replace[4] = $n.$output.$n.$n.$search[4];
+        $search[5] = '<div id="rex-navi-path">';
+        $replace[5] = $n.$output.$n.$n.$search[5];
+      }
+      $content = str_replace($search, $replace, $content);
+    }
 
-		if ($page == $rxa_tinymce['linkmap'])
-		{
-  			if ($rxa_tinymce['rexversion'] == 32)
-			{
-				$search[0] = '</body>';
-				$replace[0] = $n.$output.$n.$n.$search[0];
-			}
-			if ($rxa_tinymce['rexversion'] == 40)
-			{
-				$search[0] = '<div class="rex-lmp-pth">';
-				$replace[0] = $n.$output.$n.$n.$search[0];
-				$search[1] = 'page=linkmap';
-				$replace[1] = 'page=linkmap&amp;tinymce=true';
-			}
-			if ($rxa_tinymce['rexversion'] == 41)
-			{
-				$search[0] = '<div class="rex-lmp-pth">';
-				$replace[0] = $n.$output.$n.$n.$search[0];
-				$search[1] = 'page=linkmap';
-				$replace[1] = 'page=linkmap&amp;tinymce=true';
-			}
-			if ($rxa_tinymce['rexversion'] >= 42)
-			{
-				$search[0] = '<div id="rex-title">';
-				$replace[0] = $n.$output.$n.$n.$search[0];
-				$search[1] = 'page=linkmap';
-				$replace[1] = 'page=linkmap&amp;tinymce=true';
-			}
-			$content = str_replace($search, $replace, $content);
-		}
+    if ($page == $rxa_tinymce['linkmap'])
+    {
+        if ($rxa_tinymce['rexversion'] == 32)
+      {
+        $search[0] = '</body>';
+        $replace[0] = $n.$output.$n.$n.$search[0];
+      }
+      if ($rxa_tinymce['rexversion'] == 40)
+      {
+        $search[0] = '<div class="rex-lmp-pth">';
+        $replace[0] = $n.$output.$n.$n.$search[0];
+        $search[1] = 'page=linkmap';
+        $replace[1] = 'page=linkmap&amp;tinymce=true';
+      }
+      if ($rxa_tinymce['rexversion'] == 41)
+      {
+        $search[0] = '<div class="rex-lmp-pth">';
+        $replace[0] = $n.$output.$n.$n.$search[0];
+        $search[1] = 'page=linkmap';
+        $replace[1] = 'page=linkmap&amp;tinymce=true';
+      }
+      if ($rxa_tinymce['rexversion'] >= 42)
+      {
+        $search[0] = '<div id="rex-title">';
+        $replace[0] = $n.$output.$n.$n.$search[0];
+        $search[1] = 'page=linkmap';
+        $replace[1] = 'page=linkmap&amp;tinymce=true';
+      }
+      $content = str_replace($search, $replace, $content);
+    }
 
-		return $content;
-	}
+    return $content;
+  }
 } // End function_exists

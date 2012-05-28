@@ -122,7 +122,7 @@ class rex_i18n
    */
   static public function hasMsg($key)
   {
-  	return isset(self::$msg[$key]);
+    return isset(self::$msg[$key]);
   }
 
   /**

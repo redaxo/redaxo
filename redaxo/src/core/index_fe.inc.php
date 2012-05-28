@@ -5,11 +5,14 @@
  * @package redaxo5
  */
 
+if(rex::isSetup())
+{
+  rex_response::sendRedirect('redaxo/');
+}
+
 // ----- ob caching start für output filter
 ob_start();
 ob_implicit_flush(0);
-
-// --------------------------- ini settings
 
 // Setzten des arg_separators, falls Sessions verwendet werden,
 // um XHTML valide Links zu produzieren
@@ -18,12 +21,6 @@ ob_implicit_flush(0);
 
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.inc.php');
-
-if(rex::isSetup())
-{
-	header('Location:redaxo/');
-	exit();
-}
 
 // ----- caching end für output filter
 $CONTENT = ob_get_contents();

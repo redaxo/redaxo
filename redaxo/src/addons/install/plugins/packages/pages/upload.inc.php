@@ -85,7 +85,7 @@ if($addonkey && isset($addons[$addonkey]))
 
             $n = array();
             $n['reverse'] = true;
-            $n['label'] = '<label for="install-packages-upload-upload-file">'. $this->i18n('upload_file') .'</label>'. $hiddenField .'';
+            $n['label'] = '<label for="install-packages-upload-upload-file">'. $this->i18n('upload_file') .'</label>'. $hiddenField;
             $n['field'] = '<input id="install-packages-upload-upload-file" type="checkbox" name="upload[upload_file]" value="1" '. ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled .'/>';
             $formElements[] = $n;
 
@@ -93,8 +93,17 @@ if($addonkey && isset($addons[$addonkey]))
             {
               $n = array();
               $n['reverse'] = true;
-              $n['label'] = '<label for="install-packages-upload-replace-assets">'. $this->i18n('replace_assets') .'</label>'. $hiddenField .'';
+              $n['label'] = '<label for="install-packages-upload-replace-assets">'. $this->i18n('replace_assets') .'</label>';
               $n['field'] = '<input id="install-packages-upload-replace-assets" type="checkbox" name="upload[replace_assets]" value="1" '. ($new ? '' : 'disabled="disabled" ') .'/>';
+              $formElements[] = $n;
+            }
+
+            if (is_dir(rex_path::addon($addonkey, 'tests')))
+            {
+              $n = array();
+              $n['reverse'] = true;
+              $n['label'] = '<label for="install-packages-upload-ignore-tests">'. $this->i18n('ignore_tests') .'</label>';
+              $n['field'] = '<input id="install-packages-upload-ignore-tests" type="checkbox" name="upload[ignore_tests]" value="1" checked="checked"'. ($new ? '' : 'disabled="disabled" ') .'/>';
               $formElements[] = $n;
             }
 
@@ -118,7 +127,7 @@ if($addonkey && isset($addons[$addonkey]))
 
   $content .= '
       </fieldset>
-  	</form>
+    </form>
   </div>';
 
     if(!$new)
@@ -131,12 +140,12 @@ if($addonkey && isset($addons[$addonkey]))
         if($(this).is(":checked"))
         {
           '. ($newVersion != $file['version'] ? '$("#install-packages-upload-version").html("<span class=\'rex-strike\'>'. $file['version'] .'</span> <strong>'. $newVersion .'</strong>");' : '') .'
-          $("#install-packages-upload-replace-assets").removeAttr("disabled");
+          $("#install-packages-upload-replace-assets, #install-packages-upload-ignore-tests").removeAttr("disabled");
         }
         else
         {
           $("#install-packages-upload-version").html("'. $file['version'] .'");
-          $("#install-packages-upload-replace-assets").attr("disabled", "disabled").removeAttr("checked");
+          $("#install-packages-upload-replace-assets, #install-packages-upload-ignore-tests").attr("disabled", "disabled");
         }
       });
     });
@@ -152,41 +161,41 @@ if($addonkey && isset($addons[$addonkey]))
       $icon = '<a class="rex-ic-generic rex-ic-add" href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey='. $addonkey .'&amp;file=new" title="'. $this->i18n('file_add') .'">'. $this->i18n('file_add') .'</a>';
 
     $content .= '
-  	<h2>'. $addonkey .'</h2>
+    <h2>'. $addonkey .'</h2>
 
-  	<h3>'. $this->i18n('information') .'</h3>
-  	<table class="rex-table">
+    <h3>'. $this->i18n('information') .'</h3>
+    <table class="rex-table">
       <tbody>
-  		<tr>
-  			<th>'. $this->i18n('name') .'</th>
-  			<td>'. $addon['name'] .'</td>
-  		</tr>
-  		<tr>
-  			<th>'. $this->i18n('author') .'</th>
-  			<td>'. $addon['author'] .'</td>
-  		</tr>
-  		<tr>
-  			<th>'. $this->i18n('shortdescription') .'</th>
-  			<td>'. nl2br($addon['shortdescription']) .'</td>
-  		</tr>
-  		<tr>
-  			<th>'. $this->i18n('description') .'</th>
-  			<td>'. nl2br($addon['description']) .'</td>
-  		</tr>
+      <tr>
+        <th>'. $this->i18n('name') .'</th>
+        <td>'. $addon['name'] .'</td>
+      </tr>
+      <tr>
+        <th>'. $this->i18n('author') .'</th>
+        <td>'. $addon['author'] .'</td>
+      </tr>
+      <tr>
+        <th>'. $this->i18n('shortdescription') .'</th>
+        <td>'. nl2br($addon['shortdescription']) .'</td>
+      </tr>
+      <tr>
+        <th>'. $this->i18n('description') .'</th>
+        <td>'. nl2br($addon['description']) .'</td>
+      </tr>
       </tbody>
-  	</table>
+    </table>
 
-  	<h3>'. $this->i18n('files') .'</h3>
-  	<table class="rex-table">
-  		<thead>
-  		<tr>
-  		  <th class="rex-icon">'. $icon .'</th>
-  			<th class="rex-version">'. $this->i18n('version') .'</th>
-  			<th>REDAXO</th>
-  			<th class="rex-description">'. $this->i18n('description') .'</th>
-  			<th class="rex-function">'. $this->i18n('status') .'</th>
-  		</tr>
-  		</thead>
+    <h3>'. $this->i18n('files') .'</h3>
+    <table class="rex-table">
+      <thead>
+      <tr>
+        <th class="rex-icon">'. $icon .'</th>
+        <th class="rex-version">'. $this->i18n('version') .'</th>
+        <th>REDAXO</th>
+        <th class="rex-description">'. $this->i18n('description') .'</th>
+        <th class="rex-function">'. $this->i18n('status') .'</th>
+      </tr>
+      </thead>
       <tbody>';
 
     foreach($addon['files'] as $fileId => $file)
@@ -196,10 +205,10 @@ if($addonkey && isset($addons[$addonkey]))
       $content .= '
       <tr>
         <td class="rex-icon">'. sprintf($a, ' class="rex-ic-addon"', $file['version']) .'</td>
-      	<td class="rex-version">'. sprintf($a, '', $file['version']) .'</a></td>
-      	<td class="rex-version">'. implode(', ', $file['redaxo_versions']) .'</td>
-      	<td class="rex-description">'. nl2br($file['description']) .'</td>
-      	<td class="rex-status"><span class="rex-'. $status .'">'. $this->i18n($status) .'</span></td>
+        <td class="rex-version">'. sprintf($a, '', $file['version']) .'</a></td>
+        <td class="rex-version">'. implode(', ', $file['redaxo_versions']) .'</td>
+        <td class="rex-description">'. nl2br($file['description']) .'</td>
+        <td class="rex-status"><span class="rex-'. $status .'">'. $this->i18n($status) .'</span></td>
       </tr>';
     }
 
@@ -212,29 +221,29 @@ else
 {
 
   $content .= '
-  	<h2>'. $this->i18n('my_packages') .'</h2>
-  	<table class="rex-table">
-  	 <thead>
-  		<tr>
-  			<th class="rex-icon"></th>
-  			<th class="rex-key">'. $this->i18n('key') .'</th>
-  			<th class="rex-name">'. $this->i18n('name') .'</th>
-  			<th class="rex-function">'. $this->i18n('status') .'</th>
-  		</tr>
-  	 </thead>
-  	 <tbody>';
+    <h2>'. $this->i18n('my_packages') .'</h2>
+    <table class="rex-table">
+     <thead>
+      <tr>
+        <th class="rex-icon"></th>
+        <th class="rex-key">'. $this->i18n('key') .'</th>
+        <th class="rex-name">'. $this->i18n('name') .'</th>
+        <th class="rex-function">'. $this->i18n('status') .'</th>
+      </tr>
+     </thead>
+     <tbody>';
 
   foreach($addons as $key => $addon)
   {
     $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey='. $key .'">%s</a>';
     $status = $addon['status'] ? 'online' : 'offline';
     $content .= '
-    	<tr>
-    		<td class="rex-icon">'. sprintf($a, ' class="rex-ic-addon"', $key) .'</a></td>
-    		<td class="rex-key">'. sprintf($a, '', $key) .'</a></td>
-    		<td class="rex-name">'. $addon['name'] .'</td>
-      	<td class="rex-status"><span class="rex-'. $status .'">'. $this->i18n($status) .'</span></td>
-    	</tr>';
+      <tr>
+        <td class="rex-icon">'. sprintf($a, ' class="rex-ic-addon"', $key) .'</a></td>
+        <td class="rex-key">'. sprintf($a, '', $key) .'</a></td>
+        <td class="rex-name">'. $addon['name'] .'</td>
+        <td class="rex-status"><span class="rex-'. $status .'">'. $this->i18n($status) .'</span></td>
+      </tr>';
   }
 
   $content .= '</tbody></table>';

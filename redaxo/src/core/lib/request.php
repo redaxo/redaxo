@@ -74,12 +74,12 @@ class rex_request
   {
     if(isset($_SESSION[$varname][rex::getProperty('instname')]))
     {
-      return self::castVar($_SESSION[$varname][rex::getProperty('instname')], $vartype, $default, 'found');
+      return rex_type::cast($_SESSION[$varname][rex::getProperty('instname')], $vartype);
     }
 
     if($default === '')
     {
-      return self::castVar($default, $vartype, $default, 'default');
+      return rex_type::cast($default, $vartype);
     }
     return $default;
   }
@@ -166,161 +166,14 @@ class rex_request
 
     if(array_key_exists($needle, $haystack))
     {
-      return self::castVar($haystack[$needle], $vartype, $default, 'found');
+      return rex_type::cast($haystack[$needle], $vartype);
     }
 
     if($default === '')
     {
-      return self::castVar($default, $vartype, $default, 'default');
+      return rex_type::cast($default, $vartype);
     }
     return $default;
-  }
-
-  /**
-   * Casts the variable $var to $vartype
-   *
-   * Possible PHP types:
-   *  - bool (or boolean)
-   *  - int (or integer)
-   *  - double
-   *  - string
-   *  - float
-   *  - real
-   *  - object
-   *  - array
-   *  - array[<type>], e.g. array[int]
-   *  - '' (don't cast)
-   *
-   * Possible REDAXO types:
-   *  - rex-article-id
-   *  - rex-category-id
-   *  - rex-clang-id
-   *  - rex-template-id
-   *  - rex-ctype-id
-   *  - rex-slice-id
-   *  - rex-module-id
-   *  - rex-action-id
-   *  - rex-media-id
-   *  - rex-mediacategory-id
-   *  - rex-user-id
-   *
-   * @param mixed $var Variable to cast
-   * @param string $vartype Variable type
-   * @param mixed $default Default value
-   * @param string $mode Mode
-   *
-   * @return mixed Castet value
-   */
-  static private function castVar($var, $vartype, $default, $mode)
-  {
-    if(!is_string($vartype))
-    {
-      throw new rex_exception('String expected for $vartype in castVar()!');
-    }
-
-    switch($vartype)
-    {
-      // ---------------- REDAXO types
-      case 'rex-article-id':
-        $var = (int) $var;
-        if($mode == 'found')
-        {
-          if(!rex_ooArticle::isValid(rex_ooArticle::getArticleById($var)))
-            $var = (int) $default;
-        }
-        break;
-      case 'rex-category-id':
-        $var = (int) $var;
-        if($mode == 'found')
-        {
-          if(!rex_ooCategory::isValid(rex_ooCategory::getCategoryById($var)))
-            $var = (int) $default;
-        }
-        break;
-      case 'rex-clang-id':
-        $var = (int) $var;
-        if($mode == 'found')
-        {
-          if(!rex_clang::exists($var))
-            $var = (int) $default;
-        }
-        break;
-      case 'rex-template-id':
-      case 'rex-ctype-id':
-      case 'rex-slice-id':
-      case 'rex-module-id':
-      case 'rex-action-id':
-      case 'rex-media-id':
-      case 'rex-mediacategory-id':
-      case 'rex-user-id':
-        // erstmal keine weitere validierung
-        $var = (int) $var;
-        break;
-
-      // ---------------- PHP types
-      case 'bool'   :
-      case 'boolean':
-        $var = (boolean) $var;
-        break;
-      case 'int'    :
-      case 'integer':
-        $var = (int)     $var;
-        break;
-      case 'double' :
-        $var = (double)  $var;
-        break;
-      case 'float'  :
-      case 'real'   :
-        $var = (float)   $var;
-        break;
-      case 'string' :
-        $var = (string)  $var;
-        break;
-      case 'object' :
-        $var = (object)  $var;
-        break;
-      case 'array'  :
-        if(empty($var))
-          $var = array();
-        else
-          $var = (array) $var;
-        break;
-
-      // kein Cast, nichts tun
-      case ''       : break;
-
-      default:
-        // check for array with generic type
-        if(strpos($vartype, 'array[') === 0)
-        {
-          if(empty($var))
-            $var = array();
-          else
-            $var = (array) $var;
-
-          // check if every element in the array is from the generic type
-          $matches = array();
-          if(preg_match('@array\[([^\]]*)\]@', $vartype, $matches))
-          {
-            foreach($var as $key => $value)
-            {
-              try {
-                $var[$key] = self::castVar($value, $matches[1], '', 'found');
-              } catch (rex_exception $e) {
-                // Evtl Typo im vartype, mit urspr. typ als fehler melden
-                throw new rex_exception('Unexpected vartype "'. $vartype .'" in castVar()!');
-              }
-            }
-          }
-        }
-        else
-        {
-          // Evtl Typo im vartype, deshalb hier fehlermeldung!
-          throw new rex_exception('Unexpected vartype "'. $vartype .'" in castVar()!');
-        }
-    }
-
-    return $var;
   }
 
   /**
@@ -346,5 +199,15 @@ class rex_request
   static public function isXmlHttpRequest()
   {
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+  }
+
+  /**
+   * Returns true if the request is a PJAX-Request
+   *
+   * @see http://pjax.heroku.com/
+   */
+  static public function isPJAXRequest()
+  {
+    return isset($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] == 'true';
   }
 }

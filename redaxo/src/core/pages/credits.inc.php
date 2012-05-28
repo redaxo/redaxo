@@ -85,7 +85,7 @@ $content_2 = '';
 
 $content_1 .= '
   <h2>REDAXO</h2>
-  
+
   <h3>Jan Kristinus <span>jan.kristinus@redaxo.org</span></h3>
   <p>
     '. rex_i18n::msg('credits_inventor') .' &amp '. rex_i18n::msg('credits_developer') .'<br />
@@ -167,7 +167,7 @@ $content .= '
           {
             $content .= '<a href="http://'. $plugin->supportpage .'" onclick="window.open(this.href); return false;">'. $plugin->supportpage .'</a>';
           }
-          
+
         $content .= '
           </td>
         </tr>';

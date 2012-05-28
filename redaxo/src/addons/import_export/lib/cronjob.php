@@ -63,7 +63,7 @@ class rex_cronjob_export extends rex_cronjob
 
   public function getParamFields()
   {
-		$fields = array(
+    $fields = array(
       array(
         'label' => rex_i18n::msg('im_export_filename'),
         'name'  => 'filename',
@@ -71,7 +71,7 @@ class rex_cronjob_export extends rex_cronjob
         'default' => self::DEFAULT_FILENAME,
         'notice'  => rex_i18n::msg('im_export_filename_notice')
       ),
-  		array(
+      array(
         'name'  => 'sendmail',
         'type'  => 'checkbox',
         'options' => array(1 => rex_i18n::msg('im_export_send_mail'))
@@ -88,8 +88,8 @@ class rex_cronjob_export extends rex_cronjob
     }
     else
     {
-  		$fields[1]['notice'] = rex_i18n::msg('im_export_send_mail_notice');
-  		$fields[1]['attributes'] = array('disabled' => 'disabled');
+      $fields[1]['notice'] = rex_i18n::msg('im_export_send_mail_notice');
+      $fields[1]['attributes'] = array('disabled' => 'disabled');
     }
     return $fields;
   }

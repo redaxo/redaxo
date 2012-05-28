@@ -59,7 +59,7 @@ function rex_install_dump($file, $debug = false)
  */
 function rex_accesskey($title, $key)
 {
-  if(rex::getUser()->hasPerm('accesskeys[]'))
+  if (rex::getProperty('use_accesskeys'))
     return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
 
   return ' title="'. $title .'"';
@@ -234,4 +234,38 @@ function rex_highlight_file($filename, $return = false)
 function rex_isXmlHttpRequest()
 {
   return rex_request::isXmlHttpRequest();
+}
+
+/**
+* @see rex_sql_util::organizePriorities()
+*
+* @deprecated 5.0
+*/
+function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id', $startBy = 1)
+{
+  rex_sql_util::organizePriorities($tableName, $priorColumnName, $whereCondition, $orderBy, $id_field, $startBy);
+}
+
+/**
+ * @see rex_sql::getArrayValue()
+ *
+ * @deprecated 5.0
+ */
+function rex_getAttributes($name,$content,$default = null)
+{
+  $prop = unserialize($content, true);
+  if (isset($prop[$name])) return $prop[$name];
+  return $default;
+}
+
+/**
+ * @see rex_sql::setArrayValue()
+ *
+ * @deprecated 5.0
+ */
+function rex_setAttributes($name,$value,$content)
+{
+  $prop = unserialize($content);
+  $prop[$name] = $value;
+  return serialize($prop);
 }

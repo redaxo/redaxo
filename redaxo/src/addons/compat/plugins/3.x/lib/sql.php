@@ -7,7 +7,7 @@
  */
 class sql extends rex_sql
 {
-	protected $select;
+  protected $select;
 
   function __construct($DBID = 1)
   {
@@ -43,7 +43,7 @@ class sql extends rex_sql
    */
   function nextValue()
   {
-  	$this->next();
+    $this->next();
   }
 
   /**

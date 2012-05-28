@@ -87,7 +87,7 @@ class rex_view
   static public function contentBlock($content_1 = '', $content_2 = '', $type = '')
   {
     $return = '';
-    
+
     $class = '';
     switch ($type)
     {
@@ -101,7 +101,7 @@ class rex_view
         $class = ' rex-content-default';
         break;
     }
-    
+
     $return .= '<section class="rex-content'.$class.'">';
     if($content_2 != '')
     {
@@ -110,13 +110,13 @@ class rex_view
           <div class="rex-column rex-first">'. $content_1 .'</div>
           <div class="rex-column rex-last">'. $content_2 .'</div>
         </div>';
-  
+
     }else
     {
       $return .= $content_1;
     }
     $return .= '</section>';
-    
+
     return $return;
   }
 
@@ -184,32 +184,31 @@ class rex_view
       }
       $nav->setActiveElements();
       $blocks = $nav->getNavigation();
-      
+
       $fragment = new rex_fragment();
-	  $fragment->setVar('type', 'tab', false);
-	  $fragment->setVar('blocks', $blocks, false);
-	  $subtitle = $fragment->parse('navigation.tpl');
-      
+      $fragment->setVar('type', 'tab', false);
+      $fragment->setVar('blocks', $blocks, false);
+      $subtitle = $fragment->parse('navigation.tpl');
+
     }else
     {
       // REDAXO <= 4.2 compat
       $subtitle = self::getSubtitle($subtitle);
     }
 
-	$title = rex_extension::registerPoint('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page));
+    $title = rex_extension::registerPoint('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page));
 
-  	$return = '<h1>'.$title.'</h1>'.$subtitle;
+    $return = '<h1>'.$title.'</h1>'.$subtitle;
 
     echo rex_extension::registerPoint('PAGE_TITLE_SHOWN', "",
-	    array(
-	      'category_id' => $category_id,
-	      'article_id' => $article_id,
-	      'page' => $page
-	    )
-	  );
+      array(
+        'category_id' => $category_id,
+        'article_id' => $article_id,
+        'page' => $page
+      )
+    );
 
-	return $return;
-
+    return $return;
   }
 
   /**
@@ -224,7 +223,6 @@ class rex_view
 
     $subtitle_str = $subline;
     $subtitle = $subline;
-    $attr = '';
     $cur_subpage = rex_request('subpage', 'string');
     $cur_page    = rex_request('page', 'string');
 
@@ -249,7 +247,7 @@ class rex_view
         if ($perm != '')
         {
           // Hat der User das Recht für die aktuelle Subpage?
-          if (!rex::getUser()->isAdmin() && !rex::getUser()->hasPerm($perm))
+          if (!rex::getUser()->hasPerm($perm))
           {
             // Wenn der User kein Recht hat, und diese Seite öffnen will -> Fehler
             if ($cur_subpage == $link)
@@ -273,6 +271,7 @@ class rex_view
         $active = (empty ($cur_subpage) && $link == '') || (!empty ($cur_subpage) && $cur_subpage == $link);
 
         // restliche attribute direkt in den link-tag schreiben
+        $attr = '';
         $add_class = '';
         if(!empty($subpage[4]) && is_array($subpage[4]))
         {

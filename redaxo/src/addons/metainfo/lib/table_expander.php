@@ -8,7 +8,7 @@
  * @package redaxo5
  */
 
-class rex_metainfo_tableExpander extends rex_form
+class rex_metainfo_table_expander extends rex_form
 {
   private
     $metaPrefix,
@@ -17,7 +17,7 @@ class rex_metainfo_tableExpander extends rex_form
   public function __construct($metaPrefix, $metaTable, $tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     $this->metaPrefix = $metaPrefix;
-    $this->tableManager = new rex_metainfo_tableManager($metaTable);
+    $this->tableManager = new rex_metainfo_table_manager($metaTable);
 
     parent::__construct($tableName, $fieldset, $whereCondition, $method, $debug);
   }
@@ -61,16 +61,16 @@ class rex_metainfo_tableExpander extends rex_form
     $field->setLabel(rex_i18n::msg('minfo_field_label_title'));
     $field->setNotice(rex_i18n::msg('minfo_field_notice_title'));
 
-	  $gq = rex_sql::factory();
-		$gq->setQuery('SELECT dbtype,id FROM '. rex::getTablePrefix() .'metainfo_type');
-		$textFields = array();
-		foreach($gq->getArray() as $f)
-		{
-		  if($f["dbtype"] == "text")
-		  {
-		  $textFields[$f['id']] = $f['id'];
-		  }
-		}
+    $gq = rex_sql::factory();
+    $gq->setQuery('SELECT dbtype,id FROM '. rex::getTablePrefix() .'metainfo_type');
+    $textFields = array();
+    foreach($gq->getArray() as $f)
+    {
+      if($f["dbtype"] == "text")
+      {
+      $textFields[$f['id']] = $f['id'];
+      }
+    }
 
     $field = $this->addSelectField('type');
     $field->setLabel(rex_i18n::msg('minfo_field_label_type'));
@@ -133,7 +133,7 @@ class rex_metainfo_tableExpander extends rex_form
 
   protected function delete()
   {
-  	// Infos zuerst selektieren, da nach parent::delete() nicht mehr in der db
+    // Infos zuerst selektieren, da nach parent::delete() nicht mehr in der db
     $sql = rex_sql::factory();
     $sql->debugsql =& $this->debug;
     $sql->setTable($this->tableName);
@@ -303,7 +303,7 @@ class rex_metainfo_tableExpander extends rex_form
     // replace LIKE wildcards
     $metaPrefix = str_replace(array('_', '%'), array('\_', '\%'), $this->metaPrefix);
 
-    rex_organize_priorities(
+    rex_sql_util::organizePriorities(
       $this->tableName,
       'prior',
       'name LIKE "'. $metaPrefix .'%"',

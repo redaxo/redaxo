@@ -13,6 +13,29 @@ class rex_addon_manager extends rex_package_manager
   }
 
   /* (non-PHPdoc)
+   * @see rex_package_manager::install()
+   */
+  public function install($installDump = TRUE)
+  {
+    $installed = $this->package->isInstalled();
+    $return = parent::install($installDump);
+
+    if(!$installed && $return === true)
+    {
+      foreach($this->package->getSystemPlugins() as $plugin)
+      {
+        $manager = rex_plugin_manager::factory($plugin);
+        if($manager->install() === true)
+        {
+          $manager->activate();
+        }
+      }
+    }
+
+    return $return;
+  }
+
+  /* (non-PHPdoc)
    * @see rex_package_manager::checkDependencies()
    */
   public function checkDependencies()
@@ -20,35 +43,25 @@ class rex_addon_manager extends rex_package_manager
     $i18nPrefix = 'addon_dependencies_error_';
     $state = array();
 
-    foreach(rex_addon::getAvailableAddons() as $addonName => $addon)
+    foreach(rex_package::getAvailablePackages() as $package)
     {
-      if($addon == $this->package)
+      if($package->getAddon() === $this->package)
         continue;
 
-      $requirements = $addon->getProperty('requires', array());
+      $requirements = $package->getProperty('requires', array());
       if(isset($requirements['addons'][$this->package->getName()]))
       {
-        $state[] = rex_i18n::msg($i18nPrefix .'addon', $addonName);
-      }
-
-      // check if another Plugin which is installed, depends on the addon being un-installed
-      foreach($addon->getAvailablePlugins() as $pluginName => $plugin)
-      {
-        $requirements = $plugin->getProperty('requires', array());
-        if(isset($requirements['addons'][$this->package->getName()]))
-        {
-          $state[] = rex_i18n::msg($i18nPrefix .'plugin', $addonName, $pluginName);
-        }
+        $state[] = rex_i18n::msg($i18nPrefix . $package->getType(), $package->getAddon()->getName(), $package->getName());
       }
     }
 
     return empty($state) ? true : implode('<br />', $state);
   }
 
-	/* (non-PHPdoc)
-	 * @see rex_package_manager::addToPackageOrder()
-	 */
-	protected function addToPackageOrder()
+  /* (non-PHPdoc)
+   * @see rex_package_manager::addToPackageOrder()
+   */
+  protected function addToPackageOrder()
   {
     parent::addToPackageOrder();
 

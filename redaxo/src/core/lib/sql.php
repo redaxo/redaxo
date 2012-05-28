@@ -4,7 +4,7 @@
  * Klasse zur Verbindung und Interatkion mit der Datenbank
  */
 // see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
-class rex_sql extends rex_factory implements Iterator
+class rex_sql extends rex_factory_base implements Iterator
 {
   public
     $debugsql, // debug schalter
@@ -179,9 +179,9 @@ class rex_sql extends rex_factory implements Iterator
    */
   public function setDebug($debug = TRUE)
   {
-	  $this->debugsql = $debug;
+    $this->debugsql = $debug;
 
-	  return $this;
+    return $this;
   }
 
   /**
@@ -304,8 +304,8 @@ class rex_sql extends rex_factory implements Iterator
   /**
    * Set the value of a column
    *
-   * @param $colName Name of the column
-   * @param $value The value
+   * @param string $colName Name of the column
+   * @param mixed $value The value
    * @return rex_sql the current rex_sql object
    */
   public function setValue($colName, $value)
@@ -314,6 +314,18 @@ class rex_sql extends rex_factory implements Iterator
     unset($this->rawValues[$colName]);
 
     return $this;
+  }
+
+  /**
+  * Set the array value of a column (json encoded)
+  *
+  * @param string $colName Name of the column
+  * @param array $value The value
+  * @return rex_sql the current rex_sql object
+  */
+  public function setArrayValue($colName, array $value)
+  {
+    return $this->setValue($colName, json_encode($value));
   }
 
   /**
@@ -391,7 +403,7 @@ class rex_sql extends rex_factory implements Iterator
     {
       $trace = debug_backtrace();
       $loc = $trace[0];
-      trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
+//       trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
 
       $this->wherevar = 'WHERE '. $where;
       $this->whereParams = array();
@@ -446,36 +458,48 @@ class rex_sql extends rex_factory implements Iterator
   }
 
   /**
-   * Gibt den Wert einer Spalte im ResultSet zurueck
-   * @param $value Name der Spalte
-   * @param [$row] Zeile aus dem ResultSet
+   * Returns the value of a column
+   *
+   * @param string $colName Name of the column
+   * @return mixed
    */
-  public function getValue($feldname)
+  public function getValue($colName)
   {
-    if(empty($feldname))
+    if(empty($colName))
     {
       throw new rex_sql_exception('parameter fieldname must not be empty!');
     }
 
     // fast fail,... value already set manually?
-    if(isset($this->values[$feldname]))
-      return $this->values[$feldname];
+    if(isset($this->values[$colName]))
+      return $this->values[$colName];
 
     // check if there is an table alias defined
     // if not, try to guess the tablename
-    if(strpos($feldname, '.') === false)
+    if(strpos($colName, '.') === false)
     {
       $tables = $this->getTablenames();
       foreach($tables as $table)
       {
-        if(in_array($table .'.'. $feldname, $this->rawFieldnames))
+        if(in_array($table .'.'. $colName, $this->rawFieldnames))
         {
-          return $this->fetchValue($table .'.'. $feldname);
+          return $this->fetchValue($table .'.'. $colName);
         }
       }
     }
 
-    return $this->fetchValue($feldname);
+    return $this->fetchValue($colName);
+  }
+
+  /**
+  * Returns the array value of a (json encoded) column
+  *
+  * @param string $colName Name of the column
+  * @return array
+  */
+  public function getArrayValue($colName)
+  {
+    return json_decode($this->getValue($colName), true);
   }
 
   protected function fetchValue($feldname)
@@ -1125,8 +1149,8 @@ class rex_sql extends rex_factory implements Iterator
   static public function showCreateTable($table, $DBID=1)
   {
     $sql = self::factory($DBID);
-    $array = $sql->getArray('SHOW CREATE TABLE `'.$table.'`');
-    return $array['Create Table'];
+    $sql->setQuery('SHOW CREATE TABLE `'. $table .'`');
+    return $sql->getValue('Create Table');
   }
 
   /**
@@ -1257,7 +1281,17 @@ class rex_sql extends rex_factory implements Iterator
     }
     catch (PDOException $e)
     {
-      if(strpos($e->getMessage(), 'SQLSTATE[42000]') !== false)
+      // see mysql error codes at http://dev.mysql.com/doc/refman/5.1/de/error-messages-server.html
+
+      // ER_BAD_HOST
+      if(strpos($e->getMessage(), 'SQLSTATE[HY000] [2002]') !== false )
+      {
+        // unable to connect to db server
+        $err_msg = rex_i18n::msg('setup_021');
+      }
+      // ER_BAD_DB_ERROR
+      else if(strpos($e->getMessage(), 'SQLSTATE[HY000] [1049]') !== false ||
+          strpos($e->getMessage(), 'SQLSTATE[42000]') !== false)
       {
         if($createDb)
         {
@@ -1287,7 +1321,9 @@ class rex_sql extends rex_factory implements Iterator
           $err_msg = rex_i18n::msg('setup_022');
         }
       }
-      else if(strpos($e->getMessage(), 'SQLSTATE[28000]') !== false)
+      // ER_ACCESS_DENIED_ERROR
+      else if(strpos($e->getMessage(), 'SQLSTATE[HY000] [1045]') !== false ||
+          strpos($e->getMessage(), 'SQLSTATE[28000]') !== false)
       {
         // unable to connect
         $err_msg = rex_i18n::msg('setup_021');

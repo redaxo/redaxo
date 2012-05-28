@@ -5,7 +5,7 @@ class rex_install_webservice
   const
     HOST = 'www.redaxo.org',
     PORT = 443,
-    PREFIX = 'ssl://',
+    SSL = true,
     PATH = '/de/ws/',
     REFRESH_CACHE = 600;
 
@@ -23,11 +23,12 @@ class rex_install_webservice
     $error = null;
     try
     {
-      $socket = new rex_socket(self::HOST, $fullpath, self::PORT, self::PREFIX);
-      $socket->doGet();
-      if($socket->getStatus() == 200)
+      $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
+      $socket->setPath($fullpath);
+      $response = $socket->doGet();
+      if($response->isOk())
       {
-        $data = json_decode($socket->getBody(), true);
+        $data = json_decode($response->getBody(), true);
         if(isset($data['error']) && is_string($data['error']))
         {
           $error = rex_i18n::msg('install_webservice_error') .'<br />'. $data['error'];
@@ -54,13 +55,13 @@ class rex_install_webservice
   {
     try
     {
-      $socket = rex_socket::createByUrl($url);
-      $socket->doGet();
-      if($socket->getStatus() == 200)
+      $socket = rex_socket::factoryUrl($url);
+      $response = $socket->doGet();
+      if($response->isOk())
       {
         $filename = basename($url);
         $file = rex_path::addonCache('install', md5($filename) .'.'. rex_file::extension($filename));
-        $socket->writeBodyTo($file);
+        $response->writeBodyTo($file);
         return $file;
       }
     }
@@ -78,17 +79,18 @@ class rex_install_webservice
     $error = null;
     try
     {
-      $socket = new rex_socket(self::HOST, $fullpath, self::PORT, self::PREFIX);
+      $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
+      $socket->setPath($fullpath);
       $files = array();
       if($archive)
       {
         $files['archive']['path'] = $archive;
         $files['archive']['type'] = 'application/zip';
       }
-      $socket->doPost($data, $files);
-      if($socket->getStatus() == 200)
+      $response = $socket->doPost($data, $files);
+      if($response->isOk())
       {
-        $data = json_decode($socket->getBody(), true);
+        $data = json_decode($response->getBody(), true);
         if(!isset($data['error']) || !is_string($data['error']))
           return;
         $error = rex_i18n::msg('install_webservice_error') .'<br />'. $data['error'];
@@ -111,11 +113,12 @@ class rex_install_webservice
     $error = null;
     try
     {
-      $socket = new rex_socket(self::HOST, $fullpath, self::PORT, self::PREFIX);
-      $socket->doDelete();
-      if($socket->getStatus() == 200)
+      $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
+      $socket->setPath($fullpath);
+      $response = $socket->doDelete();
+      if($response->isOk())
       {
-        $data = json_decode($socket->getBody(), true);
+        $data = json_decode($response->getBody(), true);
         if(!isset($data['error']) || !is_string($data['error']))
           return;
         $error = rex_i18n::msg('install_webservice_error') .'<br />'. $data['error'];

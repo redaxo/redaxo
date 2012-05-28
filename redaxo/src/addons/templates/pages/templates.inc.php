@@ -11,7 +11,7 @@ $OUT = TRUE;
 
 $page         = rex_request('page', 'string');
 $function     = rex_request('function', 'string');
-$template_id  = rex_request('template_id', 'rex-template-id');
+$template_id  = rex_request('template_id', 'int');
 $save         = rex_request('save','string');
 $goon         = rex_request('goon', 'string');
 
@@ -48,7 +48,7 @@ if ($function == "delete")
     $templatename = $hole->getValue("name");
     $content = $hole->getValue("content");
     $active = $hole->getValue("active");
-    $attributes = $hole->getValue("attributes");
+    $attributes = $hole->getArrayValue('attributes');
 
   }else
   {
@@ -61,7 +61,7 @@ if ($function == "delete")
   $content = '';
   $active = '';
   $template_id = '';
-  $attributes = '';
+  $attributes = array();
   $legend = rex_i18n::msg("create_template");
 
 }
@@ -113,12 +113,13 @@ if ($function == "add" or $function == "edit")
     $TPL->setValue("content", $content);
     $TPL->addGlobalCreateFields();
 
+    $attributes['ctype'] = $ctypes;
+    $attributes['modules'] = $modules;
+    $attributes['categories'] = $categories;
+    $TPL->setArrayValue('attributes', $attributes);
+
     if ($function == "add")
     {
-      $attributes = rex_setAttributes("ctype", $ctypes, "");
-      $attributes = rex_setAttributes("modules", $modules, $attributes);
-      $attributes = rex_setAttributes("categories", $categories, $attributes);
-      $TPL->setValue("attributes", $attributes);
       $TPL->addGlobalCreateFields();
 
       try {
@@ -130,11 +131,6 @@ if ($function == "add" or $function == "edit")
       }
     }else
     {
-      $attributes = rex_setAttributes("ctype", $ctypes, $attributes);
-      $attributes = rex_setAttributes("modules", $modules, $attributes);
-      $attributes = rex_setAttributes("categories", $categories, $attributes);
-      $TPL->setValue("attributes", $attributes);
-
       $TPL->setWhere(array('id' => $template_id));
       $TPL->addGlobalUpdateFields();
 
@@ -159,15 +155,15 @@ if ($function == "add" or $function == "edit")
   if (!isset ($save) or $save != "ja") {
 
     // Ctype Handling
-    $ctypes = rex_getAttributes("ctype", $attributes);
-    $modules = rex_getAttributes("modules", $attributes);
-    $categories = rex_getAttributes("categories", $attributes);
+    $ctypes = isset($attributes['ctype']) ? $attributes['ctype'] : array();
+    $modules = isset($attributes['modules']) ? $attributes['modules'] : array();
+    $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
 
     if(!is_array($modules))
       $modules = array();
 
     if(!is_array($categories))
-    	$categories = array();
+      $categories = array();
 
     // modules[ctype_id][module_id];
     // modules[ctype_id]['all'];
@@ -182,14 +178,14 @@ if ($function == "add" or $function == "edit")
       $modul_select->addOption($m["name"],$m["id"]);
 
     // Kategorien
-		$cat_select = new rex_category_select(false, false, false, false);
-		$cat_select->setMultiple(true);
-		$cat_select->setStyle('class="rex-form-select"');
-		$cat_select->setSize(10);
-		$cat_select->setName('categories[]');
-		$cat_select->setId('categories');
+    $cat_select = new rex_category_select(false, false, false, false);
+    $cat_select->setMultiple(true);
+    $cat_select->setStyle('class="rex-form-select"');
+    $cat_select->setSize(10);
+    $cat_select->setName('categories[]');
+    $cat_select->setId('categories');
 
-		if(count($categories)>0)
+    if(count($categories)>0)
     {
       foreach($categories as $c => $cc)
       {
@@ -348,8 +344,8 @@ if ($function == "add" or $function == "edit")
 
 
          <div id="rex-form-template-categories">
-        	<fieldset>
-   			    <h2>'.rex_i18n::msg("template_categories").'</h2>';
+          <fieldset>
+             <h2>'.rex_i18n::msg("template_categories").'</h2>';
 
 
             $formElements = array();
@@ -357,8 +353,8 @@ if ($function == "add" or $function == "edit")
               $field = '';
               $field .= '<input id="allcategories" type="checkbox" name="categories[all]" ';
               if(!isset($categories['all']) || $categories['all'] == 1)
-				        $field .= ' checked="checked" ';
-  		        $field .= ' value="1" />';
+                $field .= ' checked="checked" ';
+              $field .= ' value="1" />';
 
               $n = array();
               $n['reverse'] = true;
@@ -378,8 +374,8 @@ if ($function == "add" or $function == "edit")
             $content_1 .= $fragment->parse('form.tpl');
 
     $content_1 .= '
-        	</fieldset>
-				</div>
+          </fieldset>
+        </div>
 
         <fieldset class="rex-form-action">';
 
@@ -417,7 +413,7 @@ if ($function == "add" or $function == "edit")
         if($("#active").is(":not(:checked)")) {
           $("#rex-form-template-ctype").hide();
           $("#rex-form-template-categories").hide();
-  			}
+        }
 
         $("#allcategories").click(function() {
           $("#p_categories").slideToggle("slow");
@@ -425,14 +421,14 @@ if ($function == "add" or $function == "edit")
 
         if($("#allcategories").is(":checked")) {
           $("#p_categories").hide();
-  			}
+        }
 
 
       });
 
       //--></script>';
 
-	  echo rex_view::contentBlock($content_1, '', 'block');
+    echo rex_view::contentBlock($content_1, '', 'block');
 
     $OUT = false;
   }
@@ -473,7 +469,7 @@ if ($OUT)
   $list->addColumn(rex_i18n::msg('header_template_functions'), rex_i18n::msg('delete_template'));
   $list->setColumnLayout(rex_i18n::msg('header_template_functions'),  array('<th class="rex-function">###VALUE###</th>','<td class="rex-delete">###VALUE###</td>'));
   $list->setColumnParams(rex_i18n::msg('header_template_functions'), array('function' => 'delete', 'template_id' => '###id###'));
-  $list->addLinkAttribute(rex_i18n::msg('header_template_functions'), 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
+  $list->addLinkAttribute(rex_i18n::msg('header_template_functions'), 'data-confirm', rex_i18n::msg('delete').' ?');
 
   $list->setNoRowsMessage(rex_i18n::msg('templates_not_found'));
 

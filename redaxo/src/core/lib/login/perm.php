@@ -33,10 +33,10 @@ abstract class rex_perm
   }
 
   /**
-	 * Returns all permissions for the given group
-	 *
-	 * @param string $group Perm group
-	 * @return array Permissions
+   * Returns all permissions for the given group
+   *
+   * @param string $group Perm group
+   * @return array Permissions
    */
   static public function getAll($group = self::GENERAL)
   {

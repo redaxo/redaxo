@@ -36,7 +36,7 @@ $saveLocale = rex_i18n::getLocale();
 $langs = array();
 foreach(rex_i18n::getLocales() as $locale)
 {
-	rex_i18n::setLocale($locale,FALSE); // Locale nicht neu setzen
+  rex_i18n::setLocale($locale,FALSE); // Locale nicht neu setzen
   $sel_be_sprache->addOption(rex_i18n::msg('lang'), $locale);
 }
 rex_i18n::setLocale($saveLocale, false);
@@ -89,7 +89,7 @@ if (rex_post('upd_psw_button', 'string'))
     }
   }else
   {
-  	$warning = rex_i18n::msg('user_psw_error');
+    $warning = rex_i18n::msg('user_psw_error');
   }
 
 }

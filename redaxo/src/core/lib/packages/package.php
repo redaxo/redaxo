@@ -169,36 +169,28 @@ abstract class rex_package implements rex_package_interface
     unset($this->properties[$key]);
   }
 
-	/* (non-PHPdoc)
-	 * @see rex_package_interface::isAvailable()
-	 */
-	public function isAvailable()
+  /* (non-PHPdoc)
+   * @see rex_package_interface::isAvailable()
+   */
+  public function isAvailable()
   {
     return $this->isInstalled() && $this->isActivated();
   }
 
-	/* (non-PHPdoc)
-	 * @see rex_package_interface::isInstalled()
-	 */
-	public function isInstalled()
+  /* (non-PHPdoc)
+   * @see rex_package_interface::isInstalled()
+   */
+  public function isInstalled()
   {
     return (boolean) $this->getProperty('install', false);
   }
 
-	/* (non-PHPdoc)
-	 * @see rex_package_interface::isActivated()
-	 */
-	public function isActivated()
+  /* (non-PHPdoc)
+   * @see rex_package_interface::isActivated()
+   */
+  public function isActivated()
   {
     return (boolean) $this->getProperty('status', false);
-  }
-
-	/* (non-PHPdoc)
-	 * @see rex_package_interface::isSystemPackage()
-	 */
-	public function isSystemPackage()
-  {
-    return in_array($this->getPackageId(), rex::getProperty('system_packages'));
   }
 
   /* (non-PHPdoc)
@@ -245,5 +237,78 @@ abstract class rex_package implements rex_package_interface
         $this->properties[$key] = rex_i18n::translateArray($value, true, array($this, 'i18n'));
     }
     $this->propertiesLoaded = true;
+  }
+
+  /**
+   * Returns the registered packages
+   *
+   * @return array[rex_package]
+   */
+  static public function getRegisteredPackages()
+  {
+    return self::getPackages('Registered');
+  }
+
+  /**
+   * Returns the installed packages
+   *
+   * @return array[rex_package]
+   */
+  static public function getInstalledPackages()
+  {
+    return self::getPackages('Installed');
+  }
+
+  /**
+   * Returns the available packages
+   *
+   * @return array[rex_package]
+   */
+  static public function getAvailablePackages()
+  {
+    return self::getPackages('Available');
+  }
+
+  /**
+   * Returns the setup packages
+   *
+   * @return array[rex_package]
+   */
+  static public function getSetupPackages()
+  {
+    return self::getPackages('Setup', 'System');
+  }
+
+  /**
+   * Returns the system packages
+   *
+   * @return array[rex_package]
+   */
+  static public function getSystemPackages()
+  {
+    return self::getPackages('System');
+  }
+
+  /**
+   * Returns the packages by the given method
+   *
+   * @param string $method Method
+   * @param string $pluginMethod Optional other method for plugins
+   * @return array[rex_package]
+   */
+  static private function getPackages($method, $pluginMethod = null)
+  {
+    $packages = array();
+    $addonMethod = 'get' . $method . 'Addons';
+    $pluginMethod = 'get' . ($pluginMethod ?: $method) . 'Plugins';
+    foreach (rex_addon::$addonMethod() as $addon)
+    {
+      $packages[$addon->getPackageId()] = $addon;
+      foreach ($addon->$pluginMethod() as $plugin)
+      {
+        $packages[$plugin->getPackageId()] = $plugin;
+      }
+    }
+    return $packages;
   }
 }

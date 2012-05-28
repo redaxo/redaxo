@@ -3,6 +3,8 @@
 /**
  * Abstract class for complex permissions
  *
+ * All permission check methods ("hasPerm()" etc.) in child classes should return "true" for admins
+ *
  * @author gharlan
  */
 abstract class rex_complex_perm
@@ -12,7 +14,7 @@ abstract class rex_complex_perm
   /**
    * User instance
    *
-	 * @var rex_user
+   * @var rex_user
    */
   protected $user;
 
@@ -31,10 +33,10 @@ abstract class rex_complex_perm
   static private $classes = array();
 
   /**
-	 * Constructor
-	 *
-	 * @param rex_user $user User instance
-	 * @param mixed $perms Permissions
+   * Constructor
+   *
+   * @param rex_user $user User instance
+   * @param mixed $perms Permissions
    */
   protected function __construct(rex_user $user, $perms)
   {
@@ -79,9 +81,9 @@ abstract class rex_complex_perm
   }
 
   /**
- 	 * Returns all complex perm classes
- 	 *
- 	 * @return array Class names
+    * Returns all complex perm classes
+    *
+    * @return array Class names
    */
   static public function getAll()
   {
@@ -89,11 +91,11 @@ abstract class rex_complex_perm
   }
 
   /**
-	 * Returns the complex perm
-	 *
-	 * @param rex_user $user User instance
-	 * @param string $key Complex perm key
-	 * @param mixed $perms Permissions
+   * Returns the complex perm
+   *
+   * @param rex_user $user User instance
+   * @param string $key Complex perm key
+   * @param mixed $perms Permissions
    */
   static public function get(rex_user $user, $key, $perms = array())
   {
@@ -106,10 +108,10 @@ abstract class rex_complex_perm
   }
 
   /**
-	 * Should be called if an item is removed
-	 *
-	 * @param string $key Key
-	 * @param string $item Item
+   * Should be called if an item is removed
+   *
+   * @param string $key Key
+   * @param string $item Item
    */
   static public function removeItem($key, $item)
   {

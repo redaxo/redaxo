@@ -3,3 +3,7 @@ author: 'Jan Kristinus, Markus Staab'
 name: 'translate:im_export_importexport'
 perm: import_export[export]
 supportpage: www.redaxo.org/de/forum/
+
+autoload:
+  classes:
+    - vendor/

@@ -28,7 +28,7 @@ function rex_be_search_extensions_handler($params)
   {
     require_once rex_path::addon('be_search', 'extensions/extension_search_structure.inc.php');
     rex_extension::register('PAGE_STRUCTURE_HEADER', 'rex_be_search_structure');
-  
+
   }elseif($page == 'content')
   {
     require_once rex_path::addon('be_search', 'extensions/extension_search_structure.inc.php');

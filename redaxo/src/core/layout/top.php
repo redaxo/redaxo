@@ -33,10 +33,10 @@ $body_attr = rex_extension::registerPoint('PAGE_BODY_ATTR', $body_attr );
 
 $body = "";
 foreach($body_attr as $k => $v){
-	$body .= " ".$k.'="';
-	if(is_array($v))
-		$body .= implode(" ",$v);
-	$body .= '"';
+  $body .= " ".$k.'="';
+  if(is_array($v))
+    $body .= implode(" ",$v);
+  $body .= '"';
 }
 
 $activePageObj = $curPage;
@@ -64,10 +64,10 @@ if (rex::getUser() && $hasNavigation)
 $navigation = '';
 if (rex::getUser() && $hasNavigation)
 {
-	$n = rex_be_navigation::factory();
-	foreach(rex::getProperty('pages') as $p => $pageContainer)
+  $n = rex_be_navigation::factory();
+  foreach(rex::getProperty('pages') as $p => $pageContainer)
   {
-		$p = strtolower($p);
+    $p = strtolower($p);
     if(rex_be_page_main::isValid($pageContainer))
     {
       $pageObj = $pageContainer->getPage();
@@ -91,14 +91,14 @@ if (rex::getUser() && $hasNavigation)
 
   $n->setActiveElements();
   $blocks = $n->getNavigation();
-  
+
   $fragment = new rex_fragment();
   // $fragment->setVar('headline', array("title" => $this->getHeadline($block)), false);
   $fragment->setVar('type', 'main', false);
   $fragment->setVar('blocks', $blocks, false);
   $navigation = $fragment->parse('navigation.tpl');
-  
-  
+
+
 }
 
 
@@ -119,5 +119,3 @@ $fragment->setVar('logout', $logout, false);
 echo $fragment->parse('backend_meta.tpl');
 
 ?><section id="rex-page-main">
-
-

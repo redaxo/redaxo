@@ -16,7 +16,7 @@ interface rex_addon_interface extends rex_package_interface
    */
   public function getPlugin($plugin);
 
-	/**
+  /**
    * Returns if the plugin exists
    *
    * @param string $plugin Name of the plugin
@@ -39,10 +39,17 @@ interface rex_addon_interface extends rex_package_interface
    */
   public function getInstalledPlugins();
 
-	/**
+  /**
    * Returns the available plugins
    *
    * @return array[rex_plugin]
    */
   public function getAvailablePlugins();
+
+  /**
+  * Returns the system plugins
+  *
+  * @return array[rex_plugin]
+  */
+  public function getSystemPlugins();
 }

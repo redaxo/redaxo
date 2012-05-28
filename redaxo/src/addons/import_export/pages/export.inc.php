@@ -93,7 +93,7 @@ if ($function == 'export')
     {
       if ($exportdl)
       {
-      	while (ob_get_level()) ob_end_clean();
+        while (ob_get_level()) ob_end_clean();
         $filename = $filename.$ext;
         header("Content-type: $header");
         header("Content-Disposition: attachment; filename=$filename");
@@ -189,7 +189,7 @@ $content .= '
           </p>
     ';
   }
-  
+
 $content .= '</div>
   </div>
 </div>';
@@ -236,5 +236,3 @@ $content .= '<div class="rex-form-row">
 
 
 echo rex_view::contentBlock($content);
-
-

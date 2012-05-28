@@ -42,7 +42,7 @@ if($opener_input_field != "")
 // -------------- CatId in Session speichern
 $file_id = rex_request('file_id', 'int');
 $file_name = rex_request('file_name', 'string');
-$rex_file_category = rex_request('rex_file_category', 'rex-mediacategory-id', -1);
+$rex_file_category = rex_request('rex_file_category', 'int', -1);
 
 if ($file_name != "")
 {
@@ -76,7 +76,7 @@ rex_set_session('media[rex_file_category]', $rex_file_category);
 
 // -------------- PERMS
 $PERMALL = false;
-if (rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('media')->hasCategoryPerm(0)) $PERMALL = true;
+if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm(0)) $PERMALL = true;
 
 // -------------- Header
 $subline = array(

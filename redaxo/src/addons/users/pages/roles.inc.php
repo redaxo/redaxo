@@ -33,7 +33,7 @@ if($func == '')
   $list->setColumnLabel('funcs', rex_i18n::msg('user_functions'));
   $list->setColumnLayout('funcs', array('<th class="rex-function">###VALUE###</th>','<td class="rex-function">###VALUE###</td>'));
   $list->setColumnParams('funcs', array('func' => 'delete', 'id' => '###id###'));
-  $list->addLinkAttribute('funcs', 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
+  $list->addLinkAttribute('funcs', 'data-confirm', rex_i18n::msg('delete').' ?');
 
   $content .= $list->get();
 
@@ -108,29 +108,29 @@ if($func == '')
 
       jQuery(function($) {
 
-      	function check_perm_field(field, duration) {
-      		var id = field.attr("id").substr(0, field.attr("id").length - 4);
-  				if(field.is(":checked"))
-  				  $("#"+id).parent().parent().hide(duration);
-  				else
-  				  $("#"+id).parent().parent().show(duration);
-      	}
-				$("input#'. implode('_all, input#', $fieldIds) .'_all").change(function(){
-					check_perm_field($(this), "slow");
-  			});
+        function check_perm_field(field, duration) {
+          var id = field.attr("id").substr(0, field.attr("id").length - 4);
+          if(field.is(":checked"))
+            $("#"+id).parent().hide(duration);
+          else
+            $("#"+id).parent().show(duration);
+        }
+        $("#'. implode('_all, #', $fieldIds) .'_all").change(function(){
+          check_perm_field($(this), "slow");
+        });
 
-  			$("input#'. implode('_all, input#', $fieldIds) .'_all").each(function(){
-  				check_perm_field($(this), 0);
-  			});
+        $("#'. implode('_all, #', $fieldIds) .'_all").each(function(){
+          check_perm_field($(this), 0);
+        });
 
       });
 
       //--></script>
     ';
   }
-  
+
   echo rex_view::contentBlock($content);
-  
-  
-  
+
+
+
 }

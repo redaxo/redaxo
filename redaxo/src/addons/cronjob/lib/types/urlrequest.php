@@ -14,25 +14,25 @@ class rex_cronjob_urlrequest extends rex_cronjob
   {
     try
     {
-      $socket = rex_socket::createByUrl($this->getParam('url'));
+      $socket = rex_socket::factoryUrl($this->getParam('url'));
       if($this->getParam('http-auth') == '|1|')
       {
         $socket->addBasicAuthorization($this->getParam('user'), $this->getParam('password'));
       }
       if(($post = $this->getParam('post')) != '')
       {
-        $socket->doPost($post);
+        $response = $socket->doPost($post);
       }
       else
       {
-        $socket->doGet();
+        $response = $socket->doGet();
       }
-      $statusCode = $socket->getStatus();
-      $success = $statusCode >= 200 && $statusCode < 300;
-      $message = $statusCode .' '. $socket->getStatusMessage();
+      $statusCode = $response->getStatusCode();
+      $success = $response->isSuccessful();
+      $message = $statusCode .' '. $response->getStatusMessage();
       if (in_array($statusCode, array(301, 302, 303, 307))
         && $this->getParam('redirect', true)
-        && ($location = $socket->getHeader('Location')))
+        && ($location = $response->getHeader('Location')))
       {
         // maximal eine Umleitung zulassen
         $this->setParam('redirect', false);
@@ -60,9 +60,9 @@ class rex_cronjob_urlrequest extends rex_cronjob
   }
 
   public function getParamFields()
-	{
-		return array(
-  		array(
+  {
+    return array(
+      array(
         'label' => rex_i18n::msg('cronjob_type_urlrequest_url'),
         'name'  => 'url',
         'type'  => 'text',
@@ -91,5 +91,5 @@ class rex_cronjob_urlrequest extends rex_cronjob
         'visible_if' => array('http-auth' => 1)
       )
     );
-	}
+  }
 }

@@ -1,6 +1,6 @@
-/* 
+/*
  REDAXO JavaScript library
- */ 
+ */
 
 // -------------------------------------------------------------------------------------------------------------------
 
@@ -119,7 +119,7 @@ function newWindow(name,link,width,height,type)
 }
 
 var winObj = new Array();
-if (typeof opender != "undefined") 
+if (typeof opender != "undefined")
 {
   if (typeof(opener.winObjCounter) == "number")
   {
@@ -188,8 +188,8 @@ function moveREX(id, i_list, i_select, direction)
   for (ii = 0; ii < sourcelength; ii++) {
 
     elements[ii] = new Array();
-    elements[ii]['value'] = source.options[ii].value; 
-    elements[ii]['title'] = source.options[ii].text; 
+    elements[ii]['value'] = source.options[ii].value;
+    elements[ii]['title'] = source.options[ii].text;
     was_selected[ii] = false;
 
   }
@@ -208,7 +208,7 @@ function moveREX(id, i_list, i_select, direction)
       }
     }
   }
-  
+
   if (direction == 'up') {
     for (ii = 0; ii < sourcelength; ii++) {
       was_moved[ii] = false;
@@ -238,7 +238,7 @@ function moveREX(id, i_list, i_select, direction)
       }
     }
   }
-  
+
   if (direction == 'bottom') {
     inserted = 0;
     for (ii = sourcelength-1; ii >= 0; ii--) {
@@ -247,7 +247,7 @@ function moveREX(id, i_list, i_select, direction)
         if (to > sourcelength) {
           to = sourcelength;
         }
-    
+
         elements = moveItem(elements, ii, to);
         was_selected[to] = true;
         inserted++;
@@ -285,7 +285,7 @@ function moveItem(arr, from, to)
   {
     return arr;
   }
-  
+
   tmp = arr[from];
   if (from > to)
   {
@@ -310,7 +310,7 @@ function checkInput(id)
     var input = result.obj;
     if(input != null)
     {
-      input.checked = 'checked'; 
+      input.checked = 'checked';
     }
   }
 }
@@ -324,7 +324,7 @@ function uncheckInput(id)
     var input = result.obj;
     if(input != null)
     {
-      input.checked = ''; 
+      input.checked = '';
     }
   }
 }
@@ -334,7 +334,7 @@ function uncheckInput(id)
 function toggleElement(id,display)
 {
    var needle;
-   
+
    if(typeof(id) != 'object')
    {
      needle = new getObj(id);
@@ -343,12 +343,12 @@ function toggleElement(id,display)
    {
      needle = id;
    }
-   
+
    if (typeof(display) == 'undefined')
    {
      display = needle.style.display == '' ? 'none' : '';
    }
-   
+
    needle.style.display = display;
    return display;
 }
@@ -369,20 +369,20 @@ jQuery(function($){
     }
 
     var div = $(".rex-media-preview", this);
-    
+
     var url;
     var width = 0;
     if($(this).hasClass("rex-widget-preview-image-manager"))
-    	url = '../index.php?rex_img_type='+ img_type +'&rex_img_file='+ value;
+      url = '../index.php?rex_img_type='+ img_type +'&rex_img_file='+ value;
     else if($(this).hasClass("rex-widget-preview-image-resize"))
-    	url = '../index.php?rex_resize=246a__'+ value;
+      url = '../index.php?rex_resize=246a__'+ value;
     else
     {
       url = '../media/'+ value;
       width = 246;
     }
-    
-    if(value && value.length != 0 && 
+
+    if(value && value.length != 0 &&
       (
         value.substr(-3) == "png" ||
         value.substr(-3) == "gif" ||
@@ -401,7 +401,7 @@ jQuery(function($){
       img.attr('src', url);
       if (width != 0)
         img.attr('width', width);
-      
+
       div.slideDown("fast");
     }
     else
@@ -410,10 +410,10 @@ jQuery(function($){
     }
   };
 
-  // Medialist preview neu anzeigen, beim wechsel der auswahl  
+  // Medialist preview neu anzeigen, beim wechsel der auswahl
   $(".rex-widget-medialist.rex-widget-preview")
     .click(rexShowMediaPreview);
-    
+
   $(".rex-widget-media.rex-widget-preview, .rex-widget-medialist.rex-widget-preview")
     .bind("mousemove", rexShowMediaPreview)
     .bind("mouseleave", function() {
@@ -426,14 +426,14 @@ jQuery(function($){
 
   // ------------------ Accesskey Navigation
   var ENABLE_KEY_NAV = true;
-	
+
   $(document).keypress(function(event) {
-    if(!ENABLE_KEY_NAV) 
+    if(!ENABLE_KEY_NAV)
       return true;
-    
+
      var key = String.fromCharCode(event.which);
      var haystack = $("a[accesskey='"+ key +"']");
-     
+
      if(haystack.size() > 0)
      {
        $(haystack.get(0)).click();
@@ -442,7 +442,7 @@ jQuery(function($){
      else
      {
        haystack = $("a[accesskey='"+ key +"']");
-       
+
        if(haystack.size() > 0)
        {
          var hit = $(haystack.get(0));
@@ -450,12 +450,12 @@ jQuery(function($){
            hit.click();
          else if(hit.attr("href") != undefined && hit.attr("href") != "#")
            document.location = hit.attr("href");
-           
+
          return false;
        }
      }
   });
-  
+
   $(function() {
     $("input,button,textarea,select,option")
       .focus(function(event) {
@@ -463,9 +463,9 @@ jQuery(function($){
       })
       .blur(function(event) {
         ENABLE_KEY_NAV = true;
-      });    
+      });
   });
-  
+
   if ($('#rex-page-login').length == 0 && getCookie('htaccess_check') == '')
   {
     time = new Date();
@@ -475,15 +475,15 @@ jQuery(function($){
     checkHtaccess('data', 'config.yml');
     checkHtaccess('src', 'core/master.inc.php');
   }
-  
+
   function checkHtaccess(dir, file)
   {
-    $.get(dir +'/'+ file, 
-	  function(data) {
-	    $('#rex-wrapper2').prepend('<div class="rex-message"><p class="rex-warning"><span>The folder redaxo/'+ dir +' is insecure. Please protect this folder.</span></p></div>');
-	    setCookie('htaccess_check', '');
-	  }
-	);
+    $.get(dir +'/'+ file,
+    function(data) {
+      $('#rex-wrapper2').prepend('<div class="rex-message"><p class="rex-warning"><span>The folder redaxo/'+ dir +' is insecure. Please protect this folder.</span></p></div>');
+      setCookie('htaccess_check', '');
+    }
+  );
   }
 });
 
@@ -492,67 +492,95 @@ jQuery(function($){
 // necessary for be_dashboard
 
 function setCookie(name, value, expires, path, domain, secure) {
-	if (typeof expires != undefined && expires == "never") {
-		// never expire means expires in 3000 days
-		expires = new Date();
-		expires.setTime(expires.getTime() + (1000 * 60 * 60 * 24 * 3000));
-		expires = expires.toGMTString();
-	}
+  if (typeof expires != undefined && expires == "never") {
+    // never expire means expires in 3000 days
+    expires = new Date();
+    expires.setTime(expires.getTime() + (1000 * 60 * 60 * 24 * 3000));
+    expires = expires.toGMTString();
+  }
 
-	document.cookie = name + "=" + escape(value)
-			+ ((expires) ? "; expires=" + expires : "")
-			+ ((path) ? "; path=" + path : "")
-			+ ((domain) ? "; domain=" + domain : "")
-			+ ((secure) ? "; secure" : "");
+  document.cookie = name + "=" + escape(value)
+      + ((expires) ? "; expires=" + expires : "")
+      + ((path) ? "; path=" + path : "")
+      + ((domain) ? "; domain=" + domain : "")
+      + ((secure) ? "; secure" : "");
 }
 
 function getCookie(cookieName) {
-	var theCookie = "" + document.cookie;
-	var ind = theCookie.indexOf(cookieName);
-	if (ind == -1 || cookieName == "")
-		return "";
+  var theCookie = "" + document.cookie;
+  var ind = theCookie.indexOf(cookieName);
+  if (ind == -1 || cookieName == "")
+    return "";
 
-	var ind1 = theCookie.indexOf(';', ind);
-	if (ind1 == -1)
-		ind1 = theCookie.length;
+  var ind1 = theCookie.indexOf(';', ind);
+  if (ind1 == -1)
+    ind1 = theCookie.length;
 
-	return unescape(theCookie.substring(ind + cookieName.length + 1, ind1));
+  return unescape(theCookie.substring(ind + cookieName.length + 1, ind1));
 }
 
 jQuery(document).ready(function($) {
-  $("a.rex-api-get").live('click', function(clickEvent) {
-    var self = $(this);
-    // check if a confirm dialog already prevented the submit
-    if(!clickEvent.isDefaultPrevented())
-    {
-      $.ajax({
-        async: false,
-        url: this.href,
-        dataType: 'json',
-        data: null,
-        success: function (data, textStatus, jqXHR) {
-          $("#rex-message-container").html(data.message || "");
-          
-          $.each(data.renderResults, function(i, resRow){
-            resRow.selector = resRow.selector == 'this' ? self : resRow.selector;
-            resRow.selectorContext = resRow.selectorContext == 'this' ? self : resRow.selectorContext;
 
-            var ctx = resRow.selectorContext ? $(self).closest(resRow.selectorContext) : null;
-            var elem = resRow.selector ? $(resRow.selector, ctx) : ctx;
-            
-            switch(resRow.mode) {
-              case 'replace': elem.replaceWith(resRow.html); break;
-              case 'before':  elem.before(resRow.html); break;
-              case 'after':   elem.after(resRow.html); break;
-              default:
-                elem.html(resRow.html);
-                elem.addClass(resRow.addClass);
-                elem.removeClass(resRow.removeClass);
-            }
-          });
-        }
-      });
+  // prevent pjax from jumping to top, see github#60
+  $.pjax.defaults.scrollTo = false;
+  $.pjax.defaults.timeout = 5000;
+
+  confDialog = function(event) {
+    if(!confirm($(this).attr('data-confirm')))
+    {
+      event.stopImmediatePropagation();
+      return false;
     }
-    return false;
-  });
+  };
+
+  // confirm dialog behavior for links and buttons
+  $(document).on('click', 'a[data-confirm], button[data-confirm], input[data-confirm]', confDialog);
+  // confirm dialog behavior for forms
+  $(document).on('submit', 'form[data-confirm]', confDialog);
+
+  // elements which will be PJAX-ed by default:
+  // general identifier for pjax-links
+  $('a.pjax-main').pjax('#rex-page-main');
+  // links from paginations within the main-container
+  $('#rex-page-main .rex-navi-pagination a').pjax('#rex-page-main');
+  // links from tabs within the main-container
+  $('#rex-page-main .rex-navi-tab a').pjax('#rex-page-main');
+  // links from path-toolbar within the main-container
+  $('#rex-page-main .rex-navi-path a').pjax('#rex-page-main');
+  // links from lists within the main-container
+  $('#rex-page-main .rex-table a').pjax('#rex-page-main');
+
+  // add pjax error handling
+  $(document)
+    .on('pjax:error', function(e, xhr, err) {
+      // user not authorized -> redirect to login page
+      if (xhr.status === 401)
+      {
+         window.location = 'index.php?page=login';
+         return false;
+      }
+      $('#rex-message-container').text('Something went wrong: ' + err);
+    })
+    .on('pjax:success', function(e, data, status, xhr, options) {
+      var paramUrl = options.url.split('?'), page, subpage;
+
+      $.each(paramUrl[1].split('&'), function(_, value) {
+        var parts = value.split('=');
+        if(parts[0] == 'page')
+          page = parts[1];
+        else if(parts[0] == 'subpage')
+          subpage = parts[1];
+      });
+
+      $('.rex-navi-main .rex-active').removeClass('rex-active');
+
+      // activate main-page
+      $('#rex-navi-page-' + page).addClass('rex-active');
+      $('#rex-navi-page-' + page + ' > a').addClass('rex-active');
+      // activate sub-page
+      $('#rex-navi-page-' + page + ' li > a[href$=\'subpage='+ subpage +'\']').addClass('rex-active')
+        .parent('li').addClass('rex-active');
+    })
+    .on('pjax:start', function() { $('#rex-ajax-loader').show(); })
+    .on('pjax:end',   function() { $('#rex-ajax-loader').hide(); });
 });

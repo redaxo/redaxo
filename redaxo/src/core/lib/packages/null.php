@@ -5,7 +5,7 @@
  *
  * @author gharlan
  */
-abstract class rex_null_package extends rex_singleton implements rex_package_interface
+abstract class rex_null_package extends rex_singleton_base implements rex_package_interface
 {
   /* (non-PHPdoc)
    * @see rex_package_interface::getName()

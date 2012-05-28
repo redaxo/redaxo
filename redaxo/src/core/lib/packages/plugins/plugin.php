@@ -81,6 +81,14 @@ class rex_plugin extends rex_package implements rex_plugin_interface
   }
 
   /* (non-PHPdoc)
+   * @see rex_package_interface::getType()
+   */
+  public function getType()
+  {
+    return 'plugin';
+  }
+
+  /* (non-PHPdoc)
    * @see rex_package_interface::getBasePath()
    */
   public function getBasePath($file = '')
@@ -118,6 +126,14 @@ class rex_plugin extends rex_package implements rex_plugin_interface
   public function isAvailable()
   {
     return $this->getAddon()->isAvailable() && parent::isAvailable();
+  }
+
+  /* (non-PHPdoc)
+   * @see rex_package_interface::isSystemPackage()
+   */
+  public function isSystemPackage()
+  {
+    return in_array($this->getName(), (array) $this->addon->getProperty('system_plugins', array()));
   }
 
   /* (non-PHPdoc)
@@ -169,5 +185,17 @@ class rex_plugin extends rex_package implements rex_plugin_interface
   static public function getAvailablePlugins($addon)
   {
     return rex_addon::get($addon)->getAvailablePlugins();
+  }
+
+  /**
+   * Returns the system plugins of the given addons
+   *
+   * @param string $addon Addon name
+   *
+   * @return array[rex_plugin]
+   */
+  static public function getSystemPlugins($addon)
+  {
+    return rex_addon::get($addon)->getSystemPlugins();
   }
 }

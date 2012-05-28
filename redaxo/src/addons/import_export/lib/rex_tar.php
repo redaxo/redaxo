@@ -7,7 +7,7 @@
  * Diese Subklasse fixed ein paar Bugs gegenüber der
  * original Implementierung und erhoeht die Performanz
  *
- * @author	Markus Staab
+ * @author  Markus Staab
  *
  * @package redaxo5
  * @see     http://www.mkssoftware.com/docs/man4/tar.4.asp

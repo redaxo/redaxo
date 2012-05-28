@@ -53,7 +53,7 @@ class rex_article_editor extends rex_article
       }
 
       // ----- Display message at current slice
-      //if(rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
+      //if(rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
       {
         if($this->function != 'add' && $this->slice_id == $sliceId)
         {
@@ -79,12 +79,12 @@ class rex_article_editor extends rex_article
 
       $slice_content .= '<section class="rex-slice'. $containerClass .'">';
       $slice_content .= '
-      		<header class="rex-slice-header">
-      		  '.$this->getSliceMenu($artDataSql) .'
+          <header class="rex-slice-header">
+            '.$this->getSliceMenu($artDataSql) .'
           </header>';
 
       // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
-      if(rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
+      if(rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
       {
         if($this->function=="edit" && $this->slice_id == $sliceId)
         {
@@ -160,7 +160,7 @@ class rex_article_editor extends rex_article
     $sliceUrl = 'index.php?page=content&amp;article_id='. $this->article_id .'&amp;mode=edit&amp;slice_id='. $sliceId .'&amp;clang='. $this->clang .'&amp;ctype='. $this->ctype .'%s#slice'. $sliceId;
     $listElements = array();
 
-    if((rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
+    if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)
       && rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId))
     {
       // edit
@@ -177,7 +177,7 @@ class rex_article_editor extends rex_article
       $n['href'] = sprintf($sliceUrl, '&amp;function=delete&amp;save=1');
       $n['itemClasses'] = array('rex-slice-delete');
       $n['linkClasses'] = array('rex-slice-delete');
-      $n['linkAttr'] = array('onclick' => 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
+      $n['linkAttr'] = array('data-confirm' => rex_i18n::msg('delete').' ?');
       $listElements[] = $n;
 
 
@@ -220,7 +220,7 @@ class rex_article_editor extends rex_article
         'ctype' => $sliceCtype,
         'module_id' => $moduleId,
         'slice_id' => $sliceId,
-        'perm' => (rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
+        'perm' => rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)
       )
     );
 
@@ -294,7 +294,7 @@ class rex_article_editor extends rex_article
       $MODULE = rex_sql::factory();
       $modules = $MODULE->getArray('select * from '.rex::getTablePrefix().'module order by name');
 
-      $template_ctypes = rex_getAttributes('ctype', $this->template_attributes, array ());
+      $template_ctypes = isset($this->template_attributes['ctype']) ? $this->template_attributes['ctype'] : array();
       // wenn keine ctyes definiert sind, gibt es immer den CTYPE=1
       if(count($template_ctypes) == 0)
       {
@@ -312,7 +312,7 @@ class rex_article_editor extends rex_article
         $this->MODULESELECT[$ct_id]->addOption('----------------------------  '.rex_i18n::msg('add_block'),'');
         foreach($modules as $m)
         {
-          if (rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($m['id']))
+          if (rex::getUser()->getComplexPerm('modules')->hasPerm($m['id']))
           {
             if(rex_template::hasModule($this->template_attributes,$ct_id,$m['id']))
             {
@@ -400,7 +400,7 @@ class rex_article_editor extends rex_article
       $blocks = array();
       $blocks[] = array(
           'headline' => array('title' => rex_i18n::msg("module") .': '. htmlspecialchars(rex_i18n::translate($MOD->getValue("name")))),
-				  'navigation' => array()
+          'navigation' => array()
           );
 
       $fragment = new rex_fragment();
@@ -419,7 +419,7 @@ class rex_article_editor extends rex_article
 
       $blocks = array();
       $blocks[] = array(
-				  'navigation' => $listElements
+          'navigation' => $listElements
           );
 
       $fragment = new rex_fragment();

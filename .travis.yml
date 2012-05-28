@@ -1,0 +1,9 @@
+language: php
+php:
+  - 5.3
+  - 5.4
+before_script:
+  - mysql -e 'create database redaxo_5_0;'
+  - php redaxo/src/addons/tests/bin/setup.php
+script:
+  - php redaxo/src/addons/tests/bin/runTests.php

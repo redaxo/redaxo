@@ -15,35 +15,35 @@
 ?>
 
 <?php
-	$filename = dirname( __FILE__) . '/lang/help.' . $REX['LANG'] . '.lang';
-	if(is_readable($filename))
-	{
-		if (strstr($REX['LANG'], 'utf8'))
-		{
-			echo nl2br(utf8_encode(file_get_contents($filename)));
-		}
-		else
-		{
-			echo nl2br(file_get_contents($filename));
-		}
-	}
+  $filename = dirname( __FILE__) . '/lang/help.' . $REX['LANG'] . '.lang';
+  if(is_readable($filename))
+  {
+    if (strstr($REX['LANG'], 'utf8'))
+    {
+      echo nl2br(utf8_encode(file_get_contents($filename)));
+    }
+    else
+    {
+      echo nl2br(file_get_contents($filename));
+    }
+  }
 ?>
 
 <br />
 
 <?php
-	$filename = dirname( __FILE__) . '/_changelog.txt';
-	if(is_readable($filename))
-	{
-		if (strstr($REX['LANG'], 'utf8'))
-		{
-			echo str_replace('  - ', '&nbsp;&nbsp;-&nbsp;', nl2br(utf8_encode(file_get_contents($filename))));
-		}
-		else
-		{
-			echo str_replace('  - ', '&nbsp;&nbsp;-&nbsp;', nl2br(file_get_contents($filename)));
-		}
-	}
+  $filename = dirname( __FILE__) . '/_changelog.txt';
+  if(is_readable($filename))
+  {
+    if (strstr($REX['LANG'], 'utf8'))
+    {
+      echo str_replace('  - ', '&nbsp;&nbsp;-&nbsp;', nl2br(utf8_encode(file_get_contents($filename))));
+    }
+    else
+    {
+      echo str_replace('  - ', '&nbsp;&nbsp;-&nbsp;', nl2br(file_get_contents($filename)));
+    }
+  }
 ?>
 
 <br /><br />

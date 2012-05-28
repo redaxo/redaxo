@@ -1,6 +1,6 @@
 /* Allgemeines Tabellen-Layout - START */
 table {
-   
+
 }
 
 table.rex {
@@ -24,12 +24,12 @@ table tr td {
 }
 
 table tr.warning td {
-   color: #ea1144; 
+   color: #ea1144;
    background-color: #fae9e5;
 }
 
 table tr.status td {
-   color: #107c2c; 
+   color: #107c2c;
    background-color: #d2efd9;
 }
 

@@ -17,171 +17,7 @@ function rex_setup_title($title)
   echo '<div id="rex-setup" class="rex-area">';
 }
 
-function rex_setup_import($import_sql, $import_archiv = null)
-{
-  global $export_addon_dir;
-
-  $err_msg = '';
-
-  if (!is_dir($export_addon_dir))
-  {
-    $err_msg .= rex_i18n::msg('setup_03703').'<br />';
-  }
-  else
-  {
-    if (file_exists($import_sql) && ($import_archiv === null || $import_archiv !== null && file_exists($import_archiv)))
-    {
-      rex_i18n::addDirectory(rex_path::addon('import_export', 'lang/'));
-
-      // DB Import
-      $state_db = rex_a1_import_db($import_sql);
-      if ($state_db['state'] === false)
-      {
-        $err_msg .= nl2br($state_db['message']) .'<br />';
-      }
-
-      // Archiv optional importieren
-      if ($state_db['state'] === true && $import_archiv !== null)
-      {
-        $state_archiv = rex_a1_import_files($import_archiv);
-        if ($state_archiv['state'] === false)
-        {
-          $err_msg .= $state_archiv['message'].'<br />';
-        }
-      }
-    }
-    else
-    {
-      $err_msg .= rex_i18n::msg('setup_03702').'<br />';
-    }
-  }
-
-  return $err_msg;
-}
-
-function rex_setup_is_writable($items)
-{
-  $res = array();
-
-  foreach($items as $item)
-  {
-    $is_writable = _rex_is_writable($item);
-
-    // 0 => kein Fehler
-    if($is_writable != 0)
-    {
-      $res[$is_writable][] = $item;
-    }
-  }
-
-  return $res;
-}
-
-// -------------------------- System AddOns prüfen
-function rex_setup_addons($uninstallBefore = false, $installDump = true)
-{
-  $addonErr = '';
-  rex_package_manager::synchronizeWithFileSystem();
-
-  if($uninstallBefore)
-  {
-    foreach(array_reverse(rex::getProperty('system_packages')) as $packageRepresentation)
-    {
-      $package = rex_package::get($packageRepresentation);
-      $manager = rex_package_manager::factory($package);
-      $state = $manager->uninstall($installDump);
-      // echo "uninstall ". $packageRepresentation ."<br />";
-
-      if($state !== true)
-        $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
-    }
-  }
-  foreach(rex::getProperty('system_packages') as $packageRepresentation)
-  {
-    $state = true;
-    $package = rex_package::get($packageRepresentation);
-    $manager = rex_package_manager::factory($package);
-
-    if($state === true && !$package->isInstalled())
-    {
-      // echo "install ". $packageRepresentation."<br />";
-      $state = $manager->install($installDump);
-    }
-
-    if($state !== true)
-      $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
-
-    if($state === true && !$package->isActivated())
-    {
-      // echo "activate ". $packageRepresentation."<br />";
-      $state = $manager->activate();
-
-      if($state !== true)
-        $addonErr .= '<li>'. $package->getPackageId() .'<ul><li>'. $manager->getMessage() .'</li></ul></li>';
-    }
-  }
-
-  if($addonErr != '')
-  {
-    $addonErr = '<ul class="rex-ul1">
-                   <li>
-                     <h3 class="rex-hl3">'. rex_i18n::msg('setup_011', '<span class="rex-error">', '</span>') .'</h3>
-                     <ul>'. $addonErr .'</ul>
-                   </li>
-                 </ul>';
-  }
-
-  return $addonErr;
-}
-
-/*function rex_setup_setUtf8()
-{
-  global $REX;
-  $gt = rex_sql::factory();
-  $gt->setQuery("show tables");
-  foreach($gt->getArray() as $t) {
-    $table = $t["Tables_in_".$REX['DB']['1']['NAME']];
-    $gc = rex_sql::factory();
-    $gc->setQuery("show columns from $table");
-    if(substr($table,0,strlen(rex::getTablePrefix())) == rex::getTablePrefix()) {
-      $columns = Array();
-      $pri = "";
-      foreach($gc->getArray() as $c) {
-        $columns[] = $c["Field"];
-        if ($pri == "" && $c["Key"] == "PRI") {
-          $pri = $c["Field"];
-        }
-      }
-      if ($pri != "") {
-        $gr = rex_sql::factory();
-        $gr->setQuery("select * from $table");
-        foreach($gr->getArray() as $r) {
-          reset($columns);
-          $privalue = $r[$pri];
-          $uv = rex_sql::factory();
-          $uv->setTable($table);
-          $uv->setWhere(array($pri => $privalue));
-          foreach($columns as $key => $column) {
-            if ($pri!=$column) {
-              $value = $r[$column];
-              $newvalue = utf8_decode($value);
-              $uv->setValue($column,$newvalue);
-            }
-          }
-          $uv->update();
-        }
-      }
-    }
-  }
-}*/
-
 // --------------------------------------------- END: SETUP FUNCTIONS
-
-// -- setup requirements
-$min_version = '5.3.0';
-$min_mysql_version = '5.0';
-$min_php_extensions = array('session', 'pdo', 'pcre');
-// -- /setup requirements
 
 $MSG['err'] = "";
 $err_msg = '';
@@ -192,23 +28,10 @@ $dbanlegen  = rex_request('dbanlegen', 'string');
 $noadmin    = rex_request('noadmin', 'string');
 $lang       = rex_request('lang', 'string');
 
-$export_addon_dir = rex_path::addon('import_export');
-require_once $export_addon_dir.'/functions/function_folder.inc.php';
-require_once $export_addon_dir.'/functions/function_import_folder.inc.php';
-require_once $export_addon_dir.'/functions/function_import_export.inc.php';
-
-
 // ---------------------------------- MODUS 0 | Start
 if (!($checkmodus > 0 && $checkmodus < 10))
 {
-  // initial purge all generated files
-  rex_deleteCache();
-
-  // copy alle media files of the current rex-version into redaxo_media
-  rex_dir::copy(rex_path::core('assets'), rex_path::assets('', rex_path::ABSOLUTE));
-
-  // copy agk_skin files
-  rex_dir::copy(rex_path::plugin('be_style', 'redaxo', 'assets'), rex_path::pluginAssets('be_style', 'redaxo', '', rex_path::ABSOLUTE));
+  rex_setup::init();
 
   $saveLocale = rex_i18n::getLocale();
   $langs = array();
@@ -267,46 +90,23 @@ if ($checkmodus == '0.5')
 
 if ($checkmodus == 1)
 {
-  // -------------------------- VERSIONSCHECK
-  if (version_compare(phpversion(), $min_version, '<') == 1)
+  // -------------------------- ENV CHECK
+  foreach(rex_setup::checkEnvironment() as $error)
   {
-    $MSG['err'] .= '<li>'. rex_i18n::msg('setup_010', phpversion(), $min_version).'</li>';
-  }
-
-  // -------------------------- EXTENSION CHECK
-  foreach($min_php_extensions as $extension)
-  {
-    if(!extension_loaded($extension))
-    $MSG['err'] .= '<li>'. rex_i18n::msg('setup_010_1', $extension).'</li>';
+    $MSG['err'] .= $error;
   }
 
   // -------------------------- SCHREIBRECHTE
-  $WRITEABLES = array (
-    rex_path::media('', rex_path::ABSOLUTE),
-    rex_path::media('_readme.txt', rex_path::ABSOLUTE),
-    rex_path::assets('', rex_path::ABSOLUTE),
-    rex_path::assets('_readme.txt', rex_path::ABSOLUTE),
-    rex_path::cache(),
-    rex_path::data(),
-    rex_path::data('config.yml'),
-    getImportDir()
-  );
+  $res = rex_setup::checkFilesystem();
 
-  foreach(rex::getProperty('system_packages') as $system_addon)
-  {
-    if(strpos($system_addon, '/') === false)
-      $WRITEABLES[] = rex_path::addon($system_addon);
-  }
-
-  $res = rex_setup_is_writable($WRITEABLES);
   if(count($res) > 0)
   {
     $MSG['err'] .= '<li>';
-    foreach($res as $type => $messages)
+    foreach($res as $key => $messages)
     {
       if(count($messages) > 0)
       {
-        $MSG['err'] .= '<h3 class="rex-hl3">'. _rex_is_writable_info($type) .'</h3>';
+        $MSG['err'] .= '<h3 class="rex-hl3">'.rex_i18n::msg($key, '<span class="rex-error">', '</span>') .'</h3>';
         $MSG['err'] .= '<ul>';
         foreach($messages as $message)
         {
@@ -401,29 +201,19 @@ if ($checkmodus == 2 && $send == 1)
 
   if($err_msg == '')
   {
-    if(!rex_file::putConfig($configFile, $config, 3))
+    if(!rex_file::putConfig($configFile, $config))
     {
       $err_msg = rex_i18n::msg('setup_020', '<b>', '</b>');
     }
   }
 
-  // -------------------------- DATENBANKZUGRIFF
+  // -------------------------- DATENBANKZUGRIFF CHECK
   if($err_msg == '')
   {
-    $err = rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $redaxo_db_create);
-    if($err !== true)
+    $err = rex_setup::checkDb($config, $redaxo_db_create);
+    if($err != '')
     {
       $err_msg = $err;
-    }
-  }
-
-  // -------------------------- MySQl VERSIONSCHECK
-  if($err_msg == '')
-  {
-    $serverVersion = rex_sql::getServerVersion();
-    if (rex_string::compareVersions($serverVersion, $min_mysql_version, '<') == 1)
-    {
-      $err_msg = rex_i18n::msg('setup_022_1', $serverVersion, $min_mysql_version);
     }
   }
 
@@ -563,98 +353,33 @@ if ($checkmodus == 3 && $send == 1)
   $dbanlegen = rex_post('dbanlegen', 'int', '');
 
   // -------------------------- Benötigte Tabellen prüfen
-  $requiredTables = array (
-    rex::getTablePrefix() .'clang',
-    rex::getTablePrefix() .'user',
-    rex::getTablePrefix() .'config'
-  );
 
   if ($dbanlegen == 4)
   {
-    // ----- vorhandenen seite updaten
-    $import_sql = rex_path::core('install/update4_x_to_5_0.sql');
-    if($err_msg == '')
-      $err_msg .= rex_setup_import($import_sql);
-
-    // Aktuelle Daten updaten wenn utf8, da falsch in v4.2.1 abgelegt wurde.
-    /*if (rex_lang_is_utf8())
-    {
-      rex_setup_setUtf8();
-    }*/
-
-    if($err_msg == '')
-      $err_msg .= rex_setup_addons();
+    $err_msg .= rex_setup_importer::updateFromPrevious();
   }
   elseif ($dbanlegen == 3)
   {
-    // ----- vorhandenen Export importieren
     $import_name = rex_post('import_name', 'string');
 
-    if($import_name == '')
-    {
-      $err_msg .= '<p>'.rex_i18n::msg('setup_03701').'</p>';
-    }
-    else
-    {
-      $import_sql = getImportDir().'/'.$import_name.'.sql';
-      $import_archiv = getImportDir().'/'.$import_name.'.tar.gz';
-
-      // Nur hier zuerst die Addons installieren
-      // Da sonst Daten aus dem eingespielten Export
-      // Überschrieben würden
-      if($err_msg == '')
-        $err_msg .= rex_setup_addons(true, false);
-      if($err_msg == '')
-        $err_msg .= rex_setup_import($import_sql, $import_archiv);
-    }
+    $err_msg .= rex_setup_importer::loadExistingImport($import_name);
   }
   elseif ($dbanlegen == 2)
   {
-    // ----- db schon vorhanden, nichts tun
-    $err_msg .= rex_setup_addons(true, false);
+    $err_msg .=rex_setup_importer::databaseAlreadyExists();
   }
   elseif ($dbanlegen == 1)
   {
-    // ----- volle Datenbank, alte DB löschen / drop
-    $import_sql = rex_path::core('install/redaxo5_0.sql');
-
-    $db = rex_sql::factory();
-    foreach($requiredTables as $table)
-    $db->setQuery('DROP TABLE IF EXISTS `'. $table .'`');
-
-    if($err_msg == '')
-      $err_msg .= rex_setup_import($import_sql);
-
-    if($err_msg == '')
-      $err_msg .= rex_setup_addons(true);
+    $err_msg .=rex_setup_importer::overrideExisting();
   }
   elseif ($dbanlegen == 0)
   {
-    // ----- leere Datenbank neu einrichten
-    $import_sql = rex_path::core('install/redaxo5_0.sql');
-
-    if($err_msg == '')
-      $err_msg .= rex_setup_import($import_sql);
-
-    $err_msg .= rex_setup_addons();
+    $err_msg .=rex_setup_importer::prepareEmptyDb();
   }
 
   if($err_msg == "" && $dbanlegen !== '')
   {
-    // Prüfen, welche Tabellen bereits vorhanden sind
-    $existingTables = array();
-    foreach(rex_sql::showTables() as $tblname)
-    {
-      if (substr($tblname, 0, strlen(rex::getTablePrefix())) == rex::getTablePrefix())
-      {
-        $existingTables[] = $tblname;
-      }
-    }
-
-    foreach(array_diff($requiredTables, $existingTables) as $missingTable)
-    {
-      $err_msg .= rex_i18n::msg('setup_031', $missingTable)."<br />";
-    }
+    $err_msg .= rex_setup_importer::verifyDbSchema();
   }
 
   if ($err_msg == "")
@@ -697,6 +422,10 @@ if ($checkmodus == 3)
     default :
       $dbchecked[0] = ' checked="checked"';
   }
+
+  $export_addon_dir = rex_path::addon('import_export');
+  require_once $export_addon_dir.'/functions/function_folder.inc.php';
+  require_once $export_addon_dir.'/functions/function_import_folder.inc.php';
 
   // Vorhandene Exporte auslesen
   $sel_export = new rex_select();
@@ -972,7 +701,7 @@ if ($checkmodus == 5)
   $config = rex_file::getConfig($configFile);
   $config['setup'] = false;
 
-  if(rex_file::putConfig($configFile, $config, 3))
+  if(rex_file::putConfig($configFile, $config))
   {
     $errmsg = "";
   }

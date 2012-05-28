@@ -45,11 +45,9 @@ abstract class rex_formatter
    *    + array( 'length' => <String-Laenge>, 'etc' => <ETC Zeichen>, 'break_words' => <true/false>,
    * - nl2br
    *    + siehe www.php.net/nl2br
-   * - rexmedia
-   *    + formatiert ein Medium via rex_ooMedia
    * - custom
    *    + formatiert den Wert anhand einer Benutzer definierten Callback Funktion
-   * - filesize
+   * - bytes
    *    + formatiert einen Zahlenwert und gibt ihn als Bytegröße aus
    */
   static public function format($value, $format_type, $format)
@@ -94,30 +92,20 @@ abstract class rex_formatter
     {
       $value = rex_formatter::_formatNl2br($value, $format);
     }
-    // REDAXO Medienpool files darstellen
-    elseif ($format_type == 'rexmedia' && $value != '')
-    {
-      $value = rex_formatter::_formatRexMedia($value, $format);
-    }
-    // Artikel Id-Clang Id mit rex_getUrl() darstellen
-    elseif ($format_type == 'rexurl' && $value != '')
-    {
-      $value = rex_formatter::_formatRexUrl($value, $format);
-    }
     // Benutzerdefinierte Callback-Funktion
     elseif ($format_type == 'custom')
     {
       $value = rex_formatter::_formatCustom($value, $format);
     }
-    elseif ($format_type == 'filesize')
+    elseif ($format_type == 'bytes')
     {
-      $value = rex_formatter::_formatFilesize($value, $format);
+      $value = rex_formatter::_formatBytes($value, $format);
     }
 
     return $value;
   }
 
-  static public function _formatSprintf($value, $format)
+  static private function _formatSprintf($value, $format)
   {
     if ($format == '')
     {
@@ -126,7 +114,7 @@ abstract class rex_formatter
     return sprintf($format, $value);
   }
 
-  static public function _formatDate($value, $format)
+  static private function _formatDate($value, $format)
   {
     if ($format == '')
     {
@@ -136,7 +124,7 @@ abstract class rex_formatter
     return date($format, $value);
   }
 
-  static public function _formatStrftime($value, $format)
+  static private function _formatStrftime($value, $format)
   {
     if (empty ($value))
     {
@@ -156,7 +144,7 @@ abstract class rex_formatter
     return strftime($format, $value);
   }
 
-  static public function _formatNumber($value, $format)
+  static private function _formatNumber($value, $format)
   {
     if (!is_array($format))
     {
@@ -181,7 +169,7 @@ abstract class rex_formatter
     return number_format($value, $format[0], $format[1], $format[2]);
   }
 
-  static public function _formatEmail($value, $format)
+  static private function _formatEmail($value, $format)
   {
     if (!is_array($format))
     {
@@ -206,10 +194,10 @@ abstract class rex_formatter
       }
     }
     // Url formatierung
-    return '<a href="mailto:'.$value.$format['params'].'"'.$format['attr'].'>'.$value.'</a>';
+    return '<a href="mailto:'. htmlspecialchars($value.$format['params']) .'"'. $format['attr'] .'>'. htmlspecialchars($value) .'</a>';
   }
 
-  static public function _formatUrl($value, $format)
+  static private function _formatUrl($value, $format)
   {
     if(empty($value))
       return '';
@@ -240,10 +228,10 @@ abstract class rex_formatter
       $value = 'http://'.$value;
     }
 
-    return '<a href="'.$value.$format['params'].'"'.$format['attr'].'>'.$value.'</a>';
+    return '<a href="'. htmlspecialchars($value.$format['params']) .'"'. $format['attr'] .'>'. htmlspecialchars($value) .'</a>';
   }
 
-  static public function _formatTruncate($value, $format)
+  static private function _formatTruncate($value, $format)
   {
     if (!is_array($format))
       $format = array ();
@@ -263,12 +251,12 @@ abstract class rex_formatter
     return self::truncate($value, $format['length'], $format['etc'], $format['break_words']);
   }
 
-  static public function _formatNl2br($value, $format)
+  static private function _formatNl2br($value, $format)
   {
     return nl2br($value);
   }
 
-  static public function _formatCustom($value, $format)
+  static private function _formatCustom($value, $format)
   {
     if(!is_callable($format))
     {
@@ -295,7 +283,7 @@ abstract class rex_formatter
     return call_user_func($format, $value);
   }
 
-  static public function _formatFilesize($value, $format)
+  static private function _formatBytes($value, $format)
   {
     $units = array('B','KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB');
     $unit_index = 0;
@@ -325,104 +313,26 @@ abstract class rex_formatter
     return rex_formatter::_formatNumber($value, $format).' '.$units[$unit_index];
   }
 
-  static public function _formatRexMedia($value, $format)
+  /**
+   * Returns the truncated $string
+   *
+   * @param $string String Searchstring
+   * @param $start String Suffix to search for
+   */
+  static public function truncate($string, $length = 80, $etc = '...', $break_words = false)
   {
-    if (!is_array($format))
-    {
-      $format = array ();
-    }
-
-    $params = $format['params'];
-
-    // Resize aktivieren, falls nicht anders übergeben
-    if (empty ($params['resize']))
-    {
-      $params['resize'] = true;
-    }
-
-    $media = rex_ooMedia :: getMediaByName($value);
-    // Bilder als Thumbnail
-    if ($media->isImage())
-    {
-      $value = $media->toImage($params);
-    }
-    // Sonstige mit Mime-Icons
-    else
-    {
-      $value = $media->toIcon();
-    }
-
-    return $value;
-  }
-
-  static public function _formatRexUrl($value, $format)
-  {
-    if(empty($value))
+    if ($length == 0)
       return '';
 
-    if (!is_array($format))
-      $format = array ();
-
-    // format in dem die werte gespeichert sind
-    if (empty ($format['format']))
+    if (strlen($string) > $length)
     {
-      // default: <article-id>-<clang-id>
-      $format['format'] = '%i-%i';
-    }
+      $length -= strlen($etc);
+      if (!$break_words)
+        $string = preg_replace('/\s+?(\S+)?$/', '', substr($string, 0, $length +1));
 
-    $hits = sscanf($value, $format['format'], $value, $format['clang']);
-    if($hits == 1)
-    {
-      // clang
-      if (empty ($format['clang']))
-      {
-        $format['clang'] = '';
-      }
-    }
-
-    // Linkparameter (z.b. subject=Hallo Sir)
-    if (empty ($format['params']))
-    {
-      $format['params'] = '';
+      return substr($string, 0, $length).$etc;
     }
     else
-    {
-      if (strstr($format['params'], '?') != $format['params'])
-      {
-        $format['params'] = '?'.$format['params'];
-      }
-    }
-
-    // divider
-    if (empty ($format['divider']))
-    {
-      $format['divider'] = '&amp;';
-    }
-
-    return '<a href="'.rex_getUrl($value, $format['clang'], $format['params'], $format['divider']).'"'.$format['attr'].'>'.$value.'</a>';
+      return $string;
   }
-
-
-  /**
-	 * Returns the truncated $string
-	 *
-	 * @param $string String Searchstring
-	 * @param $start String Suffix to search for
-	 */
-	static public function truncate($string, $length = 80, $etc = '...', $break_words = false)
-	{
-	  if ($length == 0)
-	    return '';
-
-	  if (strlen($string) > $length)
-	  {
-	    $length -= strlen($etc);
-	    if (!$break_words)
-	      $string = preg_replace('/\s+?(\S+)?$/', '', substr($string, 0, $length +1));
-
-	    return substr($string, 0, $length).$etc;
-	  }
-	  else
-	    return $string;
-	}
 }

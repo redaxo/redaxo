@@ -53,7 +53,7 @@ class rex_ooCategory extends rex_ooRedaxo
 
     if (!file_exists($categorylist))
     {
-    	rex_article_cache::generateLists($cat_parent_id);
+      rex_article_cache::generateLists($cat_parent_id);
     }
 
     if (file_exists($categorylist))
@@ -304,42 +304,44 @@ class rex_ooCategory extends rex_ooRedaxo
 
     if($category_id < 1)
     {
-    	// Alle globalen Templates
-    	foreach($t_sql as $row)
-    	{
-        $categories = rex_getAttributes('categories', $row->getValue('attributes'));
+      // Alle globalen Templates
+      foreach($t_sql as $row)
+      {
+        $attributes = $row->getArrayValue('attributes');
+        $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
         if (!is_array($categories) || $categories['all'] == 1)
-    		  $templates[$row->getValue('id')] = $row->getValue('name');
-    	}
+          $templates[$row->getValue('id')] = $row->getValue('name');
+      }
     }else
     {
-    	if($c = self::getCategoryById($category_id))
-    	{
-    		$path = $c->getPathAsArray();
-    		$path[] = $category_id;
-    	  foreach($t_sql as $row)
-      	{
-	    		$categories = rex_getAttributes('categories', $row->getValue('attributes'));
-	    		// template ist nicht kategoriespezifisch -> includen
-	    		if(!is_array($categories) || $categories['all'] == 1)
-	    		{
+      if($c = self::getCategoryById($category_id))
+      {
+        $path = $c->getPathAsArray();
+        $path[] = $category_id;
+        foreach($t_sql as $row)
+        {
+          $attributes = $row->getArrayValue('attributes');
+          $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
+          // template ist nicht kategoriespezifisch -> includen
+          if(!is_array($categories) || $categories['all'] == 1)
+          {
             $templates[$row->getValue('id')] = $row->getValue('name');
-	    		}
-	    		else
-	    		{
-	    		  // template ist auf kategorien beschraenkt..
-	    		  // nachschauen ob eine davon im pfad der aktuellen kategorie liegt
-  	    		foreach($path as $p)
-  	    		{
-  	    			if(in_array($p,$categories))
-  	    			{
-  	    				$templates[$row->getValue('id')] = $row->getValue('name');
-  	    				break;
-  	    			}
-  	    		}
-	    		}
-      	}
-    	}
+          }
+          else
+          {
+            // template ist auf kategorien beschraenkt..
+            // nachschauen ob eine davon im pfad der aktuellen kategorie liegt
+            foreach($path as $p)
+            {
+              if(in_array($p,$categories))
+              {
+                $templates[$row->getValue('id')] = $row->getValue('name');
+                break;
+              }
+            }
+          }
+        }
+      }
     }
     return $templates;
   }

@@ -14,16 +14,16 @@
  *     # RewriteBase /
  *     RewriteRule ^([0-9]*)-([0-9]*)- index.php?article_id=$1&clang=$2&%{QUERY_STRING}
  */
-class rex_urlRewriter_mod_rewrite extends rex_urlRewriter
+class rex_url_rewriter_mod_rewrite extends rex_url_rewriter
 {
   // Url neu schreiben
   public function rewrite(array $params)
   {
-  	// Url wurde von einer anderen Extension bereits gesetzt
-  	if($params['subject'] != '')
-  	{
-  		return $params['subject'];
-  	}
+    // Url wurde von einer anderen Extension bereits gesetzt
+    if($params['subject'] != '')
+    {
+      return $params['subject'];
+    }
 
     $params['params'] = $params['params'] == '' ? '' : '?'. $params['params'];
     return $params['id'].'-'.$params['clang'].'-'.$params['name'].'.htm'.$params['params'];

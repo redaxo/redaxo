@@ -14,19 +14,19 @@
  */
 
     global $rxa_tinymce;
-	$rxa_tinymce['name'] = 'tinymce';
+  $rxa_tinymce['name'] = 'tinymce';
 
-	$REX['PERM'][] = 'tiny_mce[]';
+  $REX['PERM'][] = 'tiny_mce[]';
 
-	// REDAXO-Version
-	$rxa_tinymce['rexversion'] = isset($REX['VERSION']) ? $REX['VERSION'] . $REX['SUBVERSION'] : '';
+  // REDAXO-Version
+  $rxa_tinymce['rexversion'] = isset($REX['VERSION']) ? $REX['VERSION'] . $REX['SUBVERSION'] : '';
 
-	// Versions-Spezifische Variablen/Konstanten
-	$rxa_tinymce['medienpool'] = ($rxa_tinymce['rexversion'] > '41') ? 'mediapool' : 'medienpool';
-	$rxa_tinymce['linkmap'] = 'linkmap';
+  // Versions-Spezifische Variablen/Konstanten
+  $rxa_tinymce['medienpool'] = ($rxa_tinymce['rexversion'] > '41') ? 'mediapool' : 'medienpool';
+  $rxa_tinymce['linkmap'] = 'linkmap';
 
-	// Pfad f�r HTML-Ausgabe
-	$rxa_tinymce['fe_path'] = $REX['HTDOCS_PATH'] . 'files/addons/' . $rxa_tinymce['name'];
+  // Pfad f�r HTML-Ausgabe
+  $rxa_tinymce['fe_path'] = $REX['HTDOCS_PATH'] . 'files/addons/' . $rxa_tinymce['name'];
 
 
 
@@ -50,68 +50,68 @@ $REX['ADDON'][$rxa_tinymce['name']]['extconfig'] = "
 
 
 
-	// Nur im Backend
-	if (isset($REX['REDAXO']) && $REX['REDAXO'])
-	{
-		// rexTinyMCEEditor-Klasse
-		include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/classes/class.tinymce.inc.php';
+  // Nur im Backend
+  if (isset($REX['REDAXO']) && $REX['REDAXO'])
+  {
+    // rexTinyMCEEditor-Klasse
+    include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/classes/class.tinymce.inc.php';
 
-		// Funktionen f�r TinyMCE
-		include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/functions/function_rex_tinymce.inc.php';
+    // Funktionen f�r TinyMCE
+    include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/functions/function_rex_tinymce.inc.php';
 
-		// Kompatibilit�ts-Funktionen
-		include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/functions/function_rex_compat.inc.php';
+    // Kompatibilit�ts-Funktionen
+    include_once $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/functions/function_rex_compat.inc.php';
 
-		// Request-Variablen
-		$rxa_tinymce['get_page'] = rex_request('page', 'string');
-		$rxa_tinymce['get_tinymce'] = rex_request('tinymce', 'string');
-		$rxa_tinymce['get_tinymceinit'] = rex_request('tinymceinit', 'string');
+    // Request-Variablen
+    $rxa_tinymce['get_page'] = rex_request('page', 'string');
+    $rxa_tinymce['get_tinymce'] = rex_request('tinymce', 'string');
+    $rxa_tinymce['get_tinymceinit'] = rex_request('tinymceinit', 'string');
 
-		// TinyMCE-Init-Javascript ausliefern
-		if ($rxa_tinymce['get_tinymceinit'] == 'true')
-		{
-			a52_tinymce_output_init();
-			exit;
-		}
+    // TinyMCE-Init-Javascript ausliefern
+    if ($rxa_tinymce['get_tinymceinit'] == 'true')
+    {
+      a52_tinymce_output_init();
+      exit;
+    }
 
-		// Im Backend Sprachobjekt anlegen
-		$I18N_A52 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/lang/');
+    // Im Backend Sprachobjekt anlegen
+    $I18N_A52 = new i18n($REX['LANG'], $REX['INCLUDE_PATH'] . '/addons/' . $rxa_tinymce['name'] . '/lang/');
 
-		// Addon-Subnavigation f�r das REDAXO-Menue
-		$REX['ADDON'][$rxa_tinymce['name']]['SUBPAGES'] = array (
-			array('', $I18N_A52->msg('menu_module')),
-			array('settings', $I18N_A52->msg('menu_settings')),
-			array('css', $I18N_A52->msg('menu_css')),
-			array('tipps', $I18N_A52->msg('menu_tipps')),
-			array('info', $I18N_A52->msg('menu_information')),
-		);
+    // Addon-Subnavigation f�r das REDAXO-Menue
+    $REX['ADDON'][$rxa_tinymce['name']]['SUBPAGES'] = array (
+      array('', $I18N_A52->msg('menu_module')),
+      array('settings', $I18N_A52->msg('menu_settings')),
+      array('css', $I18N_A52->msg('menu_css')),
+      array('tipps', $I18N_A52->msg('menu_tipps')),
+      array('info', $I18N_A52->msg('menu_information')),
+    );
 
-		// ausgew�hlte Seiten laut Konfiguration
-		$rxa_tinymce['includepages'] = explode(',', trim(str_replace(' ', '', $REX['ADDON'][$rxa_tinymce['name']]['pages'])));
-		if (!in_array('content', $rxa_tinymce['includepages'])) // Bei 'content' immer!
-		{
-			$rxa_tinymce['includepages'][] = 'content';
-		}
+    // ausgew�hlte Seiten laut Konfiguration
+    $rxa_tinymce['includepages'] = explode(',', trim(str_replace(' ', '', $REX['ADDON'][$rxa_tinymce['name']]['pages'])));
+    if (!in_array('content', $rxa_tinymce['includepages'])) // Bei 'content' immer!
+    {
+      $rxa_tinymce['includepages'][] = 'content';
+    }
 
-		// TinyMCE ins Backend integrieren, nur in ausgew�hlten Seiten laut Konfiguration
-		if(($rxa_tinymce['get_page'] <> '') and in_array($rxa_tinymce['get_page'], $rxa_tinymce['includepages']) and ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on'))
-		{
-			rex_register_extension('OUTPUT_FILTER', 'a52_tinymce_opf');
-		}
+    // TinyMCE ins Backend integrieren, nur in ausgew�hlten Seiten laut Konfiguration
+    if(($rxa_tinymce['get_page'] <> '') and in_array($rxa_tinymce['get_page'], $rxa_tinymce['includepages']) and ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on'))
+    {
+      rex_register_extension('OUTPUT_FILTER', 'a52_tinymce_opf');
+    }
 
-		// Outputfilter f�r Medienpool und Linkmap
-		if ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on') // nur wen TinyMCE aktiv
-		{
-			$rxa_tinymce['get_inputfield'] = rex_request('opener_input_field', 'string');
-			if (strstr($rxa_tinymce['get_inputfield'], 'REX_MEDIA_') or strstr($rxa_tinymce['get_inputfield'], 'LINK_'))
-			{
-				$_SESSION['a52_tinymce'] = false;
-			}
-			if ((($rxa_tinymce['get_page'] == $rxa_tinymce['medienpool']) or ($rxa_tinymce['get_page'] == $rxa_tinymce['linkmap'])) and (($rxa_tinymce['get_tinymce'] == 'true') or (isset($_SESSION['a52_tinymce']) and $_SESSION['a52_tinymce'] == 'true')))
-			{
-				rex_register_extension('MEDIA_ADDED', 'a52_tinymce_mediaadded');
-				rex_register_extension('OUTPUT_FILTER', 'a52_tinymce_opf_media_linkmap');
-			}
-		}
+    // Outputfilter f�r Medienpool und Linkmap
+    if ($REX['ADDON'][$rxa_tinymce['name']]['active'] == 'on') // nur wen TinyMCE aktiv
+    {
+      $rxa_tinymce['get_inputfield'] = rex_request('opener_input_field', 'string');
+      if (strstr($rxa_tinymce['get_inputfield'], 'REX_MEDIA_') or strstr($rxa_tinymce['get_inputfield'], 'LINK_'))
+      {
+        $_SESSION['a52_tinymce'] = false;
+      }
+      if ((($rxa_tinymce['get_page'] == $rxa_tinymce['medienpool']) or ($rxa_tinymce['get_page'] == $rxa_tinymce['linkmap'])) and (($rxa_tinymce['get_tinymce'] == 'true') or (isset($_SESSION['a52_tinymce']) and $_SESSION['a52_tinymce'] == 'true')))
+      {
+        rex_register_extension('MEDIA_ADDED', 'a52_tinymce_mediaadded');
+        rex_register_extension('OUTPUT_FILTER', 'a52_tinymce_opf_media_linkmap');
+      }
+    }
 
-	} // Ende nur im Backend
+  } // Ende nur im Backend

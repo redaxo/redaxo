@@ -17,7 +17,7 @@
  *
  * @author staabm
  */
-abstract class rex_api_function extends rex_factory
+abstract class rex_api_function extends rex_factory_base
 {
   protected function __construct()
   {
@@ -108,10 +108,16 @@ abstract class rex_api_function extends rex_factory
       if($apiFunc->published !== true)
       {
         if(rex::isBackend() !== true)
+        {
+          rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
           throw new rex_api_exception('the api function '. get_class($apiFunc) .' is not published, therefore can only be called from the backend!');
+        }
 
         if(!rex::getUser())
+        {
+          rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
           throw new rex_api_exception('missing backend session to call api function '. get_class($apiFunc) .'!');
+        }
       }
 
       try {
@@ -123,21 +129,16 @@ abstract class rex_api_function extends rex_factory
         $result = new rex_api_result(false, $message);
         $apiFunc->result = $result;
       }
-
-      // if we handle an ajax request, we direct the output to the browser and stop here
-      $isAjaxRequest = rex_request::isXmlHttpRequest();
-
-      if($isAjaxRequest)
-      {
-        while(ob_get_level()) ob_end_clean();
-
-        echo $result->ajaxResult();
-        exit();
-      }
     }
   }
 
-  public static function getMessage()
+  public static function hasMessage()
+  {
+    $apiFunc = self::factory();
+    return (boolean) $apiFunc->getResult();
+  }
+
+  public static function getMessage($formatted = true)
   {
     $apiFunc = self::factory();
     $message = '';
@@ -146,13 +147,23 @@ abstract class rex_api_function extends rex_factory
       $apiResult = $apiFunc->getResult();
       if($apiResult)
       {
-        $message = $apiResult->getFormattedMessage();
+        if($formatted)
+        {
+          $message = $apiResult->getFormattedMessage();
+        }
+        else
+        {
+          $message = $apiResult->getMessage();
+        }
       }
     }
     // return a placeholder which can later be used by ajax requests to display messages
     return '<div id="rex-message-container">'. $message .'</div>';
   }
 
+  /**
+   * @return rex_api_result
+   */
   public function getResult()
   {
     return $this->result;
@@ -169,59 +180,17 @@ abstract class rex_api_function extends rex_factory
 class rex_api_result
 {
   /**
-   * The inner html of the selected element will be replaced
-   */
-  const MODE_INNER = 'inner';
-
-  /**
-  * The selected element will be completely replaced
-  */
-  const MODE_REPLACE = 'replace';
-
-  /**
-  * The html will be inserted before the selected element
-  */
-  const MODE_BEFORE = 'before';
-
-  /**
-  * The html will be inserted after the selected element
-  */
-  const MODE_AFTER = 'after';
-
-  /**
   * Flag indicating if the api function was executed successfully
   * @var boolean
   */
   private $succeeded = false;
 
   private $message;
-  private $renderResults;
 
   public function __construct($succeeded, $message = null)
   {
     $this->succeeded = $succeeded;
     $this->message = $message;
-  }
-
-
-  public function addRenderResult($selector, $html, $selectorContext = null, $mode = null, $addClass = null, $removeClass = null)
-  {
-    $renderResult = array('selector' => $selector, 'html' => $html);
-
-    if($selectorContext) $renderResult['selectorContext'] = $selectorContext;
-    $renderResult['mode'] = $mode ?: self::MODE_INNER;
-    if($addClass) $renderResult['addClass'] = $addClass;
-    if($removeClass) $renderResult['removeClass'] = $removeClass;
-
-    $this->renderResults[] = $renderResult;
-  }
-
-  public function ajaxResult()
-  {
-    $ajaxResult = array();
-    $ajaxResult['renderResults'] = $this->renderResults;
-    $ajaxResult['message'] = $this->message != null ? $this->getFormattedMessage() : null;
-    return json_encode($ajaxResult);
   }
 
   public function getFormattedMessage()

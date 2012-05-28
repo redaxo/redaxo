@@ -121,7 +121,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
         $title = '<a href="'. $this->titleUrl .'">'. $title .'</a>';
       }
 
-    	return '<div class="rex-dashboard-component" id="'. $this->getId() .'">
+      return '<div class="rex-dashboard-component" id="'. $this->getId() .'">
                 <h3 class="rex-hl2">'. $title .'</h3>
                 %%actionbar%%
                 %%config%%

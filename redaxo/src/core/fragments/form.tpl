@@ -12,7 +12,7 @@ foreach($this->elements as $element)
   if ($columns_flag)
   {
     $columns_c++;
-    
+
     $column_class = '';
     if ($columns_c == 1)
     {
@@ -24,17 +24,17 @@ foreach($this->elements as $element)
     {
       $column_class = ' rex-last';
     }
-      
+
     $out .= '<div class="rex-column'.$column_class.'">';
   }
-  
+
   $id     = isset($element['id']) ? ' id="'.$element['id'].'"' : '';
   $label  = isset($element['label']) ? $element['label'] : '';
   $field  = isset($element['field']) ? $element['field'] : '';
   $before = isset($element['before']) ? $element['before'] : '';
   $after  = isset($element['after']) ? $element['after'] : '';
-  
-  
+
+
   if (isset($element['reverse']) && $element['reverse'])
   {
     $out .= '<div class="rex-form-data rex-form-reverse"'.$id.'>';
@@ -44,16 +44,16 @@ foreach($this->elements as $element)
   else
   {
     $out .= '<div class="rex-form-data"'.$id.'>';
-    $out .= $before.$label.$field.$after;  
+    $out .= $before.$label.$field.$after;
     $out .= '</div>';
   }
-  
-  
-  
+
+
+
   if ($columns_flag)
   {
     $out .= '</div>';
-    
+
     if ($columns_c == $columns)
     {
       $out .= '</div>';
@@ -61,7 +61,7 @@ foreach($this->elements as $element)
       $columns_grid_open = false;
     }
   }
-  
+
 }
 
 if ($columns_flag && $columns_grid_open)

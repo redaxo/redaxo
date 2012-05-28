@@ -112,15 +112,15 @@ if($PERMALL)
         </fieldset>
       </form>
     </div>
-  
+
   <script type="text/javascript">
-  	jQuery(document).ready(function($){
-  	  $("input[name=\'sync_files[]\']").change(function() {
-  	  	$("#media-form-button").attr("disabled", $("input[name=\'sync_files[]\']:checked").size() == 0);
-  	  }).change();
-  	  $("#checkie").change(function() {
-  	  	$("input[name=\'sync_files[]\']").change();
-  	  });
-  	});
+    jQuery(document).ready(function($){
+      $("input[name=\'sync_files[]\']").change(function() {
+        $("#media-form-button").attr("disabled", $("input[name=\'sync_files[]\']:checked").size() == 0);
+      }).change();
+      $("#checkie").change(function() {
+        $("input[name=\'sync_files[]\']").change();
+      });
+    });
   </script>';
 }

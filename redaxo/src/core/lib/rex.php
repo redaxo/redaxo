@@ -53,7 +53,7 @@ class rex
    *
    * @param string $key Key of the property
    * @param mixed $value Value for the property
-   * 
+   *
    * @return boolean TRUE when an existing value was overridden, otherwise FALSE
    *
    * @throws rex_exception on invalid parameters
@@ -74,7 +74,7 @@ class rex
    *
    * @param string $key Key of the property
    * @param mixed $default Default value, will be returned if the property isn't set
-   * 
+   *
    * @return the value for $key or $default if $key cannot be found
    *
    * @throws rex_exception on invalid parameters
@@ -96,7 +96,7 @@ class rex
    * Returns if a property is set
    *
    * @param string $key Key of the property
-   * 
+   *
    * @return boolean TRUE if the key is set, otherwise FALSE
    *
    * @throws rex_exception on invalid parameters
@@ -110,7 +110,7 @@ class rex
    * Removes a property
    *
    * @param string $key Key of the property
-   * 
+   *
    * @return boolean TRUE if the value was found and removed, otherwise FALSE
    *
    * @throws rex_exception on invalid parameters
@@ -144,6 +144,16 @@ class rex
   static public function isBackend()
   {
     return (boolean) self::getProperty('redaxo', false);
+  }
+
+  /**
+   * Returns if the safe mode is active
+   *
+   * @return boolean
+   */
+  static public function isSafeMode()
+  {
+    return self::isBackend() && rex_session('safemode', 'boolean', false);
   }
 
   /**
@@ -199,7 +209,7 @@ class rex
   }
 
   /**
-   * Returns the title tag and if the user has the perm "accesskeys[]" also the accesskey tag
+   * Returns the title tag and if the property "use_accesskeys" is true, the accesskey tag
    *
    * @param string $title Title
    * @param string $key Key for the accesskey
@@ -207,7 +217,7 @@ class rex
    */
   static public function getAccesskey($title, $key)
   {
-    if(self::getUser()->hasPerm('accesskeys[]'))
+    if (self::getProperty('use_accesskeys'))
     {
       $accesskeys = (array) self::getProperty('accesskeys', array());
       if(isset($accesskeys[$key]))

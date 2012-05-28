@@ -14,7 +14,7 @@ if ($media_method == 'add_file')
       $FILEINFOS['title'] = rex_request('ftitle', 'string');
 
       if (!$PERMALL && !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category))
-      	$rex_file_category = 0;
+        $rex_file_category = 0;
 
       // function in function.rex_mediapool.inc.php
       $return = rex_mediapool_saveMedia($_FILES['file_new'],$rex_file_category,$FILEINFOS,rex::getUser()->getValue("login"));
@@ -62,11 +62,11 @@ if ($media_method == 'add_file')
         exit;
       }elseif($return['ok'] == 1)
       {
-      	header('Location:index.php?page=mediapool&info='.urlencode(rex_i18n::msg('pool_file_added')).'&opener_input_field='.$opener_input_field);
-      	exit;
+        header('Location:index.php?page=mediapool&info='.urlencode(rex_i18n::msg('pool_file_added')).'&opener_input_field='.$opener_input_field);
+        exit;
       }else
       {
-      	$warning = rex_i18n::msg('pool_file_movefailed');
+        $warning = rex_i18n::msg('pool_file_movefailed');
       }
 
     }else

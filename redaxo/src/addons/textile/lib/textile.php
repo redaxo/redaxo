@@ -11,17 +11,16 @@ class rex_textile
 
   static private function getInstance()
   {
-    return self::$instance ?: self::$instance = new Textile;
+    if(!self::$instance)
+    {
+      self::$instance = new Textile;
+      self::$instance->url_schemes[] = 'redaxo';
+    }
+    return self::$instance;
   }
 
   static public function showHelpOverview()
   {
-    // check perms
-    if(!rex::getUser()->hasPerm('textile[help]'))
-    {
-    	return;
-    }
-
     $formats = self::getHelpOverviewFormats();
 
     echo '<div class="a79_help_overview">
@@ -59,7 +58,7 @@ class rex_textile
 
           $code = '';
           if(isset($_format[1]))
-          	$code = $_format[1];
+            $code = $_format[1];
 
           if($code == '')
             $code = $desc;

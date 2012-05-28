@@ -8,14 +8,7 @@
  * @package redaxo5
  */
 
-$error = '';
-
-if($error == '' && !rex_config::has('media_manager', 'jpg_quality'))
+if($this->hasConfig('jpg_quality'))
 {
-  rex_config::set('media_manager', 'jpg_quality', 85);
+  $this->setConfig('jpg_quality', 85);
 }
-
-if ($error != '')
-  $this->setProperty('installmsg', $error);
-else
-  $this->setProperty('install', true);

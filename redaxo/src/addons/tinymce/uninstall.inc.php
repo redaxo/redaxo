@@ -12,23 +12,23 @@
  *
  * @package redaxo5
  */
-	
-	// Addon-Konfiguration
-	include dirname( __FILE__) . '/config.inc.php';
 
-	// unistall ok
-	$REX['ADDON']['install']['tinymce'] = 0;
-	
-	// REDAXO 3.2.3, 4.0.x, 4.1.x - Dateien in Ordner files/addons/ kopieren
-	if (($rxa_tinymce['rexversion'] == '32') or ($rxa_tinymce['rexversion'] == '40') or ($rxa_tinymce['rexversion'] == '41'))
-	{
-		$addon_filesdir = $REX['MEDIAFOLDER'] . '/addons/' . $rxa_tinymce['name'];
-		if (is_dir($addon_filesdir))
-		{
-			if(!rex_deleteDir($addon_filesdir, true))
-			{
-				$REX['ADDON']['installmsg'][$rxa_tinymce['name']] = 'Verzeichnis '.$addon_filesdir.' konnte nicht gel�scht werden!';
-				$REX['ADDON']['install'][$rxa_tinymce['name']] = 1;	
-			}
-		}
-	}
+  // Addon-Konfiguration
+  include dirname( __FILE__) . '/config.inc.php';
+
+  // unistall ok
+  $REX['ADDON']['install']['tinymce'] = 0;
+
+  // REDAXO 3.2.3, 4.0.x, 4.1.x - Dateien in Ordner files/addons/ kopieren
+  if (($rxa_tinymce['rexversion'] == '32') or ($rxa_tinymce['rexversion'] == '40') or ($rxa_tinymce['rexversion'] == '41'))
+  {
+    $addon_filesdir = $REX['MEDIAFOLDER'] . '/addons/' . $rxa_tinymce['name'];
+    if (is_dir($addon_filesdir))
+    {
+      if(!rex_deleteDir($addon_filesdir, true))
+      {
+        $REX['ADDON']['installmsg'][$rxa_tinymce['name']] = 'Verzeichnis '.$addon_filesdir.' konnte nicht gel�scht werden!';
+        $REX['ADDON']['install'][$rxa_tinymce['name']] = 1;
+      }
+    }
+  }

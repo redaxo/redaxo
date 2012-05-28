@@ -3,7 +3,7 @@
  * @package redaxo4
  */
 
-body#rex-page-linkmap div.rex-area-col-b, 
+body#rex-page-linkmap div.rex-area-col-b,
 body#rex-page-linkmap div.rex-addon-col-b {
-	width: 49.9%;
+  width: 49.9%;
 }

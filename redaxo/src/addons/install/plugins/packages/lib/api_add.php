@@ -3,9 +3,9 @@
 class rex_api_install_packages_add extends rex_api_install_packages_download
 {
   const
-  GET_PACKAGES_FUNCTION = 'getAddPackages',
-  VERB = 'downloaded',
-  SHOW_LINK = true;
+    GET_PACKAGES_FUNCTION = 'getAddPackages',
+    VERB = 'downloaded',
+    SHOW_LINK = true;
 
   protected function checkPreConditions()
   {

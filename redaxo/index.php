@@ -5,4 +5,6 @@ $REX['REDAXO'] = true;
 $REX['HTDOCS_PATH'] = '../';
 $REX['BACKEND_FOLDER'] = 'redaxo';
 
-include 'src/core/master.inc.php';
+require 'src/core/master.inc.php';
+
+require rex_path::core('index_be.inc.php');

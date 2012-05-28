@@ -23,27 +23,27 @@ abstract class rex_cronjob
   }
 
   public function setParam($key, $value)
-	{
-		$this->params[$key] = $value;
-	}
+  {
+    $this->params[$key] = $value;
+  }
 
   public function setParams(array $params)
-	{
-	  $this->params = $params;
-	}
+  {
+    $this->params = $params;
+  }
 
-	public function getParam($key, $default = null)
-	{
-	  if(isset($this->params[$key]))
-	    return $this->params[$key];
+  public function getParam($key, $default = null)
+  {
+    if(isset($this->params[$key]))
+      return $this->params[$key];
 
-	  return $default;
-	}
+    return $default;
+  }
 
-	public function getParams()
-	{
-	  return $this->params;
-	}
+  public function getParams()
+  {
+    return $this->params;
+  }
 
   public function __set($key, $value)
   {
@@ -55,7 +55,7 @@ abstract class rex_cronjob
     return $this->getParam($key);
   }
 
-	public function setMessage($message)
+  public function setMessage($message)
   {
     $this->message = $message;
   }

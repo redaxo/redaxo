@@ -11,10 +11,9 @@ notfound_article_id: 1
 start_clang_id: 0
 default_template_id: 1
 lang: de_de
-mod_rewrite: false
-use_gzip: false
-use_etag: false
-use_last_modified: true
+use_gzip: true
+use_etag: true
+use_last_modified: false
 use_md5: true
 pswfunc: sha1
 relogindelay: 5
@@ -22,6 +21,22 @@ maxlogins: 50
 maxclangs: 15
 start_page: structure
 timezone: Europe/Berlin
+socket_proxy: null
+setup_addons:
+  - be_style
+  - import_export
+system_addons:
+  - modules
+  - templates
+  - mediapool
+  - structure
+  - import_export
+  - metainfo
+  - be_search
+  - be_style
+  - media_manager
+  - users
+  - install
 table_prefix: rex_
 temp_prefix: tmp_
 db:
@@ -37,6 +52,7 @@ db:
     password: ''
     name: ''
     persistent: false
+use_accesskeys: true
 accesskeys:
   save: s
   apply: x

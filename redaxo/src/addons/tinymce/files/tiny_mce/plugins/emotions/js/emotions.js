@@ -1,24 +1,24 @@
 tinyMCEPopup.requireLangPack();
 
 var EmotionsDialog = {
-	init : function(ed) {
-		tinyMCEPopup.resizeToInnerSize();
-	},
+  init : function(ed) {
+    tinyMCEPopup.resizeToInnerSize();
+  },
 
-	insert : function(file, title) {
-		var ed = tinyMCEPopup.editor, dom = ed.dom;
+  insert : function(file, title) {
+    var ed = tinyMCEPopup.editor, dom = ed.dom;
 
-		tinyMCEPopup.execCommand('mceInsertContent', false, dom.createHTML('img', {
-			src : tinyMCEPopup.getWindowArg('plugin_url') + '/img/' + file,
-			alt : ed.getLang(title),
-			title : ed.getLang(title),
-			width : 18,
-			height : 18,
-			border : 0
-		}));
+    tinyMCEPopup.execCommand('mceInsertContent', false, dom.createHTML('img', {
+      src : tinyMCEPopup.getWindowArg('plugin_url') + '/img/' + file,
+      alt : ed.getLang(title),
+      title : ed.getLang(title),
+      width : 18,
+      height : 18,
+      border : 0
+    }));
 
-		tinyMCEPopup.close();
-	}
+    tinyMCEPopup.close();
+  }
 };
 
 tinyMCEPopup.onInit.add(EmotionsDialog.init, EmotionsDialog);

@@ -1,4 +1,4 @@
-#id, #name, #hspace, #vspace, #class_name, #align {	width: 100px }
+#id, #name, #hspace, #vspace, #class_name, #align {  width: 100px }
 #hspace, #vspace { width: 50px }
 #flash_quality, #flash_align, #flash_scale, #flash_salign, #flash_wmode { width: 100px }
 #flash_base, #flash_flashvars { width: 240px }

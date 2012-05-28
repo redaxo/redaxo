@@ -13,7 +13,7 @@ $warning = '';
 //-------------- delete cache on type_name change or type deletion
 if((rex_post('func') == 'edit' || $func == 'delete') && $type_id > 0)
 {
-  $counter = rex_media_manager_deleteCacheByType($type_id);
+  $counter = rex_media_manager::deleteCacheByType($type_id);
   //  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
 }
 
@@ -45,10 +45,10 @@ if($func == 'delete_cache' && $type_id > 0)
 
 //-------------- output messages
 if ($info != '')
-	$content .= rex_view::info($info);
+  $content .= rex_view::info($info);
 
 if ($warning != '')
-	$content .= rex_view::warning($warning);
+  $content .= rex_view::warning($warning);
 
 if ($func == '')
 {
@@ -81,12 +81,12 @@ if ($func == '')
 
   $list->addColumn('deleteCache', rex_i18n::msg('media_manager_type_cache_delete'), -1, array('','<td>###VALUE###</td>'));
   $list->setColumnParams('deleteCache', array('type_id' => '###id###', 'func' => 'delete_cache'));
-  $list->addLinkAttribute('deleteCache', 'onclick', 'return confirm(\''.rex_i18n::msg('media_manager_type_cache_delete').' ?\')');
+  $list->addLinkAttribute('deleteCache', 'data-confirm', rex_i18n::msg('media_manager_type_cache_delete').' ?');
 
   // remove delete link on internal types (status == 1)
   $list->addColumn('deleteType', '', -1, array('','<td>###VALUE###</td>'));
   $list->setColumnParams('deleteType', array('type_id' => '###id###', 'func' => 'delete'));
-  $list->addLinkAttribute('deleteType', 'onclick', 'return confirm(\''.rex_i18n::msg('delete').' ?\')');
+  $list->addLinkAttribute('deleteType', 'data-confirm', rex_i18n::msg('delete').' ?');
   $list->setColumnFormat('deleteType', 'custom', function ($params) {
     $list = $params["list"];
     if($list->getValue("status") == 1)
@@ -97,7 +97,7 @@ if ($func == '')
   });
 
   $content .= $list->get();
-  
+
 }elseif ($func == 'add' || $func == 'edit' && $type_id > 0)
 {
   if($func == 'edit')

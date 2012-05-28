@@ -34,10 +34,10 @@ switch($subpage)
 
   default:
   {
-  	if ($msg != '')
-		  echo rex_view::info($msg);
+    if ($msg != '')
+      echo rex_view::info($msg);
 
-	  $subpage = 'overview';
+    $subpage = 'overview';
   }
 }
 

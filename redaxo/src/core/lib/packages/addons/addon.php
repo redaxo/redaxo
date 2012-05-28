@@ -70,6 +70,14 @@ class rex_addon extends rex_package implements rex_addon_interface
   }
 
   /* (non-PHPdoc)
+   * @see rex_package_interface::getType()
+   */
+  public function getType()
+  {
+    return 'addon';
+  }
+
+  /* (non-PHPdoc)
    * @see rex_package_interface::getBasePath()
    */
   public function getBasePath($file = '')
@@ -102,6 +110,14 @@ class rex_addon extends rex_package implements rex_addon_interface
   }
 
   /* (non-PHPdoc)
+   * @see rex_package_interface::isSystemPackage()
+   */
+  public function isSystemPackage()
+  {
+    return in_array($this->getPackageId(), rex::getProperty('system_addons'));
+  }
+
+  /* (non-PHPdoc)
    * @see rex_package_interface::i18n()
    */
   public function i18n($key)
@@ -120,7 +136,7 @@ class rex_addon extends rex_package implements rex_addon_interface
    */
   public function getPlugin($plugin)
   {
-  	if(!is_string($plugin))
+    if(!is_string($plugin))
     {
       throw new rex_exception('Expecting $plugin to be string, but '. gettype($plugin) .' given!');
     }
@@ -163,6 +179,33 @@ class rex_addon extends rex_package implements rex_addon_interface
     return self::filterPackages($this->plugins, 'isAvailable');
   }
 
+  /* (non-PHPdoc)
+   * @see rex_addon_interface::getSystemPlugins()
+   */
+  public function getSystemPlugins()
+  {
+    if (rex::isSetup() || rex::isSafeMode())
+    {
+      // in setup and safemode this method is called before the package .lang files are added to rex_i18n
+      // so don't use getProperty(), to avoid loading all properties without translations
+      $properties = rex_file::getConfig($this->getBasePath('package.yml'));
+      $systemPlugins = isset($properties['system_plugins']) ? (array) $properties['system_plugins'] : array();
+    }
+    else
+    {
+      $systemPlugins = (array) $this->getProperty('system_plugins', array());
+    }
+    $plugins = array();
+    foreach($systemPlugins as $plugin)
+    {
+      if($this->pluginExists($plugin))
+      {
+        $plugins[$plugin] = $this->getPlugin($plugin);
+      }
+    }
+    return $plugins;
+  }
+
   /**
    * Returns the registered addons
    *
@@ -194,6 +237,42 @@ class rex_addon extends rex_package implements rex_addon_interface
   }
 
   /**
+  * Returns the setup addons
+  *
+  * @return array[rex_addon]
+  */
+  static public function getSetupAddons()
+  {
+    $addons = array();
+    foreach((array) rex::getProperty('setup_addons', array()) as $addon)
+    {
+      if(rex_addon::exists($addon))
+      {
+        $addons[$addon] = self::get($addon);
+      }
+    }
+    return $addons;
+  }
+
+  /**
+   * Returns the system addons
+   *
+   * @return array[rex_addon]
+   */
+  static public function getSystemAddons()
+  {
+    $addons = array();
+    foreach((array) rex::getProperty('system_addons', array()) as $addon)
+    {
+      if(rex_addon::exists($addon))
+      {
+        $addons[$addon] = self::get($addon);
+      }
+    }
+    return $addons;
+  }
+
+  /**
    * Initializes all packages
    */
   static public function initialize($dbExists = true)
@@ -205,17 +284,9 @@ class rex_addon extends rex_package implements rex_addon_interface
     else
     {
       $config = array();
-      foreach(rex::getProperty('setup_packages') as $packageId)
+      foreach(rex::getProperty('setup_addons') as $addon)
       {
-        $package = explode('/', $packageId);
-        if(isset($package[1]))
-        {
-          $config[$package[0]]['plugins'][$package[1]]['install'] = false;
-        }
-        else
-        {
-          $config[$package[0]]['install'] = false;
-        }
+        $config[$addon]['install'] = false;
       }
     }
     $addons = self::$addons;
@@ -226,6 +297,13 @@ class rex_addon extends rex_package implements rex_addon_interface
       $addon->setProperty('install', isset($addonConfig['install']) ? $addonConfig['install'] : false);
       $addon->setProperty('status', isset($addonConfig['status']) ? $addonConfig['status'] : false);
       self::$addons[$addonName] = $addon;
+      if(!$dbExists && is_array($plugins = $addon->getProperty('system_plugins')))
+      {
+        foreach($plugins as $plugin)
+        {
+          $config[$addonName]['plugins'][$plugin]['install'] = false;
+        }
+      }
       if(isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins']))
       {
         $plugins = $addon->plugins;

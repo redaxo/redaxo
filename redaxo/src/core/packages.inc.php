@@ -5,14 +5,14 @@
  * @package redaxo5
  */
 
-if(rex::isSetup())
+rex_addon::initialize(!rex::isSetup());
+
+if(rex::isSetup() || rex::isSafeMode())
 {
-  rex_addon::initialize(false);
-  $packageOrder = rex::getProperty('setup_packages');
+  $packageOrder = array_keys(rex_package::getSetupPackages());
 }
 else
 {
-  rex_addon::initialize();
   $packageOrder = rex::getConfig('package-order', array());
 }
 
@@ -23,6 +23,11 @@ foreach($packageOrder as $packageId)
   $package = rex_package::get($packageId);
   $folder = $package->getBasePath();
 
+  // add addon path for i18n
+  if(is_readable($folder .'lang'))
+  {
+    rex_i18n::addDirectory($folder .'lang');
+  }
   // add package path for fragment loading
   if(is_readable($folder .'fragments'))
   {
@@ -31,12 +36,19 @@ foreach($packageOrder as $packageId)
   // add addon path for class-loading
   if(is_readable($folder .'lib'))
   {
-    rex_autoload::addDirectory($folder .'lib'.DIRECTORY_SEPARATOR);
+    rex_autoload::addDirectory($folder .'lib');
   }
-  // add addon path for i18n
-  if(is_readable($folder .'lang'))
+  $autoload = $package->getProperty('autoload');
+  if (is_array($autoload) && isset($autoload['classes']) && is_array($autoload['classes']))
   {
-    rex_i18n::addDirectory($folder .'lang');
+    foreach ($autoload['classes'] as $dir)
+    {
+      $dir = $package->getBasePath($dir);
+      if (is_readable($dir))
+      {
+        rex_autoload::addDirectory($dir);
+      }
+    }
   }
 }
 

@@ -18,10 +18,13 @@ require dirname(__FILE__) .'/../functions/function_rex_content.inc.php';
 
 unset ($REX_ACTION);
 
-$article_id  = rex_request('article_id',  'rex-article-id');
-$clang       = rex_request('clang',       'rex-clang-id', rex::getProperty('start_clang_id'));
-$slice_id    = rex_request('slice_id',    'rex-slice-id', '');
+$article_id  = rex_request('article_id',  'int');
+$clang       = rex_request('clang',       'int');
+$slice_id    = rex_request('slice_id',    'int', '');
 $function    = rex_request('function',    'string');
+
+$article_id = rex_ooArticle::isValid(rex_ooArticle::getArticleById($article_id)) ? $article_id : 0;
+$clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
 
 $article_revision = 0;
 $slice_revision = 0;
@@ -48,15 +51,15 @@ $article->setQuery("
 if ($article->getRows() == 1)
 {
   // ----- ctype holen
-  $template_attributes = $article->getValue('template_attributes');
+  $template_attributes = $article->getArrayValue('template_attributes');
 
   // Für Artikel ohne Template
   if($template_attributes === null)
     $template_attributes = '';
 
-  $ctypes = rex_getAttributes('ctype', $template_attributes, array ()); // ctypes - aus dem template
+  $ctypes = isset($template_attributes['ctype']) ? $template_attributes['ctype'] : array(); // ctypes - aus dem template
 
-  $ctype = rex_request('ctype', 'rex-ctype-id', 1);
+  $ctype = rex_request('ctype', 'int', 1);
   if (!array_key_exists($ctype, $ctypes))
     $ctype = 1; // default = 1
 
@@ -70,26 +73,26 @@ if ($article->getRows() == 1)
 
   if (rex::getProperty('page') == 'content' && $article_id > 0)
   {
-		$term = ($article->getValue('startpage') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
-    	$catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
-    	// TODO: if admin or recht advanced -> $KATout .= " [$article_id]";
+    $term = ($article->getValue('startpage') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
+      $catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
+      // TODO: if admin or recht advanced -> $KATout .= " [$article_id]";
 
-		$navigation = array();
-		$navigation[] = array(
-					"href" => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
-					"title" => $catname
-				);
-		$blocks = array();
-		$blocks[] = array(
-			"headline" => array ( "title" => $term),
-			"navigation" => $navigation
-			);
+    $navigation = array();
+    $navigation[] = array(
+          "href" => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
+          "title" => $catname
+        );
+    $blocks = array();
+    $blocks[] = array(
+      "headline" => array ( "title" => $term),
+      "navigation" => $navigation
+      );
 
-		$fragment = new rex_fragment();
-		$fragment->setVar('type','path');
-		$fragment->setVar('blocks', $blocks, false);
-		$KATout .= $fragment->parse('navigation.tpl');
-		unset($fragment);
+    $fragment = new rex_fragment();
+    $fragment->setVar('type','path');
+    $fragment->setVar('blocks', $blocks, false);
+    $KATout .= $fragment->parse('navigation.tpl');
+    unset($fragment);
 
   }
 
@@ -99,8 +102,8 @@ if ($article->getRows() == 1)
   // ----- Request Parameter
   $mode     = rex_request('mode', 'string');
   $function = rex_request('function', 'string');
-  $warning  = rex_request('warning', 'string');
-  $info     = rex_request('info', 'string');
+  $warning  = htmlspecialchars(rex_request('warning', 'string'));
+  $info     = htmlspecialchars(rex_request('info', 'string'));
 
   // ----- mode defs
   if ($mode != 'meta' && $mode != 'metafuncs')
@@ -174,7 +177,8 @@ if ($article->getRows() == 1)
           $slice_id = '';
           $function = '';
 
-        }elseif (!(rex::getUser()->isAdmin() || rex::getUser()->getComplexPerm('modules')->hasPerm($module_id)))
+        }
+        elseif (!rex::getUser()->getComplexPerm('modules')->hasPerm($module_id))
         {
           // ----- RECHTE AM MODUL: NEIN
           $global_warning = rex_i18n::msg('no_rights_to_this_function');
@@ -273,8 +277,8 @@ if ($article->getRows() == 1)
                 try {
                   $newsql->insert();
 
-                  rex_organize_priorities(
-                    rex::getTablePrefix() . 'article_slice',
+                  rex_sql_util::organizePriorities(
+                    rex::getTable('article_slice'),
                     'prior',
                     'article_id=' . $article_id . ' AND clang=' . $clang .' AND ctype='. $ctype .' AND revision='. $slice_revision,
                     'prior, updatedate DESC'
@@ -338,10 +342,10 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: COPY LANG CONTENT
     if (rex_post('copycontent', 'boolean'))
     {
-      $clang_a = rex_post('clang_a', 'rex-clang-id');
-      $clang_b = rex_post('clang_b', 'rex-clang-id');
+      $clang_a = rex_post('clang_a', 'int');
+      $clang_b = rex_post('clang_b', 'int');
       $user = rex::getUser();
-      if ($user->isAdmin() || ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->hasPerm($clang_a) && $user->getComplexPerm('clang')->hasPerm($clang_b)))
+      if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->hasPerm($clang_a) && $user->getComplexPerm('clang')->hasPerm($clang_b))
       {
         if (rex_content_service::copyContent($article_id, $article_id, $clang_a, $clang_b, 0, $slice_revision))
           $info = rex_i18n::msg('content_contentcopy');
@@ -358,8 +362,8 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: MOVE ARTICLE
     if (rex_post('movearticle', 'boolean') && $category_id != $article_id)
     {
-      $category_id_new = rex_post('category_id_new', 'rex-category-id');
-      if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)))
+      $category_id_new = rex_post('category_id_new', 'int');
+      if (rex::getUser()->hasPerm('moveArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new))
       {
         if (rex_article_service::moveArticle($article_id, $category_id, $category_id_new))
         {
@@ -383,8 +387,8 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: COPY ARTICLE
     if (rex_post('copyarticle', 'boolean'))
     {
-      $category_copy_id_new = rex_post('category_copy_id_new', 'rex-category-id');
-      if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('copyArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_copy_id_new)))
+      $category_copy_id_new = rex_post('category_copy_id_new', 'int');
+      if (rex::getUser()->hasPerm('copyArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_copy_id_new))
       {
         if (($new_id = rex_article_service::copyArticle($article_id, $category_copy_id_new)) !== false)
         {
@@ -408,8 +412,8 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: MOVE CATEGORY
     if (rex_post('movecategory', 'boolean'))
     {
-      $category_id_new = rex_post('category_id_new', 'rex-category-id');
-      if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id')) && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)))
+      $category_id_new = rex_post('category_id_new', 'int');
+      if (rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id')) && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new))
       {
         if ($category_id != $category_id_new && rex_category_service::moveCategory($category_id, $category_id_new))
         {
@@ -466,7 +470,7 @@ if ($article->getRows() == 1)
     // ------------------------------------------ START: CONTENT HEAD MENUE
     $num_ctypes = count($ctypes);
 
-	$listElements = array();
+  $listElements = array();
 
     $ctype_menu = '';
     if ($num_ctypes > 0)
@@ -475,15 +479,15 @@ if ($article->getRows() == 1)
       foreach ($ctypes as $key => $val)
       {
 
-   		$n = array();
-		$n["title"] = rex_i18n::translate($val);
-		$n["href"] = 'index.php?page=content&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
-		if ($key == $ctype && $mode == 'edit')
+       $n = array();
+    $n["title"] = rex_i18n::translate($val);
+    $n["href"] = 'index.php?page=content&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
+    if ($key == $ctype && $mode == 'edit')
         {
-			$n["linkClasses"] = array('rex-active');
-			$n["itemClasses"] = array('rex-active');
-	    }
-		$listElements[] = $n;
+      $n["linkClasses"] = array('rex-active');
+      $n["itemClasses"] = array('rex-active');
+      }
+    $listElements[] = $n;
 
       }
 
@@ -507,42 +511,42 @@ if ($article->getRows() == 1)
 
     // $listElements = array();
 
-	$n = array();
-	$n["title"] = rex_i18n::msg('show');
-	$n["href"] = rex_getUrl($article_id, $clang);
-	$n["itemClasses"] = array('rex-misc');
-	$n["linkAttr"] = array("onClick" => 'window.open(this.href); return false;');
-	$listElements[] = $n;
+  $n = array();
+  $n["title"] = rex_i18n::msg('show');
+  $n["href"] = rex_getUrl($article_id, $clang);
+  $n["itemClasses"] = array('rex-misc');
+  $n["linkAttr"] = array("onClick" => 'window.open(this.href); return false;');
+  $listElements[] = $n;
 
-	$n = array();
-	$n["title"] = rex_i18n::msg('metafuncs');
-	$n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=metafuncs&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
-	$n["itemClasses"] = array('rex-misc');
+  $n = array();
+  $n["title"] = rex_i18n::msg('metafuncs');
+  $n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=metafuncs&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
+  $n["itemClasses"] = array('rex-misc');
     if ($mode == 'metafuncs') {
-		$n["linkClasses"] = array('rex-active');
-		$n["itemClasses"] = array('rex-active','rex-misc');
+    $n["linkClasses"] = array('rex-active');
+    $n["itemClasses"] = array('rex-active','rex-misc');
     }
-	$listElements[] = $n;
+  $listElements[] = $n;
 
-	$n = array();
-	$n["title"] = rex_i18n::msg('metadata');
-	$n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
-	$n["itemClasses"] = array('rex-misc');
+  $n = array();
+  $n["title"] = rex_i18n::msg('metadata');
+  $n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
+  $n["itemClasses"] = array('rex-misc');
     if ($mode == 'meta') {
-		$n["linkClasses"] = array('rex-active');
-		$n["itemClasses"] = array('rex-active','rex-misc');
+    $n["linkClasses"] = array('rex-active');
+    $n["itemClasses"] = array('rex-active','rex-misc');
     }
-	$listElements[] = $n;
+  $listElements[] = $n;
 
-	$n = array();
-	$n["title"] = rex_i18n::msg('edit_mode');
-	$n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
-	$n["itemClasses"] = array('rex-misc');
+  $n = array();
+  $n["title"] = rex_i18n::msg('edit_mode');
+  $n["href"] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
+  $n["itemClasses"] = array('rex-misc');
     if ($mode != 'meta' && $mode != 'metafuncs') {
-		$n["linkClasses"] = array('rex-active');
-		$n["itemClasses"] = array('rex-active','rex-misc');
+    $n["linkClasses"] = array('rex-active');
+    $n["itemClasses"] = array('rex-active','rex-misc');
     }
-	$listElements[] = $n;
+  $listElements[] = $n;
 
     // ----- EXTENSION POINT
     $listElements = rex_extension::registerPoint('PAGE_CONTENT_MENU', $listElements,
@@ -555,16 +559,16 @@ if ($article->getRows() == 1)
       )
     );
 
-	$blocks = array();
-	$blocks[] = array(
-				"headline" => array("title" => "meeeta"),
-				"navigation" => $listElements
-				);
+  $blocks = array();
+  $blocks[] = array(
+        "headline" => array("title" => "meeeta"),
+        "navigation" => $listElements
+        );
 
-	$fragment = new rex_fragment();
-	$fragment->setVar('type','tab');
-	$fragment->setVar('blocks', $blocks, false);
-	echo $fragment->parse('navigation.tpl');
+  $fragment = new rex_fragment();
+  $fragment->setVar('type','tab');
+  $fragment->setVar('blocks', $blocks, false);
+  echo $fragment->parse('navigation.tpl');
 
 
     // ------------------------------------------ END: CONTENT HEAD MENUE
@@ -675,7 +679,7 @@ if ($article->getRows() == 1)
                   </form>
                 </div>';
 
-	  echo rex_view::contentBlock($content, '', 'block');
+    echo rex_view::contentBlock($content, '', 'block');
 
     // ------------------------------------------ START: META FUNCS
     }elseif ($mode == 'metafuncs')
@@ -698,7 +702,7 @@ if ($article->getRows() == 1)
       $out = '';
 
       // --------------------------------------------------- ZUM STARTARTICLE MACHEN START
-      if (rex::getUser()->isAdmin() || rex::getUser()->hasPerm('article2startpage[]'))
+      if (rex::getUser()->hasPerm('article2startpage[]'))
       {
         $out .= '
             <fieldset>
@@ -712,7 +716,7 @@ if ($article->getRows() == 1)
                 else if ($isStartpage)
                   $n['field'] = '<span class="rex-form-read">'.rex_i18n::msg('content_isstartarticle').'</span>';
                 else
-                  $n['field'] = '<input type="submit" name="article2startpage" value="' . rex_i18n::msg('content_tostartarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_tostartarticle') . '?\') && jQuery(\'#apiField\').val(\'article2startpage\');" />';
+                  $n['field'] = '<input type="submit" name="article2startpage" value="' . rex_i18n::msg('content_tostartarticle') . '" data-confirm="' . rex_i18n::msg('content_tostartarticle') . '?" onclick="jQuery(\'#apiField\').val(\'article2startpage\');" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -727,7 +731,7 @@ if ($article->getRows() == 1)
       // --------------------------------------------------- ZUM STARTARTICLE MACHEN END
 
       // --------------------------------------------------- IN KATEGORIE UMWANDELN START
-      if (!$isStartpage && (rex::getUser()->isAdmin() || rex::getUser()->hasPerm('article2category[]')))
+      if (!$isStartpage && rex::getUser()->hasPerm('article2category[]'))
       {
         $out .= '
             <fieldset>
@@ -737,7 +741,7 @@ if ($article->getRows() == 1)
                 $formElements = array();
 
                 $n = array();
-                $n['field'] = '<input type="submit" name="article2category" value="' . rex_i18n::msg('content_tocategory') . '" onclick="return confirm(\'' . rex_i18n::msg('content_tocategory') . '?\') && jQuery(\'#apiField\').val(\'article2category\');" />';
+                $n['field'] = '<input type="submit" name="article2category" value="' . rex_i18n::msg('content_tocategory') . '" data-confirm="' . rex_i18n::msg('content_tocategory') . '?" onclick="jQuery(\'#apiField\').val(\'article2category\');" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -750,7 +754,7 @@ if ($article->getRows() == 1)
       // --------------------------------------------------- IN KATEGORIE UMWANDELN END
 
       // --------------------------------------------------- IN ARTIKEL UMWANDELN START
-      if ($isStartpage && (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('category2article[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id')))))
+      if ($isStartpage && rex::getUser()->hasPerm('category2article[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id')))
       {
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT pid FROM '. rex::getTablePrefix() .'article WHERE re_id='. $article_id .' LIMIT 1');
@@ -767,7 +771,7 @@ if ($article->getRows() == 1)
                 if (!$emptyCategory)
                   $n['field'] = '<span class="rex-form-read">'.rex_i18n::msg('content_nottoarticle').'</span>';
                 else
-                  $n['field'] = '<input type="submit" name="category2article" value="' . rex_i18n::msg('content_toarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_toarticle') . '?\') && jQuery(\'#apiField\').val(\'category2article\');" />';
+                  $n['field'] = '<input type="submit" name="category2article" value="' . rex_i18n::msg('content_toarticle') . '" data-confirm="' . rex_i18n::msg('content_toarticle') . '?" onclick="jQuery(\'#apiField\').val(\'category2article\');" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -780,7 +784,7 @@ if ($article->getRows() == 1)
 
       // --------------------------------------------------- INHALTE KOPIEREN START
       $user = rex::getUser();
-      if (($user->isAdmin() || $user->hasPerm('copyContent[]')) && $user->getComplexPerm('clang')->count() > 1)
+      if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() > 1)
       {
         $clang_perm = $user->getComplexPerm('clang')->getClangs();
 
@@ -804,8 +808,8 @@ if ($article->getRows() == 1)
           $lang_b->addOption($val, $key);
         }
 
-        $lang_a->setSelected(rex_request('clang_a', 'rex-clang-id', null));
-        $lang_b->setSelected(rex_request('clang_b', 'rex-clang-id', null));
+        $lang_a->setSelected(rex_request('clang_a', 'int', null));
+        $lang_b->setSelected(rex_request('clang_b', 'int', null));
 
         $out .= '
               <fieldset>
@@ -832,7 +836,7 @@ if ($article->getRows() == 1)
                 $formElements = array();
 
                 $n = array();
-                $n['field'] = '<input type="submit" name="copycontent" value="' . rex_i18n::msg('content_submitcopycontent') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitcopycontent') . '?\')" />';
+                $n['field'] = '<input type="submit" name="copycontent" value="' . rex_i18n::msg('content_submitcopycontent') . '" data-confirm="' . rex_i18n::msg('content_submitcopycontent') . '?" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -846,7 +850,7 @@ if ($article->getRows() == 1)
       // --------------------------------------------------- INHALTE KOPIEREN ENDE
 
       // --------------------------------------------------- ARTIKEL VERSCHIEBEN START
-      if (!$isStartpage && (rex::getUser()->isAdmin() || rex::getUser()->hasPerm('moveArticle[]')))
+      if (!$isStartpage && rex::getUser()->hasPerm('moveArticle[]'))
       {
 
         // Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
@@ -869,7 +873,7 @@ if ($article->getRows() == 1)
                 $formElements[] = $n;
 
                 $n = array();
-                $n['field'] = '<input type="submit" name="movearticle" value="' . rex_i18n::msg('content_submitmovearticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitmovearticle') . '?\')" />';
+                $n['field'] = '<input type="submit" name="movearticle" value="' . rex_i18n::msg('content_submitmovearticle') . '" data-confirm="' . rex_i18n::msg('content_submitmovearticle') . '?" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -882,7 +886,7 @@ if ($article->getRows() == 1)
       // ------------------------------------------------ ARTIKEL VERSCHIEBEN ENDE
 
       // -------------------------------------------------- ARTIKEL KOPIEREN START
-      if (rex::getUser()->isAdmin() || rex::getUser()->hasPerm('copyArticle[]'))
+      if (rex::getUser()->hasPerm('copyArticle[]'))
       {
         $move_a = new rex_category_select(false, false, true, !rex::getUser()->getComplexPerm('structure')->hasMountPoints());
         $move_a->setName('category_copy_id_new');
@@ -903,7 +907,7 @@ if ($article->getRows() == 1)
                 $formElements[] = $n;
 
                 $n = array();
-                $n['field'] = '<input class="rex-form-submit" type="submit" name="copyarticle" value="' . rex_i18n::msg('content_submitcopyarticle') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitcopyarticle') . '?\')" />';
+                $n['field'] = '<input class="rex-form-submit" type="submit" name="copyarticle" value="' . rex_i18n::msg('content_submitcopyarticle') . '" data-confirm="' . rex_i18n::msg('content_submitcopyarticle') . '?" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -916,7 +920,7 @@ if ($article->getRows() == 1)
       // --------------------------------------------------- ARTIKEL KOPIEREN ENDE
 
       // --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START
-      if ($isStartpage && (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id')))))
+      if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id')))
       {
         $move_a = new rex_category_select(false, false, true, !rex::getUser()->getComplexPerm('structure')->hasMountPoints());
         $move_a->setId('category_id_new');
@@ -937,7 +941,7 @@ if ($article->getRows() == 1)
                 $formElements[] = $n;
 
                 $n = array();
-                $n['field'] = '<input class="rex-form-submit" type="submit" name="movecategory" value="' . rex_i18n::msg('content_submitmovecategory') . '" onclick="return confirm(\'' . rex_i18n::msg('content_submitmovecategory') . '?\')" />';
+                $n['field'] = '<input class="rex-form-submit" type="submit" name="movecategory" value="' . rex_i18n::msg('content_submitmovecategory') . '" data-confirm="' . rex_i18n::msg('content_submitmovecategory') . '?" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -954,7 +958,7 @@ if ($article->getRows() == 1)
                   </form>
                 </div>';
 
-	  echo rex_view::contentBlock($content, '', 'block');
+    echo rex_view::contentBlock($content, '', 'block');
 
     }
 

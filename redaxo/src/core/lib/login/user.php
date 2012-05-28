@@ -41,8 +41,8 @@ class rex_user
   /**
    * Returns the value for the given key
    *
-	 * @param string $key Key
-	 * @return string value
+   * @param string $key Key
+   * @return string value
    */
   public function getValue($key)
   {
@@ -122,6 +122,10 @@ class rex_user
    */
   public function hasPerm($perm)
   {
+    if ($this->isAdmin())
+    {
+      return true;
+    }
     $result = false;
     if(strpos($perm, '/') !== false)
     {
@@ -143,7 +147,7 @@ class rex_user
   /**
   * Returns the complex perm for the user
   *
-  *	@param string $key Complex perm key
+  *  @param string $key Complex perm key
   * @return rex_complex_perm Complex perm
   */
   public function getComplexPerm($key)
@@ -156,9 +160,9 @@ class rex_user
   }
 
   /**
-	 * Sets the role class
-	 *
-	 * @param string $class Class name
+   * Sets the role class
+   *
+   * @param string $class Class name
    */
   static public function setRoleClass($class)
   {

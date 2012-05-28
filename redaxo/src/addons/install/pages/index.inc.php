@@ -47,17 +47,17 @@ elseif($this->getPlugin($subpage)->isAvailable())
       );
       */
     }
-    
-		$blocks = array();
-		$blocks[] = array(
-			'navigation' => $listElements
-			);
-      
+
+    $blocks = array();
+    $blocks[] = array(
+      'navigation' => $listElements
+      );
+
     $fragment = new rex_fragment();
-	  $fragment->setVar('type', 'tabsub', false);
-	  $fragment->setVar('blocks', $blocks, false);
-	  echo $fragment->parse('navigation.tpl');
-	  
+    $fragment->setVar('type', 'tabsub', false);
+    $fragment->setVar('blocks', $blocks, false);
+    echo $fragment->parse('navigation.tpl');
+
 //    echo rex_view::toolbar('<div class="rex-content-header-2"><ul>'.$subsubpages.'</ul></div>', 'rex-content-header');
   }
 

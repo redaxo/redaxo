@@ -14,7 +14,7 @@ class rex_cronjob_manager_sql
     $sql,
     $manager;
 
-  private function rex_cronjob_manager_sql(rex_cronjob_manager $manager = null)
+  private function __construct(rex_cronjob_manager $manager = null)
   {
     $this->sql = rex_sql::factory();
     // $this->sql->debugsql = true;

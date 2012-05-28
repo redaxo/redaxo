@@ -19,8 +19,8 @@ if($content != '')
 {
   $contentFound = true;
 
-	echo '<div class="rex-dashboard-section rex-dashboard-1col rex-dashboard-notifications">
-	        <div class="rex-dashboard-column rex-dashboard-column-first">
+  echo '<div class="rex-dashboard-section rex-dashboard-1col rex-dashboard-notifications">
+          <div class="rex-dashboard-column rex-dashboard-column-first">
             '.$content.'
           </div>
         </div>';

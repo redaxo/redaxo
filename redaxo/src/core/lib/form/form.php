@@ -16,7 +16,7 @@ define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
  *
  * Nachdem alle Felder eingefuegt wurden, muss das Fomular mit get() oder show() ausgegeben werden.
  */
-class rex_form extends rex_factory
+class rex_form extends rex_factory_base
 {
   protected
     $name,
@@ -244,7 +244,7 @@ class rex_form extends rex_factory
   public function addTextField($name, $value = null, array $attributes = array())
   {
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-text';
+      $attributes['class'] = 'rex-form-text';
     $field = $this->addInputField('text', $name, $value, $attributes);
     return $field;
   }
@@ -259,7 +259,7 @@ class rex_form extends rex_factory
   {
     $attributes['readonly'] = 'readonly';
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-read';
+      $attributes['class'] = 'rex-form-read';
     $field = $this->addInputField('text', $name, $value, $attributes);
     return $field;
   }
@@ -275,7 +275,7 @@ class rex_form extends rex_factory
     $attributes['internal::fieldSeparateEnding'] = true;
     $attributes['internal::noNameAttribute'] = true;
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-read';
+      $attributes['class'] = 'rex-form-read';
     $field = $this->addField('span', $name, $value, $attributes, true);
     return $field;
   }
@@ -301,7 +301,7 @@ class rex_form extends rex_factory
   {
     $attributes['internal::fieldClass'] = 'rex_form_checkbox_element';
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-checkbox rex-form-label-right';
+      $attributes['class'] = 'rex-form-checkbox rex-form-label-right';
     $field = $this->addField('', $name, $value, $attributes);
     return $field;
   }
@@ -315,7 +315,7 @@ class rex_form extends rex_factory
   public function addRadioField($name, $value = null, array $attributes = array())
   {
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-radio';
+      $attributes['class'] = 'rex-form-radio';
     $attributes['internal::fieldClass'] = 'rex_form_radio_element';
     $field = $this->addField('radio', $name, $value, $attributes);
     return $field;
@@ -334,7 +334,7 @@ class rex_form extends rex_factory
     if(!isset($attributes['rows']))
       $attributes['rows'] = 6;
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-textarea';
+      $attributes['class'] = 'rex-form-textarea';
 
     $field = $this->addField('textarea', $name, $value, $attributes);
     return $field;
@@ -348,7 +348,7 @@ class rex_form extends rex_factory
   public function addSelectField($name, $value = null, array $attributes = array())
   {
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-select';
+      $attributes['class'] = 'rex-form-select';
     $attributes['internal::fieldClass'] = 'rex_form_select_element';
     $field = $this->addField('', $name, $value, $attributes, true);
     return $field;
@@ -362,7 +362,7 @@ class rex_form extends rex_factory
   public function addPrioField($name, $value = null, array $attributes = array())
   {
     if(!isset($attributes['class']))
-    	$attributes['class'] = 'rex-form-select';
+      $attributes['class'] = 'rex-form-select';
     $attributes['internal::fieldClass'] = 'rex_form_prio_element';
     $field = $this->addField('', $name, $value, $attributes, true);
     return $field;
@@ -376,6 +376,10 @@ class rex_form extends rex_factory
    */
   public function addMediaField($name, $value = null, array $attributes = array())
   {
+    if(!rex_addon::get('mediapool')->isAvailable())
+    {
+      throw new rex_exception(__METHOD__ .'() needs "mediapool" addon!');
+    }
     $attributes['internal::fieldClass'] = 'rex_form_widget_media_element';
     $field = $this->addField('', $name, $value, $attributes, true);
     return $field;
@@ -389,6 +393,10 @@ class rex_form extends rex_factory
    */
   public function addMedialistField($name, $value = null, array $attributes = array())
   {
+    if(!rex_addon::get('mediapool')->isAvailable())
+    {
+      throw new rex_exception(__METHOD__ .'() needs "mediapool" addon!');
+    }
     $attributes['internal::fieldClass'] = 'rex_form_widget_medialist_element';
     $field = $this->addField('', $name, $value, $attributes, true);
     return $field;
@@ -402,6 +410,10 @@ class rex_form extends rex_factory
    */
   public function addLinkmapField($name, $value = null, array $attributes = array())
   {
+    if(!rex_plugin::get('structure', 'linkmap')->isAvailable())
+    {
+      throw new rex_exception(__METHOD__ .'() needs "structure/linkmap" plugin!');
+    }
     $attributes['internal::fieldClass'] = 'rex_form_widget_linkmap_element';
     $field = $this->addField('', $name, $value, $attributes, true);
     return $field;
@@ -415,6 +427,10 @@ class rex_form extends rex_factory
    */
   public function addLinklistField($name, $value = null, array $attributes = array())
   {
+    if(!rex_plugin::get('structure', 'linkmap')->isAvailable())
+    {
+      throw new rex_exception(__METHOD__ .'() needs "structure/linkmap" plugin!');
+    }
     $attributes['internal::fieldClass'] = 'rex_form_widget_linklist_element';
     $field = $this->addField('', $name, $value, $attributes, true);
     return $field;
@@ -429,6 +445,16 @@ class rex_form extends rex_factory
   public function addControlField($saveElement = null, $applyElement = null, $deleteElement = null, $resetElement = null, $abortElement = null)
   {
     $field = $this->addElement(new rex_form_control_element($this, $saveElement, $applyElement, $deleteElement, $resetElement, $abortElement));
+    return $field;
+  }
+
+  /**
+   * Fuegt dem Formular beliebiges HTML zu.
+   * @param string $html HTML code
+   */
+  public function addRawField($html)
+  {
+    $field = $this->addElement(new rex_form_raw_element($html));
     return $field;
   }
 
@@ -766,6 +792,17 @@ class rex_form extends rex_factory
     return is_a($element, 'rex_form_control_element');
   }
 
+
+  /**
+   * @param rex_form_element $element
+   *
+   * @return boolean
+   */
+  protected function isRawElement(rex_form_element $element)
+  {
+    return is_a($element, 'rex_form_raw_element');
+  }
+
   /**
    * @return array
    */
@@ -859,6 +896,7 @@ class rex_form extends rex_factory
       foreach($fieldsetElementsArray as $key => $element)
       {
         if($this->isFooterElement($element)) continue;
+        if($this->isRawElement($element)) continue;
 
         // PHP4 compat notation
         $fieldsetElements[$fieldsetName][] = $this->elements[$fieldsetName][$key];

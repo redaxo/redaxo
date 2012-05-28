@@ -5,6 +5,11 @@
  * @package redaxo4
  */
 
+if(version_compare(PHP_VERSION, '5.3.0') < 0)
+{
+  exit('PHP version >=5.3 needed!');
+}
+
 mb_internal_encoding('UTF-8');
 
 require_once dirname(__FILE__) .'/lib/path.php';
@@ -15,11 +20,12 @@ require_once rex_path::core('lib/autoload.php');
 // register core-classes  as php-handlers
 rex_autoload::register();
 // add core base-classpath to autoloader
-rex_autoload::addDirectory(rex_path::core('lib/'));
+rex_autoload::addDirectory(rex_path::core('lib'));
+rex_autoload::addDirectory(rex_path::core('vendor'));
 // start timer at the very beginning
 rex::setProperty('timer', new rex_timer);
-// register rex_logger
-rex_logger::register();
+// register rex_error_handler
+rex_error_handler::register();
 // add backend flag to rex
 rex::setProperty('redaxo', $REX['REDAXO']);
 // reset $REX
@@ -51,28 +57,14 @@ foreach($config as $key => $value)
 
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
-// ----------------- OTHER STUFF
-rex::setProperty('setup_packages', array('be_style', 'be_style/redaxo'));
-rex::setProperty('system_packages', array('modules', 'templates', 'mediapool', 'structure', 'structure/content', 'structure/linkmap', 'import_export', 'metainfo', 'be_search', 'be_style', 'be_style/redaxo', 'media_manager', 'users', 'install', 'install/core', 'install/packages'));
-
 // ----------------- REX PERMS
 
 rex_perm::register('advancedMode[]', rex_i18n::msg('perm_options_advancedMode[]'), rex_perm::OPTIONS);
-rex_perm::register('accesskeys[]', rex_i18n::msg('perm_options_accesskeys[]'), rex_perm::OPTIONS);
 
 rex_complex_perm::register('clang', 'rex_clang_perm');
 
 // ----- SET CLANG
 if(!rex::isSetup())
 {
-  rex_clang::setId(rex_request('clang','rex-clang-id', rex::getProperty('start_clang_id')));
-}
-
-if(rex::isBackend())
-{
-  require rex_path::core('index_be.inc.php');
-}
-else
-{
-  require rex_path::core('index_fe.inc.php');
+  rex_clang::setId(rex_request('clang', 'int', rex::getProperty('start_clang_id')));
 }

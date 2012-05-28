@@ -14,7 +14,7 @@ class select extends rex_select
    */
   function multiple($mul)
   {
-  	$this->setMultiple($mul);
+    $this->setMultiple($mul);
   }
 
   /**
@@ -24,10 +24,10 @@ class select extends rex_select
    */
   function set_selectextra($extra)
   {
-  	foreach(rex_var::splitString($extra) as $name => $value)
-  	{
-  		$this->setAttribute($name, $value);
-  	}
+    foreach(rex_var::splitString($extra) as $name => $value)
+    {
+      $this->setAttribute($name, $value);
+    }
   }
 
   /**
@@ -37,7 +37,7 @@ class select extends rex_select
    */
   function out()
   {
-  	return $this->get();
+    return $this->get();
   }
 
   /**
@@ -47,7 +47,7 @@ class select extends rex_select
    */
   function set_name($name)
   {
-  	$this->setName($name);
+    $this->setName($name);
   }
 
   /**
@@ -57,7 +57,7 @@ class select extends rex_select
    */
   function set_id($id)
   {
-  	$this->setId($id);
+    $this->setId($id);
   }
 
   /**
@@ -67,7 +67,7 @@ class select extends rex_select
    */
   function set_size($size)
   {
-  	$this->setSize($size);
+    $this->setSize($size);
   }
 
   /**
@@ -77,7 +77,7 @@ class select extends rex_select
    */
   function set_selected($selected)
   {
-  	$this->setSelected($selected);
+    $this->setSelected($selected);
   }
 
   /**
@@ -87,7 +87,7 @@ class select extends rex_select
    */
   function reset_selected()
   {
-  	$this->resetSelected();
+    $this->resetSelected();
   }
 
   /**
@@ -97,7 +97,7 @@ class select extends rex_select
    */
   function set_style($style)
   {
-  	$this->setStyle($style);
+    $this->setStyle($style);
   }
 
   /**
@@ -107,6 +107,6 @@ class select extends rex_select
    */
   function add_option($name, $value, $id = 0, $re_id = 0)
   {
-  	$this->addOption($name, $value, $id, $re_id);
+    $this->addOption($name, $value, $id, $re_id);
   }
 }

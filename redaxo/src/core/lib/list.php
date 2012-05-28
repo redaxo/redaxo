@@ -10,7 +10,7 @@ define('REX_LIST_OPT_SORT', 0);
  */
 
 /*
-Beispiel:
+EXAMPLE:
 
 $list = rex_list::factory('SELECT id,name FROM rex_article');
 $list->setColumnFormat('id', 'date');
@@ -22,26 +22,33 @@ $list->setCaption('thomas macht das css');
 $list->show();
 
 
-Beispiel für Custom Callbacks mit Parametern:
+EXAMPLE FOR USING CUSTOM CALLBACKS WITH setColumnFormat() METHOD:
 
-function abc($params)
+function callback_func($params)
 {
-  // $params['subject']  ist das SQL Objekt der aktuellen Zeile
-  // $params['params']   sind die Parameter die du selbst angibst
+  // $params['subject']  current value
+  // $params['list']     rex_list object
+  // $params['params']   custom params
 
-  return $xyz; // Rückgabewert = Wert der in der liste erscheint - kein htmlspechialchars!
+  return $custom_string; // return value showed in list (note: no htmlspechialchars!)
 }
 
-$list->setColumnFormat('id', 'custom',
-  array(
-    'abc',
-    array('xy' => 'abc', '123' => '45')
-  )
+// USING setColumnFormat() BY CALLING A FUNCTION
+$list->setColumnFormat('id',                                     // field name
+                       'custom',                                 // format type
+                       'callback_func',                          // callback function name
+                        array('foo' => 'bar', '123' => '456')    // optional params for callback function
 );
 
+// USING setColumnFormat() BY CALLING CLASS & METHOD
+$list->setColumnFormat('id',                                     // field name
+                       'custom',                                 // format type
+                        array('CLASS','METHOD'),                 // callback class/method name
+                        array('foo' => 'bar', '123' => '456')    // optional params for callback function
+                       );
 */
 
-class rex_list extends rex_factory implements rex_url_provider
+class rex_list extends rex_factory_base implements rex_url_provider
 {
   private $query;
   private $sql;
@@ -172,7 +179,7 @@ class rex_list extends rex_factory implements rex_url_provider
    */
   public function getMessage()
   {
-    return rex_request($this->getName().'_msg', 'string');
+    return htmlspecialchars(rex_request($this->getName().'_msg', 'string'));
   }
 
   /**
@@ -182,7 +189,7 @@ class rex_list extends rex_factory implements rex_url_provider
    */
   public function getWarning()
   {
-    return rex_request($this->getName().'_warning', 'string');
+    return htmlspecialchars(rex_request($this->getName().'_warning', 'string'));
   }
 
   /**
@@ -387,10 +394,11 @@ class rex_list extends rex_factory implements rex_url_provider
    * @param $columnName Name der Spalte
    * @param $format_type Formatierungstyp
    * @param $format Zu verwendentes Format
+   * @param $params Custom params für callback func bei format_type 'custom'
    */
-  public function setColumnFormat($columnName, $format_type, $format = '')
+  public function setColumnFormat($columnName, $format_type, $format = '', $params = array())
   {
-    $this->columnFormates[$columnName] = array($format_type, $format);
+    $this->columnFormates[$columnName] = array($format_type, $format, $params);
   }
 
   /**
@@ -623,9 +631,9 @@ class rex_list extends rex_factory implements rex_url_provider
       if(is_array($value))
       {
         foreach($value as $v)
-      	{
+        {
           $paramString .= '&'. $name .'='. $v;
-      	}
+        }
       }else
       {
         $paramString .= '&'. $name .'='. $value;
@@ -831,22 +839,28 @@ class rex_list extends rex_factory implements rex_url_provider
    *
    * @return string
    */
-  public function formatValue($value, $format, $escape)
+  public function formatValue($value, $format, $escape, $field=null)
   {
     if(is_array($format))
     {
       // Callbackfunktion -> Parameterliste aufbauen
       if($this->isCustomFormat($format))
       {
-        $format[1] = array($format[1], array('list' => $this, 'value' => $value, 'format' => $format[0], 'escape' => $escape));
+        $format[2] = isset($format[2]) ? $format[2] : array();
+        $format[1] = array($format[1], array('list' => $this, 'field' => $field, 'value' => $value, 'format' => $format[0], 'escape' => $escape, 'params'=>$format[2]));
       }
 
       $value = rex_formatter::format($value, $format[0], $format[1]);
     }
 
     // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
-    if($escape && !$this->isCustomFormat($format) && $format[0] != 'rexmedia' && $format[0] != 'rexurl')
+    if($escape &&
+      !$this->isCustomFormat($format) &&
+      $format[0] != 'email' &&
+      $format[0] != 'url')
+    {
       $value = htmlspecialchars($value);
+    }
 
     return $value;
   }
@@ -989,12 +1003,12 @@ class rex_list extends rex_factory implements rex_url_provider
           {
             // Nur hier sind Variablen erlaubt
             $columnName = $columnName[0];
-            $columnValue = $this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName], false);
+            $columnValue = $this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName], false, $columnName);
           }
           // Spalten aus dem ResultSet
           else
           {
-            $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], true);
+            $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], true, $columnName);
           }
 
           if(!$this->isCustomFormat($columnFormates[$columnName]) && $this->hasColumnParams($columnName))

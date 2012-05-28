@@ -14,7 +14,7 @@ if(rex::isBackend())
 
   if(rex::getUser() && rex_request('page', 'string') == 'be_dashboard')
   {
-    rex_register_extension (
+    rex_extension::register(
       'DASHBOARD_COMPONENT',
       array(new rex_cronjob_component(), 'registerAsExtension')
     );
@@ -40,7 +40,7 @@ rex_extension::register('ADDONS_INCLUDED',
   }
 );
 
-$nexttime = $this->getConfig('nexttime');
+$nexttime = $this->getConfig('nexttime', 0);
 
 if ($nexttime != 0 && time() >= $nexttime)
 {

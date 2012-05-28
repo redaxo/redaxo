@@ -51,7 +51,7 @@ abstract class rex_cache
    *
    * @return mixed The data of the cache
    */
-  abstract function get($key, $default = null);
+  abstract public function get($key, $default = null);
 
   /**
    * Returns true if there is a cache for the given key.

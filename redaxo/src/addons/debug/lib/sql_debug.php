@@ -9,8 +9,8 @@ rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'doLog'));
  */
 class rex_sql_debug extends rex_sql
 {
-  private static
-    $queries = array();
+  private static $queries = array();
+  private static $errors  = 0;
 
   public function setQuery($qry, array $params = array())
   {
@@ -27,19 +27,34 @@ class rex_sql_debug extends rex_sql
       }
       $firephp = FirePHP::getInstance(true);
       $firephp->error($e->getMessage() .' in ' . $file . ' on line '. $line);
-      throw $e; // re-throw exception after logging 
+      throw $e; // re-throw exception after logging
     }
     return $ret;
   }
-  
+
+  // TODO queries using setQuery() are not logged yet!
   public function execute(array $params = array())
   {
-    $qry = $this->stmt->queryString;
+    $qry   = $this->stmt->queryString;
 
     $timer = new rex_timer();
-    $res = parent::execute($params);
+    $res   = parent::execute($params);
 
-    self::$queries[] = array($qry . ' (affected '. $this->getRows() .' rows)', $timer->getFormattedTime(rex_timer::MILLISEC));
+    $err = $errno = '';
+    if($this->hasError())
+    {
+      self::$errors++;
+      $err   = parent::getError();
+      $errno = parent::getErrno();
+    }
+
+    self::$queries[] = array(
+      'rows'  =>$this->getRows(),
+      'time'  =>$timer->getFormattedDelta(),
+      'query' =>$qry,
+      'error' =>$err,
+      'errno' =>$errno
+      );
 
     return $res;
   }
@@ -48,21 +63,26 @@ class rex_sql_debug extends rex_sql
   {
     if(!empty(self::$queries))
     {
-      $firephp = FirePHP::getInstance(true);
-      $firephp->group(__CLASS__);
+      $tbl = array();
+      $tbl[] = array('#','rows','ms','query');
+      $i = 0;
+
       foreach(self::$queries as $qry)
       {
         // when a extension takes longer than 5ms, send a warning
-        if(strtr($qry[1], ',', '.') > 5)
+        if(strtr($qry['time'], ',', '.') > 5)
         {
-          $firephp->warn('Query: '. $qry[0]. ' ' .$qry[1] . 'ms');
+          $tbl[] = array($i,$qry['rows'],'! SLOW: '.$qry['time'],$qry['query']);
         }
         else
         {
-          $firephp->log('Query: '. $qry[0]. ' ' .$qry[1] . 'ms');
+          $tbl[] = array($i,$qry['rows'],$qry['time'],$qry['query']);
         }
+        $i++;
       }
-      $firephp->groupEnd();
+
+      $firephp = FirePHP::getInstance(true);
+      $firephp->table(__CLASS__.' ('.count(self::$queries).' queries, '.self::$errors.' errors)', $tbl);
     }
   }
 }
