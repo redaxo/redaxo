@@ -19,7 +19,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
     $format,
     $block;
 
-  function __construct($id, array $cache_options = array())
+  public function __construct($id, array $cache_options = array())
   {
     if(!isset($cache_options['lifetime']))
     {

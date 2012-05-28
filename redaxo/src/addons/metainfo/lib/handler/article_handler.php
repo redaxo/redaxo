@@ -27,7 +27,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
     return $params;
   }
 
-  function buildFilterCondition(array $params)
+  protected function buildFilterCondition(array $params)
   {
     $restrictionsCondition = '';
 
@@ -51,7 +51,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
     return $restrictionsCondition;
   }
 
-  function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
+  protected function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
   {
     $s = '';
     if($typeLabel != 'legend')

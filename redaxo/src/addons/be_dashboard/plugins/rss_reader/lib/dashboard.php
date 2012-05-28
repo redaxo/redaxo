@@ -56,7 +56,7 @@ class rex_rss_reader_component_config extends rex_dashboard_component_config
     parent::__construct($defaultSettings);
   }
 
-  function getFeedUrls()
+  public function getFeedUrls()
   {
     return $this->settings['urls'];
   }

@@ -114,7 +114,7 @@ class rex_stats_component extends rex_dashboard_component
 
 class rex_articles_component extends rex_dashboard_component
 {
-  function __construct()
+  public function __construct()
   {
     parent::__construct('userinfo-articles');
     $this->setTitle(rex_i18n::msg('userinfo_component_articles_title'));

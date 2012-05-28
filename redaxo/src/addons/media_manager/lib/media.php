@@ -162,7 +162,7 @@ class rex_media {
 
   }
 
-  function getImageSource()
+  protected function getImageSource()
   {
     ob_start();
     if ($this->image['format'] == 'JPG' || $this->image['format'] == 'JPEG')

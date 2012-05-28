@@ -88,7 +88,7 @@ class rex_input_date extends rex_input
     return $this->yearSelect;
   }
 
-  function getHtml()
+  public function getHtml()
   {
     return $this->daySelect->get() .
            $this->monthSelect->get() .

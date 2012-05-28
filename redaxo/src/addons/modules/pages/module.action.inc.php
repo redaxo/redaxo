@@ -13,7 +13,7 @@ $ASTATUS[2] = 'DELETE';
 
 class rex_event_select extends rex_select
 {
-  function rex_event_select($options)
+  public function rex_event_select($options)
   {
     parent::__construct();
 

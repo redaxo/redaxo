@@ -118,7 +118,7 @@ abstract class rex_input
    * Gibt die HTML-Representation des Input-Feldes zurueck.
    * Diese beeinhaltet alle Attribute und den Wert des Feldes.
    */
-  abstract function getHtml();
+  abstract public function getHtml();
 
   /**
    * Factory-Methode um rex_input_*-Elemente anhand des Types $inputType zu erstellen
