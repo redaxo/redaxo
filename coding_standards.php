@@ -262,6 +262,27 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
         $this->addToken($token);
         break;
 
+      case T_DOC_COMMENT:
+        $doc = preg_replace('/^ *\*/m', $this->indentation . ' *', $token->text);
+        $doc = preg_replace('/^( *\*) *@/m', '$1 @', $doc);
+        preg_match_all('/^ *\* @param +(\S+) +(\$\w+)/m', $doc, $matches);
+        if ($matches[1]) {
+          $max = function ($max, $value) {
+            return max($max, mb_strlen($value));
+          };
+          $maxHint = array_reduce($matches[1], $max);
+          $maxVar  = array_reduce($matches[2], $max);
+          $doc = preg_replace_callback('/^( *\* @param) +(\S+) +(\$\w+) *(.*)$/m', function ($match) use ($maxHint, $maxVar) {
+            return $match[1] . ' ' . str_pad($match[2], $maxHint) . ' ' . rtrim(str_pad($match[3], $maxVar) . ' ' . $match[4]);
+          }, $doc);
+        }
+        if ($doc !== $token->text) {
+          $token->text = $doc;
+          $this->addFixable('fix alignment in doc comments');
+        }
+        $this->addToken($token);
+        break;
+
       case T_CONSTANT_ENCAPSED_STRING:
         if (preg_match('/^"([^${\'\\\\]*)"$/', $token->text, $match)) {
           $token->text = "'" . $match[1] . "'";
