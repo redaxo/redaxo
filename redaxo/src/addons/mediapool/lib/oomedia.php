@@ -193,7 +193,7 @@ class rex_ooMedia
    * @access public
    * @deprecated 12.10.2007
    */
-  function getDescription()
+  public function getDescription()
   {
     return $this->getValue('med_description');
   }
@@ -202,7 +202,7 @@ class rex_ooMedia
    * @access public
    * @deprecated 12.10.2007
    */
-  function getCopyright()
+  public function getCopyright()
   {
     return $this->getValue('med_copyright');
   }

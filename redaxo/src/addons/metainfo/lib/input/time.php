@@ -64,7 +64,7 @@ class rex_input_time extends rex_input
     return $this->minuteSelect;
   }
 
-  function getHtml()
+  public function getHtml()
   {
     return $this->hourSelect->get() . $this->minuteSelect->get();
   }

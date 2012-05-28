@@ -36,7 +36,7 @@ class rex_input_select extends rex_input
     return $this->select;
   }
 
-  function getHtml()
+  public function getHtml()
   {
     return $this->select->get();
   }

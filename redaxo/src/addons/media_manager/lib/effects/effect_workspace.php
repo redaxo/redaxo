@@ -7,7 +7,7 @@ class rex_effect_workspace extends rex_effect_abstract
     $options,
     $script;
 
-  public function rex_effect_workspace()
+  public function __construct()
   {
     $this->options = array(
       'top',

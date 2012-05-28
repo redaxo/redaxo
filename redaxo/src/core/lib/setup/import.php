@@ -14,7 +14,7 @@ class rex_setup_importer
 
     $import_sql = rex_path::core('install/update4_x_to_5_0.sql');
     if ($err_msg == '')
-      $err_msg .= self::rex_setup_import($import_sql);
+      $err_msg .= self::import($import_sql);
 
     // Aktuelle Daten updaten wenn utf8, da falsch in v4.2.1 abgelegt wurde.
     /*if (rex_lang_is_utf8())
@@ -23,7 +23,7 @@ class rex_setup_importer
     }*/
 
     if ($err_msg == '')
-      $err_msg .= self::rex_setup_addons();
+      $err_msg .= self::installAddons();
 
     return $err_msg;
   }
@@ -43,9 +43,9 @@ class rex_setup_importer
       // Da sonst Daten aus dem eingespielten Export
       // Überschrieben würden
       if ($err_msg == '')
-        $err_msg .= self::rex_setup_addons(true, false);
+        $err_msg .= self::installAddons(true, false);
       if ($err_msg == '')
-        $err_msg .= self::rex_setup_import($import_sql, $import_archiv);
+        $err_msg .= self::import($import_sql, $import_archiv);
     }
 
     return $err_msg;
@@ -54,7 +54,7 @@ class rex_setup_importer
   static public function databaseAlreadyExists()
   {
     // ----- db schon vorhanden, nichts tun
-    return self::rex_setup_addons(false, false);
+    return self::installAddons(false, false);
   }
 
   static public function overrideExisting()
@@ -69,10 +69,10 @@ class rex_setup_importer
       $db->setQuery('DROP TABLE IF EXISTS `' . $table . '`');
 
     if ($err_msg == '')
-      $err_msg .= self::rex_setup_import($import_sql);
+      $err_msg .= self::import($import_sql);
 
     if ($err_msg == '')
-      $err_msg .= self::rex_setup_addons(true);
+      $err_msg .= self::installAddons(true);
 
     return $err_msg;
   }
@@ -84,9 +84,9 @@ class rex_setup_importer
     $import_sql = rex_path::core('install/redaxo5_0.sql');
 
     if ($err_msg == '')
-      $err_msg .= self::rex_setup_import($import_sql);
+      $err_msg .= self::import($import_sql);
 
-    $err_msg .= self::rex_setup_addons();
+    $err_msg .= self::installAddons();
 
     return $err_msg;
   }
@@ -118,7 +118,7 @@ class rex_setup_importer
     );
   }
 
-  static private function rex_setup_import($import_sql, $import_archiv = null)
+  static private function import($import_sql, $import_archiv = null)
   {
     $err_msg = '';
 
@@ -150,7 +150,7 @@ class rex_setup_importer
   }
 
   // -------------------------- System AddOns prüfen
-  static private function rex_setup_addons($uninstallBefore = false, $installDump = true)
+  static private function installAddons($uninstallBefore = false, $installDump = true)
   {
     $addonErr = '';
     rex_package_manager::synchronizeWithFileSystem();

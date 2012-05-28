@@ -80,7 +80,7 @@ class rex_effect_crop extends rex_effect_abstract
   }
 
 
-  function keepTransparent($des)
+  protected function keepTransparent($des)
   {
     $image = $this->media;
     if ($image->getFormat() == 'PNG') {

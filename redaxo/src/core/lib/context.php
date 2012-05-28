@@ -31,7 +31,7 @@ interface rex_context_provider extends rex_url_provider
    *
    * @return string The generated html source containing the hidden input fields
    */
-  function getHiddenInputFields(array $params = array());
+  public function getHiddenInputFields(array $params = array());
 }
 
 /**
