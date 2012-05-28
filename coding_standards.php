@@ -478,6 +478,11 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
         $this->checkSpaceBehind(self::MSG_SPACE_BEHIND_CONTROL_KEYWORD);
         $this->skipWhitespace();
         $next = $this->nextToken();
+        if ($next->type === rex_php_token::SIMPLE && $next->text === '&') {
+          $this->addToken($next);
+          $this->skipWhitespace();
+          $next = $this->nextToken();
+        }
         if ($next->type === T_STRING) {
           if ($this->class && !$this->method) {
             if (preg_match('/(?:(?<finalabstract>final |abstract )|(?<static>static )|(?<visibility>private |protected |public ))*function $/', $this->content, $match)) {
