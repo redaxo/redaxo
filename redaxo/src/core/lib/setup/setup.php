@@ -53,7 +53,7 @@ class rex_setup
    *
    * @return array An array of error messages
    */
-  public static function checkFilesystem()
+  static public function checkFilesystem()
   {
     $export_addon_dir = rex_path::addon('import_export');
     require_once $export_addon_dir . '/functions/function_folder.inc.php';
@@ -102,7 +102,7 @@ class rex_setup
    * @param $config array of databaes configs
    * @param $createDb boolean Should the database be created, if it not exists.
    */
-  public static function checkDb($config, $createDb)
+  static public function checkDb($config, $createDb)
   {
     $err = rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $createDb);
     if ($err !== true) {

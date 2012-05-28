@@ -551,7 +551,7 @@ abstract class rex_metainfo_handler
    *
    * @param array $params EP Params
    */
-  protected abstract function buildFilterCondition(array $params);
+  abstract protected function buildFilterCondition(array $params);
 
   /**
    * Renders a field of the metaform. The rendered html will be returned.
@@ -566,7 +566,7 @@ abstract class rex_metainfo_handler
    *
    * @return string The rendered html
    */
-  protected abstract function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $inputType);
+  abstract protected function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $inputType);
 
   /**
    * Retrieves the activeItem from the current context.
@@ -574,7 +574,7 @@ abstract class rex_metainfo_handler
    *
    * @param array $params EP Params
    */
-  public abstract function extendForm(array $params);
+  abstract public function extendForm(array $params);
 
   /**
    * Retrieves the POST values from the metaform, fill it into a rex_sql object and save it to a database table
@@ -582,5 +582,5 @@ abstract class rex_metainfo_handler
    * @param array $params
    * @param rex_sql $sqlFields
    */
-  protected abstract function handleSave(array $params, rex_sql $sqlFields);
+  abstract protected function handleSave(array $params, rex_sql $sqlFields);
 }

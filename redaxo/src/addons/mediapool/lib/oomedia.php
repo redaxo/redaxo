@@ -114,7 +114,7 @@ class rex_ooMedia
         'filesize' => 'size'
       );
 
-      $media = new rex_ooMedia();
+      $media = new self();
       foreach ($cache as $key => $value) {
         if (in_array($key, array_keys($aliasMap)))
           $var_name = '_' . $aliasMap[$key];

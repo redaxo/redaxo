@@ -135,7 +135,7 @@ class rex_be_page implements rex_be_page_container
     $this->hasNavigation = $hasNavigation;
   }
 
-  public function addSubPage(rex_be_page $subpage)
+  public function addSubPage(self $subpage)
   {
     $this->subPages[] = $subpage;
   }

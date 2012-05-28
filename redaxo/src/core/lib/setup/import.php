@@ -51,13 +51,13 @@ class rex_setup_importer
     return $err_msg;
   }
 
-  public static function databaseAlreadyExists()
+  static public function databaseAlreadyExists()
   {
     // ----- db schon vorhanden, nichts tun
     return self::rex_setup_addons(false, false);
   }
 
-  public static function overrideExisting()
+  static public function overrideExisting()
   {
     // ----- volle Datenbank, alte DB löschen / drop
     $err_msg = '';
@@ -77,7 +77,7 @@ class rex_setup_importer
     return $err_msg;
   }
 
-  public static function prepareEmptyDb()
+  static public function prepareEmptyDb()
   {
     // ----- leere Datenbank neu einrichten
     $err_msg = '';
@@ -91,7 +91,7 @@ class rex_setup_importer
     return $err_msg;
   }
 
-  public static function verifyDbSchema()
+  static public function verifyDbSchema()
   {
     $err_msg = '';
 
@@ -109,7 +109,7 @@ class rex_setup_importer
     return $err_msg;
   }
 
-  private static function getRequiredTables()
+  static private function getRequiredTables()
   {
     return array (
         rex::getTablePrefix() . 'clang',
@@ -118,7 +118,7 @@ class rex_setup_importer
     );
   }
 
-  private static function rex_setup_import($import_sql, $import_archiv = null)
+  static private function rex_setup_import($import_sql, $import_archiv = null)
   {
     $err_msg = '';
 
@@ -150,7 +150,7 @@ class rex_setup_importer
   }
 
   // -------------------------- System AddOns prüfen
-  private static function rex_setup_addons($uninstallBefore = false, $installDump = true)
+  static private function rex_setup_addons($uninstallBefore = false, $installDump = true)
   {
     $addonErr = '';
     rex_package_manager::synchronizeWithFileSystem();

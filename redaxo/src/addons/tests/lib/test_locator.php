@@ -29,7 +29,7 @@ class rex_test_locator implements IteratorAggregate
 
   static public function defaultLocator()
   {
-    $locator = new rex_test_locator();
+    $locator = new self();
 
     $locator->addTestFolder(rex_path::core(self::TESTS_FOLDER));
     foreach (rex_package::getAvailablePackages() as $package) {

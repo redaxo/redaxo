@@ -64,7 +64,7 @@ abstract class rex_extension extends rex_factory_base
     return $result;
   }
 
-  protected static function invokeExtension($function, $params)
+  static protected function invokeExtension($function, $params)
   {
     return call_user_func($function, $params);
   }

@@ -7,7 +7,7 @@
  */
 abstract class rex_logger extends rex_factory_base
 {
-  private static $handle;
+  static private $handle;
 
   /**
    * Logs the given Exception

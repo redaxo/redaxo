@@ -229,7 +229,7 @@ class rex
    */
   static public function getFilePerm()
   {
-    return (int) rex::getProperty('fileperm', 0664);
+    return (int) self::getProperty('fileperm', 0664);
   }
 
   /**
@@ -239,6 +239,6 @@ class rex
    */
   static public function getDirPerm()
   {
-    return (int) rex::getProperty('dirperm', 0775);
+    return (int) self::getProperty('dirperm', 0775);
   }
 }

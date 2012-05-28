@@ -235,7 +235,7 @@ class rex_addon extends rex_package implements rex_addon_interface
   {
     $addons = array();
     foreach ((array) rex::getProperty('setup_addons', array()) as $addon) {
-      if (rex_addon::exists($addon)) {
+      if (self::exists($addon)) {
         $addons[$addon] = self::get($addon);
       }
     }
@@ -251,7 +251,7 @@ class rex_addon extends rex_package implements rex_addon_interface
   {
     $addons = array();
     foreach ((array) rex::getProperty('system_addons', array()) as $addon) {
-      if (rex_addon::exists($addon)) {
+      if (self::exists($addon)) {
         $addons[$addon] = self::get($addon);
       }
     }
@@ -274,7 +274,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     $addons = self::$addons;
     self::$addons = array();
     foreach ($config as $addonName => $addonConfig) {
-      $addon = isset($addons[$addonName]) ? $addons[$addonName] : new rex_addon($addonName);
+      $addon = isset($addons[$addonName]) ? $addons[$addonName] : new self($addonName);
       $addon->setProperty('install', isset($addonConfig['install']) ? $addonConfig['install'] : false);
       $addon->setProperty('status', isset($addonConfig['status']) ? $addonConfig['status'] : false);
       self::$addons[$addonName] = $addon;

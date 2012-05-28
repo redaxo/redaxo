@@ -9,7 +9,7 @@ rex_extension::register('OUTPUT_FILTER', array('rex_extension_debug', 'doLog'));
  */
 class rex_extension_debug extends rex_extension
 {
-  private static $log = array();
+  static private $log = array();
 
   /**
    * Extends rex_extension::register() with FirePHP logging

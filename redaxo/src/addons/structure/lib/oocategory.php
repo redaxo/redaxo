@@ -27,7 +27,7 @@ class rex_ooCategory extends rex_ooRedaxo
    * children of categories, keyed by category_id (parent ids)
    * @var array[rex_ooArticle]
    */
-  private static $childIds = array();
+  static private $childIds = array();
 
   /**
    * CLASS Function:

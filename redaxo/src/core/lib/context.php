@@ -94,7 +94,7 @@ class rex_context implements rex_context_provider
   static public function restore()
   {
     // $_REQUEST contains some server specific globals, therefore we merge GET and POST manually
-    return new rex_context($_GET + $_POST);
+    return new self($_GET + $_POST);
   }
 
   /**

@@ -49,7 +49,7 @@ class rex_ooArticle extends rex_ooRedaxo
    * Articles of categories, keyed by category_id
    * @var array[rex_ooArticle]
    */
-  private static $articleIds = array();
+  static private $articleIds = array();
 
   /**
    * CLASS Function:
@@ -136,7 +136,7 @@ class rex_ooArticle extends rex_ooRedaxo
       $clang = rex_clang::getId();
     }
 
-    return rex_ooArticle::getArticleById($this->_re_id, $clang);
+    return self::getArticleById($this->_re_id, $clang);
   }
 
   /**

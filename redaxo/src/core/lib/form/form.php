@@ -90,7 +90,7 @@ class rex_form extends rex_factory_base
    *
    * @return rex_form a rex_form instance
    */
-  public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+  static public function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
   {
     $class = static::getFactoryClass();
     return new $class($tableName, $fieldset, $whereCondition, $method, $debug);
@@ -509,9 +509,9 @@ class rex_form extends rex_factory_base
    */
   public function createInput($inputType, $name, $value = null, array $attributes = array())
   {
-    $tag        = rex_form::getInputTagName($inputType);
-    $className  = rex_form::getInputClassName($inputType);
-    $attributes = array_merge(rex_form::getInputAttributes($inputType), $attributes);
+    $tag        = self::getInputTagName($inputType);
+    $className  = self::getInputClassName($inputType);
+    $attributes = array_merge(self::getInputAttributes($inputType), $attributes);
     $attributes['internal::fieldClass'] = $className;
 
     $element = $this->createElement($tag, $name, $value, $attributes);
@@ -1092,7 +1092,7 @@ class rex_form extends rex_factory_base
   public function equals($form)
   {
     return
-      rex_form::isValid($form) &&
+      self::isValid($form) &&
       $this->getTableName() == $form->getTableName() &&
       $this->getWhereCondition() == $form->getWhereCondition();
   }

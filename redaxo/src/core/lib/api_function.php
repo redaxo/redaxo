@@ -46,14 +46,14 @@ abstract class rex_api_function extends rex_factory_base
    *
    * @return rex_api_result The result of the api-function
    */
-  public abstract function execute();
+  abstract public function execute();
 
   /**
    * The api function which is bound to the current request.
    *
    * @var rex_api_function
    */
-  private static $instance;
+  static private $instance;
 
   /**
    * Returns the api function instance which is bound to the current request, or null if no api function was bound.
@@ -70,7 +70,7 @@ abstract class rex_api_function extends rex_factory_base
       $apiClass = 'rex_api_' . $api;
       if (class_exists($apiClass)) {
         $apiImpl = new $apiClass();
-        if ($apiImpl instanceof rex_api_function) {
+        if ($apiImpl instanceof self) {
           self::$instance = $apiImpl;
           return $apiImpl;
         } else {
@@ -119,13 +119,13 @@ abstract class rex_api_function extends rex_factory_base
     }
   }
 
-  public static function hasMessage()
+  static public function hasMessage()
   {
     $apiFunc = self::factory();
     return (boolean) $apiFunc->getResult();
   }
 
-  public static function getMessage($formatted = true)
+  static public function getMessage($formatted = true)
   {
     $apiFunc = self::factory();
     $message = '';

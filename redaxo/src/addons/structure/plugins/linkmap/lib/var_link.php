@@ -212,7 +212,7 @@ class rex_var_link extends rex_var
   // TODO: passenden namen finden
   static public function _getLinkButton($name, $linkId, $article_id, $category = '')
   {
-    $field = rex_var_link::getLinkButton($linkId, $article_id, $category);
+    $field = self::getLinkButton($linkId, $article_id, $category);
     return str_replace('LINK[' . $linkId . ']', $name, $field);
   }
 

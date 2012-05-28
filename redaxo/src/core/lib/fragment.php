@@ -95,7 +95,7 @@ class rex_fragment
    */
   public function decorate($filename, array $params)
   {
-    $this->decorator = new rex_fragment($params);
+    $this->decorator = new self($params);
     $this->decorator->filename = $filename;
   }
   // -------------------------- in-fragment helpers
@@ -140,7 +140,7 @@ class rex_fragment
    */
   protected function subfragment($filename, array $params = array())
   {
-    $fragment = new rex_fragment(array_merge($this->vars, $params));
+    $fragment = new self(array_merge($this->vars, $params));
     echo $fragment->parse($filename);
   }
 
@@ -244,14 +244,14 @@ class rex_fragment
    * array which contains all folders in which fragments will be searched for at runtime
    * @var array
    */
-  private static $fragmentDirs = array();
+  static private $fragmentDirs = array();
 
   /**
    * Add a path to the fragment search path
    *
    * @param string $path A path to a directory where fragments can be found
    */
-  public static function addDirectory($path)
+  static public function addDirectory($path)
   {
     // add the new directory in front of the already know dirs,
     // so a later caller can override core settings/fragments

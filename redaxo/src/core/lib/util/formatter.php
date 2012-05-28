@@ -62,33 +62,33 @@ abstract class rex_formatter
     }
     // Datumsformatierung mit strftime()
     elseif ($format_type == 'strftime') {
-      $value = rex_formatter::_formatStrftime($value, $format);
+      $value = self::_formatStrftime($value, $format);
     }
     // Zahlenformatierung mit number_format()
     elseif ($format_type == 'number') {
-      $value = rex_formatter::_formatNumber($value, $format);
+      $value = self::_formatNumber($value, $format);
     }
     // Email-Mailto Linkformatierung
     elseif ($format_type == 'email') {
-      $value = rex_formatter::_formatEmail($value, $format);
+      $value = self::_formatEmail($value, $format);
     }
     // URL-Formatierung
     elseif ($format_type == 'url') {
-      $value = rex_formatter::_formatUrl($value, $format);
+      $value = self::_formatUrl($value, $format);
     }
     // String auf eine eine Länge abschneiden
     elseif ($format_type == 'truncate') {
-      $value = rex_formatter::_formatTruncate($value, $format);
+      $value = self::_formatTruncate($value, $format);
     }
     // Newlines zu <br />
     elseif ($format_type == 'nl2br') {
-      $value = rex_formatter::_formatNl2br($value, $format);
+      $value = self::_formatNl2br($value, $format);
     }
     // Benutzerdefinierte Callback-Funktion
     elseif ($format_type == 'custom') {
-      $value = rex_formatter::_formatCustom($value, $format);
+      $value = self::_formatCustom($value, $format);
     } elseif ($format_type == 'bytes') {
-      $value = rex_formatter::_formatBytes($value, $format);
+      $value = self::_formatBytes($value, $format);
     }
 
     return $value;
@@ -266,7 +266,7 @@ abstract class rex_formatter
       }
     }
 
-    return rex_formatter::_formatNumber($value, $format) . ' ' . $units[$unit_index];
+    return self::_formatNumber($value, $format) . ' ' . $units[$unit_index];
   }
 
   /**

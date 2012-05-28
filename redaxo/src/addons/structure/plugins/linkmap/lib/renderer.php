@@ -74,7 +74,7 @@ abstract class rex_linkmap_tree_renderer
     return $ul;
   }
 
-  protected abstract function treeItem(rex_ooCategory $cat, $liClasses, $linkClasses, $subHtml);
+  abstract protected function treeItem(rex_ooCategory $cat, $liClasses, $linkClasses, $subHtml);
 
   static public function formatLabel(rex_ooRedaxo $OOobject)
   {
@@ -137,5 +137,5 @@ abstract class rex_linkmap_article_list_renderer
     return $list;
   }
 
-  protected abstract function listItem(rex_ooArticle $article, $category_id);
+  abstract protected function listItem(rex_ooArticle $article, $category_id);
 }

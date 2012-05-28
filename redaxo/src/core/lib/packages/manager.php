@@ -455,7 +455,7 @@ abstract class rex_package_manager extends rex_factory_base
   /**
    * Checks if another Addon which is activated, depends on the given addon
    */
-  public abstract function checkDependencies();
+  abstract public function checkDependencies();
 
   /**
    * Adds the package to the package order

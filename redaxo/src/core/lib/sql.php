@@ -26,7 +26,7 @@ class rex_sql extends rex_factory_base implements Iterator
     $params, // Die Abfrage-Parameter
     $DBID; // ID der Verbindung
 
-  private static
+  static private
     $pdo = array(); // array von datenbankverbindungen
 
   protected function __construct($DBID = 1)
@@ -931,7 +931,7 @@ class rex_sql extends rex_factory_base implements Iterator
   public function setNewId($field, $start_id = 0)
   {
     // setNewId muss neues sql Objekt verwenden, da sonst bestehende informationen im Objekt ueberschrieben werden
-    $sql = rex_sql::factory();
+    $sql = self::factory();
     // TODO use prepared statement
     $sql->setQuery('SELECT `' . $field . '` FROM `' . $this->table . '` ORDER BY `' . $field . '` DESC LIMIT 1');
     if ($sql->getRows() == 0) {
@@ -1173,7 +1173,7 @@ class rex_sql extends rex_factory_base implements Iterator
   {
     if (!isset(self::$pdo[$DBID])) {
       // create connection if necessary
-      $dummy = rex_sql::factory($DBID);
+      $dummy = self::factory($DBID);
     }
     return self::$pdo[$DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
   }

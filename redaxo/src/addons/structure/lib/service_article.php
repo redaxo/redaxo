@@ -503,7 +503,7 @@ class rex_article_service
       $sql->setValue('prior', 100);
       $sql->update();
 
-      rex_article_service::newArtPrio($re_id, $clang, 0, 100);
+      self::newArtPrio($re_id, $clang, 0, 100);
     }
 
     rex_article_cache::deleteLists($re_id);

@@ -154,7 +154,7 @@ abstract class rex_ooRedaxo
    * Array of rex_ooRedaxo instances, keyed by classname, id and clang
    * @var array[string][int][int]
    */
-  private static $instanceCache = array();
+  static private $instanceCache = array();
 
   /**
    * Return an rex_ooRedaxo object based on an id.
@@ -258,7 +258,7 @@ abstract class rex_ooRedaxo
    *
    * @return string
    */
-  public abstract function getPath();
+  abstract public function getPath();
 
   /**
    * Accessor Method:
@@ -278,7 +278,7 @@ abstract class rex_ooRedaxo
    *
    * @return rex_ooRedaxo
    */
-  public abstract function getParent($clang = false);
+  abstract public function getParent($clang = false);
 
   /**
    * Accessor Method:
