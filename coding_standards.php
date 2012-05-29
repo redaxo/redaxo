@@ -23,7 +23,7 @@ if (!isset($argv[1]) || !in_array($argv[1], array('fix', 'check'))) {
   php ', $argv[0], ' <mode> package <package> [options]
 
   <mode>     "check" or "fix"
-  <path>     path to a subdirectory
+  <path>     path to a directory or a file
   <package>  package id ("addonname" or "addonname/pluginname")
 
   options:
@@ -34,10 +34,11 @@ if (!isset($argv[1]) || !in_array($argv[1], array('fix', 'check'))) {
 
 $fix = $argv[1] == 'fix';
 
-$dir = __DIR__;
+$dir = null;
+$file = null;
 if (isset($argv[2]) && $argv[2][0] !== '-') {
   if ($argv[2] == 'core') {
-    $dir .= '/redaxo/src/core';
+    $dir = __DIR__ . '' . DIRECTORY_SEPARATOR . 'redaxo' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'core';
     if (!is_dir($dir)) {
       echo 'ERROR: Core directory does not exist!', PHP_EOL, PHP_EOL;
       exit(1);
@@ -49,19 +50,22 @@ if (isset($argv[2]) && $argv[2][0] !== '-') {
     }
     $package = $argv[3];
     if (strpos($package, '/') === false) {
-      $dir .= '/redaxo/src/addons/' . $package;
+      $dir = __DIR__ . DIRECTORY_SEPARATOR . 'redaxo' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . $package;
     } else {
       list($addon, $plugin) = explode('/', $package, 2);
-      $dir .= '/redaxo/src/addons/' . $addon . '/plugins/' . $plugin;
+      $dir = __DIR__ . DIRECTORY_SEPARATOR . 'redaxo' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . $addon . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $plugin;
     }
     if (!is_dir($dir)) {
       echo 'ERROR: Package "', $package, '" does not exist!', PHP_EOL, PHP_EOL;
       exit(1);
     }
   } else {
-    $dir .= '/' . $argv[2];
-    if (!is_dir($dir)) {
-      echo 'ERROR: Directory "', $argv[2], '" does not exist!', PHP_EOL, PHP_EOL;
+    if (is_dir($argv[2])) {
+      $dir = $argv[2];
+    } elseif (is_file($argv[2])) {
+      $file = $argv[2];
+    } else {
+      echo 'ERROR: Directory or file "', $argv[2], '" does not exist!', PHP_EOL, PHP_EOL;
       exit(1);
     }
   }
@@ -928,14 +932,19 @@ class rex_php_token
 }
 
 $hideProcess = in_array('--hide-process', $argv);
-$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
 $textExtensions = array('css', 'htaccess', 'html', 'js', 'json', 'lang', 'php', 'sql', 'textile', 'tpl', 'txt', 'yml');
 $countFiles = 0;
 $countFixable = 0;
 $countNonFixable = 0;
-foreach ($iterator as $path => $file) {
+if ($dir) {
+  $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
+} else {
+  $file = realpath($file);
+  $files = array($file => new SplFileInfo($file));
+}
+foreach ($files as $path => $file) {
   /* @var $file SplFileInfo */
-  $subPath = $iterator->getInnerIterator()->getSubPathName();
+  $subPath = str_replace(__DIR__ . DIRECTORY_SEPARATOR, '', $path);
   $fileExt = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
   if (!in_array($fileExt, $textExtensions)
     || strpos(DIRECTORY_SEPARATOR . $subPath, DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR) !== false
