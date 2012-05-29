@@ -34,11 +34,11 @@ if (!isset($argv[1]) || !in_array($argv[1], array('fix', 'check'))) {
 
 $fix = $argv[1] == 'fix';
 
-$dir = null;
+$dir = __DIR__;
 $file = null;
 if (isset($argv[2]) && $argv[2][0] !== '-') {
   if ($argv[2] == 'core') {
-    $dir = __DIR__ . '' . DIRECTORY_SEPARATOR . 'redaxo' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'core';
+    $dir .= DIRECTORY_SEPARATOR . 'redaxo' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'core';
     if (!is_dir($dir)) {
       echo 'ERROR: Core directory does not exist!', PHP_EOL, PHP_EOL;
       exit(1);
@@ -50,10 +50,10 @@ if (isset($argv[2]) && $argv[2][0] !== '-') {
     }
     $package = $argv[3];
     if (strpos($package, '/') === false) {
-      $dir = __DIR__ . DIRECTORY_SEPARATOR . 'redaxo' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . $package;
+      $dir .= DIRECTORY_SEPARATOR . 'redaxo' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . $package;
     } else {
       list($addon, $plugin) = explode('/', $package, 2);
-      $dir = __DIR__ . DIRECTORY_SEPARATOR . 'redaxo' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . $addon . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $plugin;
+      $dir .= DIRECTORY_SEPARATOR . 'redaxo' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . $addon . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $plugin;
     }
     if (!is_dir($dir)) {
       echo 'ERROR: Package "', $package, '" does not exist!', PHP_EOL, PHP_EOL;
@@ -64,6 +64,7 @@ if (isset($argv[2]) && $argv[2][0] !== '-') {
       $dir = $argv[2];
     } elseif (is_file($argv[2])) {
       $file = $argv[2];
+      $dir = null;
     } else {
       echo 'ERROR: Directory or file "', $argv[2], '" does not exist!', PHP_EOL, PHP_EOL;
       exit(1);
