@@ -499,7 +499,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
               }
             }
             $this->method = $next->text;
-            if ($this->checkNamingConventions && !preg_match('/^_{0,2}[a-z0-9]*$/i', $this->method)) {
+            if (!$this->ignoreName() && !preg_match('/^_{0,2}[a-z0-9]*$/i', $this->method)) {
               $msg = $this->method === $this->class ? 'use __construct() for constructor method' : 'use camelCase for method names, no underscores';
               $this->addNonFixable($msg);
             }
@@ -574,7 +574,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
         $this->skipWhitespace();
         $next = $this->nextToken();
         if ($next->type === T_STRING) {
-          if ($this->checkNamingConventions) {
+          if (!$this->ignoreName()) {
             if (strpos($next->text, 'rex_') !== 0 && $next->text !== 'rex') {
               $this->addNonFixable('use "rex_" prefix for class/interface names');
             }
@@ -614,7 +614,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
       case T_CONST:
         $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
         $this->addToken($token);
-        if ($this->checkNamingConventions) {
+        if (!$this->ignoreName()) {
           $semicolon = new rex_php_token(rex_php_token::SIMPLE, ';');
           $comma = new rex_php_token(rex_php_token::SIMPLE, ',');
           do {
@@ -721,6 +721,13 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
       default:
         $this->addToken($token);
     }
+  }
+
+  private function ignoreName()
+  {
+    if (!$this->checkNamingConventions)
+      return true;
+    return preg_match('!// *@codingStandardsIgnoreName *\v\V*$!', $this->content);
   }
 
   private function skipWhitespace($skipNewlines = true)
