@@ -7,7 +7,7 @@ if (PHP_SAPI !== 'cli') {
 }
 
 // https://github.com/symfony/symfony/blob/f53297681a7149f2a809da12ea3a8b8cfd4d3025/src/Symfony/Component/Console/Output/StreamOutput.php#L103-112
-$hasColorSupport = DIRECTORY_SEPARATOR == '\\' ? getenv('ANSICON') !== false : function_exists('posix_isatty') && @posix_isatty(STDOUT);
+$hasColorSupport = getenv('ANSICON') !== false || DIRECTORY_SEPARATOR != '\\' && function_exists('posix_isatty') && @posix_isatty(STDOUT);
 
 echo PHP_EOL;
 echo $hasColorSupport ? "\033[1;37m\033[45m" : '';
