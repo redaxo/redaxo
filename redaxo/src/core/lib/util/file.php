@@ -8,8 +8,8 @@ class rex_file
   /**
    * Returns the content of a file
    *
-   * @param string $file Path to the file
-   * @param mixed $default Default value
+   * @param string $file    Path to the file
+   * @param mixed  $default Default value
    * @return mixed Content of the file or default value if the file isn't readable
    */
   static public function get($file, $default = null)
@@ -20,8 +20,8 @@ class rex_file
   /**
    * Returns the content of a config file
    *
-   * @param string $file Path to the file
-   * @param mixed $default Default value
+   * @param string $file    Path to the file
+   * @param mixed  $default Default value
    * @return mixed Content of the file or default value if the file isn't readable
    */
   static public function getConfig($file, $default = array())
@@ -33,8 +33,8 @@ class rex_file
   /**
    * Returns the content of a cache file
    *
-   * @param string $file Path to the file
-   * @param mixed $default Default value
+   * @param string $file    Path to the file
+   * @param mixed  $default Default value
    * @return mixed Content of the file or default value if the file isn't readable
    */
   static public function getCache($file, $default = array())
@@ -46,19 +46,17 @@ class rex_file
   /**
    * Puts content in a file
    *
-   * @param string $file Path to the file
+   * @param string $file    Path to the file
    * @param string $content Content for the file
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function put($file, $content)
   {
-    if(!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file))
-    {
+    if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file)) {
       return false;
     }
 
-    if(file_put_contents($file, $content) !== false)
-    {
+    if (file_put_contents($file, $content) !== false) {
       @chmod($file, rex::getFilePerm());
       return true;
     }
@@ -69,9 +67,9 @@ class rex_file
   /**
    * Puts content in a config file
    *
-   * @param string $file Path to the file
-   * @param mixed $content Content for the file
-   * @param integer $inline The level where you switch to inline YAML
+   * @param string  $file    Path to the file
+   * @param mixed   $content Content for the file
+   * @param integer $inline  The level where you switch to inline YAML
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function putConfig($file, $content, $inline = 3)
@@ -82,8 +80,8 @@ class rex_file
   /**
    * Puts content in a cache file
    *
-   * @param string $file Path to the file
-   * @param mixed $content Content for the file
+   * @param string $file    Path to the file
+   * @param mixed  $content Content for the file
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function putCache($file, $content)
@@ -100,17 +98,14 @@ class rex_file
    */
   static public function copy($srcfile, $dstfile)
   {
-    if(is_file($srcfile))
-    {
-      if(is_dir($dstfile))
-      {
+    if (is_file($srcfile)) {
+      if (is_dir($dstfile)) {
         $dstfile = rtrim($dstfile, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . basename($srcfile);
       }
 
       // file_exists(dirname($dstfile) .'/.') checks if the parent directory has the executable permission
       // is_executable($directory) does not work on all systems
-      if(file_exists(dirname($dstfile) .'/.') && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile))
-      {
+      if (file_exists(dirname($dstfile) . '/.') && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
         touch($dstfile, filemtime($srcfile));
         @chmod($dstfile, rex::getFilePerm());
         return true;
@@ -127,8 +122,7 @@ class rex_file
    */
   static public function delete($file)
   {
-    if(file_exists($file))
-    {
+    if (file_exists($file)) {
       return unlink($file);
     }
     return true;

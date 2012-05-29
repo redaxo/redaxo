@@ -24,8 +24,7 @@ class select extends rex_select
    */
   public function set_selectextra($extra)
   {
-    foreach(rex_var::splitString($extra) as $name => $value)
-    {
+    foreach (rex_var::splitString($extra) as $name => $value) {
       $this->setAttribute($name, $value);
     }
   }

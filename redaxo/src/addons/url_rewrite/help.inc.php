@@ -12,6 +12,4 @@ switch ( $mode) {
    default: $file = '_readme.txt';
 }
 
-echo str_replace( '+', '&nbsp;&nbsp;+', nl2br( file_get_contents( dirname( __FILE__) .'/'. $file)));
-
-?>
+echo str_replace( '+', '&nbsp;&nbsp;+', nl2br( file_get_contents( dirname( __FILE__) . '/' . $file)));

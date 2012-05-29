@@ -6,34 +6,34 @@ menu_css = Editer CSS
 menu_tipps = Conseils
 menu_information = ?
 
-title_simple_sample = Simple module Input (entrée) et Output (sortie)
-txt_simple_sample = Un champ de texte peut être transformé en Editeur WYSIWYG par l'application de l'attribut <strong>class="tinyMCEEditor"</strong>.<br />Plusieurs champs de texte par Module sont autorisés. La taille de l'editeur WYSIWYG sera définie par la taille du champ de texte. L'affichage du button sera automatiquement généré par la <a href="index.php?page=tinymce&amp;subpage=settings">Configuration Addon/a>.
-title_extended_sample = Module Input (entrée) étendu
-txt_extended_sample = Vous pouvez également créer un editeur WYSIWYG par la classe PHP<strong>rexTinyMCEEditor</strong>.<br />Il est alors possible de reutiliser les configurations personnalisées pour le TinyMCE. La classe génére un Init-Javascript avec les valeurs standard qui peut être étendu ou modifié par des paramètres personnalisés.<br /><br /><a href="index.php?tinymceinit=true" onclick="window.open(this.href); return false;">Afficher Configuration standard</a><br /><br /><a href="http://wiki.moxiecode.com/index.php/TinyMCE:Configuration" onclick="window.open(this.href); return false;">Documentation TinyMCE-Configuration</a><br /><br />Ici vous trouverez des exemples de <strong>tous</strong> les paramètres pour l'Input (entrée) d'un module.<br />Le contenu de la variable REDAXO (<strong>$tiny->content = $wysiwigvalue;</strong>) doit être attribué à la variable <strong>content</strong> Le numéro de la variable REDAXO doit être attribué à la variable <strong>id</strong> (par ex. pour REX_VALUE[2]: <strong>$tiny->id = 2;</strong>)<br /><br />Pour plus d'informations <a href="index.php?page=tinymce&amp;subpage=tipps">Conseils &raquo;</a>
-title_input = <strong>Modul INPUT (entrée)</strong><br /><br />
+title_simple_sample = Simple module Input (entrÃ©e) et Output (sortie)
+txt_simple_sample = Un champ de texte peut Ãªtre transformÃ© en Editeur WYSIWYG par l'application de l'attribut <strong>class="tinyMCEEditor"</strong>.<br />Plusieurs champs de texte par Module sont autorisÃ©s. La taille de l'editeur WYSIWYG sera dÃ©finie par la taille du champ de texte. L'affichage du button sera automatiquement gÃ©nÃ©rÃ© par la <a href="index.php?page=tinymce&amp;subpage=settings">Configuration Addon/a>.
+title_extended_sample = Module Input (entrÃ©e) Ã©tendu
+txt_extended_sample = Vous pouvez Ã©galement crÃ©er un editeur WYSIWYG par la classe PHP<strong>rexTinyMCEEditor</strong>.<br />Il est alors possible de reutiliser les configurations personnalisÃ©es pour le TinyMCE. La classe gÃ©nÃ©re un Init-Javascript avec les valeurs standard qui peut Ãªtre Ã©tendu ou modifiÃ© par des paramÃ¨tres personnalisÃ©s.<br /><br /><a href="index.php?tinymceinit=true" onclick="window.open(this.href); return false;">Afficher Configuration standard</a><br /><br /><a href="http://wiki.moxiecode.com/index.php/TinyMCE:Configuration" onclick="window.open(this.href); return false;">Documentation TinyMCE-Configuration</a><br /><br />Ici vous trouverez des exemples de <strong>tous</strong> les paramÃ¨tres pour l'Input (entrÃ©e) d'un module.<br />Le contenu de la variable REDAXO (<strong>$tiny->content = $wysiwigvalue;</strong>) doit Ãªtre attribuÃ© Ã  la variable <strong>content</strong> Le numÃ©ro de la variable REDAXO doit Ãªtre attribuÃ© Ã  la variable <strong>id</strong> (par ex. pour REX_VALUE[2]: <strong>$tiny->id = 2;</strong>)<br /><br />Pour plus d'informations <a href="index.php?page=tinymce&amp;subpage=tipps">Conseils &raquo;</a>
+title_input = <strong>Modul INPUT (entrÃ©e)</strong><br /><br />
 title_output = <strong>Modul OUTPUT (sortie) (pour tous)</strong><br /><br />
 
 title_active = TinyMCE activer/desactiver
-tinymce_active = TinyMCE activé
+tinymce_active = TinyMCE activÃ©
 
 title_language = Choisir la langue
 tinymce_langs = Langues disponibles: {0}
 
-title_pages = Choisir les pages qui doivent intégrer le TinyMCE-Editor
-tinymce_pages = Liste, séparé par virgules<br />Exemple: indiquer <em>tinymce</em> si l'URL du Backend est par ex. index.php?page=<em>tinymce</em>
+title_pages = Choisir les pages qui doivent intÃ©grer le TinyMCE-Editor
+tinymce_pages = Liste, sÃ©parÃ© par virgules<br />Exemple: indiquer <em>tinymce</em> si l'URL du Backend est par ex. index.php?page=<em>tinymce</em>
 title_foreground = Choisir la couleur du texte
-tinymce_foreground = Liste, séparé par virgules<br />Indiquer ici les valeurs Hex pour les couleurs sans # : par ex.: CC0000,009900,000099<br />La première couleur sera définie comme standard
+tinymce_foreground = Liste, sÃ©parÃ© par virgules<br />Indiquer ici les valeurs Hex pour les couleurs sans # : par ex.: CC0000,009900,000099<br />La premiÃ¨re couleur sera dÃ©finie comme standard
 
 title_background = Choisir la couleur du fond
-tinymce_background = Liste, séparé par virgules<br />Indiquer ici les valeurs Hex pour les couleurs sans # : par ex.: CC0000,009900,000099<br />La première couleur sera définie comme standard
+tinymce_background = Liste, sÃ©parÃ© par virgules<br />Indiquer ici les valeurs Hex pour les couleurs sans # : par ex.: CC0000,009900,000099<br />La premiÃ¨re couleur sera dÃ©finie comme standard
 
-title_validxhtml = Générer Code-XHTML valide
-tinymce_validxhtml = Générer Code-XHTML-valide (éventuellement problèmes de performance)
+title_validxhtml = GÃ©nÃ©rer Code-XHTML valide
+tinymce_validxhtml = GÃ©nÃ©rer Code-XHTML-valide (Ã©ventuellement problÃ¨mes de performance)
 
 title_inlinepopups = Use inline-popups
 tinymce_inlinepopups = (Lightbox-Style)
 
-title_theme = Choisir thème
+title_theme = Choisir thÃ¨me
 theme_simple = Simple
 theme_default = Standard
 theme_advanced = Etendu
@@ -48,13 +48,13 @@ title_ext_config = Zus&auml;tzliche TinyMCE Konfiguration
 ext_config = Konfiguration (JavaScript)
 
 button_save_settings = Enregistrer configuration
-msg_settings_saved = Configuration enregistrée
+msg_settings_saved = Configuration enregistrÃ©e
 msg_settings_error = Fehler beim speichern der Konfiguration!
 
-title_css_wysiwyg = CSS pour prévisualistation de l'editeur WYSIWYG
+title_css_wysiwyg = CSS pour prÃ©visualistation de l'editeur WYSIWYG
 tynymce_css_wysiwyg = ...
 button_save_css = enregistrer CSS
-msg_css_saved = Fichier CSS enregistré, vous devez éventuellement effacer le cache de votre navigateur.
+msg_css_saved = Fichier CSS enregistrÃ©, vous devez Ã©ventuellement effacer le cache de votre navigateur.
 msg_css_error = Erreur lors de l'enregistrement du fichier CSS
 
 title_tipps_tricks = Conseils
@@ -62,4 +62,4 @@ title_tipps_tricks = Conseils
 title_tinymcelinks = TinyMCE Liens
 title_changelog = Changelog
 
-info_htaccess = Attention! L'accès nécessaire aux sous-répertoires de l'Addon est impossible!<br /><br />Merci de vérifier les répertoires suivants:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{0}<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{1}<br /><br />Ces 2 fichiers ont besoin d'un fichier .htaccess. Ce fichier n'existe pas ou alors ce type de fichier n'est pas appelé .htacces sur votre serveur ou alors les permissions du fichier ne sont pas correctes.<br /><br />Si vous utilisez la version 3.2.x  de REDAXO vous devez modifier le fichier redaxo/include/.htaccess Modification: AuthName "Accès vers les fichiers Include" (les apostrophes!)
+info_htaccess = Attention! L'accÃ¨s nÃ©cessaire aux sous-rÃ©pertoires de l'Addon est impossible!<br /><br />Merci de vÃ©rifier les rÃ©pertoires suivants:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{0}<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{1}<br /><br />Ces 2 fichiers ont besoin d'un fichier .htaccess. Ce fichier n'existe pas ou alors ce type de fichier n'est pas appelÃ© .htacces sur votre serveur ou alors les permissions du fichier ne sont pas correctes.<br /><br />Si vous utilisez la version 3.2.x  de REDAXO vous devez modifier le fichier redaxo/include/.htaccess Modification: AuthName "AccÃ¨s vers les fichiers Include" (les apostrophes!)

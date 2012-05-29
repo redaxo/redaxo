@@ -22,8 +22,7 @@ abstract class rex_singleton_base
   static public function getInstance()
   {
     $class = get_called_class();
-    if(!isset(self::$instances[$class]))
-    {
+    if (!isset(self::$instances[$class])) {
       self::$instances[$class] = new static;
     }
     return self::$instances[$class];

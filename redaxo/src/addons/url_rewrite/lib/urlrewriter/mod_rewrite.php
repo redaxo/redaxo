@@ -20,12 +20,11 @@ class rex_url_rewriter_mod_rewrite extends rex_url_rewriter
   public function rewrite(array $params)
   {
     // Url wurde von einer anderen Extension bereits gesetzt
-    if($params['subject'] != '')
-    {
+    if ($params['subject'] != '') {
       return $params['subject'];
     }
 
-    $params['params'] = $params['params'] == '' ? '' : '?'. $params['params'];
-    return $params['id'].'-'.$params['clang'].'-'.$params['name'].'.htm'.$params['params'];
+    $params['params'] = $params['params'] == '' ? '' : '?' . $params['params'];
+    return $params['id'] . '-' . $params['clang'] . '-' . $params['name'] . '.htm' . $params['params'];
   }
 }

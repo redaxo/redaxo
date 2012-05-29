@@ -10,4 +10,4 @@
 
 rex_var::registerVar('rex_var_template');
 
-require_once dirname(__FILE__). '/functions/function_template.inc.php';
+require_once dirname(__FILE__) . '/functions/function_template.inc.php';

@@ -64,7 +64,7 @@ abstract class rex_dashboard_component_config
 
   private function getCacheKey()
   {
-    return get_class($this) .'_uid'. rex::getUser()->getValue('user_id');
+    return get_class($this) . '_uid' . rex::getUser()->getValue('user_id');
   }
 
   /**
@@ -83,7 +83,7 @@ abstract class rex_dashboard_component_config
    */
   protected function getInputName($key)
   {
-    return 'component_'. $this->id .'_'. $key;
+    return 'component_' . $this->id . '_' . $key;
   }
 
   /**
@@ -100,22 +100,20 @@ abstract class rex_dashboard_component_config
    */
   public function get()
   {
-    if($this->changed())
-    {
+    if ($this->changed()) {
       $this->persist();
     }
 
     $content = $this->getForm();
-    if($content != '')
-    {
+    if ($content != '') {
       $btnName = $this->getInputName('save_btn');
 
       $content = '<div class="rex-form rex-dashboard-component-config">
                     <form action="index.php" method="post">
-                      <input type="hidden" name="page" value="'. rex::getProperty('page') .'" />
-                      '. $content .'
+                      <input type="hidden" name="page" value="' . rex::getProperty('page') . '" />
+                      ' . $content . '
                       <p class="rex-form-col-a rex-form-submit">
-                        <input type="submit" class="rex-form-submit" name="'. $btnName .'" value="'. rex_i18n::msg('dashboard_component_save_config') .'" />
+                        <input type="submit" class="rex-form-submit" name="' . $btnName . '" value="' . rex_i18n::msg('dashboard_component_save_config') . '" />
                       </p>
                     </form>
                   </div>';

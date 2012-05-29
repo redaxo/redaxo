@@ -25,8 +25,7 @@ $REX['EXTRAPERM'] = new rex_perm_compat(rex_perm::EXTRAS);
 
 $REX['MOD_REWRITE'] = true;
 
-if(rex::isBackend())
-{
+if (rex::isBackend()) {
   $I18N = new i18n(rex::getProperty('lang'));
 }
 
@@ -44,13 +43,13 @@ $REX->setGlobalVarAlias('ARTICLE_ID', 'article_id');
 $REX->setGlobalVarAlias('CUR_CLANG', 'clang');
 
 
-require_once __DIR__ .'/functions/function_rex_client_cache.inc.php';
-require_once __DIR__ .'/functions/function_rex_extension.inc.php';
-require_once __DIR__ .'/functions/function_rex_file.inc.php';
-require_once __DIR__ .'/functions/function_rex_lang.inc.php';
-require_once __DIR__ .'/functions/function_rex_mediapool.inc.php';
-require_once __DIR__ .'/functions/function_rex_other.inc.php';
-require_once __DIR__ .'/functions/function_rex_content.inc.php';
+require_once __DIR__ . '/functions/function_rex_client_cache.inc.php';
+require_once __DIR__ . '/functions/function_rex_extension.inc.php';
+require_once __DIR__ . '/functions/function_rex_file.inc.php';
+require_once __DIR__ . '/functions/function_rex_lang.inc.php';
+require_once __DIR__ . '/functions/function_rex_mediapool.inc.php';
+require_once __DIR__ . '/functions/function_rex_other.inc.php';
+require_once __DIR__ . '/functions/function_rex_content.inc.php';
 
 rex_addon_manager::setFactoryClass('rex_addon_manager_compat');
 rex_plugin_manager::setFactoryClass('rex_plugin_manager_compat');

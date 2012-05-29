@@ -19,8 +19,7 @@ class rex_var_value extends rex_var
   public function getACRequestValues(array $REX_ACTION)
   {
     $values = rex_request('VALUE', 'array');
-    for ($i = 1; $i < 21; $i++)
-    {
+    for ($i = 1; $i < 21; $i++) {
       $value = isset($values[$i]) ? $values[$i] : '';
 
       $REX_ACTION['VALUE'][$i] = $value;
@@ -33,9 +32,8 @@ class rex_var_value extends rex_var
 
   public function getACDatabaseValues(array $REX_ACTION, rex_sql $sql)
   {
-    for ($i = 1; $i < 21; $i++)
-    {
-      $REX_ACTION['VALUE'][$i] = $this->getValue($sql, 'value'. $i);
+    for ($i = 1; $i < 21; $i++) {
+      $REX_ACTION['VALUE'][$i] = $this->getValue($sql, 'value' . $i);
     }
     $REX_ACTION['PHP'] = $this->getValue($sql, 'php');
     $REX_ACTION['HTML'] = $this->getValue($sql, 'html');
@@ -45,8 +43,7 @@ class rex_var_value extends rex_var
 
   public function setACValues(rex_sql $sql, array $REX_ACTION)
   {
-    for ($i = 1; $i < 21; $i++)
-    {
+    for ($i = 1; $i < 21; $i++) {
       $this->setValue($sql, 'value' . $i, $REX_ACTION['VALUE'][$i]);
     }
 
@@ -70,7 +67,7 @@ class rex_var_value extends rex_var
   public function getBEInput(rex_sql $sql, $content)
   {
     $content = $this->getOutput($sql, $content);
-    $content = str_replace('REX_PHP', htmlspecialchars($this->getValue($sql, 'php'),ENT_QUOTES), $content);
+    $content = str_replace('REX_PHP', htmlspecialchars($this->getValue($sql, 'php'), ENT_QUOTES), $content);
     return $content;
   }
 
@@ -99,32 +96,24 @@ class rex_var_value extends rex_var
   {
     $matches = $this->getVarParams($content, $var);
 
-    foreach ($matches as $match)
-    {
+    foreach ($matches as $match) {
       list ($param_str, $args) = $match;
       $id = $this->getArg('id', $args, 0);
 
-      if ($id > 0 && $id < 21)
-      {
+      if ($id > 0 && $id < 21) {
         $replace = $this->getValue($sql, 'value' . $id);
-        if ($booleanize)
-        {
+        if ($booleanize) {
           $replace = $replace == '' ? 'false' : 'true';
-        }
-        else
-        {
-          if ($escape)
-          {
-            $replace = htmlspecialchars($replace,ENT_QUOTES);
+        } else {
+          if ($escape) {
+            $replace = htmlspecialchars($replace, ENT_QUOTES);
           }
 
-          if ($nl2br)
-          {
+          if ($nl2br) {
             $replace = nl2br($replace);
           }
 
-          if ($stripPHP)
-          {
+          if ($stripPHP) {
             $replace = $this->stripPHP($replace);
           }
         }

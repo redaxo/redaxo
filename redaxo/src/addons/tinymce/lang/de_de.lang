@@ -65,7 +65,7 @@ tipps_class_02 = Die Klasse generiert immer eine Standardkonfiguration mit den E
 tipps_class_03 = <br /><br /><strong>Beispiel:</strong>
 tipps_class_04 = <br /><strong><a href="index.php?tinymceinit=true" onclick="window.open(this.href); return false;">Standardkonfiguration anzeigen</a></strong><br />
 tipps_class_05 = <br /><strong><a href="./include/addons/tinymce/examples/minimal-input.txt" onclick="window.open(this.href); return false;">Input Modul</a></strong> (minimale Konfiguration, entspricht der Standard-Einstellung)<br />
-tipps_class_06 = <br /><strong><a href="./include/addons/tinymce/examples/extended-input.txt" onclick="window.open(this.href); return false;">Erweitertes Input Modul</a></strong> (dokumentiertes Input Modul als Grundlage für eigene Konfigurationen)<br />
+tipps_class_06 = <br /><strong><a href="./include/addons/tinymce/examples/extended-input.txt" onclick="window.open(this.href); return false;">Erweitertes Input Modul</a></strong> (dokumentiertes Input Modul als Grundlage fÃ¼r eigene Konfigurationen)<br />
 tipps_class_07 = <br />Weitere Informationen auf der <a href="http://tinymce.moxiecode.com/" onclick="window.open(this.href); return false;">TinyMCE Webseite</a> oder in der <a href="http://wiki.moxiecode.com/index.php/TinyMCE:Index" onclick="window.open(this.href); return false;">TinyMCE Documentation</a>.
 
 title_tipps_media = Verwendung des Plugins media

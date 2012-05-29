@@ -4,34 +4,26 @@ $page = rex_request('page', 'string');
 $subpage = rex_request('subpage', 'string');
 $subsubpage = rex_request('subsubpage', 'string');
 
-if($subpage != 'settings' && !$this->getPlugin($subpage)->isAvailable())
-{
-  foreach($this->getAvailablePlugins() as $plugin)
-  {
-    header('Location: index.php?page=install&subpage='. $plugin->getName());
+if ($subpage != 'settings' && !$this->getPlugin($subpage)->isAvailable()) {
+  foreach ($this->getAvailablePlugins() as $plugin) {
+    header('Location: index.php?page=install&subpage=' . $plugin->getName());
     exit;
   }
 }
 
 echo rex_view::title($this->i18n('name'));
 
-if($subpage == 'settings')
-{
+if ($subpage == 'settings') {
   include $this->getBasePath('pages/settings.inc.php');
-}
-elseif($this->getPlugin($subpage)->isAvailable())
-{
+} elseif ($this->getPlugin($subpage)->isAvailable()) {
   $plugin = $this->getPlugin($subpage);
-  if($plugin->hasProperty('subpages'))
-  {
+  if ($plugin->hasProperty('subpages')) {
     $listElements = array();
-    foreach($plugin->getProperty('subpages') as $i => $page)
-    {
+    foreach ($plugin->getProperty('subpages') as $i => $page) {
       $n = array();
       $n['title'] = $page[1];
-      $n['href'] = 'index.php?page=install&subpage='.$subpage.'&subsubpage='.$page[0];
-      if ($page[0] == $subsubpage)
-      {
+      $n['href'] = 'index.php?page=install&subpage=' . $subpage . '&subsubpage=' . $page[0];
+      if ($page[0] == $subsubpage) {
         $n['itemClasses'] = array('rex-active');
         $n['linkClasses'] = array('rex-active');
       }
@@ -62,8 +54,6 @@ elseif($this->getPlugin($subpage)->isAvailable())
   }
 
   $plugin->includeFile('pages/index.inc.php');
-}
-else
-{
+} else {
   echo rex_view::warning($this->i18n('no_plugins'));
 }

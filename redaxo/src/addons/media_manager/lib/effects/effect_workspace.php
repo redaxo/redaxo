@@ -59,57 +59,48 @@ class rex_effect_workspace extends rex_effect_abstract
     $w = $this->media->getWidth();
     $h = $this->media->getHeight();
 
-    $this->params["width"] = (int) $this->params["width"];
-    if($this->params["width"] < 0)
-    {
-      $this->params["width"] = $w;
+    $this->params['width'] = (int) $this->params['width'];
+    if ($this->params['width'] < 0) {
+      $this->params['width'] = $w;
     }
 
-    $this->params["height"] = (int) $this->params["height"];
-    if($this->params["width"] < 0)
-    {
-      $this->params["height"] = $h;
+    $this->params['height'] = (int) $this->params['height'];
+    if ($this->params['width'] < 0) {
+      $this->params['height'] = $h;
     }
 
-    $this->params["bg_r"] = (int) $this->params["bg_r"];
-    if(!isset($this->params["bg_r"]) || $this->params["bg_r"]>255 || $this->params["bg_r"] <0 )
-    {
-      $this->params["bg_r"] = 255;
+    $this->params['bg_r'] = (int) $this->params['bg_r'];
+    if (!isset($this->params['bg_r']) || $this->params['bg_r'] > 255 || $this->params['bg_r'] < 0 ) {
+      $this->params['bg_r'] = 255;
     }
 
-    $this->params["bg_g"] = (int) $this->params["bg_g"];
-    if(!isset($this->params["bg_g"]) || $this->params["bg_g"]>255 || $this->params["bg_g"] <0 )
-    {
-      $this->params["bg_g"] = 255;
+    $this->params['bg_g'] = (int) $this->params['bg_g'];
+    if (!isset($this->params['bg_g']) || $this->params['bg_g'] > 255 || $this->params['bg_g'] < 0 ) {
+      $this->params['bg_g'] = 255;
     }
 
-    $this->params["bg_b"] = (int) $this->params["bg_b"];
-    if(!isset($this->params["bg_b"]) || $this->params["bg_b"]>255 || $this->params["bg_b"] <0 )
-    {
-      $this->params["bg_b"] = 255;
+    $this->params['bg_b'] = (int) $this->params['bg_b'];
+    if (!isset($this->params['bg_b']) || $this->params['bg_b'] > 255 || $this->params['bg_b'] < 0 ) {
+      $this->params['bg_b'] = 255;
     }
 
     $trans = false;
-    if($this->params["set_transparent"] != "colored")
-    {
-      if($this->media->getFormat() != "GIF" && $this->media->getFormat() != "PNG")
-      {
-        $this->media->setFormat("PNG");
+    if ($this->params['set_transparent'] != 'colored') {
+      if ($this->media->getFormat() != 'GIF' && $this->media->getFormat() != 'PNG') {
+        $this->media->setFormat('PNG');
       }
       $trans = true;
     }
 
-    $workspace = imagecreatetruecolor($this->params["width"], $this->params["height"]);
-    if($trans)
-    {
+    $workspace = imagecreatetruecolor($this->params['width'], $this->params['height']);
+    if ($trans) {
       imagealphablending($workspace, false);
       $transparent = imagecolorallocatealpha($workspace, 0, 0, 0, 127);
       imagefill($workspace, 0, 0, $transparent);
-      imagesavealpha($workspace,true);
+      imagesavealpha($workspace, true);
       imagealphablending($workspace, true);
-    }else
-    {
-      imagefill($workspace, 0, 0, imagecolorallocate($workspace, $this->params["bg_r"], $this->params["bg_g"], $this->params["bg_b"]));
+    } else {
+      imagefill($workspace, 0, 0, imagecolorallocate($workspace, $this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']));
     }
 
     $src_w = $w;
@@ -119,29 +110,27 @@ class rex_effect_workspace extends rex_effect_abstract
     $src_x = 0;
     $src_y = 0;
 
-    switch($this->params["vpos"])
-    {
-      case("top"):
+    switch ($this->params['vpos']) {
+      case 'top':
         break;
-      case("bottom"):
-        $dst_y = (int) $this->params["height"] - $h;
+      case 'bottom':
+        $dst_y = (int) $this->params['height'] - $h;
         break;
-      case("middle"):
+      case 'middle':
       default: // center
-        $dst_y = (int) ($this->params["height"]/2) - ($h/2);
+        $dst_y = (int) ($this->params['height'] / 2) - ($h / 2);
         break;
     }
 
-    switch($this->params["hpos"])
-    {
-      case("left"):
+    switch ($this->params['hpos']) {
+      case 'left':
         break;
-      case("right"):
-        $dst_x = (int) $this->params["width"] - $w;
+      case 'right':
+        $dst_x = (int) $this->params['width'] - $w;
         break;
-      case("center"):
+      case 'center':
       default: // center
-        $dst_x = (int) ($this->params["width"]/2) - ($w/2);
+        $dst_x = (int) ($this->params['width'] / 2) - ($w / 2);
         break;
     }
 
@@ -162,17 +151,14 @@ class rex_effect_workspace extends rex_effect_abstract
   private function keepTransparent($des)
   {
     $image = $this->media;
-    if ($image->getFormat() == 'PNG')
-    {
+    if ($image->getFormat() == 'PNG') {
       imagealphablending($des, false);
       imagesavealpha($des, true);
-    }else if ($image->getFormat() == 'GIF')
-    {
+    } elseif ($image->getFormat() == 'GIF') {
       $gdimage = $image->getImage();
       $colorTransparent = imagecolortransparent($gdimage);
       imagepalettecopy($gdimage, $des);
-      if($colorTransparent>0)
-      {
+      if ($colorTransparent > 0) {
         imagefill($des, 0, 0, $colorTransparent);
         imagecolortransparent($des, $colorTransparent);
       }
@@ -184,12 +170,12 @@ class rex_effect_workspace extends rex_effect_abstract
   {
     return array(
       array(
-        'label'=>rex_i18n::msg('media_manager_effect_resize_width'),
+        'label' => rex_i18n::msg('media_manager_effect_resize_width'),
         'name' => 'width',
         'type' => 'int',
       ),
       array(
-        'label'=>rex_i18n::msg('media_manager_effect_resize_height'),
+        'label' => rex_i18n::msg('media_manager_effect_resize_height'),
         'name' => 'height',
         'type' => 'int'
       ),
@@ -197,18 +183,18 @@ class rex_effect_workspace extends rex_effect_abstract
         'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
         'name' => 'hpos',
         'type'  => 'select',
-        'options'  => array('left','center','right'),
+        'options'  => array('left', 'center', 'right'),
         'default' => 'left'
       ),
       array(
         'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
         'name' => 'vpos',
         'type'  => 'select',
-        'options'  => array('top','middle','bottom'),
+        'options'  => array('top', 'middle', 'bottom'),
         'default' => 'top'
       ),
       array(
-        'label'=>rex_i18n::msg('media_manager_effect_mirror_background_color'),
+        'label' => rex_i18n::msg('media_manager_effect_mirror_background_color'),
         'name' => 'set_transparent',
         'type' => 'select',
         'options' => array('colored', 'transparent'),
@@ -216,17 +202,17 @@ class rex_effect_workspace extends rex_effect_abstract
         'suffix' => $this->script
       ),
       array(
-        'label'=>rex_i18n::msg('media_manager_effect_mirror_background_r'),
+        'label' => rex_i18n::msg('media_manager_effect_mirror_background_r'),
         'name' => 'bg_r',
         'type' => 'int',
       ),
       array(
-        'label'=>rex_i18n::msg('media_manager_effect_mirror_background_g'),
+        'label' => rex_i18n::msg('media_manager_effect_mirror_background_g'),
         'name' => 'bg_g',
         'type' => 'int',
       ),
       array(
-        'label'=>rex_i18n::msg('media_manager_effect_mirror_background_b'),
+        'label' => rex_i18n::msg('media_manager_effect_mirror_background_b'),
         'name' => 'bg_b',
         'type' => 'int',
       ),

@@ -15,9 +15,8 @@ abstract class rex_var
    */
   static public function registerVar($var)
   {
-    if(!is_subclass_of($var, __CLASS__))
-    {
-      throw new rex_exception('$var must be a subclass of '. __CLASS__);
+    if (!is_subclass_of($var, __CLASS__)) {
+      throw new rex_exception('$var must be a subclass of ' . __CLASS__);
     }
 
     self::$vars[] = $var;
@@ -28,9 +27,8 @@ abstract class rex_var
    */
   static public function getVars()
   {
-    foreach(self::$vars as $key => $var)
-    {
-      if(!is_object($var))
+    foreach (self::$vars as $key => $var) {
+      if (!is_object($var))
         self::$vars[$key] = new $var;
     }
 
@@ -44,8 +42,8 @@ abstract class rex_var
    *
    * Fill the rex_sql object with userinput from REX_ACTION
    *
-   * @param rex_sql $sql A datacontainer of the current slice (to be filled)
-   * @param array $REX_ACTION Array of userinput
+   * @param rex_sql $sql        A datacontainer of the current slice (to be filled)
+   * @param array   $REX_ACTION Array of userinput
    */
   public function setACValues(rex_sql $sql, array $REX_ACTION)
   {
@@ -71,8 +69,8 @@ abstract class rex_var
    *
    * Fill the REX_ACTION array with initial values from the datacontainer
    *
-   * @param array $REX_ACTION The array to fill
-   * @param rex_sql $sql The datacontainer with database values
+   * @param array   $REX_ACTION The array to fill
+   * @param rex_sql $sql        The datacontainer with database values
    *
    * @return array The filled REX_ACTION array
    */
@@ -86,8 +84,8 @@ abstract class rex_var
    *
    * Replaces all occurences of the REX-Var with values given in the REX_ACTION array
    *
-   * @param array $REX_ACTION The array of slice-data
-   * @param string $content The string for searching.
+   * @param array  $REX_ACTION The array of slice-data
+   * @param string $content    The string for searching.
    *
    * @return string The string in which all occurences have been replaced
    */
@@ -104,8 +102,8 @@ abstract class rex_var
    * Replaces all occurences of the REX-Var with values given in the rex_sql container.
    * The content need to be prepared for <b>output</b> in the <b>frontend</b>.
    *
-   * @param rex_sql $sql The datacontainer with database values
-   * @param string $content The string for searching.
+   * @param rex_sql $sql     The datacontainer with database values
+   * @param string  $content The string for searching.
    *
    * @return string The string in which all occurences have been replaced
    */
@@ -118,8 +116,8 @@ abstract class rex_var
    * Replaces all occurences of the REX-Var with values given in the rex_sql container.
    * The content need to be prepared for <b>output</b> in the <b>backend</b>.
    *
-   * @param rex_sql $sql The datacontainer with database values
-   * @param string $content The string for searching.
+   * @param rex_sql $sql     The datacontainer with database values
+   * @param string  $content The string for searching.
    *
    * @return string The string in which all occurences have been replaced
    */
@@ -132,8 +130,8 @@ abstract class rex_var
    * Replaces all occurences of the REX-Var with values given in the rex_sql container.
    * The content need to be prepared for <b>input</b> in the <b>backend</b>.
    *
-   * @param rex_sql $sql The datacontainer with database values
-   * @param string $content The string for searching.
+   * @param rex_sql $sql     The datacontainer with database values
+   * @param string  $content The string for searching.
    *
    * @return string The string in which all occurences have been replaced
    */
@@ -172,8 +170,8 @@ abstract class rex_var
   /**
    * Gets the article-slice property which name equals to $value.
    *
-   * @param rex_sql $sql The slice datacontainer
-   * @param string $value The name of the property to search for
+   * @param rex_sql $sql   The slice datacontainer
+   * @param string  $value The name of the property to search for
    *
    * @return string The value of the property, or <code>false</code> when the property cannot be found!
    */
@@ -185,9 +183,9 @@ abstract class rex_var
   /**
    * Sets the article-slice property $fieldname with the given $value.
    *
-   * @param rex_sql $sql The article-slice datacontainer
-   * @param string $fieldname The name of the property to set
-   * @param string $value The value to set
+   * @param rex_sql $sql       The article-slice datacontainer
+   * @param string  $fieldname The name of the property to set
+   * @param string  $value     The value to set
    */
   protected function setValue(rex_sql $sql, $fieldname, $value)
   {
@@ -199,16 +197,15 @@ abstract class rex_var
    * The parameter $name will be extracted out of $args and set to $value.
    *
    * @param string $varname The name of the variable which param should be handled
-   * @param array $args The array of parameters which are already known for the variable $varname
-   * @param string $name The name of the parameter to extract
-   * @param string $value The value to set for the parameter
+   * @param array  $args    The array of parameters which are already known for the variable $varname
+   * @param string $name    The name of the parameter to extract
+   * @param string $value   The value to set for the parameter
    *
    * @return array The adjusted array of parameters
    */
   static public function handleDefaultParam($varname, array $args, $name, $value)
   {
-    switch($name)
-    {
+    switch ($name) {
       case '0'       : $name = 'id';
       case 'id'      :
       case 'prefix'  :
@@ -226,8 +223,8 @@ abstract class rex_var
   /**
    * Handle all common widget parameters.
    *
-   * @param string $varname The name of the variable which param should be handled
-   * @param array $args The array of parameters for the widget
+   * @param string $varname      The name of the variable which param should be handled
+   * @param array  $args         The array of parameters for the widget
    * @param string $widgetSource The html source of the widget
    *
    * @return string The parsed html source
@@ -241,15 +238,14 @@ abstract class rex_var
    * Handle all common var parameters.
    *
    * @param string $varname The name of the variable which param should be handled
-   * @param array $args The array of parameters for the widget
-   * @param string $value The value of the variable
+   * @param array  $args    The array of parameters for the widget
+   * @param string $value   The value of the variable
    *
    * @return string The parsed variable value
    */
   static public function handleGlobalVarParams($varname, array $args, $value)
   {
-    if(isset($args['callback']))
-    {
+    if (isset($args['callback'])) {
       $args['subject'] = $value;
       return call_user_func($args['callback'], $args);
     }
@@ -257,16 +253,16 @@ abstract class rex_var
     $prefix = '';
     $suffix = '';
 
-    if(isset($args['instead']) && $value != '')
+    if (isset($args['instead']) && $value != '')
       $value = $args['instead'];
 
-    if(isset($args['ifempty']) && $value == '')
+    if (isset($args['ifempty']) && $value == '')
       $value = $args['ifempty'];
 
-    if($value != '' && isset($args['prefix']))
+    if ($value != '' && isset($args['prefix']))
       $prefix = $args['prefix'];
 
-    if($value != '' && isset($args['suffix']))
+    if ($value != '' && isset($args['suffix']))
       $suffix = $args['suffix'];
 
     return $prefix . $value . $suffix;
@@ -287,12 +283,10 @@ abstract class rex_var
 
     $match = $this->matchVar($content, $varname);
 
-    foreach ($match as $param_str)
-    {
+    foreach ($match as $param_str) {
       $args = array();
       $params = $this->splitString($param_str);
-      foreach ($params as $name => $value)
-      {
+      foreach ($params as $name => $value) {
         $args = $this->handleDefaultParam($varname, $args, $name, $value);
       }
 
@@ -324,10 +318,8 @@ abstract class rex_var
   {
     $result = array ();
 
-    if (preg_match_all('/' . preg_quote($varname, '/') . '\[([^\]]*)\]/ms', $content, $matches))
-    {
-      foreach ($matches[1] as $match)
-      {
+    if (preg_match_all('/' . preg_quote($varname, '/') . '\[([^\]]*)\]/ms', $content, $matches)) {
+      foreach ($matches[1] as $match) {
         $result[] = $match;
       }
     }
@@ -342,15 +334,14 @@ abstract class rex_var
    * The default value will also be written into the array $args.
    *
    * @param string $name
-   * @param array $args
+   * @param array  $args
    * @param string $default
    *
    * @return string the value of the arg, or $default if the arg cannot be found
    */
   protected function getArg($name, array &$args, $default = null)
   {
-    if(isset($args[$name]))
-    {
+    if (isset($args[$name])) {
       return $args[$name];
     }
     // we write the default back into the array, to get the default also into the parameters for the later callback

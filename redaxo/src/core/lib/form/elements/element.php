@@ -125,28 +125,22 @@ class rex_form_element
 
   static public function _normalizeId($id)
   {
-    return preg_replace('/[^a-zA-Z\-0-9_]/i','_', $id);
+    return preg_replace('/[^a-zA-Z\-0-9_]/i', '_', $id);
   }
 
   static public function _normalizeName($name)
   {
-    return preg_replace('/[^\[\]a-zA-Z\-0-9_]/i','_', $name);
+    return preg_replace('/[^\[\]a-zA-Z\-0-9_]/i', '_', $name);
   }
 
   public function setAttribute($name, $value)
   {
-    if($name == 'value')
-    {
+    if ($name == 'value') {
       $this->setValue($value);
-    }
-    else
-    {
-      if($name == 'id')
-      {
+    } else {
+      if ($name == 'id') {
         $value = $this->_normalizeId($value);
-      }
-      elseif($name == 'name')
-      {
+      } elseif ($name == 'name') {
         $value = $this->_normalizeName($value);
       }
 
@@ -156,12 +150,9 @@ class rex_form_element
 
   public function getAttribute($name, $default = null)
   {
-    if($name == 'value')
-    {
+    if ($name == 'value') {
       return $this->getValue();
-    }
-    elseif($this->hasAttribute($name))
-    {
+    } elseif ($this->hasAttribute($name)) {
       return $this->attributes[$name];
     }
 
@@ -172,8 +163,7 @@ class rex_form_element
   {
     $this->attributes = array();
 
-    foreach($attributes as $name => $value)
-    {
+    foreach ($attributes as $name => $value) {
       $this->setAttribute($name, $value);
     }
   }
@@ -205,9 +195,8 @@ class rex_form_element
     $s = '';
     $label = $this->getLabel();
 
-    if($label != '')
-    {
-      $s .= '          <label for="'. $this->getAttribute('id') .'">'. $label .'</label>'. "\n";
+    if ($label != '') {
+      $s .= '          <label for="' . $this->getAttribute('id') . '">' . $label . '</label>' . "\n";
     }
 
     return $s;
@@ -218,28 +207,23 @@ class rex_form_element
     $attr = '';
     $value = htmlspecialchars($this->getValue());
 
-    foreach($this->getAttributes() as $attributeName => $attributeValue)
-    {
-      $attr .= ' '. $attributeName .'="'. $attributeValue .'"';
+    foreach ($this->getAttributes() as $attributeName => $attributeValue) {
+      $attr .= ' ' . $attributeName . '="' . $attributeValue . '"';
     }
 
-    if($this->hasSeparateEnding())
-    {
-      return '          <'. $this->getTag(). $attr .'>'. $value .'</'. $this->getTag() .'>'. "\n";
-    }
-    else
-    {
-      $attr .= ' value="'. $value .'"';
-      return '          <'. $this->getTag(). $attr .' />'. "\n";
+    if ($this->hasSeparateEnding()) {
+      return '          <' . $this->getTag() . $attr . '>' . $value . '</' . $this->getTag() . '>' . "\n";
+    } else {
+      $attr .= ' value="' . $value . '"';
+      return '          <' . $this->getTag() . $attr . ' />' . "\n";
     }
   }
 
   protected function formatNotice()
   {
     $notice = $this->getNotice();
-    if($notice != '')
-    {
-      return '<span class="rex-form-notice" id="'. $this->getAttribute('id') .'_notice">'. $notice .'</span>';
+    if ($notice != '') {
+      return '<span class="rex-form-notice" id="' . $this->getAttribute('id') . '_notice">' . $notice . '</span>';
     }
     return '';
   }
@@ -267,14 +251,14 @@ class rex_form_element
   public function get()
   {
     $class = $this->formatClass();
-    $class = $class == '' ? '' : ' '.$class;
+    $class = $class == '' ? '' : ' ' . $class;
 
     $s = '';
     $s .= $this->getHeader();
 
-    $s .= '<div class="rex-form-data'.$class.'">
-             '. $this->wrapContent($this->_get()) .'
-           </div>'. "\n";
+    $s .= '<div class="rex-form-data' . $class . '">
+             ' . $this->wrapContent($this->_get()) . '
+           </div>' . "\n";
 
     $s .= $this->getFooter();
     return $s;

@@ -30,14 +30,12 @@ function rex_tabindex($html = true)
 {
   global $REX;
 
-  if (empty($REX['TABINDEX']))
-  {
+  if (empty($REX['TABINDEX'])) {
     $REX['TABINDEX'] = 0;
   }
 
-  if($html === true)
-  {
-    return ' tabindex="'. ++$REX['TABINDEX'] .'"';
+  if ($html === true) {
+    return ' tabindex="' . ++$REX['TABINDEX'] . '"';
   }
   return ++$REX['TABINDEX'];
 }
@@ -60,9 +58,9 @@ function rex_install_dump($file, $debug = false)
 function rex_accesskey($title, $key)
 {
   if (rex::getProperty('use_accesskeys'))
-    return ' accesskey="'. $key .'" title="'. $title .' ['. $key .']"';
+    return ' accesskey="' . $key . '" title="' . $title . ' [' . $key . ']"';
 
-  return ' title="'. $title .'"';
+  return ' title="' . $title . '"';
 }
 
 /**
@@ -85,10 +83,10 @@ function rex_hasBackendSession()
 }
 
 /**
-* @see rex_view::info()
-*
-* @deprecated 5.0
-*/
+ * @see rex_view::info()
+ *
+ * @deprecated 5.0
+ */
 function rex_info($message, $cssClass = null, $sorround_tag = null)
 {
   return rex_view::info($message, $cssClass, $sorround_tag);
@@ -155,31 +153,29 @@ function rex_content_block($content)
 }
 
 /**
-* @see rex_view::title()
-*
-* @deprecated 5.0
-*/
+ * @see rex_view::title()
+ *
+ * @deprecated 5.0
+ */
 function rex_title($head, $subtitle = '')
 {
   echo rex_view::title($head, $subtitle);
 }
 
 /**
-* Escaped einen String
-*
-* @param $string Zu escapender String
-*
-* @deprecated 5.0
-*/
+ * Escaped einen String
+ *
+ * @param $string Zu escapender String
+ *
+ * @deprecated 5.0
+ */
 function rex_addslashes($string, $flag = '\\\'\"')
 {
-  if ($flag == '\\\'\"')
-  {
+  if ($flag == '\\\'\"') {
     $string = str_replace('\\', '\\\\', $string);
     $string = str_replace('\'', '\\\'', $string);
     $string = str_replace('"', '\"', $string);
-  }elseif ($flag == '\\\'')
-  {
+  } elseif ($flag == '\\\'') {
     $string = str_replace('\\', '\\\\', $string);
     $string = str_replace('\'', '\\\'', $string);
   }
@@ -204,8 +200,7 @@ function rex_split_string($string)
 function rex_highlight_string($string, $return = false)
 {
   $s = rex_string::highlight($string);
-  if($return)
-  {
+  if ($return) {
     return $s;
   }
   echo $s;
@@ -214,13 +209,12 @@ function rex_highlight_string($string, $return = false)
 /**
  * @see rex_string::highlight()
  *
-* @deprecated 5.0
-*/
+ * @deprecated 5.0
+ */
 function rex_highlight_file($filename, $return = false)
 {
-  $s = '<p class="rex-code">'. highlight_file($filename, true) .'</p>';
-  if($return)
-  {
+  $s = '<p class="rex-code">' . highlight_file($filename, true) . '</p>';
+  if ($return) {
     return $s;
   }
   echo $s;
@@ -237,11 +231,11 @@ function rex_isXmlHttpRequest()
 }
 
 /**
-* @see rex_sql_util::organizePriorities()
-*
-* @deprecated 5.0
-*/
-function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field='id', $startBy = 1)
+ * @see rex_sql_util::organizePriorities()
+ *
+ * @deprecated 5.0
+ */
+function rex_organize_priorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field = 'id', $startBy = 1)
 {
   rex_sql_util::organizePriorities($tableName, $priorColumnName, $whereCondition, $orderBy, $id_field, $startBy);
 }
@@ -251,7 +245,7 @@ function rex_organize_priorities($tableName, $priorColumnName, $whereCondition =
  *
  * @deprecated 5.0
  */
-function rex_getAttributes($name,$content,$default = null)
+function rex_getAttributes($name, $content, $default = null)
 {
   $prop = unserialize($content, true);
   if (isset($prop[$name])) return $prop[$name];
@@ -263,7 +257,7 @@ function rex_getAttributes($name,$content,$default = null)
  *
  * @deprecated 5.0
  */
-function rex_setAttributes($name,$value,$content)
+function rex_setAttributes($name, $value, $content)
 {
   $prop = unserialize($content);
   $prop[$name] = $value;

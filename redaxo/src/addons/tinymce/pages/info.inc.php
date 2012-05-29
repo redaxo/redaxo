@@ -29,7 +29,7 @@
     <p class="rex-tx1">
 <?php
   $file = dirname( __FILE__) . '/../lang/help.' . $REX['LANG'] . '.lang';
-  if(is_readable($file))
+  if (is_readable($file))
   {
     if (strstr($REX['LANG'], 'utf8'))
     {
@@ -49,8 +49,8 @@
   <h2 class="rex-hl2"><?php echo $I18N_A52->msg('title_changelog'); ?></h2>
   <div class="rex-addon-content">
 <?php
-  $file = dirname( __FILE__) .'/../_changelog.txt';
-  if(is_readable($file))
+  $file = dirname( __FILE__) . '/../_changelog.txt';
+  if (is_readable($file))
   {
     if (strstr($REX['LANG'], 'utf8'))
     {

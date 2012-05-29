@@ -35,8 +35,7 @@ class rex_form_container_element extends rex_form_element
   {
     $field = $this->table->createInput($type, $name, $value, $attributes);
 
-    if(!isset($this->fields[$group]))
-    {
+    if (!isset($this->fields[$group])) {
       $this->fields[$group] = array();
     }
 
@@ -52,25 +51,17 @@ class rex_form_container_element extends rex_form_element
   protected function prepareInnerFields()
   {
     $values = json_decode($this->getValue(), true);
-    if($this->multiple)
-    {
-      foreach($this->fields as $group => $groupFields)
-      {
-        foreach($groupFields as $key => $field)
-        {
-          if(isset($values[$group][$field->getFieldName()]))
-          {
+    if ($this->multiple) {
+      foreach ($this->fields as $group => $groupFields) {
+        foreach ($groupFields as $key => $field) {
+          if (isset($values[$group][$field->getFieldName()])) {
             $field->setValue($values[$group][$field->getFieldName()]);
           }
         }
       }
-    }
-    elseif(isset($this->active) && isset($this->fields[$this->active]))
-    {
-      foreach($this->fields[$this->active] as $key => $field)
-      {
-        if(isset($values[$field->getFieldName()]))
-        {
+    } elseif (isset($this->active) && isset($this->fields[$this->active])) {
+      foreach ($this->fields[$this->active] as $key => $field) {
+        if (isset($values[$field->getFieldName()])) {
           $field->setValue($values[$field->getFieldName()]);
         }
       }
@@ -86,19 +77,16 @@ class rex_form_container_element extends rex_form_element
     // - name: der container selbst ist kein feld, daher hat er keinen namen
     // - id:   eine id vergeben wir automatisiert pro gruppe
     $attributeFilter = array('id', 'name');
-    foreach($this->getAttributes() as $attributeName => $attributeValue)
-    {
-      if(in_array($attributeName, $attributeFilter)) continue;
+    foreach ($this->getAttributes() as $attributeName => $attributeValue) {
+      if (in_array($attributeName, $attributeFilter)) continue;
 
-      $attr .= ' '. $attributeName .'="'. $attributeValue .'"';
+      $attr .= ' ' . $attributeName . '="' . $attributeValue . '"';
     }
 
     $format = '';
-    foreach($this->fields as $group => $groupFields)
-    {
-      $format .= '<div id="rex-'. $group .'"'. $attr .'>';
-      foreach($groupFields as $field)
-      {
+    foreach ($this->fields as $group => $groupFields) {
+      $format .= '<div id="rex-' . $group . '"' . $attr . '>';
+      foreach ($groupFields as $field) {
           $format .= $field->get();
       }
       $format .= '</div>';
@@ -121,27 +109,19 @@ class rex_form_container_element extends rex_form_element
 //    var_dump($this->multiple);
 //    var_dump($this->active);
     $value = array();
-    if($this->multiple)
-    {
-      foreach($this->fields as $group => $groupFields)
-      {
-        foreach($groupFields as $field)
-        {
+    if ($this->multiple) {
+      foreach ($this->fields as $group => $groupFields) {
+        foreach ($groupFields as $field) {
           // read-only-fields nicht speichern
-          if(strpos($field->getAttribute('class'), 'rex-form-read') === false)
-          {
+          if (strpos($field->getAttribute('class'), 'rex-form-read') === false) {
             $value[$group][$field->getFieldName()] = $field->getSaveValue();
           }
         }
       }
-    }
-    elseif(isset($this->active) && isset($this->fields[$this->active]))
-    {
-      foreach($this->fields[$this->active] as $field)
-      {
+    } elseif (isset($this->active) && isset($this->fields[$this->active])) {
+      foreach ($this->fields[$this->active] as $field) {
         // read-only-fields nicht speichern
-        if(strpos($field->getAttribute('class'), 'rex-form-read') === false)
-        {
+        if (strpos($field->getAttribute('class'), 'rex-form-read') === false) {
           $value[$field->getFieldName()] = $field->getSaveValue();
         }
       }

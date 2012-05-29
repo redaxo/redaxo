@@ -38,21 +38,22 @@
   // Include der angeforderten Seite
   $subpage = rex_request('subpage', 'string');
 
-  switch($subpage) {
+  switch ($subpage)
+  {
     case 'settings':
-      include (dirname( __FILE__).'/settings.inc.php');
+      include (dirname( __FILE__) . '/settings.inc.php');
     break;
     case 'css':
-      include (dirname( __FILE__).'/css.inc.php');
+      include (dirname( __FILE__) . '/css.inc.php');
     break;
     case 'tipps':
-      include (dirname( __FILE__).'/tipps.inc.php');
+      include (dirname( __FILE__) . '/tipps.inc.php');
     break;
     case 'info':
-      include (dirname( __FILE__).'/info.inc.php');
+      include (dirname( __FILE__) . '/info.inc.php');
     break;
     default:
-      include (dirname( __FILE__).'/default.inc.php');
+      include (dirname( __FILE__) . '/default.inc.php');
     break;
   }
 
@@ -64,6 +65,6 @@
     echo '</table>';
   }
 
-  require $REX['INCLUDE_PATH'] .'/layout/bottom.php';
+  require $REX['INCLUDE_PATH'] . '/layout/bottom.php';
 
   return;

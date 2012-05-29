@@ -25,20 +25,17 @@ class rex_socket_response
    */
   public function __construct($stream)
   {
-    if(!is_resource($stream))
-    {
+    if (!is_resource($stream)) {
       throw new rex_exception(sprintf('Expecting $resource to be a resource, but %s given!', gettype($resource)));
     }
 
     $this->stream = $stream;
 
-    while(!feof($this->stream) && strpos($this->header, "\r\n\r\n") === false)
-    {
+    while (!feof($this->stream) && strpos($this->header, "\r\n\r\n") === false) {
       $this->header .= fgets($this->stream);
     }
     $this->header = rtrim($this->header);
-    if (preg_match('@^HTTP/1\.\d ([0-9]+) (\V+)@', $this->header, $matches))
-    {
+    if (preg_match('@^HTTP/1\.\d ([0-9]+) (\V+)@', $this->header, $matches)) {
       $this->statusCode = intval($matches[1]);
       $this->statusMessage = $matches[2];
     }
@@ -46,10 +43,10 @@ class rex_socket_response
   }
 
   /**
-  * Returns the HTTP status code, e.g. 200
-  *
-  * @return integer
-  */
+   * Returns the HTTP status code, e.g. 200
+   *
+   * @return integer
+   */
   public function getStatusCode()
   {
     return $this->statusCode;
@@ -74,60 +71,60 @@ class rex_socket_response
   }
 
   /**
-  * Returns wether the status class is "Informational"
-  *
-  * @return boolean
-  */
+   * Returns wether the status class is "Informational"
+   *
+   * @return boolean
+   */
   public function isInformational()
   {
     return $this->statusCode >= 100 && $this->statusCode < 200;
   }
 
   /**
-  * Returns wether the status class is "Success"
-  *
-  * @return boolean
-  */
+   * Returns wether the status class is "Success"
+   *
+   * @return boolean
+   */
   public function isSuccessful()
   {
     return $this->statusCode >= 200 && $this->statusCode < 300;
   }
 
   /**
-  * Returns wether the status class is "Redirection"
-  *
-  * @return boolean
-  */
+   * Returns wether the status class is "Redirection"
+   *
+   * @return boolean
+   */
   public function isRedirection()
   {
     return $this->statusCode >= 300 && $this->statusCode < 400;
   }
 
   /**
-  * Returns wether the status class is "Client Error"
-  *
-  * @return boolean
-  */
+   * Returns wether the status class is "Client Error"
+   *
+   * @return boolean
+   */
   public function isClientError()
   {
     return $this->statusCode >= 400 && $this->statusCode < 500;
   }
 
   /**
-  * Returns wether the status class is "Server Error"
-  *
-  * @return boolean
-  */
+   * Returns wether the status class is "Server Error"
+   *
+   * @return boolean
+   */
   public function isServerError()
   {
     return $this->statusCode >= 500 && $this->statusCode < 600;
   }
 
   /**
-  * Returns wether the status is invalid
-  *
-  * @return boolean
-  */
+   * Returns wether the status is invalid
+   *
+   * @return boolean
+   */
   public function isInvalid()
   {
     return $this->statusCode < 100 || $this->statusCode >= 600;
@@ -136,23 +133,20 @@ class rex_socket_response
   /**
    * Returns the header for the given key, or the entire header if no key is given
    *
-   * @param string $key Header key
+   * @param string $key     Header key
    * @param string $default Default value (is returned if the header is not set)
    * @return string
    */
   public function getHeader($key = null, $default = null)
   {
-    if($key === null)
-    {
+    if ($key === null) {
       return $this->header;
     }
     $key = strtolower($key);
-    if(isset($this->headers[$key]))
-    {
+    if (isset($this->headers[$key])) {
       return $this->headers[$key];
     }
-    if(preg_match('@^'. preg_quote($key, '@') .': (\V*)@im', $this->header, $matches))
-    {
+    if (preg_match('@^' . preg_quote($key, '@') . ': (\V*)@im', $this->header, $matches)) {
       return $this->headers[$key] = $matches[1];
     }
     return $this->headers[$key] = $default;
@@ -166,33 +160,26 @@ class rex_socket_response
    */
   public function getBufferedBody($length = 1024)
   {
-    if(feof($this->stream))
-    {
+    if (feof($this->stream)) {
       return false;
     }
-    if($this->chunked)
-    {
-      if($this->chunkPos == 0)
-      {
+    if ($this->chunked) {
+      if ($this->chunkPos == 0) {
         $this->chunkLength = hexdec(fgets($this->stream));
-        if($this->chunkLength == 0)
-        {
+        if ($this->chunkLength == 0) {
           return false;
         }
       }
       $pos = ftell($this->stream);
       $buf = fread($this->stream, min($length, $this->chunkLength - $this->chunkPos));
       $this->chunkPos += ftell($this->stream) - $pos;
-      if($this->chunkPos >= $this->chunkLength)
-      {
+      if ($this->chunkPos >= $this->chunkLength) {
         fgets($this->stream);
         $this->chunkPos = 0;
         $this->chunkLength = 0;
       }
       return $buf;
-    }
-    else
-    {
+    } else {
       return fread($this->stream, $length);
     }
   }
@@ -204,10 +191,8 @@ class rex_socket_response
    */
   public function getBody()
   {
-    if($this->body === null)
-    {
-      while(($buf = $this->getBufferedBody()) !== false)
-      {
+    if ($this->body === null) {
+      while (($buf = $this->getBufferedBody()) !== false) {
         $this->body .= $buf;
       }
     }
@@ -223,22 +208,18 @@ class rex_socket_response
   public function writeBodyTo($resource)
   {
     $close = false;
-    if(is_string($resource) && rex_dir::create(dirname($resource)))
-    {
+    if (is_string($resource) && rex_dir::create(dirname($resource))) {
       $resource = fopen($resource, 'wb');
       $close = true;
     }
-    if(!is_resource($resource))
-    {
+    if (!is_resource($resource)) {
       return false;
     }
     $success = true;
-    while($success && ($buf = $this->getBufferedBody()) !== false)
-    {
+    while ($success && ($buf = $this->getBufferedBody()) !== false) {
       $success = (boolean) fwrite($resource, $buf);
     }
-    if($close)
-    {
+    if ($close) {
       fclose($resource);
     }
     return $success;

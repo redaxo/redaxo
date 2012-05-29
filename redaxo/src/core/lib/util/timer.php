@@ -48,7 +48,7 @@ class rex_timer
    * Returns the formatted time difference
    *
    * @param int $precision Factor which will be multiplied, for convertion into different units (e.g. 1000 for milli,...)
-   * @param int $decimals Number of decimals points
+   * @param int $decimals  Number of decimals points
    *
    * @return string Formatted time difference
    */

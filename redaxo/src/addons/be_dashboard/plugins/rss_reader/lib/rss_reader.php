@@ -23,9 +23,9 @@
  * object's methods and properties will be available to you. This format is
  * what is used throughout this documentation.
  *
- * @param string $feed_url This is the URL you want to parse.
+ * @param string $feed_url       This is the URL you want to parse.
  * @param string $cache_location This is where you want the cache to be stored.
- * @param int $cache_duration This is the number of seconds that you want to store the cache file for.
+ * @param int    $cache_duration This is the number of seconds that you want to store the cache file for.
  */
 class rex_rss_reader extends SimplePie
 {
@@ -33,8 +33,7 @@ class rex_rss_reader extends SimplePie
   {
     parent::__construct();
 
-    if($cache_location == null)
-    {
+    if ($cache_location == null) {
       $cache_location = rex_path::addonCache('be_dashboard');
     }
 

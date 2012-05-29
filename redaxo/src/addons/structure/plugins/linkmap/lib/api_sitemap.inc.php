@@ -14,7 +14,7 @@ class rex_api_sitemap_tree extends rex_api_function
      */
     $user = rex::getUser();
 
-    if(!$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+    if (!$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
       throw new rex_api_exception('user has no permission for this category!');
     }
 

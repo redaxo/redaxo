@@ -153,7 +153,7 @@ content_nottostartarticle = Cannot make this article start-article.
 content_tostartarticle_failed = Error. Article not changed to start-article.
 content_tostartarticle_ok = Article was changed to start-article.
 content_article = article content
-content_toarticle_ok = 
+content_toarticle_ok =
 move_category = to
 category_moved = Category moved
 content_types = Columns
@@ -589,7 +589,7 @@ plugin_plugins_installed = PlugIns are installed
 plugin_deactivated = PlugIn deactivated
 plugin_activated = PlugIn activated
 plugin_no_install = PlugIn has not been installed
-plugin_no_reason = 
+plugin_no_reason =
 plugin_installed = PlugIn has been installed
 
 # redaxo\include\pages\credits.inc.php

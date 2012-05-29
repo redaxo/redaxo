@@ -60,10 +60,10 @@ class rex_user
   }
 
   /**
-  * Returns the name
-  *
-  * @return string Name
-  */
+   * Returns the name
+   *
+   * @return string Name
+   */
   public function getName()
   {
     return $this->sql->getValue('name');
@@ -90,24 +90,23 @@ class rex_user
   }
 
   /**
-  * Returns the start page
-  *
-  * @return string Start page
-  */
+   * Returns the start page
+   *
+   * @return string Start page
+   */
   public function getStartPage()
   {
     return $this->sql->getValue('startpage');
   }
 
   /**
-  * Returns if the user has a role
-  *
-  * @return boolean
-  */
+   * Returns if the user has a role
+   *
+   * @return boolean
+   */
   public function hasRole()
   {
-    if(self::$roleClass && !is_object($this->role) && ($role = $this->sql->getValue('role')))
-    {
+    if (self::$roleClass && !is_object($this->role) && ($role = $this->sql->getValue('role'))) {
       $class = self::$roleClass;
       $this->role = $class::get($role);
     }
@@ -122,38 +121,33 @@ class rex_user
    */
   public function hasPerm($perm)
   {
-    if ($this->isAdmin())
-    {
+    if ($this->isAdmin()) {
       return true;
     }
     $result = false;
-    if(strpos($perm, '/') !== false)
-    {
+    if (strpos($perm, '/') !== false) {
       list($complexPerm, $method) = explode('/', $perm, 2);
       $complexPerm = $this->getComplexPerm($complexPerm);
       return $complexPerm ? $complexPerm->$method() : false;
     }
-    if($this->hasRole())
-    {
+    if ($this->hasRole()) {
       $result = $this->role->hasPerm($perm);
     }
-    if(!$result && in_array($perm, array('isAdmin', 'admin', 'admin[]')))
-    {
+    if (!$result && in_array($perm, array('isAdmin', 'admin', 'admin[]'))) {
       return $this->isAdmin();
     }
     return $result;
   }
 
   /**
-  * Returns the complex perm for the user
-  *
-  *  @param string $key Complex perm key
-  * @return rex_complex_perm Complex perm
-  */
+   * Returns the complex perm for the user
+   *
+   * @param string $key Complex perm key
+   * @return rex_complex_perm Complex perm
+   */
   public function getComplexPerm($key)
   {
-    if($this->hasRole())
-    {
+    if ($this->hasRole()) {
       return $this->role->getComplexPerm($this, $key);
     }
     return rex_complex_perm::get($this, $key);

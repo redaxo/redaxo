@@ -17,9 +17,8 @@ class rex_form_checkbox_element extends rex_form_options_element
     // Da Jedes Feld schon ein Label hat, hier nur eine "Ueberschrift" anbringen
     $label = $this->getLabel();
 
-    if($label != '')
-    {
-      $label = '<span>'. $label .'</span>';
+    if ($label != '') {
+      $label = '<span>' . $label . '</span>';
     }
 
     return $label;
@@ -34,23 +33,21 @@ class rex_form_checkbox_element extends rex_form_options_element
     $id = $this->getAttribute('id');
 
     $attr = '';
-    foreach($this->getAttributes() as $attributeName => $attributeValue)
-    {
-      if($attributeName == 'name' || $attributeName == 'id') continue;
-      $attr .= ' '. $attributeName .'="'. $attributeValue .'"';
+    foreach ($this->getAttributes() as $attributeName => $attributeValue) {
+      if ($attributeName == 'name' || $attributeName == 'id') continue;
+      $attr .= ' ' . $attributeName . '="' . $attributeValue . '"';
     }
 
-    foreach($options as $opt_name => $opt_value)
-    {
+    foreach ($options as $opt_name => $opt_value) {
       $opt_id = $id;
-      if($opt_value != '') {
-       $opt_id .= '_'. $this->_normalizeId($opt_value);
+      if ($opt_value != '') {
+       $opt_id .= '_' . $this->_normalizeId($opt_value);
       }
-      $opt_attr = $attr . ' id="'. $opt_id .'"';
+      $opt_attr = $attr . ' id="' . $opt_id . '"';
       $checked = in_array($opt_value, $values) ? ' checked="checked"' : '';
 
-      $s .= '<input type="checkbox" name="'. $name .'['. $opt_value .']" value="'. htmlspecialchars($opt_value) .'"'. $opt_attr . $checked.' />
-             <label for="'. $opt_id .'">'. $opt_name .'</label>';
+      $s .= '<input type="checkbox" name="' . $name . '[' . $opt_value . ']" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />
+             <label for="' . $opt_id . '">' . $opt_name . '</label>';
     }
     return $s;
   }

@@ -36,8 +36,8 @@ class rex_dir_iterator extends RecursiveFilterIterator
   /**
    * Ignores directories
    *
-   * @param string|array $dirnames Directory name or an array of directory names
-   * @param boolean $recursive When FALSE the dirnames won't be checked in child directories
+   * @param string|array $dirnames  Directory name or an array of directory names
+   * @param boolean      $recursive When FALSE the dirnames won't be checked in child directories
    * @return rex_dir_iterator The current iterator
    */
   public function ignoreDirs($dirnames = self::ALL, $recursive = true)
@@ -52,7 +52,7 @@ class rex_dir_iterator extends RecursiveFilterIterator
    * Ignores files
    *
    * @param string|array $filenames Filename or an array of filenames
-   * @param boolean $recursive When FALSE the filenames won't be checked in child directories
+   * @param boolean      $recursive When FALSE the filenames won't be checked in child directories
    * @return rex_dir_iterator The current iterator
    */
   public function ignoreFiles($filenames = self::ALL, $recursive = true)
@@ -66,8 +66,8 @@ class rex_dir_iterator extends RecursiveFilterIterator
   /**
    * Ignores directories and files by prefixes
    *
-   * @param string|array $prefixes A prefix or an array of prefixes
-   * @param boolean $recursive When FALSE the prefixes won't be checked in child directories
+   * @param string|array $prefixes  A prefix or an array of prefixes
+   * @param boolean      $recursive When FALSE the prefixes won't be checked in child directories
    * @return rex_dir_iterator The current iterator
    */
   public function ignorePrefixes($prefixes, $recursive = true)
@@ -81,8 +81,8 @@ class rex_dir_iterator extends RecursiveFilterIterator
   /**
    * Ignores directories and files by suffixes
    *
-   * @param string|array $suffixes A suffix or an array of suffixes
-   * @param boolean $recursive When FALSE the suffixes won't be checked in child directories
+   * @param string|array $suffixes  A suffix or an array of suffixes
+   * @param boolean      $recursive When FALSE the suffixes won't be checked in child directories
    * @return rex_dir_iterator The current iterator
    */
   public function ignoreSuffixes($suffixes, $recursive = true)
@@ -94,10 +94,10 @@ class rex_dir_iterator extends RecursiveFilterIterator
   }
 
   /**
-  * Ignores system stuff (like .DS_Store, .svn, .git etc.)
-  *
-  * @return rex_dir_iterator The current iterator
-  */
+   * Ignores system stuff (like .DS_Store, .svn, .git etc.)
+   *
+   * @return rex_dir_iterator The current iterator
+   */
   public function ignoreSystemStuff()
   {
     $this->ignoreSystemStuff = true;
@@ -124,20 +124,16 @@ class rex_dir_iterator extends RecursiveFilterIterator
     /* @var $iterator self */
     $iterator = parent::getChildren();
 
-    if($this->ignoreDirsRecursive)
-    {
+    if ($this->ignoreDirsRecursive) {
       $iterator->ignoreDirs($this->ignoreDirs, true);
     }
-    if($this->ignoreFilesRecursive)
-    {
+    if ($this->ignoreFilesRecursive) {
       $iterator->ignoreFiles($this->ignoreFiles, true);
     }
-    if($this->ignorePrefixesRecursive)
-    {
+    if ($this->ignorePrefixesRecursive) {
       $iterator->ignorePrefixes($this->ignorePrefixes, true);
     }
-    if($this->ignoreSuffixesRecursive)
-    {
+    if ($this->ignoreSuffixesRecursive) {
       $iterator->ignoreSuffixes($this->ignoreSuffixes, true);
     }
     $iterator->ignoreSystemStuff = $this->ignoreSystemStuff;
@@ -154,52 +150,39 @@ class rex_dir_iterator extends RecursiveFilterIterator
     $current = parent::current();
     $filename = $current->getFilename();
 
-    if($current->isDir())
-    {
-      if($this->ignoreDirs == self::ALL)
-      {
+    if ($current->isDir()) {
+      if ($this->ignoreDirs == self::ALL) {
         return false;
       }
-      if(in_array($filename, $this->ignoreDirs))
-      {
+      if (in_array($filename, $this->ignoreDirs)) {
         return false;
       }
     }
 
-    if($current->isFile())
-    {
-      if($this->ignoreFiles == self::ALL)
-      {
+    if ($current->isFile()) {
+      if ($this->ignoreFiles == self::ALL) {
         return false;
       }
-      if(in_array($filename, $this->ignoreFiles))
-      {
+      if (in_array($filename, $this->ignoreFiles)) {
         return false;
       }
     }
 
-    foreach($this->ignorePrefixes as $prefix)
-    {
-      if(strpos($filename, $prefix) === 0)
-      {
+    foreach ($this->ignorePrefixes as $prefix) {
+      if (strpos($filename, $prefix) === 0) {
         return false;
       }
     }
 
-    foreach($this->ignoreSuffixes as $suffix)
-    {
-      if(substr($filename, strlen($filename) - strlen($suffix)) == $suffix)
-      {
+    foreach ($this->ignoreSuffixes as $suffix) {
+      if (substr($filename, strlen($filename) - strlen($suffix)) == $suffix) {
         return false;
       }
     }
 
-    if($this->ignoreSystemStuff)
-    {
-      foreach(self::$systemStuff as $systemStuff)
-      {
-        if(stripos($filename, $systemStuff) === 0)
-        {
+    if ($this->ignoreSystemStuff) {
+      foreach (self::$systemStuff as $systemStuff) {
+        if (stripos($filename, $systemStuff) === 0) {
           return false;
         }
       }
