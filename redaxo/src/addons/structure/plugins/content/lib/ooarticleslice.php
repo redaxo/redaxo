@@ -11,6 +11,7 @@
  * @package redaxo5
  */
 
+// @codingStandardsIgnoreName
 class rex_ooArticleSlice
 {
   private

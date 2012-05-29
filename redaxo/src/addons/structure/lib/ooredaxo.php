@@ -5,6 +5,7 @@
  * @package redaxo5
  */
 
+// @codingStandardsIgnoreName
 abstract class rex_ooRedaxo
 {
   /*

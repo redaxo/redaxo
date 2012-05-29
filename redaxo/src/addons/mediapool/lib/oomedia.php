@@ -6,6 +6,7 @@
  * @package redaxo5
  */
 
+// @codingStandardsIgnoreName
 class rex_ooMedia
 {
   // id
