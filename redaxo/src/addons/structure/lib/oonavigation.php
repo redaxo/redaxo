@@ -31,6 +31,7 @@
  * $nav->showBreadcrumb(true);
  */
 
+// @codingStandardsIgnoreName
 class rex_ooNavigation extends rex_factory_base
 {
   private

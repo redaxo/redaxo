@@ -55,6 +55,7 @@ class rex_stream
   /**
    * @link http://www.php.net/manual/en/streamwrapper.stream-open.php
    */
+  // @codingStandardsIgnoreName
   public function stream_open($path, $mode, $options, &$opened_path)
   {
     if (!isset(self::$nextContent[$path]) || !is_string(self::$nextContent[$path])) {
@@ -71,6 +72,7 @@ class rex_stream
   /**
    * @link http://www.php.net/manual/en/streamwrapper.stream-read.php
    */
+  // @codingStandardsIgnoreName
   public function stream_read($count)
   {
     $ret = substr($this->content, $this->position, $count);
@@ -81,6 +83,7 @@ class rex_stream
   /**
    * @link http://www.php.net/manual/en/streamwrapper.stream-eof.php
    */
+  // @codingStandardsIgnoreName
   public function stream_eof()
   {
     return $this->position >= strlen($this->content);
@@ -89,6 +92,7 @@ class rex_stream
   /**
    * @link http://www.php.net/manual/en/streamwrapper.stream-stat.php
    */
+  // @codingStandardsIgnoreName
   public function stream_stat()
   {
     return null;
@@ -97,6 +101,7 @@ class rex_stream
   /**
    * @link http://www.php.net/manual/en/streamwrapper.url-stat.php
    */
+  // @codingStandardsIgnoreName
   public function url_stat()
   {
     return null;

@@ -5,6 +5,7 @@
  * @package redaxo5
  */
 
+// @codingStandardsIgnoreName
 class rex_ooCategory extends rex_ooRedaxo
 {
   public function __construct($params = false, $clang = false)
