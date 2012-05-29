@@ -10,7 +10,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     rex_file::put($this->getPath('file2.txt'), '');
     rex_file::put($this->getPath('dir1/file3.txt'), '');
     rex_file::put($this->getPath('dir2/file4.yml'), '');
-    rex_file::put($this->getPath('dir2/dir3/file5.xxx'), '');
+    rex_file::put($this->getPath('dir2/dir3/file5.xy'), '');
     rex_dir::create($this->getPath('dir1/dir'));
     rex_dir::create($this->getPath('dir3'));
   }
@@ -60,7 +60,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $this->assertContainsPath($array, 'dir2');
     $this->assertContainsPath($array, 'dir2/dir3');
     $this->assertContainsPath($array, 'dir2/file4.yml');
-    $this->assertContainsPath($array, 'dir2/dir3/file5.xxx');
+    $this->assertContainsPath($array, 'dir2/dir3/file5.xy');
     $this->assertContainsPath($array, 'dir3');
   }
 
@@ -93,7 +93,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $this->assertContainsPath($array, 'dir2');
     $this->assertContainsPath($array, 'dir2/dir3');
     $this->assertContainsPath($array, 'dir2/file4.yml');
-    $this->assertContainsPath($array, 'dir2/dir3/file5.xxx');
+    $this->assertContainsPath($array, 'dir2/dir3/file5.xy');
     $this->assertContainsPath($array, 'dir3');
   }
 
@@ -109,7 +109,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $this->assertContainsPath($array, 'dir1/file3.txt');
     $this->assertContainsPath($array, 'dir2/dir3');
     $this->assertContainsPath($array, 'dir2/file4.yml');
-    $this->assertContainsPath($array, 'dir2/dir3/file5.xxx');
+    $this->assertContainsPath($array, 'dir2/dir3/file5.xy');
     $this->assertContainsPath($array, 'dir3');
   }
 
@@ -127,12 +127,12 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $this->assertContainsPath($array, 'dir1/file3.txt');
     $this->assertContainsPath($array, 'dir2');
     $this->assertContainsPath($array, 'dir2/file4.yml');
-    $this->assertContainsPath($array, 'dir2/dir3/file5.xxx');
+    $this->assertContainsPath($array, 'dir2/dir3/file5.xy');
 
   }
   public function testFilterFilesIgnoreDirs()
   {
-    $finder = rex_finder::factory($this->getPath())->recursive()->ignoreFiles('xxx')->ignoreDirs('*3');
+    $finder = rex_finder::factory($this->getPath())->recursive()->ignoreFiles('xy')->ignoreDirs('*3');
     $array = iterator_to_array($finder, true);
 
     $this->assertEquals(8, count($finder), 'finder returns all elements of all levels but ignores a filepattern and dirs');
@@ -144,7 +144,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $this->assertContainsPath($array, 'dir1/file3.txt');
     $this->assertContainsPath($array, 'dir2');
     $this->assertContainsPath($array, 'dir2/file4.yml');
-    $this->assertContainsPath($array, 'dir2/dir3/file5.xxx');
+    $this->assertContainsPath($array, 'dir2/dir3/file5.xy');
   }
 
   public function testSort()
@@ -190,7 +190,7 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     $this->assertContainsPath($array, 'file2.txt');
     $this->assertContainsPath($array, 'dir1/file3.txt');
     $this->assertContainsPath($array, 'dir2/file4.yml');
-    $this->assertContainsPath($array, 'dir2/dir3/file5.xxx');
+    $this->assertContainsPath($array, 'dir2/dir3/file5.xy');
   }
 
   public function testDirsOnly()
