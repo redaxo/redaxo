@@ -301,6 +301,12 @@ class rex_finder_filter extends FilterIterator
     $current = parent::current();
     $filename = $current->getFilename();
 
+    $matched = true;
+
+    // check fast filters
+    if ($this->filesOnly && !$current->isFile()) return false;
+    if ($this->dirsOnly && !$current->isDir()) return false;
+
     // check for system ignore
     if($this->ignoreSystemStuff)
     {
@@ -313,36 +319,67 @@ class rex_finder_filter extends FilterIterator
       }
     }
 
-    // check the blacklist
-    $ignores = $current->isDir() ? $this->ignoreDirs : $this->ignoreFiles;
-    foreach($ignores as $ignore)
+
+    // check the blacklists
+    if($this->ignoreDirs)
     {
-      if(fnmatch($ignore, $filename))
+      $path = $current->isDir() ? $this->getSubPathname() : $this->getSubPath();
+      $path = '/'. strtr($path, '\\', '/') .'/';
+
+      foreach($this->ignoreDirs as $ignore)
       {
-        return false;
+        $ignore = '*/'. $ignore . '/*';
+//         var_dump($ignore . ' ignores '. $path . ':'. (fnmatch($ignore, $path) ? '1' : '0'));
+        if(fnmatch($ignore, $path))
+        {
+          return false;
+        }
       }
     }
 
-    // check fast filters
-    if ($this->filesOnly && !$current->isFile()) return false;
-    if ($this->dirsOnly && !$current->isDir()) return false;
-
-    $matched = true;
-    // check the whitelist
-    $filters = $current->isDir() ? $this->filterDirs : $this->filterFiles;
-    if($filters)
-    {
-      $matched = false;
-      foreach($filters as $filter)
+    if($current->isFile() && $this->ignoreFiles) {
+      foreach($this->ignoreFiles as $ignore)
       {
-        if(fnmatch($filter, $filename))
+        if(fnmatch($ignore, $filename))
+        {
+          return false;
+        }
+      }
+    }
+
+    // check the whitelist
+    if($this->filterDirs)
+    {
+	    $matched = false;
+
+      $path = $current->isDir() ? $this->getSubPathname() : $this->getSubPath();
+      $path = '/'. strtr($path, '\\', '/') .'/';
+
+      foreach($this->filterDirs as $filter)
+      {
+        $filter = '*/'. $filter . '/*';
+//         var_dump($filter . ' matches '. $path . ':'. (fnmatch($filter, $path) ? '1' : '0'));
+        if(fnmatch($filter, $path))
         {
           return true;
         }
       }
     }
 
-    // in case ignores are present, everything despite the ignores is accepted, otherwise declined.
+    if($this->filterFiles) {
+	    $matched = false;
+
+	    if($current->isFile()) {
+        foreach($this->filterFiles as $filter)
+        {
+          if(fnmatch($filter, $filename))
+          {
+            return true;
+          }
+        }
+	    }
+    }
+
     return $matched;
   }
 }
