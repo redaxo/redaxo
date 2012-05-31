@@ -31,24 +31,19 @@ class rex_var_article extends rex_var
     $field = $this->getArg('field');
 
     $noId = $id == 0;
-    if($noId)
-    {
+    if ($noId) {
       $id = '$this->getValue(\'id\')';
     }
 
-    if($field)
-    {
-      return __CLASS__ .'::getArticleValue('. $id .', '. $field .', '. $clang .')';
-    }
-    elseif(!$noId || $this->getContext() != 'module')
-    {
+    if ($field) {
+      return __CLASS__ . '::getArticleValue(' . $id . ', ' . $field . ', ' . $clang . ')';
+    } elseif (!$noId || $this->getContext() != 'module') {
       // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
       // => endlossschleife
-      if($noId && $clang == 'null')
-      {
-        return '$this->getArticle('. $ctype .')';
+      if ($noId && $clang == 'null') {
+        return '$this->getArticle(' . $ctype . ')';
       }
-      return __CLASS__ .'::getArticle('. $id .', '. $ctype .', '. $clang .')';
+      return __CLASS__ . '::getArticle(' . $id . ', ' . $ctype . ', ' . $clang . ')';
     }
 
     return false;
@@ -56,8 +51,7 @@ class rex_var_article extends rex_var
 
   static public function getArticleValue($id, $field, $clang = null)
   {
-    if($clang === null)
-    {
+    if ($clang === null) {
       $clang = rex_clang::getId();
     }
     $article = rex_ooArticle::getArticleById($id, $clang);
@@ -66,8 +60,7 @@ class rex_var_article extends rex_var
 
   static public function getArticle($id, $ctype = -1, $clang = null)
   {
-    if($clang === null)
-    {
+    if ($clang === null) {
       $clang = rex_clang::getId();
     }
     $article = new rex_article($id, $clang);

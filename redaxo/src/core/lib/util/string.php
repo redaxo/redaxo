@@ -32,8 +32,7 @@ class rex_string
   static public function split($string)
   {
     $string = trim($string);
-    if(empty($string))
-    {
+    if (empty($string)) {
       return array();
     }
     $result = array();
@@ -41,25 +40,20 @@ class rex_string
     $quoted = array();
 
     $pattern = '@(["\'])((?:.*[^\\\\])?(?:\\\\\\\\)*)\\1@Us';
-    $callback = function($match) use($spacer, &$quoted)
-    {
-      $quoted[] = strtr($match[2], array('\\'.$match[1] => $match[1], '\\\\' => '\\'));
+    $callback = function ($match) use ($spacer, &$quoted) {
+      $quoted[] = strtr($match[2], array('\\' . $match[1] => $match[1], '\\\\' => '\\'));
       return $spacer;
     };
     $string = preg_replace_callback($pattern, $callback, $string);
 
     $parts = preg_split('@\s+@', $string);
     $i = 0;
-    foreach($parts as $part)
-    {
+    foreach ($parts as $part) {
       $part = explode('=', $part, 2);
-      if(isset($part[1]))
-      {
+      if (isset($part[1])) {
         $value = $part[1] == $spacer ? $quoted[$i++] : $part[1];
         $result[$part[0]] = $value;
-      }
-      else
-      {
+      } else {
         $value = $part[0] == $spacer ? $quoted[$i++] : $part[0];
         $result[] = $value;
       }

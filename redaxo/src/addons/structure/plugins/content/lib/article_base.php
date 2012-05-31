@@ -429,16 +429,12 @@ class rex_article_base
 
     $REX_ACTION = rex_plugin::get('structure', 'content')->getProperty('rex_action', array());
 
-    if($this->mode == 'edit')
-    {
+    if ($this->mode == 'edit') {
       $env = rex_var::BACKEND;
-      if (($this->function == 'add' && $sliceId == null) || ($this->function == 'edit' && $sliceId == $this->slice_id))
-      {
+      if (($this->function == 'add' && $sliceId == null) || ($this->function == 'edit' && $sliceId == $this->slice_id)) {
         $env = $env | rex_var::INPUT;
       }
-    }
-    else
-    {
+    } else {
       $env = rex_var::FRONTEND;
     }
     $content = rex_var::parse($content, $env, 'module');

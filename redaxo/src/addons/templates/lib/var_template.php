@@ -12,9 +12,8 @@ class rex_var_template extends rex_var
   {
     $template_id = $this->getArg('id', 0, true);
 
-    if($template_id > 0)
-    {
-      return __CLASS__ .'::getTemplateOutput(require '. __CLASS__ .'::getTemplateStream('. $template_id .', $this))';
+    if ($template_id > 0) {
+      return __CLASS__ . '::getTemplateOutput(require ' . __CLASS__ . '::getTemplateStream(' . $template_id . ', $this))';
     }
 
     return false;
@@ -25,11 +24,10 @@ class rex_var_template extends rex_var
     ob_start();
     $tmpl = new rex_template($id);
     $tmpl = $tmpl->getTemplate();
-    if($article)
-    {
+    if ($article) {
       $tmpl = $article->replaceCommonVars($tmpl, $id);
     }
-    return rex_stream::factory('template/'. $id, $tmpl);
+    return rex_stream::factory('template/' . $id, $tmpl);
   }
 
   static public function getTemplateOutput()

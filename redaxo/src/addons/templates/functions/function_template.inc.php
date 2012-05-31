@@ -19,13 +19,10 @@ function rex_generateTemplate($template_id)
 
     $content = $sql->getValue('content');
     $content = rex_var::parse($content, rex_var::FRONTEND, 'template');
-    if(rex_file::put($templateFile, $content) !== FALSE)
-    {
-      return TRUE;
-    }
-    else
-    {
-      trigger_error('Unable to generate template '. $template_id .'!', E_USER_ERROR);
+    if (rex_file::put($templateFile, $content) !== false) {
+      return true;
+    } else {
+      trigger_error('Unable to generate template ' . $template_id . '!', E_USER_ERROR);
 
       if (!is_writable())
         trigger_error('directory "' . $templatesDir . '" is not writable!', E_USER_ERROR);

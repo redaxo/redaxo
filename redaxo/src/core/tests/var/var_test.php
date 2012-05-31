@@ -68,7 +68,7 @@ EOT
       array(<<<'EOT'
 <?php echo 'REX_TEST_VAR[content="a \'b\' \"c\" \ \\ \\\[d\]"]';
 EOT
-    	, 'a \'b\' "c" \ \ \[d]'),
+      , 'a \'b\' "c" \ \ \[d]'),
 
       array(<<<'EOT'
 <?php echo 'REX_TEST_VAR[content=\'REX_TEST_VAR[content="a \\\'b\\\' \"c\" \ \\ \\\[d\]"]\']';
