@@ -10,23 +10,22 @@ class rex_dir
   /**
    * Creates a directory
    *
-   * @param string $dir Path of the new directory
+   * @param string  $dir       Path of the new directory
    * @param boolean $recursive When FALSE, nested directories won't be created
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function create($dir, $recursive = true)
   {
-    if(is_dir($dir))
+    if (is_dir($dir))
       return true;
 
     $parent = dirname($dir);
-    if(!is_dir($parent) && (!$recursive || !self::create($parent)))
+    if (!is_dir($parent) && (!$recursive || !self::create($parent)))
       return false;
 
     // file_exists($parent .'/.') checks if the parent directory has the executable permission
     // is_executable($directory) does not work on all systems
-    if(is_writable($parent) && file_exists($parent .'/.') && mkdir($dir, rex::getDirPerm()))
-    {
+    if (is_writable($parent) && file_exists($parent . '/.') && mkdir($dir, rex::getDirPerm())) {
       @chmod($dir, rex::getDirPerm());
       return true;
     }
@@ -43,7 +42,7 @@ class rex_dir
   static public function isWritable($dir)
   {
     $dir = rtrim($dir, DIRECTORY_SEPARATOR);
-    return @is_dir($dir) && @is_writable($dir .DIRECTORY_SEPARATOR .'.');
+    return @is_dir($dir) && @is_writable($dir . DIRECTORY_SEPARATOR . '.');
   }
 
   /**
@@ -58,22 +57,17 @@ class rex_dir
     $srcdir = rtrim($srcdir, DIRECTORY_SEPARATOR);
     $dstdir = rtrim($dstdir, DIRECTORY_SEPARATOR);
 
-    if(!self::create($dstdir))
-    {
+    if (!self::create($dstdir)) {
       return false;
     }
 
-    $state = TRUE;
+    $state = true;
 
-    foreach(self::recursiveIterator($srcdir, rex_dir_recursive_iterator::SELF_FIRST) as $srcfilepath => $srcfile)
-    {
+    foreach (self::recursiveIterator($srcdir, rex_dir_recursive_iterator::SELF_FIRST) as $srcfilepath => $srcfile) {
       $dstfile = $dstdir . substr($srcfilepath, strlen($srcdir));
-      if($srcfile->isDir())
-      {
+      if ($srcfile->isDir()) {
         $state = self::create($dstfile) && $state;
-      }
-      elseif(!file_exists($dstfile) || $srcfile->getMTime() > filemtime($dstfile))
-      {
+      } elseif (!file_exists($dstfile) || $srcfile->getMTime() > filemtime($dstfile)) {
         $state = rex_file::copy($srcfilepath, $dstfile) && $state;
       }
     }
@@ -84,7 +78,7 @@ class rex_dir
   /**
    * Deletes a directory
    *
-   * @param string $dir Path of the directory
+   * @param string  $dir        Path of the directory
    * @param boolean $deleteSelf When FALSE, only subdirectories and files will be deleted
    * @return boolean TRUE on success, FALSE on failure
    */
@@ -96,7 +90,7 @@ class rex_dir
   /**
    * Deletes the files in a directory
    *
-   * @param string $dir Path of the directory
+   * @param string  $dir       Path of the directory
    * @param boolean $recursive When FALSE, files in subdirectories won't be deleted
    * @return boolean TRUE on success, FALSE on failure
    */
@@ -109,22 +103,18 @@ class rex_dir
   /**
    * Deletes files and directories by a rex_dir_iterator
    *
-   * @param Traversable $iterator Iterator, $iterator->current() must return a SplFileInfo-Object
-   * @param boolean $deleteDirs When FALSE, directories won't be deleted
+   * @param Traversable $iterator   Iterator, $iterator->current() must return a SplFileInfo-Object
+   * @param boolean     $deleteDirs When FALSE, directories won't be deleted
    * @return boolean TRUE on success, FALSE on failure
    */
   static public function deleteIterator(Traversable $iterator, $deleteDirs = true)
   {
     $state = true;
 
-    foreach($iterator as $file)
-    {
-      if($file->isDir())
-      {
+    foreach ($iterator as $file) {
+      if ($file->isDir()) {
         $state = (!$deleteDirs || rmdir($file)) && $state;
-      }
-      else
-      {
+      } else {
         $state = rex_file::delete($file) && $state;
       }
     }
@@ -147,8 +137,8 @@ class rex_dir
   /**
    * Returns a recursive iterator for a directory
    *
-   * @param string $dir Path of the directory
-   * @param int $mode Mode, see {@link http://www.php.net/manual/en/recursiveiteratoriterator.construct.php}
+   * @param string $dir  Path of the directory
+   * @param int    $mode Mode, see {@link http://www.php.net/manual/en/recursiveiteratoriterator.construct.php}
    * @return rex_dir_iterator
    * @see rex_dir_iterator
    */

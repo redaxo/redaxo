@@ -12,11 +12,9 @@
 $mypage = 'rss_reader';
 
 // im backend und eingeloggt?
-if(rex::isBackend() && rex::getUser())
-{
-  if(rex_request('page', 'string') == 'be_dashboard')
-  {
-    require_once dirname(__FILE__) .'/functions/function_reader.inc.php';
+if (rex::isBackend() && rex::getUser()) {
+  if (rex_request('page', 'string') == 'be_dashboard') {
+    require_once dirname(__FILE__) . '/functions/function_reader.inc.php';
 
     rex_extension::register(
       'DASHBOARD_COMPONENT',

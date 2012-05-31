@@ -9,11 +9,11 @@ class sql extends rex_sql
 {
   protected $select;
 
-  function __construct($DBID = 1)
+  public function __construct($DBID = 1)
   {
     parent::__construct($DBID);
     // Altes feld wurde umbenannt, deshalb hier als Alias speichern
-    $this->select =& $this->query;
+    $this->select = & $this->query;
   }
 
   /**
@@ -21,7 +21,7 @@ class sql extends rex_sql
    *
    * @deprecated 4.0
    */
-  function get_array($sql = "", $fetch_type = MYSQL_ASSOC)
+  public function get_array($sql = '', $fetch_type = MYSQL_ASSOC)
   {
     return $this->getArray($sql, $fetch_type);
   }
@@ -31,7 +31,7 @@ class sql extends rex_sql
    *
    * @deprecated 4.0
    */
-  function getLastID()
+  public function getLastID()
   {
     return $this->getLastId();
   }
@@ -41,7 +41,7 @@ class sql extends rex_sql
    *
    * @deprecated 4.0
    */
-  function nextValue()
+  public function nextValue()
   {
     $this->next();
   }
@@ -51,7 +51,7 @@ class sql extends rex_sql
    *
    * @deprecated 4.0
    */
-  function resetCounter()
+  public function resetCounter()
   {
     $this->reset();
   }
@@ -61,7 +61,7 @@ class sql extends rex_sql
    *
    * @deprecated 4.0
    */
-  function where($where)
+  public function where($where)
   {
     $this->setWhere($where);
   }
@@ -71,7 +71,7 @@ class sql extends rex_sql
    *
    * @deprecated 4.0
    */
-  function query($qry)
+  public function query($qry)
   {
     return $this->setQuery($qry);
   }

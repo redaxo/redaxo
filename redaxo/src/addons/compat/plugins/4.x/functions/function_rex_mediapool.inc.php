@@ -15,7 +15,7 @@ function rex_medienpool_filename($FILENAME, $doSubindexing = true)
  *
  * @deprecated 4.2
  */
-function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin = null, $doSubindexing = TRUE)
+function rex_medienpool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin = null, $doSubindexing = true)
 {
   return rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin, $doSubindexing);
 }
@@ -35,9 +35,9 @@ function rex_medienpool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
  *
  * @deprecated 4.2
  */
-function rex_medienpool_syncFile($physical_filename,$category_id,$title,$filesize = null, $filetype = null, $doSubindexing = FALSE)
+function rex_medienpool_syncFile($physical_filename, $category_id, $title, $filesize = null, $filetype = null, $doSubindexing = false)
 {
-  return rex_mediapool_syncFile($physical_filename,$category_id,$title,$filesize, $filetype, $doSubindexing);
+  return rex_mediapool_syncFile($physical_filename, $category_id, $title, $filesize, $filetype, $doSubindexing);
 }
 
 /**
@@ -99,17 +99,16 @@ function rex_mediapool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids,
 {
   global $REX;
 
-  if(empty($mediacat)) return;
+  if (empty($mediacat)) return;
 
   $mname = $mediacat->getName();
-  if(rex::getUser()->hasPerm('advancedMode[]'))
-    $mname .= ' ['. $mediacat->getId() .']';
+  if (rex::getUser()->hasPerm('advancedMode[]'))
+    $mname .= ' [' . $mediacat->getId() . ']';
 
   $mediacat_ids[] = $mediacat->getId();
-  $select->addOption($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
+  $select->addOption($mname, $mediacat->getId(), $mediacat->getId(), $mediacat->getParentId());
   $childs = $mediacat->getChildren();
-  if (is_array($childs))
-  {
+  if (is_array($childs)) {
     foreach ( $childs as $child) {
       rex_mediapool_addMediacatOptions( $select, $child, $mediacat_ids, $mname);
     }
@@ -125,19 +124,18 @@ function rex_mediapool_addMediacatOptionsWPerm( &$select, &$mediacat, &$mediacat
 {
   global $PERMALL, $REX;
 
-  if(empty($mediacat)) return;
+  if (empty($mediacat)) return;
 
   $mname = $mediacat->getName();
-  if(rex::getUser()->hasPerm('advancedMode[]'))
-    $mname .= ' ['. $mediacat->getId() .']';
+  if (rex::getUser()->hasPerm('advancedMode[]'))
+    $mname .= ' [' . $mediacat->getId() . ']';
 
   $mediacat_ids[] = $mediacat->getId();
   if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId()))
-    $select->addOption($mname,$mediacat->getId(), $mediacat->getId(),$mediacat->getParentId());
+    $select->addOption($mname, $mediacat->getId(), $mediacat->getId(), $mediacat->getParentId());
 
   $childs = $mediacat->getChildren();
-  if (is_array($childs))
-  {
+  if (is_array($childs)) {
     foreach ( $childs as $child) {
       rex_mediapool_addMediacatOptionsWPerm( $select, $child, $mediacat_ids, $mname);
     }

@@ -11,19 +11,17 @@
 $mypage = 'linkmap';
 
 //---------------- linkmap
-if (rex::isBackend())
-{
+if (rex::isBackend()) {
   $page = new rex_be_page_popup(rex_i18n::msg('linkmap'), '', array('page' => 'linkmap'));
   $page->setHidden(true);
   $page->setRequiredPermissions('structure/hasStructurePerm');
 
   $this->setProperty('page', new rex_be_page_main('system', $page));
 
-  if(rex::getUser())
-  {
-    rex_extension::register('PAGE_HEADER', function($params){
-      $params['subject'] .= "\n  ".
-        '<script type="text/javascript" src="'. rex_path::pluginAssets('structure', 'linkmap', 'linkmap.js') .'"></script>';
+  if (rex::getUser()) {
+    rex_extension::register('PAGE_HEADER', function ($params) {
+      $params['subject'] .= "\n  " .
+        '<script type="text/javascript" src="' . rex_path::pluginAssets('structure', 'linkmap', 'linkmap.js') . '"></script>';
 
       return $params['subject'];
     });
@@ -31,9 +29,8 @@ if (rex::isBackend())
 }
 
 //---------------- tree
-if (rex::isBackend() && rex::getUser())
-{
-  rex_extension::register('PAGE_SIDEBAR', function($params){
+if (rex::isBackend() && rex::getUser()) {
+  rex_extension::register('PAGE_SIDEBAR', function ($params) {
 
     $category_id = rex_request('category_id', 'int');
     $article_id  = rex_request('article_id',  'int');

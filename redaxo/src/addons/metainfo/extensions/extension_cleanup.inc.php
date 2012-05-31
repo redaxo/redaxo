@@ -17,29 +17,26 @@ rex_extension::register('A1_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
 function rex_metainfo_cleanup($params)
 {
   // Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
-  if(isset($params['force']) && $params['force'] != true &&
-     strpos($params['content'], 'CREATE TABLE `'. rex::getTablePrefix() .'article`') === false &&
-     strpos($params['content'], 'CREATE TABLE '. rex::getTablePrefix() .'article') === false)
-  {
+  if (isset($params['force']) && $params['force'] != true &&
+     strpos($params['content'], 'CREATE TABLE `' . rex::getTablePrefix() . 'article`') === false &&
+     strpos($params['content'], 'CREATE TABLE ' . rex::getTablePrefix() . 'article') === false) {
     return;
   }
 
   // check wheter tables exists
   $tables = rex_sql::showTables();
-  if(!isset($tables[rex::getTablePrefix() . 'metainfo_params']))
-  {
+  if (!isset($tables[rex::getTablePrefix() . 'metainfo_params'])) {
     return false;
   }
 
   // since this extension may be used also when the addon is not yet installed,
   // require needed classes manually
-  require_once dirname(__FILE__) .'/../lib/table_manager.php';
+  require_once dirname(__FILE__) . '/../lib/table_manager.php';
 
   $sql = rex_sql::factory();
   $sql->setQuery('SELECT name FROM ' . rex::getTablePrefix() . 'metainfo_params');
 
-  for ($i = 0; $i < $sql->getRows(); $i++)
-  {
+  for ($i = 0; $i < $sql->getRows(); $i++) {
     if (substr($sql->getValue('name'), 0, 4) == 'med_')
       $tableManager = new rex_metainfo_table_manager(rex::getTablePrefix() . 'media');
     else
@@ -53,21 +50,18 @@ function rex_metainfo_cleanup($params)
 
   // evtl reste aufräumen
   $tablePrefixes = array('article' => array('art_', 'cat_'), 'media' => array('med_'));
-  foreach($tablePrefixes as $table => $prefixes)
-  {
-    $table = rex::getTablePrefix() .$table;
+  foreach ($tablePrefixes as $table => $prefixes) {
+    $table = rex::getTablePrefix() . $table;
     $tableManager = new rex_metainfo_table_manager($table);
 
-    foreach(rex_sql::showColumns($table) as $column)
-    {
+    foreach (rex_sql::showColumns($table) as $column) {
       $column = $column['name'];
-      if(in_array(substr($column, 0, 4), $prefixes))
-      {
+      if (in_array(substr($column, 0, 4), $prefixes)) {
         $tableManager->deleteColumn($column);
       }
     }
   }
 
   $sql = rex_sql::factory();
-  $sql->setQuery('DELETE FROM '. rex::getTablePrefix() .'metainfo_params');
+  $sql->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'metainfo_params');
 }

@@ -46,48 +46,40 @@ class rex_effect_mirror extends rex_effect_abstract
     $w = $this->media->getWidth();
     $h = $this->media->getHeight();
 
-    if(substr(trim($this->params['height']), -1) === '%')
-    {
+    if (substr(trim($this->params['height']), -1) === '%') {
       $this->params['height'] = round($h * (rtrim($this->params['height'], '%') / 100));
-    }else
-    {
+    } else {
       $this->params['height'] = (int) $this->params['height'];
     }
-    if($this->params['height']<1)
-    {
-      $this->params['height'] = round($h/2);
+    if ($this->params['height'] < 1) {
+      $this->params['height'] = round($h / 2);
     }
 
-    $this->params["bg_r"] = (int) $this->params["bg_r"];
-    if(!isset($this->params["bg_r"]) || $this->params["bg_r"]>255 || $this->params["bg_r"] <0 )
-    {
-      $this->params["bg_r"] = 255;
+    $this->params['bg_r'] = (int) $this->params['bg_r'];
+    if (!isset($this->params['bg_r']) || $this->params['bg_r'] > 255 || $this->params['bg_r'] < 0 ) {
+      $this->params['bg_r'] = 255;
     }
 
-    $this->params["bg_g"] = (int) $this->params["bg_g"];
-    if(!isset($this->params["bg_g"]) || $this->params["bg_g"]>255 || $this->params["bg_g"] <0 )
-    {
-      $this->params["bg_g"] = 255;
+    $this->params['bg_g'] = (int) $this->params['bg_g'];
+    if (!isset($this->params['bg_g']) || $this->params['bg_g'] > 255 || $this->params['bg_g'] < 0 ) {
+      $this->params['bg_g'] = 255;
     }
 
-    $this->params["bg_b"] = (int) $this->params["bg_b"];
-    if(!isset($this->params["bg_b"]) || $this->params["bg_b"]>255 || $this->params["bg_b"] <0 )
-    {
-      $this->params["bg_b"] = 255;
+    $this->params['bg_b'] = (int) $this->params['bg_b'];
+    if (!isset($this->params['bg_b']) || $this->params['bg_b'] > 255 || $this->params['bg_b'] < 0 ) {
+      $this->params['bg_b'] = 255;
     }
 
-    if($this->params["set_transparent"] != "colored")
-    {
-      $this->media->setFormat("PNG");
+    if ($this->params['set_transparent'] != 'colored') {
+      $this->media->setFormat('PNG');
     }
 
     $trans = false;
-    if($this->media->getFormat() == "PNG")
-    {
+    if ($this->media->getFormat() == 'PNG') {
       $trans = true;
     }
 
-    $gdimage = $this->imagereflection ( $gdimage, $this->params["height"], $trans, array ($this->params["bg_r"], $this->params["bg_g"], $this->params["bg_b"]) );
+    $gdimage = $this->imagereflection ( $gdimage, $this->params['height'], $trans, array ($this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']) );
     $this->media->setImage($gdimage);
     $this->media->refreshImageDimensions();
 
@@ -97,12 +89,12 @@ class rex_effect_mirror extends rex_effect_abstract
   {
     return array(
     array(
-        'label'=>rex_i18n::msg('media_manager_effect_mirror_height'),    // Length in Pixel or Prozent
+        'label' => rex_i18n::msg('media_manager_effect_mirror_height'),    // Length in Pixel or Prozent
         'name' => 'height',
         'type' => 'int',
     ),
     array(
-        'label'=>rex_i18n::msg('media_manager_effect_mirror_background_color'),
+        'label' => rex_i18n::msg('media_manager_effect_mirror_background_color'),
         'name' => 'set_transparent',
         'type' => 'select',
         'options' => array('colored', 'transparent / png24'),
@@ -111,24 +103,25 @@ class rex_effect_mirror extends rex_effect_abstract
     ),
 
     array(
-        'label'=>rex_i18n::msg('media_manager_effect_mirror_background_r'),
+        'label' => rex_i18n::msg('media_manager_effect_mirror_background_r'),
         'name' => 'bg_r',
         'type' => 'int',
     ),
     array(
-        'label'=>rex_i18n::msg('media_manager_effect_mirror_background_g'),
+        'label' => rex_i18n::msg('media_manager_effect_mirror_background_g'),
         'name' => 'bg_g',
         'type' => 'int',
     ),
     array(
-        'label'=>rex_i18n::msg('media_manager_effect_mirror_background_b'),
+        'label' => rex_i18n::msg('media_manager_effect_mirror_background_b'),
         'name' => 'bg_b',
         'type' => 'int',
     ),
     );
   }
 
-  private function imagereflection(&$src_img, $reflection_height = 50, $trans = FALSE, $bgcolor) {
+  private function imagereflection(&$src_img, $reflection_height = 50, $trans = false, $bgcolor)
+  {
 
     $src_height = imagesy($src_img);
     $src_width = imagesx($src_img);
@@ -136,12 +129,10 @@ class rex_effect_mirror extends rex_effect_abstract
     $dest_width = $src_width;
 
     $reflected = imagecreatetruecolor($dest_width, $dest_height);
-    if($trans)
-    {
+    if ($trans) {
       imagealphablending($reflected, false);
       imagesavealpha($reflected, true);
-    }else
-    {
+    } else {
       // und mit Hintergrundfarbe füllen
       imagefill($reflected, 0, 0, imagecolorallocate($reflected, $bgcolor[0], $bgcolor[1], $bgcolor[2]));
     }

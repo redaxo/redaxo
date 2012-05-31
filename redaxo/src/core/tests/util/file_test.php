@@ -18,7 +18,7 @@ class rex_file_test extends PHPUnit_Framework_TestCase
 
   private function getPath($file = '')
   {
-    return rex_path::addonData('tests', 'rex_file_test/'. $file);
+    return rex_path::addonData('tests', 'rex_file_test/' . $file);
   }
 
   public function testGetDefault()

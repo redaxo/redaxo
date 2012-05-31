@@ -21,7 +21,7 @@ class rex_path
   static public function init($htdocs, $backend)
   {
     self::$relBase = $htdocs;
-    self::$absBase = realpath($htdocs) .'/';
+    self::$absBase = realpath($htdocs) . '/';
     self::$backend = $backend;
   }
 
@@ -46,7 +46,7 @@ class rex_path
    */
   static public function frontendController($params = '')
   {
-    return self::relBase('index.php'. $params);
+    return self::relBase('index.php' . $params);
   }
 
   /**
@@ -54,7 +54,7 @@ class rex_path
    */
   static public function backend($file = '', $pathType = self::RELATIVE)
   {
-    return self::base(self::$backend .'/'. $file, $pathType);
+    return self::base(self::$backend . '/' . $file, $pathType);
   }
 
   /**
@@ -62,7 +62,7 @@ class rex_path
    */
   static public function backendController($params = '')
   {
-    return self::relBase(self::$backend .'/index.php'. $params);
+    return self::relBase(self::$backend . '/index.php' . $params);
   }
 
   /**
@@ -70,7 +70,7 @@ class rex_path
    */
   static public function media($file = '', $pathType = self::RELATIVE)
   {
-    return self::base('media/'. $file, $pathType);
+    return self::base('media/' . $file, $pathType);
   }
 
   /**
@@ -78,7 +78,7 @@ class rex_path
    */
   static public function assets($file = '', $pathType = self::RELATIVE)
   {
-    return self::base('assets/'. $file, $pathType);
+    return self::base('assets/' . $file, $pathType);
   }
 
   /**
@@ -88,7 +88,7 @@ class rex_path
    */
   static public function addonAssets($addon, $file = '', $pathType = self::RELATIVE)
   {
-    return self::assets('addons/'. $addon .'/'. $file, $pathType);
+    return self::assets('addons/' . $addon . '/' . $file, $pathType);
   }
 
   /**
@@ -98,7 +98,7 @@ class rex_path
    */
   static public function pluginAssets($addon, $plugin, $file = '', $pathType = self::RELATIVE)
   {
-    return self::addonAssets($addon, 'plugins/'. $plugin .'/'. $file, $pathType);
+    return self::addonAssets($addon, 'plugins/' . $plugin . '/' . $file, $pathType);
   }
 
   /**
@@ -106,7 +106,7 @@ class rex_path
    */
   static public function data($file = '')
   {
-    return self::absBase(self::$backend .'/data/'. $file);
+    return self::absBase(self::$backend . '/data/' . $file);
   }
 
   /**
@@ -114,7 +114,7 @@ class rex_path
    */
   static public function addonData($addon, $file = '')
   {
-    return self::data('addons/'. $addon .'/'. $file);
+    return self::data('addons/' . $addon . '/' . $file);
   }
 
   /**
@@ -122,7 +122,7 @@ class rex_path
    */
   static public function pluginData($addon, $plugin, $file = '')
   {
-    return self::addonData($addon, 'plugins/'. $plugin .'/'. $file);
+    return self::addonData($addon, 'plugins/' . $plugin . '/' . $file);
   }
 
   /**
@@ -130,7 +130,7 @@ class rex_path
    */
   static public function cache($file = '')
   {
-    return self::absBase(self::$backend .'/cache/'. $file);
+    return self::absBase(self::$backend . '/cache/' . $file);
   }
 
   /**
@@ -138,7 +138,7 @@ class rex_path
    */
   static public function addonCache($addon, $file = '')
   {
-    return self::cache('addons/'. $addon .'/'. $file);
+    return self::cache('addons/' . $addon . '/' . $file);
   }
 
   /**
@@ -146,7 +146,7 @@ class rex_path
    */
   static public function pluginCache($addon, $plugin, $file = '')
   {
-    return self::addonCache($addon, 'plugins/'. $plugin .'/'. $file);
+    return self::addonCache($addon, 'plugins/' . $plugin . '/' . $file);
   }
 
   /**
@@ -154,7 +154,7 @@ class rex_path
    */
   static public function src($file = '')
   {
-    return self::absBase(self::$backend .'/src/'. $file);
+    return self::absBase(self::$backend . '/src/' . $file);
   }
 
   /**
@@ -162,7 +162,7 @@ class rex_path
    */
   static public function core($file = '')
   {
-    return self::src('core/'. $file);
+    return self::src('core/' . $file);
   }
 
   /**
@@ -170,7 +170,7 @@ class rex_path
    */
   static public function addon($addon, $file = '')
   {
-    return self::src('addons/'. $addon .'/'. $file);
+    return self::src('addons/' . $addon . '/' . $file);
   }
 
   /**
@@ -178,7 +178,7 @@ class rex_path
    */
   static public function plugin($addon, $plugin, $file = '')
   {
-    return self::addon($addon, 'plugins/'. $plugin .'/'. $file);
+    return self::addon($addon, 'plugins/' . $plugin . '/' . $file);
   }
 
   /**
@@ -210,8 +210,7 @@ class rex_path
 
     // pfadtrenner vereinheitlichen
     $relPath = str_replace('\\', '/', $relPath);
-    foreach (explode('/', $relPath) as $dir)
-    {
+    foreach (explode('/', $relPath) as $dir) {
       // Aktuelles Verzeichnis, oder Ordner ohne Namen
       if ($dir == '.' || $dir == '')
         continue;

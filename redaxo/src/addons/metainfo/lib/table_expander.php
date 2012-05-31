@@ -40,19 +40,17 @@ class rex_metainfo_table_expander extends rex_form
     $select->setSize(1);
     $select->addOption(rex_i18n::msg('minfo_field_first_prior'), 1);
     // Im Edit Mode das Feld selbst nicht als Position einf�gen
-    $qry = 'SELECT name,prior FROM '. $this->tableName .' WHERE `name` LIKE "'. $this->metaPrefix .'%"';
-    if($this->isEditMode())
-    {
-      $qry .= ' AND field_id != '. $this->getParam('field_id');
+    $qry = 'SELECT name,prior FROM ' . $this->tableName . ' WHERE `name` LIKE "' . $this->metaPrefix . '%"';
+    if ($this->isEditMode()) {
+      $qry .= ' AND field_id != ' . $this->getParam('field_id');
     }
-    $qry .=' ORDER BY prior';
+    $qry .= ' ORDER BY prior';
     $sql = rex_sql::factory();
     $sql->setQuery($qry);
-    for($i = 0; $i < $sql->getRows(); $i++)
-    {
+    for ($i = 0; $i < $sql->getRows(); $i++) {
       $select->addOption(
         rex_i18n::msg('minfo_field_after_prior', $sql->getValue('name')),
-        $sql->getValue('prior')+1
+        $sql->getValue('prior') + 1
       );
       $sql->next();
     }
@@ -62,39 +60,35 @@ class rex_metainfo_table_expander extends rex_form
     $field->setNotice(rex_i18n::msg('minfo_field_notice_title'));
 
     $gq = rex_sql::factory();
-    $gq->setQuery('SELECT dbtype,id FROM '. rex::getTablePrefix() .'metainfo_type');
+    $gq->setQuery('SELECT dbtype,id FROM ' . rex::getTablePrefix() . 'metainfo_type');
     $textFields = array();
-    foreach($gq->getArray() as $f)
-    {
-      if($f["dbtype"] == "text")
-      {
+    foreach ($gq->getArray() as $f) {
+      if ($f['dbtype'] == 'text') {
       $textFields[$f['id']] = $f['id'];
       }
     }
 
     $field = $this->addSelectField('type');
     $field->setLabel(rex_i18n::msg('minfo_field_label_type'));
-    $field->setAttribute('onchange', 'meta_checkConditionalFields(this, new Array('. implode(',', $typeFields) .'), new Array('. implode(',', $textFields) .'));');
+    $field->setAttribute('onchange', 'meta_checkConditionalFields(this, new Array(' . implode(',', $typeFields) . '), new Array(' . implode(',', $textFields) . '));');
     $select = $field->getSelect();
     $select->setSize(1);
 
     $changeTypeFieldId = $field->getAttribute('id');
 
-    $qry = 'SELECT label,id FROM '. rex::getTablePrefix() .'metainfo_type';
+    $qry = 'SELECT label,id FROM ' . rex::getTablePrefix() . 'metainfo_type';
     $select->addSqlOptions($qry);
 
     $notices = '';
-    for($i = 1; $i < REX_METAINFO_FIELD_COUNT; $i++)
-    {
-      if(rex_i18n::hasMsg('minfo_field_params_notice_'. $i))
-      {
-        $notices .= '<span class="rex-form-notice" id="metainfo_field_params_notice_'. $i .'" style="display:none">'. rex_i18n::msg('minfo_field_params_notice_'. $i) .'</span>'. "\n";
+    for ($i = 1; $i < REX_METAINFO_FIELD_COUNT; $i++) {
+      if (rex_i18n::hasMsg('minfo_field_params_notice_' . $i)) {
+        $notices .= '<span class="rex-form-notice" id="metainfo_field_params_notice_' . $i . '" style="display:none">' . rex_i18n::msg('minfo_field_params_notice_' . $i) . '</span>' . "\n";
       }
     }
     $notices .= '
     <script type="text/javascript">
-      var needle = new getObj("'. $field->getAttribute('id') .'");
-      meta_checkConditionalFields(needle.obj, new Array('. implode(',', $typeFields) .'), new Array('. implode(',', $textFields) .'));
+      var needle = new getObj("' . $field->getAttribute('id') . '");
+      meta_checkConditionalFields(needle.obj, new Array(' . implode(',', $typeFields) . '), new Array(' . implode(',', $textFields) . '));
     </script>';
 
     $field = $this->addTextAreaField('params');
@@ -103,15 +97,15 @@ class rex_metainfo_table_expander extends rex_form
 
     $field = $this->addTextAreaField('attributes');
     $field->setLabel(rex_i18n::msg('minfo_field_label_attributes'));
-    $notice = '<span class="rex-form-notice" id="rex_metainfo_field_attributes_notice">'. rex_i18n::msg('minfo_field_attributes_notice') .'</span>'. "\n";
+    $notice = '<span class="rex-form-notice" id="rex_metainfo_field_attributes_notice">' . rex_i18n::msg('minfo_field_attributes_notice') . '</span>' . "\n";
     $field->setSuffix($notice);
 
     $field = $this->addTextAreaField('callback');
     $field->setLabel(rex_i18n::msg('minfo_field_label_callback'));
     $notice = '';
-    $notice .= '<span class="rex-form-notice" id="rex_metainfo_field_callback_notice">'. rex_i18n::msg('minfo_field_label_notice') .'</span>'. "\n";
-    $notice .= '<label>'. rex_i18n::msg('minfo_field_label_callback_templates') .'</label>'. "\n";
-    $notice .= '<span class="rex-form-notice" id="rex_metainfo_field_callback_template_notice"><a href="#">'. rex_i18n::msg('minfo_callback_lang_indep_field') .'</a></span>'. "\n";
+    $notice .= '<span class="rex-form-notice" id="rex_metainfo_field_callback_notice">' . rex_i18n::msg('minfo_field_label_notice') . '</span>' . "\n";
+    $notice .= '<label>' . rex_i18n::msg('minfo_field_label_callback_templates') . '</label>' . "\n";
+    $notice .= '<span class="rex-form-notice" id="rex_metainfo_field_callback_template_notice"><a href="#">' . rex_i18n::msg('minfo_callback_lang_indep_field') . '</a></span>' . "\n";
     $field->setSuffix($notice);
 
     $field = $this->addTextField('default');
@@ -135,16 +129,15 @@ class rex_metainfo_table_expander extends rex_form
   {
     // Infos zuerst selektieren, da nach parent::delete() nicht mehr in der db
     $sql = rex_sql::factory();
-    $sql->debugsql =& $this->debug;
+    $sql->debugsql = & $this->debug;
     $sql->setTable($this->tableName);
     $sql->setWhere($this->whereCondition);
     $sql->select('name');
     $columnName = $sql->getValue('name');
 
-    if(($result = parent::delete()) === true)
-    {
+    if (($result = parent::delete()) === true) {
       // Prios neu setzen, damit keine lücken entstehen
-      $this->organizePriorities(1,2);
+      $this->organizePriorities(1, 2);
       return $this->tableManager->deleteColumn($columnName);
     }
 
@@ -153,8 +146,7 @@ class rex_metainfo_table_expander extends rex_form
 
   protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
   {
-    if($fieldsetName == $this->getFieldsetName() && $fieldName == 'name')
-    {
+    if ($fieldsetName == $this->getFieldsetName() && $fieldName == 'name') {
       // Den Namen mit Prefix speichern
       return $this->addPrefix($fieldValue);
     }
@@ -164,8 +156,7 @@ class rex_metainfo_table_expander extends rex_form
 
   protected function preView($fieldsetName, $fieldName, $fieldValue)
   {
-    if($fieldsetName == $this->getFieldsetName() && $fieldName == 'name')
-    {
+    if ($fieldsetName == $this->getFieldsetName() && $fieldName == 'name') {
       // Den Namen ohne Prefix anzeigen
       return $this->stripPrefix($fieldValue);
     }
@@ -175,8 +166,7 @@ class rex_metainfo_table_expander extends rex_form
   public function addPrefix($string)
   {
     $lowerString = strtolower($string);
-    if(substr($lowerString, 0, strlen($this->metaPrefix)) !== $this->metaPrefix)
-    {
+    if (substr($lowerString, 0, strlen($this->metaPrefix)) !== $this->metaPrefix) {
       return $this->metaPrefix . $string;
     }
     return $string;
@@ -185,8 +175,7 @@ class rex_metainfo_table_expander extends rex_form
   public function stripPrefix($string)
   {
     $lowerString = strtolower($string);
-    if(substr($lowerString, 0, strlen($this->metaPrefix)) === $this->metaPrefix)
-    {
+    if (substr($lowerString, 0, strlen($this->metaPrefix)) === $this->metaPrefix) {
       return substr($string, strlen($this->metaPrefix));
     }
     return $string;
@@ -195,26 +184,23 @@ class rex_metainfo_table_expander extends rex_form
   protected function validate()
   {
     $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
-    if($fieldName == '')
+    if ($fieldName == '')
       return rex_i18n::msg('minfo_field_error_name');
 
-    if(preg_match('/[^a-zA-Z0-9\_]/', $fieldName))
+    if (preg_match('/[^a-zA-Z0-9\_]/', $fieldName))
       return rex_i18n::msg('minfo_field_error_chars_name');
 
     // Pruefen ob schon eine Spalte mit dem Namen existiert (nur beim add noetig)
-    if(!$this->isEditMode())
-    {
+    if (!$this->isEditMode()) {
       // die tabelle selbst checken
-      if($this->tableManager->hasColumn($this->addPrefix($fieldName)))
-      {
+      if ($this->tableManager->hasColumn($this->addPrefix($fieldName))) {
         return rex_i18n::msg('minfo_field_error_unique_name');
       }
 
       // das meta-schema checken
       $sql = rex_sql::factory();
-      $sql->setQuery('SELECT * FROM '. $this->tableName .' WHERE name="'. $this->addPrefix($fieldName) .'" LIMIT 1');
-      if($sql->getRows() == 1)
-      {
+      $sql->setQuery('SELECT * FROM ' . $this->tableName . ' WHERE name="' . $this->addPrefix($fieldName) . '" LIMIT 1');
+      if ($sql->getRows() == 1) {
         return rex_i18n::msg('minfo_field_error_unique_name');
       }
     }
@@ -232,15 +218,13 @@ class rex_metainfo_table_expander extends rex_form
     $fieldOldName = '';
     $fieldOldPrior = 9999999999999; // dirty, damit die prio richtig l�uft...
     $fieldOldDefault = '';
-    if($this->sql->getRows() == 1)
-    {
+    if ($this->sql->getRows() == 1) {
       $fieldOldName = $this->sql->getValue('name');
       $fieldOldPrior = $this->sql->getValue('prior');
       $fieldOldDefault = $this->sql->getValue('default');
     }
 
-    if(parent::save())
-    {
+    if (parent::save()) {
       $this->organizePriorities($this->elementPostValue($this->getFieldsetName(), 'prior'), $fieldOldPrior);
       rex_deleteCache();
 
@@ -249,33 +233,28 @@ class rex_metainfo_table_expander extends rex_form
       $fieldDefault = $this->elementPostValue($this->getFieldsetName(), 'default');
 
       $sql = rex_sql::factory();
-      $sql->debugsql =& $this->debug;
-      $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `'. rex::getTablePrefix() .'metainfo_type` WHERE id='. $fieldType);
+      $sql->debugsql = & $this->debug;
+      $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `' . rex::getTablePrefix() . 'metainfo_type` WHERE id=' . $fieldType);
       $fieldDbType = $result[0]['dbtype'];
       $fieldDbLength = $result[0]['dblength'];
 
       // TEXT Spalten duerfen in MySQL keine Defaultwerte haben
-      if($fieldDbType == 'text')
+      if ($fieldDbType == 'text')
         $fieldDefault = null;
 
-      if($this->isEditMode())
-      {
+      if ($this->isEditMode()) {
         // Spalte in der Tabelle ver�ndern
         $tmRes = $this->tableManager->editColumn($fieldOldName, $fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
-      }
-      else
-      {
+      } else {
         // Spalte in der Tabelle anlegen
         $tmRes = $this->tableManager->addColumn($fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
       }
 
-      if($tmRes)
-      {
+      if ($tmRes) {
         // DefaultWerte setzen
-        if($fieldDefault != $fieldOldDefault)
-        {
+        if ($fieldDefault != $fieldOldDefault) {
           $upd = rex_sql::factory();
-          $upd->debugsql =& $this->debug;
+          $upd->debugsql = & $this->debug;
           $upd->setTable($this->tableManager->getTableName());
           $upd->setWhere(array($fieldName => $fieldOldDefault));
           $upd->setValue($fieldName, $fieldDefault);
@@ -297,7 +276,7 @@ class rex_metainfo_table_expander extends rex_form
 
   protected function organizePriorities($newPrio, $oldPrio)
   {
-    if($newPrio == $oldPrio)
+    if ($newPrio == $oldPrio)
       return;
 
     // replace LIKE wildcards
@@ -306,7 +285,7 @@ class rex_metainfo_table_expander extends rex_form
     rex_sql_util::organizePriorities(
       $this->tableName,
       'prior',
-      'name LIKE "'. $metaPrefix .'%"',
+      'name LIKE "' . $metaPrefix . '%"',
       'prior, updatedate desc',
       'field_id'
     );

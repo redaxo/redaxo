@@ -10,7 +10,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -24,7 +24,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -38,7 +38,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -52,7 +52,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -66,19 +66,17 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
   static public function session($varname, $vartype = '', $default = '')
   {
-    if(isset($_SESSION[$varname][rex::getProperty('instname')]))
-    {
+    if (isset($_SESSION[$varname][rex::getProperty('instname')])) {
       return rex_type::cast($_SESSION[$varname][rex::getProperty('instname')], $vartype);
     }
 
-    if($default === '')
-    {
+    if ($default === '') {
       return rex_type::cast($default, $vartype);
     }
     return $default;
@@ -88,7 +86,7 @@ class rex_request
    * Sets a session variable
    *
    * @param string $varname Variable name
-   * @param mixed $value Value
+   * @param mixed  $value   Value
    */
   static public function setSession($varname, $value)
   {
@@ -110,7 +108,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -124,7 +122,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -138,7 +136,7 @@ class rex_request
    *
    * @param string $varname Variable name
    * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param mixed  $default Default value
    *
    * @return mixed
    */
@@ -150,27 +148,24 @@ class rex_request
   /**
    * Searches the value $needle in array $haystack and returns the casted value
    *
-   * @param array $haystack Array
-   * @param scalar $needle Value to search
-   * @param string $vartype Variable type
-   * @param mixed $default Default value
+   * @param array  $haystack Array
+   * @param scalar $needle   Value to search
+   * @param string $vartype  Variable type
+   * @param mixed  $default  Default value
    *
    * @return mixed
    */
   static private function arrayKeyCast(array $haystack, $needle, $vartype, $default = '')
   {
-    if(!is_scalar($needle))
-    {
+    if (!is_scalar($needle)) {
       throw new rex_exception('Scalar expected for $needle in arrayKeyCast()!');
     }
 
-    if(array_key_exists($needle, $haystack))
-    {
+    if (array_key_exists($needle, $haystack)) {
       return rex_type::cast($haystack[$needle], $vartype);
     }
 
-    if($default === '')
-    {
+    if ($default === '') {
       return rex_type::cast($default, $vartype);
     }
     return $default;

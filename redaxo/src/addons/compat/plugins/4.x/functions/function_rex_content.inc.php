@@ -31,8 +31,7 @@ function rex_moveSlice($slice_id, $clang, $direction)
   try {
     $message = rex_content_service::moveSlice($slice_id, $clang, $direction);
     $success = true;
-  } catch (rex_api_exception $e)
-  {
+  } catch (rex_api_exception $e) {
     $message = $e->getMessage();
   }
   return array($success, $message);

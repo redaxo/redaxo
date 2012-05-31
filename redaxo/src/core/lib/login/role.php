@@ -18,7 +18,7 @@ interface rex_user_role_interface
    * Returns the complex perm
    *
    * @param rex_user $user User instance
-   * @param string $key Complex perm key
+   * @param string   $key  Complex perm key
    * @return rex_complex_perm Complex perm
    */
   public function getComplexPerm(rex_user $user, $key);

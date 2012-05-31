@@ -16,8 +16,7 @@ class rex_input_datetime extends rex_input
 
   public function setValue($value)
   {
-    if(!is_array($value))
-    {
+    if (!is_array($value)) {
       trigger_error('Expecting $value to be an array!', E_USER_ERROR);
     }
 
@@ -65,7 +64,7 @@ class rex_input_datetime extends rex_input
     return $this->minuteSelect;
   }
 
-  function getHtml()
+  public function getHtml()
   {
     return $this->dateInput->getHtml() . '<span class="rex-form-select-separator">-</span>' . $this->timeInput->getHTML();
   }

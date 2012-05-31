@@ -11,7 +11,7 @@ class rex_effect_flip extends rex_effect_abstract
   public function __construct()
   {
     $this->options = array(
-      'X','Y'
+      'X', 'Y'
     );
   }
 
@@ -28,8 +28,7 @@ class rex_effect_flip extends rex_effect_abstract
     $output = imagecreatetruecolor ( $width, $height );
 
     // --------------- Flip X
-    if($this->params['flip'] == "X")
-    {
+    if ($this->params['flip'] == 'X') {
       $y = 0;
       $x = 1;
       while ( $x <= $width ) {
@@ -42,8 +41,7 @@ class rex_effect_flip extends rex_effect_abstract
     }
 
     // --------------- Flip Y
-    if($this->params['flip'] == "Y")
-    {
+    if ($this->params['flip'] == 'Y') {
       $y = 1;
       $x = 0;
       while ( $y < $height ) {

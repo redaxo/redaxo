@@ -9,10 +9,9 @@
  */
 
 $sql = rex_sql::factory();
-$sql->setQuery('SELECT id FROM '. rex::getTablePrefix() .'cronjob WHERE type="rex_cronjob_optimize_tables" LIMIT 1');
-if ($sql->getRows() == 0)
-{
-  $sql->setTable(rex::getTablePrefix() .'cronjob');
+$sql->setQuery('SELECT id FROM ' . rex::getTablePrefix() . 'cronjob WHERE type="rex_cronjob_optimize_tables" LIMIT 1');
+if ($sql->getRows() == 0) {
+  $sql->setTable(rex::getTablePrefix() . 'cronjob');
   $sql->setValue('name', 'Tabellen-Optimierung');
   $sql->setValue('type', 'rex_cronjob_optimize_tables');
   $sql->setValue('interval', '|1|d|');

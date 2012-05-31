@@ -12,7 +12,7 @@ class select extends rex_select
    *
    * @deprecated 4.0
    */
-  function multiple($mul)
+  public function multiple($mul)
   {
     $this->setMultiple($mul);
   }
@@ -22,10 +22,9 @@ class select extends rex_select
    *
    * @deprecated 4.0
    */
-  function set_selectextra($extra)
+  public function set_selectextra($extra)
   {
-    foreach(rex_var::splitString($extra) as $name => $value)
-    {
+    foreach (rex_var::splitString($extra) as $name => $value) {
       $this->setAttribute($name, $value);
     }
   }
@@ -35,7 +34,7 @@ class select extends rex_select
    *
    * @deprecated 4.0
    */
-  function out()
+  public function out()
   {
     return $this->get();
   }
@@ -45,7 +44,7 @@ class select extends rex_select
    *
    * @deprecated 4.0
    */
-  function set_name($name)
+  public function set_name($name)
   {
     $this->setName($name);
   }
@@ -55,7 +54,7 @@ class select extends rex_select
    *
    * @deprecated 4.0
    */
-  function set_id($id)
+  public function set_id($id)
   {
     $this->setId($id);
   }
@@ -65,7 +64,7 @@ class select extends rex_select
    *
    * @deprecated 4.0
    */
-  function set_size($size)
+  public function set_size($size)
   {
     $this->setSize($size);
   }
@@ -75,7 +74,7 @@ class select extends rex_select
    *
    * @deprecated 4.0
    */
-  function set_selected($selected)
+  public function set_selected($selected)
   {
     $this->setSelected($selected);
   }
@@ -85,7 +84,7 @@ class select extends rex_select
    *
    * @deprecated 4.0
    */
-  function reset_selected()
+  public function reset_selected()
   {
     $this->resetSelected();
   }
@@ -95,7 +94,7 @@ class select extends rex_select
    *
    * @deprecated 4.0
    */
-  function set_style($style)
+  public function set_style($style)
   {
     $this->setStyle($style);
   }
@@ -105,7 +104,7 @@ class select extends rex_select
    *
    * @deprecated 4.0
    */
-  function add_option($name, $value, $id = 0, $re_id = 0)
+  public function add_option($name, $value, $id = 0, $re_id = 0)
   {
     $this->addOption($name, $value, $id, $re_id);
   }

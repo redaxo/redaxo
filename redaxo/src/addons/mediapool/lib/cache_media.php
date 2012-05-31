@@ -38,19 +38,15 @@ class rex_media_cache
     $cachePath = rex_path::addonCache('mediapool');
 
     $glob = glob($cachePath . '*.mlist');
-    if(is_array($glob))
-    {
-      foreach ($glob as $file)
-      {
+    if (is_array($glob)) {
+      foreach ($glob as $file) {
         rex_file::delete($file);
       }
     }
 
     $glob = glob($cachePath . '*.mextlist');
-    if(is_array($glob))
-    {
-      foreach ($glob as $file)
-      {
+    if (is_array($glob)) {
+      foreach ($glob as $file) {
         rex_file::delete($file);
       }
     }
@@ -78,10 +74,8 @@ class rex_media_cache
     $cachePath = rex_path::addonCache('mediapool');
 
     $glob = glob($cachePath . '*.mclist');
-    if(is_array($glob))
-    {
-      foreach ($glob as $file)
-      {
+    if (is_array($glob)) {
+      foreach ($glob as $file) {
         rex_file::delete($file);
       }
     }
@@ -108,25 +102,22 @@ class rex_media_cache
    */
   static public function generate($filename)
   {
-    $query = 'SELECT * FROM ' . rex_ooMedia :: _getTableName() . ' WHERE filename = "'.$filename.'"';
+    $query = 'SELECT * FROM ' . rex_ooMedia :: _getTableName() . ' WHERE filename = "' . $filename . '"';
     $sql = rex_sql::factory();
     //$sql->debugsql = true;
     $sql->setQuery($query);
 
-    if ($sql->getRows() == 0)
-    {
+    if ($sql->getRows() == 0) {
       return false;
     }
 
     $cacheArray = array();
-    foreach($sql->getFieldNames() as $fieldName)
-    {
+    foreach ($sql->getFieldNames() as $fieldName) {
       $cacheArray[$fieldName] = $sql->getValue($fieldName);
     }
 
-    $media_file = rex_path::addonCache('mediapool', $filename .'.media');
-    if (rex_file::putCache($media_file, $cacheArray))
-    {
+    $media_file = rex_path::addonCache('mediapool', $filename . '.media');
+    if (rex_file::putCache($media_file, $cacheArray)) {
       return true;
     }
 
@@ -143,30 +134,26 @@ class rex_media_cache
   static public function generateCategory($category_id)
   {
     // sanity check
-    if($category_id<0)
-    {
+    if ($category_id < 0) {
       return false;
     }
 
-    $query = 'SELECT * FROM ' . rex_ooMediaCategory :: _getTableName() . ' WHERE id = '.$category_id;
+    $query = 'SELECT * FROM ' . rex_ooMediaCategory :: _getTableName() . ' WHERE id = ' . $category_id;
     $sql = rex_sql::factory();
     //$sql->debugsql = true;
     $sql->setQuery($query);
 
-    if ($sql->getRows() == 0)
-    {
+    if ($sql->getRows() == 0) {
       return false;
     }
 
     $cacheArray = array();
-    foreach($sql->getFieldNames() as $fieldName)
-    {
+    foreach ($sql->getFieldNames() as $fieldName) {
       $cacheArray[$fieldName] = $sql->getValue($fieldName);
     }
 
-    $cat_file = rex_path::addonCache('mediapool', $category_id .'.mcat');
-    if (rex_file::putCache($cat_file, $cacheArray))
-    {
+    $cat_file = rex_path::addonCache('mediapool', $category_id . '.mcat');
+    if (rex_file::putCache($cat_file, $cacheArray)) {
       return true;
     }
 
@@ -183,8 +170,7 @@ class rex_media_cache
   static public function generateList($category_id)
   {
     // sanity check
-    if($category_id<0)
-    {
+    if ($category_id < 0) {
       return false;
     }
 
@@ -193,15 +179,13 @@ class rex_media_cache
     $sql->setQuery($query);
 
     $cacheArray = array();
-    for ($i = 0; $i < $sql->getRows(); $i++)
-    {
+    for ($i = 0; $i < $sql->getRows(); $i++) {
       $cacheArray[] = $sql->getValue('filename');
       $sql->next();
     }
 
-    $list_file = rex_path::addonCache('mediapool', $category_id .'.mlist');
-    if (rex_file::putCache($list_file, $cacheArray))
-    {
+    $list_file = rex_path::addonCache('mediapool', $category_id . '.mlist');
+    if (rex_file::putCache($list_file, $cacheArray)) {
       return true;
     }
 
@@ -218,8 +202,7 @@ class rex_media_cache
   static public function generateCategoryList($category_id)
   {
     // sanity check
-    if($category_id<0)
-    {
+    if ($category_id < 0) {
       return false;
     }
 
@@ -229,15 +212,13 @@ class rex_media_cache
     $sql->setQuery($query);
 
     $cacheArray = array();
-    for ($i = 0; $i < $sql->getRows(); $i++)
-    {
+    for ($i = 0; $i < $sql->getRows(); $i++) {
       $cacheArray[] = $sql->getValue('id');
       $sql->next();
     }
 
-    $list_file = rex_path::addonCache('mediapool', $category_id .'.mclist');
-    if (rex_file::putCache($list_file, $cacheArray))
-    {
+    $list_file = rex_path::addonCache('mediapool', $category_id . '.mclist');
+    if (rex_file::putCache($list_file, $cacheArray)) {
       return true;
     }
 
@@ -258,15 +239,13 @@ class rex_media_cache
     $sql->setQuery($query);
 
     $cacheArray = array();
-    for ($i = 0; $i < $sql->getRows(); $i++)
-    {
+    for ($i = 0; $i < $sql->getRows(); $i++) {
       $cacheArray[] = $sql->getValue('filename');
       $sql->next();
     }
 
-    $list_file = rex_path::addonCache('mediapool', $extension .'.mextlist');
-    if (rex_file::putCache($list_file, $cacheArray))
-    {
+    $list_file = rex_path::addonCache('mediapool', $extension . '.mextlist');
+    if (rex_file::putCache($list_file, $cacheArray)) {
       return true;
     }
 

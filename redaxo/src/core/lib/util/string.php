@@ -75,8 +75,8 @@ class rex_string
    *
    * @link http://www.php.net/manual/en/function.version-compare.php
    *
-   * @param string $version1 First version number
-   * @param string $version1 Second version number
+   * @param string $version1   First version number
+   * @param string $version1   Second version number
    * @param string $comparator Optional comparator
    * @return integer|boolean
    */
@@ -99,6 +99,6 @@ class rex_string
    */
   static public function highlight($string)
   {
-    return '<p class="rex-code">'. highlight_string($string, true) .'</p>';
+    return '<p class="rex-code">' . highlight_string($string, true) . '</p>';
   }
 }

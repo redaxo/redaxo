@@ -143,8 +143,8 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
         rex_formatter::format($value, $format_type, $format));
 
     $format = array(
-        function($params){
-          return $params['subject'] .' '. $params['some'];
+        function ($params) {
+          return $params['subject'] . ' ' . $params['some'];
         },
         array('some' => 'more params'),
     );
@@ -167,31 +167,31 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
     $format = null;
     $this->assertEquals(
         '976,56 KiB',
-        rex_formatter::format($value*1000, $format_type, $format));
+        rex_formatter::format($value * 1000, $format_type, $format));
 
     $format = null;
     $this->assertEquals(
         '953,67 MiB',
-        rex_formatter::format($value*1000*1000, $format_type, $format));
+        rex_formatter::format($value * 1000 * 1000, $format_type, $format));
 
     $format = null;
     $this->assertEquals(
         '931,32 GiB',
-        rex_formatter::format($value*1000*1000*1000, $format_type, $format));
+        rex_formatter::format($value * 1000 * 1000 * 1000, $format_type, $format));
 
     $format = null;
     $this->assertEquals(
         '909,49 TiB',
-        rex_formatter::format($value*1000*1000*1000*1000, $format_type, $format));
+        rex_formatter::format($value * 1000 * 1000 * 1000 * 1000, $format_type, $format));
 
     $format = null;
     $this->assertEquals(
         '888,18 PiB',
-        rex_formatter::format($value*1000*1000*1000*1000*1000, $format_type, $format));
+        rex_formatter::format($value * 1000 * 1000 * 1000 * 1000 * 1000, $format_type, $format));
 
     $format = array(5); // number of signs behind comma
     $this->assertEquals(
         '953,67432 MiB',
-        rex_formatter::format($value*1000*1000, $format_type, $format));
+        rex_formatter::format($value * 1000 * 1000, $format_type, $format));
   }
 }

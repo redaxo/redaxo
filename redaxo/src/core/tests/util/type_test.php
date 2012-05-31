@@ -4,8 +4,7 @@ class rex_type_test extends PHPUnit_Framework_TestCase
 {
   public function castProvider()
   {
-    $callback = function($var)
-    {
+    $callback = function ($var) {
       return $var . 'b';
     };
 
@@ -57,8 +56,8 @@ class rex_type_test extends PHPUnit_Framework_TestCase
   }
 
   /**
-  * @dataProvider castWrongVartypeProvider
-  */
+   * @dataProvider castWrongVartypeProvider
+   */
   public function testCastWrongVartype($vartype)
   {
     $this->setExpectedException('rex_exception');

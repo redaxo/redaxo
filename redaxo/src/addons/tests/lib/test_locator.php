@@ -13,8 +13,7 @@ class rex_test_locator implements IteratorAggregate
 
   public function addTestFolder($folder)
   {
-    if (is_dir($folder))
-    {
+    if (is_dir($folder)) {
       rex_autoload::addDirectory($folder);
 
       $this->testFoldersIterator->append(
@@ -30,11 +29,10 @@ class rex_test_locator implements IteratorAggregate
 
   static public function defaultLocator()
   {
-    $locator = new rex_test_locator();
+    $locator = new self();
 
     $locator->addTestFolder(rex_path::core(self::TESTS_FOLDER));
-    foreach(rex_package::getAvailablePackages() as $package)
-    {
+    foreach (rex_package::getAvailablePackages() as $package) {
       $locator->addTestFolder($package->getBasePath(self::TESTS_FOLDER));
     }
     return $locator;

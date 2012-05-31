@@ -9,8 +9,8 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
 
     $sql = rex_sql::factory();
 
-    $sql->setQuery('DROP TABLE IF EXISTS `'. self::TABLE .'`');
-    $sql->setQuery('CREATE TABLE `'. self::TABLE .'` (
+    $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE . '`');
+    $sql->setQuery('CREATE TABLE `' . self::TABLE . '` (
         `id` INT NOT NULL AUTO_INCREMENT ,
         `col_str` VARCHAR( 255 ) NOT NULL ,
         `col_int` INT NOT NULL ,
@@ -26,7 +26,7 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
     parent::tearDown();
 
     $sql = rex_sql::factory();
-    $sql->setQuery('DROP TABLE `'. self::TABLE .'`');
+    $sql->setQuery('DROP TABLE `' . self::TABLE . '`');
   }
 
   public function testFactory()
@@ -42,28 +42,28 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
     $this->assertTrue(rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name']));
   }
 
-  public function testCheckConnection_InvalidPassword()
+  public function testCheckConnectionInvalidPassword()
   {
     $configFile = rex_path::data('config.yml');
     $config = rex_file::getConfig($configFile);
     $this->assertTrue(true !== rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], 'fu-password', $config['db'][1]['name']));
   }
 
-  public function testCheckConnection_InvalidHost()
+  public function testCheckConnectionInvalidHost()
   {
     $configFile = rex_path::data('config.yml');
     $config = rex_file::getConfig($configFile);
     $this->assertTrue(true !== rex_sql::checkDbConnection('fu-host', $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name']));
   }
 
-  public function testCheckConnection_InvalidLogin()
+  public function testCheckConnectionInvalidLogin()
   {
     $configFile = rex_path::data('config.yml');
     $config = rex_file::getConfig($configFile);
     $this->assertTrue(true !== rex_sql::checkDbConnection($config['db'][1]['host'], 'fu-login', $config['db'][1]['password'], $config['db'][1]['name']));
   }
 
-  public function testCheckConnection_InvalidDatabase()
+  public function testCheckConnectionInvalidDatabase()
   {
     $configFile = rex_path::data('config.yml');
     $config = rex_file::getConfig($configFile);

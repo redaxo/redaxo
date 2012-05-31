@@ -9,7 +9,7 @@ rex_extension::register('OUTPUT_FILTER', array('rex_extension_debug', 'doLog'));
  */
 class rex_extension_debug extends rex_extension
 {
-  private static $log = array();
+  static private $log = array();
 
   /**
    * Extends rex_extension::register() with FirePHP logging
@@ -90,18 +90,16 @@ class rex_extension_debug extends rex_extension
       'result',
     );
 
-    foreach(self::$log as $count=>$entry)
-    {
-      switch($entry['type'])
-      {
-        case'EP':
+    foreach (self::$log as $count => $entry) {
+      switch ($entry['type']) {
+        case 'EP':
           $counter['ep']++;
           $registered_eps[] = $entry['ep'];
           $log_table[] = array(
             $entry['type'],      // Type
             $entry['ep'] . ($entry['read_only'] ? ' (readonly)' : ''),        // ExtensionPoint / readonly
             '–',                 // Callable
-            $entry['started'] .'/ '. $entry['duration']. 'ms',   // Start / Dur.
+            $entry['started'] . '/ ' . $entry['duration'] . 'ms',   // Start / Dur.
             $entry['memory'],    // Memory
             $entry['subject'],   // subject
             $entry['params'],    // params
@@ -109,12 +107,11 @@ class rex_extension_debug extends rex_extension
           );
           break;
 
-        case'EXT':
+        case 'EXT':
           $counter['ext']++;
 
-          if(in_array($entry['ep'],$registered_eps))
-          {
-            $firephp->error('EP Timing: Extension "'.$entry['callable'].'" registered after ExtensionPoint "'.$entry['ep'].'" !');
+          if (in_array($entry['ep'], $registered_eps)) {
+            $firephp->error('EP Timing: Extension "' . $entry['callable'] . '" registered after ExtensionPoint "' . $entry['ep'] . '" !');
           }
 
           $log_table[] = array(
@@ -130,10 +127,10 @@ class rex_extension_debug extends rex_extension
           break;
 
         default:
-          throw new rex_exception('unexpexted type '. $entry['type']);
+          throw new rex_exception('unexpexted type ' . $entry['type']);
       }
     }
 
-    $firephp->table('EP Log ( EPs: '.$counter['ep'].', Extensions: '.$counter['ext'].' )',$log_table);
+    $firephp->table('EP Log ( EPs: ' . $counter['ep'] . ', Extensions: ' . $counter['ext'] . ' )', $log_table);
   }
 }

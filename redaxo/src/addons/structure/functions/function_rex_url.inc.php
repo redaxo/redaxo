@@ -10,8 +10,7 @@ function rex_parse_article_name($name)
   static $firstCall = true;
   static $search, $replace;
 
-  if($firstCall)
-  {
+  if ($firstCall) {
     // Sprachspezifische Sonderzeichen Filtern
     $search = explode('|', rex_i18n::msg('special_chars'));
     $replace = explode('|', rex_i18n::msg('special_chars_rewrite'));
@@ -21,11 +20,11 @@ function rex_parse_article_name($name)
 
   return
     // + durch - ersetzen
-    str_replace('+','-',
+    str_replace('+', '-',
         // ggf uebrige zeichen url-codieren
         urlencode(
           // mehrfach hintereinander auftretende spaces auf eines reduzieren
-          preg_replace('/ {2,}/',' ',
+          preg_replace('/ {2,}/', ' ',
             // alle sonderzeichen raus
             preg_replace('/[^a-zA-Z_\-0-9 ]/', '',
               // sprachspezifische zeichen umschreiben
@@ -43,15 +42,11 @@ function rex_param_string($params, $divider = '&amp;')
 {
   $param_string = '';
 
-  if (is_array($params))
-  {
-    foreach ($params as $key => $value)
-    {
-      $param_string .= $divider.urlencode($key).'='.urlencode($value);
+  if (is_array($params)) {
+    foreach ($params as $key => $value) {
+      $param_string .= $divider . urlencode($key) . '=' . urlencode($value);
     }
-  }
-  elseif ($params != '')
-  {
+  } elseif ($params != '') {
     $param_string = $params;
   }
 
@@ -80,14 +75,13 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
   // Wenn eine rexExtension vorhanden ist, immer die clang mitgeben!
   // Die rexExtension muss selbst entscheiden was sie damit macht
   if ($_clang === '' && (rex_clang::count() > 1 || rex_extension::isRegistered( 'URL_REWRITE')))
-    $clang = rex_clang::getId();
+    $clang = rex_clang::getCurrentId();
 
   // ----- get params
   $param_string = rex_param_string($_params, $_divider);
 
   $name = 'NoName';
-  if ($id != 0)
-  {
+  if ($id != 0) {
     $ooa = rex_ooArticle :: getArticleById($id, $clang);
     if ($ooa)
       $name = rex_parse_article_name($ooa->getName());
@@ -96,15 +90,13 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
   // ----- EXTENSION POINT
   $url = rex_extension::registerPoint('URL_REWRITE', '', array ('id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string, 'divider' => $_divider));
 
-  if ($url == '')
-  {
+  if ($url == '') {
     $_clang = '';
-    if (rex_clang::count() > 1)
-    {
-      $_clang .= $_divider.'clang='.$clang;
+    if (rex_clang::count() > 1) {
+      $_clang .= $_divider . 'clang=' . $clang;
     }
 
-    $url = rex_path::frontendController('?article_id='.$id .$_clang.$param_string);
+    $url = rex_path::frontendController('?article_id=' . $id . $_clang . $param_string);
   }
 
   return $url;
@@ -116,10 +108,10 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
 function rex_redirect($article_id, $clang = '', $params = array())
 {
   // Alle OBs schließen
-  while(@ob_end_clean());
+  while (@ob_end_clean());
 
   $divider = '&';
 
-  header('Location: '. rex_getUrl($article_id, $clang, $params, $divider));
+  header('Location: ' . rex_getUrl($article_id, $clang, $params, $divider));
   exit();
 }
