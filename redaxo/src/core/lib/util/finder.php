@@ -386,6 +386,7 @@ class rex_finder_filter extends FilterIterator
 }
 
 // private utility class, taken from the symfony project
+// (c) Fabien Potencier <fabien@symfony.com>
 class rex_finder_sorter implements IteratorAggregate {
   const SORT_BY_NAME = 1;
   const SORT_BY_TYPE = 2;
