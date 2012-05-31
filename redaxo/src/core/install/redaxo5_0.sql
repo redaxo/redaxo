@@ -3,12 +3,13 @@
 
 CREATE TABLE `rex_clang` (
   `id` int(11) NOT NULL,
+  `code` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `revision` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `rex_clang` VALUES ('0','deutsch', 0);
+INSERT INTO `rex_clang` VALUES ('0', 'de', 'deutsch', 0);
 
 CREATE TABLE `rex_config` (
   `cid` int(11) NOT NULL AUTO_INCREMENT,

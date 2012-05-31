@@ -109,7 +109,7 @@ class rex_var_article extends rex_var
   {
     if($clang === null)
     {
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
     }
     if(!is_object($article))
     {
@@ -125,7 +125,7 @@ class rex_var_article extends rex_var
   {
     if($clang === null)
     {
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
     }
     if(!is_object($article))
     {

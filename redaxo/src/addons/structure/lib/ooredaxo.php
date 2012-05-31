@@ -194,7 +194,7 @@ abstract class rex_ooRedaxo
 
     if ($clang === FALSE)
     {
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
     }
 
     // save cache per subclass

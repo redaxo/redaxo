@@ -73,7 +73,7 @@ class rex_ooArticleSlice
   static public function getArticleSliceById($an_id, $clang = false, $revision = 0)
   {
     if ($clang === false)
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
 
     return self::_getSliceWhere('id='. $an_id .' AND clang='. $clang.' and revision='.$revision);
   }
@@ -89,7 +89,7 @@ class rex_ooArticleSlice
   static public function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
   {
     if ($clang === false)
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
 
     foreach(range(1,20) as $ctype)
     {
@@ -110,7 +110,7 @@ class rex_ooArticleSlice
   static public function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0)
   {
     if ($clang === false)
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
 
     return self::_getSliceWhere(
        'article_id='. $an_article_id .' AND clang='. $clang .' AND ctype='. $ctype .' AND prior=1 AND revision='.$revision
@@ -126,7 +126,7 @@ class rex_ooArticleSlice
   static public function getSlicesForArticle($an_article_id, $clang = false, $revision = 0)
   {
     if ($clang === false)
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
 
     // TODO check parameters
     return self::_getSliceWhere('article_id='. $an_article_id .' AND clang='. $clang .' AND revision='.$revision, array());
@@ -141,7 +141,7 @@ class rex_ooArticleSlice
   static public function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0)
   {
     if ($clang === false)
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
 
     // TODO check parameters
     return self::_getSliceWhere('article_id='. $an_article_id .' AND clang='. $clang .' AND modultyp_id='. $a_moduletype_id .' AND revision='.$revision, array());

@@ -23,7 +23,7 @@ if (rex::isBackend())
     function($params)
     {
       $del = rex_sql::factory();
-      $del->setQuery("delete from ". rex::getTablePrefix() ."article_slice where clang='". $params['id'] ."'");
+      $del->setQuery("delete from ". rex::getTablePrefix() ."article_slice where clang='". $params['clang']->getId() ."'");
     }
   );
 }
@@ -35,7 +35,7 @@ else
       $content = $params['subject'];
 
       $article = new rex_article;
-      $article->setCLang(rex_clang::getId());
+      $article->setCLang(rex_clang::getCurrentId());
 
       if ($article->setArticleId(rex::getProperty('article_id')))
       {

@@ -45,7 +45,7 @@ if (rex_clang::count()>1)
   if (!rex::getUser()->getComplexPerm('clang')->hasPerm($clang))
   {
     $stop = true;
-    foreach(rex_clang::getAll() as $key => $val)
+    foreach(rex_clang::getAllIds() as $key)
     {
       if(rex::getUser()->getComplexPerm('clang')->hasPerm($key))
       {

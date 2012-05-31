@@ -74,7 +74,7 @@ class rex_var_category extends rex_var
   {
     if($clang === null)
     {
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
     }
     if($id === 0)
     {
