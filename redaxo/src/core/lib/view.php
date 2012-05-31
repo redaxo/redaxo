@@ -158,7 +158,7 @@ class rex_view
   * $subpages = array(
   *  array( ''      , 'Index'   , '', array('a' => 'b')),
   *  array( 'lang'  , 'Sprachen', '', 'a=z&x=12'),
-  *  array( 'groups', 'Gruppen' , '', array('clang' => rex_clang::getId()))
+  *  array( 'groups', 'Gruppen' , '', array('clang' => rex_clang::getCurrentId()))
   * );
   *
   * echo rex_view::title( 'Headline', $subpages)

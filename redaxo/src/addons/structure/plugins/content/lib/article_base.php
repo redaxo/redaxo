@@ -52,7 +52,7 @@ class rex_article_base
     if($clang !== null)
       $this->setCLang($clang);
     else
-      $this->setClang(rex_clang::getId());
+      $this->setClang(rex_clang::getCurrentId());
 
     // ----- EXTENSION POINT
     rex_extension::registerPoint('ART_INIT', '',
@@ -92,7 +92,7 @@ class rex_article_base
   public function setClang($value)
   {
     if (!rex_clang::exists($value))
-      $value = rex_clang::getId();
+      $value = rex_clang::getCurrentId();
     $this->clang = $value;
   }
 

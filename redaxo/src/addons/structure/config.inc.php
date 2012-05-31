@@ -59,7 +59,7 @@ rex_extension::register('CLANG_ADDED',
         if ($value == 'pid')
           echo ''; // nix passiert
         elseif ($value == 'clang')
-          $newLang->setValue('clang', $params['id']);
+          $newLang->setValue('clang', $params['clang']->getId());
         elseif ($value == 'status')
           $newLang->setValue('status', '0'); // Alle neuen Artikel offline
         else
@@ -75,6 +75,6 @@ rex_extension::register('CLANG_DELETED',
   function($params)
   {
     $del = rex_sql::factory();
-    $del->setQuery("delete from ". rex::getTablePrefix() ."article where clang='". $params['id'] ."'");
+    $del->setQuery("delete from ". rex::getTablePrefix() ."article where clang='". $params['clang']->getId() ."'");
   }
 );

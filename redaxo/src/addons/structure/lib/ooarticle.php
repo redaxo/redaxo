@@ -61,7 +61,7 @@ class rex_ooArticle extends rex_ooRedaxo
   {
     if ($clang === FALSE)
     {
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
     }
 
     $articlelist = rex_path::addonCache('structure', $a_category_id.".".$clang.".alist");
@@ -144,7 +144,7 @@ class rex_ooArticle extends rex_ooRedaxo
   {
     if ($clang === FALSE)
     {
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
     }
 
     return rex_ooArticle::getArticleById($this->_re_id, $clang);

@@ -44,7 +44,7 @@ class rex_ooCategory extends rex_ooRedaxo
 
     if ($clang === FALSE)
     {
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
     }
 
     $categorylist = rex_path::addonCache('structure', $cat_parent_id.".".$clang.".clist");
@@ -111,7 +111,7 @@ class rex_ooCategory extends rex_ooRedaxo
   {
     if ($clang === FALSE)
     {
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
     }
 
     return self :: getChildrenById(0, $ignore_offlines, $clang);
@@ -132,7 +132,7 @@ class rex_ooCategory extends rex_ooRedaxo
   {
     if ($clang === FALSE)
     {
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
     }
 
     return self :: getChildrenById($this->_id, $ignore_offlines, $clang);
@@ -148,7 +148,7 @@ class rex_ooCategory extends rex_ooRedaxo
   {
     if ($clang === FALSE)
     {
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
     }
 
     return self :: getCategoryById($this->_re_id, $clang);
