@@ -13,7 +13,7 @@ class sql extends rex_sql
   {
     parent::__construct($DBID);
     // Altes feld wurde umbenannt, deshalb hier als Alias speichern
-    $this->select =& $this->query;
+    $this->select = & $this->query;
   }
 
   /**
@@ -21,7 +21,7 @@ class sql extends rex_sql
    *
    * @deprecated 4.0
    */
-  public function get_array($sql = "", $fetch_type = MYSQL_ASSOC)
+  public function get_array($sql = '', $fetch_type = MYSQL_ASSOC)
   {
     return $this->getArray($sql, $fetch_type);
   }

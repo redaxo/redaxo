@@ -13,11 +13,11 @@ class rex_clang_service
    */
   static public function addCLang($id, $code, $name)
   {
-    if(rex_clang::exists($id))
+    if (rex_clang::exists($id))
       throw new rex_exception('clang with id "' . $id . '" already exists');
 
     $newLang = rex_sql::factory();
-    $newLang->setTable(rex::getTablePrefix()."clang");
+    $newLang->setTable(rex::getTablePrefix() . 'clang');
     $newLang->setValue('id', $id);
     $newLang->setValue('code', $code);
     $newLang->setValue('name', $name);
@@ -45,11 +45,11 @@ class rex_clang_service
    */
   static public function editCLang($id, $code, $name)
   {
-    if(!rex_clang::exists($id))
+    if (!rex_clang::exists($id))
       throw new rex_exception('clang with id "' . $id . '" does not exist');
 
     $editLang = rex_sql::factory();
-    $editLang->setTable(rex::getTablePrefix()."clang");
+    $editLang->setTable(rex::getTablePrefix() . 'clang');
     $editLang->setValue('id', $id);
     $editLang->setValue('code', $code);
     $editLang->setValue('name', $name);
@@ -65,7 +65,7 @@ class rex_clang_service
       'clang' => $clang
     ));
 
-    return TRUE;
+    return true;
   }
 
   /**
@@ -86,7 +86,7 @@ class rex_clang_service
     $clang = rex_clang::get($id);
 
     $del = rex_sql::factory();
-    $del->setQuery("delete from ".rex::getTablePrefix()."clang where id='$id'");
+    $del->setQuery('delete from ' . rex::getTablePrefix() . "clang where id='$id'");
 
     rex_deleteCache();
 
@@ -106,21 +106,18 @@ class rex_clang_service
   static public function generateCache()
   {
     $lg = rex_sql::factory();
-    $lg->setQuery("select * from ".rex::getTablePrefix()."clang order by id");
+    $lg->setQuery('select * from ' . rex::getTablePrefix() . 'clang order by id');
 
     $clangs = array();
-    foreach($lg as $lang)
-    {
+    foreach ($lg as $lang) {
       $id = $lang->getValue('id');
-      foreach($lg->getFieldnames() as $field)
-      {
+      foreach ($lg->getFieldnames() as $field) {
         $clangs[$id][$field] = $lang->getValue($field);
       }
     }
 
     $file = rex_path::cache('clang.cache');
-    if(rex_file::putCache($file, $clangs) === FALSE)
-    {
+    if (rex_file::putCache($file, $clangs) === false) {
       throw new rex_exception('Clang cache file could not be generated');
     }
   }

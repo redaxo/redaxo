@@ -25,7 +25,7 @@ class rex_cronjob_manager
 
   static public function factory()
   {
-    return new rex_cronjob_manager;
+    return new self;
   }
 
   public function setMessage($message)
@@ -47,34 +47,28 @@ class rex_cronjob_manager
   {
     $message = '';
     $success = rex_cronjob::isValid($cronjob);
-    if(!$success)
-    {
+    if (!$success) {
       if (is_object($cronjob))
-        $message = 'Invalid cronjob class "'. get_class($cronjob) .'"';
+        $message = 'Invalid cronjob class "' . get_class($cronjob) . '"';
       else
-        $message = 'Class "'. $cronjob .'" not found';
-    }
-    else
-    {
+        $message = 'Class "' . $cronjob . '" not found';
+    } else {
       $this->name = $name;
       $this->id = $id;
       $this->cronjob = $cronjob;
       $type = $cronjob->getType();
-      if (is_array($params))
-      {
-        foreach($params as $key => $value)
-          $cronjob->setParam(str_replace($type.'_', '', $key), $value);
+      if (is_array($params)) {
+        foreach ($params as $key => $value)
+          $cronjob->setParam(str_replace($type . '_', '', $key), $value);
       }
       $success = $cronjob->execute();
       $message = $cronjob->getMessage();
-      if ($message == '' && !$success)
-      {
+      if ($message == '' && !$success) {
         $message = 'Unknown error';
       }
     }
 
-    if ($log)
-    {
+    if ($log) {
       $this->log($success, $message);
     }
 
@@ -88,8 +82,7 @@ class rex_cronjob_manager
   private function log($success, $message)
   {
     $name = $this->name;
-    if (!$name)
-    {
+    if (!$name) {
       if (rex_cronjob::isValid($this->cronjob))
         $name = rex::isBackend() ? $cronjob->getTypeName() : $cronjob->getType();
       else
@@ -100,8 +93,7 @@ class rex_cronjob_manager
 
   public function timeout()
   {
-    if (rex_cronjob::isValid($this->cronjob))
-    {
+    if (rex_cronjob::isValid($this->cronjob)) {
       $this->log(false, 'timeout');
       return true;
     }

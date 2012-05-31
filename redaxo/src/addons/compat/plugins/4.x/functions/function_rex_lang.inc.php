@@ -13,12 +13,11 @@ function rex_lang_is_utf8()
  *
  * @deprecated 5.0
  */
-function rex_create_lang($locale = "de_de", $searchpath = '', $setlocale = TRUE)
+function rex_create_lang($locale = 'de_de', $searchpath = '', $setlocale = true)
 {
   global $REX;
 
-  if ($searchpath == '')
-  {
+  if ($searchpath == '') {
     $searchpath = rex_path::core('lang');
   }
   $lang_object = new i18n($locale, $searchpath, $setlocale);

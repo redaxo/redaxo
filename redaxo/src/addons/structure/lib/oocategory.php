@@ -27,7 +27,7 @@ class rex_ooCategory extends rex_ooRedaxo
    * children of categories, keyed by category_id (parent ids)
    * @var array[rex_ooArticle]
    */
-  private static $childIds = array();
+  static private $childIds = array();
 
   /**
    * CLASS Function:
@@ -39,44 +39,34 @@ class rex_ooCategory extends rex_ooRedaxo
   {
     $cat_parent_id = (int) $cat_parent_id;
 
-    if($cat_parent_id < 0)
+    if ($cat_parent_id < 0)
       return array();
 
-    if ($clang === FALSE)
-    {
+    if ($clang === false) {
       $clang = rex_clang::getCurrentId();
     }
 
-    $categorylist = rex_path::addonCache('structure', $cat_parent_id.".".$clang.".clist");
+    $categorylist = rex_path::addonCache('structure', $cat_parent_id . '.' . $clang . '.clist');
 
     $catlist = array ();
 
-    if (!file_exists($categorylist))
-    {
+    if (!file_exists($categorylist)) {
       rex_article_cache::generateLists($cat_parent_id);
     }
 
-    if (file_exists($categorylist))
-    {
-      if (!isset (self::$childIds[$cat_parent_id]))
-      {
+    if (file_exists($categorylist)) {
+      if (!isset (self::$childIds[$cat_parent_id])) {
         self::$childIds[$cat_parent_id] = rex_file::getCache($categorylist);
       }
 
-      if (isset (self::$childIds[$cat_parent_id]) && is_array(self::$childIds[$cat_parent_id]))
-      {
-        foreach (self::$childIds[$cat_parent_id] as $var)
-        {
+      if (isset (self::$childIds[$cat_parent_id]) && is_array(self::$childIds[$cat_parent_id])) {
+        foreach (self::$childIds[$cat_parent_id] as $var) {
           $category = self :: getCategoryById($var, $clang);
-          if ($ignore_offlines)
-          {
-            if ($category->isOnline())
-            {
+          if ($ignore_offlines) {
+            if ($category->isOnline()) {
               $catlist[] = $category;
             }
-          }
-          else
-          {
+          } else {
             $catlist[] = $category;
           }
         }
@@ -109,8 +99,7 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   static public function getRootCategories($ignore_offlines = false, $clang = false)
   {
-    if ($clang === FALSE)
-    {
+    if ($clang === false) {
       $clang = rex_clang::getCurrentId();
     }
 
@@ -130,8 +119,7 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   public function getChildren($ignore_offlines = false, $clang = false)
   {
-    if ($clang === FALSE)
-    {
+    if ($clang === false) {
       $clang = rex_clang::getCurrentId();
     }
 
@@ -146,8 +134,7 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   public function getParent($clang = false)
   {
-    if ($clang === FALSE)
-    {
+    if ($clang === false) {
       $clang = rex_clang::getCurrentId();
     }
 
@@ -238,26 +225,17 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   static public function _getCategoryObject($category, $clang = false)
   {
-    if (is_object($category))
-    {
+    if (is_object($category)) {
       return $category;
-    }
-    elseif (is_int($category))
-    {
+    } elseif (is_int($category)) {
       return self :: getCategoryById($category, $clang);
-    }
-    elseif (is_array($category))
-    {
+    } elseif (is_array($category)) {
       $catlist = array ();
-      foreach ($category as $cat)
-      {
+      foreach ($category as $cat) {
         $catobj = self :: _getCategoryObject($cat, $clang);
-        if (is_object($catobj))
-        {
+        if (is_object($catobj)) {
           $catlist[] = $catobj;
-        }
-        else
-        {
+        } else {
           return null;
         }
       }
@@ -300,41 +278,31 @@ class rex_ooCategory extends rex_ooRedaxo
 
     $templates = array();
     $t_sql = rex_sql::factory();
-    $t_sql->setQuery('select id,name,attributes from '.rex::getTablePrefix().'template where active='. $ignore_inactive .' order by name');
+    $t_sql->setQuery('select id,name,attributes from ' . rex::getTablePrefix() . 'template where active=' . $ignore_inactive . ' order by name');
 
-    if($category_id < 1)
-    {
+    if ($category_id < 1) {
       // Alle globalen Templates
-      foreach($t_sql as $row)
-      {
+      foreach ($t_sql as $row) {
         $attributes = $row->getArrayValue('attributes');
         $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
         if (!is_array($categories) || $categories['all'] == 1)
           $templates[$row->getValue('id')] = $row->getValue('name');
       }
-    }else
-    {
-      if($c = self::getCategoryById($category_id))
-      {
+    } else {
+      if ($c = self::getCategoryById($category_id)) {
         $path = $c->getPathAsArray();
         $path[] = $category_id;
-        foreach($t_sql as $row)
-        {
+        foreach ($t_sql as $row) {
           $attributes = $row->getArrayValue('attributes');
           $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
           // template ist nicht kategoriespezifisch -> includen
-          if(!is_array($categories) || $categories['all'] == 1)
-          {
+          if (!is_array($categories) || $categories['all'] == 1) {
             $templates[$row->getValue('id')] = $row->getValue('name');
-          }
-          else
-          {
+          } else {
             // template ist auf kategorien beschraenkt..
             // nachschauen ob eine davon im pfad der aktuellen kategorie liegt
-            foreach($path as $p)
-            {
-              if(in_array($p,$categories))
-              {
+            foreach ($path as $p) {
+              if (in_array($p, $categories)) {
                 $templates[$row->getValue('id')] = $row->getValue('name');
                 break;
               }

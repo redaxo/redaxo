@@ -15,7 +15,7 @@ function rex_send_file($file, $contentType, $environment = 'backend')
  *
  * @deprecated 5.0
  */
-function rex_send_resource($content, $sendcharset = TRUE, $lastModified = null, $etag = null)
+function rex_send_resource($content, $sendcharset = true, $lastModified = null, $etag = null)
 {
   rex_response::sendResource($content, $sendcharset, $lastModified, $etag);
 }
@@ -25,7 +25,7 @@ function rex_send_resource($content, $sendcharset = TRUE, $lastModified = null, 
  *
  * @deprecated 5.0
  */
-function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = FALSE)
+function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = false)
 {
   rex_response::sendArticle($content);
 }
@@ -35,7 +35,7 @@ function rex_send_article($REX_ARTICLE, $content, $environment, $sendcharset = F
  *
  * @deprecated 5.0
  */
-function rex_send_content($content, $lastModified, $etag, $environment, $sendcharset = FALSE)
+function rex_send_content($content, $lastModified, $etag, $environment, $sendcharset = false)
 {
   rex_response::sendContent($content, $lastModified, $etag, $environment, $sendcharset);
 }

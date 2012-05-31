@@ -2,45 +2,45 @@
 
 media = Media
 categories = Kategorie
-articles = Polo¾ky
+articles = PoloÂ¾ky
 
 minfo_metainfos_not_found = Meta data nenalezena
 
-minfo_field_list_caption = Seznam meta polí
+minfo_field_list_caption = Seznam meta polÃ­
 
-minfo_field_fieldset = Pole zpracovat	
-minfo_field_label_prefix = Pøedpona
-minfo_field_label_title = Oznaèení pole
-minfo_field_label_name = Jméno sloupce
+minfo_field_fieldset = Pole zpracovat
+minfo_field_label_prefix = PÃ¸edpona
+minfo_field_label_title = OznaÃ¨enÃ­ pole
+minfo_field_label_name = JmÃ©no sloupce
 minfo_field_label_id = ID
 minfo_field_label_type = Typ pole
 minfo_field_label_attributes = Atributy pole
-minfo_field_label_default = Standartní hodnota
-minfo_field_label_nullable = Povinné pole
+minfo_field_label_default = StandartnÃ­ hodnota
+minfo_field_label_nullable = PovinnÃ© pole
 minfo_field_label_params = Parametr
 minfo_field_label_prior = Pozice pole
 
-minfo_field_notice_title = Prefix "translate:" Pøelo¾ pøes hodnotu I18N
+minfo_field_notice_title = Prefix "translate:" PÃ¸eloÂ¾ pÃ¸es hodnotu I18N
 
-minfo_field_first_prior = Na zaèátek
-minfo_field_after_prior = Po polo¾ce "{0}"
+minfo_field_first_prior = Na zaÃ¨Ã¡tek
+minfo_field_after_prior = Po poloÂ¾ce "{0}"
 
-minfo_field_params_notice_3 = Pøíklady:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
-minfo_field_params_notice_4 = Pøíklady:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
-minfo_field_params_notice_5 = Pøíklady:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_3 = PÃ¸Ã­klady:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_4 = PÃ¸Ã­klady:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_5 = PÃ¸Ã­klady:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
 
-minfo_field_attributes_notice = Pøíklad:<br /> style=color:red multiple=multiple class=my_css_class
+minfo_field_attributes_notice = PÃ¸Ã­klad:<br /> style=color:red multiple=multiple class=my_css_class
 
-minfo_field_error_name = Prosím zadat èíslo sloupce!
-minfo_field_error_unique_name = Zadané jméno sloupce ji¾ existuje!
-minfo_field_error_unique_type = Zadaný typ jména ji¾ existuje!
-minfo_field_error_chars_name = Jméno sloupce obsahuje nepovolené znaky. (Povolené jsou A-Z, 0-9 a _)!
-minfo_field_error_invalid_prefix = Zadaná pøedpona je neplatná!
-minfo_field_error_invalid_type = Zadaný typ je neplatný!
-minfo_field_error_invalid_length = Zadaná délka pole je neplatná!
-minfo_field_error_invalid_name = Zadané jméno sloupce je neplatné!
-minfo_field_error_invalid_fieldid = Zadané ID pole je neplatné!
-minfo_field_error_invalid_typeid = Zadané ID typu je neplatné!
-minfo_field_successfull_saved = Data úspì¹nì ulo¾ena!
+minfo_field_error_name = ProsÃ­m zadat Ã¨Ã­slo sloupce!
+minfo_field_error_unique_name = ZadanÃ© jmÃ©no sloupce jiÂ¾ existuje!
+minfo_field_error_unique_type = ZadanÃ½ typ jmÃ©na jiÂ¾ existuje!
+minfo_field_error_chars_name = JmÃ©no sloupce obsahuje nepovolenÃ© znaky. (PovolenÃ© jsou A-Z, 0-9 a _)!
+minfo_field_error_invalid_prefix = ZadanÃ¡ pÃ¸edpona je neplatnÃ¡!
+minfo_field_error_invalid_type = ZadanÃ½ typ je neplatnÃ½!
+minfo_field_error_invalid_length = ZadanÃ¡ dÃ©lka pole je neplatnÃ¡!
+minfo_field_error_invalid_name = ZadanÃ© jmÃ©no sloupce je neplatnÃ©!
+minfo_field_error_invalid_fieldid = ZadanÃ© ID pole je neplatnÃ©!
+minfo_field_error_invalid_typeid = ZadanÃ© ID typu je neplatnÃ©!
+minfo_field_successfull_saved = Data ÃºspÃ¬Â¹nÃ¬ uloÂ¾ena!
 
 minfo_edit_metadata = Upravit metadata

@@ -42,14 +42,14 @@ media_manager_type_system = System Bildtyp
 media_manager_type_delete = löschen
 
 media_manager_effect_list_header = Effekte des Bildtyps "{0}"
-media_manager_effect_edit_header = Bildtyp "{0}": Effekt bearbeiten 
+media_manager_effect_edit_header = Bildtyp "{0}": Effekt bearbeiten
 media_manager_effect_create_header = Bildtyp "{0}": Effekt erstellen
 media_manager_effect_caption = Liste der angelegten Effekte des Bildtyps "{0}"
 media_manager_effect_summary = Auflistung aller angelegten Effekte des Bildtyps "{0}"
 media_manager_effect_no_effects = Keine Effekte vorhanden
 media_manager_effect_create = Effekt erstellen
-media_manager_effect_edit = Effekt bearbeiten 
-media_manager_effect_delete = Effekt löschen 
+media_manager_effect_edit = Effekt bearbeiten
+media_manager_effect_delete = Effekt löschen
 media_manager_effect_name = Effekt
 media_manager_effect_prior = Effektreihenfolge
 media_manager_effect_parameters = Parameter
@@ -60,7 +60,7 @@ media_manager_effect_brand_image = Bild
 media_manager_effect_brand_hpos = horizontale Ausrichtung
 media_manager_effect_brand_vpos = vertikale Ausrichtung
 media_manager_effect_brand_padding_x = horizontaler Abstand zum Rand
-media_manager_effect_brand_padding_y = vertikaler Abstand zum Rand 
+media_manager_effect_brand_padding_y = vertikaler Abstand zum Rand
 
 media_manager_effect_blur_amount = Unschärfegrad
 media_manager_effect_blur_radius = Größe der Unschärfematrix
@@ -77,7 +77,7 @@ media_manager_effect_resize_imgtosmall = Wenn Bild zu klein
 
 media_manager_effect_crop_width = Zielbreite
 media_manager_effect_crop_height = Zielhöhe
-media_manager_effect_crop_offset_width = Horizontaler Versatz/Offset 
+media_manager_effect_crop_offset_width = Horizontaler Versatz/Offset
 media_manager_effect_crop_offset_height = Vertikaler Versatz/Offset
 media_manager_effect_crop_position = Bezugspunkt
 
@@ -99,4 +99,3 @@ media_manager_effect_mediapath = Medienordner
 
 media_manager_effect_header_download = Download
 media_manager_effect_header_cache = Cache-Control
-

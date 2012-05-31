@@ -27,29 +27,26 @@ class rex_stream
   /**
    * Prepares a new stream
    *
-   * @param string $path Virtual path which should describe the content (e.g. "template/1"), only relevant for error messages
+   * @param string $path    Virtual path which should describe the content (e.g. "template/1"), only relevant for error messages
    * @param string $content Content which will be included
    *
    * @return string Full path with protocol (e.g. "rex://template/1")
    */
   static public function factory($path, $content)
   {
-    if(!is_string($path) || empty($path))
-    {
+    if (!is_string($path) || empty($path)) {
       throw new rex_exception('Expecting $path to be a string and not empty!');
     }
-    if(!is_string($content))
-    {
+    if (!is_string($content)) {
       throw new rex_exception('Expecting $content to be a string!');
     }
 
-    if(!self::$registered)
-    {
+    if (!self::$registered) {
       stream_wrapper_register('rex', __CLASS__);
       self::$registered = true;
     }
 
-    $path = 'rex://'. $path;
+    $path = 'rex://' . $path;
     self::$nextContent[$path] = $content;
 
     return $path;
@@ -60,8 +57,7 @@ class rex_stream
    */
   public function stream_open($path, $mode, $options, &$opened_path)
   {
-    if(!isset(self::$nextContent[$path]) || !is_string(self::$nextContent[$path]))
-    {
+    if (!isset(self::$nextContent[$path]) || !is_string(self::$nextContent[$path])) {
       return false;
     }
 
@@ -99,8 +95,8 @@ class rex_stream
   }
 
   /**
-  * @link http://www.php.net/manual/en/streamwrapper.url-stat.php
-  */
+   * @link http://www.php.net/manual/en/streamwrapper.url-stat.php
+   */
   public function url_stat()
   {
     return null;

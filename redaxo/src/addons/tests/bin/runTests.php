@@ -1,9 +1,8 @@
 #!/usr/bin/php
 <?php
 
-if (PHP_SAPI !== 'cli')
-{
-  echo "error: this script may only be run from CLI";
+if (PHP_SAPI !== 'cli') {
+  echo 'error: this script may only be run from CLI';
   return 1;
 }
 
@@ -12,11 +11,10 @@ $path = explode(DIRECTORY_SEPARATOR, __DIR__);
 do {
   $part = array_pop($path);
 }
-while($part !== null && $part != 'redaxo');
+while ($part !== null && $part != 'redaxo');
 
-if(!chdir(implode(DIRECTORY_SEPARATOR, $path). '/redaxo'))
-{
-  echo "error: start this script within a redaxo projects folder";
+if (!chdir(implode(DIRECTORY_SEPARATOR, $path) . '/redaxo')) {
+  echo 'error: start this script within a redaxo projects folder';
   return 2;
 }
 

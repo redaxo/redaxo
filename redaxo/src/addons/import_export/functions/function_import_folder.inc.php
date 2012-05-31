@@ -1,6 +1,7 @@
 <?php
 // Import Folder Functions
-function getImportDir() {
+function getImportDir()
+{
     return rex_path::addon('import_export', 'backup');
 }
 
@@ -17,10 +18,10 @@ function compareFiles($file_a, $file_b)
 {
     $dir = getImportDir();
 
-    $time_a = filemtime( $dir .'/'. $file_a);
-    $time_b = filemtime( $dir .'/'. $file_b);
+    $time_a = filemtime( $dir . '/' . $file_a);
+    $time_b = filemtime( $dir . '/' . $file_b);
 
-    if( $time_a == $time_b) {
+    if ( $time_a == $time_b) {
         return 0;
     }
 

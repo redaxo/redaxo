@@ -21,7 +21,7 @@ class rex_form_widget_linkmap_element extends rex_form_element
     static $widget_counter = 1;
 
     $html = rex_var_link::getLinkButton($widget_counter, $this->getValue(), $this->category_id);
-    $html = str_replace('LINK['. $widget_counter .']', $this->getAttribute('name'), $html);
+    $html = str_replace('LINK[' . $widget_counter . ']', $this->getAttribute('name'), $html);
 
     $widget_counter++;
     return $html;

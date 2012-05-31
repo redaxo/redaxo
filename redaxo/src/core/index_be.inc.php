@@ -15,11 +15,10 @@ $pages = array();
 $page = '';
 
 // ----------------- SETUP
-if (rex::isSetup())
-{
+if (rex::isSetup()) {
   // ----------------- SET SETUP LANG
   $requestLang = rex_request('lang', 'string');
-  if(in_array($requestLang, rex_i18n::getLocales()))
+  if (in_array($requestLang, rex_i18n::getLocales()))
     rex::setProperty('lang', $requestLang);
 
   rex_i18n::setLocale(rex::getProperty('lang'));
@@ -28,8 +27,7 @@ if (rex::isSetup())
   $page = 'setup';
   rex::setProperty('page', 'setup');
 
-}else
-{
+} else {
   // ----------------- CREATE LANG OBJ
   rex_i18n::setLocale(rex::getProperty('lang'));
 
@@ -48,29 +46,25 @@ if (rex::isSetup())
   $login->setStayLoggedIn($rex_user_stay_logged_in);
   $loginCheck = $login->checkLogin();
 
-  $rex_user_loginmessage = "";
-  if ($loginCheck !== true)
-  {
+  $rex_user_loginmessage = '';
+  if ($loginCheck !== true) {
     rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
 
     // login failed
     $rex_user_loginmessage = $login->message;
 
     // Fehlermeldung von der Datenbank
-    if(is_string($loginCheck))
+    if (is_string($loginCheck))
       $rex_user_loginmessage = $loginCheck;
 
     $pages['login'] = rex_be_controller::getLoginPage();
     $page = 'login';
     rex::setProperty('page', 'login');
-  }
-  else
-  {
+  } else {
     // Userspezifische Sprache einstellen
     $user = $login->getUser();
     $lang = $user->getLanguage();
-    if($lang && $lang != 'default' && $lang != rex::getProperty('lang'))
-    {
+    if ($lang && $lang != 'default' && $lang != rex::getProperty('lang')) {
       rex_i18n::setLocale($lang);
     }
 
@@ -78,22 +72,17 @@ if (rex::isSetup())
   }
 
   // Safe Mode
-  if(($safeMode = rex_get('safemode', 'boolean', null)) !== null)
-  {
-    if($safeMode)
-    {
+  if (($safeMode = rex_get('safemode', 'boolean', null)) !== null) {
+    if ($safeMode) {
       rex_set_session('safemode', true);
-    }
-    else
-    {
+    } else {
       rex_unset_session('safemode');
     }
   }
 }
 
 // ----- Prepare Core Pages
-if(rex::getUser())
-{
+if (rex::getUser()) {
   $pages = rex_be_controller::getLoggedInPages();
 }
 
@@ -105,22 +94,19 @@ include_once rex_path::core('packages.inc.php');
 $pages = rex::getProperty('pages');
 
 // ----- Prepare AddOn Pages
-if(rex::getUser())
-{
+if (rex::getUser()) {
   $pages = rex_be_controller::appendAddonPages($pages);
 }
 
 $page = rex::getProperty('page');
 
 // Set Startpage
-if($user = rex::getUser())
-{
+if ($user = rex::getUser()) {
   // --- page herausfinden
   $reqPage = trim(rex_request('page', 'string'));
 
   // --- page pruefen und benoetigte rechte checken
-  if(!($page = rex_be_controller::checkPage($reqPage, $pages, $user)))
-  {
+  if (!($page = rex_be_controller::checkPage($reqPage, $pages, $user))) {
     // --- fallback auf "profile"; diese page hat jeder user
     rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
     rex_response::sendRedirect('index.php?page=profile');
@@ -140,8 +126,7 @@ rex_api_function::handleCall();
 $_pageObj = $pages[$page]->getPage();
 $_activePageObj = $_pageObj;
 $subpage = $_pageObj->getActiveSubPage();
-if($subpage != null)
-{
+if ($subpage != null) {
   $_activePageObj = $subpage;
 }
 

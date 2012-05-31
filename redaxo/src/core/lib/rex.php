@@ -51,8 +51,8 @@ class rex
   /**
    * Sets a property
    *
-   * @param string $key Key of the property
-   * @param mixed $value Value for the property
+   * @param string $key   Key of the property
+   * @param mixed  $value Value for the property
    *
    * @return boolean TRUE when an existing value was overridden, otherwise FALSE
    *
@@ -60,9 +60,8 @@ class rex
    */
   static public function setProperty($key, $value)
   {
-    if(!is_string($key))
-    {
-      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
+    if (!is_string($key)) {
+      throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
     }
     $exists = isset(self::$properties[$key]);
     self::$properties[$key] = $value;
@@ -72,8 +71,8 @@ class rex
   /**
    * Returns a property
    *
-   * @param string $key Key of the property
-   * @param mixed $default Default value, will be returned if the property isn't set
+   * @param string $key     Key of the property
+   * @param mixed  $default Default value, will be returned if the property isn't set
    *
    * @return the value for $key or $default if $key cannot be found
    *
@@ -81,12 +80,10 @@ class rex
    */
   static public function getProperty($key, $default = null)
   {
-    if(!is_string($key))
-    {
-      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
+    if (!is_string($key)) {
+      throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
     }
-    if(isset(self::$properties[$key]))
-    {
+    if (isset(self::$properties[$key])) {
       return self::$properties[$key];
     }
     return $default;
@@ -117,9 +114,8 @@ class rex
    */
   static public function removeProperty($key)
   {
-    if(!is_string($key))
-    {
-      throw new rex_exception('Expecting $key to be string, but '. gettype($key) .' given!');
+    if (!is_string($key)) {
+      throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
     }
     $exists = isset(self::$properties[$key]);
     unset(self::$properties[$key]);
@@ -212,19 +208,18 @@ class rex
    * Returns the title tag and if the property "use_accesskeys" is true, the accesskey tag
    *
    * @param string $title Title
-   * @param string $key Key for the accesskey
+   * @param string $key   Key for the accesskey
    * @return string
    */
   static public function getAccesskey($title, $key)
   {
-    if (self::getProperty('use_accesskeys'))
-    {
+    if (self::getProperty('use_accesskeys')) {
       $accesskeys = (array) self::getProperty('accesskeys', array());
-      if(isset($accesskeys[$key]))
-        return ' accesskey="'. $accesskeys[$key] .'" title="'. $title .' ['. $accesskeys[$key] .']"';
+      if (isset($accesskeys[$key]))
+        return ' accesskey="' . $accesskeys[$key] . '" title="' . $title . ' [' . $accesskeys[$key] . ']"';
     }
 
-    return ' title="'. $title .'"';
+    return ' title="' . $title . '"';
   }
 
   /**
@@ -234,7 +229,7 @@ class rex
    */
   static public function getFilePerm()
   {
-    return (int) rex::getProperty('fileperm', 0664);
+    return (int) self::getProperty('fileperm', 0664);
   }
 
   /**
@@ -244,6 +239,6 @@ class rex
    */
   static public function getDirPerm()
   {
-    return (int) rex::getProperty('dirperm', 0775);
+    return (int) self::getProperty('dirperm', 0775);
   }
 }

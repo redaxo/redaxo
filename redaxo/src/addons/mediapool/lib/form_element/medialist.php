@@ -33,7 +33,7 @@ class rex_form_widget_medialist_element extends rex_form_element
     static $widget_counter = 1;
 
     $html = rex_var_media::getMediaListButton($widget_counter, $this->getValue(), $this->category_id, $this->args);
-    $html = str_replace('MEDIALIST['. $widget_counter .']', $this->getAttribute('name'), $html);
+    $html = str_replace('MEDIALIST[' . $widget_counter . ']', $this->getAttribute('name'), $html);
 
     $widget_counter++;
     return $html;

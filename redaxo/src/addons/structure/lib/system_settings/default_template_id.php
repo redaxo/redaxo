@@ -1,10 +1,10 @@
 <?php
 
 /**
-* Class for the default_template_id setting
-*
-* @author gharlan
-*/
+ * Class for the default_template_id setting
+ *
+ * @author gharlan
+ */
 class rex_system_setting_default_template_id extends rex_system_setting
 {
   public function __construct()
@@ -36,9 +36,8 @@ class rex_system_setting_default_template_id extends rex_system_setting
   public function isValid($value)
   {
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT * FROM '. rex::getTablePrefix() .'template WHERE id='. $value .' AND active=1');
-    if($sql->getRows() != 1 && $value != 0)
-    {
+    $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id=' . $value . ' AND active=1');
+    if ($sql->getRows() != 1 && $value != 0) {
       return rex_i18n::msg('system_setting_default_template_id_invalid');
     }
     return true;

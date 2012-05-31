@@ -20,9 +20,9 @@ class rex_clang
   /**
    * Constructor
    *
-   * @param integer $id Clang id
-   * @param string $code Clang code
-   * @param string $name Clang name
+   * @param integer $id   Clang id
+   * @param string  $code Clang code
+   * @param string  $name Clang name
    */
   private function __construct($id, $code, $name)
   {
@@ -51,8 +51,7 @@ class rex_clang
    */
   static public function get($id)
   {
-    if (self::exists($id))
-    {
+    if (self::exists($id)) {
       return self::$clangs[$id];
     }
     return null;
@@ -85,9 +84,8 @@ class rex_clang
    */
   static public function setCurrentId($id)
   {
-    if(!self::exists($id))
-    {
-      throw new rex_exception('Clang id "'. $id .'" doesn\'t exist');
+    if (!self::exists($id)) {
+      throw new rex_exception('Clang id "' . $id . '" doesn\'t exist');
     }
     self::$currentId = $id;
   }
@@ -160,18 +158,15 @@ class rex_clang
    */
   static private function checkCache()
   {
-    if(self::$cacheLoaded)
-    {
+    if (self::$cacheLoaded) {
       return;
     }
 
     $file = rex_path::cache('clang.cache');
-    if(!file_exists($file))
-    {
+    if (!file_exists($file)) {
       rex_clang_service::generateCache();
     }
-    foreach(rex_file::getCache($file) as $id => $clang)
-    {
+    foreach (rex_file::getCache($file) as $id => $clang) {
       self::$clangs[$id] = new self($id, $clang['code'], $clang['name']);
     }
     self::$cacheLoaded = true;

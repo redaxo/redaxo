@@ -19,8 +19,7 @@ echo rex_view::title('Metainformationen erweitern');
 echo '<div class="rex-addon-output-v2">';
 
 // Include Current Page
-switch($subpage)
-{
+switch ($subpage) {
   case 'media' :
   {
     $prefix = 'med_';
@@ -39,6 +38,6 @@ switch($subpage)
 
 $metaTable = rex_metainfo_meta_table($prefix);
 
-require $Basedir .'/field.inc.php';
+require $Basedir . '/field.inc.php';
 
 echo '</div>';
