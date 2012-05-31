@@ -250,7 +250,7 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
 
   public function getIterator()
   {
-    $iterator = new RecursiveDirectoryIterator( $this->baseDir, FilesystemIterator::CURRENT_AS_FILEINFO & FilesystemIterator::SKIP_DOTS);
+    $iterator = new RecursiveDirectoryIterator( $this->baseDir, FilesystemIterator::KEY_AS_FILENAME| FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS);
     if ($this->recursive)
     {
       $iterator = new RecursiveIteratorIterator($iterator, $this->recursiveMode);
