@@ -7,7 +7,7 @@
  * @package redaxo5
  */
 
-class rex_article_base
+class rex_article_content_base
 {
   public
     $warning,
@@ -178,7 +178,7 @@ class rex_article_base
   {
     // damit alte rex_article felder wie teaser, online_from etc
     // noch funktionieren
-    // gleicher BC code nochmals in rex_ooRedaxo::getValue
+    // gleicher BC code nochmals in rex_structure_element::getValue
     foreach (array('', 'art_', 'cat_') as $prefix) {
       $val = $prefix . $value;
       if ($this->hasValue($val)) {

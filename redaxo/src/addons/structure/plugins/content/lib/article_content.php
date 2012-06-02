@@ -7,7 +7,7 @@
  * @package redaxo5
  */
 
-class rex_article extends rex_article_base
+class rex_article_content extends rex_article_content_base
 {
   // bc schalter
   private $viasql;

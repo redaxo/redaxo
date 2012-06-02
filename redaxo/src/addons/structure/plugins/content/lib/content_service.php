@@ -183,7 +183,7 @@ class rex_content_service
       if ($clang !== null && $clang != $_clang)
       continue;
 
-      $CONT = new rex_article_base();
+      $CONT = new rex_article_content_base;
       $CONT->setCLang($_clang);
       $CONT->setEval(false); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
       if (!$CONT->setArticleId($article_id)) return false;

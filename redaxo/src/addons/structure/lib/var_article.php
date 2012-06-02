@@ -113,7 +113,7 @@ class rex_var_article extends rex_var
       $clang = rex_clang::getCurrentId();
     }
     if (!is_object($article)) {
-      $article = new rex_article($article, $clang);
+      $article = new rex_article_content($article, $clang);
     }
 
     $article = $article->getArticle($ctype);

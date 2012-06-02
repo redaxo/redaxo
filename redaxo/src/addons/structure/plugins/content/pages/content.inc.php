@@ -185,7 +185,7 @@ if ($article->getRows() == 1) {
           list($action_message, $REX_ACTION) = rex_execPreSaveAction($module_id, $function, $REX_ACTION);
           // ----- / PRE SAVE ACTION
 
-          // Statusspeicherung für die rex_article Klasse
+          // Statusspeicherung für die rex_article_content Klasse
           rex_plugin::get('structure', 'content')->setProperty('rex_action', $REX_ACTION);
 
           // Werte werden aus den REX_ACTIONS übernommen wenn SAVE=true
@@ -530,7 +530,7 @@ if ($article->getRows() == 1) {
     // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
     if ($mode == 'edit') {
 
-      $CONT = new rex_article_editor();
+      $CONT = new rex_article_content_editor;
       $CONT->getContentAsQuery();
       $CONT->info = $info;
       $CONT->warning = $warning;
