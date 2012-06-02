@@ -31,18 +31,17 @@
  * $nav->showBreadcrumb(true);
  */
 
-// @codingStandardsIgnoreName
-class rex_ooNavigation extends rex_factory_base
+class rex_navigation extends rex_factory_base
 {
   private
-  $depth, // Wieviele Ebene tief, ab der Startebene
-  $open, // alles aufgeklappt, z.b. Sitemap
-  $ignore_offlines,
-  $path = array(),
-  $classes = array(),
+    $depth, // Wieviele Ebene tief, ab der Startebene
+    $open, // alles aufgeklappt, z.b. Sitemap
+    $ignore_offlines,
+    $path = array(),
+    $classes = array(),
 
-  $current_article_id = -1, // Aktueller Artikel
-  $current_category_id = -1; // Aktuelle Katgorie
+    $current_article_id = -1, // Aktueller Artikel
+    $current_category_id = -1; // Aktuelle Katgorie
 
   private function __construct()
   {
