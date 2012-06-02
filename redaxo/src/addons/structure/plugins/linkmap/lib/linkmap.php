@@ -9,7 +9,7 @@ class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
     $this->context = $context;
   }
 
-  protected function treeItem(rex_ooCategory $cat, $liClasses, $linkClasses, $subHtml)
+  protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml)
   {
 
     if ($liClasses != '')
@@ -39,7 +39,7 @@ class rex_linkmap_article_list extends rex_linkmap_article_list_renderer
     $this->context = $context;
   }
 
-  protected function listItem(rex_ooArticle $article, $category_id)
+  protected function listItem(rex_article $article, $category_id)
   {
     $liClass = $article->isStartpage() ? ' class="rex-linkmap-startpage"' : '';
     $url     = 'javascript:insertLink(\'redaxo://' . $article->getId() . '\',\'' . addslashes(htmlspecialchars($article->getName())) . '\');';

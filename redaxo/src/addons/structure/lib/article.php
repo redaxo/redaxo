@@ -5,8 +5,7 @@
  * @package redaxo5
  */
 
-// @codingStandardsIgnoreName
-class rex_ooArticle extends rex_ooRedaxo
+class rex_article extends rex_structure_element
 {
   public function __construct($params = false, $clang = false)
   {
@@ -15,9 +14,9 @@ class rex_ooArticle extends rex_ooRedaxo
 
   /**
    * CLASS Function:
-   * Return an rex_ooRedaxo object based on an id
+   * Return an rex_article object based on an id
    *
-   * @return rex_ooArticle
+   * @return rex_article
    */
   static public function getArticleById($article_id, $clang = false)
   {
@@ -28,7 +27,7 @@ class rex_ooArticle extends rex_ooRedaxo
    * CLASS Function:
    * Return the site wide start article
    *
-   * @return rex_ooArticle
+   * @return rex_article
    */
   static public function getSiteStartArticle($clang = false)
   {
@@ -39,7 +38,7 @@ class rex_ooArticle extends rex_ooRedaxo
    * CLASS Function:
    * Return start article for a certain category
    *
-   * @return rex_ooArticle
+   * @return rex_article
    */
   static public function getCategoryStartArticle($a_category_id, $clang = false)
   {
@@ -48,7 +47,7 @@ class rex_ooArticle extends rex_ooRedaxo
 
   /**
    * Articles of categories, keyed by category_id
-   * @var array[rex_ooArticle]
+   * @var array[rex_article]
    */
   static private $articleIds = array();
 
@@ -56,7 +55,7 @@ class rex_ooArticle extends rex_ooRedaxo
    * CLASS Function:
    * Return a list of articles for a certain category
    *
-   * @return array[rex_ooArticle]
+   * @return array[rex_article]
    */
   static public function getArticlesOfCategory($a_category_id, $ignore_offlines = false, $clang = false)
   {
@@ -96,7 +95,7 @@ class rex_ooArticle extends rex_ooRedaxo
    * CLASS Function:
    * Return a list of top-level articles
    *
-   * @return array[rex_ooArticle]
+   * @return array[rex_article]
    */
   static public function getRootArticles($ignore_offlines = false, $clang = false)
   {
@@ -118,18 +117,18 @@ class rex_ooArticle extends rex_ooRedaxo
    * Object Function:
    * Returns the parent category
    *
-   * @return rex_ooCategory
+   * @return rex_category
    */
   public function getCategory()
   {
-    return rex_ooCategory :: getCategoryById($this->getCategoryId(), $this->getClang());
+    return rex_category :: getCategoryById($this->getCategoryId(), $this->getClang());
   }
 
   /**
    * Accessor Method:
    * returns the parent object of the article
    *
-   * @return rex_ooArticle
+   * @return rex_article
    */
   public function getParent($clang = false)
   {
@@ -156,17 +155,17 @@ class rex_ooArticle extends rex_ooRedaxo
   }
 
   /**
-   * Static Method: Returns True when the given article is a valid rex_ooArticle
+   * Static Method: Returns True when the given article is a valid rex_article
    *
    * @return boolean
    */
   static public function isValid($article)
   {
-    return is_object($article) && is_a($article, 'rex_ooArticle');
+    return is_object($article) && is_a($article, 'rex_article');
   }
 
   /**
-   * @see rex_ooRedaxo::getValue()
+   * @see rex_structure_element::getValue()
    *
    * @return string
    */

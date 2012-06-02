@@ -35,10 +35,10 @@ class rex_article_content extends rex_article_content_base
     $article_id = (int) $article_id;
     $this->article_id = $article_id;
 
-    $rex_ooArticle = rex_ooArticle::getArticleById($article_id, $this->clang);
-    if (rex_ooArticle::isValid($rex_ooArticle)) {
-      $this->category_id = $rex_ooArticle->getCategoryId();
-      $this->template_id = $rex_ooArticle->getTemplateId();
+    $rex_article = rex_article::getArticleById($article_id, $this->clang);
+    if (rex_article::isValid($rex_article)) {
+      $this->category_id = $rex_article->getCategoryId();
+      $this->template_id = $rex_article->getTemplateId();
       return true;
     }
 
@@ -72,7 +72,7 @@ class rex_article_content extends rex_article_content_base
 
     $value = $this->correctValue($value);
 
-    return rex_ooArticle::getArticleById($this->article_id, $this->clang)->getValue($value);
+    return rex_article::getArticleById($this->article_id, $this->clang)->getValue($value);
   }
 
   public function hasValue($value)
@@ -84,7 +84,7 @@ class rex_article_content extends rex_article_content_base
 
     $value = $this->correctValue($value);
 
-    return rex_ooArticle::getArticleById($this->article_id, $this->clang)->hasValue($value);
+    return rex_article::getArticleById($this->article_id, $this->clang)->hasValue($value);
   }
 
   public function getArticle($curctype = -1)

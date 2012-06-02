@@ -218,7 +218,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    * Get an array of all parentCategories.
-   * Returns an array of rex_ooRedaxo objects sorted by $prior.
+   * Returns an array of rex_ooMediaCategory objects sorted by $prior.
    *
    */
   public function getParentTree()

@@ -40,8 +40,8 @@ class rex_system_setting_article_id extends rex_system_setting
 
   public function isValid($value)
   {
-    $article = rex_ooArticle::getArticleById($value);
-    if (!rex_ooArticle::isValid($article)) {
+    $article = rex_article::getArticleById($value);
+    if (!rex_article::isValid($article)) {
       return rex_i18n::msg('system_setting_' . $this->key . '_invalid');
     }
     return true;

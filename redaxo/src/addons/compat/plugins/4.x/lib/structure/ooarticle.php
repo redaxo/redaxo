@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @see rex_ooArticle
+ * @see rex_article
  *
  * @deprecated 5.0
  */
-class OOArticle extends rex_ooArticle
+class OOArticle extends rex_article
 {
   /**
-   * @see rex_ooArticle::getValue()
+   * @see rex_article::getValue()
    *
    * @deprecated 4.0 17.09.2007
    */
@@ -18,7 +18,7 @@ class OOArticle extends rex_ooArticle
   }
 
   /**
-   * @see rex_ooArticle::getValue()
+   * @see rex_article::getValue()
    *
    * @deprecated 4.0 17.09.2007
    */
@@ -28,7 +28,7 @@ class OOArticle extends rex_ooArticle
   }
 
   /**
-   * @see rex_ooArticle::getValue()
+   * @see rex_article::getValue()
    *
    * @deprecated 4.0 17.09.2007
    */
@@ -38,7 +38,7 @@ class OOArticle extends rex_ooArticle
   }
 
   /**
-   * @see rex_ooArticle::getValue()
+   * @see rex_article::getValue()
    *
    * @deprecated 4.0 17.09.2007
    */

@@ -20,8 +20,8 @@ $function    = rex_request('function',    'string');
 $info = '';
 $warning = '';
 
-$category_id = rex_ooCategory::isValid(rex_ooCategory::getCategoryById($category_id)) ? $category_id : 0;
-$article_id = rex_ooArticle::isValid(rex_ooArticle::getArticleById($article_id)) ? $article_id : 0;
+$category_id = rex_category::isValid(rex_category::getCategoryById($category_id)) ? $category_id : 0;
+$article_id = rex_article::isValid(rex_article::getArticleById($article_id)) ? $article_id : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
 
 
@@ -102,7 +102,7 @@ echo rex_api_function::getMessage();
 
 // --------------------------------------------- KATEGORIE LISTE
 $cat_name = 'Homepage';
-$category = rex_ooCategory::getCategoryById($category_id, $clang);
+$category = rex_category::getCategoryById($category_id, $clang);
 if ($category)
   $cat_name = $category->getName();
 
@@ -197,7 +197,7 @@ $echo .= '
           </tr>
         </thead>
         <tbody>';
-if ($category_id != 0 && ($category = rex_ooCategory::getCategoryById($category_id))) {
+if ($category_id != 0 && ($category = rex_category::getCategoryById($category_id))) {
   $echo .= '<tr>
           <td class="rex-icon">&nbsp;</td>';
   if (rex::getUser()->hasPerm('advancedMode[]')) {
@@ -390,7 +390,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
   $template_select->setId('rex-form-template');
   $template_select->setSize(1);
 
-  $templates = rex_ooCategory::getTemplates($category_id);
+  $templates = rex_category::getTemplates($category_id);
   if (count($templates) > 0) {
     foreach ($templates as $t_id => $t_name) {
       $template_select->addOption(rex_i18n::translate($t_name, null, false), $t_id);

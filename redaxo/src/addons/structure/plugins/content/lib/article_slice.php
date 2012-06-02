@@ -3,16 +3,15 @@
 
 /**
  *
- * The rex_ooArticleSlice class is an object wrapper over the database table rex_articel_slice.
- * Together with rex_ooArticle and rex_ooCategory it provides an object oriented
+ * The rex_article_slice class is an object wrapper over the database table rex_articel_slice.
+ * Together with rex_article and rex_category it provides an object oriented
  * Framework for accessing vital parts of your website.
  * This framework can be used in Modules, Templates and PHP-Slices!
  *
  * @package redaxo5
  */
 
-// @codingStandardsIgnoreName
-class rex_ooArticleSlice
+class rex_article_slice
 {
   private
     $_id,
@@ -69,7 +68,7 @@ class rex_ooArticleSlice
   /*
    * CLASS Function:
    * Return an ArticleSlice by its id
-   * Returns an rex_ooArticleSlice object
+   * Returns an rex_article_slice object
    */
   static public function getArticleSliceById($an_id, $clang = false, $revision = 0)
   {
@@ -85,7 +84,7 @@ class rex_ooArticleSlice
    * This can then be used to iterate over all the
    * slices in the order as they appear using the
    * getNextSlice() function.
-   * Returns an rex_ooArticleSlice object
+   * Returns an rex_article_slice object
    */
   static public function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
   {
@@ -120,7 +119,7 @@ class rex_ooArticleSlice
    * CLASS Function:
    * Return all slices for an article that have a certain
    * clang or revision.
-   * Returns an array of rex_ooArticleSlice objects
+   * Returns an array of rex_article_slice objects
    */
   static public function getSlicesForArticle($an_article_id, $clang = false, $revision = 0)
   {
@@ -135,7 +134,7 @@ class rex_ooArticleSlice
    * CLASS Function:
    * Return all slices for an article that have a certain
    * module type.
-   * Returns an array of rex_ooArticleSlice objects
+   * Returns an array of rex_article_slice objects
    */
   static public function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0)
   {
@@ -149,7 +148,7 @@ class rex_ooArticleSlice
   /*
    * Object Function:
    * Return the next slice for this article
-   * Returns an rex_ooArticleSlice object.
+   * Returns an rex_article_slice object.
    */
   public function getNextSlice()
   {
@@ -170,11 +169,11 @@ class rex_ooArticleSlice
    *
    * @deprecated 5.0
    *
-   * @see rex_article#getSlice()
+   * @see rex_article_content::getSlice()
    */
   public function getSlice()
   {
-    $art = new rex_article();
+    $art = new rex_article_content();
     $art->setArticleId($this->getArticleId());
     $art->setClang($this->getClang());
     $art->setSliceRevision($this->getRevision());
@@ -232,7 +231,7 @@ class rex_ooArticleSlice
 
   public function getArticle()
   {
-    return rex_ooArticle :: getArticleById($this->getArticleId());
+    return rex_article :: getArticleById($this->getArticleId());
   }
 
   public function getArticleId()

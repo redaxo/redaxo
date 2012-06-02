@@ -557,7 +557,7 @@ class rex_ooMedia
       foreach ($res as $art_arr) {
         $aid = $art_arr['article_id'];
         $clang = $art_arr['clang'];
-        $ooa = rex_ooArticle::getArticleById($aid, $clang);
+        $ooa = rex_article::getArticleById($aid, $clang);
         $name = $ooa->getName();
         $warning[0] .= '<li><a href="javascript:openPage(\'index.php?page=content&amp;article_id=' . $aid . '&amp;mode=edit&amp;clang=' . $clang . '\')">' . $name . '</a></li>';
       }

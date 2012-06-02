@@ -7,7 +7,7 @@ class rex_api_sitemap_tree extends rex_api_function
   {
     // check if a new category was folded
     $category_id = rex_request('toggle_category_id', 'int', -1);
-    $category_id = rex_ooCategory::isValid(rex_ooCategory::getCategoryById($category_id)) ? $category_id : -1;
+    $category_id = rex_category::isValid(rex_category::getCategoryById($category_id)) ? $category_id : -1;
 
     /**
      * @var rex_user

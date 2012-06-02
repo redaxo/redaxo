@@ -75,7 +75,7 @@ class rex_var_article extends rex_var
       }
 
       if ($field) {
-        if (rex_ooArticle::hasValue($field)) {
+        if (rex_article::hasValue($field)) {
           $tpl = '<?php echo ' . __CLASS__ . '::getArticleValue(' . $article . ", '" . $field . "', " . $clang . ", '" . json_encode($args) . "'); ?>";
         }
       } else {
@@ -99,7 +99,7 @@ class rex_var_article extends rex_var
       $clang = rex_clang::getCurrentId();
     }
     if (!is_object($article)) {
-      $article = rex_ooArticle::getArticleById($article, $clang);
+      $article = rex_article::getArticleById($article, $clang);
     }
 
     $value = $article->getValue($field);

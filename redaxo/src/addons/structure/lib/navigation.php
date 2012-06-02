@@ -108,17 +108,17 @@ class rex_navigation extends rex_factory_base
     }
 
     foreach ($path as $pathItem) {
-      $cat = rex_ooCategory::getCategoryById($pathItem);
+      $cat = rex_category::getCategoryById($pathItem);
       $lis .= '<li class="rex-lvl' . $i . '"><a href="' . $cat->getUrl() . '">' . htmlspecialchars($cat->getName()) . '</a></li>';
       $i++;
     }
 
     if ($includeCurrent) {
-      if ($art = rex_ooArticle::getArticleById($this->current_article_id))
+      if ($art = rex_article::getArticleById($this->current_article_id))
         if (!$art->isStartpage()) {
           $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($art->getName()) . '</li>';
         } else {
-          $cat = rex_ooCategory::getCategoryById($this->current_article_id);
+          $cat = rex_category::getCategoryById($this->current_article_id);
           $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($cat->getName()) . '</li>';
         }
     }
@@ -147,7 +147,7 @@ class rex_navigation extends rex_factory_base
   private function _setActivePath()
   {
     $article_id = rex::getProperty('article_id');
-    if ($OOArt = rex_ooArticle::getArticleById($article_id)) {
+    if ($OOArt = rex_article::getArticleById($article_id)) {
       $path = trim($OOArt->getPath(), '|');
 
       $this->path = array();
@@ -167,9 +167,9 @@ class rex_navigation extends rex_factory_base
     static $depth = 0;
 
     if ($category_id < 1)
-      $nav_obj = rex_ooCategory::getRootCategories($ignore_offlines);
+      $nav_obj = rex_category::getRootCategories($ignore_offlines);
     else
-      $nav_obj = rex_ooCategory::getChildrenById($category_id, $ignore_offlines);
+      $nav_obj = rex_category::getChildrenById($category_id, $ignore_offlines);
 
     $return = '';
 
