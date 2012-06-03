@@ -13,7 +13,7 @@ class rex_textile
   {
     if (!self::$instance) {
       self::$instance = new Textile;
-      self::$instance->url_schemes[] = 'redaxo';
+      self::$instance->unrestricted_url_schemes[] = 'redaxo';
     }
     return self::$instance;
   }
