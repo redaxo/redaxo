@@ -17,7 +17,10 @@ class rex_media
 
   // categoryname
   private $_cat_name = '';
-  // rex_mediacategory
+
+  /**
+   * @var rex_media_category
+   */
   private $_cat = '';
 
   // filename
