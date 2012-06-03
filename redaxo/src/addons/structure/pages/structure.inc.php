@@ -220,7 +220,10 @@ if ($function == 'add_cat' && $KATPERM) {
     $add_td = '<td class="rex-small">-</td>';
   }
 
-  $meta_buttons = rex_extension::registerPoint('CAT_FORM_BUTTONS', '' );
+  $meta_buttons = rex_extension::registerPoint('CAT_FORM_BUTTONS', '', array(
+    'id' => $category_id,
+    'clang' => $clang
+  ));
   $add_buttons = '
     <input type="hidden" name="rex-api-call" value="category_add" />
     <input type="hidden" name="parent-category-id" value="' . $category_id . '" />
