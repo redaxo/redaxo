@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @see rex_ooMedia
+ * @see rex_media
  *
  * @deprecated 5.0
  */
-class OOMedia extends rex_ooMedia
+class OOMedia extends rex_media
 {
   /**
    * @see rex_file::extension()

@@ -90,7 +90,7 @@ $cat_out = rex_extension::registerPoint('MEDIA_LIST_TOOLBAR', $cat_out,
 
 if ($subpage == 'media' && rex_post('btn_delete', 'string')) {
   // TODO: getMediaById() deprecated, daher getMediaByFileName() nutzen
-  $media = rex_ooMedia::getMediaById($file_id);
+  $media = rex_media::getMediaById($file_id);
 
   if ($media) {
     $file_name = $media->getFileName();
@@ -172,7 +172,7 @@ if ($subpage == 'media') {
     $rex_file_category = $gf->getValue('category_id');
 
 
-    $isImage = rex_ooMedia::_isImage($fname);
+    $isImage = rex_media::_isImage($fname);
     if ($isImage) {
       $fwidth = $gf->getValue('width');
       $fheight = $gf->getValue('height');
@@ -343,7 +343,7 @@ if ($subpage == 'media') {
         </div>';
     } else {
       $catname = rex_i18n::msg('pool_kats_no');
-      $Cat = rex_ooMediaCategory::getCategoryById($rex_file_category);
+      $Cat = rex_media_category::getCategoryById($rex_file_category);
       if ($Cat) $catname = $Cat->getName();
 
       if (rex::getUser()->hasPerm('advancedMode[]')) {
@@ -435,7 +435,7 @@ if ($PERMALL && $media_method == 'delete_selectedmedia') {
     $info = array();
 
     foreach ($selectedmedia as $file_name) {
-      $media = rex_ooMedia::getMediaByFileName($file_name);
+      $media = rex_media::getMediaByFileName($file_name);
       if ($media) {
        if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
          $uses = $media->isInUse();
@@ -625,12 +625,12 @@ if ($subpage == '') {
     } else {
       $file_ext = substr(strrchr($file_name, '.'), 1);
       $icon_class = 'rex-mime-default';
-      if (rex_ooMedia::isDocType($file_ext)) {
+      if (rex_media::isDocType($file_ext)) {
         $icon_class = 'rex-mime-' . $file_ext;
       }
       $thumbnail = '<span class="rex-mime ' . $icon_class . '" title="' . $alt . '" />';
 
-      if (rex_ooMedia::_isImage($file_name) && $thumbs) {
+      if (rex_media::_isImage($file_name) && $thumbs) {
         $thumbnail = '<img src="' . rex_path::media($file_name) . '" width="80" alt="' . $alt . '" title="' . $alt . '" />';
         if ($image_manager) {
           $thumbnail = '<img src="' . rex_path::frontendController('?rex_img_type=rex_mediapool_preview&amp;rex_img_file=' . $encoded_file_name) . '" alt="' . $alt . '" title="' . $alt . '" />';
@@ -650,7 +650,7 @@ if ($subpage == '') {
     // ----- opener
     $opener_link = '';
     if ($opener_input_field == 'TINYIMG') {
-      if (rex_ooMedia::_isImage($file_name)) {
+      if (rex_media::_isImage($file_name)) {
         $opener_link .= "<a href=\"javascript:insertImage('$file_name','" . $files->getValue('title') . "')\">" . rex_i18n::msg('pool_image_get') . '</a><br>';
       }
 

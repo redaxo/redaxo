@@ -24,7 +24,7 @@ class OOArticle extends rex_article
    */
   public function getFileMedia()
   {
-    return rex_ooMedia :: getMediaByFileName($this->getValue('art_file'));
+    return rex_media :: getMediaByFileName($this->getValue('art_file'));
   }
 
   /**

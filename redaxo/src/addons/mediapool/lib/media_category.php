@@ -6,8 +6,7 @@
  * @package redaxo5
  */
 
-// @codingStandardsIgnoreName
-class rex_ooMediaCategory
+class rex_media_category
 {
   // id
   private $_id = '';
@@ -123,7 +122,7 @@ class rex_ooMediaCategory
    */
   public function toString()
   {
-    return 'rex_ooMediaCategory, "' . $this->getId() . '", "' . $this->getName() . '"' . "<br/>\n";
+    return 'rex_media_category, "' . $this->getId() . '", "' . $this->getName() . '"' . "<br/>\n";
   }
 
   /**
@@ -218,7 +217,7 @@ class rex_ooMediaCategory
   /**
    * @access public
    * Get an array of all parentCategories.
-   * Returns an array of rex_ooMediaCategory objects sorted by $prior.
+   * Returns an array of rex_media_category objects sorted by $prior.
    *
    */
   public function getParentTree()
@@ -291,7 +290,7 @@ class rex_ooMediaCategory
 
         if (is_array($cache)) {
           foreach ($cache as $filename)
-            $this->_files[] = rex_ooMedia :: getMediaByFileName($filename);
+            $this->_files[] = rex_media :: getMediaByFileName($filename);
         }
       }
     }
@@ -341,7 +340,7 @@ class rex_ooMediaCategory
    */
   static public function isValid($mediaCat)
   {
-    return is_object($mediaCat) && is_a($mediaCat, 'rex_ooMediacategory');
+    return is_object($mediaCat) && is_a($mediaCat, 'rex_mediacategory');
   }
 
   /**

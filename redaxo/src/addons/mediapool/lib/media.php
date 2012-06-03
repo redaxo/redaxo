@@ -6,8 +6,7 @@
  * @package redaxo5
  */
 
-// @codingStandardsIgnoreName
-class rex_ooMedia
+class rex_media
 {
   // id
   private $_id = '';
@@ -18,7 +17,7 @@ class rex_ooMedia
 
   // categoryname
   private $_cat_name = '';
-  // rex_ooMediacategory
+  // rex_mediacategory
   private $_cat = '';
 
   // filename
@@ -66,8 +65,8 @@ class rex_ooMedia
   /**
    * @access public
    *
-   * @example rex_ooMedia::getMediaByExtension('css');
-   * @example rex_ooMedia::getMediaByExtension('gif');
+   * @example rex_media::getMediaByExtension('css');
+   * @example rex_media::getMediaByExtension('gif');
    */
   static public function getMediaByExtension($extension)
   {
@@ -147,7 +146,7 @@ class rex_ooMedia
   public function getCategory()
   {
     if ($this->_cat === null) {
-      $this->_cat = rex_ooMediaCategory :: getCategoryById($this->getCategoryId());
+      $this->_cat = rex_media_category :: getCategoryById($this->getCategoryId());
     }
     return $this->_cat;
   }
@@ -480,7 +479,7 @@ class rex_ooMedia
    */
   static public function isValid($media)
   {
-    return is_object($media) && is_a($media, 'rex_ooMedia');
+    return is_object($media) && is_a($media, 'rex_media');
   }
 
   /**
@@ -615,7 +614,7 @@ class rex_ooMedia
    */
   public function toString()
   {
-    return 'rex_ooMedia, "' . $this->getId() . '", "' . $this->getFileName() . '"' . "<br/>\n";
+    return 'rex_media, "' . $this->getId() . '", "' . $this->getFileName() . '"' . "<br/>\n";
   }
 
   // new functions by vscope
