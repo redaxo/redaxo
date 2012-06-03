@@ -38,7 +38,7 @@ function rex_be_search_structure($params)
   // ------------ Suche via ArtikelId
   if ($be_search_article_id != 0) {
     $OOArt = rex_article::getArticleById($be_search_article_id, $be_search_clang);
-    if (rex_article::isValid($OOArt)) {
+    if ($OOArt instanceof rex_article) {
       header('Location:' . sprintf($editUrl, $be_search_article_id, $be_search_clang, urlencode($be_search_article_name)));
       exit();
     }

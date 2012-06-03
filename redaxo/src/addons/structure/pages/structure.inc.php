@@ -20,8 +20,8 @@ $function    = rex_request('function',    'string');
 $info = '';
 $warning = '';
 
-$category_id = rex_category::isValid(rex_category::getCategoryById($category_id)) ? $category_id : 0;
-$article_id = rex_article::isValid(rex_article::getArticleById($article_id)) ? $article_id : 0;
+$category_id = rex_category::getCategoryById($category_id) instanceof rex_category ? $category_id : 0;
+$article_id = rex_article::getArticleById($article_id) instanceof rex_article ? $article_id : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
 
 

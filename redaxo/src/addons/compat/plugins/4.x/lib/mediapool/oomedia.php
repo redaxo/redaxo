@@ -26,4 +26,14 @@ class OOMedia extends rex_media
   {
     return rex_file::formattedSize($size);
   }
+
+  /**
+   * instead: "$media instanceof rex_media"
+   *
+   * @deprecated 5.0
+   */
+  static public function isValid($media)
+  {
+    return $media instanceof parent;
+  }
 }

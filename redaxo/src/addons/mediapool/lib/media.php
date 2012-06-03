@@ -478,15 +478,6 @@ class rex_media
 
   /**
    * @access public
-   * @static
-   */
-  static public function isValid($media)
-  {
-    return is_object($media) && is_a($media, 'rex_media');
-  }
-
-  /**
-   * @access public
    */
   public function isImage()
   {

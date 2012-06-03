@@ -10,7 +10,7 @@ class rex_api_content_move_slice extends rex_api_function
     $direction   = rex_request('direction',   'string');
 
     $ooArt = rex_article::getArticleById($article_id, $clang);
-    if (!rex_article::isValid($ooArt)) {
+    if (!$ooArt instanceof rex_article) {
       throw new rex_api_exception('Unable to find article with id "' . $article_id . '" and clang "' . $clang . '"!');
     }
     $category_id = $ooArt->getCategoryId();

@@ -36,7 +36,7 @@ class rex_article_content extends rex_article_content_base
     $this->article_id = $article_id;
 
     $rex_article = rex_article::getArticleById($article_id, $this->clang);
-    if (rex_article::isValid($rex_article)) {
+    if ($rex_article instanceof rex_article) {
       $this->category_id = $rex_article->getCategoryId();
       $this->template_id = $rex_article->getTemplateId();
       return true;

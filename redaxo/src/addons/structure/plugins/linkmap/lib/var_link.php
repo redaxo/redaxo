@@ -226,7 +226,7 @@ class rex_var_link extends rex_var
     $art = rex_article :: getArticleById($article_id);
 
     // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim öffnen der Linkmap dessen Kategorie anzeigen
-    if (rex_article :: isValid($art)) {
+    if ($art instanceof rex_article) {
       $art_name = $art->getName();
       $category = $art->getCategoryId();
     }

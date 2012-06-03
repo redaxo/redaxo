@@ -254,17 +254,6 @@ class rex_category extends rex_structure_element
 
   /**
    * Static Method:
-   * Returns True if the given category is a valid rex_category
-   *
-   * @return boolean
-   */
-  static public function isValid($category)
-  {
-    return is_object($category) && is_a($category, 'rex_category');
-  }
-
-  /**
-   * Static Method:
    * Returns an array containing all templates which are available for the given category_id.
    * if the category_id is non-positive all templates in the system are returned.
    * if the category_id is invalid an empty array is returned.

@@ -46,4 +46,14 @@ class OOArticle extends rex_article
   {
     return $this->getValue('art_type_id');
   }
+
+  /**
+   * instead: "$article instanceof rex_article"
+   *
+   * @deprecated 5.0
+   */
+  static public function isValid($article)
+  {
+    return $article instanceof parent;
+  }
 }

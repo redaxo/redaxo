@@ -329,7 +329,7 @@ class rex_media_category
   {
     if (is_int($mediaCat)) {
       return $mediaCat == $this->getParentId();
-    } elseif (self :: isValid($mediaCat)) {
+    } elseif ($mediaCat instanceof self) {
       return $this->getParentId() == $mediaCat->getId();
     }
     return null;

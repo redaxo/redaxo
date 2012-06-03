@@ -46,4 +46,14 @@ class OOCategory extends rex_category
   {
     return $this->getValue('art_type_id');
   }
+
+  /**
+   * instead: "$category instanceof rex_category"
+   *
+   * @deprecated 5.0
+   */
+  static public function isValid($category)
+  {
+    return $category instanceof parent;
+  }
 }

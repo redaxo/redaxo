@@ -155,16 +155,6 @@ class rex_article extends rex_structure_element
   }
 
   /**
-   * Static Method: Returns True when the given article is a valid rex_article
-   *
-   * @return boolean
-   */
-  static public function isValid($article)
-  {
-    return is_object($article) && is_a($article, 'rex_article');
-  }
-
-  /**
    * @see rex_structure_element::getValue()
    *
    * @return string
