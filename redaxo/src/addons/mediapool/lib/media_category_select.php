@@ -1,7 +1,7 @@
 <?php
 
 ################ Class MediaKategorie Select
-class rex_mediacategory_select extends rex_select
+class rex_media_category_select extends rex_select
 {
   private
     $check_perms,

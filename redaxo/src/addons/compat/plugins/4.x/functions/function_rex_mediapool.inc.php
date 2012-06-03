@@ -91,7 +91,7 @@ function rex_medienpool_Syncform($rex_file_category)
 }
 
 /**
- * @see rex_mediacategory_select
+ * @see rex_media_category_select
  *
  * @deprecated 4.3
  */
@@ -116,7 +116,7 @@ function rex_mediapool_addMediacatOptions( &$select, &$mediacat, &$mediacat_ids,
 }
 
 /**
- * @see rex_mediacategory_select
+ * @see rex_media_category_select
  *
  * @deprecated 4.3
  */

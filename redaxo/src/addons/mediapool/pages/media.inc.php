@@ -20,7 +20,7 @@ $db = rex_sql::factory();
 $file_cat = $db->getArray('SELECT * FROM ' . rex::getTablePrefix() . 'media_category ORDER BY name ASC');
 
 // ***** select bauen
-$sel_media = new rex_mediacategory_select($check_perm = false);
+$sel_media = new rex_media_category_select($check_perm = false);
 $sel_media->setId('rex_file_category');
 $sel_media->setName('rex_file_category');
 $sel_media->setSize(1);
@@ -256,7 +256,7 @@ if ($subpage == 'media') {
     }
 
     if ($TPERM) {
-      $cats_sel = new rex_mediacategory_select();
+      $cats_sel = new rex_media_category_select();
       $cats_sel->setStyle('class="rex-form-select"');
       $cats_sel->setSize(1);
       $cats_sel->setName('rex_file_category');
@@ -470,7 +470,7 @@ if ($PERMALL && $media_method == 'delete_selectedmedia') {
 // *************************************** SUBPAGE: "" -> MEDIEN ANZEIGEN
 
 if ($subpage == '') {
-  $cats_sel = new rex_mediacategory_select();
+  $cats_sel = new rex_media_category_select();
   $cats_sel->setSize(1);
   $cats_sel->setStyle('class="rex-form-select"');
   $cats_sel->setName('rex_file_category');

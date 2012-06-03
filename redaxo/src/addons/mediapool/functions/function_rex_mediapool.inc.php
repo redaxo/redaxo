@@ -308,7 +308,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
   $s = '';
 
-  $cats_sel = new rex_mediacategory_select();
+  $cats_sel = new rex_media_category_select();
   $cats_sel->setStyle('class="rex-form-select"');
   $cats_sel->setSize(1);
   $cats_sel->setName('rex_file_category');
