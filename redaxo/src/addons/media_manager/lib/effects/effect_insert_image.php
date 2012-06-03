@@ -38,7 +38,7 @@ class rex_effect_insert_image extends rex_effect_abstract
       $vpos = (string) $this->params['vpos'];
 
     // -------------------------------------- /CONFIG
-    $brand = new rex_media($brandimage);
+    $brand = new rex_managed_media($brandimage);
     $brand->prepare();
     $gdbrand = $brand->getImage();
     $gdimage = $this->media->getImage();
