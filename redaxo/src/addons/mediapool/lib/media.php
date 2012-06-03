@@ -617,7 +617,7 @@ class rex_media
    */
   public function toString()
   {
-    return 'rex_media, "' . $this->getId() . '", "' . $this->getFileName() . '"' . "<br/>\n";
+    return __CLASS__ . ', "' . $this->getId() . '", "' . $this->getFileName() . '"' . "<br/>\n";
   }
 
   // new functions by vscope

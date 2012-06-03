@@ -122,7 +122,7 @@ class rex_media_category
    */
   public function toString()
   {
-    return 'rex_media_category, "' . $this->getId() . '", "' . $this->getName() . '"' . "<br/>\n";
+    return __CLASS__ . ', "' . $this->getId() . '", "' . $this->getName() . '"' . "<br/>\n";
   }
 
   /**
