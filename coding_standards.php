@@ -173,6 +173,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
 
   protected
     $checkNamingConventions,
+    $removeClosingPhpTag,
     $tokens,
     $index,
     $previous,
@@ -183,9 +184,10 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
     $function = 0,
     $isTernary = 0;
 
-  public function __construct($content, $checkNamingConventions = true)
+  public function __construct($content, $checkNamingConventions = true, $removeClosingPhpTag = true)
   {
     $this->checkNamingConventions = $checkNamingConventions;
+    $this->removeClosingPhpTag = $removeClosingPhpTag;
     parent::__construct($content);
   }
 
@@ -198,9 +200,11 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
       $this->addFixable('replace php short open tags "<?" by "<?php"');
     }
 
-    $this->content = preg_replace("/\n* *\?>$/", '', $this->content, -1, $count);
-    if ($count) {
-      $this->addFixable('remove php closing tag "?>" at end of file');
+    if ($this->removeClosingPhpTag) {
+      $this->content = preg_replace("/\n* *\?>$/", '', $this->content, -1, $count);
+      if ($count) {
+        $this->addFixable('remove php closing tag "?>" at end of file');
+      }
     }
 
     $this->tokens = token_get_all($this->content);
@@ -837,7 +841,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
 
   private function checkSpaceBefore($msg)
   {
-    if ($this->previousToken()->type !== T_WHITESPACE) {
+    if (!in_array($this->previousToken()->type, array(T_WHITESPACE, T_OPEN_TAG), true)) {
       $this->addToken(new rex_php_token(T_WHITESPACE, ' '));
       $this->addFixable($msg);
     }
@@ -963,9 +967,10 @@ foreach ($files as $path => $file) {
   }
 
   $countFiles++;
-  if ($fileExt == 'php') {
+  if ($fileExt === 'php' || $fileExt === 'tpl') {
     $checkNamingConventions = strpos($path, DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . 'compat' . DIRECTORY_SEPARATOR) === false;
-    $fixer = new rex_coding_standards_fixer_php(file_get_contents($path), $checkNamingConventions);
+    $removeClosingPhpTag = $fileExt !== 'tpl';
+    $fixer = new rex_coding_standards_fixer_php(file_get_contents($path), $checkNamingConventions, $removeClosingPhpTag);
   } else {
     $fixer = new rex_coding_standards_fixer(file_get_contents($path));
   }
