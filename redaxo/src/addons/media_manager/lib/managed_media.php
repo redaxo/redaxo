@@ -1,15 +1,13 @@
 <?php
 
-class rex_media
+class rex_managed_media
 {
-
   private
-
-  $media_path = '',
-  $asImage = false,
-  $gifsupport = false,
-  $img,
-  $header = array();
+    $media_path = '',
+    $asImage = false,
+    $gifsupport = false,
+    $img,
+    $header = array();
 
   public function __construct($media_path)
   {

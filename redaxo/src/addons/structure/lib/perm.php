@@ -7,7 +7,7 @@ class rex_structure_perm extends rex_complex_perm
     if ($this->hasAll() || in_array($category_id, $this->perms)) {
       return true;
     }
-    if ($c = rex_ooCategory::getCategoryById($category_id)) {
+    if ($c = rex_category::getCategoryById($category_id)) {
       foreach ($c->getPathAsArray() as $k) {
         if (in_array($k, $this->perms))
           return true;

@@ -102,7 +102,7 @@ class rex_media_cache
    */
   static public function generate($filename)
   {
-    $query = 'SELECT * FROM ' . rex_ooMedia :: _getTableName() . ' WHERE filename = "' . $filename . '"';
+    $query = 'SELECT * FROM ' . rex_media :: _getTableName() . ' WHERE filename = "' . $filename . '"';
     $sql = rex_sql::factory();
     //$sql->debugsql = true;
     $sql->setQuery($query);
@@ -138,7 +138,7 @@ class rex_media_cache
       return false;
     }
 
-    $query = 'SELECT * FROM ' . rex_ooMediaCategory :: _getTableName() . ' WHERE id = ' . $category_id;
+    $query = 'SELECT * FROM ' . rex_media_category :: _getTableName() . ' WHERE id = ' . $category_id;
     $sql = rex_sql::factory();
     //$sql->debugsql = true;
     $sql->setQuery($query);
@@ -174,7 +174,7 @@ class rex_media_cache
       return false;
     }
 
-    $query = 'SELECT filename FROM ' . rex_ooMedia :: _getTableName() . ' WHERE category_id = ' . $category_id;
+    $query = 'SELECT filename FROM ' . rex_media :: _getTableName() . ' WHERE category_id = ' . $category_id;
     $sql = rex_sql::factory();
     $sql->setQuery($query);
 
@@ -206,7 +206,7 @@ class rex_media_cache
       return false;
     }
 
-    $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . rex_ooMediaCategory :: _getTableName() . ' WHERE re_id = ' . $category_id . ' ORDER BY sort, name';
+    $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . rex_media_category :: _getTableName() . ' WHERE re_id = ' . $category_id . ' ORDER BY sort, name';
     $sql = rex_sql::factory();
     //$sql->debugsql = true;
     $sql->setQuery($query);
@@ -234,7 +234,7 @@ class rex_media_cache
    */
   static public function generateExtensionList($extension)
   {
-    $query = 'SELECT filename FROM ' . rex_ooMedia :: _getTableName() . ' WHERE LOWER(RIGHT(filename, LOCATE(".", REVERSE(filename))-1)) = "' . strtolower($extension) . '"';
+    $query = 'SELECT filename FROM ' . rex_media :: _getTableName() . ' WHERE LOWER(RIGHT(filename, LOCATE(".", REVERSE(filename))-1)) = "' . strtolower($extension) . '"';
     $sql = rex_sql::factory();
     $sql->setQuery($query);
 

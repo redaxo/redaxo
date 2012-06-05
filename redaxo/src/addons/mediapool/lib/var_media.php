@@ -185,7 +185,7 @@ class rex_var_media extends rex_var
         if ($id > 0 && $id < 11) {
           // Mimetype ausgeben
           if (isset($args['mimetype'])) {
-            $OOM = rex_ooMedia::getMediaByName($this->getValue($sql, 'file' . $id));
+            $OOM = rex_media::getMediaByName($this->getValue($sql, 'file' . $id));
             if ($OOM) {
               $replace = $OOM->getType();
             }

@@ -6,7 +6,7 @@
  * @package redaxo5
  */
 
-class rex_article_editor extends rex_article
+class rex_article_content_editor extends rex_article_content
 {
   private $MODULESELECT;
 
@@ -17,7 +17,7 @@ class rex_article_editor extends rex_article
 
   /**
    * (non-PHPdoc)
-   * @see rex_article_base::outputSlice()
+   * @see rex_article_content_base::outputSlice()
    */
   protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
   {
@@ -259,7 +259,7 @@ class rex_article_editor extends rex_article
 
   /**
    * (non-PHPdoc)
-   * @see rex_article_base::preArticle()
+   * @see rex_article_content_base::preArticle()
    */
   protected function preArticle($articleContent, $module_id)
   {
@@ -297,7 +297,7 @@ class rex_article_editor extends rex_article
 
   /**
    * (non-PHPdoc)
-   * @see rex_article_base::postArticle()
+   * @see rex_article_content_base::postArticle()
    */
   protected function postArticle($articleContent, $moduleIdToAdd)
   {

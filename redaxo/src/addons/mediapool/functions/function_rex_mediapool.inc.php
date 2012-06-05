@@ -181,7 +181,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
     $p_new = pathinfo($_FILES['file_new']['name']);
     $p_old = pathinfo($FILEINFOS['filename']);
 
-    // if ($ffiletype == $FILEINFOS["filetype"] || rex_ooMedia::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
+    // if ($ffiletype == $FILEINFOS["filetype"] || rex_media::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
     if ($p_new['extension'] == $p_old['extension']) {
       if (move_uploaded_file($ffilename, rex_path::media($FILEINFOS['filename'], rex_path::ABSOLUTE)) ||
           copy($ffilename, rex_path::media($FILEINFOS['filename'], rex_path::ABSOLUTE))) {
@@ -308,7 +308,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
   $s = '';
 
-  $cats_sel = new rex_mediacategory_select();
+  $cats_sel = new rex_media_category_select();
   $cats_sel->setStyle('class="rex-form-select"');
   $cats_sel->setSize(1);
   $cats_sel->setName('rex_file_category');

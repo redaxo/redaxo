@@ -23,7 +23,7 @@ $clang       = rex_request('clang',       'int');
 $slice_id    = rex_request('slice_id',    'int', '');
 $function    = rex_request('function',    'string');
 
-$article_id = rex_ooArticle::isValid(rex_ooArticle::getArticleById($article_id)) ? $article_id : 0;
+$article_id = rex_article::getArticleById($article_id) instanceof rex_article ? $article_id : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
 
 $article_revision = 0;
@@ -63,7 +63,7 @@ if ($article->getRows() == 1) {
     $ctype = 1; // default = 1
 
   // ----- Artikel wurde gefunden - Kategorie holen
-  $OOArt = rex_ooArticle::getArticleById($article_id, $clang);
+  $OOArt = rex_article::getArticleById($article_id, $clang);
   $category_id = $OOArt->getCategoryId();
 
   // ----- category pfad und rechte
@@ -185,7 +185,7 @@ if ($article->getRows() == 1) {
           list($action_message, $REX_ACTION) = rex_execPreSaveAction($module_id, $function, $REX_ACTION);
           // ----- / PRE SAVE ACTION
 
-          // Statusspeicherung für die rex_article Klasse
+          // Statusspeicherung für die rex_article_content Klasse
           rex_plugin::get('structure', 'content')->setProperty('rex_action', $REX_ACTION);
 
           // Werte werden aus den REX_ACTIONS übernommen wenn SAVE=true
@@ -530,7 +530,7 @@ if ($article->getRows() == 1) {
     // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
     if ($mode == 'edit') {
 
-      $CONT = new rex_article_editor();
+      $CONT = new rex_article_content_editor;
       $CONT->getContentAsQuery();
       $CONT->info = $info;
       $CONT->warning = $warning;

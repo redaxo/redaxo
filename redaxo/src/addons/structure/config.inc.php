@@ -29,7 +29,7 @@ if (rex_request('article_id', 'int') == 0)
   rex::setProperty('article_id', rex::getProperty('start_article_id'));
 else {
   $article_id = rex_request('article_id', 'int');
-  $article_id = rex_ooArticle::isValid(rex_ooArticle::getArticleById($article_id)) ? $article_id : rex::getProperty('notfound_article_id');
+  $article_id = rex_article::getArticleById($article_id) instanceof rex_article ? $article_id : rex::getProperty('notfound_article_id');
   rex::setProperty('article_id', $article_id);
 }
 

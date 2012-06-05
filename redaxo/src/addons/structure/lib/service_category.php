@@ -38,7 +38,7 @@ class rex_category_service
     }
 
     // parent may be null, when adding in the root cat
-    $parent = rex_ooCategory::getCategoryById($category_id);
+    $parent = rex_category::getCategoryById($category_id);
     if ($parent) {
       $path = $parent->getPath();
       $path .= $parent->getId() . '|';
@@ -59,7 +59,7 @@ class rex_category_service
     }
 
     // Alle Templates der Kategorie
-    $templates = rex_ooCategory::getTemplates($category_id);
+    $templates = rex_category::getTemplates($category_id);
     // Kategorie in allen Sprachen anlegen
     $AART = rex_sql::factory();
     foreach (rex_clang::getAllIds() as $key) {

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @see rex_ooMedia
+ * @see rex_media
  *
  * @deprecated 5.0
  */
-class OOMedia extends rex_ooMedia
+class OOMedia extends rex_media
 {
   /**
    * @see rex_file::extension()
@@ -25,5 +25,15 @@ class OOMedia extends rex_ooMedia
   static public function _getFormattedSize($size)
   {
     return rex_file::formattedSize($size);
+  }
+
+  /**
+   * instead: "$media instanceof rex_media"
+   *
+   * @deprecated 5.0
+   */
+  static public function isValid($media)
+  {
+    return $media instanceof parent;
   }
 }

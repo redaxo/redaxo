@@ -1,7 +1,7 @@
 <?php
 
 ################ Class MediaKategorie Select
-class rex_mediacategory_select extends rex_select
+class rex_media_category_select extends rex_select
 {
   private
     $check_perms,
@@ -31,17 +31,17 @@ class rex_mediacategory_select extends rex_select
     if ($this->rootId !== null) {
       if (is_array($this->rootId)) {
         foreach ($this->rootId as $rootId) {
-          if ($rootCat = rex_ooMediaCategory::getCategoryById($rootId)) {
+          if ($rootCat = rex_media_category::getCategoryById($rootId)) {
             $this->addCatOption($rootCat);
           }
         }
       } else {
-        if ($rootCat = rex_ooMediaCategory::getCategoryById($this->rootId)) {
+        if ($rootCat = rex_media_category::getCategoryById($this->rootId)) {
           $this->addCatOption($rootCat);
         }
       }
     } else {
-      if ($rootCats = rex_ooMediaCategory::getRootCategories()) {
+      if ($rootCats = rex_media_category::getRootCategories()) {
         foreach ($rootCats as $rootCat) {
           $this->addCatOption($rootCat);
         }
@@ -49,7 +49,7 @@ class rex_mediacategory_select extends rex_select
     }
   }
 
-  protected function addCatOption(rex_ooMediaCategory $mediacat)
+  protected function addCatOption(rex_media_category $mediacat)
   {
     if (!$this->check_perms ||
         $this->check_perms && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId())) {

@@ -37,8 +37,8 @@ function rex_be_search_structure($params)
 
   // ------------ Suche via ArtikelId
   if ($be_search_article_id != 0) {
-    $OOArt = rex_ooArticle::getArticleById($be_search_article_id, $be_search_clang);
-    if (rex_ooArticle::isValid($OOArt)) {
+    $OOArt = rex_article::getArticleById($be_search_article_id, $be_search_clang);
+    if ($OOArt instanceof rex_article) {
       header('Location:' . sprintf($editUrl, $be_search_article_id, $be_search_clang, urlencode($be_search_article_name)));
       exit();
     }
@@ -46,8 +46,8 @@ function rex_be_search_structure($params)
 
   // Auswahl eines normalen Artikels => category holen
   if ($article_id != 0) {
-    $OOArt = rex_ooArticle::getArticleById($article_id, $clang);
-    // Falls Artikel gerade geloescht wird, gibts keinen rex_ooArticle
+    $OOArt = rex_article::getArticleById($article_id, $clang);
+    // Falls Artikel gerade geloescht wird, gibts keinen rex_article
     if ($OOArt)
       $category_id = $OOArt->getCategoryId();
   }
@@ -86,7 +86,7 @@ function rex_be_search_structure($params)
 
     // Suche ergab nur einen Treffer => Direkt auf den Treffer weiterleiten
     if ($foundRows == 1) {
-      $OOArt = rex_ooArticle::getArticleById($search->getValue('id'), $be_search_clang);
+      $OOArt = rex_article::getArticleById($search->getValue('id'), $be_search_clang);
       if (rex::getUser()->hasCategoryPerm($OOArt->getCategoryId())) {
         header('Location:' . sprintf($editUrl, $search->getValue('id'), $be_search_clang, urlencode($be_search_article_name)));
         exit();
@@ -97,7 +97,7 @@ function rex_be_search_structure($params)
       $needle = htmlspecialchars($be_search_article_name);
       $search_result .= '<ul class="be_search-search-result">';
       for ($i = 0; $i < $foundRows; $i++) {
-        $OOArt = rex_ooArticle::getArticleById($search->getValue('id'), $be_search_clang);
+        $OOArt = rex_article::getArticleById($search->getValue('id'), $be_search_clang);
         $label = $OOArt->getName();
 
         if (rex::getUser()->hasCategoryPerm($OOArt->getCategoryId())) {
