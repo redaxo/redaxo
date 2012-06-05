@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @see rex_ooArticleSlice
+ * @see rex_article_slice
  *
  * @deprecated 5.0
  */
-class OOArticleSlice extends rex_ooArticleSlice
+class OOArticleSlice extends rex_article_slice
 {
 
 }

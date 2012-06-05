@@ -25,7 +25,7 @@ class rex_system_setting_default_template_id extends rex_system_setting
     $select->setSize(1);
     $select->setSelected(rex::getProperty('default_template_id'));
 
-    $templates = rex_ooCategory::getTemplates(0);
+    $templates = rex_category::getTemplates(0);
     if (empty($templates))
       $select->addOption(rex_i18n::msg('option_no_template'), 0);
     else

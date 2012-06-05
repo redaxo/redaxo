@@ -16,7 +16,7 @@ $navigation[] = array(
     'href' => 'index.php?page=structure&amp;category_id=0&amp;clang=' . $clang
   );
 
-$ooCat = rex_ooCategory::getCategoryById($category_id, $clang);
+$ooCat = rex_category::getCategoryById($category_id, $clang);
 if ($ooCat) {
   foreach ($ooCat->getParentTree() as $parent) {
     $catid = $parent->getId();

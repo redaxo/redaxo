@@ -262,7 +262,7 @@ class rex_media_manager
       $media_path    = rex_path::media($rex_media_manager_file);
       $cache_path    = rex_path::addonCache('media_manager');
 
-      $media         = new rex_media($media_path);
+      $media         = new rex_managed_media($media_path);
       $media_manager = new self($media);
       $media_manager->setCachePath($cache_path);
       $media_manager->applyEffects($rex_media_manager_type);

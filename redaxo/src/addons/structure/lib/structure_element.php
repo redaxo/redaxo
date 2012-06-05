@@ -5,8 +5,7 @@
  * @package redaxo5
  */
 
-// @codingStandardsIgnoreName
-abstract class rex_ooRedaxo
+abstract class rex_structure_element
 {
   /*
    * these vars get read out
@@ -142,30 +141,30 @@ abstract class rex_ooRedaxo
    */
   static public function convertGeneratedArray($generatedArray, $clang)
   {
-    $rex_ooRedaxoArray['id'] = $generatedArray['article_id'][$clang];
-    $rex_ooRedaxoArray['clang'] = $clang;
+    $rex_structure_elementArray['id'] = $generatedArray['article_id'][$clang];
+    $rex_structure_elementArray['clang'] = $clang;
     foreach ($generatedArray as $key => $var) {
-      $rex_ooRedaxoArray[$key] = $var[$clang];
+      $rex_structure_elementArray[$key] = $var[$clang];
     }
-    unset ($rex_ooRedaxoArray['_article_id']);
-    return $rex_ooRedaxoArray;
+    unset ($rex_structure_elementArray['_article_id']);
+    return $rex_structure_elementArray;
   }
 
   /**
-   * Array of rex_ooRedaxo instances, keyed by classname, id and clang
+   * Array of rex_structure_element instances, keyed by classname, id and clang
    * @var array[string][int][int]
    */
   static private $instanceCache = array();
 
   /**
-   * Return an rex_ooRedaxo object based on an id.
+   * Return an rex_structure_element object based on an id.
    * The instance will be cached in an instance-pool and therefore re-used by a later call.
    *
    * @param int $id    the article id
    * @param int $clang the clang id
    * @throws rex_exception
    *
-   * @return rex_ooRedaxo A rex_ooRedaxo instance typed to the late-static binding type of the caller
+   * @return rex_structure_element A rex_structure_element instance typed to the late-static binding type of the caller
    */
   static protected function getById($id, $clang)
   {
@@ -277,7 +276,7 @@ abstract class rex_ooRedaxo
    * Object Function:
    * Returns the parent category
    *
-   * @return rex_ooRedaxo
+   * @return rex_structure_element
    */
   abstract public function getParent($clang = false);
 
@@ -435,9 +434,9 @@ abstract class rex_ooRedaxo
   /**
    * Object Function:
    * Get an array of all parentCategories.
-   * Returns an array of rex_ooRedaxo objects.
+   * Returns an array of rex_structure_element objects.
    *
-   * @return array[rex_ooCategory]
+   * @return array[rex_category]
    */
   public function getParentTree()
   {
@@ -452,7 +451,7 @@ abstract class rex_ooRedaxo
       if (is_array($explode)) {
         foreach ($explode as $var) {
           if ($var != '') {
-            $return[] = rex_ooCategory :: getCategoryById($var, $this->_clang);
+            $return[] = rex_category :: getCategoryById($var, $this->_clang);
           }
         }
       }

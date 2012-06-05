@@ -29,7 +29,7 @@ if (rex::isBackend()) {
     function ($params) {
       $content = $params['subject'];
 
-      $article = new rex_article;
+      $article = new rex_article_content;
       $article->setCLang(rex_clang::getCurrentId());
 
       if ($article->setArticleId(rex::getProperty('article_id'))) {
