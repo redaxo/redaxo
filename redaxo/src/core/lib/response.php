@@ -8,7 +8,7 @@
 class rex_response
 {
   const
-  HTTP_OK = '200 Ok',
+  HTTP_OK = '200 OK',
   HTTP_NOT_FOUND = '404 Not Found',
   HTTP_FORBIDDEN = '403 Forbidden',
   HTTP_UNAUTHORIZED = '401 Unauthorized',
@@ -16,7 +16,7 @@ class rex_response
 
   private static $httpStatus = self::HTTP_OK;
 
-  static protected function setStatus($httpStatus)
+  static public function setStatus($httpStatus)
   {
     if(strpos($httpStatus, "\n") !== false){
       throw new rex_exception('Illegal http-status "'. $httpStatus .'", contains newlines');
@@ -25,45 +25,9 @@ class rex_response
     self::$httpStatus = $httpStatus;
   }
 
-  static public function sendRedirect($url)
+  static public function getStatus()
   {
-    if ($exc instanceof rex_http_exception) {
-      self::setStatus($exc->getHttpCode());
-    }
-
-    if(self::$httpStatus == self::HTTP_OK)
-    {
-      self::setStatus(self::HTTP_INTERNAL_ERROR);
-    }
-
-    if(($user = rex::getUser()) && $user->isAdmin())
-    {
-      // TODO add a beautiful error page with usefull debugging info
-      $buf = '';
-      $buf .= '<pre>';
-      $buf .= get_class($exc) .' thrown in '. $exc->getFile() .' on line '. $exc->getLine()."\n";
-      if ($exc->getMessage()) $buf .= '<b>'. $exc->getMessage()."</b>\n";
-
-      $prev = $exc->getPrevious();
-      do {
-        $buf .= "\n";
-        $buf .= 'caused by '. get_class($prev) .' in '. $prev->getFile() .' on line '. $prev->getLine()."\n";
-        if($prev->getMessage()) $buf .= '<b>'. $prev->getMessage()."</b>\n";
-      }
-      while ($prev = $prev->getPrevious()) ;
-
-      $buf .= "\n";
-      $buf .= $exc->getTraceAsString();
-      $buf .= '</pre>';
-
-      self::send($buf);
-    }
-    else
-    {
-      // TODO small error page, without debug infos
-      self::send('Oooops, an internal error occured!');
-      exit();
-    }
+    return self::$httpStatus;
   }
 
   static public function sendRedirect($url)
