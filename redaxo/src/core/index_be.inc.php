@@ -5,10 +5,6 @@
  * @package redaxo5
  */
 
-// ----- caching start für output filter
-ob_start();
-ob_implicit_flush(0);
-
 // ----- pages, verfuegbare seiten
 // array(name,addon=1,htmlheader=1);
 $pages = array();
