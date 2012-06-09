@@ -9,19 +9,15 @@ class rex_install_packages
 
   static public function getUpdatePackages()
   {
-    if(is_array(self::$updatePackages))
+    if (is_array(self::$updatePackages))
       return self::$updatePackages;
 
     self::$updatePackages = self::getPackages();
 
-    foreach(self::$updatePackages as $key => $addon)
-    {
-      if(rex_addon::exists($key) && isset($addon['files']))
-      {
+    foreach (self::$updatePackages as $key => $addon) {
+      if (rex_addon::exists($key) && isset($addon['files'])) {
         self::unsetOlderVersions($key, rex_addon::get($key)->getVersion());
-      }
-      else
-      {
+      } else {
         unset(self::$updatePackages[$key]);
       }
     }
@@ -35,28 +31,24 @@ class rex_install_packages
 
   static private function unsetOlderVersions($package, $version)
   {
-    foreach(self::$updatePackages[$package]['files'] as $fileId => $file)
-    {
-      if(empty($version) || empty($file['version']) || rex_string::compareVersions($file['version'], $version, '<='))
-      {
+    foreach (self::$updatePackages[$package]['files'] as $fileId => $file) {
+      if (empty($version) || empty($file['version']) || rex_string::compareVersions($file['version'], $version, '<=')) {
         unset(self::$updatePackages[$package]['files'][$fileId]);
       }
     }
-    if(empty(self::$updatePackages[$package]['files']))
-    {
+    if (empty(self::$updatePackages[$package]['files'])) {
       unset(self::$updatePackages[$package]);
     }
   }
 
   static public function getAddPackages()
   {
-    if(is_array(self::$addPackages))
+    if (is_array(self::$addPackages))
       return self::$addPackages;
 
     self::$addPackages = self::getPackages();
-    foreach(self::$addPackages as $key => $addon)
-    {
-      if(rex_addon::exists($key))
+    foreach (self::$addPackages as $key => $addon) {
+      if (rex_addon::exists($key))
         unset(self::$addPackages[$key]);
     }
     return self::$addPackages;
@@ -69,7 +61,7 @@ class rex_install_packages
 
   static public function getMyPackages()
   {
-    if(is_array(self::$myPackages))
+    if (is_array(self::$myPackages))
       return self::$myPackages;
 
     self::$myPackages = self::getPackages('?only_my=1');
@@ -78,7 +70,7 @@ class rex_install_packages
 
   static public function getPath($path = '')
   {
-    return 'packages/'. $path;
+    return 'packages/' . $path;
   }
 
   static private function getPackages($path = '')

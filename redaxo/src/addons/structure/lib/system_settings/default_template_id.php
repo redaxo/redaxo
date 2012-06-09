@@ -1,10 +1,10 @@
 <?php
 
 /**
-* Class for the default_template_id setting
-*
-* @author gharlan
-*/
+ * Class for the default_template_id setting
+ *
+ * @author gharlan
+ */
 class rex_system_setting_default_template_id extends rex_system_setting
 {
   public function __construct()
@@ -25,7 +25,7 @@ class rex_system_setting_default_template_id extends rex_system_setting
     $select->setSize(1);
     $select->setSelected(rex::getProperty('default_template_id'));
 
-    $templates = rex_ooCategory::getTemplates(0);
+    $templates = rex_category::getTemplates(0);
     if (empty($templates))
       $select->addOption(rex_i18n::msg('option_no_template'), 0);
     else
@@ -36,9 +36,8 @@ class rex_system_setting_default_template_id extends rex_system_setting
   public function isValid($value)
   {
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT * FROM '. rex::getTablePrefix() .'template WHERE id='. $value .' AND active=1');
-    if($sql->getRows() != 1 && $value != 0)
-    {
+    $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id=' . $value . ' AND active=1');
+    if ($sql->getRows() != 1 && $value != 0) {
       return rex_i18n::msg('system_setting_default_template_id_invalid');
     }
     return true;

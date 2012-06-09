@@ -9,8 +9,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
     $restrictionsCondition = $this->buildFilterCondition($params);
 
     $fields = parent::getSqlFields(self::PREFIX, $restrictionsCondition);
-    if ($fields->getRows() >= 1)
-    {
+    if ($fields->getRows() >= 1) {
       $return = '<p class="rex-button-add"><script type="text/javascript"><!--
 
     function rex_metainfo_toggle()
@@ -29,7 +28,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
       }
     }
 
-    //--></script><a id="rex-i-meta-category" class="rex-i-generic-open" href="javascript:rex_metainfo_toggle();">'. rex_i18n::msg('minfo_edit_metadata') .'</a></p>';
+    //--></script><a id="rex-i-meta-category" class="rex-i-generic-open" href="javascript:rex_metainfo_toggle();">' . rex_i18n::msg('minfo_edit_metadata') . '</a></p>';
 
        return $params['subject'] . $return;
     }
@@ -39,17 +38,17 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
   public function handleSave(array $params, rex_sql $sqlFields)
   {
-    if(rex_request_method() != 'post') return $params;
+    if (rex_request_method() != 'post') return $params;
 
     $article = rex_sql::factory();
     // $article->debugsql = true;
-    $article->setTable(rex::getTablePrefix(). 'article');
-    $article->setWhere('id=:id AND clang=:clang', array('id'=> $params['id'], 'clang' => $params['clang']));
+    $article->setTable(rex::getTablePrefix() . 'article');
+    $article->setWhere('id=:id AND clang=:clang', array('id' => $params['id'], 'clang' => $params['clang']));
 
     parent::fetchRequestValues($params, $article, $sqlFields);
 
     // do the save only when metafields are defined
-    if($article->hasValues())
+    if ($article->hasValues())
       $article->update();
 
     // Artikel nochmal mit den zusätzlichen Werten neu generieren
@@ -62,24 +61,21 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
   {
     $s = '';
 
-    if(!empty($params['id']))
-    {
-      $OOCat = rex_ooCategory::getCategoryById($params['id'], $params['clang']);
+    if (!empty($params['id'])) {
+      $OOCat = rex_category::getCategoryById($params['id'], $params['clang']);
 
       // Alle Metafelder des Pfades sind erlaubt
-      foreach($OOCat->getPathAsArray() as $pathElement)
-      {
-        if($pathElement != '')
-        {
-          $s .= ' OR `p`.`restrictions` LIKE "%|'. $pathElement .'|%"';
+      foreach ($OOCat->getPathAsArray() as $pathElement) {
+        if ($pathElement != '') {
+          $s .= ' OR `p`.`restrictions` LIKE "%|' . $pathElement . '|%"';
         }
       }
 
       // Auch die Kategorie selbst kann Metafelder haben
-      $s .= ' OR `p`.`restrictions` LIKE "%|'. $params['id'] .'|%"';
+      $s .= ' OR `p`.`restrictions` LIKE "%|' . $params['id'] . '|%"';
     }
 
-    $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL '. $s .')';
+    $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL ' . $s . ')';
 
     return $restrictionsCondition;
   }
@@ -93,29 +89,27 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
       $add_td = '<td></td>';
 
     $element = $field;
-    if ($labelIt)
-    {
+    if ($labelIt) {
       $element = '
-         <'.$tag.$tag_attr.'>
-           <label for="'. $id .'">'. $label .'</label>
-           '.$field.'
-         </'.$tag.'>';
+         <' . $tag . $tag_attr . '>
+           <label for="' . $id . '">' . $label . '</label>
+           ' . $field . '
+         </' . $tag . '>';
     }
 
-    if ($typeLabel == 'legend')
-    {
-      $element = '<p class="rex-form-legend">'. $label .'</p>';
+    if ($typeLabel == 'legend') {
+      $element = '<p class="rex-form-legend">' . $label . '</p>';
       $class_td = ' class="rex-colored"';
       $class_tr .= ' rex-metainfo-cat-b';
     }
 
     $s = '
-    <tr class="rex-table-row-activ rex-metainfo-cat'. $class_tr .'" style="display:none;">
+    <tr class="rex-table-row-activ rex-metainfo-cat' . $class_tr . '" style="display:none;">
       <td></td>
-      '.$add_td.'
-      <td colspan="5"'.$class_td.'>
+      ' . $add_td . '
+      <td colspan="5"' . $class_td . '>
          <div class="rex-form-row">
-          '.$element.'
+          ' . $element . '
         </div>
       </td>
     </tr>';
@@ -125,8 +119,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
   public function extendForm(array $params)
   {
-    if(isset($params['category']))
-    {
+    if (isset($params['category'])) {
       $params['activeItem'] = $params['category'];
 
       // Hier die category_id setzen, damit beim klick auf den REX_LINK_BUTTON der Medienpool in der aktuellen Kategorie startet
@@ -136,7 +129,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
     $result = parent::renderFormAndSave(self::PREFIX, $params);
 
     // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zur�ckgeben
-    if($params['extension_point'] == 'CAT_UPDATED' || $params['extension_point'] == 'CAT_ADDED')
+    if ($params['extension_point'] == 'CAT_UPDATED' || $params['extension_point'] == 'CAT_ADDED')
       return $params['subject'];
     else
       return $params['subject'] . $result;

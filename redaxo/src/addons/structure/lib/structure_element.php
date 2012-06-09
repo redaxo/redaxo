@@ -5,7 +5,7 @@
  * @package redaxo5
  */
 
-abstract class rex_ooRedaxo
+abstract class rex_structure_element
 {
   /*
    * these vars get read out
@@ -32,20 +32,16 @@ abstract class rex_ooRedaxo
    */
   protected function __construct($params = false, $clang = false)
   {
-    if ($params !== false)
-    {
-      foreach (self :: getClassVars() as $var)
-      {
-        if(isset($params[$var]))
-        {
-          $class_var = '_'.$var;
+    if ($params !== false) {
+      foreach (self :: getClassVars() as $var) {
+        if (isset($params[$var])) {
+          $class_var = '_' . $var;
           $this->$class_var = $params[$var];
         }
       }
     }
 
-    if ($clang !== false)
-    {
+    if ($clang !== false) {
       $this->setClang($clang);
     }
   }
@@ -66,11 +62,9 @@ abstract class rex_ooRedaxo
     // damit alte rex_article felder wie teaser, online_from etc
     // noch funktionieren
     // gleicher BC code nochmals in article::getValue
-    foreach(array('_', 'art_', 'cat_') as $prefix)
-    {
+    foreach (array('_', 'art_', 'cat_') as $prefix) {
       $val = $prefix . $value;
-      if(isset($this->$val))
-      {
+      if (isset($this->$val)) {
         return $this->$val;
       }
     }
@@ -79,27 +73,23 @@ abstract class rex_ooRedaxo
 
   /**
    * @param string $value
-   * @param array $prefixes
+   * @param array  $prefixes
    * @return boolean
    */
   static protected function _hasValue($value, array $prefixes = array())
   {
     static $values = null;
 
-    if(!$values)
-    {
+    if (!$values) {
       $values = self :: getClassVars();
     }
 
-    if (in_array($value, $values))
-    {
+    if (in_array($value, $values)) {
       return true;
     }
 
-    foreach($prefixes as $prefix)
-    {
-      if (in_array($prefix . $value, $values))
-      {
+    foreach ($prefixes as $prefix) {
+      if (in_array($prefix . $value, $values)) {
         return true;
       }
     }
@@ -117,30 +107,24 @@ abstract class rex_ooRedaxo
   {
     static $vars = array ();
 
-    if (empty($vars))
-    {
+    if (empty($vars)) {
       $vars = array();
 
       $startId = rex::getProperty('start_article_id');
-      $file = rex_path::addonCache('structure',  $startId .'.0.article');
-      if(!rex::isBackend() && file_exists($file))
-      {
+      $file = rex_path::addonCache('structure',  $startId . '.0.article');
+      if (!rex::isBackend() && file_exists($file)) {
         // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
-        $genVars = self::convertGeneratedArray(rex_file::getCache($file),0);
+        $genVars = self::convertGeneratedArray(rex_file::getCache($file), 0);
         unset($genVars['article_id']);
         unset($genVars['last_update_stamp']);
-        foreach($genVars as $name => $value)
-        {
+        foreach ($genVars as $name => $value) {
           $vars[] = $name;
         }
-      }
-      else
-      {
+      } else {
         // Im Backend die Spalten aus der DB auslesen / via EP holen
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT * FROM '. rex::getTablePrefix() .'article LIMIT 0');
-        foreach($sql->getFieldnames() as $field)
-        {
+        $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article LIMIT 0');
+        foreach ($sql->getFieldnames() as $field) {
           $vars[] = $field;
         }
       }
@@ -157,65 +141,59 @@ abstract class rex_ooRedaxo
    */
   static public function convertGeneratedArray($generatedArray, $clang)
   {
-    $rex_ooRedaxoArray['id'] = $generatedArray['article_id'][$clang];
-    $rex_ooRedaxoArray['clang'] = $clang;
-    foreach ($generatedArray as $key => $var)
-    {
-      $rex_ooRedaxoArray[$key] = $var[$clang];
+    $rex_structure_elementArray['id'] = $generatedArray['article_id'][$clang];
+    $rex_structure_elementArray['clang'] = $clang;
+    foreach ($generatedArray as $key => $var) {
+      $rex_structure_elementArray[$key] = $var[$clang];
     }
-    unset ($rex_ooRedaxoArray['_article_id']);
-    return $rex_ooRedaxoArray;
+    unset ($rex_structure_elementArray['_article_id']);
+    return $rex_structure_elementArray;
   }
 
   /**
-   * Array of rex_ooRedaxo instances, keyed by classname, id and clang
+   * Array of rex_structure_element instances, keyed by classname, id and clang
    * @var array[string][int][int]
    */
-  private static $instanceCache = array();
+  static private $instanceCache = array();
 
   /**
-   * Return an rex_ooRedaxo object based on an id.
+   * Return an rex_structure_element object based on an id.
    * The instance will be cached in an instance-pool and therefore re-used by a later call.
    *
-   * @param int $id the article id
+   * @param int $id    the article id
    * @param int $clang the clang id
    * @throws rex_exception
    *
-   * @return rex_ooRedaxo A rex_ooRedaxo instance typed to the late-static binding type of the caller
+   * @return rex_structure_element A rex_structure_element instance typed to the late-static binding type of the caller
    */
   static protected function getById($id, $clang)
   {
     $id = (int) $id;
 
-    if($id <= 0)
-    {
-      return NULL;
+    if ($id <= 0) {
+      return null;
     }
 
-    if ($clang === FALSE)
-    {
-      $clang = rex_clang::getId();
+    if ($clang === false) {
+      $clang = rex_clang::getCurrentId();
     }
 
     // save cache per subclass
     $subclass = get_called_class();
 
     // check if the class was already stored in the instanceCache
-    if(isset(self::$instanceCache[$subclass][$id][$clang]))
-    {
+    if (isset(self::$instanceCache[$subclass][$id][$clang])) {
       return self::$instanceCache[$subclass][$id][$clang];
     }
 
-    $article_path = rex_path::addonCache('structure', $id.'.'.$clang.'.article');
+    $article_path = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
     // generate cache if not exists
-    if (!file_exists($article_path))
-    {
+    if (!file_exists($article_path)) {
       rex_article_cache::generateMeta($id, $clang);
     }
 
     // article is valid, if cache exists after generation
-    if (file_exists($article_path))
-    {
+    if (file_exists($article_path)) {
       // load metadata from cache
       $metadata = rex_file::getCache($article_path);
 
@@ -227,7 +205,7 @@ abstract class rex_ooRedaxo
       return $impl;
     }
 
-    return NULL;
+    return null;
   }
 
   /**
@@ -280,7 +258,7 @@ abstract class rex_ooRedaxo
    *
    * @return string
    */
-  public abstract function getPath();
+  abstract public function getPath();
 
   /**
    * Accessor Method:
@@ -298,9 +276,9 @@ abstract class rex_ooRedaxo
    * Object Function:
    * Returns the parent category
    *
-   * @return rex_ooRedaxo
+   * @return rex_structure_element
    */
-  public abstract function getParent($clang = false);
+  abstract public function getParent($clang = false);
 
   /**
    * Accessor Method:
@@ -426,11 +404,10 @@ abstract class rex_ooRedaxo
   public function toLink($params = '', $attributes = null, $sorround_tag = null, $sorround_attributes = null)
   {
     $name = htmlspecialchars($this->getName());
-    $link = '<a href="'.$this->getUrl($params).'"'.$this->_toAttributeString($attributes).' title="'.$name.'">'.$name.'</a>';
+    $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . $name . '">' . $name . '</a>';
 
-    if ($sorround_tag !== null && is_string($sorround_tag))
-    {
-      $link = '<'.$sorround_tag.$this->_toAttributeString($sorround_attributes).'>'.$link.'</'.$sorround_tag.'>';
+    if ($sorround_tag !== null && is_string($sorround_tag)) {
+      $link = '<' . $sorround_tag . $this->_toAttributeString($sorround_attributes) . '>' . $link . '</' . $sorround_tag . '>';
     }
 
     return $link;
@@ -445,11 +422,9 @@ abstract class rex_ooRedaxo
   {
     $attr = '';
 
-    if ($attributes !== null && is_array($attributes))
-    {
-      foreach ($attributes as $name => $value)
-      {
-        $attr .= ' '.$name.'="'.$value.'"';
+    if ($attributes !== null && is_array($attributes)) {
+      foreach ($attributes as $name => $value) {
+        $attr .= ' ' . $name . '="' . $value . '"';
       }
     }
 
@@ -459,28 +434,24 @@ abstract class rex_ooRedaxo
   /**
    * Object Function:
    * Get an array of all parentCategories.
-   * Returns an array of rex_ooRedaxo objects.
+   * Returns an array of rex_structure_element objects.
    *
-   * @return array[rex_ooCategory]
+   * @return array[rex_category]
    */
   public function getParentTree()
   {
     $return = array ();
 
-    if ($this->_path)
-    {
-      if($this->isStartArticle())
-      $explode = explode('|', $this->_path.$this->_id.'|');
+    if ($this->_path) {
+      if ($this->isStartArticle())
+      $explode = explode('|', $this->_path . $this->_id . '|');
       else
       $explode = explode('|', $this->_path);
 
-      if (is_array($explode))
-      {
-        foreach ($explode as $var)
-        {
-          if ($var != '')
-          {
-            $return[] = rex_ooCategory :: getCategoryById($var, $this->_clang);
+      if (is_array($explode)) {
+        foreach ($explode as $var) {
+          if ($var != '') {
+            $return[] = rex_category :: getCategoryById($var, $this->_clang);
           }
         }
       }
@@ -498,10 +469,8 @@ abstract class rex_ooRedaxo
   public function inParentTree($anObj)
   {
     $tree = $this->getParentTree();
-    foreach($tree as $treeObj)
-    {
-      if($treeObj == $anObj)
-      {
+    foreach ($tree as $treeObj) {
+      if ($treeObj == $anObj) {
         return true;
       }
     }
@@ -546,7 +515,7 @@ abstract class rex_ooRedaxo
    *  Accessor Method:
    *  returns  true if this Article is the not found article
    *
-   *  @return boolean
+   * @return boolean
    */
   public function isNotFoundArticle()
   {
@@ -562,7 +531,7 @@ abstract class rex_ooRedaxo
    */
   public function toString()
   {
-    return $this->_id.', '.$this->_name.', '. ($this->isOnline() ? 'online' : 'offline');
+    return $this->_id . ', ' . $this->_name . ', ' . ($this->isOnline() ? 'online' : 'offline');
   }
 
   /**
@@ -578,10 +547,8 @@ abstract class rex_ooRedaxo
    */
   static protected function _getDate($date, $format = null)
   {
-    if ($format !== null)
-    {
-      if ($format == '')
-      {
+    if ($format !== null) {
+      if ($format == '') {
         $format = rex_i18n::msg('dateformat');
       }
       return strftime($format, $date);

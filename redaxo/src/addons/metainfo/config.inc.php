@@ -10,8 +10,7 @@
 
 $mypage = 'metainfo';
 
-if(!defined('REX_METAINFO_FIELD_TEXT'))
-{
+if (!defined('REX_METAINFO_FIELD_TEXT')) {
   // Feldtypen
   define('REX_METAINFO_FIELD_TEXT',                 1);
   define('REX_METAINFO_FIELD_TEXTAREA',             2);
@@ -31,15 +30,14 @@ if(!defined('REX_METAINFO_FIELD_TEXT'))
 
 $this->setProperty('prefixes', array('art_', 'cat_', 'med_'));
 $this->setProperty('metaTables', array(
-  'art_' => rex::getTablePrefix() .'article',
-  'cat_' => rex::getTablePrefix() .'article',
-  'med_' => rex::getTablePrefix() .'media',
+  'art_' => rex::getTablePrefix() . 'article',
+  'cat_' => rex::getTablePrefix() . 'article',
+  'med_' => rex::getTablePrefix() . 'media',
 ));
 
-if (rex::isBackend())
-{
+if (rex::isBackend()) {
   $curDir = dirname(__FILE__);
-  require_once $curDir .'/functions/function_metainfo.inc.php';
+  require_once $curDir . '/functions/function_metainfo.inc.php';
 
   rex_extension::register('PAGE_CHECKED', 'rex_metainfo_extensions_handler');
 }

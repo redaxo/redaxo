@@ -1,7 +1,7 @@
 <?php
 
 ################ Class MediaKategorie Select
-class rex_mediacategory_select extends rex_select
+class rex_media_category_select extends rex_select
 {
   private
     $check_perms,
@@ -28,55 +28,41 @@ class rex_mediacategory_select extends rex_select
 
   protected function addCatOptions()
   {
-    if($this->rootId !== null)
-    {
-      if(is_array($this->rootId))
-      {
-        foreach($this->rootId as $rootId)
-        {
-          if($rootCat = rex_ooMediaCategory::getCategoryById($rootId))
-          {
+    if ($this->rootId !== null) {
+      if (is_array($this->rootId)) {
+        foreach ($this->rootId as $rootId) {
+          if ($rootCat = rex_media_category::getCategoryById($rootId)) {
             $this->addCatOption($rootCat);
           }
         }
-      }
-      else
-      {
-        if($rootCat = rex_ooMediaCategory::getCategoryById($this->rootId))
-        {
+      } else {
+        if ($rootCat = rex_media_category::getCategoryById($this->rootId)) {
           $this->addCatOption($rootCat);
         }
       }
-    }
-    else
-    {
-      if ($rootCats = rex_ooMediaCategory::getRootCategories())
-      {
-        foreach($rootCats as $rootCat)
-        {
+    } else {
+      if ($rootCats = rex_media_category::getRootCategories()) {
+        foreach ($rootCats as $rootCat) {
           $this->addCatOption($rootCat);
         }
       }
     }
   }
 
-  protected function addCatOption(rex_ooMediaCategory $mediacat)
+  protected function addCatOption(rex_media_category $mediacat)
   {
-    if(!$this->check_perms ||
-        $this->check_perms && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId()))
-    {
+    if (!$this->check_perms ||
+        $this->check_perms && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId())) {
       $mid = $mediacat->getId();
       $mname = $mediacat->getName();
 
-      if(rex::getUser()->hasPerm('advancedMode[]'))
-        $mname .= ' ['. $mid .']';
+      if (rex::getUser()->hasPerm('advancedMode[]'))
+        $mname .= ' [' . $mid . ']';
 
       $this->addOption($mname, $mid, $mid, $mediacat->getParentId());
       $childs = $mediacat->getChildren();
-      if (is_array($childs))
-      {
-        foreach ($childs as $child)
-        {
+      if (is_array($childs)) {
+        foreach ($childs as $child) {
           $this->addCatOption($child);
         }
       }
@@ -85,8 +71,7 @@ class rex_mediacategory_select extends rex_select
 
   public function get()
   {
-    if(!$this->loaded)
-    {
+    if (!$this->loaded) {
       $this->addCatOptions();
       $this->loaded = true;
     }

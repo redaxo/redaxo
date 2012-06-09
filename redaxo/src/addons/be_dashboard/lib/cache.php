@@ -51,7 +51,7 @@ abstract class rex_cache
    *
    * @return mixed The data of the cache
    */
-  abstract function get($key, $default = null);
+  abstract public function get($key, $default = null);
 
   /**
    * Returns true if there is a cache for the given key.
@@ -144,8 +144,7 @@ abstract class rex_cache
   public function getMany($keys)
   {
     $data = array();
-    foreach ($keys as $key)
-    {
+    foreach ($keys as $key) {
       $data[$key] = $this->get($key);
     }
 
@@ -168,11 +167,11 @@ abstract class rex_cache
   {
     $regexp = str_replace(
       array('\\*\\*', '\\*'),
-      array('.+?',    '[^'.preg_quote(REX_CACHE_SEPARATOR, '#').']+'),
+      array('.+?',    '[^' . preg_quote(REX_CACHE_SEPARATOR, '#') . ']+'),
       preg_quote($pattern, '#')
     );
 
-    return '#^'.$regexp.'$#';
+    return '#^' . $regexp . '$#';
   }
 
   /**

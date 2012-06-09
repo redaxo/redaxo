@@ -45,8 +45,8 @@ interface rex_package_interface
   /**
    * Returns the assets path
    *
-   * @param string $file File
-   * @param int $pathType Path type
+   * @param string $file     File
+   * @param int    $pathType Path type
    */
   public function getAssetsPath($file = '', $pathType = rex_path::RELATIVE);
 
@@ -87,16 +87,16 @@ interface rex_package_interface
   /**
    * Sets a property
    *
-   * @param string $key Key of the property
-   * @param mixed $value New value for the property
+   * @param string $key   Key of the property
+   * @param mixed  $value New value for the property
    */
   public function setProperty($key, $value);
 
   /**
    * Returns a property
    *
-   * @param string $key Key of the property
-   * @param mixed $default Default value, will be returned if the property isn't set
+   * @param string $key     Key of the property
+   * @param mixed  $default Default value, will be returned if the property isn't set
    * @return mixed
    */
   public function getProperty($key, $default = null);

@@ -24,10 +24,12 @@ class rex_functional_exception extends rex_exception {}
 /**
  * Exception class for http-status code handling
  */
-class rex_http_exception extends rex_exception {
+class rex_http_exception extends rex_exception
+{
   private $httpCode;
 
-  public function __construct(Exception $cause, $httpCode) {
+  public function __construct(Exception $cause, $httpCode)
+  {
     parent::__construct(null, null, $cause);
     $this->httpCode = $httpCode;
   }

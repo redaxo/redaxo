@@ -28,13 +28,10 @@ class rex_version_checker_notification extends rex_dashboard_notification
   {
     $versionCheck = rex_a657_check_version();
 
-    if($versionCheck)
-    {
+    if ($versionCheck) {
       $this->setMessage($versionCheck);
-    }
-    else
-    {
-      $this->setMessage(rex_view::warning('Version-Checker: '. rex_i18n::msg('vchecker_connection_error')));
+    } else {
+      $this->setMessage(rex_view::warning('Version-Checker: ' . rex_i18n::msg('vchecker_connection_error')));
     }
   }
 }

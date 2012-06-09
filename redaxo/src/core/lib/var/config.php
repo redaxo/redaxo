@@ -34,12 +34,11 @@ class rex_var_config extends rex_var
     $var = self::VAR_NAME;
     $matches = $this->getVarParams($content, $var);
 
-    foreach ($matches as $match)
-    {
+    foreach ($matches as $match) {
       list ($param_str, $args)   = $match;
       $field       = $this->getArg('field', $args, '');
 
-      $tpl = '<?php echo '. __CLASS__ ."::getConfig('". addslashes($field) ."', '". json_encode($args) ."'); ?>";
+      $tpl = '<?php echo ' . __CLASS__ . "::getConfig('" . addslashes($field) . "', '" . json_encode($args) . "'); ?>";
 
       $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
     }
@@ -51,7 +50,7 @@ class rex_var_config extends rex_var
    * Returns the property of the given config-field, parsed using the given rex-var arguments.
    *
    * @param string $field The name of the config field
-   * @param string $args A JSON String representing the rex-var arguments
+   * @param string $args  A JSON String representing the rex-var arguments
    * @return string
    */
   static public function getConfig($field, $args = '')

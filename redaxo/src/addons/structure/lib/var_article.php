@@ -34,8 +34,7 @@ class rex_var_article extends rex_var
 
   static public function handleDefaultParam($varname, array $args, $name, $value)
   {
-    switch($name)
-    {
+    switch ($name) {
       case '1' :
       case 'clang' :
         $args['clang'] = (int) $value;
@@ -59,8 +58,7 @@ class rex_var_article extends rex_var
     $var = 'REX_ARTICLE';
     $matches = $this->getVarParams($content, $var);
 
-    foreach ($matches as $match)
-    {
+    foreach ($matches as $match) {
       list ($param_str, $args)  = $match;
       $article_id = $this->getArg('id',    $args, 0);
       $clang      = $this->getArg('clang', $args, 'null');
@@ -68,37 +66,27 @@ class rex_var_article extends rex_var
       $field      = $this->getArg('field', $args, '');
 
       $tpl = '';
-      if($article_id > 0)
-      {
+      if ($article_id > 0) {
         $article = $article_id;
-      }
-      else if($clang == 'null')
-      {
+      } elseif ($clang == 'null') {
         $article = '$this->getValue(\'id\')';
-      }
-      else
-      {
+      } else {
         $article = '$this';
       }
 
-      if($field)
-      {
-        if(rex_ooArticle::hasValue($field))
-        {
-          $tpl = '<?php echo '. __CLASS__ .'::getArticleValue('. $article .", '". $field ."', ". $clang .", '". json_encode($args) ."'); ?>";
+      if ($field) {
+        if (rex_article::hasValue($field)) {
+          $tpl = '<?php echo ' . __CLASS__ . '::getArticleValue(' . $article . ", '" . $field . "', " . $clang . ", '" . json_encode($args) . "'); ?>";
         }
-      }
-      else
-      {
-        if($article != 0 || $replaceInTemplate)
-        {
+      } else {
+        if ($article != 0 || $replaceInTemplate) {
           // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
           // => endlossschleife
-          $tpl = '<?php echo '. __CLASS__ .'::getArticle('. $article .', '. $ctype .', '. $clang .", '". json_encode($args) ."'); ?>";
+          $tpl = '<?php echo ' . __CLASS__ . '::getArticle(' . $article . ', ' . $ctype . ', ' . $clang . ", '" . json_encode($args) . "'); ?>";
         }
       }
 
-      if($tpl != '')
+      if ($tpl != '')
         $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
     }
 
@@ -107,13 +95,11 @@ class rex_var_article extends rex_var
 
   static public function getArticleValue($article, $field, $clang = null, $args = '')
   {
-    if($clang === null)
-    {
-      $clang = rex_clang::getId();
+    if ($clang === null) {
+      $clang = rex_clang::getCurrentId();
     }
-    if(!is_object($article))
-    {
-      $article = rex_ooArticle::getArticleById($article, $clang);
+    if (!is_object($article)) {
+      $article = rex_article::getArticleById($article, $clang);
     }
 
     $value = $article->getValue($field);
@@ -123,13 +109,11 @@ class rex_var_article extends rex_var
 
   static public function getArticle($article, $ctype = -1, $clang = null, $args = '')
   {
-    if($clang === null)
-    {
-      $clang = rex_clang::getId();
+    if ($clang === null) {
+      $clang = rex_clang::getCurrentId();
     }
-    if(!is_object($article))
-    {
-      $article = new rex_article($article, $clang);
+    if (!is_object($article)) {
+      $article = new rex_article_content($article, $clang);
     }
 
     $article = $article->getArticle($ctype);

@@ -14,7 +14,7 @@ interface rex_url_provider
    *
    * @return string The generated Url
    */
-  function getUrl(array $params = array());
+  public function getUrl(array $params = array());
 }
 
 /**
@@ -31,7 +31,7 @@ interface rex_context_provider extends rex_url_provider
    *
    * @return string The generated html source containing the hidden input fields
    */
-  function getHiddenInputFields(array $params = array());
+  public function getHiddenInputFields(array $params = array());
 }
 
 /**
@@ -60,7 +60,7 @@ class rex_context implements rex_context_provider
     // combine global params with local
     $_params = array_merge($this->globalParams, $params);
 
-    return str_replace('&', '&amp;', 'index.php?' .ltrim(self::array2paramStr($_params), '&'));
+    return str_replace('&', '&amp;', 'index.php?' . ltrim(self::array2paramStr($_params), '&'));
   }
 
   /**
@@ -94,7 +94,7 @@ class rex_context implements rex_context_provider
   static public function restore()
   {
     // $_REQUEST contains some server specific globals, therefore we merge GET and POST manually
-    return new rex_context($_GET + $_POST);
+    return new self($_GET + $_POST);
   }
 
   /**
@@ -105,18 +105,13 @@ class rex_context implements rex_context_provider
   static private function array2paramStr(array $array)
   {
     $paramString = '';
-    foreach($array as $name => $value)
-    {
-      if(is_array($value))
-      {
-        foreach($value as $valName => $valVal)
-        {
-          $paramString .= '&'. urlencode($name) .'['. $valName .']='. urlencode($valVal);
+    foreach ($array as $name => $value) {
+      if (is_array($value)) {
+        foreach ($value as $valName => $valVal) {
+          $paramString .= '&' . urlencode($name) . '[' . $valName . ']=' . urlencode($valVal);
         }
-      }
-      else
-      {
-        $paramString .= '&'. urlencode($name) .'='. urlencode($value);
+      } else {
+        $paramString .= '&' . urlencode($name) . '=' . urlencode($value);
       }
     }
 
@@ -131,18 +126,13 @@ class rex_context implements rex_context_provider
   static private function array2inputStr(array $array)
   {
     $inputString = '';
-    foreach($array as $name => $value)
-    {
-      if(is_array($value))
-      {
-        foreach($value as $valName => $valVal)
-        {
-          $inputString .= '<input type="hidden" name="'. $name .'['. $valName .']" value="'. htmlspecialchars($valVal) .'" />';
+    foreach ($array as $name => $value) {
+      if (is_array($value)) {
+        foreach ($value as $valName => $valVal) {
+          $inputString .= '<input type="hidden" name="' . $name . '[' . $valName . ']" value="' . htmlspecialchars($valVal) . '" />';
         }
-      }
-      else
-      {
-        $inputString .= '<input type="hidden" name="'. $name .'" value="'. htmlspecialchars($value) .'" />';
+      } else {
+        $inputString .= '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value) . '" />';
       }
     }
 

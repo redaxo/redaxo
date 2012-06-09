@@ -7,3 +7,5 @@ before_script:
   - php redaxo/src/addons/tests/bin/setup.php
 script:
   - php redaxo/src/addons/tests/bin/runTests.php
+after_script:
+  - php coding_standards.php check --hide-process

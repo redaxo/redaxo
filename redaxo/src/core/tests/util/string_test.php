@@ -54,8 +54,8 @@ class rex_string_test extends PHPUnit_Framework_TestCase
   }
 
   /**
-  * @dataProvider compareVersionsProvider
-  */
+   * @dataProvider compareVersionsProvider
+   */
   public function testCompareVersions($version1, $version2, $comparator)
   {
     $this->assertTrue(rex_string::compareVersions($version1, $version2, $comparator));

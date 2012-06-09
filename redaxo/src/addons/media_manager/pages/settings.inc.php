@@ -11,16 +11,15 @@
 
 // rex_request();
 
-$content = "";
+$content = '';
 
 $func = rex_request('func', 'string');
 $jpg_quality = rex_request('jpg_quality', 'int');
 
-if ($func == 'update')
-{
-  if($jpg_quality > 100)
+if ($func == 'update') {
+  if ($jpg_quality > 100)
     $jpg_quality = 100;
-  else if ($jpg_quality < 0)
+  elseif ($jpg_quality < 0)
     $jpg_quality = 0;
 
   rex_config::set('media_manager', 'jpg_quality', $jpg_quality);
@@ -31,7 +30,7 @@ if ($func == 'update')
 $content .= '
 <div class="rex-form">
 
-  <h2>'. rex_i18n::msg('imanager_subpage_config') .'</h2>
+  <h2>' . rex_i18n::msg('imanager_subpage_config') . '</h2>
 
   <form action="index.php" method="post">
   <fieldset class="rex-form-col-1">
@@ -42,14 +41,14 @@ $content .= '
 
       <div class="rex-form-row rex-form-element-v2">
         <p class="rex-form-text">
-          <label for="jpg_quality">'. rex_i18n::msg('media_manager_jpg_quality') .' [0-100]</label>
-          <input class="rex-form-text" type="text" id="jpg_quality" name="jpg_quality" value="'. htmlspecialchars(rex_config::get('media_manager', 'jpg_quality')).'" />
+          <label for="jpg_quality">' . rex_i18n::msg('media_manager_jpg_quality') . ' [0-100]</label>
+          <input class="rex-form-text" type="text" id="jpg_quality" name="jpg_quality" value="' . htmlspecialchars(rex_config::get('media_manager', 'jpg_quality')) . '" />
         </p>
       </div>
 
       <div class="rex-form-row rex-form-element-v2">
         <p class="rex-form-submit">
-          <input type="submit" class="rex-form-submit" name="sendit" value="'.rex_i18n::msg('update').'" />
+          <input type="submit" class="rex-form-submit" name="sendit" value="' . rex_i18n::msg('update') . '" />
         </p>
       </div>
     </div>

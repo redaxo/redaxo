@@ -28,14 +28,12 @@ class rex_autoload
    */
   static public function register()
   {
-    if (self::$registered)
-    {
+    if (self::$registered) {
       return;
     }
 
     ini_set('unserialize_callback_func', 'spl_autoload_call');
-    if (false === spl_autoload_register(array(__CLASS__, 'autoload')))
-    {
+    if (false === spl_autoload_register(array(__CLASS__, 'autoload'))) {
       throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
     }
 
@@ -60,7 +58,7 @@ class rex_autoload
   /**
    * Handles autoloading of classes.
    *
-   * @param  string $class A class name.
+   * @param string $class A class name.
    *
    * @return boolean Returns true if the class has been loaded
    */
@@ -69,25 +67,20 @@ class rex_autoload
     $class = strtolower($class);
 
     // class already exists
-    if(class_exists($class, false) || interface_exists($class, false)
-       || function_exists('trait_exists') && trait_exists($class, false))
-    {
+    if (class_exists($class, false) || interface_exists($class, false)
+       || function_exists('trait_exists') && trait_exists($class, false)) {
       return true;
     }
 
     // we have a class path for the class, let's include it
-    if(isset(self::$classes[$class]) && is_readable(self::$classes[$class]))
-    {
+    if (isset(self::$classes[$class]) && is_readable(self::$classes[$class])) {
       require self::$classes[$class];
     }
 
-    if(class_exists($class, false) || interface_exists($class, false)
-       || function_exists('trait_exists') && trait_exists($class, false))
-    {
+    if (class_exists($class, false) || interface_exists($class, false)
+       || function_exists('trait_exists') && trait_exists($class, false)) {
       return true;
-    }
-    elseif(!self::$reloaded)
-    {
+    } elseif (!self::$reloaded) {
       self::reload();
       return self::autoload($class);
     }
@@ -100,8 +93,7 @@ class rex_autoload
    */
   static private function loadCache()
   {
-    if (!self::$cacheFile || !is_readable(self::$cacheFile))
-    {
+    if (!self::$cacheFile || !is_readable(self::$cacheFile)) {
       return;
     }
 
@@ -113,16 +105,12 @@ class rex_autoload
    */
   static public function saveCache()
   {
-    if (self::$cacheChanged)
-    {
-      if (is_writable(dirname(self::$cacheFile)))
-      {
+    if (self::$cacheChanged) {
+      if (is_writable(dirname(self::$cacheFile))) {
         file_put_contents(self::$cacheFile, json_encode(array(self::$classes, self::$dirs)));
         self::$cacheChanged = false;
-      }
-      else
-      {
-        throw new Exception("Unable to write autoload cachefile '". self::$cacheFile ."'!");
+      } else {
+        throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
       }
     }
   }
@@ -135,8 +123,7 @@ class rex_autoload
     self::$classes = array();
     self::$dirs = array();
 
-    foreach (self::$addedDirs as $dir)
-    {
+    foreach (self::$addedDirs as $dir) {
       self::_addDirectory($dir);
     }
 
@@ -161,8 +148,7 @@ class rex_autoload
   {
     $dir = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR;
     self::$addedDirs[] = $dir;
-    if(!in_array($dir, self::$dirs))
-    {
+    if (!in_array($dir, self::$dirs)) {
       self::_addDirectory($dir);
       self::$dirs[] = $dir;
       self::$cacheChanged = true;
@@ -171,19 +157,15 @@ class rex_autoload
 
   static private function _addDirectory($dir)
   {
-    if($files = glob($dir .'*.php', GLOB_NOSORT))
-    {
-      foreach($files as $file)
-      {
+    if ($files = glob($dir . '*.php', GLOB_NOSORT)) {
+      foreach ($files as $file) {
         self::addFile($file);
       }
     }
 
-    if($subdirs = glob($dir .'*', GLOB_ONLYDIR | GLOB_NOSORT | GLOB_MARK))
-    {
+    if ($subdirs = glob($dir . '*', GLOB_ONLYDIR | GLOB_NOSORT | GLOB_MARK)) {
       // recursive over subdirectories
-      foreach($subdirs as $subdir)
-      {
+      foreach ($subdirs as $subdir) {
         self::_addDirectory($subdir);
       }
     }
@@ -191,8 +173,7 @@ class rex_autoload
 
   static private function addFile($file)
   {
-    if(!is_file($file))
-    {
+    if (!is_file($file)) {
       return;
     }
 
@@ -200,32 +181,25 @@ class rex_autoload
     $tokens = token_get_all(file_get_contents($file));
     $count = count($tokens);
     $classTokens = array(T_CLASS, T_INTERFACE);
-    if(defined('T_TRAIT'))
+    if (defined('T_TRAIT'))
       $classTokens[] = T_TRAIT;
     $ignoreTokens = array(T_WHITESPACE, T_COMMENT, T_DOC_COMMENT);
     $namespaceTokens = array(T_WHITESPACE, T_COMMENT, T_DOC_COMMENT, T_NS_SEPARATOR, T_STRING);
-    for($i = 0; $i < $count; ++$i)
-    {
-      if(is_array($tokens[$i]))
-      {
-        if($tokens[$i][0] == T_NAMESPACE)
-        {
+    for ($i = 0; $i < $count; ++$i) {
+      if (is_array($tokens[$i])) {
+        if ($tokens[$i][0] == T_NAMESPACE) {
           $namespace = '';
-          for(++$i; isset($tokens[$i][0]) && in_array($tokens[$i][0], $namespaceTokens); ++$i)
-          {
-            if(!in_array($tokens[$i][0], $ignoreTokens))
+          for (++$i; isset($tokens[$i][0]) && in_array($tokens[$i][0], $namespaceTokens); ++$i) {
+            if (!in_array($tokens[$i][0], $ignoreTokens))
               $namespace .= $tokens[$i][1];
           }
           $namespace .= empty($namespace) ? '' : '\\';
         }
-        if(in_array($tokens[$i][0], $classTokens))
-        {
-          for(++$i; isset($tokens[$i][0]) && in_array($tokens[$i][0], $ignoreTokens); ++$i);
-          if(isset($tokens[$i][0]) && $tokens[$i][0] == T_STRING)
-          {
+        if (in_array($tokens[$i][0], $classTokens)) {
+          for (++$i; isset($tokens[$i][0]) && in_array($tokens[$i][0], $ignoreTokens); ++$i);
+          if (isset($tokens[$i][0]) && $tokens[$i][0] == T_STRING) {
             $class = strtolower($namespace . $tokens[$i][1]);
-            if(!isset(self::$classes[$class]))
-            {
+            if (!isset(self::$classes[$class])) {
               self::$classes[$class] = $file;
             }
           }

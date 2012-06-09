@@ -41,14 +41,14 @@ media_manager_type_cache_delete = delete cache
 media_manager_type_system = system imagetype
 
 media_manager_effect_list_header = effect of imagetype "{0}"
-media_manager_effect_edit_header = imagetype "{0}": edit effect 
+media_manager_effect_edit_header = imagetype "{0}": edit effect
 media_manager_effect_create_header = imagetype "{0}": create effect
 media_manager_effect_caption = list of effects of imagetype "{0}"
 media_manager_effect_summary = list of effects of imagetype "{0}"
 media_manager_effect_no_effects = no effect found
 media_manager_effect_create = create effect
-media_manager_effect_edit = edit effect 
-media_manager_effect_delete = delete effect 
+media_manager_effect_edit = edit effect
+media_manager_effect_delete = delete effect
 media_manager_effect_name = effect
 media_manager_effect_prior = order
 media_manager_effect_parameters = parameter
@@ -59,7 +59,7 @@ media_manager_effect_brand_image = image
 media_manager_effect_brand_hpos = horizontal position
 media_manager_effect_brand_vpos = vertical position
 media_manager_effect_brand_padding_x = padding x
-media_manager_effect_brand_padding_y = padding y 
+media_manager_effect_brand_padding_y = padding y
 
 media_manager_effect_blur_amount = amount
 media_manager_effect_blur_radius = radius
@@ -76,7 +76,7 @@ media_manager_effect_resize_imgtosmall = if image is to small
 
 media_manager_effect_crop_width = width
 media_manager_effect_crop_height = height
-media_manager_effect_crop_offset_width = offset width 
+media_manager_effect_crop_offset_width = offset width
 media_manager_effect_crop_offset_height = offset height
 media_manager_effect_crop_position = position
 

@@ -5,7 +5,7 @@
  *
  * @deprecated 3.1
  */
-function getUrlByid($id, $clang = "", $params = "")
+function getUrlByid($id, $clang = '', $params = '')
 {
   return rex_getUrl($id, $clang, $params);
 }
@@ -15,7 +15,7 @@ function getUrlByid($id, $clang = "", $params = "")
  *
  * @deprecated 3.2
  */
-function title($head, $subtitle = '', $styleclass = "grey", $width = '770px')
+function title($head, $subtitle = '', $styleclass = 'grey', $width = '770px')
 {
   return rex_title($head, $subtitle, $styleclass, $width);
 }

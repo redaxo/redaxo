@@ -5,7 +5,7 @@
  * @package redaxo5
  */
 
-class rex_ooCategory extends rex_ooRedaxo
+class rex_category extends rex_structure_element
 {
   public function __construct($params = false, $clang = false)
   {
@@ -14,9 +14,9 @@ class rex_ooCategory extends rex_ooRedaxo
 
   /**
    * CLASS Function:
-   * Return an rex_ooRedaxo object based on an id
+   * Return an rex_category object based on an id
    *
-   * @return rex_ooCategory
+   * @return rex_category
    */
   static public function getCategoryById($category_id, $clang = false)
   {
@@ -25,58 +25,48 @@ class rex_ooCategory extends rex_ooRedaxo
 
   /**
    * children of categories, keyed by category_id (parent ids)
-   * @var array[rex_ooArticle]
+   * @var array[rex_article]
    */
-  private static $childIds = array();
+  static private $childIds = array();
 
   /**
    * CLASS Function:
    * Return all Children by id
    *
-   * @return array[rex_ooCategory]
+   * @return array[rex_category]
    */
   static public function getChildrenById($cat_parent_id, $ignore_offlines = false, $clang = false)
   {
     $cat_parent_id = (int) $cat_parent_id;
 
-    if($cat_parent_id < 0)
+    if ($cat_parent_id < 0)
       return array();
 
-    if ($clang === FALSE)
-    {
-      $clang = rex_clang::getId();
+    if ($clang === false) {
+      $clang = rex_clang::getCurrentId();
     }
 
-    $categorylist = rex_path::addonCache('structure', $cat_parent_id.".".$clang.".clist");
+    $categorylist = rex_path::addonCache('structure', $cat_parent_id . '.' . $clang . '.clist');
 
     $catlist = array ();
 
-    if (!file_exists($categorylist))
-    {
+    if (!file_exists($categorylist)) {
       rex_article_cache::generateLists($cat_parent_id);
     }
 
-    if (file_exists($categorylist))
-    {
-      if (!isset (self::$childIds[$cat_parent_id]))
-      {
+    if (file_exists($categorylist)) {
+      if (!isset (self::$childIds[$cat_parent_id])) {
         self::$childIds[$cat_parent_id] = rex_file::getCache($categorylist);
       }
 
-      if (isset (self::$childIds[$cat_parent_id]) && is_array(self::$childIds[$cat_parent_id]))
-      {
-        foreach (self::$childIds[$cat_parent_id] as $var)
-        {
+      if (isset (self::$childIds[$cat_parent_id]) && is_array(self::$childIds[$cat_parent_id])) {
+        foreach (self::$childIds[$cat_parent_id] as $var) {
           $category = self :: getCategoryById($var, $clang);
-          if ($ignore_offlines)
-          {
-            if ($category->isOnline())
-            {
+          if ($ignore_offlines) {
+            if ($category->isOnline()) {
               $catlist[] = $category;
             }
-          }
-          else
-          {
+          } else {
             $catlist[] = $category;
           }
         }
@@ -86,9 +76,8 @@ class rex_ooCategory extends rex_ooRedaxo
     return $catlist;
   }
 
-  /**
-   * (non-PHPdoc)
-   * @see rex_ooRedaxo::getPriority()
+  /* (non-PHPdoc)
+   * @see rex_structure_element::getPriority()
    */
   public function getPriority()
   {
@@ -99,19 +88,18 @@ class rex_ooCategory extends rex_ooRedaxo
    * CLASS Function:
    * Return a list of top level categories, ie.
    * categories that have no parent.
-   * Returns an array of rex_ooCategory objects sorted by $prior.
+   * Returns an array of rex_category objects sorted by $prior.
    *
    * If $ignore_offlines is set to TRUE,
    * all categories with status 0 will be
    * excempt from this list!
    *
-   * @return array[rex_ooCategory]
+   * @return array[rex_category]
    */
   static public function getRootCategories($ignore_offlines = false, $clang = false)
   {
-    if ($clang === FALSE)
-    {
-      $clang = rex_clang::getId();
+    if ($clang === false) {
+      $clang = rex_clang::getCurrentId();
     }
 
     return self :: getChildrenById(0, $ignore_offlines, $clang);
@@ -120,19 +108,18 @@ class rex_ooCategory extends rex_ooRedaxo
   /**
    * Object Function:
    * Return a list of all subcategories.
-   * Returns an array of rex_ooRedaxo objects sorted by $prior.
+   * Returns an array of rex_category objects sorted by $prior.
    *
    * If $ignore_offlines is set to TRUE,
    * all categories with status 0 will be
    * excempt from this list!
    *
-   * @return array[rex_ooCategory]
+   * @return array[rex_category]
    */
   public function getChildren($ignore_offlines = false, $clang = false)
   {
-    if ($clang === FALSE)
-    {
-      $clang = rex_clang::getId();
+    if ($clang === false) {
+      $clang = rex_clang::getCurrentId();
     }
 
     return self :: getChildrenById($this->_id, $ignore_offlines, $clang);
@@ -142,13 +129,12 @@ class rex_ooCategory extends rex_ooRedaxo
    * Object Function:
    * Returns the parent category
    *
-   * @return rex_ooCategory
+   * @return rex_category
    */
   public function getParent($clang = false)
   {
-    if ($clang === FALSE)
-    {
-      $clang = rex_clang::getId();
+    if ($clang === false) {
+      $clang = rex_clang::getCurrentId();
     }
 
     return self :: getCategoryById($this->_re_id, $clang);
@@ -184,28 +170,28 @@ class rex_ooCategory extends rex_ooRedaxo
   /**
    * Object Function:
    * Return a list of articles in this category
-   * Returns an array of rex_ooArticle objects sorted by $prior.
+   * Returns an array of rex_article objects sorted by $prior.
    *
    * If $ignore_offlines is set to TRUE,
    * all articles with status 0 will be
    * excempt from this list!
    *
-   * @return array[rex_ooArticle]
+   * @return array[rex_article]
    */
   public function getArticles($ignore_offlines = false)
   {
-    return rex_ooArticle :: getArticlesOfCategory($this->_id, $ignore_offlines, $this->_clang);
+    return rex_article :: getArticlesOfCategory($this->_id, $ignore_offlines, $this->_clang);
   }
 
   /**
    * Object Function:
    * Return the start article for this category
    *
-   * @return rex_ooArticle
+   * @return rex_article
    */
   public function getStartArticle()
   {
-    return rex_ooArticle :: getCategoryStartArticle($this->_id, $this->_clang);
+    return rex_article :: getCategoryStartArticle($this->_id, $this->_clang);
   }
 
   /**
@@ -238,26 +224,17 @@ class rex_ooCategory extends rex_ooRedaxo
    */
   static public function _getCategoryObject($category, $clang = false)
   {
-    if (is_object($category))
-    {
+    if (is_object($category)) {
       return $category;
-    }
-    elseif (is_int($category))
-    {
+    } elseif (is_int($category)) {
       return self :: getCategoryById($category, $clang);
-    }
-    elseif (is_array($category))
-    {
+    } elseif (is_array($category)) {
       $catlist = array ();
-      foreach ($category as $cat)
-      {
+      foreach ($category as $cat) {
         $catobj = self :: _getCategoryObject($cat, $clang);
-        if (is_object($catobj))
-        {
+        if (is_object($catobj)) {
           $catlist[] = $catobj;
-        }
-        else
-        {
+        } else {
           return null;
         }
       }
@@ -277,17 +254,6 @@ class rex_ooCategory extends rex_ooRedaxo
 
   /**
    * Static Method:
-   * Returns True if the given category is a valid rex_ooCategory
-   *
-   * @return boolean
-   */
-  static public function isValid($category)
-  {
-    return is_object($category) && is_a($category, 'rex_ooCategory');
-  }
-
-  /**
-   * Static Method:
    * Returns an array containing all templates which are available for the given category_id.
    * if the category_id is non-positive all templates in the system are returned.
    * if the category_id is invalid an empty array is returned.
@@ -300,41 +266,31 @@ class rex_ooCategory extends rex_ooRedaxo
 
     $templates = array();
     $t_sql = rex_sql::factory();
-    $t_sql->setQuery('select id,name,attributes from '.rex::getTablePrefix().'template where active='. $ignore_inactive .' order by name');
+    $t_sql->setQuery('select id,name,attributes from ' . rex::getTablePrefix() . 'template where active=' . $ignore_inactive . ' order by name');
 
-    if($category_id < 1)
-    {
+    if ($category_id < 1) {
       // Alle globalen Templates
-      foreach($t_sql as $row)
-      {
+      foreach ($t_sql as $row) {
         $attributes = $row->getArrayValue('attributes');
         $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
         if (!is_array($categories) || $categories['all'] == 1)
           $templates[$row->getValue('id')] = $row->getValue('name');
       }
-    }else
-    {
-      if($c = self::getCategoryById($category_id))
-      {
+    } else {
+      if ($c = self::getCategoryById($category_id)) {
         $path = $c->getPathAsArray();
         $path[] = $category_id;
-        foreach($t_sql as $row)
-        {
+        foreach ($t_sql as $row) {
           $attributes = $row->getArrayValue('attributes');
           $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
           // template ist nicht kategoriespezifisch -> includen
-          if(!is_array($categories) || $categories['all'] == 1)
-          {
+          if (!is_array($categories) || $categories['all'] == 1) {
             $templates[$row->getValue('id')] = $row->getValue('name');
-          }
-          else
-          {
+          } else {
             // template ist auf kategorien beschraenkt..
             // nachschauen ob eine davon im pfad der aktuellen kategorie liegt
-            foreach($path as $p)
-            {
-              if(in_array($p,$categories))
-              {
+            foreach ($path as $p) {
+              if (in_array($p, $categories)) {
                 $templates[$row->getValue('id')] = $row->getValue('name');
                 break;
               }

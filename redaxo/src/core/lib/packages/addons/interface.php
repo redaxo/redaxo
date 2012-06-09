@@ -47,9 +47,9 @@ interface rex_addon_interface extends rex_package_interface
   public function getAvailablePlugins();
 
   /**
-  * Returns the system plugins
-  *
-  * @return array[rex_plugin]
-  */
+   * Returns the system plugins
+   *
+   * @return array[rex_plugin]
+   */
   public function getSystemPlugins();
 }

@@ -5,14 +5,9 @@
  * @package redaxo5
  */
 
-if(rex::isSetup())
-{
+if (rex::isSetup()) {
   rex_response::sendRedirect('redaxo/');
 }
-
-// ----- ob caching start für output filter
-ob_start();
-ob_implicit_flush(0);
 
 // Setzten des arg_separators, falls Sessions verwendet werden,
 // um XHTML valide Links zu produzieren
@@ -29,13 +24,10 @@ ob_end_clean();
 // trigger api functions
 rex_api_function::handleCall();
 
-if(rex_extension::isRegistered('FE_OUTPUT'))
-{
+if (rex_extension::isRegistered('FE_OUTPUT')) {
   // ----- EXTENSION POINT
   rex_extension::registerPoint('FE_OUTPUT', $CONTENT);
-}
-else
-{
+} else {
   // ----- inhalt ausgeben
   rex_response::sendArticle($CONTENT);
 }

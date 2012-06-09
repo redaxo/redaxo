@@ -18,8 +18,7 @@ class rex_compat_array extends rex implements ArrayAccess, IteratorAggregate, Co
 
   public function &offsetGet($key)
   {
-    if(isset($this->callbackAliases[$key]['get']))
-    {
+    if (isset($this->callbackAliases[$key]['get'])) {
       $value = call_user_func($this->callbackAliases[$key]['get']);
       return $value;
     }
@@ -28,16 +27,12 @@ class rex_compat_array extends rex implements ArrayAccess, IteratorAggregate, Co
 
   public function offsetSet($key, $value)
   {
-    if(isset($this->callbackAliases[$key]['set']))
-    {
+    if (isset($this->callbackAliases[$key]['set'])) {
       call_user_func($this->callbackAliases[$key]['set'], $value);
-    }
-    else
-    {
+    } else {
       self::setProperty(strtolower($key), $value);
     }
-    if(isset($this->globalVarAliases[$key]))
-    {
+    if (isset($this->globalVarAliases[$key])) {
       $var = $this->globalVarAliases[$key];
       global $$var;
       $$var = self::offsetGet($key);

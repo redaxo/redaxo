@@ -46,14 +46,14 @@ abstract class rex_api_function extends rex_factory_base
    *
    * @return rex_api_result The result of the api-function
    */
-  public abstract function execute();
+  abstract public function execute();
 
   /**
    * The api function which is bound to the current request.
    *
    * @var rex_api_function
    */
-  private static $instance;
+  static private $instance;
 
   /**
    * Returns the api function instance which is bound to the current request, or null if no api function was bound.
@@ -62,29 +62,22 @@ abstract class rex_api_function extends rex_factory_base
    */
   static public function factory()
   {
-    if(self::$instance) return self::$instance;
+    if (self::$instance) return self::$instance;
 
     $api = rex_request('rex-api-call', 'string');
 
-    if($api)
-    {
-      $apiClass = 'rex_api_'. $api;
-      if(class_exists($apiClass))
-      {
+    if ($api) {
+      $apiClass = 'rex_api_' . $api;
+      if (class_exists($apiClass)) {
         $apiImpl = new $apiClass();
-        if($apiImpl instanceof rex_api_function)
-        {
+        if ($apiImpl instanceof self) {
           self::$instance = $apiImpl;
           return $apiImpl;
-        }
-        else
-        {
+        } else {
           throw new rex_exception('$apiClass is expected to define a subclass of rex_api_function!');
         }
-      }
-      else
-      {
-          throw new rex_exception('$apiClass "'. $apiClass .'" not found!');
+      } else {
+          throw new rex_exception('$apiClass "' . $apiClass . '" not found!');
       }
     }
 
@@ -96,28 +89,23 @@ abstract class rex_api_function extends rex_factory_base
    */
   static public function handleCall()
   {
-    if(static::hasFactoryClass())
-    {
+    if (static::hasFactoryClass()) {
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }
 
     $apiFunc = self::factory();
 
-    if($apiFunc != null)
-    {
-      if($apiFunc->published !== true)
-      {
-        if(rex::isBackend() !== true)
-        {
+    if ($apiFunc != null) {
+      if ($apiFunc->published !== true) {
+        if (rex::isBackend() !== true) {
           throw new rex_http_exception(
-              new rex_api_exception('the api function '. get_class($apiFunc) .' is not published, therefore can only be called from the backend!'),
+              new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'),
               rex_response::HTTP_FORBIDDEN);
         }
 
-        if(!rex::getUser())
-        {
+        if (!rex::getUser()) {
           throw new rex_http_exception(
-            new rex_api_exception('missing backend session to call api function '. get_class($apiFunc) .'!'),
+            new rex_api_exception('missing backend session to call api function ' . get_class($apiFunc) . '!'),
             rex_response::HTTP_UNAUTHORIZED);
         }
       }
@@ -125,8 +113,7 @@ abstract class rex_api_function extends rex_factory_base
       try {
         $result = $apiFunc->execute();
         $apiFunc->result = $result;
-      } catch (rex_api_exception $e)
-      {
+      } catch (rex_api_exception $e) {
         $message = $e->getMessage();
         $result = new rex_api_result(false, $message);
         $apiFunc->result = $result;
@@ -134,33 +121,28 @@ abstract class rex_api_function extends rex_factory_base
     }
   }
 
-  public static function hasMessage()
+  static public function hasMessage()
   {
     $apiFunc = self::factory();
     return (boolean) $apiFunc->getResult();
   }
 
-  public static function getMessage($formatted = true)
+  static public function getMessage($formatted = true)
   {
     $apiFunc = self::factory();
     $message = '';
-    if($apiFunc)
-    {
+    if ($apiFunc) {
       $apiResult = $apiFunc->getResult();
-      if($apiResult)
-      {
-        if($formatted)
-        {
+      if ($apiResult) {
+        if ($formatted) {
           $message = $apiResult->getFormattedMessage();
-        }
-        else
-        {
+        } else {
           $message = $apiResult->getMessage();
         }
       }
     }
     // return a placeholder which can later be used by ajax requests to display messages
-    return '<div id="rex-message-container">'. $message .'</div>';
+    return '<div id="rex-message-container">' . $message . '</div>';
   }
 
   /**
@@ -182,9 +164,9 @@ abstract class rex_api_function extends rex_factory_base
 class rex_api_result
 {
   /**
-  * Flag indicating if the api function was executed successfully
-  * @var boolean
-  */
+   * Flag indicating if the api function was executed successfully
+   * @var boolean
+   */
   private $succeeded = false;
 
   private $message;
@@ -197,12 +179,9 @@ class rex_api_result
 
   public function getFormattedMessage()
   {
-    if($this->isSuccessfull())
-    {
+    if ($this->isSuccessfull()) {
       return rex_view::info($this->message);
-    }
-    else
-    {
+    } else {
       return rex_view::warning($this->message);
     }
   }

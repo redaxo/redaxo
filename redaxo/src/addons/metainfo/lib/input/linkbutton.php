@@ -16,7 +16,7 @@ class rex_input_linkbutton extends rex_input
   public function setButtonId($buttonId)
   {
     $this->buttonId = $buttonId;
-    $this->setAttribute('id', 'LINK_'. $buttonId);
+    $this->setAttribute('id', 'LINK_' . $buttonId);
   }
 
   public function setCategoryId($categoryId)

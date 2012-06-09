@@ -25,9 +25,9 @@ $month_sel->setAttribute('onchange', 'this.form.submit();');
 $month_sel->setStyle('width: 100px');
 
 $log = rex_request('log', 'array', array());
-if(!isset($log['year']) || !$log['year'])
+if (!isset($log['year']) || !$log['year'])
   $log['year'] = date('Y');
-if(!isset($log['month']) || !$log['month'])
+if (!isset($log['month']) || !$log['month'])
   $log['month'] = date('m');
 
 $array = rex_cronjob_log::getYearMonthArray();
@@ -36,33 +36,28 @@ if (empty($array))
   echo '
     <div class="rex-toolbar">
       <div class="rex-toolbar-content">
-        <strong>'. $this->i18n('no_log_files') .'</strong>
+        <strong>' . $this->i18n('no_log_files') . '</strong>
         <div class="rex-clearer"></div>
       </div>
     </div>';
-else
-{
+else {
   $countYears = count($array);
   $i = 0;
   $yearSelected = false;
-  foreach($array as $year => $months)
-  {
+  foreach ($array as $year => $months) {
     $i++;
     $year_sel->addOption($year, $year);
-    if ($year == $log['year'] || (!$yearSelected && $i == $countYears))
-    {
+    if ($year == $log['year'] || (!$yearSelected && $i == $countYears)) {
       $year_sel->setSelected($year);
       $log['year'] = $year;
       $yearSelected = true;
       $countMonths = count($months);
       $j = 0;
       $monthSelected = false;
-      foreach($months as $month)
-      {
+      foreach ($months as $month) {
         $j++;
-        $month_sel->addOption(strftime('%B',mktime(0,0,0,$month,2)), $month);
-        if ($month == $log['month'] || (!$monthSelected && $j == $countMonths))
-        {
+        $month_sel->addOption(strftime('%B', mktime(0, 0, 0, $month, 2)), $month);
+        if ($month == $log['month'] || (!$monthSelected && $j == $countMonths)) {
           $month_sel->setSelected($month);
           $log['month'] = $month;
           $monthSelected = true;
@@ -79,13 +74,13 @@ else
             <fieldset>
               <input type="hidden" name="page" value="cronjob" />
               <input type="hidden" name="subpage" value="log" />
-              <label for="log_year" style="font-weight: bold">'. $this->i18n('log_year') .':</label>
-              '. $year_sel->get() .' -
-              <label for="log_month" style="font-weight: bold">'. $this->i18n('log_month') .':</label>
-              '. $month_sel->get() .'
+              <label for="log_year" style="font-weight: bold">' . $this->i18n('log_year') . ':</label>
+              ' . $year_sel->get() . ' -
+              <label for="log_month" style="font-weight: bold">' . $this->i18n('log_month') . ':</label>
+              ' . $month_sel->get() . '
               <noscript>
                 <p style="display:inline;margin-left:5px">
-                  <input type="submit" class="rex-form-submit" value="'. $this->i18n('log_ok') .'" />
+                  <input type="submit" class="rex-form-submit" value="' . $this->i18n('log_ok') . '" />
                 <p>
               </noscript>
             </fieldset>

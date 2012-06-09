@@ -15,18 +15,15 @@ class rex_addon_manager extends rex_package_manager
   /* (non-PHPdoc)
    * @see rex_package_manager::install()
    */
-  public function install($installDump = TRUE)
+  public function install($installDump = true)
   {
     $installed = $this->package->isInstalled();
     $return = parent::install($installDump);
 
-    if(!$installed && $return === true)
-    {
-      foreach($this->package->getSystemPlugins() as $plugin)
-      {
+    if (!$installed && $return === true) {
+      foreach ($this->package->getSystemPlugins() as $plugin) {
         $manager = rex_plugin_manager::factory($plugin);
-        if($manager->install() === true)
-        {
+        if ($manager->install() === true) {
           $manager->activate();
         }
       }
@@ -43,14 +40,12 @@ class rex_addon_manager extends rex_package_manager
     $i18nPrefix = 'addon_dependencies_error_';
     $state = array();
 
-    foreach(rex_package::getAvailablePackages() as $package)
-    {
-      if($package->getAddon() === $this->package)
+    foreach (rex_package::getAvailablePackages() as $package) {
+      if ($package->getAddon() === $this->package)
         continue;
 
       $requirements = $package->getProperty('requires', array());
-      if(isset($requirements['addons'][$this->package->getName()]))
-      {
+      if (isset($requirements['addons'][$this->package->getName()])) {
         $state[] = rex_i18n::msg($i18nPrefix . $package->getType(), $package->getAddon()->getName(), $package->getName());
       }
     }
@@ -68,8 +63,7 @@ class rex_addon_manager extends rex_package_manager
     $plugins = new SplObjectStorage;
 
     // create the managers for all available plugins
-    foreach($this->package->getAvailablePlugins() as $plugin)
-    {
+    foreach ($this->package->getAvailablePlugins() as $plugin) {
       $plugins[$plugin] = rex_plugin_manager::factory($plugin);
     }
 
@@ -77,15 +71,12 @@ class rex_addon_manager extends rex_package_manager
     // to consider dependencies among each other, iterate over all plugins until no plugin was marked in a round
     $deactivate = array();
     $finished = false;
-    while(!$finished && count($plugins) > 0)
-    {
+    while (!$finished && count($plugins) > 0) {
       $finished = true;
-      foreach($plugins as $plugin)
-      {
+      foreach ($plugins as $plugin) {
         $pluginManager = $plugins[$plugin];
         $return = $pluginManager->checkRequirements();
-        if(is_string($return) && !empty($return))
-        {
+        if (is_string($return) && !empty($return)) {
           $plugin->setProperty('status', false);
           $deactivate[] = $pluginManager;
           $finished = false;
@@ -94,24 +85,19 @@ class rex_addon_manager extends rex_package_manager
       }
     }
     // deactivate all marked plugins
-    foreach($deactivate as $pluginManager)
-    {
+    foreach ($deactivate as $pluginManager) {
       $pluginManager->deactivate();
     }
 
     // add all other plugins to package order
     // (consider dependencies among each other, don't add in alphabetical order)
-    foreach($plugins as $plugin)
-    {
+    foreach ($plugins as $plugin) {
       $plugin->setProperty('status', false);
     }
-    while(count($plugins) > 0)
-    {
-      foreach($plugins as $plugin)
-      {
+    while (count($plugins) > 0) {
+      foreach ($plugins as $plugin) {
         $pluginManager = $plugins[$plugin];
-        if($pluginManager->checkRequirements() === true)
-        {
+        if ($pluginManager->checkRequirements() === true) {
           $plugin->setProperty('status', true);
           $pluginManager->addToPackageOrder();
           unset($plugins[$plugin]);
@@ -127,8 +113,7 @@ class rex_addon_manager extends rex_package_manager
   {
     parent::removeFromPackageOrder();
 
-    foreach($this->package->getRegisteredPlugins() as $plugin)
-    {
+    foreach ($this->package->getRegisteredPlugins() as $plugin) {
       $pluginManager = rex_plugin_manager::factory($plugin);
       $pluginManager->removeFromPackageOrder($plugin);
     }

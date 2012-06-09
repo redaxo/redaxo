@@ -15,9 +15,9 @@ class rex_pager
   /**
    * Constructs a rex_pager
    *
-   * @param int $rowCount The number of all rows to paginate
-   * @param int $rowsPerPage The number of rows which should be displayed on one page
-   * @param string $cursorName The name of the parameter used for pagination
+   * @param int    $rowCount    The number of all rows to paginate
+   * @param int    $rowsPerPage The number of rows which should be displayed on one page
+   * @param string $cursorName  The name of the parameter used for pagination
    */
   public function __construct($rowCount, $rowsPerPage = 30, $cursorName = 'start')
   {
@@ -64,19 +64,16 @@ class rex_pager
    */
   public function getCursor($pageNo = null)
   {
-    if(is_null($pageNo))
-    {
+    if (is_null($pageNo)) {
       $cursor = rex_request($this->cursorName, 'int', 0);
-    }
-    else
-    {
+    } else {
       $cursor = $pageNo * $this->rowsPerPage;
     }
 
     // $cursor innerhalb des zulässigen Zahlenbereichs?
-    if($cursor < 0)
+    if ($cursor < 0)
       $cursor = 0;
-    else if($cursor > $this->rowCount)
+    elseif ($cursor > $this->rowCount)
       $cursor = (int) ($this->rowCount / $this->rowsPerPage) * $this->rowsPerPage;
 
     return $cursor;
@@ -107,8 +104,7 @@ class rex_pager
   public function getPrevPage()
   {
     $prevPage = $this->getCurrentPage() - 1;
-    if($prevPage < $this->getFirstPage())
-    {
+    if ($prevPage < $this->getFirstPage()) {
       return $this->getFirstPage();
     }
     return $prevPage;
@@ -122,8 +118,7 @@ class rex_pager
   {
     $cursor = rex_request($this->cursorName, 'int', null);
 
-    if(is_null($cursor))
-    {
+    if (is_null($cursor)) {
       return $this->getFirstPage();
     }
 
@@ -137,8 +132,7 @@ class rex_pager
   public function getNextPage()
   {
     $nextPage = $this->getCurrentPage() + 1;
-    if($nextPage > $this->getLastPage())
-    {
+    if ($nextPage > $this->getLastPage()) {
       return $this->getLastPage();
     }
     return $nextPage;

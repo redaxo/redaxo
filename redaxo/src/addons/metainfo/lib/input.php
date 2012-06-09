@@ -33,12 +33,9 @@ abstract class rex_input
    */
   public function setAttribute($name, $value)
   {
-    if($name == 'value')
-    {
+    if ($name == 'value') {
       $this->value = $value;
-    }
-    else
-    {
+    } else {
       $this->attributes[$name] = $value;
     }
   }
@@ -48,12 +45,9 @@ abstract class rex_input
    */
   public function getAttribute($name, $default = null)
   {
-    if($name == 'value')
-    {
+    if ($name == 'value') {
       return $this->getValue();
-    }
-    elseif(isset($this->attributes[$name]))
-    {
+    } elseif (isset($this->attributes[$name])) {
       return $this->attributes[$name];
     }
 
@@ -73,8 +67,7 @@ abstract class rex_input
    */
   public function addAttributes($attributes)
   {
-    foreach($attributes as $name => $value)
-    {
+    foreach ($attributes as $name => $value) {
       $this->setAttribute($name, $value);
     }
   }
@@ -87,8 +80,7 @@ abstract class rex_input
   {
     $this->attributes = array();
 
-    foreach($attributes as $name => $value)
-    {
+    foreach ($attributes as $name => $value) {
       $this->setAttribute($name, $value);
     }
   }
@@ -107,9 +99,8 @@ abstract class rex_input
   public function getAttributeString()
   {
     $attr = '';
-    foreach($this->attributes as $attributeName => $attributeValue)
-    {
-      $attr .= ' '. $attributeName .'="'. $attributeValue .'"';
+    foreach ($this->attributes as $attributeName => $attributeValue) {
+      $attr .= ' ' . $attributeName . '="' . $attributeValue . '"';
     }
     return $attr;
   }
@@ -118,7 +109,7 @@ abstract class rex_input
    * Gibt die HTML-Representation des Input-Feldes zurueck.
    * Diese beeinhaltet alle Attribute und den Wert des Feldes.
    */
-  abstract function getHtml();
+  abstract public function getHtml();
 
   /**
    * Factory-Methode um rex_input_*-Elemente anhand des Types $inputType zu erstellen
@@ -126,8 +117,7 @@ abstract class rex_input
   static public function factory($inputType)
   {
 
-    switch($inputType)
-    {
+    switch ($inputType) {
       case 'text':
       case 'textarea':
       case 'select':
@@ -143,7 +133,7 @@ abstract class rex_input
       case 'linkbutton':
       case 'linklistbutton':
       {
-        $class = 'rex_input_'. $inputType;
+        $class = 'rex_input_' . $inputType;
         return new $class();
       }
     }

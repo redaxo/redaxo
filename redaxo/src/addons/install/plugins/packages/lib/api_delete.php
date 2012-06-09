@@ -4,17 +4,13 @@ class rex_api_install_packages_delete extends rex_api_function
 {
   public function execute()
   {
-    if(!rex::getUser()->isAdmin())
-    {
+    if (!rex::getUser()->isAdmin()) {
       throw new rex_api_exception('You do not have the permission!');
     }
     $addonkey = rex_request('addonkey', 'string');
-    try
-    {
-      rex_install_webservice::delete(rex_install_packages::getPath('?package='.$addonkey.'&file_id='.rex_request('file', 'int', 0)));
-    }
-    catch(rex_functional_exception $e)
-    {
+    try {
+      rex_install_webservice::delete(rex_install_packages::getPath('?package=' . $addonkey . '&file_id=' . rex_request('file', 'int', 0)));
+    } catch (rex_functional_exception $e) {
       throw new rex_api_exception($e->getMessage());
     }
     unset($_REQUEST['addonkey']);

@@ -17,7 +17,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
   /**
    * Constructor
    *
-   * @param string $name Name
+   * @param string    $name  Name
    * @param rex_addon $addon Parent addon
    */
   public function __construct($name, rex_addon $addon)
@@ -29,24 +29,21 @@ class rex_plugin extends rex_package implements rex_plugin_interface
   /**
    * Returns the plugin by the given name
    *
-   * @param string $addon Name of the addon
+   * @param string $addon  Name of the addon
    * @param string $plugin Name of the plugin
    *
    * @return rex_plugin
    */
   static public function get($addon, $plugin = null)
   {
-    if($plugin === null)
-    {
-      throw new InvalidArgumentException('Missing Argument 2 for '. __CLASS__ .'::'. __METHOD__ .'()');
+    if ($plugin === null) {
+      throw new InvalidArgumentException('Missing Argument 2 for ' . __CLASS__ . '::' . __METHOD__ . '()');
     }
-    if(!is_string($addon))
-    {
-      throw new rex_exception('Expecting $addon to be string, but '. gettype($addon) .' given!');
+    if (!is_string($addon)) {
+      throw new rex_exception('Expecting $addon to be string, but ' . gettype($addon) . ' given!');
     }
-    if(!is_string($plugin))
-    {
-      throw new rex_exception('Expecting $plugin to be string, but '. gettype($plugin) .' given!');
+    if (!is_string($plugin)) {
+      throw new rex_exception('Expecting $plugin to be string, but ' . gettype($plugin) . ' given!');
     }
     return rex_addon::get($addon)->getPlugin($plugin);
   }
@@ -54,7 +51,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
   /**
    * Returns if the plugin exists
    *
-   * @param string $addon Name of the addon
+   * @param string $addon  Name of the addon
    * @param string $plugin Name of the plugin
    *
    * @return boolean
@@ -77,7 +74,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
    */
   public function getPackageId()
   {
-    return $this->getAddon()->getName() .'/'. $this->getName();
+    return $this->getAddon()->getName() . '/' . $this->getName();
   }
 
   /* (non-PHPdoc)
@@ -142,9 +139,8 @@ class rex_plugin extends rex_package implements rex_plugin_interface
   public function i18n($key)
   {
     $args = func_get_args();
-    $key = $this->getAddon()->getName() .'_'. $this->getName() .'_'. $key;
-    if(rex_i18n::hasMsg($key))
-    {
+    $key = $this->getAddon()->getName() . '_' . $this->getName() . '_' . $key;
+    if (rex_i18n::hasMsg($key)) {
       $args[0] = $key;
       return call_user_func_array('rex_i18n::msg', $args);
     }

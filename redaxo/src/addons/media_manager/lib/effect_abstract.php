@@ -22,7 +22,4 @@ abstract class rex_effect_abstract
   {
     // NOOP
   }
-
-
-
 }

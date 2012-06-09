@@ -16,8 +16,7 @@ $subpage = rex_request('subpage', 'string');
 $func = rex_request('func', 'string');
 $msg = '';
 
-if ($subpage == 'clear_cache')
-{
+if ($subpage == 'clear_cache') {
   $c = rex_media_manager::deleteCache();
   $msg = rex_i18n::msg('media_manager_cache_files_removed', $c);
 }
@@ -25,8 +24,7 @@ if ($subpage == 'clear_cache')
 echo rex_view::title('Media Manager');
 
 // Include Current Page
-switch($subpage)
-{
+switch ($subpage) {
   case 'types' :
   case 'effects' :
   case 'settings' :
@@ -41,4 +39,4 @@ switch($subpage)
   }
 }
 
-require dirname(__FILE__) .'/'.$subpage.'.inc.php';
+require dirname(__FILE__) . '/' . $subpage . '.inc.php';

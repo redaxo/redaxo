@@ -14,7 +14,7 @@ abstract class rex_cronjob
     $params = array(),
     $message = '';
 
-  final public static function factory($class)
+  final static public function factory($class)
   {
     if (!rex_autoload::autoload($class))
       return $class;
@@ -34,7 +34,7 @@ abstract class rex_cronjob
 
   public function getParam($key, $default = null)
   {
-    if(isset($this->params[$key]))
+    if (isset($this->params[$key]))
       return $this->params[$key];
 
     return $default;

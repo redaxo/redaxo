@@ -28,9 +28,8 @@ function rex_get_file_contents($path)
  */
 function rex_replace_dynamic_contents($path, $content)
 {
-  if($fcontent = rex_file::get($path))
-  {
-    $content = "// --- DYN\n". trim($content) ."\n// --- /DYN";
+  if ($fcontent = rex_file::get($path)) {
+    $content = "// --- DYN\n" . trim($content) . "\n// --- /DYN";
     $fcontent = preg_replace("@(\/\/.---.DYN.*\/\/.---.\/DYN)@s", $content, $fcontent);
     return rex_file::put($path, $fcontent);
   }
@@ -43,9 +42,9 @@ function rex_replace_dynamic_contents($path, $content)
  *
  * @deprecated 5.0
  */
-function rex_deleteDir($file, $delete_folders = FALSE)
+function rex_deleteDir($file, $delete_folders = false)
 {
-  if($deleteFolders)
+  if ($deleteFolders)
     return rex_dir::delete($file);
   else
     return rex_dir::deleteFiles($file);
@@ -100,14 +99,13 @@ function rex_is_writable($item)
 }
 
 /**
-* @deprecated 5.0
-*/
+ * @deprecated 5.0
+ */
 function _rex_is_writable_info($is_writable, $item = '')
 {
   $state = true;
   $key = '';
-  switch($is_writable)
-  {
+  switch ($is_writable) {
     case 1:
       {
         $key = 'setup_012';
@@ -125,11 +123,10 @@ function _rex_is_writable_info($is_writable, $item = '')
       }
   }
 
-  if($key != '')
-  {
+  if ($key != '') {
     $file = '';
-    if($item != '')
-    $file = '<b>'. $item .'</b>';
+    if ($item != '')
+    $file = '<b>' . $item . '</b>';
 
     $state = rex_i18n::msg($key, '<span class="rex-error">', '</span>', rex_path::absolute($file));
   }
@@ -138,28 +135,22 @@ function _rex_is_writable_info($is_writable, $item = '')
 }
 
 /**
-* @deprecated 5.0
-*/
+ * @deprecated 5.0
+ */
 function _rex_is_writable($item)
 {
   // Fehler unterdrücken, falls keine Berechtigung
-  if (@ is_dir($item))
-  {
-    if (!@ is_writable($item . '/.'))
-    {
+  if (@ is_dir($item)) {
+    if (!@ is_writable($item . '/.')) {
       return 1;
     }
   }
   // Fehler unterdrücken, falls keine Berechtigung
-  elseif (@ is_file($item))
-  {
-    if (!@ is_writable($item))
-    {
+  elseif (@ is_file($item)) {
+    if (!@ is_writable($item)) {
       return 2;
     }
-  }
-  else
-  {
+  } else {
     return 3;
   }
 

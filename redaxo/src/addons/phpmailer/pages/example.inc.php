@@ -9,7 +9,7 @@
  * @package redaxo5
  */
 
-$mdl_ex =<<<EOD
+$mdl_ex = <<<EOD
 <?php
 
 \$mail = new rex_mailer();
