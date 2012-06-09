@@ -5,8 +5,10 @@
  * @package redaxo4
  */
 
-if (version_compare(PHP_VERSION, '5.3.0') < 0) {
-  exit('PHP version >=5.3 needed!');
+define('REX_MIN_PHP_VERSION', '5.3.0');
+
+if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
+  exit('PHP version >='. REX_MIN_PHP_VERSION .' needed!');
 }
 
 mb_internal_encoding('UTF-8');
