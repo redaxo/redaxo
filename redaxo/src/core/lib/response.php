@@ -8,7 +8,7 @@
 class rex_response
 {
   const
-  HTTP_OK = '200 Ok',
+  HTTP_OK = '200 OK',
   HTTP_NOT_FOUND = '404 Not Found',
   HTTP_FORBIDDEN = '403 Forbidden',
   HTTP_UNAUTHORIZED = '401 Unauthorized',
@@ -23,6 +23,11 @@ class rex_response
     }
 
     self::$httpStatus = $httpStatus;
+  }
+
+  static public function getStatus()
+  {
+    return self::$httpStatus;
   }
 
   static public function sendRedirect($url)
