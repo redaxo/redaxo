@@ -8,7 +8,7 @@
 define('REX_MIN_PHP_VERSION', '5.3.0');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
-  exit('PHP version >='. REX_MIN_PHP_VERSION .' needed!');
+  exit('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
 }
 
 // start output buffering as early as possible, so we can be sure
