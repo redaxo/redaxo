@@ -56,7 +56,7 @@ class rex_var_category extends rex_var
       $field       = $this->getArg('field', $args, '');
 
       $tpl = '';
-      if (rex_ooCategory::hasValue($field)) {
+      if (rex_category::hasValue($field)) {
         $tpl = '<?php echo ' . __CLASS__ . '::getCategory(' . $category_id . ", '" . addslashes($field) . "', " . $clang . ", '" . json_encode($args) . "'); ?>";
       }
 
@@ -73,10 +73,10 @@ class rex_var_category extends rex_var
       $clang = rex_clang::getCurrentId();
     }
     if ($id === 0) {
-      $art = rex_ooArticle::getArticleById(rex::getProperty('article_id'), $clang);
+      $art = rex_article::getArticleById(rex::getProperty('article_id'), $clang);
       $cat = $art->getCategory();
     } elseif ($id > 0) {
-      $cat = rex_ooCategory::getCategoryById($id, $clang);
+      $cat = rex_category::getCategoryById($id, $clang);
     }
 
     if ($cat) {

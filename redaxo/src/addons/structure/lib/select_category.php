@@ -38,18 +38,18 @@ class rex_category_select extends rex_select
     if ($this->rootId !== null) {
       if (is_array($this->rootId)) {
         foreach ($this->rootId as $rootId) {
-          if ($rootCat = rex_ooCategory::getCategoryById($rootId, $this->clang)) {
+          if ($rootCat = rex_category::getCategoryById($rootId, $this->clang)) {
             $this->addCatOption($rootCat, 0);
           }
         }
       } else {
-        if ($rootCat = rex_ooCategory::getCategoryById($this->rootId, $this->clang)) {
+        if ($rootCat = rex_category::getCategoryById($this->rootId, $this->clang)) {
           $this->addCatOption($rootCat, 0);
         }
       }
     } else {
       if (!$this->check_perms || rex::getUser()->getComplexPerm('structure')->hasCategoryPerm(0)) {
-        if ($rootCats = rex_ooCategory :: getRootCategories($this->ignore_offlines, $this->clang)) {
+        if ($rootCats = rex_category :: getRootCategories($this->ignore_offlines, $this->clang)) {
           foreach ($rootCats as $rootCat) {
             $this->addCatOption($rootCat);
           }
@@ -57,7 +57,7 @@ class rex_category_select extends rex_select
       } elseif (rex::getUser()->getComplexPerm('structure')->hasMountpoints()) {
         $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
         foreach ($mountpoints as $id) {
-          $cat = rex_ooCategory::getCategoryById($id, $this->clang);
+          $cat = rex_category::getCategoryById($id, $this->clang);
           if ($cat && !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getParentId()))
             $this->addCatOption($cat, 0);
         }
@@ -65,7 +65,7 @@ class rex_category_select extends rex_select
     }
   }
 
-  protected function addCatOption(rex_ooCategory $cat, $group = null)
+  protected function addCatOption(rex_category $cat, $group = null)
   {
     if (!$this->check_perms ||
         $this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getId(), false)) {

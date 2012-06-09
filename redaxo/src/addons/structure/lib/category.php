@@ -5,8 +5,7 @@
  * @package redaxo5
  */
 
-// @codingStandardsIgnoreName
-class rex_ooCategory extends rex_ooRedaxo
+class rex_category extends rex_structure_element
 {
   public function __construct($params = false, $clang = false)
   {
@@ -15,9 +14,9 @@ class rex_ooCategory extends rex_ooRedaxo
 
   /**
    * CLASS Function:
-   * Return an rex_ooRedaxo object based on an id
+   * Return an rex_category object based on an id
    *
-   * @return rex_ooCategory
+   * @return rex_category
    */
   static public function getCategoryById($category_id, $clang = false)
   {
@@ -26,7 +25,7 @@ class rex_ooCategory extends rex_ooRedaxo
 
   /**
    * children of categories, keyed by category_id (parent ids)
-   * @var array[rex_ooArticle]
+   * @var array[rex_article]
    */
   static private $childIds = array();
 
@@ -34,7 +33,7 @@ class rex_ooCategory extends rex_ooRedaxo
    * CLASS Function:
    * Return all Children by id
    *
-   * @return array[rex_ooCategory]
+   * @return array[rex_category]
    */
   static public function getChildrenById($cat_parent_id, $ignore_offlines = false, $clang = false)
   {
@@ -77,9 +76,8 @@ class rex_ooCategory extends rex_ooRedaxo
     return $catlist;
   }
 
-  /**
-   * (non-PHPdoc)
-   * @see rex_ooRedaxo::getPriority()
+  /* (non-PHPdoc)
+   * @see rex_structure_element::getPriority()
    */
   public function getPriority()
   {
@@ -90,13 +88,13 @@ class rex_ooCategory extends rex_ooRedaxo
    * CLASS Function:
    * Return a list of top level categories, ie.
    * categories that have no parent.
-   * Returns an array of rex_ooCategory objects sorted by $prior.
+   * Returns an array of rex_category objects sorted by $prior.
    *
    * If $ignore_offlines is set to TRUE,
    * all categories with status 0 will be
    * excempt from this list!
    *
-   * @return array[rex_ooCategory]
+   * @return array[rex_category]
    */
   static public function getRootCategories($ignore_offlines = false, $clang = false)
   {
@@ -110,13 +108,13 @@ class rex_ooCategory extends rex_ooRedaxo
   /**
    * Object Function:
    * Return a list of all subcategories.
-   * Returns an array of rex_ooRedaxo objects sorted by $prior.
+   * Returns an array of rex_category objects sorted by $prior.
    *
    * If $ignore_offlines is set to TRUE,
    * all categories with status 0 will be
    * excempt from this list!
    *
-   * @return array[rex_ooCategory]
+   * @return array[rex_category]
    */
   public function getChildren($ignore_offlines = false, $clang = false)
   {
@@ -131,7 +129,7 @@ class rex_ooCategory extends rex_ooRedaxo
    * Object Function:
    * Returns the parent category
    *
-   * @return rex_ooCategory
+   * @return rex_category
    */
   public function getParent($clang = false)
   {
@@ -172,28 +170,28 @@ class rex_ooCategory extends rex_ooRedaxo
   /**
    * Object Function:
    * Return a list of articles in this category
-   * Returns an array of rex_ooArticle objects sorted by $prior.
+   * Returns an array of rex_article objects sorted by $prior.
    *
    * If $ignore_offlines is set to TRUE,
    * all articles with status 0 will be
    * excempt from this list!
    *
-   * @return array[rex_ooArticle]
+   * @return array[rex_article]
    */
   public function getArticles($ignore_offlines = false)
   {
-    return rex_ooArticle :: getArticlesOfCategory($this->_id, $ignore_offlines, $this->_clang);
+    return rex_article :: getArticlesOfCategory($this->_id, $ignore_offlines, $this->_clang);
   }
 
   /**
    * Object Function:
    * Return the start article for this category
    *
-   * @return rex_ooArticle
+   * @return rex_article
    */
   public function getStartArticle()
   {
-    return rex_ooArticle :: getCategoryStartArticle($this->_id, $this->_clang);
+    return rex_article :: getCategoryStartArticle($this->_id, $this->_clang);
   }
 
   /**
@@ -252,17 +250,6 @@ class rex_ooCategory extends rex_ooRedaxo
   static public function hasValue($value)
   {
     return parent::_hasValue($value, array('cat_'));
-  }
-
-  /**
-   * Static Method:
-   * Returns True if the given category is a valid rex_ooCategory
-   *
-   * @return boolean
-   */
-  static public function isValid($category)
-  {
-    return is_object($category) && is_a($category, 'rex_ooCategory');
   }
 
   /**

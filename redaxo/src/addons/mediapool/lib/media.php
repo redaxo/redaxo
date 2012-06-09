@@ -6,8 +6,7 @@
  * @package redaxo5
  */
 
-// @codingStandardsIgnoreName
-class rex_ooMedia
+class rex_media
 {
   // id
   private $_id = '';
@@ -18,7 +17,10 @@ class rex_ooMedia
 
   // categoryname
   private $_cat_name = '';
-  // rex_ooMediacategory
+
+  /**
+   * @var rex_media_category
+   */
   private $_cat = '';
 
   // filename
@@ -66,8 +68,8 @@ class rex_ooMedia
   /**
    * @access public
    *
-   * @example rex_ooMedia::getMediaByExtension('css');
-   * @example rex_ooMedia::getMediaByExtension('gif');
+   * @example rex_media::getMediaByExtension('css');
+   * @example rex_media::getMediaByExtension('gif');
    */
   static public function getMediaByExtension($extension)
   {
@@ -147,7 +149,7 @@ class rex_ooMedia
   public function getCategory()
   {
     if ($this->_cat === null) {
-      $this->_cat = rex_ooMediaCategory :: getCategoryById($this->getCategoryId());
+      $this->_cat = rex_media_category :: getCategoryById($this->getCategoryId());
     }
     return $this->_cat;
   }
@@ -476,15 +478,6 @@ class rex_ooMedia
 
   /**
    * @access public
-   * @static
-   */
-  static public function isValid($media)
-  {
-    return is_object($media) && is_a($media, 'rex_ooMedia');
-  }
-
-  /**
-   * @access public
    */
   public function isImage()
   {
@@ -557,7 +550,7 @@ class rex_ooMedia
       foreach ($res as $art_arr) {
         $aid = $art_arr['article_id'];
         $clang = $art_arr['clang'];
-        $ooa = rex_ooArticle::getArticleById($aid, $clang);
+        $ooa = rex_article::getArticleById($aid, $clang);
         $name = $ooa->getName();
         $warning[0] .= '<li><a href="javascript:openPage(\'index.php?page=content&amp;article_id=' . $aid . '&amp;mode=edit&amp;clang=' . $clang . '\')">' . $name . '</a></li>';
       }
@@ -615,7 +608,7 @@ class rex_ooMedia
    */
   public function toString()
   {
-    return 'rex_ooMedia, "' . $this->getId() . '", "' . $this->getFileName() . '"' . "<br/>\n";
+    return __CLASS__ . ', "' . $this->getId() . '", "' . $this->getFileName() . '"' . "<br/>\n";
   }
 
   // new functions by vscope

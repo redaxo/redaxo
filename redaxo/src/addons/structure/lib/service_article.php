@@ -26,7 +26,7 @@ class rex_article_service
     }
 
     // parent may be null, when adding in the root cat
-    $parent = rex_ooCategory::getCategoryById($data['category_id']);
+    $parent = rex_category::getCategoryById($data['category_id']);
     if ($parent) {
       $path = $parent->getPath();
       $path .= $parent->getId() . '|';
@@ -34,7 +34,7 @@ class rex_article_service
       $path = '|';
     }
 
-    $templates = rex_ooCategory::getTemplates($data['category_id']);
+    $templates = rex_category::getTemplates($data['category_id']);
 
     // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
     // oder leer setzen.
@@ -51,7 +51,7 @@ class rex_article_service
     unset($id);
     foreach (rex_clang::getAllIds() as $key) {
       // ------- Kategorienamen holen
-      $category = rex_ooCategory::getCategoryById($data['category_id'], $key);
+      $category = rex_category::getCategoryById($data['category_id'], $key);
 
       $categoryName = '';
       if ($category) {
@@ -131,9 +131,9 @@ class rex_article_service
       throw new rex_api_exception('Unable to find article with id "' . $article_id . '" and clang "' . $clang . '"!');
     }
 
-    $ooArt = rex_ooArticle::getArticleById($article_id, $clang);
+    $ooArt = rex_article::getArticleById($article_id, $clang);
     $data['category_id'] = $ooArt->getCategoryId();
-    $templates = rex_ooCategory::getTemplates($data['category_id']);
+    $templates = rex_category::getTemplates($data['category_id']);
 
     // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
     // oder leer setzen.
@@ -550,7 +550,7 @@ class rex_article_service
 
     // cat felder sammeln. +
     $params = array('path', 'prior', 'catname', 'startpage', 'catprior', 'status');
-    $db_fields = rex_ooRedaxo::getClassVars();
+    $db_fields = rex_structure_element::getClassVars();
     foreach ($db_fields as $field) {
       if (substr($field, 0, 4) == 'cat_') $params[] = $field;
     }
