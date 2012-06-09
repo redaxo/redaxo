@@ -83,7 +83,6 @@ abstract class rex_error_handler
       $buf = 'Oooops, an internal error occured!';
     }
 
-    rex_response::setStatus(rex_response::HTTP_INTERNAL_ERROR);
     rex_response::send($buf);
     exit;
   }
