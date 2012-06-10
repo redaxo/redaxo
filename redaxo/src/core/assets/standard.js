@@ -550,8 +550,10 @@ jQuery(document).ready(function($) {
     {
       container = self.closest('[data-pjax-container]').attr('data-pjax-container');
     }
-
-    return  $.pjax.click(event, container);
+    
+    if (container !== 'false') {
+      return $.pjax.click(event, container);
+    }
   });
 
   // add pjax error handling

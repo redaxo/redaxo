@@ -450,7 +450,7 @@ if ($article->getRows() == 1) {
   $n['title'] = rex_i18n::msg('show');
   $n['href'] = rex_getUrl($article_id, $clang);
   $n['itemClasses'] = array('rex-misc');
-  $n['linkAttr'] = array('onClick' => 'window.open(this.href); return false;');
+  $n['linkAttr'] = array('onClick' => 'window.open(this.href); return false;', 'data-pjax' => 'false');
   $listElements[] = $n;
 
   $n = array();
