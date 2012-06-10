@@ -541,7 +541,7 @@ jQuery(document).ready(function($) {
   // install pjax handlers, see defunkt/jquery-pjax#142
   $(document).on('click', '[data-pjax-container] a, a[data-pjax]', function(event) {
     var self = $(this), container;
-    
+
     if(self.is('a[data-pjax]'))
     {
       container = self.attr('data-pjax');
@@ -550,10 +550,10 @@ jQuery(document).ready(function($) {
     {
       container = self.closest('[data-pjax-container]').attr('data-pjax-container');
     }
-    
+
     return  $.pjax.click(event, container);
   });
-  
+
   // add pjax error handling
   $(document)
     .on('pjax:error', function(e, xhr, err) {

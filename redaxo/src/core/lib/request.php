@@ -213,7 +213,7 @@ class rex_request
    */
   static public function isPJAXContainer($containerId)
   {
-    if(!self::isPJAXRequest()) {
+    if (!self::isPJAXRequest()) {
       return false;
     }
 

@@ -92,8 +92,7 @@ if (rex::getUser() && $hasNavigation) {
 }
 
 
-if(!rex_request::isPJAXContainer('#rex-page'))
-{
+if (!rex_request::isPJAXContainer('#rex-page')) {
   $fragment = new rex_fragment();
   $fragment->setVar('pageTitle', $page_title);
   $fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', '' ), false);

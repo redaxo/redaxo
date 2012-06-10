@@ -22,8 +22,7 @@ $footerfragment->setVar('time', rex::getProperty('timer')->getFormattedDelta(rex
 echo $footerfragment->parse('backend_footer.tpl');
 unset($footerfragment);
 
-if(!rex_request::isPJAXContainer('#rex-page'))
-{
+if (!rex_request::isPJAXContainer('#rex-page')) {
   $bottomfragment = new rex_fragment();
   echo $bottomfragment->parse('backend_bottom.tpl');
   unset($bottomfragment);
