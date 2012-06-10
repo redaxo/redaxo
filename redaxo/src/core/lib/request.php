@@ -205,4 +205,18 @@ class rex_request
   {
     return isset($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] == 'true';
   }
+
+  /**
+   * Returns true when the current request is a PJAX-Request and the requested container matches the given $containerId
+   *
+   * @param string $containerId
+   */
+  static public function isPJAXContainer($containerId)
+  {
+    if(!self::isPJAXRequest()) {
+      return false;
+    }
+
+    return isset($_SERVER['HTTP_X_PJAX_CONTAINER']) && $_SERVER['HTTP_X_PJAX_CONTAINER'] == $containerId;
+  }
 }

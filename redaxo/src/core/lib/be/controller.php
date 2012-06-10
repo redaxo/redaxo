@@ -218,7 +218,9 @@ class rex_be_controller
 
   static public function includePage(rex_be_page $_activePageObj, rex_be_page $_pageObj, $page)
   {
-    if (rex_request::isPJAXRequest()) {
+    if (rex_request::isPJAXRequest() && !rex_request::isPJAXContainer('#rex-page')) {
+      // non-core pjax containers should not have a layout.
+      // they render their whole response on their own
       $_activePageObj->setHasLayout(false);
     }
 
