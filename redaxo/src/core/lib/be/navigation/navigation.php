@@ -3,8 +3,8 @@
 class rex_be_navigation extends rex_factory_base
 {
   private
-  $headlines = array(),
-  $pages;
+    $headlines = array(),
+    $pages;
 
   static public function factory()
   {

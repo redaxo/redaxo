@@ -11,21 +11,21 @@ abstract class rex_structure_element
    * these vars get read out
    */
   protected
-  $_id = '',
-  $_re_id = '',
-  $_clang = '',
-  $_name = '',
-  $_catname = '',
-  $_template_id = '',
-  $_path = '',
-  $_prior = '',
-  $_startpage = '',
-  $_status = '',
-  $_attributes = '',
-  $_updatedate = '',
-  $_createdate = '',
-  $_updateuser = '',
-  $_createuser = '';
+    $_id = '',
+    $_re_id = '',
+    $_clang = '',
+    $_name = '',
+    $_catname = '',
+    $_template_id = '',
+    $_path = '',
+    $_prior = '',
+    $_startpage = '',
+    $_status = '',
+    $_attributes = '',
+    $_updatedate = '',
+    $_createdate = '',
+    $_updateuser = '',
+    $_createuser = '';
 
   /*
    * Constructor

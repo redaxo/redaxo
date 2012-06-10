@@ -8,11 +8,11 @@
 class rex_response
 {
   const
-  HTTP_OK = '200 OK',
-  HTTP_NOT_FOUND = '404 Not Found',
-  HTTP_FORBIDDEN = '403 Forbidden',
-  HTTP_UNAUTHORIZED = '401 Unauthorized',
-  HTTP_INTERNAL_ERROR = '500 Internal Server Error';
+    HTTP_OK = '200 OK',
+    HTTP_NOT_FOUND = '404 Not Found',
+    HTTP_FORBIDDEN = '403 Forbidden',
+    HTTP_UNAUTHORIZED = '401 Unauthorized',
+    HTTP_INTERNAL_ERROR = '500 Internal Server Error';
 
   static private $httpStatus = self::HTTP_OK;
 

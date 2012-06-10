@@ -163,6 +163,7 @@ class rex_coding_standards_fixer
 class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
 {
   const
+    MSG_INDENTATION = 'fix indentation',
     MSG_LOWERCASE_CONTROL_KEYWORD = 'replace control keywords by their lowercase variants',
     MSG_SPACE_BEHIND_CONTROL_KEYWORD = 'add space after control keywords ("if", "for" etc.)',
     MSG_SPACE_BEFORE_CONTROL_KEYWORD = 'add space before "else", "catch" and "use"',
@@ -570,6 +571,11 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
                 $this->addFixable(self::MSG_ATTRIBUTES_ORDER);
               }
             }
+            if ($this->isNewline($this->previousToken()) && preg_match('/\v( +)\V*\v\V*$/', $this->content, $match)) {
+              $this->decrementTokenIndex();
+              $this->checkIndentation($match[1] . '  ', T_VARIABLE);
+              break;
+            }
           }
         }
         $this->addToken($token);
@@ -623,25 +629,11 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
       case T_CONST:
         $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
         $this->addToken($token);
-        if (!$this->ignoreName()) {
-          $semicolon = new rex_php_token(rex_php_token::SIMPLE, ';');
-          $comma = new rex_php_token(rex_php_token::SIMPLE, ',');
-          do {
-            $this->skipWhitespace();
-            $next = $this->nextToken();
-            if ($next->type === T_STRING && strtoupper($next->text) !== $next->text) {
-              $this->addNonFixable('use only uppercase and underscores for constants');
-              $this->fixToken($next);
-              break;
-            }
-            $this->fixToken($next);
-            while (!in_array($next = $this->nextToken(), array($comma, $semicolon))) {
-              $this->fixToken($next);
-            }
-            $this->fixToken($next);
+        $this->checkIndentation($this->indentation . '  ', T_STRING, function ($next) {
+          if (strtoupper($next->text) !== $next->text) {
+            return 'use only uppercase and underscores for constants';
           }
-          while ($next != $semicolon);
-        }
+        });
         break;
 
       case T_VAR:
@@ -821,6 +813,35 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
     $this->decrementTokenIndex();
   }
 
+  private function checkIndentation($indentation, $type, $checkNameCallback = null)
+  {
+    $semicolon = new rex_php_token(rex_php_token::SIMPLE, ';');
+    $comma = new rex_php_token(rex_php_token::SIMPLE, ',');
+    do {
+      $this->skipWhitespace();
+      $next = $this->nextToken();
+      if ($next->type === $type) {
+        if (preg_match("/\n( *)$/", $this->content, $match) && $match[1] !== $indentation) {
+          $this->content = preg_replace("/\n *$/", "\n" . $indentation, $this->content);
+          $this->addFixable(self::MSG_INDENTATION);
+        }
+        if (is_callable($checkNameCallback) && !$this->ignoreName()) {
+          if ($msg = call_user_func($checkNameCallback, $next)) {
+            $this->addNonFixable($msg);
+          }
+        }
+        $this->addToken($next);
+      } else {
+        $this->fixToken($next);
+      }
+      while (!in_array($next = $this->nextToken(), array($comma, $semicolon))) {
+        $this->fixToken($next);
+      }
+      $this->fixToken($next);
+    }
+    while ($next != $semicolon);
+  }
+
   private function checkLowercase(rex_php_token $token, $msg)
   {
     $lowercaseText = strtolower($token->text);
@@ -946,10 +967,11 @@ if ($dir) {
 } else {
   $file = realpath($file);
   $files = array($file => new SplFileInfo($file));
+  $dir = dirname($file);
 }
 foreach ($files as $path => $file) {
   /* @var $file SplFileInfo */
-  $subPath = str_replace(__DIR__ . DIRECTORY_SEPARATOR, '', $path);
+  $subPath = str_replace($dir . DIRECTORY_SEPARATOR, '', $path);
   $fileExt = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
   if (!in_array($fileExt, $textExtensions)
     || strpos(DIRECTORY_SEPARATOR . $subPath, DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR) !== false

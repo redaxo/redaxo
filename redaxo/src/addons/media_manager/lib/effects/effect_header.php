@@ -4,8 +4,8 @@ class rex_effect_header extends rex_effect_abstract
 {
 
   private
-  $options,
-  $script;
+    $options,
+    $script;
 
   public function __construct()
   {
