@@ -165,6 +165,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
   const
     MSG_INDENTATION = 'fix indentation',
     MSG_LOWERCASE_CONTROL_KEYWORD = 'replace control keywords by their lowercase variants',
+    MSG_UPPERCASE_CONSTANT = 'use only uppercase and underscores for constants',
     MSG_SPACE_BEHIND_CONTROL_KEYWORD = 'add space after control keywords ("if", "for" etc.)',
     MSG_SPACE_BEFORE_CONTROL_KEYWORD = 'add space before "else", "catch" and "use"',
     MSG_SPACES_AROUND_BINARY_OPERATOR = 'add spaces around binary operators ("=", "+", "&&" etc.)',
@@ -310,6 +311,24 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
         }
         $this->addToken($token);
         $this->checkNoSpaceBehind();
+        if ($token->text === 'define' && !$this->ignoreName()) {
+          $this->nextToken();
+          $next = $this->nextToken();
+          if ($next->type === T_WHITESPACE) {
+            $next = $this->nextToken();
+            $this->decrementTokenIndex();
+          }
+          $this->decrementTokenIndex();
+          $this->decrementTokenIndex();
+          if ($next->type === T_CONSTANT_ENCAPSED_STRING) {
+            if (strpos($next->text, 'REX_') !== 1) {
+              $this->addNonFixable('use "REX_" prefix for non-class constants');
+            }
+            if (strtoupper($next->text) !== $next->text) {
+              $this->addNonFixable(self::MSG_UPPERCASE_CONSTANT);
+            }
+          }
+        }
         break;
 
       case T_CLASS_C:
@@ -658,7 +677,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
         $this->addToken($token);
         $this->checkIndentation($this->indentation . '  ', T_STRING, function ($next) {
           if (strtoupper($next->text) !== $next->text) {
-            return 'use only uppercase and underscores for constants';
+            return rex_coding_standards_fixer_php::MSG_UPPERCASE_CONSTANT;
           }
         });
         break;
@@ -854,15 +873,15 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
         if ($next->type !== T_COMMENT) {
           $this->_checkIndentation($indentation, $next == $close);
         }
-        if ($type && $next->type === $type) {
-          if (is_callable($checkNameCallback) && !$this->ignoreName()) {
-            if ($msg = call_user_func($checkNameCallback, $next)) {
-              $this->addNonFixable($msg);
-            }
+      }
+      if ($type && $next->type === $type) {
+        if (is_callable($checkNameCallback) && !$this->ignoreName()) {
+          if ($msg = call_user_func($checkNameCallback, $next)) {
+            $this->addNonFixable($msg);
           }
-          $this->addToken($next);
-          $next = $this->nextToken();
         }
+        $this->addToken($next);
+        $next = $this->nextToken();
       }
       while (!in_array($next, array($comma, $semicolon, $close))) {
         if ($next->type === rex_php_token::SIMPLE && in_array($next->text, array_keys($end))) {
@@ -983,9 +1002,13 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
 }
 
 // PHP 5.4 constants
+// @codingStandardsIgnoreName
 defined('T_CALLABLE')  ?: define('T_CALLABLE', -10);
+// @codingStandardsIgnoreName
 defined('T_INSTEADOF') ?: define('T_INSTEADOF', -11);
+// @codingStandardsIgnoreName
 defined('T_TRAIT')     ?: define('T_TRAIT', -12);
+// @codingStandardsIgnoreName
 defined('T_TRAIT_C')   ?: define('T_TRAIT_C', -13);
 
 class rex_php_token
