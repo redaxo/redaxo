@@ -357,8 +357,7 @@ function rex_a1_export_db($filename)
           fwrite($fp, $nl . 'INSERT INTO `' . $table . '` VALUES ' . implode(',', $values) . ';');
           unset($values);
         }
-      }
-      while ($count >= $max);
+      } while ($count >= $max);
 
       if ($start > 0) {
         fwrite($fp, $nl . '/*!40000 ALTER TABLE `' . $table . '` ENABLE KEYS */;');

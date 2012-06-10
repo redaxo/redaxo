@@ -426,11 +426,22 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
         $this->decrementTokenIndex();
         break;
 
-      case T_DO:
       case T_TRY:
         $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
         $this->addToken($token);
         $this->checkBraceInSameLine();
+        break;
+
+      case T_DO:
+        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
+        $this->addToken($token);
+        $this->checkBraceInSameLine();
+        $this->searchFor('{', '}');
+        $this->skipWhitespace();
+        if ($this->nextToken()->type === T_WHILE) {
+          $this->checkNoNewlineBefore();
+        }
+        $this->decrementTokenIndex();
         break;
 
       case T_BREAK:
@@ -783,8 +794,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
       if ($count || $inclusive) {
         $this->fixToken($next);
       }
-    }
-    while ($count);
+    } while ($count);
     if (!$inclusive) {
       $this->decrementTokenIndex();
     }
@@ -864,8 +874,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
         $next = $this->nextToken();
       }
       $this->fixToken($next);
-    }
-    while (!in_array($next, array($semicolon, $close)));
+    } while (!in_array($next, array($semicolon, $close)));
     if ($next == $close) {
       $this->_checkIndentation($indentation, true);
     }
@@ -961,7 +970,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
   {
     $this->content = preg_replace("/\}\n *$/", '} ', $this->content, -1, $count);
     if ($count) {
-      $this->addFixable('remove newline before "else", "elseif" and "catch"');
+      $this->addFixable('remove newline before "else", "catch" and "while" (do-while)');
       return;
     }
     $this->checkSpaceBefore(self::MSG_SPACE_BEFORE_CONTROL_KEYWORD);
