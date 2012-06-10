@@ -88,35 +88,35 @@ class rex_effect_mirror extends rex_effect_abstract
   public function getParams()
   {
     return array(
-    array(
+      array(
         'label' => rex_i18n::msg('media_manager_effect_mirror_height'),    // Length in Pixel or Prozent
         'name' => 'height',
         'type' => 'int',
-    ),
-    array(
+      ),
+      array(
         'label' => rex_i18n::msg('media_manager_effect_mirror_background_color'),
         'name' => 'set_transparent',
         'type' => 'select',
         'options' => array('colored', 'transparent / png24'),
         'default' => 'colored',
         'suffix' => $this->script
-    ),
+      ),
 
-    array(
+      array(
         'label' => rex_i18n::msg('media_manager_effect_mirror_background_r'),
         'name' => 'bg_r',
         'type' => 'int',
-    ),
-    array(
+      ),
+      array(
         'label' => rex_i18n::msg('media_manager_effect_mirror_background_g'),
         'name' => 'bg_g',
         'type' => 'int',
-    ),
-    array(
+      ),
+      array(
         'label' => rex_i18n::msg('media_manager_effect_mirror_background_b'),
         'name' => 'bg_b',
         'type' => 'int',
-    ),
+      ),
     );
   }
 

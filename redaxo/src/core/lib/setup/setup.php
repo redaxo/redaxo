@@ -61,14 +61,14 @@ class rex_setup
 
     // -------------------------- SCHREIBRECHTE
     $WRITEABLES = array(
-        rex_path::media('', rex_path::ABSOLUTE),
-        rex_path::media('_readme.txt', rex_path::ABSOLUTE),
-        rex_path::assets('', rex_path::ABSOLUTE),
-        rex_path::assets('_readme.txt', rex_path::ABSOLUTE),
-        rex_path::cache(),
-        rex_path::data(),
-        rex_path::data('config.yml'),
-        getImportDir()
+      rex_path::media('', rex_path::ABSOLUTE),
+      rex_path::media('_readme.txt', rex_path::ABSOLUTE),
+      rex_path::assets('', rex_path::ABSOLUTE),
+      rex_path::assets('_readme.txt', rex_path::ABSOLUTE),
+      rex_path::cache(),
+      rex_path::data(),
+      rex_path::data('config.yml'),
+      getImportDir()
     );
 
     foreach (rex::getProperty('system_addons') as $system_addon) {

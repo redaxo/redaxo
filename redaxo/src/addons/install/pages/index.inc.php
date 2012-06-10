@@ -43,7 +43,7 @@ if ($subpage == 'settings') {
     $blocks = array();
     $blocks[] = array(
       'navigation' => $listElements
-      );
+    );
 
     $fragment = new rex_fragment();
     $fragment->setVar('type', 'tabsub', false);

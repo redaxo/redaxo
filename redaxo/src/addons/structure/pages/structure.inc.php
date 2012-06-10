@@ -244,10 +244,10 @@ if ($function == 'add_cat' && $KATPERM) {
 
   // ----- EXTENSION POINT
   $echo .= rex_extension::registerPoint('CAT_FORM_ADD', '', array(
-      'id' => $category_id,
-      'clang' => $clang,
-      'data_colspan' => ($data_colspan + 1),
-    ));
+    'id' => $category_id,
+    'clang' => $clang,
+    'data_colspan' => ($data_colspan + 1),
+  ));
 }
 
 

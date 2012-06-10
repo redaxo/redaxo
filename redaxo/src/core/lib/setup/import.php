@@ -112,9 +112,9 @@ class rex_setup_importer
   static private function getRequiredTables()
   {
     return array(
-        rex::getTablePrefix() . 'clang',
-        rex::getTablePrefix() . 'user',
-        rex::getTablePrefix() . 'config'
+      rex::getTablePrefix() . 'clang',
+      rex::getTablePrefix() . 'user',
+      rex::getTablePrefix() . 'config'
     );
   }
 

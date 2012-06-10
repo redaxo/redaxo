@@ -77,14 +77,14 @@ if ($article->getRows() == 1) {
 
     $navigation = array();
     $navigation[] = array(
-          'href' => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
-          'title' => $catname
-        );
+      'href' => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
+      'title' => $catname
+    );
     $blocks = array();
     $blocks[] = array(
       'headline' => array( 'title' => $term),
       'navigation' => $navigation
-      );
+    );
 
     $fragment = new rex_fragment();
     $fragment->setVar('type', 'path');
@@ -496,9 +496,9 @@ if ($article->getRows() == 1) {
 
   $blocks = array();
   $blocks[] = array(
-        'headline' => array('title' => 'meeeta'),
-        'navigation' => $listElements
-        );
+    'headline' => array('title' => 'meeeta'),
+    'navigation' => $listElements
+  );
 
   $fragment = new rex_fragment();
   $fragment->setVar('type', 'tab');

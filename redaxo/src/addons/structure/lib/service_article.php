@@ -276,13 +276,13 @@ class rex_article_service
     if ($ART->getRows() > 0) {
       $re_id = $ART->getValue('re_id');
       $message = rex_extension::registerPoint('ART_PRE_DELETED', $message, array(
-                    'id'          => $id,
-                    're_id'       => $re_id,
-                    'name'        => $ART->getValue('name'),
-                    'status'      => $ART->getValue('status'),
-                    'prior'       => $ART->getValue('prior'),
-                    'path'        => $ART->getValue('path'),
-                    'template_id' => $ART->getValue('template_id')
+        'id'          => $id,
+        're_id'       => $re_id,
+        'name'        => $ART->getValue('name'),
+        'status'      => $ART->getValue('status'),
+        'prior'       => $ART->getValue('prior'),
+        'path'        => $ART->getValue('path'),
+        'template_id' => $ART->getValue('template_id')
       )
       );
 
@@ -348,9 +348,9 @@ class rex_article_service
 
         // ----- EXTENSION POINT
         rex_extension::registerPoint('ART_STATUS', null, array(
-        'id' => $article_id,
-        'clang' => $clang,
-        'status' => $newstatus
+          'id' => $article_id,
+          'clang' => $clang,
+          'status' => $newstatus
         ));
       } catch (rex_sql_exception $e) {
         throw new rex_api_exception($e);

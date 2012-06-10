@@ -416,6 +416,14 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
         $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
         $this->addToken($token);
         $this->checkNoSpaceBehind();
+        $this->skipWhitespace();
+        $next = $this->nextToken();
+        if ($next->type === rex_php_token::SIMPLE && $next->text === '(') {
+          $this->addToken($next);
+          $this->checkIndentation($this->indentation . '  ');
+          break;
+        }
+        $this->decrementTokenIndex();
         break;
 
       case T_DO:
@@ -579,6 +587,8 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
             }
             if ($this->isNewline($this->previousToken()) && preg_match('/\v( +)\V*\v\V*$/', $this->content, $match)) {
               $this->decrementTokenIndex();
+              $this->decrementTokenIndex();
+              $this->content = rtrim($this->content);
               $this->checkIndentation($match[1] . '  ', T_VARIABLE);
               break;
             }
@@ -819,33 +829,58 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
     $this->decrementTokenIndex();
   }
 
-  private function checkIndentation($indentation, $type, $checkNameCallback = null)
+  private function checkIndentation($indentation, $type = null, $checkNameCallback = null)
   {
     $semicolon = new rex_php_token(rex_php_token::SIMPLE, ';');
     $comma = new rex_php_token(rex_php_token::SIMPLE, ',');
+    $close = new rex_php_token(rex_php_token::SIMPLE, ')');
+    $end = array('(' => ')', '{' => '}');
     do {
-      $this->skipWhitespace();
+      $this->skipWhitespace(false);
       $next = $this->nextToken();
-      if ($next->type === $type) {
-        if (preg_match("/\n( *)$/", $this->content, $match) && $match[1] !== $indentation) {
-          $this->content = preg_replace("/\n *$/", "\n" . $indentation, $this->content);
-          $this->addFixable(self::MSG_INDENTATION);
+      if ($this->isNewline($next)) {
+        $this->fixToken($next);
+        $next = $this->nextToken();
+        if ($next->type !== T_COMMENT) {
+          $this->_checkIndentation($indentation, $next == $close);
         }
-        if (is_callable($checkNameCallback) && !$this->ignoreName()) {
-          if ($msg = call_user_func($checkNameCallback, $next)) {
-            $this->addNonFixable($msg);
+        if ($type && $next->type === $type) {
+          if (is_callable($checkNameCallback) && !$this->ignoreName()) {
+            if ($msg = call_user_func($checkNameCallback, $next)) {
+              $this->addNonFixable($msg);
+            }
           }
+          $this->addToken($next);
+          $next = $this->nextToken();
         }
-        $this->addToken($next);
-      } else {
-        $this->fixToken($next);
       }
-      while (!in_array($next = $this->nextToken(), array($comma, $semicolon))) {
-        $this->fixToken($next);
+      while (!in_array($next, array($comma, $semicolon, $close))) {
+        if ($next->type === rex_php_token::SIMPLE && in_array($next->text, array_keys($end))) {
+          $this->decrementTokenIndex();
+          $this->searchFor($next->text, $end[$next->text]);
+        } else {
+          $this->fixToken($next);
+        }
+        $next = $this->nextToken();
       }
       $this->fixToken($next);
     }
-    while ($next != $semicolon);
+    while (!in_array($next, array($semicolon, $close)));
+    if ($next == $close) {
+      $this->_checkIndentation($indentation, true);
+    }
+  }
+
+  private function _checkIndentation($indentation, $indentationBack = false)
+  {
+    if ($indentationBack) {
+      $indentation = substr($indentation, 0, -2);
+    }
+    if (preg_match("/\n( *)\)?$/D", $this->content, $match) && $match[1] !== $indentation) {
+      $this->content = preg_replace("/\n *(\)?)$/D", "\n" . $indentation . '$1', $this->content);
+      $this->addFixable(self::MSG_INDENTATION);
+    }
+    $this->indentation = $indentation;
   }
 
   private function checkLowercase(rex_php_token $token, $msg)
@@ -934,7 +969,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
 
   private function isNewline(rex_php_token $token)
   {
-    return $token->type === T_WHITESPACE && strpos($token->text, "\n") !== false;
+    return ($token->type === T_WHITESPACE || $token->type === T_COMMENT && strpos($token->text, '//') === 0) && strpos($token->text, "\n") !== false;
   }
 }
 

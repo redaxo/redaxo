@@ -268,13 +268,13 @@ class rex_category_service
 
             // ----- EXTENSION POINT
             $message = rex_extension::registerPoint('CAT_DELETED', $message, array(
-            'id'     => $category_id,
-            're_id'  => $re_id,
-            'clang'  => $_clang,
-            'name'   => $row->getValue('catname'),
-            'prior'  => $row->getValue('catprior'),
-            'path'   => $row->getValue('path'),
-            'status' => $row->getValue('status'),
+              'id'     => $category_id,
+              're_id'  => $re_id,
+              'clang'  => $_clang,
+              'name'   => $row->getValue('catname'),
+              'prior'  => $row->getValue('catprior'),
+              'path'   => $row->getValue('path'),
+              'status' => $row->getValue('status'),
             ));
           }
 
@@ -357,7 +357,7 @@ class rex_category_service
       $catStatusTypes = array(
       // Name, CSS-Class
       array(rex_i18n::msg('status_offline'), 'rex-offline'),
-      array(rex_i18n::msg('status_online'), 'rex-online')
+        array(rex_i18n::msg('status_online'), 'rex-online')
       );
 
       // ----- EXTENSION POINT

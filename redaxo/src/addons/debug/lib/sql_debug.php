@@ -53,7 +53,7 @@ class rex_sql_debug extends rex_sql
       'query' => $qry,
       'error' => $err,
       'errno' => $errno
-      );
+    );
 
     return $res;
   }

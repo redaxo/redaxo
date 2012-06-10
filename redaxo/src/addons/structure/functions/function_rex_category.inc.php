@@ -12,9 +12,9 @@ $KAToutARR = array(); // Variable definiert und vorbelegt wenn nicht existent
 // link to root kategory
 $navigation = array();
 $navigation[] = array(
-    'title' => rex_i18n::msg('homepage'),
-    'href' => 'index.php?page=structure&amp;category_id=0&amp;clang=' . $clang
-  );
+  'title' => rex_i18n::msg('homepage'),
+  'href' => 'index.php?page=structure&amp;category_id=0&amp;clang=' . $clang
+);
 
 $ooCat = rex_category::getCategoryById($category_id, $clang);
 if ($ooCat) {
@@ -31,9 +31,9 @@ if ($ooCat) {
 
 $blocks = array();
 $blocks[] = array(
-      'headline' => array('title' => rex_i18n::msg('path')),
-      'navigation' => $navigation
-      );
+  'headline' => array('title' => rex_i18n::msg('path')),
+  'navigation' => $navigation
+);
 
 $fragment = new rex_fragment();
 $fragment->setVar('type', 'path');

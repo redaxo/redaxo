@@ -143,8 +143,8 @@ class rex_article_cache
 
       // --------------------------------------------------- Artikelparameter speichern
       $params = array(
-      'article_id' => $article_id,
-      'last_update_stamp' => time()
+        'article_id' => $article_id,
+        'last_update_stamp' => time()
       );
 
       $class_vars = rex_structure_element::getClassVars();
