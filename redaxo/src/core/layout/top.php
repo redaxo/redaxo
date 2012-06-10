@@ -89,18 +89,17 @@ if (rex::getUser() && $hasNavigation) {
   $fragment->setVar('type', 'main', false);
   $fragment->setVar('blocks', $blocks, false);
   $navigation = $fragment->parse('navigation.tpl');
-
-
 }
 
 
-
-
-$fragment = new rex_fragment();
-$fragment->setVar('pageTitle', $page_title);
-$fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', '' ), false);
-$fragment->setVar('bodyAttr', $body, false);
-echo $fragment->parse('backend_top.tpl');
+if(!rex_request::isPJAXContainer('#rex-page'))
+{
+  $fragment = new rex_fragment();
+  $fragment->setVar('pageTitle', $page_title);
+  $fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', '' ), false);
+  $fragment->setVar('bodyAttr', $body, false);
+  echo $fragment->parse('backend_top.tpl');
+}
 
 $fragment = new rex_fragment();
 // $fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', '' ), false);
@@ -110,4 +109,4 @@ $fragment = new rex_fragment();
 $fragment->setVar('logout', $logout, false);
 echo $fragment->parse('backend_meta.tpl');
 
-?><section id="rex-page-main">
+?><section id="rex-page-main" data-pjax-container="#rex-page-main">
