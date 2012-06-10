@@ -82,7 +82,7 @@ if ($article->getRows() == 1) {
         );
     $blocks = array();
     $blocks[] = array(
-      'headline' => array ( 'title' => $term),
+      'headline' => array( 'title' => $term),
       'navigation' => $navigation
       );
 
@@ -174,7 +174,7 @@ if ($article->getRows() == 1) {
           // ----- RECHTE AM MODUL: JA
 
           // ***********************  daten einlesen
-          $REX_ACTION = array ();
+          $REX_ACTION = array();
           $REX_ACTION['SAVE'] = true;
 
           foreach (rex_var::getVars() as $obj) {
@@ -282,7 +282,7 @@ if ($article->getRows() == 1) {
             rex_article_cache::delete($article_id, $clang);
 
             rex_extension::registerPoint('ART_CONTENT_UPDATED', '',
-              array (
+              array(
                 'id' => $article_id,
                 'clang' => $clang
               )
@@ -394,7 +394,7 @@ if ($article->getRows() == 1) {
         rex_article_cache::delete($article_id, $clang);
 
         // ----- EXTENSION POINT
-        $info = rex_extension::registerPoint('ART_META_UPDATED', $info, array (
+        $info = rex_extension::registerPoint('ART_META_UPDATED', $info, array(
           'id' => $article_id,
           'clang' => $clang,
           'name' => $meta_article_name,
@@ -576,7 +576,7 @@ if ($article->getRows() == 1) {
 
 
       // ----- EXTENSION POINT
-      $content .= rex_extension::registerPoint('ART_META_FORM', '', array (
+      $content .= rex_extension::registerPoint('ART_META_FORM', '', array(
         'id' => $article_id,
         'clang' => $clang,
         'article' => $article
@@ -599,7 +599,7 @@ if ($article->getRows() == 1) {
              </fieldset>';
 
       // ----- EXTENSION POINT
-      $content .= rex_extension::registerPoint('ART_META_FORM_SECTION', '', array (
+      $content .= rex_extension::registerPoint('ART_META_FORM_SECTION', '', array(
         'id' => $article_id,
         'clang' => $clang
       ));

@@ -351,7 +351,7 @@ class rex_media
   /**
    * @access public
    */
-  public function toImage(array $params = array ())
+  public function toImage(array $params = array())
   {
     if (!is_array($params)) {
       $params = array();
@@ -397,7 +397,7 @@ class rex_media
           }
 
           // Evtl. Größeneinheiten entfernen
-          $resizeParam = str_replace(array (
+          $resizeParam = str_replace(array(
             'px',
             'pt',
             '%',
@@ -451,7 +451,7 @@ class rex_media
   /**
    * @access public
    */
-  public function toIcon(array $iconAttributes = array ())
+  public function toIcon(array $iconAttributes = array())
   {
     $ext = $this->getExtension();
     $icon = $this->getIcon();
@@ -493,7 +493,7 @@ class rex_media
     static $imageExtensions;
 
     if (!isset ($imageExtensions)) {
-      $imageExtensions = array (
+      $imageExtensions = array(
         'gif',
         'jpeg',
         'jpg',
@@ -721,7 +721,7 @@ class rex_media
   // allowed filetypes
   static public function getDocTypes()
   {
-    static $docTypes = array (
+    static $docTypes = array(
       'bmp',
       'css',
       'doc',
@@ -761,7 +761,7 @@ class rex_media
   // allowed image upload types
   static public function getImageTypes()
   {
-    static $imageTypes = array (
+    static $imageTypes = array(
       'image/gif',
       'image/jpg',
       'image/jpeg',
@@ -780,7 +780,7 @@ class rex_media
 
   static public function compareImageTypes($type1, $type2)
   {
-    static $jpg = array (
+    static $jpg = array(
       'image/jpg',
       'image/jpeg',
       'image/pjpeg'

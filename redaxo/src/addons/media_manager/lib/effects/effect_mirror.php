@@ -79,7 +79,7 @@ class rex_effect_mirror extends rex_effect_abstract
       $trans = true;
     }
 
-    $gdimage = $this->imagereflection ( $gdimage, $this->params['height'], $trans, array ($this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']) );
+    $gdimage = $this->imagereflection( $gdimage, $this->params['height'], $trans, array($this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']) );
     $this->media->setImage($gdimage);
     $this->media->refreshImageDimensions();
 

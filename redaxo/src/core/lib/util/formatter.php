@@ -130,7 +130,7 @@ abstract class rex_formatter
   static private function _formatNumber($value, $format)
   {
     if (!is_array($format)) {
-      $format = array ();
+      $format = array();
     }
 
     // Kommastellen
@@ -151,7 +151,7 @@ abstract class rex_formatter
   static private function _formatEmail($value, $format)
   {
     if (!is_array($format)) {
-      $format = array ();
+      $format = array();
     }
 
     // Linkattribute
@@ -176,7 +176,7 @@ abstract class rex_formatter
       return '';
 
     if (!is_array($format))
-      $format = array ();
+      $format = array();
 
     // Linkattribute
     if (empty ($format['attr'])) {
@@ -201,7 +201,7 @@ abstract class rex_formatter
   static private function _formatTruncate($value, $format)
   {
     if (!is_array($format))
-      $format = array ();
+      $format = array();
 
     // Max-String-laenge
     if (empty ($format['length']))

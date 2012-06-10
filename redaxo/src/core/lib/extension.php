@@ -27,7 +27,7 @@ abstract class rex_extension extends rex_factory_base
    *
    * @return mixed $subject, ggf. manipuliert durch registrierte Extensions.
    */
-  static public function registerPoint($extensionPoint, $subject = '', array $params = array (), $read_only = false)
+  static public function registerPoint($extensionPoint, $subject = '', array $params = array(), $read_only = false)
   {
     if (static::hasFactoryClass()) {
       return static::callFactoryClass(__FUNCTION__, func_get_args());

@@ -112,17 +112,17 @@ class rex_effect_resize extends rex_effect_abstract
 
       if ($img_ratio >= $resize_ratio) {
         // --- width
-        $this->params['height'] = ceil ($this->params['width'] / $w * $h);
+        $this->params['height'] = ceil($this->params['width'] / $w * $h);
       } else {
         // --- height
-        $this->params['width']  = ceil ($this->params['height'] / $h * $w);
+        $this->params['width']  = ceil($this->params['height'] / $h * $w);
       }
     } elseif (!empty($this->params['height'])) {
       $img_factor  = $h / $this->params['height'];
-      $this->params['width'] = ceil ($w / $img_factor);
+      $this->params['width'] = ceil($w / $img_factor);
     } elseif (!empty($this->params['width'])) {
       $img_factor  = $w / $this->params['width'];
-      $this->params['height'] = ceil ($h / $img_factor);
+      $this->params['height'] = ceil($h / $img_factor);
     }
   }
 
@@ -134,17 +134,17 @@ class rex_effect_resize extends rex_effect_abstract
 
       if ($img_ratio < $resize_ratio) {
         // --- width
-        $this->params['height'] = ceil ($this->params['width'] / $w * $h);
+        $this->params['height'] = ceil($this->params['width'] / $w * $h);
       } else {
         // --- height
-        $this->params['width']  = ceil ($this->params['height'] / $h * $w);
+        $this->params['width']  = ceil($this->params['height'] / $h * $w);
       }
     } elseif (!empty($this->params['height'])) {
       $img_factor  = $h / $this->params['height'];
-      $this->params['width'] = ceil ($w / $img_factor);
+      $this->params['width'] = ceil($w / $img_factor);
     } elseif (!empty($this->params['width'])) {
       $img_factor  = $w / $this->params['width'];
-      $this->params['height'] = ceil ($h / $img_factor);
+      $this->params['height'] = ceil($h / $img_factor);
     }
   }
 

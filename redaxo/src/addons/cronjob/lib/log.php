@@ -13,7 +13,7 @@ class rex_cronjob_log
   static public function getYears()
   {
     $folder = REX_CRONJOB_LOG_FOLDER;
-    $years = array ();
+    $years = array();
 
     if (is_dir($folder)) {
       foreach (rex_dir::iterator($folder)->ignoreFiles()->ignorePrefixes('.')->sort() as $file) {

@@ -147,23 +147,23 @@ class rex_textile
       array(
       'links_intern' =>
         array(
-          array (rex_i18n::msg('textile_link_internal') . ':redaxo://5'),
-          array (rex_i18n::msg('textile_link_internal_anchor') . ':redaxo://7#AGB'),
+          array(rex_i18n::msg('textile_link_internal') . ':redaxo://5'),
+          array(rex_i18n::msg('textile_link_internal_anchor') . ':redaxo://7#AGB'),
         ),
       'links_extern' =>
         array(
-          array (rex_i18n::msg('textile_link_external') . ':http://www.redaxo.org'),
-          array (rex_i18n::msg('textile_link_external_anchor') . ':http://www.redaxo.org#news'),
+          array(rex_i18n::msg('textile_link_external') . ':http://www.redaxo.org'),
+          array(rex_i18n::msg('textile_link_external_anchor') . ':http://www.redaxo.org#news'),
         ),
       'links_attributes' =>
         array(
-          array (rex_i18n::msg('textile_link_attr_title') . ':media/test.jpg'),
-          array (rex_i18n::msg('textile_link_attr_rel') . ':media/test.jpg'),
-          array (rex_i18n::msg('textile_link_attr_title_rel') . ':media/test.jpg'),
+          array(rex_i18n::msg('textile_link_attr_title') . ':media/test.jpg'),
+          array(rex_i18n::msg('textile_link_attr_rel') . ':media/test.jpg'),
+          array(rex_i18n::msg('textile_link_attr_title_rel') . ':media/test.jpg'),
         ),
       'anchor' =>
         array(
-          array (rex_i18n::msg('textile_link_anchor') . ":\n\np(#Impressum). " . rex_i18n::msg('textile_link_anchor_text')),
+          array(rex_i18n::msg('textile_link_anchor') . ":\n\np(#Impressum). " . rex_i18n::msg('textile_link_anchor_text')),
         ),
       )
     );

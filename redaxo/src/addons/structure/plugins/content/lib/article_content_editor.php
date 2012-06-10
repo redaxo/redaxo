@@ -78,7 +78,7 @@ class rex_article_content_editor extends rex_article_content
         if ($this->function == 'edit' && $this->slice_id == $sliceId) {
           // **************** Aktueller Slice
 
-          $REX_ACTION = array ();
+          $REX_ACTION = array();
 
           // nach klick auf den übernehmen button,
           // die POST werte übernehmen

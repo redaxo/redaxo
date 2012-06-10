@@ -111,7 +111,7 @@ class rex_category_service
         // ----- EXTENSION POINT
         // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
         $message = rex_extension::registerPoint('CAT_ADDED', $message,
-        array (
+        array(
           'category' => clone $AART,
           'id' => $id,
           're_id' => $category_id,
@@ -207,7 +207,7 @@ class rex_category_service
       // ----- EXTENSION POINT
       // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
       $message = rex_extension::registerPoint('CAT_UPDATED', $message,
-        array (
+        array(
           'id' => $category_id,
 
           'category' => clone $EKAT,
@@ -267,7 +267,7 @@ class rex_category_service
             self::newCatPrio($re_id, $_clang, 0, 1);
 
             // ----- EXTENSION POINT
-            $message = rex_extension::registerPoint('CAT_DELETED', $message, array (
+            $message = rex_extension::registerPoint('CAT_DELETED', $message, array(
             'id'     => $category_id,
             're_id'  => $re_id,
             'clang'  => $_clang,
@@ -329,7 +329,7 @@ class rex_category_service
         rex_article_cache::delete($category_id, $clang);
 
         // ----- EXTENSION POINT
-        rex_extension::registerPoint('CAT_STATUS', null, array (
+        rex_extension::registerPoint('CAT_STATUS', null, array(
           'id' => $category_id,
           'clang' => $clang,
           'status' => $newstatus

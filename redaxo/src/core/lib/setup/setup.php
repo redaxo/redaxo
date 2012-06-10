@@ -60,7 +60,7 @@ class rex_setup
     require_once $export_addon_dir . '/functions/function_import_folder.inc.php';
 
     // -------------------------- SCHREIBRECHTE
-    $WRITEABLES = array (
+    $WRITEABLES = array(
         rex_path::media('', rex_path::ABSOLUTE),
         rex_path::media('_readme.txt', rex_path::ABSOLUTE),
         rex_path::assets('', rex_path::ABSOLUTE),

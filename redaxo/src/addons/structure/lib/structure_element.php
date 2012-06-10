@@ -105,7 +105,7 @@ abstract class rex_structure_element
    */
   static public function getClassVars()
   {
-    static $vars = array ();
+    static $vars = array();
 
     if (empty($vars)) {
       $vars = array();
@@ -440,7 +440,7 @@ abstract class rex_structure_element
    */
   public function getParentTree()
   {
-    $return = array ();
+    $return = array();
 
     if ($this->_path) {
       if ($this->isStartArticle())

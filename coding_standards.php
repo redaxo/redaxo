@@ -309,6 +309,7 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
           $this->addFixable('replace full class names by "self" in static/constructor calls');
         }
         $this->addToken($token);
+        $this->checkNoSpaceBehind();
         break;
 
       case T_CLASS_C:
@@ -377,7 +378,6 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
         break;
 
       case T_ABSTRACT:
-      case T_ARRAY:
       case T_AS:
       case T_CALLABLE:
       case T_DECLARE:
@@ -410,6 +410,12 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
       case T_USE:
         $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
         $this->addToken($token);
+        break;
+
+      case T_ARRAY:
+        $this->checkLowercase($token, self::MSG_LOWERCASE_CONTROL_KEYWORD);
+        $this->addToken($token);
+        $this->checkNoSpaceBehind();
         break;
 
       case T_DO:
@@ -882,8 +888,13 @@ class rex_coding_standards_fixer_php extends rex_coding_standards_fixer
   {
     $next = $this->nextToken();
     if ($next->type === T_WHITESPACE) {
-      $this->addFixable('remove space behind function names');
-      return;
+      $nextNext = $this->nextToken();
+      if ($nextNext->type === rex_php_token::SIMPLE && $nextNext->text === '(') {
+        $this->addFixable('remove space before opening parantheses of arrays and functions');
+        $this->decrementTokenIndex();
+        return;
+      }
+      $this->decrementTokenIndex();
     }
     $this->decrementTokenIndex();
   }

@@ -62,7 +62,7 @@ function rex_copyCategory($from_cat, $to_cat)
  *
  * @deprecated 5.0
  */
-function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params = array ())
+function rex_copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params = array())
 {
   return rex_content_service::copyMeta($from_id, $to_id, $from_clang, $to_clang, $params);
 }

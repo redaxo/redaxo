@@ -398,8 +398,8 @@ if ($checkmodus == 3) {
 
   if (is_dir($export_dir)) {
     if ($handle = opendir($export_dir)) {
-      $export_archives = array ();
-      $export_sqls = array ();
+      $export_archives = array();
+      $export_sqls = array();
 
       while (($file = readdir($handle)) !== false) {
         if ($file == '.' || $file == '..') {

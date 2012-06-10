@@ -80,7 +80,7 @@ class rex_sql_util
   static private function readSqlDump($file)
   {
     if (is_file($file) && is_readable($file)) {
-      $ret = array ();
+      $ret = array();
       $sqlsplit = '';
       $fileContent = file_get_contents($file);
       self::splitSqlFile($sqlsplit, $fileContent, '');
@@ -183,7 +183,7 @@ class rex_sql_util
       // We are not in a string, first check for delimiter...
       elseif ($char == ';') {
           // if delimiter found, add the parsed part to the returned array
-          $ret[] = array ('query' => substr($sql, 0, $i), 'empty' => $nothing);
+          $ret[] = array('query' => substr($sql, 0, $i), 'empty' => $nothing);
           $nothing = true;
           $sql = ltrim(substr($sql, min($i + 1, $sql_len)));
           $sql_len = strlen($sql);
@@ -216,7 +216,7 @@ class rex_sql_util
 
     // add any rest to the returned array
     if (!empty ($sql) && preg_match('@[^[:space:]]+@', $sql)) {
-      $ret[] = array ('query' => $sql, 'empty' => $nothing);
+      $ret[] = array('query' => $sql, 'empty' => $nothing);
     }
 
     return true;

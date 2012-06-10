@@ -68,7 +68,7 @@ class rex_article extends rex_structure_element
       rex_article_cache::generateLists($a_category_id, $clang);
     }
 
-    $artlist = array ();
+    $artlist = array();
     if (file_exists($articlelist)) {
       if (!isset(self::$articleIds[$a_category_id])) {
         self::$articleIds[$a_category_id] = rex_file::getCache($articlelist);
