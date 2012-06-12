@@ -1053,7 +1053,6 @@ foreach ($files as $path => $file) {
   $fileExt = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
   if (!in_array($fileExt, $textExtensions)
     || strpos(DIRECTORY_SEPARATOR . $subPath, DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR) !== false
-    || strpos($path, DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . 'tinymce' . DIRECTORY_SEPARATOR) !== false
     || strpos($subPath, 'test_coding_standards') === 0) {
     continue;
   }
