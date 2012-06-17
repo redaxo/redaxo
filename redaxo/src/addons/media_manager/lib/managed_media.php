@@ -133,7 +133,9 @@ class rex_managed_media
       $this->setHeader('Content-Disposition', "inline; filename=\"" . $this->getMediaFilename() . "\";");
     }
 
-    ob_end_clean();
+    while (ob_get_length()) {
+      ob_end_clean();
+    }
     foreach ($this->header as $t => $c) {
       header($t . ': ' . $c);
     }
