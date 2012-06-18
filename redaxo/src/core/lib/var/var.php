@@ -51,7 +51,8 @@ abstract class rex_var
             case T_STRING:
               while (isset($tokens[++$i])
                   && (is_string($tokens[$i]) && in_array($tokens[$i], array('=', '[', ']'))
-                      || in_array($tokens[$i][0], array(T_WHITESPACE, T_STRING, T_CONSTANT_ENCAPSED_STRING, T_LNUMBER)))) {
+                      || in_array($tokens[$i][0], array(T_WHITESPACE, T_STRING, T_CONSTANT_ENCAPSED_STRING, T_LNUMBER)))
+              ) {
                 $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
               }
               --$i;
@@ -62,12 +63,10 @@ abstract class rex_var
                 $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
               }
               --$i;
-              if ($token[1][3] == "'") // nowdoc
-              {
+              if ($token[1][3] == "'") { // nowdoc
                 $identifier = substr(rtrim($token[1], "'\r\n"), 4);
                 $format = PHP_EOL . $identifier . PHP_EOL . ". %s . <<<'$identifier'" . PHP_EOL;
-              } else // heredoc
-              {
+              } else { // heredoc
                 $format = '{%s}';
                 $useVariables = true;
               }
