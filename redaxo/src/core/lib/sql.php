@@ -765,9 +765,9 @@ class rex_sql extends rex_factory_base implements Iterator
    */
   private function flush()
   {
-    $this->values = array ();
+    $this->values = array();
     $this->rawValues = array();
-    $this->whereParams = array ();
+    $this->whereParams = array();
     $this->lastRow = array();
     $this->fieldnames = null;
     $this->rawFieldnames = null;
@@ -789,7 +789,7 @@ class rex_sql extends rex_factory_base implements Iterator
    */
   public function flushValues()
   {
-    $this->values = array ();
+    $this->values = array();
     $this->rawValues = array();
 
     return $this;

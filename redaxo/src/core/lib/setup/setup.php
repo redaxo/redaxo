@@ -2,7 +2,7 @@
 
 class rex_setup
 {
-  const MIN_PHP_VERSION = '5.3.0';
+  const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
   const MIN_MYSQL_VERSION = '5.0';
 
   static private $MIN_PHP_EXTENSIONS = array('session', 'pdo', 'pcre');
@@ -60,15 +60,15 @@ class rex_setup
     require_once $export_addon_dir . '/functions/function_import_folder.inc.php';
 
     // -------------------------- SCHREIBRECHTE
-    $WRITEABLES = array (
-        rex_path::media('', rex_path::ABSOLUTE),
-        rex_path::media('_readme.txt', rex_path::ABSOLUTE),
-        rex_path::assets('', rex_path::ABSOLUTE),
-        rex_path::assets('_readme.txt', rex_path::ABSOLUTE),
-        rex_path::cache(),
-        rex_path::data(),
-        rex_path::data('config.yml'),
-        getImportDir()
+    $WRITEABLES = array(
+      rex_path::media('', rex_path::ABSOLUTE),
+      rex_path::media('_readme.txt', rex_path::ABSOLUTE),
+      rex_path::assets('', rex_path::ABSOLUTE),
+      rex_path::assets('_readme.txt', rex_path::ABSOLUTE),
+      rex_path::cache(),
+      rex_path::data(),
+      rex_path::data('config.yml'),
+      getImportDir()
     );
 
     foreach (rex::getProperty('system_addons') as $system_addon) {

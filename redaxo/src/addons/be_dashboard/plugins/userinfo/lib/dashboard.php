@@ -129,7 +129,7 @@ class rex_articles_component extends rex_dashboard_component
 
   protected function prepare()
   {
-    $limit = A659_DEFAULT_LIMIT;
+    $limit = REX_DASHBOARD_USERINFO_DEFAULT_LIMIT;
 
     if (rex::getUser()->getComplexPerm('structure')->hasMountpoints()) {
       $whereCond = '1=1';
@@ -191,7 +191,7 @@ class rex_media_component extends rex_dashboard_component
 
   protected function prepare()
   {
-    $limit = A659_DEFAULT_LIMIT;
+    $limit = REX_DASHBOARD_USERINFO_DEFAULT_LIMIT;
 
     $list = rex_list::factory('SELECT category_id, media_id, filename, updateuser, updatedate FROM ' . rex::getTablePrefix() . 'media ORDER BY updatedate DESC LIMIT ' . $limit);
     $list->setCaption(rex_i18n::msg('pool_file_caption'));

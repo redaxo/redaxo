@@ -5,9 +5,16 @@
  * @package redaxo4
  */
 
-if (version_compare(PHP_VERSION, '5.3.0') < 0) {
-  exit('PHP version >=5.3 needed!');
+define('REX_MIN_PHP_VERSION', '5.3.0');
+
+if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
+  exit('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
 }
+
+// start output buffering as early as possible, so we can be sure
+// we can set http header whenever we want/need to
+ob_start();
+ob_implicit_flush(0);
 
 mb_internal_encoding('UTF-8');
 

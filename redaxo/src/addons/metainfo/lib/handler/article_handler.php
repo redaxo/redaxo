@@ -33,7 +33,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
 
     if (!empty($params['id'])) {
       $s = '';
-      $OOArt = rex_ooArticle::getArticleById($params['id'], $params['clang']);
+      $OOArt = rex_article::getArticleById($params['id'], $params['clang']);
 
       // Alle Metafelder des Pfades sind erlaubt
       foreach ($OOArt->getPathAsArray() as $pathElement) {
@@ -73,7 +73,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
 
   public function extendForm(array $params)
   {
-    $OOArt = rex_ooArticle::getArticleById($params['id'], $params['clang']);
+    $OOArt = rex_article::getArticleById($params['id'], $params['clang']);
 
     $params['activeItem'] = $params['article'];
     // Hier die category_id setzen, damit beim klick auf den REX_LINK_BUTTON der Medienpool in der aktuellen Kategorie startet

@@ -20,8 +20,8 @@ $function    = rex_request('function',    'string');
 $info = '';
 $warning = '';
 
-$category_id = rex_ooCategory::isValid(rex_ooCategory::getCategoryById($category_id)) ? $category_id : 0;
-$article_id = rex_ooArticle::isValid(rex_ooArticle::getArticleById($article_id)) ? $article_id : 0;
+$category_id = rex_category::getCategoryById($category_id) instanceof rex_category ? $category_id : 0;
+$article_id = rex_article::getArticleById($article_id) instanceof rex_article ? $article_id : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
 
 
@@ -102,7 +102,7 @@ echo rex_api_function::getMessage();
 
 // --------------------------------------------- KATEGORIE LISTE
 $cat_name = 'Homepage';
-$category = rex_ooCategory::getCategoryById($category_id, $clang);
+$category = rex_category::getCategoryById($category_id, $clang);
 if ($category)
   $cat_name = $category->getName();
 
@@ -197,7 +197,7 @@ $echo .= '
           </tr>
         </thead>
         <tbody>';
-if ($category_id != 0 && ($category = rex_ooCategory::getCategoryById($category_id))) {
+if ($category_id != 0 && ($category = rex_category::getCategoryById($category_id))) {
   $echo .= '<tr>
           <td class="rex-icon">&nbsp;</td>';
   if (rex::getUser()->hasPerm('advancedMode[]')) {
@@ -220,7 +220,10 @@ if ($function == 'add_cat' && $KATPERM) {
     $add_td = '<td class="rex-small">-</td>';
   }
 
-  $meta_buttons = rex_extension::registerPoint('CAT_FORM_BUTTONS', '' );
+  $meta_buttons = rex_extension::registerPoint('CAT_FORM_BUTTONS', '', array(
+    'id' => $category_id,
+    'clang' => $clang
+  ));
   $add_buttons = '
     <input type="hidden" name="rex-api-call" value="category_add" />
     <input type="hidden" name="parent-category-id" value="' . $category_id . '" />
@@ -240,11 +243,11 @@ if ($function == 'add_cat' && $KATPERM) {
         </tr>';
 
   // ----- EXTENSION POINT
-  $echo .= rex_extension::registerPoint('CAT_FORM_ADD', '', array (
-      'id' => $category_id,
-      'clang' => $clang,
-      'data_colspan' => ($data_colspan + 1),
-    ));
+  $echo .= rex_extension::registerPoint('CAT_FORM_ADD', '', array(
+    'id' => $category_id,
+    'clang' => $clang,
+    'data_colspan' => ($data_colspan + 1),
+  ));
 }
 
 
@@ -301,7 +304,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++) {
         </tr>';
 
       // ----- EXTENSION POINT
-      $echo .= rex_extension::registerPoint('CAT_FORM_EDIT', '', array (
+      $echo .= rex_extension::registerPoint('CAT_FORM_EDIT', '', array(
         'id' => $edit_id,
         'clang' => $clang,
         'category' => $KAT,
@@ -390,7 +393,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
   $template_select->setId('rex-form-template');
   $template_select->setSize(1);
 
-  $templates = rex_ooCategory::getTemplates($category_id);
+  $templates = rex_category::getTemplates($category_id);
   if (count($templates) > 0) {
     foreach ($templates as $t_id => $t_name) {
       $template_select->addOption(rex_i18n::translate($t_name, null, false), $t_id);

@@ -13,7 +13,7 @@ class rex_textile
   {
     if (!self::$instance) {
       self::$instance = new Textile;
-      self::$instance->url_schemes[] = 'redaxo';
+      self::$instance->unrestricted_url_schemes[] = 'redaxo';
     }
     return self::$instance;
   }
@@ -91,13 +91,13 @@ class rex_textile
   {
     return array(rex_i18n::msg('textile_headlines'),
       array(
-      'headlines1-3' =>
+        'headlines1-3' =>
         array(
           array('h1. ' . rex_i18n::msg('textile_headline') . ' 1'),
           array('h2. ' . rex_i18n::msg('textile_headline') . ' 2'),
           array('h3. ' . rex_i18n::msg('textile_headline') . ' 3'),
         ),
-      'headlines4-6' =>
+        'headlines4-6' =>
         array(
           array('h4. ' . rex_i18n::msg('textile_headline') . ' 4'),
           array('h5. ' . rex_i18n::msg('textile_headline') . ' 5'),
@@ -111,29 +111,29 @@ class rex_textile
   {
     return array(rex_i18n::msg('textile_text_formatting'),
       array(
-      'text_xhtml' =>
+        'text_xhtml' =>
         array(
           array('_' . rex_i18n::msg('textile_text_italic') . '_'),
           array('*' . rex_i18n::msg('textile_text_bold') . '*'),
         ),
-      'text_html' =>
+        'text_html' =>
         array(
           array('__' . rex_i18n::msg('textile_text_italic') . '__'),
           array('**' . rex_i18n::msg('textile_text_bold') . '**'),
         ),
-      'cite' =>
+        'cite' =>
         array(
           array('bq. ' . rex_i18n::msg('textile_text_cite')),
           array('??' . rex_i18n::msg('textile_text_source_author') . '??'),
         ),
-      'overwork' =>
+        'overwork' =>
         array(
           array('-' . rex_i18n::msg('textile_text_strike') . '-'),
           array('+' . rex_i18n::msg('textile_text_insert') . '+'),
           array('^' . rex_i18n::msg('textile_text_sup') . '^'),
           array('~' . rex_i18n::msg('textile_text_sub') . '~'),
         ),
-      'code' =>
+        'code' =>
         array(
           array('@<?php echo "Hi"; ?>@'),
         ),
@@ -145,25 +145,25 @@ class rex_textile
   {
     return array(rex_i18n::msg('textile_links'),
       array(
-      'links_intern' =>
+        'links_intern' =>
         array(
-          array (rex_i18n::msg('textile_link_internal') . ':redaxo://5'),
-          array (rex_i18n::msg('textile_link_internal_anchor') . ':redaxo://7#AGB'),
+          array(rex_i18n::msg('textile_link_internal') . ':redaxo://5'),
+          array(rex_i18n::msg('textile_link_internal_anchor') . ':redaxo://7#AGB'),
         ),
-      'links_extern' =>
+        'links_extern' =>
         array(
-          array (rex_i18n::msg('textile_link_external') . ':http://www.redaxo.org'),
-          array (rex_i18n::msg('textile_link_external_anchor') . ':http://www.redaxo.org#news'),
+          array(rex_i18n::msg('textile_link_external') . ':http://www.redaxo.org'),
+          array(rex_i18n::msg('textile_link_external_anchor') . ':http://www.redaxo.org#news'),
         ),
-      'links_attributes' =>
+        'links_attributes' =>
         array(
-          array (rex_i18n::msg('textile_link_attr_title') . ':media/test.jpg'),
-          array (rex_i18n::msg('textile_link_attr_rel') . ':media/test.jpg'),
-          array (rex_i18n::msg('textile_link_attr_title_rel') . ':media/test.jpg'),
+          array(rex_i18n::msg('textile_link_attr_title') . ':media/test.jpg'),
+          array(rex_i18n::msg('textile_link_attr_rel') . ':media/test.jpg'),
+          array(rex_i18n::msg('textile_link_attr_title_rel') . ':media/test.jpg'),
         ),
-      'anchor' =>
+        'anchor' =>
         array(
-          array (rex_i18n::msg('textile_link_anchor') . ":\n\np(#Impressum). " . rex_i18n::msg('textile_link_anchor_text')),
+          array(rex_i18n::msg('textile_link_anchor') . ":\n\np(#Impressum). " . rex_i18n::msg('textile_link_anchor_text')),
         ),
       )
     );
@@ -173,7 +173,7 @@ class rex_textile
   {
     return array(rex_i18n::msg('textile_footnotes'),
       array(
-      'footnotes' =>
+        'footnotes' =>
         array(
           array(rex_i18n::msg('textile_footnote_text') . '[1] ..'),
           array('fn1. ' . rex_i18n::msg('textile_footnote_note')),
@@ -186,7 +186,7 @@ class rex_textile
   {
     return array(rex_i18n::msg('textile_lists'),
       array(
-      'lists' =>
+        'lists' =>
         array(
           array(rex_i18n::msg('textile_numeric_list') . ":\n# redaxo.org\n# www.redaxo.org/de/forum/"),
           array(rex_i18n::msg('textile_enum_list') . ":\n* redaxo.org\n* www.redaxo.org/de/forum/"),
@@ -199,11 +199,11 @@ class rex_textile
   {
     return array(rex_i18n::msg('textile_tables'),
       array(
-      'tables' =>
+        'tables' =>
         array(
           array("|_. Id|_. Name|\n|1|Peter|"),
           array("|www.redaxo.org|35|\n|doku.redaxo.org|32|\n|wiki.redaxo.org|12|"),
         )
-    ));
+      ));
   }
 }

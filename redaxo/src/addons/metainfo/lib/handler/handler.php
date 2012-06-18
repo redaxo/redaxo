@@ -121,6 +121,15 @@ abstract class rex_metainfo_handler
             $field .= '<p class="rex-form-label">' . $label . '</p><div class="rex-form-' . $class_p . '-wrapper">';
           }
 
+          $attrStr = '';
+          $classAdd = '';
+          foreach ($attrArray as $key => $value) {
+            if ($key == 'class')
+              $classAdd = ' ' . $value;
+            else
+              $attrStr = ' ' . $key . '="' . $value . '"';
+          }
+
           foreach ($values as $key => $value) {
             $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $id . $key);
 
@@ -134,11 +143,11 @@ abstract class rex_metainfo_handler
               $selected = ' checked="checked"';
 
             if ($oneValue) {
-              $tag_attr = ' class="rex-form-col-a rex-form-' . $class_s . '"';
-              $field .= '<input class="rex-form-' . $class_s . '" type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" id="' . $id . '" ' . $attr . $selected . ' />' . "\n";
+              $tag_attr = ' class="rex-form-col-a rex-form-' . $class_s . $classAdd . '"';
+              $field .= '<input class="rex-form-' . $class_s . '" type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" id="' . $id . '" ' . $attrStr . $selected . ' />' . "\n";
             } else {
-              $field .= '<p class="rex-form-' . $class_s . ' rex-form-label-right">' . "\n";
-              $field .= '<input class="rex-form-' . $class_s . '" type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" id="' . $id . '" ' . $attr . $selected . ' />' . "\n";
+              $field .= '<p class="rex-form-' . $class_s . ' rex-form-label-right' . $classAdd . '">' . "\n";
+              $field .= '<input class="rex-form-' . $class_s . '" type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" id="' . $id . '" ' . $attrStr . $selected . ' />' . "\n";
               $field .= '<label for="' . $id . '">' . htmlspecialchars($value) . '</label>';
               $field .= '</p>' . "\n";
             }

@@ -82,13 +82,13 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
 
   $name = 'NoName';
   if ($id != 0) {
-    $ooa = rex_ooArticle :: getArticleById($id, $clang);
+    $ooa = rex_article :: getArticleById($id, $clang);
     if ($ooa)
       $name = rex_parse_article_name($ooa->getName());
   }
 
   // ----- EXTENSION POINT
-  $url = rex_extension::registerPoint('URL_REWRITE', '', array ('id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string, 'divider' => $_divider));
+  $url = rex_extension::registerPoint('URL_REWRITE', '', array('id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string, 'divider' => $_divider));
 
   if ($url == '') {
     $_clang = '';

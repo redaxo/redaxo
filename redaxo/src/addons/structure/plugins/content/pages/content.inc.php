@@ -23,7 +23,7 @@ $clang       = rex_request('clang',       'int');
 $slice_id    = rex_request('slice_id',    'int', '');
 $function    = rex_request('function',    'string');
 
-$article_id = rex_ooArticle::isValid(rex_ooArticle::getArticleById($article_id)) ? $article_id : 0;
+$article_id = rex_article::getArticleById($article_id) instanceof rex_article ? $article_id : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
 
 $article_revision = 0;
@@ -63,7 +63,7 @@ if ($article->getRows() == 1) {
     $ctype = 1; // default = 1
 
   // ----- Artikel wurde gefunden - Kategorie holen
-  $OOArt = rex_ooArticle::getArticleById($article_id, $clang);
+  $OOArt = rex_article::getArticleById($article_id, $clang);
   $category_id = $OOArt->getCategoryId();
 
   // ----- category pfad und rechte
@@ -77,14 +77,14 @@ if ($article->getRows() == 1) {
 
     $navigation = array();
     $navigation[] = array(
-          'href' => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
-          'title' => $catname
-        );
+      'href' => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
+      'title' => $catname
+    );
     $blocks = array();
     $blocks[] = array(
-      'headline' => array ( 'title' => $term),
+      'headline' => array( 'title' => $term),
       'navigation' => $navigation
-      );
+    );
 
     $fragment = new rex_fragment();
     $fragment->setVar('type', 'path');
@@ -174,7 +174,7 @@ if ($article->getRows() == 1) {
           // ----- RECHTE AM MODUL: JA
 
           // ***********************  daten einlesen
-          $REX_ACTION = array ();
+          $REX_ACTION = array();
           $REX_ACTION['SAVE'] = true;
 
 //          foreach (rex_var::getVars() as $obj) {
@@ -185,7 +185,7 @@ if ($article->getRows() == 1) {
           list($action_message, $REX_ACTION) = rex_execPreSaveAction($module_id, $function, $REX_ACTION);
           // ----- / PRE SAVE ACTION
 
-          // Statusspeicherung für die rex_article Klasse
+          // Statusspeicherung für die rex_article_content Klasse
           rex_plugin::get('structure', 'content')->setProperty('rex_action', $REX_ACTION);
 
           // Werte werden aus den REX_ACTIONS übernommen wenn SAVE=true
@@ -282,7 +282,7 @@ if ($article->getRows() == 1) {
             rex_article_cache::delete($article_id, $clang);
 
             rex_extension::registerPoint('ART_CONTENT_UPDATED', '',
-              array (
+              array(
                 'id' => $article_id,
                 'clang' => $clang
               )
@@ -394,7 +394,7 @@ if ($article->getRows() == 1) {
         rex_article_cache::delete($article_id, $clang);
 
         // ----- EXTENSION POINT
-        $info = rex_extension::registerPoint('ART_META_UPDATED', $info, array (
+        $info = rex_extension::registerPoint('ART_META_UPDATED', $info, array(
           'id' => $article_id,
           'clang' => $clang,
           'name' => $meta_article_name,
@@ -450,7 +450,7 @@ if ($article->getRows() == 1) {
   $n['title'] = rex_i18n::msg('show');
   $n['href'] = rex_getUrl($article_id, $clang);
   $n['itemClasses'] = array('rex-misc');
-  $n['linkAttr'] = array('onClick' => 'window.open(this.href); return false;');
+  $n['linkAttr'] = array('onClick' => 'window.open(this.href); return false;', 'data-pjax' => 'false');
   $listElements[] = $n;
 
   $n = array();
@@ -496,9 +496,9 @@ if ($article->getRows() == 1) {
 
   $blocks = array();
   $blocks[] = array(
-        'headline' => array('title' => 'meeeta'),
-        'navigation' => $listElements
-        );
+    'headline' => array('title' => 'meeeta'),
+    'navigation' => $listElements
+  );
 
   $fragment = new rex_fragment();
   $fragment->setVar('type', 'tab');
@@ -530,7 +530,7 @@ if ($article->getRows() == 1) {
     // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
     if ($mode == 'edit') {
 
-      $CONT = new rex_article_editor();
+      $CONT = new rex_article_content_editor;
       $CONT->getContentAsQuery();
       $CONT->info = $info;
       $CONT->warning = $warning;
@@ -576,7 +576,7 @@ if ($article->getRows() == 1) {
 
 
       // ----- EXTENSION POINT
-      $content .= rex_extension::registerPoint('ART_META_FORM', '', array (
+      $content .= rex_extension::registerPoint('ART_META_FORM', '', array(
         'id' => $article_id,
         'clang' => $clang,
         'article' => $article
@@ -599,7 +599,7 @@ if ($article->getRows() == 1) {
              </fieldset>';
 
       // ----- EXTENSION POINT
-      $content .= rex_extension::registerPoint('ART_META_FORM_SECTION', '', array (
+      $content .= rex_extension::registerPoint('ART_META_FORM_SECTION', '', array(
         'id' => $article_id,
         'clang' => $clang
       ));

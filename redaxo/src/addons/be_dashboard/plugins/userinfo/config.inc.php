@@ -14,8 +14,8 @@ $mypage = 'userinfo';
 // im backend und eingeloggt?
 if (rex::isBackend() && rex::getUser()) {
   if (rex_request('page', 'string') == 'be_dashboard') {
-    if (!defined('A659_DEFAULT_LIMIT')) {
-      define('A659_DEFAULT_LIMIT', 7);
+    if (!defined('REX_DASHBOARD_USERINFO_DEFAULT_LIMIT')) {
+      define('REX_DASHBOARD_USERINFO_DEFAULT_LIMIT', 7);
     }
 
     require_once dirname(__FILE__) . '/functions/function_userinfo.inc.php';

@@ -5,7 +5,7 @@
  *
  * @deprecated 5.0
  */
-function rex_register_extension_point($extensionPoint, $subject = '', $params = array (), $read_only = false)
+function rex_register_extension_point($extensionPoint, $subject = '', $params = array(), $read_only = false)
 {
   return rex_extension::registerPoint($extensionPoint, $subject, $params, $read_only);
 }

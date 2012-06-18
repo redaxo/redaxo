@@ -29,7 +29,7 @@ function rex_version_initArticle($params)
   }
 
   $params['article']->setSliceRevision($version);
-  if (is_a($params['article'], 'rex_article')) {
+  if (is_a($params['article'], 'rex_article_content')) {
     $params['article']->getContentAsQuery();
   }
   $params['article']->setEval(true);

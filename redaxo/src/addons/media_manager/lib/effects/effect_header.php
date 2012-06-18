@@ -4,8 +4,8 @@ class rex_effect_header extends rex_effect_abstract
 {
 
   private
-  $options,
-  $script;
+    $options,
+    $script;
 
   public function __construct()
   {
@@ -19,7 +19,7 @@ class rex_effect_header extends rex_effect_abstract
       'right',
       'topright',
       'center'
-      );
+    );
 
       $this->script = '
 <script type="text/javascript">
@@ -78,20 +78,20 @@ class rex_effect_header extends rex_effect_abstract
   public function getParams()
   {
     return array(
-        array(
+      array(
         'label' => rex_i18n::msg('media_manager_effect_header_download'),
         'name' => 'download',
         'type'  => 'select',
         'options'  => array('open_media', 'download'),
         'default' => 'open_media'
-        ),
-        array(
+      ),
+      array(
         'label' => rex_i18n::msg('media_manager_effect_header_cache'),
         'name' => 'cache',
         'type' => 'select',
         'options' => array('no_cache', 'cache'),
         'default' => 'no_cache',
-        ),
-        );
+      ),
+    );
   }
 }

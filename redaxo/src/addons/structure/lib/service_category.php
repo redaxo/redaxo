@@ -38,7 +38,7 @@ class rex_category_service
     }
 
     // parent may be null, when adding in the root cat
-    $parent = rex_ooCategory::getCategoryById($category_id);
+    $parent = rex_category::getCategoryById($category_id);
     if ($parent) {
       $path = $parent->getPath();
       $path .= $parent->getId() . '|';
@@ -59,7 +59,7 @@ class rex_category_service
     }
 
     // Alle Templates der Kategorie
-    $templates = rex_ooCategory::getTemplates($category_id);
+    $templates = rex_category::getTemplates($category_id);
     // Kategorie in allen Sprachen anlegen
     $AART = rex_sql::factory();
     foreach (rex_clang::getAllIds() as $key) {
@@ -111,7 +111,7 @@ class rex_category_service
         // ----- EXTENSION POINT
         // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
         $message = rex_extension::registerPoint('CAT_ADDED', $message,
-        array (
+        array(
           'category' => clone $AART,
           'id' => $id,
           're_id' => $category_id,
@@ -207,7 +207,7 @@ class rex_category_service
       // ----- EXTENSION POINT
       // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
       $message = rex_extension::registerPoint('CAT_UPDATED', $message,
-        array (
+        array(
           'id' => $category_id,
 
           'category' => clone $EKAT,
@@ -267,14 +267,14 @@ class rex_category_service
             self::newCatPrio($re_id, $_clang, 0, 1);
 
             // ----- EXTENSION POINT
-            $message = rex_extension::registerPoint('CAT_DELETED', $message, array (
-            'id'     => $category_id,
-            're_id'  => $re_id,
-            'clang'  => $_clang,
-            'name'   => $row->getValue('catname'),
-            'prior'  => $row->getValue('catprior'),
-            'path'   => $row->getValue('path'),
-            'status' => $row->getValue('status'),
+            $message = rex_extension::registerPoint('CAT_DELETED', $message, array(
+              'id'     => $category_id,
+              're_id'  => $re_id,
+              'clang'  => $_clang,
+              'name'   => $row->getValue('catname'),
+              'prior'  => $row->getValue('catprior'),
+              'path'   => $row->getValue('path'),
+              'status' => $row->getValue('status'),
             ));
           }
 
@@ -329,7 +329,7 @@ class rex_category_service
         rex_article_cache::delete($category_id, $clang);
 
         // ----- EXTENSION POINT
-        rex_extension::registerPoint('CAT_STATUS', null, array (
+        rex_extension::registerPoint('CAT_STATUS', null, array(
           'id' => $category_id,
           'clang' => $clang,
           'status' => $newstatus
@@ -357,7 +357,7 @@ class rex_category_service
       $catStatusTypes = array(
       // Name, CSS-Class
       array(rex_i18n::msg('status_offline'), 'rex-offline'),
-      array(rex_i18n::msg('status_online'), 'rex-online')
+        array(rex_i18n::msg('status_online'), 'rex-online')
       );
 
       // ----- EXTENSION POINT

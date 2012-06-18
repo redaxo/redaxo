@@ -112,7 +112,7 @@ class rex_var_media extends rex_var
    */
   private function matchMediaButton(rex_sql $sql, $content)
   {
-    $vars = array (
+    $vars = array(
       'REX_FILE_BUTTON',
       'REX_MEDIA_BUTTON'
     );
@@ -140,7 +140,7 @@ class rex_var_media extends rex_var
    */
   private function matchMediaListButton(rex_sql $sql, $content)
   {
-    $vars = array (
+    $vars = array(
       'REX_FILELIST_BUTTON',
       'REX_MEDIALIST_BUTTON'
     );
@@ -172,7 +172,7 @@ class rex_var_media extends rex_var
    */
   private function matchMedia(rex_sql $sql, $content)
   {
-    $vars = array (
+    $vars = array(
       'REX_FILE',
       'REX_MEDIA'
     );
@@ -185,7 +185,7 @@ class rex_var_media extends rex_var
         if ($id > 0 && $id < 11) {
           // Mimetype ausgeben
           if (isset($args['mimetype'])) {
-            $OOM = rex_ooMedia::getMediaByName($this->getValue($sql, 'file' . $id));
+            $OOM = rex_media::getMediaByName($this->getValue($sql, 'file' . $id));
             if ($OOM) {
               $replace = $OOM->getType();
             }
@@ -208,7 +208,7 @@ class rex_var_media extends rex_var
    */
   private function matchMediaList(rex_sql $sql, $content)
   {
-    $vars = array (
+    $vars = array(
       'REX_FILELIST',
       'REX_MEDIALIST'
     );

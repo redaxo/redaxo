@@ -42,7 +42,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
           $where[$key][] = '(' . $name . ' = "' . $filename . '" OR ' . $name . ' LIKE "%,' . $likeFilename . '" OR ' . $name . ' LIKE "%,' . $likeFilename . ',%" OR ' . $name . ' LIKE "' . $likeFilename . ',%")';
           break;
         default :
-          trigger_error ('Unexpected fieldtype "' . $sql->getValue('type') . '"!', E_USER_ERROR);
+          trigger_error('Unexpected fieldtype "' . $sql->getValue('type') . '"!', E_USER_ERROR);
       }
       $sql->next();
     }
@@ -102,7 +102,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
     if ($catId !== '') {
       $s = '';
       if ($catId != 0) {
-        $OOCat = rex_ooMediaCategory::getCategoryById($catId);
+        $OOCat = rex_media_category::getCategoryById($catId);
 
         // Alle Metafelder des Pfades sind erlaubt
         foreach ($OOCat->getPathAsArray() as $pathElement) {

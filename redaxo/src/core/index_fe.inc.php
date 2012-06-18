@@ -9,10 +9,6 @@ if (rex::isSetup()) {
   rex_response::sendRedirect('redaxo/');
 }
 
-// ----- ob caching start für output filter
-ob_start();
-ob_implicit_flush(0);
-
 // Setzten des arg_separators, falls Sessions verwendet werden,
 // um XHTML valide Links zu produzieren
 @ini_set('arg_separator.input', '&amp;');

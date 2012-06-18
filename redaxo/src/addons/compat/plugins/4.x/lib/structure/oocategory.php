@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @see rex_ooCategory
+ * @see rex_category
  *
  * @deprecated 5.0
  */
-class OOCategory extends rex_ooCategory
+class OOCategory extends rex_category
 {
   /**
-   * @see rex_ooArticle::getValue()
+   * @see rex_article::getValue()
    *
    * @deprecated 4.0 17.09.2007
    */
@@ -18,17 +18,17 @@ class OOCategory extends rex_ooCategory
   }
 
   /**
-   * @see rex_ooArticle::getValue()
+   * @see rex_article::getValue()
    *
    * @deprecated 4.0 17.09.2007
    */
   public function getFileMedia()
   {
-    return rex_ooMedia :: getMediaByFileName($this->getValue('art_file'));
+    return rex_media :: getMediaByFileName($this->getValue('art_file'));
   }
 
   /**
-   * @see rex_ooArticle::getValue()
+   * @see rex_article::getValue()
    *
    * @deprecated 4.0 17.09.2007
    */
@@ -38,12 +38,22 @@ class OOCategory extends rex_ooCategory
   }
 
   /**
-   * @see rex_ooArticle::getValue()
+   * @see rex_article::getValue()
    *
    * @deprecated 4.0 17.09.2007
    */
   public function getTypeId()
   {
     return $this->getValue('art_type_id');
+  }
+
+  /**
+   * instead: "$category instanceof rex_category"
+   *
+   * @deprecated 5.0
+   */
+  static public function isValid($category)
+  {
+    return $category instanceof parent;
   }
 }

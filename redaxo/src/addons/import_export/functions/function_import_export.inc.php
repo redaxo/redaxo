@@ -25,7 +25,7 @@ define('REX_A1_IMPORT_EVENT_POST', 4);
  */
 function rex_a1_import_db($filename)
 {
-  $return = array ();
+  $return = array();
   $return['state'] = false;
   $return['message'] = '';
 
@@ -216,7 +216,7 @@ function rex_a1_import_db($filename)
  */
 function rex_a1_import_files($filename)
 {
-  $return = array ();
+  $return = array();
   $return['state'] = false;
 
   if ($filename == '' || substr($filename, -7, 7) != '.tar.gz') {
@@ -357,8 +357,7 @@ function rex_a1_export_db($filename)
           fwrite($fp, $nl . 'INSERT INTO `' . $table . '` VALUES ' . implode(',', $values) . ';');
           unset($values);
         }
-      }
-      while ($count >= $max);
+      } while ($count >= $max);
 
       if ($start > 0) {
         fwrite($fp, $nl . '/*!40000 ALTER TABLE `' . $table . '` ENABLE KEYS */;');

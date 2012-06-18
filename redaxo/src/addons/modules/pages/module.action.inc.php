@@ -178,19 +178,19 @@ if ($function == 'add' || $function == 'edit') {
     $sel_postsave_status->setId('postsavestatus');
 
     $allPreviewChecked = $previewstatus == 3 ? ' checked="checked"' : '';
-    foreach (array (1, 2, 4) as $var) {
+    foreach (array(1, 2, 4) as $var) {
       if (($previewstatus & $var) == $var)
         $sel_preview_status->setSelected($var);
     }
 
     $allPresaveChecked = $presavestatus == 7 ? ' checked="checked"' : '';
-    foreach (array (1, 2, 4) as $var) {
+    foreach (array(1, 2, 4) as $var) {
       if (($presavestatus & $var) == $var)
         $sel_presave_status->setSelected($var);
     }
 
     $allPostsaveChecked = $postsavestatus == 7 ? ' checked="checked"' : '';
-    foreach (array (1, 2, 4) as $var) {
+    foreach (array(1, 2, 4) as $var) {
       if (($postsavestatus & $var) == $var)
         $sel_postsave_status->setSelected($var);
     }
@@ -417,19 +417,19 @@ if ($OUT) {
     echo '<tbody>' . "\n";
 
     for ($i = 0; $i < $rows; $i++) {
-      $previewmode = array ();
-      $presavemode = array ();
-      $postsavemode = array ();
+      $previewmode = array();
+      $presavemode = array();
+      $postsavemode = array();
 
-      foreach (array (1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE') as $var => $value)
+      foreach (array(1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE') as $var => $value)
         if (($sql->getValue('previewmode') & $var) == $var)
           $previewmode[] = $value;
 
-      foreach (array (1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE') as $var => $value)
+      foreach (array(1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE') as $var => $value)
         if (($sql->getValue('presavemode') & $var) == $var)
           $presavemode[] = $value;
 
-      foreach (array (1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE') as $var => $value)
+      foreach (array(1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE') as $var => $value)
         if (($sql->getValue('postsavemode') & $var) == $var)
           $postsavemode[] = $value;
 

@@ -538,17 +538,23 @@ jQuery(document).ready(function($) {
   // confirm dialog behavior for forms
   $(document).on('submit', 'form[data-confirm]', confDialog);
 
-  // elements which will be PJAX-ed by default:
-  // general identifier for pjax-links
-  $('a.pjax-main').pjax('#rex-page-main');
-  // links from paginations within the main-container
-  $('#rex-page-main .rex-navi-pagination a').pjax('#rex-page-main');
-  // links from tabs within the main-container
-  $('#rex-page-main .rex-navi-tab a').pjax('#rex-page-main');
-  // links from path-toolbar within the main-container
-  $('#rex-page-main .rex-navi-path a').pjax('#rex-page-main');
-  // links from lists within the main-container
-  $('#rex-page-main .rex-table a').pjax('#rex-page-main');
+  // install pjax handlers, see defunkt/jquery-pjax#142
+  $(document).on('click', '[data-pjax-container] a, a[data-pjax]', function(event) {
+    var self = $(this), container;
+
+    if(self.is('a[data-pjax]'))
+    {
+      container = self.attr('data-pjax');
+    }
+    else
+    {
+      container = self.closest('[data-pjax-container]').attr('data-pjax-container');
+    }
+
+    if (container !== 'false') {
+      return $.pjax.click(event, container);
+    }
+  });
 
   // add pjax error handling
   $(document)
