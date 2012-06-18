@@ -107,7 +107,7 @@ abstract class rex_var
       $var = self::getVar($match[1]);
       if ($var === false)
         continue;
-      $match[2] = strtr($match[2], array('\[' => '@@@OPEN_BRACKET@@@', '\]' => '@@@CLOSE_BRACKET@@@'));
+      $match[2] = str_replace(array('\[', '\]'), array('@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'), $match[2]);
       if ($stripslashes) {
         $match[2] = str_replace(array('\\' . $stripslashes, '\\' . $stripslashes), $stripslashes, $match[2]);
       }
@@ -152,7 +152,7 @@ abstract class rex_var
       return addcslashes($match[1], "\'");
     };
     $arg = preg_replace_callback("@$begin(.*)$end@Us", $callback, $arg);
-    $arg = strtr($arg, array('@@@OPEN_BRACKET@@@' => '[', '@@@CLOSE_BRACKET@@@' => ']'));
+    $arg = str_replace(array('@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'), array('[', ']'), $arg);
     return is_numeric($arg) ? $arg : "'$arg'";
   }
 

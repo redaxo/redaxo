@@ -41,7 +41,7 @@ class rex_string
 
     $pattern = '@(["\'])((?:.*[^\\\\])?(?:\\\\\\\\)*)\\1@Us';
     $callback = function ($match) use ($spacer, &$quoted) {
-      $quoted[] = strtr($match[2], array('\\' . $match[1] => $match[1], '\\\\' => '\\'));
+      $quoted[] = str_replace(array('\\' . $match[1], '\\\\'), array($match[1], '\\'), $match[2]);
       return $spacer;
     };
     $string = preg_replace_callback($pattern, $callback, $string);
