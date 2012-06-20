@@ -63,9 +63,8 @@ abstract class rex_var
                 $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
               }
               --$i;
-              if ($token[1][3] == "'") { // nowdoc
-                $identifier = substr(rtrim($token[1], "'\r\n"), 4);
-                $format = "\n$identifier\n. %s . <<<'$identifier'\n";
+              if (preg_match("/'(.*)'/", $token[1], $match)) { // nowdoc
+                $format = "\n" . $match[1] . "\n. %s . <<<'" . $match[1] . "'\n";
               } else { // heredoc
                 $format = '{%s}';
                 $useVariables = true;
