@@ -8,10 +8,10 @@
 abstract class rex_var
 {
   const
-    FRONTEND = 1,
-    BACKEND = 2,
-    INPUT = 4,
-    OUTPUT = 8;
+    ENV_FRONTEND = 1,
+    ENV_BACKEND = 2,
+    ENV_INPUT = 4,
+    ENV_OUTPUT = 8;
 
   static private
     $vars = array(),
@@ -23,8 +23,8 @@ abstract class rex_var
 
   static public function parse($content, $env = null, $context = null)
   {
-    if (($env & self::INPUT) != self::INPUT)
-      $env = $env | self::OUTPUT;
+    if (($env & self::ENV_INPUT) != self::ENV_INPUT)
+      $env = $env | self::ENV_OUTPUT;
     self::$env = $env;
     self::$context = $context;
 
