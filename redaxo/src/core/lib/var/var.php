@@ -65,7 +65,7 @@ abstract class rex_var
               --$i;
               if ($token[1][3] == "'") { // nowdoc
                 $identifier = substr(rtrim($token[1], "'\r\n"), 4);
-                $format = PHP_EOL . $identifier . PHP_EOL . ". %s . <<<'$identifier'" . PHP_EOL;
+                $format = "\n$identifier\n. %s . <<<'$identifier'\n";
               } else { // heredoc
                 $format = '{%s}';
                 $useVariables = true;
@@ -146,7 +146,7 @@ abstract class rex_var
     $arg = isset($this->args[$key]) ? $this->args[$key] : $this->args[0];
     $begin = '<<<addslashes>>>';
     $end = '<<</addslashes>>>';
-    $arg = $begin . self::replaceVars($arg, $end . "'. %s .'" . $begin) . $end;
+    $arg = $begin . self::replaceVars($arg, $end . "' . %s . '" . $begin) . $end;
     $callback = function ($match) {
       return addcslashes($match[1], "\'");
     };
@@ -181,8 +181,8 @@ abstract class rex_var
       return 'call_user_func(' . $this->getArg('callback') . ', ' . $args . ')';
     }
 
-    $prefix = $this->hasArg('prefix') ? $this->getArg('prefix') . '. ' : '';
-    $suffix = $this->hasArg('suffix') ? ' .' . $this->getArg('suffix') : '';
+    $prefix = $this->hasArg('prefix') ? $this->getArg('prefix') . ' . ' : '';
+    $suffix = $this->hasArg('suffix') ? ' . ' . $this->getArg('suffix') : '';
     $instead = $this->hasArg('instead');
     $ifempty = $this->hasArg('ifempty');
     if ($prefix || $suffix || $instead || $ifempty) {
