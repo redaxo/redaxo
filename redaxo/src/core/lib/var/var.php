@@ -200,39 +200,6 @@ abstract class rex_var
     return $content;
   }
 
-  /**
-   * Handle all global arguments
-   *
-   * @param string $value The value of the variable
-   * @param array  $args  The array of global arguments
-   *
-   * @return string The parsed variable value
-   */
-  static public function handleGlobalArgs($value, array $args)
-  {
-    if (isset($args['callback'])) {
-      $args['subject'] = $value;
-      return call_user_func($args['callback'], $args);
-    }
-
-    $prefix = '';
-    $suffix = '';
-
-    if (isset($args['instead']) && $value != '')
-      $value = $args['instead'];
-
-    if (isset($args['ifempty']) && $value == '')
-      $value = $args['ifempty'];
-
-    if ($value != '' && isset($args['prefix']))
-      $prefix = $args['prefix'];
-
-    if ($value != '' && isset($args['suffix']))
-      $suffix = $args['suffix'];
-
-    return $prefix . $value . $suffix;
-  }
-
   static public function nothing()
   {
     return '';
