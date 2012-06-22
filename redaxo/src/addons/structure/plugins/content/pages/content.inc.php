@@ -28,7 +28,7 @@ $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id')
 
 $article_revision = 0;
 $slice_revision = 0;
-$template_attributes = '';
+$template_attributes = array();
 
 $warning = '';
 $global_warning = '';
@@ -53,8 +53,8 @@ if ($article->getRows() == 1) {
   $template_attributes = $article->getArrayValue('template_attributes');
 
   // Für Artikel ohne Template
-  if ($template_attributes === null)
-    $template_attributes = '';
+  if (!is_array($template_attributes))
+    $template_attributes = array();
 
   $ctypes = isset($template_attributes['ctype']) ? $template_attributes['ctype'] : array(); // ctypes - aus dem template
 
