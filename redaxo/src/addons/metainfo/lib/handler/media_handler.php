@@ -192,4 +192,4 @@ rex_extension::register('MEDIA_FORM_ADD', array($mediaHandler, 'extendForm'));
 rex_extension::register('MEDIA_ADDED', array($mediaHandler, 'extendForm'));
 rex_extension::register('MEDIA_UPDATED', array($mediaHandler, 'extendForm'));
 
-rex_extension::register('OOMEDIA_IS_IN_USE', array('rex_metainfo_media_handler', 'isMediaInUse'));
+rex_extension::register('MEDIA_IS_IN_USE', array('rex_metainfo_media_handler', 'isMediaInUse'));

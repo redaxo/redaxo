@@ -546,7 +546,7 @@ class rex_media
     }
 
     // ----- EXTENSION POINT
-    $warning = rex_extension::registerPoint('OOMEDIA_IS_IN_USE', $warning,
+    $warning = rex_extension::registerPoint('MEDIA_IS_IN_USE', $warning,
       array(
         'filename' => $this->getFileName(),
         'media' => $this,
