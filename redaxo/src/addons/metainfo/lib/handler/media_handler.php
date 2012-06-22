@@ -36,10 +36,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
           $where[$key][] = $name . '="' . $filename . '"';
           break;
         case '7':
-          // replace LIKE wildcards
-          $likeFilename = str_replace(array('_', '%'), array('\_', '\%'), $filename);
-
-          $where[$key][] = '(' . $name . ' = "' . $filename . '" OR ' . $name . ' LIKE "%,' . $likeFilename . '" OR ' . $name . ' LIKE "%,' . $likeFilename . ',%" OR ' . $name . ' LIKE "' . $likeFilename . ',%")';
+          $where[$key][] = 'FIND_IN_SET("' . $filename . '", ' . $name . ')';
           break;
         default :
           trigger_error('Unexpected fieldtype "' . $sql->getValue('type') . '"!', E_USER_ERROR);

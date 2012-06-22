@@ -512,20 +512,17 @@ class rex_media
   {
     $sql = rex_sql::factory();
     $filename = addslashes($this->getFileName());
-    // replace LIKE wildcards
-    $likeFilename = str_replace(array('_', '%'), array('\_', '\%'), $filename);
-
 
     $values = array();
     for ($i = 1; $i < 21; $i++) {
-      $values[] = 'value' . $i . ' LIKE "%' . $likeFilename . '%"';
+      $values[] = 'value' . $i . ' REGEXP "(^|[^[:alnum:]+_-])' . $filename . '"';
     }
 
     $files = array();
     $filelists = array();
     for ($i = 1; $i < 11; $i++) {
       $files[] = 'file' . $i . '="' . $filename . '"';
-      $filelists[] = '(filelist' . $i . ' = "' . $filename . '" OR filelist' . $i . ' LIKE "' . $likeFilename . ',%" OR filelist' . $i . ' LIKE "%,' . $likeFilename . ',%" OR filelist' . $i . ' LIKE "%,' . $likeFilename . '" ) ';
+      $filelists[] = 'FIND_IN_SET("' . $filename . '",filelist' . $i . ')';
     }
 
     $where = '';
@@ -533,15 +530,6 @@ class rex_media
     $where .= implode(' OR ', $filelists) . ' OR ';
     $where .= implode(' OR ', $values);
     $query = 'SELECT DISTINCT article_id, clang FROM ' . rex::getTablePrefix() . 'article_slice WHERE ' . $where;
-
-    // deprecated since REX 4.3
-    // ----- EXTENSION POINT
-    $query = rex_extension::registerPoint('OOMEDIA_IS_IN_USE_QUERY', $query,
-      array(
-        'filename' => $this->getFileName(),
-        'media' => $this,
-      )
-    );
 
     $warning = array();
     $res = $sql->getArray($query);
