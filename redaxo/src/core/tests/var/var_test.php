@@ -81,7 +81,9 @@ REX_TEST_VAR[
 cd ef"
 ]
 EOT
-        , "ab\ncd ef")
+        , "ab\ncd ef"),
+      array('REX_NON_EXISTING[REX_TEST_VAR[ab]]', 'REX_NON_EXISTING[ab]'),
+      array('REX_TEST_VAR[REX_NON_EXISTING[]]', 'REX_NON_EXISTING[]')
     );
   }
 

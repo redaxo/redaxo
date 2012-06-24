@@ -97,35 +97,49 @@ abstract class rex_var
 
   static private function replaceVars($content, $format = '%s', $useVariables = false, $stripslashes = null)
   {
-    $matches = array();
-    preg_match_all('/(REX_[A-Z_]+)\[((?:[^\[\]]|\\\\[\[\]]|(?R))*)(?<!\\\\)\]/s', $content, $matches, PREG_SET_ORDER);
+    $matches = self::getMatches($content);
+    if (empty($matches)) {
+      return $content;
+    }
+    $iterator = new AppendIterator();
+    $iterator->append(new ArrayIterator($matches));
     $variables = array();
     $i = 0;
-    foreach ($matches as $match) {
+    foreach ($iterator as $match) {
       $var = self::getVar($match[1]);
-      if ($var === false)
-        continue;
-      $match[2] = str_replace(array('\[', '\]'), array('@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'), $match[2]);
-      if ($stripslashes) {
-        $match[2] = str_replace(array('\\' . $stripslashes, '\\' . $stripslashes), $stripslashes, $match[2]);
-      }
-      $var->setArgs($match[2]);
-      if (($output = $var->getGlobalArgsOutput()) !== false) {
-        $output .= str_repeat("\n", max(0, substr_count($match[0], "\n") - substr_count($output, "\n") - substr_count($format, "\n")));
-        if ($useVariables) {
-          $replace = '$__rex_var_content_' . $i;
-          $variables[] = $replace . ' = ' . $output;
-        } else {
-          $replace = $output;
+      $replaced = false;
+      if ($var !== false) {
+        $args = str_replace(array('\[', '\]'), array('@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'), $match[2]);
+        if ($stripslashes) {
+          $args = str_replace(array('\\' . $stripslashes, '\\' . $stripslashes), $stripslashes, $args);
         }
-        $content = str_replace($match[0], sprintf($format, $replace), $content);
-        ++$i;
+        $var->setArgs($args);
+        if (($output = $var->getGlobalArgsOutput()) !== false) {
+          $output .= str_repeat("\n", max(0, substr_count($match[0], "\n") - substr_count($output, "\n") - substr_count($format, "\n")));
+          if ($useVariables) {
+            $replace = '$__rex_var_content_' . $i++;
+            $variables[] = $replace . ' = ' . $output;
+          } else {
+            $replace = $output;
+          }
+          $content = str_replace($match[0], sprintf($format, $replace), $content);
+          $replaced = true;
+        }
+      }
+      if (!$replaced && $matches = self::getMatches($match[2])) {
+        $iterator->append(new ArrayIterator($matches));
       }
     }
     if ($useVariables && !empty($variables)) {
       $content = 'rex_var::nothing(' . implode(', ', $variables) . ') . ' . $content;
     }
     return $content;
+  }
+
+  static private function getMatches($content)
+  {
+    preg_match_all('/(REX_[A-Z_]+)\[((?:[^\[\]]|\\\\[\[\]]|(?R))*)(?<!\\\\)\]/s', $content, $matches, PREG_SET_ORDER);
+    return $matches;
   }
 
   private function setArgs($arg_string)
