@@ -437,7 +437,7 @@ class rex_article_content_base
     } else {
       $env = rex_var::ENV_FRONTEND;
     }
-    $content = rex_var::parse($content, $env, 'module');
+    $content = rex_var::parse($content, $env, 'module', $sql);
 
 //     foreach(rex_var::getVars() as $var)
 //     {

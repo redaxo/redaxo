@@ -16,17 +16,19 @@ abstract class rex_var
   static private
     $vars = array(),
     $env = null,
-    $context = null;
+    $context = null,
+    $contextData = null;
 
   private
     $args = array();
 
-  static public function parse($content, $env = null, $context = null)
+  static public function parse($content, $env = null, $context = null, $contextData = null)
   {
     if (($env & self::ENV_INPUT) != self::ENV_INPUT)
       $env = $env | self::ENV_OUTPUT;
     self::$env = $env;
     self::$context = $context;
+    self::$contextData = $contextData;
 
     $tokens = token_get_all($content);
     $countTokens = count($tokens);
@@ -178,7 +180,20 @@ abstract class rex_var
     return self::$context;
   }
 
+  protected function getContextData()
+  {
+    return self::$contextData;
+  }
+
   abstract protected function getOutput();
+
+  static protected function quote($string)
+  {
+    $string = addcslashes($string, "\'");
+    $string = preg_replace('/\v+/', '\' . "$0" . \'', $string);
+    $string = addcslashes($string, "\r\n");
+    return "'" . $string . "'";
+  }
 
   private function getGlobalArgsOutput()
   {

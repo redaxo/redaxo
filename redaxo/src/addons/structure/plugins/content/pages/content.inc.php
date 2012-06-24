@@ -232,6 +232,9 @@ if ($article->getRows() == 1) {
 //              foreach (rex_var::getVars() as $obj) {
 //                $obj->setACValues($newsql, $REX_ACTION);
 //              }
+              foreach (rex_request('VALUE', 'array') as $i => $value) {
+                $newsql->setValue('value' . $i, $value);
+              }
 
               if ($function == 'edit') {
                 $newsql->addGlobalUpdateFields();

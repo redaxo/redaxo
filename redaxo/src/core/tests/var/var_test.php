@@ -6,6 +6,12 @@ class rex_var_test_var extends rex_var
   {
     return $this->getArg('content', "'default'", true);
   }
+
+  static public function quote($string)
+  {
+    // make quote() public
+    return parent::quote($string);
+  }
 }
 
 class rex_var_test extends rex_var_base_test
@@ -129,5 +135,15 @@ EOT
   public function testParseGlobalArgs($content, $expectedOutput)
   {
     $this->assertParseOutputEquals($expectedOutput, $content);
+  }
+
+  public function testQuote()
+  {
+    $string = "abc 'de' \"fg\" \ \nh\r\ni";
+    $expected = <<<'EOD'
+'abc \'de\' "fg" \\ ' . "\n" . 'h' . "\r\n" . 'i'
+EOD;
+
+    $this->assertEquals($expected, rex_var_test_var::quote($string));
   }
 }
