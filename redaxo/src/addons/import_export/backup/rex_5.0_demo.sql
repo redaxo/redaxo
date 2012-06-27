@@ -218,6 +218,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `rex_clang`;
 CREATE TABLE `rex_clang` (
   `id` int(11) NOT NULL,
+  `code` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `revision` int(11) NOT NULL,
   PRIMARY KEY (`id`)
@@ -226,7 +227,7 @@ CREATE TABLE `rex_clang` (
 LOCK TABLES `rex_clang` WRITE;
 /*!40000 ALTER TABLE `rex_clang` DISABLE KEYS */;
 INSERT INTO `rex_clang` VALUES
-  (0,'deutsch',0);
+  ('0', 'de', 'deutsch', 0);
 /*!40000 ALTER TABLE `rex_clang` ENABLE KEYS */;
 UNLOCK TABLES;
 
