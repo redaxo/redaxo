@@ -78,7 +78,7 @@ class rex_sql extends rex_factory_base implements Iterator
 //      PDO::ATTR_EMULATE_PREPARES => true,
     );
 
-    $dbh = new PDO($dsn, $login, $password, $options);
+    $dbh = @new PDO($dsn, $login, $password, $options);
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $dbh;
   }
