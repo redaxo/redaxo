@@ -95,7 +95,7 @@ abstract class rex_error_handler
       throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
     } else {
       if (ini_get('display_errors') && (error_reporting() & $errno) == $errno) {
-        echo '<b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b><br />";
+        echo '<div><b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b></div>";
       }
       if (error_reporting() == 0) {
         rex_logger::logError($errno, $errstr, $errfile, $errline);
