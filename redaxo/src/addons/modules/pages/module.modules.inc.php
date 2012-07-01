@@ -82,13 +82,10 @@ if ($function == 'delete') {
   } else {
     $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . "module WHERE id='$modul_id'");
 
-    if ($del->getRows() > 0)
-    {
+    if ($del->getRows() > 0) {
       $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . "module_action WHERE module_id='$modul_id'");
       $info = rex_i18n::msg('module_deleted');
-    }
-    else
-    {
+    } else {
       $warning = rex_i18n::msg('module_not_found');
     }
   }

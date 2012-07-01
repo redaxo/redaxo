@@ -108,7 +108,7 @@ abstract class rex_api_function extends rex_factory_base
       }
 
       $urlResult = rex_get(self::REQ_RESULT_PARAM, 'string');
-      if($urlResult) {
+      if ($urlResult) {
         // take over result from url and do not execute the apiFunc
         $result = rex_api_result::fromJSON($urlResult);
         $apiFunc->result = $result;
@@ -117,12 +117,12 @@ abstract class rex_api_function extends rex_factory_base
 
           $result = $apiFunc->execute();
 
-          if(!($result instanceof rex_api_result)) {
-            throw new rex_exception('Illegal result returned from api-function '. rex_get(self::REQ_CALL_PARAM) );
+          if (!($result instanceof rex_api_result)) {
+            throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) );
           }
 
           $apiFunc->result = $result;
-          if($result->requiresReboot()) {
+          if ($result->requiresReboot()) {
             $urlBuilder = new rex_url_builder($_SERVER['PHP_SELF']);
             $urlBuilder->addParams($_REQUEST);
             // add api call result to url
@@ -253,8 +253,7 @@ class rex_api_result
 
   public function toJSON()
   {
-    foreach ($this as $key => $value)
-    {
+    foreach ($this as $key => $value) {
         $json->$key = $value;
     }
     return json_encode($json);
@@ -262,10 +261,9 @@ class rex_api_result
 
   static public function fromJSON($json)
   {
-    $result = new self(TRUE);
-    $json = json_decode($json, TRUE);
-    foreach ($json as $key => $value)
-    {
+    $result = new self(true);
+    $json = json_decode($json, true);
+    foreach ($json as $key => $value) {
         $result->$key = $value;
     }
     return $result;

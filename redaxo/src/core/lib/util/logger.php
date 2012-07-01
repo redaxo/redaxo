@@ -66,7 +66,7 @@ abstract class rex_logger extends rex_factory_base
 
     self::open();
     if (is_resource(self::$handle)) {
-      fwrite(self::$handle, '<div>'. date('r') . '</div>' . $message . "\n");
+      fwrite(self::$handle, '<div>' . date('r') . '</div>' . $message . "\n");
 
       // forward the error into phps' error log
       error_log($message, 0);
