@@ -541,6 +541,11 @@ jQuery(document).ready(function($) {
   // install pjax handlers, see defunkt/jquery-pjax#142
   $(document).on('click', '[data-pjax-container] a, a[data-pjax]', function(event) {
     var self = $(this), container;
+    
+    if(event.isDefaultPrevented())
+    {
+      return;
+    }
 
     if(self.is('a[data-pjax]'))
     {
