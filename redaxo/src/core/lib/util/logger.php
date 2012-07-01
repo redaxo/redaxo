@@ -78,11 +78,11 @@ abstract class rex_logger extends rex_factory_base
     // check if already opened
     if (!self::$handle) {
       self::$handle = fopen(rex_path::cache('system.log'), 'ab');
-    }
 
-    if (!self::$handle) {
-      echo 'Error while creating logfile ' . self::$file;
-      exit();
+      if (!self::$handle) {
+        echo 'Error while creating logfile ' . self::$file;
+        exit();
+      }
     }
   }
 
