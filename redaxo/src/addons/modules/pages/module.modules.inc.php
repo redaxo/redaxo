@@ -40,7 +40,7 @@ if ($add_action != '') {
   $action->setTable(rex::getTablePrefix() . 'module_action');
   $action->setWhere(array('id' => $iaction_id));
 
-  if ($action->delete()) {
+  if ($action->delete() && $action->getRows() > 0) {
      $info = rex_i18n::msg('action_deleted_from_modul') ;
   } else {
     $warning = $action->getErrro();
@@ -81,9 +81,16 @@ if ($function == 'delete') {
     $warning = rex_i18n::msg('module_cannot_be_deleted', $modulname);
   } else {
     $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . "module WHERE id='$modul_id'");
-    $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . "module_action WHERE module_id='$modul_id'");
 
-    $info = rex_i18n::msg('module_deleted');
+    if ($del->getRows() > 0)
+    {
+      $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . "module_action WHERE module_id='$modul_id'");
+      $info = rex_i18n::msg('module_deleted');
+    }
+    else
+    {
+      $warning = rex_i18n::msg('module_not_found');
+    }
   }
 }
 
