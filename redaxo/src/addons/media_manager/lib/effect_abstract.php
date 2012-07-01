@@ -3,10 +3,10 @@
 abstract class rex_effect_abstract
 {
   public
-    $media, // rex_media
+    $media, // rex_managed_media
     $params = array(); // effekt parameter
 
-  public function setMedia(rex_media $media)
+  public function setMedia(rex_managed_media $media)
   {
     $this->media = $media;
   }
