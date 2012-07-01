@@ -128,8 +128,7 @@ abstract class rex_api_function extends rex_factory_base
             // add api call result to url
             $urlBuilder->setParam(self::REQ_RESULT_PARAM, $result->toJSON());
             // and redirect to SELF for reboot
-            header('Location: '. $urlBuilder->getUrl());
-            exit();
+            rex_response::sendRedirect($urlBuilder->getUrl());
           }
         } catch (rex_api_exception $e) {
           $message = $e->getMessage();
