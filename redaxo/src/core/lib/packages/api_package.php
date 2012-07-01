@@ -14,8 +14,9 @@ class rex_api_package extends rex_api_function
       || $function == 'activate' && $package->isActivated()
       || $function == 'deactivate' && !$package->isActivated()
       || $function == 'delete' && !rex_package::exists($packageId)) {
-      return null;
+      throw new rex_api_exception('Illegal operation "'. $function .'" for package "'. $packageId .'"');
     }
+
     if ($package instanceof rex_null_package) {
       throw new rex_api_exception('Package "' . $packageId . '" doesn\'t exists!');
     }
@@ -23,6 +24,7 @@ class rex_api_package extends rex_api_function
     $success = $manager->$function();
     $message = $manager->getMessage();
     $result = new rex_api_result($success, $message);
+    $result->setRequiresReboot(true);
     return $result;
   }
 }
