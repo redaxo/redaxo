@@ -16,11 +16,17 @@ $js = '';
 if ($rex_user_loginmessage != '') {
   echo rex_view::warning($rex_user_loginmessage) . "\n";
   $js = '
-    var time_el = $("div.rex-message p strong");
+    var time_el = $("div.rex-message p strong[data-time]");
     if(time_el.length == 1) {
       function disableLogin() {
-        time_el.html((parseInt(time_el.html(), 10)-1) + "");
-        if(parseInt(time_el.html(), 10) > 0) {
+        var time = time_el.attr("data-time");
+        time_el.attr("data-time", time - 1);
+        var hours = Math.floor(time / 3600);
+        var mins  = Math.floor((time - (hours * 3600)) / 60);
+        var secs  = time % 60;
+        var formatted = (hours ? hours + "h " : "") + (hours || mins ? mins + "min " : "") + secs + "s";
+        time_el.html(formatted);
+        if(time > 0) {
           setTimeout(disableLogin, 1000);
         } else {
           $("div.rex-message p").html("' . htmlspecialchars(rex_i18n::msg('login_welcome')) . '");

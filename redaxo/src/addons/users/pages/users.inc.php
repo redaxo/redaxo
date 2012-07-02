@@ -233,8 +233,6 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
   if ($FUNC_ADD != '') $statuschecked = 'checked="checked"';
 
-  $add_login_reset_chkbox = '';
-
   if ($user_id > 0) {
     // User Edit
 
@@ -289,19 +287,6 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $add_status_chkbox = '<input type="checkbox" id="userstatus" name="userstatus" value="1" ' . $statuschecked . ' />';
       }
 
-      // Account gesperrt?
-      if (rex::getProperty('maxlogins') < $sql->getValue('login_tries')) {
-        $add_login_reset_chkbox = '
-        <div class="rex-message">
-        <p class="rex-warning rex-form-checkbox rex-form-label-right">
-          <span>
-            <input class="rex-form-checkbox" type="checkbox" name="logintriesreset" id="logintriesreset" value="1" />
-            <label for="logintriesreset">' . rex_i18n::msg('user_reset_tries', rex::getProperty('maxlogins')) . '</label>
-          </span>
-        </p>
-        </div>';
-      }
-
     }
 
   } else {
@@ -331,8 +316,6 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         <input type="hidden" name="subpage" value="" />
         <input type="hidden" name="save" value="1" />
         ' . $add_hidden . '
-
-        ' . $add_login_reset_chkbox . '
 
         <div class="rex-form-row">
           <p class="rex-form-col-a' . $add_user_class . '">
