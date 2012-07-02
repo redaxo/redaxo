@@ -93,13 +93,11 @@ abstract class rex_error_handler
   {
     if (in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE))) {
       throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-    } else {
-      if (ini_get('display_errors') && (error_reporting() & $errno) == $errno) {
+    } elseif ((error_reporting() & $errno) == $errno) {
+      if (ini_get('display_errors')) {
         echo '<div><b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b></div>";
       }
-      if (error_reporting() != 0) {
-        rex_logger::logError($errno, $errstr, $errfile, $errline);
-      }
+      rex_logger::logError($errno, $errstr, $errfile, $errline);
     }
   }
 
