@@ -68,7 +68,8 @@ class rex_category_select extends rex_select
   protected function addCatOption(rex_category $cat, $group = null)
   {
     if (!$this->check_perms ||
-        $this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getId(), false)) {
+        $this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getId(), false)
+    ) {
       $cid = $cat->getId();
       $cname = $cat->getName();
 

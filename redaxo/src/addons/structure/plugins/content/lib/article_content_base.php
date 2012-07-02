@@ -432,7 +432,8 @@ class rex_article_content_base
     foreach (rex_var::getVars() as $var) {
       if ($this->mode == 'edit') {
         if (($this->function == 'add' && $sliceId == null) ||
-            ($this->function == 'edit' && $sliceId == $this->slice_id)) {
+            ($this->function == 'edit' && $sliceId == $this->slice_id)
+        ) {
           if (isset($REX_ACTION['SAVE']) && $REX_ACTION === false) {
             // Wenn der aktuelle Slice nicht gespeichert werden soll
             // (via Action wurde das Nicht-Speichern-Flag gesetzt)

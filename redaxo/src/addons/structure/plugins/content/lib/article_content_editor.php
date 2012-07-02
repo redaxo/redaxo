@@ -140,7 +140,8 @@ class rex_article_content_editor extends rex_article_content
     $listElements = array();
 
     if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)
-      && rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId)) {
+      && rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId)
+    ) {
       // edit
       $n = array();
       $n['title'] = '<span class="rex-visuallyhidden">' . rex_i18n::msg('module') . ' ' . $moduleName . ' </span>' . rex_i18n::msg('edit');

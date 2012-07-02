@@ -81,14 +81,12 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
   $dstFile = rex_path::media($NFILENAME, rex_path::ABSOLUTE);
 
   $success = true;
-  if ($isFileUpload) // Fileupload?
-  {
+  if ($isFileUpload) { // Fileupload?
     if (!@move_uploaded_file($FILE['tmp_name'], $dstFile)) {
       $message .= rex_i18n::msg('pool_file_movefailed');
       $success = false;
     }
-  } else // Filesync?
-  {
+  } else { // Filesync?
     if (!@rename($srcFile, $dstFile)) {
       $message .= rex_i18n::msg('pool_file_movefailed');
       $success = false;
@@ -184,7 +182,8 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
     // if ($ffiletype == $FILEINFOS["filetype"] || rex_media::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
     if ($p_new['extension'] == $p_old['extension']) {
       if (move_uploaded_file($ffilename, rex_path::media($FILEINFOS['filename'], rex_path::ABSOLUTE)) ||
-          copy($ffilename, rex_path::media($FILEINFOS['filename'], rex_path::ABSOLUTE))) {
+          copy($ffilename, rex_path::media($FILEINFOS['filename'], rex_path::ABSOLUTE))
+      ) {
         $RETURN['msg'] = rex_i18n::msg('pool_file_changed');
         $FILEINFOS['filetype'] = $ffiletype;
         $FILEINFOS['filesize'] = $ffilesize;

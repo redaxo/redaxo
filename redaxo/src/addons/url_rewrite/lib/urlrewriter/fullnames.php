@@ -105,9 +105,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
       $path = substr($_SERVER['REQUEST_URI'], $length);
 
       // Serverdifferenzen angleichen
-      if ($path{
-        0
-      } == '/')
+      if ($path{0} == '/')
         $path = substr($path, 1);
 
       // Parameter zählen nicht zum Pfad -> abschneiden

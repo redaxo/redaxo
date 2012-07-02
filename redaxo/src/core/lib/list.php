@@ -838,7 +838,8 @@ class rex_list extends rex_factory_base implements rex_url_provider
     if ($escape &&
       !$this->isCustomFormat($format) &&
       $format[0] != 'email' &&
-      $format[0] != 'url') {
+      $format[0] != 'url'
+    ) {
       $value = htmlspecialchars($value);
     }
 

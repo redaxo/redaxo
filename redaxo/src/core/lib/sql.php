@@ -1221,7 +1221,8 @@ class rex_sql extends rex_factory_base implements Iterator
       }
       // ER_BAD_DB_ERROR
       elseif (strpos($e->getMessage(), 'SQLSTATE[HY000] [1049]') !== false ||
-          strpos($e->getMessage(), 'SQLSTATE[42000]') !== false) {
+          strpos($e->getMessage(), 'SQLSTATE[42000]') !== false
+      ) {
         if ($createDb) {
           try {
             // use the "mysql" db for the connection
@@ -1246,7 +1247,8 @@ class rex_sql extends rex_factory_base implements Iterator
       }
       // ER_ACCESS_DENIED_ERROR
       elseif (strpos($e->getMessage(), 'SQLSTATE[HY000] [1045]') !== false ||
-          strpos($e->getMessage(), 'SQLSTATE[28000]') !== false) {
+          strpos($e->getMessage(), 'SQLSTATE[28000]') !== false
+      ) {
         // unable to connect
         $err_msg = rex_i18n::msg('setup_021');
       } else {

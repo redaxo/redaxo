@@ -20,7 +20,8 @@ $warning = '';
 
 //-------------- delete cache on effect changes or deletion
 if ((rex_post('func') != '' || $func == 'delete')
-   && $type_id > 0) {
+   && $type_id > 0
+) {
   $counter = rex_media_manager::deleteCacheByType($type_id);
 //  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
 }
@@ -87,7 +88,8 @@ if ($func == '' && $type_id > 0) {
 
   $list->show();
 } elseif ($func == 'add' && $type_id > 0 ||
-        $func == 'edit' && $effect_id > 0 && $type_id > 0) {
+        $func == 'edit' && $effect_id > 0 && $type_id > 0
+) {
   $effectNames = rex_media_manager::getSupportedEffectNames();
 
   if ($func == 'edit') {
