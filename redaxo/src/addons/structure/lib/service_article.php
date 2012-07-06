@@ -87,7 +87,7 @@ class rex_article_service
 
       // ----- EXTENSION POINT
       $message = rex_extension::registerPoint('ART_ADDED', $message,
-      array (
+      array(
         'id' => $id,
         'clang' => $key,
         'status' => 0,
@@ -175,7 +175,7 @@ class rex_article_service
 
       // ----- EXTENSION POINT
       $message = rex_extension::registerPoint('ART_UPDATED', $message,
-        array (
+        array(
           'id' => $article_id,
           'article' => clone $EA,
           'article_old' => clone $thisArt,
@@ -219,7 +219,7 @@ class rex_article_service
 
         // ----- EXTENSION POINT
         $message = rex_extension::registerPoint('ART_DELETED', $message,
-        array (
+        array(
           'id'          => $article_id,
           'clang'       => $clang,
           're_id'       => $re_id,
@@ -275,14 +275,14 @@ class rex_article_service
     $message = '';
     if ($ART->getRows() > 0) {
       $re_id = $ART->getValue('re_id');
-      $message = rex_extension::registerPoint('ART_PRE_DELETED', $message, array (
-                    'id'          => $id,
-                    're_id'       => $re_id,
-                    'name'        => $ART->getValue('name'),
-                    'status'      => $ART->getValue('status'),
-                    'prior'       => $ART->getValue('prior'),
-                    'path'        => $ART->getValue('path'),
-                    'template_id' => $ART->getValue('template_id')
+      $message = rex_extension::registerPoint('ART_PRE_DELETED', $message, array(
+        'id'          => $id,
+        're_id'       => $re_id,
+        'name'        => $ART->getValue('name'),
+        'status'      => $ART->getValue('status'),
+        'prior'       => $ART->getValue('prior'),
+        'path'        => $ART->getValue('path'),
+        'template_id' => $ART->getValue('template_id')
       )
       );
 
@@ -347,10 +347,10 @@ class rex_article_service
         rex_article_cache::delete($article_id, $clang);
 
         // ----- EXTENSION POINT
-        rex_extension::registerPoint('ART_STATUS', null, array (
-        'id' => $article_id,
-        'clang' => $clang,
-        'status' => $newstatus
+        rex_extension::registerPoint('ART_STATUS', null, array(
+          'id' => $article_id,
+          'clang' => $clang,
+          'status' => $newstatus
         ));
       } catch (rex_sql_exception $e) {
         throw new rex_api_exception($e);
@@ -463,7 +463,7 @@ class rex_article_service
     rex_article_cache::delete($art_id);
 
     foreach (rex_clang::getAllIds() as $clang) {
-      rex_extension::registerPoint('ART_TO_CAT', '', array (
+      rex_extension::registerPoint('ART_TO_CAT', '', array(
         'id' => $art_id,
         'clang' => $clang,
       ));
@@ -510,7 +510,7 @@ class rex_article_service
     rex_article_cache::delete($art_id);
 
     foreach (rex_clang::getAllIds() as $clang) {
-      rex_extension::registerPoint('CAT_TO_ART', '', array (
+      rex_extension::registerPoint('CAT_TO_ART', '', array(
         'id' => $art_id,
         'clang' => $clang,
       ));
@@ -614,7 +614,7 @@ class rex_article_service
     rex_complex_perm::replaceItem('structure', $alt_id, $neu_id);
 
     foreach (rex_clang::getAllIds() as $clang) {
-      rex_extension::registerPoint('ART_TO_STARTPAGE', '', array (
+      rex_extension::registerPoint('ART_TO_STARTPAGE', '', array(
         'id' => $neu_id,
         'id_old' => $alt_id,
         'clang' => $clang,
@@ -635,14 +635,14 @@ class rex_article_service
    *
    * @return boolean TRUE bei Erfolg, sonst FALSE
    */
-  static public function copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params = array ())
+  static public function copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params = array())
   {
     $from_clang = (int) $from_clang;
     $to_clang = (int) $to_clang;
     $from_id = (int) $from_id;
     $to_id = (int) $to_id;
     if (!is_array($params))
-    $params = array ();
+    $params = array();
 
     if ($from_id == $to_id && $from_clang == $to_clang)
     return false;
@@ -721,7 +721,7 @@ class rex_article_service
           $art_sql->addGlobalCreateFields();
 
           // schon gesetzte Felder nicht wieder überschreiben
-          $dont_copy = array ('id', 'pid', 're_id', 'catname', 'catprior', 'path', 'prior', 'status', 'updatedate', 'updateuser', 'createdate', 'createuser', 'startpage');
+          $dont_copy = array('id', 'pid', 're_id', 'catname', 'catprior', 'path', 'prior', 'status', 'updatedate', 'updateuser', 'createdate', 'createuser', 'startpage');
 
           foreach (array_diff($from_sql->getFieldnames(), $dont_copy) as $fld_name) {
             $art_sql->setValue($fld_name, $from_sql->getValue($fld_name));

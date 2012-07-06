@@ -88,8 +88,8 @@ class rex_i18n
       $msg = "[translate:$key]";
     }
 
-    $patterns = array ();
-    $replacements = array ();
+    $patterns = array();
+    $replacements = array();
 
     $argNum = func_num_args();
     if ($argNum > 1) {

@@ -78,7 +78,7 @@ class rex_sql extends rex_factory_base implements Iterator
 //      PDO::ATTR_EMULATE_PREPARES => true,
     );
 
-    $dbh = new PDO($dsn, $login, $password, $options);
+    $dbh = @new PDO($dsn, $login, $password, $options);
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $dbh;
   }
@@ -765,9 +765,9 @@ class rex_sql extends rex_factory_base implements Iterator
    */
   private function flush()
   {
-    $this->values = array ();
+    $this->values = array();
     $this->rawValues = array();
-    $this->whereParams = array ();
+    $this->whereParams = array();
     $this->lastRow = array();
     $this->fieldnames = null;
     $this->rawFieldnames = null;
@@ -789,7 +789,7 @@ class rex_sql extends rex_factory_base implements Iterator
    */
   public function flushValues()
   {
-    $this->values = array ();
+    $this->values = array();
     $this->rawValues = array();
 
     return $this;
@@ -1221,7 +1221,8 @@ class rex_sql extends rex_factory_base implements Iterator
       }
       // ER_BAD_DB_ERROR
       elseif (strpos($e->getMessage(), 'SQLSTATE[HY000] [1049]') !== false ||
-          strpos($e->getMessage(), 'SQLSTATE[42000]') !== false) {
+          strpos($e->getMessage(), 'SQLSTATE[42000]') !== false
+      ) {
         if ($createDb) {
           try {
             // use the "mysql" db for the connection
@@ -1246,7 +1247,8 @@ class rex_sql extends rex_factory_base implements Iterator
       }
       // ER_ACCESS_DENIED_ERROR
       elseif (strpos($e->getMessage(), 'SQLSTATE[HY000] [1045]') !== false ||
-          strpos($e->getMessage(), 'SQLSTATE[28000]') !== false) {
+          strpos($e->getMessage(), 'SQLSTATE[28000]') !== false
+      ) {
         // unable to connect
         $err_msg = rex_i18n::msg('setup_021');
       } else {

@@ -78,7 +78,7 @@ class rex_article_content_editor extends rex_article_content
         if ($this->function == 'edit' && $this->slice_id == $sliceId) {
           // **************** Aktueller Slice
 
-          $REX_ACTION = array ();
+          $REX_ACTION = array();
 
           // nach klick auf den übernehmen button,
           // die POST werte übernehmen
@@ -140,7 +140,8 @@ class rex_article_content_editor extends rex_article_content
     $listElements = array();
 
     if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)
-      && rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId)) {
+      && rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId)
+    ) {
       // edit
       $n = array();
       $n['title'] = '<span class="rex-visuallyhidden">' . rex_i18n::msg('module') . ' ' . $moduleName . ' </span>' . rex_i18n::msg('edit');
@@ -201,9 +202,9 @@ class rex_article_content_editor extends rex_article_content
 
     $blocks = array();
     $blocks[] = array(
-          'headline' => array('title' => $moduleName),
-          'navigation' => $listElements
-          );
+      'headline' => array('title' => $moduleName),
+      'navigation' => $listElements
+    );
 
     $fragment = new rex_fragment();
     $fragment->setVar('type', 'slice');
@@ -359,9 +360,9 @@ class rex_article_content_editor extends rex_article_content
 
       $blocks = array();
       $blocks[] = array(
-          'headline' => array('title' => rex_i18n::msg('module') . ': ' . htmlspecialchars(rex_i18n::translate($MOD->getValue('name')))),
-          'navigation' => array()
-          );
+        'headline' => array('title' => rex_i18n::msg('module') . ': ' . htmlspecialchars(rex_i18n::translate($MOD->getValue('name')))),
+        'navigation' => array()
+      );
 
       $fragment = new rex_fragment();
       $fragment->setVar('type', 'slice');
@@ -379,8 +380,8 @@ class rex_article_content_editor extends rex_article_content
 
       $blocks = array();
       $blocks[] = array(
-          'navigation' => $listElements
-          );
+        'navigation' => $listElements
+      );
 
       $fragment = new rex_fragment();
       $fragment->setVar('type', 'action');
@@ -458,8 +459,8 @@ class rex_article_content_editor extends rex_article_content
 
     $blocks = array();
     $blocks[] = array(
-        'navigation' => $listElements
-        );
+      'navigation' => $listElements
+    );
 
     $fragment = new rex_fragment();
     $fragment->setVar('type', 'action');

@@ -19,7 +19,7 @@ abstract class rex_logger extends rex_factory_base
     if ($exception instanceof ErrorException) {
       self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
     } else {
-      self::log('<b>' . get_class($exception) . '</b>: ' . $exception->getMessage() . ' in <b>' . $exception->getFile() . '</b> on line <b>' . $exception->getLine() . '</b><br />', E_USER_ERROR);
+      self::log('<div><b>' . get_class($exception) . '</b>: ' . $exception->getMessage() . ' in <b>' . $exception->getFile() . '</b> on line <b>' . $exception->getLine() . '</b></div>', E_USER_ERROR);
     }
   }
 
@@ -46,7 +46,7 @@ abstract class rex_logger extends rex_factory_base
       throw new rex_exception('Expecting $errline to be integer, but ' . gettype($errline) . ' given!');
     }
 
-    self::log('<b>' . rex_error_handler::getErrorType($errno) . "</b>[$errno]: $errstr in <b>$errfile</b> on line <b>$errline</b><br />", $errno);
+    self::log('<div><b>' . rex_error_handler::getErrorType($errno) . "</b>[$errno]: $errstr in <b>$errfile</b> on line <b>$errline</b></div>", $errno);
   }
 
   /**
@@ -66,7 +66,10 @@ abstract class rex_logger extends rex_factory_base
 
     self::open();
     if (is_resource(self::$handle)) {
-      fwrite(self::$handle, date('r') . '<br />' . $message . "\n");
+      fwrite(self::$handle, '<div>' . date('r') . '</div>' . $message . "\n");
+
+      // forward the error into phps' error log
+      error_log($message, 0);
     }
   }
 
@@ -78,11 +81,11 @@ abstract class rex_logger extends rex_factory_base
     // check if already opened
     if (!self::$handle) {
       self::$handle = fopen(rex_path::cache('system.log'), 'ab');
-    }
 
-    if (!self::$handle) {
-      echo 'Error while creating logfile ' . self::$file;
-      exit();
+      if (!self::$handle) {
+        echo 'Error while creating logfile ' . self::$file;
+        exit();
+      }
     }
   }
 

@@ -209,7 +209,7 @@ class rex_article_slice
         array($sql->getValue('linklist1'), $sql->getValue('linklist2'), $sql->getValue('linklist3'), $sql->getValue('linklist4'), $sql->getValue('linklist5'), $sql->getValue('linklist6'), $sql->getValue('linklist7'), $sql->getValue('linklist8'), $sql->getValue('linklist9'), $sql->getValue('linklist10')),
         $sql->getValue('php'), $sql->getValue('html'));
     } elseif ($rows > 1) {
-      $slices = array ();
+      $slices = array();
       for ($i = 0; $i < $rows; $i++) {
         $slices[] = new self(
         $sql->getValue('id'), $sql->getValue('article_id'), $sql->getValue('clang'), $sql->getValue('ctype'), $sql->getValue('modultyp_id'), $sql->getValue('prior'),

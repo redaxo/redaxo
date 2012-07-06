@@ -279,7 +279,7 @@ abstract class rex_var
    */
   protected function getVarParams($content, $varname)
   {
-    $result = array ();
+    $result = array();
 
     $match = $this->matchVar($content, $varname);
 
@@ -291,7 +291,7 @@ abstract class rex_var
       }
 
       // the origin param_str is needed to str_replace the variable at parse-time
-      $result[] = array (
+      $result[] = array(
         $param_str,
         $args
       );
@@ -316,7 +316,7 @@ abstract class rex_var
    */
   protected function matchVar($content, $varname)
   {
-    $result = array ();
+    $result = array();
 
     if (preg_match_all('/' . preg_quote($varname, '/') . '\[([^\]]*)\]/ms', $content, $matches)) {
       foreach ($matches[1] as $match) {

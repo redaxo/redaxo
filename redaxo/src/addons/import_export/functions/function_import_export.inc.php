@@ -25,7 +25,7 @@ define('REX_A1_IMPORT_EVENT_POST', 4);
  */
 function rex_a1_import_db($filename)
 {
-  $return = array ();
+  $return = array();
   $return['state'] = false;
   $return['message'] = '';
 
@@ -216,7 +216,7 @@ function rex_a1_import_db($filename)
  */
 function rex_a1_import_files($filename)
 {
-  $return = array ();
+  $return = array();
   $return['state'] = false;
 
   if ($filename == '' || substr($filename, -7, 7) != '.tar.gz') {
@@ -291,8 +291,8 @@ function rex_a1_export_db($filename)
 
   foreach ($tables as $table) {
     if (!in_array($table, array(rex::getTablePrefix() . 'user', rex::getTablePrefix() . 'user_role')) // User Tabellen nicht exportieren
-        && substr($table, 0 , strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
-    {
+        && substr($table, 0 , strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
+    ) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
       //---- export metadata
       $create = rex_sql::showCreateTable($table);
 
@@ -357,8 +357,7 @@ function rex_a1_export_db($filename)
           fwrite($fp, $nl . 'INSERT INTO `' . $table . '` VALUES ' . implode(',', $values) . ';');
           unset($values);
         }
-      }
-      while ($count >= $max);
+      } while ($count >= $max);
 
       if ($start > 0) {
         fwrite($fp, $nl . '/*!40000 ALTER TABLE `' . $table . '` ENABLE KEYS */;');

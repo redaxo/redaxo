@@ -17,17 +17,13 @@ unset($fragment);
 
 
 
-/**
- * Layout Fuß des Backends
- * @package redaxo5
- */
-
-
 $footerfragment = new rex_fragment();
 $footerfragment->setVar('time', rex::getProperty('timer')->getFormattedDelta(rex_timer::SEC));
 echo $footerfragment->parse('backend_footer.tpl');
 unset($footerfragment);
 
-$bottomfragment = new rex_fragment();
-echo $bottomfragment->parse('backend_bottom.tpl');
-unset($bottomfragment);
+if (!rex_request::isPJAXContainer('#rex-page')) {
+  $bottomfragment = new rex_fragment();
+  echo $bottomfragment->parse('backend_bottom.tpl');
+  unset($bottomfragment);
+}

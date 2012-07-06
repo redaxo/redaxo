@@ -194,10 +194,10 @@ class rex_content_service
 
       // ----- EXTENSION POINT
       $article_content = rex_extension::registerPoint('GENERATE_FILTER', $article_content,
-      array (
-          'id' => $article_id,
-          'clang' => $_clang,
-          'article' => $CONT
+      array(
+        'id' => $article_id,
+        'clang' => $_clang,
+        'article' => $CONT
       )
       );
 

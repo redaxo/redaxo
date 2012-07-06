@@ -28,7 +28,7 @@ $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id')
 
 $article_revision = 0;
 $slice_revision = 0;
-$template_attributes = '';
+$template_attributes = array();
 
 $warning = '';
 $global_warning = '';
@@ -53,8 +53,8 @@ if ($article->getRows() == 1) {
   $template_attributes = $article->getArrayValue('template_attributes');
 
   // Für Artikel ohne Template
-  if ($template_attributes === null)
-    $template_attributes = '';
+  if (!is_array($template_attributes))
+    $template_attributes = array();
 
   $ctypes = isset($template_attributes['ctype']) ? $template_attributes['ctype'] : array(); // ctypes - aus dem template
 
@@ -77,14 +77,14 @@ if ($article->getRows() == 1) {
 
     $navigation = array();
     $navigation[] = array(
-          'href' => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
-          'title' => $catname
-        );
+      'href' => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
+      'title' => $catname
+    );
     $blocks = array();
     $blocks[] = array(
-      'headline' => array ( 'title' => $term),
+      'headline' => array( 'title' => $term),
       'navigation' => $navigation
-      );
+    );
 
     $fragment = new rex_fragment();
     $fragment->setVar('type', 'path');
@@ -174,7 +174,7 @@ if ($article->getRows() == 1) {
           // ----- RECHTE AM MODUL: JA
 
           // ***********************  daten einlesen
-          $REX_ACTION = array ();
+          $REX_ACTION = array();
           $REX_ACTION['SAVE'] = true;
 
           foreach (rex_var::getVars() as $obj) {
@@ -238,6 +238,23 @@ if ($article->getRows() == 1) {
                 try {
                   $newsql->update();
                   $info = $action_message . rex_i18n::msg('block_updated');
+
+                  // ----- EXTENSION POINT
+                  $info = rex_extension::registerPoint('SLICE_UPDATED', $info,
+                    array(
+                      'article_id' => $article_id,
+                      'clang' => $clang,
+                      'function' => $function,
+                      'mode' => $mode,
+                      'slice_id' => $slice_id,
+                      'page' => 'content',
+                      'ctype' => $ctype,
+                      'category_id' => $category_id,
+                      'module_id' => $module_id,
+                      'article_revision' => &$article_revision,
+                      'slice_revision' => &$slice_revision,
+                    )
+                  );
                 } catch (rex_sql_exception $e) {
                   $warning = $action_message . $e->getMessage();
                 }
@@ -259,6 +276,23 @@ if ($article->getRows() == 1) {
                   $info = $action_message . rex_i18n::msg('block_added');
                   $slice_id = $newsql->getLastId();
                   $function = '';
+
+                  // ----- EXTENSION POINT
+                  $info = rex_extension::registerPoint('SLICE_ADDED', $info,
+                    array(
+                      'article_id' => $article_id,
+                      'clang' => $clang,
+                      'function' => $function,
+                      'mode' => $mode,
+                      'slice_id' => $slice_id,
+                      'page' => 'content',
+                      'ctype' => $ctype,
+                      'category_id' => $category_id,
+                      'module_id' => $module_id,
+                      'article_revision' => &$article_revision,
+                      'slice_revision' => &$slice_revision,
+                    )
+                  );
                 } catch (rex_sql_exception $e) {
                   $warning = $action_message . $e->getMessage();
                 }
@@ -267,6 +301,23 @@ if ($article->getRows() == 1) {
               // make delete
               if (rex_content_service::deleteSlice($slice_id)) {
                 $global_info = rex_i18n::msg('block_deleted');
+
+                // ----- EXTENSION POINT
+                $global_info = rex_extension::registerPoint('SLICE_DELETED', $global_info,
+                  array(
+                    'article_id' => $article_id,
+                    'clang' => $clang,
+                    'function' => $function,
+                    'mode' => $mode,
+                    'slice_id' => $slice_id,
+                    'page' => 'content',
+                    'ctype' => $ctype,
+                    'category_id' => $category_id,
+                    'module_id' => $module_id,
+                    'article_revision' => &$article_revision,
+                    'slice_revision' => &$slice_revision,
+                  )
+                );
               } else {
                 $global_warning = rex_i18n::msg('block_not_deleted');
               }
@@ -282,7 +333,7 @@ if ($article->getRows() == 1) {
             rex_article_cache::delete($article_id, $clang);
 
             rex_extension::registerPoint('ART_CONTENT_UPDATED', '',
-              array (
+              array(
                 'id' => $article_id,
                 'clang' => $clang
               )
@@ -394,7 +445,7 @@ if ($article->getRows() == 1) {
         rex_article_cache::delete($article_id, $clang);
 
         // ----- EXTENSION POINT
-        $info = rex_extension::registerPoint('ART_META_UPDATED', $info, array (
+        $info = rex_extension::registerPoint('ART_META_UPDATED', $info, array(
           'id' => $article_id,
           'clang' => $clang,
           'name' => $meta_article_name,
@@ -450,7 +501,7 @@ if ($article->getRows() == 1) {
   $n['title'] = rex_i18n::msg('show');
   $n['href'] = rex_getUrl($article_id, $clang);
   $n['itemClasses'] = array('rex-misc');
-  $n['linkAttr'] = array('onClick' => 'window.open(this.href); return false;');
+  $n['linkAttr'] = array('onClick' => 'window.open(this.href); return false;', 'data-pjax' => 'false');
   $listElements[] = $n;
 
   $n = array();
@@ -496,9 +547,9 @@ if ($article->getRows() == 1) {
 
   $blocks = array();
   $blocks[] = array(
-        'headline' => array('title' => 'meeeta'),
-        'navigation' => $listElements
-        );
+    'headline' => array('title' => 'meeeta'),
+    'navigation' => $listElements
+  );
 
   $fragment = new rex_fragment();
   $fragment->setVar('type', 'tab');
@@ -576,7 +627,7 @@ if ($article->getRows() == 1) {
 
 
       // ----- EXTENSION POINT
-      $content .= rex_extension::registerPoint('ART_META_FORM', '', array (
+      $content .= rex_extension::registerPoint('ART_META_FORM', '', array(
         'id' => $article_id,
         'clang' => $clang,
         'article' => $article
@@ -599,7 +650,7 @@ if ($article->getRows() == 1) {
              </fieldset>';
 
       // ----- EXTENSION POINT
-      $content .= rex_extension::registerPoint('ART_META_FORM_SECTION', '', array (
+      $content .= rex_extension::registerPoint('ART_META_FORM_SECTION', '', array(
         'id' => $article_id,
         'clang' => $clang
       ));

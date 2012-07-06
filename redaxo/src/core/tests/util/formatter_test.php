@@ -61,7 +61,7 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
         rex_formatter::format($value, $format_type, $format));
 
     $format = array(
-        5, ':', '`'
+      5, ':', '`'
     );
     $this->assertEquals(
         '1`336`811`080:23000',
@@ -74,8 +74,8 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
     $format_type = 'email';
 
     $format = array(
-        'attr' => ' data-haha="foo"',
-        'params' => 'ilike=+1',
+      'attr' => ' data-haha="foo"',
+      'params' => 'ilike=+1',
     );
     $this->assertEquals(
         '<a href="mailto:dude@example.org?ilike=+1" data-haha="foo">dude@example.org</a>',
@@ -88,8 +88,8 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
     $format_type = 'url';
 
     $format = array(
-        'attr' => ' data-haha="foo"',
-        'params' => 'ilike=+1',
+      'attr' => ' data-haha="foo"',
+      'params' => 'ilike=+1',
     );
     $this->assertEquals(
         '<a href="http://example.org?ilike=+1" data-haha="foo">http://example.org</a>',
@@ -102,9 +102,9 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
     $format_type = 'truncate';
 
     $format = array(
-        'length' => 10,
-        'etc' => ' usw.',
-        'break_words' => true,
+      'length' => 10,
+      'etc' => ' usw.',
+      'break_words' => true,
     );
     $this->assertEquals(
         'very  usw.',
@@ -112,9 +112,9 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
 
     // XXX hmm seems not to be correct
     $format = array(
-        'length' => 10,
-        'etc' => ' usw.',
-        'break_words' => false,
+      'length' => 10,
+      'etc' => ' usw.',
+      'break_words' => false,
     );
     $this->assertEquals(
         'very usw.',
@@ -143,10 +143,10 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
         rex_formatter::format($value, $format_type, $format));
 
     $format = array(
-        function ($params) {
+      function ($params) {
           return $params['subject'] . ' ' . $params['some'];
         },
-        array('some' => 'more params'),
+      array('some' => 'more params'),
     );
 
     $this->assertEquals(

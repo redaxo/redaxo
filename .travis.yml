@@ -8,4 +8,4 @@ before_script:
 script:
   - php redaxo/src/addons/tests/bin/runTests.php
 after_script:
-  - php coding_standards.php check --hide-process
+  - php coding_standards.phar check --hide-process

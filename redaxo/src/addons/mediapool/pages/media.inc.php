@@ -295,7 +295,7 @@ if ($subpage == 'media') {
                 <div class="rex-clearer"></div>';
 
   // ----- EXTENSION POINT
-  echo rex_extension::registerPoint('MEDIA_FORM_EDIT', '', array ('file_id' => $file_id, 'media' => $gf));
+  echo rex_extension::registerPoint('MEDIA_FORM_EDIT', '', array('file_id' => $file_id, 'media' => $gf));
 
   echo '
                       ' . $add_ext_info . '

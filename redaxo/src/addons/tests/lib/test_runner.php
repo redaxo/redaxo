@@ -11,7 +11,7 @@ class rex_test_runner
     require_once 'PHPUnit/Autoload.php';
   }
 
-  public function run(rex_test_locator $locator, array $arguments = array())
+  public function run(rex_test_locator $locator, $colors = false)
   {
     $suite  = new PHPUnit_Framework_TestSuite();
     // disable backup of globals, since we have some rex_sql objectes referenced from variables in global space.
@@ -21,16 +21,13 @@ class rex_test_runner
 
     rex_error_handler::unregister();
 
-    ob_start();
     $runner = new PHPUnit_TextUI_TestRunner;
-    $runner->doRun($suite, $arguments); $line = __LINE__;
-    $result = ob_get_clean();
 
-    $search = __FILE__ . ':' . $line . "\n";
-    foreach (debug_backtrace(false) as $t) {
-      $search .= $t['file'] . ':' . $t['line'] . "\n";
-    }
-    $result = str_replace(array($search, rex_path::base()), '', $result);
+    $backtrace = debug_backtrace(false);
+    array_unshift($backtrace, array('file' => __FILE__, 'line' => __LINE__ + 3));
+    $runner->setPrinter(new rex_tests_result_printer($backtrace, $colors));
+
+    $result = $runner->doRun($suite);
 
     rex_error_handler::register();
 

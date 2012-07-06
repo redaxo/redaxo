@@ -62,11 +62,11 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
     if (function_exists('imageconvolution')) {
       // PHP >= 5.1
       $matrix = array(
-      array( 1, 2, 1 ),
-      array( 2, 4, 2 ),
-      array( 1, 2, 1 )
+        array( 1, 2, 1 ),
+        array( 2, 4, 2 ),
+        array( 1, 2, 1 )
       );
-      imagecopy ($imgBlur, $gdimage, 0, 0, 0, 0, $w, $h);
+      imagecopy($imgBlur, $gdimage, 0, 0, 0, 0, $w, $h);
       imageconvolution($imgBlur, $matrix, 16, 0);
 
     } else {
@@ -74,12 +74,12 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
       // Move copies of the image around one pixel at the time and merge them with weight
       // according to the matrix. The same matrix is simply repeated for higher radii.
       for ($i = 0; $i < $this->params['radius']; $i++)    {
-        imagecopy ($imgBlur, $gdimage, 0, 0, 1, 0, $w - 1, $h); // left
-        imagecopymerge ($imgBlur, $gdimage, 1, 0, 0, 0, $w, $h, 50); // right
-        imagecopymerge ($imgBlur, $gdimage, 0, 0, 0, 0, $w, $h, 50); // center
-        imagecopy ($imgCanvas, $imgBlur, 0, 0, 0, 0, $w, $h);
-        imagecopymerge ($imgBlur, $imgCanvas, 0, 0, 0, 1, $w, $h - 1, 33.33333 ); // up
-        imagecopymerge ($imgBlur, $imgCanvas, 0, 1, 0, 0, $w, $h, 25); // down
+        imagecopy($imgBlur, $gdimage, 0, 0, 1, 0, $w - 1, $h); // left
+        imagecopymerge($imgBlur, $gdimage, 1, 0, 0, 0, $w, $h, 50); // right
+        imagecopymerge($imgBlur, $gdimage, 0, 0, 0, 0, $w, $h, 50); // center
+        imagecopy($imgCanvas, $imgBlur, 0, 0, 0, 0, $w, $h);
+        imagecopymerge($imgBlur, $imgCanvas, 0, 0, 0, 1, $w, $h - 1, 33.33333 ); // up
+        imagecopymerge($imgBlur, $imgCanvas, 0, 1, 0, 0, $w, $h, 25); // down
       }
     }
 
@@ -169,25 +169,25 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
   public function getParams()
   {
     return array(
-    array(
+      array(
         'label' => rex_i18n::msg('media_manager_effect_sharpen_amount'),
         'name' => 'amount',
         'type'  => 'int',
         'default' => '80'
-        ),
-        array(
+      ),
+      array(
         'label' => rex_i18n::msg('media_manager_effect_sharpen_radius'),
         'name' => 'radius',
         'type'  => 'int',
         'default' => '0.5'
-        ),
-        array(
+      ),
+      array(
         'label' => rex_i18n::msg('media_manager_effect_sharpen_threshold'),
         'name' => 'threshold',
         'type'  => 'int',
         'default' => '3'
-        )
-        );
+      )
+    );
 
   }
 

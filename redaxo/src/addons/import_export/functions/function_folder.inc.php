@@ -16,7 +16,7 @@ if (!function_exists('readFolder')) {
          return false;
       }
       $hdl = opendir($dir);
-      $folder = array ();
+      $folder = array();
       while (false !== ($file = readdir($hdl))) {
          $folder[] = $file;
       }
@@ -38,7 +38,7 @@ if (!function_exists('readFolder')) {
 if (!function_exists('readFilteredFolder')) {
    function readFilteredFolder($dir, $fileprefix)
    {
-      $filtered = array ();
+      $filtered = array();
       $folder = readFolder($dir);
 
       if (!$folder) {
@@ -66,7 +66,7 @@ if (!function_exists('readFolderFiles')) {
    function readFolderFiles($dir)
    {
       $folder = readFolder($dir);
-      $files = array ();
+      $files = array();
 
       if (!$folder) {
          return false;
@@ -94,7 +94,7 @@ if (!function_exists('readSubFolders')) {
    function readSubFolders($dir, $ignore_dots = true)
    {
       $folder = readFolder($dir);
-      $folders = array ();
+      $folders = array();
 
       if (!$folder) {
          return false;

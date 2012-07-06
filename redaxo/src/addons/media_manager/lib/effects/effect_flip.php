@@ -23,9 +23,9 @@ class rex_effect_flip extends rex_effect_abstract
     $w = $this->media->getWidth();
     $h = $this->media->getHeight();
 
-    $width = imagesx ( $gdimage );
-    $height = imagesy ( $gdimage );
-    $output = imagecreatetruecolor ( $width, $height );
+    $width = imagesx( $gdimage );
+    $height = imagesy( $gdimage );
+    $output = imagecreatetruecolor( $width, $height );
 
     // --------------- Flip X
     if ($this->params['flip'] == 'X') {
@@ -33,7 +33,7 @@ class rex_effect_flip extends rex_effect_abstract
       $x = 1;
       while ( $x <= $width ) {
         for ( $i = 0; $i < $height; $i++ ) {
-          imagesetpixel ( $output, $x, $i, imagecolorat ( $gdimage, ( $width - $x ), ( $i ) ) );
+          imagesetpixel( $output, $x, $i, imagecolorat( $gdimage, ( $width - $x ), ( $i ) ) );
         }
         $x++;
       }
@@ -46,7 +46,7 @@ class rex_effect_flip extends rex_effect_abstract
       $x = 0;
       while ( $y < $height ) {
         for ( $i = 0; $i < $width; $i++ ) {
-          imagesetpixel ( $output, $i, $y, imagecolorat ( $gdimage, ( $i ), ( $height - $y ) ) );
+          imagesetpixel( $output, $i, $y, imagecolorat( $gdimage, ( $i ), ( $height - $y ) ) );
         }
         $y++;
       }

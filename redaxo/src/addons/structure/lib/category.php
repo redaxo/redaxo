@@ -48,7 +48,7 @@ class rex_category extends rex_structure_element
 
     $categorylist = rex_path::addonCache('structure', $cat_parent_id . '.' . $clang . '.clist');
 
-    $catlist = array ();
+    $catlist = array();
 
     if (!file_exists($categorylist)) {
       rex_article_cache::generateLists($cat_parent_id);
@@ -229,7 +229,7 @@ class rex_category extends rex_structure_element
     } elseif (is_int($category)) {
       return self :: getCategoryById($category, $clang);
     } elseif (is_array($category)) {
-      $catlist = array ();
+      $catlist = array();
       foreach ($category as $cat) {
         $catobj = self :: _getCategoryObject($cat, $clang);
         if (is_object($catobj)) {

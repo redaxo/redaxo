@@ -134,7 +134,7 @@ class rex_effect_workspace extends rex_effect_abstract
         break;
     }
 
-    ImageCopy ($workspace, $gdimage, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h);
+    ImageCopy($workspace, $gdimage, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h);
     $this->media->setImage($workspace);
     $this->media->refreshImageDimensions();
 

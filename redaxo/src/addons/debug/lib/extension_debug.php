@@ -35,7 +35,7 @@ class rex_extension_debug extends rex_extension
   /**
    * Extends rex_extension::registerPoint() with FirePHP logging
    */
-  static public function registerPoint($extensionPoint, $subject = '', array $params = array (), $read_only = false)
+  static public function registerPoint($extensionPoint, $subject = '', array $params = array(), $read_only = false)
   {
     $coreTimer = rex::getProperty('timer');
     $absDur    = $coreTimer->getFormattedDelta();

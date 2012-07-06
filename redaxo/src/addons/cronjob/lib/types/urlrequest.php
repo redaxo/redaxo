@@ -27,7 +27,8 @@ class rex_cronjob_urlrequest extends rex_cronjob
       $message = $statusCode . ' ' . $response->getStatusMessage();
       if (in_array($statusCode, array(301, 302, 303, 307))
         && $this->getParam('redirect', true)
-        && ($location = $response->getHeader('Location'))) {
+        && ($location = $response->getHeader('Location'))
+      ) {
         // maximal eine Umleitung zulassen
         $this->setParam('redirect', false);
         $this->setParam('url', $location);

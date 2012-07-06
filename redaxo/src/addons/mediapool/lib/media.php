@@ -351,7 +351,7 @@ class rex_media
   /**
    * @access public
    */
-  public function toImage(array $params = array ())
+  public function toImage(array $params = array())
   {
     if (!is_array($params)) {
       $params = array();
@@ -397,7 +397,7 @@ class rex_media
           }
 
           // Evtl. Größeneinheiten entfernen
-          $resizeParam = str_replace(array (
+          $resizeParam = str_replace(array(
             'px',
             'pt',
             '%',
@@ -451,7 +451,7 @@ class rex_media
   /**
    * @access public
    */
-  public function toIcon(array $iconAttributes = array ())
+  public function toIcon(array $iconAttributes = array())
   {
     $ext = $this->getExtension();
     $icon = $this->getIcon();
@@ -493,7 +493,7 @@ class rex_media
     static $imageExtensions;
 
     if (!isset ($imageExtensions)) {
-      $imageExtensions = array (
+      $imageExtensions = array(
         'gif',
         'jpeg',
         'jpg',
@@ -512,20 +512,17 @@ class rex_media
   {
     $sql = rex_sql::factory();
     $filename = addslashes($this->getFileName());
-    // replace LIKE wildcards
-    $likeFilename = str_replace(array('_', '%'), array('\_', '\%'), $filename);
-
 
     $values = array();
     for ($i = 1; $i < 21; $i++) {
-      $values[] = 'value' . $i . ' LIKE "%' . $likeFilename . '%"';
+      $values[] = 'value' . $i . ' REGEXP "(^|[^[:alnum:]+_-])' . $filename . '"';
     }
 
     $files = array();
     $filelists = array();
     for ($i = 1; $i < 11; $i++) {
       $files[] = 'file' . $i . '="' . $filename . '"';
-      $filelists[] = '(filelist' . $i . ' = "' . $filename . '" OR filelist' . $i . ' LIKE "' . $likeFilename . ',%" OR filelist' . $i . ' LIKE "%,' . $likeFilename . ',%" OR filelist' . $i . ' LIKE "%,' . $likeFilename . '" ) ';
+      $filelists[] = 'FIND_IN_SET("' . $filename . '",filelist' . $i . ')';
     }
 
     $where = '';
@@ -533,15 +530,6 @@ class rex_media
     $where .= implode(' OR ', $filelists) . ' OR ';
     $where .= implode(' OR ', $values);
     $query = 'SELECT DISTINCT article_id, clang FROM ' . rex::getTablePrefix() . 'article_slice WHERE ' . $where;
-
-    // deprecated since REX 4.3
-    // ----- EXTENSION POINT
-    $query = rex_extension::registerPoint('OOMEDIA_IS_IN_USE_QUERY', $query,
-      array(
-        'filename' => $this->getFileName(),
-        'media' => $this,
-      )
-    );
 
     $warning = array();
     $res = $sql->getArray($query);
@@ -558,7 +546,7 @@ class rex_media
     }
 
     // ----- EXTENSION POINT
-    $warning = rex_extension::registerPoint('OOMEDIA_IS_IN_USE', $warning,
+    $warning = rex_extension::registerPoint('MEDIA_IS_IN_USE', $warning,
       array(
         'filename' => $this->getFileName(),
         'media' => $this,
@@ -721,7 +709,7 @@ class rex_media
   // allowed filetypes
   static public function getDocTypes()
   {
-    static $docTypes = array (
+    static $docTypes = array(
       'bmp',
       'css',
       'doc',
@@ -761,7 +749,7 @@ class rex_media
   // allowed image upload types
   static public function getImageTypes()
   {
-    static $imageTypes = array (
+    static $imageTypes = array(
       'image/gif',
       'image/jpg',
       'image/jpeg',
@@ -780,7 +768,7 @@ class rex_media
 
   static public function compareImageTypes($type1, $type2)
   {
-    static $jpg = array (
+    static $jpg = array(
       'image/jpg',
       'image/jpeg',
       'image/pjpeg'

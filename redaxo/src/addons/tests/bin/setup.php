@@ -2,7 +2,7 @@
 <?php
 
 if (PHP_SAPI !== 'cli') {
-  echo 'error: this script may only be run from CLI';
+  echo 'error: this script may only be run from CLI', PHP_EOL;
   return 1;
 }
 
@@ -10,11 +10,10 @@ if (PHP_SAPI !== 'cli') {
 $path = explode(DIRECTORY_SEPARATOR, __DIR__);
 do {
   $part = array_pop($path);
-}
-while ($part !== null && $part != 'redaxo');
+} while ($part !== null && $part != 'redaxo');
 
 if (!chdir(implode(DIRECTORY_SEPARATOR, $path) . '/redaxo')) {
-  echo 'error: start this script within a redaxo projects folder';
+  echo 'error: start this script within a redaxo projects folder', PHP_EOL;
   return 2;
 }
 
@@ -58,12 +57,12 @@ if (rex::isSetup()) {
 
   $config['setup'] = false;
   if (rex_file::putConfig($configFile, $config)) {
-    echo 'instance setup successfull';
+    echo 'instance setup successfull', PHP_EOL;
     exit (0);
   }
-  echo 'instance setup failure';
+  echo 'instance setup failure', PHP_EOL;
   exit (1);
 } else {
-  echo 'instance setup not necessary';
+  echo 'instance setup not necessary', PHP_EOL;
   exit (0);
 }

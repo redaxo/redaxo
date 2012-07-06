@@ -34,6 +34,14 @@ if (rex::isBackend()) {
   $I18N = new i18n(rex::getProperty('lang'));
 }
 
+$deprecatedExtensionPoint = function ($oldEP, $newEP) {
+  rex_extension::register($newEP, function ($params) use ($oldEP) {
+    return rex_extension::registerPoint($oldEP, $params['subject'], $params);
+  });
+};
+$deprecatedExtensionPoint('ALL_GENERATED', 'CACHE_DELETED');
+$deprecatedExtensionPoint('OOMEDIA_IS_IN_USE', 'MEDIA_IS_IN_USE');
+
 
 /**
  * @deprecated 4.2

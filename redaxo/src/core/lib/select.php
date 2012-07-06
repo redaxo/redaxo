@@ -121,7 +121,7 @@ class rex_select
 
   public function resetSelected()
   {
-    $this->option_selected = array ();
+    $this->option_selected = array();
   }
 
   ################ optionen hinzufuegen
@@ -130,7 +130,7 @@ class rex_select
    */
   public function addOption($name, $value, $id = 0, $re_id = 0, array $attributes = array())
   {
-    $this->options[$re_id][] = array ($name, $value, $id, $attributes);
+    $this->options[$re_id][] = array($name, $value, $id, $attributes);
   }
 
   /**

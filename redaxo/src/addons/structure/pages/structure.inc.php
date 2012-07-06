@@ -243,11 +243,11 @@ if ($function == 'add_cat' && $KATPERM) {
         </tr>';
 
   // ----- EXTENSION POINT
-  $echo .= rex_extension::registerPoint('CAT_FORM_ADD', '', array (
-      'id' => $category_id,
-      'clang' => $clang,
-      'data_colspan' => ($data_colspan + 1),
-    ));
+  $echo .= rex_extension::registerPoint('CAT_FORM_ADD', '', array(
+    'id' => $category_id,
+    'clang' => $clang,
+    'data_colspan' => ($data_colspan + 1),
+  ));
 }
 
 
@@ -304,7 +304,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++) {
         </tr>';
 
       // ----- EXTENSION POINT
-      $echo .= rex_extension::registerPoint('CAT_FORM_EDIT', '', array (
+      $echo .= rex_extension::registerPoint('CAT_FORM_EDIT', '', array(
         'id' => $edit_id,
         'clang' => $clang,
         'category' => $KAT,

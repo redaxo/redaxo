@@ -47,12 +47,29 @@ abstract class rex_error_handler
       ob_end_clean();
     }
 
+    $status = rex_response::HTTP_INTERNAL_ERROR;
+    if ($exception instanceof rex_http_exception && $exception->getHttpCode()) {
+      $status = $exception->getHttpCode();
+    }
+    rex_response::setStatus($status);
+
     if (($user = rex_backend_login::createUser()) && $user->isAdmin()) {
       // TODO add a beautiful error page with usefull debugging info
       $buf = '';
       $buf .= '<pre>';
-      $buf .= 'Exception thrown in ' . $exception->getFile() . ' on line ' . $exception->getLine() . "\n\n";
-      $buf .= '<b>' . get_class($exception) . ': ' . $exception->getMessage() . "</b>\n\n";
+      $buf .= '"' .  get_class($exception) . '" thrown in ' . $exception->getFile() . ' on line ' . $exception->getLine() . "\n";
+      if ($exception->getMessage()) $buf .= '<b>' . $exception->getMessage() . "</b>\n";
+
+      $cause = $exception->getPrevious();
+      while ($cause) {
+        $buf .= "\n";
+        $buf .= 'caused by ' . get_class($cause) . ' in ' . $cause->getFile() . ' on line ' . $cause->getLine() . "\n";
+        if ($cause->getMessage()) $buf .= '<b>' . $cause->getMessage() . "</b>\n";
+
+        $cause = $cause->getPrevious();
+      }
+
+      $buf .= "\n";
       $buf .= $exception->getTraceAsString();
       $buf .= '</pre>';
     } else {
@@ -60,7 +77,6 @@ abstract class rex_error_handler
       $buf = 'Oooops, an internal error occured!';
     }
 
-    rex_response::setStatus(rex_response::HTTP_INTERNAL_ERROR);
     rex_response::send($buf);
     exit;
   }
@@ -77,13 +93,11 @@ abstract class rex_error_handler
   {
     if (in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE))) {
       throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-    } else {
-      if (ini_get('display_errors') && (error_reporting() & $errno) == $errno) {
-        echo '<b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b><br />";
+    } elseif ((error_reporting() & $errno) == $errno) {
+      if (ini_get('display_errors')) {
+        echo '<div><b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b></div>";
       }
-      if (error_reporting() == 0) {
-        rex_logger::logError($errno, $errstr, $errfile, $errline);
-      }
+      rex_logger::logError($errno, $errstr, $errfile, $errline);
     }
   }
 

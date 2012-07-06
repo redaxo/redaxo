@@ -2,12 +2,13 @@
 
 class rex_media_manager
 {
-  private $media_cacher,
-  $cache_path,
-  $type,
-  $use_cache;
+  private
+    $media_cacher,
+    $cache_path,
+    $type,
+    $use_cache;
 
-  public function __construct(rex_media $media)
+  public function __construct(rex_managed_media $media)
   {
     $this->media = $media;
     $this->useCache(true);
