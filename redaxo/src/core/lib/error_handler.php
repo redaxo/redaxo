@@ -58,13 +58,17 @@ abstract class rex_error_handler
       $buf = '';
       $buf .= '<pre>';
       $buf .= '"' .  get_class($exception) . '" thrown in ' . $exception->getFile() . ' on line ' . $exception->getLine() . "\n";
-      if ($exception->getMessage()) $buf .= '<b>' . $exception->getMessage() . "</b>\n";
+      if ($exception->getMessage()) {
+        $buf .= '<b>' . ($exception instanceof ErrorException ? self::getErrorType($exception->getSeverity()) . ': ' : '') . $exception->getMessage() . "</b>\n";
+      }
 
       $cause = $exception->getPrevious();
       while ($cause) {
         $buf .= "\n";
         $buf .= 'caused by ' . get_class($cause) . ' in ' . $cause->getFile() . ' on line ' . $cause->getLine() . "\n";
-        if ($cause->getMessage()) $buf .= '<b>' . $cause->getMessage() . "</b>\n";
+        if ($cause->getMessage()) {
+          $buf .= '<b>' . ($cause instanceof ErrorException ? self::getErrorType($cause->getSeverity()) . ': ' : '') . $cause->getMessage() . "</b>\n";
+        }
 
         $cause = $cause->getPrevious();
       }
