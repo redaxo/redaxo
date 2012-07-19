@@ -95,6 +95,7 @@ server = Server
 servername = Servername
 error_email = Fehler E-Mail
 error_email_required = Es wird eine Fehler E-Mailadresse benötigt!
+debug_mode = Debug-Modus
 
 # redaxo\include\pages\medienpool.inc.php\setup.inc.php
 setup = Setup

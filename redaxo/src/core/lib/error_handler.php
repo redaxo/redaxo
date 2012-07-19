@@ -53,7 +53,7 @@ abstract class rex_error_handler
     }
     rex_response::setStatus($status);
 
-    if (rex::isSetup() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
+    if (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
       // TODO add a beautiful error page with usefull debugging info
       $buf = '';
       $buf .= '<pre>';
@@ -101,7 +101,7 @@ abstract class rex_error_handler
 
     } elseif ((error_reporting() & $errno) == $errno) {
 
-      if (ini_get('display_errors') && (rex::isSetup() || ($user = rex_backend_login::createUser()) && $user->isAdmin())) {
+      if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())) {
         echo '<div><b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b></div>";
       }
       rex_logger::logError($errno, $errstr, $errfile, $errline);

@@ -1,5 +1,6 @@
 setup: true
 instname: null
+debug: false
 server: redaxo.org
 servername: REDAXO
 error_email: null
