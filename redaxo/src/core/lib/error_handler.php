@@ -75,6 +75,12 @@ abstract class rex_error_handler
 
       $buf .= "\n";
       $buf .= $exception->getTraceAsString();
+
+      if (!rex::isSetup() && rex::isBackend() && !rex::isSafeMode()) {
+        $buf .= "\n\n";
+        $buf .= '<a href="' . rex_path::backendController('?safemode=1') . '">activate safe mode</a>';
+      }
+
       $buf .= '</pre>';
     } else {
       // TODO small error page, without debug infos
