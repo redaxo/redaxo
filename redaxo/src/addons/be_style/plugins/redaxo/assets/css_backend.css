@@ -469,7 +469,7 @@ body {
   font-size: 184%;
   font-weight: bold;
 }
-.rex-navi-main li a, 
+.rex-navi-main li a,
 .rex-navi-main li span {
   display: block;
   margin-bottom: 1px;
@@ -1054,7 +1054,7 @@ body {
 .rex-form-data input[type="submit"]:hover {
   background-color: #72909a;
 }
-.rex-form-data.rex-form-reverse input[type="checkbox"], 
+.rex-form-data.rex-form-reverse input[type="checkbox"],
 .rex-form-data.rex-form-reverse input[type="radio"] {
   float: left;
   margin: 0 12px 0 154px;
@@ -1079,7 +1079,7 @@ body {
 fieldset.rex-form-action {
   background: #3C4F58;
   border-bottom: 1px solid #fff;
-  
+
   background: none;
   border-top: 1px solid #fff;
 }
@@ -1105,7 +1105,7 @@ fieldset.rex-form-action .rex-form-data {
 .rex-grid2col .rex-form-data textarea {
   width: 200px;
 }
-.rex-grid2col .rex-form-data.rex-form-reverse input[type="checkbox"], 
+.rex-grid2col .rex-form-data.rex-form-reverse input[type="checkbox"],
 .rex-grid2col .rex-form-data.rex-form-reverse input[type="radio"] {
   margin-left: 102px;
 }
@@ -1293,8 +1293,8 @@ h3:hover span {
   font-weight: bold;
 }
 
-p, 
-.rex-content ol, 
+p,
+.rex-content ol,
 .rex-content ul {
   margin-bottom: 1em;
 }
@@ -1303,7 +1303,7 @@ p,
 .rex-message ol,
 .rex-message ul {
   margin: 0 0 0 10px;
-} 
+}
 .rex-message ul li {
   list-style: square;
 }
@@ -1422,7 +1422,7 @@ body#rex-page-setup #rex-page {
   width: 1000px;
 }
 /*
-body#rex-page-setup #rex-page-main, 
+body#rex-page-setup #rex-page-main,
 body#rex-page-setup #rex-page-footer {
   float: none;
   width: auto;

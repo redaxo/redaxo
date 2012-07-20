@@ -6,8 +6,8 @@ class rex_view
   {
     $cssClassMessage = 'rex-info';
     if ($cssClass != '')
-      $cssClassMessage .= ' '.$cssClass;
-      
+      $cssClassMessage .= ' ' . $cssClass;
+
     if (!$sorround_tag) $sorround_tag = 'div';
     return self::message($message, $cssClassMessage, $sorround_tag);
   }
@@ -16,8 +16,8 @@ class rex_view
   {
     $cssClassMessage = 'rex-success';
     if ($cssClass != '')
-      $cssClassMessage .= ' '.$cssClass;
-      
+      $cssClassMessage .= ' ' . $cssClass;
+
     if (!$sorround_tag) $sorround_tag = 'div';
     return self::message($message, $cssClassMessage, $sorround_tag);
   }
@@ -26,8 +26,8 @@ class rex_view
   {
     $cssClassMessage = 'rex-warning';
     if ($cssClass != '')
-      $cssClassMessage .= ' '.$cssClass;
-      
+      $cssClassMessage .= ' ' . $cssClass;
+
     if (!$sorround_tag) $sorround_tag = 'div';
     return self::message($message, $cssClassMessage, $sorround_tag);
   }
@@ -36,7 +36,7 @@ class rex_view
   {
     $cssClassMessage = 'rex-error';
     if ($cssClass != '')
-      $cssClassMessage .= ' '.$cssClass;
+      $cssClassMessage .= ' ' . $cssClass;
 
     if (!$sorround_tag) $sorround_tag = 'div';
     return self::message($message, $cssClassMessage, $sorround_tag);
@@ -45,12 +45,12 @@ class rex_view
   static private function message($message, $cssClass, $sorround_tag)
   {
     $return = '';
-    
+
     $cssClassMessage = 'rex-message';
     if ($cssClass != '')
-      $cssClassMessage .= ' '.$cssClass;
+      $cssClassMessage .= ' ' . $cssClass;
 
-    $return = '<' . $sorround_tag . ' class="' . $cssClassMessage . '">'.$message.'</' . $sorround_tag . '>';
+    $return = '<' . $sorround_tag . ' class="' . $cssClassMessage . '">' . $message . '</' . $sorround_tag . '>';
 
     /*
     $fragment = new rex_fragment();
