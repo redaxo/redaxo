@@ -143,6 +143,16 @@ class rex
   }
 
   /**
+   * Returns if the debug mode is active
+   *
+   * @return boolean
+   */
+  static public function isDebugMode()
+  {
+    return (boolean) self::getProperty('debug', false);
+  }
+
+  /**
    * Returns if the safe mode is active
    *
    * @return boolean

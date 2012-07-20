@@ -1298,8 +1298,13 @@ p,
 .rex-content ul {
   margin-bottom: 1em;
 }
+<<<<<<< HEAD
 .rex-message p,
 .rex-message ol,
+=======
+.rex-message p, 
+.rex-message ol,  
+>>>>>>> 5169c5d2c159132a8225667b04adc859e19d43a2
 .rex-message ul {
   margin: 0 0 0 10px;
 } 

@@ -53,7 +53,7 @@ abstract class rex_error_handler
     }
     rex_response::setStatus($status);
 
-    if (($user = rex_backend_login::createUser()) && $user->isAdmin()) {
+    if (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
       // TODO add a beautiful error page with usefull debugging info
       $buf = '';
       $buf .= '<pre>';
@@ -75,6 +75,12 @@ abstract class rex_error_handler
 
       $buf .= "\n";
       $buf .= $exception->getTraceAsString();
+
+      if (!rex::isSetup() && rex::isBackend() && !rex::isSafeMode()) {
+        $buf .= "\n\n";
+        $buf .= '<a href="' . rex_path::backendController('?safemode=1') . '">activate safe mode</a>';
+      }
+
       $buf .= '</pre>';
     } else {
       // TODO small error page, without debug infos
@@ -96,12 +102,16 @@ abstract class rex_error_handler
   static public function handleError($errno, $errstr, $errfile, $errline)
   {
     if (in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE))) {
+
       throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+
     } elseif ((error_reporting() & $errno) == $errno) {
-      if (ini_get('display_errors')) {
+
+      if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())) {
         echo '<div><b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b></div>";
       }
       rex_logger::logError($errno, $errstr, $errfile, $errline);
+
     }
   }
 
@@ -112,7 +122,7 @@ abstract class rex_error_handler
   {
     if (self::$registered) {
       $error = error_get_last();
-      if (is_array($error)) {
+      if (is_array($error) && in_array($error['type'], array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE))) {
         self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
       }
     }
