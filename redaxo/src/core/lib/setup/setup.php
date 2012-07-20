@@ -36,13 +36,13 @@ class rex_setup
 
     // -------------------------- VERSIONSCHECK
     if (version_compare(phpversion(), self::MIN_PHP_VERSION, '<') == 1) {
-      $errors[] = rex_i18n::msg('setup_010', phpversion(), self::MIN_PHP_VERSION);
+      $errors[] = rex_i18n::msg('setup_301', phpversion(), self::MIN_PHP_VERSION);
     }
 
     // -------------------------- EXTENSION CHECK
     foreach (self::$MIN_PHP_EXTENSIONS as $extension) {
       if (!extension_loaded($extension))
-        $errors[] = rex_i18n::msg('setup_010_1', $extension);
+        $errors[] = rex_i18n::msg('setup_302', $extension);
     }
 
     return $errors;
@@ -80,16 +80,16 @@ class rex_setup
       // Fehler unterdrücken, falls keine Berechtigung
       if (@is_dir($item)) {
         if (!@is_writable($item . '/.')) {
-          $res['setup_012'][] = $item;
+          $res['setup_304'][] = $item;
         }
       }
       // Fehler unterdrücken, falls keine Berechtigung
       elseif (@is_file($item)) {
         if (!@is_writable($item)) {
-          $res['setup_014'][] = $item;
+          $res['setup_305'][] = $item;
         }
       } else {
-        $res['setup_015'][] = $item;
+        $res['setup_306'][] = $item;
       }
     }
 
@@ -111,7 +111,7 @@ class rex_setup
 
     $serverVersion = rex_sql::getServerVersion();
     if (rex_string::compareVersions($serverVersion, self::MIN_MYSQL_VERSION, '<') == 1) {
-      return rex_i18n::msg('setup_022_1', $serverVersion, self::MIN_MYSQL_VERSION);
+      return rex_i18n::msg('setup_404', $serverVersion, self::MIN_MYSQL_VERSION);
     }
     return '';
   }

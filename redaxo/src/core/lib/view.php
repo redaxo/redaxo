@@ -2,42 +2,55 @@
 
 class rex_view
 {
-  static public function info($message, $cssClass = null, $sorround_tag = null)
+  static public function info($message, $cssClass = '', $sorround_tag = null)
   {
-    if (!$cssClass) $cssClass = 'rex-info';
+    $cssClassMessage = 'rex-info';
+    if ($cssClass != '')
+      $cssClassMessage .= ' '.$cssClass;
+      
     if (!$sorround_tag) $sorround_tag = 'div';
-    return self::message($message, $cssClass, $sorround_tag);
+    return self::message($message, $cssClassMessage, $sorround_tag);
   }
 
-  static public function success($message, $cssClass = null, $sorround_tag = null)
+  static public function success($message, $cssClass = '', $sorround_tag = null)
   {
-    if (!$cssClass) $cssClass = 'rex-success';
+    $cssClassMessage = 'rex-success';
+    if ($cssClass != '')
+      $cssClassMessage .= ' '.$cssClass;
+      
     if (!$sorround_tag) $sorround_tag = 'div';
-    return self::message($message, $cssClass, $sorround_tag);
+    return self::message($message, $cssClassMessage, $sorround_tag);
   }
 
-  static public function warning($message, $cssClass = null, $sorround_tag = null)
+  static public function warning($message, $cssClass = '', $sorround_tag = null)
   {
-    if (!$cssClass) $cssClass = 'rex-warning';
+    $cssClassMessage = 'rex-warning';
+    if ($cssClass != '')
+      $cssClassMessage .= ' '.$cssClass;
+      
     if (!$sorround_tag) $sorround_tag = 'div';
-    return self::message($message, $cssClass, $sorround_tag);
+    return self::message($message, $cssClassMessage, $sorround_tag);
+  }
+
+  static public function error($message, $cssClass = '', $sorround_tag = null)
+  {
+    $cssClassMessage = 'rex-error';
+    if ($cssClass != '')
+      $cssClassMessage .= ' '.$cssClass;
+
+    if (!$sorround_tag) $sorround_tag = 'div';
+    return self::message($message, $cssClassMessage, $sorround_tag);
   }
 
   static private function message($message, $cssClass, $sorround_tag)
   {
     $return = '';
+    
+    $cssClassMessage = 'rex-message';
+    if ($cssClass != '')
+      $cssClassMessage .= ' '.$cssClass;
 
-    $return = '<' . $sorround_tag . ' class="rex-message ' . $cssClass . '">';
-
-    if ($sorround_tag != 'p')
-      $return .= '<p>';
-
-    $return .= $message;
-
-    if ($sorround_tag != 'p')
-      $return .= '</p>';
-
-    $return .= '</' . $sorround_tag . '>';
+    $return = '<' . $sorround_tag . ' class="' . $cssClassMessage . '">'.$message.'</' . $sorround_tag . '>';
 
     /*
     $fragment = new rex_fragment();
@@ -46,31 +59,6 @@ class rex_view
     $return = $fragment->parse('message.tpl');
     */
     return $return;
-  }
-
-  static public function infoBlock($message, $cssClass = null, $sorround_tag = null)
-  {
-    if (!$cssClass) $cssClass = 'rex-info-block';
-    if (!$sorround_tag) $sorround_tag = 'div';
-    return self::messageBlock($message, $cssClass, $sorround_tag);
-  }
-
-  static public function warningBlock($message, $cssClass = null, $sorround_tag = null)
-  {
-    if (!$cssClass) $cssClass = 'rex-warning-block';
-    if (!$sorround_tag) $sorround_tag = 'div';
-    return self::messageBlock($message, $cssClass, $sorround_tag);
-  }
-
-  static private function messageBlock($message, $cssClass, $sorround_tag)
-  {
-    return '<div class="rex-message-block">
-              <' . $sorround_tag . ' class="' . $cssClass . '">
-                <div class="rex-message-content">
-                  ' . $message . '
-                </div>
-              </' . $sorround_tag . '>
-            </div>';
   }
 
   static public function toolbar($content, $cssClass = null)

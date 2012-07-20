@@ -126,8 +126,8 @@ $content_2 = '
             $formElements[] = $n;
 
             $n = array();
-            $n['label'] = '<label for="rex_src_path">' . rex_i18n::msg('path') . '</label>';
-            $n['field'] = '<span class="rex-form-read" id="rex_src_path" title="' . rex_path::src() . '">&quot;' . $version . '&quot;</span>';
+            $n['label'] = '<label for="rex-form-src-path">' . rex_i18n::msg('path') . '</label>';
+            $n['field'] = '<span class="rex-form-read" id="rex-form-src-path" title="' . rex_path::src() . '">&quot;' . $version . '&quot;</span>';
             $formElements[] = $n;
 
             $n = array();
