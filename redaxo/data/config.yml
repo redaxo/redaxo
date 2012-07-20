@@ -1,4 +1,5 @@
 setup: true
+debug: false
 instname: null
 server: redaxo.org
 servername: REDAXO
