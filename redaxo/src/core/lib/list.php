@@ -135,14 +135,14 @@ class rex_list extends rex_factory_base implements rex_url_provider
 
     // --------- Pagination Attributes
     $this->pager = new rex_pager($rowsPerPage);
-    
+
     // --------- Load Data, Row-Count
     $this->sql->setQuery($this->prepareQuery($query));
     $sql = rex_sql::factory();
     $sql->setQuery('SELECT FOUND_ROWS() as rows');
     $this->rows = $sql->getValue('rows');
     $this->pager->setRowCount($this->rows);
-    
+
     foreach ($this->sql->getFieldnames() as $columnName)
       $this->columnNames[] = $columnName;
 
@@ -665,7 +665,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
 
     // prepare query for fast rowcount calculation
     $query = preg_replace('/^SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', $query, 1);
-      
+
     $sortColumn = $this->getSortColumn();
     if ($sortColumn != '') {
       $sortType = $this->getSortType();
@@ -678,7 +678,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
 
     if (stripos($query, ' LIMIT ') === false)
       $query .= ' LIMIT ' . $startRow . ',' . $rowsPerPage;
-    
+
     return $query;
   }
 

@@ -23,10 +23,10 @@ class rex_pager
     $this->rowsPerPage = $rowsPerPage;
     $this->cursorName = $cursorName;
   }
-  
+
   public function setRowCount($rowCount)
   {
-  	$this->rowCount = $rowCount;
+    $this->rowCount = $rowCount;
   }
 
   /**
@@ -75,17 +75,17 @@ class rex_pager
 
     return $cursor;
   }
-  
+
   public function validateCursor($cursor)
   {
-  	// $cursor innerhalb des zulässigen Zahlenbereichs?
-  	if ($cursor < 0) {
-  		$cursor = 0;
-  	} elseif ($cursor > $this->rowCount) {
-  		$cursor = (int) ($this->rowCount / $this->rowsPerPage) * $this->rowsPerPage;
-  	}
-  	 
-  	return $cursor;
+    // $cursor innerhalb des zulässigen Zahlenbereichs?
+    if ($cursor < 0) {
+      $cursor = 0;
+    } elseif ($cursor > $this->rowCount) {
+      $cursor = (int) ($this->rowCount / $this->rowsPerPage) * $this->rowsPerPage;
+    }
+
+    return $cursor;
   }
 
   /**
