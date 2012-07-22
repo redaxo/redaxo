@@ -184,7 +184,7 @@ class rex_path
   /**
    * Returns a relative path
    */
-  static private function relBase($file = '')
+  static private function relBase($file)
   {
     return self::$relBase . $file;
   }
@@ -192,7 +192,7 @@ class rex_path
   /**
    * Returns a absolute path
    */
-  static private function absBase($file = '')
+  static private function absBase($file)
   {
     return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, self::$absBase . $file);
   }
