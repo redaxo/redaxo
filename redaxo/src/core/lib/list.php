@@ -683,11 +683,12 @@ class rex_list extends rex_factory_base implements rex_url_provider
   public function getRows()
   {
     if (!$this->rows) {
-      // TODO add SQL_CALC_FOUND_ROWS
       $sql = rex_sql::factory();
       $sql->debugsql = $this->debug;
-      $sql->setQuery($this->query);
-      $this->rows = $sql->getRows();
+      $calcRowQry = str_ireplace('SELECT', 'SELECT SQL_CALC_FOUND_ROWS', $this->query);
+      $sql->setQuery($calcRowQry);
+      $sql->setQuery('SELECT FOUND_ROWS() as rows');
+      $this->rows = $sql->getValue('rows');
     }
 
     return $this->rows;
