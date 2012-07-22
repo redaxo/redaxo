@@ -116,7 +116,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
       if (($pos = strpos($path, '#')) !== false)
         $path = substr($path, 0, $pos);
 
-      if (($path == '') || (rex_path::frontend($path) == rex_path::frontendController())) {
+      if (($path == '') || (rex_url::frontend($path) == rex_url::frontendController())) {
         $this->setArticleId(rex::getProperty('start_article_id'));
         return true;
       }

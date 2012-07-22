@@ -7,7 +7,7 @@
 if ($PERMALL) {
   // ---- Dateien aus dem Ordner lesen
   $folder_files = array();
-  $path = rex_path::media('', rex_path::ABSOLUTE);
+  $path = rex_path::media();
   $iterator = rex_dir::iterator($path)->ignoreDirs()->ignoreFiles('_readme.txt')->ignorePrefixes(rex::getTempPrefix())->sort();
   foreach ($iterator as $file) {
     $folder_files[] = $file->getFilename();
@@ -65,7 +65,7 @@ if ($PERMALL) {
     foreach ($diff_files as $file) {
       echo '<div class="rex-form-row">
               <p class="rex-form-checkbox rex-form-label-right">';
-      if (is_writable(rex_path::media($file, rex_path::ABSOLUTE))) {
+      if (is_writable(rex_path::media($file))) {
         echo '<input class="rex-form-checkbox" type="checkbox" id="sync_file_' . $file . '" name="sync_files[]" value="' . $file . '" />
               <label for="sync_file_' . $file . '">' . $file . '</label>';
       } else {

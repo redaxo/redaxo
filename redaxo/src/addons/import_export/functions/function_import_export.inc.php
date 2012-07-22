@@ -225,7 +225,7 @@ function rex_a1_import_files($filename)
   }
 
   // Ordner /files komplett leeren
-  rex_dir::deleteFiles(rex_path::media('', rex_path::ABSOLUTE));
+  rex_dir::deleteFiles(rex_path::media());
 
   $tar = new rex_tar;
 
@@ -422,7 +422,7 @@ function rex_a1_export_files($folders)
 function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
 {
   $handle = opendir($path . $dir);
-  $isMediafolder = realpath($path . $dir) . '/' == rex_path::media('', rex_path::ABSOLUTE);
+  $isMediafolder = realpath($path . $dir) . '/' == rex_path::media();
   while (false !== ($file = readdir($handle))) {
     // Alles exportieren, außer ...
     // - addons verzeichnis im mediafolder (wird bei addoninstallation wiedererstellt)

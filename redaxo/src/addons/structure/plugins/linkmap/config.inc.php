@@ -21,7 +21,7 @@ if (rex::isBackend()) {
   if (rex::getUser()) {
     rex_extension::register('PAGE_HEADER', function ($params) {
       $params['subject'] .= "\n  " .
-        '<script type="text/javascript" src="' . rex_path::pluginAssets('structure', 'linkmap', 'linkmap.js') . '"></script>';
+        '<script type="text/javascript" src="' . rex_url::pluginAssets('structure', 'linkmap', 'linkmap.js') . '"></script>';
 
       return $params['subject'];
     });

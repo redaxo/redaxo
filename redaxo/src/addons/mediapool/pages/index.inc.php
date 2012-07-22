@@ -177,13 +177,13 @@ function selectMediaListArray(files)
 
 function insertImage(src,alt)
 {
-  window.opener.insertImage("<?php echo rex_path::media(); ?>" + src, alt);
+  window.opener.insertImage("<?php echo rex_url::media(); ?>" + src, alt);
   self.close();
 }
 
 function insertLink(src)
 {
-  window.opener.insertFileLink("<?php echo rex_path::media(); ?>" + src);
+  window.opener.insertFileLink("<?php echo rex_url::media(); ?>" + src);
   self.close();
 }
 

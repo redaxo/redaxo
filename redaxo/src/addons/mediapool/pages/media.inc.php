@@ -176,7 +176,7 @@ if ($subpage == 'media') {
     if ($isImage) {
       $fwidth = $gf->getValue('width');
       $fheight = $gf->getValue('height');
-      if ($size = @getimagesize(rex_path::media($fname))) {
+      if ($size = @getimagesize(rex_url::media($fname))) {
         $fwidth = $size[0];
         $fheight = $size[1];
       }
@@ -197,18 +197,18 @@ if ($subpage == 'media') {
           <span class="rex-form-read" id="fwidth">' . $fwidth . ' px / ' . $fheight . ' px</span>
         </p>
       </div>';
-      $imgn = rex_path::media($fname) . '" width="' . $rfwidth;
-      $img_max = rex_path::media($fname);
+      $imgn = rex_url::media($fname) . '" width="' . $rfwidth;
+      $img_max = rex_url::media($fname);
 
       if ($thumbs) {
         if ($image_manager) {
-          $imgn = rex_path::frontendController('?rex_img_type=rex_mediapool_detail&amp;rex_img_file=' . $encoded_fname);
-          $img_max = rex_path::frontendController('?rex_img_type=rex_mediapool_maximized&amp;rex_img_file=' . $encoded_fname);
+          $imgn = rex_url::frontendController(array('rex_img_type' => 'rex_mediapool_detail', 'rex_img_file' => $encoded_fname));
+          $img_max = rex_url::frontendController(array('rex_img_type' => 'rex_mediapool_maximized', 'rex_img_file' => $encoded_fname));
         } elseif ($image_resize && $rfwidth > 199)
-          $imgn = rex_path::frontendController('?rex_resize=200a__' . $encoded_fname);
+          $imgn = rex_url::frontendController(array('rex_resize' => '200a__' . $encoded_fname));
       }
 
-      if (!file_exists(rex_path::media($fname, rex_path::ABSOLUTE))) {
+      if (!file_exists(rex_path::media($fname))) {
         $add_image = '
         <div class="rex-mediapool-detail-image">
             <p class="rex-me1">
@@ -302,7 +302,7 @@ if ($subpage == 'media') {
                   <div class="rex-form-row">
                     <p class="rex-form-read">
                       <label for="flink">' . rex_i18n::msg('pool_filename') . '</label>
-                      <span class="rex-form-read"><a href="' . rex_path::media($encoded_fname) . '" id="flink">' . htmlspecialchars($fname) . '</a> [' . $ffile_size . ']</span>
+                      <span class="rex-form-read"><a href="' . rex_url::media($encoded_fname) . '" id="flink">' . htmlspecialchars($fname) . '</a> [' . $ffile_size . ']</span>
                     </p>
                   </div>
 
@@ -371,7 +371,7 @@ if ($subpage == 'media') {
                   <div class="rex-form-row">
                     <p class="rex-form-read">
                         <label for="flink">' . rex_i18n::msg('pool_filename') . '</label>
-                        <a class="rex-form-read" href="' . rex_path::media($encoded_fname) . '" id="flink">' . $fname . '</a> [' . $ffile_size . ']
+                        <a class="rex-form-read" href="' . rex_url::media($encoded_fname) . '" id="flink">' . $fname . '</a> [' . $ffile_size . ']
                     </p>
                   </div>
                   <div class="rex-form-row">
@@ -620,7 +620,7 @@ if ($subpage == '') {
       $desc .= '<br />';
 
     // wenn datei fehlt
-    if (!file_exists(rex_path::media($file_name, rex_path::ABSOLUTE))) {
+    if (!file_exists(rex_path::media($file_name))) {
       $thumbnail = '<span class="rex-mime rex-mime-error" title="file does not exist" />';
     } else {
       $file_ext = substr(strrchr($file_name, '.'), 1);
@@ -631,11 +631,11 @@ if ($subpage == '') {
       $thumbnail = '<span class="rex-mime ' . $icon_class . '" title="' . $alt . '" />';
 
       if (rex_media::_isImage($file_name) && $thumbs) {
-        $thumbnail = '<img src="' . rex_path::media($file_name) . '" width="80" alt="' . $alt . '" title="' . $alt . '" />';
+        $thumbnail = '<img src="' . rex_url::media($file_name) . '" width="80" alt="' . $alt . '" title="' . $alt . '" />';
         if ($image_manager) {
-          $thumbnail = '<img src="' . rex_path::frontendController('?rex_img_type=rex_mediapool_preview&amp;rex_img_file=' . $encoded_file_name) . '" alt="' . $alt . '" title="' . $alt . '" />';
+          $thumbnail = '<img src="' . rex_url::frontendController(array('rex_img_type' => 'rex_mediapool_preview', 'rex_img_file' => $encoded_file_name)) . '" alt="' . $alt . '" title="' . $alt . '" />';
         } elseif ($image_resize) {
-          $thumbnail = '<img src="' . rex_path::frontendController('?rex_resize=80a__' . $encoded_file_name) . '" alt="' . $alt . '" title="' . $alt . '" />';
+          $thumbnail = '<img src="' . rex_url::frontendController(array('rex_resize' => '80a__' . $encoded_file_name)) . '" alt="' . $alt . '" title="' . $alt . '" />';
         }
       }
     }

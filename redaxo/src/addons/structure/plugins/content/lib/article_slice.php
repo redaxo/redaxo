@@ -298,7 +298,7 @@ class rex_article_slice
 
   public function getMediaUrl($index)
   {
-    return rex_path::media($this->getMedia($index));
+    return rex_url::media($this->getMedia($index));
   }
 
   public function getMediaList($index)
@@ -331,7 +331,7 @@ class rex_article_slice
    */
   public function getFileUrl($index)
   {
-    return rex_path::media($this->getFile($index));
+    return rex_url::media($this->getFile($index));
   }
 
   /**

@@ -239,7 +239,7 @@ class rex_media
    */
   public function getPath()
   {
-    return rex_path::media();
+    return rex_url::media();
   }
 
   /**
@@ -359,7 +359,7 @@ class rex_media
 
     // Ist das Media ein Bild?
     if (!$this->isImage()) {
-      $file = rex_path::pluginAssets('be_style', 'base_old', 'file_dummy.gif');
+      $file = rex_url::pluginAssets('be_style', 'base_old', 'file_dummy.gif');
 
       // Verwenden einer statischen variable, damit getimagesize nur einmal aufgerufen
       // werden muss, da es sehr lange dauert
@@ -408,10 +408,10 @@ class rex_media
 
       // Bild resizen?
       if ($resize) {
-        $file = rex_path::frontendController('?rex_resize=' . $resizeParam . $resizeMode . '__' . $this->getFileName());
+        $file = rex_url::frontendController(array('rex_resize' => $resizeParam . $resizeMode . '__' . $this->getFileName()));
       } else {
         // Bild 1:1 anzeigen
-        $file = rex_path::media($this->getFileName());
+        $file = rex_url::media($this->getFileName());
       }
     }
 
@@ -614,7 +614,7 @@ class rex_media
   public function getIcon($useDefaultIcon = true)
   {
     $ext = $this->getExtension();
-    $folder = rex_path::pluginAssets('be_style', 'base_old', '');
+    $folder = rex_url::pluginAssets('be_style', 'base_old', '');
     $icon = $folder . 'mime-' . $ext . '.gif';
 
     // Dateityp für den kein Icon vorhanden ist
@@ -687,7 +687,7 @@ class rex_media
       $sql->setQuery($qry);
 
       if ($this->fileExists()) {
-        rex_file::delete(rex_path::media($this->getFileName(), rex_path::ABSOLUTE));
+        rex_file::delete(rex_path::media($this->getFileName()));
       }
 
       rex_media_cache::delete($this->getFileName());
@@ -703,7 +703,7 @@ class rex_media
       $filename = $this->getFileName();
     }
 
-    return file_exists(rex_path::media($filename, rex_path::ABSOLUTE));
+    return file_exists(rex_path::media($filename));
   }
 
   // allowed filetypes

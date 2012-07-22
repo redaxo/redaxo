@@ -24,7 +24,7 @@ if ($step == 1) {
   foreach (rex_i18n::getLocales() as $locale) {
     rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
     $label = rex_i18n::msg('lang');
-    $langs[$locale] = '<li><a class="rex-button" href="' . rex_path::backendController() . '?step=2&amp;lang=' . $locale . '">' . $label . '</a></li>';
+    $langs[$locale] = '<li><a class="rex-button" href="' . rex_url::backendController(array('step' => 2, 'lang' => $locale) . '">' . $label . '</a></li>';
   }
   rex_i18n::setLocale($saveLocale, false);
 
@@ -50,7 +50,7 @@ if ($step == 2) {
   $license_file = rex_path::base('_license.txt');
   $license = '<p>' . nl2br(rex_file::get($license_file)) . '</p>';
   $content .= '<div class="rex-content-scroll">' . $license . '</div>';
-  $content .= '<p><a class="rex-button" href="' . rex_path::backendController() . '?page=setup&amp;step=3&amp;lang=' . $lang . '">' . rex_i18n::msg('setup_203') . '</a></p>';
+  $content .= '<p><a class="rex-button" href="' . rex_url::backendController(array('page' => 'setup', 'step' => 3, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_203') . '</a></p>';
 
   echo $headline . rex_view::contentBlock($content);
 
@@ -107,19 +107,19 @@ if ($step == 3) {
   jQuery(function($){
 
     $.ajax({
-      url: "' . rex_path::backend('data/_readme.txt') . '",
+      url: "' . rex_url::backend('data/_readme.txt') . '",
       success: function(data) {
         $(".rex-setup-security-message").removeClass("rex-hidden");
       },
       error: function(data) {
         $.ajax({
-          url: "' . rex_path::backend('src/_readme.txt') . '",
+          url: "' . rex_url::backend('src/_readme.txt') . '",
           success: function(data) {
             $(".rex-setup-security-message").removeClass("rex-hidden");
           },
           error: function(data) {
             $.ajax({
-              url: "' . rex_path::backend('cache/_readme.txt') . '",
+              url: "' . rex_url::backend('cache/_readme.txt') . '",
               success: function(data) {
                 $(".rex-setup-security-message").removeClass("rex-hidden");
               },
@@ -149,10 +149,10 @@ if ($step == 3) {
     }
 
     $content .= rex_view::error(rex_i18n::msg('setup_310'));
-    $content .= '<p><a class="rex-button rex-hidden" href="' . rex_path::backendController() . '?page=setup&amp;step=4&amp;lang=' . $lang . '">' . rex_i18n::msg('setup_311') . '</a></p>';
+    $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendController(array('page' => 'setup', 'step' => 4, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_311') . '</a></p>';
 
   } else {
-    $content .= '<p><a class="rex-button rex-hidden" href="' . rex_path::backendController() . '?page=setup&amp;step=4&amp;lang=' . $lang . '">' . rex_i18n::msg('setup_309') . '</a></p>';
+    $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendController(array('page' => 'setup', 'step' => 4, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_309') . '</a></p>';
   }
 
   echo $headline . rex_view::contentBlock($content);
@@ -236,7 +236,7 @@ if ($step == 4) {
 
   $content .= '
       <div class="rex-form" id="rex-form-setup-step-4">
-      <form action="' . rex_path::backendController() . '" method="post">
+      <form action="' . rex_url::backendController() . '" method="post">
       <fieldset>
         <input type="hidden" name="page" value="setup" />
         <input type="hidden" name="step" value="5" />
@@ -403,7 +403,7 @@ if ($step == 5) {
       <h2>' . rex_i18n::msg('setup_501') . '</h2>
 
     <div class="rex-form" id="rex-form-setup-step-5">
-      <form action="' . rex_path::backendController() . '" method="post">
+      <form action="' . rex_url::backendController() . '" method="post">
       <fieldset>
         <input type="hidden" name="page" value="setup" />
         <input type="hidden" name="step" value="6" />
@@ -604,7 +604,7 @@ if ($step == 6) {
 
   $content .= '
   <div class="rex-form" id="rex-form-setup-step-6">
-  <form action="' . rex_path::backendController() . '" method="post" autocomplete="off" id="createadminform">
+  <form action="' . rex_url::backendController() . '" method="post" autocomplete="off" id="createadminform">
     <fieldset>
       <input type="hidden" name="javascript" value="0" id="javascript" />
       <input type="hidden" name="page" value="setup" />
@@ -699,10 +699,10 @@ if ($step == 7) {
 
   $content = '<h2>' . rex_i18n::msg('setup_702') . '</h2>';
   $content .= '<h3>' . rex_i18n::msg('setup_703') . '</h3>';
-  $content .= rex_i18n::msg('setup_704', '<a href="' . rex_path::backendController() . '">', '</a>');
+  $content .= rex_i18n::msg('setup_704', '<a href="' . rex_url::backendController() . '">', '</a>');
   $content .= '<p>' . rex_i18n::msg('setup_705') . '</p>';
 
-  $content .= '<p><a class="rex-button" href="' . rex_path::backendController() . '">' . rex_i18n::msg('setup_706') . '</a></p>';
+  $content .= '<p><a class="rex-button" href="' . rex_url::backendController() . '">' . rex_i18n::msg('setup_706') . '</a></p>';
 
   echo $headline . rex_view::contentBlock($content);
 

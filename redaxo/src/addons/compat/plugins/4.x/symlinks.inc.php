@@ -9,6 +9,6 @@ $symlinks = array(
   rex_path::src('layout/bottom.php') => $emptyFile,
   rex_path::src('functions') => $emptyDir,
   rex_path::src('functions/function_rex_generate.inc.php') => $emptyFile,
-  rex_path::base('files') => rex_path::media('', rex_path::ABSOLUTE),
-  rex_path::base('files/addons') => rex_path::assets('addons', rex_path::ABSOLUTE)
+  rex_path::base('files') => rex_path::media(),
+  rex_path::base('files/addons') => rex_path::assets('addons')
 );

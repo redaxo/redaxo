@@ -35,7 +35,7 @@ class rex_api_install_packages_upload extends rex_api_function
         }
         rex_install_helper::copyDirToArchive(rex_path::addon($addonkey), $archive, null, $exclude);
         if ($upload['replace_assets']) {
-          rex_install_helper::copyDirToArchive(rex_path::addonAssets($addonkey), $archive, $addonkey . '/assets');
+          rex_install_helper::copyDirToArchive(rex_url::addonAssets($addonkey), $archive, $addonkey . '/assets');
         }
         $file['checksum'] = md5_file($archive);
       }
