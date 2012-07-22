@@ -48,7 +48,7 @@ $logout = '';
 if (rex::getUser() && $hasNavigation) {
   $accesskey = 1;
 
-  $safemode = (rex::isSafeMode()) ? '<li><a href="' . rex_path::backendController('?safemode=0') . '">' . rex_i18n::msg('safemode') . '</a></li>' : '';
+  $safemode = (rex::isSafeMode()) ? '<li><a href="' . rex_path::backendController('?safemode=0') . '">' . rex_i18n::msg('safemode_deactivate') . '</a></li>' : '';
 
   $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
   $logout = '<ul>' . $safemode . '<li class="rex-loggedas">' . rex_i18n::msg('logged_in_as') . ' <a href="#">' . htmlspecialchars($user_name) . '</a></li><li><a href="' . rex_path::backendController('?page=profile') . '">' . rex_i18n::msg('profile_title') . '</a></li><li><a href="' . rex_path::backendController('?rex_logout=1') . '"' . rex::getAccesskey(rex_i18n::msg('logout'), 'logout') . '>' . rex_i18n::msg('logout') . '</a></li></ul>';

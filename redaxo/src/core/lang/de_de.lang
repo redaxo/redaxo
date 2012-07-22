@@ -50,6 +50,7 @@ stay_logged_in = Eingeloggt bleiben
 # redaxo/include/layout_redaxo/top.php
 logged_out  =  nicht angemeldet
 logged_in_as  =  Angemeldet als
+safemode_deactivate = Safe mode deaktivieren
 
 # redaxo/include/classes/class.form.inc.php
 form_field_first_prior = Am Anfang
