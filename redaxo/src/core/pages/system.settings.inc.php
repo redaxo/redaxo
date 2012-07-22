@@ -100,7 +100,7 @@ $content_1 = '<h2>' . rex_i18n::msg('system_features') . '</h2>
 
             <h3>' . rex_i18n::msg('setup') . '</h3>
             <p>' . rex_i18n::msg('setup_text') . '</p>
-            <p class="rex-button"><a class="rex-button" href="index.php?page=system&amp;func=setup" data-confirm="' . rex_i18n::msg('setup') . '?">' . rex_i18n::msg('setup') . '</a></p>
+            <p class="rex-button"><a class="rex-button" href="index.php?page=system&amp;func=setup" data-confirm="' . rex_i18n::msg('setup') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>
 
             <h3>' . rex_i18n::msg('version') . '</h3>
             <p>
