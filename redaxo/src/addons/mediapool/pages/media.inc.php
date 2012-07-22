@@ -176,7 +176,7 @@ if ($subpage == 'media') {
     if ($isImage) {
       $fwidth = $gf->getValue('width');
       $fheight = $gf->getValue('height');
-      if ($size = @getimagesize(rex_url::media($fname))) {
+      if ($size = @getimagesize(rex_path::media($fname))) {
         $fwidth = $size[0];
         $fheight = $size[1];
       }
