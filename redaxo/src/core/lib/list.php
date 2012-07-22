@@ -134,11 +134,15 @@ class rex_list extends rex_factory_base implements rex_url_provider
     $this->linkAttributes = array();
 
     // --------- Pagination Attributes
-    $this->pager = new rex_pager($this->getRows(), $rowsPerPage);
-
-    // --------- Load Data
+    $this->pager = new rex_pager($rowsPerPage);
+    
+    // --------- Load Data, Row-Count
     $this->sql->setQuery($this->prepareQuery($query));
-
+    $sql = rex_sql::factory();
+    $sql->setQuery('SELECT FOUND_ROWS() as rows');
+    $this->rows = $sql->getValue('rows');
+    $this->pager->setRowCount($this->rows);
+    
     foreach ($this->sql->getFieldnames() as $columnName)
       $this->columnNames[] = $columnName;
 
@@ -659,19 +663,22 @@ class rex_list extends rex_factory_base implements rex_url_provider
     $rowsPerPage = $this->pager->getRowsPerPage();
     $startRow = $this->pager->getCursor();
 
+    // prepare query for fast rowcount calculation
+    $query = preg_replace('/^SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', $query, 1);
+      
     $sortColumn = $this->getSortColumn();
     if ($sortColumn != '') {
       $sortType = $this->getSortType();
 
-      if (strpos(strtoupper($query), ' ORDER BY ') === false)
+      if (stripos($query, ' ORDER BY ') === false)
         $query .= ' ORDER BY `' . $sortColumn . '` ' . $sortType;
       else
         $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY `' . $sortColumn . '` ' . $sortType, $query);
     }
 
-    if (strpos(strtoupper($query), ' LIMIT ') === false)
+    if (stripos($query, ' LIMIT ') === false)
       $query .= ' LIMIT ' . $startRow . ',' . $rowsPerPage;
-
+    
     return $query;
   }
 
@@ -682,15 +689,6 @@ class rex_list extends rex_factory_base implements rex_url_provider
    */
   public function getRows()
   {
-    if (!$this->rows) {
-      $sql = rex_sql::factory();
-      $sql->debugsql = $this->debug;
-      $calcRowQry = str_ireplace('SELECT', 'SELECT SQL_CALC_FOUND_ROWS', $this->query);
-      $sql->setQuery($calcRowQry);
-      $sql->setQuery('SELECT FOUND_ROWS() as rows');
-      $this->rows = $sql->getValue('rows');
-    }
-
     return $this->rows;
   }
 

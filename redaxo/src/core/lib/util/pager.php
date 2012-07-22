@@ -15,15 +15,18 @@ class rex_pager
   /**
    * Constructs a rex_pager
    *
-   * @param int    $rowCount    The number of all rows to paginate
    * @param int    $rowsPerPage The number of rows which should be displayed on one page
    * @param string $cursorName  The name of the parameter used for pagination
    */
-  public function __construct($rowCount, $rowsPerPage = 30, $cursorName = 'start')
+  public function __construct($rowsPerPage = 30, $cursorName = 'start')
   {
-    $this->rowCount = $rowCount;
     $this->rowsPerPage = $rowsPerPage;
     $this->cursorName = $cursorName;
+  }
+  
+  public function setRowCount($rowCount)
+  {
+  	$this->rowCount = $rowCount;
   }
 
   /**
@@ -70,13 +73,19 @@ class rex_pager
       $cursor = $pageNo * $this->rowsPerPage;
     }
 
-    // $cursor innerhalb des zulässigen Zahlenbereichs?
-    if ($cursor < 0)
-      $cursor = 0;
-    elseif ($cursor > $this->rowCount)
-      $cursor = (int) ($this->rowCount / $this->rowsPerPage) * $this->rowsPerPage;
-
     return $cursor;
+  }
+  
+  public function validateCursor($cursor)
+  {
+  	// $cursor innerhalb des zulässigen Zahlenbereichs?
+  	if ($cursor < 0) {
+  		$cursor = 0;
+  	} elseif ($cursor > $this->rowCount) {
+  		$cursor = (int) ($this->rowCount / $this->rowsPerPage) * $this->rowsPerPage;
+  	}
+  	 
+  	return $cursor;
   }
 
   /**
