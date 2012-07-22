@@ -80,7 +80,7 @@ class rex_path
   /**
    * Returns the path to the assets folder of the given addon, which contains all assets required by the addon to work properly.
    *
-   * @see #assets
+   * @see assets()
    */
   static public function addonAssets($addon, $file = '')
   {
@@ -90,7 +90,7 @@ class rex_path
   /**
    * Returns the path to the assets folder of the given plugin of the given addon
    *
-   * @see #assets
+   * @see assets()
    */
   static public function pluginAssets($addon, $plugin, $file = '')
   {
