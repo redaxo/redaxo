@@ -237,17 +237,9 @@ class rex_media
   /**
    * @access public
    */
-  public function getPath()
+  public function getUrl()
   {
-    return rex_url::media();
-  }
-
-  /**
-   * @access public
-   */
-  public function getFullPath()
-  {
-    return $this->getPath() . '/' . $this->getFileName();
+    return rex_url::media($this->getFileName());
   }
 
   /**
@@ -445,7 +437,7 @@ class rex_media
    */
   public function toLink($attributes = '')
   {
-    return sprintf('<a href="%s" title="%s"%s>%s</a>', $this->getFullPath(), $this->getDescription(), $attributes, $this->getFileName());
+    return sprintf('<a href="%s" title="%s"%s>%s</a>', $this->getUrl(), $this->getDescription(), $attributes, $this->getFileName());
   }
 
   /**
@@ -564,7 +556,7 @@ class rex_media
    */
   public function toHTML($attributes = '')
   {
-    $file = $this->getFullPath();
+    $file = $this->getUrl();
     $filetype = $this->getExtension();
 
     switch ($filetype) {
