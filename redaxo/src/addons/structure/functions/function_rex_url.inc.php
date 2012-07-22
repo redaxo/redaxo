@@ -96,7 +96,7 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
       $_clang .= $_divider . 'clang=' . $clang;
     }
 
-    $url = rex_path::frontendController('?article_id=' . $id . $_clang . $param_string);
+    $url = rex_url::frontendController() . '?article_id=' . $id . $_clang . $param_string;
   }
 
   return $url;

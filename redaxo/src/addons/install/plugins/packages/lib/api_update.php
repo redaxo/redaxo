@@ -51,7 +51,7 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
     }
 
     // ---- backup
-    $assets = $this->addon->getAssetsPath('', rex_path::ABSOLUTE);
+    $assets = $this->addon->getAssetsPath();
     if (rex_addon::get('install')->getConfig('backups')) {
       $archivePath = rex_path::pluginData('install', 'packages', $this->addonkey . '/');
       rex_dir::create($archivePath);
@@ -68,7 +68,7 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
       if (!is_dir($pluginPath)) {
         rex_dir::copy($plugin->getBasePath(), $pluginPath);
       } elseif ($plugin->isInstalled() && is_dir($pluginPath . '/assets')) {
-        rex_dir::copy($pluginPath . '/assets', $plugin->getAssetsPath('', rex_path::ABSOLUTE));
+        rex_dir::copy($pluginPath . '/assets', $plugin->getAssetsPath());
       }
     }
 

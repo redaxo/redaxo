@@ -20,7 +20,7 @@ if (rex::isBackend()) {
 
   rex_extension::register('PAGE_HEADER', function ($params) use ($mypage) {
     $params['subject'] .= '
-      <link href="' . rex_path::pluginAssets('be_style', $mypage, 'css_import.css') . '" rel="stylesheet" type="text/css" media="all" />';
+      <link href="' . rex_url::pluginAssets('be_style', $mypage, 'css_import.css') . '" rel="stylesheet" type="text/css" media="all" />';
     return $params['subject'];
   });
 }

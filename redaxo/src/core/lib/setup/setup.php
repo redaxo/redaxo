@@ -19,10 +19,10 @@ class rex_setup
     rex_deleteCache();
 
     // copy alle media files of the current rex-version into redaxo_media
-    rex_dir::copy(rex_path::core('assets'), rex_path::assets('', rex_path::ABSOLUTE));
+    rex_dir::copy(rex_path::core('assets'), rex_path::assets());
 
     // copy skins files/assets
-    rex_dir::copy(rex_path::plugin($skinAddon, $skinPlugin, 'assets'), rex_path::pluginAssets($skinAddon, $skinPlugin, '', rex_path::ABSOLUTE));
+    rex_dir::copy(rex_path::plugin($skinAddon, $skinPlugin, 'assets'), rex_path::pluginAssets($skinAddon, $skinPlugin, ''));
   }
 
   /**
@@ -61,10 +61,10 @@ class rex_setup
 
     // -------------------------- SCHREIBRECHTE
     $WRITEABLES = array(
-      rex_path::media('', rex_path::ABSOLUTE),
-      rex_path::media('_readme.txt', rex_path::ABSOLUTE),
-      rex_path::assets('', rex_path::ABSOLUTE),
-      rex_path::assets('_readme.txt', rex_path::ABSOLUTE),
+      rex_path::media(),
+      rex_path::media('_readme.txt'),
+      rex_path::assets(),
+      rex_path::assets('_readme.txt'),
       rex_path::cache(),
       rex_path::data(),
       rex_path::data('config.yml'),

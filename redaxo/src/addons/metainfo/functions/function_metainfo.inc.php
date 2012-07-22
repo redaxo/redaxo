@@ -196,7 +196,7 @@ function rex_metainfo_extensions_handler($params)
   // additional javascripts
   if ($page == 'metainfo' || ($page == 'content' && $mode == 'meta')) {
     rex_extension::register('PAGE_HEADER', function ($params) use ($mypage) {
-      return $params['subject'] . "\n" . '  <script src="' . rex_path::addonAssets($mypage, 'metainfo.js') . '" type="text/javascript"></script>';
+      return $params['subject'] . "\n" . '  <script src="' . rex_url::addonAssets($mypage, 'metainfo.js') . '" type="text/javascript"></script>';
     });
   }
 

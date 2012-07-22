@@ -83,7 +83,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             $n['field'] = '<input id="install-packages-upload-upload-file" type="checkbox" name="upload[upload_file]" value="1" ' . ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled . '/>';
             $formElements[] = $n;
 
-            if (rex_addon::get($addonkey)->isInstalled() && is_dir(rex_path::addonAssets($addonkey))) {
+            if (rex_addon::get($addonkey)->isInstalled() && is_dir(rex_url::addonAssets($addonkey))) {
               $n = array();
               $n['reverse'] = true;
               $n['label'] = '<label for="install-packages-upload-replace-assets">' . $this->i18n('replace_assets') . '</label>';

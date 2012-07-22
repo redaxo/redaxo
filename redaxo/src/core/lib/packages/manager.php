@@ -124,7 +124,7 @@ abstract class rex_package_manager extends rex_factory_base
 
     // Dateien kopieren
     if ($state === true && is_dir($files_dir)) {
-      if (!rex_dir::copy($files_dir, $this->package->getAssetsPath('', rex_path::ABSOLUTE))) {
+      if (!rex_dir::copy($files_dir, $this->package->getAssetsPath())) {
         $state = $this->I18N('install_cant_copy_files');
       }
     }
@@ -190,7 +190,7 @@ abstract class rex_package_manager extends rex_factory_base
         $state = 'Error found in uninstall.sql:<br />' . $state;
     }
 
-    $mediaFolder = $this->package->getAssetsPath('', rex_path::ABSOLUTE);
+    $mediaFolder = $this->package->getAssetsPath();
     if ($state === true && is_dir($mediaFolder)) {
       if (!rex_dir::delete($mediaFolder)) {
         $state = $this->I18N('install_cant_delete_files');
