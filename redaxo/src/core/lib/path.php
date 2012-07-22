@@ -10,14 +10,12 @@
 class rex_path
 {
   static protected
-    $relBase,
-    $absBase,
+    $base,
     $backend;
 
   static public function init($htdocs, $backend)
   {
-    self::$relBase = $htdocs;
-    self::$absBase = realpath($htdocs) . '/';
+    self::$base = realpath($htdocs) . '/';
     self::$backend = $backend;
   }
 
@@ -26,7 +24,7 @@ class rex_path
    */
   static public function base($file = '')
   {
-    return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, self::$absBase . $file);;
+    return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, self::$base . $file);;
   }
 
   /**
@@ -34,7 +32,7 @@ class rex_path
    */
   static public function frontend($file = '')
   {
-    return static::base($file);
+    return self::base($file);
   }
 
   /**
@@ -42,7 +40,7 @@ class rex_path
    */
   static public function frontendController()
   {
-    return static::base('index.php');
+    return self::base('index.php');
   }
 
   /**
@@ -50,7 +48,7 @@ class rex_path
    */
   static public function backend($file = '')
   {
-    return static::base(self::$backend . '/' . $file);
+    return self::base(self::$backend . '/' . $file);
   }
 
   /**
@@ -58,7 +56,7 @@ class rex_path
    */
   static public function backendController()
   {
-    return static::backend('index.php');
+    return self::backend('index.php');
   }
 
   /**
@@ -66,7 +64,7 @@ class rex_path
    */
   static public function media($file = '')
   {
-    return static::base('media/' . $file);
+    return self::base('media/' . $file);
   }
 
   /**
@@ -74,7 +72,7 @@ class rex_path
    */
   static public function assets($file = '')
   {
-    return static::base('assets/' . $file);
+    return self::base('assets/' . $file);
   }
 
   /**
@@ -84,7 +82,7 @@ class rex_path
    */
   static public function addonAssets($addon, $file = '')
   {
-    return static::assets('addons/' . $addon . '/' . $file);
+    return self::assets('addons/' . $addon . '/' . $file);
   }
 
   /**
@@ -94,7 +92,7 @@ class rex_path
    */
   static public function pluginAssets($addon, $plugin, $file = '')
   {
-    return static::addonAssets($addon, 'plugins/' . $plugin . '/' . $file);
+    return self::addonAssets($addon, 'plugins/' . $plugin . '/' . $file);
   }
 
   /**
@@ -102,7 +100,7 @@ class rex_path
    */
   static public function data($file = '')
   {
-    return static::backend('data/' . $file);
+    return self::backend('data/' . $file);
   }
 
   /**
@@ -110,7 +108,7 @@ class rex_path
    */
   static public function addonData($addon, $file = '')
   {
-    return static::data('addons/' . $addon . '/' . $file);
+    return self::data('addons/' . $addon . '/' . $file);
   }
 
   /**
@@ -118,7 +116,7 @@ class rex_path
    */
   static public function pluginData($addon, $plugin, $file = '')
   {
-    return static::addonData($addon, 'plugins/' . $plugin . '/' . $file);
+    return self::addonData($addon, 'plugins/' . $plugin . '/' . $file);
   }
 
   /**
@@ -126,7 +124,7 @@ class rex_path
    */
   static public function cache($file = '')
   {
-    return static::backend('cache/' . $file);
+    return self::backend('cache/' . $file);
   }
 
   /**
@@ -134,7 +132,7 @@ class rex_path
    */
   static public function addonCache($addon, $file = '')
   {
-    return static::cache('addons/' . $addon . '/' . $file);
+    return self::cache('addons/' . $addon . '/' . $file);
   }
 
   /**
@@ -142,7 +140,7 @@ class rex_path
    */
   static public function pluginCache($addon, $plugin, $file = '')
   {
-    return static::addonCache($addon, 'plugins/' . $plugin . '/' . $file);
+    return self::addonCache($addon, 'plugins/' . $plugin . '/' . $file);
   }
 
   /**
@@ -150,7 +148,7 @@ class rex_path
    */
   static public function src($file = '')
   {
-    return static::backend('src/' . $file);
+    return self::backend('src/' . $file);
   }
 
   /**
@@ -158,7 +156,7 @@ class rex_path
    */
   static public function core($file = '')
   {
-    return static::src('core/' . $file);
+    return self::src('core/' . $file);
   }
 
   /**
@@ -166,7 +164,7 @@ class rex_path
    */
   static public function addon($addon, $file = '')
   {
-    return static::src('addons/' . $addon . '/' . $file);
+    return self::src('addons/' . $addon . '/' . $file);
   }
 
   /**
@@ -174,7 +172,7 @@ class rex_path
    */
   static public function plugin($addon, $plugin, $file = '')
   {
-    return static::addon($addon, 'plugins/' . $plugin . '/' . $file);
+    return self::addon($addon, 'plugins/' . $plugin . '/' . $file);
   }
 
   /**
