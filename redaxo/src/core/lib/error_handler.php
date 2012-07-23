@@ -78,7 +78,7 @@ abstract class rex_error_handler
 
       if (!rex::isSetup() && rex::isBackend() && !rex::isSafeMode()) {
         $buf .= "\n\n";
-        $buf .= '<a href="' . rex_path::backendController('?page=addon&safemode=1') . '">activate safe mode</a>';
+        $buf .= '<a href="' . rex_url::backendController(array('page' => 'addon', 'safemode' => 1)) . '">activate safe mode</a>';
       }
 
       $buf .= '</pre>';
