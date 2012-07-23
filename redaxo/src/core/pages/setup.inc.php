@@ -24,7 +24,7 @@ if ($step == 1) {
   foreach (rex_i18n::getLocales() as $locale) {
     rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
     $label = rex_i18n::msg('lang');
-    $langs[$locale] = '<li><a class="rex-button" href="' . rex_url::backendController(array('step' => 2, 'lang' => $locale) . '">' . $label . '</a></li>';
+    $langs[$locale] = '<li><a class="rex-button" href="' . rex_url::backendController(array('step' => 2, 'lang' => $locale)) . '">' . $label . '</a></li>';
   }
   rex_i18n::setLocale($saveLocale, false);
 
