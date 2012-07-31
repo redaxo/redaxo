@@ -60,11 +60,11 @@ function makeWinObj(name,url,posx,posy,width,height,extra)
 
         this.name=name;
         this.url=url;
-        this.obj=window.open(url,name,'width='+width+',height='+height+', ' + extra);
+        this.obj=window.open(url,name,'left='+posx+',top='+posy+',width='+width+',height='+height+', ' + extra);
 
         // alert("x: "+posx+" | posy: "+posy);
 
-        this.obj.moveTo(posx,posy);
+        // this.obj.moveTo(posx,posy);
         this.obj.focus();
 
         return this;
