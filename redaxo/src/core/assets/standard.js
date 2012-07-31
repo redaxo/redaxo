@@ -458,10 +458,10 @@ jQuery(function($){
 
   $(function() {
     $("input,button,textarea,select,option")
-      .focus(function(event) {
+      .live("focus", function(event) {
         ENABLE_KEY_NAV = false;
       })
-      .blur(function(event) {
+      .live("blur", function(event) {
         ENABLE_KEY_NAV = true;
       });
   });
