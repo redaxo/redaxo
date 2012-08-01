@@ -154,7 +154,7 @@ class rex_form extends rex_factory_base
 
     $paramString = '';
     foreach ($params as $name => $value) {
-      $paramString .= $name . '=' . $value . '&';
+      $paramString .= $name . '=' . urlencode($value) . '&';
     }
 
     $url = 'index.php?' . $paramString;
