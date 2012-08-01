@@ -609,11 +609,6 @@ class rex_list extends rex_factory_base implements rex_url_provider
   {
     $params = array_merge($this->getParams(), $params);
 
-// aendern der items pro seite aktuell nicht vorgesehen
-//    if(!isset($params['items']))
-//    {
-//      $params['items'] = $this->getRowsPerPage();
-//    }
     if (!isset($params['sort'])) {
       $sortColumn = $this->getSortColumn();
       if ($sortColumn != null) {
@@ -626,10 +621,10 @@ class rex_list extends rex_factory_base implements rex_url_provider
     foreach ($params as $name => $value) {
       if (is_array($value)) {
         foreach ($value as $v) {
-          $paramString .= '&' . $name . '=' . $v;
+          $paramString .= '&' . $name . '=' . urlencode($v);
         }
       } else {
-        $paramString .= '&' . $name . '=' . $value;
+        $paramString .= '&' . $name . '=' . urlencode($value);
       }
     }
     return str_replace('&', '&amp;', 'index.php?list=' . $this->getName() . $paramString);
@@ -646,7 +641,27 @@ class rex_list extends rex_factory_base implements rex_url_provider
    */
   public function getParsedUrl($params = array())
   {
-    return $this->replaceVariables($this->getUrl($params));
+    $params = array_merge($this->getParams(), $params);
+
+    if (!isset($params['sort'])) {
+      $sortColumn = $this->getSortColumn();
+      if ($sortColumn != null) {
+        $params['sort'] = $sortColumn;
+        $params['sorttype'] = $this->getSortType();
+      }
+    }
+
+    $paramString = '';
+    foreach ($params as $name => $value) {
+      if (is_array($value)) {
+        foreach ($value as $v) {
+          $paramString .= '&' . $name . '=' . urlencode($this->replaceVariables($v));
+        }
+      } else {
+        $paramString .= '&' . $name . '=' . urlencode($this->replaceVariables($value));
+      }
+    }
+    return str_replace('&', '&amp;', 'index.php?list=' . $this->getName() . $paramString);
   }
 
   // ---------------------- Pagination
@@ -781,7 +796,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
   }
 
   /**
-   * Ersetzt alle Variablen im Format ###<Spaltenname>###.
+   * Ersetzt alle Variablen im Format ###&lt;Spaltenname&gt;###.
    *
    * @param $value Zu durchsuchender String
    * @param $columnNames Zu suchende Spaltennamen
