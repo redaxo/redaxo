@@ -865,7 +865,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
     $s = '';
 
     foreach ($array as $name => $value)
-      $s .= ' ' . $name . '="' . $value . '"';
+      $s .= ' ' . htmlspecialchars($name) . '="' . htmlspecialchars($value) . '"';
 
     return $s;
   }
