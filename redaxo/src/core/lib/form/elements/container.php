@@ -80,12 +80,12 @@ class rex_form_container_element extends rex_form_element
     foreach ($this->getAttributes() as $attributeName => $attributeValue) {
       if (in_array($attributeName, $attributeFilter)) continue;
 
-      $attr .= ' ' . $attributeName . '="' . $attributeValue . '"';
+      $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
     }
 
     $format = '';
     foreach ($this->fields as $group => $groupFields) {
-      $format .= '<div id="rex-' . $group . '"' . $attr . '>';
+      $format .= '<div id="rex-' . htmlspecialchars($group) . '"' . $attr . '>';
       foreach ($groupFields as $field) {
           $format .= $field->get();
       }
@@ -106,8 +106,6 @@ class rex_form_container_element extends rex_form_element
 
   public function getSaveValue()
   {
-//    var_dump($this->multiple);
-//    var_dump($this->active);
     $value = array();
     if ($this->multiple) {
       foreach ($this->fields as $group => $groupFields) {

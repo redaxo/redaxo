@@ -574,7 +574,10 @@ jQuery(document).ready(function($) {
       $('#rex-message-container').text('Something went wrong: ' + err);
     })
     .on('pjax:success', function(e, data, status, xhr, options) {
-      var paramUrl = options.url.split('?'), page, subpage;
+      var
+        paramUrl = options.url.split('?'),
+        page,
+        subpage = '';
 
       $.each(paramUrl[1].split('&'), function(_, value) {
         var parts = value.split('=');
