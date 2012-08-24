@@ -60,11 +60,11 @@ function makeWinObj(name,url,posx,posy,width,height,extra)
 
         this.name=name;
         this.url=url;
-        this.obj=window.open(url,name,'width='+width+',height='+height+', ' + extra);
+        this.obj=window.open(url,name,'left='+posx+',top='+posy+',width='+width+',height='+height+', ' + extra);
 
         // alert("x: "+posx+" | posy: "+posy);
 
-        this.obj.moveTo(posx,posy);
+        // this.obj.moveTo(posx,posy);
         this.obj.focus();
 
         return this;
@@ -458,10 +458,10 @@ jQuery(function($){
 
   $(function() {
     $("input,button,textarea,select,option")
-      .focus(function(event) {
+      .live("focus", function(event) {
         ENABLE_KEY_NAV = false;
       })
-      .blur(function(event) {
+      .live("blur", function(event) {
         ENABLE_KEY_NAV = true;
       });
   });
@@ -524,6 +524,7 @@ jQuery(document).ready(function($) {
   // prevent pjax from jumping to top, see github#60
   $.pjax.defaults.scrollTo = false;
   $.pjax.defaults.timeout = 5000;
+  $.pjax.defaults.maxCacheLength = 0;
 
   confDialog = function(event) {
     if(!confirm($(this).attr('data-confirm')))
@@ -541,6 +542,11 @@ jQuery(document).ready(function($) {
   // install pjax handlers, see defunkt/jquery-pjax#142
   $(document).on('click', '[data-pjax-container] a, a[data-pjax]', function(event) {
     var self = $(this), container;
+
+    if(event.isDefaultPrevented())
+    {
+      return;
+    }
 
     if(self.is('a[data-pjax]'))
     {
@@ -568,7 +574,10 @@ jQuery(document).ready(function($) {
       $('#rex-message-container').text('Something went wrong: ' + err);
     })
     .on('pjax:success', function(e, data, status, xhr, options) {
-      var paramUrl = options.url.split('?'), page, subpage;
+      var
+        paramUrl = options.url.split('?'),
+        page,
+        subpage = '';
 
       $.each(paramUrl[1].split('&'), function(_, value) {
         var parts = value.split('=');

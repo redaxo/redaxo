@@ -42,7 +42,15 @@ abstract class rex_null_package extends rex_singleton_base implements rex_packag
   /* (non-PHPdoc)
    * @see rex_package_interface::getAssetsPath()
    */
-  public function getAssetsPath($file = '', $pathType = rex_path::RELATIVE)
+  public function getAssetsPath($file = '')
+  {
+    return null;
+  }
+
+  /* (non-PHPdoc)
+   * @see rex_package_interface::getAssetsUrl()
+   */
+  public function getAssetsUrl($file = '')
   {
     return null;
   }

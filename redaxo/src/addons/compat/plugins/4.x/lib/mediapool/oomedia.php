@@ -8,6 +8,26 @@
 class OOMedia extends rex_media
 {
   /**
+   * @see rex_url::media()
+   *
+   * @deprecated 5.0
+   */
+  public function getPath()
+  {
+    return rex_url::media();
+  }
+
+  /**
+   * @see rex_media::getUrl()
+   *
+   * @deprecated 5.0
+   */
+  public function getFullPath()
+  {
+    return $this->getUrl();
+  }
+
+  /**
    * @see rex_file::extension()
    *
    * @deprecated 5.0

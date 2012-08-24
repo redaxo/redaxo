@@ -7,10 +7,7 @@
  */
 function rex_generateAll()
 {
-  $MSG = rex_deleteCache();
-  // ----- EXTENSION POINT
-  $MSG = rex_extension::registerPoint('ALL_GENERATED', $MSG);
-  return $MSG;
+  return rex_deleteCache();
 }
 
 /**

@@ -69,7 +69,7 @@ class rex_api_install_core_update extends rex_api_function
       rex_dir::delete($path);
       rename($temppath, $path);
       if (is_dir(rex_path::core('assets'))) {
-        rex_dir::copy(rex_path::core('assets'), rex_path::assets('', rex_path::ABSOLUTE));
+        rex_dir::copy(rex_path::core('assets'), rex_path::assets());
       }
     }
     rex_dir::delete($temppath);

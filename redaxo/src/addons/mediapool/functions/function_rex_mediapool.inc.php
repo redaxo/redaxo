@@ -34,9 +34,9 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
 
   if ($doSubindexing) {
     // ----- datei schon vorhanden -> namen aendern -> _1 ..
-    if (file_exists(rex_path::media($NFILENAME, rex_path::ABSOLUTE))) {
+    if (file_exists(rex_path::media($NFILENAME))) {
       $cnt = 1;
-      while (file_exists(rex_path::media($NFILE_NAME . '_' . $cnt . $NFILE_EXT, rex_path::ABSOLUTE)))
+      while (file_exists(rex_path::media($NFILE_NAME . '_' . $cnt . $NFILE_EXT)))
         $cnt++;
 
       $NFILENAME = $NFILE_NAME . '_' . $cnt . $NFILE_EXT;
@@ -77,18 +77,16 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
   $message = '';
 
   // ----- alter/neuer filename
-  $srcFile = rex_path::media($FILENAME, rex_path::ABSOLUTE);
-  $dstFile = rex_path::media($NFILENAME, rex_path::ABSOLUTE);
+  $srcFile = rex_path::media($FILENAME);
+  $dstFile = rex_path::media($NFILENAME);
 
   $success = true;
-  if ($isFileUpload) // Fileupload?
-  {
+  if ($isFileUpload) { // Fileupload?
     if (!@move_uploaded_file($FILE['tmp_name'], $dstFile)) {
       $message .= rex_i18n::msg('pool_file_movefailed');
       $success = false;
     }
-  } else // Filesync?
-  {
+  } else { // Filesync?
     if (!@rename($srcFile, $dstFile)) {
       $message .= rex_i18n::msg('pool_file_movefailed');
       $success = false;
@@ -183,8 +181,9 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 
     // if ($ffiletype == $FILEINFOS["filetype"] || rex_media::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
     if ($p_new['extension'] == $p_old['extension']) {
-      if (move_uploaded_file($ffilename, rex_path::media($FILEINFOS['filename'], rex_path::ABSOLUTE)) ||
-          copy($ffilename, rex_path::media($FILEINFOS['filename'], rex_path::ABSOLUTE))) {
+      if (move_uploaded_file($ffilename, rex_path::media($FILEINFOS['filename'])) ||
+          copy($ffilename, rex_path::media($FILEINFOS['filename']))
+      ) {
         $RETURN['msg'] = rex_i18n::msg('pool_file_changed');
         $FILEINFOS['filetype'] = $ffiletype;
         $FILEINFOS['filesize'] = $ffilesize;
@@ -192,11 +191,11 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
         $FILESQL->setValue('filetype', $FILEINFOS['filetype']);
         // $FILESQL->setValue('originalname',$ffilename);
         $FILESQL->setValue('filesize', $FILEINFOS['filesize']);
-        if ($size = @getimagesize(rex_path::media($FILEINFOS['filename'], rex_path::ABSOLUTE))) {
+        if ($size = @getimagesize(rex_path::media($FILEINFOS['filename']))) {
           $FILESQL->setValue('width', $size[0]);
           $FILESQL->setValue('height', $size[1]);
         }
-        @chmod(rex_path::media($FILEINFOS['filename'], rex_path::ABSOLUTE), rex::getFilePerm());
+        @chmod(rex_path::media($FILEINFOS['filename']), rex::getFilePerm());
         $updated = true;
       } else {
           $RETURN['msg'] = rex_i18n::msg('pool_file_upload_error');
@@ -268,7 +267,7 @@ $RETURN['old_filename'] = $FILENAME;
  */
 function rex_mediapool_syncFile($physical_filename, $category_id, $title, $filesize = null, $filetype = null, $doSubindexing = false)
 {
-  $abs_file = rex_path::media($physical_filename, rex_path::ABSOLUTE);
+  $abs_file = rex_path::media($physical_filename);
 
   if (!file_exists($abs_file)) {
     return false;
@@ -442,7 +441,7 @@ function rex_mediapool_Syncform($rex_file_category)
 function rex_mediapool_add_assets($params)
 {
   $params['subject'] .= "\n  " .
-    '<script type="text/javascript" src="' . rex_path::addonAssets('mediapool', 'mediapool.js') . '"></script>';
+    '<script type="text/javascript" src="' . rex_url::addonAssets('mediapool', 'mediapool.js') . '"></script>';
 
   return $params['subject'];
 }

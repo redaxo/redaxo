@@ -198,15 +198,18 @@ class rex_be_controller
   {
     // --- page pruefen und benoetigte rechte checken
     if (!isset($pages[$page]) ||
-        (($p = $pages[$page]->getPage()) && !$p->checkPermission($user))) {
+        (($p = $pages[$page]->getPage()) && !$p->checkPermission($user))
+    ) {
       // --- fallback zur user startpage -> rechte checken
       $page = $user->getStartPage();
       if (!isset($pages[$page]) ||
-          (($p = $pages[$page]->getPage()) && !$p->checkPermission($user))) {
+          (($p = $pages[$page]->getPage()) && !$p->checkPermission($user))
+      ) {
         // --- fallback zur system startpage -> rechte checken
         $page = rex::getProperty('start_page');
         if (!isset($pages[$page]) ||
-            (($p = $pages[$page]->getPage()) && !$p->checkPermission($user))) {
+            (($p = $pages[$page]->getPage()) && !$p->checkPermission($user))
+        ) {
           // --- user hat keine rechte innerhalb der fallback-kette
           return null;
         }

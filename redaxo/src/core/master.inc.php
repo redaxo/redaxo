@@ -28,6 +28,9 @@ rex_autoload::register();
 // add core base-classpath to autoloader
 rex_autoload::addDirectory(rex_path::core('lib'));
 rex_autoload::addDirectory(rex_path::core('vendor'));
+
+rex_url::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER']);
+
 // start timer at the very beginning
 rex::setProperty('timer', new rex_timer);
 // register rex_error_handler

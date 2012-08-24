@@ -206,16 +206,17 @@ class rex_form_element
   {
     $attr = '';
     $value = htmlspecialchars($this->getValue());
+    $tag = htmlspecialchars($this->getTag());
 
     foreach ($this->getAttributes() as $attributeName => $attributeValue) {
-      $attr .= ' ' . $attributeName . '="' . $attributeValue . '"';
+      $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
     }
 
     if ($this->hasSeparateEnding()) {
-      return '          <' . $this->getTag() . $attr . '>' . $value . '</' . $this->getTag() . '>' . "\n";
+      return '          <' . $tag . $attr . '>' . $value . '</' . $tag . '>' . "\n";
     } else {
       $attr .= ' value="' . $value . '"';
-      return '          <' . $this->getTag() . $attr . ' />' . "\n";
+      return '          <' . $tag . $attr . ' />' . "\n";
     }
   }
 

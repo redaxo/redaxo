@@ -8,10 +8,10 @@ global $REX, $I18N;
 
 $REX = new rex_compat_array;
 
-$REX['HTDOCS_PATH']   = rex_path::frontend();
+$REX['HTDOCS_PATH']   = rex_url::frontend();
 $REX['INCLUDE_PATH']  = rtrim(rex_path::src(), DIRECTORY_SEPARATOR);
-$REX['FRONTEND_PATH'] = rtrim(rex_path::frontend('', rex_path::ABSOLUTE), DIRECTORY_SEPARATOR);
-$REX['MEDIAFOLDER']   = rtrim(rex_path::media('', rex_path::ABSOLUTE), DIRECTORY_SEPARATOR);
+$REX['FRONTEND_PATH'] = rtrim(rex_path::frontend(), DIRECTORY_SEPARATOR);
+$REX['MEDIAFOLDER']   = rtrim(rex_path::media(), DIRECTORY_SEPARATOR);
 $REX['FRONTEND_FILE'] = 'index.php';
 
 $REX['GG'] = !rex::isBackend();
@@ -33,6 +33,14 @@ $REX['MOD_REWRITE'] = true;
 if (rex::isBackend()) {
   $I18N = new i18n(rex::getProperty('lang'));
 }
+
+$deprecatedExtensionPoint = function ($oldEP, $newEP) {
+  rex_extension::register($newEP, function ($params) use ($oldEP) {
+    return rex_extension::registerPoint($oldEP, $params['subject'], $params);
+  });
+};
+$deprecatedExtensionPoint('ALL_GENERATED', 'CACHE_DELETED');
+$deprecatedExtensionPoint('OOMEDIA_IS_IN_USE', 'MEDIA_IS_IN_USE');
 
 
 /**

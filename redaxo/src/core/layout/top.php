@@ -47,12 +47,15 @@ $hasNavigation = $activePageObj->hasNavigation();
 $logout = '';
 if (rex::getUser() && $hasNavigation) {
   $accesskey = 1;
+
+  $safemode = (rex::isSafeMode()) ? '<li><a href="' . rex_url::backendController(array('safemode' => 0)) . '">' . rex_i18n::msg('safemode_deactivate') . '</a></li>' : '';
+
   $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
-  $logout = '<ul class="rex-logout"><li class="rex-first"><span>' . rex_i18n::msg('logged_in_as') . ' ' . htmlspecialchars($user_name) . '</span></li><li><a href="index.php?page=profile">' . rex_i18n::msg('profile_title') . '</a></li><li><a href="index.php?rex_logout=1"' . rex::getAccesskey(rex_i18n::msg('logout'), 'logout') . '>' . rex_i18n::msg('logout') . '</a></li></ul>' . "\n";
+  $logout = '<ul>' . $safemode . '<li class="rex-loggedas">' . rex_i18n::msg('logged_in_as') . ' <a href="#">' . htmlspecialchars($user_name) . '</a></li><li><a href="' . rex_url::backendController(array('page' => 'profile')) . '">' . rex_i18n::msg('profile_title') . '</a></li><li><a href="' . rex_url::backendController(array('rex_logout' => 1)) . '"' . rex::getAccesskey(rex_i18n::msg('logout'), 'logout') . '>' . rex_i18n::msg('logout') . '</a></li></ul>';
 } elseif ($hasNavigation) {
-  $logout = '<p class="rex-logout">' . rex_i18n::msg('logged_out') . '</p>';
+  $logout = '<ul><li class="rex-loggedas">' . rex_i18n::msg('logged_out') . '</li></ul>';
 } else {
-  $logout = '<p class="rex-logout">&nbsp;</p>';
+  $logout = '<ul><li class="rex-loggedas">&nbsp;</li></ul>';
 }
 
 
@@ -91,7 +94,46 @@ if (rex::getUser() && $hasNavigation) {
   $navigation = $fragment->parse('navigation.tpl');
 }
 
+/* Setup Navigation ***********************************************************/
+if (rex::getProperty('page') == 'setup') {
+  $step = rex_request('step', 'float');
+  $lang = rex_request('lang', 'string', '');
+  $navi = array();
+  for ($i = 1; $i <= 7; $i++) {
+    $n = array();
+    $n['itemClasses'] = array();
+    if ($i == $step)
+      $n['itemClasses'][] = 'rex-active';
 
+    if ($i < $step) {
+      $n['linkClasses'][] = 'rex-success';
+      $n['href'] = rex_url::backendController(array('page' => 'setup', 'step' => $i, 'lang' => $lang));
+    }
+    $name = '';
+    if (isset($n['href']) && $lang != '')
+      $name = rex_i18n::msg('setup_' . $i . '99');
+    elseif ($lang != '')
+      $name = '<span>' . rex_i18n::msg('setup_' . $i . '99') . '</span>';
+    elseif ($i == 1)
+      $name = '<span>Step 1 / Language</span>';
+
+    $n['title'] = $name;
+
+    $navi[] = $n;
+  }
+  $block = array();
+  $block['headline'] = array('title' => 'Setup');
+  $block['navigation'] = $navi;
+  $blocks[] = $block;
+
+  $fragment = new rex_fragment();
+  // $fragment->setVar('headline', array("title" => $this->getHeadline($block)), false);
+  $fragment->setVar('type', 'main', false);
+  $fragment->setVar('blocks', $blocks, false);
+  $navigation = $fragment->parse('navigation.tpl');
+}
+
+/* PJAX Footer Header ***********************************************************/
 if (!rex_request::isPJAXContainer('#rex-page')) {
   $fragment = new rex_fragment();
   $fragment->setVar('pageTitle', $page_title);

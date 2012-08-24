@@ -176,7 +176,7 @@ class rex_login
           $this->setSessionVar('UID', $this->USER->getValue($this->uid));
           $this->sessionFixation();
         } else {
-          $this->message = rex_i18n::msg('login_error', '<strong>' . rex::getProperty('relogindelay') . '</strong>');
+          $this->message = rex_i18n::msg('login_error');
           $this->setSessionVar('UID', '');
         }
       } elseif ($this->getSessionVar('UID') != '') {

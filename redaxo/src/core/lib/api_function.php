@@ -19,10 +19,7 @@
  */
 abstract class rex_api_function extends rex_factory_base
 {
-  protected function __construct()
-  {
-    // NOOP
-  }
+  const REQ_CALL_PARAM = 'rex-api-call', REQ_RESULT_PARAM = 'rex-api-result';
 
   /**
    * Flag, indicating if this api function may be called from the frontend. False by default
@@ -64,7 +61,7 @@ abstract class rex_api_function extends rex_factory_base
   {
     if (self::$instance) return self::$instance;
 
-    $api = rex_request('rex-api-call', 'string');
+    $api = rex_request(self::REQ_CALL_PARAM, 'string');
 
     if ($api) {
       $apiClass = 'rex_api_' . $api;
@@ -110,13 +107,34 @@ abstract class rex_api_function extends rex_factory_base
         }
       }
 
-      try {
-        $result = $apiFunc->execute();
+      $urlResult = rex_get(self::REQ_RESULT_PARAM, 'string');
+      if ($urlResult) {
+        // take over result from url and do not execute the apiFunc
+        $result = rex_api_result::fromJSON($urlResult);
         $apiFunc->result = $result;
-      } catch (rex_api_exception $e) {
-        $message = $e->getMessage();
-        $result = new rex_api_result(false, $message);
-        $apiFunc->result = $result;
+      } else {
+        try {
+
+          $result = $apiFunc->execute();
+
+          if (!($result instanceof rex_api_result)) {
+            throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) );
+          }
+
+          $apiFunc->result = $result;
+          if ($result->requiresReboot()) {
+            $urlBuilder = new rex_url_builder($_SERVER['PHP_SELF']);
+            $urlBuilder->addParams($_REQUEST);
+            // add api call result to url
+            $urlBuilder->setParam(self::REQ_RESULT_PARAM, $result->toJSON());
+            // and redirect to SELF for reboot
+            rex_response::sendRedirect($urlBuilder->getUrl());
+          }
+        } catch (rex_api_exception $e) {
+          $message = $e->getMessage();
+          $result = new rex_api_result(false, $message);
+          $apiFunc->result = $result;
+        }
       }
     }
   }
@@ -145,6 +163,11 @@ abstract class rex_api_function extends rex_factory_base
     return '<div id="rex-message-container">' . $message . '</div>';
   }
 
+  protected function __construct()
+  {
+    // NOOP
+  }
+
   /**
    * @return rex_api_result
    */
@@ -169,12 +192,34 @@ class rex_api_result
    */
   private $succeeded = false;
 
+  /**
+   * Optional message which will be visible to the end-user
+   * @var string
+   */
   private $message;
+
+  /**
+   * Flag indicating whether the result of this api call needs to be rendered in a new sub-request.
+   * This is required in rare situations, when some low-level data was changed by the api-function.
+   *
+   * @var boolean
+   */
+  private $requiresReboot;
 
   public function __construct($succeeded, $message = null)
   {
     $this->succeeded = $succeeded;
     $this->message = $message;
+  }
+
+  public function setRequiresReboot($requiresReboot)
+  {
+    $this->requiresReboot = $requiresReboot;
+  }
+
+  public function requiresReboot()
+  {
+    return $this->requiresReboot;
   }
 
   public function getFormattedMessage()
@@ -204,6 +249,24 @@ class rex_api_result
   public function isSuccessfull()
   {
     return $this->succeeded;
+  }
+
+  public function toJSON()
+  {
+    foreach ($this as $key => $value) {
+        $json->$key = $value;
+    }
+    return json_encode($json);
+  }
+
+  static public function fromJSON($json)
+  {
+    $result = new self(true);
+    $json = json_decode($json, true);
+    foreach ($json as $key => $value) {
+        $result->$key = $value;
+    }
+    return $result;
   }
 }
 

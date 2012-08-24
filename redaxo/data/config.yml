@@ -1,4 +1,5 @@
 setup: true
+debug: false
 instname: null
 server: redaxo.org
 servername: REDAXO
@@ -16,8 +17,6 @@ use_etag: true
 use_last_modified: false
 use_md5: true
 pswfunc: sha1
-relogindelay: 5
-maxlogins: 50
 maxclangs: 15
 start_page: structure
 timezone: Europe/Berlin

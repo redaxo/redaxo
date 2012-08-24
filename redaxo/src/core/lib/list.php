@@ -134,10 +134,14 @@ class rex_list extends rex_factory_base implements rex_url_provider
     $this->linkAttributes = array();
 
     // --------- Pagination Attributes
-    $this->pager = new rex_pager($this->getRows(), $rowsPerPage);
+    $this->pager = new rex_pager($rowsPerPage);
 
-    // --------- Load Data
+    // --------- Load Data, Row-Count
     $this->sql->setQuery($this->prepareQuery($query));
+    $sql = rex_sql::factory();
+    $sql->setQuery('SELECT FOUND_ROWS() as rows');
+    $this->rows = $sql->getValue('rows');
+    $this->pager->setRowCount($this->rows);
 
     foreach ($this->sql->getFieldnames() as $columnName)
       $this->columnNames[] = $columnName;
@@ -605,11 +609,6 @@ class rex_list extends rex_factory_base implements rex_url_provider
   {
     $params = array_merge($this->getParams(), $params);
 
-// aendern der items pro seite aktuell nicht vorgesehen
-//    if(!isset($params['items']))
-//    {
-//      $params['items'] = $this->getRowsPerPage();
-//    }
     if (!isset($params['sort'])) {
       $sortColumn = $this->getSortColumn();
       if ($sortColumn != null) {
@@ -622,10 +621,10 @@ class rex_list extends rex_factory_base implements rex_url_provider
     foreach ($params as $name => $value) {
       if (is_array($value)) {
         foreach ($value as $v) {
-          $paramString .= '&' . $name . '=' . $v;
+          $paramString .= '&' . $name . '=' . urlencode($v);
         }
       } else {
-        $paramString .= '&' . $name . '=' . $value;
+        $paramString .= '&' . $name . '=' . urlencode($value);
       }
     }
     return str_replace('&', '&amp;', 'index.php?list=' . $this->getName() . $paramString);
@@ -642,7 +641,27 @@ class rex_list extends rex_factory_base implements rex_url_provider
    */
   public function getParsedUrl($params = array())
   {
-    return $this->replaceVariables($this->getUrl($params));
+    $params = array_merge($this->getParams(), $params);
+
+    if (!isset($params['sort'])) {
+      $sortColumn = $this->getSortColumn();
+      if ($sortColumn != null) {
+        $params['sort'] = $sortColumn;
+        $params['sorttype'] = $this->getSortType();
+      }
+    }
+
+    $paramString = '';
+    foreach ($params as $name => $value) {
+      if (is_array($value)) {
+        foreach ($value as $v) {
+          $paramString .= '&' . $name . '=' . urlencode($this->replaceVariables($v));
+        }
+      } else {
+        $paramString .= '&' . $name . '=' . urlencode($this->replaceVariables($value));
+      }
+    }
+    return str_replace('&', '&amp;', 'index.php?list=' . $this->getName() . $paramString);
   }
 
   // ---------------------- Pagination
@@ -659,17 +678,20 @@ class rex_list extends rex_factory_base implements rex_url_provider
     $rowsPerPage = $this->pager->getRowsPerPage();
     $startRow = $this->pager->getCursor();
 
+    // prepare query for fast rowcount calculation
+    $query = preg_replace('/^SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', $query, 1);
+
     $sortColumn = $this->getSortColumn();
     if ($sortColumn != '') {
       $sortType = $this->getSortType();
 
-      if (strpos(strtoupper($query), ' ORDER BY ') === false)
+      if (stripos($query, ' ORDER BY ') === false)
         $query .= ' ORDER BY `' . $sortColumn . '` ' . $sortType;
       else
         $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY `' . $sortColumn . '` ' . $sortType, $query);
     }
 
-    if (strpos(strtoupper($query), ' LIMIT ') === false)
+    if (stripos($query, ' LIMIT ') === false)
       $query .= ' LIMIT ' . $startRow . ',' . $rowsPerPage;
 
     return $query;
@@ -682,14 +704,6 @@ class rex_list extends rex_factory_base implements rex_url_provider
    */
   public function getRows()
   {
-    if (!$this->rows) {
-      // TODO add SQL_CALC_FOUND_ROWS
-      $sql = rex_sql::factory();
-      $sql->debugsql = $this->debug;
-      $sql->setQuery($this->query);
-      $this->rows = $sql->getRows();
-    }
-
     return $this->rows;
   }
 
@@ -782,7 +796,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
   }
 
   /**
-   * Ersetzt alle Variablen im Format ###<Spaltenname>###.
+   * Ersetzt alle Variablen im Format ###&lt;Spaltenname&gt;###.
    *
    * @param $value Zu durchsuchender String
    * @param $columnNames Zu suchende Spaltennamen
@@ -838,7 +852,8 @@ class rex_list extends rex_factory_base implements rex_url_provider
     if ($escape &&
       !$this->isCustomFormat($format) &&
       $format[0] != 'email' &&
-      $format[0] != 'url') {
+      $format[0] != 'url'
+    ) {
       $value = htmlspecialchars($value);
     }
 
@@ -850,7 +865,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
     $s = '';
 
     foreach ($array as $name => $value)
-      $s .= ' ' . $name . '="' . $value . '"';
+      $s .= ' ' . htmlspecialchars($name) . '="' . htmlspecialchars($value) . '"';
 
     return $s;
   }

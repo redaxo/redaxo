@@ -78,7 +78,7 @@ class rex_sql extends rex_factory_base implements Iterator
 //      PDO::ATTR_EMULATE_PREPARES => true,
     );
 
-    $dbh = new PDO($dsn, $login, $password, $options);
+    $dbh = @new PDO($dsn, $login, $password, $options);
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $dbh;
   }
@@ -1209,7 +1209,7 @@ class rex_sql extends rex_factory_base implements Iterator
       // db connection was successfully established, but we were meant to create the db
       if ($createDb) {
         // -> throw db already exists error
-        $err_msg = rex_i18n::msg('setup_022_1');
+        $err_msg = rex_i18n::msg('sql_database_already_exists');
       }
     } catch (PDOException $e) {
       // see mysql error codes at http://dev.mysql.com/doc/refman/5.1/de/error-messages-server.html
@@ -1217,11 +1217,12 @@ class rex_sql extends rex_factory_base implements Iterator
       // ER_BAD_HOST
       if (strpos($e->getMessage(), 'SQLSTATE[HY000] [2002]') !== false ) {
         // unable to connect to db server
-        $err_msg = rex_i18n::msg('setup_021');
+        $err_msg = rex_i18n::msg('sql_unable_to_connect_database');
       }
       // ER_BAD_DB_ERROR
       elseif (strpos($e->getMessage(), 'SQLSTATE[HY000] [1049]') !== false ||
-          strpos($e->getMessage(), 'SQLSTATE[42000]') !== false) {
+          strpos($e->getMessage(), 'SQLSTATE[42000]') !== false
+      ) {
         if ($createDb) {
           try {
             // use the "mysql" db for the connection
@@ -1233,22 +1234,23 @@ class rex_sql extends rex_factory_base implements Iterator
             );
             if ($conn->exec('CREATE DATABASE ' . $dbname) !== 1) {
               // unable to create db
-              $err_msg = rex_i18n::msg('setup_021');
+              $err_msg = rex_i18n::msg('sql_unable_to_create_database');
             }
           } catch (PDOException $e) {
             // unable to find database
-            $err_msg = rex_i18n::msg('setup_022');
+            $err_msg = rex_i18n::msg('sql_unable_to_open_datebase');
           }
         } else {
           // unable to find database
-          $err_msg = rex_i18n::msg('setup_022');
+          $err_msg = rex_i18n::msg('sql_unable_to_find_database');
         }
       }
       // ER_ACCESS_DENIED_ERROR
       elseif (strpos($e->getMessage(), 'SQLSTATE[HY000] [1045]') !== false ||
-          strpos($e->getMessage(), 'SQLSTATE[28000]') !== false) {
+          strpos($e->getMessage(), 'SQLSTATE[28000]') !== false
+      ) {
         // unable to connect
-        $err_msg = rex_i18n::msg('setup_021');
+        $err_msg = rex_i18n::msg('sql_unable_to_connect_database');
       } else {
         // we didn't expected this error, so rethrow it to show it to the admin/end-user
         throw $e;

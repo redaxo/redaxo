@@ -28,7 +28,7 @@ $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id')
 
 $article_revision = 0;
 $slice_revision = 0;
-$template_attributes = '';
+$template_attributes = array();
 
 $warning = '';
 $global_warning = '';
@@ -53,8 +53,8 @@ if ($article->getRows() == 1) {
   $template_attributes = $article->getArrayValue('template_attributes');
 
   // Für Artikel ohne Template
-  if ($template_attributes === null)
-    $template_attributes = '';
+  if (!is_array($template_attributes))
+    $template_attributes = array();
 
   $ctypes = isset($template_attributes['ctype']) ? $template_attributes['ctype'] : array(); // ctypes - aus dem template
 
@@ -241,6 +241,23 @@ if ($article->getRows() == 1) {
                 try {
                   $newsql->update();
                   $info = $action_message . rex_i18n::msg('block_updated');
+
+                  // ----- EXTENSION POINT
+                  $info = rex_extension::registerPoint('SLICE_UPDATED', $info,
+                    array(
+                      'article_id' => $article_id,
+                      'clang' => $clang,
+                      'function' => $function,
+                      'mode' => $mode,
+                      'slice_id' => $slice_id,
+                      'page' => 'content',
+                      'ctype' => $ctype,
+                      'category_id' => $category_id,
+                      'module_id' => $module_id,
+                      'article_revision' => &$article_revision,
+                      'slice_revision' => &$slice_revision,
+                    )
+                  );
                 } catch (rex_sql_exception $e) {
                   $warning = $action_message . $e->getMessage();
                 }
@@ -262,6 +279,23 @@ if ($article->getRows() == 1) {
                   $info = $action_message . rex_i18n::msg('block_added');
                   $slice_id = $newsql->getLastId();
                   $function = '';
+
+                  // ----- EXTENSION POINT
+                  $info = rex_extension::registerPoint('SLICE_ADDED', $info,
+                    array(
+                      'article_id' => $article_id,
+                      'clang' => $clang,
+                      'function' => $function,
+                      'mode' => $mode,
+                      'slice_id' => $slice_id,
+                      'page' => 'content',
+                      'ctype' => $ctype,
+                      'category_id' => $category_id,
+                      'module_id' => $module_id,
+                      'article_revision' => &$article_revision,
+                      'slice_revision' => &$slice_revision,
+                    )
+                  );
                 } catch (rex_sql_exception $e) {
                   $warning = $action_message . $e->getMessage();
                 }
@@ -270,6 +304,23 @@ if ($article->getRows() == 1) {
               // make delete
               if (rex_content_service::deleteSlice($slice_id)) {
                 $global_info = rex_i18n::msg('block_deleted');
+
+                // ----- EXTENSION POINT
+                $global_info = rex_extension::registerPoint('SLICE_DELETED', $global_info,
+                  array(
+                    'article_id' => $article_id,
+                    'clang' => $clang,
+                    'function' => $function,
+                    'mode' => $mode,
+                    'slice_id' => $slice_id,
+                    'page' => 'content',
+                    'ctype' => $ctype,
+                    'category_id' => $category_id,
+                    'module_id' => $module_id,
+                    'article_revision' => &$article_revision,
+                    'slice_revision' => &$slice_revision,
+                  )
+                );
               } else {
                 $global_warning = rex_i18n::msg('block_not_deleted');
               }

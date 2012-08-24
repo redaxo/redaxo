@@ -35,7 +35,7 @@ class rex_form_checkbox_element extends rex_form_options_element
     $attr = '';
     foreach ($this->getAttributes() as $attributeName => $attributeValue) {
       if ($attributeName == 'name' || $attributeName == 'id') continue;
-      $attr .= ' ' . $attributeName . '="' . $attributeValue . '"';
+      $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
     }
 
     foreach ($options as $opt_name => $opt_value) {
@@ -43,11 +43,11 @@ class rex_form_checkbox_element extends rex_form_options_element
       if ($opt_value != '') {
        $opt_id .= '_' . $this->_normalizeId($opt_value);
       }
-      $opt_attr = $attr . ' id="' . $opt_id . '"';
+      $opt_attr = $attr . ' id="' . htmlspecialchars($opt_id) . '"';
       $checked = in_array($opt_value, $values) ? ' checked="checked"' : '';
 
-      $s .= '<input type="checkbox" name="' . $name . '[' . $opt_value . ']" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />
-             <label for="' . $opt_id . '">' . $opt_name . '</label>';
+      $s .= '<input type="checkbox" name="' . htmlspecialchars($name) . '[' . htmlspecialchars($opt_value) . ']" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />
+             <label for="' . htmlspecialchars($opt_id) . '">' . htmlspecialchars($opt_name) . '</label>';
     }
     return $s;
   }

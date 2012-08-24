@@ -38,6 +38,9 @@ if ($func == 'setup') {
     }
   }
 
+  $config['debug'] = isset($settings['debug']) && $settings['debug'];
+  rex::setProperty('debug', $config['debug']);
+
   foreach (rex_system_setting::getAll() as $setting) {
     $key = $setting->getKey();
     if (isset($settings[$key])) {
@@ -97,7 +100,7 @@ $content_1 = '<h2>' . rex_i18n::msg('system_features') . '</h2>
 
             <h3>' . rex_i18n::msg('setup') . '</h3>
             <p>' . rex_i18n::msg('setup_text') . '</p>
-            <p class="rex-button"><a class="rex-button" href="index.php?page=system&amp;func=setup" data-confirm="' . rex_i18n::msg('setup') . '?">' . rex_i18n::msg('setup') . '</a></p>
+            <p class="rex-button"><a class="rex-button" href="index.php?page=system&amp;func=setup" data-confirm="' . rex_i18n::msg('setup') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>
 
             <h3>' . rex_i18n::msg('version') . '</h3>
             <p>
@@ -126,13 +129,19 @@ $content_2 = '
             $formElements[] = $n;
 
             $n = array();
-            $n['label'] = '<label for="rex_src_path">' . rex_i18n::msg('path') . '</label>';
-            $n['field'] = '<span class="rex-form-read" id="rex_src_path" title="' . rex_path::src() . '">&quot;' . $version . '&quot;</span>';
+            $n['label'] = '<label for="rex-form-src-path">' . rex_i18n::msg('path') . '</label>';
+            $n['field'] = '<span class="rex-form-read" id="rex-form-src-path" title="' . rex_path::src() . '">&quot;' . $version . '&quot;</span>';
             $formElements[] = $n;
 
             $n = array();
             $n['label'] = '<label for="rex-form-error-email">' . rex_i18n::msg('error_email') . '</label>';
             $n['field'] = '<input type="text" id="rex-form-error-email" name="settings[error_email]" value="' . htmlspecialchars(rex::getProperty('error_email')) . '" />';
+            $formElements[] = $n;
+
+            $n = array();
+            $n['label'] = '<label for="rex-form-debug">' . rex_i18n::msg('debug_mode') . '</label>';
+            $n['field'] = '<input type="checkbox" id="rex-form-debug" name="settings[debug]" value="1" ' . (rex::isDebugMode() ? 'checked="checked" ' : '') . '/>';
+            $n['reverse'] = true;
             $formElements[] = $n;
 
           $fragment = new rex_fragment();

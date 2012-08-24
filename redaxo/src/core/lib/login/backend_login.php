@@ -2,6 +2,12 @@
 
 class rex_backend_login extends rex_login
 {
+  const
+    LOGIN_TRIES_1   = 3,
+    RELOGIN_DELAY_1 = 5,    // relogin delay after LOGIN_TRIES_1 tries
+    LOGIN_TRIES_2   = 50,
+    RELOGIN_DELAY_2 = 3600; // relogin delay after LOGIN_TRIES_2 tries
+
   private
     $tableName,
     $stayLoggedIn;
@@ -19,7 +25,14 @@ class rex_backend_login extends rex_login
     $this->setUserID('user_id');
     $qry = 'SELECT * FROM ' . $tableName . ' WHERE status=1';
     $this->setUserquery($qry . ' AND user_id = :id');
-    $this->setLoginquery($qry . ' AND login = :login AND password = :password AND lasttrydate <' . (time() - rex::getProperty('relogindelay')) . ' AND login_tries<' . rex::getProperty('maxlogins'));
+    $this->setLoginquery($qry . '
+      AND login = :login
+      AND password = :password
+      AND (login_tries < ' . self::LOGIN_TRIES_1 . '
+        OR login_tries < ' . self::LOGIN_TRIES_2 . ' AND lasttrydate < ' . (time() - self::RELOGIN_DELAY_1) . '
+        OR lasttrydate < ' . (time() - self::RELOGIN_DELAY_2) . '
+      )'
+    );
     $this->tableName = $tableName;
   }
 
@@ -68,7 +81,19 @@ class rex_backend_login extends rex_login
     } else {
       // fehlversuch speichern | login_tries++
       if ($this->usr_login != '') {
-        $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",cookiekey="",lasttrydate=? WHERE login=? LIMIT 1', array(time(), $this->usr_login));
+        $sql->setQuery('SELECT login_tries FROM ' . $this->tableName . ' WHERE login=? LIMIT 1', array($this->usr_login));
+        if ($sql->getRows() > 0) {
+          $login_tries = $sql->getValue('login_tries');
+          $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",cookiekey="",lasttrydate=? WHERE login=? LIMIT 1', array(time(), $this->usr_login));
+          if ($login_tries >= self::LOGIN_TRIES_1 - 1) {
+            $time = $login_tries < self::LOGIN_TRIES_2 ? self::RELOGIN_DELAY_1 : self::RELOGIN_DELAY_2;
+            $hours = floor($time / 3600);
+            $mins  = floor(($time - ($hours * 3600)) / 60);
+            $secs  = $time % 60;
+            $formatted = ($hours ? $hours . 'h ' : '') . ($hours || $mins ? $mins . 'min ' : '') . $secs . 's';
+            $this->message .= ' ' . rex_i18n::msg('login_wait', '<strong data-time="' . $time . '">' . $formatted . '</strong>');
+          }
+        }
       }
     }
 

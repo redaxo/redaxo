@@ -26,7 +26,7 @@ class rex_form_radio_element extends rex_form_options_element
     $attr = '';
     foreach ($this->getAttributes() as $attributeName => $attributeValue) {
       if ($attributeName == 'id') continue;
-      $attr .= ' ' . $attributeName . '="' . $attributeValue . '"';
+      $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
     }
 
     foreach ($options as $opt_name => $opt_value) {
@@ -34,7 +34,7 @@ class rex_form_radio_element extends rex_form_options_element
       $opt_id = $id . '_' . $this->_normalizeId($opt_value);
       $opt_attr = $attr . ' id="' . $opt_id . '"';
       $s .= '<input type="radio" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />
-             <label for="' . $opt_id . '">' . $opt_name . '</label>';
+             <label for="' . $opt_id . '">' . htmlspecialchars($opt_name) . '</label>';
     }
     return $s;
   }

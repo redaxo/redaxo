@@ -68,7 +68,8 @@ class rex_autoload
 
     // class already exists
     if (class_exists($class, false) || interface_exists($class, false)
-       || function_exists('trait_exists') && trait_exists($class, false)) {
+       || function_exists('trait_exists') && trait_exists($class, false)
+    ) {
       return true;
     }
 
@@ -78,7 +79,8 @@ class rex_autoload
     }
 
     if (class_exists($class, false) || interface_exists($class, false)
-       || function_exists('trait_exists') && trait_exists($class, false)) {
+       || function_exists('trait_exists') && trait_exists($class, false)
+    ) {
       return true;
     } elseif (!self::$reloaded) {
       self::reload();

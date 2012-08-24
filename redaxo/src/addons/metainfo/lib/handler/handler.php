@@ -101,7 +101,8 @@ abstract class rex_metainfo_handler
               // check ob key:value paar
               // und der wert beginnt nicht mit "translate:"
               if (strpos($value_group, ':') !== false &&
-                 strpos($value_group, 'translate:') !== 0) {
+                 strpos($value_group, 'translate:') !== 0
+              ) {
                 $temp = explode(':', $value_group, 2);
                 $values[$temp[0]] = rex_i18n::translate($temp[1]);
               } else {
@@ -197,7 +198,8 @@ abstract class rex_metainfo_handler
               // check ob key:value paar
               // und der wert beginnt nicht mit "translate:"
               if (strpos($value_group, ':') !== false &&
-                 strpos($value_group, 'translate:') !== 0) {
+                 strpos($value_group, 'translate:') !== 0
+              ) {
                 $temp = explode(':', $value_group, 2);
                 $values[$temp[0]] = rex_i18n::translate($temp[1]);
               } else {
@@ -466,7 +468,8 @@ abstract class rex_metainfo_handler
       } else {
         $postValue = isset($postValue[0]) ? $postValue[0] : '';
         if ($fieldType == REX_METAINFO_FIELD_SELECT && strpos($fieldAttributes, 'multiple') !== false ||
-           $fieldType == REX_METAINFO_FIELD_CHECKBOX) {
+           $fieldType == REX_METAINFO_FIELD_CHECKBOX
+        ) {
           // Mehrwertiges Feld, aber nur ein Wert ausgewählt
           $saveValue = '|' . $postValue . '|';
         } else {

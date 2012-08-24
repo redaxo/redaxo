@@ -209,7 +209,8 @@ class rex_navigation extends rex_factory_base
       if (($this->open ||
         $nav->getId() == $this->current_category_id ||
         in_array($nav->getId(), $this->path))
-        && ($this->depth > $depth || $this->depth < 0)) {
+        && ($this->depth > $depth || $this->depth < 0)
+      ) {
         $return .= $this->_getNavigation($nav->getId(), $ignore_offlines);
       }
       $depth--;

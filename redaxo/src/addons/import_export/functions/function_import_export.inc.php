@@ -225,7 +225,7 @@ function rex_a1_import_files($filename)
   }
 
   // Ordner /files komplett leeren
-  rex_dir::deleteFiles(rex_path::media('', rex_path::ABSOLUTE));
+  rex_dir::deleteFiles(rex_path::media());
 
   $tar = new rex_tar;
 
@@ -291,8 +291,8 @@ function rex_a1_export_db($filename)
 
   foreach ($tables as $table) {
     if (!in_array($table, array(rex::getTablePrefix() . 'user', rex::getTablePrefix() . 'user_role')) // User Tabellen nicht exportieren
-        && substr($table, 0 , strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
-    {
+        && substr($table, 0 , strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
+    ) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
       //---- export metadata
       $create = rex_sql::showCreateTable($table);
 
@@ -422,7 +422,7 @@ function rex_a1_export_files($folders)
 function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
 {
   $handle = opendir($path . $dir);
-  $isMediafolder = realpath($path . $dir) . '/' == rex_path::media('', rex_path::ABSOLUTE);
+  $isMediafolder = realpath($path . $dir) . '/' == rex_path::media();
   while (false !== ($file = readdir($handle))) {
     // Alles exportieren, außer ...
     // - addons verzeichnis im mediafolder (wird bei addoninstallation wiedererstellt)

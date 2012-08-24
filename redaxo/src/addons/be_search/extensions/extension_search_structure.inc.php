@@ -147,9 +147,12 @@ function rex_be_search_structure($params)
 
   $select_name = 'category_id';
   $add_homepage = true;
+  $article_id_input = '';
   if ($mode == 'edit' || $mode == 'meta') {
     $select_name = 'article_id';
     $add_homepage = false;
+    $article_id_input = '
+        <input type="hidden" name="article_id" value="' . $article_id . '" />';
   }
 
   $category_select = new rex_category_select(false, false, true, $add_homepage);
@@ -165,8 +168,7 @@ function rex_be_search_structure($params)
       <fieldset>
         <input type="hidden" name="page" value="' . $page . '" />
         <input type="hidden" name="mode" value="' . $mode . '" />
-        <input type="hidden" name="category_id" value="' . $category_id . '" />
-        <input type="hidden" name="article_id" value="' . $article_id . '" />
+        <input type="hidden" name="category_id" value="' . $category_id . '" />' . $article_id_input . '
         <input type="hidden" name="clang" value="' . $clang . '" />
         <input type="hidden" name="ctype" value="' . $ctype . '" />
         <input type="hidden" name="be_search_clang" value="' . $clang . '" />

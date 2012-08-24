@@ -408,6 +408,14 @@ body {
 }
 .rex-content-plain {
 }
+.rex-content-scroll {
+  height: 250px;
+  margin: 0 0 20px 0;
+  padding: 10px;
+  background-color: #fff;
+  overflow-y: scroll;
+  font-size: 11px;
+}
 
 
 /********************************************************** Navigation *********
@@ -461,7 +469,8 @@ body {
   font-size: 184%;
   font-weight: bold;
 }
-.rex-navi-main li a {
+.rex-navi-main li a,
+.rex-navi-main li span {
   display: block;
   margin-bottom: 1px;
   padding: 5px 8px 4px 14px;
@@ -1036,8 +1045,17 @@ body {
 }
 .rex-form-data input[type="submit"] {
   margin-left: 180px;
+  padding: 3px 20px;
+  background-color: #3c4f58;
+  border: 0;
+  color: #fff;
+  font-size: 93%;
 }
-.rex-form-data.rex-form-reverse input[type="checkbox"] {
+.rex-form-data input[type="submit"]:hover {
+  background-color: #72909a;
+}
+.rex-form-data.rex-form-reverse input[type="checkbox"],
+.rex-form-data.rex-form-reverse input[type="radio"] {
   float: left;
   margin: 0 12px 0 154px;
 }
@@ -1061,6 +1079,9 @@ body {
 fieldset.rex-form-action {
   background: #3C4F58;
   border-bottom: 1px solid #fff;
+
+  background: none;
+  border-top: 1px solid #fff;
 }
 fieldset.rex-form-action .rex-form-data {
   margin-bottom: 0;
@@ -1075,17 +1096,33 @@ fieldset.rex-form-action .rex-form-data {
 .rex-grid2col .rex-form-data label {
   width: 116px;
 }
+.rex-grid2col .rex-form-data.rex-form-reverse label {
+  width: auto;
+}
 .rex-grid2col .rex-form-data input[type="text"],
 .rex-grid2col .rex-form-data input[type="password"],
 .rex-grid2col .rex-form-data select,
 .rex-grid2col .rex-form-data textarea {
   width: 200px;
 }
+.rex-grid2col .rex-form-data.rex-form-reverse input[type="checkbox"],
+.rex-grid2col .rex-form-data.rex-form-reverse input[type="radio"] {
+  margin-left: 102px;
+}
 
 /* Profile */
 #rex-form-profile input[type="submit"],
 #rex-form-profile-password input[type="submit"] {
   margin-left: 140px;
+}
+
+/* Setup */
+#rex-form-setup-step-5 .rex-form-data.rex-form-reverse input[type="radio"],
+#rex-form-setup-step-5 input[type="submit"] {
+  margin-left: 10px;
+}
+#rex-form-setup-step-5 #rex-form-import-name {
+  margin: 10px 0 0 34px;
 }
 
 /* System - Setting */
@@ -1174,34 +1211,33 @@ fieldset.rex-form-action .rex-form-data {
   clear: both;
   border: 1px solid;
   color: #fff;
-  padding: 6px 12px 0 12px;
+  padding: 6px 12px;
+  margin-bottom: 10px;
 }
-.rex-message p {
-  margin-bottom: 6px;
-}
+
 .rex-info {
   background-color: #4ea5cd;
-  border-color: #3b8eb5;
+  border-color: #3b8eb5 !important;
 
-  background-color: #3b8eb5;
+  background-color: #3b8eb5 !important;
 }
 .rex-error {
   background-color: #de4343;
-  border-color: #c43d3d;
+  border-color: #c43d3d !important;
 
-  background-color: #c43d3d;
+  background-color: #c43d3d !important;
 }
 .rex-warning {
   background-color: #eaaf51;
-  border-color: #d99a36;
+  border-color: #d99a36 !important;
 
-  background-color: #d99a36;
+  background-color: #d99a36 !important;
 }
 .rex-success {
   background-color: #61b832;
-  border-color: #55a12c;
+  border-color: #55a12c !important;
 
-  background-color: #55a12c;
+  background-color: #55a12c !important;
 }
 
 
@@ -1257,8 +1293,19 @@ h3:hover span {
   font-weight: bold;
 }
 
-p {
+p,
+.rex-content ol,
+.rex-content ul {
   margin-bottom: 1em;
+}
+
+.rex-message p,
+.rex-message ol,
+.rex-message ul {
+  margin: 0 0 0 10px;
+}
+.rex-message ul li {
+  list-style: square;
 }
 
 /********************************************************** Icons / Links *****/
@@ -1269,6 +1316,10 @@ a.rex-button {
   color: #fff;
   font-size: 93%;
 }
+a.rex-button:hover {
+  background-color: #72909a;
+}
+
 .rex-ic-action,
 .rex-ic-addon,
 .rex-ic-article-startpage,
@@ -1351,9 +1402,37 @@ a.rex-button {
 
 
 
+/********************************************************** Setup **************
+*******************************************************************************/
+.rex-setup-language {
+  margin-left: 0;
+  text-align: center;
+}
+.rex-setup-language li {
+  list-style: none;
+  margin-bottom: 5px;
+}
+.rex-setup-language a.rex-button {
+  width: 150px;
+}
 
 
 
+body#rex-page-setup #rex-page {
+  width: 1000px;
+}
+/*
+body#rex-page-setup #rex-page-main,
+body#rex-page-setup #rex-page-footer {
+  float: none;
+  width: auto;
+  margin: 0;
+  padding-left: 249px;
+}
+body#rex-page-setup #rex-page-footer {
+  padding-left: 229px;
+}
+*/
 body.rex-fluid #rex-page {
 }
 body.rex-fluid #rex-page-meta {

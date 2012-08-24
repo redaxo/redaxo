@@ -34,7 +34,7 @@ class rex_setup_importer
     $err_msg = '';
 
     if ($import_name == '') {
-      $err_msg .= '<p>' . rex_i18n::msg('setup_03701') . '</p>';
+      $err_msg .= '<p>' . rex_i18n::msg('setup_508') . '</p>';
     } else {
       $import_sql = getImportDir() . '/' . $import_name . '.sql';
       $import_archiv = getImportDir() . '/' . $import_name . '.tar.gz';
@@ -104,7 +104,7 @@ class rex_setup_importer
     }
 
     foreach (array_diff(self::getRequiredTables(), $existingTables) as $missingTable) {
-      $err_msg .= rex_i18n::msg('setup_031', $missingTable) . '<br />';
+      $err_msg .= rex_i18n::msg('setup_502', $missingTable) . '<br />';
     }
     return $err_msg;
   }
@@ -123,7 +123,7 @@ class rex_setup_importer
     $err_msg = '';
 
     if (!is_dir(rex_path::addon('import_export'))) {
-      $err_msg .= rex_i18n::msg('setup_03703') . '<br />';
+      $err_msg .= rex_i18n::msg('setup_510') . '<br />';
     } else {
       if (file_exists($import_sql) && ($import_archiv === null || $import_archiv !== null && file_exists($import_archiv))) {
         rex_i18n::addDirectory(rex_path::addon('import_export', 'lang/'));
@@ -142,7 +142,7 @@ class rex_setup_importer
           }
         }
       } else {
-        $err_msg .= rex_i18n::msg('setup_03702') . '<br />';
+        $err_msg .= rex_i18n::msg('setup_509') . '<br />';
       }
     }
 

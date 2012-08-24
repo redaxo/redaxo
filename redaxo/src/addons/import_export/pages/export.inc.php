@@ -143,7 +143,7 @@ $content .= '
               <div class="rex-form-checkboxes">
                 <div class="rex-form-checkboxes-wrapper">';
 
-  $dir = rex_path::frontend('', rex_path::ABSOLUTE);
+  $dir = rex_path::frontend();
   $folders = readSubFolders($dir);
 
   foreach ($folders as $file) {

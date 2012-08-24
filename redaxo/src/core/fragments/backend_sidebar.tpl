@@ -7,7 +7,7 @@
     <?php
     // Hier Ausgabe des Inhalts
     ?>
-    <h3>Sitemap</h2>
+    <h3>Sitemap</h3>
     <?php
       echo $this->content;
     ?>
