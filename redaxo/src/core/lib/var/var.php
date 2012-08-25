@@ -74,6 +74,16 @@ abstract class rex_var
               break;
           }
           $add = self::replaceVars($add, $format, $useVariables, $stripslashes);
+          if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
+            $start = substr($add, 0, 5);
+            $end = substr($add, -5);
+            if ($start == '"" . ' || $start == "'' . ") {
+              $add = substr($add, 5);
+            }
+            if ($end == ' . ""' || $end == " . ''") {
+              $add = substr($add, 0, -5);
+            }
+          }
         }
       }
       $content .= $add;
