@@ -15,6 +15,12 @@ class rex_var_value extends rex_var
       return false;
     }
 
-    return self::quote($this->getContextData()->getValue('value' . $id));
+    $value = $this->getContextData()->getValue('value' . $id);
+
+    if ($this->hasArg('isset') && $this->getArg('isset')) {
+      return $value ? 'true' : 'false';
+    }
+
+    return self::quote($value);
   }
 }
