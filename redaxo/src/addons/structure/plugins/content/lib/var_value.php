@@ -21,6 +21,22 @@ class rex_var_value extends rex_var
       return $value ? 'true' : 'false';
     }
 
+    $output = $this->getArg('output');
+    if ($output == 'php') {
+      if ($this->environmentIs(self::ENV_BACKEND)) {
+        $value = rex_string::highlight($value);
+      } else {
+        return 'rex_var::nothing(require rex_stream::factory(substr(__FILE__, 6) . \'/REX_VALUE/' . $id . '\', ' . self::quote($value) . '))';
+      }
+    } elseif ($output == 'html') {
+      $value = str_replace(array('<?', '?>'), array('&lt;?', '?&gt;'), $value);
+    } else {
+      $value = htmlspecialchars($value);
+      if (!$this->environmentIs(self::ENV_INPUT)) {
+        $value = nl2br($value);
+      }
+    }
+
     return self::quote($value);
   }
 }
