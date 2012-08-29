@@ -7,6 +7,11 @@
  */
 abstract class rex_extension extends rex_factory_base
 {
+  const
+    EARLY = -1,
+    NORMAL = 0,
+    LATE = 1;
+
   /**
    * Array aller ExtensionsPoints und deren Extensions
    * @var array
@@ -40,23 +45,27 @@ abstract class rex_extension extends rex_factory_base
 
     if (isset (self::$extensions[$extensionPoint]) && is_array(self::$extensions[$extensionPoint])) {
       $params['subject'] = $subject;
-      if ($read_only) {
-        foreach (self::$extensions[$extensionPoint] as $ext) {
-          $func = $ext[0];
-          $local_params = array_merge($params, $ext[1]);
-          static::invokeExtension($func, $local_params);
-        }
-      } else {
-        foreach (self::$extensions[$extensionPoint] as $ext) {
-          $func = $ext[0];
-          $local_params = array_merge($params, $ext[1]);
-          $temp = static::invokeExtension($func, $local_params);
-          // Rückgabewert nur auswerten wenn auch einer vorhanden ist
-          // damit $params['subject'] nicht verfälscht wird
-          // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
-          if ($temp !== null) {
-            $result = $temp;
-            $params['subject'] = $result;
+      foreach (array(self::EARLY, self::NORMAL, self::LATE) as $level) {
+        if (isset(self::$extensions[$extensionPoint][$level]) && is_array(self::$extensions[$extensionPoint][$level])) {
+          if ($read_only) {
+            foreach (self::$extensions[$extensionPoint][$level] as $ext) {
+              $func = $ext[0];
+              $local_params = array_merge($params, $ext[1]);
+              static::invokeExtension($func, $local_params);
+            }
+          } else {
+            foreach (self::$extensions[$extensionPoint][$level] as $ext) {
+              $func = $ext[0];
+              $local_params = array_merge($params, $ext[1]);
+              $temp = static::invokeExtension($func, $local_params);
+              // Rückgabewert nur auswerten wenn auch einer vorhanden ist
+              // damit $params['subject'] nicht verfälscht wird
+              // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
+              if ($temp !== null) {
+                $result = $temp;
+                $params['subject'] = $result;
+              }
+            }
           }
         }
       }
@@ -74,14 +83,15 @@ abstract class rex_extension extends rex_factory_base
    *
    * @param $extension Name des ExtensionPoints
    * @param $function Name der Callback-Funktion
-   * @param [$params] Array von zusätzlichen Parametern
+   * @param $level Ausführungslevel (EARLY, NORMAL oder LATE)
+   * @param $params Array von zusätzlichen Parametern
    */
-  static public function register($extensionPoint, $callable, array $params = array())
+  static public function register($extensionPoint, $callable, $level = self::NORMAL, array $params = array())
   {
     if (static::hasFactoryClass()) {
       return static::callFactoryClass(__FUNCTION__, func_get_args());
     }
-    self::$extensions[$extensionPoint][] = array($callable, $params);
+    self::$extensions[$extensionPoint][(int) $level][] = array($callable, $params);
   }
 
   /**

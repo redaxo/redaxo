@@ -1,5 +1,9 @@
 <?php
 
+define('REX_EXTENSION_EARLY', rex_extension::EARLY);
+define('REX_EXTENSION_NORMAL', rex_extension::NORMAL);
+define('REX_EXTENSION_LATE', rex_extension::LATE);
+
 /**
  * @see rex_extension::registerPoint()
  *
@@ -15,9 +19,9 @@ function rex_register_extension_point($extensionPoint, $subject = '', $params = 
  *
  * @deprecated 5.0
  */
-function rex_register_extension($extensionPoint, $callable, $params = array())
+function rex_register_extension($extensionPoint, $callable, $params = array(), $level = REX_EXTENSION_NORMAL)
 {
-  rex_extension::register($extensionPoint, $callable, $params);
+  rex_extension::register($extensionPoint, $callable, $level, $params);
 }
 
 /**
