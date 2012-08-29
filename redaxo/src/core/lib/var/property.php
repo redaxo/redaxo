@@ -16,10 +16,10 @@ class rex_var_property extends rex_var
 {
   protected function getOutput()
   {
-    $key = $this->getArg('key', null, true);
+    $key = $this->getParsedArg('key', null, true);
     if ($key === null)
       return false;
-    $namespace = $this->getArg('namespace');
+    $namespace = $this->getParsedArg('namespace');
     $base = $namespace ? 'rex_package::get(' . $namespace . ')->' : 'rex::';
     return 'htmlspecialchars(' . $base . 'getProperty(' . $key . '))';
   }

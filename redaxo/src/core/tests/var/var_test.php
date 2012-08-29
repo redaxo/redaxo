@@ -4,7 +4,7 @@ class rex_var_test_var extends rex_var
 {
   public function getOutput()
   {
-    return $this->getArg('content', "'default'", true);
+    return $this->getParsedArg('content', "'default'", true);
   }
 
   static public function quote($string)

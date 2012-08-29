@@ -168,14 +168,20 @@ abstract class rex_var
   {
     if (!$this->hasArg($key, $defaultArg))
       return $default;
+    return isset($this->args[$key]) ? $this->args[$key] : $this->args[0];
+  }
+
+  protected function getParsedArg($key, $default = null, $defaultArg = false)
+  {
+    if (!$this->hasArg($key, $defaultArg))
+      return $default;
     $arg = isset($this->args[$key]) ? $this->args[$key] : $this->args[0];
     $begin = '<<<addslashes>>>';
     $end = '<<</addslashes>>>';
     $arg = $begin . self::replaceVars($arg, $end . "' . %s . '" . $begin) . $end;
-    $callback = function ($match) {
+    $arg = preg_replace_callback("@$begin(.*)$end@Us", function ($match) {
       return addcslashes($match[1], "\'");
-    };
-    $arg = preg_replace_callback("@$begin(.*)$end@Us", $callback, $arg);
+    }, $arg);
     $arg = str_replace(array('@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'), array('[', ']'), $arg);
     return is_numeric($arg) ? $arg : "'$arg'";
   }
@@ -213,26 +219,26 @@ abstract class rex_var
     if ($this->hasArg('callback')) {
       $args = array("'subject' => " . $content);
       foreach ($this->args as $key => $value) {
-        $args[] = "'$key' => " . $this->getArg($key);
+        $args[] = "'$key' => " . $this->getParsedArg($key);
       }
       $args = 'array(' . implode(', ', $args) . ')';
-      return 'call_user_func(' . $this->getArg('callback') . ', ' . $args . ')';
+      return 'call_user_func(' . $this->getParsedArg('callback') . ', ' . $args . ')';
     }
 
-    $prefix = $this->hasArg('prefix') ? $this->getArg('prefix') . ' . ' : '';
-    $suffix = $this->hasArg('suffix') ? ' . ' . $this->getArg('suffix') : '';
+    $prefix = $this->hasArg('prefix') ? $this->getParsedArg('prefix') . ' . ' : '';
+    $suffix = $this->hasArg('suffix') ? ' . ' . $this->getParsedArg('suffix') : '';
     $instead = $this->hasArg('instead');
     $ifempty = $this->hasArg('ifempty');
     if ($prefix || $suffix || $instead || $ifempty) {
       if ($instead) {
         $if = $content;
-        $then = $this->getArg('instead');
+        $then = $this->getParsedArg('instead');
       } else {
         $if = '$__rex_var_content = ' . $content;
         $then = '$__rex_var_content';
       }
       if ($ifempty) {
-        return $prefix . '((' . $if . ') ? ' . $then . ' : ' . $this->getArg('ifempty') . ')' . $suffix;
+        return $prefix . '((' . $if . ') ? ' . $then . ' : ' . $this->getParsedArg('ifempty') . ')' . $suffix;
       }
       return '((' . $if . ') ? ' . $prefix . $then . $suffix . " : '')";
     }

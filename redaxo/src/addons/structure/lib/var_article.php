@@ -25,10 +25,10 @@ class rex_var_article extends rex_var
    */
   protected function getOutput()
   {
-    $id    = $this->getArg('id', 0, true);
-    $clang = $this->getArg('clang', 'null');
-    $ctype = $this->getArg('ctype', -1);
-    $field = $this->getArg('field');
+    $id    = $this->getParsedArg('id', 0, true);
+    $clang = $this->getParsedArg('clang', 'null');
+    $ctype = $this->getParsedArg('ctype', -1);
+    $field = $this->getParsedArg('field');
 
     $noId = $id == 0;
     if ($noId) {
