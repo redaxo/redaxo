@@ -14,15 +14,16 @@ class rex_extension_debug extends rex_extension
   /**
    * Extends rex_extension::register() with FirePHP logging
    */
-  static public function register($extensionPoint, $callable, array $params = array())
+  static public function register($extensionPoint, $callable, $level = self::NORMAL, array $params = array())
   {
     $timer  = new rex_timer();
-    $result = parent::register($extensionPoint, $callable, $params);
+    $result = parent::register($extensionPoint, $callable, $level, $params);
 
     self::$log[] = array(
       'type'     => 'EXT',
       'ep'       => $extensionPoint,
       'callable' => $callable,
+      'level'    => $level,
       'params'   => $params,
       'result'   => $result,
       'timer'    => $timer->getFormattedDelta(),
