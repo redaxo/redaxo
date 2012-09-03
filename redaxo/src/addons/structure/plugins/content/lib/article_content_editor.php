@@ -78,31 +78,13 @@ class rex_article_content_editor extends rex_article_content
         if ($this->function == 'edit' && $this->slice_id == $sliceId) {
           // **************** Aktueller Slice
 
-          $REX_ACTION = array();
-
-          // nach klick auf den übernehmen button,
-          // die POST werte übernehmen
-          if (rex_request_method() == 'post' && rex_var::isEditEvent()) {
-//            foreach (rex_var::getVars() as $obj) {
-//              $REX_ACTION = $obj->getACRequestValues($REX_ACTION);
-//            }
-          }
-          // Sonst die Werte aus der DB holen
-          // (1. Aufruf via Editieren Link)
-          else {
-//            foreach (rex_var::getVars() as $obj) {
-//              $REX_ACTION = $obj->getACDatabaseValues($REX_ACTION, $artDataSql);
-//            }
-          }
-
           // ----- PRE VIEW ACTION [EDIT]
-          $REX_ACTION = rex_execPreViewAction($moduleId, 'edit', $REX_ACTION);
+          $action = new rex_article_action($moduleId, 'edit', $artDataSql);
+          if (rex_request_method() == 'post' && rex_request('function', 'string') == 'edit') {
+            $action->setRequestValues();
+          }
+          $action->exec(rex_article_action::PREVIEW);
           // ----- / PRE VIEW ACTION
-
-          // ****************** Action Werte in SQL-Objekt uebernehmen
-//          foreach (rex_var::getVars() as $obj) {
-//            $obj->setACValues($artDataSql, $REX_ACTION);
-//          }
 
           $moduleInput = $this->replaceVars($artDataSql, $moduleInput);
           $slice_content .= $this->editSlice($sliceId, $moduleInput, $sliceCtype, $moduleId);
@@ -331,19 +313,11 @@ class rex_article_content_editor extends rex_article_content
     } else {
       $initDataSql = rex_sql::factory();
 
-      $REX_ACTION = array();
-//      foreach (rex_var::getVars() as $obj) {
-//        $REX_ACTION = $obj->getACRequestValues($REX_ACTION);
-//      }
-
       // ----- PRE VIEW ACTION [ADD]
-      $REX_ACTION = rex_execPreViewAction($moduleIdToAdd, 'add', $REX_ACTION);
+      $action = new rex_article_action($moduleIdToAdd, 'add', $initDataSql);
+      $action->setRequestValues();
+      $action->exec(rex_article_action::PREVIEW);
       // ----- / PRE VIEW ACTION
-
-      // ****************** Action Werte in Sql-Objekt uebernehmen
-//      foreach (rex_var::getVars() as $obj) {
-//        $obj->setACValues($initDataSql, $REX_ACTION);
-//      }
 
       $moduleInput = $this->replaceVars($initDataSql, $MOD->getValue('input'));
 
