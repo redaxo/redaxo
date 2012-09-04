@@ -2,20 +2,13 @@
 
 abstract class rex_var_base_test extends PHPUnit_Framework_TestCase
 {
-  public function setUp()
+  protected function getParseOutput($content)
   {
-    parent::setUp();
+    return rex_file::getOutput(rex_stream::factory('rex-var-test', rex_var::parse($content)));
   }
 
-  public function tearDown()
+  protected function assertParseOutputEquals($expected, $content)
   {
-    parent::tearDown();
-  }
-
-  protected function evalCode($code)
-  {
-    ob_start();
-    eval($code);
-    return ob_get_clean();
+    $this->assertEquals($expected, $this->getParseOutput($content), 'Parsed content has not expected output.');
   }
 }

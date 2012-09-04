@@ -260,7 +260,7 @@ class rex_article_content_base
     $sql = 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.re_id
             FROM
               ' . rex::getTablePrefix() . 'article_slice
-            LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.modultyp_id=' . rex::getTablePrefix() . 'module.id
+            LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
             LEFT JOIN ' . rex::getTablePrefix() . 'article ON ' . rex::getTablePrefix() . 'article_slice.article_id=' . rex::getTablePrefix() . 'article.id
             WHERE
               ' . rex::getTablePrefix() . "article_slice.clang='" . $this->clang . "' AND
@@ -327,6 +327,8 @@ class rex_article_content_base
       }
 
       $prevCtype = $sliceCtypeId;
+
+      $artDataSql->flushValues();
       $artDataSql->next();
     }
 
@@ -417,6 +419,19 @@ class rex_article_content_base
   {
     $content = $this->replaceObjectVars($sql, $content);
     $content = $this->replaceCommonVars($content);
+    $content = str_replace(
+      array(
+        'REX_MODULE_ID',
+        'REX_SLICE_ID',
+        'REX_CTYPE_ID'
+      ),
+      array(
+        (int) $sql->getValue('module_id'),
+        (int) $sql->getValue(rex::getTable('article_slice') . '.id'),
+        (int) $sql->getValue('ctype')
+      ),
+      $content
+    );
     return $content;
   }
 
@@ -425,48 +440,16 @@ class rex_article_content_base
   {
     $tmp = '';
     $sliceId = $sql->getValue(rex::getTablePrefix() . 'article_slice.id');
-    $flushValues = false;
 
-    $REX_ACTION = rex_plugin::get('structure', 'content')->getProperty('rex_action', array());
-
-    foreach (rex_var::getVars() as $var) {
-      if ($this->mode == 'edit') {
-        if (($this->function == 'add' && $sliceId == null) ||
-            ($this->function == 'edit' && $sliceId == $this->slice_id)
-        ) {
-          if (isset($REX_ACTION['SAVE']) && $REX_ACTION === false) {
-            // Wenn der aktuelle Slice nicht gespeichert werden soll
-            // (via Action wurde das Nicht-Speichern-Flag gesetzt)
-            // Dann die Werte manuell aus dem Post übernehmen
-            // und anschließend die Werte wieder zurücksetzen,
-            // damit die nächsten Slices wieder die Werte aus der DB verwenden
-            $var->setACValues($sql, $REX_ACTION);
-            $tmp = $var->getBEInput($sql, $content);
-            $flushValues = true;
-          } else {
-            // Slice normal parsen
-            $tmp = $var->getBEInput($sql, $content);
-            // Werte wieder zuruecksetzen, damit die naechsten Slices wieder
-            // die Werte aus der DB verwenden
-            $flushValues = true;
-          }
-        } else {
-          $tmp = $var->getBEOutput($sql, $content);
-        }
-      } else {
-        $tmp = $var->getFEOutput($sql, $content);
+    if ($this->mode == 'edit') {
+      $env = rex_var::ENV_BACKEND;
+      if (($this->function == 'add' && $sliceId == null) || ($this->function == 'edit' && $sliceId == $this->slice_id)) {
+        $env = $env | rex_var::ENV_INPUT;
       }
-
-      // Rückgabewert nur auswerten wenn auch einer vorhanden ist
-      // damit $content nicht verfälscht wird
-      // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
-      if ($tmp !== null) {
-        $content = $tmp;
-      }
+    } else {
+      $env = rex_var::ENV_FRONTEND;
     }
-
-    if ($flushValues)
-      $sql->flushValues();
+    $content = rex_var::parse($content, $env, 'module', $sql);
 
     return $content;
   }

@@ -22,9 +22,9 @@ function openLinkMap(id, param)
 function deleteREXLink(id)
 {
   var link;
-  link = new getObj("LINK_"+id);
+  link = new getObj("REX_LINK_"+id);
   link.obj.value = "";
-  link = new getObj("LINK_"+id+"_NAME");
+  link = new getObj("REX_LINK_"+id+"_NAME");
   link.obj.value = "";
 }
 

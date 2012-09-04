@@ -54,8 +54,8 @@ if ($add_action != '') {
 if ($function == 'delete') {
   $del = rex_sql::factory();
   $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article_slice.article_id, ' . rex::getTablePrefix() . 'article_slice.clang, ' . rex::getTablePrefix() . 'article_slice.ctype, ' . rex::getTablePrefix() . 'module.name FROM ' . rex::getTablePrefix() . 'article_slice
-      LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.modultyp_id=' . rex::getTablePrefix() . 'module.id
-      WHERE ' . rex::getTablePrefix() . "article_slice.modultyp_id='$modul_id' GROUP BY " . rex::getTablePrefix() . 'article_slice.article_id');
+      LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
+      WHERE ' . rex::getTablePrefix() . "article_slice.module_id='$modul_id' GROUP BY " . rex::getTablePrefix() . 'article_slice.article_id');
 
   if ($del->getRows() > 0) {
     $module_in_use_message = '';
@@ -93,7 +93,7 @@ if ($function == 'delete') {
 
 if ($function == 'add' or $function == 'edit') {
   if ($save == '1') {
-    $modultyp = rex_sql::factory();
+    $module = rex_sql::factory();
 
     try {
       if ($function == 'add') {
@@ -108,11 +108,11 @@ if ($function == 'add' or $function == 'edit') {
         $info = rex_i18n::msg('module_added');
 
       } else {
-        $modultyp->setQuery('select * from ' . rex::getTablePrefix() . 'module where id=' . $modul_id);
-        if ($modultyp->getRows() == 1) {
-          $old_ausgabe = $modultyp->getValue('output');
+        $module->setQuery('select * from ' . rex::getTablePrefix() . 'module where id=' . $modul_id);
+        if ($module->getRows() == 1) {
+          $old_ausgabe = $module->getValue('output');
 
-          // $modultyp->setQuery("UPDATE ".rex::getTablePrefix()."modultyp SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
+          // $module->setQuery("UPDATE ".rex::getTablePrefix()."module SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$modul_id'");
 
           $UMOD = rex_sql::factory();
           $UMOD->setTable(rex::getTablePrefix() . 'module');
@@ -132,7 +132,7 @@ if ($function == 'add' or $function == 'edit') {
             $gc = rex_sql::factory();
             $gc->setQuery('SELECT DISTINCT(' . rex::getTablePrefix() . 'article.id) FROM ' . rex::getTablePrefix() . 'article
                 LEFT JOIN ' . rex::getTablePrefix() . 'article_slice ON ' . rex::getTablePrefix() . 'article.id=' . rex::getTablePrefix() . 'article_slice.article_id
-                WHERE ' . rex::getTablePrefix() . "article_slice.modultyp_id='$modul_id'");
+                WHERE ' . rex::getTablePrefix() . "article_slice.module_id='$modul_id'");
             for ($i = 0; $i < $gc->getRows(); $i++) {
               rex_article_cache::delete($gc->getValue(rex::getTablePrefix() . 'article.id'));
               $gc->next();

@@ -2,393 +2,251 @@
 
 /**
  * Abstract baseclass for REX_VARS
+ *
  * @package redaxo5
  */
 abstract class rex_var
 {
-  static private $vars = array();
+  const
+    ENV_FRONTEND = 1,
+    ENV_BACKEND = 2,
+    ENV_INPUT = 4,
+    ENV_OUTPUT = 8;
 
-  /**
-   * Registers a REX_VAR
-   *
-   * @param string $var Class name of the REX_VAR
-   */
-  static public function registerVar($var)
+  static private
+    $vars = array(),
+    $env = null,
+    $context = null,
+    $contextData = null;
+
+  private
+    $args = array();
+
+  static public function parse($content, $env = null, $context = null, $contextData = null)
   {
-    if (!is_subclass_of($var, __CLASS__)) {
-      throw new rex_exception('$var must be a subclass of ' . __CLASS__);
-    }
+    if (($env & self::ENV_INPUT) != self::ENV_INPUT)
+      $env = $env | self::ENV_OUTPUT;
+    self::$env = $env;
+    self::$context = $context;
+    self::$contextData = $contextData;
 
-    self::$vars[] = $var;
-  }
-
-  /**
-   * Returns the registered REX_VARS
-   */
-  static public function getVars()
-  {
-    foreach (self::$vars as $key => $var) {
-      if (!is_object($var))
-        self::$vars[$key] = new $var;
-    }
-
-    return self::$vars;
-  }
-
-  // --------------------------------- Actions
-
-  /**
-   * Actionmethod:
-   *
-   * Fill the rex_sql object with userinput from REX_ACTION
-   *
-   * @param rex_sql $sql        A datacontainer of the current slice (to be filled)
-   * @param array   $REX_ACTION Array of userinput
-   */
-  public function setACValues(rex_sql $sql, array $REX_ACTION)
-  {
-    // nothing todo
-  }
-
-  /**
-   * Actionmethod:
-   *
-   * Fill the REX_ACTION array with values out of the superglobal request vars
-   *
-   * @param array $REX_ACTION The array to fill
-   *
-   * @return array The filled REX_ACTION array
-   */
-  public function getACRequestValues(array $REX_ACTION)
-  {
-    return $REX_ACTION;
-  }
-
-  /**
-   * Actionmethod:
-   *
-   * Fill the REX_ACTION array with initial values from the datacontainer
-   *
-   * @param array   $REX_ACTION The array to fill
-   * @param rex_sql $sql        The datacontainer with database values
-   *
-   * @return array The filled REX_ACTION array
-   */
-  public function getACDatabaseValues(array $REX_ACTION, rex_sql $sql)
-  {
-    return $REX_ACTION;
-  }
-
-  /**
-   * Actionmethod:
-   *
-   * Replaces all occurences of the REX-Var with values given in the REX_ACTION array
-   *
-   * @param array  $REX_ACTION The array of slice-data
-   * @param string $content    The string for searching.
-   *
-   * @return string The string in which all occurences have been replaced
-   */
-  public function getACOutput(array $REX_ACTION, $content)
-  {
-    $sql = rex_sql::factory();
-    $this->setACValues($sql, $REX_ACTION);
-    return $this->getBEOutput($sql, $content);
-  }
-
-  // --------------------------------- Ouput
-
-  /**
-   * Replaces all occurences of the REX-Var with values given in the rex_sql container.
-   * The content need to be prepared for <b>output</b> in the <b>frontend</b>.
-   *
-   * @param rex_sql $sql     The datacontainer with database values
-   * @param string  $content The string for searching.
-   *
-   * @return string The string in which all occurences have been replaced
-   */
-  public function getFEOutput(rex_sql $sql, $content)
-  {
-    return $this->getBEOutput($sql, $content);
-  }
-
-  /**
-   * Replaces all occurences of the REX-Var with values given in the rex_sql container.
-   * The content need to be prepared for <b>output</b> in the <b>backend</b>.
-   *
-   * @param rex_sql $sql     The datacontainer with database values
-   * @param string  $content The string for searching.
-   *
-   * @return string The string in which all occurences have been replaced
-   */
-  public function getBEOutput(rex_sql $sql, $content)
-  {
-    return $content;
-  }
-
-  /**
-   * Replaces all occurences of the REX-Var with values given in the rex_sql container.
-   * The content need to be prepared for <b>input</b> in the <b>backend</b>.
-   *
-   * @param rex_sql $sql     The datacontainer with database values
-   * @param string  $content The string for searching.
-   *
-   * @return string The string in which all occurences have been replaced
-   */
-  public function getBEInput(rex_sql $sql, $content)
-  {
-    return $this->getBEOutput($sql, $content);
-  }
-
-  /**
-   * Replaces all occurences of the REX-Var in the given Template string.
-   * The content need to be prepared for <b>output</b> in the <b>frontend</b>.
-   *
-   * @param string $content The string for searching.
-   *
-   * @return string The string in which all occurences have been replaced
-   */
-  public function getTemplate($content)
-  {
-    return $content;
-  }
-
-  /**
-   * Escapes php-tags in the given content string
-   *
-   * @param string $content The string to escape
-   *
-   * @return string The escaped string
-   */
-  protected function stripPHP($content)
-  {
-    $content = str_replace('<?', '&lt;?', $content);
-    $content = str_replace('?>', '?&gt;', $content);
-    return $content;
-  }
-
-  /**
-   * Gets the article-slice property which name equals to $value.
-   *
-   * @param rex_sql $sql   The slice datacontainer
-   * @param string  $value The name of the property to search for
-   *
-   * @return string The value of the property, or <code>false</code> when the property cannot be found!
-   */
-  protected function getValue(rex_sql $sql, $value)
-  {
-    return $sql->getValue(rex::getTablePrefix() . 'article_slice.' . $value);
-  }
-
-  /**
-   * Sets the article-slice property $fieldname with the given $value.
-   *
-   * @param rex_sql $sql       The article-slice datacontainer
-   * @param string  $fieldname The name of the property to set
-   * @param string  $value     The value to set
-   */
-  protected function setValue(rex_sql $sql, $fieldname, $value)
-  {
-    $sql->setValue($fieldname, $value);
-  }
-
-  /**
-   * Handle all common REX-Var parameters.
-   * The parameter $name will be extracted out of $args and set to $value.
-   *
-   * @param string $varname The name of the variable which param should be handled
-   * @param array  $args    The array of parameters which are already known for the variable $varname
-   * @param string $name    The name of the parameter to extract
-   * @param string $value   The value to set for the parameter
-   *
-   * @return array The adjusted array of parameters
-   */
-  static public function handleDefaultParam($varname, array $args, $name, $value)
-  {
-    switch ($name) {
-      case '0'       : $name = 'id';
-      case 'id'      :
-      case 'prefix'  :
-      case 'suffix'  :
-      case 'ifempty' :
-      case 'instead' :
-      case 'callback':
-      // beliebige custom params zulassen
-      default:
-      $args[$name] = (string) $value;
-    }
-    return $args;
-  }
-
-  /**
-   * Handle all common widget parameters.
-   *
-   * @param string $varname      The name of the variable which param should be handled
-   * @param array  $args         The array of parameters for the widget
-   * @param string $widgetSource The html source of the widget
-   *
-   * @return string The parsed html source
-   */
-  static public function handleGlobalWidgetParams($varname, array $args, $widgetSource)
-  {
-    return $widgetSource;
-  }
-
-  /**
-   * Handle all common var parameters.
-   *
-   * @param string $varname The name of the variable which param should be handled
-   * @param array  $args    The array of parameters for the widget
-   * @param string $value   The value of the variable
-   *
-   * @return string The parsed variable value
-   */
-  static public function handleGlobalVarParams($varname, array $args, $value)
-  {
-    if (isset($args['callback'])) {
-      $args['subject'] = $value;
-      return call_user_func($args['callback'], $args);
-    }
-
-    $prefix = '';
-    $suffix = '';
-
-    if (isset($args['instead']) && $value != '')
-      $value = $args['instead'];
-
-    if (isset($args['ifempty']) && $value == '')
-      $value = $args['ifempty'];
-
-    if ($value != '' && isset($args['prefix']))
-      $prefix = $args['prefix'];
-
-    if ($value != '' && isset($args['suffix']))
-      $suffix = $args['suffix'];
-
-    return $prefix . $value . $suffix;
-  }
-
-  /**
-   * Search all occurences of the parameter $varname in $content and returns it parsed parameters.
-   * The origin parameter-string and all parsed default parameters are contained per hit in the resulting array.
-   *
-   * @param string $content The string for searching
-   * @param string $varname The name of the variable
-   *
-   * @return array A array containg all parameter-matches of the variable $varname in $content
-   */
-  protected function getVarParams($content, $varname)
-  {
-    $result = array();
-
-    $match = $this->matchVar($content, $varname);
-
-    foreach ($match as $param_str) {
-      $args = array();
-      $params = $this->splitString($param_str);
-      foreach ($params as $name => $value) {
-        $args = $this->handleDefaultParam($varname, $args, $name, $value);
+    $tokens = token_get_all($content);
+    $countTokens = count($tokens);
+    $content = '';
+    for ($i = 0; $i < $countTokens; ++$i) {
+      $token = $tokens[$i];
+      if (is_string($token)) {
+        $add = $token;
+      } else {
+        $add = $token[1];
+        if (in_array($token[0], array(T_INLINE_HTML, T_CONSTANT_ENCAPSED_STRING, T_STRING, T_START_HEREDOC))) {
+          $useVariables = false;
+          $stripslashes = null;
+          switch ($token[0]) {
+            case T_INLINE_HTML:
+              $format = '<?php echo %s; ?>';
+              break;
+            case T_CONSTANT_ENCAPSED_STRING:
+              $format = $token[1][0] == '"' ? '" . %s . "' : "' . %s . '";
+              $stripslashes = $token[1][0];
+              break;
+            case T_STRING:
+              while (isset($tokens[++$i])
+                  && (is_string($tokens[$i]) && in_array($tokens[$i], array('=', '[', ']'))
+                      || in_array($tokens[$i][0], array(T_WHITESPACE, T_STRING, T_CONSTANT_ENCAPSED_STRING, T_LNUMBER, T_ISSET)))
+              ) {
+                $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
+              }
+              --$i;
+              $format = '%s';
+              break;
+            case T_START_HEREDOC:
+              while (isset($tokens[++$i]) && (is_string($tokens[$i]) || $tokens[$i][0] != T_END_HEREDOC)) {
+                $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
+              }
+              --$i;
+              if (preg_match("/'(.*)'/", $token[1], $match)) { // nowdoc
+                $format = "\n" . $match[1] . "\n. %s . <<<'" . $match[1] . "'\n";
+              } else { // heredoc
+                $format = '{%s}';
+                $useVariables = true;
+              }
+              break;
+          }
+          $add = self::replaceVars($add, $format, $useVariables, $stripslashes);
+          if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
+            $start = substr($add, 0, 5);
+            $end = substr($add, -5);
+            if ($start == '"" . ' || $start == "'' . ") {
+              $add = substr($add, 5);
+            }
+            if ($end == ' . ""' || $end == " . ''") {
+              $add = substr($add, 0, -5);
+            }
+          }
+        }
       }
-
-      // the origin param_str is needed to str_replace the variable at parse-time
-      $result[] = array(
-        $param_str,
-        $args
-      );
+      $content .= $add;
     }
-
-    return $result;
+    return $content;
   }
 
   /**
-   * Durchsucht den String $content nach Variablen mit dem Namen $varname.
-   * Gibt die Parameter der Treffer (Text der Variable zwischen den []) als Array zurück.
+   * @param string $var
+   * @return self
    */
-
-  /**
-   * Search all occurences of the variable $varname in $content and
-   * returns the corresponding parameter string of each match.
-   *
-   * @param string $content The string for searching
-   * @param string $varname The name of the variable
-   *
-   * @return array A array containg all matches of the variable $varname in $content
-   */
-  protected function matchVar($content, $varname)
+  static private function getVar($var)
   {
-    $result = array();
+    if (!isset(self::$vars[$var])) {
+      $class = 'rex_var_' . strtolower(substr($var, 4));
+      if (!is_subclass_of($class, __CLASS__))
+        return false;
+      self::$vars[$var] = $class;
+    }
+    $class = self::$vars[$var];
+    return new $class;
+  }
 
-    if (preg_match_all('/' . preg_quote($varname, '/') . '\[([^\]]*)\]/ms', $content, $matches)) {
-      foreach ($matches[1] as $match) {
-        $result[] = $match;
+  static private function replaceVars($content, $format = '%s', $useVariables = false, $stripslashes = null)
+  {
+    $matches = self::getMatches($content);
+    if (empty($matches)) {
+      return $content;
+    }
+    $iterator = new AppendIterator();
+    $iterator->append(new ArrayIterator($matches));
+    $variables = array();
+    $i = 0;
+    foreach ($iterator as $match) {
+      $var = self::getVar($match[1]);
+      $replaced = false;
+      if ($var !== false) {
+        $args = str_replace(array('\[', '\]'), array('@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'), $match[2]);
+        if ($stripslashes) {
+          $args = str_replace(array('\\' . $stripslashes, '\\' . $stripslashes), $stripslashes, $args);
+        }
+        $var->setArgs($args);
+        if (($output = $var->getGlobalArgsOutput()) !== false) {
+          $output .= str_repeat("\n", max(0, substr_count($match[0], "\n") - substr_count($output, "\n") - substr_count($format, "\n")));
+          if ($useVariables) {
+            $replace = '$__rex_var_content_' . $i++;
+            $variables[] = $replace . ' = ' . $output;
+          } else {
+            $replace = $output;
+          }
+          $content = str_replace($match[0], sprintf($format, $replace), $content);
+          $replaced = true;
+        }
+      }
+      if (!$replaced && $matches = self::getMatches($match[2])) {
+        $iterator->append(new ArrayIterator($matches));
       }
     }
-
-    return $result;
-  }
-
-  /**
-   * Get the argument $name out of the array $args.
-   *
-   * If the value will not be found $default is returned.
-   * The default value will also be written into the array $args.
-   *
-   * @param string $name
-   * @param array  $args
-   * @param string $default
-   *
-   * @return string the value of the arg, or $default if the arg cannot be found
-   */
-  protected function getArg($name, array &$args, $default = null)
-  {
-    if (isset($args[$name])) {
-      return $args[$name];
+    if ($useVariables && !empty($variables)) {
+      $content = 'rex_var::nothing(' . implode(', ', $variables) . ') . ' . $content;
     }
-    // we write the default back into the array, to get the default also into the parameters for the later callback
-    $args[$name] = $default;
-    return $default;
+    return $content;
   }
 
-  /**
-   * Split a string on every space which it contains.
-   * Spaces within single or double quotes are preserved.
-   *
-   * @param string $string The string to be splitted
-   *
-   * @return array The splitted string in array form.
-   */
-  protected function splitString($string)
+  static private function getMatches($content)
   {
-    return rex_string::split($string);
+    preg_match_all('/(REX_[A-Z_]+)\[((?:[^\[\]]|\\\\[\[\]]|(?R))*)(?<!\\\\)\]/s', $content, $matches, PREG_SET_ORDER);
+    return $matches;
   }
 
-  /**
-   * Checks whether the handled event is an ADD-Event.
-   *
-   * @return boolean TRUE when the event is an ADD-Event otherwise FALSE.
-   */
-  static public function isAddEvent()
+  private function setArgs($arg_string)
   {
-    return rex_request('function', 'string') == 'add';
+    $this->args = rex_string::split($arg_string);
   }
 
-  /**
-   * Checks whether the handled event is an EDIT-Event.
-   *
-   * @return boolean TRUE when the event is an EDIT-Event otherwise FALSE.
-   */
-  static public function isEditEvent()
+  protected function hasArg($key, $defaultArg = false)
   {
-    return rex_request('function', 'string') == 'edit';
+    return isset($this->args[$key]) || $defaultArg && isset($this->args[0]);
   }
 
-  /**
-   * Checks whether the handled event is an DELETE-Event.
-   *
-   * @return boolean TRUE when the event is an DELETE-Event otherwise FALSE.
-   */
-  static public function isDeleteEvent()
+  protected function getArg($key, $default = null, $defaultArg = false)
   {
-    return rex_request('function', 'string') == 'delete';
+    if (!$this->hasArg($key, $defaultArg))
+      return $default;
+    return isset($this->args[$key]) ? $this->args[$key] : $this->args[0];
+  }
+
+  protected function getParsedArg($key, $default = null, $defaultArg = false)
+  {
+    if (!$this->hasArg($key, $defaultArg))
+      return $default;
+    $arg = isset($this->args[$key]) ? $this->args[$key] : $this->args[0];
+    $begin = '<<<addslashes>>>';
+    $end = '<<</addslashes>>>';
+    $arg = $begin . self::replaceVars($arg, $end . "' . %s . '" . $begin) . $end;
+    $arg = preg_replace_callback("@$begin(.*)$end@Us", function ($match) {
+      return addcslashes($match[1], "\'");
+    }, $arg);
+    $arg = str_replace(array('@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'), array('[', ']'), $arg);
+    return is_numeric($arg) ? $arg : "'$arg'";
+  }
+
+  protected function environmentIs($env)
+  {
+    return (self::$env & $env) == $env;
+  }
+
+  protected function getContext()
+  {
+    return self::$context;
+  }
+
+  protected function getContextData()
+  {
+    return self::$contextData;
+  }
+
+  abstract protected function getOutput();
+
+  static protected function quote($string)
+  {
+    $string = addcslashes($string, "\'");
+    $string = preg_replace('/\v+/', '\' . "$0" . \'', $string);
+    $string = addcslashes($string, "\r\n");
+    return "'" . $string . "'";
+  }
+
+  private function getGlobalArgsOutput()
+  {
+    if (($content = $this->getOutput()) === false)
+      return false;
+
+    if ($this->hasArg('callback')) {
+      $args = array("'subject' => " . $content);
+      foreach ($this->args as $key => $value) {
+        $args[] = "'$key' => " . $this->getParsedArg($key);
+      }
+      $args = 'array(' . implode(', ', $args) . ')';
+      return 'call_user_func(' . $this->getParsedArg('callback') . ', ' . $args . ')';
+    }
+
+    $prefix = $this->hasArg('prefix') ? $this->getParsedArg('prefix') . ' . ' : '';
+    $suffix = $this->hasArg('suffix') ? ' . ' . $this->getParsedArg('suffix') : '';
+    $instead = $this->hasArg('instead');
+    $ifempty = $this->hasArg('ifempty');
+    if ($prefix || $suffix || $instead || $ifempty) {
+      if ($instead) {
+        $if = $content;
+        $then = $this->getParsedArg('instead');
+      } else {
+        $if = '$__rex_var_content = ' . $content;
+        $then = '$__rex_var_content';
+      }
+      if ($ifempty) {
+        return $prefix . '((' . $if . ') ? ' . $then . ' : ' . $this->getParsedArg('ifempty') . ')' . $suffix;
+      }
+      return '((' . $if . ') ? ' . $prefix . $then . $suffix . " : '')";
+    }
+    return $content;
+  }
+
+  static public function nothing()
+  {
+    return '';
   }
 }

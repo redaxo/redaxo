@@ -20,104 +20,50 @@
 
 class rex_var_article extends rex_var
 {
-  // --------------------------------- Output
-
-  public function getTemplate($content)
-  {
-    return $this->matchArticle($content, true);
-  }
-
-  public function getBEOutput(rex_sql $sql, $content)
-  {
-    return $this->matchArticle($content);
-  }
-
-  static public function handleDefaultParam($varname, array $args, $name, $value)
-  {
-    switch ($name) {
-      case '1' :
-      case 'clang' :
-        $args['clang'] = (int) $value;
-        break;
-      case '2' :
-      case 'ctype' :
-        $args['ctype'] = (int) $value;
-        break;
-      case 'field' :
-        $args['field'] = (string) $value;
-        break;
-    }
-    return parent::handleDefaultParam($varname, $args, $name, $value);
-  }
-
   /**
    * Werte für die Ausgabe
    */
-  private function matchArticle($content, $replaceInTemplate = false)
+  protected function getOutput()
   {
-    $var = 'REX_ARTICLE';
-    $matches = $this->getVarParams($content, $var);
+    $id    = $this->getParsedArg('id', 0, true);
+    $clang = $this->getParsedArg('clang', 'null');
+    $ctype = $this->getParsedArg('ctype', -1);
+    $field = $this->getParsedArg('field');
 
-    foreach ($matches as $match) {
-      list ($param_str, $args)  = $match;
-      $article_id = $this->getArg('id',    $args, 0);
-      $clang      = $this->getArg('clang', $args, 'null');
-      $ctype      = $this->getArg('ctype', $args, -1);
-      $field      = $this->getArg('field', $args, '');
-
-      $tpl = '';
-      if ($article_id > 0) {
-        $article = $article_id;
-      } elseif ($clang == 'null') {
-        $article = '$this->getValue(\'id\')';
-      } else {
-        $article = '$this';
-      }
-
-      if ($field) {
-        if (rex_article::hasValue($field)) {
-          $tpl = '<?php echo ' . __CLASS__ . '::getArticleValue(' . $article . ", '" . $field . "', " . $clang . ", '" . json_encode($args) . "'); ?>";
-        }
-      } else {
-        if ($article != 0 || $replaceInTemplate) {
-          // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
-          // => endlossschleife
-          $tpl = '<?php echo ' . __CLASS__ . '::getArticle(' . $article . ', ' . $ctype . ', ' . $clang . ", '" . json_encode($args) . "'); ?>";
-        }
-      }
-
-      if ($tpl != '')
-        $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
+    $noId = $id == 0;
+    if ($noId) {
+      $id = '$this->getValue(\'id\')';
     }
 
-    return $content;
+    if ($field) {
+      return __CLASS__ . '::getArticleValue(' . $id . ', ' . $field . ', ' . $clang . ')';
+    } elseif (!$noId || !in_array($this->getContext(), array('module', 'action'))) {
+      // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
+      // => endlossschleife
+      if ($noId && $clang == 'null') {
+        return '$this->getArticle(' . $ctype . ')';
+      }
+      return __CLASS__ . '::getArticle(' . $id . ', ' . $ctype . ', ' . $clang . ')';
+    }
+
+    return false;
   }
 
-  static public function getArticleValue($article, $field, $clang = null, $args = '')
+  static public function getArticleValue($id, $field, $clang = null)
   {
     if ($clang === null) {
-      $clang = rex_clang::getCurrentId();
+      $clang = rex_clang::getId();
     }
-    if (!is_object($article)) {
-      $article = rex_article::getArticleById($article, $clang);
-    }
-
-    $value = $article->getValue($field);
-    $value = self::handleGlobalVarParams('REX_ARTICLE', json_decode($args, true), $value);
-    return htmlspecialchars($value);
+    $article = rex_ooArticle::getArticleById($id, $clang);
+    return htmlspecialchars($article->getValue($field));
   }
 
-  static public function getArticle($article, $ctype = -1, $clang = null, $args = '')
+  static public function getArticle($id, $ctype = -1, $clang = null)
   {
     if ($clang === null) {
-      $clang = rex_clang::getCurrentId();
+      $clang = rex_clang::getId();
     }
-    if (!is_object($article)) {
-      $article = new rex_article_content($article, $clang);
-    }
-
-    $article = $article->getArticle($ctype);
-    $article = self::handleGlobalVarParams('REX_ARTICLE', json_decode($args, true), $article);
-    return $article;
+    $article = new rex_article($id, $clang);
+    return $article->getArticle($ctype);
   }
 }
