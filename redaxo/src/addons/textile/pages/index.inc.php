@@ -15,7 +15,7 @@ $mdl_input = '<?php
 if (rex_addon::get(\'textile\')->isAvailable())
 {
   echo \'<textarea name="VALUE[1]" rows="10">REX_VALUE[1]</textarea><br /><br />\';
-  echo \'<a href="#" onclick="jQuery(\'#rex-textile-help\').toggle(\'fast\');">Zeige/verberge Textile Hilfe</a><br />\';
+  echo \'<a href="#" onclick="jQuery(\\\'#rex-textile-help\\\').toggle(\\\'fast\\\');">Zeige/verberge Textile Hilfe</a><br />\';
   echo \'<div id="rex-textile-help" style="display:none">\';
   rex_textile::showHelpOverview();
   echo \'</div>\';
