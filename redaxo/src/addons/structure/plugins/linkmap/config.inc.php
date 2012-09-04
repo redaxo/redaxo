@@ -28,8 +28,6 @@ if (rex::isBackend()) {
   }
 }
 
-rex_var::registerVar('rex_var_link');
-
 //---------------- tree
 if (rex::isBackend() && rex::getUser()) {
   rex_extension::register('PAGE_SIDEBAR', function ($params) {

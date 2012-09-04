@@ -23,5 +23,3 @@ if (rex::isBackend()) {
     rex_extension::register('PAGE_HEADER', 'rex_mediapool_add_assets');
   }
 }
-
-rex_var::registerVar('rex_var_media');

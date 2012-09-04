@@ -18,9 +18,7 @@ function rex_generateTemplate($template_id)
     $templateFile = rex_template::getFilePath($template_id);
 
     $content = $sql->getValue('content');
-    foreach (rex_var::getVars() as $var) {
-      $content = $var->getTemplate($content);
-    }
+    $content = rex_var::parse($content, rex_var::ENV_FRONTEND, 'template');
     if (rex_file::put($templateFile, $content) !== false) {
       return true;
     } else {

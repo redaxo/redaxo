@@ -105,7 +105,6 @@ class rex_article_content extends rex_article_content_base
 
       $article_content_file = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
       if (!file_exists($article_content_file)) {
-        include_once rex_path::plugin('structure', 'content', 'functions/function_rex_content.inc.php');
         $generated = rex_content_service::generateArticleContent($this->article_id, $this->clang);
         if ($generated !== true) {
           // fehlermeldung ausgeben

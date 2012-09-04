@@ -19,10 +19,6 @@ rex_perm::register('article2category[]', null, rex_perm::OPTIONS);
 
 rex_complex_perm::register('structure', 'rex_structure_perm');
 
-rex_var::registerVar('rex_var_globals');
-rex_var::registerVar('rex_var_article');
-rex_var::registerVar('rex_var_category');
-
 require_once dirname(__FILE__) . '/functions/function_rex_url.inc.php';
 
 if (rex_request('article_id', 'int') == 0)

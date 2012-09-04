@@ -13,11 +13,6 @@
 
 $content = '';
 
-require dirname(__FILE__) . '/../functions/function_rex_content.inc.php';
-
-
-unset ($REX_ACTION);
-
 $article_id  = rex_request('article_id',  'int');
 $clang       = rex_request('clang',       'int');
 $slice_id    = rex_request('slice_id',    'int', '');
@@ -141,9 +136,9 @@ if ($article->getRows() == 1) {
       $CM = rex_sql::factory();
       if ($function == 'edit' || $function == 'delete') {
         // edit/ delete
-        $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.modultyp_id=' . rex::getTablePrefix() . 'module.id WHERE ' . rex::getTablePrefix() . "article_slice.id='$slice_id' AND clang=$clang");
+        $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id WHERE ' . rex::getTablePrefix() . "article_slice.id='$slice_id' AND clang=$clang");
         if ($CM->getRows() == 1)
-          $module_id = $CM->getValue('' . rex::getTablePrefix() . 'article_slice.modultyp_id');
+          $module_id = $CM->getValue('' . rex::getTablePrefix() . 'article_slice.module_id');
       } else {
         // add
         $module_id = rex_post('module_id', 'int');
@@ -174,22 +169,19 @@ if ($article->getRows() == 1) {
           // ----- RECHTE AM MODUL: JA
 
           // ***********************  daten einlesen
-          $REX_ACTION = array();
-          $REX_ACTION['SAVE'] = true;
 
-          foreach (rex_var::getVars() as $obj) {
-            $REX_ACTION = $obj->getACRequestValues($REX_ACTION);
-          }
+          $newsql = rex_sql::factory();
+          // $newsql->debugsql = true;
 
           // ----- PRE SAVE ACTION [ADD/EDIT/DELETE]
-          list($action_message, $REX_ACTION) = rex_execPreSaveAction($module_id, $function, $REX_ACTION);
+          $action = new rex_article_action($module_id, $function, $newsql);
+          $action->setRequestValues();
+          $action->exec(rex_article_action::PRESAVE);
+          $action_message = implode('<br />', $action->getMessages());
           // ----- / PRE SAVE ACTION
 
-          // Statusspeicherung für die rex_article_content Klasse
-          rex_plugin::get('structure', 'content')->setProperty('rex_action', $REX_ACTION);
-
           // Werte werden aus den REX_ACTIONS übernommen wenn SAVE=true
-          if (!$REX_ACTION['SAVE']) {
+          if (!$action->getSave()) {
             // ----- DONT SAVE/UPDATE SLICE
             if ($action_message != '')
               $warning = $action_message;
@@ -199,11 +191,12 @@ if ($article->getRows() == 1) {
               $warning = rex_i18n::msg('slice_saved_error');
 
           } else {
+            if ($action_message)
+              $action_message .= '<br />';
+
             // ----- SAVE/UPDATE SLICE
             if ($function == 'add' || $function == 'edit') {
 
-              $newsql = rex_sql::factory();
-              // $newsql->debugsql = true;
               $sliceTable = rex::getTablePrefix() . 'article_slice';
               $newsql->setTable($sliceTable);
 
@@ -221,16 +214,11 @@ if ($article->getRows() == 1) {
                 $prior = $prevSlice->getValue('prior');
 
                 $newsql->setValue('article_id', $article_id);
-                $newsql->setValue('modultyp_id', $module_id);
+                $newsql->setValue('module_id', $module_id);
                 $newsql->setValue('clang', $clang);
                 $newsql->setValue('ctype', $ctype);
                 $newsql->setValue('revision', $slice_revision);
                 $newsql->setValue('prior', $prior);
-              }
-
-              // ****************** SPEICHERN FALLS NOETIG
-              foreach (rex_var::getVars() as $obj) {
-                $obj->setACValues($newsql, $REX_ACTION);
               }
 
               if ($function == 'edit') {
@@ -340,7 +328,10 @@ if ($article->getRows() == 1) {
             );
 
             // ----- POST SAVE ACTION [ADD/EDIT/DELETE]
-            $info .= rex_execPostSaveAction($module_id, $function, $REX_ACTION);
+            $action->exec(rex_article_action::POSTSAVE);
+            if ($messages = $action->getMessages()) {
+              $info .= '<br />' . implode('<br />', $messages);
+            }
             // ----- / POST SAVE ACTION
 
             // Update Button wurde gedrückt?

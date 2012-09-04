@@ -20,8 +20,7 @@ class rex_form_widget_linklist_element extends rex_form_element
   {
     static $widget_counter = 1;
 
-    $html = rex_var_link::getLinkListButton($widget_counter, $this->getValue(), $this->category_id);
-    $html = str_replace('LINKLIST[' . $widget_counter . ']', $this->getAttribute('name'), $html);
+    $html = rex_var_linklist::getWidget($widget_counter, $this->getAttribute('name'), $this->getValue(), array('category' => $this->category_id));
 
     $widget_counter++;
     return $html;

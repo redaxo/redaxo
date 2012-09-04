@@ -16,72 +16,29 @@
 
 class rex_var_category extends rex_var
 {
-  // --------------------------------- Output
-
-  public function getTemplate($content)
-  {
-    return $this->matchCategory($content);
-  }
-
-  public function getBEOutput(rex_sql $sql, $content)
-  {
-    return $this->matchCategory($content);
-  }
-
-  static public function handleDefaultParam($varname, array $args, $name, $value)
-  {
-    switch ($name) {
-      case 'field' :
-        $args['field'] = (string) $value;
-        break;
-      case 'clang' :
-        $args['clang'] = (int) $value;
-        break;
-    }
-    return parent::handleDefaultParam($varname, $args, $name, $value);
-  }
-
   /**
    * Werte für die Ausgabe
    */
-  private function matchCategory($content)
+  protected function getOutput()
   {
-    $var = 'REX_CATEGORY';
-    $matches = $this->getVarParams($content, $var);
+    $field = $this->getParsedArg('field');
+    if (!$field)
+      return false;
 
-    foreach ($matches as $match) {
-      list ($param_str, $args)   = $match;
-      $category_id = $this->getArg('id',    $args, 0);
-      $clang       = $this->getArg('clang', $args, 'null');
-      $field       = $this->getArg('field', $args, '');
+    $category_id = $this->getParsedArg('id', '$this->getValue(\'category_id\')');
+    $clang = $this->getParsedArg('clang', 'null');
 
-      $tpl = '';
-      if (rex_category::hasValue($field)) {
-        $tpl = '<?php echo ' . __CLASS__ . '::getCategory(' . $category_id . ", '" . addslashes($field) . "', " . $clang . ", '" . json_encode($args) . "'); ?>";
-      }
-
-      if ($tpl != '')
-        $content = str_replace($var . '[' . $param_str . ']', $tpl, $content);
-    }
-
-    return $content;
+    return __CLASS__ . '::getCategoryValue(' . $category_id . ', ' . $field . ', ' . $clang . ')';
   }
 
-  static public function getCategory($id, $field, $clang = null, $args = '')
+  static public function getCategoryValue($id, $field, $clang = null)
   {
     if ($clang === null) {
-      $clang = rex_clang::getCurrentId();
+      $clang = rex_clang::getId();
     }
-    if ($id === 0) {
-      $art = rex_article::getArticleById(rex::getProperty('article_id'), $clang);
-      $cat = $art->getCategory();
-    } elseif ($id > 0) {
-      $cat = rex_category::getCategoryById($id, $clang);
-    }
-
+    $cat = rex_ooCategory::getCategoryById($id, $clang);
     if ($cat) {
-      $cat = self::handleGlobalVarParams('REX_CATEGORY', json_decode($args, true), $cat->getValue($field));
-      return htmlspecialchars($cat);
+      return htmlspecialchars($cat->getValue($field));
     }
   }
 }
