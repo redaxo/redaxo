@@ -4,7 +4,6 @@ class rex_input_mediabutton extends rex_input
 {
   private
     $buttonId,
-    $categoryId,
     $args = array();
 
   public function __construct()
@@ -21,7 +20,7 @@ class rex_input_mediabutton extends rex_input
 
   public function setCategoryId($categoryId)
   {
-    $this->categoryId = $categoryId;
+    $this->args['category'] = $categoryId;
   }
 
   public function setTypes($types)
@@ -37,14 +36,11 @@ class rex_input_mediabutton extends rex_input
   public function getHtml()
   {
     $buttonId = $this->buttonId;
-    $categoryId = $this->categoryId;
     $value = htmlspecialchars($this->value);
     $name = $this->attributes['name'];
     $args = $this->args;
 
-    $field = rex_var_media::getMediaButton($buttonId, $categoryId, $args);
-    $field = str_replace('REX_MEDIA[' . $buttonId . ']', $value, $field);
-    $field = str_replace('MEDIA[' . $buttonId . ']', $name, $field);
+    $field = rex_var_media::getWidget($buttonId, $name, $value, $args);
 
     return $field;
   }
