@@ -9,14 +9,17 @@ class rex_article_action
 
   private
     $moduleId,
+    $event,
     $mode,
     $save = true,
     $messages = array(),
-    $sql;
+    $sql,
+    $vars;
 
   public function __construct($moduleId, $function, rex_sql $sql)
   {
     $this->moduleId = $moduleId;
+    $this->event = $function;
     if ($function == 'edit')
       $this->mode = 2;
     elseif ($function == 'delete')
@@ -24,6 +27,14 @@ class rex_article_action
     else
       $this->mode = 1;
     $this->sql = $sql;
+    $this->vars['search'] = array('REX_ARTICLE_ID', 'REX_CLANG_ID', 'REX_CTYPE_ID', 'REX_MODULE_ID', 'REX_SLICE_ID');
+    $this->vars['replace'] = array(
+      rex_request('article_id', 'int'),
+      rex_request('clang', 'int'),
+      rex_request('ctype', 'int'),
+      rex_request('module_id', 'int'),
+      $this->mode == 1 ? 0 : rex_request('slice_id', 'int')
+    );
   }
 
   public function setRequestValues()
@@ -52,7 +63,9 @@ class rex_article_action
     $ga->setQuery('SELECT a.id, `' . $type . '` as code FROM ' . rex::getTable('module_action') . ' ma,' . rex::getTable('action') . ' a WHERE `' . $type . '` != "" AND ma.action_id=a.id AND module_id=? AND (a.' . $type . 'mode & ?)', array($this->moduleId, $this->mode));
 
     foreach ($ga as $row) {
-      $action = rex_var::parse($row->getValue('code'), rex_var::ENV_BACKEND | rex_var::ENV_INPUT, 'action', $this->sql);
+      $action = $row->getValue('code');
+      $action = str_replace($this->vars['search'], $this->vars['replace'], $action);
+      $action = rex_var::parse($action, rex_var::ENV_BACKEND | rex_var::ENV_INPUT, 'action', $this->sql);
       require rex_stream::factory('action/' . $row->getValue('id') . '/' . $type, $action);
     }
   }
@@ -75,6 +88,11 @@ class rex_article_action
   public function getMessages()
   {
     return $this->messages;
+  }
+
+  public function getEvent()
+  {
+    return $this->event;
   }
 
   protected function setValue($id, $value)

@@ -419,6 +419,19 @@ class rex_article_content_base
   {
     $content = $this->replaceObjectVars($sql, $content);
     $content = $this->replaceCommonVars($content);
+    $content = str_replace(
+      array(
+        'REX_MODULE_ID',
+        'REX_SLICE_ID',
+        'REX_CTYPE_ID'
+      ),
+      array(
+        (int) $sql->getValue('modultyp_id'),
+        (int) $sql->getValue(rex::getTable('article_slice') . '.id'),
+        (int) $sql->getValue('ctype')
+      ),
+      $content
+    );
     return $content;
   }
 
