@@ -19,7 +19,7 @@ class rex_article_slice
     $_clang,
     $_ctype,
     $_prior,
-    $_modultyp_id,
+    $_module_id,
 
     $_createdate,
     $_updatedate,
@@ -37,7 +37,7 @@ class rex_article_slice
    * Constructor
    */
   protected function __construct(
-    $id, $article_id, $clang, $ctype, $modultyp_id, $prior,
+    $id, $article_id, $clang, $ctype, $module_id, $prior,
     $createdate, $updatedate, $createuser, $updateuser, $revision,
     $values, $media, $medialists, $links, $linklists)
   {
@@ -46,7 +46,7 @@ class rex_article_slice
     $this->_clang = $clang;
     $this->_ctype = $ctype;
     $this->_prior = $prior;
-    $this->_modultyp_id = $modultyp_id;
+    $this->_module_id = $module_id;
 
     $this->_createdate = $createdate;
     $this->_updatedate = $updatedate;
@@ -138,7 +138,7 @@ class rex_article_slice
       $clang = rex_clang::getCurrentId();
 
     // TODO check parameters
-    return self::_getSliceWhere('article_id=' . $an_article_id . ' AND clang=' . $clang . ' AND modultyp_id=' . $a_moduletype_id . ' AND revision=' . $revision, array());
+    return self::_getSliceWhere('article_id=' . $an_article_id . ' AND clang=' . $clang . ' AND module_id=' . $a_moduletype_id . ' AND revision=' . $revision, array());
   }
 
   /*
@@ -196,7 +196,7 @@ class rex_article_slice
     $rows = $sql->getRows();
     if ($rows == 1) {
       return new self(
-        $sql->getValue('id'), $sql->getValue('article_id'), $sql->getValue('clang'), $sql->getValue('ctype'), $sql->getValue('modultyp_id'), $sql->getValue('prior'),
+        $sql->getValue('id'), $sql->getValue('article_id'), $sql->getValue('clang'), $sql->getValue('ctype'), $sql->getValue('module_id'), $sql->getValue('prior'),
         $sql->getValue('createdate'), $sql->getValue('updatedate'), $sql->getValue('createuser'), $sql->getValue('updateuser'), $sql->getValue('revision'),
         array($sql->getValue('value1'), $sql->getValue('value2'), $sql->getValue('value3'), $sql->getValue('value4'), $sql->getValue('value5'), $sql->getValue('value6'), $sql->getValue('value7'), $sql->getValue('value8'), $sql->getValue('value9'), $sql->getValue('value10'), $sql->getValue('value11'), $sql->getValue('value12'), $sql->getValue('value13'), $sql->getValue('value14'), $sql->getValue('value15'), $sql->getValue('value16'), $sql->getValue('value17'), $sql->getValue('value18'), $sql->getValue('value19'), $sql->getValue('value20')),
         array($sql->getValue('media1'), $sql->getValue('media2'), $sql->getValue('media3'), $sql->getValue('media4'), $sql->getValue('media5'), $sql->getValue('media6'), $sql->getValue('media7'), $sql->getValue('media8'), $sql->getValue('media9'), $sql->getValue('media10')),
@@ -208,7 +208,7 @@ class rex_article_slice
       $slices = array();
       for ($i = 0; $i < $rows; $i++) {
         $slices[] = new self(
-          $sql->getValue('id'), $sql->getValue('article_id'), $sql->getValue('clang'), $sql->getValue('ctype'), $sql->getValue('modultyp_id'), $sql->getValue('prior'),
+          $sql->getValue('id'), $sql->getValue('article_id'), $sql->getValue('clang'), $sql->getValue('ctype'), $sql->getValue('module_id'), $sql->getValue('prior'),
           $sql->getValue('createdate'), $sql->getValue('updatedate'), $sql->getValue('createuser'), $sql->getValue('updateuser'), $sql->getValue('revision'),
           array($sql->getValue('value1'), $sql->getValue('value2'), $sql->getValue('value3'), $sql->getValue('value4'), $sql->getValue('value5'), $sql->getValue('value6'), $sql->getValue('value7'), $sql->getValue('value8'), $sql->getValue('value9'), $sql->getValue('value10'), $sql->getValue('value11'), $sql->getValue('value12'), $sql->getValue('value13'), $sql->getValue('value14'), $sql->getValue('value15'), $sql->getValue('value16'), $sql->getValue('value17'), $sql->getValue('value18'), $sql->getValue('value19'), $sql->getValue('value20')),
           array($sql->getValue('media1'), $sql->getValue('media2'), $sql->getValue('media3'), $sql->getValue('media4'), $sql->getValue('media5'), $sql->getValue('media6'), $sql->getValue('media7'), $sql->getValue('media8'), $sql->getValue('media9'), $sql->getValue('media10')),
@@ -252,7 +252,7 @@ class rex_article_slice
 
   public function getModuleId()
   {
-    return $this->_modultyp_id;
+    return $this->_module_id;
   }
 
   public function getId()

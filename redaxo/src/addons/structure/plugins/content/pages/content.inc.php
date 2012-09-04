@@ -136,9 +136,9 @@ if ($article->getRows() == 1) {
       $CM = rex_sql::factory();
       if ($function == 'edit' || $function == 'delete') {
         // edit/ delete
-        $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.modultyp_id=' . rex::getTablePrefix() . 'module.id WHERE ' . rex::getTablePrefix() . "article_slice.id='$slice_id' AND clang=$clang");
+        $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id WHERE ' . rex::getTablePrefix() . "article_slice.id='$slice_id' AND clang=$clang");
         if ($CM->getRows() == 1)
-          $module_id = $CM->getValue('' . rex::getTablePrefix() . 'article_slice.modultyp_id');
+          $module_id = $CM->getValue('' . rex::getTablePrefix() . 'article_slice.module_id');
       } else {
         // add
         $module_id = rex_post('module_id', 'int');
@@ -214,7 +214,7 @@ if ($article->getRows() == 1) {
                 $prior = $prevSlice->getValue('prior');
 
                 $newsql->setValue('article_id', $article_id);
-                $newsql->setValue('modultyp_id', $module_id);
+                $newsql->setValue('module_id', $module_id);
                 $newsql->setValue('clang', $clang);
                 $newsql->setValue('ctype', $ctype);
                 $newsql->setValue('revision', $slice_revision);

@@ -31,11 +31,11 @@ class rex_api_content_move_slice extends rex_api_function
 
     // modul und rechte vorhanden ?
     $CM = rex_sql::factory();
-    $CM->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice left join ' . rex::getTablePrefix() . 'module on ' . rex::getTablePrefix() . 'article_slice.modultyp_id=' . rex::getTablePrefix() . 'module.id where ' . rex::getTablePrefix() . "article_slice.id='$slice_id' and clang=$clang");
+    $CM->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice left join ' . rex::getTablePrefix() . 'module on ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id where ' . rex::getTablePrefix() . "article_slice.id='$slice_id' and clang=$clang");
     if ($CM->getRows() != 1) {
       throw new rex_api_exception(rex_i18n::msg('module_not_found'));
     } else {
-      $module_id = (int) $CM->getValue(rex::getTablePrefix() . 'article_slice.modultyp_id');
+      $module_id = (int) $CM->getValue(rex::getTablePrefix() . 'article_slice.module_id');
 
       // ----- RECHTE AM MODUL ?
       if ($user->getComplexPerm('modules')->hasPerm($module_id)) {

@@ -260,7 +260,7 @@ class rex_article_content_base
     $sql = 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.re_id
             FROM
               ' . rex::getTablePrefix() . 'article_slice
-            LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.modultyp_id=' . rex::getTablePrefix() . 'module.id
+            LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
             LEFT JOIN ' . rex::getTablePrefix() . 'article ON ' . rex::getTablePrefix() . 'article_slice.article_id=' . rex::getTablePrefix() . 'article.id
             WHERE
               ' . rex::getTablePrefix() . "article_slice.clang='" . $this->clang . "' AND
@@ -426,7 +426,7 @@ class rex_article_content_base
         'REX_CTYPE_ID'
       ),
       array(
-        (int) $sql->getValue('modultyp_id'),
+        (int) $sql->getValue('module_id'),
         (int) $sql->getValue(rex::getTable('article_slice') . '.id'),
         (int) $sql->getValue('ctype')
       ),
