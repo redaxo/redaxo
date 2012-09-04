@@ -156,8 +156,8 @@ class rex_setup_importer
     rex_package_manager::synchronizeWithFileSystem();
 
     if ($uninstallBefore) {
-      foreach (array_reverse(rex::getProperty('system_addons')) as $packageRepresentation) {
-        $package = rex_package::get($packageRepresentation);
+
+      foreach (array_reverse(rex_package::getSystemPackages()) as $package) {
         $manager = rex_package_manager::factory($package);
         $state = $manager->uninstall($installDump);
         // echo "uninstall ". $packageRepresentation ."<br />";
