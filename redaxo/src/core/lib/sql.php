@@ -565,7 +565,7 @@ class rex_sql extends rex_factory_base implements Iterator
    */
   public function getFields()
   {
-    return $this->stmt->columnCount();
+    return $this->stmt ? $this->stmt->columnCount() : 0;
   }
 
   /**
