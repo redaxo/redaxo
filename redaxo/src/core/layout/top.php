@@ -11,7 +11,7 @@ $curPage = $pages[rex::getProperty('page')]->getPage();
 if (!$curPage->hasLayout()) {
   if (rex_request::isPJAXRequest()) {
     // add title to the page, so pjax can update it. see gh#136
-    echo '<title>' . rex_be_controller::getPageTitle() . '</title>';
+    echo '<title>' . htmlspecialchars(rex_be_controller::getPageTitle()) . '</title>';
   }
   return;
 }
@@ -142,7 +142,7 @@ if (!rex_request::isPJAXContainer('#rex-page')) {
   echo $fragment->parse('backend_top.tpl');
 } elseif (rex_request::isPJAXRequest()) {
   // add title to the page, so pjax can update it. see gh#136
-  echo '<title>' . rex_be_controller::getPageTitle() . '</title>';
+  echo '<title>' . htmlspecialchars(rex_be_controller::getPageTitle()) . '</title>';
 }
 
 $fragment = new rex_fragment();
