@@ -699,10 +699,10 @@ if ($step == 7) {
 
   $content = '<h2>' . rex_i18n::msg('setup_702') . '</h2>';
   $content .= '<h3>' . rex_i18n::msg('setup_703') . '</h3>';
-  $content .= rex_i18n::msg('setup_704', '<a href="' . rex_url::backendController() . '">', '</a>');
+  $content .= rex_i18n::msg('setup_704', '<a href="' . rex_url::backendController() . '" data-pjax="false">', '</a>');
   $content .= '<p>' . rex_i18n::msg('setup_705') . '</p>';
 
-  $content .= '<p><a class="rex-button" href="' . rex_url::backendController() . '">' . rex_i18n::msg('setup_706') . '</a></p>';
+  $content .= '<p><a class="rex-button" href="' . rex_url::backendController() . '" data-pjax="false">' . rex_i18n::msg('setup_706') . '</a></p>';
 
   echo $headline . rex_view::contentBlock($content);
 

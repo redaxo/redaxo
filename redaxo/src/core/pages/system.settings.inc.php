@@ -18,7 +18,7 @@ if ($func == 'setup') {
   $config['setup'] = true;
   // echo nl2br(htmlspecialchars($cont));
   if (rex_file::putConfig($configFile, $config) !== false) {
-    $info = rex_i18n::msg('setup_error1', '<a href="index.php">', '</a>');
+    $info = rex_i18n::msg('setup_error1', '<a href="index.php" data-pjax="false">', '</a>');
   } else {
     $warning = rex_i18n::msg('setup_error2');
   }
