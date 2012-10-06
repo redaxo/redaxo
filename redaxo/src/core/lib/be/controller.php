@@ -244,10 +244,10 @@ class rex_be_controller
 
   /**
    * Includes the given page. A page may be provided by the core, an addon or plugin.
-   * 
+   *
    * @param rex_be_page $_activePageObj The actual page to activate
-   * @param rex_be_page $_mainPageObj The main page. For root pages this is the same object as $_activePageObj
-   * @param string $page The name of the page
+   * @param rex_be_page $_mainPageObj   The main page. For root pages this is the same object as $_activePageObj
+   * @param string      $page           The name of the page
    */
   static public function includePage(rex_be_page $_activePageObj, rex_be_page $_mainPageObj, $page)
   {
