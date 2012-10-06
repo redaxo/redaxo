@@ -16,12 +16,10 @@ if (!$curPage->hasLayout()) {
   return;
 }
 
-$popups_arr = array('linkmap', 'mediapool');
-
 $body_attr = array();
 $body_id = str_replace('_', '-', rex::getProperty('page'));
 
-if (in_array($body_id, $popups_arr))
+if ($curPage instanceof rex_be_page_popup)
   $body_attr['class'] = array('rex-popup' . $body_id);
 
 $body_attr['id'] = array('rex-page-' . $body_id);
