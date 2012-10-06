@@ -40,7 +40,7 @@ class rex_clang
   static public function exists($id)
   {
     self::checkCache();
-    return array_key_exists($id, self::$clangs);
+    return isset(self::$clangs[$id]);
   }
 
   /**
