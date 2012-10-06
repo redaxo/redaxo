@@ -1,6 +1,53 @@
 {
-    "hash": "47ea7009d25fb9cb210f850db040f3a9",
+    "hash": "a1caf0163c9d91ea869579dc75a88b17",
     "packages": [
+        {
+            "name": "symfony/finder",
+            "version": "v2.1.2",
+            "target-dir": "Symfony/Component/Finder",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Finder",
+                "reference": "v2.1.0-RC2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/symfony/Finder/zipball/v2.1.0-RC2",
+                "reference": "v2.1.0-RC2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "time": "2012-08-22 13:48:41",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Finder": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Finder Component",
+            "homepage": "http://symfony.com"
+        },
         {
             "name": "symfony/yaml",
             "version": "v2.1.2",

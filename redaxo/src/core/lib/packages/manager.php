@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\Finder\Finder;
+
 /**
  * Manager class for packages
  */
@@ -592,7 +594,7 @@ abstract class rex_package_manager extends rex_factory_base
     $packages = array();
 
     if (is_dir($folder)) {
-      foreach (rex_dir::iterator($folder)->ignoreFiles()->ignoreSystemStuff() as $file) {
+      foreach (Finder::create()->directories()->depth(0)->in($folder) as $file) {
         $packages[] = $file->getBasename();
       }
     }

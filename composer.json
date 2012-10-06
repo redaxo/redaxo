@@ -3,6 +3,7 @@
       "vendor-dir": "redaxo/src/core/vendor"
     },
     "require": {
-        "symfony/yaml": "2.1.*"
+        "symfony/yaml": "2.1.*",
+        "symfony/finder": "2.1.*"
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\Finder\Finder;
+
 /**
  * Functions
  * @package redaxo5
@@ -13,7 +15,12 @@ function rex_deleteCache()
   // close logger, so the logfile can also be deleted
   rex_logger::close();
 
-  rex_dir::deleteIterator(rex_dir::recursiveIterator(rex_path::cache())->ignoreFiles(array('.htaccess', '_readme.txt'), false));
+  $it = Finder::create()
+    ->notName('.htaccess')
+    ->notName('_readme.txt')
+    ->in(rex_path::cache());
+
+  rex_dir::deleteIterator($it, false);
 
   rex_clang::reset();
 

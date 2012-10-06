@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\Finder\Finder;
+
 /**
  * Class for handling directories
  *
@@ -20,6 +22,7 @@ class rex_dir
       return true;
 
     $parent = dirname($dir);
+
     if (!is_dir($parent) && (!$recursive || !self::create($parent)))
       return false;
 
@@ -57,13 +60,21 @@ class rex_dir
     $srcdir = rtrim($srcdir, DIRECTORY_SEPARATOR);
     $dstdir = rtrim($dstdir, DIRECTORY_SEPARATOR);
 
+    if (!is_dir($srcdir)) {
+      return false;
+    }
+
     if (!self::create($dstdir)) {
       return false;
     }
 
     $state = true;
 
-    foreach (self::recursiveIterator($srcdir, rex_dir_recursive_iterator::SELF_FIRST) as $srcfilepath => $srcfile) {
+    $finder = Finder::create()
+      ->in($srcdir)
+    ;
+
+    foreach ($finder as $srcfilepath => $srcfile) {
       $dstfile = $dstdir . substr($srcfilepath, strlen($srcdir));
       if ($srcfile->isDir()) {
         $state = self::create($dstfile) && $state;
@@ -84,7 +95,15 @@ class rex_dir
    */
   static public function delete($dir, $deleteSelf = true)
   {
-    return !is_dir($dir) || self::deleteIterator(self::recursiveIterator($dir)) && (!$deleteSelf || rmdir($dir));
+    if (!is_dir($dir)) {
+      return false;
+    }
+
+    $finder = Finder::create()
+      ->in($dir)
+    ;
+
+    return self::deleteIterator($finder) && (!$deleteSelf || rmdir($dir));
   }
 
   /**
@@ -96,14 +115,19 @@ class rex_dir
    */
   static public function deleteFiles($dir, $recursive = true)
   {
-    $iterator = $recursive ? self::recursiveIterator($dir) : self::iterator($dir);
-    return self::deleteIterator($iterator, false);
+    $finder = Finder::create()->in($dir);
+
+    if (!$recursive) {
+      $finder->depth(0);
+    }
+
+    return self::deleteIterator($finder, false);
   }
 
   /**
    * Deletes files and directories by a rex_dir_iterator
    *
-   * @param Traversable $iterator   Iterator, $iterator->current() must return a SplFileInfo-Object
+   * @param Traversable $iterator   Iterator, $iterator->current() must return a -Object
    * @param boolean     $deleteDirs When FALSE, directories won't be deleted
    * @return boolean TRUE on success, FALSE on failure
    */
@@ -111,7 +135,10 @@ class rex_dir
   {
     $state = true;
 
-    foreach ($iterator as $file) {
+    $files = iterator_to_array($iterator);
+    $files = array_reverse($files);
+
+    foreach ($files as $file) {
       if ($file->isDir()) {
         $state = (!$deleteDirs || rmdir($file)) && $state;
       } else {
@@ -120,30 +147,5 @@ class rex_dir
     }
 
     return $state;
-  }
-
-  /**
-   * Returns an iterator for a directory
-   *
-   * @param string $dir Path of the directory
-   * @return rex_dir_iterator
-   * @see rex_dir_iterator
-   */
-  static public function iterator($dir)
-  {
-    return new rex_dir_iterator(new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS));
-  }
-
-  /**
-   * Returns a recursive iterator for a directory
-   *
-   * @param string $dir  Path of the directory
-   * @param int    $mode Mode, see {@link http://www.php.net/manual/en/recursiveiteratoriterator.construct.php}
-   * @return rex_dir_iterator
-   * @see rex_dir_iterator
-   */
-  static public function recursiveIterator($dir, $mode = rex_dir_recursive_iterator::CHILD_FIRST)
-  {
-    return new rex_dir_recursive_iterator(self::iterator($dir), $mode);
   }
 }

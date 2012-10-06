@@ -7,4 +7,5 @@ $baseDir = dirname(dirname(dirname(dirname($vendorDir))));
 
 return array(
     'Symfony\\Component\\Yaml' => $vendorDir . '/symfony/yaml/',
+    'Symfony\\Component\\Finder' => $vendorDir . '/symfony/finder/',
 );
