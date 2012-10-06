@@ -1,14 +1,16 @@
 <?php
 
+use Symfony\Component\Finder\Finder;
+
 class rex_test_locator implements IteratorAggregate
 {
   const TESTS_FOLDER = 'tests';
 
-  private $testFoldersIterator;
+  private $finder;
 
   public function __construct()
   {
-    $this->testFoldersIterator = new AppendIterator();
+    $this->finder = Finder::create()->files();
   }
 
   public function addTestFolder($folder)
@@ -16,15 +18,13 @@ class rex_test_locator implements IteratorAggregate
     if (is_dir($folder)) {
       rex_autoload::addDirectory($folder);
 
-      $this->testFoldersIterator->append(
-          rex_dir::recursiveIterator($folder, rex_dir_recursive_iterator::LEAVES_ONLY)->ignoreSystemStuff()
-      );
+      $this->finder->in($folder);
     }
   }
 
   public function getIterator()
   {
-    return $this->testFoldersIterator;
+    return $this->finder->getIterator();
   }
 
   static public function defaultLocator()
