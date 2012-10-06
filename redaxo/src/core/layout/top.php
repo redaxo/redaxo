@@ -46,8 +46,6 @@ $hasNavigation = $activePageObj->hasNavigation();
 
 $logout = '';
 if (rex::getUser() && $hasNavigation) {
-  $accesskey = 1;
-
   $safemode = (rex::isSafeMode()) ? '<li><a href="' . rex_url::backendController(array('safemode' => 0)) . '">' . rex_i18n::msg('safemode_deactivate') . '</a></li>' : '';
 
   $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
