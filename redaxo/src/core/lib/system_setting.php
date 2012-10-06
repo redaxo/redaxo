@@ -32,7 +32,7 @@ abstract class rex_system_setting
    * Returns if the given value is valid for this setting
    *
    * @param mixed $value Value
-   * @return booleand|string true or an error message
+   * @return boolean|string true or an error message
    */
   abstract public function isValid($value);
 
