@@ -18,6 +18,6 @@ class rex_be_page_popup extends rex_be_page
    */
   static public function isValid($be_page)
   {
-    return is_object($be_page) && is_a($be_page, 'rex_be_page_popup');
+    return is_object($be_page) && is_a($be_page, __CLASS__);
   }
 }

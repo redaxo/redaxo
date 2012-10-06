@@ -340,7 +340,7 @@ class rex_media_category
    */
   static public function isValid($mediaCat)
   {
-    return is_object($mediaCat) && is_a($mediaCat, 'rex_mediacategory');
+    return is_object($mediaCat) && is_a($mediaCat, __CLASS__);
   }
 
   /**

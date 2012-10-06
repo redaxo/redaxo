@@ -51,6 +51,6 @@ abstract class rex_dashboard_notification extends rex_dashboard_component_base
    */
   static public function isValid($notification)
   {
-    return is_object($notification) && is_a($notification, 'rex_dashboard_notification');
+    return is_object($notification) && is_a($notification, __CLASS__);
   }
 }

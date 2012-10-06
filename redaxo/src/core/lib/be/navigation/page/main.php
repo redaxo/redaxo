@@ -65,6 +65,6 @@ class rex_be_page_main implements rex_be_page_container
    */
   static public function isValid($be_main_page)
   {
-    return is_object($be_main_page) && is_a($be_main_page, 'rex_be_page_main');
+    return is_object($be_main_page) && is_a($be_main_page, __CLASS__);
   }
 }

@@ -1081,7 +1081,7 @@ class rex_form extends rex_factory_base
    */
   static public function isValid($form)
   {
-    return is_object($form) && is_a($form, 'rex_form');
+    return is_object($form) && is_a($form, __CLASS__);
   }
 
   /**
