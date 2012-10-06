@@ -2,6 +2,29 @@
 
 class rex_be_controller
 {
+  static public function getPageTitle()
+  {
+    $pages = rex::getProperty('pages');
+    $curPage = $pages[rex::getProperty('page')]->getPage();
+
+    $activePageObj = $curPage;
+    if ($subpage = $curPage->getActiveSubPage()) {
+      $activePageObj = $subpage;
+    }
+
+    $page_name = $activePageObj->getTitle();
+    $page_title = rex::getProperty('servername');
+
+    if ($page_name != '') {
+      if ($page_title != '') {
+        $page_title .= ' - ';
+      }
+      $page_title .= $page_name;
+    }
+
+    return $page_title;
+  }
+
   static public function getSetupPage()
   {
     $page = new rex_be_page(rex_i18n::msg('setup'));
@@ -227,9 +250,7 @@ class rex_be_controller
       $_activePageObj->setHasLayout(false);
     }
 
-    if ($_activePageObj->hasLayout()) {
-      require rex_path::core('layout/top.php');
-    }
+    require rex_path::core('layout/top.php');
 
     $path = '';
     if ($_activePageObj->hasPath()) {
@@ -257,8 +278,6 @@ class rex_be_controller
       rex_addon_manager::includeFile(rex_addon::get($page), 'pages/index.inc.php');
     }
 
-    if ($_activePageObj->hasLayout()) {
-      require rex_path::core('layout/bottom.php');
-    }
+    require rex_path::core('layout/bottom.php');
   }
 }

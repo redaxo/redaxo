@@ -5,18 +5,18 @@
  * @package redaxo5
  */
 
-$popups_arr = array('linkmap', 'mediapool');
+$pages = rex::getProperty('pages');
+$curPage = $pages[rex::getProperty('page')]->getPage();
 
-$page_title = rex::getProperty('servername');
-
-if (!isset($page_name)) {
-  $pages = rex::getProperty('pages');
-  $curPage = $pages[rex::getProperty('page')]->getPage();
-  $page_name = $curPage->getTitle();
+if (!$curPage->hasLayout()) {
+  if (rex_request::isPJAXRequest()) {
+    // add title to the page, so pjax can update it. see gh#136
+    echo '<title>' . rex_be_controller::getPageTitle() . '</title>';
+  }
+  return;
 }
 
-if ($page_name != '')
-  $page_title .= ' - ' . $page_name;
+$popups_arr = array('linkmap', 'mediapool');
 
 $body_attr = array();
 $body_id = str_replace('_', '-', rex::getProperty('page'));
@@ -136,10 +136,13 @@ if (rex::getProperty('page') == 'setup') {
 /* PJAX Footer Header ***********************************************************/
 if (!rex_request::isPJAXContainer('#rex-page')) {
   $fragment = new rex_fragment();
-  $fragment->setVar('pageTitle', $page_title);
+  $fragment->setVar('pageTitle', rex_be_controller::getPageTitle());
   $fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', '' ), false);
   $fragment->setVar('bodyAttr', $body, false);
   echo $fragment->parse('backend_top.tpl');
+} elseif (rex_request::isPJAXRequest()) {
+  // add title to the page, so pjax can update it. see gh#136
+  echo '<title>' . rex_be_controller::getPageTitle() . '</title>';
 }
 
 $fragment = new rex_fragment();

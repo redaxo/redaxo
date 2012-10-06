@@ -1,3 +1,13 @@
+<?php
+
+$pages = rex::getProperty('pages');
+$curPage = $pages[rex::getProperty('page')]->getPage();
+
+if (!$curPage->hasLayout()) {
+  return;
+}
+
+?>
 </section><?php
 
 
