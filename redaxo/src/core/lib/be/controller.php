@@ -242,7 +242,14 @@ class rex_be_controller
     return $page;
   }
 
-  static public function includePage(rex_be_page $_activePageObj, rex_be_page $_pageObj, $page)
+  /**
+   * Includes the given page. A page may be provided by the core, an addon or plugin.
+   * 
+   * @param rex_be_page $_activePageObj The actual page to activate
+   * @param rex_be_page $_mainPageObj The main page. For root pages this is the same object as $_activePageObj
+   * @param string $page The name of the page
+   */
+  static public function includePage(rex_be_page $_activePageObj, rex_be_page $_mainPageObj, $page)
   {
     if (rex_request::isPJAXRequest() && !rex_request::isPJAXContainer('#rex-page')) {
       // non-core pjax containers should not have a layout.
@@ -255,8 +262,8 @@ class rex_be_controller
     $path = '';
     if ($_activePageObj->hasPath()) {
       $path = $_activePageObj->getPath();
-    } elseif ($_pageObj->hasPath()) {
-      $path = $_pageObj->getPath();
+    } elseif ($_mainPageObj->hasPath()) {
+      $path = $_mainPageObj->getPath();
     }
 
     if ($path != '') {
@@ -270,7 +277,7 @@ class rex_be_controller
       } else {
         require $path;
       }
-    } elseif ($_pageObj->isCorePage()) {
+    } elseif ($_mainPageObj->isCorePage()) {
       // Core Page
       require rex_path::core('pages/' . $page . '.inc.php');
     } else {
