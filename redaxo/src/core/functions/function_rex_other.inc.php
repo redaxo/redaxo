@@ -13,7 +13,12 @@ function rex_deleteCache()
   // close logger, so the logfile can also be deleted
   rex_logger::close();
 
-  rex_dir::deleteIterator(rex_dir::recursiveIterator(rex_path::cache())->ignoreFiles(array('.htaccess', '_readme.txt'), false));
+  $finder = rex_finder::factory(rex_path::cache())
+    ->recursive()
+    ->childFirst()
+    ->ignoreFiles(array('.htaccess', '_readme.txt'), false)
+    ->ignoreSystemStuff(false);
+  rex_dir::deleteIterator($finder);
 
   rex_clang::reset();
 

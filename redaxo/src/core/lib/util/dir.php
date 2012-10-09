@@ -63,7 +63,7 @@ class rex_dir
 
     $state = true;
 
-    foreach (self::recursiveIterator($srcdir, rex_dir_recursive_iterator::SELF_FIRST) as $srcfilepath => $srcfile) {
+    foreach (rex_finder::factory($srcdir)->recursive() as $srcfilepath => $srcfile) {
       $dstfile = $dstdir . substr($srcfilepath, strlen($srcdir));
       if ($srcfile->isDir()) {
         $state = self::create($dstfile) && $state;
@@ -84,7 +84,7 @@ class rex_dir
    */
   static public function delete($dir, $deleteSelf = true)
   {
-    return !is_dir($dir) || self::deleteIterator(self::recursiveIterator($dir)) && (!$deleteSelf || rmdir($dir));
+    return !is_dir($dir) || self::deleteIterator(rex_finder::factory($dir)->recursive()->childFirst()->ignoreSystemStuff(false)) && (!$deleteSelf || rmdir($dir));
   }
 
   /**
@@ -96,24 +96,23 @@ class rex_dir
    */
   static public function deleteFiles($dir, $recursive = true)
   {
-    $iterator = $recursive ? self::recursiveIterator($dir) : self::iterator($dir);
-    return self::deleteIterator($iterator, false);
+    $iterator = rex_finder::factory($dir)->recursive($recursive)->filesOnly()->ignoreSystemStuff(false);
+    return self::deleteIterator($iterator);
   }
 
   /**
    * Deletes files and directories by a rex_dir_iterator
    *
-   * @param Traversable $iterator   Iterator, $iterator->current() must return a SplFileInfo-Object
-   * @param boolean     $deleteDirs When FALSE, directories won't be deleted
+   * @param Traversable $iterator Iterator, $iterator->current() must return a SplFileInfo-Object
    * @return boolean TRUE on success, FALSE on failure
    */
-  static public function deleteIterator(Traversable $iterator, $deleteDirs = true)
+  static public function deleteIterator(Traversable $iterator)
   {
     $state = true;
 
     foreach ($iterator as $file) {
       if ($file->isDir()) {
-        $state = (!$deleteDirs || rmdir($file)) && $state;
+        $state = rmdir($file) && $state;
       } else {
         $state = rex_file::delete($file) && $state;
       }

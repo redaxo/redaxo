@@ -17,7 +17,7 @@ class rex_test_locator implements IteratorAggregate
       rex_autoload::addDirectory($folder);
 
       $this->testFoldersIterator->append(
-          rex_dir::recursiveIterator($folder, rex_dir_recursive_iterator::LEAVES_ONLY)->ignoreSystemStuff()
+        rex_finder::factory($folder)->recursive()->filesOnly()->getIterator()
       );
     }
   }
