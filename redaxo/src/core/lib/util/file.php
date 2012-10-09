@@ -1,7 +1,5 @@
 <?php
 
-use Symfony\Component\Yaml\Yaml;
-
 /**
  * Class for handling files
  */
@@ -29,7 +27,7 @@ class rex_file
   static public function getConfig($file, $default = array())
   {
     $content = self::get($file);
-    return $content === null ? $default : Yaml::parse($content);
+    return $content === null ? $default : rex_string::yamlDecode($content);
   }
 
   /**
@@ -76,7 +74,7 @@ class rex_file
    */
   static public function putConfig($file, $content, $inline = 3)
   {
-    return self::put($file, Yaml::dump($content, $inline));
+    return self::put($file, rex_string::yamlEncode($content, $inline));
   }
 
   /**

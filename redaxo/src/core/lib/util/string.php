@@ -86,6 +86,29 @@ class rex_string
   }
 
   /**
+   * Returns a string containing the YAML representation of $value.
+   *
+   * @param array  $value  The value being encoded
+   * @param number $inline The level where you switch to inline YAML
+   * @return string
+   */
+  static public function yamlEncode(array $value, $inline = 3)
+  {
+    return Symfony\Component\Yaml\Yaml::dump($value, $inline, 2);
+  }
+
+  /**
+   * Parses YAML into a PHP array.
+   *
+   * @param string $value YAML string
+   * @return array
+   */
+  static public function yamlDecode($value)
+  {
+    return Symfony\Component\Yaml\Yaml::parse($value);
+  }
+
+  /**
    * Highlights a string
    *
    * @param string $string
