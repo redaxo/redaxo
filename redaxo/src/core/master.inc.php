@@ -27,7 +27,7 @@ require_once rex_path::core('lib/autoload.php');
 rex_autoload::register();
 // add core base-classpath to autoloader
 rex_autoload::addDirectory(rex_path::core('lib'));
-rex_autoload::addDirectory(rex_path::core('vendor'));
+require_once rex_path::core('vendor/autoload.php');
 
 rex_url::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER']);
 
