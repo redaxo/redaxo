@@ -120,29 +120,4 @@ class rex_dir
 
     return $state;
   }
-
-  /**
-   * Returns an iterator for a directory
-   *
-   * @param string $dir Path of the directory
-   * @return rex_dir_iterator
-   * @see rex_dir_iterator
-   */
-  static public function iterator($dir)
-  {
-    return new rex_dir_iterator(new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS));
-  }
-
-  /**
-   * Returns a recursive iterator for a directory
-   *
-   * @param string $dir  Path of the directory
-   * @param int    $mode Mode, see {@link http://www.php.net/manual/en/recursiveiteratoriterator.construct.php}
-   * @return rex_dir_iterator
-   * @see rex_dir_iterator
-   */
-  static public function recursiveIterator($dir, $mode = rex_dir_recursive_iterator::CHILD_FIRST)
-  {
-    return new rex_dir_recursive_iterator(self::iterator($dir), $mode);
-  }
 }
