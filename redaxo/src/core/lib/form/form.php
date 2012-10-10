@@ -1073,18 +1073,6 @@ class rex_form extends rex_factory_base
   }
 
   /**
-   * Returns True if the given form is a valid rex_form
-   *
-   * @param object $form
-   *
-   * @return boolean
-   */
-  static public function isValid($form)
-  {
-    return is_object($form) && is_a($form, __CLASS__);
-  }
-
-  /**
    * @param object $form
    *
    * @return boolean
@@ -1092,7 +1080,7 @@ class rex_form extends rex_factory_base
   public function equals($form)
   {
     return
-      self::isValid($form) &&
+      $form instanceof self &&
       $this->getTableName() == $form->getTableName() &&
       $this->getWhereCondition() == $form->getWhereCondition();
   }

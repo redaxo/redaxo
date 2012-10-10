@@ -32,7 +32,7 @@ $dashboard_components = rex_extension::registerPoint('DASHBOARD_COMPONENT', $das
 // ------------ sort components by block and format
 $components = array();
 foreach ($dashboard_components as $index => $component) {
-  if (rex_dashboard_component::isValid($component) && $component->checkPermission()) {
+  if ($component instanceof rex_dashboard_component && $component->checkPermission()) {
     $block  = $component->getBlock();
     $format = $component->getFormat();
 

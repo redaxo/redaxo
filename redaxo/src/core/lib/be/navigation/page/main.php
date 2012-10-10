@@ -59,12 +59,4 @@ class rex_be_page_main implements rex_be_page_container
       }
     }
   }
-
-  /*
-   * Static Method: Returns True when the given be_main_page is valid
-   */
-  static public function isValid($be_main_page)
-  {
-    return is_object($be_main_page) && is_a($be_main_page, __CLASS__);
-  }
 }

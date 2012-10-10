@@ -237,12 +237,4 @@ class rex_be_page implements rex_be_page_container
   {
     return $this->path;
   }
-
-  /*
-   * Static Method: Returns True when the given be_page is valid
-   */
-  static public function isValid($be_page)
-  {
-    return is_object($be_page) && is_a($be_page, __CLASS__);
-  }
 }

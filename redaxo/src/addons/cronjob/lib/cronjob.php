@@ -94,9 +94,4 @@ abstract class rex_cronjob
     // returns an array of parameters which are required for the cronjob
     return array();
   }
-
-  final static public function isValid($cronjob)
-  {
-    return is_object($cronjob) && is_subclass_of($cronjob, 'rex_cronjob');
-  }
 }

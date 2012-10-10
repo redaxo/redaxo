@@ -15,7 +15,7 @@ class rex_be_navigation extends rex_factory_base
   public function addPage(rex_be_page_container $mainPage)
   {
     $blockName = 'default';
-    if (rex_be_page_main::isValid($mainPage)) {
+    if ($mainPage instanceof rex_be_page_main) {
       $blockName = $mainPage->getBlock();
     }
 
@@ -32,7 +32,7 @@ class rex_be_navigation extends rex_factory_base
     $return = array();
     if (is_array($this->pages)) {
       foreach ($this->pages as $block => $blockPages) {
-        if (is_array($blockPages) && count($blockPages) > 0 && rex_be_page_main::isValid($blockPages[0])) {
+        if (is_array($blockPages) && count($blockPages) > 0 && $blockPages[0] instanceof rex_be_page_main) {
           uasort($blockPages,
           function ($a, $b) {
             $a_prio = (int) $a->getPrio();

@@ -157,7 +157,7 @@ if ($func == '') {
   $cronjobs = array();
   foreach ($types as $class) {
     $cronjob = rex_cronjob::factory($class);
-    if (rex_cronjob::isValid($cronjob)) {
+    if ($cronjob instanceof rex_cronjob) {
       $cronjobs[$class] = $cronjob;
       $select->addOption($cronjob->getTypeName(), $class);
     }

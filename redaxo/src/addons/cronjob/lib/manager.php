@@ -46,7 +46,7 @@ class rex_cronjob_manager
   public function tryExecute($cronjob, $name = '', $params = array(), $log = true, $id = null)
   {
     $message = '';
-    $success = rex_cronjob::isValid($cronjob);
+    $success = $cronjob instanceof rex_cronjob;
     if (!$success) {
       if (is_object($cronjob))
         $message = 'Invalid cronjob class "' . get_class($cronjob) . '"';
@@ -83,7 +83,7 @@ class rex_cronjob_manager
   {
     $name = $this->name;
     if (!$name) {
-      if (rex_cronjob::isValid($this->cronjob))
+      if ($this->cronjob instanceof rex_cronjob)
         $name = rex::isBackend() ? $cronjob->getTypeName() : $cronjob->getType();
       else
         $name = '[no name]';
@@ -93,7 +93,7 @@ class rex_cronjob_manager
 
   public function timeout()
   {
-    if (rex_cronjob::isValid($this->cronjob)) {
+    if ($this->cronjob instanceof rex_cronjob) {
       $this->log(false, 'timeout');
       return true;
     }

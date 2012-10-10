@@ -136,12 +136,4 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
 
     return '';
   }
-
-  /**
-   * Static Method: Returns boolean if is notification
-   */
-  static public function isValid($component)
-  {
-    return is_object($component) && is_a($component, 'rex_dashboard_component');
-  }
 }

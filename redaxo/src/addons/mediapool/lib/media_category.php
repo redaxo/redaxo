@@ -338,14 +338,6 @@ class rex_media_category
   /**
    * @access public
    */
-  static public function isValid($mediaCat)
-  {
-    return is_object($mediaCat) && is_a($mediaCat, __CLASS__);
-  }
-
-  /**
-   * @access public
-   */
   public function hasParent()
   {
     return $this->getParentId() != 0;

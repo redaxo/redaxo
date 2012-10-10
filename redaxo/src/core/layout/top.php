@@ -60,7 +60,7 @@ if (rex::getUser() && $hasNavigation) {
   $n = rex_be_navigation::factory();
   foreach (rex::getProperty('pages') as $p => $pageContainer) {
     $p = strtolower($p);
-    if (rex_be_page_main::isValid($pageContainer)) {
+    if ($pageContainer instanceof rex_be_page_main) {
       $pageObj = $pageContainer->getPage();
       $pageObj->setItemAttr('id', 'rex-navi-page-' . strtolower(preg_replace('/[^a-zA-Z0-9\-_]*/', '', $p)));
 

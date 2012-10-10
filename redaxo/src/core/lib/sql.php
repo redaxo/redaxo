@@ -1262,9 +1262,4 @@ class rex_sql extends rex_factory_base implements Iterator
 
     return  $err_msg;
   }
-
-  static public function isValid($object)
-  {
-    return is_object($object) && is_a($object, __CLASS__);
-  }
 }

@@ -27,7 +27,7 @@ class rex_notification_component extends rex_dashboard_component
     $content = '';
     if (count($dashboard_notifications) > 0) {
       foreach ($dashboard_notifications as $notification) {
-        if (rex_dashboard_notification::isValid($notification) && $notification->checkPermission()) {
+        if ($notification instanceof rex_dashboard_notification && $notification->checkPermission()) {
           $content .= $notification->_get();
         }
       }

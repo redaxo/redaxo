@@ -125,10 +125,10 @@ class rex_be_controller
               $subPage->setHref('index.php?page=' . $addonName . '&subpage=' . $s[0]);
               $addonPage->addSubPage($subPage);
             }
-          } elseif (rex_be_page_main::isValid($s)) {
+          } elseif ($s instanceof rex_be_page_main) {
             $p = $s->getPage();
             $pages[$addonName . '_' . $p->getTitle()] = $s;
-          } elseif (rex_be_page::isValid($s) && $addonPage) {
+          } elseif ($s instanceof rex_be_page && $addonPage) {
             $addonPage->addSubPage($s);
           }
         }
@@ -162,16 +162,16 @@ class rex_be_controller
               $subPage->setHref('index.php?page=' . $addonName . '&subpage=' . $s[0]);
               $addonPage->addSubPage($subPage);
             }
-          } elseif (rex_be_page_main::isValid($s)) {
+          } elseif ($s instanceof rex_be_page_main) {
             $p = $s->getPage();
             $pages[$addonName . '_' . $pluginName . '_' . $p->getTitle()] = $s;
-          } elseif (rex_be_page::isValid($s) && $addonPage) {
+          } elseif ($s instanceof rex_be_page && $addonPage) {
             $addonPage->addSubPage($s);
           }
         }
 
         if ($pluginPage) {
-          if (rex_be_page_main::isValid($pluginPage)) {
+          if ($pluginPage instanceof rex_be_page_main) {
             if (!$pluginPage->getPage()->hasPath()) {
               $pagePath = rex_path::plugin($addonName, $pluginName, 'pages/index.inc.php');
               $pluginPage->getPage()->setPath($pagePath);
@@ -196,7 +196,7 @@ class rex_be_controller
         }
       }
 
-      if (rex_be_page_main::isValid($addonPage)) {
+      if ($addonPage instanceof rex_be_page_main) {
         // addonPage was defined as a main-page itself, so we only need to add it to REX
         $pages[$addonName] = $addonPage;
       } else {
