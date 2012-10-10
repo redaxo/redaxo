@@ -5,12 +5,12 @@
  * @package redaxo5
  */
 
-echo rex_view::title('Login');
 
 global $rex_user_loginmessage;
 
 $rex_user_login = rex_post('rex_user_login', 'string');
 
+echo rex_view::title(rex_i18n::msg('login'));
 
 $js = '';
 if ($rex_user_loginmessage != '') {
@@ -105,5 +105,6 @@ $content .= '
 </script>
 
 ';
+
 
 echo rex_view::contentBlock($content, '', 'block');

@@ -15,13 +15,13 @@ if ($func == '') {
   $list->setCaption(rex_i18n::msg('user_role_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('user_role_summary'));
 
-  $tdIcon = '<span class="rex-ic-user">###name###</span>';
-  $thIcon = '<a class="rex-ic-user-add" href="' . $list->getUrl(array('func' => 'add', 'default_value' => 1)) . '"' . rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') . '>' . rex_i18n::msg('create_user_role') . '</a>';
+  $tdIcon = '<span class="rex-ic-userrole">###name###</span>';
+  $thIcon = '<a class="rex-ic-userrole rex-ic-add" href="' . $list->getUrl(array('func' => 'add', 'default_value' => 1)) . '"' . rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') . '>' . rex_i18n::msg('create_user_role') . '</a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('func' => 'edit', 'id' => '###id###'));
 
   $list->setColumnLabel('id', 'ID');
-  $list->setColumnLayout('id', array('<th class="rex-small">###VALUE###</th>', '<td class="rex-small">###VALUE###</td>'));
+  $list->setColumnLayout('id', array('<th class="rex-id">###VALUE###</th>', '<td class="rex-id">###VALUE###</td>'));
 
   $list->setColumnLabel('name', rex_i18n::msg('name'));
   $list->setColumnLayout('name', array('<th class="rex-name">###VALUE###</th>', '<td class="rex-name">###VALUE###</td>'));
@@ -29,7 +29,7 @@ if ($func == '') {
 
   $list->addColumn('funcs', rex_i18n::msg('user_role_delete'));
   $list->setColumnLabel('funcs', rex_i18n::msg('user_functions'));
-  $list->setColumnLayout('funcs', array('<th class="rex-function">###VALUE###</th>', '<td class="rex-function">###VALUE###</td>'));
+  $list->setColumnLayout('funcs', array('<th class="rex-function">###VALUE###</th>', '<td class="rex-delete">###VALUE###</td>'));
   $list->setColumnParams('funcs', array('func' => 'delete', 'id' => '###id###'));
   $list->addLinkAttribute('funcs', 'data-confirm', rex_i18n::msg('delete') . ' ?');
 

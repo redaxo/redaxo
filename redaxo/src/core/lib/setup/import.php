@@ -16,12 +16,6 @@ class rex_setup_importer
     if ($err_msg == '')
       $err_msg .= self::import($import_sql);
 
-    // Aktuelle Daten updaten wenn utf8, da falsch in v4.2.1 abgelegt wurde.
-    /*if (rex_lang_is_utf8())
-     {
-    rex_setup_setUtf8();
-    }*/
-
     if ($err_msg == '')
       $err_msg .= self::installAddons();
 
@@ -160,7 +154,6 @@ class rex_setup_importer
       foreach (array_reverse(rex_package::getSystemPackages()) as $package) {
         $manager = rex_package_manager::factory($package);
         $state = $manager->uninstall($installDump);
-        // echo "uninstall ". $packageRepresentation ."<br />";
 
         if ($state !== true)
           $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
@@ -172,7 +165,6 @@ class rex_setup_importer
       $manager = rex_package_manager::factory($package);
 
       if ($state === true && !$package->isInstalled()) {
-        // echo "install ". $packageRepresentation."<br />";
         $state = $manager->install($installDump);
       }
 
@@ -180,7 +172,6 @@ class rex_setup_importer
         $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
 
       if ($state === true && !$package->isActivated()) {
-        // echo "activate ". $packageRepresentation."<br />";
         $state = $manager->activate();
 
         if ($state !== true)
@@ -191,7 +182,7 @@ class rex_setup_importer
     if ($addonErr != '') {
       $addonErr = '<ul class="rex-ul1">
       <li>
-      <h3 class="rex-hl3">' . rex_i18n::msg('setup_011', '<span class="rex-error">', '</span>') . '</h3>
+      <h3 class="rex-hl3">' . rex_i18n::msg('setup_513', '<span class="rex-error">', '</span>') . '</h3>
       <ul>' . $addonErr . '</ul>
       </li>
       </ul>';
@@ -200,44 +191,4 @@ class rex_setup_importer
     return $addonErr;
   }
 
-  /*function rex_setup_setUtf8()
-   {
-  global $REX;
-  $gt = rex_sql::factory();
-  $gt->setQuery("show tables");
-  foreach($gt->getArray() as $t) {
-  $table = $t["Tables_in_".$REX['DB']['1']['NAME']];
-  $gc = rex_sql::factory();
-  $gc->setQuery("show columns from $table");
-  if(substr($table,0,strlen(rex::getTablePrefix())) == rex::getTablePrefix()) {
-  $columns = Array();
-  $pri = "";
-  foreach($gc->getArray() as $c) {
-  $columns[] = $c["Field"];
-  if ($pri == "" && $c["Key"] == "PRI") {
-  $pri = $c["Field"];
-  }
-  }
-  if ($pri != "") {
-  $gr = rex_sql::factory();
-  $gr->setQuery("select * from $table");
-  foreach($gr->getArray() as $r) {
-  reset($columns);
-  $privalue = $r[$pri];
-  $uv = rex_sql::factory();
-  $uv->setTable($table);
-  $uv->setWhere(array($pri => $privalue));
-  foreach($columns as $key => $column) {
-  if ($pri!=$column) {
-  $value = $r[$column];
-  $newvalue = utf8_decode($value);
-  $uv->setValue($column,$newvalue);
-  }
-  }
-  $uv->update();
-  }
-  }
-  }
-  }
-  }*/
 }

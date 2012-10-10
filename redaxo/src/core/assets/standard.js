@@ -521,10 +521,6 @@ function getCookie(cookieName) {
 
 jQuery(document).ready(function($) {
 
-  // prevent pjax from jumping to top, see github#60
-  $.pjax.defaults.scrollTo = false;
-  $.pjax.defaults.timeout = 5000;
-  $.pjax.defaults.maxCacheLength = 0;
 
   confDialog = function(event) {
     if(!confirm($(this).attr('data-confirm')))
@@ -538,6 +534,13 @@ jQuery(document).ready(function($) {
   $(document).on('click', 'a[data-confirm], button[data-confirm], input[data-confirm]', confDialog);
   // confirm dialog behavior for forms
   $(document).on('submit', 'form[data-confirm]', confDialog);
+
+
+  // prevent pjax from jumping to top, see github#60
+  /*
+  $.pjax.defaults.scrollTo = false;
+  $.pjax.defaults.timeout = 5000;
+  $.pjax.defaults.maxCacheLength = 0;
 
   // install pjax handlers, see defunkt/jquery-pjax#142
   $(document).on('click', '[data-pjax-container] a, a[data-pjax]', function(event) {
@@ -598,4 +601,6 @@ jQuery(document).ready(function($) {
     })
     .on('pjax:start', function() { $('#rex-ajax-loader').show(); })
     .on('pjax:end',   function() { $('#rex-ajax-loader').hide(); });
+    
+  */
 });

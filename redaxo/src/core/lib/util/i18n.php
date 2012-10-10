@@ -70,7 +70,7 @@ class rex_i18n
   }
 
   /**
-   * Returns the translation for the given key
+   * Returns the translation htmlspecialchared for the given key
    *
    * @param string $key Key
    *
@@ -101,8 +101,44 @@ class rex_i18n
       }
     }
 
+    return preg_replace($patterns, $replacements, htmlspecialchars($msg));
+  }
+
+    /**
+   * Returns the translation for the given key
+   *
+   * @param string $key Key
+   *
+   * @return string Translation for the key
+   */
+  static public function rawMsg($key)
+  {
+    if (!self::$loaded) {
+      self::loadAll();
+    }
+
+    if (self::hasMsg($key)) {
+      $msg = self::$msg[$key];
+    } else {
+      $msg = "[translate:$key]";
+    }
+
+    $patterns = array();
+    $replacements = array();
+
+    $argNum = func_num_args();
+    if ($argNum > 1) {
+      $args = func_get_args();
+      for ($i = 1; $i < $argNum; $i++) {
+        // zero indexed
+        $patterns[] = '/\{' . ($i - 1) . '\}/';
+        $replacements[] = $args[$i];
+      }
+    }
+
     return preg_replace($patterns, $replacements, $msg);
   }
+
 
   /**
    * Checks if there is a translation for the given key

@@ -349,87 +349,33 @@ class rex_media
       $params = array();
     }
 
-    // Ist das Media ein Bild?
     if (!$this->isImage()) {
-      $file = rex_url::pluginAssets('be_style', 'base_old', 'file_dummy.gif');
-
-      // Verwenden einer statischen variable, damit getimagesize nur einmal aufgerufen
-      // werden muss, da es sehr lange dauert
-      static $dummyFileSize;
-
-      if (empty ($dummyFileSize)) {
-        $dummyFileSize = getimagesize($file);
-      }
-      $params['width'] = $dummyFileSize[0];
-      $params['height'] = $dummyFileSize[1];
-    } else {
-      $resize = false;
-
-      // ResizeModus festlegen
-      if (isset ($params['resize']) && $params['resize']) {
-        unset ($params['resize']);
-        // Resize Addon installiert?
-        if (rex_addon::get('image_resize')->isAvailable()) {
-          $resize = true;
-          if (isset ($params['width'])) {
-            $resizeMode = 'w';
-            $resizeParam = $params['width'];
-            unset ($params['width']);
-          } elseif (isset ($params['height'])) {
-            $resizeMode = 'h';
-            $resizeParam = $params['height'];
-            unset ($params['height']);
-          } elseif (isset ($params['crop'])) {
-            $resizeMode = 'c';
-            $resizeParam = $params['crop'];
-            unset ($params['crop']);
-          } else {
-            $resizeMode = 'a';
-            $resizeParam = 100;
-          }
-
-          // Evtl. Größeneinheiten entfernen
-          $resizeParam = str_replace(array(
-            'px',
-            'pt',
-            '%',
-            'em'
-          ), '', $resizeParam);
-        }
-      }
-
-      // Bild resizen?
-      if ($resize) {
-        $file = rex_url::frontendController(array('rex_resize' => $resizeParam . $resizeMode . '__' . $this->getFileName()));
-      } else {
-        // Bild 1:1 anzeigen
-        $file = rex_url::media($this->getFileName());
-      }
+      return "";
     }
 
+    $filename = rex_url::media($this->getFileName());
     $title = $this->getTitle();
-
-    // Alternativtext hinzuf�gen
+    
     if (!isset($params['alt'])) {
       if ($title != '') {
         $params['alt'] = htmlspecialchars($title);
       }
     }
 
-    // Titel hinzuf�gen
     if (!isset($params['title'])) {
       if ($title != '') {
         $params['title'] = htmlspecialchars($title);
       }
     }
 
-    // Evtl. Zusatzatrribute anf�gen
+    rex_extension::registerPoint('MEDIA_TOIMAGE', '', array('filename' => &$filename, 'params' => &$params));
+
     $additional = '';
     foreach ($params as $name => $value) {
       $additional .= ' ' . $name . '="' . $value . '"';
     }
 
-    return sprintf('<img src="%s"%s />', $file, $additional);
+    return sprintf('<img src="%s"%s />', $filename, $additional);
   }
 
   /**

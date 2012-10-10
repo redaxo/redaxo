@@ -45,7 +45,7 @@ if ($subpage == '') {
   rex_package_manager::synchronizeWithFileSystem();
 
   echo '
-      <table class="rex-table" id="rex-table-addon" summary="' . rex_i18n::msg('addon_summary') . '">
+      <table class="rex-table" id="rex-table-addons" summary="' . rex_i18n::msg('addon_summary') . '">
       <caption>' . rex_i18n::msg('addon_caption') . '</caption>
       <thead>
         <tr>
@@ -111,7 +111,7 @@ if ($subpage == '') {
     return $message . '
           <tr class="rex-' . $type . ' rex-' . $type . '-' . $class . '">
             <td class="rex-icon"><span class="rex-ic-' . $type . '">' . $name . '</span></td>
-            <td class="rex-name">' . $name . ' ' . $package->getVersion() . ' [<a href="index.php?page=addon&amp;subpage=help&amp;package=' . $packageId . '">?</a>]</td>
+            <td class="rex-name">' . $name . ' ' . $package->getVersion() . ' <a href="index.php?page=addon&amp;subpage=help&amp;package=' . $packageId . '">?</a></td>
             <td class="rex-install">' . $install . '</td>
             <td class="rex-active" data-pjax-container="#rex-page">' . $status . '</td>
             <td class="rex-uninstall" data-pjax-container="#rex-page">' . $uninstall . '</td>

@@ -56,8 +56,8 @@ if ($func == '') {
 
   $list->addTableColumnGroup(array(40, '*', 80, 120, 80, 60, 60, 60));
 
-  $imgHeader = '<a class="rex-i-element rex-i-cronjob-add" href="' . $list->getUrl(array('func' => 'add')) . '"><span class="rex-i-element-text">' . $this->i18n('add') . '</span></a>';
-  $list->addColumn($imgHeader, '<span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">' . $this->i18n('edit') . '</span></span>', 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
+  $imgHeader = '<a class="rex-ic-cronjob rex-ic-add" href="' . $list->getUrl(array('func' => 'add')) . '">' . $this->i18n('add') . '</a>';
+  $list->addColumn($imgHeader, '<span class="rex-ic-cronjob">' . $this->i18n('edit') . '</span>', 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($imgHeader, array('func' => 'edit', 'oid' => '###id###'));
 
   $list->removeColumn('id');

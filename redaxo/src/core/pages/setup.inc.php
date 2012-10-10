@@ -45,7 +45,7 @@ if ($step == 2) {
   $headline = rex_view::title(rex_i18n::msg('setup_200'));
 
   $content = '<h2>' . rex_i18n::msg('setup_201') . '</h2>';
-  $content .= rex_i18n::msg('setup_202');
+  $content .= rex_i18n::rawMsg('setup_202');
 
   $license_file = rex_path::base('_license.txt');
   $license = '<p>' . nl2br(rex_file::get($license_file)) . '</p>';
@@ -67,7 +67,7 @@ if (count($errors) > 0) {
     $error_array[] = rex_view::error($error);
   }
 } else {
-  $success_array[] = rex_view::success(rex_i18n::msg('setup_308'));
+  $success_array[] = rex_view::success(rex_i18n::rawMsg('setup_308'));
 }
 
 $res = rex_setup::checkFilesystem();
@@ -699,7 +699,7 @@ if ($step == 7) {
 
   $content = '<h2>' . rex_i18n::msg('setup_702') . '</h2>';
   $content .= '<h3>' . rex_i18n::msg('setup_703') . '</h3>';
-  $content .= rex_i18n::msg('setup_704', '<a href="' . rex_url::backendController() . '" data-pjax="false">', '</a>');
+  $content .= rex_i18n::rawMsg('setup_704', '<a href="' . rex_url::backendController() . '" data-pjax="false">', '</a>');
   $content .= '<p>' . rex_i18n::msg('setup_705') . '</p>';
 
   $content .= '<p><a class="rex-button" href="' . rex_url::backendController() . '" data-pjax="false">' . rex_i18n::msg('setup_706') . '</a></p>';

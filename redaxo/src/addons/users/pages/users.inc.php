@@ -233,18 +233,33 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
   if ($FUNC_ADD != '') $statuschecked = 'checked="checked"';
 
-  if ($user_id > 0) {
+  if ($user_id > 0)
+  {
     // User Edit
 
     $form_label = rex_i18n::msg('edit_user');
     $add_hidden = '<input type="hidden" name="user_id" value="' . $user_id . '" />';
-    $add_submit = '<div class="rex-form-row">
-            <p class="rex-form-col-a"><input type="submit" name="FUNC_UPDATE" value="' . rex_i18n::msg('user_save') . '" ' . rex::getAccesskey(rex_i18n::msg('user_save'), 'save') . ' /></p>
-            <p class="rex-form-col-b"><input type="submit" name="FUNC_APPLY" value="' . rex_i18n::msg('user_apply') . '" ' . rex::getAccesskey(rex_i18n::msg('user_apply'), 'apply') . ' /></p>
-          </div>';
     $add_user_class = ' rex-form-read';
     $add_user_login = '<span class="rex-form-read" id="userlogin">' . htmlspecialchars($sql->getValue(rex::getTablePrefix() . 'user.login')) . '</span>';
 
+    $formElements = array();
+
+      $n = array();
+      $n['field'] = '<input type="submit" name="FUNC_UPDATE" value="' . rex_i18n::msg('user_save') . '" ' . rex::getAccesskey(rex_i18n::msg('user_save'), 'save') . ' />';
+      $formElements[] = $n;
+
+      $n = array();
+      $n['field'] = '<input type="submit" name="FUNC_APPLY" value="' . rex_i18n::msg('user_apply') . '" ' . rex::getAccesskey(rex_i18n::msg('user_apply'), 'apply') . ' />';
+
+      $formElements[] = $n;
+
+
+      $fragment = new rex_fragment();
+      $fragment->setVar('columns', 2, false);
+      $fragment->setVar('elements', $formElements, false);
+      $add_submit = $fragment->parse('form.tpl');      
+    unset($formElements);
+          
     $sql = rex_sql::factory();
     $sql->setQuery('select * from ' . rex::getTablePrefix() . 'user where user_id=' . $user_id);
 
@@ -293,89 +308,148 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     // User Add
     $form_label = rex_i18n::msg('create_user');
     $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
-    $add_submit = '<div class="rex-form-row">
-            <p class="rex-form-submit">
-            <input type="submit" class="rex-form-submit" name="function" value="' . rex_i18n::msg('add_user') . '" ' . rex::getAccesskey(rex_i18n::msg('add_user'), 'save') . ' />
-            </p>
-          </div>';
     $add_admin_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="useradmin" name="useradmin" value="1" ' . $adminchecked . ' />';
     $add_status_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="userstatus" name="userstatus" value="1" ' . $statuschecked . ' />';
     $add_user_class = ' rex-form-text';
     $add_user_login = '<input class="rex-form-text" type="text" id="userlogin" name="userlogin" value="' . htmlspecialchars($userlogin) . '" />';
+    
+    
+    $formElements = array();
+
+      $n = array();
+      $n['field'] = '<input type="submit" class="rex-form-submit" name="function" value="' . rex_i18n::msg('add_user') . '" ' . rex::getAccesskey(rex_i18n::msg('add_user'), 'save') . ' />';
+      $formElements[] = $n;
+      $formElements[] = $n;
+
+
+      $fragment = new rex_fragment();
+      $fragment->setVar('columns', 2, false);
+      $fragment->setVar('elements', $formElements, false);
+      $add_submit = $fragment->parse('form.tpl');      
+    unset($formElements);
   }
 
   $content .= '
-  <div class="rex-form" id="rex-form-user-editmode">
-  <form action="index.php" method="post" id="userform">
-    <input type="hidden" name="javascript" value="0" id="javascript" />
-    <fieldset class="rex-form-col-2">
-      <h2>' . $form_label . '</h2>
-
-      <div class="rex-form-wrapper">
+  <div class="rex-form" id="rex-form-user">
+    <form action="index.php" method="post" id="userform">
+      <fieldset>
+        <h2>' . $form_label . '</h2>
+        <input type="hidden" name="javascript" value="0" id="javascript" />
         <input type="hidden" name="page" value="users" />
         <input type="hidden" name="subpage" value="" />
         <input type="hidden" name="save" value="1" />
-        ' . $add_hidden . '
+        ' . $add_hidden;
 
-        <div class="rex-form-row">
-          <p class="rex-form-col-a' . $add_user_class . '">
-            <label for="userlogin">' . htmlspecialchars(rex_i18n::msg('login_name')) . '</label>
-            ' . $add_user_login . '
-          </p>
-          <p class="rex-form-col-b rex-form-text">
-            <label for="userpsw">' . rex_i18n::msg('password') . '</label>
-            <input type="password" id="userpsw" name="userpsw" autocomplete="off" />
-            ' . (rex::getProperty('pswfunc') != '' ? '<span class="rex-form-notice">' . rex_i18n::msg('psw_encrypted') . '</span>' : '') . '
-          </p>
-        </div>
+      $formElements = array();
 
-        <div class="rex-form-row">
-          <p class="rex-form-col-a rex-form-text">
-            <label for="username">' . rex_i18n::msg('name') . '</label>
-            <input type="text" id="username" name="username" value="' . htmlspecialchars($username) . '" />
-          </p>
-          <p class="rex-form-col-b rex-form-text">
-            <label for="userdesc">' . rex_i18n::msg('description') . '</label>
-            <input type="text" id="userdesc" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />
-          </p>
-        </div>
+        $n = array();
+        $n['label'] = '<label for="userlogin">' . htmlspecialchars(rex_i18n::msg('login_name')) . '</label>';
+        $n['field'] = $add_user_login;
+        $formElements[] = $n;
 
-        <div class="rex-form-row">
-          <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-            ' . $add_admin_chkbox . '
-            <label for="useradmin">' . rex_i18n::msg('user_admin') . '</label>
-          </p>
-          <p class="rex-form-col-b rex-form-checkbox rex-form-label-right">
-            ' . $add_status_chkbox . '
-            <label for="userstatus">' . rex_i18n::msg('user_status') . '</label>
-          </p>
-        </div>
-
-        <div class="rex-form-row">
-          <p class="rex-form-col-a rex-form-select">
-            <label for="userrole">' . rex_i18n::msg('user_role') . '</label>
-            ' . $sel_role->get() . '
-          </p>
-        </div>
-
-        <div class="rex-form-row">
-          <p class="rex-form-col-a rex-form-select">
-            <label for="userperm-startpage">' . rex_i18n::msg('startpage') . '</label>
-            ' . $sel_startpage->get() . '
-          </p>
-          <p class="rex-form-col-b rex-form-select">
-            <label for="userperm-mylang">' . rex_i18n::msg('backend_language') . '</label>
-            ' . $sel_be_sprache->get() . '
-          </p>
-        </div>
+        $n = array();
+        $n['label'] = '<label for="userpsw">' . rex_i18n::msg('password') . '</label>';
+        $n['field'] = '<input type="password" id="userpsw" name="userpsw" autocomplete="off" />';
+  
+        if (rex::getProperty('pswfunc') != '')
+          $n['after'] = '<span class="rex-form-notice">' . rex_i18n::msg('psw_encrypted') . '</span>';
+  
+        $formElements[] = $n;
 
 
-      ' . $add_submit . '
+        $fragment = new rex_fragment();
+        $fragment->setVar('columns', 2, false);
+        $fragment->setVar('elements', $formElements, false);
+        $content .= $fragment->parse('form.tpl');
+        
+        
 
-        <div class="rex-clearer"></div>
-      </div>
-    </fieldset>
-  </form>
+      $formElements = array();
+
+        $n = array();
+        $n['label'] = '<label for="username">' . rex_i18n::msg('name') . '</label>';
+        $n['field'] = '<input type="text" id="username" name="username" value="' . htmlspecialchars($username) . '" />';
+        $formElements[] = $n;
+
+        $n = array();
+        $n['label'] = '<label for="userdesc">' . rex_i18n::msg('description') . '</label>';
+        $n['field'] = '<input type="text" id="userdesc" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />';
+  
+        $formElements[] = $n;
+
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('columns', 2, false);
+        $fragment->setVar('elements', $formElements, false);
+        $content .= $fragment->parse('form.tpl');
+        
+        
+
+      $formElements = array();
+
+        $n = array();
+        $n['reverse'] = true;
+        $n['label'] = '<label for="useradmin">' . rex_i18n::msg('user_admin') . '</label>';
+        $n['field'] = $add_admin_chkbox;
+        $formElements[] = $n;
+
+        $n = array();
+        $n['reverse'] = true;
+        $n['label'] = '<label for="userstatus">' . rex_i18n::msg('user_status') . '</label>';
+        $n['field'] = $add_status_chkbox;
+  
+        $formElements[] = $n;
+
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('columns', 2, false);
+        $fragment->setVar('elements', $formElements, false);
+        $content .= $fragment->parse('form.tpl');
+        
+        
+
+      $formElements = array();
+
+        $n = array();
+        $n['label'] = '<label for="userrole">' . rex_i18n::msg('user_role') . '</label>';
+        $n['field'] = $sel_role->get();
+        $formElements[] = $n;
+
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('columns', 2, false);
+        $fragment->setVar('elements', $formElements, false);
+        $content .= $fragment->parse('form.tpl');
+        
+        
+
+      $formElements = array();
+
+        $n = array();
+        $n['label'] = '<label for="userperm-startpage">' . rex_i18n::msg('startpage') . '</label>';
+        $n['field'] = $sel_startpage->get();
+        $formElements[] = $n;
+
+        $n = array();
+        $n['label'] = '<label for="userperm-mylang">' . rex_i18n::msg('backend_language') . '</label>';
+        $n['field'] = $sel_be_sprache->get();
+  
+        $formElements[] = $n;
+
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('columns', 2, false);
+        $fragment->setVar('elements', $formElements, false);
+        $content .= $fragment->parse('form.tpl');
+
+    $content .= '
+      </fieldset>
+    
+      <fieldset class="rex-form-action">
+        ' . $add_submit . '
+      </fieldset>
+      
+    </form>
   </div>
 
   <script type="text/javascript">
@@ -405,7 +479,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 </script>
 ';
 
-  echo rex_view::contentBlock($content);
+  echo rex_view::contentBlock($content, '', 'block');
 
 }
 
@@ -422,10 +496,10 @@ if (isset($SHOW) and $SHOW) {
   $list = rex_list::factory('SELECT user_id, name, login, admin, lasttrydate FROM ' . rex::getTablePrefix() . 'user ORDER BY name');
   $list->setCaption(rex_i18n::msg('user_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('user_summary'));
-  $list->addTableColumnGroup(array(40, '5%', '*', '*', 50, 153, 153));
+//  $list->addTableColumnGroup(array(40, '5%', '*', '*', 50, 153, 153));
 
-  $tdIcon = '<span class="rex-i-element rex-i-user"><span class="rex-i-element-text">###name###</span></span>';
-  $thIcon = '<a class="rex-i-element rex-i-user-add" href="' . $list->getUrl(array('FUNC_ADD' => '1')) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . '><span class="rex-i-element-text">' . rex_i18n::msg('create_user') . '</span></a>';
+  $tdIcon = '<span class="rex-ic-user">###name###</span>';
+  $thIcon = '<a class="rex-ic-user rex-ic-add" href="' . $list->getUrl(array('FUNC_ADD' => '1')) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . '>' . rex_i18n::msg('create_user') . '</a>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('user_id' => '###user_id###'));
   $list->setColumnFormat($thIcon, 'custom', function ($params) use ($thIcon, $tdIcon) {
@@ -434,9 +508,10 @@ if (isset($SHOW) and $SHOW) {
   });
 
   $list->setColumnLabel('user_id', 'ID');
-  $list->setColumnLayout('user_id', array('<th class="rex-small">###VALUE###</th>', '<td class="rex-small">###VALUE###</td>'));
+  $list->setColumnLayout('user_id', array('<th class="rex-id">###VALUE###</th>', '<td class="rex-id">###VALUE###</td>'));
 
   $list->setColumnLabel('name', rex_i18n::msg('name'));
+  $list->setColumnLayout('name', array('<th class="rex-name">###VALUE###</th>', '<td class="rex-name">###VALUE###</td>'));
   $list->setColumnParams('name', array('user_id' => '###user_id###'));
   $list->setColumnFormat('name', 'custom', function ($params) {
     $list = $params['list'];
@@ -447,17 +522,21 @@ if (isset($SHOW) and $SHOW) {
 
 
   $list->setColumnLabel('login', rex_i18n::msg('login'));
+  $list->setColumnLayout('login', array('<th class="rex-login">###VALUE###</th>', '<td class="rex-login">###VALUE###</td>'));
 
   $list->setColumnLabel('admin', rex_i18n::msg('admin'));
+  $list->setColumnLayout('admin', array('<th class="rex-admin">###VALUE###</th>', '<td class="rex-admin">###VALUE###</td>'));
   $list->setColumnFormat('admin', 'custom', function ($params) {
     return $params['subject'] ? rex_i18n::msg('yes') : rex_i18n::msg('no');
   });
 
   $list->setColumnLabel('lasttrydate', rex_i18n::msg('last_login'));
+  $list->setColumnLayout('lasttrydate', array('<th class="rex-date">###VALUE###</th>', '<td class="rex-date">###VALUE###</td>'));
   $list->setColumnFormat('lasttrydate', 'strftime', 'datetime');
 
   $list->addColumn('funcs', rex_i18n::msg('user_delete'));
   $list->setColumnLabel('funcs', rex_i18n::msg('user_functions'));
+  $list->setColumnLayout('funcs', array('<th class="rex-function">###VALUE###</th>', '<td class="rex-delete">###VALUE###</td>'));
   $list->setColumnParams('funcs', array('FUNC_DELETE' => '1', 'user_id' => '###user_id###'));
   $list->setColumnFormat('funcs', 'custom', function ($params) {
     $list = $params['list'];

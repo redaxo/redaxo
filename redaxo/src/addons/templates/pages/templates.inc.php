@@ -426,7 +426,7 @@ if ($OUT) {
   $list->setColumnParams($thIcon, array('function' => 'edit', 'template_id' => '###id###'));
 
   $list->setColumnLabel('id', 'ID');
-  $list->setColumnLayout('id',  array('<th class="rex-small">###VALUE###</th>', '<td class="rex-small">###VALUE###</td>'));
+  $list->setColumnLayout('id',  array('<th class="rex-id">###VALUE###</th>', '<td class="rex-id">###VALUE###</td>'));
 
   $list->setColumnLabel('name', rex_i18n::msg('header_template_description'));
   $list->setColumnLayout('name',  array('<th class="rex-name">###VALUE###</th>', '<td class="rex-name">###VALUE###</td>'));

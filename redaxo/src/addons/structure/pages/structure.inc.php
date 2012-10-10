@@ -201,7 +201,7 @@ if ($category_id != 0 && ($category = rex_category::getCategoryById($category_id
   $echo .= '<tr>
           <td class="rex-icon">&nbsp;</td>';
   if (rex::getUser()->hasPerm('advancedMode[]')) {
-    $echo .= '<td class="rex-small">-</td>';
+    $echo .= '<td class="rex-id">-</td>';
   }
 
 
@@ -217,7 +217,7 @@ if ($category_id != 0 && ($category = rex_category::getCategoryById($category_id
 if ($function == 'add_cat' && $KATPERM) {
   $add_td = '';
   if (rex::getUser()->hasPerm('advancedMode[]')) {
-    $add_td = '<td class="rex-small">-</td>';
+    $add_td = '<td class="rex-id">-</td>';
   }
 
   $meta_buttons = rex_extension::registerPoint('CAT_FORM_BUTTONS', '', array(
@@ -229,7 +229,7 @@ if ($function == 'add_cat' && $KATPERM) {
     <input type="hidden" name="parent-category-id" value="' . $category_id . '" />
     <input type="submit" class="rex-form-submit" name="category-add-button" value="' . rex_i18n::msg('add_category') . '"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'save') . ' />';
 
-  $class = 'rex-table-row-active';
+  $class = 'rex-active';
   if ($meta_buttons != '')
     $class .= ' rex-has-metainfo';
 
@@ -276,7 +276,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++) {
       // --------------------- KATEGORIE EDIT FORM
       $add_td = '';
       if (rex::getUser()->hasPerm('advancedMode[]')) {
-        $add_td = '<td class="rex-small">' . $i_category_id . '</td>';
+        $add_td = '<td class="rex-id">' . $i_category_id . '</td>';
       }
 
       // ----- EXTENSION POINT
@@ -290,7 +290,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++) {
       <input type="hidden" name="category-id" value="' . $edit_id . '" />
       <input type="submit" class="rex-form-submit" name="category-edit-button" value="' . rex_i18n::msg('save_category') . '"' . rex::getAccesskey(rex_i18n::msg('save_category'), 'save') . ' />';
 
-      $class = 'rex-table-row-active';
+      $class = 'rex-active';
       if ($meta_buttons != '')
         $class .= ' rex-has-metainfo';
 
@@ -318,7 +318,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++) {
 
       $add_td = '';
       if (rex::getUser()->hasPerm('advancedMode[]')) {
-        $add_td = '<td class="rex-small">' . $i_category_id . '</td>';
+        $add_td = '<td class="rex-id">' . $i_category_id . '</td>';
       }
 
       $category_delete = '<a href="' . $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_delete', 'catstart' => $catstart)) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?">' . rex_i18n::msg('delete') . '</a>';
@@ -339,7 +339,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++) {
       // --------------------- KATEGORIE WITH READ
       $add_td = '';
       if (rex::getUser()->hasPerm('advancedMode[]')) {
-        $add_td = '<td class="rex-small">' . $i_category_id . '</td>';
+        $add_td = '<td class="rex-id">' . $i_category_id . '</td>';
       }
 
       $echo .= '
@@ -410,10 +410,8 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     $art_add_link = '<a class="rex-ic-article rex-ic-add" href="' . $context->getUrl(array('function' => 'add_art')) . '"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2') . '>' . rex_i18n::msg('article_add') . '</a>';
 
   $add_head = '';
-  $add_col  = '';
   if (rex::getUser()->hasPerm('advancedMode[]')) {
-    $add_head = '<th class="rex-small">' . rex_i18n::msg('header_id') . '</th>';
-    $add_col  = '<col width="40" />';
+    $add_head = '<th class="rex-id">' . rex_i18n::msg('header_id') . '</th>';
   }
 
   // ---------- COUNT DATA
@@ -510,9 +508,9 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     ';
 
     if (rex::getUser()->hasPerm('advancedMode[]'))
-      $add_td .= '<td class="rex-small">-</td>';
+      $add_td .= '<td class="rex-id">-</td>';
 
-      $echo .= '<tr class="rex-table-row-active">
+      $echo .= '<tr class="rex-active">
                   <td class="rex-icon"><span class="rex-ic-article">' . rex_i18n::msg('article_add') . '</span></td>
                   ' . $add_td . '
                   <td class="rex-name"><input type="text" id="rex-form-field-name" name="article-name" /></td>
@@ -541,11 +539,11 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
       ';
 
       if (rex::getUser()->hasPerm('advancedMode[]'))
-        $add_td .= '<td class="rex-small">' . $sql->getValue('id') . '</td>';
+        $add_td .= '<td class="rex-id">' . $sql->getValue('id') . '</td>';
 
       $template_select->setSelected($sql->getValue('template_id'));
 
-      $echo .= '<tr class="rex-table-row-active">
+      $echo .= '<tr class="rex-active">
                   <td class="rex-icon"><a class="' . $class . '" href="' . $context->getUrl(array('page' => 'content', 'article_id' => $sql->getValue('id'))) . '">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
                   ' . $add_td . '
                   <td class="rex-name"><input type="text" id="rex-form-field-name" name="article-name" value="' . htmlspecialchars($sql->getValue('name')) . '" /></td>
@@ -561,7 +559,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
 
       $add_td = '';
       if (rex::getUser()->hasPerm('advancedMode[]'))
-        $add_td = '<td class="rex-small">' . $sql->getValue('id') . '</td>';
+        $add_td = '<td class="rex-id">' . $sql->getValue('id') . '</td>';
 
       $article_status = $artStatusTypes[$sql->getValue('status')][0];
       $article_class = $artStatusTypes[$sql->getValue('status')][1];
@@ -602,7 +600,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
 
       $add_td = '';
       if (rex::getUser()->hasPerm('advancedMode[]'))
-        $add_td = '<td class="rex-small">' . $sql->getValue('id') . '</td>';
+        $add_td = '<td class="rex-id">' . $sql->getValue('id') . '</td>';
 
       $art_status = $artStatusTypes[$sql->getValue('status')][0];
       $art_status_class = $artStatusTypes[$sql->getValue('status')][1];

@@ -39,6 +39,7 @@ subnavigation = Unternavigation von {0}
 login_name  =  Benutzername
 password  =  Passwort
 new_password = Neues Passwort
+request_new_password = Neues Passwort anfordern
 login_error = Fehler bei der Anmeldung.
 login_wait = Bitte vor dem nächsten Versuch {0} warten.
 login_session_expired = Session beendet.
@@ -100,6 +101,7 @@ debug_mode = Debug-Modus
 
 # redaxo\include\pages\medienpool.inc.php\setup.inc.php
 setup = Setup
+setup_restart = Setup neu starten
 setup_text = Hier können Sie das Setup erneut starten. Dies sollten Sie nur im Notfall machen. Unter normalen Umständen ist es nicht nötig.
 setup_error1 = Setup aktiviert. Bitte klicken Sie auf auf {0}weiter{1} und führen das Setup aus.
 setup_error2 = Leider konnte die config.yml nicht beschrieben werden. Bitte tragen Sie dort in der \"setup: true\" ein
@@ -157,6 +159,7 @@ setup_509 = Export-Dateien konnten nicht gefunden werden!
 setup_510 = Import/Export AddOn wurde nicht gefunden!
 setup_511 = Weiter zu Schritt 6
 setup_512 = Schritt 5 erneut durchführen
+setup_513 = System Addon/s konnte nicht installiert werden
 setup_599 = 5 / Datenbank
 
 setup_600 = Setup: Schritt 6 von 7 / Administrator
