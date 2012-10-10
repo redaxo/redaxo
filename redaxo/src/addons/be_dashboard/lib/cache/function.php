@@ -1,7 +1,7 @@
 <?php
 
 /**
- * rex_cache is an abstract class for all cache classes.
+ * rex_dashboard_cache is an abstract class for all cache classes.
  * inspired by the symfony caching framework.
  *
  * @author fabien[dot]potencier[at]symfony-project[dot]com Fabien Potencier
@@ -12,7 +12,7 @@
  *
  * @package redaxo5
  */
-class rex_function_cache
+class rex_dashboard_function_cache
 {
   private $cache = null;
 
@@ -21,7 +21,7 @@ class rex_function_cache
    *
    * @param sfCache $cache An sfCache object instance
    */
-  public function __construct(rex_cache $cache)
+  public function __construct(rex_dashboard_cache $cache)
   {
     $this->cache = $cache;
   }

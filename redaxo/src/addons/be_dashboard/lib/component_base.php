@@ -21,7 +21,7 @@ abstract class rex_dashboard_component_base
   public function __construct($id, array $cache_options = array())
   {
     $this->id = $id;
-    $this->funcCache = new rex_function_cache(new rex_file_cache($cache_options));
+    $this->funcCache = new rex_dashboard_function_cache(new rex_dashboard_file_cache($cache_options));
   }
 
   protected function prepare()

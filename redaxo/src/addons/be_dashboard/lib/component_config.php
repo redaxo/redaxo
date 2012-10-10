@@ -30,7 +30,7 @@ abstract class rex_dashboard_component_config
     );
 
     $this->id = $counter;
-    $this->settingsCache = new rex_file_cache($options);
+    $this->settingsCache = new rex_dashboard_file_cache($options);
     $this->settings = $this->load($defaultSettings);
   }
 

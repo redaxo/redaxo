@@ -1,11 +1,11 @@
 <?php
 
-define('REX_CACHE_SEPARATOR', ':');
-define('REX_CACHE_CLEAN_OLD', 1);
-define('REX_CACHE_CLEAN_ALL', 2);
+define('REX_DASHBOARD_CACHE_SEPARATOR', ':');
+define('REX_DASHBOARD_CACHE_CLEAN_OLD', 1);
+define('REX_DASHBOARD_CACHE_CLEAN_ALL', 2);
 
 /**
- * rex_cache is an abstract class for all cache classes.
+ * rex_dashboard_cache is an abstract class for all cache classes.
  * inspired by the symfony caching framework.
  *
  * @author fabien[dot]potencier[at]symfony-project[dot]com Fabien Potencier
@@ -17,7 +17,7 @@ define('REX_CACHE_CLEAN_ALL', 2);
  * @package redaxo5
  */
 
-abstract class rex_cache
+abstract class rex_dashboard_cache
 {
   private $options;
 
@@ -40,7 +40,7 @@ abstract class rex_cache
       'prefix'                    => md5(dirname(__FILE__)),
     ), $options);
 
-    $this->options['prefix'] .= REX_CACHE_SEPARATOR;
+    $this->options['prefix'] .= REX_DASHBOARD_CACHE_SEPARATOR;
   }
 
   /**
@@ -102,7 +102,7 @@ abstract class rex_cache
    *
    * @return Boolean true if no problem
    */
-  abstract public function clean($mode = REX_CACHE_SEPARATOR_ALL);
+  abstract public function clean($mode = REX_DASHBOARD_CACHE_SEPARATOR_ALL);
 
   /**
    * Returns the timeout for the given key.
@@ -167,7 +167,7 @@ abstract class rex_cache
   {
     $regexp = str_replace(
       array('\\*\\*', '\\*'),
-      array('.+?',    '[^' . preg_quote(REX_CACHE_SEPARATOR, '#') . ']+'),
+      array('.+?',    '[^' . preg_quote(REX_DASHBOARD_CACHE_SEPARATOR, '#') . ']+'),
       preg_quote($pattern, '#')
     );
 

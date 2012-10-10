@@ -1,7 +1,7 @@
 <?php
 
 /**
- * rex_cache is an abstract class for all cache classes.
+ * rex_dashboard_cache is an abstract class for all cache classes.
  * inspired by the symfony caching framework.
  *
  * @author fabien[dot]potencier[at]symfony-project[dot]com Fabien Potencier
@@ -13,23 +13,23 @@
  * @package redaxo5
  */
 
-define('REX_CACHE_FILE_READ_DATA', 1);
-define('REX_CACHE_FILE_READ_TIMEOUT', 2);
-define('REX_CACHE_FILE_READ_LAST_MODIFIED', 4);
-define('REX_CACHE_FILE_EXTENSION', '.cache');
+define('REX_DASHBOARD_CACHE_FILE_READ_DATA', 1);
+define('REX_DASHBOARD_CACHE_FILE_READ_TIMEOUT', 2);
+define('REX_DASHBOARD_CACHE_FILE_READ_LAST_MODIFIED', 4);
+define('REX_DASHBOARD_CACHE_FILE_EXTENSION', '.cache');
 
-class rex_file_cache extends rex_cache
+class rex_dashboard_file_cache extends rex_dashboard_cache
 {
   /**
-   * Initializes this rex_cache instance.
+   * Initializes this rex_dashboard_cache instance.
    *
    * Available options:
    *
    * * cache_dir: The directory where to put cache files
    *
-   * * see rex_cache for options available for all drivers
+   * * see rex_dashboard_cache for options available for all drivers
    *
-   * @see rex_cache
+   * @see rex_dashboard_cache
    */
   public function __construct(array $options = array())
   {
@@ -43,7 +43,7 @@ class rex_file_cache extends rex_cache
   }
 
   /**
-   * @see rex_cache
+   * @see rex_dashboard_cache
    */
   public function get($key, $default = null)
   {
@@ -52,17 +52,17 @@ class rex_file_cache extends rex_cache
       return $default;
     }
 
-    $data = $this->read($file_path, REX_CACHE_FILE_READ_DATA);
+    $data = $this->read($file_path, REX_DASHBOARD_CACHE_FILE_READ_DATA);
 
-    if ($data[REX_CACHE_FILE_READ_DATA] === null) {
+    if ($data[REX_DASHBOARD_CACHE_FILE_READ_DATA] === null) {
       return $default;
     }
 
-    return $data[REX_CACHE_FILE_READ_DATA];
+    return $data[REX_DASHBOARD_CACHE_FILE_READ_DATA];
   }
 
   /**
-   * @see rex_cache
+   * @see rex_dashboard_cache
    */
   public function has($key)
   {
@@ -71,19 +71,19 @@ class rex_file_cache extends rex_cache
   }
 
   /**
-   * @see rex_cache
+   * @see rex_dashboard_cache
    */
   public function set($key, $data, $lifetime = null)
   {
     if ($this->getOption('automatic_cleaning_factor') > 0 && rand(1, $this->getOption('automatic_cleaning_factor')) == 1) {
-      $this->clean(REX_CACHE_CLEAN_OLD);
+      $this->clean(REX_DASHBOARD_CACHE_CLEAN_OLD);
     }
 
     return $this->write($this->getFilePath($key), $data, time() + $this->getLifetime($lifetime));
   }
 
   /**
-   * @see rex_cache
+   * @see rex_dashboard_cache
    */
   public function remove($key)
   {
@@ -93,12 +93,12 @@ class rex_file_cache extends rex_cache
   }
 
   /**
-   * @see rex_cache
+   * @see rex_dashboard_cache
    */
   public function removePattern($pattern)
   {
     if (false !== strpos($pattern, '**')) {
-      $pattern = str_replace(REX_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $pattern) . REX_CACHE_FILE_EXTENSION;
+      $pattern = str_replace(REX_DASHBOARD_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $pattern) . REX_DASHBOARD_CACHE_FILE_EXTENSION;
 
       $regexp = self::patternToRegexp($pattern);
       $paths = array();
@@ -108,7 +108,7 @@ class rex_file_cache extends rex_cache
         }
       }
     } else {
-      $paths = glob($this->getOption('cache_dir') . DIRECTORY_SEPARATOR . str_replace(REX_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $pattern) . REX_CACHE_FILE_EXTENSION);
+      $paths = glob($this->getOption('cache_dir') . DIRECTORY_SEPARATOR . str_replace(REX_DASHBOARD_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $pattern) . REX_DASHBOARD_CACHE_FILE_EXTENSION);
     }
 
     foreach ($paths as $path) {
@@ -122,9 +122,9 @@ class rex_file_cache extends rex_cache
   }
 
   /**
-   * @see rex_cache
+   * @see rex_dashboard_cache
    */
-  public function clean($mode = REX_CACHE_CLEAN_ALL)
+  public function clean($mode = REX_DASHBOARD_CACHE_CLEAN_ALL)
   {
     if (!is_dir($this->getOption('cache_dir'))) {
       return true;
@@ -133,7 +133,7 @@ class rex_file_cache extends rex_cache
     $result = true;
     // TODO PHP4 Compat!
     foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->getOption('cache_dir'))) as $file) {
-      if ((REX_CACHE_CLEAN_ALL == $mode || !$this->isValid($file)) && file_exists($file)) {
+      if ((REX_DASHBOARD_CACHE_CLEAN_ALL == $mode || !$this->isValid($file)) && file_exists($file)) {
         $result = @unlink($file) && $result;
       }
     }
@@ -142,7 +142,7 @@ class rex_file_cache extends rex_cache
   }
 
   /**
-   * @see rex_cache
+   * @see rex_dashboard_cache
    */
   public function getTimeout($key)
   {
@@ -152,13 +152,13 @@ class rex_file_cache extends rex_cache
       return 0;
     }
 
-    $data = $this->read($path, REX_CACHE_FILE_READ_TIMEOUT);
+    $data = $this->read($path, REX_DASHBOARD_CACHE_FILE_READ_TIMEOUT);
 
-    return $data[REX_CACHE_FILE_READ_TIMEOUT] < time() ? 0 : $data[REX_CACHE_FILE_READ_TIMEOUT];
+    return $data[REX_DASHBOARD_CACHE_FILE_READ_TIMEOUT] < time() ? 0 : $data[REX_DASHBOARD_CACHE_FILE_READ_TIMEOUT];
   }
 
   /**
-   * @see rex_cache
+   * @see rex_dashboard_cache
    */
   public function getLastModified($key)
   {
@@ -168,18 +168,18 @@ class rex_file_cache extends rex_cache
       return 0;
     }
 
-    $data = $this->read($path, REX_CACHE_FILE_READ_TIMEOUT | REX_CACHE_FILE_READ_LAST_MODIFIED);
+    $data = $this->read($path, REX_DASHBOARD_CACHE_FILE_READ_TIMEOUT | REX_DASHBOARD_CACHE_FILE_READ_LAST_MODIFIED);
 
-    if ($data[REX_CACHE_FILE_READ_TIMEOUT] < time()) {
+    if ($data[REX_DASHBOARD_CACHE_FILE_READ_TIMEOUT] < time()) {
       return 0;
     }
-    return $data[REX_CACHE_FILE_READ_LAST_MODIFIED];
+    return $data[REX_DASHBOARD_CACHE_FILE_READ_LAST_MODIFIED];
   }
 
   protected function isValid($path)
   {
-    $data = $this->read($path, REX_CACHE_FILE_READ_TIMEOUT);
-    return time() < $data[REX_CACHE_FILE_READ_TIMEOUT];
+    $data = $this->read($path, REX_DASHBOARD_CACHE_FILE_READ_TIMEOUT);
+    return time() < $data[REX_DASHBOARD_CACHE_FILE_READ_TIMEOUT];
   }
 
   /**
@@ -191,7 +191,7 @@ class rex_file_cache extends rex_cache
    */
   protected function getFilePath($key)
   {
-    return $this->getOption('cache_dir') . DIRECTORY_SEPARATOR . str_replace(REX_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $key) . REX_CACHE_FILE_EXTENSION;
+    return $this->getOption('cache_dir') . DIRECTORY_SEPARATOR . str_replace(REX_DASHBOARD_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $key) . REX_DASHBOARD_CACHE_FILE_EXTENSION;
   }
 
   /**
@@ -199,35 +199,35 @@ class rex_file_cache extends rex_cache
    *
    * @param string $path The file path
    * @param mixed  $type The type of data you want to be returned
-   *                     REX_CACHE_FILE_READ_DATA: The cache content
-   *                     REX_CACHE_FILE_READ_TIMEOUT: The timeout
-   *                     REX_CACHE_FILE_READ_LAST_MODIFIED: The last modification timestamp
+   *                     REX_DASHBOARD_CACHE_FILE_READ_DATA: The cache content
+   *                     REX_DASHBOARD_CACHE_FILE_READ_TIMEOUT: The timeout
+   *                     REX_DASHBOARD_CACHE_FILE_READ_LAST_MODIFIED: The last modification timestamp
    *
    * @return array the (meta)data of the cache file. E.g. $data[sfFileCache::READ_DATA]
    */
-  protected function read($path, $type = REX_CACHE_FILE_READ_DATA)
+  protected function read($path, $type = REX_DASHBOARD_CACHE_FILE_READ_DATA)
   {
     if (!$fp = @fopen($path, 'rb')) {
       trigger_error(sprintf('Unable to read cache file "%s".', $path), E_USER_ERROR);
     }
 
     @flock($fp, LOCK_SH);
-    $data[REX_CACHE_FILE_READ_TIMEOUT] = intval(@fread($fp, 12));
-//    $data[REX_CACHE_FILE_READ_TIMEOUT] = intval(@stream_get_contents($fp, 12, 0));
-    if ($type != REX_CACHE_FILE_READ_TIMEOUT && time() < $data[REX_CACHE_FILE_READ_TIMEOUT]) {
-      if ($type & REX_CACHE_FILE_READ_LAST_MODIFIED) {
-        $data[REX_CACHE_FILE_READ_LAST_MODIFIED] = intval(@fread($fp, 12));
-//        $data[REX_CACHE_FILE_READ_LAST_MODIFIED] = intval(@stream_get_contents($fp, 12, 12));
+    $data[REX_DASHBOARD_CACHE_FILE_READ_TIMEOUT] = intval(@fread($fp, 12));
+//    $data[REX_DASHBOARD_CACHE_FILE_READ_TIMEOUT] = intval(@stream_get_contents($fp, 12, 0));
+    if ($type != REX_DASHBOARD_CACHE_FILE_READ_TIMEOUT && time() < $data[REX_DASHBOARD_CACHE_FILE_READ_TIMEOUT]) {
+      if ($type & REX_DASHBOARD_CACHE_FILE_READ_LAST_MODIFIED) {
+        $data[REX_DASHBOARD_CACHE_FILE_READ_LAST_MODIFIED] = intval(@fread($fp, 12));
+//        $data[REX_DASHBOARD_CACHE_FILE_READ_LAST_MODIFIED] = intval(@stream_get_contents($fp, 12, 12));
       }
-      if ($type & REX_CACHE_FILE_READ_DATA) {
+      if ($type & REX_DASHBOARD_CACHE_FILE_READ_DATA) {
         fseek($fp, 0, SEEK_END);
         $length = ftell($fp) - 24;
         fseek($fp, 24);
-        $data[REX_CACHE_FILE_READ_DATA] = @fread($fp, $length);
+        $data[REX_DASHBOARD_CACHE_FILE_READ_DATA] = @fread($fp, $length);
       }
     } else {
-      $data[REX_CACHE_FILE_READ_LAST_MODIFIED] = null;
-      $data[REX_CACHE_FILE_READ_DATA] = null;
+      $data[REX_DASHBOARD_CACHE_FILE_READ_LAST_MODIFIED] = null;
+      $data[REX_DASHBOARD_CACHE_FILE_READ_DATA] = null;
     }
     @flock($fp, LOCK_UN);
     @fclose($fp);
