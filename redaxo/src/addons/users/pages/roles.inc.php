@@ -122,7 +122,7 @@ if ($func == '') {
     ';
   }
 
-  echo rex_view::contentBlock($content);
+  echo rex_view::contentBlock($content, '', 'block');
 
 
 
