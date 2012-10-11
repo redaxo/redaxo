@@ -105,12 +105,12 @@ class rex_i18n
   }
 
     /**
-   * Returns the translation for the given key
-   *
-   * @param string $key Key
-   *
-   * @return string Translation for the key
-   */
+     * Returns the translation for the given key
+     *
+     * @param string $key Key
+     *
+     * @return string Translation for the key
+     */
   static public function rawMsg($key)
   {
     if (!self::$loaded) {

@@ -1038,7 +1038,7 @@ tr.rex-addon td {
 .rex-form .rex-form-notice {
 }
 
-.rex-form-data, 
+.rex-form-data,
 fieldset .rex-grid2col {
   overflow: hidden;
   margin-bottom: 12px;
@@ -1106,7 +1106,7 @@ fieldset.rex-form-action {
 
   background: none;
   border-top: 1px solid #fff;
-  
+
   border: 0;
 }
 fieldset.rex-form-action .rex-form-data {
@@ -1364,11 +1364,11 @@ a.rex-button {
 a.rex-button:hover {
   background-color: #72909a;
 }
-a.rex-offline, 
+a.rex-offline,
 span.rex-offline {
   color: #bf4625;
 }
-a.rex-online, 
+a.rex-online,
 span.rex-online {
   color: #afbf25;
 }

@@ -91,8 +91,7 @@ if (rex::getUser() && $hasNavigation) {
 }
 
 /* Setup Navigation ***********************************************************/
-if (rex::getProperty('page') == 'setup')
-{
+if (rex::getProperty('page') == 'setup') {
   $step = rex_request('step', 'float');
   $lang = rex_request('lang', 'string', '');
   $navi = array();
@@ -105,7 +104,7 @@ if (rex::getProperty('page') == 'setup')
     if ($i < $step) {
       $n['linkClasses'][] = 'rex-success';
       $n['href'] = rex_url::backendController(array('page' => 'setup', 'step' => $i, 'lang' => $lang));
-      if($step == 7)
+      if ($step == 7)
         $n['href'] = 'javascript:void(0)';
     }
     $name = '';
@@ -133,16 +132,15 @@ if (rex::getProperty('page') == 'setup')
 }
 
 /* Login Navigation ***********************************************************/
-if (!rex::getUser() && !rex::isSetup())
-{
+if (!rex::getUser() && !rex::isSetup()) {
   $navi = array();
-  
+
   $n = array();
   $n['href'] = rex_url::backendController(array('page' => 'login'));
   $n['title'] = rex_i18n::msg('login');
-  $n['linkClasses'] = array("rex-active");
+  $n['linkClasses'] = array('rex-active');
   $navi[] = $n;
-  
+
   $block = array();
   $block['headline'] = array('title' => rex_i18n::msg('login'));
   $block['navigation'] = $navi;

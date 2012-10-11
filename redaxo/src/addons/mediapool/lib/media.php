@@ -350,12 +350,12 @@ class rex_media
     }
 
     if (!$this->isImage()) {
-      return "";
+      return '';
     }
 
     $filename = rex_url::media($this->getFileName());
     $title = $this->getTitle();
-    
+
     if (!isset($params['alt'])) {
       if ($title != '') {
         $params['alt'] = htmlspecialchars($title);

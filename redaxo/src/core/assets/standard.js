@@ -601,6 +601,6 @@ jQuery(document).ready(function($) {
     })
     .on('pjax:start', function() { $('#rex-ajax-loader').show(); })
     .on('pjax:end',   function() { $('#rex-ajax-loader').hide(); });
-    
+
   */
 });

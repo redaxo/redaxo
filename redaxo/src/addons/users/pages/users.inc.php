@@ -233,8 +233,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
   if ($FUNC_ADD != '') $statuschecked = 'checked="checked"';
 
-  if ($user_id > 0)
-  {
+  if ($user_id > 0) {
     // User Edit
 
     $form_label = rex_i18n::msg('edit_user');
@@ -257,9 +256,9 @@ if ($FUNC_ADD != '' || $user_id > 0) {
       $fragment = new rex_fragment();
       $fragment->setVar('columns', 2, false);
       $fragment->setVar('elements', $formElements, false);
-      $add_submit = $fragment->parse('form.tpl');      
+      $add_submit = $fragment->parse('form.tpl');
     unset($formElements);
-          
+
     $sql = rex_sql::factory();
     $sql->setQuery('select * from ' . rex::getTablePrefix() . 'user where user_id=' . $user_id);
 
@@ -312,8 +311,8 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     $add_status_chkbox = '<input class="rex-form-checkbox" type="checkbox" id="userstatus" name="userstatus" value="1" ' . $statuschecked . ' />';
     $add_user_class = ' rex-form-text';
     $add_user_login = '<input class="rex-form-text" type="text" id="userlogin" name="userlogin" value="' . htmlspecialchars($userlogin) . '" />';
-    
-    
+
+
     $formElements = array();
 
       $n = array();
@@ -325,7 +324,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
       $fragment = new rex_fragment();
       $fragment->setVar('columns', 2, false);
       $fragment->setVar('elements', $formElements, false);
-      $add_submit = $fragment->parse('form.tpl');      
+      $add_submit = $fragment->parse('form.tpl');
     unset($formElements);
   }
 
@@ -350,10 +349,10 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $n = array();
         $n['label'] = '<label for="userpsw">' . rex_i18n::msg('password') . '</label>';
         $n['field'] = '<input type="password" id="userpsw" name="userpsw" autocomplete="off" />';
-  
+
         if (rex::getProperty('pswfunc') != '')
           $n['after'] = '<span class="rex-form-notice">' . rex_i18n::msg('psw_encrypted') . '</span>';
-  
+
         $formElements[] = $n;
 
 
@@ -361,8 +360,8 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $fragment->setVar('columns', 2, false);
         $fragment->setVar('elements', $formElements, false);
         $content .= $fragment->parse('form.tpl');
-        
-        
+
+
 
       $formElements = array();
 
@@ -374,7 +373,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $n = array();
         $n['label'] = '<label for="userdesc">' . rex_i18n::msg('description') . '</label>';
         $n['field'] = '<input type="text" id="userdesc" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />';
-  
+
         $formElements[] = $n;
 
 
@@ -382,8 +381,8 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $fragment->setVar('columns', 2, false);
         $fragment->setVar('elements', $formElements, false);
         $content .= $fragment->parse('form.tpl');
-        
-        
+
+
 
       $formElements = array();
 
@@ -397,7 +396,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $n['reverse'] = true;
         $n['label'] = '<label for="userstatus">' . rex_i18n::msg('user_status') . '</label>';
         $n['field'] = $add_status_chkbox;
-  
+
         $formElements[] = $n;
 
 
@@ -405,8 +404,8 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $fragment->setVar('columns', 2, false);
         $fragment->setVar('elements', $formElements, false);
         $content .= $fragment->parse('form.tpl');
-        
-        
+
+
 
       $formElements = array();
 
@@ -420,8 +419,8 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $fragment->setVar('columns', 2, false);
         $fragment->setVar('elements', $formElements, false);
         $content .= $fragment->parse('form.tpl');
-        
-        
+
+
 
       $formElements = array();
 
@@ -433,7 +432,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $n = array();
         $n['label'] = '<label for="userperm-mylang">' . rex_i18n::msg('backend_language') . '</label>';
         $n['field'] = $sel_be_sprache->get();
-  
+
         $formElements[] = $n;
 
 
@@ -444,11 +443,11 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $content .= '
       </fieldset>
-    
+
       <fieldset class="rex-form-action">
         ' . $add_submit . '
       </fieldset>
-      
+
     </form>
   </div>
 

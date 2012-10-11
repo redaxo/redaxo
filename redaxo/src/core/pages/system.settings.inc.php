@@ -19,10 +19,10 @@ if ($func == 'setup') {
   // echo nl2br(htmlspecialchars($cont));
   if (rex_file::putConfig($configFile, $config) !== false) {
     $info = rex_i18n::msg('setup_error1', '<a href="index.php" data-pjax="false">', '</a>');
-    
-    header("Location:".rex_url::backendController());
+
+    header('Location:' . rex_url::backendController());
     exit;
-    
+
   } else {
     $warning = rex_i18n::msg('setup_error2');
   }
