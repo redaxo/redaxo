@@ -315,7 +315,8 @@ body {
   float: left;
   width: 310px;
   min-height: 300px;
-  margin-left: -1081px !important;
+/*  margin-left: -1081px !important; */
+  margin-left: 1px !important;
 }
 .rex-page-sidebar.rex-close {
   width: 24px;
@@ -1068,12 +1069,15 @@ fieldset .rex-grid2col {
   width: 400px;
 }
 .rex-form-data input[type="submit"] {
-  margin-left: 180px;
+  margin-left: 30px;
   padding: 3px 20px;
   background-color: #3c4f58;
   border: 0;
   color: #fff;
   font-size: 93%;
+}
+.rex-form-data input[type="submit"]:first-child {
+  margin-left: 180px;
 }
 .rex-form-data input[type="submit"]:hover {
   background-color: #72909a;
