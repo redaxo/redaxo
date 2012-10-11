@@ -225,16 +225,8 @@ if ($function == 'add' or $function == 'edit') {
           $fragment = new rex_fragment();
 
             $n = array();
-            $n['field'] = '<input type="submit" value="' . rex_i18n::msg('save_module_and_quit') . '"' . rex::getAccesskey(rex_i18n::msg('save_module_and_quit'), 'save') . ' />';
+            $n['field'] = '<input type="submit" value="' . rex_i18n::msg('save_module_and_quit') . '"' . rex::getAccesskey(rex_i18n::msg('save_module_and_quit'), 'save') . ' />' . $btn_update;
             $formElements[] = $n;
-
-            if ($btn_update != '') {
-              $n = array();
-              $n['field'] = $btn_update;
-              $formElements[] = $n;
-
-              $fragment->setVar('columns', 2, false);
-            }
 
           $fragment->setVar('elements', $formElements, false);
           echo $fragment->parse('form.tpl');

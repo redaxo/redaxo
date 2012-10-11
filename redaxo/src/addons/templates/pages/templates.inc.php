@@ -356,15 +356,11 @@ if ($function == 'add' or $function == 'edit') {
           $formElements = array();
 
             $n = array();
-            $n['field'] = '<input type="submit" value="' . rex_i18n::msg('save_template_and_quit') . '"' . rex::getAccesskey(rex_i18n::msg('save_template_and_quit'), 'save') . ' />';
-            $formElements[] = $n;
-
-            $n = array();
-            $n['field'] = '<input type="submit" name="goon" value="' . rex_i18n::msg('save_template_and_continue') . '"' . rex::getAccesskey(rex_i18n::msg('save_template_and_continue'), 'apply') . ' />';
+            $n['field'] = '<input type="submit" value="' . rex_i18n::msg('save_template_and_quit') . '"' . rex::getAccesskey(rex_i18n::msg('save_template_and_quit'), 'save') . ' />
+                           <input type="submit" name="goon" value="' . rex_i18n::msg('save_template_and_continue') . '"' . rex::getAccesskey(rex_i18n::msg('save_template_and_continue'), 'apply') . ' />';
             $formElements[] = $n;
 
           $fragment = new rex_fragment();
-          $fragment->setVar('columns', 2, false);
           $fragment->setVar('elements', $formElements, false);
           $content_1 .= $fragment->parse('form.tpl');
 
