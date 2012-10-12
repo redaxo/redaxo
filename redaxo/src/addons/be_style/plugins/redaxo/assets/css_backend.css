@@ -1710,12 +1710,12 @@ body.rex-fluid .rex-page-sidebar {
 #rex-page-login.redaxo #rex-page-footer {
   width: 100%;
 }
-#rex-page-login.redaxo .rex-navi-footer li:nth-child(2), 
+#rex-page-login.redaxo .rex-navi-footer li:nth-child(2),
 #rex-page-login.redaxo .rex-navi-footer li:nth-child(4) {
   display: none;
 }
 
-#rex-page-login.redaxo .rex-form-data input[type="text"], 
+#rex-page-login.redaxo .rex-form-data input[type="text"],
 #rex-page-login.redaxo .rex-form-data input[type="password"] {
   width: 260px;
 }
