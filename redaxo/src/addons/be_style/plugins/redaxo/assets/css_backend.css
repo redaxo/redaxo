@@ -1682,3 +1682,40 @@ body.rex-fluid .rex-page-sidebar {
   }
 }
 */
+
+
+
+#rex-page-login.redaxo #rex-page {
+  float: none;
+  margin: 0 auto;
+  padding-top: 100px;
+  width: 500px;
+  min-width: 0;
+}
+#rex-page-login.redaxo #rex-page-header {
+  width: 100%;
+  margin: 0;
+}
+#rex-page-login.redaxo .rex-page-logo {
+  background-position: 20px 50%;
+}
+#rex-page-login.redaxo #rex-page-meta {
+  display: none;
+}
+#rex-page-login.redaxo #rex-page-main {
+  margin: 0;
+  width: 100%;
+  min-height: 0;
+}
+#rex-page-login.redaxo #rex-page-footer {
+  width: 100%;
+}
+#rex-page-login.redaxo .rex-navi-footer li:nth-child(2), 
+#rex-page-login.redaxo .rex-navi-footer li:nth-child(4) {
+  display: none;
+}
+
+#rex-page-login.redaxo .rex-form-data input[type="text"], 
+#rex-page-login.redaxo .rex-form-data input[type="password"] {
+  width: 260px;
+}

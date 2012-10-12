@@ -23,4 +23,9 @@ if (rex::isBackend()) {
       <link href="' . rex_url::pluginAssets('be_style', $mypage, 'css_import.css') . '" rel="stylesheet" type="text/css" media="all" />';
     return $params['subject'];
   });
+
+  rex_extension::register('PAGE_BODY_ATTR', function ($params) {
+    $params['subject']['class'][] = 'redaxo';
+    return $params['subject'];
+  });
 }
