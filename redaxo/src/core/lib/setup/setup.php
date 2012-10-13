@@ -18,6 +18,9 @@ class rex_setup
     // initial purge all generated files
     rex_deleteCache();
 
+    // delete backend session
+    rex_backend_login::deleteSession();
+
     // copy alle media files of the current rex-version into redaxo_media
     rex_dir::copy(rex_path::core('assets'), rex_path::assets());
 

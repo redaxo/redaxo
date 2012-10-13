@@ -114,6 +114,15 @@ class rex_backend_login extends rex_login
     return parent::encryptPassword($psw);
   }
 
+  static public function deleteSession()
+  {
+    if (session_id() == '')
+      session_start();
+
+    unset($_SESSION[rex::getProperty('instname')]);
+    setcookie('rex_user_' . sha1(rex::getProperty('instname')), '', time() - 3600);
+  }
+
   static public function hasSession()
   {
     if (session_id() == '')
