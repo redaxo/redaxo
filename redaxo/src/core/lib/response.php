@@ -9,6 +9,7 @@ class rex_response
 {
   const
     HTTP_OK = '200 OK',
+    HTTP_MOVED_PERMANENTLY = '301 Moved Permanently',
     HTTP_NOT_FOUND = '404 Not Found',
     HTTP_FORBIDDEN = '403 Forbidden',
     HTTP_UNAUTHORIZED = '401 Unauthorized',

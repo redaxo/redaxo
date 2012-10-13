@@ -106,6 +106,9 @@ if ($user = rex::getUser()) {
     // --- fallback auf "profile"; diese page hat jeder user
     rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
     rex_response::sendRedirect('index.php?page=profile');
+  } elseif (empty($reqPage)) {
+    rex_response::setStatus(rex_response::HTTP_MOVED_PERMANENTLY);
+    rex_response::sendRedirect('index.php?page=' . $page);
   }
 }
 
