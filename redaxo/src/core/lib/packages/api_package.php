@@ -25,7 +25,9 @@ class rex_api_package extends rex_api_function
     $success = $manager->$function();
     $message = $manager->getMessage();
     $result = new rex_api_result($success, $message);
-    $result->setRequiresReboot(true);
+    if ($function != 'install') {
+      $result->setRequiresReboot(true);
+    }
     return $result;
   }
 }
