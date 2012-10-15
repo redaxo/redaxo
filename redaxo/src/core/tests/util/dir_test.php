@@ -68,23 +68,14 @@ class rex_dir_test extends PHPUnit_Framework_TestCase
     touch($copy . '/dir3/file2.txt', 1);
     rex_file::put($orig . '/file2.txt', 'file2_new');
     rex_file::put($orig . '/dir3/file2.txt', 'file2_new');
-    // file3 with newest version /copy
-    rex_file::put($orig . '/file3.txt', 'file3_old');
-    touch($orig . '/file3.txt', 1);
-    rex_file::put($orig . '/dir3/file3.txt', 'file3_old');
-    touch($orig . '/dir3/file3.txt', 1);
-    rex_file::put($copy . '/file3.txt', 'file3_new');
-    rex_file::put($copy . '/dir3/file3.txt', 'file3_new');
 
     $this->assertTrue(rex_dir::copy($orig, $copy), 'copy() returns true on success');
     $this->assertTrue(is_dir($copy . '/dir1'), 'subdir of source dir exists in destination dir');
     $this->assertTrue(is_dir($copy . '/dir2'), 'existsing subdir of destination dir still exists');
     $this->assertTrue(is_file($copy . '/file1.txt'), 'file of source dir exists in destination dir');
     $this->assertTrue(is_file($copy . '/dir3/file1.txt'), 'existing file of destination dir still exists');
-    $this->assertEquals('file2_new', rex_file::get($copy . '/file2.txt'), 'a file in destination dir will be replaced when the file in source dir is newer');
-    $this->assertEquals('file2_new', rex_file::get($copy . '/dir3/file2.txt'), 'a file in destination dir will be replaced when the file in source dir is newer');
-    $this->assertEquals('file3_new', rex_file::get($copy . '/file3.txt'), 'a file in destination dir won\'t be replaced when the file in source dir is older');
-    $this->assertEquals('file3_new', rex_file::get($copy . '/dir3/file3.txt'), 'a file in destination dir won\'t be replaced when the file in source dir is older');
+    $this->assertEquals('file2_new', rex_file::get($copy . '/file2.txt'), 'existing file in destination dir will be replaced');
+    $this->assertEquals('file2_new', rex_file::get($copy . '/dir3/file2.txt'), 'existing file in destination dir will be replaced');
   }
 
   public function testDeleteComplete()
