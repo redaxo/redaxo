@@ -36,8 +36,10 @@ class rex_setup_importer
       // Nur hier zuerst die Addons installieren
       // Da sonst Daten aus dem eingespielten Export
       // Überschrieben würden
+      // Da für das Installieren der Addons die rex_config benötigt wird,
+      // mit overrideExisting() eine saubere, komplette Basis schaffen
       if ($err_msg == '')
-        $err_msg .= self::installAddons(true, false);
+        $err_msg .= self::overrideExisting();
       if ($err_msg == '')
         $err_msg .= self::import($import_sql, $import_archiv);
     }
