@@ -20,7 +20,7 @@ $body_attr = array();
 $body_id = str_replace('_', '-', rex::getProperty('page'));
 
 if ($curPage instanceof rex_be_page_popup)
-  $body_attr['class'] = array('rex-popup' . $body_id);
+  $body_attr['class'] = array('rex-popup');
 
 $body_attr['id'] = array('rex-page-' . $body_id);
 $body_attr['onunload'] = array('closeAll();');
