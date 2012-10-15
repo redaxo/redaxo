@@ -67,7 +67,7 @@ class rex_dir
       $dstfile = $dstdir . substr($srcfilepath, strlen($srcdir));
       if ($srcfile->isDir()) {
         $state = self::create($dstfile) && $state;
-      } elseif (!file_exists($dstfile) || $srcfile->getMTime() > filemtime($dstfile)) {
+      } else {
         $state = rex_file::copy($srcfilepath, $dstfile) && $state;
       }
     }
