@@ -63,7 +63,7 @@ $content .= '
             $n = array();
             $n['reverse'] = true;
             $n['label'] = '<label for="rex-user-stay-logged-in">' . rex_i18n::msg('stay_logged_in') . '</label>';
-            $n['field'] = '<input class="rex-form-checkbox" type="checkbox" name="rex_user_stay_logged_in" id="rex-user-stay-logged-in" value="" />';
+            $n['field'] = '<input class="rex-form-checkbox" type="checkbox" name="rex_user_stay_logged_in" id="rex-user-stay-logged-in" value="1" />';
             $formElements[] = $n;
 
           $fragment = new rex_fragment();
