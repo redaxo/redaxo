@@ -253,6 +253,7 @@ class rex_api_result
 
   public function toJSON()
   {
+    $json = new stdClass;
     foreach ($this as $key => $value) {
         $json->$key = $value;
     }
