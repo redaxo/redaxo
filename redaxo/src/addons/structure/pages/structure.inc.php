@@ -396,7 +396,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
   $templates = rex_category::getTemplates($category_id);
   if (count($templates) > 0) {
     foreach ($templates as $t_id => $t_name) {
-      $template_select->addOption(rex_i18n::translate($t_name, null, false), $t_id);
+      $template_select->addOption(rex_i18n::translate($t_name, false), $t_id);
       $TEMPLATE_NAME[$t_id] = rex_i18n::translate($t_name);
     }
   } else {
