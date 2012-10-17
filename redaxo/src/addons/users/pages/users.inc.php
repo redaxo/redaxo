@@ -342,7 +342,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
       $formElements = array();
 
         $n = array();
-        $n['label'] = '<label for="userlogin">' . htmlspecialchars(rex_i18n::msg('login_name')) . '</label>';
+        $n['label'] = '<label for="userlogin">' . rex_i18n::msg('login_name') . '</label>';
         $n['field'] = $add_user_login;
         $formElements[] = $n;
 

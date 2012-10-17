@@ -115,7 +115,7 @@ class rex_article_content_editor extends rex_article_content
     $sliceCtype   = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype');
 
     $moduleId     = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
-    $moduleName   = htmlspecialchars(rex_i18n::translate($artDataSql->getValue(rex::getTablePrefix() . 'module.name')));
+    $moduleName   = rex_i18n::translate($artDataSql->getValue(rex::getTablePrefix() . 'module.name'));
 
 
     $sliceUrl = 'index.php?page=content&amp;article_id=' . $this->article_id . '&amp;mode=edit&amp;slice_id=' . $sliceId . '&amp;clang=' . $this->clang . '&amp;ctype=' . $this->ctype . '%s#slice' . $sliceId;
@@ -334,7 +334,7 @@ class rex_article_content_editor extends rex_article_content
 
       $blocks = array();
       $blocks[] = array(
-        'headline' => array('title' => rex_i18n::msg('module') . ': ' . htmlspecialchars(rex_i18n::translate($MOD->getValue('name')))),
+        'headline' => array('title' => rex_i18n::msg('module') . ': ' . rex_i18n::translate($MOD->getValue('name'))),
         'navigation' => array()
       );
 

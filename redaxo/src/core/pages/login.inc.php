@@ -29,7 +29,7 @@ if ($rex_user_loginmessage != '') {
         if(time > 0) {
           setTimeout(disableLogin, 1000);
         } else {
-          $("div.rex-message p").html("' . htmlspecialchars(rex_i18n::msg('login_welcome')) . '");
+          $("div.rex-message p").html("' . rex_i18n::msg('login_welcome') . '");
           $("#loginformular input:not(:hidden)").prop("disabled", "");
           $("#rex-form-login-user").focus();
         }

@@ -114,7 +114,7 @@ $content .= '
           $formElements = array();
 
             $n = array();
-            $n['label'] = '<label for="userlogin">' . htmlspecialchars(rex_i18n::msg('login_name')) . '</label>';
+            $n['label'] = '<label for="userlogin">' . rex_i18n::msg('login_name') . '</label>';
             $n['field'] = '<span class="rex-form-read" id="userlogin">' . htmlspecialchars($userlogin) . '</span>';
             $formElements[] = $n;
 

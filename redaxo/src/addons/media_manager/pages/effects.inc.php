@@ -55,9 +55,9 @@ if ($func == '' && $type_id > 0) {
   $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type_effects WHERE type_id=' . $type_id . ' ORDER BY prior';
 
   $list = rex_list::factory($query);
-  $list->setNoRowsMessage(htmlspecialchars(rex_i18n::msg('media_manager_effect_no_effects')));
-  $list->setCaption(htmlspecialchars(rex_i18n::msg('media_manager_effect_caption', $typeName)));
-  $list->addTableAttribute('summary', htmlspecialchars(rex_i18n::msg('media_manager_effect_summary', $typeName)));
+  $list->setNoRowsMessage(rex_i18n::msg('media_manager_effect_no_effects'));
+  $list->setCaption(rex_i18n::msg('media_manager_effect_caption', $typeName));
+  $list->addTableAttribute('summary', rex_i18n::msg('media_manager_effect_summary', $typeName));
   $list->addTableColumnGroup(array(40, '*', 40, 130, 130));
 
   $list->removeColumn('id');
@@ -67,11 +67,11 @@ if ($func == '' && $type_id > 0) {
   $list->removeColumn('updateuser');
   $list->removeColumn('createdate');
   $list->removeColumn('createuser');
-  $list->setColumnLabel('effect', htmlspecialchars(rex_i18n::msg('media_manager_type_name')));
-  $list->setColumnLabel('prior', htmlspecialchars(rex_i18n::msg('media_manager_type_prior')));
+  $list->setColumnLabel('effect', rex_i18n::msg('media_manager_type_name'));
+  $list->setColumnLabel('prior', rex_i18n::msg('media_manager_type_prior'));
 
   // icon column
-  $thIcon = '<a class="rex-i-element rex-i-generic-add" href="' . $list->getUrl(array('type_id' => $type_id, 'func' => 'add')) . '"><span class="rex-i-element-text">' . htmlspecialchars(rex_i18n::msg('media_manager_effect_create')) . '</span></a>';
+  $thIcon = '<a class="rex-i-element rex-i-generic-add" href="' . $list->getUrl(array('type_id' => $type_id, 'func' => 'add')) . '"><span class="rex-i-element-text">' . rex_i18n::msg('media_manager_effect_create') . '</span></a>';
   $tdIcon = '<span class="rex-i-element rex-i-generic"><span class="rex-i-element-text">###name###</span></span>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('func' => 'edit', 'type_id' => $type_id, 'effect_id' => '###id###'));

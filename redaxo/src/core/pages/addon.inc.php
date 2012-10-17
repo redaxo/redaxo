@@ -61,7 +61,7 @@ if ($subpage == '') {
   $getLink = function (rex_package $package, $function, $confirm = false, $key = null) {
     $onclick = '';
     if ($confirm) {
-      $onclick = ' data-confirm="' . htmlspecialchars(rex_i18n::msg($package->getType() . '_' . $function . '_question', $package->getName())) . '"';
+      $onclick = ' data-confirm="' . rex_i18n::msg($package->getType() . '_' . $function . '_question', $package->getName()) . '"';
     }
     $text = rex_i18n::msg('addon_' . ($key ?: $function));
     return '<a href="index.php?page=addon&amp;package=' . $package->getPackageId() . '&amp;rex-api-call=package&amp;function=' . $function . '"' . $onclick . '>' . $text . '</a>';
@@ -71,27 +71,27 @@ if ($subpage == '') {
     $packageId = $package->getPackageId();
     $type = $package->getType();
 
-    $delete = $package->isSystemPackage() ? htmlspecialchars(rex_i18n::msg($type . '_system' . $type)) : $getLink($package, 'delete', true);
+    $delete = $package->isSystemPackage() ? rex_i18n::msg($type . '_system' . $type) : $getLink($package, 'delete', true);
 
     if ($package->isInstalled()) {
-      $install = htmlspecialchars(rex_i18n::msg('addon_yes')) . ' - ' . $getLink($package, 'install', false, 'reinstall');
+      $install = rex_i18n::msg('addon_yes') . ' - ' . $getLink($package, 'install', false, 'reinstall');
       if ($type == 'addon' && count($package->getInstalledPlugins()) > 0) {
-        $uninstall = htmlspecialchars(rex_i18n::msg('plugin_plugins_installed'));
-        $delete = htmlspecialchars(rex_i18n::msg('plugin_plugins_installed'));
+        $uninstall = rex_i18n::msg('plugin_plugins_installed');
+        $delete = rex_i18n::msg('plugin_plugins_installed');
       } else {
         $uninstall = $getLink($package, 'uninstall', true);
       }
     } else {
-      $install = htmlspecialchars(rex_i18n::msg('addon_no')) . ' - ' . $getLink($package, 'install');
-      $uninstall = htmlspecialchars(rex_i18n::msg('addon_notinstalled'));
+      $install = rex_i18n::msg('addon_no') . ' - ' . $getLink($package, 'install');
+      $uninstall = rex_i18n::msg('addon_notinstalled');
     }
 
     if ($package->isActivated()) {
-      $status = htmlspecialchars(rex_i18n::msg('addon_yes')) . ' - ' . $getLink($package, 'deactivate');
+      $status = rex_i18n::msg('addon_yes') . ' - ' . $getLink($package, 'deactivate');
     } elseif ($package->isInstalled()) {
-      $status = htmlspecialchars(rex_i18n::msg('addon_no')) . ' - ' . $getLink($package, 'activate');
+      $status = rex_i18n::msg('addon_no') . ' - ' . $getLink($package, 'activate');
     } else {
-      $status = htmlspecialchars(rex_i18n::msg('addon_notinstalled'));
+      $status = rex_i18n::msg('addon_notinstalled');
     }
     $name = htmlspecialchars($package->getName());
     $class = str_replace(array('.', '/'), '_', $packageId);
