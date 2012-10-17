@@ -192,7 +192,7 @@ class rex_i18n
    *
    * @return string Translated text
    */
-  static public function translate($text, $use_htmlspecialchars = true, $i18nFunction = 'self::msg')
+  static public function translate($text, $use_htmlspecialchars = true, $i18nFunction = null)
   {
     if (!is_string($text)) {
       throw new InvalidArgumentException('Expecting $text to be a String, "' . gettype($text) . '" given!');
@@ -201,12 +201,13 @@ class rex_i18n
     $tranKey = 'translate:';
     $transKeyLen = strlen($tranKey);
     if (substr($text, 0, $transKeyLen) == $tranKey) {
-      $text = call_user_func($i18nFunction, substr($text, $transKeyLen));
-    }
-
-    if ($use_htmlspecialchars)
+      if (!$i18nFunction) {
+        $i18nFunction = $use_htmlspecialchars ? 'self::msg' : 'self::rawMsg';
+      }
+      return call_user_func($i18nFunction, substr($text, $transKeyLen));
+    } elseif ($use_htmlspecialchars) {
       return htmlspecialchars($text);
-
+    }
     return $text;
   }
 
@@ -217,7 +218,7 @@ class rex_i18n
    * @param boolean  $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
    * @param callable $i18nFunction         Function that returns the translation for the i18n key
    */
-  static public function translateArray($array, $use_htmlspecialchars = true, $i18nFunction = 'self::msg')
+  static public function translateArray($array, $use_htmlspecialchars = true, $i18nFunction = null)
   {
     if (is_array($array)) {
       foreach ($array as $key => $value) {
