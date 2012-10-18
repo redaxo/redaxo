@@ -432,7 +432,7 @@ jQuery(function($){
       return true;
 
      var key = String.fromCharCode(event.which);
-     var haystack = $("a[accesskey='"+ key +"']");
+     var haystack = $("input[accesskey='"+ key +"']");
 
      if(haystack.size() > 0)
      {
@@ -456,15 +456,13 @@ jQuery(function($){
      }
   });
 
-  $(function() {
-    $("input,button,textarea,select,option")
-      .live("focus", function(event) {
-        ENABLE_KEY_NAV = false;
-      })
-      .live("blur", function(event) {
-        ENABLE_KEY_NAV = true;
-      });
-  });
+  $("input,button,textarea,select,option")
+    .live("focus", function(event) {
+      ENABLE_KEY_NAV = false;
+    })
+    .live("blur", function(event) {
+      ENABLE_KEY_NAV = true;
+    });
 
   if ($('#rex-page-login').length == 0 && getCookie('htaccess_check') == '')
   {
