@@ -456,11 +456,11 @@ jQuery(function($){
      }
   });
 
-  $("input,button,textarea,select,option")
-    .live("focus", function(event) {
+  $("body")
+    .on("focus", "input,button,textarea,select,option", function(event) {
       ENABLE_KEY_NAV = false;
     })
-    .live("blur", function(event) {
+    .on("blur", "input,button,textarea,select,option", function(event) {
       ENABLE_KEY_NAV = true;
     });
 
