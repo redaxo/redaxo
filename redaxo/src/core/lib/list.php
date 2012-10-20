@@ -466,7 +466,6 @@ class rex_list extends rex_factory_base implements rex_url_provider
    *
    * @param $columnName Name der Spalte
    * @param $option Name/Id der Option
-   * @param $default Defaultrückgabewert, falls die Option nicht gesetzt ist
    *
    * @return boolean
    */
