@@ -195,14 +195,23 @@ class rex_category_service
         $old_prio = $thisCat->getValue('catprior');
 
         if ($data['catprior'] <= 0)
-        $data['catprior'] = 1;
+          $data['catprior'] = 1;
 
-        self::newCatPrio($re_id, $clang, $data['catprior'], $old_prio);
+        rex_sql::factory()
+          ->setTable(rex::getTable('article'))
+          ->setWhere('id = :id AND clang != :clang', array('id' => $category_id, 'clang' => $clang))
+          ->setValue('catprior', $data['catprior'])
+          ->addGlobalUpdateFields()
+          ->update();
+
+        foreach (rex_clang::getAllIds() as $clangId) {
+          self::newCatPrio($re_id, $clangId, $data['catprior'], $old_prio);
+        }
       }
 
       $message = rex_i18n::msg('category_updated');
 
-      rex_article_cache::delete($category_id, $clang);
+      rex_article_cache::delete($category_id);
 
       // ----- EXTENSION POINT
       // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
