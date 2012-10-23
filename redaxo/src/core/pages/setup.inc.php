@@ -526,6 +526,18 @@ if ($step == 5) {
   $content .= '</fieldset></form></div>
   ';
 
+  $content .= '
+      <script type="text/javascript">
+         <!--
+        jQuery(function($) {
+          $("#rex-form-import-name").bind("click","",function(){
+            $("[name=createdb]").removeAttr("checked");
+            $("#rex-form-createdb-3").attr("checked","checked");
+          });
+        });
+         //-->
+      </script>';
+
   echo $headline . rex_view::contentBlock($content, '', 'block');
 }
 
