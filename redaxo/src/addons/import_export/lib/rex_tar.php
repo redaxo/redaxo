@@ -293,4 +293,9 @@ class rex_tar extends tar
     else
       return true;
   }
+  
+  public function getMessages()
+  {
+    return $this->message;
+  }
 }

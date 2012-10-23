@@ -238,9 +238,9 @@ function rex_a1_import_files($filename)
   $tar->openTAR($filename);
   if (!$tar->extractTar()) {
     $msg = rex_i18n::msg('im_export_problem_when_extracting') . '<br />';
-    if (count($tar->message) > 0) {
+    if (count($tar->getMessages()) > 0) {
       $msg .= rex_i18n::msg('im_export_create_dirs_manually') . '<br />';
-      foreach ($tar->message as $_message) {
+      foreach ($tar->getMessages() as $_message) {
         $msg .= rex_path::absolute($_message) . '<br />';
       }
     }
