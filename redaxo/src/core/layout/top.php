@@ -62,7 +62,7 @@ if (rex::getUser() && $hasNavigation) {
     $p = strtolower($p);
     if ($pageContainer instanceof rex_be_page_main) {
       $pageObj = $pageContainer->getPage();
-      $pageObj->setItemAttr('id', 'rex-navi-page-' . strtolower(preg_replace('/[^a-zA-Z0-9\-_]*/', '', $p)));
+      $pageObj->setItemAttr('id', 'rex-navi-page-' . strtolower(preg_replace('/[^a-zA-Z0-9\-]*/', '', str_replace('_', '-', $p))));
 
       if (!$pageContainer->getBlock())
         $pageContainer->setBlock('addons');

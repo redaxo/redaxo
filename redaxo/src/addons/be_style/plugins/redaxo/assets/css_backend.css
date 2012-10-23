@@ -1379,19 +1379,7 @@ span.rex-online {
 .rex-strike {
   text-decoration: line-through;
 }
-.rex-ic-bottom,
-.rex-ic-down,
-.rex-ic-generic,
-.rex-ic-link-delete,
-.rex-ic-linkmap-open,
-.rex-ic-media-add,
-.rex-ic-media-delete,
-.rex-ic-media-open,
-.rex-ic-media-view,
-.rex-ic-mediapool-open,
 .rex-ic-plugin,
-.rex-ic-top,
-.rex-ic-up,
 .rex-ic-userrole {
   display: block;
   background: url(ic.png) 50% 50% no-repeat;
@@ -1403,16 +1391,42 @@ span.rex-online {
 .rex-ic-addon,
 .rex-ic-article,
 .rex-ic-article-startpage,
+.rex-ic-bottom,
 .rex-ic-category,
 .rex-ic-clang,
 .rex-ic-cronjob,
+.rex-ic-down,
+.rex-ic-generic,
+.rex-ic-link-delete,
+.rex-ic-linkmap-open, 
+.rex-ic-media-add,
+.rex-ic-media-delete,
+.rex-ic-media-open,
+.rex-ic-media-view,
+.rex-ic-mediapool-open,
 .rex-ic-metainfo,
 .rex-ic-module,
 .rex-ic-template,
+.rex-ic-top,
+.rex-ic-up,
 .rex-ic-user {
   display: block;
   background: url(icons.png);
   text-indent: -1000em;
+}
+.rex-ic-bottom,
+.rex-ic-down,
+.rex-ic-generic,
+.rex-ic-top,
+.rex-ic-up,
+.rex-ic-link-delete,
+.rex-ic-linkmap-open,
+.rex-ic-media-add,
+.rex-ic-media-delete,
+.rex-ic-media-view,
+.rex-ic-mediapool-open {
+  width: 18px;
+  height: 18px;
 }
 .rex-ic-action {
   width: 15px;
@@ -1504,6 +1518,53 @@ span.rex-online {
 .rex-ic-user.rex-ic-add {
   background-position: 10px -495px;
 }
+
+.rex-ic-bottom {
+  background-position: 0px -650px;
+}
+.rex-ic-down {
+  background-position: 0px -750px;
+}
+.rex-ic-generic {
+  background-position: 0px -950px;
+}
+.rex-ic-top {
+  background-position: 0px -700px;
+}
+.rex-ic-up {
+  background-position: 0px -800px;
+}
+.rex-ic-media-add {
+  background-position: 0px -550px;
+}
+.rex-ic-media-add.rex-inactive {
+  background-position: -50px -550px;
+}
+.rex-ic-link-delete, 
+.rex-ic-media-delete {
+  background-position: 0px -600px;
+}
+.rex-ic-link-delete.rex-inactive, 
+.rex-ic-media-delete.rex-inactive {
+  background-position: -50px -600px;
+}
+.rex-ic-linkmap-open, 
+.rex-ic-mediapool-open {
+  background-position: 0px -850px;
+}
+.rex-ic-linkmap-open.rex-inactive, 
+.rex-ic-mediapool-open.rex-inactive {
+  background-position: -50px -850px;
+}
+.rex-ic-media-view {
+  background-position: 0px -900px;
+}
+.rex-ic-media-view.rex-inactive {
+  background-position: -50px -900px;
+}
+
+
+
 .rex-ic-add {
   width: 100%;
   height: 100%;
