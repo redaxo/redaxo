@@ -69,13 +69,15 @@ foreach ($this->blocks as $block) {
 
   foreach ($navigation as $navi) {
     echo '<li ';
-    if (isset($navi['itemClasses']) && is_array($navi['itemClasses']) && count($navi['itemClasses']) > 0) {
+    if (isset($navi['itemClasses']) && is_array($navi['itemClasses']) && count($navi['itemClasses']) > 0 && isset($navi['itemClasses'][0]) && $navi['itemClasses'][0] != '') {
       echo ' class="' . implode(' ', $navi['itemClasses']) . '"';
     }
 
     if (isset($navi['itemAttr']) && is_array($navi['itemAttr']) && count($navi['itemAttr']) > 0) {
       foreach ($navi['itemAttr'] as $n => $v) {
-        echo ' ' . $n . '="' . $v . '"';
+        if($v != "") {
+          echo ' ' . $n . '="' . $v . '"';
+        }
       }
     }
 
@@ -84,13 +86,15 @@ foreach ($this->blocks as $block) {
     if (isset($navi['href']) && $navi['href'] != '') {
       echo '<a href="' . $navi['href'] . '"';
 
-      if (isset($navi['linkClasses']) && is_array($navi['linkClasses']) && count($navi['linkClasses']) > 0) {
+      if (isset($navi['linkClasses']) && is_array($navi['linkClasses']) && count($navi['linkClasses']) > 0 && isset($navi['itemClasses'][0]) && $navi['itemClasses'][0] != '') {
         echo ' class="' . implode(' ', $navi['linkClasses']) . '"';
       }
 
       if (isset($navi['linkAttr']) && is_array($navi['linkAttr']) && count($navi['linkAttr']) > 0) {
         foreach ($navi['linkAttr'] as $n => $v) {
-          echo ' ' . $n . '="' . $v . '"';
+          if($v != "") {
+            echo ' ' . $n . '="' . $v . '"';
+          }
         }
       }
 
@@ -115,7 +119,9 @@ foreach ($this->blocks as $block) {
 
         if (isset($subnavi['itemAttr']) && is_array($subnavi['itemAttr']) && count($subnavi['itemAttr']) > 0) {
           foreach ($subnavi['itemAttr'] as $n => $v) {
-            echo ' ' . $n . '="' . $v . '"';
+            if($v != "") {
+              echo ' ' . $n . '="' . $v . '"';
+            }
           }
         }
 
@@ -130,7 +136,9 @@ foreach ($this->blocks as $block) {
 
           if (isset($subnavi['linkAttr']) && is_array($subnavi['linkAttr']) && count($subnavi['linkAttr']) > 0) {
             foreach ($subnavi['linkAttr'] as $n => $v) {
-              echo ' ' . $n . '="' . $v . '"';
+              if($v != "") {
+                echo ' ' . $n . '="' . $v . '"';
+              }
             }
           }
 
