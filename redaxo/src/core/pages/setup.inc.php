@@ -530,8 +530,8 @@ if ($step == 5) {
       <script type="text/javascript">
          <!--
         jQuery(function($) {
-          $("#rex-form-import-name").bind("click","",function(){
-            $("[name=createdb]").removeAttr("checked");
+          $("#rex-form-import-name").on("click","",function(){
+            $("#rex-form-setup-step-5 [name=createdb]").removeAttr("checked");
             $("#rex-form-createdb-3").attr("checked","checked");
           });
         });
