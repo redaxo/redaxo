@@ -295,7 +295,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++) {
         $class .= ' rex-has-metainfo';
 
       $echo .= '
-        <tr class="' . $class . '">
+        <tr id="rex-structure-category-' . $i_category_id . '" class="' . $class . '">
           ' . $kat_icon_td . '
           ' . $add_td . '
           <td class="rex-name"><input type="text" class="rex-form-text" id="rex-form-field-name" name="category-name" value="' . htmlspecialchars($KAT->getValue('catname')) . '" />' . $meta_buttons . '</td>
@@ -324,7 +324,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++) {
       $category_delete = '<a href="' . $context->getUrl(array('category-id' => $i_category_id, 'rex-api-call' => 'category_delete', 'catstart' => $catstart)) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?">' . rex_i18n::msg('delete') . '</a>';
 
       $echo .= '
-        <tr>
+        <tr id="rex-structure-category-' . $i_category_id . '">
           ' . $kat_icon_td . '
           ' . $add_td . '
           <td class="rex-name"><a href="' . $kat_link . '">' . htmlspecialchars($KAT->getValue('catname')) . '</a></td>
@@ -343,7 +343,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++) {
       }
 
       $echo .= '
-        <tr>
+        <tr id="rex-structure-category-' . $i_category_id . '">
           ' . $kat_icon_td . '
           ' . $add_td . '
           <td class="rex-name"><a href="' . $kat_link . '">' . $KAT->getValue('catname') . '</a></td>
@@ -543,7 +543,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
 
       $template_select->setSelected($sql->getValue('template_id'));
 
-      $echo .= '<tr class="rex-active">
+      $echo .= '<tr id="rex-structure-article-' . $article_id . '" class="rex-active">
                   <td class="rex-icon"><a class="' . $class . '" href="' . $context->getUrl(array('page' => 'content', 'article_id' => $sql->getValue('id'))) . '">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
                   ' . $add_td . '
                   <td class="rex-name"><input type="text" id="rex-form-field-name" name="article-name" value="' . htmlspecialchars($sql->getValue('name')) . '" /></td>
@@ -583,7 +583,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
       $editModeUrl = $context->getUrl(array('page' => 'content', 'article_id' => $sql->getValue('id'), 'mode' => 'edit'));
       $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
 
-      $echo .= '<tr>
+      $echo .= '<tr id="rex-structure-article-' . $sql->getValue('id') . '">
                   <td class="rex-icon"><a class="' . $class . '" href="' . $editModeUrl . '">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
                   ' . $add_td . '
                   <td class="rex-name"><a href="' . $editModeUrl . '">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
@@ -606,7 +606,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
       $art_status_class = $artStatusTypes[$sql->getValue('status')][1];
       $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
 
-      $echo .= '<tr>
+      $echo .= '<tr id="rex-structure-article-' . $sql->getValue('id') . '">
                   <td class="rex-icon"><span class="' . $class . '">' . htmlspecialchars($sql->getValue('name')) . '"</span></td>
                   ' . $add_td . '
                   <td class="rex-name">' . htmlspecialchars($sql->getValue('name')) . '</td>

@@ -1594,6 +1594,98 @@ span.rex-online {
 
 
 
+.rex-mime {
+  display: inline-block;
+  width: 44px;
+  height: 38px;
+  background: url(mime/default.gif) no-repeat;
+  text-indent: -1000em;
+}
+.rex-mime-bmp {
+  background-image: url(mime/bmp.gif);
+}
+.rex-mime-css {
+  background-image: url(mime/css.gif);
+}
+.rex-mime-doc {
+  background-image: url(mime/doc.gif);
+}
+.rex-mime-docx {
+  background-image: url(mime/docx.gif);
+}
+.rex-mime-eps {
+  background-image: url(mime/eps.gif);
+}
+.rex-mime-gif {
+  background-image: url(mime/gif.gif);
+}
+.rex-mime-gz {
+  background-image: url(mime/gz.gif);
+}
+.rex-mime-jpg {
+  background-image: url(mime/jpg.gif);
+}
+.rex-mime-mov {
+  background-image: url(mime/mov.gif);
+}
+.rex-mime-mp3 {
+  background-image: url(mime/mp3.gif);
+}
+.rex-mime-ogg {
+  background-image: url(mime/ogg.gif);
+}
+.rex-mime-pdf {
+  background-image: url(mime/pdf.gif);
+}
+.rex-mime-png {
+  background-image: url(mime/png.gif);
+}
+.rex-mime-ppt {
+  background-image: url(mime/ppt.gif);
+}
+.rex-mime-pptx {
+  background-image: url(mime/pptx.gif);
+}
+.rex-mime-pps {
+  background-image: url(mime/pps.gif);
+}
+.rex-mime-ppsx {
+  background-image: url(mime/ppsx.gif);
+}
+.rex-mime-rar {
+  background-image: url(mime/rar.gif);
+}
+.rex-mime-rtf {
+  background-image: url(mime/rtf.gif);
+}
+.rex-mime-swf {
+  background-image: url(mime/swf.gif);
+}
+.rex-mime-tar {
+  background-image: url(mime/tar.gif);
+}
+.rex-mime-tif {
+  background-image: url(mime/tif.gif);
+}
+.rex-mime-txt {
+  background-image: url(mime/txt.gif);
+}
+.rex-mime-wma {
+  background-image: url(mime/wma.gif);
+}
+.rex-mime-xls {
+  background-image: url(mime/xls.gif);
+}
+.rex-mime-xlsx {
+  background-image: url(mime/xlsx.gif);
+}
+.rex-mime-zip {
+  background-image: url(mime/zip.gif);
+}
+
+
+
+
 /********************************************************** Setup **************
 *******************************************************************************/
 .rex-setup-language {
