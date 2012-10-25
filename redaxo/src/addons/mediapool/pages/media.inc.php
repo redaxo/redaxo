@@ -212,7 +212,7 @@ if ($subpage == 'media') {
         $add_image = '
         <div class="rex-mediapool-detail-image">
             <p class="rex-me1">
-              <span class="rex-mime rex-mime-error" />
+              <span class="rex-mime rex-mime-error">' . $fname . '</span>
             </p>
         </div>';
       } else {
@@ -621,14 +621,14 @@ if ($subpage == '') {
 
     // wenn datei fehlt
     if (!file_exists(rex_path::media($file_name))) {
-      $thumbnail = '<span class="rex-mime rex-mime-error" title="file does not exist" />';
+      $thumbnail = '<span class="rex-mime rex-mime-error" title="file does not exist">' . $file_name . '</span>';
     } else {
       $file_ext = substr(strrchr($file_name, '.'), 1);
-      $icon_class = 'rex-mime-default';
+      $icon_class = ' rex-mime-default';
       if (rex_media::isDocType($file_ext)) {
-        $icon_class = 'rex-mime-' . $file_ext;
+        $icon_class = ' rex-mime-' . $file_ext;
       }
-      $thumbnail = '<span class="rex-mime ' . $icon_class . '" title="' . $alt . '" />';
+      $thumbnail = '<span class="rex-mime' . $icon_class . '" title="' . $alt . '">' . $file_name . '</span>';
 
       if (rex_media::_isImage($file_name) && $thumbs) {
         $thumbnail = '<img src="' . rex_url::media($file_name) . '" width="80" alt="' . $alt . '" title="' . $alt . '" />';
