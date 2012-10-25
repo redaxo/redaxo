@@ -75,7 +75,7 @@ foreach ($this->blocks as $block) {
 
     if (isset($navi['itemAttr']) && is_array($navi['itemAttr']) && count($navi['itemAttr']) > 0) {
       foreach ($navi['itemAttr'] as $n => $v) {
-        if($v != "") {
+        if ($v != '') {
           echo ' ' . $n . '="' . $v . '"';
         }
       }
@@ -92,7 +92,7 @@ foreach ($this->blocks as $block) {
 
       if (isset($navi['linkAttr']) && is_array($navi['linkAttr']) && count($navi['linkAttr']) > 0) {
         foreach ($navi['linkAttr'] as $n => $v) {
-          if($v != "") {
+          if ($v != '') {
             echo ' ' . $n . '="' . $v . '"';
           }
         }
@@ -119,7 +119,7 @@ foreach ($this->blocks as $block) {
 
         if (isset($subnavi['itemAttr']) && is_array($subnavi['itemAttr']) && count($subnavi['itemAttr']) > 0) {
           foreach ($subnavi['itemAttr'] as $n => $v) {
-            if($v != "") {
+            if ($v != '') {
               echo ' ' . $n . '="' . $v . '"';
             }
           }
@@ -136,7 +136,7 @@ foreach ($this->blocks as $block) {
 
           if (isset($subnavi['linkAttr']) && is_array($subnavi['linkAttr']) && count($subnavi['linkAttr']) > 0) {
             foreach ($subnavi['linkAttr'] as $n => $v) {
-              if($v != "") {
+              if ($v != '') {
                 echo ' ' . $n . '="' . $v . '"';
               }
             }

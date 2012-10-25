@@ -257,7 +257,7 @@ class rex_be_controller
       $_activePageObj->setHasLayout(false);
     }
 
-    if($_activePageObj->hasLayout()) {
+    if ($_activePageObj->hasLayout()) {
       require rex_path::core('layout/top.php');
     }
 
@@ -287,8 +287,8 @@ class rex_be_controller
       // Addon Page
       rex_addon_manager::includeFile(rex_addon::get($page), 'pages/index.inc.php');
     }
-    
-    if($_activePageObj->hasLayout()) {
+
+    if ($_activePageObj->hasLayout()) {
       require rex_path::core('layout/bottom.php');
     }
   }

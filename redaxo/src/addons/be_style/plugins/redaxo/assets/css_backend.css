@@ -1398,7 +1398,7 @@ span.rex-online {
 .rex-ic-down,
 .rex-ic-generic,
 .rex-ic-link-delete,
-.rex-ic-linkmap-open, 
+.rex-ic-linkmap-open,
 .rex-ic-media-add,
 .rex-ic-media-delete,
 .rex-ic-media-open,
@@ -1540,19 +1540,19 @@ span.rex-online {
 .rex-ic-media-add.rex-inactive {
   background-position: -50px -550px;
 }
-.rex-ic-link-delete, 
+.rex-ic-link-delete,
 .rex-ic-media-delete {
   background-position: 0px -600px;
 }
-.rex-ic-link-delete.rex-inactive, 
+.rex-ic-link-delete.rex-inactive,
 .rex-ic-media-delete.rex-inactive {
   background-position: -50px -600px;
 }
-.rex-ic-linkmap-open, 
+.rex-ic-linkmap-open,
 .rex-ic-mediapool-open {
   background-position: 0px -850px;
 }
-.rex-ic-linkmap-open.rex-inactive, 
+.rex-ic-linkmap-open.rex-inactive,
 .rex-ic-mediapool-open.rex-inactive {
   background-position: -50px -850px;
 }
