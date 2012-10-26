@@ -21,29 +21,29 @@ if ($addonkey && isset($addons[$addonkey])) {
     <h2>' . $addonkey . '</h2>
 
     <h3>' . $this->i18n('information') . '</h3>
-    <table class="rex-table">
+    <table id="rex-table-install-packages-information" class="rex-table">
       <tbody>
       <tr>
-        <th>' . $this->i18n('name') . '</th>
-        <td>' . $addon['name'] . '</td>
+        <th class="rex-term">' . $this->i18n('name') . '</th>
+        <td class="rex-description">' . $addon['name'] . '</td>
       </tr>
       <tr>
-        <th>' . $this->i18n('author') . '</th>
-        <td>' . $addon['author'] . '</td>
+        <th class="rex-term">' . $this->i18n('author') . '</th>
+        <td class="rex-description">' . $addon['author'] . '</td>
       </tr>
       <tr>
-        <th>' . $this->i18n('shortdescription') . '</th>
-        <td>' . nl2br($addon['shortdescription']) . '</td>
+        <th class="rex-term">' . $this->i18n('shortdescription') . '</th>
+        <td class="rex-description">' . nl2br($addon['shortdescription']) . '</td>
       </tr>
       <tr>
-        <th>' . $this->i18n('description') . '</th>
-        <td>' . nl2br($addon['description']) . '</td>
+        <th class="rex-term">' . $this->i18n('description') . '</th>
+        <td class="rex-description">' . nl2br($addon['description']) . '</td>
       </tr>
       </tbody>
     </table>
 
     <h3>' . $this->i18n('files') . '</h3>
-    <table class="rex-table">
+    <table id="rex-table-install-packages-files" class="rex-table">
       <thead>
       <tr>
         <th class="rex-icon"></th>
@@ -70,14 +70,13 @@ if ($addonkey && isset($addons[$addonkey])) {
 
   $content .= '
     <h2>' . $this->i18n('addons_found', count($addons)) . '</h2>
-    <table class="rex-table">
+    <table id="rex-table-install-packages-addons" class="rex-table">
      <thead>
       <tr>
         <th class="rex-icon"></th>
         <th class="rex-key">' . $this->i18n('key') . '</th>
-        <th class="rex-name">' . $this->i18n('name') . '</th>
-        <th class="rex-author">' . $this->i18n('author') . '</th>
-        <th class="rex-description">' . $this->i18n('shortdescription') . '</th>
+        <th class="rex-name rex-author">' . $this->i18n('name') . ' / ' . $this->i18n('author') . '</th>
+        <th class="rex-shortdescription">' . $this->i18n('shortdescription') . '</th>
       </tr>
      </thead>
      <tbody>';
@@ -88,9 +87,8 @@ if ($addonkey && isset($addons[$addonkey])) {
       <tr>
         <td class="rex-icon">' . sprintf($a, ' class="rex-ic-addon"', $key) . '</a></td>
         <td class="rex-key">' . sprintf($a, '', $key) . '</a></td>
-        <td class="rex-name">' . $addon['name'] . '</td>
-        <td class="rex-author">' . $addon['author'] . '</td>
-        <td class="rex-description">' . nl2br($addon['shortdescription']) . '</td>
+        <td class="rex-name rex-author"><span class="rex-name">' . $addon['name'] . '</span><span class="rex-author">' . $addon['author'] . '</span></td>
+        <td class="rex-shortdescription">' . nl2br($addon['shortdescription']) . '</td>
       </tr>';
   }
 

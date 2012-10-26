@@ -18,42 +18,65 @@ if (is_array($settings)) {
 
 $content .= '
   <div class="rex-form">
-    <h2 class="rex-hl2">' . $this->i18n('settings') . '</h2>
     <form action="index.php?page=install&amp;subpage=settings" method="post">
-      <fieldset class="rex-form-col-1">
-        <legend>' . $this->i18n('settings_general') . '</legend>
-        <div class="rex-form-wrapper">
-          <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-checkbox rex-form-label-right">
-              <input id="install-settings-backups" type="checkbox" class="rex-form-checkbox" name="settings[backups]" value="1" ' . ($this->getConfig('backups') ? 'checked="checked" ' : '') . '/>
-              <label for="install-settings-backups">' . $this->i18n('settings_backups') . '</label>
-            </p>
-          </div>
-        </div>
+      <fieldset>
+        <h2>' . $this->i18n('settings_general') . '</h2>';
+
+
+      $formElements = array();
+
+        $n = array();
+        $n['reverse'] = true;
+        $n['label'] = '<label for="install-settings-backups">' . $this->i18n('settings_backups') . '</label>';
+        $n['field'] = '<input id="install-settings-backups" type="checkbox" class="rex-form-checkbox" name="settings[backups]" value="1" ' . ($this->getConfig('backups') ? 'checked="checked" ' : '') . '/>';
+        $formElements[] = $n;
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $content .= $fragment->parse('form.tpl');
+
+
+$content .= '
       </fieldset>
-      <fieldset class="rex-form-col-1">
-        <legend>' . $this->i18n('settings_myredaxo_account') . '</legend>
-        <div class="rex-form-wrapper">
-          <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-text">
-              <label for="install-settings-api-login">' . $this->i18n('settings_api_login') . '</label>
-              <input id="install-settings-api-login" class="rex-form-text" type="text" name="settings[api_login]" value="' . $this->getConfig('api_login') . '" />
-            </p>
-          </div>
-          <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-text">
-              <label for="install-settings-api-key">' . $this->i18n('settings_api_key') . '</label>
-              <input id="install-settings-api-key" class="rex-form-text" type="text" name="settings[api_key]" value="' . $this->getConfig('api_key') . '" />
-            </p>
-          </div>
-          <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-submit rex-form-submit-2">
-              <input id="install-settings-save" type="submit" name="settings[save]" class="rex-form-submit" value="' . rex_i18n::msg('form_save') . '" />
-            </p>
-          </div>
-        </div>
+      <fieldset>
+        <h2>' . $this->i18n('settings_myredaxo_account') . '</h2>';
+
+
+      $formElements = array();
+
+        $n = array();
+        $n['label'] = '<label for="install-settings-api-login">' . $this->i18n('settings_api_login') . '</label>';
+        $n['field'] = '<input id="install-settings-api-login" class="rex-form-text" type="text" name="settings[api_login]" value="' . $this->getConfig('api_login') . '" />';
+        $formElements[] = $n;
+
+        $n = array();
+        $n['label'] = '<label for="install-settings-api-key">' . $this->i18n('settings_api_key') . '</label>';
+        $n['field'] = '<input id="install-settings-api-key" class="rex-form-text" type="text" name="settings[api_key]" value="' . $this->getConfig('api_key') . '" />';
+        $formElements[] = $n;
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $content .= $fragment->parse('form.tpl');
+
+
+$content .= '
+        </fieldset>
+        <fieldset class="rex-form-action">';
+
+
+      $formElements = array();
+
+        $n = array();
+        $n['field'] = '<input id="install-settings-save" type="submit" name="settings[save]" class="rex-form-submit" value="' . rex_i18n::msg('form_save') . '" />';
+        $formElements[] = $n;
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $content .= $fragment->parse('form.tpl');
+
+$content .= '
       </fieldset>
     </form>
   </div>';
 
-echo rex_view::contentBlock($content);
+echo rex_view::contentBlock($content, '', 'block');

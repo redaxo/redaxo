@@ -906,8 +906,6 @@ tr.rex-addon td {
 }
 #rex-table-addons tr.rex-plugin td.rex-name {
   padding-left: 30px;
-  direction: rtl;
-  unicode-bidi: bidi-override;
   text-align: left;
 }
 
@@ -1332,6 +1330,9 @@ h3:hover span {
   margin-bottom: 0;
   font-size: 100%;
 }
+.rex-content-block h3 {
+  padding: 0 10px;
+}
 .rex-content-default h3 ~ h3 {
   padding-top: 1em;
 }
@@ -1705,6 +1706,39 @@ span.rex-online {
 body#rex-page-setup #rex-page {
   width: 1000px;
 }
+
+
+
+
+/********************************************************** Install ************
+*******************************************************************************/
+#rex-table-install-packages-addons .rex-key {
+  width: 120px;
+}
+#rex-table-install-packages-addons th.rex-author {
+  width: 200px;
+}
+#rex-table-install-packages-addons span {
+  display: block;
+}
+#rex-table-install-packages-addons span.rex-author {
+  font-style: italic;
+}
+
+#rex-table-install-packages-information {
+  margin-bottom: 14px;
+}
+#rex-table-install-packages-information th.rex-term {
+  width: 200px;
+}
+#rex-table-install-packages-files th.rex-version {
+  width: 174px;
+}
+
+
+
+
+
 /*
 body#rex-page-setup #rex-page-main,
 body#rex-page-setup #rex-page-footer {
