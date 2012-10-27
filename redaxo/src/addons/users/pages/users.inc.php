@@ -318,7 +318,6 @@ if ($FUNC_ADD != '' || $user_id > 0) {
       $n = array();
       $n['field'] = '<input type="submit" class="rex-form-submit" name="function" value="' . rex_i18n::msg('add_user') . '" ' . rex::getAccesskey(rex_i18n::msg('add_user'), 'save') . ' />';
       $formElements[] = $n;
-      $formElements[] = $n;
 
 
       $fragment = new rex_fragment();
