@@ -23,7 +23,10 @@ try {
 
 $content .= '
   <div class="rex-area">
-    <h2 class="rex-hl2">' . $this->i18n('available_updates', count($versions)) . '</h2>
+    <h2 class="rex-hl2">' . $this->i18n('available_updates', count($versions)) . '</h2>';
+
+if (count($versions) > 0) {
+  $content .= '
     <table class="rex-table">
       <tr>
         <th class="rex-icon"></th>
@@ -32,19 +35,21 @@ $content .= '
         <th></th>
       </tr>';
 
-foreach ($versions as $id => $version) {
-  $a = '<a%s href="index.php?page=install&amp;subpage=core&amp;version_id=' . $id . '">%s</a>';
-  $content .= '
-      <tr>
-        <td class="rex-icon"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text">' . $version['version'] . '</span></span></td>
-        <td>' . $version['version'] . '</td>
-        <td>' . nl2br($version['description']) . '</td>
-        <td><a href="index.php?page=install&amp;subpage=core&amp;rex-api-call=install_core_update&amp;version_id=' . $id . '">' . $this->i18n('update') . '</a></td>
-      </tr>';
-}
+  foreach ($versions as $id => $version) {
+    $a = '<a%s href="index.php?page=install&amp;subpage=core&amp;version_id=' . $id . '">%s</a>';
+    $content .= '
+        <tr>
+          <td class="rex-icon"><span class="rex-i-element rex-i-addon"><span class="rex-i-element-text">' . $version['version'] . '</span></span></td>
+          <td>' . $version['version'] . '</td>
+          <td>' . nl2br($version['description']) . '</td>
+          <td><a href="index.php?page=install&amp;subpage=core&amp;rex-api-call=install_core_update&amp;version_id=' . $id . '">' . $this->i18n('update') . '</a></td>
+        </tr>';
+  }
 
+  $content .= '
+    </table>';
+}
 $content .= '
-    </table>
   </div>
   ';
 
