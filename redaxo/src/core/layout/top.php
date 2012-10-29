@@ -5,8 +5,7 @@
  * @package redaxo5
  */
 
-$pages = rex::getProperty('pages');
-$curPage = $pages[rex::getProperty('page')]->getPage();
+$curPage = rex_be_controller::getCurrentPageObject()->getPage();
 
 if (!$curPage->hasLayout()) {
   if (rex_request::isPJAXRequest()) {
@@ -17,7 +16,7 @@ if (!$curPage->hasLayout()) {
 }
 
 $body_attr = array();
-$body_id = str_replace('_', '-', rex::getProperty('page'));
+$body_id = str_replace('_', '-', rex_be_controller::getCurrentPage());
 
 if ($curPage instanceof rex_be_page_popup)
   $body_attr['class'] = array('rex-popup');
@@ -36,18 +35,14 @@ foreach ($body_attr as $k => $v) {
   $body .= '"';
 }
 
-$activePageObj = $curPage;
-if ($subpage = $curPage->getActiveSubPage()) {
-  $activePageObj = $subpage;
-}
-$hasNavigation = $activePageObj->hasNavigation();
+$hasNavigation = $curPage->hasNavigation();
 
 $logout = '';
 if (rex::getUser() && $hasNavigation) {
   $safemode = (rex::isSafeMode()) ? '<li><a href="' . rex_url::backendController(array('safemode' => 0)) . '">' . rex_i18n::msg('safemode_deactivate') . '</a></li>' : '';
 
   $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
-  $logout = '<ul>' . $safemode . '<li class="rex-loggedas">' . rex_i18n::msg('logged_in_as') . ' <a href="#">' . htmlspecialchars($user_name) . '</a></li><li><a href="' . rex_url::backendController(array('page' => 'profile')) . '">' . rex_i18n::msg('profile_title') . '</a></li><li><a href="' . rex_url::backendController(array('rex_logout' => 1)) . '"' . rex::getAccesskey(rex_i18n::msg('logout'), 'logout') . '>' . rex_i18n::msg('logout') . '</a></li></ul>';
+  $logout = '<ul>' . $safemode . '<li class="rex-loggedas">' . rex_i18n::msg('logged_in_as') . ' <a href="#">' . htmlspecialchars($user_name) . '</a></li><li><a href="' . rex_url::backendPage('profile') . '">' . rex_i18n::msg('profile_title') . '</a></li><li><a href="' . rex_url::backendController(array('rex_logout' => 1)) . '"' . rex::getAccesskey(rex_i18n::msg('logout'), 'logout') . '>' . rex_i18n::msg('logout') . '</a></li></ul>';
 } elseif ($hasNavigation) {
   $logout = '<ul><li class="rex-loggedas">' . rex_i18n::msg('logged_out') . '</li></ul>';
 } else {
@@ -58,7 +53,7 @@ if (rex::getUser() && $hasNavigation) {
 $navigation = '';
 if (rex::getUser() && $hasNavigation) {
   $n = rex_be_navigation::factory();
-  foreach (rex::getProperty('pages') as $p => $pageContainer) {
+  foreach (rex_be_controller::getPages() as $p => $pageContainer) {
     $p = strtolower($p);
     if ($pageContainer instanceof rex_be_page_main) {
       $pageObj = $pageContainer->getPage();
@@ -103,7 +98,7 @@ if (rex::getProperty('page') == 'setup') {
 
     if ($i < $step) {
       $n['linkClasses'][] = 'rex-success';
-      $n['href'] = rex_url::backendController(array('page' => 'setup', 'step' => $i, 'lang' => $lang));
+      $n['href'] = rex_url::backendPage('setup', array('step' => $i, 'lang' => $lang));
       if ($step == 7)
         $n['href'] = 'javascript:void(0)';
     }
@@ -136,7 +131,7 @@ if (!rex::getUser() && !rex::isSetup()) {
   $navi = array();
 
   $n = array();
-  $n['href'] = rex_url::backendController(array('page' => 'login'));
+  $n['href'] = rex_url::backendPage('login');
   $n['title'] = rex_i18n::msg('login');
   $n['linkClasses'] = array('rex-active');
   $navi[] = $n;

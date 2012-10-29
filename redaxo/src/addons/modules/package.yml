@@ -2,11 +2,11 @@ version: '5.0 a1'
 author: 'Markus Staab'
 supportpage: www.redaxo.org/de/forum/
 
-name: 'translate:modules'
-perm: isAdmin
 navigation:
+  title: 'translate:modules'
+  perm: isAdmin
   block: system
   prio: 40
-pages:
-  - ['', 'translate:modules']
-  - ['actions', 'translate:actions']
+  subpages:
+    '': {title: 'translate:modules'}
+    actions: {title: 'translate:actions'}

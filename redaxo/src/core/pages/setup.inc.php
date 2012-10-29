@@ -24,7 +24,7 @@ if ($step == 1) {
   foreach (rex_i18n::getLocales() as $locale) {
     rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
     $label = rex_i18n::msg('lang');
-    $langs[$locale] = '<li><a class="rex-button" href="' . rex_url::backendController(array('step' => 2, 'lang' => $locale)) . '">' . $label . '</a></li>';
+    $langs[$locale] = '<li><a class="rex-button" href="' . rex_url::backendPage('setup', array('step' => 2, 'lang' => $locale)) . '">' . $label . '</a></li>';
   }
   rex_i18n::setLocale($saveLocale, false);
 
@@ -50,7 +50,7 @@ if ($step == 2) {
   $license_file = rex_path::base('_license.txt');
   $license = '<p>' . nl2br(rex_file::get($license_file)) . '</p>';
   $content .= '<div class="rex-content-scroll">' . $license . '</div>';
-  $content .= '<p><a class="rex-button" href="' . rex_url::backendController(array('page' => 'setup', 'step' => 3, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_203') . '</a></p>';
+  $content .= '<p><a class="rex-button" href="' . rex_url::backendPage('setup', array('step' => 3, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_203') . '</a></p>';
 
   echo $headline . rex_view::contentBlock($content);
 
@@ -149,10 +149,10 @@ if ($step == 3) {
     }
 
     $content .= rex_view::error(rex_i18n::msg('setup_310'));
-    $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendController(array('page' => 'setup', 'step' => 4, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_311') . '</a></p>';
+    $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendPage('setup', array('step' => 4, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_311') . '</a></p>';
 
   } else {
-    $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendController(array('page' => 'setup', 'step' => 4, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_309') . '</a></p>';
+    $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendPage('setup', array('step' => 4, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_309') . '</a></p>';
   }
 
   echo $headline . rex_view::contentBlock($content);

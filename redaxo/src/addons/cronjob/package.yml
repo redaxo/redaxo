@@ -2,11 +2,12 @@ version: '5.0 alpha2'
 author: 'Gregor Harlan'
 supportpage: www.redaxo.org/de/forum/
 
-name: 'translate:title'
-perm: admin[]
-pages:
-  - ['', 'translate:title']
-  - ['log', 'translate:log']
+navigation:
+  title: 'translate:title'
+  perm: admin[]
+  subpages:
+    '': {title: 'translate:title'}
+    log: {title: 'translate:log'}
 
 requires:
   redaxo:

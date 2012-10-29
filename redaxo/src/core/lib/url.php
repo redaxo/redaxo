@@ -63,6 +63,22 @@ class rex_url
   }
 
   /**
+   * Returns the url to a backend page
+   */
+  static public function backendPage($page, array $params = array())
+  {
+    return self::backendController(array_merge(array('page' => $page), $params));
+  }
+
+  /**
+   * Returns the url to the current backend page
+   */
+  static public function currentBackendPage(array $params = array())
+  {
+    return self::backendPage(rex_be_controller::getCurrentPage(), $params);
+  }
+
+  /**
    * Returns the url to the media-folder
    */
   static public function media($file = '')

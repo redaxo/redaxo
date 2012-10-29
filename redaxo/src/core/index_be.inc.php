@@ -21,7 +21,7 @@ if (rex::isSetup()) {
 
   $pages['setup'] = rex_be_controller::getSetupPage();
   $page = 'setup';
-  rex::setProperty('page', 'setup');
+  rex_be_controller::setCurrentPage('setup');
 
 } else {
   // ----------------- CREATE LANG OBJ
@@ -55,7 +55,7 @@ if (rex::isSetup()) {
 
     $pages['login'] = rex_be_controller::getLoginPage();
     $page = 'login';
-    rex::setProperty('page', 'login');
+    rex_be_controller::setCurrentPage('login');
   } else {
     // Userspezifische Sprache einstellen
     $user = $login->getUser();
@@ -77,32 +77,36 @@ if (rex::isSetup()) {
   }
 }
 
+rex_be_controller::setPages($pages);
+
 // ----- Prepare Core Pages
 if (rex::getUser()) {
   $pages = rex_be_controller::getLoggedInPages();
 }
 
-rex::setProperty('pages', $pages);
+rex_be_controller::setPages($pages);
 
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.inc.php');
 
-$pages = rex::getProperty('pages');
+$pages = rex_be_controller::getPages();
 
 // ----- Prepare AddOn Pages
 if (rex::getUser()) {
   $pages = rex_be_controller::appendAddonPages($pages);
+  rex_be_controller::setPages($pages);
 }
 
-$page = rex::getProperty('page');
+$page = rex_be_controller::getCurrentPage();
 
 // Set Startpage
 if ($user = rex::getUser()) {
   // --- page herausfinden
   $reqPage = trim(rex_request('page', 'string'));
+  rex_be_controller::setCurrentPage($reqPage);
 
   // --- page pruefen und benoetigte rechte checken
-  if (!($page = rex_be_controller::checkPage($reqPage, $pages, $user))) {
+  if (!($page = rex_be_controller::checkPage($user))) {
     // --- fallback auf "profile"; diese page hat jeder user
     rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
     rex_response::sendRedirect('index.php?page=profile');
@@ -112,25 +116,15 @@ if ($user = rex::getUser()) {
   }
 }
 
-rex::setProperty('page', $page);
-rex::setProperty('pages', $pages);
-
 // ----- EXTENSION POINT
 // page variable validated
-rex_extension::registerPoint( 'PAGE_CHECKED', $page, array('pages' => $pages));
+rex_extension::registerPoint('PAGE_CHECKED', $page, array('pages' => $pages));
 
 // trigger api functions
 rex_api_function::handleCall();
 
-$_pageObj = $pages[$page]->getPage();
-$_activePageObj = $_pageObj;
-$subpage = $_pageObj->getActiveSubPage();
-if ($subpage != null) {
-  $_activePageObj = $subpage;
-}
-
 // include the requested backend page
-rex_be_controller::includePage($_activePageObj, $_pageObj, $page);
+rex_be_controller::includeCurrentPage();
 
 // ----- caching end für output filter
 $CONTENT = ob_get_contents();

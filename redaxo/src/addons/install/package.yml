@@ -2,13 +2,13 @@ version: '5.0 alpha6'
 author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum
 
-name: 'translate:name'
-perm: admin[]
 navigation:
+  title: 'translate:name'
+  perm: admin[]
   block: system
   prio: 80
-pages:
-  - [settings, 'translate:settings']
+  subpages:
+    settings: {title: 'translate:settings'}
 
 system_plugins: [core, packages]
 

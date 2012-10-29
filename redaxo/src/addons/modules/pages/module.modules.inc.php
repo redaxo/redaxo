@@ -254,7 +254,7 @@ if ($function == 'add' or $function == 'edit') {
         for ($i = 0; $i < $gma->getRows(); $i++) {
           $iaction_id = $gma->getValue(rex::getTablePrefix() . 'module_action.id');
           $action_id = $gma->getValue(rex::getTablePrefix() . 'module_action.action_id');
-          $action_edit_url = 'index.php?page=modules&amp;subpage=actions&amp;action_id=' . $action_id . '&amp;function=edit';
+          $action_edit_url = rex_url::backendPage('modules/actions', array('action_id' => $action_id, 'function' => 'edit'));
           $action_name = rex_i18n::translate($gma->getValue('name'));
 
           $actions .= '<tr>

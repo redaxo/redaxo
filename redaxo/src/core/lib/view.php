@@ -109,56 +109,20 @@ class rex_view
 
   /**
    * Ausgabe des Seitentitels
-   *
-   *
-   * Beispiel für einen Seitentitel
-   *
-   * <code>
-   * $subpages = array(
-   *  array( ''      , 'Index'),
-   *  array( 'lang'  , 'Sprachen'),
-   *  array( 'groups', 'Gruppen')
-   * );
-   *
-   * echo rex_view::title( 'Headline', $subpages)
-   * </code>
-   *
-   *
-   * Beispiel für einen Seitentitel mit Rechteprüfung
-   *
-   * <code>
-   * $subpages = array(
-   *  array( ''      , 'Index'   , 'index_perm'),
-   *  array( 'lang'  , 'Sprachen', 'lang_perm'),
-   *  array( 'groups', 'Gruppen' , 'group_perm')
-   * );
-   *
-   * echo rex_view::title( 'Headline', $subpages)
-   * </code>
-   *
-   *
-   * Beispiel für einen Seitentitel eigenen Parametern
-   *
-   * <code>
-   * $subpages = array(
-   *  array( ''      , 'Index'   , '', array('a' => 'b')),
-   *  array( 'lang'  , 'Sprachen', '', 'a=z&x=12'),
-   *  array( 'groups', 'Gruppen' , '', array('clang' => rex_clang::getCurrentId()))
-   * );
-   *
-   * echo rex_view::title( 'Headline', $subpages)
-   * </code>
    */
   static public function title($head, $subtitle = '')
   {
     global $article_id, $category_id, $page;
 
-    if (empty($subtitle)) {
-      $pages = rex::getProperty('pages');
-      $subtitle = $pages[rex::getProperty('page')]->getPage()->getSubPages();
+    if (!is_string($subtitle) && (!is_array($subtitle) || count($subtitle) > 0 && !reset($subtitle) instanceof rex_be_page_container)) {
+      throw new rex_exception('Expecting $subtitle to be a string or an array of rex_be_page_container!');
     }
 
-    if (is_array($subtitle) && isset($subtitle[0]) && $subtitle[0] instanceof rex_be_page_container) {
+    if (empty($subtitle)) {
+      $subtitle = rex_be_controller::getPageObject(rex_be_controller::getCurrentPagePart(0))->getPage()->getSubPages();
+    }
+
+    if (is_array($subtitle) && count($subtitle) && reset($subtitle) instanceof rex_be_page_container) {
       $nav = rex_be_navigation::factory();
       $nav->setHeadline('default', rex_i18n::msg('subnavigation', $head));
       foreach ($subtitle as $pageObj) {
@@ -172,9 +136,8 @@ class rex_view
       $fragment->setVar('blocks', $blocks, false);
       $subtitle = $fragment->parse('navigation.tpl');
 
-    } else {
-      // REDAXO <= 4.2 compat
-      $subtitle = self::getSubtitle($subtitle);
+    } elseif (!is_string($subtitle)) {
+      $subtitle = '';
     }
 
     $title = rex_extension::registerPoint('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page));
@@ -190,109 +153,5 @@ class rex_view
     );
 
     return $return;
-  }
-
-  /**
-   * Helper function, die den Subtitle generiert
-   */
-  static private function getSubtitle($subline)
-  {
-    if (empty($subline)) {
-      return  '';
-    }
-
-    $subtitle_str = $subline;
-    $subtitle = $subline;
-    $cur_subpage = rex_request('subpage', 'string');
-    $cur_page    = rex_request('page', 'string');
-
-    if (is_array($subline) && count($subline) > 0) {
-      $subtitle = array();
-      $numPages = count($subline);
-
-      foreach ($subline as $subpage) {
-        if (!is_array($subpage)) {
-          continue;
-        }
-
-        $link = $subpage[0];
-        $label = $subpage[1];
-
-        $perm = !empty($subpage[2]) ? $subpage[2] : '';
-        $params = !empty($subpage[3]) ? rex_param_string($subpage[3]) : '';
-        // Berechtigung prüfen
-        if ($perm != '') {
-          // Hat der User das Recht für die aktuelle Subpage?
-          if (!rex::getUser()->hasPerm($perm)) {
-            // Wenn der User kein Recht hat, und diese Seite öffnen will -> Fehler
-            if ($cur_subpage == $link) {
-              exit ('You have no permission to this area!');
-            }
-            // Den Punkt aus der Navi entfernen
-            else {
-              continue;
-            }
-          }
-        }
-
-        // Falls im Link parameter enthalten sind, diese Abschneiden
-        if (($pos = strpos($link, '&')) !== false) {
-          $link = substr($link, 0, $pos);
-        }
-
-        $active = (empty ($cur_subpage) && $link == '') || (!empty ($cur_subpage) && $cur_subpage == $link);
-
-        // restliche attribute direkt in den link-tag schreiben
-        $attr = '';
-        $add_class = '';
-        if (!empty($subpage[4]) && is_array($subpage[4])) {
-          foreach ($subpage[4] as $attr_name => $attr_value) {
-            if ($active && $attr_name == 'class') {
-              $add_class = ' ' . $attr_value;
-              break;
-            }
-            $attr .= ' ' . $attr_name . '="' . $attr_value . '"';
-          }
-        }
-
-        // Auf der aktiven Seite den Link nicht anzeigen
-        if ($active) {
-          // $format = '%s';
-          // $subtitle[] = sprintf($format, $label);
-          $format = '<a href="?page=' . $cur_page . '&amp;subpage=%s%s"%s class="rex-active%s">%s</a>';
-          $subtitle[] = sprintf($format, $link, $params, $attr, $add_class, $label);
-        } elseif ($link == '') {
-          $format = '<a href="?page=' . $cur_page . '%s"%s>%s</a>';
-          $subtitle[] = sprintf($format, $params, $attr, $label);
-        } else {
-          $format = '<a href="?page=' . $cur_page . '&amp;subpage=%s%s"%s>%s</a>';
-          $subtitle[] = sprintf($format, $link, $params, $attr, $label);
-        }
-      }
-
-
-      if (!empty($subtitle)) {
-        $items = '';
-        $i = 1;
-        foreach ($subtitle as $part) {
-          if ($i == 1)
-          $items .= '<li class="rex-navi-first">' . $part . '</li>';
-          else
-          $items .= '<li>' . $part . '</li>';
-
-          $i++;
-        }
-        //      <div class="rex-navi-page">
-        $subtitle_str = '
-        <div id="rex-navi-page">
-        <ul class="rex-navi">
-          ' . $items . '
-        </ul>
-        </div>
-        ';
-      }
-    }
-    // \n aus Quellcode formatierungsgründen
-    return $subtitle_str;
   }
 }

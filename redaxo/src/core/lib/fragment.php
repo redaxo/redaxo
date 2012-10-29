@@ -196,12 +196,6 @@ class rex_fragment
         $params['page'] = $page;
       }
     }
-    if (!isset($params['subpage'])) {
-      $subpage = rex_request('subpage');
-      if ($subpage != null) {
-        $params['subpage'] = $subpage;
-      }
-    }
 
     $url = 'index.php?';
     foreach ($params as $key => $value) {

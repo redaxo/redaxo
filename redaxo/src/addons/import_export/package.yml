@@ -1,8 +1,13 @@
 version: '5.0 a1'
 author: 'Jan Kristinus, Markus Staab'
-name: 'translate:im_export_importexport'
-perm: import_export[export]
 supportpage: www.redaxo.org/de/forum/
+
+navigation:
+  title: 'translate:im_export_importexport'
+  perm: import_export[export]
+  subpages:
+    '': {title: 'translate:im_export_export'}
+    import: {title: 'translate:im_export_import', perm: 'import_export[import]'}
 
 autoload:
   classes:

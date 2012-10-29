@@ -3,56 +3,75 @@
 class rex_be_page implements rex_be_page_container
 {
   private
+    $key,
+    $fullKey,
     $title,
 
     $href,
-    $linkAttr,
-    $itemAttr,
+    $itemAttr = array(),
+    $linkAttr = array(),
+    $path,
 
-    $subPages,
+    $parent,
+    $subPages = array(),
 
-    $isCorePage,
+    $hidden = false,
+    $isCorePage = false,
     $hasLayout = true,
-    $hasNavigation,
-    $activateCondition,
-    $requiredPermissions,
-    $path;
+    $hasNavigation = true,
+    $requiredPermissions = array();
 
-  public function __construct($title, array $activateCondition = array(), $hidden = false)
+  public function __construct($key, $title)
   {
+    if (!is_string($key)) {
+      throw new rex_exception('Expecting $key to be a string, ' . gettype($key) . ' given!');
+    }
     if (!is_string($title)) {
       throw new rex_exception('Expecting $title to be a string, ' . gettype($title) . ' given!');
     }
 
-    if (!is_bool($hidden)) {
-      throw new rex_exception('Expecting $hidden to be a boolean, ' . gettype($hidden) . 'given!');
-    }
-
+    $this->key = $key;
+    $this->fullKey = $key;
     $this->title = $title;
-    $this->subPages = array();
-    $this->itemAttr = array();
-    $this->linkAttr = array();
-
-    $this->isCorePage = false;
-    $this->hasNavigation = true;
-    $this->activateCondition = $activateCondition;
-    $this->requiredPermissions = array();
-    $this->hidden = $hidden;
   }
 
+  /* (non-PHPdoc)
+   * @see rex_be_page_container::getPage()
+   */
   public function getPage()
   {
     return $this;
   }
 
-  public function getItemAttr($name, $default = '')
+  public function getKey()
   {
-    // return all attributes if null is passed as name
-    if ($name === null) {
-      return $this->itemAttr;
-    }
+    return $this->key;
+  }
 
-    return isset($this->itemAttr[$name]) ? $this->itemAttr[$name] : $default;
+  public function getFullKey()
+  {
+    return $this->fullKey;
+  }
+
+  public function getTitle()
+  {
+    return $this->title;
+  }
+
+  public function setHref($href)
+  {
+    if (is_array($href)) {
+      $href = rex_url::backendController($href);
+    }
+    $this->href = $href;
+  }
+
+  public function getHref()
+  {
+    if (!$this->href) {
+      return rex_url::backendPage($this->getFullKey());
+    }
+    return $this->href;
   }
 
   public function setItemAttr($name, $value)
@@ -66,22 +85,22 @@ class rex_be_page implements rex_be_page_container
     $this->itemAttr[$name] = $value;
   }
 
+  public function getItemAttr($name, $default = '')
+  {
+    // return all attributes if null is passed as name
+    if ($name === null) {
+      return $this->itemAttr;
+    }
+
+    return isset($this->itemAttr[$name]) ? $this->itemAttr[$name] : $default;
+  }
+
   public function addItemClass($class)
   {
     if (!is_string($class)) {
       throw new rex_exception('Expecting $class to be a string, ' . gettype($class) . 'given!');
     }
     $this->setItemAttr('class', ltrim($this->getItemAttr('class') . ' ' . $class));
-  }
-
-  public function getLinkAttr($name, $default = '')
-  {
-    // return all attributes if null is passed as name
-    if ($name === null) {
-      return $this->linkAttr;
-    }
-
-    return isset($this->linkAttr[$name]) ? $this->linkAttr[$name] : $default;
   }
 
   public function setLinkAttr($name, $value)
@@ -95,19 +114,89 @@ class rex_be_page implements rex_be_page_container
     $this->linkAttr[$name] = $value;
   }
 
+  public function getLinkAttr($name, $default = '')
+  {
+    // return all attributes if null is passed as name
+    if ($name === null) {
+      return $this->linkAttr;
+    }
+
+    return isset($this->linkAttr[$name]) ? $this->linkAttr[$name] : $default;
+  }
+
   public function addLinkClass($class)
   {
     $this->setLinkAttr('class', ltrim($this->getLinkAttr('class') . ' ' . $class));
   }
 
-  public function setHref($href)
+  public function setPath($path)
   {
-    $this->href = $href;
+    $this->path = $path;
   }
 
-  public function getHref()
+  public function hasPath()
   {
-    return $this->href;
+    return !empty($this->path);
+  }
+
+  public function getPath()
+  {
+    if (!empty($this->path)) {
+      return $this->path;
+    }
+    return $this->parent ? $this->parent->getPath() : null;
+  }
+
+  public function addSubPage(self $subpage)
+  {
+    $this->subPages[$subpage->getKey()] = $subpage;
+    $subpage->parent = $this;
+    $subpage->addParentKey($this->getFullKey());
+  }
+
+  private function addParentKey($key)
+  {
+    $this->fullKey = rtrim($key . '/' . $this->fullKey, '/');
+    foreach ($this->subPages as $subPage) {
+      $subPage->addParentKey($key);
+    }
+  }
+
+  /**
+   * @param string $key
+   * @return self
+   */
+  public function getSubPage($key)
+  {
+    return isset($this->subPages[$key]) ? $this->subPages[$key] : null;
+  }
+
+  /**
+   * @return array[self]
+   */
+  public function getSubPages()
+  {
+    return $this->subPages;
+  }
+
+  public function isActive()
+  {
+    $page = rex_be_controller::getCurrentPageObject();
+    do {
+      $page = $page->getPage();
+      if ($page === $this) {
+        return true;
+      }
+    } while ($page = $page->getParent());
+    return null;
+  }
+
+  /**
+   * @return self
+   */
+  public function getParent()
+  {
+    return $this->parent;
   }
 
   public function setHidden($hidden = true)
@@ -117,7 +206,7 @@ class rex_be_page implements rex_be_page_container
 
   public function getHidden()
   {
-    return $this->hidden;
+    return $this->hidden || ($this->parent && $this->parent->getHidden());
   }
 
   public function setIsCorePage($isCorePage)
@@ -125,9 +214,19 @@ class rex_be_page implements rex_be_page_container
     $this->isCorePage = $isCorePage;
   }
 
+  public function isCorePage()
+  {
+    return $this->isCorePage || ($this->parent && $this->parent->isCorePage());
+  }
+
   public function setHasLayout($hasLayout)
   {
     $this->hasLayout = $hasLayout;
+  }
+
+  public function hasLayout()
+  {
+    return $this->hasLayout && (!$this->parent || $this->parent->hasLayout());
   }
 
   public function setHasNavigation($hasNavigation)
@@ -135,72 +234,9 @@ class rex_be_page implements rex_be_page_container
     $this->hasNavigation = $hasNavigation;
   }
 
-  public function addSubPage(self $subpage)
-  {
-    $this->subPages[] = $subpage;
-  }
-
-  public function getSubPages()
-  {
-    return $this->subPages;
-  }
-
-  /**
-   * @return rex_be_page
-   */
-  public function getActiveSubPage()
-  {
-    foreach ($this->getSubPages() as $subpage) {
-      if ($subpage->isActive()) {
-        return $subpage;
-      }
-    }
-    return null;
-  }
-
-  public function getTitle()
-  {
-    return $this->title;
-  }
-
-  public function setActivateCondition(array $activateCondition)
-  {
-    $this->activateCondition = $activateCondition;
-  }
-
-  public function getActivateCondition()
-  {
-    return $this->activateCondition;
-  }
-
-  public function isActive()
-  {
-    $condition = $this->getActivateCondition();
-    if (empty($condition)) {
-      return false;
-    }
-    foreach ($condition as $k => $v) {
-      $v = (array) $v;
-      if (!in_array(rex_request($k), $v)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  public function isCorePage()
-  {
-    return $this->isCorePage;
-  }
-
-  public function hasLayout()
-  {
-    return $this->hasLayout;
-  }
-
   public function hasNavigation()
   {
-    return $this->hasNavigation;
+    return $this->hasNavigation && (!$this->parent || $this->parent->hasNavigation());
   }
 
   public function setRequiredPermissions($perm)
@@ -220,21 +256,31 @@ class rex_be_page implements rex_be_page_container
         return false;
       }
     }
+    if ($parent = $this->getParent()) {
+      return $parent->checkPermission($rexUser);
+    }
     return true;
   }
 
-  public function setPath($path)
+  public function _set($key, $value)
   {
-    $this->path = $path;
-  }
+    if (!is_string($key))
+      return;
 
-  public function hasPath()
-  {
-    return !empty($this->path);
-  }
+    $setter = array($this, $key == 'perm' ? 'setRequiredPermissions' : 'set' . ucfirst($key));
+    if (is_callable($setter)) {
+      return call_user_func($setter, $value);
+    }
 
-  public function getPath()
-  {
-    return $this->path;
+    $setter = array($this, 'add' . ucfirst($key));
+    if (is_callable($setter)) {
+      if (is_array($value)) {
+        foreach ($value as $v) {
+          call_user_func($setter, $v);
+        }
+      } else {
+        call_user_func($setter, $value);
+      }
+    }
   }
 }

@@ -1,7 +1,6 @@
 <?php
 
-$pages = rex::getProperty('pages');
-$curPage = $pages[rex::getProperty('page')]->getPage();
+$curPage = rex_be_controller::getCurrentPageObject()->getPage();
 
 if (!$curPage->hasLayout()) {
   return;

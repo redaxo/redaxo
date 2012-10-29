@@ -104,7 +104,6 @@ class rex_form extends rex_factory_base
     $func = rex_request('func', 'string');
 
     $this->addParam('page', rex_request('page', 'string'));
-    $this->addParam('subpage', rex_request('subpage', 'string'));
     $this->addParam('func', $func);
     $this->addParam('list', rex_request('list', 'string'));
 

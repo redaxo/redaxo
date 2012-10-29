@@ -53,10 +53,7 @@ class rex_be_page_main implements rex_be_page_container
       call_user_func($setter, $value);
     } else {
       // no setter found, delegate to page object
-      $setter = array($this->page, 'set' . ucfirst($key));
-      if (is_callable($setter)) {
-        call_user_func($setter, $value);
-      }
+      $this->page->_set($key, $value);
     }
   }
 }

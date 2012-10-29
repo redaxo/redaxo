@@ -76,7 +76,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
           $id = $med_arr['media_id'];
           $filename = $med_arr['filename'];
           $cat_id = $med_arr['category_id'];
-          $media .= '<li><a href="index.php?page=mediapool&amp;subpage=detail&amp;file_id=' . $id . '&amp;rex_file_category=' . $cat_id . '">' . $filename . '</a></li>';
+          $media .= '<li><a href="' . rex_url::backendPage('mediapool/detail', array('file_id' => $id, 'rex_file_category' => $cat_id)) . '">' . $filename . '</a></li>';
         }
         if ($media != '') {
           $warning[] = rex_i18n::msg('minfo_media_in_use_med') . '<br /><ul>' . $media . '</ul>';

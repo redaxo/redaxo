@@ -8,7 +8,7 @@ rex_extension::register('COMPLEX_PERM_REMOVE_ITEM', 'rex_user_role::removeOrRepl
 rex_extension::register('COMPLEX_PERM_REPLACE_ITEM', 'rex_user_role::removeOrReplaceItem');
 
 if (rex::getUser() && rex::getUser()->isAdmin()) {
-  $this->setProperty('pages', array(
+  $this->setProperty('pages1', array(
     array('', rex_i18n::msg('users')),
     array('roles', rex_i18n::msg('roles'))
   ));

@@ -390,7 +390,7 @@ if ($OUT) {
       <caption>' . rex_i18n::msg('action_caption') . '</caption>
       <thead>
         <tr>
-          <th class="rex-icon"><a class="rex-ic-action rex-ic-add" href="index.php?page=modules&amp;subpage=actions&amp;function=add"' . rex::getAccesskey(rex_i18n::msg('action_create'), 'add') . '>' . rex_i18n::msg('action_create') . '</a></th>
+          <th class="rex-icon"><a class="rex-ic-action rex-ic-add" href="' . rex_url::currentBackendPage(array('function' => 'add')) . '"' . rex::getAccesskey(rex_i18n::msg('action_create'), 'add') . '>' . rex_i18n::msg('action_create') . '</a></th>
           <th class="rex-small">ID</th>
           <th class="name">' . rex_i18n::msg('action_name') . '</th>
           <th class="preview">Preview-Event(s)</th>
@@ -427,13 +427,13 @@ if ($OUT) {
 
       echo '
             <tr>
-              <td class="rex-icon"><a class="rex-ic-action" href="index.php?page=modules&amp;subpage=actions&amp;action_id=' . $sql->getValue('id') . '&amp;function=edit" title="' . htmlspecialchars($sql->getValue('name')) . '">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
+              <td class="rex-icon"><a class="rex-ic-action" href="' . rex_url::currentBackendPage(array('action_id' => $sql->getValue('id'), 'function' => 'edit')) . '" title="' . htmlspecialchars($sql->getValue('name')) . '">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
               <td class="rex-small">' . $sql->getValue('id') . '</td>
-              <td class="name"><a href="index.php?page=modules&amp;subpage=actions&amp;action_id=' . $sql->getValue('id') . '&amp;function=edit">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
+              <td class="name"><a href="' . rex_url::currentBackendPage(array('action_id' => $sql->getValue('id'), 'function' => 'edit')) . '">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
               <td class="preview">' . implode('/', $previewmode) . '</td>
               <td class="presave">' . implode('/', $presavemode) . '</td>
               <td class="postsave">' . implode('/', $postsavemode) . '</td>
-              <td class="delete"><a href="index.php?page=modules&amp;subpage=actions&amp;action_id=' . $sql->getValue('id') . '&amp;function=delete" data-confirm="' . rex_i18n::msg('action_delete') . ' ?">' . rex_i18n::msg('action_delete') . '</a></td>
+              <td class="delete"><a href="' . rex_url::currentBackendPage(array('action_id' => $sql->getValue('id'), 'function' => 'delete')) . '" data-confirm="' . rex_i18n::msg('action_delete') . ' ?">' . rex_i18n::msg('action_delete') . '</a></td>
             </tr>
           ';
 

@@ -2,8 +2,9 @@ version: '5.0 alpha6'
 author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum
 
-name: translate:title
-subpages:
-  - ['', 'translate:subpage_update']
-  - [add, 'translate:subpage_add']
-  - [upload, 'translate:subpage_upload']
+navigation:
+  title: translate:title
+  subpages:
+    '': {title: 'translate:subpage_update'}
+    add: {title: 'translate:subpage_add'}
+    upload: {title: 'translate:subpage_upload'}

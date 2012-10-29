@@ -18,7 +18,7 @@ if (is_array($settings)) {
 
 $content .= '
   <div class="rex-form">
-    <form action="index.php?page=install&amp;subpage=settings" method="post">
+    <form action="' . rex_url::currentBackendPage() . '" method="post">
       <fieldset>
         <h2>' . $this->i18n('settings_general') . '</h2>';
 

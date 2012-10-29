@@ -64,7 +64,12 @@ if ($subpage == '') {
       $onclick = ' data-confirm="' . rex_i18n::msg($package->getType() . '_' . $function . '_question', $package->getName()) . '"';
     }
     $text = rex_i18n::msg('addon_' . ($key ?: $function));
-    return '<a href="index.php?page=addon&amp;package=' . $package->getPackageId() . '&amp;rex-api-call=package&amp;function=' . $function . '"' . $onclick . '>' . $text . '</a>';
+    $url = rex_url::currentBackendPage(array(
+      'package' => $package->getPackageId(),
+      'rex-api-call' => 'package',
+      'function' => $function
+    ));
+    return '<a href="' . $url . '"' . $onclick . '>' . $text . '</a>';
   };
 
   $getTableRow = function (rex_package $package) use ($getLink) {

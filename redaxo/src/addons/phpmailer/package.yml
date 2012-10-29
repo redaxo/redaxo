@@ -1,12 +1,13 @@
 version: '5.0 alpha2'
 author: 'Markus Staab, Brent R. Matzelle'
-name: PHPMailer
-perm: phpmailer[]
 supportpage: www.redaxo.org/de/forum/
 
-pages:
-  - ['', 'translate:configuration']
-  - ['example', 'translate:example']
+navigation:
+  title: PHPMailer
+  perm: phpmailer[]
+  subpages:
+    '': {title: 'translate:configuration'}
+    example: {title: 'translate:example'}
 
 requires:
   redaxo:

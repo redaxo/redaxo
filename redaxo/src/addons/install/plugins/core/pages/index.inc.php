@@ -6,7 +6,7 @@ $versions = array();
 
 $apiFunc = rex_api_function::factory();
 if ($apiFunc && ($result = $apiFunc->getResult()) && $result->isSuccessfull()) {
-  header('Location: index.php?page=install&subpage=core&info=' . urlencode($result->getMessage()));
+  header('Location: ' . rex_url::currentBackendPage(array('info' => $result->getMessage())));
   exit;
 }
 

@@ -11,14 +11,15 @@
  * @package redaxo5
  */
 
-$page = rex_request('page', 'string');
-$subpage = rex_request('subpage', 'string');
+$page = rex_be_controller::getCurrentPagePart(0);
+$subpage = rex_be_controller::getCurrentPagePart(1);
 $func = rex_request('func', 'string');
 $msg = '';
 
-if ($subpage == 'clear_cache') {
+if ($func == 'clear_cache') {
   $c = rex_media_manager::deleteCache();
   $msg = rex_i18n::msg('media_manager_cache_files_removed', $c);
+  $func = '';
 }
 
 echo rex_view::title('Media Manager');

@@ -8,6 +8,8 @@ interface rex_be_page_container
 {
   /**
    * Returns the page which is wrapped in this container
+   *
+   * @return rex_be_page
    */
   public function getPage();
 }

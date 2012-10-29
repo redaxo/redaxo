@@ -1,13 +1,14 @@
 version: '5.0 a1'
-name: Meta Infos
-perm: admin[]
 author: 'Markus Staab, Jan Kristinus'
 supportpage: www.redaxo.org/de/forum/
 
-pages:
-  - ['', 'translate:article']
-  - ['categories', 'translate:categories']
-  - ['media', 'translate:media']
+navigation:
+  title: Meta Infos
+  perm: admin[]
+  subpages:
+    '': {title: 'translate:article'}
+    categories: {title: 'translate:categories'}
+    media: {title: 'translate:media'}
 
 requires:
   addons:

@@ -12,7 +12,7 @@ $mypage = 'linkmap';
 
 //---------------- linkmap
 if (rex::isBackend()) {
-  $page = new rex_be_page_popup(rex_i18n::msg('linkmap'), '', array('page' => 'linkmap'));
+  $page = new rex_be_page_popup('linkmap', rex_i18n::msg('linkmap'), '');
   $page->setHidden(true);
   $page->setRequiredPermissions('structure/hasStructurePerm');
 

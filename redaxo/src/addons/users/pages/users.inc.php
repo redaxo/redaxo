@@ -96,7 +96,7 @@ $sel_startpage->setName('userperm_startpage');
 $sel_startpage->setId('userperm-startpage');
 $sel_startpage->addOption('default', '');
 
-foreach (rex::getProperty('pages') as $page => $pageObj) {
+foreach (rex_be_controller::getPages() as $page => $pageObj) {
   /* @var $pageObj rex_be_page */
   $pageObj = $pageObj->getPage();
   if ($pageObj->hasNavigation() && !$pageObj->getHidden()) {

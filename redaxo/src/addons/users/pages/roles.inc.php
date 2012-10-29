@@ -41,7 +41,7 @@ if ($func == '') {
   $label = $func == 'edit' ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
   $form = rex_form::factory(rex::getTablePrefix() . 'user_role', $label, 'id = ' . $id);
   $form->addParam('id', $id);
-  $form->setApplyUrl('index.php?page=users&subpage=roles');
+  $form->setApplyUrl(rex_url::currentBackendPage());
   $form->setEditMode($func == 'edit');
 
   $field = $form->addTextField('name');

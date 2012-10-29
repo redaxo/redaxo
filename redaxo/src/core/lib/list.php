@@ -240,7 +240,6 @@ class rex_list extends rex_factory_base implements rex_url_provider
   protected function loadBackendConfig()
   {
     $this->addParam('page', rex_request('page', 'string'));
-    $this->addParam('subpage', rex_request('subpage', 'string'));
   }
 
   public function addTableAttribute($attrName, $attrValue)

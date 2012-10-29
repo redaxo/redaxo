@@ -6,7 +6,7 @@
 
 // -------------- Defaults
 
-$subpage = rex_request('subpage', 'string');
+$subpage = rex_be_controller::getCurrentPagePart(1);
 $func = rex_request('func', 'string');
 
 switch ($subpage) {

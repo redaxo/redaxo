@@ -11,7 +11,7 @@
 rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
 
 if (rex::isBackend()) {
-  $page = new rex_be_page(rex_i18n::msg('content'), array('page' => 'linkmap'));
+  $page = new rex_be_page('content', rex_i18n::msg('content'));
   $page->setRequiredPermissions('structure/hasStructurePerm');
   $page->setHidden(true);
   $this->setProperty('page', new rex_be_page_main('system', $page));
