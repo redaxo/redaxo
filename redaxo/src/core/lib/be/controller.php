@@ -294,8 +294,6 @@ class rex_be_controller
     $path = '';
     if ($_activePageObj->hasPath()) {
       $path = $_activePageObj->getPath();
-    } elseif ($_mainPageObj->hasPath()) {
-      $path = $_mainPageObj->getPath();
     }
 
     if ($path != '') {

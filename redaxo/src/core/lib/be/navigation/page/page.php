@@ -136,7 +136,7 @@ class rex_be_page implements rex_be_page_container
 
   public function hasPath()
   {
-    return !empty($this->path);
+    return !empty($this->path) || $this->parent && $this->parent->hasPath();
   }
 
   public function getPath()
