@@ -25,6 +25,7 @@ class rex_be_controller
     if ($part === null) {
       return self::$pageParts;
     }
+    $part -= 1;
     return isset(self::$pageParts[$part]) ? self::$pageParts[$part] : $default;
   }
 
@@ -280,7 +281,7 @@ class rex_be_controller
   static public function includeCurrentPage()
   {
     $_activePageObj = self::getCurrentPageObject()->getPage();
-    $page = self::getCurrentPagePart(0);
+    $page = self::getCurrentPagePart(1);
     $_mainPageObj = self::getPageObject($page)->getPage();
 
     if (rex_request::isPJAXRequest() && !rex_request::isPJAXContainer('#rex-page')) {

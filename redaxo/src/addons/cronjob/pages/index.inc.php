@@ -8,7 +8,7 @@
  * @package redaxo5
  */
 
-$subpage = rex_be_controller::getCurrentPagePart(1);
+$subpage = rex_be_controller::getCurrentPagePart(2);
 $func    = rex_request('func', 'string');
 $oid     = rex_request('oid', 'int');
 

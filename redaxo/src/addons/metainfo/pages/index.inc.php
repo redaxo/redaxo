@@ -10,7 +10,7 @@
 // Parameter
 $Basedir = dirname(__FILE__);
 
-$subpage = rex_be_controller::getCurrentPagePart(1);
+$subpage = rex_be_controller::getCurrentPagePart(2);
 $func = rex_request('func', 'string');
 
 echo rex_view::title('Metainformationen erweitern');

@@ -17,7 +17,7 @@ include_once rex_path::addon('import_export', 'functions/function_folder.inc.php
 include_once rex_path::addon('import_export', 'functions/function_import_folder.inc.php');
 
 
-$subpage = rex_be_controller::getCurrentPagePart(1);
+$subpage = rex_be_controller::getCurrentPagePart(2);
 
 echo rex_view::title(rex_i18n::msg('im_export_importexport'));
 

@@ -1,8 +1,8 @@
 <?php
 
-$page = rex_be_controller::getCurrentPagePart(0);
-$subpage = rex_be_controller::getCurrentPagePart(1, '');
-$subsubpage = rex_be_controller::getCurrentPagePart(2);
+$page = rex_be_controller::getCurrentPagePart(1);
+$subpage = rex_be_controller::getCurrentPagePart(2, '');
+$subsubpage = rex_be_controller::getCurrentPagePart(3);
 
 if ($subpage != 'settings' && !$this->getPlugin($subpage)->isAvailable()) {
   foreach ($this->getAvailablePlugins() as $plugin) {
