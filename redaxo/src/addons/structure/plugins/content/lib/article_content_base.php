@@ -156,11 +156,11 @@ class rex_article_content_base
   protected function correctValue($value)
   {
     if ($value == 'category_id') {
-      if ($this->getValue('startpage') != 1) $value = 're_id';
-      else $value = 'id';
-    }
-    // über SQL muss article_id -> id heissen
-    elseif ($value == 'article_id') {
+      if ($this->getValue('startpage') != 1)
+        $value = 're_id';
+      else
+        $value = 'id';
+    } elseif ($value == 'article_id') {
       $value = 'id';
     }
 

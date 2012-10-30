@@ -48,21 +48,6 @@ class rex_article_content extends rex_article_content_base
     return false;
   }
 
-  protected function correctValue($value)
-  {
-    // bc
-    if ($this->viasql) {
-      return parent::correctValue($value);
-    }
-
-    if ($value == 'category_id') {
-      if ($this->getValue('startpage') != 1) $value = 're_id';
-      else $value = 'id';
-    }
-
-    return $value;
-  }
-
   protected function _getValue($value)
   {
     // bc
