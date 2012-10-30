@@ -36,8 +36,10 @@ class rex_be_controller
   {
     if (!self::$pageObject) {
       self::$pageObject = self::getPageObject(self::getCurrentPage());
-      while ($subpage = self::$pageObject->getPage()->getSubPage('')) {
-        self::$pageObject = $subpage;
+      if (self::$pageObject) {
+        while ($subpage = self::$pageObject->getPage()->getSubPage('')) {
+          self::$pageObject = $subpage;
+        }
       }
     }
     return self::$pageObject;
