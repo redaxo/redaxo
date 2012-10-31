@@ -33,6 +33,50 @@ class rex_addon_manager extends rex_package_manager
   }
 
   /* (non-PHPdoc)
+   * @see rex_package_manager::activate()
+   */
+  public function activate()
+  {
+    $this->generatePackageOrder = false;
+    $state = parent::activate();
+    $this->generatePackageOrder = true;
+
+    if ($state === true) {
+      $plugins = new SplObjectStorage;
+      // create the managers for all available plugins
+      foreach ($this->package->getAvailablePlugins() as $plugin) {
+        $plugins[$plugin] = rex_plugin_manager::factory($plugin);
+        $plugins[$plugin]->generatePackageOrder = false;
+      }
+      // mark all plugins whose requirements are not met
+      // to consider dependencies among each other, iterate over all plugins until no plugin was marked in a round
+      $deactivate = array();
+      $finished = false;
+      while (!$finished && count($plugins) > 0) {
+        $finished = true;
+        foreach ($plugins as $plugin) {
+          $pluginManager = $plugins[$plugin];
+          $return = $pluginManager->checkRequirements();
+          if (is_string($return) && !empty($return)) {
+            $plugin->setProperty('status', false);
+            $deactivate[] = $pluginManager;
+            $finished = false;
+            unset($plugins[$plugin]);
+          }
+        }
+      }
+      // deactivate all marked plugins
+      foreach ($deactivate as $pluginManager) {
+        $pluginManager->deactivate();
+      }
+
+      self::generatePackageOrder();
+    }
+
+    return $state;
+  }
+
+  /* (non-PHPdoc)
    * @see rex_package_manager::checkDependencies()
    */
   public function checkDependencies()
@@ -51,71 +95,5 @@ class rex_addon_manager extends rex_package_manager
     }
 
     return empty($state) ? true : implode('<br />', $state);
-  }
-
-  /* (non-PHPdoc)
-   * @see rex_package_manager::addToPackageOrder()
-   */
-  protected function addToPackageOrder()
-  {
-    parent::addToPackageOrder();
-
-    $plugins = new SplObjectStorage;
-
-    // create the managers for all available plugins
-    foreach ($this->package->getAvailablePlugins() as $plugin) {
-      $plugins[$plugin] = rex_plugin_manager::factory($plugin);
-    }
-
-    // mark all plugins whose requirements are not met
-    // to consider dependencies among each other, iterate over all plugins until no plugin was marked in a round
-    $deactivate = array();
-    $finished = false;
-    while (!$finished && count($plugins) > 0) {
-      $finished = true;
-      foreach ($plugins as $plugin) {
-        $pluginManager = $plugins[$plugin];
-        $return = $pluginManager->checkRequirements();
-        if (is_string($return) && !empty($return)) {
-          $plugin->setProperty('status', false);
-          $deactivate[] = $pluginManager;
-          $finished = false;
-          unset($plugins[$plugin]);
-        }
-      }
-    }
-    // deactivate all marked plugins
-    foreach ($deactivate as $pluginManager) {
-      $pluginManager->deactivate();
-    }
-
-    // add all other plugins to package order
-    // (consider dependencies among each other, don't add in alphabetical order)
-    foreach ($plugins as $plugin) {
-      $plugin->setProperty('status', false);
-    }
-    while (count($plugins) > 0) {
-      foreach ($plugins as $plugin) {
-        $pluginManager = $plugins[$plugin];
-        if ($pluginManager->checkRequirements() === true) {
-          $plugin->setProperty('status', true);
-          $pluginManager->addToPackageOrder();
-          unset($plugins[$plugin]);
-        }
-      }
-    }
-  }
-
-  /* (non-PHPdoc)
-   * @see rex_package_manager::removeFromPackageOrder()
-   */
-  protected function removeFromPackageOrder()
-  {
-    parent::removeFromPackageOrder();
-
-    foreach ($this->package->getRegisteredPlugins() as $plugin) {
-      $pluginManager = rex_plugin_manager::factory($plugin);
-      $pluginManager->removeFromPackageOrder($plugin);
-    }
   }
 }

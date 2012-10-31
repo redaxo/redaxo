@@ -2,6 +2,8 @@ version: '5.0 a1'
 author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
 
+load: early
+
 autoload:
   classes:
     - vendor/

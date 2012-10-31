@@ -18,6 +18,8 @@ abstract class rex_package_manager extends rex_factory_base
    */
   protected $package;
 
+  protected $generatePackageOrder = true;
+
   private $i18nPrefix;
 
   private $message;
@@ -239,8 +241,8 @@ abstract class rex_package_manager extends rex_factory_base
           }
           $this->saveConfig();
         }
-        if ($state === true) {
-          $this->addToPackageOrder();
+        if ($state === true && $this->generatePackageOrder) {
+          self::generatePackageOrder();
         }
       } else {
         $state = $this->I18N('not_installed', $this->package->getName());
@@ -282,7 +284,9 @@ abstract class rex_package_manager extends rex_factory_base
         // so the index doesn't contain outdated class definitions
         rex_autoload::removeCache();
 
-        $this->removeFromPackageOrder();
+        if ($this->generatePackageOrder) {
+          self::generatePackageOrder();
+        }
       } else {
         $state = $this->I18N('no_deactivation', $this->package->getName()) . '<br />' . $state;
       }
@@ -458,34 +462,59 @@ abstract class rex_package_manager extends rex_factory_base
   abstract public function checkDependencies();
 
   /**
-   * Adds the package to the package order
+   * Generates the package order
    */
-  protected function addToPackageOrder()
+  static protected function generatePackageOrder()
   {
-    $order = rex::getConfig('package-order', array());
-    $package = $this->package->getPackageId();
-    if (!in_array($package, $order)) {
-      $name = $this->package->getAddon()->getName();
-      if (in_array($name, array('users', 'compat'))) {
-        for ($i = 0; rex_package::get($order[$i])->getAddon()->getName() == $name; ++$i);
-        array_splice($order, $i, 0, array($package));
-      } else {
-        $order[] = $package;
+    $early = array();
+    $normal = array();
+    $late = array();
+    $requires = array();
+    $add = function ($id) use (&$add, &$normal, &$requires) {
+      $normal[] = $id;
+      unset($requires[$id]);
+      foreach ($requires as $rp => &$ps) {
+        unset($ps[$id]);
+        if (empty($ps)) {
+          $add($rp);
+        }
       }
-      rex::setConfig('package-order', $order);
+    };
+    foreach (rex_package::getAvailablePackages() as $package) {
+      $id = $package->getPackageId();
+      $load = $package->getProperty('load');
+      if ($load === 'early') {
+        $early[] = $id;
+      } elseif ($load === 'late') {
+        $late[] = $id;
+      } else {
+        $req = $package->getProperty('requires');
+        if ($package instanceof rex_plugin) {
+          $req['addons'][$package->getAddon()->getName()] = true;
+        }
+        if (isset($req['addons']) && is_array($req['addons'])) {
+          foreach ($req['addons'] as $addonId => $reqP) {
+            $addon = rex_addon::get($addonId);
+            if (!in_array($addon, $normal) && !in_array($addon->getProperty('load'), array('early', 'late'))) {
+              $requires[$id][$addonId] = true;
+            }
+            if (isset($reqP['plugins']) && is_array($reqP['plugins'])) {
+              foreach ($reqP['plugins'] as $pluginName => $_) {
+                $plugin = $addon->getPlugin($pluginName);
+                $pluginId = $plugin->getPackageId();
+                if (!in_array($pluginId, $normal) && !in_array($plugin->getProperty('load'), array('early', 'late'))) {
+                  $requires[$id][$pluginId] = true;
+                }
+              }
+            }
+          }
+        }
+        if (!isset($requires[$id])) {
+          $add($id);
+        }
+      }
     }
-  }
-
-  /**
-   * Removes the package from the package order
-   */
-  protected function removeFromPackageOrder()
-  {
-    $order = rex::getConfig('package-order', array());
-    if (($key = array_search($this->package->getPackageId(), $order)) !== false) {
-      unset($order[$key]);
-      rex::setConfig('package-order', array_values($order));
-    }
+    rex::setConfig('package-order', array_merge($early, $normal, array_keys($requires), $late));
   }
 
   /**
