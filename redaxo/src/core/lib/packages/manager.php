@@ -483,6 +483,12 @@ abstract class rex_package_manager extends rex_factory_base
     foreach (rex_package::getAvailablePackages() as $package) {
       $id = $package->getPackageId();
       $load = $package->getProperty('load');
+      if ($package instanceof rex_plugin
+        && !in_array($load, array('early', 'normal', 'late'))
+        && in_array($addonLoad = $package->getAddon()->getProperty('load'), array('early', 'late'))
+      ) {
+        $load = $addonLoad;
+      }
       if ($load === 'early') {
         $early[] = $id;
       } elseif ($load === 'late') {
