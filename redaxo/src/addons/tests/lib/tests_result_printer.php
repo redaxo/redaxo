@@ -10,7 +10,9 @@ class rex_tests_result_printer extends PHPUnit_TextUI_ResultPrinter
 
     $this->backtrace = '';
     foreach ($backtrace as $trace) {
-      $this->backtrace .= $trace['file'] . ':' . $trace['line'] . "\n";
+      if (isset($trace['file']) && isset($trace['line'])) {
+        $this->backtrace .= $trace['file'] . ':' . $trace['line'] . "\n";
+      }
     }
   }
 
