@@ -168,14 +168,5 @@ $fragment = new rex_fragment();
 $fragment->setVar('logout', $logout, false);
 echo $fragment->parse('core/meta.tpl');
 
-$navigation = array();
-$navigation['Headline'][] = array('title'       => 'Erster',
-  'attributes'  => array('id' => 'zweidie'),
-  'element'     => array('attributes' => array('id' => 'eidie', 'href' => '#')),
-  'children'    => array(array('title' => 'Sub'))
-);
-$fragment = new rex_fragment();
-$fragment->setVar('navigation', $navigation, false);
-$navigation = $fragment->parse('core/navigations/main.tpl');
 
 ?><section id="rex-page-main" data-pjax-container="#rex-page-main">
