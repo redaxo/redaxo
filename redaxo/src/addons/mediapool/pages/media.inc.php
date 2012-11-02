@@ -40,12 +40,11 @@ echo rex_extension::registerPoint('PAGE_MEDIAPOOL_HEADER', '',
 
 // ***** formular
 $cat_out = '<div class="rex-form" id="rex-form-mediapool-selectcategory">
-              <form action="index.php" method="post">
+              <form action="' . rex_url::currentBackendPage() . '" method="post">
                 <fieldset class="rex-form-col-1">
                   <legend>' . rex_i18n::msg('pool_select_cat') . '</legend>
 
                   <div class="rex-form-wrapper">
-                    <input type="hidden" name="page" value="mediapool" />
                     ' . $arg_fields . '
 
                     <div class="rex-form-row">
@@ -267,13 +266,11 @@ if ($subpage == 'media') {
       echo '
         <div id="rex-mediapool-detail-wrapper">
         <div class="rex-form" id="rex-form-mediapool-detail"' . $style_width . '>
-          <form action="index.php" method="post" enctype="multipart/form-data">
+          <form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data">
             <fieldset class="rex-form-col-1">
               <legend>' . rex_i18n::msg('pool_file_edit') . $opener_link . '</legend>
 
               <div class="rex-form-wrapper">
-                <input type="hidden" name="page" value="mediapool" />
-                <input type="hidden" name="subpage" value="media" />
                 <input type="hidden" name="file_id" value="' . $file_id . '" />
                 ' . $arg_fields . '
 
@@ -503,12 +500,11 @@ if ($subpage == '') {
 
   //deletefilelist und cat change
   echo '<div class="rex-form" id="rex-form-mediapool-media">
-       <form action="index.php" method="post" enctype="multipart/form-data">
+       <form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data">
           <fieldset class="rex-form-col-1">
             <legend class="rex-form-hidden-legend">' . rex_i18n::msg('pool_selectedmedia') . '</legend>
 
             <div class="rex-form-wrapper">
-              <input type="hidden" name="page" value="mediapool" />
               <input type="hidden" id="media_method" name="media_method" value="" />
               ' . $arg_fields . '
 
@@ -663,7 +659,7 @@ if ($subpage == '') {
       }
     }
 
-    $ilink = 'index.php?page=mediapool&amp;subpage=media&amp;file_id=' . $file_id . '&amp;rex_file_category=' . $rex_file_category . $arg_url;
+    $ilink = rex_url::currentBackendPage(array_merge(array('file_id' => $file_id, 'rex_file_category' => $rex_file_category), $arg_url));
 
     $add_td = '<td></td>';
     if ($PERMALL) $add_td = '<td class="rex-icon"><input class="rex-form-checkbox" type="checkbox" name="selectedmedia[]" value="' . $file_name . '" /></td>';

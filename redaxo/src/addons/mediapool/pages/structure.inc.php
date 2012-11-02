@@ -55,8 +55,7 @@ if ($PERMALL) {
     $warning = $e->getMessage();
   }
 
-
-  $link = 'index.php?page=mediapool' . $arg_url . '&amp;subpage=structure&amp;cat_id=';
+  $link = rex_url::currentBackendPage(array_merge($arg_url, array('cat_id' => '')));
 
   $textpath = '<li> : <a href="' . $link . '0">Start</a></li>';
   $cat_id = rex_request('cat_id', 'int');
@@ -98,13 +97,11 @@ if ($PERMALL) {
 
     echo '
     <div class="rex-form" id="rex-form-mediapool-categories">
-      <form action="index.php" method="post">
+      <form action="' . rex_url::currentBackendPage() . '" method="post">
         <fieldset class="rex-form-col-1">
           <legend>' . $legend . '</legend>
 
           <div class="rex-form-wrapper">
-            <input type="hidden" name="page" value="mediapool" />
-            <input type="hidden" name="subpage" value="structure" />
             <input type="hidden" name="media_method" value="' . $method . '" />
             <input type="hidden" name="cat_id" value="' . $cat_id . '" />
             <input type="hidden" name="catpath" value="' . $catpath . '" />

@@ -369,13 +369,11 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
   $s .= '
       <div class="rex-form" id="rex-form-mediapool-other">
-        <form action="index.php" method="post" enctype="multipart/form-data">
+        <form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data">
           <fieldset class="rex-form-col-1">
             <legend>' . $form_title . '</legend>
             <div class="rex-form-wrapper">
-              <input type="hidden" name="page" value="mediapool" />
               <input type="hidden" name="media_method" value="add_file" />
-              <input type="hidden" name="subpage" value="' . $subpage . '" />
               ' . $arg_fields . '
 
               <div class="rex-form-row">

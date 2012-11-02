@@ -13,7 +13,7 @@
 global $subpage, $ftitle, $warning, $info;
 
 // -------------- Defaults
-$subpage      = rex_request('subpage', 'string');
+$subpage      = rex_be_controller::getCurrentPagePart(2);
 $func         = rex_request('func', 'string');
 $info         = rex_request('info', 'string');
 $warning      = rex_request('warning', 'string');
@@ -21,10 +21,9 @@ $args         = rex_request('args', 'array');
 
 
 // -------------- Additional Args
-$arg_url = '';
+$arg_url = array('args' => $args);
 $arg_fields = '';
 foreach ($args as $arg_name => $arg_value) {
-  $arg_url .= '&amp;args[' . urlencode($arg_name) . ']=' . urlencode($arg_value);
   $arg_fields .= '<input type="hidden" name="args[' . $arg_name . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";
 }
 
@@ -33,7 +32,7 @@ $opener_link = rex_request('opener_link', 'string');
 $opener_input_field = rex_request('opener_input_field', 'string', '');
 
 if ($opener_input_field != '') {
-  $arg_url .= '&amp;opener_input_field=' . urlencode($opener_input_field);
+  $arg_url['opener_input_field'] = $opener_input_field;
   $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . htmlspecialchars($opener_input_field) . '" />' . "\n";
 }
 
@@ -68,8 +67,7 @@ if ($gc->getRows() != 1) {
 rex_set_session('media[rex_file_category]', $rex_file_category);
 
 // -------------- PERMS
-$PERMALL = false;
-if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm(0)) $PERMALL = true;
+$PERMALL = rex::getUser()->getComplexPerm('media')->hasCategoryPerm(0);
 
 // -------------- Header
 $subline = array(
@@ -77,15 +75,11 @@ $subline = array(
   array('upload', rex_i18n::msg('pool_file_insert')),
 );
 
-if ($PERMALL) {
-  $subline[] = array('structure', rex_i18n::msg('pool_cat_list'));
-  $subline[] = array('sync', rex_i18n::msg('pool_sync_files'));
-}
+$pages = rex_be_controller::getPages();
+$subline = rex_be_controller::getPageObject('mediapool')->getPage()->getSubPages();
 
-// Arg Url an Menulinks anhaengen
-foreach ($subline as $key => $item) {
-  $subline[$key][2] = '';
-  $subline[$key][3] = $arg_url;
+foreach ($subline as $sp) {
+  $sp->setHref(rex_url::backendPage($sp->getFullKey(), $arg_url));
 }
 
 // ----- EXTENSION POINT
@@ -95,8 +89,7 @@ $subline = rex_extension::registerPoint('PAGE_MEDIAPOOL_MENU', $subline,
   )
 );
 
-$title = rex_i18n::msg('pool_media');
-echo rex_view::title($title, $subline);
+echo rex_view::title(rex_i18n::msg('pool_media'), $subline);
 
 // -------------- Messages
 if ($info != '') {
