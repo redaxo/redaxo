@@ -4,6 +4,7 @@ class rex_form_element
 {
   protected
     $value,
+    $defaultSaveValue = '',
     $label,
     $tag,
     $table,
@@ -38,9 +39,14 @@ class rex_form_element
     $this->value = $value;
   }
 
+  public function setDefaultSaveValue($value)
+  {
+    $this->defaultSaveValue = $value;
+  }
+
   public function getSaveValue()
   {
-    return $this->getValue();
+    return $this->getValue() ?: $this->defaultSaveValue;
   }
 
   public function getValue()
