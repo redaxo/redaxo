@@ -154,7 +154,7 @@ if (!rex_request::isPJAXContainer('#rex-page')) {
   $fragment->setVar('pageTitle', rex_be_controller::getPageTitle());
   $fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', '' ), false);
   $fragment->setVar('bodyAttr', $body, false);
-  echo $fragment->parse('backend_top.tpl');
+  echo $fragment->parse('core/top.tpl');
 } elseif (rex_request::isPJAXRequest()) {
   // add title to the page, so pjax can update it. see gh#136
   echo '<title>' . htmlspecialchars(rex_be_controller::getPageTitle()) . '</title>';
@@ -162,10 +162,20 @@ if (!rex_request::isPJAXContainer('#rex-page')) {
 
 $fragment = new rex_fragment();
 // $fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', '' ), false);
-echo $fragment->parse('backend_header.tpl');
+echo $fragment->parse('core/header.tpl');
 
 $fragment = new rex_fragment();
 $fragment->setVar('logout', $logout, false);
-echo $fragment->parse('backend_meta.tpl');
+echo $fragment->parse('core/meta.tpl');
+
+$navigation = array();
+$navigation['Headline'][] = array('title'       => 'Erster',
+  'attributes'  => array('id' => 'zweidie'),
+  'element'     => array('attributes' => array('id' => 'eidie', 'href' => '#')),
+  'children'    => array(array('title' => 'Sub'))
+);
+$fragment = new rex_fragment();
+$fragment->setVar('navigation', $navigation, false);
+$navigation = $fragment->parse('core/navigations/main.tpl');
 
 ?><section id="rex-page-main" data-pjax-container="#rex-page-main">
