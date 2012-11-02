@@ -11,8 +11,7 @@
  * @package redaxo5
  */
 
-$page = rex_be_controller::getCurrentPagePart(2);
-$subpage = rex_be_controller::getCurrentPagePart(3);
+$subpage = rex_be_controller::getCurrentPagePart(2);
 $func = rex_request('func', 'string');
 $msg = '';
 
