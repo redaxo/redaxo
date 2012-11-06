@@ -85,7 +85,7 @@ abstract class rex_package implements rex_package_interface
   /* (non-PHPdoc)
    * @see rex_package_interface::setConfig()
    */
-  public function setConfig($key, $value)
+  public function setConfig($key, $value = null)
   {
     return rex_config::set($this->getPackageId(), $key, $value);
   }
@@ -93,7 +93,7 @@ abstract class rex_package implements rex_package_interface
   /* (non-PHPdoc)
    * @see rex_package_interface::getConfig()
    */
-  public function getConfig($key, $default = null)
+  public function getConfig($key = null, $default = null)
   {
     return rex_config::get($this->getPackageId(), $key, $default);
   }

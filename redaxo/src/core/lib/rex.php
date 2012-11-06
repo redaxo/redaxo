@@ -19,7 +19,7 @@ class rex
   /**
    * @see rex_config::set()
    */
-  static public function setConfig($key, $value)
+  static public function setConfig($key, $value = null)
   {
     return rex_config::set(self::CONFIG_NAMESPACE, $key, $value);
   }
@@ -27,7 +27,7 @@ class rex
   /**
    * @see rex_config::get()
    */
-  static public function getConfig($key, $default = null)
+  static public function getConfig($key = null, $default = null)
   {
     return rex_config::get(self::CONFIG_NAMESPACE, $key, $default);
   }

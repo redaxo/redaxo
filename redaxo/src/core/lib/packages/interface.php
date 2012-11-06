@@ -73,12 +73,12 @@ interface rex_package_interface
   /**
    * @see rex_config::set()
    */
-  public function setConfig($key, $value);
+  public function setConfig($key, $value = null);
 
   /**
    * @see rex_config::get()
    */
-  public function getConfig($key, $default = null);
+  public function getConfig($key = null, $default = null);
 
   /**
    * @see rex_config::has()

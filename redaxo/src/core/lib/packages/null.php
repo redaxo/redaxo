@@ -74,7 +74,7 @@ abstract class rex_null_package extends rex_singleton_base implements rex_packag
   /* (non-PHPdoc)
    * @see rex_package_interface::setConfig()
    */
-  public function setConfig($key, $value)
+  public function setConfig($key, $value = null)
   {
     return false;
   }
@@ -82,7 +82,7 @@ abstract class rex_null_package extends rex_singleton_base implements rex_packag
   /* (non-PHPdoc)
    * @see rex_package_interface::getConfig()
    */
-  public function getConfig($key, $default = null)
+  public function getConfig($key = null, $default = null)
   {
     return $default;
   }

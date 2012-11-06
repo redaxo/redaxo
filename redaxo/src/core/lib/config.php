@@ -39,26 +39,35 @@ class rex_config
   static private $deletedData = array();
 
   /**
-   * Method which saves an arbitary value associated to the given key.
-   * The value may also be saved into a separate $namespace which preserves it from beeing overriden.
+   * Method which saves an arbitary value associated to the given namespace and key.
+   * If the second parameter is an associative array, all key/value pairs will be saved.
    *
-   * The set-methode returns TRUE when an existing value was overridden, otherwise FALSE is returned.
+   * The set-method returns TRUE when an existing value was overridden, otherwise FALSE is returned.
    *
-   * @param string $namespace A namespace e.g. an addon name
-   * @param string $key       The associated key
-   * @param mixed  $value     The value to save
+   * @param string       $namespace The namespace e.g. an addon name
+   * @param string|array $key       The associated key or an associative array of key/value pairs
+   * @param mixed        $value     The value to save
    *
    * @return boolean TRUE when an existing value was overridden, otherwise FALSE
    *
    * @throws rex_exception on invalid parameters
    */
-  static public function set($namespace, $key, $value)
+  static public function set($namespace, $key, $value = null)
   {
     self::init();
 
     if (!is_string($namespace)) {
       throw new rex_exception('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
     }
+
+    if (is_array($key)) {
+      $existed = false;
+      foreach ($key as $k => $v) {
+        $existed = self::set($namespace, $k, $v) || $existed;
+      }
+      return $existed;
+    }
+
     if (!is_string($key)) {
       throw new rex_exception('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
     }
@@ -86,12 +95,12 @@ class rex_config
   }
 
   /**
-   * Method which returns an associated value for the given key.
-   * The key might also be associated to a given namespace.
+   * Method which returns an associated value for the given namespace and key.
+   * If $key is null, an array of all key/value pairs for the given namespace will be returned.
    *
    * If no value can be found for the given key/namespace combination $default is returned.
    *
-   * @param string $namespace A namespace e.g. an addon name
+   * @param string $namespace The namespace e.g. an addon name
    * @param string $key       The associated key
    * @param mixed  $default   Default return value if no associated-value can be found
    *
@@ -99,13 +108,18 @@ class rex_config
    *
    * @throws rex_exception on invalid parameters
    */
-  static public function get($namespace, $key, $default = null)
+  static public function get($namespace, $key = null, $default = null)
   {
     self::init();
 
     if (!is_string($namespace)) {
       throw new rex_exception('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
     }
+
+    if ($key === null) {
+      return isset(self::$data[$namespace]) ? self::$data[$namespace] : array();
+    }
+
     if (!is_string($key)) {
       throw new rex_exception('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
     }
@@ -119,7 +133,7 @@ class rex_config
   /**
    * Returns if the given key is set.
    *
-   * @param string $namespace A namespace e.g. an addon name
+   * @param string $namespace The namespace e.g. an addon name
    * @param string $key       The associated key
    *
    * @return boolean TRUE if the key is set, otherwise FALSE
@@ -146,10 +160,9 @@ class rex_config
   }
 
   /**
-   * Removes the setting associated with the given key.
-   * The key might also be associated to a given namespace.
+   * Removes the setting associated with the given namespace and key.
    *
-   * @param string $namespace A namespace e.g. an addon name
+   * @param string $namespace The namespace e.g. an addon name
    * @param string $key       The associated key
    *
    * @return boolean TRUE if the value was found and removed, otherwise FALSE
@@ -188,7 +201,7 @@ class rex_config
   /**
    * Removes all settings associated with the given namespace
    *
-   * @param string $namespace A namespace e.g. an addon name
+   * @param string $namespace The namespace e.g. an addon name
    *
    * @return TRUE if the namespace was found and removed, otherwise FALSE
    *
