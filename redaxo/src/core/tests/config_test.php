@@ -25,6 +25,11 @@ class rex_config_test extends PHPUnit_Framework_TestCase
 
     $this->assertTrue(rex_config::set('test-ns', 'mykey1', 'myval1'), 'set() returns true, when config already exists');
     $this->assertTrue(rex_config::set('test-ns', array('mykey4' => 'myval4', 'mykey2' => 'myval2', 'mykey5' => 'myval5')), 'set() returns true, when config already exists');
+
+    $arr = rex_config::get('test-ns');
+    rex_config::set('test-ns', $arr);
+    $this->assertEquals($arr, rex_config::get('test-ns'), 'set($ns, get($ns)) is idempotent');
+
     $this->assertTrue(rex_config::remove('test-ns', 'mykey1'), 'remove() returns true, when deleting an existing key');
     rex_config::remove('test-ns', 'mykey2');
     rex_config::remove('test-ns', 'mykey3');
