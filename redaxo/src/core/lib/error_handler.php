@@ -38,8 +38,9 @@ abstract class rex_error_handler
    * Handles the given Exception
    *
    * @param Exception $exception The Exception to handle
+   * @param boolean   $showTrace
    */
-  static public function handleException(Exception $exception)
+  static public function handleException(Exception $exception, $showTrace = true)
   {
     rex_logger::logException($exception);
 
@@ -73,8 +74,10 @@ abstract class rex_error_handler
         $cause = $cause->getPrevious();
       }
 
-      $buf .= "\n";
-      $buf .= $exception->getTraceAsString();
+      if ($showTrace) {
+        $buf .= "\n";
+        $buf .= $exception->getTraceAsString();
+      }
 
       if (!rex::isSetup() && rex::isBackend() && !rex::isSafeMode()) {
         $buf .= "\n\n";
@@ -123,7 +126,7 @@ abstract class rex_error_handler
     if (self::$registered) {
       $error = error_get_last();
       if (is_array($error) && in_array($error['type'], array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE))) {
-        self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
+        self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']), false);
       }
     }
   }
