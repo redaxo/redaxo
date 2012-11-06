@@ -78,13 +78,10 @@ class rex_config
     $existed = isset(self::$data[$namespace][$key]);
     if (!$existed || $existed && self::$data[$namespace][$key] !== $value) {
       // keep track of changed data
-      if (!isset(self::$changedData[$namespace]))
-        self::$changedData[$namespace] = array();
       self::$changedData[$namespace][$key] = $value;
 
       // since it was re-added, do not longer mark as deleted
-      if (isset(self::$deletedData[$namespace]) && isset(self::$deletedData[$namespace][$key]))
-        unset(self::$deletedData[$namespace][$key]);
+      unset(self::$deletedData[$namespace][$key]);
 
       // re-set the data in the container
       self::$data[$namespace][$key] = $value;
@@ -124,7 +121,7 @@ class rex_config
       throw new rex_exception('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
     }
 
-    if (isset(self::$data[$namespace]) && isset(self::$data[$namespace][$key])) {
+    if (isset(self::$data[$namespace][$key])) {
       return self::$data[$namespace][$key];
     }
     return $default;
@@ -180,15 +177,12 @@ class rex_config
       throw new rex_exception('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
     }
 
-    if (isset(self::$data[$namespace]) && isset(self::$data[$namespace][$key])) {
+    if (isset(self::$data[$namespace][$key])) {
       // keep track of deleted data
-      if (!isset(self::$deletedData[$namespace]))
-        self::$deletedData[$namespace] = array();
       self::$deletedData[$namespace][$key] = true;
 
       // since it will be deleted, do not longer mark as changed
-      if (isset(self::$changedData[$namespace]) && isset(self::$changedData[$namespace][$key]))
-        unset(self::$changedData[$namespace][$key]);
+      unset(self::$changedData[$namespace][$key]);
 
       // delete the data from the container
       unset(self::$data[$namespace][$key]);
