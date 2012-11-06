@@ -31,8 +31,7 @@ class rex_config_test extends PHPUnit_Framework_TestCase
     rex_config::remove('test-ns', 'mykey4');
     rex_config::remove('test-ns', 'mykey5');
 
-    // TODO ? (aktuell wird ein namespace nicht gelöscht wenn man den letzten schlüssel darin entfernt)
-    $this->assertTrue(rex_config::has('test-ns'));
+    $this->assertFalse(rex_config::has('test-ns'), 'has() returns false, when checking for empty (non-existing) namespace');
     $this->assertFalse(rex_config::has('test-ns', 'mykey1'), 'has() returns false, when checking for removed key');
     $this->assertNull(rex_config::get('test-ns', 'mykey1'), 'get() returns null, when getting a removed key');
   }

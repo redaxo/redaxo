@@ -192,6 +192,8 @@ class rex_config
 
       // delete the data from the container
       unset(self::$data[$namespace][$key]);
+      if (empty(self::$data[$namespace]))
+        unset(self::$data[$namespace]);
       self::$changed = true;
       return true;
     }
