@@ -40,7 +40,7 @@ class rex_html
    * Example:
    * $list = array(0 => array('text' => 'Text',
    *                          'href' => '#',
-   *                          'children' = array(0 => array('text' => 'Text'))
+   *                          'children' => array(0 => array('text' => 'Text'))
    *                         )
    *              )
    *
@@ -48,6 +48,7 @@ class rex_html
    * @param string       $item_tag
    * @param array        $list
    * @param array|string $attributes
+   *
    * @return string
    */
   private function htmllist($list_tag, $item_tag, $list, $attributes = null)
@@ -88,11 +89,34 @@ class rex_html
 
 
   /**
+   * heading
+   *
+   * @param integer      $level
+   * @param string       $text
+   * @param array|string $attributes
+   *
+   * @return string
+   */
+  static public function h($level, $text, $attributes = null)
+  {
+    $attr = self::attributes($attributes);
+
+    $level = (int) $level;
+    if ($level < 1 || $level > 6)
+      $level = 1;
+
+    return '<h' . $level . $attr . '>' . $text . '</h' . $level . '>';
+
+  }
+
+
+  /**
    * anchor
    *
    * @param string       $text
    * @param string       $href
    * @param array|string $attributes
+   *
    * @return string
    */
   static public function a($text, $href, $attributes = null)
@@ -114,6 +138,7 @@ class rex_html
    *
    * @param array        $list
    * @param array|string $attributes
+   *
    * @return string
    */
   static public function dl($list, $attributes = null)
@@ -126,14 +151,17 @@ class rex_html
 
       foreach ($list as $pair) {
 
-        if (!empty($pair[0]))
+        if (!empty($pair[0])) {
           $items .= '<dt>' . $pair[0] . '</dt>';
+        }
 
-        if (isset($pair[1]) && is_array($pair[1]))
-          $items .= '<dd>' . implode('</dd><dd>', $pair[1]) . '</dd>';
-
-        if (isset($pair[1]) && is_string($pair[1]))
-          $items .= '<dd>' . $pair[1] . '</dd>';
+        if (isset($pair[1])) {
+          if (is_array($pair[1])) {
+            $items .= '<dd>' . implode('</dd><dd>', $pair[1]) . '</dd>';
+          } elseif (is_string($pair[1])) {
+            $items .= '<dd>' . $pair[1] . '</dd>';
+          }
+        }
       }
     }
 
@@ -152,6 +180,7 @@ class rex_html
    *
    * @param array        $list
    * @param array|string $attributes
+   *
    * @return string
    */
   static public function ol($list, $attributes = null)
@@ -167,10 +196,112 @@ class rex_html
    *
    * @param array        $list
    * @param array|string $attributes
+   *
    * @return string
    */
   static public function ul($list, $attributes = null)
   {
     return self::htmllist('ul', 'li',  $list, $attributes);
+  }
+
+
+  /**
+   * input
+   *
+   * @param string $type
+   * @param array  $attributes
+   *
+   * @return string
+   */
+  private function input($type, $attributes)
+  {
+    $attr = self::attributes($attributes);
+
+    return '<input type="' . $type . '"' . $attr . ' />';
+  }
+
+
+  /**
+   * label
+   *
+   * @param string $name
+   * @param string $for
+   * @param array  $attributes
+   *
+   * @return string
+   */
+  static public function label($name, $for = '', $attributes = array())
+  {
+    $attributes['for'] = $for;
+
+    $attr = self::attributes($attributes);
+
+    return '<label' . $attr . '>' . $name . '</label>';
+  }
+
+
+  /**
+   * hidden
+   *
+   * @param array|string $name
+   * @param string       $value
+   *
+   * @return string
+   */
+  static public function hidden($name, $value = '')
+  {
+    $return = '';
+
+    if (is_array($name)) {
+      foreach ($name as $key => $value) {
+        $return .= self::hidden($key, $value);
+      }
+    }
+
+    if (is_string($name)) {
+      $attributes = array('name'  => $name,
+        'value' => $value);
+
+      $return .= self::input('hidden', $attributes);
+    }
+
+    return $return;
+  }
+
+
+  /**
+   * text
+   *
+   * @param string $name
+   * @param string $value
+   * @param array  $attributes
+   *
+   * @return string
+   */
+  static public function text($name, $value = '', $attributes = array())
+  {
+    $attributes['name']  = $name;
+    $attributes['value'] = $value;
+
+    return self::input('text', $attributes);
+  }
+
+
+  /**
+   * textarea
+   *
+   * @param string $name
+   * @param string $value
+   * @param array  $attributes
+   *
+   * @return string
+   */
+  static public function textarea($name, $value = '', $attributes = array())
+  {
+    $attributes['name']  = $name;
+
+    $attr = self::attributes($attributes);
+
+    return '<textarea' . $attr . '>' . $value . '</textarea>';
   }
 }
