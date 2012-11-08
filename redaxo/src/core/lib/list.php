@@ -496,7 +496,10 @@ class rex_list extends rex_factory_base implements rex_url_provider
    */
   public function getColumnParams($columnName)
   {
-    return $this->columnParams[$columnName];
+    if (isset($this->columnParams[$columnName]) && is_array($this->columnParams[$columnName])) {
+      return $this->columnParams[$columnName];
+    }
+    return array();
   }
 
   /**
