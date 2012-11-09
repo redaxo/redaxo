@@ -263,13 +263,13 @@ class rex_be_controller
         if (!($p = self::getPageObject($page)) ||
             (($p = $p->getPage()) && !$p->checkPermission($user))
         ) {
-          // --- user hat keine rechte innerhalb der fallback-kette
-          return null;
+          // --- fallback zur profile page
+          $page = 'profile';
         }
       }
+      rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
+      rex_response::sendRedirect('index.php?page=' . $page);
     }
-
-    return $p->getFullKey();
   }
 
   /**

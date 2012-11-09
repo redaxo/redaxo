@@ -103,14 +103,7 @@ $page = rex_be_controller::getCurrentPage();
 // Set Startpage
 if ($user = rex::getUser()) {
   // --- page pruefen und benoetigte rechte checken
-  if (!($page = rex_be_controller::checkPage($user))) {
-    // --- fallback auf "profile"; diese page hat jeder user
-    rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
-    rex_response::sendRedirect('index.php?page=profile');
-  } elseif (!trim(rex_request('page', 'string'))) {
-    rex_response::setStatus(rex_response::HTTP_MOVED_PERMANENTLY);
-    rex_response::sendRedirect('index.php?page=' . $page);
-  }
+  rex_be_controller::checkPage($user);
 }
 
 // ----- EXTENSION POINT
