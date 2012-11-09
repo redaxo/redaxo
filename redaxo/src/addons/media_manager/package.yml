@@ -6,7 +6,7 @@ navigation:
   title: 'Media Manager'
   perm: media_manager[]
   subpages:
-    '': {title: 'translate:media_manager_subpage_desc'}
+    description: {title: 'translate:media_manager_subpage_desc'}
     types: {title: 'translate:media_manager_subpage_types'}
     settings: {title: 'translate:media_manager_subpage_config'}
     clear_cache: {title: 'translate:media_manager_subpage_clear_cache', href: {page: media_manager, func: clear_cache}}

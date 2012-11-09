@@ -5,6 +5,6 @@ supportpage: www.redaxo.org/de/forum
 navigation:
   title: translate:title
   subpages:
-    '': {title: 'translate:subpage_update'}
+    update: {title: 'translate:subpage_update'}
     add: {title: 'translate:subpage_add'}
     upload: {title: 'translate:subpage_upload'}

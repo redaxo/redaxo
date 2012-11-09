@@ -6,7 +6,7 @@ navigation:
   title: 'translate:title'
   perm: admin[]
   subpages:
-    '': {title: 'translate:title'}
+    cronjobs: {title: 'translate:title'}
     log: {title: 'translate:log'}
 
 requires:

@@ -8,5 +8,5 @@ navigation:
   block: system
   prio: 40
   subpages:
-    '': {title: 'translate:modules'}
+    modules: {title: 'translate:modules'}
     actions: {title: 'translate:actions'}

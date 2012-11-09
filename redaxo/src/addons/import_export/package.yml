@@ -6,7 +6,7 @@ navigation:
   title: 'translate:im_export_importexport'
   perm: import_export[export]
   subpages:
-    '': {title: 'translate:im_export_export'}
+    export: {title: 'translate:im_export_export'}
     import: {title: 'translate:im_export_import', perm: 'import_export[import]'}
 
 autoload:

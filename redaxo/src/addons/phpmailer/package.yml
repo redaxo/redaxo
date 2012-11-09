@@ -6,7 +6,7 @@ navigation:
   title: PHPMailer
   perm: phpmailer[]
   subpages:
-    '': {title: 'translate:configuration'}
+    config: {title: 'translate:configuration'}
     example: {title: 'translate:example'}
 
 requires:

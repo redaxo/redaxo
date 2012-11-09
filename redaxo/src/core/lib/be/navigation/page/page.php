@@ -68,10 +68,13 @@ class rex_be_page implements rex_be_page_container
 
   public function getHref()
   {
-    if (!$this->href) {
-      return rex_url::backendPage($this->getFullKey());
+    if ($this->href) {
+      return $this->href;
     }
-    return $this->href;
+    if ($subPage = reset($this->subPages)) {
+      return $subPage->getHref();
+    }
+    return rex_url::backendPage($this->getFullKey());
   }
 
   public function setItemAttr($name, $value)
@@ -156,7 +159,7 @@ class rex_be_page implements rex_be_page_container
 
   private function addParentKey($key)
   {
-    $this->fullKey = rtrim($key . '/' . $this->fullKey, '/');
+    $this->fullKey = $key . '/' . $this->fullKey;
     foreach ($this->subPages as $subPage) {
       $subPage->addParentKey($key);
     }

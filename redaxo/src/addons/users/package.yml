@@ -10,5 +10,5 @@ navigation:
   block: system
   prio: 50
   subpages:
-    '': {title: 'translate:users', perm: admin}
+    users: {title: 'translate:users', perm: admin}
     roles: {title: 'translate:roles', perm: admin}

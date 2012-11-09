@@ -36,11 +36,6 @@ class rex_be_controller
   {
     if (!self::$pageObject) {
       self::$pageObject = self::getPageObject(self::getCurrentPage());
-      if (self::$pageObject) {
-        while ($subpage = self::$pageObject->getPage()->getSubPage('')) {
-          self::$pageObject = $subpage;
-        }
-      }
     }
     return self::$pageObject;
   }
@@ -61,7 +56,7 @@ class rex_be_controller
     for ($i = 1, $count = count($page); $i < $count; ++$i) {
       if ($new = $obj->getPage()->getSubPage($page[$i])) {
         $obj = $new;
-      } elseif ($page[$i] != '' || $i < $count - 1) {
+      } else {
         return null;
       }
     }
@@ -128,7 +123,7 @@ class rex_be_controller
     $pages['addon'] = new rex_be_page_main('system', $addon);
     $pages['addon']->setPrio(60);
 
-    $settings = new rex_be_page('', rex_i18n::msg('main_preferences'));
+    $settings = new rex_be_page('settings', rex_i18n::msg('main_preferences'));
 
     $languages = new rex_be_page('lang', rex_i18n::msg('languages'));
 
