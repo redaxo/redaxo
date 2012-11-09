@@ -29,7 +29,7 @@ else {
   rex::setProperty('article_id', $article_id);
 }
 
-if (rex::isBackend() && rex_request('page', 'string') == 'system') {
+if (rex::isBackend() && rex_be_controller::getCurrentPage() == 'system/settings') {
   rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
   rex_system_setting::register(new rex_system_setting_article_id('notfound_article_id'));
   rex_system_setting::register(new rex_system_setting_default_template_id());

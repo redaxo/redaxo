@@ -82,6 +82,7 @@ rex_be_controller::setPages($pages);
 // ----- Prepare Core Pages
 if (rex::getUser()) {
   $pages = rex_be_controller::getLoggedInPages();
+  rex_be_controller::setCurrentPage(trim(rex_request('page', 'string')));
 }
 
 rex_be_controller::setPages($pages);
@@ -101,16 +102,12 @@ $page = rex_be_controller::getCurrentPage();
 
 // Set Startpage
 if ($user = rex::getUser()) {
-  // --- page herausfinden
-  $reqPage = trim(rex_request('page', 'string'));
-  rex_be_controller::setCurrentPage($reqPage);
-
   // --- page pruefen und benoetigte rechte checken
   if (!($page = rex_be_controller::checkPage($user))) {
     // --- fallback auf "profile"; diese page hat jeder user
     rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
     rex_response::sendRedirect('index.php?page=profile');
-  } elseif (empty($reqPage)) {
+  } elseif (!trim(rex_request('page', 'string'))) {
     rex_response::setStatus(rex_response::HTTP_MOVED_PERMANENTLY);
     rex_response::sendRedirect('index.php?page=' . $page);
   }
