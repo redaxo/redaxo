@@ -31,6 +31,9 @@ foreach ($packageOrder as $packageId) {
   if (is_readable($folder . 'lib')) {
     rex_autoload::addDirectory($folder . 'lib');
   }
+  if (is_readable($folder . 'vendor')) {
+    rex_autoload::addDirectory($folder . 'vendor');
+  }
   $autoload = $package->getProperty('autoload');
   if (is_array($autoload) && isset($autoload['classes']) && is_array($autoload['classes'])) {
     foreach ($autoload['classes'] as $dir) {
