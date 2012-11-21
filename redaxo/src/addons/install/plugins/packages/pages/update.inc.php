@@ -58,7 +58,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         <td class="rex-icon"><span class="rex-ic-addon">' . $file['version'] . '</span></td>
         <td class="rex-version">' . $file['version'] . '</td>
         <td class="rex-description">' . nl2br($file['description']) . '</td>
-        <td class="rex-update"><a href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey=' . $addonkey . '&amp;rex-api-call=install_packages_update&amp;file=' . $fileId . '">' . $this->i18n('update') . '</a></td>
+        <td class="rex-update"><a href="' . rex_url::currentBackendPage(array('addonkey' => $addonkey, 'rex-api-call' => 'install_packages_update', 'file' => $fileId)) . '">' . $this->i18n('update') . '</a></td>
       </tr>';
   }
 
@@ -85,12 +85,12 @@ if ($addonkey && isset($addons[$addonkey])) {
     foreach ($addon['files'] as $file) {
       $availableVersions[] = $file['version'];
     }
-    $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=&amp;addonkey=' . $key . '">%s</a>';
+    $url = rex_url::currentBackendPage(array('addonkey' => $key));
 
     $content .= '
       <tr>
-        <td class="rex-icon">' . sprintf($a, ' class="rex-ic-addon"', $key) . '</a></td>
-        <td class="rex-key">' . sprintf($a, '', $key) . '</a></td>
+        <td class="rex-icon"><a class="rex-ic-addon" href="' . $url . '">' . $key . '</a></td>
+        <td class="rex-key"><a href="' . $url . '">' . $key . '</a></td>
         <td class="rex-name">' . $addon['name'] . '</td>
         <td class="rex-version">' . rex_addon::get($key)->getVersion() . '</td>
         <td class="rex-version">' . implode(', ', $availableVersions) . '</td>

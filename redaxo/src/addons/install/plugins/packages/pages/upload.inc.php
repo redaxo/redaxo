@@ -44,12 +44,10 @@ if ($addonkey && isset($addons[$addonkey])) {
       $hiddenField = '<input type="hidden" name="upload[upload_file]" value="' . ((integer) $new) . '" />';
     }
 
-    $path = 'index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;rex-api-call=install_packages_%s&amp;addonkey=' . $addonkey . '&amp;file=' . $file_id;
-
     $content .= '
     <h2>' . $addonkey . ': ' . $this->i18n($new ? 'file_add' : 'file_edit') . '</h2>
   <div class="rex-form">
-    <form action="' . sprintf($path, 'upload') . '" method="post">
+    <form action="' . rex_url::currentBackendPage(array('rex-api-call' => 'install_packages_upload', 'addonkey' => $addonkey, 'file' => $file_id)) . '" method="post">
       <fieldset>';
 
 
@@ -109,7 +107,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             $formElements[] = $n;
 
             $n = array();
-            $n['field'] = '<input id="install-packages-delete" type="button" value="' . $this->i18n('delete') . '" onclick="if(confirm(\'' . $this->i18n('delete') . ' ?\')) location.href=\'' . sprintf($path, 'delete') . '\';" />';
+            $n['field'] = '<input id="install-packages-delete" type="button" value="' . $this->i18n('delete') . '" onclick="if(confirm(\'' . $this->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(array('rex-api-call' => 'install_packages_delete', 'addonkey' => $addonkey, 'file' => $file_id)) . '\';" />';
             $formElements[] = $n;
 
           $fragment = new rex_fragment();
@@ -147,7 +145,7 @@ if ($addonkey && isset($addons[$addonkey])) {
   } else {
     $icon = '';
     if (rex_addon::exists($addonkey))
-      $icon = '<a class="rex-ic-generic rex-ic-add" href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey=' . $addonkey . '&amp;file=new" title="' . $this->i18n('file_add') . '">' . $this->i18n('file_add') . '</a>';
+      $icon = '<a class="rex-ic-generic rex-ic-add" href="' . rex_url::currentBackendPage(array('addonkey' => $addonkey, 'file' => 'new')) . '" title="' . $this->i18n('file_add') . '">' . $this->i18n('file_add') . '</a>';
 
     $content .= '
     <h2>' . $addonkey . '</h2>
@@ -188,12 +186,12 @@ if ($addonkey && isset($addons[$addonkey])) {
       <tbody>';
 
     foreach ($addon['files'] as $fileId => $file) {
-      $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey=' . $addonkey . '&amp;file=' . $fileId . '">%s</a>';
+      $url = rex_url::currentBackendPage(array('addonkey' => $addonkey, 'file' => $fileId));
       $status = $file['status'] ? 'online' : 'offline';
       $content .= '
       <tr>
-        <td class="rex-icon">' . sprintf($a, ' class="rex-ic-addon"', $file['version']) . '</td>
-        <td class="rex-version">' . sprintf($a, '', $file['version']) . '</a></td>
+        <td class="rex-icon"><a class="rex-ic-addon" href="' . $url . '">' . $file['version'] . '</td>
+        <td class="rex-version"><a href="' . $url . '">' . $file['version'] . '</a></td>
         <td class="rex-version">' . implode(', ', $file['redaxo_versions']) . '</td>
         <td class="rex-description">' . nl2br($file['description']) . '</td>
         <td class="rex-status"><span class="rex-' . $status . '">' . $this->i18n($status) . '</span></td>
@@ -220,12 +218,12 @@ if ($addonkey && isset($addons[$addonkey])) {
      <tbody>';
 
   foreach ($addons as $key => $addon) {
-    $a = '<a%s href="index.php?page=install&amp;subpage=packages&amp;subsubpage=upload&amp;addonkey=' . $key . '">%s</a>';
+    $url = rex_url::currentBackendPage(array('addonkey' => $key));
     $status = $addon['status'] ? 'online' : 'offline';
     $content .= '
       <tr>
-        <td class="rex-icon">' . sprintf($a, ' class="rex-ic-addon"', $key) . '</a></td>
-        <td class="rex-key">' . sprintf($a, '', $key) . '</a></td>
+        <td class="rex-icon"><a class="rex-ic-addon" href="' . $url . '">' . $key . '</a></td>
+        <td class="rex-key"><a href="' . $url . '">' . $key . '</a></td>
         <td class="rex-name">' . $addon['name'] . '</td>
         <td class="rex-status"><span class="rex-' . $status . '">' . $this->i18n($status) . '</span></td>
       </tr>';
