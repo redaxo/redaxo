@@ -23,7 +23,7 @@ class rex_url
    */
   static public function base($file = '')
   {
-    return self::$base . $file;
+    return htmlspecialchars(self::$base . $file);
   }
 
   /**
