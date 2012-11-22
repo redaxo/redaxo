@@ -1044,6 +1044,11 @@ fieldset .rex-grid2col {
   padding-bottom: 12px;
   border-bottom: 1px solid #fff;
 }
+fieldset .rex-grid2col:last-of-type {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
 .rex-form-data:last-of-type {
   padding-bottom: 0;
   border-bottom: 0;
@@ -1103,17 +1108,12 @@ fieldset .rex-grid2col {
 }
 
 fieldset.rex-form-action {
-  background: #3C4F58;
-  border-bottom: 1px solid #fff;
-
-  background: none;
+  background: #cfddde;
   border-top: 1px solid #fff;
-
-  border: 0;
 }
 fieldset.rex-form-action .rex-form-data {
   margin-bottom: 0;
-  padding: 6px 0;
+  padding: 12px 0;
 }
 
 /* gridXcol */
