@@ -1,7 +1,7 @@
 /******************************************************************* Fonts *****
 *******************************************************************************/
 body {
-  font: 13px/1.231 sans-serif;
+  font: 14px/1.231 sans-serif;
   *font-size: small;
 }
 select, input, textarea, button {
@@ -253,7 +253,7 @@ a {
 *******************************************************************************/
 body {
   background: #384f5a url(bg.png);
-  font-family: "Lucida Grande";
+  font-family: "Helvetica Neue", arial, helvetica, sans-serif;
 }
 #rex-page {
   min-width: 1000px;
