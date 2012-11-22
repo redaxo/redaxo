@@ -245,6 +245,12 @@ abstract class rex_var
     return $content;
   }
 
+  static public function toArray($value)
+  {
+    $value = json_decode(htmlspecialchars_decode($value));
+    return is_array($value) ? $value : null;
+  }
+
   static public function nothing()
   {
     return '';

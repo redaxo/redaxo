@@ -137,6 +137,20 @@ EOT
     $this->assertParseOutputEquals($expectedOutput, $content);
   }
 
+  public function testToArray()
+  {
+    $content = '<?php echo rex_var::toArray("REX_TEST_VAR[content=\'test\']") === null ? "null" : "";';
+    $this->assertParseOutputEquals('null', $content, 'toArray() returns null for non-arrays');
+
+    $array = array('1', '3', 'test');
+
+    $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(json_encode($array), '[]"')  . '\']"));';
+    $this->assertParseOutputEquals(print_r($array, true), $content, 'toArray() works with non-htmlspecialchar\'ed data');
+
+    $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(htmlspecialchars(json_encode($array)), '[]"')  . '\']"));';
+    $this->assertParseOutputEquals(print_r($array, true), $content, 'toArray() works with htmlspecialchar\'ed data');
+  }
+
   public function testQuote()
   {
     $string = "abc 'de' \"fg\" \ \nh\r\ni";
