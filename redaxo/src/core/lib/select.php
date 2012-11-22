@@ -4,6 +4,7 @@ class rex_select
 {
   private
     $attributes,
+    $optgroups = false,
     $options,
     $option_selected;
 
@@ -124,7 +125,16 @@ class rex_select
     $this->option_selected = array();
   }
 
-  ################ optionen hinzufuegen
+  public function useOptgroups($optgroups = true)
+  {
+    $this->optgroups = $optgroups;
+  }
+
+  public function addOptgroup($name, $id)
+  {
+    $this->options[0][] = array($name, null, $id, array());
+  }
+
   /**
    * Fügt eine Option hinzu
    */
@@ -223,7 +233,7 @@ class rex_select
     $ausgabe .= '<select' . $attr . '>' . "\n";
 
     if (is_array($this->options))
-      $ausgabe .= $this->_outGroup(0);
+      $ausgabe .= $this->outGroup(0, $this->optgroups ? -1 : 0, $this->optgroups);
 
     $ausgabe .= '</select>' . "\n";
     return $ausgabe;
@@ -235,9 +245,8 @@ class rex_select
     echo $this->get();
   }
 
-  private function _outGroup($re_id, $level = 0)
+  protected function outGroup($re_id, $level = 0, $optgroups = false)
   {
-
     if ($level > 100) {
       // nur mal so zu sicherheit .. man weiss nie ;)
       echo "select->_outGroup overflow ($groupname)";
@@ -245,25 +254,33 @@ class rex_select
     }
 
     $ausgabe = '';
-    $group = $this->_getGroup($re_id);
+    $group = $this->getGroup($re_id);
     foreach ($group as $option) {
       $name = $option[0];
       $value = $option[1];
       $id = $option[2];
-      $attributes = array();
-      if (isset($option[3]) && is_array($option[3]))
-        $attributes = $option[3];
-      $ausgabe .= $this->_outOption($name, $value, $level, $attributes);
+      if ($optgroups) {
+        $ausgabe .= '  <optgroup label="' . $name . '">' . "\n";
+      } else {
+        $attributes = array();
+        if (isset($option[3]) && is_array($option[3]))
+          $attributes = $option[3];
+        $ausgabe .= $this->outOption($name, $value, $level, $attributes);
+      }
 
-      $subgroup = $this->_getGroup($id, true);
+      $subgroup = $this->getGroup($id, true);
       if ($subgroup !== false) {
-        $ausgabe .= $this->_outGroup($id, $level + 1);
+        $ausgabe .= $this->outGroup($id, $level + 1);
+      }
+
+      if ($optgroups) {
+        $ausgabe .= '  </optgroup>' . "\n";
       }
     }
     return $ausgabe;
   }
 
-  private function _outOption($name, $value, $level = 0, array $attributes = array())
+  protected function outOption($name, $value, $level = 0, array $attributes = array())
   {
     $name = htmlspecialchars($name);
     $value = htmlspecialchars($value);
@@ -283,9 +300,8 @@ class rex_select
     return '    <option value="' . $value . '"' . $attr . '>' . $bsps . $name . '</option>' . "\n";
   }
 
-  private function _getGroup($re_id, $ignore_main_group = false)
+  protected function getGroup($re_id, $ignore_main_group = false)
   {
-
     if ($ignore_main_group && $re_id == 0) {
       return false;
     }

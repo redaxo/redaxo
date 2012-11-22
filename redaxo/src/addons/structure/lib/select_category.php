@@ -99,7 +99,7 @@ class rex_category_select extends rex_select
     return parent::get();
   }
 
-  private function _outGroup($re_id, $level = 0)
+  protected function outGroup($re_id, $level = 0, $optgroups = false)
   {
     if ($level > 100) {
       // nur mal so zu sicherheit .. man weiss nie ;)
@@ -108,20 +108,20 @@ class rex_category_select extends rex_select
     }
 
     $ausgabe = '';
-    $group = $this->_getGroup($re_id);
+    $group = $this->getGroup($re_id);
     foreach ($group as $option) {
       $name = $option[0];
       $value = $option[1];
       $id = $option[2];
       if ($id == 0 || !$this->check_perms || ($this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2]))) {
-          $ausgabe .= $this->_outOption($name, $value, $level);
+          $ausgabe .= $this->outOption($name, $value, $level);
       } elseif (($this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2]))) {
         $level--;
       }
 
-      $subgroup = $this->_getGroup($id, true);
+      $subgroup = $this->getGroup($id, true);
       if ($subgroup !== false) {
-        $ausgabe .= $this->_outGroup($id, $level + 1);
+        $ausgabe .= $this->outGroup($id, $level + 1);
       }
     }
     return $ausgabe;
