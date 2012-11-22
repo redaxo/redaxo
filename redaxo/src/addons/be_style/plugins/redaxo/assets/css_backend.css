@@ -1068,6 +1068,7 @@ fieldset .rex-grid2col:last-of-type {
 .rex-form-data input[type="password"],
 .rex-form-data select,
 .rex-form-data textarea {
+  font-family: "Helvetica Neue", arial, helvetica, sans-serif;
   float: left;
   width: 400px;
 }
