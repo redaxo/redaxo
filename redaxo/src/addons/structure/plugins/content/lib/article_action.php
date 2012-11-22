@@ -44,6 +44,9 @@ class rex_article_action
       $values = rex_request('REX_INPUT_' . strtoupper($key), 'array');
       for ($i = 1; $i <= $max; ++$i) {
         if (isset($values[$i])) {
+          if (is_array($values[$i])) {
+            $values[$i] = json_encode($values[$i]);
+          }
           $this->sql->setValue($key . $i, $values[$i]);
         }
       }
