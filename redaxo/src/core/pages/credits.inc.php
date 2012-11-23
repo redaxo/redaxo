@@ -5,70 +5,6 @@
  * @package redaxo5
  */
 
-$addons = array();
-foreach (rex_addon::getRegisteredAddons() as $addon) {
-  $isActive    = $addon->isActivated();
-  $version     = $addon->getVersion();
-  $author      = $addon->getAuthor();
-  $supportPage = $addon->getSupportPage();
-
-  if ($isActive) {
-    $cl = 'rex-active';
-  } else {
-    $cl = 'rex-inactive';
-  }
-
-  if ($version)   $version       = '[' . $version . ']';
-  if ($author)    $author        = htmlspecialchars($author);
-  if (!$isActive) $author        = rex_i18n::msg('credits_addon_inactive');
-
-  $rex_ooAddon =  new stdClass();
-  $rex_ooAddon->name = $addon->getName();
-  $rex_ooAddon->version = $version;
-  $rex_ooAddon->author = $author;
-  $rex_ooAddon->supportpage = $supportPage;
-  $rex_ooAddon->class = $cl;
-
-  $plugins = array();
-  if ($isActive) {
-    foreach ($addon->getAvailablePlugins() as $plugin) {
-      $isActive    = $plugin->isActivated();
-      $version     = $plugin->getVersion();
-      $author      = $plugin->getAuthor();
-      $supportPage = $plugin->getSupportPage();
-
-      if ($isActive) {
-        $cl = 'rex-active';
-      } else {
-        $cl = 'rex-inactive';
-      }
-
-      if ($version)   $version       = '[' . $version . ']';
-      if ($author)    $author        = htmlspecialchars($author);
-      if (!$isActive) $author        = rex_i18n::msg('credits_addon_inactive');
-
-      $rex_ooPlugin =  new stdClass();
-      $rex_ooPlugin->name = $plugin->getName() ;
-      $rex_ooPlugin->version = $version;
-      $rex_ooPlugin->author = $author;
-      $rex_ooPlugin->supportpage = $supportPage;
-      $rex_ooPlugin->class = $cl;
-      $plugins [] = $rex_ooPlugin;
-    }
-  }
-
-  $rex_ooAddon->plugins = $plugins;
-  $addons[] = $rex_ooAddon;
-  //  echo '
-//      <tr class="rex-addon">
-//        <td class="rex-col-a"><span class="'.$cl.'">'.htmlspecialchars($addon).'</span> [<a href="index.php?page=packages&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>
-//        <td class="rex-col-b '.$cl.'">'. $version .'</td>
-//        <td class="rex-col-c'.$cl.'">'. $author .'</td>
-//        <td class="rex-col-d'.$cl.'">'. $supportPage .'</td>
-//      </tr>';
-
-}
-
 echo rex_view::title(rex_i18n::msg('credits'), '');
 
 $content_1 = '';
@@ -127,39 +63,23 @@ $content .= '
 
     <tbody>';
 
-    foreach ($addons as $addon) {
+    foreach (rex_package::getRegisteredPackages() as $package) {
       $content .= '
-      <tr class="rex-addon ' . $addon->class . '">
-        <td class="rex-name">' . $addon->name . ' <a href="index.php?page=packages&amp;subpage=help&amp;addonname=' . $addon->name . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $addon->name . '">?</a></td>
-        <td class="rex-version">' . $addon->version . '</td>
-        <td class="rex-author">' . $addon->author . '</td>
+      <tr class="rex-' . $package->getType() . ' rex-' . ($package->isAvailable() ? 'active' : 'inactive') . '">
+        <td class="rex-name">' . $package->getName() . ' <a href="' . rex_url::backendPage('packages', array('subpage' => 'help', 'package' => $package->getPackageId())) . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $package->getName() . '">?</a></td>
+        <td class="rex-version">' . $package->getVersion() . '</td>
+        <td class="rex-author">' . $package->getAuthor() . '</td>
         <td class="rex-support">';
 
-        if ($addon->supportpage) {
-          $content .= '<a href="http://' . $addon->supportpage . '" onclick="window.open(this.href); return false;">' . $addon->supportpage . '</a>';
-        }
+      if ($supportpage = $package->getSupportPage()) {
+        $content .= '<a href="http://' . $supportpage . '" onclick="window.open(this.href); return false;">' . $supportpage . '</a>';
+      }
 
       $content .= '
         </td>
       </tr>';
-
-      foreach ($addon->plugins as $plugin) {
-        $content .= '
-        <tr class="rex-plugin ' . $plugin->class . '">
-          <td class="rex-name">' . $plugin->name . ' <a href="index.php?page=packages&amp;subpage=help&amp;addonname=' . $addon->name . '&amp;pluginname=' . $plugin->name . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $addon->name . '">?</a></td>
-          <td class="rex-version">' . $plugin->version . '</td>
-          <td class="rex-author">' . $plugin->author . '</td>
-          <td class="rex-support">';
-
-          if ($plugin->supportpage) {
-            $content .= '<a href="http://' . $plugin->supportpage . '" onclick="window.open(this.href); return false;">' . $plugin->supportpage . '</a>';
-          }
-
-        $content .= '
-          </td>
-        </tr>';
-      }
     }
+
     $content .= '
     </tbody>
   </table>';
