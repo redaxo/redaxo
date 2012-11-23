@@ -77,6 +77,17 @@ class rex_addon_manager extends rex_package_manager
   }
 
   /* (non-PHPdoc)
+   * @see rex_package_manager::wrongPackageId()
+   */
+  protected function wrongPackageId($addonName, $pluginName = null)
+  {
+    if ($pluginName !== null) {
+      return $this->i18n('is_plugin', $addonName, $pluginName);
+    }
+    return $this->i18n('wrong_dir_name', $addonName);
+  }
+
+  /* (non-PHPdoc)
    * @see rex_package_manager::checkDependencies()
    */
   public function checkDependencies()

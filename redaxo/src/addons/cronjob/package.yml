@@ -1,3 +1,4 @@
+package: cronjob
 version: '5.0 alpha2'
 author: 'Gregor Harlan'
 supportpage: www.redaxo.org/de/forum/

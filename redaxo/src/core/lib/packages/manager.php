@@ -6,6 +6,7 @@
 abstract class rex_package_manager extends rex_factory_base
 {
   const
+    PACKAGE_FILE = 'package.yml',
     CONFIG_FILE = 'config.inc.php',
     INSTALL_FILE = 'install.inc.php',
     INSTALL_SQL = 'install.sql',
@@ -75,6 +76,7 @@ abstract class rex_package_manager extends rex_factory_base
     $state = true;
 
     $install_dir  = $this->package->getBasePath();
+    $package_file = $install_dir . self::PACKAGE_FILE;
     $install_file = $install_dir . self::INSTALL_FILE;
     $install_sql  = $install_dir . self::INSTALL_SQL;
     $config_file  = $install_dir . self::CONFIG_FILE;
@@ -84,6 +86,22 @@ abstract class rex_package_manager extends rex_factory_base
     // damit das Addon spaeter wieder geloescht werden kann
     if (!rex_dir::isWritable($install_dir)) {
       $state = $this->i18n('dir_not_writable', $install_dir);
+    }
+
+    if ($state === true) {
+      if (!is_readable($package_file)) {
+        $state = $this->i18n('missing_yml_file');
+      } else {
+        $packageId = $this->package->getProperty('package');
+        if ($packageId === null) {
+          $state = $this->i18n('missing_id', $this->package->getPackageId());
+        } elseif ($packageId != $this->package->getPackageId()) {
+          $parts = explode('/', $packageId, 2);
+          $state = $this->wrongPackageId($parts[0], isset($parts[1]) ? $parts[1] : null);
+        } elseif ($this->package->getVersion() === null) {
+          $state = $this->i18n('missing_version');
+        }
+      }
     }
 
     // check if requirements are met
@@ -347,6 +365,13 @@ abstract class rex_package_manager extends rex_factory_base
 
     return $ignoreState ? true : $state === true;
   }
+
+  /**
+   * @param string $addonName
+   * @param string $pluginName
+   * @return string
+   */
+  abstract protected function wrongPackageId($addonName, $pluginName = null);
 
   /**
    * Checks whether the requirements are met.
