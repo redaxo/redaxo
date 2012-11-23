@@ -42,7 +42,7 @@ abstract class rex_api_install_packages_download extends rex_api_function
       $success = false;
     } else {
       $message = rex_i18n::msg('install_packages_info_addon_' . static::VERB, $this->addonkey)
-               . (static::SHOW_LINK ? ' <a href="index.php?page=addon">' . rex_i18n::msg('install_packages_to_addon_page') . '</a>' : '');
+               . (static::SHOW_LINK ? ' <a href="' . rex_url::backendPage('packages') . '">' . rex_i18n::msg('install_packages_to_addon_page') . '</a>' : '');
       $success = true;
       unset($_REQUEST['addonkey']);
     }

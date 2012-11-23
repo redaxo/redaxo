@@ -4,7 +4,7 @@
  * @package redaxo5.2
  */
 
-<a href="?page=addon&amp;spage=help&amp;addonname=url_rewrite&amp;mode=changelog">Changelog</a>
+<a href="?page=packages&amp;spage=help&amp;addonname=url_rewrite&amp;mode=changelog">Changelog</a>
 
 <strong>Beschreibung:</strong>
 

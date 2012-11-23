@@ -61,7 +61,7 @@ foreach (rex_addon::getRegisteredAddons() as $addon) {
   $addons[] = $rex_ooAddon;
   //  echo '
 //      <tr class="rex-addon">
-//        <td class="rex-col-a"><span class="'.$cl.'">'.htmlspecialchars($addon).'</span> [<a href="index.php?page=addon&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>
+//        <td class="rex-col-a"><span class="'.$cl.'">'.htmlspecialchars($addon).'</span> [<a href="index.php?page=packages&amp;subpage=help&amp;addonname='.$addon.'">?</a>]</td>
 //        <td class="rex-col-b '.$cl.'">'. $version .'</td>
 //        <td class="rex-col-c'.$cl.'">'. $author .'</td>
 //        <td class="rex-col-d'.$cl.'">'. $supportPage .'</td>
@@ -130,7 +130,7 @@ $content .= '
     foreach ($addons as $addon) {
       $content .= '
       <tr class="rex-addon ' . $addon->class . '">
-        <td class="rex-name">' . $addon->name . ' <a href="index.php?page=addon&amp;subpage=help&amp;addonname=' . $addon->name . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $addon->name . '">?</a></td>
+        <td class="rex-name">' . $addon->name . ' <a href="index.php?page=packages&amp;subpage=help&amp;addonname=' . $addon->name . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $addon->name . '">?</a></td>
         <td class="rex-version">' . $addon->version . '</td>
         <td class="rex-author">' . $addon->author . '</td>
         <td class="rex-support">';
@@ -146,7 +146,7 @@ $content .= '
       foreach ($addon->plugins as $plugin) {
         $content .= '
         <tr class="rex-plugin ' . $plugin->class . '">
-          <td class="rex-name">' . $plugin->name . ' <a href="index.php?page=addon&amp;subpage=help&amp;addonname=' . $addon->name . '&amp;pluginname=' . $plugin->name . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $addon->name . '">?</a></td>
+          <td class="rex-name">' . $plugin->name . ' <a href="index.php?page=packages&amp;subpage=help&amp;addonname=' . $addon->name . '&amp;pluginname=' . $plugin->name . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $addon->name . '">?</a></td>
           <td class="rex-version">' . $plugin->version . '</td>
           <td class="rex-author">' . $plugin->author . '</td>
           <td class="rex-support">';

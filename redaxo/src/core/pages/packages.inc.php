@@ -116,7 +116,7 @@ if ($subpage == '') {
     return $message . '
           <tr class="rex-' . $type . ' rex-' . $type . '-' . $class . '">
             <td class="rex-icon"><span class="rex-ic-' . $type . '">' . $name . '</span></td>
-            <td class="rex-name">' . $name . ' ' . $package->getVersion() . ' <a href="index.php?page=addon&amp;subpage=help&amp;package=' . $packageId . '">?</a></td>
+            <td class="rex-name">' . $name . ' ' . $package->getVersion() . ' <a href="' . rex_url::currentBackendPage(array('subpage' => 'help', 'package' => $packageId)) . '">?</a></td>
             <td class="rex-install">' . $install . '</td>
             <td class="rex-active" data-pjax-container="#rex-page">' . $status . '</td>
             <td class="rex-uninstall" data-pjax-container="#rex-page">' . $uninstall . '</td>

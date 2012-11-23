@@ -117,11 +117,11 @@ class rex_be_controller
     $credits->setIsCorePage(true);
     $pages['credits'] = $credits;
 
-    $addon = new rex_be_page('addon', rex_i18n::msg('addons'));
+    $addon = new rex_be_page('packages', rex_i18n::msg('addons'));
     $addon->setIsCorePage(true);
     $addon->setRequiredPermissions('isAdmin');
-    $pages['addon'] = new rex_be_page_main('system', $addon);
-    $pages['addon']->setPrio(60);
+    $pages['packages'] = new rex_be_page_main('system', $addon);
+    $pages['packages']->setPrio(60);
 
     $settings = new rex_be_page('settings', rex_i18n::msg('main_preferences'));
 
@@ -142,9 +142,6 @@ class rex_be_controller
     $mainSpecials->addSubPage($phpinfo);
     $pages['system'] = new rex_be_page_main('system', $mainSpecials);
     $pages['system']->setPrio(70);
-
-    $pages['addon'] = new rex_be_page_main('system', $addon);
-    $pages['addon']->setPrio(60);
 
     return $pages;
   }
