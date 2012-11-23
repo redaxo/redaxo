@@ -7,6 +7,8 @@ class rex_test_runner
     // load all required PEAR libs from vendor folder
     $path = __DIR__ . '/../vendor/';
     set_include_path($path . PATH_SEPARATOR . get_include_path());
+
+    require_once 'PHPUnit/Autoload.php';
   }
 
   public function run(rex_test_locator $locator, $colors = false)
