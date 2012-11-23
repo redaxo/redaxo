@@ -17,7 +17,7 @@ class rex_plugin_manager extends rex_package_manager
    */
   public function checkDependencies()
   {
-    $i18nPrefix = 'addon_dependencies_error_';
+    $i18nPrefix = 'package_dependencies_error_';
     $state = array();
 
     foreach (rex_package::getAvailablePackages() as $package) {

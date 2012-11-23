@@ -46,7 +46,7 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
         return $msg;
       }
       if (!$this->addon->getProperty('update', true)) {
-        return rex_i18n::msg('addon_no_reason');
+        return rex_i18n::msg('package_no_reason');
       }
     }
 
