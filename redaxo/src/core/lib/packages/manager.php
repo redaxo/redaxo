@@ -83,7 +83,7 @@ abstract class rex_package_manager extends rex_factory_base
     // Pruefen des Addon Ornders auf Schreibrechte,
     // damit das Addon spaeter wieder geloescht werden kann
     if (!rex_dir::isWritable($install_dir)) {
-      $state = $this->I18N('dir_not_writable', $install_dir);
+      $state = $this->i18n('dir_not_writable', $install_dir);
     }
 
     // check if requirements are met
@@ -104,7 +104,7 @@ abstract class rex_package_manager extends rex_factory_base
         if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
           $state = $instmsg;
         } elseif (!$this->package->isInstalled()) {
-          $state = $this->I18N('no_reason');
+          $state = $this->i18n('no_reason');
         }
       } catch (rex_functional_exception $e) {
         $state = $e->getMessage();
@@ -128,16 +128,16 @@ abstract class rex_package_manager extends rex_factory_base
     // Dateien kopieren
     if ($state === true && is_dir($files_dir)) {
       if (!rex_dir::copy($files_dir, $this->package->getAssetsPath())) {
-        $state = $this->I18N('install_cant_copy_files');
+        $state = $this->i18n('install_cant_copy_files');
       }
     }
 
     if ($state !== true) {
       $this->package->setProperty('install', false);
-      $state = $this->I18N('no_install', $this->package->getName()) . '<br />' . $state;
+      $state = $this->i18n('no_install', $this->package->getName()) . '<br />' . $state;
     }
 
-    $this->message = $state === true ? $this->I18N('installed', $this->package->getName()) : $state;
+    $this->message = $state === true ? $this->i18n('installed', $this->package->getName()) : $state;
 
     return $state === true;
   }
@@ -177,7 +177,7 @@ abstract class rex_package_manager extends rex_factory_base
         if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
           $state = $instmsg;
         } elseif ($this->package->isInstalled()) {
-          $state = $this->I18N('no_reason');
+          $state = $this->i18n('no_reason');
         }
       } catch (rex_functional_exception $e) {
         $state = $e->getMessage();
@@ -196,7 +196,7 @@ abstract class rex_package_manager extends rex_factory_base
     $mediaFolder = $this->package->getAssetsPath();
     if ($state === true && is_dir($mediaFolder)) {
       if (!rex_dir::delete($mediaFolder)) {
-        $state = $this->I18N('install_cant_delete_files');
+        $state = $this->i18n('install_cant_delete_files');
       }
     }
 
@@ -211,12 +211,12 @@ abstract class rex_package_manager extends rex_factory_base
         $this->package->setProperty('status', true);
       }
       $this->saveConfig();
-      $state = $this->I18N('no_uninstall', $this->package->getName()) . '<br />' . $state;
+      $state = $this->i18n('no_uninstall', $this->package->getName()) . '<br />' . $state;
     } else {
       $this->saveConfig();
     }
 
-    $this->message = $state === true ? $this->I18N('uninstalled', $this->package->getName()) : $state;
+    $this->message = $state === true ? $this->i18n('uninstalled', $this->package->getName()) : $state;
 
     return $state === true;
   }
@@ -247,7 +247,7 @@ abstract class rex_package_manager extends rex_factory_base
           self::generatePackageOrder();
         }
       } else {
-        $state = $this->I18N('not_installed', $this->package->getName());
+        $state = $this->i18n('not_installed', $this->package->getName());
       }
     }
     // addon-code which will be included might throw exception
@@ -258,10 +258,10 @@ abstract class rex_package_manager extends rex_factory_base
     if ($state !== true) {
       // error while config generation, rollback addon status
       $this->package->setProperty('status', false);
-      $state = $this->I18N('no_activation', $this->package->getName()) . '<br />' . $state;
+      $state = $this->i18n('no_activation', $this->package->getName()) . '<br />' . $state;
     }
 
-    $this->message = $state === true ? $this->I18N('activated', $this->package->getName()) : $state;
+    $this->message = $state === true ? $this->i18n('activated', $this->package->getName()) : $state;
 
     return $state === true;
   }
@@ -290,7 +290,7 @@ abstract class rex_package_manager extends rex_factory_base
           self::generatePackageOrder();
         }
       } else {
-        $state = $this->I18N('no_deactivation', $this->package->getName()) . '<br />' . $state;
+        $state = $this->i18n('no_deactivation', $this->package->getName()) . '<br />' . $state;
       }
     }
     // addon-code which will be included might throw exception
@@ -298,7 +298,7 @@ abstract class rex_package_manager extends rex_factory_base
       $state = $e->getMessage();
     }
 
-    $this->message = $state === true ? $this->I18N('deactivated', $this->package->getName()) : $state;
+    $this->message = $state === true ? $this->i18n('deactivated', $this->package->getName()) : $state;
 
     return $state === true;
   }
@@ -326,7 +326,7 @@ abstract class rex_package_manager extends rex_factory_base
   {
     try {
       if (!$ignoreState && $this->package->isSystemPackage())
-        return $this->I18N('systempackage_delete_not_allowed');
+        return $this->i18n('systempackage_delete_not_allowed');
 
       // zuerst deinstallieren
       // bei erfolg, komplett löschen
@@ -343,7 +343,7 @@ abstract class rex_package_manager extends rex_factory_base
       $state = $e->getMessage();
     }
 
-    $this->message = $state === true ? $this->I18N('deleted', $this->package->getName()) : $state;
+    $this->message = $state === true ? $this->i18n('deleted', $this->package->getName()) : $state;
 
     return $ignoreState ? true : $state === true;
   }
@@ -532,7 +532,7 @@ abstract class rex_package_manager extends rex_factory_base
    *
    * @return string Tranlates text
    */
-  protected function I18N()
+  protected function i18n()
   {
     $args = func_get_args();
     $args[0] = $this->i18nPrefix . $args[0];
