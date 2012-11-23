@@ -12,7 +12,3 @@ navigation:
 requires:
   redaxo:
     min-version: '5.0.alpha3'
-
-autoload:
-  classes:
-    - vendor/

@@ -96,6 +96,7 @@ abstract class rex_package_manager extends rex_factory_base
     // check if install.inc.php exists
     if ($state === true && is_readable($install_file)) {
       rex_autoload::addDirectory($this->package->getBasePath('lib'));
+      rex_autoload::addDirectory($this->package->getBasePath('vendor'));
       try {
         static::includeFile($this->package, self::INSTALL_FILE);
         // Wurde das "install" Flag gesetzt?
@@ -236,6 +237,7 @@ abstract class rex_package_manager extends rex_factory_base
           if (!rex::isSetup()) {
             if (is_readable($this->package->getBasePath(self::CONFIG_FILE))) {
               rex_autoload::addDirectory($this->package->getBasePath('lib'));
+              rex_autoload::addDirectory($this->package->getBasePath('vendor'));
               static::includeFile($this->package, self::CONFIG_FILE);
             }
           }
