@@ -5,7 +5,3 @@ supportpage: www.redaxo.org/de/forum/
 navigation:
   title: 'Textile'
   perm: admin[]
-
-autoload:
-  classes:
-    - vendor/
