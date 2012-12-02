@@ -356,7 +356,6 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $arg_fields .= '<input type="hidden" name="args[' . $arg_name . ']" value="' . $arg_value . '" />' . "\n";
   }
 
-  $arg_fields = '';
   $opener_input_field = rex_request('opener_input_field', 'string');
   if ($opener_input_field != '') {
     $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . htmlspecialchars($opener_input_field) . '" />' . "\n";
