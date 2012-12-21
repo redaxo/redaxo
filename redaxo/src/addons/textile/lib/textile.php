@@ -2,20 +2,21 @@
 
 class rex_textile
 {
-  static private $instance;
+  static private $instances = array();
 
-  static public function parse($code)
+  static public function parse($code, $restricted = false, $doctype = 'xhtml')
   {
-    return self::getInstance()->TextileThis($code);
+    $instance = self::getInstance($doctype);
+    return $restricted ? $instance->TextileRestricted($code) : $instance->TextileThis($code);
   }
 
-  static private function getInstance()
+  static private function getInstance($doctype = 'xhtml')
   {
-    if (!self::$instance) {
-      self::$instance = new Textile;
-      self::$instance->unrestricted_url_schemes[] = 'redaxo';
+    if (!isset(self::$instance[$doctype])) {
+      self::$instances[$doctype] = new Textile;
+      self::$instances[$doctype]->unrestricted_url_schemes[] = 'redaxo';
     }
-    return self::$instance;
+    return self::$instances[$doctype];
   }
 
   static public function showHelpOverview()
