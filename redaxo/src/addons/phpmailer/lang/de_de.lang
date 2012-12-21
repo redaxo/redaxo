@@ -6,6 +6,7 @@ phpmailer_config_settings = Einstellungen
 phpmailer_sender_name = Absender (Name)
 phpmailer_sender_email = Absender (E-Mail)
 phpmailer_confirm = Lesebestätigung (E-Mail)
+phpmailer_bcc = Blindkopie (E-Mail)
 phpmailer_mailertype = Mailertype
 phpmailer_host = Host
 phpmailer_charset = Zeichensatz

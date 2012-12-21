@@ -28,6 +28,10 @@ class rex_mailer extends PHPMailer
     $this->Username         = $addon->getConfig('username');
     $this->Password         = $addon->getConfig('password');
 
+    if ($bcc = $addon->getConfig('bcc')) {
+      $this->AddBCC($bcc);
+    }
+
     $this->PluginDir = $addon->getBasePath('lib/phpmailer/');
   }
 }

@@ -13,6 +13,7 @@ if (!$this->hasConfig()) {
   $this->setConfig('from',     'from@example.com');
   $this->setConfig('fromname', 'Mailer');
   $this->setConfig('confirmto', '');
+  $this->setConfig('bcc',       '');
   $this->setConfig('mailer',   'sendmail');
   $this->setConfig('host',     'localhost');
   $this->setConfig('charset',  'utf-8');
