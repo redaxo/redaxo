@@ -479,7 +479,7 @@ if ($subpage == '') {
 
   if (is_array($warning)) {
     if (count($warning) > 0)
-      echo rex_view::warningBlock(implode('<br />', $warning));
+      echo rex_view::warning(implode('<br />', $warning));
     $warning = '';
   } elseif ($warning != '') {
     echo rex_view::warning($warning);
@@ -488,7 +488,7 @@ if ($subpage == '') {
 
   if (is_array($info)) {
     if (count($info) > 0)
-      echo rex_view::infoBlock(implode('<br />', $info));
+      echo rex_view::info(implode('<br />', $info));
     $info = '';
   } elseif ($info != '') {
     echo rex_view::info($info);

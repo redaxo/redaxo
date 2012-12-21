@@ -122,6 +122,10 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
     $message .= rex_i18n::msg('pool_file_added');
 
+    if ($NFILENAME != $FILENAME) {
+      $message .= '<br />' . rex_i18n::rawMsg('pool_file_renamed', $FILENAME, $NFILENAME);
+    }
+
     rex_media_cache::deleteList($rex_file_category);
   }
 
@@ -234,26 +238,7 @@ $RETURN['old_filename'] = $FILENAME;
 */
 
   return $RETURN;
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * Synchronisiert die Datei $physical_filename des Mediafolders in den
@@ -295,7 +280,7 @@ function rex_mediapool_syncFile($physical_filename, $category_id, $title, $files
   $FILEINFOS['title'] = $title;
 
   $RETURN = rex_mediapool_saveMedia($FILE, $category_id, $FILEINFOS, null, false);
-  return $RETURN['ok'] == 1;
+  return $RETURN;
 }
 
 /**
@@ -321,8 +306,13 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $warning = '';
   }
 
-  if (isset($info) and $info != '') {
-    $s .= rex_view::info($info);
+  if (isset($info)) {
+    if (is_array($info)) {
+      if (count($info) > 0)
+        $s .= rex_view::info(implode('<br />', $info));
+    } elseif ($info != '') {
+      $s .= rex_view::info($info);
+    }
     $info = '';
   }
 

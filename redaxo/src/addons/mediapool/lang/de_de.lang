@@ -63,6 +63,7 @@ pool_file_in_use_articles = Artikel (Inhalt)
 pool_file_changed = Die Datei wurde ausgetauscht!
 pool_file_added = Datei wurde hinzugefügt.
 pool_file_movefailed = Dateiupload ist fehlgeschlagen.
+pool_file_renamed = Ursprünglicher Dateiname <code>{0}</code> wurde angepasst: <code>{1}</code>
 pool_img_width = Breite
 pool_img_height = Höhe
 pool_selectedmedia = Ausgewählte Medien:

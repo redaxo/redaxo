@@ -48,7 +48,7 @@ if ($media_method == 'add_file') {
         echo '</script>';
         exit;
       } elseif ($return['ok'] == 1) {
-        header('Location:index.php?page=mediapool&info=' . urlencode(rex_i18n::msg('pool_file_added')) . '&opener_input_field=' . $opener_input_field);
+        header('Location:index.php?page=mediapool&info=' . urlencode($info) . '&opener_input_field=' . $opener_input_field);
         exit;
       } else {
         $warning = rex_i18n::msg('pool_file_movefailed');
