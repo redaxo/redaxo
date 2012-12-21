@@ -459,8 +459,8 @@ class rex_media
     $files = array();
     $filelists = array();
     for ($i = 1; $i < 11; $i++) {
-      $files[] = 'file' . $i . '="' . $filename . '"';
-      $filelists[] = 'FIND_IN_SET("' . $filename . '",filelist' . $i . ')';
+      $files[] = 'media' . $i . '="' . $filename . '"';
+      $filelists[] = 'FIND_IN_SET("' . $filename . '",medialist' . $i . ')';
     }
 
     $where = '';
