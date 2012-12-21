@@ -30,9 +30,9 @@ else
 $mdl_output = '<?php
 if (rex_addon::get(\'textile\')->isAvailable())
 {
-  if(REX_IS_VALUE[1])
+  if(\'REX_VALUE[id=1 isset=1]\')
   {
-    $textile = htmlspecialchars_decode(\'REX_VALUE[1]\');
+    $textile = \'REX_VALUE[id=1 html=1]\';
     $textile = str_replace(\'<br />\', \'\', $textile);
     echo rex_textile::parse($textile);
   }
