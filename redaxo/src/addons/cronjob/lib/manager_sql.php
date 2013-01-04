@@ -180,7 +180,7 @@ class rex_cronjob_manager_sql
 
   public function setNextTime($id, $interval, $resetExecutionStart = false)
   {
-    $nexttime = $this->_calculateNextTime($interval);
+    $nexttime = self::calculateNextTime($interval);
     $add = $resetExecutionStart ? ', execution_start = 0' : '';
     $success = $this->sql->setQuery('
       UPDATE  ' . REX_CRONJOB_TABLE . '
@@ -217,7 +217,7 @@ class rex_cronjob_manager_sql
     return true;
   }
 
-  private function _calculateNextTime($interval)
+  static public function calculateNextTime($interval)
   {
     $interval = explode('|', trim($interval, '|'));
     if (is_array($interval) && isset($interval[0]) && isset($interval[1])) {
