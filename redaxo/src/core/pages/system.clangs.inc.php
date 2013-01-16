@@ -83,7 +83,7 @@ if ($warning != '')
 
 $content .= '
       <div class="rex-form" id="rex-form-system-language">
-      <form action="index.php#clang" method="post">
+      <form action="' . rex_url::currentBackendPage() . '" method="post">
     ';
 
 if ($func == 'addclang' || $func == 'editclang') {
@@ -91,8 +91,6 @@ if ($func == 'addclang' || $func == 'editclang') {
   $content .= '
         <fieldset>
           <legend>' . $legend . '</legend>
-          <input type="hidden" name="page" value="system" />
-          <input type="hidden" name="subpage" value="lang" />
           <input type="hidden" name="clang_id" value="' . $clang_id . '" />
       ';
 }
@@ -135,7 +133,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
   if ($lang_id == 0)
    $delLink = '<span class="rex-strike">' . $delLink . '</span>';
   else
-    $delLink = '<a href="' . rex_url::currentBackendPage(array('func' => 'deleteclang', 'clang_id' => $clang_id)) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?">' . $delLink . '</a>';
+    $delLink = '<a href="' . rex_url::currentBackendPage(array('func' => 'deleteclang', 'clang_id' => $lang_id)) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?">' . $delLink . '</a>';
 
   // Edit form
   if ($func == 'editclang' && $clang_id == $lang_id) {
