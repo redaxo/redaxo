@@ -39,7 +39,7 @@ class rex_url
    */
   static public function frontendController(array $params = array())
   {
-    $query = http_build_query($params);
+    $query = rex_string::buildQuery($params);
     $query = $query ? '?' . $query : '';
     return self::base('index.php' . $query);
   }
@@ -57,7 +57,7 @@ class rex_url
    */
   static public function backendController(array $params = array())
   {
-    $query = http_build_query($params);
+    $query = rex_string::buildQuery($params);
     $query = $query ? '?' . $query : '';
     return self::backend('index.php' . $query);
   }

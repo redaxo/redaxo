@@ -171,7 +171,7 @@ class rex_socket
         $fileFormat = '--' . $boundary . $eol . 'Content-Disposition: form-data; name="%s"; filename="%s"' . $eol . 'Content-Type: %s' . $eol . $eol;
         $end = '--' . $boundary . '--' . $eol;
         $length = 0;
-        $temp = explode('&', http_build_query($data, '', '&'));
+        $temp = explode('&', rex_string::buildQuery($data));
         $data = array();
         $partLength = rex_string::size(sprintf($dataFormat, '') . $eol);
         foreach ($temp as $t) {
@@ -201,7 +201,7 @@ class rex_socket
       };
     } elseif (!is_callable($data)) {
       if (is_array($data))
-        $data = http_build_query($data);
+        $data = rex_string::buildQuery($data);
       $this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
     }
     return $this->doRequest('POST', $data);

@@ -109,6 +109,18 @@ class rex_string
   }
 
   /**
+   * Generates URL-encoded query string
+   *
+   * @param array  $params
+   * @param string $argSeparator
+   * @return string
+   */
+  static public function buildQuery(array $params, $argSeparator = '&')
+  {
+    return http_build_query($params, null, $argSeparator);
+  }
+
+  /**
    * Highlights a string
    *
    * @param string $string
