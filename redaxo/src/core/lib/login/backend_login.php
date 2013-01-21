@@ -19,15 +19,12 @@ class rex_backend_login extends rex_login
     $tableName = rex::getTablePrefix() . 'user';
     $this->setSqlDb(1);
     $this->setSysID(rex::getProperty('instname'));
-    $this->useSalt();
-    $this->setPasswordFunction(rex::getProperty('pswfunc'));
     $this->setSessiontime(rex::getProperty('session_duration'));
     $this->setUserID('user_id');
     $qry = 'SELECT * FROM ' . $tableName . ' WHERE status=1';
     $this->setUserquery($qry . ' AND user_id = :id');
     $this->setLoginquery($qry . '
       AND login = :login
-      AND password = :password
       AND (login_tries < ' . self::LOGIN_TRIES_1 . '
         OR login_tries < ' . self::LOGIN_TRIES_2 . ' AND lasttrydate < ' . (time() - self::RELOGIN_DELAY_1) . '
         OR lasttrydate < ' . (time() - self::RELOGIN_DELAY_2) . '
@@ -103,15 +100,6 @@ class rex_backend_login extends rex_login
     }
 
     return $check;
-  }
-
-  public function encryptPassword($psw)
-  {
-    // the service side encryption of pw is only required
-    // when not already encrypted by client using javascript
-    if (rex_post('javascript') == '0')
-      $psw = sha1($psw);
-    return parent::encryptPassword($psw);
   }
 
   static public function deleteSession()

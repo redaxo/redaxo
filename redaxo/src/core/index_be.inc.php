@@ -38,6 +38,11 @@ if (rex::isSetup()) {
   if (rex_get('rex_logout', 'boolean'))
     $login->setLogout(true);
 
+  // the service side encryption of pw is only required
+  // when not already encrypted by client using javascript
+  if (rex_post('javascript') == '0')
+    $rex_user_psw = sha1($rex_user_psw);
+
   $login->setLogin($rex_user_login, $rex_user_psw);
   $login->setStayLoggedIn($rex_user_stay_logged_in);
   $loginCheck = $login->checkLogin();

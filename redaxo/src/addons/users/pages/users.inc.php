@@ -146,9 +146,12 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
   else $updateuser->setValue('status', 0);
 
   if ($userpsw != '') {
-    if ($userpsw != $sql->getValue(rex::getTablePrefix() . 'user.password')) {
-      $userpsw = rex::getProperty('login')->encryptPassword($userpsw);
+    // the service side encryption of pw is only required
+    // when not already encrypted by client using javascript
+    if (rex_post('javascript') == '0') {
+      $userpsw = sha1($userpsw);
     }
+    $userpsw = rex_login::encryptPassword($userpsw);
 
     $updateuser->setValue('password', $userpsw);
   }
