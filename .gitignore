@@ -10,3 +10,5 @@
 /redaxo/src/layout
 /redaxo/src/functions
 /redaxo/src/addons/compat/plugins/4.x/emptydir
+/redaxo/src/core/vendor/autoload.php
+/redaxo/src/core/vendor/composer/
