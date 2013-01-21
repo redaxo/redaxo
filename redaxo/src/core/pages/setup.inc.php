@@ -569,7 +569,7 @@ if ($step == 7) {
       if ($ga->getRows() > 0) {
         $errors[] = rex_view::error(rex_i18n::msg('setup_603'));
       } else {
-        // the service side encryption of pw is only required
+        // the server side encryption of pw is only required
         // when not already encrypted by client using javascript
         if (rex_post('javascript') == '0')
           $redaxo_user_pass = sha1($redaxo_user_pass);

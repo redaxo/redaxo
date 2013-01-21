@@ -146,7 +146,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
   else $updateuser->setValue('status', 0);
 
   if ($userpsw != '') {
-    // the service side encryption of pw is only required
+    // the server side encryption of pw is only required
     // when not already encrypted by client using javascript
     if (rex_post('javascript') == '0') {
       $userpsw = sha1($userpsw);

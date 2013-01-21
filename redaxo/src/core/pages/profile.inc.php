@@ -65,7 +65,7 @@ if (rex_post('upd_profile_button', 'string')) {
 
 
 if (rex_post('upd_psw_button', 'string')) {
-  // the service side encryption of pw is only required
+  // the server side encryption of pw is only required
   // when not already encrypted by client using javascript
   if (rex_post('javascript') == '0' && $userpsw) {
     $userpsw = sha1($userpsw);
