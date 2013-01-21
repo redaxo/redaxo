@@ -12,7 +12,7 @@ class rex_textile
 
   static private function getInstance($doctype = 'xhtml')
   {
-    if (!isset(self::$instance[$doctype])) {
+    if (!isset(self::$instances[$doctype])) {
       self::$instances[$doctype] = new Textile;
       self::$instances[$doctype]->unrestricted_url_schemes[] = 'redaxo';
     }
