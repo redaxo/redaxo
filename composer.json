@@ -3,7 +3,7 @@
       "vendor-dir": "redaxo/src/core/vendor"
     },
     "require": {
-      "ircmaxell/password-compat": "1.0.*",
-      "symfony/yaml": "2.1.*"
+      "ircmaxell/password-compat": "~1.0",
+      "symfony/yaml": "~2.1"
     }
 }
