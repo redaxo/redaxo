@@ -148,10 +148,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
   if ($userpsw != '') {
     // the server side encryption of pw is only required
     // when not already encrypted by client using javascript
-    if (rex_post('javascript') == '0') {
-      $userpsw = sha1($userpsw);
-    }
-    $userpsw = rex_login::passwordHash($userpsw);
+    $userpsw = rex_backend_login::passwordHash($userpsw, rex_post('javascript', 'boolean'));
 
     $updateuser->setValue('password', $userpsw);
   }

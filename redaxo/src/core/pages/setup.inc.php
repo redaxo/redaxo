@@ -571,9 +571,7 @@ if ($step == 7) {
       } else {
         // the server side encryption of pw is only required
         // when not already encrypted by client using javascript
-        if (rex_post('javascript') == '0')
-          $redaxo_user_pass = sha1($redaxo_user_pass);
-        $redaxo_user_pass = rex_login::passwordHash($redaxo_user_pass);
+        $redaxo_user_pass = rex_backend_login::passwordHash($redaxo_user_pass, rex_post('javascript', 'boolean'));
 
         $user = rex_sql::factory();
         // $user->debugsql = true;

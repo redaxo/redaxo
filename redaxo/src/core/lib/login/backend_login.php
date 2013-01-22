@@ -33,6 +33,12 @@ class rex_backend_login extends rex_login
     $this->tableName = $tableName;
   }
 
+  public function setLogin($usr_login, $usr_psw, $isPreHashed = true)
+  {
+    $this->usr_login = $usr_login;
+    $this->usr_psw = $isPreHashed ? $usr_psw : sha1($usr_psw);
+  }
+
   public function setStayLoggedIn($stayLoggedIn = false)
   {
     $this->stayLoggedIn = $stayLoggedIn;
@@ -104,6 +110,18 @@ class rex_backend_login extends rex_login
     }
 
     return $check;
+  }
+
+  static public function passwordHash($password, $isPreHashed = true)
+  {
+    $password = $isPreHashed ? $password : sha1($password);
+    return parent::passwordHash($password);
+  }
+
+  static public function passwordVerify($password, $hash, $isPreHashed = true)
+  {
+    $password = $isPreHashed ? $password : sha1($password);
+    return parent::passwordVerify($password, $hash);
   }
 
   static public function deleteSession()
