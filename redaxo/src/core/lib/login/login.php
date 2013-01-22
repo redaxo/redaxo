@@ -62,10 +62,10 @@ class rex_login
   /**
    * Setzt den Login und das Password
    */
-  public function setLogin($usr_login, $usr_psw)
+  public function setLogin($usr_login, $usr_psw, $isPreHashed = false)
   {
     $this->usr_login = $usr_login;
-    $this->usr_psw = $usr_psw;
+    $this->usr_psw = $isPreHashed ? $usr_psw : sha1($usr_psw);
   }
 
   /**
@@ -159,7 +159,7 @@ class rex_login
         $this->USER = rex_sql::factory($this->DB);
 
         $this->USER->setQuery($this->login_query, array(':login' => $this->usr_login));
-        if ($this->USER->getRows() == 1 && self::passwordVerify($this->usr_psw, $this->USER->getValue('password'))) {
+        if ($this->USER->getRows() == 1 && self::passwordVerify($this->usr_psw, $this->USER->getValue('password'), true)) {
           $ok = true;
           $this->setSessionVar('UID', $this->USER->getValue($this->uid));
           $this->sessionFixation();
@@ -256,13 +256,15 @@ class rex_login
   /**
    * Verschlüsselt den übergebnen String
    */
-  static public function passwordHash($password)
+  static public function passwordHash($password, $isPreHashed = false)
   {
+    $password = $isPreHashed ? $password : sha1($password);
     return password_hash($password, PASSWORD_DEFAULT);
   }
 
-  static public function passwordVerify($password, $hash)
+  static public function passwordVerify($password, $hash, $isPreHashed = false)
   {
+    $password = $isPreHashed ? $password : sha1($password);
     return password_verify($password, $hash);
   }
 

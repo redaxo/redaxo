@@ -69,9 +69,9 @@ if (rex_post('upd_psw_button', 'string')) {
   // when not already encrypted by client using javascript
   $isPreHashed = rex_post('javascript', 'boolean');
   if ($userpsw != '' && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2
-    && rex_backend_login::passwordVerify($userpsw, $user->getValue('password'), $isPreHashed)
+    && rex_login::passwordVerify($userpsw, $user->getValue('password'), $isPreHashed)
   ) {
-    $userpsw_new_1 = rex_backend_login::passwordHash($userpsw_new_1, $isPreHashed);
+    $userpsw_new_1 = rex_login::passwordHash($userpsw_new_1, $isPreHashed);
 
     $updateuser = rex_sql::factory();
     $updateuser->setTable(rex::getTablePrefix() . 'user');
