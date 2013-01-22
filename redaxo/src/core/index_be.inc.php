@@ -38,7 +38,9 @@ if (rex::isSetup()) {
   if (rex_get('rex_logout', 'boolean'))
     $login->setLogout(true);
 
-  $login->setLogin($rex_user_login, $rex_user_psw);
+  // the server side encryption of pw is only required
+  // when not already encrypted by client using javascript
+  $login->setLogin($rex_user_login, $rex_user_psw, rex_post('javascript', 'boolean'));
   $login->setStayLoggedIn($rex_user_stay_logged_in);
   $loginCheck = $login->checkLogin();
 

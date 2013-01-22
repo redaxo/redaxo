@@ -569,8 +569,9 @@ if ($step == 7) {
       if ($ga->getRows() > 0) {
         $errors[] = rex_view::error(rex_i18n::msg('setup_603'));
       } else {
-        $login = new rex_backend_login();
-        $redaxo_user_pass = $login->encryptPassword($redaxo_user_pass);
+        // the server side encryption of pw is only required
+        // when not already encrypted by client using javascript
+        $redaxo_user_pass = rex_login::passwordHash($redaxo_user_pass, rex_post('javascript', 'boolean'));
 
         $user = rex_sql::factory();
         // $user->debugsql = true;

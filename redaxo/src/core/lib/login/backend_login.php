@@ -19,15 +19,12 @@ class rex_backend_login extends rex_login
     $tableName = rex::getTablePrefix() . 'user';
     $this->setSqlDb(1);
     $this->setSysID(rex::getProperty('instname'));
-    $this->useSalt();
-    $this->setPasswordFunction(rex::getProperty('pswfunc'));
     $this->setSessiontime(rex::getProperty('session_duration'));
     $this->setUserID('user_id');
     $qry = 'SELECT * FROM ' . $tableName . ' WHERE status=1';
     $this->setUserquery($qry . ' AND user_id = :id');
     $this->setLoginquery($qry . '
       AND login = :login
-      AND password = :password
       AND (login_tries < ' . self::LOGIN_TRIES_1 . '
         OR login_tries < ' . self::LOGIN_TRIES_2 . ' AND lasttrydate < ' . (time() - self::RELOGIN_DELAY_1) . '
         OR lasttrydate < ' . (time() - self::RELOGIN_DELAY_2) . '
@@ -74,6 +71,10 @@ class rex_backend_login extends rex_login
           $params[] = $cookiekey;
           setcookie($cookiename, $cookiekey, time() + 60 * 60 * 24 * 365);
         }
+        if (self::passwordNeedsRehash($this->USER->getValue('password'))) {
+          $add .= 'password = ?, ';
+          $params[] = self::passwordHash($this->usr_psw, true);
+        }
         array_push($params, time(), session_id(), $this->usr_login);
         $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, session_id=? WHERE login=? LIMIT 1', $params);
       }
@@ -103,15 +104,6 @@ class rex_backend_login extends rex_login
     }
 
     return $check;
-  }
-
-  public function encryptPassword($psw)
-  {
-    // the service side encryption of pw is only required
-    // when not already encrypted by client using javascript
-    if (rex_post('javascript') == '0')
-      $psw = sha1($psw);
-    return parent::encryptPassword($psw);
   }
 
   static public function deleteSession()

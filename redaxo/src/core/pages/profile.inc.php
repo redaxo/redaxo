@@ -65,15 +65,17 @@ if (rex_post('upd_profile_button', 'string')) {
 
 
 if (rex_post('upd_psw_button', 'string')) {
-  $updateuser = rex_sql::factory();
-  $updateuser->setTable(rex::getTablePrefix() . 'user');
-  $updateuser->setWhere(array('user_id' => $user_id));
+  // the server side encryption of pw is only required
+  // when not already encrypted by client using javascript
+  $isPreHashed = rex_post('javascript', 'boolean');
+  if ($userpsw != '' && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2
+    && rex_login::passwordVerify($userpsw, $user->getValue('password'), $isPreHashed)
+  ) {
+    $userpsw_new_1 = rex_login::passwordHash($userpsw_new_1, $isPreHashed);
 
-  $userpsw = rex::getProperty('login')->encryptPassword($userpsw);
-
-  if ($userpsw != '' && $user->getValue('password') == $userpsw && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2) {
-    $userpsw_new_1 = rex::getProperty('login')->encryptPassword($userpsw_new_1);
-
+    $updateuser = rex_sql::factory();
+    $updateuser->setTable(rex::getTablePrefix() . 'user');
+    $updateuser->setWhere(array('user_id' => $user_id));
     $updateuser->setValue('password', $userpsw_new_1);
     $updateuser->addGlobalUpdateFields();
 

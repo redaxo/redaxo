@@ -5,7 +5,7 @@
  * @package redaxo4
  */
 
-define('REX_MIN_PHP_VERSION', '5.3.0');
+define('REX_MIN_PHP_VERSION', '5.3.7');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
   exit('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
@@ -51,6 +51,7 @@ rex_fragment::addDirectory(rex_path::core('fragments/'));
 require_once rex_path::core('functions/function_rex_globals.inc.php');
 require_once rex_path::core('functions/function_rex_mquotes.inc.php');
 require_once rex_path::core('functions/function_rex_other.inc.php');
+require_once rex_path::core('vendor/ircmaxell/password-compat/lib/password.php');
 
 // ----------------- VERSION
 rex::setProperty('version', 5);

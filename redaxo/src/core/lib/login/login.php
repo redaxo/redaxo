@@ -12,12 +12,10 @@ class rex_login
     $login_query,
     $user_query,
     $system_id = 'default',
-    $use_salt = false,
     $usr_login,
     $usr_psw,
     $logout = false,
     $uid,
-    $passwordfunction,
     $cache = false,
     $login_status = 0; // 0 = noch checken, 1 = ok, -1 = not ok
 
@@ -53,11 +51,6 @@ class rex_login
     $this->system_id = $system_id;
   }
 
-  public function useSalt($use_salt = true)
-  {
-    $this->use_salt = $use_salt;
-  }
-
   /**
    * Setzt das Session Timeout
    */
@@ -69,10 +62,10 @@ class rex_login
   /**
    * Setzt den Login und das Password
    */
-  public function setLogin($usr_login, $usr_psw)
+  public function setLogin($usr_login, $usr_psw, $isPreHashed = false)
   {
     $this->usr_login = $usr_login;
-    $this->usr_psw = $this->encryptPassword($usr_psw);
+    $this->usr_psw = $isPreHashed ? $usr_psw : sha1($usr_psw);
   }
 
   /**
@@ -165,13 +158,8 @@ class rex_login
 
         $this->USER = rex_sql::factory($this->DB);
 
-        $params = array(
-          ':login' => $this->usr_login,
-          ':password' => $this->usr_psw
-        );
-
-        $this->USER->setQuery($this->login_query, $params);
-        if ($this->USER->getRows() == 1) {
+        $this->USER->setQuery($this->login_query, array(':login' => $this->usr_login));
+        if ($this->USER->getRows() == 1 && self::passwordVerify($this->usr_psw, $this->USER->getValue('password'), true)) {
           $ok = true;
           $this->setSessionVar('UID', $this->USER->getValue($this->uid));
           $this->sessionFixation();
@@ -239,27 +227,6 @@ class rex_login
   }
 
   /**
-   * Setzt eine Password-Funktion
-   */
-  public function setPasswordFunction($pswfunc)
-  {
-    $this->passwordfunction = $pswfunc;
-  }
-
-  /**
-   * Verschlüsselt den übergebnen String, falls eine Password-Funktion gesetzt ist.
-   */
-  public function encryptPassword($psw)
-  {
-    if (!is_callable($this->passwordfunction))
-      return $psw;
-
-    if ($this->use_salt)
-      $psw .= $this->system_id;
-    return call_user_func($this->passwordfunction, $psw);
-  }
-
-  /**
    * Setzte eine Session-Variable
    */
   public function setSessionVar($varname, $value)
@@ -284,5 +251,25 @@ class rex_login
   public function sessionFixation()
   {
     session_regenerate_id(true);
+  }
+
+  /**
+   * Verschlüsselt den übergebnen String
+   */
+  static public function passwordHash($password, $isPreHashed = false)
+  {
+    $password = $isPreHashed ? $password : sha1($password);
+    return password_hash($password, PASSWORD_DEFAULT);
+  }
+
+  static public function passwordVerify($password, $hash, $isPreHashed = false)
+  {
+    $password = $isPreHashed ? $password : sha1($password);
+    return password_verify($password, $hash);
+  }
+
+  static public function passwordNeedsRehash($hash)
+  {
+    return password_needs_rehash($hash, PASSWORD_DEFAULT);
   }
 }
