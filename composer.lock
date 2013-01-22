@@ -1,6 +1,45 @@
 {
-    "hash": "8ece6d4dd4efc8be04e55d95f78b2687",
+    "hash": "d25920a24a1bd0e6733f1c1485f48e32",
     "packages": [
+        {
+            "name": "ircmaxell/password-compat",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ircmaxell/password_compat.git",
+                "reference": "v1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/ircmaxell/password_compat/archive/v1.0.0.zip",
+                "reference": "v1.0.0",
+                "shasum": ""
+            },
+            "time": "2013-01-14 16:49:31",
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/password.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Ferrara",
+                    "email": "ircmaxell@php.net",
+                    "homepage": "http://blog.ircmaxell.com"
+                }
+            ],
+            "description": "A compatibility library for the proposed simplified password hashing algorithm: https://wiki.php.net/rfc/password_hash",
+            "homepage": "https://github.com/ircmaxell/password_compat",
+            "keywords": [
+                "password",
+                "hashing"
+            ]
+        },
         {
             "name": "symfony/yaml",
             "version": "v2.1.7",
