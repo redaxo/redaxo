@@ -1,14 +1,14 @@
-/.asset.sh
-/.settings
-/.buildpath
-/.project
-/assets
+/assets/
+/media/
+/redaxo/cache/
+/redaxo/data/addons/
+
+# compat symlinks
 /files
-/media
-/redaxo/cache
-/redaxo/data/addons
 /redaxo/src/layout
 /redaxo/src/functions
 /redaxo/src/addons/compat/plugins/4.x/emptydir
+
+# Composer Autoloader
 /redaxo/src/core/vendor/autoload.php
 /redaxo/src/core/vendor/composer/
