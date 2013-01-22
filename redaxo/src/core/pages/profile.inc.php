@@ -70,11 +70,11 @@ if (rex_post('upd_psw_button', 'string')) {
   if (rex_post('javascript') == '0' && $userpsw) {
     $userpsw = sha1($userpsw);
   }
-  if ($userpsw != '' && password_verify($userpsw, $user->getValue('password')) && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2) {
+  if ($userpsw != '' && rex_login::passwordVerify($userpsw, $user->getValue('password')) && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2) {
     if (rex_post('javascript') == '0') {
       $userpsw_new_1 = sha1($userpsw_new_1);
     }
-    $userpsw_new_1 = rex_login::encryptPassword($userpsw_new_1);
+    $userpsw_new_1 = rex_login::passwordHash($userpsw_new_1);
 
     $updateuser = rex_sql::factory();
     $updateuser->setTable(rex::getTablePrefix() . 'user');

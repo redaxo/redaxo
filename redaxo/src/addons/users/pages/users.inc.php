@@ -151,7 +151,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
     if (rex_post('javascript') == '0') {
       $userpsw = sha1($userpsw);
     }
-    $userpsw = rex_login::encryptPassword($userpsw);
+    $userpsw = rex_login::passwordHash($userpsw);
 
     $updateuser->setValue('password', $userpsw);
   }

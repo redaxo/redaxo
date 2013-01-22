@@ -159,7 +159,7 @@ class rex_login
         $this->USER = rex_sql::factory($this->DB);
 
         $this->USER->setQuery($this->login_query, array(':login' => $this->usr_login));
-        if ($this->USER->getRows() == 1 && password_verify($this->usr_psw, $this->USER->getValue('password'))) {
+        if ($this->USER->getRows() == 1 && self::passwordVerify($this->usr_psw, $this->USER->getValue('password'))) {
           $ok = true;
           $this->setSessionVar('UID', $this->USER->getValue($this->uid));
           $this->sessionFixation();
@@ -256,8 +256,18 @@ class rex_login
   /**
    * Verschlüsselt den übergebnen String
    */
-  static public function encryptPassword($psw)
+  static public function passwordHash($password)
   {
-    return password_hash($psw, PASSWORD_DEFAULT);
+    return password_hash($password, PASSWORD_DEFAULT);
+  }
+
+  static public function passwordVerify($password, $hash)
+  {
+    return password_verify($password, $hash);
+  }
+
+  static public function passwordNeedsRehash($hash)
+  {
+    return password_needs_rehash($hash, PASSWORD_DEFAULT);
   }
 }

@@ -573,7 +573,7 @@ if ($step == 7) {
         // when not already encrypted by client using javascript
         if (rex_post('javascript') == '0')
           $redaxo_user_pass = sha1($redaxo_user_pass);
-        $redaxo_user_pass = rex_login::encryptPassword($redaxo_user_pass);
+        $redaxo_user_pass = rex_login::passwordHash($redaxo_user_pass);
 
         $user = rex_sql::factory();
         // $user->debugsql = true;

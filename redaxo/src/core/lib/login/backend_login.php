@@ -71,9 +71,9 @@ class rex_backend_login extends rex_login
           $params[] = $cookiekey;
           setcookie($cookiename, $cookiekey, time() + 60 * 60 * 24 * 365);
         }
-        if (password_needs_rehash($this->USER->getValue('password'), PASSWORD_DEFAULT)) {
+        if (self::passwordNeedsRehash($this->USER->getValue('password'))) {
           $add .= 'password = ?, ';
-          $params[] = self::encryptPassword($this->usr_psw);
+          $params[] = self::passwordHash($this->usr_psw);
         }
         array_push($params, time(), session_id(), $this->usr_login);
         $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, session_id=? WHERE login=? LIMIT 1', $params);
