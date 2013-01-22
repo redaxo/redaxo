@@ -1246,8 +1246,12 @@ class rex_sql extends rex_factory_base implements Iterator
         }
       }
       // ER_ACCESS_DENIED_ERROR
-      elseif (strpos($e->getMessage(), 'SQLSTATE[HY000] [1045]') !== false ||
-          strpos($e->getMessage(), 'SQLSTATE[28000]') !== false
+      // ER_DBACCESS_DENIED_ERROR
+      elseif (
+        strpos($e->getMessage(), 'SQLSTATE[HY000] [1045]') !== false ||
+        strpos($e->getMessage(), 'SQLSTATE[28000]') !== false ||
+        strpos($e->getMessage(), 'SQLSTATE[HY000] [1044]') !== false ||
+        strpos($e->getMessage(), 'SQLSTATE[42000]') !== false
       ) {
         // unable to connect
         $err_msg = rex_i18n::msg('sql_unable_to_connect_database');
