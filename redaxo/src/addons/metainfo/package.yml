@@ -7,7 +7,7 @@ navigation:
   title: Meta Infos
   perm: admin[]
   subpages:
-    articles: {title: 'translate:article'}
+    articles: {title: 'translate:articles'}
     categories: {title: 'translate:categories'}
     media: {title: 'translate:media'}
 
