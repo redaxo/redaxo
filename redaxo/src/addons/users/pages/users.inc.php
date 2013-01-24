@@ -178,10 +178,14 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
   $adduser->setQuery('SELECT * FROM ' . rex::getTablePrefix() . "user WHERE login = '$userlogin'");
 
   if ($adduser->getRows() == 0 and $userlogin != '') {
+    // the server side encryption of pw is only required
+    // when not already encrypted by client using javascript
+    $userpsw = rex_login::passwordHash($userpsw, rex_post('javascript', 'boolean'));
+
     $adduser = rex_sql::factory();
     $adduser->setTable(rex::getTablePrefix() . 'user');
     $adduser->setValue('name', $username);
-    $adduser->setValue('password', rex::getProperty('login')->encryptPassword($userpsw));
+    $adduser->setValue('password', $userpsw);
     $adduser->setValue('login', $userlogin);
     $adduser->setValue('description', $userdesc);
     $adduser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);

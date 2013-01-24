@@ -54,7 +54,7 @@ class rex_user
    *
    * @return string Login
    */
-  public function getUserLogin()
+  public function getLogin()
   {
     return $this->sql->getValue('login');
   }

@@ -49,7 +49,7 @@ if (rex::isSetup()) {
     rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
 
     // login failed
-    $rex_user_loginmessage = $login->message;
+    $rex_user_loginmessage = $login->getMessage();
 
     // Fehlermeldung von der Datenbank
     if (is_string($loginCheck))

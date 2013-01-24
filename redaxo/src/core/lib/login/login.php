@@ -2,22 +2,21 @@
 
 class rex_login
 {
-  public
-    $USER,
-    $message = '';
-
   protected
     $DB = 1,
-    $session_duration,
-    $login_query,
-    $user_query,
-    $system_id = 'default',
-    $usr_login,
-    $usr_psw,
+    $sessionDuration,
+    $loginQuery,
+    $userQuery,
+    $systemId = 'default',
+    $userLogin,
+    $userPassword,
     $logout = false,
-    $uid,
+    $idColumn = 'id',
+    $passwordColumn = 'password',
     $cache = false,
-    $login_status = 0; // 0 = noch checken, 1 = ok, -1 = not ok
+    $loginStatus = 0, // 0 = noch checken, 1 = ok, -1 = not ok
+    $message = '',
+    $user;
 
   public function __construct()
   {
@@ -46,26 +45,26 @@ class rex_login
    * Setzt eine eindeutige System Id, damit mehrere
    * Sessions auf der gleichen Domain unterschieden werden können
    */
-  public function setSysID($system_id)
+  public function setSystemId($system_id)
   {
-    $this->system_id = $system_id;
+    $this->systemId = $system_id;
   }
 
   /**
    * Setzt das Session Timeout
    */
-  public function setSessiontime($session_duration)
+  public function setSessionDuration($sessionDuration)
   {
-    $this->session_duration = $session_duration;
+    $this->sessionDuration = $sessionDuration;
   }
 
   /**
    * Setzt den Login und das Password
    */
-  public function setLogin($usr_login, $usr_psw, $isPreHashed = false)
+  public function setLogin($login, $password, $isPreHashed = false)
   {
-    $this->usr_login = $usr_login;
-    $this->usr_psw = $isPreHashed ? $usr_psw : sha1($usr_psw);
+    $this->userLogin = $login;
+    $this->userPassword = $isPreHashed ? $password : sha1($password);
   }
 
   /**
@@ -90,9 +89,9 @@ class rex_login
    * Dieser wird benutzt, um einen bereits eingeloggten User
    * im Verlauf seines Aufenthaltes auf der Webseite zu verifizieren
    */
-  public function setUserquery($user_query)
+  public function setUserQuery($user_query)
   {
-    $this->user_query = $user_query;
+    $this->userQuery = $user_query;
   }
 
   /**
@@ -101,23 +100,28 @@ class rex_login
    * Dieser wird benutzt, um den eigentlichne Loginvorgang durchzuführen.
    * Hier wird das eingegebene Password und der Login eingesetzt.
    */
-  public function setLoginquery($login_query)
+  public function setLoginQuery($login_query)
   {
-    $this->login_query = $login_query;
+    $this->loginQuery = $login_query;
   }
 
   /**
    * Setzt den Namen der Spalte, der die User-Id enthält
    */
-  public function setUserID($uid)
+  public function setIdColumn($idColumn)
   {
-    $this->uid = $uid;
+    $this->idColumn = $idColumn;
+  }
+
+  public function setPasswordColumn($passwordColumn)
+  {
+    $this->passwordColumn = $passwordColumn;
   }
 
   /**
    * Setzt einen Meldungstext
    */
-  public function setMessage($message)
+  protected function setMessage($message)
   {
     $this->message = $message;
   }
@@ -145,24 +149,24 @@ class rex_login
 
       // checkLogin schonmal ausgeführt ? gecachte ausgabe erlaubt ?
       if ($this->cache) {
-        if ($this->login_status > 0)
+        if ($this->loginStatus > 0)
           return true;
-        elseif ($this->login_status < 0)
+        elseif ($this->loginStatus < 0)
           return false;
       }
 
 
-      if ($this->usr_login != '') {
+      if ($this->userLogin != '') {
         // wenn login daten eingegeben dann checken
         // auf error seite verweisen und message schreiben
 
-        $this->USER = rex_sql::factory($this->DB);
+        $this->user = rex_sql::factory($this->DB);
 
-        $this->USER->setQuery($this->login_query, array(':login' => $this->usr_login));
-        if ($this->USER->getRows() == 1 && self::passwordVerify($this->usr_psw, $this->USER->getValue('password'), true)) {
+        $this->user->setQuery($this->loginQuery, array(':login' => $this->userLogin));
+        if ($this->user->getRows() == 1 && self::passwordVerify($this->userPassword, $this->user->getValue($this->passwordColumn), true)) {
           $ok = true;
-          $this->setSessionVar('UID', $this->USER->getValue($this->uid));
-          $this->sessionFixation();
+          $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
+          $this->regenerateSessionId();
         } else {
           $this->message = rex_i18n::msg('login_error');
           $this->setSessionVar('UID', '');
@@ -171,13 +175,13 @@ class rex_login
         // wenn kein login und kein logout dann nach sessiontime checken
         // message schreiben und falls falsch auf error verweisen
 
-        $this->USER = rex_sql::factory($this->DB);
+        $this->user = rex_sql::factory($this->DB);
 
-        $this->USER->setQuery($this->user_query, array(':id' => $this->getSessionVar('UID')));
-        if ($this->USER->getRows() == 1) {
-          if (($this->getSessionVar('STAMP') + $this->session_duration) > time()) {
+        $this->user->setQuery($this->userQuery, array(':id' => $this->getSessionVar('UID')));
+        if ($this->user->getRows() == 1) {
+          if (($this->getSessionVar('STAMP') + $this->sessionDuration) > time()) {
             $ok = true;
-            $this->setSessionVar('UID', $this->USER->getValue($this->uid));
+            $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
           } else {
             $this->message = rex_i18n::msg('login_session_expired');
           }
@@ -203,16 +207,16 @@ class rex_login
     }
 
     if ($ok)
-      $this->login_status = 1;
+      $this->loginStatus = 1;
     else
-      $this->login_status = -1;
+      $this->loginStatus = -1;
 
     return $ok;
   }
 
   public function getUser()
   {
-    return $this->USER;
+    return $this->user;
   }
 
   /**
@@ -220,8 +224,8 @@ class rex_login
    */
   public function getValue($value, $default = null)
   {
-    if ($this->USER)
-      return $this->USER->getValue($value);
+    if ($this->user)
+      return $this->user->getValue($value);
 
     return $default;
   }
@@ -231,7 +235,7 @@ class rex_login
    */
   public function setSessionVar($varname, $value)
   {
-    $_SESSION[$this->system_id][$varname] = $value;
+    $_SESSION[$this->systemId][$varname] = $value;
   }
 
   /**
@@ -239,8 +243,8 @@ class rex_login
    */
   public function getSessionVar($varname, $default = '')
   {
-    if (isset ($_SESSION[$this->system_id][$varname]))
-      return $_SESSION[$this->system_id][$varname];
+    if (isset ($_SESSION[$this->systemId][$varname]))
+      return $_SESSION[$this->systemId][$varname];
 
     return $default;
   }
@@ -248,7 +252,7 @@ class rex_login
   /*
    * Session fixation
   */
-  public function sessionFixation()
+  public function regenerateSessionId()
   {
     session_regenerate_id(true);
   }

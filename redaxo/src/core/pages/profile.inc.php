@@ -16,7 +16,7 @@ $userpsw_new_2 = rex_request('userpsw_new_2', 'string');
 
 $username = rex_request('username', 'string', $user->getName());
 $userdesc = rex_request('userdesc', 'string', $user->getValue('description'));
-$userlogin = $user->getUserLogin();
+$userlogin = $user->getLogin();
 
 // --------------------------------- Title
 

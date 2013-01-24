@@ -18,12 +18,12 @@ class rex_backend_login extends rex_login
 
     $tableName = rex::getTablePrefix() . 'user';
     $this->setSqlDb(1);
-    $this->setSysID(rex::getProperty('instname'));
-    $this->setSessiontime(rex::getProperty('session_duration'));
-    $this->setUserID('user_id');
+    $this->setSystemId(rex::getProperty('instname'));
+    $this->setSessionDuration(rex::getProperty('session_duration'));
+    $this->setIdColumn('user_id');
     $qry = 'SELECT * FROM ' . $tableName . ' WHERE status=1';
-    $this->setUserquery($qry . ' AND user_id = :id');
-    $this->setLoginquery($qry . '
+    $this->setUserQuery($qry . ' AND user_id = :id');
+    $this->setLoginQuery($qry . '
       AND login = :login
       AND (login_tries < ' . self::LOGIN_TRIES_1 . '
         OR login_tries < ' . self::LOGIN_TRIES_2 . ' AND lasttrydate < ' . (time() - self::RELOGIN_DELAY_1) . '
@@ -61,31 +61,31 @@ class rex_backend_login extends rex_login
 
     if ($check) {
       // gelungenen versuch speichern | login_tries = 0
-      if ($this->usr_login != '' || !$userId) {
-        $this->sessionFixation();
+      if ($this->userLogin != '' || !$userId) {
+        $this->regenerateSessionId();
         $params = array();
         $add = '';
         if ($this->stayLoggedIn || $cookiekey) {
-          $cookiekey = $this->USER->getValue('cookiekey') ?: sha1($this->system_id . time() . $this->usr_login);
+          $cookiekey = $this->user->getValue('cookiekey') ?: sha1($this->systemId . time() . $this->userLogin);
           $add = 'cookiekey = ?, ';
           $params[] = $cookiekey;
           setcookie($cookiename, $cookiekey, time() + 60 * 60 * 24 * 365);
         }
-        if (self::passwordNeedsRehash($this->USER->getValue('password'))) {
+        if (self::passwordNeedsRehash($this->user->getValue('password'))) {
           $add .= 'password = ?, ';
-          $params[] = self::passwordHash($this->usr_psw, true);
+          $params[] = self::passwordHash($this->userPassword, true);
         }
-        array_push($params, time(), session_id(), $this->usr_login);
+        array_push($params, time(), session_id(), $this->userLogin);
         $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, session_id=? WHERE login=? LIMIT 1', $params);
       }
-      $this->USER = new rex_user($this->USER);
+      $this->user = new rex_user($this->user);
     } else {
       // fehlversuch speichern | login_tries++
-      if ($this->usr_login != '') {
-        $sql->setQuery('SELECT login_tries FROM ' . $this->tableName . ' WHERE login=? LIMIT 1', array($this->usr_login));
+      if ($this->userLogin != '') {
+        $sql->setQuery('SELECT login_tries FROM ' . $this->tableName . ' WHERE login=? LIMIT 1', array($this->userLogin));
         if ($sql->getRows() > 0) {
           $login_tries = $sql->getValue('login_tries');
-          $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",cookiekey="",lasttrydate=? WHERE login=? LIMIT 1', array(time(), $this->usr_login));
+          $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",cookiekey="",lasttrydate=? WHERE login=? LIMIT 1', array(time(), $this->userLogin));
           if ($login_tries >= self::LOGIN_TRIES_1 - 1) {
             $time = $login_tries < self::LOGIN_TRIES_2 ? self::RELOGIN_DELAY_1 : self::RELOGIN_DELAY_2;
             $hours = floor($time / 3600);
