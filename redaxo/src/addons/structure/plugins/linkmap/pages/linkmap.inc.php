@@ -12,7 +12,7 @@ $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id')
 
 
 $context = new rex_context(array(
-  'page' => rex::getProperty('page'),
+  'page' => rex_be_controller::getCurrentPage(),
   'HTMLArea' => $HTMLArea,
   'opener_input_field' => $opener_input_field,
   'opener_input_field_name' => $opener_input_field_name,

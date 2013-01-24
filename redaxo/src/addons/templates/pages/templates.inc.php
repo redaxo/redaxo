@@ -9,7 +9,6 @@ echo rex_view::title(rex_i18n::msg('title_templates'), '');
 
 $OUT = true;
 
-$page         = rex_request('page', 'string');
 $function     = rex_request('function', 'string');
 $template_id  = rex_request('template_id', 'int');
 $save         = rex_request('save', 'string');
@@ -274,11 +273,10 @@ if ($function == 'add' or $function == 'edit') {
 
     $content_1 .= '
       <div class="rex-form" id="rex-form-template">
-        <form action="index.php" method="post">
+        <form action="' . rex_url::currentBackendPage() . '" method="post">
           <fieldset>
             <h2>' . $legend . '</h2>
 
-              <input type="hidden" name="page" value="' . $page . '" />
               <input type="hidden" name="function" value="' . $function . '" />
               <input type="hidden" name="save" value="ja" />
               <input type="hidden" name="template_id" value="' . $template_id . '" />';

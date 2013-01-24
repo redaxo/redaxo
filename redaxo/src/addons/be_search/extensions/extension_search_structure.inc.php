@@ -20,20 +20,17 @@ function rex_be_search_structure($params)
   $structureUrl = 'index.php?page=structure&category_id=%s&clang=%s&be_search_article_name=%s';
 
   // ------------ globale Parameter
-  $page         = rex_request('page', 'string');
   $mode         = rex_request('mode', 'string');
   $category_id  = rex_request('category_id', 'int');
   $article_id   = rex_request('article_id', 'int');
   $clang        = rex_request('clang', 'int');
   $ctype        = rex_request('ctype', 'int');
-  $function     = rex_request('function', 'string');
 
   // ------------ Parameter
   $be_search_article_id        = rex_request('be_search_article_id'  , 'int');
   $be_search_clang             = rex_request('be_search_clang'       , 'int');
   $be_search_article_name      = rex_request('be_search_article_name', 'string');
   $be_search_article_name_post = rex_post('be_search_article_name', 'string');
-  $mode                   = rex_request('mode', 'string');
 
   // ------------ Suche via ArtikelId
   if ($be_search_article_id != 0) {
@@ -164,9 +161,8 @@ function rex_be_search_structure($params)
 
   $form =
    '  <div class="rex-form">
-      <form action="index.php" method="post">
+      <form action="' . rex_url::currentBackendPage() . '" method="post">
       <fieldset>
-        <input type="hidden" name="page" value="' . $page . '" />
         <input type="hidden" name="mode" value="' . $mode . '" />
         <input type="hidden" name="category_id" value="' . $category_id . '" />' . $article_id_input . '
         <input type="hidden" name="clang" value="' . $clang . '" />

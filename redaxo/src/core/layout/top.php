@@ -86,7 +86,7 @@ if (rex::getUser() && $hasNavigation) {
 }
 
 /* Setup Navigation ***********************************************************/
-if (rex::getProperty('page') == 'setup') {
+if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
   $step = rex_request('step', 'float');
   $lang = rex_request('lang', 'string', '');
   $navi = array();

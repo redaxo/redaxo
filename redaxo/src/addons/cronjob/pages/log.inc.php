@@ -70,10 +70,8 @@ else {
     <div class="rex-toolbar rex-toolbar-has-form">
       <div class="rex-toolbar-content">
         <div class="rex-form">
-          <form action="index.php" method="get">
+          <form action="' . rex_url::currentBackendPage() . '" method="get">
             <fieldset>
-              <input type="hidden" name="page" value="cronjob" />
-              <input type="hidden" name="subpage" value="log" />
               <label for="log_year" style="font-weight: bold">' . $this->i18n('log_year') . ':</label>
               ' . $year_sel->get() . ' -
               <label for="log_month" style="font-weight: bold">' . $this->i18n('log_month') . ':</label>

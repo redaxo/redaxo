@@ -65,7 +65,7 @@ if ($article->getRows() == 1) {
   require rex_path::addon('structure', 'functions/function_rex_category.inc.php');
   // $KATout kommt aus dem include
 
-  if (rex::getProperty('page') == 'content' && $article_id > 0) {
+  if (rex_be_controller::getCurrentPagePart(1) == 'content' && $article_id > 0) {
     $term = ($article->getValue('startpage') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
       $catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
       // TODO: if admin or recht advanced -> $KATout .= " [$article_id]";
@@ -593,15 +593,11 @@ if ($article->getRows() == 1) {
 
       $content .= '
         <div class="rex-form" id="rex-form-content-metamode">
-          <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
+          <form action="' . rex_url::currentBackendPage(array('article_id' => $article_id, 'mode' => 'meta', 'clang' => $clang)) . '" method="post" enctype="multipart/form-data" id="REX_FORM">
             <fieldset>
               <h2>' . rex_i18n::msg('general') . '</h2>
 
-                <input type="hidden" name="page" value="content" />
-                <input type="hidden" name="article_id" value="' . $article_id . '" />
-                <input type="hidden" name="mode" value="meta" />
                 <input type="hidden" name="save" value="1" />
-                <input type="hidden" name="clang" value="' . $clang . '" />
                 <input type="hidden" name="ctype" value="' . $ctype . '" />
                 ';
 
@@ -657,12 +653,8 @@ if ($article->getRows() == 1) {
 
       $content .= '
         <div class="rex-form" id="rex-form-content-metamode">
-          <form action="index.php" method="post" enctype="multipart/form-data" id="REX_FORM">
-                <input type="hidden" name="page" value="content" />
-                <input type="hidden" name="article_id" value="' . $article_id . '" />
-                <input type="hidden" name="mode" value="metafuncs" />
+          <form action="' . rex_url::currentBackendPage(array('article_id' => $article_id, 'mode' => 'metafuncs', 'clang' => $clang)) . '" method="post" enctype="multipart/form-data" id="REX_FORM">
                 <input type="hidden" name="save" value="1" />
-                <input type="hidden" name="clang" value="' . $clang . '" />
                 <input type="hidden" name="ctype" value="' . $ctype . '" />
                 <input type="hidden" name="rex-api-call" id="apiField">
                 ';

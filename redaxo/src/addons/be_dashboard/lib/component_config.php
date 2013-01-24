@@ -109,8 +109,7 @@ abstract class rex_dashboard_component_config
       $btnName = $this->getInputName('save_btn');
 
       $content = '<div class="rex-form rex-dashboard-component-config">
-                    <form action="index.php" method="post">
-                      <input type="hidden" name="page" value="' . rex::getProperty('page') . '" />
+                    <form action="' . rex_url::currentBackendPage() . '" method="post">
                       ' . $content . '
                       <p class="rex-form-col-a rex-form-submit">
                         <input type="submit" class="rex-form-submit" name="' . $btnName . '" value="' . rex_i18n::msg('dashboard_component_save_config') . '" />

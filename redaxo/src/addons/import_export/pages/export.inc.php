@@ -110,13 +110,11 @@ $content .= '
       <p class="rex-tx1">' . rex_i18n::msg('im_export_intro_export') . '</p>
 
       <div class="rex-form" id="rex-form-export">
-      <form action="index.php" enctype="multipart/form-data" method="post" >
+      <form action="' . rex_url::currentBackendPage() . '" enctype="multipart/form-data" method="post" >
         <fieldset class="rex-form-col-1">
           <legend>' . rex_i18n::msg('im_export_export') . '</legend>
 
-          <div class="rex-form-wrapper">
-            <input type="hidden" name="page" value="import_export" />
-            <input type="hidden" name="function" value="export" />';
+          <div class="rex-form-wrapper">';
 
 $checkedsql = '';
 $checkedfiles = '';

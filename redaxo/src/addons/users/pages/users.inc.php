@@ -329,11 +329,10 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
   $content .= '
   <div class="rex-form" id="rex-form-user">
-    <form action="index.php" method="post" id="userform">
+    <form action="' . rex_url::currentBackendPage() . '" method="post" id="userform">
       <fieldset>
         <h2>' . $form_label . '</h2>
         <input type="hidden" name="javascript" value="0" id="javascript" />
-        <input type="hidden" name="page" value="users" />
         <input type="hidden" name="subpage" value="" />
         <input type="hidden" name="save" value="1" />
         ' . $add_hidden;

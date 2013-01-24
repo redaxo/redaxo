@@ -32,11 +32,9 @@ $content .= '
 
   <h2>' . rex_i18n::msg('imanager_subpage_config') . '</h2>
 
-  <form action="index.php" method="post">
+  <form action="' . rex_url::currentBackendPage() . '" method="post">
   <fieldset class="rex-form-col-1">
       <div class="rex-form-wrapper">
-      <input type="hidden" name="page" value="media_manager" />
-      <input type="hidden" name="subpage" value="settings" />
       <input type="hidden" name="func" value="update" />
 
       <div class="rex-form-row rex-form-element-v2">

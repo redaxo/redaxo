@@ -94,13 +94,8 @@ function rex_version_header($params)
     <div id="rex-version-header" class="rex-toolbar rex-toolbar-has-form rex-version-revision-' . $rex_version_article[$params['article_id']] . '">
         <div class="rex-toolbar-content rex-version-header">
 
-        <form action="index.php" method="post">
+        <form action="' . rex_url::currentBackendPage(array('mode' => $params['mode'], 'article_id' => $params['article_id'], 'clang' => $params['clang'], 'ctype' => $params['ctype'])) . '" method="post">
         <fieldset>
-        <input type="hidden" name="page" value="' . $params['page'] . '" />
-        <input type="hidden" name="mode" value="' . $params['mode'] . '" />
-        <input type="hidden" name="article_id" value="' . $params['article_id'] . '" />
-        <input type="hidden" name="clang" value="' . $params['clang'] . '" />
-        <input type="hidden" name="ctype" value="' . $params['ctype'] . '" />
   ';
 
   $s = new rex_select();

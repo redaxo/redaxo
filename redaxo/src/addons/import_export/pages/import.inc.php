@@ -107,15 +107,13 @@ if ($warning != '') {
       <p class="rex-tx1"><?php echo rex_i18n::msg('im_export_intro_import') ?></p>
 
       <div class="rex-form" id="rex-form-import-data">
-        <form action="index.php" enctype="multipart/form-data" method="post" data-confirm="<?php echo rex_i18n::msg('im_export_proceed_db_import') ?>">
+        <form action="<?php echo rex_url::currentBackendPage() ?>" enctype="multipart/form-data" method="post" data-confirm="<?php echo rex_i18n::msg('im_export_proceed_db_import') ?>">
 
           <fieldset class="rex-form-col-1">
 
             <legend><?php echo rex_i18n::msg('im_export_database'); ?></legend>
 
             <div class="rex-form-wrapper">
-              <input type="hidden" name="page" value="import_export" />
-              <input type="hidden" name="subpage" value="import" />
               <input type="hidden" name="function" value="dbimport" />
 
               <div class="rex-form-row">
@@ -173,13 +171,11 @@ if ($warning != '') {
 
       <!-- FILE IMPORT -->
       <div class="rex-form" id="rex-form-import-files">
-        <form action="index.php" enctype="multipart/form-data" method="post" data-confirm="<?php echo rex_i18n::msg('im_export_proceed_file_import') ?>" >
+        <form action="<?php echo rex_url::currentBackendPage() ?>" enctype="multipart/form-data" method="post" data-confirm="<?php echo rex_i18n::msg('im_export_proceed_file_import') ?>" >
           <fieldset class="rex-form-col-1">
             <legend><?php echo rex_i18n::msg('im_export_files'); ?></legend>
 
             <div class="rex-form-wrapper">
-              <input type="hidden" name="page" value="import_export" />
-              <input type="hidden" name="subpage" value="import" />
               <input type="hidden" name="function" value="fileimport" />
 
               <div class="rex-form-row">

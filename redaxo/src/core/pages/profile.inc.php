@@ -106,11 +106,9 @@ if ($warning != '')
 $content = '';
 $content .= '
 <div id="rex-form-profile" class="rex-form">
-  <form action="index.php" method="post">
+  <form action="' . rex_url::currentBackendPage() . '" method="post">
     <fieldset>
-      <h2>' . rex_i18n::msg('profile_myprofile') . '</h2>
-
-        <input type="hidden" name="page" value="profile" />';
+      <h2>' . rex_i18n::msg('profile_myprofile') . '</h2>';
 
 
           $formElements = array();
@@ -166,12 +164,10 @@ echo rex_view::contentBlock($content, '', 'block');
 $content = '';
 $content .= '
   <div id="rex-form-profile-password" class="rex-form">
-  <form action="index.php" method="post" id="pwformular">
+  <form action="' . rex_url::currentBackendPage() . '" method="post" id="pwformular">
     <input type="hidden" name="javascript" value="0" id="javascript" />
     <fieldset>
-      <h2>' . rex_i18n::msg('profile_changepsw') . '</h2>
-
-      <input type="hidden" name="page" value="profile" />';
+      <h2>' . rex_i18n::msg('profile_changepsw') . '</h2>';
 
 
           $formElements = array();

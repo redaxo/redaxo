@@ -39,7 +39,7 @@ $nexttime = $this->getConfig('nexttime', 0);
 if ($nexttime != 0 && time() >= $nexttime) {
   rex_extension::register($EP,
     function ($params) {
-      if (!rex::isBackend() || !in_array(rex::getProperty('page'), array('setup', 'login', 'cronjob'))) {
+      if (!rex::isBackend() || !in_array(rex_be_controller::getCurrentPagePart(1), array('setup', 'login', 'cronjob'))) {
         rex_cronjob_manager_sql::factory()->check();
       }
     }

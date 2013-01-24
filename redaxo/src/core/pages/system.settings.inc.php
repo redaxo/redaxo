@@ -177,8 +177,7 @@ $content_2 .= '
 
 $content_2 = '
 <div class="rex-form" id="rex-form-system-setup">
-  <form action="index.php" method="post">
-    <input type="hidden" name="page" value="system" />
+  <form action="' . rex_url::currentBackendPage() . '" method="post">
     <input type="hidden" name="func" value="updateinfos" />' .
     $content_2 .
     '</form>
