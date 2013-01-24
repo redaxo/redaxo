@@ -22,15 +22,15 @@ if ($func == 'update') {
   elseif ($jpg_quality < 0)
     $jpg_quality = 0;
 
-  rex_config::set('media_manager', 'jpg_quality', $jpg_quality);
-  $content = rex_view::info(rex_i18n::msg('media_manager_config_saved'));
+  $this->setConfig('jpg_quality', $jpg_quality);
+  $content = rex_view::info($this->i18n('config_saved'));
 
 }
 
 $content .= '
 <div class="rex-form">
 
-  <h2>' . rex_i18n::msg('imanager_subpage_config') . '</h2>
+  <h2>' . $this->i18n('subpage_config') . '</h2>
 
   <form action="' . rex_url::currentBackendPage() . '" method="post">
   <fieldset class="rex-form-col-1">
@@ -39,8 +39,8 @@ $content .= '
 
       <div class="rex-form-row rex-form-element-v2">
         <p class="rex-form-text">
-          <label for="jpg_quality">' . rex_i18n::msg('media_manager_jpg_quality') . ' [0-100]</label>
-          <input class="rex-form-text" type="text" id="jpg_quality" name="jpg_quality" value="' . htmlspecialchars(rex_config::get('media_manager', 'jpg_quality')) . '" />
+          <label for="jpg_quality">' . $this->i18n('jpg_quality') . ' [0-100]</label>
+          <input class="rex-form-text" type="text" id="jpg_quality" name="jpg_quality" value="' . htmlspecialchars($this->getConfig('jpg_quality')) . '" />
         </p>
       </div>
 
