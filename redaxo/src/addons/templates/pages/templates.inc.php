@@ -334,7 +334,7 @@ if ($function == 'add' or $function == 'edit') {
     $content .= '
         </fieldset>
 
-        <!-- DIV nötig fuer JQuery slideIn -->
+        <!-- DIV noetig fuer JQuery slideIn -->
         <div id="rex-form-template-ctype">
         <fieldset>
           <h2>' . rex_i18n::msg('content_types') . ' [ctypes]</h2>

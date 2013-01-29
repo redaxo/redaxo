@@ -130,9 +130,9 @@ class rex_view
       $nav->setActiveElements();
       $blocks = $nav->getNavigation();
       $navigation = array();
-      if(count($blocks) == 1) {
+      if (count($blocks) == 1) {
         $navigation = current($blocks);
-        $navigation = $navigation["navigation"];
+        $navigation = $navigation['navigation'];
       }
 
       $fragment = new rex_fragment();

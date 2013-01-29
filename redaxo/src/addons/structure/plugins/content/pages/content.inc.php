@@ -491,12 +491,10 @@ if ($article->getRows() == 1) {
 
       if ($mode == 'edit') {
         $content_navi_text_left .= '<span class="rex-active">' . rex_i18n::msg('edit_mode') . '</span>';
-      }
-      else {
+      } else {
         $content_navi_text_left .= rex_i18n::msg('edit_mode');
       }
-    }
-    else {
+    } else {
       $n = array();
       $n['title'] = rex_i18n::msg('edit_mode');
       $n['href'] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
