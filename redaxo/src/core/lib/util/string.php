@@ -133,6 +133,33 @@ class rex_string
   }
 
   /**
+   * Returns a string
+   *
+   * @param array $params
+   * @return string
+   */
+  static public function buildAttributes($attributes)
+  {
+    $attr = '';
+
+    if (is_null($attributes)) {
+      return;
+    }
+
+    if (is_string($attributes)) {
+      $attributes = self::split($attributes);
+    }
+
+    if (is_array($attributes)) {
+      foreach ($attributes as $key => $value) {
+        $attr .= ' ' . $key . '="' . $value . '"';
+      }
+    }
+
+    return $attr;
+  }
+
+  /**
    * Highlights a string
    *
    * @param string $string
