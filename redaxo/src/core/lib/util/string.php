@@ -133,22 +133,14 @@ class rex_string
   }
 
   /**
-   * Returns a string
+   * Returns a string by key="value" pair
    *
-   * @param array $params
+   * @param array $attributes
    * @return string
    */
-  static public function buildAttributes($attributes)
+  static public function buildAttributes(array $attributes)
   {
     $attr = '';
-
-    if (is_null($attributes)) {
-      return;
-    }
-
-    if (is_string($attributes)) {
-      $attributes = self::split($attributes);
-    }
 
     if (is_array($attributes)) {
       foreach ($attributes as $key => $value) {
