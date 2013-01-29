@@ -25,7 +25,7 @@ if (isset($this->navigation_right)) {
 foreach ($navigations as $nav_key => $navigation) {
 
   foreach ($navigation as $navi) {
-    if (isset($navi['children']) && count($navi['children']) > 0) {
+    if (isset($navi['active']) && $navi['active'] && isset($navi['children']) && count($navi['children']) > 0) {
       $navigations['children'] = $navi['children'];
     }
   }
@@ -75,7 +75,10 @@ foreach ($navigations as $nav_key => $navigation) {
       }
 
       if ($nav_key != 'children') {
-        $attributes['class'] = trim('rex-navi-content-item ' . $attributes['class']);
+        if (isset($attributes['class']))
+          $attributes['class'] = trim('rex-navi-content-item ' . $attributes['class']);
+        else
+          $attributes['class'] = 'rex-navi-content-item';
       }
 
       $li_a .= '<a' . rex_string::buildAttributes($attributes) . '>';
