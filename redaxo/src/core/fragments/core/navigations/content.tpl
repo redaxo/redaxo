@@ -32,43 +32,58 @@ foreach ($navigations as $nav_key => $navigation) {
 }
 
 
+echo '<pre style="text-align: left">';
+print_r($navigations);
+echo '</pre>';
 
 foreach ($navigations as $nav_key => $navigation) {
 
   $li = array();
   foreach ($navigation as $navi) {
 
-    $li_a = '<li ';
+    $li_a = '';
+
+
+    $attributes = array();
 
     if (isset($navi['itemClasses']) && is_array($navi['itemClasses']) && count($navi['itemClasses']) > 0 && isset($navi['itemClasses'][0]) && $navi['itemClasses'][0] != '') {
-      $li_a .= ' class="' . implode(' ', $navi['itemClasses']) . '"';
+      $attributes['class'] = implode(' ', $navi['itemClasses']);
     }
 
     if (isset($navi['itemAttr']) && is_array($navi['itemAttr']) && count($navi['itemAttr']) > 0) {
-      foreach ($navi['itemAttr'] as $n => $v) {
-        if ($v != '') {
-          $li_a .= ' ' . $n . '="' . $v . '"';
+      foreach ($navi['itemAttr'] as $key => $value) {
+        if ($value != '') {
+          $attributes[$key] = $value;
         }
       }
     }
 
-    $li_a .= '>';
+    $li_a .= '<li' . rex_string::buildAttributes($attributes) . '>';
+
 
     if (isset($navi['href']) && $navi['href'] != '') {
-      $li_a .= '<a href="' . $navi['href'] . '"';
-      if (isset($navi['linkClasses']) && is_array($navi['linkClasses']) && count($navi['linkClasses']) > 0 && isset($navi['itemClasses'][0]) && $navi['itemClasses'][0] != '') {
-        $li_a .= ' class="rex-navi-content-item ' . implode(' ', $navi['linkClasses']) . '"';
-      } else {
-        $li_a .= ' class="rex-navi-content-item"';
+
+      $attributes = array();
+      $attributes['href'] = $navi['href'];
+
+      if (isset($navi['linkClasses']) && is_array($navi['linkClasses']) && count($navi['linkClasses']) > 0 && isset($navi['linkClasses'][0]) && $navi['linkClasses'][0] != '') {
+        $attributes['class'] = implode(' ', $navi['linkClasses']);
       }
+
       if (isset($navi['linkAttr']) && is_array($navi['linkAttr']) && count($navi['linkAttr']) > 0) {
-        foreach ($navi['linkAttr'] as $n => $v) {
-          if ($v != '') {
-            $li_a .= ' ' . $n . '="' . $v . '"';
+        foreach ($navi['linkAttr'] as $key => $value) {
+          if ($value != '') {
+            $attributes[$key] = $value;
           }
         }
       }
-      $li_a .= '>';
+
+      if ($nav_key != 'children') {
+        $attributes['class'] = trim('rex-navi-content-item ' . $attributes['class']);
+      }
+
+      $li_a .= '<a' . rex_string::buildAttributes($attributes) . '>';
+
     }
 
     $li_a .= $navi['title'];
@@ -124,15 +139,8 @@ echo '</div>';
 
 
 if (isset($navigations['children'])) {
-
   echo '
-<div class="rex-navi-content-head">
-
-  <ul class="rex-piped">' . $navigations['children'] . '
-    <li><a class="rex-active" href="">Vorhandene aktualisieren</a></li>
-    <li><a href="">Neue hinzuf√ºgen</a></li>
-    <li><a href="">Eigene hochladen</a></li>
-  </ul>
-
-</div>';
+    <div class="rex-navi-content-head">
+      <ul class="rex-piped">' . $navigations['children'] . '</ul>
+    </div>';
 }
