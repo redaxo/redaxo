@@ -6,7 +6,7 @@ class rex_form_control_element extends rex_form_element
     $saveElement,
     $applyElement,
     $deleteElement,
-    $resetElelement,
+    $resetElement,
     $abortElement;
 
   public function __construct(rex_form $table, rex_form_element $saveElement = null, rex_form_element $applyElement = null, rex_form_element $deleteElement = null, rex_form_element $resetElement = null, rex_form_element $abortElement = null)
@@ -23,65 +23,68 @@ class rex_form_control_element extends rex_form_element
   protected function _get()
   {
     $s = '';
-
-    $class = '';
+    $elements = array();
 
     if ($this->saveElement) {
       if (!$this->saveElement->hasAttribute('class'))
-        $this->saveElement->setAttribute('class', 'rex-form-submit');
+        $this->saveElement->setAttribute('class', 'rex-button');
 
-      $class = $this->saveElement->formatClass();
-
-      $s .= $this->saveElement->formatElement();
+      $e = array();
+      $e['class'] = $this->saveElement->formatClass();
+      $e['field'] = $this->saveElement->formatElement();
+      $elements[] = $e;
     }
 
     if ($this->applyElement) {
       if (!$this->applyElement->hasAttribute('class'))
-        $this->applyElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
+        $this->applyElement->setAttribute('class', 'rex-button');
 
-      $class = $this->applyElement->formatClass();
-
-      $s .= $this->applyElement->formatElement();
+      $e = array();
+      $e['class'] = $this->applyElement->formatClass();
+      $e['field'] = $this->applyElement->formatElement();
+      $elements[] = $e;
     }
 
     if ($this->deleteElement) {
       if (!$this->deleteElement->hasAttribute('class'))
-        $this->deleteElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
+        $this->deleteElement->setAttribute('class', 'rex-button');
 
       if (!$this->deleteElement->hasAttribute('onclick'))
         $this->deleteElement->setAttribute('data-confirm', rex_i18n::msg('form_delete') . '?');
 
-      $class = $this->deleteElement->formatClass();
-
-      $s .= $this->deleteElement->formatElement();
+      $e = array();
+      $e['class'] = $this->deleteElement->formatClass();
+      $e['field'] = $this->deleteElement->formatElement();
+      $elements[] = $e;
     }
 
     if ($this->resetElement) {
       if (!$this->resetElement->hasAttribute('class'))
-        $this->resetElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
+        $this->resetElement->setAttribute('class', 'rex-button');
 
       if (!$this->resetElement->hasAttribute('onclick'))
         $this->resetElement->setAttribute('data-confirm', rex_i18n::msg('form_reset') . '?');
 
-      $class = $this->resetElement->formatClass();
-
-      $s .= $this->resetElement->formatElement();
+      $e = array();
+      $e['class'] = $this->resetElement->formatClass();
+      $e['field'] = $this->resetElement->formatElement();
+      $elements[] = $e;
     }
 
     if ($this->abortElement) {
       if (!$this->abortElement->hasAttribute('class'))
-        $this->abortElement->setAttribute('class', 'rex-form-submit rex-form-submit-2');
+        $this->abortElement->setAttribute('class', 'rex-button');
 
-      $class = $this->abortElement->formatClass();
-
-      $s .= $this->abortElement->formatElement();
+      $e = array();
+      $e['class'] = $this->abortElement->formatClass();
+      $e['field'] = $this->abortElement->formatElement();
+      $elements[] = $e;
     }
 
-    if ($s != '') {
-      if ($class != '') {
-        $class = ' ' . $class;
-      }
-      $s = '<p class="rex-form-col-a' . $class . '">' . $s . '</p>';
+    if (count($elements) > 0) {
+      $fragment = new rex_fragment();
+      $fragment->setVar('elements', $elements, false);
+      $s = $fragment->parse('core/rex_form/submit.tpl');
     }
 
     return $s;

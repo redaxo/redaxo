@@ -2,47 +2,43 @@
 
 class rex_view
 {
-  static public function info($message, $cssClass = '', $sorround_tag = null)
+  static public function info($message, $cssClass = '')
   {
     $cssClassMessage = 'rex-info';
     if ($cssClass != '')
       $cssClassMessage .= ' ' . $cssClass;
 
-    if (!$sorround_tag) $sorround_tag = 'div';
-    return self::message($message, $cssClassMessage, $sorround_tag);
+    return self::message($message, $cssClassMessage);
   }
 
-  static public function success($message, $cssClass = '', $sorround_tag = null)
+  static public function success($message, $cssClass = '')
   {
     $cssClassMessage = 'rex-success';
     if ($cssClass != '')
       $cssClassMessage .= ' ' . $cssClass;
 
-    if (!$sorround_tag) $sorround_tag = 'div';
-    return self::message($message, $cssClassMessage, $sorround_tag);
+    return self::message($message, $cssClassMessage);
   }
 
-  static public function warning($message, $cssClass = '', $sorround_tag = null)
+  static public function warning($message, $cssClass = '')
   {
     $cssClassMessage = 'rex-warning';
     if ($cssClass != '')
       $cssClassMessage .= ' ' . $cssClass;
 
-    if (!$sorround_tag) $sorround_tag = 'div';
-    return self::message($message, $cssClassMessage, $sorround_tag);
+    return self::message($message, $cssClassMessage);
   }
 
-  static public function error($message, $cssClass = '', $sorround_tag = null)
+  static public function error($message, $cssClass = '')
   {
     $cssClassMessage = 'rex-error';
     if ($cssClass != '')
       $cssClassMessage .= ' ' . $cssClass;
 
-    if (!$sorround_tag) $sorround_tag = 'div';
-    return self::message($message, $cssClassMessage, $sorround_tag);
+    return self::message($message, $cssClassMessage);
   }
 
-  static private function message($message, $cssClass, $sorround_tag)
+  static private function message($message, $cssClass)
   {
     $return = '';
 
@@ -50,7 +46,7 @@ class rex_view
     if ($cssClass != '')
       $cssClassMessage .= ' ' . $cssClass;
 
-    $return = '<' . $sorround_tag . ' class="' . $cssClassMessage . '">' . $message . '</' . $sorround_tag . '>';
+    $return = '<div class="' . $cssClassMessage . '"><div class="rex-message-inner">' . $message . '</div></div>';
 
     /*
     $fragment = new rex_fragment();
@@ -72,24 +68,26 @@ class rex_view
     return $return;
   }
 
-  static public function contentBlock($content_1 = '', $content_2 = '', $type = '')
+  static public function contentBlock($content_1, $content_2 = '', $flush = true, $bucket = true, $title = '')
   {
     $return = '';
 
-    $class = '';
-    switch ($type) {
-      case 'plain':
-        $class = ' rex-content-plain';
-        break;
-      case 'block':
-        $class = ' rex-content-block';
-        break;
-      default:
-        $class = ' rex-content-default';
-        break;
+    $class_1 = '';
+    $class_2 = '';
+    if ($bucket) {
+      $class_1 .= ' rex-bucket';
+      $class_2 .= ' rex-bucket-inner';
+    }
+    if ($flush) {
+      $class_1 .= ' rex-flush';
     }
 
-    $return .= '<section class="rex-content' . $class . '">';
+    $return .= '<section class="rex-content' . $class_1 . '">';
+    $return .= '<div class="rex-content-inner' . $class_2 . '">';
+
+    if ($title != '')
+       $return .= '<h2>' . $title . '</h2>';
+
     if ($content_2 != '') {
       $return .= '
         <div class="rex-grid2col">
@@ -100,6 +98,7 @@ class rex_view
     } else {
       $return .= $content_1;
     }
+    $return .= '</div>';
     $return .= '</section>';
 
     return $return;
@@ -130,11 +129,15 @@ class rex_view
       }
       $nav->setActiveElements();
       $blocks = $nav->getNavigation();
+      $navigation = array();
+      if(count($blocks) == 1) {
+        $navigation = current($blocks);
+        $navigation = $navigation["navigation"];
+      }
 
       $fragment = new rex_fragment();
-      $fragment->setVar('type', 'tab', false);
-      $fragment->setVar('blocks', $blocks, false);
-      $subtitle = $fragment->parse('navigation.tpl');
+      $fragment->setVar('navigation_left', $navigation, false);
+      $subtitle = $fragment->parse('core/navigations/content.tpl');
 
     } elseif (!is_string($subtitle)) {
       $subtitle = '';

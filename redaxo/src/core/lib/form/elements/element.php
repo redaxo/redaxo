@@ -230,7 +230,7 @@ class rex_form_element
   {
     $notice = $this->getNotice();
     if ($notice != '') {
-      return '<span class="rex-form-notice" id="' . $this->getAttribute('id') . '_notice">' . $notice . '</span>';
+      return $notice;
     }
     return '';
   }
@@ -242,32 +242,30 @@ class rex_form_element
 
   protected function _get()
   {
-    $s = '';
+    $class = $this->formatClass();
+    $class = $class == '' ? '' : ' ' . $class;
 
-    $s .= $this->getPrefix();
+    $formElements = array();
+    $n = array();
+    $n['header']    = $this->getHeader();
+    $n['id']        = '';
+    $n['class']     = $class;
+    $n['label']     = $this->formatLabel();
+    $n['before']    = $this->getPrefix();
+    $n['field']     = $this->formatElement();
+    $n['after']     = $this->getSuffix();
+    $n['note']      = $this->formatNotice();
+    $n['footer']    = $this->getFooter();
+    $formElements[] = $n;
 
-    $s .= $this->formatLabel();
-    $s .= $this->formatElement();
-    $s .= $this->formatNotice();
-
-    $s .= $this->getSuffix();
-
-    return $s;
+    $fragment = new rex_fragment();
+    $fragment->setVar('elements', $formElements, false);
+    return  $fragment->parse('core/rex_form/form.tpl');
   }
 
   public function get()
   {
-    $class = $this->formatClass();
-    $class = $class == '' ? '' : ' ' . $class;
-
-    $s = '';
-    $s .= $this->getHeader();
-
-    $s .= '<div class="rex-form-data' . $class . '">
-             ' . $this->wrapContent($this->_get()) . '
-           </div>' . "\n";
-
-    $s .= $this->getFooter();
+    $s = $this->wrapContent($this->_get());
     return $s;
   }
 

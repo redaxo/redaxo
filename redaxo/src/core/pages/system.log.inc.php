@@ -64,11 +64,25 @@ if ($warning != '')
 
 $content .= '<iframe src="' . rex_url::currentBackendPage(array('func' => 'readlog')) . '" class="rex-log" width="100%" height="500px"></iframe>';
 
+
+
 $content .= '
   <form action="' . rex_url::currentBackendPage() . '" method="post">
-    <input type="hidden" name="func" value="delLog" />
-    <input type="submit" name="del_btn" value="' . rex_i18n::msg('syslog_delete') . '" data-confirm="' . rex_i18n::msg('delete') . '?">
-  </form>
-  ';
+    <input type="hidden" name="func" value="delLog" />';
 
-echo rex_view::contentBlock($content, '', 'blank');
+
+$formElements = array();
+
+$n = array();
+$n['field'] = '<button class="rex-button" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('delete') . '?">' . rex_i18n::msg('syslog_delete') . '</button>';
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/submit.tpl');
+
+
+$content .= '
+  </form>';
+
+echo rex_view::contentBlock($content);

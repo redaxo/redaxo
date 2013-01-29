@@ -6,6 +6,9 @@
 
 echo rex_view::title(rex_i18n::msg('addons'), '');
 
+
+$content = '';
+
 // -------------- RequestVars
 $subpage = rex_request('subpage', 'string');
 
@@ -44,12 +47,12 @@ if ($subpage == 'help') {
 if ($subpage == '') {
   rex_package_manager::synchronizeWithFileSystem();
 
-  echo '
-      <table class="rex-table" id="rex-table-addons" summary="' . rex_i18n::msg('package_summary') . '">
+  $content .= '
+      <table class="rex-table rex-middle" id="rex-table-addons" summary="' . rex_i18n::msg('package_summary') . '">
       <caption>' . rex_i18n::msg('package_caption') . '</caption>
       <thead>
         <tr>
-          <th class="rex-icon">&nbsp;</th>
+          <th class="rex-small">&nbsp;</th>
           <th class="rex-name">' . rex_i18n::msg('package_hname') . '</th>
           <th class="rex-install">' . rex_i18n::msg('package_hinstall') . '</th>
           <th class="rex-active">' . rex_i18n::msg('package_hactive') . '</th>
@@ -69,7 +72,7 @@ if ($subpage == '') {
       'rex-api-call' => 'package',
       'function' => $function
     ));
-    return '<a href="' . $url . '"' . $onclick . '>' . $text . '</a>';
+    return '<a class="rex-' . $function . '" href="' . $url . '"' . $onclick . '>' . $text . '</a>';
   };
 
   $getTableRow = function (rex_package $package) use ($getLink) {
@@ -115,7 +118,7 @@ if ($subpage == '') {
 
     return $message . '
           <tr class="rex-' . $type . ' rex-' . $type . '-' . $class . '">
-            <td class="rex-icon"><span class="rex-ic-' . $type . '">' . $name . '</span></td>
+            <td class="rex-small"><span class="rex-icon rex-icon-' . $type . '"></span></td>
             <td class="rex-name">' . $name . ' ' . $package->getVersion() . ' <a href="' . rex_url::currentBackendPage(array('subpage' => 'help', 'package' => $packageId)) . '">?</a></td>
             <td class="rex-install">' . $install . '</td>
             <td class="rex-active" data-pjax-container="#rex-page">' . $status . '</td>
@@ -125,15 +128,18 @@ if ($subpage == '') {
   };
 
   foreach (rex_addon::getRegisteredAddons() as $addonName => $addon) {
-    echo $getTableRow($addon);
+    $content .= $getTableRow($addon);
 
     if ($addon->isActivated()) {
       foreach ($addon->getRegisteredPlugins() as $pluginName => $plugin) {
-        echo $getTableRow($plugin);
+        $content .= $getTableRow($plugin);
       }
     }
   }
 
-  echo '</tbody>
+  $content .= '</tbody>
       </table>';
+
+
+  echo rex_view::contentBlock($content);
 }

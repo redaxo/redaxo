@@ -6,32 +6,38 @@
  */
 $num_clang = rex_clang::count();
 
-$languages = array();
+$button = '';
+$items  = array();
 if ($num_clang > 1) {
   $i = 1;
   foreach (rex_clang::getAll() as $id => $_clang) {
 
     if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
-      $lang = array();
-      $lang['id'] = $id;
-      $lang['title'] = rex_i18n::translate($_clang->getName());
+      $item = array();
+      $item['title']  = rex_i18n::translate($_clang->getName());
+      $item['href']   = rex_url::currentBackendPage() . '&amp;clang=' . $id . $language_add . '&amp;ctype=' . $ctype;
+      if ($id == $clang) {
+        $item['active'] = true;
 
-      $lang['linkClasses'] = array();
-      if ($id == $clang)
-        $lang['linkClasses'][] = 'rex-active';
-
-      $lang['itemClasses'] = $lang['linkClasses'];
-      $lang['href'] = rex_url::currentBackendPage() . '&amp;clang=' . $id . $sprachen_add . '&amp;ctype=' . $ctype;
-
-      $languages[] = $lang;
+        $button = rex_i18n::translate($_clang->getName());
+      }
+      $items[] = $item;
     }
     $i++;
   }
 
-  $langfragment = new rex_fragment();
-  $langfragment->setVar('type', 'switch');
-  $langfragment->setVar('blocks', array(array('headline' => array('title' => rex_i18n::msg('languages')), 'navigation' => $languages)), false);
-  echo $langfragment->parse('navigation.tpl');
+  $fragment = new rex_fragment();
+  $fragment->setVar('class', 'rex-language');
+  $fragment->setVar('button', $button);
+  $fragment->setVar('button_title', rex_i18n::msg('languages'));
+  $fragment->setVar('header', rex_i18n::msg('clang_select'));
+  $fragment->setVar('items', $items, false);
+  $fragment->setVar('check', true);
 
-  unset($langfragment);
+  if (rex::getUser()->isAdmin())
+    $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><span class="rex-icon rex-icon-language"></span> ' . rex_i18n::msg('languages_edit') . '</a>', false);
+
+  echo $fragment->parse('core/navigations/drop.tpl');
+
+  unset($fragment);
 }

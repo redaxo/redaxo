@@ -22,7 +22,10 @@ $info = '';
 $warning = '';
 $warning_block = '';
 
-// ---------------------------- ACTIONSFUNKTIONEN FÜR MODULE
+$content = '';
+$message = '';
+
+// ---------------------------- ACTIONSFUNKTIONEN FUER MODULE
 if ($add_action != '') {
   $action = rex_sql::factory();
   $action->setTable(rex::getTablePrefix() . 'module_action');
@@ -49,7 +52,7 @@ if ($add_action != '') {
 
 
 
-// ---------------------------- FUNKTIONEN FÜR MODULE
+// ---------------------------- FUNKTIONEN FUER MODULE
 
 if ($function == 'delete') {
   $del = rex_sql::factory();
@@ -92,6 +95,7 @@ if ($function == 'delete') {
 }
 
 if ($function == 'add' or $function == 'edit') {
+
   if ($save == '1') {
     $module = rex_sql::factory();
 
@@ -169,18 +173,18 @@ if ($function == 'add' or $function == 'edit') {
     }
 
     $btn_update = '';
-    if ($function != 'add') $btn_update = '<input type="submit" name="goon" value="' . rex_i18n::msg('save_module_and_continue') . '"' . rex::getAccesskey(rex_i18n::msg('save_module_and_continue'), 'apply') . ' />';
+    if ($function != 'add') $btn_update = '<button class="rex-button" type="submit" name="goon"' . rex::getAccesskey(rex_i18n::msg('save_module_and_continue'), 'apply') . '>' . rex_i18n::msg('save_module_and_continue') . '</button>';
 
     if ($info != '')
-      echo rex_view::info($info);
+      $message .= rex_view::info($info);
 
     if ($warning != '')
-      echo rex_view::warning($warning);
+      $message .= rex_view::warning($warning);
 
     if ($warning_block != '')
-      echo rex_view::warningBlock($warning_block);
+      $message .= rex_view::warningBlock($warning_block);
 
-    echo '
+    $content .= '
       <div class="rex-form" id="rex-form-module">
         <form action="' . rex_url::currentBackendPage() . '" method="post">
         <fieldset>
@@ -191,48 +195,53 @@ if ($function == 'add' or $function == 'edit') {
             <input type="hidden" name="modul_id" value="' . $modul_id . '" />';
 
 
-          $formElements = array();
+    $formElements = array();
 
-            $n = array();
-            $n['label'] = '<label for="mname">' . rex_i18n::msg('module_name') . '</label>';
-            $n['field'] = '<input type="text" id="mname" name="mname" value="' . htmlspecialchars($mname) . '" />';
-            $formElements[] = $n;
+    $n = array();
+    $n['label'] = '<label for="mname">' . rex_i18n::msg('module_name') . '</label>';
+    $n['field'] = '<input type="text" id="mname" name="mname" value="' . htmlspecialchars($mname) . '" />';
+    $formElements[] = $n;
 
-            $n = array();
-            $n['label'] = '<label for="minput">' . rex_i18n::msg('input') . '</label>';
-            $n['field'] = '<textarea cols="50" rows="6" name="eingabe" id="minput">' . htmlspecialchars($eingabe) . '</textarea>';
-            $formElements[] = $n;
+    $n = array();
+    $n['label'] = '<label for="minput">' . rex_i18n::msg('input') . '</label>';
+    $n['field'] = '<textarea class="rex-long rex-code" name="eingabe" id="minput">' . htmlspecialchars($eingabe) . '</textarea>';
+    $formElements[] = $n;
 
-            $n = array();
-            $n['label'] = '<label for="moutput">' . rex_i18n::msg('output') . '</label>';
-            $n['field'] = '<textarea  cols="50" rows="6" name="ausgabe" id="moutput">' . htmlspecialchars($ausgabe) . '</textarea>';
-            $formElements[] = $n;
+    $n = array();
+    $n['label'] = '<label for="moutput">' . rex_i18n::msg('output') . '</label>';
+    $n['field'] = '<textarea class="rex-long rex-code" name="ausgabe" id="moutput">' . htmlspecialchars($ausgabe) . '</textarea>';
+    $formElements[] = $n;
 
-          $fragment = new rex_fragment();
-          $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form.tpl');
-
-
-    echo '
-        </fieldset>
-
-        <fieldset class="rex-form-action">';
+    $fragment = new rex_fragment();
+    $fragment->setVar('flush', true);
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/form.tpl');
 
 
-          $formElements = array();
+    $content .= '</fieldset>';
 
-          $fragment = new rex_fragment();
 
-            $n = array();
-            $n['field'] = '<input type="submit" value="' . rex_i18n::msg('save_module_and_quit') . '"' . rex::getAccesskey(rex_i18n::msg('save_module_and_quit'), 'save') . ' />' . $btn_update;
-            $formElements[] = $n;
+    $formElements = array();
 
-          $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form.tpl');
+    $fragment = new rex_fragment();
 
-    echo '
-        </fieldset>
-    ';
+    $n = array();
+    $n['field'] = '<a class="rex-back" href="' . rex_url::currentBackendPage() . '"><span class="rex-icon rex-icon-back"></span>' . rex_i18n::msg('form_abort') . '</a>';
+    $formElements[] = $n;
+
+    $n = array();
+    $n['field'] = '<button class="rex-button" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_module_and_quit'), 'save') . '>' . rex_i18n::msg('save_module_and_quit') . '</button>';
+    $formElements[] = $n;
+
+    if ($btn_update != '') {
+      $n = array();
+      $n['field'] = $btn_update;
+      $formElements[] = $n;
+    }
+
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/submit.tpl');
+
 
     if ($function == 'edit') {
       // Im Edit Mode Aktionen bearbeiten
@@ -257,7 +266,7 @@ if ($function == 'add' or $function == 'edit') {
           $action_name = rex_i18n::translate($gma->getValue('name'));
 
           $actions .= '<tr>
-            <td class="rex-icon"><a class="rex-ic-action" href="' . $action_edit_url . '">' . htmlspecialchars($action_name) . '</a></td>';
+            <td class="rex-small"><a href="' . $action_edit_url . '" title="' . htmlspecialchars($action_name) . '"><span class="rex-icon rex-icon-action"></span></a></td>';
 
           if (rex::getUser()->hasPerm('advancedMode[]')) {
              $actions .= '<td class="rex-small">' . $gma->getValue('id') . '</td>';
@@ -276,7 +285,7 @@ if ($function == 'add' or $function == 'edit') {
               <caption>' . rex_i18n::msg('actions_added_caption') . '</caption>
               <thead>
                 <tr>
-                  <th class="rex-icon">&nbsp;</th>
+                  <th class="rex-small">&nbsp;</th>
                   ' . $add_header . '
                   <th class="rex-name">' . rex_i18n::msg('action_name') . '</th>
                   <th class="rex-function">' . rex_i18n::msg('action_functions') . '</th>
@@ -299,8 +308,7 @@ if ($function == 'add' or $function == 'edit') {
           $gaa->next();
         }
 
-        echo
-        $actions . '
+        $content .= $actions . '
         <fieldset>
           <h2>' . rex_i18n::msg('action_add') . '</h2>';
 
@@ -314,9 +322,9 @@ if ($function == 'add' or $function == 'edit') {
 
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form.tpl');
+        $content .= $fragment->parse('form.tpl');
 
-        echo '</fieldset><fieldset class="rex-form-action">';
+        $content .= '</fieldset><fieldset class="rex-form-action">';
 
 
           $formElements = array();
@@ -327,13 +335,13 @@ if ($function == 'add' or $function == 'edit') {
 
           $fragment = new rex_fragment();
           $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form.tpl');
+        $content .= $fragment->parse('form.tpl');
 
-          echo '</fieldset>';
+        $content .= '</fieldset>';
       }
     }
 
-    echo '
+    $content .= '
     </form></div>
     ';
 
@@ -343,22 +351,22 @@ if ($function == 'add' or $function == 'edit') {
 
 if ($OUT) {
   if ($info != '')
-    echo rex_view::info($info);
+    $message .= rex_view::info($info);
 
   if ($warning != '')
-    echo rex_view::warning($warning);
+    $message .= rex_view::warning($warning);
 
   if ($warning_block != '')
-    echo rex_view::warningBlock($warning_block);
+    $message .= rex_view::warningBlock($warning_block);
 
   $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name');
   $list->setCaption(rex_i18n::msg('module_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('module_summary'));
   $list->addTableAttribute('id', 'rex-module');
 
-  $tdIcon = '<span class="rex-ic-module">###name###</span>';
-  $thIcon = '<a class="rex-ic-module rex-ic-add" href="' . $list->getUrl(array('function' => 'add')) . '"' . rex::getAccesskey(rex_i18n::msg('create_module'), 'add') . '>' . rex_i18n::msg('create_module') . '</a>';
-  $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
+  $tdIcon = '<span class="rex-icon rex-icon-module"></span>';
+  $thIcon = '<a href="' . $list->getUrl(array('function' => 'add')) . '"' . rex::getAccesskey(rex_i18n::msg('create_module'), 'add') . ' title="' . rex_i18n::msg('create_module') . '"><span class="rex-icon rex-icon-add-module"></span></a>';
+  $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-small">###VALUE###</th>', '<td class="rex-small">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('function' => 'edit', 'modul_id' => '###id###'));
 
   $list->setColumnLabel('id', 'ID');
@@ -375,5 +383,8 @@ if ($OUT) {
 
   $list->setNoRowsMessage(rex_i18n::msg('modules_not_found'));
 
-  $list->show();
+  $content .= $list->get();
 }
+
+echo $message;
+echo rex_view::contentBlock($content);

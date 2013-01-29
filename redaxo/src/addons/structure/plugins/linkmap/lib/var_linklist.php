@@ -57,13 +57,11 @@ class rex_var_linklist extends rex_var
       }
     }
 
-    $open_class   = 'rex-ic-linkmap-open rex-inactive';
-    $delete_class = 'rex-ic-link-delete rex-inactive';
+    $class        = ' rex-disabled';
     $open_func    = '';
     $delete_func  = '';
     if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm()) {
-      $open_class   = 'rex-ic-linkmap-open';
-      $delete_class = 'rex-ic-link-delete';
+      $class        = '';
       $open_func    = 'openREXLinklist(' . $id . ', \'' . $open_params . '\');';
       $delete_func  = 'deleteREXLinklist(' . $id . ');';
     }
@@ -74,16 +72,16 @@ class rex_var_linklist extends rex_var
       <select name="REX_LINKLIST_SELECT[' . $id . ']" id="REX_LINKLIST_SELECT_' . $id . '" size="8">
           ' . $options . '
       </select>
-      <ul class="rex-navi-widget">
-        <li><a href="#" class="rex-ic-top" onclick="moveREXLinklist(' . $id . ',\'top\');return false;" title="' . rex_i18n::msg('var_linklist_move_top') . '">' . rex_i18n::msg('var_linklist_move_top') . '</a></li>
-        <li><a href="#" class="rex-ic-up" onclick="moveREXLinklist(' . $id . ',\'up\');return false;" title="' . rex_i18n::msg('var_linklist_move_up') . '">' . rex_i18n::msg('var_linklist_move_up') . '</a></li>
-        <li><a href="#" class="rex-ic-down" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="' . rex_i18n::msg('var_linklist_move_down') . '">' . rex_i18n::msg('var_linklist_move_down') . '</a></li>
-        <li><a href="#" class="rex-ic-bottom" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_linklist_move_bottom') . '">' . rex_i18n::msg('var_linklist_move_bottom') . '</a></li>
-      </ul>
-      <ul class="rex-navi-widget">
-        <li><a href="#" class="' . $open_class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '">' . rex_i18n::msg('var_link_open') . '</a></li>
-        <li><a href="#" class="' . $delete_class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '">' . rex_i18n::msg('var_link_delete') . '</a></li>
-      </ul>
+      <span class="rex-button-vgroup">
+        <a href="#" class="rex-button rex-icon rex-icon-top" onclick="moveREXLinklist(' . $id . ',\'top\');return false;" title="' . rex_i18n::msg('var_linklist_move_top') . '"></a>
+        <a href="#" class="rex-button rex-icon rex-icon-up" onclick="moveREXLinklist(' . $id . ',\'up\');return false;" title="' . rex_i18n::msg('var_linklist_move_up') . '"></a>
+        <a href="#" class="rex-button rex-icon rex-icon-down" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="' . rex_i18n::msg('var_linklist_move_down') . '"></a>
+        <a href="#" class="rex-button rex-icon rex-icon-bottom" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_linklist_move_bottom') . '"></a>
+      </span>
+      <span class="rex-button-group">
+        <a href="#" class="rex-button rex-icon rex-icon-open-linkmap' . $class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"></a>
+        <a href="#" class="rex-button rex-icon rex-icon-delete-link' . $class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"></a>
+      </span>
     </div>';
 
     return $link;

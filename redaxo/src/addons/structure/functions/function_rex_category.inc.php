@@ -29,20 +29,14 @@ if ($ooCat) {
   }
 }
 
-$blocks = array();
-$blocks[] = array(
-  'headline' => array('title' => rex_i18n::msg('path')),
-  'navigation' => $navigation
-);
 
 $fragment = new rex_fragment();
-$fragment->setVar('type', 'path');
-$fragment->setVar('blocks', $blocks, false);
-$path = $fragment->parse('navigation.tpl');
+$fragment->setVar('title', rex_i18n::msg('path'));
+$fragment->setVar('items', $navigation, false);
+echo $fragment->parse('core/navigations/path.tpl');
 
 unset($fragment);
-unset($navi);
+unset($navigation);
 
-$KATout .= $path;
-$KATout .= '
+echo '
 <!-- *** OUTPUT OF CATEGORY-TOOLBAR - END *** -->';

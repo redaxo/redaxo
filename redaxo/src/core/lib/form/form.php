@@ -204,7 +204,7 @@ class rex_form extends rex_factory_base
   public function addContainerField($name, $value = null, array $attributes = array())
   {
     if (!isset($attributes['class']))
-      $attributes['class'] = 'rex-form-element-container';
+      $attributes['class'] = 'rex-form-container';
     $attributes['internal::fieldClass'] = 'rex_form_container_element';
 
     $field = $this->addField('', $name, $value, $attributes, true);
@@ -230,8 +230,6 @@ class rex_form extends rex_factory_base
    */
   public function addTextField($name, $value = null, array $attributes = array())
   {
-    if (!isset($attributes['class']))
-      $attributes['class'] = 'rex-form-text';
     $field = $this->addInputField('text', $name, $value, $attributes);
     return $field;
   }
@@ -245,8 +243,6 @@ class rex_form extends rex_factory_base
   public function addReadOnlyTextField($name, $value = null, array $attributes = array())
   {
     $attributes['readonly'] = 'readonly';
-    if (!isset($attributes['class']))
-      $attributes['class'] = 'rex-form-read';
     $field = $this->addInputField('text', $name, $value, $attributes);
     return $field;
   }
@@ -320,8 +316,6 @@ class rex_form extends rex_factory_base
       $attributes['cols'] = 50;
     if (!isset($attributes['rows']))
       $attributes['rows'] = 6;
-    if (!isset($attributes['class']))
-      $attributes['class'] = 'rex-form-textarea';
 
     $field = $this->addField('textarea', $name, $value, $attributes);
     return $field;
@@ -334,8 +328,6 @@ class rex_form extends rex_factory_base
    */
   public function addSelectField($name, $value = null, array $attributes = array())
   {
-    if (!isset($attributes['class']))
-      $attributes['class'] = 'rex-form-select';
     $attributes['internal::fieldClass'] = 'rex_form_select_element';
     $field = $this->addField('', $name, $value, $attributes, true);
     return $field;
@@ -348,8 +340,6 @@ class rex_form extends rex_factory_base
    */
   public function addPrioField($name, $value = null, array $attributes = array())
   {
-    if (!isset($attributes['class']))
-      $attributes['class'] = 'rex-form-select';
     $attributes['internal::fieldClass'] = 'rex_form_prio_element';
     $field = $this->addField('', $name, $value, $attributes, true);
     return $field;

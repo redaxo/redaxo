@@ -37,6 +37,9 @@ $info = '';
 $warning = '';
 $warning_blck = '';
 
+$content = '';
+$message = '';
+
 if ($function == 'delete') {
   $del = rex_sql::factory();
 //  $del->debugsql = true;
@@ -197,15 +200,15 @@ if ($function == 'add' || $function == 'edit') {
 
     $btn_update = '';
     if ($function != 'add')
-      $btn_update = '<input type="submit" name="goon" value="' . rex_i18n::msg('save_action_and_continue') . '"' . rex::getAccesskey(rex_i18n::msg('save_action_and_continue'), 'apply') . ' />';
+      $btn_update = '<button class="rex-button" type="submit" name="goon"' . rex::getAccesskey(rex_i18n::msg('save_action_and_continue'), 'apply') . '>' . rex_i18n::msg('save_action_and_continue') . '</button>';
 
     if ($info != '')
-      echo rex_view::info($info);
+      $message .= rex_view::info($info);
 
     if ($warning != '')
-      echo rex_view::warning($warning);
+      $message .= rex_view::warning($warning);
 
-    echo '
+    $content .= '
       <div class="rex-form" id="rex-form-action">
         <form action="' . rex_url::currentBackendPage() . '" method="post">
           <fieldset>
@@ -216,82 +219,110 @@ if ($function == 'add' || $function == 'edit') {
               <input type="hidden" name="action_id" value="' . $action_id . '" />';
 
 
-          $formElements = array();
+    $formElements = array();
 
-            $n = array();
-            $n['label'] = '<label for="name">' . rex_i18n::msg('action_name') . '</label>';
-            $n['field'] = '<input type="text" id="name" name="name" value="' . htmlspecialchars($name) . '" />';
-            $formElements[] = $n;
+    $n = array();
+    $n['label'] = '<label for="name">' . rex_i18n::msg('action_name') . '</label>';
+    $n['field'] = '<input type="text" id="name" name="name" value="' . htmlspecialchars($name) . '" />';
+    $formElements[] = $n;
 
-          $fragment = new rex_fragment();
-          $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form.tpl');
+    $fragment = new rex_fragment();
+    $fragment->setVar('flush', true);
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/form.tpl');
 
-    echo '
+    $content .= '
           </fieldset>
 
           <fieldset>
             <h2>Preview-Action [' . rex_i18n::msg('action_mode_preview') . ']</h2>';
 
 
-          $formElements = array();
+    $formElements = array();
+    $n = array();
+    $n['label'] = '<label for="previewaction">' . rex_i18n::msg('input') . '</label>';
+    $n['field'] = '<textarea class="rex-code" name="previewaction" id="previewaction">' . htmlspecialchars($previewaction) . '</textarea>';
+    $n['note']  = rex_i18n::msg('action_hint');
+    $formElements[] = $n;
 
-            $n = array();
-            $n['label'] = '<label for="previewaction">' . rex_i18n::msg('input') . '</label>';
-            $n['field'] = '<textarea cols="50" rows="6" name="previewaction" id="previewaction">' . htmlspecialchars($previewaction) . '</textarea>';
-            $n['after'] = '<span class="rex-form-notice">' . rex_i18n::msg('action_hint') . '</span>';
-            $formElements[] = $n;
+    $fragment = new rex_fragment();
+    $fragment->setVar('flush', true);
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/form.tpl');
 
-            $n = array();
-            $n['reverse'] = true;
-            $n['label'] = '<label for="preview_allevents">' . rex_i18n::msg('action_event_all') . '</label>';
-            $n['field'] = '<input id="preview_allevents" type="checkbox" name="preview_allevents" ' . $allPreviewChecked . ' />';
-            $formElements[] = $n;
 
-            $n = array();
-            $n['id'] = 'preview_events';
-            $n['label'] = '<label for="previestatus">' . rex_i18n::msg('action_event') . '</label>';
-            $n['field'] = $sel_preview_status->get();
-            $n['after'] = '<span class="rex-form-notice">' . rex_i18n::msg('ctrl') . '</span>';
-            $formElements[] = $n;
+    $formElements = array();
+    $n = array();
+    $n['reverse'] = true;
+    $n['label'] = '<label>' . rex_i18n::msg('action_event_all') . '</label>';
+    $n['field'] = '<input id="rex-js-preview-allevents" type="checkbox" name="preview_allevents" ' . $allPreviewChecked . ' />';
+    $formElements[] = $n;
 
-          $fragment = new rex_fragment();
-          $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form.tpl');
+    $fragment = new rex_fragment();
+    $fragment->setVar('flush', true);
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/checkbox.tpl');
 
-    echo '
+
+    $formElements = array();
+    $n = array();
+    $n['id'] = 'rex-js-preview-events';
+    $n['label'] = '<label for="previestatus">' . rex_i18n::msg('action_event') . '</label>';
+    $n['field'] = $sel_preview_status->get();
+    $n['note']  = rex_i18n::msg('ctrl');
+    $formElements[] = $n;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('flush', true);
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/form.tpl');
+
+    $content .= '
           </fieldset>
 
           <fieldset>
             <h2>Presave-Action [' . rex_i18n::msg('action_mode_presave') . ']</h2>';
 
 
-          $formElements = array();
+    $formElements = array();
+    $n = array();
+    $n['label'] = '<label for="presaveaction">' . rex_i18n::msg('input') . '</label>';
+    $n['field'] = '<textarea class="rex-code" name="presaveaction" id="presaveaction">' . htmlspecialchars($presaveaction) . '</textarea>';
+    $n['note'] = rex_i18n::msg('action_hint');
+    $formElements[] = $n;
 
-            $n = array();
-            $n['label'] = '<label for="presaveaction">' . rex_i18n::msg('input') . '</label>';
-            $n['field'] = '<textarea cols="50" rows="6" name="presaveaction" id="presaveaction">' . htmlspecialchars($presaveaction) . '</textarea>';
-            $n['after'] = '<span class="rex-form-notice">' . rex_i18n::msg('action_hint') . '</span>';
-            $formElements[] = $n;
+    $fragment = new rex_fragment();
+    $fragment->setVar('flush', true);
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/form.tpl');
 
-            $n = array();
-            $n['reverse'] = true;
-            $n['label'] = '<label for="presave_allevents">' . rex_i18n::msg('action_event_all') . '</label>';
-            $n['field'] = '<input id="presave_allevents" type="checkbox" name="presave_allevents" ' . $allPresaveChecked . ' />';
-            $formElements[] = $n;
 
-            $n = array();
-            $n['id'] = 'presave_events';
-            $n['label'] = '<label for="presavestatus">' . rex_i18n::msg('action_event') . '</label>';
-            $n['field'] = $sel_presave_status->get();
-            $n['after'] = '<span class="rex-form-notice">' . rex_i18n::msg('ctrl') . '</span>';
-            $formElements[] = $n;
+    $formElements = array();
+    $n = array();
+    $n['label'] = '<label>' . rex_i18n::msg('action_event_all') . '</label>';
+    $n['field'] = '<input id="rex-js-presave-allevents" type="checkbox" name="presave_allevents" ' . $allPresaveChecked . ' />';
+    $formElements[] = $n;
 
-          $fragment = new rex_fragment();
-          $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form.tpl');
+    $fragment = new rex_fragment();
+    $fragment->setVar('flush', true);
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/checkbox.tpl');
 
-    echo '
+
+    $formElements = array();
+    $n = array();
+    $n['id'] = 'rex-js-presave-events';
+    $n['label'] = '<label for="presavestatus">' . rex_i18n::msg('action_event') . '</label>';
+    $n['field'] = $sel_presave_status->get();
+    $n['note'] = rex_i18n::msg('ctrl');
+    $formElements[] = $n;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('flush', true);
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/form.tpl');
+
+    $content .= '
           </fieldset>
 
 
@@ -299,50 +330,69 @@ if ($function == 'add' || $function == 'edit') {
             <h2>Postsave-Action [' . rex_i18n::msg('action_mode_postsave') . ']</h2>';
 
 
-          $formElements = array();
+    $formElements = array();
+    $n = array();
+    $n['label'] = '<label for="postsaveaction">' . rex_i18n::msg('input') . '</label>';
+    $n['field'] = '<textarea class="rex-code" name="postsaveaction" id="postsaveaction">' . htmlspecialchars($postsaveaction) . '</textarea>';
+    $n['note']  = rex_i18n::msg('action_hint');
+    $formElements[] = $n;
 
-            $n = array();
-            $n['label'] = '<label for="postsaveaction">' . rex_i18n::msg('input') . '</label>';
-            $n['field'] = '<textarea cols="50" rows="6" name="postsaveaction" id="postsaveaction">' . htmlspecialchars($postsaveaction) . '</textarea>';
-            $n['after'] = '<span class="rex-form-notice">' . rex_i18n::msg('action_hint') . '</span>';
-            $formElements[] = $n;
-
-            $n = array();
-            $n['reverse'] = true;
-            $n['label'] = '<label for="postsave_allevents">' . rex_i18n::msg('action_event_all') . '</label>';
-            $n['field'] = '<input id="postsave_allevents" type="checkbox" name="postsave_allevents" ' . $allPostsaveChecked . ' />';
-            $formElements[] = $n;
-
-            $n = array();
-            $n['id'] = 'postsave_events';
-            $n['label'] = '<label for="postsavestatus">' . rex_i18n::msg('action_event') . '</label>';
-            $n['field'] = $sel_postsave_status->get();
-            $n['after'] = '<span class="rex-form-notice">' . rex_i18n::msg('ctrl') . '</span>';
-            $formElements[] = $n;
-
-          $fragment = new rex_fragment();
-          $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form.tpl');
-
-    echo '
-          </fieldset>
-
-          <fieldset class="rex-form-action">';
+    $fragment = new rex_fragment();
+    $fragment->setVar('flush', true);
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/form.tpl');
 
 
-          $formElements = array();
+    $formElements = array();
+    $n = array();
+    $n['label'] = '<label>' . rex_i18n::msg('action_event_all') . '</label>';
+    $n['field'] = '<input id="rex-js-postsave-allevents" type="checkbox" name="postsave_allevents" ' . $allPostsaveChecked . ' />';
+    $formElements[] = $n;
 
-          $fragment = new rex_fragment();
+    $fragment = new rex_fragment();
+    $fragment->setVar('flush', true);
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/checkbox.tpl');
 
-            $n = array();
-            $n['field'] = '<input type="submit" value="' . rex_i18n::msg('save_action_and_quit') . '"' . rex::getAccesskey(rex_i18n::msg('save_action_and_quit'), 'save') . ' />' . $btn_update;
-            $formElements[] = $n;
 
-          $fragment->setVar('elements', $formElements, false);
-          echo $fragment->parse('form.tpl');
+    $formElements = array();
+    $n = array();
+    $n['id'] = 'rex-js-postsave-events';
+    $n['label'] = '<label for="postsavestatus">' . rex_i18n::msg('action_event') . '</label>';
+    $n['field'] = $sel_postsave_status->get();
+    $n['note']  = rex_i18n::msg('ctrl');
+    $formElements[] = $n;
 
-    echo '
-          </fieldset>
+    $fragment = new rex_fragment();
+    $fragment->setVar('flush', true);
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/form.tpl');
+
+    $content .= '</fieldset>';
+
+
+    $formElements = array();
+
+    $fragment = new rex_fragment();
+
+    $n = array();
+    $n['field'] = '<a class="rex-back" href="' . rex_url::currentBackendPage() . '"><span class="rex-icon rex-icon-back"></span>' . rex_i18n::msg('form_abort') . '</a>';
+    $formElements[] = $n;
+
+    $n = array();
+    $n['field'] = '<button class="rex-button" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_action_and_quit'), 'save') . '>' . rex_i18n::msg('save_action_and_quit') . '</button>';
+    $formElements[] = $n;
+
+    if ($btn_update != '') {
+      $n = array();
+      $n['field'] = $btn_update;
+      $formElements[] = $n;
+    }
+
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/submit.tpl');
+
+    $content .= '
         </form>
       </div>
 
@@ -350,16 +400,16 @@ if ($function == 'add' || $function == 'edit') {
       <!--
 
       jQuery(function($) {
-        var eventTypes = "#preview #presave #postsave";
+        var eventTypes = "#rex-js-preview #rex-js-presave #rex-js-postsave";
 
         $(eventTypes.split(" ")).each(function() {
           var eventType = this;
-          $(eventType+ "_allevents").click(function() {
-            $(eventType+"_events").slideToggle("slow");
+          $(eventType+ "-allevents").click(function() {
+            $(eventType+"-events").slideToggle("slow");
           });
 
-          if($(eventType+"_allevents").is(":checked")) {
-            $(eventType+"_events").hide();
+          if($(eventType+"-allevents").is(":checked")) {
+            $(eventType+"-events").hide();
           }
         });
       });
@@ -374,21 +424,21 @@ if ($function == 'add' || $function == 'edit') {
 
 if ($OUT) {
   if ($info != '')
-    echo rex_view::info($info);
+    $message .= rex_view::info($info);
 
   if ($warning != '')
-    echo rex_view::warning($warning);
+    $message .= rex_view::warning($warning);
 
   if ($warning_blck != '')
-    echo rex_view::warningBlock($warning_blck);
+    $message .= rex_view::warningBlock($warning_blck);
 
   // ausgabe actionsliste !
-  echo '
+  $content .= '
     <table class="rex-table" id="rex-table-action" summary="' . rex_i18n::msg('action_summary') . '">
       <caption>' . rex_i18n::msg('action_caption') . '</caption>
       <thead>
         <tr>
-          <th class="rex-icon"><a class="rex-ic-action rex-ic-add" href="' . rex_url::currentBackendPage(array('function' => 'add')) . '"' . rex::getAccesskey(rex_i18n::msg('action_create'), 'add') . '>' . rex_i18n::msg('action_create') . '</a></th>
+          <th class="rex-small"><a class="rex-icon rex-icon-add-action" href="' . rex_url::currentBackendPage(array('function' => 'add')) . '"' . rex::getAccesskey(rex_i18n::msg('action_create'), 'add') . ' title="' . rex_i18n::msg('action_create') . '"></a></th>
           <th class="rex-small">ID</th>
           <th class="name">' . rex_i18n::msg('action_name') . '</th>
           <th class="preview">Preview-Event(s)</th>
@@ -404,7 +454,7 @@ if ($OUT) {
   $rows = $sql->getRows();
 
   if ($rows > 0) {
-    echo '<tbody>' . "\n";
+    $content .= '<tbody>' . "\n";
 
     for ($i = 0; $i < $rows; $i++) {
       $previewmode = array();
@@ -423,9 +473,9 @@ if ($OUT) {
         if (($sql->getValue('postsavemode') & $var) == $var)
           $postsavemode[] = $value;
 
-      echo '
+      $content .= '
             <tr>
-              <td class="rex-icon"><a class="rex-ic-action" href="' . rex_url::currentBackendPage(array('action_id' => $sql->getValue('id'), 'function' => 'edit')) . '" title="' . htmlspecialchars($sql->getValue('name')) . '">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
+              <td class="rex-small"><a href="' . rex_url::currentBackendPage(array('action_id' => $sql->getValue('id'), 'function' => 'edit')) . '" title="' . htmlspecialchars($sql->getValue('name')) . '"><span class="rex-icon rex-icon-action"></span></a></td>
               <td class="rex-small">' . $sql->getValue('id') . '</td>
               <td class="name"><a href="' . rex_url::currentBackendPage(array('action_id' => $sql->getValue('id'), 'function' => 'edit')) . '">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
               <td class="preview">' . implode('/', $previewmode) . '</td>
@@ -438,9 +488,16 @@ if ($OUT) {
       $sql->next();
     }
 
-    echo '</tbody>' . "\n";
+    $content .= '</tbody>' . "\n";
   }
 
-  echo '
+  $content .= '
     </table>';
+
+  if ($rows < 1) {
+    $content .= '<div class="rex-content-information"><p>' . rex_i18n::msg('actions_not_found') . '</p></div>';
+  }
 }
+
+echo $message;
+echo rex_view::contentBlock($content);

@@ -71,19 +71,13 @@ class rex_var_medialist extends rex_var
       }
     }
 
-    $open_class   = 'rex-ic-mediapool-open rex-inactive';
-    $add_class    = 'rex-ic-media-add rex-inactive';
-    $delete_class = 'rex-ic-media-delete rex-inactive';
-    $view_class   = 'rex-ic-media-view rex-inactive';
+    $class        = 'rex-disabled';
     $open_func    = '';
     $add_func     = '';
     $delete_func  = '';
     $view_func    = '';
     if (rex::getUser()->getComplexPerm('media')->hasMediaPerm()) {
-      $open_class   = 'rex-ic-mediapool-open';
-      $add_class    = 'rex-ic-media-add';
-      $delete_class = 'rex-ic-media-delete';
-      $view_class   = 'rex-ic-media-view';
+      $class        = '';
       $open_func    = 'openREXMedialist(' . $id . ',\'' . $open_params . '\');';
       $add_func     = 'addREXMedialist(' . $id . ');';
       $delete_func  = 'deleteREXMedialist(' . $id . ');';
@@ -96,18 +90,18 @@ class rex_var_medialist extends rex_var
       <select name="REX_MEDIALIST_SELECT[' . $id . ']" id="REX_MEDIALIST_SELECT_' . $id . '" size="8">
         ' . $options . '
       </select>
-      <ul class="rex-navi-widget">
-        <li><a href="#" class="rex-ic-top" onclick="moveREXMedialist(' . $id . ',\'top\');return false;" title="' . rex_i18n::msg('var_medialist_move_top') . '">' . rex_i18n::msg('var_medialist_move_top') . '</a></li>
-        <li><a href="#" class="rex-ic-up" onclick="moveREXMedialist(' . $id . ',\'up\');return false;" title="' . rex_i18n::msg('var_medialist_move_up') . '">' . rex_i18n::msg('var_medialist_move_up') . '</a></li>
-        <li><a href="#" class="rex-ic-down" onclick="moveREXMedialist(' . $id . ',\'down\');return false;" title="' . rex_i18n::msg('var_medialist_move_down') . '">' . rex_i18n::msg('var_medialist_move_down') . '</a></li>
-        <li><a href="#" class="rex-ic-bottom" onclick="moveREXMedialist(' . $id . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_medialist_move_bottom') . '">' . rex_i18n::msg('var_medialist_move_bottom') . '</a></li>
-      </ul>
-      <ul class="rex-navi-widget">
-        <li><a href="#" class="' . $open_class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_media_open') . '">' . rex_i18n::msg('var_media_open') . '</a></li>
-        <li><a href="#" class="' . $add_class . '" onclick="' . $add_func . 'return false;" title="' . rex_i18n::msg('var_media_new') . '">' . rex_i18n::msg('var_media_new') . '</a></li>
-        <li><a href="#" class="' . $delete_class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_media_remove') . '">' . rex_i18n::msg('var_media_remove') . '</a></li>
-        <li><a href="#" class="' . $view_class . '" onclick="' . $view_func . 'return false;" title="' . rex_i18n::msg('var_media_view') . '">' . rex_i18n::msg('var_media_view') . '</a></li>
-      </ul>
+      <span class="rex-button-vgroup">
+        <a href="#" class="rex-button rex-icon rex-icon-top" onclick="moveREXMedialist(' . $id . ',\'top\');return false;" title="' . rex_i18n::msg('var_medialist_move_top') . '"></a>
+        <a href="#" class="rex-button rex-icon rex-icon-up" onclick="moveREXMedialist(' . $id . ',\'up\');return false;" title="' . rex_i18n::msg('var_medialist_move_up') . '"></a>
+        <a href="#" class="rex-button rex-icon rex-icon-down" onclick="moveREXMedialist(' . $id . ',\'down\');return false;" title="' . rex_i18n::msg('var_medialist_move_down') . '"></a>
+        <a href="#" class="rex-button rex-icon rex-icon-bottom" onclick="moveREXMedialist(' . $id . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_medialist_move_bottom') . '"></a>
+      </span>
+      <span class="rex-button-group">
+        <a href="#" class="rex-button rex-icon rex-icon-open-mediapool' . $class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_media_open') . '"></a>
+        <a href="#" class="rex-button rex-icon rex-icon-add-media' . $class . '" onclick="' . $add_func . 'return false;" title="' . rex_i18n::msg('var_media_new') . '"></a>
+        <a href="#" class="rex-button rex-icon rex-icon-delete-media' . $class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_media_remove') . '"></a>
+        <a href="#" class="rex-button rex-icon rex-icon-view-media' . $class . '" onclick="' . $view_func . 'return false;" title="' . rex_i18n::msg('var_media_view') . '"></a>
+      </span>
       <div class="rex-media-preview"></div>
     </div>
     ';

@@ -15,9 +15,9 @@ if ($func == '') {
   $list->setCaption(rex_i18n::msg('user_role_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('user_role_summary'));
 
-  $tdIcon = '<span class="rex-ic-userrole">###name###</span>';
-  $thIcon = '<a class="rex-ic-userrole rex-ic-add" href="' . $list->getUrl(array('func' => 'add', 'default_value' => 1)) . '"' . rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') . '>' . rex_i18n::msg('create_user_role') . '</a>';
-  $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
+  $tdIcon = '<span class="rex-icon rex-icon-userrole"></span>';
+  $thIcon = '<a href="' . $list->getUrl(array('func' => 'add', 'default_value' => 1)) . '"' . rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') . ' title="' . rex_i18n::msg('create_user_role') . '"><span class="rex-icon rex-icon-add-userrole"></span></a>';
+  $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-small">###VALUE###</th>', '<td class="rex-small">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('func' => 'edit', 'id' => '###id###'));
 
   $list->setColumnLabel('id', 'ID');
@@ -34,8 +34,6 @@ if ($func == '') {
   $list->addLinkAttribute('funcs', 'data-confirm', rex_i18n::msg('delete') . ' ?');
 
   $content .= $list->get();
-
-  echo rex_view::contentBlock($content, '', 'block');
 
 } else {
   $label = $func == 'edit' ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
@@ -104,9 +102,9 @@ if ($func == '') {
         function check_perm_field(field, duration) {
           var id = field.attr("id").substr(0, field.attr("id").length - 4);
           if(field.is(":checked"))
-            $("#"+id).parent().hide(duration);
+            $("#"+id).closest(".rex-form").hide(duration);
           else
-            $("#"+id).parent().show(duration);
+            $("#"+id).closest(".rex-form").show(duration);
         }
         $("#' . implode('_all, #', $fieldIds) . '_all").change(function(){
           check_perm_field($(this), "slow");
@@ -122,8 +120,6 @@ if ($func == '') {
     ';
   }
 
-  echo rex_view::contentBlock($content, '', 'block');
-
-
-
 }
+
+echo rex_view::contentBlock($content);

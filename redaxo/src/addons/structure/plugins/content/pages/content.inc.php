@@ -61,36 +61,6 @@ if ($article->getRows() == 1) {
   $OOArt = rex_article::getArticleById($article_id, $clang);
   $category_id = $OOArt->getCategoryId();
 
-  // ----- category pfad und rechte
-  require rex_path::addon('structure', 'functions/function_rex_category.inc.php');
-  // $KATout kommt aus dem include
-
-  if (rex_be_controller::getCurrentPagePart(1) == 'content' && $article_id > 0) {
-    $term = ($article->getValue('startpage') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
-      $catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
-      // TODO: if admin or recht advanced -> $KATout .= " [$article_id]";
-
-    $navigation = array();
-    $navigation[] = array(
-      'href' => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
-      'title' => $catname
-    );
-    $blocks = array();
-    $blocks[] = array(
-      'headline' => array( 'title' => $term),
-      'navigation' => $navigation
-    );
-
-    $fragment = new rex_fragment();
-    $fragment->setVar('type', 'path');
-    $fragment->setVar('blocks', $blocks, false);
-    $KATout .= $fragment->parse('navigation.tpl');
-    unset($fragment);
-
-  }
-
-  // ----- Titel anzeigen
-  echo rex_view::title(rex_i18n::msg('content'), $KATout);
 
   // ----- Request Parameter
   $mode     = rex_request('mode', 'string');
@@ -102,9 +72,40 @@ if ($article->getRows() == 1) {
   if ($mode != 'meta' && $mode != 'metafuncs')
     $mode = 'edit';
 
-  // ----- Sprachenblock
-  $sprachen_add = '&amp;mode=' . $mode . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
+  // ----- Languages
+  $language_add = '&amp;mode=' . $mode . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
   require rex_path::addon('structure', 'functions/function_rex_languages.inc.php');
+
+
+
+  // ----- Titel anzeigen
+  echo rex_view::title(rex_i18n::msg('content'));
+
+  // ----- category pfad und rechte
+  require rex_path::addon('structure', 'functions/function_rex_category.inc.php');
+
+
+  if (rex_be_controller::getCurrentPagePart(1) == 'content' && $article_id > 0) {
+
+    $term = ($article->getValue('startpage') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
+    $catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
+    // TODO: if admin or recht advanced -> $KATout .= " [$article_id]";
+
+    $navigation = array();
+    $navigation[] = array(
+      'href' => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
+      'title' => $catname
+    );
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', $term);
+    $fragment->setVar('items', $navigation, false);
+    echo $fragment->parse('core/navigations/path.tpl');
+    unset($fragment);
+
+  }
+
+
 
   // ----- EXTENSION POINT
   echo rex_extension::registerPoint('PAGE_CONTENT_HEADER', '',
@@ -450,26 +451,29 @@ if ($article->getRows() == 1) {
     // ------------------------------------------ START: CONTENT HEAD MENUE
     $num_ctypes = count($ctypes);
 
-  $listElements = array();
+    $content_navi_left        = array();
+    $content_navi_right       = array();
+    $content_navi_text_left   = '';
+    $content_navi_text_right  = '';
 
     $ctype_menu = '';
     if ($num_ctypes > 0) {
 
       foreach ($ctypes as $key => $val) {
 
-       $n = array();
-    $n['title'] = rex_i18n::translate($val);
-    $n['href'] = 'index.php?page=content&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
-    if ($key == $ctype && $mode == 'edit') {
-      $n['linkClasses'] = array('rex-active');
-      $n['itemClasses'] = array('rex-active');
-      }
-    $listElements[] = $n;
+        $n = array();
+        $n['title'] = rex_i18n::translate($val);
+        $n['href'] = 'index.php?page=content&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
+        if ($key == $ctype && $mode == 'edit') {
+          $n['linkClasses'] = array('rex-active');
+          $n['itemClasses'] = array('rex-active');
+        }
+        $content_navi_left[] = $n;
 
       }
 
       // ----- EXTENSION POINT
-      $listElements = rex_extension::registerPoint('PAGE_CONTENT_CTYPE_MENU', $listElements,
+      $content_navi_left = rex_extension::registerPoint('PAGE_CONTENT_CTYPE_MENU', $content_navi_left,
         array(
           'article_id' => $article_id,
           'clang' => $clang,
@@ -484,49 +488,50 @@ if ($article->getRows() == 1) {
       else
         $ctype_menu .= rex_i18n::msg('content_type');
 
+
+      if ($mode == 'edit') {
+        $content_navi_text_left .= '<span class="rex-active">' . rex_i18n::msg('edit_mode') . '</span>';
+      }
+      else {
+        $content_navi_text_left .= rex_i18n::msg('edit_mode');
+      }
+    }
+    else {
+      $n = array();
+      $n['title'] = rex_i18n::msg('edit_mode');
+      $n['href'] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
+      if ($mode == 'edit') {
+        $n['linkClasses'] = array('rex-active');
+        $n['itemClasses'] = array('rex-active');
+      }
+      $content_navi_left[] = $n;
     }
 
-    // $listElements = array();
+    $content_navi_text_right .= rex_i18n::msg('article') . ' <a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;" data-pjax="false">' . rex_i18n::msg('show') . '</a>';
 
-  $n = array();
-  $n['title'] = rex_i18n::msg('show');
-  $n['href'] = rex_getUrl($article_id, $clang);
-  $n['itemClasses'] = array('rex-misc');
-  $n['linkAttr'] = array('onClick' => 'window.open(this.href); return false;', 'data-pjax' => 'false');
-  $listElements[] = $n;
 
-  $n = array();
-  $n['title'] = rex_i18n::msg('metafuncs');
-  $n['href'] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=metafuncs&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
-  $n['itemClasses'] = array('rex-misc');
-    if ($mode == 'metafuncs') {
-    $n['linkClasses'] = array('rex-active');
-    $n['itemClasses'] = array('rex-active', 'rex-misc');
-    }
-  $listElements[] = $n;
-
-  $n = array();
-  $n['title'] = rex_i18n::msg('metadata');
-  $n['href'] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
-  $n['itemClasses'] = array('rex-misc');
+    $n = array();
+    $n['title'] = rex_i18n::msg('metadata');
+    $n['href'] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
+    $n['itemClasses'] = array('rex-misc');
     if ($mode == 'meta') {
-    $n['linkClasses'] = array('rex-active');
-    $n['itemClasses'] = array('rex-active', 'rex-misc');
+      $n['linkClasses'] = array('rex-active');
+      $n['itemClasses'] = array('rex-active', 'rex-misc');
     }
-  $listElements[] = $n;
+    $content_navi_right[] = $n;
 
-  $n = array();
-  $n['title'] = rex_i18n::msg('edit_mode');
-  $n['href'] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
-  $n['itemClasses'] = array('rex-misc');
-    if ($mode != 'meta' && $mode != 'metafuncs') {
-    $n['linkClasses'] = array('rex-active');
-    $n['itemClasses'] = array('rex-active', 'rex-misc');
+
+    $n = array();
+    $n['title'] = rex_i18n::msg('metafuncs');
+    $n['href'] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=metafuncs&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
+    if ($mode == 'metafuncs') {
+      $n['linkClasses'] = array('rex-active');
+      $n['itemClasses'] = array('rex-active');
     }
-  $listElements[] = $n;
+    $content_navi_right[] = $n;
 
     // ----- EXTENSION POINT
-    $listElements = rex_extension::registerPoint('PAGE_CONTENT_MENU', $listElements,
+    $content_navi_right = rex_extension::registerPoint('PAGE_CONTENT_MENU', $content_navi_right,
       array(
         'article_id' => $article_id,
         'clang' => $clang,
@@ -536,16 +541,13 @@ if ($article->getRows() == 1) {
       )
     );
 
-  $blocks = array();
-  $blocks[] = array(
-    'headline' => array('title' => 'meeeta'),
-    'navigation' => $listElements
-  );
 
-  $fragment = new rex_fragment();
-  $fragment->setVar('type', 'tab');
-  $fragment->setVar('blocks', $blocks, false);
-  echo $fragment->parse('navigation.tpl');
+    $fragment = new rex_fragment();
+    $fragment->setVar('navigation_left', $content_navi_left, false);
+    $fragment->setVar('navigation_right', $content_navi_right, false);
+    $fragment->setVar('text_left', $content_navi_text_left, false);
+    $fragment->setVar('text_right', $content_navi_text_right, false);
+    echo $fragment->parse('core/navigations/content.tpl');
 
 
     // ------------------------------------------ END: CONTENT HEAD MENUE
@@ -586,7 +588,7 @@ if ($article->getRows() == 1) {
       $CONT->setFunction($function);
       $content .= $CONT->getArticle($ctype);
 
-      echo rex_view::contentBlock($content, '', 'block');
+      echo rex_view::contentBlock($content);
 
     // ------------------------------------------ START: META VIEW
     } elseif ($mode == 'meta') {
@@ -601,16 +603,16 @@ if ($article->getRows() == 1) {
                 <input type="hidden" name="ctype" value="' . $ctype . '" />
                 ';
 
-                $formElements = array();
+      $formElements = array();
 
-                $n = array();
-                $n['label'] = '<label for="rex-form-meta-article-name">' . rex_i18n::msg('name_description') . '</label>';
-                $n['field'] = '<input type="text" id="rex-form-meta-article-name" name="meta_article_name" value="' . htmlspecialchars($article->getValue('name')) . '" />';
-                $formElements[] = $n;
+      $n = array();
+      $n['label'] = '<label for="rex-id-meta-article-name">' . rex_i18n::msg('name_description') . '</label>';
+      $n['field'] = '<input type="text" id="rex-id-meta-article-name" name="meta_article_name" value="' . htmlspecialchars($article->getValue('name')) . '" />';
+      $formElements[] = $n;
 
-                $fragment = new rex_fragment();
-                $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('form.tpl');
+      $fragment = new rex_fragment();
+      $fragment->setVar('elements', $formElements, false);
+      $content .= $fragment->parse('core/form/form.tpl');
 
 
       // ----- EXTENSION POINT
@@ -620,21 +622,18 @@ if ($article->getRows() == 1) {
         'article' => $article
       ));
 
-      $content .= '
-             </fieldset>
-             <fieldset class="rex-form-action">';
-                $formElements = array();
+      $content .= '</fieldset>';
 
-                $n = array();
-                $n['field'] = '<input type="submit" name="savemeta" value="' . rex_i18n::msg('update_metadata') . '"' . rex::getAccesskey(rex_i18n::msg('update_metadata'), 'save') . ' />';
-                $formElements[] = $n;
+      $formElements = array();
 
-                $fragment = new rex_fragment();
-                $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('form.tpl');
+      $n = array();
+      $n['field'] = '<button class="rex-button" type="submit" name="savemeta"' . rex::getAccesskey(rex_i18n::msg('update_metadata'), 'save') . '>' . rex_i18n::msg('update_metadata') . '</button>';
+      $formElements[] = $n;
 
-      $content .= '
-             </fieldset>';
+      $fragment = new rex_fragment();
+      $fragment->setVar('elements', $formElements, false);
+      $content .= $fragment->parse('core/form/submit.tpl');
+
 
       // ----- EXTENSION POINT
       $content .= rex_extension::registerPoint('ART_META_FORM_SECTION', '', array(
@@ -646,7 +645,7 @@ if ($article->getRows() == 1) {
                   </form>
                 </div>';
 
-    echo rex_view::contentBlock($content, '', 'block');
+    echo rex_view::contentBlock($content);
 
     // ------------------------------------------ START: META FUNCS
     } elseif ($mode == 'metafuncs') {
@@ -669,51 +668,59 @@ if ($article->getRows() == 1) {
             <fieldset>
               <h2>' . rex_i18n::msg('content_startarticle') . '</h2>';
 
-                $formElements = array();
+        $formElements = array();
 
-                $n = array();
-                if (!$isStartpage && $article->getValue('re_id') == 0)
-                  $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_nottostartarticle') . '</span>';
-                elseif ($isStartpage)
-                  $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_isstartarticle') . '</span>';
-                else
-                  $n['field'] = '<input type="submit" name="article2startpage" value="' . rex_i18n::msg('content_tostartarticle') . '" data-confirm="' . rex_i18n::msg('content_tostartarticle') . '?" onclick="jQuery(\'#apiField\').val(\'article2startpage\');" />';
-                $formElements[] = $n;
+        $n = array();
+        if (!$isStartpage && $article->getValue('re_id') == 0)
+          $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_nottostartarticle') . '</span>';
+        elseif ($isStartpage)
+          $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_isstartarticle') . '</span>';
+        else
+          $n['field'] = '<button class="rex-button" type="submit" name="article2startpage" data-confirm="' . rex_i18n::msg('content_tostartarticle') . '?" onclick="jQuery(\'#apiField\').val(\'article2startpage\');">' . rex_i18n::msg('content_tostartarticle') . '</button>';
+        $formElements[] = $n;
 
-                $fragment = new rex_fragment();
-                $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form.tpl');
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $out .= $fragment->parse('core/form/form.tpl');
 
 
 
         $out .= '</fieldset>';
+
+        $content .= rex_view::contentBlock($out);
       }
+
+
 
       // --------------------------------------------------- ZUM STARTARTICLE MACHEN END
 
       // --------------------------------------------------- IN KATEGORIE UMWANDELN START
+      $out = '';
       if (!$isStartpage && rex::getUser()->hasPerm('article2category[]')) {
         $out .= '
             <fieldset>
               <h2>' . rex_i18n::msg('content_category') . '</h2>';
 
 
-                $formElements = array();
+        $formElements = array();
 
-                $n = array();
-                $n['field'] = '<input type="submit" name="article2category" value="' . rex_i18n::msg('content_tocategory') . '" data-confirm="' . rex_i18n::msg('content_tocategory') . '?" onclick="jQuery(\'#apiField\').val(\'article2category\');" />';
-                $formElements[] = $n;
+        $n = array();
+        $n['field'] = '<button class="rex-button" type="submit" name="article2category" data-confirm="' . rex_i18n::msg('content_tocategory') . '?" onclick="jQuery(\'#apiField\').val(\'article2category\');">' . rex_i18n::msg('content_tocategory') . '</button>';
+        $formElements[] = $n;
 
-                $fragment = new rex_fragment();
-                $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form.tpl');
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $out .= $fragment->parse('core/form/form.tpl');
 
 
         $out .= '</fieldset>';
+
+        $content .= rex_view::contentBlock($out);
       }
       // --------------------------------------------------- IN KATEGORIE UMWANDELN END
 
       // --------------------------------------------------- IN ARTIKEL UMWANDELN START
+      $out = '';
       if ($isStartpage && rex::getUser()->hasPerm('category2article[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id'))) {
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE re_id=' . $article_id . ' LIMIT 1');
@@ -724,24 +731,27 @@ if ($article->getRows() == 1) {
               <h2>' . rex_i18n::msg('content_article') . '</h2>';
 
 
-                $formElements = array();
+        $formElements = array();
 
-                $n = array();
-                if (!$emptyCategory)
-                  $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_nottoarticle') . '</span>';
-                else
-                  $n['field'] = '<input type="submit" name="category2article" value="' . rex_i18n::msg('content_toarticle') . '" data-confirm="' . rex_i18n::msg('content_toarticle') . '?" onclick="jQuery(\'#apiField\').val(\'category2article\');" />';
-                $formElements[] = $n;
+        $n = array();
+        if (!$emptyCategory)
+          $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_nottoarticle') . '</span>';
+        else
+          $n['field'] = '<button class="rex-button" type="submit" name="category2article" data-confirm="' . rex_i18n::msg('content_toarticle') . '?" onclick="jQuery(\'#apiField\').val(\'category2article\');">' . rex_i18n::msg('content_toarticle') . '</button>';
+        $formElements[] = $n;
 
-                $fragment = new rex_fragment();
-                $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form.tpl');
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $out .= $fragment->parse('core/form/form.tpl');
 
         $out .= '</fieldset>';
+
+        $content .= rex_view::contentBlock($out);
       }
       // --------------------------------------------------- IN ARTIKEL UMWANDELN END
 
       // --------------------------------------------------- INHALTE KOPIEREN START
+      $out = '';
       $user = rex::getUser();
       if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() > 1) {
         $clang_perm = $user->getComplexPerm('clang')->getClangs();
@@ -771,41 +781,44 @@ if ($article->getRows() == 1) {
               <fieldset>
                 <h2>' . rex_i18n::msg('content_submitcopycontent') . '</h2>';
 
-                $formElements = array();
+        $formElements = array();
 
-                $n = array();
-                $n['label'] = '<label for="clang_a">' . rex_i18n::msg('content_contentoflang') . '</label>';
-                $n['field'] = $lang_a->get();
-                $formElements[] = $n;
+        $n = array();
+        $n['label'] = '<label for="clang_a">' . rex_i18n::msg('content_contentoflang') . '</label>';
+        $n['field'] = $lang_a->get();
+        $formElements[] = $n;
 
-                $n = array();
-                $n['label'] = '<label for="clang_b">' . rex_i18n::msg('content_to') . '</label>';
-                $n['field'] = $lang_b->get();
-                $formElements[] = $n;
+        $n = array();
+        $n['label'] = '<label for="clang_b">' . rex_i18n::msg('content_to') . '</label>';
+        $n['field'] = $lang_b->get();
+        $formElements[] = $n;
 
-                $fragment = new rex_fragment();
-                $fragment->setVar('columns', 2, false);
-                $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form.tpl');
+        $fragment = new rex_fragment();
+        $fragment->setVar('group', true);
+        $fragment->setVar('elements', $formElements, false);
+        $out .= $fragment->parse('core/form/form.tpl');
 
 
-                $formElements = array();
+        $formElements = array();
 
-                $n = array();
-                $n['field'] = '<input type="submit" name="copycontent" value="' . rex_i18n::msg('content_submitcopycontent') . '" data-confirm="' . rex_i18n::msg('content_submitcopycontent') . '?" />';
-                $formElements[] = $n;
+        $n = array();
+        $n['field'] = '<button class="rex-button" type="submit" name="copycontent" data-confirm="' . rex_i18n::msg('content_submitcopycontent') . '?">' . rex_i18n::msg('content_submitcopycontent') . '</button>';
+        $formElements[] = $n;
 
-                $fragment = new rex_fragment();
-                $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form.tpl');
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $out .= $fragment->parse('core/form/form.tpl');
 
 
         $out .= '</fieldset>';
+
+        $content .= rex_view::contentBlock($out);
 
       }
       // --------------------------------------------------- INHALTE KOPIEREN ENDE
 
       // --------------------------------------------------- ARTIKEL VERSCHIEBEN START
+      $out = '';
       if (!$isStartpage && rex::getUser()->hasPerm('moveArticle[]')) {
 
         // Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
@@ -820,27 +833,30 @@ if ($article->getRows() == 1) {
                 <h2>' . rex_i18n::msg('content_submitmovearticle') . '</h2>';
 
 
-                $formElements = array();
+        $formElements = array();
 
-                $n = array();
-                $n['label'] = '<label for="category_id_new">' . rex_i18n::msg('move_article') . '</label>';
-                $n['field'] = $move_a->get();
-                $formElements[] = $n;
+        $n = array();
+        $n['label'] = '<label for="category_id_new">' . rex_i18n::msg('move_article') . '</label>';
+        $n['field'] = $move_a->get();
+        $formElements[] = $n;
 
-                $n = array();
-                $n['field'] = '<input type="submit" name="movearticle" value="' . rex_i18n::msg('content_submitmovearticle') . '" data-confirm="' . rex_i18n::msg('content_submitmovearticle') . '?" />';
-                $formElements[] = $n;
+        $n = array();
+        $n['field'] = '<button class="rex-button" type="submit" name="movearticle" data-confirm="' . rex_i18n::msg('content_submitmovearticle') . '?">' . rex_i18n::msg('content_submitmovearticle') . '</button>';
+        $formElements[] = $n;
 
-                $fragment = new rex_fragment();
-                $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form.tpl');
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $out .= $fragment->parse('core/form/form.tpl');
 
         $out .= '</fieldset>';
+
+        $content .= rex_view::contentBlock($out);
 
       }
       // ------------------------------------------------ ARTIKEL VERSCHIEBEN ENDE
 
       // -------------------------------------------------- ARTIKEL KOPIEREN START
+      $out = '';
       if (rex::getUser()->hasPerm('copyArticle[]')) {
         $move_a = new rex_category_select(false, false, true, !rex::getUser()->getComplexPerm('structure')->hasMountPoints());
         $move_a->setName('category_copy_id_new');
@@ -853,27 +869,30 @@ if ($article->getRows() == 1) {
                 <h2>' . rex_i18n::msg('content_submitcopyarticle') . '</h2>';
 
 
-                $formElements = array();
+        $formElements = array();
 
-                $n = array();
-                $n['label'] = '<label for="category_copy_id_new">' . rex_i18n::msg('copy_article') . '</label>';
-                $n['field'] = $move_a->get();
-                $formElements[] = $n;
+        $n = array();
+        $n['label'] = '<label for="category_copy_id_new">' . rex_i18n::msg('copy_article') . '</label>';
+        $n['field'] = $move_a->get();
+        $formElements[] = $n;
 
-                $n = array();
-                $n['field'] = '<input class="rex-form-submit" type="submit" name="copyarticle" value="' . rex_i18n::msg('content_submitcopyarticle') . '" data-confirm="' . rex_i18n::msg('content_submitcopyarticle') . '?" />';
-                $formElements[] = $n;
+        $n = array();
+        $n['field'] = '<button class="rex-button" type="submit" name="copyarticle" data-confirm="' . rex_i18n::msg('content_submitcopyarticle') . '?">' . rex_i18n::msg('content_submitcopyarticle') . '</button>';
+        $formElements[] = $n;
 
-                $fragment = new rex_fragment();
-                $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form.tpl');
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $out .= $fragment->parse('core/form/form.tpl');
 
         $out .= '</fieldset>';
+
+        $content .= rex_view::contentBlock($out);
 
       }
       // --------------------------------------------------- ARTIKEL KOPIEREN ENDE
 
       // --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START
+      $out = '';
       if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id'))) {
         $move_a = new rex_category_select(false, false, true, !rex::getUser()->getComplexPerm('structure')->hasMountPoints());
         $move_a->setId('category_id_new');
@@ -894,24 +913,26 @@ if ($article->getRows() == 1) {
                 $formElements[] = $n;
 
                 $n = array();
-                $n['field'] = '<input class="rex-form-submit" type="submit" name="movecategory" value="' . rex_i18n::msg('content_submitmovecategory') . '" data-confirm="' . rex_i18n::msg('content_submitmovecategory') . '?" />';
+                $n['field'] = '<button class="rex-button" type="submit" name="movecategory" data-confirm="' . rex_i18n::msg('content_submitmovecategory') . '?">' . rex_i18n::msg('content_submitmovecategory') . '</button>';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $out .= $fragment->parse('form.tpl');
+                $out .= $fragment->parse('core/form/form.tpl');
 
         $out .= '</fieldset>';
 
+        $content .= rex_view::contentBlock($out);
+
       }
+
       // ------------------------------------------------ KATEGROIE/STARTARTIKEL VERSCHIEBEN ENDE
 
-      $content .= $out;
       $content .= '
                   </form>
                 </div>';
 
-    echo rex_view::contentBlock($content, '', 'block');
+    echo rex_view::contentBlock($content, '', true, false);
 
     }
 
