@@ -60,7 +60,7 @@ class rex_context implements rex_context_provider
     // combine global params with local
     $_params = array_merge($this->globalParams, $params);
 
-    return str_replace('&', '&amp;', 'index.php?' . ltrim(self::array2paramStr($_params), '&'));
+    return 'index.php?' . rex_string::buildQuery($_params, '&amp;');
   }
 
   /**
@@ -95,27 +95,6 @@ class rex_context implements rex_context_provider
   {
     // $_REQUEST contains some server specific globals, therefore we merge GET and POST manually
     return new self($_GET + $_POST);
-  }
-
-  /**
-   * Helper method to generate a url string from an array key-value pairs
-   *
-   * @param array $array The array which contains the key-value pairs for convertion
-   */
-  static private function array2paramStr(array $array)
-  {
-    $paramString = '';
-    foreach ($array as $name => $value) {
-      if (is_array($value)) {
-        foreach ($value as $valName => $valVal) {
-          $paramString .= '&' . urlencode($name) . '[' . $valName . ']=' . urlencode($valVal);
-        }
-      } else {
-        $paramString .= '&' . urlencode($name) . '=' . urlencode($value);
-      }
-    }
-
-    return $paramString;
   }
 
   /**

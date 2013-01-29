@@ -46,12 +46,7 @@ class rex_url_builder implements rex_url_provider
   public function getUrl(array $params = array())
   {
     $params = array_merge($this->params, $params);
-
-    $param_str = '';
-    foreach ($params as $name => $val) {
-      $param_str .= urlencode($name) . '=' . urlencode($val) . '&';
-    }
-    $param_str = rtrim($param_str, '&');
+    $param_str = rex_string::buildQuery($params);
 
     $url = '';
     $url .= isset($this->parts['scheme']) ? $this->parts['scheme'] . '://' : '';
