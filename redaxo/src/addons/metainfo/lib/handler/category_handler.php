@@ -10,27 +10,81 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
     $fields = parent::getSqlFields(self::PREFIX, $restrictionsCondition);
     if ($fields->getRows() >= 1) {
-      $return = '<p class="rex-button-add"><script type="text/javascript"><!--
 
-    function rex_metainfo_toggle()
-    {
-      jQuery("#rex-form-structure-category .rex-metainfo-cat").toggle();
-      metacat = jQuery("#rex-i-meta-category");
-      if(metacat.hasClass("rex-i-generic-open"))
-      {
-        metacat.removeClass("rex-i-generic-open");
-        metacat.addClass("rex-i-generic-close");
-      }
-      else
-      {
-        metacat.removeClass("rex-i-generic-close");
-        metacat.addClass("rex-i-generic-open");
-      }
-    }
 
-    //--></script><a id="rex-i-meta-category" class="rex-i-generic-open" href="javascript:rex_metainfo_toggle();">' . rex_i18n::msg('minfo_edit_metadata') . '</a></p>';
+      // Beispiel Fields
+      $items = array();
 
-       return $params['subject'] . $return;
+      $f = array();
+      $f['label'] = '<label>REX_MEDIA</label>';
+      $f['field'] = rex_var_media::getWidget('id', 'name', 'value');
+
+      $fragment = new rex_fragment();
+      $fragment->setVar('elements', array($f), false);
+      $item = array();
+      $item['html']  = $fragment->parse('core/form/form.tpl');
+      $items[] = $item;
+
+      $f = array();
+      $f['label'] = '<label>REX_MEDIALIST</label>';
+      $f['field'] = rex_var_medialist::getWidget('id', 'name', 'value');
+
+      $fragment = new rex_fragment();
+      $fragment->setVar('elements', array($f), false);
+      $item = array();
+      $item['html']  = $fragment->parse('core/form/form.tpl');
+      $items[] = $item;
+
+      $f = array();
+      $f['label'] = '<label>REX_LINK</label>';
+      $f['field'] = rex_var_link::getWidget('id', 'name', 'value');
+
+      $fragment = new rex_fragment();
+      $fragment->setVar('elements', array($f), false);
+      $item = array();
+      $item['html']  = $fragment->parse('core/form/form.tpl');
+      $items[] = $item;
+
+      $f = array();
+      $f['label'] = '<label>REX_LINKLIST</label>';
+      $f['field'] = rex_var_linklist::getWidget('id', 'name', 'value');
+
+      $fragment = new rex_fragment();
+      $fragment->setVar('elements', array($f), false);
+      $item = array();
+      $item['html']  = $fragment->parse('core/form/form.tpl');
+      $items[] = $item;
+
+
+
+
+      $formElements = array();
+
+      $n = array();
+      $n['field'] = '<a class="rex-back" href="' . rex_url::currentBackendPage() . '"><span class="rex-icon rex-icon-back"></span>' . rex_i18n::msg('form_abort') . '</a>';
+      $formElements[] = $n;
+
+      $n = array();
+      $n['field'] = '<button class="rex-button" type="submit">Kategorie speichern</button>';
+      $formElements[] = $n;
+
+      $n = array();
+      $n['field'] = '<button class="rex-button" type="submit">Kategorie übernehmen</button>';
+      $formElements[] = $n;
+
+      $fragment = new rex_fragment();
+      $fragment->setVar('elements', $formElements, false);
+      $footer = $fragment->parse('core/form/submit.tpl');
+
+      $fragment = new rex_fragment();
+      $fragment->setVar('header', rex_i18n::msg('minfo_edit_metadata'));
+      $fragment->setVar('items', $items, false);
+      $fragment->setVar('class', 'rex-large');
+      $fragment->setVar('footer', $footer, false);
+      $return = $fragment->parse('core/navigations/context.tpl');
+
+
+      return $params['subject'] . $return;
     }
 
     return $params['subject'];
