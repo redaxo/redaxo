@@ -6,6 +6,7 @@
  */
 
 $content = '';
+$message = '';
 
 // -------------- Defaults
 $clang_id   = rex_request('clang_id', 'int');
@@ -16,6 +17,7 @@ $func       = rex_request('func', 'string');
 // -------------- Form Submits
 $add_clang_save  = rex_post('add_clang_save', 'boolean');
 $edit_clang_save = rex_post('edit_clang_save', 'boolean');
+
 
 $warning = '';
 $info = '';
@@ -75,10 +77,10 @@ if (empty($remaingClangs)) {
 }
 
 if ($info != '')
-  $content .= rex_view::info($info);
+  $message .= rex_view::info($info);
 
 if ($warning != '')
-  $content .= rex_view::warning($warning);
+  $message .= rex_view::warning($warning);
 
 
 $content .= '
@@ -119,7 +121,7 @@ if ($func == 'addclang') {
           <td class="rex-id">' . $sel->get() . '</td>
           <td class="rex-code"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($clang_code) . '" /></td>
           <td class="rex-name"><input type="text" id="rex-form-clang-name" name="clang_name" value="' . htmlspecialchars($clang_name) . '" /></td>
-          <td class="rex-save"><button class="rex-button" type="submit" name="add_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'save') . '>' . rex_i18n::msg('clang_add') . '</button></td>
+          <td class="rex-save"><button class="rex-button" type="submit" name="add_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'save') . ' value="1">' . rex_i18n::msg('clang_add') . '</button></td>
         </tr>
       ';
 }
@@ -142,7 +144,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
             ' . $add_td . '
             <td class="rex-code"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($lang->getCode()) . '" /></td>
             <td class="rex-name"><input type="text" id="rex-form-clang-name" name="clang_name" value="' . htmlspecialchars($lang->getName()) . '" /></td>
-            <td class="rex-save"><button class="rex-button" type="submit" name="edit_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_update'), 'save') . '>' . rex_i18n::msg('clang_update') . '</button></td>
+            <td class="rex-save"><button class="rex-button" type="submit" name="edit_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_update'), 'save') . ' value="1">' . rex_i18n::msg('clang_update') . '</button></td>
           </tr>';
 
   } else {
@@ -179,4 +181,5 @@ $content .= '
       </form>
       </div>';
 
+echo $message;
 echo rex_view::contentBlock($content);
