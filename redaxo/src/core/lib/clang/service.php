@@ -50,7 +50,7 @@ class rex_clang_service
 
     $editLang = rex_sql::factory();
     $editLang->setTable(rex::getTablePrefix() . 'clang');
-    $editLang->setValue('id', $id);
+    $editLang->setWhere(array('id' => $id));
     $editLang->setValue('code', $code);
     $editLang->setValue('name', $name);
     $editLang->update();
