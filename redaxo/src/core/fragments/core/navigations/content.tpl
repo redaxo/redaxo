@@ -32,10 +32,6 @@ foreach ($navigations as $nav_key => $navigation) {
 }
 
 
-echo '<pre style="text-align: left">';
-print_r($navigations);
-echo '</pre>';
-
 foreach ($navigations as $nav_key => $navigation) {
 
   $li = array();
