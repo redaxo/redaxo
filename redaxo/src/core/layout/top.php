@@ -37,16 +37,43 @@ foreach ($body_attr as $k => $v) {
 
 $hasNavigation = $curPage->hasNavigation();
 
-$logout = '';
+$meta_items = array();
 if (rex::getUser() && $hasNavigation) {
-  $safemode = (rex::isSafeMode()) ? '<li><a href="' . rex_url::backendController(array('safemode' => 0)) . '">' . rex_i18n::msg('safemode_deactivate') . '</a></li>' : '';
+
+  if (rex::isSafeMode()) {
+    $item = array();
+    $item['title']  = rex_i18n::msg('safemode_deactivate');
+    $item['href']   = rex_url::backendController(array('safemode' => 0));
+    $meta_items[] = $item;
+    unset($item);
+  }
+
 
   $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
-  $logout = '<ul>' . $safemode . '<li class="rex-loggedas">' . rex_i18n::msg('logged_in_as') . ' <a href="#">' . htmlspecialchars($user_name) . '</a></li><li><a href="' . rex_url::backendPage('profile') . '">' . rex_i18n::msg('profile_title') . '</a></li><li><a href="' . rex_url::backendController(array('rex_logout' => 1)) . '"' . rex::getAccesskey(rex_i18n::msg('logout'), 'logout') . '>' . rex_i18n::msg('logout') . '</a></li></ul>';
+
+  $item = array();
+  $item['title']  = rex_i18n::msg('logged_in_as') . ' ' . htmlspecialchars($user_name);
+  $meta_items[] = $item;
+  unset($item);
+
+  $item = array();
+  $item['title']  = rex_i18n::msg('profile_title');
+  $item['href']   = rex_url::backendPage('profile');
+  $meta_items[] = $item;
+  unset($item);
+
+  $item = array();
+  $item['title']      = rex_i18n::msg('logout');
+  $item['href']       = rex_url::backendController(array('rex_logout' => 1));
+  $item['attributes'] = rex::getAccesskey(rex_i18n::msg('logout'), 'logout');
+  $meta_items[] = $item;
+  unset($item);
+
 } elseif ($hasNavigation) {
-  $logout = '<ul><li class="rex-loggedas">' . rex_i18n::msg('logged_out') . '</li></ul>';
-} else {
-  $logout = '<ul><li class="rex-loggedas">&nbsp;</li></ul>';
+  $item = array();
+  $item['title']  = rex_i18n::msg('logged_out');
+  $meta_items[] = $item;
+  unset($item);
 }
 
 
@@ -165,7 +192,7 @@ $fragment = new rex_fragment();
 echo $fragment->parse('core/header.tpl');
 
 $fragment = new rex_fragment();
-$fragment->setVar('logout', $logout, false);
+$fragment->setVar('items', $meta_items, false);
 echo $fragment->parse('core/meta.tpl');
 
 
