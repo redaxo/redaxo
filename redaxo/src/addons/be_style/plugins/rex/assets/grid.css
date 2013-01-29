@@ -1,0 +1,45 @@
+/*
+  ## Grid
+
+*/
+
+.rex-column {
+  float: left;
+}
+.rex-column.rex-last {
+  float: right !important;
+}
+.rex-column.rex-first,
+.rex-column.rex-last {
+  margin-left: 0px !important;
+}
+
+.rex-grid2col,
+.rex-grid3col,
+.rex-grid4col {
+  width: 100%;
+}
+
+.rex-clearfix:after,
+.rex-grid2col:after,
+.rex-grid3col:after,
+.rex-grid4col:after {
+  clear: both;
+  content: '.';
+  display: block;
+  height: 0;
+  visibility: hidden;
+  font-size: 0px;
+}
+
+.rex-grid2col .rex-column {
+  width: 49%;
+}
+.rex-grid3col .rex-column {
+  width: 32%;
+  margin-left: 2%;
+}
+.rex-grid4col .rex-column {
+  width: 22.75%;
+  margin-left: 3%;
+}

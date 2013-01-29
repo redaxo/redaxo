@@ -1,0 +1,53 @@
+/*
+
+  ### Pfad
+
+    <dl class="rex-navi-path">
+      <dt>Pfad</dt>
+      <dd>
+        <ul>
+          <li><a href="#">Homepage</a></li>
+          <li><a href="#">Team</a></li>
+        </ul>
+      </dd>
+    </dl>
+
+*/
+
+.rex-navi-path {
+  clear: both;
+  display: block;
+  margin: 10px 0;
+  padding: 5px 0;
+  color: #7d929b;
+  font-size: 14px;
+}
+.rex-navi-path dt,
+.rex-navi-path dd {
+  display: inline-block;
+}
+.rex-navi-path ul {
+  margin-left: 0px;
+  font-weight: bold;
+}
+.rex-navi-path li {
+  display: inline-block;
+}
+.rex-navi-path li a {
+}
+.rex-navi-path dt:after,
+.rex-navi-path li:after {
+  padding: 0 4px;
+  content: ':';
+  font-weight: normal;
+}
+.rex-navi-path li:after {
+  content: '/';
+}
+.rex-navi-path li:last-child:after {
+  padding: 0;
+  content: '';
+}
+.rex-navi-path li:last-child a {
+  color: #036;
+}

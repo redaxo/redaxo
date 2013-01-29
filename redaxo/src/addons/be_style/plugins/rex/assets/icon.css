@@ -1,0 +1,362 @@
+/*
+  ## Icons
+
+  ### Add
+
+    <span class="rex-icon rex-icon-add-article"></span>
+
+    <span class="rex-icon rex-icon-add-category"></span>
+
+    <span class="rex-icon rex-icon-add-module"></span>
+
+
+
+  ### Page Icons
+
+  #### Action
+
+    <span class="rex-icon rex-icon-action"></span>
+
+
+  #### AddOn
+
+    <span class="rex-icon rex-icon-addon"></span>
+
+
+  #### AddOn - Plugins
+
+    <span class="rex-icon rex-icon-plugin"></span>
+
+
+  #### Article
+
+    <span class="rex-icon rex-icon-article"></span>
+
+  #### Article - Startarticle
+
+    <span class="rex-icon rex-icon-startarticle"></span
+
+  #### Article - SiteStartarticle
+
+    <span class="rex-icon rex-icon-sitestartarticle"></span
+
+
+  #### Category
+
+    <span class="rex-icon rex-icon-category"></span>
+
+    <span class="rex-icon rex-icon-open-category"></span>
+
+
+  #### Language
+
+    <span class="rex-icon rex-icon-language"></span>
+
+
+  #### Media
+
+    <span class="rex-icon rex-icon-media"></span>
+
+
+  #### Module
+
+    <span class="rex-icon rex-icon-module"></span>
+
+
+  #### Template
+
+    <span class="rex-icon rex-icon-template"></span>
+
+
+  #### User
+
+    <span class="rex-icon rex-icon-user"></span>
+
+
+  #### Userrole
+
+    <span class="rex-icon rex-icon-userrole"></span>
+
+
+
+
+  ### Widgets
+
+  #### Linkmap
+
+    <span class="rex-icon rex-icon-linkmap"></span>
+
+    <span class="rex-icon rex-icon-delete-link"></span>
+
+    <span class="rex-icon rex-icon-open-linkmap"></span>
+
+
+  #### Mediapool
+
+    <span class="rex-icon rex-icon-mediapool"></span>
+
+    <span class="rex-icon rex-icon-add-media"></span>
+
+    <span class="rex-icon rex-icon-delete-media"></span>
+
+    <span class="rex-icon rex-icon-open-mediapool"></span>
+
+    <span class="rex-icon rex-icon-view-media"></span>
+
+
+
+
+  ### Other
+
+
+  #### Back
+
+    <span class="rex-icon rex-icon-back"></span>
+
+
+  #### Login
+
+    <span class="rex-icon rex-icon-login"></span>
+
+
+  #### Logout
+
+    <span class="rex-icon rex-icon-logout"></span>
+
+
+  #### Popup
+
+    <span class="rex-icon rex-icon-popup"></span>
+
+
+  #### Top
+
+    <span class="rex-icon rex-icon-up"></span>
+
+
+  #### Up
+
+    <span class="rex-icon rex-icon-up"></span>
+
+
+  #### Down
+
+    <span class="rex-icon rex-icon-down"></span>
+
+
+  #### Bottom
+
+    <span class="rex-icon rex-icon-bottom"></span>
+
+
+  #### Right
+
+    <span class="rex-icon rex-icon-right"></span>
+
+
+  #### Left
+
+    <span class="rex-icon rex-icon-left"></span>
+
+
+  #### First
+
+    <span class="rex-icon rex-icon-first"></span>
+
+
+  #### Last
+
+    <span class="rex-icon rex-icon-last"></span>
+
+
+  #### Previous
+
+    <span class="rex-icon rex-icon-previous"></span>
+
+
+  #### Next
+
+    <span class="rex-icon rex-icon-next"></span>
+
+
+  #### Check
+
+    <span class="rex-icon rex-icon-check"></span>
+
+
+  #### Close
+
+    <span class="rex-icon rex-icon-close"></span>
+
+
+  #### Context Menu
+
+    <span class="rex-icon rex-icon-context-menu"></span>
+
+
+
+
+
+
+  ### Icons die keine sind
+
+
+  #### Drop
+    <span class="rex-dropdown">
+      <span class="rex-drop"></span>
+    </span>
+
+*/
+@font-face {
+  font-family: 'entypo';
+  font-style: 'normal';
+  font-weight: 'normal';
+  src: url('http://redaxo5.modulvier.com/docs/entypo.eot');
+  src: url('http://redaxo5.modulvier.com/docs/entypo.eot?#iefix') format('eot'),
+  url('http://redaxo5.modulvier.com/docs/entypo.woff') format('woff'),
+  url('http://redaxo5.modulvier.com/docs/entypo.ttf') format('truetype'),
+  url('http://redaxo5.modulvier.com/docs/entypo.svg#entypo') format('svg');
+}
+
+[class*="rex-icon-"]:before {
+  display: inline-block;
+  position: relative;
+  top: -1px;
+  font-family: 'entypo', sans-serif;
+  font-size: 32px;
+  font-weight: normal;
+  line-height: 0;
+  vertical-align: middle;
+}
+.rex-icon {
+  display: inline-block;
+}
+.rex-button .rex-icon {
+  margin-right: 5px;
+}
+.rex-button.rex-icon {
+  margin-right: 0;
+}
+
+.rex-drop {
+  display: inline-block;
+  width: 0px;
+  height: 0px;
+  margin-left: 5px;
+  border: 4px solid #333;
+  color: #333;
+  vertical-align: middle;
+}
+.rex-button + .rex-drop-button .rex-drop,
+.rex-context-menu-button .rex-drop {
+  margin-left: 0;
+}
+.rex-dropdown .rex-drop,
+.rex-context-menu .rex-drop {
+  border-bottom: 0;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+}
+.rex-button:hover .rex-drop,
+.rex-button:active .rex-drop,
+.rex-open .rex-button .rex-drop {
+  border-color: #fff;
+}
+.rex-button-group .rex-button:hover .rex-drop,
+.rex-button-group .rex-button:active .rex-drop {
+  border-color: #333;
+}
+
+.rex-drop-item .rex-icon-check {
+  opacity: 0;
+}
+.rex-drop-item:hover .rex-icon-check,
+.rex-drop-item.rex-drop-active .rex-icon-check {
+  opacity: 1;
+}
+
+.rex-drop-header .rex-icon-close,
+.rex-context-menu-header .rex-icon-close {
+  float: right;
+  display: block;
+  opacity: .3;
+  cursor: pointer;
+}
+.rex-drop-header .rex-icon-close:hover,
+.rex-context-menu-header .rex-icon-close:hover {
+  opacity: .8;
+}
+
+.rex-icon-action:before { content: "\E75E"; }
+.rex-icon-add-action:before { content: "\2795"; }
+
+.rex-icon-addon:before { content: "\1F56A"; }
+.rex-icon-add-addon:before { content: "\2795"; }
+
+.rex-icon-plugin:before { content: "\1F568"; }
+.rex-icon-add-plugin:before { content: "\2795"; }
+
+.rex-icon-article:before { content: "\1F4C4"; }
+.rex-icon-add-article:before { content: "\2795"; }
+.rex-icon-startarticle:before { content: "\E731"; }
+.rex-icon-sitestartarticle:before { content: "\2302"; }
+
+.rex-icon-category:before { content: "\1F4C1"; }
+.rex-icon-add-category:before { content: "\2795"; }
+.rex-icon-open-category:before { content: "\E800"; }
+
+.rex-icon-language:before { content: "\2691"; }
+.rex-icon-add-language:before { content: "\2795"; }
+
+.rex-icon-media:before { content: "\1F304"; }
+
+.rex-icon-module:before { content: "\1F4F8"; }
+.rex-icon-add-module:before { content: "\2795"; }
+
+.rex-icon-template:before { content: "\1F4F0"; }
+.rex-icon-add-template:before { content: "\2795"; }
+
+.rex-icon-user:before { content: "\1F464"; }
+.rex-icon-add-user:before { content: "\2795"; }
+
+.rex-icon-userrole:before { content: "\1F465"; }
+.rex-icon-add-userrole:before { content: "\2795"; }
+
+
+.rex-icon-linkmap:before { content: "\2630"; }
+.rex-icon-delete-link:before { content: "\2796"; }
+.rex-icon-open-linkmap:before { content: "\2630"; }
+
+.rex-icon-mediapool:before { content: "\2630"; }
+.rex-icon-add-media:before { content: "\E003"; }
+.rex-icon-delete-media:before { content: "\2796"; }
+.rex-icon-open-mediapool:before { content: "\2630"; }
+.rex-icon-view-media:before { content: "\E70A"; }
+
+
+.rex-icon-back:before { content: "\2B05"; }
+
+.rex-icon-login:before { content: "\E740"; }
+.rex-icon-logout:before { content: "\E741"; }
+
+.rex-icon-popup:before { content: "\E74C"; }
+
+.rex-icon-top:before { content: "\E763"; }
+.rex-icon-up:before { content: "\E75F"; }
+.rex-icon-down:before { content: "\E75C"; }
+.rex-icon-bottom:before { content: "\E760"; }
+
+.rex-icon-left:before { content: "\E75D"; }
+.rex-icon-right:before { content: "\E75E"; }
+
+.rex-icon-first:before { content: "\E761\E761"; }
+.rex-icon-last:before { content: "\E762\E762"; }
+
+.rex-icon-previous:before { content: "\E761"; }
+.rex-icon-next:before { content: "\E762"; }
+
+.rex-icon-check:before { content: "\2713"; }
+
+.rex-icon-close:before { content: "\2716"; }
+
+.rex-icon-context-menu:before { content: "\2699"; }
