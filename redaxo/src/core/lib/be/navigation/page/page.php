@@ -103,7 +103,10 @@ class rex_be_page implements rex_be_page_container
     if (!is_string($class)) {
       throw new rex_exception('Expecting $class to be a string, ' . gettype($class) . 'given!');
     }
-    $this->setItemAttr('class', ltrim($this->getItemAttr('class') . ' ' . $class));
+    $classAttr = $this->getItemAttr('class');
+    if (!preg_match('/\b' . preg_quote($class, '/') . '\b/', $classAttr)) {
+      $this->setItemAttr('class', ltrim($classAttr . ' ' . $class));
+    }
   }
 
   public function setLinkAttr($name, $value)
