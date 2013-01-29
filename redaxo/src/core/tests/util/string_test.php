@@ -63,4 +63,22 @@ class rex_string_test extends PHPUnit_Framework_TestCase
   {
     $this->assertTrue(rex_string::compareVersions($version1, $version2, $comparator));
   }
+
+  public function buildQueryProvider()
+  {
+    return array(
+      array('', array()),
+      array('page=system/settings&a%2Bb=test+test', array('page' => 'system/settings', 'a+b' => 'test test')),
+      array('arr[0]=a&arr[1]=b&arr[key]=c', array('arr' => array('a', 'b', 'key' => 'c'))),
+      array('a=1&amp;b=2', array('a' => 1, 'b' => 2), '&amp;')
+    );
+  }
+
+  /**
+   * @dataProvider buildQueryProvider
+   */
+  public function testBuildQuery($expected, $params, $argSeparator = '&')
+  {
+    $this->assertEquals($expected, rex_string::buildQuery($params, $argSeparator));
+  }
 }

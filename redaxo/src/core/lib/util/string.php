@@ -117,7 +117,19 @@ class rex_string
    */
   static public function buildQuery(array $params, $argSeparator = '&')
   {
-    return http_build_query($params, null, $argSeparator);
+    $query = array();
+    $func = function (array $params, $fullkey = null) use (&$query, &$func) {
+      foreach ($params as $key => $value) {
+        $key = $fullkey ? $fullkey . '[' . urlencode($key) . ']' : urlencode($key);
+        if (is_array($value)) {
+          $func($value, $key);
+        } else {
+          $query[] = $key . '=' . str_replace('%2F', '/', urlencode($value));
+        }
+      }
+    };
+    $func($params);
+    return implode($argSeparator, $query);
   }
 
   /**
