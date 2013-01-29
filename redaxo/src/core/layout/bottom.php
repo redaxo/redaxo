@@ -7,6 +7,7 @@ if (!$curPage->hasLayout()) {
 }
 
 ?>
+</div>
 </section><?php
 
 

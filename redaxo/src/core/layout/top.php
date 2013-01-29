@@ -52,20 +52,20 @@ if (rex::getUser() && $hasNavigation) {
   $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
 
   $item = array();
-  $item['title']  = rex_i18n::msg('logged_in_as') . ' ' . htmlspecialchars($user_name);
+  $item['title']  = rex_i18n::msg('logged_in_as') . ' <span class="rex-username">' . htmlspecialchars($user_name) . '</span>';
   $meta_items[] = $item;
   unset($item);
 
   $item = array();
-  $item['title']  = rex_i18n::msg('profile_title');
+  $item['title']  = '<span class="rex-icon rex-icon-profile"></span>' . rex_i18n::msg('profile_title');
   $item['href']   = rex_url::backendPage('profile');
   $meta_items[] = $item;
   unset($item);
 
   $item = array();
-  $item['title']      = rex_i18n::msg('logout');
+  $item['title']      = '<span class="rex-icon rex-icon-logout"></span>' . rex_i18n::msg('logout');
   $item['href']       = rex_url::backendController(array('rex_logout' => 1));
-  $item['attributes'] = rex::getAccesskey(rex_i18n::msg('logout'), 'logout');
+  $item['attributes'] = 'class="rex-button"' . rex::getAccesskey(rex_i18n::msg('logout'), 'logout');
   $meta_items[] = $item;
   unset($item);
 
@@ -76,7 +76,7 @@ if (rex::getUser() && $hasNavigation) {
   unset($item);
 }
 
-
+// wird in bottom.php an Fragment uebergeben
 $navigation = '';
 if (rex::getUser() && $hasNavigation) {
   $n = rex_be_navigation::factory();
@@ -196,4 +196,4 @@ $fragment->setVar('items', $meta_items, false);
 echo $fragment->parse('core/meta.tpl');
 
 
-?><section id="rex-page-main" data-pjax-container="#rex-page-main">
+?><section id="rex-page-main-container"><div id="rex-page-main" data-pjax-container="#rex-page-main">
