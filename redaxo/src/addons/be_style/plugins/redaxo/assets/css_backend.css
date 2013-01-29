@@ -1,7 +1,7 @@
 /******************************************************************* Fonts *****
 *******************************************************************************/
 body {
-  font: 13px/1.231 sans-serif;
+  font: 14px/1.231 sans-serif;
   *font-size: small;
 }
 select, input, textarea, button {
@@ -253,7 +253,7 @@ a {
 *******************************************************************************/
 body {
   background: #384f5a url(bg.png);
-  font-family: "Lucida Grande";
+  font-family: "Helvetica Neue", arial, helvetica, sans-serif;
 }
 #rex-page {
   min-width: 1000px;
@@ -1044,6 +1044,11 @@ fieldset .rex-grid2col {
   padding-bottom: 12px;
   border-bottom: 1px solid #fff;
 }
+fieldset .rex-grid2col:last-of-type {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
 .rex-form-data:last-of-type {
   padding-bottom: 0;
   border-bottom: 0;
@@ -1063,6 +1068,7 @@ fieldset .rex-grid2col {
 .rex-form-data input[type="password"],
 .rex-form-data select,
 .rex-form-data textarea {
+  font-family: "Helvetica Neue", arial, helvetica, sans-serif;
   float: left;
   width: 400px;
 }
@@ -1103,17 +1109,12 @@ fieldset .rex-grid2col {
 }
 
 fieldset.rex-form-action {
-  background: #3C4F58;
-  border-bottom: 1px solid #fff;
-
-  background: none;
+  background: #cfddde;
   border-top: 1px solid #fff;
-
-  border: 0;
 }
 fieldset.rex-form-action .rex-form-data {
   margin-bottom: 0;
-  padding: 6px 0;
+  padding: 12px 0;
 }
 
 /* gridXcol */
