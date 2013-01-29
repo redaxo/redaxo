@@ -8,6 +8,9 @@ body {
   float: left;
   width: 230px;
   height: 90px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .rex-page-logo {
   display: block;
@@ -16,16 +19,42 @@ body {
   text-indent: -1000em;
   background: #293a41 url(logo.png) 50% 50% no-repeat;
 }
+#rex-page-footer {
+  clear: both;
+  padding: 20px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
 
 #rex-page-meta {
-  margin-left: 230px;
+  width: 100%;
   height: 90px;
+  padding: 20px 20px 20px 251px;
   background-color: #293a41;
-  opacity: .5;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+.rex-navi-meta > ul {
+  display: inline-block;
+  margin: 10px 0 0 0;
+  width: 860px;
+  text-align: right;
+}
+.rex-navi-meta > ul > li {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+
+#rex-page-main-container {
+  float: left;
 }
 #rex-page-main {
   position: relative;
-  float: left;
   width: 900px;
   margin-left: 231px;
   padding: 20px;
@@ -92,6 +121,9 @@ body {
 }
 */
 
+.rex-username {
+  font-weight: bold;
+}
 
 .rex-language {
   float: right;
@@ -101,4 +133,58 @@ body {
   top: -10px;
   margin-top: 0px;
   margin-bottom: -10px;
+}
+
+
+
+
+
+
+
+body {
+  background: #fff;
+}
+#rex-page-header {
+  background-color: #dfe8e8;
+  background-image: -moz-linear-gradient(#f2f5f6, #dfe8e8);
+  background-image: -webkit-linear-gradient(#f2f5f6, #dfe8e8);
+  background-image: linear-gradient(#f2f5f6, #dfe8e8);
+  background-repeat: repeat-x;
+}
+.rex-page-logo {
+  background: none;
+  background-image: url(logo.png);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+#rex-page-meta {
+  background-color: #dfe8e8;
+  background-image: -moz-linear-gradient(#f2f5f6, #dfe8e8);
+  background-image: -webkit-linear-gradient(#f2f5f6, #dfe8e8);
+  background-image: linear-gradient(#f2f5f6, #dfe8e8);
+  background-repeat: repeat-x;
+  border-bottom: 1px solid #d9dfe3;
+}
+#rex-page-main-container {
+  width: 100%;
+
+  width: auto;
+}
+#rex-page-main {
+/*  width: auto; */
+  background: none;
+}
+#rex-page-navigation {
+  margin-left: -100%;
+
+  margin-left: -1131px;
+}
+#rex-page-footer {
+  clear: both;
+  background-color: #dfe8e8;
+  background-image: -moz-linear-gradient(#dfe8e8, #f2f5f6);
+  background-image: -webkit-linear-gradient(#dfe8e8, #f2f5f6);
+  background-image: linear-gradient(#dfe8e8, #f2f5f6);
+  background-repeat: repeat-x;
 }

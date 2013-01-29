@@ -129,6 +129,11 @@
     <span class="rex-icon rex-icon-popup"></span>
 
 
+  #### Profile
+
+    <span class="rex-icon rex-icon-profile"></span>
+
+
   #### Top
 
     <span class="rex-icon rex-icon-up"></span>
@@ -340,6 +345,8 @@
 .rex-icon-logout:before { content: "\E741"; }
 
 .rex-icon-popup:before { content: "\E74C"; }
+
+.rex-icon-profile:before { content: "\1F464"; }
 
 .rex-icon-top:before { content: "\E763"; }
 .rex-icon-up:before { content: "\E75F"; }
