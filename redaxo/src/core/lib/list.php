@@ -904,7 +904,12 @@ class rex_list extends rex_factory_base implements rex_url_provider
 
     // Columns vars
     $columnFormates = array();
-    $columnNames = array_diff($this->getColumnNames(), $this->columnDisabled);
+    $columnNames = array();
+    foreach ($this->getColumnNames() as $columnName) {
+      if (is_array($columnName) || !in_array($columnName, $this->columnDisabled)) {
+        $columnNames[] = $columnName;
+      }
+    }
 
     // List vars
     $sortColumn = $this->getSortColumn();
