@@ -236,6 +236,19 @@ pre, code, tt, .rex-code {
   font-family: Monaco, Courier, monospace;
   font-size: 12px;
 }
+.rex-link {
+  font-weight: bold;
+}
+.rex-disabled {
+  opacity: .5;
+  color: #666;
+}
+.rex-online {
+  color: #61ab2c;
+}
+.rex-offline {
+  color: #900;
+}
 
 .rex-back {
   display: inline-block;

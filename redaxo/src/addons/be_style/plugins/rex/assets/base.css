@@ -114,12 +114,6 @@ h1, h2, h3, h4, h5, h6 {
 a:active, a:hover, a:focus {
   outline: none;
 }
-a, a:active, a:visited {
-  color: #607890;
-}
-a:hover {
-  color: #036;
-}
 a:link {
   -webkit-tap-highlight-color: #ff5e99;
 }
@@ -231,6 +225,9 @@ body, input, select, textarea, button {
   color: #333;
 }
 
+pre {
+  white-space: pre;
+}
 ul {
   margin: 0;
   padding: 0;
@@ -238,6 +235,12 @@ ul {
 
 a {
   text-decoration: none;
+}
+a {
+  color: #08c;
+}
+a:hover {
+  text-decoration: underline;
 }
 
 .resizeable {
