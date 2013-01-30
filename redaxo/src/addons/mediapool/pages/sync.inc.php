@@ -8,7 +8,7 @@ if ($PERMALL) {
   // ---- Dateien aus dem Ordner lesen
   $folder_files = array();
   $path = rex_path::media();
-  $iterator = rex_finder::factory($path)->filesOnly()->ignoreFiles(rex::getTempPrefix() . '*')->sort();
+  $iterator = rex_finder::factory($path)->filesOnly()->ignoreFiles(array('.*', rex::getTempPrefix() . '*'))->sort();
   foreach ($iterator as $file) {
     $folder_files[] = $file->getFilename();
   }
