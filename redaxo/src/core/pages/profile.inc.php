@@ -4,8 +4,8 @@
  * @package redaxo5
  */
 
-$info = '';
-$warning = '';
+$error = '';
+$success = '';
 $user = rex::getUser();
 $user_id = $user->getValue('user_id');
 
@@ -19,17 +19,15 @@ $userdesc = rex_request('userdesc', 'string', $user->getValue('description'));
 $userlogin = $user->getLogin();
 
 // --------------------------------- Title
-
 echo rex_view::title(rex_i18n::msg('profile_title'), '');
 
 // --------------------------------- BE LANG
 
 // backend sprache
 $sel_be_sprache = new rex_select;
-$sel_be_sprache->setStyle('class="rex-form-select"');
 $sel_be_sprache->setSize(1);
 $sel_be_sprache->setName('userperm_be_sprache');
-$sel_be_sprache->setId('userperm-mylang');
+$sel_be_sprache->setId('rex-id-userperm-mylang');
 $sel_be_sprache->addOption('default', '');
 
 $saveLocale = rex_i18n::getLocale();
@@ -45,7 +43,7 @@ $sel_be_sprache->setSelected($userperm_be_sprache);
 
 // --------------------------------- FUNCTIONS
 
-if (rex_post('upd_profile_button', 'string')) {
+if (rex_post('upd_profile_button', 'bool')) {
   $updateuser = rex_sql::factory();
   $updateuser->setTable(rex::getTablePrefix() . 'user');
   $updateuser->setWhere(array('user_id' => $user_id));
@@ -57,14 +55,14 @@ if (rex_post('upd_profile_button', 'string')) {
 
   try {
     $updateuser->update();
-    $info = rex_i18n::msg('user_data_updated');
+    $success = rex_i18n::msg('user_data_updated');
   } catch (rex_sql_exception $e) {
-    $warning = $e->getMessage();
+    $error = $e->getMessage();
   }
 }
 
 
-if (rex_post('upd_psw_button', 'string')) {
+if (rex_post('upd_psw_button', 'bool')) {
   // the server side encryption of pw is only required
   // when not already encrypted by client using javascript
   $isPreHashed = rex_post('javascript', 'boolean');
@@ -81,12 +79,12 @@ if (rex_post('upd_psw_button', 'string')) {
 
     try {
       $updateuser->update();
-      $info = rex_i18n::msg('user_psw_updated');
+      $success = rex_i18n::msg('user_psw_updated');
     } catch (rex_sql_exception $e) {
-      $warning = $e->getMessage();
+      $error = $e->getMessage();
     }
   } else {
-    $warning = rex_i18n::msg('user_psw_error');
+    $error = rex_i18n::msg('user_psw_error');
   }
 
 }
@@ -94,11 +92,11 @@ if (rex_post('upd_psw_button', 'string')) {
 
 // ---------------------------------- ERR MSG
 
-if ($info != '')
-  echo rex_view::info($info);
+if ($success != '')
+  echo rex_view::success($success);
 
-if ($warning != '')
-  echo rex_view::warning($warning);
+if ($error != '')
+  echo rex_view::error($error);
 
 // --------------------------------- FORMS
 
@@ -111,138 +109,138 @@ $content .= '
       <h2>' . rex_i18n::msg('profile_myprofile') . '</h2>';
 
 
-          $formElements = array();
+$formElements = array();
 
-            $n = array();
-            $n['label'] = '<label for="userlogin">' . rex_i18n::msg('login_name') . '</label>';
-            $n['field'] = '<span class="rex-form-read" id="userlogin">' . htmlspecialchars($userlogin) . '</span>';
-            $formElements[] = $n;
+$n = array();
+$n['label'] = '<label for="rex-id-userlogin">' . rex_i18n::msg('login_name') . '</label>';
+$n['field'] = '<span class="rex-form-read" id="rex-id-userlogin">' . htmlspecialchars($userlogin) . '</span>';
+$formElements[] = $n;
 
-            $n = array();
-            $n['label'] = '<label for="userperm-mylang">' . rex_i18n::msg('backend_language') . '</label>';
-            $n['field'] = $sel_be_sprache->get();
-            $formElements[] = $n;
+$n = array();
+$n['label'] = '<label for="rex-id-userperm-mylang">' . rex_i18n::msg('backend_language') . '</label>';
+$n['field'] = $sel_be_sprache->get();
+$formElements[] = $n;
 
-            $n = array();
-            $n['label'] = '<label for="username">' . rex_i18n::msg('name') . '</label>';
-            $n['field'] = '<input type="text" id="username" name="username" value="' . htmlspecialchars($username) . '" />';
-            $formElements[] = $n;
+$n = array();
+$n['label'] = '<label for="rex-id-username">' . rex_i18n::msg('name') . '</label>';
+$n['field'] = '<input type="text" id="rex-id-username" name="username" value="' . htmlspecialchars($username) . '" />';
+$formElements[] = $n;
 
-            $n = array();
-            $n['label'] = '<label for="userdesc">' . rex_i18n::msg('description') . '</label>';
-            $n['field'] = '<input type="text" id="userdesc" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />';
-            $formElements[] = $n;
+$n = array();
+$n['label'] = '<label for="rex-id-userdesc">' . rex_i18n::msg('description') . '</label>';
+$n['field'] = '<input type="text" id="rex-id-userdesc" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />';
+$formElements[] = $n;
 
-          $fragment = new rex_fragment();
-          $fragment->setVar('columns', 2, false);
-          $fragment->setVar('elements', $formElements, false);
-          $content .= $fragment->parse('form.tpl');
-
-$content .= '
-    </fieldset>
-
-    <fieldset class="rex-form-action">';
-
-          $formElements = array();
-
-            $n = array();
-            $n['field'] = '<input type="submit" name="upd_profile_button" value="' . rex_i18n::msg('profile_save') . '" ' . rex::getAccesskey(rex_i18n::msg('profile_save'), 'save') . ' />';
-            $formElements[] = $n;
-
-          $fragment = new rex_fragment();
-          $fragment->setVar('elements', $formElements, false);
-          $content .= $fragment->parse('form.tpl');
+$fragment = new rex_fragment();
+$fragment->setVar('flush', true);
+$fragment->setVar('group', true);
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.tpl');
 
 $content .= '
-    </fieldset>
+    </fieldset>';
+
+$formElements = array();
+
+$n = array();
+$n['field'] = '<button class="rex-button" type="submit" value="1" name="upd_profile_button" ' . rex::getAccesskey(rex_i18n::msg('profile_save'), 'save') . '>' . rex_i18n::msg('profile_save') . '</button>';
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/submit.tpl');
+
+$content .= '
   </form>
   </div>';
-echo rex_view::contentBlock($content, '', 'block');
+echo rex_view::contentBlock($content);
 
 
 
 $content = '';
 $content .= '
   <div id="rex-form-profile-password" class="rex-form">
-  <form action="' . rex_url::currentBackendPage() . '" method="post" id="pwformular">
-    <input type="hidden" name="javascript" value="0" id="javascript" />
+  <form action="' . rex_url::currentBackendPage() . '" method="post">
+    <input type="hidden" name="javascript" value="0" id="rex-id-javascript" />
     <fieldset>
       <h2>' . rex_i18n::msg('profile_changepsw') . '</h2>';
 
 
-          $formElements = array();
+$formElements = array();
 
-            $n = array();
-            $n['label'] = '<label for="userpsw">' . rex_i18n::msg('old_password') . '</label>';
-            $n['field'] = '<input type="password" id="userpsw" name="userpsw" autocomplete="off" />';
-            $formElements[] = $n;
+$n = array();
+$n['label'] = '<label for="rex-id-userpsw">' . rex_i18n::msg('old_password') . '</label>';
+$n['field'] = '<input type="password" id="rex-id-userpsw" name="userpsw" autocomplete="off" />';
+$formElements[] = $n;
 
-            $n = array();
-            $n['field'] = '';
-            $formElements[] = $n;
+$fragment = new rex_fragment();
+$fragment->setVar('flush', true);
+$fragment->setVar('group', true);
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.tpl');
 
-            $n = array();
-            $n['label'] = '<label for="userpsw">' . rex_i18n::msg('new_password') . '</label>';
-            $n['field'] = '<input class="rex-form-text" type="password" id="userpsw_new_1" name="userpsw_new_1" autocomplete="off" />';
-            $formElements[] = $n;
+$formElements = array();
 
-            $n = array();
-            $n['label'] = '<label for="userpsw">' . rex_i18n::msg('new_password_repeat') . '</label>';
-            $n['field'] = '<input class="rex-form-text" type="password" id="userpsw_new_2" name="userpsw_new_2" autocomplete="off" />';
-            $formElements[] = $n;
+$n = array();
+$n['label'] = '<label for="rex-id-userpsw-new-1">' . rex_i18n::msg('new_password') . '</label>';
+$n['field'] = '<input type="password" id="rex-id-userpsw-new-1" name="userpsw_new_1" autocomplete="off" />';
+$formElements[] = $n;
 
-          $fragment = new rex_fragment();
-          $fragment->setVar('columns', 2, false);
-          $fragment->setVar('elements', $formElements, false);
-          $content .= $fragment->parse('form.tpl');
+$n = array();
+$n['label'] = '<label for="rex-id-userpsw-new-2">' . rex_i18n::msg('new_password_repeat') . '</label>';
+$n['field'] = '<input type="password" id="rex-id-userpsw-new-2" name="userpsw_new_2" autocomplete="off" />';
+$formElements[] = $n;
 
-$content .= '
-    </fieldset>
-
-    <fieldset class="rex-form-action">';
-
-          $formElements = array();
-
-            $n = array();
-            $n['field'] = '<input class="rex-form-submit" type="submit" name="upd_psw_button" value="' . rex_i18n::msg('profile_save_psw') . '" ' . rex::getAccesskey(rex_i18n::msg('profile_save_psw'), 'save') . ' />';
-            $formElements[] = $n;
-
-          $fragment = new rex_fragment();
-          $fragment->setVar('elements', $formElements, false);
-          $content .= $fragment->parse('form.tpl');
+$fragment = new rex_fragment();
+$fragment->setVar('flush', true);
+$fragment->setVar('group', true);
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.tpl');
 
 $content .= '
-    </fieldset>
+    </fieldset>';
+
+$formElements = array();
+
+$n = array();
+$n['field'] = '<button class="rex-button" type="submit" value="1" name="upd_psw_button" ' . rex::getAccesskey(rex_i18n::msg('profile_save_psw'), 'save') . '>' . rex_i18n::msg('profile_save_psw') . '</button>';
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/submit.tpl');
+
+$content .= '
   </form>
   </div>
 
   <script type="text/javascript">
      <!--
     jQuery(function($) {
-      $("#username").focus();
+      $("#rex-id-username").focus();
 
-      $("#pwformular")
+      $("#rex-form-profile-password form")
         .submit(function(){
-          var pwInp0 = $("#userpsw");
+          var pwInp0 = $("#rex-id-userpsw");
           if(pwInp0.val() != "")
           {
-            $("#pwformular").append(\'<input type="hidden" name="\'+pwInp0.attr("name")+\'" value="\'+Sha1.hash(pwInp0.val())+\'" />\');
+            $("#rex-form-profile-password form").append(\'<input type="hidden" name="\'+pwInp0.attr("name")+\'" value="\'+Sha1.hash(pwInp0.val())+\'" />\');
           }
 
-          var pwInp1 = $("#userpsw_new_1");
+          var pwInp1 = $("#rex-id-userpsw-new-1");
           if(pwInp1.val() != "")
           {
-            $("#pwformular").append(\'<input type="hidden" name="\'+pwInp1.attr("name")+\'" value="\'+Sha1.hash(pwInp1.val())+\'" />\');
+            $("#rex-form-profile-password form").append(\'<input type="hidden" name="\'+pwInp1.attr("name")+\'" value="\'+Sha1.hash(pwInp1.val())+\'" />\');
           }
 
-          var pwInp2 = $("#userpsw_new_2");
+          var pwInp2 = $("#rex-id-userpsw-new-2");
           if(pwInp2.val() != "")
           {
-            $("#pwformular").append(\'<input type="hidden" name="\'+pwInp2.attr("name")+\'" value="\'+Sha1.hash(pwInp2.val())+\'" />\');
+            $("#rex-form-profile-password form").append(\'<input type="hidden" name="\'+pwInp2.attr("name")+\'" value="\'+Sha1.hash(pwInp2.val())+\'" />\');
           }
       });
 
-      $("#javascript").val("1");
+      $("#rex-id-javascript").val("1");
     });
      //-->
   </script>';
