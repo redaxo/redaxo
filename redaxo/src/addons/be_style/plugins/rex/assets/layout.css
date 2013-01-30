@@ -1,13 +1,41 @@
+html,
 body {
-  background: #384f5a url(bg.png);
+  height: 100%;
+}
+body {
+  background: #3c4f58;
   font: 13px/1.4 Helvetica,arial,freesans,clean,sans-serif;
   color: #333;
 }
 
+
+
+/*  ----------------------------------- Page -------------------------------- */
+#rex-page {
+  background: #fff;
+}
+#rex-page:after {
+  clear: both;
+  content: '.';
+  display: block;
+  height: 0;
+  visibility: hidden;
+  font-size: 0px;
+}
+
+
+
+/*  ----------------------------------- Header ------------------------------ */
 #rex-page-header {
   float: left;
   width: 230px;
   height: 90px;
+  background-color: #3c4f58;
+  background-image: -moz-linear-gradient(#72909a, #3c4f58);
+  background-image: -webkit-linear-gradient(#72909a, #3c4f58);
+  background-image: linear-gradient(#72909a, #3c4f58);
+  background-repeat: repeat-x;
+  border-bottom: 1px solid #293a41;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -17,21 +45,42 @@ body {
   width: 100%;
   height: 100%;
   text-indent: -1000em;
-  background: #293a41 url(logo.png) 50% 50% no-repeat;
+  background-image: url(logo.png);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
 }
+
+
+
+/*  ----------------------------------- Footer ------------------------------ */
 #rex-page-footer {
   clear: both;
+  width: 100%;
   padding: 20px;
+  background-color: #3c4f58;
+  background-image: -moz-linear-gradient(#3c4f58, #72909a);
+  background-image: -webkit-linear-gradient(#3c4f58, #72909a);
+  background-image: linear-gradient(#3c4f58, #72909a);
+  background-repeat: repeat-x;
+  border-top: 1px solid #293a41;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
+
+
+/*  ----------------------------------- Meta -------------------------------- */
 #rex-page-meta {
   width: 100%;
   height: 90px;
   padding: 20px 20px 20px 251px;
-  background-color: #293a41;
+  background-color: #3c4f58;
+  background-image: -moz-linear-gradient(#72909a, #3c4f58);
+  background-image: -webkit-linear-gradient(#72909a, #3c4f58);
+  background-image: linear-gradient(#72909a, #3c4f58);
+  background-repeat: repeat-x;
+  border-bottom: 1px solid #293a41;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -50,7 +99,10 @@ body {
 }
 
 
+
+/*  ----------------------------------- Main -------------------------------- */
 #rex-page-main-container {
+  clear: both;
   float: left;
 }
 #rex-page-main {
@@ -58,11 +110,14 @@ body {
   width: 900px;
   margin-left: 231px;
   padding: 20px;
-  background-color: #fff;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+
+
+
+/*  ----------------------------------- Navigation -------------------------- */
 #rex-page-navigation {
   float: left;
   width: 230px;
@@ -74,43 +129,83 @@ body {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+
+
+
+/*  ----------------------------------- Sidebar ----------------------------- */
 .rex-page-sidebar {
   display: none;
 }
 
 
+
+/*  ----------------------------------- Slide ------------------------------- */
+.rex-slide-legend {
+  display: none;
+}
+
+/*  ----------------------------------- Navigations ------------------------- */
+
+/*  ----------------------------------- Footer */
+.rex-navi-footer ul {
+  margin-left: -20px;
+}
+.rex-navi-footer li {
+  display: inline-block;
+  margin: 0 20px;
+  vertical-align: middle;
+}
+.rex-navi-footer li a {
+  text-align: center;
+}
+.rex-navi-footer li a > span {
+  display: block;
+}
+.rex-navi-footer li a > span:first-child {
+  font-weight: bold;
+}
+
+/*  ----------------------------------- Main */
 .rex-navi-main {
-  margin-bottom: 20px;
+  margin: 20px 0 40px 0;
   border-bottom: 2px solid #d9dfe3;
 }
 .rex-navi-main dt {
   display: block;
   padding: 5px 10px;
-  background-color: #72909a;
-  border-bottom: 2px solid #d9dfe3;
+  background-color: #3c4f58;
+  background-image: -moz-linear-gradient(#72909a, #3c4f58);
+  background-image: -webkit-linear-gradient(#72909a, #3c4f58);
+  background-image: linear-gradient(#72909a, #3c4f58);
+  background-repeat: repeat-x;
+  border-bottom: 1px solid #293a41;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   color: #fff;
   font-weight: bold;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .5);
 }
-
 .rex-navi-main dd > ul > li {
   border-bottom: 1px solid #d9dfe3;
 }
 .rex-navi-main dd > ul > li:last-child {
   border-bottom-width: 0;
 }
-
 .rex-navi-main dd > ul > li > a {
   display: block;
   padding: 5px 10px;
-  background-color: #f2f5f6;
-  font-weight: bold;
+  color: #666;
+  font-size: 14px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 }
-
-.rex-navi-main dd > ul > li > a:hover,
+.rex-navi-main dd > ul > li > a:hover {
+  background-color: #f2f5f6;
+  text-decoration: none;
+}
 .rex-navi-main dd > ul > li > a.rex-active {
   background-color: #dfe8e8;
+  color: #333;
+  font-weight: bold;
 }
 .rex-navi-main dd > ul > li ul {
   display: none;
@@ -125,6 +220,10 @@ body {
   font-weight: bold;
 }
 
+
+
+
+/*  ----------------------------------- Language ---------------------------- */
 .rex-language {
   float: right;
 }
@@ -140,51 +239,62 @@ body {
 
 
 
-
-body {
-  background: #fff;
-}
-#rex-page-header {
-  background-color: #dfe8e8;
-  background-image: -moz-linear-gradient(#f2f5f6, #dfe8e8);
-  background-image: -webkit-linear-gradient(#f2f5f6, #dfe8e8);
-  background-image: linear-gradient(#f2f5f6, #dfe8e8);
-  background-repeat: repeat-x;
-}
-.rex-page-logo {
-  background: none;
-  background-image: url(logo.png);
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-}
-
-#rex-page-meta {
-  background-color: #dfe8e8;
-  background-image: -moz-linear-gradient(#f2f5f6, #dfe8e8);
-  background-image: -webkit-linear-gradient(#f2f5f6, #dfe8e8);
-  background-image: linear-gradient(#f2f5f6, #dfe8e8);
-  background-repeat: repeat-x;
-  border-bottom: 1px solid #d9dfe3;
-}
-#rex-page-main-container {
+#rex-page-login #rex-page-header {
   width: 100%;
+}
+#rex-page-login .rex-page-logo,
+#rex-page-login .rex-navi-footer {
+  width: 860px;
+  margin: 0 auto;
+}
+#rex-page-login .rex-page-logo {
+  background-position: 0 50%;
+}
+#rex-page-login .rex-navi-footer {
+  text-align: center;
+}
+#rex-page-login #rex-page-main-container {
+  float: none;
+}
+#rex-page-login #rex-page-main {
+  margin: 0 auto;
+}
 
-  width: auto;
+
+
+
+
+
+
+
+
+
+
+
+#rex-page-meta,
+#rex-page-meta a:not(.rex-button),
+#rex-page-footer,
+#rex-page-footer a,
+#rex-page-footer a:link,
+#rex-page-footer a:visited {
+  color: #f2f5f6;
 }
-#rex-page-main {
-/*  width: auto; */
-  background: none;
+
+
+
+/*  ----------------------------------- Footer at the bottom of the page */
+html, body {
+  height: 100%;
 }
+#rex-page {
+  position: relative;
+  min-height: 100%;
+}
+#rex-page-main-container,
 #rex-page-navigation {
-  margin-left: -100%;
-
-  margin-left: -1131px;
+  padding-bottom: 100px;
 }
 #rex-page-footer {
-  clear: both;
-  background-color: #dfe8e8;
-  background-image: -moz-linear-gradient(#dfe8e8, #f2f5f6);
-  background-image: -webkit-linear-gradient(#dfe8e8, #f2f5f6);
-  background-image: linear-gradient(#dfe8e8, #f2f5f6);
-  background-repeat: repeat-x;
+  position: absolute;
+  bottom: 0;
 }

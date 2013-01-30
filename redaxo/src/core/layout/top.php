@@ -154,6 +154,7 @@ if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
 }
 
 /* Login Navigation ***********************************************************/
+/*
 if (!rex::getUser() && !rex::isSetup()) {
   $navi = array();
 
@@ -174,7 +175,7 @@ if (!rex::getUser() && !rex::isSetup()) {
   $fragment->setVar('blocks', $blocks, false);
   $navigation = $fragment->parse('navigation.tpl');
 }
-
+*/
 /* PJAX Footer Header ***********************************************************/
 if (!rex_request::isPJAXContainer('#rex-page')) {
   $fragment = new rex_fragment();

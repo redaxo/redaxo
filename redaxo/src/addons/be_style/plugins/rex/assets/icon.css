@@ -212,17 +212,18 @@
     </span>
 
 */
+/*
 @font-face {
   font-family: 'entypo';
   font-style: 'normal';
   font-weight: 'normal';
-  src: url('http://redaxo5.modulvier.com/docs/entypo.eot');
-  src: url('http://redaxo5.modulvier.com/docs/entypo.eot?#iefix') format('eot'),
-  url('http://redaxo5.modulvier.com/docs/entypo.woff') format('woff'),
-  url('http://redaxo5.modulvier.com/docs/entypo.ttf') format('truetype'),
-  url('http://redaxo5.modulvier.com/docs/entypo.svg#entypo') format('svg');
+  src: url('/assets/be_style/plugins/rex/entypo.eot');
+  src: url('/assets/be_style/plugins/rex/entypo.eot?#iefix') format('eot'),
+  url('/assets/be_style/plugins/rex/entypo.woff') format('woff'),
+  url('/assets/be_style/plugins/rex/entypo.ttf') format('truetype'),
+  url('/assets/be_style/plugins/rex/entypo.svg#entypo') format('svg');
 }
-
+*/
 [class*="rex-icon-"]:before {
   display: inline-block;
   position: relative;
@@ -235,6 +236,11 @@
 }
 .rex-icon {
   display: inline-block;
+}
+a.rex-icon,
+th > a > .rex-icon,
+td > a > .rex-icon {
+  color: #333;
 }
 .rex-button .rex-icon {
   margin-right: 5px;
