@@ -104,8 +104,9 @@ class rex_be_navigation extends rex_factory_base
           $n['linkAttr'][$name] = trim($value);
         }
 
-        $n['href'] = str_replace('&', '&amp;', $page->getHref());
-        $n['title'] = $page->getTitle();
+        $n['href']   = str_replace('&', '&amp;', $page->getHref());
+        $n['title']  = $page->getTitle();
+        $n['active'] = $page->isActive();
 
         $subpages = $page->getSubPages();
         if (is_array($subpages) && count($subpages) > 0) {

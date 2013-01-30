@@ -16,7 +16,7 @@ $js = '';
 if ($rex_user_loginmessage != '') {
   echo rex_view::warning($rex_user_loginmessage) . "\n";
   $js = '
-    var time_el = $("div.rex-message p strong[data-time]");
+    var time_el = $("div.rex-message strong[data-time]");
     if(time_el.length == 1) {
       function disableLogin() {
         var time = time_el.attr("data-time");
@@ -29,12 +29,12 @@ if ($rex_user_loginmessage != '') {
         if(time > 0) {
           setTimeout(disableLogin, 1000);
         } else {
-          $("div.rex-message p").html("' . rex_i18n::msg('login_welcome') . '");
-          $("#loginformular input:not(:hidden)").prop("disabled", "");
+          $("div.rex-message div").html("' . rex_i18n::msg('login_welcome') . '");
+          $("#rex-form-login input:not(:hidden)").prop("disabled", "");
           $("#rex-form-login-user").focus();
         }
       };
-      $("#loginformular input:not(:hidden)").prop("disabled", "disabled");
+      $("#rex-form-login input:not(:hidden)").prop("disabled", "disabled");
       setTimeout(disableLogin, 1000);
     }';
 }
@@ -43,46 +43,50 @@ $content = '';
 $content .= '
 
 <div id="rex-form-login" class="rex-form">
-<form action="index.php" method="post" id="loginformular">
+<form action="index.php" method="post">
   <fieldset>
     <h2>' . rex_i18n::msg('login_welcome') . '</h2>
     <input type="hidden" name="javascript" value="0" id="javascript" />';
 
-          $formElements = array();
+$formElements = array();
 
-            $n = array();
-            $n['label'] = '<label for="rex-form-login-user">' . rex_i18n::msg('login_name') . ':</label>';
-            $n['field'] = '<input type="text" value="' . htmlspecialchars($rex_user_login) . '" id="rex-form-login-user" name="rex_user_login" />';
-            $formElements[] = $n;
+$n = array();
+$n['label'] = '<label for="rex-form-login-user">' . rex_i18n::msg('login_name') . ':</label>';
+$n['field'] = '<input type="text" value="' . htmlspecialchars($rex_user_login) . '" id="rex-form-login-user" name="rex_user_login" />';
+$formElements[] = $n;
 
-            $n = array();
-            $n['label'] = '<label for="REX_UPSW">' . rex_i18n::msg('password') . ':</label>';
-            $n['field'] = '<input type="password" name="rex_user_psw" id="REX_UPSW" />';
-            $formElements[] = $n;
+$n = array();
+$n['label'] = '<label for="REX_UPSW">' . rex_i18n::msg('password') . ':</label>';
+$n['field'] = '<input type="password" name="rex_user_psw" id="REX_UPSW" />';
+$formElements[] = $n;
 
-            $n = array();
-            $n['reverse'] = true;
-            $n['label'] = '<label for="rex-user-stay-logged-in">' . rex_i18n::msg('stay_logged_in') . '</label>';
-            $n['field'] = '<input class="rex-form-checkbox" type="checkbox" name="rex_user_stay_logged_in" id="rex-user-stay-logged-in" value="1" />';
-            $formElements[] = $n;
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.tpl');
 
-          $fragment = new rex_fragment();
-          $fragment->setVar('elements', $formElements, false);
-          $content .= $fragment->parse('form.tpl');
+$formElements = array();
+$n = array();
+$n['reverse'] = true;
+$n['label'] = '<label for="rex-user-stay-logged-in">' . rex_i18n::msg('stay_logged_in') . '</label>';
+$n['field'] = '<input class="rex-form-checkbox" type="checkbox" name="rex_user_stay_logged_in" id="rex-user-stay-logged-in" value="1" />';
+$formElements[] = $n;
 
-$content .= '<fieldset><fieldset class="rex-form-action">';
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/checkbox.tpl');
 
-          $formElements = array();
+$content .= '<fieldset>';
 
-            $n = array();
-            $n['field'] = '<input class="rex-form-submit" type="submit" value="' . rex_i18n::msg('login') . '" />';
-            $formElements[] = $n;
 
-          $fragment = new rex_fragment();
-          $fragment->setVar('elements', $formElements, false);
-          $content .= $fragment->parse('form.tpl');
+$formElements = array();
+$n = array();
+$n['field'] = '<button class="rex-button" type="submit">' . rex_i18n::msg('login') . '</button>';
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/submit.tpl');
 $content .= '
-  </fieldset>
 </form>
 </div>
 <script type="text/javascript">
@@ -90,11 +94,11 @@ $content .= '
   jQuery(function($) {
     $("#rex-form-login-user").focus();
 
-    $("#loginformular")
+    $("#rex-form-login form")
       .submit(function(){
         var pwInp = $("#REX_UPSW");
         if(pwInp.val() != "") {
-          $("#loginformular").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
+          $("#rex-form-login form").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
         }
     });
 
@@ -107,4 +111,4 @@ $content .= '
 ';
 
 
-echo rex_view::contentBlock($content, '', 'block');
+echo rex_view::contentBlock($content);
