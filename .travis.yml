@@ -7,6 +7,6 @@ before_script:
   - mysql -e 'create database redaxo_5_0;'
   - php redaxo/src/addons/tests/bin/setup.php
 script:
-  - php redaxo/src/addons/tests/bin/runTests.php
+  - php redaxo/src/addons/tests/bin/run_tests.php
 after_script:
   - php coding_standards.phar check --hide-process
