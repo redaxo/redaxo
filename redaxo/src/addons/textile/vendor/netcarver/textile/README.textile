@@ -1,0 +1,114 @@
+h1. TEXTILE
+
+p. *A Humane Web Text Generator*
+
+p. A lightweight markup language that takes (almost) plaintext and converts it into well formed HTML.
+
+
+h2. Branches
+
+There are two main branches in the repository that will be of interest, both of which can be installed via the "Composer":https://getcomposer.org/ package management system.
+
+|^=. "master":https://github.com/netcarver/textile/tree/master | Has a multi-file, namespaced, "PSR-0/1/2":https://github.com/php-fig/fig-standards/tree/master/accepted compliant version of textile. Releases from master are tagged v3.5.x |^=. _Requires PHP5.3+_ |
+|^=. "2.5":https://github.com/netcarver/textile/tree/2.5       | Holds a single-file version of textile representing the v2.5.x releases. It is *not* PSR-0 compliant but attempts to follow PSR-1 and PSR-2 in other respects.               |^=. _Requires PHP5.0+_ |
+
+*This is the README for the master branch.*
+
+Currently both branches are feature synchronised at the point they are tagged and new features and bugfixes will go into both branches (where possible) for the time being but this _will_ change at some point in the future.
+
+From time to time other branches may be present in the repository. These represent transient development or hotfix branches and should not be used for live sites/projects.
+
+
+h2. Installation & Usage
+
+h3. Installation via Composer & Its Autoloader
+
+To start using textile in a composer based project you need to add netcarver/textile to your project's dependencies and have composer take care of the installation and autoloading of the code for you. If you don't already have a @composer.json@ file in the root of your project you probably need to "read something about composer":https://getcomposer.org/doc/ before coming back here, creating your @composer.json@ file and pasting one of the following examples into it;
+
+bc.. {
+    "require": { "netcarver/textile": "3.5.*" }
+}
+
+p. ...if you require the latest stable release from the master branch. Or;
+
+bc.. {
+    "require": { "netcarver/textile": "3.5.*@dev" }
+}
+
+p. ...if you want the most recent code.
+
+p. Then open a command line window, switch to the root of your project and run @composer install@. Textile should be pulled into your project under a the @vendors/@ directory and an autoloader created for all the dependencies in your project. If you are already using Composer and have a @composer.json@ file, just update your "requires" section with one of the above lines and run @composer update@ from the command line.
+
+You should now be able to create and use a textile parser...
+
+bc.. require 'vendor/autoload.php';                  // Bring in the composer auto-loader
+use Netcarver\Textile;
+$parser = new Textile\Parser();                 // Create a textile parser
+$out = $parser->textileThis('h1. Hello World!');
+
+p. If you aren't using composer, try this...
+
+h3. Manual Install & Include
+
+Copy the contents of the @src/Netcarver/Textile/@ directory to a location of your choice within your project. If you are using an autoloader, you will need to update it to load the classes @Parser@, @Tag@ and @DataBag@ from the @\Netcarver\Textile@ namespace. If you are _not_ using an autoloader you will need to include the following in a suitable location in your project...
+
+bc.. include "path\to\textile\Parser.php";
+include "path\to\textile\Tag.php";
+include "path\to\textile\Databag.php";
+
+p. Adjusting the path as needed. Now you should be able to create a textile parser using a fully qualified namespace like this...
+
+bc. $parser = new \Netcarver\Textile\Parser($doctype); // $doctype explained later
+
+h3. Parsing Input 
+
+For input that you trust use the @textileThis()@ method.
+
+bc. $output = $parser->textileThis($trusted_input);
+
+If you are using Textile to format user-supplied input, blog comments for instance, use a @textileRestricted()@ call...
+
+bc. $output = $parser->textileRestricted($untrusted_input);
+
+h3. Doctypes
+
+Currently, PHP Textile can target either XHTML or HTML5 output with XHTML being the default for backward compatibility. If you need HTML5 generation, just do...
+
+bc. $parser = new Textile\Parser('html5');
+
+...and you'll get @abbr@ instead of @acronym@ and if you use alignment markers on your images you'll have extra classes placed on them instead of xhtml's @align@ attribute.
+
+h3. Setting alternate glyphs
+
+From v2.5 on, you can no longer use the legacy 'txt_' defines to override the characters textile will use when doing typographic substitutions. If you need to setup textile to do non-standard typographic substitutions then you need to call @setSymbol('name', 'value');@ to setup the symbol table before you call @textileThis()@ or @textileRestricted()@.
+
+If you wanted to override the symbol output for the one-half typographic substitution from the standard @&#189;@ to something using the fraction-slash you could do it like this...
+
+bc.. $parser = new Textile\Parser('html5'); // adjust if you need a different doctype
+$out = $parser
+    ->setSymbol('half', '1&#8260;2')  // Redefine the half symbol to use the fraction-slash character
+    ->textileThis($article)
+    ;
+
+p. The symbol names you can pass to @setSymbol()@ can be found "here":https://github.com/netcarver/textile/blob/582fb7e2af83bb043fe6dd3846220796c814f999/classTextile.php#L468.
+
+h3. Prefixing relative image paths
+
+From v2.5 onward you can explicitly setup a prefix that will be added to all relative image paths. This might be useful if your application only allows users to reference images from a certain location like, say, an images directory. The @setRelativeImagePrefix()@ method is now available to you for explicitly setting this if you need it.
+
+bc.. $parser = new Textile\Parser('html5'); // target whatever doctype you need
+$out = $parser
+   ->setRelativeImagePrefix('prefix') // adjust 'prefix' as needed
+   ->textileThis($article)            // format the article
+   ;
+
+p. Textpattern is one project that is known to use a relative image prefix.
+
+h2. Getting In Contact
+
+The textile project welcomes constructive input and bug reports from users. You can contact me in several ways.
+
+* "Open an issue":https://github.com/netcarver/textile/issues on the repository for a feature request or bug.
+* If you are on IRC, feel free to drop into *#textile* on *freenode.net* ("webchat":http://webchat.freenode.net/?channels=#textile.)
+* Use the generic "contact form":http://sitemonks.com/.
+

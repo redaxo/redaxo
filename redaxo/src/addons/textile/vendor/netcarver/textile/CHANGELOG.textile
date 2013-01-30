@@ -1,0 +1,85 @@
+Here's an edited summary of the commit log. It doesn't include small changes or changes to test cases.
+
+h2. Changes in master branch (from 3.5.0)
+
+* Remove horizontal alignment from inline elements (closes "#66":https://github.com/netcarver/textile/issues/66.)
+* Reinstate automatic generation of image width and height generation for relative images (closes "#101":https://github.com/netcarver/textile/issues/101.)
+* Add setResponsiveImages() and getResponsiveImages() to surpress width and height generation for relative images and better support content for responsive layouts (closes "#100":https://github.com/netcarver/textile/issues/101.)
+* Allow . in class attributes (closes  (closes "#97":https://github.com/netcarver/textile/issues/97.)
+
+
+h2. Changes in v3.5.0 (from 2.4.1)
+
+* Add composer.json to allow installation via the "composer PHP package manager":https://getcomposer.org/.
+* Regex improvements (issues "#78":https://github.com/netcarver/textile/issues/78, "#81":https://github.com/netcarver/textile/issues/81 and "#83":https://github.com/netcarver/textile/issues/83.)
+* Allow pre-encoded '>' and '<' as alignments.
+* Self-referencing links can now be combined with link aliases. eg. @"$":alias1@ is now possible.
+* Fix memory leak and performance degradation when calling same Textile object multiple times.
+* Do not double-encode @+@ or @%@ in urls.
+* Remove legacy SVN lines and old Textpattern integration methods.
+* Refactored code, removing deprecated methods.
+* Fix undefined variable in Redcloth-style definition lists.
+* Improvements to image handling (closes "#69":https://github.com/netcarver/textile/issues/69).
+* Extend recognition of dimension sign to more complex cases. Eg...
+*# @-0.5 x -.1 x +100@ => %-0.5 × -.1 × +100%
+*# @10 x -€ 110,00@ => %10 × -€ 110,00% (this replacement is available only if unicode support is included in your PCRE implementation and any character that is a currency symbol should work)
+* Change parse tokens to further prevent glyphs from matching them internally.
+* Improve handling of textile within table cells without leading or trailing spaces (eg. @|"$":https://github.com"|_Here we are_|==code==|@ etc.)
+* Improve handling of lists within table cells. (closes "#79":https://github.com/netcarver/textile/issues/79)
+* Allow mixed nested lists (Already supported in Redcloth).
+* Improve detection of open quotes in situations like @["(Berk.) Hilton"]@ (where the open quote was previously was incorrectly detected encoded.)
+* Fix a problem with links followed by ':', ';' or '?' like @Do you like "cheese":/cheese?@ where the '?' becomes part of the href rather than a '?' at the end of the sentence. This happens on platforms where PCRE has unicode support.
+* Removal of leading \t from generated paragraphs & better indentation of generated lists in the HTML (closes "#90":https://github.com/netcarver/textile/issues/90.)
+* New method @textileEncode()@. This is preferred to calling @textileThis()@ with the $encode flag.
+* "PSR-0, PSR-1 & PSR-2":https://github.com/php-fig/fig-standards/tree/master/accepted conformity added...
+*# Split class Textile into classes @Parser@, @DataBag@ & @Tag@ and moved them into @src/Netcarver/Textile@ directory for PSR-0.
+*# Unified method names & coding styles according to PSR-1 & PSR-2.
+*# Switched from using defines to explicit set methods; @setSymbol()@ & @setRelativeImagePrefix()@.
+*# Added visibility controls to all properties and methods.
+* Dropped textile's PHP4 heritage and moved over to using a @__construct()@ method.
+
+
+h2. Changes in v2.4.1 (from 2.4.0)
+
+* Add @sftp@, @callto@, @tel@ and @file@ schemes to the URI whitelist in unrestricted mode.
+* Support international format @tel@ URIs via linkrefs (link aliases.)
+* Extend linkrefs to all available URI schemes in unrestricted mode.
+* Reverted looser matching of list-like structures as it introduced problems in block-level elements that
+  can legitimately have literals or other non-lists in them that are similar to textile's lists.
+  See issue #65 for some examples.
+* Fixed #61 which caused strong numeric strings at the start of a line to be turned into lists.
+* Reverted auto-breaking in table cells as it introduced #71 (breaking lists within table cells).
+* Fixed #67 which ran textile within table cells through the glyph routine twice.
+
+h2. Changes in v2.4.0 (from 2.3.2)
+
+* Conditionally use utf8 in span regex pattern. Closes #53.
+* Small code cleanups
+* Convert \n to @<br/>@ inside table rows.
+* Added HTML comment block handling.
+* Added ability to control the start attribute and continuation of ordered lists.
+* Adds basic Redcloth-style definition list support.
+* Add ability to customise footnote refs and anchors.
+* Add https protocol to linkrefs.
+* Add unicode support for linkref urls.
+* Added redcloth style list continuation.
+* Loosen recognition of notedefs and notelists.
+* Better recognition of lists adjoined to previous text. (This was reverted in 2.4.1 as it caused issues inside block elements like bc. or bq.)
+* Bugfix: allow apostrophe between ) and a word character.
+* Allow notelist refs to be customised.
+
+h2. Changes in v2.3.2 (from 2.3)
+
+* Allow multiple classes in block attributes.
+* Improve handling of (classA classB#Bad id) blocks.
+* Add span $tail fix & support for trailing [ in spans.
+* Add doctype to textile constructor & use abbr instead of acronym for html5 doctypes.
+* HTML5 doctype extends class rather than use invalid align attribute.
+* Allow auto-assigned classes to be output in restricted mode.
+* Add support for encoding Unicode characters in links.
+* Notelists: fix order of @sup@ and @a@. Fixes issue #20
+* Add simple set of symbols ¤§µ¶†‡•∗∴◊♠♣♥♦ to notelist regex. Requested in #38
+* Remove attributes from embedded code tag output by bc.
+* Simplify en-dash glyph rule -- should fix #50
+* Simplify self-hyperlinked text, remove the scheme for http, https, ftp and mailto link text.
+
