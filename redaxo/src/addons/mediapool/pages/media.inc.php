@@ -569,7 +569,7 @@ if ($subpage == '') {
     }
     $where .= ' AND (' . implode(' OR ', $types) . ')';
   }
-  $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media f WHERE ' . $where . ' ORDER BY f.updatedate desc';
+  $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media f WHERE ' . $where . ' ORDER BY f.updatedate desc, f.media_id desc';
 
   // ----- EXTENSION POINT
   $qry = rex_extension::registerPoint('MEDIA_LIST_QUERY', $qry,
