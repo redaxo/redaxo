@@ -411,6 +411,9 @@ dl.rex-form > dd .rex-button-group,
 dl.rex-form > dd .rex-button-vgroup {
   margin-top: -6px;
 }
+dl.rex-form > dd select {
+  margin-top: -2px;
+}
 
 
 .rex-form-choice {
@@ -480,6 +483,9 @@ dl.rex-form .rex-note {
 .rex-form-group dl.rex-form > dd select,
 .rex-form-group dl.rex-form > dd .rex-form-read {
   width: 200px;
+}
+.rex-form-group dl.rex-form > dd select {
+  margin-bottom: 7px;
 }
 
 

@@ -236,18 +236,28 @@ pre, code, tt, .rex-code {
   font-family: Monaco, Courier, monospace;
   font-size: 12px;
 }
-.rex-link {
+
+.rex-nowrap {
+  white-space: nowrap;
+}
+
+
+
+a.rex-edit,
+a.rex-delete,
+a.rex-offline,
+a.rex-online {
   font-weight: bold;
 }
 .rex-disabled {
   opacity: .5;
   color: #666;
 }
-.rex-online {
-  color: #61ab2c;
-}
 .rex-offline {
   color: #900;
+}
+.rex-online {
+  color: #61ab2c;
 }
 
 .rex-back {
@@ -377,6 +387,13 @@ h2 {
 .rex-table .rex-prior {
   width: 70px;
 }
+.rex-table .rex-date {
+  white-space: nowrap;
+}
+
+
+
+
 .rex-bucket {
   margin: 20px 0;
   padding: 3px;
