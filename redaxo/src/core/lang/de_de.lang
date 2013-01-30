@@ -18,8 +18,8 @@ special_chars_rewrite = ae|oe|ue|Ae|Oe|Ue|ss|und
 # Allgemein
 update = aktualisieren
 add = hinzufügen
-edit  =  Editieren
-delete  =  Löschen
+edit  =  editieren
+delete  =  löschen
 path = Pfad
 name = Name
 description = Beschreibung
