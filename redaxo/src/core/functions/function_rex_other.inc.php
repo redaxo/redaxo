@@ -16,7 +16,7 @@ function rex_deleteCache()
   $finder = rex_finder::factory(rex_path::cache())
     ->recursive()
     ->childFirst()
-    ->ignoreFiles(array('.htaccess', '_readme.txt'), false)
+    ->ignoreFiles(array('.htaccess', '.redaxo'), false)
     ->ignoreSystemStuff(false);
   rex_dir::deleteIterator($finder);
 

@@ -96,30 +96,22 @@ if ($step == 3) {
   $content .= '<noscript>' . rex_view::warning(rex_i18n::msg('setup_no_js_security_msg')) . '</noscript>';
   $content .= '<script>
 
-  // TODO: Javascrpt ordnerprüfung
-
-  // /redaxo/data/_readme.txt
-  // /redaxo/src
-  // /redaxo/cache
-  // rex_path::cache("_readme.txt");
-  // rex_path::src("_readme.txt");
-
   jQuery(function($){
 
     $.ajax({
-      url: "' . rex_url::backend('data/_readme.txt') . '",
+      url: "' . rex_url::backend('data/config.yml') . '",
       success: function(data) {
         $(".rex-setup-security-message").removeClass("rex-hidden");
       },
       error: function(data) {
         $.ajax({
-          url: "' . rex_url::backend('src/_readme.txt') . '",
+          url: "' . rex_url::backend('src/core/master.inc.php') . '",
           success: function(data) {
             $(".rex-setup-security-message").removeClass("rex-hidden");
           },
           error: function(data) {
             $.ajax({
-              url: "' . rex_url::backend('cache/_readme.txt') . '",
+              url: "' . rex_url::backend('cache/.redaxo') . '",
               success: function(data) {
                 $(".rex-setup-security-message").removeClass("rex-hidden");
               },

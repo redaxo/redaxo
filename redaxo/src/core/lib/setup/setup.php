@@ -65,9 +65,9 @@ class rex_setup
     // -------------------------- SCHREIBRECHTE
     $WRITEABLES = array(
       rex_path::media(),
-      rex_path::media('_readme.txt'),
+      rex_path::media('.redaxo'),
       rex_path::assets(),
-      rex_path::assets('_readme.txt'),
+      rex_path::assets('.redaxo'),
       rex_path::cache(),
       rex_path::data(),
       rex_path::data('config.yml'),
