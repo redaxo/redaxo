@@ -244,4 +244,4 @@ $content .= '
     });
      //-->
   </script>';
-echo rex_view::contentBlock($content, '', 'block');
+echo rex_view::contentBlock($content);
