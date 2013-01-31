@@ -73,6 +73,7 @@ class rex_effect_resize extends rex_effect_abstract
     if ($w <= $this->params['width'] && $h <= $this->params['height'] && $this->params['allow_enlarge'] == 'not_enlarge') {
       $this->params['width'] = $w;
       $this->params['height'] = $h;
+      $this->keepTransparent($gdimage);
       return;
     }
 
