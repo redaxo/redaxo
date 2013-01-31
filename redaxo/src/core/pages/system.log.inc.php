@@ -8,8 +8,8 @@
 // -------------- Defaults
 $func       = rex_request('func', 'string');
 
-$warning = '';
-$info = '';
+$error = '';
+$success = '';
 
 $logFile = rex_path::cache('system.log');
 if ($func == 'delLog') {
@@ -18,16 +18,16 @@ if ($func == 'delLog') {
   rex_logger::close();
 
   if (rex_file::delete($logFile)) {
-    $info = rex_i18n::msg('syslog_deleted');
+    $success = rex_i18n::msg('syslog_deleted');
   } else {
-    $warning = rex_i18n::msg('syslog_delete_error');
+    $error = rex_i18n::msg('syslog_delete_error');
   }
 
 } elseif ($func == 'readlog') {
   // clear output-buffer
   while (ob_get_level()) ob_end_clean();
 
-  echo '<html><head></head><body>';
+  echo '<html><head><style type="text/css">div:nth-child(even) {margin-bottom: 1em;}</style></head><body><code>';
 
   // log files tend to get very big over time. therefore we read only the last n lines
   $n = 500;
@@ -46,6 +46,7 @@ if ($func == 'delLog') {
   }
 
   echo '
+    </code>
     <span id="endmarker" />
     <script type="text/javascript">
       document.getElementById("endmarker").scrollIntoView(true);
@@ -56,11 +57,11 @@ if ($func == 'delLog') {
 
 $content = '';
 
-if ($info != '')
-  $content .= rex_view::info($info);
+if ($success != '')
+  $content .= rex_view::success($success);
 
-if ($warning != '')
-  $content .= rex_view::warning($warning);
+if ($error != '')
+  $content .= rex_view::error($error);
 
 $content .= '<iframe src="' . rex_url::currentBackendPage(array('func' => 'readlog')) . '" class="rex-log" width="100%" height="500px"></iframe>';
 
