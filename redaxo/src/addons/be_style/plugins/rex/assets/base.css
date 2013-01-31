@@ -228,11 +228,12 @@ body, input, select, textarea, button {
 pre {
   white-space: pre;
 }
+/*
 ul {
   margin: 0;
   padding: 0;
 }
-
+*/
 a {
   text-decoration: none;
 }
