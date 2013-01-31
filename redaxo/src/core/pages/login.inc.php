@@ -31,7 +31,7 @@ if ($rex_user_loginmessage != '') {
         } else {
           $("div.rex-message div").html("' . rex_i18n::msg('login_welcome') . '");
           $("#rex-form-login input:not(:hidden)").prop("disabled", "");
-          $("#rex-form-login-user").focus();
+          $("#rex-id-login-user").focus();
         }
       };
       $("#rex-form-login input:not(:hidden)").prop("disabled", "disabled");
@@ -51,13 +51,13 @@ $content .= '
 $formElements = array();
 
 $n = array();
-$n['label'] = '<label for="rex-form-login-user">' . rex_i18n::msg('login_name') . ':</label>';
-$n['field'] = '<input type="text" value="' . htmlspecialchars($rex_user_login) . '" id="rex-form-login-user" name="rex_user_login" />';
+$n['label'] = '<label for="rex-id-login-user">' . rex_i18n::msg('login_name') . ':</label>';
+$n['field'] = '<input type="text" value="' . htmlspecialchars($rex_user_login) . '" id="rex-id-login-user" name="rex_user_login" />';
 $formElements[] = $n;
 
 $n = array();
-$n['label'] = '<label for="REX_UPSW">' . rex_i18n::msg('password') . ':</label>';
-$n['field'] = '<input type="password" name="rex_user_psw" id="REX_UPSW" />';
+$n['label'] = '<label for="rex-id-login-password">' . rex_i18n::msg('password') . ':</label>';
+$n['field'] = '<input type="password" name="rex_user_psw" id="rex-id-login-password" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -66,9 +66,8 @@ $content .= $fragment->parse('core/form/form.tpl');
 
 $formElements = array();
 $n = array();
-$n['reverse'] = true;
-$n['label'] = '<label for="rex-user-stay-logged-in">' . rex_i18n::msg('stay_logged_in') . '</label>';
-$n['field'] = '<input class="rex-form-checkbox" type="checkbox" name="rex_user_stay_logged_in" id="rex-user-stay-logged-in" value="1" />';
+$n['label'] = '<label for="rex-id-login-stay-logged-in">' . rex_i18n::msg('stay_logged_in') . '</label>';
+$n['field'] = '<input type="checkbox" name="rex_user_stay_logged_in" id="rex-id-login-stay-logged-in" value="1" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -92,11 +91,11 @@ $content .= '
 <script type="text/javascript">
    <!--
   jQuery(function($) {
-    $("#rex-form-login-user").focus();
+    $("#rex-id-login-user").focus();
 
     $("#rex-form-login form")
       .submit(function(){
-        var pwInp = $("#REX_UPSW");
+        var pwInp = $("#rex-id-login-password");
         if(pwInp.val() != "") {
           $("#rex-form-login form").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
         }
