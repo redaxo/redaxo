@@ -21,6 +21,7 @@ add = hinzufügen
 edit  =  editieren
 delete  =  löschen
 path = Pfad
+id = Id
 name = Name
 description = Beschreibung
 no_editing_rights = Keine Editiererlaubnis
