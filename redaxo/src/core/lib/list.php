@@ -900,7 +900,11 @@ class rex_list extends rex_factory_base implements rex_url_provider
     // Table vars
     $caption = $this->getCaption();
     $tableColumnGroups = $this->getTableColumnGroups();
-    $this->addTableAttribute('class', 'rex-table');
+    $class = 'rex-table';
+    if (isset($this->tableAttributes['class'])) {
+      $class .= ' ' . $this->tableAttributes['class'];
+    }
+    $this->addTableAttribute('class', $class);
 
     // Columns vars
     $columnFormates = array();
