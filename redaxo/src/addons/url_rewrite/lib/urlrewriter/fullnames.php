@@ -68,7 +68,8 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
         'ART_ADDED',   'ART_UPDATED',   'ART_DELETED',
         'ART_TO_CAT',  'CAT_TO_ART',    'ART_TO_STARTPAGE',
         'CLANG_ADDED', 'CLANG_UPDATED', 'CLANG_DELETED',
-        'CACHE_DELETED', 'ART_META_UPDATED');
+        'CACHE_DELETED', 'ART_META_UPDATED'
+      );
 
       foreach ($extensionPoints as $extensionPoint) {
         rex_extension::register($extensionPoint, $extension);

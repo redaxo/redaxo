@@ -33,8 +33,7 @@ class rex_be_navigation extends rex_factory_base
     if (is_array($this->pages)) {
       foreach ($this->pages as $block => $blockPages) {
         if (is_array($blockPages) && count($blockPages) > 0 && $blockPages[0] instanceof rex_be_page_main) {
-          uasort($blockPages,
-          function ($a, $b) {
+          uasort($blockPages, function ($a, $b) {
             $a_prio = (int) $a->getPrio();
             $b_prio = (int) $b->getPrio();
             if ($a_prio == $b_prio || ($a_prio <= 0 && $b_prio <= 0))
@@ -47,8 +46,7 @@ class rex_be_navigation extends rex_factory_base
             return -1;
 
             return $a_prio > $b_prio ? 1 : -1;
-          }
-          );
+          });
         }
 
         $n = $this->_getNavigation($blockPages, 0, $block);

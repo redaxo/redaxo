@@ -35,36 +35,32 @@ if (rex::isBackend() && rex_be_controller::getCurrentPage() == 'system/settings'
   rex_system_setting::register(new rex_system_setting_default_template_id());
 }
 
-rex_extension::register('CLANG_ADDED',
-  function ($params) {
-    $firstLang = rex_sql::factory();
-    $firstLang->setQuery('select * from ' . rex::getTablePrefix() . "article where clang='0'");
-    $fields = $firstLang->getFieldnames();
+rex_extension::register('CLANG_ADDED', function ($params) {
+  $firstLang = rex_sql::factory();
+  $firstLang->setQuery('select * from ' . rex::getTablePrefix() . "article where clang='0'");
+  $fields = $firstLang->getFieldnames();
 
-    $newLang = rex_sql::factory();
-    // $newLang->debugsql = 1;
-    foreach ($firstLang as $firstLangArt) {
-      $newLang->setTable(rex::getTablePrefix() . 'article');
+  $newLang = rex_sql::factory();
+  // $newLang->debugsql = 1;
+  foreach ($firstLang as $firstLangArt) {
+    $newLang->setTable(rex::getTablePrefix() . 'article');
 
-      foreach ($fields as $key => $value) {
-        if ($value == 'pid')
-          echo ''; // nix passiert
-        elseif ($value == 'clang')
-          $newLang->setValue('clang', $params['clang']->getId());
-        elseif ($value == 'status')
-          $newLang->setValue('status', '0'); // Alle neuen Artikel offline
-        else
-          $newLang->setValue($value, $firstLangArt->getValue($value));
-      }
-
-      $newLang->insert();
+    foreach ($fields as $key => $value) {
+      if ($value == 'pid')
+        echo ''; // nix passiert
+      elseif ($value == 'clang')
+        $newLang->setValue('clang', $params['clang']->getId());
+      elseif ($value == 'status')
+        $newLang->setValue('status', '0'); // Alle neuen Artikel offline
+      else
+        $newLang->setValue($value, $firstLangArt->getValue($value));
     }
-  }
-);
 
-rex_extension::register('CLANG_DELETED',
-  function ($params) {
-    $del = rex_sql::factory();
-    $del->setQuery('delete from ' . rex::getTablePrefix() . "article where clang='" . $params['clang']->getId() . "'");
+    $newLang->insert();
   }
-);
+});
+
+rex_extension::register('CLANG_DELETED', function ($params) {
+  $del = rex_sql::factory();
+  $del->setQuery('delete from ' . rex::getTablePrefix() . "article where clang='" . $params['clang']->getId() . "'");
+});

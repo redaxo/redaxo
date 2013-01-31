@@ -144,8 +144,8 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
 
     $format = array(
       function ($params) {
-          return $params['subject'] . ' ' . $params['some'];
-        },
+        return $params['subject'] . ' ' . $params['some'];
+      },
       array('some' => 'more params'),
     );
 

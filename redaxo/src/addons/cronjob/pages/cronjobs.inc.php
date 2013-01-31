@@ -67,53 +67,45 @@ if ($func == '') {
   $list->setColumnParams('name', array('func' => 'edit', 'oid' => '###id###'));
 
   $list->setColumnLabel('interval', $this->i18n('interval'));
-  $list->setColumnFormat('interval', 'custom',
-    function ($params) {
-      $value = explode('|', $params['list']->getValue('interval'));
-      $str = $value[1] . ' ';
-      $array = array('i' => 'minutes', 'h' => 'hour', 'd' => 'day', 'w' => 'week', 'm' => 'month', 'y' => 'year');
-      $str .= rex_i18n::msg('cronjob_interval_' . $array[$value[2]]);
-      return $str;
-    }
-  );
+  $list->setColumnFormat('interval', 'custom', function ($params) {
+    $value = explode('|', $params['list']->getValue('interval'));
+    $str = $value[1] . ' ';
+    $array = array('i' => 'minutes', 'h' => 'hour', 'd' => 'day', 'w' => 'week', 'm' => 'month', 'y' => 'year');
+    $str .= rex_i18n::msg('cronjob_interval_' . $array[$value[2]]);
+    return $str;
+  });
 
   $list->setColumnLabel('environment', $this->i18n('environment'));
-  $list->setColumnFormat('environment', 'custom',
-    function ($params) {
-      $value = $params['list']->getValue('environment');
-      $env = array();
-      if (strpos($value, '|0|') !== false)
-        $env[] = rex_i18n::msg('cronjob_environment_frontend');
-      if (strpos($value, '|1|') !== false)
-        $env[] = rex_i18n::msg('cronjob_environment_backend');
-      return implode(', ', $env);
-    }
-  );
+  $list->setColumnFormat('environment', 'custom', function ($params) {
+    $value = $params['list']->getValue('environment');
+    $env = array();
+    if (strpos($value, '|0|') !== false)
+      $env[] = rex_i18n::msg('cronjob_environment_frontend');
+    if (strpos($value, '|1|') !== false)
+      $env[] = rex_i18n::msg('cronjob_environment_backend');
+    return implode(', ', $env);
+  });
 
   $list->setColumnLabel('execution_moment', $this->i18n('execution'));
-  $list->setColumnFormat('execution_moment', 'custom',
-    function ($params) {
-      if ($params['list']->getValue('execution_moment'))
-        return rex_i18n::msg('cronjob_execution_beginning');
-      return rex_i18n::msg('cronjob_execution_ending');
-    }
-  );
+  $list->setColumnFormat('execution_moment', 'custom', function ($params) {
+    if ($params['list']->getValue('execution_moment'))
+      return rex_i18n::msg('cronjob_execution_beginning');
+    return rex_i18n::msg('cronjob_execution_ending');
+  });
 
   $list->setColumnLabel('status', $this->i18n('status_function'));
   $list->setColumnParams('status', array('func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###'));
   $list->setColumnLayout('status', array('<th colspan="3">###VALUE###</th>', '<td style="text-align:center;">###VALUE###</td>'));
-  $list->setColumnFormat('status', 'custom',
-    function ($params) {
-      $list = $params['list'];
-      if (!class_exists($list->getValue('type')))
-        $str = rex_i18n::msg('cronjob_status_invalid');
-      elseif ($list->getValue('status') == 1)
-        $str = $list->getColumnLink('status', '<span class="rex-online">' . rex_i18n::msg('cronjob_status_activated') . '</span>');
-      else
-        $str = $list->getColumnLink('status', '<span class="rex-offline">' . rex_i18n::msg('cronjob_status_deactivated') . '</span>');
-      return $str;
-    }
-  );
+  $list->setColumnFormat('status', 'custom', function ($params) {
+    $list = $params['list'];
+    if (!class_exists($list->getValue('type')))
+      $str = rex_i18n::msg('cronjob_status_invalid');
+    elseif ($list->getValue('status') == 1)
+      $str = $list->getColumnLink('status', '<span class="rex-online">' . rex_i18n::msg('cronjob_status_activated') . '</span>');
+    else
+      $str = $list->getColumnLink('status', '<span class="rex-offline">' . rex_i18n::msg('cronjob_status_deactivated') . '</span>');
+    return $str;
+  });
 
   $list->addColumn('delete', $this->i18n('delete'), -1, array('', '<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnParams('delete', array('func' => 'delete', 'oid' => '###id###'));
@@ -121,14 +113,12 @@ if ($func == '') {
 
   $list->addColumn('execute', $this->i18n('execute'), -1, array('', '<td style="text-align:center;">###VALUE###</td>'));
   $list->setColumnParams('execute', array('func' => 'execute', 'oid' => '###id###'));
-  $list->setColumnFormat('execute', 'custom',
-    function ($params) {
-      $list = $params['list'];
-      if (strpos($list->getValue('environment'), '|1|') !== false && class_exists($list->getValue('type')))
-        return $list->getColumnLink('execute', rex_i18n::msg('cronjob_execute'));
-      return '<span class="rex-strike">' . rex_i18n::msg('cronjob_execute') . '</span>';
-    }
-  );
+  $list->setColumnFormat('execute', 'custom', function ($params) {
+    $list = $params['list'];
+    if (strpos($list->getValue('environment'), '|1|') !== false && class_exists($list->getValue('type')))
+      return $list->getColumnLink('execute', rex_i18n::msg('cronjob_execute'));
+    return '<span class="rex-strike">' . rex_i18n::msg('cronjob_execute') . '</span>';
+  });
 
   $list->show();
 

@@ -372,7 +372,8 @@ abstract class rex_metainfo_handler
         {
           // ----- EXTENSION POINT
           list($field, $tag, $tag_attr, $id, $label, $labelIt) =
-            rex_extension::registerPoint( 'METAINFO_CUSTOM_FIELD',
+            rex_extension::registerPoint(
+              'METAINFO_CUSTOM_FIELD',
               array(
                 $field,
                 $tag,
@@ -383,8 +384,9 @@ abstract class rex_metainfo_handler
                 'values' => $dbvalues,
                 'rawvalues' => $dbvalues,
                 'type' => $typeLabel,
-                'sql' => $sqlFields)
-              );
+                'sql' => $sqlFields
+              )
+            );
         }
       }
 

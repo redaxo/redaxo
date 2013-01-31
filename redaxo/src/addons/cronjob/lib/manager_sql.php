@@ -118,7 +118,8 @@ class rex_cronjob_manager_sql
       if ($sql->getValue('execution_moment') == 1) {
         $this->tryExecuteSql($sql, true, true);
       } else {
-        rex_extension::register('OUTPUT_FILTER_CACHE',
+        rex_extension::register(
+          'OUTPUT_FILTER_CACHE',
           function ($params) {
             $params['manager']->tryExecuteSql($params['sql'], true, true);
           },
