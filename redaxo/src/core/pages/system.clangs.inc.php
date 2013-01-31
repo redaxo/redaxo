@@ -98,11 +98,11 @@ if ($func == 'addclang' || $func == 'editclang') {
 
 
 $content .= '
-    <table class="rex-table rex-middle" summary="' . rex_i18n::msg('clang_summary') . '">
+    <table class="rex-table rex-table-middle rex-table-striped" summary="' . rex_i18n::msg('clang_summary') . '">
       <caption>' . rex_i18n::msg('clang_caption') . '</caption>
       <thead>
         <tr>
-          <th class="rex-small"><a href="' . rex_url::currentBackendPage(array('func' => 'addclang')) . '#clang"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'add') . '><span class="rex-icon rex-icon-add-language"></span></a></th>
+          <th class="rex-slim"><a href="' . rex_url::currentBackendPage(array('func' => 'addclang')) . '#clang"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'add') . '><span class="rex-icon rex-icon-add-language"></span></a></th>
           <th class="rex-id">ID</th>
           <th class="rex-code">' . rex_i18n::msg('clang_code') . '</th>
           <th class="rex-name">' . rex_i18n::msg('clang_name') . '</th>
@@ -117,7 +117,7 @@ if ($func == 'addclang') {
   //ggf wiederanzeige des add forms, falls ungueltige id uebermittelt
   $content .= '
         <tr class="rex-active">
-          <td class="rex-small"><span class="rex-icon rex-icon-language"></span></td>
+          <td class="rex-slim"><span class="rex-icon rex-icon-language"></span></td>
           <td class="rex-id">' . $sel->get() . '</td>
           <td class="rex-code"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($clang_code) . '" /></td>
           <td class="rex-name"><input type="text" id="rex-form-clang-name" name="clang_name" value="' . htmlspecialchars($clang_name) . '" /></td>
@@ -140,7 +140,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
   if ($func == 'editclang' && $clang_id == $lang_id) {
     $content .= '
           <tr class="rex-active">
-            <td class="rex-small"><span class="rex-icon rex-icon-language"></span></td>
+            <td class="rex-slim"><span class="rex-icon rex-icon-language"></span></td>
             ' . $add_td . '
             <td class="rex-code"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($lang->getCode()) . '" /></td>
             <td class="rex-name"><input type="text" id="rex-form-clang-name" name="clang_name" value="' . htmlspecialchars($lang->getName()) . '" /></td>
@@ -152,7 +152,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
 
     $content .= '
           <tr>
-            <td class="rex-small"><a href="' . $editLink . '" title="' . htmlspecialchars($clang_name) . '"><span class="rex-icon rex-icon-language"></span></a></td>
+            <td class="rex-slim"><a href="' . $editLink . '" title="' . htmlspecialchars($clang_name) . '"><span class="rex-icon rex-icon-language"></span></a></td>
             ' . $add_td . '
             <td class="rex-code">' . htmlspecialchars($lang->getCode()) . '</td>
             <td class="rex-name"><a href="' . $editLink . '">' . htmlspecialchars($lang->getName()) . '</a></td>
