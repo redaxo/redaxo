@@ -472,19 +472,22 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 // ---------------------------------- Userliste
 
 if (isset($SHOW) and $SHOW) {
-  $list = rex_list::factory('SELECT user_id, name, login, admin, lasttrydate FROM ' . rex::getTablePrefix() . 'user ORDER BY name');
+  $list = rex_list::factory('SELECT user_id, IF(name <> "", name, login) as name, login, admin, status, lasttrydate FROM ' . rex::getTablePrefix() . 'user ORDER BY name');
   $list->setCaption(rex_i18n::msg('user_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('user_summary'));
-//  $list->addTableColumnGroup(array(40, '5%', '*', '*', 50, 153, 153));
+  $list->addTableAttribute('class', 'rex-table-middle rex-table-striped');
 
   $tdIcon = '<span class="rex-icon rex-icon-user"></span>';
   $thIcon = '<a href="' . $list->getUrl(array('FUNC_ADD' => '1')) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . ' title="' . rex_i18n::msg('create_user') . '"><span class="rex-icon rex-icon-add-user"></span></a>';
-  $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-small">###VALUE###</th>', '<td class="rex-small">###VALUE###</td>'));
+  $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-slim">###VALUE###</th>', '<td class="rex-slim">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('user_id' => '###user_id###'));
   $list->setColumnFormat($thIcon, 'custom', function ($params) use ($thIcon, $tdIcon) {
     $list = $params['list'];
+    $tdIcon = !$list->getValue('status') ? str_replace('rex-icon-user', 'rex-icon-user rex-muted', $tdIcon) : $tdIcon;
     return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink($thIcon, $tdIcon) : $tdIcon;
   });
+
+  $list->removeColumn('status');
 
   $list->setColumnLabel('user_id', 'ID');
   $list->setColumnLayout('user_id', array('<th class="rex-id">###VALUE###</th>', '<td class="rex-id">###VALUE###</td>'));
@@ -494,7 +497,7 @@ if (isset($SHOW) and $SHOW) {
   $list->setColumnParams('name', array('user_id' => '###user_id###'));
   $list->setColumnFormat('name', 'custom', function ($params) {
     $list = $params['list'];
-    $name = htmlspecialchars($list->getValue('name') != '' ? $list->getValue('name') : $list->getValue('login'));
+    $name = htmlspecialchars($list->getValue('name'));
     return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink('name', $name) : $name;
   });
 
@@ -502,11 +505,19 @@ if (isset($SHOW) and $SHOW) {
 
   $list->setColumnLabel('login', rex_i18n::msg('login'));
   $list->setColumnLayout('login', array('<th class="rex-login">###VALUE###</th>', '<td class="rex-login">###VALUE###</td>'));
+  $list->setColumnFormat('login', 'custom', function ($params) {
+      $list = $params['list'];
+
+      $login = $list->getValue('login');
+      if (!$list->getValue('status'))
+        $login = '<span class="rex-muted">' . $login . '</span>';
+      return $login;
+    });
 
   $list->setColumnLabel('admin', rex_i18n::msg('admin'));
   $list->setColumnLayout('admin', array('<th class="rex-admin">###VALUE###</th>', '<td class="rex-admin">###VALUE###</td>'));
   $list->setColumnFormat('admin', 'custom', function ($params) {
-    return $params['subject'] ? rex_i18n::msg('yes') : rex_i18n::msg('no');
+    return $params['subject'] ? '<span class="rex-icon rex-icon-active-true"></span>' . rex_i18n::msg('yes') : '<span class="rex-icon rex-icon-active-false"></span>' . rex_i18n::msg('no');
   });
 
   $list->setColumnLabel('lasttrydate', rex_i18n::msg('last_login'));
@@ -520,11 +531,12 @@ if (isset($SHOW) and $SHOW) {
   $list->setColumnFormat('funcs', 'custom', function ($params) {
     $list = $params['list'];
     if ($list->getValue('user_id') == rex::getUser()->getValue('user_id') || $list->getValue('admin') && !rex::getUser()->isAdmin()) {
-      return '<span class="rex-strike">' . rex_i18n::msg('user_delete') . '</span>';
+      return '<span class="rex-disabled">' . rex_i18n::msg('user_delete') . '</span>';
     }
     return $list->getColumnLink('funcs', rex_i18n::msg('user_delete'));
   });
   $list->addLinkAttribute('funcs', 'data-confirm', rex_i18n::msg('delete') . ' ?');
+  $list->addLinkAttribute('funcs', 'class', 'rex-delete');
 
   $content .= $list->get();
 
