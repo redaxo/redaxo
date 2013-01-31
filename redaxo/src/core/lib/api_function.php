@@ -225,9 +225,9 @@ class rex_api_result
   public function getFormattedMessage()
   {
     if ($this->isSuccessfull()) {
-      return rex_view::info($this->message);
+      return rex_view::success($this->message);
     } else {
-      return rex_view::warning($this->message);
+      return rex_view::error($this->message);
     }
   }
 
