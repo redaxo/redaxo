@@ -2,7 +2,7 @@ template = Templates
 
 templates_not_found = Es wurden keine Templates gefunden
 title_templates = Templates
-cant_delete_template_because_its_in_use = Template '{0}' kann nicht gelöscht werden, da es noch von Artikeln genutzt wird oder das Default Template ist.
+cant_delete_template_because_its_in_use = Template **{0}** kann nicht gelöscht werden, da es noch von Artikeln genutzt wird oder das Default Template ist.
 template_deleted = Template wurde gelöscht.
 template_added = Template wurde hinzugefügt
 template_updated = Template wurde aktualisiert
@@ -25,3 +25,4 @@ header_template_caption = Liste der verfügbaren Templates
 header_template_summary = Auflistung aller Templates
 modules_available = Nur folgende Module sind verfügbar
 modules_available_all = Alle Module verfügbar
+confirm_delete_template = Template löschen?

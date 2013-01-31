@@ -1022,7 +1022,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
       }
       $s .= '    </tbody>' . "\n";
     } else {
-      $s .= '<tr><td colspan="' . count($columnNames) . '">' . $this->getNoRowsMessage() . '</td></tr>';
+      $s .= '<tr class="rex-table-no-results"><td colspan="' . count($columnNames) . '">' . $this->getNoRowsMessage() . '</td></tr>';
     }
 
     $s .= '  </table>' . "\n";

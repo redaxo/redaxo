@@ -139,7 +139,7 @@ if ($function == 'add' || $function == 'edit') {
 
   if ($save != '1') {
     if ($function == 'edit') {
-      $legend = rex_i18n::msg('action_edit') . ' [ID=' . $action_id . ']';
+      $legend = rex_i18n::msg('action_edit') . ' <em>[' . rex_i18n::msg('id') . '=' . $action_id . ']</em>';
 
       $action = rex_sql::factory();
       $action->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'action WHERE id=' . $action_id);
@@ -235,7 +235,7 @@ if ($function == 'add' || $function == 'edit') {
           </fieldset>
 
           <fieldset>
-            <h2>Preview-Action [' . rex_i18n::msg('action_mode_preview') . ']</h2>';
+            <h2>Preview-Action <em>[' . rex_i18n::msg('action_mode_preview') . ']</em></h2>';
 
 
     $formElements = array();
@@ -281,7 +281,7 @@ if ($function == 'add' || $function == 'edit') {
           </fieldset>
 
           <fieldset>
-            <h2>Presave-Action [' . rex_i18n::msg('action_mode_presave') . ']</h2>';
+            <h2>Presave-Action <em>[' . rex_i18n::msg('action_mode_presave') . ']</em></h2>';
 
 
     $formElements = array();
@@ -327,7 +327,7 @@ if ($function == 'add' || $function == 'edit') {
 
 
           <fieldset>
-            <h2>Postsave-Action [' . rex_i18n::msg('action_mode_postsave') . ']</h2>';
+            <h2>Postsave-Action <em>[' . rex_i18n::msg('action_mode_postsave') . ']</em></h2>';
 
 
     $formElements = array();
@@ -439,7 +439,7 @@ if ($OUT) {
       <thead>
         <tr>
           <th class="rex-slim"><a href="' . rex_url::currentBackendPage(array('function' => 'add')) . '"' . rex::getAccesskey(rex_i18n::msg('action_create'), 'add') . ' title="' . rex_i18n::msg('action_create') . '"><span class="rex-icon rex-icon-add-action"></span></a></th>
-          <th class="rex-slim">ID</th>
+          <th class="rex-slim">' . rex_i18n::msg('id') . '</th>
           <th class="name">' . rex_i18n::msg('action_name') . '</th>
           <th class="preview">Preview-Event(s)</th>
           <th class="presave">Presave-Event(s)</th>

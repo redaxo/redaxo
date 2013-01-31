@@ -327,6 +327,12 @@ h2 {
 .rex-bucket.rex-flush h2 {
   margin: 0;
 }
+.rex-bucket h2 em {
+  opacity: .6;
+  font-size: small;
+  font-style: normal;
+  font-weight: normal;
+}
 .rex-bucket h3 {
   display: block;
   margin: 10px 0;
@@ -414,6 +420,13 @@ h2 {
 .rex-table .rex-date {
   white-space: nowrap;
 }
+.rex-table tr.rex-table-no-results td {
+  padding: 20px;
+  background-color: #f2f5f6;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
+}
 
 
 
@@ -433,6 +446,8 @@ h2 {
 .rex-flush .rex-bucket-inner {
   padding: 0;
 }
+
+
 
 .rex-content-information {
   margin: 20px;
@@ -454,6 +469,7 @@ h2 {
 }
 .rex-navi-content-items {
   display: inline-block;
+  margin: 0;
 }
 .rex-navi-content-items > li {
   display: inline-block;
@@ -511,6 +527,7 @@ h2 {
   display: inline-block;
   float: left;
   overflow: hidden;
+  margin: 0;
 }
 .rex-piped li {
   display: inline-block;
