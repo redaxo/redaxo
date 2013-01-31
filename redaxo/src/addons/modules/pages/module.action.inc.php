@@ -434,12 +434,12 @@ if ($OUT) {
 
   // ausgabe actionsliste !
   $content .= '
-    <table class="rex-table" id="rex-table-action" summary="' . rex_i18n::msg('action_summary') . '">
+    <table class="rex-table rex-table-middle rex-table-striped" id="rex-table-action" summary="' . rex_i18n::msg('action_summary') . '">
       <caption>' . rex_i18n::msg('action_caption') . '</caption>
       <thead>
         <tr>
-          <th class="rex-small"><a class="rex-icon rex-icon-add-action" href="' . rex_url::currentBackendPage(array('function' => 'add')) . '"' . rex::getAccesskey(rex_i18n::msg('action_create'), 'add') . ' title="' . rex_i18n::msg('action_create') . '"></a></th>
-          <th class="rex-small">ID</th>
+          <th class="rex-slim"><a href="' . rex_url::currentBackendPage(array('function' => 'add')) . '"' . rex::getAccesskey(rex_i18n::msg('action_create'), 'add') . ' title="' . rex_i18n::msg('action_create') . '"><span class="rex-icon rex-icon-add-action"></span></a></th>
+          <th class="rex-slim">ID</th>
           <th class="name">' . rex_i18n::msg('action_name') . '</th>
           <th class="preview">Preview-Event(s)</th>
           <th class="presave">Presave-Event(s)</th>
@@ -475,13 +475,13 @@ if ($OUT) {
 
       $content .= '
             <tr>
-              <td class="rex-small"><a href="' . rex_url::currentBackendPage(array('action_id' => $sql->getValue('id'), 'function' => 'edit')) . '" title="' . htmlspecialchars($sql->getValue('name')) . '"><span class="rex-icon rex-icon-action"></span></a></td>
-              <td class="rex-small">' . $sql->getValue('id') . '</td>
+              <td class="rex-slim"><a href="' . rex_url::currentBackendPage(array('action_id' => $sql->getValue('id'), 'function' => 'edit')) . '" title="' . htmlspecialchars($sql->getValue('name')) . '"><span class="rex-icon rex-icon-action"></span></a></td>
+              <td class="rex-slim">' . $sql->getValue('id') . '</td>
               <td class="name"><a href="' . rex_url::currentBackendPage(array('action_id' => $sql->getValue('id'), 'function' => 'edit')) . '">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
               <td class="preview">' . implode('/', $previewmode) . '</td>
               <td class="presave">' . implode('/', $presavemode) . '</td>
               <td class="postsave">' . implode('/', $postsavemode) . '</td>
-              <td class="delete"><a href="' . rex_url::currentBackendPage(array('action_id' => $sql->getValue('id'), 'function' => 'delete')) . '" data-confirm="' . rex_i18n::msg('action_delete') . ' ?">' . rex_i18n::msg('action_delete') . '</a></td>
+              <td class="delete"><a class="rex-delete" href="' . rex_url::currentBackendPage(array('action_id' => $sql->getValue('id'), 'function' => 'delete')) . '" data-confirm="' . rex_i18n::msg('action_delete') . ' ?">' . rex_i18n::msg('action_delete') . '</a></td>
             </tr>
           ';
 
