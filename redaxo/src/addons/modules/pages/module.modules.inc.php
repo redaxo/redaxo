@@ -184,9 +184,9 @@ if ($function == 'add' or $function == 'edit') {
     if ($warning_block != '')
       $message .= rex_view::warningBlock($warning_block);
 
+    $echo    = '';
+    $content = '';
     $content .= '
-      <div class="rex-form" id="rex-form-module">
-        <form action="' . rex_url::currentBackendPage() . '" method="post">
         <fieldset>
           <h2>' . $legend . '</h2>
             <input type="hidden" name="function" value="' . $function . '" />
@@ -223,8 +223,6 @@ if ($function == 'add' or $function == 'edit') {
 
     $formElements = array();
 
-    $fragment = new rex_fragment();
-
     $n = array();
     $n['field'] = '<a class="rex-back" href="' . rex_url::currentBackendPage() . '"><span class="rex-icon rex-icon-back"></span>' . rex_i18n::msg('form_abort') . '</a>';
     $formElements[] = $n;
@@ -239,8 +237,12 @@ if ($function == 'add' or $function == 'edit') {
       $formElements[] = $n;
     }
 
+
+    $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
     $content .= $fragment->parse('core/form/submit.tpl');
+
+    $echo .= rex_view::contentBlock($content);
 
 
     if ($function == 'edit') {
@@ -255,7 +257,7 @@ if ($function == 'add' or $function == 'edit') {
 
         $add_header = '';
         if (rex::getUser()->hasPerm('advancedMode[]')) {
-          $add_header = '<th class="rex-small">' . rex_i18n::msg('header_id') . '</th>';
+          $add_header = '<th class="rex-slim">' . rex_i18n::msg('header_id') . '</th>';
         }
 
         $actions = '';
@@ -266,14 +268,14 @@ if ($function == 'add' or $function == 'edit') {
           $action_name = rex_i18n::translate($gma->getValue('name'));
 
           $actions .= '<tr>
-            <td class="rex-small"><a href="' . $action_edit_url . '" title="' . htmlspecialchars($action_name) . '"><span class="rex-icon rex-icon-action"></span></a></td>';
+            <td class="rex-slim"><a href="' . $action_edit_url . '" title="' . htmlspecialchars($action_name) . '"><span class="rex-icon rex-icon-action"></span></a></td>';
 
           if (rex::getUser()->hasPerm('advancedMode[]')) {
-             $actions .= '<td class="rex-small">' . $gma->getValue('id') . '</td>';
+            $actions .= '<td class="rex-slim">' . $gma->getValue('id') . '</td>';
           }
 
           $actions .= '<td class="rex-name"><a href="' . $action_edit_url . '">' . $action_name . '</a></td>
-            <td class="rex-delete"><a href="index.php?page=modules&amp;modul_id=' . $modul_id . '&amp;function_action=delete&amp;function=edit&amp;iaction_id=' . $iaction_id . '" data-confirm="' . rex_i18n::msg('delete') . ' ?">' . rex_i18n::msg('action_delete') . '</a></td>
+            <td class="rex-delete"><a class="rex-delete" href="index.php?page=modules&amp;modul_id=' . $modul_id . '&amp;function_action=delete&amp;function=edit&amp;iaction_id=' . $iaction_id . '" data-confirm="' . rex_i18n::msg('delete') . ' ?">' . rex_i18n::msg('action_delete') . '</a></td>
           </tr>';
 
           $gma->next();
@@ -281,11 +283,11 @@ if ($function == 'add' or $function == 'edit') {
 
         if ($actions != '') {
           $actions = '
-            <table id="rex-table-module-action" class="rex-table" summary="' . rex_i18n::msg('actions_added_summary') . '">
+            <table id="rex-table-module-action" class="rex-table rex-table-middle rex-table-striped" summary="' . rex_i18n::msg('actions_added_summary') . '">
               <caption>' . rex_i18n::msg('actions_added_caption') . '</caption>
               <thead>
                 <tr>
-                  <th class="rex-small">&nbsp;</th>
+                  <th class="rex-slim">&nbsp;</th>
                   ' . $add_header . '
                   <th class="rex-name">' . rex_i18n::msg('action_name') . '</th>
                   <th class="rex-function">' . rex_i18n::msg('action_functions') . '</th>
@@ -308,42 +310,47 @@ if ($function == 'add' or $function == 'edit') {
           $gaa->next();
         }
 
+        $content = '';
         $content .= $actions . '
         <fieldset>
           <h2>' . rex_i18n::msg('action_add') . '</h2>';
 
 
-          $formElements = array();
+        $formElements = array();
 
-            $n = array();
-            $n['label'] = '<label for="action_id">' . rex_i18n::msg('action') . '</label>';
-            $n['field'] = $gaa_sel->get();
-            $formElements[] = $n;
+        $n = array();
+        $n['label'] = '<label for="action_id">' . rex_i18n::msg('action') . '</label>';
+        $n['field'] = $gaa_sel->get();
+        $formElements[] = $n;
 
-          $fragment = new rex_fragment();
-          $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('form.tpl');
-
-        $content .= '</fieldset><fieldset class="rex-form-action">';
-
-
-          $formElements = array();
-
-            $n = array();
-            $n['field'] = '<input type="submit" value="' . rex_i18n::msg('action_add') . '" name="add_action" />';
-            $formElements[] = $n;
-
-          $fragment = new rex_fragment();
-          $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('form.tpl');
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $content .= $fragment->parse('core/form/form.tpl');
 
         $content .= '</fieldset>';
+
+
+        $formElements = array();
+
+        $n = array();
+        $n['field'] = '<button class="rex-button" type="submit" value="1" name="add_action">' . rex_i18n::msg('action_add') . '</button>';
+        $formElements[] = $n;
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $content .= $fragment->parse('core/form/submit.tpl');
       }
+
+      $echo .= rex_view::contentBlock($content);
     }
 
-    $content .= '
-    </form></div>
-    ';
+    echo $message;
+    echo '
+    <div class="rex-form" id="rex-form-module">
+      <form action="' . rex_url::currentBackendPage() . '" method="post">
+      ' . $echo . '
+      </form>
+    </div>';
 
     $OUT = false;
   }
@@ -362,15 +369,17 @@ if ($OUT) {
   $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name');
   $list->setCaption(rex_i18n::msg('module_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('module_summary'));
-  $list->addTableAttribute('id', 'rex-module');
+  $list->addTableAttribute('id', 'rex-table-module');
+  $list->addTableAttribute('class', 'rex-table-middle rex-table-striped');
+
 
   $tdIcon = '<span class="rex-icon rex-icon-module"></span>';
   $thIcon = '<a href="' . $list->getUrl(array('function' => 'add')) . '"' . rex::getAccesskey(rex_i18n::msg('create_module'), 'add') . ' title="' . rex_i18n::msg('create_module') . '"><span class="rex-icon rex-icon-add-module"></span></a>';
-  $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-small">###VALUE###</th>', '<td class="rex-small">###VALUE###</td>'));
+  $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-slim">###VALUE###</th>', '<td class="rex-slim">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('function' => 'edit', 'modul_id' => '###id###'));
 
   $list->setColumnLabel('id', 'ID');
-  $list->setColumnLayout('id', array('<th class="rex-small">###VALUE###</th>', '<td class="rex-small">###VALUE###</td>'));
+  $list->setColumnLayout('id', array('<th class="rex-slim">###VALUE###</th>', '<td class="rex-slim">###VALUE###</td>'));
 
   $list->setColumnLabel('name', rex_i18n::msg('module_description'));
   $list->setColumnLayout('name', array('<th class="rex-name">###VALUE###</th>', '<td class="rex-name">###VALUE###</td>'));
@@ -380,11 +389,12 @@ if ($OUT) {
   $list->setColumnLayout(rex_i18n::msg('module_functions'),  array('<th class="rex-function">###VALUE###</th>', '<td class="rex-delete">###VALUE###</td>'));
   $list->setColumnParams(rex_i18n::msg('module_functions'), array('function' => 'delete', 'modul_id' => '###id###'));
   $list->addLinkAttribute(rex_i18n::msg('module_functions'), 'data-confirm', rex_i18n::msg('delete') . ' ?');
+  $list->addLinkAttribute(rex_i18n::msg('module_functions'), 'class', 'rex-delete');
 
   $list->setNoRowsMessage(rex_i18n::msg('modules_not_found'));
 
   $content .= $list->get();
-}
 
-echo $message;
-echo rex_view::contentBlock($content);
+  echo $message;
+  echo rex_view::contentBlock($content);
+}
