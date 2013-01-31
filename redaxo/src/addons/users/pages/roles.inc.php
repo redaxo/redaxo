@@ -14,10 +14,11 @@ if ($func == '') {
   $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role');
   $list->setCaption(rex_i18n::msg('user_role_caption'));
   $list->addTableAttribute('summary', rex_i18n::msg('user_role_summary'));
+  $list->addTableAttribute('class', 'rex-table-middle rex-table-striped');
 
   $tdIcon = '<span class="rex-icon rex-icon-userrole"></span>';
   $thIcon = '<a href="' . $list->getUrl(array('func' => 'add', 'default_value' => 1)) . '"' . rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') . ' title="' . rex_i18n::msg('create_user_role') . '"><span class="rex-icon rex-icon-add-userrole"></span></a>';
-  $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-small">###VALUE###</th>', '<td class="rex-small">###VALUE###</td>'));
+  $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-slim">###VALUE###</th>', '<td class="rex-slim">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('func' => 'edit', 'id' => '###id###'));
 
   $list->setColumnLabel('id', 'ID');
@@ -32,6 +33,7 @@ if ($func == '') {
   $list->setColumnLayout('funcs', array('<th class="rex-function">###VALUE###</th>', '<td class="rex-delete">###VALUE###</td>'));
   $list->setColumnParams('funcs', array('func' => 'delete', 'id' => '###id###'));
   $list->addLinkAttribute('funcs', 'data-confirm', rex_i18n::msg('delete') . ' ?');
+  $list->addLinkAttribute('funcs', 'class', 'rex-delete');
 
   $content .= $list->get();
 
