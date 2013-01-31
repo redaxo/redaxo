@@ -199,6 +199,31 @@
     <span class="rex-icon rex-icon-context-menu"></span>
 
 
+  #### Install
+
+    <span class="rex-icon rex-icon-install"></span>
+    <span class="rex-icon rex-icon-reinstall"></span>
+    <span class="rex-icon rex-icon-uninstall"></span>
+
+    <span class="rex-icon rex-icon-activate"></span>
+    <span class="rex-icon rex-icon-deactivate"></span>
+
+    <span class="rex-icon rex-icon-active-true"></span>
+    <span class="rex-icon rex-icon-active-false"></span>
+
+
+  #### Info
+
+    <span class="rex-icon rex-icon-info"></span>
+    <span class="rex-icon rex-icon-info-circled"></span>
+
+
+  #### Help
+
+    <span class="rex-icon rex-icon-help"></span
+    <span class="rex-icon rex-icon-help-circled"></span>
+
+
 
 
 
@@ -236,17 +261,22 @@
 }
 .rex-icon {
   display: inline-block;
+  margin-right: 5px;
 }
-a.rex-icon,
 th > a > .rex-icon,
 td > a > .rex-icon {
   color: #333;
 }
-.rex-button .rex-icon {
-  margin-right: 5px;
-}
+a.rex-icon,
+th.rex-slim > .rex-icon,
+td.rex-slim > .rex-icon,
 .rex-button.rex-icon {
   margin-right: 0;
+}
+
+tr.rex-plugin .rex-icon-plugin {
+  margin-left: 6px;
+  opacity: .5;
 }
 
 .rex-drop {
@@ -373,3 +403,18 @@ td > a > .rex-icon {
 .rex-icon-close:before { content: "\2716"; }
 
 .rex-icon-context-menu:before { content: "\2699"; }
+
+.rex-icon-install:before { content: "\27F3"; }
+.rex-icon-reinstall:before { content: "\1F504"; }
+.rex-icon-uninstall:before { content: "\27F2"; }
+
+.rex-icon-activate:before { content: "\1F4E4"; }
+.rex-icon-deactivate:before { content: "\1F4E5"; }
+
+.rex-icon-active-true:before { content: "\2713"; }
+.rex-icon-active-false:before { content: "\274C"; }
+
+.rex-icon-info:before { content: "\2139"; }
+.rex-icon-info-circled:before { content: "\E705"; }
+.rex-icon-help:before { content: "\2753"; }
+.rex-icon-help-circled:before { content: "\E704"; }
