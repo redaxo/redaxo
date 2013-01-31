@@ -265,7 +265,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
 
   public function addLinkAttribute($columnName, $attrName, $attrValue)
   {
-    $this->linkAttributes[$columnName] = array($attrName => $attrValue);
+    $this->linkAttributes[$columnName][$attrName] = $attrValue;
   }
 
   public function getLinkAttributes($column, $default = null)
