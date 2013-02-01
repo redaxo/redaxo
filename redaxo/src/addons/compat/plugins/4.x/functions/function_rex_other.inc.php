@@ -44,7 +44,7 @@ function rex_tabindex($html = true)
  */
 function rex_install_dump($file, $debug = false)
 {
-  return rex_sql_dump::import($file, $debug);
+  return rex_sql_util::importDump($file, $debug);
 }
 
 /**
