@@ -78,30 +78,7 @@ class rex_i18n
    */
   static public function msg($key)
   {
-    if (!self::$loaded) {
-      self::loadAll();
-    }
-
-    if (self::hasMsg($key)) {
-      $msg = self::$msg[$key];
-    } else {
-      $msg = "[translate:$key]";
-    }
-
-    $patterns = array();
-    $replacements = array();
-
-    $argNum = func_num_args();
-    if ($argNum > 1) {
-      $args = func_get_args();
-      for ($i = 1; $i < $argNum; $i++) {
-        // zero indexed
-        $patterns[] = '/\{' . ($i - 1) . '\}/';
-        $replacements[] = $args[$i];
-      }
-    }
-
-    return preg_replace($patterns, $replacements, htmlspecialchars($msg));
+    return self::getMsg($key, true, func_get_args());
   }
 
     /**
@@ -113,6 +90,11 @@ class rex_i18n
      */
   static public function rawMsg($key)
   {
+    return self::getMsg($key, false, func_get_args());
+  }
+
+  static private function getMsg($key, $htmlspecialchars, array $args)
+  {
     if (!self::$loaded) {
       self::loadAll();
     }
@@ -123,19 +105,21 @@ class rex_i18n
       $msg = "[translate:$key]";
     }
 
+    if ($htmlspecialchars) {
+      $msg = htmlspecialchars($msg);
+      $msg = preg_replace('@&lt;(/?(?:b|i|code)|br ?/?)&gt;@i', '<$1>', $msg);
+    }
+
     $patterns = array();
     $replacements = array();
-
-    $argNum = func_num_args();
+    $argNum = count($args);
     if ($argNum > 1) {
-      $args = func_get_args();
       for ($i = 1; $i < $argNum; $i++) {
         // zero indexed
         $patterns[] = '/\{' . ($i - 1) . '\}/';
         $replacements[] = $args[$i];
       }
     }
-
     return preg_replace($patterns, $replacements, $msg);
   }
 

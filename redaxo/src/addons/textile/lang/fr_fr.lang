@@ -4,7 +4,7 @@ textile_code_for_module_input = Code pour l'entrée (Input) du module
 textile_code_for_module_output = Code pour la sortie (Output) du module
 textile_module_intro_moduleoutput = Intégrer simplement avec le code suivant dans <b>la sortie de n'importe quel module</b>
 textile_module_intro_help = Afin d'intégrer une table avec des instructions et remarques dans un module, ajouter la fonction suivante dans <b>l'entrée du module</b>:<br />
-textile_module_rights = <b>Info:</b><br />Les instructions seront affichés seulement si l'option facultative <strong>textile[help]</strong> a été attribué à l'utilisateur. Les utilisateurs Admin doivent également activer cette option!
+textile_module_rights = <b>Info:</b><br />Les instructions seront affichés seulement si l'option facultative <b>textile[help]</b> a été attribué à l'utilisateur. Les utilisateurs Admin doivent également activer cette option!
 
 textile_instructions = Instructions/Remarques
 

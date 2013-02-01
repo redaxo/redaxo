@@ -4,7 +4,7 @@ textile_code_for_module_input = Sourcecode for module input
 textile_code_for_module_output = Sourcecode for module output
 textile_module_intro_moduleoutput = Please use the following sourcecode for a module output
 textile_module_intro_help = Please use the following function call to see all informations/instructions in the <b>input module</b><br />
-textile_module_rights = <b>Please note:</b><br />The instruction will only be shown when the option <strong>textile[help]</strong> is selected in the userprofile.
+textile_module_rights = <b>Please note:</b><br />The instruction will only be shown when the option <b>textile[help]</b> is selected in the userprofile.
 
 textile_instructions = Instructions
 

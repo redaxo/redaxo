@@ -566,7 +566,7 @@ abstract class rex_package_manager extends rex_factory_base
     }
     $args[0] = $key;
 
-    return call_user_func_array(array('rex_i18n', 'rawMsg'), $args);
+    return call_user_func_array(array('rex_i18n', 'msg'), $args);
   }
 
   /**

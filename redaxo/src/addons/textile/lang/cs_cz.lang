@@ -4,7 +4,7 @@ textile_code_for_module_input = Kód pro vstup modulu
 textile_code_for_module_output = Kód pro výstup modulu
 textile_module_intro_moduleoutput = jednodu¹e propojit s následujícím kódem <b>ve výstupu modulu</b>.
 textile_module_intro_help = Pro napojení tabulky s návodem a pokyny k modulu jednodu¹e vlo¾te následující funkci do <b>vstupu</b> modulu:<br />
-textile_module_rights = <b>Pozor:</b><br />Návod bude zobrazen pouze v pøípadì kdy¾ bude u¾ivateli povolena volitená funkce <strong>textile[help]</strong> .Také administrátoøi musí tuto funkci povolit!
+textile_module_rights = <b>Pozor:</b><br />Návod bude zobrazen pouze v pøípadì kdy¾ bude u¾ivateli povolena volitená funkce <b>textile[help]</b> .Také administrátoøi musí tuto funkci povolit!
 
 textile_instructions = Návod/Pokyny
 
