@@ -34,7 +34,7 @@ class rex_var_category extends rex_var
   static public function getCategoryValue($id, $field, $clang = null)
   {
     if ($clang === null) {
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
     }
     $cat = rex_ooCategory::getCategoryById($id, $clang);
     if ($cat) {

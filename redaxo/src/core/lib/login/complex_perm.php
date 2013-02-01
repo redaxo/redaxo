@@ -67,8 +67,8 @@ abstract class rex_complex_perm
   /**
    * Registers a new complex perm class
    *
-   * @param string       $key   Key for the complex perm
-   * @param unknown_type $class Class name
+   * @param string $key   Key for the complex perm
+   * @param string $class Class name
    * @throws rex_exception
    */
   static public function register($key, $class)

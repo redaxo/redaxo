@@ -104,7 +104,7 @@ if ($message != '')
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-select">
       <label for="mailer"><?php echo $this->i18n('mailertype'); ?></label>
-      <?php echo $sel_mailer->show(); ?>
+      <?php $sel_mailer->show(); ?>
     </p>
     </div>
     <div class="rex-form-row">
@@ -128,19 +128,19 @@ if ($message != '')
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-select">
       <label for="encoding"><?php echo $this->i18n('encoding'); ?></label>
-      <?php echo $sel_encoding->show(); ?>
+      <?php $sel_encoding->show(); ?>
     </p>
     </div>
     <div class="rex-form-row">
     <p class="rex-form-col-a rex-form-select">
       <label for="priority"><?php echo $this->i18n('priority'); ?></label>
-      <?php echo $sel_priority->show(); ?>
+      <?php $sel_priority->show(); ?>
     </p>
     </div>
     <div class="rex-form-row">
       <p class="rex-form-col-a rex-form-select">
           <label for="smtpauth"><?php echo $this->i18n('SMTPAuth'); ?></label>
-          <?php echo $sel_smtpauth->show(); ?>
+          <?php $sel_smtpauth->show(); ?>
       </p>
     </div>
     <div class="rex-form-row">

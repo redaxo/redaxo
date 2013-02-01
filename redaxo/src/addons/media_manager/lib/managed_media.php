@@ -73,7 +73,7 @@ class rex_managed_media
 
     } else {
       $this->image['src'] = @imagecreatefrompng($this->getMediapath());
-      $this->image['format'] == 'PNG';
+      $this->image['format'] = 'PNG';
     }
 
     if (!$this->image['src']) {

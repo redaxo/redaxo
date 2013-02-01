@@ -52,7 +52,7 @@ class rex_var_article extends rex_var
   static public function getArticleValue($id, $field, $clang = null)
   {
     if ($clang === null) {
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
     }
     $article = rex_ooArticle::getArticleById($id, $clang);
     return htmlspecialchars($article->getValue($field));
@@ -61,7 +61,7 @@ class rex_var_article extends rex_var
   static public function getArticle($id, $ctype = -1, $clang = null)
   {
     if ($clang === null) {
-      $clang = rex_clang::getId();
+      $clang = rex_clang::getCurrentId();
     }
     $article = new rex_article($id, $clang);
     return $article->getArticle($ctype);
