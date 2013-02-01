@@ -24,7 +24,7 @@ class rex_path
    */
   static public function base($file = '')
   {
-    return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, self::$base . $file);;
+    return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, self::$base . $file);
   }
 
   /**
