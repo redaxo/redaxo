@@ -58,8 +58,7 @@ class rex_extension_debug extends rex_extension
       'params'    => $params,
       'read_only' => $read_only,
       'result'    => $res,
-      'timer'     => $epDur,
-      'memory'    => $memory
+      'timer'     => $epDur
     );
 
     return $res;
