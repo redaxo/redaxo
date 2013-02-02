@@ -67,20 +67,23 @@ if (count($errors) > 0) {
     $error_array[] = rex_view::error($error);
   }
 } else {
-  $success_array[] = rex_view::success(rex_i18n::rawMsg('setup_308'));
+  $success_array[] = rex_i18n::msg('setup_308');
 }
 
 $res = rex_setup::checkFilesystem();
 if (count($res) > 0) {
+  $base = rex_path::base();
   foreach ($res as $key => $messages) {
     if (count($messages) > 0) {
       $li = array();
       foreach ($messages as $message) {
-        $li[] = '<li>' . $message . '</li>';
+        $li[] = '<li>' . str_replace($base, '', $message) . '</li>';
       }
       $error_array[] = rex_view::error('<p>' . rex_i18n::msg($key) . '</p><ul>' . implode('', $li) . '</ul>');
     }
   }
+} else {
+  $success_array[] = rex_i18n::msg('setup_309');
 }
 
 if ($step > 2 && count($error_array) > 0) {
@@ -130,21 +133,17 @@ if ($step == 3) {
 
 
   if (count($success_array) > 0) {
-    foreach ($success_array as $s) {
-      $content .= $s;
-    }
+    $content .= rex_view::success('<ul><li>' . implode('</li><li>', $success_array) . '</li></ul>');
   }
 
   if (count($error_array) > 0) {
-    foreach ($error_array as $error) {
-      $content .= $error;
-    }
+    $content .= implode('', $error_array);
 
-    $content .= rex_view::error(rex_i18n::msg('setup_310'));
-    $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendPage('setup', array('step' => 4, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_311') . '</a></p>';
+    $content .= rex_view::error(rex_i18n::msg('setup_311'));
+    $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendPage('setup', array('step' => 4, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_312') . '</a></p>';
 
   } else {
-    $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendPage('setup', array('step' => 4, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_309') . '</a></p>';
+    $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendPage('setup', array('step' => 4, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_310') . '</a></p>';
   }
 
   echo $headline . rex_view::contentBlock($content);

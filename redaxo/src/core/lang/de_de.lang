@@ -120,16 +120,17 @@ setup_299 = 2 / Lizenz
 
 setup_300 = Setup: Schritt 3 von 7 / Systemcheck
 setup_301 = Die PHP-Version des Servers ist veraltet ({0}), bitte aktualisieren Sie auf eine höhere Version (mindestens {1}, neueste empfohlen)
-setup_302 = Die benötigte PHP-Extension <strong>{0}</strong> wurde nicht gefunden!
+setup_302 = Die benötigte PHP-Extension <b>{0}</b> wurde nicht gefunden!
 setup_303 = Benötigte System-Addons fehlen
-setup_304 = Das Verzeichnis ist weder beschreibar noch ausführbar!
-setup_305 = Die Datei ist nicht beschreibbar!
-setup_306 = Die aufgelisteten Dateien und/oder Verzeichnisse existieren nicht oder es besteht keine Schreibberechtigung. Bitte korrigieren Sie dies und starten das Setup erneut.
+setup_304 = Das folgenden Verzeichnisse sind nicht beschreibbar:
+setup_305 = Die folgenden Dateien sind nicht beschreibbar:
+setup_306 = Die folgenden Verzeichnisse sind nicht vorhanden oder es fehlt die Berechtigung:
 setup_307 = PHP-Versionscheck | Rechteüberprüfung
-setup_308 = <ul><li>PHP-Version ok</li><li>Ordnerrechte ok</li></ul>
-setup_309 = Weiter mit Schritt 4
-setup_310 = Bitte beheben Sie die aufgelisteten Fehler und starten Sie das Setup erneut.
-setup_311 = Schritt 3 erneut durchführen
+setup_308 = PHP-Version ok
+setup_309 = Ordnerrechte ok
+setup_310 = Weiter mit Schritt 4
+setup_311 = Bitte beheben Sie die aufgelisteten Fehler und starten Sie das Setup erneut.
+setup_312 = Schritt 3 erneut durchführen
 setup_399 = 3 / Systemcheck
 
 setup_400 = Setup: Schritt 4 von 7 / Schreiben der 'data/config.yml'

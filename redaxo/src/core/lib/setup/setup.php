@@ -58,41 +58,36 @@ class rex_setup
    */
   static public function checkFilesystem()
   {
-    $export_addon_dir = rex_path::addon('import_export');
-    require_once $export_addon_dir . '/functions/function_folder.inc.php';
-    require_once $export_addon_dir . '/functions/function_import_folder.inc.php';
-
     // -------------------------- SCHREIBRECHTE
-    $WRITEABLES = array(
+    $writables = array(
       rex_path::media(),
-      rex_path::media('.redaxo'),
       rex_path::assets(),
-      rex_path::assets('.redaxo'),
       rex_path::cache(),
       rex_path::data(),
-      rex_path::data('config.yml'),
-      getImportDir()
+      rex_path::src()
     );
 
-    foreach (rex::getProperty('system_addons') as $system_addon) {
-      $WRITEABLES[] = rex_path::addon($system_addon);
-    }
-
-    $res = array();
-    foreach ($WRITEABLES as $item) {
-      // Fehler unterdrücken, falls keine Berechtigung
-      if (@is_dir($item)) {
-        if (!@is_writable($item . '/.')) {
-          $res['setup_304'][] = $item;
+    $func = function ($dir) use (&$func) {
+      if (!rex_dir::isWritable($dir)) {
+        return array('setup_304' => array($dir));
+      }
+      $res = array();
+      foreach (rex_finder::factory($dir) as $path => $file) {
+        if ($file->isDir()) {
+          $res = array_merge_recursive($res, $func($path));
+        } elseif (!$file->isWritable()) {
+          $res['setup_305'][] = $path;
         }
       }
-      // Fehler unterdrücken, falls keine Berechtigung
-      elseif (@is_file($item)) {
-        if (!@is_writable($item)) {
-          $res['setup_305'][] = $item;
-        }
+      return $res;
+    };
+
+    $res = array();
+    foreach ($writables as $dir) {
+      if (@is_dir($dir)) {
+        $res = array_merge_recursive($res, $func($dir));
       } else {
-        $res['setup_306'][] = $item;
+        $res['setup_306'][] = $dir;
       }
     }
 
