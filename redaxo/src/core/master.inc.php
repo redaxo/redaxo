@@ -36,8 +36,6 @@ rex_url::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER']);
 
 // start timer at the very beginning
 rex::setProperty('timer', new rex_timer);
-// register rex_error_handler
-rex_error_handler::register();
 // add backend flag to rex
 rex::setProperty('redaxo', $REX['REDAXO']);
 // reset $REX
@@ -67,6 +65,10 @@ foreach ($config as $key => $value) {
 }
 
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
+
+if (!rex::isSetup()) {
+  rex_error_handler::register();
+}
 
 // ----------------- REX PERMS
 
