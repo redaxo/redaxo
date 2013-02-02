@@ -1,14 +1,24 @@
 <?php
 
 /**
- * Hauptkonfigurationsdatei
- * @package redaxo4
+ * REDAXO Master File
+ *
+ * @global string  $REX['HTDOCS_PATH']    [Required] Relative path to htdocs directory
+ * @global string  $REX['BACKEND_FOLDER'] [Required] Name of backend folder
+ * @global boolean $REX['REDAXO']         [Required] Backend/Frontend flag
+ * @global boolean $REX['LOAD_PAGE']      [Optional] Wether the front controller should be loaded or not. Default value is false.
  */
+
+foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
+  if (!isset($REX[$key])) {
+    throw new Exception('Missing variable $REX[\'' . $key . "']");
+  }
+}
 
 define('REX_MIN_PHP_VERSION', '5.3.7');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
-  exit('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
+  throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
 }
 
 // start output buffering as early as possible, so we can be sure
