@@ -11,7 +11,7 @@
 
 foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
   if (!isset($REX[$key])) {
-    throw new Exception('Missing variable $REX[\'' . $key . "']");
+    throw new Exception('Missing required global variable $REX[\'' . $key . "']");
   }
 }
 
