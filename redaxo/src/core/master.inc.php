@@ -1,14 +1,24 @@
 <?php
 
 /**
- * Hauptkonfigurationsdatei
- * @package redaxo4
+ * REDAXO Master File
+ *
+ * @global string  $REX['HTDOCS_PATH']    [Required] Relative path to htdocs directory
+ * @global string  $REX['BACKEND_FOLDER'] [Required] Name of backend folder
+ * @global boolean $REX['REDAXO']         [Required] Backend/Frontend flag
+ * @global boolean $REX['LOAD_PAGE']      [Optional] Wether the front controller should be loaded or not. Default value is false.
  */
+
+foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
+  if (!isset($REX[$key])) {
+    throw new Exception('Missing required global variable $REX[\'' . $key . "']");
+  }
+}
 
 define('REX_MIN_PHP_VERSION', '5.3.7');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
-  exit('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
+  throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
 }
 
 // start output buffering as early as possible, so we can be sure
@@ -38,8 +48,6 @@ rex_url::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER']);
 rex::setProperty('timer', new rex_timer);
 // add backend flag to rex
 rex::setProperty('redaxo', $REX['REDAXO']);
-// reset $REX
-unset($REX);
 // add core lang directory to rex_i18n
 rex_i18n::addDirectory(rex_path::core('lang'));
 // add core base-fragmentpath to fragmentloader
@@ -79,4 +87,9 @@ rex_complex_perm::register('clang', 'rex_clang_perm');
 // ----- SET CLANG
 if (!rex::isSetup()) {
   rex_clang::setCurrentId(rex_request('clang', 'int', rex::getProperty('start_clang_id')));
+}
+
+if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
+  unset($REX);
+  require rex_path::core(sprintf('index_%s.inc.php', rex::isBackend() ? 'be' : 'fe'));
 }
