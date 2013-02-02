@@ -22,10 +22,10 @@ function rex_generateTemplate($template_id)
     if (rex_file::put($templateFile, $content) !== false) {
       return true;
     } else {
-      trigger_error('Unable to generate template ' . $template_id . '!', E_USER_ERROR);
+      throw new rex_exception('Unable to generate template ' . $template_id . '!');
 
-      if (!is_writable())
-        trigger_error('directory "' . $templatesDir . '" is not writable!', E_USER_ERROR);
+      if (!rex_dir::isWritable($templatesDir))
+        throw new rex_exception('directory "' . $templatesDir . '" is not writable!');
     }
   } else {
     trigger_error('Template with id "' . $template_id . '" does not exist!', E_USER_ERROR);
