@@ -249,12 +249,14 @@ class rex_select
   {
     if ($level > 100) {
       // nur mal so zu sicherheit .. man weiss nie ;)
-      echo "select->_outGroup overflow ($groupname)";
-      exit;
+      throw new rex_exception('rex_select->outGroup overflow');
     }
 
     $ausgabe = '';
     $group = $this->getGroup($re_id);
+    if (!is_array($group)) {
+      return '';
+    }
     foreach ($group as $option) {
       $name = $option[0];
       $value = $option[1];
