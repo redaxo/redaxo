@@ -39,6 +39,7 @@ $deprecatedExtensionPoint = function ($oldEP, $newEP) {
     return rex_extension::registerPoint($oldEP, $params['subject'], $params);
   });
 };
+$deprecatedExtensionPoint('ADDONS_INCLUDED', 'PACKAGES_INCLUDED');
 $deprecatedExtensionPoint('ALL_GENERATED', 'CACHE_DELETED');
 $deprecatedExtensionPoint('OOMEDIA_IS_IN_USE', 'MEDIA_IS_IN_USE');
 

@@ -11,7 +11,7 @@
 
 rex_perm::register('media_manager[]');
 
-rex_extension::register('ADDONS_INCLUDED', 'rex_media_manager::init');
+rex_extension::register('PACKAGES_INCLUDED', 'rex_media_manager::init');
 
 if (rex::isBackend()) {
   // delete thumbnails on mediapool changes

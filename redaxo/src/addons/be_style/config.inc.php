@@ -17,5 +17,5 @@ $mypage = 'be_style';
 /* Addon Parameter */
 if (rex::isBackend()) {
   require_once rex_path::addon($mypage, 'extensions/function_extensions.inc.php');
-  rex_extension::register('ADDONS_INCLUDED', 'rex_be_add_page');
+  rex_extension::register('PACKAGES_INCLUDED', 'rex_be_add_page');
 }
