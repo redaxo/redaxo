@@ -100,12 +100,13 @@ class rex_file
   {
     if (is_file($srcfile)) {
       if (is_dir($dstfile)) {
-        $dstfile = rtrim($dstfile, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . basename($srcfile);
+        $dstdir = rtrim($dstfile, DIRECTORY_SEPARATOR);
+        $dstfile = $dstdir . DIRECTORY_SEPARATOR . basename($srcfile);
+      } else {
+        $dstdir = dirname($dstfile);
       }
 
-      // file_exists(dirname($dstfile) .'/.') checks if the parent directory has the executable permission
-      // is_executable($directory) does not work on all systems
-      if (file_exists(dirname($dstfile) . '/.') && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
+      if (rex_dir::isWritable($dstdir) && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
         touch($dstfile, filemtime($srcfile));
         @chmod($dstfile, rex::getFilePerm());
         return true;
