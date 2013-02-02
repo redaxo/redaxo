@@ -40,8 +40,6 @@ rex::setProperty('timer', new rex_timer);
 rex_error_handler::register();
 // add backend flag to rex
 rex::setProperty('redaxo', $REX['REDAXO']);
-// reset $REX
-unset($REX);
 // add core lang directory to rex_i18n
 rex_i18n::addDirectory(rex_path::core('lang'));
 // add core base-fragmentpath to fragmentloader
@@ -77,4 +75,9 @@ rex_complex_perm::register('clang', 'rex_clang_perm');
 // ----- SET CLANG
 if (!rex::isSetup()) {
   rex_clang::setCurrentId(rex_request('clang', 'int', rex::getProperty('start_clang_id')));
+}
+
+if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
+  unset($REX);
+  require rex_path::core(sprintf('index_%s.inc.php', rex::isBackend() ? 'be' : 'fe'));
 }
