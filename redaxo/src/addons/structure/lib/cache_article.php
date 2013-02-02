@@ -172,7 +172,7 @@ class rex_article_cache
   /**
    * Generiert alle *.alist u. *.clist Dateien einer Kategorie/eines Artikels
    *
-   * @param $re_id   KategorieId oder ArtikelId, die erneuert werden soll
+   * @param integer $re_id KategorieId oder ArtikelId, die erneuert werden soll
    *
    * @return TRUE wenn der Artikel gelöscht wurde, sonst eine Fehlermeldung
    */

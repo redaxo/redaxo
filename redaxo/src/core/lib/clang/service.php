@@ -5,9 +5,9 @@ class rex_clang_service
   /**
    * Erstellt eine Clang
    *
-   * @param $id   Id der Clang
-   * @param $code Clang Code
-   * @param $name Name der Clang
+   * @param integer $id   Id der Clang
+   * @param string  $code Clang Code
+   * @param string  $name Name der Clang
    *
    * @throws rex_exception
    */

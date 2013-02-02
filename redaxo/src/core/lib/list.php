@@ -318,7 +318,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Gibt das Layout einer Spalte zurück
    *
-   * @param $columnName Name der Spalte
+   * @param string $columnName Name der Spalte
    */
   public function getColumnLayout($columnName)
   {
@@ -339,8 +339,8 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Gibt den Namen einer Spalte zurück
    *
-   * @param $columnIndex Nummer der Spalte
-   * @param $default Defaultrückgabewert, falls keine Spalte mit der angegebenen Nummer vorhanden ist
+   * @param integer $columnIndex Nummer der Spalte
+   * @param mixed   $default     Defaultrückgabewert, falls keine Spalte mit der angegebenen Nummer vorhanden ist
    *
    * @return string|null
    */
@@ -365,8 +365,8 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Setzt ein Label für eine Spalte
    *
-   * @param $columnName Name der Spalte
-   * @param $label Label für die Spalte
+   * @param string $columnName Name der Spalte
+   * @param string $label      Label für die Spalte
    */
   public function setColumnLabel($columnName, $label)
   {
@@ -379,8 +379,8 @@ class rex_list extends rex_factory_base implements rex_url_provider
    * Falls nicht vorhanden und der Parameter $default auf null steht,
    * wird der Spaltenname zurückgegeben
    *
-   * @param $columnName Name der Spalte
-   * @param $default Defaultrückgabewert, falls kein Label gesetzt ist
+   * @param string $columnName Name der Spalte
+   * @param mixed  $default    Defaultrückgabewert, falls kein Label gesetzt ist
    *
    * @return string|null
    */
@@ -395,12 +395,12 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Setzt ein Format für die Spalte
    *
-   * @param $columnName Name der Spalte
-   * @param $format_type Formatierungstyp
-   * @param $format Zu verwendentes Format
-   * @param $params Custom params für callback func bei format_type 'custom'
+   * @param string $columnName  Name der Spalte
+   * @param string $format_type Formatierungstyp
+   * @param mixed  $format      Zu verwendentes Format
+   * @param array  $params      Custom params für callback func bei format_type 'custom'
    */
-  public function setColumnFormat($columnName, $format_type, $format = '', $params = array())
+  public function setColumnFormat($columnName, $format_type, $format = '', array $params = array())
   {
     $this->columnFormates[$columnName] = array($format_type, $format, $params);
   }
@@ -408,8 +408,8 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Gibt das Format für eine Spalte zurück
    *
-   * @param $columnName Name der Spalte
-   * @param $default Defaultrückgabewert, falls keine Formatierung gesetzt ist
+   * @param string $columnName Name der Spalte
+   * @param mixed  $default    Defaultrückgabewert, falls keine Formatierung gesetzt ist
    *
    * @return string|null
    */
@@ -437,9 +437,9 @@ class rex_list extends rex_factory_base implements rex_url_provider
    * Setzt eine Option für eine Spalte
    * (z.b. Sortable,..)
    *
-   * @param $columnName Name der Spalte
-   * @param $option Name/Id der Option
-   * @param $value Wert der Option
+   * @param string $columnName Name der Spalte
+   * @param string $option     Name/Id der Option
+   * @param mixed  $value      Wert der Option
    */
   public function setColumnOption($columnName, $option, $value)
   {
@@ -449,9 +449,9 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Gibt den Wert einer Option für eine Spalte zurück
    *
-   * @param $columnName Name der Spalte
-   * @param $option Name/Id der Option
-   * @param $default Defaultrückgabewert, falls die Option nicht gesetzt ist
+   * @param string $columnName Name der Spalte
+   * @param string $option     Name/Id der Option
+   * @param mixed  $default    Defaultrückgabewert, falls die Option nicht gesetzt ist
    *
    * @return mixed|null
    */
@@ -466,8 +466,8 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Gibt zurück, ob für eine Spalte eine Option gesetzt wurde
    *
-   * @param $columnName Name der Spalte
-   * @param $option Name/Id der Option
+   * @param string $columnName Name der Spalte
+   * @param string $option     Name/Id der Option
    *
    * @return boolean
    */
@@ -479,21 +479,18 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Verlinkt eine Spalte mit den übergebenen Parametern
    *
-   * @param $columnName Name der Spalte
-   * @param $params Array von Parametern
+   * @param string $columnName Name der Spalte
+   * @param array  $params     Array von Parametern
    */
-  public function setColumnParams($columnName, $params = array())
+  public function setColumnParams($columnName, array $params = array())
   {
-    if (!is_array($params))
-      trigger_error('rex_list->setColumnParams: Erwarte 2. Parameter als Array!', E_USER_ERROR);
-
     $this->columnParams[$columnName] = $params;
   }
 
   /**
    * Gibt die Parameter für eine Spalte zurück
    *
-   * @param $columnName Name der Spalte
+   * @param string $columnName Name der Spalte
    *
    * @return array
    */
@@ -508,7 +505,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Gibt zurück, ob Parameter für eine Spalte existieren
    *
-   * @param $columnName Name der Spalte
+   * @param string $columnName Name der Spalte
    *
    * @return boolean
    */

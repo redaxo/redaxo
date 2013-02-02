@@ -74,7 +74,7 @@ class rex
    * @param string $key     Key of the property
    * @param mixed  $default Default value, will be returned if the property isn't set
    *
-   * @return the value for $key or $default if $key cannot be found
+   * @return mixed The value for $key or $default if $key cannot be found
    *
    * @throws rex_exception on invalid parameters
    */

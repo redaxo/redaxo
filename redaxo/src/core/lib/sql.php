@@ -264,7 +264,7 @@ class rex_sql extends rex_factory_base implements Iterator
   /**
    * Setzt den Tabellennamen
    *
-   * @param $table Tabellenname
+   * @param string $table Tabellenname
    * @return rex_sql the current rex_sql object
    */
   public function setTable($table)
