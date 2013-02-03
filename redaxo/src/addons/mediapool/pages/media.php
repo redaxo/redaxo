@@ -59,7 +59,7 @@ $cat_out = '<div class="rex-form" id="rex-form-mediapool-selectcategory">
                         <label for="rex_file_category">' . rex_i18n::msg('pool_kats') . '</label>
                         ' . $sel_media->get();
 
-if ($subpage == 'media') {
+if ($file_id) {
   $cat_out .= '<input class="rex-form-submit" type="submit" value="' . rex_i18n::msg('show') . '" />';
 }
 
@@ -67,7 +67,7 @@ $cat_out .= '
                       </p>
                     </div>';
 
-if ($subpage != 'media') {
+if (!$file_id) {
   $cat_out .= '      <noscript>
                       <div class="rex-form-row">
                         <p class="rex-form-submit">
@@ -94,7 +94,7 @@ $cat_out = rex_extension::registerPoint('MEDIA_LIST_TOOLBAR', $cat_out,
 
 // *************************************** Subpage: Media
 
-if ($subpage == 'media' && rex_post('btn_delete', 'string')) {
+if ($file_id && rex_post('btn_delete', 'string')) {
   // TODO: getMediaById() deprecated, daher getMediaByFileName() nutzen
   $media = rex_media::getMediaById($file_id);
 
@@ -108,7 +108,7 @@ if ($subpage == 'media' && rex_post('btn_delete', 'string')) {
         } else {
           $warning = rex_i18n::msg('pool_file_delete_error_1', $file_name);
         }
-        $subpage = '';
+        $file_id = 0;
       } else {
         $warning = array();
         $warning[] = '<strong>' . rex_i18n::msg('pool_file_delete_error_1', $file_name) . ' ' .
@@ -116,7 +116,7 @@ if ($subpage == 'media' && rex_post('btn_delete', 'string')) {
         foreach ($uses as $use) {
           $warning[] = $use;
         }
-        $subpage = '';
+        $file_id = 0;
 
       }
     } else {
@@ -124,11 +124,11 @@ if ($subpage == 'media' && rex_post('btn_delete', 'string')) {
     }
   } else {
     $warning = rex_i18n::msg('pool_file_not_found');
-    $subpage = '';
+    $file_id = 0;
   }
 }
 
-if ($subpage == 'media' && rex_post('btn_update', 'string')) {
+if ($file_id && rex_post('btn_update', 'string')) {
 
   $gf = rex_sql::factory();
   $gf->setQuery('select * from ' . rex::getTablePrefix() . "media where media_id='$file_id'");
@@ -157,11 +157,11 @@ if ($subpage == 'media' && rex_post('btn_update', 'string')) {
     }
   } else {
     $warning = rex_i18n::msg('pool_file_not_found');
-    $subpage = '';
+    $file_id = 0;
   }
 }
 
-if ($subpage == 'media') {
+if ($file_id) {
   $gf = rex_sql::factory();
   $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE media_id = "' . $file_id . '"');
   if ($gf->getRows() == 1) {
@@ -401,7 +401,7 @@ if ($subpage == 'media') {
     }
   } else {
     $warning = rex_i18n::msg('pool_file_not_found');
-    $subpage = '';
+    $file_id = 0;
   }
 }
 
@@ -449,7 +449,7 @@ if ($PERMALL && $media_method == 'delete_selectedmedia') {
            } else {
              $warning[] = rex_i18n::msg('pool_file_delete_error_1', $file_name);
            }
-           $subpage = '';
+           $file_id = 0;
          } else {
             $tmp = '<strong>' . rex_i18n::msg('pool_file_delete_error_1', $file_name) . ' ' .
                    rex_i18n::msg('pool_file_delete_error_2') . '</strong><br />';
@@ -473,7 +473,7 @@ if ($PERMALL && $media_method == 'delete_selectedmedia') {
 
 // *************************************** SUBPAGE: "" -> MEDIEN ANZEIGEN
 
-if ($subpage == '') {
+if (!$file_id) {
   $cats_sel = new rex_media_category_select();
   $cats_sel->setSize(1);
   $cats_sel->setStyle('class="rex-form-select"');
