@@ -63,3 +63,15 @@ system_setting_default_template_id = Default-Template Id
 system_setting_start_article_id_invalid = Ungültige Startartikel Id!
 system_setting_notfound_article_id_invalid = Ungültige Not-Found-Artikel Id!
 system_setting_default_template_id_invalid = Ungültige Default-Template Id!
+
+linkmap = Linkmap
+lmap_categories = Kategorien
+lmap_articles = Artikel
+lmap_has_no_template = hat kein Template
+
+var_link_open = Link auswählen
+var_link_delete = Ausgewählten Link löschen
+var_linklist_move_top = Ausgewählten Link an den Anfang verschieben
+var_linklist_move_up = Ausgewählten Link nach oben verschieben
+var_linklist_move_down = Ausgewählten Link nach unten verschieben
+var_linklist_move_bottom  = Ausgewählten Link an das Ende verschieben

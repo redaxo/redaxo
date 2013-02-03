@@ -9,4 +9,4 @@ navigation:
   block: system
   prio: 10
 
-system_plugins: [content, linkmap]
+system_plugins: [content]

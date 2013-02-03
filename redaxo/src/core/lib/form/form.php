@@ -385,8 +385,8 @@ class rex_form extends rex_factory_base
    */
   public function addLinkmapField($name, $value = null, array $attributes = array())
   {
-    if (!rex_plugin::get('structure', 'linkmap')->isAvailable()) {
-      throw new rex_exception(__METHOD__ . '() needs "structure/linkmap" plugin!');
+    if (!rex_addon::get('structure')->isAvailable()) {
+      throw new rex_exception(__METHOD__ . '() needs "structure" addon!');
     }
     $attributes['internal::fieldClass'] = 'rex_form_widget_linkmap_element';
     $field = $this->addField('', $name, $value, $attributes, true);
@@ -401,8 +401,8 @@ class rex_form extends rex_factory_base
    */
   public function addLinklistField($name, $value = null, array $attributes = array())
   {
-    if (!rex_plugin::get('structure', 'linkmap')->isAvailable()) {
-      throw new rex_exception(__METHOD__ . '() needs "structure/linkmap" plugin!');
+    if (!rex_addon::get('structure')->isAvailable()) {
+      throw new rex_exception(__METHOD__ . '() needs "structure" addon!');
     }
     $attributes['internal::fieldClass'] = 'rex_form_widget_linklist_element';
     $field = $this->addField('', $name, $value, $attributes, true);

@@ -26,14 +26,8 @@ class rex_system_setting_article_id extends rex_system_setting
 
   public function getField()
   {
-    if (rex_plugin::get('structure', 'linkmap')->isAvailable()) {
-      $field = new rex_form_widget_linkmap_element();
-      $field->setAttribute('class', 'rex-form-widget');
-    } else {
-      $field = new rex_form_element('input');
-      $field->setAttribute('type', 'text');
-      $field->setAttribute('class', 'rex-form-text');
-    }
+    $field = new rex_form_widget_linkmap_element();
+    $field->setAttribute('class', 'rex-form-widget');
     $field->setLabel(rex_i18n::msg('system_setting_' . $this->key));
     return $field;
   }
