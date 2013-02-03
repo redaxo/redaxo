@@ -61,6 +61,7 @@ if (rex::isBackend()) {
       }
     } else {
       $content .= 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="redaxo/index.php">redaxo</a>';
+      rex_response::sendArticle($content);
     }
 
     $art_id = $article->getArticleId();
