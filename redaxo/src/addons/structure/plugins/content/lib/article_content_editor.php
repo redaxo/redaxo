@@ -218,9 +218,14 @@ class rex_article_content_editor extends rex_article_content
     return '
           <section class="rex-slice-select">
           <div class="rex-form">
-          <form action="' . rex_url::currentBackendPage(array('article_id' => $this->article_id, 'mode' => $this->mode, 'clang' => $this->clang, 'ctype' => $this->ctype)) . '" method="get" id="slice' . $sliceId . '">
+          <form action="' . rex_url::backendController() . '" method="get" id="slice' . $sliceId . '">
             <fieldset>
               <legend><span>' . rex_i18n::msg('add_block') . '</span></legend>
+              <input type="hidden" name="page" value="content" />
+              <input type="hidden" name="article_id" value="' . $this->article_id . '" />
+              <input type="hidden" name="mode" value="' . $this->mode . '" />
+              <input type="hidden" name="clang" value="' . $this->clang . '" />
+              <input type="hidden" name="ctype" value="' . $this->ctype . '" />
               <input type="hidden" name="slice_id" value="' . $sliceId . '" />
               <input type="hidden" name="function" value="add" />
 
