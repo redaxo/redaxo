@@ -12,10 +12,10 @@ navigation:
     packages:
       title: 'translate:subpage_packages'
       subpages:
-        update: {title: 'translate:subpage_update'}
-        add: {title: 'translate:subpage_add'}
-        upload: {title: 'translate:subpage_upload'}
-    settings: {title: 'translate:subpage_settings'}
+        update: { title: 'translate:subpage_update' }
+        add: { title: 'translate:subpage_add' }
+        upload: { title: 'translate:subpage_upload' }
+    settings: { title: 'translate:subpage_settings' }
 
 requires:
   redaxo:

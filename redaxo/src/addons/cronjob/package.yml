@@ -7,8 +7,8 @@ navigation:
   title: 'translate:title'
   perm: admin[]
   subpages:
-    cronjobs: {title: 'translate:title'}
-    log: {title: 'translate:log'}
+    cronjobs: { title: 'translate:title' }
+    log: { title: 'translate:log' }
 
 requires:
   redaxo:

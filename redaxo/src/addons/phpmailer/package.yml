@@ -7,8 +7,8 @@ navigation:
   title: PHPMailer
   perm: phpmailer[]
   subpages:
-    config: {title: 'translate:configuration'}
-    example: {title: 'translate:example'}
+    config: { title: 'translate:configuration' }
+    example: { title: 'translate:example' }
 
 requires:
   redaxo:
