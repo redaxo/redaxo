@@ -86,9 +86,9 @@ class rex_plugin extends rex_package implements rex_plugin_interface
   }
 
   /* (non-PHPdoc)
-   * @see rex_package_interface::getBasePath()
+   * @see rex_package_interface::getPath()
    */
-  public function getBasePath($file = '')
+  public function getPath($file = '')
   {
     return rex_path::plugin($this->getAddon()->getName(), $this->getName(), $file);
   }

@@ -14,7 +14,7 @@ class rex_addon_manager_compat extends rex_addon_manager
     $state = parent::install($installDump);
 
     // Dateien kopieren
-    $files_dir = $this->package->getBasePath('files');
+    $files_dir = $this->package->getPath('files');
     if ($state === true && is_dir($files_dir)) {
       if (!rex_dir::copy($files_dir, $this->package->getAssetsPath())) {
         $state = $this->I18N('install_cant_copy_files');

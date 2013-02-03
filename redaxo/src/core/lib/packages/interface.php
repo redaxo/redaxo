@@ -40,7 +40,7 @@ interface rex_package_interface
    *
    * @param string $file File
    */
-  public function getBasePath($file = '');
+  public function getPath($file = '');
 
   /**
    * Returns the assets path

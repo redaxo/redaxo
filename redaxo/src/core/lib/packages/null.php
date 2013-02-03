@@ -32,9 +32,9 @@ abstract class rex_null_package extends rex_singleton_base implements rex_packag
   }
 
   /* (non-PHPdoc)
-   * @see rex_package_interface::getBasePath()
+   * @see rex_package_interface::getPath()
    */
-  public function getBasePath($file = '')
+  public function getPath($file = '')
   {
     return null;
   }

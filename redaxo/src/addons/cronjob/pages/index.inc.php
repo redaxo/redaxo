@@ -19,6 +19,6 @@ echo "\n  <div class=\"rex-addon-output-v2\">\n  ";
 if (!in_array($subpage, array('log')))
   $subpage = 'cronjobs';
 
-require $this->getBasePath('pages/' . $subpage . '.inc.php');
+require $this->getPath('pages/' . $subpage . '.inc.php');
 
 echo "\n  </div>";

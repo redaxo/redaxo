@@ -1,7 +1,7 @@
 <?php
 
-$emptyDir = $this->getBasePath('emptydir');
-$emptyFile = $this->getBasePath('emptydir/emptyfile');
+$emptyDir = $this->getPath('emptydir');
+$emptyFile = $this->getPath('emptydir/emptyfile');
 
 $symlinks = array(
   rex_path::src('layout') => $emptyDir,

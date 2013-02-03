@@ -17,7 +17,7 @@ if (rex::isSetup() || rex::isSafeMode()) {
 // so it is transparent in which order the addons are included afterwards.
 foreach ($packageOrder as $packageId) {
   $package = rex_package::get($packageId);
-  $folder = $package->getBasePath();
+  $folder = $package->getPath();
 
   // add addon path for i18n
   if (is_readable($folder . 'lang')) {
@@ -37,7 +37,7 @@ foreach ($packageOrder as $packageId) {
   $autoload = $package->getProperty('autoload');
   if (is_array($autoload) && isset($autoload['classes']) && is_array($autoload['classes'])) {
     foreach ($autoload['classes'] as $dir) {
-      $dir = $package->getBasePath($dir);
+      $dir = $package->getPath($dir);
       if (is_readable($dir)) {
         rex_autoload::addDirectory($dir);
       }
@@ -48,7 +48,7 @@ foreach ($packageOrder as $packageId) {
 // now we actually include the addons logic
 foreach ($packageOrder as $packageId) {
   $package = rex_package::get($packageId);
-  $folder = $package->getBasePath();
+  $folder = $package->getPath();
 
   // include the addon itself
   if (is_readable($folder . 'config.inc.php')) {

@@ -151,7 +151,7 @@ class rex_be_controller
     $addPageProperties = function (rex_be_page_container $page, array $properties, rex_package $package) use (&$addPageProperties) {
       foreach ($properties as $key => $value) {
         if ($key == 'path') {
-          if (file_exists($path = $package->getBasePath($value))) {
+          if (file_exists($path = $package->getPath($value))) {
             $value = $path;
           }
         }
@@ -196,7 +196,7 @@ class rex_be_controller
           if ($p instanceof rex_be_page_main) {
             $pages[$p->getPage()->getKey()] = $p;
             if (!$p->getPage()->hasPath()) {
-              $p->getPage()->setPath($addon->getBasePath('pages/index.inc.php'));
+              $p->getPage()->setPath($addon->getPath('pages/index.inc.php'));
             }
           } elseif ($p instanceof rex_be_page && $mainPage) {
             $mainPage->getPage()->addSubPage($p);
@@ -218,7 +218,7 @@ class rex_be_controller
         } elseif ($pluginPage instanceof rex_be_page_main) {
           $pages[$pluginPage->getPage()->getKey()] = $pluginPage;
           if (!$pluginPage->getPage()->hasPath()) {
-            $pluginPage->getPage()->setPath($plugin->getBasePath('pages/index.inc.php'));
+            $pluginPage->getPage()->setPath($plugin->getPath('pages/index.inc.php'));
           }
           $pluginPage = null;
         }
@@ -231,7 +231,7 @@ class rex_be_controller
             if ($p instanceof rex_be_page_main) {
               $pages[$p->getPage()->getKey()] = $p;
               if (!$p->getPage()->hasPath()) {
-                $p->getPage()->setPath($plugin->getBasePath('pages/index.inc.php'));
+                $p->getPage()->setPath($plugin->getPath('pages/index.inc.php'));
               }
             } elseif ($p instanceof rex_be_page && $mainPage) {
               $mainPage->getPage()->addSubPage($p);
@@ -299,7 +299,7 @@ class rex_be_controller
         if (isset($matches[2])) {
           $package = $package->getPlugin($matches[2]);
         }
-        rex_package_manager::includeFile($package, str_replace($package->getBasePath(), '', $path));
+        rex_package_manager::includeFile($package, str_replace($package->getPath(), '', $path));
       } else {
         require $path;
       }

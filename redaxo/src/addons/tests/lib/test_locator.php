@@ -33,7 +33,7 @@ class rex_test_locator implements IteratorAggregate
 
     $locator->addTestFolder(rex_path::core(self::TESTS_FOLDER));
     foreach (rex_package::getAvailablePackages() as $package) {
-      $locator->addTestFolder($package->getBasePath(self::TESTS_FOLDER));
+      $locator->addTestFolder($package->getPath(self::TESTS_FOLDER));
     }
     return $locator;
   }

@@ -75,7 +75,7 @@ abstract class rex_package_manager extends rex_factory_base
   {
     $state = true;
 
-    $install_dir  = $this->package->getBasePath();
+    $install_dir  = $this->package->getPath();
     $package_file = $install_dir . self::PACKAGE_FILE;
     $install_file = $install_dir . self::INSTALL_FILE;
     $install_sql  = $install_dir . self::INSTALL_SQL;
@@ -113,8 +113,8 @@ abstract class rex_package_manager extends rex_factory_base
 
     // check if install.inc.php exists
     if ($state === true && is_readable($install_file)) {
-      rex_autoload::addDirectory($this->package->getBasePath('lib'));
-      rex_autoload::addDirectory($this->package->getBasePath('vendor'));
+      rex_autoload::addDirectory($this->package->getPath('lib'));
+      rex_autoload::addDirectory($this->package->getPath('vendor'));
       try {
         static::includeFile($this->package, self::INSTALL_FILE);
         // Wurde das "install" Flag gesetzt?
@@ -171,7 +171,7 @@ abstract class rex_package_manager extends rex_factory_base
   {
     $state = true;
 
-    $install_dir    = $this->package->getBasePath();
+    $install_dir    = $this->package->getPath();
     $uninstall_file = $install_dir . self::UNINSTALL_FILE;
     $uninstall_sql  = $install_dir . self::UNINSTALL_SQL;
 
@@ -253,9 +253,9 @@ abstract class rex_package_manager extends rex_factory_base
         if ($state === true) {
           $this->package->setProperty('status', true);
           if (!rex::isSetup()) {
-            if (is_readable($this->package->getBasePath(self::CONFIG_FILE))) {
-              rex_autoload::addDirectory($this->package->getBasePath('lib'));
-              rex_autoload::addDirectory($this->package->getBasePath('vendor'));
+            if (is_readable($this->package->getPath(self::CONFIG_FILE))) {
+              rex_autoload::addDirectory($this->package->getPath('lib'));
+              rex_autoload::addDirectory($this->package->getPath('vendor'));
               static::includeFile($this->package, self::CONFIG_FILE);
             }
           }
@@ -350,7 +350,7 @@ abstract class rex_package_manager extends rex_factory_base
       // bei erfolg, komplett löschen
       $state = true;
       $state = ($ignoreState || $state) && (!$this->package->isInstalled() || $this->uninstall());
-      $state = ($ignoreState || $state) && rex_dir::delete($this->package->getBasePath());
+      $state = ($ignoreState || $state) && rex_dir::delete($this->package->getPath());
       $state = ($ignoreState || $state) && rex_dir::delete($this->package->getDataPath());
       if (!$ignoreState) {
         $this->saveConfig();

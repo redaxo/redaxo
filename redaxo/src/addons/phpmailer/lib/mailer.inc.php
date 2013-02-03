@@ -32,6 +32,6 @@ class rex_mailer extends PHPMailer
       $this->AddBCC($bcc);
     }
 
-    $this->PluginDir = $addon->getBasePath('lib/phpmailer/');
+    $this->PluginDir = $addon->getPath('lib/phpmailer/');
   }
 }

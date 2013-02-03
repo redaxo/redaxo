@@ -32,7 +32,7 @@ if ($subpage == 'help') {
 
   $content .= '<h2>' . rex_i18n::msg('package_help') . ' ' . $name . '</h2>';
 
-  if (!is_file($package->getBasePath('help.inc.php'))) {
+  if (!is_file($package->getPath('help.inc.php'))) {
     $content .= '<div class="rex-content-information">' . rex_i18n::msg('package_no_help_file') . '</div>';
   } else {
     ob_start();

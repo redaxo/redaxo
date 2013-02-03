@@ -18,7 +18,7 @@ class rex_package_compat
   {
     extract($GLOBALS, EXTR_SKIP);
 
-    include $this->package->getBasePath($file);
+    include $this->package->getPath($file);
 
     $GLOBALS = array_merge($GLOBALS, get_defined_vars());
   }

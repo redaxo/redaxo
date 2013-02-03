@@ -8,7 +8,7 @@
  * @package redaxo5
  */
 
-$result = rex_sql_util::importDump($this->getBasePath('_install.sql'));
+$result = rex_sql_util::importDump($this->getPath('_install.sql'));
 if ($result !== true) {
   throw new rex_functional_exception($result);
 }

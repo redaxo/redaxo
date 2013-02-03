@@ -17,19 +17,19 @@ if (rex::isBackend()) {
   $page = new rex_be_page('content', rex_i18n::msg('content'));
   $page->setRequiredPermissions('structure/hasStructurePerm');
   $page->setHidden(true);
-  $page->setPath($this->getBasePath('pages/content.inc.php'));
+  $page->setPath($this->getPath('pages/content.inc.php'));
   $pages[] = new rex_be_page_main('system', $page);
 
   $page = new rex_be_page('templates', rex_i18n::msg('templates'));
   $page->setRequiredPermissions('admin');
-  $page->setPath($this->getBasePath('pages/templates.inc.php'));
+  $page->setPath($this->getPath('pages/templates.inc.php'));
   $mainPage = new rex_be_page_main('system', $page);
   $mainPage->setPrio(30);
   $pages[] = $mainPage;
 
   $page = new rex_be_page('modules', rex_i18n::msg('modules'));
   $page->setRequiredPermissions('admin');
-  $page->setPath($this->getBasePath('pages/modules.inc.php'));
+  $page->setPath($this->getPath('pages/modules.inc.php'));
   $page->addSubPage(new rex_be_page('modules', rex_i18n::msg('modules')));
   $page->addSubPage(new rex_be_page('actions', rex_i18n::msg('actions')));
   $mainPage = new rex_be_page_main('system', $page);

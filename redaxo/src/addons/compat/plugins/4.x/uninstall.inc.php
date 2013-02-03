@@ -1,6 +1,6 @@
 <?php
 
-include $this->getBasePath('symlinks.inc.php');
+include $this->getPath('symlinks.inc.php');
 
 foreach (array_reverse($symlinks) as $link => $target) {
   if (is_link($link))

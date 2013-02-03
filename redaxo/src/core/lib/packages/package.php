@@ -214,7 +214,7 @@ abstract class rex_package implements rex_package_interface
    */
   public function includeFile($file)
   {
-    include $this->getBasePath($file);
+    include $this->getPath($file);
   }
 
   /**
@@ -222,7 +222,7 @@ abstract class rex_package implements rex_package_interface
    */
   private function loadProperties()
   {
-    $properties = rex_file::getConfig($this->getBasePath('package.yml'));
+    $properties = rex_file::getConfig($this->getPath('package.yml'));
     foreach ($properties as $key => $value) {
       if (!isset($this->properties[$key]))
         $this->properties[$key] = rex_i18n::translateArray($value, true, array($this, 'i18n'));

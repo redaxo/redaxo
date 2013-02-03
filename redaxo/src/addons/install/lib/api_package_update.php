@@ -66,7 +66,7 @@ class rex_api_install_package_update extends rex_api_install_package_download
     foreach ($this->addon->getRegisteredPlugins() as $plugin) {
       $pluginPath = $temppath . '/plugins/' . $plugin->getName();
       if (!is_dir($pluginPath)) {
-        rex_dir::copy($plugin->getBasePath(), $pluginPath);
+        rex_dir::copy($plugin->getPath(), $pluginPath);
       } elseif ($plugin->isInstalled() && is_dir($pluginPath . '/assets')) {
         rex_dir::copy($pluginPath . '/assets', $plugin->getAssetsPath());
       }
@@ -77,7 +77,7 @@ class rex_api_install_package_update extends rex_api_install_package_download
     rename($temppath, $path);
 
     // ---- update assets
-    $origAssets = $this->addon->getBasePath('assets');
+    $origAssets = $this->addon->getPath('assets');
     if ($this->addon->isInstalled() && is_dir($origAssets)) {
       rex_dir::copy($origAssets, $assets);
     }
