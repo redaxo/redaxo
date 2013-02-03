@@ -91,5 +91,5 @@ if (!rex::isSetup()) {
 
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
   unset($REX);
-  require rex_path::core(sprintf('index_%s.php', rex::isBackend() ? 'be' : 'fe'));
+  require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
 }
