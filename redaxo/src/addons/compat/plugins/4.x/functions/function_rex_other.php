@@ -1,23 +1,23 @@
 <?php
 
 /**
- * @see rex_deleteCache()
+ * @see rex_delete_cache()
  *
  * @deprecated 5.0
  */
 function rex_generateAll()
 {
-  return rex_deleteCache();
+  return rex_delete_cache();
 }
 
 /**
- * @see rex_deleteCache()
+ * @see rex_delete_cache()
  *
  * @deprecated 5.0
  */
 function rex_deleteAll()
 {
-  rex_deleteCache();
+  rex_delete_cache();
 }
 
 /**

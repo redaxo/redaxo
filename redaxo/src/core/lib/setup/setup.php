@@ -16,7 +16,7 @@ class rex_setup
   static public function init($skinAddon = 'be_style', $skinPlugin = 'redaxo')
   {
     // initial purge all generated files
-    rex_deleteCache();
+    rex_delete_cache();
 
     // delete backend session
     rex_backend_login::deleteSession();

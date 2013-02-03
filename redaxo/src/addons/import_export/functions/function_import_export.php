@@ -196,7 +196,7 @@ function rex_a1_import_db($filename)
     // require import skript to do some userside-magic
   rex_a1_import_skript(str_replace('.sql', '.php', $filename), REX_A1_IMPORT_DB, REX_A1_IMPORT_EVENT_POST);
 
-    $msg .= rex_deleteCache();
+    $msg .= rex_delete_cache();
     $return['state'] = true;
   }
 

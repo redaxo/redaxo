@@ -8,7 +8,7 @@
 /**
  * Deletes the cache
  */
-function rex_deleteCache()
+function rex_delete_cache()
 {
   // close logger, so the logfile can also be deleted
   rex_logger::close();

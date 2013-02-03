@@ -8,4 +8,4 @@
  * @package redaxo5
  */
 
-rex_deleteCache();
+rex_delete_cache();
