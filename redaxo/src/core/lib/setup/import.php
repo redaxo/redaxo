@@ -58,7 +58,7 @@ class rex_setup_importer
     // ----- volle Datenbank, alte DB löschen / drop
     $err_msg = '';
 
-    $import_sql = rex_path::core('install/redaxo5_0.sql');
+    $import_sql = rex_path::core('install.sql');
 
     $db = rex_sql::factory();
     foreach (self::getRequiredTables() as $table)
@@ -77,7 +77,7 @@ class rex_setup_importer
   {
     // ----- leere Datenbank neu einrichten
     $err_msg = '';
-    $import_sql = rex_path::core('install/redaxo5_0.sql');
+    $import_sql = rex_path::core('install.sql');
 
     if ($err_msg == '')
       $err_msg .= self::import($import_sql);
