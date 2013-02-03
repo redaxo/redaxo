@@ -361,8 +361,8 @@ pool_created = Erstellt am
 setup = Podešavanje
 setup_text = Ovde možes da restartuješ podešavanja.
 setup_error1 = Podešavanja aktivirana. Klikni ovde &gt;<a href=index.php>here</a>&lt; da bi pokrenuo ponovnu instalaciju.
-setup_error2 = No permission to 'master.php'. Please edit the file manually and fill in this \"\$REX[SETUP] = true;\"
-setup_005 = <b>Welcome to the SETUP for REDAXO.</b><br><br>What the setup is doing:<br><br>- Checking the file permissions<br>- Checking Databaselogin and write the login in die master.php<br>- Install Tables.<br>- Create adminaccount
+setup_error2 = No permission to 'boot.php'. Please edit the file manually and fill in this \"\$REX[SETUP] = true;\"
+setup_005 = <b>Welcome to the SETUP for REDAXO.</b><br><br>What the setup is doing:<br><br>- Checking the file permissions<br>- Checking Databaselogin and write the login in die boot.php<br>- Install Tables.<br>- Create adminaccount
 setup_006 = Start setup and accept License
 setup_step1 = SETUP: STEP 1 of 5
 setup_010 = Sorry but your version of PHP is too old (less than 4.1.0), please update to a newer version
@@ -375,10 +375,10 @@ setup_018 = Please correct these problems and repeat the setup.
 setup_019 = Repeat step 1
 setup_headline1 = Checking PHP Version and filesystem permissions
 setup_step2 = SETUP: STEP 2 of 5
-setup_020 = <b>include/master.php</b> could not be written. could not be written. Don't know what went wrong!
+setup_020 = <b>include/boot.php</b> could not be written. could not be written. Don't know what went wrong!
 setup_021 = Connection to database failed!
 setup_022 = The database could not be opened!
-setup_023 = Creating 'include/master.php'
+setup_023 = Creating 'include/boot.php'
 setup_024 = Server Domain [optional]
 setup_025 = Server Description [optional]
 setup_026 = Admin E-Mail [optional]
@@ -412,7 +412,7 @@ setup_047 = Password
 setup_048 = Dont create a user
 setup_049 = Go on to step 5
 setup_step5 = SETUP: STEP 5 of 5
-setup_050 = 'master.php' could not be overwritten. Please edit the file manually via FTP.
+setup_050 = 'boot.php' could not be overwritten. Please edit the file manually via FTP.
 setup_051 = Congratulations, you have successfully installed REDAXO! <br><br>Please read this:<br><br><b>1. Login with your account <a href=index.php>login</a><br>2. Import a demo: Go to 'Import/Export' and choose a database to import AND a filepakage to import.</b><br><br><br>Enjoy REDAXO and have fun<br><br>Your REDAXO Team <br><br>
 database_imported = database imported.
 entry_count = {0} eintries

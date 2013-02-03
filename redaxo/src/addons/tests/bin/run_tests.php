@@ -25,7 +25,7 @@ $REX['HTDOCS_PATH'] = '../';
 $REX['BACKEND_FOLDER'] = 'redaxo';
 
 // bootstrap core
-require 'src/core/master.php';
+require 'src/core/boot.php';
 
 // bootstrap addons
 include_once rex_path::core('packages.php');

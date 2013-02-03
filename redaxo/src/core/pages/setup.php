@@ -108,7 +108,7 @@ if ($step == 3) {
       },
       error: function(data) {
         $.ajax({
-          url: "' . rex_url::backend('src/core/master.php') . '",
+          url: "' . rex_url::backend('src/core/boot.php') . '",
           success: function(data) {
             $(".rex-setup-security-message").removeClass("rex-hidden");
           },
