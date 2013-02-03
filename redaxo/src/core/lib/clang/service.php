@@ -99,7 +99,7 @@ class rex_clang_service
   }
 
   /**
-   * Schreibt Spracheigenschaften in die Datei include/clang.inc.php
+   * Schreibt Spracheigenschaften in die Datei include/clang.php
    *
    * @throws rex_exception
    */

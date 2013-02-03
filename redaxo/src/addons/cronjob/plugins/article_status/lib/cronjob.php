@@ -55,7 +55,7 @@ class rex_cronjob_article_status extends rex_cronjob
     ');
     $rows = $sql->getRows();
 
-    include_once rex_path::addon('structure', 'functions/function_rex_structure.inc.php');
+    include_once rex_path::addon('structure', 'functions/function_rex_structure.php');
 
     for ($i = 0; $i < $rows; $i++) {
       if (in_array($sql->getValue('status'), $from['before']))

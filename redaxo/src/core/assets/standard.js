@@ -471,7 +471,7 @@ jQuery(function($){
     setCookie('htaccess_check', '1', time.toGMTString());
     checkHtaccess('cache', '.redaxo');
     checkHtaccess('data', 'config.yml');
-    checkHtaccess('src', 'core/master.inc.php');
+    checkHtaccess('src', 'core/master.php');
   }
 
   function checkHtaccess(dir, file)

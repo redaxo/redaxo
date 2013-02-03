@@ -33,10 +33,10 @@ class rex_api_install_package_update extends rex_api_install_package_download
       return $msg;
     }
 
-    // ---- include update.inc.php
-    if ($this->addon->isInstalled() && file_exists($temppath . 'update.inc.php')) {
+    // ---- include update.php
+    if ($this->addon->isInstalled() && file_exists($temppath . 'update.php')) {
       try {
-        rex_addon_manager::includeFile($this->addon, '../_new_' . $this->addonkey . '/update.inc.php');
+        rex_addon_manager::includeFile($this->addon, '../_new_' . $this->addonkey . '/update.php');
       } catch (rex_functional_exception $e) {
         return $e->getMessage();
       } catch (rex_sql_exception $e) {

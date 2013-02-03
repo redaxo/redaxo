@@ -7,10 +7,10 @@ abstract class rex_package_manager extends rex_factory_base
 {
   const
     PACKAGE_FILE = 'package.yml',
-    CONFIG_FILE = 'config.inc.php',
-    INSTALL_FILE = 'install.inc.php',
+    CONFIG_FILE = 'config.php',
+    INSTALL_FILE = 'install.php',
     INSTALL_SQL = 'install.sql',
-    UNINSTALL_FILE = 'uninstall.inc.php',
+    UNINSTALL_FILE = 'uninstall.php',
     UNINSTALL_SQL = 'uninstall.sql',
     ASSETS_FOLDER = 'assets';
 
@@ -111,7 +111,7 @@ abstract class rex_package_manager extends rex_factory_base
 
     $this->package->setProperty('install', true);
 
-    // check if install.inc.php exists
+    // check if install.php exists
     if ($state === true && is_readable($install_file)) {
       rex_autoload::addDirectory($this->package->getPath('lib'));
       rex_autoload::addDirectory($this->package->getPath('vendor'));
@@ -186,7 +186,7 @@ abstract class rex_package_manager extends rex_factory_base
     // start un-installation
     $this->package->setProperty('install', false);
 
-    // check if uninstall.inc.php exists
+    // check if uninstall.php exists
     if ($state === true && is_readable($uninstall_file)) {
       try {
         static::includeFile($this->package, self::UNINSTALL_FILE);

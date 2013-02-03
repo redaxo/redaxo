@@ -25,7 +25,7 @@ $REX['HTDOCS_PATH'] = '../';
 $REX['BACKEND_FOLDER'] = 'redaxo';
 
 // bootstrap core
-require 'src/core/master.inc.php';
+require 'src/core/master.php';
 
 // run setup, if instance not already prepared
 if (rex::isSetup()) {

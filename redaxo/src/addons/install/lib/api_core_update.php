@@ -49,9 +49,9 @@ class rex_api_install_core_update extends rex_api_function
     if (!$message && !rex_dir::copy($archive, $temppath)) {
       $message = $addon->i18n('warning_core_zip_not_extracted');
     }
-    if (!$message && file_exists($temppath . 'update.inc.php')) {
+    if (!$message && file_exists($temppath . 'update.php')) {
       try {
-        include $temppath . 'update.inc.php';
+        include $temppath . 'update.php';
       } catch (rex_functional_exception $e) {
         $message = $e->getMessage();
       } catch (rex_sql_exception $e) {

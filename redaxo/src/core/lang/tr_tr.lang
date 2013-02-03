@@ -27,7 +27,7 @@ structure = Yapý
 statistics = Ýstatistikler
 logout = Oturumu kapat
 
-# redaxo/include/classes/class.login.inc.php
+# redaxo/include/classes/class.login.php
 login_name  =  Kullanýcý adý
 password  =  Parola
 login_error = Oturum açmada hata oluþtu. Lütfen {0} saniye sonra tekrar deneyiniz.
@@ -39,7 +39,7 @@ login_logged_out = Oturum kapatýldý.
 # redaxo/include/layout_redaxo/top.php
 logged_out  =  Oturumunuz yok
 
-# redaxo/include/classes/class.article.inc.php
+# redaxo/include/classes/class.article.php
 add_block  =  Dilim ekle
 edit  =  Düzenle
 delete  =  Sil
@@ -53,16 +53,16 @@ update_block = Onayla
 save_block = Kaydet
 edit_block = Dilimi düzenle
 
-# redaxo/include/classes/class.form.inc.php
+# redaxo/include/classes/class.form.php
 submit_data  =  verileri yolla
 file_doesnt_exist  =  Dosya mevcut deðil.
 choose_another_one  =  Baþkasýný seç.
 
-# redaxo/include/classes/class.mail_decode.inc.php
+# redaxo/include/classes/class.mail_decode.php
 download  =  Yükle
 clipboard  =  Not panosu
 
-# redaxo/include/functions/function_rex_generate.inc.php
+# redaxo/include/functions/function_rex_generate.php
 article_moved = Yazý taþýnamadý!
 article_deleted = Yazý silindi!
 could_not_move_article = Yaþý taþýnamadý.
@@ -75,7 +75,7 @@ cant_delete_startarticle = Baþlangýç yazýsý silinemez.
 # redaxo\include\pages\dashboard
 dashboard = Dashboard
 
-# redaxo\include\pages\content.inc.php
+# redaxo\include\pages\content.php
 block_updated = Dilim güncellendi
 block_added = Dilim eklendi
 no_rights_to_this_function = Bu iþleve yetkiniz yok!
@@ -143,7 +143,7 @@ content_types = Kolonlar
 content_type = Kolon
 option = opsiyonlu
 
-# redaxo\include\pages\module.inc.php
+# redaxo\include\pages\module.php
 module_cannot_be_deleted = '{0}' adlý Modül silinemez, çünkü daha aþaðýdaki yazýlar tarafýndan kullanýlmakta:
 module_deleted = Modül silindi!
 module_added = Modül eklendi
@@ -194,7 +194,7 @@ action_summary = Mevcut Aksiyonlar Listesi
 actions_added_caption = Tahsis edilmiþ aksiyonlarýn Listesi
 actions_added_summary = Tahsis edilmiþ aksiyonlarýn Listesi
 
-# redaxo\include\pages\structure.inc.php
+# redaxo\include\pages\structure.php
 title_structure = Yapý Yönetimi
 no_such_category = Kategori mevcut deðil!
 category_updated = Kategori güncellendi.
@@ -235,7 +235,7 @@ structure_categories_caption = '{0}' Kategorinin Alt Kategoriler Listesi
 structure_articles_summary = '{0}' Kategorinin Yazýlar Listesi
 structure_articles_caption = '{0}' Kategorinin Yazýlar Listesi
 
-# redaxo\include\pages\template.inc.php
+# redaxo\include\pages\template.php
 title_templates = Þablonlar
 cant_delete_default_template = Bu 'default' þablonu ve silinemez!
 cant_delete_template_because_its_in_use = '{0}' þablonu silinemez, çünkü çeþitli yazýlar tarafýndan kullanýlmakta.
@@ -258,12 +258,12 @@ delete_template = Sil
 header_template_caption = Mevcut Þablonlar Listesi
 header_template_summary = Mevcut Þablonlar Listesi
 
-# redaxo\include\functions\function_rex_category.inc.php
+# redaxo\include\functions\function_rex_category.php
 article = Yazý
 start_article = Baþlangýç yazýsý
 path = Yörünge
 
-# redaxo\include\pages\user.inc.php
+# redaxo\include\pages\user.php
 title_user = Kullanýcý
 user_data_updated = Kullanýcý bilgileri güncellendi!
 user_deleted = Kullanýcý silindi!
@@ -300,7 +300,7 @@ user_caption = Kullanýcý Listesi
 user_summary = Kullanýcý Listesi
 user_status = Etkin
 
-# redaxo\include\pages\special.inc.php
+# redaxo\include\pages\special.php
 articles_generated = Yazýlar ve þablonlar tekrar oluþturuldu, ön bellek silindi!
 old_articles_deleted = [Eski yazýlar ve þablonlar silindi]
 links_ok = Tüm baðlar geçerli.
@@ -355,7 +355,7 @@ clang_caption = Mevcut Dillerin Listesi
 clang_summary = Mevcut Dillerin Listesi
 clang_function = Fonksiyonlar
 
-# redaxo\include\pages\medienpool.inc.php
+# redaxo\include\pages\medienpool.php
 pool_name = Medya havuzu
 pool_kats = Kategori
 pool_kats_no = Kategorisiz
@@ -451,9 +451,9 @@ recommended = tavsiye edilir
 setup = Kurucu
 setup_text = Kurucuyu burdan tekrar baþlatabilirsiniz. Sadece acil durumlar için, normal þartlarda gerekli deðil.
 setup_error1 = Kurucu etkinleþtirildi. Lütfen {0}> devam <{1}'a týklayarak kurucuyu baþlatýnýz.
-setup_error2 = Maalesef master.inc.php dosyasýna yazýlamadý. Lütfen içersine \"\$REX[SETUP] = true;\" yazýnýz.
+setup_error2 = Maalesef master.php dosyasýna yazýlamadý. Lütfen içersine \"\$REX[SETUP] = true;\" yazýnýz.
 setup_005 = {0}REDAXO kurucusuna hoþgeldiniz.{1}
-setup_005 = {0}Þimdi neler uygulanacak:{1}<ul{2}><li>Dosya yetkileri kontrol edilecek.</li><li>Veritabaný eriþiminiz kontrol edilip master.inc.php dosyasýna kaydedilecek.</li><li>Veritabaný (yeni) oluþturulacak.</li><li>Bir yönetici hesabý oluþturulacak</li></ul>
+setup_005 = {0}Þimdi neler uygulanacak:{1}<ul{2}><li>Dosya yetkileri kontrol edilecek.</li><li>Veritabaný eriþiminiz kontrol edilip master.php dosyasýna kaydedilecek.</li><li>Veritabaný (yeni) oluþturulacak.</li><li>Bir yönetici hesabý oluþturulacak</li></ul>
 setup_006 = Lisans anlaþmasýný kabul ediyorum ve kurucuyu baþlat
 setup_step1 = Kurucu: Basamak 1 / 5
 setup_010 = PHP sürümünüz çok eski ({0}), lütfen yeni sürüme güncelleyiniz (en az 4.3.2, en yenisi tavsiye edilir)
@@ -468,10 +468,10 @@ setup_018 = Lütfen üstteki hatalarý çözünüz ve kurucuyu yeniden baþlatý
 setup_019 = 1. basamaðý tekrarla
 setup_headline1 = PHP-Sürüm kontrolü | Yetki kontrolü
 setup_step2 = Kurucu: Basamak 2 / 5
-setup_020 = {0}include/master.inc.php{1} adlý dosyaya yazýlamadý!
+setup_020 = {0}include/master.php{1} adlý dosyaya yazýlamadý!
 setup_021 = Veritabanýna eriþilemedi!
 setup_022 = Verilen Veritabaný açýlamadý!
-setup_023 = 'include/master.inc.php' oluþtur
+setup_023 = 'include/master.php' oluþtur
 setup_024 = Sunucu alan adý [opsiyonlu]
 setup_025 = Sunucu tanýmý [opsiyonlu]
 setup_026 = Hata E-Maili [opsiyonlu]
@@ -507,7 +507,7 @@ setup_047 = Parola
 setup_048 = Kullanýcý oluþturma
 setup_049 = 5. basamakla devam et
 setup_step5 = Kurucu: Basamak 5 / 5
-setup_050 = Maalesef master.inc.php dosyasýna yazýlamadý. Lütfen dosyayý FTP aracýlýyla elle deðiþtiriniz.
+setup_050 = Maalesef master.php dosyasýna yazýlamadý. Lütfen dosyayý FTP aracýlýyla elle deðiþtiriniz.
 setup_051 = {0}Baþardýn - REDAXO'ya hoþgeldin!{1}
 setup_052 = {0}Devam et:{1}<ul{2}><li>1. {3}Oluþturduðun hesab ile oturum aç{4}</li><li>2. Demo içeri aktarmak için [oturum açtýktan sonra]: Import/Export'a týkla, veritabaný ve dosyalarý yükle.</li></ul>
 setup_053 = Ýyi eðlenceler ve baþarýlar<br />REDAXO Ekibi
@@ -518,7 +518,7 @@ setup_no_encryption = þifrelemesiz
 setup_security_msg = redaxo/include klasörü emniyetsiz. Lütfen bu klasörü koruyun (yetkileri sýklaþtýrýn) ve Kurucu yeniden baþlatýn!
 setup_no_js_security_msg = redaxo/include klasöründeki dosyalarýna browser tarafýndan direk açýlýyormu diye kontrol ediniz! Güvenlik için bu mümkün olmamasý gerekiyor!
 
-# redaxo\include\pages\addon.inc.php
+# redaxo\include\pages\addon.php
 addon = Eklentiler
 addon_help = Yardým
 addon_no_help_file = Yardým dosyasý bulunamadý
@@ -550,12 +550,12 @@ addon_summary = Eklenti listesi
 addon_systemaddon = Sistem eklentisi
 addon_systemaddon_delete_not_allowed = Sistem eklentileri silinemez!
 
-# redaxo\include\classes\class.rex_list.inc.php
+# redaxo\include\classes\class.rex_list.php
 list_no_rows = Mevcut veri yok!
 
-# redaxo\include\pages\credits.inc.php
+# redaxo\include\pages\credits.php
 credits = jenerik
 
-# redaxo\include\pages\linkmap.inc.php
+# redaxo\include\pages\linkmap.php
 lmap_categories = Kategoriler
 lmap_articles = Yazýlar

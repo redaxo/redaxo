@@ -35,7 +35,7 @@ logout = Odhlá¹ení
 navigation_basis = Basis Navigation
 navigation_addons = AddOny
 
-# redaxo/include/classes/class.login.inc.php
+# redaxo/include/classes/class.login.php
 login_name  =  U¾ivatelské jméno
 password  =  Heslo
 login_error = Chyba pøi pøihla¹ování. Zkuste znovu za {0} vteøin.
@@ -48,7 +48,7 @@ logged_in_as  =  Pøihlá¹en jako
 # redaxo/include/layout_redaxo/top.php
 logged_out  =  Odhlá¹en
 
-# redaxo/include/classes/class.article.inc.php
+# redaxo/include/classes/class.article.php
 add_block  =  Pøidat blok
 edit  =  Upravit
 delete  =  Smazat
@@ -62,16 +62,16 @@ update_block = Aktualizovat blok
 save_block = Ulo¾it blok
 edit_block = Upravit blok
 
-# redaxo/include/classes/class.form.inc.php
+# redaxo/include/classes/class.form.php
 submit_data  =  Potvrdit data
 file_doesnt_exist  =  Soubor neexistuje.
 choose_another_one  =  Prosím zvolte jiný.
 
-# redaxo/include/classes/class.mail_decode.inc.php
+# redaxo/include/classes/class.mail_decode.php
 download  =  Stáhnout
 clipboard  =  Schránka
 
-# redaxo/include/functions/function_rex_generate.inc.php
+# redaxo/include/functions/function_rex_generate.php
 article_moved = Polo¾ka pøemístìna!
 article_deleted = Polo¾ka smazána!
 could_not_move_article = Nemohu pøemístit polo¾ku.
@@ -84,7 +84,7 @@ cant_delete_startarticle = Poèáteèní polo¾ku nelze smazat!
 # redaxo\include\pages\dashboard
 dashboard = Dashboard
 
-# redaxo\include\pages\content.inc.php
+# redaxo\include\pages\content.php
 move_slice_up = Posunout nahoru
 move_slice_down = Posunout dolù
 block_updated = Blok aktualizován!
@@ -154,7 +154,7 @@ content_types = Sloupcù
 content_type = Sloupec
 option = volitelné
 
-# redaxo\include\pages\module.inc.php
+# redaxo\include\pages\module.php
 modules_not_found = Moduly nebyly nalezeny.
 module_cannot_be_deleted = Modul '{0}' nebyl smazán, proto¾e je pou¾íván následujícími polo¾kami:
 module_deleted = Modul smazán!
@@ -207,7 +207,7 @@ actions_added_caption = Seznam pøidaných akcí
 actions_added_summary = Seznam pøidaných akcí
 
 
-# redaxo\include\pages\structure.inc.php
+# redaxo\include\pages\structure.php
 title_structure = Správa struktury
 no_such_category = Kategorie nenalezena!
 category_updated = Kategorie aktualizována.
@@ -248,7 +248,7 @@ structure_categories_caption = Seznam podkategorií v "{0}"
 structure_articles_summary = Seznam polo¾ek v "{0}"
 structure_articles_caption = Seznam polo¾ek v "{0}"
 
-# redaxo\include\pages\template.inc.php
+# redaxo\include\pages\template.php
 templates_not_found = Nebyly nalezeny ¾ádné ¹ablony.
 title_templates = ©ablony
 cant_delete_default_template = Toto je 'základní' ¹ablona a nemù¾e být smazána!
@@ -274,12 +274,12 @@ header_template_summary = Seznam ¹ablon
 modules_available = K dispozici jsou jen následující moduly
 modules_available_all = V¹echny moduly k dispozici
 
-# redaxo\include\functions\function_rex_category.inc.php
+# redaxo\include\functions\function_rex_category.php
 article = Polo¾ka
 start_article = Poèáteèní polo¾ka
 path = Cesta
 
-# redaxo\include\pages\user.inc.php
+# redaxo\include\pages\user.php
 title_user = U¾ivatel
 user_data_updated = Data u¾ivatele aktualizována!
 user_deleted = U¾ivatel smazán!
@@ -318,7 +318,7 @@ user_status = Status
 backend_language = backend jazyk
 startpage = Startovací stránka
 
-# redaxo\include\pages\special.inc.php
+# redaxo\include\pages\special.php
 articles_generated = Polo¾ky a ¹ablony vygenerovány, cache smazána!
 old_articles_deleted = [Starépolo¾ky a ¹ablony smazány]
 links_ok = V¹echny odkazy funkèní.
@@ -359,7 +359,7 @@ clang_caption = Seznam jazykù k dispozici
 clang_summary = Výpis v¹ech jazykù
 clang_function = Funkce
 
-# redaxo\include\pages\medienpool.inc.php
+# redaxo\include\pages\medienpool.php
 pool_name = Média
 pool_kats = Kategorie
 pool_kats_no = ®ádná kategorie
@@ -455,14 +455,14 @@ pool_max_uploadtime = Maximální èas nahrávání
 pool_upload_disabled = Deaktiován!
 pool_upload = Soubor nahrán
 
-# redaxo/include/pages\medienpool.inc.php\setup.inc.php
+# redaxo/include/pages\medienpool.php\setup.php
 recommended = doporuèené
 setup = Nastavení
 setup_text = Zde mù¾ete zahájit nastavovací proces. Pou¾ijte jen v pøípadì nouze!
 setup_error1 = Nastavení aktivováno. Prosím kliknìte na {0}>Pokraèovat<{1} pro spu¹tìní nastavování.
-setup_error2 = Chyba. master.inc.php není ulo¾en pro zápis. Prosím vlo¾te \"\$REX[SETUP] = true;\" do master.inc.php
-setup_005 = <h2>Vítejte do nastavení Redaxo.</h2><p>co se teï bude dít:</p><ul><li>Práva k adresáøùm budou zkontrolována</li><li>Pøístup do databáze bude zkontrolován a ulo¾en do master.inc.php</li><li>Databáze bude aktualizována/vytvoøena.</li><li>Administrátorský úèet bude vytvoøen</li></ul>
-setup_005_1 = {0}Co se stane nyní:{1}<ul{2}><li>Oprávnìní souborù budou pøekontrolovány</li><li>Bude zkontrolován pøístup k databázi a zanesen do master.inc.php</li><li>Databáze bude (novì) zalo¾ena.</li><li>Bude vytvoøen administrátorský pøístup</li></ul>
+setup_error2 = Chyba. master.php není ulo¾en pro zápis. Prosím vlo¾te \"\$REX[SETUP] = true;\" do master.php
+setup_005 = <h2>Vítejte do nastavení Redaxo.</h2><p>co se teï bude dít:</p><ul><li>Práva k adresáøùm budou zkontrolována</li><li>Pøístup do databáze bude zkontrolován a ulo¾en do master.php</li><li>Databáze bude aktualizována/vytvoøena.</li><li>Administrátorský úèet bude vytvoøen</li></ul>
+setup_005_1 = {0}Co se stane nyní:{1}<ul{2}><li>Oprávnìní souborù budou pøekontrolovány</li><li>Bude zkontrolován pøístup k databázi a zanesen do master.php</li><li>Databáze bude (novì) zalo¾ena.</li><li>Bude vytvoøen administrátorský pøístup</li></ul>
 setup_006 = Zaèít s nastavováním a pøijmout licenèní podmínky
 setup_step1 = Nastavování: Krok 1 z 5
 setup_010 = Verze PHP na serveruje pøíli¹ stará ({0}), prosím aktualizujte PHP (minimum: 4.3.2, doporuèujeme nejnovìj¹í verzi)
@@ -478,10 +478,10 @@ setup_018 = Prosím vyøe¹te vypsané chyby a spus»te znovu nastavení.
 setup_019 = Opakovat krok 1
 setup_headline1 = kontrola verze PHP | Kontrola pøístupových práv
 setup_step2 = Nastavování: Krok 2 z 5
-setup_020 = {0}include/master.inc.php{1} nebyl zapsán!
+setup_020 = {0}include/master.php{1} nebyl zapsán!
 setup_021 = Nepovedlo se navázat spojení s databází!
 setup_022 = Chyba. Zadaná databáze se nedá otevøít!
-setup_023 = Generovat 'include/master.inc.php'
+setup_023 = Generovat 'include/master.php'
 setup_024 = Doména serveru [volitelné]
 setup_025 = Popis serveru [volitelné]
 setup_026 = Email pro posílání chyb [volitelné]
@@ -516,7 +516,7 @@ setup_047 = Heslo
 setup_048 = Nevytváøet u¾ivatele
 setup_049 = Pokraèovat na krok 5
 setup_step5 = Nastavování: Krok 5 z 5
-setup_050 = Do konfiguraèního soubor master.inc.php nelze zapisovat. Prosím upravte soubor ruènì, napø. nahráním pøes FTP.
+setup_050 = Do konfiguraèního soubor master.php nelze zapisovat. Prosím upravte soubor ruènì, napø. nahráním pøes FTP.
 setup_051 = {0}Povedlo se - Vítejte do Redaxa!{1}Prosím podívejte se na:<ul><li>1. Úèet{2} se zalo¾eným u¾ivatelským úètem{3}</li><li>2. Import dema za pou¾ití [pokud jste pøihlá¹eni]: Import/export a import databáze souborù a souborù samoztných</li></ul>Hodnì ¹tìstí a zábavy!<br />The REDAXO team
 setup_052 = {0}Vìnujte prosím pozornost:{1}<ul{2}><li>1. Pøihla¹te se {3} vytvoøeným pøístupem{4}</li><li>2. Importujte demo pøes [po zalogování]: Import/Export a tam instalovat databáze a soubory.</li></ul>
 setup_053 = Hodnì zábavy a úspìchù <br />Vá¹ REDAXO Team
@@ -529,7 +529,7 @@ setup_security_msg = Adresáø redaxo/include není bezpeèný. Prosím zabezpe�
 setup_no_js_security_msg = Prosím zkontrolujte, jestli jsou soubory v adresáøi redaxo/include pøímo pøístupné! Kvùli bezpeènostním omezením to nemusí být mo¾né!
 setup_create_db = Zalo¾it databázy?
 
-# redaxo\include\pages\addon.inc.php
+# redaxo\include\pages\addon.php
 addon = Plug-in
 addons = Plug-iny
 addon_help = Pomoc
@@ -566,9 +566,9 @@ addon_systemaddon_delete_not_allowed = Systémové plug-iny nelze odinstalovat!
 addon_install_cant_copy_files = Chyba pøi kopírování souborù!
 addon_install_cant_delete_files = Chyba pøi mazání souborù!
 plugin_plugins_installed = PlugIn instalován
-plugin_install_not_found = Instalaèní soubor nebyl nalezen (install.inc.php)!
-plugin_uninstall_not_found = Deinstalaèní soubor nebyl nalezen (uninstall.inc.php)!
-plugin_config_not_found = Konfiguraèní soubor nebyl nalezen (config.inc.php)!
+plugin_install_not_found = Instalaèní soubor nebyl nalezen (install.php)!
+plugin_uninstall_not_found = Deinstalaèní soubor nebyl nalezen (uninstall.php)!
+plugin_config_not_found = Konfiguraèní soubor nebyl nalezen (config.php)!
 plugin_no_install = PlugIn "{0}" <b>nemù¾e</b> být z následujících dùvodù nainstalován:
 plugin_no_uninstall = PlugIn "{0}" <b>nemù¾e</b> být z následujících dùvodù odinstalován:
 plugin_no_reason = Nebyl nalezen ¾ádný dùvod.
@@ -583,10 +583,10 @@ plugin_uninstall_question = PlugIn "{0}" odinstalovat?
 plugin_install_cant_copy_files = Chyba pøi kopírování souborù!
 plugin_install_cant_delete_files = Chyba pøi kopírování souborù!
 
-# redaxo\include\classes\class.rex_list.inc.php
+# redaxo\include\classes\class.rex_list.php
 list_no_rows = ®ádná data nejsou k dispozici
 
-# redaxo\include\pages\credits.inc.php
+# redaxo\include\pages\credits.php
 credits = autoøi
 credits_name = Plug-in
 credits_version = Verze
@@ -596,19 +596,19 @@ credits_addon_inactive = Addon neaktivní
 credits_caption = Seznam pou¾itých plug-inù
 credits_summary = Výpis v¹ech pou¾itých plug-inù
 
-# redaxo\include\pages\profile.inc.php
+# redaxo\include\pages\profile.php
 profile_myprofile = Upravit mùj u¾ivatelský profil
 profile_title = Mùj profil
 profile_save = Profil ulo¾it
 
-# redaxo\include\pages\linkmap.inc.php
+# redaxo\include\pages\linkmap.php
 inkmap = Linkmap
 lmap_title = Linkmap
 lmap_categories = Kategorie
 lmap_articles = Polo¾ky
 lmap_has_no_template = nemá ¹ablonu
 
-# redaxo\include\classes\class.rex_list.inc.php
+# redaxo\include\classes\class.rex_list.php
 list_first = první strana
 list_previous = pøedchozí strana
 list_add = vlo¾it nový záznam
@@ -617,7 +617,7 @@ list_last = poslední strana
 list_rows_found = {0} záznamù nalezeno
 list_no_rows = ¾ádné záznamy k dispozici
 
-# redaxo\include\classes\class.rex_form.inc.php
+# redaxo\include\classes\class.rex_form.php
 form_save = Ulo¾it
 form_apply = Pou¾ít
 form_delete = Smazat
@@ -630,7 +630,7 @@ form_deleted = Údaje byly smazány!
 form_delete_error = Chyba pøi mazání!
 form_resetted = Údaje byly zamítnuny!
 
-# redaxo\include\classes\variables\class.rex_var_media.inc.php
+# redaxo\include\classes\variables\class.rex_var_media.php
 var_media_open = Vybrat médium
 var_media_new = Vlo¾it nové médium
 var_media_remove = Vybrané médium smazat
@@ -639,7 +639,7 @@ var_medialist_move_up = Vybrané médium pøesunout nahoru
 var_medialist_move_down = Vybrané médium pøesunout dolù
 var_medialist_move_bottom  = Vybrané médium pøesunout nakonec
 
-# redaxo\include\classes\variables\class.rex_var_link.inc.php
+# redaxo\include\classes\variables\class.rex_var_link.php
 var_link_open = Vybrat link
 var_link_new = Vlo¾it nový link
 var_link_delete = Smazat vybraný link

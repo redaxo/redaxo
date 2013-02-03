@@ -25,10 +25,10 @@ $REX['HTDOCS_PATH'] = '../';
 $REX['BACKEND_FOLDER'] = 'redaxo';
 
 // bootstrap core
-require 'src/core/master.inc.php';
+require 'src/core/master.php';
 
 // bootstrap addons
-include_once rex_path::core('packages.inc.php');
+include_once rex_path::core('packages.php');
 
 while (ob_get_level()) {
   ob_end_clean();

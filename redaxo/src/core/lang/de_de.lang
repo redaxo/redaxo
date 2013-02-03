@@ -36,7 +36,7 @@ navigation_system = Hauptmenü
 navigation_addons = AddOns
 subnavigation = Unternavigation von {0}
 
-# redaxo/include/classes/class.login.inc.php
+# redaxo/include/classes/class.login.php
 login_name  =  Benutzername
 password  =  Passwort
 new_password = Neues Passwort
@@ -54,11 +54,11 @@ logged_out  =  nicht angemeldet
 logged_in_as  =  Angemeldet als
 safemode_deactivate = Safe mode deaktivieren
 
-# redaxo/include/classes/class.form.inc.php
+# redaxo/include/classes/class.form.php
 form_field_first_prior = Am Anfang
 form_field_after_prior = Nach dem Feld "{0}"
 
-# redaxo\include\pages\system.inc.php
+# redaxo\include\pages\system.php
 info_updated = Informationen wurden aktualisiert!
 delete_cache = Cache löschen
 delete_cache_description = Templates und Sprachdateien werden erstellt, Artikelcache wird gelöscht. Sobald ein Artikel im Frontend aufgerufen wird, wird der Cache des/der entsprechenden Artikels/Kategorie wieder erstellt.
@@ -102,7 +102,7 @@ error_email = Fehler E-Mail
 error_email_required = Es wird eine Fehler E-Mailadresse benötigt!
 debug_mode = Debug-Modus
 
-# redaxo\include\pages\medienpool.inc.php\setup.inc.php
+# redaxo\include\pages\medienpool.php\setup.php
 setup = Setup
 setup_restart = Setup neu starten
 setup_text = Hier können Sie das Setup erneut starten. Dies sollten Sie nur im Notfall machen. Unter normalen Umständen ist es nicht nötig.
@@ -199,7 +199,7 @@ sql_unable_to_create_database = Die angegebene Datenbank konnte nicht angelegt w
 sql_unable_to_find_database = Die angegebene Datenbank konnte nicht gefunden werden!
 sql_unable_to_open_database = Die angegebene Datenbank konnte nicht geöffnet werden!
 
-# redaxo\include\pages\addon.inc.php
+# redaxo\include\pages\addon.php
 addon = AddOn
 addons = AddOns
 package_help = Hilfe für
@@ -278,7 +278,7 @@ plugin_systemplugin = System PlugIn
 plugin_systempackage_delete_not_allowed = System PlugIns dürfen nicht gelöscht werden!
 plugin_dir_not_writable = Der PlugIn-Ordner hat keine Schreibrechte!
 
-# redaxo\include\pages\credits.inc.php
+# redaxo\include\pages\credits.php
 credits = Credits
 credits_name = AddOn
 credits_version = Version
@@ -292,7 +292,7 @@ credits_inventor = Erfinder
 credits_developer = Entwickler
 credits_designer = Grafiker
 
-# redaxo\include\pages\profile.inc.php
+# redaxo\include\pages\profile.php
 profile_myprofile = Mein Benutzerprofil bearbeiten
 profile_title = Mein Profil
 profile_save = Profil speichern
@@ -306,13 +306,13 @@ profile_save_psw = Passwort speichern
 backend_language = Backendsprache
 user_data_updated = Benutzerdaten wurden aktualisiert!
 
-# redaxo\include\classes\class.rex_list.inc.php
+# redaxo\include\classes\class.rex_list.php
 list_previous = vorherige Seite
 list_next = nächste Seite
 list_rows_found = {0} Einträge gefunden
 list_no_rows = Keine Einträge vorhanden
 
-# redaxo\include\classes\class.rex_form.inc.php
+# redaxo\include\classes\class.rex_form.php
 form_save = Speichern
 form_apply = Übernehmen
 form_delete = Löschen

@@ -36,7 +36,7 @@ logout = logout
 navigation_basis = Navigation de base
 navigation_addons = AddOns
 
-# redaxo/include/classes/class.login.inc.php
+# redaxo/include/classes/class.login.php
 login_name  =  Nom d'utilisateur
 password  =  Mot de passe
 login_error = Erreur lors du login. Merci d'attendre {0} secondes avant le prochain essai.
@@ -49,7 +49,7 @@ login_logged_out = Vous êtes déconnecté.
 logged_out  =  non connécté
 logged_in_as  =  Connécté :
 
-# redaxo/include/classes/class.article.inc.php
+# redaxo/include/classes/class.article.php
 add_block  =  Ajouter bloc
 edit  =  Editer
 delete  =  Effacer
@@ -63,16 +63,16 @@ update_block = Mettre à jour bloc
 save_block = Enregistrer bloc
 edit_block = Editer bloc
 
-# redaxo/include/classes/class.form.inc.php
+# redaxo/include/classes/class.form.php
 submit_data  =  Envoyer les données
 file_doesnt_exist  =  Ce fichier n'existe pas.
 choose_another_one  =  Merci d'en choisir un autre.
 
-# redaxo/include/classes/class.mail_decode.inc.php
+# redaxo/include/classes/class.mail_decode.php
 download  =  Téléchargement
 clipboard  =  Clipboard
 
-# redaxo/include/functions/function_rex_generate.inc.php
+# redaxo/include/functions/function_rex_generate.php
 article_moved = L'article a été déplacé!
 article_deleted = L'article a été effacé!
 could_not_move_article = L'article n'a pu être déplacé.
@@ -85,7 +85,7 @@ cant_delete_sitestartarticle = L'article de démarrage ne peut être effacé!
 # redaxo\include\pages\dashboard
 dashboard = Dashboard
 
-# redaxo\include\pages\content.inc.php
+# redaxo\include\pages\content.php
 move_slice_up = Déplacer vers le haut
 move_slice_down = Déplacer vers le bas
 block_updated = Le bloc a été actualisé!
@@ -155,7 +155,7 @@ content_types = Colonnes
 content_type = Colonne
 option = facultative
 
-# redaxo\include\pages\module.inc.php
+# redaxo\include\pages\module.php
 modules_not_found = Aucun module n'a été trouvé
 module_cannot_be_deleted = Le module '{0}' ne peut être éffacé, il est utilisé par les articles suivants:
 module_deleted = Le module a été effacé!
@@ -207,7 +207,7 @@ action_summary = Sommaire des actions
 actions_added_caption = Liste des actions attribuées
 actions_added_summary = Liste de toutes les action attribuées
 
-# redaxo\include\pages\structure.inc.php
+# redaxo\include\pages\structure.php
 title_structure = Administration - Structure
 no_such_category = La catégorie n'existe pas!
 category_updated = La catégorie a été actualisée.
@@ -248,7 +248,7 @@ structure_categories_caption = Liste des sous-catégories de la catégorie "{0}"
 structure_articles_summary = Liste de tous les articles de la catégorie "{0}"
 structure_articles_caption = Liste des articles de la catégorie "{0}"
 
-# redaxo\include\pages\template.inc.php
+# redaxo\include\pages\template.php
 templates_not_found = Aucun template trouvé
 title_templates = Templates
 cant_delete_template_because_its_in_use = Template '{0}' ne peut être effacé, car il est utilisé par des articles.
@@ -273,12 +273,12 @@ header_template_summary = Sommaire des templates
 modules_available = Seul les modules suivants sont disponibles
 modules_available_all = Tous les modules disponibles
 
-# redaxo\include\functions\function_rex_category.inc.php
+# redaxo\include\functions\function_rex_category.php
 article = Article
 start_article = Article de démarrage
 path = Path
 
-# redaxo\include\pages\user.inc.php
+# redaxo\include\pages\user.php
 title_user = Utilisateur
 user_data_updated = Les données de l'utilisateur ont été actualisées!
 user_deleted = L'utilisateur a été effacé!
@@ -317,7 +317,7 @@ user_status = L'utilisateur est actif
 backend_language = Langue du back office
 startpage = Page d'accueil
 
-# redaxo\include\pages\special.inc.php
+# redaxo\include\pages\special.php
 articles_generated = Articles et templates générés et cache effacé!
 old_articles_deleted = [Anciens articles et templates effacés]
 links_ok = Tous les liens sont corrects.
@@ -358,7 +358,7 @@ clang_caption = Liste des langues disponibles
 clang_summary = Liste des langues
 clang_function = Fonctions
 
-# redaxo\include\pages\medienpool.inc.php
+# redaxo\include\pages\medienpool.php
 pool_name = Médias
 pool_kats = Catégories
 pool_kats_no = Aucune catégorie
@@ -454,14 +454,14 @@ pool_max_uploadtime = Délai maximale pour téléchargement
 pool_upload_disabled = Desactivé
 pool_upload = Téléchargement du fichier
 
-# redaxo\include\pages\medienpool.inc.php\setup.inc.php
+# redaxo\include\pages\medienpool.php\setup.php
 recommended = conseillé
 setup = Setup
 setup_text = Vous pouvez recommencer le Setup ici. Seulement en cas d'urgence!
 setup_error1 = Setup activé. Merci de cliquer sur {0}>SUITE<{1} pour commencer le setup.
-setup_error2 = Le fichier master.inc.php n'a pu être écrite. Merci d'indiquer \"\$REX[SETUP] = true;\" à cet endroit.
+setup_error2 = Le fichier master.php n'a pu être écrite. Merci d'indiquer \"\$REX[SETUP] = true;\" à cet endroit.
 setup_005 = {0}Bienvenue au SETUP de REDAXO.{1}
-setup_005_1 = {0}Ce qui se passe maintenant:{1}<ul{2}><li>Les permissions des fichiers seront vérifiées</li><li>L'accès à la base de donnés sera vérifié et écrit dans le fichier master.inc.php</li><li>La base de données sera crée (à nouveau).</li><li>L'accès de l'administrateur sera crée.</li></ul>
+setup_005_1 = {0}Ce qui se passe maintenant:{1}<ul{2}><li>Les permissions des fichiers seront vérifiées</li><li>L'accès à la base de donnés sera vérifié et écrit dans le fichier master.php</li><li>La base de données sera crée (à nouveau).</li><li>L'accès de l'administrateur sera crée.</li></ul>
 setup_006 = Lancer le Setup et accepter les conditions de licence
 setup_step1 = SETUP: ETAPE 1 de 5
 setup_010 = La version PHP est trop ancienne.(en dessous de 4.1.0), merci de l'actualiser. (au moins 4.3.2, la plus récente conseillé)
@@ -477,10 +477,10 @@ setup_018 = Merci de corriger les erreurs et de recommencer le Setup.
 setup_019 = Recommencer avec l'ETAPE 1
 setup_headline1 = PHP-Vérification de la version | Vérification des permissions
 setup_step2 = Setup: ETAPE 2 de 5
-setup_020 = {0}include/master.inc.php{1} n'a pu être écrite.
+setup_020 = {0}include/master.php{1} n'a pu être écrite.
 setup_021 = Impossible de faire une connexion avec la base de données!
 setup_022 = La base de données n'a pu être ouverte!
-setup_023 = Ecriture de la 'include/master.inc.php'
+setup_023 = Ecriture de la 'include/master.php'
 setup_024 = Domaine du serveur [optional]
 setup_025 = Nom du serveur [optional]
 setup_026 = Adresse mail pour erreurs [optional]
@@ -516,7 +516,7 @@ setup_047 = Mot de passe
 setup_048 = Ne pas créer d'utilisateur
 setup_049 = Suite : ETAPE 5
 setup_step5 = SETUP: ETAPE 5 de 5
-setup_050 = La master.inc.php n'a pu être écrite. Merci de modifier le fichier manuellement par accès FTP.
+setup_050 = La master.php n'a pu être écrite. Merci de modifier le fichier manuellement par accès FTP.
 setup_051 = {0}Félicitations ! REDAXO est installé.{1}
 setup_052 = {0}Remarque:{1}<ul{2}><li>1. Proceder au login avec {3}le compte crée {4}</li><li>2. Importation d'une Demo par [si connecté]: Import/Export. Installer respectivement la base de données ainsi que les fichiers (files).</li></ul>
 setup_053 = Nous vous souhaitons beaucoup de plaisir et de succès avec REDAXO<br />>L'équipe REDAXO
@@ -529,7 +529,7 @@ setup_security_msg = Le dossier (repertoire) redaxo/include n'est pas sécurisé
 setup_no_js_security_msg = Merci de verifier si les fichiers se trouvant dans le dossier redaxo/include sont accessibles directement! Pour raison de sécurité cela ne doit pas être possible!
 setup_create_db = Créer base de données?
 
-# redaxo\include\pages\addon.inc.php
+# redaxo\include\pages\addon.php
 addon = AddOn
 addons = AddOns
 addon_help = Aide pour
@@ -566,9 +566,9 @@ addon_systemaddon_delete_not_allowed = les AddOns du système ne peuvent pas êt
 addon_install_cant_copy_files = Erreur lors de la copie du dossier /files !
 addon_install_cant_delete_files = Erreur lors de la suppression du dossier /files !
 plugin_plugins_installed = PlugIn installié
-plugin_install_not_found = Le fichier d'installation n'a pas été trouvé (install.inc.php)!
-plugin_uninstall_not_found = Le fichier de deinstallation n'a pas été trouvé (uninstall.inc.php)!
-plugin_config_not_found = Le fichier de configuration n'a pas été trouvé(config.inc.php)!
+plugin_install_not_found = Le fichier d'installation n'a pas été trouvé (install.php)!
+plugin_uninstall_not_found = Le fichier de deinstallation n'a pas été trouvé (uninstall.php)!
+plugin_config_not_found = Le fichier de configuration n'a pas été trouvé(config.php)!
 plugin_no_install = Le PlugIn "{0}" n'a pu être installé. Raison:
 plugin_no_uninstall = Le PlugIn "{0}" n'a pu être deinstallé. Raison:
 plugin_no_reason = Aucune raison.
@@ -583,7 +583,7 @@ plugin_uninstall_question = Voulez-vous vraiment deinstaller le PlugIn "{0}"?
 plugin_install_cant_copy_files = Erreur lors de la copie du dossier /files!
 plugin_install_cant_delete_files = Erreur lors de la suppression du dossier /files!
 
-# redaxo\include\pages\credits.inc.php
+# redaxo\include\pages\credits.php
 credits = Crédits
 credits_name = AddOn
 credits_version = Version
@@ -593,19 +593,19 @@ credits_addon_inactive = Addon inactif
 credits_caption = Liste de tous le AddOns/PlugIns utilisés
 credits_summary = Sommaire de tous les AddOns/PlugIns utilisés
 
-# redaxo\include\pages\profile.inc.php
+# redaxo\include\pages\profile.php
 profile_myprofile = Editer mon profil d'utilisateur
 profile_title = Mon profil
 profile_save = Enregistrer profil
 
-# redaxo\include\pages\linkmap.inc.php
+# redaxo\include\pages\linkmap.php
 linkmap = Linkmap
 lmap_title = Linkmap
 lmap_categories = Catégories
 lmap_articles = Articles
 lmap_has_no_template = n'a pas de template
 
-# redaxo\include\classes\class.rex_list.inc.php
+# redaxo\include\classes\class.rex_list.php
 list_first = première page
 list_previous = page précédente
 list_add = Ajouter nouvelle liste
@@ -614,7 +614,7 @@ list_last = dernière page
 list_rows_found = {0} listes trouvées
 list_no_rows = Aucune liste trouvée
 
-# redaxo\include\classes\class.rex_form.inc.php
+# redaxo\include\classes\class.rex_form.php
 form_save = Enregistrer
 form_apply = Appliquer
 form_delete = Effacer
@@ -627,7 +627,7 @@ form_deleted = Données effacées!
 form_delete_error = Erreur lors de la suppression!
 form_resetted = Modification des données annulée!
 
-# redaxo\include\classes\variables\class.rex_var_media.inc.php
+# redaxo\include\classes\variables\class.rex_var_media.php
 var_media_open = Sélectionner média
 var_media_new = Ajouter nouveau média
 var_media_remove = Effacer média selectionné
@@ -636,7 +636,7 @@ var_medialist_move_up = Déplacer média selectionné vers le haut
 var_medialist_move_down = Déplacer média selectionné vers le bas
 var_medialist_move_bottom  = Déplacer média sélectionné à la fin
 
-# redaxo\include\classes\variables\class.rex_var_link.inc.php
+# redaxo\include\classes\variables\class.rex_var_link.php
 var_link_open = Sélectionner lien
 var_link_new = Ajouter nouveau lien
 var_link_delete = Effacer lien sélectionné

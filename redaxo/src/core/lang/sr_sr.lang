@@ -27,14 +27,14 @@ structure = Struktura
 statistics = Statitistika
 logout = Odjavi se
 
-# redaxo/include/classes/class.login.inc.php
+# redaxo/include/classes/class.login.php
 login_name  =  Korisni&#269;ko ime
 password  =  Lozinka
 
 # redaxo/include/layout_redaxo/top.php
 logged_out  =  Niste prijavljeni!
 
-# redaxo/include/classes/class.article.inc.php
+# redaxo/include/classes/class.article.php
 add_block  =  Dodaj blok
 edit  =  Izmeni
 delete  =  Izbriši
@@ -47,16 +47,16 @@ submit  =  Pošalji
 update_block = Osveži blok
 save_block = Sa&#269;uvaj blok
 
-# redaxo/include/classes/class.form.inc.php
+# redaxo/include/classes/class.form.php
 submit_data  =  Pošalji podatke
 file_doesnt_exist  =  Fajl ne postoji
 choose_another_one  =  Izaberite drugi fajl
 
-# redaxo/include/classes/class.mail_decode.inc.php
+# redaxo/include/classes/class.mail_decode.php
 download  =  Preuzimanje
 clipboard  =  Klipbord
 
-# redaxo/include/functions/function_rex_generate.inc.php
+# redaxo/include/functions/function_rex_generate.php
 article_moved = Stranica pomerena!
 article_deleted = Stranica izbrisana!
 could_not_move_article = Stranica se ne može pomeriti !
@@ -69,7 +69,7 @@ cant_delete_startarticle = Ne možete izbrisati po&#269;etnu stranicu.
 # redaxo\include\pages\dashboard
 dashboard = Dashboard
 
-# redaxo\include\pages\content.inc.php
+# redaxo\include\pages\content.php
 block_updated = Blok je izmenjen!
 block_added = Block je dodat
 no_rights_to_this_function = Nemate ovlaš&#263;enja za ovu funkciju.
@@ -126,7 +126,7 @@ content_submitmovecategory = Premesti kategoriju
 move_category = Premesti kategoriju
 category_moved = Kategorija premeštena
 
-# redaxo\include\pages\module.inc.php
+# redaxo\include\pages\module.php
 module_cannot_be_deleted = Modul '{0}' ne može biti izbrisan zato sto je nalazi na nekoj od stranica:
 module_deleted = Modul izbrisan!
 module_added = Modul dodat
@@ -161,7 +161,7 @@ action_functions = Funkcija
 action_delete = Izbriši akciju
 action_add = Dodaj akciju
 
-# redaxo\include\pages\profile.inc.php
+# redaxo\include\pages\profile.php
 user_data_updated = Korisni&#269;ki podaci osveženi!
 user_deleted = Korisnik izbrisan!
 user_added = Korisnik dodat!
@@ -172,7 +172,7 @@ permissions = Dozvole
 add = Dodaj
 update = Osveži
 
-# redaxo\include\pages\structure.inc.php
+# redaxo\include\pages\structure.php
 title_structure = Upravljanje sajtom
 no_such_category = Nema kategorije!
 category_updated = Kategorija osvežena.
@@ -205,7 +205,7 @@ change = Promeni
 article_add = Dodaj stranicu!
 article = Stranica
 
-# redaxo\include\pages\template.inc.php
+# redaxo\include\pages\template.php
 title_templates = Šabloni
 cant_delete_default_template = Podrazumevani šablon ne može biti izbrisan!
 cant_delete_template_because_its_in_use = Šablon '{0}' ne može biti izbrisan jer je u upotrebi na nekoj od stranica.
@@ -225,12 +225,12 @@ header_template_active = Aktivan
 header_template_functions = Funkcije
 delete_template = Izbriši šablon
 
-# redaxo\include\functions\function_rex_category.inc.php
+# redaxo\include\functions\function_rex_category.php
 article = Stranica
 start_article = Po&#269;etna stranica
 path = Putanja
 
-# redaxo\include\pages\user.inc.php
+# redaxo\include\pages\user.php
 title_user = Korisnici
 user_data_updated = Podaci o korisniku osveženi.
 user_deleted = Korisnik izbrisan!
@@ -254,7 +254,7 @@ extras = Dodaci
 last_login = Poslednji put ulogovan
 psw_encrypted = Lozinka je kriptovana - ukoliko želite da postavite novu samo je unesite
 
-# redaxo\include\pages\special.inc.php
+# redaxo\include\pages\special.php
 articles_generated = Stranice i šabloni su regenerisani, keš izbrisan!
 old_articles_deleted = [stare stranice i šabloni &#263;e biti izbrisani]
 links_ok = Svi linkovi su ok.
@@ -291,7 +291,7 @@ clang_edited = Jezik izmenjen
 clang_deleted = Jezik izbrisan
 clang_desc = Opis/ime
 
-# redaxo\include\pages\medienpool.inc.php
+# redaxo\include\pages\medienpool.php
 pool_name = Galerija
 pool_kats = Kategorije
 pool_kats_no = Nema kategorija
@@ -361,8 +361,8 @@ pool_created = Erstellt am
 setup = Podešavanje
 setup_text = Ovde možes da restartuješ podešavanja.
 setup_error1 = Podešavanja aktivirana. Klikni ovde &gt;<a href=index.php>here</a>&lt; da bi pokrenuo ponovnu instalaciju.
-setup_error2 = No permission to 'master.inc.php'. Please edit the file manually and fill in this \"\$REX[SETUP] = true;\"
-setup_005 = <b>Welcome to the SETUP for REDAXO.</b><br><br>What the setup is doing:<br><br>- Checking the file permissions<br>- Checking Databaselogin and write the login in die master.inc.php<br>- Install Tables.<br>- Create adminaccount
+setup_error2 = No permission to 'master.php'. Please edit the file manually and fill in this \"\$REX[SETUP] = true;\"
+setup_005 = <b>Welcome to the SETUP for REDAXO.</b><br><br>What the setup is doing:<br><br>- Checking the file permissions<br>- Checking Databaselogin and write the login in die master.php<br>- Install Tables.<br>- Create adminaccount
 setup_006 = Start setup and accept License
 setup_step1 = SETUP: STEP 1 of 5
 setup_010 = Sorry but your version of PHP is too old (less than 4.1.0), please update to a newer version
@@ -375,10 +375,10 @@ setup_018 = Please correct these problems and repeat the setup.
 setup_019 = Repeat step 1
 setup_headline1 = Checking PHP Version and filesystem permissions
 setup_step2 = SETUP: STEP 2 of 5
-setup_020 = <b>include/master.inc.php</b> could not be written. could not be written. Don't know what went wrong!
+setup_020 = <b>include/master.php</b> could not be written. could not be written. Don't know what went wrong!
 setup_021 = Connection to database failed!
 setup_022 = The database could not be opened!
-setup_023 = Creating 'include/master.inc.php'
+setup_023 = Creating 'include/master.php'
 setup_024 = Server Domain [optional]
 setup_025 = Server Description [optional]
 setup_026 = Admin E-Mail [optional]
@@ -412,12 +412,12 @@ setup_047 = Password
 setup_048 = Dont create a user
 setup_049 = Go on to step 5
 setup_step5 = SETUP: STEP 5 of 5
-setup_050 = 'master.inc.php' could not be overwritten. Please edit the file manually via FTP.
+setup_050 = 'master.php' could not be overwritten. Please edit the file manually via FTP.
 setup_051 = Congratulations, you have successfully installed REDAXO! <br><br>Please read this:<br><br><b>1. Login with your account <a href=index.php>login</a><br>2. Import a demo: Go to 'Import/Export' and choose a database to import AND a filepakage to import.</b><br><br><br>Enjoy REDAXO and have fun<br><br>Your REDAXO Team <br><br>
 database_imported = database imported.
 entry_count = {0} eintries
 
-# redaxo\include\pages\addon.inc.php
+# redaxo\include\pages\addon.php
 addon = Dodaci
 addon_help = Pomo&#263; za
 addon_no_help_file = Fajl za pomo&#269; nije prona&#273;en
