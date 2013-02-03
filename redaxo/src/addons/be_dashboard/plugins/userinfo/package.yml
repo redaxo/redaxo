@@ -12,5 +12,3 @@ requires:
           min-version: '5.0 a1'
     metainfo:
       min-version: '5.0 a1'
-    modules:
-      min-version: '5.0 a1'

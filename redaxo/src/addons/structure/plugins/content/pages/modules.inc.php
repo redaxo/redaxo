@@ -13,13 +13,13 @@ switch ($subpage) {
   case 'actions' :
     {
       $title = rex_i18n::msg('modules') . ': ' . rex_i18n::msg('actions');
-      $file = 'module.action.inc.php';
+      $file = 'modules.action.inc.php';
       break;
     }
   default :
     {
       $title = rex_i18n::msg('modules');
-      $file = 'module.modules.inc.php';
+      $file = 'modules.modules.inc.php';
       break;
     }
 }

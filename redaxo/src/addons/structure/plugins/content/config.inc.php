@@ -9,6 +9,7 @@
  */
 
 rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
+rex_complex_perm::register('modules', 'rex_module_perm');
 
 if (rex::isBackend()) {
   $pages = array();
@@ -24,6 +25,15 @@ if (rex::isBackend()) {
   $page->setPath($this->getBasePath('pages/templates.inc.php'));
   $mainPage = new rex_be_page_main('system', $page);
   $mainPage->setPrio(30);
+  $pages[] = $mainPage;
+
+  $page = new rex_be_page('modules', rex_i18n::msg('modules'));
+  $page->setRequiredPermissions('admin');
+  $page->setPath($this->getBasePath('pages/modules.inc.php'));
+  $page->addSubPage(new rex_be_page('modules', rex_i18n::msg('modules')));
+  $page->addSubPage(new rex_be_page('actions', rex_i18n::msg('actions')));
+  $mainPage = new rex_be_page_main('system', $page);
+  $mainPage->setPrio(40);
   $pages[] = $mainPage;
 
   $this->setProperty('pages', $pages);

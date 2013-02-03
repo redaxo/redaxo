@@ -24,7 +24,6 @@ setup_addons:
   - be_style
   - import_export
 system_addons:
-  - modules
   - mediapool
   - structure
   - import_export
