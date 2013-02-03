@@ -1,6 +1,6 @@
 <?php
 
-$Basedir = dirname(__FILE__);
+$Basedir = __DIR__;
 
 $effect_id = rex_request('effect_id', 'int');
 $type_id = rex_request('type_id', 'int');

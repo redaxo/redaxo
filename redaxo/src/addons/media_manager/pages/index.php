@@ -39,4 +39,4 @@ switch ($subpage) {
   }
 }
 
-require dirname(__FILE__) . '/' . $subpage . '.php';
+require __DIR__ . '/' . $subpage . '.php';

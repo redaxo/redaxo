@@ -12,7 +12,7 @@
 $error = '';
 
 if ($error == '') {
-  require_once dirname(__FILE__) . '/functions/function_version_check.php';
+  require_once __DIR__ . '/functions/function_version_check.php';
 
   $url = 'http://www.redaxo.org';
   if (!rex_a657_open_http_socket($url, $errno, $errstr, 5)) {

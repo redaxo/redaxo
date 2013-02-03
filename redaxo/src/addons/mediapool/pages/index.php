@@ -198,4 +198,4 @@ switch ($subpage) {
   default          : $file = 'media.php'; break;
 }
 
-require dirname(__FILE__) . '/' . $file;
+require __DIR__ . '/' . $file;

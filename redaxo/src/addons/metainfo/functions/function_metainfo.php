@@ -201,7 +201,7 @@ function rex_metainfo_extensions_handler($params)
   }
 
   // include extensions
-  $curDir = dirname(__FILE__) . '/..';
+  $curDir = __DIR__ . '/..';
   if ($page == 'content' && $mode == 'meta') {
     require_once $curDir . '/lib/handler/article_handler.php';
   } elseif ($page == 'structure') {

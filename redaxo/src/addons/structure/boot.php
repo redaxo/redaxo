@@ -19,7 +19,7 @@ rex_perm::register('article2category[]', null, rex_perm::OPTIONS);
 
 rex_complex_perm::register('structure', 'rex_structure_perm');
 
-require_once dirname(__FILE__) . '/functions/function_rex_url.php';
+require_once __DIR__ . '/functions/function_rex_url.php';
 
 if (rex_request('article_id', 'int') == 0)
   rex::setProperty('article_id', rex::getProperty('start_article_id'));

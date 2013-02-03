@@ -8,7 +8,7 @@
  */
 
 // Parameter
-$Basedir = dirname(__FILE__);
+$Basedir = __DIR__;
 
 $subpage = rex_be_controller::getCurrentPagePart(2);
 $func = rex_request('func', 'string');

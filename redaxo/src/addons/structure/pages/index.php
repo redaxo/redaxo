@@ -84,13 +84,13 @@ echo rex_extension::registerPoint('PAGE_STRUCTURE_HEADER_PRE', '',
 
 // --------------------------------------------- Languages
 $language_add = '&amp;category_id=' . $category_id;
-require dirname(__FILE__) . '/../functions/function_rex_languages.php';
+require __DIR__ . '/../functions/function_rex_languages.php';
 
 // --------------------------------------------- TITLE
 echo rex_view::title(rex_i18n::msg('title_structure'));
 
 // --------------------------------------------- Path
-require dirname(__FILE__) . '/../functions/function_rex_category.php';
+require __DIR__ . '/../functions/function_rex_category.php';
 
 // -------------- STATUS_TYPE Map
 $catStatusTypes = rex_category_service::statusTypes();

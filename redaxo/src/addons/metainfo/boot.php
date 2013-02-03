@@ -36,7 +36,7 @@ $this->setProperty('metaTables', array(
 ));
 
 if (rex::isBackend()) {
-  $curDir = dirname(__FILE__);
+  $curDir = __DIR__;
   require_once $curDir . '/functions/function_metainfo.php';
 
   rex_extension::register('PAGE_CHECKED', 'rex_metainfo_extensions_handler');

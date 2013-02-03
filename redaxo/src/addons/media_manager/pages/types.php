@@ -2,7 +2,7 @@
 
 $content = '';
 
-$Basedir = dirname(__FILE__);
+$Basedir = __DIR__;
 
 $type_id = rex_request('type_id', 'int');
 $func = rex_request('func', 'string');

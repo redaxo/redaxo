@@ -16,4 +16,4 @@ else
 
 echo rex_view::title(rex_i18n::msg('user_management'));
 
-require dirname(__FILE__) . '/' . $file;
+require __DIR__ . '/' . $file;

@@ -19,7 +19,7 @@ if (empty($metaTable)) {
   exit();
 }
 
-$Basedir = dirname(__FILE__);
+$Basedir = __DIR__;
 $field_id = rex_request('field_id', 'int');
 
 //------------------------------> Feld loeschen

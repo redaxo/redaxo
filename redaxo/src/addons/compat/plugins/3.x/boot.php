@@ -1,3 +1,3 @@
 <?php
 
-require_once dirname(__FILE__) . '/functions/functions.php';
+require_once __DIR__ . '/functions/functions.php';

@@ -31,7 +31,7 @@ mb_internal_encoding('UTF-8');
 // set arg_separator to get valid html output if session.use_trans_sid is activated
 ini_set('arg_separator.output', '&amp;');
 
-require_once dirname(__FILE__) . '/lib/util/path.php';
+require_once __DIR__ . '/lib/util/path.php';
 rex_path::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER']);
 
 require_once rex_path::core('lib/autoload.php');

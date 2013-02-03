@@ -25,4 +25,4 @@ switch ($subpage) {
 }
 
 echo rex_view::title($title);
-require dirname(__FILE__) . '/' . $file;
+require __DIR__ . '/' . $file;

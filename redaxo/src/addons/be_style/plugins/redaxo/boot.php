@@ -18,7 +18,7 @@ $mypage = 'redaxo';
 
 if (rex::isBackend()) {
 
-  require dirname(__FILE__) . '/pages/font.php';
+  require __DIR__ . '/pages/font.php';
 
   rex_extension::register('PAGE_HEADER', function ($params) use ($mypage) {
     $params['subject'] .= '

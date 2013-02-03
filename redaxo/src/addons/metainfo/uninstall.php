@@ -8,7 +8,7 @@
  * @package redaxo5
  */
 
-$curDir = dirname(__FILE__);
+$curDir = __DIR__;
 require_once $curDir . '/extensions/extension_cleanup.php';
 
 rex_metainfo_cleanup(array('force' => true));
