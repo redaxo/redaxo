@@ -5,7 +5,7 @@
  * @package redaxo5
  */
 
-echo rex_view::title(rex_i18n::msg('title_templates'), '');
+echo rex_view::title(rex_i18n::msg('title_templates'));
 
 $OUT = true;
 

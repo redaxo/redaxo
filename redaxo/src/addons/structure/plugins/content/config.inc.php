@@ -11,10 +11,26 @@
 rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
 
 if (rex::isBackend()) {
+  $pages = array();
+
   $page = new rex_be_page('content', rex_i18n::msg('content'));
   $page->setRequiredPermissions('structure/hasStructurePerm');
   $page->setHidden(true);
-  $this->setProperty('page', new rex_be_page_main('system', $page));
+  $page->setPath($this->getBasePath('pages/content.inc.php'));
+  $pages[] = new rex_be_page_main('system', $page);
+
+  $page = new rex_be_page('templates', rex_i18n::msg('templates'));
+  $page->setRequiredPermissions('admin');
+  $page->setPath($this->getBasePath('pages/templates.inc.php'));
+  $mainPage = new rex_be_page_main('system', $page);
+  $mainPage->setPrio(30);
+  $pages[] = $mainPage;
+
+  $this->setProperty('pages', $pages);
+
+  if (rex_be_controller::getCurrentPage() == 'system/settings') {
+    rex_system_setting::register(new rex_system_setting_default_template_id());
+  }
 
   rex_extension::register('CLANG_DELETED', function ($params) {
     $del = rex_sql::factory();

@@ -10,8 +10,3 @@ navigation:
   prio: 10
 
 system_plugins: [content, linkmap]
-
-requires:
-  addons:
-    templates:
-      min-version: '5.0 a1'

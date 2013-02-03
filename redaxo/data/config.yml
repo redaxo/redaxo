@@ -25,7 +25,6 @@ setup_addons:
   - import_export
 system_addons:
   - modules
-  - templates
   - mediapool
   - structure
   - import_export

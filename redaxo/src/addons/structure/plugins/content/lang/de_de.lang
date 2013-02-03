@@ -62,3 +62,32 @@ content_types = Spalten
 content_type = Spalte
 
 perm_options_moveSlice[] = Blöcke verschieben
+
+templates = Templates
+
+templates_not_found = Es wurden keine Templates gefunden
+title_templates = Templates
+cant_delete_template_because_its_in_use = Template **{0}** kann nicht gelöscht werden, da es noch von Artikeln genutzt wird oder das Default Template ist.
+template_deleted = Template wurde gelöscht.
+template_added = Template wurde hinzugefügt
+template_updated = Template wurde aktualisiert
+template_categories = Kategorieberechtigungen
+template_categories_all = In allen Kategorien verfügbar
+template_categories_custom = Nur in folgenden Kategorien verfügbar
+edit_template = Template editieren
+create_template = Neues Template erstellen
+template_name = Name
+checkbox_template_active = Aktiv
+checkbox_template_active_info = [Erscheint bei den Artikeln als Auswahl]
+save_template_and_quit = Template speichern
+save_template_and_continue = Template übernehmen
+header_template = Template
+header_template_description = Templatebezeichnung
+header_template_active = Aktiv
+header_template_functions = Funktionen
+delete_template = Template löschen
+header_template_caption = Liste der verfügbaren Templates
+header_template_summary = Auflistung aller Templates
+modules_available = Nur folgende Module sind verfügbar
+modules_available_all = Alle Module verfügbar
+confirm_delete_template = Template löschen?

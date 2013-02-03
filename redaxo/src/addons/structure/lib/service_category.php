@@ -26,17 +26,6 @@ class rex_category_service
     self::reqKey($data, 'catprior');
     self::reqKey($data, 'catname');
 
-    $startpageTemplates = array();
-    if ($category_id != '') {
-      // TemplateId vom Startartikel der jeweiligen Sprache vererben
-      $sql = rex_sql::factory();
-      // $sql->debugsql = 1;
-      $sql->setQuery('select clang,template_id from ' . rex::getTablePrefix() . "article where id=$category_id and startpage=1");
-      for ($i = 0; $i < $sql->getRows(); $i++, $sql->next()) {
-        $startpageTemplates[$sql->getValue('clang')] = $sql->getValue('template_id');
-      }
-    }
-
     // parent may be null, when adding in the root cat
     $parent = rex_category::getCategoryById($category_id);
     if ($parent) {
@@ -58,22 +47,39 @@ class rex_category_service
       $data['status'] = 0;
     }
 
-    // Alle Templates der Kategorie
-    $templates = rex_category::getTemplates($category_id);
+    $contentAvailable = rex_plugin::get('structure', 'content')->isAvailable();
+    if ($contentAvailable) {
+      $startpageTemplates = array();
+      if ($category_id != '') {
+        // TemplateId vom Startartikel der jeweiligen Sprache vererben
+        $sql = rex_sql::factory();
+        // $sql->debugsql = 1;
+        $sql->setQuery('select clang,template_id from ' . rex::getTablePrefix() . "article where id=$category_id and startpage=1");
+        for ($i = 0; $i < $sql->getRows(); $i++, $sql->next()) {
+          $startpageTemplates[$sql->getValue('clang')] = $sql->getValue('template_id');
+        }
+      }
+
+      // Alle Templates der Kategorie
+      $templates = rex_template::getTemplatesForCategory($category_id);
+    }
+
     // Kategorie in allen Sprachen anlegen
     $AART = rex_sql::factory();
     foreach (rex_clang::getAllIds() as $key) {
-      $template_id = rex::getProperty('default_template_id');
-      if (isset ($startpageTemplates[$key]) && $startpageTemplates[$key] != '') {
-        $template_id = $startpageTemplates[$key];
-      }
+      if ($contentAvailable) {
+        $template_id = rex::getProperty('default_template_id');
+        if (isset ($startpageTemplates[$key]) && $startpageTemplates[$key] != '') {
+          $template_id = $startpageTemplates[$key];
+        }
 
-      // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
-      // oder leer setzen.
-      if (!isset($templates[$template_id])) {
-        $template_id = 0;
-        if (count($templates) > 0) {
-          $template_id = key($templates);
+        // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
+        // oder leer setzen.
+        if (!isset($templates[$template_id])) {
+          $template_id = 0;
+          if (count($templates) > 0) {
+            $template_id = key($templates);
+          }
         }
       }
 
