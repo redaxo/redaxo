@@ -18,9 +18,13 @@ $mypage = 'redaxo';
 
 if (rex::isBackend()) {
 
+  require dirname(__FILE__) . '/pages/font.php';
+
   rex_extension::register('PAGE_HEADER', function ($params) use ($mypage) {
     $params['subject'] .= '
-      <link href="' . rex_url::pluginAssets('be_style', $mypage, 'css_import.css') . '" rel="stylesheet" type="text/css" media="all" />';
+      <link href="' . rex_url::backend('index.php?be_style_' . $mypage . '_font=entypo') . '" rel="stylesheet" type="text/css" media="all" />
+      <link href="' . rex_url::pluginAssets('be_style', $mypage, 'import.css') . '" rel="stylesheet" type="text/css" media="all" />
+      <script src="' . rex_url::pluginAssets('be_style', $mypage, 'js.js') . '" type="text/javascript"></script>';
     return $params['subject'];
   });
 
