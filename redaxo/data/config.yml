@@ -28,7 +28,6 @@ system_addons:
   - structure
   - import_export
   - metainfo
-  - be_search
   - be_style
   - media_manager
   - users

@@ -47,6 +47,13 @@ cant_delete_notfoundarticle = Der "Nicht-gefunden" Artikel kann nicht gelöscht 
 all_categories = Alle Kategorien
 categories = Kategorien
 
+be_search_article_name = Artikelname
+be_search_article_id = Artikel Id
+be_search_start = suchen
+be_search_jump_to_category = Zur Kategorie springen
+be_search_quick_navi = Schnellnavigation
+be_search_no_results = Kein Artikel entspricht dem Suchkriterium
+
 perm_options_article2category[] = Artikel in Kategorien umwandeln
 perm_options_article2startpage[] = Artikel in Startartikel umwandeln
 perm_options_copyArticle[] = Artikel kopieren

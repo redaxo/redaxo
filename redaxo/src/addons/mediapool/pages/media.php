@@ -6,6 +6,7 @@
  */
 
 $media_method = rex_request('media_method', 'string');
+$media_name = rex_request('media_name', 'string');
 
 // *************************************** CONFIG
 
@@ -41,14 +42,20 @@ echo rex_extension::registerPoint('PAGE_MEDIAPOOL_HEADER', '',
 // ***** formular
 $cat_out = '<div class="rex-form" id="rex-form-mediapool-selectcategory">
               <form action="' . rex_url::currentBackendPage() . '" method="post">
-                <fieldset class="rex-form-col-1">
+                <fieldset class="rex-form-col-2">
                   <legend>' . rex_i18n::msg('pool_select_cat') . '</legend>
 
                   <div class="rex-form-wrapper">
                     ' . $arg_fields . '
 
                     <div class="rex-form-row">
-                      <p class="rex-form-select">
+                      <p class="rex-form-col-a rex-form-text" id="be_search-media-search">
+                        <label for="be_search-media-name">' . rex_i18n::msg('be_search_mpool_media') . '</label>
+                        <input class="rex-form-text" type="text" name="media_name" id="be_search-media-name" value="' . $media_name . '" />
+                        <input class="rex-form-submit" type="submit" value="' . rex_i18n::msg('be_search_mpool_start') . '" />
+                      </p>
+
+                      <p class="rex-form-col-b rex-form-select">
                         <label for="rex_file_category">' . rex_i18n::msg('pool_kats') . '</label>
                         ' . $sel_media->get();
 
@@ -569,7 +576,21 @@ if ($subpage == '') {
     }
     $where .= ' AND (' . implode(' OR ', $types) . ')';
   }
-  $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media f WHERE ' . $where . ' ORDER BY f.updatedate desc, f.media_id desc';
+
+  $addTable = '';
+  if ($media_name != '') {
+    $addTable = rex::getTablePrefix() . 'media_category c, ';
+    $media_name = str_replace(array('_', '%'), array('\_', '\%'), $media_name);
+    $where .= " AND f.category_id = c.id AND (f.filename LIKE '%" . $media_name . "%' OR f.title LIKE '%" . $media_name . "%')";
+    if (rex_addon::get('mediapool')->getConfig('searchmode', 'local') != 'global') {
+      // Suche auf aktuellen Kontext eingrenzen
+      if ($rex_file_category != 0)
+        $where .= " AND (c.path LIKE '%|" . $rex_file_category . "|%' OR c.id=" . $rex_file_category . ') ';
+      else
+        $where = str_replace('f.category_id=0', '1=1', $where);
+    }
+  }
+    $qry = 'SELECT * FROM ' . $addTable . rex::getTablePrefix() . 'media f WHERE ' . $where . ' ORDER BY f.updatedate desc, f.media_id desc';
 
   // ----- EXTENSION POINT
   $qry = rex_extension::registerPoint('MEDIA_LIST_QUERY', $qry,

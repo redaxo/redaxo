@@ -123,6 +123,11 @@ if ($article->getRows() == 1) {
     )
   );
 
+  // --------------------- SEARCH BAR
+
+  require_once $this->getAddon()->getPath('functions/function_rex_searchbar.php');
+  echo rex_structure_searchbar();
+
   // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
   if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
     // ----- hat keine rechte an diesem artikel

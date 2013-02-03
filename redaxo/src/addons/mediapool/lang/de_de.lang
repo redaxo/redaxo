@@ -89,6 +89,9 @@ pool_upload = Dateiupload
 all_mediafolder = Alle Medienordner
 mediafolder = Medienordner
 
+be_search_mpool_media = Mediumname
+be_search_mpool_start = suchen
+
 var_media_open = Medium auswählen
 var_media_new = Neues Medium hinzufügen
 var_media_remove = Ausgewähltes Medium löschen

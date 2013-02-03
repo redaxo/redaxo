@@ -8,12 +8,8 @@
  * @package redaxo5
  */
 
-function rex_be_search_structure($params)
+function rex_structure_searchbar()
 {
-  if (!rex::getUser()->hasPerm('be_search[structure]')) {
-    return $params['subject'];
-  }
-
   $message = '';
   $search_result = '';
   $editUrl = 'index.php?page=content&article_id=%s&mode=edit&clang=%s&be_search_article_name=%s';
@@ -67,13 +63,10 @@ function rex_be_search_structure($params)
         catname LIKE "%' . $be_search_article_name_like . '%"
       )';
 
-    switch (rex_addon::get('be_search')->getProperty('searchmode', 'local')) {
-      case 'local':
-      {
-        // Suche auf aktuellen Kontext eingrenzen
-        if ($category_id != 0)
-          $qry .= ' AND path LIKE "%|' . $category_id . '|%"';
-      }
+    if (rex_addon::get('structure')->getConfig('searchmode', 'local') != 'global') {
+      // Suche auf aktuellen Kontext eingrenzen
+      if ($category_id != 0)
+        $qry .= ' AND path LIKE "%|' . $category_id . '|%"';
     }
 
     $search = rex_sql::factory();
@@ -84,7 +77,7 @@ function rex_be_search_structure($params)
     // Suche ergab nur einen Treffer => Direkt auf den Treffer weiterleiten
     if ($foundRows == 1) {
       $OOArt = rex_article::getArticleById($search->getValue('id'), $be_search_clang);
-      if (rex::getUser()->hasCategoryPerm($OOArt->getCategoryId())) {
+      if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($OOArt->getCategoryId())) {
         header('Location:' . sprintf($editUrl, $search->getValue('id'), $be_search_clang, urlencode($be_search_article_name)));
         exit();
       }
@@ -101,6 +94,14 @@ function rex_be_search_structure($params)
           if (rex::getUser()->hasPerm('advancedMode[]'))
             $label .= ' [' . $search->getValue('id') . ']';
 
+          $highlightHit = function ($string, $needle) {
+            return preg_replace(
+              '/(.*)(' . preg_quote($needle, '/') . ')(.*)/i',
+              '\\1<span class="be_search-search-hit">\\2</span>\\3',
+              $string
+            );
+          };
+
           $s = '';
           $first = true;
           foreach ($OOArt->getParentTree() as $treeItem) {
@@ -116,7 +117,7 @@ function rex_be_search_structure($params)
             }
 
             $treeLabel = htmlspecialchars($treeLabel);
-            $treeLabel = rex_be_search_highlight_hit($treeLabel, $needle);
+            $treeLabel = $highlightHit($treeLabel, $needle);
 
             $s .= '<li>' . $prefix . '<a href="' . sprintf($structureUrl, $treeItem->getId(), $be_search_clang, urlencode($be_search_article_name)) . '">' . $treeLabel . ' </a></li>';
           }
@@ -128,7 +129,7 @@ function rex_be_search_structure($params)
           }
 
           $label = htmlspecialchars($label);
-          $label = rex_be_search_highlight_hit($label, $needle);
+          $label = $highlightHit($label, $needle);
 
           $s .= '<li>' . $prefix . '<a href="' . sprintf($editUrl, $search->getValue('id'), $be_search_clang, urlencode($be_search_article_name)) . '">' . $label . ' </a></li>';
 
@@ -160,7 +161,7 @@ function rex_be_search_structure($params)
   $category_select->setSelected($category_id);
 
   $form =
-   '  <div class="rex-form">
+    '  <div class="rex-form">
       <form action="' . rex_url::currentBackendPage() . '" method="post">
       <fieldset>
         <input type="hidden" name="mode" value="' . $mode . '" />
@@ -191,7 +192,7 @@ function rex_be_search_structure($params)
       </div>';
 
   $search_bar = $message .
-  '<div id="rex-be_search-searchbar" class="rex-toolbar rex-toolbar-has-form">
+    '<div id="rex-be_search-searchbar" class="rex-toolbar rex-toolbar-has-form">
    <div class="rex-toolbar-content">
      ' . $form . '
      ' . $search_result . '
@@ -199,5 +200,5 @@ function rex_be_search_structure($params)
    </div>
    </div>';
 
-  return $search_bar . $params['subject'];
+  return $search_bar;
 }
