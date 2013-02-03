@@ -1,20 +1,49 @@
 <?php
 
+$core = rex_request('core', 'boolean');
 $addonkey = rex_request('addonkey', 'string');
+
+$coreVersions = array();
 $addons = array();
 
-echo rex_api_function::getMessage();
+$content = rex_api_function::getMessage();
 
 try {
+  $coreVersions = rex_api_install_core_update::getVersions();
   $addons = rex_install_packages::getUpdatePackages();
 } catch (rex_functional_exception $e) {
-  echo rex_view::warning($e->getMessage());
+  $content .= rex_view::warning($e->getMessage());
   $addonkey = '';
 }
 
-$content = '';
+if ($core && !empty($coreVersions)) {
+  $content .= '
+    <h2>REDAXO Core</h2>
+    <table class="rex-table rex-install-core-versions">
+      <thead>
+      <tr>
+        <th class="rex-icon"></th>
+        <th class="rex-version">' . $this->i18n('version') . '</th>
+        <th class="rex-description">' . $this->i18n('description') . '</th>
+        <th class="rex-function"></th>
+      </tr>
+      </thead>
+      <tbody>';
 
-if ($addonkey && isset($addons[$addonkey])) {
+  foreach ($coreVersions as $id => $version) {
+    $content .= '
+        <tr>
+          <td class="rex-icon"><span class="rex-ic-addon">' . $version['version'] . '</span></td>
+          <td>' . $version['version'] . '</td>
+          <td>' . nl2br($version['description']) . '</td>
+          <td><a href="' . rex_url::currentBackendPage(array('core' => 1, 'rex-api-call' => 'install_core_update', 'version_id' => $id)) . '">' . $this->i18n('update') . '</a></td>
+        </tr>';
+  }
+
+  $content .= '</tbody></table>';
+
+} elseif ($addonkey && isset($addons[$addonkey])) {
+
   $addon = $addons[$addonkey];
 
   $content .= '
@@ -58,7 +87,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         <td class="rex-icon"><span class="rex-ic-addon">' . $file['version'] . '</span></td>
         <td class="rex-version">' . $file['version'] . '</td>
         <td class="rex-description">' . nl2br($file['description']) . '</td>
-        <td class="rex-update"><a href="' . rex_url::currentBackendPage(array('addonkey' => $addonkey, 'rex-api-call' => 'install_packages_update', 'file' => $fileId)) . '">' . $this->i18n('update') . '</a></td>
+        <td class="rex-update"><a href="' . rex_url::currentBackendPage(array('addonkey' => $addonkey, 'rex-api-call' => 'install_package_update', 'file' => $fileId)) . '">' . $this->i18n('update') . '</a></td>
       </tr>';
   }
 
@@ -66,7 +95,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
 } else {
   $content .= '
-    <h2>' . $this->i18n('available_updates', count($addons)) . '</h2>
+    <h2>' . $this->i18n('available_updates', !empty($coreVersions) + count($addons)) . '</h2>
 
     <table id="rex-install-packages-addons" class="rex-table">
       <thead>
@@ -79,6 +108,23 @@ if ($addonkey && isset($addons[$addonkey])) {
       </tr>
       </thead>
       <tbody>';
+
+  if (!empty($coreVersions)) {
+    $availableVersions = array();
+    foreach ($coreVersions as $file) {
+      $availableVersions[] = $file['version'];
+    }
+    $url = rex_url::currentBackendPage(array('core' => 1));
+
+    $content .= '
+      <tr>
+        <td class="rex-icon"><a class="rex-ic-addon" href="' . $url . '">core</a></td>
+        <td class="rex-key"><a href="' . $url . '">core</a></td>
+        <td class="rex-name">REDAXO Core</td>
+        <td class="rex-version">' . rex::getVersion() . '</td>
+        <td class="rex-version">' . implode(', ', $availableVersions) . '</td>
+      </tr>';
+  }
 
   foreach ($addons as $key => $addon) {
     $availableVersions = array();

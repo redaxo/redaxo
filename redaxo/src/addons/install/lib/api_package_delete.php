@@ -1,6 +1,6 @@
 <?php
 
-class rex_api_install_packages_delete extends rex_api_function
+class rex_api_install_package_delete extends rex_api_function
 {
   public function execute()
   {
@@ -16,6 +16,6 @@ class rex_api_install_packages_delete extends rex_api_function
     unset($_REQUEST['addonkey']);
     unset($_REQUEST['file']);
     rex_install_packages::deleteCache();
-    return new rex_api_result(true, rex_i18n::msg('install_packages_info_addon_deleted', $addonkey));
+    return new rex_api_result(true, rex_i18n::msg('install_info_addon_deleted', $addonkey));
   }
 }

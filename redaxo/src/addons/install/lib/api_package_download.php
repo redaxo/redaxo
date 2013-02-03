@@ -1,6 +1,6 @@
 <?php
 
-abstract class rex_api_install_packages_download extends rex_api_function
+abstract class rex_api_install_package_download extends rex_api_function
 {
   protected
     $addonkey,
@@ -30,19 +30,19 @@ abstract class rex_api_install_packages_download extends rex_api_function
     $message = '';
     $this->archive = "phar://$archivefile/" . $this->addonkey;
     if ($this->file['checksum'] != md5_file($archivefile)) {
-      $message = rex_i18n::msg('install_packages_warning_zip_wrong_checksum');
+      $message = rex_i18n::msg('install_warning_zip_wrong_checksum');
     } elseif (!file_exists($this->archive)) {
-      $message = rex_i18n::msg('install_packages_warning_zip_wrong_format');
+      $message = rex_i18n::msg('install_warning_zip_wrong_format');
     } elseif (is_string($msg = $this->doAction())) {
       $message = $msg;
     }
     rex_file::delete($archivefile);
     if ($message) {
-      $message = rex_i18n::msg('install_packages_warning_not_' . static::VERB, $this->addonkey) . '<br />' . $message;
+      $message = rex_i18n::msg('install_warning_addon_not_' . static::VERB, $this->addonkey) . '<br />' . $message;
       $success = false;
     } else {
-      $message = rex_i18n::msg('install_packages_info_addon_' . static::VERB, $this->addonkey)
-               . (static::SHOW_LINK ? ' <a href="' . rex_url::backendPage('packages') . '">' . rex_i18n::msg('install_packages_to_addon_page') . '</a>' : '');
+      $message = rex_i18n::msg('install_info_addon_' . static::VERB, $this->addonkey)
+               . (static::SHOW_LINK ? ' <a href="' . rex_url::backendPage('packages') . '">' . rex_i18n::msg('install_to_addon_page') . '</a>' : '');
       $success = true;
       unset($_REQUEST['addonkey']);
     }
@@ -53,7 +53,7 @@ abstract class rex_api_install_packages_download extends rex_api_function
   {
     if (!rex_dir::copy($this->archive, $dir)) {
       rex_dir::delete($dir);
-      return rex_i18n::msg('install_packages_warning_zip_not_extracted');
+      return rex_i18n::msg('install_warning_addon_zip_not_extracted');
     }
     return true;
   }

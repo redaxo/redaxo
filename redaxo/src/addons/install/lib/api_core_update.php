@@ -12,7 +12,7 @@ class rex_api_install_core_update extends rex_api_function
     if (!rex::getUser()->isAdmin()) {
       throw new rex_api_exception('You do not have the permission!');
     }
-    $plugin = rex_plugin::get('install', 'core');
+    $addon = rex_addon::get('install');
     $versions = self::getVersions();
     $versionId = rex_request('version_id', 'int');
     if (!isset($versions[$versionId])) {
@@ -31,9 +31,9 @@ class rex_api_install_core_update extends rex_api_function
     $archive = "phar://$archivefile/core";
     $temppath = rex_path::src('_new_core/');
     if ($version['checksum'] != md5_file($archivefile)) {
-      $message = $plugin->i18n('warning_zip_wrong_checksum');
+      $message = $addon->i18n('warning_zip_wrong_checksum');
     } elseif (!file_exists($archive)) {
-      $message = $plugin->i18n('warning_zip_wrong_format');
+      $message = $addon->i18n('warning_zip_wrong_format');
     } else {
       $messages = array();
       foreach (rex_package::getAvailablePackages() as $package) {
@@ -47,7 +47,7 @@ class rex_api_install_core_update extends rex_api_function
       }
     }
     if (!$message && !rex_dir::copy($archive, $temppath)) {
-      $message = $plugin->i18n('warning_zip_not_extracted');
+      $message = $addon->i18n('warning_core_zip_not_extracted');
     }
     if (!$message && file_exists($temppath . 'update.inc.php')) {
       try {
@@ -61,9 +61,9 @@ class rex_api_install_core_update extends rex_api_function
     rex_file::delete($archivefile);
     if (!$message) {
       $path = rex_path::core();
-      if ($plugin->getAddon()->getConfig('backups')) {
-        rex_dir::create($plugin->getDataPath());
-        $archive = $plugin->getDataPath(strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', rex::getVersion())) . '.zip');
+      if ($addon->getConfig('backups')) {
+        rex_dir::create($addon->getDataPath());
+        $archive = $addon->getDataPath(strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', rex::getVersion())) . '.zip');
         rex_install_helper::copyDirToArchive($path, $archive);
       }
       rex_dir::delete($path);
@@ -74,10 +74,10 @@ class rex_api_install_core_update extends rex_api_function
     }
     rex_dir::delete($temppath);
     if ($message) {
-      $message = $plugin->i18n('warning_not_updated') . '<br />' . $message;
+      $message = $addon->i18n('warning_core_not_updated') . '<br />' . $message;
       $success = false;
     } else {
-      $message = $plugin->i18n('info_updated');
+      $message = $addon->i18n('info_core_updated');
       $success = true;
       rex_install_webservice::deleteCache('core');
     }

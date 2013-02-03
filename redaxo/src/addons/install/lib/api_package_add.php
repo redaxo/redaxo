@@ -1,6 +1,6 @@
 <?php
 
-class rex_api_install_packages_add extends rex_api_install_packages_download
+class rex_api_install_package_add extends rex_api_install_package_download
 {
   const
     GET_PACKAGES_FUNCTION = 'getAddPackages',

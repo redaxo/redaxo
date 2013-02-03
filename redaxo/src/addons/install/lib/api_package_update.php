@@ -1,6 +1,6 @@
 <?php
 
-class rex_api_install_packages_update extends rex_api_install_packages_download
+class rex_api_install_package_update extends rex_api_install_package_download
 {
   const
     GET_PACKAGES_FUNCTION = 'getUpdatePackages',
@@ -53,7 +53,7 @@ class rex_api_install_packages_update extends rex_api_install_packages_download
     // ---- backup
     $assets = $this->addon->getAssetsPath();
     if (rex_addon::get('install')->getConfig('backups')) {
-      $archivePath = rex_path::pluginData('install', 'packages', $this->addonkey . '/');
+      $archivePath = rex_path::addonData('install', $this->addonkey . '/');
       rex_dir::create($archivePath);
       $archive = $archivePath . strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', $this->addon->getVersion('0'))) . '.zip';
       rex_install_helper::copyDirToArchive($path, $archive);

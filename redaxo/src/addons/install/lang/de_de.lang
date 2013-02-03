@@ -1,14 +1,58 @@
 # addon:install de_de
 
-install_name = Installer
-
-install_no_plugins = Keine PlugIns aktiviert!
+install_title = Installer
+install_subpage_packages = Core & Packages
+install_subpage_update = Vorhandene aktualisieren
+install_subpage_add = Neue herunterladen
+install_subpage_upload = Eigene hochladen
+install_subpage_settings = Einstellungen
 
 install_webservice_unreachable = Der Webservice ist zurzeit nicht erreichbar!
 install_webservice_error = Der Webservice liefert folgende Fehlermeldung:
 install_archive_unreachable = Die Zip-Datei ist nicht erreibar!
 
-install_settings = Einstellungen
+install_key = Key
+install_information = Information
+install_name = Name
+install_author = Autor
+install_shortdescription = Kurzbeschreibung
+install_description = Beschreibung
+install_files = Dateien
+install_version = Version
+install_existing_version = Vorhandene Version
+install_available_versions = Verfügbare Versionen
+install_update = Update
+install_download = Download
+install_addons_found = {0} AddOns gefunden
+install_available_updates = {0} Updates verfügbar
+install_my_packages = Meine Packages
+install_status = Status
+install_online = online
+install_offline = offline
+install_file_add = Datei hinzufügen
+install_file_edit = Datei aktualisieren
+install_send = Senden
+install_upload_file = Zip-Datei erstellen und hochladen
+install_replace_assets = Assets aus dem Root-Assets-Ordner nehmen
+install_ignore_tests = Ordner "tests" ignorieren
+
+install_info_core_updated = Der Core wurde aktualisiert!
+install_warning_core_not_updated = Der Core konnte aus folgendem Grund nicht aktualisiert werden:
+install_warning_core_zip_not_extracted = Die Zip-Datei konnte nicht in das "src"-Verzeichnis entpackt werden!
+
+install_info_addon_downloaded = AddOn "{0}" wurde heruntergeladen!
+install_warning_addon_not_downloaded = AddOn "{0}" konnte aus folgendem Grund nicht heruntergeladen werden:
+install_info_addon_updated = AddOn "{0}" wurde aktualisiert!
+install_warning_addon_not_updated = AddOn "{0}" konnte aus folgendem Grund nicht aktualisiert werden:
+install_info_addon_uploaded = AddOn "{0}" wurde hochgeladen!
+install_info_addon_deleted = AddOn-Version von "{0}" wurde gelöscht!
+install_warning_addon_zip_not_extracted = Die Zip-Datei konnte nicht in das AddOn-Verzeichnis entpackt werden!
+
+install_warning_zip_wrong_checksum = Die Prüfsumme der heruntergeladenen Zip-Datei stimmt nicht mit der erwarteten überein!
+install_warning_zip_wrong_format = Die Zip-Datei ist nicht im erforderlichen Format!
+
+install_to_addon_page = Zur AddOn-Verwaltung
+
 install_settings_general = Allgemein
 install_settings_backups = Backups erstellen
 install_settings_myredaxo_account = myREDAXO-Account

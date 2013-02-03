@@ -3,16 +3,15 @@
 $addonkey = rex_request('addonkey', 'string');
 $addons = array();
 
-echo rex_api_function::getMessage();
+$content = rex_api_function::getMessage();
 
 try {
   $addons = rex_install_packages::getMyPackages();
 } catch (rex_functional_exception $e) {
-  echo rex_view::warning($e->getMessage());
+  $content .= rex_view::warning($e->getMessage());
   $addonkey = '';
 }
 
-$content = '';
 if ($addonkey && isset($addons[$addonkey])) {
   $addon = $addons[$addonkey];
   $file_id = rex_request('file', 'string');
@@ -47,7 +46,7 @@ if ($addonkey && isset($addons[$addonkey])) {
     $content .= '
     <h2>' . $addonkey . ': ' . $this->i18n($new ? 'file_add' : 'file_edit') . '</h2>
   <div class="rex-form">
-    <form action="' . rex_url::currentBackendPage(array('rex-api-call' => 'install_packages_upload', 'addonkey' => $addonkey, 'file' => $file_id)) . '" method="post">
+    <form action="' . rex_url::currentBackendPage(array('rex-api-call' => 'install_package_upload', 'addonkey' => $addonkey, 'file' => $file_id)) . '" method="post">
       <fieldset>';
 
 
@@ -107,7 +106,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             $formElements[] = $n;
 
             $n = array();
-            $n['field'] = '<input id="install-packages-delete" type="button" value="' . $this->i18n('delete') . '" onclick="if(confirm(\'' . $this->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(array('rex-api-call' => 'install_packages_delete', 'addonkey' => $addonkey, 'file' => $file_id)) . '\';" />';
+            $n['field'] = '<input id="install-packages-delete" type="button" value="' . $this->i18n('delete') . '" onclick="if(confirm(\'' . $this->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(array('rex-api-call' => 'install_package_delete', 'addonkey' => $addonkey, 'file' => $file_id)) . '\';" />';
             $formElements[] = $n;
 
           $fragment = new rex_fragment();

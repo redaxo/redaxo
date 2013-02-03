@@ -1,7 +1,0 @@
-package: install/core
-version: '5.0 alpha6'
-author: Gregor Harlan
-supportpage: www.redaxo.org/de/forum
-
-navigation:
-  title: translate:title

@@ -3,17 +3,15 @@
 $addonkey = rex_request('addonkey', 'string');
 $addons = array();
 
-echo rex_api_function::getMessage();
+$content = rex_api_function::getMessage();
 
 try {
   $addons = rex_install_packages::getAddPackages();
 } catch (rex_functional_exception $e) {
-  echo rex_view::warning($e->getMessage());
+  $content .= rex_view::warning($e->getMessage());
   $addonkey = '';
 }
 
-
-$content = '';
 if ($addonkey && isset($addons[$addonkey])) {
   $addon = $addons[$addonkey];
 
@@ -60,7 +58,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         <td class="rex-icon"><span class="rex-ic-addon">' . $file['version'] . '</span></td>
         <td class="rex-version">' . $file['version'] . '</td>
         <td class="rex-description">' . nl2br($file['description']) . '</td>
-        <td class="rex-function"><a href="' . rex_url::currentBackendPage(array('addonkey' => $addonkey, 'rex-api-call' => 'install_packages_add', 'file' => $fileId)) . '">' . $this->i18n('download') . '</a></td>
+        <td class="rex-function"><a href="' . rex_url::currentBackendPage(array('addonkey' => $addonkey, 'rex-api-call' => 'install_package_add', 'file' => $fileId)) . '">' . $this->i18n('download') . '</a></td>
       </tr>';
   }
 
