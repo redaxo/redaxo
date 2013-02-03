@@ -11,19 +11,14 @@ class rex_template
 {
   private $id;
 
-  public function __construct($template_id = 0)
+  public function __construct($template_id)
   {
-    $this->setId($template_id);
+    $this->id = (int) $template_id;
   }
 
   public function getId()
   {
     return $this->id;
-  }
-
-  public function setId($id)
-  {
-    $this->id = (int) $id;
   }
 
   public function getFile()

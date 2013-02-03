@@ -383,8 +383,7 @@ class rex_article_content_base
       ob_start();
       ob_implicit_flush(0);
 
-      $TEMPLATE = new rex_template();
-      $TEMPLATE->setId($this->template_id);
+      $TEMPLATE = new rex_template($this->template_id);
       $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
       require rex_stream::factory('template/' . $this->template_id, $tplContent);
 
