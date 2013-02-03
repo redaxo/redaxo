@@ -10,7 +10,7 @@ define('REX_A1_IMPORT_EVENT_POST', 4);
 /*if (rex::isBackend() && !isset($REX['I18N']))
 {
   global $REX;
-  require_once(dirname(dirname(__FILE__)).'/config.php');
+  require_once(dirname(dirname(__FILE__)).'/boot.php');
 }*/
 
 

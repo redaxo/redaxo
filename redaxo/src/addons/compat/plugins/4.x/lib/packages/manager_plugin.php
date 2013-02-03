@@ -29,7 +29,7 @@ class rex_plugin_manager_compat extends rex_plugin_manager
     global $REX, $ADDONsic;
 
     $transform = false;
-    if (in_array($file, array('config.php', 'install.php', 'uninstall.php'))) {
+    if (in_array($file, array('boot.php', 'install.php', 'uninstall.php'))) {
       $ADDONsic = isset($REX['ADDON']) ? $REX['ADDON'] : array();
       $REX['ADDON'] = array();
       $transform = true;

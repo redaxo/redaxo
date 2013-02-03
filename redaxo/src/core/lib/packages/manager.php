@@ -7,7 +7,7 @@ abstract class rex_package_manager extends rex_factory_base
 {
   const
     PACKAGE_FILE = 'package.yml',
-    CONFIG_FILE = 'config.php',
+    CONFIG_FILE = 'boot.php',
     INSTALL_FILE = 'install.php',
     INSTALL_SQL = 'install.sql',
     UNINSTALL_FILE = 'uninstall.php',
