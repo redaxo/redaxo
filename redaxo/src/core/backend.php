@@ -100,6 +100,14 @@ if (rex::getUser()) {
   rex_be_controller::setPages($pages);
 }
 
+$page = rex_be_controller::getCurrentPageObject();
+if ($page) {
+  $page = $page->getPage();
+  while ($subpages = $page->getSubPages()) {
+    $page = reset($subpages);
+  }
+  rex_be_controller::setCurrentPage($page->getFullKey());
+}
 $page = rex_be_controller::getCurrentPage();
 
 // Set Startpage

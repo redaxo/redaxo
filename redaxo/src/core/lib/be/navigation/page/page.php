@@ -71,9 +71,6 @@ class rex_be_page implements rex_be_page_container
     if ($this->href) {
       return $this->href;
     }
-    if ($subPage = reset($this->subPages)) {
-      return $subPage->getHref();
-    }
     return rex_url::backendPage($this->getFullKey());
   }
 
