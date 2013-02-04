@@ -100,6 +100,9 @@ if (rex::getUser()) {
   rex_be_controller::setPages($pages);
 }
 
+$pages = rex_extension::registerPoint('PAGES_PREPARED', $pages);
+rex_be_controller::setPages($pages);
+
 // Set current page recursively to first subpage
 $page = rex_be_controller::getCurrentPageObject();
 if ($page) {
