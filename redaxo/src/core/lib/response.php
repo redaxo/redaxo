@@ -147,20 +147,20 @@ class rex_response
 
     if (self::$httpStatus == self::HTTP_OK) {
       // ----- Last-Modified
-      if (rex::getProperty('use_last_modified') === 'true' || rex::getProperty('use_last_modified') == $environment)
+      if (rex::getProperty('use_last_modified') === true || rex::getProperty('use_last_modified') === $environment)
         self::sendLastModified($lastModified);
 
       // ----- ETAG
-      if (rex::getProperty('use_etag') === 'true' || rex::getProperty('use_etag') == $environment)
+      if (rex::getProperty('use_etag') === true || rex::getProperty('use_etag') === $environment)
         self::sendEtag($etag);
 
       // ----- GZIP
-      if (rex::getProperty('use_gzip') === 'true' || rex::getProperty('use_gzip') == $environment)
+      if (rex::getProperty('use_gzip') === true || rex::getProperty('use_gzip') === $environment)
         $content = self::sendGzip($content);
 
       // ----- MD5 Checksum
       // dynamische teile sollen die md5 summe nicht beeinflussen
-      if (rex::getProperty('use_md5') === 'true' || rex::getProperty('use_md5') == $environment)
+      if (rex::getProperty('use_md5') === true || rex::getProperty('use_md5') === $environment)
         self::sendChecksum(self::md5($content));
     }
 
