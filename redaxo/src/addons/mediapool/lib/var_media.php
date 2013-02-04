@@ -66,8 +66,6 @@ class rex_var_media extends rex_var
       $wdgtClass .= ' rex-widget-preview';
       if (rex_addon::get('image_manager')->isAvailable())
         $wdgtClass .= ' rex-widget-preview-image-manager';
-      elseif (rex_addon::get('image_resize')->isAvailable())
-        $wdgtClass .= ' rex-widget-preview-image-resize';
     }
 
     $class        = ' rex-disabled';

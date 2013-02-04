@@ -374,8 +374,6 @@ jQuery(function($){
     var width = 0;
     if($(this).hasClass("rex-widget-preview-image-manager"))
       url = '../index.php?rex_img_type='+ img_type +'&rex_img_file='+ value;
-    else if($(this).hasClass("rex-widget-preview-image-resize"))
-      url = '../index.php?rex_resize=246a__'+ value;
     else
     {
       url = '../media/'+ value;

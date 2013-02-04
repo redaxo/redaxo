@@ -12,7 +12,6 @@ $media_name = rex_request('media_name', 'string');
 
 $thumbs = true;
 $image_manager = rex_addon::get('image_manager')->isAvailable();
-$image_resize = rex_addon::get('image_resize')->isAvailable();
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
@@ -210,8 +209,7 @@ if ($file_id) {
         if ($image_manager) {
           $imgn = rex_url::frontendController(array('rex_img_type' => 'rex_mediapool_detail', 'rex_img_file' => $encoded_fname));
           $img_max = rex_url::frontendController(array('rex_img_type' => 'rex_mediapool_maximized', 'rex_img_file' => $encoded_fname));
-        } elseif ($image_resize && $rfwidth > 199)
-          $imgn = rex_url::frontendController(array('rex_resize' => '200a__' . $encoded_fname));
+        }
       }
 
       if (!file_exists(rex_path::media($fname))) {
@@ -651,8 +649,6 @@ if (!$file_id) {
         $thumbnail = '<img src="' . rex_url::media($file_name) . '" width="80" alt="' . $alt . '" title="' . $alt . '" />';
         if ($image_manager) {
           $thumbnail = '<img src="' . rex_url::frontendController(array('rex_img_type' => 'rex_mediapool_preview', 'rex_img_file' => $encoded_file_name)) . '" alt="' . $alt . '" title="' . $alt . '" />';
-        } elseif ($image_resize) {
-          $thumbnail = '<img src="' . rex_url::frontendController(array('rex_resize' => '80a__' . $encoded_file_name)) . '" alt="' . $alt . '" title="' . $alt . '" />';
         }
       }
     }

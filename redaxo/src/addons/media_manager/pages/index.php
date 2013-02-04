@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Image-Resize Addon
+ * Media Manager Addon
  *
  * @author office[at]vscope[dot]at Wolfgang Hutteger
  * @author markus.staab[at]redaxo[dot]de Markus Staab
