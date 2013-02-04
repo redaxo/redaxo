@@ -11,6 +11,7 @@ class rex_be_page implements rex_be_page_container
     $itemAttr = array(),
     $linkAttr = array(),
     $path,
+    $subPath,
 
     $parent,
     $subPages = array(),
@@ -148,6 +149,21 @@ class rex_be_page implements rex_be_page_container
       return $this->path;
     }
     return $this->parent ? $this->parent->getPath() : null;
+  }
+
+  public function setSubPath($subPath)
+  {
+    $this->subPath = $subPath;
+  }
+
+  public function hasSubPath()
+  {
+    return !empty($this->subPath);
+  }
+
+  public function getSubPath()
+  {
+    return $this->subPath;
   }
 
   public function addSubPage(self $subpage)
