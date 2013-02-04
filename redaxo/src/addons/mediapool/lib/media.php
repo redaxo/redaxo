@@ -552,15 +552,15 @@ class rex_media
   public function getIcon($useDefaultIcon = true)
   {
     $ext = $this->getExtension();
-    $folder = rex_url::pluginAssets('be_style', 'base_old', '');
-    $icon = $folder . 'mime-' . $ext . '.gif';
+    $folder = rex_url::pluginAssets('be_style', 'redaxo', 'mime/');
+    $icon = $folder . $ext . '.gif';
 
     // Dateityp für den kein Icon vorhanden ist
     if (!file_exists($icon)) {
       if ($useDefaultIcon)
-        $icon = $folder . 'mime-default.gif';
+        $icon = $folder . 'default.gif';
       else
-        $icon = $folder . 'mime-error.gif';
+        $icon = $folder . 'error.gif';
     }
     return $icon;
   }
