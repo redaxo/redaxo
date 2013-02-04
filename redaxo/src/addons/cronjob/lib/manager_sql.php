@@ -119,7 +119,7 @@ class rex_cronjob_manager_sql
         $this->tryExecuteSql($sql, true, true);
       } else {
         rex_extension::register(
-          'OUTPUT_FILTER_CACHE',
+          'RESPONSE_SHUTDOWN',
           function ($params) {
             $params['manager']->tryExecuteSql($params['sql'], true, true);
           },

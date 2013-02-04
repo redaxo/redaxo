@@ -125,7 +125,7 @@ class rex_response
       $sendcharset);
 
     // ----- EXTENSION POINT - (read only)
-    rex_extension::registerPoint( 'OUTPUT_FILTER_CACHE', $content, array(), true);
+    rex_extension::registerPoint('RESPONSE_SHUTDOWN', $content, array(), true);
   }
 
   /**
