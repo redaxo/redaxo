@@ -83,24 +83,19 @@ rex_be_controller::setPages($pages);
 
 // ----- Prepare Core Pages
 if (rex::getUser()) {
-  $pages = rex_be_controller::getLoggedInPages();
+  rex_be_controller::appendLoggedInPages();
   rex_be_controller::setCurrentPage(trim(rex_request('page', 'string')));
 }
-
-rex_be_controller::setPages($pages);
 
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
 
-$pages = rex_be_controller::getPages();
-
 // ----- Prepare AddOn Pages
 if (rex::getUser()) {
-  $pages = rex_be_controller::appendAddonPages($pages);
-  rex_be_controller::setPages($pages);
+  rex_be_controller::appendAddonPages();
 }
 
-$pages = rex_extension::registerPoint('PAGES_PREPARED', $pages);
+$pages = rex_extension::registerPoint('PAGES_PREPARED', rex_be_controller::getPages());
 rex_be_controller::setPages($pages);
 
 // Set current page recursively to first subpage

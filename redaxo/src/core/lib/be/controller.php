@@ -105,23 +105,21 @@ class rex_be_controller
     return $page;
   }
 
-  static public function getLoggedInPages()
+  static public function appendLoggedInPages()
   {
-    $pages = array();
-
     $profile = new rex_be_page('profile', rex_i18n::msg('profile'));
     $profile->setIsCorePage(true);
-    $pages['profile'] = $profile;
+    self::$pages['profile'] = $profile;
 
     $credits = new rex_be_page('credits', rex_i18n::msg('credits'));
     $credits->setIsCorePage(true);
-    $pages['credits'] = $credits;
+    self::$pages['credits'] = $credits;
 
     $addon = new rex_be_page('packages', rex_i18n::msg('addons'));
     $addon->setIsCorePage(true);
     $addon->setRequiredPermissions('isAdmin');
-    $pages['packages'] = new rex_be_page_main('system', $addon);
-    $pages['packages']->setPrio(60);
+    self::$pages['packages'] = new rex_be_page_main('system', $addon);
+    self::$pages['packages']->setPrio(60);
 
     $settings = new rex_be_page('settings', rex_i18n::msg('main_preferences'));
 
@@ -140,13 +138,11 @@ class rex_be_controller
     $mainSpecials->addSubPage($languages);
     $mainSpecials->addSubPage($syslog);
     $mainSpecials->addSubPage($phpinfo);
-    $pages['system'] = new rex_be_page_main('system', $mainSpecials);
-    $pages['system']->setPrio(70);
-
-    return $pages;
+    self::$pages['system'] = new rex_be_page_main('system', $mainSpecials);
+    self::$pages['system']->setPrio(70);
   }
 
-  static public function appendAddonPages(array $pages)
+  static public function appendAddonPages()
   {
     $addPageProperties = function (rex_be_page_container $page, array $properties, rex_package $package) use (&$addPageProperties) {
       foreach ($properties as $key => $value) {
@@ -188,13 +184,13 @@ class rex_be_controller
       }
 
       if ($mainPage) {
-        $pages[$mainPage->getPage()->getKey()] = $mainPage;
+        self::$pages[$mainPage->getPage()->getKey()] = $mainPage;
       }
 
       if (is_array($ps = $addon->getProperty('pages'))) {
         foreach ($ps as $p) {
           if ($p instanceof rex_be_page_main) {
-            $pages[$p->getPage()->getKey()] = $p;
+            self::$pages[$p->getPage()->getKey()] = $p;
             if (!$p->getPage()->hasPath()) {
               $p->getPage()->setPath($addon->getPath('pages/index.php'));
             }
@@ -216,7 +212,7 @@ class rex_be_controller
             $addPageProperties($pluginPage, $navi, $plugin);
           }
         } elseif ($pluginPage instanceof rex_be_page_main) {
-          $pages[$pluginPage->getPage()->getKey()] = $pluginPage;
+          self::$pages[$pluginPage->getPage()->getKey()] = $pluginPage;
           if (!$pluginPage->getPage()->hasPath()) {
             $pluginPage->getPage()->setPath($plugin->getPath('pages/index.php'));
           }
@@ -229,7 +225,7 @@ class rex_be_controller
         if (is_array($ps = $plugin->getProperty('pages'))) {
           foreach ($ps as $p) {
             if ($p instanceof rex_be_page_main) {
-              $pages[$p->getPage()->getKey()] = $p;
+              self::$pages[$p->getPage()->getKey()] = $p;
               if (!$p->getPage()->hasPath()) {
                 $p->getPage()->setPath($plugin->getPath('pages/index.php'));
               }
@@ -240,8 +236,6 @@ class rex_be_controller
         }
       }
     }
-
-    return $pages;
   }
 
   static public function checkPage(rex_user $user)
