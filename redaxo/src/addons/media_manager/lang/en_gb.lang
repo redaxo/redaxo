@@ -1,4 +1,4 @@
-# addon:image_manager en_gb
+# addon:media_manager en_gb
 
 media_manager_subpage_desc = Description
 media_manager_subpage_config = Configuration
@@ -11,8 +11,8 @@ media_manager_config_saved = configuration updated!
 media_manager_config_not_saved = configuration could not be saved!
 media_manager_config_not_writable = configurationfile "{0}" can not be written!
 
-media_manager_max_resizekb = Maximum size of a image in kilobyte, which can be used of image-manager
-media_manager_max_resizepx = Maximum size of a image in pixel, which can be used of image-manager
+media_manager_max_resizekb = Maximum size of a image in kilobyte, which can be used of media-manager
+media_manager_max_resizepx = Maximum size of a image in pixel, which can be used of media-manager
 media_manager_jpg_quality = JPG/JPEG output-quality
 
 media_manager_id = id

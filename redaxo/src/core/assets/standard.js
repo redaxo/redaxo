@@ -372,8 +372,8 @@ jQuery(function($){
 
     var url;
     var width = 0;
-    if($(this).hasClass("rex-widget-preview-image-manager"))
-      url = '../index.php?rex_img_type='+ img_type +'&rex_img_file='+ value;
+    if($(this).hasClass("rex-widget-preview-media-manager"))
+      url = '../index.php?rex_media_type='+ img_type +'&rex_media_file='+ value;
     else
     {
       url = '../media/'+ value;

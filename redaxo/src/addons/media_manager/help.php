@@ -1,6 +1,6 @@
 <?php
 /**
- * image_manager Addon
+ * media_manager Addon
  *
  * @author office[at]vscope[dot]at Wolfgang Hutteger
  * @author <a href="http://www.vscope.at">www.vscope.at</a>

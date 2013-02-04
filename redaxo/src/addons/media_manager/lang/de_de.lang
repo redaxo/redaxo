@@ -11,8 +11,8 @@ media_manager_config_saved = Konfiguration wurde aktualisiert!
 media_manager_config_not_saved = Konfiguration konnte nicht gespeichert werden!
 media_manager_config_not_writable = Konfigurationsdatei "{0}" ist nicht beschreibbar!
 
-media_manager_max_resizekb = Maximale Größe einer Datei in Kilobyte, die über Image-Manager umgewandelt werden darf
-media_manager_max_resizepx = Maximale Größe einer Datei in Pixel, die über Image-Manager umgewandelt werden darf
+media_manager_max_resizekb = Maximale Größe einer Datei in Kilobyte, die über media-manager umgewandelt werden darf
+media_manager_max_resizepx = Maximale Größe einer Datei in Pixel, die über media-manager umgewandelt werden darf
 media_manager_jpg_quality = JPG/JPEG Ausgabe-Qualität
 
 media_manager_id = ID

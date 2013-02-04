@@ -27,10 +27,10 @@ class rex_effect_workspace extends rex_effect_abstract
 
 (function($) {
   $(function() {
-    var $fx_workspace_select_trans = $("#image_manager_rex_effect_workspace_set_transparent_select");
-    var $fx_workspace_bg_r = $("#image_manager_rex_effect_workspace_bg_r_text").parent().parent();
-    var $fx_workspace_bg_g = $("#image_manager_rex_effect_workspace_bg_g_text").parent().parent();
-    var $fx_workspace_bg_b = $("#image_manager_rex_effect_workspace_bg_b_text").parent().parent();
+    var $fx_workspace_select_trans = $("#media_manager_rex_effect_workspace_set_transparent_select");
+    var $fx_workspace_bg_r = $("#media_manager_rex_effect_workspace_bg_r_text").parent().parent();
+    var $fx_workspace_bg_g = $("#media_manager_rex_effect_workspace_bg_g_text").parent().parent();
+    var $fx_workspace_bg_b = $("#media_manager_rex_effect_workspace_bg_b_text").parent().parent();
 
     $fx_workspace_select_trans.change(function(){
       if(jQuery(this).val() != "colored")

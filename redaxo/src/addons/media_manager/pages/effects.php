@@ -163,7 +163,7 @@ if ($func == '' && $type_id > 0) {
             $type = 'text';
             $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
-            $field->setAttribute('id', "image_manager $name $type");
+            $field->setAttribute('id', "media_manager $name $type");
             if (!empty($param['notice'])) $field->setNotice($param['notice']);
             if (!empty($param['prefix'])) $field->setPrefix($param['prefix']);
             if (!empty($param['suffix'])) $field->setSuffix($param['suffix']);
@@ -174,7 +174,7 @@ if ($func == '' && $type_id > 0) {
             $type = $param['type'];
             $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
-            $field->setAttribute('id', "image_manager $name $type");
+            $field->setAttribute('id', "media_manager $name $type");
             if (!empty($param['notice'])) $field->setNotice($param['notice']);
             if (!empty($param['prefix'])) $field->setPrefix($param['prefix']);
             if (!empty($param['suffix'])) $field->setSuffix($param['suffix']);
@@ -190,7 +190,7 @@ if ($func == '' && $type_id > 0) {
             $type = $param['type'];
             $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
             $field->setLabel($param['label']);
-            $field->setAttribute('id', "image_manager $name $type");
+            $field->setAttribute('id', "media_manager $name $type");
             if (!empty($param['notice'])) $field->setNotice($param['notice']);
             if (!empty($param['prefix'])) $field->setPrefix($param['prefix']);
             if (!empty($param['suffix'])) $field->setSuffix($param['suffix']);
