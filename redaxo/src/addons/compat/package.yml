@@ -1,6 +1,0 @@
-package: compat
-version: '5.0 a1'
-author: Gregor Harlan
-supportpage: www.redaxo.org/de/forum/
-
-load: early
