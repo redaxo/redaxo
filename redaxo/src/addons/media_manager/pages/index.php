@@ -25,9 +25,13 @@ echo rex_view::title('Media Manager');
 
 // Include Current Page
 switch ($subpage) {
-  case 'types' :
-  case 'effects' :
-  case 'settings' :
+  case 'settings':
+    break;
+
+  case 'types':
+    if (rex_request('effects', 'boolean')) {
+      $subpage = 'effects';
+    }
     break;
 
   default:

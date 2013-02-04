@@ -71,7 +71,7 @@ if ($func == '') {
   // functions column spans 2 data-columns
   $funcs = rex_i18n::msg('media_manager_type_functions');
   $list->addColumn($funcs, rex_i18n::msg('media_manager_type_effekts_edit'), -1, array('<th colspan="3">###VALUE###</th>', '<td>###VALUE###</td>'));
-  $list->setColumnParams($funcs, array('type_id' => '###id###', 'page' => 'media_manager/effects'));
+  $list->setColumnParams($funcs, array('type_id' => '###id###', 'effects' => 1));
 
   $list->addColumn('deleteCache', rex_i18n::msg('media_manager_type_cache_delete'), -1, array('', '<td>###VALUE###</td>'));
   $list->setColumnParams('deleteCache', array('type_id' => '###id###', 'func' => 'delete_cache'));

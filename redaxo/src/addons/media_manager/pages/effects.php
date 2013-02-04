@@ -55,6 +55,8 @@ if ($func == '' && $type_id > 0) {
   $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type_effects WHERE type_id=' . $type_id . ' ORDER BY prior';
 
   $list = rex_list::factory($query);
+  $list->addParam('effects', 1);
+
   $list->setNoRowsMessage(rex_i18n::msg('media_manager_effect_no_effects'));
   $list->setCaption(rex_i18n::msg('media_manager_effect_caption', $typeName));
   $list->addTableAttribute('summary', rex_i18n::msg('media_manager_effect_summary', $typeName));
@@ -72,7 +74,7 @@ if ($func == '' && $type_id > 0) {
 
   // icon column
   $thIcon = '<a class="rex-i-element rex-i-generic-add" href="' . $list->getUrl(array('type_id' => $type_id, 'func' => 'add')) . '"><span class="rex-i-element-text">' . rex_i18n::msg('media_manager_effect_create') . '</span></a>';
-  $tdIcon = '<span class="rex-i-element rex-i-generic"><span class="rex-i-element-text">###name###</span></span>';
+  $tdIcon = '<span class="rex-i-element rex-i-generic"><span class="rex-i-element-text">###id###</span></span>';
   $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
   $list->setColumnParams($thIcon, array('func' => 'edit', 'type_id' => $type_id, 'effect_id' => '###id###'));
 
@@ -206,6 +208,7 @@ if ($func == '' && $type_id > 0) {
 
   // parameters for url redirects
   $form->addParam('type_id', $type_id);
+  $form->addParam('effects', 1);
   if ($func == 'edit') {
     $form->addParam('effect_id', $effect_id);
   }
