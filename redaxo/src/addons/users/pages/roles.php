@@ -55,21 +55,21 @@ if ($func == '') {
   $group = 'all';
   $fieldContainer->setActive($group);
 
-  $func = function ($pages) use (&$func) {
+  // Check all page permissions and add them to rex_perm if not already registered
+  $registerImplicitePagePermissions = function ($pages) use (&$registerImplicitePagePermissions) {
     foreach ($pages as $page) {
       $page = $page->getPage();
       foreach ($page->getRequiredPermissions() as $perm) {
+        // ignore admin perm and complex perms (with "/")
         if ($perm && !in_array($perm, array('isAdmin', 'admin', 'admin[]')) && strpos($perm, '/') === false && !rex_perm::has($perm)) {
           rex_perm::register($perm);
         }
       }
-      $func($page->getSubPages());
+      $registerImplicitePagePermissions($page->getSubPages());
     }
   };
-  $func(rex_be_controller::getPages());
-  foreach (rex_be_controller::getPages() as $page) {
+  $registerImplicitePagePermissions(rex_be_controller::getPages());
 
-  }
   foreach (array(rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS) as $permgroup) {
     $field = $fieldContainer->addGroupedField($group, 'select', $permgroup);
     $field->setLabel(rex_i18n::msg('user_' . $permgroup));
