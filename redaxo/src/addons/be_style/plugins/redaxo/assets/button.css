@@ -318,14 +318,12 @@
 .rex-button.rex-primary:disabled:hover,
 .rex-button.rex-primary.rex-disabled,
 .rex-button.rex-primary.rex-disabled:hover {
-
   background-color: #293a41;
   background-image: -moz-linear-gradient(#72909a, #293a41);
   background-image: -webkit-linear-gradient(#72909a, #293a41);
   background-image: linear-gradient(#72909a, #293a41);
   background-repeat: repeat-x;
   border-color: #293a41;
-
   color: #fff;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
 }
@@ -336,7 +334,6 @@
   background-image: linear-gradient(#72909a, #3c4f58);
   background-repeat: repeat-x;
   border-color: #3c4f58;
-
   color: #fff;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
 }

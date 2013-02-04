@@ -88,13 +88,13 @@ body {
 }
 .rex-navi-meta > ul {
   display: inline-block;
-  margin: 10px 0 0 0;
+  margin: 15px 0 0 0;
   width: 860px;
   text-align: right;
 }
 .rex-navi-meta > ul > li {
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 20px;
   vertical-align: middle;
 }
 
