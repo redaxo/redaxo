@@ -170,15 +170,21 @@ class rex_be_page implements rex_be_page_container
   {
     $this->subPages[$subpage->getKey()] = $subpage;
     $subpage->parent = $this;
-    $subpage->addParentKey($this->getFullKey());
+    $subpage->setParentKey($this->getFullKey());
   }
 
-  private function addParentKey($key)
+  private function setParentKey($key)
   {
-    $this->fullKey = $key . '/' . $this->fullKey;
+    $this->fullKey = $key . '/' . $this->key;
     foreach ($this->subPages as $subPage) {
-      $subPage->addParentKey($key);
+      $subPage->setParentKey($this->fullKey);
     }
+  }
+
+  public function setSubPages(array $subpages)
+  {
+    $this->subPages = array();
+    array_walk($subpages, array($this, 'addSubPage'));
   }
 
   /**
@@ -283,7 +289,7 @@ class rex_be_page implements rex_be_page_container
 
   public function _set($key, $value)
   {
-    if (!is_string($key))
+    if (!is_string($key) || strtolower($key) == 'subpages')
       return;
 
     $setter = array($this, $key == 'perm' ? 'setRequiredPermissions' : 'set' . ucfirst($key));
