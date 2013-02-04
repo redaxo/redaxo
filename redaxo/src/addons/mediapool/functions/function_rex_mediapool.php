@@ -74,7 +74,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
   $FILESIZE = $FILE['size'];
   $FILETYPE = $FILE['type'];
   $NFILENAME = rex_mediapool_filename($FILENAME, $doSubindexing);
-  $message = '';
+  $message = array();
 
   // ----- alter/neuer filename
   $srcFile = rex_path::media($FILENAME);
@@ -83,12 +83,12 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
   $success = true;
   if ($isFileUpload) { // Fileupload?
     if (!@move_uploaded_file($FILE['tmp_name'], $dstFile)) {
-      $message .= rex_i18n::msg('pool_file_movefailed');
+      $message[] = rex_i18n::msg('pool_file_movefailed');
       $success = false;
     }
   } else { // Filesync?
     if (!@rename($srcFile, $dstFile)) {
-      $message .= rex_i18n::msg('pool_file_movefailed');
+      $message[] = rex_i18n::msg('pool_file_movefailed');
       $success = false;
     }
   }
@@ -120,10 +120,12 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     $FILESQL->addGlobalUpdateFields($userlogin);
     $FILESQL->insert();
 
-    $message .= rex_i18n::msg('pool_file_added');
+    if ($isFileUpload) {
+      $message[] = rex_i18n::msg('pool_file_added');
+    }
 
     if ($NFILENAME != $FILENAME) {
-      $message .= '<br />' . rex_i18n::rawMsg('pool_file_renamed', $FILENAME, $NFILENAME);
+      $message[] = rex_i18n::rawMsg('pool_file_renamed', $FILENAME, $NFILENAME);
     }
 
     rex_media_cache::deleteList($rex_file_category);
@@ -131,7 +133,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
   $RETURN['title'] = $FILEINFOS['title'];
   $RETURN['type'] = $FILETYPE;
-  $RETURN['msg'] = $message;
+  $RETURN['msg'] = implode('<br />', $message);
   // Aus BC gruenden hier mit int 1/0
   $RETURN['ok'] = $success ? 1 : 0;
   $RETURN['filename'] = $NFILENAME;
@@ -301,17 +303,22 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
   $cats_sel->setAttribute('onchange', 'this.form.submit()');
   $cats_sel->setSelected($rex_file_category);
 
-  if (isset($warning) and $warning != '') {
-    $s .= rex_view::warning($warning);
+  if (isset($warning)) {
+    if (is_array($warning)) {
+      if (count($warning) > 0)
+        $s .= rex_view::error(implode('<br />', $warning));
+    } elseif ($warning != '') {
+      $s .= rex_view::error($warning);
+    }
     $warning = '';
   }
 
   if (isset($info)) {
     if (is_array($info)) {
       if (count($info) > 0)
-        $s .= rex_view::info(implode('<br />', $info));
+        $s .= rex_view::success(implode('<br />', $info));
     } elseif ($info != '') {
-      $s .= rex_view::info($info);
+      $s .= rex_view::success($info);
     }
     $info = '';
   }

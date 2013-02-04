@@ -26,13 +26,14 @@ if ($PERMALL) {
   $diff_files = array_diff($folder_files, $db_files);
   $diff_count = count($diff_files);
 
+  $warning = array();
   if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
     $sync_files = rex_post('sync_files', 'array');
     $ftitle     = rex_post('ftitle', 'string');
 
     if ($diff_count > 0) {
       $info = array();
-      $info[] = rex_i18n::msg('pool_sync_files_synced');
+      $first = true;
       foreach ($sync_files as $file) {
         // hier mit is_int, wg kompatibilität zu PHP < 4.2.0
         if (!is_int($key = array_search($file, $diff_files))) continue;
@@ -40,16 +41,22 @@ if ($PERMALL) {
         $syncResult = rex_mediapool_syncFile($file, $rex_file_category, $ftitle, '', '');
         if ($syncResult['ok']) {
           unset($diff_files[$key]);
-          if ($syncResult['filename'] != $syncResult['old_filename']) {
-            $info[] = rex_i18n::rawMsg('pool_file_renamed', $syncResult['old_filename'], $syncResult['filename']);
+          if ($first) {
+            $info[] = rex_i18n::msg('pool_sync_files_synced');
+            $first = false;
           }
+          if ($syncResult['msg']) {
+            $info[] = $syncResult['msg'];
+          }
+        } elseif ($syncResult['msg']) {
+          $warning[] = $syncResult['msg'];
         }
       }
       // diff count neu berechnen, da (hoffentlich) diff files in die db geladen wurden
       $diff_count = count($diff_files);
     }
   } elseif (rex_post('save', 'boolean')) {
-    $warning = rex_i18n::msg('pool_file_not_found');
+    $warning[] = rex_i18n::msg('pool_file_not_found');
   }
 
   echo rex_mediapool_Mediaform(rex_i18n::msg('pool_sync_title'), rex_i18n::msg('pool_sync_button'), $rex_file_category, false, false);
