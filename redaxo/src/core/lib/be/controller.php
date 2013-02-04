@@ -219,6 +219,9 @@ class rex_be_controller
           $pluginPage = null;
         }
         if ($mainPage && $pluginPage) {
+          if (!$pluginPage->hasSubPath()) {
+            $pluginPage->setSubPath($plugin->getPath('pages/index.php'));
+          }
           $mainPage->getPage()->addSubPage($pluginPage);
         }
 
@@ -230,6 +233,9 @@ class rex_be_controller
                 $p->getPage()->setPath($plugin->getPath('pages/index.php'));
               }
             } elseif ($p instanceof rex_be_page && $mainPage) {
+              if (!$p->hasSubPath()) {
+                $p->setSubPath($plugin->getPath('pages/index.php'));
+              }
               $mainPage->getPage()->addSubPage($p);
             }
           }
