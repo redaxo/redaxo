@@ -146,7 +146,7 @@ class rex_be_controller
   {
     $addPageProperties = function (rex_be_page_container $page, array $properties, rex_package $package) use (&$addPageProperties) {
       foreach ($properties as $key => $value) {
-        if ($key == 'path') {
+        if ($key == 'path' || $key == 'subPath') {
           if (file_exists($path = $package->getPath($value))) {
             $value = $path;
           }
