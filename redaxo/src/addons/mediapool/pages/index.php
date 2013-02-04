@@ -70,12 +70,6 @@ rex_set_session('media[rex_file_category]', $rex_file_category);
 $PERMALL = rex::getUser()->getComplexPerm('media')->hasCategoryPerm(0);
 
 // -------------- Header
-$subline = array(
-  array('', rex_i18n::msg('pool_file_list')),
-  array('upload', rex_i18n::msg('pool_file_insert')),
-);
-
-$pages = rex_be_controller::getPages();
 $subline = rex_be_controller::getPageObject('mediapool')->getPage()->getSubPages();
 
 foreach ($subline as $sp) {
