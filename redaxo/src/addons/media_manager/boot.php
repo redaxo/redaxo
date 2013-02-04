@@ -9,8 +9,6 @@
  * @package redaxo5
  */
 
-rex_perm::register('media_manager[]');
-
 rex_extension::register('PACKAGES_INCLUDED', 'rex_media_manager::init');
 
 if (rex::isBackend()) {

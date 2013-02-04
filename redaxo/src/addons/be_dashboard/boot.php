@@ -9,8 +9,6 @@
  * @package redaxo5
  */
 
-rex_perm::register('be_dashboard[]');
-
 // im backend und eingeloggt?
 if (rex::isBackend() && rex::getUser()) {
   if (rex_be_controller::getCurrentPagePart(1) == 'be_dashboard') {

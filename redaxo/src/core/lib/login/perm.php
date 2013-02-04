@@ -33,6 +33,22 @@ abstract class rex_perm
   }
 
   /**
+   * Returns whether the permission is registered
+   *
+   * @param string $perm
+   * @return bool
+   */
+  static public function has($perm)
+  {
+    foreach (self::$perms as $perms) {
+      if (isset($perms[$perm])) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
    * Returns all permissions for the given group
    *
    * @param string $group Perm group
