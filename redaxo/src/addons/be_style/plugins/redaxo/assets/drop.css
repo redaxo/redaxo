@@ -232,7 +232,11 @@
   font-weight: bold;
 }
 
-
+.rex-navi-content .rex-context-menu {
+  display: inline-block;
+  position: relative;
+  top: -4px;
+}
 .rex-context-menu-container {
   position: absolute;
   z-index: 100;

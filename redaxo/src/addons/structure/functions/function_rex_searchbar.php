@@ -16,7 +16,6 @@ function rex_structure_searchbar()
   $structureUrl = 'index.php?page=structure&category_id=%s&clang=%s&be_search_article_name=%s';
 
   // ------------ globale Parameter
-  $mode         = rex_request('mode', 'string');
   $category_id  = rex_request('category_id', 'int');
   $article_id   = rex_request('article_id', 'int');
   $clang        = rex_request('clang', 'int');
@@ -146,7 +145,7 @@ function rex_structure_searchbar()
   $select_name = 'category_id';
   $add_homepage = true;
   $article_id_input = '';
-  if ($mode == 'edit' || $mode == 'meta') {
+  if (rex_be_controller::getCurrentPagePart(1) == 'content') {
     $select_name = 'article_id';
     $add_homepage = false;
     $article_id_input = '
@@ -164,7 +163,6 @@ function rex_structure_searchbar()
     '  <div class="rex-form">
       <form action="' . rex_url::currentBackendPage() . '" method="post">
       <fieldset>
-        <input type="hidden" name="mode" value="' . $mode . '" />
         <input type="hidden" name="category_id" value="' . $category_id . '" />' . $article_id_input . '
         <input type="hidden" name="clang" value="' . $clang . '" />
         <input type="hidden" name="ctype" value="' . $ctype . '" />

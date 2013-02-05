@@ -202,7 +202,7 @@ function rex_metainfo_extensions_handler($params)
 
   // include extensions
   $curDir = __DIR__ . '/..';
-  if ($page == 'content' && $mode == 'meta') {
+  if ($page == 'content/meta') {
     require_once $curDir . '/lib/handler/article_handler.php';
   } elseif ($page == 'structure') {
     require_once $curDir . '/lib/handler/category_handler.php';

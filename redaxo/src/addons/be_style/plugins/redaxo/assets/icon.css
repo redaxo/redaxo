@@ -308,11 +308,14 @@ tr.rex-plugin .rex-icon-plugin {
   border-color: #333;
 }
 
-.rex-drop-item .rex-icon-check {
+.rex-drop-item .rex-icon-check,
+.rex-context-menu-item .rex-icon-check {
   opacity: 0;
 }
 .rex-drop-item:hover .rex-icon-check,
-.rex-drop-item.rex-drop-active .rex-icon-check {
+.rex-drop-item.rex-drop-active .rex-icon-check,
+.rex-context-menu-item:hover .rex-icon-check,
+.rex-context-menu-item.rex-context-menu-active .rex-icon-check {
   opacity: 1;
 }
 

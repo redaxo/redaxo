@@ -60,6 +60,7 @@ move_category = nach
 category_moved = Kategorie wurde verschoben
 content_types = Spalten
 content_type = Spalte
+content_choose_type = Inhaltsbereich wählen
 
 perm_options_moveSlice[] = Blöcke verschieben
 

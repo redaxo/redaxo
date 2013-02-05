@@ -76,13 +76,6 @@ foreach ($subline as $sp) {
   $sp->setHref(rex_url::backendPage($sp->getFullKey(), $arg_url));
 }
 
-// ----- EXTENSION POINT
-$subline = rex_extension::registerPoint('PAGE_MEDIAPOOL_MENU', $subline,
-  array(
-    'subpage' => $subpage,
-  )
-);
-
 echo rex_view::title(rex_i18n::msg('pool_media'), $subline);
 
 // -------------- Messages
@@ -185,11 +178,11 @@ function openPage(src)
 <?php
 
 // -------------- Include Page
-switch ($subpage) {
-  case 'upload'    : $file = 'upload.php'; break;
-  case 'structure' : $file = 'structure.php'; break;
-  case 'sync'      : $file = 'sync.php'; break;
-  default          : $file = 'media.php'; break;
+$pageObj = rex_be_controller::getCurrentPageObject()->getPage();
+if ($pageObj->hasSubPath()) {
+  require $pageObj->getSubPath();
+} elseif (in_array($subpage, array('upload', 'structure', 'sync'))) {
+  require __DIR__ . '/' . $subpage . '.php';
+} else {
+  require __DIR__ . '/media.php';
 }
-
-require __DIR__ . '/' . $file;

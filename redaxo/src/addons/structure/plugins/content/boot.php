@@ -18,6 +18,12 @@ if (rex::isBackend()) {
   $page->setRequiredPermissions('structure/hasStructurePerm');
   $page->setHidden(true);
   $page->setPath($this->getPath('pages/content.php'));
+  $subpage = new rex_be_page('edit', rex_i18n::msg('edit_mode'));
+  $page->addSubPage($subpage);
+  $subpage = new rex_be_page('meta', rex_i18n::msg('metadata'));
+  $page->addSubPage($subpage);
+  $subpage = new rex_be_page('actions', rex_i18n::msg('metafuncs'));
+  $page->addSubPage($subpage);
   $pages[] = new rex_be_page_main('system', $page);
 
   $page = new rex_be_page('templates', rex_i18n::msg('templates'));

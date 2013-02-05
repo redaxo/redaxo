@@ -11,10 +11,12 @@ class rex_be_page implements rex_be_page_container
     $itemAttr = array(),
     $linkAttr = array(),
     $path,
+    $subPath,
 
     $parent,
     $subPages = array(),
 
+    $isActive = null,
     $hidden = false,
     $isCorePage = false,
     $hasLayout = true,
@@ -69,9 +71,9 @@ class rex_be_page implements rex_be_page_container
   public function getHref()
   {
     if ($this->href) {
-      return $this->href;
+      return htmlspecialchars_decode($this->href);
     }
-    return rex_url::backendPage($this->getFullKey());
+    return htmlspecialchars_decode(rex_url::backendPage($this->getFullKey()));
   }
 
   public function setItemAttr($name, $value)
@@ -132,16 +134,31 @@ class rex_be_page implements rex_be_page_container
     $this->setLinkAttr('class', ltrim($this->getLinkAttr('class') . ' ' . $class));
   }
 
+  /**
+   * Set the page path which will be included directly by the core
+   *
+   * @param string $path
+   */
   public function setPath($path)
   {
     $this->path = $path;
   }
 
+  /**
+   * Returns whether a path is set
+   *
+   * @return bool
+   */
   public function hasPath()
   {
     return !empty($this->path) || $this->parent && $this->parent->hasPath();
   }
 
+  /**
+   * Returns the path which will be included directly by the core
+   *
+   * @return string
+   */
   public function getPath()
   {
     if (!empty($this->path)) {
@@ -150,19 +167,55 @@ class rex_be_page implements rex_be_page_container
     return $this->parent ? $this->parent->getPath() : null;
   }
 
+  /**
+   * Set the page subpath which should be used by the packages to include this page inside their main page
+   *
+   * @param string $subPath
+   */
+  public function setSubPath($subPath)
+  {
+    $this->subPath = $subPath;
+  }
+
+  /**
+   * Returns whether a subpath is set
+   *
+   * @return bool
+   */
+  public function hasSubPath()
+  {
+    return !empty($this->subPath);
+  }
+
+  /**
+   * Returns the subpath which should by used by packages to include this page inside their main page
+   *
+   * @return string
+   */
+  public function getSubPath()
+  {
+    return $this->subPath;
+  }
+
   public function addSubPage(self $subpage)
   {
     $this->subPages[$subpage->getKey()] = $subpage;
     $subpage->parent = $this;
-    $subpage->addParentKey($this->getFullKey());
+    $subpage->setParentKey($this->getFullKey());
   }
 
-  private function addParentKey($key)
+  private function setParentKey($key)
   {
-    $this->fullKey = $key . '/' . $this->fullKey;
+    $this->fullKey = $key . '/' . $this->key;
     foreach ($this->subPages as $subPage) {
-      $subPage->addParentKey($key);
+      $subPage->setParentKey($this->fullKey);
     }
+  }
+
+  public function setSubPages(array $subpages)
+  {
+    $this->subPages = array();
+    array_walk($subpages, array($this, 'addSubPage'));
   }
 
   /**
@@ -182,8 +235,16 @@ class rex_be_page implements rex_be_page_container
     return $this->subPages;
   }
 
+  public function setIsActive($isActive = true)
+  {
+    $this->isActive = $isActive;
+  }
+
   public function isActive()
   {
+    if ($this->isActive !== null) {
+      return $this->isActive;
+    }
     $page = rex_be_controller::getCurrentPageObject();
     do {
       $page = $page->getPage();
@@ -267,7 +328,7 @@ class rex_be_page implements rex_be_page_container
 
   public function _set($key, $value)
   {
-    if (!is_string($key))
+    if (!is_string($key) || strtolower($key) == 'subpages')
       return;
 
     $setter = array($this, $key == 'perm' ? 'setRequiredPermissions' : 'set' . ucfirst($key));
