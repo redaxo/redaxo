@@ -459,7 +459,7 @@ if ($article->getRows() == 1) {
 
       $item = array();
       $item['title']  = $val;
-      $item['href']   = rex_url::backendController(array('page' => 'content/edit/ctypes', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key));
+      $item['href']   = rex_url::backendController(array('page' => 'content/edit', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key));
       if ($ctype == $key) {
         $item['active'] = true;
       }
