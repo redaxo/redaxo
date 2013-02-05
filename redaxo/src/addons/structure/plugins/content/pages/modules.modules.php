@@ -160,7 +160,7 @@ if ($function == 'add' or $function == 'edit') {
 
   if ($save != '1') {
     if ($function == 'edit') {
-      $legend = rex_i18n::msg('module_edit') . ' <em>[' . rex_i18n::msg('id') . '=' . $module_id . ']</em>';
+      $legend = rex_i18n::msg('module_edit') . ' <em class="rex-number">' . rex_i18n::msg('id') . '=' . $module_id . '</em>';
 
       $hole = rex_sql::factory();
       $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=' . $module_id);
