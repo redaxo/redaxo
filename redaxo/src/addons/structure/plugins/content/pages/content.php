@@ -450,11 +450,21 @@ if ($article->getRows() == 1) {
     $editPage = rex_be_controller::getPageObject('content/edit');
     $editPage->setHref(rex_url::backendPage('content/edit', array('article_id' => $article_id, 'clang' => $clang)));
 
+    $context_items = array();
     foreach ($ctypes as $key => $val) {
       $subpage = new rex_be_page('ctype' . $key, rex_i18n::translate($val));
       $subpage->setHref(array('page' => 'content/edit', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key));
       $subpage->setIsActive($ctype == $key);
-     $editPage->addSubPage($subpage);
+      $editPage->addSubPage($subpage);
+
+      $item = array();
+      $item['title']  = $val;
+      $item['href']   = rex_url::backendController(array('page' => 'content/edit/ctypes', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key));
+      if ($ctype == $key) {
+        $item['active'] = true;
+      }
+      $context_items[] = $item;
+      unset($item);
     }
 
     $nav = rex_be_navigation::factory();
@@ -478,9 +488,20 @@ if ($article->getRows() == 1) {
 
     $content_navi_text_right = rex_i18n::msg('article') . ' <a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;" data-pjax="false">' . rex_i18n::msg('show') . '</a>';
 
+
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('header', 'Ctype wählen');
+    $fragment->setVar('items', $context_items, false);
+    $fragment->setVar('check', true);
+
+    $content_navi_text_left = $fragment->parse('core/navigations/context.tpl');
+
+
     $fragment = new rex_fragment();
     $fragment->setVar('navigation_left', $content_navi_left, false);
     $fragment->setVar('navigation_right', $content_navi_right, false);
+    $fragment->setVar('text_left', $content_navi_text_left, false);
     $fragment->setVar('text_right', $content_navi_text_right, false);
     echo $fragment->parse('core/navigations/content.tpl');
 
