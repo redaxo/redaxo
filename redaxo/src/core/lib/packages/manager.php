@@ -116,7 +116,7 @@ abstract class rex_package_manager extends rex_factory_base
       rex_autoload::addDirectory($this->package->getPath('lib'));
       rex_autoload::addDirectory($this->package->getPath('vendor'));
       try {
-        static::includeFile($this->package, self::INSTALL_FILE);
+        $this->package->includeFile(self::INSTALL_FILE);
         // Wurde das "install" Flag gesetzt?
         // Fehlermeldung ausgegeben? Wenn ja, Abbruch
         if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
@@ -189,7 +189,7 @@ abstract class rex_package_manager extends rex_factory_base
     // check if uninstall.php exists
     if ($state === true && is_readable($uninstall_file)) {
       try {
-        static::includeFile($this->package, self::UNINSTALL_FILE);
+        $this->package->includeFile(self::UNINSTALL_FILE);
         // Wurde das "install" Flag gesetzt?
         // Fehlermeldung ausgegeben? Wenn ja, Abbruch
         if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
@@ -256,7 +256,7 @@ abstract class rex_package_manager extends rex_factory_base
             if (is_readable($this->package->getPath(self::CONFIG_FILE))) {
               rex_autoload::addDirectory($this->package->getPath('lib'));
               rex_autoload::addDirectory($this->package->getPath('vendor'));
-              static::includeFile($this->package, self::CONFIG_FILE);
+              $this->package->includeFile(self::CONFIG_FILE);
             }
           }
           $this->saveConfig();
@@ -567,24 +567,6 @@ abstract class rex_package_manager extends rex_factory_base
     $args[0] = $key;
 
     return call_user_func_array(array('rex_i18n', 'msg'), $args);
-  }
-
-  /**
-   * Includes a file inside the package context
-   *
-   * @param rex_package $package Package
-   * @param string      $file
-   */
-  static public function includeFile(rex_package $package, $file)
-  {
-    if (get_called_class() == __CLASS__) {
-      $class = $package instanceof rex_plugin ? 'rex_plugin_manager' : 'rex_addon_manager';
-      return $class::includeFile($package, $file);
-    }
-    if (static::hasFactoryClass()) {
-      return static::callFactoryClass(__FUNCTION__, func_get_args());
-    }
-    return $package->includeFile($file);
   }
 
   /**

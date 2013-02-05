@@ -52,7 +52,7 @@ foreach ($packageOrder as $packageId) {
 
   // include the addon itself
   if (is_readable($folder . 'boot.php')) {
-    rex_package_manager::includeFile($package, rex_package_manager::CONFIG_FILE);
+    $package->includeFile(rex_package_manager::CONFIG_FILE);
   }
 }
 

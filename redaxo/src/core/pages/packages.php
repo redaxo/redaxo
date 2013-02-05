@@ -36,7 +36,7 @@ if ($subpage == 'help') {
     $content .= '<div class="rex-content-information">' . rex_i18n::msg('package_no_help_file') . '</div>';
   } else {
     ob_start();
-    rex_package_manager::includeFile($package, 'help.php');
+    $package->includeFile('help.php');
     $content .= ob_get_clean();
   }
 
