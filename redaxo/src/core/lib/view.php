@@ -135,9 +135,13 @@ class rex_view
         $navigation = $navigation['navigation'];
       }
 
-      $fragment = new rex_fragment();
-      $fragment->setVar('navigation_left', $navigation, false);
-      $subtitle = $fragment->parse('core/navigations/content.tpl');
+      if (!empty($navigation)) {
+        $fragment = new rex_fragment();
+        $fragment->setVar('navigation_left', $navigation, false);
+        $subtitle = $fragment->parse('core/navigations/content.tpl');
+      } else {
+        $subtitle = '';
+      }
 
     } elseif (!is_string($subtitle)) {
       $subtitle = '';
