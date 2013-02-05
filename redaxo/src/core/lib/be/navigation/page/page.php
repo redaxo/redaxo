@@ -134,16 +134,31 @@ class rex_be_page implements rex_be_page_container
     $this->setLinkAttr('class', ltrim($this->getLinkAttr('class') . ' ' . $class));
   }
 
+  /**
+   * Set the page path which will be included directly by the core
+   *
+   * @param string $path
+   */
   public function setPath($path)
   {
     $this->path = $path;
   }
 
+  /**
+   * Returns whether a path is set
+   *
+   * @return bool
+   */
   public function hasPath()
   {
     return !empty($this->path) || $this->parent && $this->parent->hasPath();
   }
 
+  /**
+   * Returns the path which will be included directly by the core
+   *
+   * @return string
+   */
   public function getPath()
   {
     if (!empty($this->path)) {
@@ -152,16 +167,31 @@ class rex_be_page implements rex_be_page_container
     return $this->parent ? $this->parent->getPath() : null;
   }
 
+  /**
+   * Set the page subpath which should be used by the packages to include this page inside their main page
+   *
+   * @param string $subPath
+   */
   public function setSubPath($subPath)
   {
     $this->subPath = $subPath;
   }
 
+  /**
+   * Returns whether a subpath is set
+   *
+   * @return bool
+   */
   public function hasSubPath()
   {
     return !empty($this->subPath);
   }
 
+  /**
+   * Returns the subpath which should by used by packages to include this page inside their main page
+   *
+   * @return string
+   */
   public function getSubPath()
   {
     return $this->subPath;
