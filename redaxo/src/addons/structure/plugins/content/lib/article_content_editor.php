@@ -369,7 +369,7 @@ class rex_article_content_editor extends rex_article_content
         <section class="rex-slice rex-slice-add">
 
           <div class="rex-form">
-          <form action="index.php#slice' . $sliceId . '" method="post" id="REX_FORM" enctype="multipart/form-data">
+          <form action="' . rex_url::currentBackendPage(array('article_id' => $this->article_id, 'mode' => $this->mode, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype)) . '#slice' . $sliceId . '" method="post" id="REX_FORM" enctype="multipart/form-data">
 
           <header class="rex-slice-header">
             ' . $slice_header . '
@@ -379,15 +379,9 @@ class rex_article_content_editor extends rex_article_content
 
             <fieldset class="rex-form-col-1">
               <legend><span>' . rex_i18n::msg('add_block') . '</span></legend>
-              <input type="hidden" name="article_id" value="' . $this->article_id . '" />
-              <input type="hidden" name="page" value="content" />
-              <input type="hidden" name="mode" value="' . $this->mode . '" />
-              <input type="hidden" name="slice_id" value="' . $sliceId . '" />
               <input type="hidden" name="function" value="add" />
               <input type="hidden" name="module_id" value="' . $moduleIdToAdd . '" />
               <input type="hidden" name="save" value="1" />
-              <input type="hidden" name="clang" value="' . $this->clang . '" />
-              <input type="hidden" name="ctype" value="' . $this->ctype . '" />
 
               <div class="rex-form-datas">
                 ' . $moduleInput . '
@@ -443,21 +437,15 @@ class rex_article_content_editor extends rex_article_content
 
     $slice_content = '
       <div class="rex-form">
-      <form enctype="multipart/form-data" action="index.php#slice' . $RE_CONTS . '" method="post" id="REX_FORM">
+      <form enctype="multipart/form-data" action="' . rex_url::currentBackendPage(array('article_id' => $this->article_id, 'mode' => $this->mode, 'slice_id' => $RE_CONTS, 'ctype' => $RE_CTYPE, 'clang' => $this->clang)) . '#slice' . $RE_CONTS . '" method="post" id="REX_FORM">
 
         <section class="rex-slice-content">
           <fieldset class="rex-form-col-1">
             <legend><span>' . rex_i18n::msg('edit_block') . '</span></legend>
-            <input type="hidden" name="article_id" value="' . $this->article_id . '" />
-            <input type="hidden" name="page" value="content" />
-            <input type="hidden" name="mode" value="' . $this->mode . '" />
-            <input type="hidden" name="slice_id" value="' . $RE_CONTS . '" />
-            <input type="hidden" name="ctype" value="' . $RE_CTYPE . '" />
             <input type="hidden" name="module_id" value="' . $RE_MODUL_ID . '" />
             <input type="hidden" name="function" value="edit" />
             <input type="hidden" name="save" value="1" />
             <input type="hidden" name="update" value="0" />
-            <input type="hidden" name="clang" value="' . $this->clang . '" />
 
             <div class="rex-form-datas">
               ' . $this->getStreamOutput('module/' . $RE_MODUL_ID . '/input', $RE_MODUL_IN) . '

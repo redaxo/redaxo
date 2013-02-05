@@ -1255,7 +1255,7 @@ class rex_form extends rex_factory_base
     $fieldsets = $this->getFieldsetElements();
     $last = count($fieldsets);
 
-    $s .= '  <form action="index.php" method="' . $this->method . '">' . "\n";
+    $s .= '  <form action="' . rex_url::backendController() . '" method="' . $this->method . '">' . "\n";
     foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
       $s .= '    <fieldset">' . "\n";
       $s .= '      <h2>' . htmlspecialchars($fieldsetName) . '</h2>' . "\n";
