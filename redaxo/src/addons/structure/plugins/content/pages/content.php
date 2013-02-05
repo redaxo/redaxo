@@ -450,26 +450,12 @@ if ($article->getRows() == 1) {
     $editPage = rex_be_controller::getPageObject('content/edit');
     $editPage->setHref(rex_url::backendPage('content/edit', array('article_id' => $article_id, 'clang' => $clang)));
 
-    $existingSubpages = $editPage->getSubPages();
-    $subpages = array();
-    foreach ($existingSubpages as $subpage) {
-      if ($subpage->getKey() != 'ctypes') {
-        $subpage->setHref(rex_url::backendPage($subpage->getFullKey(), array('article_id' => $article_id, 'clang' => $clang)));
-        $subpages[] = $subpage;
-      } elseif (!empty($ctypes)) {
-        $isCtypePage = rex_be_controller::getCurrentPagePart(3) == 'ctypes';
-        foreach ($ctypes as $key => $val) {
-          $subpage = new rex_be_page('ctype' . $key, rex_i18n::translate($val));
-          $subpage->setHref(array('page' => 'content/edit/ctypes', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key));
-          $subpage->setIsActive($isCtypePage && $ctype == $key);
-          $subpages[] = $subpage;
-        }
-      } elseif (count($existingSubpages) > 1) {
-        $subpage->setHref(rex_url::backendPage($subpage->getFullKey(), array('article_id' => $article_id, 'clang' => $clang)));
-        $subpages[] = $subpage;
-      }
+    foreach ($ctypes as $key => $val) {
+      $subpage = new rex_be_page('ctype' . $key, rex_i18n::translate($val));
+      $subpage->setHref(array('page' => 'content/edit', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key));
+      $subpage->setIsActive($ctype == $key);
+     $editPage->addSubPage($subpage);
     }
-    $editPage->setSubPages($subpages);
 
     $nav = rex_be_navigation::factory();
     $nav->addPage($editPage);

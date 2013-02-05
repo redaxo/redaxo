@@ -19,7 +19,6 @@ if (rex::isBackend()) {
   $page->setHidden(true);
   $page->setPath($this->getPath('pages/content.php'));
   $subpage = new rex_be_page('edit', rex_i18n::msg('edit_mode'));
-  $subpage->addSubPage(new rex_be_page('ctypes', rex_i18n::msg('content')));
   $page->addSubPage($subpage);
   $subpage = new rex_be_page('meta', rex_i18n::msg('metadata'));
   $page->addSubPage($subpage);
