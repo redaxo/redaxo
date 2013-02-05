@@ -491,7 +491,7 @@ if ($article->getRows() == 1) {
     $content_navi_text_left = '';
     if (count($context_items) >= 2) {
       $fragment = new rex_fragment();
-      $fragment->setVar('header', 'Ctype wählen');
+      $fragment->setVar('header', rex_i18n::msg('content_choose_type'));
       $fragment->setVar('items', $context_items, false);
       $fragment->setVar('check', true);
 
