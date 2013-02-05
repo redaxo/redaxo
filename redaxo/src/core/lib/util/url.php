@@ -16,7 +16,7 @@ class rex_url
   static public function init($htdocs, $backend)
   {
     self::$base = $htdocs;
-    self::$backend = $backend;
+    self::$backend = substr($htdocs, -3) === '../' ? '' : $htdocs . $backend . '/';
   }
   /**
    * Returns a base url
@@ -49,7 +49,7 @@ class rex_url
    */
   static public function backend($file = '')
   {
-    return self::base(self::$backend . '/' . $file);
+    return htmlspecialchars(self::$backend . $file);
   }
 
   /**
