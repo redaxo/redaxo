@@ -100,7 +100,7 @@ $sel_startpage->addOption('default', '');
 foreach (rex_be_controller::getPages() as $page => $pageObj) {
   /* @var $pageObj rex_be_page */
   $pageObj = $pageObj->getPage();
-  if ($pageObj->hasNavigation() && !$pageObj->getHidden()) {
+  if ($pageObj->hasNavigation() && !$pageObj->isHidden()) {
     $sel_startpage->addOption($pageObj->getPage()->getTitle(), $page);
   }
 }

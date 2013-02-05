@@ -82,7 +82,7 @@ class rex_be_navigation extends rex_factory_base
     foreach ($blockPages as $key => $pageContainer) {
       $page = $pageContainer->getPage();
 
-      if (!$page->getHidden() && $page->checkPermission(rex::getUser())) {
+      if (!$page->isHidden() && $page->checkPermission(rex::getUser())) {
         $n = array();
         $n['linkClasses'] = array();
         $n['itemClasses'] = array();
