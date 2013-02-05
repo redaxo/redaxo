@@ -14,8 +14,8 @@ $template_id  = rex_request('template_id', 'int');
 $save         = rex_request('save', 'string');
 $goon         = rex_request('goon', 'string');
 
-$info = '';
-$warning = '';
+$success = '';
+$error = '';
 
 $content = '';
 $message = '';
@@ -24,23 +24,23 @@ if ($function == 'delete') {
   $del = rex_sql::factory();
   $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article.id,' . rex::getTablePrefix() . 'template.name FROM ' . rex::getTablePrefix() . 'article
     LEFT JOIN ' . rex::getTablePrefix() . 'template ON ' . rex::getTablePrefix() . 'article.template_id=' . rex::getTablePrefix() . 'template.id
-    WHERE ' . rex::getTablePrefix() . "article.template_id='$template_id' LIMIT 0,10");
+    WHERE ' . rex::getTablePrefix() . 'article.template_id="' . $template_id . '" LIMIT 0,10');
 
   if ($del->getRows() > 0  || rex::getProperty('default_template_id') == $template_id) {
-    $warning = rex_i18n::msg('cant_delete_template_because_its_in_use', 'ID = ' . $template_id);
+    $error = rex_i18n::msg('cant_delete_template_because_its_in_use', rex_i18n::msg('id') . ' = ' . $template_id);
 
   } else {
-    $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . "template WHERE id = '$template_id' LIMIT 1"); // max. ein Datensatz darf loeschbar sein
+    $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
     rex_file::delete(rex_path::addonCache('templates', $template_id . '.template'));
-    $info = rex_i18n::msg('template_deleted');
+    $success = rex_i18n::msg('template_deleted');
   }
 
 } elseif ($function == 'edit') {
 
-  $legend = rex_i18n::msg('edit_template') . ' [ID=' . $template_id . ']';
+  $legend = rex_i18n::msg('edit_template') . ' <em class="rex-number">' . rex_i18n::msg('id') . ' = ' . $template_id . '</em>';
 
   $hole = rex_sql::factory();
-  $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . "template WHERE id = '$template_id'");
+  $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '"');
   if ($hole->getRows() == 1) {
     $templatename = $hole->getValue('name');
     $template = $hole->getValue('content');
@@ -111,9 +111,9 @@ if ($function == 'add' or $function == 'edit') {
       try {
         $TPL->insert();
         $template_id = $TPL->getLastId();
-        $info = rex_i18n::msg('template_added');
+        $success = rex_i18n::msg('template_added');
       } catch (rex_sql_exception $e) {
-        $warning = $e->getMessage();
+        $error = $e->getMessage();
       }
     } else {
       $TPL->setWhere(array('id' => $template_id));
@@ -121,9 +121,9 @@ if ($function == 'add' or $function == 'edit') {
 
       try {
         $TPL->update();
-        $info = rex_i18n::msg('template_updated');
+        $success = rex_i18n::msg('template_updated');
       } catch (rex_sql_exception $e) {
-        $warning = $e->getMessage();
+        $error = $e->getMessage();
       }
     }
 
@@ -202,8 +202,8 @@ if ($function == 'add' or $function == 'edit') {
 
         $formElements = array();
         $n = array();
-        $n['label'] = '<label for="ctype' . $i . '">ID=' . $i . '</label>';
-        $n['field'] = '<input id="ctype' . $i . '" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />';
+        $n['label'] = '<label for="rex-id-ctype' . $i . '">' . rex_i18n::msg('id') . ' = ' . $i . '</label>';
+        $n['field'] = '<input id="rex-id-ctype' . $i . '" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -239,7 +239,7 @@ if ($function == 'add' or $function == 'edit') {
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
-        //$fragment->setVar('flush', true);
+        $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
         $ctypes_out .= $fragment->parse('core/form/form.tpl');
 
@@ -276,11 +276,11 @@ if ($function == 'add' or $function == 'edit') {
 
     $tmpl_active_checked = $active == 1 ? ' checked="checked"' : '';
 
-    if ($info != '')
-      $message .= rex_view::info($info);
+    if ($success != '')
+      $message .= rex_view::success($success);
 
-    if ($warning != '')
-      $message .= rex_view::warning($warning);
+    if ($error != '')
+      $message .= rex_view::error($error);
 
 
 
@@ -298,8 +298,8 @@ if ($function == 'add' or $function == 'edit') {
 
     $formElements = array();
     $n = array();
-    $n['label'] = '<label for="ltemplatename">' . rex_i18n::msg('template_name') . '</label>';
-    $n['field'] = '<input type="text" id="ltemplatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />';
+    $n['label'] = '<label for="rex-id-templatename">' . rex_i18n::msg('template_name') . '</label>';
+    $n['field'] = '<input type="text" id="rex-id-templatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -310,8 +310,9 @@ if ($function == 'add' or $function == 'edit') {
 
     $formElements = array();
     $n = array();
-    $n['label'] = '<label for="active">' . rex_i18n::msg('checkbox_template_active') . '<span>' . rex_i18n::msg('checkbox_template_active_info') . '</span></label>';
-    $n['field'] = '<input type="checkbox" id="active" name="active" value="1"' . $tmpl_active_checked . '/>';
+    $n['label'] = '<label>' . rex_i18n::msg('checkbox_template_active') . '</label>';
+    $n['field'] = '<input type="checkbox" id="rex-js-active" name="active" value="1"' . $tmpl_active_checked . '/>';
+    $n['note']  = rex_i18n::msg('checkbox_template_active_info');
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -322,8 +323,8 @@ if ($function == 'add' or $function == 'edit') {
 
     $formElements = array();
     $n = array();
-    $n['label'] = '<label for="content">' . rex_i18n::msg('header_template') . '</label>';
-    $n['field'] = '<textarea class="rex-long" name="content" id="content">' . htmlspecialchars($template) . '</textarea>';
+    $n['label'] = '<label for="rex-id-content">' . rex_i18n::msg('header_template') . '</label>';
+    $n['field'] = '<textarea class="rex-short rex-code" name="content" id="rex-id-content" spellcheck="false">' . htmlspecialchars($template) . '</textarea>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -350,7 +351,7 @@ if ($function == 'add' or $function == 'edit') {
 
 
     $field = '';
-    $field .= '<input id="allcategories" type="checkbox" name="categories[all]" ';
+    $field .= '<input id="rex-js-allcategories" type="checkbox" name="categories[all]" ';
     if (!isset($categories['all']) || $categories['all'] == 1)
       $field .= ' checked="checked" ';
     $field .= ' value="1" />';
@@ -358,7 +359,7 @@ if ($function == 'add' or $function == 'edit') {
     $formElements = array();
     $n = array();
     $n['reverse'] = true;
-    $n['label'] = '<label for="allcategories">' . rex_i18n::msg('template_categories_all') . '</label>';
+    $n['label'] = '<label>' . rex_i18n::msg('template_categories_all') . '</label>';
     $n['field'] = $field;
     $formElements[] = $n;
 
@@ -370,7 +371,7 @@ if ($function == 'add' or $function == 'edit') {
 
     $formElements = array();
     $n = array();
-    $n['id']    = 'p_categories';
+    $n['id']    = 'rex-id-categories';
     $n['label'] = '<label for="rex-id-categories-select">' . rex_string::widont( rex_i18n::msg('template_categories_custom') ) . '</label>';
     $n['field'] = $cat_select->get();
     $n['note'] = rex_i18n::msg('ctrl');
@@ -397,7 +398,7 @@ if ($function == 'add' or $function == 'edit') {
     $formElements[] = $n;
 
     $n = array();
-    $n['field'] = '<button class="rex-button" type="submit" name="goon"' . rex::getAccesskey(rex_i18n::msg('save_template_and_continue'), 'apply') . '>' . rex_i18n::msg('save_template_and_continue') . '</button>';
+    $n['field'] = '<button class="rex-button" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_template_and_continue'), 'apply') . '>' . rex_i18n::msg('save_template_and_continue') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -414,22 +415,22 @@ if ($function == 'add' or $function == 'edit') {
 
       jQuery(function($) {
 
-        $("#active").click(function() {
+        $("#rex-js-active").click(function() {
           $("#rex-form-template-ctype").slideToggle("slow");
           $("#rex-form-template-categories").slideToggle("slow");
         });
 
-        if($("#active").is(":not(:checked)")) {
+        if($("#rex-js-active").is(":not(:checked)")) {
           $("#rex-form-template-ctype").hide();
           $("#rex-form-template-categories").hide();
         }
 
-        $("#allcategories").click(function() {
-          $("#p_categories").slideToggle("slow");
+        $("#rex-js-allcategories").click(function() {
+          $("#rex-id-categories").slideToggle("slow");
         });
 
-        if($("#allcategories").is(":checked")) {
-          $("#p_categories").hide();
+        if($("#rex-js-allcategories").is(":checked")) {
+          $("#rex-id-categories").hide();
         }
 
 
@@ -442,11 +443,11 @@ if ($function == 'add' or $function == 'edit') {
 }
 
 if ($OUT) {
-  if ($info != '')
-    $message .= rex_view::info($info);
+  if ($success != '')
+    $message .= rex_view::success($success);
 
-  if ($warning != '')
-    $message .= rex_view::warning($warning);
+  if ($error != '')
+    $message .= rex_view::error($error);
 
   $list = rex_list::factory('SELECT id, name, active FROM ' . rex::getTablePrefix() . 'template ORDER BY name');
   $list->setCaption(rex_i18n::msg('header_template_caption'));

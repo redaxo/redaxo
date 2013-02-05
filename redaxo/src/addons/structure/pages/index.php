@@ -171,16 +171,10 @@ if ($function == 'add_cat' || $function == 'edit_cat') {
 
   $echo .= '
   <div class="rex-form" id="rex-form-structure-category">
-  <form action="index.php" method="post">
+  <form action="' . $context->getUrl(array('catstart' => $catstart)) . '" method="post">
     <fieldset>';
 
-  $params = array();
-  $params['catstart'] = $catstart;
-  if ($function == 'edit_cat') {
-    $params['edit_id'] = $edit_id;
-  }
-
-  $echo .= $context->getHiddenInputFields($params);
+  $echo .= $context->getHiddenInputFields(array('edit_id' => $edit_id));
 }
 
 
@@ -457,12 +451,10 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
 
     $echo .= '
     <div class="rex-form" id="rex-form-structure-article">
-    <form action="index.php" method="post">
+    <form action="' . $context->getUrl(array('artstart' => $artstart)) . '" method="post">
       <fieldset>';
 
-    $params = array();
-    $params['artstart'] = $artstart;
-    $echo .= $context->getHiddenInputFields($params);
+    $echo .= $context->getHiddenInputFields();
   }
 
   // ----------- PRINT OUT THE ARTICLES

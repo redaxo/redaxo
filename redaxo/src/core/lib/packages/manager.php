@@ -5,15 +5,6 @@
  */
 abstract class rex_package_manager extends rex_factory_base
 {
-  const
-    PACKAGE_FILE = 'package.yml',
-    CONFIG_FILE = 'boot.php',
-    INSTALL_FILE = 'install.php',
-    INSTALL_SQL = 'install.sql',
-    UNINSTALL_FILE = 'uninstall.php',
-    UNINSTALL_SQL = 'uninstall.sql',
-    ASSETS_FOLDER = 'assets';
-
   /**
    * @var rex_package
    */
@@ -75,21 +66,15 @@ abstract class rex_package_manager extends rex_factory_base
   {
     $state = true;
 
-    $install_dir  = $this->package->getPath();
-    $package_file = $install_dir . self::PACKAGE_FILE;
-    $install_file = $install_dir . self::INSTALL_FILE;
-    $install_sql  = $install_dir . self::INSTALL_SQL;
-    $config_file  = $install_dir . self::CONFIG_FILE;
-    $files_dir    = $install_dir . self::ASSETS_FOLDER;
-
     // Pruefen des Addon Ornders auf Schreibrechte,
     // damit das Addon spaeter wieder geloescht werden kann
+    $install_dir  = $this->package->getPath();
     if (!rex_dir::isWritable($install_dir)) {
       $state = $this->i18n('dir_not_writable', $install_dir);
     }
 
     if ($state === true) {
-      if (!is_readable($package_file)) {
+      if (!is_readable($this->package->getPath(rex_package::FILE_PACKAGE))) {
         $state = $this->i18n('missing_yml_file');
       } else {
         $packageId = $this->package->getProperty('package');
@@ -112,11 +97,11 @@ abstract class rex_package_manager extends rex_factory_base
     $this->package->setProperty('install', true);
 
     // check if install.php exists
-    if ($state === true && is_readable($install_file)) {
+    if ($state === true && is_readable($this->package->getPath(rex_package::FILE_INSTALL))) {
       rex_autoload::addDirectory($this->package->getPath('lib'));
       rex_autoload::addDirectory($this->package->getPath('vendor'));
       try {
-        static::includeFile($this->package, self::INSTALL_FILE);
+        $this->package->includeFile(rex_package::FILE_INSTALL);
         // Wurde das "install" Flag gesetzt?
         // Fehlermeldung ausgegeben? Wenn ja, Abbruch
         if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
@@ -131,6 +116,7 @@ abstract class rex_package_manager extends rex_factory_base
       }
     }
 
+    $install_sql  = $this->package->getPath(rex_package::FILE_INSTALL_SQL);
     if ($state === true && $installDump === true && is_readable($install_sql)) {
       $state = rex_sql_util::importDump($install_sql);
 
@@ -144,6 +130,7 @@ abstract class rex_package_manager extends rex_factory_base
     }
 
     // Dateien kopieren
+    $files_dir = $this->package->getPath('assets');
     if ($state === true && is_dir($files_dir)) {
       if (!rex_dir::copy($files_dir, $this->package->getAssetsPath())) {
         $state = $this->i18n('install_cant_copy_files');
@@ -171,10 +158,6 @@ abstract class rex_package_manager extends rex_factory_base
   {
     $state = true;
 
-    $install_dir    = $this->package->getPath();
-    $uninstall_file = $install_dir . self::UNINSTALL_FILE;
-    $uninstall_sql  = $install_dir . self::UNINSTALL_SQL;
-
     $isActivated = $this->package->isActivated();
     if ($isActivated) {
       $state = $this->deactivate();
@@ -187,9 +170,9 @@ abstract class rex_package_manager extends rex_factory_base
     $this->package->setProperty('install', false);
 
     // check if uninstall.php exists
-    if ($state === true && is_readable($uninstall_file)) {
+    if ($state === true && is_readable($this->package->getPath(rex_package::FILE_UNINSTALL))) {
       try {
-        static::includeFile($this->package, self::UNINSTALL_FILE);
+        $this->package->includeFile(rex_package::FILE_UNINSTALL);
         // Wurde das "install" Flag gesetzt?
         // Fehlermeldung ausgegeben? Wenn ja, Abbruch
         if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
@@ -204,6 +187,7 @@ abstract class rex_package_manager extends rex_factory_base
       }
     }
 
+    $uninstall_sql  = $this->package->getPath(rex_package::FILE_UNINSTALL_SQL);
     if ($state === true && $installDump === true && is_readable($uninstall_sql)) {
       $state = rex_sql_util::importDump($uninstall_sql);
 
@@ -253,10 +237,10 @@ abstract class rex_package_manager extends rex_factory_base
         if ($state === true) {
           $this->package->setProperty('status', true);
           if (!rex::isSetup()) {
-            if (is_readable($this->package->getPath(self::CONFIG_FILE))) {
+            if (is_readable($this->package->getPath(rex_package::FILE_BOOT))) {
               rex_autoload::addDirectory($this->package->getPath('lib'));
               rex_autoload::addDirectory($this->package->getPath('vendor'));
-              static::includeFile($this->package, self::CONFIG_FILE);
+              $this->package->includeFile(rex_package::FILE_BOOT);
             }
           }
           $this->saveConfig();
@@ -567,24 +551,6 @@ abstract class rex_package_manager extends rex_factory_base
     $args[0] = $key;
 
     return call_user_func_array(array('rex_i18n', 'msg'), $args);
-  }
-
-  /**
-   * Includes a file inside the package context
-   *
-   * @param rex_package $package Package
-   * @param string      $file
-   */
-  static public function includeFile(rex_package $package, $file)
-  {
-    if (get_called_class() == __CLASS__) {
-      $class = $package instanceof rex_plugin ? 'rex_plugin_manager' : 'rex_addon_manager';
-      return $class::includeFile($package, $file);
-    }
-    if (static::hasFactoryClass()) {
-      return static::callFactoryClass(__FUNCTION__, func_get_args());
-    }
-    return $package->includeFile($file);
   }
 
   /**

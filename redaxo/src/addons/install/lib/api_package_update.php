@@ -34,9 +34,9 @@ class rex_api_install_package_update extends rex_api_install_package_download
     }
 
     // ---- include update.php
-    if ($this->addon->isInstalled() && file_exists($temppath . 'update.php')) {
+    if ($this->addon->isInstalled() && file_exists($temppath . rex_package::FILE_UPDATE)) {
       try {
-        rex_addon_manager::includeFile($this->addon, '../_new_' . $this->addonkey . '/update.php');
+        $this->addon->includeFile('../_new_' . $this->addonkey . '/' . rex_package::FILE_UPDATE);
       } catch (rex_functional_exception $e) {
         return $e->getMessage();
       } catch (rex_sql_exception $e) {
@@ -93,8 +93,8 @@ class rex_api_install_package_update extends rex_api_install_package_download
     // ---- update "version" and "requires" properties
     $versions = new SplObjectStorage;
     $requirements = new SplObjectStorage;
-    if (file_exists($temppath . 'package.yml')) {
-      $config = rex_file::getConfig($temppath . 'package.yml');
+    if (file_exists($temppath . rex_package::FILE_PACKAGE)) {
+      $config = rex_file::getConfig($temppath . rex_package::FILE_PACKAGE);
       if (isset($config['requires'])) {
         $requirements[$this->addon] = $this->addon->getProperty('requires');
         $this->addon->setProperty('requires', $config['requires']);
@@ -105,7 +105,7 @@ class rex_api_install_package_update extends rex_api_install_package_download
     $availablePlugins = $this->addon->getAvailablePlugins();
     foreach ($availablePlugins as $plugin) {
       if (is_dir($temppath . '/plugins/' . $plugin->getName())) {
-        $config = rex_file::getConfig($temppath . '/plugins/' . $plugin->getName() . '/package.yml');
+        $config = rex_file::getConfig($temppath . '/plugins/' . $plugin->getName() . '/' . rex_package::FILE_PACKAGE);
         if (isset($config['requires'])) {
           $requirements[$plugin] = $plugin->getProperty('requires');
           $plugin->setProperty('requires', $config['requires']);

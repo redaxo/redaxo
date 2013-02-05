@@ -109,15 +109,15 @@ class rex_view
   /**
    * Ausgabe des Seitentitels
    */
-  static public function title($head, $subtitle = '')
+  static public function title($head, $subtitle = null)
   {
     global $article_id, $category_id, $page;
 
-    if (!is_string($subtitle) && (!is_array($subtitle) || count($subtitle) > 0 && !reset($subtitle) instanceof rex_be_page_container)) {
+    if ($subtitle !== null && !is_string($subtitle) && (!is_array($subtitle) || count($subtitle) > 0 && !reset($subtitle) instanceof rex_be_page_container)) {
       throw new rex_exception('Expecting $subtitle to be a string or an array of rex_be_page_container!');
     }
 
-    if (empty($subtitle)) {
+    if ($subtitle === null) {
       $subtitle = rex_be_controller::getPageObject(rex_be_controller::getCurrentPagePart(1))->getPage()->getSubPages();
     }
 
@@ -135,9 +135,13 @@ class rex_view
         $navigation = $navigation['navigation'];
       }
 
-      $fragment = new rex_fragment();
-      $fragment->setVar('navigation_left', $navigation, false);
-      $subtitle = $fragment->parse('core/navigations/content.tpl');
+      if (!empty($navigation)) {
+        $fragment = new rex_fragment();
+        $fragment->setVar('navigation_left', $navigation, false);
+        $subtitle = $fragment->parse('core/navigations/content.tpl');
+      } else {
+        $subtitle = '';
+      }
 
     } elseif (!is_string($subtitle)) {
       $subtitle = '';

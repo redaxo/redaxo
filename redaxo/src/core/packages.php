@@ -48,11 +48,10 @@ foreach ($packageOrder as $packageId) {
 // now we actually include the addons logic
 foreach ($packageOrder as $packageId) {
   $package = rex_package::get($packageId);
-  $folder = $package->getPath();
 
   // include the addon itself
-  if (is_readable($folder . 'boot.php')) {
-    rex_package_manager::includeFile($package, rex_package_manager::CONFIG_FILE);
+  if (is_readable($package->getPath(rex_package::FILE_BOOT))) {
+    $package->includeFile(rex_package::FILE_BOOT);
   }
 }
 

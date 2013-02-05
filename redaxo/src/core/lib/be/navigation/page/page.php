@@ -229,9 +229,9 @@ class rex_be_page implements rex_be_page_container
     $this->hidden = $hidden;
   }
 
-  public function getHidden()
+  public function isHidden()
   {
-    return $this->hidden || ($this->parent && $this->parent->getHidden());
+    return $this->hidden;
   }
 
   public function setIsCorePage($isCorePage)

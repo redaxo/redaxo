@@ -36,7 +36,7 @@ if (count($items) > 0) {
     echo '
       <section id="rex-page-meta">
         <nav class="rex-navi-meta">
-          <ul>' . implode('', $list_items) . '</ul
+          <ul>' . implode('', $list_items) . '</ul>
         </nav>
       </section>';
   }

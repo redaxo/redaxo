@@ -362,12 +362,12 @@ dl.rex-form > dd .rex-form-read {
   margin: 0 5px 0 0;
   width: 400px;
 }
-dl.rex-form > dd input[type="email"].rex-small,
-dl.rex-form > dd input[type="password"].rex-small,
-dl.rex-form > dd input[type="text"].rex-small,
-dl.rex-form > dd textarea.rex-small,
-dl.rex-form > dd select.rex-small,
-dl.rex-form > dd .rex-form-read.rex-small {
+dl.rex-form > dd input[type="email"].rex-slim,
+dl.rex-form > dd input[type="password"].rex-slim,
+dl.rex-form > dd input[type="text"].rex-slim,
+dl.rex-form > dd textarea.rex-slim,
+dl.rex-form > dd select.rex-slim,
+dl.rex-form > dd .rex-form-read.rex-slim {
   width: 200px;
 }
 dl.rex-form > dd input[type="email"].rex-large,
@@ -384,8 +384,14 @@ dl.rex-form > dd textarea {
 dl.rex-form > dd textarea.rex-long {
   height: 250px;
 }
+dl.rex-form > dd textarea.rex-very-long {
+  height: 450px;
+}
 dl.rex-form > dd textarea.rex-short {
-  height: 80px;
+  height: 100px;
+}
+dl.rex-form > dd textarea.rex-very-short {
+  height: 60px;
 }
 
 

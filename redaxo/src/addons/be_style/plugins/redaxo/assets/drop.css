@@ -187,6 +187,9 @@
   width: 600px;
 }
 
+.rex-drop-list {
+  margin-left: 0;
+}
 .rex-drop-item {
   padding: 5px 10px;
   border-bottom: 1px solid #dfe8e8;
@@ -260,6 +263,9 @@
   width: 900px;
 }
 
+.rex-context-menu-list {
+  margin-left: 0;
+}
 .rex-context-menu-item {
   padding: 5px 10px;
   border-bottom: 1px solid #dfe8e8;

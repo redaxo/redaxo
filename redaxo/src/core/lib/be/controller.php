@@ -299,7 +299,7 @@ class rex_be_controller
         if (isset($matches[2])) {
           $package = $package->getPlugin($matches[2]);
         }
-        rex_package_manager::includeFile($package, str_replace($package->getPath(), '', $path));
+        $package->includeFile(str_replace($package->getPath(), '', $path));
       } else {
         require $path;
       }
@@ -308,7 +308,7 @@ class rex_be_controller
       require rex_path::core('pages/' . $page . '.php');
     } else {
       // Addon Page
-      rex_addon_manager::includeFile(rex_addon::get($page), 'pages/index.php');
+      rex_addon::get($page)->includeFile('pages/index.php');
     }
 
     require rex_path::core('layout/bottom.php');

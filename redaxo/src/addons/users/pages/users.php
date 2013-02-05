@@ -67,7 +67,7 @@ $sel_role->setId('userrole');
 $sel_role->addOption(rex_i18n::msg('user_no_role'), 0);
 $roles = array();
 $sql_role = rex_sql::factory();
-$sql_role->setQuery('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role');
+$sql_role->setQuery('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role ORDER BY name');
 foreach ($sql_role as $role) {
   $roles[$role->getValue('id')] = $role->getValue('name');
   $sel_role->addOption($role->getValue('name'), $role->getValue('id'));
@@ -100,7 +100,7 @@ $sel_startpage->addOption('default', '');
 foreach (rex_be_controller::getPages() as $page => $pageObj) {
   /* @var $pageObj rex_be_page */
   $pageObj = $pageObj->getPage();
-  if ($pageObj->hasNavigation() && !$pageObj->getHidden()) {
+  if ($pageObj->hasNavigation() && !$pageObj->isHidden()) {
     $sel_startpage->addOption($pageObj->getPage()->getTitle(), $page);
   }
 }
@@ -252,11 +252,11 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     $formElements[] = $n;
 
     $n = array();
-    $n['field'] = '<button class="rex-button" type="submit" name="FUNC_UPDATE" ' . rex::getAccesskey(rex_i18n::msg('user_save'), 'save') . '>' . rex_i18n::msg('user_save') . '</button>';
+    $n['field'] = '<button class="rex-button" type="submit" name="FUNC_UPDATE" value="1" ' . rex::getAccesskey(rex_i18n::msg('user_save'), 'save') . '>' . rex_i18n::msg('user_save') . '</button>';
     $formElements[] = $n;
 
     $n = array();
-    $n['field'] = '<button class="rex-button" type="submit" name="FUNC_APPLY" ' . rex::getAccesskey(rex_i18n::msg('user_apply'), 'apply') . '>' . rex_i18n::msg('user_apply') . '</button>';
+    $n['field'] = '<button class="rex-button" type="submit" name="FUNC_APPLY" value="1" ' . rex::getAccesskey(rex_i18n::msg('user_apply'), 'apply') . '>' . rex_i18n::msg('user_apply') . '</button>';
     $formElements[] = $n;
 
 
@@ -321,7 +321,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     $formElements = array();
 
       $n = array();
-      $n['field'] = '<button class="rex-button" type="submit" name="function" ' . rex::getAccesskey(rex_i18n::msg('add_user'), 'save') . '>' . rex_i18n::msg('add_user') . '</button>';
+      $n['field'] = '<button class="rex-button" type="submit" name="function" value="1" ' . rex::getAccesskey(rex_i18n::msg('add_user'), 'save') . '>' . rex_i18n::msg('add_user') . '</button>';
       $formElements[] = $n;
 
 

@@ -43,7 +43,7 @@ $content = '';
 $content .= '
 
 <div id="rex-form-login" class="rex-form">
-<form action="index.php" method="post">
+<form action="' . rex_url::backendController() . '" method="post">
   <fieldset>
     <h2>' . rex_i18n::msg('login_welcome') . '</h2>
     <input type="hidden" name="javascript" value="0" id="javascript" />';

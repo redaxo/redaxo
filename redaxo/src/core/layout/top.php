@@ -52,20 +52,14 @@ if (rex::getUser() && $hasNavigation) {
   $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
 
   $item = array();
-  $item['title']  = rex_i18n::msg('logged_in_as') . ' <span class="rex-username">' . htmlspecialchars($user_name) . '</span>';
-  $meta_items[] = $item;
-  unset($item);
-
-  $item = array();
-  $item['title']  = '<span class="rex-icon rex-icon-profile"></span>' . rex_i18n::msg('profile_title');
-  $item['href']   = rex_url::backendPage('profile');
+  $item['title']  = rex_i18n::msg('logged_in_as') . ' <a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . rex_i18n::msg('profile_title') . '">' . htmlspecialchars($user_name) . '</a>';
   $meta_items[] = $item;
   unset($item);
 
   $item = array();
   $item['title']      = '<span class="rex-icon rex-icon-logout"></span>' . rex_i18n::msg('logout');
   $item['href']       = rex_url::backendController(array('rex_logout' => 1));
-  $item['attributes'] = 'class="rex-button"' . rex::getAccesskey(rex_i18n::msg('logout'), 'logout');
+  $item['attributes'] = 'class="rex-logout"' . rex::getAccesskey(rex_i18n::msg('logout'), 'logout');
   $meta_items[] = $item;
   unset($item);
 

@@ -190,7 +190,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     if (rex::isSetup() || rex::isSafeMode()) {
       // in setup and safemode this method is called before the package .lang files are added to rex_i18n
       // so don't use getProperty(), to avoid loading all properties without translations
-      $properties = rex_file::getConfig($this->getPath('package.yml'));
+      $properties = rex_file::getConfig($this->getPath(parent::FILE_PACKAGE));
       $systemPlugins = isset($properties['system_plugins']) ? (array) $properties['system_plugins'] : array();
     } else {
       $systemPlugins = (array) $this->getProperty('system_plugins', array());

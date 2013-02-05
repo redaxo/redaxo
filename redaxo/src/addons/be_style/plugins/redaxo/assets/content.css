@@ -235,6 +235,7 @@ caption {
 pre, code, tt, .rex-code {
   font-family: Monaco, Courier, monospace;
   font-size: 12px;
+  line-height: 1.4;
 }
 
 .rex-nowrap {
@@ -275,6 +276,9 @@ a.rex-online {
   font-size: smaller;
 }
 
+
+
+/*  ----------------------------------- Back -------------------------------- */
 .rex-back {
   display: inline-block;
   color: #666;
@@ -292,6 +296,9 @@ a.rex-online {
   margin-top: 9px;
 }
 
+
+
+/*  ----------------------------------- Headlines --------------------------- */
 h1 {
   clear: both;
   margin: 20px 0;
@@ -333,6 +340,14 @@ h2 {
   font-style: normal;
   font-weight: normal;
 }
+.rex-bucket h2 em.rex-number:before {
+  content: "[";
+  opacity: .6;
+}
+.rex-bucket h2 em.rex-number:after {
+  content: "]";
+  opacity: .6;
+}
 .rex-bucket h3 {
   display: block;
   margin: 10px 0;
@@ -341,6 +356,10 @@ h2 {
 .rex-bucket p + h3 {
   margin-top: 20px;
 }
+
+
+
+/*  ----------------------------------- Grouping ---------------------------- */
 .rex-bucket dl,
 .rex-bucket p {
   margin: 10px 0;
@@ -348,6 +367,7 @@ h2 {
 
 
 
+/*  ----------------------------------- Formatted --------------------------- */
 .rex-formatted dt {
   float: left;
   clear: left;
@@ -364,7 +384,7 @@ h2 {
 
 
 
-
+/*  ----------------------------------- Tables ------------------------------ */
 .rex-table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -430,7 +450,7 @@ h2 {
 
 
 
-
+/*  ----------------------------------- Bucket ------------------------------ */
 .rex-bucket {
   margin: 20px 0;
   padding: 3px;
@@ -449,6 +469,7 @@ h2 {
 
 
 
+/*  ----------------------------------- Information ------------------------- */
 .rex-content-information {
   margin: 20px;
   font-weight: bold;
@@ -457,6 +478,8 @@ h2 {
 }
 
 
+
+/*  ----------------------------------- Navigations ------------------------- */
 .rex-navi-content {
   margin: 10px 0;
   height: 35px;
@@ -516,6 +539,9 @@ h2 {
   font-weight: bold;
 }
 
+
+
+/*  ----------------------------------- Helper ------------------------------ */
 .rex-right {
   text-align: right;
 }
@@ -523,6 +549,9 @@ h2 {
   float: right;
 }
 
+
+
+/*  ----------------------------------- List -------------------------------- */
 .rex-piped {
   display: inline-block;
   float: left;
