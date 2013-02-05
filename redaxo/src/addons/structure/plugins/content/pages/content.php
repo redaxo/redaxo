@@ -488,14 +488,15 @@ if ($article->getRows() == 1) {
 
     $content_navi_text_right = rex_i18n::msg('article') . ' <a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;" data-pjax="false">' . rex_i18n::msg('show') . '</a>';
 
+    $content_navi_text_left = '';
+    if (count($context_items) >= 2) {
+      $fragment = new rex_fragment();
+      $fragment->setVar('header', 'Ctype wählen');
+      $fragment->setVar('items', $context_items, false);
+      $fragment->setVar('check', true);
 
-
-    $fragment = new rex_fragment();
-    $fragment->setVar('header', 'Ctype wählen');
-    $fragment->setVar('items', $context_items, false);
-    $fragment->setVar('check', true);
-
-    $content_navi_text_left = $fragment->parse('core/navigations/context.tpl');
+      $content_navi_text_left = $fragment->parse('core/navigations/context.tpl');
+    }
 
 
     $fragment = new rex_fragment();
