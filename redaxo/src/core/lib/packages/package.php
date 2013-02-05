@@ -7,6 +7,15 @@
  */
 abstract class rex_package implements rex_package_interface
 {
+  const
+    FILE_PACKAGE       = 'package.yml',
+    FILE_BOOT          = 'boot.php',
+    FILE_INSTALL       = 'install.php',
+    FILE_INSTALL_SQL   = 'install.sql',
+    FILE_UNINSTALL     = 'uninstall.php',
+    FILE_UNINSTALL_SQL = 'uninstall.sql',
+    FILE_UPDATE        = 'update.php';
+
   /**
    * Name of the package
    *
@@ -222,7 +231,7 @@ abstract class rex_package implements rex_package_interface
    */
   private function loadProperties()
   {
-    $properties = rex_file::getConfig($this->getPath('package.yml'));
+    $properties = rex_file::getConfig($this->getPath(self::FILE_PACKAGE));
     foreach ($properties as $key => $value) {
       if (!isset($this->properties[$key]))
         $this->properties[$key] = rex_i18n::translateArray($value, true, array($this, 'i18n'));
