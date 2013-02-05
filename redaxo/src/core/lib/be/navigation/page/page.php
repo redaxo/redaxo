@@ -16,6 +16,7 @@ class rex_be_page implements rex_be_page_container
     $parent,
     $subPages = array(),
 
+    $isActive = null,
     $hidden = false,
     $isCorePage = false,
     $hasLayout = true,
@@ -70,9 +71,9 @@ class rex_be_page implements rex_be_page_container
   public function getHref()
   {
     if ($this->href) {
-      return $this->href;
+      return htmlspecialchars_decode($this->href);
     }
-    return rex_url::backendPage($this->getFullKey());
+    return htmlspecialchars_decode(rex_url::backendPage($this->getFullKey()));
   }
 
   public function setItemAttr($name, $value)
@@ -204,8 +205,16 @@ class rex_be_page implements rex_be_page_container
     return $this->subPages;
   }
 
+  public function setIsActive($isActive = true)
+  {
+    $this->isActive = $isActive;
+  }
+
   public function isActive()
   {
+    if ($this->isActive !== null) {
+      return $this->isActive;
+    }
     $page = rex_be_controller::getCurrentPageObject();
     do {
       $page = $page->getPage();
