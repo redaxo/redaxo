@@ -84,7 +84,7 @@ if (rex::isBackend() && rex::getUser()) {
     return $params['subject'];
   });
 
-  if (rex_be_controller::getCurrentPage() == 'system/settings') {
+  if (rex_be_controller::getCurrentPagePart(1) == 'system') {
     rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
     rex_system_setting::register(new rex_system_setting_article_id('notfound_article_id'));
   }

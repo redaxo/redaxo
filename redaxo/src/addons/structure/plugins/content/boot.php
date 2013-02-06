@@ -44,7 +44,7 @@ if (rex::isBackend()) {
 
   $this->setProperty('pages', $pages);
 
-  if (rex_be_controller::getCurrentPage() == 'system/settings') {
+  if (rex_be_controller::getCurrentPagePart(1) == 'system') {
     rex_system_setting::register(new rex_system_setting_default_template_id());
   }
 
