@@ -189,7 +189,6 @@ class rex_login
           $this->message = rex_i18n::msg('login_user_not_found');
         }
       } else {
-        $this->message = rex_i18n::msg('login_welcome');
         $ok = false;
       }
     } else {
