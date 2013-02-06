@@ -2,7 +2,7 @@
 
 $content .= '
         <div class="rex-form" id="rex-form-content-metamode">
-          <form action="' . rex_url::currentBackendPage(array('article_id' => $article_id, 'clang' => $clang)) . '" method="post" enctype="multipart/form-data" id="REX_FORM">
+          <form action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data" id="REX_FORM">
                 <input type="hidden" name="save" value="1" />
                 <input type="hidden" name="ctype" value="' . $ctype . '" />
                 <input type="hidden" name="rex-api-call" id="apiField">

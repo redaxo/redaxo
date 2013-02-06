@@ -70,8 +70,8 @@ if ($article->getRows() == 1) {
 
   $context = new rex_context(array(
     'page' => rex_be_controller::getCurrentPage(),
-    'category_id' => $category_id,
     'article_id' => $article_id,
+    'clang' => $clang,
     'ctype' => $ctype
   ));
 
@@ -93,7 +93,7 @@ if ($article->getRows() == 1) {
 
     $navigation = array();
     $navigation[] = array(
-      'href' => rex_url::currentBackendPage(array('article_id' => $article_id, 'clang' => $clang)),
+      'href' => $context->getUrl(),
       'title' => $catname
     );
 
@@ -125,7 +125,7 @@ if ($article->getRows() == 1) {
   // --------------------- SEARCH BAR
 
   require_once $this->getAddon()->getPath('functions/function_rex_searchbar.php');
-  echo rex_structure_searchbar();
+  echo rex_structure_searchbar($context);
 
   // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
   if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
@@ -452,7 +452,7 @@ if ($article->getRows() == 1) {
     // ------------------------------------------ START: CONTENT HEAD MENUE
 
     $editPage = rex_be_controller::getPageObject('content/edit');
-    $editPage->setHref(rex_url::backendPage('content/edit', array('article_id' => $article_id, 'clang' => $clang)));
+    $editPage->setHref($context->getUrl(array('page' => 'content/edit')));
 
     foreach ($ctypes as $key => $val) {
       $subpage = new rex_be_page('ctype' . $key, rex_i18n::translate($val));
@@ -471,7 +471,7 @@ if ($article->getRows() == 1) {
     $nav = rex_be_navigation::factory();
     foreach (rex_be_controller::getPageObject('content')->getPage()->getSubPages() as $subpage) {
       if ($subpage->getKey() != 'edit') {
-        $subpage->setHref(rex_url::backendPage($subpage->getFullKey(), array('article_id' => $article_id, 'clang' => $clang)));
+        $subpage->setHref($context->getUrl(array('page' => $subpage->getFullKey())));
         $nav->addPage($subpage);
       }
     }

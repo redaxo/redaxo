@@ -8,35 +8,22 @@
  * @package redaxo5
  */
 
-function rex_structure_searchbar()
+function rex_structure_searchbar(rex_context $context)
 {
   $message = '';
   $search_result = '';
-  $editUrl = 'index.php?page=content&article_id=%s&mode=edit&clang=%s&be_search_article_name=%s';
-  $structureUrl = 'index.php?page=structure&category_id=%s&clang=%s&be_search_article_name=%s';
-
-  // ------------ globale Parameter
-  $category_id  = rex_request('category_id', 'int');
-  $article_id   = rex_request('article_id', 'int');
-  $clang        = rex_request('clang', 'int');
-  $ctype        = rex_request('ctype', 'int');
 
   // ------------ Parameter
-  $be_search_clang             = rex_request('be_search_clang'       , 'int');
-  $be_search_article_name      = rex_request('be_search_article_name', 'string');
-  $be_search_article_name_post = rex_post('be_search_article_name', 'string');
-
-  $be_search_article_id = 0;
-  if (preg_match('/^[0-9]+$/', $be_search_article_name_post, $matches)) {
-    $be_search_article_id = $matches[0];
-  }
+  $clang       = $context->getParam('clang', 1);
+  $category_id = $context->getParam('category_id', 0);
+  $article_id  = $context->getParam('article_id', 0);
+  $search_article_name = rex_request('search_article_name', 'string');
 
   // ------------ Suche via ArtikelId
-  if ($be_search_article_id != 0) {
-    $OOArt = rex_article::getArticleById($be_search_article_id, $be_search_clang);
+  if (preg_match('/^[0-9]+$/', $search_article_name, $matches)) {
+    $OOArt = rex_article::getArticleById($matches[0], $clang);
     if ($OOArt instanceof rex_article) {
-      header('Location:' . sprintf($editUrl, $be_search_article_id, $be_search_clang, urlencode($be_search_article_name)));
-      exit();
+      rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(array('page' => 'content', 'article_id' => $OOArt->getId()))));
     }
   }
 
@@ -49,21 +36,18 @@ function rex_structure_searchbar()
   }
 
   // ------------ Suche via ArtikelName
-  // hier nur den post artikel namen abfragen,
-  // da sonst bei vorherigen headerweiterleitungen
-  // auch gesucht wuerde
-  if ($be_search_article_name_post != '') {
+  if (rex_get('search_start', 'bool')) {
     // replace LIKE wildcards
-    $be_search_article_name_like = str_replace(array('_', '%'), array('\_', '\%'), $be_search_article_name);
+    $search_article_name_like = str_replace(array('_', '%'), array('\_', '\%'), $search_article_name);
 
     $qry = '
     SELECT id
     FROM ' . rex::getTablePrefix() . 'article
     WHERE
-      clang = ' . $be_search_clang . ' AND
+      clang = ' . $clang . ' AND
       (
-        name LIKE "%' . $be_search_article_name_like . '%" OR
-        catname LIKE "%' . $be_search_article_name_like . '%"
+        name LIKE "%' . $search_article_name_like . '%" OR
+        catname LIKE "%' . $search_article_name_like . '%"
       )';
 
     if (rex_addon::get('structure')->getConfig('searchmode', 'local') != 'global') {
@@ -79,18 +63,17 @@ function rex_structure_searchbar()
 
     // Suche ergab nur einen Treffer => Direkt auf den Treffer weiterleiten
     if ($foundRows == 1) {
-      $OOArt = rex_article::getArticleById($search->getValue('id'), $be_search_clang);
+      $OOArt = rex_article::getArticleById($search->getValue('id'), $clang);
       if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($OOArt->getCategoryId())) {
-        header('Location:' . sprintf($editUrl, $search->getValue('id'), $be_search_clang, urlencode($be_search_article_name)));
-        exit();
+        rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(array('page' => 'content', 'article_id' => $search->getValue('id')))));
       }
     }
     // Mehrere Suchtreffer, Liste anzeigen
     elseif ($foundRows > 0) {
-      $needle = htmlspecialchars($be_search_article_name);
+      $needle = htmlspecialchars($search_article_name);
       $search_result .= '<ul class="be_search-search-result">';
       for ($i = 0; $i < $foundRows; $i++) {
-        $OOArt = rex_article::getArticleById($search->getValue('id'), $be_search_clang);
+        $OOArt = rex_article::getArticleById($search->getValue('id'), $clang);
         $label = $OOArt->getName();
 
         if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($OOArt->getCategoryId())) {
@@ -122,7 +105,7 @@ function rex_structure_searchbar()
             $treeLabel = htmlspecialchars($treeLabel);
             $treeLabel = $highlightHit($treeLabel, $needle);
 
-            $s .= '<li>' . $prefix . '<a href="' . sprintf($structureUrl, $treeItem->getId(), $be_search_clang, urlencode($be_search_article_name)) . '">' . $treeLabel . ' </a></li>';
+            $s .= '<li>' . $prefix . '<a href="' . $context->getUrl(array('page' => 'structure', 'category_id' => $treeItem->getId())) . '">' . $treeLabel . ' </a></li>';
           }
 
           $prefix = ': ';
@@ -134,7 +117,7 @@ function rex_structure_searchbar()
           $label = htmlspecialchars($label);
           $label = $highlightHit($label, $needle);
 
-          $s .= '<li>' . $prefix . '<a href="' . sprintf($editUrl, $search->getValue('id'), $be_search_clang, urlencode($be_search_article_name)) . '">' . $label . ' </a></li>';
+          $s .= '<li>' . $prefix . '<a href="' . $context->getUrl(array('page' => 'content', 'article_id' => $treeItem->getId())) . '">' . $label . ' </a></li>';
 
           $search_result .= '<li><ul class="be_search-search-hit">' . $s . '</ul></li>';
         }
@@ -165,12 +148,11 @@ function rex_structure_searchbar()
 
   $form =
     '<div class="rex-form">
-      <form action="' . rex_url::currentBackendPage() . '" method="post">
-      <fieldset>
-        <input type="hidden" name="category_id" value="' . $category_id . '" />' . $article_id_input . '
-        <input type="hidden" name="clang" value="' . $clang . '" />
-        <input type="hidden" name="ctype" value="' . $ctype . '" />
-        <input type="hidden" name="be_search_clang" value="' . $clang . '" />';
+      <form action="' . rex_url::backendController() . '" method="get">
+      <fieldset>';
+
+  $form .= $article_id_input;
+  $form .= $context->getHiddenInputFields();
 
 
 
@@ -178,15 +160,15 @@ function rex_structure_searchbar()
 
   $n = array();
   $n['label'] = '<label for="rex-id-search-article-name">' . rex_i18n::msg('be_search_article_name') . '</label>';
-  $n['field'] = '<input type="text" name="be_search_article_name" id="rex-id-search-article-name" value="' . htmlspecialchars($be_search_article_name) . '" placeholder="' . htmlspecialchars(rex_i18n::msg('be_search_article_name')) . '" />
-                 <input class="rex-button" type="submit" name="be_search_start_search" value="' . rex_i18n::msg('be_search_start') . '" />';
+  $n['field'] = '<input type="text" name="search_article_name" id="rex-id-search-article-name" value="' . htmlspecialchars($search_article_name) . '" placeholder="' . htmlspecialchars(rex_i18n::msg('be_search_article_name')) . '" />
+                 <input class="rex-button" type="submit" name="search_start" value="' . rex_i18n::msg('be_search_start') . '" />';
   $formElements[] = $n;
 
   //$formElements = array();
   $n = array();
   $n['label'] = '<label for="rex-id-search-category-id">' . rex_i18n::msg('be_search_quick_navi') . '</label>';
   $n['field'] = $category_select->get();
-  $n['after'] = '<noscript><input class="rex-button" type="submit" name="be_search_start_jump" value="' . rex_i18n::msg('be_search_jump_to_category') . '" /></noscript>';
+  $n['after'] = '<noscript><input class="rex-button" type="submit" name="search_start_jump" value="' . rex_i18n::msg('be_search_jump_to_category') . '" /></noscript>';
   $formElements[] = $n;
 
   $fragment = new rex_fragment();
@@ -204,6 +186,4 @@ function rex_structure_searchbar()
   $fragment = new rex_fragment();
   $fragment->setVar('content', $form . $search_result, false);
   return $message . $fragment->parse('core/toolbar.tpl');
-
-  return $search_bar;
 }

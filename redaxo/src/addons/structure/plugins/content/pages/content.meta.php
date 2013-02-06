@@ -2,7 +2,7 @@
 
 $content .= '
         <div class="rex-form" id="rex-form-content-metamode">
-          <form action="' . rex_url::currentBackendPage(array('article_id' => $article_id, 'clang' => $clang)) . '" method="post" enctype="multipart/form-data" id="REX_FORM">
+          <form action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data" id="REX_FORM">
             <fieldset>
               <h2>' . rex_i18n::msg('general') . '</h2>
 

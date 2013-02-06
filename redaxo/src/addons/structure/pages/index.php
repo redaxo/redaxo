@@ -130,7 +130,7 @@ echo rex_extension::registerPoint('PAGE_STRUCTURE_HEADER', '',
 // --------------------- SEARCH BAR
 
 require_once $this->getPath('functions/function_rex_searchbar.php');
-echo rex_structure_searchbar();
+echo rex_structure_searchbar($context);
 
 // --------------------- COUNT CATEGORY ROWS
 
