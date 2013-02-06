@@ -371,34 +371,6 @@ class rex_media
   /**
    * @access public
    */
-  public function toIcon(array $iconAttributes = array())
-  {
-    $ext = $this->getExtension();
-    $icon = $this->getIcon();
-
-    if (!isset($iconAttributes['alt'])) {
-      $iconAttributes['alt'] = '&quot;' . $ext . '&quot;-Symbol';
-    }
-
-    if (!isset($iconAttributes['title'])) {
-      $iconAttributes['title'] = $iconAttributes['alt'];
-    }
-
-    if (!isset($iconAttributes['style'])) {
-      $iconAttributes['style'] = 'width: 44px; height: 38px';
-    }
-
-    $attrs = '';
-    foreach ($iconAttributes as $attrName => $attrValue) {
-      $attrs .= ' ' . $attrName . '="' . $attrValue . '"';
-    }
-
-    return '<img src="' . $icon . '"' . $attrs . ' />';
-  }
-
-  /**
-   * @access public
-   */
   public function isImage()
   {
     return $this->_isImage($this->getFileName());
@@ -526,25 +498,6 @@ class rex_media
   public function getExtension()
   {
     return rex_file::extension($this->_name);
-  }
-
-  /**
-   * @access public
-   */
-  public function getIcon($useDefaultIcon = true)
-  {
-    $ext = $this->getExtension();
-    $folder = rex_url::pluginAssets('be_style', 'redaxo', 'mime/');
-    $icon = $folder . $ext . '.gif';
-
-    // Dateityp für den kein Icon vorhanden ist
-    if (!file_exists($icon)) {
-      if ($useDefaultIcon)
-        $icon = $folder . 'default.gif';
-      else
-        $icon = $folder . 'error.gif';
-    }
-    return $icon;
   }
 
   /**
