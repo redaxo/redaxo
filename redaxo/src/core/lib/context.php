@@ -64,11 +64,23 @@ class rex_context implements rex_context_provider
   }
 
   /**
+   * Set a global parameter
+   *
+   * @param string $name
+   * @param mixed  $value
+   */
+  public function setParam($name, $value)
+  {
+    $this->globalParams[$name] = $value;
+  }
+
+  /**
    * Returns the value associated with the given parameter $name.
    * When no value is set, $default will be returned.
    *
    * @param string $name
    * @param string $default
+   * @return mixed
    */
   public function getParam($name, $default = null)
   {
