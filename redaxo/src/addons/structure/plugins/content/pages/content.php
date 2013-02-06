@@ -93,7 +93,7 @@ if ($article->getRows() == 1) {
 
     $navigation = array();
     $navigation[] = array(
-      'href' => 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang,
+      'href' => rex_url::backendPage('content', array('mode' => 'edit', 'article_id' => $article_id, 'clang' => $clang)),
       'title' => $catname
     );
 
@@ -375,7 +375,7 @@ if ($article->getRows() == 1) {
         if (rex_article_service::moveArticle($article_id, $category_id, $category_id_new)) {
           $info = rex_i18n::msg('content_articlemoved');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $article_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
+          header('Location: ' . rex_url::backendPage('content', array('mode' => 'meta', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $ctype, 'info' => urlencode($info))));
           exit;
         } else {
           $warning = rex_i18n::msg('content_errormovearticle');
@@ -393,7 +393,7 @@ if ($article->getRows() == 1) {
         if (($new_id = rex_article_service::copyArticle($article_id, $category_copy_id_new)) !== false) {
           $info = rex_i18n::msg('content_articlecopied');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $new_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
+          header('Location: ' . rex_url::backendPage('content', array('mode' => 'meta', 'article_id' => $new_id, 'clang' => $clang, 'ctype' => $ctype, 'info' => urlencode($info))));
           exit;
         } else {
           $warning = rex_i18n::msg('content_errorcopyarticle');
@@ -411,7 +411,7 @@ if ($article->getRows() == 1) {
         if ($category_id != $category_id_new && rex_category_service::moveCategory($category_id, $category_id_new)) {
           $info = rex_i18n::msg('category_moved');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $category_id . '&mode=meta&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
+          header('Location: ' . rex_url::backendPage('content', array('mode' => 'meta', 'article_id' => $category_id, 'clang' => $clang, 'ctype' => $ctype, 'info' => urlencode($info))));
           exit;
         } else {
           $warning = rex_i18n::msg('content_error_movecategory');
@@ -468,7 +468,7 @@ if ($article->getRows() == 1) {
 
         $n = array();
         $n['title'] = rex_i18n::translate($val);
-        $n['href'] = 'index.php?page=content&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $key . '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
+        $n['href'] = rex_url::backendPage('content', array('mode' => 'edit', 'category_id' => $category_id, 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key));
         if ($key == $ctype && $mode == 'edit') {
           $n['linkClasses'] = array('rex-active');
           $n['itemClasses'] = array('rex-active');
@@ -502,7 +502,7 @@ if ($article->getRows() == 1) {
     } else {
       $n = array();
       $n['title'] = rex_i18n::msg('edit_mode');
-      $n['href'] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=edit&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
+      $n['href'] = rex_url::backendPage('content', array('mode' => 'edit', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $ctype));
       if ($mode == 'edit') {
         $n['linkClasses'] = array('rex-active');
         $n['itemClasses'] = array('rex-active');
@@ -515,18 +515,17 @@ if ($article->getRows() == 1) {
 
     $n = array();
     $n['title'] = rex_i18n::msg('metadata');
-    $n['href'] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=meta&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
-    $n['itemClasses'] = array('rex-misc');
+    $n['href'] = rex_url::backendPage('content', array('mode' => 'meta', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $ctype));
     if ($mode == 'meta') {
       $n['linkClasses'] = array('rex-active');
-      $n['itemClasses'] = array('rex-active', 'rex-misc');
+      $n['itemClasses'] = array('rex-active');
     }
     $content_navi_right[] = $n;
 
 
     $n = array();
     $n['title'] = rex_i18n::msg('metafuncs');
-    $n['href'] = 'index.php?page=content&amp;article_id=' . $article_id . '&amp;mode=metafuncs&amp;clang=' . $clang . '&amp;ctype=' . $ctype;
+    $n['href'] = rex_url::backendPage('content', array('mode' => 'metafuncs', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $ctype));
     if ($mode == 'metafuncs') {
       $n['linkClasses'] = array('rex-active');
       $n['itemClasses'] = array('rex-active');
@@ -598,7 +597,7 @@ if ($article->getRows() == 1) {
 
       $content .= '
         <div class="rex-form" id="rex-form-content-metamode">
-          <form action="' . rex_url::currentBackendPage(array('article_id' => $article_id, 'mode' => 'meta', 'clang' => $clang)) . '" method="post" enctype="multipart/form-data" id="REX_FORM">
+          <form action="' . rex_url::currentBackendPage(array('mode' => 'meta', 'article_id' => $article_id, 'clang' => $clang)) . '" method="post" enctype="multipart/form-data" id="REX_FORM">
             <fieldset>
               <h2>' . rex_i18n::msg('general') . '</h2>
 
@@ -655,7 +654,7 @@ if ($article->getRows() == 1) {
 
       $content .= '
         <div class="rex-form" id="rex-form-content-metamode">
-          <form action="' . rex_url::currentBackendPage(array('article_id' => $article_id, 'mode' => 'metafuncs', 'clang' => $clang)) . '" method="post" enctype="multipart/form-data" id="REX_FORM">
+          <form action="' . rex_url::currentBackendPage(array('mode' => 'metafuncs', 'article_id' => $article_id, 'clang' => $clang)) . '" method="post" enctype="multipart/form-data" id="REX_FORM">
                 <input type="hidden" name="save" value="1" />
                 <input type="hidden" name="ctype" value="' . $ctype . '" />
                 <input type="hidden" name="rex-api-call" id="apiField">
