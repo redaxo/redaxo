@@ -261,15 +261,17 @@
 }
 .rex-icon {
   display: inline-block;
+}
+.rex-button .rex-icon {
   margin-right: 5px;
 }
 th > a > .rex-icon,
 td > a > .rex-icon {
   color: #333;
-}
+}/*
 a.rex-icon,
 th.rex-slim > .rex-icon,
-td.rex-slim > .rex-icon,
+td.rex-slim > .rex-icon,*/
 .rex-button.rex-icon {
   margin-right: 0;
 }
