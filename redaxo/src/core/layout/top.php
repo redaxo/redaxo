@@ -103,7 +103,7 @@ if (rex::getUser() && $hasNavigation) {
   // $fragment->setVar('headline', array("title" => $this->getHeadline($block)), false);
   $fragment->setVar('type', 'main', false);
   $fragment->setVar('blocks', $blocks, false);
-  $navigation = $fragment->parse('navigation.tpl');
+  $navigation = $fragment->parse('core/navigations/navigation.tpl');
 }
 
 /* Setup Navigation ***********************************************************/
