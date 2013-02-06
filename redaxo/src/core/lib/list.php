@@ -610,6 +610,8 @@ class rex_list extends rex_factory_base implements rex_url_provider
   {
     $params = array_merge($this->getParams(), $params);
 
+    $params['list'] = $this->getName();
+
     if (!isset($params['sort'])) {
       $sortColumn = $this->getSortColumn();
       if ($sortColumn != null) {
@@ -618,17 +620,18 @@ class rex_list extends rex_factory_base implements rex_url_provider
       }
     }
 
-    $paramString = '';
+    $_params = array();
     foreach ($params as $name => $value) {
       if (is_array($value)) {
         foreach ($value as $v) {
-          $paramString .= '&' . $name . '=' . urlencode($v);
+          $_params[$name] = $v;
         }
       } else {
-        $paramString .= '&' . $name . '=' . urlencode($value);
+        $_params[$name] = $value;
       }
     }
-    return str_replace('&', '&amp;', 'index.php?list=' . $this->getName() . $paramString);
+
+    return rex::isBackend() ? rex_url::backendController($_params) : rex_url::frontendController($_params);
   }
 
   /**
@@ -644,6 +647,8 @@ class rex_list extends rex_factory_base implements rex_url_provider
   {
     $params = array_merge($this->getParams(), $params);
 
+    $params['list'] = $this->getName();
+
     if (!isset($params['sort'])) {
       $sortColumn = $this->getSortColumn();
       if ($sortColumn != null) {
@@ -652,17 +657,17 @@ class rex_list extends rex_factory_base implements rex_url_provider
       }
     }
 
-    $paramString = '';
+    $_params = array();
     foreach ($params as $name => $value) {
       if (is_array($value)) {
         foreach ($value as $v) {
-          $paramString .= '&' . $name . '=' . urlencode($this->replaceVariables($v));
+          $_params[$name] = $this->replaceVariables($v);
         }
       } else {
-        $paramString .= '&' . $name . '=' . urlencode($this->replaceVariables($value));
+        $_params[$name] = $this->replaceVariables($value);
       }
     }
-    return str_replace('&', '&amp;', 'index.php?list=' . $this->getName() . $paramString);
+    return rex::isBackend() ? rex_url::backendController($_params) : rex_url::frontendController($_params);
   }
 
   // ---------------------- Pagination

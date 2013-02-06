@@ -151,14 +151,9 @@ class rex_form extends rex_factory_base
     $params = array_merge($this->getParams(), $params);
     $params['form'] = $this->getName();
 
-    $paramString = '';
-    foreach ($params as $name => $value) {
-      $paramString .= $name . '=' . urlencode($value) . '&';
-    }
-
-    $url = 'index.php?' . $paramString;
-    if ($escape) {
-      $url = str_replace('&', '&amp;', $url);
+    $url = rex::isBackend() ? rex_url::backendController($params) : rex_url::frontendController($params);
+    if (!$escape) {
+      $url = htmlspecialchars_decode($url);
     }
 
     return $url;

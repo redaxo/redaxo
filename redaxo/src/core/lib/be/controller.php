@@ -265,7 +265,7 @@ class rex_be_controller
         }
       }
       rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
-      rex_response::sendRedirect('index.php?page=' . $page);
+      rex_response::sendRedirect(rex_url::backendPage($page));
     }
   }
 

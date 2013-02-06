@@ -66,7 +66,7 @@ if (rex::isBackend()) {
         $content .= $article->getArticleTemplate();
       }
     } else {
-      $content .= 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="redaxo/index.php">redaxo</a>';
+      $content .= 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="' . rex_url::backendController() . '">redaxo</a>';
       rex_response::sendArticle($content);
       exit;
     }
