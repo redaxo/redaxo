@@ -180,7 +180,7 @@ if ($function == 'add_cat' || $function == 'edit_cat') {
 
 // --------------------- PRINT CATS/SUBCATS
 $echo .= '
-      <table id="rex-table-categories" class="rex-table rex-middle rex-table-striped" summary="' . rex_i18n::msg('structure_categories_summary', $cat_name) . '">
+      <table id="rex-table-categories" class="rex-table rex-table-middle rex-table-striped" summary="' . rex_i18n::msg('structure_categories_summary', $cat_name) . '">
         <caption>' . rex_i18n::msg('structure_categories_caption', $cat_name) . '</caption>
         <thead>
           <tr>
@@ -460,7 +460,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
   // ----------- PRINT OUT THE ARTICLES
 
   $echo .= '
-      <table id="rex-table-articles" class="rex-table rex-middle rex-table-striped" summary="' . rex_i18n::msg('structure_articles_summary', $cat_name) . '">
+      <table id="rex-table-articles" class="rex-table rex-table-middle rex-table-striped" summary="' . rex_i18n::msg('structure_articles_summary', $cat_name) . '">
         <caption>' . rex_i18n::msg('structure_articles_caption', $cat_name) . '</caption>
         <thead>
           <tr>
