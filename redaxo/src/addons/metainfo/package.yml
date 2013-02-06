@@ -12,7 +12,7 @@ navigation:
     media: { title: 'translate:media' }
 
 requires:
-  addons:
+  packages:
     structure:
       min-version: '5.0 a1'
     mediapool:

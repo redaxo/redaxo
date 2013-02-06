@@ -4,7 +4,7 @@ author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum/
 
 requires:
-  addons:
+  packages:
     structure:
       min-version: '5.0 a1'
     metainfo:

@@ -4,11 +4,10 @@ author: 'Markus Staab'
 supportpage: www.redaxo.org/de/forum/
 
 requires:
-  addons:
+  packages:
     structure:
       min-version: '5.0 a1'
-      plugins:
-        content:
-          min-version: '5.0 a1'
+    structure/content:
+      min-version: '5.0 a1'
     metainfo:
       min-version: '5.0 a1'

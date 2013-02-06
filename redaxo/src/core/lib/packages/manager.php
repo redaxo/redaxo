@@ -371,18 +371,10 @@ abstract class rex_package_manager extends rex_factory_base
       }
     }
 
-    if (empty($state) && isset($requirements['addons']) && is_array($requirements['addons'])) {
-      foreach ($requirements['addons'] as $addonName => $addonAttr) {
-        if (($msg = $this->checkPackageRequirement($addonName)) !== true) {
+    if (empty($state) && isset($requirements['packages']) && is_array($requirements['packages'])) {
+      foreach ($requirements['packages'] as $package => $_) {
+        if (($msg = $this->checkPackageRequirement($package)) !== true) {
           $state[] = $msg;
-        }
-
-        if (isset($addonAttr['plugins']) && is_array($addonAttr['plugins'])) {
-          foreach ($addonAttr['plugins'] as $pluginName => $pluginAttr) {
-            if (($msg = $this->checkPackageRequirement($addonName . '/' . $pluginName)) !== true) {
-              $state[] = $msg;
-            }
-          }
         }
       }
     }
@@ -412,17 +404,16 @@ abstract class rex_package_manager extends rex_factory_base
   public function checkPackageRequirement($packageId)
   {
     $requirements = $this->package->getProperty('requires', array());
-    list($addonName, $pluginName) = array_pad(explode('/', $packageId), 2, null);
-    $type = $pluginName === null ? 'addon' : 'plugin';
-    if (!isset($requirements['addons'][$addonName]) || $type == 'plugin' && !isset($requirements['addons'][$addonName]['plugins'][$pluginName])) {
+    if (!isset($requirements['packages'][$packageId])) {
       return true;
     }
+    list($addonName, $pluginName) = array_pad(explode('/', $packageId), 2, null);
+    $type = $pluginName === null ? 'addon' : 'plugin';
     $package = $type == 'plugin' ? rex_plugin::get($addonName, $pluginName) : rex_addon::get($addonName);
     if (!$package->isAvailable()) {
       return $this->i18n('requirement_error_' . $type, $addonName, $pluginName);
     }
-    $attr = $type == 'plugin' ? $requirements['addons'][$addonName]['plugins'][$pluginName] : $requirements['addons'][$addonName];
-    return $this->checkRequirementVersion($type . '_', $attr, $package->getVersion(), $addonName, $pluginName);
+    return $this->checkRequirementVersion($type . '_', $requirements['packages'][$packageId], $package->getVersion(), $addonName, $pluginName);
   }
 
   /**
@@ -458,7 +449,23 @@ abstract class rex_package_manager extends rex_factory_base
   /**
    * Checks if another Addon which is activated, depends on the given addon
    */
-  abstract public function checkDependencies();
+  public function checkDependencies()
+  {
+    $i18nPrefix = 'package_dependencies_error_';
+    $state = array();
+
+    foreach (rex_package::getAvailablePackages() as $package) {
+      if ($package === $this->package || $package->getAddon() === $this->package)
+        continue;
+
+      $requirements = $package->getProperty('requires', array());
+      if (isset($requirements['packages'][$this->package->getPackageId()])) {
+        $state[] = rex_i18n::msg($i18nPrefix . $package->getType(), $package->getAddon()->getName(), $package->getName());
+      }
+    }
+
+    return empty($state) ? true : implode('<br />', $state);
+  }
 
   /**
    * Generates the package order
