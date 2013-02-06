@@ -131,12 +131,9 @@ function rex_structure_searchbar(rex_context $context)
 
   $select_name = 'category_id';
   $add_homepage = true;
-  $article_id_input = '';
   if (rex_be_controller::getCurrentPagePart(1) == 'content') {
     $select_name = 'article_id';
     $add_homepage = false;
-    $article_id_input = '
-        <input type="hidden" name="article_id" value="' . $article_id . '" />';
   }
 
   $category_select = new rex_category_select(false, false, true, $add_homepage);
@@ -151,10 +148,7 @@ function rex_structure_searchbar(rex_context $context)
       <form action="' . rex_url::backendController() . '" method="get">
       <fieldset>';
 
-  $form .= $article_id_input;
   $form .= $context->getHiddenInputFields();
-
-
 
   $formElements = array();
 
