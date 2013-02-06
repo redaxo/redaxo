@@ -1,10 +1,9 @@
 <!doctype html>
-<html lang="<?php echo $this->i18n('htmllang'); ?>">
+<html lang="<?php echo  rex_i18n::msg('htmllang'); ?>">
 <head>
   <meta charset="utf-8">
 
   <title><?php echo $this->pageTitle ?></title>
-  <meta http-equiv="Content-Language" content="<?php echo $this->i18n('htmllang'); ?>" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
