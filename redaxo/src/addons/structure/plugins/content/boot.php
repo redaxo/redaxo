@@ -22,7 +22,7 @@ if (rex::isBackend()) {
   $page->addSubPage($subpage);
   $subpage = new rex_be_page('meta', rex_i18n::msg('metadata'));
   $page->addSubPage($subpage);
-  $subpage = new rex_be_page('actions', rex_i18n::msg('metafuncs'));
+  $subpage = new rex_be_page('functions', rex_i18n::msg('metafuncs'));
   $page->addSubPage($subpage);
   $pages[] = new rex_be_page_main('system', $page);
 
