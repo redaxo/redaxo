@@ -64,7 +64,7 @@ class rex_context implements rex_context_provider
     // combine global params with local
     $_params = array_merge($this->getParams, $params);
 
-    return rex_url::backendController($_params);
+    return rex::isBackend() ? rex_url::backendController($_params) : rex_url::frontendController($_params);
   }
 
   /**
