@@ -161,4 +161,39 @@ class rex_view
 
     return $return;
   }
+
+  static public function clangSwitch(rex_context $context)
+  {
+    if (!rex_clang::count()) {
+      return '';
+    }
+
+    $button = '';
+    $items  = array();
+    foreach (rex_clang::getAll() as $id => $clang) {
+      if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
+        $item = array();
+        $item['title'] = rex_i18n::translate($clang->getName());
+        $item['href']  = $context->getUrl(array('clang' => $id));
+        if ($id == rex_request('clang', 'int')) {
+          $item['active'] = true;
+          $button = rex_i18n::translate($clang->getName());
+        }
+        $items[] = $item;
+      }
+    }
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('class', 'rex-language');
+    $fragment->setVar('button', $button);
+    $fragment->setVar('button_title', rex_i18n::msg('language'));
+    $fragment->setVar('header', rex_i18n::msg('clang_select'));
+    $fragment->setVar('items', $items, false);
+    $fragment->setVar('check', true);
+
+    if (rex::getUser()->isAdmin())
+      $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><span class="rex-icon rex-icon-language"></span>' . rex_i18n::msg('languages_edit') . '</a>', false);
+
+    return $fragment->parse('core/navigations/drop.tpl');
+  }
 }

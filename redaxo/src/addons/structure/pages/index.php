@@ -67,8 +67,7 @@ $context = new rex_context(array(
   'page' => 'structure',
   'category_id' => $category_id,
   'article_id' => $article_id,
-  'clang' => $clang,
-  'ctype' => $ctype,
+  'clang' => $clang
 ));
 
 
@@ -83,8 +82,7 @@ echo rex_extension::registerPoint('PAGE_STRUCTURE_HEADER_PRE', '',
 
 
 // --------------------------------------------- Languages
-$language_add = '&amp;category_id=' . $category_id;
-require __DIR__ . '/../functions/function_rex_languages.php';
+echo rex_view::clangSwitch($context);
 
 // --------------------------------------------- TITLE
 echo rex_view::title(rex_i18n::msg('title_structure'));

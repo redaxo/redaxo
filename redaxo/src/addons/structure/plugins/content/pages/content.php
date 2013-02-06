@@ -68,11 +68,15 @@ if ($article->getRows() == 1) {
   $warning  = htmlspecialchars(rex_request('warning', 'string'));
   $info     = htmlspecialchars(rex_request('info', 'string'));
 
+  $context = new rex_context(array(
+    'page' => rex_be_controller::getCurrentPage(),
+    'category_id' => $category_id,
+    'article_id' => $article_id,
+    'ctype' => $ctype
+  ));
+
   // ----- Languages
-  $language_add = '&amp;category_id=' . $category_id . '&amp;article_id=' . $article_id;
-  require rex_path::addon('structure', 'functions/function_rex_languages.php');
-
-
+  echo rex_view::clangSwitch($context);
 
   // ----- Titel anzeigen
   echo rex_view::title(rex_i18n::msg('content'), '');
