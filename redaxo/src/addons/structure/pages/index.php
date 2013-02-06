@@ -170,9 +170,9 @@ if ($function == 'add_cat' || $function == 'edit_cat') {
   $echo .= '
   <div class="rex-form" id="rex-form-structure-category">
   <form action="' . $context->getUrl(array('catstart' => $catstart)) . '" method="post">
-    <fieldset>';
+    <fieldset>
 
-  $echo .= $context->getHiddenInputFields(array('edit_id' => $edit_id));
+      <input type="hidden" name="edit_id" value="' . $edit_id . '" />';
 }
 
 
@@ -451,8 +451,6 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     <div class="rex-form" id="rex-form-structure-article">
     <form action="' . $context->getUrl(array('artstart' => $artstart)) . '" method="post">
       <fieldset>';
-
-    $echo .= $context->getHiddenInputFields();
   }
 
   // ----------- PRINT OUT THE ARTICLES

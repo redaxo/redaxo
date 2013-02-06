@@ -40,20 +40,16 @@ interface rex_context_provider extends rex_url_provider
  */
 class rex_context implements rex_context_provider
 {
-  private
-    $getParams,
-    $postParams;
+  private $globalParams;
 
   /**
    * Constructs a rex_context with the given global parameters.
    *
-   * @param array $getParams  An array containing scalar key value pairs for the GET params
-   * @param array $postParams An array containing scalar key value pairs for the POST params
+   * @param array $globalParams A array containing only scalar values for key/value
    */
-  public function __construct(array $getParams = array(), array $postParams = array())
+  public function __construct(array $globalParams = array())
   {
-    $this->getParams = $getParams;
-    $this->postParams = $postParams;
+    $this->globalParams = $globalParams;
   }
 
   /**
@@ -62,7 +58,7 @@ class rex_context implements rex_context_provider
   public function getUrl(array $params = array())
   {
     // combine global params with local
-    $_params = array_merge($this->getParams, $params);
+    $_params = array_merge($this->globalParams, $params);
 
     return rex::isBackend() ? rex_url::backendController($_params) : rex_url::frontendController($_params);
   }
@@ -76,13 +72,7 @@ class rex_context implements rex_context_provider
    */
   public function getParam($name, $default = null)
   {
-    if (isset($this->getParams[$name])) {
-      return $this->getParams[$name];
-    }
-    if (isset($this->postParams[$name])) {
-      return $this->postParams[$name];
-    }
-    return $default;
+    return isset($this->globalParams[$name]) ? $this->globalParams[$name] : $default;
   }
 
   /**
@@ -91,7 +81,7 @@ class rex_context implements rex_context_provider
   public function getHiddenInputFields(array $params = array())
   {
     // combine global params with local
-    $_params = array_merge($this->postParams, $params);
+    $_params = array_merge($this->globalParams, $params);
 
     return self::array2inputStr($_params);
   }
@@ -103,7 +93,8 @@ class rex_context implements rex_context_provider
    */
   static public function restore()
   {
-    return new self($_GET, $_POST);
+    // $_REQUEST contains some server specific globals, therefore we merge GET and POST manually
+    return new self($_GET + $_POST);
   }
 
   /**

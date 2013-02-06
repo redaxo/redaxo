@@ -6,9 +6,8 @@ class rex_context_test extends PHPUnit_Framework_TestCase
 
   public function setUp()
   {
-    $getParams = array('int' => '25', 'str' => '<a b$c&?>');
-    $postParams = array('int' => '26', 'str' => '<d e$f&?>');
-    $this->context = new rex_context($getParams, $postParams);
+    $globalParams = array('int' => '25', 'str' => '<a b$c&?>');
+    $this->context = new rex_context($globalParams);
 
     parent::setUp();
   }
@@ -32,31 +31,31 @@ class rex_context_test extends PHPUnit_Framework_TestCase
   public function testGetHiddenInputFields()
   {
     $this->assertEquals(
-      '<input type="hidden" name="int" value="26" /><input type="hidden" name="str" value="&lt;d e$f&amp;?&gt;" />',
+      '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a b$c&amp;?&gt;" />',
       $this->context->getHiddenInputFields(),
       'parameters get properly encoded'
     );
 
     $this->assertEquals(
-      '<input type="hidden" name="int" value="26" /><input type="hidden" name="str" value="xyz" />',
+      '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="xyz" />',
       $this->context->getHiddenInputFields(array('str' => 'xyz')),
       'local params override global params'
     );
 
     $this->assertEquals(
-      '<input type="hidden" name="int" value="26" /><input type="hidden" name="str" value="&lt;d e$f&amp;?&gt;" /><input type="hidden" name="str2" value="xyz" />',
+      '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a b$c&amp;?&gt;" /><input type="hidden" name="str2" value="xyz" />',
       $this->context->getHiddenInputFields(array('str2' => 'xyz')),
       'new params are appended'
     );
 
     $this->assertEquals(
-      '<input type="hidden" name="int" value="26" /><input type="hidden" name="str" value="&lt;d e$f&amp;?&gt;" /><input type="hidden" name="myarr[0]" value="xyz" /><input type="hidden" name="myarr[1]" value="123" />',
+      '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a b$c&amp;?&gt;" /><input type="hidden" name="myarr[0]" value="xyz" /><input type="hidden" name="myarr[1]" value="123" />',
       $this->context->getHiddenInputFields(array('myarr' => array('xyz', 123))),
       'numeric arrays are handled'
     );
 
     $this->assertEquals(
-      '<input type="hidden" name="int" value="26" /><input type="hidden" name="str" value="&lt;d e$f&amp;?&gt;" /><input type="hidden" name="myarr[a]" value="xyz" /><input type="hidden" name="myarr[b]" value="123" />',
+      '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a b$c&amp;?&gt;" /><input type="hidden" name="myarr[a]" value="xyz" /><input type="hidden" name="myarr[b]" value="123" />',
       $this->context->getHiddenInputFields(array('myarr' => array('a' => 'xyz', 'b' => 123))),
       'assoc arrays are handled'
     );
