@@ -29,13 +29,13 @@ if ($num_clang > 1) {
   $fragment = new rex_fragment();
   $fragment->setVar('class', 'rex-language');
   $fragment->setVar('button', $button);
-  $fragment->setVar('button_title', rex_i18n::msg('languages'));
+  $fragment->setVar('button_title', rex_i18n::msg('language'));
   $fragment->setVar('header', rex_i18n::msg('clang_select'));
   $fragment->setVar('items', $items, false);
   $fragment->setVar('check', true);
 
   if (rex::getUser()->isAdmin())
-    $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><span class="rex-icon rex-icon-language"></span> ' . rex_i18n::msg('languages_edit') . '</a>', false);
+    $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><span class="rex-icon rex-icon-language"></span>' . rex_i18n::msg('languages_edit') . '</a>', false);
 
   echo $fragment->parse('core/navigations/drop.tpl');
 
