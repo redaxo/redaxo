@@ -41,14 +41,13 @@ foreach ($this->elements as $element) {
 
 }
 
-$group = isset($this->group) ? $this->group : false;
-$flush = isset($this->flush) ? $this->flush : false;
-if ($group || $flush) {
-  $classes = array();
-  $classes[] = $group ? 'rex-form-group' : '';
-  $classes[] = $flush ? 'rex-form-flush' : '';
+$classes = '';
+$classes .= isset($this->group)  && $this->group  ? ' rex-form-group' : '';
+$classes .= isset($this->flush)  && $this->flush  ? ' rex-form-flush' : '';
+$classes .= isset($this->inline) && $this->inline ? ' rex-form-inline' : '';
 
-  echo '<div class="' . trim(implode(' ', $classes)) . '">';
+if ($classes != '') {
+  echo '<div class="' . trim($classes) . '">';
   echo $out;
   echo '</div>';
 } else {
