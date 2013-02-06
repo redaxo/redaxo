@@ -93,7 +93,7 @@ function rex_structure_searchbar()
         $OOArt = rex_article::getArticleById($search->getValue('id'), $be_search_clang);
         $label = $OOArt->getName();
 
-        if (rex::getUser()->hasCategoryPerm($OOArt->getCategoryId())) {
+        if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($OOArt->getCategoryId())) {
           if (rex::getUser()->hasPerm('advancedMode[]'))
             $label .= ' [' . $search->getValue('id') . ']';
 
