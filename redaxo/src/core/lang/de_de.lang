@@ -70,6 +70,7 @@ db1_can_only_be_changed_by_setup = Datenbank[1] kann nur über das Setup geände
 system_others = Sonstiges
 system_update = ändern
 main_preferences = Einstellungen
+language = Sprache
 languages = Sprachen
 languages_edit = Sprachen bearbeiten
 id_exists = ID existiert schon.
