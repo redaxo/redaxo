@@ -406,6 +406,9 @@ h2 {
   font-size: 14px;
   white-space: nowrap;
 }
+.rex-table th:first-child {
+  text-align: center;
+}
 .rex-table td.rex-highlight {
   font-weight: bold;
 }

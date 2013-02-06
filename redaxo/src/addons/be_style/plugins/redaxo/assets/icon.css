@@ -267,7 +267,12 @@
 }
 th > a > .rex-icon,
 td > a > .rex-icon {
-  color: #333;
+  color: #08c;
+  opacity: .5;
+}
+th > a:hover > .rex-icon,
+tr:hover td > a > .rex-icon {
+  opacity: 1;
 }/*
 a.rex-icon,
 th.rex-slim > .rex-icon,

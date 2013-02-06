@@ -414,11 +414,12 @@ dl.rex-form > dd input[type="text"],
 dl.rex-form > dd textarea,
 dl.rex-form > dd .rex-form-read,
 dl.rex-form > dd .rex-button-group,
-dl.rex-form > dd .rex-button-vgroup {
+dl.rex-form > dd .rex-button-vgroup,
+dl.rex-form > dd select {
   margin-top: -6px;
 }
-dl.rex-form > dd select {
-  margin-top: -2px;
+dl.rex-form > dd select[multiple] {
+  margin-top: 0;
 }
 
 
@@ -520,6 +521,7 @@ dl.rex-form .rex-note {
   width: 200px;
 }
 .rex-form-group dl.rex-form > dd select {
+  margin-top: -2px;
   margin-bottom: 7px;
 }
 
