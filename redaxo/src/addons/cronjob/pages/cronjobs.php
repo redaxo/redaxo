@@ -128,7 +128,6 @@ if ($func == '') {
 
   $form = new rex_cronjob_form(REX_CRONJOB_TABLE, $fieldset, 'id = ' . $oid, 'post', false);
   $form->addParam('oid', $oid);
-  $form->setApplyUrl('index.php?page=cronjob');
   $form->setEditMode($func == 'edit');
 
   $form->addHiddenField('nexttime');

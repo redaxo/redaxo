@@ -118,7 +118,7 @@ class rex_articles_component extends rex_dashboard_component
   {
     parent::__construct('userinfo-articles');
     $this->setTitle(rex_i18n::msg('userinfo_component_articles_title'));
-    $this->setTitleUrl('index.php?page=structure');
+    $this->setTitleUrl(rex_url::backendPage('structure'));
     $this->setBlock(rex_i18n::msg('userinfo_block_latest_infos'));
   }
 

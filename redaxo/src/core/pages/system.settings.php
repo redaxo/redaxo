@@ -100,11 +100,11 @@ if (strlen($version) > 21)
 $content_1 = '
             <h3>' . rex_i18n::msg('delete_cache') . '</h3>
             <p>' . rex_i18n::msg('delete_cache_description') . '</p>
-            <p><a class="rex-button" href="index.php?page=system&amp;func=generate">' . rex_i18n::msg('delete_cache') . '</a></p>
+            <p><a class="rex-button" href="' . rex_url::currentBackendPage(array('func' => 'generate')) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
 
             <h3>' . rex_i18n::msg('setup') . '</h3>
             <p>' . rex_i18n::msg('setup_text') . '</p>
-            <p><a class="rex-button rex-danger" href="index.php?page=system&amp;func=setup" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
+            <p><a class="rex-button rex-danger" href="' . rex_url::currentBackendPage(array('func' => 'setup')) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
 
 $content_2 = '
             <h3>' . rex_i18n::msg('version') . '</h3>

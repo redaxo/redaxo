@@ -13,7 +13,7 @@ $KAToutARR = array(); // Variable definiert und vorbelegt wenn nicht existent
 $navigation = array();
 $navigation[] = array(
   'title' => rex_i18n::msg('homepage'),
-  'href' => 'index.php?page=structure&amp;category_id=0&amp;clang=' . $clang
+  'href' => rex_url::backendPage('structure', array('category_id' => 0, 'clang' => $clang))
 );
 
 $ooCat = rex_category::getCategoryById($category_id, $clang);
@@ -23,7 +23,7 @@ if ($ooCat) {
     if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($catid)) {
       $n = array();
       $n['title'] = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
-      $n['href'] = 'index.php?page=structure&amp;category_id=' . $catid . '&amp;clang=' . $clang;
+      $n['href'] = rex_url::backendPage('structure', array('category_id' => $catid, 'clang' => $clang));
       $navigation[] = $n;
     }
   }

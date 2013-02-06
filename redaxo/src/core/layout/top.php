@@ -84,7 +84,7 @@ if (rex::getUser() && $hasNavigation) {
         $pageContainer->setBlock('addons');
 
       if (!$pageObj->getHref())
-        $pageObj->setHref('index.php?page=' . $p);
+        $pageObj->setHref(rex_url::backendPage($p));
       /*
        if(isset ($REX['ACKEY']['ADDON'][$page]))
         $item['extra'] = rex_accesskey($name, $REX['ACKEY']['ADDON'][$page]);

@@ -17,7 +17,7 @@ class rex_cronjob_component extends rex_dashboard_component
   {
     parent::__construct('cronjob');
     $this->setTitle(rex_i18n::msg('cronjob_dashboard_component_title'));
-    $this->setTitleUrl('index.php?page=cronjob');
+    $this->setTitleUrl(rex_url::backendPage('cronjob'));
     $this->setFormat('full');
     $this->setBlock(rex_i18n::msg('cronjob_dashboard_block'));
   }

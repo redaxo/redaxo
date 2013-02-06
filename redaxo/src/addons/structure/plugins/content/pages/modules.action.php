@@ -60,7 +60,7 @@ if ($function == 'delete') {
     $action_in_use_msg = '';
     $action_name = htmlspecialchars($del->getValue('a.name'));
     for ($i = 0; $i < $del->getRows(); $i++) {
-      $action_in_use_msg .= '<li><a href="index.php?page=modules&amp;function=edit&amp;modul_id=' . $del->getValue('ma.module_id') . '">' . htmlspecialchars($del->getValue('m.name')) . ' [' . $del->getValue('ma.module_id') . ']</a></li>';
+      $action_in_use_msg .= '<li><a href="' . rex_url::backendPage('modules', array('function' => 'edit', 'modul_id' => $del->getValue('ma.module_id'))) . '">' . htmlspecialchars($del->getValue('m.name')) . ' [' . $del->getValue('ma.module_id') . ']</a></li>';
       $del->next();
     }
 

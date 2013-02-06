@@ -72,7 +72,7 @@ if ($function == 'delete') {
       if (rex_clang::count() > 1)
         $label = '(' . rex_i18n::translate(rex_clang::get($clang_id)->getName()) . ') ' . $label;
 
-      $module_in_use_message .= '<li><a href="index.php?page=content&amp;article_id=' . $aid . '&clang=' . $clang_id . '&ctype=' . $ctype . '">' . htmlspecialchars($label) . '</a></li>';
+      $module_in_use_message .= '<li><a href="' . rex_url::backendPage('content', array('article_id' => $aid, 'clang' => $clang_id, 'ctype' => $ctype)) . '">' . htmlspecialchars($label) . '</a></li>';
       $del->next();
     }
 
@@ -273,7 +273,7 @@ if ($function == 'add' or $function == 'edit') {
 
           $actions .= '<td class="rex-name"><a href="' . $action_edit_url . '">' . $action_name . '</a></td>
             <td class="rex-edit"><a class="rex-edit" href="' . $action_edit_url . '">' . rex_i18n::msg('edit') . '</a></td>
-            <td class="rex-delete"><a class="rex-delete" href="index.php?page=modules&amp;module_id=' . $module_id . '&amp;function_action=delete&amp;function=edit&amp;iaction_id=' . $iaction_id . '" data-confirm="' . rex_i18n::msg('confirm_delete_action') . '">' . rex_i18n::msg('delete') . '</a></td>
+            <td class="rex-delete"><a class="rex-delete" href="' . rex_url::currentBackendPage(array('module_id' => $module_id, 'function_action' => 'delete', 'function' => 'edit', 'iaction_id' => $iaction_id)) . '" data-confirm="' . rex_i18n::msg('confirm_delete_action') . '">' . rex_i18n::msg('delete') . '</a></td>
           </tr>';
 
           $gma->next();

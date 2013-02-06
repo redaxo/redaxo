@@ -55,9 +55,9 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
           $re_id = $art_arr['re_id'];
           $name = $art_arr['startpage'] ? $art_arr['catname'] : $art_arr['name'];
           if ($art_arr['startpage']) {
-            $categories .= '<li><a href="javascript:openPage(\'index.php?page=structure&amp;edit_id=' . $aid . '&amp;function=edit_cat&amp;category_id=' . $re_id . '&amp;clang=' . $clang . '\')">' . $art_arr['catname'] . '</a></li>';
+            $categories .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('structure', array('edit_id' => $aid, 'function' => 'edit_cat', 'category_id' => $re_id, 'clang' => $clang)) . '\')">' . $art_arr['catname'] . '</a></li>';
           } else {
-            $articles .= '<li><a href="javascript:openPage(\'index.php?page=content&amp;article_id=' . $aid . '&amp;mode=meta&amp;clang=' . $clang . '\')">' . $art_arr['name'] . '</a></li>';
+            $articles .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', array('article_id' => $aid, 'mode' => 'meta', 'clang' => $clang)) . '\')">' . $art_arr['name'] . '</a></li>';
           }
         }
         if ($articles != '') {

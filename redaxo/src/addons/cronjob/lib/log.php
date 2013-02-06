@@ -165,7 +165,7 @@ class rex_cronjob_log
         if ($data[2] == '--') {
           $icon = '<span class="rex-i-element rex-i-cronjob" title="' . rex_i18n::msg('cronjob_not_editable') . '"><span class="rex-i-element-text">' . rex_i18n::msg('cronjob_not_editable') . '</span></span>';
         } else {
-          $icon = '<a href="index.php?page=cronjob&amp;list=cronjobs&amp;func=edit&amp;oid=' . trim($data[2]) . '" title="' . rex_i18n::msg('cronjob_edit') . '"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">' . rex_i18n::msg('cronjob_edit') . '</span></span></a>';
+          $icon = '<a href="' . rex_url::backendPage('cronjob', array('list' => 'cronjobs', 'func' => 'edit', 'oid' => trim($data[2]))) . '" title="' . rex_i18n::msg('cronjob_edit') . '"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">' . rex_i18n::msg('cronjob_edit') . '</span></span></a>';
         }
 
         $list .= '
