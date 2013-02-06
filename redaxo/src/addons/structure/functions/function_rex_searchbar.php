@@ -22,10 +22,14 @@ function rex_structure_searchbar()
   $ctype        = rex_request('ctype', 'int');
 
   // ------------ Parameter
-  $be_search_article_id        = rex_request('be_search_article_id'  , 'int');
   $be_search_clang             = rex_request('be_search_clang'       , 'int');
   $be_search_article_name      = rex_request('be_search_article_name', 'string');
   $be_search_article_name_post = rex_post('be_search_article_name', 'string');
+
+  $be_search_article_id = 0;
+  if (preg_match('/^[0-9]+$/', $be_search_article_name_post, $matches)) {
+    $be_search_article_id = $matches[0];
+  }
 
   // ------------ Suche via ArtikelId
   if ($be_search_article_id != 0) {
@@ -166,28 +170,37 @@ function rex_structure_searchbar()
         <input type="hidden" name="category_id" value="' . $category_id . '" />' . $article_id_input . '
         <input type="hidden" name="clang" value="' . $clang . '" />
         <input type="hidden" name="ctype" value="' . $ctype . '" />
-        <input type="hidden" name="be_search_clang" value="' . $clang . '" />
+        <input type="hidden" name="be_search_clang" value="' . $clang . '" />';
 
-        <div class="rex-fl-lft">
-          <label for="rex-be_search-article-name">' . rex_i18n::msg('be_search_article_name') . '</label>
-          <input class="rex-form-text" type="text" name="be_search_article_name" id="rex-be_search-article-name" value="' . htmlspecialchars($be_search_article_name) . '" />
 
-          <label for="rex-be_search-article-id">' . rex_i18n::msg('be_search_article_id') . '</label>
-          <input class="rex-form-text" type="text" name="be_search_article_id" id="rex-be_search-article-id" />
-          <input class="rex-form-submit" type="submit" name="be_search_start_search" value="' . rex_i18n::msg('be_search_start') . '" />
-        </div>
 
-        <div class="rex-fl-rght">
-          <label for="rex-be_search-category-id">' . rex_i18n::msg('be_search_quick_navi') . '</label>';
+  $formElements = array();
 
-  $form .= $category_select->get() . '
-          <noscript>
-            <input type="submit" name="be_search_start_jump" value="' . rex_i18n::msg('be_search_jump_to_category') . '" />
-          </noscript>
-        </div>
-        </fieldset>
-      </form>
-      </div>';
+  $n = array();
+  $n['label'] = '<label for="rex-id-search-article-name">' . rex_i18n::msg('be_search_article_name') . '</label>';
+  $n['field'] = '<input type="text" name="be_search_article_name" id="rex-id-search-article-name" value="' . htmlspecialchars($be_search_article_name) . '" placeholder="' . htmlspecialchars(rex_i18n::msg('be_search_article_name')) . '" />
+                 <input class="rex-button" type="submit" name="be_search_start_search" value="' . rex_i18n::msg('be_search_start') . '" />';
+  $formElements[] = $n;
+
+  //$formElements = array();
+  $n = array();
+  $n['label'] = '<label for="rex-id-search-category-id">' . rex_i18n::msg('be_search_quick_navi') . '</label>';
+  $n['field'] = $category_select->get();
+  $n['after'] = '<noscript><input class="rex-button" type="submit" name="be_search_start_jump" value="' . rex_i18n::msg('be_search_jump_to_category') . '" /></noscript>';
+  $formElements[] = $n;
+
+  $fragment = new rex_fragment();
+  $fragment->setVar('inline', true);
+  $fragment->setVar('group', true);
+  $fragment->setVar('elements', $formElements, false);
+  $form .= $fragment->parse('core/form/form.tpl');
+/*
+  $fragment = new rex_fragment();
+  $fragment->setVar('inline', true);
+  $fragment->setVar('group', true);
+  $fragment->setVar('elements', $formElements, false);
+  $form .= $fragment->parse('core/form/form.tpl');
+*/
 
   $search_bar = $message .
     '<div id="rex-be_search-searchbar" class="rex-toolbar rex-toolbar-has-form">
@@ -197,6 +210,10 @@ function rex_structure_searchbar()
    <div class="rex-clearer"></div>
    </div>
    </div>';
+
+  $fragment = new rex_fragment();
+  $fragment->setVar('content', $form . $search_result, false);
+  return $message . $fragment->parse('core/toolbar.tpl');
 
   return $search_bar;
 }
