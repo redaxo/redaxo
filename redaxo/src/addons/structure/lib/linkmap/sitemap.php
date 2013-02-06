@@ -33,7 +33,7 @@ class rex_sitemap_category_tree extends rex_linkmap_tree_renderer
     $label = self::formatLabel($cat);
 
     $li = '';
-    $li .= '<li' . $liClasses . ' cat-id="' . $cat->getId() . '" parent-id="' . $cat->getParentId() . '" prior="' . $cat->getPriority() . '">';
+    $li .= '<li' . $liClasses . ' data-cat-id="' . $cat->getId() . '" data-parent-id="' . $cat->getParentId() . '" data-prior="' . $cat->getPriority() . '">';
     $li .= '<a' . $linkClasses . ' href="' . $this->context->getUrl(array('rex-api-call' => 'sitemap_tree', 'toggle_category_id' => $cat->getId())) . '">&nbsp;</a>';
     $li .= '<a href="' . $this->context->getUrl(array('category_id' => $cat->getId())) . '">' . htmlspecialchars($label) . '</a>';
     $li .= $subHtml;

@@ -70,7 +70,7 @@ function writeREXLinklist(id){
 jQuery(function($){
   // insert empty child list, so drag&drop works in every level (not only where we already childs exists)
   $('#rex-sitemap li:not(:contains(ul))').each(function (){
-    $('<ul cat-id="'+ $(this).attr('parent-id') +'" />').appendTo(this);
+    $('<ul data-cat-id="'+ $(this).attr('parent-id') +'" />').appendTo(this);
   });
 
   var triggered = false;
@@ -86,11 +86,11 @@ jQuery(function($){
       triggered = true;
 
       var dragedItem = ui.item;
-      var draggedId = dragedItem.attr('cat-id');
-      var newCatId = dragedItem.closest('ul').attr('cat-id');
+      var draggedId = dragedItem.attr('data-cat-id');
+      var newCatId = dragedItem.closest('ul').attr('data-cat-id');
 
       // update the prior to bring the cat into position
-      var prevPrior = dragedItem.prev('li').attr('prior');
+      var prevPrior = dragedItem.prev('li').attr('data-prior');
       var newPrior = prevPrior ? (parseInt(prevPrior, 10) + 1) : 0;
 
       $.ajax({

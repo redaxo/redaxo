@@ -69,7 +69,7 @@ abstract class rex_linkmap_tree_renderer
       if ($ulclasses != '')
         $ulclasses = ' class="' . rtrim($ulclasses) . '"';
 
-      if ($li != '') $ul = '<ul' . $ulclasses . ' cat-id="' . $children[0]->getParentId() . '">' . "\n" . $li . '</ul>' . "\n";
+      if ($li != '') $ul = '<ul' . $ulclasses . ' data-cat-id="' . $children[0]->getParentId() . '">' . "\n" . $li . '</ul>' . "\n";
     }
     return $ul;
   }
