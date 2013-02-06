@@ -13,7 +13,5 @@ navigation:
 
 requires:
   packages:
-    structure:
-      min-version: '5.0 a1'
-    mediapool:
-      min-version: '5.0 a1'
+    structure: '~ 5.0 alpha'
+    mediapool: '~ 5.0 alpha'

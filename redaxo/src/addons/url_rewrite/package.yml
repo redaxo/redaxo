@@ -5,5 +5,4 @@ supportpage: www.redaxo.org/de/forum/
 
 requires:
   packages:
-    structure:
-      min-version: '5.0 a1'
+    structure: '~ 5.0 alpha'

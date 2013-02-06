@@ -357,8 +357,11 @@ abstract class rex_package_manager extends rex_factory_base
       return $msg;
     }
 
-    if (isset($requirements['php']) && is_array($requirements['php'])) {
-      if (($msg = $this->checkRequirementVersion('php_', $requirements['php'], PHP_VERSION)) !== true) {
+    if (isset($requirements['php'])) {
+      if (!is_array($requirements['php'])) {
+        $requirements['php'] = array('version' => $requirements['php']);
+      }
+      if (isset($requirements['php']['version']) && ($msg = $this->checkRequirementVersion('php_', $requirements['php']['version'], PHP_VERSION)) !== true) {
         $state[] = $msg;
       }
       if (isset($requirements['php']['extensions']) && $requirements['php']['extensions']) {
@@ -390,7 +393,7 @@ abstract class rex_package_manager extends rex_factory_base
   public function checkRedaxoRequirement($redaxoVersion)
   {
     $requirements = $this->package->getProperty('requires', array());
-    if (isset($requirements['redaxo']) && is_array($requirements['redaxo'])) {
+    if (isset($requirements['redaxo'])) {
       return $this->checkRequirementVersion('redaxo_', $requirements['redaxo'], $redaxoVersion);
     }
     return true;
@@ -417,30 +420,59 @@ abstract class rex_package_manager extends rex_factory_base
   /**
    * Checks the version of the requirement.
    *
-   * @param string $i18nPrefix Prefix for I18N
-   * @param array  $attributes Requirement attributes (version, min-version, max-version)
-   * @param string $version    Active version of requirement
-   * @param string $package    Name of the required package, only necessary if requirement is a package
+   * @param string $i18nPrefix      Prefix for I18N
+   * @param string $requiredVersion Required version
+   * @param string $activeVersion   Active version of requirement
+   * @param string $package         Name of the required package, only necessary if requirement is a package
+   * @throws rex_exception
+   * @return boolean|string
    */
-  private function checkRequirementVersion($i18nPrefix, array $attributes, $version, $package = null)
+  private function checkRequirementVersion($i18nPrefix, $requiredVersion, $activeVersion, $package = null)
   {
     $i18nPrefix = 'requirement_error_' . $i18nPrefix;
-    $state = true;
 
-    // check dependency exact-version
-    if (isset($attributes['version']) && rex_string::compareVersions($version, $attributes['version'], '!=')) {
-      $state = $this->i18n($i18nPrefix . 'exact_version', $attributes['version'], $version, $package);
-    } else {
-      // check dependency min-version
-      if (isset($attributes['min-version']) && rex_string::compareVersions($version, $attributes['min-version'], '<')) {
-        $state = $this->i18n($i18nPrefix . 'min_version', $attributes['min-version'], $version, $package);
+    $constraints = array();
+    foreach (array_filter(array_map('trim', explode(',', $requiredVersion))) as $constraint) {
+      if ($constraint === '*') {
+        continue;
       }
-      // check dependency max-version
-      elseif (isset($attributes['max-version']) && rex_string::compareVersions($version, $attributes['max-version'], '>')) {
-        $state = $this->i18n($i18nPrefix . 'max_version', $attributes['max-version'], $version, $package);
+
+      if (!preg_match('/^(?<op>==?|<=?|>=?|!=|~|) ?(?<version>\d+(?:\.\d+)*)(?<wildcard>\.\*)?(?<prerelease>[ -.]?[a-z]+(?:[ -.]?\d+)?)?$/i', $constraint, $match)
+        || isset($match['wildcard']) && $match['wildcard'] && ($match['op'] != '' || isset($match['prerelease']) && $match['prerelease'])
+      ) {
+        throw new rex_exception('Unknown version constraint "' . $constraint . '"!');
+      }
+
+      if (isset($match['wildcard']) && $match['wildcard']) {
+        $constraints[] = array('>=', $match['version']);
+        $pos = strrpos($match['version'], '.') + 1;
+        $sub = substr($match['version'], $pos);
+        $constraints[] = array('<', substr_replace($match['version'], $sub + 1, $pos));
+      } elseif ($match['op'] == '~') {
+        $constraints[] = array('>=', $match['version'] . (isset($match['prerelease']) ? $match['prerelease'] : ''));
+        if (($pos = strrpos($match['version'], '.')) === false) {
+          $constraints[] = array('<', $match['version'] + 1);
+        } else {
+          $main = '';
+          $sub = substr($match['version'], 0, $pos);
+          if (($pos = strrpos($sub, '.')) !== false) {
+            $main = substr($sub, 0, $pos + 1);
+            $sub = substr($sub, $pos + 1);
+          }
+          $constraints[] = array('<', $main . ($sub + 1));
+        }
+      } else {
+        $constraints[] = array($match['op'] ?: '=', $match['version']);
       }
     }
-    return $state;
+
+    foreach ($constraints as $constraint) {
+      if (!rex_string::compareVersions($activeVersion, $constraint[1], $constraint[0])) {
+        return $this->i18n($i18nPrefix . 'version', $requiredVersion, $activeVersion, $package);
+      }
+    }
+
+    return true;
   }
 
   /**

@@ -5,10 +5,8 @@ supportpage: www.redaxo.org/de/forum/
 
 requires:
   packages:
-    structure:
-      min-version: '5.0 a1'
-    metainfo:
-      min-version: '5.0 a1'
+    structure: '~ 5.0 alpha'
+    metainfo: '~ 5.0 alpha'
 
 cronjob_type: rex_cronjob_article_status
 

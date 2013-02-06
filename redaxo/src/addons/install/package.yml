@@ -18,7 +18,5 @@ navigation:
     settings: { title: 'translate:subpage_settings' }
 
 requires:
-  redaxo:
-    min-version: '5.0.alpha3'
   php:
     extensions: [phar, zlib]
