@@ -81,9 +81,6 @@ class rex_template
         return true;
       } else {
         throw new rex_exception('Unable to generate template ' . $template_id . '!');
-
-        if (!rex_dir::isWritable($templatesDir))
-          throw new rex_exception('directory "' . $templatesDir . '" is not writable!');
       }
     } else {
       throw new rex_exception('Template with id "' . $template_id . '" does not exist!');
