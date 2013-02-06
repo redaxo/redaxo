@@ -3,4 +3,7 @@ version: '5.0 a1'
 author: 'Jan Kristinus'
 supportpage: www.redaxo.org/de/forum/
 
-blocked_extensions: ['.php','.php3','.php4','.php5','.php6','.phtml','.pl','.asp','.aspx','.cfm','.jsp','.jsf','.bat','.sh','.cgi']
+blocked_extensions: [php, php3, php4, php5, php6, phtml, pl, asp, aspx, cfm, jsp, jsf, bat, sh, cgi]
+allowed_doctypes: [bmp, css, doc, docx, eps, gif, gz, jpg, mov, mp3, ogg, pdf, png, ppt, pptx, pps, ppsx, rar, rtf, swf, tar, tif, txt, wma, xls, xlsx, zip]
+image_extensions: [gif, jpeg, jpg, png, bmp]
+image_types: [image/gif, image/jpg, image/jpeg, image/png, image/x-png, image/pjpeg, image/bmp]

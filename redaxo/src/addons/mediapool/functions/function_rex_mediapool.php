@@ -25,7 +25,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
   }
 
   // ---- ext checken - alle scriptendungen rausfiltern
-  if (in_array($NFILE_EXT, rex_addon::get('mediapool')->getProperty('blocked_extensions'))) {
+  if (in_array(ltrim($NFILE_EXT, '.'), rex_addon::get('mediapool')->getProperty('blocked_extensions'))) {
     $NFILE_NAME .= $NFILE_EXT;
     $NFILE_EXT = '.txt';
   }
@@ -434,8 +434,13 @@ function rex_mediapool_Syncform($rex_file_category)
  */
 function rex_mediapool_add_assets($params)
 {
-  $params['subject'] .= "\n  " .
-    '<script type="text/javascript" src="' . rex_url::addonAssets('mediapool', 'mediapool.js') . '"></script>';
+  $params['subject'] .= '
+  <script type="text/javascript" src="' . rex_url::addonAssets('mediapool', 'mediapool.js') . '"></script>
+  <script type="text/javascript">
+  <!--
+  var rex_imageExtensions = ["' . implode('","', rex_addon::get('mediapool')->getProperty('image_extensions')) . '"];
+  //-->
+  </script>';
 
   return $params['subject'];
 }

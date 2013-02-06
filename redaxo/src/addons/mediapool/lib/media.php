@@ -382,19 +382,7 @@ class rex_media
    */
   static public function _isImage($filename)
   {
-    static $imageExtensions;
-
-    if (!isset ($imageExtensions)) {
-      $imageExtensions = array(
-        'gif',
-        'jpeg',
-        'jpg',
-        'png',
-        'bmp'
-      );
-    }
-
-    return in_array(rex_file::extension($filename), $imageExtensions);
+    return in_array(rex_file::extension($filename), rex_addon::get('mediapool')->getProperty('image_extensions'));
   }
 
   /**
@@ -582,36 +570,7 @@ class rex_media
   // allowed filetypes
   static public function getDocTypes()
   {
-    static $docTypes = array(
-      'bmp',
-      'css',
-      'doc',
-      'docx',
-      'eps',
-      'gif',
-      'gz',
-      'jpg',
-      'mov',
-      'mp3',
-      'ogg',
-      'pdf',
-      'png',
-      'ppt',
-      'pptx',
-      'pps',
-      'ppsx',
-      'rar',
-      'rtf',
-      'swf',
-      'tar',
-      'tif',
-      'txt',
-      'wma',
-      'xls',
-      'xlsx',
-      'zip'
-    );
-    return $docTypes;
+    return rex_addon::get('mediapool')->getProperty('allowed_doctypes');
   }
 
   static public function isDocType($type)
@@ -622,16 +581,7 @@ class rex_media
   // allowed image upload types
   static public function getImageTypes()
   {
-    static $imageTypes = array(
-      'image/gif',
-      'image/jpg',
-      'image/jpeg',
-      'image/png',
-      'image/x-png',
-      'image/pjpeg',
-      'image/bmp'
-    );
-    return $imageTypes;
+    return rex_addon::get('mediapool')->getProperty('image_types');
   }
 
   static public function isImageType($type)
