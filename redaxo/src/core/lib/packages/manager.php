@@ -407,13 +407,11 @@ abstract class rex_package_manager extends rex_factory_base
     if (!isset($requirements['packages'][$packageId])) {
       return true;
     }
-    list($addonName, $pluginName) = array_pad(explode('/', $packageId), 2, null);
-    $type = $pluginName === null ? 'addon' : 'plugin';
-    $package = $type == 'plugin' ? rex_plugin::get($addonName, $pluginName) : rex_addon::get($addonName);
+    $package = rex_package::get($packageId);
     if (!$package->isAvailable()) {
-      return $this->i18n('requirement_error_' . $type, $addonName, $pluginName);
+      return $this->i18n('requirement_error_' . $package->getType(), $package->getPackageId());
     }
-    return $this->checkRequirementVersion($type . '_', $requirements['packages'][$packageId], $package->getVersion(), $addonName, $pluginName);
+    return $this->checkRequirementVersion($package->getType() . '_', $requirements['packages'][$packageId], $package->getVersion(), $package->getPackageId());
   }
 
   /**
@@ -422,25 +420,24 @@ abstract class rex_package_manager extends rex_factory_base
    * @param string $i18nPrefix Prefix for I18N
    * @param array  $attributes Requirement attributes (version, min-version, max-version)
    * @param string $version    Active version of requirement
-   * @param string $addonName  Name of the required addon, only necessary if requirement is a addon/plugin
-   * @param string $pluginName Name of the required plugin, only necessary if requirement is a plugin
+   * @param string $package    Name of the required package, only necessary if requirement is a package
    */
-  private function checkRequirementVersion($i18nPrefix, array $attributes, $version, $addonName = null, $pluginName = null)
+  private function checkRequirementVersion($i18nPrefix, array $attributes, $version, $package = null)
   {
     $i18nPrefix = 'requirement_error_' . $i18nPrefix;
     $state = true;
 
     // check dependency exact-version
     if (isset($attributes['version']) && rex_string::compareVersions($version, $attributes['version'], '!=')) {
-      $state = $this->i18n($i18nPrefix . 'exact_version', $attributes['version'], $version, $addonName, $pluginName);
+      $state = $this->i18n($i18nPrefix . 'exact_version', $attributes['version'], $version, $package);
     } else {
       // check dependency min-version
       if (isset($attributes['min-version']) && rex_string::compareVersions($version, $attributes['min-version'], '<')) {
-        $state = $this->i18n($i18nPrefix . 'min_version', $attributes['min-version'], $version, $addonName, $pluginName);
+        $state = $this->i18n($i18nPrefix . 'min_version', $attributes['min-version'], $version, $package);
       }
       // check dependency max-version
       elseif (isset($attributes['max-version']) && rex_string::compareVersions($version, $attributes['max-version'], '>')) {
-        $state = $this->i18n($i18nPrefix . 'max_version', $attributes['max-version'], $version, $addonName, $pluginName);
+        $state = $this->i18n($i18nPrefix . 'max_version', $attributes['max-version'], $version, $package);
       }
     }
     return $state;
@@ -460,7 +457,7 @@ abstract class rex_package_manager extends rex_factory_base
 
       $requirements = $package->getProperty('requires', array());
       if (isset($requirements['packages'][$this->package->getPackageId()])) {
-        $state[] = rex_i18n::msg($i18nPrefix . $package->getType(), $package->getAddon()->getName(), $package->getName());
+        $state[] = rex_i18n::msg($i18nPrefix . $package->getType(), $package->getPackageId());
       }
     }
 
