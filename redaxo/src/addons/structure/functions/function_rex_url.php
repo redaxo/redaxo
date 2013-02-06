@@ -56,11 +56,11 @@ function rex_param_string($params, $divider = '&amp;')
 /**
  * Gibt eine Url zu einem Artikel zurück
  *
- * @param [$_id] ArtikelId des Artikels
- * @param [$_clang] SprachId des Artikels
- * @param [$_params] Array von Parametern
- * @param [$_divider] Trennzeichen für Parameter
- * (z.B. &amp; für HTML, & für Javascript)
+ * @param $_id ArtikelId des Artikels
+ * @param $_clang SprachId des Artikels
+ * @param $_params Array von Parametern
+ * @param $_divider Trennzeichen für Parameter (z.B. &amp; für HTML, & für Javascript)
+ * @return string
  */
 function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
 {

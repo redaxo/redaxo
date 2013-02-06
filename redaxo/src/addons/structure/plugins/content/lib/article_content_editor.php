@@ -108,6 +108,7 @@ class rex_article_content_editor extends rex_article_content
    * Returns the slice menu
    *
    * @param rex_sql $artDataSql rex_sql istance containing all the slice and module information
+   * @return string
    */
   private function getSliceMenu(rex_sql $artDataSql)
   {
@@ -207,6 +208,7 @@ class rex_article_content_editor extends rex_article_content
    *
    * @param integer $moduleId     The id of the module
    * @param string  $moduleOutput The output of the module
+   * @return string
    */
   private function getWrappedModuleOutput($moduleId, $moduleOutput)
   {

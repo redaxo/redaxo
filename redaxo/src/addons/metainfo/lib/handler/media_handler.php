@@ -8,6 +8,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
    * Extension to check whether the given media is still in use.
    *
    * @param array $params EP Params
+   * @return string
    */
   static public function isMediaInUse(array $params)
   {

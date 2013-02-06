@@ -7,6 +7,7 @@ abstract class rex_metainfo_handler
    *
    * @param $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
    * @param $epParams array Array of all EP parameters
+   * @return string
    */
   public function renderMetaFields(rex_sql $sqlFields, array $epParams)
   {
@@ -436,6 +437,7 @@ abstract class rex_metainfo_handler
    * @param string $fieldName       The name of the field
    * @param int    $fieldType       One of the REX_METAINFO_FIELD_* constants
    * @param string $fieldAttributes The attributes of the field
+   * @return string
    */
   static public function getSaveValue($fieldName, $fieldType, $fieldAttributes)
   {
@@ -519,7 +521,8 @@ abstract class rex_metainfo_handler
    * Erweitert das Meta-Formular um die neuen Meta-Felder
    *
    * @param string $prefix Feldprefix
-   * @param string $params EP Params
+   * @param array  $params EP Params
+   * @return string
    */
   public function renderFormAndSave($prefix, array $params)
   {

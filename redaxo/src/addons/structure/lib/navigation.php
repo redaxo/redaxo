@@ -57,10 +57,11 @@ class rex_navigation extends rex_factory_base
   /**
    * Generiert eine Navigation
    *
-   * @param $category_id Id der Wurzelkategorie
-   * @param $depth Anzahl der Ebenen die angezeigt werden sollen
-   * @param $open True, wenn nur Elemente der aktiven Kategorie angezeigt werden sollen, sonst FALSE
-   * @param $ignore_offlines FALSE, wenn offline Elemente angezeigt werden, sonst TRUE
+   * @param integer $category_id     Id der Wurzelkategorie
+   * @param integer $depth           Anzahl der Ebenen die angezeigt werden sollen
+   * @param boolean $open            True, wenn nur Elemente der aktiven Kategorie angezeigt werden sollen, sonst FALSE
+   * @param boolean $ignore_offlines FALSE, wenn offline Elemente angezeigt werden, sonst TRUE
+   * @return string
    */
   public function get($category_id = 0, $depth = 3, $open = false, $ignore_offlines = false)
   {
@@ -84,9 +85,10 @@ class rex_navigation extends rex_factory_base
   /**
    * Generiert eine Breadcrumb-Navigation
    *
-   * @param $startPageLabel Label der Startseite, falls FALSE keine Start-Page anzeigen
-   * @param $includeCurrent True wenn der aktuelle Artikel enthalten sein soll, sonst FALSE
-   * @param $category_id Id der Wurzelkategorie
+   * @param string  $startPageLabel Label der Startseite, falls FALSE keine Start-Page anzeigen
+   * @param boolean $includeCurrent True wenn der aktuelle Artikel enthalten sein soll, sonst FALSE
+   * @param integer $category_id    Id der Wurzelkategorie
+   * @return string
    */
   public function getBreadcrumb($startPageLabel, $includeCurrent = false, $category_id = 0)
   {

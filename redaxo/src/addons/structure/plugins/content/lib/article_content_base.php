@@ -198,6 +198,7 @@ class rex_article_content_base
    *
    * @param rex_sql $artDataSql    A rex_sql instance containing all slice and module data
    * @param integer $moduleIdToAdd The id of the module, which was selected using the ModuleSelect
+   * @return string
    */
   protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
   {
@@ -211,6 +212,7 @@ class rex_article_content_base
    * Returns the content of the given slice-id.
    *
    * @param integer $sliceId A article-slice id
+   * @return string
    */
   public function getSlice($sliceId)
   {
@@ -230,6 +232,7 @@ class rex_article_content_base
    * Returns the content of the article of the given ctype. If no ctype is given, content of all ctypes is returned.
    *
    * @param integer $curctype The ctype to fetch, or -1 for all ctypes
+   * @return string
    */
   public function getArticle($curctype = -1)
   {
@@ -354,6 +357,7 @@ class rex_article_content_base
    *
    * @param string  $articleContent The content of the article
    * @param integer $module_id      A module id
+   * @return string
    */
   protected function preArticle($articleContent, $module_id)
   {
@@ -366,6 +370,7 @@ class rex_article_content_base
    *
    * @param string  $articleContent The content of the article
    * @param integer $module_id      A module id
+   * @®eturn string
    */
   protected function postArticle($articleContent, $module_id)
   {

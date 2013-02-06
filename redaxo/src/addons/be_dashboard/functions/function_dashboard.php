@@ -3,7 +3,8 @@
 /**
  * Fügt die benötigen Assets ein
  *
- * @param $params Extension-Point Parameter
+ * @param array $params Extension-Point Parameter
+ * @return string
  */
 function rex_a655_add_assets($params)
 {

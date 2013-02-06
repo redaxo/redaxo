@@ -10,7 +10,8 @@ class rex_logger_debug extends rex_logger
   /**
    * Logs the given message
    *
-   * @param String $message the message to log
+   * @param string  $message the message to log
+   * @param integer $errno
    */
   static public function log($message, $errno = E_USER_ERROR)
   {
