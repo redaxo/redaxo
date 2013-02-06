@@ -181,29 +181,6 @@ class rex_fragment
     return rex::getProperty($key);
   }
 
-  /**
-   * Generates a url with the given parameters
-   */
-  protected function url(array $params = array())
-  {
-    if (!is_array($params)) {
-      throw new rex_exception(sprintf('Expecting $params to be a array, %s given!', gettype($filename)));
-    }
-
-    if (!isset($params['page'])) {
-      $page = rex_request('page');
-      if ($page != null) {
-        $params['page'] = $page;
-      }
-    }
-
-    $url = 'index.php?';
-    foreach ($params as $key => $value) {
-      $url .= $key . '=' . urlencode($value) . '&';
-    }
-    return substr($url, 0, -1);
-  }
-
 
   /**
    * Magic getter to reference variables from within the fragment.
