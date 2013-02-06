@@ -324,7 +324,7 @@ if ($function == 'add' or $function == 'edit') {
     $formElements = array();
     $n = array();
     $n['label'] = '<label for="rex-id-content">' . rex_i18n::msg('header_template') . '</label>';
-    $n['field'] = '<textarea class="rex-short rex-code" name="content" id="rex-id-content" spellcheck="false">' . htmlspecialchars($template) . '</textarea>';
+    $n['field'] = '<textarea class="rex-very-long rex-code" name="content" id="rex-id-content" spellcheck="false">' . htmlspecialchars($template) . '</textarea>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -338,7 +338,7 @@ if ($function == 'add' or $function == 'edit') {
         <!-- DIV noetig fuer JQuery slideIn -->
         <div id="rex-form-template-ctype">
         <fieldset>
-          <h2>' . rex_i18n::msg('content_types') . ' [ctypes]</h2>
+          <h2>' . rex_i18n::msg('content_types') . '</h2>
             ' . $ctypes_out . '
         </fieldset>
         </div>
