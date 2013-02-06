@@ -161,6 +161,15 @@
 
 */
 
+
+
+.rex-dropdown {
+  display: inline-block;
+}
+.rex-dropdown .rex-context-menu {
+  position: relative;
+  top: -4px;
+}
 .rex-drop-container {
   position: absolute;
   z-index: 100;
@@ -233,6 +242,13 @@
 }
 
 
+.rex-context-menu {
+  display: inline-block;
+}
+.rex-navi-content .rex-context-menu {
+  position: relative;
+  top: -4px;
+}
 .rex-context-menu-container {
   position: absolute;
   z-index: 100;

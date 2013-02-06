@@ -458,6 +458,37 @@ dl.rex-form .rex-note {
   display: block;
 }
 
+.rex-form-inline dl.rex-form,
+.rex-form-inline dl.rex-form dt,
+.rex-form-inline dl.rex-form dd {
+  display: inline-block;
+}
+.rex-form-inline dl.rex-form {
+  margin-right: 10px
+}
+.rex-form-inline dl.rex-form dt {
+  float: none;
+}
+.rex-form-inline dl.rex-form dt label {
+  display: inline-block;
+  width: auto;
+  text-align: left;
+}
+.rex-form-inline dl.rex-form dd {
+  margin-left: 0;
+}
+.rex-form-inline dl.rex-form > dd input[type="email"],
+.rex-form-inline dl.rex-form > dd input[type="password"],
+.rex-form-inline dl.rex-form > dd input[type="text"],
+.rex-form-inline dl.rex-form > dd textarea,
+.rex-form-inline dl.rex-form > dd select,
+.rex-form-inline dl.rex-form > dd .rex-form-read {
+  width: auto;
+  margin-top: 0;
+}
+
+
+
 
 .rex-form-group:after {
   clear: both;
