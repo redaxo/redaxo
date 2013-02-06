@@ -480,18 +480,6 @@ abstract class rex_structure_element
   /**
    *  Accessor Method:
    * returns true if this Article is the Startpage for the category.
-   * @deprecated
-   *
-   * @return boolean
-   */
-  public function isStartPage()
-  {
-    return $this->isStartArticle();
-  }
-
-  /**
-   *  Accessor Method:
-   * returns true if this Article is the Startpage for the category.
    *
    * @return boolean
    */

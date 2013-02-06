@@ -115,7 +115,7 @@ class rex_navigation extends rex_factory_base
 
     if ($includeCurrent) {
       if ($art = rex_article::getArticleById($this->current_article_id))
-        if (!$art->isStartpage()) {
+        if (!$art->isStartArticle()) {
           $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($art->getName()) . '</li>';
         } else {
           $cat = rex_category::getCategoryById($this->current_article_id);

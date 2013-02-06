@@ -550,17 +550,6 @@ class rex_sql extends rex_factory_base implements Iterator
   }
 
   /**
-   * Gibt die Zeilennummer zurueck, auf der sich gerade der
-   * interne Zaehler befindet
-   *
-   * @deprecated since version 4.3.0
-   */
-  public function getCounter()
-  {
-    return $this->counter;
-  }
-
-  /**
    * Gibt die Anzahl der Felder/Spalten zurueck
    */
   public function getFields()
@@ -989,16 +978,6 @@ class rex_sql extends rex_factory_base implements Iterator
   public function escape($value)
   {
     return self::$pdo[$this->DBID]->quote($value);
-  }
-
-  /**
-   * Gibt ein SQL Singelton Objekt zurueck
-   *
-   * @deprecated since 4.3.0
-   */
-  static public function getInstance($DBID = 1, $deprecatedSecondParam = null)
-  {
-    return static::factory($DBID);
   }
 
   /**

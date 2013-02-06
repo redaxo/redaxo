@@ -110,7 +110,7 @@ class rex_article extends rex_structure_element
    */
   public function getCategoryId()
   {
-    return $this->isStartPage() ? $this->getId() : $this->getParentId();
+    return $this->isStartArticle() ? $this->getId() : $this->getParentId();
   }
 
   /**

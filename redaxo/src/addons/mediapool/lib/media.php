@@ -194,24 +194,6 @@ class rex_media
 
   /**
    * @access public
-   * @deprecated 12.10.2007
-   */
-  public function getDescription()
-  {
-    return $this->getValue('med_description');
-  }
-
-  /**
-   * @access public
-   * @deprecated 12.10.2007
-   */
-  public function getCopyright()
-  {
-    return $this->getValue('med_copyright');
-  }
-
-  /**
-   * @access public
    */
   public function getTitle()
   {
@@ -383,7 +365,7 @@ class rex_media
    */
   public function toLink($attributes = '')
   {
-    return sprintf('<a href="%s" title="%s"%s>%s</a>', $this->getUrl(), $this->getDescription(), $attributes, $this->getFileName());
+    return sprintf('<a href="%s" title="%s"%s>%s</a>', $this->getUrl(), $this->getValue('med_description'), $attributes, $this->getFileName());
   }
 
   /**

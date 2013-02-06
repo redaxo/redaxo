@@ -102,37 +102,11 @@ class rex_cronjob_manager
 
   static public function getTypes()
   {
-    $types = self::$types;
-
-    // ----- EXTENSION POINT - DEPRECATED
-    $types = rex_extension::registerPoint('CRONJOB_TYPES', $types);
-
-    return $types;
+    return self::$types;
   }
 
   static public function registerType($class)
   {
     self::$types[] = $class;
-  }
-
-  // DEPRECATED
-  static public function registerExtension($params)
-  {
-    $params['subject'][] = $params['class'];
-    return $params['subject'];
-  }
-
-  // DEPRECATED
-  public function check()
-  {
-    $sql_manager = rex_cronjob_manager_sql::factory($this);
-    $sql_manager->check();
-  }
-
-  // DEPRECATED
-  public function saveNextTime($nexttime = null)
-  {
-    $sql_manager = rex_cronjob_manager_sql::factory($this);
-    return $sql_manager->saveNextTime($nexttime);
   }
 }

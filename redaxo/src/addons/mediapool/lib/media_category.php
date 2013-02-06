@@ -303,7 +303,7 @@ class rex_media_category
    */
   public function countMedia()
   {
-    return count($this->getFiles());
+    return count($this->getMedia());
   }
 
   /**
@@ -431,32 +431,5 @@ class rex_media_category
     rex_media_cache::deleteList($this->getId());
 
     return $sql->getRows() == 1;
-  }
-
-  /**
-   * @access public
-   * @deprecated 4.2 - 17.05.2008
-   */
-  public function countFiles()
-  {
-    return $this->countMedia();
-  }
-
-  /**
-   * @access public
-   * @deprecated 4.2 - 17.05.2008
-   */
-  public function hasFiles()
-  {
-    return $this->hasMedia();
-  }
-
-  /**
-   * @access public
-   * @deprecated 4.2 - 17.05.2008
-   */
-  public function getFiles()
-  {
-    return $this->getMedia();
   }
 }
