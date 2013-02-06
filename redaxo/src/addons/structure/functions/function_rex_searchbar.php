@@ -158,13 +158,13 @@ function rex_structure_searchbar()
 
   $category_select = new rex_category_select(false, false, true, $add_homepage);
   $category_select->setName($select_name);
-  $category_select->setId('rex-be_search-category-id');
+  $category_select->setId('rex-id-search-category-id');
   $category_select->setSize('1');
   $category_select->setAttribute('onchange', 'this.form.submit();');
   $category_select->setSelected($category_id);
 
   $form =
-    '  <div class="rex-form">
+    '<div class="rex-form">
       <form action="' . rex_url::currentBackendPage() . '" method="post">
       <fieldset>
         <input type="hidden" name="category_id" value="' . $category_id . '" />' . $article_id_input . '
@@ -194,22 +194,12 @@ function rex_structure_searchbar()
   $fragment->setVar('group', true);
   $fragment->setVar('elements', $formElements, false);
   $form .= $fragment->parse('core/form/form.tpl');
-/*
-  $fragment = new rex_fragment();
-  $fragment->setVar('inline', true);
-  $fragment->setVar('group', true);
-  $fragment->setVar('elements', $formElements, false);
-  $form .= $fragment->parse('core/form/form.tpl');
-*/
 
-  $search_bar = $message .
-    '<div id="rex-be_search-searchbar" class="rex-toolbar rex-toolbar-has-form">
-   <div class="rex-toolbar-content">
-     ' . $form . '
-     ' . $search_result . '
-   <div class="rex-clearer"></div>
-   </div>
-   </div>';
+  $form .= '
+        </fieldset>
+      </form>
+    </div>';
+
 
   $fragment = new rex_fragment();
   $fragment->setVar('content', $form . $search_result, false);
