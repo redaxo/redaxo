@@ -371,8 +371,7 @@ if ($article->getRows() == 1) {
         if (rex_article_service::moveArticle($article_id, $category_id, $category_id_new)) {
           $info = rex_i18n::msg('content_articlemoved');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $article_id . '&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
-          exit;
+          rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(array('page' => 'content', 'info' => $info))));
         } else {
           $warning = rex_i18n::msg('content_errormovearticle');
         }
@@ -389,8 +388,7 @@ if ($article->getRows() == 1) {
         if (($new_id = rex_article_service::copyArticle($article_id, $category_copy_id_new)) !== false) {
           $info = rex_i18n::msg('content_articlecopied');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $new_id . '&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
-          exit;
+          rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(array('page' => 'content', 'article_id' => $new_id, 'info' => $info))));
         } else {
           $warning = rex_i18n::msg('content_errorcopyarticle');
         }
@@ -407,8 +405,7 @@ if ($article->getRows() == 1) {
         if ($category_id != $category_id_new && rex_category_service::moveCategory($category_id, $category_id_new)) {
           $info = rex_i18n::msg('category_moved');
           ob_end_clean();
-          header('Location: index.php?page=content&article_id=' . $category_id . '&clang=' . $clang . '&ctype=' . $ctype . '&info=' . urlencode($info));
-          exit;
+          rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(array('page' => 'content', 'info' => $info))));
         } else {
           $warning = rex_i18n::msg('content_error_movecategory');
         }

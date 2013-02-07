@@ -162,8 +162,7 @@ if ($func == '') {
       $warning = $this->i18n('not_found');
     else
       $warning = $this->i18n('type_not_found', $field->getValue(), $activeType);
-    header('Location: index.php?page=cronjob&' . rex_request('list', 'string') . '_warning=' . $warning);
-    exit;
+    rex_response::sendRedirect(htmlspecialchars_decode(rex_url::currentBackendPage(array(rex_request('list', 'string') . '_warning' => $warning))));
   }
 
   $field = $form->addIntervalField('interval');
