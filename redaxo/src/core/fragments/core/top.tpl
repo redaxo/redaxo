@@ -15,6 +15,7 @@
   <script type="text/javascript">
   <!--
   var redaxo = true;
+  var rex_accesskeys = <?php echo $this->accesskeys ? 'true' : 'false'; ?>;
   //-->
   </script>
 

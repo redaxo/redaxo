@@ -356,11 +356,12 @@ function toggleElement(id,display)
 
 jQuery(function($){
   // ------------------ Accesskey Navigation
-  var ENABLE_KEY_NAV = true;
-
   $(document).keypress(function(event) {
-    if(!ENABLE_KEY_NAV)
+    // return true if !rex_accesskeysEnabled or key is not 0-9 or a-z
+    // keycodes: 48 => '0', 57 => '9', 97 => 'a', 122 => 'z'
+    if (!rex_accesskeys || event.which < 48 || (event.which > 57 && event.which < 97) || event.which > 122) {
       return true;
+    }
 
      var key = String.fromCharCode(event.which);
      var haystack = $("input[accesskey='"+ key +"']");
@@ -387,12 +388,14 @@ jQuery(function($){
      }
   });
 
+  var laststate;
   $("body")
     .on("focus", "input,button,textarea,select,option", function(event) {
-      ENABLE_KEY_NAV = false;
+      laststate = rex_accesskeys;
+      rex_accesskeys = false;
     })
     .on("blur", "input,button,textarea,select,option", function(event) {
-      ENABLE_KEY_NAV = true;
+      rex_accesskeys = laststate;
     });
 
   if ($('#rex-page-login').length == 0 && getCookie('htaccess_check') == '')

@@ -176,6 +176,7 @@ if (!rex_request::isPJAXContainer('#rex-page')) {
   $fragment->setVar('pageTitle', rex_be_controller::getPageTitle());
   $fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', '' ), false);
   $fragment->setVar('bodyAttr', $body, false);
+  $fragment->setVar('accesskeys', rex::getProperty('use_accesskeys'));
   echo $fragment->parse('core/top.tpl');
 } elseif (rex_request::isPJAXRequest()) {
   // add title to the page, so pjax can update it. see gh#136
