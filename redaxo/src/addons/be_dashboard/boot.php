@@ -10,9 +10,7 @@
  */
 
 // im backend und eingeloggt?
-if (rex::isBackend() && rex::getUser()) {
-  if (rex_be_controller::getCurrentPagePart(1) == 'be_dashboard') {
-    require_once __DIR__ . '/functions/function_dashboard.php';
-    rex_extension::register('PAGE_HEADER', 'rex_a655_add_assets');
-  }
+if (rex::isBackend() && rex_be_controller::getCurrentPagePart(1) == 'be_dashboard') {
+  rex_be_controller::addCssFile($this->getAssetsUrl('be_dashboard.css'));
+  rex_be_controller::addJsFile($this->getAssetsUrl('be_dashboard.js'));
 }

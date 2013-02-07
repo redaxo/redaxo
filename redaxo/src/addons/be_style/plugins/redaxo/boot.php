@@ -20,13 +20,9 @@ if (rex::isBackend()) {
 
   require __DIR__ . '/pages/font.php';
 
-  rex_extension::register('PAGE_HEADER', function ($params) use ($mypage) {
-    $params['subject'] .= '
-      <link href="' . rex_url::backendController(array('be_style_' . $mypage . '_font' => 'entypo')) . '" rel="stylesheet" type="text/css" media="all" />
-      <link href="' . rex_url::pluginAssets('be_style', $mypage, 'import.css') . '" rel="stylesheet" type="text/css" media="all" />
-      <script src="' . rex_url::pluginAssets('be_style', $mypage, 'js.js') . '" type="text/javascript"></script>';
-    return $params['subject'];
-  });
+  rex_be_controller::addCssFile(rex_url::backendController(array('be_style_' . $mypage . '_font' => 'entypo')));
+  rex_be_controller::addCssFile($this->getAssetsUrl('import.css'));
+  rex_be_controller::addJsFile($this->getAssetsUrl('js.js'));
 
   rex_extension::register('PAGE_BODY_ATTR', function ($params) {
     $params['subject']['class'][] = 'redaxo';

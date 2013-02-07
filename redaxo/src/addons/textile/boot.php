@@ -9,10 +9,5 @@
  */
 
 if (rex::isBackend()) {
-  rex_extension::register('PAGE_HEADER', function ($params) {
-    $params['subject'] .= "\n  " .
-      '<link rel="stylesheet" type="text/css" href="' . rex_url::addonAssets('textile', 'textile.css') . '" />';
-
-    return $params['subject'];
-  });
+  rex_be_controller::addCssFile($this->getAssetsUrl('textile.css'));
 }

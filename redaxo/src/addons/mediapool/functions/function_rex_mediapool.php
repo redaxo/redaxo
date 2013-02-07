@@ -428,24 +428,6 @@ function rex_mediapool_Syncform($rex_file_category)
 }
 
 /**
- * Fügt die benötigen Assets ein
- *
- * @param $params Extension-Point Parameter
- */
-function rex_mediapool_add_assets($params)
-{
-  $params['subject'] .= '
-  <script type="text/javascript" src="' . rex_url::addonAssets('mediapool', 'mediapool.js') . '"></script>
-  <script type="text/javascript">
-  <!--
-  var rex_imageExtensions = ["' . implode('","', rex_addon::get('mediapool')->getProperty('image_extensions')) . '"];
-  //-->
-  </script>';
-
-  return $params['subject'];
-}
-
-/**
  * check if mediatpye(extension) is allowed for upload
  *
  * @param string $filename

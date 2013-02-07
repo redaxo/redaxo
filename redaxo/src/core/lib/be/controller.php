@@ -6,7 +6,10 @@ class rex_be_controller
     $page,
     $pageParts = array(),
     $pageObject,
-    $pages = array();
+    $pages = array(),
+    $cssFiles = array(),
+    $jsFiles = array(),
+    $jsProperties = array();
 
   static public function setCurrentPage($page)
   {
@@ -88,6 +91,36 @@ class rex_be_controller
     }
 
     return $page_title;
+  }
+
+  static public function addCssFile($file, $media = 'all')
+  {
+    self::$cssFiles[$media][] = $file;
+  }
+
+  static public function getCssFiles()
+  {
+    return self::$cssFiles;
+  }
+
+  static public function addJsFile($file)
+  {
+    self::$jsFiles[] = $file;
+  }
+
+  static public function getJsFiles()
+  {
+    return self::$jsFiles;
+  }
+
+  static public function setJsProperty($key, $value)
+  {
+    self::$jsProperties[$key] = $value;
+  }
+
+  static public function getJsProperties()
+  {
+    return self::$jsProperties;
   }
 
   static public function getSetupPage()
