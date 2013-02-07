@@ -97,9 +97,9 @@ syslog = Systemlog
 syslog_delete = Systemlog löschen
 syslog_deleted = Systemlog gelöscht
 syslog_delete_error = Fehler beim löschen des Systemlogs!
-server = Server
-servername = Servername
-error_email = Fehler E-Mail
+server = URL der Website
+servername = Name der Website
+error_email = E-Mail-Adresse bei Fehlern
 error_email_required = Es wird eine Fehler E-Mailadresse benötigt!
 debug_mode = Debug-Modus
 

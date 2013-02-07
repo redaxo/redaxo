@@ -72,7 +72,7 @@ if ($func == 'setup') {
 $sel_lang = new rex_select();
 $sel_lang->setStyle('class="rex-form-select"');
 $sel_lang->setName('settings[lang]');
-$sel_lang->setId('rex-form-lang');
+$sel_lang->setId('rex-id-lang');
 $sel_lang->setSize(1);
 $sel_lang->setSelected(rex::getProperty('lang'));
 
@@ -140,13 +140,13 @@ $n['field'] = '<input type="text" id="rex-id-servername" name="settings[serverna
 $formElements[] = $n;
 
 $n = array();
-$n['label'] = '<label for="rex-id-src-path">' . rex_i18n::msg('path') . '</label>';
-$n['field'] = '<span class="rex-form-read" id="rex-id-src-path" title="' . rex_path::src() . '">&quot;' . $version . '&quot;</span>';
+$n['label'] = '<label for="rex-id-error-email">' . rex_i18n::msg('error_email') . '</label>';
+$n['field'] = '<input type="text" id="rex-id-error-email" name="settings[error_email]" value="' . htmlspecialchars(rex::getProperty('error_email')) . '" />';
 $formElements[] = $n;
 
 $n = array();
-$n['label'] = '<label for="rex-id-error-email">' . rex_i18n::msg('error_email') . '</label>';
-$n['field'] = '<input type="text" id="rex-id-error-email" name="settings[error_email]" value="' . htmlspecialchars(rex::getProperty('error_email')) . '" />';
+$n['label'] = '<label for="rex-id-lang">' . rex_i18n::msg('backend_language') . '</label>';
+$n['field'] = $sel_lang->get();
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
