@@ -29,6 +29,9 @@ if ($func == 'setup') {
 } elseif ($func == 'generate') {
   // generate all articles,cats,templates,caches
   $success = rex_delete_cache();
+} elseif ($func == 'updateassets') {
+  rex_dir::copy(rex_path::core('assets'), rex_path::assets());
+  $success = 'Updated assets';
 } elseif ($func == 'updateinfos') {
   $configFile = rex_path::data('config.yml');
   $config = rex_file::getConfig($configFile);
