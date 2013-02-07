@@ -190,11 +190,10 @@ function rex_metainfo_meta_table($prefix)
 function rex_metainfo_extensions_handler($params)
 {
   $page = $params['subject'];
-  $mode = rex_request('mode', 'string');
   $mypage = 'metainfo';
 
   // additional javascripts
-  if ($page == 'metainfo' || ($page == 'content' && $mode == 'meta')) {
+  if ($page == 'metainfo' || $page == 'content/meta') {
     rex_extension::register('PAGE_HEADER', function ($params) use ($mypage) {
       return $params['subject'] . "\n" . '  <script src="' . rex_url::addonAssets($mypage, 'metainfo.js') . '" type="text/javascript"></script>';
     });
