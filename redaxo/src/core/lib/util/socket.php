@@ -49,6 +49,7 @@ class rex_socket
     $this->ssl = $ssl;
 
     $this->addHeader('Host', $this->host);
+    $this->addHeader('User-Agent', 'REDAXO/' . rex::getVersion());
     $this->addHeader('Connection', 'Close');
   }
 
