@@ -194,7 +194,7 @@ function rex_metainfo_extensions_handler($params)
 
   // additional javascripts
   if ($page == 'metainfo' || $page == 'content/meta') {
-    rex_be_controller::addJsFile(rex_url::addonAssets($mypage, 'metainfo.js'));
+    rex_view::addJsFile(rex_url::addonAssets($mypage, 'metainfo.js'));
   }
 
   // include extensions

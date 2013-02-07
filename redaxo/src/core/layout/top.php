@@ -174,9 +174,9 @@ if (!rex::getUser() && !rex::isSetup()) {
 if (!rex_request::isPJAXContainer('#rex-page')) {
   $fragment = new rex_fragment();
   $fragment->setVar('pageTitle', rex_be_controller::getPageTitle());
-  $fragment->setVar('cssFiles', rex_be_controller::getCssFiles());
-  $fragment->setVar('jsFiles', rex_be_controller::getJsFiles());
-  $fragment->setVar('jsProperties', json_encode(rex_be_controller::getJsProperties()), false);
+  $fragment->setVar('cssFiles', rex_view::getCssFiles());
+  $fragment->setVar('jsFiles', rex_view::getJsFiles());
+  $fragment->setVar('jsProperties', json_encode(rex_view::getJsProperties()), false);
   $fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', ''), false);
   $fragment->setVar('bodyAttr', $body, false);
   echo $fragment->parse('core/top.tpl');
