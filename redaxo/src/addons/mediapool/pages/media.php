@@ -501,7 +501,7 @@ if (!$file_id) {
   }
 
   if (!empty($args['types']))
-    echo rex_view::info(rex_i18n::msg('pool_file_filter', $args['types']));
+    echo rex_view::info(rex_i18n::msg('pool_file_filter') . ' <code>' . $args['types'] . '</code>');
 
   //deletefilelist und cat change
   echo '<div class="rex-form" id="rex-form-mediapool-media">

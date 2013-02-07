@@ -77,9 +77,9 @@ class rex_var_medialist extends rex_var
     if (rex::getUser()->getComplexPerm('media')->hasMediaPerm()) {
       $class        = '';
       $open_func    = 'openREXMedialist(' . $id . ',\'' . $open_params . '\');';
-      $add_func     = 'addREXMedialist(' . $id . ');';
+      $add_func     = 'addREXMedialist(' . $id . ',\'' . $open_params . '\');';
       $delete_func  = 'deleteREXMedialist(' . $id . ');';
-      $view_func    = 'viewREXMedialist(' . $id . ');';
+      $view_func    = 'viewREXMedialist(' . $id . ',\'' . $open_params . '\');';
     }
 
     $media = '

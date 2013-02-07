@@ -444,3 +444,62 @@ function rex_mediapool_add_assets($params)
 
   return $params['subject'];
 }
+
+/**
+ * check if mediatpye(extension) is allowed for upload
+ *
+ * @param string $filename
+ * @param array  $args
+ * @return  bool
+ */
+function rex_mediapool_isAllowedMediaType($filename, array $args = array())
+{
+  $file_ext = rex_file::extension($filename);
+
+  if ($filename === '' || strpos($file_ext, ' ') !== false || $file_ext === '') {
+    return false;
+  }
+
+  $blacklist = rex_mediapool_getMediaTypeBlacklist();
+  $whitelist = rex_mediapool_getMediaTypeWhitelist($args);
+
+  if (in_array($file_ext, $blacklist)) {
+    return false;
+  }
+  if (count($whitelist) > 0 && !in_array($file_ext, $whitelist)) {
+    return false;
+  }
+  return true;
+}
+
+/**
+ * get whitelist of mediatypes(extensions) given via media widget "types" param
+ *
+ * @param array $args widget params
+ * @return  array         whitelisted extensions
+ */
+function rex_mediapool_getMediaTypeWhitelist($args = array())
+{
+  $blacklist = rex_mediapool_getMediaTypeBlacklist();
+
+  $whitelist = array();
+  if (isset($args['types'])) {
+    foreach (explode(',', $args['types']) as $ext) {
+      $ext = ltrim($ext, '.');
+      if (!in_array($ext, $blacklist)) { // whitelist cannot override any blacklist entry from master
+        $whitelist[] = $ext;
+      }
+    }
+  }
+  return $whitelist;
+}
+
+/**
+ * return global mediatype blacklist from master.inc
+ *
+ * @return  array  blacklisted mediatype extensions
+ */
+function rex_mediapool_getMediaTypeBlacklist()
+{
+  return rex_addon::get('mediapool')->getProperty('blocked_extensions');
+}
