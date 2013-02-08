@@ -8,10 +8,7 @@
  * @package redaxo5
  */
 
-$result = rex_sql_util::importDump($this->getPath('_install.sql'));
-if ($result !== true) {
-  throw new rex_functional_exception($result);
-}
+rex_sql_util::importDump($this->getPath('_install.sql'));
 
 $tablePrefixes = array('article' => array('art_', 'cat_'), 'media' => array('med_'));
 $columns = array('article' => array(), 'media' => array());

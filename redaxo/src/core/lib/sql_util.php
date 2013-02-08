@@ -40,7 +40,10 @@ class rex_sql_util
   /**
    * Importiert die gegebene SQL-Datei in die Datenbank
    *
-   * @return true bei Erfolg, sonst eine Fehlermeldung
+   * @param string  $file
+   * @param boolean $debug
+   * @throws rex_sql_exception
+   * @return boolean true bei Erfolg
    */
   static public function importDump($file, $debug = false)
   {
@@ -55,8 +58,11 @@ class rex_sql_util
         $error .= $e->getMessage() . "\n<br />";
       }
     }
+    if ($error) {
+      throw new rex_sql_exception($error);
+    }
 
-    return $error == '' ? true : $error;
+    return true;
   }
 
   static private function prepareQuery($qry)
