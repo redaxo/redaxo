@@ -4,6 +4,5 @@ author: Markus Staab, Wolfgang Huttegger, Ruediger Nitzsche, Jan Kristinus
 supportpage: www.redaxo.org/de/forum/
 
 requires:
-  addons:
-    structure:
-      min-version: '5.0 a1'
+  packages:
+    structure: '~ 5.0 alpha'

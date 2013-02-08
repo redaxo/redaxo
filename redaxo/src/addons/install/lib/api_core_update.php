@@ -38,8 +38,8 @@ class rex_api_install_core_update extends rex_api_function
       $messages = array();
       foreach (rex_package::getAvailablePackages() as $package) {
         $manager = rex_package_manager::factory($package);
-        if (($msg = $manager->checkRedaxoRequirement($version['version'])) !== true) {
-          $messages[] = $package->getPackageId() . ': ' . $msg;
+        if (!$manager->checkRedaxoRequirement($version['version'])) {
+          $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
         }
       }
       if (!empty($messages)) {

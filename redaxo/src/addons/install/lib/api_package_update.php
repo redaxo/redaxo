@@ -90,14 +90,19 @@ class rex_api_install_package_update extends rex_api_install_package_download
   {
     $temppath = rex_path::addon('_new_' . $this->addonkey);
 
-    // ---- update "version" and "requires" properties
+    // ---- update "version", "requires" and "conflicts" properties
     $versions = new SplObjectStorage;
     $requirements = new SplObjectStorage;
+    $conflicts = new SplObjectStorage;
     if (file_exists($temppath . rex_package::FILE_PACKAGE)) {
       $config = rex_file::getConfig($temppath . rex_package::FILE_PACKAGE);
       if (isset($config['requires'])) {
         $requirements[$this->addon] = $this->addon->getProperty('requires');
         $this->addon->setProperty('requires', $config['requires']);
+      }
+      if (isset($config['conflicts'])) {
+        $conflicts[$this->addon] = $this->addon->getProperty('conflicts');
+        $this->addon->setProperty('conflicts', $config['conflicts']);
       }
     }
     $versions[$this->addon] = $this->addon->getVersion();
@@ -110,6 +115,10 @@ class rex_api_install_package_update extends rex_api_install_package_download
           $requirements[$plugin] = $plugin->getProperty('requires');
           $plugin->setProperty('requires', $config['requires']);
         }
+        if (isset($config['conflicts'])) {
+          $conflicts[$plugin] = $plugin->getProperty('conflicts');
+          $plugin->setProperty('conflicts', $config['conflicts']);
+        }
         if (isset($config['version'])) {
           $versions[$plugin] = $plugin->getProperty('version');
           $plugin->setProperty('requires', $config['version']);
@@ -118,44 +127,58 @@ class rex_api_install_package_update extends rex_api_install_package_download
     }
 
     // ---- check requirements
-    $message = rex_addon_manager::factory($this->addon)->checkRequirements();
+    $messages = array();
+    $manager = rex_addon_manager::factory($this->addon);
+    if (!$manager->checkRequirements()) {
+      $messages[] = $manager->getMessage();
+    }
+    if (!$manager->checkConflicts()) {
+      $messages[] = $manager->getMessage();
+    }
 
-    if ($message === true) {
-      $messages = array();
-
+    if (empty($messages)) {
       foreach ($availablePlugins as $plugin) {
-        $msg = rex_plugin_manager::factory($plugin)->checkRequirements();
-        if ($msg !== true) {
-          $messages[] = $plugin->getPackageId() . ': ' . $msg;
+        $manager = rex_plugin_manager::factory($plugin);
+        if (!$manager->checkRequirements()) {
+          $messages[] = $plugin->getPackageId() . ': ' . $manager->getMessage();
+        }
+        if (!$manager->checkConflicts()) {
+          $messages[] = $plugin->getPackageId() . ': ' . $manager->getMessage();
         }
       }
       foreach (rex_package::getAvailablePackages() as $package) {
         if ($package->getAddon() === $this->addon)
           continue;
         $manager = rex_package_manager::factory($package);
-        if (($msg = $manager->checkPackageRequirement($this->addon->getPackageId())) !== true) {
-          $messages[] = $package->getPackageId() . ': ' . $msg;
+        if (!$manager->checkPackageRequirement($this->addon->getPackageId())) {
+          $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
+        } elseif (!$manager->checkPackageConflict($this->addon->getPackageId())) {
+          $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
         } else {
           foreach ($versions as $reqPlugin) {
-            if (($msg = $manager->checkPackageRequirement($reqPlugin->getPackageId())) !== true) {
-              $messages[] = $package->getPackageId() . ': ' . $msg;
+            if (!$manager->checkPackageRequirement($reqPlugin->getPackageId())) {
+              $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
+            }
+            if (!$manager->checkPackageConflict($reqPlugin->getPackageId())) {
+              $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
             }
           }
         }
       }
-
-      $message = empty($messages) ? true : implode('<br />', $messages);
     }
 
-    // ---- reset "version" and "requires" properties
+    // ---- reset "version", "requires" and "conflicts" properties
     foreach ($versions as $package) {
       $package->setProperty('version', $versions[$package]);
     }
     foreach ($requirements as $package) {
-      $package->setProperty('requires', $versions[$package]);
+      $package->setProperty('requires', $requirements[$package]);
+    }
+    foreach ($conflicts as $package) {
+      $package->setProperty('conflicts', $conflicts[$package]);
     }
 
-    return $message;
+    return empty($messages) ? true : implode('<br />', $messages);
   }
 
   public function __destruct()

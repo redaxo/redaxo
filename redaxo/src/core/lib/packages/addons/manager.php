@@ -56,8 +56,7 @@ class rex_addon_manager extends rex_package_manager
         $finished = true;
         foreach ($plugins as $plugin) {
           $pluginManager = $plugins[$plugin];
-          $return = $pluginManager->checkRequirements();
-          if (is_string($return) && !empty($return)) {
+          if (!$pluginManager->checkRequirements() || !$pluginManager->checkConflicts()) {
             $plugin->setProperty('status', false);
             $deactivate[] = $pluginManager;
             $finished = false;
@@ -85,26 +84,5 @@ class rex_addon_manager extends rex_package_manager
       return $this->i18n('is_plugin', $addonName, $pluginName);
     }
     return $this->i18n('wrong_dir_name', $addonName);
-  }
-
-  /* (non-PHPdoc)
-   * @see rex_package_manager::checkDependencies()
-   */
-  public function checkDependencies()
-  {
-    $i18nPrefix = 'package_dependencies_error_';
-    $state = array();
-
-    foreach (rex_package::getAvailablePackages() as $package) {
-      if ($package->getAddon() === $this->package)
-        continue;
-
-      $requirements = $package->getProperty('requires', array());
-      if (isset($requirements['addons'][$this->package->getName()])) {
-        $state[] = rex_i18n::msg($i18nPrefix . $package->getType(), $package->getAddon()->getName(), $package->getName());
-      }
-    }
-
-    return empty($state) ? true : implode('<br />', $state);
   }
 }

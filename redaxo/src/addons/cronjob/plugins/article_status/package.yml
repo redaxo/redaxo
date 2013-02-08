@@ -4,11 +4,9 @@ author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum/
 
 requires:
-  addons:
-    structure:
-      min-version: '5.0 a1'
-    metainfo:
-      min-version: '5.0 a1'
+  packages:
+    structure: '~ 5.0 alpha'
+    metainfo: '~ 5.0 alpha'
 
 cronjob_type: rex_cronjob_article_status
 
