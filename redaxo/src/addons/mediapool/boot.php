@@ -27,5 +27,6 @@ if (rex::isBackend() && rex::getUser()) {
 
   require_once __DIR__ . '/functions/function_rex_mediapool.php';
 
-  rex_extension::register('PAGE_HEADER', 'rex_mediapool_add_assets');
+  rex_view::addJsFile($this->getAssetsUrl('mediapool.js'));
+  rex_view::setJsProperty('imageExtensions', $this->getProperty('image_extensions'));
 }

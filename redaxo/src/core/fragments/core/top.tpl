@@ -6,16 +6,22 @@
   <title><?php echo $this->pageTitle ?></title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+<?php
 
-  <script src="<?php echo rex_url::assets('jquery.min.js'); ?>" type="text/javascript"></script>
-  <script src="<?php echo rex_url::assets('jquery-ui.custom.min.js'); ?>" type="text/javascript"></script>
-  <script src="<?php echo rex_url::assets('jquery-pjax.min.js'); ?>" type="text/javascript"></script>
-  <script src="<?php echo rex_url::assets('standard.js'); ?>" type="text/javascript"></script>
-  <script src="<?php echo rex_url::assets('sha1.js'); ?>" type="text/javascript"></script>
+  foreach ($this->cssFiles as $media => $files) {
+    foreach ($files as $file) {
+      echo "\n" . '  <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file . '" />';
+    }
+  }
+  echo "\n";
+  foreach ($this->jsFiles as $media => $file) {
+    echo "\n" . '  <script type="text/javascript" src="' . $file . '"></script>';
+  }
+?>
+
   <script type="text/javascript">
   <!--
-  var redaxo = true;
-  var rex_accesskeys = <?php echo $this->accesskeys ? 'true' : 'false'; ?>;
+  var rex = <?php echo $this->jsProperties ?>;
   //-->
   </script>
 
