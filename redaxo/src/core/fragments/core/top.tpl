@@ -14,7 +14,7 @@
     }
   }
   echo "\n";
-  foreach ($this->jsFiles as $media => $file) {
+  foreach ($this->jsFiles as $file) {
     echo "\n" . '  <script type="text/javascript" src="' . $file . '"></script>';
   }
 ?>
@@ -24,6 +24,8 @@
   var rex = <?php echo $this->jsProperties ?>;
   //-->
   </script>
+
+  <?php echo $this->favicon ? '<link rel="shortcut icon" href="' . $this->favicon . '" />' : '' ?>
 
   <?php echo $this->pageHeader ?>
 

@@ -5,7 +5,8 @@ class rex_view
   static private
     $cssFiles = array(),
     $jsFiles = array(),
-    $jsProperties = array();
+    $jsProperties = array(),
+    $favicon;
 
   static public function addCssFile($file, $media = 'all')
   {
@@ -35,6 +36,16 @@ class rex_view
   static public function getJsProperties()
   {
     return self::$jsProperties;
+  }
+
+  static public function setFavicon($file)
+  {
+    self::$favicon = $file;
+  }
+
+  static public function getFavicon()
+  {
+    return self::$favicon;
   }
 
   static public function info($message, $cssClass = '')

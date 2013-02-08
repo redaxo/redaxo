@@ -177,6 +177,7 @@ if (!rex_request::isPJAXContainer('#rex-page')) {
   $fragment->setVar('cssFiles', rex_view::getCssFiles());
   $fragment->setVar('jsFiles', rex_view::getJsFiles());
   $fragment->setVar('jsProperties', json_encode(rex_view::getJsProperties()), false);
+  $fragment->setVar('favicon', rex_view::getFavicon());
   $fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', ''), false);
   $fragment->setVar('bodyAttr', $body, false);
   echo $fragment->parse('core/top.tpl');
