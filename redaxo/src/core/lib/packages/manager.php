@@ -434,7 +434,7 @@ abstract class rex_package_manager extends rex_factory_base
   }
 
   /**
-   * Checks whether the package conflict is met.
+   * Checks whether the package is in conflict with another package
    *
    * @param string $packageId Package ID
    * @return boolean|string
