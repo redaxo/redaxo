@@ -58,39 +58,36 @@ abstract class rex_package_manager extends rex_factory_base
   /**
    * Installs a package
    *
-   * @param $installDump When TRUE, the sql dump will be importet
+   * @param boolean $installDump When TRUE, the sql dump will be importet
    *
    * @return boolean TRUE on success, FALSE on error
    */
   public function install($installDump = true)
   {
-    $state = true;
-
-    // Pruefen des Addon Ornders auf Schreibrechte,
-    // damit das Addon spaeter wieder geloescht werden kann
-    $install_dir  = $this->package->getPath();
-    if (!rex_dir::isWritable($install_dir)) {
-      $state = $this->i18n('dir_not_writable', $install_dir);
-    }
-
-    if ($state === true) {
-      if (!is_readable($this->package->getPath(rex_package::FILE_PACKAGE))) {
-        $state = $this->i18n('missing_yml_file');
-      } else {
-        $packageId = $this->package->getProperty('package');
-        if ($packageId === null) {
-          $state = $this->i18n('missing_id', $this->package->getPackageId());
-        } elseif ($packageId != $this->package->getPackageId()) {
-          $parts = explode('/', $packageId, 2);
-          $state = $this->wrongPackageId($parts[0], isset($parts[1]) ? $parts[1] : null);
-        } elseif ($this->package->getVersion() === null) {
-          $state = $this->i18n('missing_version');
-        }
+    try {
+      // check package directory perms
+      $install_dir  = $this->package->getPath();
+      if (!rex_dir::isWritable($install_dir)) {
+        throw new rex_functional_exception($this->i18n('dir_not_writable', $install_dir));
       }
-    }
 
-    // check if requirements are met
-    if ($state === true) {
+      // check package.yml
+      if (!is_readable($this->package->getPath(rex_package::FILE_PACKAGE))) {
+        throw new rex_functional_exception($this->i18n('missing_yml_file'));
+      }
+      $packageId = $this->package->getProperty('package');
+      if ($packageId === null) {
+        throw new rex_functional_exception($this->i18n('missing_id', $this->package->getPackageId()));
+      }
+      if ($packageId != $this->package->getPackageId()) {
+        $parts = explode('/', $packageId, 2);
+        throw new rex_functional_exception($this->wrongPackageId($parts[0], isset($parts[1]) ? $parts[1] : null));
+      }
+      if ($this->package->getVersion() === null) {
+        throw new rex_functional_exception($this->i18n('missing_version'));
+      }
+
+      // check requirements and conflicts
       $message = '';
       if (!$this->checkRequirements()) {
         $message = $this->message;
@@ -98,136 +95,120 @@ abstract class rex_package_manager extends rex_factory_base
       if (!$this->checkConflicts()) {
         $message .= $this->message;
       }
-      $state = $message ?: true;
-    }
+      if ($message) {
+        throw new rex_functional_exception($message);
+      }
 
-    $this->package->setProperty('install', true);
+      $this->package->setProperty('install', true);
 
-    // check if install.php exists
-    if ($state === true && is_readable($this->package->getPath(rex_package::FILE_INSTALL))) {
-      rex_autoload::addDirectory($this->package->getPath('lib'));
-      rex_autoload::addDirectory($this->package->getPath('vendor'));
-      try {
+      // include install.php
+      if (is_readable($this->package->getPath(rex_package::FILE_INSTALL))) {
+        rex_autoload::addDirectory($this->package->getPath('lib'));
+        rex_autoload::addDirectory($this->package->getPath('vendor'));
+
         $this->package->includeFile(rex_package::FILE_INSTALL);
-        // Wurde das "install" Flag gesetzt?
-        // Fehlermeldung ausgegeben? Wenn ja, Abbruch
         if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
-          $state = $instmsg;
-        } elseif (!$this->package->isInstalled()) {
-          $state = $this->i18n('no_reason');
+          throw new rex_functional_exception($instmsg);
         }
-      } catch (rex_functional_exception $e) {
-        $state = $e->getMessage();
-      } catch (rex_sql_exception $e) {
-        $state = 'SQL error: ' . $e->getMessage();
+        if (!$this->package->isInstalled()) {
+          throw new rex_functional_exception($this->i18n('no_reason'));
+        }
       }
-    }
 
-    $install_sql  = $this->package->getPath(rex_package::FILE_INSTALL_SQL);
-    if ($state === true && $installDump === true && is_readable($install_sql)) {
-      $state = rex_sql_util::importDump($install_sql);
+      // import install.sql
+      $installSql = $this->package->getPath(rex_package::FILE_INSTALL_SQL);
+      if ($installDump === true && is_readable($installSql)) {
+        rex_sql_util::importDump($installSql);
+      }
 
-      if ($state !== true)
-        $state = 'Error found in install.sql:<br />' . $state;
-    }
-
-    // Installation ok
-    if ($state === true) {
       $this->saveConfig();
-    }
 
-    // Dateien kopieren
-    $files_dir = $this->package->getPath('assets');
-    if ($state === true && is_dir($files_dir)) {
-      if (!rex_dir::copy($files_dir, $this->package->getAssetsPath())) {
-        $state = $this->i18n('install_cant_copy_files');
+      // copy assets
+      $assets = $this->package->getPath('assets');
+      if (is_dir($assets)) {
+        if (!rex_dir::copy($assets, $this->package->getAssetsPath())) {
+          throw new rex_functional_exception($this->i18n('install_cant_copy_files'));
+        }
       }
+
+      $this->message = $this->i18n('installed', $this->package->getName());
+
+      return true;
+
+    } catch (rex_functional_exception $e) {
+      $this->message = $e->getMessage();
+    } catch (rex_sql_exception $e) {
+      $this->message = 'SQL error: ' . $e->getMessage();
     }
 
-    if ($state !== true) {
-      $this->package->setProperty('install', false);
-      $state = $this->i18n('no_install', $this->package->getName()) . '<br />' . $state;
-    }
+    $this->package->setProperty('install', false);
+    $this->message = $this->i18n('no_install', $this->package->getName()) . '<br />' . $this->message;
 
-    $this->message = $state === true ? $this->i18n('installed', $this->package->getName()) : $state;
-
-    return $state === true;
+    return false;
   }
 
   /**
    * Uninstalls a package
    *
-   * @param $installDump When TRUE, the sql dump will be importet
+   * @param boolean $installDump When TRUE, the sql dump will be importet
    *
    * @return boolean TRUE on success, FALSE on error
    */
   public function uninstall($installDump = true)
   {
-    $state = true;
-
     $isActivated = $this->package->isActivated();
-    if ($isActivated) {
-      $state = $this->deactivate();
-      if ($state !== true) {
-        return $state;
-      }
+    if ($isActivated && !$this->deactivate()) {
+      return false;
     }
 
-    // start un-installation
-    $this->package->setProperty('install', false);
+    try {
+      $this->package->setProperty('install', false);
 
-    // check if uninstall.php exists
-    if ($state === true && is_readable($this->package->getPath(rex_package::FILE_UNINSTALL))) {
-      try {
+      // include uninstall.php
+      if (is_readable($this->package->getPath(rex_package::FILE_UNINSTALL))) {
         $this->package->includeFile(rex_package::FILE_UNINSTALL);
-        // Wurde das "install" Flag gesetzt?
-        // Fehlermeldung ausgegeben? Wenn ja, Abbruch
+
         if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
-          $state = $instmsg;
-        } elseif ($this->package->isInstalled()) {
-          $state = $this->i18n('no_reason');
+          throw new rex_functional_exception($instmsg);
         }
-      } catch (rex_functional_exception $e) {
-        $state = $e->getMessage();
-      } catch (rex_sql_exception $e) {
-        $state = 'SQL error: ' . $e->getMessage();
+        if ($this->package->isInstalled()) {
+          throw new rex_functional_exception($this->i18n('no_reason'));
+        }
       }
-    }
 
-    $uninstall_sql  = $this->package->getPath(rex_package::FILE_UNINSTALL_SQL);
-    if ($state === true && $installDump === true && is_readable($uninstall_sql)) {
-      $state = rex_sql_util::importDump($uninstall_sql);
-
-      if ($state !== true)
-        $state = 'Error found in uninstall.sql:<br />' . $state;
-    }
-
-    $mediaFolder = $this->package->getAssetsPath();
-    if ($state === true && is_dir($mediaFolder)) {
-      if (!rex_dir::delete($mediaFolder)) {
-        $state = $this->i18n('install_cant_delete_files');
+      // import uninstall.sql
+      $uninstallSql  = $this->package->getPath(rex_package::FILE_UNINSTALL_SQL);
+      if ($installDump === true && is_readable($uninstallSql)) {
+        rex_sql_util::importDump($uninstallSql);
       }
-    }
 
-    if ($state === true) {
+      // delete assets
+      $assets = $this->package->getAssetsPath();
+      if (is_dir($assets) && !rex_dir::delete($assets)) {
+        throw new rex_functional_exception($this->i18n('install_cant_delete_files'));
+      }
+
       rex_config::removeNamespace($this->package->getPackageId());
+
+      $this->saveConfig();
+      $this->message = $this->i18n('uninstalled', $this->package->getName());
+
+      return true;
+
+    } catch (rex_functional_exception $e) {
+      $this->message = $e->getMessage();
+    } catch (rex_sql_exception $e) {
+      $this->message = 'SQL error: ' . $e->getMessage();
     }
 
-    if ($state !== true) {
-      // Fehler beim uninstall -> Addon bleibt installiert
-      $this->package->setProperty('install', true);
-      if ($isActivated) {
-        $this->package->setProperty('status', true);
-      }
-      $this->saveConfig();
-      $state = $this->i18n('no_uninstall', $this->package->getName()) . '<br />' . $state;
-    } else {
-      $this->saveConfig();
+    $this->package->setProperty('install', true);
+    if ($isActivated) {
+      $this->package->setProperty('status', true);
     }
+    $this->saveConfig();
+    $this->message = $this->i18n('no_uninstall', $this->package->getName()) . '<br />' . $this->message;
 
-    $this->message = $state === true ? $this->i18n('uninstalled', $this->package->getName()) : $state;
-
-    return $state === true;
+    return false;
   }
 
   /**
@@ -268,12 +249,12 @@ abstract class rex_package_manager extends rex_factory_base
     if ($state !== true) {
       // error while config generation, rollback addon status
       $this->package->setProperty('status', false);
-      $state = $this->i18n('no_activation', $this->package->getName()) . '<br />' . $state;
+      $this->message = $this->i18n('no_activation', $this->package->getName()) . '<br />' . $state;
+      return false;
     }
 
-    $this->message = $state === true ? $this->i18n('activated', $this->package->getName()) : $state;
-
-    return $state === true;
+    $this->message = $this->i18n('activated', $this->package->getName());
+    return true;
   }
 
   /**
@@ -314,6 +295,10 @@ abstract class rex_package_manager extends rex_factory_base
    */
   public function delete()
   {
+    if ($this->package->isSystemPackage()) {
+      $this->message = $this->i18n('systempackage_delete_not_allowed');
+      return false;
+    }
     $state = $this->_delete();
     self::synchronizeWithFileSystem();
     return $state;
@@ -328,28 +313,24 @@ abstract class rex_package_manager extends rex_factory_base
    */
   protected function _delete($ignoreState = false)
   {
-    try {
-      if (!$ignoreState && $this->package->isSystemPackage())
-        return $this->i18n('systempackage_delete_not_allowed');
-
-      // zuerst deinstallieren
-      // bei erfolg, komplett löschen
-      $state = true;
-      $state = ($ignoreState || $state) && (!$this->package->isInstalled() || $this->uninstall());
-      $state = ($ignoreState || $state) && rex_dir::delete($this->package->getPath());
-      $state = ($ignoreState || $state) && rex_dir::delete($this->package->getDataPath());
-      if (!$ignoreState) {
-        $this->saveConfig();
-      }
-    }
-    // addon-code which will be included might throw exception
-    catch (Exception $e) {
-      $state = $e->getMessage();
+    // if package is installed, uninstall it first
+    if ($this->package->isInstalled() && !$this->uninstall() && !$ignoreState) {
+      // message is set by uninstall()
+      return false;
     }
 
-    $this->message = $state === true ? $this->i18n('deleted', $this->package->getName()) : $state;
+    if (!rex_dir::delete($this->package->getPath()) && !$ignoreState) {
+      $this->message = $this->i18n('not_deleted', $this->package->getName());
+      return false;
+    }
+    rex_dir::delete($this->package->getDataPath());
 
-    return $ignoreState ? true : $state === true;
+    if (!$ignoreState) {
+      $this->saveConfig();
+      $this->message = $this->i18n('deleted', $this->package->getName());
+    }
+
+    return true;
   }
 
   /**
@@ -394,14 +375,6 @@ abstract class rex_package_manager extends rex_factory_base
       if (isset($requirements['packages']) && is_array($requirements['packages'])) {
         foreach ($requirements['packages'] as $package => $_) {
           if (!$this->checkPackageRequirement($package)) {
-            $state[] = $this->message;
-          }
-        }
-      }
-      $conflicts = $this->package->getProperty('conflicts', array());
-      if (isset($conflicts['packages']) && is_array($conflicts['packages'])) {
-        foreach ($conflicts['packages'] as $package => $_) {
-          if (!$this->checkPackageConflict($package)) {
             $state[] = $this->message;
           }
         }
