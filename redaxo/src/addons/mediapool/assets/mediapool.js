@@ -227,7 +227,7 @@ function writeREXMedialist(id){
         width = 246;
       }
 
-      if(value && value.length != 0 && $.inArray(value.split('.').pop(), rex_imageExtensions))
+      if(value && value.length != 0 && $.inArray(value.split('.').pop(), rex.imageExtensions))
       {
         // img tag nur einmalig einf�gen, ggf erzeugen wenn nicht vorhanden
         var img = $('img', div);

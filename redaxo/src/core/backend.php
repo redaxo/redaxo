@@ -87,6 +87,15 @@ if (rex::getUser()) {
   rex_be_controller::setCurrentPage(trim(rex_request('page', 'string')));
 }
 
+rex_view::addJsFile(rex_url::assets('jquery.min.js'));
+rex_view::addJsFile(rex_url::assets('jquery-ui.custom.min.js'));
+rex_view::addJsFile(rex_url::assets('jquery-pjax.min.js'));
+rex_view::addJsFile(rex_url::assets('standard.js'));
+rex_view::addJsFile(rex_url::assets('sha1.js'));
+
+rex_view::setJsProperty('backend', true);
+rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
+
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
 

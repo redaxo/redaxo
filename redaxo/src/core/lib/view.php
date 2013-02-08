@@ -2,6 +2,41 @@
 
 class rex_view
 {
+  static private
+    $cssFiles = array(),
+    $jsFiles = array(),
+    $jsProperties = array();
+
+  static public function addCssFile($file, $media = 'all')
+  {
+    self::$cssFiles[$media][] = $file;
+  }
+
+  static public function getCssFiles()
+  {
+    return self::$cssFiles;
+  }
+
+  static public function addJsFile($file)
+  {
+    self::$jsFiles[] = $file;
+  }
+
+  static public function getJsFiles()
+  {
+    return self::$jsFiles;
+  }
+
+  static public function setJsProperty($key, $value)
+  {
+    self::$jsProperties[$key] = $value;
+  }
+
+  static public function getJsProperties()
+  {
+    return self::$jsProperties;
+  }
+
   static public function info($message, $cssClass = '')
   {
     $cssClassMessage = 'rex-info';

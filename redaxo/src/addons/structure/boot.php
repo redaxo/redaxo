@@ -37,14 +37,7 @@ if (rex::isBackend() && rex::getUser()) {
 
   $this->setProperty('pages', array(new rex_be_page_main('system', $page)));
 
-  if (rex::getUser()) {
-    rex_extension::register('PAGE_HEADER', function ($params) {
-        $params['subject'] .= "\n  " .
-          '<script type="text/javascript" src="' . rex_url::addonAssets('structure', 'linkmap.js') . '"></script>';
-
-        return $params['subject'];
-      });
-  }
+  rex_view::addJsFile($this->getAssetsUrl('linkmap.js'));
 
   rex_extension::register('PAGE_SIDEBAR', function ($params) {
     $category_id = rex_request('category_id', 'int');

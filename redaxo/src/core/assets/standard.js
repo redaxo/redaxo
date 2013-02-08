@@ -357,9 +357,9 @@ function toggleElement(id,display)
 jQuery(function($){
   // ------------------ Accesskey Navigation
   $(document).keypress(function(event) {
-    // return true if !rex_accesskeysEnabled or key is not 0-9 or a-z
+    // return true if !rex.accesskeys or key is not 0-9 or a-z
     // keycodes: 48 => '0', 57 => '9', 97 => 'a', 122 => 'z'
-    if (!rex_accesskeys || event.which < 48 || (event.which > 57 && event.which < 97) || event.which > 122) {
+    if (!rex.accesskeys || event.which < 48 || (event.which > 57 && event.which < 97) || event.which > 122) {
       return true;
     }
 
@@ -391,11 +391,11 @@ jQuery(function($){
   var laststate;
   $("body")
     .on("focus", "input,button,textarea,select,option", function(event) {
-      laststate = rex_accesskeys;
-      rex_accesskeys = false;
+      laststate = rex.accesskeys;
+      rex.accesskeys = false;
     })
     .on("blur", "input,button,textarea,select,option", function(event) {
-      rex_accesskeys = laststate;
+      rex.accesskeys = laststate;
     });
 
   if ($('#rex-page-login').length == 0 && getCookie('htaccess_check') == '')
