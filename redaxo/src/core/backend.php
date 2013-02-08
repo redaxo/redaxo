@@ -120,7 +120,11 @@ if ($user = rex::getUser()) {
 rex_extension::registerPoint('PAGE_CHECKED', $page, array('pages' => $pages));
 
 // trigger api functions
-rex_api_function::handleCall();
+// If the backend session is timed out, rex_api_function would throw an exception
+// so only trigger api functions if page != login
+if ($page != 'login') {
+  rex_api_function::handleCall();
+}
 
 // include the requested backend page
 rex_be_controller::includeCurrentPage();
