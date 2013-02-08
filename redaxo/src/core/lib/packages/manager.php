@@ -90,8 +90,8 @@ abstract class rex_package_manager extends rex_factory_base
     }
 
     // check if requirements are met
-    if ($state === true) {
-      $state = $this->checkRequirements();
+    if ($state === true && !$this->checkRequirements()) {
+      $state = $this->message;
     }
 
     $this->package->setProperty('install', true);
@@ -254,7 +254,7 @@ abstract class rex_package_manager extends rex_factory_base
     if ($state !== true) {
       // error while config generation, rollback addon status
       $this->package->setProperty('status', false);
-      $state = $this->i18n('no_activation', $this->package->getName()) . '<br />' . $state;
+      $state = $this->i18n('no_activation', $this->package->getName()) . '<br />' . $this->message;
     }
 
     $this->message = $state === true ? $this->i18n('activated', $this->package->getName()) : $state;
@@ -284,13 +284,13 @@ abstract class rex_package_manager extends rex_factory_base
       if ($this->generatePackageOrder) {
         self::generatePackageOrder();
       }
-    } else {
-      $state = $this->i18n('no_deactivation', $this->package->getName()) . '<br />' . $state;
+
+      $this->message = $this->i18n('deactivated', $this->package->getName());
+      return true;
     }
 
-    $this->message = $state === true ? $this->i18n('deactivated', $this->package->getName()) : $state;
-
-    return $state === true;
+    $this->message = $this->i18n('no_deactivation', $this->package->getName()) . '<br />' . $this->message;
+    return false;
   }
 
   /**
@@ -348,16 +348,16 @@ abstract class rex_package_manager extends rex_factory_base
   /**
    * Checks whether the requirements are met.
    *
-   * @return boolean|string
+   * @return boolean
    */
   public function checkRequirements()
   {
+    if (!$this->checkRedaxoRequirement(rex::getVersion())) {
+      return false;
+    }
+
     $state = array();
     $requirements = $this->package->getProperty('requires', array());
-
-    if (($msg = $this->checkRedaxoRequirement(rex::getVersion())) !== true) {
-      return $msg;
-    }
 
     if (isset($requirements['php'])) {
       if (!is_array($requirements['php'])) {
@@ -379,35 +379,40 @@ abstract class rex_package_manager extends rex_factory_base
     if (empty($state)) {
       if (isset($requirements['packages']) && is_array($requirements['packages'])) {
         foreach ($requirements['packages'] as $package => $_) {
-          if (($msg = $this->checkPackageRequirement($package)) !== true) {
-            $state[] = $msg;
+          if (!$this->checkPackageRequirement($package)) {
+            $state[] = $this->message;
           }
         }
       }
       $conflicts = $this->package->getProperty('conflicts', array());
       if (isset($conflicts['packages']) && is_array($conflicts['packages'])) {
         foreach ($conflicts['packages'] as $package => $_) {
-          if (($msg = $this->checkPackageConflict($package)) !== true) {
-            $state[] = $msg;
+          if (!$this->checkPackageConflict($package)) {
+            $state[] = $this->message;
           }
         }
       }
     }
 
-    return empty($state) ? true : implode('<br />', $state);
+    if (empty($state)) {
+      return true;
+    }
+    $this->message = implode('<br />', $state);
+    return false;
   }
 
   /**
    * Checks whether the redaxo requirement is met.
    *
    * @param string $redaxoVersion REDAXO version
-   * @return boolean|string
+   * @return boolean
    */
   public function checkRedaxoRequirement($redaxoVersion)
   {
     $requirements = $this->package->getProperty('requires', array());
     if (isset($requirements['redaxo']) && !self::matchVersionConstraints($redaxoVersion, $requirements['redaxo'])) {
-      return $this->i18n('requirement_error_redaxo_version', $redaxoVersion, $requirements['redaxo']);
+      $this->message = $this->i18n('requirement_error_redaxo_version', $redaxoVersion, $requirements['redaxo']);
+      return false;
     }
     return true;
   }
@@ -416,7 +421,7 @@ abstract class rex_package_manager extends rex_factory_base
    * Checks whether the package requirement is met.
    *
    * @param string $packageId Package ID
-   * @return boolean|string
+   * @return boolean
    */
   public function checkPackageRequirement($packageId)
   {
@@ -426,9 +431,11 @@ abstract class rex_package_manager extends rex_factory_base
     }
     $package = rex_package::get($packageId);
     if (!$package->isAvailable()) {
-      return $this->i18n('requirement_error_' . $package->getType(), $package->getPackageId());
+      $this->message = $this->i18n('requirement_error_' . $package->getType(), $package->getPackageId());
+      return false;
     } elseif (!self::matchVersionConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
-      return $this->i18n('requirement_error_' . $package->getType(), $package->getPackageId(), $package->getVersion(), $requirements['packages'][$packageId]);
+      $this->message = $this->i18n('requirement_error_' . $package->getType(), $package->getPackageId(), $package->getVersion(), $requirements['packages'][$packageId]);
+      return false;
     }
     return true;
   }
@@ -437,7 +444,7 @@ abstract class rex_package_manager extends rex_factory_base
    * Checks whether the package is in conflict with another package
    *
    * @param string $packageId Package ID
-   * @return boolean|string
+   * @return boolean
    */
   public function checkPackageConflict($packageId)
   {
@@ -448,15 +455,19 @@ abstract class rex_package_manager extends rex_factory_base
     }
     $constraints = $conflicts['packages'][$packageId];
     if (!is_string($constraints) || !$constraints || $constraints === '*') {
-      return $this->i18n('conflict_error_' . $package->getType(), $package->getPackageId());
+      $this->message = $this->i18n('conflict_error_' . $package->getType(), $package->getPackageId());
+      return false;
     } elseif (self::matchVersionConstraints($package->getVersion(), $constraints)) {
-      return $this->i18n('conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
+      $this->message = $this->i18n('conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
+      return false;
     }
     return true;
   }
 
   /**
-   * Checks if another Addon which is activated, depends on the given addon
+   * Checks if another Package which is activated, depends on the given package
+   *
+   * @return boolean
    */
   public function checkDependencies()
   {
@@ -473,7 +484,11 @@ abstract class rex_package_manager extends rex_factory_base
       }
     }
 
-    return empty($state) ? true : implode('<br />', $state);
+    if (empty($state)) {
+      return true;
+    }
+    $this->message = implode('<br />', $state);
+    return false;
   }
 
   /**
@@ -483,7 +498,7 @@ abstract class rex_package_manager extends rex_factory_base
    *
    * @return string Tranlates text
    */
-  protected function i18n()
+  protected function i18n($key)
   {
     $args = func_get_args();
     $key = $this->i18nPrefix . $args[0];

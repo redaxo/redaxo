@@ -56,8 +56,7 @@ class rex_addon_manager extends rex_package_manager
         $finished = true;
         foreach ($plugins as $plugin) {
           $pluginManager = $plugins[$plugin];
-          $return = $pluginManager->checkRequirements();
-          if (is_string($return) && !empty($return)) {
+          if (!$pluginManager->checkRequirements()) {
             $plugin->setProperty('status', false);
             $deactivate[] = $pluginManager;
             $finished = false;

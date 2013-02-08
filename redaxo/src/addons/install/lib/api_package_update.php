@@ -127,32 +127,36 @@ class rex_api_install_package_update extends rex_api_install_package_download
     }
 
     // ---- check requirements
-    $message = rex_addon_manager::factory($this->addon)->checkRequirements();
+    $message = true;
+    $manager = rex_addon_manager::factory($this->addon);
+    if (!$manager->checkRequirements()) {
+      $message = $manager->getMessage();
+    }
 
     if ($message === true) {
       $messages = array();
 
       foreach ($availablePlugins as $plugin) {
-        $msg = rex_plugin_manager::factory($plugin)->checkRequirements();
-        if ($msg !== true) {
-          $messages[] = $plugin->getPackageId() . ': ' . $msg;
+        $manager = rex_plugin_manager::factory($plugin);
+        if (!$manager->checkRequirements()) {
+          $messages[] = $plugin->getPackageId() . ': ' . $manager->getMessage();
         }
       }
       foreach (rex_package::getAvailablePackages() as $package) {
         if ($package->getAddon() === $this->addon)
           continue;
         $manager = rex_package_manager::factory($package);
-        if (($msg = $manager->checkPackageRequirement($this->addon->getPackageId())) !== true) {
-          $messages[] = $package->getPackageId() . ': ' . $msg;
-        } elseif (($msg = $manager->checkPackageConflict($this->addon->getPackageId())) !== true) {
-          $messages[] = $package->getPackageId() . ': ' . $msg;
+        if (!$manager->checkPackageRequirement($this->addon->getPackageId())) {
+          $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
+        } elseif (!$manager->checkPackageConflict($this->addon->getPackageId())) {
+          $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
         } else {
           foreach ($versions as $reqPlugin) {
-            if (($msg = $manager->checkPackageRequirement($reqPlugin->getPackageId())) !== true) {
-              $messages[] = $package->getPackageId() . ': ' . $msg;
+            if (!$manager->checkPackageRequirement($reqPlugin->getPackageId())) {
+              $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
             }
-            if (($msg = $manager->checkPackageConflict($reqPlugin->getPackageId())) !== true) {
-              $messages[] = $package->getPackageId() . ': ' . $msg;
+            if (!$manager->checkPackageConflict($reqPlugin->getPackageId())) {
+              $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
             }
           }
         }
