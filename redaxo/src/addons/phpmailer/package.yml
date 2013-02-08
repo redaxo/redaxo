@@ -9,7 +9,3 @@ navigation:
   subpages:
     config: { title: 'translate:configuration' }
     example: { title: 'translate:example' }
-
-requires:
-  redaxo:
-    min-version: '5.0.alpha3'

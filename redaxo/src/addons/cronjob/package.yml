@@ -9,7 +9,3 @@ navigation:
   subpages:
     cronjobs: { title: 'translate:title' }
     log: { title: 'translate:log' }
-
-requires:
-  redaxo:
-    min-version: '5.0.alpha3'
