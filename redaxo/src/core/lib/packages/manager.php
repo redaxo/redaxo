@@ -90,8 +90,15 @@ abstract class rex_package_manager extends rex_factory_base
     }
 
     // check if requirements are met
-    if ($state === true && !$this->checkRequirements()) {
-      $state = $this->message;
+    if ($state === true) {
+      $message = '';
+      if (!$this->checkRequirements()) {
+        $message = $this->message;
+      }
+      if (!$this->checkConflicts()) {
+        $message .= $this->message;
+      }
+      $state = $message ?: true;
     }
 
     $this->package->setProperty('install', true);
@@ -231,7 +238,14 @@ abstract class rex_package_manager extends rex_factory_base
   public function activate()
   {
     if ($this->package->isInstalled()) {
-      $state = $this->checkRequirements();
+      $state = '';
+      if (!$this->checkRequirements()) {
+        $state .= $this->message;
+      }
+      if (!$this->checkConflicts()) {
+        $state .= $this->message;
+      }
+      $state = $state ?: true;
 
       if ($state === true) {
         $this->package->setProperty('status', true);
@@ -254,7 +268,7 @@ abstract class rex_package_manager extends rex_factory_base
     if ($state !== true) {
       // error while config generation, rollback addon status
       $this->package->setProperty('status', false);
-      $state = $this->i18n('no_activation', $this->package->getName()) . '<br />' . $this->message;
+      $state = $this->i18n('no_activation', $this->package->getName()) . '<br />' . $state;
     }
 
     $this->message = $state === true ? $this->i18n('activated', $this->package->getName()) : $state;
@@ -438,6 +452,31 @@ abstract class rex_package_manager extends rex_factory_base
       return false;
     }
     return true;
+  }
+
+  /**
+   * Checks whether the package is in conflict with other packages
+   *
+   * @return boolean
+   */
+  public function checkConflicts()
+  {
+    $state = array();
+    $conflicts = $this->package->getProperty('conflicts', array());
+
+    if (isset($conflicts['packages']) && is_array($conflicts['packages'])) {
+      foreach ($conflicts['packages'] as $package => $_) {
+        if (!$this->checkPackageConflict($package)) {
+          $state[] = $this->message;
+        }
+      }
+    }
+
+    if (empty($state)) {
+      return true;
+    }
+    $this->message = implode('<br />', $state);
+    return false;
   }
 
   /**

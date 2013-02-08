@@ -127,11 +127,15 @@ class rex_api_install_package_update extends rex_api_install_package_download
     }
 
     // ---- check requirements
-    $message = true;
+    $message = '';
     $manager = rex_addon_manager::factory($this->addon);
     if (!$manager->checkRequirements()) {
-      $message = $manager->getMessage();
+      $message .= $manager->getMessage();
     }
+    if (!$manager->checkConflicts()) {
+      $message .= $manager->getMessage();
+    }
+    $message = $message ?: true;
 
     if ($message === true) {
       $messages = array();
@@ -139,6 +143,9 @@ class rex_api_install_package_update extends rex_api_install_package_download
       foreach ($availablePlugins as $plugin) {
         $manager = rex_plugin_manager::factory($plugin);
         if (!$manager->checkRequirements()) {
+          $messages[] = $plugin->getPackageId() . ': ' . $manager->getMessage();
+        }
+        if (!$manager->checkConflicts()) {
           $messages[] = $plugin->getPackageId() . ': ' . $manager->getMessage();
         }
       }
