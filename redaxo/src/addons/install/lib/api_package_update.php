@@ -90,14 +90,19 @@ class rex_api_install_package_update extends rex_api_install_package_download
   {
     $temppath = rex_path::addon('_new_' . $this->addonkey);
 
-    // ---- update "version" and "requires" properties
+    // ---- update "version", "requires" and "conflicts" properties
     $versions = new SplObjectStorage;
     $requirements = new SplObjectStorage;
+    $conflicts = new SplObjectStorage;
     if (file_exists($temppath . rex_package::FILE_PACKAGE)) {
       $config = rex_file::getConfig($temppath . rex_package::FILE_PACKAGE);
       if (isset($config['requires'])) {
         $requirements[$this->addon] = $this->addon->getProperty('requires');
         $this->addon->setProperty('requires', $config['requires']);
+      }
+      if (isset($config['conflicts'])) {
+        $conflicts[$this->addon] = $this->addon->getProperty('conflicts');
+        $this->addon->setProperty('conflicts', $config['conflicts']);
       }
     }
     $versions[$this->addon] = $this->addon->getVersion();
@@ -109,6 +114,10 @@ class rex_api_install_package_update extends rex_api_install_package_download
         if (isset($config['requires'])) {
           $requirements[$plugin] = $plugin->getProperty('requires');
           $plugin->setProperty('requires', $config['requires']);
+        }
+        if (isset($config['conflicts'])) {
+          $conflicts[$plugin] = $plugin->getProperty('conflicts');
+          $plugin->setProperty('conflicts', $config['conflicts']);
         }
         if (isset($config['version'])) {
           $versions[$plugin] = $plugin->getProperty('version');
@@ -135,9 +144,14 @@ class rex_api_install_package_update extends rex_api_install_package_download
         $manager = rex_package_manager::factory($package);
         if (($msg = $manager->checkPackageRequirement($this->addon->getPackageId())) !== true) {
           $messages[] = $package->getPackageId() . ': ' . $msg;
+        } elseif (($msg = $manager->checkPackageConflict($this->addon->getPackageId())) !== true) {
+          $messages[] = $package->getPackageId() . ': ' . $msg;
         } else {
           foreach ($versions as $reqPlugin) {
             if (($msg = $manager->checkPackageRequirement($reqPlugin->getPackageId())) !== true) {
+              $messages[] = $package->getPackageId() . ': ' . $msg;
+            }
+            if (($msg = $manager->checkPackageConflict($reqPlugin->getPackageId())) !== true) {
               $messages[] = $package->getPackageId() . ': ' . $msg;
             }
           }
@@ -147,12 +161,15 @@ class rex_api_install_package_update extends rex_api_install_package_download
       $message = empty($messages) ? true : implode('<br />', $messages);
     }
 
-    // ---- reset "version" and "requires" properties
+    // ---- reset "version", "requires" and "conflicts" properties
     foreach ($versions as $package) {
       $package->setProperty('version', $versions[$package]);
     }
     foreach ($requirements as $package) {
-      $package->setProperty('requires', $versions[$package]);
+      $package->setProperty('requires', $requirements[$package]);
+    }
+    foreach ($conflicts as $package) {
+      $package->setProperty('conflicts', $conflicts[$package]);
     }
 
     return $message;
