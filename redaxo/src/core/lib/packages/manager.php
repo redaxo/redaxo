@@ -230,31 +230,25 @@ abstract class rex_package_manager extends rex_factory_base
    */
   public function activate()
   {
-    try {
-      if ($this->package->isInstalled()) {
-        $state = $this->checkRequirements();
+    if ($this->package->isInstalled()) {
+      $state = $this->checkRequirements();
 
-        if ($state === true) {
-          $this->package->setProperty('status', true);
-          if (!rex::isSetup()) {
-            if (is_readable($this->package->getPath(rex_package::FILE_BOOT))) {
-              rex_autoload::addDirectory($this->package->getPath('lib'));
-              rex_autoload::addDirectory($this->package->getPath('vendor'));
-              $this->package->includeFile(rex_package::FILE_BOOT);
-            }
+      if ($state === true) {
+        $this->package->setProperty('status', true);
+        if (!rex::isSetup()) {
+          if (is_readable($this->package->getPath(rex_package::FILE_BOOT))) {
+            rex_autoload::addDirectory($this->package->getPath('lib'));
+            rex_autoload::addDirectory($this->package->getPath('vendor'));
+            $this->package->includeFile(rex_package::FILE_BOOT);
           }
-          $this->saveConfig();
         }
-        if ($state === true && $this->generatePackageOrder) {
-          self::generatePackageOrder();
-        }
-      } else {
-        $state = $this->i18n('not_installed', $this->package->getName());
+        $this->saveConfig();
       }
-    }
-    // addon-code which will be included might throw exception
-    catch (Exception $e) {
-      $state = $e->getMessage();
+      if ($state === true && $this->generatePackageOrder) {
+        self::generatePackageOrder();
+      }
+    } else {
+      $state = $this->i18n('not_installed', $this->package->getName());
     }
 
     if ($state !== true) {
@@ -275,29 +269,23 @@ abstract class rex_package_manager extends rex_factory_base
    */
   public function deactivate()
   {
-    try {
-      $state = $this->checkDependencies();
+    $state = $this->checkDependencies();
 
-      if ($state === true) {
-        $this->package->setProperty('status', false);
-        $this->saveConfig();
-      }
-
-      if ($state === true) {
-        // reload autoload cache when addon is deactivated,
-        // so the index doesn't contain outdated class definitions
-        rex_autoload::removeCache();
-
-        if ($this->generatePackageOrder) {
-          self::generatePackageOrder();
-        }
-      } else {
-        $state = $this->i18n('no_deactivation', $this->package->getName()) . '<br />' . $state;
-      }
+    if ($state === true) {
+      $this->package->setProperty('status', false);
+      $this->saveConfig();
     }
-    // addon-code which will be included might throw exception
-    catch (Exception $e) {
-      $state = $e->getMessage();
+
+    if ($state === true) {
+      // reload autoload cache when addon is deactivated,
+      // so the index doesn't contain outdated class definitions
+      rex_autoload::removeCache();
+
+      if ($this->generatePackageOrder) {
+        self::generatePackageOrder();
+      }
+    } else {
+      $state = $this->i18n('no_deactivation', $this->package->getName()) . '<br />' . $state;
     }
 
     $this->message = $state === true ? $this->i18n('deactivated', $this->package->getName()) : $state;
