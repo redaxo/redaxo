@@ -127,19 +127,16 @@ class rex_api_install_package_update extends rex_api_install_package_download
     }
 
     // ---- check requirements
-    $message = '';
+    $messages = array();
     $manager = rex_addon_manager::factory($this->addon);
     if (!$manager->checkRequirements()) {
-      $message .= $manager->getMessage();
+      $messages[] = $manager->getMessage();
     }
     if (!$manager->checkConflicts()) {
-      $message .= $manager->getMessage();
+      $messages[] = $manager->getMessage();
     }
-    $message = $message ?: true;
 
-    if ($message === true) {
-      $messages = array();
-
+    if (empty($messages)) {
       foreach ($availablePlugins as $plugin) {
         $manager = rex_plugin_manager::factory($plugin);
         if (!$manager->checkRequirements()) {
@@ -168,8 +165,6 @@ class rex_api_install_package_update extends rex_api_install_package_download
           }
         }
       }
-
-      $message = empty($messages) ? true : implode('<br />', $messages);
     }
 
     // ---- reset "version", "requires" and "conflicts" properties
@@ -183,7 +178,7 @@ class rex_api_install_package_update extends rex_api_install_package_download
       $package->setProperty('conflicts', $conflicts[$package]);
     }
 
-    return $message;
+    return empty($messages) ? true : implode('<br />', $messages);
   }
 
   public function __destruct()
