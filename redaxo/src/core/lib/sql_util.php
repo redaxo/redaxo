@@ -29,10 +29,10 @@ class rex_sql_util
     $qry = 'UPDATE ' . $tableName . ' SET ' . $priorColumnName . ' = ( SELECT @count := @count +1 )';
 
     if ($whereCondition != '')
-    $qry .= ' WHERE ' . $whereCondition;
+      $qry .= ' WHERE ' . $whereCondition;
 
     if ($orderBy != '')
-    $qry .= ' ORDER BY ' . $orderBy;
+      $qry .= ' ORDER BY ' . $orderBy;
 
     $sql->setQuery($qry);
   }
@@ -45,7 +45,7 @@ class rex_sql_util
   static public function importDump($file, $debug = false)
   {
     $sql = rex_sql::factory();
-    $sql->debugsql = $debug;
+    $sql->setDebug($debug);
     $error = '';
 
     foreach (self::readSqlDump($file) as $query) {

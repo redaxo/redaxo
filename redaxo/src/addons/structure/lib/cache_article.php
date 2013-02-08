@@ -199,7 +199,7 @@ class rex_article_cache
       // --------------------------------------- ARTICLE LIST
 
       $GC = rex_sql::factory();
-      // $GC->debugsql = 1;
+      // $GC->setDebug();
       $GC->setQuery('select * from ' . rex::getTablePrefix() . "article where (re_id=$re_id and clang=$_clang and startpage=0) OR (id=$re_id and clang=$_clang and startpage=1) order by prior,name");
 
       $cacheArray = array();

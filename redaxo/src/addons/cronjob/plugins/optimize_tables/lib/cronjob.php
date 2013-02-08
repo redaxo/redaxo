@@ -15,7 +15,7 @@ class rex_cronjob_optimize_tables extends rex_cronjob
     $tables = rex_sql::showTables(1, rex::getTablePrefix());
     if (is_array($tables) && !empty($tables)) {
       $sql = rex_sql::factory();
-      // $sql->debugsql = true;
+      // $sql->setDebug();
       return $sql->setQuery('OPTIMIZE TABLE ' . implode(', ', $tables));
     }
     return false;

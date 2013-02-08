@@ -89,7 +89,7 @@ rex_extension::register('CLANG_ADDED', function ($params) {
   $fields = $firstLang->getFieldnames();
 
   $newLang = rex_sql::factory();
-  // $newLang->debugsql = 1;
+  // $newLang->setDebug();
   foreach ($firstLang as $firstLangArt) {
     $newLang->setTable(rex::getTablePrefix() . 'article');
 

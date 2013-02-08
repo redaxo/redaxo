@@ -29,7 +29,7 @@ if ((rex_post('func') != '' || $func == 'delete')
 //-------------- delete effect
 if ($func == 'delete' && $effect_id > 0) {
   $sql = rex_sql::factory();
-//  $sql->debugsql = true;
+//  $sql->setDebug();
   $sql->setTable(rex::getTablePrefix() . 'media_manager_type_effects');
   $sql->setWhere(array('id' => $effect_id));
 

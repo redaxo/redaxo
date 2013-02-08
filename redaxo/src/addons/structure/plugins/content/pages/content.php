@@ -176,7 +176,7 @@ if ($article->getRows() == 1) {
           // ***********************  daten einlesen
 
           $newsql = rex_sql::factory();
-          // $newsql->debugsql = true;
+          // $newsql->setDebug();
 
           // ----- PRE SAVE ACTION [ADD/EDIT/DELETE]
           $action = new rex_article_action($module_id, $function, $newsql);
@@ -210,7 +210,7 @@ if ($article->getRows() == 1) {
               } elseif ($function == 'add') {
                 // determine prior value to get the new slice into the right order
                 $prevSlice = rex_sql::factory();
-                // $prevSlice->debugsql = true;
+                // $prevSlice->setDebug();
                 if ($slice_id == -1) // -1 is used when adding after the last article-slice
                   $prevSlice->setQuery('SELECT IFNULL(MAX(prior),0)+1 as prior FROM ' . $sliceTable . ' WHERE article_id=' . $article_id . ' AND clang=' . $clang . ' AND ctype=' . $ctype . ' AND revision=' . $slice_revision);
                 else
@@ -421,7 +421,7 @@ if ($article->getRows() == 1) {
 
       $meta_sql = rex_sql::factory();
       $meta_sql->setTable(rex::getTablePrefix() . 'article');
-      // $meta_sql->debugsql = 1;
+      // $meta_sql->setDebug();
       $meta_sql->setWhere(array('id' => $article_id, 'clang' => $clang));
       $meta_sql->setValue('name', $meta_article_name);
       $meta_sql->addGlobalUpdateFields();

@@ -326,7 +326,7 @@ class rex_config
   static private function saveToDb()
   {
     $sql = rex_sql::factory();
-    // $sql->debugsql = true;
+    // $sql->setDebug();
 
     // remove all deleted data
     foreach (self::$deletedData as $namespace => $nsData) {

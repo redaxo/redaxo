@@ -135,7 +135,7 @@ echo rex_structure_searchbar($context);
 // --------------------- COUNT CATEGORY ROWS
 
 $KAT = rex_sql::factory();
-// $KAT->debugsql = true;
+// $KAT->setDebug();
 if (count($mountpoints) > 0 && $category_id == 0) {
   $re_id = implode(',', $mountpoints);
   $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $re_id . ') AND startpage=1 AND clang=' . $clang . ' ORDER BY catname');
@@ -414,7 +414,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
 
   // ---------- COUNT DATA
   $sql = rex_sql::factory();
-  // $sql->debugsql = true;
+  // $sql->setDebug();
   $sql->setQuery('SELECT COUNT(*) as artCount
         FROM
           ' . rex::getTablePrefix() . 'article

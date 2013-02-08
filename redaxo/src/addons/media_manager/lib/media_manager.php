@@ -48,7 +48,7 @@ class rex_media_manager
       WHERE e.type_id = t.id AND t.name="' . $type . '" order by e.prior';
 
     $sql = rex_sql::factory();
-    // $sql->debugsql = true;
+    // $sql->setDebug();
     $sql->setQuery($qry);
 
     $effects = array();
@@ -137,7 +137,7 @@ class rex_media_manager
   {
     $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_types' . ' WHERE id=' . $type_id;
     $sql = rex_sql::factory();
-    //  $sql->debugsql = true;
+    //  $sql->setDebug();
     $sql->setQuery($qry);
     $counter = 0;
     foreach ($sql as $row) {

@@ -104,7 +104,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
     $this->query = $query;
     $this->sql = rex_sql::factory();
     $this->debug = $debug;
-    $this->sql->debugsql = & $this->debug;
+    $this->sql->setDebug($this->debug);
     $this->name = $listName;
     $this->caption = '';
     $this->rows = 0;

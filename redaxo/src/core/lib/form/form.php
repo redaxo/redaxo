@@ -57,7 +57,7 @@ class rex_form extends rex_factory_base
 
     $this->sql = rex_sql::factory();
     $this->debug = & $debug;
-    $this->sql->debugsql = & $this->debug;
+    $this->sql->setDebug($this->debug);
     $this->sql->setQuery('SELECT * FROM ' . $tableName . ' WHERE ' . $this->whereCondition . ' LIMIT 2');
 
     // --------- validate where-condition and determine editMode
@@ -1082,7 +1082,7 @@ class rex_form extends rex_factory_base
   protected function save()
   {
     $sql = rex_sql::factory();
-    $sql->debugsql = & $this->debug;
+    $sql->setDebug($this->debug);
     $sql->setTable($this->tableName);
 
     foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
@@ -1125,7 +1125,7 @@ class rex_form extends rex_factory_base
   protected function delete()
   {
     $deleteSql = rex_sql::factory();
-    $deleteSql->debugsql = & $this->debug;
+    $deleteSql->setDebug($this->debug);
     $deleteSql->setTable($this->tableName);
     $deleteSql->setWhere($this->whereCondition);
 

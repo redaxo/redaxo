@@ -19,7 +19,7 @@ if ((rex_post('func') == 'edit' || $func == 'delete') && $type_id > 0) {
 //-------------- delete type
 if ($func == 'delete' && $type_id > 0) {
   $sql = rex_sql::factory();
-  //  $sql->debugsql = true;
+  //  $sql->setDebug();
   $sql->setTable(rex::getTablePrefix() . 'media_manager_types');
   $sql->setWhere(array('id' => $type_id));
 

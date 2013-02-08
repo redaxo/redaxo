@@ -6,11 +6,8 @@
 // see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
 class rex_sql extends rex_factory_base implements Iterator
 {
-  public
-    $debugsql, // debug schalter
-    $counter; // pointer
-
   protected
+    $debug, // debug schalter
     $values, // Werte von setValue
     $rawValues, // Werte von setRawValue
     $fieldnames, // Spalten im ResultSet
@@ -22,6 +19,7 @@ class rex_sql extends rex_factory_base implements Iterator
     $whereParams, // WHERE parameter array
     $rows, // anzahl der treffer
     $stmt, // ResultSet
+    $counter, // pointer
     $query, // Die Abfrage
     $params, // Die Abfrage-Parameter
     $DBID; // ID der Verbindung
@@ -31,7 +29,7 @@ class rex_sql extends rex_factory_base implements Iterator
 
   protected function __construct($DBID = 1)
   {
-    $this->debugsql = false;
+    $this->debug = false;
     $this->flush();
     $this->selectDB($DBID);
   }
@@ -175,7 +173,7 @@ class rex_sql extends rex_factory_base implements Iterator
    */
   public function setDebug($debug = true)
   {
-    $this->debugsql = $debug;
+    $this->debug = $debug;
 
     return $this;
   }
@@ -253,7 +251,7 @@ class rex_sql extends rex_factory_base implements Iterator
       }
     }
 
-    if ($this->debugsql) {
+    if ($this->debug) {
       $this->printError($qry, $params);
     }
 

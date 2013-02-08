@@ -11,7 +11,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
     if (rex_post('meta_article_name', 'string', null) === null) return $params;
 
     $article = rex_sql::factory();
-    // $article->debugsql = true;
+    // $article->setDebug();
     $article->setTable(rex::getTablePrefix() . 'article');
     $article->setWhere('id=:id AND clang=:clang', array('id' => $params['id'], 'clang' => $params['clang']));
 

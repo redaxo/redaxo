@@ -19,7 +19,7 @@ class rex_cronjob_article_status extends rex_cronjob
     $to['before']   = (array) $to['before'];
 
     $sql = rex_sql::factory();
-    // $sql->debugsql = true;
+    // $sql->setDebug();
     $sql->setQuery('
       SELECT  name
       FROM    ' . rex::getTablePrefix() . 'metainfo_params

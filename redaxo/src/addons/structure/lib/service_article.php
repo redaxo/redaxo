@@ -666,7 +666,7 @@ class rex_article_service
 
     if ($gc->getRows() == 1) {
       $uc = rex_sql::factory();
-      // $uc->debugsql = 1;
+      // $uc->setDebug();
       $uc->setTable(rex::getTablePrefix() . 'article');
       $uc->setWhere("clang='$to_clang' and id='$to_id'");
       $uc->addGlobalUpdateFields();
@@ -814,7 +814,7 @@ class rex_article_service
           }
 
           $art_sql = rex_sql::factory();
-          //$art_sql->debugsql = 1;
+          //$art_sql->setDebug();
 
           $art_sql->setTable(rex::getTablePrefix() . 'article');
           $art_sql->setValue('re_id', $re_id);

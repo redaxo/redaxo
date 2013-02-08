@@ -424,7 +424,7 @@ class rex_media_category
 
     $qry = 'DELETE FROM ' . $this->_getTableName() . ' WHERE id = ' . $this->getId() . ' LIMIT 1';
     $sql = rex_sql::factory();
-    // $sql->debugsql = true;
+    // $sql->setDebug();
     $sql->setQuery($qry);
 
     rex_media_cache::deleteCategory($this->getId());

@@ -640,7 +640,7 @@ class rex_media
       return null;
 
     $sql = rex_sql::factory();
-    // $sql->debugsql = true;
+    // $sql->setDebug();
     $sql->setQuery('SELECT filename FROM ' . self :: _getTableName() . ' WHERE media_id=' . $id);
     if ($sql->getRows() == 1) {
       return self :: getMediaByFileName($sql->getValue('filename'));

@@ -511,7 +511,7 @@ abstract class rex_metainfo_handler
               prior';
 
     $sqlFields = rex_sql::factory();
-    //$sqlFields->debugsql = true;
+    //$sqlFields->setDebug();
     $sqlFields->setQuery($qry);
 
     return $sqlFields;

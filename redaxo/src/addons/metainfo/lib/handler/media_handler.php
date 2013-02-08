@@ -124,7 +124,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
     if (rex_request_method() != 'post' || !isset($params['media_id'])) return $params;
 
     $media = rex_sql::factory();
-  //  $media->debugsql = true;
+  //  $media->setDebug();
     $media->setTable(rex::getTablePrefix() . 'media');
     $media->setWhere('media_id=:mediaid', array('mediaid' => $params['media_id']));
 

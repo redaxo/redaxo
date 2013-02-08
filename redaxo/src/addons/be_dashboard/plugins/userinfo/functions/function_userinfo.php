@@ -16,7 +16,7 @@ function rex_a659_statistics()
   $stats['last_update'] = 0;
 
   $sql = rex_sql::factory();
-//  $sql->debugsql = true;
+//  $sql->setDebug();
   $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM ' . rex::getTablePrefix() . 'article WHERE clang=0 AND startpage=1 GROUP BY clang ORDER BY updatedate DESC');
   if (count($result) > 0) {
     $stats['total_categories'] = $result[0]['count'];

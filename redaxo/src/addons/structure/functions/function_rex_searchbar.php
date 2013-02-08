@@ -57,7 +57,7 @@ function rex_structure_searchbar(rex_context $context)
     }
 
     $search = rex_sql::factory();
-//    $search->debugsql = true;
+//    $search->setDebug();
     $search->setQuery($qry);
     $foundRows = $search->getRows();
 

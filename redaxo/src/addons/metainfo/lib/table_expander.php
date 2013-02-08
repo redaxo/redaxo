@@ -129,7 +129,7 @@ class rex_metainfo_table_expander extends rex_form
   {
     // Infos zuerst selektieren, da nach parent::delete() nicht mehr in der db
     $sql = rex_sql::factory();
-    $sql->debugsql = & $this->debug;
+    $sql->setDebug($this->debug);
     $sql->setTable($this->tableName);
     $sql->setWhere($this->whereCondition);
     $sql->select('name');
@@ -233,7 +233,7 @@ class rex_metainfo_table_expander extends rex_form
       $fieldDefault = $this->elementPostValue($this->getFieldsetName(), 'default');
 
       $sql = rex_sql::factory();
-      $sql->debugsql = & $this->debug;
+      $sql->setDebug($this->debug);
       $result = $sql->getArray('SELECT `dbtype`, `dblength` FROM `' . rex::getTablePrefix() . 'metainfo_type` WHERE id=' . $fieldType);
       $fieldDbType = $result[0]['dbtype'];
       $fieldDbLength = $result[0]['dblength'];
@@ -254,7 +254,7 @@ class rex_metainfo_table_expander extends rex_form
         // DefaultWerte setzen
         if ($fieldDefault != $fieldOldDefault) {
           $upd = rex_sql::factory();
-          $upd->debugsql = & $this->debug;
+          $upd->setDebug($this->debug);
           $upd->setTable($this->tableManager->getTableName());
           $upd->setWhere(array($fieldName => $fieldOldDefault));
           $upd->setValue($fieldName, $fieldDefault);

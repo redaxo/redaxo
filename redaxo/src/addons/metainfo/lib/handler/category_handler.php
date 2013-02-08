@@ -95,7 +95,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
     if (rex_request_method() != 'post') return $params;
 
     $article = rex_sql::factory();
-    // $article->debugsql = true;
+    // $article->setDebug();
     $article->setTable(rex::getTablePrefix() . 'article');
     $article->setWhere('id=:id AND clang=:clang', array('id' => $params['id'], 'clang' => $params['clang']));
 

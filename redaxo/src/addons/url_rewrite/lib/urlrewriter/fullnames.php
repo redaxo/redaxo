@@ -296,7 +296,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
 
     if ($where != '') {
       $db = rex_sql::factory();
-      // $db->debugsql=true;
+      // $db->setDebug();
       $db->setQuery('SELECT id,clang,path,startpage FROM ' . rex::getTablePrefix() . 'article WHERE ' . $where . ' and revision=0');
 
       foreach ($db as $art) {

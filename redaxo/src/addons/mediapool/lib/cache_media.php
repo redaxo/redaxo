@@ -104,7 +104,7 @@ class rex_media_cache
   {
     $query = 'SELECT * FROM ' . rex_media :: _getTableName() . ' WHERE filename = "' . $filename . '"';
     $sql = rex_sql::factory();
-    //$sql->debugsql = true;
+    //$sql->setDebug();
     $sql->setQuery($query);
 
     if ($sql->getRows() == 0) {
@@ -140,7 +140,7 @@ class rex_media_cache
 
     $query = 'SELECT * FROM ' . rex_media_category :: _getTableName() . ' WHERE id = ' . $category_id;
     $sql = rex_sql::factory();
-    //$sql->debugsql = true;
+    //$sql->setDebug();
     $sql->setQuery($query);
 
     if ($sql->getRows() == 0) {
@@ -208,7 +208,7 @@ class rex_media_cache
 
     $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . rex_media_category :: _getTableName() . ' WHERE re_id = ' . $category_id . ' ORDER BY sort, name';
     $sql = rex_sql::factory();
-    //$sql->debugsql = true;
+    //$sql->setDebug();
     $sql->setQuery($query);
 
     $cacheArray = array();

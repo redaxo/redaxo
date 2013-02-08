@@ -129,7 +129,7 @@ class rex_content_service
       $ctypes = array();
 
       $cols = rex_sql::factory();
-      // $cols->debugsql = 1;
+      // $cols->setDebug();
       $cols->setquery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
       foreach ($gc as $slice) {
         foreach ($cols as $col) {

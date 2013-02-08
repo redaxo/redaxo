@@ -168,7 +168,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
   $RETURN = array();
 
   $FILESQL = rex_sql::factory();
-  // $FILESQL->debugsql = 1;
+  // $FILESQL->setDebug();
   $FILESQL->setTable(rex::getTablePrefix() . 'media');
   $FILESQL->setWhere(array('media_id' => $FILEINFOS['file_id']));
   $FILESQL->setValue('title', $FILEINFOS['title']);

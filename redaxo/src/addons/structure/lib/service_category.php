@@ -53,7 +53,7 @@ class rex_category_service
       if ($category_id != '') {
         // TemplateId vom Startartikel der jeweiligen Sprache vererben
         $sql = rex_sql::factory();
-        // $sql->debugsql = 1;
+        // $sql->setDebug();
         $sql->setQuery('select clang,template_id from ' . rex::getTablePrefix() . "article where id=$category_id and startpage=1");
         for ($i = 0; $i < $sql->getRows(); $i++, $sql->next()) {
           $startpageTemplates[$sql->getValue('clang')] = $sql->getValue('template_id');
@@ -492,11 +492,11 @@ class rex_category_service
         $from_path = $fcat->getValue('path') . $from_cat . '|';
 
         $gcats = rex_sql::factory();
-        // $gcats->debugsql = 1;
+        // $gcats->setDebug();
         $gcats->setQuery('select * from ' . rex::getTablePrefix() . "article where path like '" . $from_path . "%' and clang=0");
 
         $up = rex_sql::factory();
-        // $up->debugsql = 1;
+        // $up->setDebug();
         for ($i = 0; $i < $gcats->getRows(); $i++) {
           // make update
           $new_path = $to_path . $from_cat . '|' . str_replace($from_path, '', $gcats->getValue('path'));
@@ -518,7 +518,7 @@ class rex_category_service
         // ----- clang holen, max catprio holen und entsprechen updaten
         $gmax = rex_sql::factory();
         $up = rex_sql::factory();
-        // $up->debugsql = 1;
+        // $up->setDebug();
         foreach (rex_clang::getAllIds() as $clang) {
           $gmax->setQuery('select max(catprior) from ' . rex::getTablePrefix() . "article where re_id=$to_cat and clang=" . $clang);
           $catprior = (int) $gmax->getValue('max(catprior)');

@@ -185,7 +185,7 @@ class rex_article_slice
       $fields = '*';
 
     $sql = rex_sql::factory();
-    // $sql->debugsql = true;
+    // $sql->setDebug();
     $query = '
       SELECT ' . $fields . '
       FROM ' . $table . '

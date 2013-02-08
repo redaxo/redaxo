@@ -565,7 +565,7 @@ if ($step == 7) {
         $redaxo_user_pass = rex_login::passwordHash($redaxo_user_pass, rex_post('javascript', 'boolean'));
 
         $user = rex_sql::factory();
-        // $user->debugsql = true;
+        // $user->setDebug();
         $user->setTable(rex::getTablePrefix() . 'user');
         $user->setValue('name', 'Administrator');
         $user->setValue('login', $redaxo_user_login);

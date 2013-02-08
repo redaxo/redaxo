@@ -72,7 +72,7 @@ class rex_article_content_base
     if (!is_object($this->ARTICLE)) {
       $this->ARTICLE = rex_sql::factory();
       if ($this->debug)
-        $this->ARTICLE->debugsql = 1;
+        $this->ARTICLE->setDebug();
     }
     return $this->ARTICLE;
   }
@@ -275,7 +275,7 @@ class rex_article_content_base
 
     $artDataSql = rex_sql::factory();
     if ($this->debug)
-      $artDataSql->debugsql = 1;
+      $artDataSql->setDebug();
 
     $artDataSql->setQuery($sql);
 
