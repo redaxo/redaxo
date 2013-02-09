@@ -14,6 +14,7 @@
 
 */
 
+/*
 .rex-navi-path {
   clear: both;
   display: block;
@@ -51,3 +52,129 @@
 .rex-navi-path li:last-child a {
   color: #036;
 }
+*/
+
+
+
+.rex-navi-path {
+  overflow: hidden;
+  width: 100%;
+  background: #f2f5f6;
+  border: 1px solid #dfe8e8;
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 12px;
+}
+.rex-navi-path dt,
+.rex-navi-path dd,
+.rex-navi-path ul,
+.rex-navi-path li,
+.rex-navi-path a {
+  display: inline-block;
+  float: left;
+}
+.rex-navi-path ul {
+  margin-left: 0px;
+  font-weight: normal;
+}
+.rex-navi-path li {
+  position: relative;
+}
+
+
+
+.rex-navi-path dt,
+.rex-navi-path li {
+  position: relative;
+  background-color: #fff;
+  text-decoration: none;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.rex-navi-path a {
+  overflow: hidden;
+  padding: 10px 10px 10px 20px;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  white-space: nowrap;
+  color: #666;
+}
+
+.rex-navi-path a,
+.rex-navi-path ul:hover li:last-child a {
+  max-width: 60px;
+}
+
+.rex-navi-path a:hover,
+.rex-navi-path li:last-child a,
+.rex-navi-path ul:hover li:last-child a:hover {
+  max-width: none;
+}
+
+.rex-navi-path dt {
+  padding: 10px;
+  border-radius: 5px 0 0 5px;
+  font-weight: bold;
+}
+
+.rex-navi-path li:hover {
+  background: #fff;
+}
+
+.rex-navi-path dt:after,
+.rex-navi-path dt:before,
+.rex-navi-path li:after,
+.rex-navi-path li:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  margin-top: -20px;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 10px solid;
+}
+
+.rex-navi-path dt:after {
+  z-index: 2;
+  border-left-color: #fff;
+}
+
+.rex-navi-path dt:before {
+  border-left-color: #dfe8e8;
+  right: -12px;
+  z-index: 1;
+}
+.rex-navi-path li:after {
+  z-index: 2;
+  border-left-color: #fff;
+}
+
+.rex-navi-path li:before {
+  border-left-color: #dfe8e8;
+  right: -11px;
+  z-index: 1;
+}
+
+
+
+.rex-navi-path a:hover {
+  color: #08c;
+  text-decoration: underline;
+}
+.rex-navi-path a:hover:after {
+  border-left-color: #fff;
+}
+/*
+.rex-navi-path .rex-active,
+.rex-navi-path .rex-active:hover {
+  background: none;
+}
+
+.rex-navi-path .rex-active:after,
+.rex-navi-path .rex-active:before {
+  content: normal;
+}
+*/
