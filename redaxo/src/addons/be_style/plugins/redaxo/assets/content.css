@@ -451,7 +451,13 @@ h2 {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
 }
 
-
+.rex-table:hover tr td {
+  opacity: .5;
+}
+.rex-table:hover tr:hover td {
+  opacity: 1;
+  background-color: #fff;
+}
 
 /*  ----------------------------------- Bucket ------------------------------ */
 .rex-bucket {
