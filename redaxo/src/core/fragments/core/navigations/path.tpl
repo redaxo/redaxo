@@ -26,6 +26,5 @@ foreach ($items as $item) {
 }
 
 
-if (count($list_items) > 0) {
-  echo '<dl class="rex-navi-path">' . $title . '<dd><ul>' . implode('', $list_items) . '</ul></dd></dl>';
-}
+$list_items = (count($list_items) > 0) ? '<ul>' . implode('', $list_items) . '</ul>' : '<span>' . rex_i18n::msg('root_level') . '</span>';
+  echo '<dl class="rex-navi-path">' . $title . '<dd>' . $list_items . '</dd></dl>';
