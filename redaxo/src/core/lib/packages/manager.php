@@ -563,7 +563,7 @@ abstract class rex_package_manager extends rex_factory_base
           foreach ($req['packages'] as $packageId => $reqP) {
             $package = rex_package::get($packageId);
             if (!in_array($package, $normal) && !in_array($package->getProperty('load'), array('early', 'late'))) {
-              $requires[$id][$package] = true;
+              $requires[$id][$packageId] = true;
             }
           }
         }
