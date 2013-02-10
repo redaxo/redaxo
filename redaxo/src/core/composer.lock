@@ -1,5 +1,5 @@
 {
-    "hash": "2c4df7687a2f3be476a73ae62ea11831",
+    "hash": "23de51a9b51895f5a80b2c4d0b8f9039",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -36,8 +36,8 @@
             "description": "A compatibility library for the proposed simplified password hashing algorithm: https://wiki.php.net/rfc/password_hash",
             "homepage": "https://github.com/ircmaxell/password_compat",
             "keywords": [
-                "password",
-                "hashing"
+                "hashing",
+                "password"
             ]
         },
         {
@@ -51,7 +51,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Yaml/archive/v2.1.7.zip",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/v2.1.7",
                 "reference": "v2.1.7",
                 "shasum": ""
             },

@@ -5,7 +5,5 @@
 /redaxo/data/addons/
 
 # Composer Autoloader
-/redaxo/src/core/vendor/autoload.php
-/redaxo/src/core/vendor/composer/
 /redaxo/src/addons/textile/vendor/autoload.php
 /redaxo/src/addons/textile/vendor/composer/

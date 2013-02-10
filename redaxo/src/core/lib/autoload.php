@@ -12,8 +12,13 @@
  */
 class rex_autoload
 {
+  /**
+   * @var Composer\Autoload\ClassLoader
+   */
+  static protected $composerLoader;
+
   static protected
-    $registered = false,
+    $registered   = false,
     $cacheFile    = null,
     $cacheChanged = false,
     $reloaded     = false,
@@ -23,8 +28,6 @@ class rex_autoload
 
   /**
    * Register rex_autoload in spl autoloader.
-   *
-   * @return void
    */
   static public function register()
   {
@@ -33,6 +36,13 @@ class rex_autoload
     }
 
     ini_set('unserialize_callback_func', 'spl_autoload_call');
+
+    if (!self::$composerLoader) {
+      self::$composerLoader = require rex_path::core('vendor/autoload.php');
+      // Unregister Composer Autoloader because we call self::$composerLoader->loadClass() manually
+      self::$composerLoader->unregister();
+    }
+
     if (false === spl_autoload_register(array(__CLASS__, 'autoload'))) {
       throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
     }
@@ -46,8 +56,6 @@ class rex_autoload
 
   /**
    * Unregister rex_autoload from spl autoloader.
-   *
-   * @return void
    */
   static public function unregister()
   {
@@ -64,23 +72,19 @@ class rex_autoload
    */
   static public function autoload($class)
   {
-    $class = strtolower($class);
-
     // class already exists
-    if (class_exists($class, false) || interface_exists($class, false)
-       || function_exists('trait_exists') && trait_exists($class, false)
-    ) {
+    if (self::classExists($class)) {
       return true;
     }
 
     // we have a class path for the class, let's include it
-    if (isset(self::$classes[$class]) && is_readable(self::$classes[$class])) {
-      require self::$classes[$class];
+    $lowerClass = strtolower($class);
+    if (isset(self::$classes[$lowerClass]) && is_readable(self::$classes[$lowerClass])) {
+      require_once self::$classes[$lowerClass];
     }
 
-    if (class_exists($class, false) || interface_exists($class, false)
-       || function_exists('trait_exists') && trait_exists($class, false)
-    ) {
+    // Return true if class exists now or if class exists after calling $composerLoader
+    if (self::classExists($class) || self::$composerLoader->loadClass($class) && self::classExists($class)) {
       return true;
     } elseif (!self::$reloaded) {
       self::reload();
@@ -88,6 +92,11 @@ class rex_autoload
     }
 
     return false;
+  }
+
+  static private function classExists($class)
+  {
+    return class_exists($class, false) || interface_exists($class, false) || function_exists('trait_exists') && trait_exists($class, false);
   }
 
   /**
@@ -159,53 +168,16 @@ class rex_autoload
 
   static private function _addDirectory($dir)
   {
-    if ($files = glob($dir . '*.php', GLOB_NOSORT)) {
-      foreach ($files as $file) {
-        self::addFile($file);
-      }
-    }
-
-    if ($subdirs = glob($dir . '*', GLOB_ONLYDIR | GLOB_NOSORT | GLOB_MARK)) {
-      // recursive over subdirectories
-      foreach ($subdirs as $subdir) {
-        self::_addDirectory($subdir);
-      }
-    }
-  }
-
-  static private function addFile($file)
-  {
-    if (!is_file($file)) {
+    if (!is_dir($dir)) {
       return;
     }
 
-    $namespace = '';
-    $tokens = token_get_all(file_get_contents($file));
-    $count = count($tokens);
-    $classTokens = array(T_CLASS, T_INTERFACE);
-    if (defined('T_TRAIT'))
-      $classTokens[] = T_TRAIT;
-    $ignoreTokens = array(T_WHITESPACE, T_COMMENT, T_DOC_COMMENT);
-    $namespaceTokens = array(T_WHITESPACE, T_COMMENT, T_DOC_COMMENT, T_NS_SEPARATOR, T_STRING);
-    for ($i = 0; $i < $count; ++$i) {
-      if (is_array($tokens[$i])) {
-        if ($tokens[$i][0] == T_NAMESPACE) {
-          $namespace = '';
-          for (++$i; isset($tokens[$i][0]) && in_array($tokens[$i][0], $namespaceTokens); ++$i) {
-            if (!in_array($tokens[$i][0], $ignoreTokens))
-              $namespace .= $tokens[$i][1];
-          }
-          $namespace .= empty($namespace) ? '' : '\\';
-        }
-        if (in_array($tokens[$i][0], $classTokens)) {
-          for (++$i; isset($tokens[$i][0]) && in_array($tokens[$i][0], $ignoreTokens); ++$i);
-          if (isset($tokens[$i][0]) && $tokens[$i][0] == T_STRING) {
-            $class = strtolower($namespace . $tokens[$i][1]);
-            if (!isset(self::$classes[$class])) {
-              self::$classes[$class] = $file;
-            }
-          }
-        }
+    require_once rex_path::core('vendor/composer/ClassMapGenerator.php');
+
+    foreach (Composer\Autoload\ClassMapGenerator::createMap($dir) as $class => $file) {
+      $class = strtolower($class);
+      if (!isset(self::$classes[$class])) {
+        self::$classes[$class] = $file;
       }
     }
   }

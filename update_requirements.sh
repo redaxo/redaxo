@@ -1,9 +1,15 @@
 #!/bin/sh
 
-echo "Update redaxo/src/core/"
+echo "Update redaxo/src/core/vendor"
 composer update -d redaxo/src/core/
+php -r "foreach (array('redaxo/src/core/vendor/autoload.php', 'redaxo/src/core/vendor/composer/autoload_real.php') as \$file) {\
+  file_put_contents(\$file, preg_replace('/(?<=ComposerAutoloaderInit)[0-9a-f]{32}/', 'RedaxoCore', file_get_contents(\$file)));\
+}"
 
-echo "\nUpdate redaxo/src/addons/textile/"
+echo "Update redaxo/src/core/vendor/composer/ClassMapGenerator.php"
+curl -# https://raw.github.com/composer/composer/master/src/Composer/Autoload/ClassMapGenerator.php > redaxo/src/core/vendor/composer/ClassMapGenerator.php
+
+echo "\nUpdate redaxo/src/addons/textile/vendor"
 composer update -d redaxo/src/addons/textile/
 
 echo "\nUpdate redaxo/src/core/assets/jquery.min.js"

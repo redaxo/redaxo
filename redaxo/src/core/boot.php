@@ -40,7 +40,6 @@ require_once rex_path::core('lib/autoload.php');
 rex_autoload::register();
 // add core base-classpath to autoloader
 rex_autoload::addDirectory(rex_path::core('lib'));
-rex_autoload::addDirectory(rex_path::core('vendor'));
 
 rex_url::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER']);
 
@@ -57,7 +56,6 @@ rex_fragment::addDirectory(rex_path::core('fragments/'));
 require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_mquotes.php');
 require_once rex_path::core('functions/function_rex_other.php');
-require_once rex_path::core('vendor/ircmaxell/password-compat/lib/password.php');
 
 // ----------------- VERSION
 rex::setProperty('version', 5);
