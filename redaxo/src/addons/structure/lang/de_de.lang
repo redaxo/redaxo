@@ -2,6 +2,7 @@ structure = Struktur
 
 title_structure = Strukturverwaltung
 homepage = Homepage
+root_level = Hauptebene
 no_such_category = Kategorie nicht vorhanden!
 category_updated = Kategorie wurde aktualisiert.
 category_could_not_be_deleted = Kategorie konnte nicht gelöscht werden!
