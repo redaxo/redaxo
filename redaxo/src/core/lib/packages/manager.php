@@ -557,22 +557,13 @@ abstract class rex_package_manager extends rex_factory_base
       } else {
         $req = $package->getProperty('requires');
         if ($package instanceof rex_plugin) {
-          $req['addons'][$package->getAddon()->getName()] = true;
+          $req['packages'][$package->getAddon()->getPackageId()] = true;
         }
-        if (isset($req['addons']) && is_array($req['addons'])) {
-          foreach ($req['addons'] as $addonId => $reqP) {
-            $addon = rex_addon::get($addonId);
-            if (!in_array($addon, $normal) && !in_array($addon->getProperty('load'), array('early', 'late'))) {
-              $requires[$id][$addonId] = true;
-            }
-            if (isset($reqP['plugins']) && is_array($reqP['plugins'])) {
-              foreach ($reqP['plugins'] as $pluginName => $_) {
-                $plugin = $addon->getPlugin($pluginName);
-                $pluginId = $plugin->getPackageId();
-                if (!in_array($pluginId, $normal) && !in_array($plugin->getProperty('load'), array('early', 'late'))) {
-                  $requires[$id][$pluginId] = true;
-                }
-              }
+        if (isset($req['packages']) && is_array($req['packages'])) {
+          foreach ($req['packages'] as $packageId => $reqP) {
+            $package = rex_package::get($packageId);
+            if (!in_array($package, $normal) && !in_array($package->getProperty('load'), array('early', 'late'))) {
+              $requires[$id][$package] = true;
             }
           }
         }
