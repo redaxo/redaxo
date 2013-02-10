@@ -33,9 +33,8 @@ $function  = rex_request('function', 'string');
 $save      = rex_request('save', 'int');
 $goon      = rex_request('goon', 'string');
 
-$info = '';
-$warning = '';
-$warning_blck = '';
+$success = '';
+$error   = '';
 
 $content = '';
 $message = '';
@@ -60,18 +59,18 @@ if ($function == 'delete') {
     $action_in_use_msg = '';
     $action_name = htmlspecialchars($del->getValue('a.name'));
     for ($i = 0; $i < $del->getRows(); $i++) {
-      $action_in_use_msg .= '<li><a href="' . rex_url::backendPage('modules', array('function' => 'edit', 'modul_id' => $del->getValue('ma.module_id'))) . '">' . htmlspecialchars($del->getValue('m.name')) . ' [' . $del->getValue('ma.module_id') . ']</a></li>';
+      $action_in_use_msg .= '<li><a href="' . rex_url::backendPage('modules', array('function' => 'edit', 'module_id' => $del->getValue('ma.module_id'))) . '">' . htmlspecialchars($del->getValue('m.name')) . ' [' . $del->getValue('ma.module_id') . ']</a></li>';
       $del->next();
     }
 
     if ($action_in_use_msg != '') {
-      $warning_blck = '<ul>' . $action_in_use_msg . '</ul>';
+      $action_in_use_msg = '<ul>' . $action_in_use_msg . '</ul>';
     }
 
-    $warning = rex_i18n::msg('action_cannot_be_deleted', $action_name);
+    $error = rex_i18n::msg('action_cannot_be_deleted', $action_name) . $action_in_use_msg;
   } else {
     $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . "action WHERE id='$action_id' LIMIT 1");
-    $info = rex_i18n::msg('action_deleted');
+    $success = rex_i18n::msg('action_deleted');
   }
 }
 
@@ -118,16 +117,16 @@ if ($function == 'add' || $function == 'edit') {
         $faction->addGlobalCreateFields();
 
         $faction->insert();
-        $info = rex_i18n::msg('action_added');
+        $success = rex_i18n::msg('action_added');
       } else {
         $faction->addGlobalUpdateFields();
         $faction->setWhere(array('id' => $action_id));
 
         $faction->update();
-        $info = rex_i18n::msg('action_updated');
+        $success = rex_i18n::msg('action_updated');
       }
     } catch (rex_sql_exception $e) {
-      $warning = $e->getMessage();
+      $error = $e->getMessage();
     }
 
     if (isset ($goon) and $goon != '') {
@@ -202,11 +201,11 @@ if ($function == 'add' || $function == 'edit') {
     if ($function != 'add')
       $btn_update = '<button class="rex-button" type="submit" name="goon"' . rex::getAccesskey(rex_i18n::msg('save_action_and_continue'), 'apply') . '>' . rex_i18n::msg('save_action_and_continue') . '</button>';
 
-    if ($info != '')
-      $message .= rex_view::info($info);
+    if ($success != '')
+      $message .= rex_view::success($success);
 
-    if ($warning != '')
-      $message .= rex_view::warning($warning);
+    if ($error != '')
+      $message .= rex_view::error($error);
 
     $content .= '
       <div class="rex-form" id="rex-form-action">
@@ -423,14 +422,11 @@ if ($function == 'add' || $function == 'edit') {
 }
 
 if ($OUT) {
-  if ($info != '')
-    $message .= rex_view::info($info);
+  if ($success != '')
+    $message .= rex_view::success($success);
 
-  if ($warning != '')
-    $message .= rex_view::warning($warning);
-
-  if ($warning_blck != '')
-    $message .= rex_view::warningBlock($warning_blck);
+  if ($error != '')
+    $message .= rex_view::error($error);
 
   // ausgabe actionsliste !
   $content .= '
