@@ -59,6 +59,7 @@
 .rex-navi-path {
   overflow: hidden;
   width: 100%;
+  margin: 20px 0;
   background: #f2f5f6;
   border: 1px solid #dfe8e8;
   border-bottom-width: 2px;
@@ -67,11 +68,17 @@
   box-sizing: border-box;
   font-size: 12px;
 }
+.rex-navi-path + .rex-navi-path {
+  margin-top: -22px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
 .rex-navi-path dt,
 .rex-navi-path dd,
 .rex-navi-path ul,
 .rex-navi-path li,
-.rex-navi-path a {
+.rex-navi-path a,
+.rex-navi-path dd span {
   display: inline-block;
   float: left;
 }
@@ -92,33 +99,16 @@
   text-decoration: none;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
 }
-
-.rex-navi-path a {
-  overflow: hidden;
-  padding: 10px 10px 10px 20px;
-  text-overflow: ellipsis;
-  vertical-align: top;
-  white-space: nowrap;
-  color: #666;
-}
-
-.rex-navi-path a,
-.rex-navi-path ul:hover li:last-child a {
-  max-width: 60px;
-}
-
-.rex-navi-path a:hover,
-.rex-navi-path li:last-child a,
-.rex-navi-path ul:hover li:last-child a:hover {
-  max-width: none;
-}
-
 .rex-navi-path dt {
   padding: 10px;
-  border-radius: 5px 0 0 5px;
+  border-radius: 3px 0 0 3px;
   font-weight: bold;
 }
-
+.rex-navi-path dt a {
+  margin: -10px;
+  padding-left: 10px;
+  border-radius: 3px 0 0 3px;
+}
 .rex-navi-path li:hover {
   background: #fff;
 }
@@ -141,24 +131,58 @@
   z-index: 2;
   border-left-color: #fff;
 }
-
 .rex-navi-path dt:before {
   border-left-color: #dfe8e8;
   right: -12px;
   z-index: 1;
 }
+
 .rex-navi-path li:after {
   z-index: 2;
   border-left-color: #fff;
 }
-
 .rex-navi-path li:before {
   border-left-color: #dfe8e8;
   right: -11px;
   z-index: 1;
 }
 
+.rex-navi-path a,
+.rex-navi-path dd > span {
+  overflow: hidden;
+  padding: 10px 10px 10px 20px;
+  color: #666;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  white-space: nowrap;
+}
+.rex-navi-path dt a {
+  color: #333;
+}
+.rex-navi-path dd a,
+.rex-navi-path ul:hover li:last-child a {
+  max-width: 60px;
+}
+.rex-navi-path a:hover,
+.rex-navi-path li:last-child a,
+.rex-navi-path ul:hover li:last-child a:hover {
+  max-width: none;
+}
 
+
+.rex-navi-path ul li:last-child {
+  background: transparent;
+}
+.rex-navi-path ul li:last-child a {
+  color: #333;
+}
+.rex-navi-path ul li:last-child a:hover {
+  color: #08c;
+}
+.rex-navi-path ul li:last-child:before,
+.rex-navi-path ul li:last-child:after {
+  display: none;
+}
 
 .rex-navi-path a:hover {
   color: #08c;

@@ -249,6 +249,10 @@
   url('/assets/be_style/plugins/rex/entypo.svg#entypo') format('svg');
 }
 */
+
+
+
+/*  ----------------------------------- Icon -------------------------------- */
 [class*="rex-icon-"]:before {
   display: inline-block;
   position: relative;
@@ -281,11 +285,32 @@ td.rex-slim > .rex-icon,*/
   margin-right: 0;
 }
 
+
+
+/*  ----------------------------------- Packages ---------------------------- */
 tr.rex-plugin .rex-icon-plugin {
   margin-left: 6px;
   opacity: .5;
 }
 
+
+
+/*  ----------------------------------- Path -------------------------------- */
+.rex-navi-path dt a.rex-icon-sitestartarticle {
+  margin-left: 0px;
+  text-indent: -1000em;
+}
+.rex-navi-path dt a.rex-icon-sitestartarticle:before {
+  display: block;
+  position: absolute;
+  top: 18px;
+  left: 8px;
+  text-indent: 0;
+}
+
+
+
+/*  ----------------------------------- Drop - Context Menu ----------------- */
 .rex-drop {
   display: inline-block;
   width: 0px;
@@ -335,6 +360,9 @@ tr.rex-plugin .rex-icon-plugin {
   opacity: .8;
 }
 
+
+
+/*  ----------------------------------- Icons ------------------------------- */
 .rex-icon-action:before { content: "\E75E"; }
 .rex-icon-add-action:before { content: "\2795"; }
 
