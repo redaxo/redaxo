@@ -337,9 +337,9 @@ if ($function == 'add' or $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
         $content .= $fragment->parse('core/form/submit.tpl');
-      }
 
-      $echo .= rex_view::contentBlock($content);
+        $echo .= rex_view::contentBlock($content);
+      }
     }
 
     echo $message;
