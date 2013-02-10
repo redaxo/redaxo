@@ -173,7 +173,7 @@ if ($function == 'add' or $function == 'edit') {
     }
 
     $btn_update = '';
-    if ($function != 'add') $btn_update = '<button class="rex-button" type="submit" name="goon"' . rex::getAccesskey(rex_i18n::msg('save_module_and_continue'), 'apply') . '>' . rex_i18n::msg('save_module_and_continue') . '</button>';
+    if ($function != 'add') $btn_update = '<button class="rex-button" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_module_and_continue'), 'apply') . '>' . rex_i18n::msg('save_module_and_continue') . '</button>';
 
     if ($success != '')
       $message .= rex_view::success($success);
