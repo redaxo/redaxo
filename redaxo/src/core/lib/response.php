@@ -10,6 +10,7 @@ class rex_response
   const
     HTTP_OK = '200 OK',
     HTTP_MOVED_PERMANENTLY = '301 Moved Permanently',
+    HTTP_NOT_MODIFIED = '304 Not Modified',
     HTTP_NOT_FOUND = '404 Not Found',
     HTTP_FORBIDDEN = '403 Forbidden',
     HTTP_UNAUTHORIZED = '401 Unauthorized',
@@ -211,7 +212,7 @@ class rex_response
       if (ob_get_length() > 0)
         while (@ob_end_clean());
 
-      header('HTTP/1.1 304 Not Modified');
+      header('HTTP/1.1 ' . self::HTTP_NOT_MODIFIED);
       exit();
     }
   }
@@ -238,7 +239,7 @@ class rex_response
       if (ob_get_length() > 0)
         while (@ob_end_clean());
 
-      header('HTTP/1.1 304 Not Modified');
+      header('HTTP/1.1 ' . self::HTTP_NOT_MODIFIED);
       exit();
     }
   }
