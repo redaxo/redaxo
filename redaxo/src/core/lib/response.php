@@ -76,14 +76,21 @@ class rex_response
    * Sendet eine ressource zum Client,
    * fügt ggf. HTTP1.1 cache headers hinzu
    *
-   * @param $content string Inhalt der Ressource
-   * @param $sendcharset boolean TRUE, wenn der Charset mitgeschickt werden soll, sonst FALSE
-   * @param $lastModified integer HTTP Last-Modified Timestamp
-   * @param $etag string Cachekey zur identifizierung des Caches
+   * @param string  $content      Inhalt der Ressource
+   * @param string  $contentType  Content type
+   * @param integer $lastModified HTTP Last-Modified Timestamp
+   * @param string  $etag         Cachekey zur identifizierung des Caches
    */
-  static public function sendResource($content, $sendcharset = true, $lastModified = null, $etag = null)
+  static public function sendResource($content, $contentType = null, $lastModified = null, $etag = null)
   {
     $environment = rex::isBackend() ? 'backend' : 'frontend';
+
+    if ($contentType) {
+      header('Content-Type: ' . $contentType);
+      $sendcharset = false;
+    } else {
+      $sendcharset = true;
+    }
 
     if (!$etag) {
       $etag = md5($content);
