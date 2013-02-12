@@ -101,6 +101,94 @@
     </div>
 
 
+
+  ### Tabnavi mit Suche und Schnellnavigation
+
+    <div class="rex-navi-content">
+      <div class="rex-navi-content-right">
+
+        <div class="rex-dropdown">
+          <span class="rex-button rex-drop-button">
+            <i>Schnellnavigation:</i>
+            aktueller Artikel
+            <span class="rex-drop"></span>
+          </span>
+
+          <div class="rex-drop-container">
+            <ul class="rex-drop-list">
+              <li class="rex-drop-item rex-drop-active">
+                <a href="#">
+                  <span class="rex-icon rex-icon-check"></span>
+                  <div class="rex-drop-item-text">
+                    <h4 class="rex-js-button-text">Home</h4>
+                  </div>
+                </a>
+              </li>
+              <li class="rex-drop-item rex-drop-active">
+                <a href="#">
+                  <span class="rex-icon rex-icon-check"></span>
+                  <div class="rex-drop-item-text">
+                    <h4 class="rex-js-button-text">Team</h4>
+                  </div>
+                </a>
+              </li>
+              <li class="rex-drop-item rex-drop-active">
+                <a href="#">
+                  <span class="rex-icon rex-icon-check"></span>
+                  <div class="rex-drop-item-text">
+                    <h4 class="rex-js-button-text">System</h4>
+                  </div>
+                </a>
+              </li>
+              <li class="rex-drop-item rex-drop-active">
+                <a href="#">
+                  <span class="rex-icon rex-icon-check"></span>
+                  <div class="rex-drop-item-text">
+                    <h4 class="rex-js-button-text">Erste Schritte</h4>
+                  </div>
+                </a>
+              </li>
+              <li class="rex-drop-item rex-drop-active">
+                <a href="#">
+                  <span class="rex-icon rex-icon-check"></span>
+                  <div class="rex-drop-item-text">
+                    <h4 class="rex-js-button-text">FAQ</h4>
+                  </div>
+                </a>
+              </li>
+              <li class="rex-drop-item rex-drop-active">
+                <a href="#">
+                  <span class="rex-icon rex-icon-check"></span>
+                  <div class="rex-drop-item-text">
+                    <h4 class="rex-js-button-text">Kontakt / Impressum</h4>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="rex-navi-content-left">
+        <div class="rex-form">
+          <form action="#" method="get">
+            <fieldset>
+              <input type="text" name="search_article_name" id="rex-id-search-article-name" value="" placeholder="Artikelname" />
+              <input class="rex-button" type="submit" name="search_start" value="suchen"></dd>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+
+      <ul class="rex-navi-content-items">
+        <li><a class="rex-navi-content-item" href="#">Einstellungen</a></li>
+        <li><a class="rex-navi-content-item" href="#">Core</a></li>
+        <li><a class="rex-navi-content-item" href="#">Packages</a></li>
+      </ul>
+    </div>
+
+
   ### Content
 
     <div class="rex-content rex-bucket">
@@ -451,11 +539,8 @@ h2 {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
 }
 
-.rex-table:hover tr td * {
-  opacity: .5;
-}
-.rex-table:hover tr:hover td * {
-  opacity: 1;
+.rex-table tr:hover td {
+  background-color: #fffedf;
 }
 
 
@@ -549,9 +634,11 @@ h2 {
 .rex-navi-content-text .rex-active {
   font-weight: bold;
 }
-
-.rex-navi-content-text + .rex-navi-content-items,
-.rex-navi-content-items + .rex-navi-content-text {
+.rex-navi-content-left {
+  display: inline-block;
+}
+.rex-navi-content-left + .rex-navi-content-items,
+.rex-navi-content-items + .rex-navi-content-left {
   margin-left: 10px;
 }
 
@@ -640,6 +727,7 @@ h2 {
 .rex-addon .rex-icon-help:before,
 .rex-plugin .rex-icon-help:before {
   opacity: .5;
+  width: 20px;
   font-size: 20px;
 }
 .rex-addon a:hover .rex-icon-help:before,
