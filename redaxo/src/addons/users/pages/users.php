@@ -441,9 +441,9 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     $("#userform")
       .submit(function(){
         var pwInp = $("#userpsw");
-        if(pwInp.val() != "")
-        {
-          pwInp.val(Sha1.hash(pwInp.val()));
+        if(pwInp.val() != "") {
+          $("form#userform").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
+          pwInp.removeAttr("name");
         }
     });
 

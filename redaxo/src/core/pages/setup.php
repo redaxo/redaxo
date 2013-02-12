@@ -670,9 +670,9 @@ if ($step == 6) {
       $("#createadminform")
         .submit(function(){
           var pwInp = $("#rex-form-redaxo-user-pass");
-          if(pwInp.val() != "")
-          {
+          if(pwInp.val() != "") {
             $("#createadminform").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
+            pwInp.removeAttr("name");
           }
       });
 

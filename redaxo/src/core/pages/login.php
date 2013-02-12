@@ -98,6 +98,7 @@ $content .= '
         var pwInp = $("#rex-id-login-password");
         if(pwInp.val() != "") {
           $("#rex-form-login form").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
+          pwInp.removeAttr("name");
         }
     });
 

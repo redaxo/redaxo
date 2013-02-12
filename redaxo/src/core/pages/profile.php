@@ -222,21 +222,21 @@ $content .= '
       $("#rex-form-profile-password form")
         .submit(function(){
           var pwInp0 = $("#rex-id-userpsw");
-          if(pwInp0.val() != "")
-          {
+          if(pwInp0.val() != "") {
             $("#rex-form-profile-password form").append(\'<input type="hidden" name="\'+pwInp0.attr("name")+\'" value="\'+Sha1.hash(pwInp0.val())+\'" />\');
+            pwInp0.removeAttr("name");
           }
 
           var pwInp1 = $("#rex-id-userpsw-new-1");
-          if(pwInp1.val() != "")
-          {
+          if(pwInp1.val() != "") {
             $("#rex-form-profile-password form").append(\'<input type="hidden" name="\'+pwInp1.attr("name")+\'" value="\'+Sha1.hash(pwInp1.val())+\'" />\');
+            pwInp1.removeAttr("name");
           }
 
           var pwInp2 = $("#rex-id-userpsw-new-2");
-          if(pwInp2.val() != "")
-          {
+          if(pwInp2.val() != "") {
             $("#rex-form-profile-password form").append(\'<input type="hidden" name="\'+pwInp2.attr("name")+\'" value="\'+Sha1.hash(pwInp2.val())+\'" />\');
+            pwInp2.removeAttr("name");
           }
       });
 
