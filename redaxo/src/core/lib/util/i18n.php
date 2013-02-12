@@ -34,10 +34,8 @@ class rex_i18n
         $locales[] = $locale . '.UTF8';
         $locales[] = $locale . '.utf-8';
         $locales[] = $locale . '.utf8';
-      }
-
-      foreach (explode(',', trim(self::msg('setlocale'))) as $locale)
         $locales[] = $locale;
+      }
 
       setlocale(LC_ALL, $locales);
     }
