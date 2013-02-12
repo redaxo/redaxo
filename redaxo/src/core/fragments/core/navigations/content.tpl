@@ -108,17 +108,15 @@ foreach ($navigations as $nav_key => $navigation) {
 
 echo '<div class="rex-navi-content">';
 
-// left navi
+$right = '';
 if (isset($navigations['right'])) {
-  echo '<div class="rex-navi-content-right">';
-  echo '<ul class="rex-navi-content-items">';
-  echo $navigations['right'];
-  echo '</ul>';
-  if (isset($this->text_right) && $this->text_right != '') {
-    echo '<span class="rex-navi-content-text">' . $this->text_right . '</span>';
-  }
-  echo '</div>';
+  $right .= '<ul class="rex-navi-content-items">' . $navigations['right'] . '</ul>';
 }
+if (isset($this->text_right) && $this->text_right != '') {
+  $right .= '<span class="rex-navi-content-text">' . $this->text_right . '</span>';
+}
+
+echo $right != '' ? '<div class="rex-navi-content-right">' . $right . '</div>' : '';
 
 
 // left text
