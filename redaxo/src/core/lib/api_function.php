@@ -123,12 +123,11 @@ abstract class rex_api_function extends rex_factory_base
 
           $apiFunc->result = $result;
           if ($result->requiresReboot()) {
-            $urlBuilder = new rex_url_builder($_SERVER['PHP_SELF']);
-            $urlBuilder->addParams($_REQUEST);
+            $context = rex_context::restore();
             // add api call result to url
-            $urlBuilder->setParam(self::REQ_RESULT_PARAM, $result->toJSON());
+            $context->setParam(self::REQ_RESULT_PARAM, $result->toJSON());
             // and redirect to SELF for reboot
-            rex_response::sendRedirect($urlBuilder->getUrl());
+            rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl()));
           }
         } catch (rex_api_exception $e) {
           $message = $e->getMessage();
