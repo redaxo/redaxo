@@ -17,25 +17,15 @@ $warning = '';
 
 // ------------------------------ Requestvars
 $function       = rex_request('function', 'string');
-$impname        = rex_request('impname', 'string');
 $exportfilename = rex_post('exportfilename', 'string');
 $exporttype     = rex_post('exporttype', 'string');
 $exportdl       = rex_post('exportdl', 'boolean');
 $EXPDIR         = rex_post('EXPDIR', 'array');
 
-if ($impname != '') {
-  $impname = str_replace('/', '', $impname);
-
-  if ($function == 'dbimport' && substr($impname, -4, 4) != '.sql')
-    $impname = '';
-  elseif ($function == 'fileimport' && substr($impname, -7, 7) != '.tar.gz')
-    $impname = '';
-}
-
 if ($exportfilename == '')
   $exportfilename = strtolower($_SERVER['HTTP_HOST']) . '_rex' . rex::getVersion('') . '_' . date('Ymd');
 
-if ($function == 'export') {
+if (rex_post('export', 'bool')) {
   // ------------------------------ FUNC EXPORT
 
   $exportfilename = strtolower($exportfilename);
@@ -78,11 +68,8 @@ if ($function == 'export') {
 
     if ($hasContent) {
       if ($exportdl) {
-        while (ob_get_level()) ob_end_clean();
         $filename = $filename . $ext;
-        header("Content-type: $header");
-        header("Content-Disposition: attachment; filename=$filename");
-        readfile($export_path . $filename);
+        rex_response::sendFile($export_path . $filename, $header, 'attachment');
         rex_file::delete($export_path . $filename);
         exit;
       } else {
@@ -110,7 +97,7 @@ $content .= '
       <p class="rex-tx1">' . rex_i18n::msg('im_export_intro_export') . '</p>
 
       <div class="rex-form" id="rex-form-export">
-      <form action="' . rex_url::currentBackendPage() . '" enctype="multipart/form-data" method="post" >
+      <form action="' . rex_url::currentBackendPage() . '" method="post" >
         <fieldset class="rex-form-col-1">
           <legend>' . rex_i18n::msg('im_export_export') . '</legend>
 
@@ -194,7 +181,7 @@ $content .= '<div class="rex-form-row">
             </div>
             <div class="rex-form-row">
               <p class="rex-form-submit">
-                <input class="rex-form-submit" type="submit" value="' . rex_i18n::msg('im_export_db_export') . '" />
+                <input class="rex-form-submit" type="submit" name="export" value="' . rex_i18n::msg('im_export_db_export') . '" />
               </p>
             </div>
           </div>

@@ -6,7 +6,7 @@
  */
 
 if (rex::isSetup()) {
-  rex_response::sendRedirect('redaxo/');
+  rex_response::sendRedirect(rex_url::backendController());
 }
 
 // ----- INCLUDE ADDONS
@@ -24,5 +24,5 @@ if (rex_extension::isRegistered('FE_OUTPUT')) {
   rex_extension::registerPoint('FE_OUTPUT', $CONTENT);
 } else {
   // ----- inhalt ausgeben
-  rex_response::sendArticle($CONTENT);
+  rex_response::sendPage($CONTENT);
 }

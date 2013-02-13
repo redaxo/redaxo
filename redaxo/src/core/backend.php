@@ -143,4 +143,4 @@ $CONTENT = ob_get_contents();
 ob_end_clean();
 
 // ----- inhalt ausgeben
-rex_response::sendArticle($CONTENT);
+rex_response::sendPage($CONTENT);

@@ -16,7 +16,11 @@ class rex_response
     HTTP_UNAUTHORIZED = '401 Unauthorized',
     HTTP_INTERNAL_ERROR = '500 Internal Server Error';
 
-  static private $httpStatus = self::HTTP_OK;
+  static private
+    $httpStatus = self::HTTP_OK,
+    $sentLastModified = false,
+    $sentEtag = false,
+    $sentContentType = false;
 
   static public function setStatus($httpStatus)
   {
@@ -32,6 +36,12 @@ class rex_response
     return self::$httpStatus;
   }
 
+  /**
+   * Redirects to a URL
+   *
+   * @param string $url URL
+   * @throws rex_exception
+   */
   static public function sendRedirect($url)
   {
     if (strpos($url, "\n") !== false) {
@@ -40,148 +50,110 @@ class rex_response
 
     header('HTTP/1.1 ' . self::$httpStatus);
     header('Location: ' . $url);
-    exit();
+    exit;
   }
 
   /**
-   * Sendet eine Datei zum Client
+   * Sends a file to client
    *
-   * @param $file string Pfad zur Datei
-   * @param $contentType HTTP ContentType der Datei
+   * @param string $file               File path
+   * @param string $contentType        Content type
+   * @param string $contentDisposition Content disposition
    */
-  static public function sendFile($file, $contentType)
+  static public function sendFile($file, $contentType, $contentDisposition = 'inline')
   {
+    self::cleanOutputBuffers();
+
+    if (!file_exists($file)) {
+      header('HTTP/1.1 ' . self::HTTP_NOT_FOUND);
+      exit;
+    }
+
+    self::sendContentType($contentType);
+    header('Content-Disposition: ' . $contentDisposition . '; filename="' . basename($file) . '"');
+
+    self::sendLastModified(filemtime($file));
+
+    // ----- MD5 Checksum
     $environment = rex::isBackend() ? 'backend' : 'frontend';
+    if (rex::getProperty('use_md5') === true || rex::getProperty('use_md5') === $environment) {
+      self::sendChecksum(md5_file($file));
+    }
 
-    // Cachen für Dateien aktivieren
-    $temp = rex::getProperty('use_last_modified');
-    rex::setProperty('use_last_modified', true);
+    header('HTTP/1.1 ' . self::$httpStatus);
+    self::sendCacheControl();
 
-    header('Content-Type: ' . $contentType);
-    header('Content-Disposition: inline; filename="' . basename($file) . '"');
+    // content length schicken, damit der browser einen ladebalken anzeigen kann
+    header('Content-Length: ' . filesize($file));
 
-    $content = rex_file::get($file);
-    $cacheKey = md5($content . $file . $contentType . $environment);
-
-    self::sendContent(
-      $content,
-      filemtime($file),
-      $cacheKey,
-      $environment);
-
-    // Setting zurücksetzen
-    rex::setProperty('use_last_modified', $temp);
+    readfile($file);
   }
 
   /**
-   * Sendet eine ressource zum Client,
-   * fügt ggf. HTTP1.1 cache headers hinzu
+   * Sends a page to client
    *
-   * @param string  $content      Inhalt der Ressource
-   * @param string  $contentType  Content type
+   * The page content can be modified by the Extension Point OUTPUT_FILTER
+   *
+   * @param string  $content      Content of page
    * @param integer $lastModified HTTP Last-Modified Timestamp
-   * @param string  $etag         Cachekey zur identifizierung des Caches
    */
-  static public function sendResource($content, $contentType = null, $lastModified = null, $etag = null)
+  static public function sendPage($content, $lastModified = null)
   {
-    $environment = rex::isBackend() ? 'backend' : 'frontend';
-
-    if ($contentType) {
-      header('Content-Type: ' . $contentType);
-      $sendcharset = false;
-    } else {
-      $sendcharset = true;
-    }
-
-    if (!$etag) {
-      $etag = md5($content);
-    }
-    if (!$lastModified) {
-      $lastModified = time();
-    }
-
-    self::sendContent($content, $lastModified, $etag, $environment, $sendcharset);
-  }
-
-  /**
-   * Sendet einen rex_article zum Client,
-   * fügt ggf. HTTP1.1 cache headers hinzu
-   *
-   * @param $content string Inhalt des Artikels
-   * @param $lastModified integer HTTP Last-Modified Timestamp
-   */
-  static public function sendArticle($content, $lastModified = null, $etagAdd = '')
-  {
-    $environment = rex::isBackend() ? 'backend' : 'frontend';
-    $sendcharset = true;
-
     // ----- EXTENSION POINT
-    $content = rex_extension::registerPoint( 'OUTPUT_FILTER', $content, array('environment' => $environment, 'sendcharset' => $sendcharset));
+    $content = rex_extension::registerPoint('OUTPUT_FILTER', $content);
 
-    // dynamische teile sollen die md5 summe nicht beeinflussen
-    $etag = self::md5($content . $etagAdd);
-
-    if ($lastModified === null) {
-      $lastModified = time();
-    }
-
-    self::sendContent(
-      $content,
-      $lastModified,
-      $etag,
-      $environment,
-      $sendcharset);
+    self::sendContent($content, null, $lastModified);
 
     // ----- EXTENSION POINT - (read only)
     rex_extension::registerPoint('RESPONSE_SHUTDOWN', $content, array(), true);
   }
 
   /**
-   * Sendet den Content zum Client,
-   * fügt ggf. HTTP1.1 cache headers hinzu
+   * Sends content to the client
    *
-   * @param $content string Inhalt des Artikels
-   * @param $lastModified integer HTTP Last-Modified Timestamp
-   * @param $etag string HTTP Cachekey zur identifizierung des Caches
-   * @param $environment string Die Umgebung aus der der Inhalt gesendet wird
-   * (frontend/backend)
-   * @param $sendcharset boolean TRUE, wenn der Charset mitgeschickt werden soll, sonst FALSE
+   * @param string  $content      Content
+   * @param string  $contentType  Content type
+   * @param integer $lastModified HTTP Last-Modified Timestamp
+   * @param string  $etag         HTTP Cachekey to identify the cache
    */
-  static public function sendContent($content, $lastModified, $etag, $environment, $sendcharset = false)
+  static public function sendContent($content, $contentType = null, $lastModified = null, $etag = null)
   {
-    if ($sendcharset) {
-      header('Content-Type: text/html; charset=utf-8');
+    if (!self::$sentContentType) {
+      self::sendContentType($contentType);
     }
+
+    $environment = rex::isBackend() ? 'backend' : 'frontend';
 
     if (self::$httpStatus == self::HTTP_OK) {
       // ----- Last-Modified
-      if (rex::getProperty('use_last_modified') === true || rex::getProperty('use_last_modified') === $environment)
+      if (!self::$sentLastModified
+        && rex::getProperty('use_last_modified') === true || rex::getProperty('use_last_modified') === $environment
+      ) {
         self::sendLastModified($lastModified);
+      }
 
       // ----- ETAG
-      if (rex::getProperty('use_etag') === true || rex::getProperty('use_etag') === $environment)
-        self::sendEtag($etag);
-
-      // ----- GZIP
-      if (rex::getProperty('use_gzip') === true || rex::getProperty('use_gzip') === $environment)
-        $content = self::sendGzip($content);
-
-      // ----- MD5 Checksum
-      // dynamische teile sollen die md5 summe nicht beeinflussen
-      if (rex::getProperty('use_md5') === true || rex::getProperty('use_md5') === $environment)
-        self::sendChecksum(self::md5($content));
+      if (!self::$sentEtag
+        && rex::getProperty('use_etag') === true || rex::getProperty('use_etag') === $environment
+      ) {
+        self::sendEtag($etag ?: self::md5($content));
+      }
     }
 
-    self::send($content);
-  }
+    // ----- GZIP
+    if (rex::getProperty('use_gzip') === true || rex::getProperty('use_gzip') === $environment) {
+      $content = self::sendGzip($content);
+    }
 
-  static public function send($content)
-  {
-    // Cachen erlauben, nach revalidierung
-    // see http://xhtmlforum.de/35221-php-session-etag-header.html#post257967
-    session_cache_limiter('none');
+    // ----- MD5 Checksum
+    if (rex::getProperty('use_md5') === true || rex::getProperty('use_md5') === $environment) {
+      self::sendChecksum(self::md5($content));
+    }
+
+    self::cleanOutputBuffers();
+
     header('HTTP/1.1 ' . self::$httpStatus);
-    header('Cache-Control: must-revalidate, proxy-revalidate, private');
+    self::sendCacheControl();
 
     // content length schicken, damit der browser einen ladebalken anzeigen kann
     header('Content-Length: ' . rex_string::size($content));
@@ -190,13 +162,42 @@ class rex_response
   }
 
   /**
-   * Prüft, ob sich dateien geändert haben
-   *
-   * XHTML 1.1: HTTP_IF_MODIFIED_SINCE feature
-   *
-   * @param $lastModified integer HTTP Last-Modified Timestamp
+   * Cleans all output buffers
    */
-  static protected function sendLastModified($lastModified = null)
+  static public function cleanOutputBuffers()
+  {
+    while (ob_get_length()) {
+      ob_end_clean();
+    }
+  }
+
+  /**
+   * Sends the content type header
+   *
+   * @param string $contentType
+   */
+  static public function sendContentType($contentType = null)
+  {
+    header('Content-Type: ' . ($contentType ?: 'text/html; charset=utf-8'));
+    self::$sentContentType = true;
+  }
+
+  /**
+   * Sends the cache control header
+   */
+  static public function sendCacheControl()
+  {
+    header('Cache-Control: must-revalidate, proxy-revalidate, private');
+  }
+
+  /**
+   * Checks if content has changed by the last modified timestamp
+   *
+   * HTTP_IF_MODIFIED_SINCE feature
+   *
+   * @param integer $lastModified HTTP Last-Modified Timestamp
+   */
+  static public function sendLastModified($lastModified = null)
   {
     if (!$lastModified)
       $lastModified = time();
@@ -209,23 +210,23 @@ class rex_response
     // Last-Modified Timestamp gefunden
     // => den Browser anweisen, den Cache zu verwenden
     if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $lastModified) {
-      if (ob_get_length() > 0)
-        while (@ob_end_clean());
+      self::cleanOutputBuffers();
 
       header('HTTP/1.1 ' . self::HTTP_NOT_MODIFIED);
-      exit();
+      self::sendCacheControl();
+      exit;
     }
+    self::$sentLastModified = true;
   }
 
   /**
-   * Prüft ob sich der Inhalt einer Seite im Cache des Browsers befindet und
-   * verweisst ggf. auf den Cache
+   * Checks if content has changed by the etag cachekey
    *
-   * XHTML 1.1: HTTP_IF_NONE_MATCH feature
+   * HTTP_IF_NONE_MATCH feature
    *
-   * @param $cacheKey string HTTP Cachekey zur identifizierung des Caches
+   * @param string $cacheKey HTTP Cachekey to identify the cache
    */
-  static protected function sendEtag($cacheKey)
+  static public function sendEtag($cacheKey)
   {
     // Laut HTTP Spec muss der Etag in " sein
     $cacheKey = '"' . $cacheKey . '"';
@@ -236,21 +237,22 @@ class rex_response
     // CacheKey gefunden
     // => den Browser anweisen, den Cache zu verwenden
     if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] == $cacheKey) {
-      if (ob_get_length() > 0)
-        while (@ob_end_clean());
+      self::cleanOutputBuffers();
 
       header('HTTP/1.1 ' . self::HTTP_NOT_MODIFIED);
-      exit();
+      self::sendCacheControl();
+      exit;
     }
+    self::$sentEtag = true;
   }
 
   /**
-   * Kodiert den Inhalt des Artikels in GZIP/X-GZIP, wenn der Browser eines der
-   * Formate unterstützt
+   * Encodes the content with GZIP/X-GZIP if the browser supports one of them
    *
-   * XHTML 1.1: HTTP_ACCEPT_ENCODING feature
+   * HTTP_ACCEPT_ENCODING feature
    *
-   * @param $content string Inhalt des Artikels
+   * @param string $content Content
+   * @return string
    */
   static protected function sendGzip($content)
   {
@@ -261,11 +263,12 @@ class rex_response
     // Check if it supports gzip
     if (isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
       $encodings = explode(',', strtolower(preg_replace('/\s+/', '', $_SERVER['HTTP_ACCEPT_ENCODING'])));
-    } else {
-      $encodings = array();
     }
 
-    if ((in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression')) {
+    if ((in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------']))
+      && function_exists('ob_gzhandler')
+      && !ini_get('zlib.output_compression')
+    ) {
       $enc = in_array('x-gzip', $encodings) ? 'x-gzip' : 'gzip';
       $supportsGzip = true;
     }
@@ -279,12 +282,11 @@ class rex_response
   }
 
   /**
-   * Sendet eine MD5 Checksumme als HTTP Header, damit der Browser validieren
-   * kann, ob Übertragungsfehler aufgetreten sind
+   * Sends a MD5 checksum as HTTP header, so the browser can validate the output
    *
-   * XHTML 1.1: HTTP_CONTENT_MD5 feature
+   * HTTP_CONTENT_MD5 feature
    *
-   * @param $md5 string MD5 Summe des Inhalts
+   * @param string $md5 MD5 Checksum
    */
   static protected function sendChecksum($md5)
   {

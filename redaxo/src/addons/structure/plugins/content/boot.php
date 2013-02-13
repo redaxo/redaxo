@@ -73,7 +73,7 @@ if (rex::isBackend()) {
       }
     } else {
       $content .= 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="' . rex_url::backendController() . '">redaxo</a>';
-      rex_response::sendArticle($content);
+      rex_response::sendPage($content);
       exit;
     }
 
@@ -83,6 +83,6 @@ if (rex::isBackend()) {
     }
 
     // ----- inhalt ausgeben
-    rex_response::sendArticle($content, $article->getValue('updatedate'), $article->getValue('pid'));
+    rex_response::sendPage($content, $article->getValue('updatedate'));
   });
 }

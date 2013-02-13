@@ -90,7 +90,7 @@ abstract class rex_error_handler
       $buf = 'Oooops, an internal error occured!';
     }
 
-    rex_response::send($buf);
+    rex_response::sendContent($buf);
     exit;
   }
 

@@ -83,11 +83,8 @@ abstract class rex_dashboard_component_base
 
       // refresh clicked in actionbar
       if (rex_get('ajax-get', 'string') == $this->getId()) {
-        // clear output-buffer
-        while (@ob_end_clean());
-
-        rex_response::sendResource($content);
-        exit();
+        rex_response::sendContent($content);
+        exit;
       }
 
       return $content;
