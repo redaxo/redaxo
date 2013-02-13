@@ -3,7 +3,6 @@
 class rex_media_manager
 {
   private
-    $media_cacher,
     $cache_path,
     $type,
     $use_cache;
@@ -18,7 +17,6 @@ class rex_media_manager
   {
     $this->type = $type;
 
-    $set = array();
     if (!$this->isCached($type)) {
       $set = $this->effectsFromType($type);
       $set = rex_extension::registerPoint('MEDIA_MANAGER_FILTERSET', $set, array('rex_media_type' => $type));
@@ -124,13 +122,13 @@ class rex_media_manager
   public function getCacheFilename()
   {
     $cacheParams = md5(serialize($this->type . $this->media->getMediapath()));
-    return $this->cache_path . 'media_manager__' . $cacheParams . '_' . $this->media->getMediaFilename();
+    return $this->cache_path . $this->media->getMediaFilename() . '_' . $cacheParams;
 
   }
 
   public function getHeaderCacheFilename()
   {
-    return $this->getCacheFilename() . '_header';
+    return $this->getCacheFilename() . '.header';
   }
 
   static public function deleteCacheByType($type_id)
@@ -180,21 +178,18 @@ class rex_media_manager
     $headerCacheFilename = $this->getHeaderCacheFilename();
     $CacheFilename = $this->getCacheFilename();
 
-    $header = array();
     if ($this->isCached()) {
-      $header = unserialize(file_get_contents($headerCacheFilename));
+      $header = rex_file::getCache($headerCacheFilename);
+      if (isset($header['Last-Modified'])) {
+        rex_response::sendLastModified(strtotime($header['Last-Modified']));
+      }
       foreach ($header as $t => $c) {
         header($t . ': ' . $c);
       }
       readfile($CacheFilename);
 
     } else {
-      if ($this->use_cache) {
-        $this->media->sendMedia($CacheFilename, $headerCacheFilename, 1);
-
-      } else {
-        $this->media->sendMedia($CacheFilename, $headerCacheFilename, 0);
-      }
+      $this->media->sendMedia($CacheFilename, $headerCacheFilename, $this->use_cache);
     }
     exit;
 

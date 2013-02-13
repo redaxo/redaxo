@@ -118,33 +118,33 @@ class rex_managed_media
     if ($this->asImage) {
       $src = $this->getImageSource();
     } else {
-      $src = file_get_contents($this->getMediapath());
+      $src = rex_file::get($this->getMediapath());
     }
 
     $this->setHeader('Content-Length', rex_string::size($src));
-    if (!array_key_exists('Content-Type', $this->getHeader())) {
+    $header = $this->getHeader();
+    if (!array_key_exists('Content-Type', $header)) {
       $finfo = finfo_open(FILEINFO_MIME_TYPE);
       $content_type = finfo_file($finfo, $this->getMediapath());
       if ($content_type != '') {
         $this->setHeader('Content-Type', $content_type);
       }
     }
-    if (!array_key_exists('Content-Disposition', $this->getHeader())) {
+    if (!array_key_exists('Content-Disposition', $header)) {
       $this->setHeader('Content-Disposition', "inline; filename=\"" . $this->getMediaFilename() . "\";");
     }
-
-    while (ob_get_length()) {
-      ob_end_clean();
+    if (!array_key_exists('Last-Modified', $header)) {
+      $this->setHeader('Last-Modified', date('r'));
     }
+
+    rex_response::cleanOutputBuffers();
     foreach ($this->header as $t => $c) {
       header($t . ': ' . $c);
     }
     echo $src;
     if ($save) {
-      file_put_contents($headerCacheFilename, serialize($this->header));
-      @chmod($headerCacheFilename, rex::getFilePerm());
-      file_put_contents($sourceCacheFilename, $src);
-      @chmod($sourceCacheFilename, rex::getFilePerm());
+      rex_file::putCache($headerCacheFilename, $this->header);
+      rex_file::put($sourceCacheFilename, $src);
     }
 
   }
