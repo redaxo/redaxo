@@ -159,15 +159,15 @@ class rex_view
   {
     global $article_id, $category_id, $page;
 
-    if ($subtitle !== null && !is_string($subtitle) && (!is_array($subtitle) || count($subtitle) > 0 && !reset($subtitle) instanceof rex_be_page_container)) {
-      throw new rex_exception('Expecting $subtitle to be a string or an array of rex_be_page_container!');
+    if ($subtitle !== null && !is_string($subtitle) && (!is_array($subtitle) || count($subtitle) > 0 && !reset($subtitle) instanceof rex_be_page)) {
+      throw new rex_exception('Expecting $subtitle to be a string or an array of rex_be_page!');
     }
 
     if ($subtitle === null) {
-      $subtitle = rex_be_controller::getPageObject(rex_be_controller::getCurrentPagePart(1))->getPage()->getSubPages();
+      $subtitle = rex_be_controller::getPageObject(rex_be_controller::getCurrentPagePart(1))->getSubPages();
     }
 
-    if (is_array($subtitle) && count($subtitle) && reset($subtitle) instanceof rex_be_page_container) {
+    if (is_array($subtitle) && count($subtitle) && reset($subtitle) instanceof rex_be_page) {
       $nav = rex_be_navigation::factory();
       $nav->setHeadline('default', rex_i18n::msg('subnavigation', $head));
       foreach ($subtitle as $pageObj) {

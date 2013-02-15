@@ -1,12 +1,13 @@
 <?php
 
-class rex_be_page implements rex_be_page_container
+class rex_be_page
 {
   private
     $key,
     $fullKey,
     $title,
 
+    $popup = false,
     $href,
     $itemAttr = array(),
     $linkAttr = array(),
@@ -36,14 +37,6 @@ class rex_be_page implements rex_be_page_container
     $this->title = $title;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_be_page_container::getPage()
-   */
-  public function getPage()
-  {
-    return $this;
-  }
-
   public function getKey()
   {
     return $this->key;
@@ -57,6 +50,26 @@ class rex_be_page implements rex_be_page_container
   public function getTitle()
   {
     return $this->title;
+  }
+
+  public function setPopup($popup)
+  {
+    if ($popup) {
+      $this->popup = true;
+      $this->setHasNavigation(false);
+      $this->addItemClass('rex-popup');
+      $this->addLinkClass('rex-popup');
+      if (is_string($popup)) {
+        $this->setLinkAttr('onclick', $popup);
+      }
+    } else {
+      $this->popup = false;
+    }
+  }
+
+  public function isPopup()
+  {
+    return $this->popup;
   }
 
   public function setHref($href)
@@ -246,7 +259,6 @@ class rex_be_page implements rex_be_page_container
     }
     $page = rex_be_controller::getCurrentPageObject();
     do {
-      $page = $page->getPage();
       if ($page === $this) {
         return true;
       }

@@ -58,7 +58,6 @@ if ($func == '') {
   // Check all page permissions and add them to rex_perm if not already registered
   $registerImplicitePagePermissions = function ($pages) use (&$registerImplicitePagePermissions) {
     foreach ($pages as $page) {
-      $page = $page->getPage();
       foreach ($page->getRequiredPermissions() as $perm) {
         // ignore admin perm and complex perms (with "/")
         if ($perm && !in_array($perm, array('isAdmin', 'admin', 'admin[]')) && strpos($perm, '/') === false && !rex_perm::has($perm)) {

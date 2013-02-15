@@ -12,7 +12,7 @@ class rex_be_navigation extends rex_factory_base
     return new $class();
   }
 
-  public function addPage(rex_be_page_container $mainPage)
+  public function addPage(rex_be_page $mainPage)
   {
     $blockName = 'default';
     if ($mainPage instanceof rex_be_page_main) {
@@ -37,7 +37,7 @@ class rex_be_navigation extends rex_factory_base
             $a_prio = (int) $a->getPrio();
             $b_prio = (int) $b->getPrio();
             if ($a_prio == $b_prio || ($a_prio <= 0 && $b_prio <= 0))
-            return strcmp($a->getPage()->getTitle(), $b->getPage()->getTitle());
+            return strcmp($a->getTitle(), $b->getTitle());
 
             if ($a_prio <= 0)
             return 1;
@@ -79,8 +79,7 @@ class rex_be_navigation extends rex_factory_base
 
     $echo = '';
     $first = true;
-    foreach ($blockPages as $key => $pageContainer) {
-      $page = $pageContainer->getPage();
+    foreach ($blockPages as $key => $page) {
 
       if (!$page->isHidden() && $page->checkPermission(rex::getUser())) {
         $n = array();
@@ -126,9 +125,7 @@ class rex_be_navigation extends rex_factory_base
   {
     if (is_array($this->pages)) {
       foreach ($this->pages as $block => $blockPages) {
-        foreach ($blockPages as $mn => $pageContainer) {
-          $page = $pageContainer->getPage();
-
+        foreach ($blockPages as $mn => $page) {
           // check main pages
           if ($page->isActive()) {
             $page->addItemClass('rex-active');

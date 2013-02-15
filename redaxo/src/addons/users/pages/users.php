@@ -99,9 +99,8 @@ $sel_startpage->addOption('default', '');
 
 foreach (rex_be_controller::getPages() as $page => $pageObj) {
   /* @var $pageObj rex_be_page */
-  $pageObj = $pageObj->getPage();
   if ($pageObj->hasNavigation() && !$pageObj->isHidden()) {
-    $sel_startpage->addOption($pageObj->getPage()->getTitle(), $page);
+    $sel_startpage->addOption($pageObj->getTitle(), $page);
   }
 }
 $userperm_startpage = rex_request('userperm_startpage', 'string');

@@ -1,6 +1,6 @@
 <?php
 
-$curPage = rex_be_controller::getCurrentPageObject()->getPage();
+$curPage = rex_be_controller::getCurrentPageObject();
 
 if (!$curPage->hasLayout()) {
   return;

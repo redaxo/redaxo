@@ -5,7 +5,7 @@
  * @package redaxo5
  */
 
-$curPage = rex_be_controller::getCurrentPageObject()->getPage();
+$curPage = rex_be_controller::getCurrentPageObject();
 
 if (!$curPage->hasLayout()) {
   if (rex_request::isPJAXRequest()) {
@@ -18,7 +18,7 @@ if (!$curPage->hasLayout()) {
 $body_attr = array();
 $body_id = str_replace('_', '-', rex_be_controller::getCurrentPage());
 
-if ($curPage instanceof rex_be_page_popup)
+if ($curPage->isPopup())
   $body_attr['class'] = array('rex-popup');
 
 $body_attr['id'] = array('rex-page-' . $body_id);
@@ -74,14 +74,13 @@ if (rex::getUser() && $hasNavigation) {
 $navigation = '';
 if (rex::getUser() && $hasNavigation) {
   $n = rex_be_navigation::factory();
-  foreach (rex_be_controller::getPages() as $p => $pageContainer) {
+  foreach (rex_be_controller::getPages() as $p => $pageObj) {
     $p = strtolower($p);
-    if ($pageContainer instanceof rex_be_page_main) {
-      $pageObj = $pageContainer->getPage();
+    if ($pageObj instanceof rex_be_page_main) {
       $pageObj->setItemAttr('id', 'rex-navi-page-' . strtolower(preg_replace('/[^a-zA-Z0-9\-]*/', '', str_replace('_', '-', $p))));
 
-      if (!$pageContainer->getBlock())
-        $pageContainer->setBlock('addons');
+      if (!$pageObj->getBlock())
+        $pageObj->setBlock('addons');
 
       if (!$pageObj->getHref())
         $pageObj->setHref(rex_url::backendPage($p));
@@ -92,7 +91,7 @@ if (rex::getUser() && $hasNavigation) {
         $item['extra'] = rex_accesskey($pageArr['title'], $accesskey++);
       */
 
-      $n->addPage($pageContainer);
+      $n->addPage($pageObj);
     }
   }
 
