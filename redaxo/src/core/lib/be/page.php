@@ -64,6 +64,10 @@ class rex_be_page
       }
     } else {
       $this->popup = false;
+      $this->setHasNavigation(true);
+      $this->removeItemClass('rex-popup');
+      $this->removeLinkClass('rex-popup');
+      $this->removeLinkAttr('onclick');
     }
   }
 
@@ -109,6 +113,11 @@ class rex_be_page
     return isset($this->itemAttr[$name]) ? $this->itemAttr[$name] : $default;
   }
 
+  public function removeItemAttr($name)
+  {
+    unset($this->itemAttr[$name]);
+  }
+
   public function addItemClass($class)
   {
     if (!is_string($class)) {
@@ -120,6 +129,11 @@ class rex_be_page
     }
   }
 
+  public function removeItemClass($class)
+  {
+    $this->setItemAttr('class', preg_replace('/\b' . preg_quote($class, '/') . '\b/', '', $this->getItemAttr('class')));
+  }
+
   public function setLinkAttr($name, $value)
   {
     if (!is_string($name)) {
@@ -129,6 +143,11 @@ class rex_be_page
       throw new rex_exception('Expecting $value to be a scalar, ' . gettype($value) . 'given!');
     }
     $this->linkAttr[$name] = $value;
+  }
+
+  public function removeLinkAttr($name)
+  {
+    unset($this->linkAttr[$name]);
   }
 
   public function getLinkAttr($name, $default = '')
@@ -144,6 +163,11 @@ class rex_be_page
   public function addLinkClass($class)
   {
     $this->setLinkAttr('class', ltrim($this->getLinkAttr('class') . ' ' . $class));
+  }
+
+  public function removeLinkClass($class)
+  {
+    $this->setLinkAttr('class', preg_replace('/\b' . preg_quote($class, '/') . '\b/', '', $this->getLinkAttr('class')));
   }
 
   /**
