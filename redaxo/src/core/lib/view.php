@@ -173,7 +173,6 @@ class rex_view
       foreach ($subtitle as $pageObj) {
         $nav->addPage($pageObj);
       }
-      $nav->setActiveElements();
       $blocks = $nav->getNavigation();
       $navigation = array();
       if (count($blocks) == 1) {

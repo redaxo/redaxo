@@ -4,138 +4,130 @@ class rex_be_navigation extends rex_factory_base
 {
   private
     $headlines = array(),
-    $pages;
+    $pages = array();
 
+  /**
+   * @return rex_be_navigation
+   */
   static public function factory()
   {
     $class = self::getFactoryClass();
-    return new $class();
+    return new $class;
   }
 
-  public function addPage(rex_be_page $mainPage)
+  /**
+   * @param rex_be_page $page
+   */
+  public function addPage(rex_be_page $page)
   {
     $blockName = 'default';
-    if ($mainPage instanceof rex_be_page_main) {
-      $blockName = $mainPage->getBlock();
+    if ($page instanceof rex_be_page_main) {
+      $blockName = $page->getBlock();
     }
 
     if (!isset($this->pages[$blockName])) {
       $this->pages[$blockName] = array();
     }
 
-    $this->pages[$blockName][] = $mainPage;
+    $this->pages[$blockName][] = $page;
   }
 
+  /**
+   * @return array
+   */
   public function getNavigation()
   {
-
+    $this->setActiveElements();
     $return = array();
-    if (is_array($this->pages)) {
-      foreach ($this->pages as $block => $blockPages) {
-        if (is_array($blockPages) && count($blockPages) > 0 && $blockPages[0] instanceof rex_be_page_main) {
-          uasort($blockPages, function ($a, $b) {
-            $a_prio = (int) $a->getPrio();
-            $b_prio = (int) $b->getPrio();
-            if ($a_prio == $b_prio || ($a_prio <= 0 && $b_prio <= 0))
+    foreach ($this->pages as $block => $blockPages) {
+      if (is_array($blockPages) && count($blockPages) > 0 && $blockPages[0] instanceof rex_be_page_main) {
+        uasort($blockPages, function (rex_be_page_main $a, rex_be_page_main $b) {
+          $a_prio = (int) $a->getPrio();
+          $b_prio = (int) $b->getPrio();
+          if ($a_prio == $b_prio || ($a_prio <= 0 && $b_prio <= 0))
             return strcmp($a->getTitle(), $b->getTitle());
 
-            if ($a_prio <= 0)
+          if ($a_prio <= 0)
             return 1;
 
-            if ($b_prio <= 0)
+          if ($b_prio <= 0)
             return -1;
 
-            return $a_prio > $b_prio ? 1 : -1;
-          });
-        }
+          return $a_prio > $b_prio ? 1 : -1;
+        });
+      }
 
-        $n = $this->_getNavigation($blockPages, 0, $block);
-        if (count($n) > 0) {
-          $fragment = new rex_fragment();
-          $fragment->setVar('navigation', $n, false);
+      $n = $this->_getNavigation($blockPages);
+      if (count($n) > 0) {
+        $fragment = new rex_fragment();
+        $fragment->setVar('navigation', $n, false);
 
-          $return[] = array(
-            'navigation' => $n,
-            'headline' => array('title' => $this->getHeadline($block))
-          );
-        }
+        $return[] = array(
+          'navigation' => $n,
+          'headline' => array('title' => $this->getHeadline($block))
+        );
       }
     }
     return $return;
 
   }
 
-  private function _getNavigation(array $blockPages, $level = 0, $block = '')
+  /**
+   * @param rex_be_page[] $blockPages
+   * @return array
+   */
+  private function _getNavigation(array $blockPages)
   {
-
     $navigation = array();
 
-    $level++;
-    $id = '';
-    if ($block != '') {
-      $id = ' id="rex-navi-' . $block . '"';
-    }
-    $class = ' class="rex-navi-level-' . $level . '"';
-
-    $echo = '';
-    $first = true;
-    foreach ($blockPages as $key => $page) {
-
-      if (!$page->isHidden() && $page->checkPermission(rex::getUser())) {
-        $n = array();
-        $n['linkClasses'] = array();
-        $n['itemClasses'] = array();
-        $n['linkAttr'] = array();
-        $n['itemAttr'] = array();
-
-        $n['itemClasses'][] = $page->getItemAttr('class');
-        $n['linkClasses'][] = $page->getItemAttr('class');
-
-        $itemAttr = '';
-        foreach ($page->getItemAttr(null) as $name => $value) {
-          $n['itemAttr'][$name] = trim($value);
-        }
-
-        $linkAttr = '';
-        foreach ($page->getLinkAttr(null) as $name => $value) {
-          $n['linkAttr'][$name] = trim($value);
-        }
-
-        $n['href']   = str_replace('&', '&amp;', $page->getHref());
-        $n['title']  = $page->getTitle();
-        $n['active'] = $page->isActive();
-
-        $subpages = $page->getSubPages();
-        if (is_array($subpages) && count($subpages) > 0) {
-          $n['children'] = $this->_getNavigation($subpages, $level);
-        }
-
-        $navigation[] = $n;
+    foreach ($blockPages as $page) {
+      if ($page->isHidden() || !$page->checkPermission(rex::getUser())) {
+        continue;
       }
+      $n = array();
+      $n['linkClasses'] = array();
+      $n['itemClasses'] = array();
+      $n['linkAttr'] = array();
+      $n['itemAttr'] = array();
+
+      $n['itemClasses'][] = $page->getItemAttr('class');
+      $n['linkClasses'][] = $page->getItemAttr('class');
+
+      foreach ($page->getItemAttr(null) as $name => $value) {
+        $n['itemAttr'][$name] = trim($value);
+      }
+
+      foreach ($page->getLinkAttr(null) as $name => $value) {
+        $n['linkAttr'][$name] = trim($value);
+      }
+
+      $n['href']   = str_replace('&', '&amp;', $page->getHref());
+      $n['title']  = $page->getTitle();
+      $n['active'] = $page->isActive();
+
+      $subpages = $page->getSubPages();
+      if (is_array($subpages) && !empty($subpages)) {
+        $n['children'] = $this->_getNavigation($subpages);
+      }
+
+      $navigation[] = $n;
     }
 
-    if (count($navigation) > 0) {
-      return $navigation; // $echo = '<ul'. $id . $class .'>'.$echo.'</ul>';
-    }
-
-    return array();
+    return $navigation;
   }
 
-  public function setActiveElements()
+  protected function setActiveElements()
   {
-    if (is_array($this->pages)) {
-      foreach ($this->pages as $block => $blockPages) {
-        foreach ($blockPages as $mn => $page) {
-          // check main pages
-          if ($page->isActive()) {
-            $page->addItemClass('rex-active');
+    foreach ($this->pages as $blockPages) {
+      foreach ($blockPages as $page) {
+        // check main pages
+        if ($page->isActive()) {
+          $page->addItemClass('rex-active');
 
-            // check for subpages
-            $subpages = $page->getSubPages();
-            foreach ($subpages as $sn => $subpage) {
-              if ($subpage->isActive()) {
-                $subpage->addItemClass('rex-active');
-              }
+          // check for subpages
+          foreach ($page->getSubPages() as $subpage) {
+            if ($subpage->isActive()) {
+              $subpage->addItemClass('rex-active');
             }
           }
         }
@@ -143,18 +135,26 @@ class rex_be_navigation extends rex_factory_base
     }
   }
 
+  /**
+   * @param string $block
+   * @param string $headline
+   */
   public function setHeadline($block, $headline)
   {
     $this->headlines[$block] = $headline;
   }
 
+  /**
+   * @param string $block
+   * @return string
+   */
   public function getHeadline($block)
   {
     if (isset($this->headlines[$block]))
-    return $this->headlines[$block];
+      return $this->headlines[$block];
 
     if ($block != 'default')
-    return rex_i18n::msg('navigation_' . $block);
+      return rex_i18n::msg('navigation_' . $block);
 
     return '';
   }

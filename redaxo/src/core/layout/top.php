@@ -95,7 +95,6 @@ if (rex::getUser() && $hasNavigation) {
     }
   }
 
-  $n->setActiveElements();
   $blocks = $n->getNavigation();
 
   $fragment = new rex_fragment();

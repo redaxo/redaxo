@@ -460,7 +460,6 @@ if ($article->getRows() == 1) {
 
     $nav = rex_be_navigation::factory();
     $nav->addPage($editPage);
-    $nav->setActiveElements();
     $blocks = $nav->getNavigation();
     $navigation = current($blocks);
     $content_navi_left = $navigation['navigation'];
@@ -472,7 +471,6 @@ if ($article->getRows() == 1) {
         $nav->addPage($subpage);
       }
     }
-    $nav->setActiveElements();
     $blocks = $nav->getNavigation();
     $navigation = current($blocks);
     $content_navi_right = $navigation['navigation'];
