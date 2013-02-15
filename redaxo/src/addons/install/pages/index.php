@@ -9,4 +9,4 @@ if ($subpage == 'packages') {
   $subpage = rex_be_controller::getCurrentPagePart(3, 'update');
 }
 
-include $this->getPath('pages/' . $subpage . '.php');
+include rex_be_controller::getCurrentPageObject()->getSubPath();

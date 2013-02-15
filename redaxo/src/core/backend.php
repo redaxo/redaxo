@@ -101,7 +101,7 @@ include_once rex_path::core('packages.php');
 
 // ----- Prepare AddOn Pages
 if (rex::getUser()) {
-  rex_be_controller::appendAddonPages();
+  rex_be_controller::appendPackagePages();
 }
 
 $pages = rex_extension::registerPoint('PAGES_PREPARED', rex_be_controller::getPages());

@@ -7,6 +7,11 @@ $Basedir = __DIR__;
 $type_id = rex_request('type_id', 'int');
 $func = rex_request('func', 'string');
 
+if (rex_request('effects', 'boolean')) {
+  include __DIR__ . '/effects.php';
+  return;
+}
+
 $info = '';
 $warning = '';
 

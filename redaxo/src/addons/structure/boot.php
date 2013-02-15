@@ -33,7 +33,6 @@ if (rex::isBackend() && rex::getUser()) {
   $page = new rex_be_page_popup('linkmap', rex_i18n::msg('linkmap'), '');
   $page->setHidden(true);
   $page->setRequiredPermissions('structure/hasStructurePerm');
-  $page->setPath($this->getPath('pages/linkmap.php'));
 
   $this->setProperty('pages', array(new rex_be_page_main('system', $page)));
 

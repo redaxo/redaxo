@@ -18,7 +18,6 @@ class rex_be_page implements rex_be_page_container
 
     $isActive = null,
     $hidden = false,
-    $isCorePage = false,
     $hasLayout = true,
     $hasNavigation = true,
     $requiredPermissions = array();
@@ -271,16 +270,6 @@ class rex_be_page implements rex_be_page_container
   public function isHidden()
   {
     return $this->hidden;
-  }
-
-  public function setIsCorePage($isCorePage)
-  {
-    $this->isCorePage = $isCorePage;
-  }
-
-  public function isCorePage()
-  {
-    return $this->isCorePage || ($this->parent && $this->parent->isCorePage());
   }
 
   public function setHasLayout($hasLayout)

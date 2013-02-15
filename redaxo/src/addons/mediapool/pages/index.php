@@ -178,11 +178,4 @@ function openPage(src)
 <?php
 
 // -------------- Include Page
-$pageObj = rex_be_controller::getCurrentPageObject()->getPage();
-if ($pageObj->hasSubPath()) {
-  require $pageObj->getSubPath();
-} elseif (in_array($subpage, array('upload', 'structure', 'sync'))) {
-  require __DIR__ . '/' . $subpage . '.php';
-} else {
-  require __DIR__ . '/media.php';
-}
+include rex_be_controller::getCurrentPageObject()->getSubPath();

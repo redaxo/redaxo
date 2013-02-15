@@ -93,14 +93,14 @@ class rex_be_controller
   static public function getSetupPage()
   {
     $page = new rex_be_page('setup', rex_i18n::msg('setup'));
-    $page->setIsCorePage(true);
+    $page->setPath(rex_path::core('pages/setup.php'));
     return $page;
   }
 
   static public function getLoginPage()
   {
     $page = new rex_be_page('login', 'login');
-    $page->setIsCorePage(true);
+    $page->setPath(rex_path::core('pages/login.php'));
     $page->setHasNavigation(false);
     return $page;
   }
@@ -108,137 +108,155 @@ class rex_be_controller
   static public function appendLoggedInPages()
   {
     $profile = new rex_be_page('profile', rex_i18n::msg('profile'));
-    $profile->setIsCorePage(true);
+    $profile->setPath(rex_path::core('pages/profile.php'));
     self::$pages['profile'] = $profile;
 
     $credits = new rex_be_page('credits', rex_i18n::msg('credits'));
-    $credits->setIsCorePage(true);
+    $credits->setPath(rex_path::core('pages/credits.php'));
     self::$pages['credits'] = $credits;
 
-    $addon = new rex_be_page('packages', rex_i18n::msg('addons'));
-    $addon->setIsCorePage(true);
-    $addon->setRequiredPermissions('isAdmin');
-    self::$pages['packages'] = new rex_be_page_main('system', $addon);
+    $packages = new rex_be_page('packages', rex_i18n::msg('addons'));
+    $packages->setPath(rex_path::core('pages/packages.php'));
+    $packages->setRequiredPermissions('isAdmin');
+    self::$pages['packages'] = new rex_be_page_main('system', $packages);
     self::$pages['packages']->setPrio(60);
 
-    $settings = new rex_be_page('settings', rex_i18n::msg('main_preferences'));
-
-    $languages = new rex_be_page('lang', rex_i18n::msg('languages'));
-
-    $syslog = new rex_be_page('log', rex_i18n::msg('syslog'));
-
+    $system = new rex_be_page('system', rex_i18n::msg('system'));
+    $system->setPath(rex_path::core('pages/system.php'));
+    $system->setRequiredPermissions('isAdmin');
+    $system->addSubPage(new rex_be_page('settings', rex_i18n::msg('main_preferences')));
+    $system->addSubPage(new rex_be_page('lang', rex_i18n::msg('languages')));
+    $system->addSubPage(new rex_be_page('log', rex_i18n::msg('syslog')));
     $phpinfo = new rex_be_page('phpinfo', 'phpinfo');
     $phpinfo->setHidden(true);
     $phpinfo->setHasLayout(false);
-
-    $mainSpecials = new rex_be_page('system', rex_i18n::msg('system'));
-    $mainSpecials->setIsCorePage(true);
-    $mainSpecials->setRequiredPermissions('isAdmin');
-    $mainSpecials->addSubPage($settings);
-    $mainSpecials->addSubPage($languages);
-    $mainSpecials->addSubPage($syslog);
-    $mainSpecials->addSubPage($phpinfo);
-    self::$pages['system'] = new rex_be_page_main('system', $mainSpecials);
+    $system->addSubPage($phpinfo);
+    self::$pages['system'] = new rex_be_page_main('system', $system);
     self::$pages['system']->setPrio(70);
   }
 
-  static public function appendAddonPages()
+  static public function appendPackagePages()
   {
-    $addPageProperties = function (rex_be_page_container $page, array $properties, rex_package $package) use (&$addPageProperties) {
-      foreach ($properties as $key => $value) {
-        if ($key == 'path' || $key == 'subPath') {
-          if (file_exists($path = $package->getPath($value))) {
-            $value = $path;
-          }
-        }
-        $page->_set($key, $value);
-      }
-      $page = $page->getPage();
-      if (isset($properties['subpages']) && is_array($properties['subpages'])) {
-        foreach ($properties['subpages'] as $key => $subProperties) {
-          if (isset($subProperties['title'])) {
-            $subPage = new rex_be_page($key, $subProperties['title']);
-            $page->addSubPage($subPage);
-            $addPageProperties($subPage, $subProperties, $package);
-          }
-        }
-      }
-    };
-
     $addons = rex::isSafeMode() ? rex_addon::getSetupAddons() : rex_addon::getAvailableAddons();
     foreach ($addons as $addonKey => $addon) {
-      $page = $addon->getProperty('page');
-      $mainPage = null;
-      if (!$page instanceof rex_be_page_container) {
-        $navi = $addon->getProperty('navigation');
-        if (isset($navi['title'])) {
-          $page = new rex_be_page($addonKey, $navi['title']);
-          $mainPage = new rex_be_page_main('addons', $page);
-          $addPageProperties($mainPage, $navi, $addon);
-        }
-      } elseif ($page instanceof rex_be_page_main) {
-        $mainPage = $page;
-        $page = $mainPage->getPage();
-      } else {
-        $mainPage = new rex_be_page_main('addons', $page);
-      }
+      $mainPage = self::getPackagePage($addon, true);
 
-      if ($mainPage) {
-        self::$pages[$mainPage->getPage()->getKey()] = $mainPage;
-      }
-
-      if (is_array($ps = $addon->getProperty('pages'))) {
-        foreach ($ps as $p) {
-          if ($p instanceof rex_be_page_main) {
-            self::$pages[$p->getPage()->getKey()] = $p;
-            if (!$p->getPage()->hasPath()) {
-              $p->getPage()->setPath($addon->getPath('pages/index.php'));
-            }
-          } elseif ($p instanceof rex_be_page && $mainPage) {
-            $mainPage->getPage()->addSubPage($p);
-          }
-        }
-      }
+      self::addPackagePages($addon, $mainPage);
 
       // handle plugins
       $plugins = rex::isSafeMode() ? $addon->getSystemPlugins() : $addon->getAvailablePlugins();
       foreach ($plugins as $pluginKey => $plugin) {
-        $pluginPage = $plugin->getProperty('page');
-        if (!$pluginPage instanceof rex_be_page_container) {
-          $pluginPage = null;
-          $navi = $plugin->getProperty('navigation');
-          if (isset($navi['title'])) {
-            $pluginPage = new rex_be_page($pluginKey, $navi['title']);
-            $addPageProperties($pluginPage, $navi, $plugin);
+        $page = self::getPackagePage($plugin, false);
+
+        if ($mainPage && $page && !$page instanceof rex_be_page_main) {
+          if (!$page->hasSubPath()) {
+            $page->setSubPath($plugin->getPath('pages/index.php'));
           }
-        } elseif ($pluginPage instanceof rex_be_page_main) {
-          self::$pages[$pluginPage->getPage()->getKey()] = $pluginPage;
-          if (!$pluginPage->getPage()->hasPath()) {
-            $pluginPage->getPage()->setPath($plugin->getPath('pages/index.php'));
-          }
-          $pluginPage = null;
-        }
-        if ($mainPage && $pluginPage) {
-          if (!$pluginPage->hasSubPath()) {
-            $pluginPage->setSubPath($plugin->getPath('pages/index.php'));
-          }
-          $mainPage->getPage()->addSubPage($pluginPage);
+          $mainPage->getPage()->addSubPage($page);
         }
 
-        if (is_array($ps = $plugin->getProperty('pages'))) {
-          foreach ($ps as $p) {
-            if ($p instanceof rex_be_page_main) {
-              self::$pages[$p->getPage()->getKey()] = $p;
-              if (!$p->getPage()->hasPath()) {
-                $p->getPage()->setPath($plugin->getPath('pages/index.php'));
-              }
-            } elseif ($p instanceof rex_be_page && $mainPage) {
-              if (!$p->hasSubPath()) {
-                $p->setSubPath($plugin->getPath('pages/index.php'));
-              }
-              $mainPage->getPage()->addSubPage($p);
-            }
+        self::addPackagePages($plugin, $mainPage);
+      }
+    }
+  }
+
+  /**
+   * @param rex_be_page_container $page
+   * @param rex_package           $package
+   * @param string                $prefix
+   */
+  static private function pageSetSubPaths(rex_be_page_container $page, rex_package $package, $prefix = '')
+  {
+    foreach ($page->getPage()->getSubPages() as $subpage) {
+      if (!$subpage->hasSubPath()) {
+        $subpage->setSubPath($package->getPath('pages/' . $prefix . $subpage->getKey() . '.php'));
+      }
+      self::pageSetSubPaths($subpage, $package, $prefix . $subpage->getKey() . '.');
+    }
+  }
+
+  /**
+   * @param rex_be_page_container $page
+   * @param array                 $properties
+   * @param rex_package           $package
+   */
+  static private function pageAddProperties(rex_be_page_container $page, array $properties, rex_package $package)
+  {
+    foreach ($properties as $key => $value) {
+      if ($key == 'path' || $key == 'subPath') {
+        if (file_exists($path = $package->getPath($value))) {
+          $value = $path;
+        }
+      }
+      $page->_set($key, $value);
+    }
+    $page = $page->getPage();
+    if (isset($properties['subpages']) && is_array($properties['subpages'])) {
+      foreach ($properties['subpages'] as $key => $subProperties) {
+        if (isset($subProperties['title'])) {
+          $subPage = new rex_be_page($key, $subProperties['title']);
+          $page->addSubPage($subPage);
+          self::pageAddProperties($subPage, $subProperties, $package);
+        }
+      }
+    }
+  }
+
+  /**
+   * @param rex_package $package
+   * @param boolean     $createMainPage
+   * @return null|rex_be_page_container
+   */
+  static private function getPackagePage(rex_package $package, $createMainPage)
+  {
+    $page = $package->getProperty('page');
+    if (!$page instanceof rex_be_page_container) {
+      $navi = $package->getProperty('navigation');
+      if (isset($navi['title'])) {
+        $page = new rex_be_page($package->getName(), $navi['title']);
+        if ($createMainPage) {
+          $page = new rex_be_page_main('addons', $page);
+        }
+        self::pageAddProperties($page, $navi, $package);
+      }
+    } elseif ($createMainPage && !$page instanceof rex_be_page_main) {
+      $page = new rex_be_page_main('addons', $page);
+    }
+
+    if ($page instanceof rex_be_page_main) {
+      if (!$page->getPage()->hasPath()) {
+        $page->getPage()->setPath($package->getPath('pages/index.php'));
+      }
+      self::$pages[$page->getPage()->getKey()] = $page;
+    }
+
+    if ($page instanceof rex_be_page_container) {
+      self::pageSetSubPaths($page, $package);
+      return $page;
+    }
+    return null;
+  }
+
+  /**
+   * @param rex_package      $package
+   * @param rex_be_page_main $mainPage
+   */
+  static private function addPackagePages(rex_package $package, rex_be_page_main $mainPage = null)
+  {
+    if (is_array($pages = $package->getProperty('pages'))) {
+      foreach ($pages as $page) {
+        $prefix = $page->getPage()->getKey() . '.';
+        self::pageSetSubPaths($page, $package, $prefix);
+        if ($page instanceof rex_be_page_main) {
+          self::$pages[$page->getPage()->getKey()] = $page;
+          if (!$page->getPage()->hasPath()) {
+            $page->getPage()->setPath($package->getPath('pages/' . $prefix . 'php'));
           }
+        } elseif ($page instanceof rex_be_page && $mainPage) {
+          if (!$page->hasSubPath()) {
+            $page->setSubPath($package->getPath('pages/' . $prefix . 'php'));
+          }
+          $mainPage->getPage()->addSubPage($page);
         }
       }
     }
@@ -274,41 +292,26 @@ class rex_be_controller
    */
   static public function includeCurrentPage()
   {
-    $_activePageObj = self::getCurrentPageObject()->getPage();
-    $page = self::getCurrentPagePart(1);
-    $_mainPageObj = self::getPageObject($page)->getPage();
+    $currentPage = self::getCurrentPageObject()->getPage();
 
     if (rex_request::isPJAXRequest() && !rex_request::isPJAXContainer('#rex-page')) {
       // non-core pjax containers should not have a layout.
       // they render their whole response on their own
-      $_activePageObj->setHasLayout(false);
+      $currentPage->setHasLayout(false);
     }
 
     require rex_path::core('layout/top.php');
 
-    $path = '';
-    if ($_activePageObj->hasPath()) {
-      $path = $_activePageObj->getPath();
-    }
-
-    if ($path != '') {
-      // If page has a new/overwritten path
-      $pattern = '@' . preg_quote(rex_path::src('addons/'), '@') . '([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@';
-      if (preg_match($pattern, $path, $matches)) {
-        $package = rex_addon::get($matches[1]);
-        if (isset($matches[2])) {
-          $package = $package->getPlugin($matches[2]);
-        }
-        $package->includeFile(str_replace($package->getPath(), '', $path));
-      } else {
-        require $path;
+    $path = $currentPage->getPath();
+    $pattern = '@' . preg_quote(rex_path::src('addons/'), '@') . '([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@';
+    if (preg_match($pattern, $path, $matches)) {
+      $package = rex_addon::get($matches[1]);
+      if (isset($matches[2])) {
+        $package = $package->getPlugin($matches[2]);
       }
-    } elseif ($_mainPageObj->isCorePage()) {
-      // Core Page
-      require rex_path::core('pages/' . $page . '.php');
+      $package->includeFile(str_replace($package->getPath(), '', $path));
     } else {
-      // Addon Page
-      rex_addon::get($page)->includeFile('pages/index.php');
+      include $path;
     }
 
     require rex_path::core('layout/bottom.php');

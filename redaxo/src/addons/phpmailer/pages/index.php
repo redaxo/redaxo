@@ -15,10 +15,4 @@ $func = rex_request('func', 'string');
 
 echo rex_view::title($this->i18n('title'));
 
-switch ($subpage) {
-    case 'example':
-        require __DIR__ . '/example.php';
-    break;
-    default:
-        require __DIR__ . '/settings.php';
-}
+include rex_be_controller::getCurrentPageObject()->getSubPath();

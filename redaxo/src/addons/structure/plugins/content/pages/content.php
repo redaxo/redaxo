@@ -508,12 +508,7 @@ if ($article->getRows() == 1) {
 
 
     // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
-    $page = rex_be_controller::getCurrentPageObject();
-    if ($page->hasSubPath()) {
-      require $page->getSubPath();
-    } else {
-      require __DIR__ . '/content.' . rex_be_controller::getCurrentPagePart(2) . '.php';
-    }
+    include rex_be_controller::getCurrentPageObject()->getSubPath();
 
     // ------------------------------------------ END: AUSGABE
 

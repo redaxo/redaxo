@@ -16,9 +16,6 @@ echo rex_view::title($this->i18n('title'));
 
 echo "\n  <div class=\"rex-addon-output-v2\">\n  ";
 
-if (!in_array($subpage, array('log')))
-  $subpage = 'cronjobs';
-
-require $this->getPath('pages/' . $subpage . '.php');
+include rex_be_controller::getCurrentPageObject()->getSubPath();
 
 echo "\n  </div>";
