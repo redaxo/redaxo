@@ -52,6 +52,14 @@ class rex_be_page
     return $this->title;
   }
 
+  /**
+   * Sets whether the page is a popup page
+   *
+   * The method adds (or removes) also the rex-popup CSS class and sets hasNavigation to false (true).
+   * If $popup is a string, the variable will be used for the onclick attribute.
+   *
+   * @param bool|string $popup
+   */
   public function setPopup($popup)
   {
     if ($popup) {
@@ -71,6 +79,9 @@ class rex_be_page
     }
   }
 
+  /**
+   * @return bool
+   */
   public function isPopup()
   {
     return $this->popup;
@@ -233,6 +244,11 @@ class rex_be_page
     return $this->subPath;
   }
 
+  /**
+   * Adds a subpage
+   *
+   * @param self $subpage
+   */
   public function addSubPage(self $subpage)
   {
     $this->subPages[$subpage->getKey()] = $subpage;
@@ -248,6 +264,11 @@ class rex_be_page
     }
   }
 
+  /**
+   * Sets all subpages
+   *
+   * @param self[] $subpages
+   */
   public function setSubPages(array $subpages)
   {
     $this->subPages = array();
@@ -255,6 +276,8 @@ class rex_be_page
   }
 
   /**
+   * Returns the subpage for the given key
+   *
    * @param string $key
    * @return self
    */
@@ -264,7 +287,9 @@ class rex_be_page
   }
 
   /**
-   * @return array[self]
+   * Returns all subpages
+   *
+   * @return self[]
    */
   public function getSubPages()
   {
