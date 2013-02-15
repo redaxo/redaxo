@@ -455,7 +455,7 @@ if ($article->getRows() == 1) {
       $subpage = new rex_be_page('ctype' . $key, rex_i18n::translate($val));
       $subpage->setHref(array('page' => 'content/edit', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key));
       $subpage->setIsActive($ctype == $key);
-     $editPage->addSubPage($subpage);
+     $editPage->addSubpage($subpage);
     }
 
     $nav = rex_be_navigation::factory();
@@ -465,7 +465,7 @@ if ($article->getRows() == 1) {
     $content_navi_left = $navigation['navigation'];
 
     $nav = rex_be_navigation::factory();
-    foreach (rex_be_controller::getPageObject('content')->getSubPages() as $subpage) {
+    foreach (rex_be_controller::getPageObject('content')->getSubpages() as $subpage) {
       if ($subpage->getKey() != 'edit') {
         $subpage->setHref($context->getUrl(array('page' => $subpage->getFullKey())));
         $nav->addPage($subpage);

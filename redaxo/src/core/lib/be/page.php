@@ -15,7 +15,7 @@ class rex_be_page
     $subPath,
 
     $parent,
-    $subPages = array(),
+    $subpages = array(),
 
     $isActive = null,
     $hidden = false,
@@ -249,9 +249,9 @@ class rex_be_page
    *
    * @param self $subpage
    */
-  public function addSubPage(self $subpage)
+  public function addSubpage(self $subpage)
   {
-    $this->subPages[$subpage->getKey()] = $subpage;
+    $this->subpages[$subpage->getKey()] = $subpage;
     $subpage->parent = $this;
     $subpage->setParentKey($this->getFullKey());
   }
@@ -259,8 +259,8 @@ class rex_be_page
   private function setParentKey($key)
   {
     $this->fullKey = $key . '/' . $this->key;
-    foreach ($this->subPages as $subPage) {
-      $subPage->setParentKey($this->fullKey);
+    foreach ($this->subpages as $subpage) {
+      $subpage->setParentKey($this->fullKey);
     }
   }
 
@@ -269,10 +269,10 @@ class rex_be_page
    *
    * @param self[] $subpages
    */
-  public function setSubPages(array $subpages)
+  public function setSubpages(array $subpages)
   {
-    $this->subPages = array();
-    array_walk($subpages, array($this, 'addSubPage'));
+    $this->subpages = array();
+    array_walk($subpages, array($this, 'addSubpage'));
   }
 
   /**
@@ -281,9 +281,9 @@ class rex_be_page
    * @param string $key
    * @return self
    */
-  public function getSubPage($key)
+  public function getSubpage($key)
   {
-    return isset($this->subPages[$key]) ? $this->subPages[$key] : null;
+    return isset($this->subpages[$key]) ? $this->subpages[$key] : null;
   }
 
   /**
@@ -291,9 +291,9 @@ class rex_be_page
    *
    * @return self[]
    */
-  public function getSubPages()
+  public function getSubpages()
   {
-    return $this->subPages;
+    return $this->subpages;
   }
 
   public function setIsActive($isActive = true)

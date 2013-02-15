@@ -64,7 +64,7 @@ if ($func == '') {
           rex_perm::register($perm);
         }
       }
-      $registerImplicitePagePermissions($page->getSubPages());
+      $registerImplicitePagePermissions($page->getSubpages());
     }
   };
   $registerImplicitePagePermissions(rex_be_controller::getPages());

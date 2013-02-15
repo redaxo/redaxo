@@ -110,7 +110,7 @@ rex_be_controller::setPages($pages);
 // Set current page recursively to first subpage
 $page = rex_be_controller::getCurrentPageObject();
 if ($page) {
-  while ($subpages = $page->getSubPages()) {
+  while ($subpages = $page->getSubpages()) {
     $page = reset($subpages);
   }
   rex_be_controller::setCurrentPage($page->getFullKey());

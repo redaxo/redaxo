@@ -105,7 +105,7 @@ class rex_be_navigation extends rex_factory_base
       $n['title']  = $page->getTitle();
       $n['active'] = $page->isActive();
 
-      $subpages = $page->getSubPages();
+      $subpages = $page->getSubpages();
       if (is_array($subpages) && !empty($subpages)) {
         $n['children'] = $this->_getNavigation($subpages);
       }
@@ -125,7 +125,7 @@ class rex_be_navigation extends rex_factory_base
           $page->addItemClass('rex-active');
 
           // check for subpages
-          foreach ($page->getSubPages() as $subpage) {
+          foreach ($page->getSubpages() as $subpage) {
             if ($subpage->isActive()) {
               $subpage->addItemClass('rex-active');
             }

@@ -54,7 +54,7 @@ class rex_be_controller
     }
     $obj = self::$pages[$page[0]];
     for ($i = 1, $count = count($page); $i < $count; ++$i) {
-      if ($new = $obj->getSubPage($page[$i])) {
+      if ($new = $obj->getSubpage($page[$i])) {
         $obj = $new;
       } else {
         return null;
@@ -125,13 +125,13 @@ class rex_be_controller
     $system->setPath(rex_path::core('pages/system.php'));
     $system->setRequiredPermissions('isAdmin');
     $system->setPrio(70);
-    $system->addSubPage(new rex_be_page('settings', rex_i18n::msg('main_preferences')));
-    $system->addSubPage(new rex_be_page('lang', rex_i18n::msg('languages')));
-    $system->addSubPage(new rex_be_page('log', rex_i18n::msg('syslog')));
+    $system->addSubpage(new rex_be_page('settings', rex_i18n::msg('main_preferences')));
+    $system->addSubpage(new rex_be_page('lang', rex_i18n::msg('languages')));
+    $system->addSubpage(new rex_be_page('log', rex_i18n::msg('syslog')));
     $phpinfo = new rex_be_page('phpinfo', 'phpinfo');
     $phpinfo->setHidden(true);
     $phpinfo->setHasLayout(false);
-    $system->addSubPage($phpinfo);
+    $system->addSubpage($phpinfo);
     self::$pages['system'] = $system;
   }
 
@@ -195,7 +195,7 @@ class rex_be_controller
           $page->setSubPath($package->getPath('pages/' . ($prefix ?: 'index.') . 'php'));
         }
         if ($mainPage) {
-          $mainPage->addSubPage($page);
+          $mainPage->addSubpage($page);
         }
       }
       self::pageSetSubPaths($page, $package, $prefix);
@@ -211,7 +211,7 @@ class rex_be_controller
    */
   static private function pageSetSubPaths(rex_be_page $page, rex_package $package, $prefix = '')
   {
-    foreach ($page->getSubPages() as $subpage) {
+    foreach ($page->getSubpages() as $subpage) {
       if (!$subpage->hasSubPath()) {
         $subpage->setSubPath($package->getPath('pages/' . $prefix . $subpage->getKey() . '.php'));
       }
@@ -237,9 +237,9 @@ class rex_be_controller
     if (isset($properties['subpages']) && is_array($properties['subpages'])) {
       foreach ($properties['subpages'] as $key => $subProperties) {
         if (isset($subProperties['title'])) {
-          $subPage = new rex_be_page($key, $subProperties['title']);
-          $page->addSubPage($subPage);
-          self::pageAddProperties($subPage, $subProperties, $package);
+          $subpage = new rex_be_page($key, $subProperties['title']);
+          $page->addSubpage($subpage);
+          self::pageAddProperties($subpage, $subProperties, $package);
         }
       }
     }

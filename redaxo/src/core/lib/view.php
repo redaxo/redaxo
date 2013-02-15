@@ -164,7 +164,7 @@ class rex_view
     }
 
     if ($subtitle === null) {
-      $subtitle = rex_be_controller::getPageObject(rex_be_controller::getCurrentPagePart(1))->getSubPages();
+      $subtitle = rex_be_controller::getPageObject(rex_be_controller::getCurrentPagePart(1))->getSubpages();
     }
 
     if (is_array($subtitle) && count($subtitle) && reset($subtitle) instanceof rex_be_page) {

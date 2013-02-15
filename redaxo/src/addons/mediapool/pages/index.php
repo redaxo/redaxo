@@ -70,7 +70,7 @@ rex_set_session('media[rex_file_category]', $rex_file_category);
 $PERMALL = rex::getUser()->getComplexPerm('media')->hasCategoryPerm(0);
 
 // -------------- Header
-$subline = rex_be_controller::getPageObject('mediapool')->getSubPages();
+$subline = rex_be_controller::getPageObject('mediapool')->getSubpages();
 
 foreach ($subline as $sp) {
   $sp->setHref(rex_url::backendPage($sp->getFullKey(), $arg_url));
