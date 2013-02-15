@@ -2,3 +2,30 @@ package: structure/content
 version: '5.0 a1'
 author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
+
+pages:
+  content:
+    title: translate:content
+    main: true
+    block: system
+    hidden: true
+    perm: structure/hasStructurePerm
+    subpages:
+      edit: { title: translate:edit_mode }
+      meta: { title: translate:metadata }
+      functions: { title: translate:metafuncs }
+  templates:
+    title: translate:templates
+    main: true
+    block: system
+    prio: 30
+    perm: admin
+  modules:
+    title: translate:modules
+    main: true
+    block: system
+    prio: 40
+    perm: admin
+    subpages:
+      modules: { title: translate:modules }
+      actions: { title: translate:actions }

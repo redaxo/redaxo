@@ -3,10 +3,19 @@ version: '5.0 a1'
 author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
 
-navigation:
-  title: 'translate:structure'
+page:
+  title: translate:structure
   perm: structure/hasStructurePerm
   block: system
   prio: 10
+
+pages:
+  linkmap:
+    title: translate:linkmap
+    main: true
+    block: system
+    popup: true
+    hidden: true
+    perm: structure/hasStructurePerm
 
 system_plugins: [content]

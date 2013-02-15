@@ -30,13 +30,6 @@ else {
 }
 
 if (rex::isBackend() && rex::getUser()) {
-  $page = new rex_be_page_main('system', 'linkmap', rex_i18n::msg('linkmap'));
-  $page->setPopup(true);
-  $page->setHidden(true);
-  $page->setRequiredPermissions('structure/hasStructurePerm');
-
-  $this->setProperty('pages', array($page));
-
   rex_view::addJsFile($this->getAssetsUrl('linkmap.js'));
 
   rex_extension::register('PAGE_SIDEBAR', function ($params) {

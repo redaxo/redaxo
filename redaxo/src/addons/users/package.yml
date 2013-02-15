@@ -5,7 +5,7 @@ supportpage: www.redaxo.org/de/forum/
 
 load: early
 
-navigation:
+page:
   title: 'translate:users'
   perm: users[]
   block: system

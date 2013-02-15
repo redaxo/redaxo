@@ -2,7 +2,8 @@ package: be_dashboard
 version: '5.0 a1'
 author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
-navigation:
+
+page:
   title: Dashboard
   perm: be_dashboard[]
   block: system

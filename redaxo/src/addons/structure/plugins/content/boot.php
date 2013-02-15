@@ -12,33 +12,6 @@ rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
 rex_complex_perm::register('modules', 'rex_module_perm');
 
 if (rex::isBackend()) {
-  $pages = array();
-
-  $page = new rex_be_page_main('system', 'content', rex_i18n::msg('content'));
-  $page->setRequiredPermissions('structure/hasStructurePerm');
-  $page->setHidden(true);
-  $subpage = new rex_be_page('edit', rex_i18n::msg('edit_mode'));
-  $page->addSubPage($subpage);
-  $subpage = new rex_be_page('meta', rex_i18n::msg('metadata'));
-  $page->addSubPage($subpage);
-  $subpage = new rex_be_page('functions', rex_i18n::msg('metafuncs'));
-  $page->addSubPage($subpage);
-  $pages[] = $page;
-
-  $page = new rex_be_page_main('system', 'templates', rex_i18n::msg('templates'));
-  $page->setRequiredPermissions('admin');
-  $page->setPrio(30);
-  $pages[] = $page;
-
-  $page = new rex_be_page_main('system', 'modules', rex_i18n::msg('modules'));
-  $page->setRequiredPermissions('admin');
-  $page->setPrio(40);
-  $page->addSubPage(new rex_be_page('modules', rex_i18n::msg('modules')));
-  $page->addSubPage(new rex_be_page('actions', rex_i18n::msg('actions')));
-  $pages[] = $page;
-
-  $this->setProperty('pages', $pages);
-
   rex_extension::register('PAGE_CHECKED', function ($params) {
     if (rex_be_controller::getCurrentPagePart(1) == 'content') {
       rex_be_controller::getPageObject('structure')->setIsActive(true);

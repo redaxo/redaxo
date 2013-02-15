@@ -3,7 +3,7 @@ version: '5.0 alpha2'
 author: 'Markus Staab, Brent R. Matzelle'
 supportpage: www.redaxo.org/de/forum/
 
-navigation:
+page:
   title: PHPMailer
   perm: phpmailer[]
   subpages:

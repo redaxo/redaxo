@@ -3,7 +3,7 @@ version: '5.0 a1'
 author: 'Jan Kristinus'
 supportpage: www.redaxo.org/de/forum/
 
-navigation:
+page:
   title: translate:mediapool
   popup: openMediaPool(); return false;
   perm: media/hasMediaPerm
