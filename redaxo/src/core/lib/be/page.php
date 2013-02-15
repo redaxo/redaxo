@@ -353,6 +353,9 @@ class rex_be_page
     return $this->hasNavigation && (!$this->parent || $this->parent->hasNavigation());
   }
 
+  /**
+   * @param array|string $perm
+   */
   public function setRequiredPermissions($perm)
   {
     $this->requiredPermissions = (array) $perm;
@@ -376,14 +379,19 @@ class rex_be_page
     return true;
   }
 
+  /**
+   * @param string       $key
+   * @param array|string $value
+   */
   public function _set($key, $value)
   {
-    if (!is_string($key) || strtolower($key) == 'subpages')
+    if (!is_string($key) || strtolower($key) == 'subpages') {
       return;
+    }
 
-    $setter = array($this, $key == 'perm' ? 'setRequiredPermissions' : 'set' . ucfirst($key));
-    if (is_callable($setter)) {
-      return call_user_func($setter, $value);
+    if ($key == 'perm') {
+      $this->setRequiredPermissions($value);
+      return;
     }
 
     $setter = array($this, 'add' . ucfirst($key));
@@ -395,6 +403,12 @@ class rex_be_page
       } else {
         call_user_func($setter, $value);
       }
+      return;
+    }
+
+    $setter = array($this, 'set' . ucfirst($key));
+    if (is_callable($setter)) {
+      call_user_func($setter, $value);
     }
   }
 }
