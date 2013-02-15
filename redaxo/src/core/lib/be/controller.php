@@ -280,15 +280,12 @@ class rex_be_controller
           if (file_exists($path = $package->getPath($value))) {
             $value = $path;
           }
+          // fall through, don't break
         default:
           $setter = array($page, 'add' . ucfirst($key));
           if (is_callable($setter)) {
-            if (is_array($value)) {
-              foreach ($value as $v) {
-                call_user_func($setter, $v);
-              }
-            } else {
-              call_user_func($setter, $value);
+            foreach ((array) $value as $v) {
+              call_user_func($setter, $v);
             }
             break;
           }
