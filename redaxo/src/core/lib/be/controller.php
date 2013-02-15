@@ -227,20 +227,44 @@ class rex_be_controller
   static private function pageAddProperties(rex_be_page $page, array $properties, rex_package $package)
   {
     foreach ($properties as $key => $value) {
-      if ($key == 'path' || $key == 'subPath') {
-        if (file_exists($path = $package->getPath($value))) {
-          $value = $path;
-        }
-      }
-      $page->_set($key, $value);
-    }
-    if (isset($properties['subpages']) && is_array($properties['subpages'])) {
-      foreach ($properties['subpages'] as $key => $subProperties) {
-        if (isset($subProperties['title'])) {
-          $subpage = new rex_be_page($key, $subProperties['title']);
-          $page->addSubpage($subpage);
-          self::pageAddProperties($subpage, $subProperties, $package);
-        }
+      switch (strtolower($key)) {
+        case 'subpages':
+          if (is_array($value)) {
+            foreach ($value as $key => $subProperties) {
+              if (isset($subProperties['title'])) {
+                $subpage = new rex_be_page($key, $subProperties['title']);
+                $page->addSubpage($subpage);
+                self::pageAddProperties($subpage, $subProperties, $package);
+              }
+            }
+          }
+          break;
+
+        case 'perm':
+          $page->setRequiredPermissions($value);
+          break;
+
+        case 'path':
+        case 'subpath':
+          if (file_exists($path = $package->getPath($value))) {
+            $value = $path;
+          }
+        default:
+          $setter = array($page, 'add' . ucfirst($key));
+          if (is_callable($setter)) {
+            if (is_array($value)) {
+              foreach ($value as $v) {
+                call_user_func($setter, $v);
+              }
+            } else {
+              call_user_func($setter, $value);
+            }
+            break;
+          }
+          $setter = array($page, 'set' . ucfirst($key));
+          if (is_callable($setter)) {
+            call_user_func($setter, $value);
+          }
       }
     }
   }

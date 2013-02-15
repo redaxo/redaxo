@@ -378,37 +378,4 @@ class rex_be_page
     }
     return true;
   }
-
-  /**
-   * @param string       $key
-   * @param array|string $value
-   */
-  public function _set($key, $value)
-  {
-    if (!is_string($key) || strtolower($key) == 'subpages') {
-      return;
-    }
-
-    if ($key == 'perm') {
-      $this->setRequiredPermissions($value);
-      return;
-    }
-
-    $setter = array($this, 'add' . ucfirst($key));
-    if (is_callable($setter)) {
-      if (is_array($value)) {
-        foreach ($value as $v) {
-          call_user_func($setter, $v);
-        }
-      } else {
-        call_user_func($setter, $value);
-      }
-      return;
-    }
-
-    $setter = array($this, 'set' . ucfirst($key));
-    if (is_callable($setter)) {
-      call_user_func($setter, $value);
-    }
-  }
 }
