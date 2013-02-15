@@ -33,6 +33,7 @@ if (rex::isSetup()) {
 
   // read initial config
   $configFile = rex_path::data('config.yml');
+  rex_file::copy(rex_path::core('default.config.yml'), $configFile);
   $config = rex_file::getConfig($configFile);
 
   // init db

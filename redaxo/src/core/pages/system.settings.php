@@ -34,7 +34,10 @@ if ($func == 'setup') {
   $success = 'Updated assets';
 } elseif ($func == 'updateinfos') {
   $configFile = rex_path::data('config.yml');
-  $config = rex_file::getConfig($configFile);
+  $config = array_merge(
+    rex_file::getConfig(rex_path::core('default.config.yml')),
+    rex_file::getConfig($configFile)
+  );
 
   $settings = rex_post('settings', 'array', array());
 

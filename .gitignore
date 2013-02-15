@@ -2,7 +2,7 @@
 /docs/
 /media/
 /redaxo/cache/
-/redaxo/data/addons/
+/redaxo/data/
 
 # Composer Autoloader
 /redaxo/src/addons/textile/vendor/autoload.php

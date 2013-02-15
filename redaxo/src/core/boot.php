@@ -64,7 +64,10 @@ rex::setProperty('version', 5);
 rex::setProperty('subversion', 0);
 rex::setProperty('minorversion', 'alpha3');
 
-$config = rex_file::getConfig(rex_path::data('config.yml'));
+$config = array_merge(
+  rex_file::getConfig(rex_path::core('default.config.yml')),
+  rex_file::getConfig(rex_path::data('config.yml'))
+);
 foreach ($config as $key => $value) {
   if (in_array($key, array('fileperm', 'dirperm'))) {
     $value = octdec($value);

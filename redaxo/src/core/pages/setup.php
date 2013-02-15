@@ -102,7 +102,7 @@ if ($step == 3) {
   jQuery(function($){
 
     $.ajax({
-      url: "' . rex_url::backend('data/config.yml') . '",
+      url: "' . rex_url::backend('data/.redaxo') . '",
       success: function(data) {
         $(".rex-setup-security-message").removeClass("rex-hidden");
       },
@@ -157,7 +157,10 @@ $error_array = array();
 
 if ($step >= 4) {
   $configFile = rex_path::data('config.yml');
-  $config = rex_file::getConfig($configFile);
+  $config = array_merge(
+    rex_file::getConfig(rex_path::core('default.config.yml')),
+    rex_file::getConfig($configFile)
+  );
 }
 
 if ($step > 4 && rex_post('serveraddress', 'string', '-1') != '-1') {
@@ -690,7 +693,10 @@ if ($step == 6) {
 if ($step == 7) {
 
   $configFile = rex_path::data('config.yml');
-  $config = rex_file::getConfig($configFile);
+  $config = array_merge(
+    rex_file::getConfig(rex_path::core('default.config.yml')),
+    rex_file::getConfig($configFile)
+  );
   $config['setup'] = false;
 
   if (rex_file::putConfig($configFile, $config)) {
