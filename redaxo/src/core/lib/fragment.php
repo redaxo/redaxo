@@ -172,21 +172,6 @@ class rex_fragment
   }
 
   /**
-   * Returns the config for key $key.
-   * Enter description here ...
-   * @param $key
-   */
-  protected function config($key)
-  {
-    if (!is_string($key)) {
-      throw new rex_exception(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
-    }
-
-    return rex::getProperty($key);
-  }
-
-
-  /**
    * Magic getter to reference variables from within the fragment.
    *
    * @param string $name The name of the variable to get.
