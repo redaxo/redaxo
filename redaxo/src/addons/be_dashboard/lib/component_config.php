@@ -39,19 +39,17 @@ abstract class rex_dashboard_component_config
    *
    * Jedes Formular-Element muss einen Namen tragen der mittels getInputName() generiert wurden,
    * damit zwischen den Komponenten keine Kkollissionen auftreten.
+   *
+   * @return string
    */
-  protected function getForm()
-  {
-    trigger_error('The getForm method has to be overridden by a subclass!', E_USER_ERROR);
-  }
+  abstract protected function getForm();
 
   /**
    * Stellt aus den Daten des POSTs die Einstellungen der Komponente her.
+   *
+   * @return array
    */
-  protected function getFormValues()
-  {
-      trigger_error('The getFormValues method has to be overridden by a subclass!', E_USER_ERROR);
-  }
+  abstract protected function getFormValues();
 
   /**
    * Laedt die Einstellungen der Komponente.

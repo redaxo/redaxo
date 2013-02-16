@@ -140,10 +140,7 @@ abstract class rex_dashboard_component_base
     return $content;
   }
 
-  public function _get()
-  {
-    trigger_error('The _get method has to be overridden by a subclass!', E_USER_ERROR);
-  }
+  abstract public function _get();
 
   public function registerAsExtension($params)
   {
