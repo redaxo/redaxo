@@ -51,8 +51,8 @@ abstract class rex_package implements rex_package_interface
    * Returns the package (addon or plugin) by the given package id
    *
    * @param string $packageId Package ID
-   *
-   * @return rex_addon|rex_plugin
+   * @throws rex_exception
+   * @return rex_package
    */
   static public function get($packageId)
   {
@@ -71,7 +71,6 @@ abstract class rex_package implements rex_package_interface
    * Returns if the package exists
    *
    * @param string $packageId Package ID
-   *
    * @return boolean
    */
   static public function exists($packageId)
@@ -83,48 +82,48 @@ abstract class rex_package implements rex_package_interface
     return rex_addon::exists($package[0]);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getName()
+  /**
+   * {@inheritDoc}
    */
   public function getName()
   {
     return $this->name;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::setConfig()
+  /**
+   * {@inheritDoc}
    */
   public function setConfig($key, $value = null)
   {
     return rex_config::set($this->getPackageId(), $key, $value);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getConfig()
+  /**
+   * {@inheritDoc}
    */
   public function getConfig($key = null, $default = null)
   {
     return rex_config::get($this->getPackageId(), $key, $default);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::hasConfig()
+  /**
+   * {@inheritDoc}
    */
   public function hasConfig($key = null)
   {
     return rex_config::has($this->getPackageId(), $key);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::removeConfig()
+  /**
+   * {@inheritDoc}
    */
   public function removeConfig($key)
   {
     return rex_config::remove($this->getPackageId(), $key);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::setProperty()
+  /**
+   * {@inheritDoc}
    */
   public function setProperty($key, $value)
   {
@@ -134,8 +133,8 @@ abstract class rex_package implements rex_package_interface
     $this->properties[$key] = $value;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getProperty()
+  /**
+   * {@inheritDoc}
    */
   public function getProperty($key, $default = null)
   {
@@ -145,8 +144,8 @@ abstract class rex_package implements rex_package_interface
     return $default;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::hasProperty()
+  /**
+   * {@inheritDoc}
    */
   public function hasProperty($key)
   {
@@ -159,8 +158,8 @@ abstract class rex_package implements rex_package_interface
     return isset($this->properties[$key]);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::removeProperty()
+  /**
+   * {@inheritDoc}
    */
   public function removeProperty($key)
   {
@@ -170,56 +169,56 @@ abstract class rex_package implements rex_package_interface
     unset($this->properties[$key]);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::isAvailable()
+  /**
+   * {@inheritDoc}
    */
   public function isAvailable()
   {
     return $this->isInstalled() && $this->isActivated();
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::isInstalled()
+  /**
+   * {@inheritDoc}
    */
   public function isInstalled()
   {
     return (boolean) $this->getProperty('install', false);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::isActivated()
+  /**
+   * {@inheritDoc}
    */
   public function isActivated()
   {
     return (boolean) $this->getProperty('status', false);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getAuthor()
+  /**
+   * {@inheritDoc}
    */
   public function getAuthor($default = null)
   {
     return $this->getProperty('author', $default);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getVersion()
+  /**
+   * {@inheritDoc}
    */
   public function getVersion($default = null)
   {
     return $this->getProperty('version', $default);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getSupportPage()
+  /**
+   * {@inheritDoc}
    */
   public function getSupportPage($default = null)
   {
     return $this->getProperty('supportpage', $default);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::includeFile()
+  /**
+   * {@inheritDoc}
    */
   public function includeFile($file)
   {
@@ -242,7 +241,7 @@ abstract class rex_package implements rex_package_interface
   /**
    * Returns the registered packages
    *
-   * @return array[rex_package]
+   * @return rex_package[]
    */
   static public function getRegisteredPackages()
   {
@@ -252,7 +251,7 @@ abstract class rex_package implements rex_package_interface
   /**
    * Returns the installed packages
    *
-   * @return array[rex_package]
+   * @return rex_package[]
    */
   static public function getInstalledPackages()
   {
@@ -262,7 +261,7 @@ abstract class rex_package implements rex_package_interface
   /**
    * Returns the available packages
    *
-   * @return array[rex_package]
+   * @return rex_package[]
    */
   static public function getAvailablePackages()
   {
@@ -272,7 +271,7 @@ abstract class rex_package implements rex_package_interface
   /**
    * Returns the setup packages
    *
-   * @return array[rex_package]
+   * @return rex_package[]
    */
   static public function getSetupPackages()
   {
@@ -282,7 +281,7 @@ abstract class rex_package implements rex_package_interface
   /**
    * Returns the system packages
    *
-   * @return array[rex_package]
+   * @return rex_package[]
    */
   static public function getSystemPackages()
   {
@@ -294,7 +293,7 @@ abstract class rex_package implements rex_package_interface
    *
    * @param string $method       Method
    * @param string $pluginMethod Optional other method for plugins
-   * @return array[rex_package]
+   * @return rex_package[]
    */
   static private function getPackages($method, $pluginMethod = null)
   {

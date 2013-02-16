@@ -10,14 +10,14 @@ abstract class rex_singleton_base
   /**
    * Singleton instances
    *
-   * @var array[rex_singleton_base];
+   * @var rex_singleton_base[]
    */
   static private $instances = array();
 
   /**
    * Returns the singleton instance
    *
-   * @return rex_singleton_base
+   * @return static
    */
   static public function getInstance()
   {

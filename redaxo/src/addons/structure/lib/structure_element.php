@@ -27,8 +27,11 @@ abstract class rex_structure_element
     $_updateuser = '',
     $_createuser = '';
 
-  /*
+  /**
    * Constructor
+   *
+   * @param bool|array $params
+   * @param bool|int   $clang
    */
   protected function __construct($params = false, $clang = false)
   {
@@ -46,15 +49,18 @@ abstract class rex_structure_element
     }
   }
 
+  /**
+   * @param int $clang
+   */
   public function setClang($clang)
   {
     $this->_clang = $clang;
   }
 
   /**
-   * Class Function:
    * Returns Object Value
    *
+   * @param string $value
    * @return string
    */
   public function getValue($value)
@@ -98,10 +104,9 @@ abstract class rex_structure_element
   }
 
   /**
-   * CLASS Function:
    * Returns an Array containing article field names
    *
-   * @return array[string]
+   * @return string[]
    */
   static public function getClassVars()
   {
@@ -134,12 +139,13 @@ abstract class rex_structure_element
   }
 
   /**
-   * CLASS Function:
    * Converts Genernated Array to OOBase Format Array
    *
+   * @param array $generatedArray
+   * @param int   $clang
    * @return array
    */
-  static public function convertGeneratedArray($generatedArray, $clang)
+  static public function convertGeneratedArray(array $generatedArray, $clang)
   {
     $rex_structure_elementArray['id'] = $generatedArray['article_id'][$clang];
     $rex_structure_elementArray['clang'] = $clang;
@@ -152,7 +158,7 @@ abstract class rex_structure_element
 
   /**
    * Array of rex_structure_element instances, keyed by classname, id and clang
-   * @var array[string][int][int]
+   * @var self[][][]
    */
   static private $instanceCache = array();
 
@@ -163,7 +169,6 @@ abstract class rex_structure_element
    * @param int $id    the article id
    * @param int $clang the clang id
    * @throws rex_exception
-   *
    * @return rex_structure_element A rex_structure_element instance typed to the late-static binding type of the caller
    */
   static protected function getById($id, $clang)
@@ -209,8 +214,7 @@ abstract class rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the clang of the category
+   * Returns the clang of the category
    *
    * @return integer
    */
@@ -220,9 +224,10 @@ abstract class rex_structure_element
   }
 
   /**
-   * Object Helper Function:
    * Returns a url for linking to this article
    *
+   * @param array|string $params
+   * @param string       $divider
    * @return string
    */
   public function getUrl($params = '', $divider = '&amp;')
@@ -231,8 +236,7 @@ abstract class rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the id of the article
+   * Returns the id of the article
    *
    * @return integer
    */
@@ -242,8 +246,7 @@ abstract class rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the parent_id of the article
+   * Returns the parent_id of the article
    *
    * @return integer
    */
@@ -253,18 +256,16 @@ abstract class rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the path of the category/article
+   * Returns the path of the category/article
    *
    * @return string
    */
   abstract public function getPath();
 
   /**
-   * Accessor Method:
-   * returns the path ids of the category/article as an array
+   * Returns the path ids of the category/article as an array
    *
-   * @return array[int]
+   * @return int[]
    */
   public function getPathAsArray()
   {
@@ -273,16 +274,15 @@ abstract class rex_structure_element
   }
 
   /**
-   * Object Function:
    * Returns the parent category
    *
-   * @return rex_structure_element
+   * @param bool|int $clang
+   * @return self
    */
   abstract public function getParent($clang = false);
 
   /**
-   * Accessor Method:
-   * returns the name of the article
+   * Returns the name of the article
    *
    * @return string
    */
@@ -292,8 +292,7 @@ abstract class rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the article priority
+   * Returns the article priority
    *
    * @return integer
    */
@@ -303,8 +302,7 @@ abstract class rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the last update user
+   * Returns the last update user
    *
    * @return string
    */
@@ -314,9 +312,9 @@ abstract class rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the last update date
+   * Returns the last update date
    *
+   * @param array $format
    * @return integer
    */
   public function getUpdateDate($format = null)
@@ -325,8 +323,7 @@ abstract class rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the creator
+   * Returns the creator
    *
    * @return string
    */
@@ -336,9 +333,9 @@ abstract class rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the creation date
+   * Returns the creation date
    *
+   * @param array $format
    * @return integer
    */
   public function getCreateDate($format = null)
@@ -347,8 +344,7 @@ abstract class rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns true if article is online.
+   * Returns true if article is online.
    *
    * @return boolean
    */
@@ -358,8 +354,7 @@ abstract class rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns true if article is offline.
+   * Returns true if article is offline.
    *
    * @return boolean
    */
@@ -369,8 +364,7 @@ abstract class rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the template id
+   * Returns the template id
    *
    * @return integer
    */
@@ -380,8 +374,7 @@ abstract class rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns true if article has a template.
+   * Returns true if article has a template.
    *
    * @return boolean
    */
@@ -391,17 +384,15 @@ abstract class rex_structure_element
   }
 
   /**
-   * Accessor Method:
    * Returns a link to this article
    *
-   * @param [$params] Parameter für den Link
-   * @param [$attributes] array Attribute die dem Link hinzugefügt werden sollen. Default: null
-   * @param [$sorround_tag] string HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
-   * @param [sorround_attributes] array Attribute die Umgebenden-Element hinzugefügt werden sollen. Default: null
-   *
+   * @param array|string $params              Parameter für den Link
+   * @param array        $attributes          Attribute die dem Link hinzugefügt werden sollen. Default: null
+   * @param string       $sorround_tag        HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
+   * @param array        $sorround_attributes Attribute die Umgebenden-Element hinzugefügt werden sollen. Default: null
    * @return string
    */
-  public function toLink($params = '', $attributes = null, $sorround_tag = null, $sorround_attributes = null)
+  public function toLink($params = '', array $attributes = null, $sorround_tag = null, array $sorround_attributes = null)
   {
     $name = htmlspecialchars($this->getName());
     $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . $name . '">' . $name . '</a>';
@@ -415,10 +406,9 @@ abstract class rex_structure_element
 
   /**
    * @param array $attributes
-   *
    * @return string
    */
-  protected function _toAttributeString($attributes)
+  protected function _toAttributeString(array $attributes)
   {
     $attr = '';
 
@@ -432,11 +422,10 @@ abstract class rex_structure_element
   }
 
   /**
-   * Object Function:
    * Get an array of all parentCategories.
    * Returns an array of rex_structure_element objects.
    *
-   * @return array[rex_category]
+   * @return rex_category[]
    */
   public function getParentTree()
   {
@@ -461,9 +450,9 @@ abstract class rex_structure_element
   }
 
   /**
-   * Object Function:
    * Checks if $anObj is in the parent tree of the object
    *
+   * @param self $anObj
    * @return boolean
    */
   public function inParentTree($anObj)
@@ -478,8 +467,7 @@ abstract class rex_structure_element
   }
 
   /**
-   *  Accessor Method:
-   * returns true if this Article is the Startpage for the category.
+   * Returns true if this Article is the Startpage for the category.
    *
    * @return boolean
    */
@@ -489,8 +477,7 @@ abstract class rex_structure_element
   }
 
   /**
-   *  Accessor Method:
-   * returns true if this Article is the Startpage for the entire site.
+   * Returns true if this Article is the Startpage for the entire site.
    *
    * @return boolean
    */
@@ -500,8 +487,7 @@ abstract class rex_structure_element
   }
 
   /**
-   *  Accessor Method:
-   *  returns  true if this Article is the not found article
+   * Returns  true if this Article is the not found article
    *
    * @return boolean
    */
@@ -511,7 +497,6 @@ abstract class rex_structure_element
   }
 
   /**
-   * Object Helper Function:
    * Returns a String representation of this object
    * for debugging purposes.
    *
@@ -529,9 +514,6 @@ abstract class rex_structure_element
    *
    * If format is <code>''</code> the datestamp is formated
    * with the default <code>dateformat</code> (lang-files).
-   *
-   * @access public
-   * @static
    */
   static protected function _getDate($date, $format = null)
   {

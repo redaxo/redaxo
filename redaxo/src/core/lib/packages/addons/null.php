@@ -7,57 +7,57 @@
  */
 class rex_null_addon extends rex_null_package implements rex_addon_interface
 {
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getType()
+  /**
+   * {@inheritDoc}
    */
   public function getType()
   {
     return 'addon';
   }
 
-  /* (non-PHPdoc)
-   * @see rex_addon_interface::getPlugin()
+  /**
+   * {@inheritDoc}
    */
   public function getPlugin($plugin)
   {
     return rex_null_plugin::getInstance();
   }
 
-  /* (non-PHPdoc)
-   * @see rex_addon_interface::pluginExists()
+  /**
+   * {@inheritDoc}
    */
   public function pluginExists($plugin)
   {
     return false;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_addon_interface::getRegisteredPlugins()
+  /**
+   * {@inheritDoc}
    */
   public function getRegisteredPlugins()
   {
     return array();
   }
 
-  /* (non-PHPdoc)
-   * @see rex_addon_interface::getInstalledPlugins()
+  /**
+   * {@inheritDoc}
    */
   public function getInstalledPlugins()
   {
     return array();
   }
 
-  /* (non-PHPdoc)
-   * @see rex_addon_interface::getAvailablePlugins()
+  /**
+   * {@inheritDoc}
    */
   public function getAvailablePlugins()
   {
     return array();
   }
 
-  /* (non-PHPdoc)
-  * @see rex_addon_interface::getSystemPlugins()
-  */
+  /**
+   * {@inheritDoc}
+   */
   public function getSystemPlugins()
   {
     return array();

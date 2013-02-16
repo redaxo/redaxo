@@ -85,7 +85,8 @@ class rex_sql extends rex_factory_base implements Iterator
    * Gibt die DatenbankId der Abfrage (SQL) zurueck,
    * oder false wenn die Abfrage keine DBID enthaelt
    *
-   * @param $query Abfrage
+   * @param string $qry
+   * @return bool
    */
   static protected function getQueryDBID($qry)
   {
@@ -101,7 +102,8 @@ class rex_sql extends rex_factory_base implements Iterator
    * Entfernt die DBID aus einer Abfrage (SQL) und gibt die DBID zurueck falls
    * vorhanden, sonst false
    *
-   * @param $query Abfrage
+   * @param string $qry Abfrage
+   * @return string
    */
   static protected function stripQueryDBID(&$qry)
   {
@@ -125,7 +127,8 @@ class rex_sql extends rex_factory_base implements Iterator
    * - DELETE
    * - REPLACE
    *
-   * @param $query Abfrage
+   * @param string $qry
+   * @return bool|string
    */
   static public function getQueryType($qry)
   {
@@ -142,21 +145,21 @@ class rex_sql extends rex_factory_base implements Iterator
   /**
    * Setzt eine Abfrage (SQL) ab, wechselt die DBID falls vorhanden
    *
-   * @param $query The sql-query
-   * @param $params An optional array of statement parameter
-   *
+   * @param string $query  The sql-query
+   * @param array  $params An optional array of statement parameter
+   * @return bool
    * @throws rex_sql_exception on errors
    */
-  public function setDBQuery($qry, $params = array())
+  public function setDBQuery($query, $params = array())
   {
     // save origin connection-id
     $oldDBID = $this->DBID;
 
     // change connection-id but only for this one query
-    if (($qryDBID = self::stripQueryDBID($qry)) !== false)
+    if (($qryDBID = self::stripQueryDBID($query)) !== false)
       $this->selectDB($qryDBID);
 
-    $result = $this->setQuery($qry, $params);
+    $result = $this->setQuery($query, $params);
 
     // restore connection-id
     $this->DBID = $oldDBID;
@@ -227,24 +230,24 @@ class rex_sql extends rex_factory_base implements Iterator
    *
    * NOTE: named-parameters/?-placeholders are not supported in LIMIT clause!
    *
-   * @param $query string The sql-query
-   * @param $params array An optional array of statement parameter
-   *
+   * @param string $query  The sql-query
+   * @param array  $params An optional array of statement parameter
+   * @return bool
    * @throws rex_sql_exception on errors
    */
-  public function setQuery($qry, array $params = array())
+  public function setQuery($query, array $params = array())
   {
     // Alle Werte zuruecksetzen
     $this->flush();
-    $this->query = $qry;
+    $this->query = $query;
     $this->params = $params;
 
     if (!empty($params)) {
-      $this->prepareQuery($qry);
+      $this->prepareQuery($query);
       $this->execute($params);
     } else {
       try {
-        $this->stmt = self::$pdo[$this->DBID]->query($qry);
+        $this->stmt = self::$pdo[$this->DBID]->query($query);
         $this->rows = $this->stmt->rowCount();
       } catch (PDOException $e) {
         throw new rex_sql_exception('Error while executing statement "' . $qry . '! ' . $e->getMessage());
@@ -252,7 +255,7 @@ class rex_sql extends rex_factory_base implements Iterator
     }
 
     if ($this->debug) {
-      $this->printError($qry, $params);
+      $this->printError($query, $params);
     }
 
     // Compat

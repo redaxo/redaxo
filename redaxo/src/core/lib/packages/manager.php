@@ -32,7 +32,6 @@ abstract class rex_package_manager extends rex_factory_base
    * Creates the manager for the package
    *
    * @param rex_package $package Package
-   *
    * @return rex_package_manager
    */
   static public function factory(rex_package $package)

@@ -82,6 +82,7 @@ class rex_sql_util
    * Reads a file and split all statements in it.
    *
    * @param $file String Path to the SQL-dump-file
+   * @return array
    */
   static private function readSqlDump($file)
   {

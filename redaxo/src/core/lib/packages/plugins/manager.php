@@ -12,8 +12,8 @@ class rex_plugin_manager extends rex_package_manager
     parent::__construct($plugin, 'plugin_');
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_manager::wrongPackageId()
+  /**
+   * {@inheritDoc}
    */
   protected function wrongPackageId($addonName, $pluginName = null)
   {

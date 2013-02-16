@@ -113,6 +113,7 @@ class rex_context implements rex_context_provider
    * Helper method to generate a html string with hidden input fields from an array key-value pairs
    *
    * @param array $array The array which contains the key-value pairs for convertion
+   * @return string
    */
   static private function array2inputStr(array $array)
   {

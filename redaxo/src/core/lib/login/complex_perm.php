@@ -95,6 +95,7 @@ abstract class rex_complex_perm
    * @param rex_user $user  User instance
    * @param string   $key   Complex perm key
    * @param mixed    $perms Permissions
+   * @return self
    */
   static public function get(rex_user $user, $key, $perms = array())
   {

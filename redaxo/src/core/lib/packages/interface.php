@@ -154,7 +154,6 @@ interface rex_package_interface
    * Returns the author
    *
    * @param mixed $default Default value, will be returned if the property isn't set
-   *
    * @return mixed
    */
   public function getAuthor($default = null);

@@ -7,198 +7,198 @@
  */
 abstract class rex_null_package extends rex_singleton_base implements rex_package_interface
 {
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getName()
+  /**
+   * {@inheritDoc}
    */
   public function getName()
   {
     return get_class($this);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getAddon()
+  /**
+   * {@inheritDoc}
    */
   public function getAddon()
   {
     return rex_null_addon::getInstance();
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getPackageId()
+  /**
+   * {@inheritDoc}
    */
   public function getPackageId()
   {
     return null;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getPath()
+  /**
+   * {@inheritDoc}
    */
   public function getPath($file = '')
   {
     return null;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getAssetsPath()
+  /**
+   * {@inheritDoc}
    */
   public function getAssetsPath($file = '')
   {
     return null;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getAssetsUrl()
+  /**
+   * {@inheritDoc}
    */
   public function getAssetsUrl($file = '')
   {
     return null;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getDataPath()
+  /**
+   * {@inheritDoc}
    */
   public function getDataPath($file = '')
   {
     return null;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getCachePath()
+  /**
+   * {@inheritDoc}
    */
   public function getCachePath($file = '')
   {
     return null;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::setConfig()
+  /**
+   * {@inheritDoc}
    */
   public function setConfig($key, $value = null)
   {
     return false;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getConfig()
+  /**
+   * {@inheritDoc}
    */
   public function getConfig($key = null, $default = null)
   {
     return $default;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::hasConfig()
+  /**
+   * {@inheritDoc}
    */
   public function hasConfig($key = null)
   {
     return false;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::removeConfig()
+  /**
+   * {@inheritDoc}
    */
   public function removeConfig($key)
   {
     return false;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::setProperty()
+  /**
+   * {@inheritDoc}
    */
   public function setProperty($key, $value)
   {
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getProperty()
+  /**
+   * {@inheritDoc}
    */
   public function getProperty($key, $default = null)
   {
     return $default;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::hasProperty()
+  /**
+   * {@inheritDoc}
    */
   public function hasProperty($key)
   {
     return false;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::removeProperty()
+  /**
+   * {@inheritDoc}
    */
   public function removeProperty($key)
   {
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::isAvailable()
+  /**
+   * {@inheritDoc}
    */
   public function isAvailable()
   {
     return false;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::isInstalled()
+  /**
+   * {@inheritDoc}
    */
   public function isInstalled()
   {
     return false;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::isActivated()
+  /**
+   * {@inheritDoc}
    */
   public function isActivated()
   {
     return false;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::isSystemPackage()
+  /**
+   * {@inheritDoc}
    */
   public function isSystemPackage()
   {
     return false;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getAuthor()
+  /**
+   * {@inheritDoc}
    */
   public function getAuthor($default = null)
   {
     return $default;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getVersion()
+  /**
+   * {@inheritDoc}
    */
   public function getVersion($default = null)
   {
     return $default;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getSupportPage()
+  /**
+   * {@inheritDoc}
    */
   public function getSupportPage($default = null)
   {
     return $default;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::includeFile()
+  /**
+   * {@inheritDoc}
    */
   public function includeFile($file)
   {
   }
 
-  /* (non-PHPdoc)
-  * @see rex_package_interface::i18n()
-  */
+  /**
+   * {@inheritDoc}
+   */
   public function i18n($key)
   {
     $args = func_get_args();

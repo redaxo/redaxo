@@ -10,14 +10,14 @@ class rex_addon extends rex_package implements rex_addon_interface
   /**
    * Array of all addons
    *
-   * @var array[rex_addon]
+   * @var rex_addon[]
    */
   static private $addons = array();
 
   /**
    * Array of all child plugins
    *
-   * @var array[rex_plugin]
+   * @var rex_plugin[]
    */
   private $plugins = array();
 
@@ -25,7 +25,7 @@ class rex_addon extends rex_package implements rex_addon_interface
    * Returns the addon by the given name
    *
    * @param string $addon Name of the addon
-   *
+   * @throws rex_exception
    * @return rex_addon
    */
   static public function get($addon)
@@ -43,7 +43,6 @@ class rex_addon extends rex_package implements rex_addon_interface
    * Returns if the addon exists
    *
    * @param string $addon Name of the addon
-   *
    * @return boolean
    */
   static public function exists($addon)
@@ -51,80 +50,80 @@ class rex_addon extends rex_package implements rex_addon_interface
     return is_string($addon) && isset(self::$addons[$addon]);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getAddon()
+  /**
+   * {@inheritDoc}
    */
   public function getAddon()
   {
     return $this;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getPackageId()
+  /**
+   * {@inheritDoc}
    */
   public function getPackageId()
   {
     return $this->getName();
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getType()
+  /**
+   * {@inheritDoc}
    */
   public function getType()
   {
     return 'addon';
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getPath()
+  /**
+   * {@inheritDoc}
    */
   public function getPath($file = '')
   {
     return rex_path::addon($this->getName(), $file);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getAssetsPath()
+  /**
+   * {@inheritDoc}
    */
   public function getAssetsPath($file = '')
   {
     return rex_path::addonAssets($this->getName(), $file);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getAssetsUrl()
+  /**
+   * {@inheritDoc}
    */
   public function getAssetsUrl($file = '')
   {
     return rex_url::addonAssets($this->getName(), $file);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getDataPath()
+  /**
+   * {@inheritDoc}
    */
   public function getDataPath($file = '')
   {
     return rex_path::addonData($this->getName(), $file);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::getCachePath()
+  /**
+   * {@inheritDoc}
    */
   public function getCachePath($file = '')
   {
     return rex_path::addonCache($this->getName(), $file);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::isSystemPackage()
+  /**
+   * {@inheritDoc}
    */
   public function isSystemPackage()
   {
     return in_array($this->getPackageId(), rex::getProperty('system_addons'));
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_interface::i18n()
+  /**
+   * {@inheritDoc}
    */
   public function i18n($key)
   {
@@ -136,8 +135,8 @@ class rex_addon extends rex_package implements rex_addon_interface
     return call_user_func_array('rex_i18n::msg', $args);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_addon_interface::getPlugin()
+  /**
+   * {@inheritDoc}
    */
   public function getPlugin($plugin)
   {
@@ -150,40 +149,40 @@ class rex_addon extends rex_package implements rex_addon_interface
     return $this->plugins[$plugin];
   }
 
-  /* (non-PHPdoc)
-   * @see rex_addon_interface::pluginExists()
+  /**
+   * {@inheritDoc}
    */
   public function pluginExists($plugin)
   {
     return is_string($plugin) && isset($this->plugins[$plugin]);
   }
 
-  /* (non-PHPdoc)
-   * @see rex_addon_interface::getRegisteredPlugins()
+  /**
+   * {@inheritDoc}
    */
   public function getRegisteredPlugins()
   {
     return $this->plugins;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_addon_interface::getInstalledPlugins()
+  /**
+   * {@inheritDoc}
    */
   public function getInstalledPlugins()
   {
     return self::filterPackages($this->plugins, 'isInstalled');
   }
 
-  /* (non-PHPdoc)
-   * @see rex_addon_interface::getAvailablePlugins()
+  /**
+   * {@inheritDoc}
    */
   public function getAvailablePlugins()
   {
     return self::filterPackages($this->plugins, 'isAvailable');
   }
 
-  /* (non-PHPdoc)
-   * @see rex_addon_interface::getSystemPlugins()
+  /**
+   * {@inheritDoc}
    */
   public function getSystemPlugins()
   {
@@ -207,7 +206,7 @@ class rex_addon extends rex_package implements rex_addon_interface
   /**
    * Returns the registered addons
    *
-   * @return array[rex_addon]
+   * @return rex_addon[]
    */
   static public function getRegisteredAddons()
   {
@@ -217,7 +216,7 @@ class rex_addon extends rex_package implements rex_addon_interface
   /**
    * Returns the installed addons
    *
-   * @return array[rex_addon]
+   * @return rex_addon[]
    */
   static public function getInstalledAddons()
   {
@@ -227,7 +226,7 @@ class rex_addon extends rex_package implements rex_addon_interface
   /**
    * Returns the available addons
    *
-   * @return array[rex_addon]
+   * @return rex_addon[]
    */
   static public function getAvailableAddons()
   {
@@ -237,7 +236,7 @@ class rex_addon extends rex_package implements rex_addon_interface
   /**
    * Returns the setup addons
    *
-   * @return array[rex_addon]
+   * @return rex_addon[]
    */
   static public function getSetupAddons()
   {
@@ -253,7 +252,7 @@ class rex_addon extends rex_package implements rex_addon_interface
   /**
    * Returns the system addons
    *
-   * @return array[rex_addon]
+   * @return rex_addon[]
    */
   static public function getSystemAddons()
   {
@@ -310,7 +309,7 @@ class rex_addon extends rex_package implements rex_addon_interface
    * @param array  $packages Array of packages
    * @param string $method   A rex_package method
    *
-   * @return array[rex_package]
+   * @return rex_package[]
    */
   static private function filterPackages(array $packages, $method)
   {

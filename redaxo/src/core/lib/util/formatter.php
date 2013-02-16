@@ -17,9 +17,10 @@ abstract class rex_formatter
   /**
    * Formatiert den String <code>$value</code>
    *
-   * @param $value zu formatierender String
-   * @param $format_type Formatierungstype
-   * @param $format Format
+   * @param string $value       zu formatierender String
+   * @param string $format_type Formatierungstype
+   * @param mixed  $format      Format
+   * @return string
    *
    * Unterstützte Formatierugen:
    *

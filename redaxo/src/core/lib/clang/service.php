@@ -37,10 +37,10 @@ class rex_clang_service
   /**
    * Ändert eine Clang
    *
-   * @param $id   Id der Clang
-   * @param $code Clang Code
-   * @param $name Name der Clang
-   *
+   * @param int    $id   Id der Clang
+   * @param string $code Clang Code
+   * @param string $name Name der Clang
+   * @return bool
    * @throws rex_exception
    */
   static public function editCLang($id, $code, $name)

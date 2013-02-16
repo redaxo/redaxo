@@ -104,6 +104,8 @@ class rex_fragment
    * Escapes the value $val for proper use in the gui
    *
    * @param mixed $val the value to escape
+   * @throws rex_exception
+   * @return mixed
    */
   protected function escape($val)
   {
@@ -148,6 +150,8 @@ class rex_fragment
    * Translate the given key $key.
    *
    * @param string $key The key to translate
+   * @throws rex_exception
+   * @return string
    */
   protected function i18n($key)
   {
@@ -186,6 +190,7 @@ class rex_fragment
    * Magic getter to reference variables from within the fragment.
    *
    * @param string $name The name of the variable to get.
+   * @return mixed
    */
   public function __get($name)
   {

@@ -2,12 +2,29 @@
 
 class rex_be_controller
 {
-  static private
-    $page,
-    $pageParts = array(),
-    $pageObject,
-    $pages = array();
+  /**
+   * @var string
+   */
+  static private $page;
 
+  /**
+   * @var array
+   */
+  static private $pageParts = array();
+
+  /**
+   * @var rex_be_page
+   */
+  static private $pageObject;
+
+  /**
+   * @var rex_be_page[]
+   */
+  static private $pages = array();
+
+  /**
+   * @param string $page
+   */
   static public function setCurrentPage($page)
   {
     self::$page = trim($page, '/ ');
@@ -15,11 +32,19 @@ class rex_be_controller
     self::$pageObject = null;
   }
 
+  /**
+   * @return string
+   */
   static public function getCurrentPage()
   {
     return self::$page;
   }
 
+  /**
+   * @param null|int    $part    Part index, beginning with 1. If $part is null, an array of all current parts will be returned
+   * @param null|string $default Default value
+   * @return array|string|null
+   */
   static public function getCurrentPagePart($part = null, $default = null)
   {
     if ($part === null) {
@@ -41,7 +66,7 @@ class rex_be_controller
   }
 
   /**
-   * @param string $page
+   * @param string|array $page
    * @return rex_be_page
    */
   static public function getPageObject($page)
@@ -63,11 +88,17 @@ class rex_be_controller
     return $obj;
   }
 
+  /**
+   * @return rex_be_page[]
+   */
   static public function getPages()
   {
     return self::$pages;
   }
 
+  /**
+   * @param rex_be_page[] $pages
+   */
   static public function setPages(array $pages)
   {
     self::$pages = $pages;

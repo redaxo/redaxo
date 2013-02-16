@@ -64,6 +64,7 @@ class rex_pager
    * When no parameter is given, the cursor for active page is returned.
    *
    * @param int $pageNo
+   * @return int
    */
   public function getCursor($pageNo = null)
   {
@@ -159,6 +160,7 @@ class rex_pager
   /**
    * Checks wheter the given page number is the active/current page
    * @param boolean True when the given pageNo is the current page, otherwise False
+   * @return bool
    */
   public function isActivePage($pageNo)
   {

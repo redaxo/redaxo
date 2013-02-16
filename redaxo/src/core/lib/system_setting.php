@@ -10,7 +10,7 @@ abstract class rex_system_setting
   /**
    * Settings array
    *
-   * @var array[rex_system_setting]
+   * @var self[]
    */
   static private $settings = array();
 
@@ -50,7 +50,7 @@ abstract class rex_system_setting
   /**
    * Registers a setting object
    *
-   * @param rex_system_setting $setting Setting object
+   * @param self $setting Setting object
    */
   static public function register(self $setting)
   {
@@ -60,7 +60,7 @@ abstract class rex_system_setting
   /**
    * Returns all registered setting objects
    *
-   * @return array[rex_system_setting]
+   * @return self[]
    */
   static public function getAll()
   {

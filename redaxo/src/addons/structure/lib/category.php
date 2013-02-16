@@ -13,10 +13,11 @@ class rex_category extends rex_structure_element
   }
 
   /**
-   * CLASS Function:
    * Return an rex_category object based on an id
    *
-   * @return rex_category
+   * @param int      $category_id
+   * @param bool|int $clang
+   * @return self
    */
   static public function getCategoryById($category_id, $clang = false)
   {
@@ -25,15 +26,17 @@ class rex_category extends rex_structure_element
 
   /**
    * children of categories, keyed by category_id (parent ids)
-   * @var array[rex_article]
+   * @var array
    */
   static private $childIds = array();
 
   /**
-   * CLASS Function:
    * Return all Children by id
    *
-   * @return array[rex_category]
+   * @param int      $cat_parent_id
+   * @param bool     $ignore_offlines
+   * @param bool|int $clang
+   * @return self[]
    */
   static public function getChildrenById($cat_parent_id, $ignore_offlines = false, $clang = false)
   {
@@ -76,8 +79,8 @@ class rex_category extends rex_structure_element
     return $catlist;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_structure_element::getPriority()
+  /**
+   * {@inheritDoc}
    */
   public function getPriority()
   {
@@ -85,7 +88,6 @@ class rex_category extends rex_structure_element
   }
 
   /**
-   * CLASS Function:
    * Return a list of top level categories, ie.
    * categories that have no parent.
    * Returns an array of rex_category objects sorted by $prior.
@@ -94,7 +96,9 @@ class rex_category extends rex_structure_element
    * all categories with status 0 will be
    * excempt from this list!
    *
-   * @return array[rex_category]
+   * @param bool     $ignore_offlines
+   * @param bool|int $clang
+   * @return self[]
    */
   static public function getRootCategories($ignore_offlines = false, $clang = false)
   {
@@ -106,7 +110,6 @@ class rex_category extends rex_structure_element
   }
 
   /**
-   * Object Function:
    * Return a list of all subcategories.
    * Returns an array of rex_category objects sorted by $prior.
    *
@@ -114,7 +117,9 @@ class rex_category extends rex_structure_element
    * all categories with status 0 will be
    * excempt from this list!
    *
-   * @return array[rex_category]
+   * @param bool     $ignore_offlines
+   * @param bool|int $clang
+   * @return self[]
    */
   public function getChildren($ignore_offlines = false, $clang = false)
   {
@@ -126,10 +131,10 @@ class rex_category extends rex_structure_element
   }
 
   /**
-   * Object Function:
    * Returns the parent category
    *
-   * @return rex_category
+   * @param bool|int $clang
+   * @return self
    */
   public function getParent($clang = false)
   {
@@ -141,10 +146,10 @@ class rex_category extends rex_structure_element
   }
 
   /**
-   * Object Function:
    * Returns TRUE if this category is the direct
    * parent of the other category.
    *
+   * @param self $other_cat
    * @return boolean
    */
   public function isParent($other_cat)
@@ -154,11 +159,11 @@ class rex_category extends rex_structure_element
   }
 
   /**
-   * Object Function:
    * Returns TRUE if this category is an ancestor
    * (parent, grandparent, greatgrandparent, etc)
    * of the other category.
    *
+   * @param self $other_cat
    * @return boolean
    */
   public function isAncestor($other_cat)
@@ -168,7 +173,6 @@ class rex_category extends rex_structure_element
   }
 
   /**
-   * Object Function:
    * Return a list of articles in this category
    * Returns an array of rex_article objects sorted by $prior.
    *
@@ -176,7 +180,8 @@ class rex_category extends rex_structure_element
    * all articles with status 0 will be
    * excempt from this list!
    *
-   * @return array[rex_article]
+   * @param bool $ignore_offlines
+   * @return rex_article[]
    */
   public function getArticles($ignore_offlines = false)
   {
@@ -184,7 +189,6 @@ class rex_category extends rex_structure_element
   }
 
   /**
-   * Object Function:
    * Return the start article for this category
    *
    * @return rex_article
@@ -195,8 +199,7 @@ class rex_category extends rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the name of the article
+   * Returns the name of the article
    *
    * @return string
    */
@@ -206,8 +209,7 @@ class rex_category extends rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the path of the category
+   * Returns the path of the category
    *
    * @return string
    */
@@ -217,9 +219,8 @@ class rex_category extends rex_structure_element
   }
 
   /**
-   * @param integer $category
-   * @param integer $clang
-   *
+   * @param int|self $category
+   * @param bool|int $clang
    * @return mixed
    */
   static public function _getCategoryObject($category, $clang = false)

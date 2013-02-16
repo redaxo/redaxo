@@ -12,8 +12,8 @@ class rex_addon_manager extends rex_package_manager
     parent::__construct($addon, 'addon_');
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_manager::install()
+  /**
+   * {@inheritDoc}
    */
   public function install($installDump = true)
   {
@@ -32,8 +32,8 @@ class rex_addon_manager extends rex_package_manager
     return $return;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_manager::activate()
+  /**
+   * {@inheritDoc}
    */
   public function activate()
   {
@@ -77,8 +77,8 @@ class rex_addon_manager extends rex_package_manager
     return true;
   }
 
-  /* (non-PHPdoc)
-   * @see rex_package_manager::wrongPackageId()
+  /**
+   * {@inheritDoc}
    */
   protected function wrongPackageId($addonName, $pluginName = null)
   {

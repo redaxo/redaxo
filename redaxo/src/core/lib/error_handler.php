@@ -135,6 +135,7 @@ abstract class rex_error_handler
    * Get a human readable string representing the given php error code
    *
    * @param int $errno a php error code, e.g. E_ERROR
+   * @return string
    */
   static public function getErrorType($errno)
   {

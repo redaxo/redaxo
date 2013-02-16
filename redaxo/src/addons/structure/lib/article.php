@@ -13,10 +13,11 @@ class rex_article extends rex_structure_element
   }
 
   /**
-   * CLASS Function:
    * Return an rex_article object based on an id
    *
-   * @return rex_article
+   * @param int      $article_id
+   * @param bool|int $clang
+   * @return self
    */
   static public function getArticleById($article_id, $clang = false)
   {
@@ -24,10 +25,10 @@ class rex_article extends rex_structure_element
   }
 
   /**
-   * CLASS Function:
    * Return the site wide start article
    *
-   * @return rex_article
+   * @param bool|int $clang
+   * @return self
    */
   static public function getSiteStartArticle($clang = false)
   {
@@ -35,10 +36,11 @@ class rex_article extends rex_structure_element
   }
 
   /**
-   * CLASS Function:
    * Return start article for a certain category
    *
-   * @return rex_article
+   * @param int      $a_category_id
+   * @param bool|int $clang
+   * @return self
    */
   static public function getCategoryStartArticle($a_category_id, $clang = false)
   {
@@ -47,15 +49,17 @@ class rex_article extends rex_structure_element
 
   /**
    * Articles of categories, keyed by category_id
-   * @var array[rex_article]
+   * @var array
    */
   static private $articleIds = array();
 
   /**
-   * CLASS Function:
    * Return a list of articles for a certain category
    *
-   * @return array[rex_article]
+   * @param int      $a_category_id
+   * @param bool     $ignore_offlines
+   * @param bool|int $clang
+   * @return self[]
    */
   static public function getArticlesOfCategory($a_category_id, $ignore_offlines = false, $clang = false)
   {
@@ -92,10 +96,11 @@ class rex_article extends rex_structure_element
   }
 
   /**
-   * CLASS Function:
    * Return a list of top-level articles
    *
-   * @return array[rex_article]
+   * @param bool     $ignore_offlines
+   * @param bool|int $clang
+   * @return self[]
    */
   static public function getRootArticles($ignore_offlines = false, $clang = false)
   {
@@ -103,8 +108,7 @@ class rex_article extends rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the category id
+   * Returns the category id
    *
    * @return int
    */
@@ -114,7 +118,6 @@ class rex_article extends rex_structure_element
   }
 
   /**
-   * Object Function:
    * Returns the parent category
    *
    * @return rex_category
@@ -125,10 +128,10 @@ class rex_article extends rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the parent object of the article
+   * Returns the parent object of the article
    *
-   * @return rex_article
+   * @param bool|int $clang
+   * @return self
    */
   public function getParent($clang = false)
   {
@@ -140,8 +143,7 @@ class rex_article extends rex_structure_element
   }
 
   /**
-   * Accessor Method:
-   * returns the path of the category/article
+   * Returns the path of the category/article
    *
    * @return string
    */
@@ -155,9 +157,7 @@ class rex_article extends rex_structure_element
   }
 
   /**
-   * @see rex_structure_element::getValue()
-   *
-   * @return string
+   * {@inheritDoc}
    */
   public function getValue($value)
   {
@@ -172,8 +172,7 @@ class rex_article extends rex_structure_element
 
   /**
    * @param string $value
-   *
-   * @return string
+   * @return bool
    */
   static public function hasValue($value)
   {

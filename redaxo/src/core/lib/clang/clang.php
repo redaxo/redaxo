@@ -134,7 +134,7 @@ class rex_clang
   /**
    * Returns an array of all clang ids
    *
-   * @return array
+   * @return int[]
    */
   static public function getAllIds()
   {
@@ -145,7 +145,7 @@ class rex_clang
   /**
    * Returns an array of all clangs
    *
-   * @return array[self]
+   * @return self[]
    */
   static public function getAll()
   {
