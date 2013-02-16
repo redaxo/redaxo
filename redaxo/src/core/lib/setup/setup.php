@@ -97,8 +97,8 @@ class rex_setup
   /**
    * Checks the version of the connected database server.
    *
-   * @param $config array of databaes configs
-   * @param $createDb boolean Should the database be created, if it not exists.
+   * @param array   $config   of databaes configs
+   * @param boolean $createDb Should the database be created, if it not exists.
    * @return string Error
    */
   static public function checkDb($config, $createDb)

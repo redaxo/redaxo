@@ -5,8 +5,8 @@ abstract class rex_metainfo_handler
   /**
    * Erstellt den nötigen HTML Code um ein Formular zu erweitern
    *
-   * @param $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
-   * @param $epParams array Array of all EP parameters
+   * @param rex_sql $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
+   * @param array   $epParams  Array of all EP parameters
    * @return string
    */
   public function renderMetaFields(rex_sql $sqlFields, array $epParams)
@@ -400,8 +400,8 @@ abstract class rex_metainfo_handler
   /**
    * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt
    *
-   * @param $sqlSave rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
-   * @param $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
+   * @param rex_sql $sqlSave   rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
+   * @param rex_sql $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
    */
   static public function fetchRequestValues(&$params, &$sqlSave, $sqlFields)
   {

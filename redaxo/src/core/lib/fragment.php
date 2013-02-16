@@ -33,9 +33,9 @@ class rex_fragment
   /**
    * Set the variable $name to the given value.
    *
-   * @param $name string The name of the variable.
-   * @param $value mixed The value for the variable
-   * @param $escape Flag which indicates if the value should be escaped or not.
+   * @param string $name   The name of the variable.
+   * @param mixed  $value  The value for the variable
+   * @param bool   $escape Flag which indicates if the value should be escaped or not.
    */
   public function setVar($name, $value, $escape = true)
   {

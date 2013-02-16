@@ -845,8 +845,8 @@ class rex_sql extends rex_factory_base implements Iterator
   /**
    * Laedt das komplette Resultset in ein Array und gibt dieses zurueck
    *
-   * @param $query string The sql-query
-   * @param $params array An optional array of statement parameter
+   * @param string $query  The sql-query
+   * @param array  $params An optional array of statement parameter
    *
    * @return array
    *
@@ -1060,8 +1060,8 @@ class rex_sql extends rex_factory_base implements Iterator
    * Erstellt das CREATE TABLE Statement um die Tabelle $table
    * der Datenbankverbindung $DBID zu erstellen.
    *
-   * @param $table string Name der Tabelle
-   * @param $DBID int Id der Datenbankverbindung
+   * @param string $table Name der Tabelle
+   * @param int    $DBID  Id der Datenbankverbindung
    * @return string CREATE TABLE Sql-Statement zu erstsellung der Tabelle
    */
   static public function showCreateTable($table, $DBID = 1)
@@ -1075,8 +1075,8 @@ class rex_sql extends rex_factory_base implements Iterator
    * Sucht alle Tabellen der Datenbankverbindung $DBID.
    * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
    *
-   * @param $DBID int Id der Datenbankverbindung
-   * @param $tablePrefix string Zu suchender Tabellennamen-Prefix
+   * @param int    $DBID        Id der Datenbankverbindung
+   * @param string $tablePrefix Zu suchender Tabellennamen-Prefix
    * @return array Ein Array von Tabellennamen
    */
   static public function showTables($DBID = 1, $tablePrefix = null)
@@ -1119,8 +1119,8 @@ class rex_sql extends rex_factory_base implements Iterator
    *  )
    * )
    *
-   * @param $table string Name der Tabelle
-   * @param $DBID int Id der Datenbankverbindung
+   * @param string $table Name der Tabelle
+   * @param int    $DBID  Id der Datenbankverbindung
    * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
    */
   static public function showColumns($table, $DBID = 1)

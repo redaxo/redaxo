@@ -4,7 +4,7 @@
  * Menupunkt nur einbinden, falls ein Plugin sich angemeldet hat
  * via BE_STYLE_PAGE_CONTENT inhalt auszugeben
  *
- * @param $params Extension-Point Parameter
+ * @param array $params Extension-Point Parameter
  */
 function rex_be_add_page($params)
 {

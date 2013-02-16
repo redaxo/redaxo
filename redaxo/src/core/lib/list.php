@@ -278,10 +278,10 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Methode, um eine Spalte einzufügen
    *
-   * @param $columnHead string Titel der Spalte
-   * @param $columnBody string Text/Format der Spalte
-   * @param $columnIndex int Stelle, an der die neue Spalte erscheinen soll
-   * @param $columnLayout array Layout der Spalte
+   * @param string $columnHead   Titel der Spalte
+   * @param string $columnBody   Text/Format der Spalte
+   * @param int    $columnIndex  Stelle, an der die neue Spalte erscheinen soll
+   * @param array  $columnLayout Layout der Spalte
    */
   public function addColumn($columnHead, $columnBody, $columnIndex = -1, $columnLayout = null)
   {
@@ -307,8 +307,8 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Methode, um das Layout einer Spalte zu setzen
    *
-   * @param $columnHead string Titel der Spalte
-   * @param $columnLayout array Layout der Spalte
+   * @param string $columnHead   Titel der Spalte
+   * @param array  $columnLayout Layout der Spalte
    */
   public function setColumnLayout($columnHead, $columnLayout)
   {
@@ -533,8 +533,8 @@ class rex_list extends rex_factory_base implements rex_url_provider
    *   )
    * );
    *
-   * @param $columns array Array von Spalten
-   * @param $columnGroupSpan integer Span der Columngroup
+   * @param array   $columns         Array von Spalten
+   * @param integer $columnGroupSpan Span der Columngroup
    */
   public function addTableColumnGroup($columns, $columnGroupSpan = null)
   {
@@ -569,8 +569,8 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Fügt der zuletzte eingefügten TableColumnGroup eine weitere Spalte hinzu
    *
-   * @param $width int Breite der Spalte
-   * @param $span int Span der Spalte
+   * @param int $width Breite der Spalte
+   * @param int $span  Span der Spalte
    */
   public function addTableColumn($width, $span = null)
   {
@@ -837,7 +837,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
    * Formatiert einen übergebenen String anhand der rexFormatter Klasse
    *
    * @param $value Zu formatierender String
-   * @param $format Array mit den Formatierungsinformationen
+   * @param array $format mit den Formatierungsinformationen
    * @param $escape Flag, Ob escapen von $value erlaubt ist
    *
    * @return string

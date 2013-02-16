@@ -71,8 +71,7 @@ class rex_clang_service
   /**
    * Löscht eine Clang
    *
-   * @param $id Zu löschende ClangId
-   *
+   * @param int $id Zu löschende ClangId
    * @throws rex_exception
    */
   static public function deleteCLang($id)

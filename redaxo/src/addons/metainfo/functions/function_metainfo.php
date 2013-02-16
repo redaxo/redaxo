@@ -185,7 +185,7 @@ function rex_metainfo_meta_table($prefix)
 /**
  * Bindet ggf extensions ein
  *
- * @param $params
+ * @param array $params
  */
 function rex_metainfo_extensions_handler($params)
 {

@@ -23,7 +23,7 @@ class rex_category_select extends rex_select
   /**
    * Kategorie-Id oder ein Array von Kategorie-Ids als Wurzelelemente der Select-Box.
    *
-   * @param $rootId mixed Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente.
+   * @param mixed $rootId Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente.
    */
   public function setRootId($rootId)
   {

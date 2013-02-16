@@ -27,7 +27,7 @@ class rex_form_prio_element extends rex_form_select_element
 
   /**
    * Setzt die Datenbankspalte, die das Label für die zu priorisierenden Elemente darstellt
-   * @param $labelField String
+   * @param string $labelField
    */
   public function setLabelField($labelField)
   {

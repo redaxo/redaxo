@@ -52,7 +52,7 @@ abstract class rex_logger extends rex_factory_base
   /**
    * Logs the given message
    *
-   * @param String $message the message to log
+   * @param string $message the message to log
    */
   static public function log($message, $errno = E_USER_ERROR)
   {

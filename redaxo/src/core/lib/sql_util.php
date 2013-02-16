@@ -11,7 +11,7 @@ class rex_sql_util
    * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
    * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte
    *
-   * @param $tableName String Name der Datenbanktabelle
+   * @param string $tableName Name der Datenbanktabelle
    * @param $priorColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
    * @param $whereCondition Where-Bedingung zur Einschränkung des ResultSets
    * @param $orderBy Sortierung des ResultSets
@@ -81,7 +81,7 @@ class rex_sql_util
   /**
    * Reads a file and split all statements in it.
    *
-   * @param $file String Path to the SQL-dump-file
+   * @param string $file Path to the SQL-dump-file
    * @return array
    */
   static private function readSqlDump($file)
