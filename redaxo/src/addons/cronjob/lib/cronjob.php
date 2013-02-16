@@ -47,7 +47,7 @@ abstract class rex_cronjob
 
   public function __set($key, $value)
   {
-    return $this->setParam($key, $value);
+    $this->setParam($key, $value);
   }
 
   public function __get($key)
