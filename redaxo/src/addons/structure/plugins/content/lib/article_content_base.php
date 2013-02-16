@@ -370,7 +370,7 @@ class rex_article_content_base
    *
    * @param string  $articleContent The content of the article
    * @param integer $module_id      A module id
-   * @®eturn string
+   * @return string
    */
   protected function postArticle($articleContent, $module_id)
   {

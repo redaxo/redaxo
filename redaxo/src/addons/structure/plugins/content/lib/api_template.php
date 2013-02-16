@@ -95,11 +95,12 @@ class rex_template
   }
 
   /**
-   * Static Method:
    * Returns an array containing all templates which are available for the given category_id.
    * if the category_id is non-positive all templates in the system are returned.
    * if the category_id is invalid an empty array is returned.
    *
+   * @param int  $category_id
+   * @param bool $ignore_inactive
    * @return array
    */
   static public function getTemplatesForCategory($category_id, $ignore_inactive = true)

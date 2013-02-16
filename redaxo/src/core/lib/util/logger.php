@@ -53,11 +53,14 @@ abstract class rex_logger extends rex_factory_base
    * Logs the given message
    *
    * @param string $message the message to log
+   * @param int    $errno
+   * @throws rex_exception
    */
   static public function log($message, $errno = E_USER_ERROR)
   {
     if (static::hasFactoryClass()) {
-      return static::callFactoryClass(__FUNCTION__, func_get_args());
+      static::callFactoryClass(__FUNCTION__, func_get_args());
+      return;
     }
 
     if (!is_string($message)) {

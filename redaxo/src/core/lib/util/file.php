@@ -143,7 +143,8 @@ class rex_file
   /**
    * Formates the filesize of the given file into a userfriendly form
    *
-   * @params string|int $fileOrSize Path to the file or filesize
+   * @param string|int $fileOrSize Path to the file or filesize
+   * @param array      $format
    * @return string Formatted filesize
    */
   static public function formattedSize($fileOrSize, $format = array())

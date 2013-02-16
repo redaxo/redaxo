@@ -263,6 +263,7 @@ function rex_a1_import_files($filename)
  * Erstellt einen SQL Dump, der die aktuellen Datebankstruktur darstellt.
  * Dieser wird in der Datei $filename gespeichert.
  *
+ * @param string $filename
  * @return boolean TRUE wenn ein Dump erstellt wurde, sonst FALSE
  */
 function rex_a1_export_db($filename)

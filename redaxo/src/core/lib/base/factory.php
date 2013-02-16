@@ -32,7 +32,8 @@ abstract class rex_factory_base
   /**
    * Sets the class for the factory
    *
-   * @param string $class Classname
+   * @param string $subclass Classname
+   * @throws rex_exception
    */
   static public function setFactoryClass($subclass)
   {

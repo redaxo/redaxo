@@ -70,7 +70,7 @@ class rex_string
    * @link http://www.php.net/manual/en/function.version-compare.php
    *
    * @param string $version1   First version number
-   * @param string $version1   Second version number
+   * @param string $version2   Second version number
    * @param string $comparator Optional comparator
    * @return integer|boolean
    */
@@ -88,8 +88,8 @@ class rex_string
   /**
    * Returns a string containing the YAML representation of $value.
    *
-   * @param array  $value  The value being encoded
-   * @param number $inline The level where you switch to inline YAML
+   * @param array $value  The value being encoded
+   * @param int   $inline The level where you switch to inline YAML
    * @return string
    */
   static public function yamlEncode(array $value, $inline = 3)

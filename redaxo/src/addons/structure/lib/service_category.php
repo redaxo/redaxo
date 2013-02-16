@@ -399,8 +399,8 @@ class rex_category_service
   /**
    * Kopiert eine Kategorie in eine andere
    *
-   * @param int $from_cat_id KategorieId der Kategorie, die kopiert werden soll (Quelle)
-   * @param int $to_cat_id   KategorieId der Kategorie, IN die kopiert werden soll (Ziel)
+   * @param int $from_cat KategorieId der Kategorie, die kopiert werden soll (Quelle)
+   * @param int $to_cat   KategorieId der Kategorie, IN die kopiert werden soll (Ziel)
    */
   static public function copyCategory($from_cat, $to_cat)
   {
@@ -441,9 +441,8 @@ class rex_category_service
   /**
    * Verschieben einer Kategorie in eine andere
    *
-   * @param int $from_cat_id KategorieId der Kategorie, die verschoben werden soll (Quelle)
-   * @param int $to_cat_id   KategorieId der Kategorie, IN die verschoben werden soll (Ziel)
-   *
+   * @param int $from_cat KategorieId der Kategorie, die verschoben werden soll (Quelle)
+   * @param int $to_cat   KategorieId der Kategorie, IN die verschoben werden soll (Ziel)
    * @return boolean TRUE bei Erfolg, sonst FALSE
    */
   static public function moveCategory($from_cat, $to_cat)

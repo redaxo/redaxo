@@ -397,8 +397,8 @@ class rex_media_category
   }
 
   /**
-   * @access public
-   * @return Returns <code>true</code> on success or <code>false</code> on error
+   * @param bool $recurse
+   * @return bool Returns <code>true</code> on success or <code>false</code> on error
    */
   public function delete($recurse = false)
   {

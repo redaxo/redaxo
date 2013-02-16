@@ -23,7 +23,7 @@ class rex_fragment
   /**
    * Creates a fragment with the given variables.
    *
-   * @param array $params A array of key-value pairs to pass as local parameters
+   * @param array $vars A array of key-value pairs to pass as local parameters
    */
   public function __construct(array $vars = array())
   {
@@ -53,7 +53,10 @@ class rex_fragment
   /**
    * Parses the variables of the fragment into the file $filename
    *
-   * @param string $filename the filename of the fragment to parse.
+   * @param string $filename           the filename of the fragment to parse.
+   * @param bool   $delete_whitespaces
+   * @throws rex_exception
+   * @return string
    */
   public function parse($filename, $delete_whitespaces = true)
   {

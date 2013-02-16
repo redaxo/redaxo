@@ -91,9 +91,10 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Erstellt ein rex_list Objekt
    *
-   * @param $query SELECT Statement
-   * @param $rowsPerPage Anzahl der Elemente pro Zeile
-   * @param $listName Name der Liste
+   * @param string $query       SELECT Statement
+   * @param int    $rowsPerPage Anzahl der Elemente pro Zeile
+   * @param string $listName    Name der Liste
+   * @param bool   $debug
    */
   protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false)
   {
@@ -319,6 +320,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
    * Gibt das Layout einer Spalte zurück
    *
    * @param string $columnName Name der Spalte
+   * @return array
    */
   public function getColumnLayout($columnName)
   {
@@ -424,8 +426,8 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Markiert eine Spalte als sortierbar
    *
-   * @param $columnName Name der Spalte
-   * @param $direction Startsortierrichtung der Spalte [ASC|DESC]
+   * @param string $columnName Name der Spalte
+   * @param string $direction  Startsortierrichtung der Spalte [ASC|DESC]
    */
   public function setColumnSortable($columnName, $direction = 'asc')
   {
@@ -604,6 +606,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
    * Gibt eine Url zurück, die die Parameter $params enthält
    * Dieser Url werden die Standard rexList Variablen zugefügt
    *
+   * @param array $params
    * @return string
    */
   public function getUrl(array $params = array())
@@ -641,6 +644,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
    * Innerhalb dieser Url werden variablen ersetzt
    *
    * @see #replaceVariable, #replaceVariables
+   * @param array $params
    * @return string
    */
   public function getParsedUrl($params = array())
@@ -726,6 +730,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Gibt zurück, nach welcher Spalte sortiert werden soll
    *
+   * @param mixed $default
    * @return string
    */
   public function getSortColumn($default = null)
@@ -739,6 +744,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Gibt zurück, in welcher Art und Weise sortiert werden soll (ASC/DESC)
    *
+   * @param mixed $default
    * @return string
    */
   public function getSortType($default = null)
@@ -804,9 +810,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Ersetzt alle Variablen im Format ###&lt;Spaltenname&gt;###.
    *
-   * @param $value Zu durchsuchender String
-   * @param $columnNames Zu suchende Spaltennamen
-   *
+   * @param string $value Zu durchsuchender String
    * @return string
    */
   public function replaceVariables($value)
@@ -836,10 +840,10 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Formatiert einen übergebenen String anhand der rexFormatter Klasse
    *
-   * @param $value Zu formatierender String
-   * @param array $format mit den Formatierungsinformationen
-   * @param $escape Flag, Ob escapen von $value erlaubt ist
-   *
+   * @param string $value  Zu formatierender String
+   * @param array  $format mit den Formatierungsinformationen
+   * @param bool   $escape Flag, Ob escapen von $value erlaubt ist
+   * @param string $field
    * @return string
    */
   public function formatValue($value, $format, $escape, $field = null)

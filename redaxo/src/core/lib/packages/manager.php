@@ -694,6 +694,7 @@ abstract class rex_package_manager extends rex_factory_base
    * Returns the subfolders of the given folder
    *
    * @param string $folder Folder
+   * @return string[]
    */
   static private function readPackageFolder($folder)
   {

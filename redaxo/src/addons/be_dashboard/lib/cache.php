@@ -195,6 +195,6 @@ abstract class rex_dashboard_cache
    */
   public function setOption($name, $value)
   {
-    return $this->options[$name] = $value;
+    $this->options[$name] = $value;
   }
 }

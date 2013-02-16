@@ -137,8 +137,8 @@ class rex_i18n
   /**
    * Adds a new translation to the catalogue
    *
-   * @param string $key     Key
-   * @param string $message Message for the key
+   * @param string $key Key
+   * @param string $msg Message for the key
    */
   static public function addMsg($key, $msg)
   {
@@ -196,9 +196,11 @@ class rex_i18n
   /**
    * Translates all array elements
    *
-   * @param array    $text                 The Array of Strings for translation.
+   * @param mixed    $array                The Array of Strings for translation.
    * @param boolean  $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
    * @param callable $i18nFunction         Function that returns the translation for the i18n key
+   * @throws InvalidArgumentException
+   * @return mixed
    */
   static public function translateArray($array, $use_htmlspecialchars = true, $i18nFunction = null)
   {

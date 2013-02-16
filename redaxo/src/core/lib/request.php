@@ -210,6 +210,7 @@ class rex_request
    * Returns true when the current request is a PJAX-Request and the requested container matches the given $containerId
    *
    * @param string $containerId
+   * @return bool
    */
   static public function isPJAXContainer($containerId)
   {

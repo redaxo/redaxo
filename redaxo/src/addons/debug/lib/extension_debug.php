@@ -17,7 +17,7 @@ class rex_extension_debug extends rex_extension
   static public function register($extensionPoint, $callable, $level = self::NORMAL, array $params = array())
   {
     $timer  = new rex_timer();
-    $result = parent::register($extensionPoint, $callable, $level, $params);
+    parent::register($extensionPoint, $callable, $level, $params);
 
     self::$log[] = array(
       'type'     => 'EXT',
@@ -25,11 +25,8 @@ class rex_extension_debug extends rex_extension
       'callable' => $callable,
       'level'    => $level,
       'params'   => $params,
-      'result'   => $result,
       'timer'    => $timer->getFormattedDelta(),
     );
-
-    return $result;
   }
 
 

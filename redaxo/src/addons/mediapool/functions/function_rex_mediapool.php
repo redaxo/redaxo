@@ -8,7 +8,10 @@
 
 /**
  * Erstellt einen Filename der eindeutig ist für den Medienpool
- * @param $FILENAME Dateiname
+ *
+ * @param string $FILENAME      Dateiname
+ * @param bool   $doSubindexing
+ * @return string
  */
 function rex_mediapool_filename($FILENAME, $doSubindexing = true)
 {
@@ -51,10 +54,12 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
  * Dabei wird kontrolliert ob das File schon vorhanden ist und es
  * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben
  *
- * @param $FILE
- * @param $rex_file_category
- * @param $FILEINFOS
- * @param $userlogin
+ * @param array  $FILE
+ * @param int    $rex_file_category
+ * @param array  $FILEINFOS
+ * @param string $userlogin
+ * @param bool   $doSubindexing
+ * @return array
  */
 function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlogin = null, $doSubindexing = true)
 {
@@ -157,10 +162,10 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
  * Dabei wird kontrolliert ob das File schon vorhanden ist und es
  * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben
  *
- * @param $FILE
- * @param $rex_file_category
- * @param $FILEINFOS
- * @param $userlogin
+ * @param array  $FILE
+ * @param array  $FILEINFOS
+ * @param string $userlogin
+ * @return array
  */
 function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 {
@@ -246,11 +251,13 @@ $RETURN['old_filename'] = $FILENAME;
  * Synchronisiert die Datei $physical_filename des Mediafolders in den
  * Medienpool
  *
- * @param $physical_filename
- * @param $category_id
- * @param $title
- * @param $filesize
- * @param $filetype
+ * @param string $physical_filename
+ * @param int    $category_id
+ * @param string $title
+ * @param int    $filesize
+ * @param string $filetype
+ * @param bool   $doSubindexing
+ * @return bool|array
  */
 function rex_mediapool_syncFile($physical_filename, $category_id, $title, $filesize = null, $filetype = null, $doSubindexing = false)
 {

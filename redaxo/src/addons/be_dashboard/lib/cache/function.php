@@ -19,7 +19,7 @@ class rex_dashboard_function_cache
   /**
    * Constructor.
    *
-   * @param sfCache $cache An sfCache object instance
+   * @param rex_dashboard_cache $cache An sfCache object instance
    */
   public function __construct(rex_dashboard_cache $cache)
   {

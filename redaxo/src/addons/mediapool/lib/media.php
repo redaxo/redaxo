@@ -531,8 +531,8 @@ class rex_media
   }
 
   /**
-   * @access public
-   * @return Returns <code>true</code> on success or <code>false</code> on error
+   * @param string $filename
+   * @return bool Returns <code>true</code> on success or <code>false</code> on error
    */
   public function delete($filename = null)
   {

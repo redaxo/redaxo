@@ -29,7 +29,7 @@ abstract class rex_extension extends rex_factory_base
    * @param string $extensionPoint Name des ExtensionPoints
    * @param mixed  $subject        Objekt/Variable die beeinflusst werden soll
    * @param array  $params         Parameter für die Callback-Funktion
-   *
+   * @param bool   $read_only
    * @return mixed $subject, ggf. manipuliert durch registrierte Extensions.
    */
   static public function registerPoint($extensionPoint, $subject = '', array $params = array(), $read_only = false)
@@ -81,15 +81,16 @@ abstract class rex_extension extends rex_factory_base
   /**
    * Definiert eine Callback-Funktion, die an dem Extension Point $extension aufgerufen wird
    *
-   * @param string   $extension Name des ExtensionPoints
-   * @param callable $callable  Name der Callback-Funktion
-   * @param string   $level     Ausführungslevel (EARLY, NORMAL oder LATE)
-   * @param array    $params    Array von zusätzlichen Parametern
+   * @param string   $extensionPoint
+   * @param callable $callable       Name der Callback-Funktion
+   * @param int      $level          Ausführungslevel (EARLY, NORMAL oder LATE)
+   * @param array    $params         Array von zusätzlichen Parametern
    */
   static public function register($extensionPoint, $callable, $level = self::NORMAL, array $params = array())
   {
     if (static::hasFactoryClass()) {
-      return static::callFactoryClass(__FUNCTION__, func_get_args());
+      static::callFactoryClass(__FUNCTION__, func_get_args());
+      return;
     }
     self::$extensions[$extensionPoint][(int) $level][] = array($callable, $params);
   }

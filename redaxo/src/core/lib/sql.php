@@ -169,8 +169,7 @@ class rex_sql extends rex_factory_base implements Iterator
   /**
    * Setzt Debugmodus an/aus
    *
-   * @param $debug Debug TRUE/FALSE
-   *
+   * @param bool $debug Debug TRUE/FALSE
    * @return rex_sql the current rex_sql object
    */
   public function setDebug($debug = true)
@@ -319,8 +318,7 @@ class rex_sql extends rex_factory_base implements Iterator
   /**
    * Setzt ein Array von Werten zugleich
    *
-   * @param $valueArray Ein Array von Werten
-   * @param $wert Wert
+   * @param array $valueArray Ein Array von Werten
    * @return rex_sql the current rex_sql object
    */
   public function setValues(array $valueArray)
@@ -344,8 +342,9 @@ class rex_sql extends rex_factory_base implements Iterator
 
   /**
    * Prueft den Wert einer Spalte der aktuellen Zeile ob ein Wert enthalten ist
-   * @param $feld Spaltenname des zu pruefenden Feldes
-   * @param $prop Wert, der enthalten sein soll
+   * @param string $feld Spaltenname des zu pruefenden Feldes
+   * @param string $prop Wert, der enthalten sein soll
+   * @return bool
    */
   protected function isValueOf($feld, $prop)
   {
@@ -369,6 +368,9 @@ class rex_sql extends rex_factory_base implements Iterator
    * example 3 (deprecated):
    *    $sql->setWhere('myid="35" OR abc="zdf"');
    *
+   * @param string $where
+   * @param array  $whereParams
+   * @throws rex_sql_exception
    * @return rex_sql the current rex_sql object
    */
   public function setWhere($where, $whereParams = null)
@@ -399,6 +401,7 @@ class rex_sql extends rex_factory_base implements Iterator
    *
    * @param array $arrFields
    * @param int   $level
+   * @return string
    */
   private function buildWhereArg(array $arrFields, $level = 0)
   {
@@ -505,7 +508,8 @@ class rex_sql extends rex_factory_base implements Iterator
 
   /**
    * Prueft, ob eine Spalte im Resultset vorhanden ist
-   * @param $value Name der Spalte
+   * @param string $feldname Name der Spalte
+   * @return bool
    */
   public function hasValue($feldname)
   {
@@ -813,22 +817,21 @@ class rex_sql extends rex_factory_base implements Iterator
    * Laedt das komplette Resultset in ein Array und gibt dieses zurueck und
    * wechselt die DBID falls vorhanden
    *
-   * @param $query The sql-query
-   * @param $params An optional array of statement parameter
-   *
+   * @param string $query     The sql-query
+   * @param array  $params    An optional array of statement parameter
+   * @param int    $fetchType
    * @return array
-   *
    * @throws rex_sql_exception on errors
    */
-  public function getDBArray($qry = null, array $params = array(), $fetchType = PDO::FETCH_ASSOC)
+  public function getDBArray($query = null, array $params = array(), $fetchType = PDO::FETCH_ASSOC)
   {
-    if (!$qry) {
-      $qry = $this->query;
+    if (!$query) {
+      $query = $this->query;
       $params = $this->params;
     }
 
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
-    $this->setDBQuery($qry, $params);
+    $this->setDBQuery($query, $params);
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
 
     return $this->stmt->fetchAll($fetchType);
@@ -837,22 +840,21 @@ class rex_sql extends rex_factory_base implements Iterator
   /**
    * Laedt das komplette Resultset in ein Array und gibt dieses zurueck
    *
-   * @param string $query  The sql-query
-   * @param array  $params An optional array of statement parameter
-   *
+   * @param string $query     The sql-query
+   * @param array  $params    An optional array of statement parameter
+   * @param int    $fetchType
    * @return array
-   *
    * @throws rex_sql_exception on errors
    */
-  public function getArray($qry = null, array $params = array(), $fetchType = PDO::FETCH_ASSOC)
+  public function getArray($query = null, array $params = array(), $fetchType = PDO::FETCH_ASSOC)
   {
-    if (!$qry) {
-      $qry = $this->query;
+    if (!$query) {
+      $query = $this->query;
       $params = $this->params;
     }
 
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
-    $this->setQuery($qry, $params);
+    $this->setQuery($query, $params);
     self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
 
     return $this->stmt->fetchAll($fetchType);
@@ -908,7 +910,10 @@ class rex_sql extends rex_factory_base implements Iterator
 
   /**
    * Setzt eine Spalte auf den naechst moeglich auto_increment Wert
-   * @param $field Name der Spalte
+   *
+   * @param string $field    Name der Spalte
+   * @param int    $start_id
+   * @return int
    */
   public function setNewId($field, $start_id = 0)
   {

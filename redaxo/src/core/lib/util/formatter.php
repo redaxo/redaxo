@@ -273,8 +273,11 @@ abstract class rex_formatter
   /**
    * Returns the truncated $string
    *
-   * @param string $string Searchstring
-   * @param string $start  Suffix to search for
+   * @param string $string      Searchstring
+   * @param int    $length
+   * @param string $etc
+   * @param bool   $break_words
+   * @return string
    */
   static public function truncate($string, $length = 80, $etc = '...', $break_words = false)
   {
