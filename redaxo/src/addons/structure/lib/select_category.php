@@ -108,6 +108,9 @@ class rex_category_select extends rex_select
 
     $ausgabe = '';
     $group = $this->getGroup($re_id);
+    if (!is_array($group)) {
+      return '';
+    }
     foreach ($group as $option) {
       $name = $option[0];
       $value = $option[1];
