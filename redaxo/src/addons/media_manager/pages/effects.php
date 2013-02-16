@@ -36,7 +36,7 @@ if ($func == 'delete' && $effect_id > 0) {
   if ($sql->delete()) {
      $info = rex_i18n::msg('media_manager_effect_deleted') ;
   } else {
-    $warning = $sql->getErrro();
+    $warning = $sql->getError();
   }
   $func = '';
 }

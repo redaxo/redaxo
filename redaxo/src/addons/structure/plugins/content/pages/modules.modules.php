@@ -35,7 +35,7 @@ if ($add_action != '') {
     $success = rex_i18n::msg('action_taken');
     $goon = '1';
   } else {
-    $error = $action->getErrro();
+    $error = $action->getError();
   }
 } elseif ($function_action == 'delete') {
   $action = rex_sql::factory();
@@ -45,7 +45,7 @@ if ($add_action != '') {
   if ($action->delete() && $action->getRows() > 0) {
     $success = rex_i18n::msg('action_deleted_from_modul') ;
   } else {
-    $error = $action->getErrro();
+    $error = $action->getError();
   }
 }
 
