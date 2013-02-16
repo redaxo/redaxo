@@ -261,9 +261,9 @@ class rex_be_controller
       switch (strtolower($key)) {
         case 'subpages':
           if (is_array($value)) {
-            foreach ($value as $key => $subProperties) {
+            foreach ($value as $pageKey => $subProperties) {
               if (isset($subProperties['title'])) {
-                $subpage = new rex_be_page($key, $subProperties['title']);
+                $subpage = new rex_be_page($pageKey, $subProperties['title']);
                 $page->addSubpage($subpage);
                 self::pageAddProperties($subpage, $subProperties, $package);
               }
