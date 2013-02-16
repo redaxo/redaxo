@@ -63,7 +63,7 @@ class rex_content_service
 
         rex_article_cache::deleteContent($article_id, $clang);
       } else {
-        throw new rex_exception('rex_moveSlice: Unsupported direction "' . $direction . '"!', E_USER_ERROR);
+        throw new rex_exception('rex_moveSlice: Unsupported direction "' . $direction . '"!');
       }
     } else {
       throw new rex_api_exception(rex_i18n::msg('slice_moved_error'));

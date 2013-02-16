@@ -2,19 +2,13 @@
 
 class rex_exception extends Exception
 {
-  public function __construct($message, $code = E_USER_ERROR, Exception $previous = null)
+  public function __construct($message, Exception $previous = null)
   {
-    parent::__construct($message, $code, $previous);
+    parent::__construct($message, 0, $previous);
   }
 }
 
-class rex_sql_exception extends rex_exception
-{
-  public function __construct($message, Exception $previous = null)
-  {
-    parent::__construct($message, E_USER_ERROR, $previous);
-  }
-}
+class rex_sql_exception extends rex_exception {}
 
 /**
  * Exception class for user-friendly error messages
@@ -30,7 +24,7 @@ class rex_http_exception extends rex_exception
 
   public function __construct(Exception $cause, $httpCode)
   {
-    parent::__construct(null, null, $cause);
+    parent::__construct(null, $cause);
     $this->httpCode = $httpCode;
   }
 
