@@ -4,9 +4,9 @@ class rex_managed_media
 {
   private
     $media_path = '',
+    $media,
     $asImage = false,
-    $gifsupport = false,
-    $img,
+    $image,
     $header = array();
 
   public function __construct($media_path)

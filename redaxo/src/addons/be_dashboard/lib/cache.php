@@ -102,7 +102,7 @@ abstract class rex_dashboard_cache
    *
    * @return Boolean true if no problem
    */
-  abstract public function clean($mode = REX_DASHBOARD_CACHE_SEPARATOR_ALL);
+  abstract public function clean($mode = REX_DASHBOARD_CACHE_CLEAN_ALL);
 
   /**
    * Returns the timeout for the given key.

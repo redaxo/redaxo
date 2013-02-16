@@ -73,7 +73,7 @@ class rex_dashboard_function_cache
   /**
    * Returns the cache instance.
    *
-   * @return sfCache The sfCache instance
+   * @return rex_dashboard_cache The sfCache instance
    */
   public function getCache()
   {

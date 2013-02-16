@@ -84,7 +84,7 @@ class rex_cronjob_manager
     $name = $this->name;
     if (!$name) {
       if ($this->cronjob instanceof rex_cronjob)
-        $name = rex::isBackend() ? $cronjob->getTypeName() : $cronjob->getType();
+        $name = rex::isBackend() ? $this->cronjob->getTypeName() : $this->cronjob->getType();
       else
         $name = '[no name]';
     }

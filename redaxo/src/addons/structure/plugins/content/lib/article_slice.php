@@ -148,7 +148,7 @@ class rex_article_slice
    */
   public function getNextSlice()
   {
-    return self::_getSliceWhere('prior = ' . ($this->_prior+1) . ' AND article_id=' . $an_article_id . ' AND clang = ' . $this->_clang . ' AND ctype = ' . $this->_ctype . ' AND revision=' . $this->_revision);
+    return self::_getSliceWhere('prior = ' . ($this->_prior+1) . ' AND article_id=' . $this->_article_id . ' AND clang = ' . $this->_clang . ' AND ctype = ' . $this->_ctype . ' AND revision=' . $this->_revision);
   }
 
   /*
@@ -156,7 +156,7 @@ class rex_article_slice
    */
   public function getPreviousSlice()
   {
-    return self::_getSliceWhere('prior = ' . ($this->_prior-1) . ' AND article_id=' . $an_article_id . ' AND clang = ' . $this->_clang . ' AND ctype = ' . $this->_ctype . ' AND revision=' . $this->_revision);
+    return self::_getSliceWhere('prior = ' . ($this->_prior-1) . ' AND article_id=' . $this->_article_id . ' AND clang = ' . $this->_clang . ' AND ctype = ' . $this->_ctype . ' AND revision=' . $this->_revision);
   }
 
   /**
