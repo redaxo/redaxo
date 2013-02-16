@@ -5,7 +5,12 @@ class rex_category_select extends rex_select
   private $ignore_offlines;
   private $clang;
   private $check_perms;
+
+  /**
+   * @var int
+   */
   private $rootId;
+
   private $loaded;
 
   public function __construct($ignore_offlines = false, $clang = false, $check_perms = true, $add_homepage = true)

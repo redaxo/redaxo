@@ -6,8 +6,8 @@ class rex_article_cache
    * Löscht die gecachten Dateien eines Artikels. Wenn keine clang angegeben, wird
    * der Artikel-Cache in allen Sprachen gelöscht.
    *
-   * @param $id ArtikelId des Artikels
-   * @param [$clang ClangId des Artikels]
+   * @param int $id    ArtikelId des Artikels
+   * @param int $clang ClangId des Artikels
    *
    * @return boolean True on success, False on errro
    */
@@ -34,8 +34,8 @@ class rex_article_cache
    * Löscht die gecachten Meta-Dateien eines Artikels. Wenn keine clang angegeben, wird
    * der Artikel in allen Sprachen gelöscht.
    *
-   * @param $id ArtikelId des Artikels
-   * @param [$clang ClangId des Artikels]
+   * @param int $id    ArtikelId des Artikels
+   * @param int $clang ClangId des Artikels
    *
    * @return boolean True on success, False on errro
    */
@@ -62,8 +62,8 @@ class rex_article_cache
    * Löscht die gecachten Content-Dateien eines Artikels. Wenn keine clang angegeben, wird
    * der Artikel in allen Sprachen gelöscht.
    *
-   * @param $id ArtikelId des Artikels
-   * @param [$clang ClangId des Artikels]
+   * @param int $id    ArtikelId des Artikels
+   * @param int $clang ClangId des Artikels
    *
    * @return boolean True on success, False on errro
    */
@@ -90,8 +90,8 @@ class rex_article_cache
    * Löscht die gecachten List-Dateien eines Artikels. Wenn keine clang angegeben, wird
    * der Artikel in allen Sprachen gelöscht.
    *
-   * @param $id ArtikelId des Artikels
-   * @param [$clang ClangId des Artikels]
+   * @param int $id    ArtikelId des Artikels
+   * @param int $clang ClangId des Artikels
    *
    * @return boolean True on success, False on errro
    */
@@ -119,10 +119,9 @@ class rex_article_cache
   /**
    * Generiert den Artikel-Cache der Metainformationen.
    *
-   * @param $article_id Id des zu generierenden Artikels
-   * @param [$clang ClangId des Artikels]
-   *
-   * @return TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
+   * @param int $article_id Id des zu generierenden Artikels
+   * @param int $clang      ClangId des Artikels
+   * @return bool TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
    */
   static public function generateMeta($article_id, $clang = null)
   {

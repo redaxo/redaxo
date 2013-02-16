@@ -100,9 +100,7 @@ class rex_config
    * @param string $namespace The namespace e.g. an addon name
    * @param string $key       The associated key
    * @param mixed  $default   Default return value if no associated-value can be found
-   *
-   * @return the value for $key or $default if $key cannot be found in the given $namespace
-   *
+   * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
    * @throws rex_exception on invalid parameters
    */
   static public function get($namespace, $key = null, $default = null)

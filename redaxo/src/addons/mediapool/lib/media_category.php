@@ -126,7 +126,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return int
    */
   public function getId()
   {
@@ -134,7 +134,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function getName()
   {
@@ -142,7 +142,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function getPath()
   {
@@ -150,8 +150,7 @@ class rex_media_category
   }
 
   /*
-   * Accessor Method:
-   * returns the path ids of the category as an array
+   * Returns the path ids of the category as an array
    */
   public function getPathAsArray()
   {
@@ -167,7 +166,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function getUpdateUser()
   {
@@ -175,7 +174,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return int
    */
   public function getUpdateDate()
   {
@@ -183,7 +182,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function getCreateUser()
   {
@@ -191,7 +190,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return int
    */
   public function getCreateDate()
   {
@@ -199,7 +198,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return int
    */
   public function getParentId()
   {

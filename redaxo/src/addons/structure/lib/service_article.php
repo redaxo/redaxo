@@ -214,7 +214,7 @@ class rex_article_service
    * Löscht einen Artikel und reorganisiert die Prioritäten verbleibender Geschwister-Artikel
    *
    * @param int $article_id Id des Artikels die gelöscht werden soll
-   *
+   * @throws rex_api_exception
    * @return string Eine Statusmeldung
    */
   static public function deleteArticle($article_id)
@@ -257,8 +257,8 @@ class rex_article_service
   /**
    * Löscht einen Artikel
    *
-   * @param $id ArtikelId des Artikels, der gelöscht werden soll
-   *
+   * @param int $id ArtikelId des Artikels, der gelöscht werden soll
+   * @throws rex_api_exception
    * @return string Eine Statusmeldung
    */
   static public function _deleteArticle($id)
@@ -416,10 +416,10 @@ class rex_article_service
   /**
    * Berechnet die Prios der Artikel in einer Kategorie neu
    *
-   * @param $re_id    KategorieId der Kategorie, die erneuert werden soll
-   * @param $clang    ClangId der Kategorie, die erneuert werden soll
-   * @param $new_prio Neue PrioNr der Kategorie
-   * @param $old_prio Alte PrioNr der Kategorie
+   * @param int $re_id    KategorieId der Kategorie, die erneuert werden soll
+   * @param int $clang    ClangId der Kategorie, die erneuert werden soll
+   * @param int $new_prio Neue PrioNr der Kategorie
+   * @param int $old_prio Alte PrioNr der Kategorie
    *
    * @return void
    */

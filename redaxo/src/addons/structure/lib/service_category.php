@@ -410,10 +410,10 @@ class rex_category_service
   /**
    * Berechnet die Prios der Kategorien in einer Kategorie neu
    *
-   * @param $re_id    KategorieId der Kategorie, die erneuert werden soll
-   * @param $clang    ClangId der Kategorie, die erneuert werden soll
-   * @param $new_prio Neue PrioNr der Kategorie
-   * @param $old_prio Alte PrioNr der Kategorie
+   * @param int $re_id    KategorieId der Kategorie, die erneuert werden soll
+   * @param int $clang    ClangId der Kategorie, die erneuert werden soll
+   * @param int $new_prio Neue PrioNr der Kategorie
+   * @param int $old_prio Alte PrioNr der Kategorie
    *
    * @return void
    */

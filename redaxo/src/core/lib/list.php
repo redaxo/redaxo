@@ -679,8 +679,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Prepariert das SQL Statement vorm anzeigen der Liste
    *
-   * @param $query SQL Statement
-   *
+   * @param string $query SQL Statement
    * @return string
    */
   protected function prepareQuery($query)

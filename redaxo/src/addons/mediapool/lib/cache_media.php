@@ -5,9 +5,7 @@ class rex_media_cache
   /**
    * Löscht die gecachte Medium-Datei.
    *
-   * @param $filename Dateiname
-   *
-   * @return void
+   * @param string $filename Dateiname
    */
   static public function delete($filename)
   {
@@ -18,9 +16,7 @@ class rex_media_cache
   /**
    * Löscht die gecachten Dateien der Media-Kategorie.
    *
-   * @param $category_id Id der Media-Kategorie
-   *
-   * @return void
+   * @param int $category_id Id der Media-Kategorie
    */
   static public function deleteCategory($category_id)
   {
@@ -55,9 +51,7 @@ class rex_media_cache
   /**
    * Löscht die gecachte Liste mit den Media der Kategorie.
    *
-   * @param $category_id Id der Media-Kategorie
-   *
-   * @return void
+   * @param int $category_id Id der Media-Kategorie
    */
   static public function deleteList($category_id)
   {
@@ -84,9 +78,7 @@ class rex_media_cache
   /**
    * Löscht die gecachte Media-Kategorien-Liste.
    *
-   * @param $category_id Id der Media-Kategorie
-   *
-   * @return void
+   * @param int $category_id Id der Media-Kategorie
    */
   static public function deleteCategoryList($category_id)
   {
@@ -127,9 +119,9 @@ class rex_media_cache
   /**
    * Generiert den Cache der Media-Kategorie.
    *
-   * @param $category_id Id des zu generierenden Media-Kategorie
+   * @param int $category_id Id des zu generierenden Media-Kategorie
    *
-   * @return TRUE bei Erfolg, sonst FALSE
+   * @return bool TRUE bei Erfolg, sonst FALSE
    */
   static public function generateCategory($category_id)
   {
@@ -163,9 +155,8 @@ class rex_media_cache
   /**
    * Generiert eine Liste mit den Media einer Kategorie.
    *
-   * @param $category_id Id der Kategorie
-   *
-   * @return TRUE bei Erfolg, sonst FALSE
+   * @param int $category_id Id der Kategorie
+   * @return bool TRUE bei Erfolg, sonst FALSE
    */
   static public function generateList($category_id)
   {
@@ -195,9 +186,9 @@ class rex_media_cache
   /**
    * Generiert eine Liste mit den Kindkategorien einer Kategorie.
    *
-   * @param $category_id Id der Kategorie
+   * @param int $category_id Id der Kategorie
    *
-   * @return TRUE bei Erfolg, sonst FALSE
+   * @return bool TRUE bei Erfolg, sonst FALSE
    */
   static public function generateCategoryList($category_id)
   {

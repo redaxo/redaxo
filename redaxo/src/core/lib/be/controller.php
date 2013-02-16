@@ -193,12 +193,12 @@ class rex_be_controller
   }
 
   /**
-   * @param rex_be_page|array $page
-   * @param rex_package       $package
-   * @param boolean           $createMainPage
-   * @param rex_be_page_main  $mainPage
-   * @param string            $pageKey
-   * @param boolean           $prefix
+   * @param rex_be_page|array     $page
+   * @param rex_package           $package
+   * @param boolean               $createMainPage
+   * @param rex_be_page_main|null $mainPage
+   * @param string                $pageKey
+   * @param boolean               $prefix
    * @return null|rex_be_page
    */
   static private function pageCreate($page, rex_package $package, $createMainPage, rex_be_page_main $mainPage = null, $pageKey = null, $prefix = false)
