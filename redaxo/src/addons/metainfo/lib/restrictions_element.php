@@ -20,8 +20,7 @@ class rex_form_restrictons_element extends rex_form_select_element
     } elseif ($table->getPrefix() == rex_metainfo_media_handler::PREFIX) {
       $restrictionsSelect = new rex_media_category_select();
     } else {
-      trigger_error('Unexpected TablePrefix "' . $table->getPrefix() . '"!', E_USER_ERROR);
-      exit();
+      throw new rex_exception('Unexpected TablePrefix "' . $table->getPrefix() . '"!');
     }
 
     $restrictionsSelect->setMultiple(true);

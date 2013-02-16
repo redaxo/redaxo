@@ -43,7 +43,7 @@ class rex_form extends rex_factory_base
 //    $debug = true;
 
     if (!in_array($method, array('post', 'get')))
-      trigger_error("rex_form: Method-Parameter darf nur die Werte 'post' oder 'get' annehmen!", E_USER_ERROR);
+      throw new rex_exception("rex_form: Method-Parameter darf nur die Werte 'post' oder 'get' annehmen!");
 
     $this->name = md5($tableName . $whereCondition . $method);
     $this->method = $method;
@@ -69,7 +69,7 @@ class rex_form extends rex_factory_base
       // Ein Datensatz gefunden => Mode: Edit
       $this->setEditMode(true);
     } else {
-      trigger_error('rex_form: Die gegebene Where-Bedingung führt nicht zu einem eindeutigen Datensatz!', E_USER_ERROR);
+      throw new rex_exception('rex_form: Die gegebene Where-Bedingung führt nicht zu einem eindeutigen Datensatz!');
     }
 
     // --------- Load Env

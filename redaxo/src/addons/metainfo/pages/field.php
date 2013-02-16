@@ -10,13 +10,11 @@
 //------------------------------> Parameter
 
 if (empty($prefix)) {
-  trigger_error('Fehler: Prefix nicht definiert!', E_USER_ERROR);
-  exit();
+  throw new rex_exception('Fehler: Prefix nicht definiert!');
 }
 
 if (empty($metaTable)) {
-  trigger_error('Fehler: metaTable nicht definiert!', E_USER_ERROR);
-  exit();
+  throw new rex_exception('Fehler: metaTable nicht definiert!');
 }
 
 $Basedir = __DIR__;

@@ -103,8 +103,7 @@ class rex_category_select extends rex_select
   {
     if ($level > 100) {
       // nur mal so zu sicherheit .. man weiss nie ;)
-      echo "select->_outGroup overflow ($groupname)";
-      exit;
+      throw new rex_exception('select->_outGroup overflow');
     }
 
     $ausgabe = '';

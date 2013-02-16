@@ -208,7 +208,7 @@ class rex_dashboard_file_cache extends rex_dashboard_cache
   protected function read($path, $type = REX_DASHBOARD_CACHE_FILE_READ_DATA)
   {
     if (!$fp = @fopen($path, 'rb')) {
-      trigger_error(sprintf('Unable to read cache file "%s".', $path), E_USER_ERROR);
+      throw new rex_exception(sprintf('Unable to read cache file "%s".', $path));
     }
 
     @flock($fp, LOCK_SH);
@@ -259,7 +259,7 @@ class rex_dashboard_file_cache extends rex_dashboard_cache
     $tmpFile = tempnam(dirname($path), basename($path));
 
     if (!$fp = @fopen($tmpFile, 'wb')) {
-      trigger_error(sprintf('Unable to write cache file "%s".', $tmpFile), E_USER_ERROR);
+      throw new rex_exception(sprintf('Unable to write cache file "%s".', $tmpFile));
     }
 
     @fwrite($fp, str_pad($timeout, 12, 0, STR_PAD_LEFT));

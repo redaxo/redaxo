@@ -61,8 +61,7 @@ class rex_sql extends rex_factory_base implements Iterator
       }
 
     } catch (PDOException $e) {
-      echo "<font style='color:red; font-family:verdana,arial; font-size:11px;'>Class SQL 1.1 | Database down. | Please contact <a href=mailto:" . rex::getProperty('error_email') . '>' . rex::getProperty('error_email') . "</a>\n | Thank you!\n</font>";
-      exit;
+      throw new rex_sql_exception('Could not connect to database', $e);
     }
   }
 
@@ -486,14 +485,7 @@ class rex_sql extends rex_factory_base implements Iterator
     if (is_array($this->lastRow) && array_key_exists($feldname, $this->lastRow)) {
       $res = $this->lastRow[$feldname];
     } else {
-      $sendWarnings = (error_reporting() & E_WARNING) == E_WARNING;
-
-      if ($sendWarnings && function_exists('debug_backtrace')) {
-        $trace = debug_backtrace();
-        $loc = $trace[1];
-        echo '<b>Warning</b>:  rex_sql->getValue(' . $feldname . '): Initial error found in file <b>' . $loc['file'] . '</b> on line <b>' . $loc['line'] . '</b><br />';
-        exit();
-      }
+      throw new rex_sql_exception('Field "' . $feldname . '" does not exist in result!');
     }
 
     return $res;
@@ -656,7 +648,7 @@ class rex_sql extends rex_factory_base implements Iterator
     // provide debug infos, if insert is considered successfull, but no rows were inserted.
     // this happens when you violate against a NOTNULL constraint
     if ($res && $this->getRows() == 0) {
-      trigger_error('Error while inserting into table "' . $tableName . '" with values ' . print_r($values, true) . '! Check your null/not-null constraints!', E_USER_ERROR);
+      throw new rex_sql_exception('Error while inserting into table "' . $tableName . '" with values ' . print_r($values, true) . '! Check your null/not-null constraints!');
     }
 
     return $res;

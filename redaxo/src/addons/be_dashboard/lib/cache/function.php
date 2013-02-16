@@ -53,7 +53,7 @@ class rex_dashboard_function_cache
       $data = array();
 
       if (!is_callable($callable)) {
-        trigger_error('The first argument to call() must be a valid callable.', E_USER_ERROR);
+        throw new rex_exception('The first argument to call() must be a valid callable.');
       }
 
       ob_start();

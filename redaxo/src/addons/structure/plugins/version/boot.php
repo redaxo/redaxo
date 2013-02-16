@@ -24,8 +24,7 @@ function rex_version_initArticle($params)
     session_start();
 
   if (!rex_backend_login::hasSession()) {
-    echo 'no permission for the working version';
-    exit();
+    throw new rex_exception('no permission for the working version');
   }
 
   $params['article']->setSliceRevision($version);

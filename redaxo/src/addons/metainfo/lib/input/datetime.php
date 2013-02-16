@@ -17,7 +17,7 @@ class rex_input_datetime extends rex_input
   public function setValue($value)
   {
     if (!is_array($value)) {
-      trigger_error('Expecting $value to be an array!', E_USER_ERROR);
+      throw new rex_exception('Expecting $value to be an array!');
     }
 
     $this->dateInput->setValue($value);

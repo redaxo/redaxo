@@ -24,12 +24,12 @@ class rex_input_time extends rex_input
   public function setValue($value)
   {
     if (!is_array($value)) {
-      trigger_error('Expecting $value to be an array!', E_USER_ERROR);
+      throw new rex_exception('Expecting $value to be an array!');
     }
 
     foreach (array('hour', 'minute') as $reqIndex) {
       if (!isset($value[$reqIndex])) {
-        trigger_error('Missing index "' . $reqIndex . '" in $value!', E_USER_ERROR);
+        throw new rex_exception('Missing index "' . $reqIndex . '" in $value!');
       }
     }
 

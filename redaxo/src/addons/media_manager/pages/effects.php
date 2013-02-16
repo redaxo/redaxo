@@ -200,7 +200,7 @@ if ($func == '' && $type_id > 0) {
           }
         default:
           {
-            trigger_error('Unexpected param type "' . $param['type'] . '"', E_USER_ERROR);
+          throw new rex_exception('Unexpected param type "' . $param['type'] . '"');
           }
       }
     }

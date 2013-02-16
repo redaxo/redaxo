@@ -82,7 +82,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
   {
     $formats = array('full', 'half');
     if (!in_array($format, $formats)) {
-      trigger_error('Unexpected format "' . $format . '"!', E_USER_ERROR);
+      throw new rex_exception('Unexpected format "' . $format . '"!');
     }
     $this->format = $format;
   }

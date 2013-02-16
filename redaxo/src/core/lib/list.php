@@ -539,7 +539,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
   public function addTableColumnGroup($columns, $columnGroupSpan = null)
   {
     if (!is_array($columns))
-      trigger_error('rex_list->addTableColumnGroup: Erwarte 1. Parameter als Array!', E_USER_ERROR);
+      throw new rex_exception('rex_list->addTableColumnGroup: Erwarte 1. Parameter als Array!');
 
     $tableColumnGroup = array('columns' => array());
     if ($columnGroupSpan) $tableColumnGroup['span'] = $columnGroupSpan;
@@ -583,7 +583,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
   private function _addTableColumn(array $tableColumn)
   {
     if (!isset($tableColumn['width']))
-      trigger_error('rex_list->_addTableColumn: Erwarte index width!', E_USER_ERROR);
+      throw new rex_exception('rex_list->_addTableColumn: Erwarte index width!');
 
     $lastIndex = count($this->tableColumnGroups) - 1;
 

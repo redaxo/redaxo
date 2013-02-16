@@ -31,7 +31,7 @@ class rex_template
     if (!file_exists($file)) {
       // Generated Datei erzeugen
       if (!$this->generate()) {
-        trigger_error('Unable to generate rexTemplate with id "' . $this->getId() . '"', E_USER_ERROR);
+        throw new rex_exception('Unable to generate rexTemplate with id "' . $this->getId() . '"');
 
         return false;
       }

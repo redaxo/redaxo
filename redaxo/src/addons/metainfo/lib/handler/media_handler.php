@@ -40,7 +40,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
           $where[$key][] = 'FIND_IN_SET("' . $filename . '", ' . $name . ')';
           break;
         default :
-          trigger_error('Unexpected fieldtype "' . $sql->getValue('type') . '"!', E_USER_ERROR);
+          throw new rex_exception('Unexpected fieldtype "' . $sql->getValue('type') . '"!');
       }
       $sql->next();
     }
@@ -176,8 +176,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
       if ($sql->getRows() == 1) {
         $params['media_id'] = $sql->getValue('media_id');
       } else {
-        trigger_error('Error occured during file upload!', E_USER_ERROR);
-        exit();
+        throw new rex_exception('Error occured during file upload!');
       }
     }
 

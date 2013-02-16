@@ -228,7 +228,7 @@ abstract class rex_formatter
   {
     if (!is_callable($format)) {
       if (!is_callable($format[0])) {
-        trigger_error('Unable to find callable ' . $format[0] . ' for custom format!');
+        throw new rex_exception('Unable to find callable ' . $format[0] . ' for custom format!');
       }
 
       $params = array();

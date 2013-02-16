@@ -12,8 +12,7 @@ if (!function_exists('readFolder')) {
    function readFolder($dir)
    {
       if (!is_dir($dir)) {
-         trigger_error('Folder "' . $dir . '" is not available or not a directory');
-         return false;
+        throw new rex_exception('Folder "' . $dir . '" is not available or not a directory');
       }
       $hdl = opendir($dir);
       $folder = array();
