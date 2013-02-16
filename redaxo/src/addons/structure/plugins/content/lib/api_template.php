@@ -32,8 +32,6 @@ class rex_template
       // Generated Datei erzeugen
       if (!$this->generate()) {
         throw new rex_exception('Unable to generate rexTemplate with id "' . $this->getId() . '"');
-
-        return false;
       }
     }
 
@@ -85,8 +83,6 @@ class rex_template
     } else {
       throw new rex_exception('Template with id "' . $template_id . '" does not exist!');
     }
-
-    return false;
   }
 
   public function deleteCache()
