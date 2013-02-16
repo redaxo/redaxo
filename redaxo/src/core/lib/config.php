@@ -197,7 +197,7 @@ class rex_config
    *
    * @param string $namespace The namespace e.g. an addon name
    *
-   * @return TRUE if the namespace was found and removed, otherwise FALSE
+   * @return bool TRUE if the namespace was found and removed, otherwise FALSE
    *
    * @throws rex_exception
    */
@@ -261,7 +261,7 @@ class rex_config
   /**
    * load the config-data from a file-cache
    *
-   * @return Returns TRUE, if the data was successfully loaded from the file-cache, otherwise FALSE.
+   * @return bool Returns TRUE, if the data was successfully loaded from the file-cache, otherwise FALSE.
    */
   static private function loadFromFile()
   {

@@ -175,7 +175,7 @@ class rex_content_service
    * @param int $article_id Id des zu generierenden Artikels
    * @param int $clang      ClangId des Artikels
    *
-   * @return TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
+   * @return bool TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
    */
   static public function generateArticleContent($article_id, $clang = null)
   {

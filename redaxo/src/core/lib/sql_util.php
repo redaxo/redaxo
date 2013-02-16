@@ -109,10 +109,10 @@ class rex_sql_util
    *
    * Last revision: September 23, 2001 - gandon
    *
-   * @param   array    the splitted sql commands
-   * @param   string   the sql commands
-   * @param   integer  the MySQL release number (because certains php3 versions
-   *                   can't get the value of a constant from within a function)
+   * @param array   $ret     the splitted sql commands
+   * @param string  $sql     the sql commands
+   * @param integer $release the MySQL release number (because certains php3 versions
+   *                         can't get the value of a constant from within a function)
    *
    * @return  boolean  always true
    *

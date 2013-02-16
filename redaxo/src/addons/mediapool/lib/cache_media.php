@@ -88,9 +88,8 @@ class rex_media_cache
   /**
    * Generiert den Cache des Mediums.
    *
-   * @param $filename Dateiname des zu generierenden Mediums
-   *
-   * @return TRUE bei Erfolg, sonst FALSE
+   * @param string $filename Dateiname des zu generierenden Mediums
+   * @return bool TRUE bei Erfolg, sonst FALSE
    */
   static public function generate($filename)
   {
@@ -219,9 +218,9 @@ class rex_media_cache
   /**
    * Generiert eine Liste mit allen Media einer Dateiendung
    *
-   * @param $extension Dateiendung der zu generierenden Liste
+   * @param string $extension Dateiendung der zu generierenden Liste
    *
-   * @return TRUE bei Erfolg, sonst FALSE
+   * @return bool TRUE bei Erfolg, sonst FALSE
    */
   static public function generateExtensionList($extension)
   {

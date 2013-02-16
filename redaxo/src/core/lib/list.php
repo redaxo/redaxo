@@ -202,7 +202,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
    * Setzt die Caption/den Titel der Tabelle
    * Gibt den Namen es Formulars zurück
    *
-   * @param $caption Caption/Titel der Tabelle
+   * @param string $caption Caption/Titel der Tabelle
    */
   public function setCaption($caption)
   {
@@ -298,7 +298,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
   /**
    * Entfernt eine Spalte aus der Anzeige
    *
-   * @param $columnName Name der Spalte
+   * @param string $columnName Name der Spalte
    */
   public function removeColumn($columnName)
   {

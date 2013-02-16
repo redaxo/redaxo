@@ -28,7 +28,7 @@ class rex_input_datetime extends rex_input
 
   public function getValue()
   {
-    return array_merge($this->dateInput->setValue($value), $this->timeInput->setValue($value));
+    return array_merge($this->dateInput->getValue(), $this->timeInput->getValue());
   }
 
   public function setAttribute($name, $value)

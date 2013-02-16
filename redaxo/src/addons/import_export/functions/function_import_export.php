@@ -17,7 +17,7 @@ define('REX_A1_IMPORT_EVENT_POST', 4);
 /**
  * Importiert den SQL Dump $filename in die Datenbank
  *
- * @param string Pfad + Dateinamen zur SQL-Datei
+ * @param string $filename Pfad + Dateinamen zur SQL-Datei
  *
  * @return array Gibt ein Assoc. Array zurück.
  *               'state' => boolean (Status ob fehler aufgetreten sind)
@@ -208,7 +208,7 @@ function rex_a1_import_db($filename)
 /**
  * Importiert das Tar-Archiv $filename in den Ordner /files
  *
- * @param string Pfad + Dateinamen zum Tar-Archiv
+ * @param string $filename Pfad + Dateinamen zum Tar-Archiv
  *
  * @return array Gibt ein Assoc. Array zurück.
  *               'state' => boolean (Status ob fehler aufgetreten sind)
@@ -393,10 +393,7 @@ function rex_a1_export_db($filename)
 /**
  * Exportiert alle Ordner $folders aus dem Verzeichnis /files
  *
- * @param array Array von Ordnernamen, die exportiert werden sollen
- * @param string Pfad + Dateiname, wo das Tar File erstellt werden soll
- *
- * @access public
+ * @param array $folders Array von Ordnernamen, die exportiert werden sollen
  * @return string Inhalt des Tar-Archives als String
  */
 function rex_a1_export_files($folders)

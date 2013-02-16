@@ -39,6 +39,7 @@ class rex_navigation extends rex_factory_base
     $ignore_offlines,
     $path = array(),
     $classes = array(),
+    $linkclasses = array(),
 
     $current_article_id = -1, // Aktueller Artikel
     $current_category_id = -1; // Aktuelle Katgorie

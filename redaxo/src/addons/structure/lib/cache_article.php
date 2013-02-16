@@ -173,7 +173,7 @@ class rex_article_cache
    *
    * @param integer $re_id KategorieId oder ArtikelId, die erneuert werden soll
    * @param int     $clang
-   * @return TRUE wenn der Artikel gelöscht wurde, sonst eine Fehlermeldung
+   * @return bool TRUE wenn der Artikel gelöscht wurde, sonst eine Fehlermeldung
    */
   static public function generateLists($re_id, $clang = null)
   {

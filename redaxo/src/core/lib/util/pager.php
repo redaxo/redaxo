@@ -159,8 +159,8 @@ class rex_pager
 
   /**
    * Checks wheter the given page number is the active/current page
-   * @param boolean True when the given pageNo is the current page, otherwise False
-   * @return bool
+   * @param int $pageNo
+   * @return bool True when the given pageNo is the current page, otherwise False
    */
   public function isActivePage($pageNo)
   {
