@@ -10,6 +10,10 @@ class rex_textile
     return $restricted ? $instance->TextileRestricted($code) : $instance->TextileThis($code);
   }
 
+  /**
+   * @param string $doctype
+   * @return Netcarver\Textile\Parser
+   */
   static private function getInstance($doctype = 'xhtml')
   {
     if (!isset(self::$instances[$doctype])) {

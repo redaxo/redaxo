@@ -1,5 +1,7 @@
 <?php
 
+/** @var rex_addon $this */
+
 rex_user::setRoleClass('rex_user_role');
 
 rex_perm::register('users[]', rex_i18n::msg('user_management'));

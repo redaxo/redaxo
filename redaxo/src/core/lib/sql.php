@@ -18,14 +18,20 @@ class rex_sql extends rex_factory_base implements Iterator
     $wherevar, // WHERE Bediengung
     $whereParams, // WHERE parameter array
     $rows, // anzahl der treffer
-    $stmt, // ResultSet
     $counter, // pointer
     $query, // Die Abfrage
     $params, // Die Abfrage-Parameter
     $DBID; // ID der Verbindung
 
-  static private
-    $pdo = array(); // array von datenbankverbindungen
+  /**
+   * @var PDOStatement
+   */
+  protected $stmt;
+
+  /**
+   * @var PDO[]
+   */
+  static private $pdo = array();
 
   protected function __construct($DBID = 1)
   {
@@ -1021,6 +1027,8 @@ class rex_sql extends rex_factory_base implements Iterator
 
   /**
    * @see http://www.php.net/manual/en/iterator.current.php
+   *
+   * @return self
    */
   public function current()
   {

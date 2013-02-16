@@ -2,9 +2,12 @@
 
 abstract class rex_effect_abstract
 {
-  public
-    $media, // rex_managed_media
-    $params = array(); // effekt parameter
+  /**
+   * @var rex_managed_media
+   */
+  public $media;
+
+  public $params = array(); // effekt parameter
 
   public function setMedia(rex_managed_media $media)
   {

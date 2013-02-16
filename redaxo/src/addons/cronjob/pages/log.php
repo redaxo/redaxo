@@ -6,6 +6,8 @@
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
  * @package redaxo5
+ *
+ * @var rex_addon $this
  */
 
 $year_sel = new rex_select();

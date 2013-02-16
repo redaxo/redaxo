@@ -7,6 +7,8 @@
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
  * @package redaxo5
+ *
+ * @var rex_plugin $this
  */
 
 $error = '';

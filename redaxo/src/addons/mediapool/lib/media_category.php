@@ -33,15 +33,13 @@ class rex_media_category
   // files (media)
   private $_files = '';
 
-  /**
-   * @access protected
-   */
   protected function __construct()
   {
   }
 
   /**
-   * @access public
+   * @param int $id
+   * @return self
    */
   static public function getCategoryById($id)
   {
@@ -81,7 +79,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return self[]
    */
   static public function getRootCategories()
   {
@@ -89,7 +87,8 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @param int $id
+   * @return self[]
    */
   static public function getChildrenById($id)
   {
@@ -118,7 +117,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function toString()
   {
@@ -251,7 +250,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return self[]
    */
   public function getChildren()
   {

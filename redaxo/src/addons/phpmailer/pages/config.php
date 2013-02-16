@@ -4,7 +4,8 @@
  * Addon Framework Classes
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @package redaxo5
- * @version $Id class.rex_form.php,v 1.3 2006/09/07 104351 kills Exp $
+ *
+ * @var rex_addon $this
  */
 
 $message = '';

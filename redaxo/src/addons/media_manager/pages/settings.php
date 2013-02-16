@@ -7,6 +7,8 @@
  * @author jan.kristinus[at]yakmara[dot]de Jan Kristinus
  *
  * @package redaxo5
+ *
+ * @var rex_addon $this
  */
 
 // rex_request();

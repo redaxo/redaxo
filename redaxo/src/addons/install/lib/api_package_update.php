@@ -7,6 +7,9 @@ class rex_api_install_package_update extends rex_api_install_package_download
     VERB = 'updated',
     SHOW_LINK = false;
 
+  /**
+   * @var rex_addon
+   */
   private $addon;
 
   protected function checkPreConditions()

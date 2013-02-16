@@ -113,6 +113,9 @@ abstract class rex_input
 
   /**
    * Factory-Methode um rex_input_*-Elemente anhand des Types $inputType zu erstellen
+   *
+   * @param string $inputType
+   * @return self
    */
   static public function factory($inputType)
   {

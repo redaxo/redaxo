@@ -1,5 +1,7 @@
 <?php
 
+/** @var rex_addon $this */
+
 $content = '<h2>Media Manager Addon (Version ' . $this->getVersion() . ')</h2>';
 
 ob_start();

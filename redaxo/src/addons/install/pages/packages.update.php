@@ -1,5 +1,7 @@
 <?php
 
+/** @var rex_addon $this */
+
 $core = rex_request('core', 'boolean');
 $addonkey = rex_request('addonkey', 'string');
 

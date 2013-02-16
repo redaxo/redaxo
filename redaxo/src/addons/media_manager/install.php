@@ -6,6 +6,8 @@
  * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
  *
  * @package redaxo5
+ *
+ * @var rex_addon $this
  */
 
 if (!$this->hasConfig('jpg_quality')) {

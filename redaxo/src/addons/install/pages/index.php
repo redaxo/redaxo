@@ -1,5 +1,7 @@
 <?php
 
+/** @var rex_addon $this */
+
 $page = rex_be_controller::getCurrentPagePart(1);
 $subpage = rex_be_controller::getCurrentPagePart(2, 'packages');
 

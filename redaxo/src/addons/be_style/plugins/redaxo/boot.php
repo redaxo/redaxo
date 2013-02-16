@@ -12,6 +12,8 @@
  * @author <a href="http://www.blumbeet.com">www.blumbeet.com</a>
  *
  * @package redaxo5
+ *
+ * @var rex_plugin $this
  */
 
 $mypage = 'redaxo';

@@ -835,7 +835,7 @@ class rex_form extends rex_factory_base
   }
 
   /**
-   * @return array
+   * @return rex_form_element[]
    */
   protected function getHeaderElements()
   {
@@ -851,7 +851,7 @@ class rex_form extends rex_factory_base
   }
 
   /**
-   * @return array
+   * @return rex_form_element[]
    */
   protected function getFooterElements()
   {
