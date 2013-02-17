@@ -20,7 +20,7 @@ class rex_url_rewriter_simple extends rex_url_rewriter
   {
     global $article_id, $clang;
 
-    if (ereg('^/([0-9]*)-([0-9]*)', $_SERVER['QUERY_STRING'], $_match)) {
+    if (preg_match('@^/([0-9]*)-([0-9]*)@', $_SERVER['QUERY_STRING'], $_match)) {
       $article_id = $_match[1];
       $clang = $_match[2];
     } elseif ((empty( $_GET['article_id'])) && ( empty( $_POST['article_id']))) {
