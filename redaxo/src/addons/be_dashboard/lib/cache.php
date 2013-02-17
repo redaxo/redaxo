@@ -96,11 +96,11 @@ abstract class rex_dashboard_cache
   /**
    * Cleans the cache.
    *
-   * @param string $mode The clean mode
-   *                     sfCache::ALL: remove all keys (default)
-   *                     sfCache::OLD: remove all expired keys
+   * @param int $mode The clean mode
+   *                  sfCache::ALL: remove all keys (default)
+   *                  sfCache::OLD: remove all expired keys
    *
-   * @return Boolean true if no problem
+   * @return boolean true if no problem
    */
   abstract public function clean($mode = REX_DASHBOARD_CACHE_CLEAN_ALL);
 

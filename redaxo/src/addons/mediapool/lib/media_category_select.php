@@ -3,10 +3,14 @@
 ################ Class MediaKategorie Select
 class rex_media_category_select extends rex_select
 {
-  private
-    $check_perms,
-    $rootId,
-    $loaded = false;
+  private $check_perms;
+
+  /**
+   * @var int|int[]
+   */
+  private $rootId;
+
+  private $loaded = false;
 
   public function __construct($check_perms = true)
   {

@@ -978,6 +978,7 @@ class rex_sql extends rex_factory_base implements Iterator
    * Escaped den uebergeben Wert fuer den DB Query
    *
    * @param string $value den zu escapenden Wert
+   * @return string
    */
   public function escape($value)
   {

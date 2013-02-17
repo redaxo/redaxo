@@ -50,15 +50,13 @@ class rex_media
   // createuser
   private $_createuser = '';
 
-  /**
-   * @access protected
-   */
   protected function __construct()
   {
   }
 
   /**
-   * @access public
+   * @param string $filename
+   * @return self
    */
   static public function getMediaByName($filename)
   {
@@ -66,10 +64,8 @@ class rex_media
   }
 
   /**
-   * @access public
-   *
-   * @example rex_media::getMediaByExtension('css');
-   * @example rex_media::getMediaByExtension('gif');
+   * @param string $extension File extension, e.g. "css"
+   * @return self[]
    */
   static public function getMediaByExtension($extension)
   {
@@ -93,7 +89,8 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @param string $name
+   * @return self
    */
   static public function getMediaByFileName($name)
   {
@@ -136,7 +133,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return int
    */
   public function getId()
   {
@@ -144,7 +141,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return rex_media_category
    */
   public function getCategory()
   {
@@ -155,7 +152,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function getCategoryName()
   {
@@ -169,7 +166,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return int
    */
   public function getCategoryId()
   {
@@ -177,7 +174,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return int
    */
   public function getParentId()
   {
@@ -185,7 +182,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return bool
    */
   public function hasParent()
   {
@@ -193,7 +190,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function getTitle()
   {
@@ -201,7 +198,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function getFileName()
   {
@@ -209,7 +206,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function getOrgFileName()
   {
@@ -217,7 +214,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function getUrl()
   {
@@ -225,7 +222,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return int
    */
   public function getWidth()
   {
@@ -233,7 +230,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return int
    */
   public function getHeight()
   {
@@ -241,7 +238,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function getType()
   {
@@ -249,7 +246,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return int
    */
   public function getSize()
   {
@@ -257,7 +254,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function getFormattedSize()
   {
@@ -272,10 +269,11 @@ class rex_media
    * If format is <code>''</code> the datestamp is formated
    * with the default <code>dateformat</code> (lang-files).
    *
-   * @access public
-   * @static
+   * @param int    $date
+   * @param string $format
+   * @return string|int
    */
-  static public function _getDate($date, $format = null)
+  static protected function _getDate($date, $format = null)
   {
     if ($format !== null) {
       if ($format == '') {
@@ -289,7 +287,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function getUpdateUser()
   {
@@ -297,8 +295,9 @@ class rex_media
   }
 
   /**
-   * @access public
-   * @see #_getDate
+   * @see self::_getDate
+   * @param string $format
+   * @return string|int
    */
   public function getUpdateDate($format = null)
   {
@@ -306,7 +305,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function getCreateUser()
   {
@@ -314,8 +313,9 @@ class rex_media
   }
 
   /**
-   * @access public
-   * @see #_getDate
+   * @see self::_getDate
+   * @param string $format
+   * @return string|int
    */
   public function getCreateDate($format = null)
   {
@@ -323,7 +323,8 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @param array $params
+   * @return string
    */
   public function toImage(array $params = array())
   {
@@ -361,7 +362,8 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @param string $attributes
+   * @return string
    */
   public function toLink($attributes = '')
   {
@@ -369,7 +371,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return bool
    */
   public function isImage()
   {
@@ -377,8 +379,8 @@ class rex_media
   }
 
   /**
-   * @access public
-   * @static
+   * @param string $filename
+   * @return bool
    */
   static public function _isImage($filename)
   {
@@ -386,7 +388,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return bool|string[]
    */
   public function isInUse()
   {
@@ -440,7 +442,8 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @param string $attributes
+   * @return string
    */
   public function toHTML($attributes = '')
   {
@@ -472,7 +475,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return string
    */
   public function toString()
   {
@@ -481,7 +484,7 @@ class rex_media
 
   // new functions by vscope
   /**
-   * @access public
+   * @return string
    */
   public function getExtension()
   {
@@ -489,7 +492,7 @@ class rex_media
   }
 
   /**
-   * @access public
+   * @return string
    */
   static public function _getTableName()
   {

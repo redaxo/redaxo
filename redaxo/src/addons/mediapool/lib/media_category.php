@@ -148,8 +148,10 @@ class rex_media_category
     return $this->_path;
   }
 
-  /*
+  /**
    * Returns the path ids of the category as an array
+   *
+   * @return int[]
    */
   public function getPathAsArray()
   {
@@ -205,7 +207,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return self
    */
   public function getParent()
   {
@@ -213,10 +215,10 @@ class rex_media_category
   }
 
   /**
-   * @access public
    * Get an array of all parentCategories.
    * Returns an array of rex_media_category objects sorted by $prior.
    *
+   * @return self[]
    */
   public function getParentTree()
   {
@@ -234,9 +236,11 @@ class rex_media_category
     return $tree;
   }
 
-  /*
-   * Object Function:
+  /**
    * Checks if $anObj is in the parent tree of the object
+   *
+   * @param self $anObj
+   * @return bool
    */
   public function inParentTree($anObj)
   {
@@ -262,7 +266,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return int
    */
   public function countChildren()
   {
@@ -270,7 +274,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return rex_media[]
    */
   public function getMedia()
   {
@@ -297,7 +301,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return int
    */
   public function countMedia()
   {
@@ -305,7 +309,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return bool
    */
   public function isHidden()
   {
@@ -313,7 +317,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return bool
    */
   public function isRootCategory()
   {
@@ -321,7 +325,8 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @param self|int $mediaCat
+   * @return bool
    */
   public function isParent($mediaCat)
   {
@@ -334,7 +339,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return bool
    */
   public function hasParent()
   {
@@ -342,7 +347,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return bool
    */
   public function hasChildren()
   {
@@ -350,7 +355,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return bool
    */
   public function hasMedia()
   {
@@ -358,7 +363,7 @@ class rex_media_category
   }
 
   /**
-   * @access public
+   * @return string
    */
   static public function _getTableName()
   {
@@ -366,7 +371,6 @@ class rex_media_category
   }
 
   /**
-   * @access public
    * @return bool Returns <code>true</code> on success or <code>false</code> on error
    */
   public function save()
