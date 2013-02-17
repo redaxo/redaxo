@@ -26,7 +26,7 @@ class rex_socket_response
   public function __construct($stream)
   {
     if (!is_resource($stream)) {
-      throw new rex_exception(sprintf('Expecting $resource to be a resource, but %s given!', gettype($stream)));
+      throw new rex_exception(sprintf('Expecting $stream to be a resource, but %s given!', gettype($stream)));
     }
 
     $this->stream = $stream;
