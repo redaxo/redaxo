@@ -21,12 +21,5 @@ abstract class rex_url_rewriter
   }
 
   // Url neu schreiben
-  public function rewrite(array $params)
-  {
-    $id = $params['id'];
-    $name = $params['name'];
-    $clang = $params['clang'];
-    $params = $params['params'];
-    return rex_no_rewrite($id, $name, $clang, $params);
-  }
+  abstract public function rewrite(array $params);
 }
