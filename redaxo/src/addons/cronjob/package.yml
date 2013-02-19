@@ -4,8 +4,8 @@ author: 'Gregor Harlan'
 supportpage: www.redaxo.org/de/forum/
 
 page:
-  title: 'translate:title'
-  perm: admin[]
-  subpages:
-    cronjobs: { title: 'translate:title' }
-    log: { title: 'translate:log' }
+    title: 'translate:title'
+    perm: admin[]
+    subpages:
+        cronjobs: { title: 'translate:title' }
+        log: { title: 'translate:log' }

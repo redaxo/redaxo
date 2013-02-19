@@ -11,5 +11,5 @@
  */
 
 if (rex::isBackend()) {
-  rex_view::addCssFile($this->getAssetsUrl('textile.css'));
+    rex_view::addCssFile($this->getAssetsUrl('textile.css'));
 }

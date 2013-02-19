@@ -4,18 +4,18 @@ author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum/
 
 requires:
-  packages:
-    structure: '~ 5.0 alpha'
-    metainfo: '~ 5.0 alpha'
+    packages:
+        structure: '~ 5.0 alpha'
+        metainfo: '~ 5.0 alpha'
 
 cronjob_type: rex_cronjob_article_status
 
 config:
-  from:
-    field: art_online_from
-    before: 0
-    after: 1
-  to:
-    field: art_online_to
-    before: 1
-    after: 0
+    from:
+        field: art_online_from
+        before: 0
+        after: 1
+    to:
+        field: art_online_to
+        before: 1
+        after: 0

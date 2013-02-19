@@ -11,68 +11,68 @@ $error = '';
 $success = '';
 
 if ($func == 'setup') {
-  // REACTIVATE SETUP
+    // REACTIVATE SETUP
 
-  $configFile = rex_path::data('config.yml');
-  $config = rex_file::getConfig($configFile);
-  $config['setup'] = true;
-  // echo nl2br(htmlspecialchars($cont));
-  if (rex_file::putConfig($configFile, $config) !== false) {
-    $info = rex_i18n::msg('setup_error1', '<a href="' . rex_url::backendController() . '" data-pjax="false">', '</a>');
+    $configFile = rex_path::data('config.yml');
+    $config = rex_file::getConfig($configFile);
+    $config['setup'] = true;
+    // echo nl2br(htmlspecialchars($cont));
+    if (rex_file::putConfig($configFile, $config) !== false) {
+        $info = rex_i18n::msg('setup_error1', '<a href="' . rex_url::backendController() . '" data-pjax="false">', '</a>');
 
-    header('Location:' . rex_url::backendController());
-    exit;
+        header('Location:' . rex_url::backendController());
+        exit;
 
-  } else {
-    $warning = rex_i18n::msg('setup_error2');
-  }
+    } else {
+        $warning = rex_i18n::msg('setup_error2');
+    }
 } elseif ($func == 'generate') {
-  // generate all articles,cats,templates,caches
-  $success = rex_delete_cache();
+    // generate all articles,cats,templates,caches
+    $success = rex_delete_cache();
 } elseif ($func == 'updateassets') {
-  rex_dir::copy(rex_path::core('assets'), rex_path::assets());
-  $success = 'Updated assets';
+    rex_dir::copy(rex_path::core('assets'), rex_path::assets());
+    $success = 'Updated assets';
 } elseif ($func == 'updateinfos') {
-  $configFile = rex_path::data('config.yml');
-  $config = array_merge(
-    rex_file::getConfig(rex_path::core('default.config.yml')),
-    rex_file::getConfig($configFile)
-  );
+    $configFile = rex_path::data('config.yml');
+    $config = array_merge(
+        rex_file::getConfig(rex_path::core('default.config.yml')),
+        rex_file::getConfig($configFile)
+    );
 
-  $settings = rex_post('settings', 'array', array());
+    $settings = rex_post('settings', 'array', array());
 
-  foreach (array('server', 'servername', 'error_email', 'lang') as $key) {
-    if (isset($settings[$key])) {
-      $config[$key] = $settings[$key];
-      rex::setProperty($key, $settings[$key]);
+    foreach (array('server', 'servername', 'error_email', 'lang') as $key) {
+        if (isset($settings[$key])) {
+            $config[$key] = $settings[$key];
+            rex::setProperty($key, $settings[$key]);
+        }
     }
-  }
 
-  $config['debug'] = isset($settings['debug']) && $settings['debug'];
-  rex::setProperty('debug', $config['debug']);
+    $config['debug'] = isset($settings['debug']) && $settings['debug'];
+    rex::setProperty('debug', $config['debug']);
 
-  foreach (rex_system_setting::getAll() as $setting) {
-    $key = $setting->getKey();
-    if (isset($settings[$key])) {
-      $value = $setting->cast($settings[$key]);
-      if (($error = $setting->isValid($value)) !== true) {
-        $warning .= $error . '<br />';
-      } else {
-        $config[$key] = $value;
-        rex::setProperty($key, $value);
-      }
+    foreach (rex_system_setting::getAll() as $setting) {
+        $key = $setting->getKey();
+        if (isset($settings[$key])) {
+            $value = $setting->cast($settings[$key]);
+            if (($error = $setting->isValid($value)) !== true) {
+                $warning .= $error . '<br />';
+            } else {
+                $config[$key] = $value;
+                rex::setProperty($key, $value);
+            }
+        }
     }
-  }
 
-  if (empty($config['error_email'])) {
-    $warning = rex_i18n::msg('error_email_required');
-  }
-
-  if ($warning == '') {
-    if (rex_file::putConfig($configFile, $config) > 0) {
-      $success = rex_i18n::msg('info_updated');
+    if (empty($config['error_email'])) {
+        $warning = rex_i18n::msg('error_email_required');
     }
-  }
+
+    if ($warning == '') {
+        if (rex_file::putConfig($configFile, $config) > 0) {
+            $success = rex_i18n::msg('info_updated');
+        }
+    }
 }
 
 $sel_lang = new rex_select();
@@ -83,17 +83,17 @@ $sel_lang->setSize(1);
 $sel_lang->setSelected(rex::getProperty('lang'));
 
 foreach (rex_i18n::getLocales() as $l) {
-  $sel_lang->addOption($l, $l);
+    $sel_lang->addOption($l, $l);
 }
 
 if ($warning != '')
-  echo rex_view::warning($warning);
+    echo rex_view::warning($warning);
 
 if ($info != '')
-  echo rex_view::info($info);
+    echo rex_view::info($info);
 
 if ($success != '')
-  echo rex_view::success($success);
+    echo rex_view::success($success);
 
 $dbconfig = rex::getProperty('db');
 
@@ -101,37 +101,37 @@ $dbconfig = rex::getProperty('db');
 
 $version = rex_path::src();
 if (strlen($version) > 21)
-  $version = substr($version, 0, 8) . '..' . substr($version, strlen($version) - 13);
+    $version = substr($version, 0, 8) . '..' . substr($version, strlen($version) - 13);
 
 $content_1 = '
-            <h3>' . rex_i18n::msg('delete_cache') . '</h3>
-            <p>' . rex_i18n::msg('delete_cache_description') . '</p>
-            <p><a class="rex-button" href="' . rex_url::currentBackendPage(array('func' => 'generate')) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
+                        <h3>' . rex_i18n::msg('delete_cache') . '</h3>
+                        <p>' . rex_i18n::msg('delete_cache_description') . '</p>
+                        <p><a class="rex-button" href="' . rex_url::currentBackendPage(array('func' => 'generate')) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
 
-            <h3>' . rex_i18n::msg('setup') . '</h3>
-            <p>' . rex_i18n::msg('setup_text') . '</p>
-            <p><a class="rex-button rex-danger" href="' . rex_url::currentBackendPage(array('func' => 'setup')) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
+                        <h3>' . rex_i18n::msg('setup') . '</h3>
+                        <p>' . rex_i18n::msg('setup_text') . '</p>
+                        <p><a class="rex-button rex-danger" href="' . rex_url::currentBackendPage(array('func' => 'setup')) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
 
 $content_2 = '
-            <h3>' . rex_i18n::msg('version') . '</h3>
-            <dl class="rex-formatted">
-              <dt>REDAXO</dt><dd>' . rex::getVersion() . '</dd>
-              <dt>PHP</dt><dd>' . phpversion() . ' (<a href="' . rex_url::backendPage('system/phpinfo') . '" onclick="newWindow(\'phpinfo\', this.href, 800,600,\',status=yes,resizable=yes\');return false;">php_info</a>)</dd>
-            </dl>
+                        <h3>' . rex_i18n::msg('version') . '</h3>
+                        <dl class="rex-formatted">
+                            <dt>REDAXO</dt><dd>' . rex::getVersion() . '</dd>
+                            <dt>PHP</dt><dd>' . phpversion() . ' (<a href="' . rex_url::backendPage('system/phpinfo') . '" onclick="newWindow(\'phpinfo\', this.href, 800,600,\',status=yes,resizable=yes\');return false;">php_info</a>)</dd>
+                        </dl>
 
-            <h3>' . rex_i18n::msg('database') . '</h3>
-            <dl class="rex-formatted">
-              <dt>MySQL</dt><dd>' . rex_sql::getServerVersion() . '</dd>
-              <dt>' . rex_i18n::msg('name') . '</dt><dd>' . $dbconfig[1]['name'] . '</dd>
-              <dt>' . rex_i18n::msg('host') . '</dt><dd>' . $dbconfig[1]['host'] . '</dd>
-            </dl>';
+                        <h3>' . rex_i18n::msg('database') . '</h3>
+                        <dl class="rex-formatted">
+                            <dt>MySQL</dt><dd>' . rex_sql::getServerVersion() . '</dd>
+                            <dt>' . rex_i18n::msg('name') . '</dt><dd>' . $dbconfig[1]['name'] . '</dd>
+                            <dt>' . rex_i18n::msg('host') . '</dt><dd>' . $dbconfig[1]['host'] . '</dd>
+                        </dl>';
 
 echo rex_view::contentBlock($content_1, $content_2, false, true, rex_i18n::msg('system_features'));
 
 $content = '
-            <fieldset>
-              <h2>' . rex_i18n::msg('system_settings') . '</h2>
-              <h3>' . rex_i18n::msg('general_info_header') . '</h3>';
+                        <fieldset>
+                            <h2>' . rex_i18n::msg('system_settings') . '</h2>
+                            <h3>' . rex_i18n::msg('general_info_header') . '</h3>';
 
 $formElements = array();
 
@@ -174,13 +174,13 @@ $content .= $fragment->parse('core/form/checkbox.tpl');
 
 
 foreach (rex_system_setting::getAll() as $setting) {
-  $field = $setting->getField();
-  if (!($field instanceof rex_form_element)) {
-    throw new rex_exception(get_class($setting) . '::getField() must return a rex_form_element!');
-  }
-  $field->setAttribute('name', 'settings[' . $setting->getKey() . ']');
-  $field->setValue(rex::getProperty($setting->getKey()));
-  $content .= $field->get();
+    $field = $setting->getField();
+    if (!($field instanceof rex_form_element)) {
+        throw new rex_exception(get_class($setting) . '::getField() must return a rex_form_element!');
+    }
+    $field->setAttribute('name', 'settings[' . $setting->getKey() . ']');
+    $field->setValue(rex::getProperty($setting->getKey()));
+    $content .= $field->get();
 }
 
 $content .= '</fieldset>';
@@ -198,10 +198,10 @@ $content .= $fragment->parse('core/form/submit.tpl');
 
 $content = '
 <div class="rex-form" id="rex-form-system-setup">
-  <form action="' . rex_url::currentBackendPage() . '" method="post">
-    <input type="hidden" name="func" value="updateinfos" />' .
-  $content .
-    '</form>
+    <form action="' . rex_url::currentBackendPage() . '" method="post">
+        <input type="hidden" name="func" value="updateinfos" />' .
+    $content .
+        '</form>
 </div>';
 
 echo rex_view::contentBlock($content, '', false);

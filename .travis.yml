@@ -1,18 +1,18 @@
 language: php
 
 php:
-  - 5.3
-  - 5.4
-  - 5.5
+    - 5.3
+    - 5.4
+    - 5.5
 
 matrix:
-  allow_failures:
-    - php: 5.5
+    allow_failures:
+        - php: 5.5
 
 before_script:
-  - mysql -e 'create database redaxo_5_0;'
-  - php redaxo/src/addons/tests/bin/setup.php
+    - mysql -e 'create database redaxo_5_0;'
+    - php redaxo/src/addons/tests/bin/setup.php
 script:
-  - php redaxo/src/addons/tests/bin/run_tests.php
+    - php redaxo/src/addons/tests/bin/run_tests.php
 after_script:
-  - php coding_standards.phar check --hide-process
+    - php coding_standards.phar check --hide-process

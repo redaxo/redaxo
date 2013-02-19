@@ -8,18 +8,18 @@
 
 abstract class rex_url_rewriter
 {
-  // Konstruktor
-  public function __construct()
-  {
-    // nichts tun
-  }
+    // Konstruktor
+    public function __construct()
+    {
+        // nichts tun
+    }
 
-  // Parameter aus der URL für das Script verarbeiten
-  public function prepare()
-  {
-    // nichts tun
-  }
+    // Parameter aus der URL für das Script verarbeiten
+    public function prepare()
+    {
+        // nichts tun
+    }
 
-  // Url neu schreiben
-  abstract public function rewrite(array $params);
+    // Url neu schreiben
+    abstract public function rewrite(array $params);
 }

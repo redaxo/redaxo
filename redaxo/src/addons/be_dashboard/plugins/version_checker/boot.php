@@ -13,9 +13,9 @@ $mypage = 'version_checker';
 
 // im backend und eingeloggt?
 if (rex::isBackend() && rex::getUser()) {
-  if (rex_request('page', 'string') == 'be_dashboard') {
-    require_once __DIR__ . '/functions/function_version_check.php';
+    if (rex_request('page', 'string') == 'be_dashboard') {
+        require_once __DIR__ . '/functions/function_version_check.php';
 
-    rex_extension::register('DASHBOARD_NOTIFICATION', array(new rex_version_checker_notification(), 'registerAsExtension'));
-  }
+        rex_extension::register('DASHBOARD_NOTIFICATION', array(new rex_version_checker_notification(), 'registerAsExtension'));
+    }
 }

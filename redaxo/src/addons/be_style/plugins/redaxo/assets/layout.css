@@ -1,223 +1,223 @@
 html,
 body {
-  height: 100%;
+    height: 100%;
 }
 body {
-  background: #3c4f58;
-  font: 13px/1.4 Helvetica,arial,freesans,clean,sans-serif;
-  color: #333;
+    background: #3c4f58;
+    font: 13px/1.4 Helvetica,arial,freesans,clean,sans-serif;
+    color: #333;
 }
 
 
 
 /*  ----------------------------------- Page -------------------------------- */
 #rex-page {
-  background: #fff;
+    background: #fff;
 }
 #rex-page:after {
-  clear: both;
-  content: '.';
-  display: block;
-  height: 0;
-  visibility: hidden;
-  font-size: 0px;
+    clear: both;
+    content: '.';
+    display: block;
+    height: 0;
+    visibility: hidden;
+    font-size: 0px;
 }
 
 
 
 /*  ----------------------------------- Header ------------------------------ */
 #rex-page-header {
-  float: left;
-  width: 230px;
-  height: 90px;
-  background-color: #3c4f58;
-  background-image: -moz-linear-gradient(#72909a, #3c4f58);
-  background-image: -webkit-linear-gradient(#72909a, #3c4f58);
-  background-image: linear-gradient(#72909a, #3c4f58);
-  background-repeat: repeat-x;
-  border-bottom: 1px solid #293a41;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+    float: left;
+    width: 230px;
+    height: 90px;
+    background-color: #3c4f58;
+    background-image: -moz-linear-gradient(#72909a, #3c4f58);
+    background-image: -webkit-linear-gradient(#72909a, #3c4f58);
+    background-image: linear-gradient(#72909a, #3c4f58);
+    background-repeat: repeat-x;
+    border-bottom: 1px solid #293a41;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 .rex-page-logo {
-  display: block;
-  width: 100%;
-  height: 100%;
-  text-indent: -1000em;
-  background-image: url(logo.png);
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-indent: -1000em;
+    background-image: url(logo.png);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
 }
 
 
 
 /*  ----------------------------------- Footer ------------------------------ */
 #rex-page-footer {
-  clear: both;
-  width: 100%;
-  padding: 20px;
-  background-color: #3c4f58;
-  background-image: -moz-linear-gradient(#3c4f58, #72909a);
-  background-image: -webkit-linear-gradient(#3c4f58, #72909a);
-  background-image: linear-gradient(#3c4f58, #72909a);
-  background-repeat: repeat-x;
-  border-top: 1px solid #293a41;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+    clear: both;
+    width: 100%;
+    padding: 20px;
+    background-color: #3c4f58;
+    background-image: -moz-linear-gradient(#3c4f58, #72909a);
+    background-image: -webkit-linear-gradient(#3c4f58, #72909a);
+    background-image: linear-gradient(#3c4f58, #72909a);
+    background-repeat: repeat-x;
+    border-top: 1px solid #293a41;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 
 
 /*  ----------------------------------- Meta -------------------------------- */
 #rex-page-meta {
-  width: 100%;
-  height: 90px;
-  padding: 20px 20px 20px 251px;
-  background-color: #3c4f58;
-  background-image: -moz-linear-gradient(#72909a, #3c4f58);
-  background-image: -webkit-linear-gradient(#72909a, #3c4f58);
-  background-image: linear-gradient(#72909a, #3c4f58);
-  background-repeat: repeat-x;
-  border-bottom: 1px solid #293a41;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  vertical-align: middle;
+    width: 100%;
+    height: 90px;
+    padding: 20px 20px 20px 251px;
+    background-color: #3c4f58;
+    background-image: -moz-linear-gradient(#72909a, #3c4f58);
+    background-image: -webkit-linear-gradient(#72909a, #3c4f58);
+    background-image: linear-gradient(#72909a, #3c4f58);
+    background-repeat: repeat-x;
+    border-bottom: 1px solid #293a41;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    vertical-align: middle;
 }
 .rex-navi-meta > ul {
-  display: inline-block;
-  margin: 15px 0 0 0;
-  width: 860px;
-  text-align: right;
+    display: inline-block;
+    margin: 15px 0 0 0;
+    width: 860px;
+    text-align: right;
 }
 .rex-navi-meta > ul > li {
-  display: inline-block;
-  margin-left: 20px;
-  vertical-align: middle;
+    display: inline-block;
+    margin-left: 20px;
+    vertical-align: middle;
 }
 
 
 
 /*  ----------------------------------- Main -------------------------------- */
 #rex-page-main-container {
-  clear: both;
-  float: left;
+    clear: both;
+    float: left;
 }
 #rex-page-main {
-  position: relative;
-  width: 900px;
-  margin-left: 231px;
-  padding: 20px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+    position: relative;
+    width: 900px;
+    margin-left: 231px;
+    padding: 20px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 
 
 /*  ----------------------------------- Navigation -------------------------- */
 #rex-page-navigation {
-  float: left;
-  width: 230px;
-  min-height: 300px;
-  margin-left: -1131px;
-  padding: 20px;
-  background-color: #fff;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+    float: left;
+    width: 230px;
+    min-height: 300px;
+    margin-left: -1131px;
+    padding: 20px;
+    background-color: #fff;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 
 
 /*  ----------------------------------- Sidebar ----------------------------- */
 .rex-page-sidebar {
-  display: none;
+    display: none;
 }
 
 
 
 /*  ----------------------------------- Slide ------------------------------- */
 .rex-slide-legend {
-  display: none;
+    display: none;
 }
 
 /*  ----------------------------------- Navigations ------------------------- */
 
 /*  ----------------------------------- Footer */
 .rex-navi-footer ul {
-  margin-left: -20px;
+    margin-left: -20px;
 }
 .rex-navi-footer li {
-  display: inline-block;
-  margin: 0 20px;
-  vertical-align: middle;
+    display: inline-block;
+    margin: 0 20px;
+    vertical-align: middle;
 }
 .rex-navi-footer li a {
-  text-align: center;
+    text-align: center;
 }
 .rex-navi-footer li a > span {
-  display: block;
+    display: block;
 }
 .rex-navi-footer li a > span:first-child {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 /*  ----------------------------------- Main */
 .rex-navi-main {
-  margin: 20px 0 40px 0;
-  border-bottom: 2px solid #d9dfe3;
+    margin: 20px 0 40px 0;
+    border-bottom: 2px solid #d9dfe3;
 }
 .rex-navi-main dt {
-  display: block;
-  padding: 5px 10px;
-  background-color: #3c4f58;
-  background-image: -moz-linear-gradient(#72909a, #3c4f58);
-  background-image: -webkit-linear-gradient(#72909a, #3c4f58);
-  background-image: linear-gradient(#72909a, #3c4f58);
-  background-repeat: repeat-x;
-  border-bottom: 1px solid #293a41;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  color: #fff;
-  font-weight: bold;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, .5);
+    display: block;
+    padding: 5px 10px;
+    background-color: #3c4f58;
+    background-image: -moz-linear-gradient(#72909a, #3c4f58);
+    background-image: -webkit-linear-gradient(#72909a, #3c4f58);
+    background-image: linear-gradient(#72909a, #3c4f58);
+    background-repeat: repeat-x;
+    border-bottom: 1px solid #293a41;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .5);
 }
 .rex-navi-main dd > ul > li {
-  border-bottom: 1px solid #d9dfe3;
+    border-bottom: 1px solid #d9dfe3;
 }
 .rex-navi-main dd > ul > li:last-child {
-  border-bottom-width: 0;
+    border-bottom-width: 0;
 }
 .rex-navi-main dd > ul > li > a {
-  display: block;
-  padding: 5px 10px;
-  color: #666;
-  font-size: 14px;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    display: block;
+    padding: 5px 10px;
+    color: #666;
+    font-size: 14px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 }
 .rex-navi-main dd > ul > li > a:hover {
-  background-color: #f2f5f6;
-  text-decoration: none;
+    background-color: #f2f5f6;
+    text-decoration: none;
 }
 .rex-navi-main dd > ul > li > a.rex-active {
-  background-color: #dfe8e8;
-  color: #333;
-  font-weight: bold;
+    background-color: #dfe8e8;
+    color: #333;
+    font-weight: bold;
 }
 .rex-navi-main dd > ul > li ul {
-  display: none;
+    display: none;
 }
 /*
 .rex-navi-main dd > ul > li.rex-active ul {
-  display: block;
+    display: block;
 }
 */
 
 .rex-username {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 
@@ -225,13 +225,13 @@ body {
 
 /*  ----------------------------------- Language ---------------------------- */
 .rex-language {
-  float: right;
+    float: right;
 }
 .rex-language + h1 {
-  position: relative;
-  top: -10px;
-  margin-top: 0px;
-  margin-bottom: -10px;
+    position: relative;
+    top: -10px;
+    margin-top: 0px;
+    margin-bottom: -10px;
 }
 
 
@@ -240,24 +240,24 @@ body {
 
 
 #rex-page-login #rex-page-header {
-  width: 100%;
+    width: 100%;
 }
 #rex-page-login .rex-page-logo,
 #rex-page-login .rex-navi-footer {
-  width: 860px;
-  margin: 0 auto;
+    width: 860px;
+    margin: 0 auto;
 }
 #rex-page-login .rex-page-logo {
-  background-position: 0 50%;
+    background-position: 0 50%;
 }
 #rex-page-login .rex-navi-footer {
-  text-align: center;
+    text-align: center;
 }
 #rex-page-login #rex-page-main-container {
-  float: none;
+    float: none;
 }
 #rex-page-login #rex-page-main {
-  margin: 0 auto;
+    margin: 0 auto;
 }
 
 
@@ -277,24 +277,24 @@ body {
 #rex-page-footer a,
 #rex-page-footer a:link,
 #rex-page-footer a:visited {
-  color: #f2f5f6;
+    color: #f2f5f6;
 }
 
 
 
 /*  ----------------------------------- Footer at the bottom of the page */
 html, body {
-  height: 100%;
+    height: 100%;
 }
 #rex-page {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 #rex-page-main-container,
 #rex-page-navigation {
-  padding-bottom: 100px;
+    padding-bottom: 100px;
 }
 #rex-page-footer {
-  position: absolute;
-  bottom: 0;
+    position: absolute;
+    bottom: 0;
 }

@@ -4,5 +4,5 @@ author: Markus Staab, Dean Allen
 supportpage: www.redaxo.org/de/forum/
 
 page:
-  title: 'Textile'
-  perm: admin[]
+    title: 'Textile'
+    perm: admin[]

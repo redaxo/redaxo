@@ -27,1024 +27,1024 @@ EXAMPLE FOR USING CUSTOM CALLBACKS WITH setColumnFormat() METHOD:
 
 function callback_func($params)
 {
-  // $params['subject']  current value
-  // $params['list']     rex_list object
-  // $params['params']   custom params
+    // $params['subject']  current value
+    // $params['list']     rex_list object
+    // $params['params']   custom params
 
-  return $custom_string; // return value showed in list (note: no htmlspechialchars!)
+    return $custom_string; // return value showed in list (note: no htmlspechialchars!)
 }
 
 // USING setColumnFormat() BY CALLING A FUNCTION
 $list->setColumnFormat('id',                                     // field name
-                       'custom',                                 // format type
-                       'callback_func',                          // callback function name
-                        array('foo' => 'bar', '123' => '456')    // optional params for callback function
+                                             'custom',                                 // format type
+                                             'callback_func',                          // callback function name
+                                                array('foo' => 'bar', '123' => '456')    // optional params for callback function
 );
 
 // USING setColumnFormat() BY CALLING CLASS & METHOD
 $list->setColumnFormat('id',                                     // field name
-                       'custom',                                 // format type
-                        array('CLASS','METHOD'),                 // callback class/method name
-                        array('foo' => 'bar', '123' => '456')    // optional params for callback function
-                       );
+                                             'custom',                                 // format type
+                                                array('CLASS','METHOD'),                 // callback class/method name
+                                                array('foo' => 'bar', '123' => '456')    // optional params for callback function
+                                             );
 */
 
 class rex_list extends rex_factory_base implements rex_url_provider
 {
-  private $query;
-  private $sql;
-  private $debug;
-  private $noRowsMessage;
-
-  // --------- List Attributes
-  private $name;
-  private $params;
-  private $rows;
-
-  // --------- Form Attributes
-  private $formAttributes;
-
-  // --------- Column Attributes
-  private $columnNames;
-  private $columnLabels;
-  private $columnFormates;
-  private $columnOptions;
-  private $columnAttributes;
-  private $columnLayouts;
-  private $columnParams;
-  private $columnDisabled;
-
-  // --------- Layout, Default
-  private $defaultColumnLayout;
-
-  // --------- Table Attributes
-  private $caption;
-  private $tableAttributes;
-  private $tableColumnGroups;
-
-  // --------- Link Attributes
-  private $linkAttributes;
-
-  // --------- Pagination Attributes
-  private $pager;
-
-  /**
-   * Erstellt ein rex_list Objekt
-   *
-   * @param string $query       SELECT Statement
-   * @param int    $rowsPerPage Anzahl der Elemente pro Zeile
-   * @param string $listName    Name der Liste
-   * @param bool   $debug
-   */
-  protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false)
-  {
-    // --------- Validation
-    if (!$listName) $listName = md5($query);
+    private $query;
+    private $sql;
+    private $debug;
+    private $noRowsMessage;
 
     // --------- List Attributes
-    $this->query = $query;
-    $this->sql = rex_sql::factory();
-    $this->debug = $debug;
-    $this->sql->setDebug($this->debug);
-    $this->name = $listName;
-    $this->caption = '';
-    $this->rows = 0;
-    $this->params = array();
-    $this->tableAttributes = array();
-    $this->noRowsMessage = rex_i18n::msg('list_no_rows');
+    private $name;
+    private $params;
+    private $rows;
 
     // --------- Form Attributes
-    $this->formAttributes = array();
+    private $formAttributes;
 
     // --------- Column Attributes
-    $this->columnLabels = array();
-    $this->columnFormates = array();
-    $this->columnParams = array();
-    $this->columnOptions = array();
-    $this->columnAttributes = array();
-    $this->columnLayouts = array();
-    $this->columnDisabled = array();
+    private $columnNames;
+    private $columnLabels;
+    private $columnFormates;
+    private $columnOptions;
+    private $columnAttributes;
+    private $columnLayouts;
+    private $columnParams;
+    private $columnDisabled;
 
-    // --------- Default
-    $this->defaultColumnLayout = array('<th>###VALUE###</th>', '<td>###VALUE###</td>');
+    // --------- Layout, Default
+    private $defaultColumnLayout;
 
     // --------- Table Attributes
-    $this->tableAttributes = array();
-    $this->tableColumnGroups = array();
+    private $caption;
+    private $tableAttributes;
+    private $tableColumnGroups;
 
     // --------- Link Attributes
-    $this->linkAttributes = array();
+    private $linkAttributes;
 
     // --------- Pagination Attributes
-    $this->pager = new rex_pager($rowsPerPage);
+    private $pager;
 
-    // --------- Load Data, Row-Count
-    $this->sql->setQuery($this->prepareQuery($query));
-    $sql = rex_sql::factory();
-    $sql->setQuery('SELECT FOUND_ROWS() as rows');
-    $this->rows = $sql->getValue('rows');
-    $this->pager->setRowCount($this->rows);
+    /**
+     * Erstellt ein rex_list Objekt
+     *
+     * @param string $query       SELECT Statement
+     * @param int    $rowsPerPage Anzahl der Elemente pro Zeile
+     * @param string $listName    Name der Liste
+     * @param bool   $debug
+     */
+    protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false)
+    {
+        // --------- Validation
+        if (!$listName) $listName = md5($query);
 
-    foreach ($this->sql->getFieldnames() as $columnName)
-      $this->columnNames[] = $columnName;
+        // --------- List Attributes
+        $this->query = $query;
+        $this->sql = rex_sql::factory();
+        $this->debug = $debug;
+        $this->sql->setDebug($this->debug);
+        $this->name = $listName;
+        $this->caption = '';
+        $this->rows = 0;
+        $this->params = array();
+        $this->tableAttributes = array();
+        $this->noRowsMessage = rex_i18n::msg('list_no_rows');
 
-    // --------- Load Env
-    if (rex::isBackend())
-      $this->loadBackendConfig();
+        // --------- Form Attributes
+        $this->formAttributes = array();
 
-    $this->init();
-  }
+        // --------- Column Attributes
+        $this->columnLabels = array();
+        $this->columnFormates = array();
+        $this->columnParams = array();
+        $this->columnOptions = array();
+        $this->columnAttributes = array();
+        $this->columnLayouts = array();
+        $this->columnDisabled = array();
 
-  /**
-   * @param string $query
-   * @param int    $rowsPerPage
-   * @param null   $listName
-   * @param bool   $debug
-   * @return self
-   */
-  static public function factory($query, $rowsPerPage = 30, $listName = null, $debug = false)
-  {
-    $class = static::getFactoryClass();
-    return new $class($query, $rowsPerPage, $listName, $debug);
-  }
+        // --------- Default
+        $this->defaultColumnLayout = array('<th>###VALUE###</th>', '<td>###VALUE###</td>');
 
-  public function init()
-  {
-    // nichts tun
-  }
+        // --------- Table Attributes
+        $this->tableAttributes = array();
+        $this->tableColumnGroups = array();
 
-  // ---------------------- setters/getters
+        // --------- Link Attributes
+        $this->linkAttributes = array();
 
-  /**
-   * Gibt den Namen es Formulars zurück
-   *
-   * @return string
-   */
-  public function getName()
-  {
-    return $this->name;
-  }
+        // --------- Pagination Attributes
+        $this->pager = new rex_pager($rowsPerPage);
 
-  /**
-   * Gibt eine Status Nachricht zurück
-   *
-   * @return string
-   */
-  public function getMessage()
-  {
-    return htmlspecialchars(rex_request($this->getName() . '_msg', 'string'));
-  }
+        // --------- Load Data, Row-Count
+        $this->sql->setQuery($this->prepareQuery($query));
+        $sql = rex_sql::factory();
+        $sql->setQuery('SELECT FOUND_ROWS() as rows');
+        $this->rows = $sql->getValue('rows');
+        $this->pager->setRowCount($this->rows);
 
-  /**
-   * Gibt eine Warnung zurück
-   *
-   * @return string
-   */
-  public function getWarning()
-  {
-    return htmlspecialchars(rex_request($this->getName() . '_warning', 'string'));
-  }
+        foreach ($this->sql->getFieldnames() as $columnName)
+            $this->columnNames[] = $columnName;
 
-  /**
-   * Setzt die Caption/den Titel der Tabelle
-   * Gibt den Namen es Formulars zurück
-   *
-   * @param string $caption Caption/Titel der Tabelle
-   */
-  public function setCaption($caption)
-  {
-    $this->caption = $caption;
-  }
+        // --------- Load Env
+        if (rex::isBackend())
+            $this->loadBackendConfig();
 
-  /**
-   * Gibt die Caption/den Titel der Tabelle zurück
-   *
-   * @return string
-   */
-  public function getCaption()
-  {
-    return $this->caption;
-  }
-
-  public function setNoRowsMessage($msg)
-  {
-    $this->noRowsMessage = $msg;
-  }
-
-  public function getNoRowsMessage()
-  {
-    return $this->noRowsMessage;
-  }
-
-  public function addParam($name, $value)
-  {
-    $this->params[$name] = $value;
-  }
-
-  public function getParams()
-  {
-    return $this->params;
-  }
-
-  protected function loadBackendConfig()
-  {
-    $this->addParam('page', rex_request('page', 'string'));
-  }
-
-  public function addTableAttribute($attrName, $attrValue)
-  {
-    $this->tableAttributes[$attrName] = $attrValue;
-  }
-
-  public function getTableAttributes()
-  {
-    return $this->tableAttributes;
-  }
-
-  public function addFormAttribute($attrName, $attrValue)
-  {
-    $this->formAttributes[$attrName] = $attrValue;
-  }
-
-  public function getFormAttributes()
-  {
-    return $this->formAttributes;
-  }
-
-  public function addLinkAttribute($columnName, $attrName, $attrValue)
-  {
-    $this->linkAttributes[$columnName][$attrName] = $attrValue;
-  }
-
-  public function getLinkAttributes($column, $default = null)
-  {
-    return isset($this->linkAttributes[$column]) ? $this->linkAttributes[$column] : $default;
-  }
-
-  // ---------------------- Column setters/getters/etc
-
-  /**
-   * Methode, um eine Spalte einzufügen
-   *
-   * @param string $columnHead   Titel der Spalte
-   * @param string $columnBody   Text/Format der Spalte
-   * @param int    $columnIndex  Stelle, an der die neue Spalte erscheinen soll
-   * @param array  $columnLayout Layout der Spalte
-   */
-  public function addColumn($columnHead, $columnBody, $columnIndex = -1, $columnLayout = null)
-  {
-    // Bei negativem columnIndex, das Element am Ende anfügen
-    if ($columnIndex < 0)
-      $columnIndex = count($this->columnNames);
-
-    array_splice($this->columnNames, $columnIndex, 0, array(array($columnHead)));
-    $this->setColumnFormat($columnHead, $columnBody);
-    $this->setColumnLayout($columnHead, $columnLayout);
-  }
-
-  /**
-   * Entfernt eine Spalte aus der Anzeige
-   *
-   * @param string $columnName Name der Spalte
-   */
-  public function removeColumn($columnName)
-  {
-    $this->columnDisabled[] = $columnName;
-  }
-
-  /**
-   * Methode, um das Layout einer Spalte zu setzen
-   *
-   * @param string $columnHead   Titel der Spalte
-   * @param array  $columnLayout Layout der Spalte
-   */
-  public function setColumnLayout($columnHead, $columnLayout)
-  {
-    $this->columnLayouts[$columnHead] = $columnLayout;
-  }
-
-  /**
-   * Gibt das Layout einer Spalte zurück
-   *
-   * @param string $columnName Name der Spalte
-   * @return array
-   */
-  public function getColumnLayout($columnName)
-  {
-    if (isset($this->columnLayouts[$columnName]) && is_array($this->columnLayouts[$columnName]))
-      return $this->columnLayouts[$columnName];
-
-    return $this->defaultColumnLayout;
-  }
-
-  /**
-   * Gibt die Layouts aller Spalten zurück
-   */
-  public function getColumnLayouts()
-  {
-    return $this->columnLayouts;
-  }
-
-  /**
-   * Gibt den Namen einer Spalte zurück
-   *
-   * @param integer $columnIndex Nummer der Spalte
-   * @param mixed   $default     Defaultrückgabewert, falls keine Spalte mit der angegebenen Nummer vorhanden ist
-   *
-   * @return string|null
-   */
-  public function getColumnName($columnIndex, $default = null)
-  {
-    if (isset($this->columnNames[$columnIndex]))
-      return $this->columnNames[$columnIndex];
-
-    return $default;
-  }
-
-  /**
-   * Gibt alle Namen der Spalten als Array zurück
-   *
-   * @return array
-   */
-  public function getColumnNames()
-  {
-    return $this->columnNames;
-  }
-
-  /**
-   * Setzt ein Label für eine Spalte
-   *
-   * @param string $columnName Name der Spalte
-   * @param string $label      Label für die Spalte
-   */
-  public function setColumnLabel($columnName, $label)
-  {
-    $this->columnLabels[$columnName] = $label;
-  }
-
-  /**
-   * Gibt das Label der Spalte zurück, falls gesetzt.
-   *
-   * Falls nicht vorhanden und der Parameter $default auf null steht,
-   * wird der Spaltenname zurückgegeben
-   *
-   * @param string $columnName Name der Spalte
-   * @param mixed  $default    Defaultrückgabewert, falls kein Label gesetzt ist
-   *
-   * @return string|null
-   */
-  public function getColumnLabel($columnName, $default = null)
-  {
-    if (isset($this->columnLabels[$columnName]))
-      return $this->columnLabels[$columnName];
-
-    return $default === null ? $columnName : $default;
-  }
-
-  /**
-   * Setzt ein Format für die Spalte
-   *
-   * @param string $columnName  Name der Spalte
-   * @param string $format_type Formatierungstyp
-   * @param mixed  $format      Zu verwendentes Format
-   * @param array  $params      Custom params für callback func bei format_type 'custom'
-   */
-  public function setColumnFormat($columnName, $format_type, $format = '', array $params = array())
-  {
-    $this->columnFormates[$columnName] = array($format_type, $format, $params);
-  }
-
-  /**
-   * Gibt das Format für eine Spalte zurück
-   *
-   * @param string $columnName Name der Spalte
-   * @param mixed  $default    Defaultrückgabewert, falls keine Formatierung gesetzt ist
-   *
-   * @return string|null
-   */
-  public function getColumnFormat($columnName, $default = null)
-  {
-    if (isset($this->columnFormates[$columnName]))
-      return $this->columnFormates[$columnName];
-
-    return $default;
-  }
-
-  /**
-   * Markiert eine Spalte als sortierbar
-   *
-   * @param string $columnName Name der Spalte
-   * @param string $direction  Startsortierrichtung der Spalte [ASC|DESC]
-   */
-  public function setColumnSortable($columnName, $direction = 'asc')
-  {
-    $this->setColumnOption($columnName, REX_LIST_OPT_SORT, true);
-    $this->setColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, strtolower($direction));
-  }
-
-  /**
-   * Setzt eine Option für eine Spalte
-   * (z.b. Sortable,..)
-   *
-   * @param string $columnName Name der Spalte
-   * @param string $option     Name/Id der Option
-   * @param mixed  $value      Wert der Option
-   */
-  public function setColumnOption($columnName, $option, $value)
-  {
-    $this->columnOptions[$columnName][$option] = $value;
-  }
-
-  /**
-   * Gibt den Wert einer Option für eine Spalte zurück
-   *
-   * @param string $columnName Name der Spalte
-   * @param string $option     Name/Id der Option
-   * @param mixed  $default    Defaultrückgabewert, falls die Option nicht gesetzt ist
-   *
-   * @return mixed|null
-   */
-  public function getColumnOption($columnName, $option, $default = null)
-  {
-    if ($this->hasColumnOption($columnName, $option)) {
-      return $this->columnOptions[$columnName][$option];
-    }
-    return $default;
-  }
-
-  /**
-   * Gibt zurück, ob für eine Spalte eine Option gesetzt wurde
-   *
-   * @param string $columnName Name der Spalte
-   * @param string $option     Name/Id der Option
-   *
-   * @return boolean
-   */
-  public function hasColumnOption($columnName, $option)
-  {
-    return isset($this->columnOptions[$columnName][$option]);
-  }
-
-  /**
-   * Verlinkt eine Spalte mit den übergebenen Parametern
-   *
-   * @param string $columnName Name der Spalte
-   * @param array  $params     Array von Parametern
-   */
-  public function setColumnParams($columnName, array $params = array())
-  {
-    $this->columnParams[$columnName] = $params;
-  }
-
-  /**
-   * Gibt die Parameter für eine Spalte zurück
-   *
-   * @param string $columnName Name der Spalte
-   *
-   * @return array
-   */
-  public function getColumnParams($columnName)
-  {
-    if (isset($this->columnParams[$columnName]) && is_array($this->columnParams[$columnName])) {
-      return $this->columnParams[$columnName];
-    }
-    return array();
-  }
-
-  /**
-   * Gibt zurück, ob Parameter für eine Spalte existieren
-   *
-   * @param string $columnName Name der Spalte
-   *
-   * @return boolean
-   */
-  public function hasColumnParams($columnName)
-  {
-    return isset($this->columnParams[$columnName]) && is_array($this->columnParams[$columnName]) && count($this->columnParams[$columnName]) > 0;
-  }
-
-  // ---------------------- TableColumnGroup setters/getters/etc
-
-  /**
-   * Methode um eine Colgroup einzufügen
-   *
-   * Beispiel 1:
-   *
-   * $list->addTableColumnGroup(array(40, 240, 140));
-   *
-   * Beispiel 2:
-   *
-   * $list->addTableColumnGroup(
-   *   array(
-   *     array('width' => 40),
-   *     array('width' => 140, 'span' => 2),
-   *     array('width' => 240),
-   *   )
-   * );
-   *
-   * @param array   $columns         Array von Spalten
-   * @param integer $columnGroupSpan Span der Columngroup
-   */
-  public function addTableColumnGroup($columns, $columnGroupSpan = null)
-  {
-    if (!is_array($columns))
-      throw new rex_exception('rex_list->addTableColumnGroup: Erwarte 1. Parameter als Array!');
-
-    $tableColumnGroup = array('columns' => array());
-    if ($columnGroupSpan) $tableColumnGroup['span'] = $columnGroupSpan;
-    $this->_addTableColumnGroup($tableColumnGroup);
-
-    if (isset($columns[0]) && is_scalar($columns[0])) {
-      // array(10,50,100,150) notation
-      foreach ($columns as $column)
-        $this->addTableColumn($column);
-    } else {
-      // array(array('width'=>100,'span'=>2), array(...), array(...)) notation
-      foreach ($columns as $column)
-        $this->_addTableColumn($column);
-    }
-  }
-
-  private function _addTableColumnGroup(array $tableColumnGroup)
-  {
-    $this->tableColumnGroups[] = $tableColumnGroup;
-  }
-
-  public function getTableColumnGroups()
-  {
-    return $this->tableColumnGroups;
-  }
-
-  /**
-   * Fügt der zuletzte eingefügten TableColumnGroup eine weitere Spalte hinzu
-   *
-   * @param int $width Breite der Spalte
-   * @param int $span  Span der Spalte
-   */
-  public function addTableColumn($width, $span = null)
-  {
-    $attributes = array('width' => $width);
-    if ($span) $attributes['span'] = $span;
-
-    $this->_addTableColumn($attributes);
-  }
-
-  private function _addTableColumn(array $tableColumn)
-  {
-    if (!isset($tableColumn['width']))
-      throw new rex_exception('rex_list->_addTableColumn: Erwarte index width!');
-
-    $lastIndex = count($this->tableColumnGroups) - 1;
-
-    if ($lastIndex < 0) {
-      // Falls noch keine TableColumnGroup vorhanden, eine leere anlegen!
-      $this->addTableColumnGroup(array());
-      $lastIndex++;
+        $this->init();
     }
 
-    $groupColumns = $this->tableColumnGroups[$lastIndex]['columns'];
-    $groupColumns[] = $tableColumn;
-    $this->tableColumnGroups[$lastIndex]['columns'] = $groupColumns;
-  }
-
-  // ---------------------- Url generation
-
-  /**
-   * Gibt eine Url zurück, die die Parameter $params enthält
-   * Dieser Url werden die Standard rexList Variablen zugefügt
-   *
-   * @param array $params
-   * @return string
-   */
-  public function getUrl(array $params = array())
-  {
-    $params = array_merge($this->getParams(), $params);
-
-    $params['list'] = $this->getName();
-
-    if (!isset($params['sort'])) {
-      $sortColumn = $this->getSortColumn();
-      if ($sortColumn != null) {
-        $params['sort'] = $sortColumn;
-        $params['sorttype'] = $this->getSortType();
-      }
+    /**
+     * @param string $query
+     * @param int    $rowsPerPage
+     * @param null   $listName
+     * @param bool   $debug
+     * @return self
+     */
+    static public function factory($query, $rowsPerPage = 30, $listName = null, $debug = false)
+    {
+        $class = static::getFactoryClass();
+        return new $class($query, $rowsPerPage, $listName, $debug);
     }
 
-    $_params = array();
-    foreach ($params as $name => $value) {
-      if (is_array($value)) {
-        foreach ($value as $v) {
-          $_params[$name] = $v;
+    public function init()
+    {
+        // nichts tun
+    }
+
+    // ---------------------- setters/getters
+
+    /**
+     * Gibt den Namen es Formulars zurück
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Gibt eine Status Nachricht zurück
+     *
+     * @return string
+     */
+    public function getMessage()
+    {
+        return htmlspecialchars(rex_request($this->getName() . '_msg', 'string'));
+    }
+
+    /**
+     * Gibt eine Warnung zurück
+     *
+     * @return string
+     */
+    public function getWarning()
+    {
+        return htmlspecialchars(rex_request($this->getName() . '_warning', 'string'));
+    }
+
+    /**
+     * Setzt die Caption/den Titel der Tabelle
+     * Gibt den Namen es Formulars zurück
+     *
+     * @param string $caption Caption/Titel der Tabelle
+     */
+    public function setCaption($caption)
+    {
+        $this->caption = $caption;
+    }
+
+    /**
+     * Gibt die Caption/den Titel der Tabelle zurück
+     *
+     * @return string
+     */
+    public function getCaption()
+    {
+        return $this->caption;
+    }
+
+    public function setNoRowsMessage($msg)
+    {
+        $this->noRowsMessage = $msg;
+    }
+
+    public function getNoRowsMessage()
+    {
+        return $this->noRowsMessage;
+    }
+
+    public function addParam($name, $value)
+    {
+        $this->params[$name] = $value;
+    }
+
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    protected function loadBackendConfig()
+    {
+        $this->addParam('page', rex_request('page', 'string'));
+    }
+
+    public function addTableAttribute($attrName, $attrValue)
+    {
+        $this->tableAttributes[$attrName] = $attrValue;
+    }
+
+    public function getTableAttributes()
+    {
+        return $this->tableAttributes;
+    }
+
+    public function addFormAttribute($attrName, $attrValue)
+    {
+        $this->formAttributes[$attrName] = $attrValue;
+    }
+
+    public function getFormAttributes()
+    {
+        return $this->formAttributes;
+    }
+
+    public function addLinkAttribute($columnName, $attrName, $attrValue)
+    {
+        $this->linkAttributes[$columnName][$attrName] = $attrValue;
+    }
+
+    public function getLinkAttributes($column, $default = null)
+    {
+        return isset($this->linkAttributes[$column]) ? $this->linkAttributes[$column] : $default;
+    }
+
+    // ---------------------- Column setters/getters/etc
+
+    /**
+     * Methode, um eine Spalte einzufügen
+     *
+     * @param string $columnHead   Titel der Spalte
+     * @param string $columnBody   Text/Format der Spalte
+     * @param int    $columnIndex  Stelle, an der die neue Spalte erscheinen soll
+     * @param array  $columnLayout Layout der Spalte
+     */
+    public function addColumn($columnHead, $columnBody, $columnIndex = -1, $columnLayout = null)
+    {
+        // Bei negativem columnIndex, das Element am Ende anfügen
+        if ($columnIndex < 0)
+            $columnIndex = count($this->columnNames);
+
+        array_splice($this->columnNames, $columnIndex, 0, array(array($columnHead)));
+        $this->setColumnFormat($columnHead, $columnBody);
+        $this->setColumnLayout($columnHead, $columnLayout);
+    }
+
+    /**
+     * Entfernt eine Spalte aus der Anzeige
+     *
+     * @param string $columnName Name der Spalte
+     */
+    public function removeColumn($columnName)
+    {
+        $this->columnDisabled[] = $columnName;
+    }
+
+    /**
+     * Methode, um das Layout einer Spalte zu setzen
+     *
+     * @param string $columnHead   Titel der Spalte
+     * @param array  $columnLayout Layout der Spalte
+     */
+    public function setColumnLayout($columnHead, $columnLayout)
+    {
+        $this->columnLayouts[$columnHead] = $columnLayout;
+    }
+
+    /**
+     * Gibt das Layout einer Spalte zurück
+     *
+     * @param string $columnName Name der Spalte
+     * @return array
+     */
+    public function getColumnLayout($columnName)
+    {
+        if (isset($this->columnLayouts[$columnName]) && is_array($this->columnLayouts[$columnName]))
+            return $this->columnLayouts[$columnName];
+
+        return $this->defaultColumnLayout;
+    }
+
+    /**
+     * Gibt die Layouts aller Spalten zurück
+     */
+    public function getColumnLayouts()
+    {
+        return $this->columnLayouts;
+    }
+
+    /**
+     * Gibt den Namen einer Spalte zurück
+     *
+     * @param integer $columnIndex Nummer der Spalte
+     * @param mixed   $default     Defaultrückgabewert, falls keine Spalte mit der angegebenen Nummer vorhanden ist
+     *
+     * @return string|null
+     */
+    public function getColumnName($columnIndex, $default = null)
+    {
+        if (isset($this->columnNames[$columnIndex]))
+            return $this->columnNames[$columnIndex];
+
+        return $default;
+    }
+
+    /**
+     * Gibt alle Namen der Spalten als Array zurück
+     *
+     * @return array
+     */
+    public function getColumnNames()
+    {
+        return $this->columnNames;
+    }
+
+    /**
+     * Setzt ein Label für eine Spalte
+     *
+     * @param string $columnName Name der Spalte
+     * @param string $label      Label für die Spalte
+     */
+    public function setColumnLabel($columnName, $label)
+    {
+        $this->columnLabels[$columnName] = $label;
+    }
+
+    /**
+     * Gibt das Label der Spalte zurück, falls gesetzt.
+     *
+     * Falls nicht vorhanden und der Parameter $default auf null steht,
+     * wird der Spaltenname zurückgegeben
+     *
+     * @param string $columnName Name der Spalte
+     * @param mixed  $default    Defaultrückgabewert, falls kein Label gesetzt ist
+     *
+     * @return string|null
+     */
+    public function getColumnLabel($columnName, $default = null)
+    {
+        if (isset($this->columnLabels[$columnName]))
+            return $this->columnLabels[$columnName];
+
+        return $default === null ? $columnName : $default;
+    }
+
+    /**
+     * Setzt ein Format für die Spalte
+     *
+     * @param string $columnName  Name der Spalte
+     * @param string $format_type Formatierungstyp
+     * @param mixed  $format      Zu verwendentes Format
+     * @param array  $params      Custom params für callback func bei format_type 'custom'
+     */
+    public function setColumnFormat($columnName, $format_type, $format = '', array $params = array())
+    {
+        $this->columnFormates[$columnName] = array($format_type, $format, $params);
+    }
+
+    /**
+     * Gibt das Format für eine Spalte zurück
+     *
+     * @param string $columnName Name der Spalte
+     * @param mixed  $default    Defaultrückgabewert, falls keine Formatierung gesetzt ist
+     *
+     * @return string|null
+     */
+    public function getColumnFormat($columnName, $default = null)
+    {
+        if (isset($this->columnFormates[$columnName]))
+            return $this->columnFormates[$columnName];
+
+        return $default;
+    }
+
+    /**
+     * Markiert eine Spalte als sortierbar
+     *
+     * @param string $columnName Name der Spalte
+     * @param string $direction  Startsortierrichtung der Spalte [ASC|DESC]
+     */
+    public function setColumnSortable($columnName, $direction = 'asc')
+    {
+        $this->setColumnOption($columnName, REX_LIST_OPT_SORT, true);
+        $this->setColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, strtolower($direction));
+    }
+
+    /**
+     * Setzt eine Option für eine Spalte
+     * (z.b. Sortable,..)
+     *
+     * @param string $columnName Name der Spalte
+     * @param string $option     Name/Id der Option
+     * @param mixed  $value      Wert der Option
+     */
+    public function setColumnOption($columnName, $option, $value)
+    {
+        $this->columnOptions[$columnName][$option] = $value;
+    }
+
+    /**
+     * Gibt den Wert einer Option für eine Spalte zurück
+     *
+     * @param string $columnName Name der Spalte
+     * @param string $option     Name/Id der Option
+     * @param mixed  $default    Defaultrückgabewert, falls die Option nicht gesetzt ist
+     *
+     * @return mixed|null
+     */
+    public function getColumnOption($columnName, $option, $default = null)
+    {
+        if ($this->hasColumnOption($columnName, $option)) {
+            return $this->columnOptions[$columnName][$option];
         }
-      } else {
-        $_params[$name] = $value;
-      }
+        return $default;
     }
 
-    return rex::isBackend() ? rex_url::backendController($_params) : rex_url::frontendController($_params);
-  }
-
-  /**
-   * Gibt eine Url zurück, die die Parameter $params enthält
-   * Dieser Url werden die Standard rexList Variablen zugefügt
-   *
-   * Innerhalb dieser Url werden variablen ersetzt
-   *
-   * @see #replaceVariable, #replaceVariables
-   * @param array $params
-   * @return string
-   */
-  public function getParsedUrl($params = array())
-  {
-    $params = array_merge($this->getParams(), $params);
-
-    $params['list'] = $this->getName();
-
-    if (!isset($params['sort'])) {
-      $sortColumn = $this->getSortColumn();
-      if ($sortColumn != null) {
-        $params['sort'] = $sortColumn;
-        $params['sorttype'] = $this->getSortType();
-      }
+    /**
+     * Gibt zurück, ob für eine Spalte eine Option gesetzt wurde
+     *
+     * @param string $columnName Name der Spalte
+     * @param string $option     Name/Id der Option
+     *
+     * @return boolean
+     */
+    public function hasColumnOption($columnName, $option)
+    {
+        return isset($this->columnOptions[$columnName][$option]);
     }
 
-    $_params = array();
-    foreach ($params as $name => $value) {
-      if (is_array($value)) {
-        foreach ($value as $v) {
-          $_params[$name] = $this->replaceVariables($v);
+    /**
+     * Verlinkt eine Spalte mit den übergebenen Parametern
+     *
+     * @param string $columnName Name der Spalte
+     * @param array  $params     Array von Parametern
+     */
+    public function setColumnParams($columnName, array $params = array())
+    {
+        $this->columnParams[$columnName] = $params;
+    }
+
+    /**
+     * Gibt die Parameter für eine Spalte zurück
+     *
+     * @param string $columnName Name der Spalte
+     *
+     * @return array
+     */
+    public function getColumnParams($columnName)
+    {
+        if (isset($this->columnParams[$columnName]) && is_array($this->columnParams[$columnName])) {
+            return $this->columnParams[$columnName];
         }
-      } else {
-        $_params[$name] = $this->replaceVariables($value);
-      }
-    }
-    return rex::isBackend() ? rex_url::backendController($_params) : rex_url::frontendController($_params);
-  }
-
-  // ---------------------- Pagination
-
-  /**
-   * Prepariert das SQL Statement vorm anzeigen der Liste
-   *
-   * @param string $query SQL Statement
-   * @return string
-   */
-  protected function prepareQuery($query)
-  {
-    $rowsPerPage = $this->pager->getRowsPerPage();
-    $startRow = $this->pager->getCursor();
-
-    // prepare query for fast rowcount calculation
-    $query = preg_replace('/^SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', $query, 1);
-
-    $sortColumn = $this->getSortColumn();
-    if ($sortColumn != '') {
-      $sortType = $this->getSortType();
-
-      if (stripos($query, ' ORDER BY ') === false)
-        $query .= ' ORDER BY `' . $sortColumn . '` ' . $sortType;
-      else
-        $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY `' . $sortColumn . '` ' . $sortType, $query);
+        return array();
     }
 
-    if (stripos($query, ' LIMIT ') === false)
-      $query .= ' LIMIT ' . $startRow . ',' . $rowsPerPage;
-
-    return $query;
-  }
-
-  /**
-   * Gibt die Anzahl der Zeilen zurück, welche vom ursprüngliche SQL Statement betroffen werden
-   *
-   * @return int
-   */
-  public function getRows()
-  {
-    return $this->rows;
-  }
-
-  /**
-   * Returns the pager for this list
-   *
-   * @return rex_pager
-   */
-  public function getPager()
-  {
-    return $this->pager;
-  }
-
-  /**
-   * Gibt zurück, nach welcher Spalte sortiert werden soll
-   *
-   * @param mixed $default
-   * @return string
-   */
-  public function getSortColumn($default = null)
-  {
-    if (rex_request('list', 'string') == $this->getName()) {
-      return rex_request('sort', 'string', $default);
-    }
-    return $default;
-  }
-
-  /**
-   * Gibt zurück, in welcher Art und Weise sortiert werden soll (ASC/DESC)
-   *
-   * @param mixed $default
-   * @return string
-   */
-  public function getSortType($default = null)
-  {
-    if (rex_request('list', 'string') == $this->getName()) {
-      $sortType = strtolower(rex_request('sorttype', 'string'));
-
-      if (in_array($sortType, array('asc', 'desc')))
-        return $sortType;
-    }
-    return $default;
-  }
-
-  /**
-   * Gibt die Navigation der Liste zurück
-   *
-   * @return string
-   */
-  protected function getPagination()
-  {
-    $fragment = new rex_fragment();
-    $fragment->setVar('urlprovider', $this);
-    $fragment->setVar('pager', $this->pager);
-    return $fragment->parse('pagination.tpl');
-  }
-
-  /**
-   * Gibt den Footer der Liste zurück
-   *
-   * @return string
-   */
-  public function getFooter()
-  {
-    $s = '';
-    /*
-    $s .= '      <tr>'. "\n";
-    $s .= '        <td colspan="'. count($this->getColumnNames()) .'"><input type="text" name="items" value="'. $this->getRowsPerPage() .'" maxlength="2" /><input type="submit" value="Anzeigen" /></td>'. "\n";
-    $s .= '      </tr>'. "\n";
-    */
-    return $s;
-  }
-
-  /**
-   * Gibt den Header der Liste zurück
-   *
-   * @return string
-   */
-  public function getHeader()
-  {
-    $s = '';
-    $s .= $this->getPagination();
-
-    return $s;
-  }
-
-  // ---------------------- Generate Output
-
-  public function replaceVariable($string, $varname)
-  {
-    return str_replace('###' . $varname . '###', htmlspecialchars($this->getValue($varname)), $string);
-  }
-
-  /**
-   * Ersetzt alle Variablen im Format ###&lt;Spaltenname&gt;###.
-   *
-   * @param string $value Zu durchsuchender String
-   * @return string
-   */
-  public function replaceVariables($value)
-  {
-    if (strpos($value, '###') === false)
-      return $value;
-
-    $columnNames = $this->getColumnNames();
-
-    if (is_array($columnNames)) {
-      foreach ($columnNames as $columnName) {
-        // Spalten, die mit addColumn eingefügt wurden
-        if (is_array($columnName))
-          continue;
-
-        $value = $this->replaceVariable($value, $columnName);
-      }
-    }
-    return $value;
-  }
-
-  public function isCustomFormat($format)
-  {
-    return is_array($format) && isset($format[0]) && $format[0] == 'custom';
-  }
-
-  /**
-   * Formatiert einen übergebenen String anhand der rexFormatter Klasse
-   *
-   * @param string $value  Zu formatierender String
-   * @param array  $format mit den Formatierungsinformationen
-   * @param bool   $escape Flag, Ob escapen von $value erlaubt ist
-   * @param string $field
-   * @return string
-   */
-  public function formatValue($value, $format, $escape, $field = null)
-  {
-    if (is_array($format)) {
-      // Callbackfunktion -> Parameterliste aufbauen
-      if ($this->isCustomFormat($format)) {
-        $format[2] = isset($format[2]) ? $format[2] : array();
-        $format[1] = array($format[1], array('list' => $this, 'field' => $field, 'value' => $value, 'format' => $format[0], 'escape' => $escape, 'params' => $format[2]));
-      }
-
-      $value = rex_formatter::format($value, $format[0], $format[1]);
+    /**
+     * Gibt zurück, ob Parameter für eine Spalte existieren
+     *
+     * @param string $columnName Name der Spalte
+     *
+     * @return boolean
+     */
+    public function hasColumnParams($columnName)
+    {
+        return isset($this->columnParams[$columnName]) && is_array($this->columnParams[$columnName]) && count($this->columnParams[$columnName]) > 0;
     }
 
-    // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
-    if ($escape &&
-      !$this->isCustomFormat($format) &&
-      $format[0] != 'email' &&
-      $format[0] != 'url'
-    ) {
-      $value = htmlspecialchars($value);
-    }
+    // ---------------------- TableColumnGroup setters/getters/etc
 
-    return $value;
-  }
+    /**
+     * Methode um eine Colgroup einzufügen
+     *
+     * Beispiel 1:
+     *
+     * $list->addTableColumnGroup(array(40, 240, 140));
+     *
+     * Beispiel 2:
+     *
+     * $list->addTableColumnGroup(
+     *   array(
+     *     array('width' => 40),
+     *     array('width' => 140, 'span' => 2),
+     *     array('width' => 240),
+     *   )
+     * );
+     *
+     * @param array   $columns         Array von Spalten
+     * @param integer $columnGroupSpan Span der Columngroup
+     */
+    public function addTableColumnGroup($columns, $columnGroupSpan = null)
+    {
+        if (!is_array($columns))
+            throw new rex_exception('rex_list->addTableColumnGroup: Erwarte 1. Parameter als Array!');
 
-  protected function _getAttributeString($array)
-  {
-    $s = '';
+        $tableColumnGroup = array('columns' => array());
+        if ($columnGroupSpan) $tableColumnGroup['span'] = $columnGroupSpan;
+        $this->_addTableColumnGroup($tableColumnGroup);
 
-    foreach ($array as $name => $value)
-      $s .= ' ' . htmlspecialchars($name) . '="' . htmlspecialchars($value) . '"';
-
-    return $s;
-  }
-
-  public function getColumnLink($columnName, $columnValue, $params = array())
-  {
-    return '<a href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, array())) . '>' . $columnValue . '</a>';
-  }
-
-  public function getValue($colname)
-  {
-    return $this->sql->getValue($colname);
-  }
-
-  /**
-   * Erstellt den Tabellen Quellcode
-   *
-   * @return string
-   */
-  public function get()
-  {
-    $s = "\n";
-
-    // Form vars
-    $this->addFormAttribute('action', $this->getUrl());
-    $this->addFormAttribute('method', 'post');
-
-    // Table vars
-    $caption = $this->getCaption();
-    $tableColumnGroups = $this->getTableColumnGroups();
-    $class = 'rex-table';
-    if (isset($this->tableAttributes['class'])) {
-      $class .= ' ' . $this->tableAttributes['class'];
-    }
-    $this->addTableAttribute('class', $class);
-
-    // Columns vars
-    $columnFormates = array();
-    $columnNames = array();
-    foreach ($this->getColumnNames() as $columnName) {
-      if (is_array($columnName) || !in_array($columnName, $this->columnDisabled)) {
-        $columnNames[] = $columnName;
-      }
-    }
-
-    // List vars
-    $sortColumn = $this->getSortColumn();
-    $sortType = $this->getSortType();
-    $warning = $this->getWarning();
-    $message = $this->getMessage();
-    $nbRows = $this->getRows();
-
-    $header = $this->getHeader();
-    $footer = $this->getFooter();
-
-    if ($warning != '') {
-      $s .= rex_view::warning($warning) . "\n";
-    } elseif ($message != '') {
-      $s .= rex_view::info($message) . "\n";
-    }
-
-    if ($header != '') {
-      $s .= $header . "\n";
-    }
-
-    $s .= '<form' . $this->_getAttributeString($this->getFormAttributes()) . '>' . "\n";
-    $s .= '  <table' . $this->_getAttributeString($this->getTableAttributes()) . '>' . "\n";
-
-    if ($caption != '') {
-      $s .= '    <caption>' . htmlspecialchars($caption) . '</caption>' . "\n";
-    }
-
-    if (count($tableColumnGroups) > 0) {
-      foreach ($tableColumnGroups as $tableColumnGroup) {
-        $tableColumns = $tableColumnGroup['columns'];
-        unset($tableColumnGroup['columns']);
-
-        $s .= '    <colgroup' . $this->_getAttributeString($tableColumnGroup) . '>' . "\n";
-
-        foreach ($tableColumns as $tableColumn) {
-          $s .= '      <col' . $this->_getAttributeString($tableColumn) . ' />' . "\n";
-        }
-
-        $s .= '    </colgroup>' . "\n";
-      }
-    }
-
-    $s .= '    <thead>' . "\n";
-    $s .= '      <tr>' . "\n";
-    foreach ($columnNames as $columnName) {
-      // Spalten, die mit addColumn eingefügt wurden
-      if (is_array($columnName))
-        $columnName = $columnName[0];
-
-      $columnHead = $this->getColumnLabel($columnName);
-      if ($this->hasColumnOption($columnName, REX_LIST_OPT_SORT)) {
-        if ($columnName == $sortColumn) {
-          $columnSortType = $sortType == 'desc' ? 'asc' : 'desc';
+        if (isset($columns[0]) && is_scalar($columns[0])) {
+            // array(10,50,100,150) notation
+            foreach ($columns as $column)
+                $this->addTableColumn($column);
         } else {
-          $columnSortType = $this->getColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, 'asc');
+            // array(array('width'=>100,'span'=>2), array(...), array(...)) notation
+            foreach ($columns as $column)
+                $this->_addTableColumn($column);
         }
-        $columnHead = '<a href="' . $this->getUrl(array('start' => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType)) . '">' . $columnHead . '</a>';
-      }
-
-      $layout = $this->getColumnLayout($columnName);
-      $s .= '        ' . str_replace('###VALUE###', $columnHead, $layout[0]) . "\n";
-
-      // Formatierungen hier holen, da diese Schleife jede Spalte nur einmal durchläuft
-      $columnFormates[$columnName] = $this->getColumnFormat($columnName);
-    }
-    $s .= '      </tr>' . "\n";
-    $s .= '    </thead>' . "\n";
-
-    if ($footer != '') {
-      $s .= '    <tfoot>' . "\n";
-      $s .= $footer;
-      $s .= '    </tfoot>' . "\n";
     }
 
-    if ($nbRows > 0) {
-      $maxRows = $nbRows - $this->pager->getCursor();
+    private function _addTableColumnGroup(array $tableColumnGroup)
+    {
+        $this->tableColumnGroups[] = $tableColumnGroup;
+    }
 
-      $s .= '    <tbody>' . "\n";
-      for ($i = 0; $i < $this->pager->getRowsPerPage() && $i < $maxRows; $i++) {
-        $s .= '      <tr>' . "\n";
+    public function getTableColumnGroups()
+    {
+        return $this->tableColumnGroups;
+    }
+
+    /**
+     * Fügt der zuletzte eingefügten TableColumnGroup eine weitere Spalte hinzu
+     *
+     * @param int $width Breite der Spalte
+     * @param int $span  Span der Spalte
+     */
+    public function addTableColumn($width, $span = null)
+    {
+        $attributes = array('width' => $width);
+        if ($span) $attributes['span'] = $span;
+
+        $this->_addTableColumn($attributes);
+    }
+
+    private function _addTableColumn(array $tableColumn)
+    {
+        if (!isset($tableColumn['width']))
+            throw new rex_exception('rex_list->_addTableColumn: Erwarte index width!');
+
+        $lastIndex = count($this->tableColumnGroups) - 1;
+
+        if ($lastIndex < 0) {
+            // Falls noch keine TableColumnGroup vorhanden, eine leere anlegen!
+            $this->addTableColumnGroup(array());
+            $lastIndex++;
+        }
+
+        $groupColumns = $this->tableColumnGroups[$lastIndex]['columns'];
+        $groupColumns[] = $tableColumn;
+        $this->tableColumnGroups[$lastIndex]['columns'] = $groupColumns;
+    }
+
+    // ---------------------- Url generation
+
+    /**
+     * Gibt eine Url zurück, die die Parameter $params enthält
+     * Dieser Url werden die Standard rexList Variablen zugefügt
+     *
+     * @param array $params
+     * @return string
+     */
+    public function getUrl(array $params = array())
+    {
+        $params = array_merge($this->getParams(), $params);
+
+        $params['list'] = $this->getName();
+
+        if (!isset($params['sort'])) {
+            $sortColumn = $this->getSortColumn();
+            if ($sortColumn != null) {
+                $params['sort'] = $sortColumn;
+                $params['sorttype'] = $this->getSortType();
+            }
+        }
+
+        $_params = array();
+        foreach ($params as $name => $value) {
+            if (is_array($value)) {
+                foreach ($value as $v) {
+                    $_params[$name] = $v;
+                }
+            } else {
+                $_params[$name] = $value;
+            }
+        }
+
+        return rex::isBackend() ? rex_url::backendController($_params) : rex_url::frontendController($_params);
+    }
+
+    /**
+     * Gibt eine Url zurück, die die Parameter $params enthält
+     * Dieser Url werden die Standard rexList Variablen zugefügt
+     *
+     * Innerhalb dieser Url werden variablen ersetzt
+     *
+     * @see #replaceVariable, #replaceVariables
+     * @param array $params
+     * @return string
+     */
+    public function getParsedUrl($params = array())
+    {
+        $params = array_merge($this->getParams(), $params);
+
+        $params['list'] = $this->getName();
+
+        if (!isset($params['sort'])) {
+            $sortColumn = $this->getSortColumn();
+            if ($sortColumn != null) {
+                $params['sort'] = $sortColumn;
+                $params['sorttype'] = $this->getSortType();
+            }
+        }
+
+        $_params = array();
+        foreach ($params as $name => $value) {
+            if (is_array($value)) {
+                foreach ($value as $v) {
+                    $_params[$name] = $this->replaceVariables($v);
+                }
+            } else {
+                $_params[$name] = $this->replaceVariables($value);
+            }
+        }
+        return rex::isBackend() ? rex_url::backendController($_params) : rex_url::frontendController($_params);
+    }
+
+    // ---------------------- Pagination
+
+    /**
+     * Prepariert das SQL Statement vorm anzeigen der Liste
+     *
+     * @param string $query SQL Statement
+     * @return string
+     */
+    protected function prepareQuery($query)
+    {
+        $rowsPerPage = $this->pager->getRowsPerPage();
+        $startRow = $this->pager->getCursor();
+
+        // prepare query for fast rowcount calculation
+        $query = preg_replace('/^SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', $query, 1);
+
+        $sortColumn = $this->getSortColumn();
+        if ($sortColumn != '') {
+            $sortType = $this->getSortType();
+
+            if (stripos($query, ' ORDER BY ') === false)
+                $query .= ' ORDER BY `' . $sortColumn . '` ' . $sortType;
+            else
+                $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY `' . $sortColumn . '` ' . $sortType, $query);
+        }
+
+        if (stripos($query, ' LIMIT ') === false)
+            $query .= ' LIMIT ' . $startRow . ',' . $rowsPerPage;
+
+        return $query;
+    }
+
+    /**
+     * Gibt die Anzahl der Zeilen zurück, welche vom ursprüngliche SQL Statement betroffen werden
+     *
+     * @return int
+     */
+    public function getRows()
+    {
+        return $this->rows;
+    }
+
+    /**
+     * Returns the pager for this list
+     *
+     * @return rex_pager
+     */
+    public function getPager()
+    {
+        return $this->pager;
+    }
+
+    /**
+     * Gibt zurück, nach welcher Spalte sortiert werden soll
+     *
+     * @param mixed $default
+     * @return string
+     */
+    public function getSortColumn($default = null)
+    {
+        if (rex_request('list', 'string') == $this->getName()) {
+            return rex_request('sort', 'string', $default);
+        }
+        return $default;
+    }
+
+    /**
+     * Gibt zurück, in welcher Art und Weise sortiert werden soll (ASC/DESC)
+     *
+     * @param mixed $default
+     * @return string
+     */
+    public function getSortType($default = null)
+    {
+        if (rex_request('list', 'string') == $this->getName()) {
+            $sortType = strtolower(rex_request('sorttype', 'string'));
+
+            if (in_array($sortType, array('asc', 'desc')))
+                return $sortType;
+        }
+        return $default;
+    }
+
+    /**
+     * Gibt die Navigation der Liste zurück
+     *
+     * @return string
+     */
+    protected function getPagination()
+    {
+        $fragment = new rex_fragment();
+        $fragment->setVar('urlprovider', $this);
+        $fragment->setVar('pager', $this->pager);
+        return $fragment->parse('pagination.tpl');
+    }
+
+    /**
+     * Gibt den Footer der Liste zurück
+     *
+     * @return string
+     */
+    public function getFooter()
+    {
+        $s = '';
+        /*
+        $s .= '            <tr>'. "\n";
+        $s .= '                <td colspan="'. count($this->getColumnNames()) .'"><input type="text" name="items" value="'. $this->getRowsPerPage() .'" maxlength="2" /><input type="submit" value="Anzeigen" /></td>'. "\n";
+        $s .= '            </tr>'. "\n";
+        */
+        return $s;
+    }
+
+    /**
+     * Gibt den Header der Liste zurück
+     *
+     * @return string
+     */
+    public function getHeader()
+    {
+        $s = '';
+        $s .= $this->getPagination();
+
+        return $s;
+    }
+
+    // ---------------------- Generate Output
+
+    public function replaceVariable($string, $varname)
+    {
+        return str_replace('###' . $varname . '###', htmlspecialchars($this->getValue($varname)), $string);
+    }
+
+    /**
+     * Ersetzt alle Variablen im Format ###&lt;Spaltenname&gt;###.
+     *
+     * @param string $value Zu durchsuchender String
+     * @return string
+     */
+    public function replaceVariables($value)
+    {
+        if (strpos($value, '###') === false)
+            return $value;
+
+        $columnNames = $this->getColumnNames();
+
+        if (is_array($columnNames)) {
+            foreach ($columnNames as $columnName) {
+                // Spalten, die mit addColumn eingefügt wurden
+                if (is_array($columnName))
+                    continue;
+
+                $value = $this->replaceVariable($value, $columnName);
+            }
+        }
+        return $value;
+    }
+
+    public function isCustomFormat($format)
+    {
+        return is_array($format) && isset($format[0]) && $format[0] == 'custom';
+    }
+
+    /**
+     * Formatiert einen übergebenen String anhand der rexFormatter Klasse
+     *
+     * @param string $value  Zu formatierender String
+     * @param array  $format mit den Formatierungsinformationen
+     * @param bool   $escape Flag, Ob escapen von $value erlaubt ist
+     * @param string $field
+     * @return string
+     */
+    public function formatValue($value, $format, $escape, $field = null)
+    {
+        if (is_array($format)) {
+            // Callbackfunktion -> Parameterliste aufbauen
+            if ($this->isCustomFormat($format)) {
+                $format[2] = isset($format[2]) ? $format[2] : array();
+                $format[1] = array($format[1], array('list' => $this, 'field' => $field, 'value' => $value, 'format' => $format[0], 'escape' => $escape, 'params' => $format[2]));
+            }
+
+            $value = rex_formatter::format($value, $format[0], $format[1]);
+        }
+
+        // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
+        if ($escape &&
+            !$this->isCustomFormat($format) &&
+            $format[0] != 'email' &&
+            $format[0] != 'url'
+        ) {
+            $value = htmlspecialchars($value);
+        }
+
+        return $value;
+    }
+
+    protected function _getAttributeString($array)
+    {
+        $s = '';
+
+        foreach ($array as $name => $value)
+            $s .= ' ' . htmlspecialchars($name) . '="' . htmlspecialchars($value) . '"';
+
+        return $s;
+    }
+
+    public function getColumnLink($columnName, $columnValue, $params = array())
+    {
+        return '<a href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, array())) . '>' . $columnValue . '</a>';
+    }
+
+    public function getValue($colname)
+    {
+        return $this->sql->getValue($colname);
+    }
+
+    /**
+     * Erstellt den Tabellen Quellcode
+     *
+     * @return string
+     */
+    public function get()
+    {
+        $s = "\n";
+
+        // Form vars
+        $this->addFormAttribute('action', $this->getUrl());
+        $this->addFormAttribute('method', 'post');
+
+        // Table vars
+        $caption = $this->getCaption();
+        $tableColumnGroups = $this->getTableColumnGroups();
+        $class = 'rex-table';
+        if (isset($this->tableAttributes['class'])) {
+            $class .= ' ' . $this->tableAttributes['class'];
+        }
+        $this->addTableAttribute('class', $class);
+
+        // Columns vars
+        $columnFormates = array();
+        $columnNames = array();
+        foreach ($this->getColumnNames() as $columnName) {
+            if (is_array($columnName) || !in_array($columnName, $this->columnDisabled)) {
+                $columnNames[] = $columnName;
+            }
+        }
+
+        // List vars
+        $sortColumn = $this->getSortColumn();
+        $sortType = $this->getSortType();
+        $warning = $this->getWarning();
+        $message = $this->getMessage();
+        $nbRows = $this->getRows();
+
+        $header = $this->getHeader();
+        $footer = $this->getFooter();
+
+        if ($warning != '') {
+            $s .= rex_view::warning($warning) . "\n";
+        } elseif ($message != '') {
+            $s .= rex_view::info($message) . "\n";
+        }
+
+        if ($header != '') {
+            $s .= $header . "\n";
+        }
+
+        $s .= '<form' . $this->_getAttributeString($this->getFormAttributes()) . '>' . "\n";
+        $s .= '    <table' . $this->_getAttributeString($this->getTableAttributes()) . '>' . "\n";
+
+        if ($caption != '') {
+            $s .= '        <caption>' . htmlspecialchars($caption) . '</caption>' . "\n";
+        }
+
+        if (count($tableColumnGroups) > 0) {
+            foreach ($tableColumnGroups as $tableColumnGroup) {
+                $tableColumns = $tableColumnGroup['columns'];
+                unset($tableColumnGroup['columns']);
+
+                $s .= '        <colgroup' . $this->_getAttributeString($tableColumnGroup) . '>' . "\n";
+
+                foreach ($tableColumns as $tableColumn) {
+                    $s .= '            <col' . $this->_getAttributeString($tableColumn) . ' />' . "\n";
+                }
+
+                $s .= '        </colgroup>' . "\n";
+            }
+        }
+
+        $s .= '        <thead>' . "\n";
+        $s .= '            <tr>' . "\n";
         foreach ($columnNames as $columnName) {
-          // Spalten, die mit addColumn eingefügt wurden
-          if (is_array($columnName)) {
-            // Nur hier sind Variablen erlaubt
-            $columnName = $columnName[0];
-            $columnValue = $this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName], false, $columnName);
-          }
-          // Spalten aus dem ResultSet
-          else {
-            $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], true, $columnName);
-          }
+            // Spalten, die mit addColumn eingefügt wurden
+            if (is_array($columnName))
+                $columnName = $columnName[0];
 
-          if (!$this->isCustomFormat($columnFormates[$columnName]) && $this->hasColumnParams($columnName)) {
-            $columnValue = $this->getColumnLink($columnName, $columnValue);
-          }
+            $columnHead = $this->getColumnLabel($columnName);
+            if ($this->hasColumnOption($columnName, REX_LIST_OPT_SORT)) {
+                if ($columnName == $sortColumn) {
+                    $columnSortType = $sortType == 'desc' ? 'asc' : 'desc';
+                } else {
+                    $columnSortType = $this->getColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, 'asc');
+                }
+                $columnHead = '<a href="' . $this->getUrl(array('start' => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType)) . '">' . $columnHead . '</a>';
+            }
 
-          $layout = $this->getColumnLayout($columnName);
-          $columnValue = str_replace('###VALUE###', $columnValue, $layout[1]);
-          $columnValue = $this->replaceVariables($columnValue);
-          $s .= '        ' . $columnValue . "\n";
+            $layout = $this->getColumnLayout($columnName);
+            $s .= '        ' . str_replace('###VALUE###', $columnHead, $layout[0]) . "\n";
+
+            // Formatierungen hier holen, da diese Schleife jede Spalte nur einmal durchläuft
+            $columnFormates[$columnName] = $this->getColumnFormat($columnName);
         }
-        $s .= '      </tr>' . "\n";
+        $s .= '            </tr>' . "\n";
+        $s .= '        </thead>' . "\n";
 
-        $this->sql->next();
-      }
-      $s .= '    </tbody>' . "\n";
-    } else {
-      $s .= '<tr class="rex-table-no-results"><td colspan="' . count($columnNames) . '">' . $this->getNoRowsMessage() . '</td></tr>';
+        if ($footer != '') {
+            $s .= '        <tfoot>' . "\n";
+            $s .= $footer;
+            $s .= '        </tfoot>' . "\n";
+        }
+
+        if ($nbRows > 0) {
+            $maxRows = $nbRows - $this->pager->getCursor();
+
+            $s .= '        <tbody>' . "\n";
+            for ($i = 0; $i < $this->pager->getRowsPerPage() && $i < $maxRows; $i++) {
+                $s .= '            <tr>' . "\n";
+                foreach ($columnNames as $columnName) {
+                    // Spalten, die mit addColumn eingefügt wurden
+                    if (is_array($columnName)) {
+                        // Nur hier sind Variablen erlaubt
+                        $columnName = $columnName[0];
+                        $columnValue = $this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName], false, $columnName);
+                    }
+                    // Spalten aus dem ResultSet
+                    else {
+                        $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], true, $columnName);
+                    }
+
+                    if (!$this->isCustomFormat($columnFormates[$columnName]) && $this->hasColumnParams($columnName)) {
+                        $columnValue = $this->getColumnLink($columnName, $columnValue);
+                    }
+
+                    $layout = $this->getColumnLayout($columnName);
+                    $columnValue = str_replace('###VALUE###', $columnValue, $layout[1]);
+                    $columnValue = $this->replaceVariables($columnValue);
+                    $s .= '        ' . $columnValue . "\n";
+                }
+                $s .= '            </tr>' . "\n";
+
+                $this->sql->next();
+            }
+            $s .= '        </tbody>' . "\n";
+        } else {
+            $s .= '<tr class="rex-table-no-results"><td colspan="' . count($columnNames) . '">' . $this->getNoRowsMessage() . '</td></tr>';
+        }
+
+        $s .= '    </table>' . "\n";
+        $s .= '</form>' . "\n";
+
+        return $s;
     }
 
-    $s .= '  </table>' . "\n";
-    $s .= '</form>' . "\n";
-
-    return $s;
-  }
-
-  public function show()
-  {
-    echo $this->get();
-  }
+    public function show()
+    {
+        echo $this->get();
+    }
 }

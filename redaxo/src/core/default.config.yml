@@ -21,37 +21,37 @@ start_page: structure
 timezone: Europe/Berlin
 socket_proxy: null
 setup_addons:
-  - be_style
-  - import_export
+    - be_style
+    - import_export
 system_addons:
-  - mediapool
-  - structure
-  - import_export
-  - metainfo
-  - be_style
-  - media_manager
-  - users
-  - install
+    - mediapool
+    - structure
+    - import_export
+    - metainfo
+    - be_style
+    - media_manager
+    - users
+    - install
 table_prefix: rex_
 temp_prefix: tmp_
 db:
-  1:
-    host: localhost
-    login: root
-    password: ''
-    name: redaxo_5_0
-    persistent: false
-  2:
-    host: ''
-    login: ''
-    password: ''
-    name: ''
-    persistent: false
+    1:
+        host: localhost
+        login: root
+        password: ''
+        name: redaxo_5_0
+        persistent: false
+    2:
+        host: ''
+        login: ''
+        password: ''
+        name: ''
+        persistent: false
 use_accesskeys: true
 accesskeys:
-  save: s
-  apply: x
-  delete: d
-  add: a
-  add_2: y
-  logout: l
+    save: s
+    apply: x
+    delete: d
+    add: a
+    add_2: y
+    logout: l

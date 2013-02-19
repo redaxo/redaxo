@@ -19,20 +19,20 @@ echo '<div class="rex-addon-output-v2">';
 
 // Include Current Page
 switch ($subpage) {
-  case 'media' :
-  {
-    $prefix = 'med_';
-    break;
-  }
-  case 'categories' :
-  {
-    $prefix = 'cat_';
-    break;
-  }
-  default:
-  {
-    $prefix = 'art_';
-  }
+    case 'media' :
+    {
+        $prefix = 'med_';
+        break;
+    }
+    case 'categories' :
+    {
+        $prefix = 'cat_';
+        break;
+    }
+    default:
+    {
+        $prefix = 'art_';
+    }
 }
 
 $metaTable = rex_metainfo_meta_table($prefix);

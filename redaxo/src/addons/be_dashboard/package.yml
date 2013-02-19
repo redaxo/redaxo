@@ -4,6 +4,6 @@ author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
 
 page:
-  title: Dashboard
-  perm: be_dashboard[]
-  block: system
+    title: Dashboard
+    perm: be_dashboard[]
+    block: system

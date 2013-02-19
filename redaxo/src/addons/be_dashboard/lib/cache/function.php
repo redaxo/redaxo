@@ -14,82 +14,82 @@
  */
 class rex_dashboard_function_cache
 {
-  private $cache = null;
+    private $cache = null;
 
-  /**
-   * Constructor.
-   *
-   * @param rex_dashboard_cache $cache An sfCache object instance
-   */
-  public function __construct(rex_dashboard_cache $cache)
-  {
-    $this->cache = $cache;
-  }
-
-  /**
-   * Calls a cacheable function or method (or not if there is already a cache for it).
-   *
-   * Arguments of this method are read with func_get_args. So it doesn't appear in the function definition.
-   *
-   * The first argument can be any PHP callable:
-   *
-   * $cache->call('functionName', array($arg1, $arg2));
-   * $cache->call(array($object, 'methodName'), array($arg1, $arg2));
-   *
-   * @param mixed $callable  A PHP callable
-   * @param array $arguments An array of arguments to pass to the callable
-   *
-   * @return mixed The result of the function/method
-   */
-  public function call($callable, array $arguments = array())
-  {
-    // Generate a cache id
-    $key = $this->computeCacheKey($callable, $arguments);
-
-    $serialized = $this->cache->get($key);
-    if ($serialized !== null) {
-      $data = unserialize($serialized);
-    } else {
-      $data = array();
-
-      if (!is_callable($callable)) {
-        throw new rex_exception('The first argument to call() must be a valid callable.');
-      }
-
-      ob_start();
-      ob_implicit_flush(false);
-
-      $data['result'] = call_user_func_array($callable, $arguments);
-      $data['output'] = ob_get_clean();
-
-      $this->cache->set($key, serialize($data));
+    /**
+     * Constructor.
+     *
+     * @param rex_dashboard_cache $cache An sfCache object instance
+     */
+    public function __construct(rex_dashboard_cache $cache)
+    {
+        $this->cache = $cache;
     }
 
-    echo $data['output'];
+    /**
+     * Calls a cacheable function or method (or not if there is already a cache for it).
+     *
+     * Arguments of this method are read with func_get_args. So it doesn't appear in the function definition.
+     *
+     * The first argument can be any PHP callable:
+     *
+     * $cache->call('functionName', array($arg1, $arg2));
+     * $cache->call(array($object, 'methodName'), array($arg1, $arg2));
+     *
+     * @param mixed $callable  A PHP callable
+     * @param array $arguments An array of arguments to pass to the callable
+     *
+     * @return mixed The result of the function/method
+     */
+    public function call($callable, array $arguments = array())
+    {
+        // Generate a cache id
+        $key = $this->computeCacheKey($callable, $arguments);
 
-    return $data['result'];
-  }
+        $serialized = $this->cache->get($key);
+        if ($serialized !== null) {
+            $data = unserialize($serialized);
+        } else {
+            $data = array();
 
-  /**
-   * Returns the cache instance.
-   *
-   * @return rex_dashboard_cache The sfCache instance
-   */
-  public function getCache()
-  {
-    return $this->cache;
-  }
+            if (!is_callable($callable)) {
+                throw new rex_exception('The first argument to call() must be a valid callable.');
+            }
 
-  /**
-   * Computes the cache key for a given callable and the arguments.
-   *
-   * @param mixed $callable  A PHP callable
-   * @param array $arguments An array of arguments to pass to the callable
-   *
-   * @return string The associated cache key
-   */
-  public function computeCacheKey($callable, array $arguments = array())
-  {
-    return md5(serialize($callable) . serialize($arguments));
-  }
+            ob_start();
+            ob_implicit_flush(false);
+
+            $data['result'] = call_user_func_array($callable, $arguments);
+            $data['output'] = ob_get_clean();
+
+            $this->cache->set($key, serialize($data));
+        }
+
+        echo $data['output'];
+
+        return $data['result'];
+    }
+
+    /**
+     * Returns the cache instance.
+     *
+     * @return rex_dashboard_cache The sfCache instance
+     */
+    public function getCache()
+    {
+        return $this->cache;
+    }
+
+    /**
+     * Computes the cache key for a given callable and the arguments.
+     *
+     * @param mixed $callable  A PHP callable
+     * @param array $arguments An array of arguments to pass to the callable
+     *
+     * @return string The associated cache key
+     */
+    public function computeCacheKey($callable, array $arguments = array())
+    {
+        return md5(serialize($callable) . serialize($arguments));
+    }
 }

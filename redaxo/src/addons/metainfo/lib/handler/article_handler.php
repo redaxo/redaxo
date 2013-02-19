@@ -2,85 +2,85 @@
 
 class rex_metainfo_article_handler extends rex_metainfo_handler
 {
-  const PREFIX = 'art_';
+    const PREFIX = 'art_';
 
-  protected function handleSave(array $params, rex_sql $sqlFields)
-  {
-    // Nur speichern wenn auch das MetaForm ausgefüllt wurde
-    // z.b. nicht speichern wenn über be_search select navigiert wurde
-    if (rex_post('meta_article_name', 'string', null) === null) return $params;
+    protected function handleSave(array $params, rex_sql $sqlFields)
+    {
+        // Nur speichern wenn auch das MetaForm ausgefüllt wurde
+        // z.b. nicht speichern wenn über be_search select navigiert wurde
+        if (rex_post('meta_article_name', 'string', null) === null) return $params;
 
-    $article = rex_sql::factory();
-    // $article->setDebug();
-    $article->setTable(rex::getTablePrefix() . 'article');
-    $article->setWhere('id=:id AND clang=:clang', array('id' => $params['id'], 'clang' => $params['clang']));
+        $article = rex_sql::factory();
+        // $article->setDebug();
+        $article->setTable(rex::getTablePrefix() . 'article');
+        $article->setWhere('id=:id AND clang=:clang', array('id' => $params['id'], 'clang' => $params['clang']));
 
-    parent::fetchRequestValues($params, $article, $sqlFields);
+        parent::fetchRequestValues($params, $article, $sqlFields);
 
-    // do the save only when metafields are defined
-    if ($article->hasValues())
-      $article->update();
+        // do the save only when metafields are defined
+        if ($article->hasValues())
+            $article->update();
 
-    // Artikel nochmal mit den zusätzlichen Werten neu generieren
-    rex_article_cache::generateMeta($params['id'], $params['clang']);
+        // Artikel nochmal mit den zusätzlichen Werten neu generieren
+        rex_article_cache::generateMeta($params['id'], $params['clang']);
 
-    return $params;
-  }
-
-  protected function buildFilterCondition(array $params)
-  {
-    $restrictionsCondition = '';
-
-    if (!empty($params['id'])) {
-      $s = '';
-      $OOArt = rex_article::getArticleById($params['id'], $params['clang']);
-
-      // Alle Metafelder des Pfades sind erlaubt
-      foreach ($OOArt->getPathAsArray() as $pathElement) {
-        if ($pathElement != '') {
-          $s .= ' OR `p`.`restrictions` LIKE "%|' . $pathElement . '|%"';
-        }
-      }
-
-      $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL ' . $s . ')';
+        return $params;
     }
 
-    return $restrictionsCondition;
-  }
+    protected function buildFilterCondition(array $params)
+    {
+        $restrictionsCondition = '';
 
-  protected function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
-  {
-    $s = '';
-    if ($typeLabel != 'legend')
-      $s .= '<div class="rex-form-row">';
+        if (!empty($params['id'])) {
+            $s = '';
+            $OOArt = rex_article::getArticleById($params['id'], $params['clang']);
 
-    if ($tag != '')
-      $s .= '<' . $tag . $tag_attr  . '>' . "\n";
+            // Alle Metafelder des Pfades sind erlaubt
+            foreach ($OOArt->getPathAsArray() as $pathElement) {
+                if ($pathElement != '') {
+                    $s .= ' OR `p`.`restrictions` LIKE "%|' . $pathElement . '|%"';
+                }
+            }
 
-    if ($labelIt)
-      $s .= '<label for="' . $id . '">' . $label . '</label>' . "\n";
+            $restrictionsCondition = 'AND (`p`.`restrictions` = "" OR `p`.`restrictions` IS NULL ' . $s . ')';
+        }
 
-    $s .= $field . "\n";
+        return $restrictionsCondition;
+    }
 
-    if ($tag != '')
-      $s .= '</' . $tag . '>' . "\n";
+    protected function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
+    {
+        $s = '';
+        if ($typeLabel != 'legend')
+            $s .= '<div class="rex-form-row">';
 
-    if ($typeLabel != 'legend')
-      $s .= '</div>';
+        if ($tag != '')
+            $s .= '<' . $tag . $tag_attr  . '>' . "\n";
 
-    return $s;
-  }
+        if ($labelIt)
+            $s .= '<label for="' . $id . '">' . $label . '</label>' . "\n";
 
-  public function extendForm(array $params)
-  {
-    $OOArt = rex_article::getArticleById($params['id'], $params['clang']);
+        $s .= $field . "\n";
 
-    $params['activeItem'] = $params['article'];
-    // Hier die category_id setzen, damit beim klick auf den REX_LINK_BUTTON der Medienpool in der aktuellen Kategorie startet
-    $params['activeItem']->setValue('category_id', $OOArt->getCategoryId());
+        if ($tag != '')
+            $s .= '</' . $tag . '>' . "\n";
 
-    return $params['subject'] . parent::renderFormAndSave(self::PREFIX, $params);
-  }
+        if ($typeLabel != 'legend')
+            $s .= '</div>';
+
+        return $s;
+    }
+
+    public function extendForm(array $params)
+    {
+        $OOArt = rex_article::getArticleById($params['id'], $params['clang']);
+
+        $params['activeItem'] = $params['article'];
+        // Hier die category_id setzen, damit beim klick auf den REX_LINK_BUTTON der Medienpool in der aktuellen Kategorie startet
+        $params['activeItem']->setValue('category_id', $OOArt->getCategoryId());
+
+        return $params['subject'] . parent::renderFormAndSave(self::PREFIX, $params);
+    }
 }
 
 $artHandler = new rex_metainfo_article_handler();

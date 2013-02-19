@@ -16,29 +16,29 @@
 
 class rex_var_category extends rex_var
 {
-  /**
-   * Werte für die Ausgabe
-   */
-  protected function getOutput()
-  {
-    $field = $this->getParsedArg('field');
-    if (!$field)
-      return false;
+    /**
+     * Werte für die Ausgabe
+     */
+    protected function getOutput()
+    {
+        $field = $this->getParsedArg('field');
+        if (!$field)
+            return false;
 
-    $category_id = $this->getParsedArg('id', '$this->getValue(\'category_id\')');
-    $clang = $this->getParsedArg('clang', 'null');
+        $category_id = $this->getParsedArg('id', '$this->getValue(\'category_id\')');
+        $clang = $this->getParsedArg('clang', 'null');
 
-    return __CLASS__ . '::getCategoryValue(' . $category_id . ', ' . $field . ', ' . $clang . ')';
-  }
-
-  static public function getCategoryValue($id, $field, $clang = null)
-  {
-    if ($clang === null) {
-      $clang = rex_clang::getCurrentId();
+        return __CLASS__ . '::getCategoryValue(' . $category_id . ', ' . $field . ', ' . $clang . ')';
     }
-    $cat = rex_category::getCategoryById($id, $clang);
-    if ($cat) {
-      return htmlspecialchars($cat->getValue($field));
+
+    static public function getCategoryValue($id, $field, $clang = null)
+    {
+        if ($clang === null) {
+            $clang = rex_clang::getCurrentId();
+        }
+        $cat = rex_category::getCategoryById($id, $clang);
+        if ($cat) {
+            return htmlspecialchars($cat->getValue($field));
+        }
     }
-  }
 }

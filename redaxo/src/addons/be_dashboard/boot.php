@@ -13,6 +13,6 @@
 
 // im backend und eingeloggt?
 if (rex::isBackend() && rex_be_controller::getCurrentPagePart(1) == 'be_dashboard') {
-  rex_view::addCssFile($this->getAssetsUrl('be_dashboard.css'));
-  rex_view::addJsFile($this->getAssetsUrl('be_dashboard.js'));
+    rex_view::addCssFile($this->getAssetsUrl('be_dashboard.css'));
+    rex_view::addJsFile($this->getAssetsUrl('be_dashboard.js'));
 }

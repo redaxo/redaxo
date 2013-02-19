@@ -1,162 +1,162 @@
 /*
 
 
-  ### Dropdown Menü
+    ### Dropdown Menü
 
-    <div class="rex-button-group rex-dropdown">
-      <span class="rex-button">
-        <i>Sprache:</i>
-        <span class="rex-js-button">Deutsch</span>
-      </span>
-      <span class="rex-button rex-drop-button">
-        <span class="rex-drop"></span>
-      </span>
+        <div class="rex-button-group rex-dropdown">
+            <span class="rex-button">
+                <i>Sprache:</i>
+                <span class="rex-js-button">Deutsch</span>
+            </span>
+            <span class="rex-button rex-drop-button">
+                <span class="rex-drop"></span>
+            </span>
 
-      <div class="rex-drop-container">
-        <ul class="rex-drop-list">
-          <li class="rex-drop-item"><span class="rex-js-button-text">Deutsch</span></li>
-          <li class="rex-drop-item"><span class="rex-js-button-text">English</span></li>
-        </ul>
-      </div>
-    </div>
-
-
-
-  ### Dropdown Menü
-
-
-    <div class="rex-dropdown">
-      <span class="rex-button rex-drop-button">
-        <i>Sprache:</i>
-        Deutsch
-        <span class="rex-drop"></span>
-      </span>
-
-      <div class="rex-drop-container">
-        <ul class="rex-drop-list">
-          <li class="rex-drop-item"><span class="rex-js-button-text">Deutsch</span></li>
-          <li class="rex-drop-item"><span class="rex-js-button-text">English</span></li>
-        </ul>
-      </div>
-    </div>
-
-
-
-  ### Dropdown Menü
-
-  - Header
-  - Footer
-
-
-    <div class="rex-dropdown">
-      <span class="rex-button rex-drop-button">
-        <i>Sprache:</i>
-        Deutsch
-        <span class="rex-drop"></span>
-      </span>
-
-      <div class="rex-drop-container">
-        <div class="rex-drop-header">
-          Sprachauswahl
-        </div>
-        <ul class="rex-drop-list">
-          <li class="rex-drop-item"><span class="rex-js-button-text">Deutsch</span></li>
-          <li class="rex-drop-item"><span class="rex-js-button-text">English</span></li>
-        </ul>
-        <div class="rex-drop-footer">
-          Extra Optionen
-        </div>
-
-      </div>
-    </div>
-
-
-
-  ### Dropdown Menü
-
-  - Header
-  - Footer
-  - Item mit Titel, Beschreibung und Checked Icon
-
-
-    <div class="rex-dropdown">
-      <span class="rex-button rex-drop-button">
-        <i>Sprache:</i>
-        Deutsch
-        <span class="rex-drop"></span>
-      </span>
-
-      <div class="rex-drop-container">
-        <div class="rex-drop-header">
-          Sprachauswahl
-          <span class="rex-icon rex-icon-close"></span>
-        </div>
-        <ul class="rex-drop-list">
-          <li class="rex-drop-item rex-drop-active">
-            <span class="rex-icon rex-icon-check"></span>
-            <div class="rex-drop-item-text">
-              <h3 class="rex-js-button-text">Deutsch</h3>
-              <p class="rex-description">Beschreibung zur deutsche Sprache</p>
+            <div class="rex-drop-container">
+                <ul class="rex-drop-list">
+                    <li class="rex-drop-item"><span class="rex-js-button-text">Deutsch</span></li>
+                    <li class="rex-drop-item"><span class="rex-js-button-text">English</span></li>
+                </ul>
             </div>
-          </li>
-          <li class="rex-drop-item">
-            <span class="rex-icon rex-icon-check"></span>
-            <div class="rex-drop-item-text">
-              <h3 class="rex-js-button-text">English</span></h3>
-              <p class="rex-description">Description of the English language</p>
-            </div>
-          </li>
-        </ul>
-        <div class="rex-drop-footer">
-          Extra Optionen
         </div>
 
-      </div>
-    </div>
 
 
-
-  ### Dropdown Menü
-
-  - Header
-  - Footer
-  - Item mit Titel, Beschreibung und Checked Icon
+    ### Dropdown Menü
 
 
-    <div class="rex-dropdown rex-open">
-      <span class="rex-button rex-drop-button">
-        <i>Sprache:</i>
-        Deutsch
-        <span class="rex-drop"></span>
-      </span>
+        <div class="rex-dropdown">
+            <span class="rex-button rex-drop-button">
+                <i>Sprache:</i>
+                Deutsch
+                <span class="rex-drop"></span>
+            </span>
 
-      <div class="rex-drop-container">
-        <div class="rex-drop-header">
-          Sprachauswahl
-          <span class="rex-icon rex-icon-close"></span>
-        </div>
-        <ul class="rex-drop-list">
-          <li class="rex-drop-item rex-drop-active">
-            <span class="rex-icon rex-icon-check"></span>
-            <div class="rex-drop-item-text">
-              <h3 class="rex-js-button-text">Deutsch</h3>
-              <p class="rex-description">Beschreibung zur deutsche Sprache</p>
+            <div class="rex-drop-container">
+                <ul class="rex-drop-list">
+                    <li class="rex-drop-item"><span class="rex-js-button-text">Deutsch</span></li>
+                    <li class="rex-drop-item"><span class="rex-js-button-text">English</span></li>
+                </ul>
             </div>
-          </li>
-          <li class="rex-drop-item">
-            <span class="rex-icon rex-icon-check"></span>
-            <div class="rex-drop-item-text">
-              <h3 class="rex-js-button-text">English</span></h3>
-              <p class="rex-description">Description of the English language</p>
-            </div>
-          </li>
-        </ul>
-        <div class="rex-drop-footer">
-          Extra Optionen
         </div>
 
-      </div>
-    </div>
+
+
+    ### Dropdown Menü
+
+    - Header
+    - Footer
+
+
+        <div class="rex-dropdown">
+            <span class="rex-button rex-drop-button">
+                <i>Sprache:</i>
+                Deutsch
+                <span class="rex-drop"></span>
+            </span>
+
+            <div class="rex-drop-container">
+                <div class="rex-drop-header">
+                    Sprachauswahl
+                </div>
+                <ul class="rex-drop-list">
+                    <li class="rex-drop-item"><span class="rex-js-button-text">Deutsch</span></li>
+                    <li class="rex-drop-item"><span class="rex-js-button-text">English</span></li>
+                </ul>
+                <div class="rex-drop-footer">
+                    Extra Optionen
+                </div>
+
+            </div>
+        </div>
+
+
+
+    ### Dropdown Menü
+
+    - Header
+    - Footer
+    - Item mit Titel, Beschreibung und Checked Icon
+
+
+        <div class="rex-dropdown">
+            <span class="rex-button rex-drop-button">
+                <i>Sprache:</i>
+                Deutsch
+                <span class="rex-drop"></span>
+            </span>
+
+            <div class="rex-drop-container">
+                <div class="rex-drop-header">
+                    Sprachauswahl
+                    <span class="rex-icon rex-icon-close"></span>
+                </div>
+                <ul class="rex-drop-list">
+                    <li class="rex-drop-item rex-drop-active">
+                        <span class="rex-icon rex-icon-check"></span>
+                        <div class="rex-drop-item-text">
+                            <h3 class="rex-js-button-text">Deutsch</h3>
+                            <p class="rex-description">Beschreibung zur deutsche Sprache</p>
+                        </div>
+                    </li>
+                    <li class="rex-drop-item">
+                        <span class="rex-icon rex-icon-check"></span>
+                        <div class="rex-drop-item-text">
+                            <h3 class="rex-js-button-text">English</span></h3>
+                            <p class="rex-description">Description of the English language</p>
+                        </div>
+                    </li>
+                </ul>
+                <div class="rex-drop-footer">
+                    Extra Optionen
+                </div>
+
+            </div>
+        </div>
+
+
+
+    ### Dropdown Menü
+
+    - Header
+    - Footer
+    - Item mit Titel, Beschreibung und Checked Icon
+
+
+        <div class="rex-dropdown rex-open">
+            <span class="rex-button rex-drop-button">
+                <i>Sprache:</i>
+                Deutsch
+                <span class="rex-drop"></span>
+            </span>
+
+            <div class="rex-drop-container">
+                <div class="rex-drop-header">
+                    Sprachauswahl
+                    <span class="rex-icon rex-icon-close"></span>
+                </div>
+                <ul class="rex-drop-list">
+                    <li class="rex-drop-item rex-drop-active">
+                        <span class="rex-icon rex-icon-check"></span>
+                        <div class="rex-drop-item-text">
+                            <h3 class="rex-js-button-text">Deutsch</h3>
+                            <p class="rex-description">Beschreibung zur deutsche Sprache</p>
+                        </div>
+                    </li>
+                    <li class="rex-drop-item">
+                        <span class="rex-icon rex-icon-check"></span>
+                        <div class="rex-drop-item-text">
+                            <h3 class="rex-js-button-text">English</span></h3>
+                            <p class="rex-description">Description of the English language</p>
+                        </div>
+                    </li>
+                </ul>
+                <div class="rex-drop-footer">
+                    Extra Optionen
+                </div>
+
+            </div>
+        </div>
 
 
 */
@@ -164,162 +164,162 @@
 
 
 .rex-dropdown {
-  display: inline-block;
+    display: inline-block;
 }
 .rex-dropdown .rex-context-menu {
-  position: relative;
-  top: -4px;
+    position: relative;
+    top: -4px;
 }
 .rex-drop-container {
-  position: absolute;
-  z-index: 100;
-  overflow: hidden;
+    position: absolute;
+    z-index: 100;
+    overflow: hidden;
 
-  margin-top: 6px;
-  min-width: 200px;
-  background: #fff;
-  border: 1px solid #d9dfe3;
-  border-radius: 3px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    margin-top: 6px;
+    min-width: 200px;
+    background: #fff;
+    border: 1px solid #d9dfe3;
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
 
-  font-size: 13px;
+    font-size: 13px;
 
-  display: none;
+    display: none;
 }
 .rex-open .rex-drop-container {
-  display: block;
+    display: block;
 }
 .rex-drop-mini .rex-drop-container {
-  width: 150px;
+    width: 150px;
 }
 .rex-large .rex-drop-container {
-  width: 600px;
+    width: 600px;
 }
 
 .rex-drop-list {
-  margin-left: 0;
+    margin-left: 0;
 }
 .rex-drop-item {
-  padding: 5px 10px;
-  border-bottom: 1px solid #dfe8e8;
-  cursor: pointer;
-  color: #666;
+    padding: 5px 10px;
+    border-bottom: 1px solid #dfe8e8;
+    cursor: pointer;
+    color: #666;
 }
 .rex-drop-item:hover {
-  background-color: #f2f5f6;
+    background-color: #f2f5f6;
 }
 .rex-drop-item:last-child {
-  border-bottom: 0;
+    border-bottom: 0;
 }
 
 .rex-drop-item > a {
-  display: block;
-  padding: 5px 10px;
-  margin: -5px -10px;
-  color: #666;
+    display: block;
+    padding: 5px 10px;
+    margin: -5px -10px;
+    color: #666;
 }
 
 .rex-drop-item-text {
-  display: inline-block;
-  vertical-align: top;
+    display: inline-block;
+    vertical-align: top;
 }
 .rex-icon + .rex-drop-item-text {
-  padding: 0 0 0 5px;
+    padding: 0 0 0 5px;
 }
 
 .rex-drop-header {
-  overflow: hidden;
-  padding: 5px 10px;
-  background: #dfe8e8;
-  font-weight: bold;
+    overflow: hidden;
+    padding: 5px 10px;
+    background: #dfe8e8;
+    font-weight: bold;
 }
 
 .rex-drop-footer {
-  padding: 5px 10px;
-  background-color: #f2f5f6;
-  border-top: 1px solid #dfe8e8;
-  font-weight: bold;
+    padding: 5px 10px;
+    background-color: #f2f5f6;
+    border-top: 1px solid #dfe8e8;
+    font-weight: bold;
 }
 
 
 .rex-context-menu {
-  display: inline-block;
+    display: inline-block;
 }
 .rex-navi-content .rex-context-menu {
-  position: relative;
-  top: -4px;
+    position: relative;
+    top: -4px;
 }
 .rex-context-menu-container {
-  position: absolute;
-  z-index: 100;
-  overflow: hidden;
+    position: absolute;
+    z-index: 100;
+    overflow: hidden;
 
-  margin-top: 6px;
-  margin-bottom: 100px;
-  min-width: 200px;
-  background: #fff;
-  border: 1px solid #d9dfe3;
-  border-radius: 3px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    margin-top: 6px;
+    margin-bottom: 100px;
+    min-width: 200px;
+    background: #fff;
+    border: 1px solid #d9dfe3;
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
 
-  font-size: 13px;
+    font-size: 13px;
 
-  display: none;
+    display: none;
 }
 .rex-table .rex-context-menu-container {
-  left: 40px;
+    left: 40px;
 }
 .rex-open .rex-context-menu-container {
-  display: block;
+    display: block;
 }
 .rex-context-menu-mini .rex-context-menu-container {
-  width: 150px;
+    width: 150px;
 }
 .rex-large .rex-context-menu-container {
-  width: 900px;
+    width: 900px;
 }
 
 .rex-context-menu-list {
-  margin-left: 0;
+    margin-left: 0;
 }
 .rex-context-menu-item {
-  padding: 5px 10px;
-  border-bottom: 1px solid #dfe8e8;
-  cursor: pointer;
-  color: #666;
+    padding: 5px 10px;
+    border-bottom: 1px solid #dfe8e8;
+    cursor: pointer;
+    color: #666;
 }
 .rex-context-menu-item:hover {
-  background-color: #f2f5f6;
+    background-color: #f2f5f6;
 }
 .rex-context-menu-item:last-child {
-  border-bottom: 0;
+    border-bottom: 0;
 }
 
 .rex-context-menu-item > a {
-  display: block;
-  padding: 5px 10px;
-  margin: -5px -10px;
-  color: #666;
+    display: block;
+    padding: 5px 10px;
+    margin: -5px -10px;
+    color: #666;
 }
 
 .rex-context-menu-item-text {
-  display: inline-block;
-  vertical-align: top;
+    display: inline-block;
+    vertical-align: top;
 }
 .rex-icon + .rex-context-menu-item-text {
-  padding: 0 0 0 5px;
+    padding: 0 0 0 5px;
 }
 
 .rex-context-menu-header {
-  overflow: hidden;
-  padding: 5px 10px;
-  background-color: #dfe8e8;
-  font-weight: bold;
+    overflow: hidden;
+    padding: 5px 10px;
+    background-color: #dfe8e8;
+    font-weight: bold;
 }
 
 .rex-context-menu-footer {
-  padding: 5px 10px;
-  background-color: #f2f5f6;
-  border-top: 1px solid #dfe8e8;
-  font-weight: bold;
+    padding: 5px 10px;
+    background-color: #f2f5f6;
+    border-top: 1px solid #dfe8e8;
+    font-weight: bold;
 }

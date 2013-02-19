@@ -8,30 +8,30 @@
 
 class rex_var_template extends rex_var
 {
-  protected function getOutput()
-  {
-    $template_id = $this->getParsedArg('id', 0, true);
+    protected function getOutput()
+    {
+        $template_id = $this->getParsedArg('id', 0, true);
 
-    if ($template_id > 0) {
-      return __CLASS__ . '::getTemplateOutput(require ' . __CLASS__ . '::getTemplateStream(' . $template_id . ', $this))';
+        if ($template_id > 0) {
+            return __CLASS__ . '::getTemplateOutput(require ' . __CLASS__ . '::getTemplateStream(' . $template_id . ', $this))';
+        }
+
+        return false;
     }
 
-    return false;
-  }
-
-  static public function getTemplateStream($id, rex_article_content_base $article = null)
-  {
-    ob_start();
-    $tmpl = new rex_template($id);
-    $tmpl = $tmpl->getTemplate();
-    if ($article) {
-      $tmpl = $article->replaceCommonVars($tmpl, $id);
+    static public function getTemplateStream($id, rex_article_content_base $article = null)
+    {
+        ob_start();
+        $tmpl = new rex_template($id);
+        $tmpl = $tmpl->getTemplate();
+        if ($article) {
+            $tmpl = $article->replaceCommonVars($tmpl, $id);
+        }
+        return rex_stream::factory('template/' . $id, $tmpl);
     }
-    return rex_stream::factory('template/' . $id, $tmpl);
-  }
 
-  static public function getTemplateOutput()
-  {
-    return ob_get_clean();
-  }
+    static public function getTemplateOutput()
+    {
+        return ob_get_clean();
+    }
 }

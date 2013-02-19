@@ -2,46 +2,46 @@
 
 class rex_input_medialistbutton extends rex_input
 {
-  private
-    $buttonId,
-    $args = array();
+    private
+        $buttonId,
+        $args = array();
 
-  public function __construct()
-  {
-    parent::__construct();
-    $this->buttonId = '';
-  }
+    public function __construct()
+    {
+        parent::__construct();
+        $this->buttonId = '';
+    }
 
-  public function setButtonId($buttonId)
-  {
-    $this->buttonId = $buttonId;
-    $this->setAttribute('id', 'REX_MEDIALIST_' . $buttonId);
-  }
+    public function setButtonId($buttonId)
+    {
+        $this->buttonId = $buttonId;
+        $this->setAttribute('id', 'REX_MEDIALIST_' . $buttonId);
+    }
 
-  public function setCategoryId($categoryId)
-  {
-    $this->args['category'] = $categoryId;
-  }
+    public function setCategoryId($categoryId)
+    {
+        $this->args['category'] = $categoryId;
+    }
 
-  public function setTypes($types)
-  {
-    $this->args['types'] = $types;
-  }
+    public function setTypes($types)
+    {
+        $this->args['types'] = $types;
+    }
 
-  public function setPreview($preview = true)
-  {
-    $this->args['preview'] = $preview;
-  }
+    public function setPreview($preview = true)
+    {
+        $this->args['preview'] = $preview;
+    }
 
-  public function getHtml()
-  {
-    $buttonId = $this->buttonId;
-    $value = htmlspecialchars($this->value);
-    $name = $this->attributes['name'];
-    $args = $this->args;
+    public function getHtml()
+    {
+        $buttonId = $this->buttonId;
+        $value = htmlspecialchars($this->value);
+        $name = $this->attributes['name'];
+        $args = $this->args;
 
-    $field = rex_var_medialist::getWidget($buttonId, $name, $value, $args);
+        $field = rex_var_medialist::getWidget($buttonId, $name, $value, $args);
 
-    return $field;
-  }
+        return $field;
+    }
 }

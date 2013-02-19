@@ -14,15 +14,15 @@ $navigation = array();
 
 $ooCat = rex_category::getCategoryById($category_id, $clang);
 if ($ooCat) {
-  foreach ($ooCat->getParentTree() as $parent) {
-    $catid = $parent->getId();
-    if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($catid)) {
-      $n = array();
-      $n['title'] = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
-      $n['href'] = rex_url::backendPage('structure', array('category_id' => $catid, 'clang' => $clang));
-      $navigation[] = $n;
+    foreach ($ooCat->getParentTree() as $parent) {
+        $catid = $parent->getId();
+        if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($catid)) {
+            $n = array();
+            $n['title'] = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
+            $n['href'] = rex_url::backendPage('structure', array('category_id' => $catid, 'clang' => $clang));
+            $navigation[] = $n;
+        }
     }
-  }
 }
 
 $title = '<a class="rex-icon rex-icon-sitestartarticle" href="' . rex_url::backendPage('structure', array('category_id' => 0, 'clang' => $clang)) . '">' . rex_i18n::msg('homepage') . '</a>';

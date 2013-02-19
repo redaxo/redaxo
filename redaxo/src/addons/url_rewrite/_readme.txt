@@ -45,12 +45,12 @@ werden, wenn der Server <em>nicht</em> mit dem Modul "mod_rewrite" ausgestattet 
 - Im Redaxo AddOn Manager das Plugin aktivieren
 
 - Im Header des Templates die Zeile &lt;base href="http://www.example.org/" /&gt; hinzuf�gen
-   <em>Url unter der dein Frontend erreichbar ist!Der Base-Href muss am Anfang des HEAD stehen!</em>
+     <em>Url unter der dein Frontend erreichbar ist!Der Base-Href muss am Anfang des HEAD stehen!</em>
 
 - In der Datei "redaxo/include/addons/config.inc.php" die Zeile
-  <em>require_once $UrlRewriteBasedir.'/classes/class.rewrite_simple.inc.php';</em>
-  Mit dem gew�nschen Rewriter ersetzen, <strong>z.B:</strong>
-  <em>require_once $UrlRewriteBasedir.'/classes/class.rewrite_fullname.inc.php';</em>
+    <em>require_once $UrlRewriteBasedir.'/classes/class.rewrite_simple.inc.php';</em>
+    Mit dem gew�nschen Rewriter ersetzen, <strong>z.B:</strong>
+    <em>require_once $UrlRewriteBasedir.'/classes/class.rewrite_fullname.inc.php';</em>
 
 - /.htaccess Datei anpassen (Beispielkonfigurationen befinden sich in dem jeweiligen Rewriter)
 

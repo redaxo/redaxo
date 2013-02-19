@@ -4,5 +4,5 @@ author: 'Markus Staab'
 supportpage: www.redaxo.org/de/forum/
 
 requires:
-  php:
-    extensions: [xml]
+    php:
+        extensions: [xml]

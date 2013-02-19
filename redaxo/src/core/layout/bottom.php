@@ -3,7 +3,7 @@
 $curPage = rex_be_controller::getCurrentPageObject();
 
 if (!$curPage->hasLayout()) {
-  return;
+    return;
 }
 
 ?>
@@ -17,10 +17,10 @@ echo $fragment->parse('core/navigation.tpl');
 
 $sidebar = rex_extension::registerPoint('PAGE_SIDEBAR', '');
 if ($sidebar != '') {
-  $sidebarfragment = new rex_fragment();
-  $sidebarfragment->content = $sidebar;
-  echo $sidebarfragment->parse('core/sidebar.tpl');
-  unset($sidebarfragment);
+    $sidebarfragment = new rex_fragment();
+    $sidebarfragment->content = $sidebar;
+    echo $sidebarfragment->parse('core/sidebar.tpl');
+    unset($sidebarfragment);
 }
 
 unset($fragment);
@@ -33,7 +33,7 @@ echo $footerfragment->parse('core/footer.tpl');
 unset($footerfragment);
 
 if (!rex_request::isPJAXContainer('#rex-page')) {
-  $bottomfragment = new rex_fragment();
-  echo $bottomfragment->parse('core/bottom.tpl');
-  unset($bottomfragment);
+    $bottomfragment = new rex_fragment();
+    echo $bottomfragment->parse('core/bottom.tpl');
+    unset($bottomfragment);
 }

@@ -29,18 +29,18 @@
  */
 class rex_rss_reader extends SimplePie
 {
-  public function __construct($feed_url = null, $cache_location = null, $cache_duration = null)
-  {
-    parent::__construct();
+    public function __construct($feed_url = null, $cache_location = null, $cache_duration = null)
+    {
+        parent::__construct();
 
-    if ($cache_location == null) {
-      $cache_location = rex_path::addonCache('be_dashboard');
+        if ($cache_location == null) {
+            $cache_location = rex_path::addonCache('be_dashboard');
+        }
+
+        $this->set_feed_url($feed_url);
+        $this->set_cache_location($cache_location);
+        $this->set_cache_duration($cache_duration);
+
+        $this->init();
     }
-
-    $this->set_feed_url($feed_url);
-    $this->set_cache_location($cache_location);
-    $this->set_cache_duration($cache_duration);
-
-    $this->init();
-  }
 }

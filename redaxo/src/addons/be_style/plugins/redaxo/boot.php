@@ -20,15 +20,15 @@ $mypage = 'redaxo';
 
 if (rex::isBackend()) {
 
-  require __DIR__ . '/pages/font.php';
+    require __DIR__ . '/pages/font.php';
 
-  rex_view::addCssFile(rex_url::backendController(array('be_style_' . $mypage . '_font' => 'entypo')));
-  rex_view::addCssFile($this->getAssetsUrl('import.css'));
-  rex_view::addJsFile($this->getAssetsUrl('js.js'));
-  rex_view::setFavicon($this->getAssetsUrl('favicon.ico'));
+    rex_view::addCssFile(rex_url::backendController(array('be_style_' . $mypage . '_font' => 'entypo')));
+    rex_view::addCssFile($this->getAssetsUrl('import.css'));
+    rex_view::addJsFile($this->getAssetsUrl('js.js'));
+    rex_view::setFavicon($this->getAssetsUrl('favicon.ico'));
 
-  rex_extension::register('PAGE_BODY_ATTR', function ($params) {
-    $params['subject']['class'][] = 'redaxo';
-    return $params['subject'];
-  });
+    rex_extension::register('PAGE_BODY_ATTR', function ($params) {
+        $params['subject']['class'][] = 'redaxo';
+        return $params['subject'];
+    });
 }

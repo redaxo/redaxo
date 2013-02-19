@@ -1,77 +1,77 @@
 /*
 
-  ### Pfad
+    ### Pfad
 
-    <dl class="rex-navi-path">
-      <dt>Pfad</dt>
-      <dd>
-        <ul>
-          <li><a href="#">Homepage</a></li>
-          <li><a href="#">Team</a></li>
-        </ul>
-      </dd>
-    </dl>
+        <dl class="rex-navi-path">
+            <dt>Pfad</dt>
+            <dd>
+                <ul>
+                    <li><a href="#">Homepage</a></li>
+                    <li><a href="#">Team</a></li>
+                </ul>
+            </dd>
+        </dl>
 
 */
 
 /*
 .rex-navi-path {
-  clear: both;
-  display: block;
-  margin: 10px 0;
-  padding: 5px 0;
-  color: #7d929b;
-  font-size: 14px;
+    clear: both;
+    display: block;
+    margin: 10px 0;
+    padding: 5px 0;
+    color: #7d929b;
+    font-size: 14px;
 }
 .rex-navi-path dt,
 .rex-navi-path dd {
-  display: inline-block;
+    display: inline-block;
 }
 .rex-navi-path ul {
-  margin-left: 0px;
-  font-weight: bold;
+    margin-left: 0px;
+    font-weight: bold;
 }
 .rex-navi-path li {
-  display: inline-block;
+    display: inline-block;
 }
 .rex-navi-path li a {
 }
 .rex-navi-path dt:after,
 .rex-navi-path li:after {
-  padding: 0 4px;
-  content: ':';
-  font-weight: normal;
+    padding: 0 4px;
+    content: ':';
+    font-weight: normal;
 }
 .rex-navi-path li:after {
-  content: '/';
+    content: '/';
 }
 .rex-navi-path li:last-child:after {
-  padding: 0;
-  content: '';
+    padding: 0;
+    content: '';
 }
 .rex-navi-path li:last-child a {
-  color: #036;
+    color: #036;
 }
 */
 
 
 
 .rex-navi-path {
-  overflow: hidden;
-  width: 100%;
-  margin: 20px 0;
-  background: #f2f5f6;
-  border: 1px solid #dfe8e8;
-  border-bottom-width: 2px;
-  border-radius: 3px;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 12px;
+    overflow: hidden;
+    width: 100%;
+    margin: 20px 0;
+    background: #f2f5f6;
+    border: 1px solid #dfe8e8;
+    border-bottom-width: 2px;
+    border-radius: 3px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 12px;
 }
 .rex-navi-path + .rex-navi-path {
-  margin-top: -22px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+    margin-top: -22px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 .rex-navi-path dt,
 .rex-navi-path dd,
@@ -79,126 +79,126 @@
 .rex-navi-path li,
 .rex-navi-path a,
 .rex-navi-path dd span {
-  display: inline-block;
-  float: left;
+    display: inline-block;
+    float: left;
 }
 .rex-navi-path ul {
-  margin-left: 0px;
-  font-weight: normal;
+    margin-left: 0px;
+    font-weight: normal;
 }
 .rex-navi-path li {
-  position: relative;
+    position: relative;
 }
 
 
 
 .rex-navi-path dt,
 .rex-navi-path li {
-  position: relative;
-  background-color: #fff;
-  text-decoration: none;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
+    position: relative;
+    background-color: #fff;
+    text-decoration: none;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
 }
 .rex-navi-path dt {
-  padding: 10px;
-  border-radius: 3px 0 0 3px;
-  font-weight: bold;
+    padding: 10px;
+    border-radius: 3px 0 0 3px;
+    font-weight: bold;
 }
 .rex-navi-path dt a {
-  margin: -10px;
-  padding-left: 10px;
-  border-radius: 3px 0 0 3px;
+    margin: -10px;
+    padding-left: 10px;
+    border-radius: 3px 0 0 3px;
 }
 .rex-navi-path li:hover {
-  background: #fff;
+    background: #fff;
 }
 
 .rex-navi-path dt:after,
 .rex-navi-path dt:before,
 .rex-navi-path li:after,
 .rex-navi-path li:before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: -10px;
-  margin-top: -20px;
-  border-top: 20px solid transparent;
-  border-bottom: 20px solid transparent;
-  border-left: 10px solid;
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    margin-top: -20px;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 10px solid;
 }
 
 .rex-navi-path dt:after {
-  z-index: 2;
-  border-left-color: #fff;
+    z-index: 2;
+    border-left-color: #fff;
 }
 .rex-navi-path dt:before {
-  border-left-color: #dfe8e8;
-  right: -12px;
-  z-index: 1;
+    border-left-color: #dfe8e8;
+    right: -12px;
+    z-index: 1;
 }
 
 .rex-navi-path li:after {
-  z-index: 2;
-  border-left-color: #fff;
+    z-index: 2;
+    border-left-color: #fff;
 }
 .rex-navi-path li:before {
-  border-left-color: #dfe8e8;
-  right: -11px;
-  z-index: 1;
+    border-left-color: #dfe8e8;
+    right: -11px;
+    z-index: 1;
 }
 
 .rex-navi-path a,
 .rex-navi-path dd > span {
-  overflow: hidden;
-  padding: 10px 10px 10px 20px;
-  color: #666;
-  text-overflow: ellipsis;
-  vertical-align: top;
-  white-space: nowrap;
+    overflow: hidden;
+    padding: 10px 10px 10px 20px;
+    color: #666;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    white-space: nowrap;
 }
 .rex-navi-path dt a {
-  color: #333;
+    color: #333;
 }
 .rex-navi-path dd a,
 .rex-navi-path ul:hover li:last-child a {
-  max-width: 60px;
+    max-width: 60px;
 }
 .rex-navi-path a:hover,
 .rex-navi-path li:last-child a,
 .rex-navi-path ul:hover li:last-child a:hover {
-  max-width: none;
+    max-width: none;
 }
 
 
 .rex-navi-path ul li:last-child {
-  background: transparent;
+    background: transparent;
 }
 .rex-navi-path ul li:last-child a {
-  color: #333;
+    color: #333;
 }
 .rex-navi-path ul li:last-child a:hover {
-  color: #08c;
+    color: #08c;
 }
 .rex-navi-path ul li:last-child:before,
 .rex-navi-path ul li:last-child:after {
-  display: none;
+    display: none;
 }
 
 .rex-navi-path a:hover {
-  color: #08c;
-  text-decoration: underline;
+    color: #08c;
+    text-decoration: underline;
 }
 .rex-navi-path a:hover:after {
-  border-left-color: #fff;
+    border-left-color: #fff;
 }
 /*
 .rex-navi-path .rex-active,
 .rex-navi-path .rex-active:hover {
-  background: none;
+    background: none;
 }
 
 .rex-navi-path .rex-active:after,
 .rex-navi-path .rex-active:before {
-  content: normal;
+    content: normal;
 }
 */

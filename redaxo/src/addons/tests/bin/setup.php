@@ -2,19 +2,19 @@
 <?php
 
 if (PHP_SAPI !== 'cli') {
-  echo 'error: this script may only be run from CLI', PHP_EOL;
-  return 1;
+    echo 'error: this script may only be run from CLI', PHP_EOL;
+    return 1;
 }
 
 // bring the file into context, no matter from which dir it was executed
 $path = explode(DIRECTORY_SEPARATOR, __DIR__);
 do {
-  $part = array_pop($path);
+    $part = array_pop($path);
 } while ($part !== null && $part != 'redaxo');
 
 if (!chdir(implode(DIRECTORY_SEPARATOR, $path) . '/redaxo')) {
-  echo 'error: start this script within a redaxo projects folder', PHP_EOL;
-  return 2;
+    echo 'error: start this script within a redaxo projects folder', PHP_EOL;
+    return 2;
 }
 
 // ---- bootstrap REX
@@ -29,41 +29,41 @@ require 'src/core/boot.php';
 
 // run setup, if instance not already prepared
 if (rex::isSetup()) {
-  $err = '';
+    $err = '';
 
-  // read initial config
-  $configFile = rex_path::data('config.yml');
-  rex_file::copy(rex_path::core('default.config.yml'), $configFile);
-  $config = rex_file::getConfig($configFile);
+    // read initial config
+    $configFile = rex_path::data('config.yml');
+    rex_file::copy(rex_path::core('default.config.yml'), $configFile);
+    $config = rex_file::getConfig($configFile);
 
-  // init db
-  $err .= rex_setup::checkDb($config, false);
-  $err .= rex_setup_importer::prepareEmptyDb();
-  $err .= rex_setup_importer::verifyDbSchema();
+    // init db
+    $err .= rex_setup::checkDb($config, false);
+    $err .= rex_setup_importer::prepareEmptyDb();
+    $err .= rex_setup_importer::verifyDbSchema();
 
-  if ($err != '') {
-    echo $err;
-    exit (10);
-  }
+    if ($err != '') {
+        echo $err;
+        exit (10);
+    }
 
-  // install tests addon
-  $manager = rex_addon_manager::factory(rex_addon::get('tests'));
-  $manager->install() || $err .= $manager->getMessage();
-  $manager->activate() || $err .= $manager->getMessage();
+    // install tests addon
+    $manager = rex_addon_manager::factory(rex_addon::get('tests'));
+    $manager->install() || $err .= $manager->getMessage();
+    $manager->activate() || $err .= $manager->getMessage();
 
-  if ($err != '') {
-    echo $err;
-    exit (20);
-  }
+    if ($err != '') {
+        echo $err;
+        exit (20);
+    }
 
-  $config['setup'] = false;
-  if (rex_file::putConfig($configFile, $config)) {
-    echo 'instance setup successfull', PHP_EOL;
-    exit (0);
-  }
-  echo 'instance setup failure', PHP_EOL;
-  exit (1);
+    $config['setup'] = false;
+    if (rex_file::putConfig($configFile, $config)) {
+        echo 'instance setup successfull', PHP_EOL;
+        exit (0);
+    }
+    echo 'instance setup failure', PHP_EOL;
+    exit (1);
 } else {
-  echo 'instance setup not necessary', PHP_EOL;
-  exit (0);
+    echo 'instance setup not necessary', PHP_EOL;
+    exit (0);
 }

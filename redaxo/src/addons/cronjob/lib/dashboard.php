@@ -13,22 +13,22 @@
 
 class rex_cronjob_component extends rex_dashboard_component
 {
-  public function __construct()
-  {
-    parent::__construct('cronjob');
-    $this->setTitle(rex_i18n::msg('cronjob_dashboard_component_title'));
-    $this->setTitleUrl(rex_url::backendPage('cronjob'));
-    $this->setFormat('full');
-    $this->setBlock(rex_i18n::msg('cronjob_dashboard_block'));
-  }
+    public function __construct()
+    {
+        parent::__construct('cronjob');
+        $this->setTitle(rex_i18n::msg('cronjob_dashboard_component_title'));
+        $this->setTitleUrl(rex_url::backendPage('cronjob'));
+        $this->setFormat('full');
+        $this->setBlock(rex_i18n::msg('cronjob_dashboard_block'));
+    }
 
-  public function checkPermission()
-  {
-    return rex::getUser()->isAdmin();
-  }
+    public function checkPermission()
+    {
+        return rex::getUser()->isAdmin();
+    }
 
-  protected function prepare()
-  {
-    $this->setContent(rex_cronjob_log :: getListOfNewestMessages(10));
-  }
+    protected function prepare()
+    {
+        $this->setContent(rex_cronjob_log :: getListOfNewestMessages(10));
+    }
 }

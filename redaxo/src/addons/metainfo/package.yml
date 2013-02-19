@@ -4,14 +4,14 @@ author: 'Markus Staab, Jan Kristinus'
 supportpage: www.redaxo.org/de/forum/
 
 page:
-  title: Meta Infos
-  perm: admin[]
-  subpages:
-    articles: { title: 'translate:articles' }
-    categories: { title: 'translate:categories' }
-    media: { title: 'translate:media' }
+    title: Meta Infos
+    perm: admin[]
+    subpages:
+        articles: { title: 'translate:articles' }
+        categories: { title: 'translate:categories' }
+        media: { title: 'translate:media' }
 
 requires:
-  packages:
-    structure: '~ 5.0 alpha'
-    mediapool: '~ 5.0 alpha'
+    packages:
+        structure: '~ 5.0 alpha'
+        mediapool: '~ 5.0 alpha'

@@ -4,19 +4,19 @@ author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum
 
 page:
-  title: 'translate:title'
-  perm: admin[]
-  block: system
-  prio: 80
-  subpages:
-    packages:
-      title: 'translate:subpage_packages'
-      subpages:
-        update: { title: 'translate:subpage_update' }
-        add: { title: 'translate:subpage_add' }
-        upload: { title: 'translate:subpage_upload' }
-    settings: { title: 'translate:subpage_settings' }
+    title: 'translate:title'
+    perm: admin[]
+    block: system
+    prio: 80
+    subpages:
+        packages:
+            title: 'translate:subpage_packages'
+            subpages:
+                update: { title: 'translate:subpage_update' }
+                add: { title: 'translate:subpage_add' }
+                upload: { title: 'translate:subpage_upload' }
+        settings: { title: 'translate:subpage_settings' }
 
 requires:
-  php:
-    extensions: [phar, zlib]
+    php:
+        extensions: [phar, zlib]

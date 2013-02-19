@@ -24,7 +24,7 @@ $args         = rex_request('args', 'array');
 $arg_url = array('args' => $args);
 $arg_fields = '';
 foreach ($args as $arg_name => $arg_value) {
-  $arg_fields .= '<input type="hidden" name="args[' . $arg_name . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";
+    $arg_fields .= '<input type="hidden" name="args[' . $arg_name . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";
 }
 
 // ----- opener_input_field setzen
@@ -32,8 +32,8 @@ $opener_link = rex_request('opener_link', 'string');
 $opener_input_field = rex_request('opener_input_field', 'string', '');
 
 if ($opener_input_field != '') {
-  $arg_url['opener_input_field'] = $opener_input_field;
-  $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . htmlspecialchars($opener_input_field) . '" />' . "\n";
+    $arg_url['opener_input_field'] = $opener_input_field;
+    $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . htmlspecialchars($opener_input_field) . '" />' . "\n";
 }
 
 // -------------- CatId in Session speichern
@@ -42,26 +42,26 @@ $file_name = rex_request('file_name', 'string');
 $rex_file_category = rex_request('rex_file_category', 'int', -1);
 
 if ($file_name != '') {
-  $sql = rex_sql::factory();
-  $sql->setQuery('select * from ' . rex::getTablePrefix() . "media where filename='$file_name'");
-  if ($sql->getRows() == 1) {
-    $file_id = $sql->getValue('file_id');
-    $rex_file_category = $sql->getValue('category_id');
-  }
+    $sql = rex_sql::factory();
+    $sql->setQuery('select * from ' . rex::getTablePrefix() . "media where filename='$file_name'");
+    if ($sql->getRows() == 1) {
+        $file_id = $sql->getValue('file_id');
+        $rex_file_category = $sql->getValue('category_id');
+    }
 }
 
 if ($rex_file_category == -1) {
-  $rex_file_category = rex_session('media[rex_file_category]', 'int');
+    $rex_file_category = rex_session('media[rex_file_category]', 'int');
 }
 
 
 $gc = rex_sql::factory();
 $gc->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE id=' . $rex_file_category);
 if ($gc->getRows() != 1) {
-  $rex_file_category = 0;
-  $rex_file_category_name = rex_i18n::msg('pool_kats_no');
+    $rex_file_category = 0;
+    $rex_file_category_name = rex_i18n::msg('pool_kats_no');
 } else {
-  $rex_file_category_name = $gc->getValue('name');
+    $rex_file_category_name = $gc->getValue('name');
 }
 
 rex_set_session('media[rex_file_category]', $rex_file_category);
@@ -73,19 +73,19 @@ $PERMALL = rex::getUser()->getComplexPerm('media')->hasCategoryPerm(0);
 $subline = rex_be_controller::getPageObject('mediapool')->getSubpages();
 
 foreach ($subline as $sp) {
-  $sp->setHref(rex_url::backendPage($sp->getFullKey(), $arg_url));
+    $sp->setHref(rex_url::backendPage($sp->getFullKey(), $arg_url));
 }
 
 echo rex_view::title(rex_i18n::msg('pool_media'), $subline);
 
 // -------------- Messages
 if ($info != '') {
-  echo rex_view::info($info);
-  $info = '';
+    echo rex_view::info($info);
+    $info = '';
 }
 if ($warning != '') {
-  echo rex_view::warning($warning);
-  $warning = '';
+    echo rex_view::warning($warning);
+    $warning = '';
 }
 
 // -------------- Javascripts
@@ -95,82 +95,82 @@ if ($warning != '') {
 
 function selectMedia(filename, alt)
 {
-  <?php
-  if ($opener_input_field != '') {
-    echo 'opener.document.getElementById("' . $opener_input_field . '").value = filename;';
-  }
-  ?>
-  self.close();
+    <?php
+    if ($opener_input_field != '') {
+        echo 'opener.document.getElementById("' . $opener_input_field . '").value = filename;';
+    }
+    ?>
+    self.close();
 }
 
 function selectMedialist(filename)
 {
-  <?php
-    if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-      $id = substr($opener_input_field, 14, strlen($opener_input_field));
-      echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
+    <?php
+        if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
+            $id = substr($opener_input_field, 14, strlen($opener_input_field));
+            echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
 
-            var source = opener.document.getElementById(medialist);
-            var sourcelength = source.options.length;
+                        var source = opener.document.getElementById(medialist);
+                        var sourcelength = source.options.length;
 
-            option = opener.document.createElement("OPTION");
-            option.text = filename;
-            option.value = filename;
+                        option = opener.document.createElement("OPTION");
+                        option.text = filename;
+                        option.value = filename;
 
-            source.options.add(option, sourcelength);
-            opener.writeREXMedialist(' . $id . ');';
+                        source.options.add(option, sourcelength);
+                        opener.writeREXMedialist(' . $id . ');';
 
-    }
-  ?>
+        }
+    ?>
 }
 
 function selectMediaListArray(files)
 {
-  <?php
-    if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-      $id = substr($opener_input_field, 14, strlen($opener_input_field));
-      echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
+    <?php
+        if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
+            $id = substr($opener_input_field, 14, strlen($opener_input_field));
+            echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
 
-            var source = opener.document.getElementById(medialist);
-            var sourcelength = source.options.length;
+                        var source = opener.document.getElementById(medialist);
+                        var sourcelength = source.options.length;
 
-            var files = getObjArray(files);
+                        var files = getObjArray(files);
 
-            for(var i = 0; i < files.length; i++)
-            {
-              if (files[i].checked)
-              {
-                option = opener.document.createElement("OPTION");
-                option.text = files[i].value;
-                option.value = files[i].value;
+                        for(var i = 0; i < files.length; i++)
+                        {
+                            if (files[i].checked)
+                            {
+                                option = opener.document.createElement("OPTION");
+                                option.text = files[i].value;
+                                option.value = files[i].value;
 
-                source.options.add(option, sourcelength);
-                sourcelength++;
-              }
-            }
+                                source.options.add(option, sourcelength);
+                                sourcelength++;
+                            }
+                        }
 
-            opener.writeREXMedialist(' . $id . ');';
+                        opener.writeREXMedialist(' . $id . ');';
 
-    }
-  ?>
+        }
+    ?>
 }
 
 function insertImage(src,alt)
 {
-  window.opener.insertImage("<?php echo rex_url::media(); ?>" + src, alt);
-  self.close();
+    window.opener.insertImage("<?php echo rex_url::media(); ?>" + src, alt);
+    self.close();
 }
 
 function insertLink(src)
 {
-  window.opener.insertFileLink("<?php echo rex_url::media(); ?>" + src);
-  self.close();
+    window.opener.insertFileLink("<?php echo rex_url::media(); ?>" + src);
+    self.close();
 }
 
 function openPage(src)
 {
-  window.opener.location.href = src;
-  self.close();
+    window.opener.location.href = src;
+    self.close();
 }
 
 //-->

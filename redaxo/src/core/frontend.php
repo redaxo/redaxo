@@ -6,7 +6,7 @@
  */
 
 if (rex::isSetup()) {
-  rex_response::sendRedirect(rex_url::backendController());
+    rex_response::sendRedirect(rex_url::backendController());
 }
 
 // ----- INCLUDE ADDONS
@@ -20,9 +20,9 @@ ob_end_clean();
 rex_api_function::handleCall();
 
 if (rex_extension::isRegistered('FE_OUTPUT')) {
-  // ----- EXTENSION POINT
-  rex_extension::registerPoint('FE_OUTPUT', $CONTENT);
+    // ----- EXTENSION POINT
+    rex_extension::registerPoint('FE_OUTPUT', $CONTENT);
 } else {
-  // ----- inhalt ausgeben
-  rex_response::sendPage($CONTENT);
+    // ----- inhalt ausgeben
+    rex_response::sendPage($CONTENT);
 }

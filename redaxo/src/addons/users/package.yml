@@ -6,10 +6,10 @@ supportpage: www.redaxo.org/de/forum/
 load: early
 
 page:
-  title: 'translate:users'
-  perm: users[]
-  block: system
-  prio: 50
-  subpages:
-    users: { title: 'translate:users' }
-    roles: { title: 'translate:roles', perm: admin }
+    title: 'translate:users'
+    perm: users[]
+    block: system
+    prio: 50
+    subpages:
+        users: { title: 'translate:users' }
+        roles: { title: 'translate:roles', perm: admin }

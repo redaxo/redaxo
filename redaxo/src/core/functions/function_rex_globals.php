@@ -10,7 +10,7 @@
  */
 function rex_get($varname, $vartype = '', $default = '')
 {
-  return rex_request::get($varname, $vartype, $default);
+    return rex_request::get($varname, $vartype, $default);
 }
 
 /**
@@ -18,7 +18,7 @@ function rex_get($varname, $vartype = '', $default = '')
  */
 function rex_post($varname, $vartype = '', $default = '')
 {
-  return rex_request::post($varname, $vartype, $default);
+    return rex_request::post($varname, $vartype, $default);
 }
 
 /**
@@ -26,7 +26,7 @@ function rex_post($varname, $vartype = '', $default = '')
  */
 function rex_request($varname, $vartype = '', $default = '')
 {
-  return rex_request::request($varname, $vartype, $default);
+    return rex_request::request($varname, $vartype, $default);
 }
 
 /**
@@ -34,7 +34,7 @@ function rex_request($varname, $vartype = '', $default = '')
  */
 function rex_server($varname, $vartype = '', $default = '')
 {
-  return rex_request::server($varname, $vartype, $default);
+    return rex_request::server($varname, $vartype, $default);
 }
 
 /**
@@ -42,7 +42,7 @@ function rex_server($varname, $vartype = '', $default = '')
  */
 function rex_session($varname, $vartype = '', $default = '')
 {
-  return rex_request::session($varname, $vartype, $default);
+    return rex_request::session($varname, $vartype, $default);
 }
 
 /**
@@ -50,7 +50,7 @@ function rex_session($varname, $vartype = '', $default = '')
  */
 function rex_set_session($varname, $value)
 {
-  rex_request::setSession($varname, $value);
+    rex_request::setSession($varname, $value);
 }
 
 /**
@@ -58,7 +58,7 @@ function rex_set_session($varname, $value)
  */
 function rex_unset_session($varname)
 {
-  rex_request::unsetSession($varname);
+    rex_request::unsetSession($varname);
 }
 
 /**
@@ -66,7 +66,7 @@ function rex_unset_session($varname)
  */
 function rex_cookie($varname, $vartype = '', $default = '')
 {
-  return rex_request::cookie($varname, $vartype, $default);
+    return rex_request::cookie($varname, $vartype, $default);
 }
 
 /**
@@ -74,7 +74,7 @@ function rex_cookie($varname, $vartype = '', $default = '')
  */
 function rex_files($varname, $vartype = '', $default = '')
 {
-  return rex_request::files($varname, $vartype, $default);
+    return rex_request::files($varname, $vartype, $default);
 }
 
 /**
@@ -82,7 +82,7 @@ function rex_files($varname, $vartype = '', $default = '')
  */
 function rex_env($varname, $vartype = '', $default = '')
 {
-  return rex_request::env($varname, $vartype, $default);
+    return rex_request::env($varname, $vartype, $default);
 }
 
 /**
@@ -90,5 +90,5 @@ function rex_env($varname, $vartype = '', $default = '')
  */
 function rex_request_method()
 {
-  return rex_request::requestMethod();
+    return rex_request::requestMethod();
 }

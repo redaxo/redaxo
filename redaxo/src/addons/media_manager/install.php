@@ -11,5 +11,5 @@
  */
 
 if (!$this->hasConfig('jpg_quality')) {
-  $this->setConfig('jpg_quality', 85);
+    $this->setConfig('jpg_quality', 85);
 }

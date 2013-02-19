@@ -11,56 +11,56 @@
 
 function rex_a656_rss_teaser($feedUrl, $numItems = 5)
 {
-  $feed = new rex_rss_reader($feedUrl);
-  $encoding = $feed->get_encoding();
-  $title = rex_a656_convert($feed->get_title(), $encoding);
+    $feed = new rex_rss_reader($feedUrl);
+    $encoding = $feed->get_encoding();
+    $title = rex_a656_convert($feed->get_title(), $encoding);
 
-  $s = '';
-  $s .= '<div class="rex-rss-feed">
-           <h3>' . htmlspecialchars($title) . '</h3>
-           <ul>';
+    $s = '';
+    $s .= '<div class="rex-rss-feed">
+                     <h3>' . htmlspecialchars($title) . '</h3>
+                     <ul>';
 
-  foreach ($feed->get_items(0, $numItems) as $item) {
-    $s .= '
-        <li>
-            <a href="' . $item->get_permalink() . '" onclick="window.open(this.href); return false;">
-              <span>' . rex_a656_convert($item->get_date('d.m.Y H:i'), $encoding) . '</span>
-              ' . rex_a656_convert($item->get_title(), $encoding) .
-            '</a>
-        </li>';
-  }
+    foreach ($feed->get_items(0, $numItems) as $item) {
+        $s .= '
+                <li>
+                        <a href="' . $item->get_permalink() . '" onclick="window.open(this.href); return false;">
+                            <span>' . rex_a656_convert($item->get_date('d.m.Y H:i'), $encoding) . '</span>
+                            ' . rex_a656_convert($item->get_title(), $encoding) .
+                        '</a>
+                </li>';
+    }
 
-  $s .= '</ul>
-  </div>';
+    $s .= '</ul>
+    </div>';
 
-  unset($feed);
+    unset($feed);
 
-  return $s;
+    return $s;
 }
 
 function rex_a656_convert($string, $sourceEncoding)
 {
-  static $transTables = array();
+    static $transTables = array();
 
-  if (!isset($transTables[$sourceEncoding])) {
-    // trans-table damit unabhaengig von feed/backend encoding sonderzeichen richtig dargestellt werden
-    $allEntities = get_html_translation_table(HTML_ENTITIES, ENT_NOQUOTES);
-    $specialEntities = get_html_translation_table(HTML_SPECIALCHARS, ENT_NOQUOTES);
-    $noTags = array_diff($allEntities, $specialEntities);
+    if (!isset($transTables[$sourceEncoding])) {
+        // trans-table damit unabhaengig von feed/backend encoding sonderzeichen richtig dargestellt werden
+        $allEntities = get_html_translation_table(HTML_ENTITIES, ENT_NOQUOTES);
+        $specialEntities = get_html_translation_table(HTML_SPECIALCHARS, ENT_NOQUOTES);
+        $noTags = array_diff($allEntities, $specialEntities);
 
-    if ($sourceEncoding == 'UTF-8') {
-      //konvertiere trans-table nach utf8
-      foreach ($noTags as $charkey => $char) {
-        // jedes zeichen nach utf8 kodieren
-        $noTags[utf8_encode($charkey)] = utf8_encode($char);
-        // uebrig gebliebenes iso zeichen entfernen
-        unset($noTags[$charkey]);
-      }
+        if ($sourceEncoding == 'UTF-8') {
+            //konvertiere trans-table nach utf8
+            foreach ($noTags as $charkey => $char) {
+                // jedes zeichen nach utf8 kodieren
+                $noTags[utf8_encode($charkey)] = utf8_encode($char);
+                // uebrig gebliebenes iso zeichen entfernen
+                unset($noTags[$charkey]);
+            }
+        }
+
+        $transTables[$sourceEncoding] = $noTags;
     }
 
-    $transTables[$sourceEncoding] = $noTags;
-  }
-
-  return strtr($string, $transTables[$sourceEncoding]);
+    return strtr($string, $transTables[$sourceEncoding]);
 
 }

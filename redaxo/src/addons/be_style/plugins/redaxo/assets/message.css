@@ -1,87 +1,87 @@
 /*
 
-  ### Error
+    ### Error
 
-    <div class="rex-message rex-error">
-      <div class="rex-message-inner">
-      Formular wurde nicht richtig ausgef√ºllt
-      </div>
-    </div>
-
-
-  ### Info
-
-    <div class="rex-message rex-info">
-      <div class="rex-message-inner">
-      Hinweis: REDAXO 5 erst ab 2014
-      </div>
-    </div>
+        <div class="rex-message rex-error">
+            <div class="rex-message-inner">
+            Formular wurde nicht richtig ausgef√ºllt
+            </div>
+        </div>
 
 
-  ### Success
+    ### Info
 
-    <div class="rex-message rex-success">
-      <div class="rex-message-inner">
-      Kategorie hinzugef√ºgt und Startartikel erstellt!
-      </div>
-    </div>
+        <div class="rex-message rex-info">
+            <div class="rex-message-inner">
+            Hinweis: REDAXO 5 erst ab 2014
+            </div>
+        </div>
 
 
-  ### Warning
+    ### Success
 
-    <div class="rex-message rex-warning">
-      <div class="rex-message-inner">
-      Kategorie konnte nicht gel√∂scht werden!
-      </div>
-    </div>
+        <div class="rex-message rex-success">
+            <div class="rex-message-inner">
+            Kategorie hinzugef√ºgt und Startartikel erstellt!
+            </div>
+        </div>
+
+
+    ### Warning
+
+        <div class="rex-message rex-warning">
+            <div class="rex-message-inner">
+            Kategorie konnte nicht gel√∂scht werden!
+            </div>
+        </div>
 
 */
 
 .rex-message {
-  clear: both;
-  padding: 3px;
-  margin: 10px 0;
-  border-radius: 3px;
-  background-color: #dfe8e8;
+    clear: both;
+    padding: 3px;
+    margin: 10px 0;
+    border-radius: 3px;
+    background-color: #dfe8e8;
 }
 tr .rex-message {
-  margin: -6px -10px;
-  padding: 0;
+    margin: -6px -10px;
+    padding: 0;
 }
 
 .rex-form .rex-message {
-  display: inline-block;
-  margin-top: 0;
-  border-top-width: 0;
-  border-top-right-radius: 0;
-  font-size: 11px;
+    display: inline-block;
+    margin-top: 0;
+    border-top-width: 0;
+    border-top-right-radius: 0;
+    font-size: 11px;
 }
 
 .rex-message-inner {
-  padding: 5px 10px;
-  border: 1px solid #d9dfe3;
+    padding: 5px 10px;
+    border: 1px solid #d9dfe3;
 }
 
 .rex-form .rex-error,
 .rex-error .rex-message-inner {
-  background-color: #ffeaea;
-  color: #900;
+    background-color: #ffeaea;
+    color: #900;
 }
 
 .rex-form .rex-info,
 .rex-info .rex-message-inner {
-  background-color: #bde5f8;
-  color: #00529b;
+    background-color: #bde5f8;
+    color: #00529b;
 }
 
 .rex-form .rex-success,
 .rex-success .rex-message-inner {
-  background-color: #dff2bf;
-  color: #4f8a10;
+    background-color: #dff2bf;
+    color: #4f8a10;
 }
 
 .rex-form .rex-warning,
 .rex-warning .rex-message-inner {
-  background-color: #feefb3;
-  color: #9f6000;
+    background-color: #feefb3;
+    color: #9f6000;
 }

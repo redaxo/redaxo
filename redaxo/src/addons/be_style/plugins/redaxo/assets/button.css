@@ -1,255 +1,255 @@
 /*
-  ### Button
+    ### Button
 
-    <button class="rex-button">Button (button.rex-button)</button>
+        <button class="rex-button">Button (button.rex-button)</button>
 
-    <a href="#" class="rex-button">Button (a.rex-button)</a>
+        <a href="#" class="rex-button">Button (a.rex-button)</a>
 
-    <a href="#" class="rex-button rex-disabled">Button (a.rex-button.rex-disabled)</a>
+        <a href="#" class="rex-button rex-disabled">Button (a.rex-button.rex-disabled)</a>
 
 
-  #### Large
+    #### Large
 
-    <button class="rex-button rex-large">Button (button.rex-large)</button>
+        <button class="rex-button rex-large">Button (button.rex-large)</button>
 
-    <a href="#" class="rex-button rex-large">Button (a.rex-large)</a>
+        <a href="#" class="rex-button rex-large">Button (a.rex-large)</a>
 
-    <a href="#" class="rex-button rex-large rex-disabled">Button (a.rex-large)</a>
+        <a href="#" class="rex-button rex-large rex-disabled">Button (a.rex-large)</a>
 
 
-  ### Danger
+    ### Danger
 
-    <button href="#" class="rex-button rex-danger">Button (button.rex-button.rex-danger)</button>
+        <button href="#" class="rex-button rex-danger">Button (button.rex-button.rex-danger)</button>
 
-    <a href="#" class="rex-button rex-danger">Button (a.rex-button.rex-danger)</a>
+        <a href="#" class="rex-button rex-danger">Button (a.rex-button.rex-danger)</a>
 
-    <a href="#" class="rex-button rex-danger rex-disabled">Button (a.rex-button.rex-danger.rex-disabled)</a>
+        <a href="#" class="rex-button rex-danger rex-disabled">Button (a.rex-button.rex-danger.rex-disabled)</a>
 
 
-  #### Large
+    #### Large
 
-    <button href="#" class="rex-button rex-large rex-danger">Button (button.rex-large)</button>
+        <button href="#" class="rex-button rex-large rex-danger">Button (button.rex-large)</button>
 
-    <a href="#" class="rex-button rex-large rex-danger">Button (a.rex-large</a>
+        <a href="#" class="rex-button rex-large rex-danger">Button (a.rex-large</a>
 
-    <a href="#" class="rex-button rex-large rex-danger rex-disabled">Button (a.rex-large)</a>
+        <a href="#" class="rex-button rex-large rex-danger rex-disabled">Button (a.rex-large)</a>
 
 
-  ### Primary
+    ### Primary
 
-    <button href="#" class="rex-button rex-primary">Button (button.rex-button.rex-primary)</button>
+        <button href="#" class="rex-button rex-primary">Button (button.rex-button.rex-primary)</button>
 
-    <a href="#" class="rex-button rex-primary">Button (a.rex-button.rex-primary)</a>
+        <a href="#" class="rex-button rex-primary">Button (a.rex-button.rex-primary)</a>
 
-    <a href="#" class="rex-button rex-primary rex-disabled">Button (a.rex-button.rex-primary.rex-disabled)</a>
+        <a href="#" class="rex-button rex-primary rex-disabled">Button (a.rex-button.rex-primary.rex-disabled)</a>
 
 
-  #### Large
+    #### Large
 
-    <button href="#" class="rex-button rex-large rex-primary">Button (button.rex-large)</button>
+        <button href="#" class="rex-button rex-large rex-primary">Button (button.rex-large)</button>
 
-    <a href="#" class="rex-button rex-large rex-primary">Button (a.rex-large)</a>
+        <a href="#" class="rex-button rex-large rex-primary">Button (a.rex-large)</a>
 
-    <a href="#" class="rex-button rex-large rex-primary rex-disabled">Button (a.rex-large)</a>
+        <a href="#" class="rex-button rex-large rex-primary rex-disabled">Button (a.rex-large)</a>
 
 
-  ### Submit
+    ### Submit
 
-    <button type="submit" class="rex-button">Submit Button</button>
+        <button type="submit" class="rex-button">Submit Button</button>
 
-    <span class="rex-form-action">
-      <button type="submit" class="rex-button">Submit Button</button>
-    </span>
+        <span class="rex-form-action">
+            <button type="submit" class="rex-button">Submit Button</button>
+        </span>
 
 
-  ### Button Gruppe
+    ### Button Gruppe
 
-    <span class="rex-button-group">
-      <a href="#" class="rex-button">Jan</a>
-      <a href="#" class="rex-button">Kai</a>
-      <a href="#" class="rex-button">Ralph</a>
-    </span>
+        <span class="rex-button-group">
+            <a href="#" class="rex-button">Jan</a>
+            <a href="#" class="rex-button">Kai</a>
+            <a href="#" class="rex-button">Ralph</a>
+        </span>
 
 
-  ### Button Gruppen
+    ### Button Gruppen
 
-    <div class="rex-button-groups">
-      <span class="rex-button-group">
-        <a href="#" class="rex-button">1</a>
-        <a href="#" class="rex-button">2</a>
-        <a href="#" class="rex-button">3</a>
-      </span>
+        <div class="rex-button-groups">
+            <span class="rex-button-group">
+                <a href="#" class="rex-button">1</a>
+                <a href="#" class="rex-button">2</a>
+                <a href="#" class="rex-button">3</a>
+            </span>
 
-      <span class="rex-button-group">
-        <a href="#" class="rex-button">11</a>
-        <a href="#" class="rex-button rex-disabled">12</a>
-        <a href="#" class="rex-button">13</a>
-      </span>
+            <span class="rex-button-group">
+                <a href="#" class="rex-button">11</a>
+                <a href="#" class="rex-button rex-disabled">12</a>
+                <a href="#" class="rex-button">13</a>
+            </span>
 
-      <span class="rex-button-group">
-        <a href="#" class="rex-button">21</a>
-        <a href="#" class="rex-button">22</a>
-        <a href="#" class="rex-button">23</a>
-      </span>
-    </div>
+            <span class="rex-button-group">
+                <a href="#" class="rex-button">21</a>
+                <a href="#" class="rex-button">22</a>
+                <a href="#" class="rex-button">23</a>
+            </span>
+        </div>
 
 
-  ### Button Gruppen als Pagination
+    ### Button Gruppen als Pagination
 
-    <div class="rex-button-groups rex-pagination">
-      <span class="rex-button-group">
-        <a href="#" class="rex-button rex-icon rex-icon-first"></a>
-        <a href="#" class="rex-button rex-icon rex-icon-previous"></a>
-      </span>
-
-      <span class="rex-button-group">
-        <a href="#" class="rex-button">1</a>
-        <a href="#" class="rex-button">2</a>
-        <a href="#" class="rex-button">3</a>
-      </span>
-
-      <span class="rex-button-group">
-        <a href="#" class="rex-button">11</a>
-        <a href="#" class="rex-button rex-disabled">12</a>
-        <a href="#" class="rex-button">13</a>
-      </span>
-
-      <span class="rex-button-group">
-        <a href="#" class="rex-button">21</a>
-        <a href="#" class="rex-button">22</a>
-        <a href="#" class="rex-button">23</a>
-      </span>
-
-      <span class="rex-button-group">
-        <a href="#" class="rex-button rex-icon rex-icon-next"></a>
-        <a href="#" class="rex-button rex-icon rex-icon-last"></a>
-      </span>
-    </div>
-
-
-  ### Button Gruppe vertikal
-
-    <span class="rex-button-vgroup">
-      <a href="#" class="rex-button">Jan</a>
-      <a href="#" class="rex-button">Kai</a>
-      <a href="#" class="rex-button">Ralph</a>
-    </span>
-
-
-  ### Widget REX_MEDIA
-
-    <span class="rex-button-group">
-      <a href="#" class="rex-button rex-icon rex-icon-open-mediapool"></a>
-      <a href="#" class="rex-button rex-icon rex-icon-add-media"></a>
-      <a href="#" class="rex-button rex-icon rex-icon-delete-media"></a>
-      <a href="#" class="rex-button rex-icon rex-icon-view-media"></a>
-    </span>
-
-
-  ### Widget REX_MEDIALIST
-
-    <span class="rex-button-vgroup">
-      <a href="#" class="rex-button rex-icon rex-icon-top"></a>
-      <a href="#" class="rex-button rex-icon rex-icon-up"></a>
-      <a href="#" class="rex-button rex-icon rex-icon-down"></a>
-      <a href="#" class="rex-button rex-icon rex-icon-bottom"></a>
-    </span>
-
-    <span class="rex-button-group">
-      <a href="#" class="rex-button rex-icon rex-icon-open-mediapool"></a>
-      <a href="#" class="rex-button rex-icon rex-icon-add-media"></a>
-      <a href="#" class="rex-button rex-icon rex-icon-delete-media"></a>
-      <a href="#" class="rex-button rex-icon rex-icon-view-media"></a>
-    </span>
-
-
-  ### Widget REX_LINK
-
-    <span class="rex-button-group">
-      <a href="#" class="rex-button rex-icon rex-icon-open-linkmap"></a>
-      <a href="#" class="rex-button rex-icon rex-icon-delete-link"></a>
-    </span>
-
-
-  ### Widget REX_LINKLIST
-
-    <span class="rex-button-vgroup">
-      <a href="#" class="rex-button rex-icon rex-icon-top"></a>
-      <a href="#" class="rex-button rex-icon rex-icon-up"></a>
-      <a href="#" class="rex-button rex-icon rex-icon-down"></a>
-      <a href="#" class="rex-button rex-icon rex-icon-bottom"></a>
-    </span>
-
-    <span class="rex-button-group">
-      <a href="#" class="rex-button rex-icon rex-icon-open-linkmap"></a>
-      <a href="#" class="rex-button rex-icon rex-icon-delete-link"></a>
-    </span>
+        <div class="rex-button-groups rex-pagination">
+            <span class="rex-button-group">
+                <a href="#" class="rex-button rex-icon rex-icon-first"></a>
+                <a href="#" class="rex-button rex-icon rex-icon-previous"></a>
+            </span>
+
+            <span class="rex-button-group">
+                <a href="#" class="rex-button">1</a>
+                <a href="#" class="rex-button">2</a>
+                <a href="#" class="rex-button">3</a>
+            </span>
+
+            <span class="rex-button-group">
+                <a href="#" class="rex-button">11</a>
+                <a href="#" class="rex-button rex-disabled">12</a>
+                <a href="#" class="rex-button">13</a>
+            </span>
+
+            <span class="rex-button-group">
+                <a href="#" class="rex-button">21</a>
+                <a href="#" class="rex-button">22</a>
+                <a href="#" class="rex-button">23</a>
+            </span>
+
+            <span class="rex-button-group">
+                <a href="#" class="rex-button rex-icon rex-icon-next"></a>
+                <a href="#" class="rex-button rex-icon rex-icon-last"></a>
+            </span>
+        </div>
+
+
+    ### Button Gruppe vertikal
+
+        <span class="rex-button-vgroup">
+            <a href="#" class="rex-button">Jan</a>
+            <a href="#" class="rex-button">Kai</a>
+            <a href="#" class="rex-button">Ralph</a>
+        </span>
+
+
+    ### Widget REX_MEDIA
+
+        <span class="rex-button-group">
+            <a href="#" class="rex-button rex-icon rex-icon-open-mediapool"></a>
+            <a href="#" class="rex-button rex-icon rex-icon-add-media"></a>
+            <a href="#" class="rex-button rex-icon rex-icon-delete-media"></a>
+            <a href="#" class="rex-button rex-icon rex-icon-view-media"></a>
+        </span>
+
+
+    ### Widget REX_MEDIALIST
+
+        <span class="rex-button-vgroup">
+            <a href="#" class="rex-button rex-icon rex-icon-top"></a>
+            <a href="#" class="rex-button rex-icon rex-icon-up"></a>
+            <a href="#" class="rex-button rex-icon rex-icon-down"></a>
+            <a href="#" class="rex-button rex-icon rex-icon-bottom"></a>
+        </span>
+
+        <span class="rex-button-group">
+            <a href="#" class="rex-button rex-icon rex-icon-open-mediapool"></a>
+            <a href="#" class="rex-button rex-icon rex-icon-add-media"></a>
+            <a href="#" class="rex-button rex-icon rex-icon-delete-media"></a>
+            <a href="#" class="rex-button rex-icon rex-icon-view-media"></a>
+        </span>
+
+
+    ### Widget REX_LINK
+
+        <span class="rex-button-group">
+            <a href="#" class="rex-button rex-icon rex-icon-open-linkmap"></a>
+            <a href="#" class="rex-button rex-icon rex-icon-delete-link"></a>
+        </span>
+
+
+    ### Widget REX_LINKLIST
+
+        <span class="rex-button-vgroup">
+            <a href="#" class="rex-button rex-icon rex-icon-top"></a>
+            <a href="#" class="rex-button rex-icon rex-icon-up"></a>
+            <a href="#" class="rex-button rex-icon rex-icon-down"></a>
+            <a href="#" class="rex-button rex-icon rex-icon-bottom"></a>
+        </span>
+
+        <span class="rex-button-group">
+            <a href="#" class="rex-button rex-icon rex-icon-open-linkmap"></a>
+            <a href="#" class="rex-button rex-icon rex-icon-delete-link"></a>
+        </span>
 
 */
 .rex-button {
-  position: relative;
-  display: inline-block;
-  padding: 0 10px;
-  white-space: nowrap;
-  background-color: #dfe8e8;
-  background-image: -moz-linear-gradient(#f2f5f6, #dfe8e8);
-  background-image: -webkit-linear-gradient(#f2f5f6, #dfe8e8);
-  background-image: linear-gradient(#f2f5f6, #dfe8e8);
-  background-repeat: repeat-x;
-  border-radius: 3px;
-  border: 1px solid #d9dfe3;
-  box-sizing: border-box;
-  vertical-align: middle;
-  cursor: pointer;
+    position: relative;
+    display: inline-block;
+    padding: 0 10px;
+    white-space: nowrap;
+    background-color: #dfe8e8;
+    background-image: -moz-linear-gradient(#f2f5f6, #dfe8e8);
+    background-image: -webkit-linear-gradient(#f2f5f6, #dfe8e8);
+    background-image: linear-gradient(#f2f5f6, #dfe8e8);
+    background-repeat: repeat-x;
+    border-radius: 3px;
+    border: 1px solid #d9dfe3;
+    box-sizing: border-box;
+    vertical-align: middle;
+    cursor: pointer;
 
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 
-  color: #607890;
-  font-size: 13px;
-  font-weight: bold;
-  line-height: 24px;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+    color: #607890;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 24px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.9);
 }
 
 .rex-button:hover {
-  background-color: #3c4f58;
-  background-image: -moz-linear-gradient(#72909a, #3c4f58);
-  background-image: -webkit-linear-gradient(#72909a, #3c4f58);
-  background-image: linear-gradient(#72909a, #3c4f58);
-  background-repeat: repeat-x;
-  border-color: #3c4f58;
-  color: #fff;
-  text-decoration: none;
-  text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+    background-color: #3c4f58;
+    background-image: -moz-linear-gradient(#72909a, #3c4f58);
+    background-image: -webkit-linear-gradient(#72909a, #3c4f58);
+    background-image: linear-gradient(#72909a, #3c4f58);
+    background-repeat: repeat-x;
+    border-color: #3c4f58;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
 }
 .rex-button:active,
 .rex-open > .rex-button,
 .rex-open > .rex-button:hover {
-  background-color: #293a41;
-  background-image: -moz-linear-gradient(#3c4f58, #293a41);
-  background-image: -webkit-linear-gradient(#3c4f58, #293a41);
-  background-image: linear-gradient(#3c4f58, #293a41);
-  background-repeat: repeat-x;
-  border-color: #293a41;
-  color: #fff;
-  text-decoration: none;
-  text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+    background-color: #293a41;
+    background-image: -moz-linear-gradient(#3c4f58, #293a41);
+    background-image: -webkit-linear-gradient(#3c4f58, #293a41);
+    background-image: linear-gradient(#3c4f58, #293a41);
+    background-repeat: repeat-x;
+    border-color: #293a41;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
 }
 
 .rex-button-group .rex-button:hover,
 .rex-button-group .rex-button:active,
 .rex-button-vgroup .rex-button:hover,
 .rex-button-vgroup .rex-button:active {
-  background: none;
-  background-color: #dfe8e8;
-  border-color: #d9dfe3;
-  color: #036;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+    background: none;
+    background-color: #dfe8e8;
+    border-color: #d9dfe3;
+    color: #036;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.9);
 }
 
 .rex-button:disabled,
@@ -264,13 +264,13 @@
 .rex-button.rex-primary:disabled:hover,
 .rex-button.rex-primary.rex-disabled,
 .rex-button.rex-primary.rex-disabled:hover {
-  opacity: .5;
-  color: #666;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.9);
-  background-image: none;
-  background-color: #dfe8e8;
-  border-color: #d9dfe3;
-  cursor: default;
+    opacity: .5;
+    color: #666;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+    background-image: none;
+    background-color: #dfe8e8;
+    border-color: #d9dfe3;
+    cursor: default;
 }
 .rex-button-group .rex-button:disabled,
 .rex-button-group .rex-button:disabled:hover,
@@ -280,13 +280,13 @@
 .rex-button-vgroup .rex-button:disabled:hover,
 .rex-button-vgroup .rex-button.rex-disabled,
 .rex-button-vgroup .rex-button.rex-disabled:hover {
-  opacity: 1;
+    opacity: 1;
 }
 
 
 .rex-button.rex-large,
 .rex-form-action .rex-button[type="submit"] {
-  padding: 5px 15px;
+    padding: 5px 15px;
 }
 
 .rex-button.rex-danger,
@@ -294,23 +294,23 @@
 .rex-button.rex-danger:disabled:hover,
 .rex-button.rex-danger.rex-disabled,
 .rex-button.rex-danger.rex-disabled:hover {
-  color: #900;
+    color: #900;
 }
 .rex-button.rex-danger:hover {
-  background-color: #a31919;
-  background-image: -moz-linear-gradient(#cc7f7f, #a31919);
-  background-image: -webkit-linear-gradient(#cc7f7f, #a31919);
-  background-image: linear-gradient(#cc7f7f, #a31919);
-  border-color: #900;
-  color: #fff;
+    background-color: #a31919;
+    background-image: -moz-linear-gradient(#cc7f7f, #a31919);
+    background-image: -webkit-linear-gradient(#cc7f7f, #a31919);
+    background-image: linear-gradient(#cc7f7f, #a31919);
+    border-color: #900;
+    color: #fff;
 }
 .rex-button.rex-danger:active {
-  background-color: #900;
-  background-image: -moz-linear-gradient(#a31919, #900);
-  background-image: -webkit-linear-gradient(#a31919, #900);
-  background-image: linear-gradient(#a31919, #900);
-  border-color: #900;
-  color: #fff;
+    background-color: #900;
+    background-image: -moz-linear-gradient(#a31919, #900);
+    background-image: -webkit-linear-gradient(#a31919, #900);
+    background-image: linear-gradient(#a31919, #900);
+    border-color: #900;
+    color: #fff;
 }
 
 .rex-button.rex-primary,
@@ -318,101 +318,101 @@
 .rex-button.rex-primary:disabled:hover,
 .rex-button.rex-primary.rex-disabled,
 .rex-button.rex-primary.rex-disabled:hover {
-  background-color: #293a41;
-  background-image: -moz-linear-gradient(#72909a, #293a41);
-  background-image: -webkit-linear-gradient(#72909a, #293a41);
-  background-image: linear-gradient(#72909a, #293a41);
-  background-repeat: repeat-x;
-  border-color: #293a41;
-  color: #fff;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #293a41;
+    background-image: -moz-linear-gradient(#72909a, #293a41);
+    background-image: -webkit-linear-gradient(#72909a, #293a41);
+    background-image: linear-gradient(#72909a, #293a41);
+    background-repeat: repeat-x;
+    border-color: #293a41;
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
 }
 .rex-button.rex-primary:hover {
-  background-color: #293a41;
-  background-image: -moz-linear-gradient(#72909a, #3c4f58);
-  background-image: -webkit-linear-gradient(#72909a, #3c4f58);
-  background-image: linear-gradient(#72909a, #3c4f58);
-  background-repeat: repeat-x;
-  border-color: #3c4f58;
-  color: #fff;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #293a41;
+    background-image: -moz-linear-gradient(#72909a, #3c4f58);
+    background-image: -webkit-linear-gradient(#72909a, #3c4f58);
+    background-image: linear-gradient(#72909a, #3c4f58);
+    background-repeat: repeat-x;
+    border-color: #3c4f58;
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
 }
 .rex-button.rex-primary:active {
-  background-color: #3c4f58;
-  background-image: -moz-linear-gradient(#293a41, #3c4f58);
-  background-image: -webkit-linear-gradient(#293a41, #3c4f58);
-  background-image: linear-gradient(#293a41, #3c4f58);
-  border-color: #293a41;
-  color: #fff;
+    background-color: #3c4f58;
+    background-image: -moz-linear-gradient(#293a41, #3c4f58);
+    background-image: -webkit-linear-gradient(#293a41, #3c4f58);
+    background-image: linear-gradient(#293a41, #3c4f58);
+    border-color: #293a41;
+    color: #fff;
 }
 
 
 .rex-button i {
-  font-style: normal;
-  font-weight: normal;
-  opacity: .7;
+    font-style: normal;
+    font-weight: normal;
+    opacity: .7;
 }
 .rex-drop-button i:after {
-  content: ":";
+    content: ":";
 }
 
 .rex-button ~ .rex-button {
-  margin-left: 10px;
+    margin-left: 10px;
 }
 
 
 .rex-button-group {
-  display: inline-block;
-  font-size: 0px;
-  vertical-align: middle;
+    display: inline-block;
+    font-size: 0px;
+    vertical-align: middle;
 }
 .rex-button-group .rex-button {
-  border-radius: 0;
-  margin: 0;
+    border-radius: 0;
+    margin: 0;
 }
 .rex-button-group .rex-button ~ .rex-button {
-  border-left-width: 0;
+    border-left-width: 0;
 }
 .rex-button-group .rex-button ~ .rex-button:hover {
-  position: relative;
-  margin-left: -1px;
-  border-width: 1px;
+    position: relative;
+    margin-left: -1px;
+    border-width: 1px;
 }
 .rex-button-group .rex-button:first-child {
-  border-bottom-left-radius: 3px;
-  border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
 }
 .rex-button-group .rex-button:last-child,
 .rex-button-group .rex-button.rex-drop-button {
-  border-bottom-right-radius: 3px;
-  border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
 }
 
 
 .rex-button-vgroup {
-  display: inline-block;
-  font-size: 0px;
-  vertical-align: middle;
+    display: inline-block;
+    font-size: 0px;
+    vertical-align: middle;
 }
 .rex-button-vgroup .rex-button {
-  display: block;
-  border-radius: 0;
-  margin: 0;
-  text-align: center;
+    display: block;
+    border-radius: 0;
+    margin: 0;
+    text-align: center;
 }
 .rex-button-vgroup .rex-button ~ .rex-button {
-  border-top-width: 0;
+    border-top-width: 0;
 }
 .rex-button-vgroup .rex-button ~ .rex-button:hover {
-  position: relative;
-  margin-top: -1px;
-  border-width: 1px;
+    position: relative;
+    margin-top: -1px;
+    border-width: 1px;
 }
 .rex-button-vgroup .rex-button:first-child {
-  border-top-right-radius: 3px;
-  border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
 }
 .rex-button-vgroup .rex-button:last-child {
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }

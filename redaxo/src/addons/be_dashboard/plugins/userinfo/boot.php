@@ -13,24 +13,24 @@ $mypage = 'userinfo';
 
 // im backend und eingeloggt?
 if (rex::isBackend() && rex::getUser()) {
-  if (rex_request('page', 'string') == 'be_dashboard') {
-    if (!defined('REX_DASHBOARD_USERINFO_DEFAULT_LIMIT')) {
-      define('REX_DASHBOARD_USERINFO_DEFAULT_LIMIT', 7);
+    if (rex_request('page', 'string') == 'be_dashboard') {
+        if (!defined('REX_DASHBOARD_USERINFO_DEFAULT_LIMIT')) {
+            define('REX_DASHBOARD_USERINFO_DEFAULT_LIMIT', 7);
+        }
+
+        require_once __DIR__ . '/functions/function_userinfo.php';
+
+        $components = array(
+            'rex_articles_component',
+            'rex_media_component',
+            'rex_stats_component',
+        );
+
+        foreach ($components as $compClass) {
+            rex_extension::register(
+                'DASHBOARD_COMPONENT',
+                array(new $compClass(), 'registerAsExtension')
+            );
+        }
     }
-
-    require_once __DIR__ . '/functions/function_userinfo.php';
-
-    $components = array(
-      'rex_articles_component',
-      'rex_media_component',
-      'rex_stats_component',
-    );
-
-    foreach ($components as $compClass) {
-      rex_extension::register(
-        'DASHBOARD_COMPONENT',
-        array(new $compClass(), 'registerAsExtension')
-      );
-    }
-  }
 }

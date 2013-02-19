@@ -1,6 +1,6 @@
 {
-  "require": {
-    "ircmaxell/password-compat": "~1.0",
-    "symfony/yaml": "~2.1"
-  }
+    "require": {
+        "ircmaxell/password-compat": "~1.0",
+        "symfony/yaml": "~2.1"
+    }
 }

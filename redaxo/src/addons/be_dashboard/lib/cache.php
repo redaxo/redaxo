@@ -19,182 +19,182 @@ define('REX_DASHBOARD_CACHE_CLEAN_ALL', 2);
 
 abstract class rex_dashboard_cache
 {
-  private $options;
+    private $options;
 
-  /**
-   * Available options:
-   *
-   * * cleanMode: The automatic cleaning process destroy too old (for the given life time) (default value: 1000)
-   *   cache files when a new cache file is written.
-   *     0               => no automatic cache cleaning
-   *     1               => systematic cache cleaning
-   *     x (integer) > 1 => automatic cleaning randomly 1 times on x cache write
-   *
-   * * lifetime (optional): The default life time (default value: 86400)
-   */
-  public function __construct(array $options = array())
-  {
-    $this->options = array_merge(array(
-      'automatic_cleaning_factor' => 1000,
-      'lifetime'                  => 86400,
-      'prefix'                    => md5(__DIR__),
-    ), $options);
+    /**
+     * Available options:
+     *
+     * * cleanMode: The automatic cleaning process destroy too old (for the given life time) (default value: 1000)
+     *   cache files when a new cache file is written.
+     *     0               => no automatic cache cleaning
+     *     1               => systematic cache cleaning
+     *     x (integer) > 1 => automatic cleaning randomly 1 times on x cache write
+     *
+     * * lifetime (optional): The default life time (default value: 86400)
+     */
+    public function __construct(array $options = array())
+    {
+        $this->options = array_merge(array(
+            'automatic_cleaning_factor' => 1000,
+            'lifetime'                  => 86400,
+            'prefix'                    => md5(__DIR__),
+        ), $options);
 
-    $this->options['prefix'] .= REX_DASHBOARD_CACHE_SEPARATOR;
-  }
-
-  /**
-   * Gets the cache content for a given key.
-   *
-   * @param string $key     The cache key
-   * @param mixed  $default The default value is the key does not exist or not valid anymore
-   *
-   * @return mixed The data of the cache
-   */
-  abstract public function get($key, $default = null);
-
-  /**
-   * Returns true if there is a cache for the given key.
-   *
-   * @param string $key The cache key
-   *
-   * @return Boolean true if the cache exists, false otherwise
-   */
-  abstract public function has($key);
-
-  /**
-   * Saves some data in the cache.
-   *
-   * @param string $key      The cache key
-   * @param mixed  $data     The data to put in cache
-   * @param int    $lifetime The lifetime
-   *
-   * @return Boolean true if no problem
-   */
-  abstract public function set($key, $data, $lifetime = null);
-
-  /**
-   * Removes a content from the cache.
-   *
-   * @param string $key The cache key
-   *
-   * @return Boolean true if no problem
-   */
-  abstract public function remove($key);
-
-  /**
-   * Removes content from the cache that matches the given pattern.
-   *
-   * @param string $pattern The cache key pattern
-   *
-   * @return Boolean true if no problem
-   *
-   * @see patternToRegexp
-   */
-  abstract public function removePattern($pattern);
-
-  /**
-   * Cleans the cache.
-   *
-   * @param int $mode The clean mode
-   *                  sfCache::ALL: remove all keys (default)
-   *                  sfCache::OLD: remove all expired keys
-   *
-   * @return boolean true if no problem
-   */
-  abstract public function clean($mode = REX_DASHBOARD_CACHE_CLEAN_ALL);
-
-  /**
-   * Returns the timeout for the given key.
-   *
-   * @param string $key The cache key
-   *
-   * @return int The timeout time
-   */
-  abstract public function getTimeout($key);
-
-  /**
-   * Returns the last modification date of the given key.
-   *
-   * @param string $key The cache key
-   *
-   * @return int The last modified time
-   */
-  abstract public function getLastModified($key);
-
-  /**
-   * Computes lifetime.
-   *
-   * @param integer $lifetime Lifetime in seconds
-   *
-   * @return integer Lifetime in seconds
-   */
-  public function getLifetime($lifetime)
-  {
-    return null === $lifetime ? $this->getOption('lifetime') : $lifetime;
-  }
-
-  /**
-   * Gets many keys at once.
-   *
-   * @param array $keys An array of keys
-   *
-   * @return array An associative array of data from cache
-   */
-  public function getMany($keys)
-  {
-    $data = array();
-    foreach ($keys as $key) {
-      $data[$key] = $this->get($key);
+        $this->options['prefix'] .= REX_DASHBOARD_CACHE_SEPARATOR;
     }
 
-    return $data;
-  }
+    /**
+     * Gets the cache content for a given key.
+     *
+     * @param string $key     The cache key
+     * @param mixed  $default The default value is the key does not exist or not valid anymore
+     *
+     * @return mixed The data of the cache
+     */
+    abstract public function get($key, $default = null);
 
-  /**
-   * Converts a pattern to a regular expression.
-   *
-   * A pattern can use some special characters:
-   *
-   *  - * Matches a namespace (foo:*:bar)
-   *  - ** Matches one or more namespaces (foo:**:bar)
-   *
-   * @param string $pattern A pattern
-   *
-   * @return string A regular expression
-   */
-  protected function patternToRegexp($pattern)
-  {
-    $regexp = str_replace(
-      array('\\*\\*', '\\*'),
-      array('.+?',    '[^' . preg_quote(REX_DASHBOARD_CACHE_SEPARATOR, '#') . ']+'),
-      preg_quote($pattern, '#')
-    );
+    /**
+     * Returns true if there is a cache for the given key.
+     *
+     * @param string $key The cache key
+     *
+     * @return Boolean true if the cache exists, false otherwise
+     */
+    abstract public function has($key);
 
-    return '#^' . $regexp . '$#';
-  }
+    /**
+     * Saves some data in the cache.
+     *
+     * @param string $key      The cache key
+     * @param mixed  $data     The data to put in cache
+     * @param int    $lifetime The lifetime
+     *
+     * @return Boolean true if no problem
+     */
+    abstract public function set($key, $data, $lifetime = null);
 
-  /**
-   * Gets an option value.
-   *
-   * @param string $name    The option name
-   * @param mixed  $default The default value
-   *
-   * @return mixed The option value
-   */
-  public function getOption($name, $default = null)
-  {
-    return isset($this->options[$name]) ? $this->options[$name] : $default;
-  }
+    /**
+     * Removes a content from the cache.
+     *
+     * @param string $key The cache key
+     *
+     * @return Boolean true if no problem
+     */
+    abstract public function remove($key);
 
-  /**
-   * Sets an option value.
-   *
-   * @param string $name  The option name
-   * @param mixed  $value The option value
-   */
-  public function setOption($name, $value)
-  {
-    $this->options[$name] = $value;
-  }
+    /**
+     * Removes content from the cache that matches the given pattern.
+     *
+     * @param string $pattern The cache key pattern
+     *
+     * @return Boolean true if no problem
+     *
+     * @see patternToRegexp
+     */
+    abstract public function removePattern($pattern);
+
+    /**
+     * Cleans the cache.
+     *
+     * @param int $mode The clean mode
+     *                  sfCache::ALL: remove all keys (default)
+     *                  sfCache::OLD: remove all expired keys
+     *
+     * @return boolean true if no problem
+     */
+    abstract public function clean($mode = REX_DASHBOARD_CACHE_CLEAN_ALL);
+
+    /**
+     * Returns the timeout for the given key.
+     *
+     * @param string $key The cache key
+     *
+     * @return int The timeout time
+     */
+    abstract public function getTimeout($key);
+
+    /**
+     * Returns the last modification date of the given key.
+     *
+     * @param string $key The cache key
+     *
+     * @return int The last modified time
+     */
+    abstract public function getLastModified($key);
+
+    /**
+     * Computes lifetime.
+     *
+     * @param integer $lifetime Lifetime in seconds
+     *
+     * @return integer Lifetime in seconds
+     */
+    public function getLifetime($lifetime)
+    {
+        return null === $lifetime ? $this->getOption('lifetime') : $lifetime;
+    }
+
+    /**
+     * Gets many keys at once.
+     *
+     * @param array $keys An array of keys
+     *
+     * @return array An associative array of data from cache
+     */
+    public function getMany($keys)
+    {
+        $data = array();
+        foreach ($keys as $key) {
+            $data[$key] = $this->get($key);
+        }
+
+        return $data;
+    }
+
+    /**
+     * Converts a pattern to a regular expression.
+     *
+     * A pattern can use some special characters:
+     *
+     *  - * Matches a namespace (foo:*:bar)
+     *  - ** Matches one or more namespaces (foo:**:bar)
+     *
+     * @param string $pattern A pattern
+     *
+     * @return string A regular expression
+     */
+    protected function patternToRegexp($pattern)
+    {
+        $regexp = str_replace(
+            array('\\*\\*', '\\*'),
+            array('.+?',    '[^' . preg_quote(REX_DASHBOARD_CACHE_SEPARATOR, '#') . ']+'),
+            preg_quote($pattern, '#')
+        );
+
+        return '#^' . $regexp . '$#';
+    }
+
+    /**
+     * Gets an option value.
+     *
+     * @param string $name    The option name
+     * @param mixed  $default The default value
+     *
+     * @return mixed The option value
+     */
+    public function getOption($name, $default = null)
+    {
+        return isset($this->options[$name]) ? $this->options[$name] : $default;
+    }
+
+    /**
+     * Sets an option value.
+     *
+     * @param string $name  The option name
+     * @param mixed  $value The option value
+     */
+    public function setOption($name, $value)
+    {
+        $this->options[$name] = $value;
+    }
 }

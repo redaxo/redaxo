@@ -10,15 +10,15 @@
  */
 
 foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
-  if (!isset($REX[$key])) {
-    throw new Exception('Missing required global variable $REX[\'' . $key . "']");
-  }
+    if (!isset($REX[$key])) {
+        throw new Exception('Missing required global variable $REX[\'' . $key . "']");
+    }
 }
 
 define('REX_MIN_PHP_VERSION', '5.3.7');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
-  throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
+    throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
 }
 
 // start output buffering as early as possible, so we can be sure
@@ -65,20 +65,20 @@ rex::setProperty('subversion', 0);
 rex::setProperty('minorversion', 'alpha3');
 
 $config = array_merge(
-  rex_file::getConfig(rex_path::core('default.config.yml')),
-  rex_file::getConfig(rex_path::data('config.yml'))
+    rex_file::getConfig(rex_path::core('default.config.yml')),
+    rex_file::getConfig(rex_path::data('config.yml'))
 );
 foreach ($config as $key => $value) {
-  if (in_array($key, array('fileperm', 'dirperm'))) {
-    $value = octdec($value);
-  }
-  rex::setProperty($key, $value);
+    if (in_array($key, array('fileperm', 'dirperm'))) {
+        $value = octdec($value);
+    }
+    rex::setProperty($key, $value);
 }
 
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
 if (!rex::isSetup()) {
-  rex_error_handler::register();
+    rex_error_handler::register();
 }
 
 // ----------------- REX PERMS
@@ -89,10 +89,10 @@ rex_complex_perm::register('clang', 'rex_clang_perm');
 
 // ----- SET CLANG
 if (!rex::isSetup()) {
-  rex_clang::setCurrentId(rex_request('clang', 'int', rex::getProperty('start_clang_id')));
+    rex_clang::setCurrentId(rex_request('clang', 'int', rex::getProperty('start_clang_id')));
 }
 
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
-  unset($REX);
-  require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
+    unset($REX);
+    require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
 }

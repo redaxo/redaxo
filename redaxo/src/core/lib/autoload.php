@@ -12,173 +12,173 @@
  */
 class rex_autoload
 {
-  /**
-   * @var Composer\Autoload\ClassLoader
-   */
-  static protected $composerLoader;
+    /**
+     * @var Composer\Autoload\ClassLoader
+     */
+    static protected $composerLoader;
 
-  static protected
-    $registered   = false,
-    $cacheFile    = null,
-    $cacheChanged = false,
-    $reloaded     = false,
-    $dirs         = array(),
-    $addedDirs    = array(),
-    $classes      = array();
+    static protected
+        $registered   = false,
+        $cacheFile    = null,
+        $cacheChanged = false,
+        $reloaded     = false,
+        $dirs         = array(),
+        $addedDirs    = array(),
+        $classes      = array();
 
-  /**
-   * Register rex_autoload in spl autoloader.
-   */
-  static public function register()
-  {
-    if (self::$registered) {
-      return;
+    /**
+     * Register rex_autoload in spl autoloader.
+     */
+    static public function register()
+    {
+        if (self::$registered) {
+            return;
+        }
+
+        ini_set('unserialize_callback_func', 'spl_autoload_call');
+
+        if (!self::$composerLoader) {
+            self::$composerLoader = require rex_path::core('vendor/autoload.php');
+            // Unregister Composer Autoloader because we call self::$composerLoader->loadClass() manually
+            self::$composerLoader->unregister();
+        }
+
+        if (false === spl_autoload_register(array(__CLASS__, 'autoload'))) {
+            throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
+        }
+
+        self::$cacheFile = rex_path::cache('autoload.cache');
+        self::loadCache();
+        register_shutdown_function(array(__CLASS__, 'saveCache'));
+
+        self::$registered = true;
     }
 
-    ini_set('unserialize_callback_func', 'spl_autoload_call');
-
-    if (!self::$composerLoader) {
-      self::$composerLoader = require rex_path::core('vendor/autoload.php');
-      // Unregister Composer Autoloader because we call self::$composerLoader->loadClass() manually
-      self::$composerLoader->unregister();
+    /**
+     * Unregister rex_autoload from spl autoloader.
+     */
+    static public function unregister()
+    {
+        spl_autoload_unregister(array(__CLASS__, 'autoload'));
+        self::$registered = false;
     }
 
-    if (false === spl_autoload_register(array(__CLASS__, 'autoload'))) {
-      throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
+    /**
+     * Handles autoloading of classes.
+     *
+     * @param string $class A class name.
+     *
+     * @return boolean Returns true if the class has been loaded
+     */
+    static public function autoload($class)
+    {
+        // class already exists
+        if (self::classExists($class)) {
+            return true;
+        }
+
+        // we have a class path for the class, let's include it
+        $lowerClass = strtolower($class);
+        if (isset(self::$classes[$lowerClass]) && is_readable(self::$classes[$lowerClass])) {
+            require_once self::$classes[$lowerClass];
+        }
+
+        // Return true if class exists now or if class exists after calling $composerLoader
+        if (self::classExists($class) || self::$composerLoader->loadClass($class) && self::classExists($class)) {
+            return true;
+        } elseif (!self::$reloaded) {
+            self::reload();
+            return self::autoload($class);
+        }
+
+        return false;
     }
 
-    self::$cacheFile = rex_path::cache('autoload.cache');
-    self::loadCache();
-    register_shutdown_function(array(__CLASS__, 'saveCache'));
-
-    self::$registered = true;
-  }
-
-  /**
-   * Unregister rex_autoload from spl autoloader.
-   */
-  static public function unregister()
-  {
-    spl_autoload_unregister(array(__CLASS__, 'autoload'));
-    self::$registered = false;
-  }
-
-  /**
-   * Handles autoloading of classes.
-   *
-   * @param string $class A class name.
-   *
-   * @return boolean Returns true if the class has been loaded
-   */
-  static public function autoload($class)
-  {
-    // class already exists
-    if (self::classExists($class)) {
-      return true;
+    static private function classExists($class)
+    {
+        return class_exists($class, false) || interface_exists($class, false) || function_exists('trait_exists') && trait_exists($class, false);
     }
 
-    // we have a class path for the class, let's include it
-    $lowerClass = strtolower($class);
-    if (isset(self::$classes[$lowerClass]) && is_readable(self::$classes[$lowerClass])) {
-      require_once self::$classes[$lowerClass];
+    /**
+     * Loads the cache.
+     */
+    static private function loadCache()
+    {
+        if (!self::$cacheFile || !is_readable(self::$cacheFile)) {
+            return;
+        }
+
+        list(self::$classes, self::$dirs) = json_decode(file_get_contents(self::$cacheFile), true);
     }
 
-    // Return true if class exists now or if class exists after calling $composerLoader
-    if (self::classExists($class) || self::$composerLoader->loadClass($class) && self::classExists($class)) {
-      return true;
-    } elseif (!self::$reloaded) {
-      self::reload();
-      return self::autoload($class);
+    /**
+     * Saves the cache.
+     */
+    static public function saveCache()
+    {
+        if (self::$cacheChanged) {
+            if (is_writable(dirname(self::$cacheFile))) {
+                file_put_contents(self::$cacheFile, json_encode(array(self::$classes, self::$dirs)));
+                self::$cacheChanged = false;
+            } else {
+                throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
+            }
+        }
     }
 
-    return false;
-  }
+    /**
+     * Reloads cache.
+     */
+    static public function reload()
+    {
+        self::$classes = array();
+        self::$dirs = array();
 
-  static private function classExists($class)
-  {
-    return class_exists($class, false) || interface_exists($class, false) || function_exists('trait_exists') && trait_exists($class, false);
-  }
+        foreach (self::$addedDirs as $dir) {
+            self::_addDirectory($dir);
+        }
 
-  /**
-   * Loads the cache.
-   */
-  static private function loadCache()
-  {
-    if (!self::$cacheFile || !is_readable(self::$cacheFile)) {
-      return;
+        self::$cacheChanged = true;
+        self::$reloaded = true;
     }
 
-    list(self::$classes, self::$dirs) = json_decode(file_get_contents(self::$cacheFile), true);
-  }
-
-  /**
-   * Saves the cache.
-   */
-  static public function saveCache()
-  {
-    if (self::$cacheChanged) {
-      if (is_writable(dirname(self::$cacheFile))) {
-        file_put_contents(self::$cacheFile, json_encode(array(self::$classes, self::$dirs)));
-        self::$cacheChanged = false;
-      } else {
-        throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
-      }
-    }
-  }
-
-  /**
-   * Reloads cache.
-   */
-  static public function reload()
-  {
-    self::$classes = array();
-    self::$dirs = array();
-
-    foreach (self::$addedDirs as $dir) {
-      self::_addDirectory($dir);
+    /**
+     * Removes the cache.
+     */
+    static public function removeCache()
+    {
+        rex_file::delete(self::$cacheFile);
     }
 
-    self::$cacheChanged = true;
-    self::$reloaded = true;
-  }
-
-  /**
-   * Removes the cache.
-   */
-  static public function removeCache()
-  {
-    rex_file::delete(self::$cacheFile);
-  }
-
-  /**
-   * Adds a directory to the autoloading system if not yet present and give it the highest possible precedence.
-   *
-   * @param string $dir The directory to look for classes
-   */
-  static public function addDirectory($dir)
-  {
-    $dir = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR;
-    self::$addedDirs[] = $dir;
-    if (!in_array($dir, self::$dirs)) {
-      self::_addDirectory($dir);
-      self::$dirs[] = $dir;
-      self::$cacheChanged = true;
-    }
-  }
-
-  static private function _addDirectory($dir)
-  {
-    if (!is_dir($dir)) {
-      return;
+    /**
+     * Adds a directory to the autoloading system if not yet present and give it the highest possible precedence.
+     *
+     * @param string $dir The directory to look for classes
+     */
+    static public function addDirectory($dir)
+    {
+        $dir = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR;
+        self::$addedDirs[] = $dir;
+        if (!in_array($dir, self::$dirs)) {
+            self::_addDirectory($dir);
+            self::$dirs[] = $dir;
+            self::$cacheChanged = true;
+        }
     }
 
-    require_once rex_path::core('vendor/composer/ClassMapGenerator.php');
+    static private function _addDirectory($dir)
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
 
-    foreach (Composer\Autoload\ClassMapGenerator::createMap($dir) as $class => $file) {
-      $class = strtolower($class);
-      if (!isset(self::$classes[$class])) {
-        self::$classes[$class] = $file;
-      }
+        require_once rex_path::core('vendor/composer/ClassMapGenerator.php');
+
+        foreach (Composer\Autoload\ClassMapGenerator::createMap($dir) as $class => $file) {
+            $class = strtolower($class);
+            if (!isset(self::$classes[$class])) {
+                self::$classes[$class] = $file;
+            }
+        }
     }
-  }
 }

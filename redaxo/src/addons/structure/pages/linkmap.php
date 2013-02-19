@@ -12,49 +12,49 @@ $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id')
 
 
 $context = new rex_context(array(
-  'page' => rex_be_controller::getCurrentPage(),
-  'HTMLArea' => $HTMLArea,
-  'opener_input_field' => $opener_input_field,
-  'opener_input_field_name' => $opener_input_field_name,
-  'category_id' => $category_id,
-  'clang' => $clang
+    'page' => rex_be_controller::getCurrentPage(),
+    'HTMLArea' => $HTMLArea,
+    'opener_input_field' => $opener_input_field,
+    'opener_input_field_name' => $opener_input_field_name,
+    'category_id' => $category_id,
+    'clang' => $clang
 ));
 
 // ------- Build JS Functions
 
 $func_body = '';
 if ($HTMLArea != '') {
-  if ($HTMLArea == 'TINY') {
-    $func_body = 'window.opener.tinyMCE.insertLink(link);';
-  } else {
-    $func_body = 'window.opener.' . $HTMLArea . '.surroundHTML("<a href="+link+">","</a>");';
-  }
+    if ($HTMLArea == 'TINY') {
+        $func_body = 'window.opener.tinyMCE.insertLink(link);';
+    } else {
+        $func_body = 'window.opener.' . $HTMLArea . '.surroundHTML("<a href="+link+">","</a>");';
+    }
 }
 
 if ($opener_input_field != '' && $opener_input_field_name == '') {
-  $opener_input_field_name = $opener_input_field . '_NAME';
+    $opener_input_field_name = $opener_input_field . '_NAME';
 }
 if ($opener_input_field == 'TINY') {
-  $func_body .= 'window.opener.insertLink(link,name);
-                 self.close();';
+    $func_body .= 'window.opener.insertLink(link,name);
+                                 self.close();';
 } elseif (substr($opener_input_field, 0, 13) == 'REX_LINKLIST_') {
 $id = substr($opener_input_field, 13, strlen($opener_input_field));
 $func_body .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
-               var linkid = link.replace("redaxo://","");
-         var source = opener.document.getElementById(linklist);
-         var sourcelength = source.options.length;
+                             var linkid = link.replace("redaxo://","");
+                 var source = opener.document.getElementById(linklist);
+                 var sourcelength = source.options.length;
 
-               option = opener.document.createElement("OPTION");
-               option.text = name;
-               option.value = linkid;
+                             option = opener.document.createElement("OPTION");
+                             option.text = name;
+                             option.value = linkid;
 
-         source.options.add(option, sourcelength);
-         opener.writeREXLinklist(' . $id . ');';
+                 source.options.add(option, sourcelength);
+                 opener.writeREXLinklist(' . $id . ');';
 } else {
 $func_body .= 'var linkid = link.replace("redaxo://","");
-               window.opener.document.getElementById("' . $opener_input_field . '").value = linkid;
-               window.opener.document.getElementById("' . $opener_input_field_name . '").value = name;
-               self.close();';
+                             window.opener.document.getElementById("' . $opener_input_field . '").value = linkid;
+                             window.opener.document.getElementById("' . $opener_input_field_name . '").value = name;
+                             self.close();';
 }
 
 
@@ -62,9 +62,9 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
 
 ?>
 <script type="text/javascript">
-  function insertLink(link,name){
-    <?php echo $func_body . "\n" ?>
-  }
+    function insertLink(link,name){
+        <?php echo $func_body . "\n" ?>
+    }
 </script>
 
 <?php
@@ -82,12 +82,12 @@ $navi_path .= '<li class="rex-navi-first">: <a href="' . $link . '">Homepage</a>
 $tree = array();
 
 if ($category) {
-  foreach ($category->getParentTree() as $cat) {
-    $tree[] = $cat->getId();
+    foreach ($category->getParentTree() as $cat) {
+        $tree[] = $cat->getId();
 
-    $link = $context->getUrl(array('category_id' => $cat->getId()));
-    $navi_path .= '<li> : <a href="' . $link . '">' . htmlspecialchars($cat->getName()) . '</a></li>';
-  }
+        $link = $context->getUrl(array('category_id' => $cat->getId()));
+        $navi_path .= '<li> : <a href="' . $link . '">' . htmlspecialchars($cat->getName()) . '</a></li>';
+    }
 }
 $navi_path .= '</ul>';
 
@@ -97,25 +97,25 @@ rex_view::title('Linkmap', $navi_path);
 ?>
 
 <div id="rex-linkmap">
-  <div class="rex-area-col-2">
-    <div class="rex-area-col-a">
-      <h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_categories'); ?></h3>
-      <div class="rex-area-content">
-      <?php
-      $categoryTree = new rex_linkmap_category_tree($context);
-      echo $categoryTree->getTree($category_id);
-      ?>
-      </div>
-    </div>
+    <div class="rex-area-col-2">
+        <div class="rex-area-col-a">
+            <h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_categories'); ?></h3>
+            <div class="rex-area-content">
+            <?php
+            $categoryTree = new rex_linkmap_category_tree($context);
+            echo $categoryTree->getTree($category_id);
+            ?>
+            </div>
+        </div>
 
-    <div class="rex-area-col-b">
-      <h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_articles'); ?></h3>
-      <div class="rex-area-content">
-      <?php
-      $articleList = new rex_linkmap_article_list($context);
-      echo $articleList->getList($category_id);
-      ?>
-      </div>
+        <div class="rex-area-col-b">
+            <h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_articles'); ?></h3>
+            <div class="rex-area-content">
+            <?php
+            $articleList = new rex_linkmap_article_list($context);
+            echo $articleList->getList($category_id);
+            ?>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

@@ -4,7 +4,7 @@ author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
 
 page:
-  title: 'TestResults'
-  perm: admin[]
-  block: system
-  prio: 100
+    title: 'TestResults'
+    perm: admin[]
+    block: system
+    prio: 100

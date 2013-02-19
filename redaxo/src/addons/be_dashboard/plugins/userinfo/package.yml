@@ -4,7 +4,7 @@ author: 'Markus Staab'
 supportpage: www.redaxo.org/de/forum/
 
 requires:
-  packages:
-    structure: '~ 5.0 alpha'
-    structure/content: '~ 5.0 alpha'
-    metainfo: '~ 5.0 alpha'
+    packages:
+        structure: '~ 5.0 alpha'
+        structure/content: '~ 5.0 alpha'
+        metainfo: '~ 5.0 alpha'

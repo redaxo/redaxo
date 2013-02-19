@@ -3,7 +3,7 @@
 echo "Update redaxo/src/core/vendor"
 composer update -d redaxo/src/core/
 php -r "foreach (array('redaxo/src/core/vendor/autoload.php', 'redaxo/src/core/vendor/composer/autoload_real.php') as \$file) {\
-  file_put_contents(\$file, preg_replace('/(?<=ComposerAutoloaderInit)[0-9a-f]{32}/', 'RedaxoCore', file_get_contents(\$file)));\
+    file_put_contents(\$file, preg_replace('/(?<=ComposerAutoloaderInit)[0-9a-f]{32}/', 'RedaxoCore', file_get_contents(\$file)));\
 }"
 
 echo "Update redaxo/src/core/vendor/composer/ClassMapGenerator.php"
