@@ -50,14 +50,14 @@ abstract class rex_api_function extends rex_factory_base
      *
      * @var rex_api_function
      */
-    static private $instance;
+    private static $instance;
 
     /**
      * Returns the api function instance which is bound to the current request, or null if no api function was bound.
      *
      * @return rex_api_function
      */
-    static public function factory()
+    public static function factory()
     {
         if (self::$instance) return self::$instance;
 
@@ -84,7 +84,7 @@ abstract class rex_api_function extends rex_factory_base
     /**
      * checks whether an api function is bound to the current requests. If so, so the api function will be executed.
      */
-    static public function handleCall()
+    public static function handleCall()
     {
         if (static::hasFactoryClass()) {
             return static::callFactoryClass(__FUNCTION__, func_get_args());
@@ -138,13 +138,13 @@ abstract class rex_api_function extends rex_factory_base
         }
     }
 
-    static public function hasMessage()
+    public static function hasMessage()
     {
         $apiFunc = self::factory();
         return (boolean) $apiFunc->getResult();
     }
 
-    static public function getMessage($formatted = true)
+    public static function getMessage($formatted = true)
     {
         $apiFunc = self::factory();
         $message = '';
@@ -259,7 +259,7 @@ class rex_api_result
         return json_encode($json);
     }
 
-    static public function fromJSON($json)
+    public static function fromJSON($json)
     {
         $result = new self(true);
         $json = json_decode($json, true);

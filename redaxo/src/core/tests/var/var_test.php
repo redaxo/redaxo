@@ -7,7 +7,7 @@ class rex_var_test_var extends rex_var
         return $this->getParsedArg('content', "'default'", true);
     }
 
-    static public function quote($string)
+    public static function quote($string)
     {
         // make quote() public
         return parent::quote($string);
@@ -124,7 +124,7 @@ EOT
         );
     }
 
-    static public function callback($params)
+    public static function callback($params)
     {
         return sprintf('subject:%s content:%s suffix:%s', $params['subject'], $params['content'], $params['suffix']);
     }

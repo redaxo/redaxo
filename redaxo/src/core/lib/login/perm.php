@@ -17,7 +17,7 @@ abstract class rex_perm
      *
      * @var array
      */
-    static private $perms = array();
+    private static $perms = array();
 
     /**
      * Registers a new permission
@@ -26,7 +26,7 @@ abstract class rex_perm
      * @param string $name  Perm name
      * @param string $group Perm group, possible values are rex_perm::GENERAL, rex_perm::OPTIONS and rex_perm::EXTRAS
      */
-    static public function register($perm, $name = null, $group = self::GENERAL)
+    public static function register($perm, $name = null, $group = self::GENERAL)
     {
         $name = $name ?: (rex_i18n::hasMsg($key = 'perm_' . $group . '_' . $perm) ? rex_i18n::msg($key) : $perm);
         self::$perms[$group][$perm] = $name;
@@ -38,7 +38,7 @@ abstract class rex_perm
      * @param string $perm
      * @return bool
      */
-    static public function has($perm)
+    public static function has($perm)
     {
         foreach (self::$perms as $perms) {
             if (isset($perms[$perm])) {
@@ -54,7 +54,7 @@ abstract class rex_perm
      * @param string $group Perm group
      * @return array Permissions
      */
-    static public function getAll($group = self::GENERAL)
+    public static function getAll($group = self::GENERAL)
     {
         return isset(self::$perms[$group]) ? self::$perms[$group] : array();
     }

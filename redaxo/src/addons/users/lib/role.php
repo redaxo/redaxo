@@ -70,7 +70,7 @@ class rex_user_role implements rex_user_role_interface
     /* (non-PHPdoc)
      * @see rex_user_role_interface::get()
      */
-    static public function get($id)
+    public static function get($id)
     {
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT perms FROM ' . rex::getTablePrefix() . 'user_role WHERE id = ?', array($id));
@@ -80,7 +80,7 @@ class rex_user_role implements rex_user_role_interface
         return new self($sql->getArrayValue('perms'));
     }
 
-    static public function removeOrReplaceItem($params)
+    public static function removeOrReplaceItem($params)
     {
         $key = $params['key'];
         $item = '|' . $params['item'] . '|';

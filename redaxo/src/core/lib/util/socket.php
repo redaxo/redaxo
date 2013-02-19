@@ -63,7 +63,7 @@ class rex_socket
      *
      * @see rex_socket::factoryUrl()
      */
-    static public function factory($host, $port = 80, $ssl = false)
+    public static function factory($host, $port = 80, $ssl = false)
     {
         if (get_called_class() === __CLASS__ && ($proxy = rex::getProperty('socket_proxy'))) {
             return rex_socket_proxy::factoryUrl($proxy)->setDestination($host, $port, $ssl);
@@ -81,7 +81,7 @@ class rex_socket
      *
      * @see rex_socket::factory()
      */
-    static public function factoryUrl($url)
+    public static function factoryUrl($url)
     {
         $parts = self::parseUrl($url);
 
@@ -297,7 +297,7 @@ class rex_socket
      * @param string $url Full URL
      * @return array URL parts
      */
-    static protected function parseUrl($url)
+    protected static function parseUrl($url)
     {
         $parts = parse_url($url);
         if ($parts !== false && !isset($parts['host']) && strpos($url, 'http') !== 0) {

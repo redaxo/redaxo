@@ -33,7 +33,7 @@ class rex_type
      *
      * @return mixed Castet value
      */
-    static public function cast($var, $vartype)
+    public static function cast($var, $vartype)
     {
         if (is_string($vartype)) {
             $casted = true;

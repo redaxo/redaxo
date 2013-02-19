@@ -31,7 +31,7 @@ class rex_sql extends rex_factory_base implements Iterator
     /**
      * @var PDO[]
      */
-    static private $pdo = array();
+    private static $pdo = array();
 
     protected function __construct($DBID = 1)
     {
@@ -71,7 +71,7 @@ class rex_sql extends rex_factory_base implements Iterator
         }
     }
 
-    static protected function createConnection($host, $database, $login, $password, $persistent = false)
+    protected static function createConnection($host, $database, $login, $password, $persistent = false)
     {
         $dsn = 'mysql:host=' . $host . ';dbname=' . $database;
         $options = array(
@@ -93,7 +93,7 @@ class rex_sql extends rex_factory_base implements Iterator
      * @param string $qry
      * @return bool
      */
-    static protected function getQueryDBID($qry)
+    protected static function getQueryDBID($qry)
     {
         $qry = trim($qry);
 
@@ -110,7 +110,7 @@ class rex_sql extends rex_factory_base implements Iterator
      * @param string $qry Abfrage
      * @return string
      */
-    static protected function stripQueryDBID(&$qry)
+    protected static function stripQueryDBID(&$qry)
     {
         $qry = trim($qry);
 
@@ -135,7 +135,7 @@ class rex_sql extends rex_factory_base implements Iterator
      * @param string $qry
      * @return bool|string
      */
-    static public function getQueryType($qry)
+    public static function getQueryType($qry)
     {
         $qry = trim($qry);
         // DBID aus dem Query herausschneiden, falls vorhanden
@@ -1070,7 +1070,7 @@ class rex_sql extends rex_factory_base implements Iterator
      * @param int    $DBID  Id der Datenbankverbindung
      * @return string CREATE TABLE Sql-Statement zu erstsellung der Tabelle
      */
-    static public function showCreateTable($table, $DBID = 1)
+    public static function showCreateTable($table, $DBID = 1)
     {
         $sql = self::factory($DBID);
         $sql->setQuery('SHOW CREATE TABLE `' . $table . '`');
@@ -1085,7 +1085,7 @@ class rex_sql extends rex_factory_base implements Iterator
      * @param string $tablePrefix Zu suchender Tabellennamen-Prefix
      * @return array Ein Array von Tabellennamen
      */
-    static public function showTables($DBID = 1, $tablePrefix = null)
+    public static function showTables($DBID = 1, $tablePrefix = null)
     {
         $qry = 'SHOW TABLES';
         if ($tablePrefix != null) {
@@ -1129,7 +1129,7 @@ class rex_sql extends rex_factory_base implements Iterator
      * @param int    $DBID  Id der Datenbankverbindung
      * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
      */
-    static public function showColumns($table, $DBID = 1)
+    public static function showColumns($table, $DBID = 1)
     {
         $sql = self::factory($DBID);
         $sql->setQuery('SHOW COLUMNS FROM `' . $table . '`');
@@ -1155,7 +1155,7 @@ class rex_sql extends rex_factory_base implements Iterator
      * Die Versionsinformation ist erst bekannt,
      * nachdem der rex_sql Konstruktor einmalig erfolgreich durchlaufen wurde.
      */
-    static public function getServerVersion($DBID = 1)
+    public static function getServerVersion($DBID = 1)
     {
         if (!isset(self::$pdo[$DBID])) {
             // create connection if necessary
@@ -1170,7 +1170,7 @@ class rex_sql extends rex_factory_base implements Iterator
      * @param integer $DBID
      * @return rex_sql Returns a rex_sql instance
      */
-    static public function factory($DBID = 1)
+    public static function factory($DBID = 1)
     {
         $class = self::getFactoryClass();
         return new $class($DBID);
@@ -1180,7 +1180,7 @@ class rex_sql extends rex_factory_base implements Iterator
      * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
      * Datenbank an
      */
-    static public function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
+    public static function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
     {
         $err_msg = true;
 

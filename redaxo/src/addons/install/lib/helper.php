@@ -2,7 +2,7 @@
 
 class rex_install_helper
 {
-    static public function copyDirToArchive($dir, $archive, $basename = null, $excludeDirs = null)
+    public static function copyDirToArchive($dir, $archive, $basename = null, $excludeDirs = null)
     {
         $dir = rtrim($dir, '/\\');
         $basename = $basename ?: basename($dir);

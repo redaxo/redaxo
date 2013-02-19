@@ -2,53 +2,53 @@
 
 class rex_view
 {
-    static private
+    private static
         $cssFiles = array(),
         $jsFiles = array(),
         $jsProperties = array(),
         $favicon;
 
-    static public function addCssFile($file, $media = 'all')
+    public static function addCssFile($file, $media = 'all')
     {
         self::$cssFiles[$media][] = $file;
     }
 
-    static public function getCssFiles()
+    public static function getCssFiles()
     {
         return self::$cssFiles;
     }
 
-    static public function addJsFile($file)
+    public static function addJsFile($file)
     {
         self::$jsFiles[] = $file;
     }
 
-    static public function getJsFiles()
+    public static function getJsFiles()
     {
         return self::$jsFiles;
     }
 
-    static public function setJsProperty($key, $value)
+    public static function setJsProperty($key, $value)
     {
         self::$jsProperties[$key] = $value;
     }
 
-    static public function getJsProperties()
+    public static function getJsProperties()
     {
         return self::$jsProperties;
     }
 
-    static public function setFavicon($file)
+    public static function setFavicon($file)
     {
         self::$favicon = $file;
     }
 
-    static public function getFavicon()
+    public static function getFavicon()
     {
         return self::$favicon;
     }
 
-    static public function info($message, $cssClass = '')
+    public static function info($message, $cssClass = '')
     {
         $cssClassMessage = 'rex-info';
         if ($cssClass != '')
@@ -57,7 +57,7 @@ class rex_view
         return self::message($message, $cssClassMessage);
     }
 
-    static public function success($message, $cssClass = '')
+    public static function success($message, $cssClass = '')
     {
         $cssClassMessage = 'rex-success';
         if ($cssClass != '')
@@ -66,7 +66,7 @@ class rex_view
         return self::message($message, $cssClassMessage);
     }
 
-    static public function warning($message, $cssClass = '')
+    public static function warning($message, $cssClass = '')
     {
         $cssClassMessage = 'rex-warning';
         if ($cssClass != '')
@@ -75,7 +75,7 @@ class rex_view
         return self::message($message, $cssClassMessage);
     }
 
-    static public function error($message, $cssClass = '')
+    public static function error($message, $cssClass = '')
     {
         $cssClassMessage = 'rex-error';
         if ($cssClass != '')
@@ -84,7 +84,7 @@ class rex_view
         return self::message($message, $cssClassMessage);
     }
 
-    static private function message($message, $cssClass)
+    private static function message($message, $cssClass)
     {
         $return = '';
 
@@ -103,7 +103,7 @@ class rex_view
         return $return;
     }
 
-    static public function toolbar($content, $cssClass = null)
+    public static function toolbar($content, $cssClass = null)
     {
         $return = '';
         $fragment = new rex_fragment();
@@ -114,7 +114,7 @@ class rex_view
         return $return;
     }
 
-    static public function contentBlock($content_1, $content_2 = '', $flush = true, $bucket = true, $title = '')
+    public static function contentBlock($content_1, $content_2 = '', $flush = true, $bucket = true, $title = '')
     {
         $return = '';
 
@@ -155,7 +155,7 @@ class rex_view
     /**
      * Ausgabe des Seitentitels
      */
-    static public function title($head, $subtitle = null)
+    public static function title($head, $subtitle = null)
     {
         global $article_id, $category_id, $page;
 
@@ -207,7 +207,7 @@ class rex_view
         return $return;
     }
 
-    static public function clangSwitch(rex_context $context)
+    public static function clangSwitch(rex_context $context)
     {
         if (!rex_clang::count()) {
             return '';

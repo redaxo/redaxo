@@ -17,7 +17,7 @@ class rex_clang_perm extends rex_complex_perm
         return $this->hasAll() ? rex_clang::getAllIds() : $this->perms;
     }
 
-    static public function getFieldParams()
+    public static function getFieldParams()
     {
         $options = array_map(function (rex_clang $clang) {
             return $clang->getName();

@@ -11,7 +11,7 @@ class rex_clang_service
      *
      * @throws rex_exception
      */
-    static public function addCLang($id, $code, $name)
+    public static function addCLang($id, $code, $name)
     {
         if (rex_clang::exists($id))
             throw new rex_exception('clang with id "' . $id . '" already exists');
@@ -43,7 +43,7 @@ class rex_clang_service
      * @return bool
      * @throws rex_exception
      */
-    static public function editCLang($id, $code, $name)
+    public static function editCLang($id, $code, $name)
     {
         if (!rex_clang::exists($id))
             throw new rex_exception('clang with id "' . $id . '" does not exist');
@@ -74,7 +74,7 @@ class rex_clang_service
      * @param int $id Zu löschende ClangId
      * @throws rex_exception
      */
-    static public function deleteCLang($id)
+    public static function deleteCLang($id)
     {
         if ($id == 0)
             throw new rex_exception('clang with id "0" can not be deleted');
@@ -102,7 +102,7 @@ class rex_clang_service
      *
      * @throws rex_exception
      */
-    static public function generateCache()
+    public static function generateCache()
     {
         $lg = rex_sql::factory();
         $lg->setQuery('select * from ' . rex::getTablePrefix() . 'clang order by id');

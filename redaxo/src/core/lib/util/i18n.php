@@ -5,7 +5,7 @@
  */
 class rex_i18n
 {
-    static private
+    private static
         $locales = array(),
         $directories = array(),
         $loaded = false,
@@ -20,7 +20,7 @@ class rex_i18n
      *
      * @return string The last locale
      */
-    static public function setLocale($locale, $phpSetLocale = true)
+    public static function setLocale($locale, $phpSetLocale = true)
     {
         $saveLocale = self::$locale;
         self::$locale = $locale;
@@ -48,7 +48,7 @@ class rex_i18n
      *
      * @return string The current locale
      */
-    static public function getLocale()
+    public static function getLocale()
     {
         return self::$locale;
     }
@@ -58,7 +58,7 @@ class rex_i18n
      *
      * @param string $dir Path to the directory
      */
-    static public function addDirectory($dir)
+    public static function addDirectory($dir)
     {
         self::$directories[] = rtrim($dir, DIRECTORY_SEPARATOR);
 
@@ -74,7 +74,7 @@ class rex_i18n
      *
      * @return string Translation for the key
      */
-    static public function msg($key)
+    public static function msg($key)
     {
         return self::getMsg($key, true, func_get_args());
     }
@@ -86,12 +86,12 @@ class rex_i18n
          *
          * @return string Translation for the key
          */
-    static public function rawMsg($key)
+    public static function rawMsg($key)
     {
         return self::getMsg($key, false, func_get_args());
     }
 
-    static private function getMsg($key, $htmlspecialchars, array $args)
+    private static function getMsg($key, $htmlspecialchars, array $args)
     {
         if (!self::$loaded) {
             self::loadAll();
@@ -129,7 +129,7 @@ class rex_i18n
      *
      * @return boolean TRUE on success, else FALSE
      */
-    static public function hasMsg($key)
+    public static function hasMsg($key)
     {
         return isset(self::$msg[$key]);
     }
@@ -140,7 +140,7 @@ class rex_i18n
      * @param string $key Key
      * @param string $msg Message for the key
      */
-    static public function addMsg($key, $msg)
+    public static function addMsg($key, $msg)
     {
         self::$msg[$key] = $msg;
     }
@@ -150,7 +150,7 @@ class rex_i18n
      *
      * @return array Array of Locales
      */
-    static public function getLocales()
+    public static function getLocales()
     {
         if (empty(self::$locales) && isset(self::$directories[0]) && is_readable(self::$directories[0])) {
             self::$locales = array();
@@ -174,7 +174,7 @@ class rex_i18n
      *
      * @return string Translated text
      */
-    static public function translate($text, $use_htmlspecialchars = true, $i18nFunction = null)
+    public static function translate($text, $use_htmlspecialchars = true, $i18nFunction = null)
     {
         if (!is_string($text)) {
             throw new InvalidArgumentException('Expecting $text to be a String, "' . gettype($text) . '" given!');
@@ -202,7 +202,7 @@ class rex_i18n
      * @throws InvalidArgumentException
      * @return mixed
      */
-    static public function translateArray($array, $use_htmlspecialchars = true, $i18nFunction = null)
+    public static function translateArray($array, $use_htmlspecialchars = true, $i18nFunction = null)
     {
         if (is_array($array)) {
             foreach ($array as $key => $value) {
@@ -225,7 +225,7 @@ class rex_i18n
      *
      * @return boolean TRUE on success, FALSE on failure
      */
-    static private function loadFile($file)
+    private static function loadFile($file)
     {
         if (is_readable($file)) {
             $handle = fopen($file, 'r');
@@ -247,7 +247,7 @@ class rex_i18n
     /**
      * Loads all translation defintions
      */
-    static private function loadAll()
+    private static function loadAll()
     {
         self::$msg = array();
         if (!self::$locale) {

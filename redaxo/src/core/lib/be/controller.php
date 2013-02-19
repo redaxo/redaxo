@@ -5,27 +5,27 @@ class rex_be_controller
     /**
      * @var string
      */
-    static private $page;
+    private static $page;
 
     /**
      * @var array
      */
-    static private $pageParts = array();
+    private static $pageParts = array();
 
     /**
      * @var rex_be_page
      */
-    static private $pageObject;
+    private static $pageObject;
 
     /**
      * @var rex_be_page[]
      */
-    static private $pages = array();
+    private static $pages = array();
 
     /**
      * @param string $page
      */
-    static public function setCurrentPage($page)
+    public static function setCurrentPage($page)
     {
         self::$page = trim($page, '/ ');
         self::$pageParts = explode('/', self::$page);
@@ -35,7 +35,7 @@ class rex_be_controller
     /**
      * @return string
      */
-    static public function getCurrentPage()
+    public static function getCurrentPage()
     {
         return self::$page;
     }
@@ -45,7 +45,7 @@ class rex_be_controller
      * @param null|string $default Default value
      * @return array|string|null
      */
-    static public function getCurrentPagePart($part = null, $default = null)
+    public static function getCurrentPagePart($part = null, $default = null)
     {
         if ($part === null) {
             return self::$pageParts;
@@ -57,7 +57,7 @@ class rex_be_controller
     /**
      * @return rex_be_page
      */
-    static public function getCurrentPageObject()
+    public static function getCurrentPageObject()
     {
         if (!self::$pageObject) {
             self::$pageObject = self::getPageObject(self::getCurrentPage());
@@ -69,7 +69,7 @@ class rex_be_controller
      * @param string|array $page
      * @return rex_be_page
      */
-    static public function getPageObject($page)
+    public static function getPageObject($page)
     {
         if (!is_array($page)) {
             $page = explode('/', $page);
@@ -91,7 +91,7 @@ class rex_be_controller
     /**
      * @return rex_be_page[]
      */
-    static public function getPages()
+    public static function getPages()
     {
         return self::$pages;
     }
@@ -99,12 +99,12 @@ class rex_be_controller
     /**
      * @param rex_be_page[] $pages
      */
-    static public function setPages(array $pages)
+    public static function setPages(array $pages)
     {
         self::$pages = $pages;
     }
 
-    static public function getPageTitle()
+    public static function getPageTitle()
     {
         $activePageObj = self::getCurrentPageObject();
 
@@ -121,14 +121,14 @@ class rex_be_controller
         return $page_title;
     }
 
-    static public function getSetupPage()
+    public static function getSetupPage()
     {
         $page = new rex_be_page('setup', rex_i18n::msg('setup'));
         $page->setPath(rex_path::core('pages/setup.php'));
         return $page;
     }
 
-    static public function getLoginPage()
+    public static function getLoginPage()
     {
         $page = new rex_be_page('login', 'login');
         $page->setPath(rex_path::core('pages/login.php'));
@@ -136,7 +136,7 @@ class rex_be_controller
         return $page;
     }
 
-    static public function appendLoggedInPages()
+    public static function appendLoggedInPages()
     {
         $profile = new rex_be_page('profile', rex_i18n::msg('profile'));
         $profile->setPath(rex_path::core('pages/profile.php'));
@@ -166,7 +166,7 @@ class rex_be_controller
         self::$pages['system'] = $system;
     }
 
-    static public function appendPackagePages()
+    public static function appendPackagePages()
     {
         $addons = rex::isSafeMode() ? rex_addon::getSetupAddons() : rex_addon::getAvailableAddons();
         foreach ($addons as $addon) {
@@ -201,7 +201,7 @@ class rex_be_controller
      * @param boolean               $prefix
      * @return null|rex_be_page
      */
-    static private function pageCreate($page, rex_package $package, $createMainPage, rex_be_page_main $mainPage = null, $pageKey = null, $prefix = false)
+    private static function pageCreate($page, rex_package $package, $createMainPage, rex_be_page_main $mainPage = null, $pageKey = null, $prefix = false)
     {
         if (is_array($page) && isset($page['title'])) {
             $pageArray = $page;
@@ -240,7 +240,7 @@ class rex_be_controller
      * @param rex_package $package
      * @param string      $prefix
      */
-    static private function pageSetSubPaths(rex_be_page $page, rex_package $package, $prefix = '')
+    private static function pageSetSubPaths(rex_be_page $page, rex_package $package, $prefix = '')
     {
         foreach ($page->getSubpages() as $subpage) {
             if (!$subpage->hasSubPath()) {
@@ -255,7 +255,7 @@ class rex_be_controller
      * @param array       $properties
      * @param rex_package $package
      */
-    static private function pageAddProperties(rex_be_page $page, array $properties, rex_package $package)
+    private static function pageAddProperties(rex_be_page $page, array $properties, rex_package $package)
     {
         foreach ($properties as $key => $value) {
             switch (strtolower($key)) {
@@ -297,7 +297,7 @@ class rex_be_controller
         }
     }
 
-    static public function checkPage(rex_user $user)
+    public static function checkPage(rex_user $user)
     {
         // --- page pruefen und benoetigte rechte checken
         if (!($p = self::getCurrentPageObject()) || !$p->checkPermission($user)) {
@@ -319,7 +319,7 @@ class rex_be_controller
     /**
      * Includes the current page. A page may be provided by the core, an addon or plugin.
      */
-    static public function includeCurrentPage()
+    public static function includeCurrentPage()
     {
         $currentPage = self::getCurrentPageObject();
 

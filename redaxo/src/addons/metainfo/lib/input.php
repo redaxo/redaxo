@@ -117,7 +117,7 @@ abstract class rex_input
      * @param string $inputType
      * @return self
      */
-    static public function factory($inputType)
+    public static function factory($inputType)
     {
 
         switch ($inputType) {

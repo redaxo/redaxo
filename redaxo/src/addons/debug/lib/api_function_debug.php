@@ -2,7 +2,7 @@
 
 abstract class rex_api_function_debug extends rex_api_function
 {
-    static public function handleCall()
+    public static function handleCall()
     {
         $apiFunc = self::factory();
 

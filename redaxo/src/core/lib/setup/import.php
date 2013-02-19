@@ -7,7 +7,7 @@ require_once $export_addon_dir . '/functions/function_import_export.php';
 
 class rex_setup_importer
 {
-    static public function updateFromPrevious()
+    public static function updateFromPrevious()
     {
         // ----- vorhandenen seite updaten
         $err_msg = '';
@@ -22,7 +22,7 @@ class rex_setup_importer
         return $err_msg;
     }
 
-    static public function loadExistingImport($import_name)
+    public static function loadExistingImport($import_name)
     {
         // ----- vorhandenen Export importieren
         $err_msg = '';
@@ -47,13 +47,13 @@ class rex_setup_importer
         return $err_msg;
     }
 
-    static public function databaseAlreadyExists()
+    public static function databaseAlreadyExists()
     {
         // ----- db schon vorhanden, nichts tun
         return self::installAddons(false, false);
     }
 
-    static public function overrideExisting()
+    public static function overrideExisting()
     {
         // ----- volle Datenbank, alte DB löschen / drop
         $err_msg = '';
@@ -73,7 +73,7 @@ class rex_setup_importer
         return $err_msg;
     }
 
-    static public function prepareEmptyDb()
+    public static function prepareEmptyDb()
     {
         // ----- leere Datenbank neu einrichten
         $err_msg = '';
@@ -87,7 +87,7 @@ class rex_setup_importer
         return $err_msg;
     }
 
-    static public function verifyDbSchema()
+    public static function verifyDbSchema()
     {
         $err_msg = '';
 
@@ -105,7 +105,7 @@ class rex_setup_importer
         return $err_msg;
     }
 
-    static private function getRequiredTables()
+    private static function getRequiredTables()
     {
         return array(
             rex::getTablePrefix() . 'clang',
@@ -114,7 +114,7 @@ class rex_setup_importer
         );
     }
 
-    static private function import($import_sql, $import_archiv = null)
+    private static function import($import_sql, $import_archiv = null)
     {
         $err_msg = '';
 
@@ -146,7 +146,7 @@ class rex_setup_importer
     }
 
     // -------------------------- System AddOns prüfen
-    static private function installAddons($uninstallBefore = false, $installDump = true)
+    private static function installAddons($uninstallBefore = false, $installDump = true)
     {
         $addonErr = '';
         rex_package_manager::synchronizeWithFileSystem();

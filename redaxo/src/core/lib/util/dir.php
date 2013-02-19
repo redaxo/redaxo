@@ -14,7 +14,7 @@ class rex_dir
      * @param boolean $recursive When FALSE, nested directories won't be created
      * @return boolean TRUE on success, FALSE on failure
      */
-    static public function create($dir, $recursive = true)
+    public static function create($dir, $recursive = true)
     {
         if (is_dir($dir))
             return true;
@@ -37,7 +37,7 @@ class rex_dir
      * @param string $dir Path of the directory
      * @return boolean
      */
-    static public function isWritable($dir)
+    public static function isWritable($dir)
     {
         $dir = rtrim($dir, DIRECTORY_SEPARATOR);
         return @is_dir($dir) && @is_writable($dir . DIRECTORY_SEPARATOR . '.');
@@ -50,7 +50,7 @@ class rex_dir
      * @param string $dstdir Path of the destination directory
      * @return boolean TRUE on success, FALSE on failure
      */
-    static public function copy($srcdir, $dstdir)
+    public static function copy($srcdir, $dstdir)
     {
         $srcdir = rtrim($srcdir, DIRECTORY_SEPARATOR);
         $dstdir = rtrim($dstdir, DIRECTORY_SEPARATOR);
@@ -80,7 +80,7 @@ class rex_dir
      * @param boolean $deleteSelf When FALSE, only subdirectories and files will be deleted
      * @return boolean TRUE on success, FALSE on failure
      */
-    static public function delete($dir, $deleteSelf = true)
+    public static function delete($dir, $deleteSelf = true)
     {
         return !is_dir($dir) || self::deleteIterator(rex_finder::factory($dir)->recursive()->childFirst()->ignoreSystemStuff(false)) && (!$deleteSelf || rmdir($dir));
     }
@@ -92,7 +92,7 @@ class rex_dir
      * @param boolean $recursive When FALSE, files in subdirectories won't be deleted
      * @return boolean TRUE on success, FALSE on failure
      */
-    static public function deleteFiles($dir, $recursive = true)
+    public static function deleteFiles($dir, $recursive = true)
     {
         $iterator = rex_finder::factory($dir)->recursive($recursive)->filesOnly()->ignoreSystemStuff(false);
         return self::deleteIterator($iterator);
@@ -104,7 +104,7 @@ class rex_dir
      * @param Traversable $iterator Iterator, $iterator->current() must return a SplFileInfo-Object
      * @return boolean TRUE on success, FALSE on failure
      */
-    static public function deleteIterator(Traversable $iterator)
+    public static function deleteIterator(Traversable $iterator)
     {
         $state = true;
 

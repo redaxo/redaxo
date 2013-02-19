@@ -30,7 +30,7 @@ abstract class rex_complex_perm
      *
      * @var array
      */
-    static private $classes = array();
+    private static $classes = array();
 
     /**
      * Constructor
@@ -59,7 +59,7 @@ abstract class rex_complex_perm
      *
      * @return array
      */
-    static public function getFieldParams()
+    public static function getFieldParams()
     {
         return array();
     }
@@ -71,7 +71,7 @@ abstract class rex_complex_perm
      * @param string $class Class name
      * @throws rex_exception
      */
-    static public function register($key, $class)
+    public static function register($key, $class)
     {
         if (!is_subclass_of($class, __CLASS__)) {
             throw new rex_exception(sprintf('$class must be a subclass of %s!', __CLASS__));
@@ -84,7 +84,7 @@ abstract class rex_complex_perm
      *
      * @return array Class names
      */
-    static public function getAll()
+    public static function getAll()
     {
         return self::$classes;
     }
@@ -97,7 +97,7 @@ abstract class rex_complex_perm
      * @param mixed    $perms Permissions
      * @return self
      */
-    static public function get(rex_user $user, $key, $perms = array())
+    public static function get(rex_user $user, $key, $perms = array())
     {
         if (!isset(self::$classes[$key])) {
             return null;
@@ -112,7 +112,7 @@ abstract class rex_complex_perm
      * @param string $key  Key
      * @param string $item Item
      */
-    static public function removeItem($key, $item)
+    public static function removeItem($key, $item)
     {
         rex_extension::registerPoint('COMPLEX_PERM_REMOVE_ITEM', '', array('key' => $key, 'item' => $item), true);
     }
@@ -126,7 +126,7 @@ abstract class rex_complex_perm
      * @param string $item Old item
      * @param string $new  New item
      */
-    static public function replaceItem($key, $item, $new)
+    public static function replaceItem($key, $item, $new)
     {
         rex_extension::registerPoint('COMPLEX_PERM_REPLACE_ITEM', '', array('key' => $key, 'item' => $item, 'new' => $new), true);
     }

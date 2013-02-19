@@ -12,31 +12,31 @@ class rex_config
      * Flag to indicate if the config was initialized
      * @var boolean
      */
-    static private $initialized = false;
+    private static $initialized = false;
 
     /**
      * Flag which indicates if database needs an update, because settings have changed.
      * @var boolean
      */
-    static private $changed = false;
+    private static $changed = false;
 
     /**
      * data read from database
      * @var array
      */
-    static private $data = array();
+    private static $data = array();
 
     /**
      * data which is modified during this request
      * @var array
      */
-    static private $changedData = array();
+    private static $changedData = array();
 
     /**
      * data which was deleted during this request
      * @var array
      */
-    static private $deletedData = array();
+    private static $deletedData = array();
 
     /**
      * Method which saves an arbitary value associated to the given namespace and key.
@@ -52,7 +52,7 @@ class rex_config
      *
      * @throws rex_exception on invalid parameters
      */
-    static public function set($namespace, $key, $value = null)
+    public static function set($namespace, $key, $value = null)
     {
         self::init();
 
@@ -103,7 +103,7 @@ class rex_config
      * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
      * @throws rex_exception on invalid parameters
      */
-    static public function get($namespace, $key = null, $default = null)
+    public static function get($namespace, $key = null, $default = null)
     {
         self::init();
 
@@ -135,7 +135,7 @@ class rex_config
      *
      * @throws rex_exception on invalid parameters
      */
-    static public function has($namespace, $key = null)
+    public static function has($namespace, $key = null)
     {
         self::init();
 
@@ -164,7 +164,7 @@ class rex_config
      *
      * @throws rex_exception on invalid parameters
      */
-    static public function remove($namespace, $key)
+    public static function remove($namespace, $key)
     {
         self::init();
 
@@ -201,7 +201,7 @@ class rex_config
      *
      * @throws rex_exception
      */
-    static public function removeNamespace($namespace)
+    public static function removeNamespace($namespace)
     {
         self::init();
 
@@ -224,7 +224,7 @@ class rex_config
     /**
      * initilizes the rex_config class
      */
-    static protected function init()
+    protected static function init()
     {
         if (self::$initialized)
             return;
@@ -247,7 +247,7 @@ class rex_config
     /**
      * load the config-data
      */
-    static protected function load()
+    protected static function load()
     {
         // check if we can load the config from the filesystem
         if (!self::loadFromFile()) {
@@ -263,7 +263,7 @@ class rex_config
      *
      * @return bool Returns TRUE, if the data was successfully loaded from the file-cache, otherwise FALSE.
      */
-    static private function loadFromFile()
+    private static function loadFromFile()
     {
         // delete cache-file, will be regenerated on next request
         if (file_exists(REX_CONFIG_FILE_CACHE)) {
@@ -276,7 +276,7 @@ class rex_config
     /**
      * load the config-data from database
      */
-    static private function loadFromDb()
+    private static function loadFromDb()
     {
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'config');
@@ -290,7 +290,7 @@ class rex_config
     /**
      * save config to file-cache
      */
-    static private function generateCache()
+    private static function generateCache()
     {
         if (rex_file::putCache(REX_CONFIG_FILE_CACHE, self::$data) <= 0) {
             throw new rex_exception('rex-config: unable to write cache file ' . REX_CONFIG_FILE_CACHE);
@@ -300,7 +300,7 @@ class rex_config
     /**
      * persists the config-data and truncates the file-cache
      */
-    static public function save()
+    public static function save()
     {
         // save cache only if changes happened
         if (!self::$changed)
@@ -321,7 +321,7 @@ class rex_config
     /**
      * save the config-data into the db
      */
-    static private function saveToDb()
+    private static function saveToDb()
     {
         $sql = rex_sql::factory();
         // $sql->setDebug();

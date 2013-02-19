@@ -7,7 +7,7 @@ class rex_module_perm extends rex_complex_perm
         return $this->hasAll() || in_array($module_id, $this->perms);
     }
 
-    static public function getFieldParams()
+    public static function getFieldParams()
     {
         return array(
             'label' => rex_i18n::msg('modules'),

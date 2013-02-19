@@ -2,12 +2,12 @@
 
 abstract class rex_error_handler
 {
-    static private $registered;
+    private static $registered;
 
     /**
      * Registers the class as php-error/exception handler
      */
-    static public function register()
+    public static function register()
     {
         if (self::$registered)
             return;
@@ -22,7 +22,7 @@ abstract class rex_error_handler
     /**
      * Unregisters the logger instance as php-error/exception handler
      */
-    static public function unregister()
+    public static function unregister()
     {
         if (!self::$registered)
             return;
@@ -40,7 +40,7 @@ abstract class rex_error_handler
      * @param Exception $exception The Exception to handle
      * @param boolean   $showTrace
      */
-    static public function handleException(Exception $exception, $showTrace = true)
+    public static function handleException(Exception $exception, $showTrace = true)
     {
         rex_logger::logException($exception);
 
@@ -102,7 +102,7 @@ abstract class rex_error_handler
      * @param string  $errfile The file in which the error occured
      * @param integer $errline The line of the file in which the error occured
      */
-    static public function handleError($errno, $errstr, $errfile, $errline)
+    public static function handleError($errno, $errstr, $errfile, $errline)
     {
         if (in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE))) {
 
@@ -121,7 +121,7 @@ abstract class rex_error_handler
     /**
      * Shutdown-handler which is called at the very end of the request
      */
-    static public function shutdown()
+    public static function shutdown()
     {
         if (self::$registered) {
             $error = error_get_last();
@@ -137,7 +137,7 @@ abstract class rex_error_handler
      * @param int $errno a php error code, e.g. E_ERROR
      * @return string
      */
-    static public function getErrorType($errno)
+    public static function getErrorType($errno)
     {
         switch ($errno) {
             case E_USER_ERROR:

@@ -103,7 +103,7 @@ class rex_context implements rex_context_provider
      *
      * @return rex_context
      */
-    static public function restore()
+    public static function restore()
     {
         // $_REQUEST contains some server specific globals, therefore we merge GET and POST manually
         return new self($_GET + $_POST);
@@ -115,7 +115,7 @@ class rex_context implements rex_context_provider
      * @param array $array The array which contains the key-value pairs for convertion
      * @return string
      */
-    static private function array2inputStr(array $array)
+    private static function array2inputStr(array $array)
     {
         $inputString = '';
         foreach ($array as $name => $value) {

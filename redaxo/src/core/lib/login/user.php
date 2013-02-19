@@ -26,7 +26,7 @@ class rex_user
      *
      * @var string
      */
-    static protected $roleClass;
+    protected static $roleClass;
 
     /**
      * Constructor
@@ -158,7 +158,7 @@ class rex_user
      *
      * @param string $class Class name
      */
-    static public function setRoleClass($class)
+    public static function setRoleClass($class)
     {
         self::$roleClass = $class;
     }

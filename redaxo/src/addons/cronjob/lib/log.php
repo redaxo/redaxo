@@ -10,7 +10,7 @@
 
 class rex_cronjob_log
 {
-    static public function getYears()
+    public static function getYears()
     {
         $folder = REX_CRONJOB_LOG_FOLDER;
         $years = array();
@@ -24,7 +24,7 @@ class rex_cronjob_log
         return $years;
     }
 
-    static public function getMonths($year)
+    public static function getMonths($year)
     {
         $folder = REX_CRONJOB_LOG_FOLDER;
         $months = array();
@@ -35,7 +35,7 @@ class rex_cronjob_log
         return $months;
     }
 
-    static public function getYearMonthArray()
+    public static function getYearMonthArray()
     {
         $array = array();
         foreach (self::getYears() as $year) {
@@ -46,13 +46,13 @@ class rex_cronjob_log
         return $array;
     }
 
-    static public function getLogOfMonth($month, $year)
+    public static function getLogOfMonth($month, $year)
     {
         $file = REX_CRONJOB_LOG_FOLDER . $year . '/' . $year . '-' . $month . '.log';
         return rex_file::get($file);
     }
 
-    static public function getListOfMonth($month, $year)
+    public static function getListOfMonth($month, $year)
     {
         $lines = explode("\n", trim(self::getLogOfMonth($month, $year)));
         $monthName = rex_formatter::format(mktime(0, 0, 0, $month, 1, 1), 'strftime', '%B');
@@ -61,7 +61,7 @@ class rex_cronjob_log
         return self::_getList($lines, $caption, $summary);
     }
 
-    static public function getListOfNewestMessages($limit = 10)
+    public static function getListOfNewestMessages($limit = 10)
     {
         $array = array_reverse(self::getYearMonthArray(), true);
         $messages = array();
@@ -83,7 +83,7 @@ class rex_cronjob_log
         return self::_getList($messages, $caption, $summary);
     }
 
-    static public function save($name, $success, $message = '', $id = null)
+    public static function save($name, $success, $message = '', $id = null)
     {
         $year = date('Y');
         $month = date('m');
@@ -123,7 +123,7 @@ class rex_cronjob_log
         return rex_file::put($file, $content);
     }
 
-    static private function _getList($lines, $caption = '', $summary = '')
+    private static function _getList($lines, $caption = '', $summary = '')
     {
         $table_attr = '';
         if (!empty($summary))

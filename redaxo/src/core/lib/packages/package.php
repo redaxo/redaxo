@@ -54,7 +54,7 @@ abstract class rex_package implements rex_package_interface
      * @throws rex_exception
      * @return rex_package
      */
-    static public function get($packageId)
+    public static function get($packageId)
     {
         if (!is_string($packageId)) {
             throw new rex_exception('Expecting $packageId to be string, but ' . gettype($packageId) . ' given!');
@@ -73,7 +73,7 @@ abstract class rex_package implements rex_package_interface
      * @param string $packageId Package ID
      * @return boolean
      */
-    static public function exists($packageId)
+    public static function exists($packageId)
     {
         $package = explode('/', $packageId);
         if (isset($package[1])) {
@@ -243,7 +243,7 @@ abstract class rex_package implements rex_package_interface
      *
      * @return rex_package[]
      */
-    static public function getRegisteredPackages()
+    public static function getRegisteredPackages()
     {
         return self::getPackages('Registered');
     }
@@ -253,7 +253,7 @@ abstract class rex_package implements rex_package_interface
      *
      * @return rex_package[]
      */
-    static public function getInstalledPackages()
+    public static function getInstalledPackages()
     {
         return self::getPackages('Installed');
     }
@@ -263,7 +263,7 @@ abstract class rex_package implements rex_package_interface
      *
      * @return rex_package[]
      */
-    static public function getAvailablePackages()
+    public static function getAvailablePackages()
     {
         return self::getPackages('Available');
     }
@@ -273,7 +273,7 @@ abstract class rex_package implements rex_package_interface
      *
      * @return rex_package[]
      */
-    static public function getSetupPackages()
+    public static function getSetupPackages()
     {
         return self::getPackages('Setup', 'System');
     }
@@ -283,7 +283,7 @@ abstract class rex_package implements rex_package_interface
      *
      * @return rex_package[]
      */
-    static public function getSystemPackages()
+    public static function getSystemPackages()
     {
         return self::getPackages('System');
     }
@@ -295,7 +295,7 @@ abstract class rex_package implements rex_package_interface
      * @param string $pluginMethod Optional other method for plugins
      * @return rex_package[]
      */
-    static private function getPackages($method, $pluginMethod = null)
+    private static function getPackages($method, $pluginMethod = null)
     {
         $packages = array();
         $addonMethod = 'get' . $method . 'Addons';

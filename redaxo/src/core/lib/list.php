@@ -162,7 +162,7 @@ class rex_list extends rex_factory_base implements rex_url_provider
      * @param bool   $debug
      * @return self
      */
-    static public function factory($query, $rowsPerPage = 30, $listName = null, $debug = false)
+    public static function factory($query, $rowsPerPage = 30, $listName = null, $debug = false)
     {
         $class = static::getFactoryClass();
         return new $class($query, $rowsPerPage, $listName, $debug);

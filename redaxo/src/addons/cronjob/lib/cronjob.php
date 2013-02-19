@@ -14,7 +14,7 @@ abstract class rex_cronjob
         $params = array(),
         $message = '';
 
-    final static public function factory($class)
+    final public static function factory($class)
     {
         if (!rex_autoload::autoload($class))
             return $class;

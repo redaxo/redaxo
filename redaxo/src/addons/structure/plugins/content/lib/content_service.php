@@ -11,7 +11,7 @@ class rex_content_service
      *
      * @return string Eine Statusmeldung
      */
-    static public function moveSlice($slice_id, $clang, $direction)
+    public static function moveSlice($slice_id, $clang, $direction)
     {
         // ctype beachten
         // verschieben / vertauschen
@@ -79,7 +79,7 @@ class rex_content_service
      *
      * @return boolean TRUE bei Erfolg, sonst FALSE
      */
-    static public function deleteSlice($slice_id)
+    public static function deleteSlice($slice_id)
     {
         // check if slice id is valid
         $curr = rex_sql::factory();
@@ -115,7 +115,7 @@ class rex_content_service
      * @param int $revision
      * @return boolean TRUE bei Erfolg, sonst FALSE
      */
-    static public function copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from_re_sliceid = 0, $revision = 0)
+    public static function copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from_re_sliceid = 0, $revision = 0)
     {
         if ($from_id == $to_id && $from_clang == $to_clang)
         return false;
@@ -177,7 +177,7 @@ class rex_content_service
      *
      * @return bool TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
      */
-    static public function generateArticleContent($article_id, $clang = null)
+    public static function generateArticleContent($article_id, $clang = null)
     {
         foreach (rex_clang::getAllIds() as $_clang) {
             if ($clang !== null && $clang != $_clang)

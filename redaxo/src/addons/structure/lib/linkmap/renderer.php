@@ -76,7 +76,7 @@ abstract class rex_linkmap_tree_renderer
 
     abstract protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml);
 
-    static public function formatLabel(rex_structure_element $OOobject)
+    public static function formatLabel(rex_structure_element $OOobject)
     {
         $label = $OOobject->getName();
 
@@ -92,7 +92,7 @@ abstract class rex_linkmap_tree_renderer
         return $label;
     }
 
-    static public function formatLi(rex_structure_element $OOobject, $current_category_id, rex_context $context, $liAttr = '', $linkAttr = '')
+    public static function formatLi(rex_structure_element $OOobject, $current_category_id, rex_context $context, $liAttr = '', $linkAttr = '')
     {
         $liAttr .= $OOobject->getId() == $current_category_id ? ' id="rex-linkmap-active"' : '';
         $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offine') . '"';

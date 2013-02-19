@@ -11,7 +11,7 @@ class rex_article_cache
      *
      * @return boolean True on success, False on errro
      */
-    static public function delete($id, $clang = null)
+    public static function delete($id, $clang = null)
     {
         // sanity check
         if ($id < 0) {
@@ -39,7 +39,7 @@ class rex_article_cache
      *
      * @return boolean True on success, False on errro
      */
-    static public function deleteMeta($id, $clang = null)
+    public static function deleteMeta($id, $clang = null)
     {
         // sanity check
         if ($id < 0) {
@@ -67,7 +67,7 @@ class rex_article_cache
      *
      * @return boolean True on success, False on errro
      */
-    static public function deleteContent($id, $clang = null)
+    public static function deleteContent($id, $clang = null)
     {
         // sanity check
         if ($id < 0) {
@@ -95,7 +95,7 @@ class rex_article_cache
      *
      * @return boolean True on success, False on errro
      */
-    static public function deleteLists($id, $clang = null)
+    public static function deleteLists($id, $clang = null)
     {
         // sanity check
         if ($id < 0) {
@@ -123,7 +123,7 @@ class rex_article_cache
      * @param int $clang      ClangId des Artikels
      * @return bool TRUE bei Erfolg, FALSE wenn eine ungütlige article_id übergeben wird, sonst eine Fehlermeldung
      */
-    static public function generateMeta($article_id, $clang = null)
+    public static function generateMeta($article_id, $clang = null)
     {
         // sanity check
         if ($article_id <= 0) {
@@ -175,7 +175,7 @@ class rex_article_cache
      * @param int     $clang
      * @return bool TRUE wenn der Artikel gelöscht wurde, sonst eine Fehlermeldung
      */
-    static public function generateLists($re_id, $clang = null)
+    public static function generateLists($re_id, $clang = null)
     {
         // sanity check
         if ($re_id < 0) {

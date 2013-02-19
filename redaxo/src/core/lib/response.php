@@ -16,13 +16,13 @@ class rex_response
         HTTP_UNAUTHORIZED = '401 Unauthorized',
         HTTP_INTERNAL_ERROR = '500 Internal Server Error';
 
-    static private
+    private static
         $httpStatus = self::HTTP_OK,
         $sentLastModified = false,
         $sentEtag = false,
         $sentContentType = false;
 
-    static public function setStatus($httpStatus)
+    public static function setStatus($httpStatus)
     {
         if (strpos($httpStatus, "\n") !== false) {
             throw new rex_exception('Illegal http-status "' . $httpStatus . '", contains newlines');
@@ -31,7 +31,7 @@ class rex_response
         self::$httpStatus = $httpStatus;
     }
 
-    static public function getStatus()
+    public static function getStatus()
     {
         return self::$httpStatus;
     }
@@ -42,7 +42,7 @@ class rex_response
      * @param string $url URL
      * @throws rex_exception
      */
-    static public function sendRedirect($url)
+    public static function sendRedirect($url)
     {
         if (strpos($url, "\n") !== false) {
             throw new rex_exception('Illegal redirect url "' . $url . '", contains newlines');
@@ -60,7 +60,7 @@ class rex_response
      * @param string $contentType        Content type
      * @param string $contentDisposition Content disposition
      */
-    static public function sendFile($file, $contentType, $contentDisposition = 'inline')
+    public static function sendFile($file, $contentType, $contentDisposition = 'inline')
     {
         self::cleanOutputBuffers();
 
@@ -97,7 +97,7 @@ class rex_response
      * @param string  $content      Content of page
      * @param integer $lastModified HTTP Last-Modified Timestamp
      */
-    static public function sendPage($content, $lastModified = null)
+    public static function sendPage($content, $lastModified = null)
     {
         // ----- EXTENSION POINT
         $content = rex_extension::registerPoint('OUTPUT_FILTER', $content);
@@ -116,7 +116,7 @@ class rex_response
      * @param integer $lastModified HTTP Last-Modified Timestamp
      * @param string  $etag         HTTP Cachekey to identify the cache
      */
-    static public function sendContent($content, $contentType = null, $lastModified = null, $etag = null)
+    public static function sendContent($content, $contentType = null, $lastModified = null, $etag = null)
     {
         if (!self::$sentContentType) {
             self::sendContentType($contentType);
@@ -164,7 +164,7 @@ class rex_response
     /**
      * Cleans all output buffers
      */
-    static public function cleanOutputBuffers()
+    public static function cleanOutputBuffers()
     {
         while (ob_get_length()) {
             ob_end_clean();
@@ -176,7 +176,7 @@ class rex_response
      *
      * @param string $contentType
      */
-    static public function sendContentType($contentType = null)
+    public static function sendContentType($contentType = null)
     {
         header('Content-Type: ' . ($contentType ?: 'text/html; charset=utf-8'));
         self::$sentContentType = true;
@@ -185,7 +185,7 @@ class rex_response
     /**
      * Sends the cache control header
      */
-    static public function sendCacheControl()
+    public static function sendCacheControl()
     {
         header('Cache-Control: must-revalidate, proxy-revalidate, private');
     }
@@ -197,7 +197,7 @@ class rex_response
      *
      * @param integer $lastModified HTTP Last-Modified Timestamp
      */
-    static public function sendLastModified($lastModified = null)
+    public static function sendLastModified($lastModified = null)
     {
         if (!$lastModified)
             $lastModified = time();
@@ -226,7 +226,7 @@ class rex_response
      *
      * @param string $cacheKey HTTP Cachekey to identify the cache
      */
-    static public function sendEtag($cacheKey)
+    public static function sendEtag($cacheKey)
     {
         // Laut HTTP Spec muss der Etag in " sein
         $cacheKey = '"' . $cacheKey . '"';
@@ -254,7 +254,7 @@ class rex_response
      * @param string $content Content
      * @return string
      */
-    static protected function sendGzip($content)
+    protected static function sendGzip($content)
     {
         $enc = '';
         $encodings = array();
@@ -288,12 +288,12 @@ class rex_response
      *
      * @param string $md5 MD5 Checksum
      */
-    static protected function sendChecksum($md5)
+    protected static function sendChecksum($md5)
     {
         header('Content-MD5: ' . $md5);
     }
 
-    static private function md5($content)
+    private static function md5($content)
     {
         return md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@U', '', $content));
     }

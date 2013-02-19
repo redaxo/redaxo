@@ -10,7 +10,7 @@
 
 class rex_cronjob_manager
 {
-    static private
+    private static
         $types = array(
             'rex_cronjob_phpcode',
             'rex_cronjob_phpcallback',
@@ -23,7 +23,7 @@ class rex_cronjob_manager
         $name,
         $id;
 
-    static public function factory()
+    public static function factory()
     {
         return new self;
     }
@@ -100,12 +100,12 @@ class rex_cronjob_manager
         return false;
     }
 
-    static public function getTypes()
+    public static function getTypes()
     {
         return self::$types;
     }
 
-    static public function registerType($class)
+    public static function registerType($class)
     {
         self::$types[] = $class;
     }

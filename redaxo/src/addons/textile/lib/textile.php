@@ -2,9 +2,9 @@
 
 class rex_textile
 {
-    static private $instances = array();
+    private static $instances = array();
 
-    static public function parse($code, $restricted = false, $doctype = 'xhtml')
+    public static function parse($code, $restricted = false, $doctype = 'xhtml')
     {
         $instance = self::getInstance($doctype);
         return $restricted ? $instance->TextileRestricted($code) : $instance->TextileThis($code);
@@ -14,7 +14,7 @@ class rex_textile
      * @param string $doctype
      * @return Netcarver\Textile\Parser
      */
-    static private function getInstance($doctype = 'xhtml')
+    private static function getInstance($doctype = 'xhtml')
     {
         if (!isset(self::$instances[$doctype])) {
             self::$instances[$doctype] = new Netcarver\Textile\Parser;
@@ -23,7 +23,7 @@ class rex_textile
         return self::$instances[$doctype];
     }
 
-    static public function showHelpOverview()
+    public static function showHelpOverview()
     {
         $formats = self::getHelpOverviewFormats();
 
@@ -80,7 +80,7 @@ class rex_textile
         echo '</div>';
     }
 
-    static private function getHelpOverviewFormats()
+    private static function getHelpOverviewFormats()
     {
         return array(
             self::getHelpHeadlines(),
@@ -92,7 +92,7 @@ class rex_textile
         );
     }
 
-    static private function getHelpHeadlines()
+    private static function getHelpHeadlines()
     {
         return array(
             rex_i18n::msg('textile_headlines'),
@@ -111,7 +111,7 @@ class rex_textile
         );
     }
 
-    static private function getHelpFormats()
+    private static function getHelpFormats()
     {
         return array(
             rex_i18n::msg('textile_text_formatting'),
@@ -141,7 +141,7 @@ class rex_textile
         );
     }
 
-    static private function getHelpLinks()
+    private static function getHelpLinks()
     {
         return array(
             rex_i18n::msg('textile_links'),
@@ -166,7 +166,7 @@ class rex_textile
         );
     }
 
-    static private function getHelpFootnotes()
+    private static function getHelpFootnotes()
     {
         return array(
             rex_i18n::msg('textile_footnotes'),
@@ -179,7 +179,7 @@ class rex_textile
         );
     }
 
-    static private function getHelpLists()
+    private static function getHelpLists()
     {
         return array(
             rex_i18n::msg('textile_lists'),
@@ -192,7 +192,7 @@ class rex_textile
         );
     }
 
-    static private function getHelpTables()
+    private static function getHelpTables()
     {
         return array(
             rex_i18n::msg('textile_tables'),

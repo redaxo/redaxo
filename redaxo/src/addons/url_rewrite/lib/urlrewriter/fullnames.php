@@ -340,7 +340,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
         rex_file::put($this->PATHLIST, "<?php\n\$REXPATH = " . var_export($REXPATH, true) . ";\n");
     }
 
-    static private function appendToPath($path, $name)
+    private static function appendToPath($path, $name)
     {
         if ($name != '') {
             $name = strtolower(rex_parse_article_name($name));

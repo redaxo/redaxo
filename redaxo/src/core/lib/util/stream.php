@@ -16,7 +16,7 @@
  */
 class rex_stream
 {
-    static private
+    private static
         $registered = false,
         $nextContent = array();
 
@@ -32,7 +32,7 @@ class rex_stream
      *
      * @return string Full path with protocol (e.g. "rex://template/1")
      */
-    static public function factory($path, $content)
+    public static function factory($path, $content)
     {
         if (!is_string($path) || empty($path)) {
             throw new rex_exception('Expecting $path to be a string and not empty!');

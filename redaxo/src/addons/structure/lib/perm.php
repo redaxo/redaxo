@@ -31,7 +31,7 @@ class rex_structure_perm extends rex_complex_perm
         return !$this->hasAll() && count($this->perms) > 0;
     }
 
-    static public function getFieldParams()
+    public static function getFieldParams()
     {
         return array(
             'label' => rex_i18n::msg('categories'),

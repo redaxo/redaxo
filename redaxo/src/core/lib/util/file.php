@@ -12,7 +12,7 @@ class rex_file
      * @param mixed  $default Default value
      * @return mixed Content of the file or default value if the file isn't readable
      */
-    static public function get($file, $default = null)
+    public static function get($file, $default = null)
     {
         return is_readable($file) ? file_get_contents($file) : $default;
     }
@@ -24,7 +24,7 @@ class rex_file
      * @param mixed  $default Default value
      * @return mixed Content of the file or default value if the file isn't readable
      */
-    static public function getConfig($file, $default = array())
+    public static function getConfig($file, $default = array())
     {
         $content = self::get($file);
         return $content === null ? $default : rex_string::yamlDecode($content);
@@ -37,7 +37,7 @@ class rex_file
      * @param mixed  $default Default value
      * @return mixed Content of the file or default value if the file isn't readable
      */
-    static public function getCache($file, $default = array())
+    public static function getCache($file, $default = array())
     {
         $content = self::get($file);
         return $content === null ? $default : json_decode($content, true);
@@ -50,7 +50,7 @@ class rex_file
      * @param string $content Content for the file
      * @return boolean TRUE on success, FALSE on failure
      */
-    static public function put($file, $content)
+    public static function put($file, $content)
     {
         if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file)) {
             return false;
@@ -72,7 +72,7 @@ class rex_file
      * @param integer $inline  The level where you switch to inline YAML
      * @return boolean TRUE on success, FALSE on failure
      */
-    static public function putConfig($file, $content, $inline = 3)
+    public static function putConfig($file, $content, $inline = 3)
     {
         return self::put($file, rex_string::yamlEncode($content, $inline));
     }
@@ -84,7 +84,7 @@ class rex_file
      * @param mixed  $content Content for the file
      * @return boolean TRUE on success, FALSE on failure
      */
-    static public function putCache($file, $content)
+    public static function putCache($file, $content)
     {
         return self::put($file, json_encode($content));
     }
@@ -96,7 +96,7 @@ class rex_file
      * @param string $dstfile Path of the destination file or directory
      * @return boolean TRUE on success, FALSE on failure
      */
-    static public function copy($srcfile, $dstfile)
+    public static function copy($srcfile, $dstfile)
     {
         if (is_file($srcfile)) {
             if (is_dir($dstfile)) {
@@ -121,7 +121,7 @@ class rex_file
      * @param string $file Path of the file
      * @return boolean TRUE on success, FALSE on failure
      */
-    static public function delete($file)
+    public static function delete($file)
     {
         if (file_exists($file)) {
             return unlink($file);
@@ -135,7 +135,7 @@ class rex_file
      * @param string $filename Filename
      * @return string Extension of $filename
      */
-    static public function extension($filename)
+    public static function extension($filename)
     {
         return substr(strrchr($filename, '.'), 1);
     }
@@ -147,7 +147,7 @@ class rex_file
      * @param array      $format
      * @return string Formatted filesize
      */
-    static public function formattedSize($fileOrSize, $format = array())
+    public static function formattedSize($fileOrSize, $format = array())
     {
         return rex_formatter::format(is_file($fileOrSize) ? filesize($fileOrSize) : $fileOrSize, 'bytes', $format);
     }
@@ -158,7 +158,7 @@ class rex_file
      * @param string $file Path of the file
      * @return string executed Content
      */
-    static public function getOutput($file)
+    public static function getOutput($file)
     {
         ob_start();
         require $file;

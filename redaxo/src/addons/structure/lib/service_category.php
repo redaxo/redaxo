@@ -15,7 +15,7 @@ class rex_category_service
      *
      * @return string Eine Statusmeldung
      */
-    static public function addCategory($category_id, array $data)
+    public static function addCategory($category_id, array $data)
     {
         $message = '';
 
@@ -147,7 +147,7 @@ class rex_category_service
      *
      * @return string Eine Statusmeldung
      */
-    static public function editCategory($category_id, $clang, array $data)
+    public static function editCategory($category_id, $clang, array $data)
     {
         $message = '';
 
@@ -253,7 +253,7 @@ class rex_category_service
      *
      * @return string Eine Statusmeldung
      */
-    static public function deleteCategory($category_id)
+    public static function deleteCategory($category_id)
     {
         $clang = 0;
 
@@ -317,7 +317,7 @@ class rex_category_service
      *
      * @return int Der neue Status der Kategorie
      */
-    static public function categoryStatus($category_id, $clang, $status = null)
+    public static function categoryStatus($category_id, $clang, $status = null)
     {
         $message = '';
         $catStatusTypes = self::statusTypes();
@@ -364,7 +364,7 @@ class rex_category_service
      *
      * @return array Array von Stati
      */
-    static public function statusTypes()
+    public static function statusTypes()
     {
         static $catStatusTypes;
 
@@ -382,13 +382,13 @@ class rex_category_service
         return $catStatusTypes;
     }
 
-    static public function nextStatus($currentStatus)
+    public static function nextStatus($currentStatus)
     {
         $catStatusTypes = self::statusTypes();
         return ($currentStatus + 1) % count($catStatusTypes);
     }
 
-    static public function prevStatus($currentStatus)
+    public static function prevStatus($currentStatus)
     {
         $catStatusTypes = self::statusTypes();
         if (($currentStatus - 1) < 0 ) return count($catStatusTypes) - 1;
@@ -402,7 +402,7 @@ class rex_category_service
      * @param int $from_cat KategorieId der Kategorie, die kopiert werden soll (Quelle)
      * @param int $to_cat   KategorieId der Kategorie, IN die kopiert werden soll (Ziel)
      */
-    static public function copyCategory($from_cat, $to_cat)
+    public static function copyCategory($from_cat, $to_cat)
     {
         // TODO rex_copyCategory implementieren
     }
@@ -417,7 +417,7 @@ class rex_category_service
      *
      * @return void
      */
-    static public function newCatPrio($re_id, $clang, $new_prio, $old_prio)
+    public static function newCatPrio($re_id, $clang, $new_prio, $old_prio)
     {
         if ($new_prio != $old_prio) {
             if ($new_prio < $old_prio)
@@ -445,7 +445,7 @@ class rex_category_service
      * @param int $to_cat   KategorieId der Kategorie, IN die verschoben werden soll (Ziel)
      * @return boolean TRUE bei Erfolg, sonst FALSE
      */
-    static public function moveCategory($from_cat, $to_cat)
+    public static function moveCategory($from_cat, $to_cat)
     {
         $from_cat = (int) $from_cat;
         $to_cat = (int) $to_cat;
@@ -549,7 +549,7 @@ class rex_category_service
      * @param array  $array   The array
      * @param string $keyName The key
      */
-    static protected function reqKey(array $array, $keyName)
+    protected static function reqKey(array $array, $keyName)
     {
         if (!isset($array[$keyName])) {
             throw new rex_api_exception('Missing required parameter "' . $keyName . '"!');

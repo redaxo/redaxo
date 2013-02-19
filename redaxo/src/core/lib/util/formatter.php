@@ -51,7 +51,7 @@ abstract class rex_formatter
      * - bytes
      *    + formatiert einen Zahlenwert und gibt ihn als Bytegröße aus
      */
-    static public function format($value, $format_type, $format)
+    public static function format($value, $format_type, $format)
     {
         // Stringformatierung mit sprintf()
         if ($format_type == 'sprintf') {
@@ -95,7 +95,7 @@ abstract class rex_formatter
         return $value;
     }
 
-    static private function _formatSprintf($value, $format)
+    private static function _formatSprintf($value, $format)
     {
         if ($format == '') {
             $format = '%s';
@@ -103,7 +103,7 @@ abstract class rex_formatter
         return sprintf($format, $value);
     }
 
-    static private function _formatDate($value, $format)
+    private static function _formatDate($value, $format)
     {
         if ($format == '') {
             $format = 'd.m.Y';
@@ -112,7 +112,7 @@ abstract class rex_formatter
         return date($format, $value);
     }
 
-    static private function _formatStrftime($value, $format)
+    private static function _formatStrftime($value, $format)
     {
         if (empty ($value)) {
             return '';
@@ -128,7 +128,7 @@ abstract class rex_formatter
         return strftime($format, $value);
     }
 
-    static private function _formatNumber($value, $format)
+    private static function _formatNumber($value, $format)
     {
         if (!is_array($format)) {
             $format = array();
@@ -149,7 +149,7 @@ abstract class rex_formatter
         return number_format($value, $format[0], $format[1], $format[2]);
     }
 
-    static private function _formatEmail($value, $format)
+    private static function _formatEmail($value, $format)
     {
         if (!is_array($format)) {
             $format = array();
@@ -171,7 +171,7 @@ abstract class rex_formatter
         return '<a href="mailto:' . htmlspecialchars($value . $format['params']) . '"' . $format['attr'] . '>' . htmlspecialchars($value) . '</a>';
     }
 
-    static private function _formatUrl($value, $format)
+    private static function _formatUrl($value, $format)
     {
         if (empty($value))
             return '';
@@ -199,7 +199,7 @@ abstract class rex_formatter
         return '<a href="' . htmlspecialchars($value . $format['params']) . '"' . $format['attr'] . '>' . htmlspecialchars($value) . '</a>';
     }
 
-    static private function _formatTruncate($value, $format)
+    private static function _formatTruncate($value, $format)
     {
         if (!is_array($format))
             $format = array();
@@ -219,12 +219,12 @@ abstract class rex_formatter
         return self::truncate($value, $format['length'], $format['etc'], $format['break_words']);
     }
 
-    static private function _formatNl2br($value, $format)
+    private static function _formatNl2br($value, $format)
     {
         return nl2br($value);
     }
 
-    static private function _formatCustom($value, $format)
+    private static function _formatCustom($value, $format)
     {
         if (!is_callable($format)) {
             if (!is_callable($format[0])) {
@@ -246,7 +246,7 @@ abstract class rex_formatter
         return call_user_func($format, $value);
     }
 
-    static private function _formatBytes($value, $format)
+    private static function _formatBytes($value, $format)
     {
         $units = array('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
         $unit_index = 0;
@@ -279,7 +279,7 @@ abstract class rex_formatter
      * @param bool   $break_words
      * @return string
      */
-    static public function truncate($string, $length = 80, $etc = '...', $break_words = false)
+    public static function truncate($string, $length = 80, $etc = '...', $break_words = false)
     {
         if ($length == 0)
             return '';

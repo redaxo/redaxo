@@ -6,7 +6,7 @@ class rex_article_revision
         LIVE = 0, // live revision
         WORK = 1; // working copy
 
-    static public function copyContent($article_id, $clang, $from_revision_id, $to_revision_id)
+    public static function copyContent($article_id, $clang, $from_revision_id, $to_revision_id)
     {
         if ($from_revision_id == $to_revision_id)
             return false;

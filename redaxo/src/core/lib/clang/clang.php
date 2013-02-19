@@ -7,7 +7,7 @@
  */
 class rex_clang
 {
-    static private
+    private static
         $cacheLoaded = false,
         $clangs = array(),
         $currentId = 0;
@@ -37,7 +37,7 @@ class rex_clang
      * @param integer $id Clang id
      * @return boolean
      */
-    static public function exists($id)
+    public static function exists($id)
     {
         self::checkCache();
         return isset(self::$clangs[$id]);
@@ -49,7 +49,7 @@ class rex_clang
      * @param integer $id Clang id
      * @return self
      */
-    static public function get($id)
+    public static function get($id)
     {
         if (self::exists($id)) {
             return self::$clangs[$id];
@@ -62,7 +62,7 @@ class rex_clang
      *
      * @return self
      */
-    static public function getCurrent()
+    public static function getCurrent()
     {
         return self::get(self::getCurrentId());
     }
@@ -72,7 +72,7 @@ class rex_clang
      *
      * @return integer Current clang id
      */
-    static public function getCurrentId()
+    public static function getCurrentId()
     {
         return self::$currentId;
     }
@@ -82,7 +82,7 @@ class rex_clang
      *
      * @param integer $id Clang id
      */
-    static public function setCurrentId($id)
+    public static function setCurrentId($id)
     {
         if (!self::exists($id)) {
             throw new rex_exception('Clang id "' . $id . '" doesn\'t exist');
@@ -125,7 +125,7 @@ class rex_clang
      *
      * @return integer
      */
-    static public function count()
+    public static function count()
     {
         self::checkCache();
         return count(self::$clangs);
@@ -136,7 +136,7 @@ class rex_clang
      *
      * @return int[]
      */
-    static public function getAllIds()
+    public static function getAllIds()
     {
         self::checkCache();
         return array_keys(self::$clangs);
@@ -147,7 +147,7 @@ class rex_clang
      *
      * @return self[]
      */
-    static public function getAll()
+    public static function getAll()
     {
         self::checkCache();
         return self::$clangs;
@@ -156,7 +156,7 @@ class rex_clang
     /**
      * Loads the cache if not already loaded
      */
-    static private function checkCache()
+    private static function checkCache()
     {
         if (self::$cacheLoaded) {
             return;
@@ -175,7 +175,7 @@ class rex_clang
     /**
      * Resets the intern cache of this class
      */
-    static public function reset()
+    public static function reset()
     {
         self::$cacheLoaded = false;
         self::$clangs = array();

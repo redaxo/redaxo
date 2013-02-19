@@ -50,7 +50,7 @@ class rex_var_media extends rex_var
         return self::quote($value);
     }
 
-    static public function getWidget($id, $name, $value, array $args = array())
+    public static function getWidget($id, $name, $value, array $args = array())
     {
         $open_params = '';
         if (isset($args['category']) && ($category = (int) $args['category'])) {

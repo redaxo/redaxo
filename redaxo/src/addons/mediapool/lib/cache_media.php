@@ -7,7 +7,7 @@ class rex_media_cache
      *
      * @param string $filename Dateiname
      */
-    static public function delete($filename)
+    public static function delete($filename)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $filename . '.media'));
         self::deleteLists();
@@ -18,7 +18,7 @@ class rex_media_cache
      *
      * @param int $category_id Id der Media-Kategorie
      */
-    static public function deleteCategory($category_id)
+    public static function deleteCategory($category_id)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mcat'));
         self::deleteCategoryLists();
@@ -29,7 +29,7 @@ class rex_media_cache
      *
      * @return void
      */
-    static public function deleteLists()
+    public static function deleteLists()
     {
         $cachePath = rex_path::addonCache('mediapool');
 
@@ -53,7 +53,7 @@ class rex_media_cache
      *
      * @param int $category_id Id der Media-Kategorie
      */
-    static public function deleteList($category_id)
+    public static function deleteList($category_id)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mlist'));
     }
@@ -63,7 +63,7 @@ class rex_media_cache
      *
      * @return void
      */
-    static public function deleteCategoryLists()
+    public static function deleteCategoryLists()
     {
         $cachePath = rex_path::addonCache('mediapool');
 
@@ -80,7 +80,7 @@ class rex_media_cache
      *
      * @param int $category_id Id der Media-Kategorie
      */
-    static public function deleteCategoryList($category_id)
+    public static function deleteCategoryList($category_id)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mclist'));
     }
@@ -91,7 +91,7 @@ class rex_media_cache
      * @param string $filename Dateiname des zu generierenden Mediums
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
-    static public function generate($filename)
+    public static function generate($filename)
     {
         $query = 'SELECT * FROM ' . rex_media :: _getTableName() . ' WHERE filename = "' . $filename . '"';
         $sql = rex_sql::factory();
@@ -122,7 +122,7 @@ class rex_media_cache
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
-    static public function generateCategory($category_id)
+    public static function generateCategory($category_id)
     {
         // sanity check
         if ($category_id < 0) {
@@ -157,7 +157,7 @@ class rex_media_cache
      * @param int $category_id Id der Kategorie
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
-    static public function generateList($category_id)
+    public static function generateList($category_id)
     {
         // sanity check
         if ($category_id < 0) {
@@ -189,7 +189,7 @@ class rex_media_cache
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
-    static public function generateCategoryList($category_id)
+    public static function generateCategoryList($category_id)
     {
         // sanity check
         if ($category_id < 0) {
@@ -222,7 +222,7 @@ class rex_media_cache
      *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
-    static public function generateExtensionList($extension)
+    public static function generateExtensionList($extension)
     {
         $query = 'SELECT filename FROM ' . rex_media :: _getTableName() . ' WHERE LOWER(RIGHT(filename, LOCATE(".", REVERSE(filename))-1)) = "' . strtolower($extension) . '"';
         $sql = rex_sql::factory();

@@ -9,7 +9,7 @@ class rex_article_service
      *
      * @return string Eine Statusmeldung
      */
-    static public function addArticle($data)
+    public static function addArticle($data)
     {
         $message = '';
 
@@ -115,7 +115,7 @@ class rex_article_service
      *
      * @return string Eine Statusmeldung
      */
-    static public function editArticle($article_id, $clang, $data)
+    public static function editArticle($article_id, $clang, $data)
     {
         $message = '';
 
@@ -217,7 +217,7 @@ class rex_article_service
      * @throws rex_api_exception
      * @return string Eine Statusmeldung
      */
-    static public function deleteArticle($article_id)
+    public static function deleteArticle($article_id)
     {
         $Art = rex_sql::factory();
         $Art->setQuery('select * from ' . rex::getTablePrefix() . 'article where id=' . $article_id . ' and startpage=0');
@@ -261,7 +261,7 @@ class rex_article_service
      * @throws rex_api_exception
      * @return string Eine Statusmeldung
      */
-    static public function _deleteArticle($id)
+    public static function _deleteArticle($id)
     {
         // artikel loeschen
         //
@@ -335,7 +335,7 @@ class rex_article_service
      *
      * @return int Der neue Status des Artikels
      */
-    static public function articleStatus($article_id, $clang, $status = null)
+    public static function articleStatus($article_id, $clang, $status = null)
     {
         $message = '';
 
@@ -381,7 +381,7 @@ class rex_article_service
      *
      * @return array Array von Stati
      */
-    static public function statusTypes()
+    public static function statusTypes()
     {
         static $artStatusTypes;
 
@@ -399,13 +399,13 @@ class rex_article_service
         return $artStatusTypes;
     }
 
-    static public function nextStatus($currentStatus)
+    public static function nextStatus($currentStatus)
     {
         $artStatusTypes = self::statusTypes();
         return ($currentStatus + 1) % count($artStatusTypes);
     }
 
-    static public function prevStatus($currentStatus)
+    public static function prevStatus($currentStatus)
     {
         $artStatusTypes = self::statusTypes();
         if (($currentStatus - 1) < 0 ) return count($artStatusTypes) - 1;
@@ -423,7 +423,7 @@ class rex_article_service
      *
      * @return void
      */
-    static public function newArtPrio($re_id, $clang, $new_prio, $old_prio)
+    public static function newArtPrio($re_id, $clang, $new_prio, $old_prio)
     {
         if ($new_prio != $old_prio) {
             if ($new_prio < $old_prio)
@@ -450,7 +450,7 @@ class rex_article_service
      *
      * @return boolean TRUE bei Erfolg, sonst FALSE
      */
-    static public function article2category($art_id)
+    public static function article2category($art_id)
     {
         $sql = rex_sql::factory();
 
@@ -493,7 +493,7 @@ class rex_article_service
      *
      * @return boolean TRUE bei Erfolg, sonst FALSE
      */
-    static public function category2article($art_id)
+    public static function category2article($art_id)
     {
         $sql = rex_sql::factory();
 
@@ -540,7 +540,7 @@ class rex_article_service
      *
      * @return boolean TRUE bei Erfolg, sonst FALSE
      */
-    static public function article2startpage($neu_id)
+    public static function article2startpage($neu_id)
     {
         $GAID = array();
 
@@ -649,7 +649,7 @@ class rex_article_service
      *
      * @return boolean TRUE bei Erfolg, sonst FALSE
      */
-    static public function copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params = array())
+    public static function copyMeta($from_id, $to_id, $from_clang = 0, $to_clang = 0, $params = array())
     {
         $from_clang = (int) $from_clang;
         $to_clang = (int) $to_clang;
@@ -692,7 +692,7 @@ class rex_article_service
      *
      * @return boolean FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
      */
-    static public function copyArticle($id, $to_cat_id)
+    public static function copyArticle($id, $to_cat_id)
     {
         $id = (int) $id;
         $to_cat_id = (int) $to_cat_id;
@@ -781,7 +781,7 @@ class rex_article_service
      *
      * @return boolean TRUE bei Erfolg, sonst FALSE
      */
-    static public function moveArticle($id, $from_cat_id, $to_cat_id)
+    public static function moveArticle($id, $from_cat_id, $to_cat_id)
     {
         $id = (int) $id;
         $to_cat_id = (int) $to_cat_id;
@@ -856,7 +856,7 @@ class rex_article_service
      * @param array  $array   The array
      * @param string $keyName The key
      */
-    static protected function reqKey($array, $keyName)
+    protected static function reqKey($array, $keyName)
     {
         if (!isset($array[$keyName])) {
             throw new rex_api_exception('Missing required parameter "' . $keyName . '"!');

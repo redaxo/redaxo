@@ -27,7 +27,7 @@ abstract class rex_factory_base
     /**
      * @var array
      */
-    static private $classes = array();
+    private static $classes = array();
 
     /**
      * Sets the class for the factory
@@ -35,7 +35,7 @@ abstract class rex_factory_base
      * @param string $subclass Classname
      * @throws rex_exception
      */
-    static public function setFactoryClass($subclass)
+    public static function setFactoryClass($subclass)
     {
         if (!is_string($subclass)) {
             throw new rex_exception('Expecting $subclass to be a string, ' . gettype($subclass) . ' given!');
@@ -52,7 +52,7 @@ abstract class rex_factory_base
      *
      * @return string
      */
-    static public function getFactoryClass()
+    public static function getFactoryClass()
     {
         $calledClass = get_called_class();
         return isset(self::$classes[$calledClass]) ? self::$classes[$calledClass] : $calledClass;
@@ -63,7 +63,7 @@ abstract class rex_factory_base
      *
      * @return boolean
      */
-    static public function hasFactoryClass()
+    public static function hasFactoryClass()
     {
         $calledClass = get_called_class();
         return isset(self::$classes[$calledClass]) && self::$classes[$calledClass] != $calledClass;
@@ -76,7 +76,7 @@ abstract class rex_factory_base
      * @param array  $arguments Array of arguments
      * @return mixed Result of the callback
      */
-    static protected function callFactoryClass($method, array $arguments)
+    protected static function callFactoryClass($method, array $arguments)
     {
         $class = static::getFactoryClass();
         return call_user_func_array(array($class, $method), $arguments);

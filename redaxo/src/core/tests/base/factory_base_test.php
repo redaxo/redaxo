@@ -2,7 +2,7 @@
 
 class rex_test_factory extends rex_factory_base
 {
-    static public function factory()
+    public static function factory()
     {
         // just return the class which was determined using rex_factory_base.
         // this doesn't make sense in real use-cases but eases testing
@@ -13,7 +13,7 @@ class rex_test_factory extends rex_factory_base
         return 'base';
     }
 
-    static public function staticCall()
+    public static function staticCall()
     {
         if (static::hasFactoryClass()) {
             return static::callFactoryClass(__FUNCTION__, func_get_args());
@@ -28,7 +28,7 @@ class rex_alternative_test_factory extends rex_test_factory
         return 'overridden';
     }
 
-    static public function staticCall()
+    public static function staticCall()
     {
         return 'static-overridden';
     }

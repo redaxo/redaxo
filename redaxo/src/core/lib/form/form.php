@@ -95,7 +95,7 @@ class rex_form extends rex_factory_base
      * @param bool   $debug
      * @return rex_form a rex_form instance
      */
-    static public function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+    public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
     {
         $class = static::getFactoryClass();
         return new $class($tableName, $fieldset, $whereCondition, $method, $debug);
@@ -688,7 +688,7 @@ class rex_form extends rex_factory_base
      *
      * @return rex_form_element
      */
-    static public function getInputClassName($inputType)
+    public static function getInputClassName($inputType)
     {
         // ----- EXTENSION POINT
         $className = rex_extension::registerPoint('REX_FORM_INPUT_CLASS', '', array('inputType' => $inputType));
@@ -721,7 +721,7 @@ class rex_form extends rex_factory_base
      *
      * @return string
      */
-    static public function getInputTagName($inputType)
+    public static function getInputTagName($inputType)
     {
         // ----- EXTENSION POINT
         $inputTag = rex_extension::registerPoint('REX_FORM_INPUT_TAG', '', array('inputType' => $inputType));
@@ -749,7 +749,7 @@ class rex_form extends rex_factory_base
      *
      * @return array
      */
-    static public function getInputAttributes($inputType)
+    public static function getInputAttributes($inputType)
     {
         // ----- EXTENSION POINT
         $inputAttr = rex_extension::registerPoint('REX_FORM_INPUT_ATTRIBUTES', array(), array('inputType' => $inputType));

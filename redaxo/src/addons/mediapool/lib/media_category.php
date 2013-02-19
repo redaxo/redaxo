@@ -41,7 +41,7 @@ class rex_media_category
      * @param int $id
      * @return self
      */
-    static public function getCategoryById($id)
+    public static function getCategoryById($id)
     {
         $id = (int) $id;
         if (!is_numeric($id))
@@ -81,7 +81,7 @@ class rex_media_category
     /**
      * @return self[]
      */
-    static public function getRootCategories()
+    public static function getRootCategories()
     {
         return self :: getChildrenById(0);
     }
@@ -90,7 +90,7 @@ class rex_media_category
      * @param int $id
      * @return self[]
      */
-    static public function getChildrenById($id)
+    public static function getChildrenById($id)
     {
         $id = (int) $id;
 
@@ -365,7 +365,7 @@ class rex_media_category
     /**
      * @return string
      */
-    static public function _getTableName()
+    public static function _getTableName()
     {
         return rex::getTablePrefix() . 'media_category';
     }

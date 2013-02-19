@@ -14,12 +14,12 @@ class rex
      *
      * @var array
      */
-    static protected $properties = array();
+    protected static $properties = array();
 
     /**
      * @see rex_config::set()
      */
-    static public function setConfig($key, $value = null)
+    public static function setConfig($key, $value = null)
     {
         return rex_config::set(self::CONFIG_NAMESPACE, $key, $value);
     }
@@ -27,7 +27,7 @@ class rex
     /**
      * @see rex_config::get()
      */
-    static public function getConfig($key = null, $default = null)
+    public static function getConfig($key = null, $default = null)
     {
         return rex_config::get(self::CONFIG_NAMESPACE, $key, $default);
     }
@@ -35,7 +35,7 @@ class rex
     /**
      * @see rex_config::has()
      */
-    static public function hasConfig($key)
+    public static function hasConfig($key)
     {
         return rex_config::has(self::CONFIG_NAMESPACE, $key);
     }
@@ -43,7 +43,7 @@ class rex
     /**
      * @see rex_config::remove()
      */
-    static public function removeConfig($key)
+    public static function removeConfig($key)
     {
         return rex_config::remove(self::CONFIG_NAMESPACE, $key);
     }
@@ -58,7 +58,7 @@ class rex
      *
      * @throws rex_exception on invalid parameters
      */
-    static public function setProperty($key, $value)
+    public static function setProperty($key, $value)
     {
         if (!is_string($key)) {
             throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
@@ -78,7 +78,7 @@ class rex
      *
      * @throws rex_exception on invalid parameters
      */
-    static public function getProperty($key, $default = null)
+    public static function getProperty($key, $default = null)
     {
         if (!is_string($key)) {
             throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
@@ -98,7 +98,7 @@ class rex
      *
      * @throws rex_exception on invalid parameters
      */
-    static public function hasProperty($key)
+    public static function hasProperty($key)
     {
         return is_string($key) && isset(self::$properties[$key]);
     }
@@ -112,7 +112,7 @@ class rex
      *
      * @throws rex_exception on invalid parameters
      */
-    static public function removeProperty($key)
+    public static function removeProperty($key)
     {
         if (!is_string($key)) {
             throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
@@ -127,7 +127,7 @@ class rex
      *
      * @return boolean
      */
-    static public function isSetup()
+    public static function isSetup()
     {
         return (boolean) self::getProperty('setup', false);
     }
@@ -137,7 +137,7 @@ class rex
      *
      * @return boolean
      */
-    static public function isBackend()
+    public static function isBackend()
     {
         return (boolean) self::getProperty('redaxo', false);
     }
@@ -147,7 +147,7 @@ class rex
      *
      * @return boolean
      */
-    static public function isDebugMode()
+    public static function isDebugMode()
     {
         return (boolean) self::getProperty('debug', false);
     }
@@ -157,7 +157,7 @@ class rex
      *
      * @return boolean
      */
-    static public function isSafeMode()
+    public static function isSafeMode()
     {
         return self::isBackend() && rex_session('safemode', 'boolean', false);
     }
@@ -167,7 +167,7 @@ class rex
      *
      * @return string
      */
-    static public function getTablePrefix()
+    public static function getTablePrefix()
     {
         return self::getProperty('table_prefix');
     }
@@ -178,7 +178,7 @@ class rex
      * @param string $table Table name
      * @return string
      */
-    static public function getTable($table)
+    public static function getTable($table)
     {
         return self::getTablePrefix() . $table;
     }
@@ -188,7 +188,7 @@ class rex
      *
      * @return string
      */
-    static public function getTempPrefix()
+    public static function getTempPrefix()
     {
         return self::getProperty('temp_prefix');
     }
@@ -198,7 +198,7 @@ class rex
      *
      * @return rex_user
      */
-    static public function getUser()
+    public static function getUser()
     {
         return self::getProperty('user');
     }
@@ -209,7 +209,7 @@ class rex
      * @param string $separator Separator between version, subversion and minorversion
      * @return string
      */
-    static public function getVersion($separator = '.')
+    public static function getVersion($separator = '.')
     {
         return self::getProperty('version') . $separator . self::getProperty('subversion') . $separator . self::getProperty('minorversion');
     }
@@ -221,7 +221,7 @@ class rex
      * @param string $key   Key for the accesskey
      * @return string
      */
-    static public function getAccesskey($title, $key)
+    public static function getAccesskey($title, $key)
     {
         if (self::getProperty('use_accesskeys')) {
             $accesskeys = (array) self::getProperty('accesskeys', array());
@@ -237,7 +237,7 @@ class rex
      *
      * @return int
      */
-    static public function getFilePerm()
+    public static function getFilePerm()
     {
         return (int) self::getProperty('fileperm', 0664);
     }
@@ -247,7 +247,7 @@ class rex
      *
      * @return int
      */
-    static public function getDirPerm()
+    public static function getDirPerm()
     {
         return (int) self::getProperty('dirperm', 0775);
     }

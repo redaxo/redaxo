@@ -12,7 +12,7 @@ abstract class rex_system_setting
      *
      * @var self[]
      */
-    static private $settings = array();
+    private static $settings = array();
 
     /**
      * Returns the key for the rex property
@@ -52,7 +52,7 @@ abstract class rex_system_setting
      *
      * @param self $setting Setting object
      */
-    static public function register(self $setting)
+    public static function register(self $setting)
     {
         self::$settings[] = $setting;
     }
@@ -62,7 +62,7 @@ abstract class rex_system_setting
      *
      * @return self[]
      */
-    static public function getAll()
+    public static function getAll()
     {
         return self::$settings;
     }

@@ -82,7 +82,7 @@ abstract class rex_structure_element
      * @param array  $prefixes
      * @return boolean
      */
-    static protected function _hasValue($value, array $prefixes = array())
+    protected static function _hasValue($value, array $prefixes = array())
     {
         static $values = null;
 
@@ -108,7 +108,7 @@ abstract class rex_structure_element
      *
      * @return string[]
      */
-    static public function getClassVars()
+    public static function getClassVars()
     {
         static $vars = array();
 
@@ -145,7 +145,7 @@ abstract class rex_structure_element
      * @param int   $clang
      * @return array
      */
-    static public function convertGeneratedArray(array $generatedArray, $clang)
+    public static function convertGeneratedArray(array $generatedArray, $clang)
     {
         $rex_structure_elementArray['id'] = $generatedArray['article_id'][$clang];
         $rex_structure_elementArray['clang'] = $clang;
@@ -160,7 +160,7 @@ abstract class rex_structure_element
      * Array of rex_structure_element instances, keyed by classname, id and clang
      * @var self[][][]
      */
-    static private $instanceCache = array();
+    private static $instanceCache = array();
 
     /**
      * Return an rex_structure_element object based on an id.
@@ -171,7 +171,7 @@ abstract class rex_structure_element
      * @throws rex_exception
      * @return rex_structure_element A rex_structure_element instance typed to the late-static binding type of the caller
      */
-    static protected function getById($id, $clang)
+    protected static function getById($id, $clang)
     {
         $id = (int) $id;
 
@@ -515,7 +515,7 @@ abstract class rex_structure_element
      * If format is <code>''</code> the datestamp is formated
      * with the default <code>dateformat</code> (lang-files).
      */
-    static protected function _getDate($date, $format = null)
+    protected static function _getDate($date, $format = null)
     {
         if ($format !== null) {
             if ($format == '') {

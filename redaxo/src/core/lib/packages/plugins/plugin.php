@@ -35,7 +35,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @throws rex_exception
      * @throws InvalidArgumentException
      */
-    static public function get($addon, $plugin = null)
+    public static function get($addon, $plugin = null)
     {
         if ($plugin === null) {
             throw new InvalidArgumentException('Missing Argument 2 for ' . __CLASS__ . '::' . __METHOD__ . '()');
@@ -56,7 +56,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @param string $plugin Name of the plugin
      * @return boolean
      */
-    static public function exists($addon, $plugin = null)
+    public static function exists($addon, $plugin = null)
     {
         return rex_addon::exists($addon) && rex_addon::get($addon)->pluginExists($plugin);
     }
@@ -161,7 +161,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @param string $addon Addon name
      * @return rex_plugin[]
      */
-    static public function getRegisteredPlugins($addon)
+    public static function getRegisteredPlugins($addon)
     {
         return rex_addon::get($addon)->getRegisteredPlugins();
     }
@@ -172,7 +172,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @param string $addon Addon name
      * @return rex_plugin[]
      */
-    static public function getInstalledPlugins($addon)
+    public static function getInstalledPlugins($addon)
     {
         return rex_addon::get($addon)->getInstalledPlugins();
     }
@@ -183,7 +183,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @param string $addon Addon name
      * @return rex_plugin[]
      */
-    static public function getAvailablePlugins($addon)
+    public static function getAvailablePlugins($addon)
     {
         return rex_addon::get($addon)->getAvailablePlugins();
     }
@@ -194,7 +194,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @param string $addon Addon name
      * @return rex_plugin[]
      */
-    static public function getSystemPlugins($addon)
+    public static function getSystemPlugins($addon)
     {
         return rex_addon::get($addon)->getSystemPlugins();
     }

@@ -106,7 +106,7 @@ class rex_backend_login extends rex_login
         return $check;
     }
 
-    static public function deleteSession()
+    public static function deleteSession()
     {
         if (session_id() == '')
             session_start();
@@ -115,7 +115,7 @@ class rex_backend_login extends rex_login
         setcookie('rex_user_' . sha1(rex::getProperty('instname')), '', time() - 3600);
     }
 
-    static public function hasSession()
+    public static function hasSession()
     {
         if (session_id() == '')
             session_start();
@@ -133,7 +133,7 @@ class rex_backend_login extends rex_login
      *
      * @return rex_user
      */
-    static public function createUser()
+    public static function createUser()
     {
         if (!self::hasSession()) {
             return null;

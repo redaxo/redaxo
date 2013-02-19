@@ -404,7 +404,7 @@ abstract class rex_metainfo_handler
      * @param rex_sql $sqlSave   rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
      * @param rex_sql $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
      */
-    static public function fetchRequestValues(&$params, &$sqlSave, $sqlFields)
+    public static function fetchRequestValues(&$params, &$sqlSave, $sqlFields)
     {
         if (rex_request_method() != 'post') return;
 
@@ -440,7 +440,7 @@ abstract class rex_metainfo_handler
      * @param string $fieldAttributes The attributes of the field
      * @return string
      */
-    static public function getSaveValue($fieldName, $fieldType, $fieldAttributes)
+    public static function getSaveValue($fieldName, $fieldType, $fieldAttributes)
     {
         if (rex_request_method() != 'post') return null;
 
@@ -494,7 +494,7 @@ abstract class rex_metainfo_handler
      * @param string $filterCondition SQL Where-Bedingung zum einschränken der Metafelder
      * @return rex_sql Metainfofelder
      */
-    static protected function getSqlFields($prefix, $filterCondition)
+    protected static function getSqlFields($prefix, $filterCondition)
     {
         // replace LIKE wildcards
         $prefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);

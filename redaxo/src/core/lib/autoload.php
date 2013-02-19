@@ -15,9 +15,9 @@ class rex_autoload
     /**
      * @var Composer\Autoload\ClassLoader
      */
-    static protected $composerLoader;
+    protected static $composerLoader;
 
-    static protected
+    protected static
         $registered   = false,
         $cacheFile    = null,
         $cacheChanged = false,
@@ -29,7 +29,7 @@ class rex_autoload
     /**
      * Register rex_autoload in spl autoloader.
      */
-    static public function register()
+    public static function register()
     {
         if (self::$registered) {
             return;
@@ -57,7 +57,7 @@ class rex_autoload
     /**
      * Unregister rex_autoload from spl autoloader.
      */
-    static public function unregister()
+    public static function unregister()
     {
         spl_autoload_unregister(array(__CLASS__, 'autoload'));
         self::$registered = false;
@@ -70,7 +70,7 @@ class rex_autoload
      *
      * @return boolean Returns true if the class has been loaded
      */
-    static public function autoload($class)
+    public static function autoload($class)
     {
         // class already exists
         if (self::classExists($class)) {
@@ -94,7 +94,7 @@ class rex_autoload
         return false;
     }
 
-    static private function classExists($class)
+    private static function classExists($class)
     {
         return class_exists($class, false) || interface_exists($class, false) || function_exists('trait_exists') && trait_exists($class, false);
     }
@@ -102,7 +102,7 @@ class rex_autoload
     /**
      * Loads the cache.
      */
-    static private function loadCache()
+    private static function loadCache()
     {
         if (!self::$cacheFile || !is_readable(self::$cacheFile)) {
             return;
@@ -114,7 +114,7 @@ class rex_autoload
     /**
      * Saves the cache.
      */
-    static public function saveCache()
+    public static function saveCache()
     {
         if (self::$cacheChanged) {
             if (is_writable(dirname(self::$cacheFile))) {
@@ -129,7 +129,7 @@ class rex_autoload
     /**
      * Reloads cache.
      */
-    static public function reload()
+    public static function reload()
     {
         self::$classes = array();
         self::$dirs = array();
@@ -145,7 +145,7 @@ class rex_autoload
     /**
      * Removes the cache.
      */
-    static public function removeCache()
+    public static function removeCache()
     {
         rex_file::delete(self::$cacheFile);
     }
@@ -155,7 +155,7 @@ class rex_autoload
      *
      * @param string $dir The directory to look for classes
      */
-    static public function addDirectory($dir)
+    public static function addDirectory($dir)
     {
         $dir = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR;
         self::$addedDirs[] = $dir;
@@ -166,7 +166,7 @@ class rex_autoload
         }
     }
 
-    static private function _addDirectory($dir)
+    private static function _addDirectory($dir)
     {
         if (!is_dir($dir)) {
             return;

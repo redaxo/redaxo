@@ -10,7 +10,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
      * @param array $params EP Params
      * @return string
      */
-    static public function isMediaInUse(array $params)
+    public static function isMediaInUse(array $params)
     {
         $warning = $params['subject'];
 

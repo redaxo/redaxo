@@ -131,7 +131,7 @@ class rex_media_manager
         return $this->getCacheFilename() . '.header';
     }
 
-    static public function deleteCacheByType($type_id)
+    public static function deleteCacheByType($type_id)
     {
         $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_types' . ' WHERE id=' . $type_id;
         $sql = rex_sql::factory();
@@ -144,7 +144,7 @@ class rex_media_manager
         return $counter;
     }
 
-    static public function deleteCache($filename = null, $cacheParams = null)
+    public static function deleteCache($filename = null, $cacheParams = null)
     {
         if (!$filename) {
             $filename = '*';
@@ -195,7 +195,7 @@ class rex_media_manager
 
     }
 
-    static public function getSupportedEffectNames()
+    public static function getSupportedEffectNames()
     {
         $effectNames = array();
         foreach (self::getSupportedEffects() as $effectClass => $effectFile) {
@@ -204,7 +204,7 @@ class rex_media_manager
         return $effectNames;
     }
 
-    static public function getSupportedEffects()
+    public static function getSupportedEffects()
     {
         $dirs = array(
             __DIR__ . '/effects/'
@@ -222,7 +222,7 @@ class rex_media_manager
         return $effects;
     }
 
-    static private function getEffectName($effectFile)
+    private static function getEffectName($effectFile)
     {
         return str_replace(
             array('effect_', '.php'),
@@ -231,7 +231,7 @@ class rex_media_manager
         );
     }
 
-    static private function getEffectClass($effectFile)
+    private static function getEffectClass($effectFile)
     {
         return 'rex_' . str_replace(
             '.php',
@@ -243,12 +243,12 @@ class rex_media_manager
     /*
      * For ExtensionPoints.
      */
-    static public function mediaUpdated($params)
+    public static function mediaUpdated($params)
     {
         self::deleteCache($params['filename']);
     }
 
-    static public function init()
+    public static function init()
     {
         //--- handle image request
         $rex_media_manager_file = self::getMediaFile();
@@ -269,14 +269,14 @@ class rex_media_manager
         }
     }
 
-    static public function getMediaFile()
+    public static function getMediaFile()
     {
         $rex_media_file = rex_get('rex_media_file', 'string');
         $rex_media_file = basename($rex_media_file);
         return $rex_media_file;
     }
 
-    static public function getMediaType()
+    public static function getMediaType()
     {
         return rex_get('rex_media_type', 'string');
     }

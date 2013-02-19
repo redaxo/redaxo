@@ -9,11 +9,11 @@
  */
 class rex_url
 {
-    static protected
+    protected static
         $base,
         $backend;
 
-    static public function init($htdocs, $backend)
+    public static function init($htdocs, $backend)
     {
         self::$base = $htdocs;
         self::$backend = substr($htdocs, -3) === '../' ? '' : $htdocs . $backend . '/';
@@ -21,7 +21,7 @@ class rex_url
     /**
      * Returns a base url
      */
-    static public function base($file = '')
+    public static function base($file = '')
     {
         return htmlspecialchars(self::$base . $file);
     }
@@ -29,7 +29,7 @@ class rex_url
     /**
      * Returns the url to the frontend
      */
-    static public function frontend($file = '')
+    public static function frontend($file = '')
     {
         return self::base($file);
     }
@@ -37,7 +37,7 @@ class rex_url
     /**
      * Returns the url to the frontend-controller (index.php from frontend)
      */
-    static public function frontendController(array $params = array())
+    public static function frontendController(array $params = array())
     {
         $query = rex_string::buildQuery($params);
         $query = $query ? '?' . $query : '';
@@ -47,7 +47,7 @@ class rex_url
     /**
      * Returns the url to the backend
      */
-    static public function backend($file = '')
+    public static function backend($file = '')
     {
         return htmlspecialchars(self::$backend . $file);
     }
@@ -55,7 +55,7 @@ class rex_url
     /**
      * Returns the url to the backend-controller (index.php from backend)
      */
-    static public function backendController(array $params = array())
+    public static function backendController(array $params = array())
     {
         $query = rex_string::buildQuery($params);
         $query = $query ? '?' . $query : '';
@@ -65,7 +65,7 @@ class rex_url
     /**
      * Returns the url to a backend page
      */
-    static public function backendPage($page, array $params = array())
+    public static function backendPage($page, array $params = array())
     {
         return self::backendController(array_merge(array('page' => $page), $params));
     }
@@ -73,7 +73,7 @@ class rex_url
     /**
      * Returns the url to the current backend page
      */
-    static public function currentBackendPage(array $params = array())
+    public static function currentBackendPage(array $params = array())
     {
         return self::backendPage(rex_be_controller::getCurrentPage(), $params);
     }
@@ -81,7 +81,7 @@ class rex_url
     /**
      * Returns the url to the media-folder
      */
-    static public function media($file = '')
+    public static function media($file = '')
     {
         return self::base('media/' . $file);
     }
@@ -89,7 +89,7 @@ class rex_url
     /**
      * Returns the url to the assets folder of the core, which contains all assets required by the core to work properly.
      */
-    static public function assets($file = '')
+    public static function assets($file = '')
     {
         return self::base('assets/' . $file);
     }
@@ -99,7 +99,7 @@ class rex_url
      *
      * @see assets()
      */
-    static public function addonAssets($addon, $file = '')
+    public static function addonAssets($addon, $file = '')
     {
         return self::assets('addons/' . $addon . '/' . $file);
     }
@@ -109,7 +109,7 @@ class rex_url
      *
      * @see assets()
      */
-    static public function pluginAssets($addon, $plugin, $file = '')
+    public static function pluginAssets($addon, $plugin, $file = '')
     {
         return self::addonAssets($addon, 'plugins/' . $plugin . '/' . $file);
     }

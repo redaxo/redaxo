@@ -14,7 +14,7 @@ class rex_request
      *
      * @return mixed
      */
-    static public function get($varname, $vartype = '', $default = '')
+    public static function get($varname, $vartype = '', $default = '')
     {
         return self::arrayKeyCast($_GET, $varname, $vartype, $default);
     }
@@ -28,7 +28,7 @@ class rex_request
      *
      * @return mixed
      */
-    static public function post($varname, $vartype = '', $default = '')
+    public static function post($varname, $vartype = '', $default = '')
     {
         return self::arrayKeyCast($_POST, $varname, $vartype, $default);
     }
@@ -42,7 +42,7 @@ class rex_request
      *
      * @return mixed
      */
-    static public function request($varname, $vartype = '', $default = '')
+    public static function request($varname, $vartype = '', $default = '')
     {
         return self::arrayKeyCast($_REQUEST, $varname, $vartype, $default);
     }
@@ -56,7 +56,7 @@ class rex_request
      *
      * @return mixed
      */
-    static public function server($varname, $vartype = '', $default = '')
+    public static function server($varname, $vartype = '', $default = '')
     {
         return self::arrayKeyCast($_SERVER, $varname, $vartype, $default);
     }
@@ -70,7 +70,7 @@ class rex_request
      *
      * @return mixed
      */
-    static public function session($varname, $vartype = '', $default = '')
+    public static function session($varname, $vartype = '', $default = '')
     {
         if (isset($_SESSION[$varname][rex::getProperty('instname')])) {
             return rex_type::cast($_SESSION[$varname][rex::getProperty('instname')], $vartype);
@@ -88,7 +88,7 @@ class rex_request
      * @param string $varname Variable name
      * @param mixed  $value   Value
      */
-    static public function setSession($varname, $value)
+    public static function setSession($varname, $value)
     {
         $_SESSION[$varname][rex::getProperty('instname')] = $value;
     }
@@ -98,7 +98,7 @@ class rex_request
      *
      * @param string $varname Variable name
      */
-    static public function unsetSession($varname)
+    public static function unsetSession($varname)
     {
         unset($_SESSION[$varname][rex::getProperty('instname')]);
     }
@@ -112,7 +112,7 @@ class rex_request
      *
      * @return mixed
      */
-    static public function cookie($varname, $vartype = '', $default = '')
+    public static function cookie($varname, $vartype = '', $default = '')
     {
         return self::arrayKeyCast($_COOKIE, $varname, $vartype, $default);
     }
@@ -126,7 +126,7 @@ class rex_request
      *
      * @return mixed
      */
-    static public function files($varname, $vartype = '', $default = '')
+    public static function files($varname, $vartype = '', $default = '')
     {
         return self::arrayKeyCast($_FILES, $varname, $vartype, $default);
     }
@@ -140,7 +140,7 @@ class rex_request
      *
      * @return mixed
      */
-    static public function env($varname, $vartype = '', $default = '')
+    public static function env($varname, $vartype = '', $default = '')
     {
         return self::arrayKeyCast($_ENV, $varname, $vartype, $default);
     }
@@ -155,7 +155,7 @@ class rex_request
      * @throws rex_exception
      * @return mixed
      */
-    static private function arrayKeyCast(array $haystack, $needle, $vartype, $default = '')
+    private static function arrayKeyCast(array $haystack, $needle, $vartype, $default = '')
     {
         if (!is_scalar($needle)) {
             throw new rex_exception('Scalar expected for $needle in arrayKeyCast()!');
@@ -176,7 +176,7 @@ class rex_request
      *
      * @return String HTTP method in lowercase (head,get,post,put,delete)
      */
-    static public function requestMethod()
+    public static function requestMethod()
     {
         return isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'get';
     }
@@ -191,7 +191,7 @@ class rex_request
      *
      * @return bool true if the request is an XMLHttpRequest, false otherwise
      */
-    static public function isXmlHttpRequest()
+    public static function isXmlHttpRequest()
     {
         return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
     }
@@ -201,7 +201,7 @@ class rex_request
      *
      * @see http://pjax.heroku.com/
      */
-    static public function isPJAXRequest()
+    public static function isPJAXRequest()
     {
         return isset($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] == 'true';
     }
@@ -212,7 +212,7 @@ class rex_request
      * @param string $containerId
      * @return bool
      */
-    static public function isPJAXContainer($containerId)
+    public static function isPJAXContainer($containerId)
     {
         if (!self::isPJAXRequest()) {
             return false;

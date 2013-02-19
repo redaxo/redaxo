@@ -13,7 +13,7 @@ class rex_string
      * @param string $string String
      * @return integer Size in bytes
      */
-    static public function size($string)
+    public static function size($string)
     {
         return mb_strlen($string, '8bit');
     }
@@ -29,7 +29,7 @@ class rex_string
      * @param string $string
      * @return array
      */
-    static public function split($string)
+    public static function split($string)
     {
         $string = trim($string);
         if (empty($string)) {
@@ -74,7 +74,7 @@ class rex_string
      * @param string $comparator Optional comparator
      * @return integer|boolean
      */
-    static public function compareVersions($version1, $version2, $comparator = null)
+    public static function compareVersions($version1, $version2, $comparator = null)
     {
         $pattern = '/(?<=\d)(?=[a-z])|(?<=[a-z])(?=\d)|[ .-]+/i';
         $version1 = preg_split($pattern, $version1);
@@ -92,7 +92,7 @@ class rex_string
      * @param int   $inline The level where you switch to inline YAML
      * @return string
      */
-    static public function yamlEncode(array $value, $inline = 3)
+    public static function yamlEncode(array $value, $inline = 3)
     {
         return Symfony\Component\Yaml\Yaml::dump($value, $inline, 4);
     }
@@ -103,7 +103,7 @@ class rex_string
      * @param string $value YAML string
      * @return array
      */
-    static public function yamlDecode($value)
+    public static function yamlDecode($value)
     {
         return Symfony\Component\Yaml\Yaml::parse($value);
     }
@@ -115,7 +115,7 @@ class rex_string
      * @param string $argSeparator
      * @return string
      */
-    static public function buildQuery(array $params, $argSeparator = '&')
+    public static function buildQuery(array $params, $argSeparator = '&')
     {
         $query = array();
         $func = function (array $params, $fullkey = null) use (&$query, &$func) {
@@ -138,7 +138,7 @@ class rex_string
      * @param array $attributes
      * @return string
      */
-    static public function buildAttributes(array $attributes)
+    public static function buildAttributes(array $attributes)
     {
         $attr = '';
 
@@ -157,7 +157,7 @@ class rex_string
      * @param string $string
      * @return string
      */
-    static public function highlight($string)
+    public static function highlight($string)
     {
         return '<p class="rex-code">' . highlight_string($string, true) . '</p>';
     }
@@ -169,7 +169,7 @@ class rex_string
      * @param string $string
      * @return string
      */
-    static public function widont($string)
+    public static function widont($string)
     {
         // Sollte ein Wort allein auf einer Zeile vorkommen, wird dies unterbunden
         $string = rtrim($string);

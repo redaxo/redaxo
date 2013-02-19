@@ -9,7 +9,7 @@ class rex_be_navigation extends rex_factory_base
     /**
      * @return rex_be_navigation
      */
-    static public function factory()
+    public static function factory()
     {
         $class = self::getFactoryClass();
         return new $class;

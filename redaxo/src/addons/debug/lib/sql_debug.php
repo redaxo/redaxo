@@ -9,8 +9,8 @@ rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'doLog'));
  */
 class rex_sql_debug extends rex_sql
 {
-    static private $queries = array();
-    static private $errors  = 0;
+    private static $queries = array();
+    private static $errors  = 0;
 
     public function setQuery($qry, array $params = array())
     {
@@ -58,7 +58,7 @@ class rex_sql_debug extends rex_sql
         return $res;
     }
 
-    static public function doLog($params)
+    public static function doLog($params)
     {
         if (!empty(self::$queries)) {
             $tbl = array();

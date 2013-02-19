@@ -9,12 +9,12 @@ rex_extension::register('OUTPUT_FILTER', array('rex_extension_debug', 'doLog'));
  */
 class rex_extension_debug extends rex_extension
 {
-    static private $log = array();
+    private static $log = array();
 
     /**
      * Extends rex_extension::register() with FirePHP logging
      */
-    static public function register($extensionPoint, $callable, $level = self::NORMAL, array $params = array())
+    public static function register($extensionPoint, $callable, $level = self::NORMAL, array $params = array())
     {
         $timer  = new rex_timer();
         parent::register($extensionPoint, $callable, $level, $params);
@@ -33,7 +33,7 @@ class rex_extension_debug extends rex_extension
     /**
      * Extends rex_extension::registerPoint() with FirePHP logging
      */
-    static public function registerPoint($extensionPoint, $subject = '', array $params = array(), $read_only = false)
+    public static function registerPoint($extensionPoint, $subject = '', array $params = array(), $read_only = false)
     {
         $coreTimer = rex::getProperty('timer');
         $absDur    = $coreTimer->getFormattedDelta();
@@ -67,7 +67,7 @@ class rex_extension_debug extends rex_extension
      * @param array $params EP Params
      * @return void
      */
-    static public function doLog($params)
+    public static function doLog($params)
     {
         $firephp = FirePHP::getInstance(true);
 

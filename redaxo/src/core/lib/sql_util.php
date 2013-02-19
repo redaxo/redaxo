@@ -18,7 +18,7 @@ class rex_sql_util
      * @param string $id_field        Name des Primaerschluessels der Tabelle
      * @param int    $startBy         Startpriorität
      */
-    static public function organizePriorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field = 'id', $startBy = 1)
+    public static function organizePriorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field = 'id', $startBy = 1)
     {
         // Datenbankvariable initialisieren
         $qry = 'SET @count=' . ($startBy - 1);
@@ -45,7 +45,7 @@ class rex_sql_util
      * @throws rex_sql_exception
      * @return boolean true bei Erfolg
      */
-    static public function importDump($file, $debug = false)
+    public static function importDump($file, $debug = false)
     {
         $sql = rex_sql::factory();
         $sql->setDebug($debug);
@@ -65,7 +65,7 @@ class rex_sql_util
         return true;
     }
 
-    static private function prepareQuery($qry)
+    private static function prepareQuery($qry)
     {
         // rex::getUser() gibts im Setup nicht
         if (rex::getUser())
@@ -84,7 +84,7 @@ class rex_sql_util
      * @param string $file Path to the SQL-dump-file
      * @return array
      */
-    static private function readSqlDump($file)
+    private static function readSqlDump($file)
     {
         if (is_file($file) && is_readable($file)) {
             $ret = array();
@@ -119,7 +119,7 @@ class rex_sql_util
      * @access  public
      */
     // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
-    static public function splitSqlFile(& $ret, $sql, $release)
+    public static function splitSqlFile(& $ret, $sql, $release)
     {
         // do not trim, see bug #1030644
         //$sql          = trim($sql);

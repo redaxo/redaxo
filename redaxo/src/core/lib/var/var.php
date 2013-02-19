@@ -13,7 +13,7 @@ abstract class rex_var
         ENV_INPUT = 4,
         ENV_OUTPUT = 8;
 
-    static private
+    private static
         $vars = array(),
         $env = null,
         $context = null,
@@ -22,7 +22,7 @@ abstract class rex_var
     private
         $args = array();
 
-    static public function parse($content, $env = null, $context = null, $contextData = null)
+    public static function parse($content, $env = null, $context = null, $contextData = null)
     {
         if (($env & self::ENV_INPUT) != self::ENV_INPUT)
             $env = $env | self::ENV_OUTPUT;
@@ -95,7 +95,7 @@ abstract class rex_var
      * @param string $var
      * @return self
      */
-    static private function getVar($var)
+    private static function getVar($var)
     {
         if (!isset(self::$vars[$var])) {
             $class = 'rex_var_' . strtolower(substr($var, 4));
@@ -107,7 +107,7 @@ abstract class rex_var
         return new $class;
     }
 
-    static private function replaceVars($content, $format = '%s', $useVariables = false, $stripslashes = null)
+    private static function replaceVars($content, $format = '%s', $useVariables = false, $stripslashes = null)
     {
         $matches = self::getMatches($content);
         if (empty($matches)) {
@@ -148,7 +148,7 @@ abstract class rex_var
         return $content;
     }
 
-    static private function getMatches($content)
+    private static function getMatches($content)
     {
         preg_match_all('/(REX_[A-Z_]+)\[((?:[^\[\]]|\\\\[\[\]]|(?R))*)(?<!\\\\)\]/s', $content, $matches, PREG_SET_ORDER);
         return $matches;
@@ -203,7 +203,7 @@ abstract class rex_var
 
     abstract protected function getOutput();
 
-    static protected function quote($string)
+    protected static function quote($string)
     {
         $string = addcslashes($string, "\'");
         $string = preg_replace('/\v+/', '\' . "$0" . \'', $string);
@@ -245,13 +245,13 @@ abstract class rex_var
         return $content;
     }
 
-    static public function toArray($value)
+    public static function toArray($value)
     {
         $value = json_decode(htmlspecialchars_decode($value));
         return is_array($value) ? $value : null;
     }
 
-    static public function nothing()
+    public static function nothing()
     {
         return '';
     }

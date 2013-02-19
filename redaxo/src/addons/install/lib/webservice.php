@@ -9,9 +9,9 @@ class rex_install_webservice
         PATH = '/de/ws/',
         REFRESH_CACHE = 600;
 
-    static private $cache;
+    private static $cache;
 
-    static public function getJson($path)
+    public static function getJson($path)
     {
         if (is_array($cache = self::getCache($path))) {
             return $cache;
@@ -43,7 +43,7 @@ class rex_install_webservice
         throw new rex_functional_exception($error);
     }
 
-    static public function getArchive($url)
+    public static function getArchive($url)
     {
         try {
             $socket = rex_socket::factoryUrl($url);
@@ -61,7 +61,7 @@ class rex_install_webservice
         throw new rex_functional_exception(rex_i18n::msg('install_archive_unreachable'));
     }
 
-    static public function post($path, array $data, $archive = null)
+    public static function post($path, array $data, $archive = null)
     {
         $fullpath = self::PATH . self::getPath($path);
         $error = null;
@@ -90,7 +90,7 @@ class rex_install_webservice
         throw new rex_functional_exception($error);
     }
 
-    static public function delete($path)
+    public static function delete($path)
     {
         $fullpath = self::PATH . self::getPath($path);
         $error = null;
@@ -114,7 +114,7 @@ class rex_install_webservice
         throw new rex_functional_exception($error);
     }
 
-    static private function getPath($path)
+    private static function getPath($path)
     {
         $path = strpos($path, '?') === false ? rtrim($path, '/') . '/?' : $path . '&';
         $path .= 'rex_version=' . rex::getVersion();
@@ -125,7 +125,7 @@ class rex_install_webservice
         return $path;
     }
 
-    static public function deleteCache($pathBegin = null)
+    public static function deleteCache($pathBegin = null)
     {
         self::loadCache();
         if ($pathBegin) {
@@ -139,7 +139,7 @@ class rex_install_webservice
         rex_file::putCache(rex_path::addonCache('install', 'webservice.cache'), self::$cache);
     }
 
-    static private function getCache($path)
+    private static function getCache($path)
     {
         self::loadCache();
         if (isset(self::$cache[$path])) {
@@ -148,7 +148,7 @@ class rex_install_webservice
         return null;
     }
 
-    static private function loadCache()
+    private static function loadCache()
     {
         if (self::$cache === null) {
             foreach ((array) rex_file::getCache(rex_path::addonCache('install', 'webservice.cache')) as $path => $cache) {
@@ -158,7 +158,7 @@ class rex_install_webservice
         }
     }
 
-    static private function setCache($path, $data)
+    private static function setCache($path, $data)
     {
         self::$cache[$path]['stamp'] = time();
         self::$cache[$path]['data'] = $data;

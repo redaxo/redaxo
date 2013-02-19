@@ -38,14 +38,14 @@ class rex_template
         return $file;
     }
 
-    static public function getFilePath($template_id)
+    public static function getFilePath($template_id)
     {
         if ($template_id < 1) return false;
 
         return self::getTemplatesDir() . '/' . $template_id . '.template';
     }
 
-    static public function getTemplatesDir()
+    public static function getTemplatesDir()
     {
         return rex_path::addonCache('templates');
     }
@@ -103,7 +103,7 @@ class rex_template
      * @param bool $ignore_inactive
      * @return array
      */
-    static public function getTemplatesForCategory($category_id, $ignore_inactive = true)
+    public static function getTemplatesForCategory($category_id, $ignore_inactive = true)
     {
         $ignore_inactive = $ignore_inactive ? 1 : 0;
 
@@ -145,7 +145,7 @@ class rex_template
         return $templates;
     }
 
-    static public function hasModule(array $template_attributes, $ctype, $module_id)
+    public static function hasModule(array $template_attributes, $ctype, $module_id)
     {
         $template_modules = isset($template_attributes['modules']) ? $template_attributes['modules'] : array();
         if (!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1)

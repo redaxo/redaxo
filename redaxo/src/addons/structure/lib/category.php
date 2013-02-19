@@ -19,7 +19,7 @@ class rex_category extends rex_structure_element
      * @param bool|int $clang
      * @return self
      */
-    static public function getCategoryById($category_id, $clang = false)
+    public static function getCategoryById($category_id, $clang = false)
     {
         return parent :: getById($category_id, $clang);
     }
@@ -28,7 +28,7 @@ class rex_category extends rex_structure_element
      * children of categories, keyed by category_id (parent ids)
      * @var array
      */
-    static private $childIds = array();
+    private static $childIds = array();
 
     /**
      * Return all Children by id
@@ -38,7 +38,7 @@ class rex_category extends rex_structure_element
      * @param bool|int $clang
      * @return self[]
      */
-    static public function getChildrenById($cat_parent_id, $ignore_offlines = false, $clang = false)
+    public static function getChildrenById($cat_parent_id, $ignore_offlines = false, $clang = false)
     {
         $cat_parent_id = (int) $cat_parent_id;
 
@@ -100,7 +100,7 @@ class rex_category extends rex_structure_element
      * @param bool|int $clang
      * @return self[]
      */
-    static public function getRootCategories($ignore_offlines = false, $clang = false)
+    public static function getRootCategories($ignore_offlines = false, $clang = false)
     {
         if ($clang === false) {
             $clang = rex_clang::getCurrentId();
@@ -223,7 +223,7 @@ class rex_category extends rex_structure_element
      * @param bool|int $clang
      * @return mixed
      */
-    static public function _getCategoryObject($category, $clang = false)
+    public static function _getCategoryObject($category, $clang = false)
     {
         if (is_object($category)) {
             return $category;
@@ -248,7 +248,7 @@ class rex_category extends rex_structure_element
      * @param string $value
      * @return boolean
      */
-    static public function hasValue($value)
+    public static function hasValue($value)
     {
         return parent::_hasValue($value, array('cat_'));
     }

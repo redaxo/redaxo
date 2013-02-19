@@ -5,7 +5,7 @@ class rex_setup
     const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
     const MIN_MYSQL_VERSION = '5.0';
 
-    static private $MIN_PHP_EXTENSIONS = array('session', 'pdo', 'pdo_mysql', 'pcre');
+    private static $MIN_PHP_EXTENSIONS = array('session', 'pdo', 'pdo_mysql', 'pcre');
 
     /**
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
@@ -13,7 +13,7 @@ class rex_setup
      * @param string $skinAddon
      * @param string $skinPlugin
      */
-    static public function init($skinAddon = 'be_style', $skinPlugin = 'redaxo')
+    public static function init($skinAddon = 'be_style', $skinPlugin = 'redaxo')
     {
         // initial purge all generated files
         rex_delete_cache();
@@ -33,7 +33,7 @@ class rex_setup
      *
      * @return array An array of error messages
      */
-    static public function checkEnvironment()
+    public static function checkEnvironment()
     {
         $errors = array();
 
@@ -56,7 +56,7 @@ class rex_setup
      *
      * @return array An array of error messages
      */
-    static public function checkFilesystem()
+    public static function checkFilesystem()
     {
         // -------------------------- SCHREIBRECHTE
         $writables = array(
@@ -101,7 +101,7 @@ class rex_setup
      * @param boolean $createDb Should the database be created, if it not exists.
      * @return string Error
      */
-    static public function checkDb($config, $createDb)
+    public static function checkDb($config, $createDb)
     {
         $err = rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], $config['db'][1]['name'], $createDb);
         if ($err !== true) {

@@ -13,7 +13,7 @@ class rex_logger_debug extends rex_logger
      * @param string  $message the message to log
      * @param integer $errno
      */
-    static public function log($message, $errno = E_USER_ERROR)
+    public static function log($message, $errno = E_USER_ERROR)
     {
         if (!empty($message)) {
             $firephp = FirePHP::getInstance(true);

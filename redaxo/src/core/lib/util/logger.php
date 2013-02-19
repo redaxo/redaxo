@@ -7,14 +7,14 @@
  */
 abstract class rex_logger extends rex_factory_base
 {
-    static private $handle;
+    private static $handle;
 
     /**
      * Logs the given Exception
      *
      * @param Exception $exception The Exception to log
      */
-    static public function logException(Exception $exception)
+    public static function logException(Exception $exception)
     {
         if ($exception instanceof ErrorException) {
             self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
@@ -31,7 +31,7 @@ abstract class rex_logger extends rex_factory_base
      * @param string  $errfile The file in which the error occured
      * @param integer $errline The line of the file in which the error occured
      */
-    static public function logError($errno, $errstr, $errfile, $errline)
+    public static function logError($errno, $errstr, $errfile, $errline)
     {
         if (!is_int($errno)) {
             throw new rex_exception('Expecting $errno to be integer, but ' . gettype($errno) . ' given!');
@@ -56,7 +56,7 @@ abstract class rex_logger extends rex_factory_base
      * @param int    $errno
      * @throws rex_exception
      */
-    static public function log($message, $errno = E_USER_ERROR)
+    public static function log($message, $errno = E_USER_ERROR)
     {
         if (static::hasFactoryClass()) {
             static::callFactoryClass(__FUNCTION__, func_get_args());
@@ -79,7 +79,7 @@ abstract class rex_logger extends rex_factory_base
     /**
      * Prepares the logifle for later use
      */
-    static public function open()
+    public static function open()
     {
         // check if already opened
         if (!self::$handle) {
@@ -98,7 +98,7 @@ abstract class rex_logger extends rex_factory_base
      *
      * You dont need to close the logfile manually when it was registered during the request.
      */
-    static public function close()
+    public static function close()
     {
         if (is_resource(self::$handle)) {
             fclose(self::$handle);

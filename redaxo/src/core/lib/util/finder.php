@@ -38,7 +38,7 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
      * @param string $dir Path to a directory
      * @return self
      */
-    static public function factory($dir)
+    public static function factory($dir)
     {
         if (!is_dir($dir)) {
             throw new rex_exception('Folder "' . $dir . '" not found!');
@@ -226,7 +226,7 @@ class rex_finder_filter extends RecursiveFilterIterator
         $ignoreDirsRecursive = array(),
         $ignoreSystemStuff = true;
 
-    static private
+    private static
         $systemStuff = array('.DS_Store', 'Thumbs.db', 'desktop.ini', '.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg');
 
     /**

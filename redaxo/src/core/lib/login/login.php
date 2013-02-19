@@ -259,19 +259,19 @@ class rex_login
     /**
      * Verschlüsselt den übergebnen String
      */
-    static public function passwordHash($password, $isPreHashed = false)
+    public static function passwordHash($password, $isPreHashed = false)
     {
         $password = $isPreHashed ? $password : sha1($password);
         return password_hash($password, PASSWORD_DEFAULT);
     }
 
-    static public function passwordVerify($password, $hash, $isPreHashed = false)
+    public static function passwordVerify($password, $hash, $isPreHashed = false)
     {
         $password = $isPreHashed ? $password : sha1($password);
         return password_verify($password, $hash);
     }
 
-    static public function passwordNeedsRehash($hash)
+    public static function passwordNeedsRehash($hash)
     {
         return password_needs_rehash($hash, PASSWORD_DEFAULT);
     }

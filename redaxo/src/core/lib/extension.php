@@ -16,7 +16,7 @@ abstract class rex_extension extends rex_factory_base
      * Array aller ExtensionsPoints und deren Extensions
      * @var array
      */
-    static private $extensions = array();
+    private static $extensions = array();
 
     private function __construct()
     {
@@ -32,7 +32,7 @@ abstract class rex_extension extends rex_factory_base
      * @param bool   $read_only
      * @return mixed $subject, ggf. manipuliert durch registrierte Extensions.
      */
-    static public function registerPoint($extensionPoint, $subject = '', array $params = array(), $read_only = false)
+    public static function registerPoint($extensionPoint, $subject = '', array $params = array(), $read_only = false)
     {
         if (static::hasFactoryClass()) {
             return static::callFactoryClass(__FUNCTION__, func_get_args());
@@ -73,7 +73,7 @@ abstract class rex_extension extends rex_factory_base
         return $result;
     }
 
-    static protected function invokeExtension($function, $params)
+    protected static function invokeExtension($function, $params)
     {
         return call_user_func($function, $params);
     }
@@ -86,7 +86,7 @@ abstract class rex_extension extends rex_factory_base
      * @param int      $level          Ausführungslevel (EARLY, NORMAL oder LATE)
      * @param array    $params         Array von zusätzlichen Parametern
      */
-    static public function register($extensionPoint, $callable, $level = self::NORMAL, array $params = array())
+    public static function register($extensionPoint, $callable, $level = self::NORMAL, array $params = array())
     {
         if (static::hasFactoryClass()) {
             static::callFactoryClass(__FUNCTION__, func_get_args());
@@ -102,7 +102,7 @@ abstract class rex_extension extends rex_factory_base
      *
      * @return boolean True, wenn eine Extension für den uebergeben ExtensionPoint definiert ist, sonst False
      */
-    static public function isRegistered($extensionPoint)
+    public static function isRegistered($extensionPoint)
     {
         if (static::hasFactoryClass()) {
             return static::callFactoryClass(__FUNCTION__, func_get_args());

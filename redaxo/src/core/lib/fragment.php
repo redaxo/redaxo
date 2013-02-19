@@ -208,14 +208,14 @@ class rex_fragment
      * array which contains all folders in which fragments will be searched for at runtime
      * @var array
      */
-    static private $fragmentDirs = array();
+    private static $fragmentDirs = array();
 
     /**
      * Add a path to the fragment search path
      *
      * @param string $path A path to a directory where fragments can be found
      */
-    static public function addDirectory($path)
+    public static function addDirectory($path)
     {
         // add the new directory in front of the already know dirs,
         // so a later caller can override core settings/fragments

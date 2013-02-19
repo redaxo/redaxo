@@ -19,7 +19,7 @@ class rex_article extends rex_structure_element
      * @param bool|int $clang
      * @return self
      */
-    static public function getArticleById($article_id, $clang = false)
+    public static function getArticleById($article_id, $clang = false)
     {
         return parent :: getById($article_id, $clang);
     }
@@ -30,7 +30,7 @@ class rex_article extends rex_structure_element
      * @param bool|int $clang
      * @return self
      */
-    static public function getSiteStartArticle($clang = false)
+    public static function getSiteStartArticle($clang = false)
     {
         return parent :: getById(rex::getProperty('start_article_id'), $clang);
     }
@@ -42,7 +42,7 @@ class rex_article extends rex_structure_element
      * @param bool|int $clang
      * @return self
      */
-    static public function getCategoryStartArticle($a_category_id, $clang = false)
+    public static function getCategoryStartArticle($a_category_id, $clang = false)
     {
         return parent :: getById($a_category_id, $clang);
     }
@@ -51,7 +51,7 @@ class rex_article extends rex_structure_element
      * Articles of categories, keyed by category_id
      * @var array
      */
-    static private $articleIds = array();
+    private static $articleIds = array();
 
     /**
      * Return a list of articles for a certain category
@@ -61,7 +61,7 @@ class rex_article extends rex_structure_element
      * @param bool|int $clang
      * @return self[]
      */
-    static public function getArticlesOfCategory($a_category_id, $ignore_offlines = false, $clang = false)
+    public static function getArticlesOfCategory($a_category_id, $ignore_offlines = false, $clang = false)
     {
         if ($clang === false) {
             $clang = rex_clang::getCurrentId();
@@ -102,7 +102,7 @@ class rex_article extends rex_structure_element
      * @param bool|int $clang
      * @return self[]
      */
-    static public function getRootArticles($ignore_offlines = false, $clang = false)
+    public static function getRootArticles($ignore_offlines = false, $clang = false)
     {
         return self :: getArticlesOfCategory(0, $ignore_offlines, $clang);
     }
@@ -174,7 +174,7 @@ class rex_article extends rex_structure_element
      * @param string $value
      * @return bool
      */
-    static public function hasValue($value)
+    public static function hasValue($value)
     {
         return parent::_hasValue($value, array('art_'));
     }

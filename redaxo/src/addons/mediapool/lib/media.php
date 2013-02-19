@@ -58,7 +58,7 @@ class rex_media
      * @param string $filename
      * @return self
      */
-    static public function getMediaByName($filename)
+    public static function getMediaByName($filename)
     {
         return self :: getMediaByFileName($filename);
     }
@@ -67,7 +67,7 @@ class rex_media
      * @param string $extension File extension, e.g. "css"
      * @return self[]
      */
-    static public function getMediaByExtension($extension)
+    public static function getMediaByExtension($extension)
     {
         $extlist_path = rex_path::addonCache('mediapool', $extension . '.mextlist');
         if (!file_exists($extlist_path)) {
@@ -92,7 +92,7 @@ class rex_media
      * @param string $name
      * @return self
      */
-    static public function getMediaByFileName($name)
+    public static function getMediaByFileName($name)
     {
         if ($name == '')
             return null;
@@ -273,7 +273,7 @@ class rex_media
      * @param string $format
      * @return string|int
      */
-    static protected function _getDate($date, $format = null)
+    protected static function _getDate($date, $format = null)
     {
         if ($format !== null) {
             if ($format == '') {
@@ -382,7 +382,7 @@ class rex_media
      * @param string $filename
      * @return bool
      */
-    static public function _isImage($filename)
+    public static function _isImage($filename)
     {
         return in_array(rex_file::extension($filename), rex_addon::get('mediapool')->getProperty('image_extensions'));
     }
@@ -494,7 +494,7 @@ class rex_media
     /**
      * @return string
      */
-    static public function _getTableName()
+    public static function _getTableName()
     {
         return rex::getTablePrefix() . 'media';
     }
@@ -570,28 +570,28 @@ class rex_media
     }
 
     // allowed filetypes
-    static public function getDocTypes()
+    public static function getDocTypes()
     {
         return rex_addon::get('mediapool')->getProperty('allowed_doctypes');
     }
 
-    static public function isDocType($type)
+    public static function isDocType($type)
     {
         return in_array($type, self :: getDocTypes());
     }
 
     // allowed image upload types
-    static public function getImageTypes()
+    public static function getImageTypes()
     {
         return rex_addon::get('mediapool')->getProperty('image_types');
     }
 
-    static public function isImageType($type)
+    public static function isImageType($type)
     {
         return in_array($type, self :: getImageTypes());
     }
 
-    static public function compareImageTypes($type1, $type2)
+    public static function compareImageTypes($type1, $type2)
     {
         static $jpg = array(
             'image/jpg',
@@ -635,7 +635,7 @@ class rex_media
      * @deprecated 20.02.2010
      * Stattdessen getMediaByFileName() nutzen
      */
-    static public function getMediaById($id)
+    public static function getMediaById($id)
     {
         $id = (int) $id;
         if ($id == 0)

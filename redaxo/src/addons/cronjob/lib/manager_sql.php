@@ -21,7 +21,7 @@ class rex_cronjob_manager_sql
         $this->manager = $manager;
     }
 
-    static public function factory(rex_cronjob_manager $manager = null)
+    public static function factory(rex_cronjob_manager $manager = null)
     {
         return new self($manager);
     }
@@ -218,7 +218,7 @@ class rex_cronjob_manager_sql
         return true;
     }
 
-    static public function calculateNextTime($interval)
+    public static function calculateNextTime($interval)
     {
         $interval = explode('|', trim($interval, '|'));
         if (is_array($interval) && isset($interval[0]) && isset($interval[1])) {

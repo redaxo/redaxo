@@ -34,7 +34,7 @@ abstract class rex_package_manager extends rex_factory_base
      * @param rex_package $package Package
      * @return rex_package_manager
      */
-    static public function factory(rex_package $package)
+    public static function factory(rex_package $package)
     {
         if (get_called_class() == __CLASS__) {
             $class = $package instanceof rex_plugin ? 'rex_plugin_manager' : 'rex_addon_manager';
@@ -524,7 +524,7 @@ abstract class rex_package_manager extends rex_factory_base
     /**
      * Generates the package order
      */
-    static protected function generatePackageOrder()
+    protected static function generatePackageOrder()
     {
         $early = array();
         $normal = array();
@@ -577,7 +577,7 @@ abstract class rex_package_manager extends rex_factory_base
     /**
      * Saves the package config
      */
-    static protected function saveConfig()
+    protected static function saveConfig()
     {
         $config = array();
         foreach (rex_addon::getRegisteredAddons() as $addonName => $addon) {
@@ -594,7 +594,7 @@ abstract class rex_package_manager extends rex_factory_base
     /**
      * Synchronizes the packages with the file system
      */
-    static public function synchronizeWithFileSystem()
+    public static function synchronizeWithFileSystem()
     {
         $config = rex::getConfig('package-config');
         $addons = self::readPackageFolder(rex_path::src('addons'));
@@ -643,7 +643,7 @@ abstract class rex_package_manager extends rex_factory_base
      * @throws rex_exception
      * @return boolean
      */
-    static private function matchVersionConstraints($version, $constraints)
+    private static function matchVersionConstraints($version, $constraints)
     {
         $rawConstraints = array_filter(array_map('trim', explode(',', $constraints)));
         $constraints = array();
@@ -696,7 +696,7 @@ abstract class rex_package_manager extends rex_factory_base
      * @param string $folder Folder
      * @return string[]
      */
-    static private function readPackageFolder($folder)
+    private static function readPackageFolder($folder)
     {
         $packages = array();
 
