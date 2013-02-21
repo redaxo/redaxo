@@ -5,7 +5,6 @@
  *
  * Example:
  *
- *     <?php
  *     try {
  *         $socket = rex_socket::factory('www.example.com');
  *         $socket->setPath('/path/index.php?param=1');
@@ -16,7 +15,6 @@
  *     } catch(rex_socket_exception $e) {
  *         // error message: $e->getMessage()
  *     }
- *     ?>
  *
  *
  * @author gharlan
