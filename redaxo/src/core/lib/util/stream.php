@@ -35,10 +35,10 @@ class rex_stream
     public static function factory($path, $content)
     {
         if (!is_string($path) || empty($path)) {
-            throw new rex_exception('Expecting $path to be a string and not empty!');
+            throw new InvalidArgumentException('Expecting $path to be a string and not empty!');
         }
         if (!is_string($content)) {
-            throw new rex_exception('Expecting $content to be a string!');
+            throw new InvalidArgumentException('Expecting $content to be a string!');
         }
 
         if (!self::$registered) {

@@ -31,7 +31,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     public static function get($addon)
     {
         if (!is_string($addon)) {
-            throw new rex_exception('Expecting $addon to be string, but ' . gettype($addon) . ' given!');
+            throw new InvalidArgumentException('Expecting $addon to be string, but ' . gettype($addon) . ' given!');
         }
         if (!isset(self::$addons[$addon])) {
             return rex_null_addon::getInstance();
@@ -141,7 +141,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     public function getPlugin($plugin)
     {
         if (!is_string($plugin)) {
-            throw new rex_exception('Expecting $plugin to be string, but ' . gettype($plugin) . ' given!');
+            throw new InvalidArgumentException('Expecting $plugin to be string, but ' . gettype($plugin) . ' given!');
         }
         if (!isset($this->plugins[$plugin])) {
             return rex_null_plugin::getInstance();

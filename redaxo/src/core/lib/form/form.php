@@ -43,7 +43,7 @@ class rex_form extends rex_factory_base
 //    $debug = true;
 
         if (!in_array($method, array('post', 'get')))
-            throw new rex_exception("rex_form: Method-Parameter darf nur die Werte 'post' oder 'get' annehmen!");
+            throw new InvalidArgumentException("rex_form: Method-Parameter darf nur die Werte 'post' oder 'get' annehmen!");
 
         $this->name = md5($tableName . $whereCondition . $method);
         $this->method = $method;

@@ -86,11 +86,11 @@ class rex_type
                                     $var[$key] = self::cast($value, $matches[1]);
                                 } catch (rex_exception $e) {
                                     // Evtl Typo im vartype, mit urspr. typ als fehler melden
-                                    throw new rex_exception('Unexpected vartype "' . $vartype . '" in cast()!');
+                                    throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in cast()!');
                                 }
                             }
                         } else {
-                            throw new rex_exception('Unexpected vartype "' . $vartype . '" in cast()!');
+                            throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in cast()!');
                         }
                     } else {
                         $casted = false;
@@ -108,7 +108,7 @@ class rex_type
             $newVar = array();
             foreach ($vartype as $cast) {
                 if (!is_array($cast) || !isset($cast[0])) {
-                    throw new rex_exception('Unexpected vartype in cast()!');
+                    throw new InvalidArgumentException('Unexpected vartype in cast()!');
                 }
                 $key = $cast[0];
                 $innerVartype = isset($cast[1]) ? $cast[1] : '';
@@ -122,9 +122,9 @@ class rex_type
             }
             $var = $newVar;
         } elseif (is_string($vartype)) {
-            throw new rex_exception('Unexpected vartype "' . $vartype . '" in cast()!');
+            throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in cast()!');
         } else {
-            throw new rex_exception('Unexpected vartype in cast()!');
+            throw new InvalidArgumentException('Unexpected vartype in cast()!');
         }
 
         return $var;

@@ -61,7 +61,7 @@ class rex
     public static function setProperty($key, $value)
     {
         if (!is_string($key)) {
-            throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
+            throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
         }
         $exists = isset(self::$properties[$key]);
         self::$properties[$key] = $value;
@@ -81,7 +81,7 @@ class rex
     public static function getProperty($key, $default = null)
     {
         if (!is_string($key)) {
-            throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
+            throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
         }
         if (isset(self::$properties[$key])) {
             return self::$properties[$key];
@@ -115,7 +115,7 @@ class rex
     public static function removeProperty($key)
     {
         if (!is_string($key)) {
-            throw new rex_exception('Expecting $key to be string, but ' . gettype($key) . ' given!');
+            throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
         }
         $exists = isset(self::$properties[$key]);
         unset(self::$properties[$key]);

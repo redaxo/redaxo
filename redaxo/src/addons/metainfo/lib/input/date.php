@@ -30,7 +30,7 @@ class rex_input_date extends rex_input
     public function setValue($value)
     {
         if (!is_array($value)) {
-            throw new rex_exception('Expecting $value to be an array!');
+            throw new InvalidArgumentException('Expecting $value to be an array!');
         }
 
         foreach (array('year', 'month', 'day') as $reqIndex) {

@@ -57,7 +57,7 @@ class rex_config
         self::init();
 
         if (!is_string($namespace)) {
-            throw new rex_exception('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
+            throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
         }
 
         if (is_array($key)) {
@@ -69,7 +69,7 @@ class rex_config
         }
 
         if (!is_string($key)) {
-            throw new rex_exception('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
+            throw new InvalidArgumentException('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
         }
 
         if (!isset(self::$data[$namespace]))
@@ -108,7 +108,7 @@ class rex_config
         self::init();
 
         if (!is_string($namespace)) {
-            throw new rex_exception('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
+            throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
         }
 
         if ($key === null) {
@@ -116,7 +116,7 @@ class rex_config
         }
 
         if (!is_string($key)) {
-            throw new rex_exception('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
+            throw new InvalidArgumentException('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
         }
 
         if (isset(self::$data[$namespace][$key])) {
@@ -140,7 +140,7 @@ class rex_config
         self::init();
 
         if (!is_string($namespace)) {
-            throw new rex_exception('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
+            throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
         }
 
         if ($key === null) {
@@ -148,7 +148,7 @@ class rex_config
         }
 
         if (!is_string($key)) {
-            throw new rex_exception('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
+            throw new InvalidArgumentException('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
         }
 
         return isset(self::$data[$namespace][$key]);
@@ -169,10 +169,10 @@ class rex_config
         self::init();
 
         if (!is_string($namespace)) {
-            throw new rex_exception('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
+            throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
         }
         if (!is_string($key)) {
-            throw new rex_exception('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
+            throw new InvalidArgumentException('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
         }
 
         if (isset(self::$data[$namespace][$key])) {
@@ -206,7 +206,7 @@ class rex_config
         self::init();
 
         if (!is_string($namespace)) {
-            throw new rex_exception('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
+            throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
         }
 
         if (isset(self::$data[$namespace])) {

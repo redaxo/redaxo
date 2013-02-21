@@ -40,7 +40,7 @@ class rex_fragment
     public function setVar($name, $value, $escape = true)
     {
         if (is_null($name)) {
-            throw new rex_exception(sprintf('Expecting $name to be not null!'));
+            throw new InvalidArgumentException(sprintf('Expecting $name to be not null!'));
         }
 
         if ($escape) {
@@ -61,7 +61,7 @@ class rex_fragment
     public function parse($filename, $delete_whitespaces = true)
     {
         if (!is_string($filename)) {
-            throw new rex_exception(sprintf('Expecting $filename to be a string, %s given!', gettype($filename)));
+            throw new InvalidArgumentException(sprintf('Expecting $filename to be a string, %s given!', gettype($filename)));
         }
 
         $this->filename = $filename;
@@ -159,7 +159,7 @@ class rex_fragment
     protected function i18n($key)
     {
         if (!is_string($key)) {
-            throw new rex_exception(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
+            throw new InvalidArgumentException(sprintf('Expecting $key to be a string, %s given!', gettype($key)));
         }
 
         // use the magic call only when more than one parameter is passed along,

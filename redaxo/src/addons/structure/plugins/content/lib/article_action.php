@@ -56,7 +56,7 @@ class rex_article_action
     public function exec($type)
     {
         if (!in_array($type, array(self::PREVIEW, self::PRESAVE, self::POSTSAVE))) {
-            throw new rex_exception('$type musst be rex_article_action::PREVIEW, ::PRESAVE or ::POSTSAVE');
+            throw new InvalidArgumentException('$type musst be rex_article_action::PREVIEW, ::PRESAVE or ::POSTSAVE');
         }
 
         $this->messages = array();
@@ -101,35 +101,35 @@ class rex_article_action
     protected function setValue($id, $value)
     {
         if ($id < 1 || $id > 20)
-            throw new rex_exception('ID for REX_VALUE out of range (1..20)');
+            throw new InvalidArgumentException('ID for REX_VALUE out of range (1..20)');
         $this->sql->setValue('value' . $id, $value);
     }
 
     protected function setMedia($id, $value)
     {
         if ($id < 1 || $id > 10)
-            throw new rex_exception('ID for REX_MEDIA out of range (1..10)');
+            throw new InvalidArgumentException('ID for REX_MEDIA out of range (1..10)');
         $this->sql->setValue('media' . $id, $value);
     }
 
     protected function setMediaList($id, $value)
     {
         if ($id < 1 || $id > 10)
-            throw new rex_exception('ID for REX_MEDIALIST out of range (1..10)');
+            throw new InvalidArgumentException('ID for REX_MEDIALIST out of range (1..10)');
         $this->sql->setValue('medialist' . $id, $value);
     }
 
     protected function setLink($id, $value)
     {
         if ($id < 1 || $id > 10)
-            throw new rex_exception('ID for REX_LINK out of range (1..10)');
+            throw new InvalidArgumentException('ID for REX_LINK out of range (1..10)');
         $this->sql->setValue('link' . $id, $value);
     }
 
     protected function setLinkList($id, $value)
     {
         if ($id < 1 || $id > 10)
-            throw new rex_exception('ID for REX_LINKLIST out of range (1..10)');
+            throw new InvalidArgumentException('ID for REX_LINKLIST out of range (1..10)');
         $this->sql->setValue('linklist' . $id, $value);
     }
 

@@ -160,7 +160,7 @@ class rex_view
         global $article_id, $category_id, $page;
 
         if ($subtitle !== null && !is_string($subtitle) && (!is_array($subtitle) || count($subtitle) > 0 && !reset($subtitle) instanceof rex_be_page)) {
-            throw new rex_exception('Expecting $subtitle to be a string or an array of rex_be_page!');
+            throw new InvalidArgumentException('Expecting $subtitle to be a string or an array of rex_be_page!');
         }
 
         if ($subtitle === null) {

@@ -41,7 +41,7 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
     public static function factory($dir)
     {
         if (!is_dir($dir)) {
-            throw new rex_exception('Folder "' . $dir . '" not found!');
+            throw new InvalidArgumentException('Folder "' . $dir . '" not found!');
         }
 
         $class = static::getFactoryClass();

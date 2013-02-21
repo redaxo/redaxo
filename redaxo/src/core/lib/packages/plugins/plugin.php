@@ -41,10 +41,10 @@ class rex_plugin extends rex_package implements rex_plugin_interface
             throw new InvalidArgumentException('Missing Argument 2 for ' . __CLASS__ . '::' . __METHOD__ . '()');
         }
         if (!is_string($addon)) {
-            throw new rex_exception('Expecting $addon to be string, but ' . gettype($addon) . ' given!');
+            throw new InvalidArgumentException('Expecting $addon to be string, but ' . gettype($addon) . ' given!');
         }
         if (!is_string($plugin)) {
-            throw new rex_exception('Expecting $plugin to be string, but ' . gettype($plugin) . ' given!');
+            throw new InvalidArgumentException('Expecting $plugin to be string, but ' . gettype($plugin) . ' given!');
         }
         return rex_addon::get($addon)->getPlugin($plugin);
     }

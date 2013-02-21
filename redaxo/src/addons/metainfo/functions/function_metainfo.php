@@ -127,7 +127,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
         $fieldQry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_params WHERE name=:idOrName LIMIT 2';
         $invalidField = rex_i18n::msg('minfo_field_error_invalid_name');
     } else {
-        throw new rex_exception('MetaInfos: Unexpected type for $fieldIdOrName!');
+        throw new InvalidArgumentException('MetaInfos: Unexpected type for $fieldIdOrName!');
     }
     // Feld existiert?
     $sql = rex_sql::factory();

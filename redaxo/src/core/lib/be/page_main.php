@@ -9,7 +9,7 @@ class rex_be_page_main extends rex_be_page
     public function __construct($block, $key, $title)
     {
         if (!is_string($block)) {
-            throw new rex_exception('Expecting $block to be a string, ' . gettype($block) . 'given!');
+            throw new InvalidArgumentException('Expecting $block to be a string, ' . gettype($block) . 'given!');
         }
         $this->block = $block;
 

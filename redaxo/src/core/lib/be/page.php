@@ -26,10 +26,10 @@ class rex_be_page
     public function __construct($key, $title)
     {
         if (!is_string($key)) {
-            throw new rex_exception('Expecting $key to be a string, ' . gettype($key) . ' given!');
+            throw new InvalidArgumentException('Expecting $key to be a string, ' . gettype($key) . ' given!');
         }
         if (!is_string($title)) {
-            throw new rex_exception('Expecting $title to be a string, ' . gettype($title) . ' given!');
+            throw new InvalidArgumentException('Expecting $title to be a string, ' . gettype($title) . ' given!');
         }
 
         $this->key = $key;
@@ -106,10 +106,10 @@ class rex_be_page
     public function setItemAttr($name, $value)
     {
         if (!is_string($name)) {
-            throw new rex_exception('Expecting $name to be a string, ' . gettype($name) . 'given!');
+            throw new InvalidArgumentException('Expecting $name to be a string, ' . gettype($name) . 'given!');
         }
         if (!is_scalar($value)) {
-            throw new rex_exception('Expecting $value to be a scalar, ' . gettype($value) . 'given!');
+            throw new InvalidArgumentException('Expecting $value to be a scalar, ' . gettype($value) . 'given!');
         }
         $this->itemAttr[$name] = $value;
     }
@@ -132,7 +132,7 @@ class rex_be_page
     public function addItemClass($class)
     {
         if (!is_string($class)) {
-            throw new rex_exception('Expecting $class to be a string, ' . gettype($class) . 'given!');
+            throw new InvalidArgumentException('Expecting $class to be a string, ' . gettype($class) . 'given!');
         }
         $classAttr = $this->getItemAttr('class');
         if (!preg_match('/\b' . preg_quote($class, '/') . '\b/', $classAttr)) {
@@ -148,10 +148,10 @@ class rex_be_page
     public function setLinkAttr($name, $value)
     {
         if (!is_string($name)) {
-            throw new rex_exception('Expecting $name to be a string, ' . gettype($name) . 'given!');
+            throw new InvalidArgumentException('Expecting $name to be a string, ' . gettype($name) . 'given!');
         }
         if (!is_scalar($value)) {
-            throw new rex_exception('Expecting $value to be a scalar, ' . gettype($value) . 'given!');
+            throw new InvalidArgumentException('Expecting $value to be a scalar, ' . gettype($value) . 'given!');
         }
         $this->linkAttr[$name] = $value;
     }

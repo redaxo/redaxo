@@ -25,7 +25,7 @@ class rex_response
     public static function setStatus($httpStatus)
     {
         if (strpos($httpStatus, "\n") !== false) {
-            throw new rex_exception('Illegal http-status "' . $httpStatus . '", contains newlines');
+            throw new InvalidArgumentException('Illegal http-status "' . $httpStatus . '", contains newlines');
         }
 
         self::$httpStatus = $httpStatus;
@@ -45,7 +45,7 @@ class rex_response
     public static function sendRedirect($url)
     {
         if (strpos($url, "\n") !== false) {
-            throw new rex_exception('Illegal redirect url "' . $url . '", contains newlines');
+            throw new InvalidArgumentException('Illegal redirect url "' . $url . '", contains newlines');
         }
 
         header('HTTP/1.1 ' . self::$httpStatus);

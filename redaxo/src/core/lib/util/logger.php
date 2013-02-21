@@ -34,16 +34,16 @@ abstract class rex_logger extends rex_factory_base
     public static function logError($errno, $errstr, $errfile, $errline)
     {
         if (!is_int($errno)) {
-            throw new rex_exception('Expecting $errno to be integer, but ' . gettype($errno) . ' given!');
+            throw new InvalidArgumentException('Expecting $errno to be integer, but ' . gettype($errno) . ' given!');
         }
         if (!is_string($errstr)) {
-            throw new rex_exception('Expecting $errstr to be string, but ' . gettype($errstr) . ' given!');
+            throw new InvalidArgumentException('Expecting $errstr to be string, but ' . gettype($errstr) . ' given!');
         }
         if (!is_string($errfile)) {
-            throw new rex_exception('Expecting $errfile to be string, but ' . gettype($errfile) . ' given!');
+            throw new InvalidArgumentException('Expecting $errfile to be string, but ' . gettype($errfile) . ' given!');
         }
         if (!is_int($errline)) {
-            throw new rex_exception('Expecting $errline to be integer, but ' . gettype($errline) . ' given!');
+            throw new InvalidArgumentException('Expecting $errline to be integer, but ' . gettype($errline) . ' given!');
         }
 
         self::log('<div><b>' . rex_error_handler::getErrorType($errno) . "</b>[$errno]: $errstr in <b>$errfile</b> on line <b>$errline</b></div>", $errno);
@@ -64,7 +64,7 @@ abstract class rex_logger extends rex_factory_base
         }
 
         if (!is_string($message)) {
-            throw new rex_exception('Expecting $message to be string, but ' . gettype($message) . ' given!');
+            throw new InvalidArgumentException('Expecting $message to be string, but ' . gettype($message) . ' given!');
         }
 
         self::open();

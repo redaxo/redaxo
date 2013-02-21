@@ -225,13 +225,12 @@ class rex_socket
      * @param string          $method HTTP method, e.g. "GET"
      * @param string|callable $data   Body data as string or a callback for writing the body
      * @return rex_socket_response Response
-     * @throws rex_exception
-     * @throws rex_socket_exception
+     * @throws InvalidArgumentException
      */
     public function doRequest($method, $data = '')
     {
         if (!is_string($data) && !is_callable($data)) {
-            throw new rex_exception(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
+            throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
         }
 
         $this->openConnection();
