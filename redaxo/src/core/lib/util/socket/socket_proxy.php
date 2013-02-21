@@ -44,8 +44,8 @@ class rex_socket_proxy extends rex_socket
         return $this->setDestination($parts['host'], $parts['port'], $parts['ssl'])->setPath($parts['path']);
     }
 
-    /* (non-PHPdoc)
-     * @see rex_socket::openConnection()
+    /**
+     * {@inheritDoc}
      */
     protected function openConnection()
     {

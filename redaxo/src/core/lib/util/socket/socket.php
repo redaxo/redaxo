@@ -4,22 +4,20 @@
  * Class for sockets
  *
  * Example:
- * <code>
- * <?php
- * try
- * {
- *   $socket = rex_socket::factory('www.example.com');
- *   $socket->setPath('/path/index.php?param=1');
- *   $socket->doGet();
- *   if($socket->getStatus() == 200)
- *     $body = $socket->getBody();
- * }
- * catch(rex_socket_exception $e)
- * {
- *   // error message: $e->getMessage()
- * }
- * ?>
- * </code>
+ *
+ *     <?php
+ *     try {
+ *         $socket = rex_socket::factory('www.example.com');
+ *         $socket->setPath('/path/index.php?param=1');
+ *         $response = $socket->doGet();
+ *         if($response->isOk()) {
+ *             $body = $response->getBody();
+ *         }
+ *     } catch(rex_socket_exception $e) {
+ *         // error message: $e->getMessage()
+ *     }
+ *     ?>
+ *
  *
  * @author gharlan
  */
@@ -32,8 +30,7 @@ class rex_socket
         $path = '/',
         $timeout = 15,
         $headers = array(),
-        $stream,
-        $response;
+        $stream;
 
     /**
      * Constructor
@@ -59,7 +56,7 @@ class rex_socket
      * @param string  $host Host name
      * @param integer $port Port number
      * @param boolean $ssl  SSL flag
-     * @return rex_socket Socket instance
+     * @return self Socket instance
      *
      * @see rex_socket::factoryUrl()
      */
@@ -77,7 +74,7 @@ class rex_socket
      *
      * @param string $url URL
      * @throws rex_socket_exception
-     * @return rex_socket Socket instance
+     * @return self Socket instance
      *
      * @see rex_socket::factory()
      */
@@ -157,7 +154,7 @@ class rex_socket
      * Makes a POST request
      *
      * @param string|array|callable $data  Body data as string or array (POST parameters) or a callback for writing the body
-     * @param array                 $files Files array, e.g. <code>array('myfile' => array('path' => $path, 'type' => 'image/png'))</code>
+     * @param array                 $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
      * @return rex_socket_response Response
      * @throws rex_socket_exception
      */
@@ -264,8 +261,6 @@ class rex_socket
      */
     protected function writeRequest($method, $path, array $headers = array(), $data = '')
     {
-        $this->response = null;
-
         $eol = "\r\n";
         $headerStrings = array();
         $headerStrings[] = strtoupper($method) . ' ' . $path . ' HTTP/1.1';
@@ -295,6 +290,7 @@ class rex_socket
      *
      * @param string $url Full URL
      * @return array URL parts
+     * @throws rex_socket_exception
      */
     protected static function parseUrl($url)
     {
@@ -320,9 +316,9 @@ class rex_socket
         }
         $port = isset($parts['port']) ? (int) $parts['port'] : $port;
 
-        $path = (isset($parts['path'])     ? $parts['path']          : '/')
-                    . (isset($parts['query'])    ? '?' . $parts['query']    : '')
-                    . (isset($parts['fragment']) ? '#' . $parts['fragment'] : '');
+        $path = (isset($parts['path'])   ? $parts['path']          : '/')
+            . (isset($parts['query'])    ? '?' . $parts['query']    : '')
+            . (isset($parts['fragment']) ? '#' . $parts['fragment'] : '');
 
         return array(
             'host' => $parts['host'],

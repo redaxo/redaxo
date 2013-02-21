@@ -54,6 +54,8 @@ class rex_socket_response
 
     /**
      * Returns the HTTP status message, e.g. "OK"
+     *
+     * @return string
      */
     public function getStatusMessage()
     {
@@ -153,7 +155,7 @@ class rex_socket_response
     }
 
     /**
-     * Returns up to <code>$length</code> bytes from the body, or <code>false</code> if the end is reached
+     * Returns up to `$length` bytes from the body, or `false` if the end is reached
      *
      * @param integer $length Max number of bytes
      * @return boolean|string
@@ -203,7 +205,7 @@ class rex_socket_response
      * Writes the body to the given resource
      *
      * @param string|resource $resource File path or file pointer
-     * @return boolean <code>true</code> on success, <code>false</code> on failure
+     * @return boolean `true` on success, `false` on failure
      */
     public function writeBodyTo($resource)
     {
