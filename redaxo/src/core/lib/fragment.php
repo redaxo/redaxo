@@ -215,10 +215,11 @@ class rex_fragment
      *
      * @param string $path A path to a directory where fragments can be found
      */
-    public static function addDirectory($path)
+    public static function addDirectory($dir)
     {
         // add the new directory in front of the already know dirs,
         // so a later caller can override core settings/fragments
-        array_unshift(self::$fragmentDirs, $path);
+        $dir = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        array_unshift(self::$fragmentDirs, $dir);
     }
 }
